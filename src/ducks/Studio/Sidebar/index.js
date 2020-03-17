@@ -4,8 +4,9 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import Icon from '@santiment-network/ui/Icon'
 import MetricSelector from './MetricSelector'
 import Search from './Search'
-import AnomaliesToggle from '../../../components/AnomaliesToggle/AnomaliesToggle'
 import withMetrics from '../withMetrics'
+import { MAX_METRICS_AMOUNT } from '../constraints'
+import AnomaliesToggle from '../../../components/AnomaliesToggle/AnomaliesToggle'
 import { saveToggle } from '../../../utils/localStorage'
 import styles from './index.module.scss'
 
@@ -31,7 +32,12 @@ const Header = ({ activeMetrics, ...rest }) => {
   return (
     <div className={styles.header}>
       <h2 className={styles.title}>
-        Metrics <span className={styles.count}>({activeMetrics.length}/5)</span>
+        Metrics{' '}
+        {rest.options.isMultiChartsActive || (
+          <span className={styles.count}>
+            ({activeMetrics.length}/{MAX_METRICS_AMOUNT})
+          </span>
+        )}
       </h2>
       <Search {...rest} />
       <Anomalies {...rest} />

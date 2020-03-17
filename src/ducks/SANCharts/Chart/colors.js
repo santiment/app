@@ -47,7 +47,6 @@ export function useChartColors (metrics) {
           MetricColorMap.get(metric) || COLORS[freeColorIndex++]
       }
 
-      console.log(newColors)
       setChartColors(newColors)
     },
     [metrics]

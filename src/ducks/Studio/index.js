@@ -7,6 +7,7 @@ import StudioAdvancedView from './AdvancedView'
 import StudioInfo from '../SANCharts/Header'
 import { Events } from '../SANCharts/data'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
+import { MAX_METRICS_AMOUNT } from './constraints'
 import { generateShareLink, updateHistory } from './url'
 import { buildComparedMetric } from './Compare/utils'
 import { useTimeseries } from './timeseries/hooks'
@@ -61,6 +62,26 @@ const Studio = ({
 
   useEffect(
     () => {
+      const activeLength = activeMetrics.length
+      if (!options.isMultiChartsActive && activeLength > MAX_METRICS_AMOUNT) {
+        const diff = activeLength - MAX_METRICS_AMOUNT
+
+        if (diff >= comparables.length) {
+          setComparables([])
+        } else {
+          setComparables(comparables.slice(0, diff))
+        }
+
+        if (metrics.length >= MAX_METRICS_AMOUNT) {
+          setMetrics(metrics.slice(0, MAX_METRICS_AMOUNT))
+        }
+      }
+    },
+    [options.isMultiChartsActive]
+  )
+
+  useEffect(
+    () => {
       const { slug } = defaultSettings
       if (slug && slug !== settings.slug) {
         setSettings(state => ({ ...state, slug }))
@@ -111,7 +132,13 @@ const Studio = ({
       metricSet.delete(metric)
       trackMetricState(metric, false)
     } else {
-      if (activeMetrics.length === 5) return
+      if (
+        !options.isMultiChartsActive &&
+        activeMetrics.length === MAX_METRICS_AMOUNT
+      ) {
+        return
+      }
+
       metricSet.add(metric)
       trackMetricState(metric, true)
     }

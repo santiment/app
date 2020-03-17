@@ -72,6 +72,7 @@ const Canvas = ({
       <div className={cx(styles.top, isBlurred && styles.blur)}>
         <div className={styles.metrics}>
           <ChartActiveMetrics
+            className={styles.metric}
             MetricColor={MetricColor}
             activeMetrics={metrics}
             activeEvents={activeEvents}

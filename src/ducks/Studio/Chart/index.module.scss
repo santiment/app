@@ -20,6 +20,11 @@
 .metrics {
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: -4px;
+}
+
+.metric {
+  margin-bottom: 4px;
 }
 
 .meta {
