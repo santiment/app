@@ -14,7 +14,8 @@ export default ({
   projects,
   colors,
   hiddenMetricsMap,
-  setComparables
+  setComparables,
+  ...rest
 }) => {
   const [selectedProject, setSelectedProject] = useState(project || projects[0])
   const [selectedMetric, setSelectedMetric] = useState(metric)
@@ -81,6 +82,7 @@ export default ({
         onSelect={selectProject}
       />
       <ComparableMetric
+        {...rest}
         comparable={comparable}
         slug={slug}
         colors={colors}

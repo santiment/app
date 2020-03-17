@@ -1,15 +1,16 @@
 import React from 'react'
+import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import MetricExplanation from '../../SANCharts/MetricExplanation'
 import MetricIcon from '../../SANCharts/MetricIcon'
 import { Events } from '../../SANCharts/data'
-import { getSyncedColors } from '../../SANCharts/Chart/Synchronizer'
 import styles from './ActiveMetrics.module.scss'
 
 const { trendPositionHistory } = Events
 
 const MetricButton = ({
+  className,
   metric,
   colors,
   isLoading,
@@ -33,7 +34,7 @@ const MetricButton = ({
       closeTimeout={22}
       offsetX={8}
     >
-      <Button border className={styles.btn}>
+      <Button border className={cx(styles.btn, className)}>
         {isLoading ? (
           <div className={styles.loader} />
         ) : (
@@ -58,15 +59,15 @@ const MetricButton = ({
 }
 
 export default ({
+  MetricColor,
   activeMetrics,
   activeEvents,
   loadings,
   toggleMetric,
   eventLoadings,
-  isMultiChartsActive
+  isMultiChartsActive,
+  className
 }) => {
-  const actives = activeMetrics.concat(activeEvents)
-  const colors = getSyncedColors(actives)
   const isMoreThanOneMetric = activeMetrics.length > 1 || isMultiChartsActive
 
   return (
@@ -74,8 +75,9 @@ export default ({
       {activeMetrics.map((metric, i) => (
         <MetricButton
           key={metric.key}
+          className={className}
           metric={metric}
-          colors={colors}
+          colors={MetricColor}
           isLoading={loadings.includes(metric)}
           isRemovable={isMoreThanOneMetric}
           toggleMetric={toggleMetric}
@@ -84,8 +86,9 @@ export default ({
       {activeEvents.includes(trendPositionHistory) && (
         <MetricButton
           isRemovable
+          className={className}
           metric={trendPositionHistory}
-          colors={colors}
+          colors={MetricColor}
           toggleMetric={toggleMetric}
           isLoading={eventLoadings.length}
         />

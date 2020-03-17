@@ -12,6 +12,7 @@ import ChartMetricsExplanation, {
 import IcoPrice from './IcoPrice'
 import Chart from '../../SANCharts/Chart'
 import Synchronizer from '../../SANCharts/Chart/Synchronizer'
+import { useChartColors } from '../../SANCharts/Chart/colors'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './index.module.scss'
 
@@ -37,6 +38,8 @@ const Canvas = ({
   ...props
 }) => {
   const [isExplained, setIsExplained] = useState()
+  const MetricColor = useChartColors(metrics)
+
   const isBlurred = isAnon && index > 1
   const hasExplanaibles = filterExplainableMetrics(metrics).length > 0
   const scale = options.isLogScale ? logScale : linearScale
@@ -69,6 +72,8 @@ const Canvas = ({
       <div className={cx(styles.top, isBlurred && styles.blur)}>
         <div className={styles.metrics}>
           <ChartActiveMetrics
+            className={styles.metric}
+            MetricColor={MetricColor}
             activeMetrics={metrics}
             activeEvents={activeEvents}
             toggleMetric={toggleMetric}
@@ -82,14 +87,15 @@ const Canvas = ({
           <ChartPaywallInfo boundaries={boundaries} metrics={metrics} />
           {hasExplanaibles && (
             <ChartMetricsExplanation.Button
-              onClick={toggleExplanation}
               className={styles.explain}
+              onClick={toggleExplanation}
             />
           )}
           <ChartFullscreenBtn
             {...props}
             options={options}
             settings={settings}
+            MetricColor={MetricColor}
             metrics={metrics}
             activeEvents={activeEvents}
             scale={scale}
@@ -100,14 +106,16 @@ const Canvas = ({
         {...options}
         {...settings}
         {...props}
-        className={cx(styles.chart, isBlurred && styles.blur)}
-        isMultiChartsActive={isMultiChartsActive}
-        metrics={metrics}
         chartRef={chartRef}
+        className={cx(styles.chart, isBlurred && styles.blur)}
+        MetricColor={MetricColor}
+        metrics={metrics}
         scale={scale}
-        onPointHover={advancedView ? changeHoveredDate : undefined}
+        isMultiChartsActive={isMultiChartsActive}
         syncedTooltipDate={isBlurred || syncedTooltipDate}
+        onPointHover={advancedView ? changeHoveredDate : undefined}
         resizeDependencies={[
+          MetricColor,
           isMultiChartsActive,
           advancedView,
           isExplained,
@@ -138,6 +146,7 @@ const Canvas = ({
           <ChartMetricsExplanation
             {...settings}
             metrics={metrics}
+            MetricColor={MetricColor}
             onClose={closeExplanation}
           />
         </div>

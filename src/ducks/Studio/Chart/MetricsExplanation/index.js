@@ -5,7 +5,6 @@ import Dropdown from '@santiment-network/ui/Dropdown'
 import Explanations from './Explanations'
 import DataInfo from './DataInfo'
 import MetricIcon from '../../../SANCharts/MetricIcon'
-import { getSyncedColors } from '../../../SANCharts/Chart/Synchronizer'
 import styles from './index.module.scss'
 
 const OPTIONS = []
@@ -54,13 +53,13 @@ const CloseButton = props => {
   )
 }
 
-const MetricsExplanation = ({ metrics, onClose, ...rest }) => {
+const MetricsExplanation = ({ metrics, MetricColor, onClose, ...rest }) => {
   const [options, setOptions] = useState(OPTIONS)
   const [selected, setSelected] = useState(SELECTED)
 
   useEffect(
     () => {
-      const newOptions = buildOptions(metrics, getSyncedColors(metrics))
+      const newOptions = buildOptions(metrics, MetricColor)
       const newSelected = newOptions[0]
 
       setOptions(newOptions)
