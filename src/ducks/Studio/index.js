@@ -69,7 +69,7 @@ const Studio = ({
         if (diff >= comparables.length) {
           setComparables([])
         } else {
-          setComparables(comparables.slice(0, diff))
+          setComparables(comparables.slice(0, -diff))
         }
 
         if (metrics.length >= MAX_METRICS_AMOUNT) {
