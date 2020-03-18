@@ -402,29 +402,25 @@ export const Metrics = {
     label: 'Twitter',
     description: `Shows the number of followers on the project's official Twitter account over time`,
     subMetrics: SOCIAL_TWITTER_INTERVALS.map(interval => {
+      const key = 'twitter_followers'
       return {
-        queryKey: 'twitter_followers',
-        key: `twitter_followers_${interval}`,
+        queryKey: key,
+        key: `${key}_${interval}`,
+        keyAlias: key,
         category: 'Social',
         node: 'line',
         Component: Line,
-        label: `Twitter Changes ${interval}`,
+        label: `Twitter Changes (${interval})`,
         shortLabel: `Twitter ${interval} changes`,
         description: (
           <>
-            Shows the number of followers on the project's official Twitter
-            account over time. More info{' '}
-            <a
-              target='_blank'
-              rel='noopener noreferrer'
-              href='https://academy.santiment.net/metrics/social-volume-metrics/'
-            >
-              here
-            </a>
+            Shows the number changes of followers on the project's official
+            Twitter account over time.
           </>
         ),
         reqMeta: {
-          interval
+          interval,
+          transform: { type: 'changes' }
         }
       }
     })

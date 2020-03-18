@@ -11,8 +11,8 @@ const toArray = keys => (typeof keys === 'string' ? [keys] : keys)
 const convertKeyToMetric = (key, dict) =>
   dict[key] || compatabilityMap[key] || getFromSubmetrics(key, dict)
 
-const getFromSubmetrics = (key, metrics) => {
-  for (let metricKey in metrics) {
+function getFromSubmetrics (key, metrics) {
+  for (let metricKey of Object.keys(metrics)) {
     let metric = metrics[metricKey]
     if (metric && metric.subMetrics) {
       const found = metric.subMetrics.find(

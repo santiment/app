@@ -10,7 +10,6 @@ import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from '../../GetTimeSeries/queries
 import { ETH_SPENT_OVER_TIME_QUERY } from '../../GetTimeSeries/queries/eth_spent_over_time_query'
 import { PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES } from '../../GetTimeSeries/queries/percent_of_token_supply_on_exchanges_query'
 import { aliasTransform } from './utils'
-import { GET_METRIC_CHANGES } from '../../GetTimeSeries/queries/get_metric'
 import { SOCIAL_TWITTER_INTERVALS } from '../../SANCharts/data'
 
 const preTransform = ({
@@ -91,7 +90,7 @@ SOCIAL_TWITTER_INTERVALS.forEach(interval => {
   const key = 'twitter_followers_' + interval
 
   Fetcher[key] = {
-    query: GET_METRIC_CHANGES('twitter_followers'),
+    query: GET_METRIC('twitter_followers'),
     preTransform: aliasTransform('twitter_followers', key)
   }
 
