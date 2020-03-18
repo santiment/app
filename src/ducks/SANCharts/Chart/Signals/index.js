@@ -29,7 +29,7 @@ const TEXT_SIGNAL = 'Alert '
 const TEXT_ACTION = 'Click to '
 const TEXT_RESULT = 'create an alert '
 const TEXT_IFS = {
-  price_usd: ['if price drops below ', 'if price raises above '],
+  price_usd: ['if price drops below ', 'if price rises above '],
   daily_active_addresses: [
     'if DAA count goes below ',
     'if DAA count goes above '

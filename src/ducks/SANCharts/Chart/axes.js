@@ -16,6 +16,10 @@ const yFormatter = value => {
     return +value.toFixed(3)
   }
 
+  if (value < 100) {
+    return millify(value, 3)
+  }
+
   if (value > 999999) {
     return millify(value, 2)
   }
