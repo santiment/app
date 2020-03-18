@@ -13,7 +13,7 @@ const TIMEOUT = 2 * 60 * 1000
 
 let timeoutId = null
 
-const CtaJoinPopup = isLoggedIn => {
+const CtaJoinPopup = ({ isLoggedIn }) => {
   if (isLoggedIn) {
     return null
   }
@@ -51,7 +51,7 @@ const CtaJoinPopup = isLoggedIn => {
         </div>
         <Button
           as={Link}
-          to={PATHS.LOGIN}
+          to={PATHS.CREATE_ACCOUNT}
           variant='fill'
           accent='positive'
           className={styles.btn}
