@@ -129,25 +129,37 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+  max-width: 66vw;
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    max-width: 100%;
+  }
 }
 
 .sidebar {
   position: sticky;
   display: flex;
-  flex-direction: column;
-  max-width: 368px;
-  width: 32vw;
-  padding: 0 24px;
-  border-left: 1px solid var(--porcelain);
+
+  @include responsive('laptop', 'desktop') {
+    flex-direction: column;
+    max-width: 368px;
+    width: 32vw;
+    margin-left: 24px;
+    border-left: 1px solid var(--porcelain);
+    padding: 0 24px;
+    height: calc(100vh - 100px);
+    overflow: hidden;
+
+    &:hover {
+      overflow-y: auto;
+      overflow-y: overlay;
+    }
+  }
 
   @include responsive('phone-xs', 'phone', 'tablet') {
     flex-direction: row;
     position: relative;
     width: 100%;
-    max-width: 100%;
-    border-left: none;
-    margin-top: 40px;
-    padding: 0;
   }
 
   @include responsive('phone-xs', 'phone') {
