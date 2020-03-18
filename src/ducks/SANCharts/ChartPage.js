@@ -6,7 +6,7 @@ import Loadable from 'react-loadable'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import Chart from './Chart'
-import Synchronizer from './Chart/Synchronizer'
+import Synchronizer, { getSyncedColors } from './Chart/Synchronizer'
 import Header from './Header'
 import { getMarketSegment, mapDatetimeToNumber } from './utils'
 import { Metrics, Events, compatabilityMap, ASSETS_SIDEBAR } from './data'
@@ -508,6 +508,8 @@ class ChartPage extends Component {
             .concat(marketSegments)
             .filter(({ key }) => !errors.includes(key))
 
+          const MetricColor = getSyncedColors(finalMetrics)
+
           // NOTE(haritonasty): we don't show anomalies when trendPositionHistory is in activeMetrics
           const isTrendsShowing = trendPositionHistory !== undefined
           const eventsFiltered = isTrendsShowing
@@ -603,6 +605,7 @@ class ChartPage extends Component {
                         to={to}
                         metrics={finalMetrics}
                         data={mapDatetimeToNumber(timeseries)}
+                        MetricColor={MetricColor}
                         chartRef={this.chartRef}
                         scale={isLogScale ? logScale : linearScale}
                         leftBoundaryDate={!hasPremium && leftBoundaryDate}
@@ -612,6 +615,7 @@ class ChartPage extends Component {
                         isLoading={isParentLoading || isLoading}
                         isWideChart={isWideChart}
                         onPointHover={this.getSocialContext}
+                        resizeDependencies={[]}
                       />
                     </Synchronizer>
 

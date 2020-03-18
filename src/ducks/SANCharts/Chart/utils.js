@@ -47,6 +47,10 @@ export function yBubbleFormatter (value) {
     return value.toString().slice(0, 5)
   }
 
+  if (value < 100) {
+    return millify(value, 3)
+  }
+
   return millify(value)
 }
 

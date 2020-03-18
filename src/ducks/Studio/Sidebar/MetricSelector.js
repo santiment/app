@@ -67,15 +67,16 @@ const Group = ({
               onClick={() => toggleMetric(metric)}
             />
             {/* TODO: refactor 'ICO Price', 'advancedView' and 'Timebounds' to be a submetric array [@vanguard | March 10, 2020] */}
-            {metric === price_usd && (
-              <MetricButton
-                className={styles.advanced}
-                label='ICO Price'
-                isActive={options.isICOPriceActive}
-                isDisabled={isICOPriceDisabled || !actives.includes(metric)}
-                onClick={toggleICOPrice}
-              />
-            )}
+            {isICOPriceDisabled ||
+              (metric === price_usd && (
+                <MetricButton
+                  className={styles.advanced}
+                  label='ICO Price'
+                  isActive={options.isICOPriceActive}
+                  isDisabled={!actives.includes(metric)}
+                  onClick={toggleICOPrice}
+                />
+              ))}
             {metric.subMetrics &&
               metric.subMetrics.map(subMetric => {
                 return (

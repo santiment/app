@@ -30,9 +30,11 @@ const Value = ({ value }) => {
 }
 
 const DataInfo = ({ metric, slug, titleClassName, textClassName }) => {
-  const { data, loading } = useQuery(DATA_INFO_QUERY, {
+  const { data, loading, error } = useQuery(DATA_INFO_QUERY, {
     variables: { slug, metric: metric.key }
   })
+
+  if (error) return null
 
   const { availableSince, lastDatetimeComputedAt } = loading
     ? {}

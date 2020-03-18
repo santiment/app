@@ -44,16 +44,15 @@ const Chart = ({
   rightBoundaryDate,
   tooltipKey,
   lastDayPrice,
-  syncedColors,
+  MetricColor,
   syncedTooltipDate,
   syncTooltips = () => {},
   onPointHover = () => {},
   isLoading,
   isMultiChartsActive,
-  isAdvancedView,
-  isWideChart,
   isNightModeEnabled,
   isCartesianGridActive,
+  resizeDependencies,
   children
 }) => {
   let [chart, setChart] = useState()
@@ -130,10 +129,11 @@ const Chart = ({
 
   useEffect(
     () => {
-      chart.colors = syncedColors
+      chart.colors = MetricColor
     },
-    [syncedColors]
+    [MetricColor]
   )
+
   useEffect(
     () => {
       if (data.length === 0 || !brush) return
@@ -161,6 +161,7 @@ const Chart = ({
       data,
       scale,
       events,
+      MetricColor,
       lastDayPrice,
       isNightModeEnabled,
       isCartesianGridActive
@@ -184,15 +185,9 @@ const Chart = ({
     [syncedTooltipDate]
   )
 
-  useEffect(handleResize, [isMultiChartsActive, isAdvancedView, isWideChart])
+  useEffect(handleResize, resizeDependencies)
 
-  useResizeEffect(handleResize, [
-    isMultiChartsActive,
-    isAdvancedView,
-    isWideChart,
-    data,
-    brush
-  ])
+  useResizeEffect(handleResize, [...resizeDependencies, data, brush])
 
   function handleResize () {
     if (data.length === 0) {
@@ -224,18 +219,18 @@ const Chart = ({
   }
 
   function plotBrushData () {
-    plotDayBars(brush, data, daybars, syncedColors, scale)
-    plotBars(brush, data, bars, syncedColors, scale)
-    plotLines(brush, data, lines, syncedColors, scale)
+    plotDayBars(brush, data, daybars, MetricColor, scale)
+    plotBars(brush, data, bars, MetricColor, scale)
+    plotLines(brush, data, lines, MetricColor, scale)
   }
 
   function plotChart (data) {
     drawWatermark(chart)
-    plotDayBars(chart, data, daybars, syncedColors, scale)
-    plotBars(chart, data, bars, syncedColors, scale)
+    plotDayBars(chart, data, daybars, MetricColor, scale)
+    plotBars(chart, data, bars, MetricColor, scale)
 
     chart.ctx.lineWidth = 1.5
-    plotLines(chart, data, lines, syncedColors, scale)
+    plotLines(chart, data, lines, MetricColor, scale)
 
     if (isCartesianGridActive) {
       drawCartesianGrid(chart, chart.axesColor)
