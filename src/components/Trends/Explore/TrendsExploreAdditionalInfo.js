@@ -1,10 +1,6 @@
 import React, { useState } from 'react'
 import { compose } from 'recompose'
-import { connect } from 'react-redux'
-import { graphql } from 'react-apollo'
 import { Tabs } from '@santiment-network/ui'
-import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
-import { NEWS_QUERY } from '../../News/NewsGQL'
 import { getPast3DaysInsightsByTrendTag } from '../../Insight/InsightsTrends'
 import News from '../../News/News'
 import InsightsWrap from '../../Insight/InsightsWrap'
@@ -14,7 +10,7 @@ const NEWS_INDEX = 'News'
 const INSIGHTS_INDEX = 'Insights'
 
 const TrendsExploreAdditionalInfo = ({
-  news: newsRaw,
+  news: newsRaw = [],
   allInsightsByTag,
   word,
   isLoadingInsights,
@@ -73,23 +69,6 @@ const TrendsExploreAdditionalInfo = ({
   )
 }
 
-const mapStateToProps = ({ rootUi: { isNewsEnabled } }) => ({ isNewsEnabled })
-
-const enhance = compose(
-  connect(mapStateToProps),
-  ...getPast3DaysInsightsByTrendTag(),
-  graphql(NEWS_QUERY, {
-    options: ({ word: tag }) => {
-      const { from, to } = getTimeIntervalFromToday(-14, DAY)
-      return {
-        variables: { from, to, tag, size: 6 }
-      }
-    },
-    props: ({ data: { news = [], loading } }) => ({
-      news: news.reverse(),
-      isLoadingNews: loading
-    })
-  })
-)
+const enhance = compose(...getPast3DaysInsightsByTrendTag())
 
 export default enhance(TrendsExploreAdditionalInfo)

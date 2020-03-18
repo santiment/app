@@ -49,6 +49,23 @@ const DESKTOP_COLUMNS = [
   ...MOBILE_COLUMNS
 ]
 
+const COMPACT_VIEW_COLUMNS = [
+  {
+    Header: '#',
+    accessor: 'index',
+    width: 35,
+    headerClassName: styles.headerIndex
+  },
+  {
+    Header: 'Trending words',
+    accessor: 'word'
+  },
+  {
+    Header: 'Social volume',
+    accessor: 'volume'
+  }
+]
+
 const NumberCircle = ({ className, ...props }) => (
   <div {...props} className={cx(className, styles.insights__number)} />
 )
@@ -220,7 +237,8 @@ class TrendsTable extends PureComponent {
       selectTrend,
       selectedTrends,
       trendConnections,
-      isDesktop
+      isDesktop,
+      isCompactView
     } = this.props
 
     const tableData = trendWords.map(({ word, score }, index) => {
@@ -287,11 +305,13 @@ class TrendsTable extends PureComponent {
           resizable={false}
           data={tableData}
           columns={
-            small
-              ? baseColumns.slice(0, 2)
-              : hasActions
-                ? baseColumns.concat(this.getActionButtons())
-                : baseColumns
+            isCompactView
+              ? COMPACT_VIEW_COLUMNS
+              : small
+                ? baseColumns.slice(0, 2)
+                : hasActions
+                  ? baseColumns.concat(this.getActionButtons())
+                  : baseColumns
           }
           showPagination={false}
           defaultPageSize={10}

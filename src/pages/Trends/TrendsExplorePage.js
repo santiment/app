@@ -11,9 +11,9 @@ import TrendsReChart from './../../components/Trends/TrendsReChart'
 import TrendsStats from './../../components/Trends/TrendsStats'
 import TrendsExploreSearch from './../../components/Trends/Explore/TrendsExploreSearch'
 import * as actions from '../../components/Trends/actions'
+import Trends from '../../components/Trends/Trends'
 import withDetectionAsset from '../../components/Trends/withDetectionAsset'
 import WordCloud from './../../components/WordCloud/WordCloud'
-import SocialVolumeWidget from './../../components/SocialVolumeWidget/SocialVolumeWidget'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import TrendsExploreAdditionalInfo from '../../components/Trends/Explore/TrendsExploreAdditionalInfo'
 import { checkHasPremium } from './../UserSelectors'
@@ -26,7 +26,6 @@ import {
 } from './../../utils/utils'
 import { addRecentTrends } from '../../utils/recent'
 import styles from './TrendsExplorePage.module.scss'
-import { DesktopOnly } from '../../components/Responsive'
 
 const getCustomInterval = timeframe => {
   if (timeframe === '1w') {
@@ -119,101 +118,104 @@ export class TrendsExplorePage extends Component {
             content='Explore the social volume of ANY word (or phrase) on crypto social media, including 100s of Telegram groups, crypto subreddits, discord channels, trader chats and more.'
           />
         </Helmet>
-        <div className={styles.settings}>
-          <div className={styles.settingsLeft}>
-            {isDesktop && (
-              <TrendsExploreSearch
-                className={styles.search}
-                topic={topic}
-                isDesktop={isDesktop}
-                history={history}
-              />
-            )}
-            {!isDesktop && (
-              <MobileHeader
-                goBack={history.goBack}
-                backRoute={'/'}
-                classes={{
-                  wrapper: styles.wrapperHeader,
-                  right: styles.hidden,
-                  title: styles.hidden,
-                  searchBtn: styles.fullSearchBtn
-                }}
-                title=''
-              >
-                <TrendsExploreSearch
-                  className={styles.search}
-                  topic={topic}
-                  isDesktop={isDesktop}
-                />
-              </MobileHeader>
-            )}
-          </div>
-          <div className={styles.settingsRight}>
-            <div className={styles.selector}>
-              <Selector
-                options={['1w', '1m', '3m', '6m']}
-                onSelectOption={this.handleSelectTimeRange}
-                defaultSelected={timeRange}
-              />
-              <ShareTrends topic={topic} />
+        <div className={styles.layout}>
+          <div className={styles.main}>
+            <div className={styles.settings}>
+              <div className={styles.settingsLeft}>
+                {isDesktop && (
+                  <TrendsExploreSearch
+                    className={styles.search}
+                    topic={topic}
+                    isDesktop={isDesktop}
+                    history={history}
+                  />
+                )}
+                {!isDesktop && (
+                  <MobileHeader
+                    goBack={history.goBack}
+                    backRoute={'/'}
+                    classes={{
+                      wrapper: styles.wrapperHeader,
+                      right: styles.hidden,
+                      title: styles.hidden,
+                      searchBtn: styles.fullSearchBtn
+                    }}
+                    title=''
+                  >
+                    <TrendsExploreSearch
+                      className={styles.search}
+                      topic={topic}
+                      isDesktop={isDesktop}
+                    />
+                  </MobileHeader>
+                )}
+              </div>
+              <div className={styles.settingsRight}>
+                <div className={styles.selector}>
+                  <Selector
+                    options={['1w', '1m', '3m', '6m']}
+                    onSelectOption={this.handleSelectTimeRange}
+                    defaultSelected={timeRange}
+                  />
+                  <ShareTrends topic={topic} />
+                </div>
+                <Panel className={styles.pricePair}>
+                  <Selector
+                    options={priceOptions}
+                    nameOptions={priceLabels}
+                    onSelectOption={this.handleSelectAsset}
+                    defaultSelected={asset}
+                  />
+                </Panel>
+              </div>
             </div>
-            <Panel className={styles.pricePair}>
-              <Selector
-                options={priceOptions}
-                nameOptions={priceLabels}
-                onSelectOption={this.handleSelectAsset}
-                defaultSelected={asset}
-              />
-            </Panel>
-            <DesktopOnly>
-              <ShareTrends topic={topic} />
-            </DesktopOnly>
-          </div>
-        </div>
-        {topic === 'IEO OR IEOs OR launchpad' && (
-          <div style={{ marginTop: 10 }}>
-            Emerging IEOs (Initial Exchange Offerings) and their impact on BNB
-            (Binance Coin) price.
-          </div>
-        )}
-        <div>
-          <div className={styles.widgets}>
-            <WordCloud word={topic} />
-            <SocialVolumeWidget word={topic} />
-          </div>
-          <GetTrends
-            topic={topic}
-            timeRange={timeRange}
-            interval={getCustomInterval(timeRange)}
-            render={trends => (
-              <GetTimeSeries
-                metrics={[
-                  {
-                    name: 'price_usd',
-                    timeRange,
-                    slug: asset.toLowerCase(),
-                    interval: getCustomInterval(timeRange)
-                  }
-                ]}
-                render={({ timeseries = [], price_usd = {} }) => (
-                  <Fragment>
-                    <div style={{ minHeight: 300 }}>
-                      <TrendsReChart
-                        asset={asset && capitalizeStr(asset)}
-                        data={timeseries}
-                        trends={trends}
-                        hasPremium={hasPremium}
-                        isLoading={price_usd.isLoading}
-                      />
-                    </div>
-                    {trends.length > 0 && <TrendsStats timeRange={timeRange} />}
-                  </Fragment>
+            {topic === 'IEO OR IEOs OR launchpad' && (
+              <div style={{ marginTop: 10 }}>
+                Emerging IEOs (Initial Exchange Offerings) and their impact on
+                BNB (Binance Coin) price.
+              </div>
+            )}
+            <div>
+              <GetTrends
+                topic={topic}
+                timeRange={timeRange}
+                interval={getCustomInterval(timeRange)}
+                render={trends => (
+                  <GetTimeSeries
+                    metrics={[
+                      {
+                        name: 'price_usd',
+                        timeRange,
+                        slug: asset.toLowerCase(),
+                        interval: getCustomInterval(timeRange)
+                      }
+                    ]}
+                    render={({ timeseries = [], price_usd = {} }) => (
+                      <Fragment>
+                        <div style={{ minHeight: 300 }}>
+                          <TrendsReChart
+                            asset={asset && capitalizeStr(asset)}
+                            data={timeseries}
+                            trends={trends}
+                            hasPremium={hasPremium}
+                            isLoading={price_usd.isLoading}
+                          />
+                        </div>
+                        {trends.length > 0 && (
+                          <TrendsStats timeRange={timeRange} />
+                        )}
+                      </Fragment>
+                    )}
+                  />
                 )}
               />
-            )}
-          />
-          <TrendsExploreAdditionalInfo word={topic} />
+              <TrendsExploreAdditionalInfo word={topic} />
+            </div>
+          </div>
+          <div className={styles.sidebar}>
+            <WordCloud word={topic} />
+            <Trends className={styles.trends} isCompactView />
+          </div>
         </div>
       </div>
     )

@@ -14,12 +14,14 @@ const TrendsTablesDesktop = ({
   connectTrends,
   clearConnectedTrends,
   selected,
-  selectable
+  selectable,
+  isCompactView
 }) => {
   const { length } = trends
   return (
     <div className={styles.tables}>
       {length > 1 &&
+        !isCompactView &&
         trends.slice(0, -1).map(({ datetime, topWords }) => {
           return (
             <TrendsTable
@@ -45,7 +47,7 @@ const TrendsTablesDesktop = ({
         className={styles.table}
         isLoading={isLoading}
         trendWords={length > 0 ? trends[length - 1].topWords : undefined}
-        header='Last trends'
+        header={isCompactView ? 'Trending words top 10' : 'Last trends'}
         selectable={selectable}
         isLoggedIn={isLoggedIn || true}
         selectTrend={selectTrend}
@@ -56,6 +58,7 @@ const TrendsTablesDesktop = ({
         clearConnectedTrends={clearConnectedTrends}
         allTrends={allTrends}
         hasActions
+        isCompactView={isCompactView}
       />
     </div>
   )

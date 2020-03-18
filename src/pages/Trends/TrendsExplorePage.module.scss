@@ -115,3 +115,28 @@
   display: flex;
   align-items: center;
 }
+
+.layout {
+  display: flex;
+  width: 100%;
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.sidebar {
+  position: sticky;
+  display: flex;
+  flex-direction: column;
+  max-width: 368px;
+  width: 32vw;
+  padding: 0 24px;
+  border-left: 1px solid var(--porcelain);
+}
+
+.trends {
+  margin-top: 20px;
+}

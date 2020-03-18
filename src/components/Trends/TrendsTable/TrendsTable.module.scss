@@ -73,117 +73,112 @@
 }
 
 .table:global(.ReactTable) {
-  & {
-    border: none;
+  border: none;
+
+  .rt-thead.-header {
+    box-shadow: initial;
+    border-bottom: 1px solid var(--porcelain);
+    padding: 0 23px;
+    background: var(--athens);
+
+    @include responsive('phone', 'phone-xs') {
+      background: var(--white);
+      padding: 0 16px;
+      margin-top: 24px;
+    }
   }
 
-  :global {
-    .rt-thead.-header {
-      box-shadow: initial;
-      border-bottom: 1px solid var(--porcelain);
-      padding: 0 23px;
-      background: var(--athens);
+  .rt-th {
+    @include text('caption');
 
-      @include responsive('phone', 'phone-xs') {
-        background: var(--white);
-        padding: 0 16px;
-        margin-top: 24px;
-      }
-    }
+    background: var(--athens);
+    text-align: left !important;
+    text-transform: initial;
+    color: var(--casper);
+    line-height: 16px;
+    font-weight: 600;
+    padding: 7px 0 !important;
 
-    .rt-th {
-      @include text('caption');
+    @include responsive('phone', 'phone-xs') {
+      background: var(--white);
+      justify-content: flex-end;
 
-      background: var(--athens);
-      text-align: left !important;
-      text-transform: initial;
-      color: var(--casper);
-      line-height: 18px;
-      padding: 7px 0 !important;
+      @include text('body-3');
 
-      @include responsive('phone', 'phone-xs') {
-        background: var(--white);
-        justify-content: flex-end;
-
-        @include text('body-3');
-
-        padding: 0;
-        display: flex;
-
-        &:first-child {
-          justify-content: flex-start;
-        }
-      }
-    }
-
-    .rt-tr-group {
-      padding: 0 10px 0 23px;
-      height: 60px;
-
-      &:hover {
-        background: var(--athens);
-        cursor: pointer;
-
-        :local {
-          .word {
-            color: var(--jungle-green);
-          }
-
-          .checkbox {
-            display: inline-flex;
-
-            & + .index {
-              display: none;
-            }
-          }
-        }
-      }
-
-      @include responsive('phone', 'phone-xs') {
-        padding: 0;
-        height: 47px;
-
-        @include text('body-2');
-
-        &:last-child {
-          border-bottom: 1px solid var(--porcelain);
-        }
-      }
-    }
-
-    .rt-tbody {
-      @include responsive('phone', 'phone-xs') {
-        padding: 0 16px;
-      }
-    }
-
-    .rt-td {
       padding: 0;
-      border: none !important;
       display: flex;
-      align-items: center;
-      font-size: 14px !important;
-      line-height: 20px !important;
 
-      @include responsive('phone', 'phone-xs') {
-        justify-content: flex-end;
-        font-size: 16px !important;
-        line-height: 22px !important;
+      &:first-child {
+        justify-content: flex-start;
+      }
+    }
+  }
 
-        &:first-child {
-          justify-content: flex-start;
+  .rt-tr-group {
+    padding: 0 10px 0 23px;
+    height: 60px;
+
+    &:hover {
+      background: var(--athens);
+      cursor: pointer;
+
+      .word {
+        color: var(--jungle-green);
+      }
+
+      .checkbox {
+        display: inline-flex;
+
+        & + .index {
+          display: none;
         }
       }
     }
 
-    .rt-tr {
-      align-items: center;
-    }
+    @include responsive('phone', 'phone-xs') {
+      padding: 0;
+      height: 47px;
 
-    .rt-tr:hover {
-      background: initial !important;
-      transition: initial;
+      @include text('body-2');
+
+      &:last-child {
+        border-bottom: 1px solid var(--porcelain);
+      }
     }
+  }
+
+  .rt-tbody {
+    @include responsive('phone', 'phone-xs') {
+      padding: 0 16px;
+    }
+  }
+
+  .rt-td {
+    padding: 0;
+    border: none !important;
+    display: flex;
+    align-items: center;
+    font-size: 14px !important;
+    line-height: 20px !important;
+
+    @include responsive('phone', 'phone-xs') {
+      justify-content: flex-end;
+      font-size: 16px !important;
+      line-height: 22px !important;
+
+      &:first-child {
+        justify-content: flex-start;
+      }
+    }
+  }
+
+  .rt-tr {
+    align-items: center;
+  }
+
+  .rt-tr:hover {
+    background: initial !important;
+    transition: initial;
   }
 }
 
