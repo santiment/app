@@ -9,7 +9,7 @@ import Panel from '@santiment-network/ui/Panel'
 import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import styles from './CtaJoinPopup.module.scss'
 
-const TIMEOUT = 2 * 60 * 1000
+const TIMEOUT = 2
 
 let timeoutId = null
 

@@ -8,10 +8,10 @@
   border: none;
   box-shadow: none;
   padding: 10px 24px 24px 24px !important;
-  max-width: 346px;
+  width: 346px;
 
   @include responsive('phone', 'phone-xs') {
-    max-width: 100%;
+    width: 100%;
   }
 }
 
@@ -37,6 +37,7 @@
   text-align: center;
   color: var(--waterloo);
   margin-top: 16px;
+  max-width: 256px;
 }
 
 .btn {
