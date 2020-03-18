@@ -12,7 +12,7 @@ const { formatter } = Metrics.price_usd
 
 const SIGNAL_BELOW = 'BELOW'
 const SIGNAL_ABOVE = 'ABOVE'
-const PRICE_IFS = ['drops below', 'raises above']
+const PRICE_IFS = ['drops below', 'rises above']
 
 const suggestValueChange = ({ slug, value, lastValue, ...rest }) => {
   const isAboveLastPrice = value > lastValue
