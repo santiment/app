@@ -41,7 +41,6 @@ export const Metrics = {
   price_usd: {
     node: 'line',
     Component: Line,
-    color: 'jungle-green',
     label: 'Price',
     category: 'Financial',
     formatter: usdFormatter,
@@ -76,7 +75,6 @@ export const Metrics = {
     node: 'line',
     Component: Line,
     label: 'Marketcap',
-    color: 'malibu',
     formatter: usdFormatter
   },
   volume_usd: {
@@ -85,7 +83,6 @@ export const Metrics = {
     Component: Bar,
     label: 'Volume',
     fill: true,
-    color: 'mystic',
     formatter: usdFormatter
   },
   social_volume_total: {
@@ -95,7 +92,6 @@ export const Metrics = {
     label: 'Social Volume',
     shortLabel: 'Soc. Volume',
     anomalyKey: 'SOCIAL_VOLUME',
-    color: 'malibu',
     description: (
       <>
         Shows the amount of mentions of the coin on 1000+ crypto social media
@@ -187,7 +183,6 @@ export const Metrics = {
       </>
     ),
 
-    color: 'texas-rose',
     historicalTriggersDataKey: 'active_addresses',
     minInterval: '1d'
   },
@@ -324,7 +319,6 @@ export const Metrics = {
     category: 'Development',
     node: 'line',
     Component: Line,
-    color: 'heliotrope',
     label: 'Development Activity',
     shortLabel: 'Dev. Activity',
     anomalyKey: 'DEV_ACTIVITY',

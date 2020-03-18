@@ -10,9 +10,7 @@ import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import Button from '@santiment-network/ui/Button'
 import { PATHS } from '../../App'
 import MobileWrapper from './Mobile/MobileWrapper'
-import FormikInput, {
-  validateEmail
-} from '../../components/formik-santiment-ui/FormikInput'
+import FormikInput from '../../components/formik-santiment-ui/FormikInput'
 import FormikEffect from '../../components/formik-santiment-ui/FormikEffect'
 import styles from './index.module.scss'
 
@@ -63,7 +61,6 @@ export const EmailForm = ({ loading, loginEmail, setEmail }) => {
               placeholder='Your email'
               name='email'
               type='email'
-              validate={validateEmail}
               className={styles.emailInput}
             />
 

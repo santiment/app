@@ -31,6 +31,12 @@ const EthSpentTable = () => {
               sortable
               defaultPageSize={FIRST_LOAD_SIZE}
               minRows={0}
+              defaultSorted={[
+                {
+                  id: 'eth_spent',
+                  desc: false
+                }
+              ]}
               resizable={false}
               className={styles.ethSpentTable}
               data={items}

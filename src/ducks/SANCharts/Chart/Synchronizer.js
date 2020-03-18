@@ -92,8 +92,6 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
   const [hasPriceMetric, setHasPriceMetric] = useState()
   const [isValidMulti, setIsValidMulti] = useState()
 
-  const syncedColors = getSyncedColors(metrics)
-
   useEffect(
     () => {
       const noPriceMetrics = metrics.filter(metric => metric !== price_usd)
@@ -142,7 +140,6 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
         index: i,
         isMultiChartsActive,
         syncedTooltipDate,
-        syncedColors,
         syncTooltips,
         hasPriceMetric,
         tooltipKey,
@@ -153,7 +150,6 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
     : React.cloneElement(children, {
       ...syncedCategories[0],
       isMultiChartsActive: false,
-      syncedColors,
       hasPriceMetric,
       events: syncedEvents,
       tooltipKey: getValidTooltipKey(

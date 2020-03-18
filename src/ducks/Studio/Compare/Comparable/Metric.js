@@ -4,7 +4,10 @@ import Icon from '@santiment-network/ui/Icon'
 import withMetrics from '../../withMetrics'
 import Search, { getMetricSuggestions } from '../../Sidebar/Search'
 import MetricIcon from '../../../SANCharts/MetricIcon'
+import { COLORS } from '../../../SANCharts/Chart/colors'
 import styles from './Metric.module.scss'
+
+const DEFAULT_COLOR = '#9faac4'
 
 const MetricSearch = withMetrics(
   ({ categories, loading, className, ...rest }) => (
@@ -20,23 +23,31 @@ const MetricSearch = withMetrics(
   )
 )
 
-const Label = ({ comparable, editMetric, colors }) => {
+const Label = ({ comparable, editMetric, colors, options }) => {
   const { node, label } = comparable.metric
+  const color = options.isMultiChartsActive ? COLORS[0] : colors[comparable.key]
 
   return (
-    <div className={styles.selected}>
+    <div className={styles.selected} onClick={editMetric}>
       <MetricIcon
         node={node}
-        color={colors[comparable.key]}
+        color={color || DEFAULT_COLOR}
         className={styles.label}
       />
       {label}
-      <Icon type='edit' className={styles.edit} onClick={editMetric} />
+      <Icon type='edit' className={styles.edit} />
     </div>
   )
 }
 
-export default ({ comparable, slug, colors, hiddenMetrics, onSelect }) => {
+export default ({
+  comparable,
+  slug,
+  colors,
+  hiddenMetrics,
+  onSelect,
+  ...rest
+}) => {
   const [isEditing, setEditing] = useState()
   const metricSelectorRef = useRef(null)
 
@@ -69,6 +80,7 @@ export default ({ comparable, slug, colors, hiddenMetrics, onSelect }) => {
       {isEditing ||
         (comparable && (
           <Label
+            {...rest}
             comparable={comparable}
             editMetric={editMetric}
             colors={colors}

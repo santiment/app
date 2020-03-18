@@ -7,6 +7,7 @@ import StudioAdvancedView from './AdvancedView'
 import StudioInfo from '../SANCharts/Header'
 import { Events } from '../SANCharts/data'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
+import { MAX_METRICS_AMOUNT } from './constraints'
 import { generateShareLink, updateHistory } from './url'
 import { buildComparedMetric } from './Compare/utils'
 import { useTimeseries } from './timeseries/hooks'
@@ -42,6 +43,7 @@ const Studio = ({
   const [isICOPriceDisabled, setIsICOPriceDisabled] = useState()
   const [data, loadings] = useTimeseries(activeMetrics, settings)
   const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings)
+  const [isSidebarClosed, setIsSidebarClosed] = useState()
   const chartRef = useRef(null)
 
   useEffect(
@@ -56,6 +58,26 @@ const Studio = ({
       setActiveMetrics(metrics.concat(comparedMetrics))
     },
     [metrics, comparedMetrics]
+  )
+
+  useEffect(
+    () => {
+      const activeLength = activeMetrics.length
+      if (!options.isMultiChartsActive && activeLength > MAX_METRICS_AMOUNT) {
+        const diff = activeLength - MAX_METRICS_AMOUNT
+
+        if (diff >= comparables.length) {
+          setComparables([])
+        } else {
+          setComparables(comparables.slice(0, -diff))
+        }
+
+        if (metrics.length >= MAX_METRICS_AMOUNT) {
+          setMetrics(metrics.slice(0, MAX_METRICS_AMOUNT))
+        }
+      }
+    },
+    [options.isMultiChartsActive]
   )
 
   useEffect(
@@ -110,7 +132,13 @@ const Studio = ({
       metricSet.delete(metric)
       trackMetricState(metric, false)
     } else {
-      if (activeMetrics.length === 5) return
+      if (
+        !options.isMultiChartsActive &&
+        activeMetrics.length === MAX_METRICS_AMOUNT
+      ) {
+        return
+      }
+
       metricSet.add(metric)
       trackMetricState(metric, true)
     }
@@ -140,7 +168,13 @@ const Studio = ({
   }
 
   return (
-    <div className={cx(styles.wrapper, classes.wrapper)}>
+    <div
+      className={cx(
+        styles.wrapper,
+        classes.wrapper,
+        isSidebarClosed && styles.wrapper_wide
+      )}
+    >
       <StudioSidebar
         slug={settings.slug}
         options={options}
@@ -151,6 +185,8 @@ const Studio = ({
         toggleMetric={toggleMetric}
         toggleAdvancedView={toggleAdvancedView}
         isICOPriceDisabled={isICOPriceDisabled}
+        isSidebarClosed={isSidebarClosed}
+        setIsSidebarClosed={setIsSidebarClosed}
       />
       <div className={styles.header}>
         {topSlot}
@@ -192,6 +228,7 @@ const Studio = ({
               events={eventsData}
               loadings={loadings}
               eventLoadings={eventLoadings}
+              isSidebarClosed={isSidebarClosed}
               changeHoveredDate={changeHoveredDate}
               setIsICOPriceDisabled={setIsICOPriceDisabled}
             />
