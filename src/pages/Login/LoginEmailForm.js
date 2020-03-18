@@ -63,7 +63,6 @@ export const EmailForm = ({ loading, loginEmail, setEmail }) => {
               placeholder='Your email'
               name='email'
               type='email'
-              validate={validateEmail}
               className={styles.emailInput}
             />
 
