@@ -92,10 +92,7 @@ SOCIAL_TWITTER_INTERVALS.forEach(interval => {
 
   Fetcher[key] = {
     query: GET_METRIC_CHANGES('twitter_followers'),
-    preTransform: aliasTransform('twitter_followers', key),
-    strictVariables: {
-      interval
-    }
+    preTransform: aliasTransform('twitter_followers', key)
   }
 
   transformAliases.push('twitter_followers_' + interval)
