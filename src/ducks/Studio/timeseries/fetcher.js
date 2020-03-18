@@ -87,14 +87,11 @@ const transformAliases = [
 ]
 
 SOCIAL_TWITTER_INTERVALS.forEach(interval => {
-  const key = 'twitter_followers_' + interval
+  const queryKey = 'twitter_followers_' + interval
 
-  Fetcher[key] = {
-    query: GET_METRIC('twitter_followers'),
-    preTransform: aliasTransform('twitter_followers', key)
+  Fetcher[queryKey] = {
+    query: GET_METRIC({ key: 'twitter_followers', queryKey: queryKey })
   }
-
-  transformAliases.push('twitter_followers_' + interval)
 })
 
 export const getQuery = metric => {
