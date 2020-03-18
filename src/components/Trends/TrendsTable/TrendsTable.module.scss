@@ -266,3 +266,14 @@
 .icon {
   vertical-align: middle;
 }
+
+.compact:global(.ReactTable) {
+  /* stylelint-disable */
+  :global {
+    .rt-tr-group {
+      height: 32px;
+      border-bottom: none !important;
+    }
+  }
+  /* stylelint-enable */
+}

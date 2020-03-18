@@ -245,10 +245,16 @@ class TrendsTable extends PureComponent {
       const [oldVolume = 0, newVolume = 0] = volumeChange[word] || []
       const isWordSelected = selectedTrends.has(word)
       const hasMaxWordsSelected = selectedTrends.size > 4 && !isWordSelected
+      const isSelectable =
+        selectable &&
+        !!username &&
+        !hasMaxWordsSelected &&
+        !isCompactView &&
+        isLoggedIn
       return {
         index: (
           <>
-            {selectable && !!username && isLoggedIn && !hasMaxWordsSelected && (
+            {isSelectable && (
               <Checkbox
                 isActive={isWordSelected}
                 className={cx(
@@ -300,7 +306,7 @@ class TrendsTable extends PureComponent {
         headerClassName={cx(styles.header, !header && styles.header_empty)}
       >
         <Table
-          className={styles.table}
+          className={cx(styles.table, isCompactView && styles.compact)}
           sortable={false}
           resizable={false}
           data={tableData}
