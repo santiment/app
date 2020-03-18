@@ -9,7 +9,7 @@ import Panel from '@santiment-network/ui/Panel'
 import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import styles from './CtaJoinPopup.module.scss'
 
-const TIMEOUT = 2
+const TIMEOUT = 2 * 60 * 1000
 
 let timeoutId = null
 
@@ -43,11 +43,10 @@ const CtaJoinPopup = ({ isLoggedIn }) => {
       <Panel padding className={styles.container}>
         <img src={joinImg} alt='Join' />
 
-        <div className={styles.join}>Join the community!</div>
+        <div className={styles.join}>Join our community!</div>
         <div className={styles.description}>
-          Santiment is a behavior analytics platform for cryptocurrencies,
-          sourcing on-chain, social and development information on 900+ coins.
-          Sign up now to receive 20% discount!
+          Santiment provides custom metrics, insights metrics and data-driven
+          strategies on 900+ cryptocurrencies. Sign up now and get 20% off!
         </div>
         <Button
           as={Link}
