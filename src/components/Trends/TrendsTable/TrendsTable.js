@@ -5,15 +5,13 @@ import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import {
-  Label,
-  Checkbox,
-  PanelWithHeader,
-  Panel,
-  Icon,
-  Tooltip,
-  Button
-} from '@santiment-network/ui'
+import Panel from '@santiment-network/ui/Panel/Panel'
+import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
+import { Checkbox } from '@santiment-network/ui/Checkboxes'
+import Label from '@santiment-network/ui/Label'
+import Icon from '@santiment-network/ui/Icon'
+import Tooltip from '@santiment-network/ui/Tooltip'
+import Button from '@santiment-network/ui/Button'
 import { store } from '../../../index'
 import ValueChange from '../../../components/ValueChange/ValueChange'
 import WordCloud from '../../../components/WordCloud/WordCloud'

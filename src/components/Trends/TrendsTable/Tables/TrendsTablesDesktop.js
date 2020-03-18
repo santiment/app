@@ -1,4 +1,5 @@
 import React from 'react'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import TrendsTable from '../TrendsTable'
 import { dateDifferenceInWords, HOUR } from '../../../../utils/dates'
 import styles from './TrendsTables.module.scss'
@@ -18,7 +19,9 @@ const TrendsTablesDesktop = ({
   isCompactView
 }) => {
   const { length } = trends
-  return (
+  return isLoading ? (
+    <Loader className={styles.loader} />
+  ) : (
     <div className={styles.tables}>
       {length > 1 &&
         !isCompactView &&
