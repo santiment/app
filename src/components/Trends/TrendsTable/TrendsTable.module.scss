@@ -31,8 +31,10 @@
 
   @include text('body-3');
 
-  font-size: 14px !important;
-  line-height: 20px !important;
+  @include responsive('laptop', 'desktop', 'tablet') {
+    font-size: 14px !important;
+    line-height: 20px !important;
+  }
 
   @include responsive('phone', 'phone-xs') {
     @include text('body-2');
@@ -120,6 +122,10 @@
         &:first-child {
           justify-content: flex-start;
         }
+
+        &:nth-of-type(2) {
+          justify-content: center;
+        }
       }
     }
 
@@ -181,6 +187,10 @@
         &:first-child {
           justify-content: flex-start;
         }
+
+        &:nth-of-type(2) {
+          justify-content: center;
+        }
       }
     }
   }
@@ -202,7 +212,7 @@
   @include responsive('phone', 'phone-xs') {
     font-size: 16px !important;
     line-height: 22px !important;
-    margin: 0 16px;
+    text-align: right;
   }
 }
 
@@ -214,7 +224,7 @@
   @include responsive('phone', 'phone-xs') {
     font-size: 16px !important;
     line-height: 22px !important;
-    margin-left: auto;
+    margin-left: 7px;
   }
 }
 
