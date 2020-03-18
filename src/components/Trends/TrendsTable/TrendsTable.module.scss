@@ -16,9 +16,13 @@
 .header {
   padding: 13px 23px;
 
-  &_empty {
+  &__empty {
     padding: 0;
     border: none;
+  }
+
+  &__compact {
+    padding: 10px 23px;
   }
 }
 

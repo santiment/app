@@ -4,7 +4,8 @@ import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import { compose, withProps } from 'recompose'
 import cx from 'classnames'
-import { Panel, Selector } from '@santiment-network/ui'
+import Selector from '@santiment-network/ui/Selector/Selector'
+import Panel from '@santiment-network/ui/Panel/Panel'
 import GetTimeSeries from './../../ducks/GetTimeSeries/GetTimeSeries'
 import GetTrends from './../../components/Trends/GetTrends'
 import TrendsReChart from './../../components/Trends/TrendsReChart'
@@ -15,7 +16,6 @@ import Trends from '../../components/Trends/Trends'
 import withDetectionAsset from '../../components/Trends/withDetectionAsset'
 import WordCloud from './../../components/WordCloud/WordCloud'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
-import TrendsExploreAdditionalInfo from '../../components/Trends/Explore/TrendsExploreAdditionalInfo'
 import { checkHasPremium } from './../UserSelectors'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import {
@@ -209,11 +209,10 @@ export class TrendsExplorePage extends Component {
                   />
                 )}
               />
-              <TrendsExploreAdditionalInfo word={topic} />
             </div>
           </div>
           <div className={styles.sidebar}>
-            <WordCloud word={topic} />
+            <WordCloud className={styles.wordCloud} word={topic} />
             <Trends className={styles.trends} isCompactView />
           </div>
         </div>

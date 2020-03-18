@@ -119,6 +119,10 @@
 .layout {
   display: flex;
   width: 100%;
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    flex-direction: column;
+  }
 }
 
 .main {
@@ -135,8 +139,33 @@
   width: 32vw;
   padding: 0 24px;
   border-left: 1px solid var(--porcelain);
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    flex-direction: row;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    border-left: none;
+    margin-top: 40px;
+    padding: 0;
+  }
+
+  @include responsive('phone-xs', 'phone') {
+    flex-direction: column;
+  }
 }
 
 .trends {
   margin-top: 20px;
+
+  @include responsive('tablet') {
+    margin-top: 0;
+    margin-left: 50px;
+  }
+}
+
+.wordCloud {
+  @include responsive('tablet') {
+    height: auto !important;
+  }
 }
