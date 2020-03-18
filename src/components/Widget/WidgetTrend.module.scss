@@ -28,6 +28,10 @@
   color: var(--grey-dark);
 }
 
+.loader {
+  font-size: 7px;
+}
+
 .info {
   @include text-normal;
 
