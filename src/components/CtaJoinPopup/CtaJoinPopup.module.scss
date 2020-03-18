@@ -2,11 +2,28 @@
 
 .container {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  border: none;
+  box-shadow: none;
+  padding: 10px 24px 24px 24px !important;
+  max-width: 346px;
+
+  @include responsive('phone', 'phone-xs') {
+    max-width: 100%;
+  }
 }
 
 .title {
+  border: 0;
+  display: flex;
+  justify-content: flex-end;
+  background-color: var(--white);
+  padding: 24px 24px 0 24px !important;
+}
+
+.join {
   @include text('h4');
 
   text-align: center;
@@ -18,12 +35,20 @@
   @include text('body-3');
 
   text-align: center;
-  max-width: 250px;
   color: var(--waterloo);
+  margin-top: 16px;
 }
 
 .btn {
   height: 40px;
   width: 250px;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 24px 0;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-bottom: 0;
+  }
 }
