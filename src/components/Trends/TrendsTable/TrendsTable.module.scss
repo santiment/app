@@ -73,101 +73,110 @@
 }
 
 .table:global(.ReactTable) {
-  border: none;
-
-  .rt-thead.-header {
-    box-shadow: initial;
-    border-bottom: 1px solid var(--porcelain);
-    padding: 0 23px;
-    background: var(--athens);
-
-    @include responsive('phone', 'phone-xs') {
-      background: var(--white);
-      padding: 0 16px;
-      margin-top: 24px;
-    }
+  /* stylelint-disable */
+  & {
+    border: none;
   }
+  /* stylelint-enable */
 
-  .rt-th {
-    @include text('caption');
-
-    background: var(--athens);
-    text-align: left !important;
-    text-transform: initial;
-    color: var(--casper);
-    line-height: 16px;
-    font-weight: 600;
-    padding: 7px 0 !important;
-
-    @include responsive('phone', 'phone-xs') {
-      background: var(--white);
-      justify-content: flex-end;
-
-      @include text('body-3');
-
-      padding: 0;
-      display: flex;
-
-      &:first-child {
-        justify-content: flex-start;
-      }
-    }
-  }
-
-  .rt-tr-group {
-    padding: 0 10px 0 23px;
-    height: 60px;
-
-    &:hover {
+  :global {
+    .rt-thead.-header {
+      box-shadow: initial;
+      border-bottom: 1px solid var(--porcelain);
+      padding: 0 23px;
       background: var(--athens);
-      cursor: pointer;
 
-      .word {
-        color: var(--jungle-green);
+      @include responsive('phone', 'phone-xs') {
+        background: var(--white);
+        padding: 0 16px;
+        margin-top: 24px;
       }
+    }
 
-      .checkbox {
-        display: inline-flex;
+    .rt-th {
+      @include text('caption');
 
-        & + .index {
-          display: none;
+      background: var(--athens);
+      text-align: left !important;
+      text-transform: initial;
+      color: var(--casper);
+      line-height: 16px;
+      font-weight: 600;
+      padding: 7px 0 !important;
+
+      @include responsive('phone', 'phone-xs') {
+        background: var(--white);
+        justify-content: flex-end;
+
+        @include text('body-3');
+
+        padding: 0;
+        display: flex;
+
+        &:first-child {
+          justify-content: flex-start;
         }
       }
     }
 
-    @include responsive('phone', 'phone-xs') {
-      padding: 0;
-      height: 47px;
+    .rt-tr-group {
+      padding: 0 10px 0 23px;
+      height: 60px;
 
-      @include text('body-2');
+      &:hover {
+        background: var(--athens);
+        cursor: pointer;
+        /* stylelint-disable */
+        :local {
+          .word {
+            color: var(--jungle-green);
+          }
 
-      &:last-child {
-        border-bottom: 1px solid var(--porcelain);
+          .checkbox {
+            display: inline-flex;
+
+            & + .index {
+              display: none;
+            }
+          }
+        }
+        /* stylelint-enable */
+      }
+
+      @include responsive('phone', 'phone-xs') {
+        padding: 0;
+        height: 47px;
+
+        @include text('body-2');
+
+        &:last-child {
+          border-bottom: 1px solid var(--porcelain);
+        }
       }
     }
-  }
 
-  .rt-tbody {
-    @include responsive('phone', 'phone-xs') {
-      padding: 0 16px;
+    .rt-tbody {
+      @include responsive('phone', 'phone-xs') {
+        padding: 0 16px;
+      }
     }
-  }
 
-  .rt-td {
-    padding: 0;
-    border: none !important;
-    display: flex;
-    align-items: center;
-    font-size: 14px !important;
-    line-height: 20px !important;
+    .rt-td {
+      padding: 0;
+      border: none !important;
+      display: flex;
+      align-items: center;
+      font-size: 14px !important;
+      line-height: 20px !important;
 
-    @include responsive('phone', 'phone-xs') {
-      justify-content: flex-end;
-      font-size: 16px !important;
-      line-height: 22px !important;
+      @include responsive('phone', 'phone-xs') {
+        justify-content: flex-end;
+        font-size: 16px !important;
+        line-height: 22px !important;
 
-      &:first-child {
-        justify-content: flex-start;
+        &:first-child {
+          justify-content: flex-start;
+        }
       }
     }
   }
