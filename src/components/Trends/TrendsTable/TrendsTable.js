@@ -5,6 +5,7 @@ import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
@@ -232,6 +233,7 @@ class TrendsTable extends PureComponent {
     } = this.props
 
     const tableData = trendWords.map(({ word, score }, index) => {
+      const volumeIsLoading = !volumeChange[word]
       const [oldVolume = 0, newVolume = 0] = volumeChange[word] || []
       const isWordSelected = selectedTrends.has(word)
       const hasMaxWordsSelected = selectedTrends.size > 4 && !isWordSelected
@@ -274,7 +276,9 @@ class TrendsTable extends PureComponent {
         ),
         rawWord: word,
         score: parseInt(score, 10),
-        volume: (
+        volume: volumeIsLoading ? (
+          <Loader className={styles.loader} />
+        ) : (
           <>
             <div className={styles.volume}>{newVolume}</div>{' '}
             <ValueChange

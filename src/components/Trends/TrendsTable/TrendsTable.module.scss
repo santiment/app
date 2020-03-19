@@ -278,6 +278,10 @@
   vertical-align: middle;
 }
 
+.loader {
+  font-size: 3px !important;
+}
+
 .compact:global(.ReactTable) {
   /* stylelint-disable */
   :global {
