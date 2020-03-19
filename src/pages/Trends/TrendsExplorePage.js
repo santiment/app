@@ -9,7 +9,6 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import GetTimeSeries from './../../ducks/GetTimeSeries/GetTimeSeries'
 import GetTrends from './../../components/Trends/GetTrends'
 import TrendsReChart from './../../components/Trends/TrendsReChart'
-import TrendsStats from './../../components/Trends/TrendsStats'
 import TrendsExploreSearch from './../../components/Trends/Explore/TrendsExploreSearch'
 import * as actions from '../../components/Trends/actions'
 import Trends from '../../components/Trends/Trends'
@@ -189,19 +188,14 @@ export class TrendsExplorePage extends Component {
                       }
                     ]}
                     render={({ timeseries = [], price_usd = {} }) => (
-                      <>
-                        <div className={styles.chart}>
-                          <TrendsReChart
-                            asset={asset && capitalizeStr(asset)}
-                            data={timeseries}
-                            trends={trends}
-                            isLoading={price_usd.isLoading}
-                          />
-                        </div>
-                        {trends.length > 0 && (
-                          <TrendsStats timeRange={timeRange} />
-                        )}
-                      </>
+                      <div className={styles.chart}>
+                        <TrendsReChart
+                          asset={asset && capitalizeStr(asset)}
+                          data={timeseries}
+                          trends={trends}
+                          isLoading={price_usd.isLoading}
+                        />
+                      </div>
                     )}
                   />
                 )}
