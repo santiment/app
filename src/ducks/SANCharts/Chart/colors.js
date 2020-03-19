@@ -9,22 +9,21 @@ const ORANGE = '#FFAD4D'
 const GRAY = '#D2D6E7'
 
 export const COLORS = [
-  '#5275FF', // BLUE
+  '#AC948C', // BROWN-GRAY
+  '#F47BF7', // PURPLE
   '#FF5B5B', // RED
   '#FFCB47', // YELLOW
-  '#D4E763', // YELLOW-GREEN
-  '#F47BF7', // PURPLE
   '#785549', // BROWN
-  '#AC948C', // BROWN-GRAY
-  '#37D7BA', // AQUAMARINE
+  '#5275FF', // BLUE
   '#FF8450', // SALMON
-  '#FFDAC5' // PEACH
+  '#D4E763', // YELLOW-GREEN
+  '#FFDAC5', // PEACH
+  '#37D7BA' // AQUAMARINE
 ]
 
 const MetricColorMap = new Map()
 MetricColorMap.set(Metrics.price_usd, GREEN)
 MetricColorMap.set(Metrics.volume_usd, GRAY)
-MetricColorMap.set(Metrics.marketcap_usd, CYAN)
 MetricColorMap.set(Metrics.social_volume_total, CYAN)
 MetricColorMap.set(Metrics.daily_active_addresses, ORANGE)
 MetricColorMap.set(Metrics.dev_activity, VIOLET)
