@@ -9,13 +9,13 @@ const BOTTOM_MARGIN = 5
 const RIGHT_MARGIN = 7
 
 export function drawLastDayPrice (chart, scale, price) {
-  const { ctx, minMaxes, height, top, left, right, bottom } = chart
+  const { ctx, minMaxes, top, left, right, bottom } = chart
   const priceMinMaxes = minMaxes.price_usd
   if (!priceMinMaxes) return
 
   const { min, max } = priceMinMaxes
 
-  const y = scale(height, min, max)(price) + top
+  const y = scale(chart, min, max)(price)
 
   if (y > bottom || y < top) return
 

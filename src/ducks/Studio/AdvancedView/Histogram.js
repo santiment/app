@@ -90,7 +90,11 @@ function formatHistogramData ({ values: { data: distributions } }) {
   const min = Math.min(...distributions)
   const max = Math.max(...distributions)
 
-  const scaler = linearScale(342, max, min * 0.8)
+  const chart = {
+    height: 342,
+    top: 0
+  }
+  const scaler = linearScale(chart, max, min * 0.8)
 
   return distributions.map((value, index) => {
     const timeFrame =

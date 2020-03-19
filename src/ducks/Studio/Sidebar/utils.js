@@ -33,7 +33,7 @@ export const getCategoryGraph = (availableMetrics, hiddenMetrics) => {
   }
 
   const categories = {
-    Financial: undefined
+    Financial: []
   }
   const { length } = availableMetrics
 

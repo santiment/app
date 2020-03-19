@@ -45,7 +45,9 @@ const ChartSettingsContextMenu = ({
   activeMetrics,
   activeEvents,
   isCartesianGridActive,
-  onCartesianGridChange
+  onCartesianGridChange,
+  isDomainGroupingActive,
+  onDomainGroupingChange
 }) => {
   return (
     <ContextMenu
@@ -80,7 +82,7 @@ const ChartSettingsContextMenu = ({
             onClick={onCartesianGridChange}
             className={styles.context__btn}
           >
-            Cartesian Grid
+            Cartesian grid
             <Toggle
               isActive={isCartesianGridActive}
               className={styles.context__toggle}
@@ -111,6 +113,20 @@ const ChartSettingsContextMenu = ({
             Multi charts
             <Toggle
               isActive={isMultiChartsActive}
+              className={styles.context__toggle}
+            />
+          </Button>
+        )}
+        {onDomainGroupingChange && (
+          <Button
+            fluid
+            variant='ghost'
+            className={styles.context__btn}
+            onClick={onDomainGroupingChange}
+          >
+            Shared axis
+            <Toggle
+              isActive={isDomainGroupingActive}
               className={styles.context__toggle}
             />
           </Button>
