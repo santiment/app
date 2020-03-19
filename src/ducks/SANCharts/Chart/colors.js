@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Metrics } from '../data'
 
+const ALPHA_CHANNEL = '55'
+
 // RESERVED COLORS
 const GREEN = '#26C953'
 const CYAN = '#68DBF4'
@@ -43,7 +45,7 @@ export function useChartColors (metrics, FocusedMetric) {
 
         let color = MetricColorMap.get(Metric) || COLORS[freeColorIndex++]
         if (FocusedMetric && Metric !== FocusedMetric) {
-          color += '55'
+          color += ALPHA_CHANNEL
         }
 
         newColors[Metric.key] = color

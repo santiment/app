@@ -109,7 +109,7 @@ export function makeSignalDrawable (
   chart,
   scale
 ) {
-  const { height, top, minMaxes } = chart
+  const { minMaxes } = chart
   if (!minMaxes || !minMaxes.price_usd) {
     return
   }

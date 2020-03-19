@@ -82,7 +82,7 @@ const ChartSettingsContextMenu = ({
             onClick={onCartesianGridChange}
             className={styles.context__btn}
           >
-            Cartesian Grid
+            Cartesian grid
             <Toggle
               isActive={isCartesianGridActive}
               className={styles.context__toggle}
