@@ -87,8 +87,7 @@ const CtaJoinPopup = ({ isLoggedIn }) => {
 
         <div className={styles.join}>Join our community!</div>
         <div className={styles.description}>
-          Santiment provides custom metrics, insights metrics and data-driven
-          strategies on 900+ cryptocurrencies. Sign up now and get 20% off!
+          Santiment provides custom metrics, insights metrics and data-driven strategies on 900+ cryptocurrencies.
         </div>
         <Button
           as={Link}
