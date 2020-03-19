@@ -53,14 +53,14 @@
 }
 
 .chart {
-  margin: 24px 10px;
+  margin: 24px 0;
 }
 
 .chartWrapper {
   border: 1px solid var(--porcelain);
   border-radius: 4px;
   padding: 18px 0 24px;
-  margin: 24px 0;
+  margin: 24px 0 0;
 }
 
 .chartSettings {
@@ -148,15 +148,16 @@
 .sidebar {
   position: sticky;
   display: flex;
-  top: 0;
 
   @include responsive('laptop', 'desktop') {
+    top: 0;
+    margin-top: -22px;
     flex-direction: column;
     max-width: 368px;
     width: 32vw;
     margin-left: 24px;
     border-left: 1px solid var(--porcelain);
-    padding: 0 24px;
+    padding: 22px 24px;
     height: calc(100vh - 100px);
     overflow: hidden;
 

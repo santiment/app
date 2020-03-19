@@ -153,8 +153,11 @@ const TrendsReChart = ({
                   verticalAlign='bottom'
                   align='right'
                   wrapperStyle={{
-                    padding: '24px 0',
+                    padding: '24px 14px',
                     marginBottom: '-24px',
+                    right: 0,
+                    left: 0,
+                    width: 'auto !important',
                     borderTop: '1px solid var(--porcelain)'
                   }}
                 />
