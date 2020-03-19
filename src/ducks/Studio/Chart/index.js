@@ -54,6 +54,8 @@ const Canvas = ({
     [hasExplanaibles]
   )
 
+  useEffect(onMetricHoverEnd, [metrics])
+
   function toggleExplanation () {
     setIsExplained(state => !state)
   }

@@ -84,8 +84,8 @@ export default ({
           isLoading={loadings.includes(metric)}
           isRemovable={isMoreThanOneMetric}
           toggleMetric={toggleMetric}
-          onMouseOver={onMetricHover && (() => onMetricHover(metric))}
-          onMouseOut={onMetricHoverEnd && (() => onMetricHoverEnd(metric))}
+          onMouseEnter={onMetricHover && (() => onMetricHover(metric))}
+          onMouseLeave={onMetricHoverEnd && (() => onMetricHoverEnd(metric))}
         />
       ))}
       {activeEvents.includes(trendPositionHistory) && (
