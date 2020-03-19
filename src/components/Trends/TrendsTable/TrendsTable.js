@@ -123,7 +123,10 @@ class TrendsTable extends PureComponent {
                 <span className={styles.action__icon}>
                   <Icon
                     type='connection-big'
-                    className={styles.icon}
+                    className={cx(
+                      styles.icon,
+                      !hasConnections && styles.action__icon_disabled
+                    )}
                     onMouseEnter={() => {
                       connectTrends(rawWord)
                     }}
@@ -147,7 +150,10 @@ class TrendsTable extends PureComponent {
           const insightsTrigger = (
             <Button variant='flat' className={styles.tooltip__trigger}>
               <ExplanationTooltip text='Connected insights' offsetY={5}>
-                <Icon type='insight' />
+                <Icon
+                  type='insight'
+                  className={cx(!insights && styles.action__icon_disabled)}
+                />
               </ExplanationTooltip>
             </Button>
           )

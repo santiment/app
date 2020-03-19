@@ -70,6 +70,11 @@
     &:hover {
       fill: var(--jungle-green);
     }
+
+    &_disabled {
+      fill: var(--rhino);
+      cursor: default;
+    }
   }
 }
 
