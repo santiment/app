@@ -162,11 +162,7 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps)(
   ({ options, events, activeMetrics, ...rest }) => {
     return (
-      <Synchronizer
-        isMultiChartsActive={options.isMultiChartsActive}
-        metrics={activeMetrics}
-        events={events}
-      >
+      <Synchronizer {...options} metrics={activeMetrics} events={events}>
         <Canvas
           options={options}
           events={events}

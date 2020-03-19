@@ -84,7 +84,13 @@ export function prepareEvents (events) {
   })
 }
 
-const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
+const Synchronizer = ({
+  children,
+  isDomainGroupingActive,
+  metrics,
+  isMultiChartsActive,
+  events
+}) => {
   const [syncedTooltipDate, syncTooltips] = useState()
   const [syncedEvents, syncEvents] = useState()
   const [syncedCategories, syncCategories] = useState([])
@@ -95,6 +101,10 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
 
   useEffect(
     () => {
+      if (!isDomainGroupingActive) {
+        return setDomainGroups()
+      }
+
       const Domain = Object.create(null)
       const { length } = metrics
 
@@ -116,7 +126,7 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
       )
       setDomainGroups(newDomainGroups.length > 0 ? newDomainGroups : undefined)
     },
-    [metrics]
+    [metrics, isDomainGroupingActive]
   )
 
   useEffect(

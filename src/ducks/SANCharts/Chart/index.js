@@ -168,6 +168,7 @@ const Chart = ({
       data,
       scale,
       events,
+      domainGroups,
       MetricColor,
       lastDayPrice,
       isNightModeEnabled,

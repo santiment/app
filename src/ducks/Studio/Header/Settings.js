@@ -56,6 +56,16 @@ export default ({
     }))
   }
 
+  function toggleDomainGrouping () {
+    setOptions(state => ({
+      ...state,
+      isDomainGroupingActive: saveToggle(
+        'isDomainGroupingActive',
+        !state.isDomainGroupingActive
+      )
+    }))
+  }
+
   function onTimerangeChange (timeRange) {
     const { from, to } = getIntervalByTimeRange(timeRange)
     changeTimePeriod(from, to, timeRange)
@@ -96,6 +106,7 @@ export default ({
         onCartesianGridChange={toggleCartesianGrid}
         onScaleChange={toggleScale}
         onMultiChartsChange={toggleMultichart}
+        onDomainGroupingChange={toggleDomainGrouping}
         showDownload
         showMulti
         {...options}
