@@ -177,28 +177,31 @@ export class TrendsExplorePage extends Component {
                 topic={topic}
                 timeRange={timeRange}
                 interval={getCustomInterval(timeRange)}
-                render={trends => (
-                  <GetTimeSeries
-                    metrics={[
-                      {
-                        name: 'price_usd',
-                        timeRange,
-                        slug: asset.toLowerCase(),
-                        interval: getCustomInterval(timeRange)
-                      }
-                    ]}
-                    render={({ timeseries = [], price_usd = {} }) => (
-                      <div className={styles.chart}>
-                        <TrendsReChart
-                          asset={asset && capitalizeStr(asset)}
-                          data={timeseries}
-                          trends={trends}
-                          isLoading={price_usd.isLoading}
-                        />
-                      </div>
-                    )}
-                  />
-                )}
+                render={trends => {
+                  console.log(trends)
+                  return (
+                    <GetTimeSeries
+                      metrics={[
+                        {
+                          name: 'price_usd',
+                          timeRange,
+                          slug: asset.toLowerCase(),
+                          interval: getCustomInterval(timeRange)
+                        }
+                      ]}
+                      render={({ timeseries = [], price_usd = {} }) => (
+                        <div className={styles.chart}>
+                          <TrendsReChart
+                            asset={asset && capitalizeStr(asset)}
+                            data={timeseries}
+                            trends={trends}
+                            isLoading={price_usd.isLoading}
+                          />
+                        </div>
+                      )}
+                    />
+                  )
+                }}
               />
             </div>
           </div>

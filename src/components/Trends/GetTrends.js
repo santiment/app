@@ -1,12 +1,9 @@
 import { graphql } from 'react-apollo'
-import { compose } from 'recompose'
-import { trendsExploreGQL } from '../../components/Trends/trendsExploreGQL'
+import { SOCIAL_VOLUME_QUERY } from '../../components/SocialVolumeWidget/socialVolumeGQL'
 import { getIntervalByTimeRange } from './../../utils/dates.js'
 
 const GetTrends = ({ render, sources = {}, ...props }) =>
   render({ sources, ...props })
-
-const emptyChartData = []
 
 export const normalizeTopic = topic => {
   const pattern = /AND|OR/
@@ -16,38 +13,37 @@ export const normalizeTopic = topic => {
   return topic
 }
 
-const parseTrendsGQLProps = sourceType => ({
-  data: { loading, error, topicSearch = {} },
-  ownProps: { sources = {} }
-}) => {
-  const { chartData = emptyChartData } = topicSearch
-  return {
-    sources: {
-      ...sources,
-      [`${sourceType.toLowerCase()}`]: chartData
-    },
-    isLoading: loading,
-    isError: error
-  }
-}
-
-const makeAllQueries = () =>
-  ['TELEGRAM', 'PROFESSIONAL_TRADERS_CHAT', 'REDDIT', 'DISCORD'].map(source =>
-    graphql(trendsExploreGQL, {
-      props: parseTrendsGQLProps(source),
-      options: ({ topic, timeRange, interval }) => {
-        const { from, to } = getIntervalByTimeRange(timeRange)
-        return {
-          variables: {
-            searchText: normalizeTopic(topic),
-            source: source,
-            interval: interval,
-            to: to.toISOString(),
-            from: from.toISOString()
-          }
-        }
+export default graphql(SOCIAL_VOLUME_QUERY, {
+  options: ({ topic, timeRange, interval }) => {
+    const { from, to } = getIntervalByTimeRange(timeRange)
+    return {
+      variables: {
+        word: normalizeTopic(topic),
+        interval: interval,
+        to: to.toISOString(),
+        from: from.toISOString()
       }
-    })
-  )
-
-export default compose(...makeAllQueries())(GetTrends)
+    }
+  },
+  props: ({
+    data: {
+      loading,
+      error,
+      telegram = {},
+      discord = {},
+      reddit = {},
+      professional_traders_chat = {}
+    }
+  }) => {
+    return {
+      sources: {
+        telegram: telegram.chartData || [],
+        discord: discord.chartData || [],
+        professional_traders_chat: professional_traders_chat.chartData || [],
+        reddit: reddit.chartData || []
+      },
+      isLoading: loading,
+      isError: error
+    }
+  }
+})(GetTrends)

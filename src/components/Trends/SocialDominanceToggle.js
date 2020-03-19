@@ -15,7 +15,7 @@ const Icon = () => (
 )
 
 const SocialDominanceToggle = ({ className }) => {
-  const [isActive, setIsActive] = useState(true)
+  const [isActive, setIsActive] = useState(false)
   return (
     <div className={cx(styles.wrapper, className)}>
       <Button

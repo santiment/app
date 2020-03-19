@@ -138,6 +138,7 @@ const TrendsReChart = ({
                     type='linear'
                     dataKey={entity.index}
                     dot={false}
+                    isAnimationActive={false}
                     strokeWidth={entity.index === 'merged' ? 1.5 : 2}
                     name={entity.name}
                     stroke={`var(--${entity.color})`}
@@ -146,6 +147,7 @@ const TrendsReChart = ({
                     type='linear'
                     yAxisId='axis-price'
                     name={asset + '/USD'}
+                    isAnimationActive={false}
                     dot={false}
                     strokeWidth={1.5}
                     dataKey='price_usd'
