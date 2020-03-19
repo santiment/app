@@ -1,13 +1,26 @@
+@import '~@santiment-network/ui/mixins.scss';
+
 .toggles {
-  margin-top: 8px;
-  text-align: right;
+  border-top: 1px solid var(--porcelain);
+  margin-top: 20px;
+  text-align: left;
+  padding: 0 14px;
+}
+
+.title {
+  @include text('body-3');
+
+  color: var(--waterloo);
+  margin: 32px 0 15px;
 }
 
 .toggle {
-  margin: 0 0 8px 8px;
+  margin: 0 8px 8px 0;
+  border: 1px solid transparent;
   color: var(--waterloo);
 
   &_active {
+    border: 1px solid var(--porcelain);
     color: var(--jungle-green);
   }
 }
@@ -19,5 +32,5 @@
 .loader {
   font-size: 7px;
   justify-content: center;
-  margin-top: 100px;
+  margin: 200px 0;
 }

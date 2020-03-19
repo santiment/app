@@ -3,17 +3,6 @@
 .wrapper {
   margin: 0;
 
-  .recharts-responsive-container {
-    margin-bottom: 24px;
-    background-color: var(--white);
-  }
-
-  /* @NOTE(vanguard): This is a hack for correctly centering legend on mobile and desktops. */
-  .recharts-legend-wrapper {
-    width: 100% !important;
-    left: 0 !important;
-  }
-
   @include responsive('desktop', 'laptop', 'tablet') {
     width: 100%;
     margin: 0 auto;
@@ -79,12 +68,15 @@
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
-  text-transform: uppercase;
+  margin: 0 24px;
 
   @include responsive('phone-xs', 'phone') {
-    width: 100%;
-    display: block;
-    margin: 24px 0 6px;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    margin: 0 24px 24px;
   }
 }
 
@@ -99,7 +91,7 @@
   margin-left: 1rem;
 
   @include responsive('phone-xs', 'phone') {
-    margin: 10px 0 0;
+    margin: 10px 0;
   }
 }
 
@@ -118,9 +110,19 @@
   }
 }
 
+.text {
+  @include text('body-3');
+
+  color: var(--waterloo);
+  margin-right: auto;
+}
+
 .selector {
-  display: flex;
-  align-items: center;
+  text-transform: uppercase;
+
+  @include responsive('phone-xs', 'phone') {
+    margin: 10px 0;
+  }
 }
 
 .layout {
@@ -146,6 +148,7 @@
 .sidebar {
   position: sticky;
   display: flex;
+  top: 0;
 
   @include responsive('laptop', 'desktop') {
     flex-direction: column;

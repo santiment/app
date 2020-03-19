@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
@@ -156,14 +156,13 @@ export class TrendsExplorePage extends Component {
             )}
             <div className={styles.chartWrapper}>
               <div className={styles.chartSettings}>
-                <div className={styles.selector}>
-                  <Selector
-                    options={['1w', '1m', '3m', '6m']}
-                    onSelectOption={this.handleSelectTimeRange}
-                    defaultSelected={timeRange}
-                  />
-                  <ShareTrends topic={topic} />
-                </div>
+                <span className={styles.text}>Social volume score</span>
+                <Selector
+                  options={['1w', '1m', '3m', '6m']}
+                  onSelectOption={this.handleSelectTimeRange}
+                  defaultSelected={timeRange}
+                  className={styles.selector}
+                />
                 <Panel className={styles.pricePair}>
                   <Selector
                     options={priceOptions}
@@ -172,6 +171,7 @@ export class TrendsExplorePage extends Component {
                     defaultSelected={asset}
                   />
                 </Panel>
+                <ShareTrends topic={topic} />
               </div>
               <GetTrends
                 topic={topic}
