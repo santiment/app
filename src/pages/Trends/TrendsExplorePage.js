@@ -16,7 +16,6 @@ import Trends from '../../components/Trends/Trends'
 import withDetectionAsset from '../../components/Trends/withDetectionAsset'
 import WordCloud from './../../components/WordCloud/WordCloud'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
-import { checkHasPremium } from './../UserSelectors'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import {
   mapQSToState,
@@ -87,8 +86,7 @@ export class TrendsExplorePage extends Component {
   }
 
   componentDidMount () {
-    const { word, fetchAllTickersSlugs, fetchTrendSocialData } = this.props
-    fetchAllTickersSlugs()
+    const { word, fetchTrendSocialData } = this.props
     fetchTrendSocialData(word)
   }
 
@@ -100,7 +98,7 @@ export class TrendsExplorePage extends Component {
   }
 
   render () {
-    const { word, hasPremium, detectedAsset, isDesktop, history } = this.props
+    const { word, detectedAsset, isDesktop, history } = this.props
     addRecentTrends(word)
     const { timeRange, asset = '' } = this.state
     const [priceOptions, priceLabels] = getPriceOptions(detectedAsset)
@@ -121,7 +119,7 @@ export class TrendsExplorePage extends Component {
         <div className={styles.layout}>
           <div className={styles.main}>
             <div className={styles.settings}>
-              <div className={styles.settingsLeft}>
+              <div className={styles.searchWrapper}>
                 {isDesktop && (
                   <TrendsExploreSearch
                     className={styles.search}
@@ -150,7 +148,15 @@ export class TrendsExplorePage extends Component {
                   </MobileHeader>
                 )}
               </div>
-              <div className={styles.settingsRight}>
+            </div>
+            {topic === 'IEO OR IEOs OR launchpad' && (
+              <div style={{ marginTop: 10 }}>
+                Emerging IEOs (Initial Exchange Offerings) and their impact on
+                BNB (Binance Coin) price.
+              </div>
+            )}
+            <div className={styles.chartWrapper}>
+              <div className={styles.chartSettings}>
                 <div className={styles.selector}>
                   <Selector
                     options={['1w', '1m', '3m', '6m']}
@@ -168,14 +174,6 @@ export class TrendsExplorePage extends Component {
                   />
                 </Panel>
               </div>
-            </div>
-            {topic === 'IEO OR IEOs OR launchpad' && (
-              <div style={{ marginTop: 10 }}>
-                Emerging IEOs (Initial Exchange Offerings) and their impact on
-                BNB (Binance Coin) price.
-              </div>
-            )}
-            <div>
               <GetTrends
                 topic={topic}
                 timeRange={timeRange}
@@ -191,20 +189,19 @@ export class TrendsExplorePage extends Component {
                       }
                     ]}
                     render={({ timeseries = [], price_usd = {} }) => (
-                      <Fragment>
-                        <div style={{ minHeight: 300 }}>
+                      <>
+                        <div className={styles.chart}>
                           <TrendsReChart
                             asset={asset && capitalizeStr(asset)}
                             data={timeseries}
                             trends={trends}
-                            hasPremium={hasPremium}
                             isLoading={price_usd.isLoading}
                           />
                         </div>
                         {trends.length > 0 && (
                           <TrendsStats timeRange={timeRange} />
                         )}
-                      </Fragment>
+                      </>
                     )}
                   />
                 )}
@@ -235,19 +232,7 @@ export class TrendsExplorePage extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    hasPremium: checkHasPremium(state),
-    allAssets: state.hypedTrends.allAssets
-  }
-}
-
 const mapDispatchToProps = dispatch => ({
-  fetchAllTickersSlugs: () => {
-    dispatch({
-      type: actions.TRENDS_HYPED_FETCH_TICKERS_SLUGS
-    })
-  },
   fetchTrendSocialData: payload => {
     dispatch({
       type: actions.TRENDS_HYPED_WORD_SELECTED,
@@ -258,7 +243,7 @@ const mapDispatchToProps = dispatch => ({
 
 export default compose(
   connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
   ),
   withProps(({ match = { params: {} }, ...rest }) => {

@@ -63,15 +63,22 @@
   }
 }
 
-.settingsLeft,
-.settingsRight {
+.chart {
+  margin: 24px 10px;
+}
+
+.chartWrapper {
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  padding: 18px 0 24px;
+  margin: 24px 0;
+}
+
+.chartSettings {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
-}
-
-.settingsRight {
   text-transform: uppercase;
 
   @include responsive('phone-xs', 'phone') {
@@ -81,7 +88,7 @@
   }
 }
 
-.settingsLeft {
+.searchWrapper {
   @include responsive('phone-xs', 'phone') {
     width: 100%;
   }
@@ -177,6 +184,8 @@
 }
 
 .wordCloud {
+  min-width: 281px;
+
   @include responsive('tablet') {
     height: auto !important;
   }
