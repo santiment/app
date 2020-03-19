@@ -138,6 +138,7 @@ const TrendsReChart = ({
                     strokeWidth={2}
                     name={entity.name}
                     stroke={`var(--${entity.color})`}
+                    isAnimationActive={false}
                     activeDot={false}
                   />
                   {showDominance && key === 0 && (
@@ -149,6 +150,7 @@ const TrendsReChart = ({
                       yAxisId='axis-dominance'
                       name={'Social Dominance'}
                       stroke='var(--texas-rose)'
+                      isAnimationActive={false}
                       activeDot={false}
                     />
                   )}
@@ -161,6 +163,7 @@ const TrendsReChart = ({
                     strokeWidth={1.5}
                     dataKey='price_usd'
                     stroke='var(--mystic)'
+                    isAnimationActive={false}
                   />
                   <Legend
                     verticalAlign='bottom'
