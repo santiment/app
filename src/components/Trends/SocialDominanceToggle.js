@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import Toggle from '@santiment-network/ui/Toggle'
 import Button from '@santiment-network/ui/Button'
@@ -14,13 +14,12 @@ const Icon = () => (
   />
 )
 
-const SocialDominanceToggle = ({ className }) => {
-  const [isActive, setIsActive] = useState(false)
+const SocialDominanceToggle = ({ className, isActive, toggleDominance }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
       <Button
         variant='flat'
-        onClick={() => setIsActive(!isActive)}
+        onClick={toggleDominance}
         className={styles.button}
       >
         <Toggle
