@@ -29,8 +29,18 @@
   margin-right: 8px;
 }
 
+.chart {
+  position: relative;
+}
+
 .loader {
   font-size: 7px;
   justify-content: center;
   margin: 200px 0;
+}
+
+.dominance {
+  position: absolute;
+  bottom: 6px;
+  left: 24px;
 }

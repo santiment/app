@@ -20,12 +20,11 @@
 }
 
 .msg {
-  @include text-normal;
-
   text-align: center;
-  font-size: 20px;
   margin: 0;
-  color: var(--grey-dark);
+  color: var(--waterloo);
+
+  @include text('body-1');
 }
 
 .loader {
@@ -35,19 +34,20 @@
 .info {
   @include text-normal;
 
-  color: var(--grey-dark-2);
+  color: var(--waterloo);
   border-bottom: 1px solid var(--porcelain);
   padding: 10px 24px;
   display: flex;
+  align-items: center;
 }
 
 .content {
-  padding: 10px 24px;
+  padding: 14px 24px 6px 0;
   flex: 1;
   position: relative;
 }
 
 .word {
-  color: var(--black);
+  color: var(--rhino);
   margin-right: 5px;
 }
