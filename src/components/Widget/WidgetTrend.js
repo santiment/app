@@ -28,6 +28,7 @@ const getMessage = ({ initial, isLoading, hasNoData }) => {
 
 const WidgetTrend = ({
   trendWord,
+  hideWord,
   description,
   isLoading,
   hasData,
@@ -46,7 +47,7 @@ const WidgetTrend = ({
   return (
     <div className={`${styles.wrapper} ${className}`}>
       <div className={cx(styles.info, infoClassName)}>
-        <span className={styles.word}>{trendWord} </span>
+        {!hideWord && <span className={styles.word}>{trendWord} </span>}
         {description}
       </div>
 

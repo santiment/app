@@ -203,7 +203,7 @@ export class TrendsExplorePage extends Component {
             </div>
           </div>
           <div className={styles.sidebar}>
-            <WordCloud className={styles.wordCloud} word={topic} />
+            <WordCloud className={styles.wordCloud} word={topic} hideWord />
             <Trends className={styles.trends} isCompactView />
           </div>
         </div>
