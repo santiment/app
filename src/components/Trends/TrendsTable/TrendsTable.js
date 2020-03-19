@@ -119,12 +119,7 @@ class TrendsTable extends PureComponent {
           return (
             <>
               <ExplanationTooltip text='Connected trends' offsetY={5}>
-                <span
-                  className={cx(
-                    styles.action__icon,
-                    !hasConnections && styles.action__icon_disabled
-                  )}
-                >
+                <span className={styles.action__icon}>
                   <Icon
                     type='connection-big'
                     className={styles.icon}
@@ -151,10 +146,7 @@ class TrendsTable extends PureComponent {
           const insightsTrigger = (
             <Button variant='flat' className={styles.tooltip__trigger}>
               <ExplanationTooltip text='Connected insights' offsetY={5}>
-                <Icon
-                  className={cx(!insights && styles.action__icon_disabled)}
-                  type='insight'
-                />
+                <Icon type='insight' />
               </ExplanationTooltip>
             </Button>
           )

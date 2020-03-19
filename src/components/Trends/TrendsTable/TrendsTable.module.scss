@@ -27,7 +27,7 @@
 }
 
 .word {
-  color: var(--mirage);
+  color: var(--rhino);
 
   @include text('body-3');
 
@@ -65,15 +65,10 @@
 
   &__icon {
     vertical-align: middle;
-    fill: var(--mirage);
+    fill: var(--rhino);
 
     &:hover {
       fill: var(--jungle-green);
-    }
-
-    &_disabled {
-      pointer-events: none;
-      fill: var(--mystic);
     }
   }
 }
@@ -178,6 +173,7 @@
       align-items: center;
       font-size: 14px !important;
       line-height: 20px !important;
+      color: var(--rhino);
 
       @include responsive('phone', 'phone-xs') {
         justify-content: flex-end;
@@ -240,6 +236,7 @@
   &__trigger {
     background: transparent;
     padding: 6px 7px;
+    fill: var(--rhino);
   }
 }
 
