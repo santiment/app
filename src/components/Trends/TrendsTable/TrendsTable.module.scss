@@ -254,16 +254,16 @@
     background: var(--porcelain);
     color: var(--waterloo);
     font-size: 12px !important;
-    right: 3px;
-    top: -5px;
+    right: 15px;
+    top: 10px;
     padding-top: 1px;
     width: 14px;
     text-align: center;
     pointer-events: none;
 
     &_btn {
-      top: 0;
-      left: 23px;
+      top: 10px;
+      left: 18px;
     }
   }
 }
