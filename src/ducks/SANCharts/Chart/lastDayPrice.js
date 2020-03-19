@@ -15,7 +15,7 @@ export function drawLastDayPrice (chart, scale, price) {
 
   const { min, max } = priceMinMaxes
 
-  const y = scale(height, min, max)(price) + top
+  const y = scale(chart, min, max)(price)
 
   if (y > bottom || y < top) return
 

@@ -24,7 +24,7 @@ import { drawWatermark } from './watermark'
 import { drawPaywall } from './paywall'
 import { onResize, useResizeEffect } from './resize'
 import { drawLastDayPrice, withLastDayPrice } from './lastDayPrice'
-import { clearCtx, findPointIndexByDate } from './utils'
+import { clearCtx, findPointIndexByDate, domainModifier } from './utils'
 import { paintConfigs, dayBrushPaintConfig } from './paintConfigs'
 import styles from './index.module.scss'
 
@@ -37,6 +37,7 @@ const Chart = ({
   bars,
   daybars,
   joinedCategories,
+  domainGroups,
   events = [],
   scale = linearScale,
   slug,
@@ -149,13 +150,19 @@ const Chart = ({
       if (data.length === 0) return
 
       clearCtx(chart)
-      updateChartState(chart, data, joinedCategories)
+      updateChartState(
+        chart,
+        data,
+        joinedCategories,
+        domainModifier,
+        domainGroups
+      )
       if (brush) {
         clearCtx(brush)
         updateBrushState(brush, chart, data)
       }
       plotChart(data)
-      plotAxes(chart)
+      plotAxes(chart, scale)
     },
     [
       data,
@@ -202,20 +209,32 @@ const Chart = ({
     )
 
     if (!brush) {
-      updateChartState(chart, data, joinedCategories)
+      updateChartState(
+        chart,
+        data,
+        joinedCategories,
+        domainModifier,
+        domainGroups
+      )
       plotChart(data)
-      plotAxes(chart)
+      plotAxes(chart, scale)
     }
   }
 
   function onBrushChange (startIndex, endIndex) {
     const newData = data.slice(startIndex, endIndex + 1)
 
-    updateChartState(chart, newData, joinedCategories)
+    updateChartState(
+      chart,
+      newData,
+      joinedCategories,
+      domainModifier,
+      domainGroups
+    )
 
     clearCtx(chart)
     plotChart(newData)
-    plotAxes(chart)
+    plotAxes(chart, scale)
   }
 
   function plotBrushData () {

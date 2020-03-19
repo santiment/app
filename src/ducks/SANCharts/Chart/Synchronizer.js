@@ -91,6 +91,33 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
   const [noPriceMetrics, setNoPriceMetrics] = useState([])
   const [hasPriceMetric, setHasPriceMetric] = useState()
   const [isValidMulti, setIsValidMulti] = useState()
+  const [domainGroups, setDomainGroups] = useState()
+
+  useEffect(
+    () => {
+      const Domain = Object.create(null)
+      const { length } = metrics
+
+      for (let i = 0; i < length; i++) {
+        const { key, domainGroup } = metrics[i]
+
+        if (!domainGroup) continue
+
+        const domain = Domain[domainGroup]
+
+        if (domain) {
+          Domain[domainGroup] += `,${key}`
+        } else {
+          Domain[domainGroup] = `${domainGroup},${key}`
+        }
+      }
+      const newDomainGroups = Object.values(Domain).map(group =>
+        group.split(',')
+      )
+      setDomainGroups(newDomainGroups.length > 0 ? newDomainGroups : undefined)
+    },
+    [metrics]
+  )
 
   useEffect(
     () => {
@@ -143,6 +170,7 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
         syncTooltips,
         hasPriceMetric,
         tooltipKey,
+        domainGroups,
         ...categories,
         events: syncedEvents
       })
@@ -151,6 +179,7 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
       ...syncedCategories[0],
       isMultiChartsActive: false,
       hasPriceMetric,
+      domainGroups,
       events: syncedEvents,
       tooltipKey: getValidTooltipKey(
         getMetricKey(findTooltipMetric(metrics)),

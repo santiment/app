@@ -67,3 +67,25 @@ export function findPointIndexByDate (points, target) {
   const factor = lastIndex / (lastDate - firstDate)
   return Math.round((target - firstDate) * factor)
 }
+
+export function domainModifier (metricKey, minMax) {
+  let { min, max } = minMax
+
+  /*
+  minMax.max *= 1.1
+  minMax.min *= 0.9
+  return
+  */
+
+  const Metric = Metrics[metricKey]
+  if (Metric && Metric.node === 'bar') {
+    max *= 1.1
+    min = 0
+  } else {
+    max *= 1.1
+    min *= 0.9
+  }
+
+  minMax.max = max
+  minMax.min = min
+}

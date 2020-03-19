@@ -27,6 +27,7 @@ export function buildComparedMetric (Comparable) {
     key,
     queryKey: metricKey,
     comparedTicker: ticker,
+    domainGroup: metricKey,
     color: undefined,
     reqMeta: {
       slug
