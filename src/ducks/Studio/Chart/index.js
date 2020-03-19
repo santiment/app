@@ -38,7 +38,8 @@ const Canvas = ({
   ...props
 }) => {
   const [isExplained, setIsExplained] = useState()
-  const MetricColor = useChartColors(metrics)
+  const [FocusedMetric, setFocusedMetric] = useState()
+  const MetricColor = useChartColors(metrics, FocusedMetric)
 
   const isBlurred = isAnon && index > 1
   const hasExplanaibles = filterExplainableMetrics(metrics).length > 0
@@ -61,6 +62,14 @@ const Canvas = ({
     setIsExplained(false)
   }
 
+  function onMetricHover (Metric) {
+    setFocusedMetric(Metric)
+  }
+
+  function onMetricHoverEnd () {
+    setFocusedMetric()
+  }
+
   return (
     <div
       className={cx(
@@ -80,6 +89,8 @@ const Canvas = ({
             loadings={loadings}
             eventLoadings={eventLoadings}
             isMultiChartsActive={isMultiChartsActive}
+            onMetricHover={onMetricHover}
+            onMetricHoverEnd={onMetricHoverEnd}
           />
         </div>
 

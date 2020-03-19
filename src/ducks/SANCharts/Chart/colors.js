@@ -29,7 +29,7 @@ MetricColorMap.set(Metrics.daily_active_addresses, ORANGE)
 MetricColorMap.set(Metrics.dev_activity, VIOLET)
 
 const INITIAL_STATE = {}
-export function useChartColors (metrics) {
+export function useChartColors (metrics, FocusedMetric) {
   const [chartColors, setChartColors] = useState(INITIAL_STATE)
 
   useEffect(
@@ -39,15 +39,19 @@ export function useChartColors (metrics) {
       let freeColorIndex = 0
 
       for (let i = 0; i < length; i++) {
-        const metric = metrics[i]
+        const Metric = metrics[i]
 
-        newColors[metric.key] =
-          MetricColorMap.get(metric) || COLORS[freeColorIndex++]
+        let color = MetricColorMap.get(Metric) || COLORS[freeColorIndex++]
+        if (FocusedMetric && Metric !== FocusedMetric) {
+          color += '55'
+        }
+
+        newColors[Metric.key] = color
       }
 
       setChartColors(newColors)
     },
-    [metrics]
+    [metrics, FocusedMetric]
   )
 
   return chartColors
