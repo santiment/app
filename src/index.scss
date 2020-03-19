@@ -17,6 +17,7 @@
   src: url('assets/fonts/ProximaNova-Bold.woff2') format('woff2');
   font-weight: bold;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -24,6 +25,7 @@
   src: url('assets/fonts/ProximaNova-Regular.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -31,6 +33,7 @@
   src: url('assets/fonts/ProximaNova-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -38,6 +41,7 @@
   src: url('assets/fonts/ProximaNova-Semibold.woff2') format('woff2');
   font-weight: 600;
   font-style: normal;
+  font-display: swap;
 }
 
 body {
