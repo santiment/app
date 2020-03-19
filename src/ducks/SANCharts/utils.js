@@ -3,7 +3,7 @@ import { YAxis, Bar, Line, Area } from 'recharts'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import { formatNumber, millify } from './../../utils/formatting'
 import ActiveLine from './tooltip/ActiveLine'
-import { Metrics, Events, tooltipSettings } from './data'
+import { Metrics, Events, tooltipSettings } from './metrics/data'
 
 export const mapDatetimeToNumber = timeseries =>
   timeseries.map(({ datetime, ...rest }) => ({

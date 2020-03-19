@@ -10,8 +10,7 @@ import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from '../../GetTimeSeries/queries
 import { ETH_SPENT_OVER_TIME_QUERY } from '../../GetTimeSeries/queries/eth_spent_over_time_query'
 import { PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES } from '../../GetTimeSeries/queries/percent_of_token_supply_on_exchanges_query'
 import { aliasTransform } from './utils'
-import { SOCIAL_TWITTER_INTERVALS } from '../../SANCharts/data'
-
+import { SOCIAL_TWITTER_INTERVALS } from '../../SANCharts/metrics/submetrics'
 const preTransform = ({
   data: {
     getMetric: { timeseriesData }

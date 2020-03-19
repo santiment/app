@@ -11,7 +11,7 @@ import {
 } from '../page/HistoricalBalancePage'
 import { mapStateToQS } from '../../../utils/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
-import { Metrics } from '../../SANCharts/data'
+import { Metrics } from '../../SANCharts/metrics/data'
 import PageLoader from '../../../components/Loader/PageLoader'
 import BalanceViewWalletAssets from './BalanceViewWalletAssets'
 import { Area } from 'recharts'

@@ -6,7 +6,7 @@ import {
   buildPriceSignal,
   buildPricePercentUpDownSignal
 } from '../../../Signals/utils/utils'
-import { Metrics } from '../../../SANCharts/data'
+import { Metrics } from '../../../SANCharts/metrics/data'
 
 const { formatter } = Metrics.price_usd
 

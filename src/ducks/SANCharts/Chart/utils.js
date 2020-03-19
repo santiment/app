@@ -1,4 +1,4 @@
-import { Metrics } from '../data'
+import { Metrics } from '../metrics/data'
 import {
   getDateFormats,
   getTimeFormats,

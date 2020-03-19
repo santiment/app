@@ -9,7 +9,12 @@ import Chart from './Chart'
 import Synchronizer, { getSyncedColors } from './Chart/Synchronizer'
 import Header from './Header'
 import { getMarketSegment, mapDatetimeToNumber } from './utils'
-import { Metrics, Events, compatabilityMap, ASSETS_SIDEBAR } from './data'
+import {
+  Metrics,
+  Events,
+  compatabilityMap,
+  ASSETS_SIDEBAR
+} from './metrics/data'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import GA from './../../utils/tracking'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'

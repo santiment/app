@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 import { extractTimeseries } from './utils'
-import { tooltipSettings } from '../../SANCharts/data'
+import { tooltipSettings } from '../../SANCharts/metrics/data'
 
 export const GET_MARKET_SEGMENT_QUERY = ({ key }) => gql`
   query devActivity(

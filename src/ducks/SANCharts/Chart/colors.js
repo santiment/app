@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Metrics } from '../data'
+import { Metrics } from '../metrics/data'
 
 // RESERVED COLORS
 const GREEN = '#26C953'

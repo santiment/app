@@ -1,6 +1,6 @@
 import { getIntervalByTimeRange } from '../../utils/dates'
 import { getNewInterval } from '../../ducks/SANCharts/IntervalSelector'
-import { Metrics } from '../../ducks/SANCharts/data'
+import { Metrics } from '../SANCharts/metrics/data'
 import { getSavedToggle } from '../../utils/localStorage'
 
 const DEFAULT_TIME_RANGE = '6m'

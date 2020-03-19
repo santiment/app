@@ -1,7 +1,7 @@
 import React from 'react'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import Button from '@santiment-network/ui/Button'
-import { Events } from './data'
+import { Events } from './metrics/data'
 import styles from './MetricExplanation.module.scss'
 
 const Note = ({ children }) => (

@@ -4,7 +4,7 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import { NO_GROUP } from './utils'
 import MetricExplanation from '../../SANCharts/MetricExplanation'
-import { Metrics } from '../../SANCharts/data'
+import { Metrics } from '../../SANCharts/metrics/data'
 import styles from './MetricSelector.module.scss'
 
 const { price_usd } = Metrics

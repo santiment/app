@@ -14,7 +14,7 @@ import {
 import { calcPercentageChange } from '../../utils/utils'
 import { makeRequestedData } from '../../pages/Detailed/mobile/utils'
 import { METRIC_ANOMALIE_QUERY } from '../../ducks/GetTimeSeries/queries/metric_anomaly_query'
-import { Metrics, Events } from '../../ducks/SANCharts/data'
+import { Metrics, Events } from '../../ducks/SANCharts/metrics/data'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import SwipeableCard from './SwipeableCard'
 import styles from './MobileMetricCard.module.scss'

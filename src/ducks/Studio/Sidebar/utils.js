@@ -1,4 +1,4 @@
-import { Metrics, tooltipSettings } from '../../../ducks/SANCharts/data'
+import { Metrics, tooltipSettings } from '../../SANCharts/metrics/data'
 
 export const NO_GROUP = '_'
 

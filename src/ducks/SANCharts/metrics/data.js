@@ -1,8 +1,13 @@
 import React from 'react'
 import { Line, Bar, Area } from 'recharts'
-import { usdFormatter } from './utils'
-import { millify } from '../../utils/formatting'
-import { getDateFormats, getTimeFormats } from '../../utils/dates'
+import { usdFormatter } from '../utils'
+import { millify } from '../../../utils/formatting'
+import { getDateFormats, getTimeFormats } from '../../../utils/dates'
+import {
+  SOCIAL_TWITTER_INTERVALS,
+  Submetrics,
+  TWITTER_FOLLOWERS_TYPE
+} from './submetrics'
 
 export const Events = {
   trendPositionHistory: {
@@ -36,8 +41,6 @@ export const Events = {
     formatter: val => Metrics[val].label
   }
 }
-
-export const SOCIAL_TWITTER_INTERVALS = ['7d', '24h']
 
 export const Metrics = {
   price_usd: {
@@ -395,29 +398,7 @@ export const Metrics = {
     Component: Line,
     label: 'Twitter',
     description: `Shows the number of followers on the project's official Twitter account over time`,
-    subMetrics: SOCIAL_TWITTER_INTERVALS.map(interval => {
-      const key = 'twitter_followers'
-      return {
-        queryKey: key,
-        key: `${key}_${interval}`,
-        keyAlias: key,
-        category: 'Social',
-        node: 'line',
-        Component: Line,
-        label: `Twitter Changes (${interval})`,
-        shortLabel: `Twitter ${interval} changes`,
-        description: (
-          <>
-            Shows the number changes of followers on the project's official
-            Twitter account over time.
-          </>
-        ),
-        reqMeta: {
-          interval,
-          transform: { type: 'changes' }
-        }
-      }
-    })
+    subMetrics: Submetrics[TWITTER_FOLLOWERS_TYPE]
   },
   social_dominance_total: {
     category: 'Social',

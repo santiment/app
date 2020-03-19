@@ -1,7 +1,7 @@
 import { graphql } from 'react-apollo'
 import { getTextWidth } from '@santiment-network/chart/utils'
 import COLOR from '@santiment-network/ui/variables.scss'
-import { Metrics, tooltipSettings } from '../data'
+import { Metrics, tooltipSettings } from '../metrics/data'
 import { ONE_DAY_IN_MS } from '../../../utils/dates'
 import { GET_METRIC } from '../../GetTimeSeries/queries/get_metric'
 

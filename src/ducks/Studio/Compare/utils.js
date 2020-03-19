@@ -1,4 +1,4 @@
-import { Metrics, tooltipSettings } from '../../SANCharts/data'
+import { Metrics, tooltipSettings } from '../../SANCharts/metrics/data'
 
 const comparedMetricsCache = new Map()
 

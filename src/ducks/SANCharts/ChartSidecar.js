@@ -8,7 +8,7 @@ import RecentlyWatched, {
 } from '../../components/RecentlyWatched/RecentlyWatched'
 import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
 import Footer from '../../components/Footer'
-import { ASSETS_SIDEBAR } from './data'
+import { ASSETS_SIDEBAR } from './metrics/data'
 import styles from './ChartSidecar.module.scss'
 
 const ChartSidecar = ({

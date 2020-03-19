@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import COLOR from '@santiment-network/ui/variables.scss'
 import { getValidTooltipKey, findTooltipMetric } from './utils'
 import { setupColorGenerator } from '../utils'
-import { Metrics } from '../data'
+import { Metrics } from '../metrics/data'
 
 const cache = new Map()
 

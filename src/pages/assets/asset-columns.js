@@ -5,7 +5,7 @@ import { Panel, Tooltip, Label } from '@santiment-network/ui'
 import { formatNumber, millify } from '../../utils/formatting'
 import ProjectLabel from '../../components/ProjectLabel'
 import PercentChanges from '../../components/PercentChanges'
-import { Metrics } from '../../ducks/SANCharts/data'
+import { Metrics } from '../../ducks/SANCharts/metrics/data'
 import styles from './AssetsToggleColumns.module.scss'
 
 const simpleSort = (a, b) => b - a
