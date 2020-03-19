@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import withSizes from 'react-sizes'
 import { compose, withProps, branch, renderComponent } from 'recompose'
 import {
@@ -15,16 +15,15 @@ import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import { formatNumber } from './../../utils/formatting'
 import { mergeTimeseriesByKey } from './../../utils/utils'
+import CommonChartTooltip from '../../ducks/SANCharts/tooltip/CommonChartTooltip'
 import { sourcesMeta as chartsMeta } from './trendsUtils'
+import SocialDominanceToggle from './SocialDominanceToggle'
 import { getDateFormats } from '../../utils/dates'
 import { mapSizesToProps } from '../../utils/withSizes'
 import styles from './TrendsReChart.module.scss'
 
 const toggleCharts = Object.keys(chartsMeta).filter(key => key !== 'total')
-
-const ASSET_PRICE_COLOR = '#A4ACB7'
 
 const Loading = () => <Loader className={styles.loader} />
 
@@ -81,11 +80,6 @@ const tickFormatter = date => {
   return `${DD} ${MMM}`
 }
 
-const labelFormatter = date => {
-  const { dddd, MMM, DD, YYYY } = getDateFormats(new Date(date))
-  return `${dddd}, ${MMM} ${DD} ${YYYY}`
-}
-
 const TrendsReChart = ({
   chartSummaryData = [],
   chartData,
@@ -93,6 +87,7 @@ const TrendsReChart = ({
   isDesktop
 }) => {
   const [disabledToggles, setDisabledToggles] = useToggles(toggleCharts)
+  const [showDominance, setShowDominance] = useState(false)
 
   return (
     <div>
@@ -100,94 +95,123 @@ const TrendsReChart = ({
         .filter(({ index }) => !disabledToggles.includes(index))
         .map((entity, key) => (
           <div key={key}>
-            <ResponsiveContainer width='100%' height={isDesktop ? 300 : 250}>
-              <ComposedChart
-                data={chartData}
-                syncId='trends'
-                margin={getChartMargins(isDesktop)}
-              >
-                <XAxis
-                  dataKey='datetime'
-                  tickLine={false}
-                  tickMargin={5}
-                  minTickGap={60}
-                  tickFormatter={tickFormatter}
+            <div className={styles.chart}>
+              <ResponsiveContainer width='100%' height={isDesktop ? 300 : 250}>
+                <ComposedChart
+                  data={chartData}
+                  syncId='trends'
+                  margin={getChartMargins(isDesktop)}
+                >
+                  <XAxis
+                    dataKey='datetime'
+                    tickLine={false}
+                    tickMargin={5}
+                    minTickGap={60}
+                    tickFormatter={tickFormatter}
+                  />
+                  <YAxis />
+                  <YAxis
+                    yAxisId='axis-price'
+                    hide
+                    domain={['auto', 'dataMax']}
+                  />
+                  <YAxis
+                    yAxisId='axis-dominance'
+                    hide
+                    domain={['auto', 'dataMax']}
+                  />
+                  <CartesianGrid
+                    vertical={false}
+                    strokeDasharray='4 10'
+                    stroke='var(--porcelain)'
+                  />
+                  <Tooltip
+                    isAnimationActive={false}
+                    cursor={{ stroke: 'var(--casper)' }}
+                    position={{ x: 60, y: 0 }}
+                    content={<CommonChartTooltip />}
+                  />
+                  <Line
+                    type='linear'
+                    dataKey={entity.index}
+                    dot={false}
+                    strokeWidth={2}
+                    name={entity.name}
+                    stroke={`var(--${entity.color})`}
+                    activeDot={false}
+                  />
+                  {showDominance && key === 0 && (
+                    <Line
+                      type='linear'
+                      dot={false}
+                      strokeWidth={2}
+                      dataKey='dominance'
+                      yAxisId='axis-dominance'
+                      name={'Social Dominance'}
+                      stroke='var(--texas-rose)'
+                      activeDot={false}
+                    />
+                  )}
+                  <Line
+                    type='linear'
+                    yAxisId='axis-price'
+                    name={asset + '/USD'}
+                    dot={false}
+                    activeDot={false}
+                    strokeWidth={1.5}
+                    dataKey='price_usd'
+                    stroke='var(--mystic)'
+                  />
+                  <Legend
+                    verticalAlign='bottom'
+                    align='right'
+                    wrapperStyle={{
+                      padding: '24px 14px',
+                      marginBottom: '-24px',
+                      right: 0,
+                      left: 0,
+                      width: 'auto !important',
+                      borderTop: '1px solid var(--porcelain)'
+                    }}
+                  />
+                </ComposedChart>
+              </ResponsiveContainer>
+              {key === 0 && (
+                <SocialDominanceToggle
+                  className={styles.dominance}
+                  isActive={showDominance}
+                  toggleDominance={() => setShowDominance(!showDominance)}
                 />
-                <YAxis />
-                <YAxis
-                  yAxisId='axis-price'
-                  hide
-                  tickFormatter={priceUsd =>
-                    formatNumber(priceUsd, { currency: 'USD' })
-                  }
-                  domain={['auto', 'dataMax']}
-                />
-                <CartesianGrid vertical={false} stroke='#ebeef5' />
-                <Tooltip
-                  labelFormatter={labelFormatter}
-                  formatter={(value, name) => {
-                    if (name === `${asset}/USD`) {
-                      return formatNumber(value, { currency: 'USD' })
-                    }
-                    return value
-                  }}
-                />
-                <Line
-                  type='linear'
-                  dataKey={entity.index}
-                  dot={false}
-                  strokeWidth={entity.index === 'merged' ? 1.5 : 2}
-                  name={entity.name}
-                  stroke={`var(--${entity.color})`}
-                />
-                <Line
-                  type='linear'
-                  yAxisId='axis-price'
-                  name={asset + '/USD'}
-                  dot={false}
-                  strokeWidth={1.5}
-                  dataKey='price_usd'
-                  stroke={ASSET_PRICE_COLOR}
-                />
-                <Legend
-                  verticalAlign='bottom'
-                  align='right'
-                  wrapperStyle={{
-                    padding: '24px 14px',
-                    marginBottom: '-24px',
-                    right: 0,
-                    left: 0,
-                    width: 'auto !important',
-                    borderTop: '1px solid var(--porcelain)'
-                  }}
-                />
-              </ComposedChart>
-            </ResponsiveContainer>
+              )}
+            </div>
             {key === 0 && (
-              <div className={styles.toggles}>
-                <h4 className={styles.title}>Detailed charts</h4>
-                {toggleCharts.map(key => {
-                  const { index, name, color } = chartsMeta[key]
-                  return (
-                    <Button
-                      key={index}
-                      onClick={() => setDisabledToggles(index)}
-                      className={cx(
-                        styles.toggle,
-                        !disabledToggles.includes(index) && styles.toggle_active
-                      )}
-                      border={!disabledToggles.includes(index)}
-                    >
-                      <Label
-                        className={styles.label}
-                        accent={color}
-                        variant='circle'
-                      />{' '}
-                      {name}
-                    </Button>
-                  )
-                })}
-              </div>
+              <>
+                <div className={styles.toggles}>
+                  <h4 className={styles.title}>Detailed charts</h4>
+                  {toggleCharts.map(key => {
+                    const { index, name, color } = chartsMeta[key]
+                    return (
+                      <Button
+                        key={index}
+                        onClick={() => setDisabledToggles(index)}
+                        className={cx(
+                          styles.toggle,
+                          !disabledToggles.includes(index) &&
+                            styles.toggle_active
+                        )}
+                        border={!disabledToggles.includes(index)}
+                      >
+                        <Label
+                          className={styles.label}
+                          accent={color}
+                          variant='circle'
+                        />{' '}
+                        {name}
+                      </Button>
+                    )
+                  })}
+                </div>
+              </>
             )}
           </div>
         ))}
@@ -214,8 +238,15 @@ export const addTotal = (
   }, [])
 }
 
-const getTimeseries = (sourceName, trends) =>
-  ((trends.sources || {})[sourceName] || []).map(el => {
+const addSocialDominance = (wordData, totalData) =>
+  wordData.map((item, idx) => {
+    const totalItem = totalData[idx]
+    const dominance = (item.total * 100) / totalItem.total
+    return { dominance, ...item }
+  })
+
+const getTimeseries = (sourceName, trends, key = 'sources') =>
+  ((trends[key] || {})[sourceName] || []).map(el => {
     return {
       datetime: el.datetime,
       [sourceName]: el.mentionsCount
@@ -266,11 +297,31 @@ export default compose(
       return { isLoading: true }
     }
 
-    const _chartData = mergeTimeseriesByKey({
-      timeseries: [items, telegram, reddit, professional_traders_chat, discord],
-      key: 'datetime'
-    })
-    const chartData = addTotal(_chartData)
+    const _chartData = addTotal(
+      mergeTimeseriesByKey({
+        timeseries: [
+          items,
+          telegram,
+          reddit,
+          professional_traders_chat,
+          discord
+        ],
+        key: 'datetime'
+      })
+    )
+
+    const totalMentions = addTotal(
+      mergeTimeseriesByKey({
+        timeseries: [
+          getTimeseries('telegram', trends, 'sourcesTotal'),
+          getTimeseries('reddit', trends, 'sourcesTotal'),
+          getTimeseries('professional_traders_chat', trends, 'sourcesTotal'),
+          getTimeseries('discord', trends, 'sourcesTotal')
+        ],
+        key: 'datetime'
+      })
+    )
+    const chartData = addSocialDominance(_chartData, totalMentions)
 
     if (
       telegram.length === 0 &&
