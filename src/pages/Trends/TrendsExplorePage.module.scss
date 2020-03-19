@@ -61,6 +61,11 @@
   border-radius: 4px;
   padding: 18px 0 24px;
   margin: 24px 0 0;
+  z-index: 0;
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    margin: 24px 0;
+  }
 }
 
 .chartSettings {
@@ -157,7 +162,7 @@
     width: 32vw;
     margin-left: 24px;
     border-left: 1px solid var(--porcelain);
-    padding: 22px 24px;
+    padding: 22px 24px 0;
     height: calc(100vh - 100px);
     overflow: hidden;
 
@@ -189,6 +194,7 @@
 
 .wordCloud {
   min-width: 281px;
+  height: 190px;
 
   @include responsive('tablet') {
     height: auto !important;
