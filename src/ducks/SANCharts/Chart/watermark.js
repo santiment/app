@@ -8,7 +8,7 @@ const path =
 export function drawWatermark ({ ctx, top, right }) {
   ctx.save()
   ctx.translate(right - 125, top + 5)
-  ctx.fillStyle = '#D2D6E7'
+  ctx.fillStyle = '#D2D6E788'
   ctx.fill(path)
   ctx.restore()
 }

@@ -31,7 +31,7 @@ const yFormatter = value => {
   return Math.trunc(value)
 }
 
-export function plotAxes (chart) {
+export function plotAxes (chart, scale) {
   const {
     tooltipKey,
     ticksPaintConfig = dayTicksPaintConfig,
@@ -44,6 +44,7 @@ export function plotAxes (chart) {
     tooltipKey,
     isDayInterval(chart) ? getDateHoursMinutes : getDateDayMonthYear,
     yFormatter,
-    ticksPaintConfig
+    ticksPaintConfig,
+    scale
   )
 }

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Metrics } from '../data'
 
+const ALPHA_CHANNEL = '55'
+
 // RESERVED COLORS
 const GREEN = '#26C953'
 const CYAN = '#68DBF4'
@@ -9,28 +11,27 @@ const ORANGE = '#FFAD4D'
 const GRAY = '#D2D6E7'
 
 export const COLORS = [
-  '#5275FF', // BLUE
+  '#AC948C', // BROWN-GRAY
+  '#F47BF7', // PURPLE
   '#FF5B5B', // RED
   '#FFCB47', // YELLOW
-  '#D4E763', // YELLOW-GREEN
-  '#F47BF7', // PURPLE
   '#785549', // BROWN
-  '#AC948C', // BROWN-GRAY
-  '#37D7BA', // AQUAMARINE
+  '#5275FF', // BLUE
   '#FF8450', // SALMON
-  '#FFDAC5' // PEACH
+  '#D4E763', // YELLOW-GREEN
+  '#FFDAC5', // PEACH
+  '#37D7BA' // AQUAMARINE
 ]
 
 const MetricColorMap = new Map()
 MetricColorMap.set(Metrics.price_usd, GREEN)
 MetricColorMap.set(Metrics.volume_usd, GRAY)
-MetricColorMap.set(Metrics.marketcap_usd, CYAN)
 MetricColorMap.set(Metrics.social_volume_total, CYAN)
 MetricColorMap.set(Metrics.daily_active_addresses, ORANGE)
 MetricColorMap.set(Metrics.dev_activity, VIOLET)
 
 const INITIAL_STATE = {}
-export function useChartColors (metrics) {
+export function useChartColors (metrics, FocusedMetric) {
   const [chartColors, setChartColors] = useState(INITIAL_STATE)
 
   useEffect(
@@ -40,15 +41,19 @@ export function useChartColors (metrics) {
       let freeColorIndex = 0
 
       for (let i = 0; i < length; i++) {
-        const metric = metrics[i]
+        const Metric = metrics[i]
 
-        newColors[metric.key] =
-          MetricColorMap.get(metric) || COLORS[freeColorIndex++]
+        let color = MetricColorMap.get(Metric) || COLORS[freeColorIndex++]
+        if (FocusedMetric && Metric !== FocusedMetric) {
+          color += ALPHA_CHANNEL
+        }
+
+        newColors[Metric.key] = color
       }
 
       setChartColors(newColors)
     },
-    [metrics]
+    [metrics, FocusedMetric]
   )
 
   return chartColors

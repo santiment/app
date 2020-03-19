@@ -6,6 +6,7 @@ import {
 } from '../../../utils/dates'
 import { millify } from '../../../utils/formatting'
 
+const DEFAULT_DOMAIN_METRIC_KEYS = [Metrics.historyTwitterData.key]
 const DAY_INTERVAL = ONE_DAY_IN_MS * 2
 
 export function isDayInterval (chart) {
@@ -66,4 +67,24 @@ export function findPointIndexByDate (points, target) {
 
   const factor = lastIndex / (lastDate - firstDate)
   return Math.round((target - firstDate) * factor)
+}
+
+export function domainModifier (metricKey, minMax) {
+  if (DEFAULT_DOMAIN_METRIC_KEYS.some(key => metricKey.startsWith(key))) {
+    return
+  }
+
+  let { min, max } = minMax
+
+  const Metric = Metrics[metricKey]
+  if (Metric && Metric.node === 'bar') {
+    max *= 1.1
+    min = 0
+  } else {
+    max *= 1.1
+    min *= 0.9
+  }
+
+  minMax.max = max
+  minMax.min = min
 }

@@ -38,7 +38,8 @@ const Canvas = ({
   ...props
 }) => {
   const [isExplained, setIsExplained] = useState()
-  const MetricColor = useChartColors(metrics)
+  const [FocusedMetric, setFocusedMetric] = useState()
+  const MetricColor = useChartColors(metrics, FocusedMetric)
 
   const isBlurred = isAnon && index > 1
   const hasExplanaibles = filterExplainableMetrics(metrics).length > 0
@@ -53,12 +54,22 @@ const Canvas = ({
     [hasExplanaibles]
   )
 
+  useEffect(onMetricHoverEnd, [metrics])
+
   function toggleExplanation () {
     setIsExplained(state => !state)
   }
 
   function closeExplanation () {
     setIsExplained(false)
+  }
+
+  function onMetricHover (Metric) {
+    setFocusedMetric(Metric)
+  }
+
+  function onMetricHoverEnd () {
+    setFocusedMetric()
   }
 
   return (
@@ -80,6 +91,8 @@ const Canvas = ({
             loadings={loadings}
             eventLoadings={eventLoadings}
             isMultiChartsActive={isMultiChartsActive}
+            onMetricHover={onMetricHover}
+            onMetricHoverEnd={onMetricHoverEnd}
           />
         </div>
 
@@ -162,11 +175,7 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps)(
   ({ options, events, activeMetrics, ...rest }) => {
     return (
-      <Synchronizer
-        isMultiChartsActive={options.isMultiChartsActive}
-        metrics={activeMetrics}
-        events={events}
-      >
+      <Synchronizer {...options} metrics={activeMetrics} events={events}>
         <Canvas
           options={options}
           events={events}

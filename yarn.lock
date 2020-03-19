@@ -1550,15 +1550,15 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@santiment-network/chart@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@santiment-network/chart/-/chart-0.1.2.tgz#f46e1ff875fc5ad5533fd42c1fb254e7baa9671d"
-  integrity sha512-MU0M6qRfQtGf5C7FrbwfVl1QznT960Mu8G/hUPAyL+NiqlgFieA8qx0B9wQGDt1i+uoluOLHC1Eq0MIqFe6ftw==
+"@santiment-network/chart@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@santiment-network/chart/-/chart-0.2.0.tgz#7a1a9076617e02ea1c3a628bdb9ba076b40b52cd"
+  integrity sha512-nVBRm9nGoXj+SrTMKAxls4wdE4GLHxd4aXbrwDIzILJHf1tT1KgpppbCe6r/IbKgaHp8XAuKEDXbRw4fk65EKw==
 
-"@santiment-network/ui@^0.5.154":
-  version "0.5.154"
-  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.154.tgz#fef05216a2798267475404c6a20096d2af3fdcb9"
-  integrity sha512-P7zbc8StYlRxx9QMaY7o0vguuB0cuiVLCfvFpUNv2T8vJ0YSxQiCHviuU7VV9BuQOG8NNoI5RNTqr6xSoo0nRA==
+"@santiment-network/ui@^0.5.158":
+  version "0.5.158"
+  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.158.tgz#080efd756bf3498a135e7f279b5b6d9d99798f14"
+  integrity sha512-ioiT8Sc0zE7cI37anKhznZ0Rt8hDrn7fC1I0m+/jdmZvFdKVyIwBMTMqr2FxjaOIcKrACVvCCt/XV20yeo3ESw==
 
 "@sheerun/eslint-config-standard@^10.2.1":
   version "10.2.1"
