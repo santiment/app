@@ -16,9 +16,13 @@
 .header {
   padding: 13px 23px;
 
-  &_empty {
+  &__empty {
     padding: 0;
     border: none;
+  }
+
+  &__compact {
+    padding: 10px 23px;
   }
 }
 
@@ -27,8 +31,10 @@
 
   @include text('body-3');
 
-  font-size: 14px !important;
-  line-height: 20px !important;
+  @include responsive('laptop', 'desktop', 'tablet') {
+    font-size: 14px !important;
+    line-height: 20px !important;
+  }
 
   @include responsive('phone', 'phone-xs') {
     @include text('body-2');
@@ -73,9 +79,11 @@
 }
 
 .table:global(.ReactTable) {
+  /* stylelint-disable */
   & {
     border: none;
   }
+  /* stylelint-enable */
 
   :global {
     .rt-thead.-header {
@@ -98,7 +106,8 @@
       text-align: left !important;
       text-transform: initial;
       color: var(--casper);
-      line-height: 18px;
+      line-height: 16px;
+      font-weight: 600;
       padding: 7px 0 !important;
 
       @include responsive('phone', 'phone-xs') {
@@ -113,6 +122,10 @@
         &:first-child {
           justify-content: flex-start;
         }
+
+        &:nth-of-type(2) {
+          justify-content: center;
+        }
       }
     }
 
@@ -123,7 +136,7 @@
       &:hover {
         background: var(--athens);
         cursor: pointer;
-
+        /* stylelint-disable */
         :local {
           .word {
             color: var(--jungle-green);
@@ -137,6 +150,7 @@
             }
           }
         }
+        /* stylelint-enable */
       }
 
       @include responsive('phone', 'phone-xs') {
@@ -173,17 +187,21 @@
         &:first-child {
           justify-content: flex-start;
         }
+
+        &:nth-of-type(2) {
+          justify-content: center;
+        }
       }
     }
+  }
 
-    .rt-tr {
-      align-items: center;
-    }
+  .rt-tr {
+    align-items: center;
+  }
 
-    .rt-tr:hover {
-      background: initial !important;
-      transition: initial;
-    }
+  .rt-tr:hover {
+    background: initial !important;
+    transition: initial;
   }
 }
 
@@ -194,7 +212,7 @@
   @include responsive('phone', 'phone-xs') {
     font-size: 16px !important;
     line-height: 22px !important;
-    margin: 0 16px;
+    text-align: right;
   }
 }
 
@@ -206,7 +224,7 @@
   @include responsive('phone', 'phone-xs') {
     font-size: 16px !important;
     line-height: 22px !important;
-    margin-left: auto;
+    margin-left: 7px;
   }
 }
 
@@ -236,16 +254,16 @@
     background: var(--porcelain);
     color: var(--waterloo);
     font-size: 12px !important;
-    right: 3px;
-    top: -5px;
+    right: 15px;
+    top: 10px;
     padding-top: 1px;
     width: 14px;
     text-align: center;
     pointer-events: none;
 
     &_btn {
-      top: 0;
-      left: 23px;
+      top: 10px;
+      left: 18px;
     }
   }
 }
@@ -261,4 +279,15 @@
 
 .icon {
   vertical-align: middle;
+}
+
+.compact:global(.ReactTable) {
+  /* stylelint-disable */
+  :global {
+    .rt-tr-group {
+      height: 32px;
+      border-bottom: none !important;
+    }
+  }
+  /* stylelint-enable */
 }

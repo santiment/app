@@ -1,6 +1,5 @@
 import React from 'react'
 import withSizes from 'react-sizes'
-import { Query } from 'react-apollo'
 import { compose, withProps, branch, renderComponent } from 'recompose'
 import {
   ResponsiveContainer,
@@ -13,15 +12,13 @@ import {
   Tooltip
 } from 'recharts'
 import cx from 'classnames'
-import { Panel, Button, Label } from '@santiment-network/ui'
+import Label from '@santiment-network/ui/Label'
+import Button from '@santiment-network/ui/Button'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import { formatNumber } from './../../utils/formatting'
 import { mergeTimeseriesByKey } from './../../utils/utils'
 import { sourcesMeta as chartsMeta } from './trendsUtils'
-import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
-import { getCurrentSanbaseSubscription } from '../../utils/plans'
 import { getDateFormats } from '../../utils/dates'
-import displayPaywall from '../../ducks/SANCharts/Paywall'
-import paywallBoundaries from '../../pages/Studio/paywallBoundaries'
 import { mapSizesToProps } from '../../utils/withSizes'
 import styles from './TrendsReChart.module.scss'
 
@@ -29,7 +26,7 @@ const toggleCharts = Object.keys(chartsMeta).filter(key => key !== 'total')
 
 const ASSET_PRICE_COLOR = '#A4ACB7'
 
-const Loading = () => <h2 style={{ marginLeft: 30 }}>Loading...</h2>
+const Loading = () => <Loader className={styles.loader} />
 
 const Empty = () => (
   <h2 style={{ marginLeft: 30 }}>
@@ -80,8 +77,8 @@ const useToggles = (defaultState = []) => {
 }
 
 const tickFormatter = date => {
-  const { DD, MMM, YYYY } = getDateFormats(new Date(date))
-  return `${DD} ${MMM} ${YYYY}`
+  const { DD, MMM } = getDateFormats(new Date(date))
+  return `${DD} ${MMM}`
 }
 
 const labelFormatter = date => {
@@ -93,116 +90,108 @@ const TrendsReChart = ({
   chartSummaryData = [],
   chartData,
   asset,
-  isDesktop,
-  hasPremium
+  isDesktop
 }) => {
   const [disabledToggles, setDisabledToggles] = useToggles(toggleCharts)
 
   return (
-    <Query query={USER_SUBSCRIPTIONS_QUERY}>
-      {({ data: { currentUser } = {} }) => {
-        const subscription = getCurrentSanbaseSubscription(currentUser)
-        const userPlan = subscription ? subscription.plan.name : 'FREE'
-        const boundaries = paywallBoundaries[userPlan]
-        return (
-          <div className='TrendsExploreChart'>
-            {chartSummaryData
-              .filter(({ index }) => !disabledToggles.includes(index))
-              .map((entity, key) => (
-                <Panel key={key} style={{ marginTop: '1rem' }}>
-                  <ResponsiveContainer
-                    width='100%'
-                    height={isDesktop ? 300 : 250}
-                  >
-                    <ComposedChart
-                      data={chartData}
-                      syncId='trends'
-                      margin={getChartMargins(isDesktop)}
+    <div>
+      {chartSummaryData
+        .filter(({ index }) => !disabledToggles.includes(index))
+        .map((entity, key) => (
+          <div key={key}>
+            <ResponsiveContainer width='100%' height={isDesktop ? 300 : 250}>
+              <ComposedChart
+                data={chartData}
+                syncId='trends'
+                margin={getChartMargins(isDesktop)}
+              >
+                <XAxis
+                  dataKey='datetime'
+                  tickLine={false}
+                  tickMargin={5}
+                  minTickGap={60}
+                  tickFormatter={tickFormatter}
+                />
+                <YAxis />
+                <YAxis
+                  yAxisId='axis-price'
+                  hide
+                  tickFormatter={priceUsd =>
+                    formatNumber(priceUsd, { currency: 'USD' })
+                  }
+                  domain={['auto', 'dataMax']}
+                />
+                <CartesianGrid vertical={false} stroke='#ebeef5' />
+                <Tooltip
+                  labelFormatter={labelFormatter}
+                  formatter={(value, name) => {
+                    if (name === `${asset}/USD`) {
+                      return formatNumber(value, { currency: 'USD' })
+                    }
+                    return value
+                  }}
+                />
+                <Line
+                  type='linear'
+                  dataKey={entity.index}
+                  dot={false}
+                  strokeWidth={entity.index === 'merged' ? 1.5 : 2}
+                  name={entity.name}
+                  stroke={`var(--${entity.color})`}
+                />
+                <Line
+                  type='linear'
+                  yAxisId='axis-price'
+                  name={asset + '/USD'}
+                  dot={false}
+                  strokeWidth={1.5}
+                  dataKey='price_usd'
+                  stroke={ASSET_PRICE_COLOR}
+                />
+                <Legend
+                  verticalAlign='bottom'
+                  align='right'
+                  wrapperStyle={{
+                    padding: '24px 14px',
+                    marginBottom: '-24px',
+                    right: 0,
+                    left: 0,
+                    width: 'auto !important',
+                    borderTop: '1px solid var(--porcelain)'
+                  }}
+                />
+              </ComposedChart>
+            </ResponsiveContainer>
+            {key === 0 && (
+              <div className={styles.toggles}>
+                <h4 className={styles.title}>Detailed charts</h4>
+                {toggleCharts.map(key => {
+                  const { index, name, color } = chartsMeta[key]
+                  return (
+                    <Button
+                      key={index}
+                      onClick={() => setDisabledToggles(index)}
+                      className={cx(
+                        styles.toggle,
+                        !disabledToggles.includes(index) && styles.toggle_active
+                      )}
+                      border={!disabledToggles.includes(index)}
                     >
-                      {!hasPremium &&
-                        displayPaywall({
-                          ...boundaries,
-                          data: chartData
-                        })}
-                      <XAxis
-                        dataKey='datetime'
-                        tickLine={false}
-                        tickMargin={5}
-                        minTickGap={100}
-                        tickFormatter={tickFormatter}
-                      />
-                      <YAxis />
-                      <YAxis
-                        yAxisId='axis-price'
-                        hide
-                        tickFormatter={priceUsd =>
-                          formatNumber(priceUsd, { currency: 'USD' })
-                        }
-                        domain={['auto', 'dataMax']}
-                      />
-                      <CartesianGrid
-                        vertical={false}
-                        strokeDasharray='4 10'
-                        stroke='#ebeef5'
-                      />
-                      <Tooltip
-                        labelFormatter={labelFormatter}
-                        formatter={(value, name) => {
-                          if (name === `${asset}/USD`) {
-                            return formatNumber(value, { currency: 'USD' })
-                          }
-                          return value
-                        }}
-                      />
-                      <Line
-                        type='linear'
-                        dataKey={entity.index}
-                        dot={false}
-                        strokeWidth={entity.index === 'merged' ? 1.5 : 2}
-                        name={entity.name}
-                        stroke={`var(--${entity.color})`}
-                      />
-                      <Line
-                        type='linear'
-                        yAxisId='axis-price'
-                        name={asset + '/USD'}
-                        dot={false}
-                        strokeWidth={1.5}
-                        dataKey='price_usd'
-                        stroke={ASSET_PRICE_COLOR}
-                      />
-                      <Legend />
-                    </ComposedChart>
-                  </ResponsiveContainer>
-                </Panel>
-              ))}
-            <div className={styles.toggles}>
-              {toggleCharts.map(key => {
-                const { index, name, color } = chartsMeta[key]
-                return (
-                  <Button
-                    key={index}
-                    onClick={() => setDisabledToggles(index)}
-                    className={cx(
-                      styles.toggle,
-                      !disabledToggles.includes(index) && styles.toggle_active
-                    )}
-                    border={!disabledToggles.includes(index)}
-                  >
-                    <Label
-                      className={styles.label}
-                      accent={color}
-                      variant='circle'
-                    />{' '}
-                    {name}
-                  </Button>
-                )
-              })}
-            </div>
+                      <Label
+                        className={styles.label}
+                        accent={color}
+                        variant='circle'
+                      />{' '}
+                      {name}
+                    </Button>
+                  )
+                })}
+              </div>
+            )}
           </div>
-        )
-      }}
-    </Query>
+        ))}
+    </div>
   )
 }
 
