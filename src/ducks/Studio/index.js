@@ -13,8 +13,8 @@ import { buildComparedMetric } from './Compare/utils'
 import { useTimeseries } from './timeseries/hooks'
 import { buildAnomalies } from './timeseries/anomalies'
 import { trackMetricState } from './analytics'
-import styles from './index.module.scss'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
+import styles from './index.module.scss'
 
 const { trendPositionHistory } = Events
 
