@@ -32,7 +32,7 @@ const TopSlot = ({ label }) => (
 )
 
 const BottomSlot = compose(withProject)(
-  ({ slug, project, isERC20, loading, news = [], isLoadingNews }) => (
+  ({ slug, project, isERC20, loading }) => (
     <div className={styles.bottom}>
       <Helmet
         // NOTE: Using props instead of the children because of the issue addresed here https://github.com/nfl/react-helmet/issues/373 [@vanguard | Feb 4, 2020]

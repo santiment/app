@@ -1,9 +1,10 @@
-@import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins';
 
 .wrapper {
   background: $fiord;
-  padding: 3px 12px;
+  padding: 5px 12px 3px;
   color: $white;
   border-radius: $border-radius;
-  font-size: 12px;
+
+  @include text('caption', 'semibold');
 }

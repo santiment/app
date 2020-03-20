@@ -15,7 +15,8 @@ const MetricButton = ({
   colors,
   isLoading,
   isRemovable,
-  toggleMetric
+  toggleMetric,
+  ...rest
 }) => {
   const {
     key,
@@ -34,7 +35,7 @@ const MetricButton = ({
       closeTimeout={22}
       offsetX={8}
     >
-      <Button border className={cx(styles.btn, className)}>
+      <Button {...rest} border className={cx(styles.btn, className)}>
         {isLoading ? (
           <div className={styles.loader} />
         ) : (
@@ -59,6 +60,7 @@ const MetricButton = ({
 }
 
 export default ({
+  className,
   MetricColor,
   activeMetrics,
   activeEvents,
@@ -66,7 +68,8 @@ export default ({
   toggleMetric,
   eventLoadings,
   isMultiChartsActive,
-  className
+  onMetricHover,
+  onMetricHoverEnd
 }) => {
   const isMoreThanOneMetric = activeMetrics.length > 1 || isMultiChartsActive
 
@@ -81,6 +84,8 @@ export default ({
           isLoading={loadings.includes(metric)}
           isRemovable={isMoreThanOneMetric}
           toggleMetric={toggleMetric}
+          onMouseEnter={onMetricHover && (() => onMetricHover(metric))}
+          onMouseLeave={onMetricHoverEnd && (() => onMetricHoverEnd(metric))}
         />
       ))}
       {activeEvents.includes(trendPositionHistory) && (

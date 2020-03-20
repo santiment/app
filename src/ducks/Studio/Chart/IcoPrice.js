@@ -46,7 +46,7 @@ const IcoPrice = ({ chart, scale, slug, className, onEmptyResult }) => {
 
       setValue({
         isOnChart,
-        top: isOnChart ? scale(height, min, max)(icoPrice) : 0,
+        top: isOnChart ? scale(chart, min, max)(icoPrice) : 0,
         price: formatter(icoPrice)
       })
     },

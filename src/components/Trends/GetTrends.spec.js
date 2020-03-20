@@ -1,5 +1,5 @@
 /* eslint-env jest */
-import { normalizeTopic } from './GetTrends'
+import { normalizeTopic } from './trendsUtils'
 
 describe('normalizeTopic', () => {
   it('should return initial data, if has OR/AND/()', () => {

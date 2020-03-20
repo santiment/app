@@ -22,7 +22,8 @@ export const DEFAULT_OPTIONS = {
   isICOPriceActive: true,
   isAnomalyActive: getSavedToggle('isAnomalyActive'),
   isMultiChartsActive: getSavedToggle('isMultiChartsActive', true),
-  isCartesianGridActive: getSavedToggle('isCartesianGridActive', true)
+  isCartesianGridActive: getSavedToggle('isCartesianGridActive', true),
+  isDomainGroupingActive: getSavedToggle('isDomainGroupingActive', true)
 }
 
 export const DEFAULT_METRICS = [Metrics.price_usd]

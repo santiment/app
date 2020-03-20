@@ -25,12 +25,10 @@
     }
 
     & h1 {
-      color: var(--mirage);
-      font-family: Rubik, sans-serif;
-      font-style: normal;
-      font-weight: normal;
-      line-height: 38px;
-      font-size: 28px;
+      color: var(--rhino);
+
+      @include text('h3');
+
       margin: 0;
     }
   }
@@ -58,8 +56,8 @@
   color: #794b02;
   background: #fffaf3;
   text-align: center;
-  font: 15px/1.6 Rubik, sans-serif;
-  font-weight: bold;
+
+  @include text('body-3', 'bold');
 }
 
 .page-head {

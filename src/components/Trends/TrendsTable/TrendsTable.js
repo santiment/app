@@ -5,15 +5,14 @@ import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import {
-  Label,
-  Checkbox,
-  PanelWithHeader,
-  Panel,
-  Icon,
-  Tooltip,
-  Button
-} from '@santiment-network/ui'
+import Loader from '@santiment-network/ui/Loader/Loader'
+import Panel from '@santiment-network/ui/Panel/Panel'
+import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
+import { Checkbox } from '@santiment-network/ui/Checkboxes'
+import Label from '@santiment-network/ui/Label'
+import Icon from '@santiment-network/ui/Icon'
+import Tooltip from '@santiment-network/ui/Tooltip'
+import Button from '@santiment-network/ui/Button'
 import { store } from '../../../index'
 import ValueChange from '../../../components/ValueChange/ValueChange'
 import WordCloud from '../../../components/WordCloud/WordCloud'
@@ -47,6 +46,23 @@ const DESKTOP_COLUMNS = [
     headerClassName: styles.headerIndex
   },
   ...MOBILE_COLUMNS
+]
+
+const COMPACT_VIEW_COLUMNS = [
+  {
+    Header: '#',
+    accessor: 'index',
+    width: 35,
+    headerClassName: styles.headerIndex
+  },
+  {
+    Header: 'Trending words',
+    accessor: 'word'
+  },
+  {
+    Header: 'Social volume',
+    accessor: 'volume'
+  }
 ]
 
 const NumberCircle = ({ className, ...props }) => (
@@ -104,15 +120,13 @@ class TrendsTable extends PureComponent {
           return (
             <>
               <ExplanationTooltip text='Connected trends' offsetY={5}>
-                <span
-                  className={cx(
-                    styles.action__icon,
-                    !hasConnections && styles.action__icon_disabled
-                  )}
-                >
+                <span className={styles.action__icon}>
                   <Icon
                     type='connection-big'
-                    className={styles.icon}
+                    className={cx(
+                      styles.icon,
+                      !hasConnections && styles.action__icon_disabled
+                    )}
                     onMouseEnter={() => {
                       connectTrends(rawWord)
                     }}
@@ -137,8 +151,8 @@ class TrendsTable extends PureComponent {
             <Button variant='flat' className={styles.tooltip__trigger}>
               <ExplanationTooltip text='Connected insights' offsetY={5}>
                 <Icon
-                  className={cx(!insights && styles.action__icon_disabled)}
                   type='insight'
+                  className={cx(!insights && styles.action__icon_disabled)}
                 />
               </ExplanationTooltip>
             </Button>
@@ -220,17 +234,25 @@ class TrendsTable extends PureComponent {
       selectTrend,
       selectedTrends,
       trendConnections,
-      isDesktop
+      isDesktop,
+      isCompactView
     } = this.props
 
     const tableData = trendWords.map(({ word, score }, index) => {
+      const volumeIsLoading = !volumeChange[word]
       const [oldVolume = 0, newVolume = 0] = volumeChange[word] || []
       const isWordSelected = selectedTrends.has(word)
       const hasMaxWordsSelected = selectedTrends.size > 4 && !isWordSelected
+      const isSelectable =
+        selectable &&
+        !!username &&
+        !hasMaxWordsSelected &&
+        !isCompactView &&
+        isLoggedIn
       return {
         index: (
           <>
-            {selectable && !!username && isLoggedIn && !hasMaxWordsSelected && (
+            {isSelectable && (
               <Checkbox
                 isActive={isWordSelected}
                 className={cx(
@@ -260,7 +282,9 @@ class TrendsTable extends PureComponent {
         ),
         rawWord: word,
         score: parseInt(score, 10),
-        volume: (
+        volume: volumeIsLoading ? (
+          <Loader className={styles.loader} />
+        ) : (
           <>
             <div className={styles.volume}>{newVolume}</div>{' '}
             <ValueChange
@@ -279,19 +303,25 @@ class TrendsTable extends PureComponent {
         header={header}
         className={className}
         contentClassName={styles.panel}
-        headerClassName={cx(styles.header, !header && styles.header_empty)}
+        headerClassName={cx(
+          styles.header,
+          !header && styles.header__empty,
+          isCompactView && styles.header__compact
+        )}
       >
         <Table
-          className={styles.table}
+          className={cx(styles.table, isCompactView && styles.compact)}
           sortable={false}
           resizable={false}
           data={tableData}
           columns={
-            small
-              ? baseColumns.slice(0, 2)
-              : hasActions
-                ? baseColumns.concat(this.getActionButtons())
-                : baseColumns
+            isCompactView
+              ? COMPACT_VIEW_COLUMNS
+              : small
+                ? baseColumns.slice(0, 2)
+                : hasActions
+                  ? baseColumns.concat(this.getActionButtons())
+                  : baseColumns
           }
           showPagination={false}
           defaultPageSize={10}

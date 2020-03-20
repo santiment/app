@@ -93,7 +93,7 @@ export function drawHoveredSignal (chart, y, texts) {
 
   ctx.beginPath()
   clearCtx(chart, ctx)
-  ctx.font = '12px Rubik'
+  ctx.font = '12px "Proxima Nova"'
 
   const alignedY = alignY(y)
 
@@ -109,7 +109,7 @@ export function makeSignalDrawable (
   chart,
   scale
 ) {
-  const { height, top, minMaxes } = chart
+  const { minMaxes } = chart
   if (!minMaxes || !minMaxes.price_usd) {
     return
   }
@@ -127,7 +127,7 @@ export function makeSignalDrawable (
     id,
     value,
     type: below ? SIGNAL_BELOW : SIGNAL_ABOVE,
-    y: scale(height, min, max)(value) + top
+    y: scale(chart, min, max)(value)
   }
 }
 

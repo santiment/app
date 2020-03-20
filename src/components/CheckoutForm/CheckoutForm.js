@@ -12,7 +12,7 @@ const style = {
   base: {
     fontSize: '14px',
     color: vars.mirage,
-    fontFamily: 'Rubik, sans-serif',
+    fontFamily: 'Proxima Nova, sans-serif',
     '::placeholder': {
       color: vars.casper
     }

@@ -5,7 +5,6 @@ const isNightMode = loadKeyState('isNightMode')
 const isNightModeDeprecated = loadKeyState('isNightModeEnabled')
 const isBetaMode = loadKeyState('isBetaMode')
 const isBetaModeDeprecated = loadKeyState('isBetaModeEnabled')
-const isNewsEnabled = loadKeyState('isNewsEnabled') || false
 const isWideChartEnabled = loadKeyState('isWideChart')
 
 const isNightModeEnabled =
@@ -25,7 +24,6 @@ export const initialState = {
   loginErrorMessage: '',
   isNightModeEnabled: isNightModeEnabled,
   isBetaModeEnabled: isBetaModeEnabled,
-  isNewsEnabled: isNewsEnabled,
   isSearchInputFocused: false,
   isWideChartEnabled
 }
@@ -72,11 +70,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isBetaModeEnabled: action.payload
-      }
-    case actions.APP_USER_NEWS_SAVE:
-      return {
-        ...state,
-        isNewsEnabled: action.payload
       }
     case actions.APP_TOGGLE_SEARCH_FOCUS:
       return {

@@ -6,11 +6,9 @@ const ShowIf = ({
   beta,
   loggedIn,
   premium,
-  news,
   isBeta,
   isLoggedIn,
   isPremium,
-  isShowNews,
   children,
   condition
 }) => {
@@ -23,9 +21,6 @@ const ShowIf = ({
   if (loggedIn && isLoggedIn) {
     return <Fragment>{children}</Fragment>
   }
-  if (news && isShowNews) {
-    return <Fragment>{children}</Fragment>
-  }
   if (condition) {
     return <Fragment>{children}</Fragment>
   }
@@ -35,7 +30,6 @@ const ShowIf = ({
 const mapStateToProps = (state, props) => {
   return {
     isBeta: props.beta !== void 0 ? state.rootUi.isBetaModeEnabled : undefined,
-    isShowNews: props.news !== void 0 ? state.rootUi.isNewsEnabled : undefined,
     isPremium: props.premium !== void 0 ? checkHasPremium(state) : undefined,
     isLoggedIn: props.loggedIn !== void 0 ? checkIsLoggedIn(state) : undefined
   }

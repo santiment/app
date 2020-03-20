@@ -12,17 +12,18 @@ const BIG_LIMIT = 3
 
 const WORD_BIG = {
   color: 'var(--dodger-blue)',
-  fontSize: 20,
-  fontWeight: 800
+  fontSize: 18,
+  fontWeight: 600
 }
 
 const WORD_MEDIUM = {
-  color: 'var(--mirage)',
+  color: 'var(--rhino)',
   fontSize: 16
 }
 
 const WORD_SMALL = {
-  fontSize: 10
+  fontSize: 12,
+  fontWeight: 600
 }
 
 const getWordStyles = index => {
@@ -49,7 +50,7 @@ export const WordCloud = ({
       trendWord={searchWord}
       description={
         <>
-          <span className={styles.heading}>top connected words</span>
+          <span className={styles.heading}>Social context</span>
           <HelpPopupWordCloud />
         </>
       }
