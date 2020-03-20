@@ -84,8 +84,6 @@ export const useTimeseries = (metrics, settings) => {
       let raceCondition = false
       let mergedData = []
 
-      console.log(metrics)
-
       metrics.forEach(metric => {
         const { key, reqMeta } = metric
 
