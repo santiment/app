@@ -84,8 +84,10 @@ export const useTimeseries = (metrics, settings) => {
       let raceCondition = false
       let mergedData = []
 
+      console.log(metrics)
+
       metrics.forEach(metric => {
-        const { key, keyAlias = key, reqMeta } = metric
+        const { key, reqMeta } = metric
 
         const queryId = client.queryManager.idCounter
         const abortController = new AbortController()
@@ -106,7 +108,7 @@ export const useTimeseries = (metrics, settings) => {
           .query({
             query: getQuery(metric),
             variables: {
-              metric: keyAlias,
+              metric: key,
               interval,
               to,
               from,

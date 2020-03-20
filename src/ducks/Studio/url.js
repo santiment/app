@@ -1,8 +1,8 @@
 import { stringify, parse } from 'query-string'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS } from './defaults'
 import { Events, Metrics, compatabilityMap } from '../SANCharts/metrics/data'
-import { buildCompareKey } from './Compare/utils'
 import { Submetrics } from '../SANCharts/metrics/submetrics'
+import { buildCompareKey } from './Compare/utils'
 
 const { trendPositionHistory } = Events
 

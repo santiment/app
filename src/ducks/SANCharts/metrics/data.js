@@ -6,7 +6,7 @@ import { getDateFormats, getTimeFormats } from '../../../utils/dates'
 import {
   SOCIAL_TWITTER_INTERVALS,
   Submetrics,
-  TWITTER_FOLLOWERS_TYPE
+  TWITTER_METRIC
 } from './submetrics'
 
 export const Events = {
@@ -43,6 +43,10 @@ export const Events = {
 }
 
 export const Metrics = {
+  twitter: {
+    ...TWITTER_METRIC,
+    show: false
+  },
   price_usd: {
     node: 'line',
     Component: Line,
@@ -398,7 +402,7 @@ export const Metrics = {
     Component: Line,
     label: 'Twitter',
     description: `Shows the number of followers on the project's official Twitter account over time`,
-    subMetrics: Submetrics[TWITTER_FOLLOWERS_TYPE]
+    subMetrics: Submetrics[TWITTER_METRIC.key]
   },
   social_dominance_total: {
     category: 'Social',
@@ -574,8 +578,8 @@ export const tooltipSettings = {
 }
 
 SOCIAL_TWITTER_INTERVALS.forEach(interval => {
-  tooltipSettings['twitter_followers_' + interval] = {
-    label: 'Twitter changes',
+  tooltipSettings[`${TWITTER_METRIC.queryKey}_${interval}`] = {
+    label: `Twitter changes (${interval})`,
     formatter: FORMATTER
   }
 })
