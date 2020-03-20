@@ -139,7 +139,6 @@ const TrendsReChart = ({
                     name={entity.name}
                     stroke={`var(--${entity.color})`}
                     isAnimationActive={false}
-                    activeDot={false}
                   />
                   {showDominance && key === 0 && (
                     <Line
@@ -151,7 +150,6 @@ const TrendsReChart = ({
                       name={'Social Dominance'}
                       stroke='var(--texas-rose)'
                       isAnimationActive={false}
-                      activeDot={false}
                     />
                   )}
                   <Line
@@ -159,7 +157,6 @@ const TrendsReChart = ({
                     yAxisId='axis-price'
                     name={asset + '/USD'}
                     dot={false}
-                    activeDot={false}
                     strokeWidth={1.5}
                     dataKey='price_usd'
                     stroke='var(--mystic)'
@@ -242,10 +239,10 @@ export const addTotal = (
 }
 
 const addSocialDominance = (wordData, totalData) =>
-  wordData.map((item, idx) => {
-    const totalItem = totalData[idx]
+  wordData.map((item = {}, idx) => {
+    const totalItem = totalData[idx] || {}
     const dominance = (item.total * 100) / totalItem.total
-    return { dominance, ...item }
+    return { dominance: isNaN(dominance) ? 0 : dominance, ...item }
   })
 
 const getTimeseries = (sourceName, trends, key = 'sources') =>

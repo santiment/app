@@ -85,7 +85,8 @@ export class TrendsExplorePage extends Component {
   }
 
   componentDidMount () {
-    const { word, fetchTrendSocialData } = this.props
+    const { word, fetchAllTickersSlugs, fetchTrendSocialData } = this.props
+    fetchAllTickersSlugs()
     fetchTrendSocialData(word)
   }
 
@@ -226,7 +227,16 @@ export class TrendsExplorePage extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  allAssets: state.hypedTrends.allAssets
+})
+
 const mapDispatchToProps = dispatch => ({
+  fetchAllTickersSlugs: () => {
+    dispatch({
+      type: actions.TRENDS_HYPED_FETCH_TICKERS_SLUGS
+    })
+  },
   fetchTrendSocialData: payload => {
     dispatch({
       type: actions.TRENDS_HYPED_WORD_SELECTED,
@@ -237,7 +247,7 @@ const mapDispatchToProps = dispatch => ({
 
 export default compose(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
   ),
   withProps(({ match = { params: {} }, ...rest }) => {
