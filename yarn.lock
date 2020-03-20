@@ -1572,7 +1572,12 @@
   resolved "https://registry.yarnpkg.com/@santiment-network/chart/-/chart-0.0.3.tgz#dc698776c8a727aad3d32ec2391100d126507ebc"
   integrity sha512-eckStN89TbpkIi7tfKS5rxmFSBC7cw42LW2XIBb8jQWMRgR/g+SEj6vi45gMqKbQIbvXUuzc7c0GjNLPNqkHNQ==
 
-"@santiment-network/ui@^0.5.146", "@santiment-network/ui@^0.5.80":
+"@santiment-network/ui@^0.5.158":
+  version "0.5.158"
+  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.158.tgz#080efd756bf3498a135e7f279b5b6d9d99798f14"
+  integrity sha512-ioiT8Sc0zE7cI37anKhznZ0Rt8hDrn7fC1I0m+/jdmZvFdKVyIwBMTMqr2FxjaOIcKrACVvCCt/XV20yeo3ESw==
+
+"@santiment-network/ui@^0.5.80":
   version "0.5.146"
   resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.146.tgz#8fc0193409c44259f5f5a40f03736c88ec3d73bb"
   integrity sha512-S4wK1ydnQpdedwlUDP3GCPg1iscC/83vQMoYq5AxDwOMa2Q/D13DhrJPTwGytuWbCjXvvr8cpCi2VwVsZN3HYg==
