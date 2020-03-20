@@ -1,4 +1,4 @@
-import { stores } from '@sapper/app'
+import { stores } from '../svelte'
 import * as actions from './../actions/types'
 
 const { session } = stores()
