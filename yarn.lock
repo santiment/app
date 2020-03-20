@@ -1572,15 +1572,10 @@
   resolved "https://registry.yarnpkg.com/@santiment-network/chart/-/chart-0.2.0.tgz#7a1a9076617e02ea1c3a628bdb9ba076b40b52cd"
   integrity sha512-nVBRm9nGoXj+SrTMKAxls4wdE4GLHxd4aXbrwDIzILJHf1tT1KgpppbCe6r/IbKgaHp8XAuKEDXbRw4fk65EKw==
 
-"@santiment-network/ui@^0.5.158":
+"@santiment-network/ui@^0.5.150", "@santiment-network/ui@^0.5.158":
   version "0.5.158"
   resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.158.tgz#080efd756bf3498a135e7f279b5b6d9d99798f14"
   integrity sha512-ioiT8Sc0zE7cI37anKhznZ0Rt8hDrn7fC1I0m+/jdmZvFdKVyIwBMTMqr2FxjaOIcKrACVvCCt/XV20yeo3ESw==
-
-"@santiment-network/ui@^0.5.80":
-  version "0.5.146"
-  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.146.tgz#8fc0193409c44259f5f5a40f03736c88ec3d73bb"
-  integrity sha512-S4wK1ydnQpdedwlUDP3GCPg1iscC/83vQMoYq5AxDwOMa2Q/D13DhrJPTwGytuWbCjXvvr8cpCi2VwVsZN3HYg==
 
 "@sheerun/eslint-config-standard@^10.2.1":
   version "10.2.1"
@@ -8878,11 +8873,11 @@ inquirer@^6.2.0:
     strip-ansi "^5.0.0"
     through "^2.3.6"
 
-"insights-app@https://github.com/santiment/insights-app#326892b":
+"insights-app@https://github.com/santiment/insights-app#49c6963":
   version "0.0.1"
-  resolved "https://github.com/santiment/insights-app#326892bf50df409ea34ede11edef39e0099f9dd6"
+  resolved "https://github.com/santiment/insights-app#49c696381660f570d5f98fcb0e187f71fb264f7a"
   dependencies:
-    "@santiment-network/ui" "^0.5.80"
+    "@santiment-network/ui" "^0.5.150"
     apollo-boost "^0.4.0"
     apollo-client "^2.6.0"
     apollo-link "^1.2.11"
