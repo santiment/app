@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Metrics } from '../../data'
+import { Metrics } from '../../metrics/data'
 
 const ALERT_METRICS = [Metrics.price_usd, Metrics.daily_active_addresses]
 

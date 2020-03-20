@@ -14,7 +14,7 @@ import {
 } from './helpers'
 import { useAlertMetrics } from './hooks'
 import { clearCtx } from '../utils'
-import { Metrics } from '../../data'
+import { Metrics } from '../../metrics/data'
 import { getSlugPriceSignals } from '../../utils'
 import {
   createTrigger,

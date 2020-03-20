@@ -1,6 +1,7 @@
 import { stringify, parse } from 'query-string'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS } from './defaults'
-import { Events, Metrics, compatabilityMap } from '../SANCharts/data'
+import { Events, Metrics, compatabilityMap } from '../SANCharts/metrics/data'
+import { Submetrics } from '../SANCharts/metrics/submetrics'
 import { buildCompareKey } from './Compare/utils'
 
 const { trendPositionHistory } = Events
@@ -8,7 +9,15 @@ const { trendPositionHistory } = Events
 const COMPARE_CONNECTOR = '-CC-'
 const getMetricsKeys = metrics => metrics.map(({ key }) => key)
 const toArray = keys => (typeof keys === 'string' ? [keys] : keys)
-const convertKeyToMetric = (key, dict) => dict[key] || compatabilityMap[key]
+const convertKeyToMetric = (key, dict) =>
+  dict[key] || compatabilityMap[key] || searchFromSubmetrics(key)
+
+function searchFromSubmetrics (key) {
+  for (let list of Object.values(Submetrics)) {
+    const found = list.find(({ key: subMetricKey }) => subMetricKey === key)
+    if (found) return found
+  }
+}
 
 const reduceStateKeys = (State, Data) =>
   Object.keys(State).reduce((acc, key) => {

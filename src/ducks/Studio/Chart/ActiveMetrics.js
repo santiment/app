@@ -4,7 +4,7 @@ import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import MetricExplanation from '../../SANCharts/MetricExplanation'
 import MetricIcon from '../../SANCharts/MetricIcon'
-import { Events } from '../../SANCharts/data'
+import { Events } from '../../SANCharts/metrics/data'
 import styles from './ActiveMetrics.module.scss'
 
 const { trendPositionHistory } = Events

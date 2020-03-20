@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { Metrics, tooltipSettings } from '../../SANCharts/data'
+import { Metrics, tooltipSettings } from '../../SANCharts/metrics/data'
 import { persimmon } from '@santiment-network/ui/variables.scss'
 
 export const OLD_ANOMALY_QUERY = gql`

@@ -6,9 +6,10 @@ export const GET_METRIC = ({ key, queryKey = key }) => gql`
     $from: DateTime!
     $to: DateTime!
     $interval: interval
+    $transform: TimeseriesMetricTransformInputObject
   ) {
     getMetric(metric: "${queryKey}") {
-      timeseriesData(slug: $slug, from: $from, to: $to, interval: $interval) {
+      timeseriesData(slug: $slug, from: $from, to: $to, interval: $interval, transform: $transform) {
         datetime
         ${key}: value
       }
@@ -123,5 +124,6 @@ export const METRICS = [
   'dev_activity',
   'dev_activity_contributors_count',
   'github_activity',
-  'github_activity_contributors_count'
+  'github_activity_contributors_count',
+  'twitter_followers'
 ]

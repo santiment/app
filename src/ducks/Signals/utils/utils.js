@@ -58,7 +58,7 @@ import {
   uncapitalizeStr
 } from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
-import { Metrics } from '../../SANCharts/data'
+import { Metrics } from '../../SANCharts/metrics/data'
 
 export const mapToOptions = input => {
   if (!input) {

@@ -1,8 +1,13 @@
 import React from 'react'
 import { Line, Bar, Area } from 'recharts'
-import { usdFormatter } from './utils'
-import { millify } from '../../utils/formatting'
-import { getDateFormats, getTimeFormats } from '../../utils/dates'
+import { usdFormatter } from '../utils'
+import { millify } from '../../../utils/formatting'
+import { getDateFormats, getTimeFormats } from '../../../utils/dates'
+import {
+  SOCIAL_TWITTER_INTERVALS,
+  Submetrics,
+  TWITTER_FOLLOWERS_METRIC
+} from './submetrics'
 
 export const Events = {
   trendPositionHistory: {
@@ -392,8 +397,8 @@ export const Metrics = {
     node: 'line',
     Component: Line,
     label: 'Twitter',
-    // dataKey: 'followersCount',
-    description: `Shows the number of followers on the project's official Twitter account over time`
+    description: `Shows the number of followers on the project's official Twitter account over time`,
+    subMetrics: Submetrics[TWITTER_FOLLOWERS_METRIC.queryKey]
   },
   social_dominance_total: {
     category: 'Social',
@@ -567,6 +572,13 @@ export const tooltipSettings = {
     formatter: ([val]) => Events.position.formatter(val)
   }
 }
+
+SOCIAL_TWITTER_INTERVALS.forEach(interval => {
+  tooltipSettings[`${TWITTER_FOLLOWERS_METRIC.queryKey}_${interval}`] = {
+    label: `Twitter changes (${interval})`,
+    formatter: FORMATTER
+  }
+})
 
 Object.values(Metrics).forEach(metric => {
   const { key, dataKey = key, formatter = FORMATTER, label } = metric

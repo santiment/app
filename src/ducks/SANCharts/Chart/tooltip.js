@@ -14,7 +14,7 @@ import {
   yBubbleFormatter,
   isDayInterval
 } from './utils'
-import { tooltipSettings } from '../data'
+import { tooltipSettings } from '../metrics/data'
 
 const ALERT_ADD_SIZE = 13
 const ALERT_ADD_HALF_SIZE = 7

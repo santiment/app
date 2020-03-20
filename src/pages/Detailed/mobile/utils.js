@@ -1,4 +1,4 @@
-import { Metrics } from '../../../ducks/SANCharts/data'
+import { Metrics } from '../../../ducks/SANCharts/metrics/data'
 
 export const DEFAULT_METRIC = {
   key: 'price_usd',

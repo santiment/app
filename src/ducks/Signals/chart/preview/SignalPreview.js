@@ -9,7 +9,7 @@ import {
   getTimeRangeForChart,
   isNewTypeSignal
 } from '../../utils/utils'
-import { Metrics } from '../../../SANCharts/data'
+import { Metrics } from '../../../SANCharts/metrics/data'
 import { getMetricYAxisId } from '../../../SANCharts/utils'
 import {
   getSyncedColors,

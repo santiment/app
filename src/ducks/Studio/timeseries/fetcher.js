@@ -87,6 +87,7 @@ const transformAliases = [
 
 export const getQuery = metric => {
   const { key, queryKey = key } = metric
+
   const { query } = Fetcher[queryKey]
 
   if (typeof query === 'function') {

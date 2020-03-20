@@ -6,7 +6,7 @@ import {
   buildDAASignal,
   buildDAAPercentUpDownSignal
 } from '../../../Signals/utils/utils'
-import { Metrics } from '../../../SANCharts/data'
+import { Metrics } from '../../../SANCharts/metrics/data'
 
 const { formatter } = Metrics.daily_active_addresses
 
