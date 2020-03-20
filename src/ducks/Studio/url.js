@@ -13,8 +13,7 @@ const convertKeyToMetric = (key, dict) =>
   dict[key] || compatabilityMap[key] || searchFromSubmetrics(key)
 
 function searchFromSubmetrics (key) {
-  for (let metricKey of Object.keys(Submetrics)) {
-    let list = Submetrics[metricKey]
+  for (let list of Object.values(Submetrics)) {
     const found = list.find(({ key: subMetricKey }) => subMetricKey === key)
     if (found) return found
   }
