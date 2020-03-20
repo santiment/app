@@ -87,7 +87,9 @@ const TrendsReChart = ({
   isDesktop
 }) => {
   const [disabledToggles, setDisabledToggles] = useToggles(toggleCharts)
-  const [showDominance, setShowDominance] = useState(false)
+
+  const savedToggleState = !!localStorage.getItem('SOCIAL_DOMINANCE_TOGGLE')
+  const [showDominance, setShowDominance] = useState(savedToggleState)
 
   return (
     <div>
@@ -180,7 +182,15 @@ const TrendsReChart = ({
                 <SocialDominanceToggle
                   className={styles.dominance}
                   isActive={showDominance}
-                  toggleDominance={() => setShowDominance(!showDominance)}
+                  toggleDominance={() => {
+                    const newState = !showDominance
+                    setShowDominance(newState)
+                    if (newState) {
+                      localStorage.setItem('SOCIAL_DOMINANCE_TOGGLE', '+')
+                    } else {
+                      localStorage.removeItem('SOCIAL_DOMINANCE_TOGGLE')
+                    }
+                  }}
                 />
               )}
             </div>
