@@ -2,7 +2,6 @@ import React, { Fragment, useState, useEffect } from 'react'
 import { matchPath } from 'react-router'
 import { connect } from 'react-redux'
 import { Link, Route, Switch, Redirect } from 'react-router-dom'
-import Tabs from '@santiment-network/ui/Tabs'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/Loader/PageLoader'
 import UnAuth from '../../components/UnAuth/UnAuth'
@@ -85,15 +84,7 @@ const SonarFeed = ({
   )
 
   const shareSignalParams = getShareSignalParams()
-
-  const isActivities = false
-  const currentPage = SIGNAL_ROUTES.MY_SIGNALS
-
-  const defaultRoute = isActivities ? (
-    <Route component={tabs[1].component} />
-  ) : (
-    <Route component={tabs[0].component} />
-  )
+  const defaultRoute = <Route component={tabs[0].component} />
 
   return (
     <div style={{ width: '100%' }} className='page'>
@@ -102,40 +93,25 @@ const SonarFeed = ({
           <SonarFeedHeader />
           {!isUserLoading && (
             <SignalMasterModalForm
-              previousPage={currentPage}
-              triggerId={triggerId}
+              id={triggerId}
               shareParams={shareSignalParams}
             />
           )}
         </div>
       ) : (
         <div className={styles.header}>
-          <MobileHeader
-            title={<SonarFeedHeader />}
-            rightActions={
-              <div className={styles.addSignal}>
-                {!isUserLoading && (
-                  <SignalMasterModalForm
-                    previousPage={currentPage}
-                    triggerId={triggerId}
-                    shareParams={shareSignalParams}
-                  />
-                )}
-              </div>
-            }
-          />
+          <MobileHeader title={<SonarFeedHeader />} />
+          <div className={styles.addSignal}>
+            {!isUserLoading && (
+              <SignalMasterModalForm
+                id={triggerId}
+                shareParams={shareSignalParams}
+              />
+            )}
+          </div>
         </div>
       )}
 
-      <Tabs
-        options={tabs.filter(({ hidden }) => !hidden)}
-        defaultSelectedIndex={pathname}
-        passSelectionIndexToItem
-        className={styles.tabs}
-        as={({ selectionIndex, ...props }) => (
-          <Link {...props} to={selectionIndex} />
-        )}
-      />
       <div className={styles.content}>
         <Switch>
           {isUserLoading && <PageLoader className={styles.loader} />}

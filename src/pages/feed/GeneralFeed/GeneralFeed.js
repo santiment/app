@@ -8,17 +8,12 @@ import FeedListLoading from './FeedList/FeedListLoading'
 import { checkIsLoggedIn, checkIsLoggedInPending } from '../../UserSelectors'
 import { extractEventsFromData, makeFeedVariables } from './utils'
 import { fetchSignals } from '../../../ducks/Signals/common/actions'
-import FeedSorters, { DATETIME_SORT } from '../filter/FeedSorters'
+import FeedSorters, { DATETIME_SORT } from '../sorters/FeedSorters'
 import FeedHelpPopup from './HelpPopup/FeedHelpPopup'
 import Tabs from '@santiment-network/ui/Tabs'
+import FeedFilters from '../filters/FeedFilters'
+import { AUTHOR_TYPES } from '../filters/AlertsAndInsightsFilter'
 import styles from './GeneralFeed.module.scss'
-
-const AUTHOR_TYPES = {
-  OWN: 'OWN',
-  ALL: 'ALL',
-  FOLLOWED: 'FOLLOWED',
-  SANFAM: 'SANFAM'
-}
 
 const baseLocation = '/feed'
 export const personalLocation = `${baseLocation}/personal`
@@ -34,11 +29,24 @@ const tabs = [
   }
 ]
 
-const Header = ({ onChangeSort, sortType, onChangeTab, tab }) => (
-  <>
+const Header = ({
+  onChangeSort,
+  sortType,
+  onChangeTab,
+  tab,
+  onChangeFilters,
+  filters,
+  isLoggedIn
+}) => (
+  <div className={styles.header}>
     <div className={styles.title}>
       <div>Feed</div>
       <FeedHelpPopup />
+      <FeedFilters
+        handleFiltersChange={onChangeFilters}
+        filters={filters}
+        enableAlertsInsights={isBaseLocation(tab)}
+      />
       <FeedSorters
         className={styles.sort}
         onChangeSort={onChangeSort}
@@ -46,7 +54,7 @@ const Header = ({ onChangeSort, sortType, onChangeTab, tab }) => (
       />
     </div>
     <Tabs
-      options={tabs}
+      options={isLoggedIn ? tabs : [tabs[0]]}
       defaultSelectedIndex={tab}
       passSelectionIndexToItem
       className={styles.tabs}
@@ -55,7 +63,7 @@ const Header = ({ onChangeSort, sortType, onChangeTab, tab }) => (
         <Link {...props} to={selectionIndex} />
       )}
     />
-  </>
+  </div>
 )
 
 const Empty = () => (
@@ -69,12 +77,18 @@ const START_DATE = new Date()
 const isBaseLocation = tab => tab === baseLocation
 
 const getFeedAuthorType = tab => {
-  if (isBaseLocation(tab)) {
+  if (isBaseLocation(tab) || !tab) {
     return AUTHOR_TYPES.ALL
   } else {
     return AUTHOR_TYPES.OWN
   }
 }
+
+export const getDefaultFilters = tab => ({
+  author: getFeedAuthorType(tab),
+  watchlists: [],
+  assets: []
+})
 
 const GeneralFeed = ({
   isLoggedIn,
@@ -82,11 +96,9 @@ const GeneralFeed = ({
   fetchSignals,
   location: { pathname }
 }) => {
-  const [tab, setTab] = useState(pathname)
+  const [tab, setTab] = useState(isLoggedIn ? pathname : baseLocation)
   const [sortType, setSortType] = useState(DATETIME_SORT)
-  const [filters, setFilters] = useState({
-    author: getFeedAuthorType(tab)
-  })
+  const [filters, setFilters] = useState(getDefaultFilters(tab))
 
   const onChangeTab = value => {
     setTab(value)
@@ -123,6 +135,9 @@ const GeneralFeed = ({
           sortType={sortType}
           onChangeTab={onChangeTab}
           tab={tab}
+          isLoggedIn={isLoggedIn}
+          onChangeFilters={setFilters}
+          filters={filters}
         />
         <div className={styles.scrollable}>
           <PageLoader />
@@ -137,7 +152,10 @@ const GeneralFeed = ({
         onChangeSort={onChangeSort}
         sortType={sortType}
         onChangeTab={onChangeTab}
+        isLoggedIn={isLoggedIn}
         tab={tab}
+        onChangeFilters={setFilters}
+        filters={filters}
       />
 
       <Query
@@ -168,6 +186,7 @@ const GeneralFeed = ({
               isLoading={loadingEvents}
               sortType={sortType}
               filters={filters}
+              showProfileExplanation={isBaseLocation(tab)}
             />
           )
         }}

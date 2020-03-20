@@ -8,6 +8,7 @@ import { noTrendTagsFilter } from './utils'
 import { mapSizesToProps } from '../../utils/withSizes'
 import FeedCardDate from '../../pages/feed/GeneralFeed/CardDate/FeedCardDate'
 import styles from './InsightCard.module.scss'
+import { DesktopOnly } from '../Responsive'
 
 export const AWAITING_APPROVAL_STATE = 'awaiting_approval'
 export const AwaitingApproval = () => (
@@ -20,6 +21,8 @@ const InsightCard = ({ className, tags, isDesktop, showIcon, ...insight }) => {
   const { createdAt, updatedAt, publishedAt, state } = insight
   const filteredTags = tags.filter(noTrendTagsFilter)
 
+  const firstTag = filteredTags[0]
+
   return (
     <Panel className={cx(styles.wrapper, styles.wrapper_withMc, className)}>
       <InsightCardInternals
@@ -27,9 +30,10 @@ const InsightCard = ({ className, tags, isDesktop, showIcon, ...insight }) => {
         tags={filteredTags}
         isDesktop={isDesktop}
         showIcon={showIcon}
+        showDate={!isDesktop}
       >
         <div className={styles.wrapper_withMc__right}>
-          <>
+          <DesktopOnly>
             {state === AWAITING_APPROVAL_STATE ? (
               <AwaitingApproval />
             ) : (
@@ -38,14 +42,16 @@ const InsightCard = ({ className, tags, isDesktop, showIcon, ...insight }) => {
                 className={styles.date}
               />
             )}
-          </>
+          </DesktopOnly>
 
-          <MarketcapChangeWidget
-            from={createdAt}
-            ticker={(filteredTags[0] || {}).name}
-            updatedAt={updatedAt}
-            publishedAt={publishedAt || updatedAt}
-          />
+          {firstTag && (
+            <MarketcapChangeWidget
+              from={createdAt}
+              ticker={firstTag.name.toUpperCase()}
+              updatedAt={updatedAt}
+              publishedAt={publishedAt || updatedAt}
+            />
+          )}
         </div>
       </InsightCardInternals>
     </Panel>

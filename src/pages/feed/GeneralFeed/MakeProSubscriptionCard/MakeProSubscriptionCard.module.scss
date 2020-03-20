@@ -6,13 +6,21 @@
 }
 
 .center {
+  display: flex;
+}
+
+.content {
   margin-left: 16px;
 }
 
 .right {
   display: flex;
-  flex: 1;
   align-items: center;
+  margin-left: auto;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 8px auto 0 40px;
+  }
 }
 
 .icon {
@@ -23,7 +31,6 @@
 .title {
   @include text('body-3');
 
-  margin-top: 3px;
   color: var(--rhino);
 }
 

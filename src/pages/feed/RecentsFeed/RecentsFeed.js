@@ -30,6 +30,7 @@ const RecentsFeed = ({ onSlugSelect }) => {
           onSlugSelect={onSlugSelect}
           onProjectClick={onSlugSelect}
           classes={styles}
+          showFooter={true}
         />
       </div>
     </div>

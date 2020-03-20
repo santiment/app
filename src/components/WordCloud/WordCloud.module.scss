@@ -1,14 +1,31 @@
-@import '~@santiment-network/ui/variables.scss';
-@import './../../mixins.scss';
+@import '~@santiment-network/ui/mixins';
 
 $top: 22px;
 
 .text {
-  font-family: Rubik, sans-serif !important;
+  font-family: 'Proxima Nova', sans-serif !important;
   font-style: normal;
   font-weight: normal;
   line-height: 20px;
+  text-align: right !important;
   color: var(--casper);
+}
+
+.score {
+  position: relative;
+  background-color: var(--dodger-blue-light);
+  width: 24px;
+  height: 24px;
+  color: var(--dodger-blue);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  top: -32px;
+  right: -22px;
+  font-size: 10px;
+  font-weight: 600;
 }
 
 .hint {
@@ -29,12 +46,5 @@ $top: 22px;
 
 .heading {
   margin-right: 8px;
+  color: var(--rhino);
 }
-
-/* stylelint-disable */
-@include responsive('desktop') {
-  .wrapper {
-    width: 49%;
-  }
-}
-/* stylelint-enable */

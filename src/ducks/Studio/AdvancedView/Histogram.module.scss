@@ -1,12 +1,5 @@
 @import '~@santiment-network/ui/mixins';
 
-.wrapper {
-  height: 100%;
-  width: 100%;
-  overflow-y: hidden;
-  padding: 20px 15px;
-}
-
 .inlineLoader {
   font-size: 5px;
   margin-left: 16px;
@@ -20,53 +13,74 @@
   font-size: 7px;
 }
 
-.content {
-  position: absolute;
-  left: 15px;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  border: 1px solid var(--porcelain);
-  box-sizing: border-box;
-  border-radius: 4px;
-  padding: 15px;
-}
-
-.chart {
-  border-left: 1px solid #f3f5f9;
-
-  :global {
-    .recharts-surface {
-      overflow: visible;
-    }
-
-    .recharts-label-list .recharts-label {
-      font-size: 12px;
-      fill: var(--mirage);
-    }
-  }
-}
-
 .title {
   @include text('body-3');
 
   color: var(--mirage);
-  margin: 0 0 24px;
+  margin: 0 0 21px;
   display: flex;
   align-items: center;
 }
 
-.label {
-  font-size: 10px;
-  fill: var(--waterloo);
+.wrapper {
+  padding: 14px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-.date {
-  fill: var(--mirage);
+.frame {
+  margin-bottom: 24px;
+
+  &:last-child {
+    margin: 0;
+  }
 }
 
-.action {
-  font-size: 18px;
-  color: var(--waterloo);
-  text-align: center;
+.bar {
+  height: 3px;
+  background: var(--lima);
+  border-radius: 100px;
+  margin-bottom: 5px;
+}
+
+.info {
+  @include text('caption');
+
+  color: var(--rhino);
+}
+
+.range {
+  color: var(--casper);
+}
+
+.sorter {
+  display: flex;
+  align-items: center;
+  margin-bottom: 27px;
+}
+
+.dropdown {
+  margin-left: 8px;
+
+  &__options {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.static {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  overflow-y: auto;
+  margin: 0 -24px;
+}
+
+.scroll {
+  position: absolute;
+  top: 0;
+  left: 24px;
+  right: 24px;
 }

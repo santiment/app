@@ -1,0 +1,23 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  padding-top: 24px;
+  border-top: 1px solid var(--porcelain);
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  @include text('body-3');
+
+  margin-bottom: 2px;
+  color: var(--rhino);
+}
+
+.radio {
+  margin-top: -2px;
+}
+
+.radioContainer {
+  margin-top: 14px;
+}

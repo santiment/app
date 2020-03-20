@@ -25,27 +25,24 @@ const RemoveSignalButton = ({
       <Icon type='remove' />
     </Button>
   )
-}) => {
-  if (withConfirm) {
-    return (
-      <ConfirmDialog
-        id={id}
-        title='Delete signal'
-        description={RemoveDescription(signalTitle)}
-        onApprove={removeSignal}
-        redirect={redirect}
-        classes={styles}
-        trigger={
-          <div>
-            <TriggerEl />
-          </div>
-        }
-      />
-    )
-  } else {
-    return <TriggerEl onClick={() => removeSignal(id)} />
-  }
-}
+}) =>
+  withConfirm ? (
+    <ConfirmDialog
+      id={id}
+      title='Delete signal'
+      description={RemoveDescription(signalTitle)}
+      onApprove={removeSignal}
+      redirect={redirect}
+      classes={styles}
+      trigger={
+        <div>
+          <TriggerEl />
+        </div>
+      }
+    />
+  ) : (
+    <TriggerEl onClick={() => removeSignal(id)} />
+  )
 
 const mapDispatchToProps = dispatch => ({
   removeSignal: id => {

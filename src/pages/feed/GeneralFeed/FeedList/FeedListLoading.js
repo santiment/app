@@ -129,7 +129,7 @@ class FeedListLoading extends React.Component {
   }
 
   render () {
-    const { isLoading } = this.props
+    const { isLoading, showProfileExplanation } = this.props
     const { events, isNewEventsList } = this.state
     const filtered = events.filter(
       ({ post, payload, trigger }) => post || (trigger && payload)
@@ -139,6 +139,7 @@ class FeedListLoading extends React.Component {
         events={filtered}
         isLoading={isLoading}
         isNewEventsList={isNewEventsList}
+        showProfileExplanation={showProfileExplanation}
       />
     )
   }

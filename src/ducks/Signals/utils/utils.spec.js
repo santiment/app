@@ -15,7 +15,8 @@ const TRIGGERS = [
       channel: 'telegram',
       target: { slug: 'santiment' },
       time_window: '1d',
-      type: 'price_percent_change',
+      type: 'metric_signal',
+      metric: 'price_usd',
       operation: {
         percent_up: 5
       }
@@ -30,38 +31,41 @@ const TRIGGERS = [
     __typename: 'Trigger'
   },
   {
+    __typename: 'Trigger',
+    cooldown: '22h',
+    description: undefined,
     id: 1,
+    isActive: false,
+    isPublic: false,
+    isRepeating: true,
     settings: {
       channel: 'telegram',
+      metric: 'active_addresses_24h',
+      operation: undefined,
       target: { slug: 'santiment' },
       time_window: '30m',
-      type: 'daily_active_addresses'
+      type: 'metric_signal'
     },
-    isPublic: false,
-    isActive: false,
-    isRepeating: true,
-    cooldown: '22h',
     tags: [],
-    title: undefined,
-    description: undefined,
-    __typename: 'Trigger'
+    title: undefined
   },
   {
+    __typename: 'Trigger',
+    cooldown: '22h',
+    description: undefined,
     id: 1,
+    isActive: false,
+    isPublic: false,
+    isRepeating: true,
     settings: {
       channel: 'telegram',
-      threshold: 0.002,
+      metric: 'volume_usd',
       target: { slug: 'santiment' },
-      type: 'price_volume_difference'
+      threshold: 0.002,
+      type: 'metric_signal'
     },
-    isPublic: false,
-    isActive: false,
-    isRepeating: true,
-    cooldown: '22h',
     tags: [],
-    title: undefined,
-    description: undefined,
-    __typename: 'Trigger'
+    title: undefined
   },
   {
     id: 1,
@@ -92,54 +96,111 @@ const frequencyTimeValue = {
 
 const FORM_PROPS = [
   {
+    channels: ['Telegram'],
     cooldown: '22h',
-    frequencyType: { ...FREQUENCY_TYPE_HOUR_MODEL },
-    frequencyTimeType: { ...FREQUENCY_TIME_TYPE_HOURS_MODEL },
-    frequencyTimeValue: { ...frequencyTimeValue },
-    percentThreshold: 5,
+    description: undefined,
+    ethAddress: undefined,
+    frequencyTimeType: { label: 'Hour(s)', value: 'h' },
+    frequencyTimeValue: { label: '22', value: '22' },
+    frequencyType: {
+      availableTypes: ['h'],
+      disabledMetrics: ['daily_active_addresses'],
+      label: 'Hourly',
+      value: 'h'
+    },
+    isActive: false,
+    isPublic: false,
     isRepeating: true,
-    target: { value: 'santiment', label: 'santiment' },
+    metric: {
+      label: 'Price',
+      value: 'price',
+      description: 'Notify me when an asset’s price moves a certain way',
+      type: 'metric_signal',
+      metric: 'price_usd'
+    },
+    percentThreshold: 5,
+    signalType: { label: 'Assets', value: 'assets' },
+    target: { label: 'santiment', value: 'santiment' },
+    targetWatchlist: undefined,
+    threshold: 5,
     timeWindow: 1,
     timeWindowUnit: { label: 'Day(s)', value: 'd' },
-    type: { ...PRICE_PERCENT_CHANGE_UP_MODEL },
-    metric: { label: 'Price', value: 'price' },
-    channels: ['Telegram'],
-    isPublic: false
+    title: undefined,
+    type: {
+      dependencies: ['percentThreshold', 'timeWindow'],
+      filledField: true,
+      label: 'Moving up %',
+      metric: 'price_percent_change',
+      value: 'percent_up'
+    }
   },
   {
+    channels: ['Telegram'],
     cooldown: '22h',
-    frequencyType: { ...FREQUENCY_TYPE_HOUR_MODEL },
-    frequencyTimeType: { ...FREQUENCY_TIME_TYPE_HOURS_MODEL },
-    frequencyTimeValue: { ...frequencyTimeValue },
-    percentThreshold: 5,
+    description: undefined,
+    ethAddress: undefined,
+    frequencyTimeType: { label: 'Hour(s)', value: 'h' },
+    frequencyTimeValue: { label: '22', value: '22' },
+    frequencyType: {
+      availableTypes: ['h'],
+      disabledMetrics: ['daily_active_addresses'],
+      label: 'Hourly',
+      value: 'h'
+    },
+    isActive: false,
+    isPublic: false,
     isRepeating: true,
-    target: { value: 'santiment', label: 'santiment' },
-    timeWindow: 30,
-    timeWindowUnit: { label: 'Minute(s)', value: 'm' },
     metric: {
+      description:
+        'Notify me of changes in the # of addresses transacting an asset on-chain',
       label: 'Daily Active Addresses',
+      metric: 'active_addresses_24h',
+      type: 'metric_signal',
       value: 'daily_active_addresses'
     },
-    type: {
-      metric: 'daily_active_addresses'
-    },
-    channels: ['Telegram'],
-    isPublic: false
+    percentThreshold: 5,
+    signalType: { label: 'Assets', value: 'assets' },
+    target: { label: 'santiment', value: 'santiment' },
+    targetWatchlist: undefined,
+    threshold: 0.002,
+    timeWindow: 30,
+    timeWindowUnit: { label: 'Minute(s)', value: 'm' },
+    title: undefined,
+    type: { value: 'metric_signal' }
   },
   {
-    cooldown: '22h',
-    frequencyType: { ...FREQUENCY_TYPE_HOUR_MODEL },
-    frequencyTimeType: { ...FREQUENCY_TIME_TYPE_HOURS_MODEL },
-    frequencyTimeValue: { ...frequencyTimeValue },
-    threshold: 0.002,
-    isRepeating: true,
-    target: { value: 'santiment', label: 'santiment' },
-    metric: { ...PRICE_VOLUME_DIFFERENCE_METRIC },
-    type: {
-      metric: 'price_volume_difference'
-    },
     channels: ['Telegram'],
-    isPublic: false
+    cooldown: '22h',
+    description: undefined,
+    ethAddress: undefined,
+    frequencyTimeType: { label: 'Hour(s)', value: 'h' },
+    frequencyTimeValue: { label: '22', value: '22' },
+    frequencyType: {
+      availableTypes: ['h'],
+      disabledMetrics: ['daily_active_addresses'],
+      label: 'Hourly',
+      value: 'h'
+    },
+    isActive: false,
+    isPublic: false,
+    isRepeating: true,
+    metric: {
+      description:
+        'Notify me of major divergences between an asset’s price and trading volume',
+      label: 'Price/volume difference',
+      metric: 'volume_usd',
+      type: 'metric_signal',
+      value: 'price_volume_difference'
+    },
+    percentThreshold: 5,
+    signalType: { label: 'Assets', value: 'assets' },
+    target: { label: 'santiment', value: 'santiment' },
+    targetWatchlist: undefined,
+    threshold: 0.002,
+    timeWindow: '24',
+    timeWindowUnit: { label: 'Day(s)', value: 'd' },
+    title: undefined,
+    type: { value: 'metric_signal' }
   }
 ]
 

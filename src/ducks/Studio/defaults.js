@@ -1,6 +1,7 @@
 import { getIntervalByTimeRange } from '../../utils/dates'
 import { getNewInterval } from '../../ducks/SANCharts/IntervalSelector'
 import { Metrics } from '../../ducks/SANCharts/data'
+import { getSavedToggle } from '../../utils/localStorage'
 
 const DEFAULT_TIME_RANGE = '6m'
 const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
@@ -8,6 +9,7 @@ const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
 export const DEFAULT_SETTINGS = {
   slug: 'bitcoin',
   projectId: 1505,
+  ticker: 'BTC',
   title: 'Bitcoin (BTC)',
   interval: getNewInterval(FROM, TO),
   from: FROM.toISOString(),
@@ -15,12 +17,13 @@ export const DEFAULT_SETTINGS = {
   timeRange: DEFAULT_TIME_RANGE
 }
 
-const isAnomalyHidden = localStorage.getItem('hideAnomalies')
-
 export const DEFAULT_OPTIONS = {
   isLogScale: false,
-  isAnomalyActive: isAnomalyHidden !== null && !isAnomalyHidden,
-  isMultiChartsActive: true
+  isICOPriceActive: true,
+  isAnomalyActive: getSavedToggle('isAnomalyActive'),
+  isMultiChartsActive: getSavedToggle('isMultiChartsActive', true),
+  isCartesianGridActive: getSavedToggle('isCartesianGridActive', true),
+  isDomainGroupingActive: getSavedToggle('isDomainGroupingActive', true)
 }
 
-export const DEFAULT_METRICS = [Metrics.historyPrice]
+export const DEFAULT_METRICS = [Metrics.price_usd]

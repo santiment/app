@@ -1,26 +1,41 @@
 import React from 'react'
+import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import MetricExplanation from '../../SANCharts/MetricExplanation'
 import MetricIcon from '../../SANCharts/MetricIcon'
 import { Events } from '../../SANCharts/data'
-import { getSyncedColors } from '../../SANCharts/Chart/Synchronizer'
 import styles from './ActiveMetrics.module.scss'
 
 const { trendPositionHistory } = Events
 
 const MetricButton = ({
+  className,
   metric,
   colors,
   isLoading,
   isRemovable,
-  toggleMetric
+  toggleMetric,
+  ...rest
 }) => {
-  const { key, dataKey = key, node, label, description } = metric
+  const {
+    key,
+    dataKey = key,
+    node,
+    label,
+    description,
+    comparedTicker
+  } = metric
 
   return (
-    <MetricExplanation label={label} description={description} withChildren>
-      <Button border className={styles.btn}>
+    <MetricExplanation
+      label={label}
+      description={description}
+      withChildren
+      closeTimeout={22}
+      offsetX={8}
+    >
+      <Button {...rest} border className={cx(styles.btn, className)}>
         {isLoading ? (
           <div className={styles.loader} />
         ) : (
@@ -31,6 +46,7 @@ const MetricButton = ({
           />
         )}
         {label}
+        {comparedTicker && ` (${comparedTicker})`}
         {isRemovable && (
           <Icon
             type='close-small'
@@ -44,33 +60,40 @@ const MetricButton = ({
 }
 
 export default ({
+  className,
+  MetricColor,
   activeMetrics,
   activeEvents,
   loadings,
   toggleMetric,
-  eventLoadings
+  eventLoadings,
+  isMultiChartsActive,
+  onMetricHover,
+  onMetricHoverEnd
 }) => {
-  const actives = activeMetrics.concat(activeEvents)
-  const colors = getSyncedColors(actives)
-  const isMoreThanOneMetric = activeMetrics.length > 1
+  const isMoreThanOneMetric = activeMetrics.length > 1 || isMultiChartsActive
 
   return (
     <>
       {activeMetrics.map((metric, i) => (
         <MetricButton
           key={metric.key}
+          className={className}
           metric={metric}
-          colors={colors}
+          colors={MetricColor}
           isLoading={loadings.includes(metric)}
           isRemovable={isMoreThanOneMetric}
           toggleMetric={toggleMetric}
+          onMouseEnter={onMetricHover && (() => onMetricHover(metric))}
+          onMouseLeave={onMetricHoverEnd && (() => onMetricHoverEnd(metric))}
         />
       ))}
       {activeEvents.includes(trendPositionHistory) && (
         <MetricButton
           isRemovable
+          className={className}
           metric={trendPositionHistory}
-          colors={colors}
+          colors={MetricColor}
           toggleMetric={toggleMetric}
           isLoading={eventLoadings.length}
         />

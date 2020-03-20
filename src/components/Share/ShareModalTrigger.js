@@ -11,6 +11,7 @@ const ShareModalTrigger = ({
   extraShare,
   trigger: Trigger = ShareBtn,
   classes,
+  dialogTitle = 'Share the data',
   ...props
 }) => {
   return window.navigator.share ? (
@@ -27,7 +28,7 @@ const ShareModalTrigger = ({
   ) : (
     <Dialog
       trigger={<Trigger {...props} />}
-      title='Share the data'
+      title={dialogTitle}
       classes={classes}
     >
       <SharePanel

@@ -4,6 +4,10 @@ $select-line-height: 30px;
 $select-width: 200px;
 $select-height: 330px;
 
+.Select-control {
+  cursor: pointer;
+}
+
 .Select--single {
   .Select-control {
     height: 30px;

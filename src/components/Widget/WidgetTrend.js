@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import { FadeIn } from 'animate-components'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import styles from './WidgetTrend.module.scss'
 
 const Message = {
@@ -27,6 +28,7 @@ const getMessage = ({ initial, isLoading, hasNoData }) => {
 
 const WidgetTrend = ({
   trendWord,
+  hideWord,
   description,
   isLoading,
   hasData,
@@ -44,22 +46,25 @@ const WidgetTrend = ({
 
   return (
     <div className={`${styles.wrapper} ${className}`}>
+      <div className={cx(styles.info, infoClassName)}>
+        {!hideWord && <span className={styles.word}>{trendWord} </span>}
+        {description}
+      </div>
+
       {msg ? (
         <FadeIn
           className={styles.container}
           duration='1s'
           timingFunction='ease-out'
         >
-          <h3 className={styles.msg}>{msg}</h3>
+          {isLoading ? (
+            <Loader className={styles.loader} />
+          ) : (
+            <h3 className={styles.msg}>{msg}</h3>
+          )}
         </FadeIn>
       ) : (
-        <Fragment>
-          <div className={cx(styles.info, infoClassName)}>
-            <span className={styles.word}>{trendWord} </span>
-            {description}
-          </div>
-          <div className={cx(styles.content, contentClassName)}>{children}</div>
-        </Fragment>
+        <div className={cx(styles.content, contentClassName)}>{children}</div>
       )}
     </div>
   )

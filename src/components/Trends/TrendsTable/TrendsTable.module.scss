@@ -1,15 +1,44 @@
+@import '~@santiment-network/ui/mixins';
+
+.checkbox {
+  display: none;
+  vertical-align: middle;
+
+  &_active {
+    display: inline-flex;
+
+    & + .index {
+      display: none;
+    }
+  }
+}
+
 .header {
   padding: 13px 23px;
 
-  &_empty {
+  &__empty {
     padding: 0;
     border: none;
+  }
+
+  &__compact {
+    padding: 10px 23px;
   }
 }
 
 .word {
-  color: var(--mirage);
-  font-size: 14px !important;
+  color: var(--rhino);
+
+  @include text('body-3');
+
+  @include responsive('laptop', 'desktop', 'tablet') {
+    font-size: 14px !important;
+    line-height: 20px !important;
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2');
+  }
 }
 
 .connected {
@@ -22,6 +51,7 @@
 
 .panel {
   padding: 0;
+  max-height: 100%;
 }
 
 .action {
@@ -35,23 +65,25 @@
 
   &__icon {
     vertical-align: middle;
-    fill: var(--mirage);
+    fill: var(--rhino);
 
     &:hover {
       fill: var(--jungle-green);
     }
 
     &_disabled {
-      pointer-events: none;
-      fill: var(--mystic);
+      fill: var(--rhino);
+      cursor: default;
     }
   }
 }
 
 .table:global(.ReactTable) {
+  /* stylelint-disable */
   & {
     border: none;
   }
+  /* stylelint-enable */
 
   :global {
     .rt-thead.-header {
@@ -59,17 +91,42 @@
       border-bottom: 1px solid var(--porcelain);
       padding: 0 23px;
       background: var(--athens);
+
+      @include responsive('phone', 'phone-xs') {
+        background: var(--white);
+        padding: 0 16px;
+        margin-top: 24px;
+      }
     }
 
     .rt-th {
+      @include text('caption');
+
       background: var(--athens);
       text-align: left !important;
       text-transform: initial;
-      font-family: 'Rubik';
       color: var(--casper);
-      font-size: 12px;
-      line-height: 18px;
+      line-height: 16px;
+      font-weight: 600;
       padding: 7px 0 !important;
+
+      @include responsive('phone', 'phone-xs') {
+        background: var(--white);
+        justify-content: flex-end;
+
+        @include text('body-3');
+
+        padding: 0;
+        display: flex;
+
+        &:first-child {
+          justify-content: flex-start;
+        }
+
+        &:nth-of-type(2) {
+          justify-content: center;
+        }
+      }
     }
 
     .rt-tr-group {
@@ -79,7 +136,7 @@
       &:hover {
         background: var(--athens);
         cursor: pointer;
-
+        /* stylelint-disable */
         :local {
           .word {
             color: var(--jungle-green);
@@ -93,22 +150,82 @@
             }
           }
         }
+        /* stylelint-enable */
+      }
+
+      @include responsive('phone', 'phone-xs') {
+        padding: 0;
+        height: 47px;
+
+        @include text('body-2');
+
+        &:last-child {
+          border-bottom: 1px solid var(--porcelain);
+        }
+      }
+    }
+
+    .rt-tbody {
+      @include responsive('phone', 'phone-xs') {
+        padding: 0 16px;
       }
     }
 
     .rt-td {
       padding: 0;
       border: none !important;
-    }
-
-    .rt-tr {
+      display: flex;
       align-items: center;
-    }
+      font-size: 14px !important;
+      line-height: 20px !important;
+      color: var(--rhino);
 
-    .rt-tr:hover {
-      background: initial !important;
-      transition: initial;
+      @include responsive('phone', 'phone-xs') {
+        justify-content: flex-end;
+        font-size: 16px !important;
+        line-height: 22px !important;
+
+        &:first-child {
+          justify-content: flex-start;
+        }
+
+        &:nth-of-type(2) {
+          justify-content: center;
+        }
+      }
     }
+  }
+
+  .rt-tr {
+    align-items: center;
+  }
+
+  .rt-tr:hover {
+    background: initial !important;
+    transition: initial;
+  }
+}
+
+.volume {
+  font-size: 14px !important;
+  line-height: 20px !important;
+
+  @include responsive('phone', 'phone-xs') {
+    font-size: 16px !important;
+    line-height: 22px !important;
+    text-align: right;
+  }
+}
+
+.valueChange {
+  margin-left: 8px;
+  font-size: 14px !important;
+  line-height: 20px !important;
+
+  @include responsive('phone', 'phone-xs') {
+    font-size: 16px !important;
+    line-height: 22px !important;
+    margin-left: 7px;
   }
 }
 
@@ -124,6 +241,7 @@
   &__trigger {
     background: transparent;
     padding: 6px 7px;
+    fill: var(--rhino);
   }
 }
 
@@ -138,16 +256,16 @@
     background: var(--porcelain);
     color: var(--waterloo);
     font-size: 12px !important;
-    right: 3px;
-    top: -5px;
+    right: 15px;
+    top: 10px;
     padding-top: 1px;
     width: 14px;
     text-align: center;
     pointer-events: none;
 
     &_btn {
-      top: 0;
-      left: 23px;
+      top: 10px;
+      left: 18px;
     }
   }
 }
@@ -161,19 +279,21 @@
   }
 }
 
-.checkbox {
-  display: none;
-  vertical-align: middle;
-
-  &_active {
-    display: inline-flex;
-
-    & + .index {
-      display: none;
-    }
-  }
-}
-
 .icon {
   vertical-align: middle;
+}
+
+.loader {
+  font-size: 3px !important;
+}
+
+.compact:global(.ReactTable) {
+  /* stylelint-disable */
+  :global {
+    .rt-tr-group {
+      height: 32px;
+      border-bottom: none !important;
+    }
+  }
+  /* stylelint-enable */
 }

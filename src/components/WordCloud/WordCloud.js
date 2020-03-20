@@ -6,24 +6,28 @@ import WidgetTrend from '../Widget/WidgetTrend'
 import { WORD_CLOUD_QUERY } from './wordCloudGQL.js'
 import { getTimeIntervalFromToday } from '../../utils/dates'
 import styles from './WordCloud.module.scss'
+import { formatNumber } from '../../utils/formatting'
+
+const BIG_LIMIT = 3
 
 const WORD_BIG = {
   color: 'var(--dodger-blue)',
-  fontSize: 20,
-  fontWeight: 800
+  fontSize: 18,
+  fontWeight: 600
 }
 
 const WORD_MEDIUM = {
-  color: 'var(--mirage)',
+  color: 'var(--rhino)',
   fontSize: 16
 }
 
 const WORD_SMALL = {
-  fontSize: 10
+  fontSize: 12,
+  fontWeight: 600
 }
 
 const getWordStyles = index => {
-  if (index < 3) {
+  if (index < BIG_LIMIT) {
     return WORD_BIG
   }
 
@@ -46,7 +50,7 @@ export const WordCloud = ({
       trendWord={searchWord}
       description={
         <>
-          <span className={styles.heading}>social context</span>
+          <span className={styles.heading}>Social context</span>
           <HelpPopupWordCloud />
         </>
       }
@@ -58,9 +62,14 @@ export const WordCloud = ({
       <TagCloud
         style={{ width: '100%', height: '100%', padding: 15, marginTop: 0 }}
       >
-        {cloud.map(({ word }, index) => (
+        {cloud.map(({ word, score }, index) => (
           <div key={word} style={getWordStyles(index)} className={styles.text}>
             {word}
+            {index < BIG_LIMIT && (
+              <div className={styles.score}>
+                {formatNumber(score, { maximumFractionDigits: 2 })}
+              </div>
+            )}
           </div>
         ))}
       </TagCloud>

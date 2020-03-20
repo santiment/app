@@ -3,10 +3,10 @@
 .wrapper {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   width: 240px;
   padding: 8px;
   box-shadow: none;
+  align-items: flex-start;
 
   @include responsive('laptop', 'desktop') {
     transition: all ease-in-out 0.1s;
@@ -28,7 +28,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 8px 8px 3px 8px;
+  padding: 8px 8px 8px 8px;
 }
 
 .heading {
@@ -39,20 +39,24 @@
   @include text('body-3', 'm');
 }
 
-.new {
+.newLabel {
   min-height: 16px;
   height: 16px;
   padding: 0 4px;
-  margin-right: 5px;
-  font-size: 11px;
-  line-height: 16px;
+  margin: 0 5px 4px 0;
+  font-size: 10px;
+  line-height: 17px;
   vertical-align: middle;
 }
 
 .title {
-  color: var(--mirage);
+  color: var(--rhino);
 
   @include text('body-3', 'm');
+}
+
+.newTitle {
+  font-weight: bold;
 }
 
 .type {
@@ -63,8 +67,8 @@
   display: none;
 
   @include responsive('tablet', 'laptop', 'desktop') {
-    width: 84px;
-    height: 84px;
+    width: 56px;
+    height: 56px;
     border: 1px solid var(--porcelain);
     border-radius: 4px;
     overflow: hidden;

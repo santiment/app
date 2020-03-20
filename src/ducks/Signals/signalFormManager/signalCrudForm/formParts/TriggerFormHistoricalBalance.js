@@ -4,10 +4,7 @@ import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
-import {
-  ALL_ERC20_PROJECTS_QUERY,
-  allProjectsForSearchGQL
-} from '../../../../../pages/Projects/allProjectsGQL'
+import { ALL_ERC20_PROJECTS_QUERY } from '../../../../../pages/Projects/allProjectsGQL'
 import { ASSETS_BY_WALLET_QUERY } from '../../../../HistoricalBalance/common/queries'
 import {
   isPossibleEthAddress,
@@ -25,11 +22,17 @@ const isInHeldAssets = (heldAssets, checking) => {
   )
 }
 
-const ETHEREUM = 'ethereum'
+const ETHEREUM = {
+  id: 57,
+  slug: 'ethereum',
+  ticker: 'ETH',
+  infrastructure: 'ETH',
+  name: 'ethereum'
+}
 
 const isErc20Assets = (target, allErc20Projects) =>
-  target.value === ETHEREUM ||
-  target.slug === ETHEREUM ||
+  target.value === ETHEREUM.slug ||
+  target.slug === ETHEREUM.slug ||
   (Array.isArray(target)
     ? isInHeldAssets(allErc20Projects, target)
     : isInHeldAssets(allErc20Projects, [target]))
@@ -55,8 +58,8 @@ const propTypes = {
   assets: PropTypes.array
 }
 
-const getFromAll = (allList, { value, slug }) =>
-  allList.find(
+const getFromAll = (erc20List, { value, slug }) =>
+  erc20List.find(
     ({ slug: currentSlug }) => currentSlug === value || currentSlug === slug
   )
 
@@ -69,30 +72,29 @@ const isEthAddress = data => {
 }
 
 const TriggerFormHistoricalBalance = ({
-  data: { allErc20Projects = [], allProjects = [] } = {},
+  data: { allErc20Projects = [] } = {},
   metaFormSettings: { ethAddress: metaEthAddress, target: metaTarget },
   assets = [],
   setFieldValue,
-  values,
+  values: { target, ethAddress },
   isLoading = false
 }) => {
-  const { target, ethAddress } = values
-
   const [erc20List, setErc20] = useState(allErc20Projects)
-  const [allList, setAll] = useState(allProjects)
   const [heldAssets, setHeldAssets] = useState(assets)
 
-  const metaMappedToAll = mapAssetsToAllProjects(
-    allList,
-    Array.isArray(metaTarget.value) ? metaTarget.value : [metaTarget.value]
-  )
+  const metaMappedToAll = erc20List.length
+    ? mapAssetsToAllProjects(
+      erc20List,
+      Array.isArray(metaTarget.value) ? metaTarget.value : [metaTarget.value]
+    )
+    : []
 
   const validateTarget = () => {
     let asset
     if (target.length === 1 && !target[0].slug) {
-      asset = getFromAll(allList, target[0])
+      asset = getFromAll(erc20List, target[0])
     } else if (target && !target.slug) {
-      asset = getFromAll(allList, target)
+      asset = getFromAll(erc20List, target)
     }
 
     asset &&
@@ -134,10 +136,9 @@ const TriggerFormHistoricalBalance = ({
         allErc20Projects.length &&
         !erc20List.length &&
         setErc20(allErc20Projects)
-      allProjects && allProjects.length && setAll(allProjects)
       assets && assets.length && setHeldAssets(assets)
     },
-    [allErc20Projects, allProjects, assets]
+    [allErc20Projects, assets]
   )
 
   useEffect(() => validateTarget(), [target, ethAddress])
@@ -172,8 +173,8 @@ const TriggerFormHistoricalBalance = ({
 
   const selectableProjects =
     hasEthAddress(ethAddress) && !disabledWalletField && heldAssets.length > 0
-      ? mapAssetsToAllProjects(allList, heldAssets)
-      : allList
+      ? mapAssetsToAllProjects(erc20List, heldAssets)
+      : erc20List
 
   return (
     <>
@@ -205,6 +206,7 @@ const TriggerFormHistoricalBalance = ({
             target={target}
             projects={selectableProjects}
             setFieldValue={setFieldValue}
+            isSingle
           />
         </div>
       </div>
@@ -213,42 +215,29 @@ const TriggerFormHistoricalBalance = ({
 }
 
 const mapDataToProps = ({
-  Projects: { allErc20Projects, allProjects, loading },
+  Projects: { allErc20Projects = [], loading },
   ownProps
 }) => {
-  const { data = {} } = ownProps
-
   if (
     allErc20Projects &&
     allErc20Projects.length > 0 &&
-    !allErc20Projects.find(({ slug }) => slug === ETHEREUM)
+    !allErc20Projects.find(({ slug }) => slug === ETHEREUM.slug)
   ) {
     allErc20Projects.push({
-      slug: ETHEREUM
+      ...ETHEREUM
     })
   }
 
   return {
     ...ownProps,
     data: {
-      allErc20Projects: allErc20Projects || data.allErc20Projects,
-      allProjects: allProjects || data.allProjects
+      allErc20Projects
     },
     isLoading: loading
   }
 }
 
 const enhance = compose(
-  graphql(allProjectsForSearchGQL, {
-    name: 'Projects',
-    props: mapDataToProps,
-    options: () => {
-      return {
-        errorPolicy: 'all',
-        variables: { minVolume: 0 }
-      }
-    }
-  }),
   graphql(ALL_ERC20_PROJECTS_QUERY, {
     name: 'Projects',
     props: mapDataToProps,

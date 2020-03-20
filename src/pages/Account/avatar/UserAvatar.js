@@ -1,5 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
 import styles from './UserAvatar.module.scss'
@@ -8,23 +9,29 @@ const UserAvatar = ({
   classes = {},
   isExternal,
   externalAvatarUrl,
-  avatarUrl = ''
+  avatarUrl = '',
+  as: El = Link,
+  userId,
+  to
 }) => {
-  const link = isExternal ? externalAvatarUrl : avatarUrl
+  const picUrl = isExternal ? externalAvatarUrl : avatarUrl
+
+  const linkTo = to || '/profile/' + userId
 
   return (
-    <div
+    <El
+      to={linkTo}
       className={cx(
         styles.avatar,
         classes.avatar,
-        !link && classes.avatarEmpty
+        !picUrl && classes.avatarEmpty
       )}
       style={{
-        backgroundImage: `url("${link}"`
+        backgroundImage: `url("${picUrl}"`
       }}
     >
-      {!link && <Icon type='profile' className={classes.avatarIcon} />}
-    </div>
+      {!picUrl && <Icon type='profile' className={classes.avatarIcon} />}
+    </El>
   )
 }
 

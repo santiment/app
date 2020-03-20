@@ -39,13 +39,17 @@ const MoreSignalActions = ({
   deleteEnabled = true,
   editable = true
 }) => {
+  const canShare = true
+
   if (!isUserTheAuthor) {
     return (
-      <ShareSignal
-        className={styles.shareBtn}
-        signalId={signalId}
-        signalTitle={signalTitle}
-      />
+      canShare && (
+        <ShareSignal
+          className={styles.shareBtn}
+          signalId={signalId}
+          signalTitle={signalTitle}
+        />
+      )
     )
   }
 
@@ -71,7 +75,7 @@ const MoreSignalActions = ({
           </div>
         )}
 
-        {isPublic && (
+        {canShare && isPublic && (
           <ShareSignal
             trigger={SignalShareTrigger}
             signalId={signalId}
@@ -93,12 +97,10 @@ const MoreSignalActions = ({
   )
 }
 
-const SignalShareTrigger = ({ ...props }) => {
-  return (
-    <Button as='a' {...props} className={styles.share}>
-      Share
-    </Button>
-  )
-}
+const SignalShareTrigger = ({ ...props }) => (
+  <Button as='a' {...props} className={styles.share}>
+    Share
+  </Button>
+)
 
 export default MoreSignalActions

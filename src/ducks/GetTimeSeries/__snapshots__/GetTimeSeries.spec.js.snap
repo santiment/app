@@ -10,7 +10,7 @@ Array [
       "metrics": Array [
         Object {
           "interval": "1d",
-          "name": "historyPrice",
+          "name": "price_usd",
           "slug": "santiment",
           "timeRange": "6m",
         },

@@ -1,3 +1,5 @@
+@import '~@santiment-network/ui/variables';
+
 .wrapper {
   position: absolute;
   z-index: 11;
@@ -23,5 +25,55 @@
     height: 10px;
     top: -5px;
     left: -14px;
+  }
+}
+
+.alerts {
+  display: none;
+  width: 370px;
+  position: absolute;
+  left: 17px;
+  transform: translateY(-50%);
+  max-width: initial !important;
+}
+
+.add {
+  position: absolute;
+  margin-top: -6px;
+  right: -6px;
+  background: $waterloo;
+  height: 13px;
+  width: 13px;
+  background-image: url('./plus.svg');
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: translateY(var(--top));
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    cursor: pointer;
+  }
+
+  &:hover {
+    background-color: $fiord;
+
+    .alerts {
+      display: block;
+      top: 50%;
+
+      &::before {
+        content: '';
+        position: absolute;
+        bottom: 30%;
+        top: 30%;
+        width: 13px;
+        right: 100%;
+      }
+    }
   }
 }

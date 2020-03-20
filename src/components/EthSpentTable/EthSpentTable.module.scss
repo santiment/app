@@ -1,11 +1,32 @@
 @import '~@santiment-network/ui/mixins';
 
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.headerLoader {
+  font-size: 12px;
+  margin-left: 24px;
+}
+
+.actions {
+  display: flex;
+  margin-left: auto;
+}
+
+.control {
+  margin-right: 10px;
+}
+
 .panel {
   padding: 0;
+  min-height: 250px;
 }
 
 .wrapper {
   width: 100%;
+  min-height: 300px;
 }
 
 .ticker {
@@ -31,12 +52,13 @@
 
 .ethSpentTable:global(.ReactTable) {
   border: none;
+  min-height: 250px;
 
   :global {
     .rt-td {
       border: none !important;
       padding: 0;
-      align-self: baseline;
+      align-self: center;
       text-overflow: clip;
       display: flex;
       align-items: center;
@@ -125,6 +147,10 @@
 
     .rt-tbody .rt-tr-group {
       padding-right: 0;
+    }
+
+    .rt-tbody {
+      overflow-x: hidden;
     }
   }
 }

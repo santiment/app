@@ -12,7 +12,8 @@ function metricsToPlotCategories (metrics) {
     daybars: [],
     bars: [],
     joinedCategories: [],
-    areas: []
+    areas: [],
+    metrics
   }
   const joinedCategories = requestedData.joinedCategories
 
@@ -45,7 +46,7 @@ export const getSyncedColors = metrics => {
   return colors
 }
 
-const { historyPrice } = Metrics
+const { price_usd } = Metrics
 
 function colorTrend (position) {
   if (position < 4) {
@@ -83,19 +84,54 @@ export function prepareEvents (events) {
   })
 }
 
-const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
+const Synchronizer = ({
+  children,
+  isDomainGroupingActive,
+  metrics,
+  isMultiChartsActive,
+  events
+}) => {
   const [syncedTooltipDate, syncTooltips] = useState()
   const [syncedEvents, syncEvents] = useState()
   const [syncedCategories, syncCategories] = useState([])
   const [noPriceMetrics, setNoPriceMetrics] = useState([])
   const [hasPriceMetric, setHasPriceMetric] = useState()
   const [isValidMulti, setIsValidMulti] = useState()
-
-  const syncedColors = getSyncedColors(metrics)
+  const [domainGroups, setDomainGroups] = useState()
 
   useEffect(
     () => {
-      const noPriceMetrics = metrics.filter(metric => metric !== historyPrice)
+      if (!isDomainGroupingActive) {
+        return setDomainGroups()
+      }
+
+      const Domain = Object.create(null)
+      const { length } = metrics
+
+      for (let i = 0; i < length; i++) {
+        const { key, domainGroup } = metrics[i]
+
+        if (!domainGroup) continue
+
+        const domain = Domain[domainGroup]
+
+        if (domain) {
+          Domain[domainGroup] += `,${key}`
+        } else {
+          Domain[domainGroup] = `${domainGroup},${key}`
+        }
+      }
+      const newDomainGroups = Object.values(Domain).map(group =>
+        group.split(',')
+      )
+      setDomainGroups(newDomainGroups.length > 0 ? newDomainGroups : undefined)
+    },
+    [metrics, isDomainGroupingActive]
+  )
+
+  useEffect(
+    () => {
+      const noPriceMetrics = metrics.filter(metric => metric !== price_usd)
       const hasPriceMetric = metrics.length !== noPriceMetrics.length
       const isValidMulti = isMultiChartsActive && noPriceMetrics.length > 1
 
@@ -104,7 +140,7 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
         noPriceMetrics.forEach(metric =>
           categories.push(
             metricsToPlotCategories(
-              hasPriceMetric ? [metric, historyPrice] : [metric]
+              hasPriceMetric ? [metric, price_usd] : [metric]
             )
           )
         )
@@ -113,7 +149,7 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
       }
 
       syncCategories(categories)
-      syncEvents(prepareEvents(events))
+      syncEvents(events)
       setNoPriceMetrics(noPriceMetrics)
       setHasPriceMetric(hasPriceMetric)
       setIsValidMulti(isValidMulti)
@@ -134,24 +170,26 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
         return null
       }
 
-      const tooltipKey = getMetricKey(hasPriceMetric ? historyPrice : metric)
+      const tooltipKey = getMetricKey(hasPriceMetric ? price_usd : metric)
 
       return React.cloneElement(children, {
         key: metric.key,
+        index: i,
         isMultiChartsActive,
         syncedTooltipDate,
-        syncedColors,
         syncTooltips,
         hasPriceMetric,
         tooltipKey,
+        domainGroups,
         ...categories,
         events: syncedEvents
       })
     })
     : React.cloneElement(children, {
       ...syncedCategories[0],
-      syncedColors,
+      isMultiChartsActive: false,
       hasPriceMetric,
+      domainGroups,
       events: syncedEvents,
       tooltipKey: getValidTooltipKey(
         getMetricKey(findTooltipMetric(metrics)),

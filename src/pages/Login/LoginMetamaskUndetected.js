@@ -14,6 +14,7 @@ const LoginMetamaskUndetected = () => {
           target='_blank'
           rel='noopener noreferrer'
           href='https://metamask.io/#how-it-works'
+          className={styles.undetected__link}
         >
           How Metamask works?
         </a>

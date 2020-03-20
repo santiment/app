@@ -1,0 +1,75 @@
+@import '~@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/variables';
+
+.wrapper {
+  box-shadow: 0 2px 6px rgba(24, 27, 43, 0.03),
+    0 4px 24px rgba(24, 27, 43, 0.05);
+  border-radius: 4px;
+  user-select: none;
+  border: 1px solid var(--porcelain);
+}
+
+.header {
+  @include text('caption');
+
+  display: flex;
+  align-items: center;
+  background: var(--white);
+  color: var(--rhino);
+  padding: 7px 16px;
+}
+
+.manual {
+  margin-left: auto;
+  color: var(--jungle-green);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+.suggestions,
+.suggestion {
+  display: flex;
+}
+
+.suggestion {
+  flex-direction: column;
+  flex: 1;
+  background: var(--white);
+  border-left: 1px solid var(--porcelain);
+
+  &:first-child {
+    border: none;
+  }
+}
+
+.title {
+  background: var(--athens);
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 16px;
+  color: var(--waterloo);
+  padding: 4px 16px;
+  border-top: 1px solid var(--porcelain);
+}
+
+.alert {
+  @include text('caption');
+
+  flex: 1;
+  border-top: 1px solid var(--porcelain);
+  color: var(--waterloo);
+  padding: 8px 16px;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--athens);
+    color: var(--rhino);
+  }
+}
+
+.value {
+  color: var(--jungle-green);
+}

@@ -42,13 +42,13 @@ const MobileAssetChart = ({
   const markup = generateMetricsMarkup(metrics, {
     syncedColors,
     useShortName: true,
-    activeLineDataKey: 'priceUsd',
+    activeLineDataKey: 'price_usd',
     showActiveDot: false
   })
 
   const chartMediumIndex = data.length / 2
 
-  const hideTooltipItem = key => key === 'priceUsd'
+  const hideTooltipItem = key => key === 'price_usd'
 
   const setCurrentIndex = throttle(
     evt => setActiveIndex(evt ? evt.activeTooltipIndex : null),
@@ -95,7 +95,7 @@ const MobileAssetChart = ({
                 return dataMax
               }
             ]}
-            dataKey={'priceUsd'}
+            dataKey={'price_usd'}
           />
           {isTouch && (
             <Tooltip
@@ -144,7 +144,7 @@ const MobileAssetChart = ({
             <ReferenceLine
               strokeDasharray='5 5'
               stroke={isTouch ? 'transparent' : 'var(--waterloo)'}
-              yAxisId='axis-priceUsd'
+              yAxisId='axis-price_usd'
               y={icoPrice}
               label={({ viewBox: { y } }) => setIcoPricePos(y)}
             />

@@ -19,15 +19,17 @@ const COMPLEXITY_NOTE =
 const MetricExplanation = ({
   children,
   label,
+  fullTitle = label,
   description,
   video,
   note,
   withChildren = false,
-  isComplexityError
+  isComplexityError,
+  ...rest
 }) => {
   if (!description && isComplexityError) {
     return (
-      <Tooltip className={styles.explanation} trigger={children}>
+      <Tooltip className={styles.explanation} trigger={children} {...rest}>
         <div className={styles.explanation__content}>
           <Note>{COMPLEXITY_NOTE}</Note>
         </div>
@@ -36,9 +38,9 @@ const MetricExplanation = ({
   }
 
   return description ? (
-    <Tooltip className={styles.explanation} trigger={children}>
+    <Tooltip className={styles.explanation} trigger={children} {...rest}>
       <div className={styles.explanation__content}>
-        <h4 className={styles.title}>{label}</h4>
+        <h4 className={styles.title}>{fullTitle}</h4>
         <p className={styles.text}>{description}</p>
         {note && note}
         {video && (

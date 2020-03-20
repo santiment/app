@@ -21,15 +21,6 @@ export const HISTORICAL_BALANCE_QUERY = gql`
   }
 `
 
-export const allAssetsGQL = gql`
-  {
-    allErc20Projects {
-      slug
-      mainContractAddress
-    }
-  }
-`
-
 export const ASSETS_BY_WALLET_QUERY = gql`
   query assetsHeldByAddress($address: String!) {
     assetsHeldByAddress(address: $address) {

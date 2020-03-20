@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
+import { compose } from 'recompose'
+import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
 import GA from '../../../utils/tracking'
-import GetAsset from '../gqlWrappers/GetAsset'
+import { PROJECT_BY_SLUG_MOBILE_QUERY } from '../../../ducks/SANCharts/gql'
 import Title from './MobileAssetTitle'
 import AssetChart from './MobileAssetChart'
 import PriceBlock from './MobileAssetPriceInfo'
@@ -38,7 +40,11 @@ import { addRecentAssets } from '../../../utils/recent'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import styles from './MobileDetailedPage.module.scss'
 
-const MobileDetailedPage = ({ hasPremium, ...props }) => {
+const MobileDetailedPage = ({
+  hasPremium,
+  data: { project = {}, loading },
+  ...props
+}) => {
   const slug = props.match.params.slug
   const [timeRange, setTimeRange] = useState(DEFAULT_TIME_RANGE)
   const [icoPricePos, setIcoPricePos] = useState(null)
@@ -93,201 +99,199 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
     ...rest
   })
 
-  return (
-    <GetAsset
-      slug={slug}
-      render={({ isLoading, slug, project }) =>
-        isLoading ? (
-          <div className={cx('page', styles.wrapper)}>
-            <MobileHeader
-              showBack
-              title={<Title slug={slug} />}
-              goBack={props.history.goBack}
-            />
-            <PageLoader />
-          </div>
-        ) : (
-          <div className={cx('page', styles.wrapper)}>
-            <MobileHeader
-              showBack
-              title={<Title slug={project.name} ticker={project.ticker} />}
-              goBack={props.history.goBack}
-            />
-            <div
-              className={styles.main}
-              onTouchStart={() => setIsOuterEvent(true)}
-              onTouchCancel={() => setIsOuterEvent(false)}
-              onTouchEnd={() => setIsOuterEvent(false)}
-              ref={el => {
-                if (!el) return
-                if (!width) {
-                  setWidth(el.getBoundingClientRect().width)
+  return loading ? (
+    <div className={cx('page', styles.wrapper)}>
+      <MobileHeader
+        showBack
+        title={<Title slug={slug} />}
+        goBack={props.history.goBack}
+      />
+      <PageLoader />
+    </div>
+  ) : (
+    <div className={cx('page', styles.wrapper)}>
+      <MobileHeader
+        showBack
+        title={<Title slug={project.name} ticker={project.ticker} />}
+        goBack={props.history.goBack}
+      />
+      <div
+        className={styles.main}
+        onTouchStart={() => setIsOuterEvent(true)}
+        onTouchCancel={() => setIsOuterEvent(false)}
+        onTouchEnd={() => setIsOuterEvent(false)}
+        ref={el => {
+          if (!el) return
+          if (!width) {
+            setWidth(el.getBoundingClientRect().width)
+          }
+        }}
+      >
+        <GetTimeSeries
+          {...requestedData}
+          render={({
+            timeseries = [],
+            errorMetrics = {},
+            eventsData = [],
+            isError,
+            isLoading,
+            errorType
+          }) => {
+            if (isError) {
+              return <ErrorRequest errorType={errorType} />
+            }
+
+            const errors = Object.keys(errorMetrics)
+            const finalMetrics = metrics.filter(
+              ({ key }) => !errors.includes(key)
+            )
+
+            const chartMetrics = [
+              Metrics.historyPricePreview,
+              ...finalMetrics
+            ].filter(({ type }) => type !== 'events')
+            const syncedColors = getSyncedColors(chartMetrics)
+
+            const filteredEvents = eventsData.filter(
+              ({ metricAnomalyKey }) =>
+                !metricAnomalyKey ||
+                metrics.some(({ key }) => key === metricAnomalyKey)
+            )
+
+            const data = mapDatetimeToNumber(timeseries)
+
+            const events = prepareEvents(filteredEvents).map(
+              ({ metric, datetime, key, ...rest }) => {
+                const day = data.find(item => item.datetime === datetime)
+                return {
+                  metric,
+                  y: day ? day[metric] : 0,
+                  datetime,
+                  key,
+                  ...rest,
+                  color: key === 'trendingPosition' ? '#505573' : rest.color
                 }
-              }}
-            >
-              <GetTimeSeries
-                {...requestedData}
-                render={({
-                  timeseries = [],
-                  errorMetrics = {},
-                  eventsData = [],
-                  isError,
-                  isLoading,
-                  errorType
-                }) => {
-                  if (isError) {
-                    return <ErrorRequest errorType={errorType} />
-                  }
+              }
+            )
 
-                  const errors = Object.keys(errorMetrics)
-                  const finalMetrics = metrics.filter(
-                    ({ key }) => !errors.includes(key)
-                  )
+            const eventsObj = convertEventsToObj(events)
 
-                  const chartMetrics = [
-                    Metrics.historyPricePreview,
-                    ...finalMetrics
-                  ].filter(({ type }) => type !== 'events')
-                  const syncedColors = getSyncedColors(chartMetrics)
+            const commonChartProps = {
+              syncedColors,
+              isLoading,
+              slug,
+              events,
+              eventsObj,
+              data,
+              metrics: chartMetrics
+            }
 
-                  const filteredEvents = eventsData.filter(
-                    ({ metricAnomalyKey }) =>
-                      !metricAnomalyKey ||
-                      metrics.some(({ key }) => key === metricAnomalyKey)
-                  )
+            const commonMetricsToolProps = {
+              slug,
+              toggleMetric,
+              showLimitMessage: isLimitReached,
+              activeMetrics: metrics,
+              hiddenMetrics: [Metrics.price_usd],
+              isMobile: true
+            }
 
-                  const data = mapDatetimeToNumber(timeseries)
-
-                  const events = prepareEvents(filteredEvents).map(
-                    ({ metric, datetime, key, ...rest }) => {
-                      const day = data.find(item => item.datetime === datetime)
-                      return {
-                        metric,
-                        y: day ? day[metric] : 0,
-                        datetime,
-                        key,
-                        ...rest,
-                        color:
-                          key === 'trendingPosition' ? '#505573' : rest.color
-                      }
-                    }
-                  )
-
-                  const eventsObj = convertEventsToObj(events)
-
-                  const commonChartProps = {
-                    syncedColors,
-                    isLoading,
-                    slug,
-                    events,
-                    eventsObj,
-                    data,
-                    metrics: chartMetrics
-                  }
-
-                  const commonMetricsToolProps = {
-                    slug,
-                    toggleMetric,
-                    showLimitMessage: isLimitReached,
-                    activeMetrics: metrics,
-                    hiddenMetrics: [Metrics.historyPrice],
-                    isMobile: true
-                  }
-
-                  return (
+            return (
+              <>
+                <PriceBlock {...project} slug={slug} />
+                {!fullscreen && (
+                  <AssetChart
+                    icoPrice={project.icoPrice}
+                    icoPricePos={icoPricePos}
+                    setIcoPricePos={setIcoPricePos}
+                    {...commonChartProps}
+                  />
+                )}
+                <div className={styles.bottom}>
+                  {!fullscreen && (
+                    <ChartSelector
+                      onChangeTimeRange={value => {
+                        setTimeRange(value)
+                        setIcoPricePos(null)
+                      }}
+                      timeRange={timeRange}
+                      className={styles.selector}
+                    />
+                  )}
+                  <FullscreenChart
+                    isOpen={fullscreen}
+                    toggleOpen={toggleFullscreen}
+                    project={project}
+                    onChangeTimeRange={setTimeRange}
+                    timeRange={timeRange}
+                    chartProps={commonChartProps}
+                    metricsToolProps={commonMetricsToolProps}
+                  />
+                </div>
+                {!hasPremium && metrics.length > 0 && <MobileProPopup />}
+                <ChartMetricsTool
+                  classes={styles}
+                  addMetricBtnText='Add metrics'
+                  className={styles.metricsPopup}
+                  {...commonMetricsToolProps}
+                />
+                <div
+                  className={cx(
+                    styles.selected,
+                    finalMetrics.length === 0 && styles.hide
+                  )}
+                >
+                  {metrics.length > 0 && (
                     <>
-                      <PriceBlock {...project} />
-                      {!fullscreen && (
-                        <AssetChart
-                          icoPrice={project.icoPrice}
-                          icoPricePos={icoPricePos}
-                          setIcoPricePos={setIcoPricePos}
-                          {...commonChartProps}
-                        />
-                      )}
-                      <div className={styles.bottom}>
-                        {!fullscreen && (
-                          <ChartSelector
-                            onChangeTimeRange={value => {
-                              setTimeRange(value)
-                              setIcoPricePos(null)
-                            }}
-                            timeRange={timeRange}
-                            className={styles.selector}
-                          />
-                        )}
-                        <FullscreenChart
-                          isOpen={fullscreen}
-                          toggleOpen={toggleFullscreen}
+                      <h3 className={styles.heading}>Selected Metrics</h3>
+                      {metrics.map(metric => (
+                        <MobileMetricCard
+                          metric={metric}
+                          ticker={project.ticker}
+                          isSelected
+                          onToggleMetric={() => toggleMetric(metric)}
+                          key={metric.key + 'selected'}
+                          {...rest}
+                          hasPremium={hasPremium}
+                          errorsMetricsKeys={errors}
+                          colors={syncedColors}
+                          width={width}
                           project={project}
-                          onChangeTimeRange={setTimeRange}
-                          timeRange={timeRange}
-                          chartProps={commonChartProps}
-                          metricsToolProps={commonMetricsToolProps}
+                          isOuterEvent={isOuterEvent}
                         />
-                      </div>
-                      {!hasPremium && metrics.length > 0 && <MobileProPopup />}
-                      <div
-                        className={cx(
-                          styles.selected,
-                          finalMetrics.length === 0 && styles.hide
-                        )}
-                      >
-                        {metrics.length > 0 && (
-                          <>
-                            <h3 className={styles.heading}>Selected Metrics</h3>
-                            {metrics.map(metric => (
-                              <MobileMetricCard
-                                metric={metric}
-                                ticker={project.ticker}
-                                isSelected
-                                onToggleMetric={() => toggleMetric(metric)}
-                                key={metric.key + 'selected'}
-                                {...rest}
-                                hasPremium={hasPremium}
-                                errorsMetricsKeys={errors}
-                                colors={syncedColors}
-                                width={width}
-                                project={project}
-                                isOuterEvent={isOuterEvent}
-                              />
-                            ))}
-                          </>
-                        )}
-                      </div>
-                      <ChartMetricsTool
-                        classes={styles}
-                        addMetricBtnText='Add metrics'
-                        className={styles.metricsPopup}
-                        {...commonMetricsToolProps}
-                      />
-                      {isLimitReached && (
-                        <div className={styles.limit}>
-                          To add a new metric, please de-select another one
-                        </div>
-                      )}
-                      <MobilePopularMetrics
-                        metrics={metrics}
-                        width={width}
-                        hasPremium={hasPremium}
-                        errorsMetricsKeys={errors}
-                        isOuterEvent={isOuterEvent}
-                        project={project}
-                        onToggleMetric={toggleMetric}
-                        {...rest}
-                      />
+                      ))}
                     </>
-                  )
-                }}
-              />
-            </div>
-          </div>
-        )
-      }
-    />
+                  )}
+                </div>
+                {isLimitReached && (
+                  <div className={styles.limit}>
+                    To add a new metric, please de-select another one
+                  </div>
+                )}
+                <MobilePopularMetrics
+                  metrics={metrics}
+                  width={width}
+                  hasPremium={hasPremium}
+                  errorsMetricsKeys={errors}
+                  isOuterEvent={isOuterEvent}
+                  project={project}
+                  onToggleMetric={toggleMetric}
+                  {...rest}
+                />
+              </>
+            )
+          }}
+        />
+      </div>
+    </div>
   )
 }
 
 const mapStateToProps = state => ({ hasPremium: checkHasPremium(state) })
 
-export default connect(mapStateToProps)(MobileDetailedPage)
+export default compose(
+  connect(mapStateToProps),
+  graphql(PROJECT_BY_SLUG_MOBILE_QUERY, {
+    skip: ({ match }) => !match.params.slug,
+    options: ({ match }) => ({ variables: { slug: match.params.slug } })
+  })
+)(MobileDetailedPage)

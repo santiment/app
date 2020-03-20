@@ -1,43 +1,37 @@
 @import '~@santiment-network/ui/mixins';
-@import '~@santiment-network/ui/variables';
 
 .container {
-  margin-top: 46px;
   display: flex;
 
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+  @include responsive('phone', 'phone-xs') {
     flex-direction: column;
-    margin-top: 20px;
+    margin: 0 16px;
   }
 }
 
 .left {
   display: flex;
 
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+  @include responsive('phone', 'phone-xs') {
     display: flex;
     max-width: 100%;
-    justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    margin-top: 16px;
   }
 }
 
 .leftText {
   word-break: break-word;
-
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    margin: 20px 0;
-  }
 }
 
 .right {
   flex: 1;
   margin-left: 55px;
   margin-bottom: 40px;
-  padding-bottom: 40px;
+  padding-bottom: 31px;
   border-bottom: 1px solid var(--porcelain);
 
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+  @include responsive('phone', 'phone-xs') {
     margin: 0;
     padding: 0;
     min-width: auto;
@@ -49,11 +43,6 @@
   display: flex;
   align-items: center;
   margin-top: 32px;
-
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    margin: 20px 0;
-    flex-direction: column;
-  }
 }
 
 .followersBlocks {
@@ -64,12 +53,22 @@
   padding: 9px;
   display: flex;
   align-items: center;
+
+  &:hover {
+    cursor: pointer;
+    background: var(--athens);
+    border-radius: $border-radius;
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    padding-left: 0;
+  }
 }
 
 .followBlockSecond {
   margin-left: 16px;
 
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+  @include responsive('phone', 'phone-xs') {
     margin-left: 16px;
   }
 }
@@ -78,54 +77,59 @@
   @include text('h4');
 
   color: var(--rhino);
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2');
+  }
 }
 
 .followDescription {
   @include text('body-3');
 
   color: var(--waterloo);
-}
 
-.socialIcons {
-  height: 32px;
-  margin-left: 48px;
-  padding-left: 48px;
-  border-left: 1px solid var(--porcelain);
-  align-items: center;
-  display: flex;
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2');
 
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    margin: 8px 0 0;
-    padding: 0;
-    border: none;
-  }
-}
-
-.socialIcon {
-  margin: 26px;
-  cursor: not-allowed;
-  fill: var(--casper);
-
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    margin: 0 13px 0 13px;
+    margin-left: 6px;
   }
 }
 
 .follow {
   height: 32px;
+
+  @include responsive('phone', 'phone-xs') {
+    display: none;
+  }
 }
 
 .followCounters {
   margin-left: 13px;
+
+  @include responsive('phone', 'phone-xs') {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 0;
+  }
+}
+
+.editIcon {
+  margin-right: 8px;
 }
 
 .followBtn {
   margin-top: 16px;
   padding: 6px 12px 6px 7px;
+  max-width: 142px;
 
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    margin: 0 0 0 auto;
+  @include responsive('phone', 'phone-xs') {
+    margin: 12px 0 0 auto;
   }
+}
+
+.info {
+  display: flex;
 }
 
 .name {
@@ -133,6 +137,10 @@
 
   color: var(--rhino);
   overflow-wrap: break-word;
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('h4');
+  }
 }
 
 .email {
@@ -143,12 +151,55 @@
   display: flex;
   align-items: center;
 
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+  @include responsive('phone', 'phone-xs') {
     margin: 0 0 0 16px;
   }
 }
 
 .avatar {
-  min-width: 140px;
-  min-height: 140px;
+  width: 140px;
+  height: 140px;
+
+  svg {
+    width: 50%;
+    height: 50%;
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    width: 82px;
+    height: 82px;
+    min-width: 82px;
+    margin-right: 14px;
+  }
+}
+
+.counter {
+  color: var(--waterloo);
+}
+
+.shareIcon {
+  margin-right: 12px;
+  fill: var(--waterloo);
+
+  @include responsive('phone', 'phone-xs') {
+    fill: var(--jungle-green);
+  }
+}
+
+.shareTrigger {
+  color: var(--rhino);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+
+  @include text('body-2');
+
+  &:hover {
+    color: var(--jungle-green-hover);
+
+    .shareIcon {
+      fill: var(--jungle-green-hover);
+    }
+  }
 }

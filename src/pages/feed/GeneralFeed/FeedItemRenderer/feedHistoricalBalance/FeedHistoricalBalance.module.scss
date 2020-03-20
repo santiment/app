@@ -1,0 +1,38 @@
+@import '~@santiment-network/ui/mixins';
+
+.balanceBtn {
+  padding: 9px 12px;
+  border: 1px solid var(--porcelain);
+  border-radius: $border-radius;
+  color: var(--waterloo) !important;
+  margin-top: 16px;
+
+  @include text('caption');
+
+  &:hover {
+    color: var(--jungle-green-hover) !important;
+  }
+}
+
+.balanceChange {
+  color: var(--persimmon);
+  margin: 0 4px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.description {
+  display: block;
+  margin-top: 8px;
+  word-break: break-word;
+
+  @include text('caption');
+}
+
+.address {
+  margin: 0;
+}

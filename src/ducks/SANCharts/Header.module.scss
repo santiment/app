@@ -2,20 +2,28 @@
 
 .container {
   display: flex;
-  justify-content: center;
-  max-width: 1140px;
-  width: 100%;
-  margin: auto;
+  justify-content: flex-start;
+  margin-left: 16px;
+
+  @include responsive('desktop') {
+    margin-left: 0;
+  }
 }
 
 .wrapper {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
+  max-width: 1050px;
 
   @include responsive('tablet') {
-    justify-content: flex-start;
+    justify-content: space-between;
+  }
+
+  @include responsive('laptop') {
+    width: auto;
+    padding-right: 10px;
   }
 }
 
@@ -33,58 +41,81 @@
   }
 
   &__name {
-    font-size: 22px !important;
-    line-height: 30px !important;
-    margin: 0;
-    color: var(--mirage);
+    margin: 0 0 4px;
+    color: var(--rhino);
+
+    @include text('h4');
   }
 
   &__arrows {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    margin-left: 9px;
+    margin: 0 0 4px 9px;
     height: 22px;
+  }
+
+  &__arrow {
+    fill: var(--waterloo);
+    transform: scale(1.3);
   }
 
   &__description {
     @include text('body-3');
 
     color: var(--waterloo);
+    max-width: 450px;
+    margin-bottom: 16px;
+
+    @include responsive('laptop') {
+      max-width: 400px;
+    }
   }
 }
 
 .selector {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   cursor: pointer;
 
-  &:hover .project__top {
-    fill: var(--jungle-green);
+  &:hover {
+    & .project__arrow {
+      fill: var(--jungle-green);
+    }
+
+    & .project__name {
+      color: var(--jungle-green);
+    }
   }
 }
 
 .projectInfo {
   padding: 0 5px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: flex-start;
+  margin-left: 16px;
 
-  @include responsive('laptop', 'desktop') {
-    min-width: 365px;
+  @include responsive('desktop') {
+    min-width: 300px;
+    justify-content: flex-start;
   }
 
   @include responsive('tablet') {
-    margin-left: 16px;
+    min-width: 220px;
+  }
+
+  @include responsive('laptop') {
+    min-width: 240px;
   }
 
   & .column {
     display: flex;
     flex-direction: column;
-    padding: 0 7px;
+    margin-left: 16px;
 
     &:first-child {
-      margin-right: 10px;
+      margin-left: 0;
     }
   }
 }
@@ -94,6 +125,12 @@
   color: var(--waterloo);
 
   @include text('body-3');
+}
+
+.text {
+  @include text('body-3');
+
+  color: var(--waterloo);
 }
 
 .usdWrapper {
@@ -112,51 +149,46 @@
 
   padding-top: 6px;
   margin: 0 0 4px;
+
+  @include responsive('desktop') {
+    padding-top: 0;
+  }
 }
 
 .actions {
   display: flex;
-
-  @include responsive('desktop', 'laptop') {
-    min-width: 280px;
-  }
-
-  @include responsive('tablet', 'laptop') {
-    flex-direction: column;
-  }
-
-  @include responsive('tablet') {
-    margin-left: auto;
-  }
+  margin: 0 0 0 55px;
+  min-width: 220px;
 }
 
 .btn {
-  color: var(--mirage);
+  color: var(--rhino);
   background: inherit;
 
-  @include responsive('tablet', 'laptop') {
-    margin-left: auto;
-  }
-
   &.signal {
-    margin: 0 16px 0 auto;
-
-    @include responsive('tablet', 'laptop') {
-      margin: 0 0 6px auto;
-    }
+    margin: 0 0 0 8px;
   }
 
   &__icon {
     margin-right: 8px;
+    fill: var(--casper);
   }
 }
 
 .totalSupply {
-  color: var(--mirage);
+  color: var(--waterloo);
 }
 
 .range {
   display: inline-flex;
 
   @include text('body-3');
+}
+
+.highLow {
+  @include responsive('desktop') {
+    max-width: 200px;
+  }
+
+  max-width: 145px;
 }

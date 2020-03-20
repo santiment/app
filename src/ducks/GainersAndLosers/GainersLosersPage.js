@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo'
 import cx from 'classnames'
 import { Selector } from '@santiment-network/ui'
 import GainersLosersTable from './GainersAndLosersTable'
-import { allProjectsForSearchGQL } from '../../pages/Projects/allProjectsGQL'
+import { ALL_PROJECTS_FOR_SEARCH_QUERY } from '../../pages/Projects/allProjectsGQL'
 import { mapItemsToKeys } from '../../utils/utils'
 import styles from './GainersAndLosersPage.module.scss'
 
@@ -64,7 +64,7 @@ class GainersAndLosersPage extends Component {
   }
 }
 
-const enhance = graphql(allProjectsForSearchGQL, {
+const enhance = graphql(ALL_PROJECTS_FOR_SEARCH_QUERY, {
   props: ({ data: { allProjects = [], loading, error } }) => ({
     allProjects: !loading
       ? mapItemsToKeys(allProjects, { keyPath: 'slug' })

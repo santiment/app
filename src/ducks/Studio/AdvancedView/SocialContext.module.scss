@@ -4,15 +4,20 @@
   height: 100%;
   width: 100%;
   overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .item {
   &_cloud {
     border: none;
-    height: 180px;
+    height: 210px;
   }
 
   &:last-child {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     border-top: 1px solid var(--porcelain);
     padding: 16px;
   }
@@ -23,15 +28,15 @@
 }
 
 .cloud__header {
-  padding: 16px 16px 0;
+  padding: 23px 16px 10px;
   border: none;
 }
 
 .trend {
   @include text('body-3');
 
+  margin: 0;
   color: var(--mirage);
-  margin: 0 0 14px;
 
   &__label {
     color: var(--waterloo);
@@ -39,10 +44,34 @@
 }
 
 .table {
+  flex: 1;
   height: 248px;
   overflow: auto;
 
-  :global(.rt-tr-group) {
-    height: 48px !important;
+  :global {
+    .ReactTable {
+      .rt-thead.-header {
+        padding: 0 16px;
+      }
+
+      .rt-tr-group {
+        height: 32px !important;
+        padding: 0 16px;
+        border: none;
+      }
+    }
   }
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 14px;
+}
+
+.contextCalendar {
+  position: absolute;
+  top: 16px;
+  right: 16px;
 }

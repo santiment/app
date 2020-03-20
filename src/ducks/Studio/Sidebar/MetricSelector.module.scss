@@ -56,6 +56,7 @@
   fill: var(--waterloo);
   background: var(--porcelain);
   margin-right: 8px;
+  min-width: 10px;
 }
 
 .active {
@@ -69,21 +70,52 @@
   margin: 14px 0 8px;
 }
 
+.info {
+  visibility: hidden;
+  fill: var(--casper);
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+
+  &:hover {
+    fill: var(--rhino);
+  }
+}
+
 .btn {
+  text-align: left;
+  justify-content: space-between;
   padding: 6px 9px;
   min-height: 32px;
   height: auto;
-  text-align: left;
+  z-index: 1;
+
+  &_disabled {
+    color: var(--casper) !important;
+    pointer-events: none;
+
+    .plus {
+      fill: var(--casper);
+    }
+  }
+
+  &__left {
+    display: flex;
+    align-items: center;
+  }
 
   &:hover {
     .plus {
-      background: var(--jungle-green-light);
-      fill: var(--jungle);
+      background: var(--jungle-green);
+      fill: var(--white);
     }
 
     .active {
-      background: var(--persimmon-light);
-      fill: var(--persimmon);
+      background: var(--persimmon);
+    }
+
+    .info {
+      visibility: visible;
     }
   }
 }
@@ -91,6 +123,7 @@
 .advanced {
   margin-left: 24px;
   position: relative;
+  z-index: 0;
 
   &::before,
   &::after {
@@ -101,9 +134,9 @@
   }
 
   &::before {
-    height: 16px;
+    height: 100%;
     width: 1px;
-    transform: translateY(-8px);
+    transform: translateY(-50%);
   }
 
   &::after {

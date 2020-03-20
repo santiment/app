@@ -1,0 +1,104 @@
+@import '~@santiment-network/ui/mixins';
+
+.title {
+  @include text('body-2');
+
+  color: var(--rhino);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  max-height: 440px;
+  overflow-y: auto;
+  padding-right: 20px;
+
+  @include responsive('phone', 'phone-xs') {
+    padding: 16px;
+  }
+}
+
+.listWrapper {
+  padding: 24px 0 24px 24px;
+  overflow-y: hidden;
+
+  @include responsive('phone', 'phone-xs') {
+    padding: 16px;
+  }
+}
+
+.dialog {
+  max-height: 600px;
+  min-width: 670px;
+
+  @include responsive('phone', 'phone-xs') {
+    min-width: initial;
+  }
+}
+
+.loader {
+  max-height: 600px;
+  min-width: 670px;
+
+  @include responsive('phone', 'phone-xs') {
+    min-width: auto;
+  }
+}
+
+.row {
+  display: flex;
+  margin-bottom: 24px;
+  flex: 1;
+
+  &:last-child {
+    margin: 0;
+  }
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+}
+
+.name {
+  color: var(--rhino);
+  margin: 3px 16px 0 16px;
+  word-break: break-word;
+
+  @include text('body-1');
+}
+
+.noName {
+  color: var(--waterloo);
+}
+
+.user {
+  display: flex;
+  flex: 1;
+  cursor: pointer;
+
+  &:hover {
+    .name {
+      color: var(--jungle-green-hover) !important;
+    }
+  }
+}
+
+.followBtn {
+  margin-left: auto;
+
+  @include responsive('phone', 'phone-xs') {
+    width: auto;
+    padding: 0;
+
+    img {
+      display: none;
+    }
+  }
+}
+
+.search {
+  margin: 0 24px 24px 0;
+}

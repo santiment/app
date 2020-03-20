@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@apollo/react-testing": "^3.1.3",
-    "@santiment-network/chart": "^0.0.3",
+    "@santiment-network/chart": "^0.2.0",
     "@santiment-network/ui": "^0.5.158",
     "@trainline/react-skeletor": "^1.0.2",
     "animate-components": "^1.4.8",
@@ -75,6 +75,7 @@
     "react-slick": "^0.23.1",
     "react-stickynode": "^1.4.1",
     "react-stripe-elements": "^4.0.0",
+    "react-swipe": "^6.0.4",
     "react-table": "^6.7.5",
     "react-tag-cloud": "^1.2.0",
     "react-transition-group": "^2.7.0",

@@ -145,3 +145,12 @@
     justify-content: center;
   }
 }
+
+.footer {
+  display: flex;
+  flex-direction: column;
+}
+
+.footerVersionDivider {
+  display: none;
+}

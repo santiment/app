@@ -1,27 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
-import cx from 'classnames'
-import Button from '@santiment-network/ui/Button'
-import Icon from '@santiment-network/ui/Icon'
-import Dialog from '@santiment-network/ui/Dialog'
-import SignalMaster from '../signalFormManager/signalMaster/SignalMaster'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import GetSignal from '../common/getSignal'
 import { SIGNAL_ROUTES } from '../common/constants'
-import SignalAnon from './SignalAnon'
 import ConfirmSignalModalClose from './confirmClose/ConfirmSignalModalClose'
-import PageLoader from '../../../components/Loader/PageLoader'
-import EmptySection from '../../../components/EmptySection/EmptySection'
-import GA from '../../../utils/tracking'
-import styles from './SignalMasterModalForm.module.scss'
+import SignalDialog from './SignalDialog'
 
 const SignalMasterModalForm = ({
   label = 'New signal',
   metaFormSettings,
   canRedirect = true,
   enabled = true,
-  triggerId,
+  id: triggerId,
   isLoggedIn,
   match,
   trigger: dialogTrigger,
@@ -30,7 +21,9 @@ const SignalMasterModalForm = ({
   shareParams = {},
   userId,
   redirect,
-  previousPage = SIGNAL_ROUTES.MY_SIGNALS
+  previousPage = SIGNAL_ROUTES.MY_SIGNALS,
+  defaultOpen = true,
+  onClose
 }) => {
   const { id: shareId, isShared: isOldShared } = shareParams
 
@@ -42,13 +35,15 @@ const SignalMasterModalForm = ({
 
   const hasTrigger = +triggerId > 0
 
-  const [dialogOpenState, setDialogOpenState] = useState(hasTrigger)
+  const [dialogOpenState, setDialogOpenState] = useState(
+    defaultOpen ? hasTrigger : false
+  )
   const [isApproving, setIsAppoving] = useState(false)
   const [isChanged, setIsChanged] = useState(false)
 
   useEffect(
     data => {
-      setDialogOpenState(hasTrigger)
+      defaultOpen && setDialogOpenState(hasTrigger)
     },
     [triggerId]
   )
@@ -65,7 +60,7 @@ const SignalMasterModalForm = ({
 
   const onApprove = () => {
     setIsAppoving(false)
-    setDialogOpenState(false)
+    closeDialog()
 
     goBack()
   }
@@ -74,13 +69,21 @@ const SignalMasterModalForm = ({
     if (isChanged && isLoggedIn) {
       setIsAppoving(true)
     } else {
-      setDialogOpenState(false)
+      closeDialog()
       goBack()
     }
   }
 
   const formChangedCallback = isChanged => {
     setIsChanged(isChanged)
+  }
+
+  function closeDialog () {
+    setDialogOpenState(false)
+
+    if (onClose) {
+      onClose()
+    }
   }
 
   return (
@@ -98,14 +101,17 @@ const SignalMasterModalForm = ({
 
         return (
           <>
-            <ConfirmSignalModalClose
-              isOpen={isApproving}
-              onCancel={onCancelClose}
-              onApprove={onApprove}
-            />
-            <MainDialog
+            {isApproving && (
+              <ConfirmSignalModalClose
+                isOpen={isApproving}
+                onCancel={onCancelClose}
+                onApprove={onApprove}
+              />
+            )}
+            <SignalDialog
               dialogOpenState={dialogOpenState}
               setDialogOpenState={setDialogOpenState}
+              closeDialog={closeDialog}
               onCloseMainModal={onCloseMainModal}
               dialogTrigger={dialogTrigger}
               enabled={enabled}
@@ -145,172 +151,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(SignalMasterModalForm)
-
-const MainDialog = ({
-  dialogOpenState,
-  setDialogOpenState,
-  onCloseMainModal,
-  dialogTrigger,
-  enabled,
-  label,
-  isError,
-  isShared,
-  isLoggedIn,
-  dialogProps,
-  isLoading,
-  trigger,
-  formChangedCallback,
-  canRedirect,
-  metaFormSettings,
-  buttonParams
-}) => {
-  const [dialogTitle, onSetDialogTitle] = useState('')
-  const [isAnonWarning, setAnonWarning] = useState(false)
-  const [openSharedForm, setOpenForm] = useState(isShared)
-
-  const { variant, border } = buttonParams
-
-  const toggleAnon = (warn = true) => {
-    setAnonWarning(warn)
-  }
-
-  useEffect(() => toggleAnon(!isLoggedIn), [isLoggedIn])
-
-  useEffect(
-    () => {
-      if (isLoading) {
-        toggleAnon(false)
-      }
-    },
-    [isLoading]
-  )
-
-  useEffect(
-    () => {
-      if (!isLoggedIn) {
-        onSetDialogTitle('Create signal')
-      }
-    },
-    [isLoggedIn]
-  )
-
-  useEffect(
-    () => {
-      if (openSharedForm !== isShared) {
-        setOpenForm(isShared)
-      }
-    },
-    [isShared]
-  )
-
-  useEffect(
-    () => {
-      openSharedForm && onSetDialogTitle('Signal details')
-    },
-    [openSharedForm]
-  )
-
-  const canOpen = (isLoggedIn || isShared) && !isAnonWarning
-  return (
-    <Dialog
-      open={dialogOpenState}
-      onOpen={() => {
-        // Track opening New signal Dialog
-        GA.event(
-          {
-            category: 'user',
-            action: 'alerts',
-            method: 'create_new_alert'
-          },
-          ['ga', 'intercom']
-        )
-        setDialogOpenState(true)
-      }}
-      onClose={onCloseMainModal}
-      trigger={
-        dialogTrigger || signalModalTrigger(enabled, label, variant, border)
-      }
-      title={
-        <TriggerModalTitle
-          showSharedBtn={isShared && !openSharedForm}
-          isError={isError}
-          dialogTitle={dialogTitle}
-          isLoggedIn={isLoggedIn}
-        />
-      }
-      classes={styles}
-      {...dialogProps}
-    >
-      <Dialog.ScrollContent className={styles.TriggerPanel}>
-        {isError && <NoSignal />}
-
-        {!isError && isLoading && <PageLoader className={styles.loading} />}
-
-        {!isError && !isLoading && canOpen && (
-          <SignalMaster
-            setOpenSharedForm={setOpenForm}
-            openSharedForm={openSharedForm}
-            isShared={isShared}
-            trigger={trigger}
-            setTitle={onSetDialogTitle}
-            onClose={() => setDialogOpenState(false)}
-            canRedirect={canRedirect}
-            metaFormSettings={metaFormSettings}
-            formChangedCallback={formChangedCallback}
-            toggleAnon={toggleAnon}
-          />
-        )}
-
-        {(isAnonWarning || !canOpen) && <SignalAnon className={styles.anon} />}
-      </Dialog.ScrollContent>
-    </Dialog>
-  )
-}
-
-const TriggerModalTitle = ({
-  showSharedBtn,
-  isError,
-  dialogTitle = 'Signal details',
-  isLoggedIn
-}) => {
-  if (isError) {
-    return null
-  }
-
-  return (
-    <>
-      {dialogTitle}
-      {showSharedBtn && isLoggedIn && (
-        <Button accent='positive' variant='fill' className={styles.shared}>
-          Shared
-        </Button>
-      )}
-    </>
-  )
-}
-
-const signalModalTrigger = (
-  enabled,
-  label,
-  variant = 'fill',
-  border = false
-) => (
-  <Button
-    variant={variant}
-    border={border}
-    disabled={!enabled}
-    accent='positive'
-    className={cx(styles.newSignal)}
-  >
-    <Icon type='plus-round' className={styles.newSignal__icon} />
-    {label}
-  </Button>
-)
-
-const NoSignal = () => (
-  <EmptySection className={styles.notSignalInfo}>
-    Signal doesn't exist
-    <br />
-    or it's a private signal.
-  </EmptySection>
-)

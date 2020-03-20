@@ -12,7 +12,7 @@ const style = {
   base: {
     fontSize: '14px',
     color: vars.mirage,
-    fontFamily: 'Rubik, sans-serif',
+    fontFamily: 'Proxima Nova, sans-serif',
     '::placeholder': {
       color: vars.casper
     }
@@ -99,9 +99,9 @@ const CheckoutForm = ({
   plan,
   loading,
   billing,
-  yearPrice,
-  monthPrice,
-  nextPaymentDate
+  price,
+  nextPaymentDate,
+  changeSelectedPlan
 }) => (
   <div className={styles.wrapper}>
     <CardInformation />
@@ -110,9 +110,9 @@ const CheckoutForm = ({
       plan={plan}
       billing={billing}
       loading={loading}
-      yearPrice={yearPrice}
-      monthPrice={monthPrice}
+      price={price}
       nextPaymentDate={nextPaymentDate}
+      changeSelectedPlan={changeSelectedPlan}
     />
   </div>
 )

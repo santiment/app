@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { connect } from 'react-redux'
+import cx from 'classnames'
 import COLOR from '@santiment-network/ui/variables.scss'
 import { initChart, updateChartState } from '@santiment-network/chart'
 import { initTooltip } from '@santiment-network/chart/tooltip'
@@ -6,6 +8,7 @@ import { plotLines } from '@santiment-network/chart/lines'
 import { plotDayBars, plotBars } from '@santiment-network/chart/bars'
 import { linearScale } from '@santiment-network/chart/scales'
 import { drawReferenceDot } from '@santiment-network/chart/references'
+import { drawCartesianGrid } from '@santiment-network/chart/cartesianGrid'
 import { initBrush, updateBrushState } from '@santiment-network/chart/brush'
 import Loader from './Loader/Loader'
 import Signals from './Signals'
@@ -21,16 +24,20 @@ import { drawWatermark } from './watermark'
 import { drawPaywall } from './paywall'
 import { onResize, useResizeEffect } from './resize'
 import { drawLastDayPrice, withLastDayPrice } from './lastDayPrice'
-import { clearCtx, findPointIndexByDate } from './utils'
+import { clearCtx, findPointIndexByDate, domainModifier } from './utils'
+import { paintConfigs, dayBrushPaintConfig } from './paintConfigs'
 import styles from './index.module.scss'
 
 const Chart = ({
+  className,
   chartRef,
+  metrics,
   data,
   lines,
   bars,
   daybars,
   joinedCategories,
+  domainGroups,
   events = [],
   scale = linearScale,
   slug,
@@ -38,15 +45,16 @@ const Chart = ({
   rightBoundaryDate,
   tooltipKey,
   lastDayPrice,
-  syncedColors,
+  MetricColor,
   syncedTooltipDate,
   syncTooltips = () => {},
   onPointHover = () => {},
-  hasPriceMetric,
   isLoading,
   isMultiChartsActive,
-  isAdvancedView,
-  isWideChart
+  isNightModeEnabled,
+  isCartesianGridActive,
+  resizeDependencies,
+  children
 }) => {
   let [chart, setChart] = useState()
   let [brush, setBrush] = useState()
@@ -71,6 +79,7 @@ const Chart = ({
         chart,
         width,
         BRUSH_HEIGHT,
+        dayBrushPaintConfig,
         plotBrushData,
         onBrushChange
       )
@@ -79,7 +88,9 @@ const Chart = ({
     }
 
     setChart(chart)
-    chartRef.current = canvas
+    if (chartRef) {
+      chartRef.current = canvas
+    }
 
     setupTooltip(chart, marker, syncTooltips)
   }, [])
@@ -89,6 +100,19 @@ const Chart = ({
     brush.plotBrushData = plotBrushData
     brush.onChange = onBrushChange
   }
+
+  useEffect(
+    () => {
+      const { brushPaintConfig, ...rest } = paintConfigs[+isNightModeEnabled]
+
+      Object.assign(chart, rest)
+
+      if (brush) {
+        brush.paintConfig = brushPaintConfig
+      }
+    },
+    [isNightModeEnabled]
+  )
 
   useEffect(
     () => {
@@ -106,27 +130,50 @@ const Chart = ({
 
   useEffect(
     () => {
-      chart.colors = syncedColors
+      chart.colors = MetricColor
     },
-    [syncedColors]
+    [MetricColor]
   )
 
   useEffect(
     () => {
-      if (data.length === 0) {
-        return
-      }
+      if (data.length === 0 || !brush) return
+
+      brush.startIndex = 0
+      brush.endIndex = data.length - 1
+    },
+    [data]
+  )
+
+  useEffect(
+    () => {
+      if (data.length === 0) return
 
       clearCtx(chart)
-      updateChartState(chart, data, joinedCategories)
+      updateChartState(
+        chart,
+        data,
+        joinedCategories,
+        domainModifier,
+        domainGroups
+      )
       if (brush) {
         clearCtx(brush)
         updateBrushState(brush, chart, data)
       }
       plotChart(data)
-      plotAxes(chart)
+      plotAxes(chart, scale)
     },
-    [data, scale, events, lastDayPrice]
+    [
+      data,
+      scale,
+      events,
+      domainGroups,
+      MetricColor,
+      lastDayPrice,
+      isNightModeEnabled,
+      isCartesianGridActive
+    ]
   )
 
   useEffect(
@@ -146,15 +193,9 @@ const Chart = ({
     [syncedTooltipDate]
   )
 
-  useEffect(handleResize, [isMultiChartsActive, isAdvancedView, isWideChart])
+  useEffect(handleResize, resizeDependencies)
 
-  useResizeEffect(handleResize, [
-    isMultiChartsActive,
-    isAdvancedView,
-    isWideChart,
-    data,
-    brush
-  ])
+  useResizeEffect(handleResize, [...resizeDependencies, data, brush])
 
   function handleResize () {
     if (data.length === 0) {
@@ -169,36 +210,51 @@ const Chart = ({
     )
 
     if (!brush) {
-      updateChartState(chart, data, joinedCategories)
+      updateChartState(
+        chart,
+        data,
+        joinedCategories,
+        domainModifier,
+        domainGroups
+      )
       plotChart(data)
-      plotAxes(chart)
+      plotAxes(chart, scale)
     }
   }
 
   function onBrushChange (startIndex, endIndex) {
     const newData = data.slice(startIndex, endIndex + 1)
 
-    updateChartState(chart, newData, joinedCategories)
+    updateChartState(
+      chart,
+      newData,
+      joinedCategories,
+      domainModifier,
+      domainGroups
+    )
 
     clearCtx(chart)
     plotChart(newData)
-    plotAxes(chart)
+    plotAxes(chart, scale)
   }
 
   function plotBrushData () {
-    plotDayBars(brush, data, daybars, syncedColors, scale)
-    plotBars(brush, data, bars, syncedColors, scale)
-    plotLines(brush, data, lines, syncedColors, scale)
+    plotDayBars(brush, data, daybars, MetricColor, scale)
+    plotBars(brush, data, bars, MetricColor, scale)
+    plotLines(brush, data, lines, MetricColor, scale)
   }
 
   function plotChart (data) {
     drawWatermark(chart)
-    plotDayBars(chart, data, daybars, syncedColors, scale)
-    plotBars(chart, data, bars, syncedColors, scale)
+    plotDayBars(chart, data, daybars, MetricColor, scale)
+    plotBars(chart, data, bars, MetricColor, scale)
 
     chart.ctx.lineWidth = 1.5
-    chart.ctx.setLineDash([0])
-    plotLines(chart, data, lines, syncedColors, scale)
+    plotLines(chart, data, lines, MetricColor, scale)
+
+    if (isCartesianGridActive) {
+      drawCartesianGrid(chart, chart.axesColor)
+    }
 
     events.forEach(({ metric, key, datetime, value, color }) =>
       drawReferenceDot(chart, metric, datetime, color, key, value)
@@ -215,17 +271,11 @@ const Chart = ({
     const { colors } = chart
     const RADIUS = 4
 
-    if (key === 'isAnomaly') {
+    if (key === 'isAnomaly' || key.includes('_anomaly')) {
       ctx.beginPath()
       ctx.arc(x + RADIUS, y + 1, RADIUS, 0, 2 * Math.PI)
       ctx.lineWidth = 1.5
       ctx.strokeStyle = COLOR.persimmon
-      ctx.stroke()
-    } else if (key === 'trendingPosition') {
-      ctx.beginPath()
-      ctx.arc(x + RADIUS, y + 1, RADIUS, 0, 2 * Math.PI)
-      ctx.lineWidth = 1.5
-      ctx.strokeStyle = value[1]
       ctx.stroke()
     } else {
       ctx.fillStyle = colors[key]
@@ -234,14 +284,32 @@ const Chart = ({
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cx(styles.wrapper, className)}>
       <canvas ref={canvasRef} />
-      {hasPriceMetric && (
-        <Signals chart={chart} data={data} slug={slug} scale={scale} />
-      )}
+      <Signals
+        chart={chart}
+        data={data}
+        slug={slug}
+        scale={scale}
+        metrics={metrics}
+      />
       {isLoading && <Loader />}
+      {chart &&
+        React.Children.map(
+          children,
+          child =>
+            child &&
+            React.cloneElement(child, {
+              chart,
+              scale
+            })
+        )}
     </div>
   )
 }
 
-export default withLastDayPrice(Chart)
+const mapStateToProps = ({ rootUi: { isNightModeEnabled } }) => ({
+  isNightModeEnabled
+})
+
+export default connect(mapStateToProps)(withLastDayPrice(Chart))

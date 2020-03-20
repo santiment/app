@@ -1,7 +1,14 @@
 @import '~@santiment-network/ui/mixins';
 
+.header {
+  @include responsive("phone", "phone-xs") {
+    padding: 0 16px;
+  }
+}
+
 .tabs {
   margin-bottom: 32px;
+  width: 100%;
 }
 
 .title {
@@ -36,7 +43,7 @@
     width: 715px;
   }
 
-  @include responsive("tablet", "phone", "phone-xs") {
+  @include responsive("phone", "phone-xs") {
     padding: 0;
     margin: 0;
   }
@@ -50,5 +57,6 @@
 }
 
 .sort {
-  margin: 0 24px 0 auto;
+  margin: 0 24px 0 12px;
+  cursor: pointer;
 }

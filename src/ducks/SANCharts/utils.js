@@ -11,7 +11,8 @@ export const mapDatetimeToNumber = timeseries =>
     datetime: +new Date(datetime)
   }))
 
-export const usdFormatter = val => val && formatNumber(val, { currency: 'USD' })
+export const usdFormatter = val =>
+  val || val === 0 ? formatNumber(val, { currency: 'USD' }) : 'No data'
 
 const getEventColor = (isAnomaly, value) => {
   if (isAnomaly || value < 4) {
@@ -48,7 +49,7 @@ export const getMarketSegment = key => {
   const label = `Dev. Activity (${key})`
   tooltipSettings[key] = {
     label,
-    formatter: tooltipSettings.activity.formatter
+    formatter: Metrics.dev_activity.formatter
   }
 
   const newSegment = {
@@ -82,7 +83,7 @@ export const METRIC_COLORS = [
 ]
 
 export const findYAxisMetric = metrics =>
-  (metrics.includes(Metrics.historyPrice) && Metrics.historyPrice) ||
+  (metrics.includes(Metrics.price_usd) && Metrics.price_usd) ||
   metrics.find(
     ({ key, Component }) => key !== 'mvrvRatio' && Component !== Bar
   ) ||

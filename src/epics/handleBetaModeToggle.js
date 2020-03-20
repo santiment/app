@@ -3,7 +3,6 @@ import { Observable } from 'rxjs'
 import {
   USER_TOGGLE_BETA_MODE,
   APP_USER_BETA_MODE_SAVE,
-  APP_USER_NEWS_SAVE,
   APP_USER_BETA_MODE_SAVE_FAILED,
   CHANGE_USER_DATA
 } from './../actions/types'
@@ -24,7 +23,6 @@ const handleBetaModeToggle = (action$, store, { client }) =>
     .map(() => {
       const isBetaModeEnabled = !store.getState().rootUi.isBetaModeEnabled
       saveKeyState('isBetaMode', isBetaModeEnabled)
-      if (!isBetaModeEnabled) saveKeyState('isNewsEnabled', false)
       return Observable.of(isBetaModeEnabled)
     })
     .mergeMap(({ value }) => {
@@ -38,20 +36,13 @@ const handleBetaModeToggle = (action$, store, { client }) =>
           .mergeMap(({ data: { updateUserSettings: { isBetaMode } } }) => {
             return value
               ? Observable.of({ type: APP_USER_BETA_MODE_SAVE, payload: true })
-              : Observable.from([
-                { type: APP_USER_BETA_MODE_SAVE, payload: false },
-                { type: APP_USER_NEWS_SAVE, payload: false }
-              ])
+              : Observable.of({ type: APP_USER_BETA_MODE_SAVE, payload: false })
           })
           .catch(handleErrorAndTriggerAction(APP_USER_BETA_MODE_SAVE_FAILED))
       }
       return value
         ? Observable.of({ type: APP_USER_BETA_MODE_SAVE, payload: true })
-        : Observable.from([
-          { type: APP_USER_BETA_MODE_SAVE, payload: false },
-          // NOTE(haritonasty): News are connected with beta mode. We should turn news off - if beta turned off
-          { type: APP_USER_NEWS_SAVE, payload: false }
-        ])
+        : Observable.of({ type: APP_USER_BETA_MODE_SAVE, payload: false })
     })
 
 export const saveBetaModeAfterLaunch = action$ =>

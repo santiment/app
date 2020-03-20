@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
-import styles from './TrendsSearch.module.scss'
 import TrendsExploreSearch from './Explore/TrendsExploreSearch'
+import { DesktopOnly } from '../Responsive'
+import styles from './TrendsSearch.module.scss'
 
 const SAMPLES = [
   {
@@ -32,15 +33,17 @@ const TrendsSearch = ({
       topic={topic}
       classes={{ input: inputClassName, wrapper: formClassName }}
     />
-    <div className={styles.examples}>
-      Try to search
-      {SAMPLES.map(({ trend, options }, index, arr) => (
-        <Fragment key={trend}>
-          <TrendsExampleLink keyword={trend} options={options} />
-          {index !== arr.length - 1 && ','}
-        </Fragment>
-      ))}
-    </div>
+    <DesktopOnly>
+      <div className={styles.examples}>
+        Try to search
+        {SAMPLES.map(({ trend, options }, index, arr) => (
+          <Fragment key={trend}>
+            <TrendsExampleLink keyword={trend} options={options} />
+            {index !== arr.length - 1 && ','}
+          </Fragment>
+        ))}
+      </div>
+    </DesktopOnly>
   </div>
 )
 

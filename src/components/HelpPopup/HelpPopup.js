@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import Panel from '@santiment-network/ui/Panel'
@@ -12,6 +13,7 @@ const HelpPopup = ({
   children,
   content,
   className,
+  wrapperClassName,
   position = 'bottom',
   align = 'center',
   trigger = HelpPopupTrigger
@@ -23,7 +25,7 @@ const HelpPopup = ({
       position={position}
       align={align}
       on='hover'
-      className={styles.wrapper}
+      className={cx(styles.wrapper, className)}
     >
       <Panel className={styles.panel}>{render}</Panel>
     </Tooltip>

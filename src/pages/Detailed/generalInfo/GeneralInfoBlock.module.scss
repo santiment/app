@@ -28,10 +28,10 @@
 
 .disabled {
   color: var(--mystic);
+  pointer-events: none;
 
   &:hover {
     color: var(--mystic);
-    cursor: not-allowed;
   }
 }
 

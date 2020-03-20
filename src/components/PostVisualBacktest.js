@@ -6,7 +6,7 @@ import LazyLoad from 'react-lazyload'
 import { HistoryPriceByTickerGQL } from '../pages/Detailed/gqlWrappers/DetailedGQL'
 import PercentChanges from './PercentChanges'
 import PostVisualBacktestChart from './PostVisualBacktestChart'
-import { binarySearchHistoryPriceIndex } from '../utils/utils'
+import { binarySearchHistoryPriceIndex, uncapitalizeStr } from '../utils/utils'
 import { getTimeIntervalFromToday, MONTH } from '../utils/dates'
 import './PostVisualBacktest.scss'
 
@@ -37,7 +37,7 @@ export const PostVisualBacktest = ({
     <div className='post-visual-backtest'>
       <div className='post-visual-backtest__info'>
         <div className='post-visual-backtest__changes'>
-          {changeProp} since publication
+          {ticker} {uncapitalizeStr(changeProp)} since publication
         </div>
       </div>
       <PostVisualBacktestChart

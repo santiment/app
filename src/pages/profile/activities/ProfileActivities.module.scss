@@ -12,7 +12,7 @@
 
   @include text('body-2');
 
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+  @include responsive('phone', 'phone-xs') {
     justify-content: center;
   }
 }
@@ -23,15 +23,20 @@
   .counter {
     color: var(--jungle-green);
   }
+
+  @include responsive('phone', 'phone-xs') {
+    color: var(--jungle-green);
+  }
 }
 
 .container {
   display: flex;
 
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+  @include responsive('phone', 'phone-xs') {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-top: 32px;
   }
 }
 
@@ -39,9 +44,23 @@
   display: flex;
   flex-direction: column;
   width: 195px;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+    flex-direction: row;
+    border-bottom: 1px solid var(--porcelain);
+    margin-bottom: 32px;
+    justify-content: space-between;
+    padding: 0 16px;
+  }
 }
 
 .right {
   display: flex;
   flex: 1;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+    padding: 0 16px;
+  }
 }

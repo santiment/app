@@ -5,7 +5,7 @@ import { graphql } from 'react-apollo'
 import { Dialog, Label } from '@santiment-network/ui'
 import { showNotification } from '../../actions/rootActions'
 import { USER_EDIT_ASSETS_IN_LIST } from '../../actions/types'
-import { allProjectsForSearchGQL } from '../../pages/Projects/allProjectsGQL'
+import { ALL_PROJECTS_FOR_SEARCH_QUERY } from '../../pages/Projects/allProjectsGQL'
 import AssetsList from './AssetsList'
 import { hasAssetById } from '../WatchlistPopup/WatchlistsPopup'
 import SearchProjects from '../Search/SearchProjects'
@@ -129,7 +129,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default compose(
-  graphql(allProjectsForSearchGQL, {
+  graphql(ALL_PROJECTS_FOR_SEARCH_QUERY, {
     options: () => ({
       context: { isRetriable: true },
       variables: { minVolume: 0 }

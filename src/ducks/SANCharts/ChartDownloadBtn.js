@@ -16,7 +16,7 @@ const LEGEND_RECT_SIZE = 5
 const LEGEND_RECT_RIGHT_MARGIN = 5
 const LEGEND_RECT_ALIGN_CORRECTION = LEGEND_RECT_SIZE / 5
 const TEXT_RIGHT_MARGIN = 20
-const TEXT_FONT = '12px Rubik'
+const TEXT_FONT = '12px Proxima Nova'
 
 function drawAndMeasureText (ctx, text, x, y) {
   ctx.fillText(text, x, y)
