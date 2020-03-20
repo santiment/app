@@ -1,0 +1,14 @@
+@import '../../../../../../node_modules/@santiment-network/ui/mixins';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 24px;
+}
+
+.loader {
+  font-size: 14px;
+  margin: 40px 0;
+}

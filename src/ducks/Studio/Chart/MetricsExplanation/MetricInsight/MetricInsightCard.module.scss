@@ -1,0 +1,25 @@
+@import "~@santiment-network/ui/mixins";
+
+.title {
+  color: var(--rhino);
+
+  @include text('body-2');
+}
+
+.author {
+  color: var(--waterloo);
+  margin-top: 10px;
+
+  @include text('body-3');
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  margin: 0 24px 32px;
+  min-width: 100%;
+}
+
+.widget {
+  margin-top: 14px;
+}

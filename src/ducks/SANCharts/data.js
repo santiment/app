@@ -212,8 +212,9 @@ export const Metrics = {
     node: 'line',
     Component: Line,
     label: 'In Top Holders Total',
-    shortLabel: 'In T.H. Total'
+    shortLabel: 'In T.H. Total',
     // dataKey: 'inTopHoldersTotal'
+    insights: [5618, 5637, 5647]
   },
   circulation: {
     category: 'On-chain',

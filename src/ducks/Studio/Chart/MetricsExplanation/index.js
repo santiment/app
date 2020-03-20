@@ -3,6 +3,7 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Dropdown from '@santiment-network/ui/Dropdown'
 import Explanations from './Explanations'
+import MetricInsights from './MetricInsight/MetricInsights'
 import DataInfo from './DataInfo'
 import MetricIcon from '../../../SANCharts/MetricIcon'
 import styles from './index.module.scss'
@@ -15,7 +16,7 @@ const dropdownClasses = {
 }
 
 export function filterExplainableMetrics (metrics) {
-  return metrics.filter(({ description }) => description)
+  return metrics.filter(({ description, insights }) => description || insights)
 }
 
 function dedupMetrics (metrics) {
@@ -71,6 +72,8 @@ const MetricsExplanation = ({ metrics, MetricColor, onClose, ...rest }) => {
   const { metric } = selected || {}
   if (!metric) return null
 
+  const { description, insights } = metric
+
   return (
     <>
       <CloseButton onClick={onClose} />
@@ -83,8 +86,13 @@ const MetricsExplanation = ({ metrics, MetricColor, onClose, ...rest }) => {
           onSelect={setSelected}
         />
         <DataInfo {...rest} metric={metric} />
-        <div className={styles.subtitle}>Description</div>
-        <div className={styles.text}>{metric.description}</div>
+        {description && (
+          <>
+            <div className={styles.subtitle}>Description</div>
+            <div className={styles.text}>{description}</div>
+          </>
+        )}
+        {metric.insights && <MetricInsights insights={insights} />}
         <Explanations {...rest} metric={metric} />
       </div>
     </>
