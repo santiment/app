@@ -1,8 +1,24 @@
+@import '~@santiment-network/ui/mixins';
+
 .undetected {
   padding: 15px;
   background: var(--texas-rose-light);
   border-color: var(--texas-rose-hover);
   margin-bottom: 8px;
+
+  &__title {
+    margin-top: 0;
+
+    @include text('h3');
+  }
+
+  &___link {
+    color: var(--jungle-green);
+
+    &:hover {
+      color: var(--jungle-green-hover);
+    }
+  }
 
   &__bottom {
     display: flex;

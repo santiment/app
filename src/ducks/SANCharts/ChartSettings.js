@@ -13,35 +13,28 @@ const { to: MAX_DATE } = getTimeIntervalFromToday(0, DAY)
 const ChartSettings = ({
   chartRef,
   title,
-  activeMetrics,
-  activeEvents,
   timeRange,
-  shareLink,
   disabledMetrics,
   from,
   to,
-  data,
-  events,
   showNightModeToggle = true,
   isAdvancedView,
-  isLogScale,
-  isMultiChartsActive,
   isFullscreenAvailable = true,
-  onMultiChartsChange,
-  onScaleChange,
   onTimerangeChange,
   onCalendarChange,
-  onNightModeSelect,
-  isNightModeActive
+  noTitle,
+  ...rest
 }) => {
   const notAdvancedView = !isAdvancedView
   return (
     <div className={styles.settings}>
       <div className={styles.settings__group}>
-        <div className={styles.settings__slugBlock}>
-          <div className={styles.settings__studio}>Studio</div>
-          <div className={styles.settings__slug}>{title}</div>
-        </div>
+        {noTitle || (
+          <div className={styles.settings__slugBlock}>
+            <div className={styles.settings__studio}>Studio</div>
+            <div className={styles.settings__slug}>{title}</div>
+          </div>
+        )}
       </div>
       <div className={cx(styles.settings__group, styles.settings__main)}>
         <Selector
@@ -59,20 +52,10 @@ const ChartSettings = ({
           />
         )}
         <ChartSettingsContextMenu
-          onMultiChartsChange={onMultiChartsChange}
-          isMultiChartsActive={isMultiChartsActive}
-          isNightModeActive={isNightModeActive}
           showNightModeToggle={showNightModeToggle}
-          onNightModeSelect={onNightModeSelect}
-          shareLink={shareLink}
           title={title}
           chartRef={chartRef}
-          isLogScale={isLogScale}
-          onScaleChange={onScaleChange}
-          data={data}
-          events={events}
-          activeMetrics={activeMetrics}
-          activeEvents={activeEvents}
+          {...rest}
         />
         {isFullscreenAvailable && <ChartExpandBtn />}
       </div>

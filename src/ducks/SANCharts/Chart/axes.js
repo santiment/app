@@ -1,27 +1,50 @@
-import COLOR from '@santiment-network/ui/variables.scss'
 import { drawAxes, drawAxesTicks } from '@santiment-network/chart/axes'
 import {
   isDayInterval,
   getDateDayMonthYear,
   getDateHoursMinutes
 } from './utils'
+import { dayTicksPaintConfig, dayAxesColor } from './paintConfigs'
+import { millify } from '../../../utils/formatting'
 
-const axesTickFormatters = {
-  datetime: getDateDayMonthYear
+const yFormatter = value => {
+  if (!value) {
+    return 0
+  }
+
+  if (value < 1) {
+    return +value.toFixed(3)
+  }
+
+  if (value < 100) {
+    return millify(value, 3)
+  }
+
+  if (value > 999999) {
+    return millify(value, 2)
+  }
+
+  if (value > 9999) {
+    return millify(value, 0)
+  }
+
+  return Math.trunc(value)
 }
 
-const axesDayIntervalTickFormatters = {
-  datetime: getDateHoursMinutes
-}
+export function plotAxes (chart, scale) {
+  const {
+    tooltipKey,
+    ticksPaintConfig = dayTicksPaintConfig,
+    axesColor = dayAxesColor
+  } = chart
 
-export function plotAxes (chart) {
-  const { ctx, tooltipKey } = chart
-  drawAxes(chart)
-  ctx.fillStyle = COLOR.casper
-  ctx.font = '12px sans-serif'
+  drawAxes(chart, axesColor)
   drawAxesTicks(
     chart,
     tooltipKey,
-    isDayInterval(chart) ? axesDayIntervalTickFormatters : axesTickFormatters
+    isDayInterval(chart) ? getDateHoursMinutes : getDateDayMonthYear,
+    yFormatter,
+    ticksPaintConfig,
+    scale
   )
 }

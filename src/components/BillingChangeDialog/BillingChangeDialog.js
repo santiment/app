@@ -15,12 +15,9 @@ import styles from './BillingChangeDialog.module.scss'
 
 const ChangeBillingDialog = ({
   classes = {},
-  subscription: {
-    id,
-    currentPeriodEnd,
-    plan: { amount, name: oldName, interval: oldInterval }
-  }
+  subscription: { id, currentPeriodEnd, plan: oldPlan }
 }) => {
+  const { amount, name: oldName, interval: oldInterval } = oldPlan
   const [oldPrice] = formatPrice(amount)
   const { MMMM, DD, YYYY } = getDateFormats(new Date(currentPeriodEnd))
   const date = `${MMMM} ${DD}, ${YYYY}`
@@ -42,8 +39,7 @@ const ChangeBillingDialog = ({
               const neuro = productsWithPlans.find(findSanbasePlan) || []
               const { amount, interval, id: newId } = getAlternativeBillingPlan(
                 neuro.plans,
-                oldName,
-                oldInterval
+                oldPlan
               )
 
               newPlanId = newId

@@ -10,6 +10,7 @@
 
   @include responsive('phone-xs') {
     min-width: 100%;
+    box-shadow: none;
   }
 
   &_withMc {
@@ -35,6 +36,8 @@
 }
 
 .main {
+  display: flex;
+  flex-direction: column;
   flex: 1;
 }
 
@@ -49,6 +52,7 @@
 .description {
   display: flex;
   flex-direction: row;
+  flex: 1;
 
   @include responsive('phone', 'phone-xs') {
     flex-direction: column;
@@ -56,6 +60,8 @@
 }
 
 .top {
+  display: flex;
+  flex-direction: column;
   flex: 1;
 }
 
@@ -67,19 +73,20 @@
   display: inline-block;
   text-decoration: none;
   word-break: break-word;
+  margin-bottom: 16px;
 }
 
 .bottom {
   display: flex;
   flex-direction: row;
   padding-top: 20px;
-  margin-top: 0;
+  margin-top: auto;
   border-top: 1px solid var(--porcelain);
 }
 
 .profile {
   width: 100%;
-  margin: 16px 0 0 0;
+  margin: auto 0 0 0;
   padding-bottom: 20px;
 }
 
@@ -182,9 +189,9 @@
 
 .container {
   display: flex;
-  width: 100%;
+  flex: 1;
 }
 
 .date {
-  margin-bottom: 12px;
+  margin-bottom: 12px !important;
 }

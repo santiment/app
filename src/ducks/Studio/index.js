@@ -2,33 +2,29 @@ import React, { useState, useEffect, useRef } from 'react'
 import cx from 'classnames'
 import StudioSidebar from './Sidebar'
 import StudioChart from './Chart'
-import StudioSettings from './Settings'
+import StudioHeader from './Header'
 import StudioAdvancedView from './AdvancedView'
-import StudioHeader from '../SANCharts/Header'
+import StudioInfo from '../SANCharts/Header'
 import { Events } from '../SANCharts/data'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
+import { MAX_METRICS_AMOUNT } from './constraints'
 import { generateShareLink, updateHistory } from './url'
-import { useMetricsData } from './Chart/hooks'
+import { buildComparedMetric } from './Compare/utils'
+import { useTimeseries } from './timeseries/hooks'
+import { buildAnomalies } from './timeseries/anomalies'
 import { trackMetricState } from './analytics'
+import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import styles from './index.module.scss'
 
 const { trendPositionHistory } = Events
-
-function buildAnomalies (metrics) {
-  return metrics
-    .filter(({ anomalyKey }) => anomalyKey)
-    .map(({ key, anomalyKey }) => ({
-      key: anomalyKey,
-      queryKey: 'anomalies',
-      anomalyMetricKey: key
-    }))
-}
 
 const Studio = ({
   defaultSettings,
   defaultOptions,
   defaultMetrics,
   defaultEvents,
+  defaultComparedMetrics,
+  defaultComparables,
   topSlot,
   bottomSlot,
   onSlugChange,
@@ -37,14 +33,53 @@ const Studio = ({
 }) => {
   const [settings, setSettings] = useState(defaultSettings)
   const [options, setOptions] = useState(defaultOptions)
+  const [comparables, setComparables] = useState(defaultComparables)
+  const [comparedMetrics, setComparedMetrics] = useState(defaultComparedMetrics)
+  const [metrics, setMetrics] = useState(defaultMetrics)
   const [activeMetrics, setActiveMetrics] = useState(defaultMetrics)
   const [activeEvents, setActiveEvents] = useState(defaultEvents)
   const [advancedView, setAdvancedView] = useState()
   const [hoveredDate, setHoveredDate] = useState()
   const [shareLink, setShareLink] = useState()
-  const [data, loadings] = useMetricsData(activeMetrics, settings)
-  const [events, eventLoadings] = useMetricsData(activeEvents, settings)
+  const [isICOPriceDisabled, setIsICOPriceDisabled] = useState()
+  const [data, loadings] = useTimeseries(activeMetrics, settings)
+  const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings)
+  const [isSidebarClosed, setIsSidebarClosed] = useState()
   const chartRef = useRef(null)
+
+  useEffect(
+    () => {
+      setComparedMetrics(comparables.map(buildComparedMetric))
+    },
+    [comparables]
+  )
+
+  useEffect(
+    () => {
+      setActiveMetrics(metrics.concat(comparedMetrics))
+    },
+    [metrics, comparedMetrics]
+  )
+
+  useEffect(
+    () => {
+      const activeLength = activeMetrics.length
+      if (!options.isMultiChartsActive && activeLength > MAX_METRICS_AMOUNT) {
+        const diff = activeLength - MAX_METRICS_AMOUNT
+
+        if (diff >= comparables.length) {
+          setComparables([])
+        } else {
+          setComparables(comparables.slice(0, -diff))
+        }
+
+        if (metrics.length >= MAX_METRICS_AMOUNT) {
+          setMetrics(metrics.slice(0, MAX_METRICS_AMOUNT))
+        }
+      }
+    },
+    [options.isMultiChartsActive]
+  )
 
   useEffect(
     () => {
@@ -59,24 +94,25 @@ const Studio = ({
   useEffect(
     () => {
       const queryString =
-        '?' + generateShareLink(settings, options, activeMetrics, activeEvents)
+        '?' +
+        generateShareLink(settings, options, metrics, activeEvents, comparables)
 
       const { origin, pathname } = window.location
       setShareLink(origin + pathname + queryString)
       updateHistory(queryString)
     },
-    [settings, options, activeMetrics, activeEvents]
+    [settings, options, metrics, activeEvents, comparables]
   )
 
   useEffect(
     () => {
       if (options.isAnomalyActive) {
-        setActiveEvents(buildAnomalies(activeMetrics))
+        setActiveEvents(buildAnomalies(metrics))
       } else if (!activeEvents.includes(trendPositionHistory)) {
         setActiveEvents([])
       }
     },
-    [activeMetrics, options.isAnomalyActive]
+    [metrics, options.isAnomalyActive]
   )
 
   function toggleTrend (trend) {
@@ -87,28 +123,40 @@ const Studio = ({
   function toggleMetric (metric) {
     if (metric === trendPositionHistory) {
       return toggleTrend(metric)
+    } else if (metric.comparedTicker) {
+      return removeComparedMetric(metric)
     }
 
-    const metricSet = new Set(activeMetrics)
+    const metricSet = new Set(metrics)
     if (metricSet.has(metric)) {
       if (activeMetrics.length === 1) return
       metricSet.delete(metric)
       trackMetricState(metric, false)
     } else {
-      if (activeMetrics.length === 5) return
+      if (
+        !options.isMultiChartsActive &&
+        activeMetrics.length === MAX_METRICS_AMOUNT
+      ) {
+        return
+      }
+
       metricSet.add(metric)
       trackMetricState(metric, true)
     }
-    setActiveMetrics([...metricSet])
+    setMetrics([...metricSet])
   }
 
   function toggleAdvancedView (mode) {
     setAdvancedView(advancedView === mode ? undefined : mode)
   }
 
-  function onProjectSelect ({ slug, name, ticker, id: projectId }) {
+  function onProjectSelect (project) {
+    if (!project) return
+
+    const { slug, name, ticker, id: projectId } = project
     const title = `${name} (${ticker})`
-    setSettings(state => ({ ...state, slug, title, projectId }))
+    setSettings(state => ({ ...state, slug, title, projectId, ticker }))
+    setIsICOPriceDisabled(false)
     onSlugChange(slug)
   }
 
@@ -116,8 +164,19 @@ const Studio = ({
     setHoveredDate(new Date(value))
   }
 
+  function removeComparedMetric ({ key }) {
+    setComparables(comparables.filter(comp => comp.key !== key))
+  }
+
   return (
-    <div className={cx(styles.wrapper, classes.wrapper)}>
+    <div
+      className={cx(
+        styles.wrapper,
+        classes.wrapper,
+        isSidebarClosed && styles.wrapper_wide
+      )}
+    >
+      <CtaJoinPopup />
       <StudioSidebar
         slug={settings.slug}
         options={options}
@@ -127,33 +186,39 @@ const Studio = ({
         setOptions={setOptions}
         toggleMetric={toggleMetric}
         toggleAdvancedView={toggleAdvancedView}
+        isICOPriceDisabled={isICOPriceDisabled}
+        isSidebarClosed={isSidebarClosed}
+        setIsSidebarClosed={setIsSidebarClosed}
       />
-      <div className={styles.container}>
+      <div className={styles.header}>
         {topSlot}
-        <StudioHeader
+        <StudioInfo
           slug={settings.slug}
           isLoading={false}
           isLoggedIn={false}
           onSlugSelect={onProjectSelect}
         />
       </div>
-      <div className={cx(styles.container, styles.chart)}>
-        <StudioSettings
+      <div className={cx(styles.container, styles.content)}>
+        <StudioHeader
           chartRef={chartRef}
           settings={settings}
           options={options}
           activeMetrics={activeMetrics}
           activeEvents={activeEvents}
           data={data}
-          events={events}
+          events={eventsData}
+          comparables={comparables}
           shareLink={shareLink}
           setOptions={setOptions}
           setSettings={setSettings}
+          setComparables={setComparables}
         />
         <div className={styles.data}>
-          <div className={styles.canvas}>
+          <div className={styles.chart}>
             <StudioChart
               {...props}
+              className={styles.canvas}
               chartRef={chartRef}
               settings={settings}
               options={options}
@@ -161,11 +226,13 @@ const Studio = ({
               activeEvents={activeEvents}
               advancedView={advancedView}
               toggleMetric={toggleMetric}
-              changeHoveredDate={changeHoveredDate}
               data={data}
-              events={events}
+              events={eventsData}
               loadings={loadings}
               eventLoadings={eventLoadings}
+              isSidebarClosed={isSidebarClosed}
+              changeHoveredDate={changeHoveredDate}
+              setIsICOPriceDisabled={setIsICOPriceDisabled}
             />
           </div>
           {advancedView && (
@@ -186,11 +253,21 @@ const Studio = ({
 }
 
 Studio.defaultProps = {
+  defaultComparedMetrics: [],
+  defaultEvents: [],
+  defaultComparables: [],
   onSlugChange: () => {},
   classes: {}
 }
 
-export default ({ settings, options, metrics, events, ...props }) => (
+export default ({
+  settings,
+  options,
+  metrics,
+  events,
+  comparables,
+  ...props
+}) => (
   <Studio
     {...props}
     defaultSettings={{
@@ -199,6 +276,7 @@ export default ({ settings, options, metrics, events, ...props }) => (
     }}
     defaultOptions={{ ...DEFAULT_OPTIONS, ...options }}
     defaultMetrics={metrics || DEFAULT_METRICS}
-    defaultEvents={events || []}
+    defaultEvents={events}
+    defaultComparables={comparables}
   />
 )

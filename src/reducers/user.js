@@ -17,7 +17,8 @@ export const initialState = {
       isTelegramConnecting: false,
       newsletterSubscription: 'OFF'
     },
-    apikeys: []
+    apikeys: [],
+    subscriptions: []
   },
   account: null,
   token: null,
@@ -75,6 +76,16 @@ export default (state = initialState, action) => {
         data: {
           ...state.data,
           email: action.email
+        }
+      }
+    case actions.USER_SUBSCRIPTION_CHANGE:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          subscriptions: Array.isArray(state.data.subscriptions)
+            ? [action.payload, ...state.data.subscriptions]
+            : [action.payload]
         }
       }
     case actions.USER_USERNAME_CHANGE:

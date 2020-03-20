@@ -9,13 +9,30 @@ import TrendingCardInsights from './trendingInsights/TrendingCardInsights'
 import TrendingCardWords from './trendingCard/TrendingCardWords'
 import FeedCardDate from '../../../pages/feed/GeneralFeed/CardDate/FeedCardDate'
 import { getAmPmWithHours } from '../../../utils/dates'
+import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
+import SignalCreator from './creator/SignalCreator'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
+
+export const isStrictTrendingWords = ({ operation, type }) =>
+  type === 'trending_words' && operation && operation.trigger_time
+
+export const isTrendingWordsSignal = trigger => {
+  if (!trigger.settings) {
+    return false
+  }
+
+  if (isStrictTrendingWords(trigger.settings)) {
+    return true
+  }
+
+  return trigger.settings.operation && trigger.settings.operation.trending_word
+}
 
 const TrendingWordsSignalCard = ({
   className,
   activityPayload,
-  activity: { votes, trigger: signal, insertedAt: date, user },
+  activity: { votes, trigger, insertedAt: date, user },
   onLike
 }) => {
   const {
@@ -23,7 +40,9 @@ const TrendingWordsSignalCard = ({
     settings,
     isPublic,
     settings: { operation: { trigger_time } = {} }
-  } = signal
+  } = trigger
+
+  const strictTrendingWords = isStrictTrendingWords(settings)
 
   return (
     <Panel padding className={cx(externalStyles.wrapper, className)}>
@@ -31,15 +50,19 @@ const TrendingWordsSignalCard = ({
         <SignalCardHeader
           isUserTheAuthor={false}
           isPublic={isPublic}
-          signal={signal}
+          signal={trigger}
         />
       </DesktopOnly>
 
       <div className={externalStyles.wrapper__right}>
         <div className={styles.header}>
-          <Link to='/labs/trends' className={externalStyles.title}>
-            {title} {<TrendingPeriod period={trigger_time} />}
-          </Link>
+          {strictTrendingWords ? (
+            <Link to='/labs/trends' className={styles.title}>
+              {title} {<TrendingPeriod period={trigger_time} />}
+            </Link>
+          ) : (
+            <OpenSignalLink signal={trigger} />
+          )}
           <FeedCardDate date={date} />
         </div>
 
@@ -48,7 +71,9 @@ const TrendingWordsSignalCard = ({
           activityPayload={activityPayload}
         />
 
-        <TrendingCardInsights date={new Date(date)} />
+        {strictTrendingWords && <TrendingCardInsights date={new Date(date)} />}
+
+        <SignalCreator user={user} />
 
         <div className={styles.bottom}>
           <LikeBtnWrapper
@@ -72,7 +97,7 @@ const TrendingPeriod = ({ period }) => {
 
   return (
     <div className={styles.ampm}>
-      ({getAmPmWithHours(hours - 8)} - {getAmPmWithHours(hours)})
+      ({getAmPmWithHours(hours - 24)} - {getAmPmWithHours(hours)})
     </div>
   )
 }

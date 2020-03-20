@@ -28,7 +28,7 @@ describe('Signals ETH wallet actions', () => {
         percent_threshold: 200,
         threshold: 101,
         target: {
-          eth_address: '0x44fcfabfbe32024a01b778c025d70498382cced0'
+          address: '0x44fcfabfbe32024a01b778c025d70498382cced0'
         },
         asset: {
           slug: 'adx-net'

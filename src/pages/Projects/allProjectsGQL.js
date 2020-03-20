@@ -8,6 +8,8 @@ export const generalData = gql`
     description
     ticker
     rank
+    logoUrl
+    darkLogoUrl
   }
 `
 
@@ -86,29 +88,30 @@ export const RECENT_ASSET_QUERY = gql`
   ${PROJECT_RECENT_DATA_FRAGMENT}
 `
 
-export const allProjectsForSearchGQL = gql`
+export const ALL_PROJECTS_FOR_SEARCH_QUERY = gql`
   query allProjects($minVolume: Int!) {
     allProjects(minVolume: $minVolume) {
       ...generalData
       marketcapUsd
       rank
+      infrastructure
     }
   }
   ${generalData}
 `
 
-export const allErc20ProjectsGQL = gql`
-  query allErc20Projects($minVolume: Int!) {
-    allErc20Projects(minVolume: $minVolume) {
+export const ERC20_PROJECTS_QUERY = gql`
+  query allErc20Projects($minVolume: Int!, $page: Int, $pageSize: Int) {
+    allErc20Projects(minVolume: $minVolume, page: $page, pageSize: $pageSize) {
       ethBalance
       ...generalData
       ...project
       ...ethereumData
     }
   }
+  ${ethereumData}
   ${generalData}
   ${project}
-  ${ethereumData}
 `
 
 export const currenciesGQL = gql`
@@ -152,8 +155,12 @@ export const currenciesMarketSegmentsGQL = gql`
 export const ALL_ERC20_PROJECTS_QUERY = gql`
   {
     allErc20Projects {
+      id
+      name
+      ticker
       slug
       mainContractAddress
+      infrastructure
     }
   }
 `

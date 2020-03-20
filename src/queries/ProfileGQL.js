@@ -21,10 +21,17 @@ export const PUBLIC_USER_DATA_QUERY = gql`
         count
         users {
           id
+          avatarUrl
+          username
         }
       }
       following {
         count
+        users {
+          id
+          avatarUrl
+          username
+        }
       }
       insights {
         ...insightCommon
@@ -45,6 +52,8 @@ export const FOLLOW_MUTATION = gql(`
   {
     follow(userId: $id) {
         id
+        username
+        avatarUrl
     }
   }
 `)
@@ -53,6 +62,8 @@ export const UNFOLLOW_MUTATION = gql(`
   mutation unfollow($id: ID!) {
     unfollow(userId: $id) {
         id
+        username
+        avatarUrl
     }
   }
 `)

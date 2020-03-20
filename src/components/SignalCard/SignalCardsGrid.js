@@ -1,5 +1,4 @@
 import React from 'react'
-import { push } from 'react-router-redux'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import SignalCard from './card/SignalCard'
@@ -16,38 +15,40 @@ const SignalCardsGrid = ({
   className = '',
   toggleSignal,
   removeSignal,
-  goToSignalSettings,
-  deleteEnabled = true
+  deleteEnabled = true,
+  classes = {}
 }) => {
   const isAuthor = +userId === +ownerId
+
   return (
     <div className={cx(styles.wrapper, className)}>
       {signals
         .sort((a, b) => b.id - a.id)
-        .map(({ id, index, userId: signalOwnerId, ...signal }) => (
-          <SignalCard
-            deleteEnabled={deleteEnabled}
-            isUserTheAuthor={
-              isAuthor || (signalOwnerId && +signalOwnerId === +userId)
-            }
-            key={id || index}
-            id={id}
-            toggleSignal={() =>
-              toggleSignal({
-                id,
-                isActive: signal.isActive
-              })
-            }
-            goToSignalSettings={() => {
-              goToSignalSettings(id)
-            }}
-            removeSignal={() => {
-              removeSignal(id)
-            }}
-            className={styles.card}
-            signal={signal}
-          />
-        ))}
+        .map(signal => {
+          const { id, index, userId: signalOwnerId, isActive } = signal
+
+          return (
+            <SignalCard
+              deleteEnabled={deleteEnabled}
+              isUserTheAuthor={
+                isAuthor || (signalOwnerId && +signalOwnerId === +userId)
+              }
+              key={id || index}
+              id={id}
+              toggleSignal={() =>
+                toggleSignal({
+                  id,
+                  isActive
+                })
+              }
+              removeSignal={() => {
+                removeSignal(id)
+              }}
+              className={cx(styles.card, classes.card)}
+              signal={signal}
+            />
+          )
+        })}
     </div>
   )
 }
@@ -58,9 +59,6 @@ const mapDispatchToProps = dispatch => ({
   },
   removeSignal: id => {
     id && dispatch(removeTrigger(id))
-  },
-  goToSignalSettings: id => {
-    id && dispatch(push(`/sonar/signal/${id}${window.location.search}`))
   }
 })
 

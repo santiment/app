@@ -5,7 +5,7 @@ import { graphql } from 'react-apollo'
 import Icon from '@santiment-network/ui/Icon'
 import { SearchWithSuggestions } from '@santiment-network/ui/Search'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
-import { allProjectsForSearchGQL } from '../../pages/Projects/allProjectsGQL'
+import { ALL_PROJECTS_FOR_SEARCH_QUERY } from '../../pages/Projects/allProjectsGQL'
 import { hasAssetById } from '../WatchlistPopup/WatchlistsPopup'
 import ProjectIcon from './../ProjectIcon/ProjectIcon'
 import styles from './SearchContainer.module.scss'
@@ -41,6 +41,8 @@ const AssetSuggestion = ({
   name,
   ticker,
   slug,
+  logoUrl,
+  darkLogoUrl,
   isCopyingAssets,
   checkedAssets,
   isEditingWatchlist,
@@ -54,7 +56,13 @@ const AssetSuggestion = ({
           className={styles.checkbox}
         />
       ) : (
-        <ProjectIcon className={styles.icon} size={16} slug={slug} />
+        <ProjectIcon
+          className={styles.icon}
+          size={16}
+          slug={slug}
+          logoUrl={logoUrl}
+          darkLogoUrl={darkLogoUrl}
+        />
       )}
       <span className={styles.name}>{name}</span>
       <span className={styles.ticker}>({ticker})</span>
@@ -86,7 +94,14 @@ const SearchProjects = ({
           title: 'Assets',
           predicate: assetsPredicate,
           items: projects,
-          suggestionContent: ({ name, ticker, slug, id }) => {
+          suggestionContent: ({
+            name,
+            ticker,
+            slug,
+            logoUrl,
+            darkLogoUrl,
+            id
+          }) => {
             const isAssetInList = isEditingWatchlist
               ? hasAssetById({ listItems: watchlistItems, id })
               : false
@@ -97,6 +112,8 @@ const SearchProjects = ({
                 name={name}
                 ticker={ticker}
                 slug={slug}
+                logoUrl={logoUrl}
+                darkLogoUrl={darkLogoUrl}
                 isEditingWatchlist={isEditingWatchlist}
                 isCopyingAssets={isCopyingAssets}
                 checkedAssets={checkedAssets}
@@ -140,7 +157,7 @@ const enhance = compose(
       }
     }
   }),
-  graphql(allProjectsForSearchGQL, {
+  graphql(ALL_PROJECTS_FOR_SEARCH_QUERY, {
     skip: ({ projects }) => projects && projects.length > 0,
     options: () => ({
       context: { isRetriable: true },

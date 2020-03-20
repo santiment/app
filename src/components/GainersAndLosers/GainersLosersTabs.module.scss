@@ -65,3 +65,9 @@
 .changes {
   margin-left: auto;
 }
+
+.title {
+  @include text('body-1', 'm');
+
+  margin-top: 0;
+}

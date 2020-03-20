@@ -1,25 +1,30 @@
-@import "../../../../node_modules/@santiment-network/ui/mixins";
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.creator {
+  margin-top: 16px;
+}
+
+.tooltip {
+  margin-top: auto;
+}
 
 .wrapper {
   display: flex;
 }
 
 .description {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   display: flex;
   color: var(--waterloo);
-  margin-top: 4px;
 
   @include responsive('phone', 'phone-xs') {
     flex-direction: column;
-  }
-}
-
-.link {
-  color: var(--rhino) !important;
-
-  @include responsive('phone', 'phone-xs') {
-    margin-left: 0;
   }
 }
 
@@ -48,15 +53,13 @@
   }
 
   img {
-    margin: 14px 0 0;
+    margin: 14px 0 16px 0;
     border-radius: $border-radius;
     max-width: 100%;
-    padding: 8px;
-    border: 1px solid var(--mystic);
   }
 
   p {
-    @include text('body-3');
+    @include text('caption');
 
     margin-bottom: 0 !important;
     color: var(--waterloo);
@@ -71,7 +74,7 @@
   }
 
   p {
-    margin-top: 13px;
+    margin-top: 8px;
   }
 }
 
@@ -96,7 +99,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 229px;
+  width: 231px;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     flex: 1;
@@ -152,4 +155,8 @@
   width: 100%;
   justify-content: space-between;
   align-items: center;
+}
+
+.avatarTooltip {
+  width: 165px;
 }

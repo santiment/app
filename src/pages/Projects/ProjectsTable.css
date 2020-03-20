@@ -90,7 +90,6 @@
 }
 
 .rt-td .overview-ticker {
-  padding-top: 3px;
   font-size: 14px;
   line-height: 1 !important;
   text-align: center;
@@ -248,7 +247,6 @@
 
   .rt-td .overview-ticker {
     font-size: 12px;
-    padding-top: 4px;
   }
 }
 

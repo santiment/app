@@ -8,6 +8,8 @@ export const PROJECTS_QUERY = gql`
       name
       infrastructure
       priceUsd
+      logoUrl
+      darkLogoUrl
       devActivity7: averageDevActivity(days: 7)
       devActivity30: averageDevActivity
     }

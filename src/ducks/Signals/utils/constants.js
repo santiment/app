@@ -45,6 +45,17 @@ export const PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER =
   'price_absolute_change_double_border'
 export const PRICE_VOLUME_DIFFERENCE = 'price_volume_difference'
 
+export const METRIC_TYPES = {
+  WALLET_MOVEMENT: 'wallet_movement',
+  METRIC_SIGNAL: 'metric_signal'
+}
+
+export const SIGNAL_METRIC_TYPES = {
+  active_addresses_24h: 'active_addresses_24h',
+  price_usd: 'price_usd',
+  volume_usd: 'volume_usd'
+}
+
 export const TRENDING_WORDS_PROJECT_MENTIONED = {
   label: 'Trending assets',
   value: 'trending_project',
@@ -160,13 +171,6 @@ export const PRICE_ABS_CHANGE_OUTSIDE = {
   dependencies: ['absoluteBorderLeft', 'absoluteBorderRight']
 }
 
-export const ETH_WALLET_METRIC = {
-  label: 'Historical balance',
-  value: ETH_WALLET,
-  hidden: true,
-  description: 'Notify me when a wallet’s balance changes a certain way'
-}
-
 export const TRENDING_WORDS_METRIC = {
   label: 'Emerging social trends',
   value: TRENDING_WORDS,
@@ -177,21 +181,34 @@ export const TRENDING_WORDS_METRIC = {
 export const PRICE_METRIC = {
   label: 'Price',
   value: PRICE,
-  description: 'Notify me when an asset’s price moves a certain way'
+  description: 'Notify me when an asset’s price moves a certain way',
+  type: METRIC_TYPES.METRIC_SIGNAL,
+  metric: SIGNAL_METRIC_TYPES.price_usd
 }
+
 export const DAILY_ACTIVE_ADDRESSES_METRIC = {
   label: 'Daily Active Addresses',
   value: DAILY_ACTIVE_ADDRESSES,
-  metric: DAILY_ACTIVE_ADDRESSES,
+  type: METRIC_TYPES.METRIC_SIGNAL,
+  metric: SIGNAL_METRIC_TYPES.active_addresses_24h,
   description:
     'Notify me of changes in the # of addresses transacting an asset on-chain'
 }
 export const PRICE_VOLUME_DIFFERENCE_METRIC = {
   label: 'Price/volume difference',
   value: PRICE_VOLUME_DIFFERENCE,
-  metric: PRICE_VOLUME_DIFFERENCE,
+  type: METRIC_TYPES.METRIC_SIGNAL,
+  metric: SIGNAL_METRIC_TYPES.volume_usd,
   description:
     'Notify me of major divergences between an asset’s price and trading volume'
+}
+
+export const ETH_WALLET_METRIC = {
+  label: 'Historical balance',
+  value: ETH_WALLET,
+  hidden: true,
+  type: METRIC_TYPES.WALLET_MOVEMENT,
+  description: 'Notify me when a wallet’s balance changes a certain way'
 }
 
 export const COOLDOWN_REGEXP = /([0-9]+)*([smhdw])/i
@@ -200,8 +217,8 @@ export const METRICS_OPTIONS = [
   { ...PRICE_METRIC },
   { ...TRENDING_WORDS_METRIC },
   { ...DAILY_ACTIVE_ADDRESSES_METRIC },
-  { ...PRICE_VOLUME_DIFFERENCE_METRIC },
-  { ...ETH_WALLET_METRIC }
+  { ...ETH_WALLET_METRIC },
+  { ...PRICE_VOLUME_DIFFERENCE_METRIC }
 ]
 
 const PRICE_OPTIONS = [
@@ -315,7 +332,7 @@ const DEFAULT_TARGET = {
 }
 
 export const METRIC_DEFAULT_VALUES = {
-  price_absolute_change: {
+  [PRICE_ABSOLUTE_CHANGE]: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
     frequencyTimeType: { ...FREQUENCY_TIME_TYPE_DAILY_MODEL },
     frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
@@ -330,7 +347,7 @@ export const METRIC_DEFAULT_VALUES = {
     metric: { ...PRICE_METRIC },
     signalType: { ...METRIC_TARGET_ASSETS }
   },
-  price_percent_change: {
+  [PRICE_PERCENT_CHANGE]: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
     frequencyTimeType: { ...FREQUENCY_TIME_TYPE_DAILY_MODEL },
     frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
@@ -344,7 +361,7 @@ export const METRIC_DEFAULT_VALUES = {
     absoluteThreshold: 25,
     target: DEFAULT_TARGET
   },
-  daily_active_addresses: {
+  [DAILY_ACTIVE_ADDRESSES]: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
     frequencyTimeType: { ...FREQUENCY_TIME_TYPE_DAILY_MODEL },
     frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
@@ -358,7 +375,7 @@ export const METRIC_DEFAULT_VALUES = {
     absoluteThreshold: 25,
     target: []
   },
-  price_volume_difference: {
+  [PRICE_VOLUME_DIFFERENCE]: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
     frequencyTimeType: { ...FREQUENCY_TIME_TYPE_DAILY_MODEL },
     frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
@@ -368,7 +385,7 @@ export const METRIC_DEFAULT_VALUES = {
     channels: ['Telegram'],
     target: DEFAULT_TARGET
   },
-  eth_wallet: {
+  [ETH_WALLET]: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
     frequencyTimeType: { ...FREQUENCY_TIME_TYPE_DAILY_MODEL },
     frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
@@ -380,7 +397,7 @@ export const METRIC_DEFAULT_VALUES = {
     timeWindow: 24,
     target: DEFAULT_TARGET
   },
-  trending_words: {
+  [TRENDING_WORDS]: {
     type: { ...TRENDING_WORDS_WORD_MENTIONED },
     channels: ['Telegram'],
     target: DEFAULT_TARGET
@@ -484,12 +501,18 @@ export const POSSIBLE_METRICS_ACTIVITIES = [
   PRICE_ABSOLUTE_CHANGE,
   DAILY_ACTIVE_ADDRESSES,
   PRICE_VOLUME_DIFFERENCE,
-  ETH_WALLET
+  ETH_WALLET,
+
+  METRIC_TYPES.METRIC_SIGNAL,
+  METRIC_TYPES.WALLET_MOVEMENT
 ]
 
 export const POSSIBLE_METRICS_FOR_CHART = [
   PRICE_METRIC.value,
   DAILY_ACTIVE_ADDRESSES_METRIC.value,
   PRICE_VOLUME_DIFFERENCE_METRIC.value,
-  ETH_WALLET_METRIC.value
+  ETH_WALLET_METRIC.value,
+
+  METRIC_TYPES.METRIC_SIGNAL,
+  METRIC_TYPES.WALLET_MOVEMENT
 ]

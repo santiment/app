@@ -1,25 +1,25 @@
 @import "~@santiment-network/ui/mixins";
 
-.container {
-  margin-top: 14px;
-  display: flex;
-}
-
-.name {
-  color: var(--waterloo) !important;
-  word-break: break-word;
-
-  &:hover {
-    color: var(--jungle-green-hover) !important;
-  }
-}
-
 .right {
   margin: 0 0 0 12px;
   display: flex;
   align-items: center;
+  color: var(--waterloo) !important;
+  word-break: break-word;
 
   @include text('caption');
+}
+
+.container {
+  margin-top: auto;
+  display: flex;
+  cursor: pointer;
+
+  &:hover {
+    .right {
+      color: var(--jungle-green-hover) !important;
+    }
+  }
 }
 
 .withoutUser {

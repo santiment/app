@@ -16,6 +16,8 @@ import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProduc
 import logoImg from './../../assets/logos/main-logo.svg'
 import { LABS } from './SantimentProductsTooltip/Products'
 import UserAvatar from '../../pages/Account/avatar/UserAvatar'
+import { checkIsLoggedIn } from '../../pages/UserSelectors'
+import { getCurrentSanbaseSubscription } from '../../utils/plans'
 import styles from './Navbar.module.scss'
 
 const ExternalLink = ({ children, className, ...rest }) => (
@@ -24,6 +26,19 @@ const ExternalLink = ({ children, className, ...rest }) => (
     <Icon type='external-link' className={styles.externalLinkImg} />
   </a>
 )
+
+const PricingLink = connect(state => ({
+  isLoggedIn: checkIsLoggedIn(state),
+  subscription: getCurrentSanbaseSubscription(state.user.data)
+}))(({ isLoggedIn, subscription, dispatch, ...props }) => {
+  const hasFreeSubscription = isLoggedIn && !subscription
+
+  if (hasFreeSubscription || (subscription && subscription.trialEnd)) {
+    return <Link {...props} />
+  }
+
+  return null
+})
 
 const leftLinks = [
   {
@@ -53,7 +68,7 @@ const leftLinks = [
           products={LABS}
           position='start'
           showHeader={false}
-          offsetX={-410}
+          offsetX={-330}
           productProps={{
             className: styles.labCard
           }}
@@ -67,6 +82,11 @@ const leftLinks = [
     href: 'https://graphs.santiment.net/',
     children: 'Graphs',
     as: ExternalLink
+  },
+  {
+    to: '/pricing',
+    children: 'Pricing',
+    as: PricingLink
   }
 ]
 
@@ -167,9 +187,7 @@ const Navbar = ({ activeLink = '/', isBetaModeEnabled }) => {
                     styles.accountBtn
                   )}
                 >
-                  <Link to='/account'>
-                    <UserAvatar classes={styles} />
-                  </Link>
+                  <UserAvatar to='/account' classes={styles} />
                 </Button>
               }
             >

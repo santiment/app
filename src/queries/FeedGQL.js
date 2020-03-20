@@ -38,6 +38,7 @@ export const FEED_QUERY = gql`
           userId
         }
         payload
+        data
         __typename
       }
     }

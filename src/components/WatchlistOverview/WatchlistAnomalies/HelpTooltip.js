@@ -14,6 +14,7 @@ const HelpTooltip = ({
   align = 'end'
 }) => (
   <Tooltip
+    on='click'
     className={cx(styles.tooltip, classes.tooltip)}
     position={position}
     align={align}

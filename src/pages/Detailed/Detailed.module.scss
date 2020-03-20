@@ -1,5 +1,5 @@
 .wrapper {
-  margin-top: -22px;
+  margin-top: 0;
 }
 
 .breadcrumbs {
@@ -8,6 +8,7 @@
 
 .stories {
   padding: 0;
+  max-width: none !important;
 }
 
 .bottom {

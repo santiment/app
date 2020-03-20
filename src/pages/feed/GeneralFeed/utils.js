@@ -1,4 +1,4 @@
-import { DATETIME_SORT } from '../filter/FeedSorters'
+import { DATETIME_SORT } from '../sorters/FeedSorters'
 
 export const MAX_LIMIT = 10
 

@@ -15,15 +15,12 @@ const AnomaliesToggle = ({
   isBeta
 }) => {
   return showToggleAnomalies && isBeta ? (
-    <Button
-      variant='flat'
-      onClick={onToggleAnomalies}
-      className={cx(styles.wrapper, className)}
-    >
+    <Button variant='flat' className={cx(styles.wrapper, className)}>
       <Toggle
         isActive={isShowAnomalies}
         className={cx(styles.toggle, isShowAnomalies && styles.active)}
         Icon={FlashIconPath}
+        onClick={onToggleAnomalies}
       />
       Anomalies
       <HelpTooltip

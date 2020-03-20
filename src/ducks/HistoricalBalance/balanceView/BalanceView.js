@@ -25,7 +25,7 @@ const LoadableChartSettings = Loadable({
 
 const DEFAULT_TIME_RANGE = '6m'
 const INTERVAL = '1d'
-const PRICE_METRIC = 'historyPrice'
+const PRICE_METRIC = 'price_usd'
 const CHART_PRICE_METRIC = {
   ...Metrics[PRICE_METRIC],
   type: PRICE_METRIC,
@@ -216,10 +216,12 @@ const BalanceView = ({
                     !priceMetricTimeseries ||
                     !priceMetricTimeseries[metricSlug]
                   ) {
-                    const mapped = timeseries.map(({ priceUsd, datetime }) => ({
-                      datetime,
-                      [metricSlug]: priceUsd
-                    }))
+                    const mapped = timeseries.map(
+                      ({ price_usd, datetime }) => ({
+                        datetime,
+                        [metricSlug]: price_usd
+                      })
+                    )
 
                     setPriceMetricTimeseries({
                       ...priceMetricTimeseries,

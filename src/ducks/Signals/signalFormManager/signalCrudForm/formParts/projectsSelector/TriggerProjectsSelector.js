@@ -90,9 +90,7 @@ export const TriggerProjectsSelector = ({
       setListItems(newItems)
     }
 
-    if (isSingle) {
-      approve(newItems)
-    }
+    approve(newItems, isSingle)
   }
 
   const toggleAsset = ({ project, listItems: items, isAssetInList }) => {
@@ -108,10 +106,13 @@ export const TriggerProjectsSelector = ({
     closeDialog()
   }
 
-  const approve = selected => {
+  const approve = (selected, shouldClose = true) => {
     setFieldValue && setFieldValue(name, selected)
     onChange && onChange(selected, closeDialog)
-    closeDialog()
+
+    if (shouldClose) {
+      closeDialog()
+    }
   }
 
   const onSuggestionSelect = project => {
@@ -220,8 +221,9 @@ const AssetsListDescription = ({
     <div className={styles.assetGroup}>
       {assets.map(asset => {
         const { id, name } = asset
+
         return (
-          <span className={styles.asset} key={id}>
+          <span className={styles.asset} key={id || name}>
             <span className={styles.name}>{name}</span>
             <Button
               type='button'

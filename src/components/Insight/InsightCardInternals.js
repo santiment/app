@@ -1,12 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import InsightTags from './InsightTags'
-import ProfileInfo from './ProfileInfo'
+import ProfileInfo, { InsightDate } from './ProfileInfo'
 import MultilineText from '../MultilineText/MultilineText'
 import LikeBtn from '../Like/LikeBtn'
 import { getSEOLinkFromIdAndTitle } from './utils'
-import { DesktopOnly } from '../Responsive'
+import { DesktopOnly, MobileOnly } from '../Responsive'
 import { SignalTypeIcon } from '../SignalCard/controls/SignalControls'
 import Comments from './Comments'
 import styles from './InsightCard.module.scss'
@@ -39,6 +38,8 @@ const InsightCardInternals = ({
 }) => {
   const linkToInsight = makeLinkToInsight(id, title)
 
+  const date = publishedAt || createdAt
+
   return (
     <div className={styles.container}>
       {showIcon && (
@@ -49,6 +50,15 @@ const InsightCardInternals = ({
       <div className={cx(styles.main, showIcon && styles.withIcon)}>
         <div className={styles.description}>
           <div className={styles.top}>
+            {showDate && (
+              <MobileOnly>
+                <InsightDate
+                  date={date}
+                  state={state}
+                  className={styles.date}
+                />
+              </MobileOnly>
+            )}
             <a href={linkToInsight} className={styles.title}>
               <MultilineText maxLines={2} id='insightCardTitle' text={title} />
             </a>
@@ -56,13 +66,10 @@ const InsightCardInternals = ({
               <ProfileInfo
                 withPic={withAuthorPic}
                 picUrl={avatarUrl}
-                date={publishedAt || createdAt}
+                date={date}
                 state={state}
-                name={
-                  <Link className={styles.name} to={`/profile/${authorId}`}>
-                    {authorName}
-                  </Link>
-                }
+                authorName={authorName}
+                authorId={authorId}
                 showDate={showDate}
                 infoClassName={styles.info}
               />

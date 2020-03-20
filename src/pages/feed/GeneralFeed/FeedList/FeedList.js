@@ -39,6 +39,8 @@ const checkItemWithIndex = (group, item, index) => {
     item.addStories = true
   }
 
+  item.index = index
+
   group.items.push(item)
 }
 
@@ -69,7 +71,12 @@ const groupByDates = events => {
   return groups
 }
 
-const FeedList = ({ events, isLoading, isNewEventsList }) => {
+const FeedList = ({
+  events,
+  isLoading,
+  isNewEventsList,
+  showProfileExplanation
+}) => {
   if (isNewEventsList && isLoading) {
     return (
       <div className={externalStyles.scrollable}>
@@ -93,8 +100,15 @@ const FeedList = ({ events, isLoading, isNewEventsList }) => {
               </div>
               {items.map((item, itemIndex) => (
                 <Fragment key={itemIndex}>
-                  <FeedItemRenderer item={item} index={index} />
-                  {item.addProCard && <MakeProSubscriptionCard />}
+                  <div className={styles.block}>
+                    <FeedItemRenderer
+                      item={item}
+                      index={index}
+                      showProfileExplanation={showProfileExplanation}
+                    />
+                    {item.addProCard && <MakeProSubscriptionCard />}
+                  </div>
+
                   {item.addStories && (
                     <StoriesList classes={styles} showScrollBtns={true} />
                   )}

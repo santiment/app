@@ -1,151 +1,76 @@
 import React, { useState } from 'react'
-import { Query } from 'react-apollo'
-import cx from 'classnames'
+import { graphql } from 'react-apollo'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import {
-  BarChart,
-  Bar,
-  LabelList,
-  ResponsiveContainer,
-  XAxis,
-  YAxis
-} from 'recharts'
+import Dropdown from '@santiment-network/ui/Dropdown'
+import { linearScale } from '@santiment-network/chart/scales'
 import { HISTOGRAM_DATA_QUERY } from './gql'
-import { useDebounceEffect } from '../../../hooks'
-import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
 import { millify } from '../../../utils/formatting'
 import styles from './Histogram.module.scss'
 
-const getDateFromLabel = label => {
-  const start = label.indexOf('20')
-  const end = label.indexOf(' ', start)
-  return label.slice(start, end)
-}
-
-const HistogramDate = ({ y, height, value }) => {
+const Frame = ({ frame = '<1d', value = '205.8k', ticker = 'BTC', width }) => {
+  console.log(width)
   return (
-    <text y={y - height} x={4} className={styles.label}>
-      Tokens moved last on{' '}
-      <tspan className={styles.date}>{getDateFromLabel(value)}</tspan>
-    </text>
+    <div className={styles.frame}>
+      <div className={styles.bar} style={{ width }} />
+      <div className={styles.info}>
+        <span className={styles.range}>{frame}: </span>
+        {millify(value, 1)} {ticker}
+      </div>
+    </div>
   )
 }
 
-const Histogram = ({ slug, date }) => {
-  const [period, setPeriod] = useState({})
-  const [hoveredValue, setHoveredValue] = useState()
+const dropdownClasses = {
+  wrapper: styles.dropdown,
+  options: styles.dropdown__options
+}
 
-  useDebounceEffect(
-    () => {
-      const { from, to } = getTimeIntervalFromToday(-4, DAY, {
-        to: new Date(date),
-        from: new Date(date)
-      })
+const TIME = 'Time'
+const VALUE = 'Value'
+const SORTER_OPTIONS = [TIME, VALUE]
 
-      to.setHours(to.getHours() + 72, 0, 0, 0)
+const dateSorter = ({ index: a }, { index: b }) => b - a
+const valueSorter = ({ value: a }, { value: b }) => b - a
 
-      setPeriod({
-        from: from.toISOString(),
-        to: to.toISOString()
-      })
-    },
-    200,
-    [date, slug]
-  )
+const Sorter = {
+  [TIME]: dateSorter,
+  [VALUE]: valueSorter
+}
 
-  function updateHoveredValue ({ value }) {
-    setHoveredValue(value)
-  }
-
-  function clearHoveredValue () {
-    setHoveredValue()
-  }
-
-  function formatter (value) {
-    return value === hoveredValue ? millify(value, 1) : ''
-  }
+const Histogram = ({ ticker, loading, distributions }) => {
+  const [sorter, setSorter] = useState(TIME)
 
   return (
     <div className={styles.wrapper}>
-      <Query
-        skip={!period.from}
-        query={HISTOGRAM_DATA_QUERY}
-        variables={{
-          slug,
-          interval: '1d',
-          ...period
-        }}
-      >
-        {({ loading, error, data: { getMetric } = {} }) => {
-          if (error) {
-            return (
-              <div className={cx(styles.load, styles.action)}>
-                Please, hover on a date inside the allowed interval
-              </div>
-            )
-          }
+      <h2 className={styles.title}>
+        Histogram
+        {loading && <Loader className={styles.inlineLoader} />}
+      </h2>
 
-          if (!getMetric) {
-            return <Loader className={styles.load} />
-          }
-
-          const data = getMetric.histogramData
-          const res = data.labels.map((label, i) => ({
-            label,
-            value: data.values.data[i]
-          }))
-
-          return (
-            <>
-              <h2 className={styles.title}>
-                Histogram
-                {loading && <Loader className={styles.inlineLoader} />}
-              </h2>
-              <div className={styles.content}>
-                <ResponsiveContainer
-                  width='90%'
-                  height={260}
-                  className={styles.chart}
-                >
-                  <BarChart
-                    layout='vertical'
-                    data={res}
-                    margin={{
-                      top: 0,
-                      right: 0,
-                      bottom: 0,
-                      left: 0
-                    }}
-                  >
-                    <XAxis type='number' hide minTickGap={23} />
-                    <YAxis dataKey='label' type='category' hide />
-                    <Bar
-                      dataKey='value'
-                      barSize={4}
-                      fill='var(--lima)'
-                      onMouseEnter={updateHoveredValue}
-                      onMouseOut={clearHoveredValue}
-                    >
-                      <LabelList
-                        dataKey='label'
-                        position='top'
-                        offset={6}
-                        content={HistogramDate}
-                      />
-                      <LabelList
-                        dataKey='value'
-                        position='right'
-                        offset={6}
-                        formatter={formatter}
-                      />
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </>
-          )
-        }}
-      </Query>
+      <div className={styles.sorter}>
+        Sort by
+        <Dropdown
+          selected={sorter}
+          options={SORTER_OPTIONS}
+          classes={dropdownClasses}
+          onSelect={setSorter}
+        />
+      </div>
+      <div className={styles.static}>
+        <div className={styles.scroll}>
+          {distributions
+            .sort(Sorter[sorter])
+            .map(({ index, timeFrame, value, width }) => (
+              <Frame
+                key={index}
+                frame={timeFrame}
+                value={value}
+                ticker={ticker}
+                width={width}
+              />
+            ))}
+        </div>
+      </div>
     </div>
   )
 }
@@ -155,7 +80,52 @@ Histogram.Icon = 'H'
 Histogram.defaultProps = {
   date: Date.now(),
   interval: '1d',
-  slug: 'bitcoin'
+  slug: 'bitcoin',
+  distributions: []
 }
 
-export default Histogram
+function formatHistogramData ({ values: { data: distributions } }) {
+  let currentFrame = 1
+
+  const min = Math.min(...distributions)
+  const max = Math.max(...distributions)
+
+  const chart = {
+    height: 342,
+    top: 0
+  }
+  const scaler = linearScale(chart, max, min * 0.8)
+
+  return distributions.map((value, index) => {
+    const timeFrame =
+      currentFrame === 1
+        ? `<${currentFrame++}d`
+        : `${currentFrame}d-${++currentFrame}d`
+
+    return {
+      index,
+      value,
+      timeFrame,
+      width: scaler(value)
+    }
+  })
+}
+
+export default graphql(HISTOGRAM_DATA_QUERY, {
+  options: ({ slug, from, to }) => ({
+    variables: {
+      interval: '1d',
+      slug,
+      from,
+      to
+    }
+  }),
+  props: ({ data: { loading, getMetric } }) => {
+    if (!getMetric) return { loading }
+
+    return {
+      distributions: formatHistogramData(getMetric.histogramData),
+      loading
+    }
+  }
+})(Histogram)

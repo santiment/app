@@ -45,13 +45,16 @@
 }
 
 .premium {
-  cursor: hover;
   border-radius: 4px;
   height: 26px;
   padding: 4px 12px;
-  background: var(--texas-rose-light-2);
-  color: var(--texas-rose);
-  fill: var(--texas-rose);
+  background: var(--texas-rose-light);
+
+  &,
+  &:focus {
+    color: var(--texas-rose);
+    fill: var(--texas-rose);
+  }
 
   &:hover {
     color: var(--texas-rose-hover);

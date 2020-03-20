@@ -1,0 +1,25 @@
+.row {
+  display: flex;
+  margin-top: 8px;
+}
+
+.icon {
+  margin-right: 8px;
+}
+
+.arrow {
+  margin-left: 16px;
+  fill: var(--waterloo);
+}
+
+.remove {
+  margin-left: 13px;
+  height: 32px;
+  width: 9px;
+  fill: var(--waterloo);
+  cursor: pointer;
+
+  &:hover {
+    fill: var(--persimmon);
+  }
+}

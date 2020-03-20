@@ -1,6 +1,6 @@
 .PostVisualBacktestChart {
   min-height: 75px;
   height: 80px;
-  width: 190px;
+  width: 100%;
   margin: 0 auto;
 }

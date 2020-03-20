@@ -5,6 +5,10 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
+  }
 }
 
 .tabs {
@@ -37,12 +41,12 @@
 }
 
 .addSignal {
-  @include responsive('phone', 'phone-xs') {
-    margin-right: 16px;
-  }
+  min-width: 145px;
 }
 
 .content {
+  margin-top: 32px;
+
   @include responsive('phone', 'phone-xs') {
     margin: 0 16px;
   }

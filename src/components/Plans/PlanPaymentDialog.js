@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Mutation } from 'react-apollo'
 import { connect } from 'react-redux'
 import Button from '@santiment-network/ui/Button'
@@ -15,7 +15,10 @@ import {
 } from '../../queries/plans'
 import { formatError, contactAction } from '../../utils/notifications'
 import { getDateFormats } from '../../utils/dates'
+import { getAlternativeBillingPlan } from '../../utils/plans'
+import { usePlans } from '../../ducks/Plans/hooks'
 import GA from '../../utils/tracking'
+import { USER_SUBSCRIPTION_CHANGE } from '../../actions/types'
 import styles from './PlanPaymentDialog.module.scss'
 import sharedStyles from './Plans.module.scss'
 
@@ -53,16 +56,6 @@ const getTokenDataByForm = form => {
   return res
 }
 
-const YEAR_MULT_DIV = [1, 12]
-const MONTH_MULT_DIV = [12, 1]
-const getPrices = (amount, billing) => {
-  const [mult, div] = billing === 'year' ? YEAR_MULT_DIV : MONTH_MULT_DIV
-  return [
-    `$${parseInt((amount * mult) / 100, 10)}`,
-    `$${parseInt(amount / (100 * div), 10)}`
-  ]
-}
-
 const NEXT_DATE_GET_SET_MONTH = ['setMonth', 'getMonth']
 const NEXT_DATE_GET_SET_YEAR = ['setFullYear', 'getFullYear']
 const getNextPaymentDates = billing => {
@@ -76,21 +69,49 @@ const getNextPaymentDates = billing => {
 
   return `${DD}/${MM}/${YY}`
 }
+
 const PaymentDialog = ({
-  title,
-  billing,
+  title: name,
+  billing: interval,
   label,
   src,
-  price,
-  planId,
+  price: amount,
+  planId: id,
   stripe,
   disabled,
   addNot,
-  btnProps
+  btnProps,
+  updateSubscription
 }) => {
+  const [plans] = usePlans()
   const [loading, toggleLoading] = useFormLoading()
   const [paymentVisible, setPaymentVisiblity] = useState(false)
-  const [yearPrice, monthPrice] = getPrices(price, billing)
+  const [selectedPlan, setSelectedPlan] = useState({})
+
+  const {
+    id: planId,
+    name: title,
+    interval: billing,
+    amount: price
+  } = selectedPlan
+
+  useEffect(
+    () => {
+      setSelectedPlan({
+        id,
+        name,
+        interval,
+        amount
+      })
+    },
+    [id, name, amount, interval]
+  )
+
+  function changeSelectedPlan (interval) {
+    if (selectedPlan.interval !== interval) {
+      setSelectedPlan(getAlternativeBillingPlan(plans, selectedPlan))
+    }
+  }
 
   function hidePayment () {
     setPaymentVisiblity(false)
@@ -160,11 +181,14 @@ const PaymentDialog = ({
                         variables
                       })
                     })
-                    .then(() => {
+                    .then(({ data: { subscribe } }) => {
                       addNot({
                         variant: 'success',
                         title: `You have successfully upgraded to the "${title}" plan!`
                       })
+                      updateSubscription(subscribe)
+
+                      hidePayment()
 
                       GA.event({
                         category: 'User',
@@ -187,10 +211,10 @@ const PaymentDialog = ({
                 <CheckoutForm
                   plan={title}
                   nextPaymentDate={getNextPaymentDates(billing)}
-                  monthPrice={monthPrice}
-                  yearPrice={yearPrice}
+                  price={price}
                   billing={billing}
                   loading={loading}
+                  changeSelectedPlan={changeSelectedPlan}
                 />
               </Dialog.ScrollContent>
 
@@ -211,7 +235,9 @@ const PaymentDialog = ({
 }
 
 const mapDispatchToProps = dispatch => ({
-  addNot: message => dispatch(showNotification(message))
+  addNot: message => dispatch(showNotification(message)),
+  updateSubscription: payload =>
+    dispatch({ type: USER_SUBSCRIPTION_CHANGE, payload })
 })
 
 const InjectedForm = connect(

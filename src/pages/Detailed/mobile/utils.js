@@ -1,7 +1,7 @@
 import { Metrics } from '../../../ducks/SANCharts/data'
 
 export const DEFAULT_METRIC = {
-  key: 'historyPrice',
+  key: 'price_usd',
   ...Metrics['historyPricePreview'].reqMeta
 }
 
@@ -11,8 +11,8 @@ export const MAX_METRICS_PER_CHART = 3
 
 export const POPULAR_METRICS = [
   Metrics.daily_active_addresses,
-  Metrics.devActivity,
-  Metrics.socialVolume
+  Metrics.dev_activity,
+  Metrics.social_volume_total
 ]
 
 export const makeRequestedData = ({ metrics, ...rest }) => {

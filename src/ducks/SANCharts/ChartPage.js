@@ -6,7 +6,7 @@ import Loadable from 'react-loadable'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import Chart from './Chart'
-import Synchronizer from './Chart/Synchronizer'
+import Synchronizer, { getSyncedColors } from './Chart/Synchronizer'
 import Header from './Header'
 import { getMarketSegment, mapDatetimeToNumber } from './utils'
 import { Metrics, Events, compatabilityMap, ASSETS_SIDEBAR } from './data'
@@ -32,7 +32,7 @@ const DEFAULT_STATE = {
   from: FROM.toISOString(),
   to: TO.toISOString(),
   slug: 'santiment',
-  metrics: [Metrics.historyPrice],
+  metrics: [Metrics.price_usd],
   title: 'Santiment (SAN)',
   projectId: '16912',
   interval: getNewInterval(FROM, TO),
@@ -433,9 +433,9 @@ class ChartPage extends Component {
       let resInterval = selectedInterval
       if (
         selectedIntervalIndex < 1 &&
-        metric !== Metrics.historyPrice &&
-        metric !== Metrics.volume &&
-        metric !== Metrics.marketcap
+        metric !== Metrics.price_usd &&
+        metric !== Metrics.volume_usd &&
+        metric !== Metrics.marketcap_usd
       ) {
         resInterval = '1h'
       }
@@ -507,6 +507,8 @@ class ChartPage extends Component {
           const finalMetrics = metrics
             .concat(marketSegments)
             .filter(({ key }) => !errors.includes(key))
+
+          const MetricColor = getSyncedColors(finalMetrics)
 
           // NOTE(haritonasty): we don't show anomalies when trendPositionHistory is in activeMetrics
           const isTrendsShowing = trendPositionHistory !== undefined
@@ -603,6 +605,7 @@ class ChartPage extends Component {
                         to={to}
                         metrics={finalMetrics}
                         data={mapDatetimeToNumber(timeseries)}
+                        MetricColor={MetricColor}
                         chartRef={this.chartRef}
                         scale={isLogScale ? logScale : linearScale}
                         leftBoundaryDate={!hasPremium && leftBoundaryDate}
@@ -612,6 +615,7 @@ class ChartPage extends Component {
                         isLoading={isParentLoading || isLoading}
                         isWideChart={isWideChart}
                         onPointHover={this.getSocialContext}
+                        resizeDependencies={[]}
                       />
                     </Synchronizer>
 

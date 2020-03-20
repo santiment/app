@@ -2,9 +2,12 @@ import React, { useEffect } from 'react'
 import { Query } from '@apollo/react-components'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import {
-  getMetricsByType,
+  getCheckingMetric,
+  getNewMetricsByType,
+  getOldMetricsByType,
+  getPreviewTarget,
   getTimeRangeForChart,
-  mapTargetObject
+  isNewTypeSignal
 } from '../../utils/utils'
 import { Metrics } from '../../../SANCharts/data'
 import { getMetricYAxisId } from '../../../SANCharts/utils'
@@ -25,7 +28,7 @@ import {
   mapToRequestedMetrics,
   makeSameRange
 } from './utils'
-import { DAILY_ACTIVE_ADDRESSES } from '../../utils/constants'
+import { DAILY_ACTIVE_ADDRESSES, TRENDING_WORDS } from '../../utils/constants'
 import styles from './SignalPreview.module.scss'
 
 const PreviewLoader = (
@@ -36,22 +39,25 @@ const PreviewLoader = (
 
 const SignalPreviewChart = ({
   target,
-  type,
+  type: oldSignalType,
   slug,
   timeRange,
   label,
   points,
   showExpand,
-  showTitle
+  showTitle,
+  trigger
 }) => {
   let triggeredSignals = points.filter(point => point['triggered?'])
-  const { metrics, triggersBy } = getMetricsByType(type)
+  const { metrics, triggersBy } = isNewTypeSignal(trigger)
+    ? getOldMetricsByType(oldSignalType)
+    : getNewMetricsByType(trigger)
 
-  const isStrongDaily = type === DAILY_ACTIVE_ADDRESSES
+  const isStrongDaily = oldSignalType === DAILY_ACTIVE_ADDRESSES
   const metricsInterval = isStrongDaily ? '1d' : '1h'
 
   const metricRest = {
-    address: target && target.eth_address ? target.eth_address : ''
+    address: target && target.address ? target.address : ''
   }
 
   const requestedMetrics = mapToRequestedMetrics(metrics, {
@@ -62,7 +68,7 @@ const SignalPreviewChart = ({
   })
 
   const metricsForSignalsChart = metrics.map(metric =>
-    metric === Metrics.historyPrice ? Metrics.historyPricePreview : metric
+    metric === Metrics.price_usd ? Metrics.historyPricePreview : metric
   )
 
   const syncedColors = getSyncedColors(metricsForSignalsChart)
@@ -78,7 +84,10 @@ const SignalPreviewChart = ({
         }
 
         const data = mapWithTimeseries(timeseries)
-        const merged = cleanByDatakeys(data, triggersBy.dataKey)
+        const merged = cleanByDatakeys(
+          data,
+          triggersBy.dataKey || triggersBy.key
+        )
 
         triggeredSignals = makeSameRange(triggeredSignals, merged)
 
@@ -142,17 +151,18 @@ const SignalPreview = ({
   showExpand = true,
   showTitle = true
 }) => {
-  const { settings: { target, asset } = {}, cooldown } = trigger
+  const { settings, settings: { target, asset } = {}, cooldown } = trigger
 
   if (!target && !asset) {
     return null
   }
 
-  const slug = mapTargetObject(asset || target)
+  const slug = getPreviewTarget(settings)
 
   return (
     <Query
       query={HISTORICAL_TRIGGER_POINTS_QUERY}
+      skip={getCheckingMetric(trigger.settings) === TRENDING_WORDS}
       variables={{
         cooldown: cooldown,
         settings: JSON.stringify(trigger.settings)
@@ -189,7 +199,7 @@ const SignalPreview = ({
             showExpand={showExpand}
             showTitle={showTitle}
             target={target}
-            interval={cooldown}
+            trigger={trigger}
           />
         )
       }}

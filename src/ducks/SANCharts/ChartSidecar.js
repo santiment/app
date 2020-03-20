@@ -7,6 +7,7 @@ import RecentlyWatched, {
   Asset
 } from '../../components/RecentlyWatched/RecentlyWatched'
 import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
+import Footer from '../../components/Footer'
 import { ASSETS_SIDEBAR } from './data'
 import styles from './ChartSidecar.module.scss'
 
@@ -71,7 +72,8 @@ export const SidecarItems = ({
   classes = {},
   hidden = false,
   onSlugSelect,
-  onProjectClick
+  onProjectClick,
+  showFooter = false
 }) => {
   const [openedList, setOpenedList] = useState()
 
@@ -103,6 +105,7 @@ export const SidecarItems = ({
         renderer={assetsRenderer}
         rowHeight={50}
       />
+      {showFooter && <Footer classes={styles} />}
     </div>
   ) : (
     <div className={cx(styles.content, classes.sidecarItems)}>
@@ -124,17 +127,15 @@ export const SidecarItems = ({
             <h2 className={cx(styles.subtitle, classes.subTitle)}>Indices</h2>
             <Categories onClick={setOpenedList} />
           </section>
-          <section className={styles.section}>
-            <h2 className={cx(styles.subtitle, classes.subTitle)}>
-              Social gainers and losers
-            </h2>
-            <GainersLosersTabs
-              timeWindow='2d'
-              size={8}
-              onProjectClick={onProjectClick}
-              classes={styles}
-            />
-          </section>
+          <GainersLosersTabs
+            className={styles.section}
+            titleClassName={classes.subTitle}
+            timeWindow='2d'
+            size={8}
+            onProjectClick={onProjectClick}
+            classes={styles}
+          />
+          {showFooter && <Footer classes={styles} />}
         </div>
       </div>
     </div>

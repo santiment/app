@@ -1,20 +1,25 @@
-import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import { getTextWidth } from '@santiment-network/chart/utils'
 import COLOR from '@santiment-network/ui/variables.scss'
 import { Metrics, tooltipSettings } from '../data'
 import { ONE_DAY_IN_MS } from '../../../utils/dates'
+import { GET_METRIC } from '../../GetTimeSeries/queries/get_metric'
 
 const BOTTOM_MARGIN = 5
 const RIGHT_MARGIN = 7
 
 export function drawLastDayPrice (chart, scale, price) {
-  const { ctx, minMaxes, height, top, left, right } = chart
-  const { min, max } = minMaxes.priceUsd
+  const { ctx, minMaxes, top, left, right, bottom } = chart
+  const priceMinMaxes = minMaxes.price_usd
+  if (!priceMinMaxes) return
 
-  const y = scale(height, min, max)(price) + top
+  const { min, max } = priceMinMaxes
 
-  const text = `Last day price ${tooltipSettings.priceUsd.formatter(price)}`
+  const y = scale(chart, min, max)(price)
+
+  if (y > bottom || y < top) return
+
+  const text = `Last day price ${tooltipSettings.price_usd.formatter(price)}`
 
   ctx.save()
   ctx.beginPath()
@@ -37,27 +42,18 @@ export function drawLastDayPrice (chart, scale, price) {
   ctx.restore()
 }
 
-const HISTORY_PRICE_QUERY = gql`
-  query historyPrice($slug: String, $from: DateTime, $to: DateTime) {
-    historyPrice(slug: $slug, from: $from, to: $to, interval: "1d") {
-      priceUsd
-      datetime
-    }
-  }
-`
-
 const DAY_INTERVAL = ONE_DAY_IN_MS * 2
 
-export const withLastDayPrice = graphql(HISTORY_PRICE_QUERY, {
+export const withLastDayPrice = graphql(GET_METRIC('price_usd'), {
   skip: ({ metrics, from, to }) => {
     return (
-      !metrics.includes(Metrics.historyPrice) ||
+      !metrics.includes(Metrics.price_usd) ||
       new Date(to) - new Date(from) > DAY_INTERVAL
     )
   },
-  props: ({ data: { historyPrice = [] } }) => {
-    const point = historyPrice[0] || {}
-    return { lastDayPrice: point.priceUsd }
+  props: ({ data: { getMetric: { timeseriesData = [] } = {} } }) => {
+    const point = timeseriesData[0] || {}
+    return { lastDayPrice: point.price_usd }
   },
   options: ({ slug, from }) => {
     const newFrom = new Date(from)
@@ -70,6 +66,7 @@ export const withLastDayPrice = graphql(HISTORY_PRICE_QUERY, {
       variables: {
         from: newFrom.toISOString(),
         to: to.toISOString(),
+        interval: '1d',
         slug
       }
     }

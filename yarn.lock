@@ -1567,10 +1567,10 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@santiment-network/chart@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@santiment-network/chart/-/chart-0.0.3.tgz#dc698776c8a727aad3d32ec2391100d126507ebc"
-  integrity sha512-eckStN89TbpkIi7tfKS5rxmFSBC7cw42LW2XIBb8jQWMRgR/g+SEj6vi45gMqKbQIbvXUuzc7c0GjNLPNqkHNQ==
+"@santiment-network/chart@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@santiment-network/chart/-/chart-0.2.0.tgz#7a1a9076617e02ea1c3a628bdb9ba076b40b52cd"
+  integrity sha512-nVBRm9nGoXj+SrTMKAxls4wdE4GLHxd4aXbrwDIzILJHf1tT1KgpppbCe6r/IbKgaHp8XAuKEDXbRw4fk65EKw==
 
 "@santiment-network/ui@^0.5.158":
   version "0.5.158"
@@ -14836,6 +14836,15 @@ react-style-proptype@^3.0.0:
   dependencies:
     prop-types "^15.5.4"
 
+react-swipe@^6.0.4:
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/react-swipe/-/react-swipe-6.0.4.tgz#76e53599b1a093d5a3a841c7f391ef0abcc1babb"
+  integrity sha512-NIF+gVOqPpE8GyCg0ssFC+fPgeqCwNnvqFU/A8nDAOvoncW3KjSVFwgkYNnErHvpFZGmsVw4SLWK96n7+mnChg==
+  dependencies:
+    lodash.isequal "^4.5.0"
+    prop-types "^15.6.0"
+    swipe-js-iso "^2.1.5"
+
 react-table@^6.7.5:
   version "6.8.6"
   resolved "https://registry.yarnpkg.com/react-table/-/react-table-6.8.6.tgz#a0ad8b4839319052d5befc012603fb161e52ede3"
@@ -17375,6 +17384,11 @@ svgo@^1.1.1:
     stable "^0.1.8"
     unquote "~1.1.1"
     util.promisify "~1.0.0"
+
+swipe-js-iso@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/swipe-js-iso/-/swipe-js-iso-2.1.5.tgz#9b0eea8b9740487e6169d655184fc6440b6a2e34"
+  integrity sha512-yTTU5tDYEvtKfCD8PN+Rva25acJwogUCd6wPT1n1im/MOJlg6PtHiPKaaNK7HDBiIrWThA/WRbJZbox2letghg==
 
 symbol-observable@1.0.1:
   version "1.0.1"

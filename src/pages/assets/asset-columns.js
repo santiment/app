@@ -190,7 +190,7 @@ export const COLUMNS = (preload, props = {}) => [
       <>
         <b>Average value for 30d</b>
         <br />
-        {Metrics['devActivity'].description}
+        {Metrics['dev_activity'].description}
       </>
     ),
     maxWidth: 100,
@@ -298,7 +298,7 @@ export const COLUMNS_SETTINGS = {
   [COLUMNS_NAMES.devact]: {
     show: true,
     selectable: true,
-    description: Metrics.devActivity.description
+    description: Metrics.dev_activity.description
   },
   [COLUMNS_NAMES.daily_active_addresses]: {
     show: true,
@@ -309,7 +309,7 @@ export const COLUMNS_SETTINGS = {
   [COLUMNS_NAMES.token_circulation]: {
     show: false,
     selectable: false,
-    description: Metrics.circulation_1d.description
+    description: Metrics.circulation.description
   },
   [COLUMNS_NAMES.infrastructure]: { show: true, selectable: false },
   [COLUMNS_NAMES.devActivity7]: { show: true, selectable: false },

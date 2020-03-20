@@ -1,27 +1,54 @@
 import React, { PureComponent } from 'react'
+import { compose } from 'redux'
 import Table from 'react-table'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import {
-  Label,
-  Checkbox,
-  PanelWithHeader,
-  Panel,
-  Icon,
-  Tooltip,
-  Button
-} from '@santiment-network/ui'
+import Loader from '@santiment-network/ui/Loader/Loader'
+import Panel from '@santiment-network/ui/Panel/Panel'
+import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
+import { Checkbox } from '@santiment-network/ui/Checkboxes'
+import Label from '@santiment-network/ui/Label'
+import Icon from '@santiment-network/ui/Icon'
+import Tooltip from '@santiment-network/ui/Tooltip'
+import Button from '@santiment-network/ui/Button'
 import { store } from '../../../index'
 import ValueChange from '../../../components/ValueChange/ValueChange'
 import WordCloud from '../../../components/WordCloud/WordCloud'
 import InsightCardSmall from '../../../components/Insight/InsightCardSmall'
 import ExplanationTooltip from '../../../components/ExplanationTooltip/ExplanationTooltip'
 import ConditionalWrapper from './ConditionalWrapper'
+import withSizes from 'react-sizes'
+import { mapSizesToProps } from '../../../utils/withSizes'
 import styles from './TrendsTable.module.scss'
 
-const columns = [
+const MOBILE_COLUMNS = [
+  {
+    Header: 'Trending words',
+    accessor: 'word'
+  },
+  {
+    Header: 'Trending score',
+    accessor: 'score'
+  },
+  {
+    Header: 'Social volume',
+    accessor: 'volume'
+  }
+]
+
+const DESKTOP_COLUMNS = [
+  {
+    Header: '#',
+    accessor: 'index',
+    width: 35,
+    headerClassName: styles.headerIndex
+  },
+  ...MOBILE_COLUMNS
+]
+
+const COMPACT_VIEW_COLUMNS = [
   {
     Header: '#',
     accessor: 'index',
@@ -29,12 +56,8 @@ const columns = [
     headerClassName: styles.headerIndex
   },
   {
-    Header: 'Word',
+    Header: 'Trending words',
     accessor: 'word'
-  },
-  {
-    Header: 'Hype score',
-    accessor: 'score'
   },
   {
     Header: 'Social volume',
@@ -97,15 +120,13 @@ class TrendsTable extends PureComponent {
           return (
             <>
               <ExplanationTooltip text='Connected trends' offsetY={5}>
-                <span
-                  className={cx(
-                    styles.action__icon,
-                    !hasConnections && styles.action__icon_disabled
-                  )}
-                >
+                <span className={styles.action__icon}>
                   <Icon
                     type='connection-big'
-                    className={styles.icon}
+                    className={cx(
+                      styles.icon,
+                      !hasConnections && styles.action__icon_disabled
+                    )}
                     onMouseEnter={() => {
                       connectTrends(rawWord)
                     }}
@@ -130,8 +151,8 @@ class TrendsTable extends PureComponent {
             <Button variant='flat' className={styles.tooltip__trigger}>
               <ExplanationTooltip text='Connected insights' offsetY={5}>
                 <Icon
-                  className={cx(!insights && styles.action__icon_disabled)}
                   type='insight'
+                  className={cx(!insights && styles.action__icon_disabled)}
                 />
               </ExplanationTooltip>
             </Button>
@@ -202,6 +223,7 @@ class TrendsTable extends PureComponent {
   render () {
     const {
       small,
+      hasActions,
       trendWords,
       volumeChange,
       header,
@@ -211,17 +233,26 @@ class TrendsTable extends PureComponent {
       username,
       selectTrend,
       selectedTrends,
-      trendConnections
+      trendConnections,
+      isDesktop,
+      isCompactView
     } = this.props
 
     const tableData = trendWords.map(({ word, score }, index) => {
+      const volumeIsLoading = !volumeChange[word]
       const [oldVolume = 0, newVolume = 0] = volumeChange[word] || []
       const isWordSelected = selectedTrends.has(word)
       const hasMaxWordsSelected = selectedTrends.size > 4 && !isWordSelected
+      const isSelectable =
+        selectable &&
+        !!username &&
+        !hasMaxWordsSelected &&
+        !isCompactView &&
+        isLoggedIn
       return {
         index: (
           <>
-            {selectable && !!username && isLoggedIn && !hasMaxWordsSelected && (
+            {isSelectable && (
               <Checkbox
                 isActive={isWordSelected}
                 className={cx(
@@ -251,30 +282,46 @@ class TrendsTable extends PureComponent {
         ),
         rawWord: word,
         score: parseInt(score, 10),
-        volume: (
+        volume: volumeIsLoading ? (
+          <Loader className={styles.loader} />
+        ) : (
           <>
-            {newVolume} <ValueChange change={newVolume - oldVolume} />
+            <div className={styles.volume}>{newVolume}</div>{' '}
+            <ValueChange
+              change={newVolume - oldVolume}
+              className={styles.valueChange}
+            />
           </>
         )
       }
     })
+
+    const baseColumns = isDesktop ? DESKTOP_COLUMNS : MOBILE_COLUMNS
 
     return (
       <PanelWithHeader
         header={header}
         className={className}
         contentClassName={styles.panel}
-        headerClassName={cx(styles.header, !header && styles.header_empty)}
+        headerClassName={cx(
+          styles.header,
+          !header && styles.header__empty,
+          isCompactView && styles.header__compact
+        )}
       >
         <Table
-          className={styles.table}
+          className={cx(styles.table, isCompactView && styles.compact)}
           sortable={false}
           resizable={false}
           data={tableData}
           columns={
-            small
-              ? columns.slice(0, 2)
-              : columns.concat(this.getActionButtons())
+            isCompactView
+              ? COMPACT_VIEW_COLUMNS
+              : small
+                ? baseColumns.slice(0, 2)
+                : hasActions
+                  ? baseColumns.concat(this.getActionButtons())
+                  : baseColumns
           }
           showPagination={false}
           defaultPageSize={10}
@@ -297,4 +344,7 @@ const mapStateToProps = ({
   username
 })
 
-export default connect(mapStateToProps)(TrendsTable)
+export default compose(
+  connect(mapStateToProps),
+  withSizes(mapSizesToProps)
+)(TrendsTable)

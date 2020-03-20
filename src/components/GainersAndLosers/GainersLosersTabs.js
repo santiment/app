@@ -47,6 +47,8 @@ const GainersLosersTabs = ({
   gainers,
   losers,
   onProjectClick,
+  className,
+  titleClassName,
   classes = {}
 }) => {
   let [selectedTab, setSelectedTab] = useState(tabs[0].index)
@@ -59,26 +61,31 @@ const GainersLosersTabs = ({
 
   const tabItems = selectedTab === TYPES.gainers ? gainers : losers
 
-  return (
-    <Panel>
-      <Tabs
-        className={cx(styles.tabs, classes.tabs)}
-        options={tabs}
-        defaultSelectedIndex={selectedTab}
-        onSelect={handleSelectTab}
-      />
-      <div className={styles.wrapper}>
-        {tabItems.map((project, idx) => (
-          <Item
-            key={idx}
-            {...project}
-            onProjectClick={onProjectClick}
-            showChange={tabItems === gainers}
-          />
-        ))}
-      </div>
-    </Panel>
-  )
+  return gainers.length > 0 ? (
+    <section className={className}>
+      <h2 className={cx(styles.title, titleClassName)}>
+        Social gainers and losers
+      </h2>
+      <Panel>
+        <Tabs
+          className={cx(styles.tabs, classes.tabs)}
+          options={tabs}
+          defaultSelectedIndex={selectedTab}
+          onSelect={handleSelectTab}
+        />
+        <div className={styles.wrapper}>
+          {tabItems.map((project, idx) => (
+            <Item
+              key={idx}
+              {...project}
+              onProjectClick={onProjectClick}
+              showChange={tabItems === gainers}
+            />
+          ))}
+        </div>
+      </Panel>
+    </section>
+  ) : null
 }
 
 const withGainersLosers = graphql(TOP_SOCIAL_GAINERS_LOSERS_QUERY, {

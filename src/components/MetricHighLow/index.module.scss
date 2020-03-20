@@ -1,0 +1,101 @@
+@import '~@santiment-network/ui/mixins';
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.values {
+  @include text('caption', 'm');
+
+  color: var(--rhino);
+
+  @include responsive('phone', 'phone-xs') {
+    color: var(--waterloo);
+    font-weight: normal;
+  }
+}
+
+.text {
+  @include text('body-3');
+
+  color: var(--waterloo);
+}
+
+.progress {
+  height: 4px;
+  border-radius: 2px;
+  background-color: var(--porcelain);
+  position: relative;
+  margin: 23px 0 4px;
+
+  &::before,
+  &::after {
+    position: absolute;
+    left: var(--progress);
+    transition: left 1s ease-in-out;
+  }
+
+  &::after {
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    top: 50%;
+    background: var(--waterloo);
+    transform: translate(-50%, -50%);
+  }
+
+  &::before {
+    content: url('./pointer.svg');
+    width: 16px;
+    height: 16px;
+    top: -20px;
+    transform: translateX(-50%);
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 2px 0;
+    height: 2px;
+
+    &::before {
+      content: '';
+      background: var(--casper);
+      left: 0;
+      top: 0;
+      transform: none;
+      width: var(--progress);
+      height: 2px;
+      border-radius: 2px;
+      transition: width 1s ease-in-out;
+    }
+  }
+}
+
+.period {
+  @include text('caption');
+
+  padding: 0 4px;
+  border-radius: 2px;
+  color: var(--jungle-green);
+  background: var(--jungle-green-light);
+  cursor: pointer;
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2');
+
+    padding: 0 8px;
+  }
+
+  &_only {
+    cursor: not-allowed;
+    color: var(--waterloo);
+    background: var(--porcelain);
+  }
+}
+
+.loader {
+  font-size: 5px;
+  margin-top: 4px;
+}

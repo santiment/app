@@ -15,7 +15,8 @@ const SidecarExplanationTooltip = props => {
     position = 'left',
     align = 'start',
     dismissOnTouch = false,
-    delay = TOOLTIP_DELAY_IN_MS
+    delay = TOOLTIP_DELAY_IN_MS,
+    showEnabled = true
   } = props
 
   const localStorageLabel = LS_SIDECAR_TOOLTIP_SHOWN + localStorageSuffix
@@ -37,7 +38,7 @@ const SidecarExplanationTooltip = props => {
   }
 
   useEffect(() => {
-    if (!wasShown) {
+    if (!wasShown && showEnabled) {
       setTimer(setTimeout(() => setShown(true), delay))
     }
 

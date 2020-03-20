@@ -52,7 +52,6 @@ import handleBetaModeToggle, {
   sendBetaModeIfDiff,
   saveBetaModeAfterLaunch
 } from './handleBetaModeToggle'
-import handleNewsToggle from './handleNewsToggle'
 import {
   fetchHypedTrends,
   selectHypedTrend
@@ -131,7 +130,6 @@ export default combineEpics(
   handleBetaModeToggle,
   saveBetaModeAfterLaunch,
   sendBetaModeIfDiff,
-  handleNewsToggle,
   // Signals
   createSignalEpic,
   updateSignalEpic,

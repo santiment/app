@@ -9,6 +9,7 @@ import { UPDATE_SUBSCRIPTION_MUTATION } from '../../queries/plans'
 import { formatPrice } from '../../utils/plans'
 import { getDateFormats } from '../../utils/dates'
 import { formatError, contactAction } from '../../utils/notifications'
+import { USER_SUBSCRIPTION_CHANGE } from '../../actions/types'
 import planStyles from './Plans.module.scss'
 import dialogStyles from './Dialog.module.scss'
 
@@ -23,7 +24,8 @@ const ChangePlanDialog = ({
   billing,
   planId,
   btnProps,
-  addNot
+  addNot,
+  changeSubscription
 }) => {
   const [dialogVisible, setDialogVisiblity] = useState(false)
 
@@ -78,12 +80,13 @@ const ChangePlanDialog = ({
                 updateSubscription({
                   variables: { subscriptionId: +id, planId: +planId }
                 })
-                  .then(() =>
+                  .then(({ data: { updateSubscription } }) => {
+                    changeSubscription(updateSubscription)
                     addNot({
                       variant: 'success',
                       title: `You have successfully upgraded to the "${title}" plan!`
                     })
-                  )
+                  })
                   .then(hideDialog)
                   .catch(e =>
                     addNot({
@@ -105,7 +108,9 @@ const ChangePlanDialog = ({
 }
 
 const mapDispatchToProps = dispatch => ({
-  addNot: message => dispatch(showNotification(message))
+  addNot: message => dispatch(showNotification(message)),
+  changeSubscription: payload =>
+    dispatch({ type: USER_SUBSCRIPTION_CHANGE, payload })
 })
 
 export default connect(

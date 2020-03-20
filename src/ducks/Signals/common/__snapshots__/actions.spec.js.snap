@@ -8,7 +8,7 @@ Object {
     "isActive": true,
     "isPublic": false,
     "isRepeating": true,
-    "settings": "{\\"channel\\":\\"telegram\\",\\"percent_threshold\\":200,\\"threshold\\":101,\\"target\\":{\\"eth_address\\":\\"0x44fcfabfbe32024a01b778c025d70498382cced0\\"},\\"asset\\":{\\"slug\\":\\"adx-net\\"},\\"time_window\\":\\"24d\\",\\"type\\":\\"eth_wallet\\",\\"operation\\":{\\"amount_down\\":101}}",
+    "settings": "{\\"channel\\":\\"telegram\\",\\"percent_threshold\\":200,\\"threshold\\":101,\\"target\\":{\\"address\\":\\"0x44fcfabfbe32024a01b778c025d70498382cced0\\"},\\"asset\\":{\\"slug\\":\\"adx-net\\"},\\"time_window\\":\\"24d\\",\\"type\\":\\"eth_wallet\\",\\"operation\\":{\\"amount_down\\":101}}",
     "shouldReload": false,
     "title": "Signal_[6/25/2019]",
   },

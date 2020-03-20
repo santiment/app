@@ -3,7 +3,6 @@ import { CSVLink } from 'react-csv'
 import Button from '@santiment-network/ui/Button'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import { mergeTimeseriesByKey } from '../../utils/utils'
-import { Metrics } from './data'
 
 const getEventsWithAnomaly = (headers, data) => {
   const anomaly = data.find(({ metricAnomalyKey }) => metricAnomalyKey)
@@ -12,22 +11,14 @@ const getEventsWithAnomaly = (headers, data) => {
     return [headers, data]
   }
 
-  const newHeaders = headers.slice()
+  const anomalyHeader = [
+    {
+      key: 'metricAnomalyKey',
+      label: 'Anomaly'
+    }
+  ]
 
-  newHeaders.push({
-    label: `${Metrics[anomaly.metricAnomalyKey].label} Anomaly`,
-    key: 'metricAnomalyKey'
-  })
-
-  const newData = data.map(event =>
-    event.metricAnomalyKey
-      ? {
-        ...event,
-        metricAnomalyKey: true
-      }
-      : event
-  )
-  return [newHeaders, newData]
+  return [anomalyHeader, data]
 }
 
 const DownloadCSVBtn = ({
@@ -43,31 +34,21 @@ const DownloadCSVBtn = ({
   const { HH, mm, ss } = getTimeFormats(date)
   const filename = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].csv`
 
-  let headers = []
-  let mergedData = []
+  const [eventHeaders, eventsData] = getEventsWithAnomaly(activeEvents, events)
 
-  try {
-    const [eventHeaders, eventsDataWithAnomalies] = getEventsWithAnomaly(
-      events,
-      activeEvents
-    )
+  const headers = [
+    { label: 'Date', key: 'datetime' },
+    ...activeMetrics
+      .concat(eventHeaders)
+      .map(({ label, key, dataKey = key }) => ({
+        label,
+        key: dataKey
+      }))
+  ]
 
-    headers = [
-      { label: 'Date', key: 'datetime' },
-      ...activeMetrics
-        .concat(eventHeaders)
-        .map(({ label, key, dataKey = key }) => ({
-          label,
-          key: dataKey
-        }))
-    ]
-
-    mergedData = mergeTimeseriesByKey({
-      timeseries: [data, eventsDataWithAnomalies]
-    })
-  } catch (e) {
-    return null
-  }
+  const mergedData = mergeTimeseriesByKey({
+    timeseries: [data, eventsData]
+  })
 
   return (
     <Button

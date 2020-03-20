@@ -1,20 +1,63 @@
-@import '~@santiment-network/ui/mixins.scss';
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  display: flex;
+}
+
+.loginViaEmail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.emailSuccess {
+  padding: 48px 24px;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    padding: 0;
+  }
+}
+
+.loginBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 1px solid var(--porcelain);
+  padding-right: 114px;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    padding: 0;
+    border: none;
+    height: 100%;
+    justify-content: center;
+  }
+}
 
 .wrapper {
   height: 100%;
   display: flex;
   align-items: center;
+  background-image: url("./../../../src/assets/login/pattern.svg");
+  background-size: cover;
+  margin-top: 0 !important;
+  max-width: 100% !important;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    background-image: none;
+  }
 }
 
 .panel {
-  width: 500px;
   margin: 0 auto;
-  padding: 30px 60px 36px;
+  padding: 54px 107px;
+  min-width: 608px;
   text-align: center;
 
   @include responsive('phone', 'phone-xs') {
     width: 100%;
     max-width: 400px;
+    min-width: initial;
     padding: 15px 30px;
     box-shadow: none;
     border: none;
@@ -22,33 +65,60 @@
 }
 
 .title {
-  font-weight: normal;
-  font-size: 18px;
-  line-height: 26px;
+  @include text('h3');
+
+  color: var(--rhino);
+  max-width: 344px;
+  margin: 0;
+  text-align: center;
+}
+
+.metamask {
+  margin: auto;
+  color: var(--white);
+
+  @include text('body-3');
 }
 
 .options {
-  margin: 29px 0 24px;
+  margin: 24px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn {
   display: flex;
   align-items: center;
   border-radius: 4px;
-  color: #fff;
-  fill: #fff;
+  color: var(--white);
+  fill: var(--white);
   padding: 9px 12px;
   text-align: left;
   margin-bottom: 8px;
   height: 40px;
+  max-width: 280px;
+  width: 100%;
 
   &:hover {
-    color: #fff;
-    fill: #fff;
+    color: var(--white);
+    fill: var(--white);
   }
 
   &_email {
-    background: #7a859e;
+    display: flex;
+    justify-content: center;
+    background: var(--white);
+    color: var(--jungle-green);
+    fill: var(--jungle-green);
+    border: 1px solid var(--jungle-green);
+    margin-bottom: 0;
+
+    &:hover {
+      color: var(--jungle-green-hover);
+      fill: var(--jungle-green-hover);
+    }
   }
 
   &_metamask {
@@ -62,30 +132,74 @@
 
 .email {
   &__subtitle {
-    font-size: 12px;
-    font-weight: normal;
-    line-height: 18px;
-    margin: 10px 0;
+    @include text('body-2');
+
+    color: var(--waterloo);
+    margin-top: 8px;
+    margin-bottom: 0;
+    max-width: 320px;
+    word-break: break-word;
+
+    @include responsive('phone-xs', 'phone', 'tablet') {
+      padding: 0 16px;
+      margin-top: 18px;
+      text-align: center;
+    }
+  }
+
+  &__subtitleSuccess {
+    margin-top: 16px;
+    max-width: 340px;
+
+    @include responsive('phone-xs', 'phone', 'tablet') {
+      margin-top: 24px;
+      text-align: center;
+      padding: 0 16px;
+    }
   }
 
   &__form {
-    margin: 20px auto;
-    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    @include responsive('phone-xs', 'phone', 'tablet') {
+      width: 100%;
+    }
   }
 
   &__btn {
-    margin: 15px 0 30px;
+    margin-top: 24px;
+    width: 280px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
 
-    @include responsive('phone', 'phone-xs') {
+    @include responsive('phone', 'phone-xs', 'tablet') {
       width: 100%;
       justify-content: center;
     }
   }
 
   &__link {
-    font-size: 12px;
-    color: var(--casper);
-    fill: var(--casper);
+    @include text('body-2');
+
+    color: var(--waterloo);
+    fill: var(--waterloo);
+    margin-top: 24px;
+
+    &:hover {
+      color: var(--waterloo) !important;
+    }
+  }
+
+  &__linkSuccess {
+    margin-top: 32px;
+
+    @include responsive('phone', 'phone-xs', 'tablet') {
+      margin-top: 48px;
+    }
   }
 
   &__pointer {
@@ -93,4 +207,85 @@
     margin-right: 5px;
     vertical-align: middle;
   }
+
+  &__title {
+    @include text('h3');
+
+    color: var(--rhino);
+    margin: 0;
+  }
+}
+
+.divider {
+  border-bottom: 1px solid var(--porcelain);
+  position: relative;
+  margin: 32px 0;
+  width: 280px;
+}
+
+.use {
+  color: var(--waterloo);
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  padding: 0 10px;
+  background: var(--white);
+  transform: translateX(-30px);
+
+  @include text('caption');
+}
+
+.new {
+  color: var(--waterloo);
+  margin-top: 32px;
+
+  @include text('body-2');
+}
+
+.createLink {
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+.loginLink {
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+.emailInput {
+  background: var(--white);
+  margin-top: 32px;
+  width: 280px;
+  height: 40px;
+
+  @include text('body-3');
+
+  input {
+    height: 40px;
+    padding-left: 40px !important;
+  }
+
+  svg {
+    padding: 14px 8px 14px 16px;
+    width: 16px;
+    fill: var(--waterloo);
+  }
+
+  &:hover {
+    fill: var(--jungle-green-hover) !important;
+  }
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    width: 100%;
+  }
+}
+
+.emailCheck {
+  color: var(--rhino);
 }

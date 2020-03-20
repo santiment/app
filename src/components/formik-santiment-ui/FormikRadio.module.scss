@@ -1,0 +1,42 @@
+@import '~@santiment-network/ui/mixins';
+
+.radioBtns {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.radioLabel {
+  display: block;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.radio {
+  display: flex;
+  align-items: center;
+}
+
+.btn {
+  box-sizing: border-box;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--grey-light-3);
+  background: var(--white);
+
+  &:hover {
+    border-color: var(--green);
+  }
+}
+
+.selected {
+  & .btn {
+    border: 4px solid var(--green);
+
+    &:hover {
+      border-color: var(--green-hover);
+    }
+  }
+}
