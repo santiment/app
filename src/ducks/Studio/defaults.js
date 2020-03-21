@@ -1,6 +1,6 @@
+import { Metric } from '../dataHub/metrics'
+import { getNewInterval } from '../SANCharts/IntervalSelector'
 import { getIntervalByTimeRange } from '../../utils/dates'
-import { getNewInterval } from '../../ducks/SANCharts/IntervalSelector'
-import { Metrics } from '../SANCharts/metrics/data'
 import { getSavedToggle } from '../../utils/localStorage'
 
 const DEFAULT_TIME_RANGE = '6m'
@@ -26,4 +26,4 @@ export const DEFAULT_OPTIONS = {
   isDomainGroupingActive: getSavedToggle('isDomainGroupingActive', true)
 }
 
-export const DEFAULT_METRICS = [Metrics.price_usd]
+export const DEFAULT_METRICS = [Metric.price_usd]

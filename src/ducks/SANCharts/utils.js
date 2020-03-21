@@ -7,6 +7,13 @@ import { Metric } from '../dataHub/metrics'
 import { Event } from '../dataHub/events'
 import { TooltipSetting } from '../dataHub/tooltipSettings'
 
+const RechartComponent = {
+  line: Line,
+  area: Area,
+  bar: Bar,
+  daybar: Bar
+}
+
 export const mapDatetimeToNumber = timeseries =>
   timeseries.map(({ datetime, ...rest }) => ({
     ...rest,
@@ -216,7 +223,7 @@ export const generateMetricsMarkup = (
   const res = metrics.reduce((acc, metric) => {
     const {
       key,
-      Component: El,
+      node,
       label,
       shortLabel,
       orientation = 'left',
@@ -227,6 +234,8 @@ export const generateMetricsMarkup = (
       formatter,
       strokeWidth = 1.5
     } = metric
+
+    const El = RechartComponent[node]
 
     if (!activeDataKey && (El === Line || El === Area)) {
       activeDataKey = dataKey

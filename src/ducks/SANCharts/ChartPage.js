@@ -9,7 +9,6 @@ import Chart from '../Chart'
 import Synchronizer, { getSyncedColors } from '../Chart/Synchronizer'
 import Header from './Header'
 import { getMarketSegment, mapDatetimeToNumber } from './utils'
-import { ASSETS_SIDEBAR } from './metrics/data'
 import { CompatibleMetric } from '../dataHub/metrics/compatibility'
 import { Metric } from '../dataHub/metrics'
 import { Event } from '../dataHub/events'
@@ -637,7 +636,6 @@ class ChartPage extends Component {
                     isWideChart={isWideChart}
                     onSlugSelect={this.onSlugSelect}
                     onSidebarToggleClick={this.onSidebarToggleClick}
-                    isAdvancedView={isAdvancedView === ASSETS_SIDEBAR}
                     classes={classes}
                   />
                 )}

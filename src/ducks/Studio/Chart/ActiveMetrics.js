@@ -18,19 +18,11 @@ const MetricButton = ({
   toggleMetric,
   ...rest
 }) => {
-  const {
-    key,
-    dataKey = key,
-    node,
-    label,
-    description,
-    comparedTicker
-  } = metric
+  const { key, dataKey = key, node, label, comparedTicker } = metric
 
   return (
     <MetricExplanation
-      label={label}
-      description={description}
+      metric={metric}
       withChildren
       closeTimeout={22}
       offsetX={8}

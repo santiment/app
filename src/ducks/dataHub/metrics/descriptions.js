@@ -1,3 +1,4 @@
+import React from 'react'
 import { Metric } from './index'
 
 export const Description = {

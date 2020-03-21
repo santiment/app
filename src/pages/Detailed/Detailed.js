@@ -8,7 +8,7 @@ import StoriesList from '../../components/Stories/StoriesList'
 import GeneralInfoBlock from './generalInfo/GeneralInfoBlock'
 import FinancialsBlock from './financialInfo/FinancialsBlock'
 import DetailedTransactionsTable from './transactionsInfo/DetailedTransactionsTable'
-import { Metrics } from '../../ducks/SANCharts/metrics/data'
+import { Metric } from '../../ducks/dataHub/metrics'
 import EthSpentTable from '../../components/EthSpentTable/EthSpentTable'
 import withProject from './withProject'
 import styles from './Detailed.module.scss'
@@ -19,9 +19,9 @@ const CRUMB = {
 }
 
 const DEFAULT_METRICS = [
-  Metrics.price_usd,
-  Metrics.social_volume_total,
-  Metrics.age_destroyed
+  Metric.price_usd,
+  Metric.social_volume_total,
+  Metric.age_destroyed
 ]
 
 const TopSlot = ({ label }) => (

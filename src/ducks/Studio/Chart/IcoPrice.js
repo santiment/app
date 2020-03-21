@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import { Metrics } from '../../SANCharts/metrics/data'
+import { Metric } from '../../dataHub/metrics'
 import styles from './IcoPrice.module.scss'
 
 const PROJECT_ICO_PRICE_QUERY = gql`
@@ -14,7 +14,7 @@ const PROJECT_ICO_PRICE_QUERY = gql`
   }
 `
 
-const { formatter } = Metrics.price_usd
+const { formatter } = Metric.price_usd
 
 const DEFAULT_VALUE = {}
 

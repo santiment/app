@@ -31,9 +31,12 @@ const MetricButton = ({
       />
       {label}
     </div>
-    <MetricExplanation {...metric} position='right'>
-      <Icon type='info-round' className={styles.info} />
-    </MetricExplanation>
+
+    {metric && (
+      <MetricExplanation metric={metric} position='right'>
+        <Icon type='info-round' className={styles.info} />
+      </MetricExplanation>
+    )}
   </Button>
 )
 

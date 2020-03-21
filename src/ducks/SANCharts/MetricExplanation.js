@@ -2,9 +2,8 @@ import React from 'react'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import Button from '@santiment-network/ui/Button'
 import { Event } from '../dataHub/events'
+import { Description } from '../dataHub/metrics/descriptions'
 import styles from './MetricExplanation.module.scss'
-
-Event.trendPositionHistory.note = <Note>It will disable Anomalies</Note>
 
 const Note = ({ children }) => (
   <p className={styles.note}>
@@ -13,20 +12,21 @@ const Note = ({ children }) => (
   </p>
 )
 
+Event.trendPositionHistory.note = <Note>It will disable Anomalies</Note>
+
 const COMPLEXITY_NOTE =
   'The requested period is outside of your plan boundaries'
 
 const MetricExplanation = ({
-  children,
-  label,
-  fullTitle = label,
-  description,
-  video,
-  note,
+  metric,
   withChildren = false,
   isComplexityError,
+  children,
   ...rest
 }) => {
+  const { key, label, fullTitle = label, video, note } = metric
+  const description = Description[key]
+
   if (!description && isComplexityError) {
     return (
       <Tooltip className={styles.explanation} trigger={children} {...rest}>
