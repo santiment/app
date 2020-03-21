@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
-import Chart from '../../SANCharts/Chart'
+import Chart from '../../Chart'
 import FullscreenDialogBtn from '../../../components/FullscreenDialogBtn'
 import { useTimeseries } from '../timeseries/hooks'
 import { generateShareLink } from '../url'

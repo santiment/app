@@ -1,9 +1,10 @@
 import { graphql } from 'react-apollo'
 import { getTextWidth } from '@santiment-network/chart/utils'
 import COLOR from '@santiment-network/ui/variables.scss'
-import { Metrics, tooltipSettings } from '../metrics/data'
-import { ONE_DAY_IN_MS } from '../../../utils/dates'
-import { GET_METRIC } from '../../GetTimeSeries/queries/get_metric'
+import { Metric } from '../dataHub/metrics'
+import { TooltipSetting } from '../dataHub/tooltipSettings'
+import { ONE_DAY_IN_MS } from '../../utils/dates'
+import { GET_METRIC } from '../GetTimeSeries/queries/get_metric'
 
 const BOTTOM_MARGIN = 5
 const RIGHT_MARGIN = 7
@@ -19,7 +20,7 @@ export function drawLastDayPrice (chart, scale, price) {
 
   if (y > bottom || y < top) return
 
-  const text = `Last day price ${tooltipSettings.price_usd.formatter(price)}`
+  const text = `Last day price ${TooltipSetting.price_usd.formatter(price)}`
 
   ctx.save()
   ctx.beginPath()
@@ -44,10 +45,10 @@ export function drawLastDayPrice (chart, scale, price) {
 
 const DAY_INTERVAL = ONE_DAY_IN_MS * 2
 
-export const withLastDayPrice = graphql(GET_METRIC('price_usd'), {
+export const withLastDayPrice = graphql(GET_METRIC(Metric.price_usd.key), {
   skip: ({ metrics, from, to }) => {
     return (
-      !metrics.includes(Metrics.price_usd) ||
+      !metrics.includes(Metric.price_usd) ||
       new Date(to) - new Date(from) > DAY_INTERVAL
     )
   },

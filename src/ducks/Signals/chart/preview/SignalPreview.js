@@ -11,10 +11,7 @@ import {
 } from '../../utils/utils'
 import { Metrics } from '../../../SANCharts/metrics/data'
 import { getMetricYAxisId } from '../../../SANCharts/utils'
-import {
-  getSyncedColors,
-  clearCache
-} from '../../../SANCharts/Chart/Synchronizer'
+import { getSyncedColors, clearCache } from '../../../Chart/Synchronizer'
 import GetTimeSeries from '../../../GetTimeSeries/GetTimeSeries'
 import ChartWidget from '../../../SANCharts/ChartPage'
 import VisualBacktestChart, { GetReferenceDots } from '../VisualBacktestChart'

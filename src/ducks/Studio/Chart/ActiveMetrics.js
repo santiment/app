@@ -4,10 +4,10 @@ import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import MetricExplanation from '../../SANCharts/MetricExplanation'
 import MetricIcon from '../../SANCharts/MetricIcon'
-import { Events } from '../../SANCharts/metrics/data'
+import { Event } from '../../dataHub/events'
 import styles from './ActiveMetrics.module.scss'
 
-const { trendPositionHistory } = Events
+const { trendPositionHistory } = Event
 
 const MetricButton = ({
   className,

@@ -1,5 +1,5 @@
 import React from 'react'
-import Alerts from '../../../Studio/Alerts'
+import Alerts from '../../Studio/Alerts'
 import styles from './index.module.scss'
 
 export default ({ hoverPoint, ...rest }) => {

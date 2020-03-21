@@ -40,7 +40,7 @@ const DEFAULT_METRICS = [
   'social_volume_total'
 ]
 
-const DEFAULT_QUERIES = ['historyTwitterData', 'icoPrice']
+const DEFAULT_QUERIES = ['icoPrice']
 
 export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
   props: ({

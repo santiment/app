@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import COLOR from '@santiment-network/ui/variables.scss'
 import { getValidTooltipKey, findTooltipMetric } from './utils'
-import { setupColorGenerator } from '../utils'
-import { Metrics } from '../metrics/data'
+import { setupColorGenerator } from '../SANCharts/utils'
+import { Metric } from '../dataHub/metrics'
 
 const cache = new Map()
 
@@ -46,7 +46,7 @@ export const getSyncedColors = metrics => {
   return colors
 }
 
-const { price_usd } = Metrics
+const { price_usd } = Metric
 
 function colorTrend (position) {
   if (position < 4) {
@@ -63,7 +63,7 @@ export function prepareEvents (events) {
   return events.map(({ datetime, position, metricAnomalyKey }) => {
     const date = +new Date(datetime)
     if (metricAnomalyKey) {
-      const { label, dataKey = metricAnomalyKey } = Metrics[metricAnomalyKey]
+      const { label, dataKey = metricAnomalyKey } = Metric[metricAnomalyKey]
       return {
         key: 'isAnomaly',
         metric: dataKey,

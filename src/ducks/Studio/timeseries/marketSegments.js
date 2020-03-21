@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 import { extractTimeseries } from './utils'
-import { tooltipSettings } from '../../SANCharts/metrics/data'
+import { TooltipSetting } from '../../dataHub/tooltipSettings'
 
 export const GET_MARKET_SEGMENT_QUERY = ({ key }) => gql`
   query devActivity(
@@ -34,9 +34,9 @@ export const getMarketSegment = key => {
   }
 
   const label = `Dev. Activity (${key})`
-  tooltipSettings[key] = {
+  TooltipSetting[key] = {
     label,
-    formatter: tooltipSettings.dev_activity.formatter
+    formatter: TooltipSetting.dev_activity.formatter
   }
 
   const newSegment = {

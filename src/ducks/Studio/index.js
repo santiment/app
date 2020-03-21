@@ -5,18 +5,18 @@ import StudioChart from './Chart'
 import StudioHeader from './Header'
 import StudioAdvancedView from './AdvancedView'
 import StudioInfo from '../SANCharts/Header'
-import { Events } from '../SANCharts/metrics/data'
+import { Event } from '../dataHub/events'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
-import { MAX_METRICS_AMOUNT } from './constraints'
-import { generateShareLink, updateHistory } from './url'
 import { buildComparedMetric } from './Compare/utils'
 import { useTimeseries } from './timeseries/hooks'
 import { buildAnomalies } from './timeseries/anomalies'
+import { MAX_METRICS_AMOUNT } from './constraints'
+import { generateShareLink, updateHistory } from './url'
 import { trackMetricState } from './analytics'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import styles from './index.module.scss'
 
-const { trendPositionHistory } = Events
+const { trendPositionHistory } = Event
 
 const Studio = ({
   defaultSettings,

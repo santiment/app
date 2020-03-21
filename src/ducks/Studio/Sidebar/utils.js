@@ -1,4 +1,5 @@
-import { Metrics, tooltipSettings } from '../../SANCharts/metrics/data'
+import { Metric } from '../../dataHub/metrics'
+import { TooltipSetting } from '../../dataHub/tooltipSettings'
 
 export const NO_GROUP = '_'
 
@@ -42,7 +43,7 @@ export const getCategoryGraph = (availableMetrics, hiddenMetrics) => {
     const metric =
       typeof availableMetric === 'object'
         ? availableMetric
-        : Metrics[availableMetric]
+        : Metric[availableMetric]
 
     if (!metric) {
       continue
@@ -88,7 +89,7 @@ export function getTimeboundMetrics (metrics) {
   metrics.forEach(timeboundKey => {
     const lastIndex = timeboundKey.lastIndexOf('_')
     const key = timeboundKey.slice(0, lastIndex)
-    const metric = Metrics[key]
+    const metric = Metric[key]
 
     if (metric) {
       const timebounds = Timebound[key]
@@ -102,9 +103,9 @@ export function getTimeboundMetrics (metrics) {
           key: timeboundKey
         }
 
-        tooltipSettings[timeboundKey] = {
+        TooltipSetting[timeboundKey] = {
           label,
-          formatter: tooltipSettings[key].formatter
+          formatter: Metric[key].formatter
         }
 
         TimeboundMetricCache.set(timeboundKey, timeboundMetric)

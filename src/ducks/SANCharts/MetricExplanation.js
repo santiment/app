@@ -1,8 +1,10 @@
 import React from 'react'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import Button from '@santiment-network/ui/Button'
-import { Events } from './metrics/data'
+import { Event } from '../dataHub/events'
 import styles from './MetricExplanation.module.scss'
+
+Event.trendPositionHistory.note = <Note>It will disable Anomalies</Note>
 
 const Note = ({ children }) => (
   <p className={styles.note}>
@@ -10,8 +12,6 @@ const Note = ({ children }) => (
     <span className={styles.text}>{children}</span>
   </p>
 )
-
-Events.trendPositionHistory.note = <Note>It will disable Anomalies</Note>
 
 const COMPLEXITY_NOTE =
   'The requested period is outside of your plan boundaries'

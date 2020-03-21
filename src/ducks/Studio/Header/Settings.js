@@ -15,7 +15,7 @@ import {
 } from '../../../utils/dates'
 import styles from './Settings.module.scss'
 
-const TIMERANGE_OPTIONS = ['1d', '1w', '1m', '3m', '6m', '1y', 'all']
+const TIMERANGE_OPTIONS = ['1D', '1W', '1M', '3M', '6M', '1Y', 'All']
 
 const { to: MAX_DATE } = getTimeIntervalFromToday(0, DAY)
 
@@ -67,7 +67,7 @@ export default ({
   }
 
   function onTimerangeChange (timeRange) {
-    const { from, to } = getIntervalByTimeRange(timeRange)
+    const { from, to } = getIntervalByTimeRange(timeRange.toLowerCase())
     changeTimePeriod(from, to, timeRange)
   }
 
@@ -90,6 +90,7 @@ export default ({
   return (
     <div className={cx(styles.wrapper, className)}>
       <Selector
+        className={styles.selector}
         options={TIMERANGE_OPTIONS}
         onSelectOption={onTimerangeChange}
         defaultSelected={timeRange}

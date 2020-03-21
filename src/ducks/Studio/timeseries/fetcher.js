@@ -2,7 +2,6 @@ import { METRICS, GET_METRIC } from './metrics'
 import { AnomalyFetcher, OldAnomalyFetcher } from './anomalies'
 import { MarketSegmentFetcher } from './marketSegments'
 import { GAS_USED_QUERY } from '../../GetTimeSeries/queries/gas_used'
-import { HISTORY_TWITTER_DATA_QUERY } from '../../GetTimeSeries/queries/history_twitter_data_query'
 import { BURN_RATE_QUERY } from '../../GetTimeSeries/queries/burn_rate_query'
 import { HISTORICAL_BALANCE_QUERY } from '../../HistoricalBalance/common/queries'
 import { DAILY_ACTIVE_DEPOSITS_QUERY } from '../../GetTimeSeries/queries/daily_active_deposits_query'
@@ -32,10 +31,6 @@ Object.assign(Fetcher, {
   gasUsed: {
     query: GAS_USED_QUERY,
     preTransform: aliasTransform('gasUsed')
-  },
-  historyTwitterData: {
-    query: HISTORY_TWITTER_DATA_QUERY,
-    preTransform: aliasTransform('historyTwitterData', 'followersCount')
   },
   burnRate: {
     query: BURN_RATE_QUERY,
@@ -77,7 +72,6 @@ Object.assign(Fetcher, {
 // TODO: Remove this after moving to dynamic query aliasing instead of preTransform [@vanguard | March 4, 2020]
 const transformAliases = [
   'gasUsed',
-  'historyTwitterData',
   'burnRate',
   'dailyActiveDeposits',
   'topHoldersPercentOfTotalSupply',

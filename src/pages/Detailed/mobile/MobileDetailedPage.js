@@ -35,7 +35,7 @@ import MobileProPopup from '../../../components/MobileProPopup/MobileProPopup'
 import {
   getSyncedColors,
   prepareEvents
-} from '../../../ducks/SANCharts/Chart/Synchronizer'
+} from '../../../ducks/Chart/Synchronizer'
 import { addRecentAssets } from '../../../utils/recent'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import styles from './MobileDetailedPage.module.scss'

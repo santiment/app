@@ -2,45 +2,6 @@ import React from 'react'
 import { Line, Bar, Area } from 'recharts'
 import { usdFormatter } from '../utils'
 import { millify } from '../../../utils/formatting'
-import { getDateFormats, getTimeFormats } from '../../../utils/dates'
-import {
-  SOCIAL_TWITTER_INTERVALS,
-  Submetrics,
-  TWITTER_FOLLOWERS_METRIC
-} from './submetrics'
-
-export const Events = {
-  trendPositionHistory: {
-    key: 'trendPositionHistory',
-    type: 'events',
-    label: 'Trending Position',
-    category: 'Social',
-    dataKey: 'position',
-    description:
-      'Shows the appearance (and position) of the project on our list of top 10 emerging words on crypto social media on a given date'
-  },
-  position: {
-    label: 'Trending Position',
-    formatter: val => {
-      switch (val) {
-        case 1:
-          return `1st`
-        case 2:
-          return '2nd'
-        case 3:
-          return '3rd'
-
-        default:
-          return `${val}th`
-      }
-    }
-  },
-  metricAnomalyKey: {
-    label: 'Anomaly',
-    isAnomaly: true,
-    formatter: val => Metrics[val].label
-  }
-}
 
 export const Metrics = {
   price_usd: {
@@ -342,8 +303,10 @@ export const Metrics = {
       </>
     ),
     reqMeta: {
-      transform: 'movingAverage',
-      movingAverageIntervalBase: 7
+      transform: {
+        type: 'moving_average',
+        movingAverageBase: 7
+      }
     }
   },
   velocity: {
@@ -397,8 +360,7 @@ export const Metrics = {
     node: 'line',
     Component: Line,
     label: 'Twitter',
-    description: `Shows the number of followers on the project's official Twitter account over time`,
-    subMetrics: Submetrics[TWITTER_FOLLOWERS_METRIC.queryKey]
+    description: `Shows the number of followers on the project's official Twitter account over time`
   },
   social_dominance_total: {
     category: 'Social',
@@ -538,53 +500,3 @@ export const compatabilityMap = {
 
 export const SOCIAL_SIDEBAR = 'SOCIAL_SIDEBAR'
 export const ASSETS_SIDEBAR = 'ASSETS_SIDEBAR'
-export const HISTOGRAM_SIDEBAR = 'HISTOGRAM_SIDEBAR'
-
-const LARGE_NUMBER_THRESHOLD = 99999
-
-const FORMATTER = value => {
-  if (!value && typeof value !== 'number') {
-    return 'No data'
-  }
-
-  if (value > LARGE_NUMBER_THRESHOLD) {
-    return millify(value, 2)
-  }
-
-  return Number.isInteger(value) ? value : value.toFixed(2)
-}
-
-export const tooltipSettings = {
-  datetime: {
-    formatter: value => {
-      const date = new Date(value)
-      const { HH, mm } = getTimeFormats(date)
-      const { MMMM, DD, YYYY } = getDateFormats(date)
-      return `${HH}:${mm}, ${MMMM} ${DD}, ${YYYY}`
-    }
-  },
-  isAnomaly: {
-    label: 'Anomaly',
-    formatter: v => v
-  },
-  trendingPosition: {
-    label: 'Trending Position',
-    formatter: ([val]) => Events.position.formatter(val)
-  }
-}
-
-SOCIAL_TWITTER_INTERVALS.forEach(interval => {
-  tooltipSettings[`${TWITTER_FOLLOWERS_METRIC.queryKey}_${interval}`] = {
-    label: `Twitter changes (${interval})`,
-    formatter: FORMATTER
-  }
-})
-
-Object.values(Metrics).forEach(metric => {
-  const { key, dataKey = key, formatter = FORMATTER, label } = metric
-  metric.formatter = formatter
-  tooltipSettings[dataKey] = {
-    label,
-    formatter
-  }
-})

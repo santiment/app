@@ -44,7 +44,7 @@ export const Explanation = Object.assign(Object.create(null), {
     <HighLow slug={slug} metric='velocity' label='Token Velocity' />
   ),
   daily_active_addresses: ({ slug }) => (
-    <HighLow slug={slug} metric='daily_active_addresses' label='Daily .A.A' />
+    <HighLow slug={slug} metric='daily_active_addresses' label='DAA' />
   ),
   network_growth: ({ slug }) => (
     <HighLow slug={slug} metric='network_growth' label='Network Growth' />

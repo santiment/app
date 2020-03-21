@@ -3,7 +3,9 @@ import { YAxis, Bar, Line, Area } from 'recharts'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import { formatNumber, millify } from './../../utils/formatting'
 import ActiveLine from './tooltip/ActiveLine'
-import { Metrics, Events, tooltipSettings } from './metrics/data'
+import { Metric } from '../dataHub/metrics'
+import { Event } from '../dataHub/events'
+import { TooltipSetting } from '../dataHub/tooltipSettings'
 
 export const mapDatetimeToNumber = timeseries =>
   timeseries.map(({ datetime, ...rest }) => ({
@@ -26,7 +28,7 @@ const getEventColor = (isAnomaly, value) => {
 
 export const getEventsTooltipInfo = events =>
   Object.keys(events).map(event => {
-    const { label, isAnomaly, ...rest } = Events[event]
+    const { label, isAnomaly, ...rest } = Event[event]
     const value = events[event]
     return {
       isAnomaly,
@@ -47,9 +49,9 @@ export const getMarketSegment = key => {
   }
 
   const label = `Dev. Activity (${key})`
-  tooltipSettings[key] = {
+  TooltipSetting[key] = {
     label,
-    formatter: Metrics.dev_activity.formatter
+    formatter: Metric.dev_activity.formatter
   }
 
   const newSegment = {
@@ -71,7 +73,7 @@ export const getMarketSegment = key => {
   return newSegment
 }
 
-export const getMetricCssVarColor = metric => `var(--${Metrics[metric].color})`
+export const getMetricCssVarColor = metric => `var(--${Metric[metric].color})`
 
 export const METRIC_COLORS = [
   'dodger-blue',
@@ -83,7 +85,7 @@ export const METRIC_COLORS = [
 ]
 
 export const findYAxisMetric = metrics =>
-  (metrics.includes(Metrics.price_usd) && Metrics.price_usd) ||
+  (metrics.includes(Metric.price_usd) && Metric.price_usd) ||
   metrics.find(
     ({ key, Component }) => key !== 'mvrvRatio' && Component !== Bar
   ) ||

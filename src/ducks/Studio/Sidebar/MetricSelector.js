@@ -4,10 +4,11 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import { NO_GROUP } from './utils'
 import MetricExplanation from '../../SANCharts/MetricExplanation'
-import { Metrics } from '../../SANCharts/metrics/data'
+import { Metric } from '../../dataHub/metrics'
+import { Submetrics } from '../../dataHub/submetrics'
 import styles from './MetricSelector.module.scss'
 
-const { price_usd } = Metrics
+const { price_usd } = Metric
 
 const MetricButton = ({
   className,
@@ -57,6 +58,7 @@ const Group = ({
         }
 
         const timebounds = Timebound[metric.key]
+        const submetrics = Submetrics[metric.key]
 
         return (
           <Fragment key={metric.key}>
@@ -77,15 +79,15 @@ const Group = ({
                   onClick={toggleICOPrice}
                 />
               ))}
-            {metric.subMetrics &&
-              metric.subMetrics.map(subMetric => {
+            {submetrics &&
+              submetrics.map(submetric => {
                 return (
                   <MetricButton
-                    key={subMetric.label}
+                    key={submetric.key}
                     className={styles.advanced}
-                    label={subMetric.label}
-                    isActive={actives.includes(subMetric)}
-                    onClick={() => toggleMetric(subMetric)}
+                    label={submetric.label}
+                    isActive={actives.includes(submetric)}
+                    onClick={() => toggleMetric(submetric)}
                   />
                 )
               })}
