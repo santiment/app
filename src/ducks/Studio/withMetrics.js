@@ -1,6 +1,7 @@
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
-import { getCategoryGraph, getTimeboundMetrics } from './Sidebar/utils'
+import { getCategoryGraph } from './Sidebar/utils'
+import { useMergedTimeboundSubmetrics } from '../dataHub/timebounds'
 import { getMarketSegment } from './timeseries/marketSegments'
 
 const PROJECT_METRICS_BY_SLUG_QUERY = gql`
@@ -40,21 +41,21 @@ const DEFAULT_METRICS = [
   'social_volume_total'
 ]
 
-const DEFAULT_QUERIES = ['icoPrice']
-
 export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
   props: ({
     data: {
       loading,
       project: {
         availableMetrics = DEFAULT_METRICS,
-        availableQueries = DEFAULT_QUERIES,
+        availableQueries = [],
         marketSegments = []
       } = {}
     },
     ownProps: { noMarketSegments, hiddenMetrics = [] }
   }) => {
-    let categories = getCategoryGraph(
+    const Submetrics = useMergedTimeboundSubmetrics(availableMetrics)
+
+    const categories = getCategoryGraph(
       availableQueries
         .concat(availableMetrics)
         .concat(noMarketSegments ? [] : marketSegments.map(getMarketSegment)),
@@ -63,11 +64,9 @@ export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
 
     return {
       categories,
-      Timebound: getTimeboundMetrics(availableMetrics)
+      Submetrics
     }
   },
   skip: ({ slug }) => !slug,
-  options: ({ slug }) => {
-    return { variables: { slug } }
-  }
+  options: ({ slug }) => ({ variables: { slug } })
 })

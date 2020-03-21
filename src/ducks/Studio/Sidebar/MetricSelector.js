@@ -5,7 +5,6 @@ import Icon from '@santiment-network/ui/Icon'
 import { NO_GROUP } from './utils'
 import MetricExplanation from '../../SANCharts/MetricExplanation'
 import { Metric } from '../../dataHub/metrics'
-import { Submetrics } from '../../dataHub/submetrics'
 import styles from './MetricSelector.module.scss'
 
 const { price_usd } = Metric
@@ -48,8 +47,8 @@ const Group = ({
   toggleMetric,
   toggleAdvancedView,
   toggleICOPrice,
-  Timebound,
   options,
+  Submetrics,
   isICOPriceDisabled
 }) => {
   return (
@@ -60,7 +59,6 @@ const Group = ({
           return null
         }
 
-        const timebounds = Timebound[metric.key]
         const submetrics = Submetrics[metric.key]
 
         return (
@@ -71,7 +69,7 @@ const Group = ({
               isActive={actives.includes(metric)}
               onClick={() => toggleMetric(metric)}
             />
-            {/* TODO: refactor 'ICO Price', 'advancedView' and 'Timebounds' to be a submetric array [@vanguard | March 10, 2020] */}
+            {/* TODO: refactor 'ICO Price', 'advancedView' to be a submetric array [@vanguard | March 10, 2020] */}
             {isICOPriceDisabled ||
               (metric === price_usd && (
                 <MetricButton
@@ -82,18 +80,6 @@ const Group = ({
                   onClick={toggleICOPrice}
                 />
               ))}
-            {submetrics &&
-              submetrics.map(submetric => {
-                return (
-                  <MetricButton
-                    key={submetric.key}
-                    className={styles.advanced}
-                    label={submetric.label}
-                    isActive={actives.includes(submetric)}
-                    onClick={() => toggleMetric(submetric)}
-                  />
-                )
-              })}
             {metric.advancedView && (
               <MetricButton
                 className={styles.advanced}
@@ -102,14 +88,14 @@ const Group = ({
                 onClick={() => toggleAdvancedView(metric.advancedView)}
               />
             )}
-            {timebounds &&
-              timebounds.map(timeboundMetric => (
+            {submetrics &&
+              submetrics.map(submetric => (
                 <MetricButton
-                  key={timeboundMetric.key}
+                  key={submetric.key}
                   className={styles.advanced}
-                  label={timeboundMetric.label}
-                  isActive={actives.includes(timeboundMetric)}
-                  onClick={() => toggleMetric(timeboundMetric)}
+                  label={submetric.label}
+                  isActive={actives.includes(submetric)}
+                  onClick={() => toggleMetric(submetric)}
                 />
               ))}
           </Fragment>
