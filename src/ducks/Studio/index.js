@@ -1,24 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import StudioSidebar from './Sidebar'
-import StudioChart from './Chart'
-import StudioHeader from './Header'
-import StudioAdvancedView from './AdvancedView'
-import StudioInfo from '../SANCharts/Header'
-import { Event } from '../dataHub/events'
+import StudioMain from './Main'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
-import { buildComparedMetric } from './Compare/utils'
-import { useTimeseries } from './timeseries/hooks'
-import { buildAnomalies } from './timeseries/anomalies'
 import { MAX_METRICS_AMOUNT } from './constraints'
 import { generateShareLink, updateHistory } from './url'
 import { trackMetricState } from './analytics'
-import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
+import { Event } from '../dataHub/events'
+import { useTimeseries } from './timeseries/hooks'
+import { buildAnomalies } from './timeseries/anomalies'
+import { buildComparedMetric } from './Compare/utils'
 import styles from './index.module.scss'
 
 const { trendPositionHistory } = Event
 
 const Studio = ({
+  classes,
   defaultSettings,
   defaultOptions,
   defaultMetrics,
@@ -28,7 +25,6 @@ const Studio = ({
   topSlot,
   bottomSlot,
   onSlugChange,
-  classes,
   ...props
 }) => {
   const [settings, setSettings] = useState(defaultSettings)
@@ -39,13 +35,11 @@ const Studio = ({
   const [activeMetrics, setActiveMetrics] = useState(defaultMetrics)
   const [activeEvents, setActiveEvents] = useState(defaultEvents)
   const [advancedView, setAdvancedView] = useState()
-  const [hoveredDate, setHoveredDate] = useState()
   const [shareLink, setShareLink] = useState()
   const [isICOPriceDisabled, setIsICOPriceDisabled] = useState()
   const [data, loadings] = useTimeseries(activeMetrics, settings)
   const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings)
   const [isSidebarClosed, setIsSidebarClosed] = useState()
-  const chartRef = useRef(null)
 
   useEffect(
     () => {
@@ -150,20 +144,6 @@ const Studio = ({
     setAdvancedView(advancedView === mode ? undefined : mode)
   }
 
-  function onProjectSelect (project) {
-    if (!project) return
-
-    const { slug, name, ticker, id: projectId } = project
-    const title = `${name} (${ticker})`
-    setSettings(state => ({ ...state, slug, title, projectId, ticker }))
-    setIsICOPriceDisabled(false)
-    onSlugChange(slug)
-  }
-
-  function changeHoveredDate ({ value }) {
-    setHoveredDate(new Date(value))
-  }
-
   function removeComparedMetric ({ key }) {
     setComparables(comparables.filter(comp => comp.key !== key))
   }
@@ -176,7 +156,6 @@ const Studio = ({
         isSidebarClosed && styles.wrapper_wide
       )}
     >
-      <CtaJoinPopup />
       <StudioSidebar
         slug={settings.slug}
         options={options}
@@ -190,64 +169,34 @@ const Studio = ({
         isSidebarClosed={isSidebarClosed}
         setIsSidebarClosed={setIsSidebarClosed}
       />
-      <div className={styles.header}>
-        {topSlot}
-        <StudioInfo
-          slug={settings.slug}
-          isLoading={false}
-          isLoggedIn={false}
-          onSlugSelect={onProjectSelect}
-        />
-      </div>
-      <div className={cx(styles.container, styles.content)}>
-        <StudioHeader
-          chartRef={chartRef}
-          settings={settings}
-          options={options}
-          activeMetrics={activeMetrics}
-          activeEvents={activeEvents}
-          data={data}
-          events={eventsData}
-          comparables={comparables}
-          shareLink={shareLink}
-          setOptions={setOptions}
-          setSettings={setSettings}
-          setComparables={setComparables}
-        />
-        <div className={styles.data}>
-          <div className={styles.chart}>
-            <StudioChart
-              {...props}
-              className={styles.canvas}
-              chartRef={chartRef}
-              settings={settings}
-              options={options}
-              activeMetrics={activeMetrics}
-              activeEvents={activeEvents}
-              advancedView={advancedView}
-              toggleMetric={toggleMetric}
-              data={data}
-              events={eventsData}
-              loadings={loadings}
-              eventLoadings={eventLoadings}
-              isSidebarClosed={isSidebarClosed}
-              changeHoveredDate={changeHoveredDate}
-              setIsICOPriceDisabled={setIsICOPriceDisabled}
-            />
-          </div>
-          {advancedView && (
-            <div className={cx(styles.canvas, styles.advanced)}>
-              <StudioAdvancedView
-                advancedView={advancedView}
-                toggleAdvancedView={toggleAdvancedView}
-                date={hoveredDate}
-                {...settings}
-              />
-            </div>
-          )}
-        </div>
-      </div>
-      {bottomSlot}
+      <StudioMain
+        {...props}
+        topSlot={topSlot}
+        bottomSlot={bottomSlot}
+        options={options}
+        settings={settings}
+        activeMetrics={activeMetrics}
+        activeEvents={activeEvents}
+        comparables={comparables}
+        data={data}
+        eventsData={eventsData}
+        loadings={loadings}
+        eventLoadings={eventLoadings}
+        advancedView={advancedView}
+        shareLink={shareLink}
+        // bools
+        isSidebarClosed={isSidebarClosed}
+        // state setters
+        setSettings={setSettings}
+        setOptions={setOptions}
+        setComparables={setComparables}
+        setIsICOPriceDisabled={setIsICOPriceDisabled}
+        // fn
+        toggleMetric={toggleMetric}
+        toggleAdvancedView={toggleAdvancedView}
+        // handlers
+        onSlugChange={onSlugChange}
+      />
     </div>
   )
 }

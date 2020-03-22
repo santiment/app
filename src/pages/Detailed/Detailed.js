@@ -10,6 +10,7 @@ import FinancialsBlock from './financialInfo/FinancialsBlock'
 import DetailedTransactionsTable from './transactionsInfo/DetailedTransactionsTable'
 import { Metric } from '../../ducks/dataHub/metrics'
 import EthSpentTable from '../../components/EthSpentTable/EthSpentTable'
+import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import withProject from './withProject'
 import styles from './Detailed.module.scss'
 
@@ -28,6 +29,7 @@ const TopSlot = ({ label }) => (
   <>
     <Breadcrumbs className={styles.breadcrumbs} crumbs={[CRUMB, { label }]} />
     <StoriesList classes={styles} />
+    <CtaJoinPopup />
   </>
 )
 
