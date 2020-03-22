@@ -1,5 +1,6 @@
 import React from 'react'
 import MetricHighLow from '../../../../components/MetricHighLow'
+import { Metric } from '../../../dataHub/metrics'
 import styles from './Explanations.module.scss'
 
 const RANGE_HOURS = [
@@ -30,23 +31,23 @@ const HighLow = props => (
 )
 
 export const Explanation = Object.assign(Object.create(null), {
-  social_volume_total: ({ slug }) => (
+  [Metric.social_volume_total.key]: ({ slug }) => (
     <HighLow slug={slug} metric='social_volume_total' label='Social Volume' />
   ),
-  social_dominance_total: ({ slug }) => (
+  [Metric.social_dominance_total.key]: ({ slug }) => (
     <HighLow
       slug={slug}
       metric='social_dominance_total'
       label='Social Dominance'
     />
   ),
-  velocity: ({ slug }) => (
+  [Metric.velocity.key]: ({ slug }) => (
     <HighLow slug={slug} metric='velocity' label='Token Velocity' />
   ),
-  daily_active_addresses: ({ slug }) => (
+  [Metric.daily_active_addresses.key]: ({ slug }) => (
     <HighLow slug={slug} metric='daily_active_addresses' label='DAA' />
   ),
-  network_growth: ({ slug }) => (
+  [Metric.network_growth.key]: ({ slug }) => (
     <HighLow slug={slug} metric='network_growth' label='Network Growth' />
   )
 })

@@ -6,13 +6,10 @@ import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
 import { MAX_METRICS_AMOUNT } from './constraints'
 import { generateShareLink, updateHistory } from './url'
 import { trackMetricState } from './analytics'
-import { Event } from '../dataHub/events'
 import { useTimeseries } from './timeseries/hooks'
 import { buildAnomalies } from './timeseries/anomalies'
 import { buildComparedMetric } from './Compare/utils'
 import styles from './index.module.scss'
-
-const { trendPositionHistory } = Event
 
 const Studio = ({
   classes,
@@ -24,7 +21,6 @@ const Studio = ({
   defaultComparables,
   topSlot,
   bottomSlot,
-  onSlugChange,
   ...props
 }) => {
   const [settings, setSettings] = useState(defaultSettings)
@@ -102,22 +98,13 @@ const Studio = ({
     () => {
       if (options.isAnomalyActive) {
         setActiveEvents(buildAnomalies(metrics))
-      } else if (!activeEvents.includes(trendPositionHistory)) {
-        setActiveEvents([])
       }
     },
     [metrics, options.isAnomalyActive]
   )
 
-  function toggleTrend (trend) {
-    setActiveEvents(activeEvents.includes(trend) ? [] : [trend])
-    setOptions(state => ({ ...state, isAnomalyActive: false }))
-  }
-
   function toggleMetric (metric) {
-    if (metric === trendPositionHistory) {
-      return toggleTrend(metric)
-    } else if (metric.comparedTicker) {
+    if (metric.comparedTicker) {
       return removeComparedMetric(metric)
     }
 
@@ -194,8 +181,6 @@ const Studio = ({
         // fn
         toggleMetric={toggleMetric}
         toggleAdvancedView={toggleAdvancedView}
-        // handlers
-        onSlugChange={onSlugChange}
       />
     </div>
   )

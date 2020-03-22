@@ -47,7 +47,7 @@ export const AnomalyFetcher = {
     }
   }) => {
     const metricKey = key.replace('_anomaly', '')
-    const { label: value, dataKey = key } = Metric[metricKey]
+    const { label: value, dataKey = metricKey } = Metric[metricKey]
 
     return timeseriesData.map(({ datetime }) => ({
       key,
