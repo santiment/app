@@ -43,6 +43,7 @@ export const getMarketSegment = key => {
     key,
     label,
     queryKey: 'marketSegment',
+    domainGroup: 'dev_activity',
     category: 'Development',
     node: 'line',
     yAxisId: 'axis-activity',
