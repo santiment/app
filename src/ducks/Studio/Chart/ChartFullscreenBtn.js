@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import Chart from '../../Chart'
+import { useDomainGroups } from '../../Chart/hooks'
 import FullscreenDialogBtn from '../../../components/FullscreenDialogBtn'
 import { useTimeseries } from '../timeseries/hooks'
 import { generateShareLink } from '../url'
@@ -21,6 +22,7 @@ const FullscreenChart = ({
   const [shareLink, setShareLink] = useState()
   const [data] = useTimeseries(metrics, settings)
   const [events] = useTimeseries(activeEvents, settings)
+  const domainGroups = useDomainGroups(metrics, options.isDomainGroupingActive)
   const chartRef = useRef(null)
 
   useEffect(
@@ -37,6 +39,7 @@ const FullscreenChart = ({
   return (
     <div className={styles.content}>
       <Settings
+        {...props}
         className={styles.settings}
         chartRef={chartRef}
         settings={settings}
@@ -61,6 +64,7 @@ const FullscreenChart = ({
         isMultiChartsActive={false}
         metrics={metrics}
         activeEvents={activeEvents}
+        domainGroups={domainGroups}
         scale={options.isLogScale ? logScale : linearScale}
         resizeDependencies={RESIZE_DEPENDENCIES}
       />

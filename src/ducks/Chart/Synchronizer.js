@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import COLOR from '@santiment-network/ui/variables.scss'
 import { getValidTooltipKey, findTooltipMetric } from './utils'
+import { useDomainGroups } from './hooks'
 import { setupColorGenerator } from '../SANCharts/utils'
 import { Metric } from '../dataHub/metrics'
 
@@ -97,37 +98,7 @@ const Synchronizer = ({
   const [noPriceMetrics, setNoPriceMetrics] = useState([])
   const [hasPriceMetric, setHasPriceMetric] = useState()
   const [isValidMulti, setIsValidMulti] = useState()
-  const [domainGroups, setDomainGroups] = useState()
-
-  useEffect(
-    () => {
-      if (!isDomainGroupingActive) {
-        return setDomainGroups()
-      }
-
-      const Domain = Object.create(null)
-      const { length } = metrics
-
-      for (let i = 0; i < length; i++) {
-        const { key, domainGroup } = metrics[i]
-
-        if (!domainGroup) continue
-
-        const domain = Domain[domainGroup]
-
-        if (domain) {
-          Domain[domainGroup] += `,${key}`
-        } else {
-          Domain[domainGroup] = `${domainGroup},${key}`
-        }
-      }
-      const newDomainGroups = Object.values(Domain).map(group =>
-        group.split(',')
-      )
-      setDomainGroups(newDomainGroups.length > 0 ? newDomainGroups : undefined)
-    },
-    [metrics, isDomainGroupingActive]
-  )
+  const domainGroups = useDomainGroups(metrics, isDomainGroupingActive)
 
   useEffect(
     () => {
