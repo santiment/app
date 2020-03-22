@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import Selector from '@santiment-network/ui/Selector/Selector'
+import Toggle from '@santiment-network/ui/Toggle'
 import CalendarBtn from '../../../components/Calendar/CalendarBtn'
 import ChartSettingsContextMenu from '../../SANCharts/ChartSettingsContextMenu'
 import {
@@ -22,6 +23,7 @@ const { to: MAX_DATE } = getTimeIntervalFromToday(0, DAY)
 export default ({
   settings,
   options,
+  comparables,
   setOptions,
   setSettings,
   className,
@@ -101,13 +103,21 @@ export default ({
         className={styles.calendar}
         maxDate={MAX_DATE}
       />
+      {comparables.length > 0 && (
+        <div className={styles.domain} onClick={toggleDomainGrouping}>
+          Shared axis
+          <Toggle
+            isActive={options.isDomainGroupingActive}
+            className={styles.domain__toggle}
+          />
+        </div>
+      )}
       <ChartSettingsContextMenu
         showNightModeToggle={false}
         title={title}
         onCartesianGridChange={toggleCartesianGrid}
         onScaleChange={toggleScale}
         onMultiChartsChange={toggleMultichart}
-        onDomainGroupingChange={toggleDomainGrouping}
         showDownload
         showMulti
         {...options}

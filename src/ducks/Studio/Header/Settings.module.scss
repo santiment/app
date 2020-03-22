@@ -23,3 +23,15 @@
     bottom: 0;
   }
 }
+
+.domain {
+  display: flex;
+  align-items: center;
+  user-select: none;
+  cursor: pointer;
+  margin: 0 4px;
+
+  &__toggle {
+    margin-left: 8px;
+  }
+}
