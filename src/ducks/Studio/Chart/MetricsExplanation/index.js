@@ -5,6 +5,7 @@ import Dropdown from '@santiment-network/ui/Dropdown'
 import Explanations from './Explanations'
 import DataInfo from './DataInfo'
 import MetricIcon from '../../../SANCharts/MetricIcon'
+import { Description } from '../../../dataHub/metrics/descriptions'
 import styles from './index.module.scss'
 
 const OPTIONS = []
@@ -15,14 +16,14 @@ const dropdownClasses = {
 }
 
 export function filterExplainableMetrics (metrics) {
-  return metrics.filter(({ description }) => description)
+  return metrics.filter(({ key }) => Description[key])
 }
 
 function dedupMetrics (metrics) {
   const dups = new Set()
 
-  return metrics.filter(metric => {
-    const { description } = metric
+  return metrics.filter(({ key }) => {
+    const description = Description[key]
     return dups.has(description) ? false : dups.add(description)
   })
 }
@@ -84,7 +85,7 @@ const MetricsExplanation = ({ metrics, MetricColor, onClose, ...rest }) => {
         />
         <DataInfo {...rest} metric={metric} />
         <div className={styles.subtitle}>Description</div>
-        <div className={styles.text}>{metric.description}</div>
+        <div className={styles.text}>{Description[metric.key]}</div>
         <Explanations {...rest} metric={metric} />
       </div>
     </>

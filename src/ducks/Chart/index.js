@@ -11,7 +11,6 @@ import { drawReferenceDot } from '@santiment-network/chart/references'
 import { drawCartesianGrid } from '@santiment-network/chart/cartesianGrid'
 import { initBrush, updateBrushState } from '@santiment-network/chart/brush'
 import Loader from './Loader/Loader'
-import Signals from './Signals'
 import { plotAxes } from './axes'
 import { setupTooltip, plotTooltip } from './tooltip'
 import {
@@ -21,9 +20,7 @@ import {
   CHART_WITH_BRUSH_PADDING
 } from './settings'
 import { drawWatermark } from './watermark'
-import { drawPaywall } from './paywall'
 import { onResize, useResizeEffect } from './resize'
-import { drawLastDayPrice, withLastDayPrice } from './lastDayPrice'
 import { clearCtx, findPointIndexByDate, domainModifier } from './utils'
 import { paintConfigs, dayBrushPaintConfig } from './paintConfigs'
 import styles from './index.module.scss'
@@ -31,7 +28,6 @@ import styles from './index.module.scss'
 const Chart = ({
   className,
   chartRef,
-  metrics,
   data,
   lines,
   bars,
@@ -40,11 +36,7 @@ const Chart = ({
   domainGroups,
   events = [],
   scale = linearScale,
-  slug,
-  leftBoundaryDate,
-  rightBoundaryDate,
   tooltipKey,
-  lastDayPrice,
   MetricColor,
   syncedTooltipDate,
   syncTooltips = () => {},
@@ -170,7 +162,6 @@ const Chart = ({
       events,
       domainGroups,
       MetricColor,
-      lastDayPrice,
       isNightModeEnabled,
       isCartesianGridActive
     ]
@@ -259,12 +250,6 @@ const Chart = ({
     events.forEach(({ metric, key, datetime, value, color }) =>
       drawReferenceDot(chart, metric, datetime, color, key, value)
     )
-
-    if (lastDayPrice) {
-      drawLastDayPrice(chart, scale, lastDayPrice)
-    }
-
-    drawPaywall(chart, leftBoundaryDate, rightBoundaryDate)
   }
 
   function marker (ctx, key, value, x, y) {
@@ -286,13 +271,6 @@ const Chart = ({
   return (
     <div className={cx(styles.wrapper, className)}>
       <canvas ref={canvasRef} />
-      <Signals
-        chart={chart}
-        data={data}
-        slug={slug}
-        scale={scale}
-        metrics={metrics}
-      />
       {isLoading && <Loader />}
       {chart &&
         React.Children.map(
@@ -301,7 +279,8 @@ const Chart = ({
             child &&
             React.cloneElement(child, {
               chart,
-              scale
+              scale,
+              data
             })
         )}
     </div>
@@ -312,4 +291,4 @@ const mapStateToProps = ({ rootUi: { isNightModeEnabled } }) => ({
   isNightModeEnabled
 })
 
-export default connect(mapStateToProps)(withLastDayPrice(Chart))
+export default connect(mapStateToProps)(Chart)

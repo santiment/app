@@ -169,7 +169,9 @@ const enhance = compose(
       return {
         projects: projects
           .slice()
-          .sort(({ rank: a }, { rank: b }) => (a || Infinity) - (b || Infinity))
+          .sort(
+            ({ rank: a }, { rank: b }) => (a || Infinity) - (b || Infinity)
+          )
       }
     }
   })

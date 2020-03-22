@@ -1,4 +1,5 @@
-import { Metrics, tooltipSettings } from '../../SANCharts/metrics/data'
+import { Metric } from '../../dataHub/metrics'
+import { TooltipSetting } from '../../dataHub/tooltipSettings'
 
 const comparedMetricsCache = new Map()
 
@@ -23,7 +24,8 @@ export function buildComparedMetric (Comparable) {
 
   const key = buildCompareKey(metric, project)
 
-  const ComparedMetric = Object.assign(Object.create(null), metric, {
+  const comparedMetric = {
+    ...metric,
     key,
     queryKey: metricKey,
     comparedTicker: ticker,
@@ -32,22 +34,22 @@ export function buildComparedMetric (Comparable) {
     reqMeta: {
       slug
     }
-  })
+  }
 
-  tooltipSettings[key] = {
+  TooltipSetting[key] = {
     label: `${label} (${ticker})`,
     formatter: formatter
   }
 
-  comparedMetricsCache.set(hash, ComparedMetric)
+  comparedMetricsCache.set(hash, comparedMetric)
 
-  return ComparedMetric
+  return comparedMetric
 }
 
 export function getProjectHiddenMetrics (map, project) {
   if (!project) return
 
-  return map.get(project.slug) || [Metrics.historicalBalance]
+  return map.get(project.slug) || [Metric.historicalBalance]
 }
 
 export function buildHiddenMetrics (comparables) {
@@ -66,7 +68,7 @@ export function buildHiddenMetrics (comparables) {
       continue
     }
 
-    hiddenMetricsMap.set(slug, [Metrics.historicalBalance, metric])
+    hiddenMetricsMap.set(slug, [Metric.historicalBalance, metric])
   }
 
   return hiddenMetricsMap

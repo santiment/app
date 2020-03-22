@@ -58,7 +58,7 @@ import {
   uncapitalizeStr
 } from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
-import { Metrics } from '../../SANCharts/metrics/data'
+import { Metric } from '../../dataHub/metrics'
 
 export const mapToOptions = input => {
   if (!input) {
@@ -858,16 +858,16 @@ export const isNewTypeSignal = type => {
 
 export const getNewMetricsByType = ({ settings: { type, metric } }) => {
   const defaultValue = {
-    metrics: [Metrics.price_usd],
-    triggersBy: Metrics.price_usd,
+    metrics: [Metric.price_usd],
+    triggersBy: Metric.price_usd,
     historicalTriggersDataKey: 'current'
   }
 
   switch (type) {
     case METRIC_TYPES.WALLET_MOVEMENT: {
       return {
-        metrics: [Metrics.historicalBalance, Metrics.price_usd],
-        triggersBy: Metrics.historicalBalance,
+        metrics: [Metric.historicalBalance, Metric.price_usd],
+        triggersBy: Metric.historicalBalance,
         historicalTriggersDataKey: 'current'
       }
     }
@@ -875,15 +875,15 @@ export const getNewMetricsByType = ({ settings: { type, metric } }) => {
       switch (metric) {
         case SIGNAL_METRIC_TYPES.active_addresses_24h: {
           return {
-            metrics: [Metrics.daily_active_addresses, Metrics.price_usd],
-            triggersBy: Metrics.daily_active_addresses,
+            metrics: [Metric.daily_active_addresses, Metric.price_usd],
+            triggersBy: Metric.daily_active_addresses,
             historicalTriggersDataKey: 'current'
           }
         }
         case SIGNAL_METRIC_TYPES.volume_usd: {
           return {
-            metrics: [Metrics.price_usd, Metrics.volume_usd],
-            triggersBy: Metrics.price_usd,
+            metrics: [Metric.price_usd, Metric.volume_usd],
+            triggersBy: Metric.price_usd,
             historicalTriggersDataKey: 'current'
           }
         }
@@ -901,28 +901,28 @@ export const getOldMetricsByType = type => {
   switch (type) {
     case DAILY_ACTIVE_ADDRESSES:
       return {
-        metrics: [Metrics.daily_active_addresses, Metrics.price_usd],
-        triggersBy: Metrics.daily_active_addresses
+        metrics: [Metric.daily_active_addresses, Metric.price_usd],
+        triggersBy: Metric.daily_active_addresses
       }
     case TRENDING_WORDS:
       return {
-        metrics: [Metrics.price_usd, Metrics.social_volume_total],
-        triggersBy: Metrics.price_usd
+        metrics: [Metric.price_usd, Metric.social_volume_total],
+        triggersBy: Metric.price_usd
       }
     case PRICE_VOLUME_DIFFERENCE:
       return {
-        metrics: [Metrics.price_usd, Metrics.volume_usd],
-        triggersBy: Metrics.price_usd
+        metrics: [Metric.price_usd, Metric.volume_usd],
+        triggersBy: Metric.price_usd
       }
     case ETH_WALLET:
       return {
-        metrics: [Metrics.historicalBalance, Metrics.price_usd],
-        triggersBy: Metrics.historicalBalance
+        metrics: [Metric.historicalBalance, Metric.price_usd],
+        triggersBy: Metric.historicalBalance
       }
     default:
       return {
-        metrics: [Metrics.price_usd],
-        triggersBy: Metrics.price_usd
+        metrics: [Metric.price_usd],
+        triggersBy: Metric.price_usd
       }
   }
 }

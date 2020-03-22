@@ -14,7 +14,7 @@ import {
   yBubbleFormatter,
   isDayInterval
 } from './utils'
-import { tooltipSettings } from '../metrics/data'
+import { TooltipSetting } from '../dataHub/tooltipSettings'
 
 const ALERT_ADD_SIZE = 13
 const ALERT_ADD_HALF_SIZE = 7
@@ -59,7 +59,7 @@ export function plotTooltip (chart, marker, point) {
     ? getDateHoursMinutes
     : getDateDayMonthYear
 
-  drawTooltip(ctx, point, tooltipSettings, marker, tooltipPaintConfig)
+  drawTooltip(ctx, point, TooltipSetting, marker, tooltipPaintConfig)
   drawValueBubbleY(
     chart,
     yBubbleFormatter(value),

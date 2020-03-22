@@ -8,7 +8,6 @@ import RecentlyWatched, {
 } from '../../components/RecentlyWatched/RecentlyWatched'
 import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
 import Footer from '../../components/Footer'
-import { ASSETS_SIDEBAR } from './metrics/data'
 import styles from './ChartSidecar.module.scss'
 
 const ChartSidecar = ({
@@ -50,7 +49,6 @@ const ChartSidecar = ({
       >
         <div
           className={styles.toggle__btn}
-          onClick={() => onSidebarToggleClick(ASSETS_SIDEBAR)}
           onMouseOver={wasPreloaded ? undefined : preloadData}
         >
           <div className={styles.toggle__icons}>

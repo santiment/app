@@ -9,12 +9,9 @@ import {
   getTimeRangeForChart,
   isNewTypeSignal
 } from '../../utils/utils'
-import { Metrics } from '../../../SANCharts/metrics/data'
+import { Metric } from '../../../dataHub/metrics'
 import { getMetricYAxisId } from '../../../SANCharts/utils'
-import {
-  getSyncedColors,
-  clearCache
-} from '../../../SANCharts/Chart/Synchronizer'
+import { getSyncedColors, clearCache } from '../../../Chart/Synchronizer'
 import GetTimeSeries from '../../../GetTimeSeries/GetTimeSeries'
 import ChartWidget from '../../../SANCharts/ChartPage'
 import VisualBacktestChart, { GetReferenceDots } from '../VisualBacktestChart'
@@ -68,7 +65,7 @@ const SignalPreviewChart = ({
   })
 
   const metricsForSignalsChart = metrics.map(metric =>
-    metric === Metrics.price_usd ? Metrics.historyPricePreview : metric
+    metric === Metric.price_usd ? Metric.historyPricePreview : metric
   )
 
   const syncedColors = getSyncedColors(metricsForSignalsChart)

@@ -14,15 +14,15 @@ import {
 } from './helpers'
 import { useAlertMetrics } from './hooks'
 import { clearCtx } from '../utils'
-import { Metrics } from '../../metrics/data'
-import { getSlugPriceSignals } from '../../utils'
+import { getSlugPriceSignals } from '../../SANCharts/utils'
+import { Metric } from '../../dataHub/metrics'
 import {
   createTrigger,
   fetchSignals,
   removeTrigger
-} from '../../../Signals/common/actions'
-import { PRICE_CHANGE_TYPES } from '../../../Signals/utils/constants'
-import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
+} from '../../Signals/common/actions'
+import { PRICE_CHANGE_TYPES } from '../../Signals/utils/constants'
+import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './index.module.scss'
 
 const TEXT_SIGNAL = 'Alert '
@@ -36,7 +36,7 @@ const TEXT_IFS = {
   ]
 }
 
-const priceFormatter = Metrics.price_usd.formatter
+const priceFormatter = Metric.price_usd.formatter
 
 const Signals = ({
   slug,
@@ -65,10 +65,10 @@ const Signals = ({
       return
     }
 
-    const metricValues = metrics.map(Metric => ({
-      key: Metric.key,
-      value: findMetricValueByY(chart, Metric, y),
-      lastValue: findMetricLastValue(data, Metric)
+    const metricValues = metrics.map(metric => ({
+      key: metric.key,
+      value: findMetricValueByY(chart, metric, y),
+      lastValue: findMetricLastValue(data, metric)
     }))
 
     const priceIndex = metrics.findIndex(checkPriceMetric)
@@ -84,7 +84,7 @@ const Signals = ({
       TEXT_ACTION,
       TEXT_RESULT,
       TEXT_IFS[key][+(value > lastValue)],
-      Metrics[key].formatter(value)
+      Metric[key].formatter(value)
     ])
   }
 
@@ -93,16 +93,16 @@ const Signals = ({
       return
     }
 
-    const Metric = metrics.find(checkPriceMetric) || metrics[0]
-    const value = findMetricValueByY(chart, Metric, y)
-    const lastValue = findMetricLastValue(data, Metric)
+    const metric = metrics.find(checkPriceMetric) || metrics[0]
+    const value = findMetricValueByY(chart, metric, y)
+    const lastValue = findMetricLastValue(data, metric)
 
     if (value === undefined) return
 
     const type =
       PRICE_CHANGE_TYPES[value > lastValue ? SIGNAL_ABOVE : SIGNAL_BELOW]
 
-    createSignal(AlertBuilder[Metric.key](slug, value, type))
+    createSignal(AlertBuilder[metric.key](slug, value, type))
   }
 
   function onMouseLeave () {
@@ -175,11 +175,10 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(props => {
-  const alertMetrics = useAlertMetrics(props.metrics)
-  const { chart, isLoggedIn } = props
+)(({ isLoggedIn, metrics, ...props }) => {
+  const alertMetrics = useAlertMetrics(metrics)
 
-  return isLoggedIn && chart && alertMetrics.length > 0 ? (
+  return isLoggedIn && alertMetrics.length > 0 ? (
     <Signals {...props} metrics={alertMetrics} />
   ) : null
 })

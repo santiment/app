@@ -12,7 +12,7 @@ import FullscreenChart from './MobileFullscreenChart'
 import ChartSelector from './MobileAssetChartSelector'
 import MobilePopularMetrics from './MobilePopularMetrics'
 import { checkHasPremium } from '../../UserSelectors'
-import { Metrics } from '../../../ducks/SANCharts/metrics/data'
+import { Metric } from '../../../ducks/dataHub/metrics'
 import { mapDatetimeToNumber } from '../../../ducks/SANCharts/utils'
 import ErrorRequest from '../../../ducks/SANCharts/ErrorRequest'
 import ChartMetricsTool from '../../../ducks/SANCharts/ChartMetricsTool'
@@ -35,7 +35,7 @@ import MobileProPopup from '../../../components/MobileProPopup/MobileProPopup'
 import {
   getSyncedColors,
   prepareEvents
-} from '../../../ducks/SANCharts/Chart/Synchronizer'
+} from '../../../ducks/Chart/Synchronizer'
 import { addRecentAssets } from '../../../utils/recent'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import styles from './MobileDetailedPage.module.scss'
@@ -147,7 +147,7 @@ const MobileDetailedPage = ({
             )
 
             const chartMetrics = [
-              Metrics.historyPricePreview,
+              Metric.historyPricePreview,
               ...finalMetrics
             ].filter(({ type }) => type !== 'events')
             const syncedColors = getSyncedColors(chartMetrics)
@@ -191,7 +191,7 @@ const MobileDetailedPage = ({
               toggleMetric,
               showLimitMessage: isLimitReached,
               activeMetrics: metrics,
-              hiddenMetrics: [Metrics.price_usd],
+              hiddenMetrics: [Metric.price_usd],
               isMobile: true
             }
 

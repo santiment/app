@@ -1,8 +1,8 @@
 import COLOR from '@santiment-network/ui/variables.scss'
 import { getTextWidth } from '@santiment-network/chart/utils'
 import { clearCtx } from '../utils'
-import { Metrics } from '../../metrics/data'
-import { buildPriceSignal, buildDAASignal } from '../../../Signals/utils/utils'
+import { Metric } from '../../dataHub/metrics'
+import { buildPriceSignal, buildDAASignal } from '../../Signals/utils/utils'
 
 export const SIGNAL_BELOW = 'BELOW'
 export const SIGNAL_ABOVE = 'ABOVE'
@@ -131,7 +131,7 @@ export function makeSignalDrawable (
   }
 }
 
-export const checkPriceMetric = metric => metric === Metrics.price_usd
+export const checkPriceMetric = metric => metric === Metric.price_usd
 
 export const AlertBuilder = {
   price_usd: buildPriceSignal,

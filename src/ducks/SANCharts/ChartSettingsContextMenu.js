@@ -117,20 +117,7 @@ const ChartSettingsContextMenu = ({
             />
           </Button>
         )}
-        {onDomainGroupingChange && (
-          <Button
-            fluid
-            variant='ghost'
-            className={styles.context__btn}
-            onClick={onDomainGroupingChange}
-          >
-            Shared axis
-            <Toggle
-              isActive={isDomainGroupingActive}
-              className={styles.context__toggle}
-            />
-          </Button>
-        )}
+
         <ShareChart
           shareLink={shareLink}
           trigger={props => (

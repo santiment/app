@@ -1,8 +1,8 @@
-import { Metrics } from '../../../ducks/SANCharts/metrics/data'
+import { Metric } from '../../../ducks/dataHub/metrics'
 
 export const DEFAULT_METRIC = {
   key: 'price_usd',
-  ...Metrics['historyPricePreview'].reqMeta
+  ...Metric.historyPricePreview.reqMeta
 }
 
 export const DEFAULT_TIME_RANGE = '6m'
@@ -10,9 +10,9 @@ export const DEFAULT_TIME_RANGE = '6m'
 export const MAX_METRICS_PER_CHART = 3
 
 export const POPULAR_METRICS = [
-  Metrics.daily_active_addresses,
-  Metrics.dev_activity,
-  Metrics.social_volume_total
+  Metric.daily_active_addresses,
+  Metric.dev_activity,
+  Metric.social_volume_total
 ]
 
 export const makeRequestedData = ({ metrics, ...rest }) => {
