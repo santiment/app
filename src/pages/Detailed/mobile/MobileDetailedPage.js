@@ -242,7 +242,7 @@ const MobileDetailedPage = ({
                 >
                   {metrics.length > 0 && (
                     <>
-                      <h3 className={styles.heading}>Selected Metric</h3>
+                      <h3 className={styles.heading}>Selected Metrics</h3>
                       {metrics.map(metric => (
                         <MobileMetricCard
                           metric={metric}

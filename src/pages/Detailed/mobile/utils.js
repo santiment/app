@@ -2,7 +2,7 @@ import { Metric } from '../../../ducks/dataHub/metrics'
 
 export const DEFAULT_METRIC = {
   key: 'price_usd',
-  ...Metric['historyPricePreview'].reqMeta
+  ...Metric.historyPricePreview.reqMeta
 }
 
 export const DEFAULT_TIME_RANGE = '6m'
