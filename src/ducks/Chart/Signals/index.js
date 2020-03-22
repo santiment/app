@@ -175,11 +175,10 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(props => {
-  const alertMetrics = useAlertMetrics(props.metrics)
-  const { chart, isLoggedIn } = props
+)(({ isLoggedIn, metrics, ...props }) => {
+  const alertMetrics = useAlertMetrics(metrics)
 
-  return isLoggedIn && chart && alertMetrics.length > 0 ? (
+  return isLoggedIn && alertMetrics.length > 0 ? (
     <Signals {...props} metrics={alertMetrics} />
   ) : null
 })
