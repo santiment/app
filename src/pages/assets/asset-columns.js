@@ -5,7 +5,7 @@ import { Panel, Tooltip, Label } from '@santiment-network/ui'
 import { formatNumber, millify } from '../../utils/formatting'
 import ProjectLabel from '../../components/ProjectLabel'
 import PercentChanges from '../../components/PercentChanges'
-import { Metrics } from '../../ducks/SANCharts/data'
+import { Description } from '../../ducks/dataHub/metrics/descriptions'
 import styles from './AssetsToggleColumns.module.scss'
 
 const simpleSort = (a, b) => b - a
@@ -172,7 +172,7 @@ export const COLUMNS = (preload, props = {}) => [
       <>
         <b>Average value for 30d</b>
         <br />
-        {Metrics['ethSpentOverTime'].description}
+        {Description.ethSpentOverTime}
       </>
     ),
     maxWidth: 120,
@@ -190,7 +190,7 @@ export const COLUMNS = (preload, props = {}) => [
       <>
         <b>Average value for 30d</b>
         <br />
-        {Metrics['dev_activity'].description}
+        {Description.dev_activity}
       </>
     ),
     maxWidth: 100,
@@ -209,7 +209,7 @@ export const COLUMNS = (preload, props = {}) => [
       <>
         <b>Average value for 30d</b>
         <br />
-        {Metrics.daily_active_addresses.description}
+        {Description.daily_active_addresses}
       </>
     ),
     maxWidth: 110,
@@ -293,23 +293,23 @@ export const COLUMNS_SETTINGS = {
   [COLUMNS_NAMES.eth_spent]: {
     show: true,
     selectable: true,
-    description: Metrics.ethSpentOverTime.description
+    description: Description.ethSpentOverTime
   },
   [COLUMNS_NAMES.devact]: {
     show: true,
     selectable: true,
-    description: Metrics.dev_activity.description
+    description: Description.dev_activity
   },
   [COLUMNS_NAMES.daily_active_addresses]: {
     show: true,
     selectable: true,
-    description: Metrics.daily_active_addresses.description
+    description: Description.daily_active_addresses
   },
   [COLUMNS_NAMES.graph]: { show: false, selectable: false },
   [COLUMNS_NAMES.token_circulation]: {
     show: false,
     selectable: false,
-    description: Metrics.circulation.description
+    description: Description.circulation
   },
   [COLUMNS_NAMES.infrastructure]: { show: true, selectable: false },
   [COLUMNS_NAMES.devActivity7]: { show: true, selectable: false },

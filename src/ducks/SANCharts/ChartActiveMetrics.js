@@ -23,16 +23,11 @@ const ChartActiveMetrics = ({
     <>
       <section className={cx(styles.wrapper, isWideChart && styles.wideChart)}>
         {activeMetrics.map(metric => {
-          const { node, color, label, description } = metric
+          const { node, color, label } = metric
 
           const isAlwaysShowing = alwaysShowingMetrics.includes(metric.key)
           return (
-            <MetricExplanation
-              key={label}
-              label={label}
-              description={description}
-              withChildren
-            >
+            <MetricExplanation key={label} metric={metric} withChildren>
               <Button border className={styles.btn}>
                 <MetricIcon
                   node={node}
@@ -52,14 +47,9 @@ const ChartActiveMetrics = ({
           )
         })}
         {activeEvents.map(event => {
-          const { label, description } = event
+          const { label } = event
           return (
-            <MetricExplanation
-              key={label}
-              label={label}
-              description={description}
-              withChildren
-            >
+            <MetricExplanation key={label} metric={event} withChildren>
               <Button border className={styles.btn}>
                 <Label
                   className={styles.label}

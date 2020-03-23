@@ -13,8 +13,9 @@ import {
 } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
 import { makeRequestedData } from '../../pages/Detailed/mobile/utils'
+import { Metric } from '../../ducks/dataHub/metrics'
+import { Event } from '../../ducks/dataHub/events'
 import { METRIC_ANOMALIE_QUERY } from '../../ducks/GetTimeSeries/queries/metric_anomaly_query'
-import { Metrics, Events } from '../../ducks/SANCharts/data'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import SwipeableCard from './SwipeableCard'
 import styles from './MobileMetricCard.module.scss'
@@ -38,7 +39,7 @@ const MobileMetricCard = ({
   let { from, to } = getTimeIntervalFromToday(-1, DAY, { isUTC: true })
   let interval = '1d'
 
-  const isTrendingPosition = metric === Events.trendPositionHistory
+  const isTrendingPosition = metric === Event.trendPositionHistory
   if (isTrendingPosition) {
     from = rest.from
     to = rest.to
@@ -101,7 +102,7 @@ const MobileMetricCard = ({
             const today = timeseries[lastIndex][dataKey]
             const yesterday = timeseries[lastIndex - 1][dataKey]
             value = `${formatTooltipValue(false, today)} ${
-              metric === Metrics.transaction_volume ? ticker : ''
+              metric === Metric.transaction_volume ? ticker : ''
             }`
             diff = calcPercentageChange(yesterday, today)
           }
@@ -111,7 +112,7 @@ const MobileMetricCard = ({
           if (isTrendingPosition) {
             if (eventsData.length > 0) {
               const latestData = eventsData[eventsData.length - 1]
-              value = Events.position.formatter(latestData.position)
+              value = Event.position.formatter(latestData.position)
 
               const { diff, format } = dateDifference({
                 from: new Date(latestData.datetime)
@@ -122,7 +123,7 @@ const MobileMetricCard = ({
             }
           }
 
-          if (metric === Metrics.dev_activity) {
+          if (metric === Metric.dev_activity) {
             const { devActivity60: first, devActivity30: second } = rest.project
             if (first != null && second != null) {
               diff = calcPercentageChange(first * 2 - second, second)

@@ -4,7 +4,7 @@ import Icon from '@santiment-network/ui/Icon'
 import withMetrics from '../../withMetrics'
 import Search, { getMetricSuggestions } from '../../Sidebar/Search'
 import MetricIcon from '../../../SANCharts/MetricIcon'
-import { COLORS } from '../../../SANCharts/Chart/colors'
+import { COLORS } from '../../../Chart/colors'
 import styles from './Metric.module.scss'
 
 const DEFAULT_COLOR = '#9faac4'

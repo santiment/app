@@ -1,6 +1,5 @@
 import React from 'react'
 import cx from 'classnames'
-import { Icon } from '@santiment-network/ui'
 import InsightTags from './InsightTags'
 import ProfileInfo, { InsightDate } from './ProfileInfo'
 import MultilineText from '../MultilineText/MultilineText'
@@ -8,6 +7,7 @@ import LikeBtn from '../Like/LikeBtn'
 import { getSEOLinkFromIdAndTitle } from './utils'
 import { DesktopOnly, MobileOnly } from '../Responsive'
 import { SignalTypeIcon } from '../SignalCard/controls/SignalControls'
+import Comments from './Comments'
 import styles from './InsightCard.module.scss'
 
 export const makeLinkToInsight = (id, title) => {
@@ -85,13 +85,7 @@ const InsightCardInternals = ({
             disabled={disabled}
             className={styles.likeBtn}
           />
-          <a
-            href={linkToInsight + '?_wc=1#comments'}
-            className={cx(styles.stat, styles.stat_comments)}
-          >
-            <Icon type='comment' className={styles.commentIcon} />{' '}
-            {commentsCount}
-          </a>
+          <Comments id={id} authorId={authorId} count={commentsCount} />
           <div className={styles.tags}>
             <InsightTags tags={tags} isDesktop={isDesktop} />
           </div>

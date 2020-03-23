@@ -8,7 +8,7 @@ import Comparable from './Comparable'
 import withProjects from './withProjects'
 import { projectSorter, hashComparable, buildHiddenMetrics } from './utils'
 import { MAX_METRICS_AMOUNT } from '../constraints'
-import { useChartColors } from '../../SANCharts/Chart/colors'
+import { useChartColors } from '../../Chart/colors'
 import styles from './index.module.scss'
 
 const Compare = ({

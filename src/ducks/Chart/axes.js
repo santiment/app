@@ -5,7 +5,7 @@ import {
   getDateHoursMinutes
 } from './utils'
 import { dayTicksPaintConfig, dayAxesColor } from './paintConfigs'
-import { millify } from '../../../utils/formatting'
+import { millify } from '../../utils/formatting'
 
 const yFormatter = value => {
   if (!value) {

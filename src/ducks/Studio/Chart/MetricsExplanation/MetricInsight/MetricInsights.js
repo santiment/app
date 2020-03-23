@@ -6,7 +6,11 @@ import MetricInsightCard from './MetricInsightCard'
 
 import styles from './MetricInsights.module.scss'
 
-const MetricInsights = ({ insights }) => {
+const MetricInsights = ({ insights = [] }) => {
+  if (!insights.length) {
+    return null
+  }
+
   return (
     <div className={styles.container}>
       {insights.map(id => {

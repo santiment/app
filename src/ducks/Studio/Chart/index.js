@@ -10,9 +10,11 @@ import ChartMetricsExplanation, {
   filterExplainableMetrics
 } from './MetricsExplanation'
 import IcoPrice from './IcoPrice'
-import Chart from '../../SANCharts/Chart'
-import Synchronizer from '../../SANCharts/Chart/Synchronizer'
-import { useChartColors } from '../../SANCharts/Chart/colors'
+import LastDayPrice from './LastDayPrice'
+import Chart from '../../Chart'
+import Signals from '../../Chart/Signals'
+import Synchronizer from '../../Chart/Synchronizer'
+import { useChartColors } from '../../Chart/colors'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './index.module.scss'
 
@@ -143,6 +145,8 @@ const Canvas = ({
             onEmptyResult={() => setIsICOPriceDisabled(true)}
           />
         )}
+        <LastDayPrice settings={settings} metrics={metrics} />
+        <Signals {...settings} metrics={metrics} />
       </Chart>
 
       {isBlurred && (

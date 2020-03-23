@@ -1,12 +1,12 @@
-import { Metrics } from '../data'
+import { Metric } from '../dataHub/metrics'
 import {
   getDateFormats,
   getTimeFormats,
   ONE_DAY_IN_MS
-} from '../../../utils/dates'
-import { millify } from '../../../utils/formatting'
+} from '../../utils/dates'
+import { millify } from '../../utils/formatting'
 
-const DEFAULT_DOMAIN_METRIC_KEYS = [Metrics.historyTwitterData.key]
+const DEFAULT_DOMAIN_METRIC_KEYS = [Metric.twitter_followers.key]
 const DAY_INTERVAL = ONE_DAY_IN_MS * 2
 
 export function isDayInterval (chart) {
@@ -56,7 +56,7 @@ export function yBubbleFormatter (value) {
 }
 
 export const findTooltipMetric = metrics =>
-  (metrics.includes(Metrics.price_usd) && Metrics.price_usd) ||
+  (metrics.includes(Metric.price_usd) && Metric.price_usd) ||
   metrics.find(({ node }) => node === 'line') ||
   metrics[0]
 
@@ -76,8 +76,8 @@ export function domainModifier (metricKey, minMax) {
 
   let { min, max } = minMax
 
-  const Metric = Metrics[metricKey]
-  if (Metric && Metric.node === 'bar') {
+  const metric = Metric[metricKey]
+  if (metric && metric.node === 'bar') {
     max *= 1.1
     min = 0
   } else {

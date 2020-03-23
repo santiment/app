@@ -6,6 +6,8 @@ import Explanations from './Explanations'
 import MetricInsights from './MetricInsight/MetricInsights'
 import DataInfo from './DataInfo'
 import MetricIcon from '../../../SANCharts/MetricIcon'
+import { Description } from '../../../dataHub/metrics/descriptions'
+import { Insights } from '../../../dataHub/metrics/insights'
 import styles from './index.module.scss'
 
 const OPTIONS = []
@@ -16,14 +18,16 @@ const dropdownClasses = {
 }
 
 export function filterExplainableMetrics (metrics) {
-  return metrics.filter(({ description, insights }) => description || insights)
+  return metrics.filter(
+    ({ key, insights }) => Description[key] || Insights[key]
+  )
 }
 
 function dedupMetrics (metrics) {
   const dups = new Set()
 
-  return metrics.filter(metric => {
-    const { description } = metric
+  return metrics.filter(({ key }) => {
+    const description = Description[key]
     return dups.has(description) ? false : dups.add(description)
   })
 }
@@ -86,13 +90,13 @@ const MetricsExplanation = ({ metrics, MetricColor, onClose, ...rest }) => {
           onSelect={setSelected}
         />
         <DataInfo {...rest} metric={metric} />
-        {description && (
+        {Description[metric.key] && (
           <>
             <div className={styles.subtitle}>Description</div>
-            <div className={styles.text}>{description}</div>
+            <div className={styles.text}>{Description[metric.key]}</div>
           </>
         )}
-        {metric.insights && <MetricInsights insights={insights} />}
+        <MetricInsights insights={Insights[metric.key]} />
         <Explanations {...rest} metric={metric} />
       </div>
     </>

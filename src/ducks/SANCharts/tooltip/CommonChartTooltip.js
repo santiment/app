@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { tooltipLabelFormatter, tooltipValueFormatter } from '../utils'
-import { tooltipSettings } from '../data'
+import { TooltipSetting } from '../../dataHub/tooltipSettings'
 import styles from './CommonChartTooltip.module.scss'
 
 const ChartTooltip = ({
@@ -35,7 +35,7 @@ const ChartTooltip = ({
         <div className={styles.content}>
           {payload.map(
             ({ key, dataKey = key, value, color, name, formatter }) => {
-              const foundedSettings = tooltipSettings[key] || {}
+              const foundedSettings = TooltipSetting[key] || {}
               return (
                 <div
                   key={dataKey}

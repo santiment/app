@@ -6,9 +6,9 @@ import {
   buildDAASignal,
   buildDAAPercentUpDownSignal
 } from '../../../Signals/utils/utils'
-import { Metrics } from '../../../SANCharts/data'
+import { Metric } from '../../../dataHub/metrics'
 
-const { formatter } = Metrics.daily_active_addresses
+const { formatter } = Metric.daily_active_addresses
 
 const SIGNAL_BELOW = 'BELOW'
 const SIGNAL_ABOVE = 'ABOVE'

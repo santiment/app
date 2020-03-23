@@ -1,14 +1,18 @@
 import { stringify, parse } from 'query-string'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS } from './defaults'
-import { Events, Metrics, compatabilityMap } from '../SANCharts/data'
 import { buildCompareKey } from './Compare/utils'
+import { Event } from '../dataHub/events'
+import { Metric } from '../dataHub/metrics'
+import { Submetrics } from '../dataHub/submetrics'
+import { CompatibleMetric } from '../dataHub/metrics/compatibility'
 
-const { trendPositionHistory } = Events
+const { trendPositionHistory } = Event
 
 const COMPARE_CONNECTOR = '-CC-'
 const getMetricsKeys = metrics => metrics.map(({ key }) => key)
 const toArray = keys => (typeof keys === 'string' ? [keys] : keys)
-const convertKeyToMetric = (key, dict) => dict[key] || compatabilityMap[key]
+const convertKeyToMetric = (key, dict) =>
+  dict[key] || CompatibleMetric[key] || searchFromSubmetrics(key)
 
 const reduceStateKeys = (State, Data) =>
   Object.keys(State).reduce((acc, key) => {
@@ -24,6 +28,13 @@ const convertKeysToMetrics = (keys, dict) =>
   toArray(keys)
     .filter(Boolean)
     .map(key => convertKeyToMetric(key, dict))
+
+function searchFromSubmetrics (key) {
+  for (let list of Object.values(Submetrics)) {
+    const found = list.find(({ key: subMetricKey }) => subMetricKey === key)
+    if (found) return found
+  }
+}
 
 function shareComparable (Comparable) {
   const { project, metric } = Comparable
@@ -58,7 +69,7 @@ function parseSharedComparables (comparables) {
 
   return arr.map(shared => {
     const [slug, ticker, metricKey] = shared.split(COMPARE_CONNECTOR)
-    const metric = convertKeyToMetric(metricKey, Metrics)
+    const metric = convertKeyToMetric(metricKey, Metric)
 
     if (!metric) return undefined
 
@@ -103,8 +114,8 @@ export function parseUrl () {
   return {
     settings: reduceStateKeys(DEFAULT_SETTINGS, data),
     options: reduceStateKeys(DEFAULT_OPTIONS, data),
-    metrics: sanitize(convertKeysToMetrics(data.metrics, Metrics)),
-    events: sanitize(convertKeysToMetrics(data.events, Events)),
+    metrics: sanitize(convertKeysToMetrics(data.metrics, Metric)),
+    events: sanitize(convertKeysToMetrics(data.events, Event)),
     comparables: sanitize(parseSharedComparables(data.comparables))
   }
 }

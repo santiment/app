@@ -11,7 +11,7 @@ import {
 } from '../page/HistoricalBalancePage'
 import { mapStateToQS } from '../../../utils/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
-import { Metrics } from '../../SANCharts/data'
+import { Metric } from '../../dataHub/metrics'
 import PageLoader from '../../../components/Loader/PageLoader'
 import BalanceViewWalletAssets from './BalanceViewWalletAssets'
 import { Area } from 'recharts'
@@ -25,10 +25,9 @@ const LoadableChartSettings = Loadable({
 
 const DEFAULT_TIME_RANGE = '6m'
 const INTERVAL = '1d'
-const PRICE_METRIC = 'price_usd'
 const CHART_PRICE_METRIC = {
-  ...Metrics[PRICE_METRIC],
-  type: PRICE_METRIC,
+  ...Metric.price_usd,
+  type: 'price_usd',
   node: 'area',
   Component: Area,
   opacity: 0.25

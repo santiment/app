@@ -5,11 +5,13 @@ import cx from 'classnames'
 import Loadable from 'react-loadable'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
-import Chart from './Chart'
-import Synchronizer, { getSyncedColors } from './Chart/Synchronizer'
+import Chart from '../Chart'
+import Synchronizer, { getSyncedColors } from '../Chart/Synchronizer'
 import Header from './Header'
 import { getMarketSegment, mapDatetimeToNumber } from './utils'
-import { Metrics, Events, compatabilityMap, ASSETS_SIDEBAR } from './data'
+import { CompatibleMetric } from '../dataHub/metrics/compatibility'
+import { Metric } from '../dataHub/metrics'
+import { Event } from '../dataHub/events'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import GA from './../../utils/tracking'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
@@ -32,7 +34,7 @@ const DEFAULT_STATE = {
   from: FROM.toISOString(),
   to: TO.toISOString(),
   slug: 'santiment',
-  metrics: [Metrics.price_usd],
+  metrics: [Metric.price_usd],
   title: 'Santiment (SAN)',
   projectId: '16912',
   interval: getNewInterval(FROM, TO),
@@ -65,10 +67,10 @@ const mapPassedState = state => {
   const { metrics, events, marketSegments } = state
   if (metrics) {
     state.metrics = metrics.map(
-      metric => Metrics[metric] || compatabilityMap[metric]
+      metric => Metric[metric] || CompatibleMetric[metric]
     )
   }
-  if (events) state.events = events.map(event => Events[event])
+  if (events) state.events = events.map(event => Event[event])
   if (marketSegments) {
     state.marketSegments = marketSegments.map(getMarketSegment)
   }
@@ -256,7 +258,7 @@ class ChartPage extends Component {
         const metricsAmount = state.metrics.length + state.marketSegments.length
         if (
           metricsAmount >= MAX_METRICS_PER_CHART &&
-          metric !== Events.trendPositionHistory
+          metric !== Event.trendPositionHistory
         ) {
           return state
         }
@@ -433,9 +435,9 @@ class ChartPage extends Component {
       let resInterval = selectedInterval
       if (
         selectedIntervalIndex < 1 &&
-        metric !== Metrics.price_usd &&
-        metric !== Metrics.volume_usd &&
-        metric !== Metrics.marketcap_usd
+        metric !== Metric.price_usd &&
+        metric !== Metric.volume_usd &&
+        metric !== Metric.marketcap_usd
       ) {
         resInterval = '1h'
       }
@@ -634,7 +636,6 @@ class ChartPage extends Component {
                     isWideChart={isWideChart}
                     onSlugSelect={this.onSlugSelect}
                     onSidebarToggleClick={this.onSidebarToggleClick}
-                    isAdvancedView={isAdvancedView === ASSETS_SIDEBAR}
                     classes={classes}
                   />
                 )}

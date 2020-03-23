@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import { Metrics } from '../../data'
+import { Metric } from '../../dataHub/metrics'
 
-const ALERT_METRICS = [Metrics.price_usd, Metrics.daily_active_addresses]
+const ALERT_METRICS = [Metric.price_usd, Metric.daily_active_addresses]
 
 const alertMetricsFilter = metric => ALERT_METRICS.includes(metric)
 

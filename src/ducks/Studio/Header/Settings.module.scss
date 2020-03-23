@@ -5,4 +5,33 @@
 
 .calendar {
   margin: 0 16px;
+  min-width: 167px;
+}
+
+.selector > div {
+  padding: 6px;
+  margin-left: 4px;
+  width: 32px;
+
+  &:first-child {
+    margin: 0;
+  }
+
+  &::before {
+    top: 0;
+    left: 0 !important;
+    bottom: 0;
+  }
+}
+
+.domain {
+  display: flex;
+  align-items: center;
+  user-select: none;
+  cursor: pointer;
+  margin: 0 4px;
+
+  &__toggle {
+    margin-left: 8px;
+  }
 }

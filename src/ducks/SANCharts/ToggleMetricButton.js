@@ -62,7 +62,7 @@ const ToggleMetricButton = ({
         )}{' '}
         {label}
       </div>
-      <MetricExplanation {...metric} isComplexityError={isComplexityError}>
+      <MetricExplanation metric={metric} isComplexityError={isComplexityError}>
         <Icon type='info-round' className={styles.info} />
       </MetricExplanation>
     </Button>

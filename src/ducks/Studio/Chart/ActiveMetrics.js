@@ -4,10 +4,10 @@ import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import MetricExplanation from '../../SANCharts/MetricExplanation'
 import MetricIcon from '../../SANCharts/MetricIcon'
-import { Events } from '../../SANCharts/data'
+import { Event } from '../../dataHub/events'
 import styles from './ActiveMetrics.module.scss'
 
-const { trendPositionHistory } = Events
+const { trendPositionHistory } = Event
 
 const MetricButton = ({
   className,
@@ -18,19 +18,11 @@ const MetricButton = ({
   toggleMetric,
   ...rest
 }) => {
-  const {
-    key,
-    dataKey = key,
-    node,
-    label,
-    description,
-    comparedTicker
-  } = metric
+  const { key, dataKey = key, node, label, comparedTicker } = metric
 
   return (
     <MetricExplanation
-      label={label}
-      description={description}
+      metric={metric}
       withChildren
       closeTimeout={22}
       offsetX={8}

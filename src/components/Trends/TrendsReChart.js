@@ -87,7 +87,9 @@ const TrendsReChart = ({
   isDesktop
 }) => {
   const [disabledToggles, setDisabledToggles] = useToggles(toggleCharts)
-  const [showDominance, setShowDominance] = useState(false)
+
+  const savedToggleState = !!localStorage.getItem('SOCIAL_DOMINANCE_TOGGLE')
+  const [showDominance, setShowDominance] = useState(savedToggleState)
 
   return (
     <div>
@@ -139,7 +141,6 @@ const TrendsReChart = ({
                     name={entity.name}
                     stroke={`var(--${entity.color})`}
                     isAnimationActive={false}
-                    activeDot={false}
                   />
                   {showDominance && key === 0 && (
                     <Line
@@ -151,7 +152,6 @@ const TrendsReChart = ({
                       name={'Social Dominance'}
                       stroke='var(--texas-rose)'
                       isAnimationActive={false}
-                      activeDot={false}
                     />
                   )}
                   <Line
@@ -159,7 +159,6 @@ const TrendsReChart = ({
                     yAxisId='axis-price'
                     name={asset + '/USD'}
                     dot={false}
-                    activeDot={false}
                     strokeWidth={1.5}
                     dataKey='price_usd'
                     stroke='var(--mystic)'
@@ -183,7 +182,15 @@ const TrendsReChart = ({
                 <SocialDominanceToggle
                   className={styles.dominance}
                   isActive={showDominance}
-                  toggleDominance={() => setShowDominance(!showDominance)}
+                  toggleDominance={() => {
+                    const newState = !showDominance
+                    setShowDominance(newState)
+                    if (newState) {
+                      localStorage.setItem('SOCIAL_DOMINANCE_TOGGLE', '+')
+                    } else {
+                      localStorage.removeItem('SOCIAL_DOMINANCE_TOGGLE')
+                    }
+                  }}
                 />
               )}
             </div>
@@ -242,10 +249,10 @@ export const addTotal = (
 }
 
 const addSocialDominance = (wordData, totalData) =>
-  wordData.map((item, idx) => {
-    const totalItem = totalData[idx]
+  wordData.map((item = {}, idx) => {
+    const totalItem = totalData[idx] || {}
     const dominance = (item.total * 100) / totalItem.total
-    return { dominance, ...item }
+    return { dominance: isNaN(dominance) ? 0 : dominance, ...item }
   })
 
 const getTimeseries = (sourceName, trends, key = 'sources') =>

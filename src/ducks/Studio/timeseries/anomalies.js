@@ -1,5 +1,6 @@
 import gql from 'graphql-tag'
-import { Metrics, tooltipSettings } from '../../SANCharts/data'
+import { Metric } from '../../dataHub/metrics'
+import { TooltipSetting } from '../../dataHub/tooltipSettings'
 import { persimmon } from '@santiment-network/ui/variables.scss'
 
 export const OLD_ANOMALY_QUERY = gql`
@@ -45,8 +46,8 @@ export const AnomalyFetcher = {
       getAnomaly: { timeseriesData }
     }
   }) => {
-    const metric = key.replace('_anomaly', '')
-    const { label: value, dataKey = key } = Metrics[metric]
+    const metricKey = key.replace('_anomaly', '')
+    const { label: value, dataKey = metricKey } = Metric[metricKey]
 
     return timeseriesData.map(({ datetime }) => ({
       key,
@@ -60,8 +61,8 @@ export const AnomalyFetcher = {
 
 export const OldAnomalyFetcher = {
   query: OLD_ANOMALY_QUERY,
-  preTransform: metric => ({ data: { metricAnomaly } }) => {
-    const { key, dataKey = key, label: value } = Metrics[metric]
+  preTransform: metricKey => ({ data: { metricAnomaly } }) => {
+    const { key, dataKey = key, label: value } = Metric[metricKey]
 
     return metricAnomaly.map(({ datetime }) => ({
       datetime,
@@ -74,7 +75,7 @@ export const OldAnomalyFetcher = {
 }
 
 ANOMALIES.forEach(anomaly => {
-  tooltipSettings[anomaly + '_anomaly'] = {
+  TooltipSetting[anomaly + '_anomaly'] = {
     label: 'Anomaly',
     formatter: v => v
   }

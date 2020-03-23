@@ -6,9 +6,9 @@ import {
   buildPriceSignal,
   buildPricePercentUpDownSignal
 } from '../../../Signals/utils/utils'
-import { Metrics } from '../../../SANCharts/data'
+import { Metric } from '../../../dataHub/metrics'
 
-const { formatter } = Metrics.price_usd
+const { formatter } = Metric.price_usd
 
 const SIGNAL_BELOW = 'BELOW'
 const SIGNAL_ABOVE = 'ABOVE'
