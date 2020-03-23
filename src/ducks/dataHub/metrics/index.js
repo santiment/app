@@ -51,7 +51,7 @@ export const Metric = {
     shortLabel: 'Soc. Volume',
     anomalyKey: 'SOCIAL_VOLUME',
     advancedView: 'Social Context',
-    supportTextSelector: true
+    extraSelector: 'text'
   },
   age_destroyed: {
     category: 'On-chain',
@@ -169,7 +169,7 @@ export const Metric = {
     label: 'Social Dominance',
     shortLabel: 'Soc. Domin.',
     formatter: persentageFormatter,
-    supportTextSelector: true
+    extraSelector: 'text'
   },
   realized_value_usd: {
     category: 'On-chain',

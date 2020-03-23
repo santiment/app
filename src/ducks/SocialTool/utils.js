@@ -1,4 +1,4 @@
 export const buildTextSelectorMetric = ({ metric, text }) =>
-  metric.supportTextSelector
+  metric.extraSelector === 'text'
     ? Object.assign(Object.create(null), { ...metric, reqMeta: { text } })
     : metric
