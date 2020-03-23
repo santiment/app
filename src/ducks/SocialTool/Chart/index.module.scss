@@ -1,0 +1,55 @@
+.wrapper {
+  position: relative;
+  margin-top: 13px;
+
+  &_explained {
+    padding-right: 340px !important;
+  }
+
+  &:first-child {
+    margin: 0;
+  }
+}
+
+.top {
+  display: flex;
+  margin-bottom: 16px;
+  justify-content: space-between;
+}
+
+.metrics {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: -4px;
+}
+
+.metric {
+  margin-bottom: 4px;
+}
+
+.meta {
+  display: flex;
+}
+
+.restriction {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  font-size: 22px;
+
+  &__link {
+    color: var(--jungle-green);
+    margin-right: 5px;
+    text-decoration: underline;
+
+    &:hover {
+      color: var(--jungle-green-hover);
+    }
+  }
+}

@@ -1,12 +1,10 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import cx from 'classnames'
-import Selector from '@santiment-network/ui/Selector/Selector'
+import SocialTool from '../../ducks/SocialTool'
 import TrendsExploreSearch from '../../components/Trends/Explore/TrendsExploreSearch'
 import Trends from '../../components/Trends/Trends'
 import WordCloud from './../../components/WordCloud/WordCloud'
-import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
-import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { safeDecode } from '../../utils/utils'
 import { addRecentTrends } from '../../utils/recent'
 import styles from './index.module.scss'
@@ -38,7 +36,7 @@ const TrendsExplore = ({ match = { params: {} }, history, isDesktop }) => {
               />
             )}
           </div>
-          {/* <SocialTool settings={{ text: topic }} /> */}
+          <SocialTool settings={{ text: topic }} />
         </div>
         <div className={styles.sidebar}>
           <WordCloud className={styles.cloud} word={topic} />
