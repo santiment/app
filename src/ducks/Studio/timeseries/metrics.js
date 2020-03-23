@@ -1,6 +1,26 @@
 import gql from 'graphql-tag'
 
-export const GET_METRIC = ({ key, queryKey = key }) => gql`
+export const GET_METRIC = ({ key, queryKey = key, reqMeta = {} }) => {
+  const { text } = reqMeta
+
+  return text
+    ? gql`
+  query getMetric(
+    $text: String!
+    $from: DateTime!
+    $to: DateTime!
+    $interval: interval
+    $transform: TimeseriesMetricTransformInputObject
+  ) {
+    getMetric(metric: "${queryKey}") {
+      timeseriesData(selector: { text: $text}, from: $from, to: $to, interval: $interval, transform: $transform) {
+        datetime
+        ${key}: value
+      }
+    }
+  }
+`
+    : gql`
   query getMetric(
     $slug: String!
     $from: DateTime!
@@ -16,6 +36,7 @@ export const GET_METRIC = ({ key, queryKey = key }) => gql`
     }
   }
 `
+}
 
 // Available metrics could be fetched via "getAvailableMetrics" query
 export const METRICS = [

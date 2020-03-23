@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import cx from 'classnames'
 import SocialToolChart from './Chart'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
+import { buildTextSelectorMetric } from './utils'
 import { useTimeseries } from '../Studio/timeseries/hooks'
 import styles from './index.module.scss'
 
@@ -12,10 +13,14 @@ const SocialTool = ({
   classes = {},
   ...props
 }) => {
+  const test = defaultMetrics.map(metric =>
+    buildTextSelectorMetric({ metric, text: defaultSettings.text })
+  )
+
   const [settings, setSettings] = useState(defaultSettings)
   const [options, setOptions] = useState(defaultOptions)
-  const [metrics, setMetrics] = useState(defaultMetrics)
-  const [activeMetrics, setActiveMetrics] = useState(defaultMetrics)
+  const [metrics, setMetrics] = useState(test)
+  const [activeMetrics, setActiveMetrics] = useState(test)
   const [data, loadings] = useTimeseries(activeMetrics, settings)
   const chartRef = useRef(null)
 
