@@ -3,7 +3,7 @@
 .title {
   color: var(--rhino);
 
-  @include text('body-2');
+  @include text('body-3');
 }
 
 .author {
@@ -16,7 +16,7 @@
 .card {
   display: flex;
   flex-direction: column;
-  margin: 0 24px 32px;
+  margin-top: 8px;
   min-width: 100%;
 }
 

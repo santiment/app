@@ -1,8 +1,7 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import cx from 'classnames'
-import { noTrendTagsFilter } from '../../../../../components/Insight/utils'
 import Panel from '@santiment-network/ui/Panel'
-import MarketcapChangeWidget from '../../../../../components/PostVisualBacktest'
 import MultilineText from '../../../../../components/MultilineText/MultilineText'
 import { makeLinkToInsight } from '../../../../../components/Insight/InsightCardInternals'
 import externalStyles from '../../../../../components/Insight/InsightCard.module.scss'
@@ -10,17 +9,10 @@ import styles from './MetricInsightCard.module.scss'
 
 const MetricInsightCard = ({ insight }) => {
   const {
-    createdAt,
-    updatedAt,
-    publishedAt,
     id,
     title,
-    tags = [],
-    user: { username: authorName }
+    user: { id: authorId, username: authorName }
   } = insight
-
-  const filteredTags = tags.filter(noTrendTagsFilter)
-  const firstTag = filteredTags[0]
 
   const linkToInsight = makeLinkToInsight(id, title)
 
@@ -36,17 +28,9 @@ const MetricInsightCard = ({ insight }) => {
         <MultilineText maxLines={2} id='insightCardTitle' text={title} />
       </a>
 
-      <div className={styles.author}>by {authorName}</div>
-
-      {firstTag && (
-        <MarketcapChangeWidget
-          from={createdAt}
-          ticker={firstTag.name.toUpperCase()}
-          updatedAt={updatedAt}
-          publishedAt={publishedAt || updatedAt}
-          className={styles.widget}
-        />
-      )}
+      <Link to={'/profile/' + authorId} className={styles.author}>
+        by {authorName}
+      </Link>
     </Panel>
   )
 }

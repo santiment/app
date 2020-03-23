@@ -12,21 +12,24 @@ const MetricInsights = ({ insights = [] }) => {
   }
 
   return (
-    <div className={styles.container}>
-      {insights.map(id => {
-        return (
-          <Query query={INSIGHT_BY_ID_QUERY} variables={{ id }} key={id}>
-            {({ data: { insight } = {}, loading }) => {
-              if (loading) {
-                return <Loader className={styles.loader} />
-              }
+    <>
+      <div className={styles.usecases}>Use cases from Insights</div>
+      <div className={styles.container}>
+        {insights.map(id => {
+          return (
+            <Query query={INSIGHT_BY_ID_QUERY} variables={{ id }} key={id}>
+              {({ data: { insight } = {}, loading }) => {
+                if (loading) {
+                  return <Loader className={styles.loader} />
+                }
 
-              return <MetricInsightCard insight={insight} />
-            }}
-          </Query>
-        )
-      })}
-    </div>
+                return <MetricInsightCard insight={insight} />
+              }}
+            </Query>
+          )
+        })}
+      </div>
+    </>
   )
 }
 

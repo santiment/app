@@ -94,8 +94,8 @@ const MetricsExplanation = ({ metrics, MetricColor, onClose, ...rest }) => {
             <div className={styles.text}>{Description[metric.key]}</div>
           </>
         )}
-        <MetricInsights insights={Insights[metric.key]} />
         <Explanations {...rest} metric={metric} />
+        <MetricInsights insights={Insights[metric.key]} />
       </div>
     </>
   )
