@@ -94,7 +94,7 @@ const LoadableTrendsLabsPage = Loadable({
 })
 
 const LoadableTrendsExplorePage = Loadable({
-  loader: () => import('./pages/Trends/TrendsExplorePage'),
+  loader: () => import('./pages/TrendsExplore'),
   loading: () => <PageLoader />
 })
 

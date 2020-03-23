@@ -5,9 +5,9 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import styles from './WidgetTrend.module.scss'
 
 const Message = {
-  initial: 'Choose any word to see its social context',
+  initial: 'Select a word',
   isLoading: 'Loading...',
-  hasNoData: 'No data in last 48 hours...'
+  hasNoData: 'No data in last 2 days'
 }
 
 const getMessage = ({ initial, isLoading, hasNoData }) => {

@@ -102,7 +102,7 @@ export default ({ match: { params }, history }) => {
     <StudioPage
       settings={{ slug }}
       topSlot={<TopSlot label={slug} />}
-      bottomSlot={<BottomSlot isNewsEnabled slug={slug} />}
+      bottomSlot={<BottomSlot slug={slug} />}
       onSlugChange={onSlugChange}
       classes={styles}
       metrics={DEFAULT_METRICS}

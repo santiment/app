@@ -7,8 +7,8 @@ $top: 22px;
   font-style: normal;
   font-weight: normal;
   line-height: 20px;
-  text-align: right !important;
   color: var(--casper);
+  width: auto !important;
 }
 
 .score {
@@ -26,22 +26,6 @@ $top: 22px;
   right: -22px;
   font-size: 10px;
   font-weight: 600;
-}
-
-.hint {
-  margin-top: 8px;
-  margin-left: 14px;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 20px;
-  font-size: 14px;
-  color: var(--grey-dark-2);
-  display: flex;
-  align-items: center;
-}
-
-.hint strong {
-  color: var(--black);
 }
 
 .heading {

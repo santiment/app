@@ -1,0 +1,90 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  margin: 0;
+
+  @include responsive('desktop') {
+    max-width: 100% !important;
+  }
+
+  @include responsive('desktop', 'laptop', 'tablet') {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+
+  @include responsive('phone-xs', 'phone') {
+    margin: 0 16px;
+    width: auto;
+  }
+}
+
+.layout {
+  display: flex;
+  width: 100%;
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    flex-direction: column;
+  }
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  max-width: 100%;
+}
+
+.sidebar {
+  position: sticky;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+
+  @include responsive('laptop', 'desktop') {
+    top: 0;
+    margin-top: -22px;
+    flex-direction: column;
+    max-width: 368px;
+    width: 32vw;
+    margin-left: 24px;
+    border-left: 1px solid var(--porcelain);
+    padding: 22px 24px 0;
+    height: calc(100vh - 100px);
+    overflow: hidden;
+
+    &:hover {
+      overflow-y: auto;
+      overflow-y: overlay;
+    }
+  }
+
+  @include responsive('phone-xs', 'phone') {
+    flex-direction: column;
+    position: relative;
+  }
+}
+
+.search {
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
+  }
+}
+
+.trends {
+  margin-top: 20px;
+
+  @include responsive('tablet') {
+    margin-top: 0;
+    margin-left: 50px;
+  }
+}
+
+.cloud {
+  min-width: 281px;
+  height: 190px;
+
+  @include responsive('tablet') {
+    height: auto !important;
+  }
+}
