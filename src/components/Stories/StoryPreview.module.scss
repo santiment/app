@@ -52,7 +52,7 @@
 .title {
   color: var(--rhino);
 
-  @include text('body-3', 'm');
+  @include text('body-3');
 }
 
 .newTitle {
