@@ -76,8 +76,6 @@ const MetricsExplanation = ({ metrics, MetricColor, onClose, ...rest }) => {
   const { metric } = selected || {}
   if (!metric) return null
 
-  const { description, insights } = metric
-
   return (
     <>
       <CloseButton onClick={onClose} />
