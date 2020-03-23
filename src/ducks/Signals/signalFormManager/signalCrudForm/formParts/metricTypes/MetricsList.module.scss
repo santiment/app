@@ -1,0 +1,21 @@
+@import '~@santiment-network/ui/mixins';
+
+.title {
+  background: var(--athens);
+  color: var(--rhino);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  border-radius: $border-radius;
+
+  &:hover {
+    color: var(--jungle-green-hover);
+    fill: var(--jungle-green-hover);
+  }
+}
+
+.container {
+  margin-top: 8px;
+}

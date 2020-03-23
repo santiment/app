@@ -15,6 +15,9 @@ import {
   PRICE_VOLUME_DIFFERENCE,
   TRENDING_WORDS
 } from '../../../../utils/constants'
+import { getCategoryGraph } from '../../../../../Studio/Sidebar/utils'
+import { Metric } from '../../../../../dataHub/metrics'
+import MetricsList from './MetricsList'
 import styles from '../../signal/TriggerForm.module.scss'
 import metricStyles from './TriggerFormMetricTypes.module.scss'
 
@@ -65,6 +68,9 @@ export const TriggerFormMetricTypes = ({
     setOpen(false)
   }
 
+  const categories = getCategoryGraph(Object.values(Metric), [])
+  const categoriesKeys = Object.keys(categories)
+
   return (
     <div className={styles.row}>
       <Dialog
@@ -94,6 +100,26 @@ export const TriggerFormMetricTypes = ({
               </div>
             ))}
           </div>
+
+          <div className={metricStyles.choose}>
+            <div className={metricStyles.chooseText}>
+              or choose from the group of metrics
+            </div>
+            <div className={metricStyles.divider} />
+          </div>
+
+          <div className={metricStyles.metrics}>
+            {categoriesKeys.map(key => {
+              return (
+                <MetricsList
+                  key={key}
+                  metrikKey={key}
+                  list={categories[key]}
+                  onSelect={onSelectMetric}
+                />
+              )
+            })}
+          </div>
         </Dialog.ScrollContent>
       </Dialog>
     </div>
@@ -108,12 +134,7 @@ const iconMaps = {
   [ETH_WALLET]: historicalBalanceSvg
 }
 
-const MetricTypeRenderer = ({
-  values: { type } = {},
-  metric = {},
-  onClick,
-  showLabel = true
-}) => {
+const MetricTypeRenderer = ({ metric = {}, onClick, showLabel = true }) => {
   const { label, value, description } = metric
   return (
     <div onClick={() => onClick(metric)} className={metricStyles.metric}>

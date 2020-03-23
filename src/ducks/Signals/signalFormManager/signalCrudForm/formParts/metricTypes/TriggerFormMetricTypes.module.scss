@@ -47,6 +47,10 @@
   }
 }
 
+.metrics {
+  padding: 16px 24px;
+}
+
 .icon {
   width: 30px;
   height: 30px;
@@ -83,7 +87,7 @@
 }
 
 .metricsHeader {
-  padding: 0 20px 20px;
+  padding: 0 24px 24px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -91,7 +95,7 @@
 }
 
 .content {
-  padding: 0 20px 20px;
+  padding: 0 24px 24px;
 
   @include responsive('phone', 'phone-xs') {
     padding-top: 20px;
@@ -115,4 +119,28 @@
   @include text('caption');
 
   color: var(--waterloo);
+}
+
+.choose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.chooseText {
+  background: var(--white);
+  padding: 0 12px;
+  z-index: 10;
+  color: var(--waterloo);
+
+  @include text('caption');
+}
+
+.divider {
+  position: absolute;
+  top: 7px;
+  width: 100%;
+  border-bottom: 1px solid var(--porcelain);
+  margin: 0 24px;
 }
