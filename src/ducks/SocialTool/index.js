@@ -26,9 +26,22 @@ const SocialTool = ({
 
   useEffect(
     () => {
-      setActiveMetrics(metrics)
+      const updatedMetrics = metrics.map(metric =>
+        buildTextSelectorMetric({ metric, text: settings.text })
+      )
+      setActiveMetrics(updatedMetrics)
     },
-    [metrics]
+    [metrics, defaultSettings.text]
+  )
+
+  useEffect(
+    () => {
+      const { text } = defaultSettings
+      if (text && text !== settings.text) {
+        setSettings(state => ({ ...state, text }))
+      }
+    },
+    [defaultSettings.text]
   )
 
   return (
