@@ -2,9 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import Panel from '@santiment-network/ui/Panel'
-import MultilineText from '../../../../../components/MultilineText/MultilineText'
-import { makeLinkToInsight } from '../../../../../components/Insight/InsightCardInternals'
-import externalStyles from '../../../../../components/Insight/InsightCard.module.scss'
+import MultilineText from '../MultilineText/MultilineText'
+import { makeLinkToInsight } from '../Insight/InsightCardInternals'
+import externalStyles from '../Insight/InsightCard.module.scss'
 import styles from './MetricInsightCard.module.scss'
 
 const MetricInsightCard = ({ insight }) => {

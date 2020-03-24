@@ -1,9 +1,8 @@
 import React from 'react'
 import { Query } from 'react-apollo'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import { INSIGHT_BY_ID_QUERY } from '../../../../../queries/InsightsGQL'
+import { INSIGHT_BY_ID_QUERY } from '../../queries/InsightsGQL'
 import MetricInsightCard from './MetricInsightCard'
-
 import styles from './MetricInsights.module.scss'
 
 const MetricInsights = ({ insights = [] }) => {
