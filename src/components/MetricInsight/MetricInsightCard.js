@@ -6,7 +6,6 @@ import MultilineText from '../MultilineText/MultilineText'
 import { makeLinkToInsight } from '../Insight/InsightCardInternals'
 import externalStyles from '../Insight/InsightCard.module.scss'
 import styles from './MetricInsightCard.module.scss'
-import Button from '@santiment-network/ui/Button'
 
 const MetricInsightCard = ({ insight }) => {
   if (!insight) {
