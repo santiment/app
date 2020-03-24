@@ -5,21 +5,21 @@ import priceSvg from '../../../../../../assets/signals/price.svg'
 import trendingWordsSvg from '../../../../../../assets/signals/trending_words.svg'
 import daaSvg from '../../../../../../assets/signals/daa.svg'
 import historicalBalanceSvg from '../../../../../../assets/signals/historical_balance.svg'
-import priceVolumeDiffSvg from '../../../../../../assets/signals/pvd.svg'
 import { getNearestTypeByMetric } from '../../../../utils/utils'
 import {
   DAILY_ACTIVE_ADDRESSES,
   ETH_WALLET,
   METRICS_OPTIONS,
   PRICE,
-  PRICE_VOLUME_DIFFERENCE,
   TRENDING_WORDS
 } from '../../../../utils/constants'
 import { getCategoryGraph } from '../../../../../Studio/Sidebar/utils'
 import { Metric } from '../../../../../dataHub/metrics'
 import MetricsList from './MetricsList'
+import Search from './../../../../../Studio/Sidebar/Search'
 import styles from '../../signal/TriggerForm.module.scss'
 import metricStyles from './TriggerFormMetricTypes.module.scss'
+import HelpTooltip from '../../../../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
 
 const propTypes = {
   metric: PropTypes.any,
@@ -83,42 +83,51 @@ export const TriggerFormMetricTypes = ({
         <Dialog.ScrollContent>
           <div className={metricStyles.content}>
             <div className={metricStyles.metricsHeader}>
-              <div className={metricStyles.metricsTitle}>
-                Choose signal type
-              </div>
+              <div className={metricStyles.metricsTitle}>Choose alert type</div>
               <div className={metricStyles.metricsExplanation}>
-                Pick one of the metrics to track market activity
+                Pick one of the most popular metrics
               </div>
             </div>
-            {METRICS_OPTIONS.map(item => (
-              <div className={metricStyles.listItem} key={item.value}>
-                <MetricTypeRenderer
-                  metric={item}
-                  onClick={onSelectMetric}
-                  showLabel={false}
-                />
-              </div>
-            ))}
-          </div>
 
-          <div className={metricStyles.choose}>
-            <div className={metricStyles.chooseText}>
-              or choose from the group of metrics
+            <div className={metricStyles.baseTypes}>
+              {METRICS_OPTIONS.map(item => (
+                <div className={metricStyles.listItem} key={item.value}>
+                  <MetricTypeRenderer
+                    metric={item}
+                    onClick={onSelectMetric}
+                    showLabel={false}
+                  />
+                </div>
+              ))}
             </div>
-            <div className={metricStyles.divider} />
-          </div>
 
-          <div className={metricStyles.metrics}>
-            {categoriesKeys.map(key => {
-              return (
-                <MetricsList
-                  key={key}
-                  metrikKey={key}
-                  list={categories[key]}
-                  onSelect={onSelectMetric}
-                />
-              )
-            })}
+            <div className={metricStyles.choose}>
+              <div className={metricStyles.chooseText}>
+                or choose from the group of metrics
+              </div>
+              <div className={metricStyles.divider} />
+            </div>
+
+            <Search
+              iconPosition='left'
+              placeholder='Search for a Metric'
+              toggleMetric={onSelectMetric}
+              className={metricStyles.search}
+              categories={categories}
+            />
+
+            <div className={metricStyles.metrics}>
+              {categoriesKeys.map(key => {
+                return (
+                  <MetricsList
+                    key={key}
+                    metrikKey={key}
+                    list={categories[key]}
+                    onSelect={onSelectMetric}
+                  />
+                )
+              })}
+            </div>
           </div>
         </Dialog.ScrollContent>
       </Dialog>
@@ -130,7 +139,6 @@ const iconMaps = {
   [PRICE]: priceSvg,
   [TRENDING_WORDS]: trendingWordsSvg,
   [DAILY_ACTIVE_ADDRESSES]: daaSvg,
-  [PRICE_VOLUME_DIFFERENCE]: priceVolumeDiffSvg,
   [ETH_WALLET]: historicalBalanceSvg
 }
 
@@ -147,9 +155,17 @@ const MetricTypeRenderer = ({ metric = {}, onClick, showLabel = true }) => {
       </div>
       <div className={metricStyles.textBlocks}>
         <div className={metricStyles.texts}>
-          <div className={metricStyles.metricType}>{label}</div>
+          <div className={metricStyles.type}>{label}</div>
           {!showLabel && (
-            <div className={metricStyles.metricDescription}>{description}</div>
+            <HelpTooltip
+              withDesc={false}
+              position='bottom'
+              align='start'
+              onAction='onMouseEnter'
+              classes={styles}
+            >
+              {description}
+            </HelpTooltip>
           )}
         </div>
         {showLabel && (

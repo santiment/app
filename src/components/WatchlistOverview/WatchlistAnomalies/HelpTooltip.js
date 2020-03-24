@@ -11,10 +11,11 @@ const HelpTooltip = ({
   note,
   children,
   position = 'top',
-  align = 'end'
+  align = 'end',
+  onAction = 'click'
 }) => (
   <Tooltip
-    on='click'
+    on={onAction}
     className={cx(styles.tooltip, classes.tooltip)}
     position={position}
     align={align}

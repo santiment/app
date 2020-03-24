@@ -19,3 +19,31 @@
 .container {
   margin-top: 8px;
 }
+
+.list {
+  background: var(--white);
+}
+
+.item {
+  display: flex;
+  color: var(--rhino);
+  padding: 4px 16px;
+  cursor: pointer;
+
+  @include text('body-3');
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+.group {
+  color: var(--waterloo);
+  padding: 17px 16px 9px 16px;
+
+  @include text('caption');
+}
+
+.open {
+  background-color: var(--jungle-green-light);
+}
