@@ -22,7 +22,7 @@ const MetricInsights = ({ insights = [] }) => {
                   return <Loader className={styles.loader} />
                 }
 
-                return <MetricInsightCard insight={insight} />
+                return <MetricInsightCard insight={insight} id={id} />
               }}
             </Query>
           )

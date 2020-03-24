@@ -7,9 +7,19 @@ import { makeLinkToInsight } from '../Insight/InsightCardInternals'
 import externalStyles from '../Insight/InsightCard.module.scss'
 import styles from './MetricInsightCard.module.scss'
 
-const MetricInsightCard = ({ insight }) => {
+const MetricInsightCard = ({ insight, id: insightId }) => {
   if (!insight) {
-    return null
+    return (
+      <Panel
+        className={cx(
+          externalStyles.wrapper,
+          externalStyles.wrapper_withMc,
+          styles.card
+        )}
+      >
+        No insight with id {insightId}
+      </Panel>
+    )
   }
 
   const {
