@@ -1,19 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useQuery } from '@apollo/react-hooks'
 import { graphql } from 'react-apollo'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Dropdown from '@santiment-network/ui/Dropdown'
 import { linearScale } from '@santiment-network/chart/scales'
 import { HISTOGRAM_DATA_QUERY } from './gql'
+import Calendar from './Calendar'
 import { millify } from '../../../utils/formatting'
+import { usdFormatter } from '../../SANCharts/utils'
 import styles from './Histogram.module.scss'
 
-const Frame = ({ frame = '<1d', value = '205.8k', ticker = 'BTC', width }) => {
-  console.log(width)
+const chart = {
+  height: 342,
+  top: 0
+}
+
+function rangeFormatter ([from, to]) {
+  return usdFormatter(from) + ' - ' + usdFormatter(to)
+}
+
+const Frame = ({ range, value = '205.8k', ticker = 'BTC', width }) => {
   return (
     <div className={styles.frame}>
       <div className={styles.bar} style={{ width }} />
       <div className={styles.info}>
-        <span className={styles.range}>{frame}: </span>
+        <span className={styles.range}>{rangeFormatter(range)}: </span>
         {millify(value, 1)} {ticker}
       </div>
     </div>
@@ -29,46 +40,53 @@ const TIME = 'Time'
 const VALUE = 'Value'
 const SORTER_OPTIONS = [TIME, VALUE]
 
-const dateSorter = ({ index: a }, { index: b }) => b - a
-const valueSorter = ({ value: a }, { value: b }) => b - a
+const dateSorter = ({ index: a }, { index: b }) => a - b
+const valueSorter = ({ width: a }, { width: b }) => b - a
 
 const Sorter = {
   [TIME]: dateSorter,
   [VALUE]: valueSorter
 }
 
-const Histogram = ({ ticker, loading, distributions }) => {
+const Histogram = ({ title, slug, from, to, ticker, hasSort }) => {
+  const [dates, setDates] = useState()
+  const [data, loading] = useHistogramData({ slug, from, to })
   const [sorter, setSorter] = useState(TIME)
+
+  function onCalendarChange (newDates) {
+    setDates(newDates)
+  }
 
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.title}>
-        Histogram
+        Price movement
         {loading && <Loader className={styles.inlineLoader} />}
+        <Calendar selectRange dates={dates} onChange={onCalendarChange} />
       </h2>
 
-      <div className={styles.sorter}>
-        Sort by
-        <Dropdown
-          selected={sorter}
-          options={SORTER_OPTIONS}
-          classes={dropdownClasses}
-          onSelect={setSorter}
-        />
-      </div>
+      {hasSort && (
+        <div className={styles.sorter}>
+          Sort by
+          <Dropdown
+            selected={sorter}
+            options={SORTER_OPTIONS}
+            classes={dropdownClasses}
+            onSelect={setSorter}
+          />
+        </div>
+      )}
+
       <div className={styles.static}>
         <div className={styles.scroll}>
-          {distributions
-            .sort(Sorter[sorter])
-            .map(({ index, timeFrame, value, width }) => (
-              <Frame
-                key={index}
-                frame={timeFrame}
-                value={value}
-                ticker={ticker}
-                width={width}
-              />
-            ))}
+          {data.sort(Sorter[sorter]).map(({ index, distribution, width }) => (
+            <Frame
+              {...distribution}
+              key={index}
+              ticker={ticker}
+              width={width}
+            />
+          ))}
         </div>
       </div>
     </div>
@@ -79,53 +97,55 @@ Histogram.Icon = 'H'
 
 Histogram.defaultProps = {
   date: Date.now(),
-  interval: '1d',
   slug: 'bitcoin',
   distributions: []
 }
 
-function formatHistogramData ({ values: { data: distributions } }) {
-  let currentFrame = 1
+function formatHistogramData (data) {
+  const { length } = data
 
-  const min = Math.min(...distributions)
-  const max = Math.max(...distributions)
+  let max = 0
 
-  const chart = {
-    height: 342,
-    top: 0
+  for (let i = 0; i < length; i++) {
+    const { value } = data[i]
+    if (value > max) {
+      max = value
+    }
   }
-  const scaler = linearScale(chart, max, min * 0.8)
 
-  return distributions.map((value, index) => {
-    const timeFrame =
-      currentFrame === 1
-        ? `<${currentFrame++}d`
-        : `${currentFrame}d-${++currentFrame}d`
+  const scaler = linearScale(chart, max, 0)
 
+  return data.map((distribution, index) => {
     return {
       index,
-      value,
-      timeFrame,
-      width: scaler(value)
+      distribution,
+      width: scaler(distribution.value)
     }
   })
 }
 
-export default graphql(HISTOGRAM_DATA_QUERY, {
-  options: ({ slug, from, to }) => ({
+function useHistogramData ({ slug, from, to }) {
+  const [histogramData, setHistogramData] = useState([])
+  const { data, loading, error } = useQuery(HISTOGRAM_DATA_QUERY, {
     variables: {
-      interval: '1d',
       slug,
       from,
       to
     }
-  }),
-  props: ({ data: { loading, getMetric } }) => {
-    if (!getMetric) return { loading }
+  })
 
-    return {
-      distributions: formatHistogramData(getMetric.histogramData),
-      loading
-    }
-  }
-})(Histogram)
+  useEffect(
+    () => {
+      if (data) {
+        setHistogramData(
+          formatHistogramData(data.getMetric.histogramData.values.data)
+        )
+      }
+    },
+    [data]
+  )
+
+  return [histogramData, loading]
+}
+
+export default Histogram

@@ -22,7 +22,7 @@ const Main = ({ topSlot, bottomSlot, eventsData, onSlugChange, ...props }) => {
   }
 
   function changeHoveredDate ({ value }) {
-    setHoveredDate(new Date(value))
+    /* setHoveredDate(new Date(value)) */
   }
 
   return (
