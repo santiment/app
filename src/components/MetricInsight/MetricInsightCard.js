@@ -6,6 +6,7 @@ import MultilineText from '../MultilineText/MultilineText'
 import { makeLinkToInsight } from '../Insight/InsightCardInternals'
 import externalStyles from '../Insight/InsightCard.module.scss'
 import styles from './MetricInsightCard.module.scss'
+import Button from '@santiment-network/ui/Button'
 
 const MetricInsightCard = ({ insight }) => {
   if (!insight) {
@@ -28,7 +29,12 @@ const MetricInsightCard = ({ insight }) => {
         styles.card
       )}
     >
-      <a href={linkToInsight} className={styles.title}>
+      <a
+        href={linkToInsight}
+        className={styles.title}
+        target='_blank'
+        rel='noopener noreferrer'
+      >
         <MultilineText maxLines={2} id='insightCardTitle' text={title} />
       </a>
 
