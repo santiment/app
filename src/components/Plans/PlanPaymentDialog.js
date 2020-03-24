@@ -171,7 +171,7 @@ const PaymentDialog = ({
                       if (error) {
                         return Promise.reject(error)
                       }
-                      const variables = { cardToken: token.id, planId }
+                      const variables = { cardToken: token.id, planId: +planId }
 
                       if (coupon) {
                         variables.coupon = coupon
