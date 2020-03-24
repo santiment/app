@@ -8,6 +8,10 @@ import externalStyles from '../Insight/InsightCard.module.scss'
 import styles from './MetricInsightCard.module.scss'
 
 const MetricInsightCard = ({ insight }) => {
+  if (!insight) {
+    return null
+  }
+
   const {
     id,
     title,

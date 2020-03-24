@@ -9,6 +9,7 @@
 .author {
   color: var(--waterloo);
   margin-top: 10px;
+  word-break: break-all;
 
   @include text('body-3');
 }
