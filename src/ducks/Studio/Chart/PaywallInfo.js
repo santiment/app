@@ -94,6 +94,7 @@ const PaywallInfo = ({ boundaries, subscription, metrics }) => {
     infos.length > 0 &&
     checkHasBoundaries(boundaries) && (
       <Tooltip
+        position='bottom'
         trigger={
           <Button className={styles.btn}>
             <Icon className={styles.icon} type='question-round-small' />

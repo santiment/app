@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
@@ -8,6 +8,7 @@ import Synchronizer from '../../Chart/Synchronizer'
 import PaywallInfo from '../../Studio/Chart/PaywallInfo'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import Settings from '../Settings'
+import ChartActiveMetrics from './ActiveMetrics'
 import styles from './index.module.scss'
 
 const Canvas = ({
@@ -25,16 +26,23 @@ const Canvas = ({
   isMultiChartsActive,
   ...props
 }) => {
-  const MetricColor = useChartColors(metrics)
+  const [FocusedMetric, setFocusedMetric] = useState()
+  const MetricColor = useChartColors(metrics, FocusedMetric)
   const scale = options.isLogScale ? logScale : linearScale
+
+  function onMetricHover (Metric) {
+    setFocusedMetric(Metric)
+  }
+
+  function onMetricHoverEnd () {
+    setFocusedMetric()
+  }
 
   return (
     <div className={cx(styles.wrapper, className)}>
       <div className={styles.top}>
         <h3 className={styles.title}>Social volume score</h3>
-        <div className={styles.meta}>
-          <PaywallInfo boundaries={boundaries} metrics={metrics} />
-        </div>
+        <PaywallInfo boundaries={boundaries} metrics={metrics} />
         <Settings
           settings={settings}
           setSettings={setSettings}
@@ -55,6 +63,18 @@ const Canvas = ({
         isMultiChartsActive={isMultiChartsActive}
         resizeDependencies={[isMultiChartsActive]}
       />
+      <div className={styles.bottom}>
+        <div className={styles.metrics}>
+          <ChartActiveMetrics
+            className={styles.metric}
+            MetricColor={MetricColor}
+            activeMetrics={metrics}
+            loadings={loadings}
+            onMetricHover={onMetricHover}
+            onMetricHoverEnd={onMetricHoverEnd}
+          />
+        </div>
+      </div>
     </div>
   )
 }

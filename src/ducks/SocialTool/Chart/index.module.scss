@@ -2,15 +2,6 @@
 
 .wrapper {
   position: relative;
-  margin-top: 13px;
-
-  &_explained {
-    padding-right: 340px !important;
-  }
-
-  &:first-child {
-    margin: 0;
-  }
 }
 
 .top {
@@ -18,47 +9,26 @@
   margin-bottom: 16px;
   justify-content: space-between;
   align-items: center;
+  padding: 0 34px;
+}
+
+.chart {
+  margin: 0 34px;
 }
 
 .title {
   color: var(--waterloo);
+  margin: 0 18px 0 0;
 
   @include text('body-2');
 }
 
-.metrics {
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: -4px;
-}
-
-.metric {
-  margin-bottom: 4px;
-}
-
-.meta {
-  display: flex;
-}
-
-.restriction {
-  position: absolute;
+.bottom {
   display: flex;
   align-items: center;
-  justify-content: center;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-  font-size: 22px;
-
-  &__link {
-    color: var(--jungle-green);
-    margin-right: 5px;
-    text-decoration: underline;
-
-    &:hover {
-      color: var(--jungle-green-hover);
-    }
-  }
+  justify-content: space-between;
+  border-top: 1px solid var(--porcelain);
+  border-bottom: 1px solid var(--porcelain);
+  padding: 24px 34px;
+  margin: 32px 0;
 }
