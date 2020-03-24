@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import { compose, withProps } from 'recompose'
@@ -27,14 +28,17 @@ export const PostVisualBacktest = ({
   changePriceProp,
   history,
   postUpdatedAt,
-  startValue
+  startValue,
+  className
 }) => {
   if (history.loading) {
-    return <div className='post-visual-backtest'>Loading...</div>
+    return (
+      <div className={cx('post-visual-backtest', className)}>Loading...</div>
+    )
   }
   if (!history.historyPrice || !changePriceProp) return null
   return (
-    <div className='post-visual-backtest'>
+    <div className={cx('post-visual-backtest', className)}>
       <div className='post-visual-backtest__info'>
         <div className='post-visual-backtest__changes'>
           {ticker} {uncapitalizeStr(changeProp)} since publication
