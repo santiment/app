@@ -21,11 +21,11 @@ const TIMERANGE_OPTIONS = ['1D', '1W', '1M', '3M', '6M', '1Y', 'ALL']
 const { to: MAX_DATE } = getTimeIntervalFromToday(0, DAY)
 
 export default ({
-  settings,
-  options,
-  comparables,
-  setOptions,
-  setSettings,
+  settings = {},
+  options = {},
+  comparables = [],
+  setOptions = () => {},
+  setSettings = () => {},
   className,
   ...rest
 }) => {
@@ -93,16 +93,18 @@ export default ({
     <div className={cx(styles.wrapper, className)}>
       <Selector
         className={styles.selector}
-        options={TIMERANGE_OPTIONS}
+        options={options.timeRanges || TIMERANGE_OPTIONS}
         onSelectOption={onTimerangeChange}
         defaultSelected={timeRange.toUpperCase()}
       />
-      <CalendarBtn
-        onChange={onCalendarChange}
-        value={[new Date(from), new Date(to)]}
-        className={styles.calendar}
-        maxDate={MAX_DATE}
-      />
+      {!options.hideCalendar && (
+        <CalendarBtn
+          onChange={onCalendarChange}
+          value={[new Date(from), new Date(to)]}
+          className={styles.calendar}
+          maxDate={MAX_DATE}
+        />
+      )}
       {comparables.length > 0 && (
         <div className={styles.domain} onClick={toggleDomainGrouping}>
           Shared axis

@@ -20,11 +20,10 @@ export const DEFAULT_SETTINGS = {
 export const DEFAULT_OPTIONS = {
   isLogScale: false,
   isMultiChartsActive: false,
+  hideCalendar: true,
+  timeRanges: ['1W', '1M', '3M', '6M', '1Y'],
+  showSocialDominance: getSavedToggle('isShowSocialDominance', true),
   isCartesianGridActive: getSavedToggle('isCartesianGridActive', true)
 }
 
-export const DEFAULT_METRICS = [
-  Metric.price_usd,
-  Metric.social_volume_total,
-  Metric.social_dominance_total
-]
+export const DEFAULT_METRICS = [Metric.price_usd, Metric.social_volume_total]

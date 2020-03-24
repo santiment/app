@@ -7,23 +7,19 @@ import { useChartColors } from '../../Chart/colors'
 import Synchronizer from '../../Chart/Synchronizer'
 import PaywallInfo from '../../Studio/Chart/PaywallInfo'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
-import Settings from '../Settings'
+import Settings from '../../Studio/Header/Settings'
+import SocialDominanceToggle from './SocialDominanceToggle'
 import ChartActiveMetrics from './ActiveMetrics'
 import styles from './index.module.scss'
 
 const Canvas = ({
-  index,
   className,
-  chartRef,
   settings,
-  setSettings,
   options,
   loadings,
   metrics,
   boundaries,
-  advancedView,
   toggleMetric,
-  isMultiChartsActive,
   ...props
 }) => {
   const [FocusedMetric, setFocusedMetric] = useState()
@@ -44,9 +40,9 @@ const Canvas = ({
         <h3 className={styles.title}>Social volume score</h3>
         <PaywallInfo boundaries={boundaries} metrics={metrics} />
         <Settings
+          {...props}
+          options={options}
           settings={settings}
-          setSettings={setSettings}
-          chartRef={chartRef}
           className={styles.settings}
         />
       </div>
@@ -54,16 +50,18 @@ const Canvas = ({
         {...options}
         {...settings}
         {...props}
-        setSettings={setSettings}
         scale={scale}
-        chartRef={chartRef}
         className={styles.chart}
         metrics={metrics}
         MetricColor={MetricColor}
-        isMultiChartsActive={isMultiChartsActive}
-        resizeDependencies={[isMultiChartsActive]}
+        resizeDependencies={[]}
       />
       <div className={styles.bottom}>
+        <SocialDominanceToggle
+          className={styles.dominance}
+          isActive={options.isShowSocialDominance}
+          toggleDominance={() => {}}
+        />
         <div className={styles.metrics}>
           <ChartActiveMetrics
             className={styles.metric}
@@ -79,10 +77,8 @@ const Canvas = ({
   )
 }
 
-export default ({ options, activeMetrics, ...rest }) => {
-  return (
-    <Synchronizer {...options} metrics={activeMetrics}>
-      <Canvas options={options} activeMetrics={activeMetrics} {...rest} />
-    </Synchronizer>
-  )
-}
+export default ({ options, activeMetrics, ...rest }) => (
+  <Synchronizer {...options} metrics={activeMetrics}>
+    <Canvas options={options} activeMetrics={activeMetrics} {...rest} />
+  </Synchronizer>
+)

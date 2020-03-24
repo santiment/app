@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import Toggle from '@santiment-network/ui/Toggle'
 import Button from '@santiment-network/ui/Button'
-import HelpPopup from '../HelpPopup/HelpPopup'
+import HelpPopup from '../../../components/HelpPopup/HelpPopup'
 import styles from './SocialDominanceToggle.module.scss'
 
 const Icon = () => (

@@ -55,9 +55,10 @@ const SocialTool = ({
           {...props}
           className={styles.canvas}
           chartRef={chartRef}
-          settings={settings}
-          setSettings={setSettings}
           options={options}
+          settings={settings}
+          setOptions={setOptions}
+          setSettings={setSettings}
           activeMetrics={activeMetrics}
           data={data}
           loadings={loadings}

@@ -14,6 +14,7 @@
 
 .chart {
   margin: 0 34px;
+  z-index: 0;
 }
 
 .title {
@@ -31,4 +32,9 @@
   border-bottom: 1px solid var(--porcelain);
   padding: 24px 34px;
   margin: 32px 0;
+}
+
+.metrics {
+  display: flex;
+  align-items: center;
 }
