@@ -7,34 +7,39 @@ import toReact from 'svelte-adapter/react'
 import SvelteComments from 'insights-app/lib/components/comments/Comments'
 import { client } from '../../index.js'
 import {
-  COMMENTS_FOR_INSIGHT_QUERY,
-  CREATE_COMMENT_MUTATION,
   DELETE_COMMENT_MUTATION,
   UPDATE_COMMENT_MUTATION
-} from '../../queries/comments'
+} from '../../queries/insightComments'
 import sharedStyles from './InsightCard.module.scss'
 import styles from './Comments.module.scss'
+import {
+  COMMENTS_FOR_TIMELINEEVENTS_QUERY,
+  CREATE_TIMELINEEVENT_COMMENT_MUTATION
+} from '../../queries/timelineEventComments'
+import { CommentTypes } from '../TimelineEventComments/TimelineEventComments'
 
 const Comments = toReact(SvelteComments, {}, 'div')
 
 function getComments (id, cursor) {
   return client.query({
-    query: COMMENTS_FOR_INSIGHT_QUERY,
+    query: COMMENTS_FOR_TIMELINEEVENTS_QUERY,
     variables: {
       id,
-      cursor
+      cursor,
+      eventType: CommentTypes.INSIGHT
     },
-    fetchPolicy: 'network-only'
+    fetchPolicy: 'no-cache'
   })
 }
 
 function createComment (id, content, parentId) {
   return client.mutate({
-    mutation: CREATE_COMMENT_MUTATION,
+    mutation: CREATE_TIMELINEEVENT_COMMENT_MUTATION,
     variables: {
       id: +id,
       parentId: parentId ? +parentId : null,
-      content
+      content,
+      eventType: CommentTypes.INSIGHT
     }
   })
 }
@@ -58,24 +63,42 @@ function editComment (id, content) {
   })
 }
 
-export default ({ id, authorId, count }) => {
+export default ({
+  id,
+  authorId,
+  count,
+  onEdit = editComment,
+  onDelete = deleteComment,
+  onCreate = createComment,
+  onGet = getComments
+}) => {
   const [comments, setComments] = useState([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    getComments(id).then(({ data }) => {
+  const loadCommentsCount = () => {
+    onGet(id).then(({ data }) => {
       setComments(data.comments)
       setLoading(false)
     })
+  }
+
+  useEffect(() => {
+    loadCommentsCount()
   }, [])
+
+  const onClose = () => {
+    loadCommentsCount()
+  }
 
   return (
     <Modal
       trigger={
         <div className={cx(sharedStyles.stat, sharedStyles.stat_comments)}>
-          <Icon type='comment' className={sharedStyles.commentIcon} /> {count}
+          <Icon type='comment' className={sharedStyles.commentIcon} />{' '}
+          {comments.length}
         </div>
       }
+      onClose={onClose}
       as={Panel}
       classes={{
         wrapper: styles.wrapper,
@@ -87,11 +110,11 @@ export default ({ id, authorId, count }) => {
           comments={comments}
           id={id}
           authorId={authorId}
-          commentsCount={count}
-          getComments={getComments}
-          createComment={createComment}
-          editComment={editComment}
-          deleteComment={deleteComment}
+          commentsCount={comments.length || count}
+          getComments={onGet}
+          createComment={onCreate}
+          editComment={onEdit}
+          deleteComment={onDelete}
         />
       )}
     </Modal>

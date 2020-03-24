@@ -13,6 +13,7 @@ import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
 import SignalCreator from './creator/SignalCreator'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
+import TimelineEventComments from '../../TimelineEventComments/TimelineEventComments'
 
 export const isStrictTrendingWords = ({ operation, type }) =>
   type === 'trending_words' && operation && operation.trigger_time
@@ -32,7 +33,7 @@ export const isTrendingWordsSignal = trigger => {
 const TrendingWordsSignalCard = ({
   className,
   activityPayload,
-  activity: { votes, trigger, insertedAt: date, user },
+  activity: { id, commentsCount, votes, trigger, insertedAt: date, user },
   onLike
 }) => {
   const {
@@ -81,6 +82,11 @@ const TrendingWordsSignalCard = ({
             className={styles.likeBtn}
             votes={votes}
             user={user}
+          />
+          <TimelineEventComments
+            id={id}
+            authorId={user.id}
+            commentsCount={commentsCount}
           />
         </div>
       </div>

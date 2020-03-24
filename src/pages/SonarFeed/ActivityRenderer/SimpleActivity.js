@@ -9,6 +9,7 @@ import LikeBtnWrapper from '../../../components/Like/LikeBtnWrapper'
 import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
 import { getDefaultActivityContent } from './ActivityWithBacktesting'
 import styles from './ActivityRenderer.module.scss'
+import TimelineEventComments from '../../../components/TimelineEventComments/TimelineEventComments'
 
 const SimpleActivity = ({
   date,
@@ -16,6 +17,8 @@ const SimpleActivity = ({
   user,
   activity,
   activity: {
+    id,
+    commentsCount,
     triggeredAt,
     trigger,
     trigger: { settings: { type, metric } } = {},
@@ -41,6 +44,11 @@ const SimpleActivity = ({
           {onLike && (
             <LikeBtnWrapper onLike={onLike} votes={votes} user={user} />
           )}
+          <TimelineEventComments
+            id={id}
+            authorId={user.id}
+            commentsCount={commentsCount}
+          />
           <CopySignal signal={trigger} creatorId={user.id} />
         </div>
       </div>

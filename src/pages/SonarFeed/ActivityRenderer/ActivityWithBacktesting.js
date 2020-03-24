@@ -14,8 +14,9 @@ import FeedHistoricalBalance from '../../feed/GeneralFeed/FeedItemRenderer/feedH
 import FeedSignalCardWithMarkdown, {
   MoreInfo
 } from '../../feed/GeneralFeed/FeedItemRenderer/feedSignalCardWithMarkdown/FeedSignalCardWithMarkdown'
-import styles from './ActivityRenderer.module.scss'
 import SidecarExplanationTooltip from '../../../ducks/SANCharts/SidecarExplanationTooltip'
+import TimelineEventComments from '../../../components/TimelineEventComments/TimelineEventComments'
+import styles from './ActivityRenderer.module.scss'
 
 const getUserTriggerData = activityData => {
   if (activityData) {
@@ -70,7 +71,7 @@ const ActivityWithBacktesting = ({
   user,
   classes,
   activity,
-  activity: { index, triggeredAt, trigger = {}, votes = [] },
+  activity: { id, commentsCount, index, triggeredAt, trigger = {}, votes = [] },
   onLike,
   showProfileExplanation
 }) => {
@@ -135,6 +136,11 @@ const ActivityWithBacktesting = ({
           {onLike && (
             <LikeBtnWrapper onLike={onLike} votes={votes} user={user} />
           )}
+          <TimelineEventComments
+            id={id}
+            authorId={user.id}
+            commentsCount={commentsCount}
+          />
           <CopySignal signal={trigger} creatorId={user.id} />
         </div>
       </div>
