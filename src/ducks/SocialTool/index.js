@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react'
 import cx from 'classnames'
+import withBoundaries from '../../pages/Studio/withBoundaries'
+import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
+import { useTimeseries } from '../Studio/timeseries/hooks'
+// import { parseUrl } from './url'
 import SocialToolChart from './Chart'
+
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
 import { buildTextSelectorMetric } from './utils'
-import { useTimeseries } from '../Studio/timeseries/hooks'
 import styles from './index.module.scss'
 
 const SocialTool = ({
@@ -31,7 +35,7 @@ const SocialTool = ({
       )
       setActiveMetrics(updatedMetrics)
     },
-    [metrics, defaultSettings.text]
+    [metrics, settings.text]
   )
 
   useEffect(
@@ -52,6 +56,7 @@ const SocialTool = ({
           className={styles.canvas}
           chartRef={chartRef}
           settings={settings}
+          setSettings={setSettings}
           options={options}
           activeMetrics={activeMetrics}
           data={data}
@@ -62,7 +67,7 @@ const SocialTool = ({
   )
 }
 
-export default ({ settings, options, metrics, ...props }) => (
+export default withBoundaries(({ settings, options, metrics, ...props }) => (
   <SocialTool
     {...props}
     defaultSettings={{
@@ -72,4 +77,4 @@ export default ({ settings, options, metrics, ...props }) => (
     defaultOptions={{ ...DEFAULT_OPTIONS, ...options }}
     defaultMetrics={metrics || DEFAULT_METRICS}
   />
-)
+))

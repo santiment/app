@@ -3,7 +3,7 @@ import { getNewInterval } from '../../ducks/SANCharts/IntervalSelector'
 import { Metric } from '../dataHub/metrics'
 import { getSavedToggle } from '../../utils/localStorage'
 
-const DEFAULT_TIME_RANGE = '6m'
+const DEFAULT_TIME_RANGE = '3m'
 const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
 
 export const DEFAULT_SETTINGS = {
@@ -20,7 +20,6 @@ export const DEFAULT_SETTINGS = {
 export const DEFAULT_OPTIONS = {
   isLogScale: false,
   isMultiChartsActive: false,
-  isDomainGroupingActive: getSavedToggle('isDomainGroupingActive'),
   isCartesianGridActive: getSavedToggle('isCartesianGridActive', true)
 }
 

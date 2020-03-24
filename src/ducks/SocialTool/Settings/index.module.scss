@@ -1,0 +1,23 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.selector > div {
+  padding: 6px;
+  margin-left: 4px;
+  width: 32px;
+
+  &:first-child {
+    margin: 0;
+  }
+
+  &::before {
+    top: 0;
+    left: 0 !important;
+    bottom: 0;
+  }
+}

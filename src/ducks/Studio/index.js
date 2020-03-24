@@ -190,6 +190,7 @@ Studio.defaultProps = {
   defaultComparedMetrics: [],
   defaultEvents: [],
   defaultComparables: [],
+  onSlugChange: () => {},
   classes: {}
 }
 

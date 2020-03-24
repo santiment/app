@@ -1,3 +1,5 @@
+@import '~@santiment-network/ui/mixins';
+
 .wrapper {
   position: relative;
   margin-top: 13px;
@@ -15,6 +17,13 @@
   display: flex;
   margin-bottom: 16px;
   justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  color: var(--waterloo);
+
+  @include text('body-2');
 }
 
 .metrics {

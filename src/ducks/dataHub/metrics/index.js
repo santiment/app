@@ -1,5 +1,9 @@
 import { updateTooltipSettings } from '../tooltipSettings'
-import { usdFormatter, persentageFormatter } from '../../SANCharts/utils'
+import {
+  usdFormatter,
+  persentageFormatter,
+  tooltipValueFormatter
+} from '../../SANCharts/utils'
 import { millify } from '../../../utils/formatting'
 
 export const Metric = {
@@ -51,7 +55,8 @@ export const Metric = {
     shortLabel: 'Soc. Volume',
     anomalyKey: 'SOCIAL_VOLUME',
     advancedView: 'Social Context',
-    extraSelector: 'text'
+    extraSelector: 'text',
+    formatter: value => tooltipValueFormatter({ value })
   },
   age_destroyed: {
     category: 'On-chain',

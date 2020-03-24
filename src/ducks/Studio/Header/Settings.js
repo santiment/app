@@ -16,7 +16,7 @@ import {
 } from '../../../utils/dates'
 import styles from './Settings.module.scss'
 
-const TIMERANGE_OPTIONS = ['1D', '1W', '1M', '3M', '6M', '1Y', 'All']
+const TIMERANGE_OPTIONS = ['1D', '1W', '1M', '3M', '6M', '1Y', 'ALL']
 
 const { to: MAX_DATE } = getTimeIntervalFromToday(0, DAY)
 
@@ -95,7 +95,7 @@ export default ({
         className={styles.selector}
         options={TIMERANGE_OPTIONS}
         onSelectOption={onTimerangeChange}
-        defaultSelected={timeRange}
+        defaultSelected={timeRange.toUpperCase()}
       />
       <CalendarBtn
         onChange={onCalendarChange}
