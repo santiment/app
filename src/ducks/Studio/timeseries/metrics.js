@@ -3,22 +3,22 @@ import gql from 'graphql-tag'
 export const GET_METRIC = ({ key, queryKey = key, slug, reqMeta = {} }) => {
   const { text } = reqMeta
 
-  let selectorType = 'slug'
+  let selector = 'slug'
 
   if (text) {
-    selectorType = 'text'
+    selector = 'text'
   }
 
   return gql`
   query getMetric(
-    $${selectorType}: String!
+    $${selector}: String!
     $from: DateTime!
     $to: DateTime!
     $interval: interval
     $transform: TimeseriesMetricTransformInputObject
   ) {
     getMetric(metric: "${queryKey}") {
-      timeseriesData(selector: { ${selectorType}: $${selectorType}}, from: $from, to: $to, interval: $interval, transform: $transform) {
+      timeseriesData(selector: { ${selector}: $${selector}}, from: $from, to: $to, interval: $interval, transform: $transform) {
         datetime
         ${key}: value
       }
