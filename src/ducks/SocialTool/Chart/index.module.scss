@@ -7,9 +7,12 @@
 .top {
   display: flex;
   margin-bottom: 16px;
-  justify-content: space-between;
   align-items: center;
   padding: 0 34px;
+}
+
+.settings {
+  margin-left: auto;
 }
 
 .chart {

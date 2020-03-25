@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import cx from 'classnames'
+import { Metric } from '../dataHub/metrics'
 import withBoundaries from '../../pages/Studio/withBoundaries'
-import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import { useTimeseries } from '../Studio/timeseries/hooks'
 // import { parseUrl } from './url'
 import SocialToolChart from './Chart'
-
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
 import { buildTextSelectorMetric } from './utils'
 import styles from './index.module.scss'
@@ -17,14 +16,15 @@ const SocialTool = ({
   classes = {},
   ...props
 }) => {
-  const test = defaultMetrics.map(metric =>
+  const [settings, setSettings] = useState(defaultSettings)
+  const [options, setOptions] = useState(defaultOptions)
+  const [metrics, setMetrics] = useState(defaultMetrics)
+
+  const defaultActiveMetrics = metrics.map(metric =>
     buildTextSelectorMetric({ metric, text: defaultSettings.text })
   )
 
-  const [settings, setSettings] = useState(defaultSettings)
-  const [options, setOptions] = useState(defaultOptions)
-  const [metrics, setMetrics] = useState(test)
-  const [activeMetrics, setActiveMetrics] = useState(test)
+  const [activeMetrics, setActiveMetrics] = useState(defaultActiveMetrics)
   const [data, loadings] = useTimeseries(activeMetrics, settings)
   const chartRef = useRef(null)
 
@@ -35,7 +35,7 @@ const SocialTool = ({
       )
       setActiveMetrics(updatedMetrics)
     },
-    [metrics, settings.text]
+    [metrics]
   )
 
   useEffect(
@@ -47,6 +47,32 @@ const SocialTool = ({
     },
     [defaultSettings.text]
   )
+
+  useEffect(
+    () => {
+      const metricSet = new Set(metrics)
+      const metric = Metric.social_dominance_total
+      options.isShowSocialDominance
+        ? metricSet.add(metric)
+        : metricSet.delete(metric)
+
+      setMetrics([...metricSet])
+    },
+    [options.isShowSocialDominance]
+  )
+
+  //   useEffect(
+  //     () => {
+  //       const queryString =
+  //         '?' +
+  //         generateShareLink(settings, options, metrics, activeEvents, comparables)
+  //
+  //       const { origin, pathname } = window.location
+  //       setShareLink(origin + pathname + queryString)
+  //       updateHistory(queryString)
+  //     },
+  //     [settings, options, metrics, activeEvents, comparables]
+  //   )
 
   return (
     <div className={cx(styles.wrapper, classes.wrapper)}>

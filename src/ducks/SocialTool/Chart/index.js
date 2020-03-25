@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import { connect } from 'react-redux'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import Chart from '../../Chart'
 import { useChartColors } from '../../Chart/colors'
 import Synchronizer from '../../Chart/Synchronizer'
 import PaywallInfo from '../../Studio/Chart/PaywallInfo'
-import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import Settings from '../../Studio/Header/Settings'
 import SocialDominanceToggle from './SocialDominanceToggle'
 import ChartActiveMetrics from './ActiveMetrics'
@@ -16,6 +14,7 @@ const Canvas = ({
   className,
   settings,
   options,
+  setOptions,
   loadings,
   metrics,
   boundaries,
@@ -42,7 +41,9 @@ const Canvas = ({
         <Settings
           {...props}
           options={options}
+          setOptions={setOptions}
           settings={settings}
+          shareLink=''
           className={styles.settings}
         />
       </div>
@@ -59,7 +60,8 @@ const Canvas = ({
       <div className={styles.bottom}>
         <SocialDominanceToggle
           className={styles.dominance}
-          isActive={options.isShowSocialDominance}
+          options={options}
+          setOptions={setOptions}
           toggleDominance={() => {}}
         />
         <div className={styles.metrics}>

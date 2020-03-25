@@ -1,6 +1,5 @@
 import React from 'react'
 import cx from 'classnames'
-import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import MetricIcon from '../../SANCharts/MetricIcon'
 import styles from './ActiveMetrics.module.scss'

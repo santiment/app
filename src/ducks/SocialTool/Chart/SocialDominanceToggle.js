@@ -3,6 +3,7 @@ import cx from 'classnames'
 import Toggle from '@santiment-network/ui/Toggle'
 import Button from '@santiment-network/ui/Button'
 import HelpPopup from '../../../components/HelpPopup/HelpPopup'
+import { saveToggle } from '../../../utils/localStorage'
 import styles from './SocialDominanceToggle.module.scss'
 
 const Icon = () => (
@@ -14,14 +15,22 @@ const Icon = () => (
   />
 )
 
-const SocialDominanceToggle = ({ className, isActive, toggleDominance }) => {
+const SocialDominanceToggle = ({ className, options = {}, setOptions }) => {
+  const isActive = options.isShowSocialDominance
+
+  function toggle () {
+    setOptions(state => ({
+      ...state,
+      isShowSocialDominance: saveToggle(
+        'isShowSocialDominance',
+        !state.isShowSocialDominance
+      )
+    }))
+  }
+
   return (
     <div className={cx(styles.wrapper, className)}>
-      <Button
-        variant='flat'
-        onClick={toggleDominance}
-        className={styles.button}
-      >
+      <Button variant='flat' onClick={toggle} className={styles.button}>
         <Toggle
           Icon={Icon}
           className={cx(styles.toggle, isActive && styles.active)}

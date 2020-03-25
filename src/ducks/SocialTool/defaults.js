@@ -20,9 +20,10 @@ export const DEFAULT_SETTINGS = {
 export const DEFAULT_OPTIONS = {
   isLogScale: false,
   isMultiChartsActive: false,
+  showMulti: false,
   hideCalendar: true,
   timeRanges: ['1W', '1M', '3M', '6M', '1Y'],
-  showSocialDominance: getSavedToggle('isShowSocialDominance', true),
+  isShowSocialDominance: getSavedToggle('isShowSocialDominance', true),
   isCartesianGridActive: getSavedToggle('isCartesianGridActive', true)
 }
 
