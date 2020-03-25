@@ -16,17 +16,27 @@ const MetricButton = ({
   isLoading,
   isRemovable,
   toggleMetric,
+  hideExplanation,
   ...rest
 }) => {
   const { key, dataKey = key, node, label, comparedTicker } = metric
 
+  const Wrapper = ({ children }) =>
+    hideExplanation ? (
+      <>{children}</>
+    ) : (
+      <MetricExplanation
+        metric={metric}
+        withChildren
+        closeTimeout={22}
+        offsetX={8}
+      >
+        {children}
+      </MetricExplanation>
+    )
+
   return (
-    <MetricExplanation
-      metric={metric}
-      withChildren
-      closeTimeout={22}
-      offsetX={8}
-    >
+    <Wrapper>
       <Button {...rest} border className={cx(styles.btn, className)}>
         {isLoading ? (
           <div className={styles.loader} />
@@ -47,7 +57,7 @@ const MetricButton = ({
           />
         )}
       </Button>
-    </MetricExplanation>
+    </Wrapper>
   )
 }
 
@@ -55,12 +65,13 @@ export default ({
   className,
   MetricColor,
   activeMetrics,
-  activeEvents,
+  activeEvents = [],
   loadings,
   toggleMetric,
   eventLoadings,
   isMultiChartsActive,
   onMetricHover,
+  hideExplanation,
   onMetricHoverEnd
 }) => {
   const isMoreThanOneMetric = activeMetrics.length > 1 || isMultiChartsActive
@@ -73,8 +84,9 @@ export default ({
           className={className}
           metric={metric}
           colors={MetricColor}
+          hideExplanation={hideExplanation}
           isLoading={loadings.includes(metric)}
-          isRemovable={isMoreThanOneMetric}
+          isRemovable={isMoreThanOneMetric && toggleMetric}
           toggleMetric={toggleMetric}
           onMouseEnter={onMetricHover && (() => onMetricHover(metric))}
           onMouseLeave={onMetricHoverEnd && (() => onMetricHoverEnd(metric))}

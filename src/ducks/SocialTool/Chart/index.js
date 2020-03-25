@@ -6,8 +6,8 @@ import { useChartColors } from '../../Chart/colors'
 import Synchronizer from '../../Chart/Synchronizer'
 import PaywallInfo from '../../Studio/Chart/PaywallInfo'
 import Settings from '../../Studio/Header/Settings'
+import ChartActiveMetrics from '../../Studio/Chart/ActiveMetrics'
 import SocialDominanceToggle from './SocialDominanceToggle'
-import ChartActiveMetrics from './ActiveMetrics'
 import styles from './index.module.scss'
 
 const Canvas = ({
@@ -65,6 +65,7 @@ const Canvas = ({
         />
         <div className={styles.metrics}>
           <ChartActiveMetrics
+            hideExplanation
             className={styles.metric}
             MetricColor={MetricColor}
             activeMetrics={metrics}
