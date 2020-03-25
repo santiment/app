@@ -4,10 +4,9 @@ import { linearScale, logScale } from '@santiment-network/chart/scales'
 import Chart from '../../Chart'
 import { useChartColors } from '../../Chart/colors'
 import Synchronizer from '../../Chart/Synchronizer'
-import PaywallInfo from '../../Studio/Chart/PaywallInfo'
-import Settings from '../../Studio/Header/Settings'
 import ChartActiveMetrics from '../../Studio/Chart/ActiveMetrics'
 import SocialDominanceToggle from './SocialDominanceToggle'
+import ChartHeader from './Header'
 import styles from './index.module.scss'
 
 const Canvas = ({
@@ -18,7 +17,6 @@ const Canvas = ({
   loadings,
   metrics,
   boundaries,
-  toggleMetric,
   ...props
 }) => {
   const [FocusedMetric, setFocusedMetric] = useState()
@@ -35,17 +33,15 @@ const Canvas = ({
 
   return (
     <div className={cx(styles.wrapper, className)}>
-      <div className={styles.top}>
-        <h3 className={styles.title}>Social volume score</h3>
-        <PaywallInfo boundaries={boundaries} metrics={metrics} />
-        <Settings
-          {...props}
-          options={options}
-          setOptions={setOptions}
-          settings={settings}
-          className={styles.settings}
-        />
-      </div>
+      <ChartHeader
+        {...props}
+        metrics={metrics}
+        options={options}
+        settings={settings}
+        boundaries={boundaries}
+        setOptions={setOptions}
+        className={styles.top}
+      />
       <Chart
         {...options}
         {...settings}

@@ -56,7 +56,7 @@ const ChartSettingsContextMenu = ({
           variant='flat'
           className={cx(classes.settingsBtn, styles.settingsBtn)}
         >
-          <Icon type='settings' className={styles.settingsBtn} />
+          <Icon type='settings' />
         </Button>
       }
       passOpenStateAs='isActive'
