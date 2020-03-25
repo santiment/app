@@ -8,8 +8,8 @@ import FeedCardDate from '../../feed/GeneralFeed/CardDate/FeedCardDate'
 import LikeBtnWrapper from '../../../components/Like/LikeBtnWrapper'
 import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
 import { getDefaultActivityContent } from './ActivityWithBacktesting'
-import styles from './ActivityRenderer.module.scss'
 import TimelineEventComments from '../../../components/TimelineEventComments/TimelineEventComments'
+import styles from './ActivityRenderer.module.scss'
 
 const SimpleActivity = ({
   date,

@@ -11,9 +11,9 @@ import FeedCardDate from '../../../pages/feed/GeneralFeed/CardDate/FeedCardDate'
 import { getAmPmWithHours } from '../../../utils/dates'
 import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
 import SignalCreator from './creator/SignalCreator'
+import TimelineEventComments from '../../TimelineEventComments/TimelineEventComments'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
-import TimelineEventComments from '../../TimelineEventComments/TimelineEventComments'
 
 export const isStrictTrendingWords = ({ operation, type }) =>
   type === 'trending_words' && operation && operation.trigger_time

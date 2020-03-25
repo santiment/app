@@ -28,7 +28,7 @@ function getComments (id, cursor) {
       cursor,
       eventType: CommentTypes.INSIGHT
     },
-    fetchPolicy: 'no-cache'
+    fetchPolicy: 'network-only'
   })
 }
 
@@ -90,12 +90,14 @@ export default ({
     loadCommentsCount()
   }
 
+  let showingCount = comments.length || count
+
   return (
     <Modal
       trigger={
         <div className={cx(sharedStyles.stat, sharedStyles.stat_comments)}>
           <Icon type='comment' className={sharedStyles.commentIcon} />{' '}
-          {comments.length}
+          {showingCount}
         </div>
       }
       onClose={onClose}
@@ -110,7 +112,7 @@ export default ({
           comments={comments}
           id={id}
           authorId={authorId}
-          commentsCount={comments.length || count}
+          commentsCount={showingCount}
           getComments={onGet}
           createComment={onCreate}
           editComment={onEdit}

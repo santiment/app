@@ -19,7 +19,7 @@ function getComments (id, cursor, entityType = CommentTypes.TIMELINE_EVENT) {
       cursor,
       entityType
     },
-    fetchPolicy: 'no-cache'
+    fetchPolicy: 'network-only'
   })
 }
 
