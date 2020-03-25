@@ -3,9 +3,9 @@ import { reduceStateKeys } from '../Studio/url'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS } from './defaults'
 
 export function generateShareLink (settings, options) {
-  const { isShowSocialDominance } = options
+  const { withDominance } = options
   const { timeRange } = settings
-  const Shareable = { timeRange, isShowSocialDominance }
+  const Shareable = { timeRange, withDominance }
 
   return stringify(Shareable, { arrayFormat: 'comma' })
 }

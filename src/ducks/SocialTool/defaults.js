@@ -20,7 +20,7 @@ export const DEFAULT_OPTIONS = {
   showMulti: false,
   hideCalendar: true,
   timeRanges: ['1W', '1M', '3M', '6M', '1Y'],
-  isShowSocialDominance: getSavedToggle('isShowSocialDominance', true),
+  withDominance: getSavedToggle('withDominance', true),
   isCartesianGridActive: getSavedToggle('isCartesianGridActive', true)
 }
 

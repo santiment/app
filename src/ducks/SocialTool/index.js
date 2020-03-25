@@ -54,13 +54,11 @@ const SocialTool = ({
     () => {
       const metricSet = new Set(metrics)
       const metric = Metric.social_dominance_total
-      options.isShowSocialDominance
-        ? metricSet.add(metric)
-        : metricSet.delete(metric)
+      options.withDominance ? metricSet.add(metric) : metricSet.delete(metric)
 
       setMetrics([...metricSet])
     },
-    [options.isShowSocialDominance]
+    [options.withDominance]
   )
 
   useEffect(

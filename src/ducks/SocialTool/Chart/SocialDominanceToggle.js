@@ -16,15 +16,12 @@ const Icon = () => (
 )
 
 const SocialDominanceToggle = ({ className, options = {}, setOptions }) => {
-  const isActive = options.isShowSocialDominance
+  const isActive = options.withDominance
 
   function toggle () {
     setOptions(state => ({
       ...state,
-      isShowSocialDominance: saveToggle(
-        'isShowSocialDominance',
-        !state.isShowSocialDominance
-      )
+      withDominance: saveToggle('withDominance', !state.withDominance)
     }))
   }
 
