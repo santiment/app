@@ -133,18 +133,27 @@ const ActivityWithBacktesting = ({
         </div>
 
         <div className={styles.bottom}>
-          {onLike && (
-            <LikeBtnWrapper onLike={onLike} votes={votes} user={user} />
-          )}
-          <TimelineEventComments
-            id={id}
-            authorId={user.id}
-            commentsCount={commentsCount}
-          />
+          <LikesAndComments onLike={onLike} activity={activity} />
           <CopySignal signal={trigger} creatorId={user.id} />
         </div>
       </div>
     </>
+  )
+}
+
+export const LikesAndComments = ({
+  onLike,
+  activity: { votes, user, id, commentsCount }
+}) => {
+  return (
+    <div className={styles.actions}>
+      {onLike && <LikeBtnWrapper onLike={onLike} votes={votes} user={user} />}
+      <TimelineEventComments
+        id={id}
+        authorId={user.id}
+        commentsCount={commentsCount}
+      />
+    </div>
   )
 }
 
