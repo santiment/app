@@ -236,7 +236,7 @@ const Chart = ({
   }
 
   function plotChart (data) {
-    drawWatermark(chart)
+    drawWatermark({ ...chart, isNightModeEnabled })
     plotDayBars(chart, data, daybars, MetricColor, scale)
     plotBars(chart, data, bars, MetricColor, scale)
 
