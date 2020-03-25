@@ -3,7 +3,8 @@ import cx from 'classnames'
 import { Metric } from '../dataHub/metrics'
 import withBoundaries from '../../pages/Studio/withBoundaries'
 import { useTimeseries } from '../Studio/timeseries/hooks'
-// import { parseUrl } from './url'
+import { parseUrl, generateShareLink } from './url'
+import { updateHistory } from '../Studio/url'
 import SocialToolChart from './Chart'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
 import { buildTextSelectorMetric } from './utils'
@@ -26,16 +27,17 @@ const SocialTool = ({
 
   const [activeMetrics, setActiveMetrics] = useState(defaultActiveMetrics)
   const [data, loadings] = useTimeseries(activeMetrics, settings)
+  const [shareLink, setShareLink] = useState('')
   const chartRef = useRef(null)
 
   useEffect(
     () => {
       const updatedMetrics = metrics.map(metric =>
-        buildTextSelectorMetric({ metric, text: settings.text })
+        buildTextSelectorMetric({ metric, text: defaultSettings.text })
       )
       setActiveMetrics(updatedMetrics)
     },
-    [metrics]
+    [metrics, defaultSettings.text]
   )
 
   useEffect(
@@ -61,18 +63,16 @@ const SocialTool = ({
     [options.isShowSocialDominance]
   )
 
-  //   useEffect(
-  //     () => {
-  //       const queryString =
-  //         '?' +
-  //         generateShareLink(settings, options, metrics, activeEvents, comparables)
-  //
-  //       const { origin, pathname } = window.location
-  //       setShareLink(origin + pathname + queryString)
-  //       updateHistory(queryString)
-  //     },
-  //     [settings, options, metrics, activeEvents, comparables]
-  //   )
+  useEffect(
+    () => {
+      const queryString = '?' + generateShareLink(settings, options)
+
+      const { origin, pathname } = window.location
+      setShareLink(origin + pathname + queryString)
+      updateHistory(queryString)
+    },
+    [settings, options]
+  )
 
   return (
     <div className={cx(styles.wrapper, classes.wrapper)}>
@@ -85,6 +85,7 @@ const SocialTool = ({
           settings={settings}
           setOptions={setOptions}
           setSettings={setSettings}
+          shareLink={shareLink}
           activeMetrics={activeMetrics}
           data={data}
           loadings={loadings}
@@ -94,14 +95,23 @@ const SocialTool = ({
   )
 }
 
-export default withBoundaries(({ settings, options, metrics, ...props }) => (
-  <SocialTool
-    {...props}
-    defaultSettings={{
-      ...DEFAULT_SETTINGS,
-      ...settings
-    }}
-    defaultOptions={{ ...DEFAULT_OPTIONS, ...options }}
-    defaultMetrics={metrics || DEFAULT_METRICS}
-  />
-))
+export default withBoundaries(({ settings, options, metrics, ...props }) => {
+  const sharedState = parseUrl()
+
+  return (
+    <SocialTool
+      {...props}
+      defaultSettings={{
+        ...DEFAULT_SETTINGS,
+        ...sharedState.settings,
+        ...settings
+      }}
+      defaultOptions={{
+        ...DEFAULT_OPTIONS,
+        ...sharedState.options,
+        ...options
+      }}
+      defaultMetrics={metrics || DEFAULT_METRICS}
+    />
+  )
+})

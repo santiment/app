@@ -43,7 +43,6 @@ const Canvas = ({
           options={options}
           setOptions={setOptions}
           settings={settings}
-          shareLink=''
           className={styles.settings}
         />
       </div>

@@ -1,8 +1,11 @@
 import { stringify, parse } from 'query-string'
+import { reduceStateKeys } from '../Studio/url'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS } from './defaults'
 
-export function generateShareLink (settings, options, metrics) {
-  const Shareable = { ...settings, ...options }
+export function generateShareLink (settings, options) {
+  const { isShowSocialDominance } = options
+  const { timeRange } = settings
+  const Shareable = { timeRange, isShowSocialDominance }
 
   return stringify(Shareable, { arrayFormat: 'comma' })
 }

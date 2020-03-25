@@ -14,7 +14,7 @@ const toArray = keys => (typeof keys === 'string' ? [keys] : keys)
 const convertKeyToMetric = (key, dict) =>
   dict[key] || CompatibleMetric[key] || searchFromSubmetrics(key)
 
-const reduceStateKeys = (State, Data) =>
+export const reduceStateKeys = (State, Data) =>
   Object.keys(State).reduce((acc, key) => {
     const value = Data[key]
     if (value) {

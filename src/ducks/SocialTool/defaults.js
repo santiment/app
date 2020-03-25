@@ -8,9 +8,6 @@ const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
 
 export const DEFAULT_SETTINGS = {
   slug: 'bitcoin',
-  projectId: 1505,
-  ticker: 'BTC',
-  title: 'Bitcoin (BTC)',
   interval: getNewInterval(FROM, TO),
   from: FROM.toISOString(),
   to: TO.toISOString(),
