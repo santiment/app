@@ -3,11 +3,14 @@ import { useQuery } from '@apollo/react-hooks'
 import { graphql } from 'react-apollo'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Dropdown from '@santiment-network/ui/Dropdown'
+import Message from '@santiment-network/ui/Message'
 import { linearScale } from '@santiment-network/chart/scales'
 import { HISTOGRAM_DATA_QUERY } from './gql'
 import Calendar from './Calendar'
-import { millify } from '../../../utils/formatting'
+import UsageTip from './UsageTip'
 import { usdFormatter } from '../../SANCharts/utils'
+import { millify } from '../../../utils/formatting'
+import { ONE_MONTH_IN_MS } from '../../../utils/dates'
 import styles from './Histogram.module.scss'
 
 const chart = {
@@ -15,11 +18,11 @@ const chart = {
   top: 0
 }
 
-function rangeFormatter ([from, to]) {
-  return usdFormatter(from) + ' - ' + usdFormatter(to)
+function rangeFormatter ([left, right]) {
+  return usdFormatter(left) + ' - ' + usdFormatter(right)
 }
 
-const Frame = ({ range, value = '205.8k', ticker = 'BTC', width }) => {
+const Frame = ({ range, value, ticker, width }) => {
   return (
     <div className={styles.frame}>
       <div className={styles.bar} style={{ width }} />
@@ -48,10 +51,30 @@ const Sorter = {
   [VALUE]: valueSorter
 }
 
-const Histogram = ({ title, slug, from, to, ticker, hasSort }) => {
-  const [dates, setDates] = useState()
-  const [data, loading] = useHistogramData({ slug, from, to })
+const Histogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
+  const [dates, setDates] = useState([date])
   const [sorter, setSorter] = useState(TIME)
+  const [from, to] = dates
+  const [data, loading, error] = useHistogramData({ slug, from, to })
+
+  useEffect(
+    () => {
+      const to = new Date(date)
+      to.setHours(23, 59, 59, 0)
+
+      setDates([date, to])
+    },
+    [date]
+  )
+
+  useEffect(
+    () => {
+      if (datesRange) {
+        setDates(datesRange)
+      }
+    },
+    [datesRange]
+  )
 
   function onCalendarChange (newDates) {
     setDates(newDates)
@@ -61,8 +84,12 @@ const Histogram = ({ title, slug, from, to, ticker, hasSort }) => {
     <div className={styles.wrapper}>
       <h2 className={styles.title}>
         Price movement
-        {loading && <Loader className={styles.inlineLoader} />}
-        <Calendar selectRange dates={dates} onChange={onCalendarChange} />
+        <Calendar
+          className={styles.calendar}
+          selectRange
+          dates={dates}
+          onChange={onCalendarChange}
+        />
       </h2>
 
       {hasSort && (
@@ -77,17 +104,31 @@ const Histogram = ({ title, slug, from, to, ticker, hasSort }) => {
         </div>
       )}
 
+      <UsageTip />
+
       <div className={styles.static}>
-        <div className={styles.scroll}>
-          {data.sort(Sorter[sorter]).map(({ index, distribution, width }) => (
-            <Frame
-              {...distribution}
-              key={index}
-              ticker={ticker}
-              width={width}
-            />
-          ))}
+        <div className={styles.scroller}>
+          <div className={styles.scroll}>
+            {error ? (
+              <Message variant='error'>
+                Selected date is outside of the allowed interval
+              </Message>
+            ) : (
+              data
+                .sort(Sorter[sorter])
+                .map(({ index, distribution, width }) => (
+                  <Frame
+                    {...distribution}
+                    key={index}
+                    ticker={ticker}
+                    width={width}
+                  />
+                ))
+            )}
+          </div>
         </div>
+
+        {loading && <Loader className={styles.loader} />}
       </div>
     </div>
   )
@@ -96,7 +137,7 @@ const Histogram = ({ title, slug, from, to, ticker, hasSort }) => {
 Histogram.Icon = 'H'
 
 Histogram.defaultProps = {
-  date: Date.now(),
+  date: new Date(Date.now() - ONE_MONTH_IN_MS * 3),
   slug: 'bitcoin',
   distributions: []
 }
@@ -145,7 +186,7 @@ function useHistogramData ({ slug, from, to }) {
     [data]
   )
 
-  return [histogramData, loading]
+  return [histogramData, loading, error]
 }
 
 export default Histogram

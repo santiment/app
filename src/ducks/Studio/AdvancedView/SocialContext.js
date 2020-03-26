@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Calendar from './Calendar'
+import UsageTip from './UsageTip'
 import WordCloud from '../../../components/WordCloud/WordCloud'
 import TrendsTable from '../../../components/Trends/TrendsTable/TrendsTable'
 import GetHypedTrends from '../../../components/Trends/GetHypedTrends'
 import { INTERVAL_ALIAS } from '../../SANCharts/IntervalSelector'
 import { useDebounceEffect } from '../../../hooks'
-import { parseIntervalString } from '../../../utils/dates'
+import { parseIntervalString, ONE_MONTH_IN_MS } from '../../../utils/dates'
 import styles from './SocialContext.module.scss'
 
 function getTimePeriod (date, interval) {
@@ -28,28 +29,22 @@ function getTimePeriod (date, interval) {
 }
 
 const SocialContext = ({ interval, date, slug }) => {
-  const [trendDate, setTrendDate] = useState(date)
-  const [contextDate, setContextDate] = useState(date)
+  const [trendDate, setTrendDate] = useState([date])
+  const [contextDate, setContextDate] = useState([date])
   const [contextPeriod, setContextPeriod] = useState({})
   const [trendPeriod, setTrendPeriod] = useState({})
   const constrainedInterval = INTERVAL_ALIAS[interval] ? '1h' : interval
 
   useEffect(
     () => {
-      setContextDate(date)
-      setTrendDate(date)
-    },
-    [date]
-  )
+      setContextDate([date])
+      setTrendDate([date])
 
-  useDebounceEffect(
-    () => {
       const period = getTimePeriod(date, constrainedInterval)
       setContextPeriod(period)
       setTrendPeriod(period)
     },
-    200,
-    [date, interval, slug]
+    [date, interval]
   )
 
   function onTrendCalendarChange (datetime) {
@@ -65,7 +60,7 @@ const SocialContext = ({ interval, date, slug }) => {
   return (
     <div className={styles.content}>
       <Calendar
-        date={new Date(contextDate)}
+        dates={contextDate}
         onChange={onContextCalendarChange}
         className={styles.contextCalendar}
       />
@@ -82,10 +77,7 @@ const SocialContext = ({ interval, date, slug }) => {
           <h3 className={styles.trend}>
             Trending words <span className={styles.trend__label}>top 10</span>
           </h3>
-          <Calendar
-            date={new Date(trendDate)}
-            onChange={onTrendCalendarChange}
-          />
+          <Calendar dates={trendDate} onChange={onTrendCalendarChange} />
         </div>
         <GetHypedTrends
           interval={constrainedInterval}
@@ -109,7 +101,7 @@ const SocialContext = ({ interval, date, slug }) => {
 SocialContext.Icon = <Icon type='cloud-small' />
 
 SocialContext.defaultProps = {
-  date: Date.now(),
+  date: new Date(Date.now() - ONE_MONTH_IN_MS * 3),
   interval: '1d',
   slug: 'bitcoin'
 }

@@ -9,7 +9,8 @@ import styles from './index.module.scss'
 const Main = ({ topSlot, bottomSlot, eventsData, onSlugChange, ...props }) => {
   const { settings, advancedView, setSettings, setIsICOPriceDisabled } = props
   const chartRef = useRef(null)
-  const [hoveredDate, setHoveredDate] = useState()
+  const [selectedDate, setSelectedDate] = useState()
+  const [datesRange, setDatesRange] = useState()
 
   function onProjectSelect (project) {
     if (!project) return
@@ -22,7 +23,14 @@ const Main = ({ topSlot, bottomSlot, eventsData, onSlugChange, ...props }) => {
   }
 
   function changeHoveredDate ({ value }) {
-    /* setHoveredDate(new Date(value)) */
+    setSelectedDate(new Date(value))
+  }
+
+  function changeDatesRange (leftPoint, rightPoint) {
+    if (leftPoint === rightPoint) return
+
+    setSelectedDate()
+    setDatesRange([new Date(leftPoint.value), new Date(rightPoint.value)])
   }
 
   return (
@@ -46,11 +54,17 @@ const Main = ({ topSlot, bottomSlot, eventsData, onSlugChange, ...props }) => {
               chartRef={chartRef}
               events={eventsData}
               changeHoveredDate={changeHoveredDate}
+              changeDatesRange={changeDatesRange}
             />
           </div>
           {advancedView && (
             <div className={cx(styles.canvas, styles.advanced)}>
-              <StudioAdvancedView {...props} date={hoveredDate} {...settings} />
+              <StudioAdvancedView
+                {...props}
+                {...settings}
+                date={selectedDate}
+                datesRange={datesRange}
+              />
             </div>
           )}
         </div>

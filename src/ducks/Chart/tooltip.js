@@ -5,7 +5,7 @@ import {
   drawValueBubbleY,
   drawValueBubbleX
 } from '@santiment-network/chart/tooltip'
-import { handleMove } from '@santiment-network/chart/events'
+import { handleMove, getHoveredIndex } from '@santiment-network/chart/events'
 import { waterloo } from '@santiment-network/ui/variables.scss'
 import {
   clearCtx,
@@ -21,7 +21,11 @@ const ALERT_ADD_HALF_SIZE = 7
 
 export function setupTooltip (chart, marker, syncTooltips) {
   const {
-    tooltip: { canvas, ctx }
+    tooltip: { canvas, ctx },
+    top,
+    left,
+    right,
+    height
   } = chart
 
   canvas.onmousemove = handleMove(chart, point => {
@@ -30,6 +34,52 @@ export function setupTooltip (chart, marker, syncTooltips) {
     plotTooltip(chart, marker, point)
     chart.onPointHover(point)
   })
+
+  canvas.onmousedown = handleMove(chart, point => {
+    if (!point) return
+
+    let moved = false
+    let endPoint = {}
+
+    if (chart.onRangeSelect) {
+      window.addEventListener('mousemove', onMouseMove)
+    }
+
+    window.addEventListener(
+      'mouseup',
+      ({ offsetX }) => {
+        window.removeEventListener('mousemove', onMouseMove)
+
+        if (moved) {
+          const index = getHoveredIndex(
+            offsetX - left,
+            chart.pointWidth,
+            chart.points.length
+          )
+          const endPoint = chart.points[index < 0 ? 0 : index]
+          chart.onRangeSelect(point, endPoint)
+        } else {
+          chart.onPointClick(point)
+        }
+      },
+      { once: true }
+    )
+
+    function onMouseMove ({ offsetX }) {
+      if (offsetX < left || offsetX > right) {
+        return
+      }
+
+      moved = true
+      const width = offsetX - point.x
+
+      ctx.save()
+      ctx.fillStyle = '#9faac435'
+      ctx.fillRect(point.x, top, width, height)
+      ctx.restore()
+    }
+  })
+
   canvas.onmouseleave = () => {
     clearCtx(chart, ctx)
     syncTooltips(null)
