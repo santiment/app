@@ -27,11 +27,14 @@ const Main = ({ topSlot, bottomSlot, eventsData, onSlugChange, ...props }) => {
     setDatesRange()
   }
 
-  function changeDatesRange (leftPoint, rightPoint) {
-    if (leftPoint === rightPoint) return
+  function changeDatesRange ({ value: leftDate }, { value: rightDate }) {
+    if (leftDate === rightDate) return
+
+    const [from, to] =
+      leftDate < rightDate ? [leftDate, rightDate] : [rightDate, leftDate]
 
     setSelectedDate()
-    setDatesRange([new Date(leftPoint.value), new Date(rightPoint.value)])
+    setDatesRange([new Date(from), new Date(to)])
   }
 
   return (
