@@ -3,6 +3,8 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import { NO_GROUP } from '../../../../../Studio/Sidebar/utils'
 import styles from './MetricsList.module.scss'
+import { Description } from '../../../../../dataHub/metrics/descriptions'
+import HelpTooltip from '../../../../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
 
 const MetricsList = ({ metrikKey, list, onSelect }) => {
   const [isOpen, setOpen] = useState(false)
@@ -21,14 +23,17 @@ const MetricsList = ({ metrikKey, list, onSelect }) => {
 
       {isOpen && (
         <div className={styles.list}>
-          {keys.map(key => (
-            <Group
-              key={key}
-              groupLabel={key}
-              group={list[key]}
-              onSelect={onSelect}
-            />
-          ))}
+          {keys.map(key => {
+            const items = list[key]
+            return (
+              <Group
+                key={key}
+                groupLabel={key}
+                group={items}
+                onSelect={onSelect}
+              />
+            )
+          })}
         </div>
       )}
     </div>
@@ -48,6 +53,12 @@ const Group = ({ groupLabel, onSelect, group }) => {
           onClick={() => onSelect(metric)}
         >
           {metric.label}
+
+          {Description[metric.key] && (
+            <HelpTooltip position='bottom' align='start' withDesc={false}>
+              {Description[metric.key]}
+            </HelpTooltip>
+          )}
         </div>
       ))}
     </>

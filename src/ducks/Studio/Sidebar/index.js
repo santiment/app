@@ -83,8 +83,6 @@ const Sidebar = ({ loading, children, ...rest }) => {
     return () => window.removeEventListener('scroll', fixSidebar)
   }, [])
 
-  console.log(rest)
-
   return (
     <aside className={styles.wrapper} ref={asideRef}>
       <Header {...rest} />

@@ -9,6 +9,7 @@
   justify-content: space-between;
   cursor: pointer;
   border-radius: $border-radius;
+  margin-bottom: 8px;
 
   &:hover {
     color: var(--jungle-green-hover);
@@ -39,7 +40,7 @@
 
 .group {
   color: var(--waterloo);
-  padding: 17px 16px 9px 16px;
+  padding: 9px 16px;
 
   @include text('caption');
 }

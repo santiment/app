@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import Dialog from '@santiment-network/ui/Dialog'
 import priceSvg from '../../../../../../assets/signals/price.svg'
 import trendingWordsSvg from '../../../../../../assets/signals/trending_words.svg'
@@ -21,17 +20,19 @@ import styles from '../../signal/TriggerForm.module.scss'
 import metricStyles from './TriggerFormMetricTypes.module.scss'
 import HelpTooltip from '../../../../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
 
-const propTypes = {
-  metric: PropTypes.any,
-  setFieldValue: PropTypes.func.isRequired,
-  metaFormSettings: PropTypes.any
-}
-
 const checkPossibleTarget = ({ metaFormSettings, setFieldValue, target }) => {
   if (!target || (Array.isArray(target) && target.length === 0)) {
     setFieldValue('target', metaFormSettings.target.value)
   }
 }
+
+export const SIGNAL_SUPPORTED_METRICS = [
+  Metric.social_volume_total,
+  Metric.volume_usd,
+  Metric.age_destroyed,
+  Metric.exchange_balance,
+  Metric.nvt
+]
 
 export const TriggerFormMetricTypes = ({
   metric,
@@ -68,7 +69,10 @@ export const TriggerFormMetricTypes = ({
     setOpen(false)
   }
 
-  const categories = getCategoryGraph(Object.values(Metric), [])
+  const categories = getCategoryGraph(
+    Object.values(SIGNAL_SUPPORTED_METRICS),
+    []
+  )
   const categoriesKeys = Object.keys(categories)
 
   return (
@@ -161,7 +165,7 @@ const MetricTypeRenderer = ({ metric = {}, onClick, showLabel = true }) => {
               withDesc={false}
               position='bottom'
               align='start'
-              onAction='onMouseEnter'
+              onAction='hover'
               classes={styles}
             >
               {description}
@@ -175,5 +179,3 @@ const MetricTypeRenderer = ({ metric = {}, onClick, showLabel = true }) => {
     </div>
   )
 }
-
-TriggerFormMetricTypes.propTypes = propTypes

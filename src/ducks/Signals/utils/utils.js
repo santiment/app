@@ -59,6 +59,7 @@ import {
 } from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
 import { Metric } from '../../dataHub/metrics'
+import { SIGNAL_SUPPORTED_METRICS } from '../signalFormManager/signalCrudForm/formParts/metricTypes/TriggerFormMetricTypes'
 
 export const mapToOptions = input => {
   if (!input) {
@@ -285,10 +286,9 @@ const getFormMetric = ({ type, metric }) => {
           return PRICE_METRIC
         }
         default: {
-          break
+          return SIGNAL_SUPPORTED_METRICS.find(({ key }) => key === metric)
         }
       }
-      break
     }
     case METRIC_TYPES.WALLET_MOVEMENT: {
       return ETH_WALLET_METRIC
@@ -672,7 +672,7 @@ export const mapFormToPPCTriggerSettings = formProps => {
     target,
     targetWatchlist,
     signalType,
-    metric: { type, metric }
+    metric: { type, metric, key }
   } = formProps
   const newTarget = mapFomTargetToTriggerTarget(
     target,
@@ -681,8 +681,8 @@ export const mapFormToPPCTriggerSettings = formProps => {
   )
 
   return {
-    type,
-    metric,
+    type: key ? METRIC_TYPES.METRIC_SIGNAL : type,
+    metric: key || metric,
     ...newTarget,
     channel: getChannels(formProps),
     time_window: getTimeWindow(formProps),
@@ -695,7 +695,7 @@ export const mapFormToPACTriggerSettings = formProps => {
     target,
     targetWatchlist,
     signalType,
-    metric: { type, metric }
+    metric: { key, type, metric }
   } = formProps
   const newTarget = mapFomTargetToTriggerTarget(
     target,
@@ -703,8 +703,8 @@ export const mapFormToPACTriggerSettings = formProps => {
     signalType
   )
   return {
-    type,
-    metric,
+    type: key ? METRIC_TYPES.METRIC_SIGNAL : type,
+    metric: key || metric,
     ...newTarget,
     channel: getChannels(formProps),
     operation: getTriggerOperation(formProps)
@@ -795,9 +795,25 @@ export const mapFormToHBTriggerSettings = formProps => {
   }
 }
 
+const mapDefaultMetricProps = ({ type, formProps }) => {
+  switch (type.metric) {
+    case PRICE_PERCENT_CHANGE: {
+      return mapFormToPPCTriggerSettings(formProps)
+    }
+    case PRICE_ABSOLUTE_CHANGE: {
+      return mapFormToPACTriggerSettings(formProps)
+    }
+    default: {
+    }
+  }
+}
+
 export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
   const { type, metric, isRepeating, isPublic, title, description } = formProps
   let settings = {}
+
+  console.log(formProps)
+
   switch (metric.value) {
     case DAILY_ACTIVE_ADDRESSES: {
       settings = mapFormToDAATriggerSettings(formProps)
@@ -815,22 +831,8 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
       settings = mapFormToHBTriggerSettings(formProps)
       break
     }
-    case PRICE: {
-      switch (type.metric) {
-        case PRICE_PERCENT_CHANGE: {
-          settings = mapFormToPPCTriggerSettings(formProps)
-          break
-        }
-        case PRICE_ABSOLUTE_CHANGE: {
-          settings = mapFormToPACTriggerSettings(formProps)
-          break
-        }
-        default: {
-        }
-      }
-      break
-    }
     default: {
+      settings = mapDefaultMetricProps({ type, formProps })
     }
   }
   const cooldownParams = getCooldownParams(formProps)
@@ -932,6 +934,10 @@ export const getTimeRangeForChart = type => {
 }
 
 export const getNearestTypeByMetric = metric => {
+  if (metric.key) {
+    return PRICE_PERCENT_CHANGE_DOWN_MODEL
+  }
+
   switch (metric.value) {
     case ETH_WALLET_METRIC.value: {
       return ETH_WALLET_AMOUNT_UP
@@ -1409,6 +1415,16 @@ export const getTargetsHeader = values => {
 const getUsd = (value = 0, isPriceMetric) =>
   isPriceMetric ? formatNumber(value || 0, { currency: 'USD' }) : value
 
+const getMetricTargetTitle = metric => {
+  if (metric.key) {
+    return metric.label
+  }
+
+  const isPriceMetric = metric.value === PRICE
+
+  return isPriceMetric ? 'Price' : 'Addresses count'
+}
+
 export const titleMetricValuesHeader = (
   hasMetricValues,
   {
@@ -1430,9 +1446,14 @@ export const titleMetricValuesHeader = (
     const { value } = type
     const isPriceMetric = metric.value === PRICE
 
-    const priceOrDaaTitle = isPriceMetric
-      ? `Price ${ofTarget} goes`
-      : `Addresses count ${ofTarget} goes`
+    const titleTarget = getMetricTargetTitle(metric)
+
+    const addressesTitle = `${titleTarget} ${ofTarget}`
+    const priceGoesTitle = `${titleTarget} ${ofTarget} goes`
+    const priceMovingTitle = `${titleTarget} ${ofTarget} moving`
+
+    const priceCommonTitle =
+      isPriceMetric || metric.key ? priceMovingTitle : addressesTitle
 
     switch (value) {
       case ETH_WALLETS_OPERATIONS.AMOUNT_DOWN: {
@@ -1449,25 +1470,21 @@ export const titleMetricValuesHeader = (
       }
       case PRICE_CHANGE_TYPES.MOVING_DOWN: {
         return buildFormBlock(
-          isPriceMetric
-            ? `Price ${ofTarget} moving`
-            : `Addresses count ${ofTarget}`,
+          priceCommonTitle,
           `down ${percentThreshold ||
             0}% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`
         )
       }
       case PRICE_CHANGE_TYPES.MOVING_UP: {
         return buildFormBlock(
-          isPriceMetric
-            ? `Price ${ofTarget} moving`
-            : `Addresses count ${ofTarget}`,
+          priceCommonTitle,
           `up ${percentThreshold ||
             0}% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`
         )
       }
       case PRICE_CHANGE_TYPES.PERCENT_SOME_OF: {
         return buildFormBlock(
-          isPriceMetric ? `Price ${ofTarget}` : `Addresses count ${ofTarget}`,
+          isPriceMetric ? `${titleTarget} ${ofTarget}` : addressesTitle,
           `moving up ${percentThresholdLeft ||
             0}% or moving down ${percentThresholdRight ||
             0}% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`
@@ -1475,19 +1492,19 @@ export const titleMetricValuesHeader = (
       }
       case PRICE_CHANGE_TYPES.ABOVE: {
         return buildFormBlock(
-          priceOrDaaTitle,
+          priceGoesTitle,
           'above ' + getUsd(absoluteThreshold, isPriceMetric)
         )
       }
       case PRICE_CHANGE_TYPES.BELOW: {
         return buildFormBlock(
-          priceOrDaaTitle,
+          priceGoesTitle,
           'below ' + getUsd(absoluteThreshold, isPriceMetric)
         )
       }
       case PRICE_CHANGE_TYPES.INSIDE_CHANNEL: {
         return buildFormBlock(
-          priceOrDaaTitle,
+          priceGoesTitle,
           'between ' +
             getUsd(absoluteBorderRight, isPriceMetric) +
             ' and ' +
@@ -1496,7 +1513,7 @@ export const titleMetricValuesHeader = (
       }
       case PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL: {
         return buildFormBlock(
-          priceOrDaaTitle,
+          priceGoesTitle,
           'outside ' +
             getUsd(absoluteBorderRight, isPriceMetric) +
             ' and ' +
@@ -1518,7 +1535,11 @@ export const getNewTitle = newValues => {
     return ''
   }
 
-  const { titleDescription = '' } = titleMetricValuesHeader(true, newValues)
+  const { titleLabel, titleDescription = '' } = titleMetricValuesHeader(
+    true,
+    newValues,
+    ''
+  )
 
   let title = ''
   switch (metric.value) {
@@ -1560,6 +1581,7 @@ export const getNewTitle = newValues => {
       break
     }
     default: {
+      title = `${titleLabel} ${titleDescription}`
     }
   }
 
