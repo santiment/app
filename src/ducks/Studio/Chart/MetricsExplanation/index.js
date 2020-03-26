@@ -3,9 +3,11 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Dropdown from '@santiment-network/ui/Dropdown'
 import Explanations from './Explanations'
+import MetricInsights from '../../../../components/MetricInsight/MetricInsights'
 import DataInfo from './DataInfo'
 import MetricIcon from '../../../SANCharts/MetricIcon'
 import { Description } from '../../../dataHub/metrics/descriptions'
+import { Insights } from '../../../dataHub/metrics/insights'
 import styles from './index.module.scss'
 
 const OPTIONS = []
@@ -16,7 +18,9 @@ const dropdownClasses = {
 }
 
 export function filterExplainableMetrics (metrics) {
-  return metrics.filter(({ key }) => Description[key])
+  return metrics.filter(
+    ({ key, insights }) => Description[key] || Insights[key]
+  )
 }
 
 function dedupMetrics (metrics) {
@@ -84,9 +88,14 @@ const MetricsExplanation = ({ metrics, MetricColor, onClose, ...rest }) => {
           onSelect={setSelected}
         />
         <DataInfo {...rest} metric={metric} />
-        <div className={styles.subtitle}>Description</div>
-        <div className={styles.text}>{Description[metric.key]}</div>
+        {Description[metric.key] && (
+          <>
+            <div className={styles.subtitle}>Description</div>
+            <div className={styles.text}>{Description[metric.key]}</div>
+          </>
+        )}
         <Explanations {...rest} metric={metric} />
+        <MetricInsights insights={Insights[metric.key]} />
       </div>
     </>
   )

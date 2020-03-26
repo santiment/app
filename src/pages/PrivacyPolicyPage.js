@@ -28,10 +28,10 @@ const PrivacyPolicyPage = ({ isLoggedIn }) => (
 
       <h2>Who are We?</h2>
       <p>
-        We are Santiment Sagl., company number CHE-424.007.779, having our seat
-        and registered address at Ibex Services Ltd, via Balestra 6, 6830
-        Chiasso, Switzerland (“We”, “Us”, “Our”). We are the data controller of
-        your personal data provided by you on Our website.
+        We are Santiment GmbH, company number CHE-424.007.779, and with
+        registered address Dammstrasse 16, 6300 Zug, Switzerland (“We”, “Us”,
+        “Our”). We are the data controller of your personal data provided by you
+        on Our website.
       </p>
 
       <h2>What personal data do we collect on you?</h2>

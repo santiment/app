@@ -17,14 +17,20 @@ export const AwaitingApproval = () => (
   </div>
 )
 
-const InsightCard = ({ className, tags, isDesktop, showIcon, ...insight }) => {
+const InsightCard = ({
+  classes = {},
+  tags,
+  isDesktop,
+  showIcon,
+  ...insight
+}) => {
   const { createdAt, updatedAt, publishedAt, state } = insight
   const filteredTags = tags.filter(noTrendTagsFilter)
 
   const firstTag = filteredTags[0]
 
   return (
-    <Panel className={cx(styles.wrapper, styles.wrapper_withMc, className)}>
+    <Panel className={cx(styles.wrapper, styles.wrapper_withMc, classes.card)}>
       <InsightCardInternals
         {...insight}
         tags={filteredTags}

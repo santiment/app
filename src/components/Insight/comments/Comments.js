@@ -5,77 +5,35 @@ import Panel from '@santiment-network/ui/Panel'
 import Icon from '@santiment-network/ui/Icon'
 import toReact from 'svelte-adapter/react'
 import SvelteComments from 'insights-app/lib/components/comments/Comments'
-import { client } from '../../index.js'
-import {
-  COMMENTS_FOR_INSIGHT_QUERY,
-  CREATE_COMMENT_MUTATION,
-  DELETE_COMMENT_MUTATION,
-  UPDATE_COMMENT_MUTATION
-} from '../../queries/comments'
-import sharedStyles from './InsightCard.module.scss'
+import sharedStyles from '../InsightCard.module.scss'
 import styles from './Comments.module.scss'
+import { deleteComment, editComment } from './utils'
 
 const Comments = toReact(SvelteComments, {}, 'div')
 
-function getComments (id, cursor) {
-  return client.query({
-    query: COMMENTS_FOR_INSIGHT_QUERY,
-    variables: {
-      id,
-      cursor
-    },
-    fetchPolicy: 'network-only'
-  })
-}
-
-function createComment (id, content, parentId) {
-  return client.mutate({
-    mutation: CREATE_COMMENT_MUTATION,
-    variables: {
-      id: +id,
-      parentId: parentId ? +parentId : null,
-      content
-    }
-  })
-}
-
-function deleteComment (id) {
-  return client.mutate({
-    mutation: DELETE_COMMENT_MUTATION,
-    variables: {
-      id: +id
-    }
-  })
-}
-
-function editComment (id, content) {
-  return client.mutate({
-    mutation: UPDATE_COMMENT_MUTATION,
-    variables: {
-      id: +id,
-      content
-    }
-  })
-}
-
-export default ({ id, authorId, count }) => {
+export default ({ id, authorId, count, createComment, getComments }) => {
   const [comments, setComments] = useState([])
   const [loading, setLoading] = useState(true)
+  const commentsCount = comments.length || count
 
-  useEffect(() => {
+  const loadComments = () => {
     getComments(id).then(({ data }) => {
       setComments(data.comments)
       setLoading(false)
     })
-  }, [])
+  }
+
+  useEffect(loadComments, [])
 
   return (
     <Modal
       trigger={
         <div className={cx(sharedStyles.stat, sharedStyles.stat_comments)}>
-          <Icon type='comment' className={sharedStyles.commentIcon} /> {count}
+          <Icon type='comment' className={sharedStyles.commentIcon} />{' '}
+          {commentsCount}
         </div>
       }
+      onClose={loadComments}
       as={Panel}
       classes={{
         wrapper: styles.wrapper,
@@ -87,7 +45,7 @@ export default ({ id, authorId, count }) => {
           comments={comments}
           id={id}
           authorId={authorId}
-          commentsCount={count}
+          commentsCount={commentsCount}
           getComments={getComments}
           createComment={createComment}
           editComment={editComment}
