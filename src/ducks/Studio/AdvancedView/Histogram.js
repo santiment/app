@@ -1,38 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { useQuery } from '@apollo/react-hooks'
-import { graphql } from 'react-apollo'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Dropdown from '@santiment-network/ui/Dropdown'
 import Message from '@santiment-network/ui/Message'
-import { linearScale } from '@santiment-network/chart/scales'
-import { HISTOGRAM_DATA_QUERY } from './gql'
 import Calendar from './Calendar'
 import UsageTip from './UsageTip'
+import { useHistogramData } from './hooks'
 import { usdFormatter } from '../../SANCharts/utils'
 import { millify } from '../../../utils/formatting'
 import { ONE_MONTH_IN_MS } from '../../../utils/dates'
 import styles from './Histogram.module.scss'
-
-const chart = {
-  height: 342,
-  top: 0
-}
-
-function rangeFormatter ([left, right]) {
-  return usdFormatter(left) + ' - ' + usdFormatter(right)
-}
-
-const Frame = ({ range, value, ticker, width }) => {
-  return (
-    <div className={styles.frame}>
-      <div className={styles.bar} style={{ width }} />
-      <div className={styles.info}>
-        <span className={styles.range}>{rangeFormatter(range)}: </span>
-        {millify(value, 1)} {ticker}
-      </div>
-    </div>
-  )
-}
 
 const dropdownClasses = {
   wrapper: styles.dropdown,
@@ -49,6 +25,22 @@ const valueSorter = ({ width: a }, { width: b }) => b - a
 const Sorter = {
   [TIME]: dateSorter,
   [VALUE]: valueSorter
+}
+
+function rangeFormatter ([left, right]) {
+  return usdFormatter(left) + ' - ' + usdFormatter(right)
+}
+
+const Frame = ({ range, value, ticker, width }) => {
+  return (
+    <div className={styles.frame}>
+      <div className={styles.bar} style={{ width }} />
+      <div className={styles.info}>
+        <span className={styles.range}>{rangeFormatter(range)}: </span>
+        {millify(value, 1)} {ticker}
+      </div>
+    </div>
+  )
 }
 
 const Histogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
@@ -140,54 +132,6 @@ Histogram.defaultProps = {
   date: new Date(Date.now() - ONE_MONTH_IN_MS * 3),
   slug: 'bitcoin',
   distributions: []
-}
-
-function formatHistogramData (data) {
-  const { length } = data
-
-  let max = 0
-
-  for (let i = 0; i < length; i++) {
-    const { value } = data[i]
-    if (value > max) {
-      max = value
-    }
-  }
-
-  const scaler = linearScale(chart, max, 0)
-
-  return data.map((distribution, index) => {
-    return {
-      index,
-      distribution,
-      width: scaler(distribution.value)
-    }
-  })
-}
-
-function useHistogramData ({ slug, from, to }) {
-  const [histogramData, setHistogramData] = useState([])
-  const { data, loading, error } = useQuery(HISTOGRAM_DATA_QUERY, {
-    skip: !from || !to,
-    variables: {
-      slug,
-      from,
-      to
-    }
-  })
-
-  useEffect(
-    () => {
-      if (data) {
-        setHistogramData(
-          formatHistogramData(data.getMetric.histogramData.values.data)
-        )
-      }
-    },
-    [data]
-  )
-
-  return [histogramData, loading, error]
 }
 
 export default Histogram

@@ -41,7 +41,6 @@ const Chart = ({
   syncedTooltipDate,
   syncTooltips = () => {},
   onRangeSelect,
-  onPointHover = () => {},
   onPointClick = () => {},
   isLoading,
   isMultiChartsActive,
@@ -113,13 +112,6 @@ const Chart = ({
       chart.onRangeSelect = onRangeSelect
     },
     [onRangeSelect]
-  )
-
-  useEffect(
-    () => {
-      chart.onPointHover = onPointHover
-    },
-    [onPointHover]
   )
 
   useEffect(

@@ -28,7 +28,6 @@ export function setupTooltip (chart, marker, syncTooltips) {
     if (!point) return
     syncTooltips(point.value)
     plotTooltip(chart, marker, point)
-    chart.onPointHover(point)
   })
 
   canvas.onmousedown = handleMove(chart, point => {
@@ -42,32 +41,7 @@ export function setupTooltip (chart, marker, syncTooltips) {
       window.addEventListener('mousemove', onMouseMove)
     }
 
-    window.addEventListener(
-      'mouseup',
-      ({ offsetX }) => {
-        window.removeEventListener('mousemove', onMouseMove)
-
-        if (moved) {
-          const index = getHoveredIndex(
-            offsetX - left,
-            pointWidth,
-            points.length
-          )
-          const endPoint = points[index < 0 ? 0 : index]
-
-          clearCtx(chart, ctx)
-
-          if (offsetX >= left && offsetX <= right) {
-            plotTooltip(chart, marker, endPoint)
-          }
-
-          chart.onRangeSelect(point, endPoint)
-        } else {
-          chart.onPointClick(point)
-        }
-      },
-      { once: true }
-    )
+    window.addEventListener('mouseup', onMouseUp)
 
     function onMouseMove ({ offsetX }) {
       const { left, right, top, height } = chart
@@ -82,6 +56,26 @@ export function setupTooltip (chart, marker, syncTooltips) {
       ctx.fillStyle = '#9faac435'
       ctx.fillRect(x, top, width, height)
       ctx.restore()
+    }
+
+    function onMouseUp ({ offsetX }) {
+      window.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('mouseup', onMouseUp)
+
+      const index = getHoveredIndex(offsetX - left, pointWidth, points.length)
+      const endPoint = points[index < 0 ? 0 : index]
+
+      if (moved) {
+        clearCtx(chart, ctx)
+
+        if (offsetX >= left && offsetX <= right) {
+          plotTooltip(chart, marker, endPoint)
+        }
+
+        chart.onRangeSelect(point, endPoint)
+      } else {
+        chart.onPointClick(endPoint)
+      }
     }
   })
 
