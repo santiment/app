@@ -890,6 +890,18 @@ export const getNewMetricsByType = ({ settings: { type, metric } }) => {
           }
         }
         default: {
+          const checkingMetric = SIGNAL_SUPPORTED_METRICS.find(
+            ({ key }) => key === metric
+          )
+
+          if (checkingMetric) {
+            return {
+              metrics: [Metric.price_usd, checkingMetric],
+              triggersBy: checkingMetric,
+              historicalTriggersDataKey: 'current'
+            }
+          }
+
           return defaultValue
         }
       }
