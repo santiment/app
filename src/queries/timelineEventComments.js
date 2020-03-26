@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const COMMENTS_FOR_TIMELINEEVENTS_QUERY = gql`
+export const COMMENTS_TIMELINE_EVENTS_QUERY = gql`
   query comments(
     $id: ID!
     $cursor: CursorInput
@@ -22,7 +22,7 @@ export const COMMENTS_FOR_TIMELINEEVENTS_QUERY = gql`
   }
 `
 
-export const CREATE_TIMELINEEVENT_COMMENT_MUTATION = gql`
+export const CREATE_TIMELINE_EVENT_COMMENT_MUTATION = gql`
   mutation createComment(
     $id: Int!
     $content: String!

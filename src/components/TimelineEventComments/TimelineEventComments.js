@@ -1,9 +1,9 @@
 import React from 'react'
-import Comments from '../Insight/Comments'
+import Comments from '../Insight/comments/Comments'
 import { client } from '../../index'
 import {
-  COMMENTS_FOR_TIMELINEEVENTS_QUERY,
-  CREATE_TIMELINEEVENT_COMMENT_MUTATION
+  COMMENTS_TIMELINE_EVENTS_QUERY,
+  CREATE_TIMELINE_EVENT_COMMENT_MUTATION
 } from '../../queries/timelineEventComments'
 
 export const CommentTypes = {
@@ -11,9 +11,13 @@ export const CommentTypes = {
   INSIGHT: 'INSIGHT'
 }
 
-function getComments (id, cursor, entityType = CommentTypes.TIMELINE_EVENT) {
+function getTimelineComments (
+  id,
+  cursor,
+  entityType = CommentTypes.TIMELINE_EVENT
+) {
   return client.query({
-    query: COMMENTS_FOR_TIMELINEEVENTS_QUERY,
+    query: COMMENTS_TIMELINE_EVENTS_QUERY,
     variables: {
       id,
       cursor,
@@ -23,14 +27,14 @@ function getComments (id, cursor, entityType = CommentTypes.TIMELINE_EVENT) {
   })
 }
 
-function createComment (
+function createTimelineComment (
   id,
   content,
   parentId,
   entityType = CommentTypes.TIMELINE_EVENT
 ) {
   return client.mutate({
-    mutation: CREATE_TIMELINEEVENT_COMMENT_MUTATION,
+    mutation: CREATE_TIMELINE_EVENT_COMMENT_MUTATION,
     variables: {
       id: +id,
       parentId: parentId ? +parentId : null,
@@ -46,8 +50,8 @@ const TimelineEventComments = ({ id, authorId, commentsCount }) => {
       id={id}
       authorId={authorId}
       count={commentsCount}
-      onGet={getComments}
-      onCreate={createComment}
+      getComments={getTimelineComments}
+      createComment={createTimelineComment}
     />
   )
 }

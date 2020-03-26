@@ -6,8 +6,9 @@ import MultilineText from '../MultilineText/MultilineText'
 import LikeBtn from '../Like/LikeBtn'
 import { getSEOLinkFromIdAndTitle } from './utils'
 import { DesktopOnly, MobileOnly } from '../Responsive'
+import { createInsightComment, getInsightComments } from './comments/utils'
 import { SignalTypeIcon } from '../SignalCard/controls/SignalControls'
-import Comments from './Comments'
+import Comments from './comments/Comments'
 import styles from './InsightCard.module.scss'
 
 export const makeLinkToInsight = (id, title) => {
@@ -85,7 +86,13 @@ const InsightCardInternals = ({
             disabled={disabled}
             className={styles.likeBtn}
           />
-          <Comments id={id} authorId={authorId} count={commentsCount} />
+          <Comments
+            id={id}
+            authorId={authorId}
+            count={commentsCount}
+            createComment={createInsightComment}
+            getComments={getInsightComments}
+          />
           <div className={styles.tags}>
             <InsightTags tags={tags} isDesktop={isDesktop} />
           </div>
