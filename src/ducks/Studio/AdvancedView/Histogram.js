@@ -168,6 +168,7 @@ function formatHistogramData (data) {
 function useHistogramData ({ slug, from, to }) {
   const [histogramData, setHistogramData] = useState([])
   const { data, loading, error } = useQuery(HISTOGRAM_DATA_QUERY, {
+    skip: !from || !to,
     variables: {
       slug,
       from,

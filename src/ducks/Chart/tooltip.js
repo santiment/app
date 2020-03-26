@@ -21,11 +21,7 @@ const ALERT_ADD_HALF_SIZE = 7
 
 export function setupTooltip (chart, marker, syncTooltips) {
   const {
-    tooltip: { canvas, ctx },
-    top,
-    left,
-    right,
-    height
+    tooltip: { canvas, ctx }
   } = chart
 
   canvas.onmousemove = handleMove(chart, point => {
@@ -37,9 +33,10 @@ export function setupTooltip (chart, marker, syncTooltips) {
 
   canvas.onmousedown = handleMove(chart, point => {
     if (!point) return
+    const { left, right, points, pointWidth } = chart
+    const { x } = point
 
     let moved = false
-    let endPoint = {}
 
     if (chart.onRangeSelect) {
       window.addEventListener('mousemove', onMouseMove)
@@ -53,10 +50,17 @@ export function setupTooltip (chart, marker, syncTooltips) {
         if (moved) {
           const index = getHoveredIndex(
             offsetX - left,
-            chart.pointWidth,
-            chart.points.length
+            pointWidth,
+            points.length
           )
-          const endPoint = chart.points[index < 0 ? 0 : index]
+          const endPoint = points[index < 0 ? 0 : index]
+
+          clearCtx(chart, ctx)
+
+          if (offsetX >= left && offsetX <= right) {
+            plotTooltip(chart, marker, endPoint)
+          }
+
           chart.onRangeSelect(point, endPoint)
         } else {
           chart.onPointClick(point)
@@ -66,16 +70,17 @@ export function setupTooltip (chart, marker, syncTooltips) {
     )
 
     function onMouseMove ({ offsetX }) {
+      const { left, right, top, height } = chart
       if (offsetX < left || offsetX > right) {
         return
       }
 
       moved = true
-      const width = offsetX - point.x
+      const width = offsetX - x
 
       ctx.save()
       ctx.fillStyle = '#9faac435'
-      ctx.fillRect(point.x, top, width, height)
+      ctx.fillRect(x, top, width, height)
       ctx.restore()
     }
   })

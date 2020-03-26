@@ -24,6 +24,7 @@ const Main = ({ topSlot, bottomSlot, eventsData, onSlugChange, ...props }) => {
 
   function changeHoveredDate ({ value }) {
     setSelectedDate(new Date(value))
+    setDatesRange()
   }
 
   function changeDatesRange (leftPoint, rightPoint) {
