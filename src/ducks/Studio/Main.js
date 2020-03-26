@@ -10,7 +10,7 @@ const Main = ({ topSlot, bottomSlot, eventsData, onSlugChange, ...props }) => {
   const { settings, advancedView, setSettings, setIsICOPriceDisabled } = props
   const chartRef = useRef(null)
   const [selectedDate, setSelectedDate] = useState()
-  const [datesRange, setDatesRange] = useState()
+  const [selectedDatesRange, setSelectedDatesRange] = useState()
 
   function onProjectSelect (project) {
     if (!project) return
@@ -22,9 +22,9 @@ const Main = ({ topSlot, bottomSlot, eventsData, onSlugChange, ...props }) => {
     onSlugChange(slug)
   }
 
-  function changeHoveredDate ({ value }) {
+  function changeSelectedDate ({ value }) {
     setSelectedDate(new Date(value))
-    setDatesRange()
+    setSelectedDatesRange()
   }
 
   function changeDatesRange ({ value: leftDate }, { value: rightDate }) {
@@ -34,7 +34,7 @@ const Main = ({ topSlot, bottomSlot, eventsData, onSlugChange, ...props }) => {
       leftDate < rightDate ? [leftDate, rightDate] : [rightDate, leftDate]
 
     setSelectedDate()
-    setDatesRange([new Date(from), new Date(to)])
+    setSelectedDatesRange([new Date(from), new Date(to)])
   }
 
   return (
@@ -57,7 +57,7 @@ const Main = ({ topSlot, bottomSlot, eventsData, onSlugChange, ...props }) => {
               className={styles.canvas}
               chartRef={chartRef}
               events={eventsData}
-              changeHoveredDate={changeHoveredDate}
+              changeHoveredDate={changeSelectedDate}
               changeDatesRange={changeDatesRange}
             />
           </div>
@@ -67,7 +67,7 @@ const Main = ({ topSlot, bottomSlot, eventsData, onSlugChange, ...props }) => {
                 {...props}
                 {...settings}
                 date={selectedDate}
-                datesRange={datesRange}
+                datesRange={selectedDatesRange}
               />
             </div>
           )}

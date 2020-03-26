@@ -3,7 +3,7 @@ import { linearScale } from '@santiment-network/chart/scales'
 import { useQuery } from '@apollo/react-hooks'
 import { HISTOGRAM_DATA_QUERY } from './gql'
 
-const CHART = {
+const Chart = {
   height: 342,
   top: 0
 }
@@ -20,7 +20,7 @@ function formatHistogramData (data) {
     }
   }
 
-  const scaler = linearScale(CHART, max, 0)
+  const scaler = linearScale(Chart, max, 0)
 
   return data.map((distribution, index) => {
     return {
