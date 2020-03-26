@@ -12,7 +12,17 @@ const getDateLabel = date => {
   return `${DD} ${MMM} ${YY}`
 }
 
-export default ({ date = new Date(), className, ...rest }) => {
+const checkSameDates = ([from, to]) =>
+  !to ||
+  (from.getDate() === to.getDate() &&
+    from.getMonth() === to.getMonth() &&
+    from.getFullYear() === to.getFullYear())
+
+const AdvancedViewCalendar = ({ dates, className, ...rest }) => {
+  const label = checkSameDates(dates)
+    ? getDateLabel(dates[0])
+    : `${getDateLabel(dates[0])} - ${getDateLabel(dates[1])}`
+
   return (
     <ContextMenu
       passOpenStateAs='isActive'
@@ -20,12 +30,18 @@ export default ({ date = new Date(), className, ...rest }) => {
       align='end'
       trigger={
         <Button border classes={styles} className={cx(styles.btn, className)}>
-          {getDateLabel(date)}
+          {label}
           <Icon type='calendar' className={styles.icon} />
         </Button>
       }
     >
-      <Calendar value={date} {...rest} />
+      <Calendar value={dates} {...rest} />
     </ContextMenu>
   )
 }
+
+AdvancedViewCalendar.defaultProps = {
+  dates: [new Date()]
+}
+
+export default AdvancedViewCalendar

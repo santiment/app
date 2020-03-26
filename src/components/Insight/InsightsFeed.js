@@ -21,7 +21,9 @@ const InsightsFeed = ({
             <InsightCard
               id={id}
               {...rest}
-              className={cx(className, classes.insightCard)}
+              classes={{
+                card: cx(className, classes.insightCard)
+              }}
               onLike={mutateInsightById(id)}
             />
           )}

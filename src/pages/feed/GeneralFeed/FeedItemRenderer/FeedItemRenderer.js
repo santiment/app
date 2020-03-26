@@ -48,7 +48,7 @@ const FeedItemRenderer = ({ item, index, showProfileExplanation }) => {
             <InsightCard
               id={insightId}
               {...rest}
-              className={styles.card}
+              classes={styles}
               onLike={like(insightId)}
               showIcon={true}
             />
