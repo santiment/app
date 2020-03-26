@@ -90,6 +90,15 @@ export const useTimeseries = (metrics, settings) => {
         const queryId = client.queryManager.idCounter
         const abortController = new AbortController()
 
+        const query = getQuery(metric)
+
+        if (!query) {
+          return setErrorMsg(state => {
+            state[key] = 'No data'
+            return { ...state }
+          })
+        }
+
         setAbortables(state => {
           const newState = new Map(state)
           newState.set(metric, [abortController, queryId])
@@ -104,7 +113,7 @@ export const useTimeseries = (metrics, settings) => {
 
         client
           .query({
-            query: getQuery(metric),
+            query,
             variables: {
               metric: key,
               interval,
