@@ -6,7 +6,7 @@ import toJson from 'enzyme-to-json'
 import { Provider } from 'react-redux'
 import Detailed from './Detailed'
 
-jest.mock('../../components/Insight/Comments.js', () => ({
+jest.mock('../../components/Insight/comments/Comments.js', () => ({
   __esModule: true,
   default: () => <div />
 }))

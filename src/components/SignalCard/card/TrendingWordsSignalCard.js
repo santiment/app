@@ -11,6 +11,7 @@ import FeedCardDate from '../../../pages/feed/GeneralFeed/CardDate/FeedCardDate'
 import { getAmPmWithHours } from '../../../utils/dates'
 import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
 import SignalCreator from './creator/SignalCreator'
+import TimelineEventComments from '../../TimelineEventComments/TimelineEventComments'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
 
@@ -32,7 +33,7 @@ export const isTrendingWordsSignal = trigger => {
 const TrendingWordsSignalCard = ({
   className,
   activityPayload,
-  activity: { votes, trigger, insertedAt: date, user },
+  activity: { id, commentsCount, votes, trigger, insertedAt: date, user },
   onLike
 }) => {
   const {
@@ -81,6 +82,11 @@ const TrendingWordsSignalCard = ({
             className={styles.likeBtn}
             votes={votes}
             user={user}
+          />
+          <TimelineEventComments
+            id={id}
+            authorId={user.id}
+            commentsCount={commentsCount}
           />
         </div>
       </div>

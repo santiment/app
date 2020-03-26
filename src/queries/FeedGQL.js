@@ -21,6 +21,7 @@ export const FEED_QUERY = gql`
       }
       events {
         id
+        commentsCount
         eventType
         insertedAt
         user {
