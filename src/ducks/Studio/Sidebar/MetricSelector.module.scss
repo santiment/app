@@ -104,6 +104,16 @@
     align-items: center;
   }
 
+  &__error {
+    @include text('caption');
+
+    border-radius: 4px;
+    padding: 2px 5px;
+    margin-right: 8px;
+    background: var(--porcelain);
+    color: var(--casper);
+  }
+
   &:hover {
     .plus {
       background: var(--jungle-green);

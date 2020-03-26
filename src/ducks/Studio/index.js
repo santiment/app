@@ -33,7 +33,7 @@ const Studio = ({
   const [advancedView, setAdvancedView] = useState()
   const [shareLink, setShareLink] = useState()
   const [isICOPriceDisabled, setIsICOPriceDisabled] = useState()
-  const [data, loadings] = useTimeseries(activeMetrics, settings)
+  const [data, loadings, ErrorMsg] = useTimeseries(activeMetrics, settings)
   const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings)
   const [isSidebarClosed, setIsSidebarClosed] = useState()
 
@@ -49,6 +49,13 @@ const Studio = ({
       setActiveMetrics(metrics.concat(comparedMetrics))
     },
     [metrics, comparedMetrics]
+  )
+
+  useEffect(
+    () => {
+      setMetrics(metrics.filter(({ key }) => !ErrorMsg[key]))
+    },
+    [ErrorMsg]
   )
 
   useEffect(
@@ -149,6 +156,7 @@ const Studio = ({
         activeMetrics={activeMetrics}
         activeEvents={activeEvents}
         advancedView={advancedView}
+        ErrorMsg={ErrorMsg}
         setOptions={setOptions}
         toggleMetric={toggleMetric}
         toggleAdvancedView={toggleAdvancedView}
