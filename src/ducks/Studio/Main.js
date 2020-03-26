@@ -9,7 +9,8 @@ import styles from './index.module.scss'
 const Main = ({ topSlot, bottomSlot, eventsData, onSlugChange, ...props }) => {
   const { settings, advancedView, setSettings, setIsICOPriceDisabled } = props
   const chartRef = useRef(null)
-  const [hoveredDate, setHoveredDate] = useState()
+  const [selectedDate, setSelectedDate] = useState()
+  const [selectedDatesRange, setSelectedDatesRange] = useState()
 
   function onProjectSelect (project) {
     if (!project) return
@@ -21,8 +22,19 @@ const Main = ({ topSlot, bottomSlot, eventsData, onSlugChange, ...props }) => {
     onSlugChange(slug)
   }
 
-  function changeHoveredDate ({ value }) {
-    setHoveredDate(new Date(value))
+  function changeSelectedDate ({ value }) {
+    setSelectedDate(new Date(value))
+    setSelectedDatesRange()
+  }
+
+  function changeDatesRange ({ value: leftDate }, { value: rightDate }) {
+    if (leftDate === rightDate) return
+
+    const [from, to] =
+      leftDate < rightDate ? [leftDate, rightDate] : [rightDate, leftDate]
+
+    setSelectedDate()
+    setSelectedDatesRange([new Date(from), new Date(to)])
   }
 
   return (
@@ -45,12 +57,18 @@ const Main = ({ topSlot, bottomSlot, eventsData, onSlugChange, ...props }) => {
               className={styles.canvas}
               chartRef={chartRef}
               events={eventsData}
-              changeHoveredDate={changeHoveredDate}
+              changeHoveredDate={changeSelectedDate}
+              changeDatesRange={changeDatesRange}
             />
           </div>
           {advancedView && (
             <div className={cx(styles.canvas, styles.advanced)}>
-              <StudioAdvancedView {...props} date={hoveredDate} {...settings} />
+              <StudioAdvancedView
+                {...props}
+                {...settings}
+                date={selectedDate}
+                datesRange={selectedDatesRange}
+              />
             </div>
           )}
         </div>

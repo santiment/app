@@ -40,7 +40,8 @@ const Chart = ({
   MetricColor,
   syncedTooltipDate,
   syncTooltips = () => {},
-  onPointHover = () => {},
+  onRangeSelect,
+  onPointClick = () => {},
   isLoading,
   isMultiChartsActive,
   isNightModeEnabled,
@@ -108,9 +109,16 @@ const Chart = ({
 
   useEffect(
     () => {
-      chart.onPointHover = onPointHover
+      chart.onRangeSelect = onRangeSelect
     },
-    [onPointHover]
+    [onRangeSelect]
+  )
+
+  useEffect(
+    () => {
+      chart.onPointClick = onPointClick
+    },
+    [onPointClick]
   )
 
   useEffect(

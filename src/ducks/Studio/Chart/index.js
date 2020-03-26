@@ -32,6 +32,7 @@ const Canvas = ({
   advancedView,
   toggleMetric,
   changeHoveredDate,
+  changeDatesRange,
   isMultiChartsActive,
   syncedTooltipDate,
   isAnon,
@@ -128,7 +129,10 @@ const Canvas = ({
         scale={scale}
         isMultiChartsActive={isMultiChartsActive}
         syncedTooltipDate={isBlurred || syncedTooltipDate}
-        onPointHover={advancedView ? changeHoveredDate : undefined}
+        onPointClick={advancedView ? changeHoveredDate : undefined}
+        onRangeSelect={
+          advancedView === 'Histogram' ? changeDatesRange : undefined
+        }
         resizeDependencies={[
           MetricColor,
           isMultiChartsActive,

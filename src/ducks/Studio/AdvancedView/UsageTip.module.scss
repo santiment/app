@@ -1,0 +1,36 @@
+@import '~@santiment-network/ui/variables';
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  @include text('caption');
+
+  border-radius: 4px;
+  background: $rhino;
+  position: relative;
+  padding: 12px 16px;
+  color: $mystic;
+  margin-bottom: 16px;
+}
+
+.action {
+  color: $white;
+  font-weight: bold;
+}
+
+.tip {
+  margin-bottom: 4px;
+}
+
+.close {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  width: 9px;
+  height: 9px;
+  fill: $white;
+  cursor: pointer;
+
+  &:hover {
+    fill: $jungle-green;
+  }
+}
