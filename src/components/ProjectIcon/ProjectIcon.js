@@ -18,30 +18,27 @@ export const ProjectIcon = ({
   data: { project } = {},
   className
 }) => {
-  if (!PREDEFINED_ICONS[slug]) {
+  let { logoUrl: logo, darkLogoUrl: darkLogo } = PREDEFINED_ICONS[slug] || {}
+
+  if (!logo || !darkLogo) {
     if (logoUrl) {
-      PREDEFINED_ICONS[slug] = { logoUrl, darkLogoUrl: darkLogoUrl || logoUrl }
+      logo = logoUrl
+      darkLogo = darkLogoUrl || logoUrl
     }
 
-    if (project) {
-      PREDEFINED_ICONS[slug] = {
-        logoUrl: project.logoUrl,
-        darkLogoUrl: project.darkLogoUrl || project.logoUrl
-      }
+    if (project && project.slug === slug) {
+      logo = project.logoUrl
+      darkLogo = project.darkLogoUrl || project.logoUrl
     }
   }
-
-  const { logoUrl: logo, darkLogoUrl: darkLogo } = PREDEFINED_ICONS[slug] || {}
-
-  let icon = logo
 
   if (isNightMode) {
-    icon = darkLogo || icon
+    logo = darkLogo || logo
   }
 
-  return icon ? (
+  return logo ? (
     <img
-      src={icon}
+      src={logo}
       width={size}
       height={size}
       className={cx(styles.logo, className)}

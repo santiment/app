@@ -5,6 +5,7 @@ export const PROJECT_ICON_QUERY = gql`
     project: projectBySlug(slug: $slug) {
       logoUrl
       darkLogoUrl
+      slug
     }
   }
 `
