@@ -20,7 +20,7 @@ const MetricSearch = withMetrics(
     <Search
       {...rest}
       className={cx(className, loading && styles.loading)}
-      categories={categories}
+      categories={CustomProjectCategories[slug] || categories}
       emptySuggestions={getMetricSuggestions(
         CustomProjectCategories[slug] || categories
       )}
