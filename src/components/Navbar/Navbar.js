@@ -33,7 +33,11 @@ const PricingLink = connect(state => ({
 }))(({ isLoggedIn, subscription, dispatch, ...props }) => {
   const hasFreeSubscription = isLoggedIn && !subscription
 
-  if (hasFreeSubscription || (subscription && subscription.trialEnd)) {
+  if (
+    !isLoggedIn ||
+    hasFreeSubscription ||
+    (subscription && subscription.trialEnd)
+  ) {
     return <Link {...props} />
   }
 
