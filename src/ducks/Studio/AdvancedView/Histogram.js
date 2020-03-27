@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import cx from 'classnames'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Dropdown from '@santiment-network/ui/Dropdown'
 import Message from '@santiment-network/ui/Message'
@@ -8,6 +9,7 @@ import { useHistogramData } from './hooks'
 import { usdFormatter } from '../../SANCharts/utils'
 import { millify } from '../../../utils/formatting'
 import { ONE_MONTH_IN_MS } from '../../../utils/dates'
+import UpgradeBtn from '../../../components/UpgradeBtn/UpgradeBtn'
 import styles from './Histogram.module.scss'
 
 const dropdownClasses = {
@@ -31,13 +33,21 @@ function rangeFormatter ([left, right]) {
   return usdFormatter(left) + ' - ' + usdFormatter(right)
 }
 
-const Frame = ({ range, value, ticker, width }) => {
+const Frame = ({ range, value, ticker, width, price, isRed }) => {
   return (
     <div className={styles.frame}>
-      <div className={styles.bar} style={{ width }} />
+      <div
+        className={cx(styles.bar, !price && isRed && styles.red)}
+        style={{ '--r': width }}
+      />
       <div className={styles.info}>
         <span className={styles.range}>{rangeFormatter(range)}: </span>
         {millify(value, 1)} {ticker}
+        {price && (
+          <div className={styles.price}>
+            Current price: {usdFormatter(price)}
+          </div>
+        )}
       </div>
     </div>
   )
@@ -72,6 +82,8 @@ const Histogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
     setDates(newDates)
   }
 
+  let isBucketAfterCurrentPrice = false
+
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.title}>
@@ -102,20 +114,32 @@ const Histogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
         <div className={styles.scroller}>
           <div className={styles.scroll}>
             {error ? (
-              <Message variant='error'>
-                Selected date is outside of the allowed interval
+              <Message variant='warn' className={styles.msg}>
+                <p>Selected date is outside of the allowed interval.</p>
+                <p>
+                  Your current subscription plan allows you to see data from 10
+                  Mar, 20 to 26 Mar, 20.
+                </p>
+                <UpgradeBtn className={styles.upgrade} variant='fill' />
               </Message>
             ) : (
               data
                 .sort(Sorter[sorter])
-                .map(({ index, distribution, width }) => (
-                  <Frame
-                    {...distribution}
-                    key={index}
-                    ticker={ticker}
-                    width={width}
-                  />
-                ))
+                .map(({ index, distribution, width, price }) => {
+                  if (price) {
+                    isBucketAfterCurrentPrice = true
+                  }
+                  return (
+                    <Frame
+                      {...distribution}
+                      key={index}
+                      ticker={ticker}
+                      width={width}
+                      price={price}
+                      isRed={isBucketAfterCurrentPrice}
+                    />
+                  )
+                })
             )}
           </div>
         </div>

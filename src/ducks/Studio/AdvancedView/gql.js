@@ -16,3 +16,12 @@ export const HISTOGRAM_DATA_QUERY = gql`
     }
   }
 `
+
+export const PROJECT_PRICE_QUERY = gql`
+  query($slug: String!) {
+    project: projectBySlug(slug: $slug) {
+      id
+      priceUsd
+    }
+  }
+`

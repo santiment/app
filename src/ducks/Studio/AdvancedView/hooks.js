@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
 import { linearScale } from '@santiment-network/chart/scales'
 import { useQuery } from '@apollo/react-hooks'
-import { HISTOGRAM_DATA_QUERY } from './gql'
+import { HISTOGRAM_DATA_QUERY, PROJECT_PRICE_QUERY } from './gql'
 
 const Chart = {
-  height: 342,
+  height: 50,
   top: 0
 }
 
-function formatHistogramData (data) {
+function formatHistogramData (data, price) {
   const { length } = data
 
   let max = 0
@@ -23,16 +23,24 @@ function formatHistogramData (data) {
   const scaler = linearScale(Chart, max, 0)
 
   return data.map((distribution, index) => {
+    const { range, value } = distribution
+    const isCurrentPriceInBucket = price > range[0] && price < range[1]
     return {
       index,
       distribution,
-      width: scaler(distribution.value)
+      width: scaler(value) + 'px',
+      price: isCurrentPriceInBucket && price
     }
   })
 }
 
 export function useHistogramData ({ slug, from, to }) {
   const [histogramData, setHistogramData] = useState([])
+  const { data: priceData } = useQuery(PROJECT_PRICE_QUERY, {
+    variables: {
+      slug
+    }
+  })
   const { data, loading, error } = useQuery(HISTOGRAM_DATA_QUERY, {
     skip: !from || !to,
     variables: {
@@ -44,13 +52,17 @@ export function useHistogramData ({ slug, from, to }) {
 
   useEffect(
     () => {
+      const currentPrice = priceData ? priceData.project.priceUsd : 0
       if (data) {
         setHistogramData(
-          formatHistogramData(data.getMetric.histogramData.values.data)
+          formatHistogramData(
+            data.getMetric.histogramData.values.data,
+            currentPrice
+          )
         )
       }
     },
-    [data]
+    [data, priceData]
   )
 
   return [histogramData, loading, error]

@@ -19,12 +19,12 @@ export default () => {
       <div className={styles.wrapper}>
         <Icon type='close-small' className={styles.close} onClick={close} />
         <div className={styles.tip}>
-          <span className={styles.action}>Click </span>
-          on the chart to select the date
+          <span className={styles.action}>Click </span>anywhere on the chart to
+          select a date
         </div>
         <div>
           <span className={styles.action}>Click and move mouse </span>
-          on the chart to select the range
+          to select a time range
         </div>
       </div>
     )
