@@ -3,11 +3,10 @@ import cx from 'classnames'
 import { Metric } from '../dataHub/metrics'
 import withBoundaries from '../../pages/Studio/withBoundaries'
 import { useTimeseries } from '../Studio/timeseries/hooks'
-import { parseUrl, generateShareLink } from './url'
-import { updateHistory } from '../Studio/url'
+import { updateHistory, parseUrl, generateShareLink } from '../Studio/url'
 import SocialToolChart from './Chart'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
-import { buildTextSelectorMetric } from './utils'
+import { buildMetric } from './utils'
 import styles from './index.module.scss'
 
 const SocialTool = ({
@@ -20,9 +19,8 @@ const SocialTool = ({
   const [settings, setSettings] = useState(defaultSettings)
   const [options, setOptions] = useState(defaultOptions)
   const [metrics, setMetrics] = useState(defaultMetrics)
-
   const defaultActiveMetrics = metrics.map(metric =>
-    buildTextSelectorMetric({ metric, text: defaultSettings.text })
+    buildMetric({ metric, ...defaultSettings })
   )
 
   const [activeMetrics, setActiveMetrics] = useState(defaultActiveMetrics)
@@ -33,11 +31,13 @@ const SocialTool = ({
   useEffect(
     () => {
       const updatedMetrics = metrics.map(metric =>
-        buildTextSelectorMetric({ metric, text: defaultSettings.text })
+        buildMetric({ metric, ...settings })
       )
+
+      setActiveMetrics([])
       setActiveMetrics(updatedMetrics)
     },
-    [metrics, defaultSettings.text]
+    [metrics, settings.asset, settings.text]
   )
 
   useEffect(

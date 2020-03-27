@@ -1,32 +1,66 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Dropdown from '@santiment-network/ui/Dropdown'
 import Settings from '../../../Studio/Header/Settings'
 import PaywallInfo from '../../../Studio/Chart/PaywallInfo'
 import styles from './index.module.scss'
 
-const OPTIONS = ['BTC/USD', 'ETH/USD']
-
 const dropdownClasses = {
   wrapper: styles.dropdown
 }
 
-const getPriceOptions = asset => {
-  if (!asset) {
-    return OPTIONS
-  }
+const SEPARATOR = ' / '
 
-  const { ticker } = asset
-  if (ticker === 'BTC' || ticker === 'ETH') {
-    return OPTIONS
-  }
+export const Assets = [['BTC', 'bitcoin'], ['ETH', 'ethereum']]
 
-  return [...OPTIONS, `${ticker}/USD`]
+const getPriceOptions = assets => {
+  const options = new Map(Assets)
+
+  assets.map(([ticker, slug]) => options.set(ticker, slug))
+
+  return options
 }
 
-const Header = ({ className, boundaries, ...props }) => {
-  const [options, setOptions] = useState(getPriceOptions())
-  const [selected, setSelected] = useState(options[0])
+const getLabels = options =>
+  options.map(([ticker]) => `${ticker}${SEPARATOR}USD`)
+
+const Header = ({
+  className,
+  boundaries,
+  detectedAssets = [],
+  settings = {},
+  setSettings,
+  ...props
+}) => {
+  const { ticker, asset } = settings
+
+  const defaultPriceOptions = getPriceOptions([
+    [ticker, asset],
+    ...detectedAssets
+  ])
+
+  const [priceOptions, setPriceOptions] = useState(defaultPriceOptions)
+  const [selectedTicker, setSelectedTicker] = useState(ticker)
+
+  //   useEffect(() => {
+  //     const newPriceOptions = getPriceOptions([
+  //       activePriceAsset,
+  //       ...detectedAssets
+  //     ])
+  //
+  //     setPriceOptions(newPriceOptions)
+  //     setSelected(selected || activePriceAsset)
+  //   }, [detectedAssets])
+
+  const onChangePriceOption = selectedPair => {
+    const ticker = selectedPair.split(SEPARATOR)[0]
+    const slug = priceOptions.get(ticker)
+
+    setSelectedTicker(ticker)
+    setSettings(state => ({ ...state, asset: slug, ticker }))
+  }
+
+  const labels = getLabels([...priceOptions])
 
   return (
     <div className={cx(styles.wrapper, className)}>
@@ -36,12 +70,12 @@ const Header = ({ className, boundaries, ...props }) => {
       </div>
       <div className={styles.right}>
         <Dropdown
-          selected={selected}
-          options={options}
+          selected={`${selectedTicker}${SEPARATOR}USD`}
+          options={labels}
           classes={dropdownClasses}
-          onSelect={option => setSelected(option)}
+          onSelect={onChangePriceOption}
         />
-        <Settings {...props} />
+        <Settings {...props} settings={settings} setSettings={setSettings} />
       </div>
     </div>
   )

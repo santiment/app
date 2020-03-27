@@ -29,7 +29,7 @@ export default ({
   className,
   ...rest
 }) => {
-  const { timeRange, from, to, title } = settings
+  const { timeRange = '', from, to, title } = settings
 
   function toggleMultichart () {
     setOptions(state => ({

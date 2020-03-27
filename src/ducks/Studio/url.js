@@ -89,8 +89,8 @@ function parseSharedComparables (comparables) {
 export function generateShareLink (
   settings,
   options,
-  metrics,
-  events,
+  metrics = [],
+  events = [],
   comparables = []
 ) {
   const Shareable = {
