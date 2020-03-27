@@ -39,12 +39,19 @@ export function useChartColors (metrics, focusedMetric) {
     () => {
       const { length } = metrics
       const newColors = {}
+      const usedOriginColorsMetricsKeys = new Set()
       let freeColorIndex = 0
 
       for (let i = 0; i < length; i++) {
         const metric = metrics[i]
         const { key, queryKey, useOriginColor } = metric
-        console.log(metric)
+
+        let colorKey = key
+
+        if (useOriginColor && !usedOriginColorsMetricsKeys.has(queryKey)) {
+          colorKey = queryKey
+          usedOriginColorsMetricsKeys.add(queryKey)
+        }
 
         let color =
           MetricColor[useOriginColor ? queryKey : key] ||
