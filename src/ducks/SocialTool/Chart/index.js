@@ -4,6 +4,7 @@ import { linearScale, logScale } from '@santiment-network/chart/scales'
 import Chart from '../../Chart'
 import { useChartColors } from '../../Chart/colors'
 import Synchronizer from '../../Chart/Synchronizer'
+import PaywallInfo from '../../Studio/Chart/PaywallInfo'
 import ChartActiveMetrics from '../../Studio/Chart/ActiveMetrics'
 import SocialDominanceToggle from './SocialDominanceToggle'
 import ChartHeader from './Header'
@@ -38,27 +39,10 @@ const Canvas = ({
         metrics={metrics}
         options={options}
         settings={settings}
-        boundaries={boundaries}
         setOptions={setOptions}
         className={styles.top}
       />
-      <Chart
-        {...options}
-        {...settings}
-        {...props}
-        scale={scale}
-        className={styles.chart}
-        metrics={metrics}
-        MetricColor={MetricColor}
-        resizeDependencies={[]}
-      />
       <div className={styles.bottom}>
-        <SocialDominanceToggle
-          className={styles.dominance}
-          options={options}
-          setOptions={setOptions}
-          toggleDominance={() => {}}
-        />
         <div className={styles.metrics}>
           <ChartActiveMetrics
             hideExplanation
@@ -70,7 +54,24 @@ const Canvas = ({
             onMetricHoverEnd={onMetricHoverEnd}
           />
         </div>
+        <PaywallInfo boundaries={boundaries} metrics={metrics} />
+        <SocialDominanceToggle
+          className={styles.dominance}
+          options={options}
+          setOptions={setOptions}
+          toggleDominance={() => {}}
+        />
       </div>
+      <Chart
+        {...options}
+        {...settings}
+        {...props}
+        scale={scale}
+        className={styles.chart}
+        metrics={metrics}
+        MetricColor={MetricColor}
+        resizeDependencies={[]}
+      />
     </div>
   )
 }

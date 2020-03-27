@@ -2,11 +2,12 @@
 
 .wrapper {
   position: relative;
+  padding: 0 0 20px !important;
 }
 
 .top {
-  margin-bottom: 16px;
-  padding: 0 34px;
+  padding: 16px 13px 16px 24px;
+  background: var(--athens);
 
   @include responsive('phone-xs', 'phone') {
     padding: 0 14px;
@@ -14,7 +15,7 @@
 }
 
 .chart {
-  margin: 0 34px;
+  margin: 0 24px;
   z-index: 0;
 
   @include responsive('phone-xs', 'phone') {
@@ -28,8 +29,7 @@
   justify-content: space-between;
   border-top: 1px solid var(--porcelain);
   border-bottom: 1px solid var(--porcelain);
-  padding: 24px 34px;
-  margin: 32px 0;
+  padding: 24px;
 
   @include responsive('phone-xs', 'phone') {
     padding: 16px 14px;

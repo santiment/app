@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Dropdown from '@santiment-network/ui/Dropdown'
 import Settings from '../../../Studio/Header/Settings'
-import PaywallInfo from '../../../Studio/Chart/PaywallInfo'
 import styles from './index.module.scss'
 
 const dropdownClasses = {
@@ -28,7 +27,6 @@ const getLabels = options =>
 
 const Header = ({
   className,
-  boundaries,
   detectedAssets = [],
   settings = {},
   setSettings,
@@ -68,7 +66,6 @@ const Header = ({
     <div className={cx(styles.wrapper, className)}>
       <div className={styles.left}>
         <h3 className={styles.title}>Social volume score</h3>
-        <PaywallInfo boundaries={boundaries} metrics={props.metrics} />
       </div>
       <div className={styles.right}>
         <Dropdown
