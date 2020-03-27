@@ -90,7 +90,8 @@ const Synchronizer = ({
   isDomainGroupingActive,
   metrics,
   isMultiChartsActive,
-  events
+  events,
+  useFirstMetricTooltip
 }) => {
   const [syncedTooltipDate, syncTooltips] = useState()
   const [syncedEvents, syncEvents] = useState()
@@ -162,10 +163,15 @@ const Synchronizer = ({
       hasPriceMetric,
       domainGroups,
       events: syncedEvents,
-      tooltipKey: getValidTooltipKey(
-        getMetricKey(findTooltipMetric(metrics)),
-        syncedCategories[0].joinedCategories
-      )
+      tooltipKey: useFirstMetricTooltip
+        ? getValidTooltipKey(
+          getMetricKey(metrics[0]),
+          syncedCategories[0].joinedCategories
+        )
+        : getValidTooltipKey(
+          getMetricKey(findTooltipMetric(metrics)),
+          syncedCategories[0].joinedCategories
+        )
     })
 }
 

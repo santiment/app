@@ -76,7 +76,7 @@ const Canvas = ({
 }
 
 export default ({ options, activeMetrics, ...rest }) => (
-  <Synchronizer {...options} metrics={activeMetrics}>
+  <Synchronizer {...options} metrics={activeMetrics} useFirstMetricTooltip>
     <Canvas options={options} activeMetrics={activeMetrics} {...rest} />
   </Synchronizer>
 )

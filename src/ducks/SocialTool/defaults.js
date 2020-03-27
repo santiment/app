@@ -22,4 +22,4 @@ export const DEFAULT_OPTIONS = {
   isCartesianGridActive: getSavedToggle('isCartesianGridActive', true)
 }
 
-export const DEFAULT_METRICS = [Metric.price_usd, Metric.social_volume_total]
+export const DEFAULT_METRICS = [Metric.social_volume_total, Metric.price_usd]
