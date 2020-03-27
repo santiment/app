@@ -16,9 +16,9 @@ import { getCategoryGraph } from '../../../../../Studio/Sidebar/utils'
 import { Metric } from '../../../../../dataHub/metrics'
 import MetricsList from './MetricsList'
 import Search from './../../../../../Studio/Sidebar/Search'
+import HelpTooltip from '../../../../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
 import styles from '../../signal/TriggerForm.module.scss'
 import metricStyles from './TriggerFormMetricTypes.module.scss'
-import HelpTooltip from '../../../../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
 
 const checkPossibleTarget = ({ metaFormSettings, setFieldValue, target }) => {
   if (!target || (Array.isArray(target) && target.length === 0)) {
@@ -69,10 +69,7 @@ export const TriggerFormMetricTypes = ({
     setOpen(false)
   }
 
-  const categories = getCategoryGraph(
-    Object.values(SIGNAL_SUPPORTED_METRICS),
-    []
-  )
+  const categories = getCategoryGraph(SIGNAL_SUPPORTED_METRICS, [])
   const categoriesKeys = Object.keys(categories)
 
   return (

@@ -70,7 +70,7 @@
 }
 
 .dialog {
-  width: 600px;
+  width: 560px;
 
   @include responsive('phone', 'phone-xs') {
     max-width: 100%;
@@ -123,10 +123,6 @@
   flex: 1;
 
   @include text('body-3');
-}
-
-.type {
-  margin-right: 24px;
 }
 
 .choose {

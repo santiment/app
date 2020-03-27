@@ -18,7 +18,10 @@ const MetricsList = ({ metrikKey, list, onSelect }) => {
         onClick={() => setOpen(!isOpen)}
       >
         {metrikKey}
-        <Icon type={isOpen ? 'arrow-up' : 'arrow-down'} />
+        <Icon
+          type={isOpen ? 'arrow-up' : 'arrow-down'}
+          className={styles.ddIcon}
+        />
       </div>
 
       {isOpen && (

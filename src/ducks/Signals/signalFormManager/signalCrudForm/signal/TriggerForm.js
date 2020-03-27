@@ -156,8 +156,9 @@ export const TriggerForm = ({
         const mappedTrigger = mapFormPropsToTrigger(values)
         const showChart = target && couldShowChart(mappedTrigger.settings)
 
-        const typeSelectors =
-          METRIC_TO_TYPES[(metric || {}).value] || COMMON_PROPS_FOR_METRIC
+        const typeSelectors = metric.key
+          ? COMMON_PROPS_FOR_METRIC
+          : METRIC_TO_TYPES[metric.value]
 
         const showTypes =
           metric && !metric.hidden && typeSelectors && typeSelectors.length > 1

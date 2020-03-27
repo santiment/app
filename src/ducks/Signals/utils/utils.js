@@ -812,8 +812,6 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
   const { type, metric, isRepeating, isPublic, title, description } = formProps
   let settings = {}
 
-  console.log(formProps)
-
   switch (metric.value) {
     case DAILY_ACTIVE_ADDRESSES: {
       settings = mapFormToDAATriggerSettings(formProps)
