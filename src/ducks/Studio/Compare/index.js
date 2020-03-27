@@ -24,8 +24,15 @@ const Compare = ({
 
   useEffect(
     () => {
+      const mixedProjects = [
+        ...allProjects,
+        { slug: 's-and-p-500', name: 'S&P500', ticker: 'SPX' },
+        { slug: 'gold', name: 'Gold', ticker: 'Gold' }
+      ]
       setProjects(
-        allProjects.filter(project => project.slug !== slug).sort(projectSorter)
+        mixedProjects
+          .filter(project => project.slug !== slug)
+          .sort(projectSorter)
       )
     },
     [allProjects, slug]
