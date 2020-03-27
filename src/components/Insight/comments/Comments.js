@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import Modal from '@santiment-network/ui/Modal'
 import Panel from '@santiment-network/ui/Panel'
@@ -23,8 +23,6 @@ export default ({ id, authorId, count, createComment, getComments }) => {
     })
   }
 
-  useEffect(loadComments, [])
-
   return (
     <Modal
       trigger={
@@ -34,6 +32,7 @@ export default ({ id, authorId, count, createComment, getComments }) => {
         </div>
       }
       onClose={loadComments}
+      onOpen={loadComments}
       as={Panel}
       classes={{
         wrapper: styles.wrapper,
