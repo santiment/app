@@ -35,7 +35,7 @@ export function buildTextBasedMetric (metric, text) {
     key,
     queryKey: metricKey,
     domainGroup: metricKey,
-    color: undefined,
+    useOriginColor: true,
     reqMeta: {
       text
     }
@@ -67,6 +67,7 @@ export function buildPriceMetric (metric, slug, ticker) {
     ...metric,
     key,
     label,
+    useOriginColor: true,
     queryKey: metricKey,
     reqMeta: { slug }
   }

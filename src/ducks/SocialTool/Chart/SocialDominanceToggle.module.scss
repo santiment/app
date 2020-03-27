@@ -1,7 +1,7 @@
 @import '~@santiment-network/ui/mixins.scss';
 
 .toggle {
-  margin: 0 8px;
+  margin: 0 8px 0 16px;
 
   &.active rect {
     fill: var(--texas-rose-hover) !important;

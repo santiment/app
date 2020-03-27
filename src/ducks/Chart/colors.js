@@ -43,9 +43,12 @@ export function useChartColors (metrics, focusedMetric) {
 
       for (let i = 0; i < length; i++) {
         const metric = metrics[i]
-        const { key } = metric
+        const { key, queryKey, useOriginColor } = metric
+        console.log(metric)
 
-        let color = MetricColor[key] || COLORS[freeColorIndex++]
+        let color =
+          MetricColor[useOriginColor ? queryKey : key] ||
+          COLORS[freeColorIndex++]
         if (focusedMetric && metric !== focusedMetric) {
           color += ALPHA_CHANNEL
         }
