@@ -4,6 +4,12 @@ import { Submetrics } from './submetrics'
 import { TooltipSetting } from './tooltipSettings'
 import { parseIntervalString } from '../../utils/dates'
 
+const AvailableTimeboundMetric = {
+  [Metric.mvrv_usd.key]: true,
+  [Metric.realized_value_usd.key]: true,
+  [Metric.circulation.key]: true
+}
+
 const TimerangeCoeficient = {
   d: 1,
   y: 365
@@ -28,7 +34,7 @@ export function useTimebounds (metricKeys) {
         const key = timeboundKey.slice(0, timeRangeIndex)
         const metric = Metric[key]
 
-        if (metric) {
+        if (metric && AvailableTimeboundMetric[key]) {
           const timebounds = NewTimebounds[key]
           let timeboundMetric = TimeboundMetricCache.get(timeboundKey)
 

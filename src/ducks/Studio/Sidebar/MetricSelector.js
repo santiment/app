@@ -14,20 +14,29 @@ const MetricButton = ({
   metric,
   label,
   isActive,
+  isError,
   isDisabled,
   onClick
 }) => (
   <Button
     variant='ghost'
-    className={cx(styles.btn, className, isDisabled && styles.btn_disabled)}
+    className={cx(
+      styles.btn,
+      className,
+      (isError || isDisabled) && styles.btn_disabled
+    )}
     isActive={isActive}
     onClick={onClick}
   >
     <div className={styles.btn__left}>
-      <Icon
-        type='plus'
-        className={cx(styles.plus, isActive && styles.active)}
-      />
+      {isError ? (
+        <div className={styles.btn__error}>no data</div>
+      ) : (
+        <Icon
+          type='plus'
+          className={cx(styles.plus, isActive && styles.active)}
+        />
+      )}
       {label}
     </div>
 
@@ -44,6 +53,7 @@ const Group = ({
   metrics,
   actives,
   advancedView,
+  ErrorMsg,
   toggleMetric,
   toggleAdvancedView,
   toggleICOPrice,
@@ -66,6 +76,7 @@ const Group = ({
             <MetricButton
               metric={metric}
               label={metric.label}
+              isError={ErrorMsg[metric.key]}
               isActive={actives.includes(metric)}
               onClick={() => toggleMetric(metric)}
             />
@@ -95,6 +106,7 @@ const Group = ({
                   className={styles.advanced}
                   label={submetric.label}
                   isActive={actives.includes(submetric)}
+                  isError={ErrorMsg[submetric.key]}
                   onClick={() => toggleMetric(submetric)}
                 />
               ))}
