@@ -3,14 +3,14 @@ import cx from 'classnames'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Dropdown from '@santiment-network/ui/Dropdown'
 import Message from '@santiment-network/ui/Message'
-import Calendar from './Calendar'
-import UsageTip from './UsageTip'
 import { useHistogramData } from './hooks'
-import { usdFormatter } from '../../SANCharts/utils'
-import { millify } from '../../../utils/formatting'
-import { ONE_MONTH_IN_MS } from '../../../utils/dates'
-import UpgradeBtn from '../../../components/UpgradeBtn/UpgradeBtn'
-import styles from './Histogram.module.scss'
+import UsageTip from '../UsageTip'
+import Calendar from '../Calendar'
+import { usdFormatter } from '../../../SANCharts/utils'
+import { millify } from '../../../../utils/formatting'
+import { ONE_MONTH_IN_MS } from '../../../../utils/dates'
+import UpgradeBtn from '../../../../components/UpgradeBtn/UpgradeBtn'
+import styles from './index.module.scss'
 
 const dropdownClasses = {
   wrapper: styles.dropdown,
@@ -87,7 +87,7 @@ const Histogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.title}>
-        Price movement
+        Price distribution
         <Calendar
           className={styles.calendar}
           selectRange
