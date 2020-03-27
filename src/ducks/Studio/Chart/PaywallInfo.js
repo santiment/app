@@ -38,36 +38,34 @@ function useRestrictedInfo (metrics) {
 
       let race = false
 
-      metrics.forEach(
-        ({ key, label, comparedTicker }) =>
-          comparedTicker ||
-          client
-            .query({
-              query: METRIC_BOUNDARIES_QUERY,
-              variables: {
-                metric: key
+      metrics.forEach(({ key, queryKey = key, label }) =>
+        client
+          .query({
+            query: METRIC_BOUNDARIES_QUERY,
+            variables: {
+              metric: queryKey
+            }
+          })
+          .then(({ data: { getMetric } }) => {
+            if (race) return
+
+            const {
+              metadata: { isRestricted, from, to }
+            } = getMetric
+
+            if (!isRestricted) return
+
+            setInfos(state => [
+              ...state,
+              {
+                key,
+                label,
+                from,
+                to
               }
-            })
-            .then(({ data: { getMetric } }) => {
-              if (race) return
-
-              const {
-                metadata: { isRestricted, from, to }
-              } = getMetric
-
-              if (!isRestricted) return
-
-              setInfos(state => [
-                ...state,
-                {
-                  key,
-                  label,
-                  from,
-                  to
-                }
-              ])
-            })
-            .catch(console.warn)
+            ])
+          })
+          .catch(console.warn)
       )
 
       return () => {
