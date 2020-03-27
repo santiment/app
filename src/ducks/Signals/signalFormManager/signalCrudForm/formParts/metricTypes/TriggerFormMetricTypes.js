@@ -164,7 +164,7 @@ const MetricTypeRenderer = ({ metric = {}, onClick, showLabel = true }) => {
             <HelpTooltip
               withDesc={false}
               position='bottom'
-              align='start'
+              align='end'
               onAction='hover'
               classes={styles}
             >

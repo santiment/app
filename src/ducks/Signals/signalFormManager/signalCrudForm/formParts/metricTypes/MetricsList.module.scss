@@ -48,3 +48,12 @@
 .open {
   background-color: var(--jungle-green-light);
 }
+
+.helpTrigger {
+  margin-left: 10px !important;
+}
+
+.tooltip {
+  z-index: 1000;
+  max-width: 231px;
+}

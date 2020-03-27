@@ -323,3 +323,12 @@ a {
     @include text('body-2');
   }
 }
+
+.helpTrigger {
+  margin-left: 10px;
+}
+
+.tooltip {
+  z-index: 1000;
+  max-width: 231px;
+}

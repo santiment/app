@@ -55,7 +55,12 @@ const Group = ({ groupLabel, onSelect, group }) => {
           {metric.label}
 
           {Description[metric.key] && (
-            <HelpTooltip position='bottom' align='start' withDesc={false}>
+            <HelpTooltip
+              position='bottom'
+              align='start'
+              withDesc={false}
+              classes={styles}
+            >
               {Description[metric.key]}
             </HelpTooltip>
           )}

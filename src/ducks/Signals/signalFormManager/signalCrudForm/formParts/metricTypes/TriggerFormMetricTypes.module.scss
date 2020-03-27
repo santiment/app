@@ -49,6 +49,11 @@
   @include responsive('phone', 'phone-xs') {
     padding: 10px 20px;
   }
+
+  &:hover {
+    color: var(--jungle-green-hover);
+    border: 1px solid var(--jungle-green-hover);
+  }
 }
 
 .metrics {
