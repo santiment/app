@@ -2,7 +2,6 @@ import React from 'react'
 import cx from 'classnames'
 import Toggle from '@santiment-network/ui/Toggle'
 import Button from '@santiment-network/ui/Button'
-import HelpPopup from '../../../components/HelpPopup/HelpPopup'
 import { saveToggle } from '../../../utils/localStorage'
 import styles from './SocialDominanceToggle.module.scss'
 
@@ -35,11 +34,6 @@ const SocialDominanceToggle = ({ className, options = {}, setOptions }) => {
         />
         Social Dominance
       </Button>
-      <HelpPopup
-        className={styles.tooltip}
-        position='top'
-        content="The query's popularity, as % of total social volume"
-      />
     </div>
   )
 }

@@ -42,8 +42,8 @@ export function buildTextBasedMetric (metric, text) {
   }
 
   TooltipSetting[key] = {
-    label: `${label} (${text})`,
-    formatter: formatter
+    formatter,
+    label: `${label} (${text})`
   }
 
   MetricsCache.set(key, textMetric)
@@ -59,20 +59,19 @@ export function buildPriceMetric (metric, slug, ticker) {
     return cached
   }
 
-  const { key: metricKey, label, formatter } = metric
+  const label = `${ticker} / USD`
+
+  const { key: metricKey, formatter } = metric
 
   const priceMetric = {
     ...metric,
     key,
-    comparedTicker: `${ticker} / USD`,
+    label,
     queryKey: metricKey,
     reqMeta: { slug }
   }
 
-  TooltipSetting[key] = {
-    label: `${label} ${ticker} / USD`,
-    formatter: formatter
-  }
+  TooltipSetting[key] = { label, formatter }
 
   MetricsCache.set(key, priceMetric)
 

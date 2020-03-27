@@ -2,7 +2,7 @@
 
 .wrapper {
   position: relative;
-  padding: 0 0 20px !important;
+  padding: 0 !important;
 }
 
 .top {
@@ -15,7 +15,7 @@
 }
 
 .chart {
-  margin: 0 24px;
+  margin: 24px;
   z-index: 0;
 
   @include responsive('phone-xs', 'phone') {
@@ -25,7 +25,7 @@
 
 .bottom {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   border-top: 1px solid var(--porcelain);
   border-bottom: 1px solid var(--porcelain);
@@ -39,4 +39,14 @@
 .metrics {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+}
+
+.metric {
+  margin-bottom: 8px;
+  white-space: no-wrap;
+}
+
+.dominance {
+  margin-top: 8px;
 }

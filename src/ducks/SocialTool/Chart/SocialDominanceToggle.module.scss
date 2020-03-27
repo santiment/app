@@ -16,6 +16,7 @@
   padding: 0;
   height: auto;
   cursor: pointer;
+  white-space: nowrap;
   color: var(--rhino) !important;
   margin-left: auto;
   margin-right: 8px;
@@ -24,8 +25,4 @@
 .wrapper {
   display: flex;
   align-items: center;
-}
-
-.tooltip {
-  padding: 4px;
 }
