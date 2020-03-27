@@ -8,14 +8,13 @@ import { TOP_SOCIAL_GAINERS_LOSERS_QUERY } from '../../ducks/GainersAndLosers/ga
 import ProjectIcon from '../ProjectIcon/ProjectIcon'
 import PercentChanges from '../PercentChanges'
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
-import allProjects from '../../allProjects.json'
 import styles from './GainersLosersTabs.module.scss'
 
 const Item = ({ onProjectClick, showChange, ...project }) => {
-  const { change, ticker, slug, name } = project
-  return (
+  const { change, ticker, slug, name, ...urls } = project
+  return slug ? (
     <div className={styles.project} onClick={() => onProjectClick(project)}>
-      <ProjectIcon slug={slug} size={20} />
+      <ProjectIcon slug={slug} size={20} {...urls} />
       {name && <Label className={styles.name}>{name}</Label>}
       <Label className={cx(styles.ticker, !name && styles.tickerWithMargin)}>
         {ticker}
@@ -24,7 +23,7 @@ const Item = ({ onProjectClick, showChange, ...project }) => {
         <PercentChanges changes={change * 100} className={styles.changes} />
       )}
     </div>
-  )
+  ) : null
 }
 
 const TYPES = {
@@ -106,18 +105,12 @@ const withGainersLosers = graphql(TOP_SOCIAL_GAINERS_LOSERS_QUERY, {
     const gainers = []
     const losers = []
     if (length > 0) {
-      topSocialGainersLosers[length - 1].projects.forEach(project => {
-        const { slug: projectSlug } = project
-        const proj = {
-          // NOTE(haritonasty): temporal solution - hardcode slug to other fields
-          slug: projectSlug,
-          ticker: projectSlug.toUpperCase(),
-          ...allProjects.find(({ slug }) => slug === projectSlug),
-          ...project
+      topSocialGainersLosers[length - 1].projects.forEach(
+        ({ project, status, change }) => {
+          if (status === 'GAINER') gainers.push({ ...project, change })
+          if (status === 'LOSER') losers.push({ ...project, change })
         }
-        if (project.status === 'GAINER') gainers.push(proj)
-        if (project.status === 'LOSER') losers.push(proj)
-      })
+      )
     }
 
     return { gainers, losers, isLoading: loading }
