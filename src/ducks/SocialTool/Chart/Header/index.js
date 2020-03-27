@@ -6,7 +6,9 @@ import PaywallInfo from '../../../Studio/Chart/PaywallInfo'
 import styles from './index.module.scss'
 
 const dropdownClasses = {
-  wrapper: styles.dropdown
+  wrapper: styles.dropdown,
+  options: styles.dropdownOptions,
+  option: styles.dropdownOption
 }
 
 const SEPARATOR = ' / '

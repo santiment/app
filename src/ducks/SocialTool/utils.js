@@ -59,19 +59,18 @@ export function buildPriceMetric (metric, slug, ticker) {
     return cached
   }
 
-  const { key: metricKey, label, formatter, color } = metric
+  const { key: metricKey, label, formatter } = metric
 
   const priceMetric = {
     ...metric,
     key,
-    color,
     comparedTicker: `${ticker} / USD`,
     queryKey: metricKey,
     reqMeta: { slug }
   }
 
   TooltipSetting[key] = {
-    label: `${ticker} / USD`,
+    label: `${label} ${ticker} / USD`,
     formatter: formatter
   }
 
