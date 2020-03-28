@@ -3,12 +3,12 @@ import cx from 'classnames'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Dropdown from '@santiment-network/ui/Dropdown'
 import { usePriceHistogramData } from './hooks'
+import RestrictionMessage from './RestrictionMessage'
 import UsageTip from '../UsageTip'
 import Calendar from '../Calendar'
 import { usdFormatter } from '../../../SANCharts/utils'
 import { millify } from '../../../../utils/formatting'
 import { ONE_MONTH_IN_MS } from '../../../../utils/dates'
-import RestrictionMessage from './RestrictionMessage'
 import styles from './index.module.scss'
 
 const dropdownClasses = {

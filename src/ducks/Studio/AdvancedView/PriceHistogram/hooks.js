@@ -25,7 +25,8 @@ function formatHistogramData (data, price) {
 
   return data.map((distribution, index) => {
     const { range, value } = distribution
-    const isCurrentPriceInRange = price > range[0] && price < range[1]
+    const isCurrentPriceInRange =
+      !isPriceRangeFound && price > range[0] && price < range[1]
 
     if (isCurrentPriceInRange) {
       isPriceRangeFound = true
