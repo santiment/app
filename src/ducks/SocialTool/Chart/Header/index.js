@@ -5,12 +5,8 @@ import styles from './index.module.scss'
 
 const Header = ({ className, ...props }) => (
   <div className={cx(styles.wrapper, className)}>
-    <div className={styles.left}>
-      <h3 className={styles.title}>Social volume score</h3>
-    </div>
-    <div className={styles.right}>
-      <Settings {...props} withPricePair />
-    </div>
+    <h3 className={styles.title}>Social volume score</h3>
+    <Settings {...props} withPricePair className={styles.settings} />
   </div>
 )
 

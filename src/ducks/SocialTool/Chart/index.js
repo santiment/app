@@ -45,7 +45,6 @@ const Canvas = ({
       <div className={styles.bottom}>
         <div className={styles.metrics}>
           <ChartActiveMetrics
-            hideExplanation
             className={styles.metric}
             MetricColor={MetricColor}
             activeMetrics={metrics}

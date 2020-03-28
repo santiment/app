@@ -14,23 +14,10 @@
   }
 }
 
-.left {
-  display: flex;
-  align-items: center;
-
-  @include responsive('laptop') {
-    margin-top: 10px;
-  }
-}
-
-.right {
+.settings {
   display: flex;
   align-items: center;
   margin-left: auto;
-
-  @include responsive('laptop') {
-    margin-top: 10px;
-  }
 
   @include responsive('phone-xs', 'phone') {
     margin-left: 0;
