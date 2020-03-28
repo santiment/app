@@ -21,20 +21,27 @@ function formatHistogramData (data, price) {
   }
 
   const scaler = linearScale(Chart, max, 0)
+  let isPriceRangeFound = false
 
   return data.map((distribution, index) => {
     const { range, value } = distribution
-    const isCurrentPriceInBucket = price > range[0] && price < range[1]
+    const isCurrentPriceInRange = price > range[0] && price < range[1]
+
+    if (isCurrentPriceInRange) {
+      isPriceRangeFound = true
+    }
+
     return {
       index,
       distribution,
       width: scaler(value) + 'px',
-      price: isCurrentPriceInBucket && price
+      price: isCurrentPriceInRange && price,
+      isRangeAfterCurrentPrice: isPriceRangeFound && !isCurrentPriceInRange
     }
   })
 }
 
-export function useHistogramData ({ slug, from, to }) {
+export function usePriceHistogramData ({ slug, from, to }) {
   const [histogramData, setHistogramData] = useState([])
   const { data: priceData } = useQuery(PROJECT_PRICE_QUERY, {
     variables: {

@@ -25,3 +25,14 @@ export const PROJECT_PRICE_QUERY = gql`
     }
   }
 `
+
+export const HISTOGRAM_USER_PERIOD_RESTRICTIONS_QUERY = gql`
+  query getMetric {
+    getMetric(metric: "price_histogram") {
+      metadata {
+        restrictedFrom
+        restrictedTo
+      }
+    }
+  }
+`

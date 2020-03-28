@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Dropdown from '@santiment-network/ui/Dropdown'
-import Message from '@santiment-network/ui/Message'
-import { useHistogramData } from './hooks'
+import { usePriceHistogramData } from './hooks'
 import UsageTip from '../UsageTip'
 import Calendar from '../Calendar'
 import { usdFormatter } from '../../../SANCharts/utils'
 import { millify } from '../../../../utils/formatting'
 import { ONE_MONTH_IN_MS } from '../../../../utils/dates'
-import UpgradeBtn from '../../../../components/UpgradeBtn/UpgradeBtn'
+import RestrictionMessage from './RestrictionMessage'
 import styles from './index.module.scss'
 
 const dropdownClasses = {
@@ -29,35 +28,37 @@ const Sorter = {
   [VALUE]: valueSorter
 }
 
-function rangeFormatter ([left, right]) {
-  return usdFormatter(left) + ' - ' + usdFormatter(right)
-}
+const formatRange = ([left, right]) =>
+  `${usdFormatter(left)} - ${usdFormatter(right)}`
 
-const Frame = ({ range, value, ticker, width, price, isRed }) => {
-  return (
-    <div className={styles.frame}>
-      <div
-        className={cx(styles.bar, !price && isRed && styles.red)}
-        style={{ '--r': width }}
-      />
-      <div className={styles.info}>
-        <span className={styles.range}>{rangeFormatter(range)}: </span>
-        {millify(value, 1)} {ticker}
-        {price && (
-          <div className={styles.price}>
-            Current price: {usdFormatter(price)}
-          </div>
-        )}
-      </div>
+const Bucket = ({
+  range,
+  value,
+  ticker,
+  width,
+  price,
+  isRangeAfterCurrentPrice
+}) => (
+  <div className={styles.frame}>
+    <div
+      className={cx(styles.bar, isRangeAfterCurrentPrice && styles.red)}
+      style={{ '--r': width }}
+    />
+    <div className={styles.info}>
+      <span className={styles.range}>{formatRange(range)}: </span>
+      {millify(value, 1)} {ticker}
+      {price && (
+        <div className={styles.price}>Current price: {usdFormatter(price)}</div>
+      )}
     </div>
-  )
-}
+  </div>
+)
 
-const Histogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
+const PriceHistogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
   const [dates, setDates] = useState([date])
   const [sorter, setSorter] = useState(TIME)
   const [from, to] = dates
-  const [data, loading, error] = useHistogramData({ slug, from, to })
+  const [data, loading, error] = usePriceHistogramData({ slug, from, to })
 
   useEffect(
     () => {
@@ -81,8 +82,6 @@ const Histogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
   function onCalendarChange (newDates) {
     setDates(newDates)
   }
-
-  let isBucketAfterCurrentPrice = false
 
   return (
     <div className={styles.wrapper}>
@@ -119,32 +118,18 @@ const Histogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
         <div className={styles.scroller}>
           <div className={styles.scroll}>
             {error ? (
-              <Message variant='warn' className={styles.msg}>
-                <p>Selected date is outside of the allowed interval.</p>
-                <p>
-                  Your current subscription plan allows you to see data from 10
-                  Mar, 20 to 26 Mar, 20.
-                </p>
-                <UpgradeBtn className={styles.upgrade} variant='fill' />
-              </Message>
+              <RestrictionMessage />
             ) : (
               data
                 .sort(Sorter[sorter])
-                .map(({ index, distribution, width, price }) => {
-                  if (price) {
-                    isBucketAfterCurrentPrice = true
-                  }
-                  return (
-                    <Frame
-                      {...distribution}
-                      key={index}
-                      ticker={ticker}
-                      width={width}
-                      price={price}
-                      isRed={isBucketAfterCurrentPrice}
-                    />
-                  )
-                })
+                .map(({ index, distribution, ...rest }) => (
+                  <Bucket
+                    key={index}
+                    {...distribution}
+                    {...rest}
+                    ticker={ticker}
+                  />
+                ))
             )}
           </div>
         </div>
@@ -155,12 +140,12 @@ const Histogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
   )
 }
 
-Histogram.Icon = 'H'
+PriceHistogram.Icon = 'H'
 
-Histogram.defaultProps = {
+PriceHistogram.defaultProps = {
   date: new Date(Date.now() - ONE_MONTH_IN_MS * 3),
   slug: 'bitcoin',
   distributions: []
 }
 
-export default Histogram
+export default PriceHistogram
