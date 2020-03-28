@@ -57,7 +57,10 @@ const TrendsExplore = ({
               />
             )}
           </div>
-          <SocialTool settings={{ text: topic, detectedAsset }} />
+          <SocialTool
+            settings={{ text: topic }}
+            detectedAsset={detectedAsset}
+          />
         </div>
         <div className={styles.sidebar}>
           <WordCloud className={styles.cloud} word={topic} />

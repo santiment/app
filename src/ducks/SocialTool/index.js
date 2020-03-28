@@ -13,6 +13,7 @@ const SocialTool = ({
   defaultSettings,
   defaultOptions,
   defaultMetrics,
+  detectedAsset,
   classes = {},
   ...props
 }) => {
@@ -31,13 +32,13 @@ const SocialTool = ({
   useEffect(
     () => {
       const updatedMetrics = metrics.map(metric =>
-        buildMetric({ metric, ...settings })
+        buildMetric({ metric, ...settings, detectedAsset })
       )
 
       setActiveMetrics([])
       setActiveMetrics(updatedMetrics)
     },
-    [metrics, settings.asset, settings.text]
+    [metrics, settings.asset, settings.text, detectedAsset]
   )
 
   useEffect(
