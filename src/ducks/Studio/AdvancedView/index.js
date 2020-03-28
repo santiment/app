@@ -1,11 +1,11 @@
 import React from 'react'
 import Icon from '@santiment-network/ui/Icon'
-import Histogram from './Histogram'
+import PriceHistogram from './PriceHistogram'
 import SocialContext from './SocialContext'
 import styles from './index.module.scss'
 
 const Components = {
-  Histogram: Histogram,
+  'Spent coin cost': PriceHistogram,
   'Social Context': SocialContext
 }
 
