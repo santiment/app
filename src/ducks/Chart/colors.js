@@ -53,9 +53,7 @@ export function useChartColors (metrics, focusedMetric) {
           usedOriginColorsMetricsKeys.add(queryKey)
         }
 
-        let color =
-          MetricColor[useOriginColor ? queryKey : key] ||
-          COLORS[freeColorIndex++]
+        let color = MetricColor[colorKey] || COLORS[freeColorIndex++]
         if (focusedMetric && metric !== focusedMetric) {
           color += ALPHA_CHANNEL
         }
