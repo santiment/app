@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
+import cx from 'classnames'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Dropdown from '@santiment-network/ui/Dropdown'
-import Message from '@santiment-network/ui/Message'
-import Calendar from './Calendar'
-import UsageTip from './UsageTip'
-import { useHistogramData } from './hooks'
-import { usdFormatter } from '../../SANCharts/utils'
-import { millify } from '../../../utils/formatting'
-import { ONE_MONTH_IN_MS } from '../../../utils/dates'
-import styles from './Histogram.module.scss'
+import { usePriceHistogramData } from './hooks'
+import RestrictionMessage from './RestrictionMessage'
+import UsageTip from '../UsageTip'
+import Calendar from '../Calendar'
+import { usdFormatter } from '../../../SANCharts/utils'
+import { millify } from '../../../../utils/formatting'
+import { ONE_MONTH_IN_MS } from '../../../../utils/dates'
+import styles from './index.module.scss'
 
 const dropdownClasses = {
   wrapper: styles.dropdown,
@@ -27,27 +28,37 @@ const Sorter = {
   [VALUE]: valueSorter
 }
 
-function rangeFormatter ([left, right]) {
-  return usdFormatter(left) + ' - ' + usdFormatter(right)
-}
+const formatRange = ([left, right]) =>
+  `${usdFormatter(left)} - ${usdFormatter(right)}`
 
-const Frame = ({ range, value, ticker, width }) => {
-  return (
-    <div className={styles.frame}>
-      <div className={styles.bar} style={{ width }} />
-      <div className={styles.info}>
-        <span className={styles.range}>{rangeFormatter(range)}: </span>
-        {millify(value, 1)} {ticker}
-      </div>
+const Bucket = ({
+  range,
+  value,
+  ticker,
+  width,
+  price,
+  isRangeAfterCurrentPrice
+}) => (
+  <div className={styles.frame}>
+    <div
+      className={cx(styles.bar, isRangeAfterCurrentPrice && styles.red)}
+      style={{ '--r': width }}
+    />
+    <div className={styles.info}>
+      <span className={styles.range}>{formatRange(range)}: </span>
+      {millify(value, 1)} {ticker}
+      {price && (
+        <div className={styles.price}>Current price: {usdFormatter(price)}</div>
+      )}
     </div>
-  )
-}
+  </div>
+)
 
-const Histogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
+const PriceHistogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
   const [dates, setDates] = useState([date])
   const [sorter, setSorter] = useState(TIME)
   const [from, to] = dates
-  const [data, loading, error] = useHistogramData({ slug, from, to })
+  const [data, loading, error] = usePriceHistogramData({ slug, from, to })
 
   useEffect(
     () => {
@@ -75,7 +86,7 @@ const Histogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.title}>
-        Price movement
+        Spent coin cost
         <Calendar
           className={styles.calendar}
           selectRange
@@ -96,24 +107,27 @@ const Histogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
         </div>
       )}
 
+      <div className={styles.description}>
+        It shows the cost of the coins that were spent during that day (time
+        interval)
+      </div>
+
       <UsageTip />
 
       <div className={styles.static}>
         <div className={styles.scroller}>
           <div className={styles.scroll}>
             {error ? (
-              <Message variant='error'>
-                Selected date is outside of the allowed interval
-              </Message>
+              <RestrictionMessage />
             ) : (
               data
                 .sort(Sorter[sorter])
-                .map(({ index, distribution, width }) => (
-                  <Frame
-                    {...distribution}
+                .map(({ index, distribution, ...rest }) => (
+                  <Bucket
                     key={index}
+                    {...distribution}
+                    {...rest}
                     ticker={ticker}
-                    width={width}
                   />
                 ))
             )}
@@ -126,12 +140,11 @@ const Histogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
   )
 }
 
-Histogram.Icon = 'H'
+PriceHistogram.Icon = 'H'
 
-Histogram.defaultProps = {
+PriceHistogram.defaultProps = {
   date: new Date(Date.now() - ONE_MONTH_IN_MS * 3),
-  slug: 'bitcoin',
-  distributions: []
+  slug: 'bitcoin'
 }
 
-export default Histogram
+export default PriceHistogram

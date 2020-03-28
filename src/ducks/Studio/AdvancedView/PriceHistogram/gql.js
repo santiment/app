@@ -16,3 +16,23 @@ export const HISTOGRAM_DATA_QUERY = gql`
     }
   }
 `
+
+export const PROJECT_PRICE_QUERY = gql`
+  query($slug: String!) {
+    project: projectBySlug(slug: $slug) {
+      id
+      priceUsd
+    }
+  }
+`
+
+export const HISTOGRAM_USER_PERIOD_RESTRICTIONS_QUERY = gql`
+  query getMetric {
+    getMetric(metric: "price_histogram") {
+      metadata {
+        restrictedFrom
+        restrictedTo
+      }
+    }
+  }
+`

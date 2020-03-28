@@ -27,7 +27,7 @@ function sortCategoryGroups (category) {
   return sortedCategory
 }
 
-export const getCategoryGraph = (availableMetrics, hiddenMetrics) => {
+export const getCategoryGraph = (availableMetrics, hiddenMetrics = []) => {
   if (availableMetrics.length === 0) {
     return {}
   }

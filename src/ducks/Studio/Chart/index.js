@@ -131,7 +131,7 @@ const Canvas = ({
         syncedTooltipDate={isBlurred || syncedTooltipDate}
         onPointClick={advancedView ? changeHoveredDate : undefined}
         onRangeSelect={
-          advancedView === 'Histogram' ? changeDatesRange : undefined
+          advancedView === 'Spent coin cost' ? changeDatesRange : undefined
         }
         resizeDependencies={[
           MetricColor,
