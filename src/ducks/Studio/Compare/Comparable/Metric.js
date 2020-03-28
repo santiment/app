@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import withMetrics from '../../withMetrics'
+import { getCategoryGraph } from '../../Sidebar/utils'
 import Search, { getMetricSuggestions } from '../../Sidebar/Search'
 import MetricIcon from '../../../SANCharts/MetricIcon'
 import { COLORS } from '../../../Chart/colors'
@@ -9,13 +10,20 @@ import styles from './Metric.module.scss'
 
 const DEFAULT_COLOR = '#9faac4'
 
+const CustomProjectCategories = {
+  gold: getCategoryGraph(['price_usd']),
+  's-and-p-500': getCategoryGraph(['price_usd'])
+}
+
 const MetricSearch = withMetrics(
-  ({ categories, loading, className, ...rest }) => (
+  ({ slug, categories, loading, className, ...rest }) => (
     <Search
       {...rest}
       className={cx(className, loading && styles.loading)}
-      categories={categories}
-      emptySuggestions={getMetricSuggestions(categories)}
+      categories={CustomProjectCategories[slug] || categories}
+      emptySuggestions={getMetricSuggestions(
+        CustomProjectCategories[slug] || categories
+      )}
       inputProps={{
         placeholder: 'Type to search metrics...'
       }}

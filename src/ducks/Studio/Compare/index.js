@@ -11,6 +11,11 @@ import { MAX_METRICS_AMOUNT } from '../constraints'
 import { useChartColors } from '../../Chart/colors'
 import styles from './index.module.scss'
 
+const FiatMarketAssets = [
+  { slug: 's-and-p-500', name: 'S&P500', ticker: 'SPX' },
+  { slug: 'gold', name: 'Gold', ticker: 'Gold' }
+]
+
 const Compare = ({
   slug,
   allProjects,
@@ -25,7 +30,10 @@ const Compare = ({
   useEffect(
     () => {
       setProjects(
-        allProjects.filter(project => project.slug !== slug).sort(projectSorter)
+        allProjects
+          .concat(FiatMarketAssets)
+          .filter(project => project.slug !== slug)
+          .sort(projectSorter)
       )
     },
     [allProjects, slug]
