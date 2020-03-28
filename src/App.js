@@ -103,11 +103,6 @@ const LoadableSonarFeedPage = Loadable({
   loading: () => <PageLoader />
 })
 
-const LoadableGainersAndLosersPage = Loadable({
-  loader: () => import('./ducks/GainersAndLosers/GainersLosersPage'),
-  loading: () => <PageLoader />
-})
-
 const LoadableAssetsOverviewPage = Loadable({
   loader: () => import('./pages/assets/AssetsOverviewPage'),
   loading: () => <PageLoader />
@@ -325,11 +320,6 @@ export const App = ({
           )}
         />
         <Route exact path='/labs/wordcloud' component={WordCloudPage} />
-        <Route
-          exact
-          path='/labs/social-movers'
-          component={LoadableGainersAndLosersPage}
-        />
         <Route
           exact
           path='/projects/:slug'
