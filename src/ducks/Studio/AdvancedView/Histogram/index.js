@@ -87,7 +87,7 @@ const Histogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.title}>
-        Price distribution
+        Spent coin cost
         <Calendar
           className={styles.calendar}
           selectRange
@@ -107,6 +107,11 @@ const Histogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
           />
         </div>
       )}
+
+      <div className={styles.description}>
+        It shows the cost of the coins that were spent during that day (time
+        interval)
+      </div>
 
       <UsageTip />
 

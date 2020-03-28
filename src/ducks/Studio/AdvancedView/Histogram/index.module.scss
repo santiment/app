@@ -21,8 +21,8 @@
 .title {
   @include text('body-3');
 
+  margin: 0;
   color: var(--mirage);
-  margin: 0 0 21px;
   display: flex;
   align-items: center;
 }
@@ -124,4 +124,9 @@
 
 .red::before {
   background: var(--persimmon);
+}
+
+.description {
+  color: var(--waterloo);
+  margin: 16px 0;
 }

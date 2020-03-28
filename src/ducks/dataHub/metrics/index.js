@@ -9,7 +9,7 @@ export const Metric = {
     category: 'Financial',
     formatter: usdFormatter,
     historicalTriggersDataKey: 'price',
-    advancedView: 'Histogram'
+    advancedView: 'Spent coin cost'
   },
   historyPricePreview: {
     queryKey: 'price_usd',
