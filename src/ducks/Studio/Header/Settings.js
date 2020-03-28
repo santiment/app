@@ -8,6 +8,7 @@ import {
   getNewInterval,
   INTERVAL_ALIAS
 } from '../../SANCharts/IntervalSelector'
+import PricePairsDropdown from '../../SocialTool/Chart/PricePairsDropdown'
 import { saveToggle } from '../../../utils/localStorage'
 import {
   getIntervalByTimeRange,
@@ -27,6 +28,7 @@ export default ({
   setOptions = () => {},
   setSettings = () => {},
   className,
+  withPricePair,
   ...rest
 }) => {
   const { timeRange = '', from, to, title } = settings
@@ -113,6 +115,13 @@ export default ({
             className={styles.domain__toggle}
           />
         </div>
+      )}
+      {withPricePair && (
+        <PricePairsDropdown
+          {...rest}
+          settings={settings}
+          setSettings={setSettings}
+        />
       )}
       <ChartSettingsContextMenu
         showNightModeToggle={false}

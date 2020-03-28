@@ -1,0 +1,25 @@
+@import '~@santiment-network/ui/mixins';
+
+.dropdown {
+  margin-right: 14px;
+  height: 32px;
+  padding: 6px 16px;
+
+  & svg {
+    display: none;
+  }
+
+  @include text('body-3', 'medium');
+
+  color: var(--rhino);
+}
+
+.dropdownOptions {
+  padding: 0;
+}
+
+.dropdownOption {
+  padding: 0 2px;
+  text-align: center;
+  justify-content: center;
+}

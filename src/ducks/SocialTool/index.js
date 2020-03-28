@@ -20,11 +20,10 @@ const SocialTool = ({
   const [settings, setSettings] = useState(defaultSettings)
   const [options, setOptions] = useState(defaultOptions)
   const [metrics, setMetrics] = useState(defaultMetrics)
-  const defaultActiveMetrics = metrics.map(metric =>
-    buildMetric({ metric, ...defaultSettings })
-  )
 
-  const [activeMetrics, setActiveMetrics] = useState(defaultActiveMetrics)
+  const [activeMetrics, setActiveMetrics] = useState(
+    metrics.map(metric => buildMetric({ metric, ...defaultSettings }))
+  )
   const [data, loadings] = useTimeseries(activeMetrics, settings)
   const [shareLink, setShareLink] = useState('')
   const chartRef = useRef(null)
@@ -78,6 +77,7 @@ const SocialTool = ({
       <div className={styles.chart}>
         <SocialToolChart
           {...props}
+          detectedAsset={detectedAsset}
           className={styles.canvas}
           chartRef={chartRef}
           options={options}
@@ -95,7 +95,7 @@ const SocialTool = ({
 }
 
 export default withBoundaries(({ settings, options, metrics, ...props }) => {
-  const sharedState = parseUrl()
+  const sharedState = parseUrl(DEFAULT_SETTINGS, DEFAULT_OPTIONS)
 
   return (
     <SocialTool

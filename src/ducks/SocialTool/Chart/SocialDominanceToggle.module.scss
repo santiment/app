@@ -2,14 +2,6 @@
 
 .toggle {
   margin: 0 8px 0 16px;
-
-  &.active rect {
-    fill: var(--texas-rose-hover) !important;
-
-    &:hover {
-      fill: var(--texas-rose-hover) !important;
-    }
-  }
 }
 
 .button {
