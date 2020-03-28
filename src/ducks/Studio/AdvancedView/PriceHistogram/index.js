@@ -144,8 +144,7 @@ PriceHistogram.Icon = 'H'
 
 PriceHistogram.defaultProps = {
   date: new Date(Date.now() - ONE_MONTH_IN_MS * 3),
-  slug: 'bitcoin',
-  distributions: []
+  slug: 'bitcoin'
 }
 
 export default PriceHistogram
