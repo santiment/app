@@ -60,13 +60,13 @@
   padding: 16px 0;
 }
 
-.icon {
-  width: 30px;
-  height: 30px;
-}
-
 .iconBlock {
   margin-right: 15px;
+
+  svg {
+    width: 30px;
+    height: 30px;
+  }
 }
 
 .dialog {

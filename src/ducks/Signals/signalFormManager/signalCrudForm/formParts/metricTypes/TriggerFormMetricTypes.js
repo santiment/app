@@ -1,22 +1,13 @@
 import React, { useState } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
-import priceSvg from '../../../../../../assets/signals/price.svg'
-import trendingWordsSvg from '../../../../../../assets/signals/trending_words.svg'
-import daaSvg from '../../../../../../assets/signals/daa.svg'
-import historicalBalanceSvg from '../../../../../../assets/signals/historical_balance.svg'
 import { getNearestTypeByMetric } from '../../../../utils/utils'
-import {
-  DAILY_ACTIVE_ADDRESSES,
-  ETH_WALLET,
-  METRICS_OPTIONS,
-  PRICE,
-  TRENDING_WORDS
-} from '../../../../utils/constants'
+import { METRICS_OPTIONS, TRENDING_WORDS } from '../../../../utils/constants'
 import { getCategoryGraph } from '../../../../../Studio/Sidebar/utils'
 import { Metric } from '../../../../../dataHub/metrics'
 import MetricsList from './MetricsList'
 import Search from './../../../../../Studio/Sidebar/Search'
 import HelpTooltip from '../../../../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
+import MetricIcons from './MetricIcons'
 import styles from '../../signal/TriggerForm.module.scss'
 import metricStyles from './TriggerFormMetricTypes.module.scss'
 
@@ -134,23 +125,20 @@ export const TriggerFormMetricTypes = ({
   )
 }
 
-const iconMaps = {
-  [PRICE]: priceSvg,
-  [TRENDING_WORDS]: trendingWordsSvg,
-  [DAILY_ACTIVE_ADDRESSES]: daaSvg,
-  [ETH_WALLET]: historicalBalanceSvg
-}
-
 const MetricTypeRenderer = ({ metric = {}, onClick, showLabel = true }) => {
-  const { label, value, description } = metric
+  const { label, description } = metric
+
+  const [isHovered, setHovered] = useState(false)
+
   return (
-    <div onClick={() => onClick(metric)} className={metricStyles.metric}>
+    <div
+      onClick={() => onClick(metric)}
+      className={metricStyles.metric}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <div className={metricStyles.iconBlock}>
-        <img
-          className={metricStyles.icon}
-          src={iconMaps[value] || priceSvg}
-          alt='Metric'
-        />
+        <MetricIcons metric={metric} isActive={isHovered} />
       </div>
       <div className={metricStyles.textBlocks}>
         <div className={metricStyles.texts}>
