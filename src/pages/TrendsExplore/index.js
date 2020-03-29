@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { compose, withProps } from 'recompose'
 import cx from 'classnames'
 import SocialTool from '../../ducks/SocialTool'
+import AverageSocialVolume from '../../components/AverageSocialVolume'
 import TrendsExploreSearch from '../../components/Trends/Explore/TrendsExploreSearch'
 import * as actions from '../../components/Trends/actions'
 import withDetectionAsset from '../../components/Trends/withDetectionAsset'
@@ -63,7 +64,12 @@ const TrendsExplore = ({
           />
         </div>
         <div className={styles.sidebar}>
-          <WordCloud className={styles.cloud} word={topic} />
+          <AverageSocialVolume text={topic} detectedAsset={detectedAsset} />
+          <WordCloud
+            className={styles.cloud}
+            infoClassName={styles.cloud__header}
+            word={topic}
+          />
           <Trends className={styles.trends} isCompactView />
         </div>
       </div>

@@ -72,10 +72,7 @@
 }
 
 .trends {
-  margin-top: 20px;
-
   @include responsive('tablet') {
-    margin-top: 0;
     margin-left: 50px;
   }
 }
@@ -83,8 +80,17 @@
 .cloud {
   min-width: 281px;
   height: 190px;
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  margin: 22px 0;
 
   @include responsive('tablet') {
     height: auto !important;
+  }
+
+  &__header {
+    border: none;
+    padding: 24px 0 5px;
   }
 }
