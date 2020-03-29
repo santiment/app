@@ -438,7 +438,7 @@ export const mapTriggerToFormProps = currentTrigger => {
     ...absolutePriceValues,
     ...trendingWordsParams,
     title: Array.isArray(title) ? title.join(' ') : title,
-    description
+    description: description || ''
   }
 }
 

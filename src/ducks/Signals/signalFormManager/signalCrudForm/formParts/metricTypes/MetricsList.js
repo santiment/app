@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
-import { NO_GROUP } from '../../../../../Studio/Sidebar/utils'
-import styles from './MetricsList.module.scss'
 import { Description } from '../../../../../dataHub/metrics/descriptions'
 import HelpTooltip from '../../../../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
+import styles from './MetricsList.module.scss'
+
+export const NO_GROUP = '_'
 
 const MetricsList = ({ metrikKey, list, onSelect }) => {
   const [isOpen, setOpen] = useState(false)

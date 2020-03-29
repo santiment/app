@@ -118,16 +118,14 @@ export const TriggerFormMetricTypes = ({
             />
 
             <div className={metricStyles.metrics}>
-              {categoriesKeys.map(key => {
-                return (
-                  <MetricsList
-                    key={key}
-                    metrikKey={key}
-                    list={categories[key]}
-                    onSelect={onSelectMetric}
-                  />
-                )
-              })}
+              {categoriesKeys.map(key => (
+                <MetricsList
+                  key={key}
+                  metrikKey={key}
+                  list={categories[key]}
+                  onSelect={onSelectMetric}
+                />
+              ))}
             </div>
           </div>
         </Dialog.ScrollContent>

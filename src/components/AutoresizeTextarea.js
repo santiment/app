@@ -20,7 +20,7 @@ class AutoresizeTextarea extends Component {
   }
 
   state = {
-    value: (this.props.value || this.props.defaultValue || '').trim()
+    value: (this.props.value || this.props.defaultValue).trim()
   }
 
   inputRef = React.createRef()

@@ -2,9 +2,9 @@ import React, { Fragment, useState, useEffect } from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
-import { NO_GROUP } from './utils'
 import MetricExplanation from '../../SANCharts/MetricExplanation'
 import { Metric } from '../../dataHub/metrics'
+import { NO_GROUP } from '../../Signals/signalFormManager/signalCrudForm/formParts/metricTypes/MetricsList'
 import styles from './MetricSelector.module.scss'
 
 const { price_usd } = Metric
