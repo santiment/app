@@ -27,13 +27,13 @@ const TRIGGERS = [
     cooldown: '22h',
     tags: [],
     title: undefined,
-    description: undefined,
+    description: '',
     __typename: 'Trigger'
   },
   {
     __typename: 'Trigger',
     cooldown: '22h',
-    description: undefined,
+    description: '',
     id: 1,
     isActive: false,
     isPublic: false,
@@ -52,7 +52,7 @@ const TRIGGERS = [
   {
     __typename: 'Trigger',
     cooldown: '22h',
-    description: undefined,
+    description: '',
     id: 1,
     isActive: false,
     isPublic: false,
@@ -98,7 +98,7 @@ const FORM_PROPS = [
   {
     channels: ['Telegram'],
     cooldown: '22h',
-    description: undefined,
+    description: '',
     ethAddress: undefined,
     frequencyTimeType: { label: 'Hour(s)', value: 'h' },
     frequencyTimeValue: { label: '22', value: '22' },
@@ -137,7 +137,7 @@ const FORM_PROPS = [
   {
     channels: ['Telegram'],
     cooldown: '22h',
-    description: undefined,
+    description: '',
     ethAddress: undefined,
     frequencyTimeType: { label: 'Hour(s)', value: 'h' },
     frequencyTimeValue: { label: '22', value: '22' },
@@ -171,7 +171,7 @@ const FORM_PROPS = [
   {
     channels: ['Telegram'],
     cooldown: '22h',
-    description: undefined,
+    description: '',
     ethAddress: undefined,
     frequencyTimeType: { label: 'Hour(s)', value: 'h' },
     frequencyTimeValue: { label: '22', value: '22' },

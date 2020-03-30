@@ -1,6 +1,6 @@
 @import '~@santiment-network/ui/mixins';
 
-$trigger-form-width: 550px;
+$trigger-form-width: 560px;
 $trigger-form-field-margin: 24px;
 $trigger-shared-form-width: 496px;
 
@@ -322,4 +322,13 @@ a {
   @include responsive('phone', 'phone-xs') {
     @include text('body-2');
   }
+}
+
+.tooltip {
+  z-index: 1000;
+  max-width: 231px;
+}
+
+.question {
+  margin: 0;
 }

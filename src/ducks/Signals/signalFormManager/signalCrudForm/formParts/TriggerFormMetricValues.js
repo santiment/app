@@ -22,7 +22,7 @@ export const TriggerFormMetricValues = ({
     target
   },
   lastPrice,
-  blocks,
+  blocks = [],
   showTypes,
   metaFormSettings,
   typeSelectors

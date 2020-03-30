@@ -1,0 +1,58 @@
+@import '~@santiment-network/ui/mixins';
+
+.title {
+  background: var(--athens);
+  color: var(--rhino);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  border-radius: $border-radius;
+  margin-bottom: 8px;
+
+  &:hover {
+    color: var(--jungle-green-hover);
+    fill: var(--jungle-green-hover);
+  }
+}
+
+.container {
+  margin-top: 8px;
+}
+
+.list {
+  background: var(--white);
+}
+
+.item {
+  display: flex;
+  color: var(--rhino);
+  padding: 4px 16px;
+  cursor: pointer;
+
+  @include text('body-3');
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+.group {
+  color: var(--waterloo);
+  padding: 9px 16px;
+
+  @include text('caption');
+}
+
+.open {
+  background-color: var(--jungle-green-light);
+}
+
+.helpTrigger {
+  margin-left: 10px !important;
+}
+
+.tooltip {
+  z-index: 10000;
+}

@@ -1,11 +1,15 @@
 @import '~@santiment-network/ui/mixins.scss';
 
-.listItem {
-  margin-top: 5px;
+.baseTypes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  &:first-child {
-    margin-top: 0;
-  }
+.listItem {
+  margin-top: 8px;
+  width: calc(50% - 5px);
 }
 
 .label {
@@ -39,25 +43,35 @@
   background: var(--white);
   border: 1px solid var(--porcelain);
   border-radius: $border-radius;
-  padding: 20px;
+  padding: 0 16px;
   cursor: pointer;
+  max-height: 70px;
 
   @include responsive('phone', 'phone-xs') {
     padding: 10px 20px;
   }
+
+  &:hover {
+    color: var(--jungle-green-hover);
+    border: 1px solid var(--jungle-green-hover);
+  }
 }
 
-.icon {
-  width: 30px;
-  height: 30px;
+.metrics {
+  padding: 8px 0;
 }
 
 .iconBlock {
   margin-right: 15px;
+
+  svg {
+    width: 30px;
+    height: 30px;
+  }
 }
 
 .dialog {
-  width: 550px;
+  width: 564px;
 
   @include responsive('phone', 'phone-xs') {
     max-width: 100%;
@@ -74,6 +88,7 @@
 
 .metricsExplanation {
   color: var(--waterloo);
+  margin-top: 4px;
 
   @include text('body-2');
 
@@ -83,7 +98,7 @@
 }
 
 .metricsHeader {
-  padding: 0 20px 20px;
+  padding: 0 24px 18px 24px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -91,7 +106,7 @@
 }
 
 .content {
-  padding: 0 20px 20px;
+  padding: 0 24px 24px;
 
   @include responsive('phone', 'phone-xs') {
     padding-top: 20px;
@@ -101,18 +116,46 @@
 .title {
   justify-content: flex-end;
   border: 0;
+  padding: 16px 16px 0 16px !important;
 }
 
 .texts {
   display: flex;
-  align-items: flex-start;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
 
   @include text('body-3');
 }
 
-.metricDescription {
-  @include text('caption');
+.choose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-top: 24px;
+}
 
+.chooseText {
+  background: var(--white);
+  padding: 0 12px;
+  z-index: 10;
   color: var(--waterloo);
+
+  @include text('caption');
+}
+
+.divider {
+  position: absolute;
+  top: 7px;
+  width: 100%;
+  border-bottom: 1px solid var(--porcelain);
+}
+
+.search {
+  margin-top: 26px;
+
+  input {
+    height: 40px;
+  }
 }
