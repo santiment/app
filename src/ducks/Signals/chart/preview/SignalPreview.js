@@ -47,9 +47,11 @@ const SignalPreviewChart = ({
 }) => {
   let triggeredSignals = points.filter(point => point['triggered?'])
 
-  const { metrics, triggersBy } = isNewTypeSignal(trigger)
-    ? getOldMetricsByType(oldSignalType)
-    : getNewMetricsByType(trigger)
+  const isNew = isNewTypeSignal(trigger)
+
+  const { metrics, triggersBy } = isNew
+    ? getNewMetricsByType(trigger)
+    : getOldMetricsByType(oldSignalType)
 
   const isStrongDaily = oldSignalType === DAILY_ACTIVE_ADDRESSES
   const metricsInterval = isStrongDaily ? '1d' : '1h'
@@ -88,6 +90,8 @@ const SignalPreviewChart = ({
         )
 
         triggeredSignals = makeSameRange(triggeredSignals, merged)
+
+        console.log(triggersBy)
 
         const signals = mapWithTimeseriesAndYCoord(
           triggeredSignals,

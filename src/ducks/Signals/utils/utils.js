@@ -843,7 +843,7 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
   }
 }
 
-export const isNewTypeSignal = type => {
+export const isNewTypeSignal = ({ settings: { type } }) => {
   for (let key in METRIC_TYPES) {
     if (type === METRIC_TYPES[key]) {
       return true
@@ -874,13 +874,6 @@ export const getNewMetricsByType = ({ settings: { type, metric } }) => {
           return {
             metrics: [Metric.daily_active_addresses, Metric.price_usd],
             triggersBy: Metric.daily_active_addresses,
-            historicalTriggersDataKey: 'current'
-          }
-        }
-        case SIGNAL_METRIC_TYPES.volume_usd: {
-          return {
-            metrics: [Metric.price_usd, Metric.volume_usd],
-            triggersBy: Metric.price_usd,
             historicalTriggersDataKey: 'current'
           }
         }
