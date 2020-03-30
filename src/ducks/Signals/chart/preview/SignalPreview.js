@@ -46,6 +46,7 @@ const SignalPreviewChart = ({
   trigger
 }) => {
   let triggeredSignals = points.filter(point => point['triggered?'])
+
   const { metrics, triggersBy } = isNewTypeSignal(trigger)
     ? getOldMetricsByType(oldSignalType)
     : getNewMetricsByType(trigger)
