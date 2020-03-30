@@ -8,6 +8,14 @@
   margin: auto;
 }
 
+.crown {
+  color: var(--texas-rose);
+  fill: var(--texas-rose);
+  margin-top: 48px;
+
+  @include text('body-3');
+}
+
 .perksTitle {
   @include text('h4', 'm');
 
@@ -24,8 +32,13 @@
   color: var(--waterloo);
 }
 
+.oneOf {
+  margin-top: 64px;
+}
+
 .highline {
-  color: var(--rhino);
+  color: $fiord;
+  font-weight: 600;
 }
 
 .access {

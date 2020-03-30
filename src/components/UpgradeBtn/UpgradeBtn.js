@@ -34,6 +34,13 @@ const UpgradeBtn = ({
   subscription,
   dispatch,
   className,
+  variant = 'fill',
+  trigger = (
+    <>
+      <Icon type='crown' className={styles.icon} />
+      Upgrade
+    </>
+  ),
   ...props
 }) => {
   const [plans] = usePlans()
@@ -48,12 +55,7 @@ const UpgradeBtn = ({
 
     return (
       <PlanPaymentDialog
-        label={
-          <>
-            <Icon type='crown' className={styles.icon} />
-            Upgrade
-          </>
-        }
+        label={trigger}
         title={name}
         price={amount}
         planId={+id}
@@ -61,7 +63,7 @@ const UpgradeBtn = ({
         btnProps={{
           fluid: false,
           border: false,
-          variant: 'fill',
+          variant: variant,
           accent: 'orange',
           className: cx(styles.btn, styles.fill, className)
         }}
