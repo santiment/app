@@ -88,6 +88,7 @@ const SignalMasterModalForm = ({
 
   return (
     <GetSignal
+      skip={!dialogOpenState}
       triggerId={triggerId}
       render={({ trigger = {}, userId: triggerUserId }) => {
         const { isLoading, isError } = trigger

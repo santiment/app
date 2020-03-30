@@ -42,7 +42,7 @@ GetSignal.defaultProps = {
 }
 
 export default graphql(TRIGGER_BY_ID_QUERY, {
-  skip: ({ triggerId }) => !triggerId,
+  skip: ({ triggerId, skip }) => skip || !triggerId,
   options: ({ triggerId: id }) => {
     return {
       fetchPolicy: 'network-only',
