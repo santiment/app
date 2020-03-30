@@ -53,6 +53,11 @@ const FOOTER_ABSOLUTE_FOR = [
   PATHS.GDPR
 ]
 
+const LoadableProMetricsPage = Loadable({
+  loader: () => import('./pages/ProMetrics/ProMetrics'),
+  loading: () => <PageLoader />
+})
+
 const LoadableLabsPage = Loadable({
   loader: () => import('./pages/Labs'),
   loading: () => <PageLoader />
@@ -419,6 +424,12 @@ export const App = ({
               isDesktop={isDesktop}
               {...props}
             />
+          )}
+        />
+        <Route
+          path='/pro-metrics'
+          render={props => (
+            <LoadableProMetricsPage isLoggedIn={isLoggedIn} {...props} />
           )}
         />
         {!isDesktop && <Redirect from='/' to='/assets' />}

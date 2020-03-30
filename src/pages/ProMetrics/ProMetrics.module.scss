@@ -1,0 +1,37 @@
+@import '~@santiment-network/ui/mixins';
+
+.descriptions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 564px;
+  margin: auto;
+}
+
+.perksTitle {
+  @include text('h4', 'm');
+
+  text-align: center;
+  color: var(--rhino);
+  margin-top: 30px;
+}
+
+.description {
+  @include text('body-1');
+
+  margin-top: 24px;
+  text-align: center;
+  color: var(--waterloo);
+}
+
+.highline {
+  color: var(--rhino);
+}
+
+.access {
+  margin-top: 64px;
+}
+
+.upgradeBtn {
+  margin-top: 32px;
+}
