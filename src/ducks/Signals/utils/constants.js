@@ -197,8 +197,7 @@ export const DAILY_ACTIVE_ADDRESSES_METRIC = {
 export const PRICE_VOLUME_DIFFERENCE_METRIC = {
   label: 'Price/volume difference',
   value: PRICE_VOLUME_DIFFERENCE,
-  type: METRIC_TYPES.METRIC_SIGNAL,
-  metric: SIGNAL_METRIC_TYPES.volume_usd,
+  metric: PRICE_VOLUME_DIFFERENCE,
   description:
     'Notify me of major divergences between an asset’s price and trading volume'
 }

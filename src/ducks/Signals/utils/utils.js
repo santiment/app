@@ -279,9 +279,6 @@ const getFormMetric = ({ type, metric }) => {
         case SIGNAL_METRIC_TYPES.active_addresses_24h: {
           return DAILY_ACTIVE_ADDRESSES_METRIC
         }
-        case SIGNAL_METRIC_TYPES.volume_usd: {
-          return PRICE_VOLUME_DIFFERENCE_METRIC
-        }
         case SIGNAL_METRIC_TYPES.price_usd: {
           return PRICE_METRIC
         }
@@ -757,7 +754,7 @@ export const mapFormToPVDTriggerSettings = formProps => {
     signalType
   )
   return {
-    type,
+    type: type || metric,
     metric,
     ...newTarget,
     channel: getChannels(formProps),
@@ -846,7 +843,7 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
   }
 }
 
-export const isNewTypeSignal = type => {
+export const isNewTypeSignal = ({ settings: { type } }) => {
   for (let key in METRIC_TYPES) {
     if (type === METRIC_TYPES[key]) {
       return true
@@ -877,13 +874,6 @@ export const getNewMetricsByType = ({ settings: { type, metric } }) => {
           return {
             metrics: [Metric.daily_active_addresses, Metric.price_usd],
             triggersBy: Metric.daily_active_addresses,
-            historicalTriggersDataKey: 'current'
-          }
-        }
-        case SIGNAL_METRIC_TYPES.volume_usd: {
-          return {
-            metrics: [Metric.price_usd, Metric.volume_usd],
-            triggersBy: Metric.price_usd,
             historicalTriggersDataKey: 'current'
           }
         }

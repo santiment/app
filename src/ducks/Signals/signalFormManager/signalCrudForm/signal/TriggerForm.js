@@ -154,6 +154,7 @@ export const TriggerForm = ({
 
         const { price } = lastPriceItem || {}
         const mappedTrigger = mapFormPropsToTrigger(values)
+
         const showChart = target && couldShowChart(mappedTrigger.settings)
 
         const typeSelectors = metric.key
