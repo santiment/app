@@ -63,6 +63,7 @@ const Group = ({ groupLabel, onSelect, group }) => {
               position='bottom'
               align='start'
               withDesc={false}
+              onAction='hover'
               classes={styles}
             >
               {Description[metric.key]}

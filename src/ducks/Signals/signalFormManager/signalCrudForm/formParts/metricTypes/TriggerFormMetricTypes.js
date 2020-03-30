@@ -102,7 +102,9 @@ export const TriggerFormMetricTypes = ({
 
             <Search
               iconPosition='left'
-              placeholder='Search for a Metric'
+              inputProps={{
+                placeholder: 'Search for a Metric'
+              }}
               toggleMetric={onSelectMetric}
               className={metricStyles.search}
               categories={categories}
