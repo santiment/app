@@ -1,7 +1,7 @@
 import { updateTooltipSettings } from '../tooltipSettings'
 import {
   usdFormatter,
-  persentageFormatter,
+  percentageFormatter,
   tooltipValueFormatter
 } from '../../SANCharts/utils'
 import { millify } from '../../../utils/formatting'
@@ -173,7 +173,7 @@ export const Metric = {
     node: 'line',
     label: 'Social Dominance',
     shortLabel: 'Soc. Domin.',
-    formatter: persentageFormatter,
+    formatter: percentageFormatter,
     extraSelector: 'text'
   },
   realized_value_usd: {

@@ -13,6 +13,9 @@ import { safeDecode } from '../../utils/utils'
 import { addRecentTrends } from '../../utils/recent'
 import styles from './index.module.scss'
 
+const pageDescription =
+  'Explore the social volume of ANY word (or phrase) on crypto social media, including 100s of Telegram groups, crypto subreddits, discord channels, trader chats and more.'
+
 const TrendsExplore = ({
   word: newWord,
   history,
@@ -34,10 +37,7 @@ const TrendsExplore = ({
   }
 
   const topic = safeDecode(word)
-
   const pageTitle = `Crypto Social Trends for ${topic} - Sanbase`
-  const pageDescription =
-    'Explore the social volume of ANY word (or phrase) on crypto social media, including 100s of Telegram groups, crypto subreddits, discord channels, trader chats and more.'
 
   return (
     <div className={cx('page', styles.wrapper)}>

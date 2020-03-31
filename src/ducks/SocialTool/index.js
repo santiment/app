@@ -52,7 +52,6 @@ const SocialTool = ({
         buildMetric({ metric, ...settings, detectedAsset })
       )
 
-      setActiveMetrics([])
       setActiveMetrics(updatedMetrics)
     },
     [metrics, settings.asset, settings.text, detectedAsset]
@@ -72,7 +71,12 @@ const SocialTool = ({
     () => {
       const metricSet = new Set(metrics)
       const metric = Metric.social_dominance_total
-      options.withDominance ? metricSet.add(metric) : metricSet.delete(metric)
+
+      if (options.withDominance) {
+        metricSet.add(metric)
+      } else {
+        metricSet.delete(metric)
+      }
 
       setMetrics([...metricSet])
     },

@@ -23,7 +23,7 @@ export const mapDatetimeToNumber = timeseries =>
 export const usdFormatter = val =>
   val || val === 0 ? formatNumber(val, { currency: 'USD' }) : 'No data'
 
-export const persentageFormatter = val =>
+export const percentageFormatter = val =>
   val || val === 0 ? `${val}%` : 'No data'
 
 const getEventColor = (isAnomaly, value) => {

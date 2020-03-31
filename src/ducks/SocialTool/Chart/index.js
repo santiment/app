@@ -24,8 +24,8 @@ const Canvas = ({
   const MetricColor = useChartColors(metrics, FocusedMetric)
   const scale = options.isLogScale ? logScale : linearScale
 
-  function onMetricHover (Metric) {
-    setFocusedMetric(Metric)
+  function onMetricHover (metric) {
+    setFocusedMetric(metric)
   }
 
   function onMetricHoverEnd () {
@@ -58,7 +58,6 @@ const Canvas = ({
           className={styles.dominance}
           options={options}
           setOptions={setOptions}
-          toggleDominance={() => {}}
         />
       </div>
       <Chart
