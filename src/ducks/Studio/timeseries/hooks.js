@@ -103,7 +103,7 @@ export function useTimeseries (
         const queryId = client.queryManager.idCounter
         const abortController = new AbortController()
 
-        const query = getQuery(metric)
+        const query = getQuery(metric, metricSettings)
 
         if (!query) {
           return setErrorMsg(state => {
