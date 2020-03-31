@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
-import { couldShowChart, mapFormPropsToTrigger } from '../../utils/utils'
+import { couldShowChart } from '../../utils/utils'
 import SignalPreview from '../../chart/preview/SignalPreview'
 import SignalCard from '../../../../components/SignalCard/card/SignalCard'
 import NoSignalPreview from '../../chart/preview/NoSignalPreview'

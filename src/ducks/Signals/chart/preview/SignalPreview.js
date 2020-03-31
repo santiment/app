@@ -91,8 +91,6 @@ const SignalPreviewChart = ({
 
         triggeredSignals = makeSameRange(triggeredSignals, merged)
 
-        console.log(triggersBy)
-
         const signals = mapWithTimeseriesAndYCoord(
           triggeredSignals,
           triggersBy,
