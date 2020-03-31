@@ -13,8 +13,10 @@ window.AbortController =
 
 const DEFAULT_TS = []
 const DEFAULT_LOADINGS = []
-const DEFAULT_ERROR_MSG = {}
+const DEFAULT_ERROR_MSG = Object.create(null)
 const DEFAULT_ABORTABLES = new Map()
+const DEFAULT_METRIC_SETTINGS_MAP = new Map()
+const ABORTABLE_METRIC_SETTINGS_INDEX = 2
 
 const hashMetrics = metrics => metrics.reduce((acc, { key }) => acc + key, '')
 
@@ -27,10 +29,17 @@ const cancelQuery = ([controller, id]) => {
   queryManager.stopQuery(id)
 }
 
-function abortRemovedMetrics (abortables, newMetrics) {
+function abortRemovedMetrics (abortables, newMetrics, MetricSettingMap) {
   const toAbort = new Map(abortables)
   newMetrics.forEach(metric => {
-    toAbort.delete(metric)
+    const abortable = abortables.get(metric)
+    if (
+      abortable &&
+      abortable[ABORTABLE_METRIC_SETTINGS_INDEX] ===
+        MetricSettingMap.get(metric)
+    ) {
+      toAbort.delete(metric)
+    }
   })
 
   const abortableEntries = [...toAbort.entries()]
@@ -48,7 +57,11 @@ function abortAllMetrics (abortables) {
   return [...abortables.values()].forEach(cancelQuery)
 }
 
-export const useTimeseries = (metrics, settings) => {
+export function useTimeseries (
+  metrics,
+  settings,
+  MetricSettingMap = DEFAULT_METRIC_SETTINGS_MAP
+) {
   const [timeseries, setTimeseries] = useState(DEFAULT_TS)
   const [loadings, setLoadings] = useState(DEFAULT_LOADINGS)
   const [ErrorMsg, setErrorMsg] = useState(DEFAULT_ERROR_MSG)
@@ -62,9 +75,9 @@ export const useTimeseries = (metrics, settings) => {
         setTimeseries([])
       }
 
-      setAbortables(abortRemovedMetrics(abortables, metrics))
+      setAbortables(abortRemovedMetrics(abortables, metrics, MetricSettingMap))
     },
-    [metricsHash]
+    [metricsHash, MetricSettingMap]
   )
 
   useEffect(
@@ -86,11 +99,11 @@ export const useTimeseries = (metrics, settings) => {
 
       metrics.forEach(metric => {
         const { key, reqMeta } = metric
-
+        const metricSettings = MetricSettingMap.get(metric)
         const queryId = client.queryManager.idCounter
         const abortController = new AbortController()
 
-        const query = getQuery(metric)
+        const query = getQuery(metric, metricSettings)
 
         if (!query) {
           return setErrorMsg(state => {
@@ -101,7 +114,7 @@ export const useTimeseries = (metrics, settings) => {
 
         setAbortables(state => {
           const newState = new Map(state)
-          newState.set(metric, [abortController, queryId])
+          newState.set(metric, [abortController, queryId, metricSettings])
           return newState
         })
 
@@ -120,7 +133,8 @@ export const useTimeseries = (metrics, settings) => {
               to,
               from,
               slug,
-              ...reqMeta
+              ...reqMeta,
+              ...metricSettings
             },
             context: {
               fetchOptions: {
@@ -163,7 +177,7 @@ export const useTimeseries = (metrics, settings) => {
         raceCondition = true
       }
     },
-    [metricsHash, settings]
+    [metricsHash, settings, MetricSettingMap]
   )
 
   return [timeseries, loadings, ErrorMsg]

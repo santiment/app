@@ -1,31 +1,27 @@
 import gql from 'graphql-tag'
 
-export const GET_METRIC = ({ key, queryKey = key, slug, reqMeta = {} }) => {
-  const { text } = reqMeta
+const DEFAULT_SETTINGS = {}
+const DEFAULT_SELECTOR = 'slug'
 
-  let selector = 'slug'
-
-  if (text) {
-    selector = 'text'
-  }
-
-  return gql`
+export const GET_METRIC = (
+  { key, queryKey = key },
+  { selector = DEFAULT_SELECTOR } = DEFAULT_SETTINGS
+) => gql`
   query getMetric(
-    $${selector}: String!
+    $slug: String!
     $from: DateTime!
     $to: DateTime!
     $interval: interval
     $transform: TimeseriesMetricTransformInputObject
   ) {
     getMetric(metric: "${queryKey}") {
-      timeseriesData(selector: { ${selector}: $${selector}}, from: $from, to: $to, interval: $interval, transform: $transform) {
+      timeseriesData(selector: { ${selector}: $slug}, from: $from, to: $to, interval: $interval, transform: $transform) {
         datetime
         ${key}: value
       }
     }
   }
 `
-}
 
 // Available metrics could be fetched via "getAvailableMetrics" query
 export const METRICS = [
