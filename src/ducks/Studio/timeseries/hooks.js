@@ -16,6 +16,7 @@ const DEFAULT_LOADINGS = []
 const DEFAULT_ERROR_MSG = Object.create(null)
 const DEFAULT_ABORTABLES = new Map()
 const DEFAULT_METRIC_SETTINGS_MAP = new Map()
+const ABORTABLE_METRIC_SETTINGS_INDEX = 2
 
 const hashMetrics = metrics => metrics.reduce((acc, { key }) => acc + key, '')
 
@@ -28,11 +29,15 @@ const cancelQuery = ([controller, id]) => {
   queryManager.stopQuery(id)
 }
 
-function abortRemovedMetrics (abortables, newMetrics, MetricTransforms) {
+function abortRemovedMetrics (abortables, newMetrics, MetricSettingMap) {
   const toAbort = new Map(abortables)
   newMetrics.forEach(metric => {
     const abortable = abortables.get(metric)
-    if (abortable && abortable[2] === MetricTransforms[metric.key]) {
+    if (
+      abortable &&
+      abortable[ABORTABLE_METRIC_SETTINGS_INDEX] ===
+        MetricSettingMap.get(metric)
+    ) {
       toAbort.delete(metric)
     }
   })
