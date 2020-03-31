@@ -54,7 +54,10 @@ const SignalPreviewChart = ({
     : getOldMetricsByType(oldSignalType)
 
   const isStrongDaily = oldSignalType === DAILY_ACTIVE_ADDRESSES
-  const metricsInterval = isStrongDaily ? '1d' : '1h'
+
+  const { cooldown } = trigger
+
+  const metricsInterval = isStrongDaily ? '1d' : cooldown
 
   const metricRest = {
     address: target && target.address ? target.address : ''
