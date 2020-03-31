@@ -4,6 +4,7 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import Dropdown from '@santiment-network/ui/Dropdown'
 import { usePriceHistogramData } from './hooks'
 import RestrictionMessage from './RestrictionMessage'
+import ErrorMessage from './ErrorMessage'
 import UsageTip from '../UsageTip'
 import Calendar from '../Calendar'
 import { usdFormatter } from '../../../SANCharts/utils'
@@ -16,6 +17,7 @@ const dropdownClasses = {
   options: styles.dropdown__options
 }
 
+const INTERVAL_ERROR_TEXT = 'allowed interval'
 const TIME = 'Time'
 const VALUE = 'Value'
 const SORTER_OPTIONS = [TIME, VALUE]
@@ -118,7 +120,11 @@ const PriceHistogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
         <div className={styles.scroller}>
           <div className={styles.scroll}>
             {error ? (
-              <RestrictionMessage />
+              error.message.includes(INTERVAL_ERROR_TEXT) ? (
+                <RestrictionMessage />
+              ) : (
+                <ErrorMessage />
+              )
             ) : (
               data
                 .sort(Sorter[sorter])
