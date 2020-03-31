@@ -1,0 +1,27 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  background: red;
+  margin-right: 6px;
+  width: 100%;
+  border-radius: 2px;
+  min-height: 1px;
+  margin-top: auto;
+  position: relative;
+  height: var(--percent);
+
+  &::before {
+    content: attr(data-percent);
+    position: absolute;
+    display: block;
+    color: var(--waterloo);
+    top: -15px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+
+    @include text('caption');
+
+    font-weight: 500;
+  }
+}

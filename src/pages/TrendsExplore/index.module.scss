@@ -49,8 +49,8 @@
     width: 32vw;
     margin-left: 24px;
     border-left: 1px solid var(--porcelain);
-    padding: 22px 24px 0;
-    height: calc(100vh - 100px);
+    padding: 22px 24px;
+    height: calc(100vh - 70px);
     overflow: hidden;
 
     &:hover {
