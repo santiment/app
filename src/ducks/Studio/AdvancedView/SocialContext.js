@@ -46,12 +46,12 @@ const SocialContext = ({ interval, date, slug }) => {
   )
 
   function onTrendCalendarChange (datetime) {
-    setTrendDate(datetime)
+    setTrendDate([datetime])
     setTrendPeriod(getTimePeriod(datetime, constrainedInterval))
   }
 
   function onContextCalendarChange (datetime) {
-    setContextDate(datetime)
+    setContextDate([datetime])
     setContextPeriod(getTimePeriod(datetime, constrainedInterval))
   }
 
