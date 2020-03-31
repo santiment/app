@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
-import { couldShowChart } from '../../utils/utils'
+import { couldShowChart, mapFormPropsToTrigger } from '../../utils/utils'
 import SignalPreview from '../../chart/preview/SignalPreview'
 import SignalCard from '../../../../components/SignalCard/card/SignalCard'
 import NoSignalPreview from '../../chart/preview/NoSignalPreview'
@@ -10,7 +10,7 @@ import styles from './ShareTriggerForm.module.scss'
 
 const SharedTriggerForm = ({ id, trigger, onOpen, onCreate, settings }) => {
   const { target, metric } = settings
-  const showChart = target && couldShowChart(settings)
+  const showChart = target && couldShowChart(trigger.settings)
 
   return (
     <div className={styles.container}>
