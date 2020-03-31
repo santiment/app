@@ -15,7 +15,7 @@ const DEFAULT_TS = []
 const DEFAULT_LOADINGS = []
 const DEFAULT_ERROR_MSG = Object.create(null)
 const DEFAULT_ABORTABLES = new Map()
-const DEFAULT_TRANSFORMS = new Map()
+const DEFAULT_METRIC_SETTINGS_MAP = new Map()
 
 const hashMetrics = metrics => metrics.reduce((acc, { key }) => acc + key, '')
 
@@ -55,7 +55,7 @@ function abortAllMetrics (abortables) {
 export function useTimeseries (
   metrics,
   settings,
-  MetricQueryTransforms = DEFAULT_TRANSFORMS
+  MetricSettingMap = DEFAULT_METRIC_SETTINGS_MAP
 ) {
   const [timeseries, setTimeseries] = useState(DEFAULT_TS)
   const [loadings, setLoadings] = useState(DEFAULT_LOADINGS)
@@ -70,11 +70,9 @@ export function useTimeseries (
         setTimeseries([])
       }
 
-      setAbortables(
-        abortRemovedMetrics(abortables, metrics, MetricQueryTransforms)
-      )
+      setAbortables(abortRemovedMetrics(abortables, metrics, MetricSettingMap))
     },
-    [metricsHash, MetricQueryTransforms]
+    [metricsHash, MetricSettingMap]
   )
 
   useEffect(
@@ -96,7 +94,7 @@ export function useTimeseries (
 
       metrics.forEach(metric => {
         const { key, reqMeta } = metric
-        const queryTransforms = MetricQueryTransforms.get(metric)
+        const metricSettings = MetricSettingMap.get(metric)
         const queryId = client.queryManager.idCounter
         const abortController = new AbortController()
 
@@ -111,7 +109,7 @@ export function useTimeseries (
 
         setAbortables(state => {
           const newState = new Map(state)
-          newState.set(metric, [abortController, queryId, queryTransforms])
+          newState.set(metric, [abortController, queryId, metricSettings])
           return newState
         })
 
@@ -131,7 +129,7 @@ export function useTimeseries (
               from,
               slug,
               ...reqMeta,
-              ...queryTransforms
+              ...metricSettings
             },
             context: {
               fetchOptions: {
@@ -174,7 +172,7 @@ export function useTimeseries (
         raceCondition = true
       }
     },
-    [metricsHash, settings, MetricQueryTransforms]
+    [metricsHash, settings, MetricSettingMap]
   )
 
   return [timeseries, loadings, ErrorMsg]
