@@ -9,8 +9,7 @@ export function drawWatermark ({ ctx, top, right, left, isNightModeEnabled }) {
   ctx.save()
   ctx.translate((right - left) / 2 - 200, top + 50)
   ctx.scale(0.5, 0.5)
-  ctx.fillStyle = isNightModeEnabled ? '#222639' : '#E7EAF3'
-  ctx.globalAlpha = 0.3
+  ctx.fillStyle = isNightModeEnabled ? '#2226394C' : '#E7EAF34C'
   ctx.fill(path)
   ctx.restore()
 }
