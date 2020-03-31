@@ -13,8 +13,9 @@ window.AbortController =
 
 const DEFAULT_TS = []
 const DEFAULT_LOADINGS = []
-const DEFAULT_ERROR_MSG = {}
+const DEFAULT_ERROR_MSG = Object.create(null)
 const DEFAULT_ABORTABLES = new Map()
+const DEFAULT_TRANSFORMS = new Map()
 
 const hashMetrics = metrics => metrics.reduce((acc, { key }) => acc + key, '')
 
@@ -27,10 +28,13 @@ const cancelQuery = ([controller, id]) => {
   queryManager.stopQuery(id)
 }
 
-function abortRemovedMetrics (abortables, newMetrics) {
+function abortRemovedMetrics (abortables, newMetrics, MetricTransforms) {
   const toAbort = new Map(abortables)
   newMetrics.forEach(metric => {
-    toAbort.delete(metric)
+    const abortable = abortables.get(metric)
+    if (abortable && abortable[2] === MetricTransforms[metric.key]) {
+      toAbort.delete(metric)
+    }
   })
 
   const abortableEntries = [...toAbort.entries()]
@@ -48,7 +52,11 @@ function abortAllMetrics (abortables) {
   return [...abortables.values()].forEach(cancelQuery)
 }
 
-export const useTimeseries = (metrics, settings) => {
+export function useTimeseries (
+  metrics,
+  settings,
+  MetricQueryTransforms = DEFAULT_TRANSFORMS
+) {
   const [timeseries, setTimeseries] = useState(DEFAULT_TS)
   const [loadings, setLoadings] = useState(DEFAULT_LOADINGS)
   const [ErrorMsg, setErrorMsg] = useState(DEFAULT_ERROR_MSG)
@@ -62,9 +70,11 @@ export const useTimeseries = (metrics, settings) => {
         setTimeseries([])
       }
 
-      setAbortables(abortRemovedMetrics(abortables, metrics))
+      setAbortables(
+        abortRemovedMetrics(abortables, metrics, MetricQueryTransforms)
+      )
     },
-    [metricsHash]
+    [metricsHash, MetricQueryTransforms]
   )
 
   useEffect(
@@ -86,7 +96,7 @@ export const useTimeseries = (metrics, settings) => {
 
       metrics.forEach(metric => {
         const { key, reqMeta } = metric
-
+        const queryTransforms = MetricQueryTransforms.get(metric)
         const queryId = client.queryManager.idCounter
         const abortController = new AbortController()
 
@@ -101,7 +111,7 @@ export const useTimeseries = (metrics, settings) => {
 
         setAbortables(state => {
           const newState = new Map(state)
-          newState.set(metric, [abortController, queryId])
+          newState.set(metric, [abortController, queryId, queryTransforms])
           return newState
         })
 
@@ -120,7 +130,8 @@ export const useTimeseries = (metrics, settings) => {
               to,
               from,
               slug,
-              ...reqMeta
+              ...reqMeta,
+              ...queryTransforms
             },
             context: {
               fetchOptions: {
@@ -163,7 +174,7 @@ export const useTimeseries = (metrics, settings) => {
         raceCondition = true
       }
     },
-    [metricsHash, settings]
+    [metricsHash, settings, MetricQueryTransforms]
   )
 
   return [timeseries, loadings, ErrorMsg]

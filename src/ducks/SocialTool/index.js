@@ -20,13 +20,34 @@ const SocialTool = ({
   const [settings, setSettings] = useState(defaultSettings)
   const [options, setOptions] = useState(defaultOptions)
   const [metrics, setMetrics] = useState(defaultMetrics)
+  const [MetricQueryTransforms, setMetricQueryTransforms] = useState()
 
   const [activeMetrics, setActiveMetrics] = useState(
     metrics.map(metric => buildMetric({ metric, ...defaultSettings }))
   )
-  const [data, loadings] = useTimeseries(activeMetrics, settings)
+  const [data, loadings] = useTimeseries(
+    activeMetrics,
+    settings,
+    MetricQueryTransforms
+  )
   const [shareLink, setShareLink] = useState('')
   const chartRef = useRef(null)
+
+  useEffect(
+    () => {
+      const newMetricQueryTransforms = new Map(MetricQueryTransforms)
+      const queryTransforms = { selector: detectedAsset ? 'slug' : 'text' }
+
+      newMetricQueryTransforms.set(Metric.social_volume_total, queryTransforms)
+      newMetricQueryTransforms.set(
+        Metric.social_dominance_total,
+        queryTransforms
+      )
+
+      setMetricQueryTransforms(newMetricQueryTransforms)
+    },
+    [detectedAsset]
+  )
 
   useEffect(
     () => {
