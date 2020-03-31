@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import styles from './ProMetrics.module.scss'
-import { TYPES } from './utils.js'
+import { FIRST_METRICS_GROUP } from './utils.js'
 import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
 import ProMetric from './ProMetric/ProMetric'
 
@@ -49,7 +49,7 @@ const ProMetrics = () => {
         </div>
       </div>
 
-      {TYPES.map((metric, index) => {
+      {FIRST_METRICS_GROUP.map((metric, index) => {
         return <ProMetric metric={metric} key={index} />
       })}
     </div>
