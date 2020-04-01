@@ -3,7 +3,9 @@
 .container {
   padding: 0 !important;
   max-width: 100% !important;
+}
 
+.inner {
   @include responsive('phone', 'phone-xs') {
     padding: 0 16px !important;
   }
@@ -16,7 +18,11 @@
 
 .secondStep {
   max-width: 1170px;
-  margin: auto;
+  margin: 60px auto 116px auto;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-bottom: 32px;
+  }
 }
 
 .descriptions {
@@ -59,6 +65,10 @@
   justify-content: flex-end;
   max-width: 484px;
   margin-top: 0 !important;
+
+  @include responsive('phone', 'phone-xs') {
+    max-width: 100%;
+  }
 }
 
 .secondGroupSvg {
@@ -97,6 +107,10 @@
   margin-top: 48px;
 
   @include text('body-3');
+
+  @include responsive('phone', 'phone-xs') {
+    margin-top: 0;
+  }
 }
 
 .perksTitle {
@@ -136,6 +150,10 @@
   position: relative;
   margin: 80px 0 72px 0;
   display: flex;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 0 0 48px 0;
+  }
 }
 
 .askBlock {
@@ -153,19 +171,40 @@
   @include text('h4', 'm');
 
   color: var(--rhino);
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-1', 'm');
+
+    max-width: 320px;
+    text-align: center;
+  }
 }
 
 .askUpgradeBtn {
   margin-top: 32px;
+
+  @include responsive('phone', 'phone-xs') {
+    max-width: 320px;
+  }
 }
 
 .sign {
   color: var(--white);
 }
 
-.signSvg {
+.bg {
   display: flex;
   margin: auto;
+  height: 200px;
+}
+
+.bgSvg {
+  display: flex;
+  height: 200px;
+}
+
+.signSvg {
+  margin-bottom: 57px;
 }
 
 .form {
@@ -184,6 +223,16 @@
 
   svg {
     padding: 18px 8px 14px 16px;
+
+    @include responsive('phone', 'phone-xs') {
+      left: 12px !important;
+    }
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    padding: 0 16px;
+    position: relative;
+    min-width: 100%;
   }
 }
 
@@ -203,6 +252,11 @@
   height: 36px;
 
   @include text('body-3');
+
+  @include responsive('phone', 'phone-xs') {
+    width: 126px;
+    right: 22px;
+  }
 }
 
 .emailSuccess {

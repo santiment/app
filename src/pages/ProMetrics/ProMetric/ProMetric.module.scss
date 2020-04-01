@@ -45,7 +45,11 @@
 }
 
 .isLeft {
-  flex-direction: row-reverse;
+  flex-direction: row-reverse !important;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column !important;
+  }
 }
 
 .descriptions {
@@ -57,9 +61,14 @@
   display: flex;
   margin-left: 103px;
   margin-right: 0;
+  max-width: 100%;
 
   @include responsive('phone', 'phone-xs') {
     margin: 0;
+  }
+
+  svg {
+    max-width: 100%;
   }
 }
 

@@ -1,2284 +1,6 @@
 import React from 'react'
 import styles from './ProMetric/ProMetric.module.scss'
 
-export const GreenSignBlockSvg = (
-  <svg
-    width='1440'
-    height='200'
-    viewBox='0 0 1440 200'
-    fill='none'
-    xmlns='http://www.w3.org/2000/svg'
-  >
-    <rect width='1440' height='200' fill='#14C393' />
-    <g opacity='0.5'>
-      <g clip-path='url(#clip0)'>
-        <g clip-path='url(#clip1)'>
-          <rect
-            opacity='0.4'
-            width='3'
-            height='188.957'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1436 14.7239)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='164.417'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1418 39.2637)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='174.233'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1400 29.4478)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='149.693'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1382 53.9878)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='160.736'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1364 42.9448)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='170.552'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1346 33.1287)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='166.258'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1328 37.4233)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='166.871'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1310 36.8098)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='151.534'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1292 52.1472)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='161.35'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1274 42.3313)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='134.969'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1256 68.7117)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='142.945'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1238 60.7361)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='124.54'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1220 79.1411)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='114.11'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1202 89.5706)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='116.564'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1184 87.1165)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='113.497'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1166 90.1841)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='142.945'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1148 60.7361)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='151.534'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1130 52.1472)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='122.086'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1112 81.595)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='51'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1094 153)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='54'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1076 150)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='54'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1058 150)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='35'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1040 169)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='34'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1022 170)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='40'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1004 164)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='31'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 986 173)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='34'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 968 170)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='34'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 950 170)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='34'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 932 170)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='37'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 914 172)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='34'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 896 181)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='31'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 878 184)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='28'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 860 187)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='34'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 842 181)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='32'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 824 183)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='32'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 806 183)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='34'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 788 181)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='28'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 770 187)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='28'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 752 187)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='32'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 734 183)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='28'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 716 187)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='35'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 698 180)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='32'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 680 183)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='28'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 662 187)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='30'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 644 185)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='29'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 626 181)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='26'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 608 184)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='25'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 590 185)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='25'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 572 185)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='29'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 554 192)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='30'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 536 191)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='35.2941'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 518 185.235)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='45.8823'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 500 184.647)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='48.2353'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 482 181.294)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='60'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 464 169.529)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='68.2353'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 446 161.294)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='68.2353'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 428 144.294)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='61.1765'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 410 151.353)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='83.4356'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 392 129.245)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='105.521'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 374 107.159)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='110.429'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 356 93.2515)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='103.067'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 338 100.614)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='155.215'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 320 48.4663)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='136.196'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 302 67.4846)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='114.11'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 284 89.5706)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='109.816'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 266 73.865)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='125.153'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 248 58.5276)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='98.773'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 230 84.908)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='112.27'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 212 71.4111)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='125.153'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 194 58.5276)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='115.951'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 176 67.73)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='119.018'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 158 64.6626)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='152'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 140 57)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='138'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 122 71)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='131'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 104 78)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='149'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 86 60)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='141'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 68 68)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='156'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 50 53)'
-            fill='white'
-          />
-        </g>
-        <g clip-path='url(#clip2)'>
-          <rect
-            opacity='0.8'
-            width='3'
-            height='168.098'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1436 31.9019)'
-            fill='white'
-          />
-          <rect
-            opacity='0.8'
-            width='3'
-            height='121.472'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1418 78.5276)'
-            fill='white'
-          />
-          <rect
-            opacity='0.8'
-            width='3'
-            height='128.834'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1400 71.1658)'
-            fill='white'
-          />
-          <rect
-            opacity='0.8'
-            width='3'
-            height='116.564'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1382 83.4355)'
-            fill='white'
-          />
-          <rect
-            opacity='0.8'
-            width='3'
-            height='106.748'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1364 93.2517)'
-            fill='white'
-          />
-          <rect
-            opacity='0.8'
-            width='3'
-            height='109.202'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1346 90.7976)'
-            fill='white'
-          />
-          <rect
-            opacity='0.8'
-            width='3'
-            height='106.135'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1328 93.865)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='125.153'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1310 74.8467)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='88.9571'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1292 111.043)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='93.2515'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1274 106.749)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='80.3681'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1256 119.632)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='85.2761'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1238 114.724)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='74.1189'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1220 125.881)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='67.9119'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1202 132.088)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='69.3723'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1184 130.628)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='67.5468'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1166 132.453)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='85.0724'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1148 114.928)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='90.1841'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1130 109.816)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='90.1841'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1112 109.816)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='30'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1094 172)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='32'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1076 170)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='32'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1058 170)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='29'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1040 173)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='35'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1022 167)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='32'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1004 170)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='22'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 986 180)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='22'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 968 180)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='22'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 950 180)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='21'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 932 181)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='18'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 914 189)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='17'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 896 196)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='16'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 878 197)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='15'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 860 198)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='15'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 842 198)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='15'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 824 198)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='14'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 806 199)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='18'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 788 195)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='14'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 734 199)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='17'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 716 196)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='14'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 698 199)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='16'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 662 197)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='12'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 626 196)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='15'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 608 193)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='10'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 590 198)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='10'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 572 198)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='25.8824'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 518 192.294)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='32.9412'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 500 195.235)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='34.1177'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 464 193.059)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='40'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 446 187.177)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='40'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 428 170.177)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='36.4706'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 410 173.706)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='49.6932'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 392 159.307)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='61.9632'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 374 147.037)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='65.6442'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 356 134.356)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='61.3497'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 338 138.65)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='55.8282'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 320 144.172)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='53.3742'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 302 146.626)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='40.4908'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 284 159.509)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='39.2638'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 266 160.736)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='49.6932'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 248 150.307)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='34.9693'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 230 165.031)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='34.9693'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 212 165.031)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='55.2147'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 194 144.785)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='58.8957'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 176 141.104)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='69.3252'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 158 130.675)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='104'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 140 101)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='93'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 122 112)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='96'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 104 109)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='115'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 86 90)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='108'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 68 97)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='123'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 50 82)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='141'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 32 68)'
-            fill='white'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='156'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 14 53)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='108'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 32 97)'
-            fill='white'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='123'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 14 82)'
-            fill='white'
-          />
-        </g>
-      </g>
-    </g>
-    <g opacity='0.5'>
-      <circle opacity='0.5' cx='300.5' cy='69' r='9' fill='white' />
-      <circle opacity='0.5' cx='1344.5' cy='34' r='9' fill='white' />
-      <circle opacity='0.5' cx='1182.5' cy='88' r='9' fill='white' />
-      <circle
-        cx='300.5'
-        cy='69'
-        r='3'
-        fill='white'
-        stroke='#14C393'
-        stroke-width='2'
-      />
-      <circle opacity='0.5' cx='120' cy='72' r='9' fill='white' />
-      <circle
-        cx='120'
-        cy='72'
-        r='3'
-        fill='white'
-        stroke='#14C393'
-        stroke-width='2'
-      />
-      <circle
-        cx='1344.5'
-        cy='34'
-        r='3'
-        fill='white'
-        stroke='#14C393'
-        stroke-width='2'
-      />
-      <circle
-        cx='1182.5'
-        cy='88'
-        r='3'
-        fill='white'
-        stroke='#14C393'
-        stroke-width='2'
-      />
-    </g>
-    <defs>
-      <clipPath id='clip0'>
-        <rect y='15' width='1436' height='185' fill='white' />
-      </clipPath>
-      <clipPath id='clip1'>
-        <rect
-          width='1408'
-          height='188.957'
-          transform='matrix(-1 0 0 1 1436 14.7239)'
-          fill='white'
-        />
-      </clipPath>
-      <clipPath id='clip2'>
-        <rect
-          width='1436'
-          height='184.706'
-          transform='matrix(-1 0 0 1 1436 15.2942)'
-          fill='white'
-        />
-      </clipPath>
-    </defs>
-  </svg>
-)
-
-export const OrangeBlockSvg = (
-  <svg
-    width='1072'
-    height='184'
-    viewBox='0 0 1072 184'
-    fill='none'
-    xmlns='http://www.w3.org/2000/svg'
-  >
-    <g opacity='0.5'>
-      <g clip-path='url(#clip0)'>
-        <g filter='url(#filter0_d)'>
-          <rect width='1072' height='184' rx='8' fill='#FFF3E4' />
-        </g>
-        <g clip-path='url(#clip1)'>
-          <rect
-            opacity='0.4'
-            width='3'
-            height='142.945'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1054 44.7362)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='124.54'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1036 63.1411)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='114.11'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1018 73.5705)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='116.564'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1000 71.1165)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='113.497'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 982 74.184)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='142.945'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 964 44.7362)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='151.534'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 946 36.1472)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='122.086'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 928 65.5951)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='51'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 910 137)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='54'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 892 134)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='76'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 874 112)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='49'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 856 139)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='48'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 838 140)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='57'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 820 131)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='44'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 802 144)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='94'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 784 99)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='94'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 766 99)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='67'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 748 130)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='61'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 730 128)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='56'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 712 143)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='51'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 694 148)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='46'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 676 153)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='56'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 658 143)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='53'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 640 146)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='32'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 622 167)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='34'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 604 165)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='28'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 586 171)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='28'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 568 171)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='32'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 550 167)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='28'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 532 171)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='35'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 514 164)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='32'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 496 167)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='28'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 478 171)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='30'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 460 169)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='29'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 442 165)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='26'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 424 168)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='50'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 406 137)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='50'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 388 137)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='49'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 370 149)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='51'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 352 147)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='60'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 334 137)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='79'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 316 136)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='83'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 298 130)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='103'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 280 110)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='68.2353'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 262 145.294)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='68.2353'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 244 128.294)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='61.1765'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 226 135.353)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='83.4356'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 208 113.245)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='105.521'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 190 91.1595)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='110.429'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 172 77.2515)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='103.067'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 154 84.6135)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='155.215'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 136 32.4662)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='136.196'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 118 51.4846)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='114.11'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 100 73.5705)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='124'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 82 60)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='141'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 64 43)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='112'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 46 72)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='127'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 28 57)'
-            fill='#FFAD4D'
-          />
-        </g>
-        <g clip-path='url(#clip2)'>
-          <rect
-            opacity='0.6'
-            width='3'
-            height='85.2761'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1054 98.7239)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='74.1189'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1036 109.881)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='67.9119'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1018 116.088)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='69.3723'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 1000 114.628)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='67.5468'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 982 116.453)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='85.0724'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 964 98.9276)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='90.1841'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 946 93.816)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='90.1841'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 928 93.816)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='30'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 910 156)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='32'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 892 154)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='45'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 874 140)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='41'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 856 144)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.4'
-            width='3'
-            height='49'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 838 136)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='45'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 820 140)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='31'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 802 154)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='63'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 784 126)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='63'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 766 126)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='41'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 748 152)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='30'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 730 156)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='17'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 712 180)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='16'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 694 181)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='15'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 676 182)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='15'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 658 182)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='15'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 640 182)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='14'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 622 183)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='18'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 604 179)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='14'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 550 183)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='17'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 532 180)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='14'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 514 183)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='16'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 478 181)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='12'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 442 180)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='15'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 424 177)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='24'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 406 168)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='24'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 388 168)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='44'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 334 149)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='32.9412'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 316 179.235)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='59'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 280 150)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='40'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 262 171.176)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='40'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 244 154.176)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='36.4706'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 226 157.706)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='49.6932'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 208 143.307)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='61.9632'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 190 131.037)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='65.6442'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 172 118.356)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='61.3497'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 154 122.65)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='55.8282'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 136 128.172)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='53.3742'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 118 130.626)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='40.4908'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 100 143.509)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='39.2638'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 82 144.736)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='49.6932'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 64 134.307)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='34.9693'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 46 149.031)'
-            fill='#FFAD4D'
-          />
-          <rect
-            opacity='0.6'
-            width='3'
-            height='34.9693'
-            rx='1.5'
-            transform='matrix(-1 0 0 1 28 149.031)'
-            fill='#FFAD4D'
-          />
-        </g>
-        <circle opacity='0.5' cx='116.5' cy='53' r='9' fill='#FFAD4D' />
-        <circle opacity='0.5' cx='207' cy='114' r='9' fill='#FFAD4D' />
-        <circle opacity='0.5' cx='998.5' cy='72' r='9' fill='#FFAD4D' />
-        <circle
-          cx='116.5'
-          cy='53'
-          r='3'
-          fill='white'
-          stroke='#FFAD4D'
-          stroke-width='2'
-        />
-        <circle
-          cx='207'
-          cy='114'
-          r='3'
-          fill='white'
-          stroke='#FFAD4D'
-          stroke-width='2'
-        />
-        <circle
-          cx='998.5'
-          cy='72'
-          r='3'
-          fill='white'
-          stroke='#FFAD4D'
-          stroke-width='2'
-        />
-      </g>
-    </g>
-    <defs>
-      <filter
-        id='filter0_d'
-        x='-8'
-        y='-4'
-        width='1088'
-        height='200'
-        filterUnits='userSpaceOnUse'
-        color-interpolation-filters='sRGB'
-      >
-        <feFlood flood-opacity='0' result='BackgroundImageFix' />
-        <feColorMatrix
-          in='SourceAlpha'
-          type='matrix'
-          values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
-        />
-        <feOffset dy='4' />
-        <feGaussianBlur stdDeviation='4' />
-        <feColorMatrix
-          type='matrix'
-          values='0 0 0 0 0.0941176 0 0 0 0 0.105882 0 0 0 0 0.168627 0 0 0 0.02 0'
-        />
-        <feBlend
-          mode='normal'
-          in2='BackgroundImageFix'
-          result='effect1_dropShadow'
-        />
-        <feBlend
-          mode='normal'
-          in='SourceGraphic'
-          in2='effect1_dropShadow'
-          result='shape'
-        />
-      </filter>
-      <clipPath id='clip0'>
-        <rect width='1072' height='184' fill='white' />
-      </clipPath>
-      <clipPath id='clip1'>
-        <rect
-          width='1408'
-          height='188.957'
-          transform='matrix(-1 0 0 1 1252 -1.27609)'
-          fill='white'
-        />
-      </clipPath>
-      <clipPath id='clip2'>
-        <rect
-          width='1436'
-          height='184.706'
-          transform='matrix(-1 0 0 1 1252 -0.705879)'
-          fill='white'
-        />
-      </clipPath>
-    </defs>
-  </svg>
-)
-
 export const THIRD_METRICS_GROUP = [
   {
     title: 'Velocity Vs. Price Template',
@@ -2836,7 +558,7 @@ export const SECOND_METRICS_GROUP = [
         xmlns='http://www.w3.org/2000/svg'
       >
         <g filter='url(#filter0_dd)'>
-          <rect x='8' y='6' width='484' height='300' rx='4' fill='#F9FAFC' />
+          <rect x='8' y='6' width='484' height='300' rx='4' fill='white' />
           <rect
             x='8.5'
             y='6.5'
@@ -2844,6 +566,193 @@ export const SECOND_METRICS_GROUP = [
             height='299'
             rx='3.5'
             stroke='#E7EAF3'
+          />
+        </g>
+        <rect x='7' y='238' width='486' height='2' rx='1' fill='#F9FAFC' />
+        <rect x='7' y='155' width='486' height='2' rx='1' fill='#F9FAFC' />
+        <rect x='7' y='72' width='486' height='2' rx='1' fill='#F9FAFC' />
+        <mask
+          id='mask0'
+          mask-type='alpha'
+          maskUnits='userSpaceOnUse'
+          x='8'
+          y='6'
+          width='484'
+          height='300'
+        >
+          <rect
+            x='8.5'
+            y='6.5'
+            width='483'
+            height='299'
+            fill='white'
+            stroke='#E7EAF3'
+          />
+        </mask>
+        <g mask='url(#mask0)'>
+          <path
+            d='M233.106 257.89L235.563 252.878C235.837 252.32 236.548 252.144 237.05 252.51L239.61 254.375C239.669 254.418 239.732 254.454 239.798 254.483L243.099 255.926C243.237 255.987 243.36 256.077 243.458 256.191L246.92 260.227L250.095 263.622C250.361 263.906 250.767 264.011 251.136 263.89L253.919 262.979C254.065 262.931 254.198 262.85 254.308 262.743L257.585 259.526C257.695 259.418 257.828 259.337 257.974 259.289L261.308 258.198L264.351 257.203C264.729 257.079 265.144 257.191 265.409 257.489L268.149 260.569C268.413 260.866 268.829 260.978 269.207 260.854L271.665 260.05C271.994 259.942 272.356 260.013 272.621 260.237L275.355 262.546C275.62 262.77 275.981 262.841 276.311 262.733L279.416 261.717L282.865 260.588C282.972 260.553 283.073 260.5 283.162 260.432L286.324 258.012C286.525 257.858 286.661 257.632 286.702 257.381L290.15 236.544C290.21 236.176 290.471 235.872 290.825 235.756L293.622 234.841C293.778 234.79 293.919 234.702 294.032 234.583L297.47 230.999L300.631 228.46C300.909 228.236 301.286 228.178 301.619 228.308L304.249 229.33C304.529 229.438 304.843 229.416 305.105 229.267L307.862 227.704C308.139 227.547 308.324 227.268 308.362 226.952L311.794 197.859C311.859 197.303 312.368 196.91 312.922 196.985L315.316 197.312C315.465 197.332 315.618 197.318 315.762 197.271L319.027 196.203C319.099 196.179 319.167 196.148 319.231 196.109L322.09 194.394C322.477 194.161 322.971 194.217 323.297 194.53L326.061 197.183C326.25 197.365 326.503 197.465 326.765 197.462L329.678 197.429C329.867 197.426 330.051 197.371 330.209 197.269L333.045 195.438C333.37 195.228 333.787 195.224 334.116 195.429L337.075 197.272C337.15 197.319 337.219 197.376 337.279 197.441L340.058 200.435C340.457 200.864 341.137 200.861 341.531 200.427L343.507 198.254C343.957 197.758 344.757 197.836 345.103 198.41L348.021 203.248L351.218 209.676C351.451 210.144 352.005 210.354 352.49 210.157L354.876 209.188C355.111 209.093 355.374 209.09 355.61 209.181L358.347 210.23C358.663 210.35 359.018 210.304 359.291 210.106L361.887 208.229C362.232 207.98 362.697 207.976 363.046 208.22L365.466 209.915C365.827 210.167 366.311 210.154 366.658 209.882L369.052 207.998C369.422 207.708 369.943 207.714 370.306 208.012L373.014 210.241C373.196 210.391 373.425 210.471 373.661 210.469L376.906 210.431L379.886 210.397C380.272 210.393 380.62 210.167 380.782 209.817L383.633 203.659C383.892 203.099 384.592 202.905 385.103 203.253L387.564 204.927C387.679 205.005 387.809 205.058 387.946 205.083L390.969 205.638C391.214 205.683 391.433 205.817 391.584 206.015L394.775 210.201C394.896 210.359 395.061 210.477 395.249 210.541L398.136 211.523C398.412 211.617 398.715 211.586 398.967 211.437L401.387 210.005C401.836 209.739 402.413 209.863 402.714 210.289L405.792 214.653L409.403 218.512L412.525 221.09C412.823 221.336 413.237 221.388 413.588 221.223L416.534 219.835C416.594 219.806 416.651 219.772 416.705 219.733L420.122 217.193C420.197 217.137 420.264 217.071 420.321 216.996L422.886 213.632C423.332 213.047 424.234 213.127 424.571 213.78L427.26 219.007C427.386 219.25 427.606 219.432 427.869 219.509L434.678 221.493L437.764 222.551C438.091 222.663 438.452 222.599 438.72 222.381L441.542 220.083C441.769 219.898 442.066 219.822 442.353 219.875L445.319 220.417C445.446 220.441 445.575 220.439 445.701 220.413L448.832 219.769C449.021 219.73 449.194 219.638 449.332 219.503L451.496 217.375C452.045 216.835 452.973 217.093 453.165 217.838L455.91 228.472C456.102 229.218 457.03 229.476 457.579 228.936L458.693 227.841C459.247 227.296 460.185 227.564 460.366 228.321L463.317 240.614C463.451 241.173 464.028 241.504 464.579 241.337L466.939 240.622C467.094 240.575 467.235 240.492 467.35 240.378L469.819 237.951C470.299 237.479 471.099 237.607 471.409 238.205L474.113 243.429C474.287 243.764 474.635 243.973 475.013 243.969L478.007 243.935L481.215 243.898C481.474 243.895 481.721 243.792 481.905 243.611L484.536 241.025C484.922 240.646 485.539 240.642 485.929 241.017L488.559 243.541C488.739 243.715 488.978 243.814 489.228 243.82L495.023 243.954C495.566 243.966 496 244.41 496 244.953V349C496 349.552 495.552 350 495 350H6C5.44772 350 5 349.552 5 349V226.029C5 225.321 5.85138 224.961 6.35922 225.454C6.6217 225.709 7.02362 225.754 7.33572 225.563L12.769 222.236C13.2215 221.959 13.8115 222.084 14.1135 222.52L17.6375 227.612L22.4566 232.887C22.5526 232.992 22.6251 233.117 22.6692 233.252L26.6561 245.492C26.8758 246.167 27.7084 246.404 28.251 245.947L29.3407 245.03C29.6358 244.781 30.0475 244.725 30.3987 244.885L33.9179 246.485C34.184 246.606 34.4897 246.605 34.7545 246.481L35.3101 246.222C35.9362 245.93 36.6627 246.346 36.7283 247.033L37.2163 252.154C37.307 253.106 38.5541 253.4 39.0602 252.588L40.1037 250.916C40.5294 250.233 41.5455 250.307 41.8681 251.044L44.0794 256.092C44.3751 256.768 45.2746 256.902 45.7545 256.342L47.9091 253.83C48.1646 253.532 48.571 253.412 48.9479 253.521L51.6598 254.312C51.8425 254.365 52.0367 254.365 52.2194 254.312L55.5503 253.341L59.0183 252.667C59.113 252.649 59.2098 252.644 59.3058 252.653L62.4118 252.955C62.6444 252.978 62.8776 252.918 63.0709 252.787L65.1739 251.357C65.7555 250.961 66.5528 251.274 66.7107 251.959L69.7764 265.267C69.8974 265.792 70.4127 266.127 70.9416 266.024L73.1406 265.597C73.4341 265.54 73.7376 265.617 73.9681 265.808L76.5595 267.948C76.9373 268.26 77.4856 268.252 77.8545 267.929L80.3266 265.768C80.629 265.503 81.0604 265.446 81.4218 265.621L83.8959 266.823C84.2285 266.985 84.623 266.95 84.9218 266.732L87.5615 264.808C87.8603 264.591 88.2548 264.556 88.5873 264.717L91.0983 265.937C91.4409 266.103 91.8482 266.061 92.1489 265.827L95.1699 263.479C95.2354 263.428 95.3069 263.385 95.383 263.352L98.751 261.88C98.8361 261.842 98.9156 261.794 98.9872 261.734L101.733 259.467C102.153 259.12 102.774 259.173 103.129 259.587L105.782 262.68C105.983 262.914 106.281 263.043 106.59 263.028L109.711 262.876L113.118 262.711C113.253 262.704 113.385 262.67 113.506 262.611L116.412 261.2C116.734 261.043 117.115 261.071 117.412 261.272L120.467 263.35C120.518 263.385 120.572 263.415 120.629 263.439L123.892 264.866C124.064 264.941 124.252 264.967 124.437 264.94L127.111 264.55C127.508 264.492 127.901 264.677 128.109 265.019L130.996 269.757C131.222 270.129 131.663 270.311 132.086 270.209L134.987 269.504L138.128 268.283C138.423 268.168 138.756 268.201 139.024 268.37L141.35 269.839C141.779 270.11 141.828 270.717 141.447 271.052L141.307 271.175C140.715 271.697 141.27 272.656 142.018 272.401C142.142 272.359 142.276 272.351 142.405 272.379L145.819 273.126L148.456 273.702C148.994 273.82 149.526 273.48 149.646 272.943L152.581 259.748C152.764 258.923 153.824 258.683 154.345 259.348L156.288 261.83C156.512 262.116 156.874 262.258 157.233 262.201L160.262 261.717L163.873 260.794L166.913 260.017C167.265 259.927 167.638 260.035 167.888 260.299L170.69 263.264C170.939 263.528 171.312 263.636 171.664 263.546L174.109 262.921C174.475 262.828 174.861 262.948 175.109 263.232L177.911 266.433C178.159 266.717 178.546 266.836 178.911 266.743L181.926 265.972L185.38 265.09C185.484 265.063 185.583 265.02 185.674 264.962L189.148 262.723L192.351 260.119C192.606 259.911 192.947 259.842 193.262 259.935L195.869 260.696C196.218 260.798 196.594 260.703 196.852 260.448L207.009 250.42C207.135 250.295 207.292 250.206 207.464 250.163L210.812 249.307L214.147 248.257C214.327 248.201 214.488 248.094 214.61 247.95L217.144 244.963C217.584 244.446 218.4 244.507 218.757 245.084L221.258 249.125C221.488 249.496 221.933 249.676 222.356 249.567L224.504 249.018C224.946 248.905 225.409 249.106 225.628 249.506L228.802 255.292C228.845 255.369 228.897 255.44 228.957 255.503L231.487 258.142C231.967 258.644 232.801 258.514 233.106 257.89Z'
+            fill='#FD9317'
+            fillOpacity='0.1'
+            stroke='#FD9317'
+            strokeWidth='1.16594'
+          />
+          <path
+            d='M267.858 198.227L265.444 188.436C265.238 187.599 264.14 187.398 263.65 188.107L261.373 191.406C261.326 191.475 261.27 191.537 261.207 191.592L257.863 194.499C257.75 194.597 257.66 194.72 257.601 194.857L254.08 203.018L250.958 209.655C250.7 210.204 250.016 210.398 249.508 210.067L247.082 208.489C246.936 208.394 246.817 208.262 246.737 208.107L243.37 201.534C243.29 201.379 243.171 201.247 243.025 201.152L239.692 198.983L237.007 197.237C236.492 196.902 235.8 197.106 235.549 197.666L232.894 203.602C232.643 204.162 231.95 204.366 231.435 204.031L229.677 202.888C229.201 202.578 228.563 202.726 228.273 203.214L225.751 207.45C225.461 207.938 224.823 208.086 224.347 207.776L221.584 205.979L218.148 203.744C218.033 203.669 217.934 203.57 217.858 203.455L215.693 200.161C215.203 199.415 214.056 199.636 213.878 200.51L211.045 214.389C210.904 215.08 210.111 215.412 209.52 215.027L207.375 213.632C207.222 213.532 207.099 213.393 207.019 213.228L203.53 205.995L200.505 201.163C200.191 200.662 199.514 200.541 199.046 200.903L197.048 202.446C196.632 202.768 196.037 202.712 195.688 202.319L192.751 199.008C192.716 198.968 192.683 198.925 192.655 198.88L189.482 193.876C189.247 193.505 188.799 193.331 188.376 193.446L185.889 194.12C185.614 194.194 185.32 194.148 185.082 193.993L181.991 191.982C181.908 191.928 181.833 191.862 181.77 191.786L179.214 188.736C178.757 188.19 177.892 188.284 177.562 188.914L174.932 193.934C174.756 194.271 174.403 194.478 174.023 194.47L171.508 194.412C171.207 194.405 170.926 194.264 170.742 194.027L168.197 190.76C167.801 190.252 167.035 190.245 166.63 190.747L163.888 194.142C163.837 194.205 163.794 194.274 163.76 194.347L161.117 200.01C160.756 200.783 159.656 200.778 159.301 200.003L157.689 196.477C157.306 195.639 156.09 195.721 155.823 196.603L152.979 205.979L149.749 218.889C149.571 219.598 148.719 219.884 148.151 219.425L146.368 217.986C146.01 217.697 145.501 217.69 145.134 217.969L142.978 219.611C142.525 219.956 141.876 219.854 141.551 219.386L139.344 216.214C138.95 215.647 138.114 215.641 137.711 216.201L135.786 218.882C135.374 219.456 134.512 219.432 134.131 218.837L132.177 215.781C131.779 215.159 130.866 215.168 130.481 215.798L128.005 219.851C127.819 220.155 127.485 220.337 127.129 220.329L124.094 220.26L121.258 220.195C120.802 220.185 120.41 219.867 120.307 219.422L117.363 206.777C117.17 205.947 116.092 205.724 115.585 206.41L113.44 209.31C113.324 209.467 113.163 209.587 112.979 209.654L110.079 210.712C109.807 210.811 109.591 211.023 109.487 211.293L106.153 219.989C106.079 220.181 105.949 220.345 105.779 220.46L103.171 222.223C102.749 222.509 102.179 222.431 101.849 222.042L99.9424 219.8C99.4433 219.213 98.4958 219.387 98.2381 220.113L95.2077 228.653L91.5969 236.325L88.6261 241.203C88.2961 241.745 87.5514 241.846 87.0884 241.412L84.4572 238.947C84.4028 238.897 84.3544 238.84 84.3127 238.778L80.8291 233.63C80.7863 233.567 80.7509 233.499 80.7235 233.428L78.2727 227.037C77.9243 226.128 76.6148 226.202 76.3709 227.144L73.648 237.664C73.5809 237.923 73.4128 238.144 73.1813 238.278L66.3217 242.254L63.5752 244.126C63.1043 244.446 62.4608 244.31 62.1613 243.825L59.5279 239.563C59.2788 239.16 58.7809 238.987 58.3355 239.149L55.8524 240.052C55.6189 240.137 55.3621 240.131 55.1321 240.037L52.2216 238.847C52.0004 238.756 51.8189 238.589 51.71 238.377L49.7352 234.517C49.2879 233.643 47.9798 233.87 47.8533 234.844L45.0719 256.271C44.9455 257.245 43.6374 257.473 43.19 256.598L42.5373 255.323C42.0878 254.444 40.7725 254.679 40.6543 255.658L37.621 280.784C37.534 281.504 36.7335 281.895 36.1122 281.521L34.0694 280.29C33.9097 280.194 33.78 280.055 33.6951 279.889L31.4105 275.424C30.9919 274.606 29.7841 274.738 29.5526 275.628L26.8029 286.188C26.6861 286.636 26.2761 286.946 25.8125 286.935L22.9928 286.871L19.978 286.802C19.6108 286.794 19.2778 286.585 19.1105 286.258L16.6511 281.452C16.2816 280.729 15.2514 280.724 14.875 281.443L12.427 286.116C12.262 286.431 11.9422 286.635 11.587 286.651L5.95413 286.909C5.42025 286.934 5 287.374 5 287.908V309C5 309.552 5.4477 310 5.99999 310H495C495.552 310 496 309.552 496 309V62.6217C496 61.8902 495.018 61.6511 494.682 62.3007C494.451 62.746 493.84 62.8103 493.522 62.4229L488.556 56.3771C488.06 55.7738 487.095 55.9458 486.839 56.6831L483.362 66.6695L478.454 77.3519C478.417 77.4333 478.39 77.5194 478.376 77.6078L474.327 102.324C474.176 103.244 472.959 103.476 472.481 102.676L471.801 101.537C471.478 100.996 470.74 100.885 470.272 101.308L467.342 103.958C466.958 104.305 466.369 104.299 465.989 103.947C465.365 103.369 464.344 103.777 464.303 104.626L463.773 115.693C463.719 116.809 462.154 117.01 461.82 115.945L461.016 113.383C460.709 112.406 459.306 112.467 459.085 113.467L456.949 123.166C456.74 124.114 455.439 124.238 455.054 123.347L453.117 118.857C452.88 118.307 452.216 118.087 451.697 118.388L449.562 119.625C449.252 119.805 448.869 119.805 448.559 119.625L445.518 117.863C445.472 117.837 445.425 117.814 445.377 117.795L442.107 116.532C441.932 116.464 441.741 116.447 441.557 116.483L438.847 117.006C438.469 117.079 438.082 116.929 437.853 116.619L436.123 114.28C435.584 113.551 434.43 113.858 434.326 114.759L431.155 142.124C431.08 142.773 430.412 143.177 429.802 142.941L428.176 142.313C427.724 142.139 427.213 142.313 426.961 142.726L424.664 146.498C424.268 147.147 423.322 147.135 422.943 146.476L420.814 142.775C420.489 142.21 419.72 142.102 419.252 142.554L417.412 144.332C416.968 144.76 416.245 144.688 415.894 144.18L413.623 140.89C413.272 140.382 412.549 140.31 412.105 140.739L410.216 142.563C409.763 143 409.024 142.915 408.682 142.387L405.808 137.946C405.757 137.867 405.696 137.796 405.625 137.734L402.238 134.791C402.16 134.723 402.093 134.644 402.04 134.556L399.516 130.412C399.094 129.719 398.065 129.791 397.744 130.536L395.188 136.46C395.016 136.859 394.606 137.101 394.174 137.06L391.289 136.781L388.025 136.466C387.8 136.444 387.589 136.347 387.427 136.19L384.888 133.737C384.453 133.318 383.748 133.376 383.389 133.862L380.522 137.739C380.478 137.798 380.429 137.851 380.374 137.899L377.257 140.608C377 140.831 376.649 140.909 376.322 140.814L374.181 140.194C373.656 140.042 373.106 140.339 372.946 140.861L369.966 150.588C369.786 151.174 369.126 151.462 368.575 151.195L366.107 150.004C366.045 149.974 365.986 149.937 365.931 149.895L363.182 147.771C362.75 147.437 362.129 147.512 361.789 147.94L359.214 151.172C358.959 151.492 358.925 151.935 359.128 152.291L360.488 154.675C360.96 155.503 359.991 156.401 359.202 155.867C358.946 155.695 358.621 155.665 358.338 155.787L355.181 157.16L352.149 158.477C351.795 158.631 351.385 158.568 351.094 158.315L349.028 156.519C348.507 156.066 347.694 156.264 347.441 156.907L344.691 163.888C344.499 164.378 343.96 164.634 343.458 164.475L340.816 163.636C340.764 163.619 340.714 163.599 340.665 163.574L337.127 161.776L334.432 160.406C333.93 160.151 333.317 160.36 333.076 160.869L330.347 166.611C330.105 167.119 329.492 167.328 328.99 167.073L327.238 166.182C326.726 165.922 326.101 166.146 325.869 166.671L323.11 172.939C322.879 173.465 322.254 173.688 321.742 173.428L319.074 172.072L315.661 170.338C315.531 170.271 315.416 170.177 315.326 170.062L311.852 165.612L308.753 160.602C308.468 160.142 307.869 159.992 307.4 160.264L304.822 161.761C304.655 161.858 304.52 162.001 304.432 162.174L294.251 182.247C294.001 182.74 293.399 182.937 292.906 182.687L290.188 181.305L286.843 179.213C286.67 179.105 286.534 178.946 286.454 178.758L284.033 173.085C283.668 172.23 282.435 172.293 282.158 173.181L279.708 181.054C279.523 181.645 278.852 181.929 278.3 181.648L276.836 180.905C276.272 180.618 275.587 180.921 275.419 181.53L272.158 193.349C272.142 193.407 272.121 193.463 272.095 193.517L269.73 198.422C269.323 199.267 268.083 199.137 267.858 198.227Z'
+            fill='#8358FF'
+            fillOpacity='0.1'
+            stroke='#8358FF'
+            strokeWidth='1.16594'
+          />
+          <path
+            d='M5 145.66L11.1586 144.212L17.3171 144.936L23.4757 139.869L29.6342 172.213L35.7928 170.765L41.9513 176.919L48.1099 170.403L54.2684 174.023L60.4269 168.594L66.5855 172.213L72.744 166.422L78.9026 163.165L85.061 157.011L91.2196 165.698L97.3781 165.336L103.537 164.974L109.695 161.355L115.854 166.422L122.012 169.68L128.171 168.594L134.329 152.157L140.488 150.348L146.646 147.452L152.805 152.157L158.963 157.822L165.122 159.45L171.281 156.193L177.439 165.708L183.598 164.518L189.756 162.613L195.915 160.709L202.073 168.594L208.232 166.689L214.39 175.204L220.549 173.299L226.707 171.395L232.866 166.595L239.024 160.536L245.293 162.752L263.659 121.725L269.817 119.82L275.976 117.476L282.134 108.695L288.293 120.734L294.451 118.829L300.61 132.411L306.768 140.184L312.927 124.982L319.085 130.411L325.244 133.669L331.402 142.356L337.561 150.322L343.72 147.884L349.878 140.57L355.943 138.169L362.195 135.694L368.354 144.07L374.512 141.632L380.628 147.884L386.829 145.429L392.988 142.991L399.146 137.288L405.305 155.652L411.463 153.214L417.622 145.446L423.781 139.46L429.939 142.356L436.098 138.132L442.256 132.221L448.448 133.242L454.573 130.817L460.732 126.345L466.89 133.498L473.049 133.413L479.207 128.602L485.366 133.242L491.524 141.27L497.683 133.072L503.841 145.429L510 115.547'
+            stroke='#2F354D'
+            strokeWidth='1.5'
+            strokeLinecap='square'
+            strokeLinejoin='round'
+            strokeDasharray='2 4'
+          />
+          <g opacity='0.15' filter='url(#filter1_f)'>
+            <rect
+              x='41.2202'
+              y='37.7228'
+              width='124.285'
+              height='38.1839'
+              rx='5.98964'
+              fill='#7A859E'
+            />
+          </g>
+          <g filter='url(#filter2_d)'>
+            <rect
+              x='24'
+              y='22'
+              width='165'
+              height='45'
+              rx='22.5'
+              fill='white'
+            />
+            <rect
+              x='24.3744'
+              y='22.3744'
+              width='164.251'
+              height='44.2513'
+              rx='22.1256'
+              stroke='#F1F3F9'
+              strokeWidth='0.748705'
+            />
+          </g>
+          <path
+            d='M69.9734 48.728H74.0703C75.7145 48.728 76.6713 47.7442 76.6713 46.3022C76.6713 45.224 75.8762 44.2402 74.9194 44.092C75.7414 43.9168 76.4961 43.1621 76.4961 42.0301C76.4961 40.6824 75.5393 39.739 73.976 39.739H69.9734V48.728ZM71.092 43.6338V40.7363H73.7873C74.7981 40.7363 75.3371 41.3832 75.3371 42.1918C75.3371 43.0139 74.7981 43.6338 73.7873 43.6338H71.092ZM71.092 47.7307V44.6311H73.8412C74.9463 44.6311 75.5123 45.3588 75.5123 46.1809C75.5123 47.1377 74.8924 47.7307 73.8412 47.7307H71.092ZM78.9072 41.1271C79.2845 41.1271 79.5945 40.8172 79.5945 40.4398C79.5945 40.0625 79.2845 39.766 78.9072 39.766C78.5433 39.766 78.2334 40.0625 78.2334 40.4398C78.2334 40.8172 78.5433 41.1271 78.9072 41.1271ZM78.4086 48.728H79.4193V42.2187H78.4086V48.728ZM83.0797 48.8897C83.6727 48.8897 84.0366 48.7145 84.2926 48.4719L83.9961 47.7172C83.8614 47.8655 83.5918 47.9868 83.3088 47.9868C82.8641 47.9868 82.6485 47.6364 82.6485 47.1512V43.1082H83.9692V42.2187H82.6485V40.4398H81.6377V42.2187H80.5596V43.1082H81.6377V47.3668C81.6377 48.3372 82.1229 48.8897 83.0797 48.8897ZM85.0196 45.4666C85.0196 47.4073 86.3269 48.8897 88.2675 48.8897C89.4534 48.8897 90.1542 48.4045 90.6529 47.7577L89.979 47.1377C89.5478 47.7172 88.9952 47.9868 88.3214 47.9868C86.9333 47.9868 86.0708 46.9086 86.0708 45.4666C86.0708 44.0246 86.9333 42.96 88.3214 42.96C88.9952 42.96 89.5478 43.216 89.979 43.809L90.6529 43.1891C90.1542 42.5422 89.4534 42.057 88.2675 42.057C86.3269 42.057 85.0196 43.5395 85.0196 45.4666ZM94.9131 48.8897C96.8942 48.8897 98.134 47.3534 98.134 45.4666C98.134 43.5799 96.8942 42.057 94.9131 42.057C92.932 42.057 91.6922 43.5799 91.6922 45.4666C91.6922 47.3534 92.932 48.8897 94.9131 48.8897ZM94.9131 47.9868C93.525 47.9868 92.7433 46.8008 92.7433 45.4666C92.7433 44.1459 93.525 42.96 94.9131 42.96C96.3012 42.96 97.0693 44.1459 97.0693 45.4666C97.0693 46.8008 96.3012 47.9868 94.9131 47.9868ZM100.28 41.1271C100.658 41.1271 100.968 40.8172 100.968 40.4398C100.968 40.0625 100.658 39.766 100.28 39.766C99.9165 39.766 99.6065 40.0625 99.6065 40.4398C99.6065 40.8172 99.9165 41.1271 100.28 41.1271ZM99.7817 48.728H100.792V42.2187H99.7817V48.728ZM107.202 48.728H108.213V44.1594C108.213 42.7443 107.499 42.057 106.137 42.057C105.167 42.057 104.278 42.623 103.819 43.1621V42.2187H102.809V48.728H103.819V43.9707C104.197 43.4451 104.952 42.96 105.747 42.96C106.623 42.96 107.202 43.3238 107.202 44.4693V48.728ZM121.428 48.728H122.547V39.739H120.943L118.14 46.5852L115.35 39.739H113.746V48.728H114.865V41.2484L117.911 48.728H118.369L121.428 41.2484V48.728ZM127.325 48.728H128.713L132.339 39.739H131.058L128.026 47.5016L124.994 39.739H123.714L127.325 48.728ZM138.716 48.728H140.037L137.611 45.0623C138.837 44.9545 139.942 44.065 139.942 42.4478C139.942 40.7902 138.77 39.739 137.126 39.739H133.514V48.728H134.632V45.1567H136.425L138.716 48.728ZM138.783 42.4478C138.783 43.4586 138.056 44.1729 136.991 44.1729H134.632V40.7363H136.991C138.056 40.7363 138.783 41.4371 138.783 42.4478ZM144.263 48.728H145.651L149.277 39.739H147.996L144.964 47.5016L141.932 39.739H140.652L144.263 48.728ZM153.926 48.728H159.223V47.7307H155.045V39.739H153.926V48.728ZM159.745 48.9975H160.54L163.734 39.4695H162.939L159.745 48.9975ZM164.245 47.4612C164.986 48.2967 166.132 48.8897 167.695 48.8897C170.121 48.8897 171.01 47.5555 171.01 46.2483C171.01 44.3615 169.339 43.9033 167.87 43.5125C166.725 43.2025 165.687 42.933 165.687 42.0301C165.687 41.181 166.455 40.6015 167.533 40.6015C168.517 40.6015 169.46 40.9385 170.134 41.6797L170.808 40.8576C170.053 40.0625 168.989 39.6043 167.614 39.6043C165.849 39.6043 164.528 40.615 164.528 42.0975C164.528 43.8629 166.132 44.2672 167.574 44.6445C168.76 44.968 169.851 45.2645 169.851 46.3426C169.851 47.0299 169.339 47.8924 167.735 47.8924C166.469 47.8924 165.498 47.2725 164.905 46.6121L164.245 47.4612Z'
+            fill='#2F354D'
+          />
+          <circle
+            opacity='0.1'
+            cx='47.9585'
+            cy='44.4611'
+            r='11.9793'
+            fill='#8358FF'
+          />
+          <path
+            fillRule='evenodd'
+            clipRule='evenodd'
+            d='M40.0972 44.4612C40.0972 43.8409 40.7571 43.3381 41.5712 43.3381H54.346C55.16 43.3381 55.82 43.8409 55.82 44.4612C55.82 45.0814 55.16 45.5842 54.346 45.5842H41.5712C40.7571 45.5842 40.0972 45.0814 40.0972 44.4612Z'
+            fill='#8358FF'
+          />
+          <circle
+            cx='47.9585'
+            cy='44.4612'
+            r='3.74352'
+            fill='#E7E4FF'
+            stroke='#8358FF'
+            strokeWidth='1.49741'
+          />
+          <g opacity='0.15' filter='url(#filter3_f)'>
+            <rect
+              x='41.2202'
+              y='90.7228'
+              width='124.285'
+              height='38.1839'
+              rx='5.98964'
+              fill='#7A859E'
+            />
+          </g>
+          <g filter='url(#filter4_d)'>
+            <rect
+              x='24'
+              y='75'
+              width='182'
+              height='45'
+              rx='22.5'
+              fill='white'
+            />
+            <rect
+              x='24.3744'
+              y='75.3744'
+              width='181.251'
+              height='44.2513'
+              rx='22.1256'
+              stroke='#F1F3F9'
+              strokeWidth='0.748705'
+            />
+          </g>
+          <path
+            d='M69.9734 101.728H75.8627V100.731H71.092V97.6311H75.7684V96.6338H71.092V93.7363H75.8627V92.739H69.9734V101.728ZM79.2499 101.89C79.8429 101.89 80.2068 101.714 80.4628 101.472L80.1663 100.717C80.0316 100.865 79.762 100.987 79.479 100.987C79.0343 100.987 78.8187 100.636 78.8187 100.151V96.1082H80.1394V95.2187H78.8187V93.4398H77.8079V95.2187H76.7298V96.1082H77.8079V100.367C77.8079 101.337 78.2931 101.89 79.2499 101.89ZM85.974 101.728H86.9848V97.1324C86.9848 95.7174 86.2705 95.057 84.9094 95.057C83.9256 95.057 83.0361 95.623 82.5779 96.1621V92.739H81.5672V101.728H82.5779V96.9707C82.9687 96.4451 83.7234 95.9599 84.5051 95.9599C85.3811 95.9599 85.974 96.2969 85.974 97.4424V101.728ZM88.6257 98.4666C88.6257 100.502 90.0138 101.89 91.9409 101.89C93.0056 101.89 93.8816 101.539 94.5285 100.892L94.0433 100.232C93.5312 100.758 92.7765 101.054 92.0353 101.054C90.6337 101.054 89.7712 100.03 89.6903 98.8035H94.9597V98.5475C94.9597 96.5933 93.8007 95.057 91.8331 95.057C89.9733 95.057 88.6257 96.5799 88.6257 98.4666ZM91.8197 95.8926C93.3021 95.8926 93.949 97.092 93.9624 98.0623H89.6903C89.7442 97.065 90.4316 95.8926 91.8197 95.8926ZM96.5968 101.728H97.6076V97.1189C97.9041 96.5933 98.7531 96.0812 99.373 96.0812C99.5347 96.0812 99.656 96.0947 99.7773 96.1217V95.084C98.8879 95.084 98.1332 95.5826 97.6076 96.2699V95.2187H96.5968V101.728ZM100.668 98.4666C100.668 100.502 102.056 101.89 103.983 101.89C105.048 101.89 105.924 101.539 106.571 100.892L106.085 100.232C105.573 100.758 104.819 101.054 104.077 101.054C102.676 101.054 101.813 100.03 101.732 98.8035H107.002V98.5475C107.002 96.5933 105.843 95.057 103.875 95.057C102.016 95.057 100.668 96.5799 100.668 98.4666ZM103.862 95.8926C105.344 95.8926 105.991 97.092 106.005 98.0623H101.732C101.786 97.065 102.474 95.8926 103.862 95.8926ZM113.032 101.728H114.043V95.2187H113.032V100.003C112.655 100.529 111.9 100.987 111.105 100.987C110.229 100.987 109.65 100.65 109.65 99.5043V95.2187H108.639V99.8143C108.639 101.229 109.353 101.89 110.714 101.89C111.685 101.89 112.534 101.378 113.032 100.812V101.728ZM123.919 101.728H124.929V97.0246C124.929 95.7174 124.296 95.057 123.11 95.057C122.167 95.057 121.291 95.6769 120.927 96.2699C120.738 95.5961 120.172 95.057 119.175 95.057C118.218 95.057 117.342 95.7443 117.072 96.1621V95.2187H116.062V101.728H117.072V96.9707C117.423 96.4451 118.124 95.9599 118.784 95.9599C119.633 95.9599 119.983 96.4855 119.983 97.3076V101.728H120.994V96.9572C121.331 96.4451 122.045 95.9599 122.719 95.9599C123.555 95.9599 123.919 96.4855 123.919 97.3076V101.728ZM138.142 101.728H139.261V92.739H137.657L134.854 99.5852L132.064 92.739H130.461V101.728H131.579V94.2484L134.625 101.728H135.083L138.142 94.2484V101.728ZM144.04 101.728H145.428L149.053 92.739H147.773L144.74 100.502L141.708 92.739H140.428L144.04 101.728ZM155.43 101.728H156.751L154.325 98.0623C155.551 97.9545 156.657 97.065 156.657 95.4478C156.657 93.7902 155.484 92.739 153.84 92.739H150.228V101.728H151.347V98.1566H153.139L155.43 101.728ZM155.498 95.4478C155.498 96.4586 154.77 97.1728 153.705 97.1728H151.347V93.7363H153.705C154.77 93.7363 155.498 94.4371 155.498 95.4478ZM160.978 101.728H162.366L165.991 92.739H164.711L161.678 100.502L158.646 92.739H157.366L160.978 101.728ZM170.641 101.728H175.937V100.731H171.759V92.739H170.641V101.728ZM176.459 101.998H177.254L180.448 92.4695H179.653L176.459 101.998ZM180.959 100.461C181.7 101.297 182.846 101.89 184.409 101.89C186.835 101.89 187.724 100.555 187.724 99.2483C187.724 97.3615 186.053 96.9033 184.584 96.5125C183.439 96.2025 182.401 95.933 182.401 95.0301C182.401 94.181 183.169 93.6015 184.247 93.6015C185.231 93.6015 186.175 93.9384 186.848 94.6797L187.522 93.8576C186.768 93.0625 185.703 92.6043 184.328 92.6043C182.563 92.6043 181.242 93.615 181.242 95.0974C181.242 96.8629 182.846 97.2672 184.288 97.6445C185.474 97.968 186.565 98.2645 186.565 99.3426C186.565 100.03 186.053 100.892 184.45 100.892C183.183 100.892 182.213 100.272 181.62 99.6121L180.959 100.461Z'
+            fill='#2F354D'
+          />
+          <circle cx='47.9585' cy='97.4612' r='11.9793' fill='#FFF3E4' />
+          <path
+            fillRule='evenodd'
+            clipRule='evenodd'
+            d='M40.0972 97.4611C40.0972 96.8409 40.7571 96.3381 41.5712 96.3381H54.346C55.16 96.3381 55.82 96.8409 55.82 97.4611C55.82 98.0814 55.16 98.5842 54.346 98.5842H41.5712C40.7571 98.5842 40.0972 98.0814 40.0972 97.4611Z'
+            fill='#FD9317'
+          />
+          <circle
+            cx='47.9585'
+            cy='97.4611'
+            r='3.74352'
+            fill='#FFF3E4'
+            stroke='#FD9317'
+            strokeWidth='1.49741'
+          />
+          <g opacity='0.15' filter='url(#filter5_f)'>
+            <rect
+              x='376.712'
+              y='37.7228'
+              width='79.3627'
+              height='38.1839'
+              rx='5.98964'
+              fill='#7A859E'
+            />
+          </g>
+          <g filter='url(#filter6_d)'>
+            <rect
+              x='355'
+              y='22'
+              width='120.541'
+              height='44.9223'
+              rx='22.4611'
+              fill='white'
+            />
+            <rect
+              x='355.374'
+              y='22.3744'
+              width='119.793'
+              height='44.1736'
+              rx='22.0868'
+              stroke='#F1F3F9'
+              strokeWidth='0.748705'
+            />
+          </g>
+          <path
+            d='M400.974 45.2375C400.974 47.4477 402.2 48.8897 404.639 48.8897C407.078 48.8897 408.305 47.4612 408.305 45.224V39.739H407.186V45.2106C407.186 46.8547 406.297 47.8924 404.639 47.8924C402.982 47.8924 402.092 46.8547 402.092 45.2106V39.739H400.974V45.2375ZM409.871 47.4612C410.612 48.2967 411.758 48.8897 413.321 48.8897C415.747 48.8897 416.636 47.5555 416.636 46.2483C416.636 44.3615 414.965 43.9033 413.496 43.5125C412.35 43.2025 411.313 42.933 411.313 42.0301C411.313 41.181 412.081 40.6015 413.159 40.6015C414.143 40.6015 415.086 40.9385 415.76 41.6797L416.434 40.8576C415.679 40.0625 414.615 39.6043 413.24 39.6043C411.475 39.6043 410.154 40.615 410.154 42.0975C410.154 43.8629 411.758 44.2672 413.2 44.6445C414.385 44.968 415.477 45.2645 415.477 46.3426C415.477 47.0299 414.965 47.8924 413.361 47.8924C412.094 47.8924 411.124 47.2725 410.531 46.6121L409.871 47.4612ZM418.306 48.728H421.379C424.169 48.728 425.988 46.8008 425.988 44.2402C425.988 41.6932 424.169 39.739 421.379 39.739H418.306V48.728ZM419.425 47.7307V40.7363H421.379C423.603 40.7363 424.829 42.2996 424.829 44.2402C424.829 46.1674 423.562 47.7307 421.379 47.7307H419.425ZM431.217 48.728H432.336V45.1567H434.829C436.608 45.1567 437.645 43.9168 437.645 42.4478C437.645 40.9789 436.635 39.739 434.829 39.739H431.217V48.728ZM436.487 42.4478C436.487 43.4586 435.759 44.1594 434.694 44.1594H432.336V40.7363H434.694C435.759 40.7363 436.487 41.4371 436.487 42.4478ZM439.086 48.728H440.097V44.119C440.394 43.5934 441.243 43.0813 441.863 43.0813C442.024 43.0813 442.146 43.0947 442.267 43.1217V42.084C441.377 42.084 440.623 42.5826 440.097 43.2699V42.2187H439.086V48.728ZM444.033 41.1271C444.411 41.1271 444.721 40.8172 444.721 40.4398C444.721 40.0625 444.411 39.766 444.033 39.766C443.669 39.766 443.36 40.0625 443.36 40.4398C443.36 40.8172 443.669 41.1271 444.033 41.1271ZM443.535 48.728H444.545V42.2187H443.535V48.728ZM446.184 45.4666C446.184 47.4073 447.492 48.8897 449.432 48.8897C450.618 48.8897 451.319 48.4045 451.818 47.7577L451.144 47.1377C450.713 47.7172 450.16 47.9868 449.486 47.9868C448.098 47.9868 447.236 46.9086 447.236 45.4666C447.236 44.0246 448.098 42.96 449.486 42.96C450.16 42.96 450.713 43.216 451.144 43.809L451.818 43.1891C451.319 42.5422 450.618 42.057 449.432 42.057C447.492 42.057 446.184 43.5395 446.184 45.4666ZM452.857 45.4666C452.857 47.5016 454.245 48.8897 456.172 48.8897C457.237 48.8897 458.113 48.5393 458.76 47.8924L458.275 47.2321C457.762 47.7577 457.008 48.0541 456.266 48.0541C454.865 48.0541 454.002 47.0299 453.922 45.8035H459.191V45.5475C459.191 43.5934 458.032 42.057 456.064 42.057C454.205 42.057 452.857 43.5799 452.857 45.4666ZM456.051 42.8926C457.533 42.8926 458.18 44.092 458.194 45.0623H453.922C453.975 44.065 454.663 42.8926 456.051 42.8926Z'
+            fill='#2F354D'
+          />
+          <path
+            d='M371.541 44.5H386.541'
+            stroke='#2F354D'
+            strokeWidth='2'
+            strokeLinecap='round'
+            strokeDasharray='3 5'
           />
         </g>
         <defs>
@@ -2896,6 +805,168 @@ export const SECOND_METRICS_GROUP = [
               result='shape'
             />
           </filter>
+          <filter
+            id='filter1_f'
+            x='-3.70206'
+            y='-7.19949'
+            width='214.13'
+            height='128.028'
+            filterUnits='userSpaceOnUse'
+            colorInterpolationFilters='sRGB'
+          >
+            <feFlood floodOpacity='0' result='BackgroundImageFix' />
+            <feBlend
+              mode='normal'
+              in='SourceGraphic'
+              in2='BackgroundImageFix'
+              result='shape'
+            />
+            <feGaussianBlur
+              stdDeviation='22.4611'
+              result='effect1_foregroundBlur'
+            />
+          </filter>
+          <filter
+            id='filter2_d'
+            x='-5.94819'
+            y='-0.46114'
+            width='224.896'
+            height='104.896'
+            filterUnits='userSpaceOnUse'
+            colorInterpolationFilters='sRGB'
+          >
+            <feFlood floodOpacity='0' result='BackgroundImageFix' />
+            <feColorMatrix
+              in='SourceAlpha'
+              type='matrix'
+              values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
+            />
+            <feOffset dy='7.48705' />
+            <feGaussianBlur stdDeviation='14.9741' />
+            <feColorMatrix
+              type='matrix'
+              values='0 0 0 0 0.476616 0 0 0 0 0.521707 0 0 0 0 0.620087 0 0 0 0.06 0'
+            />
+            <feBlend
+              mode='normal'
+              in2='BackgroundImageFix'
+              result='effect1_dropShadow'
+            />
+            <feBlend
+              mode='normal'
+              in='SourceGraphic'
+              in2='effect1_dropShadow'
+              result='shape'
+            />
+          </filter>
+          <filter
+            id='filter3_f'
+            x='-3.70206'
+            y='45.8005'
+            width='214.13'
+            height='128.028'
+            filterUnits='userSpaceOnUse'
+            colorInterpolationFilters='sRGB'
+          >
+            <feFlood floodOpacity='0' result='BackgroundImageFix' />
+            <feBlend
+              mode='normal'
+              in='SourceGraphic'
+              in2='BackgroundImageFix'
+              result='shape'
+            />
+            <feGaussianBlur
+              stdDeviation='22.4611'
+              result='effect1_foregroundBlur'
+            />
+          </filter>
+          <filter
+            id='filter4_d'
+            x='-5.94819'
+            y='52.5389'
+            width='241.896'
+            height='104.896'
+            filterUnits='userSpaceOnUse'
+            colorInterpolationFilters='sRGB'
+          >
+            <feFlood floodOpacity='0' result='BackgroundImageFix' />
+            <feColorMatrix
+              in='SourceAlpha'
+              type='matrix'
+              values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
+            />
+            <feOffset dy='7.48705' />
+            <feGaussianBlur stdDeviation='14.9741' />
+            <feColorMatrix
+              type='matrix'
+              values='0 0 0 0 0.476616 0 0 0 0 0.521707 0 0 0 0 0.620087 0 0 0 0.06 0'
+            />
+            <feBlend
+              mode='normal'
+              in2='BackgroundImageFix'
+              result='effect1_dropShadow'
+            />
+            <feBlend
+              mode='normal'
+              in='SourceGraphic'
+              in2='effect1_dropShadow'
+              result='shape'
+            />
+          </filter>
+          <filter
+            id='filter5_f'
+            x='331.79'
+            y='-7.19949'
+            width='169.207'
+            height='128.028'
+            filterUnits='userSpaceOnUse'
+            colorInterpolationFilters='sRGB'
+          >
+            <feFlood floodOpacity='0' result='BackgroundImageFix' />
+            <feBlend
+              mode='normal'
+              in='SourceGraphic'
+              in2='BackgroundImageFix'
+              result='shape'
+            />
+            <feGaussianBlur
+              stdDeviation='22.4611'
+              result='effect1_foregroundBlur'
+            />
+          </filter>
+          <filter
+            id='filter6_d'
+            x='325.052'
+            y='-0.46114'
+            width='180.438'
+            height='104.819'
+            filterUnits='userSpaceOnUse'
+            colorInterpolationFilters='sRGB'
+          >
+            <feFlood floodOpacity='0' result='BackgroundImageFix' />
+            <feColorMatrix
+              in='SourceAlpha'
+              type='matrix'
+              values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
+            />
+            <feOffset dy='7.48705' />
+            <feGaussianBlur stdDeviation='14.9741' />
+            <feColorMatrix
+              type='matrix'
+              values='0 0 0 0 0.476616 0 0 0 0 0.521707 0 0 0 0 0.620087 0 0 0 0.06 0'
+            />
+            <feBlend
+              mode='normal'
+              in2='BackgroundImageFix'
+              result='effect1_dropShadow'
+            />
+            <feBlend
+              mode='normal'
+              in='SourceGraphic'
+              in2='effect1_dropShadow'
+              result='shape'
+            />
+          </filter>
         </defs>
       </svg>
     )
@@ -2927,7 +998,7 @@ export const SECOND_METRICS_GROUP = [
         xmlns='http://www.w3.org/2000/svg'
       >
         <g filter='url(#filter0_dd)'>
-          <rect x='8' y='6' width='484' height='300' rx='4' fill='#F9FAFC' />
+          <rect x='8' y='6' width='484' height='300' rx='4' fill='white' />
           <rect
             x='8.5'
             y='6.5'
@@ -2935,6 +1006,254 @@ export const SECOND_METRICS_GROUP = [
             height='299'
             rx='3.5'
             stroke='#E7EAF3'
+          />
+        </g>
+        <rect x='7' y='238' width='486' height='2' rx='1' fill='#F9FAFC' />
+        <rect x='7' y='155' width='486' height='2' rx='1' fill='#F9FAFC' />
+        <rect x='7' y='72' width='486' height='2' rx='1' fill='#F9FAFC' />
+        <mask
+          id='mask0'
+          mask-type='alpha'
+          maskUnits='userSpaceOnUse'
+          x='8'
+          y='6'
+          width='484'
+          height='300'
+        >
+          <rect
+            x='8.5'
+            y='6.5'
+            width='483'
+            height='299'
+            rx='3.5'
+            fill='white'
+            stroke='#E7EAF3'
+          />
+        </mask>
+        <g mask='url(#mask0)'>
+          <g opacity='0.15' filter='url(#filter1_f)'>
+            <rect
+              x='326'
+              y='129'
+              width='101'
+              height='28'
+              rx='6.22222'
+              fill='#7A859E'
+            />
+          </g>
+          <g filter='url(#filter2_d)'>
+            <rect
+              x='318'
+              y='120'
+              width='158'
+              height='32'
+              rx='16'
+              fill='white'
+            />
+            <rect
+              x='318.389'
+              y='120.389'
+              width='157.222'
+              height='31.2222'
+              rx='15.6111'
+              stroke='#F1F3F9'
+              strokeWidth='0.777778'
+            />
+          </g>
+          <path
+            d='M354.844 140H356.044V133.052H358.516V131.996H352.36V133.052H354.844V140ZM360.271 133.232C360.655 133.232 360.967 132.932 360.967 132.548C360.967 132.164 360.655 131.852 360.271 131.852C359.899 131.852 359.575 132.164 359.575 132.548C359.575 132.932 359.899 133.232 360.271 133.232ZM359.743 140H360.823V134.204H359.743V140ZM369.588 140H370.668V135.812C370.668 134.648 370.092 134.06 369.024 134.06C368.172 134.06 367.404 134.6 367.068 135.14C366.888 134.516 366.372 134.06 365.496 134.06C364.632 134.06 363.864 134.66 363.624 135.02V134.204H362.544V140H363.624V135.86C363.912 135.44 364.476 135.02 365.04 135.02C365.772 135.02 366.06 135.464 366.06 136.136V140H367.14V135.848C367.416 135.428 367.992 135.02 368.58 135.02C369.288 135.02 369.588 135.464 369.588 136.136V140ZM372.027 137.096C372.027 138.92 373.299 140.144 375.027 140.144C375.963 140.144 376.779 139.844 377.355 139.28L376.851 138.572C376.419 139.016 375.747 139.256 375.135 139.256C373.971 139.256 373.251 138.44 373.167 137.456H377.751V137.192C377.751 135.416 376.671 134.06 374.931 134.06C373.239 134.06 372.027 135.416 372.027 137.096ZM374.931 134.948C376.155 134.948 376.671 135.908 376.695 136.676H373.155C373.215 135.884 373.767 134.948 374.931 134.948ZM385.988 140.144C387.56 140.144 388.532 139.388 389.168 138.452L388.148 137.912C387.728 138.584 386.936 139.076 385.988 139.076C384.368 139.076 383.12 137.792 383.12 136.004C383.12 134.204 384.368 132.932 385.988 132.932C386.936 132.932 387.728 133.424 388.148 134.096L389.168 133.556C388.544 132.62 387.56 131.864 385.988 131.864C383.708 131.864 381.884 133.544 381.884 136.004C381.884 138.464 383.708 140.144 385.988 140.144ZM390.341 140H391.421V135.968C391.673 135.536 392.405 135.128 392.945 135.128C393.089 135.128 393.209 135.14 393.317 135.164V134.072C392.549 134.072 391.865 134.516 391.421 135.092V134.204H390.341V140ZM396.963 140.144C398.775 140.144 399.891 138.776 399.891 137.096C399.891 135.428 398.775 134.06 396.963 134.06C395.163 134.06 394.035 135.428 394.035 137.096C394.035 138.776 395.163 140.144 396.963 140.144ZM396.963 139.184C395.811 139.184 395.163 138.2 395.163 137.096C395.163 136.004 395.811 135.02 396.963 135.02C398.127 135.02 398.763 136.004 398.763 137.096C398.763 138.2 398.127 139.184 396.963 139.184ZM400.758 139.244C401.346 139.844 402.198 140.144 403.17 140.144C404.694 140.144 405.51 139.364 405.51 138.368C405.51 137.036 404.31 136.76 403.302 136.532C402.582 136.364 401.958 136.196 401.958 135.692C401.958 135.224 402.414 134.936 403.146 134.936C403.878 134.936 404.526 135.236 404.862 135.644L405.342 134.888C404.85 134.42 404.13 134.06 403.134 134.06C401.718 134.06 400.926 134.852 400.926 135.776C400.926 137.024 402.078 137.288 403.062 137.516C403.806 137.684 404.466 137.876 404.466 138.452C404.466 138.944 404.034 139.28 403.218 139.28C402.438 139.28 401.67 138.884 401.274 138.452L400.758 139.244ZM406.372 139.244C406.96 139.844 407.812 140.144 408.784 140.144C410.308 140.144 411.124 139.364 411.124 138.368C411.124 137.036 409.924 136.76 408.916 136.532C408.196 136.364 407.572 136.196 407.572 135.692C407.572 135.224 408.028 134.936 408.76 134.936C409.492 134.936 410.14 135.236 410.476 135.644L410.956 134.888C410.464 134.42 409.744 134.06 408.748 134.06C407.332 134.06 406.54 134.852 406.54 135.776C406.54 137.024 407.692 137.288 408.676 137.516C409.42 137.684 410.08 137.876 410.08 138.452C410.08 138.944 409.648 139.28 408.832 139.28C408.052 139.28 407.284 138.884 406.888 138.452L406.372 139.244ZM412.129 137.096C412.129 138.92 413.401 140.144 415.129 140.144C416.065 140.144 416.881 139.844 417.457 139.28L416.953 138.572C416.521 139.016 415.849 139.256 415.237 139.256C414.073 139.256 413.353 138.44 413.269 137.456H417.853V137.192C417.853 135.416 416.773 134.06 415.033 134.06C413.341 134.06 412.129 135.416 412.129 137.096ZM415.033 134.948C416.257 134.948 416.773 135.908 416.797 136.676H413.257C413.317 135.884 413.869 134.948 415.033 134.948ZM423.332 140H424.412V131.996H423.332V135.044C422.864 134.42 422.18 134.06 421.436 134.06C419.924 134.06 418.844 135.248 418.844 137.108C418.844 139.004 419.924 140.144 421.436 140.144C422.204 140.144 422.9 139.748 423.332 139.172V140ZM423.332 138.344C423.032 138.812 422.384 139.184 421.724 139.184C420.644 139.184 419.972 138.308 419.972 137.108C419.972 135.896 420.644 135.02 421.724 135.02C422.384 135.02 423.032 135.404 423.332 135.872V138.344ZM434.971 140H436.291L433.111 131.996H431.611L428.431 140H429.751L430.399 138.344H434.323L434.971 140ZM432.355 133.04L433.975 137.276H430.747L432.355 133.04ZM437.227 140H438.307V139.172C438.739 139.748 439.423 140.144 440.203 140.144C441.703 140.144 442.783 139.004 442.783 137.108C442.783 135.248 441.715 134.06 440.203 134.06C439.447 134.06 438.763 134.42 438.307 135.044V131.996H437.227V140ZM438.307 138.344V135.884C438.595 135.416 439.255 135.02 439.915 135.02C440.995 135.02 441.667 135.896 441.667 137.108C441.667 138.32 440.995 139.184 439.915 139.184C439.255 139.184 438.595 138.812 438.307 138.344ZM446.733 140.144C448.545 140.144 449.661 138.776 449.661 137.096C449.661 135.428 448.545 134.06 446.733 134.06C444.933 134.06 443.805 135.428 443.805 137.096C443.805 138.776 444.933 140.144 446.733 140.144ZM446.733 139.184C445.581 139.184 444.933 138.2 444.933 137.096C444.933 136.004 445.581 135.02 446.733 135.02C447.897 135.02 448.533 136.004 448.533 137.096C448.533 138.2 447.897 139.184 446.733 139.184ZM452.568 140H453.732L456.12 134.204H454.956L453.144 138.752L451.332 134.204H450.18L452.568 140ZM456.637 137.096C456.637 138.92 457.909 140.144 459.637 140.144C460.573 140.144 461.389 139.844 461.965 139.28L461.461 138.572C461.029 139.016 460.357 139.256 459.745 139.256C458.581 139.256 457.861 138.44 457.777 137.456H462.361V137.192C462.361 135.416 461.281 134.06 459.541 134.06C457.849 134.06 456.637 135.416 456.637 137.096ZM459.541 134.948C460.765 134.948 461.281 135.908 461.305 136.676H457.765C457.825 135.884 458.377 134.948 459.541 134.948Z'
+            fill='#2F354D'
+          />
+          <circle cx='336' cy='136' r='10' fill='#DAE0FD' />
+          <rect x='332' y='132' width='8' height='8' rx='1' fill='#5275FF' />
+          <g opacity='0.15' filter='url(#filter3_f)'>
+            <rect
+              x='193'
+              y='31'
+              width='274'
+              height='28'
+              rx='6.22222'
+              fill='#7A859E'
+            />
+          </g>
+          <g filter='url(#filter4_d)'>
+            <rect x='185' y='22' width='291' height='32' rx='16' fill='white' />
+            <rect
+              x='185.389'
+              y='22.3889'
+              width='290.222'
+              height='31.2222'
+              rx='15.6111'
+              stroke='#F1F3F9'
+              strokeWidth='0.777778'
+            />
+          </g>
+          <path
+            d='M219.36 35.868C219.36 36.984 220.14 37.836 221.304 37.836C222.48 37.836 223.272 36.984 223.272 35.868C223.272 34.74 222.48 33.876 221.304 33.876C220.14 33.876 219.36 34.74 219.36 35.868ZM220.548 42H221.268L226.392 33.996H225.66L220.548 42ZM222.444 35.868C222.444 36.588 221.976 37.14 221.304 37.14C220.644 37.14 220.176 36.588 220.176 35.868C220.176 35.124 220.644 34.584 221.304 34.584C221.976 34.584 222.444 35.124 222.444 35.868ZM223.596 40.176C223.596 41.292 224.388 42.144 225.552 42.144C226.716 42.144 227.508 41.292 227.508 40.176C227.508 39.048 226.716 38.184 225.552 38.184C224.388 38.184 223.596 39.048 223.596 40.176ZM226.692 40.176C226.692 40.908 226.224 41.448 225.552 41.448C224.88 41.448 224.412 40.908 224.412 40.176C224.412 39.432 224.88 38.892 225.552 38.892C226.224 38.892 226.692 39.432 226.692 40.176ZM233.809 42H235.009V35.052H237.481V33.996H231.325V35.052H233.809V42ZM239.236 35.232C239.62 35.232 239.932 34.932 239.932 34.548C239.932 34.164 239.62 33.852 239.236 33.852C238.864 33.852 238.54 34.164 238.54 34.548C238.54 34.932 238.864 35.232 239.236 35.232ZM238.708 42H239.788V36.204H238.708V42ZM248.553 42H249.633V37.812C249.633 36.648 249.057 36.06 247.989 36.06C247.137 36.06 246.369 36.6 246.033 37.14C245.853 36.516 245.337 36.06 244.461 36.06C243.597 36.06 242.829 36.66 242.589 37.02V36.204H241.509V42H242.589V37.86C242.877 37.44 243.441 37.02 244.005 37.02C244.737 37.02 245.025 37.464 245.025 38.136V42H246.105V37.848C246.381 37.428 246.957 37.02 247.545 37.02C248.253 37.02 248.553 37.464 248.553 38.136V42ZM250.992 39.096C250.992 40.92 252.264 42.144 253.992 42.144C254.928 42.144 255.744 41.844 256.32 41.28L255.816 40.572C255.384 41.016 254.712 41.256 254.1 41.256C252.936 41.256 252.216 40.44 252.132 39.456H256.716V39.192C256.716 37.416 255.636 36.06 253.896 36.06C252.204 36.06 250.992 37.416 250.992 39.096ZM253.896 36.948C255.12 36.948 255.636 37.908 255.66 38.676H252.12C252.18 37.884 252.732 36.948 253.896 36.948ZM261.185 42H265.037C266.513 42 267.353 41.1 267.353 39.84C267.353 38.868 266.657 38.004 265.805 37.872C266.537 37.716 267.197 37.044 267.197 36.036C267.197 34.872 266.369 33.996 264.941 33.996H261.185V42ZM262.385 37.392V35.052H264.713C265.517 35.052 265.961 35.568 265.961 36.228C265.961 36.888 265.517 37.392 264.713 37.392H262.385ZM262.385 40.944V38.448H264.773C265.661 38.448 266.117 39.024 266.117 39.684C266.117 40.464 265.613 40.944 264.773 40.944H262.385ZM268.453 39.096C268.453 40.92 269.725 42.144 271.453 42.144C272.389 42.144 273.205 41.844 273.781 41.28L273.277 40.572C272.845 41.016 272.173 41.256 271.561 41.256C270.397 41.256 269.677 40.44 269.593 39.456H274.177V39.192C274.177 37.416 273.097 36.06 271.357 36.06C269.665 36.06 268.453 37.416 268.453 39.096ZM271.357 36.948C272.581 36.948 273.097 37.908 273.121 38.676H269.581C269.641 37.884 270.193 36.948 271.357 36.948ZM277.124 42.144C277.688 42.144 278.024 41.988 278.252 41.772L277.976 40.956C277.868 41.076 277.64 41.184 277.388 41.184C277.016 41.184 276.824 40.884 276.824 40.476V37.152H278V36.204H276.824V34.62H275.744V36.204H274.784V37.152H275.744V40.716C275.744 41.628 276.212 42.144 277.124 42.144ZM284.224 42H285.34L287.164 36.204H286.036L284.716 40.62L283.264 36.204H282.328L280.876 40.62L279.556 36.204H278.428L280.252 42H281.368L282.796 37.548L284.224 42ZM287.766 39.096C287.766 40.92 289.038 42.144 290.766 42.144C291.702 42.144 292.518 41.844 293.094 41.28L292.59 40.572C292.158 41.016 291.486 41.256 290.874 41.256C289.71 41.256 288.99 40.44 288.906 39.456H293.49V39.192C293.49 37.416 292.41 36.06 290.67 36.06C288.978 36.06 287.766 37.416 287.766 39.096ZM290.67 36.948C291.894 36.948 292.41 37.908 292.434 38.676H288.894C288.954 37.884 289.506 36.948 290.67 36.948ZM294.481 39.096C294.481 40.92 295.753 42.144 297.481 42.144C298.417 42.144 299.233 41.844 299.809 41.28L299.305 40.572C298.873 41.016 298.201 41.256 297.589 41.256C296.425 41.256 295.705 40.44 295.621 39.456H300.205V39.192C300.205 37.416 299.125 36.06 297.385 36.06C295.693 36.06 294.481 37.416 294.481 39.096ZM297.385 36.948C298.609 36.948 299.125 37.908 299.149 38.676H295.609C295.669 37.884 296.221 36.948 297.385 36.948ZM305.467 42H306.547V37.932C306.547 36.708 305.911 36.06 304.687 36.06C303.787 36.06 303.019 36.552 302.635 37.02V36.204H301.555V42H302.635V37.86C302.947 37.428 303.559 37.02 304.231 37.02C304.975 37.02 305.467 37.332 305.467 38.292V42ZM315.144 42.144C316.716 42.144 317.688 41.388 318.324 40.452L317.304 39.912C316.884 40.584 316.092 41.076 315.144 41.076C313.524 41.076 312.276 39.792 312.276 38.004C312.276 36.204 313.524 34.932 315.144 34.932C316.092 34.932 316.884 35.424 317.304 36.096L318.324 35.556C317.7 34.62 316.716 33.864 315.144 33.864C312.864 33.864 311.04 35.544 311.04 38.004C311.04 40.464 312.864 42.144 315.144 42.144ZM323.409 42H324.489V36.204H323.409V40.368C323.085 40.8 322.473 41.184 321.801 41.184C321.057 41.184 320.577 40.896 320.577 39.936V36.204H319.497V40.296C319.497 41.52 320.109 42.144 321.345 42.144C322.233 42.144 322.965 41.688 323.409 41.208V42ZM326.2 42H327.28V37.968C327.532 37.536 328.264 37.128 328.804 37.128C328.948 37.128 329.068 37.14 329.176 37.164V36.072C328.408 36.072 327.724 36.516 327.28 37.092V36.204H326.2V42ZM330.255 42H331.335V37.968C331.587 37.536 332.319 37.128 332.859 37.128C333.003 37.128 333.123 37.14 333.231 37.164V36.072C332.463 36.072 331.779 36.516 331.335 37.092V36.204H330.255V42ZM333.949 39.096C333.949 40.92 335.221 42.144 336.949 42.144C337.885 42.144 338.701 41.844 339.277 41.28L338.773 40.572C338.341 41.016 337.669 41.256 337.057 41.256C335.893 41.256 335.173 40.44 335.089 39.456H339.673V39.192C339.673 37.416 338.593 36.06 336.853 36.06C335.161 36.06 333.949 37.416 333.949 39.096ZM336.853 36.948C338.077 36.948 338.593 37.908 338.617 38.676H335.077C335.137 37.884 335.689 36.948 336.853 36.948ZM344.936 42H346.016V37.932C346.016 36.708 345.38 36.06 344.156 36.06C343.256 36.06 342.488 36.552 342.104 37.02V36.204H341.024V42H342.104V37.86C342.416 37.428 343.028 37.02 343.7 37.02C344.444 37.02 344.936 37.332 344.936 38.292V42ZM349.323 42.144C349.887 42.144 350.223 41.988 350.451 41.772L350.175 40.956C350.067 41.076 349.839 41.184 349.587 41.184C349.215 41.184 349.023 40.884 349.023 40.476V37.152H350.199V36.204H349.023V34.62H347.943V36.204H346.983V37.152H347.943V40.716C347.943 41.628 348.411 42.144 349.323 42.144ZM358.065 42H359.145V38.088C359.145 36.612 358.077 36.06 356.817 36.06C355.881 36.06 355.089 36.372 354.441 37.008L354.909 37.752C355.425 37.236 355.989 36.984 356.649 36.984C357.477 36.984 358.065 37.416 358.065 38.136V39.096C357.621 38.58 356.949 38.328 356.169 38.328C355.197 38.328 354.153 38.904 354.153 40.224C354.153 41.496 355.209 42.144 356.169 42.144C356.949 42.144 357.609 41.868 358.065 41.364V42ZM358.065 40.728C357.741 41.16 357.177 41.388 356.577 41.388C355.797 41.388 355.245 40.92 355.245 40.236C355.245 39.552 355.797 39.084 356.577 39.084C357.177 39.084 357.741 39.312 358.065 39.744V40.728ZM364.788 42H365.868V37.932C365.868 36.708 365.232 36.06 364.008 36.06C363.108 36.06 362.34 36.552 361.956 37.02V36.204H360.876V42H361.956V37.86C362.268 37.428 362.88 37.02 363.552 37.02C364.296 37.02 364.788 37.332 364.788 38.292V42ZM371.707 42H372.787V33.996H371.707V37.044C371.239 36.42 370.555 36.06 369.811 36.06C368.299 36.06 367.219 37.248 367.219 39.108C367.219 41.004 368.299 42.144 369.811 42.144C370.579 42.144 371.275 41.748 371.707 41.172V42ZM371.707 40.344C371.407 40.812 370.759 41.184 370.099 41.184C369.019 41.184 368.347 40.308 368.347 39.108C368.347 37.896 369.019 37.02 370.099 37.02C370.759 37.02 371.407 37.404 371.707 37.872V40.344ZM383.262 42H384.426V33.996H383.226V39.996L378.87 33.996H377.634V42H378.834V35.856L383.262 42ZM385.817 39.096C385.817 40.92 387.089 42.144 388.817 42.144C389.753 42.144 390.569 41.844 391.145 41.28L390.641 40.572C390.209 41.016 389.537 41.256 388.925 41.256C387.761 41.256 387.041 40.44 386.957 39.456H391.541V39.192C391.541 37.416 390.461 36.06 388.721 36.06C387.029 36.06 385.817 37.416 385.817 39.096ZM388.721 36.948C389.945 36.948 390.461 37.908 390.485 38.676H386.945C387.005 37.884 387.557 36.948 388.721 36.948ZM396.166 42H397.39L395.206 39.024L397.258 36.204H396.034L394.546 38.292L393.046 36.204H391.822L393.862 39.024L391.69 42H392.914L394.546 39.744L396.166 42ZM399.948 42.144C400.512 42.144 400.848 41.988 401.076 41.772L400.8 40.956C400.692 41.076 400.464 41.184 400.212 41.184C399.84 41.184 399.648 40.884 399.648 40.476V37.152H400.824V36.204H399.648V34.62H398.568V36.204H397.608V37.152H398.568V40.716C398.568 41.628 399.036 42.144 399.948 42.144ZM407.094 42H408.294V35.052H410.766V33.996H404.61V35.052H407.094V42ZM415.905 42H416.985V37.908C416.985 36.684 416.361 36.06 415.125 36.06C414.237 36.06 413.457 36.552 413.073 37.02V33.996H411.993V42H413.073V37.86C413.385 37.428 413.997 37.02 414.669 37.02C415.413 37.02 415.905 37.308 415.905 38.268V42ZM418.708 42H419.788V37.968C420.04 37.536 420.772 37.128 421.312 37.128C421.456 37.128 421.576 37.14 421.684 37.164V36.072C420.916 36.072 420.232 36.516 419.788 37.092V36.204H418.708V42ZM422.402 39.096C422.402 40.92 423.674 42.144 425.402 42.144C426.338 42.144 427.154 41.844 427.73 41.28L427.226 40.572C426.794 41.016 426.122 41.256 425.51 41.256C424.346 41.256 423.626 40.44 423.542 39.456H428.126V39.192C428.126 37.416 427.046 36.06 425.306 36.06C423.614 36.06 422.402 37.416 422.402 39.096ZM425.306 36.948C426.53 36.948 427.046 37.908 427.07 38.676H423.53C423.59 37.884 424.142 36.948 425.306 36.948ZM428.973 41.244C429.561 41.844 430.413 42.144 431.385 42.144C432.909 42.144 433.725 41.364 433.725 40.368C433.725 39.036 432.525 38.76 431.517 38.532C430.797 38.364 430.173 38.196 430.173 37.692C430.173 37.224 430.629 36.936 431.361 36.936C432.093 36.936 432.741 37.236 433.077 37.644L433.557 36.888C433.065 36.42 432.345 36.06 431.349 36.06C429.933 36.06 429.141 36.852 429.141 37.776C429.141 39.024 430.293 39.288 431.277 39.516C432.021 39.684 432.681 39.876 432.681 40.452C432.681 40.944 432.249 41.28 431.433 41.28C430.653 41.28 429.885 40.884 429.489 40.452L428.973 41.244ZM439.003 42H440.083V37.908C440.083 36.684 439.459 36.06 438.223 36.06C437.335 36.06 436.555 36.552 436.171 37.02V33.996H435.091V42H436.171V37.86C436.483 37.428 437.095 37.02 437.767 37.02C438.511 37.02 439.003 37.308 439.003 38.268V42ZM444.373 42.144C446.185 42.144 447.301 40.776 447.301 39.096C447.301 37.428 446.185 36.06 444.373 36.06C442.573 36.06 441.445 37.428 441.445 39.096C441.445 40.776 442.573 42.144 444.373 42.144ZM444.373 41.184C443.221 41.184 442.573 40.2 442.573 39.096C442.573 38.004 443.221 37.02 444.373 37.02C445.537 37.02 446.173 38.004 446.173 39.096C446.173 40.2 445.537 41.184 444.373 41.184ZM448.673 42H449.753V33.996H448.673V42ZM455.601 42H456.681V33.996H455.601V37.044C455.133 36.42 454.449 36.06 453.705 36.06C452.193 36.06 451.113 37.248 451.113 39.108C451.113 41.004 452.193 42.144 453.705 42.144C454.473 42.144 455.169 41.748 455.601 41.172V42ZM455.601 40.344C455.301 40.812 454.653 41.184 453.993 41.184C452.913 41.184 452.241 40.308 452.241 39.108C452.241 37.896 452.913 37.02 453.993 37.02C454.653 37.02 455.301 37.404 455.601 37.872V40.344ZM457.907 41.244C458.495 41.844 459.347 42.144 460.319 42.144C461.843 42.144 462.659 41.364 462.659 40.368C462.659 39.036 461.459 38.76 460.451 38.532C459.731 38.364 459.107 38.196 459.107 37.692C459.107 37.224 459.563 36.936 460.295 36.936C461.027 36.936 461.675 37.236 462.011 37.644L462.491 36.888C461.999 36.42 461.279 36.06 460.283 36.06C458.867 36.06 458.075 36.852 458.075 37.776C458.075 39.024 459.227 39.288 460.211 39.516C460.955 39.684 461.615 39.876 461.615 40.452C461.615 40.944 461.183 41.28 460.367 41.28C459.587 41.28 458.819 40.884 458.423 40.452L457.907 41.244Z'
+            fill='#2F354D'
+          />
+          <circle cx='203' cy='38' r='10' fill='#FFE6E6' />
+          <circle cx='203' cy='38' r='4' fill='#FF5B5B' />
+          <g opacity='0.15' filter='url(#filter5_f)'>
+            <rect
+              x='310'
+              y='80'
+              width='160'
+              height='28'
+              rx='6.22222'
+              fill='#7A859E'
+            />
+          </g>
+          <g filter='url(#filter6_d)'>
+            <rect x='306' y='71' width='170' height='32' rx='16' fill='white' />
+            <rect
+              x='306.389'
+              y='71.3889'
+              width='169.222'
+              height='31.2222'
+              rx='15.6111'
+              stroke='#F1F3F9'
+              strokeWidth='0.777778'
+            />
+          </g>
+          <path
+            d='M342.844 91H344.044V84.052H346.516V82.996H340.36V84.052H342.844V91ZM348.271 84.232C348.655 84.232 348.967 83.932 348.967 83.548C348.967 83.164 348.655 82.852 348.271 82.852C347.899 82.852 347.575 83.164 347.575 83.548C347.575 83.932 347.899 84.232 348.271 84.232ZM347.743 91H348.823V85.204H347.743V91ZM357.588 91H358.668V86.812C358.668 85.648 358.092 85.06 357.024 85.06C356.172 85.06 355.404 85.6 355.068 86.14C354.888 85.516 354.372 85.06 353.496 85.06C352.632 85.06 351.864 85.66 351.624 86.02V85.204H350.544V91H351.624V86.86C351.912 86.44 352.476 86.02 353.04 86.02C353.772 86.02 354.06 86.464 354.06 87.136V91H355.14V86.848C355.416 86.428 355.992 86.02 356.58 86.02C357.288 86.02 357.588 86.464 357.588 87.136V91ZM360.027 88.096C360.027 89.92 361.299 91.144 363.027 91.144C363.963 91.144 364.779 90.844 365.355 90.28L364.851 89.572C364.419 90.016 363.747 90.256 363.135 90.256C361.971 90.256 361.251 89.44 361.167 88.456H365.751V88.192C365.751 86.416 364.671 85.06 362.931 85.06C361.239 85.06 360.027 86.416 360.027 88.096ZM362.931 85.948C364.155 85.948 364.671 86.908 364.695 87.676H361.155C361.215 86.884 361.767 85.948 362.931 85.948ZM375.932 91H377.252L374.072 82.996H372.572L369.392 91H370.712L371.36 89.344H375.284L375.932 91ZM373.316 84.04L374.936 88.276H371.708L373.316 84.04ZM378.188 91H379.268V90.172C379.7 90.748 380.384 91.144 381.164 91.144C382.664 91.144 383.744 90.004 383.744 88.108C383.744 86.248 382.676 85.06 381.164 85.06C380.408 85.06 379.724 85.42 379.268 86.044V82.996H378.188V91ZM379.268 89.344V86.884C379.556 86.416 380.216 86.02 380.876 86.02C381.956 86.02 382.628 86.896 382.628 88.108C382.628 89.32 381.956 90.184 380.876 90.184C380.216 90.184 379.556 89.812 379.268 89.344ZM387.694 91.144C389.506 91.144 390.622 89.776 390.622 88.096C390.622 86.428 389.506 85.06 387.694 85.06C385.894 85.06 384.766 86.428 384.766 88.096C384.766 89.776 385.894 91.144 387.694 91.144ZM387.694 90.184C386.542 90.184 385.894 89.2 385.894 88.096C385.894 87.004 386.542 86.02 387.694 86.02C388.858 86.02 389.494 87.004 389.494 88.096C389.494 89.2 388.858 90.184 387.694 90.184ZM393.529 91H394.693L397.081 85.204H395.917L394.105 89.752L392.293 85.204H391.141L393.529 91ZM397.598 88.096C397.598 89.92 398.87 91.144 400.598 91.144C401.534 91.144 402.35 90.844 402.926 90.28L402.422 89.572C401.99 90.016 401.318 90.256 400.706 90.256C399.542 90.256 398.822 89.44 398.738 88.456H403.322V88.192C403.322 86.416 402.242 85.06 400.502 85.06C398.81 85.06 397.598 86.416 397.598 88.096ZM400.502 85.948C401.726 85.948 402.242 86.908 402.266 87.676H398.726C398.786 86.884 399.338 85.948 400.502 85.948ZM409.746 91H410.946V84.052H413.418V82.996H407.262V84.052H409.746V91ZM418.557 91H419.637V86.908C419.637 85.684 419.013 85.06 417.777 85.06C416.889 85.06 416.109 85.552 415.725 86.02V82.996H414.645V91H415.725V86.86C416.037 86.428 416.649 86.02 417.321 86.02C418.065 86.02 418.557 86.308 418.557 87.268V91ZM421.36 91H422.44V86.968C422.692 86.536 423.424 86.128 423.964 86.128C424.108 86.128 424.228 86.14 424.336 86.164V85.072C423.568 85.072 422.884 85.516 422.44 86.092V85.204H421.36V91ZM425.055 88.096C425.055 89.92 426.327 91.144 428.055 91.144C428.991 91.144 429.807 90.844 430.383 90.28L429.879 89.572C429.447 90.016 428.775 90.256 428.163 90.256C426.999 90.256 426.279 89.44 426.195 88.456H430.779V88.192C430.779 86.416 429.699 85.06 427.959 85.06C426.267 85.06 425.055 86.416 425.055 88.096ZM427.959 85.948C429.183 85.948 429.699 86.908 429.723 87.676H426.183C426.243 86.884 426.795 85.948 427.959 85.948ZM431.626 90.244C432.214 90.844 433.066 91.144 434.038 91.144C435.562 91.144 436.378 90.364 436.378 89.368C436.378 88.036 435.178 87.76 434.17 87.532C433.45 87.364 432.826 87.196 432.826 86.692C432.826 86.224 433.282 85.936 434.014 85.936C434.746 85.936 435.394 86.236 435.73 86.644L436.21 85.888C435.718 85.42 434.998 85.06 434.002 85.06C432.586 85.06 431.794 85.852 431.794 86.776C431.794 88.024 432.946 88.288 433.93 88.516C434.674 88.684 435.334 88.876 435.334 89.452C435.334 89.944 434.902 90.28 434.086 90.28C433.306 90.28 432.538 89.884 432.142 89.452L431.626 90.244ZM441.655 91H442.735V86.908C442.735 85.684 442.111 85.06 440.875 85.06C439.987 85.06 439.207 85.552 438.823 86.02V82.996H437.743V91H438.823V86.86C439.135 86.428 439.747 86.02 440.419 86.02C441.163 86.02 441.655 86.308 441.655 87.268V91ZM447.026 91.144C448.838 91.144 449.954 89.776 449.954 88.096C449.954 86.428 448.838 85.06 447.026 85.06C445.226 85.06 444.098 86.428 444.098 88.096C444.098 89.776 445.226 91.144 447.026 91.144ZM447.026 90.184C445.874 90.184 445.226 89.2 445.226 88.096C445.226 87.004 445.874 86.02 447.026 86.02C448.19 86.02 448.826 87.004 448.826 88.096C448.826 89.2 448.19 90.184 447.026 90.184ZM451.325 91H452.405V82.996H451.325V91ZM458.254 91H459.334V82.996H458.254V86.044C457.786 85.42 457.102 85.06 456.358 85.06C454.846 85.06 453.766 86.248 453.766 88.108C453.766 90.004 454.846 91.144 456.358 91.144C457.126 91.144 457.822 90.748 458.254 90.172V91ZM458.254 89.344C457.954 89.812 457.306 90.184 456.646 90.184C455.566 90.184 454.894 89.308 454.894 88.108C454.894 86.896 455.566 86.02 456.646 86.02C457.306 86.02 457.954 86.404 458.254 86.872V89.344Z'
+            fill='#2F354D'
+          />
+          <circle cx='324' cy='87' r='10' fill='#FFF3E4' />
+          <circle cx='324' cy='87' r='4' fill='#FFAD4D' />
+          <rect
+            x='265'
+            y='200'
+            width='16'
+            height='105.429'
+            rx='4'
+            fill='#375BE9'
+          />
+          <rect x='41' y='200' width='16' height='105' rx='4' fill='#375BE9' />
+          <rect
+            x='297'
+            y='241.429'
+            width='16'
+            height='64'
+            rx='4'
+            fill='#375BE9'
+          />
+          <rect x='73' y='241' width='16' height='64' rx='4' fill='#375BE9' />
+          <rect
+            x='329'
+            y='255.429'
+            width='16'
+            height='50'
+            rx='4'
+            fill='#375BE9'
+          />
+          <rect x='105' y='255' width='16' height='50' rx='4' fill='#375BE9' />
+          <rect
+            x='361'
+            y='228.429'
+            width='16'
+            height='77'
+            rx='4'
+            fill='#375BE9'
+          />
+          <rect x='137' y='152' width='16' height='153' rx='4' fill='#375BE9' />
+          <rect
+            x='393'
+            y='280.429'
+            width='16'
+            height='25'
+            rx='4'
+            fill='#375BE9'
+          />
+          <rect x='169' y='98' width='16' height='207' rx='4' fill='#375BE9' />
+          <rect
+            x='425'
+            y='255.429'
+            width='16'
+            height='50'
+            rx='4'
+            fill='#375BE9'
+          />
+          <rect x='201' y='79' width='16' height='226' rx='4' fill='#375BE9' />
+          <rect
+            x='457'
+            y='283.429'
+            width='16'
+            height='22'
+            rx='4'
+            fill='#375BE9'
+          />
+          <rect x='233' y='124' width='16' height='181' rx='4' fill='#375BE9' />
+          <path
+            d='M477.484 303.206L493.231 306.941C493.682 307.048 494 307.451 494 307.914V313H-6C-6.55228 313 -7 312.552 -7 312V183.298C-7 182.642 -6.37909 182.164 -5.74487 182.331L37.3012 193.689C37.4609 193.731 37.6077 193.812 37.7284 193.925L64.1634 218.593C64.417 218.83 64.7752 218.918 65.1097 218.826L87.2686 212.759C87.4799 212.701 87.7045 212.714 87.9076 212.796L117.229 224.656L137.542 234.351C137.61 234.384 137.674 234.424 137.733 234.47L159.576 251.806C159.636 251.853 159.701 251.893 159.77 251.926L195.551 268.865C195.634 268.905 195.723 268.933 195.815 268.948L229.627 274.557L268.112 276.508C268.22 276.513 268.326 276.536 268.426 276.575L288.295 284.351L311.318 291.942L339.635 298.747C339.774 298.781 339.919 298.784 340.059 298.757L361.224 294.663C361.319 294.645 361.417 294.64 361.513 294.65L385.892 297.084L409.916 300.757L430.318 303.191C430.397 303.201 430.476 303.201 430.555 303.191L450.852 300.77C450.922 300.761 450.992 300.76 451.062 300.767L477.484 303.206Z'
+            fill='#DB4040'
+            fillOpacity='0.1'
+            stroke='#DB4040'
+            strokeWidth='1.16594'
+          />
+          <path
+            d='M477.62 293.058L493.436 300.727C493.781 300.894 494 301.243 494 301.626V313H-5.5C-6.05228 313 -6.5 312.552 -6.5 312V47.1755C-6.5 46.4185 -5.69156 45.936 -5.0253 46.2953L37.731 69.3549C37.9063 69.4495 38.0494 69.5943 38.1419 69.7707L64.5228 120.09C64.7842 120.588 65.4055 120.773 65.8969 120.498L87.4023 108.462C87.7626 108.26 88.2097 108.3 88.5279 108.563L117.605 132.604L137.912 152.414C137.97 152.471 138.022 152.535 138.065 152.605L159.934 188.081C159.978 188.152 160.03 188.217 160.09 188.275L195.813 222.844C195.92 222.947 196.047 223.025 196.188 223.072L229.784 234.464C229.855 234.488 229.928 234.504 230.002 234.512L268.208 238.47C268.399 238.489 268.58 238.564 268.729 238.684L288.5 254.5L311.5 270L339.603 283.805C339.856 283.929 340.149 283.941 340.411 283.837L361.224 275.609C361.404 275.538 361.601 275.521 361.791 275.559L386 280.5L410 288L430.263 292.942C430.419 292.98 430.581 292.98 430.737 292.942L450.79 288.051C450.928 288.017 451.072 288.014 451.212 288.04L477.369 292.975C477.456 292.992 477.54 293.02 477.62 293.058Z'
+            fill='#F0BB35'
+            fillOpacity='0.1'
+            stroke='#F0BB35'
+            strokeWidth='1.16594'
+          />
+          <path
+            d='M46.0367 211.96C46.0367 213.364 47.3927 214.144 49.0127 214.144C50.6087 214.144 51.9647 213.352 51.9647 211.96C51.9647 210.916 51.1007 210.184 50.1167 209.872C51.0287 209.596 51.8447 208.996 51.8447 207.964C51.8447 206.512 50.3687 205.876 49.0127 205.876C47.6207 205.876 46.1687 206.512 46.1687 207.964C46.1687 208.996 46.9727 209.596 47.8847 209.872C46.9007 210.184 46.0367 210.916 46.0367 211.96ZM50.6327 208.144C50.6327 208.996 49.5047 209.308 49.0127 209.392C48.5207 209.308 47.3807 208.996 47.3807 208.144C47.3807 207.388 48.0767 206.944 49.0127 206.944C49.9127 206.944 50.6327 207.388 50.6327 208.144ZM50.7647 211.816C50.7647 212.596 49.9367 213.076 49.0127 213.076C48.0527 213.076 47.2487 212.596 47.2487 211.816C47.2487 210.88 48.5087 210.472 49.0127 210.412C49.4927 210.472 50.7647 210.88 50.7647 211.816Z'
+            fill='white'
+          />
+          <path
+            d='M78.1636 253.884C78.7876 254.664 79.6996 255.144 81.0676 255.144C82.7596 255.144 84.0076 254.112 84.0076 252.468C84.0076 250.824 82.7956 249.9 81.4516 249.9C80.6716 249.9 79.9996 250.224 79.6156 250.608V248.052H83.4796V246.996H78.4156V251.388L79.2796 251.664C79.8076 251.16 80.3836 250.944 81.0796 250.944C82.1116 250.944 82.7956 251.556 82.7956 252.516C82.7956 253.392 82.0996 254.076 81.0556 254.076C80.1196 254.076 79.3996 253.716 78.8716 253.068L78.1636 253.884Z'
+            fill='white'
+          />
+          <path
+            d='M109.919 267.836C110.435 268.556 111.467 269.144 112.859 269.144C114.671 269.144 115.787 268.172 115.787 266.828C115.787 265.568 114.683 264.944 113.927 264.872C114.719 264.728 115.667 264.14 115.667 263.024C115.667 261.68 114.491 260.876 112.859 260.876C111.575 260.876 110.627 261.416 110.027 262.124L110.663 262.868C111.251 262.268 111.911 261.944 112.751 261.944C113.699 261.944 114.467 262.376 114.467 263.192C114.467 264.02 113.675 264.38 112.703 264.38C112.391 264.38 111.971 264.38 111.839 264.368V265.46C111.959 265.448 112.379 265.448 112.703 265.448C113.867 265.448 114.587 265.82 114.587 266.708C114.587 267.548 113.927 268.076 112.823 268.076C111.923 268.076 111.095 267.668 110.591 267.056L109.919 267.836Z'
+            fill='white'
+          />
+          <path
+            d='M141.378 166H142.578V157.996H141.522L139.374 160.192L140.082 160.924L141.378 159.568V166ZM144.023 162.004C144.023 163.984 144.935 166.144 147.155 166.144C149.375 166.144 150.287 163.984 150.287 162.004C150.287 160.024 149.375 157.876 147.155 157.876C144.935 157.876 144.023 160.024 144.023 162.004ZM149.063 162.004C149.063 163.564 148.571 165.076 147.155 165.076C145.739 165.076 145.247 163.564 145.247 162.004C145.247 160.444 145.739 158.944 147.155 158.944C148.571 158.944 149.063 160.444 149.063 162.004Z'
+            fill='white'
+          />
+          <path
+            d='M173.648 112H174.848V103.996H173.792L171.644 106.192L172.352 106.924L173.648 105.568V112ZM179.904 112H181.104V110.08H182.208V109.024H181.104V103.996H179.46L176.1 109.096V110.08H179.904V112ZM179.904 105.088V109.024H177.288L179.904 105.088Z'
+            fill='white'
+          />
+          <path
+            d='M205.49 93H206.69V84.996H205.634L203.486 87.192L204.194 87.924L205.49 86.568V93ZM208.134 89.016C208.134 91.212 209.034 93.144 211.326 93.144C213.09 93.144 214.206 91.932 214.206 90.492C214.206 88.788 212.994 87.924 211.554 87.924C210.57 87.924 209.706 88.56 209.358 89.1C209.346 89.016 209.346 88.932 209.346 88.836C209.346 87.348 210.078 85.944 211.53 85.944C212.322 85.944 212.79 86.244 213.198 86.712L213.786 85.8C213.27 85.248 212.538 84.876 211.53 84.876C209.238 84.876 208.134 86.772 208.134 89.016ZM212.994 90.528C212.994 91.236 212.418 92.076 211.266 92.076C209.958 92.076 209.466 90.96 209.37 90.024C209.79 89.388 210.51 88.956 211.254 88.956C212.202 88.956 212.994 89.46 212.994 90.528Z'
+            fill='white'
+          />
+          <path
+            d='M237.519 138H238.719V129.996H237.663L235.515 132.192L236.223 132.924L237.519 131.568V138ZM240.235 138H245.875V136.944H242.143C244.339 135.252 245.839 133.848 245.839 132.288C245.839 130.692 244.483 129.876 243.043 129.876C241.927 129.876 240.835 130.32 240.175 131.148L240.883 131.928C241.375 131.34 242.107 130.944 243.055 130.944C243.835 130.944 244.615 131.352 244.615 132.288C244.615 133.548 243.235 134.748 240.235 137.052V138Z'
+            fill='white'
+          />
+          <path
+            d='M270.037 211.96C270.037 213.364 271.393 214.144 273.013 214.144C274.609 214.144 275.965 213.352 275.965 211.96C275.965 210.916 275.101 210.184 274.117 209.872C275.029 209.596 275.845 208.996 275.845 207.964C275.845 206.512 274.369 205.876 273.013 205.876C271.621 205.876 270.169 206.512 270.169 207.964C270.169 208.996 270.973 209.596 271.885 209.872C270.901 210.184 270.037 210.916 270.037 211.96ZM274.633 208.144C274.633 208.996 273.505 209.308 273.013 209.392C272.521 209.308 271.381 208.996 271.381 208.144C271.381 207.388 272.077 206.944 273.013 206.944C273.913 206.944 274.633 207.388 274.633 208.144ZM274.765 211.816C274.765 212.596 273.937 213.076 273.013 213.076C272.053 213.076 271.249 212.596 271.249 211.816C271.249 210.88 272.509 210.472 273.013 210.412C273.493 210.472 274.765 210.88 274.765 211.816Z'
+            fill='white'
+          />
+          <path
+            d='M302.164 254.884C302.788 255.664 303.7 256.144 305.068 256.144C306.76 256.144 308.008 255.112 308.008 253.468C308.008 251.824 306.796 250.9 305.452 250.9C304.672 250.9 304 251.224 303.616 251.608V249.052H307.48V247.996H302.416V252.388L303.28 252.664C303.808 252.16 304.384 251.944 305.08 251.944C306.112 251.944 306.796 252.556 306.796 253.516C306.796 254.392 306.1 255.076 305.056 255.076C304.12 255.076 303.4 254.716 302.872 254.068L302.164 254.884Z'
+            fill='white'
+          />
+          <path
+            d='M333.919 268.836C334.435 269.556 335.467 270.144 336.859 270.144C338.671 270.144 339.787 269.172 339.787 267.828C339.787 266.568 338.683 265.944 337.927 265.872C338.719 265.728 339.667 265.14 339.667 264.024C339.667 262.68 338.491 261.876 336.859 261.876C335.575 261.876 334.627 262.416 334.027 263.124L334.663 263.868C335.251 263.268 335.911 262.944 336.751 262.944C337.699 262.944 338.467 263.376 338.467 264.192C338.467 265.02 337.675 265.38 336.703 265.38C336.391 265.38 335.971 265.38 335.839 265.368V266.46C335.959 266.448 336.379 266.448 336.703 266.448C337.867 266.448 338.587 266.82 338.587 267.708C338.587 268.548 337.927 269.076 336.823 269.076C335.923 269.076 335.095 268.668 334.591 268.056L333.919 268.836Z'
+            fill='white'
+          />
+          <path
+            d='M365.978 239.016C365.978 241.212 366.878 243.144 369.17 243.144C370.934 243.144 372.05 241.932 372.05 240.492C372.05 238.788 370.838 237.924 369.398 237.924C368.414 237.924 367.55 238.56 367.202 239.1C367.19 239.016 367.19 238.932 367.19 238.836C367.19 237.348 367.922 235.944 369.374 235.944C370.166 235.944 370.634 236.244 371.042 236.712L371.63 235.8C371.114 235.248 370.382 234.876 369.374 234.876C367.082 234.876 365.978 236.772 365.978 239.016ZM370.838 240.528C370.838 241.236 370.262 242.076 369.11 242.076C367.802 242.076 367.31 240.96 367.214 240.024C367.634 239.388 368.354 238.956 369.098 238.956C370.046 238.956 370.838 239.46 370.838 240.528Z'
+            fill='white'
+          />
+          <path
+            d='M401.064 295H402.264V286.996H401.208L399.06 289.192L399.768 289.924L401.064 288.568V295Z'
+            fill='white'
+          />
+          <path
+            d='M429.919 268.836C430.435 269.556 431.467 270.144 432.859 270.144C434.671 270.144 435.787 269.172 435.787 267.828C435.787 266.568 434.683 265.944 433.927 265.872C434.719 265.728 435.667 265.14 435.667 264.024C435.667 262.68 434.491 261.876 432.859 261.876C431.575 261.876 430.627 262.416 430.027 263.124L430.663 263.868C431.251 263.268 431.911 262.944 432.751 262.944C433.699 262.944 434.467 263.376 434.467 264.192C434.467 265.02 433.675 265.38 432.703 265.38C432.391 265.38 431.971 265.38 431.839 265.368V266.46C431.959 266.448 432.379 266.448 432.703 266.448C433.867 266.448 434.587 266.82 434.587 267.708C434.587 268.548 433.927 269.076 432.823 269.076C431.923 269.076 431.095 268.668 430.591 268.056L429.919 268.836Z'
+            fill='white'
+          />
+          <path
+            d='M465.064 298H466.264V289.996H465.208L463.06 292.192L463.768 292.924L465.064 291.568V298Z'
+            fill='white'
           />
         </g>
         <defs>
@@ -2984,6 +1303,168 @@ export const SECOND_METRICS_GROUP = [
               mode='normal'
               in='SourceGraphic'
               in2='effect2_dropShadow'
+              result='shape'
+            />
+          </filter>
+          <filter
+            id='filter1_f'
+            x='279.333'
+            y='82.3333'
+            width='194.333'
+            height='121.333'
+            filterUnits='userSpaceOnUse'
+            colorInterpolationFilters='sRGB'
+          >
+            <feFlood floodOpacity='0' result='BackgroundImageFix' />
+            <feBlend
+              mode='normal'
+              in='SourceGraphic'
+              in2='BackgroundImageFix'
+              result='shape'
+            />
+            <feGaussianBlur
+              stdDeviation='23.3333'
+              result='effect1_foregroundBlur'
+            />
+          </filter>
+          <filter
+            id='filter2_d'
+            x='286.889'
+            y='96.6667'
+            width='220.222'
+            height='94.2222'
+            filterUnits='userSpaceOnUse'
+            colorInterpolationFilters='sRGB'
+          >
+            <feFlood floodOpacity='0' result='BackgroundImageFix' />
+            <feColorMatrix
+              in='SourceAlpha'
+              type='matrix'
+              values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
+            />
+            <feOffset dy='7.77778' />
+            <feGaussianBlur stdDeviation='15.5556' />
+            <feColorMatrix
+              type='matrix'
+              values='0 0 0 0 0.476616 0 0 0 0 0.521707 0 0 0 0 0.620087 0 0 0 0.06 0'
+            />
+            <feBlend
+              mode='normal'
+              in2='BackgroundImageFix'
+              result='effect1_dropShadow'
+            />
+            <feBlend
+              mode='normal'
+              in='SourceGraphic'
+              in2='effect1_dropShadow'
+              result='shape'
+            />
+          </filter>
+          <filter
+            id='filter3_f'
+            x='146.333'
+            y='-15.6667'
+            width='367.333'
+            height='121.333'
+            filterUnits='userSpaceOnUse'
+            colorInterpolationFilters='sRGB'
+          >
+            <feFlood floodOpacity='0' result='BackgroundImageFix' />
+            <feBlend
+              mode='normal'
+              in='SourceGraphic'
+              in2='BackgroundImageFix'
+              result='shape'
+            />
+            <feGaussianBlur
+              stdDeviation='23.3333'
+              result='effect1_foregroundBlur'
+            />
+          </filter>
+          <filter
+            id='filter4_d'
+            x='153.889'
+            y='-1.33333'
+            width='353.222'
+            height='94.2222'
+            filterUnits='userSpaceOnUse'
+            colorInterpolationFilters='sRGB'
+          >
+            <feFlood floodOpacity='0' result='BackgroundImageFix' />
+            <feColorMatrix
+              in='SourceAlpha'
+              type='matrix'
+              values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
+            />
+            <feOffset dy='7.77778' />
+            <feGaussianBlur stdDeviation='15.5556' />
+            <feColorMatrix
+              type='matrix'
+              values='0 0 0 0 0.476616 0 0 0 0 0.521707 0 0 0 0 0.620087 0 0 0 0.06 0'
+            />
+            <feBlend
+              mode='normal'
+              in2='BackgroundImageFix'
+              result='effect1_dropShadow'
+            />
+            <feBlend
+              mode='normal'
+              in='SourceGraphic'
+              in2='effect1_dropShadow'
+              result='shape'
+            />
+          </filter>
+          <filter
+            id='filter5_f'
+            x='263.333'
+            y='33.3333'
+            width='253.333'
+            height='121.333'
+            filterUnits='userSpaceOnUse'
+            colorInterpolationFilters='sRGB'
+          >
+            <feFlood floodOpacity='0' result='BackgroundImageFix' />
+            <feBlend
+              mode='normal'
+              in='SourceGraphic'
+              in2='BackgroundImageFix'
+              result='shape'
+            />
+            <feGaussianBlur
+              stdDeviation='23.3333'
+              result='effect1_foregroundBlur'
+            />
+          </filter>
+          <filter
+            id='filter6_d'
+            x='274.889'
+            y='47.6667'
+            width='232.222'
+            height='94.2222'
+            filterUnits='userSpaceOnUse'
+            colorInterpolationFilters='sRGB'
+          >
+            <feFlood floodOpacity='0' result='BackgroundImageFix' />
+            <feColorMatrix
+              in='SourceAlpha'
+              type='matrix'
+              values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
+            />
+            <feOffset dy='7.77778' />
+            <feGaussianBlur stdDeviation='15.5556' />
+            <feColorMatrix
+              type='matrix'
+              values='0 0 0 0 0.476616 0 0 0 0 0.521707 0 0 0 0 0.620087 0 0 0 0.06 0'
+            />
+            <feBlend
+              mode='normal'
+              in2='BackgroundImageFix'
+              result='effect1_dropShadow'
+            />
+            <feBlend
+              mode='normal'
+              in='SourceGraphic'
+              in2='effect1_dropShadow'
               result='shape'
             />
           </filter>
