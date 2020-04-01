@@ -146,7 +146,7 @@ const Canvas = ({
             {...settings}
             metrics={metrics}
             className={styles.ico}
-            onEmptyResult={() => setIsICOPriceDisabled(true)}
+            onResult={price => setIsICOPriceDisabled(!price)}
           />
         )}
         <LastDayPrice settings={settings} metrics={metrics} />
