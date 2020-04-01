@@ -1,8 +1,10 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import { compose, withProps } from 'recompose'
 import cx from 'classnames'
+import Icon from '@santiment-network/ui/Icon'
 import SocialTool from '../SocialTool'
 import * as actions from '../../components/Trends/actions'
 import TrendsExploreSearch from '../../components/Trends/Explore/TrendsExploreSearch'
@@ -45,6 +47,15 @@ const TrendsExplore = ({
       </Helmet>
       <div className={styles.layout}>
         <div className={styles.main}>
+          {isDesktop && (
+            <div className={styles.breadcrumbs}>
+              <Link to='/labs/trends/' className={styles.link}>
+                Emerging trends
+              </Link>
+              <Icon type='arrow-right' className={styles.arrow} />
+              Social context
+            </div>
+          )}
           <div className={styles.search}>
             {isDesktop ? (
               <TrendsExploreSearch
