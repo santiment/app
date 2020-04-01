@@ -80,6 +80,7 @@
 .bottom {
   display: flex;
   flex-direction: row;
+  align-items: center;
   padding-top: 20px;
   margin-top: auto;
   border-top: 1px solid var(--porcelain);
@@ -195,4 +196,11 @@
 
 .date {
   margin-bottom: 12px !important;
+}
+
+.crown {
+  width: 12px;
+  height: 9px;
+  fill: var(--texas-rose);
+  margin-left: 20px;
 }
