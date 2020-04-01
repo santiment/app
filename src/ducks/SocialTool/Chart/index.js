@@ -76,7 +76,7 @@ const Canvas = ({
 
 export default ({ options, activeMetrics, ...rest }) => {
   const categories = metricsToPlotCategories(activeMetrics)
-  console.log(categories)
+
   return (
     <Canvas
       tooltipKey='social_volume_total'

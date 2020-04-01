@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import Settings from '../../../Studio/Header/Settings'
+import Settings from './Settings'
 import styles from './index.module.scss'
 
 const Header = ({ className, ...props }) => (

@@ -1,45 +1,33 @@
 import React from 'react'
 import cx from 'classnames'
 import Selector from '@santiment-network/ui/Selector/Selector'
-import Toggle from '@santiment-network/ui/Toggle'
-import CalendarBtn from '../../../components/Calendar/CalendarBtn'
-import ContextMenu from './ContextMenu'
+import CalendarBtn from '../../../../components/Calendar/CalendarBtn'
+import ContextMenu from '../../../Studio/Header/ContextMenu'
 import {
   getNewInterval,
   INTERVAL_ALIAS
-} from '../../SANCharts/IntervalSelector'
-import { saveToggle } from '../../../utils/localStorage'
+} from '../../../SANCharts/IntervalSelector'
+import PricePairsDropdown from '../PricePairsDropdown'
 import {
   getIntervalByTimeRange,
   getTimeIntervalFromToday,
   DAY
-} from '../../../utils/dates'
+} from '../../../../utils/dates'
 import styles from './Settings.module.scss'
 
-const TIMERANGE_OPTIONS = ['1D', '1W', '1M', '3M', '6M', '1Y', 'ALL']
+const TIMERANGE_OPTIONS = ['1D', '1W', '1M', '3M', '6M', '1Y']
 
 const { to: MAX_DATE } = getTimeIntervalFromToday(0, DAY)
 
 export default ({
   settings,
   options,
-  comparables,
   setOptions,
   setSettings,
   className,
   ...rest
 }) => {
   const { timeRange = '', from, to, title } = settings
-
-  function toggleDomainGrouping () {
-    setOptions(state => ({
-      ...state,
-      isDomainGroupingActive: saveToggle(
-        'isDomainGroupingActive',
-        !state.isDomainGroupingActive
-      )
-    }))
-  }
 
   function onTimerangeChange (timeRange) {
     const { from, to } = getIntervalByTimeRange(timeRange.toLowerCase())
@@ -76,20 +64,16 @@ export default ({
         className={styles.calendar}
         maxDate={MAX_DATE}
       />
-      {comparables.length > 0 && (
-        <div className={styles.domain} onClick={toggleDomainGrouping}>
-          Shared axis
-          <Toggle
-            isActive={options.isDomainGroupingActive}
-            className={styles.domain__toggle}
-          />
-        </div>
-      )}
+      <PricePairsDropdown
+        {...rest}
+        settings={settings}
+        setSettings={setSettings}
+      />
       <ContextMenu
         title={title}
+        showMulti={false}
         showNightModeToggle={false}
         showDownload
-        showMulti
         setOptions={setOptions}
         {...options}
         {...rest}
