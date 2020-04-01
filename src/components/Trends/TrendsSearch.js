@@ -7,16 +7,12 @@ import styles from './TrendsSearch.module.scss'
 
 const SAMPLES = [
   {
-    trend: 'bitcoin',
-    options: 'asset=bitcoin&timeRange=3m'
+    trend: 'corona OR coronavirus OR covid-19',
+    options: ''
   },
   {
-    trend: 'blockchain',
-    options: 'asset=bitcoin&timeRange=3m'
-  },
-  {
-    trend: 'IEO OR IEOs OR launchpad',
-    options: 'asset=binance-coin&timeRange=3m'
+    trend: 'buy OR bought OR bottom OR bottomed',
+    options: ''
   }
 ]
 
