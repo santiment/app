@@ -3,8 +3,10 @@
 .container {
   margin-top: 88px;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column !important;
+  }
 }
 
 .title {
@@ -28,6 +30,10 @@
   margin-top: 24px;
   color: var(--waterloo);
   max-width: 524px;
+
+  @include responsive('phone', 'phone-xs') {
+    max-width: 100%;
+  }
 }
 
 .link {
@@ -51,11 +57,19 @@
   display: flex;
   margin-left: 103px;
   margin-right: 0;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 0;
+  }
 }
 
 .svgLeft {
   margin-right: 103px;
   margin-left: 0;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 0;
+  }
 }
 
 .highline {

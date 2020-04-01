@@ -13,14 +13,20 @@ import PlanPaymentDialog from '../../components/Plans/PlanPaymentDialog'
 import { usePlans } from '../../ducks/Plans/hooks'
 import styles from './UpgradeBtn.module.scss'
 
-const Trigger = ({ variant, className, children = 'Upgrade', ...props }) => (
+const Trigger = ({
+  variant,
+  className,
+  children = 'Upgrade',
+  showCrownIcon = true,
+  ...props
+}) => (
   <Button
     className={cx(styles.btn, styles[variant], className)}
     variant={variant}
     accent='orange'
     {...props}
   >
-    <Icon type='crown' className={styles.icon} />
+    {showCrownIcon && <Icon type='crown' className={styles.icon} />}
     {children}
   </Button>
 )
@@ -35,12 +41,6 @@ const UpgradeBtn = ({
   dispatch,
   className,
   variant = 'fill',
-  trigger = (
-    <>
-      <Icon type='crown' className={styles.icon} />
-      Upgrade
-    </>
-  ),
   ...props
 }) => {
   const [plans] = usePlans()
@@ -55,7 +55,12 @@ const UpgradeBtn = ({
 
     return (
       <PlanPaymentDialog
-        label={trigger}
+        label={
+          <>
+            <Icon type='crown' className={styles.icon} />
+            Upgrade
+          </>
+        }
         title={name}
         price={amount}
         planId={+id}
@@ -71,7 +76,15 @@ const UpgradeBtn = ({
     )
   }
 
-  return <Trigger as={Link} to='/pricing' className={className} {...props} />
+  return (
+    <Trigger
+      as={Link}
+      to='/pricing'
+      className={className}
+      variant={variant}
+      {...props}
+    />
+  )
 }
 
 const mapStateToProps = state => {

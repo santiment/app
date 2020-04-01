@@ -22,7 +22,14 @@ const mutation = gql`
   }
 `
 
-export const EmailForm = ({ loading, loginEmail, setEmail }) => {
+export const EmailForm = ({
+  loading,
+  loginEmail,
+  setEmail,
+  classes = {},
+  placeholder = 'Your email',
+  label = 'Continue'
+}) => {
   return (
     <Formik
       onSubmit={({ email }) => {
@@ -42,7 +49,7 @@ export const EmailForm = ({ loading, loginEmail, setEmail }) => {
     >
       {({ validateForm }) => {
         return (
-          <Form className={styles.email__form}>
+          <Form className={cx(styles.email__form, classes.form)}>
             <FormikEffect
               onChange={(current, prev) => {
                 let { values: newValues } = current
@@ -58,20 +65,20 @@ export const EmailForm = ({ loading, loginEmail, setEmail }) => {
               icon='mail'
               iconPosition='left'
               required
-              placeholder='Your email'
+              placeholder={placeholder}
               name='email'
               type='email'
-              className={styles.emailInput}
+              className={cx(styles.emailInput, classes.emailInput)}
             />
 
             <Button
               variant='fill'
               accent='positive'
-              className={styles.email__btn}
+              className={cx(styles.email__btn, classes.loginBtn)}
               type='submit'
               isLoading={loading}
             >
-              {loading ? 'Waiting...' : 'Continue'}
+              {loading ? 'Waiting...' : label}
             </Button>
           </Form>
         )
@@ -80,27 +87,55 @@ export const EmailForm = ({ loading, loginEmail, setEmail }) => {
   )
 }
 
-const SuccessState = ({ email, isDesktop, history }) => {
+const SuccessState = ({
+  email,
+  isDesktop,
+  history,
+  classes = {},
+  showBack = true
+}) => {
   const child = (
-    <div className={cx(styles.loginViaEmail, styles.emailSuccess)}>
-      <h2 className={cx(styles.title, styles.email__title)}>
+    <div
+      className={cx(
+        styles.loginViaEmail,
+        styles.emailSuccess,
+        classes.emailSuccess
+      )}
+    >
+      <h2
+        className={cx(
+          styles.title,
+          styles.email__title,
+          classes.emailSuccessTitle
+        )}
+      >
         Email Confirmation
       </h2>
-      <h3 className={cx(styles.email__subtitle, styles.email__subtitleSuccess)}>
+      <h3
+        className={cx(
+          styles.email__subtitle,
+          styles.email__subtitleSuccess,
+          classes.emailSuccessSubTitle
+        )}
+      >
         We just sent an email to{' '}
-        <span className={styles.emailCheck}>{email}</span>. Please check your
-        inbox and click on the confirmation link.
+        <span className={cx(styles.emailCheck, classes.emailCheck)}>
+          {email}
+        </span>
+        . Please check your inbox and click on the confirmation link.
       </h3>
 
-      <Link
-        to={PATHS.LOGIN}
-        className={cx(styles.email__link, styles.email__linkSuccess)}
-      >
-        Back to{' '}
-        <Link to={PATHS.LOGIN} className={styles.loginLink}>
-          log in options
+      {showBack && (
+        <Link
+          to={PATHS.LOGIN}
+          className={cx(styles.email__link, styles.email__linkSuccess)}
+        >
+          Back to{' '}
+          <Link to={PATHS.LOGIN} className={styles.loginLink}>
+            log in options
+          </Link>
         </Link>
-      </Link>
+      )}
     </div>
   )
 
@@ -150,7 +185,9 @@ const PrepareState = ({
 const LoginEmailForm = ({
   isDesktop,
   history,
-  prepareState: PrepareStateEl = PrepareState
+  classes = {},
+  prepareState: PrepareStateEl = PrepareState,
+  showBack = true
 }) => {
   const [email, setEmail] = useState('')
 
@@ -161,7 +198,13 @@ const LoginEmailForm = ({
         { loading, data: { emailLogin: { success } = {} } = {} }
       ) => {
         return success ? (
-          <SuccessState email={email} isDesktop={isDesktop} history={history} />
+          <SuccessState
+            email={email}
+            isDesktop={isDesktop}
+            history={history}
+            classes={classes}
+            showBack={showBack}
+          />
         ) : (
           <PrepareStateEl
             loading={loading}

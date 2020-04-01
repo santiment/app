@@ -1,7 +1,2283 @@
 import React from 'react'
 import styles from './ProMetric/ProMetric.module.scss'
-import { Link } from 'react-router-dom'
-import Button from '@santiment-network/ui/Button'
+
+export const GreenSignBlockSvg = (
+  <svg
+    width='1440'
+    height='200'
+    viewBox='0 0 1440 200'
+    fill='none'
+    xmlns='http://www.w3.org/2000/svg'
+  >
+    <rect width='1440' height='200' fill='#14C393' />
+    <g opacity='0.5'>
+      <g clip-path='url(#clip0)'>
+        <g clip-path='url(#clip1)'>
+          <rect
+            opacity='0.4'
+            width='3'
+            height='188.957'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1436 14.7239)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='164.417'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1418 39.2637)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='174.233'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1400 29.4478)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='149.693'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1382 53.9878)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='160.736'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1364 42.9448)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='170.552'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1346 33.1287)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='166.258'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1328 37.4233)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='166.871'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1310 36.8098)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='151.534'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1292 52.1472)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='161.35'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1274 42.3313)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='134.969'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1256 68.7117)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='142.945'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1238 60.7361)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='124.54'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1220 79.1411)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='114.11'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1202 89.5706)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='116.564'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1184 87.1165)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='113.497'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1166 90.1841)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='142.945'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1148 60.7361)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='151.534'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1130 52.1472)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='122.086'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1112 81.595)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='51'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1094 153)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='54'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1076 150)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='54'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1058 150)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='35'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1040 169)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='34'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1022 170)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='40'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1004 164)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='31'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 986 173)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='34'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 968 170)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='34'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 950 170)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='34'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 932 170)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='37'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 914 172)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='34'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 896 181)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='31'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 878 184)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='28'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 860 187)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='34'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 842 181)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='32'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 824 183)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='32'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 806 183)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='34'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 788 181)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='28'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 770 187)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='28'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 752 187)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='32'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 734 183)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='28'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 716 187)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='35'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 698 180)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='32'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 680 183)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='28'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 662 187)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='30'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 644 185)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='29'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 626 181)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='26'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 608 184)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='25'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 590 185)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='25'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 572 185)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='29'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 554 192)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='30'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 536 191)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='35.2941'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 518 185.235)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='45.8823'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 500 184.647)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='48.2353'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 482 181.294)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='60'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 464 169.529)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='68.2353'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 446 161.294)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='68.2353'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 428 144.294)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='61.1765'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 410 151.353)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='83.4356'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 392 129.245)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='105.521'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 374 107.159)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='110.429'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 356 93.2515)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='103.067'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 338 100.614)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='155.215'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 320 48.4663)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='136.196'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 302 67.4846)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='114.11'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 284 89.5706)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='109.816'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 266 73.865)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='125.153'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 248 58.5276)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='98.773'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 230 84.908)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='112.27'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 212 71.4111)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='125.153'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 194 58.5276)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='115.951'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 176 67.73)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='119.018'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 158 64.6626)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='152'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 140 57)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='138'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 122 71)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='131'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 104 78)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='149'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 86 60)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='141'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 68 68)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='156'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 50 53)'
+            fill='white'
+          />
+        </g>
+        <g clip-path='url(#clip2)'>
+          <rect
+            opacity='0.8'
+            width='3'
+            height='168.098'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1436 31.9019)'
+            fill='white'
+          />
+          <rect
+            opacity='0.8'
+            width='3'
+            height='121.472'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1418 78.5276)'
+            fill='white'
+          />
+          <rect
+            opacity='0.8'
+            width='3'
+            height='128.834'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1400 71.1658)'
+            fill='white'
+          />
+          <rect
+            opacity='0.8'
+            width='3'
+            height='116.564'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1382 83.4355)'
+            fill='white'
+          />
+          <rect
+            opacity='0.8'
+            width='3'
+            height='106.748'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1364 93.2517)'
+            fill='white'
+          />
+          <rect
+            opacity='0.8'
+            width='3'
+            height='109.202'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1346 90.7976)'
+            fill='white'
+          />
+          <rect
+            opacity='0.8'
+            width='3'
+            height='106.135'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1328 93.865)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='125.153'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1310 74.8467)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='88.9571'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1292 111.043)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='93.2515'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1274 106.749)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='80.3681'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1256 119.632)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='85.2761'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1238 114.724)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='74.1189'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1220 125.881)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='67.9119'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1202 132.088)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='69.3723'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1184 130.628)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='67.5468'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1166 132.453)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='85.0724'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1148 114.928)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='90.1841'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1130 109.816)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='90.1841'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1112 109.816)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='30'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1094 172)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='32'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1076 170)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='32'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1058 170)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='29'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1040 173)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='35'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1022 167)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='32'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1004 170)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='22'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 986 180)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='22'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 968 180)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='22'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 950 180)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='21'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 932 181)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='18'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 914 189)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='17'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 896 196)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='16'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 878 197)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='15'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 860 198)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='15'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 842 198)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='15'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 824 198)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='14'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 806 199)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='18'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 788 195)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='14'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 734 199)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='17'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 716 196)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='14'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 698 199)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='16'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 662 197)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='12'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 626 196)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='15'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 608 193)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='10'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 590 198)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='10'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 572 198)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='25.8824'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 518 192.294)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='32.9412'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 500 195.235)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='34.1177'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 464 193.059)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='40'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 446 187.177)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='40'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 428 170.177)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='36.4706'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 410 173.706)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='49.6932'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 392 159.307)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='61.9632'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 374 147.037)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='65.6442'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 356 134.356)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='61.3497'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 338 138.65)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='55.8282'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 320 144.172)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='53.3742'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 302 146.626)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='40.4908'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 284 159.509)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='39.2638'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 266 160.736)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='49.6932'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 248 150.307)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='34.9693'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 230 165.031)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='34.9693'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 212 165.031)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='55.2147'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 194 144.785)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='58.8957'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 176 141.104)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='69.3252'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 158 130.675)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='104'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 140 101)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='93'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 122 112)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='96'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 104 109)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='115'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 86 90)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='108'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 68 97)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='123'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 50 82)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='141'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 32 68)'
+            fill='white'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='156'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 14 53)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='108'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 32 97)'
+            fill='white'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='123'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 14 82)'
+            fill='white'
+          />
+        </g>
+      </g>
+    </g>
+    <g opacity='0.5'>
+      <circle opacity='0.5' cx='300.5' cy='69' r='9' fill='white' />
+      <circle opacity='0.5' cx='1344.5' cy='34' r='9' fill='white' />
+      <circle opacity='0.5' cx='1182.5' cy='88' r='9' fill='white' />
+      <circle
+        cx='300.5'
+        cy='69'
+        r='3'
+        fill='white'
+        stroke='#14C393'
+        stroke-width='2'
+      />
+      <circle opacity='0.5' cx='120' cy='72' r='9' fill='white' />
+      <circle
+        cx='120'
+        cy='72'
+        r='3'
+        fill='white'
+        stroke='#14C393'
+        stroke-width='2'
+      />
+      <circle
+        cx='1344.5'
+        cy='34'
+        r='3'
+        fill='white'
+        stroke='#14C393'
+        stroke-width='2'
+      />
+      <circle
+        cx='1182.5'
+        cy='88'
+        r='3'
+        fill='white'
+        stroke='#14C393'
+        stroke-width='2'
+      />
+    </g>
+    <defs>
+      <clipPath id='clip0'>
+        <rect y='15' width='1436' height='185' fill='white' />
+      </clipPath>
+      <clipPath id='clip1'>
+        <rect
+          width='1408'
+          height='188.957'
+          transform='matrix(-1 0 0 1 1436 14.7239)'
+          fill='white'
+        />
+      </clipPath>
+      <clipPath id='clip2'>
+        <rect
+          width='1436'
+          height='184.706'
+          transform='matrix(-1 0 0 1 1436 15.2942)'
+          fill='white'
+        />
+      </clipPath>
+    </defs>
+  </svg>
+)
+
+export const OrangeBlockSvg = (
+  <svg
+    width='1072'
+    height='184'
+    viewBox='0 0 1072 184'
+    fill='none'
+    xmlns='http://www.w3.org/2000/svg'
+  >
+    <g opacity='0.5'>
+      <g clip-path='url(#clip0)'>
+        <g filter='url(#filter0_d)'>
+          <rect width='1072' height='184' rx='8' fill='#FFF3E4' />
+        </g>
+        <g clip-path='url(#clip1)'>
+          <rect
+            opacity='0.4'
+            width='3'
+            height='142.945'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1054 44.7362)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='124.54'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1036 63.1411)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='114.11'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1018 73.5705)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='116.564'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1000 71.1165)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='113.497'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 982 74.184)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='142.945'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 964 44.7362)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='151.534'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 946 36.1472)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='122.086'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 928 65.5951)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='51'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 910 137)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='54'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 892 134)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='76'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 874 112)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='49'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 856 139)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='48'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 838 140)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='57'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 820 131)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='44'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 802 144)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='94'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 784 99)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='94'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 766 99)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='67'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 748 130)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='61'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 730 128)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='56'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 712 143)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='51'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 694 148)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='46'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 676 153)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='56'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 658 143)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='53'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 640 146)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='32'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 622 167)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='34'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 604 165)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='28'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 586 171)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='28'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 568 171)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='32'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 550 167)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='28'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 532 171)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='35'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 514 164)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='32'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 496 167)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='28'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 478 171)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='30'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 460 169)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='29'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 442 165)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='26'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 424 168)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='50'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 406 137)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='50'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 388 137)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='49'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 370 149)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='51'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 352 147)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='60'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 334 137)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='79'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 316 136)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='83'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 298 130)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='103'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 280 110)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='68.2353'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 262 145.294)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='68.2353'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 244 128.294)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='61.1765'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 226 135.353)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='83.4356'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 208 113.245)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='105.521'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 190 91.1595)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='110.429'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 172 77.2515)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='103.067'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 154 84.6135)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='155.215'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 136 32.4662)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='136.196'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 118 51.4846)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='114.11'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 100 73.5705)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='124'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 82 60)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='141'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 64 43)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='112'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 46 72)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='127'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 28 57)'
+            fill='#FFAD4D'
+          />
+        </g>
+        <g clip-path='url(#clip2)'>
+          <rect
+            opacity='0.6'
+            width='3'
+            height='85.2761'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1054 98.7239)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='74.1189'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1036 109.881)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='67.9119'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1018 116.088)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='69.3723'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 1000 114.628)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='67.5468'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 982 116.453)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='85.0724'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 964 98.9276)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='90.1841'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 946 93.816)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='90.1841'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 928 93.816)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='30'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 910 156)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='32'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 892 154)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='45'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 874 140)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='41'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 856 144)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.4'
+            width='3'
+            height='49'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 838 136)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='45'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 820 140)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='31'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 802 154)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='63'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 784 126)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='63'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 766 126)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='41'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 748 152)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='30'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 730 156)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='17'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 712 180)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='16'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 694 181)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='15'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 676 182)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='15'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 658 182)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='15'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 640 182)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='14'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 622 183)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='18'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 604 179)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='14'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 550 183)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='17'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 532 180)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='14'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 514 183)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='16'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 478 181)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='12'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 442 180)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='15'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 424 177)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='24'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 406 168)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='24'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 388 168)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='44'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 334 149)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='32.9412'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 316 179.235)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='59'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 280 150)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='40'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 262 171.176)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='40'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 244 154.176)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='36.4706'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 226 157.706)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='49.6932'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 208 143.307)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='61.9632'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 190 131.037)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='65.6442'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 172 118.356)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='61.3497'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 154 122.65)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='55.8282'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 136 128.172)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='53.3742'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 118 130.626)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='40.4908'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 100 143.509)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='39.2638'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 82 144.736)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='49.6932'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 64 134.307)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='34.9693'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 46 149.031)'
+            fill='#FFAD4D'
+          />
+          <rect
+            opacity='0.6'
+            width='3'
+            height='34.9693'
+            rx='1.5'
+            transform='matrix(-1 0 0 1 28 149.031)'
+            fill='#FFAD4D'
+          />
+        </g>
+        <circle opacity='0.5' cx='116.5' cy='53' r='9' fill='#FFAD4D' />
+        <circle opacity='0.5' cx='207' cy='114' r='9' fill='#FFAD4D' />
+        <circle opacity='0.5' cx='998.5' cy='72' r='9' fill='#FFAD4D' />
+        <circle
+          cx='116.5'
+          cy='53'
+          r='3'
+          fill='white'
+          stroke='#FFAD4D'
+          stroke-width='2'
+        />
+        <circle
+          cx='207'
+          cy='114'
+          r='3'
+          fill='white'
+          stroke='#FFAD4D'
+          stroke-width='2'
+        />
+        <circle
+          cx='998.5'
+          cy='72'
+          r='3'
+          fill='white'
+          stroke='#FFAD4D'
+          stroke-width='2'
+        />
+      </g>
+    </g>
+    <defs>
+      <filter
+        id='filter0_d'
+        x='-8'
+        y='-4'
+        width='1088'
+        height='200'
+        filterUnits='userSpaceOnUse'
+        color-interpolation-filters='sRGB'
+      >
+        <feFlood flood-opacity='0' result='BackgroundImageFix' />
+        <feColorMatrix
+          in='SourceAlpha'
+          type='matrix'
+          values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
+        />
+        <feOffset dy='4' />
+        <feGaussianBlur stdDeviation='4' />
+        <feColorMatrix
+          type='matrix'
+          values='0 0 0 0 0.0941176 0 0 0 0 0.105882 0 0 0 0 0.168627 0 0 0 0.02 0'
+        />
+        <feBlend
+          mode='normal'
+          in2='BackgroundImageFix'
+          result='effect1_dropShadow'
+        />
+        <feBlend
+          mode='normal'
+          in='SourceGraphic'
+          in2='effect1_dropShadow'
+          result='shape'
+        />
+      </filter>
+      <clipPath id='clip0'>
+        <rect width='1072' height='184' fill='white' />
+      </clipPath>
+      <clipPath id='clip1'>
+        <rect
+          width='1408'
+          height='188.957'
+          transform='matrix(-1 0 0 1 1252 -1.27609)'
+          fill='white'
+        />
+      </clipPath>
+      <clipPath id='clip2'>
+        <rect
+          width='1436'
+          height='184.706'
+          transform='matrix(-1 0 0 1 1252 -0.705879)'
+          fill='white'
+        />
+      </clipPath>
+    </defs>
+  </svg>
+)
 
 export const THIRD_METRICS_GROUP = [
   {
@@ -45,9 +2321,9 @@ export const THIRD_METRICS_GROUP = [
             width='384'
             height='247'
             filterUnits='userSpaceOnUse'
-            color-interpolation-filters='sRGB'
+            colorInterpolationFilters='sRGB'
           >
-            <feFlood flood-opacity='0' result='BackgroundImageFix' />
+            <feFlood floodOpacity='0' result='BackgroundImageFix' />
             <feColorMatrix
               in='SourceAlpha'
               type='matrix'
@@ -140,9 +2416,9 @@ export const THIRD_METRICS_GROUP = [
             width='384'
             height='247'
             filterUnits='userSpaceOnUse'
-            color-interpolation-filters='sRGB'
+            colorInterpolationFilters='sRGB'
           >
-            <feFlood flood-opacity='0' result='BackgroundImageFix' />
+            <feFlood floodOpacity='0' result='BackgroundImageFix' />
             <feColorMatrix
               in='SourceAlpha'
               type='matrix'
@@ -226,9 +2502,9 @@ export const THIRD_METRICS_GROUP = [
             width='384'
             height='247'
             filterUnits='userSpaceOnUse'
-            color-interpolation-filters='sRGB'
+            colorInterpolationFilters='sRGB'
           >
-            <feFlood flood-opacity='0' result='BackgroundImageFix' />
+            <feFlood floodOpacity='0' result='BackgroundImageFix' />
             <feColorMatrix
               in='SourceAlpha'
               type='matrix'
@@ -312,9 +2588,9 @@ export const THIRD_METRICS_GROUP = [
             width='384'
             height='247'
             filterUnits='userSpaceOnUse'
-            color-interpolation-filters='sRGB'
+            colorInterpolationFilters='sRGB'
           >
-            <feFlood flood-opacity='0' result='BackgroundImageFix' />
+            <feFlood floodOpacity='0' result='BackgroundImageFix' />
             <feColorMatrix
               in='SourceAlpha'
               type='matrix'
@@ -398,9 +2674,9 @@ export const THIRD_METRICS_GROUP = [
             width='384'
             height='247'
             filterUnits='userSpaceOnUse'
-            color-interpolation-filters='sRGB'
+            colorInterpolationFilters='sRGB'
           >
-            <feFlood flood-opacity='0' result='BackgroundImageFix' />
+            <feFlood floodOpacity='0' result='BackgroundImageFix' />
             <feColorMatrix
               in='SourceAlpha'
               type='matrix'
@@ -484,9 +2760,9 @@ export const THIRD_METRICS_GROUP = [
             width='384'
             height='247'
             filterUnits='userSpaceOnUse'
-            color-interpolation-filters='sRGB'
+            colorInterpolationFilters='sRGB'
           >
-            <feFlood flood-opacity='0' result='BackgroundImageFix' />
+            <feFlood floodOpacity='0' result='BackgroundImageFix' />
             <feColorMatrix
               in='SourceAlpha'
               type='matrix'
@@ -578,9 +2854,9 @@ export const SECOND_METRICS_GROUP = [
             width='500'
             height='316'
             filterUnits='userSpaceOnUse'
-            color-interpolation-filters='sRGB'
+            colorInterpolationFilters='sRGB'
           >
-            <feFlood flood-opacity='0' result='BackgroundImageFix' />
+            <feFlood floodOpacity='0' result='BackgroundImageFix' />
             <feColorMatrix
               in='SourceAlpha'
               type='matrix'
@@ -669,9 +2945,9 @@ export const SECOND_METRICS_GROUP = [
             width='500'
             height='316'
             filterUnits='userSpaceOnUse'
-            color-interpolation-filters='sRGB'
+            colorInterpolationFilters='sRGB'
           >
-            <feFlood flood-opacity='0' result='BackgroundImageFix' />
+            <feFlood floodOpacity='0' result='BackgroundImageFix' />
             <feColorMatrix
               in='SourceAlpha'
               type='matrix'
