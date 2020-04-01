@@ -108,12 +108,15 @@ export function generateShareLink (
   })
 }
 
-export function parseUrl (settings, options) {
+export function parseUrl (
+  settings = DEFAULT_SETTINGS,
+  options = DEFAULT_OPTIONS
+) {
   const data = parse(window.location.search, { arrayFormat: 'comma' })
 
   return {
-    settings: reduceStateKeys(settings || DEFAULT_SETTINGS, data),
-    options: reduceStateKeys(options || DEFAULT_OPTIONS, data),
+    settings: reduceStateKeys(settings, data),
+    options: reduceStateKeys(options, data),
     metrics: sanitize(convertKeysToMetrics(data.metrics, Metric)),
     events: sanitize(convertKeysToMetrics(data.events, Event)),
     comparables: sanitize(parseSharedComparables(data.comparables))

@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import { compose, withProps } from 'recompose'
 import cx from 'classnames'
-import SocialTool from '../../ducks/SocialTool'
+import SocialTool from '../SocialTool'
 import TrendsExploreSearch from '../../components/Trends/Explore/TrendsExploreSearch'
 import * as actions from '../../components/Trends/actions'
 import withDetectionAsset from '../../components/Trends/withDetectionAsset'
@@ -17,7 +17,7 @@ const pageDescription =
   'Explore the social volume of ANY word (or phrase) on crypto social media, including 100s of Telegram groups, crypto subreddits, discord channels, trader chats and more.'
 
 const TrendsExplore = ({
-  word: newWord,
+  word,
   history,
   detectedAsset,
   fetchAllTickersSlugs,
@@ -29,12 +29,8 @@ const TrendsExplore = ({
     fetchAllTickersSlugs()
   }
 
-  const [word, setWord] = useState()
-  if (word !== newWord && newWord) {
-    addRecentTrends(newWord)
-    fetchTrendSocialData(newWord)
-    setWord(newWord)
-  }
+  addRecentTrends(word)
+  fetchTrendSocialData(word)
 
   const topic = safeDecode(word)
   const pageTitle = `Crypto Social Trends for ${topic} - Sanbase`

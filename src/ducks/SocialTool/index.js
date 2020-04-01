@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import cx from 'classnames'
 import { Metric } from '../dataHub/metrics'
-import withBoundaries from '../../pages/Studio/withBoundaries'
 import { useTimeseries } from '../Studio/timeseries/hooks'
-import { updateHistory, parseUrl, generateShareLink } from '../Studio/url'
+import { updateHistory, generateShareLink } from '../Studio/url'
 import SocialToolChart from './Chart'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
 import styles from './index.module.scss'
@@ -115,23 +114,11 @@ const SocialTool = ({
   )
 }
 
-export default withBoundaries(({ settings, options, metrics, ...props }) => {
-  const sharedState = parseUrl(DEFAULT_SETTINGS, DEFAULT_OPTIONS)
-
-  return (
-    <SocialTool
-      {...props}
-      defaultSettings={{
-        ...DEFAULT_SETTINGS,
-        ...sharedState.settings,
-        ...settings
-      }}
-      defaultOptions={{
-        ...DEFAULT_OPTIONS,
-        ...sharedState.options,
-        ...options
-      }}
-      defaultMetrics={metrics || DEFAULT_METRICS}
-    />
-  )
-})
+export default ({ settings, options, metrics, ...props }) => (
+  <SocialTool
+    {...props}
+    defaultSettings={{ ...DEFAULT_SETTINGS, ...settings }}
+    defaultOptions={{ ...DEFAULT_OPTIONS, ...options }}
+    defaultMetrics={metrics || DEFAULT_METRICS}
+  />
+)
