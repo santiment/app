@@ -7,7 +7,7 @@ import styles from './TrendsSearch.module.scss'
 
 const SAMPLES = [
   {
-    trend: 'corona OR coronavirus OR covid-19',
+    trend: 'corona OR coronavirus OR "covid-19"',
     options: ''
   },
   {
