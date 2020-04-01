@@ -141,14 +141,12 @@ const Canvas = ({
           isSidebarClosed
         ]}
       >
-        {options.isICOPriceActive && (
-          <IcoPrice
-            {...settings}
-            metrics={metrics}
-            className={styles.ico}
-            onEmptyResult={() => setIsICOPriceDisabled(true)}
-          />
-        )}
+        <IcoPrice
+          {...settings}
+          metrics={metrics}
+          className={styles.ico}
+          onResult={price => setIsICOPriceDisabled(!price)}
+        />
         <LastDayPrice settings={settings} metrics={metrics} />
         <Signals {...settings} metrics={metrics} />
       </Chart>

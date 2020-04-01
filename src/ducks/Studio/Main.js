@@ -18,7 +18,7 @@ const Main = ({ topSlot, bottomSlot, eventsData, onSlugChange, ...props }) => {
     const { slug, name, ticker, id: projectId } = project
     const title = `${name} (${ticker})`
     setSettings(state => ({ ...state, slug, title, projectId, ticker }))
-    setIsICOPriceDisabled(false)
+    setIsICOPriceDisabled(true)
     onSlugChange(slug)
   }
 
