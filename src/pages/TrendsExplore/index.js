@@ -4,8 +4,9 @@ import { connect } from 'react-redux'
 import { compose, withProps } from 'recompose'
 import cx from 'classnames'
 import SocialTool from '../SocialTool'
-import TrendsExploreSearch from '../../components/Trends/Explore/TrendsExploreSearch'
 import * as actions from '../../components/Trends/actions'
+import TrendsExploreSearch from '../../components/Trends/Explore/TrendsExploreSearch'
+import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import withDetectionAsset from '../../components/Trends/withDetectionAsset'
 import Trends from '../../components/Trends/Trends'
 import WordCloud from './../../components/WordCloud/WordCloud'
@@ -45,12 +46,29 @@ const TrendsExplore = ({
       <div className={styles.layout}>
         <div className={styles.main}>
           <div className={styles.search}>
-            {isDesktop && (
+            {isDesktop ? (
               <TrendsExploreSearch
                 topic={topic}
                 isDesktop={isDesktop}
                 history={history}
+                className={styles.search}
               />
+            ) : (
+              <MobileHeader
+                goBack={history.goBack}
+                backRoute={'/'}
+                classes={{
+                  wrapper: styles.wrapperHeader,
+                  searchBtn: styles.fullSearchBtn
+                }}
+                title=''
+              >
+                <TrendsExploreSearch
+                  className={styles.search}
+                  topic={topic}
+                  isDesktop={isDesktop}
+                />
+              </MobileHeader>
             )}
           </div>
           <SocialTool
@@ -59,7 +77,7 @@ const TrendsExplore = ({
           />
         </div>
         <div className={styles.sidebar}>
-          <WordCloud className={styles.cloud} word={topic} />
+          <WordCloud className={styles.cloud} hideWord word={topic} />
           <Trends className={styles.trends} isCompactView />
         </div>
       </div>

@@ -69,6 +69,14 @@
   @include responsive('phone-xs', 'phone') {
     width: 100%;
   }
+
+  & form {
+    min-width: 400px;
+
+    @include responsive('phone-xs', 'phone') {
+      min-width: auto;
+    }
+  }
 }
 
 .trends {
@@ -87,4 +95,18 @@
   @include responsive('tablet') {
     height: auto !important;
   }
+}
+
+.wrapperHeader {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 6px;
+  width: 100%;
+  flex: 1 1;
+  margin-bottom: 20px;
+}
+
+.fullSearchBtn {
+  display: none;
 }

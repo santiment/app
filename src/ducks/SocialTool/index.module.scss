@@ -1,5 +1,11 @@
 @import '~@santiment-network/ui/mixins';
 
+.wrapper {
+  @include responsive('phone-xs') {
+    display: none;
+  }
+}
+
 .canvas {
   background: var(--white);
   border: 1px solid var(--porcelain);
