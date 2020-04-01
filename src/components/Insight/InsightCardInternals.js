@@ -1,5 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
+import Icon from '@santiment-network/ui/Icon'
 import InsightTags from './InsightTags'
 import ProfileInfo, { InsightDate } from './ProfileInfo'
 import MultilineText from '../MultilineText/MultilineText'
@@ -35,6 +36,7 @@ const InsightCardInternals = ({
   isDesktop,
   showIcon = false,
   showDate = false,
+  isPaywallRequired,
   children
 }) => {
   const linkToInsight = makeLinkToInsight(id, title)
@@ -96,6 +98,7 @@ const InsightCardInternals = ({
           <div className={styles.tags}>
             <InsightTags tags={tags} isDesktop={isDesktop} />
           </div>
+          {isPaywallRequired && <Icon type='crown' className={styles.crown} />}
         </div>
       </div>
     </div>
