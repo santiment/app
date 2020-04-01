@@ -6,7 +6,6 @@ import { useTimeseries } from '../Studio/timeseries/hooks'
 import { updateHistory, parseUrl, generateShareLink } from '../Studio/url'
 import SocialToolChart from './Chart'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
-import { buildMetric } from './utils'
 import styles from './index.module.scss'
 
 const SocialTool = ({
@@ -21,17 +20,26 @@ const SocialTool = ({
   const [options, setOptions] = useState(defaultOptions)
   const [metrics, setMetrics] = useState(defaultMetrics)
   const [MetricSettingMap, setMetricSettingMap] = useState()
-
-  const [activeMetrics, setActiveMetrics] = useState(
-    metrics.map(metric => buildMetric({ metric, ...defaultSettings }))
-  )
-  const [data, loadings] = useTimeseries(
-    activeMetrics,
-    settings,
-    MetricSettingMap
-  )
+  const [priceAsset, setPriceAsset] = useState()
+  const [data, loadings] = useTimeseries(metrics, settings, MetricSettingMap)
   const [shareLink, setShareLink] = useState('')
   const chartRef = useRef(null)
+
+  useEffect(
+    () => {
+      if (priceAsset) {
+        const newPriceMetric = { ...Metric.price_usd, label: priceAsset.label }
+        const newMetricSettingMap = new Map(MetricSettingMap)
+
+        newMetricSettingMap.set(newPriceMetric, { slug: priceAsset.slug })
+        metrics[1] = newPriceMetric
+
+        setMetrics([...metrics])
+        setMetricSettingMap(newMetricSettingMap)
+      }
+    },
+    [priceAsset]
+  )
 
   useEffect(
     () => {
@@ -48,23 +56,12 @@ const SocialTool = ({
 
   useEffect(
     () => {
-      const updatedMetrics = metrics.map(metric =>
-        buildMetric({ metric, ...settings, detectedAsset })
-      )
-
-      setActiveMetrics(updatedMetrics)
-    },
-    [metrics, settings.asset, settings.text, detectedAsset]
-  )
-
-  useEffect(
-    () => {
-      const { text } = defaultSettings
-      if (text && text !== settings.text) {
-        setSettings(state => ({ ...state, text }))
+      const { slug } = defaultSettings
+      if (slug && slug !== settings.slug) {
+        setSettings(state => ({ ...state, slug }))
       }
     },
-    [defaultSettings.text]
+    [defaultSettings.slug]
   )
 
   useEffect(
@@ -72,7 +69,7 @@ const SocialTool = ({
       const metricSet = new Set(metrics)
       const metric = Metric.social_dominance_total
 
-      if (options.withDominance) {
+      if (options.isSocialDominanceActive) {
         metricSet.add(metric)
       } else {
         metricSet.delete(metric)
@@ -80,7 +77,7 @@ const SocialTool = ({
 
       setMetrics([...metricSet])
     },
-    [options.withDominance]
+    [options.isSocialDominanceActive]
   )
 
   useEffect(
@@ -104,12 +101,14 @@ const SocialTool = ({
           chartRef={chartRef}
           options={options}
           settings={settings}
-          setOptions={setOptions}
-          setSettings={setSettings}
           shareLink={shareLink}
-          activeMetrics={activeMetrics}
+          activeMetrics={metrics}
+          priceAsset={priceAsset}
           data={data}
           loadings={loadings}
+          setOptions={setOptions}
+          setSettings={setSettings}
+          setPriceAsset={setPriceAsset}
         />
       </div>
     </div>

@@ -10,10 +10,10 @@ const dropdownClasses = {
 
 const SEPARATOR = ' / '
 
-export const Assets = [['BTC', 'bitcoin'], ['ETH', 'ethereum']]
+export const TICKER_SLUG_PAIRS = [['BTC', 'bitcoin'], ['ETH', 'ethereum']]
 
 const getPriceOptions = assets => {
-  const options = new Map(Assets)
+  const options = new Map(TICKER_SLUG_PAIRS)
 
   assets.map(([ticker, slug]) => options.set(ticker, slug))
 
@@ -23,13 +23,24 @@ const getPriceOptions = assets => {
 const getLabels = options =>
   options.map(([ticker]) => `${ticker}${SEPARATOR}USD`)
 
-const PricePairsDropdown = ({ detectedAsset, settings, setSettings }) => {
+const PricePairsDropdown = ({
+  detectedAsset,
+  settings,
+  setSettings,
+  setPriceAsset,
+  priceAsset
+}) => {
   const { ticker, asset: slug } = settings
-
   const defaultPriceOptions = getPriceOptions([[ticker, slug]])
 
   const [priceOptions, setPriceOptions] = useState(defaultPriceOptions)
   const [selectedTicker, setSelectedTicker] = useState(ticker)
+
+  const labels = getLabels([...priceOptions])
+
+  if (!priceAsset) {
+    setPriceAsset({ slug, label: `${ticker}${SEPARATOR}USD` })
+  }
 
   useEffect(
     () => {
@@ -45,15 +56,15 @@ const PricePairsDropdown = ({ detectedAsset, settings, setSettings }) => {
     [detectedAsset]
   )
 
-  const onChangePriceOption = selectedPair => {
+  function onChangePriceOption (selectedPair) {
     const ticker = selectedPair.split(SEPARATOR)[0]
     const slug = priceOptions.get(ticker)
 
     setSelectedTicker(ticker)
+    setPriceAsset({ slug, label: `${ticker}${SEPARATOR}USD` })
     setSettings(state => ({ ...state, asset: slug, ticker }))
   }
 
-  const labels = getLabels([...priceOptions])
   return (
     <Dropdown
       selected={`${selectedTicker}${SEPARATOR}USD`}

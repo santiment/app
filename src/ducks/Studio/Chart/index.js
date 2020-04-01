@@ -67,8 +67,8 @@ const Canvas = ({
     setIsExplained(false)
   }
 
-  function onMetricHover (Metric) {
-    setFocusedMetric(Metric)
+  function onMetricHover (metric) {
+    setFocusedMetric(metric)
   }
 
   function onMetricHoverEnd () {

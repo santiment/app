@@ -58,7 +58,7 @@ const TrendsExplore = ({
             )}
           </div>
           <SocialTool
-            settings={{ text: topic }}
+            settings={{ slug: detectedAsset ? detectedAsset.slug : topic }}
             detectedAsset={detectedAsset}
           />
         </div>

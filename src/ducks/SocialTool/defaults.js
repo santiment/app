@@ -18,7 +18,7 @@ export const DEFAULT_SETTINGS = {
 export const DEFAULT_OPTIONS = {
   showMulti: false,
   timeRanges: ['1W', '1M', '3M', '6M', '1Y'],
-  withDominance: getSavedToggle('withDominance', true),
+  isSocialDominanceActive: getSavedToggle('isSocialDominanceActive'),
   isCartesianGridActive: getSavedToggle('isCartesianGridActive', true)
 }
 
