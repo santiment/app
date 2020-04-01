@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import Chart from '../../Chart'
 import { useChartColors } from '../../Chart/colors'
-import Synchronizer from '../../Chart/Synchronizer'
+import { metricsToPlotCategories } from '../../Chart/Synchronizer'
 import PaywallInfo from '../../Studio/Chart/PaywallInfo'
 import ChartActiveMetrics from '../../Studio/Chart/ActiveMetrics'
 import SocialDominanceToggle from './SocialDominanceToggle'
@@ -74,8 +74,17 @@ const Canvas = ({
   )
 }
 
-export default ({ options, activeMetrics, ...rest }) => (
-  <Synchronizer {...options} metrics={activeMetrics} useFirstMetricTooltip>
-    <Canvas options={options} activeMetrics={activeMetrics} {...rest} />
-  </Synchronizer>
-)
+export default ({ options, activeMetrics, ...rest }) => {
+  const categories = metricsToPlotCategories(activeMetrics)
+  console.log(categories)
+  return (
+    <Canvas
+      tooltipKey='social_volume_total'
+      options={options}
+      activeMetrics={activeMetrics}
+      metrics={activeMetrics}
+      {...categories}
+      {...rest}
+    />
+  )
+}
