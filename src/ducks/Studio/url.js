@@ -14,7 +14,7 @@ const toArray = keys => (typeof keys === 'string' ? [keys] : keys)
 const convertKeyToMetric = (key, dict) =>
   dict[key] || CompatibleMetric[key] || searchFromSubmetrics(key)
 
-const reduceStateKeys = (State, Data) =>
+export const reduceStateKeys = (State, Data) =>
   Object.keys(State).reduce((acc, key) => {
     const value = Data[key]
     if (value) {
@@ -89,8 +89,8 @@ function parseSharedComparables (comparables) {
 export function generateShareLink (
   settings,
   options,
-  metrics,
-  events,
+  metrics = [],
+  events = [],
   comparables = []
 ) {
   const Shareable = {
@@ -108,12 +108,15 @@ export function generateShareLink (
   })
 }
 
-export function parseUrl () {
+export function parseUrl (
+  settings = DEFAULT_SETTINGS,
+  options = DEFAULT_OPTIONS
+) {
   const data = parse(window.location.search, { arrayFormat: 'comma' })
 
   return {
-    settings: reduceStateKeys(DEFAULT_SETTINGS, data),
-    options: reduceStateKeys(DEFAULT_OPTIONS, data),
+    settings: reduceStateKeys(settings, data),
+    options: reduceStateKeys(options, data),
     metrics: sanitize(convertKeysToMetrics(data.metrics, Metric)),
     events: sanitize(convertKeysToMetrics(data.events, Event)),
     comparables: sanitize(parseSharedComparables(data.comparables))

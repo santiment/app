@@ -13,36 +13,3 @@ export const normalizeTopic = topic => {
   }
   return topic
 }
-
-export const sourcesMeta = {
-  total: {
-    index: 'total',
-    name: 'Total Mentions',
-    color: 'jungle-green',
-    value: 0
-  },
-  telegram: {
-    index: 'telegram',
-    name: 'Telegram',
-    color: 'dodger-blue',
-    value: 0
-  },
-  reddit: {
-    index: 'reddit',
-    name: 'Reddit',
-    color: 'persimmon',
-    value: 0
-  },
-  professional_traders_chat: {
-    index: 'professional_traders_chat',
-    name: 'Professional Traders Chat',
-    color: 'texas-rose',
-    value: 0
-  },
-  discord: {
-    index: 'discord',
-    name: 'Discord',
-    color: 'heliotrope',
-    value: 0
-  }
-}

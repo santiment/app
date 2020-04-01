@@ -5,16 +5,16 @@
 }
 
 .btn {
-  background: var(--texas-rose-light);
+  border: 1px solid var(--texas-rose);
   color: var(--texas-rose);
   fill: var(--texas-rose);
   margin-left: 8px;
   white-space: nowrap;
 
   &:hover {
-    background: var(--texas-rose-light-2);
-    color: var(--texas-rose);
-    fill: var(--texas-rose);
+    border: 1px solid var(--texas-rose-hover);
+    color: var(--texas-rose-hover);
+    fill: var(--texas-rose-hover);
   }
 }
 

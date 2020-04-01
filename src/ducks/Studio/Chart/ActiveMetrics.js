@@ -55,7 +55,7 @@ export default ({
   className,
   MetricColor,
   activeMetrics,
-  activeEvents,
+  activeEvents = [],
   loadings,
   toggleMetric,
   eventLoadings,
@@ -74,7 +74,7 @@ export default ({
           metric={metric}
           colors={MetricColor}
           isLoading={loadings.includes(metric)}
-          isRemovable={isMoreThanOneMetric}
+          isRemovable={isMoreThanOneMetric && toggleMetric}
           toggleMetric={toggleMetric}
           onMouseEnter={onMetricHover && (() => onMetricHover(metric))}
           onMouseLeave={onMetricHoverEnd && (() => onMetricHoverEnd(metric))}

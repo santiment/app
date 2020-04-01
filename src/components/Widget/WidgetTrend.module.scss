@@ -1,5 +1,4 @@
-@import '~@santiment-network/ui/variables.scss';
-@import '~@santiment-network/ui/mixins.scss';
+@import '~@santiment-network/ui/mixins';
 
 .wrapper {
   box-sizing: border-box;
@@ -42,7 +41,7 @@
 }
 
 .content {
-  padding: 14px 24px 6px 0;
+  padding: 14px 10px 6px;
   flex: 1;
   position: relative;
 }
@@ -50,4 +49,6 @@
 .word {
   color: var(--rhino);
   margin-right: 5px;
+
+  @include text('body-3', 'medium');
 }

@@ -1,21 +1,14 @@
 @import '~@santiment-network/ui/mixins.scss';
 
 .toggle {
-  margin-right: 8px;
-
-  &.active rect {
-    fill: var(--texas-rose-hover) !important;
-
-    &:hover {
-      fill: var(--texas-rose-hover) !important;
-    }
-  }
+  margin: 0 8px 0 16px;
 }
 
 .button {
   padding: 0;
   height: auto;
   cursor: pointer;
+  white-space: nowrap;
   color: var(--rhino) !important;
   margin-left: auto;
   margin-right: 8px;
@@ -24,8 +17,4 @@
 .wrapper {
   display: flex;
   align-items: center;
-}
-
-.tooltip {
-  padding: 4px;
 }

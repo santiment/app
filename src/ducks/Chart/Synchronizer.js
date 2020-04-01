@@ -7,7 +7,7 @@ import { Metric } from '../dataHub/metrics'
 
 const cache = new Map()
 
-function metricsToPlotCategories (metrics) {
+export function metricsToPlotCategories (metrics) {
   const requestedData = {
     lines: [],
     daybars: [],
