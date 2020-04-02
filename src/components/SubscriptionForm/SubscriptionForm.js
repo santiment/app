@@ -42,7 +42,11 @@ class SubscriptionForm extends PureComponent {
 
     this.setState({ waiting: true })
 
-    const { emailLogin } = this.props
+    const { emailLogin, hideCheckbox } = this.props
+
+    if (hideCheckbox) {
+      this.toggle(true)
+    }
 
     emailLogin({ variables: { email } })
       .then(() => {
@@ -74,12 +78,16 @@ class SubscriptionForm extends PureComponent {
       })
   }
 
-  onSelect = (_, { selectedIndexes: { length } }) => {
-    if (!length) {
+  toggle = enable => {
+    if (!enable) {
       localStorage.removeItem(SUBSCRIPTION_FLAG)
     } else {
       localStorage.setItem(SUBSCRIPTION_FLAG, '+')
     }
+  }
+
+  onSelect = (_, { selectedIndexes: { length } }) => {
+    this.toggle(length)
     this.setState({ hasSubscribed: !!length })
   }
 
@@ -107,7 +115,8 @@ class SubscriptionForm extends PureComponent {
       icon,
       iconPosition,
       classes = {},
-      subscriptionLabel
+      subscriptionLabel,
+      subscribeBtnLabel = 'Get started'
     } = this.props
 
     const label = subscriptionLabel || SUBSCRIPTION_LABEL
@@ -157,7 +166,7 @@ class SubscriptionForm extends PureComponent {
             disabled={waiting}
             type='submit'
           >
-            {waiting ? 'Waiting...' : 'Get started'}
+            {waiting ? 'Waiting...' : subscribeBtnLabel}
           </Button>
           <Panel padding className={styles.subscription__error}>
             <Label accent='persimmon'>{error}</Label>

@@ -127,4 +127,12 @@
   @include text('body-3', 'm');
 
   color: var(--waterloo);
+  margin-top: 32px;
+}
+
+.subcriptionTitle {
+  @include text('body-3', 'm');
+
+  color: var(--waterloo);
+  margin-bottom: 12px;
 }

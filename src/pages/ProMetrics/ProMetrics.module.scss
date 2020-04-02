@@ -161,6 +161,10 @@
   width: 100%;
   margin: auto;
   top: 40px;
+
+  @include responsive('phone', 'phone-xs') {
+    top: 16px;
+  }
 }
 
 .askTitle {
@@ -234,7 +238,7 @@
   align-items: flex-start !important;
 
   @include responsive('phone', 'phone-xs') {
-    width: 100%;
+    width: 100% !important;
     padding: 0 16px;
   }
 }

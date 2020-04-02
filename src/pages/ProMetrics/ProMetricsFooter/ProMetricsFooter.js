@@ -2,6 +2,8 @@ import React from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import styles from './ProMetricsFooter.module.scss'
+import SubscriptionForm from '../../../components/SubscriptionForm/SubscriptionForm'
+import { InputWithIcon } from '@santiment-network/ui/Input'
 
 const LEFT_LINKS = [
   {
@@ -158,6 +160,16 @@ const ProMetricsFooter = () => {
           </div>
         </div>
         <div className={styles.rightLinks}>
+          <div className={styles.subcriptionTitle}>
+            Subscribe to the weekly Digest!
+          </div>
+          <SubscriptionForm
+            classes={styles}
+            hideCheckbox
+            subscribeBtnLabel='Subscribe'
+            subscriptionLabel='Send me weekly updates from crypto market'
+          />
+
           <div className={styles.socialMediaTitle}>
             Santiment on social media
           </div>
