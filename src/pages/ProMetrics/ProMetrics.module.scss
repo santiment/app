@@ -129,10 +129,6 @@
   color: var(--waterloo);
 }
 
-.oneOf {
-  margin-top: 64px;
-}
-
 .highline {
   color: $fiord;
   font-weight: 600;
@@ -205,6 +201,10 @@
 
 .signSvg {
   margin-bottom: 57px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-bottom: 32px;
+  }
 }
 
 .form {

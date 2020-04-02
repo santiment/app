@@ -42,10 +42,11 @@ export const PATHS = {
   LOGIN: '/login',
   LOGIN_VIA_EMAIL: '/login/email',
   CREATE_ACCOUNT: '/sign-up',
-  GDPR: '/gdpr'
+  GDPR: '/gdpr',
+  PRO_METRICS: '/pro-metrics'
 }
 
-const FOOTER_DISABLED_FOR = [PATHS.FEED]
+const FOOTER_DISABLED_FOR = [PATHS.FEED, PATHS.PRO_METRICS]
 const FOOTER_ABSOLUTE_FOR = [
   PATHS.LOGIN,
   PATHS.LOGIN_VIA_EMAIL,
@@ -427,7 +428,7 @@ export const App = ({
           )}
         />
         <Route
-          path='/pro-metrics'
+          path={PATHS.PRO_METRICS}
           render={props => (
             <LoadableProMetricsPage isLoggedIn={isLoggedIn} {...props} />
           )}

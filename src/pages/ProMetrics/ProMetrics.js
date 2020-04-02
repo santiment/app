@@ -11,6 +11,7 @@ import { FIRST_METRICS_GROUP } from './utils.js'
 import upgradeSvg from './../../assets/pro-metrics/upgrade.svg'
 import signSvg from './../../assets/pro-metrics/sign-bg.svg'
 import styles from './ProMetrics.module.scss'
+import ProMetricsFooter from './ProMetricsFooter/ProMetricsFooter'
 
 const ProMetrics = ({ history, isLoggedIn }) => {
   return (
@@ -35,31 +36,18 @@ const ProMetrics = ({ history, isLoggedIn }) => {
             </div>
 
             <div className={styles.description}>
-              As most of you know, Sanbase is a free to use platform to do
-              research and study on-chain and behavioral analytics on the crypto
-              markets.
+              Next to many other perks, Sanbase Pro subscribers get access to
+              exclusive templates, dynamic reports and market-beating indices
+              developed by the Santiment team.
             </div>
 
             <div className={styles.description}>
-              However, there is a paid version, known as “Pro”, that unlocks
-              many doors and models that our free users are unable to access.
-              Take a look at the{' '}
-              <span className={styles.highline}>
-                list of perks we offer to our Pro subscribers
-              </span>
-              , and see all of the benefits that come with being an insider on
-              our platform!
+              New templates and indices are added monthly.
             </div>
 
             <UpgradeBtn loginRequired={false} className={styles.upgradeBtn}>
               Upgrade
             </UpgradeBtn>
-
-            <div className={cx(styles.description, styles.oneOf)}>
-              One of these perks is access to our Sansheets plugin and the
-              various templates we have built with it. This article will give
-              you an overview of these templates.
-            </div>
           </div>
 
           {FIRST_METRICS_GROUP.map((metric, index) => {
@@ -140,6 +128,8 @@ const ProMetrics = ({ history, isLoggedIn }) => {
           </div>
         </div>
       )}
+
+      <ProMetricsFooter />
     </div>
   )
 }
