@@ -186,6 +186,7 @@
 
 .sign {
   color: var(--white);
+  margin-bottom: 22px;
 }
 
 .bg {
@@ -207,78 +208,64 @@
   }
 }
 
-.form {
-  position: relative;
-}
-
-.emailInput {
-  margin-top: 22px;
-  min-width: 420px;
-  height: 48px;
-  background-color: var(--jungle-green);
-
-  input {
-    height: 48px;
-  }
-
-  svg {
-    padding: 18px 8px 14px 16px;
-
-    @include responsive('phone', 'phone-xs') {
-      left: 12px !important;
-    }
-  }
-
-  @include responsive('phone', 'phone-xs') {
-    padding: 0 16px;
-    position: relative;
-    min-width: 100%;
-  }
-}
-
 .arrowRight {
   fill: var(--white);
   margin-left: 5px;
 }
 
-.loginBtn {
-  color: var(--white);
-  background-color: var(--rhino);
-  width: 122px;
-  margin-top: 0;
-  position: absolute;
-  right: 6px;
-  top: 28px;
-  height: 36px;
+.emailInput {
+  height: 40px;
+  padding: 0 !important;
+  border: none !important;
 
-  @include text('body-3');
-
-  @include responsive('phone', 'phone-xs') {
-    width: 126px;
-    right: 22px;
+  input {
+    height: 40px;
+    padding-right: 235px !important;
+    padding-left: 40px !important;
   }
 }
 
-.emailSuccess {
-  color: var(--white);
-  padding: 0;
+.getStartedBtn {
+  background-color: var(--rhino);
 }
 
-.emailSuccessTitle {
-  color: var(--white);
-  margin-top: 16px;
+.form {
+  width: 450px !important;
+  align-items: flex-start !important;
 
-  @include text('h4', 'm');
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+    padding: 0 16px;
+  }
 }
 
-.emailSuccessSubTitle {
-  color: var(--white);
-  text-align: center;
-  max-width: 420px;
-  margin-top: 16px;
+.subscriptionCheckbox {
+  @include text('caption');
+
+  cursor: pointer;
+  margin-top: 17px !important;
 }
 
-.emailCheck {
-  color: var(--white);
-  font-weight: bold;
+.subscriptionLabel {
+  @include text('caption');
+
+  color: var(--white) !important;
+  margin-left: 8px;
+}
+
+.selectedCheckbox {
+  svg {
+    fill: var(--mystic);
+    display: block;
+  }
+
+  div {
+    background: var(--white);
+    border-color: var(--white);
+
+    &:hover {
+      background: var(--athens);
+      border-color: var(--athens);
+    }
+  }
 }

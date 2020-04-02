@@ -101,41 +101,59 @@ class SubscriptionForm extends PureComponent {
 
   render () {
     const { error, waiting, email } = this.state
-    const { hideCheckbox } = this.props
+    const {
+      hideCheckbox,
+      inputEl: ElInput = Input,
+      icon,
+      iconPosition,
+      classes = {},
+      subscriptionLabel
+    } = this.props
+
+    const label = subscriptionLabel || SUBSCRIPTION_LABEL
 
     return (
       <>
         <form
           className={cx(
             styles.subscription__form,
-            error && styles.subscription__form_error
+            error && styles.subscription__form_error,
+            classes.form
           )}
           onSubmit={this.onSubmit}
         >
-          <Input
-            className={styles.subscription__input}
+          <ElInput
+            className={cx(styles.subscription__input, classes.emailInput)}
             placeholder='Enter your email'
+            type='email'
             disabled={waiting}
             onChange={this.onEmailChangeDebounced}
             isError={error}
+            icon={icon}
+            iconPosition={iconPosition}
           />
           {!hideCheckbox && (
             <Checkboxes
-              className={styles.subscription__checkbox}
-              options={[SUBSCRIPTION_LABEL]}
+              className={cx(
+                styles.subscription__checkbox,
+                classes.subscriptionCheckbox
+              )}
+              selectedClassName={classes.selectedCheckbox}
+              options={[label]}
               labelOnRight
-              labelClassName={styles.subscription__label}
-              defaultSelectedIndexes={[SUBSCRIPTION_LABEL]}
-              disabledIndexes={
-                waiting || !email ? [SUBSCRIPTION_LABEL] : undefined
-              }
+              labelClassName={cx(
+                styles.subscription__label,
+                classes.subscriptionLabel
+              )}
+              defaultSelectedIndexes={[label]}
+              disabledIndexes={waiting || !email ? [label] : undefined}
               onSelect={this.onSelect}
             />
           )}
           <Button
             variant='fill'
             accent='positive'
-            className={styles.subscription__btn}
+            className={cx(styles.subscription__btn, classes.getStartedBtn)}
             disabled={waiting}
             type='submit'
           >

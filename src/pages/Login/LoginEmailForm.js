@@ -26,7 +26,6 @@ export const EmailForm = ({
   loading,
   loginEmail,
   setEmail,
-  classes = {},
   placeholder = 'Your email',
   label = 'Continue'
 }) => {
@@ -49,7 +48,7 @@ export const EmailForm = ({
     >
       {({ validateForm }) => {
         return (
-          <Form className={cx(styles.email__form, classes.form)}>
+          <Form className={styles.email__form}>
             <FormikEffect
               onChange={(current, prev) => {
                 let { values: newValues } = current
@@ -68,13 +67,13 @@ export const EmailForm = ({
               placeholder={placeholder}
               name='email'
               type='email'
-              className={cx(styles.emailInput, classes.emailInput)}
+              className={styles.emailInput}
             />
 
             <Button
               variant='fill'
               accent='positive'
-              className={cx(styles.email__btn, classes.loginBtn)}
+              className={styles.email__btn}
               type='submit'
               isLoading={loading}
             >
@@ -87,42 +86,16 @@ export const EmailForm = ({
   )
 }
 
-const SuccessState = ({
-  email,
-  isDesktop,
-  history,
-  classes = {},
-  showBack = true
-}) => {
+const SuccessState = ({ email, isDesktop, history, showBack = true }) => {
   const child = (
-    <div
-      className={cx(
-        styles.loginViaEmail,
-        styles.emailSuccess,
-        classes.emailSuccess
-      )}
-    >
-      <h2
-        className={cx(
-          styles.title,
-          styles.email__title,
-          classes.emailSuccessTitle
-        )}
-      >
+    <div className={cx(styles.loginViaEmail, styles.emailSuccess)}>
+      <h2 className={cx(styles.title, styles.email__title)}>
         Email Confirmation
       </h2>
-      <h3
-        className={cx(
-          styles.email__subtitle,
-          styles.email__subtitleSuccess,
-          classes.emailSuccessSubTitle
-        )}
-      >
+      <h3 className={cx(styles.email__subtitle, styles.email__subtitleSuccess)}>
         We just sent an email to{' '}
-        <span className={cx(styles.emailCheck, classes.emailCheck)}>
-          {email}
-        </span>
-        . Please check your inbox and click on the confirmation link.
+        <span className={styles.emailCheck}>{email}</span>. Please check your
+        inbox and click on the confirmation link.
       </h3>
 
       {showBack && (
@@ -185,7 +158,6 @@ const PrepareState = ({
 const LoginEmailForm = ({
   isDesktop,
   history,
-  classes = {},
   prepareState: PrepareStateEl = PrepareState,
   showBack = true
 }) => {
@@ -202,7 +174,6 @@ const LoginEmailForm = ({
             email={email}
             isDesktop={isDesktop}
             history={history}
-            classes={classes}
             showBack={showBack}
           />
         ) : (

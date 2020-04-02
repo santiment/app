@@ -6,12 +6,13 @@ import ProMetric from './ProMetric/ProMetric'
 import { SECOND_METRICS_GROUP, THIRD_METRICS_GROUP } from './utils'
 import { MobileOnly } from '../../components/Responsive'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
-import LoginEmailForm, { EmailForm } from '../Login/LoginEmailForm'
 import { FIRST_METRICS_GROUP } from './utils.js'
 import upgradeSvg from './../../assets/pro-metrics/upgrade.svg'
 import signSvg from './../../assets/pro-metrics/sign-bg.svg'
 import styles from './ProMetrics.module.scss'
 import ProMetricsFooter from './ProMetricsFooter/ProMetricsFooter'
+import SubscriptionForm from '../../components/SubscriptionForm/SubscriptionForm'
+import { InputWithIcon } from '@santiment-network/ui/Input'
 
 const ProMetrics = ({ history, isLoggedIn }) => {
   return (
@@ -119,11 +120,16 @@ const ProMetrics = ({ history, isLoggedIn }) => {
           }}
         >
           <div className={styles.askBlock}>
-            <LoginEmailForm
-              prepareState={PrepareState}
-              history={history}
+            <div className={cx(styles.askTitle, styles.sign)}>
+              Don’t have an account? Sign up now!
+            </div>
+
+            <SubscriptionForm
               classes={styles}
-              showBack={false}
+              inputEl={InputWithIcon}
+              icon='mail'
+              iconPosition='left'
+              subscriptionLabel='Send me weekly updates from crypto market'
             />
           </div>
         </div>
@@ -131,31 +137,6 @@ const ProMetrics = ({ history, isLoggedIn }) => {
 
       <ProMetricsFooter />
     </div>
-  )
-}
-
-const PrepareState = props => {
-  const { loading, loginEmail, setEmail } = props
-
-  return (
-    <>
-      <div className={cx(styles.askTitle, styles.sign)}>
-        Don’t have an account? Sign up now!
-      </div>
-      <EmailForm
-        loading={loading}
-        loginEmail={loginEmail}
-        setEmail={setEmail}
-        classes={styles}
-        placeholder='Enter your email'
-        label={
-          <>
-            Get started{' '}
-            <Icon type='pointer-right' className={styles.arrowRight} />
-          </>
-        }
-      />
-    </>
   )
 }
 
