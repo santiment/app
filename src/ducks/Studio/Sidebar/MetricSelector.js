@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
+import { TOP_HOLDERS_PANE } from '../Chart/Sidepane/panes'
 import MetricExplanation from '../../SANCharts/MetricExplanation'
 import { Metric } from '../../dataHub/metrics'
 import { NO_GROUP } from '../../Signals/signalFormManager/signalCrudForm/formParts/metricTypes/MetricsList'
@@ -117,7 +118,14 @@ const Group = ({
   )
 }
 
-const Category = ({ title, groups, ...rest }) => {
+const Category = ({
+  title,
+  groups,
+  chartSidepane,
+  hasTopHolders,
+  toggleChartSidepane,
+  ...rest
+}) => {
   const [hidden, setHidden] = useState(false)
 
   function onToggleClick () {
@@ -135,6 +143,14 @@ const Category = ({ title, groups, ...rest }) => {
         />
       </h3>
       <div className={styles.metrics}>
+        {/* TODO: Find a better way to extend metrics categories with custom metrics [@vanguard | April 3, 2020] */}
+        {hasTopHolders && (
+          <MetricButton
+            label='Top Holders'
+            isActive={chartSidepane === TOP_HOLDERS_PANE}
+            onClick={() => toggleChartSidepane(TOP_HOLDERS_PANE)}
+          />
+        )}
         {Object.keys(groups).map(group => (
           <Group key={group} title={group} metrics={groups[group]} {...rest} />
         ))}
@@ -148,10 +164,21 @@ const MetricSelector = ({
   categories = {},
   activeMetrics,
   activeEvents,
+  availableMetrics,
   ...rest
 }) => {
+  const [hasTopHolders, setHasTopHolders] = useState()
   const { options, setOptions } = rest
   const actives = activeMetrics.concat(activeEvents)
+
+  useEffect(
+    () => {
+      setHasTopHolders(
+        availableMetrics.includes('holders_distribution_0_to_0.001')
+      )
+    },
+    [availableMetrics]
+  )
 
   useEffect(
     () => {
@@ -178,6 +205,7 @@ const MetricSelector = ({
           groups={categories[key]}
           actives={actives}
           toggleICOPrice={toggleICOPrice}
+          hasTopHolders={key === 'On-chain' && hasTopHolders}
           {...rest}
         />
       ))}

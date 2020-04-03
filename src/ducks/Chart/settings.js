@@ -1,4 +1,4 @@
-export const CHART_HEIGHT = 400
+export const CHART_HEIGHT = 430
 export const BRUSH_HEIGHT = 40
 
 export const CHART_PADDING = {

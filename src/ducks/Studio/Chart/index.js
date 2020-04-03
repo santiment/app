@@ -6,11 +6,13 @@ import { linearScale, logScale } from '@santiment-network/chart/scales'
 import ChartPaywallInfo from './PaywallInfo'
 import ChartActiveMetrics from './ActiveMetrics'
 import ChartFullscreenBtn from './ChartFullscreenBtn'
-import ChartMetricsExplanation, {
-  filterExplainableMetrics
-} from './MetricsExplanation'
+import ChartSidepane from './Sidepane'
 import IcoPrice from './IcoPrice'
 import LastDayPrice from './LastDayPrice'
+import ChartMetricsExplanation, {
+  filterExplainableMetrics
+} from './Sidepane/MetricsExplanation'
+import { METRICS_EXPLANATION_PANE } from './Sidepane/panes'
 import Chart from '../../Chart'
 import Signals from '../../Chart/Signals'
 import Synchronizer from '../../Chart/Synchronizer'
@@ -30,7 +32,9 @@ const Canvas = ({
   activeEvents,
   boundaries,
   advancedView,
+  chartSidepane,
   toggleMetric,
+  toggleChartSidepane,
   changeHoveredDate,
   changeDatesRange,
   isMultiChartsActive,
@@ -40,7 +44,6 @@ const Canvas = ({
   setIsICOPriceDisabled,
   ...props
 }) => {
-  const [isExplained, setIsExplained] = useState()
   const [FocusedMetric, setFocusedMetric] = useState()
   const MetricColor = useChartColors(metrics, FocusedMetric)
 
@@ -50,22 +53,14 @@ const Canvas = ({
 
   useEffect(
     () => {
-      if (!hasExplanaibles) {
-        closeExplanation()
+      if (chartSidepane === METRICS_EXPLANATION_PANE && !hasExplanaibles) {
+        toggleChartSidepane()
       }
     },
     [hasExplanaibles]
   )
 
   useEffect(onMetricHoverEnd, [metrics])
-
-  function toggleExplanation () {
-    setIsExplained(state => !state)
-  }
-
-  function closeExplanation () {
-    setIsExplained(false)
-  }
 
   function onMetricHover (metric) {
     setFocusedMetric(metric)
@@ -79,7 +74,7 @@ const Canvas = ({
     <div
       className={cx(
         styles.wrapper,
-        isExplained && styles.wrapper_explained,
+        chartSidepane && styles.wrapper_explained,
         className
       )}
     >
@@ -104,7 +99,7 @@ const Canvas = ({
           {hasExplanaibles && (
             <ChartMetricsExplanation.Button
               className={styles.explain}
-              onClick={toggleExplanation}
+              onClick={toggleChartSidepane}
             />
           )}
           <ChartFullscreenBtn
@@ -137,7 +132,7 @@ const Canvas = ({
           MetricColor,
           isMultiChartsActive,
           advancedView,
-          isExplained,
+          chartSidepane,
           isSidebarClosed
         ]}
       >
@@ -160,13 +155,15 @@ const Canvas = ({
         </div>
       )}
 
-      {isExplained && (
+      {chartSidepane && (
         <div className={styles.explanation}>
-          <ChartMetricsExplanation
+          <ChartSidepane
             {...settings}
+            chartSidepane={chartSidepane}
             metrics={metrics}
             MetricColor={MetricColor}
-            onClose={closeExplanation}
+            toggleMetric={toggleMetric}
+            toggleChartSidepane={toggleChartSidepane}
           />
         </div>
       )}

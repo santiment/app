@@ -18,7 +18,7 @@ export const TooltipSetting = {
   }
 }
 
-function FORMATTER (value) {
+export function FORMATTER (value) {
   if (!value && typeof value !== 'number') {
     return 'No data'
   }
