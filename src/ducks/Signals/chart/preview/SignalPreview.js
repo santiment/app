@@ -63,8 +63,10 @@ const SignalPreviewChart = ({
 
   const metricsInterval = isStrongDaily ? '1d' : getAvailableCooldown(cooldown)
 
+  const { eth_address, address = eth_address } = target || {}
+
   const metricRest = {
-    address: target && target.address ? target.address : ''
+    address
   }
 
   const requestedMetrics = mapToRequestedMetrics(metrics, {
