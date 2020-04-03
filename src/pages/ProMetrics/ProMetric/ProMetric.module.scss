@@ -62,6 +62,8 @@
   margin-left: 103px;
   margin-right: 0;
   max-width: 100%;
+  background: var(--white);
+  box-sizing: border-box;
 
   @include responsive('tablet', 'laptop','phone', 'phone-xs') {
     margin: 24px 0 0 0 !important;
