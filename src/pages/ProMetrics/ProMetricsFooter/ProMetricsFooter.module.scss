@@ -3,8 +3,18 @@
 .container {
   display: flex;
   flex-direction: column;
-  max-width: 1170px;
   margin: auto;
+  background-color: var(--athens);
+}
+
+.wrapper {
+  margin: auto;
+  padding: 64px 0;
+  max-width: 1170px;
+
+  @include responsive('phone', 'phone-xs') {
+    padding: 56px 24px;
+  }
 }
 
 .top {
@@ -17,11 +27,40 @@
 }
 
 .leftLinks {
+  @include text('body-3');
+
+  color: var(--waterloo);
+  display: flex;
+  flex-direction: column;
+  margin-right: 74px;
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2');
+  }
+}
+
+.santimentTitle {
+  margin-top: 16px;
+  max-width: 124px;
+
+  @include responsive('phone', 'phone-xs') {
+    max-width: 216px;
+  }
+}
+
+.santimentLogo {
+  @include responsive('phone', 'phone-xs') {
+    width: 144px;
+    height: 27px;
+  }
+}
+
+.centerLinks {
   width: 720px;
 
   @include responsive('phone', 'phone-xs') {
     width: 100%;
-    padding: 0 16px;
+    margin-top: 41px;
   }
 }
 
@@ -35,24 +74,39 @@
 
   color: var(--waterloo);
   margin-bottom: 20px;
-  width: 240px;
+  width: 180px;
 
   &:hover {
     color: var(--jungle-green-hover);
   }
 
   @include responsive('phone', 'phone-xs') {
-    width: 150px;
+    width: 162px;
+
+    @include text('body-2');
   }
 }
 
 .mediaLinks {
   display: flex;
-  margin-top: 13px;
+}
+
+.socialTitle {
+  display: none;
+
+  @include responsive('phone', 'phone-xs') {
+    display: flex;
+    width: 100%;
+    margin-bottom: 16px;
+    color: var(--waterloo);
+
+    @include text('body-2', 'm');
+  }
 }
 
 .mediaLink {
-  margin-right: 16px;
+  margin-left: 16px;
+  margin-bottom: 0;
   border: 1px solid var(--porcelain);
   border-radius: $border-radius;
   display: flex;
@@ -60,6 +114,10 @@
   justify-content: center;
   width: 40px;
   height: 40px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 0 16px 0 0;
+  }
 
   .svg {
     fill: var(--rhino);
@@ -90,27 +148,52 @@
   display: flex;
   justify-content: space-between;
   padding-top: 24px;
-  margin: 20px 0 56px 0;
+  margin: 20px 0 0 0;
+  align-items: center;
 
   @include text('body-3');
 
   @include responsive('phone', 'phone-xs') {
-    padding: 25px 16px 0 16px;
     margin-bottom: 72px;
+    border: none;
+    flex-direction: column-reverse;
+
+    @include text('body-2');
   }
 }
 
 .bottomLink {
   color: var(--casper);
-  margin-right: 35px;
+  margin-left: 35px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 0 0 18px 0;
+    width: initial;
+  }
 }
 
 .bottomLeft {
   color: var(--casper);
 }
 
+.bottomCenter {
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+}
+
 .bottomRight {
   color: var(--casper);
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+    padding-bottom: 40px;
+    margin-bottom: 41px;
+    border-bottom: 1px solid var(--porcelain);
+  }
 }
 
 .rightLinks {
@@ -119,15 +202,8 @@
 
   @include responsive('phone', 'phone-xs') {
     width: 100%;
-    padding: 0 16px;
+    margin-top: 29px;
   }
-}
-
-.socialMediaTitle {
-  @include text('body-3', 'm');
-
-  color: var(--waterloo);
-  margin-top: 32px;
 }
 
 .subcriptionTitle {
@@ -135,4 +211,25 @@
 
   color: var(--waterloo);
   margin-bottom: 12px;
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2', 'm');
+  }
+}
+
+.downloadTitle {
+  @include text('body-3', 'm');
+
+  color: var(--waterloo);
+  margin: 24px 0 12px 0;
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2', 'm');
+
+    margin: 40px 0 16px 0;
+  }
+}
+
+.emailInput {
+  background-color: var(--athens);
 }

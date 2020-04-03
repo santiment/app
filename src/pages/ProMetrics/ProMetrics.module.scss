@@ -205,11 +205,7 @@
 }
 
 .signSvg {
-  margin-bottom: 57px;
-
-  @include responsive('phone', 'phone-xs') {
-    margin-bottom: 32px;
-  }
+  margin-bottom: 0 !important;
 }
 
 .arrowRight {
