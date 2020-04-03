@@ -18,7 +18,7 @@
 
 .secondStep {
   max-width: 1170px;
-  margin: 0 auto 116px auto;
+  margin: 0 auto;
 
   @include responsive('phone', 'phone-xs') {
     margin-bottom: 32px;
@@ -53,6 +53,7 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  margin-top: 60px;
 }
 
 .firstGroup {
@@ -78,7 +79,7 @@
 }
 
 .secondGroupSvg {
-  margin: 0 0 64px 0 !important;
+  margin: 0 0 39px 0 !important;
 
   @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
     margin: 24px 0 !important;
@@ -91,16 +92,23 @@
   align-items: center;
   justify-content: flex-end;
   max-width: 368px;
-  margin-top: 72px;
+  margin: 0 0 72px 0;
 
   @include responsive('phone', 'phone-xs') {
     max-width: 100%;
     margin-top: 16px !important;
+    margin-bottom: 24px;
+  }
+
+  @include responsive('tablet', 'laptop') {
+    padding: 0 16px;
+    margin-bottom: 24px;
+    justify-content: flex-start;
   }
 }
 
 .thirdGroupSvg {
-  margin: 0 0 64px 0 !important;
+  margin: 0 0 39px 0 !important;
   min-height: 231px;
 
   @include responsive('phone', 'phone-xs') {
@@ -159,7 +167,7 @@
   display: flex;
 
   @include responsive('phone', 'phone-xs') {
-    margin: 0 0 48px 0;
+    margin: 24px 0 48px 0;
   }
 }
 
@@ -171,7 +179,7 @@
   position: absolute;
   width: 100%;
   margin: auto;
-  top: 40px;
+  top: 32px;
 
   @include responsive('phone', 'phone-xs') {
     top: 42px;
@@ -217,7 +225,8 @@
 }
 
 .signSvg {
-  margin: 80px 0 0 0 !important;
+  height: 200px;
+  margin: 14px 0 0 0 !important;
 
   @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
     margin: 0;

@@ -6,7 +6,7 @@ import styles from './ProMetric.module.scss'
 
 const ProMetric = ({
   classes = {},
-  metric: { title, description, svg, isLeft }
+  metric: { title, description, svg, isImage, isLeft }
 }) => {
   return (
     <div
@@ -22,7 +22,7 @@ const ProMetric = ({
         <UpgradeToUser className={styles.upgrade} />
       </div>
       <div className={cx(styles.svg, classes.svg, isLeft && styles.svgLeft)}>
-        {svg}
+        {isImage ? <img src={svg} alt={title} /> : svg}
       </div>
     </div>
   )
