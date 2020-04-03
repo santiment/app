@@ -119,7 +119,7 @@ const ProMetrics = ({ history, isLoggedIn }) => {
             background: 'url(' + signSvg + ') repeat-x bottom'
           }}
         >
-          <div className={styles.askBlock}>
+          <div className={cx(styles.askBlock, styles.askAccount)}>
             <div className={cx(styles.askTitle, styles.sign)}>
               Don’t have an account? Sign up now!
             </div>

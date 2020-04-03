@@ -230,46 +230,53 @@ const ProMetricsFooter = () => {
           </div>
 
           <div className={styles.rightLinks}>
-            <div className={styles.subcriptionTitle}>
-              Subscribe to the weekly Digest!
+            <div className={styles.subscription}>
+              <div className={styles.subcriptionTitle}>
+                Subscribe to the weekly Digest!
+              </div>
+              <SubscriptionForm
+                classes={styles}
+                hideCheckbox
+                subscribeBtnLabel='Subscribe'
+                subscriptionLabel='Send me weekly updates from crypto market'
+              />
             </div>
-            <SubscriptionForm
-              classes={styles}
-              hideCheckbox
-              subscribeBtnLabel='Subscribe'
-              subscriptionLabel='Send me weekly updates from crypto market'
-            />
 
-            <div className={styles.downloadTitle}>Download Santiment app</div>
-            <a
-              href='https://play.google.com/store/apps/details?id=net.santiment.sanbase.android'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              <img src={downloadLinkSvg} alt='Google play' />
-            </a>
+            <div className={styles.appBlock}>
+              <div className={styles.downloadTitle}>Download Santiment app</div>
+              <a
+                href='https://play.google.com/store/apps/details?id=net.santiment.sanbase.android'
+                target='_blank'
+                rel='noopener noreferrer'
+                className={styles.downloadLink}
+              >
+                <img src={downloadLinkSvg} alt='Google play' />
+              </a>
+            </div>
           </div>
         </div>
 
         <div className={styles.bottom}>
-          <div className={styles.bottomLeft}>
-            © 2016—{new Date().getFullYear()} Santiment
-          </div>
+          <div className={styles.bottomLinks}>
+            <div className={styles.bottomLeft}>
+              © 2016—{new Date().getFullYear()} Santiment
+            </div>
 
-          <div className={styles.bottomCenter}>
-            {BOTTOM_LINKS.map(({ label, link }, index) => {
-              return (
-                <a
-                  key={index}
-                  href={link}
-                  className={cx(styles.link, styles.bottomLink)}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  {label}
-                </a>
-              )
-            })}
+            <div className={styles.bottomCenter}>
+              {BOTTOM_LINKS.map(({ label, link }, index) => {
+                return (
+                  <a
+                    key={index}
+                    href={link}
+                    className={cx(styles.link, styles.bottomLink)}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    {label}
+                  </a>
+                )
+              })}
+            </div>
           </div>
 
           <div className={cx(styles.bottomRight)}>

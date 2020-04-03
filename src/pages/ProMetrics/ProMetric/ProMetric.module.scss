@@ -4,7 +4,7 @@
   margin-top: 88px;
   display: flex;
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
     flex-direction: column !important;
   }
 }
@@ -31,7 +31,7 @@
   color: var(--waterloo);
   max-width: 524px;
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive('tablet', 'laptop','phone', 'phone-xs') {
     max-width: 100%;
   }
 }
@@ -47,7 +47,7 @@
 .isLeft {
   flex-direction: row-reverse !important;
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
     flex-direction: column !important;
   }
 }
@@ -63,12 +63,19 @@
   margin-right: 0;
   max-width: 100%;
 
-  @include responsive('phone', 'phone-xs') {
-    margin: 0;
+  @include responsive('tablet', 'laptop','phone', 'phone-xs') {
+    margin: 24px 0 0 0 !important;
+    align-items: center;
+    width: 100%;
   }
 
   svg {
     max-width: 100%;
+    height: auto;
+
+    @include responsive('tablet', 'laptop','phone', 'phone-xs') {
+      width: 100%;
+    }
   }
 }
 
@@ -76,7 +83,7 @@
   margin-right: 103px;
   margin-left: 0;
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
     margin: 0;
   }
 }

@@ -6,7 +6,7 @@
 }
 
 .inner {
-  @include responsive('phone', 'phone-xs') {
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
     padding: 0 16px !important;
   }
 }
@@ -34,6 +34,7 @@
 
   @include responsive('phone', 'phone-xs') {
     max-width: 100%;
+    margin-bottom: 56px;
   }
 }
 
@@ -57,6 +58,10 @@
 .firstGroup {
   flex-direction: row;
   justify-content: space-between;
+
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    margin-top: 32px;
+  }
 }
 
 .secondGroup {
@@ -66,16 +71,17 @@
   max-width: 484px;
   margin-top: 0 !important;
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
     max-width: 100%;
+    margin-top: 48px !important;
   }
 }
 
 .secondGroupSvg {
   margin: 0 0 64px 0 !important;
 
-  @include responsive('phone', 'phone-xs') {
-    margin-bottom: 24px !important;
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    margin: 24px 0 !important;
   }
 }
 
@@ -108,7 +114,7 @@
 
   @include text('body-3');
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
     margin-top: 0;
   }
 }
@@ -163,6 +169,12 @@
   top: 40px;
 
   @include responsive('phone', 'phone-xs') {
+    top: 42px;
+  }
+}
+
+.askAccount {
+  @include responsive('phone', 'phone-xs') {
     top: 16px;
   }
 }
@@ -185,6 +197,7 @@
 
   @include responsive('phone', 'phone-xs') {
     max-width: 320px;
+    margin-top: 24px;
   }
 }
 
@@ -206,6 +219,10 @@
 
 .signSvg {
   margin-bottom: 0 !important;
+
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    margin: 0;
+  }
 }
 
 .arrowRight {
