@@ -12,7 +12,8 @@ export const DEFAULT_SETTINGS = {
   to: TO.toISOString(),
   timeRange: DEFAULT_TIME_RANGE,
   asset: 'bitcoin',
-  ticker: 'BTC'
+  ticker: 'BTC',
+  detailed_charts: []
 }
 
 export const DEFAULT_OPTIONS = {

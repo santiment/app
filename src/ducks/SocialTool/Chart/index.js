@@ -8,7 +8,10 @@ import PaywallInfo from '../../Studio/Chart/PaywallInfo'
 import ChartActiveMetrics from '../../Studio/Chart/ActiveMetrics'
 import SocialDominanceToggle from './SocialDominanceToggle'
 import ChartHeader from './Header'
+import DetailedBlock from './Detailed'
 import styles from './index.module.scss'
+
+const CHART_HEIGHT = 380
 
 const Canvas = ({
   className,
@@ -18,6 +21,8 @@ const Canvas = ({
   loadings,
   metrics,
   boundaries,
+  setSettings,
+  categories,
   ...props
 }) => {
   const [FocusedMetric, setFocusedMetric] = useState()
@@ -40,6 +45,7 @@ const Canvas = ({
         options={options}
         settings={settings}
         setOptions={setOptions}
+        setSettings={setSettings}
         className={styles.top}
       />
       <div className={styles.bottom}>
@@ -63,12 +69,23 @@ const Canvas = ({
       <Chart
         {...options}
         {...settings}
+        {...categories}
         {...props}
         scale={scale}
+        chartHeight={CHART_HEIGHT}
         className={styles.chart}
         metrics={metrics}
         MetricColor={MetricColor}
+        setSettings={setSettings}
         resizeDependencies={[]}
+      />
+      <DetailedBlock
+        {...options}
+        {...props}
+        scale={scale}
+        MetricColor={MetricColor}
+        settings={settings}
+        setSettings={setSettings}
       />
     </div>
   )
@@ -81,9 +98,8 @@ export default ({ options, activeMetrics, ...rest }) => {
     <Canvas
       tooltipKey='social_volume_total'
       options={options}
-      activeMetrics={activeMetrics}
       metrics={activeMetrics}
-      {...categories}
+      categories={categories}
       {...rest}
     />
   )
