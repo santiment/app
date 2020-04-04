@@ -1,12 +1,10 @@
 /* eslint-env jest */
 
+import { mapTriggerToFormProps, mapFormPropsToTrigger } from './utils'
 import {
-  PRICE_PERCENT_CHANGE_UP_MODEL,
-  FREQUENCY_TIME_TYPE_HOURS_MODEL,
-  FREQUENCY_TYPE_HOUR_MODEL,
+  PRICE_VOLUME_DIFFERENCE,
   PRICE_VOLUME_DIFFERENCE_METRIC
 } from './constants'
-import { mapTriggerToFormProps, mapFormPropsToTrigger } from './utils'
 
 const TRIGGERS = [
   {
@@ -27,13 +25,13 @@ const TRIGGERS = [
     cooldown: '22h',
     tags: [],
     title: undefined,
-    description: undefined,
+    description: '',
     __typename: 'Trigger'
   },
   {
     __typename: 'Trigger',
     cooldown: '22h',
-    description: undefined,
+    description: '',
     id: 1,
     isActive: false,
     isPublic: false,
@@ -52,17 +50,17 @@ const TRIGGERS = [
   {
     __typename: 'Trigger',
     cooldown: '22h',
-    description: undefined,
+    description: '',
     id: 1,
     isActive: false,
     isPublic: false,
     isRepeating: true,
     settings: {
       channel: 'telegram',
-      metric: 'volume_usd',
+      metric: 'price_volume_difference',
       target: { slug: 'santiment' },
       threshold: 0.002,
-      type: 'metric_signal'
+      type: 'price_volume_difference'
     },
     tags: [],
     title: undefined
@@ -89,16 +87,11 @@ const TRIGGERS = [
   }
 ]
 
-const frequencyTimeValue = {
-  value: '22',
-  label: '22'
-}
-
 const FORM_PROPS = [
   {
     channels: ['Telegram'],
     cooldown: '22h',
-    description: undefined,
+    description: '',
     ethAddress: undefined,
     frequencyTimeType: { label: 'Hour(s)', value: 'h' },
     frequencyTimeValue: { label: '22', value: '22' },
@@ -137,7 +130,7 @@ const FORM_PROPS = [
   {
     channels: ['Telegram'],
     cooldown: '22h',
-    description: undefined,
+    description: '',
     ethAddress: undefined,
     frequencyTimeType: { label: 'Hour(s)', value: 'h' },
     frequencyTimeValue: { label: '22', value: '22' },
@@ -171,7 +164,7 @@ const FORM_PROPS = [
   {
     channels: ['Telegram'],
     cooldown: '22h',
-    description: undefined,
+    description: '',
     ethAddress: undefined,
     frequencyTimeType: { label: 'Hour(s)', value: 'h' },
     frequencyTimeValue: { label: '22', value: '22' },
@@ -184,14 +177,7 @@ const FORM_PROPS = [
     isActive: false,
     isPublic: false,
     isRepeating: true,
-    metric: {
-      description:
-        'Notify me of major divergences between an asset’s price and trading volume',
-      label: 'Price/volume difference',
-      metric: 'volume_usd',
-      type: 'metric_signal',
-      value: 'price_volume_difference'
-    },
+    metric: PRICE_VOLUME_DIFFERENCE_METRIC,
     percentThreshold: 5,
     signalType: { label: 'Assets', value: 'assets' },
     target: { label: 'santiment', value: 'santiment' },
@@ -200,7 +186,7 @@ const FORM_PROPS = [
     timeWindow: '24',
     timeWindowUnit: { label: 'Day(s)', value: 'd' },
     title: undefined,
-    type: { value: 'metric_signal' }
+    type: { value: PRICE_VOLUME_DIFFERENCE }
   }
 ]
 

@@ -1,7 +1,7 @@
 import { updateTooltipSettings } from '../tooltipSettings'
 import {
   usdFormatter,
-  persentageFormatter,
+  percentageFormatter,
   tooltipValueFormatter
 } from '../../SANCharts/utils'
 import { millify } from '../../../utils/formatting'
@@ -56,7 +56,6 @@ export const Metric = {
     shortLabel: 'Soc. Volume',
     anomalyKey: 'SOCIAL_VOLUME',
     advancedView: 'Social Context',
-    extraSelector: 'text',
     formatter: value => tooltipValueFormatter({ value })
   },
   age_destroyed: {
@@ -174,8 +173,7 @@ export const Metric = {
     node: 'line',
     label: 'Social Dominance',
     shortLabel: 'Soc. Domin.',
-    formatter: persentageFormatter,
-    extraSelector: 'text'
+    formatter: percentageFormatter
   },
   realized_value_usd: {
     category: 'On-chain',

@@ -10,7 +10,7 @@ import styles from './ShareTriggerForm.module.scss'
 
 const SharedTriggerForm = ({ id, trigger, onOpen, onCreate, settings }) => {
   const { target, metric } = settings
-  const showChart = target && couldShowChart(settings)
+  const showChart = target && couldShowChart(trigger.settings)
 
   return (
     <div className={styles.container}>

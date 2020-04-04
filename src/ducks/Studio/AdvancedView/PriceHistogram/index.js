@@ -4,6 +4,7 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import Dropdown from '@santiment-network/ui/Dropdown'
 import { usePriceHistogramData } from './hooks'
 import RestrictionMessage from './RestrictionMessage'
+import ErrorMessage from './ErrorMessage'
 import UsageTip from '../UsageTip'
 import Calendar from '../Calendar'
 import { usdFormatter } from '../../../SANCharts/utils'
@@ -16,6 +17,7 @@ const dropdownClasses = {
   options: styles.dropdown__options
 }
 
+const INTERVAL_ERROR_TEXT = 'allowed interval'
 const TIME = 'Time'
 const VALUE = 'Value'
 const SORTER_OPTIONS = [TIME, VALUE]
@@ -108,8 +110,8 @@ const PriceHistogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
       )}
 
       <div className={styles.description}>
-        It shows the cost of the coins that were spent during that day (time
-        interval)
+        It shows at what price the tokens that were transacted today were last
+        moved
       </div>
 
       <UsageTip />
@@ -118,18 +120,36 @@ const PriceHistogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
         <div className={styles.scroller}>
           <div className={styles.scroll}>
             {error ? (
-              <RestrictionMessage />
+              error.message.includes(INTERVAL_ERROR_TEXT) ? (
+                <RestrictionMessage />
+              ) : (
+                <ErrorMessage />
+              )
             ) : (
-              data
-                .sort(Sorter[sorter])
-                .map(({ index, distribution, ...rest }) => (
-                  <Bucket
-                    key={index}
-                    {...distribution}
-                    {...rest}
-                    ticker={ticker}
-                  />
-                ))
+              <>
+                <div>Example</div>
+                <div className={styles.description}>
+                  Today's on-chain volume of Santiment is 100,000 SAN tokens and
+                  the average price for today is $1. If 50,000 of those tokens
+                  were moved when the price was $1.5 and the other 50,000 where
+                  moved when the price was $0.5 the histogram could look like:
+                  <br />
+                  $0-$1 - 50,000
+                  <br />
+                  $1-$2 - 50,000
+                </div>
+
+                {data
+                  .sort(Sorter[sorter])
+                  .map(({ index, distribution, ...rest }) => (
+                    <Bucket
+                      key={index}
+                      {...distribution}
+                      {...rest}
+                      ticker={ticker}
+                    />
+                  ))}
+              </>
             )}
           </div>
         </div>

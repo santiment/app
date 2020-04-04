@@ -32,6 +32,7 @@ const Chart = ({
   lines,
   bars,
   daybars,
+  chartHeight = CHART_HEIGHT,
   joinedCategories,
   domainGroups,
   events = [],
@@ -39,6 +40,7 @@ const Chart = ({
   tooltipKey,
   MetricColor,
   syncedTooltipDate,
+  hideBrush,
   syncTooltips = () => {},
   onRangeSelect,
   onPointClick = () => {},
@@ -53,6 +55,8 @@ const Chart = ({
   let [brush, setBrush] = useState()
   const canvasRef = useRef()
 
+  const isShowBrush = !hideBrush && !isMultiChartsActive
+
   useEffect(() => {
     const { current: canvas } = canvasRef
     const width = canvas.parentNode.offsetWidth
@@ -61,13 +65,13 @@ const Chart = ({
       initChart(
         canvas,
         width,
-        CHART_HEIGHT,
-        isMultiChartsActive ? CHART_PADDING : CHART_WITH_BRUSH_PADDING
+        chartHeight,
+        isShowBrush ? CHART_WITH_BRUSH_PADDING : CHART_PADDING
       )
     )
     chart.tooltipKey = tooltipKey
 
-    if (!isMultiChartsActive) {
+    if (isShowBrush) {
       brush = initBrush(
         chart,
         width,
@@ -203,7 +207,7 @@ const Chart = ({
 
     onResize(
       chart,
-      isMultiChartsActive ? CHART_PADDING : CHART_WITH_BRUSH_PADDING,
+      isShowBrush ? CHART_WITH_BRUSH_PADDING : CHART_PADDING,
       brush,
       data
     )
@@ -244,7 +248,7 @@ const Chart = ({
   }
 
   function plotChart (data) {
-    drawWatermark({ ...chart, isNightModeEnabled })
+    drawWatermark(chart, isNightModeEnabled)
     plotDayBars(chart, data, daybars, MetricColor, scale)
     plotBars(chart, data, bars, MetricColor, scale)
 

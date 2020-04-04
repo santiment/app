@@ -79,7 +79,7 @@ const transformAliases = [
   'percentOfTokenSupplyOnExchanges'
 ]
 
-export const getQuery = metric => {
+export const getQuery = (metric, metricSettings) => {
   const { key, queryKey = key } = metric
 
   const metricFetcher = Fetcher[queryKey]
@@ -89,7 +89,7 @@ export const getQuery = metric => {
   const { query } = metricFetcher
 
   if (typeof query === 'function') {
-    return query(metric)
+    return query(metric, metricSettings)
   }
 
   return query

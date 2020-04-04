@@ -3,12 +3,11 @@ import cx from 'classnames'
 import Selector from '@santiment-network/ui/Selector/Selector'
 import Toggle from '@santiment-network/ui/Toggle'
 import CalendarBtn from '../../../components/Calendar/CalendarBtn'
-import ChartSettingsContextMenu from '../../SANCharts/ChartSettingsContextMenu'
+import ContextMenu from './ContextMenu'
 import {
   getNewInterval,
   INTERVAL_ALIAS
 } from '../../SANCharts/IntervalSelector'
-import PricePairsDropdown from '../../SocialTool/Chart/PricePairsDropdown'
 import { saveToggle } from '../../../utils/localStorage'
 import {
   getIntervalByTimeRange,
@@ -22,43 +21,15 @@ const TIMERANGE_OPTIONS = ['1D', '1W', '1M', '3M', '6M', '1Y', 'ALL']
 const { to: MAX_DATE } = getTimeIntervalFromToday(0, DAY)
 
 export default ({
-  settings = {},
-  options = {},
-  comparables = [],
-  setOptions = () => {},
-  setSettings = () => {},
+  settings,
+  options,
+  comparables,
+  setOptions,
+  setSettings,
   className,
-  withPricePair,
   ...rest
 }) => {
   const { timeRange = '', from, to, title } = settings
-
-  function toggleMultichart () {
-    setOptions(state => ({
-      ...state,
-      isMultiChartsActive: saveToggle(
-        'isMultiChartsActive',
-        !state.isMultiChartsActive
-      )
-    }))
-  }
-
-  function toggleScale () {
-    setOptions(state => ({
-      ...state,
-      isLogScale: !state.isLogScale
-    }))
-  }
-
-  function toggleCartesianGrid () {
-    setOptions(state => ({
-      ...state,
-      isCartesianGridActive: saveToggle(
-        'isCartesianGridActive',
-        !state.isCartesianGridActive
-      )
-    }))
-  }
 
   function toggleDomainGrouping () {
     setOptions(state => ({
@@ -95,18 +66,16 @@ export default ({
     <div className={cx(styles.wrapper, className)}>
       <Selector
         className={styles.selector}
-        options={options.timeRanges || TIMERANGE_OPTIONS}
+        options={TIMERANGE_OPTIONS}
         onSelectOption={onTimerangeChange}
         defaultSelected={timeRange.toUpperCase()}
       />
-      {!options.hideCalendar && (
-        <CalendarBtn
-          onChange={onCalendarChange}
-          value={[new Date(from), new Date(to)]}
-          className={styles.calendar}
-          maxDate={MAX_DATE}
-        />
-      )}
+      <CalendarBtn
+        onChange={onCalendarChange}
+        value={[new Date(from), new Date(to)]}
+        className={styles.calendar}
+        maxDate={MAX_DATE}
+      />
       {comparables.length > 0 && (
         <div className={styles.domain} onClick={toggleDomainGrouping}>
           Shared axis
@@ -116,21 +85,12 @@ export default ({
           />
         </div>
       )}
-      {withPricePair && (
-        <PricePairsDropdown
-          {...rest}
-          settings={settings}
-          setSettings={setSettings}
-        />
-      )}
-      <ChartSettingsContextMenu
-        showNightModeToggle={false}
+      <ContextMenu
         title={title}
-        onCartesianGridChange={toggleCartesianGrid}
-        onScaleChange={toggleScale}
-        onMultiChartsChange={toggleMultichart}
+        showNightModeToggle={false}
         showDownload
         showMulti
+        setOptions={setOptions}
         {...options}
         {...rest}
       />

@@ -1,6 +1,6 @@
 import { Metric } from '../../dataHub/metrics'
 
-export const NO_GROUP = '_'
+const NO_GROUP = '_'
 
 const addItemToGraph = (categories, metricCategories, metrics) => {
   return (typeof metricCategories === 'string'
@@ -17,7 +17,9 @@ const addItemToGraph = (categories, metricCategories, metrics) => {
 }
 
 function sortCategoryGroups (category) {
-  const sortedCategory = {}
+  const sortedCategory = {
+    [NO_GROUP]: []
+  }
   const groups = Object.keys(category).sort(
     (leftGroup, rightGroup) =>
       category[leftGroup].length - category[rightGroup].length
@@ -33,7 +35,9 @@ export const getCategoryGraph = (availableMetrics, hiddenMetrics = []) => {
   }
 
   const categories = {
-    Financial: []
+    Financial: undefined,
+    Social: undefined,
+    Development: undefined
   }
   const { length } = availableMetrics
 
@@ -65,6 +69,10 @@ export const getCategoryGraph = (availableMetrics, hiddenMetrics = []) => {
   }
 
   Object.keys(categories).forEach(key => {
+    if (!categories[key]) {
+      return delete categories[key]
+    }
+
     categories[key] = sortCategoryGroups(
       categories[key].reduce(
         (acc, metric) => {

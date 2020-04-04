@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import cx from 'classnames'
 import { Metric } from '../dataHub/metrics'
-import withBoundaries from '../../pages/Studio/withBoundaries'
 import { useTimeseries } from '../Studio/timeseries/hooks'
-import { updateHistory, parseUrl, generateShareLink } from '../Studio/url'
+import { updateHistory, generateShareLink } from '../Studio/url'
 import SocialToolChart from './Chart'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
-import { buildMetric } from './utils'
 import styles from './index.module.scss'
 
 const SocialTool = ({
@@ -20,45 +18,65 @@ const SocialTool = ({
   const [settings, setSettings] = useState(defaultSettings)
   const [options, setOptions] = useState(defaultOptions)
   const [metrics, setMetrics] = useState(defaultMetrics)
-
-  const [activeMetrics, setActiveMetrics] = useState(
-    metrics.map(metric => buildMetric({ metric, ...defaultSettings }))
-  )
-  const [data, loadings] = useTimeseries(activeMetrics, settings)
+  const [MetricSettingMap, setMetricSettingMap] = useState()
+  const [priceAsset, setPriceAsset] = useState()
+  const [data, loadings] = useTimeseries(metrics, settings, MetricSettingMap)
   const [shareLink, setShareLink] = useState('')
   const chartRef = useRef(null)
 
   useEffect(
     () => {
-      const updatedMetrics = metrics.map(metric =>
-        buildMetric({ metric, ...settings, detectedAsset })
-      )
+      if (priceAsset) {
+        const newPriceMetric = { ...Metric.price_usd, label: priceAsset.label }
+        const newMetricSettingMap = new Map(MetricSettingMap)
 
-      setActiveMetrics([])
-      setActiveMetrics(updatedMetrics)
+        newMetricSettingMap.set(newPriceMetric, { slug: priceAsset.slug })
+        metrics[1] = newPriceMetric
+
+        setMetrics([...metrics])
+        setMetricSettingMap(newMetricSettingMap)
+      }
     },
-    [metrics, settings.asset, settings.text, detectedAsset]
+    [priceAsset]
   )
 
   useEffect(
     () => {
-      const { text } = defaultSettings
-      if (text && text !== settings.text) {
-        setSettings(state => ({ ...state, text }))
+      const newMetricSettingMap = new Map(MetricSettingMap)
+      const metricSetting = { selector: detectedAsset ? 'slug' : 'text' }
+
+      newMetricSettingMap.set(Metric.social_volume_total, metricSetting)
+      newMetricSettingMap.set(Metric.social_dominance_total, metricSetting)
+
+      setMetricSettingMap(newMetricSettingMap)
+    },
+    [detectedAsset]
+  )
+
+  useEffect(
+    () => {
+      const { slug } = defaultSettings
+      if (slug && slug !== settings.slug) {
+        setSettings(state => ({ ...state, slug }))
       }
     },
-    [defaultSettings.text]
+    [defaultSettings.slug]
   )
 
   useEffect(
     () => {
       const metricSet = new Set(metrics)
       const metric = Metric.social_dominance_total
-      options.withDominance ? metricSet.add(metric) : metricSet.delete(metric)
+
+      if (options.isSocialDominanceActive) {
+        metricSet.add(metric)
+      } else {
+        metricSet.delete(metric)
+      }
 
       setMetrics([...metricSet])
     },
-    [options.withDominance]
+    [options.isSocialDominanceActive]
   )
 
   useEffect(
@@ -82,35 +100,25 @@ const SocialTool = ({
           chartRef={chartRef}
           options={options}
           settings={settings}
-          setOptions={setOptions}
-          setSettings={setSettings}
           shareLink={shareLink}
-          activeMetrics={activeMetrics}
+          activeMetrics={metrics}
+          priceAsset={priceAsset}
           data={data}
           loadings={loadings}
+          setOptions={setOptions}
+          setSettings={setSettings}
+          setPriceAsset={setPriceAsset}
         />
       </div>
     </div>
   )
 }
 
-export default withBoundaries(({ settings, options, metrics, ...props }) => {
-  const sharedState = parseUrl(DEFAULT_SETTINGS, DEFAULT_OPTIONS)
-
-  return (
-    <SocialTool
-      {...props}
-      defaultSettings={{
-        ...DEFAULT_SETTINGS,
-        ...sharedState.settings,
-        ...settings
-      }}
-      defaultOptions={{
-        ...DEFAULT_OPTIONS,
-        ...sharedState.options,
-        ...options
-      }}
-      defaultMetrics={metrics || DEFAULT_METRICS}
-    />
-  )
-})
+export default ({ settings, options, metrics, ...props }) => (
+  <SocialTool
+    {...props}
+    defaultSettings={{ ...DEFAULT_SETTINGS, ...settings }}
+    defaultOptions={{ ...DEFAULT_OPTIONS, ...options }}
+    defaultMetrics={metrics || DEFAULT_METRICS}
+  />
+)

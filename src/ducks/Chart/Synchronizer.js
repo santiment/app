@@ -7,7 +7,7 @@ import { Metric } from '../dataHub/metrics'
 
 const cache = new Map()
 
-function metricsToPlotCategories (metrics) {
+export function metricsToPlotCategories (metrics) {
   const requestedData = {
     lines: [],
     daybars: [],
@@ -90,8 +90,7 @@ const Synchronizer = ({
   isDomainGroupingActive,
   metrics,
   isMultiChartsActive,
-  events,
-  useFirstMetricTooltip
+  events
 }) => {
   const [syncedTooltipDate, syncTooltips] = useState()
   const [syncedEvents, syncEvents] = useState()
@@ -163,15 +162,10 @@ const Synchronizer = ({
       hasPriceMetric,
       domainGroups,
       events: syncedEvents,
-      tooltipKey: useFirstMetricTooltip
-        ? getValidTooltipKey(
-          getMetricKey(metrics[0]),
-          syncedCategories[0].joinedCategories
-        )
-        : getValidTooltipKey(
-          getMetricKey(findTooltipMetric(metrics)),
-          syncedCategories[0].joinedCategories
-        )
+      tooltipKey: getValidTooltipKey(
+        getMetricKey(findTooltipMetric(metrics)),
+        syncedCategories[0].joinedCategories
+      )
     })
 }
 

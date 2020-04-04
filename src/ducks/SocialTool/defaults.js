@@ -12,13 +12,12 @@ export const DEFAULT_SETTINGS = {
   to: TO.toISOString(),
   timeRange: DEFAULT_TIME_RANGE,
   asset: 'bitcoin',
-  ticker: 'BTC'
+  ticker: 'BTC',
+  detailed_charts: []
 }
 
 export const DEFAULT_OPTIONS = {
-  showMulti: false,
-  timeRanges: ['1W', '1M', '3M', '6M', '1Y'],
-  withDominance: getSavedToggle('withDominance', true),
+  isSocialDominanceActive: getSavedToggle('isSocialDominanceActive'),
   isCartesianGridActive: getSavedToggle('isCartesianGridActive', true)
 }
 

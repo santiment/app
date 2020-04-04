@@ -13,7 +13,7 @@ import { getMarketSegment } from './utils'
 import GA from './../../utils/tracking'
 import styles from './ChartMetricSelector.module.scss'
 
-const NO_GROUP = '_'
+export const NO_GROUP = '_'
 
 const predicate = searchTerm => {
   const upperCaseSearchTerm = searchTerm.toUpperCase()

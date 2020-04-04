@@ -1,0 +1,21 @@
+@import '~@santiment-network/ui/mixins';
+
+.row {
+  padding: 32px 24px;
+  border-top: 1px solid var(--porcelain);
+}
+
+.heading {
+  color: var(--waterloo);
+  margin: 0 0 24px;
+
+  @include text('body-3');
+}
+
+.button + .button {
+  margin-left: 8px;
+}
+
+.chart {
+  margin: 40px 0 0;
+}

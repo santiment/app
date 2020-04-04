@@ -18,7 +18,7 @@ const { formatter } = Metric.price_usd
 
 const DEFAULT_VALUE = {}
 
-const IcoPrice = ({ chart, scale, slug, className, onEmptyResult }) => {
+const IcoPrice = ({ chart, scale, slug, className, onResult }) => {
   const [{ top, price, isOnChart }, setValue] = useState(DEFAULT_VALUE)
   const { data, loading } = useQuery(PROJECT_ICO_PRICE_QUERY, {
     variables: {
@@ -37,7 +37,9 @@ const IcoPrice = ({ chart, scale, slug, className, onEmptyResult }) => {
 
       if (!icoPrice) {
         setValue(DEFAULT_VALUE)
-        return onEmptyResult && onEmptyResult()
+        onResult()
+
+        return
       }
 
       const { min, max } = priceMinMax
@@ -49,6 +51,7 @@ const IcoPrice = ({ chart, scale, slug, className, onEmptyResult }) => {
         top: isOnChart ? scale(chart, min, max)(icoPrice) : 0,
         price: formatter(icoPrice)
       })
+      onResult(icoPrice)
     },
     [data, priceMinMax, height]
   )
@@ -64,6 +67,10 @@ const IcoPrice = ({ chart, scale, slug, className, onEmptyResult }) => {
       </div>
     </div>
   ) : null
+}
+
+IcoPrice.defaultProps = {
+  onResult: () => {}
 }
 
 export default IcoPrice

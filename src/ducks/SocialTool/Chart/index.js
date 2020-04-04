@@ -3,12 +3,15 @@ import cx from 'classnames'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import Chart from '../../Chart'
 import { useChartColors } from '../../Chart/colors'
-import Synchronizer from '../../Chart/Synchronizer'
+import { metricsToPlotCategories } from '../../Chart/Synchronizer'
 import PaywallInfo from '../../Studio/Chart/PaywallInfo'
 import ChartActiveMetrics from '../../Studio/Chart/ActiveMetrics'
 import SocialDominanceToggle from './SocialDominanceToggle'
 import ChartHeader from './Header'
+import DetailedBlock from './Detailed'
 import styles from './index.module.scss'
+
+const CHART_HEIGHT = 380
 
 const Canvas = ({
   className,
@@ -18,14 +21,16 @@ const Canvas = ({
   loadings,
   metrics,
   boundaries,
+  setSettings,
+  categories,
   ...props
 }) => {
   const [FocusedMetric, setFocusedMetric] = useState()
   const MetricColor = useChartColors(metrics, FocusedMetric)
   const scale = options.isLogScale ? logScale : linearScale
 
-  function onMetricHover (Metric) {
-    setFocusedMetric(Metric)
+  function onMetricHover (metric) {
+    setFocusedMetric(metric)
   }
 
   function onMetricHoverEnd () {
@@ -40,6 +45,7 @@ const Canvas = ({
         options={options}
         settings={settings}
         setOptions={setOptions}
+        setSettings={setSettings}
         className={styles.top}
       />
       <div className={styles.bottom}>
@@ -58,25 +64,43 @@ const Canvas = ({
           className={styles.dominance}
           options={options}
           setOptions={setOptions}
-          toggleDominance={() => {}}
         />
       </div>
       <Chart
         {...options}
         {...settings}
+        {...categories}
         {...props}
         scale={scale}
+        chartHeight={CHART_HEIGHT}
         className={styles.chart}
         metrics={metrics}
         MetricColor={MetricColor}
+        setSettings={setSettings}
         resizeDependencies={[]}
+      />
+      <DetailedBlock
+        {...options}
+        {...props}
+        scale={scale}
+        MetricColor={MetricColor}
+        settings={settings}
+        setSettings={setSettings}
       />
     </div>
   )
 }
 
-export default ({ options, activeMetrics, ...rest }) => (
-  <Synchronizer {...options} metrics={activeMetrics} useFirstMetricTooltip>
-    <Canvas options={options} activeMetrics={activeMetrics} {...rest} />
-  </Synchronizer>
-)
+export default ({ options, activeMetrics, ...rest }) => {
+  const categories = metricsToPlotCategories(activeMetrics)
+
+  return (
+    <Canvas
+      tooltipKey='social_volume_total'
+      options={options}
+      metrics={activeMetrics}
+      categories={categories}
+      {...rest}
+    />
+  )
+}

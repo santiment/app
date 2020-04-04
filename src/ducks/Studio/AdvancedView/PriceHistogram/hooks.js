@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { linearScale } from '@santiment-network/chart/scales'
+import { logScale } from '@santiment-network/chart/scales'
 import { useQuery } from '@apollo/react-hooks'
 import { HISTOGRAM_DATA_QUERY, PROJECT_PRICE_QUERY } from './gql'
 
@@ -20,7 +20,7 @@ function formatHistogramData (data, price) {
     }
   }
 
-  const scaler = linearScale(Chart, max, 0)
+  const scaler = logScale(Chart, max, 1)
   let isPriceRangeFound = false
 
   return data.map((distribution, index) => {

@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import { compose, withProps } from 'recompose'
 import cx from 'classnames'
-import SocialTool from '../../ducks/SocialTool'
-import AverageSocialVolume from '../../components/AverageSocialVolume'
-import TrendsExploreSearch from '../../components/Trends/Explore/TrendsExploreSearch'
+import { Icon } from '@santiment-network/ui'
 import * as actions from '../../components/Trends/actions'
+import AverageSocialVolume from '../../components/AverageSocialVolume'
+import SocialTool from '../SocialTool'
+import TrendsExploreSearch from '../../components/Trends/Explore/TrendsExploreSearch'
+import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import withDetectionAsset from '../../components/Trends/withDetectionAsset'
 import Trends from '../../components/Trends/Trends'
 import WordCloud from './../../components/WordCloud/WordCloud'
@@ -14,8 +17,11 @@ import { safeDecode } from '../../utils/utils'
 import { addRecentTrends } from '../../utils/recent'
 import styles from './index.module.scss'
 
+const pageDescription =
+  'Explore the social volume of ANY word (or phrase) on crypto social media, including 100s of Telegram groups, crypto subreddits, discord channels, trader chats and more.'
+
 const TrendsExplore = ({
-  word: newWord,
+  word,
   history,
   detectedAsset,
   fetchAllTickersSlugs,
@@ -27,18 +33,11 @@ const TrendsExplore = ({
     fetchAllTickersSlugs()
   }
 
-  const [word, setWord] = useState()
-  if (word !== newWord && newWord) {
-    addRecentTrends(newWord)
-    fetchTrendSocialData(newWord)
-    setWord(newWord)
-  }
+  addRecentTrends(word)
+  fetchTrendSocialData(word)
 
   const topic = safeDecode(word)
-
   const pageTitle = `Crypto Social Trends for ${topic} - Sanbase`
-  const pageDescription =
-    'Explore the social volume of ANY word (or phrase) on crypto social media, including 100s of Telegram groups, crypto subreddits, discord channels, trader chats and more.'
 
   return (
     <div className={cx('page', styles.wrapper)}>
@@ -49,17 +48,43 @@ const TrendsExplore = ({
       </Helmet>
       <div className={styles.layout}>
         <div className={styles.main}>
+          {isDesktop && (
+            <div className={styles.breadcrumbs}>
+              <Link to='/labs/trends/' className={styles.link}>
+                Emerging trends
+              </Link>
+              <Icon type='arrow-right' className={styles.arrow} />
+              Social context
+            </div>
+          )}
           <div className={styles.search}>
-            {isDesktop && (
+            {isDesktop ? (
               <TrendsExploreSearch
                 topic={topic}
                 isDesktop={isDesktop}
                 history={history}
+                className={styles.search}
               />
+            ) : (
+              <MobileHeader
+                goBack={history.goBack}
+                backRoute={'/'}
+                classes={{
+                  wrapper: styles.wrapperHeader,
+                  searchBtn: styles.fullSearchBtn
+                }}
+                title=''
+              >
+                <TrendsExploreSearch
+                  className={styles.search}
+                  topic={topic}
+                  isDesktop={isDesktop}
+                />
+              </MobileHeader>
             )}
           </div>
           <SocialTool
-            settings={{ text: topic }}
+            settings={{ slug: detectedAsset ? detectedAsset.slug : topic }}
             detectedAsset={detectedAsset}
           />
         </div>

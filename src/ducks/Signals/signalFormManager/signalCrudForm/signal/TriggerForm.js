@@ -18,7 +18,8 @@ import {
   MAX_DESCR_LENGTH,
   MIN_TITLE_LENGTH,
   MAX_TITLE_LENGTH,
-  TRIGGER_FORM_STEPS
+  TRIGGER_FORM_STEPS,
+  COMMON_PROPS_FOR_METRIC
 } from '../../../utils/constants'
 import {
   couldShowChart,
@@ -153,9 +154,13 @@ export const TriggerForm = ({
 
         const { price } = lastPriceItem || {}
         const mappedTrigger = mapFormPropsToTrigger(values)
+
         const showChart = target && couldShowChart(mappedTrigger.settings)
 
-        const typeSelectors = METRIC_TO_TYPES[(metric || {}).value]
+        const typeSelectors = metric.key
+          ? COMMON_PROPS_FOR_METRIC
+          : METRIC_TO_TYPES[metric.value]
+
         const showTypes =
           metric && !metric.hidden && typeSelectors && typeSelectors.length > 1
 

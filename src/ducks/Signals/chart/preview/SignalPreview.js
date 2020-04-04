@@ -34,6 +34,10 @@ const PreviewLoader = (
   </div>
 )
 
+const getAvailableCooldown = baseCooldown => {
+  return baseCooldown && baseCooldown.indexOf('m') !== -1 ? '1h' : baseCooldown
+}
+
 const SignalPreviewChart = ({
   target,
   type: oldSignalType,
@@ -46,15 +50,23 @@ const SignalPreviewChart = ({
   trigger
 }) => {
   let triggeredSignals = points.filter(point => point['triggered?'])
-  const { metrics, triggersBy } = isNewTypeSignal(trigger)
-    ? getOldMetricsByType(oldSignalType)
-    : getNewMetricsByType(trigger)
+
+  const isNew = isNewTypeSignal(trigger)
+
+  const { metrics, triggersBy } = isNew
+    ? getNewMetricsByType(trigger)
+    : getOldMetricsByType(oldSignalType)
 
   const isStrongDaily = oldSignalType === DAILY_ACTIVE_ADDRESSES
-  const metricsInterval = isStrongDaily ? '1d' : '1h'
+
+  const { cooldown } = trigger
+
+  const metricsInterval = isStrongDaily ? '1d' : getAvailableCooldown(cooldown)
+
+  const { eth_address, address = eth_address } = target || {}
 
   const metricRest = {
-    address: target && target.address ? target.address : ''
+    address
   }
 
   const requestedMetrics = mapToRequestedMetrics(metrics, {
@@ -161,7 +173,7 @@ const SignalPreview = ({
       query={HISTORICAL_TRIGGER_POINTS_QUERY}
       skip={getCheckingMetric(trigger.settings) === TRENDING_WORDS}
       variables={{
-        cooldown: cooldown,
+        cooldown: getAvailableCooldown(cooldown),
         settings: JSON.stringify(trigger.settings)
       }}
     >
