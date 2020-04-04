@@ -30,6 +30,7 @@ const Studio = ({
   const [metrics, setMetrics] = useState(defaultMetrics)
   const [activeMetrics, setActiveMetrics] = useState(defaultMetrics)
   const [activeEvents, setActiveEvents] = useState(defaultEvents)
+  const [chartSidepane, setChartSidepane] = useState()
   const [advancedView, setAdvancedView] = useState()
   const [shareLink, setShareLink] = useState()
   const [isICOPriceDisabled, setIsICOPriceDisabled] = useState(true)
@@ -134,6 +135,10 @@ const Studio = ({
     setMetrics([...metricSet])
   }
 
+  function toggleChartSidepane (sidepane) {
+    setChartSidepane(chartSidepane === sidepane ? undefined : sidepane)
+  }
+
   function toggleAdvancedView (mode) {
     setAdvancedView(advancedView === mode ? undefined : mode)
   }
@@ -156,13 +161,15 @@ const Studio = ({
         activeMetrics={activeMetrics}
         activeEvents={activeEvents}
         advancedView={advancedView}
+        chartSidepane={chartSidepane}
         ErrorMsg={ErrorMsg}
         setOptions={setOptions}
         toggleMetric={toggleMetric}
         toggleAdvancedView={toggleAdvancedView}
+        toggleChartSidepane={toggleChartSidepane}
+        setIsSidebarClosed={setIsSidebarClosed}
         isICOPriceDisabled={isICOPriceDisabled}
         isSidebarClosed={isSidebarClosed}
-        setIsSidebarClosed={setIsSidebarClosed}
       />
       <StudioMain
         {...props}
@@ -178,10 +185,12 @@ const Studio = ({
         loadings={loadings}
         eventLoadings={eventLoadings}
         advancedView={advancedView}
+        chartSidepane={chartSidepane}
         shareLink={shareLink}
         // bools
         isSidebarClosed={isSidebarClosed}
         // state setters
+        setMetrics={setMetrics}
         setSettings={setSettings}
         setOptions={setOptions}
         setComparables={setComparables}
@@ -189,6 +198,7 @@ const Studio = ({
         // fn
         toggleMetric={toggleMetric}
         toggleAdvancedView={toggleAdvancedView}
+        toggleChartSidepane={toggleChartSidepane}
       />
     </div>
   )

@@ -64,7 +64,8 @@ export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
 
     return {
       categories,
-      Submetrics
+      Submetrics,
+      availableMetrics
     }
   },
   skip: ({ slug }) => !slug,

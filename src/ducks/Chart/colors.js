@@ -20,7 +20,9 @@ export const COLORS = [
   '#FF8450', // SALMON
   '#D4E763', // YELLOW-GREEN
   '#FFDAC5', // PEACH
-  '#37D7BA' // AQUAMARINE
+  '#37D7BA', // AQUAMARINE
+  '#777777', // GREY
+  '#222222' // BLACK
 ]
 
 const MetricColor = {

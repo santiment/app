@@ -1,0 +1,26 @@
+.btn {
+  color: var(--casper);
+  fill: var(--casper);
+  stroke: var(--casper);
+  margin-bottom: 8px;
+  border: 1px solid transparent;
+
+  &:last-child {
+    margin: 0;
+  }
+
+  &:hover {
+    fill: var(--casper);
+  }
+}
+
+.active {
+  border: 1px solid var(--porcelain);
+  color: var(--rhino);
+  box-shadow: 0 2px 8px rgba(59, 84, 106, 0.03),
+    0 1px 2px rgba(59, 84, 106, 0.03);
+}
+
+.icon {
+  margin-right: 8px;
+}

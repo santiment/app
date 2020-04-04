@@ -1,6 +1,6 @@
 import React from 'react'
-import MetricHighLow from '../../../../components/MetricHighLow'
-import { Metric } from '../../../dataHub/metrics'
+import MetricHighLow from '../../../../../components/MetricHighLow'
+import { Metric } from '../../../../dataHub/metrics'
 import styles from './Explanations.module.scss'
 
 const RANGE_HOURS = [
