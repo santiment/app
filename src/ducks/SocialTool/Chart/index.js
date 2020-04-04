@@ -19,6 +19,7 @@ const Canvas = ({
   loadings,
   metrics,
   boundaries,
+  setSettings,
   ...props
 }) => {
   const [FocusedMetric, setFocusedMetric] = useState()
@@ -41,6 +42,7 @@ const Canvas = ({
         options={options}
         settings={settings}
         setOptions={setOptions}
+        setSettings={setSettings}
         className={styles.top}
       />
       <div className={styles.bottom}>
@@ -69,9 +71,10 @@ const Canvas = ({
         className={styles.chart}
         metrics={metrics}
         MetricColor={MetricColor}
+        setSettings={setSettings}
         resizeDependencies={[]}
       />
-      <DetailedBlock />
+      <DetailedBlock settings={settings} setSettings={setSettings} />
     </div>
   )
 }
