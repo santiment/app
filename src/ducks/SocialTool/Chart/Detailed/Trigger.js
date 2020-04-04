@@ -4,7 +4,7 @@ import Button from '@santiment-network/ui/Button/Button'
 import Icon from '@santiment-network/ui/Icon/Icon'
 import styles from './Trigger.module.scss'
 
-const Trigger = ({ isActive, toggleActive, className, label, color }) => (
+const Trigger = ({ isActive, toggleActive, className, name, color }) => (
   <Button
     variant='flat'
     border
@@ -12,7 +12,7 @@ const Trigger = ({ isActive, toggleActive, className, label, color }) => (
     onClick={toggleActive}
   >
     <Icon type='ring' className={styles.icon} style={{ '--color': color }} />
-    {label}
+    {name}
     {isActive && <Icon type='close-small' className={styles.close} />}
   </Button>
 )

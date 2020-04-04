@@ -11,6 +11,8 @@ import ChartHeader from './Header'
 import DetailedBlock from './Detailed'
 import styles from './index.module.scss'
 
+const CHART_HEIGHT = 380
+
 const Canvas = ({
   className,
   settings,
@@ -20,6 +22,7 @@ const Canvas = ({
   metrics,
   boundaries,
   setSettings,
+  categories,
   ...props
 }) => {
   const [FocusedMetric, setFocusedMetric] = useState()
@@ -66,15 +69,24 @@ const Canvas = ({
       <Chart
         {...options}
         {...settings}
+        {...categories}
         {...props}
         scale={scale}
+        chartHeight={CHART_HEIGHT}
         className={styles.chart}
         metrics={metrics}
         MetricColor={MetricColor}
         setSettings={setSettings}
         resizeDependencies={[]}
       />
-      <DetailedBlock settings={settings} setSettings={setSettings} />
+      <DetailedBlock
+        {...options}
+        {...props}
+        scale={scale}
+        MetricColor={MetricColor}
+        settings={settings}
+        setSettings={setSettings}
+      />
     </div>
   )
 }
@@ -86,9 +98,8 @@ export default ({ options, activeMetrics, ...rest }) => {
     <Canvas
       tooltipKey='social_volume_total'
       options={options}
-      activeMetrics={activeMetrics}
       metrics={activeMetrics}
-      {...categories}
+      categories={categories}
       {...rest}
     />
   )

@@ -1,48 +1,67 @@
-import React, { useState } from 'react'
-import cx from 'classnames'
+import React, { useState, useEffect } from 'react'
+import Chart from './Chart'
 import Trigger from './Trigger'
+import { Metric } from '../../../dataHub/metrics'
+import { DetailedMetric } from './metrics'
 import styles from './index.module.scss'
 
-const Chart = {
-  social_volume_telegram: {
-    color: '#5275FF',
-    label: 'Telegram'
-  },
-  social_volume_reddit: {
-    color: '#FF5B5B',
-    label: 'Reddit'
-  },
-  social_volume_professional_traders_chat: {
-    color: '#F0BB35',
-    label: 'Professional traders chat'
-  },
-  social_volume_discord: {
-    color: '#8358FF',
-    label: 'Discord'
-  },
-  community_messages_count_telegram: {
-    color: '#5275FF',
-    label: 'Telegram'
-  }
-}
-
-Object.keys(Chart).forEach(key => {
-  Chart[key].key = key
-})
-
 const GENERAL_CHARTS = [
-  Chart.social_volume_telegram,
-  Chart.social_volume_reddit,
-  Chart.social_volume_professional_traders_chat,
-  Chart.social_volume_discord
+  DetailedMetric.social_volume_telegram,
+  DetailedMetric.social_volume_reddit,
+  DetailedMetric.social_volume_professional_traders_chat,
+  DetailedMetric.social_volume_discord
 ]
 
-const COMMUNITY_MESSAGES_CHARTS = [Chart.community_messages_count_telegram]
+const Colors = {}
 
-const DetailedBlock = ({ setSettings, settings, ...props }) => {
-  const defaultCharts = settings.detailed_charts.map(key => Chart[key])
+GENERAL_CHARTS.forEach(({ key, color }) => (Colors[key] = color))
 
-  const [activeCharts, setActiveCharts] = useState(new Set(defaultCharts))
+let priceMetric = Metric.price_usd
+
+const DetailedBlock = ({
+  setSettings,
+  settings,
+  detectedAsset,
+  MetricColor,
+  priceAsset,
+  ...props
+}) => {
+  let defaultCharts = []
+
+  if (typeof settings.detailed_charts === 'string') {
+    defaultCharts.push(DetailedMetric[settings.detailed_charts])
+  } else {
+    defaultCharts = settings.detailed_charts.map(key => DetailedMetric[key])
+  }
+
+  const [activeCharts, setActiveCharts] = useState(defaultCharts)
+  const [MetricSettingMap, setMetricSettingMap] = useState()
+
+  useEffect(
+    () => {
+      const newMetricSettingMap = new Map(MetricSettingMap)
+      const metricSetting = { selector: detectedAsset ? 'slug' : 'text' }
+
+      GENERAL_CHARTS.forEach(metric =>
+        newMetricSettingMap.set(metric, metricSetting)
+      )
+
+      setMetricSettingMap(newMetricSettingMap)
+    },
+    [detectedAsset]
+  )
+
+  useEffect(
+    () => {
+      if (priceAsset) {
+        const newMetricSettingMap = new Map(MetricSettingMap)
+        priceMetric = { ...Metric.price_usd, label: priceAsset.label }
+        newMetricSettingMap.set(priceMetric, { slug: priceAsset.slug })
+        setMetricSettingMap(newMetricSettingMap)
+      }
+    },
+    [priceAsset]
+  )
 
   function toggleChart (chart) {
     const newActiveCharts = new Set(activeCharts)
@@ -51,7 +70,7 @@ const DetailedBlock = ({ setSettings, settings, ...props }) => {
     }
 
     const activeKeys = [...newActiveCharts].map(({ key }) => key)
-    setActiveCharts(newActiveCharts)
+    setActiveCharts([...newActiveCharts])
     setSettings(state => ({
       ...state,
       detailed_charts: activeKeys
@@ -59,32 +78,31 @@ const DetailedBlock = ({ setSettings, settings, ...props }) => {
   }
 
   return (
-    <>
-      <div className={styles.row}>
-        <h3 className={styles.heading}>General charts</h3>
-        {GENERAL_CHARTS.map((chart, idx) => (
-          <Trigger
-            key={idx}
-            isActive={activeCharts.has(chart)}
-            className={styles.button}
-            {...chart}
-            toggleActive={() => toggleChart(chart)}
-          />
-        ))}
-      </div>
-      <div className={styles.row}>
-        <h3 className={styles.heading}>Community messages charts</h3>
-        {COMMUNITY_MESSAGES_CHARTS.map((chart, idx) => (
-          <Trigger
-            key={idx}
-            isActive={activeCharts.has(chart)}
-            className={styles.button}
-            {...chart}
-            toggleActive={() => toggleChart(chart)}
-          />
-        ))}
-      </div>
-    </>
+    <div className={styles.row}>
+      <h3 className={styles.heading}>Detailed charts</h3>
+      {GENERAL_CHARTS.map((chart, idx) => (
+        <Trigger
+          key={idx}
+          isActive={activeCharts.includes(chart)}
+          className={styles.button}
+          {...chart}
+          toggleActive={() => toggleChart(chart)}
+        />
+      ))}
+      {activeCharts.map(chart => (
+        <Chart
+          key={chart.key}
+          {...props}
+          settings={settings}
+          charts={[chart, priceMetric]}
+          MetricSettingMap={MetricSettingMap}
+          className={styles.chart}
+          MetricColor={{ ...MetricColor, ...Colors }}
+          tooltipKey={chart.key}
+          setSettings={setSettings}
+        />
+      ))}
+    </div>
   )
 }
 
