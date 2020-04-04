@@ -8,6 +8,7 @@ import PaywallInfo from '../../Studio/Chart/PaywallInfo'
 import ChartActiveMetrics from '../../Studio/Chart/ActiveMetrics'
 import SocialDominanceToggle from './SocialDominanceToggle'
 import ChartHeader from './Header'
+import DetailedBlock from './Detailed'
 import styles from './index.module.scss'
 
 const Canvas = ({
@@ -70,6 +71,7 @@ const Canvas = ({
         MetricColor={MetricColor}
         resizeDependencies={[]}
       />
+      <DetailedBlock />
     </div>
   )
 }
