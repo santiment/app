@@ -66,6 +66,8 @@ const MetricsExplanation = ({ metrics, MetricColor, onClose, ...rest }) => {
   const { metric } = selected || {}
   if (!metric) return null
 
+  const { key } = metric
+
   return (
     <>
       <Dropdown
@@ -75,14 +77,14 @@ const MetricsExplanation = ({ metrics, MetricColor, onClose, ...rest }) => {
         onSelect={setSelected}
       />
       <DataInfo {...rest} metric={metric} />
-      {Description[metric.key] && (
+      {Description[key] && (
         <>
           <div className={styles.subtitle}>Description</div>
-          <div className={styles.text}>{Description[metric.key]}</div>
+          <div className={styles.text}>{Description[key]}</div>
         </>
       )}
       <Explanations {...rest} metric={metric} />
-      <MetricInsights insights={Insights[metric.key]} />
+      <MetricInsights insights={Insights[key]} />
     </>
   )
 }

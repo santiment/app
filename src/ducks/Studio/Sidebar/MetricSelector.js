@@ -3,6 +3,7 @@ import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import { TOP_HOLDERS_PANE } from '../Chart/Sidepane/panes'
+import { TopHolderMetric } from '../Chart/Sidepane/TopHolders/metrics'
 import MetricExplanation from '../../SANCharts/MetricExplanation'
 import { Metric } from '../../dataHub/metrics'
 import { NO_GROUP } from '../../Signals/signalFormManager/signalCrudForm/formParts/metricTypes/MetricsList'
@@ -174,7 +175,9 @@ const MetricSelector = ({
   useEffect(
     () => {
       setHasTopHolders(
-        availableMetrics.includes('holders_distribution_0_to_0.001')
+        availableMetrics.includes(
+          TopHolderMetric.holders_distribution_1_to_10.key
+        )
       )
     },
     [availableMetrics]

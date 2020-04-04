@@ -1,22 +1,6 @@
 import { TooltipSetting, FORMATTER } from '../../../../dataHub/tooltipSettings'
 
-/*
-"holders_distribution_0_to_0.001"
-"holders_distribution_0.001_to_0.01"
-"holders_distribution_0.01_to_0.1"
-"holders_distribution_0.1_to_1"
-"holders_distribution_1_to_10"
-"holders_distribution_10_to_100"
-"holders_distribution_100_to_1k"
-"holders_distribution_1k_to_10k"
-"holders_distribution_10k_to_100k"
-"holders_distribution_100k_to_1M"
-"holders_distribution_1M_to_10M"
-"holders_distribution_10M_to_inf"
-"holders_distribution_total"
-*/
-
-export const TopHolderMetrics = {
+export const TopHolderMetric = {
   holders_distribution_0_to_0001: {
     label: '(0 - 0.001) coins',
     queryKey: 'holders_distribution_0_to_0.001'
@@ -56,16 +40,16 @@ export const TopHolderMetrics = {
   }
 }
 
-Object.keys(TopHolderMetrics).forEach(key => {
-  TopHolderMetrics[key].key = key
-  TopHolderMetrics[key].node = 'line'
+Object.keys(TopHolderMetric).forEach(key => {
+  TopHolderMetric[key].key = key
+  TopHolderMetric[key].node = 'line'
 })
 
-Object.values(TopHolderMetrics).forEach(({ key, label }) => {
+Object.values(TopHolderMetric).forEach(({ key, label }) => {
   TooltipSetting[key] = {
     label,
     formatter: FORMATTER
   }
 })
 
-export const TOP_HOLDER_METRICS = Object.values(TopHolderMetrics)
+export const TOP_HOLDER_METRICS = Object.values(TopHolderMetric)
