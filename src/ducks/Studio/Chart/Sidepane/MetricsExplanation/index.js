@@ -3,11 +3,12 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Dropdown from '@santiment-network/ui/Dropdown'
 import Explanations from './Explanations'
-import MetricInsights from '../../../../components/MetricInsight/MetricInsights'
 import DataInfo from './DataInfo'
-import MetricIcon from '../../../SANCharts/MetricIcon'
-import { Description } from '../../../dataHub/metrics/descriptions'
-import { Insights } from '../../../dataHub/metrics/insights'
+import { METRICS_EXPLANATION_PANE } from '../panes'
+import MetricInsights from '../../../../../components/MetricInsight/MetricInsights'
+import MetricIcon from '../../../../SANCharts/MetricIcon'
+import { Description } from '../../../../dataHub/metrics/descriptions'
+import { Insights } from '../../../../dataHub/metrics/insights'
 import styles from './index.module.scss'
 
 const OPTIONS = []
@@ -47,17 +48,6 @@ const Label = ({ metric: { key, dataKey = key, node, label }, colors }) => (
   </div>
 )
 
-const CloseButton = props => {
-  return (
-    <div className={styles.close} {...props}>
-      <div className={styles.icons}>
-        <Icon type='hamburger' className={styles.hamburger} />
-        <Icon type='arrow-right' className={styles.arrow} />
-      </div>
-    </div>
-  )
-}
-
 const MetricsExplanation = ({ metrics, MetricColor, onClose, ...rest }) => {
   const [options, setOptions] = useState(OPTIONS)
   const [selected, setSelected] = useState(SELECTED)
@@ -76,33 +66,33 @@ const MetricsExplanation = ({ metrics, MetricColor, onClose, ...rest }) => {
   const { metric } = selected || {}
   if (!metric) return null
 
+  const { key } = metric
+
   return (
     <>
-      <CloseButton onClick={onClose} />
-      <div className={styles.wrapper}>
-        <div className={styles.title}>Metric Explanations</div>
-        <Dropdown
-          selected={selected}
-          options={options}
-          classes={dropdownClasses}
-          onSelect={setSelected}
-        />
-        <DataInfo {...rest} metric={metric} />
-        {Description[metric.key] && (
-          <>
-            <div className={styles.subtitle}>Description</div>
-            <div className={styles.text}>{Description[metric.key]}</div>
-          </>
-        )}
-        <Explanations {...rest} metric={metric} />
-        <MetricInsights insights={Insights[metric.key]} />
-      </div>
+      <Dropdown
+        selected={selected}
+        options={options}
+        classes={dropdownClasses}
+        onSelect={setSelected}
+      />
+      <DataInfo {...rest} metric={metric} />
+      {Description[key] && (
+        <>
+          <div className={styles.subtitle}>Description</div>
+          <div className={styles.text}>{Description[key]}</div>
+        </>
+      )}
+      <Explanations {...rest} metric={metric} />
+      <MetricInsights insights={Insights[key]} />
     </>
   )
 }
 
-MetricsExplanation.Button = props => (
-  <Button border {...props}>
+MetricsExplanation.Title = () => 'Metric Explanations'
+
+MetricsExplanation.Button = ({ onClick, ...props }) => (
+  <Button border {...props} onClick={() => onClick(METRICS_EXPLANATION_PANE)}>
     <Icon type='info-round' className={styles.info} />
     Explain metrics
   </Button>

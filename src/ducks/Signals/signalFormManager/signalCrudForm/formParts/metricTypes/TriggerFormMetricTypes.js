@@ -21,8 +21,7 @@ export const SIGNAL_SUPPORTED_METRICS = [
   Metric.social_volume_total,
   Metric.volume_usd,
   Metric.age_destroyed,
-  Metric.exchange_balance,
-  Metric.nvt
+  Metric.exchange_balance
 ]
 
 export const TriggerFormMetricTypes = ({

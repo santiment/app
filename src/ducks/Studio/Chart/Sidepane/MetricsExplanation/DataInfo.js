@@ -2,7 +2,7 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import { getDateFormats, getTimeFormats } from '../../../../utils/dates'
+import { getDateFormats, getTimeFormats } from '../../../../../utils/dates'
 import styles from './index.module.scss'
 
 const formatDataInfoDate = value => {

@@ -1,1 +1,1 @@
-export const MAX_METRICS_AMOUNT = 10
+export const MAX_METRICS_AMOUNT = 12
