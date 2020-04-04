@@ -190,6 +190,7 @@ const Studio = ({
         // bools
         isSidebarClosed={isSidebarClosed}
         // state setters
+        setMetrics={setMetrics}
         setSettings={setSettings}
         setOptions={setOptions}
         setComparables={setComparables}

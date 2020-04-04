@@ -13,6 +13,7 @@ import ChartMetricsExplanation, {
   filterExplainableMetrics
 } from './Sidepane/MetricsExplanation'
 import { METRICS_EXPLANATION_PANE } from './Sidepane/panes'
+import { TOP_HOLDER_METRICS } from './Sidepane/TopHolders/metrics'
 import Chart from '../../Chart'
 import Signals from '../../Chart/Signals'
 import Synchronizer from '../../Chart/Synchronizer'
@@ -83,7 +84,9 @@ const Canvas = ({
           <ChartActiveMetrics
             className={styles.metric}
             MetricColor={MetricColor}
-            activeMetrics={metrics}
+            activeMetrics={metrics.filter(
+              metric => !TOP_HOLDER_METRICS.includes(metric)
+            )}
             activeEvents={activeEvents}
             toggleMetric={toggleMetric}
             loadings={loadings}
@@ -158,6 +161,7 @@ const Canvas = ({
       {chartSidepane && (
         <div className={styles.explanation}>
           <ChartSidepane
+            {...props}
             {...settings}
             chartSidepane={chartSidepane}
             metrics={metrics}

@@ -67,3 +67,5 @@ Object.values(TopHolderMetrics).forEach(({ key, label }) => {
     formatter: FORMATTER
   }
 })
+
+export const TOP_HOLDER_METRICS = Object.values(TopHolderMetrics)
