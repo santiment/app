@@ -13,6 +13,7 @@ import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import withDetectionAsset from '../../components/Trends/withDetectionAsset'
 import Trends from '../../components/Trends/Trends'
 import WordCloud from './../../components/WordCloud/WordCloud'
+import { checkHasPremium } from '../UserSelectors'
 import { safeDecode } from '../../utils/utils'
 import { addRecentTrends } from '../../utils/recent'
 import styles from './index.module.scss'
@@ -27,6 +28,7 @@ const TrendsExplore = ({
   fetchAllTickersSlugs,
   fetchTrendSocialData,
   isDesktop,
+  hasPremium,
   allAssets
 }) => {
   if (allAssets.length === 0) {
@@ -89,7 +91,11 @@ const TrendsExplore = ({
           />
         </div>
         <div className={styles.sidebar}>
-          <AverageSocialVolume text={topic} detectedAsset={detectedAsset} />
+          <AverageSocialVolume
+            text={topic}
+            detectedAsset={detectedAsset}
+            hasPremium={hasPremium}
+          />
           <WordCloud
             className={styles.cloud}
             infoClassName={styles.cloud__header}
@@ -103,7 +109,8 @@ const TrendsExplore = ({
 }
 
 const mapStateToProps = state => ({
-  allAssets: state.hypedTrends.allAssets
+  allAssets: state.hypedTrends.allAssets,
+  hasPremium: checkHasPremium(state)
 })
 
 const mapDispatchToProps = dispatch => ({
