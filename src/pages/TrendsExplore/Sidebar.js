@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import Trends from '../../components/Trends/Trends'
 import WordCloud from '../../components/WordCloud/WordCloud'
 import AverageSocialVolume from '../../components/AverageSocialVolume'
+import Footer from '../../components/Footer'
 import styles from './Sidebar.module.scss'
 
 const Sidebar = ({ topic, ...props }) => {
@@ -41,6 +42,7 @@ const Sidebar = ({ topic, ...props }) => {
         word={topic}
       />
       <Trends className={styles.trends} isCompactView />
+      <Footer classes={styles} />
     </aside>
   )
 }

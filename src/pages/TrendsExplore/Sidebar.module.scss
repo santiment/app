@@ -13,7 +13,7 @@
     flex-direction: column;
     width: 350px;
     margin: 0 10px 0 24px;
-    padding: 22px 24px;
+    padding: 22px 24px 0;
     overflow: hidden;
     border-left: 1px solid var(--porcelain);
 
@@ -64,4 +64,17 @@
       padding: 0 0 5px;
     }
   }
+}
+
+.footer {
+  display: none;
+
+  @include responsive('desktop', 'laptop') {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.footerVersionDivider {
+  display: none;
 }
