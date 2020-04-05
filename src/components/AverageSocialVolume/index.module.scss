@@ -1,6 +1,12 @@
 @import '~@santiment-network/ui/mixins';
 @import '~@santiment-network/ui/variables';
 
+.wrapper {
+  @include responsive('tablet') {
+    display: none;
+  }
+}
+
 .title {
   @include text('body-3');
 

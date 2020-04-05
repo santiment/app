@@ -87,7 +87,7 @@ const AverageSocialVolume = ({ text, hasPremium, detectedAsset }) => {
   )
 
   return (
-    <div>
+    <div className={styles.wrapper}>
       <div className={styles.header}>
         <h3 className={styles.title}>Average</h3>
       </div>

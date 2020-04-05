@@ -3,7 +3,7 @@
 .wrapper {
   margin: 0;
 
-  @include responsive('desktop') {
+  @include responsive('desktop', 'laptop') {
     max-width: 100% !important;
   }
 
@@ -16,6 +16,10 @@
   @include responsive('phone-xs', 'phone') {
     margin: 0 16px;
     width: auto;
+  }
+
+  @include responsive('tablet') {
+    margin: 0 auto 20px;
   }
 }
 
@@ -49,7 +53,7 @@
   flex: 1;
   flex-direction: column;
 
-  @include responsive('desktop') {
+  @include responsive('desktop', 'laptop') {
     max-width: calc(100% - 375px);
   }
 }

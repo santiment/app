@@ -4,12 +4,12 @@
   display: flex;
   flex-direction: row;
   width: 100%;
-  position: absolute;
-  top: 70px;
-  height: calc(100vh - 70px);
-  right: 0;
 
-  @include responsive('desktop') {
+  @include responsive('desktop', 'laptop') {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    height: calc(100vh - 70px);
     flex-direction: column;
     width: 350px;
     margin: 0 10px 0 24px;
@@ -25,14 +25,15 @@
 
   @include responsive('phone-xs', 'phone') {
     flex-direction: column;
-    position: relative;
   }
 }
 
 .fixed {
-  position: fixed;
-  top: 0;
-  height: 100vh;
+  @include responsive('desktop', 'laptop') {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+  }
 }
 
 .trends {
@@ -51,10 +52,16 @@
 
   @include responsive('tablet') {
     height: auto !important;
+    margin-top: 0;
+    border: none !important;
   }
 
   &__header {
     border: none;
     padding: 24px 0 5px;
+
+    @include responsive('tablet') {
+      padding: 0 0 5px;
+    }
   }
 }

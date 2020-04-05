@@ -3,7 +3,7 @@
 .wrapper {
   z-index: 0;
 
-  @include responsive('phone-xs') {
+  @include responsive('phone-xs', 'phone') {
     display: none;
   }
 }
