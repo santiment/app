@@ -1,0 +1,296 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  padding: 0 !important;
+  max-width: 100% !important;
+}
+
+.inner {
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    padding: 0 16px !important;
+  }
+}
+
+.firstStep {
+  max-width: 1072px;
+  margin: auto;
+}
+
+.secondStep {
+  max-width: 1170px;
+  margin: 0 auto;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-bottom: 32px;
+  }
+}
+
+.descriptions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 564px;
+  margin: auto;
+
+  @include responsive('phone', 'phone-xs') {
+    max-width: 100%;
+    margin-bottom: 56px;
+  }
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column !important;
+  }
+}
+
+.grid {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 60px;
+}
+
+.firstGroup {
+  flex-direction: row;
+  justify-content: space-between;
+
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    margin-top: 32px;
+  }
+}
+
+.secondGroup {
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: flex-end;
+  max-width: 484px;
+  margin-top: 0 !important;
+
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    max-width: 100%;
+    margin-top: 48px !important;
+  }
+}
+
+.secondGroupSvg {
+  margin: 0 0 39px 0 !important;
+
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    margin: 24px 0 !important;
+  }
+}
+
+.thirdGroup {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: flex-end;
+  max-width: 368px;
+  margin: 0 0 72px 0;
+
+  @include responsive('phone', 'phone-xs') {
+    max-width: 100%;
+    margin-top: 16px !important;
+    margin-bottom: 24px;
+  }
+
+  @include responsive('tablet', 'laptop') {
+    padding: 0 16px;
+    margin-bottom: 24px;
+    justify-content: flex-start;
+  }
+}
+
+.thirdGroupSvg {
+  margin: 0 0 39px 0 !important;
+  min-height: 231px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-bottom: 43px !important;
+  }
+
+  svg {
+    height: 100%;
+  }
+}
+
+.crown {
+  color: var(--texas-rose);
+  fill: var(--texas-rose);
+  margin-top: 48px;
+
+  @include text('body-3');
+
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    margin-top: 0;
+  }
+}
+
+.perksTitle {
+  @include text('h4', 'm');
+
+  text-align: center;
+  color: var(--rhino);
+  margin-top: 30px;
+}
+
+.description {
+  @include text('body-1');
+
+  margin-top: 24px;
+  text-align: center;
+  color: var(--waterloo);
+}
+
+.highline {
+  color: $fiord;
+  font-weight: 600;
+}
+
+.access {
+  margin-top: 64px;
+}
+
+.upgradeBtn {
+  margin-top: 32px;
+}
+
+.ask {
+  position: relative;
+  margin: 84px 0 76px 0;
+  display: flex;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 24px 0 48px 0;
+  }
+}
+
+.askBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  margin: auto;
+  top: 32px;
+
+  @include responsive('phone', 'phone-xs') {
+    top: 42px;
+  }
+}
+
+.askAccount {
+  @include responsive('phone', 'phone-xs') {
+    top: 16px;
+  }
+}
+
+.askTitle {
+  @include text('h4', 'm');
+
+  color: var(--rhino);
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-1', 'm');
+
+    max-width: 320px;
+    text-align: center;
+  }
+}
+
+.askUpgradeBtn {
+  margin-top: 32px;
+
+  @include responsive('phone', 'phone-xs') {
+    max-width: 320px;
+    margin-top: 24px;
+  }
+}
+
+.sign {
+  color: var(--white);
+  margin-bottom: 22px;
+}
+
+.bgSvg {
+  display: flex;
+  height: 180px;
+}
+
+.signSvg {
+  height: 200px;
+  margin: 14px 0 0 0 !important;
+
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    margin: 0;
+  }
+}
+
+.arrowRight {
+  fill: var(--white);
+  margin-left: 5px;
+}
+
+.emailInput {
+  height: 40px;
+  padding: 0 !important;
+  border: none !important;
+
+  input {
+    height: 40px;
+    padding-right: 235px !important;
+    padding-left: 40px !important;
+  }
+}
+
+.getStartedBtn {
+  background-color: var(--rhino);
+}
+
+.form {
+  width: 450px !important;
+  align-items: flex-start !important;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100% !important;
+    padding: 0 16px;
+  }
+}
+
+.subscriptionCheckbox {
+  @include text('caption');
+
+  cursor: pointer;
+  margin-top: 17px !important;
+}
+
+.subscriptionLabel {
+  @include text('caption');
+
+  color: var(--white) !important;
+  margin-left: 8px;
+}
+
+.selectedCheckbox {
+  svg {
+    fill: var(--mystic);
+    display: block;
+  }
+
+  div {
+    background: var(--white);
+    border-color: var(--white);
+
+    &:hover {
+      background: var(--athens);
+      border-color: var(--athens);
+    }
+  }
+}
