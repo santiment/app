@@ -1,11 +1,10 @@
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
-  background: red;
   margin-right: 6px;
   width: 100%;
   border-radius: 2px;
-  min-height: 1px;
+  min-height: 2px;
   margin-top: auto;
   position: relative;
   height: var(--percent);

@@ -4,9 +4,7 @@ import Column from './Column'
 import PaywallBanner from './PaywallBanner'
 import styles from './index.module.scss'
 
-const array = [100, 22, 35, 0.2]
-
-const AverageSocialVolume = ({ text, hasPremium }) => (
+const AverageSocialVolume = ({ text, hasPremium, detectedAsset }) => (
   <div>
     <div className={styles.header}>
       <h3 className={styles.title}>Average</h3>
@@ -14,28 +12,15 @@ const AverageSocialVolume = ({ text, hasPremium }) => (
     {hasPremium ? (
       <div className={styles.content}>
         <div className={styles.chart}>
-          {array.map((percent, idx) => (
-            <Column key={idx} percent={percent} />
-          ))}
+          <Column percent={100} className={styles.column} />
+          <Column percent={0.2} className={styles.column} />
         </div>
         <div className={styles.details}>
           <DetailsItem value='85 547' className={styles.item} />
           <DetailsItem
             value='810'
             percentage='0.95'
-            title='corona OR coronavirus OR covid-19'
-            className={styles.item}
-          />
-          <DetailsItem
-            value='810'
-            percentage='0.95'
-            title='blockchain'
-            className={styles.item}
-          />
-          <DetailsItem
-            value='810'
-            percentage='0.95'
-            title='blockchain'
+            title={text}
             className={styles.item}
           />
         </div>

@@ -1,4 +1,5 @@
 @import '~@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/variables';
 
 .title {
   @include text('body-3');
@@ -22,4 +23,14 @@
 
 .item + .item {
   margin-top: 18px;
+}
+
+.column {
+  &:first-child {
+    background-color: var(--texas-rose);
+  }
+
+  &:nth-child(2) {
+    background-color: $malibu;
+  }
 }

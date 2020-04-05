@@ -4,7 +4,7 @@ import styles from './Column.module.scss'
 
 const Column = ({ className, percent }) => (
   <div
-    className={styles.wrapper}
+    className={cx(styles.wrapper, className)}
     style={{ '--percent': `${percent}%` }}
     data-percent={percent + '%'}
   />
