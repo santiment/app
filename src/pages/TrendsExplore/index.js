@@ -97,6 +97,7 @@ const TrendsExplore = ({
             hasPremium={hasPremium}
           />
           <WordCloud
+            hideWord
             className={styles.cloud}
             infoClassName={styles.cloud__header}
             word={topic}
