@@ -23,7 +23,7 @@
   @include text('body-3');
 
   color: var(--rhino);
-  margin-bottom: 32px;
+  margin: 22px 0 32px;
 }
 
 .link {
@@ -48,36 +48,9 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  max-width: 100%;
-}
 
-.sidebar {
-  position: sticky;
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-
-  @include responsive('laptop', 'desktop') {
-    top: 0;
-    margin-top: -22px;
-    flex-direction: column;
-    max-width: 368px;
-    width: 32vw;
-    margin-left: 24px;
-    border-left: 1px solid var(--porcelain);
-    padding: 22px 24px;
-    height: calc(100vh - 70px);
-    overflow: hidden;
-
-    &:hover {
-      overflow-y: auto;
-      overflow-y: overlay;
-    }
-  }
-
-  @include responsive('phone-xs', 'phone') {
-    flex-direction: column;
-    position: relative;
+  @include responsive('desktop') {
+    max-width: calc(100% - 375px);
   }
 }
 
@@ -92,30 +65,6 @@
     @include responsive('phone-xs', 'phone') {
       min-width: auto;
     }
-  }
-}
-
-.trends {
-  @include responsive('tablet') {
-    margin-left: 50px;
-  }
-}
-
-.cloud {
-  min-width: 281px;
-  height: 190px;
-  border-radius: 0;
-  border-left: none;
-  border-right: none;
-  margin: 22px 0;
-
-  @include responsive('tablet') {
-    height: auto !important;
-  }
-
-  &__header {
-    border: none;
-    padding: 24px 0 5px;
   }
 }
 
