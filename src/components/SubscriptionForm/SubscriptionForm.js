@@ -121,6 +121,8 @@ class SubscriptionForm extends PureComponent {
 
     const label = subscriptionLabel || SUBSCRIPTION_LABEL
 
+    const inputIconProps = iconPosition ? { iconPosition, icon } : {}
+
     return (
       <>
         <form
@@ -138,8 +140,7 @@ class SubscriptionForm extends PureComponent {
             disabled={waiting}
             onChange={this.onEmailChangeDebounced}
             isError={error}
-            icon={icon}
-            iconPosition={iconPosition}
+            {...inputIconProps}
           />
           {!hideCheckbox && (
             <Checkboxes

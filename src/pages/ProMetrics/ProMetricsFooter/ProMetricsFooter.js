@@ -286,6 +286,7 @@ const ProMetricsFooter = () => {
               {SOCIAL_MEDIAS.map(({ link, item }, index) => {
                 return (
                   <a
+                    key={index}
                     href={link}
                     target='_blank'
                     rel='noopener noreferrer'

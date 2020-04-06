@@ -63,9 +63,17 @@ export const THIRD_METRICS_GROUP = [
     title: 'Distribution Index',
     description: (
       <>
-        Our research has shown that distributed coins (supply dispersed among
-        many addresses) tend to outperform concentrated coins (much of
-        circulating supply held by ‘whales’).
+        <a
+          className={styles.link}
+          rel='noopener noreferrer'
+          target='_blank'
+          href='https://insights.santiment.net/read/314'
+        >
+          Our research
+        </a>{' '}
+        has shown that distributed coins (supply dispersed among many addresses)
+        tend to outperform concentrated coins (much of circulating supply held
+        by ‘whales’).
         <div className={styles.block}>
           This Index calculates the top 10 most distributed and most
           concentrated ERC-20 coins (within the top 50) over the last month.
@@ -79,9 +87,17 @@ export const THIRD_METRICS_GROUP = [
     title: 'ETH-ERC20 Correlation Index',
     description: (
       <>
-        Our previous analysis indicates that ERC-20 coins tend to be less
-        correlated to Ethereum during the bull market, and exhibit higher
-        correlation during the bear market.
+        <a
+          className={styles.link}
+          rel='noopener noreferrer'
+          target='_blank'
+          href='https://santiment.net/blog/eth-vs-erc-20-market-cap-comparison/'
+        >
+          Our previous analysis
+        </a>{' '}
+        indicates that ERC-20 coins tend to be less correlated to Ethereum
+        during the bull market, and exhibit higher correlation during the bear
+        market.
         <div className={styles.block}>
           This Index charts the correlation of ERC-20 market cap to the ETH
           market cap over the last 3 months.
@@ -95,9 +111,18 @@ export const THIRD_METRICS_GROUP = [
     title: 'Stablecoin Volatility Index',
     description: (
       <>
-        Stablecoins are more volatile than you think. This presents a novel
-        market opportunity, as one could theoretically invest in low-volatility
-        stablecoins and trade outbreaks in their more volatile counterparts.
+        Stablecoins are{' '}
+        <a
+          className={styles.link}
+          rel='noopener noreferrer'
+          target='_blank'
+          href='https://santiment.net/blog/stablecoin-volatility/'
+        >
+          more volatile
+        </a>{' '}
+        than you think. This presents a novel market opportunity, as one could
+        theoretically invest in low-volatility stablecoins and trade outbreaks
+        in their more volatile counterparts.
         <div className={styles.block}>
           This Santiment Index ranks 15 biggest stablecoins from most to least
           volatile over the past 30 days.
@@ -111,9 +136,17 @@ export const THIRD_METRICS_GROUP = [
     title: 'Least Correlated Coins to BTC & ETH',
     description: (
       <>
-        According to our research, a portfolio of coins that are least
-        correlated to both Bitcoin and Ethereum tends to perform particularly
-        well during the bull cycles.
+        According to{' '}
+        <a
+          className={styles.link}
+          rel='noopener noreferrer'
+          target='_blank'
+          href='https://medium.com/santiment/eth-vs-erc-20-a-tale-of-two-market-caps-94b2aca58e5e?source=collection_category---4------5-----------------------'
+        >
+          our research
+        </a>
+        , a portfolio of coins that are least correlated to both Bitcoin and
+        Ethereum tends to perform particularly well during the bull cycles.
         <div className={styles.block}>
           This Index calculates the 20 least correlated coins to BTC & ETH over
           the past 30 days.
