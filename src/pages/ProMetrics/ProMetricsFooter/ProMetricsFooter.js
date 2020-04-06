@@ -38,7 +38,7 @@ const LEFT_LINKS = [
   },
   {
     label: 'Social Trends',
-    link: 'https://santiment.net/labs/trends'
+    link: 'https://app.santiment.net/labs/trends'
   },
   {
     label: 'Sansheets',
@@ -71,11 +71,11 @@ const LEFT_LINKS = [
 const BOTTOM_LINKS = [
   {
     label: 'Terms',
-    link: ''
+    link: 'https://santiment.net/terms/'
   },
   {
     label: 'Privacy',
-    link: ''
+    link: '/privacy-policy'
   }
 ]
 
