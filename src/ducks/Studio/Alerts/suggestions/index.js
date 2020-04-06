@@ -1,6 +1,10 @@
-import { priceSuggesters } from './price'
+import {
+  priceSuggesters,
+  suggestPercentUpDown,
+  suggestValueChange
+} from './price'
 import { dailyActiveAddressesSuggesters } from './dailyActiveAddresses'
-import { socialVolumeSuggesters } from './social_volume_total'
+import { Metric } from '../../../dataHub/metrics'
 
 export const Suggestion = Object.assign(Object.create(null), {
   price_usd: {
@@ -13,6 +17,23 @@ export const Suggestion = Object.assign(Object.create(null), {
   },
   social_volume_total: {
     title: 'Social Volume',
-    suggesters: socialVolumeSuggesters
+    suggesters: [
+      suggestValueChange(Metric.social_volume_total),
+      suggestPercentUpDown(Metric.social_volume_total)
+    ]
+  },
+  transaction_volume: {
+    title: 'Transaction Volume',
+    suggesters: [
+      suggestValueChange(Metric.transaction_volume),
+      suggestPercentUpDown(Metric.transaction_volume)
+    ]
+  },
+  exchange_balance: {
+    title: 'Exchange Balance',
+    suggesters: [
+      suggestValueChange(Metric.exchange_balance),
+      suggestPercentUpDown(Metric.exchange_balance)
+    ]
   }
 })

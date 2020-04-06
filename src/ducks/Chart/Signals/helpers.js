@@ -143,5 +143,11 @@ export const AlertBuilder = {
   daily_active_addresses: buildDAASignal,
   social_volume_total: (slug, value, type) => {
     return buildValueChangeSignal(slug, value, type, Metric.social_volume_total)
+  },
+  exchange_balance: (slug, value, type) => {
+    return buildValueChangeSignal(slug, value, type, Metric.exchange_balance)
+  },
+  transaction_volume: (slug, value, type) => {
+    return buildValueChangeSignal(slug, value, type, Metric.transaction_volume)
   }
 }

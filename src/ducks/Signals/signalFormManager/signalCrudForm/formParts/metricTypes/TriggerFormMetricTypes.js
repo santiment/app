@@ -21,7 +21,26 @@ export const SIGNAL_SUPPORTED_METRICS = [
   Metric.social_volume_total,
   Metric.volume_usd,
   Metric.age_destroyed,
-  Metric.exchange_balance
+  Metric.exchange_balance,
+  // makeSignalMetric('price_btc', 'Price BTC', 'Financial'),
+  Metric.marketcap_usd,
+  // Metric.community_messages_count_discord,
+  // DetailedMetric.community_messages_count_telegram,
+  // Metric.community_messages_count_total,
+  // Metric.social_dominance_discord,
+  // Metric.social_dominance_professional_traders_chat,
+  // Metric.social_dominance_reddit,
+  // Metric.social_dominance_telegram,
+  // Metric.social_dominance_total,
+  // DetailedMetric.social_volume_discord,
+  // DetailedMetric.social_volume_professional_traders_chat,
+  // DetailedMetric.social_volume_reddit,
+  // DetailedMetric.social_volume_telegram,
+  Metric.transaction_volume,
+  // Metric.exchange_inflow,
+  // Metric.exchange_outflow,
+  Metric.dev_activity
+  // Metric.github_activity,
 ]
 
 export const TriggerFormMetricTypes = ({
