@@ -11,6 +11,7 @@
   margin: auto;
   padding: 64px 0;
   max-width: 1170px;
+  width: 100%;
 
   @include responsive('phone', 'phone-xs') {
     padding: 56px 24px;
@@ -243,7 +244,7 @@
 
 .bottomRight {
   color: var(--casper);
-  margin-left: 220px;
+  margin-left: 275px;
 
   @include responsive('phone', 'phone-xs') {
     width: 100%;
@@ -335,10 +336,10 @@
 }
 
 .form {
-  max-width: 358px;
-  width: 100%;
+  width: 368px;
 
-  @include responsive('laptop', 'tablet') {
+  @include responsive('laptop', 'tablet', 'phone', 'phone-xs') {
     max-width: 348px;
+    width: 100%;
   }
 }
