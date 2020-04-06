@@ -6,7 +6,7 @@ import { metricsToPlotCategories } from '../../../Chart/Synchronizer'
 const CHART_HEIGHT = 300
 
 const DetailedChart = ({ charts, settings, MetricSettingMap, ...props }) => {
-  const [data, loadings] = useTimeseries(charts, settings, MetricSettingMap)
+  const [data] = useTimeseries(charts, settings, MetricSettingMap)
   const categories = metricsToPlotCategories(charts)
 
   return (

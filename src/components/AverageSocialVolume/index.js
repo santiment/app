@@ -95,7 +95,7 @@ const AverageSocialVolume = ({ text, hasPremium, detectedAsset }) => {
           The average number of daily mentions in the past 30 days
         </HelpPopup>
       </div>
-      {hasPremium ? (
+      {hasPremium && (
         <div className={styles.content}>
           {hasData && avg ? (
             <>
@@ -129,9 +129,8 @@ const AverageSocialVolume = ({ text, hasPremium, detectedAsset }) => {
             <Loader className={styles.loader} />
           )}
         </div>
-      ) : (
-        <PaywallBanner />
       )}
+      {hasPremium === false && <PaywallBanner />}
     </div>
   )
 }

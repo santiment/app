@@ -9,7 +9,7 @@ export const checkHasPremium = state => {
     return
   }
 
-  if (!state.user.data.subscriptions) {
+  if (state.user.data.subscriptions.length === 0) {
     return false
   }
   const { plan } = getCurrentSanbaseSubscription(state.user.data) || {}
