@@ -1,0 +1,27 @@
+@import '~@santiment-network/ui/mixins';
+
+.title {
+  @include text('body-3', 'semibold');
+
+  margin: 0 0 6px;
+  color: var(--rhino);
+}
+
+.wrapper {
+  border-radius: 4px;
+  background: var(--athens);
+  padding: 18px 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.desc {
+  @include text('caption', 'medium');
+
+  margin-bottom: 10px;
+  color: var(--waterloo);
+}
+
+.button {
+  margin-right: auto;
+}

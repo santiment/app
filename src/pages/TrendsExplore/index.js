@@ -3,17 +3,16 @@ import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import { compose, withProps } from 'recompose'
-import cx from 'classnames'
-import Icon from '@santiment-network/ui/Icon'
-import SocialTool from '../SocialTool'
+import { Icon } from '@santiment-network/ui'
 import * as actions from '../../components/Trends/actions'
+import SocialTool from '../SocialTool'
 import TrendsExploreSearch from '../../components/Trends/Explore/TrendsExploreSearch'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import withDetectionAsset from '../../components/Trends/withDetectionAsset'
-import Trends from '../../components/Trends/Trends'
-import WordCloud from './../../components/WordCloud/WordCloud'
+import { checkHasPremium } from '../UserSelectors'
 import { safeDecode } from '../../utils/utils'
 import { addRecentTrends } from '../../utils/recent'
+import Sidebar from './Sidebar'
 import styles from './index.module.scss'
 
 const pageDescription =
@@ -26,6 +25,7 @@ const TrendsExplore = ({
   fetchAllTickersSlugs,
   fetchTrendSocialData,
   isDesktop,
+  hasPremium,
   allAssets
 }) => {
   if (allAssets.length === 0) {
@@ -39,7 +39,7 @@ const TrendsExplore = ({
   const pageTitle = `Crypto Social Trends for ${topic} - Sanbase`
 
   return (
-    <div className={cx('page', styles.wrapper)}>
+    <div className={styles.wrapper}>
       <Helmet>
         <title>{pageTitle}</title>
         <meta property='og:title' content={pageTitle} />
@@ -87,17 +87,19 @@ const TrendsExplore = ({
             detectedAsset={detectedAsset}
           />
         </div>
-        <div className={styles.sidebar}>
-          <WordCloud className={styles.cloud} hideWord word={topic} />
-          <Trends className={styles.trends} isCompactView />
-        </div>
+        <Sidebar
+          detectedAsset={detectedAsset}
+          topic={topic}
+          hasPremium={hasPremium}
+        />
       </div>
     </div>
   )
 }
 
 const mapStateToProps = state => ({
-  allAssets: state.hypedTrends.allAssets
+  allAssets: state.hypedTrends.allAssets,
+  hasPremium: checkHasPremium(state)
 })
 
 const mapDispatchToProps = dispatch => ({

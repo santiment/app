@@ -50,7 +50,7 @@ export const WordCloud = ({
       trendWord={searchWord}
       description={
         <>
-          <span className={styles.heading}>social context</span>
+          <span className={styles.heading}>Social context</span>
           <HelpPopupWordCloud />
         </>
       }

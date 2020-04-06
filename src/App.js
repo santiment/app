@@ -39,6 +39,7 @@ import CreateAccountFreeTrial from './pages/Login/CreateAccountFreeTrial'
 
 export const PATHS = {
   FEED: '/feed',
+  SOCIAL_TOOl: '/labs/trends/explore/',
   LOGIN: '/login',
   LOGIN_VIA_EMAIL: '/login/email',
   CREATE_ACCOUNT: '/sign-up',
@@ -46,7 +47,7 @@ export const PATHS = {
   PRO_METRICS: '/pro-metrics'
 }
 
-const FOOTER_DISABLED_FOR = [PATHS.FEED, PATHS.PRO_METRICS]
+const FOOTER_DISABLED_FOR = [PATHS.FEED, PATHS.PRO_METRICS, PATHS.SOCIAL_TOOl]
 const FOOTER_ABSOLUTE_FOR = [
   PATHS.LOGIN,
   PATHS.LOGIN_VIA_EMAIL,
@@ -452,7 +453,7 @@ export const App = ({
       <Footer
         classes={{
           footer:
-            FOOTER_ABSOLUTE_FOR.indexOf(pathname) !== -1 &&
+            isPathnameInPages(pathname, FOOTER_ABSOLUTE_FOR) &&
             styles.footerAbsolute
         }}
       />
@@ -460,7 +461,11 @@ export const App = ({
   </div>
 )
 
-const mapStateToProps = (state, { location: { pathname } }) => {
+function isPathnameInPages (pathname, pages) {
+  return pages.some(path => !pathname.replace(path, '').includes('/'))
+}
+
+const mapStateToProps = (state, { location: { pathname, ...rest } }) => {
   const { ethAccounts = [] } = state.user.data
 
   return {
@@ -471,11 +476,11 @@ const mapStateToProps = (state, { location: { pathname } }) => {
     isOffline: !state.rootUi.isOnline,
     isBetaModeEnabled: state.rootUi.isBetaModeEnabled,
     hasMetamask: ethAccounts.length > 0 && ethAccounts[0].address,
-    showFooter: FOOTER_DISABLED_FOR.indexOf(pathname) === -1
+    showFooter: !isPathnameInPages(pathname, FOOTER_DISABLED_FOR)
   }
 }
 
-const enchance = compose(
+const enhance = compose(
   connect(mapStateToProps),
   withSizes(mapSizesToProps),
   withTracker,
@@ -483,4 +488,4 @@ const enchance = compose(
   withRouter
 )
 
-export default enchance(App)
+export default enhance(App)

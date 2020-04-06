@@ -22,7 +22,8 @@
   }
 
   &__compact {
-    padding: 10px 23px;
+    padding: 2px 0 16px;
+    border-bottom: none;
   }
 }
 
@@ -50,8 +51,20 @@
 }
 
 .panel {
+  &__compact {
+    border: none;
+  }
+}
+
+.content {
   padding: 0;
   max-height: 100%;
+
+  &__compact {
+    border: 1px solid var(--porcelain);
+    border-radius: 4px;
+    overflow: hidden;
+  }
 }
 
 .action {
