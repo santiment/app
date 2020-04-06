@@ -22,7 +22,13 @@ const mutation = gql`
   }
 `
 
-export const EmailForm = ({ loading, loginEmail, setEmail }) => {
+export const EmailForm = ({
+  loading,
+  loginEmail,
+  setEmail,
+  placeholder = 'Your email',
+  label = 'Continue'
+}) => {
   return (
     <Formik
       onSubmit={({ email }) => {
@@ -58,7 +64,7 @@ export const EmailForm = ({ loading, loginEmail, setEmail }) => {
               icon='mail'
               iconPosition='left'
               required
-              placeholder='Your email'
+              placeholder={placeholder}
               name='email'
               type='email'
               className={styles.emailInput}
@@ -71,7 +77,7 @@ export const EmailForm = ({ loading, loginEmail, setEmail }) => {
               type='submit'
               isLoading={loading}
             >
-              {loading ? 'Waiting...' : 'Continue'}
+              {loading ? 'Waiting...' : label}
             </Button>
           </Form>
         )
@@ -80,7 +86,7 @@ export const EmailForm = ({ loading, loginEmail, setEmail }) => {
   )
 }
 
-const SuccessState = ({ email, isDesktop, history }) => {
+const SuccessState = ({ email, isDesktop, history, showBack = true }) => {
   const child = (
     <div className={cx(styles.loginViaEmail, styles.emailSuccess)}>
       <h2 className={cx(styles.title, styles.email__title)}>
@@ -92,15 +98,17 @@ const SuccessState = ({ email, isDesktop, history }) => {
         inbox and click on the confirmation link.
       </h3>
 
-      <Link
-        to={PATHS.LOGIN}
-        className={cx(styles.email__link, styles.email__linkSuccess)}
-      >
-        Back to{' '}
-        <Link to={PATHS.LOGIN} className={styles.loginLink}>
-          log in options
+      {showBack && (
+        <Link
+          to={PATHS.LOGIN}
+          className={cx(styles.email__link, styles.email__linkSuccess)}
+        >
+          Back to{' '}
+          <Link to={PATHS.LOGIN} className={styles.loginLink}>
+            log in options
+          </Link>
         </Link>
-      </Link>
+      )}
     </div>
   )
 
@@ -150,7 +158,8 @@ const PrepareState = ({
 const LoginEmailForm = ({
   isDesktop,
   history,
-  prepareState: PrepareStateEl = PrepareState
+  prepareState: PrepareStateEl = PrepareState,
+  showBack = true
 }) => {
   const [email, setEmail] = useState('')
 
@@ -161,7 +170,12 @@ const LoginEmailForm = ({
         { loading, data: { emailLogin: { success } = {} } = {} }
       ) => {
         return success ? (
-          <SuccessState email={email} isDesktop={isDesktop} history={history} />
+          <SuccessState
+            email={email}
+            isDesktop={isDesktop}
+            history={history}
+            showBack={showBack}
+          />
         ) : (
           <PrepareStateEl
             loading={loading}

@@ -1,0 +1,344 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  background-color: var(--athens);
+}
+
+.wrapper {
+  margin: auto;
+  padding: 64px 0;
+  max-width: 1170px;
+
+  @include responsive('phone', 'phone-xs') {
+    padding: 56px 24px;
+  }
+
+  @include responsive('laptop', 'tablet') {
+    padding: 56px 24px 84px 24px;
+  }
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
+  }
+
+  @include responsive('tablet', 'laptop') {
+    justify-content: flex-start;
+  }
+}
+
+.leftLinks {
+  @include text('body-3');
+
+  color: var(--waterloo);
+  display: flex;
+  flex-direction: column;
+  margin-right: 74px;
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2');
+  }
+
+  @include responsive('laptop', 'tablet') {
+    margin-right: 88px;
+  }
+}
+
+.santimentTitle {
+  margin-top: 16px;
+  max-width: 124px;
+
+  @include responsive('phone', 'phone-xs') {
+    max-width: 216px;
+  }
+
+  @include responsive('laptop', 'tablet') {
+    max-width: 117px;
+  }
+}
+
+.santimentLogo {
+  @include responsive('phone', 'phone-xs') {
+    width: 144px;
+    height: 27px;
+  }
+}
+
+.centerLinks {
+  max-width: 580px;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+    margin-top: 41px;
+  }
+
+  @include responsive('tablet', 'laptop') {
+    max-width: 510px;
+  }
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.link {
+  @include text('body-3');
+
+  color: var(--waterloo);
+  margin-bottom: 20px;
+  width: 180px;
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    width: 162px;
+
+    @include text('body-2');
+  }
+
+  @include responsive('tablet', 'laptop') {
+    width: 168px;
+  }
+}
+
+.mediaLinks {
+  display: flex;
+}
+
+.socialTitle {
+  display: none;
+
+  @include responsive('phone', 'phone-xs') {
+    display: flex;
+    width: 100%;
+    margin-bottom: 16px;
+    color: var(--waterloo);
+
+    @include text('body-2', 'm');
+  }
+}
+
+.mediaLink {
+  margin-left: 16px;
+  margin-bottom: 0;
+  border: 1px solid var(--porcelain);
+  border-radius: $border-radius;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+
+  @include responsive('laptop', 'tablet','phone', 'phone-xs') {
+    margin: 0 16px 0 0;
+  }
+
+  .svg {
+    fill: var(--rhino);
+  }
+
+  &:hover {
+    .discord {
+      fill: #7289da;
+    }
+
+    .twitter {
+      fill: #1da1f2;
+    }
+
+    .telegram {
+      fill: #08c;
+    }
+
+    .youtube {
+      fill: red;
+    }
+  }
+}
+
+.bottom {
+  width: 100%;
+  border-top: 1px solid var(--porcelain);
+  display: flex;
+  justify-content: space-between;
+  padding-top: 24px;
+  margin: 20px 0 0 0;
+  align-items: center;
+
+  @include text('body-3');
+
+  @include responsive('phone', 'phone-xs') {
+    margin-bottom: 56px;
+    border: none;
+    flex-direction: column-reverse;
+
+    @include text('body-2');
+  }
+
+  @include responsive('laptop', 'tablet') {
+    flex-direction: row-reverse;
+    padding-top: 32px;
+    margin-top: 48px;
+  }
+}
+
+.bottomLinks {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column-reverse;
+  }
+
+  @include responsive('laptop', 'tablet') {
+    flex-direction: column-reverse;
+  }
+}
+
+.bottomLink {
+  color: var(--casper);
+  margin-left: 35px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 0 0 18px 0;
+    width: initial;
+  }
+}
+
+.bottomLeft {
+  color: var(--casper);
+
+  @include responsive('laptop', 'tablet') {
+    margin-left: auto;
+  }
+}
+
+.bottomCenter {
+  margin-left: 42px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  @include responsive('laptop', 'tablet') {
+    margin: 0 0 0 auto;
+  }
+}
+
+.bottomRight {
+  color: var(--casper);
+  margin-left: 220px;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+    margin: 0 0 41px 0;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--porcelain);
+  }
+
+  @include responsive('laptop', 'tablet') {
+    margin: 0;
+  }
+}
+
+.rightLinks {
+  display: flex;
+  flex-direction: column;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+    margin-top: 29px;
+  }
+
+  @include responsive('laptop', 'tablet') {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.subscription {
+  display: flex;
+  flex-direction: column;
+}
+
+.appBlock {
+  display: flex;
+  flex-direction: column;
+
+  @include responsive('tablet', 'laptop') {
+    margin-right: 100px;
+  }
+}
+
+.subcriptionTitle {
+  @include text('body-3', 'm');
+
+  color: var(--waterloo);
+  margin-bottom: 12px;
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2', 'm');
+  }
+}
+
+.downloadLink {
+  width: 136px;
+}
+
+.downloadTitle {
+  @include text('body-3', 'm');
+
+  color: var(--waterloo);
+  margin: 24px 0 12px 0;
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2', 'm');
+
+    margin: 40px 0 16px 0;
+  }
+
+  @include responsive('laptop', 'tablet') {
+    margin: 0 0 12px 0;
+  }
+}
+
+.emailInput {
+  background-color: var(--athens);
+
+  @include responsive('phone', 'phone-xs') {
+    height: 48px !important;
+  }
+}
+
+.getStartedBtn {
+  position: absolute !important;
+  width: 120px !important;
+  right: 4px !important;
+  margin-top: 0;
+}
+
+.form {
+  max-width: 358px;
+  width: 100%;
+
+  @include responsive('laptop', 'tablet') {
+    max-width: 348px;
+  }
+}

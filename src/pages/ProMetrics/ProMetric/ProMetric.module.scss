@@ -1,0 +1,100 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  margin-top: 88px;
+  display: flex;
+
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    flex-direction: column !important;
+  }
+}
+
+.title {
+  color: var(--rhino);
+
+  @include text('h4', 'm');
+}
+
+.upgrade {
+  margin-top: 16px;
+  padding: 0;
+}
+
+.upgradeIcon {
+  margin-left: 8px;
+}
+
+.description {
+  @include text('body-1');
+
+  margin-top: 24px;
+  color: var(--waterloo);
+  max-width: 524px;
+
+  @include responsive('tablet', 'laptop','phone', 'phone-xs') {
+    max-width: 100%;
+  }
+}
+
+.link {
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+.isLeft {
+  flex-direction: row-reverse !important;
+
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    flex-direction: column !important;
+  }
+}
+
+.descriptions {
+  display: flex;
+  flex-direction: column;
+}
+
+.svg {
+  display: flex;
+  margin-left: 103px;
+  margin-right: 0;
+  max-width: 100%;
+  background: var(--white);
+  box-sizing: border-box;
+
+  @include responsive('tablet', 'laptop','phone', 'phone-xs') {
+    margin: 24px 0 0 0 !important;
+    align-items: center;
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+
+    @include responsive('tablet', 'laptop','phone', 'phone-xs') {
+      width: 100%;
+    }
+  }
+}
+
+.svgLeft {
+  margin-right: 103px;
+  margin-left: 0;
+
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    margin: 0;
+  }
+}
+
+.highline {
+  color: $fiord;
+  font-weight: 600;
+}
+
+.block {
+  margin-top: 24px;
+}

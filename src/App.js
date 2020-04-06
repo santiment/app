@@ -43,16 +43,22 @@ export const PATHS = {
   LOGIN: '/login',
   LOGIN_VIA_EMAIL: '/login/email',
   CREATE_ACCOUNT: '/sign-up',
-  GDPR: '/gdpr'
+  GDPR: '/gdpr',
+  PRO_METRICS: '/pro-metrics'
 }
 
-const FOOTER_DISABLED_FOR = [PATHS.FEED, PATHS.SOCIAL_TOOl]
+const FOOTER_DISABLED_FOR = [PATHS.FEED, PATHS.PRO_METRICS, PATHS.SOCIAL_TOOl]
 const FOOTER_ABSOLUTE_FOR = [
   PATHS.LOGIN,
   PATHS.LOGIN_VIA_EMAIL,
   PATHS.CREATE_ACCOUNT,
   PATHS.GDPR
 ]
+
+const LoadableProMetricsPage = Loadable({
+  loader: () => import('./pages/ProMetrics/ProMetrics'),
+  loading: () => <PageLoader />
+})
 
 const LoadableLabsPage = Loadable({
   loader: () => import('./pages/Labs'),
@@ -420,6 +426,12 @@ export const App = ({
               isDesktop={isDesktop}
               {...props}
             />
+          )}
+        />
+        <Route
+          path={PATHS.PRO_METRICS}
+          render={props => (
+            <LoadableProMetricsPage isLoggedIn={isLoggedIn} {...props} />
           )}
         />
         {!isDesktop && <Redirect from='/' to='/assets' />}
