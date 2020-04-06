@@ -44,8 +44,6 @@ const getTextIf = (metric, index) => {
     return texts[index]
   }
 
-  console.log(metric)
-
   return `if ${metric.label.toLowerCase()}${TEXT_BY_SIGN[index]}`
 }
 

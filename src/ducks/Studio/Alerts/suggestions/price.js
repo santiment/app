@@ -16,14 +16,13 @@ export const suggestValueChange = metric => {
   const { formatter, label } = metric
 
   return ({ slug, value, lastValue, ...rest }) => {
-    const isAboveLastPrice = value > lastValue
-    const type =
-      PRICE_CHANGE_TYPES[isAboveLastPrice ? SIGNAL_ABOVE : SIGNAL_BELOW]
+    const isAbove = value > lastValue
+    const type = PRICE_CHANGE_TYPES[isAbove ? SIGNAL_ABOVE : SIGNAL_BELOW]
 
     return createSuggestion(
       buildValueChangeSignal(slug, value, type, metric),
       <>
-        {label} {VALUE_IFS[+isAboveLastPrice]} <Value>{formatter(value)}</Value>
+        {label} {VALUE_IFS[+isAbove]} <Value>{formatter(value)}</Value>
       </>
     )
   }
