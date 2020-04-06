@@ -3,36 +3,44 @@ import { createSuggestion } from './helpers'
 import Value from '../Value'
 import { PRICE_CHANGE_TYPES } from '../../../Signals/utils/constants'
 import {
-  buildPriceSignal,
-  buildPricePercentUpDownSignal
+  buildValueChangeSignal,
+  buildPercentUpDownSignal
 } from '../../../Signals/utils/utils'
 import { Metric } from '../../../dataHub/metrics'
 
-const { formatter } = Metric.price_usd
+export const SIGNAL_BELOW = 'BELOW'
+export const SIGNAL_ABOVE = 'ABOVE'
+export const VALUE_IFS = ['drops below', 'rises above']
 
-const SIGNAL_BELOW = 'BELOW'
-const SIGNAL_ABOVE = 'ABOVE'
-const PRICE_IFS = ['drops below', 'rises above']
+export const suggestValueChange = metric => {
+  const { formatter, label } = metric
 
-const suggestValueChange = ({ slug, value, lastValue, ...rest }) => {
-  const isAboveLastPrice = value > lastValue
-  const type =
-    PRICE_CHANGE_TYPES[isAboveLastPrice ? SIGNAL_ABOVE : SIGNAL_BELOW]
+  return ({ slug, value, lastValue, ...rest }) => {
+    const isAboveLastPrice = value > lastValue
+    const type =
+      PRICE_CHANGE_TYPES[isAboveLastPrice ? SIGNAL_ABOVE : SIGNAL_BELOW]
 
-  return createSuggestion(
-    buildPriceSignal(slug, value, type),
-    <>
-      Price {PRICE_IFS[+isAboveLastPrice]} <Value>{formatter(value)}</Value>
-    </>
-  )
+    return createSuggestion(
+      buildValueChangeSignal(slug, value, type, metric),
+      <>
+        {label} {VALUE_IFS[+isAboveLastPrice]} <Value>{formatter(value)}</Value>
+      </>
+    )
+  }
 }
 
-const suggestPercentUpDown = ({ slug }) =>
-  createSuggestion(
-    buildPricePercentUpDownSignal(slug),
-    <>
-      Price moves up or down by <Value>10%</Value>
-    </>
-  )
+export const suggestPercentUpDown = metric => {
+  const { label } = metric
 
-export const priceSuggesters = [suggestValueChange, suggestPercentUpDown]
+  return ({ slug }) =>
+    createSuggestion(
+      buildPercentUpDownSignal(slug, metric),
+      <>
+        {label} moves up or down by <Value>10%</Value>
+      </>
+    )
+}
+export const priceSuggesters = [
+  suggestValueChange(Metric.price_usd),
+  suggestPercentUpDown(Metric.price_usd)
+]
