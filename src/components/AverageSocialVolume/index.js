@@ -31,7 +31,7 @@ const AverageSocialVolume = ({ text, hasPremium, detectedAsset }) => {
     DEFAULT_METRIC_SETTING_MAP
   )
 
-  const [data, loadings] = useTimeseries(metrics, SETTINGS, MetricSettingMap)
+  const [data] = useTimeseries(metrics, SETTINGS, MetricSettingMap)
 
   const newAvg = calcAverage(metrics, data)
   if (JSON.stringify(newAvg) !== JSON.stringify(avg)) {

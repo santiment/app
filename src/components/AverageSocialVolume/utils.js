@@ -25,7 +25,6 @@ export function buildExploredMetric (text) {
 export function calcAverage (metrics, data) {
   const initialValue = {}
   const avg = []
-  const { length } = data
 
   metrics.forEach(({ key }) => (initialValue[key] = { sum: 0, amount: 0 }))
 
