@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import topHodersSvg from './../../assets/pro-metrics/top-holders.svg'
 import maximalAgeSvg from './../../assets/pro-metrics/maximal-mean-age.svg'
 import nvtRatioSvg from './../../assets/pro-metrics/nvt-ratio.svg'
@@ -9,16 +10,29 @@ import threshooldSvg from './../../assets/pro-metrics/threshold.svg'
 import velocitydSvg from './../../assets/pro-metrics/velocity.svg'
 import mostProfitableSvg from '../../assets/pro-metrics/most-profitable.svg'
 import distributionSvg from '../../assets/pro-metrics/distribution.svg'
-
 import erc20Svg from '../../assets/pro-metrics/erc20.svg'
 import stablecoinsSvg from '../../assets/pro-metrics/stablecoins.svg'
 import leastCorrelatedSvg from '../../assets/pro-metrics/least-correlated.svg'
-
 import styles from './ProMetric/ProMetric.module.scss'
+
+const MoreInfo = ({ link }) => {
+  return (
+    <a
+      className={cx(styles.link, styles.moreInfo)}
+      rel='noopener noreferrer'
+      target='_blank'
+      href={link}
+    >
+      More info
+    </a>
+  )
+}
 
 export const THIRD_METRICS_GROUP = [
   {
     title: 'Velocity Vs. Price Template',
+    linkToTemplate:
+      'https://docs.google.com/spreadsheets/d/1FMyF31TI-ak7qFvIWSXF4LXhsQ5gtHFiS4USTvtowOc/view ',
     description: (
       <>
         Velocity is an underutilized way to research how quickly money is
@@ -36,24 +50,18 @@ export const THIRD_METRICS_GROUP = [
   },
   {
     title: 'Most Profitable Days for Trading Cryptocurrency',
+    linkToTemplate:
+      'https://docs.google.com/spreadsheets/d/1yIkiTfyvEHfNiZ93JfqjPCOTUmnIrZco_se5r6O6mgc/view',
     description: (
       <>
-        As{' '}
-        <a
-          className={styles.link}
-          rel='noopener noreferrer'
-          target='_blank'
-          href='https://insights.santiment.net/read/backtesting-the-week%3A-which-days-are-best-for-trading-crypto%3F-1139'
-        >
-          we’ve tested in the past
-        </a>{' '}
-        , knowing which days have the best historical ROI can help reduce risk
-        and craft effective market alphas.
+        As we’ve tested in the past, knowing which days have the best historical
+        ROI can help reduce risk and craft effective market alphas.
         <div className={styles.block}>
           This template determines the best trading days (historically) for any
           coin in the Santiment database, with adjustable time ranges for Pro
           users.
         </div>
+        <MoreInfo link='https://insights.santiment.net/read/backtesting-the-week%3A-which-days-are-best-for-trading-crypto%3F-1139' />
       </>
     ),
     isImage: true,
@@ -63,21 +71,14 @@ export const THIRD_METRICS_GROUP = [
     title: 'Distribution Index',
     description: (
       <>
-        <a
-          className={styles.link}
-          rel='noopener noreferrer'
-          target='_blank'
-          href='https://insights.santiment.net/read/314'
-        >
-          Our research
-        </a>{' '}
-        has shown that distributed coins (supply dispersed among many addresses)
-        tend to outperform concentrated coins (much of circulating supply held
-        by ‘whales’).
+        Our research has shown that distributed coins (supply dispersed among
+        many addresses) tend to outperform concentrated coins (much of
+        circulating supply held by ‘whales’).
         <div className={styles.block}>
           This Index calculates the top 10 most distributed and most
           concentrated ERC-20 coins (within the top 50) over the last month.
         </div>
+        <MoreInfo link='https://insights.santiment.net/read/314' />
       </>
     ),
     isImage: true,
@@ -87,21 +88,18 @@ export const THIRD_METRICS_GROUP = [
     title: 'ETH-ERC20 Correlation Index',
     description: (
       <>
-        <a
-          className={styles.link}
-          rel='noopener noreferrer'
-          target='_blank'
-          href='https://santiment.net/blog/eth-vs-erc-20-market-cap-comparison/'
-        >
-          Our previous analysis
-        </a>{' '}
-        indicates that ERC-20 coins tend to be less correlated to Ethereum
-        during the bull market, and exhibit higher correlation during the bear
-        market.
+        Our previous analysis indicates that ERC-20 coins tend to be less
+        correlated to Ethereum during the bull market, and exhibit higher
+        correlation during the bear market.
         <div className={styles.block}>
           This Index charts the correlation of ERC-20 market cap to the ETH
           market cap over the last 3 months.
         </div>
+        <MoreInfo
+          link={
+            'https://santiment.net/blog/eth-vs-erc-20-market-cap-comparison/'
+          }
+        />
       </>
     ),
     isImage: true,
@@ -111,22 +109,14 @@ export const THIRD_METRICS_GROUP = [
     title: 'Stablecoin Volatility Index',
     description: (
       <>
-        Stablecoins are{' '}
-        <a
-          className={styles.link}
-          rel='noopener noreferrer'
-          target='_blank'
-          href='https://santiment.net/blog/stablecoin-volatility/'
-        >
-          more volatile
-        </a>{' '}
-        than you think. This presents a novel market opportunity, as one could
-        theoretically invest in low-volatility stablecoins and trade outbreaks
-        in their more volatile counterparts.
+        Stablecoins are more volatile than you think. This presents a novel
+        market opportunity, as one could theoretically invest in low-volatility
+        stablecoins and trade outbreaks in their more volatile counterparts.
         <div className={styles.block}>
           This Santiment Index ranks 15 biggest stablecoins from most to least
           volatile over the past 30 days.
         </div>
+        <MoreInfo link={'https://santiment.net/blog/stablecoin-volatility/'} />
       </>
     ),
     isImage: true,
@@ -136,21 +126,18 @@ export const THIRD_METRICS_GROUP = [
     title: 'Least Correlated Coins to BTC & ETH',
     description: (
       <>
-        According to{' '}
-        <a
-          className={styles.link}
-          rel='noopener noreferrer'
-          target='_blank'
-          href='https://medium.com/santiment/eth-vs-erc-20-a-tale-of-two-market-caps-94b2aca58e5e?source=collection_category---4------5-----------------------'
-        >
-          our research
-        </a>
-        , a portfolio of coins that are least correlated to both Bitcoin and
-        Ethereum tends to perform particularly well during the bull cycles.
+        According to our research , a portfolio of coins that are least
+        correlated to both Bitcoin and Ethereum tends to perform particularly
+        well during the bull cycles.
         <div className={styles.block}>
           This Index calculates the 20 least correlated coins to BTC & ETH over
           the past 30 days.
         </div>
+        <MoreInfo
+          link={
+            'https://medium.com/santiment/eth-vs-erc-20-a-tale-of-two-market-caps-94b2aca58e5e?source=collection_category---4------5-----------------------'
+          }
+        />
       </>
     ),
     isImage: true,
@@ -161,6 +148,8 @@ export const THIRD_METRICS_GROUP = [
 export const SECOND_METRICS_GROUP = [
   {
     title: 'MVRV and MVRV Long/Short Difference Ratio Template',
+    linkToTemplate:
+      'https://docs.google.com/spreadsheets/d/1wIYCGcweukXIv465R23ItVYSwwafhK8QcZnt0Q3w4M4/view',
     description: (
       <>
         The MVRV ratio is found by dividing the market cap (market value or MV)
@@ -182,6 +171,8 @@ export const SECOND_METRICS_GROUP = [
   },
   {
     title: 'Thresholds Crossed Template',
+    linkToTemplate:
+      'https://docs.google.com/spreadsheets/d/1jpWnbptnVIWHRvwAu41xmtg73naO4Ta1qEYzpLV1QpA/view',
     description: (
       <>
         Understanding how many times a price of a project has moved above or
@@ -209,22 +200,15 @@ export const FIRST_METRICS_GROUP = [
     isLeft: true,
     isImage: true,
     svg: maximalAgeSvg,
+    linkToTemplate:
+      'https://docs.google.com/spreadsheets/d/1b4POwppuzzcMmb7_Kjs0ZJ7u-G9rVEGzMQ_uNmIeTVo/view',
     description: (
       <>
         This template visualizes the Mean Dollar Age of Bitcoin, Ethereum and
         various ERC20 coins in comparison to one another.
         <div className={styles.block}>
-          Developed by Santiment,{' '}
-          <a
-            className={styles.link}
-            rel='noopener noreferrer'
-            target='_blank'
-            href='https://insights.santiment.net/read/%F0%9F%93%A2-mean-age-653/?utm_campaign=mainlist_feb_2020&utm_medium=newsletter&utm_source=email&via=monthly_email'
-          >
-            Mean Dollar Age
-          </a>{' '}
-          calculates the average age of all dollars invested in acquiring a
-          particular coin.
+          Developed by Santiment, Mean Dollar Age calculates the average age of
+          all dollars invested in acquiring a particular coin.
         </div>
         <div className={styles.block}>
           This metric identifies accumulation and sell cycles for any coin,{' '}
@@ -233,29 +217,29 @@ export const FIRST_METRICS_GROUP = [
           </span>{' '}
           can serve as a novel bullish indicator.
         </div>
+        <MoreInfo
+          link={
+            'https://insights.santiment.net/read/%F0%9F%93%A2-mean-age-653/?utm_campaign=mainlist_feb_2020&utm_medium=newsletter&utm_source=email&via=monthly_email'
+          }
+        />
       </>
     )
   },
   {
     title: 'Top Holders Template',
+    linkToTemplate:
+      'https://docs.google.com/spreadsheets/d/1j46lSYcHUDIh4mZfU9HewJYL_rAOZrHSpU-WvG9OxFo/view',
     description: (
       <>
-        Crypto is still a whale’s playground.{' '}
-        <a
-          className={styles.link}
-          rel='noopener noreferrer'
-          target='_blank'
-          href='https://insights.santiment.net/read/top-token-holders-and-their-role-as-leading-indicators-5618'
-        >
-          This template
-        </a>{' '}
-        monitors the behavior of the biggest addresses holding Ethereum as well
-        as various ERC-20 coins.
+        Crypto is still a whale’s playground. This template monitors the
+        behavior of the biggest addresses holding Ethereum as well as various
+        ERC-20 coins.
         <div className={styles.block}>
           The template includes a dozen views of top whales’ behavior, including
           balance changes, big accumulation/sell-off events and week-to-week
           adjustments to total supply held.
         </div>
+        <MoreInfo link='https://insights.santiment.net/read/top-token-holders-and-their-role-as-leading-indicators-5618' />
       </>
     ),
     isImage: true,
@@ -263,6 +247,8 @@ export const FIRST_METRICS_GROUP = [
   },
   {
     title: 'NVT Ratio Template',
+    linkToTemplate:
+      'https://docs.google.com/spreadsheets/d/1WHf2CqD-pppmxO8Wt5eyU6p4I9q1A2kJ7MlNkQe_pC0/view',
     description: (
       <>
         This template calculates the NVT ratio for BTC, ETH and several ERC-20
@@ -291,26 +277,24 @@ export const FIRST_METRICS_GROUP = [
   },
   {
     title: 'Price-DAA Divergence Template',
+    linkToTemplate:
+      'https://docs.google.com/spreadsheets/u/1/d/1Wu-d_uBuvLp3FoNqz3azzbNzFr8Zaw2n6bcLLsQxNGc/view',
     description: (
       <>
-        We{' '}
-        <a
-          className={styles.link}
-          rel='noopener noreferrer'
-          target='_blank'
-          href='https://insights.santiment.net/read/price---daily-addresses-divergence%3A-%0Aa-primer-on-on-chain-trading-strategies-2222'
-        >
-          have found
-        </a>{' '}
-        that major differences in the coin’s price and network activity trends
-        can present opportune times to buy OR sell, depending on the trend’s
-        direction.
+        We have found that major differences in the coin’s price and network
+        activity trends can present opportune times to buy OR sell, depending on
+        the trend’s direction.
         <div className={styles.block}>
           {' '}
           This template triggers BUY and SELL signals for Bitcoin and Ethereum
           based on major divergences in price and the amount of daily addresses
           interacting with the coin.
         </div>
+        <MoreInfo
+          link={
+            'https://insights.santiment.net/read/price---daily-addresses-divergence%3A-%0Aa-primer-on-on-chain-trading-strategies-2222'
+          }
+        />
       </>
     ),
     isImage: true,
@@ -320,6 +304,8 @@ export const FIRST_METRICS_GROUP = [
     title: 'Network Growth & Daily Active Addresses Template',
     isLeft: true,
     isImage: true,
+    linkToTemplate:
+      'https://docs.google.com/spreadsheets/d/1wIYCGcweukXIv465R23ItVYSwwafhK8QcZnt0Q3w4M4/view',
     description: (
       <>
         This template compares the amount of network growth and daily active

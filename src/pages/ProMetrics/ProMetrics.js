@@ -29,7 +29,7 @@ const ProMetrics = ({ history, isLoggedIn }) => {
         <div className={styles.firstStep}>
           <div className={styles.descriptions}>
             <div className={styles.crown}>
-              <Icon type='crown' /> PRO Metrics
+              <Icon type='crown' /> Pro Google Sheets templates
             </div>
 
             <div className={styles.perksTitle}>
