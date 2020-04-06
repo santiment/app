@@ -2,13 +2,19 @@
 
 .panel {
   max-width: 465px;
-  padding: 24px;
+  padding: 16px 24px 20px;
   border-radius: $border-radius;
   text-align: left;
+  color: var(--rhino);
 }
 
 .wrapper {
   z-index: 1;
   max-width: 465px;
   padding: 14px;
+}
+
+.trigger {
+  fill: var(--waterloo);
+  cursor: pointer;
 }

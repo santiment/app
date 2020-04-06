@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { Metric } from '../../ducks/dataHub/metrics'
 import { useTimeseries } from '../../ducks/Studio/timeseries/hooks'
+import HelpPopup from '../HelpPopup/HelpPopup'
 import { SETTINGS } from './settings'
 import DetailsItem from './DetailsItem'
 import Column from './Column'
@@ -90,6 +91,9 @@ const AverageSocialVolume = ({ text, hasPremium, detectedAsset }) => {
     <div className={styles.wrapper}>
       <div className={styles.header}>
         <h3 className={styles.title}>Average</h3>
+        <HelpPopup>
+          The average number of daily mentions in the past 30 days
+        </HelpPopup>
       </div>
       {hasPremium ? (
         <div className={styles.content}>

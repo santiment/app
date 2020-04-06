@@ -7,10 +7,16 @@
   }
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  margin: 0 0 16px;
+}
+
 .title {
   @include text('body-3');
 
-  margin: 0 0 16px;
+  margin: 0 14px 0 0;
 }
 
 .content {
@@ -43,7 +49,5 @@
 
 .loader {
   font-size: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin: 50px auto;
 }
