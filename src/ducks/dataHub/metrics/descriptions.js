@@ -167,7 +167,7 @@ export const Description = {
     </>
   ),
 
-  [Metric.dailyActiveDeposits.key]: (
+  [Metric.active_deposits.key]: (
     <>
       Shows the number of unique deposit addresses that participated in
       transactions for a given day. A deposit address is an address belonging to

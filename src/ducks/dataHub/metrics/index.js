@@ -157,7 +157,7 @@ export const Metric = {
     shortLabel: 'Token Vel.',
     abbreviation: 'tv'
   },
-  dailyActiveDeposits: {
+  active_deposits: {
     category: 'On-chain',
     node: 'bar',
     label: 'Daily Active Deposits',
