@@ -24,6 +24,7 @@ import {
 import { PRICE_CHANGE_TYPES } from '../../Signals/utils/constants'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './index.module.scss'
+import { buildValueChangeSuggester } from '../../Studio/Alerts/suggestions/helpers'
 
 const TEXT_SIGNAL = 'Alert '
 const TEXT_ACTION = 'Click to '
@@ -113,7 +114,8 @@ const Signals = ({
     const type =
       PRICE_CHANGE_TYPES[value > lastValue ? SIGNAL_ABOVE : SIGNAL_BELOW]
 
-    createSignal(AlertBuilder[metric.key](slug, value, type))
+    const suggester = AlertBuilder[metric.key] || buildValueChangeSuggester
+    createSignal(suggester(slug, value, type, metric))
   }
 
   function onMouseLeave () {

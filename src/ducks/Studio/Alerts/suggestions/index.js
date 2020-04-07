@@ -1,15 +1,14 @@
-import {
-  priceSuggesters,
-  suggestPercentUpDown,
-  suggestValueChange
-} from './price'
+import { buildPercentUpSuggester, buildValueChangeSuggester } from './helpers'
 import { dailyActiveAddressesSuggesters } from './dailyActiveAddresses'
 import { Metric } from '../../../dataHub/metrics'
 
 export const Suggestion = Object.assign(Object.create(null), {
   price_usd: {
     title: 'Price',
-    suggesters: priceSuggesters
+    suggesters: [
+      buildValueChangeSuggester(Metric.price_usd),
+      buildPercentUpSuggester(Metric.price_usd)
+    ]
   },
   daily_active_addresses: {
     title: 'DAA',
@@ -18,22 +17,22 @@ export const Suggestion = Object.assign(Object.create(null), {
   social_volume_total: {
     title: 'Social Volume',
     suggesters: [
-      suggestValueChange(Metric.social_volume_total),
-      suggestPercentUpDown(Metric.social_volume_total)
+      buildValueChangeSuggester(Metric.social_volume_total),
+      buildPercentUpSuggester(Metric.social_volume_total)
     ]
   },
   transaction_volume: {
     title: 'Transaction Volume',
     suggesters: [
-      suggestValueChange(Metric.transaction_volume),
-      suggestPercentUpDown(Metric.transaction_volume)
+      buildValueChangeSuggester(Metric.transaction_volume),
+      buildPercentUpSuggester(Metric.transaction_volume)
     ]
   },
   exchange_balance: {
     title: 'Exchange Balance',
     suggesters: [
-      suggestValueChange(Metric.exchange_balance),
-      suggestPercentUpDown(Metric.exchange_balance)
+      buildValueChangeSuggester(Metric.exchange_balance),
+      buildPercentUpSuggester(Metric.exchange_balance)
     ]
   }
 })
