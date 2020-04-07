@@ -3,9 +3,6 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import UpgradeBtn from '../../../components/UpgradeBtn/UpgradeBtn'
 import styles from './ProMetric.module.scss'
-import { getCurrentSanbaseSubscription } from '../../../utils/plans'
-import { PRO } from '../../../components/Navbar/NavbarProfileDropdown'
-import { connect } from 'react-redux'
 
 const ProMetric = ({
   classes = {},
@@ -23,14 +20,14 @@ const ProMetric = ({
       <div className={styles.descriptions}>
         <div className={styles.title}>{title}</div>
         <div className={styles.description}>{description}</div>
+      </div>
+      <div className={cx(styles.svg, classes.svg, isLeft && styles.svgLeft)}>
+        {isImage ? <img src={svg} alt={title} /> : svg}
         {!isProSanbase ? (
           <UpgradeToUse className={styles.upgrade} />
         ) : (
           <LinkToTemplate link={linkToTemplate} />
         )}
-      </div>
-      <div className={cx(styles.svg, classes.svg, isLeft && styles.svgLeft)}>
-        {isImage ? <img src={svg} alt={title} /> : svg}
       </div>
     </div>
   )
@@ -38,12 +35,12 @@ const ProMetric = ({
 
 const LinkToTemplate = ({ link }) => {
   if (!link) {
-    return null
+    return <div className={styles.linkToTemplate}>&nbsp;</div>
   }
 
   return (
     <a
-      className={styles.link}
+      className={cx(styles.link, styles.linkToTemplate)}
       target='_blank'
       rel='noopener noreferrer'
       href={link}
@@ -64,17 +61,4 @@ const UpgradeToUse = ({ className }) => {
   )
 }
 
-const mapStateToProps = ({ user: { data } }) => {
-  const sanbaseSubscription = getCurrentSanbaseSubscription(data)
-
-  const isProSanbase =
-    sanbaseSubscription && sanbaseSubscription.plan
-      ? sanbaseSubscription.plan.name === PRO
-      : false
-
-  return {
-    isProSanbase
-  }
-}
-
-export default connect(mapStateToProps)(ProMetric)
+export default ProMetric

@@ -44,6 +44,12 @@
   }
 }
 
+.linkToTemplate {
+  margin-bottom: 12px;
+
+  @include text('body-2', 'm');
+}
+
 .moreInfo {
   margin-top: 12px;
   display: flex;
@@ -64,6 +70,8 @@
 
 .svg {
   display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
   margin-left: 103px;
   margin-right: 0;
   max-width: 100%;
