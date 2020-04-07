@@ -218,6 +218,52 @@ export const Metric = {
     node: 'line',
     label: 'Miners balance',
     category: 'On-chain'
+  },
+  deposit_transactions: {
+    node: 'line',
+    label: 'Deposit transactions',
+    category: 'On-chain'
+  },
+  withdrawal_transactions: {
+    node: 'line',
+    label: 'Withdrawal transactions',
+    category: 'On-chain'
+  },
+  exchange_inflow: {
+    node: 'line',
+    label: 'Exchange inflow',
+    category: 'On-chain'
+  },
+  exchange_outflow: {
+    node: 'line',
+    label: 'Exchange outflow',
+    category: 'On-chain'
+  },
+  supply_on_exchanges: {
+    node: 'line',
+    label: 'Supply on exchanges',
+    category: 'On-chain'
+  },
+  supply_outside_exchanges: {
+    node: 'line',
+    label: 'Supply outside exchanges',
+    category: 'On-chain'
+  },
+
+  amount_in_top_holders: {
+    node: 'line',
+    label: 'Amount in top holders',
+    category: 'On-chain'
+  },
+  amount_in_exchange_top_holders: {
+    node: 'line',
+    label: 'Amount in exchange top holders',
+    category: 'On-chain'
+  },
+  amount_in_non_exchange_top_holders: {
+    node: 'line',
+    label: 'Amount in non exchange top holders',
+    category: 'On-chain'
   }
 }
 
