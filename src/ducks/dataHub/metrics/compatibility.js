@@ -2,6 +2,7 @@ import { Metric } from './index'
 
 export const CompatibleMetric = {
   // old              : new
+  percentOfTokenSupplyOnExchanges: Metric.percent_of_total_supply_on_exchanges,
   historyTwitterData: Metric.twitter_followers,
   socialDominance: Metric.social_dominance_total,
   socialVolume: Metric.social_volume_total,

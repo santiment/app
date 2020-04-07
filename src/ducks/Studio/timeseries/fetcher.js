@@ -7,7 +7,6 @@ import { HISTORICAL_BALANCE_QUERY } from '../../HistoricalBalance/common/queries
 import { DAILY_ACTIVE_DEPOSITS_QUERY } from '../../GetTimeSeries/queries/daily_active_deposits_query'
 import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from '../../GetTimeSeries/queries/top_holders_percent_of_total_supply'
 import { ETH_SPENT_OVER_TIME_QUERY } from '../../GetTimeSeries/queries/eth_spent_over_time_query'
-import { PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES } from '../../GetTimeSeries/queries/percent_of_token_supply_on_exchanges_query'
 import { MINERS_BALANCE_QUERY } from './queries/minersBalance'
 import { aliasTransform, extractTimeseries } from './utils'
 
@@ -32,10 +31,6 @@ Object.assign(Fetcher, {
   gasUsed: {
     query: GAS_USED_QUERY,
     preTransform: aliasTransform('gasUsed')
-  },
-  burnRate: {
-    query: BURN_RATE_QUERY,
-    preTransform: aliasTransform('burnRate')
   },
   historicalBalance: {
     query: HISTORICAL_BALANCE_QUERY,
@@ -64,10 +59,6 @@ Object.assign(Fetcher, {
         [key]: ethSpent
       }))
   },
-  percentOfTokenSupplyOnExchanges: {
-    query: PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES,
-    preTransform: aliasTransform('percentOnExchanges')
-  },
   minersBalance: {
     query: MINERS_BALANCE_QUERY,
     preTransform: extractTimeseries('minersBalance')
@@ -77,11 +68,9 @@ Object.assign(Fetcher, {
 // TODO: Remove this after moving to dynamic query aliasing instead of preTransform [@vanguard | March 4, 2020]
 const transformAliases = [
   'gasUsed',
-  'burnRate',
   'dailyActiveDeposits',
   'topHoldersPercentOfTotalSupply',
-  'ethSpentOverTime',
-  'percentOfTokenSupplyOnExchanges'
+  'ethSpentOverTime'
 ]
 
 export const getQuery = (metric, metricSettings) => {

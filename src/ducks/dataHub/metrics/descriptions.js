@@ -62,7 +62,7 @@ export const Description = {
     </>
   ),
 
-  [Metric.percentOfTokenSupplyOnExchanges.key]: (
+  [Metric.percent_of_total_supply_on_exchanges.key]: (
     <>
       The percent of the total token supply which is on exchanges. More info{' '}
       <a

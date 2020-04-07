@@ -89,11 +89,11 @@ export const Metric = {
     video: 'https://www.youtube.com/watch?v=n3dUvWvQEpQ',
     historicalTriggersDataKey: 'active_addresses'
   },
-  percentOfTokenSupplyOnExchanges: {
+  percent_of_total_supply_on_exchanges: {
     category: 'On-chain',
     node: 'line',
     group: 'Exchange Flow',
-    label: 'Percent of Token Supply on Exchanges',
+    label: 'Percent of Total Supply on Exchanges',
     shortLabel: '% TS on Exc.'
   },
   topHoldersPercentOfTotalSupply: {
