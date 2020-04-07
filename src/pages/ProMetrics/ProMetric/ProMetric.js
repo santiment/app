@@ -22,12 +22,12 @@ const ProMetric = ({
         <div className={styles.description}>{description}</div>
       </div>
       <div className={cx(styles.svg, classes.svg, isLeft && styles.svgLeft)}>
-        {isImage ? <img src={svg} alt={title} /> : svg}
         {!isProSanbase ? (
           <UpgradeToUse className={styles.upgrade} />
         ) : (
           <LinkToTemplate link={linkToTemplate} />
         )}
+        {isImage ? <img src={svg} alt={title} /> : svg}
       </div>
     </div>
   )
@@ -45,7 +45,7 @@ const LinkToTemplate = ({ link }) => {
       rel='noopener noreferrer'
       href={link}
     >
-      Open to use
+      Open to use <Icon className={styles.upgradeIcon} type='pointer-right' />
     </a>
   )
 }

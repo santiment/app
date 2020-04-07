@@ -16,8 +16,15 @@
 }
 
 .upgrade {
-  margin-top: 16px;
+  margin-bottom: 16px;
   padding: 0;
+
+  @include text('body-2', 'm');
+
+  &:focus {
+    color: var(--texas-rose-hover);
+    fill: var(--texas-rose-hover);
+  }
 }
 
 .upgradeIcon {
@@ -45,9 +52,20 @@
 }
 
 .linkToTemplate {
-  margin-bottom: 12px;
-
   @include text('body-2', 'm');
+
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  fill: var(--jungle-green);
+
+  &:hover {
+    fill: var(--jungle-green-hover);
+  }
+
+  @include responsive('tablet', 'laptop','phone', 'phone-xs') {
+    margin-top: 6px;
+  }
 }
 
 .moreInfo {
@@ -70,7 +88,7 @@
 
 .svg {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   align-items: center;
   margin-left: 103px;
   margin-right: 0;
