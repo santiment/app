@@ -213,6 +213,11 @@ export const Metric = {
     label: 'NVT Ratio Transaction Volume',
     shortLabel: 'NVT R. T.V.',
     category: 'On-chain'
+  },
+  minersBalance: {
+    node: 'line',
+    label: 'Miners balance',
+    category: 'On-chain'
   }
 }
 
