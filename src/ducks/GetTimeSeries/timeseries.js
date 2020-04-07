@@ -19,6 +19,12 @@ import { HISTORICAL_BALANCE_QUERY } from '../HistoricalBalance/common/queries'
 const getMetricPreTransform = ({ getMetric: { timeseriesData } }) =>
   timeseriesData
 
+const queryBuild = (type, preTransform = getMetricPreTransform) => {
+  return {
+    query: GET_METRIC(type),
+    preTransform
+  }
+}
 /*
    getMetric API available metrics could be seen by querying data with "getAvailableMetrics"
 */
@@ -118,14 +124,7 @@ const TIMESERIES = {
     query: GET_METRIC('network_growth'),
     preTransform: getMetricPreTransform
   },
-  social_dominance_total: {
-    query: GET_METRIC('social_dominance_total'),
-    preTransform: getMetricPreTransform
-  },
-  social_volume_total: {
-    query: GET_METRIC('social_volume_total'),
-    preTransform: getMetricPreTransform
-  },
+  social_volume_total: queryBuild('social_volume_total'),
   gasUsed: {
     query: GAS_USED_QUERY
   },
@@ -160,7 +159,31 @@ const TIMESERIES = {
   mean_dollar_invested_age: {
     query: GET_METRIC('mean_dollar_invested_age'),
     preTransform: getMetricPreTransform
-  }
+  },
+  price_btc: queryBuild('price_btc'),
+  exchange_inflow: queryBuild('exchange_inflow'),
+  exchange_outflow: queryBuild('exchange_outflow'),
+  github_activity: queryBuild('github_activity'),
+  community_messages_count_discord: queryBuild(
+    'community_messages_count_discord'
+  ),
+  community_messages_count_telegram: queryBuild(
+    'community_messages_count_telegram'
+  ),
+  community_messages_count_total: queryBuild('community_messages_count_total'),
+  social_dominance_discord: queryBuild('social_dominance_discord'),
+  social_dominance_professional_traders_chat: queryBuild(
+    'social_dominance_professional_traders_chat'
+  ),
+  social_dominance_reddit: queryBuild('social_dominance_reddit'),
+  social_dominance_total: queryBuild('social_dominance_total'),
+  social_dominance_telegram: queryBuild('social_dominance_telegram'),
+  social_volume_professional_traders_chat: queryBuild(
+    'social_volume_professional_traders_chat'
+  ),
+  social_volume_reddit: queryBuild('social_volume_reddit'),
+  social_volume_discord: queryBuild('social_volume_discord'),
+  social_volume_telegram: queryBuild('social_volume_telegram')
 }
 
 export const hasMetric = metric => !!TIMESERIES[metric]

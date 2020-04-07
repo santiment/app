@@ -17,30 +17,83 @@ const checkPossibleTarget = ({ metaFormSettings, setFieldValue, target }) => {
   }
 }
 
+const makeSignalMetric = (key, label, category, node = 'line') => {
+  return {
+    key,
+    label,
+    category,
+    node
+  }
+}
+
 export const SIGNAL_SUPPORTED_METRICS = [
   Metric.social_volume_total,
+  makeSignalMetric(
+    'social_volume_discord',
+    'Social volume (discord)',
+    'Social'
+  ),
+  makeSignalMetric(
+    'social_volume_professional_traders_chat',
+    'Social volume (pro traders chat)',
+    'Social'
+  ),
+  makeSignalMetric('social_volume_reddit', 'Social volume (reddit)', 'Social'),
+  makeSignalMetric(
+    'social_volume_telegram',
+    'Social volume (telegram)',
+    'Social'
+  ),
+
   Metric.volume_usd,
   Metric.age_destroyed,
   Metric.exchange_balance,
-  // makeSignalMetric('price_btc', 'Price BTC', 'Financial'),
+  makeSignalMetric('price_btc', 'Price BTC', 'Financial'),
   Metric.marketcap_usd,
-  // Metric.community_messages_count_discord,
-  // DetailedMetric.community_messages_count_telegram,
-  // Metric.community_messages_count_total,
-  // Metric.social_dominance_discord,
-  // Metric.social_dominance_professional_traders_chat,
-  // Metric.social_dominance_reddit,
-  // Metric.social_dominance_telegram,
-  // Metric.social_dominance_total,
-  // DetailedMetric.social_volume_discord,
-  // DetailedMetric.social_volume_professional_traders_chat,
-  // DetailedMetric.social_volume_reddit,
-  // DetailedMetric.social_volume_telegram,
+
+  makeSignalMetric(
+    'community_messages_count_total',
+    'Community messages count(total)',
+    'Social'
+  ),
+  makeSignalMetric(
+    'community_messages_count_telegram',
+    'Community messages count(telegram)',
+    'Social'
+  ),
+  // makeSignalMetric('community_messages_count_discord', 'Community messages count(discord)', 'Social'),
+
+  makeSignalMetric(
+    'social_dominance_total',
+    'Social dominance (total)',
+    'Social'
+  ),
+  makeSignalMetric(
+    'social_dominance_discord',
+    'Social dominance (discord)',
+    'Social'
+  ),
+  makeSignalMetric(
+    'social_dominance_professional_traders_chat',
+    'Social dominance (pro traders chat)',
+    'Social'
+  ),
+  makeSignalMetric(
+    'social_dominance_reddit',
+    'Social dominance (reddit)',
+    'Social'
+  ),
+  makeSignalMetric(
+    'social_dominance_telegram',
+    'Social dominance (telegram)',
+    'Social'
+  ),
+
   Metric.transaction_volume,
-  // Metric.exchange_inflow,
-  // Metric.exchange_outflow,
-  Metric.dev_activity
-  // Metric.github_activity,
+  makeSignalMetric('exchange_inflow', 'Exchange Inflow', 'On-chain', 'bar'),
+  makeSignalMetric('exchange_outflow', 'Exchange Outflow', 'On-chain', 'bar'),
+  Metric.dev_activity,
+  makeSignalMetric('github_activity', 'Github Activity', 'Development')
 ]
 
 export const TriggerFormMetricTypes = ({
