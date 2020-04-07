@@ -1,0 +1,17 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.right {
+  margin-left: 26px;
+  flex-grow: 1;
+}
+
+.left {
+  display: flex;
+  flex-grow: 1;
+}

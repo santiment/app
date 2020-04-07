@@ -5,7 +5,7 @@ import styles from './AccountPage.module.scss'
 const Settings = props => (
   <Panel
     {...props}
-    className={styles.settings}
+    className={cx(styles.settings, props.className)}
     headerClassName={styles.settings__header}
     contentClassName={styles.settings__content}
   />

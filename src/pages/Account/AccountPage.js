@@ -12,10 +12,12 @@ import SettingsGetTokens from './SettingsGetTokens'
 import SettingsAPIKeys from './SettingsAPIKeys'
 import SettingsSubscription from './SettingsSubscription'
 import SettingsPlans from './SettingsPlans'
+import AffilateSettings from './AffilateSettings/AffilateSettings'
 import styles from './AccountPage.module.scss'
 
 export const ACCOUNT_PAGE_HASHES = {
-  subscription: '#subscription'
+  subscription: '#subscription',
+  affilate: '#affilate'
 }
 
 const tabs = [
@@ -30,13 +32,21 @@ const tabs = [
   {
     index: 2,
     content: (
+      <Link className={styles.tab} to={ACCOUNT_PAGE_HASHES.affilate}>
+        Affilate
+      </Link>
+    )
+  },
+  {
+    index: 3,
+    content: (
       <Link className={styles.tab} to='#connections'>
         Connections
       </Link>
     )
   },
   {
-    index: 3,
+    index: 4,
     content: (
       <Link className={styles.tab} to='#notifications'>
         Notifications
@@ -44,7 +54,7 @@ const tabs = [
     )
   },
   {
-    index: 4,
+    index: 5,
     content: (
       <Link className={styles.tab} to='#get-tokens'>
         Get tokens
@@ -52,7 +62,7 @@ const tabs = [
     )
   },
   {
-    index: 5,
+    index: 6,
     content: (
       <Link className={styles.tab} to='#api-keys'>
         API keys
@@ -60,7 +70,7 @@ const tabs = [
     )
   },
   {
-    index: 6,
+    index: 7,
     hash: ACCOUNT_PAGE_HASHES.subscription,
     content: (
       <Link className={styles.tab} to={ACCOUNT_PAGE_HASHES.subscription}>
@@ -69,7 +79,7 @@ const tabs = [
     )
   },
   {
-    index: 7,
+    index: 8,
     content: (
       <Link className={styles.tab} to='#plans'>
         Plans
@@ -108,6 +118,7 @@ const AccountPage = ({ history, isUserLoading, isLoggedIn, location }) => {
       <div className={styles.container}>
         <SettingsGeneral />
         <SettingsConnections />
+        <AffilateSettings />
         <SettingsNotifications />
         <SettingsGetTokens />
         <SettingsAPIKeys />
