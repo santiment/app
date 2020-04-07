@@ -35,7 +35,7 @@ const TEXT_IFS = {
   ]
 }
 
-const TEXT_BY_SIGN = [' drops below ', ' rises above ']
+const MOVING_TEXT_BY_SIGN = [' drops below ', ' rises above ']
 
 const getTextIf = (metric, index) => {
   const texts = TEXT_IFS[metric.key]
@@ -44,7 +44,7 @@ const getTextIf = (metric, index) => {
     return texts[index]
   }
 
-  return `if ${metric.label.toLowerCase()}${TEXT_BY_SIGN[index]}`
+  return `if ${metric.label.toLowerCase()}${MOVING_TEXT_BY_SIGN[index]}`
 }
 
 const priceFormatter = Metric.price_usd.formatter
