@@ -116,7 +116,7 @@ export const THIRD_METRICS_GROUP = [
           This Santiment Index ranks 15 biggest stablecoins from most to least
           volatile over the past 30 days.
         </div>
-        <MoreInfo link={'https://santiment.net/blog/stablecoin-volatility/'} />
+        <MoreInfo link='https://partners.santiment.net/blog/stablecoin-volatility/' />
       </>
     ),
     isImage: true,
@@ -135,7 +135,7 @@ export const THIRD_METRICS_GROUP = [
         </div>
         <MoreInfo
           link={
-            'https://medium.com/santiment/eth-vs-erc-20-a-tale-of-two-market-caps-94b2aca58e5e?source=collection_category---4------5-----------------------'
+            'https://partners.santiment.net/blog/is-diversification-worth-it-in-crypto/'
           }
         />
       </>
