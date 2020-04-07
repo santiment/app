@@ -44,7 +44,7 @@ export const PATHS = {
   LOGIN_VIA_EMAIL: '/login/email',
   CREATE_ACCOUNT: '/sign-up',
   GDPR: '/gdpr',
-  PRO_METRICS: '/pro-metrics'
+  PRO_METRICS: '/pro-sheets-templates'
 }
 
 const FOOTER_DISABLED_FOR = [PATHS.FEED, PATHS.PRO_METRICS, PATHS.SOCIAL_TOOl]

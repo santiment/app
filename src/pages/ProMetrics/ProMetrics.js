@@ -13,8 +13,11 @@ import styles from './ProMetrics.module.scss'
 import ProMetricsFooter from './ProMetricsFooter/ProMetricsFooter'
 import SubscriptionForm from '../../components/SubscriptionForm/SubscriptionForm'
 import { InputWithIcon } from '@santiment-network/ui/Input'
+import { getCurrentSanbaseSubscription } from '../../utils/plans'
+import { PRO } from '../../components/Navbar/NavbarProfileDropdown'
+import { connect } from 'react-redux'
 
-const ProMetrics = ({ history, isLoggedIn }) => {
+const ProMetrics = ({ history, isLoggedIn, isProSanbase }) => {
   return (
     <div className={cx('page', styles.container)}>
       <div className={styles.inner}>
@@ -29,7 +32,7 @@ const ProMetrics = ({ history, isLoggedIn }) => {
         <div className={styles.firstStep}>
           <div className={styles.descriptions}>
             <div className={styles.crown}>
-              <Icon type='crown' /> PRO Metrics
+              <Icon type='crown' /> Pro Google Sheets templates
             </div>
 
             <div className={styles.perksTitle}>
@@ -46,14 +49,17 @@ const ProMetrics = ({ history, isLoggedIn }) => {
               New templates and indices are added monthly.
             </div>
 
-            <UpgradeBtn loginRequired={false} className={styles.upgradeBtn}>
-              Upgrade
-            </UpgradeBtn>
+            {!isProSanbase && (
+              <UpgradeBtn loginRequired={false} className={styles.upgradeBtn}>
+                Upgrade
+              </UpgradeBtn>
+            )}
           </div>
 
           {FIRST_METRICS_GROUP.map((metric, index) => {
             return (
               <ProMetric
+                isProSanbase={isProSanbase}
                 metric={metric}
                 key={index}
                 classes={{
@@ -82,6 +88,7 @@ const ProMetrics = ({ history, isLoggedIn }) => {
             {SECOND_METRICS_GROUP.map((metric, index) => {
               return (
                 <ProMetric
+                  isProSanbase={isProSanbase}
                   metric={metric}
                   key={index}
                   classes={{
@@ -99,6 +106,7 @@ const ProMetrics = ({ history, isLoggedIn }) => {
             {THIRD_METRICS_GROUP.map((metric, index) => {
               return (
                 <ProMetric
+                  isProSanbase={isProSanbase}
                   metric={metric}
                   key={index}
                   classes={{
@@ -140,4 +148,17 @@ const ProMetrics = ({ history, isLoggedIn }) => {
   )
 }
 
-export default ProMetrics
+const mapStateToProps = ({ user: { data } }) => {
+  const sanbaseSubscription = getCurrentSanbaseSubscription(data)
+
+  const isProSanbase =
+    sanbaseSubscription && sanbaseSubscription.plan
+      ? sanbaseSubscription.plan.name === PRO
+      : false
+
+  return {
+    isProSanbase
+  }
+}
+
+export default connect(mapStateToProps)(ProMetrics)
