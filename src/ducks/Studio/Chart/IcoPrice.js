@@ -18,7 +18,14 @@ const { formatter } = Metric.price_usd
 
 const DEFAULT_VALUE = {}
 
-const IcoPrice = ({ chart, scale, slug, className, onResult }) => {
+const IcoPrice = ({
+  chart,
+  scale,
+  slug,
+  className,
+  isICOPriceActive,
+  onResult
+}) => {
   const [{ top, price, isOnChart }, setValue] = useState(DEFAULT_VALUE)
   const { data, loading } = useQuery(PROJECT_ICO_PRICE_QUERY, {
     variables: {
@@ -56,7 +63,7 @@ const IcoPrice = ({ chart, scale, slug, className, onResult }) => {
     [data, priceMinMax, height]
   )
 
-  return !loading && price ? (
+  return isICOPriceActive && !loading && price ? (
     <div
       className={cx(styles.wrapper, isOnChart && styles.dashed, className)}
       style={{ left, top }}

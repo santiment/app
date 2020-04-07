@@ -10,7 +10,7 @@ export const TopHolderMetric = {
     queryKey: 'holders_distribution_0.001_to_0.01'
   },
   holders_distribution_001_to_01: {
-    label: '(0 - 0.1) coins',
+    label: '(0.01 - 0.1) coins',
     queryKey: 'holders_distribution_0.01_to_0.1'
   },
   holders_distribution_01_to_1: {

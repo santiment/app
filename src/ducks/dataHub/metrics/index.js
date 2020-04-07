@@ -89,11 +89,11 @@ export const Metric = {
     video: 'https://www.youtube.com/watch?v=n3dUvWvQEpQ',
     historicalTriggersDataKey: 'active_addresses'
   },
-  percentOfTokenSupplyOnExchanges: {
+  percent_of_total_supply_on_exchanges: {
     category: 'On-chain',
     node: 'line',
     group: 'Exchange Flow',
-    label: 'Percent of Token Supply on Exchanges',
+    label: 'Percent of Total Supply on Exchanges',
     shortLabel: '% TS on Exc.'
   },
   topHoldersPercentOfTotalSupply: {
@@ -157,7 +157,7 @@ export const Metric = {
     shortLabel: 'Token Vel.',
     abbreviation: 'tv'
   },
-  dailyActiveDeposits: {
+  active_deposits: {
     category: 'On-chain',
     node: 'bar',
     label: 'Daily Active Deposits',
@@ -212,6 +212,57 @@ export const Metric = {
     group: 'Network value',
     label: 'NVT Ratio Transaction Volume',
     shortLabel: 'NVT R. T.V.',
+    category: 'On-chain'
+  },
+  minersBalance: {
+    node: 'line',
+    label: 'Miners balance',
+    category: 'On-chain'
+  },
+  deposit_transactions: {
+    node: 'line',
+    label: 'Deposit transactions',
+    category: 'On-chain'
+  },
+  withdrawal_transactions: {
+    node: 'line',
+    label: 'Withdrawal transactions',
+    category: 'On-chain'
+  },
+  exchange_inflow: {
+    node: 'line',
+    label: 'Exchange inflow',
+    category: 'On-chain'
+  },
+  exchange_outflow: {
+    node: 'line',
+    label: 'Exchange outflow',
+    category: 'On-chain'
+  },
+  supply_on_exchanges: {
+    node: 'line',
+    label: 'Supply on exchanges',
+    category: 'On-chain'
+  },
+  supply_outside_exchanges: {
+    node: 'line',
+    label: 'Supply outside exchanges',
+    category: 'On-chain'
+  },
+
+  amount_in_top_holders: {
+    node: 'line',
+    label: 'Amount in top holders',
+    category: 'On-chain'
+  },
+  amount_in_exchange_top_holders: {
+    node: 'line',
+    label: 'Amount in exchange top holders',
+    category: 'On-chain'
+  },
+  amount_in_non_exchange_top_holders: {
+    node: 'line',
+    label: 'Amount in non exchange top holders',
     category: 'On-chain'
   }
 }

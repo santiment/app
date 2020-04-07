@@ -141,6 +141,7 @@ const Canvas = ({
       >
         <IcoPrice
           {...settings}
+          {...options}
           metrics={metrics}
           className={styles.ico}
           onResult={price => setIsICOPriceDisabled(!price)}

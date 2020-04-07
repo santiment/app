@@ -62,7 +62,7 @@ export const Description = {
     </>
   ),
 
-  [Metric.percentOfTokenSupplyOnExchanges.key]: (
+  [Metric.percent_of_total_supply_on_exchanges.key]: (
     <>
       The percent of the total token supply which is on exchanges. More info{' '}
       <a
@@ -167,7 +167,7 @@ export const Description = {
     </>
   ),
 
-  [Metric.dailyActiveDeposits.key]: (
+  [Metric.active_deposits.key]: (
     <>
       Shows the number of unique deposit addresses that participated in
       transactions for a given day. A deposit address is an address belonging to
