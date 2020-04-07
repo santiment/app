@@ -1662,24 +1662,25 @@ export const buildSignal = (metric, type, slug, Values) => {
   return mapFormPropsToTrigger(formProps)
 }
 
-export const buildPriceSignal = (slug, value, type) => {
+export const buildValueChangeSignal = (slug, value, type, metric) => {
   const resultType =
     type === PRICE_CHANGE_TYPES.ABOVE
       ? { ...PRICE_ABS_CHANGE_ABOVE }
       : { ...PRICE_ABS_CHANGE_BELOW }
 
   return buildSignal(PRICE_ABSOLUTE_CHANGE, resultType, slug, {
-    absoluteThreshold: value
+    absoluteThreshold: value,
+    metric
   })
 }
 
-export const buildPricePercentUpDownSignal = slug => {
+export const buildPercentUpDownSignal = (slug, metric = PRICE_METRIC) => {
   return buildSignal(
     PRICE_PERCENT_CHANGE,
     PRICE_PERCENT_CHANGE_ONE_OF_MODEL,
     slug,
     {
-      metric: PRICE_METRIC,
+      metric,
       signalType: { label: 'Assets', value: 'assets' },
       percentThresholdLeft: 10,
       percentThresholdRight: 10

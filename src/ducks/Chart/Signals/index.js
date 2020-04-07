@@ -24,16 +24,28 @@ import {
 import { PRICE_CHANGE_TYPES } from '../../Signals/utils/constants'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './index.module.scss'
+import { buildValueChangeSuggester } from '../../Studio/Alerts/suggestions/helpers'
 
 const TEXT_SIGNAL = 'Alert '
 const TEXT_ACTION = 'Click to '
 const TEXT_RESULT = 'create an alert '
 const TEXT_IFS = {
-  price_usd: ['if price drops below ', 'if price rises above '],
   daily_active_addresses: [
     'if DAA count goes below ',
     'if DAA count goes above '
   ]
+}
+
+const MOVING_TEXT_BY_SIGN = [' drops below ', ' rises above ']
+
+const getTextIf = (metric, index) => {
+  const texts = TEXT_IFS[metric.key]
+
+  if (texts) {
+    return texts[index]
+  }
+
+  return `if ${metric.label.toLowerCase()}${MOVING_TEXT_BY_SIGN[index]}`
 }
 
 const priceFormatter = Metric.price_usd.formatter
@@ -83,7 +95,7 @@ const Signals = ({
     drawHoveredSignal(chart, y, [
       TEXT_ACTION,
       TEXT_RESULT,
-      TEXT_IFS[key][+(value > lastValue)],
+      getTextIf(Metric[key], +(value > lastValue)),
       Metric[key].formatter(value)
     ])
   }
@@ -102,7 +114,8 @@ const Signals = ({
     const type =
       PRICE_CHANGE_TYPES[value > lastValue ? SIGNAL_ABOVE : SIGNAL_BELOW]
 
-    createSignal(AlertBuilder[metric.key](slug, value, type))
+    const suggester = AlertBuilder[metric.key] || buildValueChangeSuggester
+    createSignal(suggester(slug, value, type, metric))
   }
 
   function onMouseLeave () {
@@ -116,7 +129,7 @@ const Signals = ({
       const { type, value, y } = signal
 
       drawHoveredSignal(chart, y, [
-        TEXT_SIGNAL + TEXT_IFS.price_usd[+(type === SIGNAL_ABOVE)],
+        TEXT_SIGNAL + getTextIf(Metric.price_usd, +(type === SIGNAL_ABOVE)),
         priceFormatter(value)
       ])
     }
