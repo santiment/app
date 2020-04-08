@@ -84,7 +84,7 @@ const FormatToTimestamp = {
   [DAY]: ONE_DAY_IN_MS
 }
 
-const CRYPTO_ERA_START_DATE = new Date('2009-01-01 01:00:00Z')
+const CRYPTO_ERA_START_DATE = new Date('2009-01-01T01:00:00.000Z')
 
 /**
  * @param {number} amount - Amount of days/months to add or substract
@@ -300,6 +300,15 @@ export const getIntervalByTimeRange = (timeRange, options = {}) => {
       to: getTimeIntervalFromToday(-1, DAY).to,
       from: CRYPTO_ERA_START_DATE
     }
+  } else if (timeRange === '1d') {
+    const from = new Date()
+    const to = new Date()
+
+    const currentHour = from.getHours()
+    from.setHours(currentHour - 24, 0, 0, 0)
+    to.setHours(currentHour + 1, 0, 0, 0)
+
+    return { from, to }
   }
 
   const result = parseIntervalString(timeRange)
