@@ -126,7 +126,7 @@
     margin-bottom: 16px;
     color: var(--waterloo);
 
-    @include text('body-2', 'm');
+    @include text('body-2', 'l');
   }
 }
 
@@ -289,13 +289,13 @@
 }
 
 .subcriptionTitle {
-  @include text('body-3', 'm');
+  @include text('body-3', 'l');
 
   color: var(--waterloo);
   margin-bottom: 12px;
 
   @include responsive('phone', 'phone-xs') {
-    @include text('body-2', 'm');
+    @include text('body-2', 'l');
   }
 }
 
@@ -304,13 +304,13 @@
 }
 
 .downloadTitle {
-  @include text('body-3', 'm');
+  @include text('body-3', 'l');
 
   color: var(--waterloo);
   margin: 24px 0 12px 0;
 
   @include responsive('phone', 'phone-xs') {
-    @include text('body-2', 'm');
+    @include text('body-2', 'l');
 
     margin: 40px 0 16px 0;
   }

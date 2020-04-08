@@ -17,7 +17,7 @@
 .heading {
   color: var(--waterloo);
 
-  @include text('caption', 'm');
+  @include text('caption', 'l');
 }
 
 .columns {

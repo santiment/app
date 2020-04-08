@@ -99,12 +99,12 @@
   margin: 32px 0 0;
   color: var(--mirage);
 
-  @include text('body-1', 'm');
+  @include text('body-1', 'l');
 
   @include responsive('phone-xs') {
     margin-top: 16px;
 
-    @include text('body-2', 'm');
+    @include text('body-2', 'l');
   }
 }
 
@@ -137,8 +137,8 @@
   }
 
   &:active,
- &:focus,
- &:hover {
+  &:focus,
+  &:hover {
     color: var(--white);
   }
 }

@@ -6,7 +6,7 @@ import Panel from '@santiment-network/ui/Panel'
 import styles from './HelpPopup.module.scss'
 
 export const HelpPopupTrigger = (
-  <Icon className={styles.trigger} type='help-round' />
+  <Icon className={styles.trigger} type='question-round-small' />
 )
 
 const HelpPopup = ({

@@ -17,4 +17,8 @@
 .trigger {
   fill: var(--waterloo);
   cursor: pointer;
+
+  &:hover {
+    fill: var(--jungle-green-hover);
+  }
 }

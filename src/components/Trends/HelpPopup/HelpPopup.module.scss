@@ -56,7 +56,7 @@
 /* stylelint-enable */
 
 .heading {
-  @include text('h4', 'm');
+  @include text('h4', 'l');
 }
 
 .headingSmall {

@@ -23,14 +23,14 @@
         color: var(--mirage);
         margin: 0;
 
-        @include text('h3', 'm');
+        @include text('h3', 'l');
       }
 
       h2 {
         color: var(--mirage);
         margin: 0;
 
-        @include text('h4', 'm');
+        @include text('h4', 'l');
       }
     }
 

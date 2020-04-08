@@ -78,7 +78,7 @@
 }
 
 .subtitle {
-  @include text('body-1', 'm');
+  @include text('body-1', 'l');
 
   color: var(--rhino);
   margin: 32px 16px 12px;

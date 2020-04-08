@@ -25,7 +25,7 @@
 }
 
 .label {
-  @include text('caption', 'm');
+  @include text('caption', 'l');
 
   color: var(--waterloo);
 }
@@ -53,7 +53,7 @@
   }
 
   &__price {
-    @include text('h4', 'm');
+    @include text('h4', 'l');
 
     font-weight: bold;
   }
@@ -124,7 +124,7 @@
   }
 
   &__month {
-    @include text('body-3', 'm');
+    @include text('body-3', 'l');
 
     color: var(--waterloo);
   }

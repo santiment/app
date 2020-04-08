@@ -5,11 +5,10 @@
 }
 
 .title {
-  font-weight: 800;
-  font-size: 28px;
-  line-height: 40px;
-  color: var(--mirage);
+  color: var(--rhino);
   margin-bottom: 21px;
+
+  @include text('h3');
 }
 
 .tabs {

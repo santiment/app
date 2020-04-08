@@ -40,7 +40,7 @@
 }
 
 .title {
-  @include text('body-3', 'm');
+  @include text('body-3', 'l');
 
   margin: 0 0 0 9px;
   display: flex;
