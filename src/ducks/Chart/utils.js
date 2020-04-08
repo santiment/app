@@ -82,7 +82,7 @@ export function domainModifier (metricKey, minMax) {
     min = 0
   } else {
     max *= 1.03
-    min *= min > 0 ? 0.98 : 1.03
+    min *= min > 0 ? 0.97 : 1.03
   }
 
   minMax.max = max
