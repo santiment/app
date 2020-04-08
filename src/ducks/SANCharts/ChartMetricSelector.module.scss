@@ -18,7 +18,7 @@
     color: var(--waterloo);
     padding: 15px 16px;
 
-    @include text('body-2', 'm');
+    @include text('body-2', 'l');
   }
 }
 
@@ -176,7 +176,7 @@
   }
 
   &__title {
-    @include text('caption', 'm');
+    @include text('caption', 'l');
 
     color: var(--waterloo);
     margin: 12px 12px 8px;
@@ -224,7 +224,7 @@
 }
 
 .mobileCategory {
-  @include text('body-2', 'm');
+  @include text('body-2', 'l');
 
   color: var(--rhino);
 }

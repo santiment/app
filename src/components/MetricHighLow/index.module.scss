@@ -7,7 +7,7 @@
 }
 
 .values {
-  @include text('caption', 'm');
+  @include text('caption', 'l');
 
   color: var(--rhino);
 

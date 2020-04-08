@@ -1,13 +1,13 @@
 @import '~@santiment-network/ui/mixins';
 
 .name {
-  @include text('h4', 'm');
+  @include text('h4', 'l');
 
   color: var(--rhino);
 }
 
 .ticker {
-  @include text('h4', 'm');
+  @include text('h4', 'l');
 
   color: var(--casper);
   margin-left: 5px;

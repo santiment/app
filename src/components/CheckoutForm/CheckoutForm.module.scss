@@ -120,7 +120,7 @@
 }
 
 .label {
-  @include text('caption', 'm');
+  @include text('caption', 'l');
 
   color: var(--waterloo);
   flex: 1;
@@ -172,7 +172,7 @@
 }
 
 .title {
-  @include text('caption', 'm');
+  @include text('caption', 'l');
 
   margin: 12px 0 4px;
 }
@@ -194,7 +194,7 @@
 .number {
   position: relative;
 
-  @include text('caption', 'm');
+  @include text('caption', 'l');
 
   color: var(--casper);
   margin-top: 30px;

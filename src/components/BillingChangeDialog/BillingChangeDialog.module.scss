@@ -20,7 +20,7 @@
 }
 
 .price {
-  @include text('body-2', 'm');
+  @include text('body-2', 'l');
 
   color: var(--jungle-green);
 

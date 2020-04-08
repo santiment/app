@@ -26,17 +26,8 @@
   padding: 4px 10px 0;
 }
 
-.heading {
-  font-family: 'Proxima Nova', sans-serif;
-  color: var(--rhino);
-
-  @include text('h4', 'bold');
-
-  font-weight: normal;
-}
-
 .subtitle {
-  @include text('body-1', 'm');
+  @include text('body-1', 'l');
 
   margin: 0 16px 12px;
 }

@@ -50,12 +50,12 @@
   color: var(--rhino);
   text-align: center;
 
-  @include text('h4', 'm');
+  @include text('h4', 'l');
 
   @include responsive('phone-xs', 'phone') {
     margin: 16px 0 12px;
 
-    @include text('body-1', 'm');
+    @include text('body-1', 'l');
   }
 }
 

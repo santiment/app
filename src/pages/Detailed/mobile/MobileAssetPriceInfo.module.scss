@@ -6,7 +6,7 @@
   justify-content: space-between;
 
   @media (orientation: landscape) {
-    @include text('body-1', 'm');
+    @include text('body-1', 'l');
 
     padding-top: 0;
   }
@@ -19,7 +19,7 @@
   @include text('h3');
 
   @media (orientation: landscape) {
-    @include text('body-1', 'm');
+    @include text('body-1', 'l');
   }
 }
 

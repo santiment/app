@@ -18,7 +18,7 @@
   @include text('h3');
 
   @media (orientation: landscape) {
-    @include text('body-1', 'm');
+    @include text('body-1', 'l');
 
     min-height: 26px;
     margin-bottom: 0;

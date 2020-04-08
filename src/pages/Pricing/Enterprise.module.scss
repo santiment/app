@@ -22,7 +22,7 @@
 }
 
 .title {
-  @include text('h4', 'm');
+  @include text('h4', 'l');
 
   color: var(--mirage);
 }

@@ -111,7 +111,7 @@
     color: var(--rhino);
     letter-spacing: -0.02em;
 
-    @include text('body-1', 'm');
+    @include text('body-1', 'l');
   }
 
   &__description {

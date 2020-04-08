@@ -12,14 +12,14 @@
 .title {
   color: var(--rhino);
 
-  @include text('h4', 'm');
+  @include text('h4', 'l');
 }
 
 .upgrade {
   margin-bottom: 16px;
   padding: 0;
 
-  @include text('body-2', 'm');
+  @include text('body-2', 'l');
 
   &:focus {
     color: var(--texas-rose-hover);
@@ -52,7 +52,7 @@
 }
 
 .linkToTemplate {
-  @include text('body-2', 'm');
+  @include text('body-2', 'l');
 
   margin-bottom: 12px;
   display: flex;
