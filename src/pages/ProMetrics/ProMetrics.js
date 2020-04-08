@@ -137,6 +137,7 @@ const ProMetrics = ({ history, isLoggedIn, isProSanbase }) => {
               inputEl={InputWithIcon}
               icon='mail'
               iconPosition='left'
+              hasSubscribed={false}
               subscriptionLabel='Send me weekly updates from crypto market'
             />
           </div>

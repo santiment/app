@@ -6,7 +6,7 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import Label from '@santiment-network/ui/Label'
 import Button from '@santiment-network/ui/Button'
 import Input from '@santiment-network/ui/Input'
-import Checkboxes from '@santiment-network/ui/Checkboxes'
+import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import { EMAIL_LOGIN_MUTATION } from './loginGQL'
 import { store } from '../../index'
 import { showNotification } from '../../actions/rootActions'
@@ -21,6 +21,15 @@ class SubscriptionForm extends PureComponent {
     email: '',
     error: undefined,
     hasSubscribed: true
+  }
+
+  componentWillReceiveProps ({ hasSubscribed }) {
+    if (
+      hasSubscribed !== undefined &&
+      hasSubscribed !== this.state.hasSubscribed
+    ) {
+      this.setState({ ...this.state, hasSubscribed })
+    }
   }
 
   componentWillUnmount () {
@@ -86,9 +95,12 @@ class SubscriptionForm extends PureComponent {
     }
   }
 
-  onSelect = (_, { selectedIndexes: { length } }) => {
-    this.toggle(length)
-    this.setState({ hasSubscribed: !!length })
+  onSelect = data => {
+    const { hasSubscribed } = this.state
+    const newValue = !hasSubscribed
+
+    this.toggle(newValue)
+    this.setState({ hasSubscribed: newValue })
   }
 
   onEmailChange (email) {
@@ -108,7 +120,7 @@ class SubscriptionForm extends PureComponent {
   }
 
   render () {
-    const { error, waiting, email } = this.state
+    const { error, waiting, email, hasSubscribed } = this.state
     const {
       hideCheckbox,
       inputEl: ElInput = Input,
@@ -120,7 +132,6 @@ class SubscriptionForm extends PureComponent {
     } = this.props
 
     const label = subscriptionLabel || SUBSCRIPTION_LABEL
-
     const inputIconProps = iconPosition ? { iconPosition, icon } : {}
 
     return (
@@ -139,26 +150,28 @@ class SubscriptionForm extends PureComponent {
             type='email'
             disabled={waiting}
             onChange={this.onEmailChangeDebounced}
-            isError={error}
+            isError={!!error}
             {...inputIconProps}
           />
           {!hideCheckbox && (
-            <Checkboxes
-              className={cx(
-                styles.subscription__checkbox,
-                classes.subscriptionCheckbox
-              )}
-              selectedClassName={classes.selectedCheckbox}
-              options={[label]}
-              labelOnRight
-              labelClassName={cx(
-                styles.subscription__label,
-                classes.subscriptionLabel
-              )}
-              defaultSelectedIndexes={[label]}
-              disabledIndexes={waiting || !email ? [label] : undefined}
-              onSelect={this.onSelect}
-            />
+            <div className={styles.checkBlock} onClick={this.onSelect}>
+              <Checkbox
+                isActive={hasSubscribed}
+                className={cx(
+                  styles.checkbox,
+                  hasSubscribed && classes.selectedCheckbox
+                )}
+                disabled={waiting || !email}
+              />
+              <div
+                className={cx(
+                  styles.subscription__label,
+                  classes.subscriptionLabel
+                )}
+              >
+                {label}
+              </div>
+            </div>
           )}
           <Button
             variant='fill'

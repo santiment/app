@@ -1,4 +1,4 @@
-@import '../../mixins.scss';
+@import '~@santiment-network/ui/mixins';
 
 .subscription {
   &__error {
@@ -59,4 +59,13 @@
   &__checkbox {
     margin-top: 15px;
   }
+}
+
+.checkBlock {
+  display: flex;
+  align-items: center;
+  margin-top: 17px;
+  cursor: pointer;
+
+  @include text('caption');
 }
