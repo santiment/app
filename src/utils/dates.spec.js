@@ -215,12 +215,6 @@ describe('dateDifferenceInWords', () => {
 })
 
 describe('getIntervalByTimeRange', () => {
-  it('1d', () => {
-    expect(getIntervalByTimeRange('1d')).toEqual(
-      getTimeIntervalFromToday(-1, 'd')
-    )
-  })
-
   it('7d', () => {
     expect(getIntervalByTimeRange('7d')).toEqual(
       getTimeIntervalFromToday(-7, 'd')
