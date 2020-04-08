@@ -216,53 +216,54 @@ export const Metric = {
   },
   minersBalance: {
     node: 'line',
-    label: 'Miners balance',
+    label: 'Miners Balance',
     category: 'On-chain'
   },
   deposit_transactions: {
     node: 'line',
-    label: 'Deposit transactions',
+    label: 'Deposit Transactions',
     category: 'On-chain'
   },
   withdrawal_transactions: {
     node: 'line',
-    label: 'Withdrawal transactions',
+    label: 'Withdrawal Transactions',
     category: 'On-chain'
   },
   exchange_inflow: {
     node: 'line',
-    label: 'Exchange inflow',
-    category: 'On-chain'
+    label: 'Exchange Inflow',
+    category: 'On-chain',
+    group: 'Exchange Flow'
   },
   exchange_outflow: {
     node: 'line',
-    label: 'Exchange outflow',
-    category: 'On-chain'
+    label: 'Exchange Outflow',
+    category: 'On-chain',
+    group: 'Exchange Flow'
   },
   supply_on_exchanges: {
     node: 'line',
-    label: 'Supply on exchanges',
+    label: 'Supply on Exchanges',
     category: 'On-chain'
   },
   supply_outside_exchanges: {
     node: 'line',
-    label: 'Supply outside exchanges',
+    label: 'Supply Outside Exchanges',
     category: 'On-chain'
   },
-
   amount_in_top_holders: {
     node: 'line',
-    label: 'Amount in top holders',
+    label: 'Amount in Top Holders',
     category: 'On-chain'
   },
   amount_in_exchange_top_holders: {
     node: 'line',
-    label: 'Amount in exchange top holders',
+    label: 'Amount in Exchange Top Holders',
     category: 'On-chain'
   },
   amount_in_non_exchange_top_holders: {
     node: 'line',
-    label: 'Amount in non exchange top holders',
+    label: 'Amount in Non Exchange Top Holders',
     category: 'On-chain'
   }
 }

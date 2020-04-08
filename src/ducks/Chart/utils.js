@@ -78,11 +78,11 @@ export function domainModifier (metricKey, minMax) {
 
   const metric = Metric[metricKey]
   if (metric && metric.node === 'bar') {
-    max *= 1.1
+    max *= 1.03
     min = 0
   } else {
-    max *= 1.1
-    min *= 0.9
+    max *= 1.03
+    min *= min > 0 ? 0.97 : 1.03
   }
 
   minMax.max = max
