@@ -16,20 +16,32 @@ const addItemToGraph = (categories, metricCategories, metrics) => {
   })
 }
 
-function sortCategoryGroups (category) {
+function sortCategoryGroups (category, Submetrics) {
   const sortedCategory = {
     [NO_GROUP]: []
   }
+
+  const GroupSubmetricsLength = Object.keys(Submetrics).reduce((acc, key) => {
+    acc[Metric[key].group] = Submetrics[key].length
+
+    return acc
+  }, Object.create(null))
+
   const groups = Object.keys(category).sort(
     (leftGroup, rightGroup) =>
-      category[leftGroup].length - category[rightGroup].length
+      (category[leftGroup].length + GroupSubmetricsLength[leftGroup] || 0) -
+      (category[rightGroup].length + GroupSubmetricsLength[rightGroup] || 0)
   )
 
   groups.forEach(group => (sortedCategory[group] = category[group]))
   return sortedCategory
 }
 
-export const getCategoryGraph = (availableMetrics, hiddenMetrics = []) => {
+export const getCategoryGraph = (
+  availableMetrics,
+  hiddenMetrics = [],
+  Submetrics = {}
+) => {
   if (availableMetrics.length === 0) {
     return {}
   }
@@ -73,16 +85,16 @@ export const getCategoryGraph = (availableMetrics, hiddenMetrics = []) => {
       return delete categories[key]
     }
 
-    categories[key] = sortCategoryGroups(
-      categories[key].reduce(
-        (acc, metric) => {
-          const { group = NO_GROUP } = metric
-          addItemToGraph(acc, group, [metric])
-          return acc
-        },
-        { [NO_GROUP]: [] }
-      )
+    const category = categories[key].reduce(
+      (acc, metric) => {
+        const { group = NO_GROUP } = metric
+        addItemToGraph(acc, group, [metric])
+        return acc
+      },
+      { [NO_GROUP]: [] }
     )
+
+    categories[key] = sortCategoryGroups(category, Submetrics)
   })
 
   return categories

@@ -59,7 +59,8 @@ export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
       availableQueries
         .concat(availableMetrics)
         .concat(noMarketSegments ? [] : marketSegments.map(getMarketSegment)),
-      hiddenMetrics
+      hiddenMetrics,
+      Submetrics
     )
 
     return {
