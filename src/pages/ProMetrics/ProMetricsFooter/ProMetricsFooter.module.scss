@@ -130,44 +130,6 @@
   }
 }
 
-.mediaLink {
-  margin-left: 16px;
-  margin-bottom: 0;
-  border: 1px solid var(--porcelain);
-  border-radius: $border-radius;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-
-  @include responsive('laptop', 'tablet','phone', 'phone-xs') {
-    margin: 0 16px 0 0;
-  }
-
-  .svg {
-    fill: var(--rhino);
-  }
-
-  &:hover {
-    .discord {
-      fill: #7289da;
-    }
-
-    .twitter {
-      fill: #1da1f2;
-    }
-
-    .telegram {
-      fill: #08c;
-    }
-
-    .youtube {
-      fill: red;
-    }
-  }
-}
-
 .bottom {
   width: 100%;
   border-top: 1px solid var(--porcelain);

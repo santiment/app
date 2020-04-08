@@ -15,3 +15,20 @@
   display: flex;
   flex-grow: 1;
 }
+
+.link {
+  margin: 0 8px 0 0 !important;
+}
+
+.title {
+  @include text('body-3');
+
+  color: var(--waterloo);
+  margin-bottom: 8px;
+}
+
+.block {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}

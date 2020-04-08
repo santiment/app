@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { PanelWithHeader as Panel } from '@santiment-network/ui'
 import styles from './AccountPage.module.scss'
 
