@@ -19,10 +19,11 @@ const FullscreenChart = ({
 }) => {
   const [settings, setSettings] = useState(studioSettings)
   const [options, setOptions] = useState(studioOptions)
+  const [isDomainGroupingActive] = useState()
   const [shareLink, setShareLink] = useState()
   const [data] = useTimeseries(metrics, settings)
   const [events] = useTimeseries(activeEvents, settings)
-  const domainGroups = useDomainGroups(metrics, options.isDomainGroupingActive)
+  const domainGroups = useDomainGroups(metrics)
   const chartRef = useRef(null)
 
   useEffect(
@@ -64,7 +65,7 @@ const FullscreenChart = ({
         isMultiChartsActive={false}
         metrics={metrics}
         activeEvents={activeEvents}
-        domainGroups={domainGroups}
+        domainGroups={isDomainGroupingActive ? domainGroups : undefined}
         scale={options.isLogScale ? logScale : linearScale}
         resizeDependencies={RESIZE_DEPENDENCIES}
       />
