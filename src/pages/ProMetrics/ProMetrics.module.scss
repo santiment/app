@@ -280,8 +280,7 @@
 
 .selectedCheckbox {
   svg {
-    fill: var(--mystic);
-    display: block;
+    fill: var(--mystic) !important;
   }
 
   div {
