@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import Dropdown from '@santiment-network/ui/Dropdown'
 import { usePriceHistogramData } from './hooks'
 import RestrictionMessage from './RestrictionMessage'
 import ErrorMessage from './ErrorMessage'
@@ -12,23 +11,7 @@ import { millify } from '../../../../utils/formatting'
 import { ONE_MONTH_IN_MS } from '../../../../utils/dates'
 import styles from './index.module.scss'
 
-const dropdownClasses = {
-  wrapper: styles.dropdown,
-  options: styles.dropdown__options
-}
-
 const INTERVAL_ERROR_TEXT = 'allowed interval'
-const TIME = 'Time'
-const VALUE = 'Value'
-const SORTER_OPTIONS = [TIME, VALUE]
-
-const dateSorter = ({ index: a }, { index: b }) => a - b
-const valueSorter = ({ width: a }, { width: b }) => b - a
-
-const Sorter = {
-  [TIME]: dateSorter,
-  [VALUE]: valueSorter
-}
 
 const formatRange = ([left, right]) =>
   `${usdFormatter(left)} - ${usdFormatter(right)}`
@@ -50,22 +33,23 @@ const Bucket = ({
       <span className={styles.range}>{formatRange(range)}: </span>
       {millify(value, 1)} {ticker}
       {price && (
-        <div className={styles.price}>Current price: {usdFormatter(price)}</div>
+        <div className={styles.price}>Price: {usdFormatter(price)}</div>
       )}
     </div>
   </div>
 )
 
-const PriceHistogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
+const PriceHistogram = ({ title, slug, ticker, date, datesRange }) => {
   const [dates, setDates] = useState([date])
-  const [sorter, setSorter] = useState(TIME)
   const [from, to] = dates
   const [data, loading, error] = usePriceHistogramData({ slug, from, to })
 
   useEffect(
     () => {
       const to = new Date(date)
-      to.setHours(23, 59, 59, 0)
+
+      date.setHours(0, 0, 0, 0)
+      to.setHours(23, 59, 59, 999)
 
       setDates([date, to])
     },
@@ -75,6 +59,8 @@ const PriceHistogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
   useEffect(
     () => {
       if (datesRange) {
+        datesRange[0].setHours(0, 0, 0, 0)
+        datesRange[1].setHours(23, 59, 59, 999)
         setDates(datesRange)
       }
     },
@@ -96,18 +82,6 @@ const PriceHistogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
           onChange={onCalendarChange}
         />
       </h2>
-
-      {hasSort && (
-        <div className={styles.sorter}>
-          Sort by
-          <Dropdown
-            selected={sorter}
-            options={SORTER_OPTIONS}
-            classes={dropdownClasses}
-            onSelect={setSorter}
-          />
-        </div>
-      )}
 
       <div className={styles.description}>
         It shows at what price the tokens that were transacted today were last
@@ -139,16 +113,14 @@ const PriceHistogram = ({ title, slug, ticker, date, datesRange, hasSort }) => {
                   $1-$2 - 50,000
                 </div>
 
-                {data
-                  .sort(Sorter[sorter])
-                  .map(({ index, distribution, ...rest }) => (
-                    <Bucket
-                      key={index}
-                      {...distribution}
-                      {...rest}
-                      ticker={ticker}
-                    />
-                  ))}
+                {data.map(({ index, distribution, ...rest }) => (
+                  <Bucket
+                    key={index}
+                    {...distribution}
+                    {...rest}
+                    ticker={ticker}
+                  />
+                ))}
               </>
             )}
           </div>
