@@ -6,7 +6,10 @@ import {
 } from '../../utils/dates'
 import { millify } from '../../utils/formatting'
 
-const DEFAULT_DOMAIN_METRIC_KEYS = [Metric.twitter_followers.key]
+const DEFAULT_DOMAIN_METRIC_KEYS = [
+  Metric.twitter_followers.key,
+  Metric.minersBalance.key
+]
 const DAY_INTERVAL = ONE_DAY_IN_MS * 2
 
 export function isDayInterval (chart) {
