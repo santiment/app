@@ -23,7 +23,6 @@ const { to: MAX_DATE } = getTimeIntervalFromToday(0, DAY)
 export default ({
   settings,
   options,
-  comparables,
   setOptions,
   setSettings,
   className,
@@ -31,12 +30,12 @@ export default ({
 }) => {
   const { timeRange = '', from, to, title } = settings
 
-  function toggleDomainGrouping () {
+  function toggleMultiCharts () {
     setOptions(state => ({
       ...state,
-      isDomainGroupingActive: saveToggle(
-        'isDomainGroupingActive',
-        !state.isDomainGroupingActive
+      isMultiChartsActive: saveToggle(
+        'isMultiChartsActive',
+        !state.isMultiChartsActive
       )
     }))
   }
@@ -76,20 +75,18 @@ export default ({
         className={styles.calendar}
         maxDate={MAX_DATE}
       />
-      {comparables.length > 0 && (
-        <div className={styles.domain} onClick={toggleDomainGrouping}>
-          Shared axis
-          <Toggle
-            isActive={options.isDomainGroupingActive}
-            className={styles.domain__toggle}
-          />
-        </div>
-      )}
+      <div className={styles.multi} onClick={toggleMultiCharts}>
+        Multi charts
+        <Toggle
+          isActive={options.isMultiChartsActive}
+          className={styles.multi__toggle}
+        />
+      </div>
       <ContextMenu
         title={title}
         showNightModeToggle={false}
         showDownload
-        showMulti
+        showMulti={false}
         setOptions={setOptions}
         {...options}
         {...rest}
