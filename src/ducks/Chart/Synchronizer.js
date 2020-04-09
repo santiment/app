@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import COLOR from '@santiment-network/ui/variables.scss'
 import { getValidTooltipKey, findTooltipMetric } from './utils'
-import { useDomainGroups } from './hooks'
 import { setupColorGenerator } from '../SANCharts/utils'
 import { Metric } from '../dataHub/metrics'
 
@@ -85,20 +84,13 @@ export function prepareEvents (events) {
   })
 }
 
-const Synchronizer = ({
-  children,
-  isDomainGroupingActive,
-  metrics,
-  isMultiChartsActive,
-  events
-}) => {
+const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
   const [syncedTooltipDate, syncTooltips] = useState()
   const [syncedEvents, syncEvents] = useState()
   const [syncedCategories, syncCategories] = useState([])
   const [noPriceMetrics, setNoPriceMetrics] = useState([])
   const [hasPriceMetric, setHasPriceMetric] = useState()
   const [isValidMulti, setIsValidMulti] = useState()
-  const domainGroups = useDomainGroups(metrics, isDomainGroupingActive)
 
   useEffect(
     () => {
@@ -151,7 +143,6 @@ const Synchronizer = ({
         syncTooltips,
         hasPriceMetric,
         tooltipKey,
-        domainGroups,
         ...categories,
         events: syncedEvents
       })
@@ -160,7 +151,6 @@ const Synchronizer = ({
       ...syncedCategories[0],
       isMultiChartsActive: false,
       hasPriceMetric,
-      domainGroups,
       events: syncedEvents,
       tooltipKey: getValidTooltipKey(
         getMetricKey(findTooltipMetric(metrics)),

@@ -9,6 +9,7 @@ import ChartFullscreenBtn from './ChartFullscreenBtn'
 import ChartSidepane from './Sidepane'
 import IcoPrice from './IcoPrice'
 import LastDayPrice from './LastDayPrice'
+import SharedAxisToggle from './SharedAxisToggle'
 import ChartMetricsExplanation, {
   filterExplainableMetrics
 } from './Sidepane/MetricsExplanation'
@@ -17,6 +18,7 @@ import { TOP_HOLDER_METRICS } from './Sidepane/TopHolders/metrics'
 import Chart from '../../Chart'
 import Signals from '../../Chart/Signals'
 import Synchronizer from '../../Chart/Synchronizer'
+import { useDomainGroups } from '../../Chart/hooks'
 import { useChartColors } from '../../Chart/colors'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './index.module.scss'
@@ -45,8 +47,10 @@ const Canvas = ({
   setIsICOPriceDisabled,
   ...props
 }) => {
+  const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
   const [FocusedMetric, setFocusedMetric] = useState()
   const MetricColor = useChartColors(metrics, FocusedMetric)
+  const domainGroups = useDomainGroups(metrics)
 
   const isBlurred = isAnon && index > 1
   const hasExplanaibles = filterExplainableMetrics(metrics).length > 0
@@ -99,6 +103,12 @@ const Canvas = ({
 
         <div className={styles.meta}>
           <ChartPaywallInfo boundaries={boundaries} metrics={metrics} />
+          {domainGroups && (
+            <SharedAxisToggle
+              isDomainGroupingActive={isDomainGroupingActive}
+              setIsDomainGroupingActive={setIsDomainGroupingActive}
+            />
+          )}
           {hasExplanaibles && (
             <ChartMetricsExplanation.Button
               className={styles.explain}
@@ -125,6 +135,7 @@ const Canvas = ({
         MetricColor={MetricColor}
         metrics={metrics}
         scale={scale}
+        domainGroups={isDomainGroupingActive ? domainGroups : undefined}
         isMultiChartsActive={isMultiChartsActive}
         syncedTooltipDate={isBlurred || syncedTooltipDate}
         onPointClick={advancedView ? changeHoveredDate : undefined}

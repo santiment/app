@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Dropdown from '@santiment-network/ui/Dropdown'
-import Explanations from './Explanations'
+import Explanations, { Explanation } from './Explanations'
 import DataInfo from './DataInfo'
 import { METRICS_EXPLANATION_PANE } from '../panes'
 import MetricInsights from '../../../../../components/MetricInsight/MetricInsights'
@@ -20,7 +20,7 @@ const dropdownClasses = {
 
 export function filterExplainableMetrics (metrics) {
   return metrics.filter(
-    ({ key, insights }) => Description[key] || Insights[key]
+    ({ key }) => Description[key] || Insights[key] || Explanation[key]
   )
 }
 

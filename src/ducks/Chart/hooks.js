@@ -1,23 +1,13 @@
 import { useState, useEffect } from 'react'
+import { Metric } from '../dataHub/metrics'
 
-export function useDomainGroups (metrics, isDomainGroupingActive) {
+const splitByComma = str => str.split(',')
+
+export function useDomainGroups (metrics) {
   const [domainGroups, setDomainGroups] = useState()
 
   useEffect(
     () => {
-      if (!isDomainGroupingActive) {
-        setDomainGroups()
-      }
-    },
-    [isDomainGroupingActive]
-  )
-
-  useEffect(
-    () => {
-      if (!isDomainGroupingActive) {
-        return
-      }
-
       const Domain = Object.create(null)
       const { length } = metrics
 
@@ -26,22 +16,31 @@ export function useDomainGroups (metrics, isDomainGroupingActive) {
 
         if (!domainGroup) continue
 
-        const domain = Domain[domainGroup]
-
-        if (domain) {
+        if (Domain[domainGroup]) {
           Domain[domainGroup] += `,${key}`
         } else {
-          Domain[domainGroup] = `${domainGroup},${key}`
+          Domain[domainGroup] = metrics.includes(Metric[domainGroup])
+            ? `${domainGroup},${key}`
+            : key
         }
       }
 
-      const newDomainGroups = Object.values(Domain).map(group =>
-        group.split(',')
-      )
+      const domainKeys = Object.keys(Domain)
+      const domainKeysLength = domainKeys.length
+
+      for (let i = 0; i < domainKeysLength; i++) {
+        const key = domainKeys[i]
+
+        if (Domain[key].indexOf(',') === -1) {
+          delete Domain[key]
+        }
+      }
+
+      const newDomainGroups = Object.values(Domain).map(splitByComma)
 
       setDomainGroups(newDomainGroups.length > 0 ? newDomainGroups : undefined)
     },
-    [metrics, isDomainGroupingActive]
+    [metrics]
   )
 
   return domainGroups
