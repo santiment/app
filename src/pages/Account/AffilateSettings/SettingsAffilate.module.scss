@@ -9,11 +9,15 @@
 .right {
   margin-left: 26px;
   flex-grow: 1;
+  width: calc(50% - 13px);
+  align-items: stretch;
+  display: flex;
 }
 
 .left {
   display: flex;
   flex-grow: 1;
+  width: calc(50% - 13px);
 }
 
 .link {
@@ -28,7 +32,19 @@
 }
 
 .block {
-  padding: 24px;
   display: flex;
   flex-direction: column;
+  width: 100%;
+}
+
+.statistics {
+  display: flex;
+  flex-grow: 1;
+  align-items: stretch;
+}
+
+.statisticsSetting {
+  display: flex;
+  width: 100%;
+  padding: 24px;
 }

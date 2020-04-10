@@ -62,7 +62,7 @@ const SOCIAL_MEDIAS = [
   }
 ]
 
-const SocialMediaLinks = ({ classes }) => {
+const SocialMediaLinks = ({ classes = {} }) => {
   return (
     <div className={styles.container}>
       {SOCIAL_MEDIAS.map(({ link, item }, index) => {

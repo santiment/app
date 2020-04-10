@@ -4,7 +4,8 @@
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  justify-content: space-between;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .block {
@@ -21,7 +22,7 @@
 .value {
   margin-top: 8px;
 
-  @include text('h4');
+  @include text('h2');
 }
 
 .highline {

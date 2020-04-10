@@ -1,8 +1,8 @@
 import gql from 'graphql-tag'
 
 export const PROMOTER_MUTATION = gql`
-  mutation createPromoter($refId: String!) {
-    createPromoter(refId: $refId) {
+  mutation {
+    createPromoter {
       email
       currentBalance
       earningsBalance

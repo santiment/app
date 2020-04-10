@@ -12,7 +12,7 @@ import SettingsGetTokens from './SettingsGetTokens'
 import SettingsAPIKeys from './SettingsAPIKeys'
 import SettingsSubscription from './SettingsSubscription'
 import SettingsPlans from './SettingsPlans'
-import AffilateSettings from './AffilateSettings/AffilateSettings'
+import SettingsAffilate from './AffilateSettings/SettingsAffilate'
 import styles from './AccountPage.module.scss'
 
 export const ACCOUNT_PAGE_HASHES = {
@@ -117,8 +117,8 @@ const AccountPage = ({ history, isUserLoading, isLoggedIn, location }) => {
       />
       <div className={styles.container}>
         <SettingsGeneral />
+        <SettingsAffilate />
         <SettingsConnections />
-        <AffilateSettings />
         <SettingsNotifications />
         <SettingsGetTokens />
         <SettingsAPIKeys />

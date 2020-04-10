@@ -1,0 +1,60 @@
+@import '~@santiment-network/ui/mixins';
+
+.copyBlock {
+  display: flex;
+  position: relative;
+}
+
+.linkInput {
+  color: var(--rhino) !important;
+  background-color: var(--white) !important;
+  width: 100%;
+  min-width: 400px;
+  height: 40px;
+
+  @include text('body-3');
+}
+
+.copyButton {
+  position: absolute;
+  right: 0;
+  border: 1px solid var(--porcelain);
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  height: 40px;
+}
+
+.copyIcon {
+  fill: var(--waterloo);
+
+  &:hover {
+    fill: var(--jungle-green-hover);
+  }
+}
+
+.shareBtn {
+  width: 40px;
+  height: 40px;
+  margin-right: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.shareIcon {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  fill: var(--rhino) !important;
+
+  &:hover {
+    fill: var(--jungle-green-hover) !important;
+  }
+}
+
+.share {
+  display: flex;
+}
+
+.block {
+  margin-top: 32px;
+}
