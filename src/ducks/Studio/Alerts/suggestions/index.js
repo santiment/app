@@ -34,5 +34,12 @@ export const Suggestion = Object.assign(Object.create(null), {
       buildValueChangeSuggester(Metric.exchange_balance),
       buildPercentUpSuggester(Metric.exchange_balance)
     ]
+  },
+  volume_usd: {
+    title: 'Volume',
+    suggesters: [
+      buildValueChangeSuggester(Metric.volume_usd),
+      buildPercentUpSuggester(Metric.volume_usd)
+    ]
   }
 })
