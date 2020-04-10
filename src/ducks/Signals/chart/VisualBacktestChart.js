@@ -11,6 +11,7 @@ import cx from 'classnames'
 import Gradients from '../../../components/WatchlistOverview/Gradients'
 import { generateMetricsMarkup } from './../../SANCharts/utils'
 import CustomTooltip from './../../SANCharts/CustomTooltip'
+import { ActiveDot } from '../../SANCharts/tooltip/ActiveLine'
 import chartStyles from './../../SANCharts/Chart.module.scss'
 import sharedStyles from './../../SANCharts/ChartPage.module.scss'
 import styles from './preview/SignalPreview.module.scss'
@@ -37,6 +38,7 @@ const renderChart = (data, { key, dataKey = key }, markup, referenceDots) => {
       <defs>
         <Gradients />
       </defs>
+
       <XAxis
         dataKey='datetime'
         type='number'
@@ -56,9 +58,10 @@ const renderChart = (data, { key, dataKey = key }, markup, referenceDots) => {
       {markup}
 
       {referenceDots}
+
       <Tooltip
         content={<CustomTooltip />}
-        cursor={{ stroke: 'var(--casper)' }}
+        cursor={false}
         position={{ x: 0, y: -22 }}
         isAnimationActive={false}
       />
@@ -76,7 +79,10 @@ const VisualBacktestChart = ({
   syncedColors,
   showTitle
 }) => {
-  const markup = generateMetricsMarkup(metrics, { syncedColors })
+  const markup = generateMetricsMarkup(metrics, {
+    syncedColors,
+    activeDotEl: ActiveDot
+  })
 
   const titleEnabled = showTitle && triggeredSignals.length > 0
 
