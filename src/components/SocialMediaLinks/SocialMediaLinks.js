@@ -72,7 +72,7 @@ const SocialMediaLinks = ({ classes = {} }) => {
             href={link}
             target='_blank'
             rel='noopener noreferrer'
-            className={cx(classes.link, styles.mediaLink)}
+            className={cx(styles.mediaLink, classes.link)}
           >
             {item}
           </a>
