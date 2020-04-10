@@ -20,8 +20,6 @@ const SettingsAffilate = ({ isPromoter }) => {
     )
   }
 
-  console.log('settings', settings)
-
   return (
     <Query query={SHOW_PROMOTER_QUERY} skip={!!settings}>
       {({ data = {} }) => {

@@ -4,6 +4,10 @@
   display: flex;
   width: 100%;
   flex-wrap: wrap;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
+  }
 }
 
 .right {
@@ -12,12 +16,21 @@
   width: calc(50% - 13px);
   align-items: stretch;
   display: flex;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+    margin: 0;
+  }
 }
 
 .left {
   display: flex;
   flex-grow: 1;
   width: calc(50% - 13px);
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+  }
 }
 
 .link {

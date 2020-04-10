@@ -7,7 +7,7 @@ import { PROMOTER_MUTATION } from '../../pages/Account/AffilateSettings/promoter
 import styles from './CreatePromoter.module.scss'
 
 const CreatePromoter = ({ userData, showAlert, setData }) => {
-  const { id, email, username } = userData
+  const { email } = userData
 
   return (
     <div className={styles.container}>
@@ -27,13 +27,7 @@ const CreatePromoter = ({ userData, showAlert, setData }) => {
               variant='fill'
               accent='positive'
               isLoading={loading}
-              onClick={() =>
-                email
-                  ? createPromoter({
-                    variables: { refId: (username || id).toString() }
-                  })
-                  : showAlert()
-              }
+              onClick={() => (email ? createPromoter() : showAlert())}
             >
               Create referral link
             </Button>
