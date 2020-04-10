@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Mutation } from 'react-apollo'
-import { showNotification } from '../../actions/rootActions'
 import Button from '@santiment-network/ui/Button'
+import { showNotification } from '../../actions/rootActions'
 import { PROMOTER_MUTATION } from '../../pages/Account/AffilateSettings/promotersGql'
 import styles from './CreatePromoter.module.scss'
 

@@ -3,8 +3,6 @@ import cx from 'classnames'
 import styles from './AffilateStatistics.module.scss'
 
 const AffilateStatistics = ({ promotions }) => {
-  console.log(promotions)
-
   const leadsCount = promotions.reduce((acc, item) => {
     return acc + +item.leadsCount
   }, 0)

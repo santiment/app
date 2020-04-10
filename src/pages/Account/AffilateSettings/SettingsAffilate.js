@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
+import { Query } from 'react-apollo'
+import { connect } from 'react-redux'
 import Settings from '../Settings'
 import PageLoader from '../../../components/Loader/PageLoader'
-import { Query } from 'react-apollo'
-import { SHOW_PROMOTER_QUERY } from './promotersGql'
-import { connect } from 'react-redux'
 import CreatePromoter from '../../../components/CreatePromoter/CreatePromoter'
 import AffilateStatistics from './AffilateStatistics/AffilateStatistics'
 import PromotionLink from './PromotionLink/PromotionLink'
+import { SHOW_PROMOTER_QUERY } from './promotersGql'
 import styles from './SettingsAffilate.module.scss'
 
 const SettingsAffilate = ({ isPromoter }) => {
