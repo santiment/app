@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Dialog from './index'
+import { notifyDuplication } from '../notifications'
 import { useCreateTemplate } from '../gql/hooks'
 
 export default ({ onDuplicate, template, ...props }) => {
@@ -16,7 +17,9 @@ export default ({ onDuplicate, template, ...props }) => {
       projectId: +project.id
     }
 
-    createTemplate(duplicatedTemplate).then(onDuplicate)
+    createTemplate(duplicatedTemplate)
+      .then(onDuplicate)
+      .then(notifyDuplication)
   }
 
   return (

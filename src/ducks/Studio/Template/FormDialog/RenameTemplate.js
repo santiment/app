@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Dialog from './index'
+import { notifyRename } from '../notifications'
 import { useUpdateTemplate } from '../gql/hooks'
 
 export default ({ template, onRename, ...props }) => {
@@ -8,7 +9,9 @@ export default ({ template, onRename, ...props }) => {
   const [updateTemplate] = useUpdateTemplate()
 
   function onSubmit (title) {
-    updateTemplate(template, { title }).then(onRename)
+    updateTemplate(template, { title })
+      .then(onRename)
+      .then(notifyRename)
   }
 
   return (

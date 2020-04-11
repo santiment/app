@@ -5,6 +5,7 @@ import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import DialogLoadTemplate from './DialogLoadTemplate'
 import { parseTemplateMetrics, getMetricKey } from './utils'
+import { notifySave } from './notifications'
 import { useUserTemplates, useUpdateTemplate } from './gql/hooks'
 import FormDialogNewTemplate from './FormDialog/NewTemplate'
 import FormDialogRenameTemplate from './FormDialog/RenameTemplate'
@@ -76,7 +77,9 @@ const Template = ({
       metrics,
       comparables,
       projectId
-    }).then(closeMenu)
+    })
+      .then(closeMenu)
+      .then(notifySave)
   }
 
   function onNewTemplate (template) {
@@ -97,7 +100,7 @@ const Template = ({
           hasTemplates={hasTemplates}
           openMenu={openMenu}
           saveTemplate={saveTemplate}
-          onNew={onNewTemplate}
+          onNewTemplate={onNewTemplate}
           isMenuOpened={isMenuOpened}
         />
       }

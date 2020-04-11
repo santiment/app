@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import Dialog from './index'
 import { getMetricKey } from '../utils'
+import { notifyCreation } from '../notifications'
 import { useCreateTemplate } from '../gql/hooks'
 
 const NewTemplate = ({ onNew, projectId, metrics, ...props }) => {
@@ -14,7 +15,9 @@ const NewTemplate = ({ onNew, projectId, metrics, ...props }) => {
       projectId: +projectId
     }
 
-    createTemplate(newTemplate).then(onNew)
+    createTemplate(newTemplate)
+      .then(onNew)
+      .then(notifyCreation)
   }
 
   return (
