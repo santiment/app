@@ -36,7 +36,7 @@ function searchFromSubmetrics (key) {
   }
 }
 
-function shareComparable (Comparable) {
+export function shareComparable (Comparable) {
   const { project, metric } = Comparable
   const { slug, ticker } = project
   const { key } = metric

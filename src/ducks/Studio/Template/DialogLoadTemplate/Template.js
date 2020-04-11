@@ -7,22 +7,28 @@ import Toggle from '@santiment-network/ui/Toggle'
 import Icon from '@santiment-network/ui/Icon'
 import FormDialogRenameTemplate from '../FormDialog/RenameTemplate'
 import FormDialogDuplicateTemplate from '../FormDialog/DuplicateTemplate'
-import { useDeleteTemplate } from '../gql/hooks'
+import { useDeleteTemplate, useUpdateTemplate } from '../gql/hooks'
 import styles from './Template.module.scss'
 
 const Option = props => (
   <Button {...props} fluid variant='ghost' className={styles.context__btn} />
 )
 
-const Template = ({ template, selectTemplate, rerenderTemplates }) => {
+const Template = ({
+  template,
+  selectTemplate,
+  rerenderTemplates,
+  rerenderTemplate
+}) => {
   const { title, metrics, project } = template
   const [isPublic, setIsPublic] = useState(template.isPublic)
   const [deleteTemplate] = useDeleteTemplate()
+  const [updateTemplate] = useUpdateTemplate()
 
   function toggleIsPublic () {
     setIsPublic(state => {
       const newState = !state
-      template.isPublic = newState
+      updateTemplate(template, { isPublic: newState })
       return newState
     })
   }
@@ -35,6 +41,11 @@ const Template = ({ template, selectTemplate, rerenderTemplates }) => {
 
   function onDeleteClick () {
     deleteTemplate(template)
+  }
+
+  function onRename () {
+    rerenderTemplates()
+    rerenderTemplate()
   }
 
   return (
@@ -71,7 +82,7 @@ const Template = ({ template, selectTemplate, rerenderTemplates }) => {
           <FormDialogRenameTemplate
             trigger={<Option>Rename</Option>}
             template={template}
-            onRename={rerenderTemplates}
+            onRename={onRename}
           />
 
           <FormDialogDuplicateTemplate

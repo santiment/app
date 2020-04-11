@@ -2,8 +2,10 @@ import { useQuery, useMutation } from '@apollo/react-hooks'
 import {
   TEMPLATES_QUERY,
   CREATE_TEMPLATE_MUTATION,
+  UPDATE_TEMPLATE_MUTATION,
   DELETE_TEMPLATE_MUTATION
 } from './index'
+import { buildTemplateMetrics } from '../utils'
 import { store } from '../../../../index'
 
 const DEFAULT_TEMPLATES = []
@@ -55,7 +57,7 @@ export function useCreateTemplate () {
       variables: {
         settings: newTemplate
       }
-    })
+    }).then(({ data: { template } }) => template)
   }
 
   return [createTemplate, data]
@@ -75,4 +77,27 @@ export function useDeleteTemplate () {
   }
 
   return [deleteTemplate, data]
+}
+
+export function useUpdateTemplate () {
+  const [mutate, data] = useMutation(UPDATE_TEMPLATE_MUTATION)
+
+  function updateTemplate (oldTemplate, newConfig) {
+    const { id, title, project, metrics, isPublic } = oldTemplate
+    const { projectId } = newConfig
+
+    return mutate({
+      variables: {
+        id: +id,
+        settings: {
+          title: newConfig.title || title,
+          isPublic: newConfig.isPublic || isPublic,
+          projectId: +(projectId || project.id),
+          metrics: buildTemplateMetrics(newConfig) || metrics
+        }
+      }
+    }).then(({ data: { template } }) => Object.assign(oldTemplate, template))
+  }
+
+  return [updateTemplate, data]
 }

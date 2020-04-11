@@ -62,6 +62,7 @@ export default ({
   onFormSubmit,
   templates,
   selectTemplate,
+  rerenderTemplate,
   ...props
 }) => {
   const [filteredTemplates, setFilteredTemplates] = useState(templates)
@@ -106,6 +107,7 @@ export default ({
               template={template}
               selectTemplate={selectTemplate}
               rerenderTemplates={rerenderTemplates}
+              rerenderTemplate={rerenderTemplate}
             />
           ))}
       </Dialog.ScrollContent>

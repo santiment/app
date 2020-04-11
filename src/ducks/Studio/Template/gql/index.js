@@ -43,6 +43,18 @@ export const CREATE_TEMPLATE_MUTATION = gql`
   ${TEMPLATE_COMMON_FRAGMENT}
 `
 
+export const UPDATE_TEMPLATE_MUTATION = gql`
+  mutation updateChartConfiguration(
+    $id: ID!
+    $settings: ProjectChartInputObject!
+  ) {
+    template: updateChartConfiguration(id: $id, settings: $settings) {
+      ...templateCommon
+    }
+  }
+  ${TEMPLATE_COMMON_FRAGMENT}
+`
+
 export const DELETE_TEMPLATE_MUTATION = gql`
   mutation deleteChartConfiguration($id: ID!) {
     template: deleteChartConfiguration(id: $id) {

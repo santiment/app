@@ -1,5 +1,7 @@
-import { COMPARE_CONNECTOR, parseComparable } from '../url'
+import { COMPARE_CONNECTOR, parseComparable, shareComparable } from '../url'
 import { Metric } from '../../dataHub/metrics'
+
+export const getMetricKey = ({ key }) => key
 
 export function parseTemplateMetrics (templateMetrics) {
   const { length } = templateMetrics
@@ -24,4 +26,12 @@ export function parseTemplateMetrics (templateMetrics) {
     metrics,
     comparables
   }
+}
+
+export function buildTemplateMetrics ({ metrics, comparables }) {
+  if (!metrics && !comparables) {
+    return
+  }
+
+  return metrics.map(getMetricKey).concat(comparables.map(shareComparable))
 }

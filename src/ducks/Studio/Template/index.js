@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import cx from 'classnames'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
-import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import DialogLoadTemplate from './DialogLoadTemplate'
-import { parseTemplateMetrics } from './utils'
-import { useUserTemplates } from './gql/hooks'
+import { parseTemplateMetrics, getMetricKey } from './utils'
+import { useUserTemplates, useUpdateTemplate } from './gql/hooks'
 import FormDialogNewTemplate from './FormDialog/NewTemplate'
 import FormDialogRenameTemplate from './FormDialog/RenameTemplate'
 import FormDialogDuplicateTemplate from './FormDialog/DuplicateTemplate'
-import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './index.module.scss'
+import TemplateButton from './Button'
 
 const Action = props => (
   <Button {...props} fluid variant='ghost' className={styles.action} />
@@ -27,6 +25,7 @@ const Template = ({
   ...props
 }) => {
   const [templates] = useUserTemplates(currentUser.id)
+  const [updateTemplate] = useUpdateTemplate()
   const [selectedTemplate, setSelectedTemplate] = useState()
   const [isMenuOpened, setIsMenuOpened] = useState(false)
 
@@ -65,7 +64,20 @@ const Template = ({
   }
 
   function rerenderTemplate () {
-    selectTemplate(selectedTemplate)
+    console.log('rerendering selected')
+    if (selectedTemplate) {
+      setSelectedTemplate({ ...selectedTemplate })
+    }
+  }
+
+  function saveTemplate () {
+    const { metrics, comparables, projectId } = props
+
+    updateTemplate(selectedTemplate, {
+      metrics,
+      comparables,
+      projectId
+    }).then(closeMenu)
   }
 
   function onNewTemplate (template) {
@@ -80,40 +92,28 @@ const Template = ({
       position='bottom'
       align='start'
       trigger={
-        <button className={cx(styles.btn, className)}>
-          <FormDialogNewTemplate
-            {...props}
-            onNew={onNewTemplate}
-            trigger={
-              <div
-                className={cx(
-                  styles.btn__left,
-                  !hasTemplates && styles.btn__left_large
-                )}
-              >
-                <Icon type='cloud-small' className={styles.cloud} />
-                {selectedTemplate ? selectedTemplate.title : 'New Template'}
-              </div>
-            }
-          />
-          {hasTemplates && (
-            <div className={styles.dropdown} onClick={openMenu}>
-              <Icon
-                type='arrow-down'
-                className={cx(styles.icon, isMenuOpened && styles.active)}
-              />
-            </div>
-          )}
-        </button>
+        <TemplateButton
+          {...props}
+          selectedTemplate={selectedTemplate}
+          hasTemplates={hasTemplates}
+          openMenu={openMenu}
+          saveTemplate={saveTemplate}
+          onNew={onNewTemplate}
+          isMenuOpened={isMenuOpened}
+        />
       }
     >
       <Panel variant='modal' className={styles.context}>
         <div className={styles.group}>
-          <Action>Save template</Action>
+          {selectedTemplate && (
+            <Action onClick={saveTemplate}>Save template</Action>
+          )}
 
           <DialogLoadTemplate
             onClose={closeMenu}
             selectTemplate={selectTemplate}
+            updateTemplate={updateTemplate}
+            rerenderTemplate={rerenderTemplate}
             templates={templates}
             trigger={<Action>Load template</Action>}
           />
@@ -132,7 +132,7 @@ const Template = ({
                 onClose={closeMenu}
                 trigger={<Action>Rename template</Action>}
                 template={selectedTemplate}
-                onRename={rerenderTemplate}
+                onRename={closeMenu}
               />
 
               <FormDialogDuplicateTemplate

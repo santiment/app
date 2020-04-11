@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Dialog from './index'
+import { useUpdateTemplate } from '../gql/hooks'
 
 export default ({ template, onRename, ...props }) => {
   const { title } = template
+  const [updateTemplate] = useUpdateTemplate()
 
-  function onSubmit (value) {
-    template.title = value
-    onRename(value)
+  function onSubmit (title) {
+    updateTemplate(template, { title }).then(onRename)
   }
 
   return (

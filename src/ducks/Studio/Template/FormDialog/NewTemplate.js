@@ -1,23 +1,20 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Dialog from './index'
+import { getMetricKey } from '../utils'
 import { useCreateTemplate } from '../gql/hooks'
 
-const getMetricKey = ({ key }) => key
-
-const NewTemplate = ({ onNew, projectId, activeMetrics, ...props }) => {
+const NewTemplate = ({ onNew, projectId, metrics, ...props }) => {
   const [createTemplate] = useCreateTemplate()
 
   function onSubmit (title) {
     const newTemplate = {
       title,
-      metrics: activeMetrics.map(getMetricKey),
+      metrics: metrics.map(getMetricKey),
       projectId: +projectId
     }
 
-    createTemplate(newTemplate).then(({ data }) => {
-      onNew(data.template)
-    })
+    createTemplate(newTemplate).then(onNew)
   }
 
   return (
