@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
@@ -6,23 +6,50 @@ import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import DialogLoadTemplate from './DialogLoadTemplate'
+import { parseTemplateMetrics } from './utils'
+import { useUserTemplates } from './gql/hooks'
 import FormDialogNewTemplate from './FormDialog/NewTemplate'
 import FormDialogRenameTemplate from './FormDialog/RenameTemplate'
 import FormDialogDuplicateTemplate from './FormDialog/DuplicateTemplate'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './index.module.scss'
-import { useUserTemplates } from './gql/hooks'
 
 const Action = props => (
   <Button {...props} fluid variant='ghost' className={styles.action} />
 )
 
-const Template = ({ className, currentUser, ...props }) => {
+const Template = ({
+  className,
+  currentUser,
+  setMetrics,
+  setComparables,
+  onProjectSelect,
+  ...props
+}) => {
   const [templates] = useUserTemplates(currentUser.id)
   const [selectedTemplate, setSelectedTemplate] = useState()
   const [isMenuOpened, setIsMenuOpened] = useState(false)
 
-  console.log(templates)
+  const hasTemplates = templates.length > 0
+
+  useEffect(
+    () => {
+      if (selectedTemplate) {
+        const { project, metrics: templateMetrics } = selectedTemplate
+        const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
+
+        onProjectSelect(project)
+
+        if (metrics.length) {
+          setMetrics(metrics)
+        }
+        if (comparables.length) {
+          setComparables(comparables)
+        }
+      }
+    },
+    [selectedTemplate]
+  )
 
   function openMenu () {
     setIsMenuOpened(true)
@@ -45,8 +72,6 @@ const Template = ({ className, currentUser, ...props }) => {
     selectTemplate(template)
     closeMenu()
   }
-
-  const hasTemplates = templates.length > 0
 
   return (
     <ContextMenu

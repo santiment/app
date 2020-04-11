@@ -8,7 +8,7 @@ export default ({ settings, ...rest }) => {
   const { slug, title } = settings
   return (
     <div className={styles.wrapper}>
-      <Template activeMetrics={rest.activeMetrics} {...settings} />
+      <Template {...rest} {...settings} />
       <div className={styles.title}>
         <span className={styles.slug}>{title}</span>
       </div>
