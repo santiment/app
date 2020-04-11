@@ -31,6 +31,15 @@ export default ({ className }) => {
     closeMenu()
   }
 
+  function rerenderTemplate () {
+    selectTemplate(selectedTemplate)
+  }
+
+  function onNewTemplate (template) {
+    selectTemplate(template)
+    closeMenu()
+  }
+
   return (
     <ContextMenu
       open={isMenuOpened}
@@ -66,17 +75,25 @@ export default ({ className }) => {
           <FormDialogNewTemplate
             onClose={closeMenu}
             trigger={<Action>New template</Action>}
+            onNew={onNewTemplate}
           />
 
-          <FormDialogRenameTemplate
-            onClose={closeMenu}
-            trigger={<Action>Rename template</Action>}
-          />
+          {selectedTemplate && (
+            <>
+              <FormDialogRenameTemplate
+                onClose={closeMenu}
+                trigger={<Action>Rename template</Action>}
+                template={selectedTemplate}
+                onRename={rerenderTemplate}
+              />
 
-          <FormDialogDuplicateTemplate
-            onClose={closeMenu}
-            trigger={<Action>Duplicate template</Action>}
-          />
+              <FormDialogDuplicateTemplate
+                onClose={closeMenu}
+                trigger={<Action>Duplicate template</Action>}
+                template={selectedTemplate}
+              />
+            </>
+          )}
         </div>
       </Panel>
     </ContextMenu>
