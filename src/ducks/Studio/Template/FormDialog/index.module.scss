@@ -1,0 +1,20 @@
+.wrapper {
+  display: flex;
+  padding: 16px 20px 32px;
+  width: 500px;
+}
+
+.title {
+  border: none;
+}
+
+.btn,
+.input {
+  height: 40px;
+}
+
+.btn {
+  margin-left: 16px;
+  min-width: 116px;
+  justify-content: center;
+}
