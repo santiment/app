@@ -20,6 +20,10 @@
     overflow-x: hidden;
     white-space: nowrap;
 
+    &_large {
+      max-width: 135px;
+    }
+
     &:hover {
       color: var(--jungle-green);
       fill: var(--jungle-green);

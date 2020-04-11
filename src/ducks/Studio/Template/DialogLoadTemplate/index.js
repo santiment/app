@@ -60,7 +60,7 @@ export default ({
   buttonLabel,
   defaultValue,
   onFormSubmit,
-  templates = data,
+  templates,
   selectTemplate,
   ...props
 }) => {
@@ -76,7 +76,9 @@ export default ({
   function searchTemplate (value) {
     const lowerCaseValue = value.toLowerCase()
     setFilteredTemplates(
-      data.filter(({ title }) => title.toLowerCase().includes(lowerCaseValue))
+      templates.filter(({ title }) =>
+        title.toLowerCase().includes(lowerCaseValue)
+      )
     )
   }
 
@@ -96,14 +98,16 @@ export default ({
       </div>
 
       <Dialog.ScrollContent className={styles.wrapper}>
-        {filteredTemplates.map(template => (
-          <Template
-            key={template.id}
-            template={template}
-            selectTemplate={selectTemplate}
-            rerenderTemplates={rerenderTemplates}
-          />
-        ))}
+        {templates.length === 0
+          ? 'No templates found'
+          : filteredTemplates.map(template => (
+            <Template
+              key={template.id}
+              template={template}
+              selectTemplate={selectTemplate}
+              rerenderTemplates={rerenderTemplates}
+            />
+          ))}
       </Dialog.ScrollContent>
     </Dialog>
   )

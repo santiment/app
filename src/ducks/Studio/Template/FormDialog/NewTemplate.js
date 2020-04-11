@@ -1,19 +1,15 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Dialog from './index'
+import { useCreateTemplate } from '../gql/hooks'
 
-export default ({ onNew, ...props }) => {
+const NewTemplate = ({ onNew, ...props }) => {
+  const [createTemplate] = useCreateTemplate()
+
   function onSubmit (value) {
-    const newTemplate = {
-      id: Date.now(),
-      title: value,
-      metrics: ['price_usd'],
-      project: {
-        name: 'Ethereum'
-      }
-    }
-
-    onNew(newTemplate)
+    createTemplate(value).then(({ data }) => {
+      onNew(data.template)
+    })
   }
 
   return (
@@ -26,3 +22,5 @@ export default ({ onNew, ...props }) => {
     />
   )
 }
+
+export default NewTemplate

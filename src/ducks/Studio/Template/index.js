@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import cx from 'classnames'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Icon from '@santiment-network/ui/Icon'
@@ -8,15 +9,20 @@ import DialogLoadTemplate from './DialogLoadTemplate'
 import FormDialogNewTemplate from './FormDialog/NewTemplate'
 import FormDialogRenameTemplate from './FormDialog/RenameTemplate'
 import FormDialogDuplicateTemplate from './FormDialog/DuplicateTemplate'
+import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './index.module.scss'
+import { useUserTemplates } from './gql/hooks'
 
 const Action = props => (
   <Button {...props} fluid variant='ghost' className={styles.action} />
 )
 
-export default ({ className }) => {
+const Template = ({ className, currentUser }) => {
+  const [templates] = useUserTemplates(currentUser.id)
   const [selectedTemplate, setSelectedTemplate] = useState()
-  const [isMenuOpened, setIsMenuOpened] = useState()
+  const [isMenuOpened, setIsMenuOpened] = useState(false)
+
+  console.log(templates)
 
   function openMenu () {
     setIsMenuOpened(true)
@@ -40,6 +46,8 @@ export default ({ className }) => {
     closeMenu()
   }
 
+  const hasTemplates = templates.length > 0
+
   return (
     <ContextMenu
       open={isMenuOpened}
@@ -48,16 +56,28 @@ export default ({ className }) => {
       align='start'
       trigger={
         <button className={cx(styles.btn, className)}>
-          <div className={styles.btn__left}>
-            <Icon type='cloud-small' className={styles.cloud} />
-            {selectedTemplate ? selectedTemplate.title : 'Template'}
-          </div>
-          <div className={styles.dropdown} onClick={openMenu}>
-            <Icon
-              type='arrow-down'
-              className={cx(styles.icon, isMenuOpened && styles.active)}
-            />
-          </div>
+          <FormDialogNewTemplate
+            onNew={onNewTemplate}
+            trigger={
+              <div
+                className={cx(
+                  styles.btn__left,
+                  !hasTemplates && styles.btn__left_large
+                )}
+              >
+                <Icon type='cloud-small' className={styles.cloud} />
+                {selectedTemplate ? selectedTemplate.title : 'New Template'}
+              </div>
+            }
+          />
+          {hasTemplates && (
+            <div className={styles.dropdown} onClick={openMenu}>
+              <Icon
+                type='arrow-down'
+                className={cx(styles.icon, isMenuOpened && styles.active)}
+              />
+            </div>
+          )}
         </button>
       }
     >
@@ -68,6 +88,7 @@ export default ({ className }) => {
           <DialogLoadTemplate
             onClose={closeMenu}
             selectTemplate={selectTemplate}
+            templates={templates}
             trigger={<Action>Load template</Action>}
           />
         </div>
@@ -99,3 +120,9 @@ export default ({ className }) => {
     </ContextMenu>
   )
 }
+
+const mapStateToProps = state => ({
+  currentUser: state.user.data
+})
+
+export default connect(mapStateToProps)(Template)
