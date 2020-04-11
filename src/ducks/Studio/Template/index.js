@@ -15,6 +15,7 @@ const Action = props => (
 )
 
 export default ({ className }) => {
+  const [selectedTemplate, setSelectedTemplate] = useState()
   const [isMenuOpened, setIsMenuOpened] = useState()
 
   function openMenu () {
@@ -23,6 +24,11 @@ export default ({ className }) => {
 
   function closeMenu () {
     setIsMenuOpened(false)
+  }
+
+  function selectTemplate (template) {
+    setSelectedTemplate(template)
+    closeMenu()
   }
 
   return (
@@ -35,7 +41,7 @@ export default ({ className }) => {
         <button className={cx(styles.btn, className)}>
           <div className={styles.btn__left}>
             <Icon type='cloud-small' className={styles.cloud} />
-            Template
+            {selectedTemplate ? selectedTemplate.title : 'Template'}
           </div>
           <div className={styles.dropdown} onClick={openMenu}>
             <Icon
@@ -52,6 +58,7 @@ export default ({ className }) => {
 
           <DialogLoadTemplate
             onClose={closeMenu}
+            selectTemplate={selectTemplate}
             trigger={<Action>Load template</Action>}
           />
         </div>

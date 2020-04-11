@@ -12,9 +12,13 @@
   outline: none;
 
   &__left {
-    padding: 0 12px;
-
     @include text('body-3');
+
+    padding: 0 12px;
+    max-width: 115px;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    white-space: nowrap;
 
     &:hover {
       color: var(--jungle-green);
