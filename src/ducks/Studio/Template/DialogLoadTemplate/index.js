@@ -89,7 +89,7 @@ export default ({
   }
 
   function rerenderTemplates () {
-    setFilteredTemplates([...templates])
+    setFilteredTemplates(state => state.slice())
   }
 
   return (

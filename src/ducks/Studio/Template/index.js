@@ -63,10 +63,9 @@ const Template = ({
     closeMenu()
   }
 
-  function rerenderTemplate () {
-    console.log('rerendering selected')
-    if (selectedTemplate) {
-      setSelectedTemplate({ ...selectedTemplate })
+  function rerenderTemplate (template) {
+    if (selectedTemplate.id === template.id) {
+      setSelectedTemplate(template)
     }
   }
 

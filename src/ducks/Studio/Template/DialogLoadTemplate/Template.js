@@ -43,9 +43,9 @@ const Template = ({
     deleteTemplate(template)
   }
 
-  function onRename () {
+  function onRename (template) {
     rerenderTemplates()
-    rerenderTemplate()
+    rerenderTemplate(template)
   }
 
   return (
