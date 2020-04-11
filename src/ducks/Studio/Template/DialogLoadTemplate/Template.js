@@ -22,6 +22,7 @@ const Template = ({
 }) => {
   const { title, metrics, project } = template
   const [isPublic, setIsPublic] = useState(template.isPublic)
+  const [isMenuOpened, setIsMenuOpened] = useState(false)
   const [deleteTemplate] = useDeleteTemplate()
   const [updateTemplate] = useUpdateTemplate()
 
@@ -33,6 +34,14 @@ const Template = ({
     })
   }
 
+  function openMenu () {
+    setIsMenuOpened(true)
+  }
+
+  function closeMenu () {
+    setIsMenuOpened(false)
+  }
+
   function onTemplateClick ({ target, currentTarget }) {
     if (target === currentTarget) {
       selectTemplate(template)
@@ -41,11 +50,13 @@ const Template = ({
 
   function onDeleteClick () {
     deleteTemplate(template)
+    closeMenu()
   }
 
   function onRename (template) {
     rerenderTemplates()
     rerenderTemplate(template)
+    closeMenu()
   }
 
   return (
@@ -64,8 +75,10 @@ const Template = ({
       </div>
 
       <ContextMenu
+        open={isMenuOpened}
+        onClose={closeMenu}
         trigger={
-          <Button variant='flat' className={cx(styles.menu)}>
+          <Button variant='flat' className={cx(styles.menu)} onClick={openMenu}>
             <Icon type='dots' />
           </Button>
         }
@@ -88,6 +101,7 @@ const Template = ({
           <FormDialogDuplicateTemplate
             trigger={<Option>Duplicate</Option>}
             template={template}
+            onDuplicate={closeMenu}
           />
 
           <Option onClick={onDeleteClick}>Delete</Option>

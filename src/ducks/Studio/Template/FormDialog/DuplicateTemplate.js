@@ -16,9 +16,7 @@ export default ({ onDuplicate, template, ...props }) => {
       projectId: +project.id
     }
 
-    createTemplate(duplicatedTemplate).then(({ data }) => {
-      onDuplicate(data.template)
-    })
+    createTemplate(duplicatedTemplate).then(onDuplicate)
   }
 
   return (

@@ -64,7 +64,7 @@ const Template = ({
   }
 
   function rerenderTemplate (template) {
-    if (selectedTemplate.id === template.id) {
+    if (selectedTemplate && selectedTemplate.id === template.id) {
       setSelectedTemplate(template)
     }
   }
