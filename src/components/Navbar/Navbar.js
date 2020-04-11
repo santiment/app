@@ -96,7 +96,7 @@ const leftLinks = [
 
 const rightBtns = [
   {
-    icon: () => <Icon type='help-round' className={styles.headerIcon} />,
+    icon: () => <Icon type='info-round' className={styles.headerIcon} />,
     el: NavbarHelpDropdown,
     links: ['/docs', '/dev-api', '/support'],
     makeActive: true,

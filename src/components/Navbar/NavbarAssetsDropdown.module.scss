@@ -1,54 +1,43 @@
-@import "~@santiment-network/ui/variables.scss";
+@import '~@santiment-network/ui/variables';
+@import '~@santiment-network/ui/mixins';
 
 .wrapper {
-    display: flex;
+  display: flex;
+}
 
-    & > * {
-        flex: 1;
-        width: 287px;
-        &:nth-of-type(2) {
-            border-left: 1px solid var(--grey-light-2);
-        }
-    }
+.block {
+  flex: 1;
+  width: 287px;
+  padding: 24px 16px 16px;
+}
+
+.block + .block {
+  border-left: 1px solid var(--porcelain);
 }
 
 .title {
-    font-family: Rubik, sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 18px;
-    font-size: 12px;
-    margin: 11px 16px 3px !important;
-    color: var(--grey-dark-2);
+  @include text('body-3');
+
+  color: var(--waterloo);
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 8px 8px;
 }
 
 .list {
-    display: flex;
-    flex-direction: column;
-    & :global(.create-new-watchlist-btn) {
-        padding: 0;
-        & > :global(.input) {
-            margin: 0;
-        }
+  display: flex;
+  flex-direction: column;
 
-        & > :global(.button) {
-            padding: 10px;
-            margin: 0 0 0 4px;
-        }
+  & :global(.create-new-watchlist-btn) {
+    padding: 0;
+
+    & > :global(.input) {
+      margin: 0;
     }
-}
 
-.testList {
-    padding: 0 8px 8px;
-
-    a {
-        text-decoration: none;
+    & > :global(.button) {
+      padding: 10px;
+      margin: 0 0 0 4px;
     }
+  }
 }
-
-
-.input {
-    padding-left: 8px;
-    margin-top: 8px;
-}
-
