@@ -1,23 +1,38 @@
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import { TEMPLATES_QUERY, CREATE_TEMPLATE_MUTATION } from './index'
+import {
+  TEMPLATES_QUERY,
+  CREATE_TEMPLATE_MUTATION,
+  DELETE_TEMPLATE_MUTATION
+} from './index'
 import { store } from '../../../../index'
 
 const DEFAULT_TEMPLATES = []
 
-function updateTemplatesCache (cache, { data: { template } }) {
-  const variables = { userId: +store.getState().user.data.id }
+function buildTemplatesCacheUpdater (reducer) {
+  return (cache, { data }) => {
+    const variables = { userId: +store.getState().user.data.id }
 
-  const { templates } = cache.readQuery({
-    variables,
-    query: TEMPLATES_QUERY
-  })
+    const { templates } = cache.readQuery({
+      variables,
+      query: TEMPLATES_QUERY
+    })
 
-  cache.writeQuery({
-    variables,
-    query: TEMPLATES_QUERY,
-    data: { templates: [template].concat(templates) }
-  })
+    cache.writeQuery({
+      variables,
+      query: TEMPLATES_QUERY,
+      data: { templates: reducer(data, templates) }
+    })
+  }
 }
+
+const updateTemplatesOnDelete = buildTemplatesCacheUpdater(
+  ({ template: { id: deletedId } }, templates) =>
+    templates.filter(({ id }) => id !== deletedId)
+)
+
+const updateTemplatesOnCreation = buildTemplatesCacheUpdater(
+  ({ template }, templates) => [template].concat(templates)
+)
 
 export function useUserTemplates (id) {
   const { data, loading, error } = useQuery(TEMPLATES_QUERY, {
@@ -32,7 +47,7 @@ export function useUserTemplates (id) {
 
 export function useCreateTemplate () {
   const [mutate, data] = useMutation(CREATE_TEMPLATE_MUTATION, {
-    update: updateTemplatesCache
+    update: updateTemplatesOnCreation
   })
 
   function createTemplate (title) {
@@ -48,4 +63,20 @@ export function useCreateTemplate () {
   }
 
   return [createTemplate, data]
+}
+
+export function useDeleteTemplate () {
+  const [mutate, data] = useMutation(DELETE_TEMPLATE_MUTATION, {
+    update: updateTemplatesOnDelete
+  })
+
+  function deleteTemplate ({ id }) {
+    return mutate({
+      variables: {
+        id: +id
+      }
+    })
+  }
+
+  return [deleteTemplate, data]
 }

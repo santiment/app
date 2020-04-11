@@ -7,6 +7,7 @@ import Toggle from '@santiment-network/ui/Toggle'
 import Icon from '@santiment-network/ui/Icon'
 import FormDialogRenameTemplate from '../FormDialog/RenameTemplate'
 import FormDialogDuplicateTemplate from '../FormDialog/DuplicateTemplate'
+import { useDeleteTemplate } from '../gql/hooks'
 import styles from './Template.module.scss'
 
 const Option = props => (
@@ -16,6 +17,7 @@ const Option = props => (
 const Template = ({ template, selectTemplate, rerenderTemplates }) => {
   const { title, metrics, project } = template
   const [isPublic, setIsPublic] = useState(template.isPublic)
+  const [deleteTemplate] = useDeleteTemplate()
 
   function toggleIsPublic () {
     setIsPublic(state => !state)
@@ -69,7 +71,7 @@ const Template = ({ template, selectTemplate, rerenderTemplates }) => {
             template={template}
           />
 
-          <Option>Delete</Option>
+          <Option onClick={() => deleteTemplate(template)}>Delete</Option>
         </Panel>
       </ContextMenu>
     </div>
