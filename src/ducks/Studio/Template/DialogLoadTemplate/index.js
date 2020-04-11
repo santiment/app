@@ -85,6 +85,10 @@ export default ({
     onFormSubmit(e.currentTarget.templateName.value)
   }
 
+  function rerenderTemplates () {
+    setFilteredTemplates([...templates])
+  }
+
   return (
     <Dialog title='Load Template' {...props}>
       <div className={styles.search}>
@@ -97,6 +101,7 @@ export default ({
             key={template.id}
             template={template}
             selectTemplate={selectTemplate}
+            rerenderTemplates={rerenderTemplates}
           />
         ))}
       </Dialog.ScrollContent>

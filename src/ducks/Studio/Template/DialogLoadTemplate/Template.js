@@ -13,7 +13,7 @@ const Option = props => (
   <Button {...props} fluid variant='ghost' className={styles.context__btn} />
 )
 
-const Template = ({ template, selectTemplate }) => {
+const Template = ({ template, selectTemplate, rerenderTemplates }) => {
   const { title, metrics, project } = template
   const [isPublic, setIsPublic] = useState(template.isPublic)
 
@@ -58,9 +58,16 @@ const Template = ({ template, selectTemplate }) => {
             <Toggle isActive={isPublic} className={styles.toggle} />
           </Option>
 
-          <FormDialogRenameTemplate trigger={<Option>Rename</Option>} />
+          <FormDialogRenameTemplate
+            trigger={<Option>Rename</Option>}
+            template={template}
+            onRename={rerenderTemplates}
+          />
 
-          <FormDialogDuplicateTemplate trigger={<Option>Duplicate</Option>} />
+          <FormDialogDuplicateTemplate
+            trigger={<Option>Duplicate</Option>}
+            template={template}
+          />
 
           <Option>Delete</Option>
         </Panel>

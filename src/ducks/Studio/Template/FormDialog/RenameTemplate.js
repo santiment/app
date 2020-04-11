@@ -2,14 +2,21 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import Dialog from './index'
 
-export default props => {
+export default ({ template, onRename, ...props }) => {
+  const { title } = template
+
+  function onSubmit (value) {
+    template.title = value
+    onRename(value)
+  }
+
   return (
     <Dialog
       {...props}
       title='Rename Template'
-      onFormSubmit={console.log}
+      onFormSubmit={onSubmit}
       buttonLabel='Rename'
-      defaultValue='123'
+      defaultValue={title}
     />
   )
 }
