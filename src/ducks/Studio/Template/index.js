@@ -17,7 +17,7 @@ const Action = props => (
   <Button {...props} fluid variant='ghost' className={styles.action} />
 )
 
-const Template = ({ className, currentUser }) => {
+const Template = ({ className, currentUser, ...props }) => {
   const [templates] = useUserTemplates(currentUser.id)
   const [selectedTemplate, setSelectedTemplate] = useState()
   const [isMenuOpened, setIsMenuOpened] = useState(false)
@@ -57,6 +57,7 @@ const Template = ({ className, currentUser }) => {
       trigger={
         <button className={cx(styles.btn, className)}>
           <FormDialogNewTemplate
+            {...props}
             onNew={onNewTemplate}
             trigger={
               <div
@@ -94,6 +95,7 @@ const Template = ({ className, currentUser }) => {
         </div>
         <div className={styles.group}>
           <FormDialogNewTemplate
+            {...props}
             onClose={closeMenu}
             trigger={<Action>New template</Action>}
             onNew={onNewTemplate}
@@ -112,6 +114,7 @@ const Template = ({ className, currentUser }) => {
                 onClose={closeMenu}
                 trigger={<Action>Duplicate template</Action>}
                 template={selectedTemplate}
+                onDuplicate={closeMenu}
               />
             </>
           )}

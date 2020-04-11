@@ -3,11 +3,19 @@ import cx from 'classnames'
 import Dialog from './index'
 import { useCreateTemplate } from '../gql/hooks'
 
-const NewTemplate = ({ onNew, ...props }) => {
+const getMetricKey = ({ key }) => key
+
+const NewTemplate = ({ onNew, projectId, activeMetrics, ...props }) => {
   const [createTemplate] = useCreateTemplate()
 
-  function onSubmit (value) {
-    createTemplate(value).then(({ data }) => {
+  function onSubmit (title) {
+    const newTemplate = {
+      title,
+      metrics: activeMetrics.map(getMetricKey),
+      projectId: +projectId
+    }
+
+    createTemplate(newTemplate).then(({ data }) => {
       onNew(data.template)
     })
   }

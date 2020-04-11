@@ -50,14 +50,10 @@ export function useCreateTemplate () {
     update: updateTemplatesOnCreation
   })
 
-  function createTemplate (title) {
+  function createTemplate (newTemplate) {
     return mutate({
       variables: {
-        settings: {
-          title,
-          metrics: ['price_usd'],
-          projectId: +'1505'
-        }
+        settings: newTemplate
       }
     })
   }

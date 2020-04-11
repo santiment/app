@@ -20,13 +20,21 @@ const Template = ({ template, selectTemplate, rerenderTemplates }) => {
   const [deleteTemplate] = useDeleteTemplate()
 
   function toggleIsPublic () {
-    setIsPublic(state => !state)
+    setIsPublic(state => {
+      const newState = !state
+      template.isPublic = newState
+      return newState
+    })
   }
 
   function onTemplateClick ({ target, currentTarget }) {
     if (target === currentTarget) {
       selectTemplate(template)
     }
+  }
+
+  function onDeleteClick () {
+    deleteTemplate(template)
   }
 
   return (
@@ -71,7 +79,7 @@ const Template = ({ template, selectTemplate, rerenderTemplates }) => {
             template={template}
           />
 
-          <Option onClick={() => deleteTemplate(template)}>Delete</Option>
+          <Option onClick={onDeleteClick}>Delete</Option>
         </Panel>
       </ContextMenu>
     </div>
