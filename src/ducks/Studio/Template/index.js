@@ -4,9 +4,13 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import DialogLoadTemplate from './DialogLoadTemplate'
-import { parseTemplateMetrics, getMetricKey } from './utils'
+import { parseTemplateMetrics } from './utils'
 import { notifySave } from './notifications'
-import { useUserTemplates, useUpdateTemplate } from './gql/hooks'
+import {
+  useUserTemplates,
+  useUpdateTemplate,
+  useSelectedTemplate
+} from './gql/hooks'
 import FormDialogNewTemplate from './FormDialog/NewTemplate'
 import FormDialogRenameTemplate from './FormDialog/RenameTemplate'
 import FormDialogDuplicateTemplate from './FormDialog/DuplicateTemplate'
@@ -27,7 +31,9 @@ const Template = ({
 }) => {
   const [templates] = useUserTemplates(currentUser.id)
   const [updateTemplate] = useUpdateTemplate()
-  const [selectedTemplate, setSelectedTemplate] = useState()
+  const [selectedTemplate, setSelectedTemplate] = useSelectedTemplate(
+    templates[0]
+  )
   const [isMenuOpened, setIsMenuOpened] = useState(false)
 
   const hasTemplates = templates.length > 0
@@ -39,13 +45,8 @@ const Template = ({
         const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
 
         onProjectSelect(project)
-
-        if (metrics.length) {
-          setMetrics(metrics)
-        }
-        if (comparables.length) {
-          setComparables(comparables)
-        }
+        setMetrics(metrics)
+        setComparables(comparables)
       }
     },
     [selectedTemplate]

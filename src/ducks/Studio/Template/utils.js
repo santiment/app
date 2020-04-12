@@ -1,6 +1,8 @@
 import { COMPARE_CONNECTOR, parseComparable, shareComparable } from '../url'
 import { Metric } from '../../dataHub/metrics'
 
+const LAST_USED_TEMPLATE = 'LAST_USED_TEMPLATE'
+
 export const getMetricKey = ({ key }) => key
 
 export function parseTemplateMetrics (templateMetrics) {
@@ -34,4 +36,16 @@ export function buildTemplateMetrics ({ metrics, comparables }) {
   }
 
   return metrics.map(getMetricKey).concat(comparables.map(shareComparable))
+}
+
+export function getLastTemplate () {
+  const savedTemplate = localStorage.getItem(LAST_USED_TEMPLATE)
+
+  return savedTemplate ? JSON.parse(savedTemplate) : undefined
+}
+
+export function saveLastTemplate (template) {
+  if (!template) return
+
+  localStorage.setItem(LAST_USED_TEMPLATE, JSON.stringify(template))
 }

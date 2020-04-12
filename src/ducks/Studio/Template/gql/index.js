@@ -16,18 +16,18 @@ export const TEMPLATE_COMMON_FRAGMENT = gql`
   }
 `
 
-export const TEMPLATES_QUERY = gql`
-  query chartConfigurations($userId: Int) {
-    templates: chartConfigurations(userId: $userId) {
+export const TEMPLATE_QUERY = gql`
+  query chartConfiguration($id: Int) {
+    template: chartConfiguration(id: $id) {
       ...templateCommon
     }
   }
   ${TEMPLATE_COMMON_FRAGMENT}
 `
 
-export const TEMPLATE_QUERY = gql`
-  query chartConfiguration($id: Int) {
-    template: chartConfiguration(id: $id) {
+export const TEMPLATES_QUERY = gql`
+  query chartConfigurations($userId: Int) {
+    templates: chartConfigurations(userId: $userId) {
       ...templateCommon
     }
   }

@@ -1,12 +1,18 @@
+import { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import {
+  TEMPLATE_QUERY,
   TEMPLATES_QUERY,
   CREATE_TEMPLATE_MUTATION,
   UPDATE_TEMPLATE_MUTATION,
   DELETE_TEMPLATE_MUTATION
 } from './index'
-import { buildTemplateMetrics } from '../utils'
-import { store } from '../../../../index'
+import {
+  buildTemplateMetrics,
+  getLastTemplate,
+  saveLastTemplate
+} from '../utils'
+import { store, client } from '../../../../index'
 
 const DEFAULT_TEMPLATES = []
 
@@ -45,6 +51,46 @@ export function useUserTemplates (id) {
   })
 
   return [data ? data.templates : DEFAULT_TEMPLATES, loading, error]
+}
+
+export function useSelectedTemplate (defaultTemplate) {
+  const [selectedTemplate, setSelectedTemplate] = useState()
+
+  useEffect(() => {
+    const savedTemplate = getLastTemplate()
+
+    if (!savedTemplate) return
+
+    setSelectedTemplate(savedTemplate)
+
+    client
+      .query({
+        query: TEMPLATE_QUERY,
+        fetchPolicy: 'network-only',
+        variables: {
+          id: +savedTemplate.id
+        }
+      })
+      .then(({ data: { template } }) => setSelectedTemplate(template))
+  }, [])
+
+  useEffect(
+    () => {
+      if (!selectedTemplate) {
+        setSelectedTemplate(defaultTemplate)
+      }
+    },
+    [defaultTemplate]
+  )
+
+  useEffect(
+    () => {
+      saveLastTemplate(selectedTemplate)
+    },
+    [selectedTemplate]
+  )
+
+  return [selectedTemplate, setSelectedTemplate]
 }
 
 export function useCreateTemplate () {
