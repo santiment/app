@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import FormDialogNewTemplate from './FormDialog/NewTemplate'
+import LoginDialog from '../../../components/LoginDialog'
 import styles from './index.module.scss'
 
 export default ({
@@ -9,6 +10,7 @@ export default ({
   selectedTemplate,
   hasTemplates,
   isMenuOpened,
+  isLoggedIn,
   saveTemplate,
   openMenu,
   onNewTemplate,
@@ -29,10 +31,13 @@ export default ({
     closeDialog()
   }
 
+  const Dialog = isLoggedIn ? FormDialogNewTemplate : LoginDialog
+
   return (
     <button className={styles.btn} ref={forwardedRef}>
-      <FormDialogNewTemplate
+      <Dialog
         {...props}
+        title='New Template'
         open={isDialogOpened}
         onClose={closeDialog}
         onNew={onNew}
