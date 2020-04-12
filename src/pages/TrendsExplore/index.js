@@ -77,6 +77,7 @@ const TrendsExplore = ({
                 isDesktop={isDesktop}
                 history={history}
                 className={styles.search}
+                inputClassName={styles.searchInput}
               />
             ) : (
               <MobileHeader

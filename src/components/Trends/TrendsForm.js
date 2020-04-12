@@ -42,7 +42,7 @@ export class TrendsForm extends Component {
           history={history}
           className={inputClassName}
           iconPosition='left'
-          placeholder='Search for trending words'
+          placeholder='Enter a word or a phrase...'
           value={this.state.topic}
           onChange={this.handleChange}
         />

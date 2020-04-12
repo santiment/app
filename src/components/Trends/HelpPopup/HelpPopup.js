@@ -12,10 +12,7 @@ const HelpPopup = () => (
     title='About Santiment’s Top 10 Trending Words in Crypto'
     trigger={
       <div className={styles.trigger}>
-        <Icon type='question-round-small' className={styles.description} />
-        <DesktopOnly>
-          <span className={styles.using}>How to use</span>
-        </DesktopOnly>
+        <Icon type='question-round' className={styles.description} />
       </div>
     }
   >
