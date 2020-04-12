@@ -47,10 +47,11 @@
 
   &__input {
     margin-bottom: 13px;
+    height: 40px;
   }
 
   &__form {
-    width: 430px;
+    width: 500px;
 
     @include responsive('phone', 'phone-xs') {
       width: 100%;

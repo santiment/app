@@ -1,8 +1,11 @@
 import React from 'react'
 import cx from 'classnames'
+import withSizes from 'react-sizes'
 import Icon from '@santiment-network/ui/Icon'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import Panel from '@santiment-network/ui/Panel'
+import ContextMenu from '@santiment-network/ui/ContextMenu'
+import { mapSizesToProps } from '../../utils/withSizes'
 import styles from './HelpPopup.module.scss'
 
 export const HelpPopupTrigger = (
@@ -16,10 +19,16 @@ const HelpPopup = ({
   wrapperClassName,
   position = 'bottom',
   align = 'center',
-  trigger = HelpPopupTrigger
+  trigger = HelpPopupTrigger,
+  isPhone
 }) => {
   const render = content || children
-  return (
+
+  return isPhone ? (
+    <ContextMenu trigger={trigger}>
+      <Panel className={styles.panel}>{render}</Panel>
+    </ContextMenu>
+  ) : (
     <Tooltip
       trigger={trigger}
       position={position}
@@ -32,4 +41,4 @@ const HelpPopup = ({
   )
 }
 
-export default HelpPopup
+export default withSizes(mapSizesToProps)(HelpPopup)

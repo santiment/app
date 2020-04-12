@@ -25,7 +25,7 @@ import styles from './TrendsTable.module.scss'
 
 const MOBILE_COLUMNS = [
   {
-    Header: 'Trending words',
+    Header: 'Words',
     accessor: 'word'
   },
   {
@@ -33,7 +33,7 @@ const MOBILE_COLUMNS = [
     accessor: 'score'
   },
   {
-    Header: 'Social volume',
+    Header: 'Soc. vol, 24h',
     accessor: 'volume'
   }
 ]
@@ -56,11 +56,11 @@ const COMPACT_VIEW_COLUMNS = [
     headerClassName: styles.headerIndex
   },
   {
-    Header: 'Trending words',
+    Header: 'Words',
     accessor: 'word'
   },
   {
-    Header: 'Social volume',
+    Header: 'Social volume, 24h',
     accessor: 'volume'
   }
 ]

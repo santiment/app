@@ -343,7 +343,7 @@ export const App = ({
         <Redirect from='/trends' to='/labs/trends' />
         <Route
           exact
-          path='/labs/trends/explore/:word'
+          path={['/labs/trends/explore/:word', '/labs/trends/explore/']}
           render={props => (
             <LoadableTrendsExplorePage isDesktop={isDesktop} {...props} />
           )}

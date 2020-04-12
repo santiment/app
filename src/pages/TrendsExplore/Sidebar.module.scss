@@ -25,6 +25,7 @@
 
   @include responsive('phone-xs', 'phone') {
     flex-direction: column;
+    margin-bottom: 50px;
   }
 }
 
@@ -79,4 +80,32 @@
 
 .footerVersionDivider {
   display: none;
+}
+
+.trend {
+  @include text('body-3');
+
+  margin: 0 8px 0 0;
+  color: var(--rhino);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  margin: 0 0 14px;
+}
+
+.calendar {
+  fill: var(--casper);
+  margin-left: auto;
+}
+
+.table {
+  :global {
+    .ReactTable {
+      .rt-thead.-header {
+        margin-top: 0 !important;
+      }
+    }
+  }
 }

@@ -15,18 +15,18 @@ const HelpPopupContent = () => {
   return (
     <div className={styles.wrapper}>
       <p>
-        Every 9 hours, we calculate the top 10 words with the highest spike in
+        Every hour, we calculate the top 10 words with the highest spike in
         mentions on crypto social media, compared to their previous 2-week
         average.
       </p>
       <p>This list aims to do 2 things: </p>
       <ol>
         <li>
-          Give you a quick overview of the top <bold>developing topics</bold> in
+          Give you a quick overview of the top <b>developing topics</b> in
           crypto at the moment
         </li>
         <li>
-          Help you spot <bold>hype peaks</bold> and <bold>local tops</bold>
+          Help you spot <b>hype peaks</b> and <b>local tops</b>
         </li>
       </ol>
       <p>Find out more about how it works and how to use it below:</p>

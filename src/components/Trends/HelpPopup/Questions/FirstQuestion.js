@@ -18,15 +18,15 @@ const FirstQuestion = ({ isOpen, onClick }) => (
       <div className={styles.content}>
         <p>
           This list does NOT calculate the most popular words on crypto social
-          media <bold>overall</bold> - those would often be the same, redundant
-          words such as ‘Bitcoin’, ‘Ethereum’, ‘crypto’ etc.
+          media <b>overall</b> - those would often be the same, redundant words
+          such as ‘Bitcoin’, ‘Ethereum’, ‘crypto’ etc.
         </p>
 
         <p>
-          Instead, our list aims to discover the biggest <bold>developing</bold>{' '}
-          or <bold>emerging</bold> stories within the crypto community. That is
-          why each day you’ll see a new batch of fresh topics, currently gaining
-          steam on crypto social media.
+          Instead, our list aims to discover the biggest <b>developing</b> or{' '}
+          <b>emerging</b> stories within the crypto community. That is why each
+          day you’ll see a new batch of fresh topics, currently gaining steam on
+          crypto social media.
         </p>
 
         <p>
