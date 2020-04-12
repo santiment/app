@@ -6,7 +6,8 @@ const ALERT_METRICS = [
   Metric.daily_active_addresses,
   Metric.social_volume_total,
   Metric.exchange_balance,
-  Metric.transaction_volume
+  Metric.transaction_volume,
+  Metric.volume_usd
 ]
 
 const alertMetricsFilter = metric => ALERT_METRICS.includes(metric)

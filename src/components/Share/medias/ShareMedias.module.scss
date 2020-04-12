@@ -1,0 +1,44 @@
+@import '~@santiment-network/ui/mixins';
+
+.btn {
+  border: 1px solid var(--porcelain);
+  color: var(--mirage);
+  text-decoration: none;
+  margin-bottom: 8px;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+
+  &:last-child {
+    margin: 0;
+  }
+
+  &:hover {
+    .twitter {
+      fill: #1da1f2 !important;
+    }
+
+    .telegram {
+      fill: #08c !important;
+    }
+
+    .facebook {
+      fill: #3b5998 !important;
+    }
+
+    .reddit {
+      fill: #ff4301 !important;
+    }
+
+    .linkedin {
+      fill: #0e76a8 !important;
+    }
+  }
+}
+
+.icon {
+  width: 16px;
+  text-align: center;
+  margin-right: 7px;
+  fill: var(--casper) !important;
+}

@@ -27,6 +27,7 @@ export const USER_GQL_FRAGMENT = gql`
       newsletterSubscription
       isBetaMode
       theme
+      isPromoter
     }
     apikeys
     subscriptions {
@@ -49,7 +50,7 @@ export const USER_GQL_FRAGMENT = gql`
 `
 export const USER_EMAIL_LOGIN_QEURY = gql`
   query {
-    currentUser 
+    currentUser
       ${USER_GQL_FRAGMENT}
   }
 `

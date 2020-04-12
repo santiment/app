@@ -88,27 +88,6 @@
   }
 }
 
-.btn {
-  border: 1px solid var(--porcelain);
-  color: var(--mirage);
-  text-decoration: none;
-  margin-bottom: 8px;
-  padding: 8px 10px;
-  display: flex;
-  align-items: center;
-
-  &:last-child {
-    margin: 0;
-  }
-}
-
-.icon {
-  width: 16px;
-  text-align: center;
-  margin-right: 7px;
-  fill: var(--casper) !important;
-}
-
 .wrapper {
   @include responsive('desktop', 'laptop', 'tablet') {
     min-width: 700px;
