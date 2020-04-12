@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import { compose, withProps } from 'recompose'
-import { Icon } from '@santiment-network/ui'
+import { graphql } from 'react-apollo'
+import Icon from '@santiment-network/ui/Icon'
 import * as actions from '../../components/Trends/actions'
 import SocialTool from '../SocialTool'
 import TrendsExploreSearch from '../../components/Trends/Explore/TrendsExploreSearch'
@@ -11,8 +12,10 @@ import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import withDetectionAsset from '../../components/Trends/withDetectionAsset'
 import { TrendsSamples } from '../../components/Trends/TrendsSearch'
 import NoDataTemplate from '../../components/NoDataTemplate'
+import { WORD_CLOUD_QUERY } from '../../components/WordCloud/wordCloudGQL'
 import { checkHasPremium } from '../UserSelectors'
 import { safeDecode } from '../../utils/utils'
+import { getTimeIntervalFromToday } from '../../utils/dates'
 import { addRecentTrends } from '../../utils/recent'
 import Sidebar from './Sidebar'
 import styles from './index.module.scss'
@@ -28,8 +31,17 @@ const TrendsExplore = ({
   fetchTrendSocialData,
   isDesktop,
   hasPremium,
+  data: { wordContext: wordData = [], loading, error } = {},
   allAssets
 }) => {
+  const [isNoData, setIsNoData] = useState(false)
+
+  const noData = (wordData.length === 0 && !loading) || error
+
+  if (noData !== isNoData) {
+    setIsNoData(noData)
+  }
+
   if (allAssets.length === 0) {
     fetchAllTickersSlugs()
   }
@@ -85,7 +97,7 @@ const TrendsExplore = ({
             )}
             <TrendsSamples />
           </div>
-          {topic ? (
+          {topic && !isNoData ? (
             <SocialTool
               settings={{ slug: detectedAsset ? detectedAsset.slug : topic }}
               detectedAsset={detectedAsset}
@@ -98,6 +110,7 @@ const TrendsExplore = ({
           detectedAsset={detectedAsset}
           topic={topic}
           hasPremium={hasPremium}
+          isNoData={isNoData}
         />
       </div>
     </div>
@@ -134,5 +147,22 @@ export default compose(
       ...rest
     }
   }),
-  withDetectionAsset
+  withDetectionAsset,
+  graphql(WORD_CLOUD_QUERY, {
+    skip: ({ word }) => !word,
+    options: ({ word }) => {
+      const { from, to } = getTimeIntervalFromToday(-1, 'd')
+      const fromIso = from.toISOString()
+      const toIso = to.toISOString()
+
+      return {
+        variables: {
+          from: fromIso,
+          to: toIso,
+          size: 1,
+          word: safeDecode(word)
+        }
+      }
+    }
+  })
 )(TrendsExplore)

@@ -23,7 +23,7 @@ function getTimePeriod (date) {
   }
 }
 
-const Sidebar = ({ topic, date, hasPremium, ...props }) => {
+const Sidebar = ({ topic, date, hasPremium, isNoData, ...props }) => {
   const asideRef = useRef(null)
   const [trendDate, setTrendDate] = useState([date])
   const [trendPeriod, setTrendPeriod] = useState({})
@@ -67,7 +67,7 @@ const Sidebar = ({ topic, date, hasPremium, ...props }) => {
 
   return (
     <aside className={styles.sidebar} ref={asideRef}>
-      {topic && (
+      {topic && !isNoData && (
         <>
           <AverageSocialVolume
             {...props}
