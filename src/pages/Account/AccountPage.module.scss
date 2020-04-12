@@ -36,12 +36,17 @@
 
 .settings {
   margin-bottom: 25px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 
   &__header {
     background: var(--athens);
     color: var(--grey-dark-2);
 
     @include text('caption');
+
+    font-weight: 600;
   }
 
   &__content {
@@ -57,7 +62,7 @@
   align-items: center;
   border-bottom: 1px solid var(--porcelain);
   min-height: 60px;
-  padding: 17px 20px;
+  padding: 16px 20px;
 
   &:last-child {
     border-bottom: none;

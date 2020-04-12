@@ -1,16 +1,19 @@
 import React from 'react'
+import cx from 'classnames'
 import { PanelWithHeader as Panel } from '@santiment-network/ui'
 import styles from './AccountPage.module.scss'
 
 const Settings = props => (
   <Panel
     {...props}
-    className={styles.settings}
+    className={cx(styles.settings, props.className)}
     headerClassName={styles.settings__header}
-    contentClassName={styles.settings__content}
+    contentClassName={cx(styles.settings__content, props.contentClassName)}
   />
 )
 
-Settings.Row = props => <div className={styles.setting} {...props} />
+Settings.Row = props => (
+  <div className={cx(styles.setting, props.className)} {...props} />
+)
 
 export default Settings
