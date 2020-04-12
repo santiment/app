@@ -121,31 +121,33 @@ const DetailedBlock = ({
           />
         ))}
       </div>
-      <div className={styles.row}>
-        <h3 className={styles.heading}>Community messages charts</h3>
-        {availableCommunityCharts.map((chart, idx) => (
-          <Trigger
-            key={idx}
-            isActive={activeCharts.includes(chart)}
-            className={styles.button}
-            {...chart}
-            toggleActive={() => toggleChart(chart)}
-          />
-        ))}
-        {activeCommunityCharts.map(chart => (
-          <Chart
-            key={chart.key}
-            {...props}
-            settings={settings}
-            charts={[chart, priceMetric]}
-            MetricSettingMap={MetricSettingMap}
-            className={styles.chart}
-            MetricColor={{ ...MetricColor, ...Colors }}
-            tooltipKey={chart.key}
-            setSettings={setSettings}
-          />
-        ))}
-      </div>
+      {availableCommunityCharts.length > 0 && (
+        <div className={styles.row}>
+          <h3 className={styles.heading}>Community messages charts</h3>
+          {availableCommunityCharts.map((chart, idx) => (
+            <Trigger
+              key={idx}
+              isActive={activeCharts.includes(chart)}
+              className={styles.button}
+              {...chart}
+              toggleActive={() => toggleChart(chart)}
+            />
+          ))}
+          {activeCommunityCharts.map(chart => (
+            <Chart
+              key={chart.key}
+              {...props}
+              settings={settings}
+              charts={[chart, priceMetric]}
+              MetricSettingMap={MetricSettingMap}
+              className={styles.chart}
+              MetricColor={{ ...MetricColor, ...Colors }}
+              tooltipKey={chart.key}
+              setSettings={setSettings}
+            />
+          ))}
+        </div>
+      )}
     </>
   )
 }
