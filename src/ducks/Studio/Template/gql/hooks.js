@@ -53,9 +53,14 @@ export function useCreateTemplate () {
   })
 
   function createTemplate (newTemplate) {
+    const { title, projectId } = newTemplate
     return mutate({
       variables: {
-        settings: newTemplate
+        settings: {
+          title,
+          projectId: +projectId,
+          metrics: buildTemplateMetrics(newTemplate)
+        }
       }
     }).then(({ data: { template } }) => template)
   }

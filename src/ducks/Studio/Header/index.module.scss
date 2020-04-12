@@ -6,17 +6,17 @@
   margin-bottom: 13px;
 }
 
-.title {
-  color: var(--rhino);
-
-  @include text('body-1');
+.divider {
+  margin: 0 16px;
+  width: 1px;
+  background: var(--porcelain);
+  height: 32px;
 }
 
-.slug {
-  margin-left: 8px;
-  color: var(--waterloo);
-
+.title {
   @include text('body-3');
+
+  color: var(--waterloo);
 }
 
 .settings {

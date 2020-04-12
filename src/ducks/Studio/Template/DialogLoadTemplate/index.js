@@ -99,7 +99,7 @@ export default ({
       </div>
 
       <Dialog.ScrollContent className={styles.wrapper}>
-        {templates.length === 0
+        {templates.length === 0 || filteredTemplates.length === 0
           ? 'No templates found'
           : filteredTemplates.map(template => (
             <Template

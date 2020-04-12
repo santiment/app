@@ -9,9 +9,8 @@ export default ({ settings, ...rest }) => {
   return (
     <div className={styles.wrapper}>
       <Template {...rest} {...settings} />
-      <div className={styles.title}>
-        <span className={styles.slug}>{title}</span>
-      </div>
+      <div className={styles.divider} />
+      <div className={styles.title}>{title}</div>
       <Compare {...rest} slug={slug} className={styles.compare} />
       <Settings {...rest} settings={settings} className={styles.settings} />
     </div>

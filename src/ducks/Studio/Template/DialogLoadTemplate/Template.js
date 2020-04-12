@@ -64,7 +64,7 @@ const Template = ({
       <div className={styles.left}>
         <div>{title}</div>
         <div className={styles.info}>
-          {project.name} | {metrics.length} metrics
+          {project.name} · {metrics.length} metrics
         </div>
       </div>
       <div

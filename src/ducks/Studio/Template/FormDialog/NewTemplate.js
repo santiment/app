@@ -5,17 +5,16 @@ import { getMetricKey } from '../utils'
 import { notifyCreation } from '../notifications'
 import { useCreateTemplate } from '../gql/hooks'
 
-const NewTemplate = ({ onNew, projectId, metrics, ...props }) => {
+const NewTemplate = ({ onNew, projectId, metrics, comparables, ...props }) => {
   const [createTemplate] = useCreateTemplate()
 
   function onSubmit (title) {
-    const newTemplate = {
+    createTemplate({
       title,
-      metrics: metrics.map(getMetricKey),
-      projectId: +projectId
-    }
-
-    createTemplate(newTemplate)
+      metrics,
+      comparables,
+      projectId
+    })
       .then(onNew)
       .then(notifyCreation)
   }
