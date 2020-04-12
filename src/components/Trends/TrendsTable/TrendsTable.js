@@ -33,7 +33,7 @@ const MOBILE_COLUMNS = [
     accessor: 'score'
   },
   {
-    Header: 'Soc. vol, 1mo',
+    Header: 'Soc. vol, 24h',
     accessor: 'volume'
   }
 ]
@@ -60,7 +60,7 @@ const COMPACT_VIEW_COLUMNS = [
     accessor: 'word'
   },
   {
-    Header: 'Social volume, 1mo',
+    Header: 'Social volume, 24h',
     accessor: 'volume'
   }
 ]
