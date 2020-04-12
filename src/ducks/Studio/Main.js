@@ -49,7 +49,12 @@ const Main = ({ topSlot, bottomSlot, eventsData, onSlugChange, ...props }) => {
         />
       </div>
       <div className={cx(styles.container, styles.content)}>
-        <StudioHeader {...props} chartRef={chartRef} events={eventsData} />
+        <StudioHeader
+          {...props}
+          chartRef={chartRef}
+          events={eventsData}
+          onProjectSelect={onProjectSelect}
+        />
         <div className={styles.data}>
           <div className={styles.chart}>
             <StudioChart

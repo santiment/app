@@ -179,6 +179,7 @@ const Studio = ({
         settings={settings}
         activeMetrics={activeMetrics}
         activeEvents={activeEvents}
+        metrics={metrics}
         comparables={comparables}
         data={data}
         eventsData={eventsData}

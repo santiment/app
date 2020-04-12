@@ -8,7 +8,7 @@ import { CompatibleMetric } from '../dataHub/metrics/compatibility'
 
 const { trendPositionHistory } = Event
 
-const COMPARE_CONNECTOR = '-CC-'
+export const COMPARE_CONNECTOR = '-CC-'
 const getMetricsKeys = metrics => metrics.map(({ key }) => key)
 const toArray = keys => (typeof keys === 'string' ? [keys] : keys)
 const convertKeyToMetric = (key, dict) =>
@@ -36,7 +36,7 @@ function searchFromSubmetrics (key) {
   }
 }
 
-function shareComparable (Comparable) {
+export function shareComparable (Comparable) {
   const { project, metric } = Comparable
   const { slug, ticker } = project
   const { key } = metric
@@ -62,28 +62,30 @@ function sanitize (array) {
   return cleaned.length === 0 ? undefined : cleaned
 }
 
+export function parseComparable (comparable) {
+  const [slug, ticker, metricKey] = comparable.split(COMPARE_CONNECTOR)
+  const metric = convertKeyToMetric(metricKey, Metric)
+
+  if (!metric) return undefined
+
+  const project = {
+    slug,
+    ticker
+  }
+
+  return {
+    key: buildCompareKey(metric, project),
+    metric,
+    project
+  }
+}
+
 function parseSharedComparables (comparables) {
   if (!comparables) return
 
   const arr = toArray(comparables)
 
-  return arr.map(shared => {
-    const [slug, ticker, metricKey] = shared.split(COMPARE_CONNECTOR)
-    const metric = convertKeyToMetric(metricKey, Metric)
-
-    if (!metric) return undefined
-
-    const project = {
-      slug,
-      ticker
-    }
-
-    return {
-      key: buildCompareKey(metric, project),
-      metric,
-      project
-    }
-  })
+  return arr.map(parseComparable)
 }
 
 export function generateShareLink (
