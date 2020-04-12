@@ -82,10 +82,12 @@ const TrendsExplore = ({
               </MobileHeader>
             )}
           </div>
-          <SocialTool
-            settings={{ slug: detectedAsset ? detectedAsset.slug : topic }}
-            detectedAsset={detectedAsset}
-          />
+          {topic && (
+            <SocialTool
+              settings={{ slug: detectedAsset ? detectedAsset.slug : topic }}
+              detectedAsset={detectedAsset}
+            />
+          )}
         </div>
         <Sidebar
           detectedAsset={detectedAsset}

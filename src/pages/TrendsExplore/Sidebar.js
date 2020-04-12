@@ -68,13 +68,21 @@ const Sidebar = ({ topic, date, hasPremium, ...props }) => {
 
   return (
     <aside className={styles.sidebar} ref={asideRef}>
-      <AverageSocialVolume {...props} text={topic} hasPremium={hasPremium} />
-      <WordCloud
-        hideWord
-        className={styles.cloud}
-        infoClassName={styles.cloud__header}
-        word={topic}
-      />
+      {topic && (
+        <>
+          <AverageSocialVolume
+            {...props}
+            text={topic}
+            hasPremium={hasPremium}
+          />
+          <WordCloud
+            hideWord
+            className={styles.cloud}
+            infoClassName={styles.cloud__header}
+            word={topic}
+          />
+        </>
+      )}
       <div className={styles.trends}>
         <div className={styles.row}>
           <h3 className={styles.trend}>Trending words top 10</h3>
@@ -101,6 +109,7 @@ const Sidebar = ({ topic, date, hasPremium, ...props }) => {
                 isCompactView
                 trendWords={trends && trends.topWords}
                 isLoading={isLoading}
+                className={styles.table}
               />
             )
           }}

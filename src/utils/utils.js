@@ -350,6 +350,8 @@ const isNotSafari = () =>
   !/^((?!chrome|android).)*safari/i.test(window.navigator.userAgent)
 
 const safeDecode = pathname => {
+  if (!pathname) return ''
+
   try {
     return decodeURIComponent(pathname)
   } catch (err) {
