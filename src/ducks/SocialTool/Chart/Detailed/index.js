@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import { graphql } from 'react-apollo'
 import Chart from './Chart'
 import Trigger from './Trigger'
 import { Metric } from '../../../dataHub/metrics'
+import { PROJECT_METRICS_BY_SLUG_QUERY } from '../../../SANCharts/gql'
 import { DetailedMetric } from './metrics'
 import styles from './index.module.scss'
 
@@ -11,10 +13,12 @@ const GENERAL_CHARTS = [
   DetailedMetric.social_volume_professional_traders_chat,
   DetailedMetric.social_volume_discord
 ]
+const COMMUNITY_CHARTS = [DetailedMetric.community_messages_count_telegram]
 
 const Colors = {}
 
 GENERAL_CHARTS.forEach(({ key, color }) => (Colors[key] = color))
+COMMUNITY_CHARTS.forEach(({ key, color }) => (Colors[key] = color))
 
 let priceMetric = Metric.price_usd
 
@@ -24,6 +28,7 @@ const DetailedBlock = ({
   detectedAsset,
   MetricColor,
   priceAsset,
+  availableCommunityCharts = [],
   ...props
 }) => {
   let defaultCharts = []
@@ -43,6 +48,10 @@ const DetailedBlock = ({
       const metricSetting = { selector: detectedAsset ? 'slug' : 'text' }
 
       GENERAL_CHARTS.forEach(metric =>
+        newMetricSettingMap.set(metric, metricSetting)
+      )
+
+      availableCommunityCharts.forEach(metric =>
         newMetricSettingMap.set(metric, metricSetting)
       )
 
@@ -77,33 +86,80 @@ const DetailedBlock = ({
     }))
   }
 
+  const activeDetailedCharts = activeCharts.filter(
+    chart => !availableCommunityCharts.includes(chart)
+  )
+
+  const activeCommunityCharts = activeCharts.filter(chart =>
+    availableCommunityCharts.includes(chart)
+  )
+
   return (
-    <div className={styles.row}>
-      <h3 className={styles.heading}>Detailed charts</h3>
-      {GENERAL_CHARTS.map((chart, idx) => (
-        <Trigger
-          key={idx}
-          isActive={activeCharts.includes(chart)}
-          className={styles.button}
-          {...chart}
-          toggleActive={() => toggleChart(chart)}
-        />
-      ))}
-      {activeCharts.map(chart => (
-        <Chart
-          key={chart.key}
-          {...props}
-          settings={settings}
-          charts={[chart, priceMetric]}
-          MetricSettingMap={MetricSettingMap}
-          className={styles.chart}
-          MetricColor={{ ...MetricColor, ...Colors }}
-          tooltipKey={chart.key}
-          setSettings={setSettings}
-        />
-      ))}
-    </div>
+    <>
+      <div className={styles.row}>
+        <h3 className={styles.heading}>Detailed charts</h3>
+        {GENERAL_CHARTS.map((chart, idx) => (
+          <Trigger
+            key={idx}
+            isActive={activeCharts.includes(chart)}
+            className={styles.button}
+            {...chart}
+            toggleActive={() => toggleChart(chart)}
+          />
+        ))}
+        {activeDetailedCharts.map(chart => (
+          <Chart
+            key={chart.key}
+            {...props}
+            settings={settings}
+            charts={[chart, priceMetric]}
+            MetricSettingMap={MetricSettingMap}
+            className={styles.chart}
+            MetricColor={{ ...MetricColor, ...Colors }}
+            tooltipKey={chart.key}
+            setSettings={setSettings}
+          />
+        ))}
+      </div>
+      <div className={styles.row}>
+        <h3 className={styles.heading}>Community messages charts</h3>
+        {availableCommunityCharts.map((chart, idx) => (
+          <Trigger
+            key={idx}
+            isActive={activeCharts.includes(chart)}
+            className={styles.button}
+            {...chart}
+            toggleActive={() => toggleChart(chart)}
+          />
+        ))}
+        {activeCommunityCharts.map(chart => (
+          <Chart
+            key={chart.key}
+            {...props}
+            settings={settings}
+            charts={[chart, priceMetric]}
+            MetricSettingMap={MetricSettingMap}
+            className={styles.chart}
+            MetricColor={{ ...MetricColor, ...Colors }}
+            tooltipKey={chart.key}
+            setSettings={setSettings}
+          />
+        ))}
+      </div>
+    </>
   )
 }
 
-export default DetailedBlock
+export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
+  skip: ({ detectedAsset }) => !detectedAsset,
+  options: ({ detectedAsset }) => {
+    return { variables: { slug: detectedAsset.slug } }
+  },
+  props: ({ data: { project: { availableMetrics = [] } = {} } }) => {
+    const availableCommunityCharts = COMMUNITY_CHARTS.filter(({ key }) =>
+      availableMetrics.includes(key)
+    )
+
+    return { availableCommunityCharts }
+  }
+})(DetailedBlock)
