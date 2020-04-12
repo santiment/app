@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import Dialog from './index'
+import DialogForm from './DialogForm'
 import { notifyDuplication } from '../notifications'
 import { useCreateTemplate } from '../gql/hooks'
 
@@ -23,7 +23,7 @@ export default ({ onDuplicate, template, ...props }) => {
   }
 
   return (
-    <Dialog
+    <DialogForm
       {...props}
       title='Duplicate Template'
       onFormSubmit={onSubmit}

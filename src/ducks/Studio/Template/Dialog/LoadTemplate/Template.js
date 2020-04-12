@@ -5,9 +5,9 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import Button from '@santiment-network/ui/Button'
 import Toggle from '@santiment-network/ui/Toggle'
 import Icon from '@santiment-network/ui/Icon'
-import FormDialogRenameTemplate from '../FormDialog/RenameTemplate'
-import FormDialogDuplicateTemplate from '../FormDialog/DuplicateTemplate'
-import { useDeleteTemplate, useUpdateTemplate } from '../gql/hooks'
+import DialogFormRenameTemplate from '../RenameTemplate'
+import DialogFormDuplicateTemplate from '../DuplicateTemplate'
+import { useDeleteTemplate, useUpdateTemplate } from '../../gql/hooks'
 import styles from './Template.module.scss'
 
 const Option = props => (
@@ -92,13 +92,13 @@ const Template = ({
             <Toggle isActive={isPublic} className={styles.toggle} />
           </Option>
 
-          <FormDialogRenameTemplate
+          <DialogFormRenameTemplate
             trigger={<Option>Rename</Option>}
             template={template}
             onRename={onRename}
           />
 
-          <FormDialogDuplicateTemplate
+          <DialogFormDuplicateTemplate
             trigger={<Option>Duplicate</Option>}
             template={template}
             onDuplicate={closeMenu}

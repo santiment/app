@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import Dialog from './index'
+import DialogForm from './DialogForm'
 import { getMetricKey } from '../utils'
 import { notifyCreation } from '../notifications'
 import { useCreateTemplate } from '../gql/hooks'
@@ -20,7 +20,7 @@ const NewTemplate = ({ onNew, projectId, metrics, comparables, ...props }) => {
   }
 
   return (
-    <Dialog
+    <DialogForm
       {...props}
       title='New Template'
       placeholder='Name of the template...'

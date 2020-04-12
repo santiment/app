@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
-import DialogLoadTemplate from './DialogLoadTemplate'
 import { parseTemplateMetrics } from './utils'
 import { notifySave } from './notifications'
 import {
@@ -11,9 +10,10 @@ import {
   useUpdateTemplate,
   useSelectedTemplate
 } from './gql/hooks'
-import FormDialogNewTemplate from './FormDialog/NewTemplate'
-import FormDialogRenameTemplate from './FormDialog/RenameTemplate'
-import FormDialogDuplicateTemplate from './FormDialog/DuplicateTemplate'
+import DialogFormNewTemplate from './Dialog/NewTemplate'
+import DialogFormRenameTemplate from './Dialog/RenameTemplate'
+import DialogFormDuplicateTemplate from './Dialog/DuplicateTemplate'
+import DialogLoadTemplate from './Dialog/LoadTemplate'
 import styles from './index.module.scss'
 import TemplateButton from './Button'
 
@@ -122,7 +122,7 @@ const Template = ({
           />
         </div>
         <div className={styles.group}>
-          <FormDialogNewTemplate
+          <DialogFormNewTemplate
             {...props}
             onClose={closeMenu}
             trigger={<Action>New template</Action>}
@@ -131,14 +131,14 @@ const Template = ({
 
           {selectedTemplate && (
             <>
-              <FormDialogRenameTemplate
+              <DialogFormRenameTemplate
                 onClose={closeMenu}
                 trigger={<Action>Rename template</Action>}
                 template={selectedTemplate}
                 onRename={closeMenu}
               />
 
-              <FormDialogDuplicateTemplate
+              <DialogFormDuplicateTemplate
                 onClose={closeMenu}
                 trigger={<Action>Duplicate template</Action>}
                 template={selectedTemplate}

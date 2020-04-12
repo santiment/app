@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import Dialog from './index'
+import DialogForm from './DialogForm'
 import { notifyRename } from '../notifications'
 import { useUpdateTemplate } from '../gql/hooks'
 
@@ -15,7 +15,7 @@ export default ({ template, onRename, ...props }) => {
   }
 
   return (
-    <Dialog
+    <DialogForm
       {...props}
       title='Rename Template'
       onFormSubmit={onSubmit}

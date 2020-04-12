@@ -19,6 +19,7 @@
     text-overflow: ellipsis;
     overflow-x: hidden;
     white-space: nowrap;
+    fill: var(--casper);
 
     &_large {
       max-width: 135px;

@@ -3,7 +3,7 @@ import cx from 'classnames'
 import Dialog from '@santiment-network/ui/Dialog'
 import Input from '@santiment-network/ui/Input'
 import Panel from '@santiment-network/ui/Panel'
-import styles from './index.module.scss'
+import styles from './DialogForm.module.scss'
 
 export default ({
   placeholder,
