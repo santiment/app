@@ -72,6 +72,7 @@ export function useSelectedTemplate (defaultTemplate) {
         }
       })
       .then(({ data: { template } }) => setSelectedTemplate(template))
+      .catch(console.warn)
   }, [])
 
   useEffect(
@@ -98,15 +99,10 @@ export function useCreateTemplate () {
     update: updateTemplatesOnCreation
   })
 
-  function createTemplate (newTemplate) {
-    const { title, projectId } = newTemplate
+  function createTemplate (newConfig) {
     return mutate({
       variables: {
-        settings: {
-          title,
-          projectId: +projectId,
-          metrics: buildTemplateMetrics(newTemplate)
-        }
+        settings: newConfig
       }
     }).then(({ data: { template } }) => template)
   }

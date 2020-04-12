@@ -8,6 +8,7 @@ import Icon from '@santiment-network/ui/Icon'
 import DialogFormRenameTemplate from '../RenameTemplate'
 import DialogFormDuplicateTemplate from '../DuplicateTemplate'
 import { useDeleteTemplate, useUpdateTemplate } from '../../gql/hooks'
+import ConfirmDialog from '../../../../../components/ConfirmDialog/ConfirmDialog'
 import styles from './Template.module.scss'
 
 const Option = props => (
@@ -16,6 +17,7 @@ const Option = props => (
 
 const Template = ({
   template,
+  selectedTemplate,
   selectTemplate,
   rerenderTemplates,
   rerenderTemplate
@@ -91,20 +93,22 @@ const Template = ({
             Public
             <Toggle isActive={isPublic} className={styles.toggle} />
           </Option>
-
           <DialogFormRenameTemplate
             trigger={<Option>Rename</Option>}
             template={template}
             onRename={onRename}
           />
-
           <DialogFormDuplicateTemplate
             trigger={<Option>Duplicate</Option>}
             template={template}
             onDuplicate={closeMenu}
           />
-
-          <Option onClick={onDeleteClick}>Delete</Option>
+          <ConfirmDialog
+            title='Do you want to delete this template?'
+            trigger={<Option>Delete</Option>}
+            onApprove={onDeleteClick}
+            onCancel={closeMenu}
+          />
         </Panel>
       </ContextMenu>
     </div>

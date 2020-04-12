@@ -1,17 +1,17 @@
 import React from 'react'
 import DialogForm from './DialogForm'
 import { notifyCreation } from '../notifications'
+import { buildTemplateMetrics } from '../utils'
 import { useCreateTemplate } from '../gql/hooks'
 
 const NewTemplate = ({ onNew, projectId, metrics, comparables, ...props }) => {
-  const [createTemplate] = useCreateTemplate()
+  const [createTemplate, { loading }] = useCreateTemplate()
 
   function onSubmit (title) {
     createTemplate({
       title,
-      metrics,
-      comparables,
-      projectId
+      metrics: buildTemplateMetrics({ metrics, comparables }),
+      projectId: +projectId
     })
       .then(onNew)
       .then(notifyCreation)
@@ -24,6 +24,7 @@ const NewTemplate = ({ onNew, projectId, metrics, comparables, ...props }) => {
       placeholder='Name of the template...'
       onFormSubmit={onSubmit}
       buttonLabel='Create'
+      isLoading={loading}
     />
   )
 }

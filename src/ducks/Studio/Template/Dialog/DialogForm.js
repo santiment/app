@@ -7,6 +7,7 @@ export default ({
   placeholder,
   buttonLabel,
   defaultValue,
+  isLoading,
   onFormSubmit,
   ...props
 }) => {
@@ -26,7 +27,11 @@ export default ({
           placeholder={placeholder}
           defaultValue={defaultValue}
         />
-        <Dialog.Approve className={styles.btn} accent='positive'>
+        <Dialog.Approve
+          className={styles.btn}
+          accent='positive'
+          isLoading={isLoading}
+        >
           {buttonLabel}
         </Dialog.Approve>
       </form>

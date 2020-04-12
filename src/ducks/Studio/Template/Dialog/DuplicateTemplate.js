@@ -5,18 +5,17 @@ import { useCreateTemplate } from '../gql/hooks'
 
 export default ({ onDuplicate, template, ...props }) => {
   const { title } = template
-  const [createTemplate] = useCreateTemplate()
+  const [createTemplate, { loading }] = useCreateTemplate()
 
   function onSubmit (title) {
     const { metrics, project, isPublic } = template
-    const duplicatedTemplate = {
+
+    createTemplate({
       title,
       metrics,
       isPublic,
       projectId: +project.id
-    }
-
-    createTemplate(duplicatedTemplate)
+    })
       .then(onDuplicate)
       .then(notifyDuplication)
   }
@@ -28,6 +27,7 @@ export default ({ onDuplicate, template, ...props }) => {
       onFormSubmit={onSubmit}
       buttonLabel='Duplicate'
       defaultValue={title + ' copy'}
+      isLoading={loading}
     />
   )
 }

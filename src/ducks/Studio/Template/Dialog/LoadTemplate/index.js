@@ -10,7 +10,9 @@ export default ({
   defaultValue,
   onFormSubmit,
   templates,
+  selectedTemplate,
   selectTemplate,
+
   rerenderTemplate,
   ...props
 }) => {
@@ -49,6 +51,7 @@ export default ({
             <Template
               key={template.id}
               template={template}
+              selectedTemplate={selectedTemplate}
               selectTemplate={selectTemplate}
               rerenderTemplates={rerenderTemplates}
               rerenderTemplate={rerenderTemplate}

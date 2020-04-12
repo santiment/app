@@ -114,6 +114,7 @@ const Template = ({
 
           <DialogLoadTemplate
             onClose={closeMenu}
+            selectedTemplate={selectedTemplate}
             selectTemplate={selectTemplate}
             updateTemplate={updateTemplate}
             rerenderTemplate={rerenderTemplate}

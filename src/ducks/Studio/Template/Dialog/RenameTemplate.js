@@ -5,7 +5,7 @@ import { useUpdateTemplate } from '../gql/hooks'
 
 export default ({ template, onRename, ...props }) => {
   const { title } = template
-  const [updateTemplate] = useUpdateTemplate()
+  const [updateTemplate, { loading }] = useUpdateTemplate()
 
   function onSubmit (title) {
     updateTemplate(template, { title })
@@ -20,6 +20,7 @@ export default ({ template, onRename, ...props }) => {
       onFormSubmit={onSubmit}
       buttonLabel='Rename'
       defaultValue={title}
+      isLoading={loading}
     />
   )
 }
