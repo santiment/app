@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
+import TemplateButton from './Button'
 import { parseTemplateMetrics } from './utils'
 import { notifySave } from './notifications'
 import {
@@ -15,7 +16,6 @@ import DialogFormRenameTemplate from './Dialog/RenameTemplate'
 import DialogFormDuplicateTemplate from './Dialog/DuplicateTemplate'
 import DialogLoadTemplate from './Dialog/LoadTemplate'
 import styles from './index.module.scss'
-import TemplateButton from './Button'
 
 const Action = props => (
   <Button {...props} fluid variant='ghost' className={styles.action} />

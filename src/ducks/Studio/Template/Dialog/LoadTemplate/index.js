@@ -12,7 +12,6 @@ export default ({
   templates,
   selectedTemplate,
   selectTemplate,
-
   rerenderTemplate,
   ...props
 }) => {
