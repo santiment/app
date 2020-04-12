@@ -10,6 +10,7 @@ import TrendsExploreSearch from '../../components/Trends/Explore/TrendsExploreSe
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import withDetectionAsset from '../../components/Trends/withDetectionAsset'
 import { TrendsSamples } from '../../components/Trends/TrendsSearch'
+import NoDataTemplate from '../../components/NoDataTemplate'
 import { checkHasPremium } from '../UserSelectors'
 import { safeDecode } from '../../utils/utils'
 import { addRecentTrends } from '../../utils/recent'
@@ -84,11 +85,13 @@ const TrendsExplore = ({
             )}
             <TrendsSamples />
           </div>
-          {topic && (
+          {topic ? (
             <SocialTool
               settings={{ slug: detectedAsset ? detectedAsset.slug : topic }}
               detectedAsset={detectedAsset}
             />
+          ) : (
+            <NoDataTemplate />
           )}
         </div>
         <Sidebar

@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react'
-import cx from 'classnames'
 import Calendar from '../../ducks/Studio/AdvancedView/Calendar'
 import TrendsTable from '../../components/Trends/TrendsTable/TrendsTable'
 import GetHypedTrends from '../../components/Trends/GetHypedTrends'
