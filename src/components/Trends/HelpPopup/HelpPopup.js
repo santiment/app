@@ -3,7 +3,6 @@ import Dialog from '@santiment-network/ui/Dialog'
 import Icon from '@santiment-network/ui/Icon'
 import HelpPopupContent from './HelpPopupContent'
 import styles from './HelpPopup.module.scss'
-import { DesktopOnly } from '../../Responsive'
 
 const HelpPopup = () => (
   <Dialog
