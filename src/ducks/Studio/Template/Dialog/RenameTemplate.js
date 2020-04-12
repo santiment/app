@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import cx from 'classnames'
+import React from 'react'
 import DialogForm from './DialogForm'
 import { notifyRename } from '../notifications'
 import { useUpdateTemplate } from '../gql/hooks'

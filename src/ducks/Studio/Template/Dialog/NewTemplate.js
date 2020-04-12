@@ -1,7 +1,5 @@
-import React, { useState } from 'react'
-import cx from 'classnames'
+import React from 'react'
 import DialogForm from './DialogForm'
-import { getMetricKey } from '../utils'
 import { notifyCreation } from '../notifications'
 import { useCreateTemplate } from '../gql/hooks'
 

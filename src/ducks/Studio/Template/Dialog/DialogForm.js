@@ -1,8 +1,6 @@
-import React, { useState } from 'react'
-import cx from 'classnames'
+import React from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import Input from '@santiment-network/ui/Input'
-import Panel from '@santiment-network/ui/Panel'
 import styles from './DialogForm.module.scss'
 
 export default ({
@@ -28,11 +26,7 @@ export default ({
           placeholder={placeholder}
           defaultValue={defaultValue}
         />
-        <Dialog.Approve
-          className={styles.btn}
-          accent='positive'
-          // isLoading={loading}
-        >
+        <Dialog.Approve className={styles.btn} accent='positive'>
           {buttonLabel}
         </Dialog.Approve>
       </form>

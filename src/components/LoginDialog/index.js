@@ -1,5 +1,4 @@
 import React from 'react'
-import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import Dialog from '@santiment-network/ui/Dialog'
 import Button from '@santiment-network/ui/Button'
