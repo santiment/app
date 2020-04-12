@@ -22,11 +22,11 @@ const ThirdQuestion = ({ isOpen, onClick }) => (
         </p>
         <div className={styles.blockItem}>
           <p>
-            <bold>Hype Score</bold> - this is the main criteria for ranking the
-            words on our list. The Hype Score is based on a sophisticated
-            formula (developed by Santiment) that analyzes all social media
-            messages, and then - using a dozen parameters - ranks the words by
-            the <bold>likelihood of sustained chatter.</bold>
+            <b>Hype Score</b> - this is the main criteria for ranking the words
+            on our list. The Hype Score is based on a sophisticated formula
+            (developed by Santiment) that analyzes all social media messages,
+            and then - using a dozen parameters - ranks the words by the{' '}
+            <b>likelihood of sustained chatter.</b>
           </p>
           <p>
             The bigger the Hype Score, the more likely it is that a particular
@@ -44,7 +44,7 @@ const ThirdQuestion = ({ isOpen, onClick }) => (
           </p>
         </div>
         <div className={styles.blockItem}>
-          <bold>Social Volume</bold> - shows the total amount of mentions of a
+          <b>Social Volume</b> - shows the total amount of mentions of a
           word/topic on crypto social media today. The (green or red) number
           next to it shows how many (more or less) social media mentions the
           word has had today compared to yesterday.

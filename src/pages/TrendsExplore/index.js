@@ -9,6 +9,7 @@ import SocialTool from '../SocialTool'
 import TrendsExploreSearch from '../../components/Trends/Explore/TrendsExploreSearch'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import withDetectionAsset from '../../components/Trends/withDetectionAsset'
+import { TrendsSamples } from '../../components/Trends/TrendsSearch'
 import { checkHasPremium } from '../UserSelectors'
 import { safeDecode } from '../../utils/utils'
 import { addRecentTrends } from '../../utils/recent'
@@ -81,6 +82,7 @@ const TrendsExplore = ({
                 />
               </MobileHeader>
             )}
+            <TrendsSamples />
           </div>
           {topic && (
             <SocialTool

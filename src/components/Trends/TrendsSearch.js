@@ -29,18 +29,22 @@ const TrendsSearch = ({
       topic={topic}
       classes={{ input: inputClassName, wrapper: formClassName }}
     />
-    <DesktopOnly>
-      <div className={styles.examples}>
-        Try to search
-        {SAMPLES.map(({ trend, options }, index, arr) => (
-          <Fragment key={trend}>
-            <TrendsExampleLink keyword={trend} options={options} />
-            {index !== arr.length - 1 && ','}
-          </Fragment>
-        ))}
-      </div>
-    </DesktopOnly>
+    <TrendsSamples />
   </div>
+)
+
+export const TrendsSamples = ({ samples = SAMPLES }) => (
+  <DesktopOnly>
+    <div className={styles.examples}>
+      Try out
+      {samples.map(({ trend, options }, index, arr) => (
+        <Fragment key={trend}>
+          <TrendsExampleLink keyword={trend} options={options} />
+          {index !== arr.length - 1 && ','}
+        </Fragment>
+      ))}
+    </div>
+  </DesktopOnly>
 )
 
 const TrendsExampleLink = ({ keyword, options }) => (

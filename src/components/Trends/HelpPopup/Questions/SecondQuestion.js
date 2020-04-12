@@ -18,41 +18,38 @@ const SecondQuestion = ({ isOpen, onClick }) => (
         <p>
           Although it’s still very new, we keep finding new ways that you can
           use our list to{' '}
-          <bold>
-            keep up with the crypto crowd or inform your trading decisions.
-          </bold>
+          <b>keep up with the crypto crowd or inform your trading decisions.</b>
         </p>
         <p>
-          <bold>
+          <b>
             1. Get a 1-minute overview of the biggest (developing) stories in
             crypto
-          </bold>
+          </b>
         </p>
         <p>
           There’s a lot of noise on crypto social media daily, and dozens of
           minor or irrelevant stories published on crypto news sites.
         </p>
         <p>
-          Our list filters out this noise to only <bold>show what sticks</bold>,
-          and eliminate topics and narratives that didn’t get the crowd’s
-          attention. It crowns the ‘social winners’ and weeds out ‘social
-          losers’ so you can <bold>pinpoint</bold> where the community focus
-          lies at any point.
+          Our list filters out this noise to only <b>show what sticks</b>, and
+          eliminate topics and narratives that didn’t get the crowd’s attention.
+          It crowns the ‘social winners’ and weeds out ‘social losers’ so you
+          can <b>pinpoint</b> where the community focus lies at any point.
         </p>
         <p>
           Our list also often picks up on important stories that fly{' '}
-          <bold>under the radar</bold> of major crypto publications.
+          <b>under the radar</b> of major crypto publications.
         </p>
         <p>
           For example, when Afri Schoeden, one of Ethereum long-standing devs
           was accused of conflict of interest and denounced by the Ethereum
           community across major crypto subreddits, the story showed up on our
-          list <bold>days</bold> before any news outlet reported on it. If you
-          want to discover grassroots crypto narratives before they turn
-          mainstream, bookmark our list ASAP.
+          list <b>days</b> before any news outlet reported on it. If you want to
+          discover grassroots crypto narratives before they turn mainstream,
+          bookmark our list ASAP.
         </p>
         <p>
-          <bold>2. Spot local tops and hype peaks</bold>
+          <b>2. Spot local tops and hype peaks</b>
         </p>
         <p>
           In our experience so far, we found that a coin ticker’s appearance on
@@ -96,8 +93,8 @@ const SecondQuestion = ({ isOpen, onClick }) => (
             “There were strong enough signals about LUN from my scanner to begin
             paying attention to Santiment dashboards on the 18th. On the 21st,
             Sanbase metrics offered a positive RR, so I entered there. Then,{' '}
-            <bold>late on the 22nd, LUN showed up on the Top 10 list</bold>, so
-            I started to seek an exit. It arrived late on the 23rd, as the crowd
+            <b>late on the 22nd, LUN showed up on the Top 10 list</b>, so I
+            started to seek an exit. It arrived late on the 23rd, as the crowd
             really started talking about LUN.”
           </i>
         </p>
@@ -108,7 +105,7 @@ const SecondQuestion = ({ isOpen, onClick }) => (
           className={styles.img}
         />
         <p>
-          That said, <bold>not every hype peak</bold> (during an uptrend) = an
+          That said, <b>not every hype peak</b> (during an uptrend) = an
           impending price retraction. For example, the recent increase in
           mentions of RCN on crypto social media correlated to (what turned out
           to be) a first leg of a prolonged rally:
