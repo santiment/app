@@ -1,11 +1,12 @@
 import React from 'react'
+import cx from 'classnames'
 import LibCalendar from 'react-calendar'
 import styles from './Calendar.module.scss'
 
-const Calendar = props => {
+const Calendar = ({ className, ...props }) => {
   return (
     <LibCalendar
-      className={styles.wrapper}
+      className={cx(styles.wrapper, className)}
       tileClassName={styles.tile}
       {...props}
     />

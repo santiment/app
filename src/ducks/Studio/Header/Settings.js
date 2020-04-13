@@ -3,6 +3,7 @@ import cx from 'classnames'
 import Selector from '@santiment-network/ui/Selector/Selector'
 import Toggle from '@santiment-network/ui/Toggle'
 import CalendarBtn from '../../../components/Calendar/CalendarBtn'
+import AdvancedCalendar from '../../../components/AdvancedCalendar'
 import ContextMenu from './ContextMenu'
 import {
   getNewInterval,
@@ -69,12 +70,15 @@ export default ({
         onSelectOption={onTimerangeChange}
         defaultSelected={timeRange.toUpperCase()}
       />
-      <CalendarBtn
-        onChange={onCalendarChange}
-        value={[new Date(from), new Date(to)]}
-        className={styles.calendar}
-        maxDate={MAX_DATE}
-      />
+      {false && (
+        <CalendarBtn
+          onChange={onCalendarChange}
+          value={[new Date(from), new Date(to)]}
+          className={styles.calendar}
+          maxDate={MAX_DATE}
+        />
+      )}
+      <AdvancedCalendar />
       <div className={styles.multi} onClick={toggleMultiCharts}>
         Multi charts
         <Toggle
