@@ -16,7 +16,7 @@ import {
   FEATURED_INSIGHTS_QUERY
 } from '../../queries/InsightsGQL'
 import { getSEOLinkFromIdAndTitle, publishDateSorter } from '../Insight/utils'
-import {EMAIL_LOGIN_MUTATION} from "../SubscriptionForm/loginGQL";
+import { EMAIL_LOGIN_MUTATION } from '../SubscriptionForm/loginGQL'
 import styles from './InsightsDropdown.module.scss'
 
 const onSuccess = () => {
