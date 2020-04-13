@@ -9,6 +9,7 @@ import { trackMetricState } from './analytics'
 import { useTimeseries } from './timeseries/hooks'
 import { buildAnomalies } from './timeseries/anomalies'
 import { buildComparedMetric } from './Compare/utils'
+import { TOP_HOLDERS_PANE } from './Chart/Sidepane/panes'
 import styles from './index.module.scss'
 
 const Studio = ({
@@ -109,6 +110,15 @@ const Studio = ({
       }
     },
     [metrics, options.isAnomalyActive]
+  )
+
+  useEffect(
+    () => {
+      if (options.isMultiChartsActive && chartSidepane === TOP_HOLDERS_PANE) {
+        setChartSidepane()
+      }
+    },
+    [chartSidepane, options.isMultiChartsActive]
   )
 
   function toggleMetric (metric) {
