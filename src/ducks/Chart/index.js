@@ -21,7 +21,8 @@ import {
 } from './settings'
 import { drawWatermark } from './watermark'
 import { onResize, useResizeEffect } from './resize'
-import { clearCtx, findPointIndexByDate, domainModifier } from './utils'
+import { clearCtx, findPointIndexByDate } from './utils'
+import { domainModifier } from './domain'
 import { paintConfigs, dayBrushPaintConfig } from './paintConfigs'
 import styles from './index.module.scss'
 
