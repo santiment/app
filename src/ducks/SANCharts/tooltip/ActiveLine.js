@@ -1,7 +1,6 @@
 import React from 'react'
 
 export const ActiveDot = ({ cy, cx }) => {
-  console.log(cx, cy)
   return cy !== null ? (
     <circle
       cx={cx}
@@ -9,7 +8,7 @@ export const ActiveDot = ({ cy, cx }) => {
       r={4}
       strokeWidth='2px'
       stroke='var(--jungle-green-hover)'
-      fill='transparent'
+      fill='var(--white)'
     />
   ) : null
 }

@@ -81,7 +81,8 @@ const VisualBacktestChart = ({
 }) => {
   const markup = generateMetricsMarkup(metrics, {
     syncedColors,
-    activeDotEl: ActiveDot
+    activeDotEl: ActiveDot,
+    hideYAxis: true
   })
 
   const titleEnabled = showTitle && triggeredSignals.length > 0
