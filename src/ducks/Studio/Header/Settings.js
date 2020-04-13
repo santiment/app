@@ -1,8 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import Selector from '@santiment-network/ui/Selector/Selector'
 import Toggle from '@santiment-network/ui/Toggle'
-import CalendarBtn from '../../../components/Calendar/CalendarBtn'
 import AdvancedCalendar from '../../../components/AdvancedCalendar'
 import ContextMenu from './ContextMenu'
 import {
@@ -17,8 +15,6 @@ import {
 } from '../../../utils/dates'
 import styles from './Settings.module.scss'
 
-const TIMERANGE_OPTIONS = ['1D', '1W', '1M', '3M', '6M', '1Y', 'ALL']
-
 const { to: MAX_DATE } = getTimeIntervalFromToday(0, DAY)
 
 export default ({
@@ -29,7 +25,7 @@ export default ({
   className,
   ...rest
 }) => {
-  const { timeRange = '', from, to, title } = settings
+  const { timeRange, from, to, title } = settings
 
   function toggleMultiCharts () {
     setOptions(state => ({
@@ -64,21 +60,14 @@ export default ({
 
   return (
     <div className={cx(styles.wrapper, className)}>
-      <Selector
-        className={styles.selector}
-        options={TIMERANGE_OPTIONS}
-        onSelectOption={onTimerangeChange}
-        defaultSelected={timeRange.toUpperCase()}
+      <AdvancedCalendar
+        className={styles.calendar}
+        from={new Date(from)}
+        to={new Date(to)}
+        timeRange={timeRange.toLowerCase()}
+        onCalendarChange={onCalendarChange}
+        onTimerangeChange={onTimerangeChange}
       />
-      {false && (
-        <CalendarBtn
-          onChange={onCalendarChange}
-          value={[new Date(from), new Date(to)]}
-          className={styles.calendar}
-          maxDate={MAX_DATE}
-        />
-      )}
-      <AdvancedCalendar />
       <div className={styles.multi} onClick={toggleMultiCharts}>
         Multi charts
         <Toggle

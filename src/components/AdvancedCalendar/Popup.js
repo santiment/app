@@ -5,69 +5,85 @@ import Panel from '@santiment-network/ui/Panel'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Calendar from '../Calendar/Calendar'
-import { getDateFormats } from '../../utils/dates'
 import styles from './index.module.scss'
 
-const getDateLabel = date => {
-  const { DD, MM, YY } = getDateFormats(date)
-  return `${DD}.${MM}.${YY}`
-}
+const options = [
+  {
+    index: 'all',
+    label: 'All time'
+  },
+  {
+    index: '1d',
+    label: 'Last day'
+  },
+  {
+    index: '1w',
+    label: 'Last week'
+  },
+  {
+    index: '1m',
+    label: 'Last month'
+  },
+  {
+    index: '3m',
+    label: 'Last 3 months'
+  },
+  {
+    index: '6m',
+    label: 'Last 6 months'
+  },
+  {
+    index: '1y',
+    label: 'Last year'
+  }
+]
 
-const CalendarBtn = ({
-  onChange,
-  className,
-  trigger,
-  value = [new Date(), new Date()],
+const Option = ({ className, ...props }) => (
+  <Button
+    {...props}
+    variant='ghost'
+    fluid
+    className={cx(styles.btn, className)}
+  />
+)
+
+const Popup = ({
+  from,
+  to,
+  timeRange,
+  onCalendarChange,
+  onTimerangeChange,
   ...props
 }) => {
-  const fromDate = getDateLabel(value[0])
-  const toDate = getDateLabel(value[1])
-
   return (
     <ContextMenu
       passOpenStateAs='isActive'
       position='bottom'
       align='end'
-      trigger={trigger}
+      {...props}
     >
       <Panel variant='modal' className={styles.wrapper}>
         <Calendar
-          onChange={onChange}
-          value={value}
+          onChange={onCalendarChange}
+          value={[from, to]}
           selectRange
-          {...props}
           className={styles.calendar}
         />
+
         <div className={styles.right}>
-          <Button variant='ghost' fluid className={cx(styles.btn, className)}>
-            All time
-          </Button>
-          <Button variant='ghost' fluid className={cx(styles.btn, className)}>
-            Today
-          </Button>
-          <Button variant='ghost' fluid className={cx(styles.btn, className)}>
-            Last week
-          </Button>
-          <Button variant='ghost' fluid className={cx(styles.btn, className)}>
-            Last month
-          </Button>
-          <Button variant='ghost' fluid className={cx(styles.btn, className)}>
-            Last 3 months
-          </Button>
-          <Button variant='ghost' fluid className={cx(styles.btn, className)}>
-            Last 6 months
-          </Button>
-          <Button variant='ghost' fluid className={cx(styles.btn, className)}>
-            Last year
-          </Button>
+          {options.map(({ index, label }) => (
+            <Option
+              key={index}
+              isActive={timeRange === index}
+              onClick={() => onTimerangeChange(index)}
+            >
+              {label}
+            </Option>
+          ))}
         </div>
       </Panel>
     </ContextMenu>
   )
 }
 
-CalendarBtn.defaultProps = {
-  onChange: () => {}
-}
-
-export default CalendarBtn
+export default Popup
