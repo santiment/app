@@ -5,7 +5,7 @@ import {
   buildValueChangeSignal
 } from '../../../Signals/utils/utils'
 import Value from '../Value'
-import { formatNumber } from '../../../../utils/formatting'
+import { roundNumber } from '../../../../utils/formatting'
 
 export const SIGNAL_BELOW = 'BELOW'
 export const SIGNAL_ABOVE = 'ABOVE'
@@ -21,7 +21,7 @@ export const buildValueChangeSuggester = metric => {
     const type = PRICE_CHANGE_TYPES[isAbove ? SIGNAL_ABOVE : SIGNAL_BELOW]
 
     return createSuggestion(
-      buildValueChangeSignal(slug, formatNumber(value), type, metric),
+      buildValueChangeSignal(slug, roundNumber(value), type, metric),
       <>
         {label} {VALUE_IFS[+isAbove]} <Value>{formatter(value)}</Value>
       </>
