@@ -109,6 +109,8 @@ const Studio = ({
     () => {
       if (options.isAnomalyActive) {
         setActiveEvents(buildAnomalies(metrics))
+      } else {
+        setActiveEvents([])
       }
     },
     [metrics, options.isAnomalyActive]
