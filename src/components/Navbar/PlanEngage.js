@@ -38,7 +38,7 @@ const PlanEngage = ({ isLoading, currentUser }) => {
   if (!currentUser.id) {
     return (
       <Link to='/login' className={cx(styles.text, styles.link)}>
-        Sign in
+        Log in
       </Link>
     )
   }

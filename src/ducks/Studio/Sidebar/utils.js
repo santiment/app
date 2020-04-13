@@ -1,6 +1,6 @@
 import { Metric } from '../../dataHub/metrics'
 
-const NO_GROUP = '_'
+export const NO_GROUP = '_'
 
 const addItemToGraph = (categories, metricCategories, metrics) => {
   return (typeof metricCategories === 'string'

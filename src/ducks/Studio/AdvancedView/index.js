@@ -5,7 +5,7 @@ import SocialContext from './SocialContext'
 import styles from './index.module.scss'
 
 const Components = {
-  'Spent coin cost': PriceHistogram,
+  'Spent Coin Cost': PriceHistogram,
   'Social Context': SocialContext
 }
 

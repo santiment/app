@@ -15,6 +15,12 @@ const formatSAN = price => {
   return value % 1 === 0 ? `${value}.000` : `${value}`
 }
 
+const roundNumber = value => {
+  const maximumFractionDigits = Math.abs(value) >= 1 ? 2 : 6
+  const fractionsLimit = Math.pow(10, maximumFractionDigits)
+  return Math.round(value * fractionsLimit) / fractionsLimit
+}
+
 const formatNumber = (amount, options = {}) => {
   if (isNaN(Number(amount))) throw new Error(`Unsupported type: "${amount}"`)
   const maximumFractionDigits = Math.abs(amount) >= 1 ? 2 : 6
@@ -69,6 +75,7 @@ export {
   formatBTC,
   formatSAN,
   formatNumber,
+  roundNumber,
   millify,
   labelFormatter,
   formatTokensCount,

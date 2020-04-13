@@ -74,7 +74,7 @@ const PriceHistogram = ({ title, slug, ticker, date, datesRange }) => {
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.title}>
-        Spent coin cost
+        Spent Coin Cost
         <Calendar
           className={styles.calendar}
           selectRange

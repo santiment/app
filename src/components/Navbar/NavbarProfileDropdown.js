@@ -242,7 +242,7 @@ export const NavbarProfileDropdown = ({
             to='/login'
             isActive={activeLink === '/login'}
           >
-            Log in
+            Create an account
           </Button>
         )}
       </div>
