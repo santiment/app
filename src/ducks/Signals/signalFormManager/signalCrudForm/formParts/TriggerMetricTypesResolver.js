@@ -27,6 +27,7 @@ const TriggerMetricTypesResolver = ({
         byAddress={address}
         metaFormSettings={metaFormSettings}
         setFieldValue={setFieldValue}
+        metric={metric}
       />
     </TriggerFormBlock>
   )
