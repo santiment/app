@@ -8,14 +8,8 @@ import {
   INTERVAL_ALIAS
 } from '../../SANCharts/IntervalSelector'
 import { saveToggle } from '../../../utils/localStorage'
-import {
-  getIntervalByTimeRange,
-  getTimeIntervalFromToday,
-  DAY
-} from '../../../utils/dates'
+import { getIntervalByTimeRange } from '../../../utils/dates'
 import styles from './Settings.module.scss'
-
-const { to: MAX_DATE } = getTimeIntervalFromToday(0, DAY)
 
 export default ({
   settings,
