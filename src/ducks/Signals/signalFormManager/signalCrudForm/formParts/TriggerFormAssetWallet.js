@@ -24,7 +24,7 @@ const TriggerFormAssetWallet = ({
   values,
   metric
 }) => {
-  const { signalType, target } = values
+  const { signalType, target, textSelector } = values
 
   const defaultSelected = signalType
     ? signalType.value
@@ -48,6 +48,10 @@ const TriggerFormAssetWallet = ({
             setFieldValue('signalType', type)
             if (isAsset(type)) {
               setFieldValue('target', target || defaultAsset.value)
+            }
+
+            if (isText(type) && textSelector) {
+              setFieldValue('textSelector', textSelector.value)
             }
           }}
           variant='border'
@@ -79,7 +83,7 @@ const TriggerFormAssetWallet = ({
             <FormikSelect
               multi={false}
               isCreatable={true}
-              name='textSelectors'
+              name='textSelector'
               placeholder='Enter a word or a phrase...'
               backspaceRemoves={true}
               options={[]}

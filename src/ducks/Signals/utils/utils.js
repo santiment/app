@@ -107,7 +107,7 @@ const getTimeWindowUnit = timeWindow => {
 const getFormTriggerTarget = settings => {
   const {
     target,
-    target: { eth_address, address = eth_address },
+    target: { eth_address, address = eth_address, text },
     selector,
     asset
   } = settings
@@ -116,9 +116,17 @@ const getFormTriggerTarget = settings => {
   if (watchlist_id) {
     return {
       signalType: METRIC_TARGET_WATCHLIST,
+
       targetWatchlist: {
         value: watchlist_id
       }
+    }
+  }
+
+  if (text) {
+    return {
+      signalType: METRIC_TARGET_TEXT,
+      textSelector: mapToOption(text)
     }
   }
 
@@ -404,7 +412,8 @@ export const mapTriggerToFormProps = currentTrigger => {
     target: newTarget,
     signalType,
     ethAddress,
-    targetWatchlist
+    targetWatchlist,
+    textSelector
   } = getFormTriggerTarget(settings)
   const newType = getFormTriggerType(settings)
 
@@ -412,6 +421,7 @@ export const mapTriggerToFormProps = currentTrigger => {
 
   return {
     targetWatchlist,
+    textSelector,
     ethAddress,
     cooldown,
     isRepeating: isRepeating,
@@ -510,7 +520,7 @@ export const getTargetFromArray = (target, mapper = targetMapper) =>
 export const mapFomTargetToTriggerTarget = (
   target,
   targetWatchlist,
-  textSelectors,
+  textSelector,
   signalType = {},
   address
 ) => {
@@ -526,7 +536,7 @@ export const mapFomTargetToTriggerTarget = (
     }
     case METRIC_TARGET_TEXT.value: {
       return {
-        target: { text: mapTargetObject(textSelectors) }
+        target: { text: mapTargetObject(textSelector) }
       }
     }
     default: {
@@ -676,13 +686,13 @@ export const mapFormToPPCTriggerSettings = formProps => {
     target,
     targetWatchlist,
     signalType,
-    textSelectors,
+    textSelector,
     metric: { type, metric, key }
   } = formProps
   const newTarget = mapFomTargetToTriggerTarget(
     target,
     targetWatchlist,
-    textSelectors,
+    textSelector,
     signalType
   )
 
@@ -701,13 +711,13 @@ export const mapFormToPACTriggerSettings = formProps => {
     target,
     targetWatchlist,
     signalType,
-    textSelectors,
+    textSelector,
     metric: { key, type, metric }
   } = formProps
   const newTarget = mapFomTargetToTriggerTarget(
     target,
     targetWatchlist,
-    textSelectors,
+    textSelector,
     signalType
   )
   return {
@@ -724,13 +734,13 @@ export const mapFormToDAATriggerSettings = formProps => {
     target,
     signalType,
     targetWatchlist,
-    textSelectors,
+    textSelector,
     metric: { type, metric }
   } = formProps
   const newTarget = mapFomTargetToTriggerTarget(
     target,
     targetWatchlist,
-    textSelectors,
+    textSelector,
     signalType
   )
 
@@ -759,13 +769,13 @@ export const mapFormToPVDTriggerSettings = formProps => {
     target,
     targetWatchlist,
     signalType,
-    textSelectors,
+    textSelector,
     metric: { type, metric }
   } = formProps
   const newTarget = mapFomTargetToTriggerTarget(
     target,
     targetWatchlist,
-    textSelectors,
+    textSelector,
     signalType
   )
   return {
@@ -781,7 +791,7 @@ export const mapFormToHBTriggerSettings = formProps => {
   const {
     target,
     targetWatchlist,
-    textSelectors,
+    textSelector,
     ethAddress,
     signalType,
     metric: { type, metric }
@@ -794,7 +804,7 @@ export const mapFormToHBTriggerSettings = formProps => {
   const newTarget = mapFomTargetToTriggerTarget(
     target,
     targetWatchlist,
-    textSelectors,
+    textSelector,
     signalType,
     ethAddress
   )
@@ -848,6 +858,7 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
     }
   }
   const cooldownParams = getCooldownParams(formProps)
+  console.log(formProps, settings)
 
   return {
     ...prevTrigger,
@@ -1373,7 +1384,7 @@ export const getTargetsHeader = values => {
     type,
     metric,
     trendingWordsWithWords,
-    textSelectors,
+    textSelector,
     ethAddress = ''
   } = values
 
@@ -1426,8 +1437,8 @@ export const getTargetsHeader = values => {
       )
     }
     case METRIC_TARGET_TEXT.value: {
-      const targets = mapTargetObject(textSelectors, targetMapperWithName)
-      return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
+      const targets = mapTargetObject(textSelector)
+      return buildFormBlock(NOTIFY_ME_WHEN, targetMapperWithName(targets))
     }
     default: {
       const targets = mapTargetObject(target, targetMapperWithName)
