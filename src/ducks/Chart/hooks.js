@@ -45,3 +45,52 @@ export function useDomainGroups (metrics) {
 
   return domainGroups
 }
+
+export function useNeighbourValueData (data, metrics) {
+  const [newData, setNewData] = useState(data)
+
+  useEffect(
+    () => {
+      const dataLength = data.length
+      const metricLength = metrics.length
+
+      if (!dataLength || metricLength < 2) return
+
+      for (let i = 0; i < metricLength; i++) {
+        const metricKey = metrics[i].key
+
+        let firstValueIndex = 0
+        let lastValueIndex = dataLength
+
+        for (; firstValueIndex < dataLength; firstValueIndex++) {
+          if (data[firstValueIndex][metricKey]) {
+            break
+          }
+        }
+
+        if (firstValueIndex === dataLength) {
+          continue
+        }
+
+        while (!data[--lastValueIndex][metricKey]) {}
+
+        let neighbourValue = data[firstValueIndex][metricKey]
+
+        for (let y = firstValueIndex + 1; y < lastValueIndex; y++) {
+          const item = data[y]
+          const value = item[metricKey]
+          if (value) {
+            neighbourValue = value
+          } else {
+            item[metricKey] = neighbourValue
+          }
+        }
+      }
+
+      setNewData(data)
+    },
+    [data, metrics]
+  )
+
+  return newData
+}
