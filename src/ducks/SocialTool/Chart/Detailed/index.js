@@ -86,8 +86,8 @@ const DetailedBlock = ({
     }))
   }
 
-  const activeDetailedCharts = activeCharts.filter(
-    chart => !availableCommunityCharts.includes(chart)
+  const activeDetailedCharts = activeCharts.filter(chart =>
+    GENERAL_CHARTS.includes(chart)
   )
 
   const activeCommunityCharts = activeCharts.filter(chart =>
@@ -121,7 +121,7 @@ const DetailedBlock = ({
           />
         ))}
       </div>
-      {availableCommunityCharts.length > 0 && (
+      {detectedAsset && availableCommunityCharts.length > 0 && (
         <div className={styles.row}>
           <h3 className={styles.heading}>Community messages charts</h3>
           {availableCommunityCharts.map((chart, idx) => (
