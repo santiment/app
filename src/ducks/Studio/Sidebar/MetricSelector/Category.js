@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
+import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
 import Group from './Group'
 import MetricButton from './MetricButton'
@@ -12,6 +13,7 @@ const Category = ({
   chartSidepane,
   hasTopHolders,
   toggleChartSidepane,
+  isBeta,
   ...rest
 }) => {
   const [hidden, setHidden] = useState(false)
@@ -32,11 +34,10 @@ const Category = ({
       </h3>
       <div className={styles.metrics}>
         {/* TODO: Find a better way to extend metrics categories with custom metrics [@vanguard | April 3, 2020] */}
-        {hasTopHolders && (
+        {isBeta && hasTopHolders && !rest.options.isMultiChartsActive && (
           <MetricButton
             label='Holders Distributions'
             isActive={chartSidepane === TOP_HOLDERS_PANE}
-            isDisabled={rest.options.isMultiChartsActive}
             onClick={() => toggleChartSidepane(TOP_HOLDERS_PANE)}
           />
         )}
@@ -48,4 +49,8 @@ const Category = ({
   )
 }
 
-export default Category
+const mapStateToProps = state => ({
+  isBeta: state.rootUi.isBetaModeEnabled
+})
+
+export default connect(mapStateToProps)(Category)
