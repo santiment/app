@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Mutation } from 'react-apollo'
-import gql from 'graphql-tag'
 import cx from 'classnames'
 import { Form, Formik } from 'formik'
 import isEqual from 'lodash.isequal'
@@ -12,15 +11,8 @@ import { PATHS } from '../../App'
 import MobileWrapper from './Mobile/MobileWrapper'
 import FormikInput from '../../components/formik-santiment-ui/FormikInput'
 import FormikEffect from '../../components/formik-santiment-ui/FormikEffect'
+import { EMAIL_LOGIN_MUTATION } from '../../components/SubscriptionForm/loginGQL'
 import styles from './index.module.scss'
-
-const mutation = gql`
-  mutation($email: String!, $consent: String!) {
-    emailLogin(email: $email, consent: $consent) {
-      success
-    }
-  }
-`
 
 export const EmailForm = ({
   loading,
@@ -164,7 +156,7 @@ const LoginEmailForm = ({
   const [email, setEmail] = useState('')
 
   return (
-    <Mutation mutation={mutation}>
+    <Mutation mutation={EMAIL_LOGIN_MUTATION}>
       {(
         loginEmail,
         { loading, data: { emailLogin: { success } = {} } = {} }
