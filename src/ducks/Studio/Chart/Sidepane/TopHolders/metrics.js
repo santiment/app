@@ -24,19 +24,19 @@ export const TopHolderMetric = {
     label: '(10 - 100) coins'
   },
   holders_distribution_100_to_1k: {
-    label: '(100 - 1000) coins'
+    label: '(100 - 1,000) coins'
   },
   holders_distribution_1k_to_10k: {
-    label: '(1000 - 10000) coins'
+    label: '(1,000 - 10,000) coins'
   },
   holders_distribution_10k_to_100k: {
-    label: '(10000 - 100000) coins'
+    label: '(10,000 - 100,000) coins'
   },
   holders_distribution_100k_to_1M: {
-    label: '(100000  - 1000000) coins'
+    label: '(100,000  - 1,000,000) coins'
   },
   holders_distribution_1M_to_10M: {
-    label: '(1000000 - 10000000) coins'
+    label: '(1,000,000 - 10,000,000) coins'
   }
 }
 

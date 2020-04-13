@@ -13,7 +13,7 @@ export const Metric = {
     category: 'Financial',
     formatter: usdFormatter,
     historicalTriggersDataKey: 'price',
-    advancedView: 'Spent coin cost'
+    advancedView: 'Spent Coin Cost'
   },
   historyPricePreview: {
     queryKey: 'price_usd',
@@ -243,7 +243,7 @@ export const Metric = {
   },
   supply_on_exchanges: {
     node: 'line',
-    label: 'Supply on Exchanges',
+    label: 'Supply On Exchanges',
     category: 'On-chain'
   },
   supply_outside_exchanges: {
