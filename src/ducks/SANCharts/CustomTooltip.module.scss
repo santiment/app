@@ -2,7 +2,6 @@
 
 .tooltip {
   word-break: break-word;
-  background: var(--white);
 }
 
 .tooltipLabel {
@@ -10,4 +9,5 @@
 
   color: var(--mirage);
   margin-right: 6px;
+  background: var(--white);
 }

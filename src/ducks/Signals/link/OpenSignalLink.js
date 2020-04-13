@@ -7,6 +7,8 @@ const PERCENT_REGEXP = new RegExp(
   'gi'
 )
 
+const NEGATIVE_WORDS = ['down', 'below', 'decreases']
+
 const prepareTitle = title => {
   const digits = title.match(PERCENT_REGEXP)
 
@@ -26,8 +28,7 @@ const prepareTitle = title => {
         result.push(first)
 
         const isForceNegative =
-          first &&
-          (first.indexOf('down') !== -1 || first.indexOf('below') !== -1)
+          first && NEGATIVE_WORDS.some(word => first.indexOf(word) !== -1)
 
         if (item[0] === '-' || isForceNegative) {
           result.push(
