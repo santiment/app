@@ -56,7 +56,10 @@ export function useNeighbourValueData (data, metrics) {
       const dataLength = data.length
       const metricLength = lineMetrics.length
 
-      if (!dataLength || metricLength < 2) return
+      if (!dataLength || metricLength < 2) {
+        setNewData(data)
+        return
+      }
 
       for (let i = 0; i < metricLength; i++) {
         const metricKey = lineMetrics[i].key

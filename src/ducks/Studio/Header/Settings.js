@@ -32,7 +32,7 @@ export default ({
   }
 
   function onTimerangeChange (timeRange) {
-    const { from, to } = getIntervalByTimeRange(timeRange.toLowerCase())
+    const { from, to } = getIntervalByTimeRange(timeRange)
     changeTimePeriod(from, to, timeRange)
   }
 
@@ -58,7 +58,7 @@ export default ({
         className={styles.calendar}
         from={new Date(from)}
         to={new Date(to)}
-        timeRange={timeRange.toLowerCase()}
+        timeRange={timeRange}
         onCalendarChange={onCalendarChange}
         onTimerangeChange={onTimerangeChange}
       />
