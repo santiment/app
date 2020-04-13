@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Metric } from '../dataHub/metrics'
 
 const splitByComma = str => str.split(',')
+const lineMetricsFilter = ({ node }) => node === 'line'
 
 export function useDomainGroups (metrics) {
   const [domainGroups, setDomainGroups] = useState()
@@ -51,13 +52,14 @@ export function useNeighbourValueData (data, metrics) {
 
   useEffect(
     () => {
+      const lineMetrics = metrics.filter(lineMetricsFilter)
       const dataLength = data.length
-      const metricLength = metrics.length
+      const metricLength = lineMetrics.length
 
       if (!dataLength || metricLength < 2) return
 
       for (let i = 0; i < metricLength; i++) {
-        const metricKey = metrics[i].key
+        const metricKey = lineMetrics[i].key
 
         let firstValueIndex = 0
         let lastValueIndex = dataLength
@@ -79,7 +81,7 @@ export function useNeighbourValueData (data, metrics) {
         for (let y = firstValueIndex + 1; y < lastValueIndex; y++) {
           const item = data[y]
           const value = item[metricKey]
-          if (value) {
+          if (value || value === 0) {
             neighbourValue = value
           } else {
             item[metricKey] = neighbourValue
