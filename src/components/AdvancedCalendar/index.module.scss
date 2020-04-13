@@ -1,0 +1,30 @@
+.wrapper {
+  display: flex;
+  align-items: stretch;
+}
+
+.right {
+  padding: 8px;
+  min-width: 150px;
+}
+
+.calendar {
+  box-shadow: none;
+  border: none;
+  border-right: 1px solid var(--porcelain);
+  border-radius: 0;
+}
+
+.arrow {
+  fill: var(--casper);
+  margin-left: auto;
+}
+
+.btn.active {
+  border-color: var(--jungle-green);
+
+  .arrow {
+    transform: rotate(180deg);
+    fill: var(--jungle-green);
+  }
+}
