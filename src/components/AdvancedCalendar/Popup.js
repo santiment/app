@@ -8,10 +8,6 @@ import styles from './index.module.scss'
 
 const options = [
   {
-    index: 'all',
-    label: 'All time'
-  },
-  {
     index: '1d',
     label: 'Last day'
   },
@@ -34,6 +30,10 @@ const options = [
   {
     index: '1y',
     label: 'Last year'
+  },
+  {
+    index: 'all',
+    label: 'All time'
   }
 ]
 
