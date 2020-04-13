@@ -50,7 +50,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(
         showNotification({
           variant: 'error',
-          title: 'You need to bind email to your account'
+          title: 'You need to have valid email address'
         })
       )
     }
