@@ -12,12 +12,12 @@ import SettingsGetTokens from './SettingsGetTokens'
 import SettingsAPIKeys from './SettingsAPIKeys'
 import SettingsSubscription from './SettingsSubscription'
 import SettingsPlans from './SettingsPlans'
-import SettingsAffilate from './AffilateSettings/SettingsAffilate'
+import SettingsAffiliate from './AffiliateSettings/SettingsAffiliate'
 import styles from './AccountPage.module.scss'
 
 export const ACCOUNT_PAGE_HASHES = {
   subscription: '#subscription',
-  affilate: '#affilate'
+  affiliate: '#affiliate'
 }
 
 const tabs = [
@@ -32,8 +32,8 @@ const tabs = [
   {
     index: 2,
     content: (
-      <Link className={styles.tab} to={ACCOUNT_PAGE_HASHES.affilate}>
-        Affilate
+      <Link className={styles.tab} to={ACCOUNT_PAGE_HASHES.affiliate}>
+        Affiliate
       </Link>
     )
   },
@@ -117,7 +117,7 @@ const AccountPage = ({ history, isUserLoading, isLoggedIn, location }) => {
       />
       <div className={styles.container}>
         <SettingsGeneral />
-        <SettingsAffilate />
+        <SettingsAffiliate />
         <SettingsConnections />
         <SettingsNotifications />
         <SettingsGetTokens />

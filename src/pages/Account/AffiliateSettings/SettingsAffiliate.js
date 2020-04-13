@@ -4,17 +4,17 @@ import { connect } from 'react-redux'
 import Settings from '../Settings'
 import PageLoader from '../../../components/Loader/PageLoader'
 import CreatePromoter from '../../../components/CreatePromoter/CreatePromoter'
-import AffilateStatistics from './AffilateStatistics/AffilateStatistics'
+import AffiliateStatistics from './AffiliateStatistics/AffiliateStatistics'
 import PromotionLink from './PromotionLink/PromotionLink'
 import { SHOW_PROMOTER_QUERY } from './promotersGql'
-import styles from './SettingsAffilate.module.scss'
+import styles from './SettingsAffiliate.module.scss'
 
-const SettingsAffilate = ({ isPromoter }) => {
+const SettingsAffiliate = ({ isPromoter }) => {
   const [settings, setSettings] = useState(null)
 
   if (!isPromoter && !settings) {
     return (
-      <Settings id='affilate' header='Referral link'>
+      <Settings id='affiliate' header='Referral link'>
         <CreatePromoter setData={setSettings} />
       </Settings>
     )
@@ -38,7 +38,7 @@ const SettingsAffilate = ({ isPromoter }) => {
         return (
           <div className={styles.container}>
             <div className={styles.left}>
-              <Settings id='affilate' header='Referral link'>
+              <Settings id='affiliate' header='Referral link'>
                 <Settings.Row>
                   <div className={styles.block}>
                     <div className={styles.title}>
@@ -57,12 +57,12 @@ const SettingsAffilate = ({ isPromoter }) => {
             </div>
             <div className={styles.right}>
               <Settings
-                id='affilate-statistics'
+                id='affiliate-statistics'
                 header='Statistics'
                 contentClassName={styles.statistics}
               >
                 <Settings.Row className={styles.statisticsSetting}>
-                  <AffilateStatistics promotions={promotions} />
+                  <AffiliateStatistics promotions={promotions} />
                 </Settings.Row>
               </Settings>
             </div>
@@ -81,4 +81,4 @@ const mapStateToProps = ({
   }
 }
 
-export default connect(mapStateToProps)(SettingsAffilate)
+export default connect(mapStateToProps)(SettingsAffiliate)

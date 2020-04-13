@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Mutation } from 'react-apollo'
 import Button from '@santiment-network/ui/Button'
 import { showNotification } from '../../actions/rootActions'
-import { PROMOTER_MUTATION } from '../../pages/Account/AffilateSettings/promotersGql'
+import { PROMOTER_MUTATION } from '../../pages/Account/AffiliateSettings/promotersGql'
 import styles from './CreatePromoter.module.scss'
 
 const CreatePromoter = ({ userData, showAlert, setData }) => {

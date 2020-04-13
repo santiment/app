@@ -1,8 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
-import styles from './AffilateStatistics.module.scss'
+import styles from './AffiliateStatistics.module.scss'
 
-const AffilateStatistics = ({ promotions }) => {
+const AffiliateStatistics = ({ promotions }) => {
   const leadsCount = promotions.reduce((acc, item) => {
     return acc + +item.leadsCount
   }, 0)
@@ -26,4 +26,4 @@ const AffilateStatistics = ({ promotions }) => {
   )
 }
 
-export default AffilateStatistics
+export default AffiliateStatistics
