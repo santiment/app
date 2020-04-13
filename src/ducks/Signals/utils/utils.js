@@ -39,6 +39,7 @@ import {
   TRENDING_WORDS_WORD_MENTIONED,
   METRIC_TARGET_ASSETS,
   METRIC_TARGET_WATCHLIST,
+  METRIC_TARGET_TEXT,
   TRENDING_WORDS_WATCHLIST_MENTIONED,
   PRICE,
   METRIC_DEFAULT_VALUES,
@@ -1014,6 +1015,8 @@ export const isAsset = signalType =>
   signalType.value === METRIC_TARGET_ASSETS.value
 export const isWatchlist = signalType =>
   signalType.value === METRIC_TARGET_WATCHLIST.value
+export const isText = signalType =>
+  signalType.value === METRIC_TARGET_TEXT.value
 
 export const validateTriggerForm = values => {
   const errors = {
@@ -1354,6 +1357,7 @@ export const getTargetsHeader = values => {
     type,
     metric,
     trendingWordsWithWords,
+    textSelectors,
     ethAddress = ''
   } = values
 
@@ -1404,6 +1408,10 @@ export const getTargetsHeader = values => {
         NOTIFY_ME_WHEN,
         targetMapperWithName(targetWatchlist)
       )
+    }
+    case METRIC_TARGET_TEXT.value: {
+      const targets = mapTargetObject(textSelectors, targetMapperWithName)
+      return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
     }
     default: {
       const targets = mapTargetObject(target, targetMapperWithName)

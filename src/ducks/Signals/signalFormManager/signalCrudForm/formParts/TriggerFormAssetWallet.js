@@ -2,13 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import Selector from '@santiment-network/ui/Selector/Selector'
+import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import {
   METRIC_TARGET_OPTIONS,
   METRICS_WITH_TEXT_SELECTOR,
   METRIC_TARGET_TEXT
 } from '../../../utils/constants'
 import GetProjects from '../../../common/projects/getProjects'
-import { isAsset, isWatchlist } from '../../../utils/utils'
+import { isAsset, isWatchlist, isText } from '../../../utils/utils'
 import TriggerFormWatchlists from './TriggerFormWatchlists'
 import { TriggerProjectsSelector } from './projectsSelector/TriggerProjectsSelector'
 import styles from '../signal/TriggerForm.module.scss'
@@ -24,7 +25,6 @@ const TriggerFormAssetWallet = ({
   metric
 }) => {
   const { signalType, target } = values
-  const isAssets = isAsset(signalType)
 
   const defaultSelected = signalType
     ? signalType.value
@@ -55,7 +55,7 @@ const TriggerFormAssetWallet = ({
       </div>
       <div className={cx(styles.row, styles.rowTop)}>
         <div className={cx(styles.Field, styles.fieldFilled)}>
-          {isAssets && (
+          {isAsset(signalType) && (
             <GetProjects
               render={({ allProjects }) => {
                 return (
@@ -73,6 +73,16 @@ const TriggerFormAssetWallet = ({
             <TriggerFormWatchlists
               values={values}
               setFieldValue={setFieldValue}
+            />
+          )}
+          {isText(signalType) && (
+            <FormikSelect
+              multi={true}
+              isCreatable={true}
+              name='textSelectors'
+              placeholder='Enter a word or a phrase...'
+              backspaceRemoves={true}
+              options={[]}
             />
           )}
         </div>
