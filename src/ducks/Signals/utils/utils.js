@@ -1051,6 +1051,8 @@ export const validateTriggerForm = values => {
     ...descriptionBlockErrors(values)
   }
 
+  console.log('errors', errors)
+
   return errors
 }
 
@@ -1108,21 +1110,15 @@ export const metricTypesBlockErrors = values => {
       if (!targetWatchlist) {
         errors.targetWatchlist = REQUIRED_MESSAGE
       }
+    } else if (isText(signalType)) {
+      if (!textSelector) {
+        errors.textSelector = REQUIRED_MESSAGE
+      }
     } else {
       if (
         !target ||
         (Array.isArray(target) ? target.length === 0 : !target.value)
       ) {
-        errors.target = REQUIRED_MESSAGE
-      }
-    }
-
-    if (isText(signalType)) {
-      if (!textSelector) {
-        errors.textSelector = REQUIRED_MESSAGE
-      }
-    } else {
-      if (!target || !target.value) {
         errors.target = REQUIRED_MESSAGE
       }
     }
