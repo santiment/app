@@ -80,11 +80,11 @@
 
   &:hover {
     & .project__arrow {
-      fill: var(--jungle-green);
+      fill: var(--jungle-green-hover);
     }
 
     & .project__name {
-      color: var(--jungle-green);
+      color: var(--jungle-green-hover);
     }
   }
 }

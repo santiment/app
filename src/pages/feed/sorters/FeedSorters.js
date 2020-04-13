@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import Select from '@santiment-network/ui/Search/Select/Select'
 import styles from './FeedSorters.module.scss'
+import './../../../components/formik-santiment-ui/FormikSelect.scss'
 import './FeedSortersCustom.scss'
 
 export const DATETIME_SORT = {

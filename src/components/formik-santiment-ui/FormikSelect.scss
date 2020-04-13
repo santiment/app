@@ -6,6 +6,24 @@ $select-height: 330px;
 
 .Select-control {
   cursor: pointer;
+
+  &:hover {
+    .Select-value-label {
+      color: var(--jungle-green-hover) !important;
+    }
+
+    box-shadow: none;
+  }
+
+  &:active {
+    border: 1px solid var(--jungle-green-hover);
+  }
+}
+
+.Select-value-label {
+  color: var(--rhino) !important;
+
+  @include text('body-3');
 }
 
 .Select--single {
