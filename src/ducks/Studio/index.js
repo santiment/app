@@ -10,6 +10,7 @@ import { useTimeseries } from './timeseries/hooks'
 import { buildAnomalies } from './timeseries/anomalies'
 import { buildComparedMetric } from './Compare/utils'
 import { TOP_HOLDERS_PANE } from './Chart/Sidepane/panes'
+import { useNeighbourValueData } from '../Chart/hooks'
 import styles from './index.module.scss'
 
 const Studio = ({
@@ -35,9 +36,10 @@ const Studio = ({
   const [advancedView, setAdvancedView] = useState()
   const [shareLink, setShareLink] = useState()
   const [isICOPriceDisabled, setIsICOPriceDisabled] = useState(true)
-  const [data, loadings, ErrorMsg] = useTimeseries(activeMetrics, settings)
+  const [rawData, loadings, ErrorMsg] = useTimeseries(activeMetrics, settings)
   const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings)
   const [isSidebarClosed, setIsSidebarClosed] = useState()
+  const data = useNeighbourValueData(rawData, activeMetrics)
 
   useEffect(
     () => {
@@ -107,6 +109,8 @@ const Studio = ({
     () => {
       if (options.isAnomalyActive) {
         setActiveEvents(buildAnomalies(metrics))
+      } else {
+        setActiveEvents([])
       }
     },
     [metrics, options.isAnomalyActive]
