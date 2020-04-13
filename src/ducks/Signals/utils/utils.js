@@ -510,6 +510,7 @@ export const getTargetFromArray = (target, mapper = targetMapper) =>
 export const mapFomTargetToTriggerTarget = (
   target,
   targetWatchlist,
+  textSelectors,
   signalType = {},
   address
 ) => {
@@ -521,6 +522,11 @@ export const mapFomTargetToTriggerTarget = (
         target: {
           watchlist_id: targetWatchlist ? +targetWatchlist.id : undefined
         }
+      }
+    }
+    case METRIC_TARGET_TEXT.value: {
+      return {
+        target: { text: mapTargetObject(textSelectors) }
       }
     }
     default: {
@@ -670,11 +676,13 @@ export const mapFormToPPCTriggerSettings = formProps => {
     target,
     targetWatchlist,
     signalType,
+    textSelectors,
     metric: { type, metric, key }
   } = formProps
   const newTarget = mapFomTargetToTriggerTarget(
     target,
     targetWatchlist,
+    textSelectors,
     signalType
   )
 
@@ -693,11 +701,13 @@ export const mapFormToPACTriggerSettings = formProps => {
     target,
     targetWatchlist,
     signalType,
+    textSelectors,
     metric: { key, type, metric }
   } = formProps
   const newTarget = mapFomTargetToTriggerTarget(
     target,
     targetWatchlist,
+    textSelectors,
     signalType
   )
   return {
@@ -714,11 +724,13 @@ export const mapFormToDAATriggerSettings = formProps => {
     target,
     signalType,
     targetWatchlist,
+    textSelectors,
     metric: { type, metric }
   } = formProps
   const newTarget = mapFomTargetToTriggerTarget(
     target,
     targetWatchlist,
+    textSelectors,
     signalType
   )
 
@@ -747,11 +759,13 @@ export const mapFormToPVDTriggerSettings = formProps => {
     target,
     targetWatchlist,
     signalType,
+    textSelectors,
     metric: { type, metric }
   } = formProps
   const newTarget = mapFomTargetToTriggerTarget(
     target,
     targetWatchlist,
+    textSelectors,
     signalType
   )
   return {
@@ -767,6 +781,7 @@ export const mapFormToHBTriggerSettings = formProps => {
   const {
     target,
     targetWatchlist,
+    textSelectors,
     ethAddress,
     signalType,
     metric: { type, metric }
@@ -779,6 +794,7 @@ export const mapFormToHBTriggerSettings = formProps => {
   const newTarget = mapFomTargetToTriggerTarget(
     target,
     targetWatchlist,
+    textSelectors,
     signalType,
     ethAddress
   )

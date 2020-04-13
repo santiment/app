@@ -77,7 +77,7 @@ const TriggerFormAssetWallet = ({
           )}
           {isText(signalType) && (
             <FormikSelect
-              multi={true}
+              multi={false}
               isCreatable={true}
               name='textSelectors'
               placeholder='Enter a word or a phrase...'
