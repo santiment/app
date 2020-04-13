@@ -7,7 +7,10 @@ import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import { store } from '../../index'
-import { showNotification } from '../../actions/rootActions'
+import {
+  changeDigestSubscription,
+  showNotification
+} from '../../actions/rootActions'
 import GA from './../../utils/tracking'
 import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import { dateDifferenceInWords } from '../../utils/dates'
@@ -31,6 +34,7 @@ const onSuccess = () => {
       dismissAfter: 8000
     })
   )
+  store.dispatch(changeDigestSubscription())
 }
 
 const onError = error => {

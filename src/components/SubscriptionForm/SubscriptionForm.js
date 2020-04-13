@@ -9,9 +9,11 @@ import Input from '@santiment-network/ui/Input'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import { EMAIL_LOGIN_MUTATION } from './loginGQL'
 import { store } from '../../index'
-import { showNotification } from '../../actions/rootActions'
+import {
+  changeDigestSubscription,
+  showNotification
+} from '../../actions/rootActions'
 import GA from './../../utils/tracking'
-import * as actions from '../../actions/types'
 import styles from './SubscriptionForm.module.scss'
 
 const SUBSCRIPTION_LABEL = 'Receive product updates and weekly newsletter'
@@ -73,10 +75,7 @@ class SubscriptionForm extends PureComponent {
         )
 
         if (hasSubscribed) {
-          store.dispatch({
-            type: actions.USER_DIGEST_CHANGE,
-            payload: 'WEEKLY'
-          })
+          store.dispatch(changeDigestSubscription())
         }
       })
       .catch(error => {
