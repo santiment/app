@@ -858,7 +858,6 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
     }
   }
   const cooldownParams = getCooldownParams(formProps)
-  console.log(formProps, settings)
 
   return {
     ...prevTrigger,
@@ -1063,6 +1062,7 @@ export const metricTypesBlockErrors = values => {
     metric,
     target,
     targetWatchlist,
+    textSelector,
     trendingWordsWithWords,
     signalType,
     isLoading
@@ -1113,6 +1113,16 @@ export const metricTypesBlockErrors = values => {
         !target ||
         (Array.isArray(target) ? target.length === 0 : !target.value)
       ) {
+        errors.target = REQUIRED_MESSAGE
+      }
+    }
+
+    if (isText(signalType)) {
+      if (!textSelector) {
+        errors.textSelector = REQUIRED_MESSAGE
+      }
+    } else {
+      if (!target || !target.value) {
         errors.target = REQUIRED_MESSAGE
       }
     }
@@ -1438,7 +1448,7 @@ export const getTargetsHeader = values => {
     }
     case METRIC_TARGET_TEXT.value: {
       const targets = mapTargetObject(textSelector)
-      return buildFormBlock(NOTIFY_ME_WHEN, targetMapperWithName(targets))
+      return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
     }
     default: {
       const targets = mapTargetObject(target, targetMapperWithName)

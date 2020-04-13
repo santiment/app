@@ -49,10 +49,6 @@ const TriggerFormAssetWallet = ({
             if (isAsset(type)) {
               setFieldValue('target', target || defaultAsset.value)
             }
-
-            if (isText(type) && textSelector) {
-              setFieldValue('textSelector', textSelector.value)
-            }
           }}
           variant='border'
         />
