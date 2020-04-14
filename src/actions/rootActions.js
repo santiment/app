@@ -2,6 +2,7 @@ import {
   SHOW_NOTIFICATION,
   HIDE_NOTIFICATION,
   APP_CHANGE_ONLINE_STATUS,
+  USER_DIGEST_CHANGE,
   APP_LAUNCHED
 } from './types'
 
@@ -29,6 +30,11 @@ export const changeNetworkStatus = newtworkStatus => ({
   payload: {
     isOnline: newtworkStatus
   }
+})
+
+export const changeDigestSubscription = (type = 'WEEKLY') => ({
+  type: USER_DIGEST_CHANGE,
+  payload: type
 })
 
 export const launchApp = () => ({ type: APP_LAUNCHED })
