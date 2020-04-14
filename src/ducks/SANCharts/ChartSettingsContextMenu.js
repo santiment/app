@@ -96,9 +96,9 @@ const ChartSettingsContextMenu = ({
             fluid
             variant='ghost'
             onClick={onClosestDataChange}
-            className={styles.context__btn}
+            className={cx(styles.context__btn, styles.context__btn_big)}
           >
-            Show closest data
+            Show closest data on hover
             <Toggle
               isActive={isClosestDataActive}
               className={styles.context__toggle}
