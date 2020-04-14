@@ -4,7 +4,7 @@
 .wrapper {
   position: absolute;
   top: 70px;
-  height: 100vh;
+  height: calc(100vh - 70px);
   left: 0;
   width: $sidebar-width;
   background: var(--white);
@@ -16,6 +16,7 @@
 .fixed {
   position: fixed;
   top: 0;
+  height: 100vh;
 }
 
 .header {
