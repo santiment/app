@@ -9,9 +9,13 @@ export const checkHasPremium = state => {
     return
   }
 
-  if (state.user.data.subscriptions.length === 0) {
+  if (
+    !state.user.data.subscriptions ||
+    state.user.data.subscriptions.length === 0
+  ) {
     return false
   }
+
   const { plan } = getCurrentSanbaseSubscription(state.user.data) || {}
 
   return plan && plan.name === PLANS.PRO

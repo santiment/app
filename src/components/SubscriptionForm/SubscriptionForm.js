@@ -10,7 +10,6 @@ import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import { EMAIL_LOGIN_MUTATION } from './loginGQL'
 import { store } from '../../index'
 import { showNotification } from '../../actions/rootActions'
-import { SUBSCRIPTION_FLAG } from '../../epics/handleEmailLogin'
 import GA from './../../utils/tracking'
 import styles from './SubscriptionForm.module.scss'
 
@@ -51,13 +50,11 @@ class SubscriptionForm extends PureComponent {
 
     this.setState({ waiting: true })
 
-    const { emailLogin, hideCheckbox } = this.props
+    const { emailLogin } = this.props
 
-    if (hideCheckbox) {
-      this.toggle(true)
-    }
-
-    emailLogin({ variables: { email } })
+    emailLogin({
+      variables: { email, subscribeToWeeklyNewsletter: hasSubscribed }
+    })
       .then(() => {
         this.setState({ waiting: false })
         GA.event({
@@ -87,19 +84,10 @@ class SubscriptionForm extends PureComponent {
       })
   }
 
-  toggle = enable => {
-    if (!enable) {
-      localStorage.removeItem(SUBSCRIPTION_FLAG)
-    } else {
-      localStorage.setItem(SUBSCRIPTION_FLAG, '+')
-    }
-  }
-
   onSelect = data => {
     const { hasSubscribed } = this.state
     const newValue = !hasSubscribed
 
-    this.toggle(newValue)
     this.setState({ hasSubscribed: newValue })
   }
 

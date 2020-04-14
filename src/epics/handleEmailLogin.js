@@ -2,16 +2,18 @@ import Raven from 'raven-js'
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
 import { replace } from 'react-router-redux'
-import { showNotification } from './../actions/rootActions'
+import {
+  changeDigestSubscription,
+  showNotification
+} from './../actions/rootActions'
 import * as actions from './../actions/types'
 import { savePrevAuthProvider } from './../utils/localStorage'
 import GA from './../utils/tracking'
 import { setCoupon } from '../utils/coupon'
 import { USER_GQL_FRAGMENT } from './handleLaunch'
+import { NEWSLETTER_SUBSCRIPTION_MUTATION } from '../pages/Account/SettingsNotifications'
 
-export const SUBSCRIPTION_FLAG = 'hasToggledSubscription'
-
-const emailLoginVerifyGQL = gql`
+const EMAIL_LOGIN_VERIFY_MUTATION = gql`
   mutation emailLoginVerify($email: String!, $token: String!) {
     emailLoginVerify(email: $email, token: $token) {
       token
@@ -21,7 +23,7 @@ const emailLoginVerifyGQL = gql`
   }
 `
 
-const emailChangeVerifyGQL = gql`
+const EMAIL_CHANGE_VERIFY_MUTATION = gql`
   mutation emailChangeVerify($emailCandidate: String!, $token: String!) {
     emailChangeVerify(emailCandidate: $emailCandidate, token: $token) {
       token
@@ -38,16 +40,6 @@ const emailChangeVerifyGQL = gql`
           address
         }
       }
-    }
-  }
-`
-
-const NEWSLETTER_SUBSCRIPTION_MUTATION = gql`
-  mutation changeNewsletterSubscription(
-    $subscription: NewsletterSubscriptionType
-  ) {
-    changeNewsletterSubscription(newsletterSubscription: $subscription) {
-      newsletterSubscription
     }
   }
 `
@@ -98,36 +90,28 @@ export const digestSubscriptionEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.USER_LOGIN_SUCCESS)
     .take(1)
-    .mergeMap(({ user: { privacyPolicyAccepted } }) =>
-      (privacyPolicyAccepted
-        ? Observable.of(true)
-        : action$.ofType(actions.USER_SETTING_GDPR)
-      )
-        .delayWhen(() => Observable.timer(2000))
-        .take(1)
-        .mergeMap(() => {
-          const hasSubscribed = localStorage.getItem(SUBSCRIPTION_FLAG)
+    .mergeMap(
+      ({ subscribeToWeeklyNewsletter, user: { privacyPolicyAccepted } }) =>
+        (privacyPolicyAccepted
+          ? Observable.of(true)
+          : action$.ofType(actions.USER_SETTING_GDPR)
+        )
+          .delayWhen(() => Observable.timer(2000))
+          .take(1)
+          .mergeMap(action => {
+            if (subscribeToWeeklyNewsletter) {
+              return Observable.from(
+                client.mutate({
+                  mutation: NEWSLETTER_SUBSCRIPTION_MUTATION,
+                  variables: {
+                    subscription: 'WEEKLY'
+                  }
+                })
+              ).mergeMap(() => Observable.of(changeDigestSubscription()))
+            }
 
-          if (hasSubscribed) {
-            localStorage.removeItem(SUBSCRIPTION_FLAG)
-
-            return Observable.from(
-              client.mutate({
-                mutation: NEWSLETTER_SUBSCRIPTION_MUTATION,
-                variables: {
-                  subscription: 'WEEKLY'
-                }
-              })
-            ).mergeMap(() =>
-              Observable.of({
-                type: actions.USER_DIGEST_CHANGE,
-                payload: 'WEEKLY'
-              })
-            )
-          }
-
-          return Observable.empty()
-        })
+            return Observable.empty()
+          })
     )
 
 const handleEmailLogin = (action$, store, { client }) =>
@@ -137,12 +121,13 @@ const handleEmailLogin = (action$, store, { client }) =>
     .switchMap(action => {
       setCoupon(action.payload.coupon)
       const mutationGQL = action.payload.email
-        ? emailLoginVerifyGQL
-        : emailChangeVerifyGQL
+        ? EMAIL_LOGIN_VERIFY_MUTATION
+        : EMAIL_CHANGE_VERIFY_MUTATION
       const mutation = client.mutate({
         mutation: mutationGQL,
         variables: action.payload
       })
+
       return Observable.from(mutation)
         .mergeMap(({ data }) => {
           const { token, user } =
@@ -156,7 +141,9 @@ const handleEmailLogin = (action$, store, { client }) =>
             type: actions.USER_LOGIN_SUCCESS,
             token,
             user,
-            consent: user.consent_id || null
+            consent: user.consent_id || null,
+            subscribeToWeeklyNewsletter:
+              action.payload.subscribe_to_weekly_newsletter === 'true'
           })
         })
         .catch(error => {
