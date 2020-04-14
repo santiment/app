@@ -25,7 +25,7 @@ const TriggerFormAssetWallet = ({
   values,
   metric
 }) => {
-  const { signalType, target, textSelector } = values
+  const { signalType, target } = values
   const [trendsOptions] = useState(
     getRecentTrends().map(text => ({ label: text, value: text }))
   )
