@@ -51,17 +51,12 @@ const Template = ({
 
     if (!template) return
 
-    const { project, metrics: templateMetrics } = selectedTemplate
+    const { project, metrics: templateMetrics } = template
     const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
 
     onProjectSelect(project)
     setMetrics(metrics)
     setComparables(comparables)
-  }
-
-  function onTemplateSelect (template) {
-    selectTemplate(template)
-    closeMenu()
   }
 
   function rerenderTemplate (template) {
@@ -82,7 +77,7 @@ const Template = ({
       .then(notifySave)
   }
 
-  function onNewTemplate (template) {
+  function onTemplateSelect (template) {
     selectTemplate(template)
     closeMenu()
   }
@@ -100,7 +95,7 @@ const Template = ({
           hasTemplates={hasTemplates}
           openMenu={openMenu}
           saveTemplate={saveTemplate}
-          onNewTemplate={onNewTemplate}
+          onNewTemplate={onTemplateSelect}
           isMenuOpened={isMenuOpened}
         />
       }
@@ -126,7 +121,7 @@ const Template = ({
             {...props}
             onClose={closeMenu}
             trigger={<Action>New template</Action>}
-            onNew={onNewTemplate}
+            onNew={onTemplateSelect}
           />
 
           {selectedTemplate && (
