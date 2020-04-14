@@ -1,15 +1,11 @@
 import gql from 'graphql-tag'
 
 export const EMAIL_LOGIN_MUTATION = gql`
-  mutation emailLogin(
-    $email: String!
-    $consent: String
-    $subscribeToWeeklyNewsletter: Boolean = false
-  ) {
+  mutation emailLogin($email: String!, $consent: String) {
     emailLogin(
       email: $email
       consent: $consent
-      subscribeToWeeklyNewsletter: $subscribeToWeeklyNewsletter
+      subscribeToWeeklyNewsletter: true
     ) {
       success
     }

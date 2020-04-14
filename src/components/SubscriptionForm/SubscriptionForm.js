@@ -9,10 +9,7 @@ import Input from '@santiment-network/ui/Input'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import { EMAIL_LOGIN_MUTATION } from './loginGQL'
 import { store } from '../../index'
-import {
-  changeDigestSubscription,
-  showNotification
-} from '../../actions/rootActions'
+import { showNotification } from '../../actions/rootActions'
 import GA from './../../utils/tracking'
 import styles from './SubscriptionForm.module.scss'
 
@@ -73,10 +70,6 @@ class SubscriptionForm extends PureComponent {
             dismissAfter: 8000
           })
         )
-
-        if (hasSubscribed) {
-          store.dispatch(changeDigestSubscription())
-        }
       })
       .catch(error => {
         this.setState({ waiting: false })

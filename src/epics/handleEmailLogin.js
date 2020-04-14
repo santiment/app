@@ -2,12 +2,16 @@ import Raven from 'raven-js'
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
 import { replace } from 'react-router-redux'
-import { showNotification } from './../actions/rootActions'
+import {
+  changeDigestSubscription,
+  showNotification
+} from './../actions/rootActions'
 import * as actions from './../actions/types'
 import { savePrevAuthProvider } from './../utils/localStorage'
 import GA from './../utils/tracking'
 import { setCoupon } from '../utils/coupon'
 import { USER_GQL_FRAGMENT } from './handleLaunch'
+import { NEWSLETTER_SUBSCRIPTION_MUTATION } from 'insights-app/src/gql/user'
 
 const emailLoginVerifyGQL = gql`
   mutation emailLoginVerify($email: String!, $token: String!) {
@@ -93,6 +97,20 @@ export const digestSubscriptionEpic = (action$, store, { client }) =>
       )
         .delayWhen(() => Observable.timer(2000))
         .take(1)
+        .mergeMap(action => {
+          if (action.subscribeToWeeklyNewsletter) {
+            return Observable.from(
+              client.mutate({
+                mutation: NEWSLETTER_SUBSCRIPTION_MUTATION,
+                variables: {
+                  subscription: 'WEEKLY'
+                }
+              })
+            ).mergeMap(() => Observable.of(changeDigestSubscription()))
+          }
+
+          return Observable.empty()
+        })
     )
 
 const handleEmailLogin = (action$, store, { client }) =>
@@ -108,6 +126,7 @@ const handleEmailLogin = (action$, store, { client }) =>
         mutation: mutationGQL,
         variables: action.payload
       })
+
       return Observable.from(mutation)
         .mergeMap(({ data }) => {
           const { token, user } =
@@ -121,7 +140,9 @@ const handleEmailLogin = (action$, store, { client }) =>
             type: actions.USER_LOGIN_SUCCESS,
             token,
             user,
-            consent: user.consent_id || null
+            consent: user.consent_id || null,
+            subscribeToWeeklyNewsletter:
+              action.payload.subscribe_to_weekly_newsletter
           })
         })
         .catch(error => {
