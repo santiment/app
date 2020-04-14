@@ -47,7 +47,9 @@ const ChartSettingsContextMenu = ({
   isCartesianGridActive,
   onCartesianGridChange,
   isDomainGroupingActive,
-  onDomainGroupingChange
+  onDomainGroupingChange,
+  isClosestDataActive,
+  onClosestDataChange
 }) => {
   return (
     <ContextMenu
@@ -85,6 +87,20 @@ const ChartSettingsContextMenu = ({
             Cartesian grid
             <Toggle
               isActive={isCartesianGridActive}
+              className={styles.context__toggle}
+            />
+          </Button>
+        )}
+        {onClosestDataChange && (
+          <Button
+            fluid
+            variant='ghost'
+            onClick={onClosestDataChange}
+            className={styles.context__btn}
+          >
+            Show closest data
+            <Toggle
+              isActive={isClosestDataActive}
               className={styles.context__toggle}
             />
           </Button>

@@ -10,7 +10,7 @@ import { useTimeseries } from './timeseries/hooks'
 import { buildAnomalies } from './timeseries/anomalies'
 import { buildComparedMetric } from './Compare/utils'
 import { TOP_HOLDERS_PANE } from './Chart/Sidepane/panes'
-import { useNeighbourValueData } from '../Chart/hooks'
+import { useClosestValueData } from '../Chart/hooks'
 import styles from './index.module.scss'
 
 const Studio = ({
@@ -39,7 +39,11 @@ const Studio = ({
   const [rawData, loadings, ErrorMsg] = useTimeseries(activeMetrics, settings)
   const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings)
   const [isSidebarClosed, setIsSidebarClosed] = useState()
-  const data = useNeighbourValueData(rawData, activeMetrics)
+  const data = useClosestValueData(
+    rawData,
+    activeMetrics,
+    options.isClosestDataActive
+  )
 
   useEffect(
     () => {
