@@ -2,13 +2,15 @@ import React from 'react'
 import Raven from 'raven-js'
 import { Mutation, Query } from 'react-apollo'
 import { connect } from 'react-redux'
-import gql from 'graphql-tag'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import { store } from '../../index'
-import { showNotification } from '../../actions/rootActions'
+import {
+  changeDigestSubscription,
+  showNotification
+} from '../../actions/rootActions'
 import GA from './../../utils/tracking'
 import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import { dateDifferenceInWords } from '../../utils/dates'
@@ -16,20 +18,11 @@ import {
   ALL_INSIGHTS_BY_PAGE_QUERY,
   FEATURED_INSIGHTS_QUERY
 } from '../../queries/InsightsGQL'
-import { SUBSCRIPTION_FLAG } from '../../epics/handleEmailLogin'
-import styles from './InsightsDropdown.module.scss'
 import { getSEOLinkFromIdAndTitle, publishDateSorter } from '../Insight/utils'
-
-const mutation = gql`
-  mutation($email: String!) {
-    emailLogin(email: $email) {
-      success
-    }
-  }
-`
+import { EMAIL_LOGIN_MUTATION } from '../SubscriptionForm/loginGQL'
+import styles from './InsightsDropdown.module.scss'
 
 const onSuccess = () => {
-  localStorage.setItem(SUBSCRIPTION_FLAG, '+')
   GA.event({
     category: 'User',
     action: `User requested an email for verification`
@@ -41,6 +34,7 @@ const onSuccess = () => {
       dismissAfter: 8000
     })
   )
+  store.dispatch(changeDigestSubscription())
 }
 
 const onError = error => {
@@ -55,7 +49,7 @@ const onError = error => {
 }
 
 const SubscriptionForm = () => (
-  <Mutation mutation={mutation}>
+  <Mutation mutation={EMAIL_LOGIN_MUTATION}>
     {(loginEmail, { loading, error, data: { emailLogin } = {} }) => {
       function onSubmit (e) {
         e.preventDefault()
@@ -66,7 +60,7 @@ const SubscriptionForm = () => (
 
         const email = e.currentTarget.email.value
 
-        loginEmail({ variables: { email } })
+        loginEmail({ variables: { email, subscribeToWeeklyNewsletter: true } })
           .then(onSuccess)
           .catch(onError)
       }
