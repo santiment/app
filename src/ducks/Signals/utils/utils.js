@@ -39,6 +39,7 @@ import {
   TRENDING_WORDS_WORD_MENTIONED,
   METRIC_TARGET_ASSETS,
   METRIC_TARGET_WATCHLIST,
+  METRIC_TARGET_TEXT,
   TRENDING_WORDS_WATCHLIST_MENTIONED,
   PRICE,
   METRIC_DEFAULT_VALUES,
@@ -106,7 +107,7 @@ const getTimeWindowUnit = timeWindow => {
 const getFormTriggerTarget = settings => {
   const {
     target,
-    target: { eth_address, address = eth_address },
+    target: { eth_address, address = eth_address, text },
     selector,
     asset
   } = settings
@@ -115,9 +116,17 @@ const getFormTriggerTarget = settings => {
   if (watchlist_id) {
     return {
       signalType: METRIC_TARGET_WATCHLIST,
+
       targetWatchlist: {
         value: watchlist_id
       }
+    }
+  }
+
+  if (text) {
+    return {
+      signalType: METRIC_TARGET_TEXT,
+      textSelector: mapToOption(text)
     }
   }
 
@@ -403,7 +412,8 @@ export const mapTriggerToFormProps = currentTrigger => {
     target: newTarget,
     signalType,
     ethAddress,
-    targetWatchlist
+    targetWatchlist,
+    textSelector
   } = getFormTriggerTarget(settings)
   const newType = getFormTriggerType(settings)
 
@@ -411,6 +421,7 @@ export const mapTriggerToFormProps = currentTrigger => {
 
   return {
     targetWatchlist,
+    textSelector,
     ethAddress,
     cooldown,
     isRepeating: isRepeating,
@@ -509,6 +520,7 @@ export const getTargetFromArray = (target, mapper = targetMapper) =>
 export const mapFomTargetToTriggerTarget = (
   target,
   targetWatchlist,
+  textSelector,
   signalType = {},
   address
 ) => {
@@ -520,6 +532,11 @@ export const mapFomTargetToTriggerTarget = (
         target: {
           watchlist_id: targetWatchlist ? +targetWatchlist.id : undefined
         }
+      }
+    }
+    case METRIC_TARGET_TEXT.value: {
+      return {
+        target: { text: textSelector ? mapTargetObject(textSelector) : '' }
       }
     }
     default: {
@@ -669,11 +686,13 @@ export const mapFormToPPCTriggerSettings = formProps => {
     target,
     targetWatchlist,
     signalType,
+    textSelector,
     metric: { type, metric, key }
   } = formProps
   const newTarget = mapFomTargetToTriggerTarget(
     target,
     targetWatchlist,
+    textSelector,
     signalType
   )
 
@@ -692,11 +711,13 @@ export const mapFormToPACTriggerSettings = formProps => {
     target,
     targetWatchlist,
     signalType,
+    textSelector,
     metric: { key, type, metric }
   } = formProps
   const newTarget = mapFomTargetToTriggerTarget(
     target,
     targetWatchlist,
+    textSelector,
     signalType
   )
   return {
@@ -713,11 +734,13 @@ export const mapFormToDAATriggerSettings = formProps => {
     target,
     signalType,
     targetWatchlist,
+    textSelector,
     metric: { type, metric }
   } = formProps
   const newTarget = mapFomTargetToTriggerTarget(
     target,
     targetWatchlist,
+    textSelector,
     signalType
   )
 
@@ -746,11 +769,13 @@ export const mapFormToPVDTriggerSettings = formProps => {
     target,
     targetWatchlist,
     signalType,
+    textSelector,
     metric: { type, metric }
   } = formProps
   const newTarget = mapFomTargetToTriggerTarget(
     target,
     targetWatchlist,
+    textSelector,
     signalType
   )
   return {
@@ -766,6 +791,7 @@ export const mapFormToHBTriggerSettings = formProps => {
   const {
     target,
     targetWatchlist,
+    textSelector,
     ethAddress,
     signalType,
     metric: { type, metric }
@@ -778,6 +804,7 @@ export const mapFormToHBTriggerSettings = formProps => {
   const newTarget = mapFomTargetToTriggerTarget(
     target,
     targetWatchlist,
+    textSelector,
     signalType,
     ethAddress
   )
@@ -1014,6 +1041,8 @@ export const isAsset = signalType =>
   signalType.value === METRIC_TARGET_ASSETS.value
 export const isWatchlist = signalType =>
   signalType.value === METRIC_TARGET_WATCHLIST.value
+export const isText = signalType =>
+  signalType.value === METRIC_TARGET_TEXT.value
 
 export const validateTriggerForm = values => {
   const errors = {
@@ -1033,6 +1062,7 @@ export const metricTypesBlockErrors = values => {
     metric,
     target,
     targetWatchlist,
+    textSelector,
     trendingWordsWithWords,
     signalType,
     isLoading
@@ -1077,6 +1107,10 @@ export const metricTypesBlockErrors = values => {
     if (isWatchlist(signalType)) {
       if (!targetWatchlist) {
         errors.targetWatchlist = REQUIRED_MESSAGE
+      }
+    } else if (isText(signalType)) {
+      if (!textSelector) {
+        errors.textSelector = REQUIRED_MESSAGE
       }
     } else {
       if (
@@ -1354,6 +1388,7 @@ export const getTargetsHeader = values => {
     type,
     metric,
     trendingWordsWithWords,
+    textSelector,
     ethAddress = ''
   } = values
 
@@ -1404,6 +1439,10 @@ export const getTargetsHeader = values => {
         NOTIFY_ME_WHEN,
         targetMapperWithName(targetWatchlist)
       )
+    }
+    case METRIC_TARGET_TEXT.value: {
+      const targets = mapTargetObject(textSelector || {})
+      return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
     }
     default: {
       const targets = mapTargetObject(target, targetMapperWithName)
@@ -1650,11 +1689,16 @@ export const getNewDescription = newValues => {
   return `Notify me when the ${metricsHeaderStr}. Send me notifications ${repeatingBlock.toLowerCase()} ${channelsBlock.toLowerCase()}.`
 }
 
-export const buildSignal = (metric, type, slug, Values) => {
+export const buildSignal = (metric, type, slug, Values, selector = 'slug') => {
   const formProps = { ...METRIC_DEFAULT_VALUES[metric], ...Values }
   formProps.isPublic = true
   formProps.target = mapToOption(slug)
   formProps.type = type
+
+  if (selector === 'text') {
+    formProps.signalType = METRIC_TARGET_TEXT
+    formProps.textSelector = mapToOption(slug)
+  }
 
   formProps.title = getNewTitle(formProps)
   formProps.description = getNewDescription(formProps)
@@ -1662,19 +1706,29 @@ export const buildSignal = (metric, type, slug, Values) => {
   return mapFormPropsToTrigger(formProps)
 }
 
-export const buildValueChangeSignal = (slug, value, type, metric) => {
+export const buildValueChangeSignal = (slug, value, type, metric, selector) => {
   const resultType =
     type === PRICE_CHANGE_TYPES.ABOVE
       ? { ...PRICE_ABS_CHANGE_ABOVE }
       : { ...PRICE_ABS_CHANGE_BELOW }
 
-  return buildSignal(PRICE_ABSOLUTE_CHANGE, resultType, slug, {
-    absoluteThreshold: value,
-    metric
-  })
+  return buildSignal(
+    PRICE_ABSOLUTE_CHANGE,
+    resultType,
+    slug,
+    {
+      absoluteThreshold: value,
+      metric
+    },
+    selector
+  )
 }
 
-export const buildPercentUpDownSignal = (slug, metric = PRICE_METRIC) => {
+export const buildPercentUpDownSignal = (
+  slug,
+  metric = PRICE_METRIC,
+  selector
+) => {
   return buildSignal(
     PRICE_PERCENT_CHANGE,
     PRICE_PERCENT_CHANGE_ONE_OF_MODEL,
@@ -1684,7 +1738,8 @@ export const buildPercentUpDownSignal = (slug, metric = PRICE_METRIC) => {
       signalType: { label: 'Assets', value: 'assets' },
       percentThresholdLeft: 10,
       percentThresholdRight: 10
-    }
+    },
+    selector
   )
 }
 

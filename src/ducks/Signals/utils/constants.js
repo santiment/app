@@ -316,14 +316,21 @@ export const METRIC_TARGET_ASSETS = {
   label: 'Assets',
   value: 'assets'
 }
+
 export const METRIC_TARGET_WATCHLIST = {
   label: 'Watchlist',
   value: 'watchlist'
 }
 
+export const METRIC_TARGET_TEXT = {
+  label: 'Text',
+  value: 'text'
+}
+
 export const METRIC_TARGET_OPTIONS = [
   METRIC_TARGET_ASSETS,
-  METRIC_TARGET_WATCHLIST
+  METRIC_TARGET_WATCHLIST,
+  METRIC_TARGET_TEXT
 ]
 
 export const BASE_THRESHOLD = 0.002 // # DEFAULT FOR PV-signals. Do't change!
@@ -518,4 +525,17 @@ export const POSSIBLE_METRICS_FOR_CHART = [
 
   METRIC_TYPES.METRIC_SIGNAL,
   METRIC_TYPES.WALLET_MOVEMENT
+]
+
+export const METRIC_KEYS_WITH_TEXT_SELECTOR = [
+  'social_volume_total',
+  'social_volume_telegram',
+  'social_volume_reddit',
+  'social_volume_discord',
+  'social_volume_professional_traders_chat',
+  'social_dominance_total',
+  'social_dominance_telegram',
+  'social_dominance_reddit',
+  'social_dominance_discord',
+  'social_dominance_professional_traders_chat'
 ]

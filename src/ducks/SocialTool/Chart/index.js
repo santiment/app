@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import Chart from '../../Chart'
 import { useChartColors } from '../../Chart/colors'
+import Signals from '../../Chart/Signals'
 import { metricsToPlotCategories } from '../../Chart/Synchronizer'
 import PaywallInfo from '../../Studio/Chart/PaywallInfo'
 import ChartActiveMetrics from '../../Studio/Chart/ActiveMetrics'
@@ -23,6 +24,7 @@ const Canvas = ({
   boundaries,
   setSettings,
   categories,
+  selector,
   ...props
 }) => {
   const [FocusedMetric, setFocusedMetric] = useState()
@@ -78,7 +80,9 @@ const Canvas = ({
         MetricColor={MetricColor}
         setSettings={setSettings}
         resizeDependencies={[]}
-      />
+      >
+        <Signals {...settings} metrics={metrics} selector={selector} />
+      </Chart>
       <DetailedBlock
         {...options}
         {...props}

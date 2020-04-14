@@ -15,7 +15,7 @@ import {
 } from '../../../../utils/dates'
 import styles from './Settings.module.scss'
 
-const TIMERANGE_OPTIONS = ['1D', '1W', '1M', '3M', '6M', '1Y']
+const TIMERANGE_OPTIONS = ['1W', '1M', '3M', '6M', '1Y']
 
 const { to: MAX_DATE } = getTimeIntervalFromToday(0, DAY)
 
