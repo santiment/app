@@ -24,8 +24,8 @@ $top: 22px;
   margin-left: auto;
   top: -32px;
   right: -22px;
-  font-size: 10px;
-  font-weight: 600;
+
+  @include text('tiny', 'm');
 }
 
 .heading {
