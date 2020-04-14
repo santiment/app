@@ -24,6 +24,8 @@ const SocialTool = ({
   const [shareLink, setShareLink] = useState('')
   const chartRef = useRef(null)
 
+  const selector = detectedAsset ? 'slug' : 'text'
+
   useEffect(
     () => {
       if (priceAsset) {
@@ -108,6 +110,7 @@ const SocialTool = ({
           setOptions={setOptions}
           setSettings={setSettings}
           setPriceAsset={setPriceAsset}
+          selector={selector}
         />
       </div>
     </div>

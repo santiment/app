@@ -1691,11 +1691,16 @@ export const getNewDescription = newValues => {
   return `Notify me when the ${metricsHeaderStr}. Send me notifications ${repeatingBlock.toLowerCase()} ${channelsBlock.toLowerCase()}.`
 }
 
-export const buildSignal = (metric, type, slug, Values) => {
+export const buildSignal = (metric, type, slug, Values, selector = 'slug') => {
   const formProps = { ...METRIC_DEFAULT_VALUES[metric], ...Values }
   formProps.isPublic = true
   formProps.target = mapToOption(slug)
   formProps.type = type
+
+  if (selector === 'text') {
+    formProps.signalType = METRIC_TARGET_TEXT
+    formProps.textSelector = mapToOption(slug)
+  }
 
   formProps.title = getNewTitle(formProps)
   formProps.description = getNewDescription(formProps)
@@ -1703,19 +1708,29 @@ export const buildSignal = (metric, type, slug, Values) => {
   return mapFormPropsToTrigger(formProps)
 }
 
-export const buildValueChangeSignal = (slug, value, type, metric) => {
+export const buildValueChangeSignal = (slug, value, type, metric, selector) => {
   const resultType =
     type === PRICE_CHANGE_TYPES.ABOVE
       ? { ...PRICE_ABS_CHANGE_ABOVE }
       : { ...PRICE_ABS_CHANGE_BELOW }
 
-  return buildSignal(PRICE_ABSOLUTE_CHANGE, resultType, slug, {
-    absoluteThreshold: value,
-    metric
-  })
+  return buildSignal(
+    PRICE_ABSOLUTE_CHANGE,
+    resultType,
+    slug,
+    {
+      absoluteThreshold: value,
+      metric
+    },
+    selector
+  )
 }
 
-export const buildPercentUpDownSignal = (slug, metric = PRICE_METRIC) => {
+export const buildPercentUpDownSignal = (
+  slug,
+  metric = PRICE_METRIC,
+  selector
+) => {
   return buildSignal(
     PRICE_PERCENT_CHANGE,
     PRICE_PERCENT_CHANGE_ONE_OF_MODEL,
@@ -1725,7 +1740,8 @@ export const buildPercentUpDownSignal = (slug, metric = PRICE_METRIC) => {
       signalType: { label: 'Assets', value: 'assets' },
       percentThresholdLeft: 10,
       percentThresholdRight: 10
-    }
+    },
+    selector
   )
 }
 

@@ -52,6 +52,7 @@ const priceFormatter = Metric.price_usd.formatter
 
 const Signals = ({
   slug,
+  selector = 'slug',
   chart,
   data,
   signals,
@@ -159,6 +160,7 @@ const Signals = ({
         <Add
           hoverPoint={hoverPoint}
           slug={slug}
+          selector={selector}
           data={data}
           createAlert={createSignal}
           onDialogClose={onMouseLeave}

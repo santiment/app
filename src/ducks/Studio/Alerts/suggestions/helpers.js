@@ -16,12 +16,12 @@ export const createSuggestion = (alert, render) => ({ alert, render })
 export const buildValueChangeSuggester = metric => {
   const { formatter, label } = metric
 
-  return ({ slug, value, lastValue, ...rest }) => {
+  return ({ slug, value, lastValue, selector, ...rest }) => {
     const isAbove = value > lastValue
     const type = PRICE_CHANGE_TYPES[isAbove ? SIGNAL_ABOVE : SIGNAL_BELOW]
 
     return createSuggestion(
-      buildValueChangeSignal(slug, roundNumber(value), type, metric),
+      buildValueChangeSignal(slug, roundNumber(value), type, metric, selector),
       <>
         {label} {VALUE_IFS[+isAbove]} <Value>{formatter(value)}</Value>
       </>
@@ -32,9 +32,9 @@ export const buildValueChangeSuggester = metric => {
 export const buildPercentUpSuggester = metric => {
   const { label } = metric
 
-  return ({ slug }) =>
+  return ({ slug, selector }) =>
     createSuggestion(
-      buildPercentUpDownSignal(slug, metric),
+      buildPercentUpDownSignal(slug, metric, selector),
       <>
         {label} moves up or down by <Value>10%</Value>
       </>
