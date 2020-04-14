@@ -1,5 +1,6 @@
 import React from 'react'
 import TagCloud from 'react-tag-cloud'
+import { Link } from 'react-router-dom'
 import { graphql } from 'react-apollo'
 import HelpPopupWordCloud from './HelpPopupWordCloud'
 import WidgetTrend from '../Widget/WidgetTrend'
@@ -23,7 +24,8 @@ const WORD_MEDIUM = {
 
 const WORD_SMALL = {
   fontSize: 12,
-  fontWeight: 600
+  fontWeight: 500,
+  color: 'var(--casper)'
 }
 
 const getWordStyles = index => {
@@ -63,14 +65,19 @@ export const WordCloud = ({
         style={{ width: '100%', height: '100%', padding: 15, marginTop: 0 }}
       >
         {cloud.map(({ word, score }, index) => (
-          <div key={word} style={getWordStyles(index)} className={styles.text}>
+          <Link
+            key={word}
+            to={`/labs/trends/explore/${word}`}
+            style={getWordStyles(index)}
+            className={styles.text}
+          >
             {word}
             {index < BIG_LIMIT && (
               <div className={styles.score}>
                 {formatNumber(score, { maximumFractionDigits: 2 })}
               </div>
             )}
-          </div>
+          </Link>
         ))}
       </TagCloud>
     </WidgetTrend>
