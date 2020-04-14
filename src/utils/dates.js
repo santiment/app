@@ -102,7 +102,7 @@ export const getTimeIntervalFromToday = (amount, dateFormat, options = {}) => {
 
   const setHours = isUTC ? 'setUTCHours' : 'setHours'
 
-  to[setHours](24, 0, 0, 0)
+  to[setHours](23, 59, 59, 999)
   from[setHours](0, 0, 0, 0)
 
   const target = amount <= 0 ? from : to
