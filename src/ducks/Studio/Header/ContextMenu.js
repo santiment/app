@@ -30,11 +30,22 @@ export default ({ setOptions, ...props }) => {
     }))
   }
 
+  function toggleClosestData () {
+    setOptions(state => ({
+      ...state,
+      isClosestDataActive: saveToggle(
+        'isClosestDataActive',
+        !state.isClosestDataActive
+      )
+    }))
+  }
+
   return (
     <ChartSettingsContextMenu
       onCartesianGridChange={toggleCartesianGrid}
       onScaleChange={toggleScale}
       onMultiChartsChange={toggleMultichart}
+      onClosestDataChange={toggleClosestData}
       {...props}
     />
   )
