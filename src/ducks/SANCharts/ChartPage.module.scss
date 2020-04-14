@@ -169,6 +169,12 @@
 
   &__btn {
     justify-content: space-between;
+
+    &_big {
+      height: auto;
+      text-align: left;
+      max-width: 180px;
+    }
   }
 
   & .icon {

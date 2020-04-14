@@ -47,18 +47,27 @@ export function useDomainGroups (metrics) {
   return domainGroups
 }
 
-export function useNeighbourValueData (data, metrics) {
-  const [newData, setNewData] = useState(data)
+export function useClosestValueData (
+  rawData,
+  metrics,
+  isClosestValueActive = true
+) {
+  const [newData, setNewData] = useState(rawData)
 
   useEffect(
     () => {
       const lineMetrics = metrics.filter(lineMetricsFilter)
-      const dataLength = data.length
+      const dataLength = rawData.length
       const metricLength = lineMetrics.length
 
-      if (!dataLength || metricLength < 2) {
-        setNewData(data)
+      if (!isClosestValueActive || !dataLength || metricLength < 2) {
+        setNewData(rawData)
         return
+      }
+
+      const data = new Array(dataLength)
+      for (let i = 0; i < dataLength; i++) {
+        data[i] = Object.assign({}, rawData[i])
       }
 
       for (let i = 0; i < metricLength; i++) {
@@ -94,7 +103,7 @@ export function useNeighbourValueData (data, metrics) {
 
       setNewData(data)
     },
-    [data, metrics]
+    [rawData, metrics, isClosestValueActive]
   )
 
   return newData
