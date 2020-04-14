@@ -9,6 +9,8 @@ import GA from './../utils/tracking'
 import { setCoupon } from '../utils/coupon'
 import { USER_GQL_FRAGMENT } from './handleLaunch'
 
+export const SUBSCRIPTION_FLAG = 'hasToggledSubscription'
+
 const emailLoginVerifyGQL = gql`
   mutation emailLoginVerify($email: String!, $token: String!) {
     emailLoginVerify(email: $email, token: $token) {
@@ -36,6 +38,16 @@ const emailChangeVerifyGQL = gql`
           address
         }
       }
+    }
+  }
+`
+
+const NEWSLETTER_SUBSCRIPTION_MUTATION = gql`
+  mutation changeNewsletterSubscription(
+    $subscription: NewsletterSubscriptionType
+  ) {
+    changeNewsletterSubscription(newsletterSubscription: $subscription) {
+      newsletterSubscription
     }
   }
 `
@@ -93,6 +105,29 @@ export const digestSubscriptionEpic = (action$, store, { client }) =>
       )
         .delayWhen(() => Observable.timer(2000))
         .take(1)
+        .mergeMap(() => {
+          const hasSubscribed = localStorage.getItem(SUBSCRIPTION_FLAG)
+
+          if (hasSubscribed) {
+            localStorage.removeItem(SUBSCRIPTION_FLAG)
+
+            return Observable.from(
+              client.mutate({
+                mutation: NEWSLETTER_SUBSCRIPTION_MUTATION,
+                variables: {
+                  subscription: 'WEEKLY'
+                }
+              })
+            ).mergeMap(() =>
+              Observable.of({
+                type: actions.USER_DIGEST_CHANGE,
+                payload: 'WEEKLY'
+              })
+            )
+          }
+
+          return Observable.empty()
+        })
     )
 
 const handleEmailLogin = (action$, store, { client }) =>
