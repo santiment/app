@@ -536,7 +536,7 @@ export const mapFomTargetToTriggerTarget = (
     }
     case METRIC_TARGET_TEXT.value: {
       return {
-        target: { text: mapTargetObject(textSelector) }
+        target: { text: textSelector ? mapTargetObject(textSelector) : '' }
       }
     }
     default: {
@@ -1051,8 +1051,6 @@ export const validateTriggerForm = values => {
     ...descriptionBlockErrors(values)
   }
 
-  console.log('errors', errors)
-
   return errors
 }
 
@@ -1443,7 +1441,7 @@ export const getTargetsHeader = values => {
       )
     }
     case METRIC_TARGET_TEXT.value: {
-      const targets = mapTargetObject(textSelector)
+      const targets = mapTargetObject(textSelector || {})
       return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
     }
     default: {

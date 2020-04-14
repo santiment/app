@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import Selector from '@santiment-network/ui/Selector/Selector'
@@ -8,6 +8,7 @@ import {
   METRICS_WITH_TEXT_SELECTOR,
   METRIC_TARGET_TEXT
 } from '../../../utils/constants'
+import { getRecentTrends } from '../../../../../utils/recent'
 import GetProjects from '../../../common/projects/getProjects'
 import { isAsset, isWatchlist, isText } from '../../../utils/utils'
 import TriggerFormWatchlists from './TriggerFormWatchlists'
@@ -25,6 +26,9 @@ const TriggerFormAssetWallet = ({
   metric
 }) => {
   const { signalType, target, textSelector } = values
+  const [trendsOptions] = useState(
+    getRecentTrends().map(text => ({ label: text, value: text }))
+  )
 
   const defaultSelected = signalType
     ? signalType.value
@@ -81,8 +85,7 @@ const TriggerFormAssetWallet = ({
               isCreatable={true}
               name='textSelector'
               placeholder='Enter a word or a phrase...'
-              backspaceRemoves={true}
-              options={[]}
+              options={trendsOptions}
             />
           )}
         </div>
