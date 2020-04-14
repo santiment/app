@@ -1,5 +1,3 @@
-import { Metric } from '../../dataHub/metrics'
-
 export const CHANNEL_NAMES = {
   Telegram: 'Telegram',
   Email: 'Email',
@@ -529,7 +527,15 @@ export const POSSIBLE_METRICS_FOR_CHART = [
   METRIC_TYPES.WALLET_MOVEMENT
 ]
 
-export const METRICS_WITH_TEXT_SELECTOR = [
-  Metric.social_volume_total,
-  Metric.social_dominance_total
+export const METRIC_KEYS_WITH_TEXT_SELECTOR = [
+  'social_volume_total',
+  'social_volume_telegram',
+  'social_volume_reddit',
+  'social_volume_discord',
+  'social_volume_professional_traders_chat',
+  'social_dominance_total',
+  'social_dominance_telegram',
+  'social_dominance_reddit',
+  'social_dominance_discord',
+  'social_dominance_professional_traders_chat'
 ]

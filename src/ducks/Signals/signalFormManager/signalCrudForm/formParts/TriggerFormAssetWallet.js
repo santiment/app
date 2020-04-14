@@ -5,7 +5,7 @@ import Selector from '@santiment-network/ui/Selector/Selector'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import {
   METRIC_TARGET_OPTIONS,
-  METRICS_WITH_TEXT_SELECTOR,
+  METRIC_KEYS_WITH_TEXT_SELECTOR,
   METRIC_TARGET_TEXT
 } from '../../../utils/constants'
 import { getRecentTrends } from '../../../../../utils/recent'
@@ -34,7 +34,7 @@ const TriggerFormAssetWallet = ({
     ? signalType.value
     : defaultSignalType.value.value
 
-  const options = METRICS_WITH_TEXT_SELECTOR.includes(metric)
+  const options = METRIC_KEYS_WITH_TEXT_SELECTOR.includes(metric.key)
     ? METRIC_TARGET_OPTIONS
     : METRIC_TARGET_OPTIONS.filter(option => option !== METRIC_TARGET_TEXT)
 
