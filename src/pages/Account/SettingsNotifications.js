@@ -20,7 +20,7 @@ import { CHANNEL_TYPES } from '../../ducks/Signals/utils/constants'
 import styles from './AccountPage.module.scss'
 import Link from 'react-router-dom/Link'
 
-const NEWSLETTER_SUBSCRIPTION_MUTATION = gql`
+export const NEWSLETTER_SUBSCRIPTION_MUTATION = gql`
   mutation changeNewsletterSubscription(
     $subscription: NewsletterSubscriptionType
   ) {

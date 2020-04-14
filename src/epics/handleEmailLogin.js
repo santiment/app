@@ -11,9 +11,9 @@ import { savePrevAuthProvider } from './../utils/localStorage'
 import GA from './../utils/tracking'
 import { setCoupon } from '../utils/coupon'
 import { USER_GQL_FRAGMENT } from './handleLaunch'
-import { NEWSLETTER_SUBSCRIPTION_MUTATION } from 'insights-app/src/gql/user'
+import { NEWSLETTER_SUBSCRIPTION_MUTATION } from '../pages/Account/SettingsNotifications'
 
-const emailLoginVerifyGQL = gql`
+const EMAIL_LOGIN_VERIFY_MUTATION = gql`
   mutation emailLoginVerify($email: String!, $token: String!) {
     emailLoginVerify(email: $email, token: $token) {
       token
@@ -23,7 +23,7 @@ const emailLoginVerifyGQL = gql`
   }
 `
 
-const emailChangeVerifyGQL = gql`
+const EMAIL_CHANGE_VERIFY_MUTATION = gql`
   mutation emailChangeVerify($emailCandidate: String!, $token: String!) {
     emailChangeVerify(emailCandidate: $emailCandidate, token: $token) {
       token
@@ -121,8 +121,8 @@ const handleEmailLogin = (action$, store, { client }) =>
     .switchMap(action => {
       setCoupon(action.payload.coupon)
       const mutationGQL = action.payload.email
-        ? emailLoginVerifyGQL
-        : emailChangeVerifyGQL
+        ? EMAIL_LOGIN_VERIFY_MUTATION
+        : EMAIL_CHANGE_VERIFY_MUTATION
       const mutation = client.mutate({
         mutation: mutationGQL,
         variables: action.payload
