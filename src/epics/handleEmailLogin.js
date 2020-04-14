@@ -90,27 +90,28 @@ export const digestSubscriptionEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.USER_LOGIN_SUCCESS)
     .take(1)
-    .mergeMap(({ user: { privacyPolicyAccepted } }) =>
-      (privacyPolicyAccepted
-        ? Observable.of(true)
-        : action$.ofType(actions.USER_SETTING_GDPR)
-      )
-        .delayWhen(() => Observable.timer(2000))
-        .take(1)
-        .mergeMap(action => {
-          if (action.subscribeToWeeklyNewsletter) {
-            return Observable.from(
-              client.mutate({
-                mutation: NEWSLETTER_SUBSCRIPTION_MUTATION,
-                variables: {
-                  subscription: 'WEEKLY'
-                }
-              })
-            ).mergeMap(() => Observable.of(changeDigestSubscription()))
-          }
+    .mergeMap(
+      ({ subscribeToWeeklyNewsletter, user: { privacyPolicyAccepted } }) =>
+        (privacyPolicyAccepted
+          ? Observable.of(true)
+          : action$.ofType(actions.USER_SETTING_GDPR)
+        )
+          .delayWhen(() => Observable.timer(2000))
+          .take(1)
+          .mergeMap(action => {
+            if (subscribeToWeeklyNewsletter) {
+              return Observable.from(
+                client.mutate({
+                  mutation: NEWSLETTER_SUBSCRIPTION_MUTATION,
+                  variables: {
+                    subscription: 'WEEKLY'
+                  }
+                })
+              ).mergeMap(() => Observable.of(changeDigestSubscription()))
+            }
 
-          return Observable.empty()
-        })
+            return Observable.empty()
+          })
     )
 
 const handleEmailLogin = (action$, store, { client }) =>
@@ -142,7 +143,7 @@ const handleEmailLogin = (action$, store, { client }) =>
             user,
             consent: user.consent_id || null,
             subscribeToWeeklyNewsletter:
-              action.payload.subscribe_to_weekly_newsletter
+              action.payload.subscribe_to_weekly_newsletter === 'true'
           })
         })
         .catch(error => {
