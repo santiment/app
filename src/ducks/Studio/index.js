@@ -118,11 +118,14 @@ const Studio = ({
 
   useEffect(
     () => {
-      if (options.isMultiChartsActive && chartSidepane === TOP_HOLDERS_PANE) {
+      if (
+        chartSidepane === TOP_HOLDERS_PANE &&
+        (settings.slug !== 'ethereum' || options.isMultiChartsActive)
+      ) {
         setChartSidepane()
       }
     },
-    [chartSidepane, options.isMultiChartsActive]
+    [chartSidepane, settings.slug, options.isMultiChartsActive]
   )
 
   function toggleMetric (metric) {

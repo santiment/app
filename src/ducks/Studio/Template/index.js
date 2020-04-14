@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Button from '@santiment-network/ui/Button'
@@ -38,20 +38,6 @@ const Template = ({
 
   const hasTemplates = templates.length > 0
 
-  useEffect(
-    () => {
-      if (selectedTemplate) {
-        const { project, metrics: templateMetrics } = selectedTemplate
-        const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
-
-        onProjectSelect(project)
-        setMetrics(metrics)
-        setComparables(comparables)
-      }
-    },
-    [selectedTemplate]
-  )
-
   function openMenu () {
     setIsMenuOpened(true)
   }
@@ -62,7 +48,15 @@ const Template = ({
 
   function selectTemplate (template) {
     setSelectedTemplate(template)
-    closeMenu()
+
+    if (!template) return
+
+    const { project, metrics: templateMetrics } = template
+    const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
+
+    onProjectSelect(project)
+    setMetrics(metrics)
+    setComparables(comparables)
   }
 
   function rerenderTemplate (template) {
@@ -83,7 +77,7 @@ const Template = ({
       .then(notifySave)
   }
 
-  function onNewTemplate (template) {
+  function onTemplateSelect (template) {
     selectTemplate(template)
     closeMenu()
   }
@@ -101,7 +95,7 @@ const Template = ({
           hasTemplates={hasTemplates}
           openMenu={openMenu}
           saveTemplate={saveTemplate}
-          onNewTemplate={onNewTemplate}
+          onNewTemplate={onTemplateSelect}
           isMenuOpened={isMenuOpened}
         />
       }
@@ -115,7 +109,7 @@ const Template = ({
           <DialogLoadTemplate
             onClose={closeMenu}
             selectedTemplate={selectedTemplate}
-            selectTemplate={selectTemplate}
+            selectTemplate={onTemplateSelect}
             updateTemplate={updateTemplate}
             rerenderTemplate={rerenderTemplate}
             templates={templates}
@@ -127,7 +121,7 @@ const Template = ({
             {...props}
             onClose={closeMenu}
             trigger={<Action>New template</Action>}
-            onNew={onNewTemplate}
+            onNew={onTemplateSelect}
           />
 
           {selectedTemplate && (
