@@ -52,7 +52,7 @@ const Template = ({
 
   function onDeleteClick () {
     deleteTemplate(template)
-    closeMenu()
+    selectTemplate()
   }
 
   function onRename (template) {

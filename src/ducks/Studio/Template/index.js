@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Button from '@santiment-network/ui/Button'
@@ -38,20 +38,6 @@ const Template = ({
 
   const hasTemplates = templates.length > 0
 
-  useEffect(
-    () => {
-      if (selectedTemplate) {
-        const { project, metrics: templateMetrics } = selectedTemplate
-        const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
-
-        onProjectSelect(project)
-        setMetrics(metrics)
-        setComparables(comparables)
-      }
-    },
-    [selectedTemplate]
-  )
-
   function openMenu () {
     setIsMenuOpened(true)
   }
@@ -62,6 +48,19 @@ const Template = ({
 
   function selectTemplate (template) {
     setSelectedTemplate(template)
+
+    if (!template) return
+
+    const { project, metrics: templateMetrics } = selectedTemplate
+    const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
+
+    onProjectSelect(project)
+    setMetrics(metrics)
+    setComparables(comparables)
+  }
+
+  function onTemplateSelect (template) {
+    selectTemplate(template)
     closeMenu()
   }
 
@@ -115,7 +114,7 @@ const Template = ({
           <DialogLoadTemplate
             onClose={closeMenu}
             selectedTemplate={selectedTemplate}
-            selectTemplate={selectTemplate}
+            selectTemplate={onTemplateSelect}
             updateTemplate={updateTemplate}
             rerenderTemplate={rerenderTemplate}
             templates={templates}
