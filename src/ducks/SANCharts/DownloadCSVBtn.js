@@ -48,7 +48,10 @@ const DownloadCSVBtn = ({
 
   const mergedData = mergeTimeseriesByKey({
     timeseries: [data, eventsData]
-  })
+  }).map(item => ({
+    ...item,
+    datetime: new Date(item.datetime).toISOString()
+  }))
 
   return (
     <Button
