@@ -22,7 +22,8 @@ const TemplateContextMenu = ({
   openMenu,
   onDeleteClick,
   onRename,
-  isPublic
+  isPublic,
+  isAuthor
 }) => {
   return (
     <ContextMenu
@@ -38,26 +39,32 @@ const TemplateContextMenu = ({
       align='end'
     >
       <Panel variant='modal' className={styles.options}>
-        <Option onClick={toggleIsPublic}>
-          Public
-          <Toggle isActive={isPublic} className={styles.toggle} />
-        </Option>
-        <DialogFormRenameTemplate
-          trigger={<Option>Rename</Option>}
-          template={template}
-          onRename={onRename}
-        />
+        {isAuthor && (
+          <Option onClick={toggleIsPublic}>
+            Public
+            <Toggle isActive={isPublic} className={styles.toggle} />
+          </Option>
+        )}
+        {isAuthor && (
+          <DialogFormRenameTemplate
+            trigger={<Option>Rename</Option>}
+            template={template}
+            onRename={onRename}
+          />
+        )}
         <DialogFormDuplicateTemplate
           trigger={<Option>Duplicate</Option>}
           template={template}
           onDuplicate={closeMenu}
         />
-        <ConfirmDialog
-          title='Do you want to delete this template?'
-          trigger={<Option>Delete</Option>}
-          onApprove={onDeleteClick}
-          onCancel={closeMenu}
-        />
+        {isAuthor && (
+          <ConfirmDialog
+            title='Do you want to delete this template?'
+            trigger={<Option>Delete</Option>}
+            onApprove={onDeleteClick}
+            onCancel={closeMenu}
+          />
+        )}
       </Panel>
     </ContextMenu>
   )

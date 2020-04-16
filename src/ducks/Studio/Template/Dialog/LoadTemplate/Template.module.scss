@@ -15,7 +15,7 @@
 }
 
 .unclickable {
-  cursor: auto;
+  cursor: auto !important;
 
   &:hover {
     background: initial;

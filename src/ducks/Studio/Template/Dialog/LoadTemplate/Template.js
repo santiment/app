@@ -9,7 +9,8 @@ const Template = ({
   template,
   selectTemplate,
   rerenderTemplates,
-  rerenderTemplate
+  rerenderTemplate,
+  isAuthor = true
 }) => {
   const { title, metrics, project } = template
   const [isPublic, setIsPublic] = useState(template.isPublic)
@@ -45,8 +46,8 @@ const Template = ({
   }
 
   function onRename (template) {
-    rerenderTemplates()
-    rerenderTemplate(template)
+    rerenderTemplates && rerenderTemplates()
+    rerenderTemplate && rerenderTemplate(template)
     closeMenu()
   }
 
@@ -62,8 +63,12 @@ const Template = ({
         </div>
       </div>
       <div
-        className={cx(styles.publicity, isPublic && styles.publicity_public)}
-        onClick={toggleIsPublic}
+        className={cx(
+          styles.publicity,
+          isPublic && styles.publicity_public,
+          !isAuthor && styles.unclickable
+        )}
+        onClick={isAuthor && toggleIsPublic}
       >
         <Icon type={isPublic ? 'eye' : 'lock-small'} className={styles.icon} />
       </div>
@@ -77,6 +82,7 @@ const Template = ({
         onDeleteClick={onDeleteClick}
         onRename={onRename}
         isPublic={isPublic}
+        isAuthor={isAuthor}
       />
     </div>
   )

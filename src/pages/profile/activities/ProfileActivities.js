@@ -25,8 +25,6 @@ const ProfileActivities = ({ profile }) => {
 
   const [templates] = useUserTemplates(profileId)
 
-  console.log(templates)
-
   return (
     <div className={styles.container}>
       <div className={styles.left}>
