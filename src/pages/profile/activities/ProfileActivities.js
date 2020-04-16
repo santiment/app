@@ -22,7 +22,6 @@ const ProfileActivities = ({ profile }) => {
   const { id: profileId, insights, triggers, watchlists } = profile
 
   const [step, setStep] = useState(STEPS.INSIGHTS)
-
   const [templates] = useUserTemplates(profileId)
 
   return (

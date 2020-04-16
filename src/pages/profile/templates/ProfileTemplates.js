@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
 import TemplatesGrid from '../../../components/TemplatesGrid/TemplatesGrid'
 import styles from './../ProfilePage.module.scss'
+
 const ProfileTemplates = ({ data: templates, isAuthor }) => {
   if (!templates || templates.length === 0) {
     return null
@@ -16,7 +16,7 @@ const ProfileTemplates = ({ data: templates, isAuthor }) => {
 }
 
 const mapStateToProps = ({ user }, { userId }) => ({
-  isAuthor: user && user.data ? +user.data.id === +userId : undefined
+  isAuthor: user && user.data && +user.data.id === +userId
 })
 
 export default connect(mapStateToProps)(ProfileTemplates)

@@ -2,15 +2,16 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import { useDeleteTemplate, useUpdateTemplate } from '../../gql/hooks'
-import styles from './Template.module.scss'
 import TemplateContextMenu from '../../TemplateContextMenu/TemplateContextMenu'
+import styles from './Template.module.scss'
 
 const Template = ({
   template,
   selectTemplate,
   rerenderTemplates,
   rerenderTemplate,
-  isAuthor = true
+  isAuthor = true,
+  className
 }) => {
   const { title, metrics, project } = template
   const [isPublic, setIsPublic] = useState(template.isPublic)
@@ -53,7 +54,11 @@ const Template = ({
 
   return (
     <div
-      className={cx(styles.wrapper, !selectTemplate && styles.unclickable)}
+      className={cx(
+        styles.wrapper,
+        className,
+        !selectTemplate && styles.unclickable
+      )}
       onClick={onTemplateClick}
     >
       <div className={styles.left}>

@@ -15,7 +15,7 @@ const TooltipWrapper = ({ selectedTemplate, children }) => {
     <Tooltip
       trigger={children}
       position='bottom'
-      align={'start'}
+      align='start'
       className={styles.tooltip}
     >
       Click to save '{selectedTemplate.title}'
