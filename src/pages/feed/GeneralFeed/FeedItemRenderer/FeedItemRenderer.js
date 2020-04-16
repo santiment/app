@@ -7,8 +7,8 @@ import ActivityRenderer from '../../../SonarFeed/ActivityRenderer/ActivityRender
 import TrendingWordsSignalCard, {
   isTrendingWordsSignal
 } from '../../../../components/SignalCard/card/TrendingWordsSignalCard'
-import styles from './FeedItemRenderer.module.scss'
 import PulseInsightWrapper from "../../../../components/Insight/PulseInsight";
+import styles from './FeedItemRenderer.module.scss'
 
 const FeedItemRenderer = ({ item, index, showProfileExplanation }) => {
   const { id: eventId, __typename, payload, trigger, insertedAt } = item
@@ -46,7 +46,6 @@ const FeedItemRenderer = ({ item, index, showProfileExplanation }) => {
       const { id: insightId, isPulse, ...rest } = post
 
       if(isPulse){
-        console.log("isPulse", isPulse, post)
         return <PulseInsightWrapper insight={post} className={cx(styles.card, styles.pulseInsight)} />
       }
 

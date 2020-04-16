@@ -1,38 +1,28 @@
 import { DATETIME_SORT } from '../sorters/FeedSorters'
 
 export const MAX_LIMIT = 10
+export const PULSE_MAX_LIMIT = 100
 
 export const CURSOR_TYPES = {
   before: 'BEFORE',
   after: 'AFTER'
 }
 
-export const makeVariables = (
-  date,
-  limit = MAX_LIMIT,
-  type = CURSOR_TYPES.before
-) => ({
-  limit,
-  cursor: {
-    type,
-    datetime: date
-  }
-})
-
 export const makeFeedVariables = ({
   date,
-  limit = MAX_LIMIT,
+  isPulse,
   type = CURSOR_TYPES.before,
   orderBy = DATETIME_SORT.type,
   filterBy
 }) => ({
-  limit,
+  limit: isPulse ? PULSE_MAX_LIMIT : MAX_LIMIT,
   cursor: {
     type,
     datetime: date
   },
   orderBy: orderBy,
-  filterBy: filterBy
+  filterBy: filterBy,
+  isPulse
 })
 
 export const extractEventsFromData = data => {

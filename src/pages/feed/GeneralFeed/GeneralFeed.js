@@ -26,11 +26,12 @@ const tabs = [
   },
   {
     index: personalLocation,
-    content: 'Personal'
+    content: 'Personal',
+    requireLogin: true
   },
   {
     index: pulseLocation,
-    content: 'Pulse'
+    content: 'Pulse Insights'
   }
 ]
 
@@ -59,7 +60,7 @@ const Header = ({
       />
     </div>
     <Tabs
-      options={isLoggedIn ? tabs : [tabs[0]]}
+      options={isLoggedIn ? tabs : tabs.filter(({requiredLogin}) => !requiredLogin)}
       defaultSelectedIndex={tab}
       passSelectionIndexToItem
       className={styles.tabs}
@@ -79,7 +80,7 @@ const Empty = () => (
 
 const START_DATE = new Date()
 
-const isBaseLocation = tab => tab === baseLocation
+const isBaseLocation = tab => tab === baseLocation || tab === pulseLocation
 
 const getFeedAuthorType = tab => {
   if (isBaseLocation(tab) || !tab) {
@@ -102,6 +103,7 @@ const GeneralFeed = ({
   location: { pathname }
 }) => {
   const [tab, setTab] = useState(isLoggedIn ? pathname : baseLocation)
+  const [isPulse, setPulse] = useState(tab === pulseLocation)
   const [sortType, setSortType] = useState(DATETIME_SORT)
   const [filters, setFilters] = useState(getDefaultFilters(tab))
 
@@ -115,6 +117,7 @@ const GeneralFeed = ({
         ...filters,
         author: getFeedAuthorType(tab)
       })
+      setPulse(tab === pulseLocation)
     },
     [tab]
   )
@@ -168,7 +171,8 @@ const GeneralFeed = ({
         variables={makeFeedVariables({
           date: START_DATE,
           orderBy: sortType.type,
-          filterBy: filters
+          filterBy: filters,
+          isPulse
         })}
         notifyOnNetworkStatusChange={true}
         fetchPolicy='network-only'
@@ -192,6 +196,7 @@ const GeneralFeed = ({
               sortType={sortType}
               filters={filters}
               showProfileExplanation={isBaseLocation(tab)}
+              isPulse={isPulse}
             />
           )
         }}

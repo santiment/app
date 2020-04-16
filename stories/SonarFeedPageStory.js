@@ -1,7 +1,6 @@
 import React from 'react'
 import StoryRouter from 'storybook-react-router'
 import { storiesOf } from '@storybook/react'
-import SonarFeedActivityPage from '../src/pages/SonarFeed/SonarFeedActivityPage'
 import SignalCardsGrid from '../src/components/SignalCard/SignalCardsGrid'
 import SonarFeedMySignalsPage from '../src/pages/SonarFeed/SonarFeedMySignalsPage'
 
@@ -54,10 +53,6 @@ const defaultActivities = {
 
 const stories = storiesOf('Sonar feed', module)
 stories.addDecorator(StoryRouter())
-stories.add('Activities', () => (
-  <SonarFeedActivityPage activities={defaultActivities} />
-))
-stories.add('Activities (Empty)', () => <SonarFeedActivityPage />)
 
 stories.add('Explore', () => <SignalCardsGrid signals={defaultSignals} />)
 
