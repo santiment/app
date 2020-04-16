@@ -17,6 +17,7 @@ import styles from './GeneralFeed.module.scss'
 
 const baseLocation = '/feed'
 export const personalLocation = `${baseLocation}/personal`
+export const pulseLocation = `${baseLocation}/pulse`
 
 const tabs = [
   {
@@ -26,6 +27,10 @@ const tabs = [
   {
     index: personalLocation,
     content: 'Personal'
+  },
+  {
+    index: pulseLocation,
+    content: 'Pulse'
   }
 ]
 
