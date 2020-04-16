@@ -4,10 +4,6 @@ import debounce from 'lodash.debounce'
 import FeedList from './FeedList'
 import isEqual from 'lodash.isequal'
 
-const filterPulseInsights = (events) =>{
-  return events.filter(({post}) => post && post.isPulse);
-}
-
 class FeedListLoading extends React.Component {
   state = {
     isEndCommon: false,
@@ -42,13 +38,12 @@ class FeedListLoading extends React.Component {
       return null
     }
 
-    const { sortType, filters, isPulse } = this.props
+    const { sortType, filters } = this.props
 
     const variables = makeFeedVariables({
       date: events[events.length - 1].insertedAt,
       orderBy: sortType.type,
       filterBy: filters,
-      isPulse
     })
 
     return fetchMore({
@@ -90,7 +85,6 @@ class FeedListLoading extends React.Component {
       events: propEvents,
       sortType: propsSortType,
       filters: propFilters,
-      isPulse
     } = nextProps
     const {
       events: currentEvents,
@@ -100,8 +94,7 @@ class FeedListLoading extends React.Component {
 
     const isNewEventsList =
       !isEqual(propsSortType, stateSortType) ||
-      !isEqual(propFilters, stateFilters) ||
-      this.props.isPulse !== isPulse
+      !isEqual(propFilters, stateFilters)
 
     if (isNewEventsList) {
       this.setState({
@@ -117,7 +110,6 @@ class FeedListLoading extends React.Component {
 
     const filtered = this.getFilteredEvents({
       events: propEvents,
-      isPulse: isPulse
     });
 
     if (filtered.length > 0) {
@@ -140,16 +132,16 @@ class FeedListLoading extends React.Component {
     }
   }
 
-  getFilteredEvents({events, isPulse}) {
-    return isPulse ? filterPulseInsights(events) : events.filter(
+  getFilteredEvents({events}) {
+    return events.filter(
       ({ post, payload, trigger }) => post || (trigger && payload)
     )
   }
 
   render () {
-    const { isLoading, showProfileExplanation, isPulse } = this.props
+    const { isLoading, showProfileExplanation } = this.props
     const { isNewEventsList, events } = this.state
-    const filtered = this.getFilteredEvents({isPulse, events})
+    const filtered = this.getFilteredEvents({events})
 
     return (
       <FeedList

@@ -13,6 +13,7 @@ import FeedHelpPopup from './HelpPopup/FeedHelpPopup'
 import Tabs from '@santiment-network/ui/Tabs'
 import FeedFilters from '../filters/FeedFilters'
 import { AUTHOR_TYPES } from '../filters/AlertsAndInsightsFilter'
+import PulseInsights from "./PulseInsights/PulseInsights";
 import styles from './GeneralFeed.module.scss'
 
 const baseLocation = '/feed'
@@ -25,13 +26,13 @@ const tabs = [
     content: 'General'
   },
   {
-    index: personalLocation,
-    content: 'Personal',
-    requireLogin: true
+    index: pulseLocation,
+    content: 'Pulse'
   },
   {
-    index: pulseLocation,
-    content: 'Pulse Insights'
+    index: personalLocation,
+    content: 'My Feed',
+    requireLogin: true
   }
 ]
 
@@ -42,22 +43,25 @@ const Header = ({
   tab,
   onChangeFilters,
   filters,
-  isLoggedIn
+  isLoggedIn,
+  isPulse
 }) => (
   <div className={styles.header}>
     <div className={styles.title}>
       <div>Feed</div>
       <FeedHelpPopup />
-      <FeedFilters
-        handleFiltersChange={onChangeFilters}
-        filters={filters}
-        enableAlertsInsights={isBaseLocation(tab)}
-      />
-      <FeedSorters
-        className={styles.sort}
-        onChangeSort={onChangeSort}
-        sortType={sortType}
-      />
+      {!isPulse && <>
+        <FeedFilters
+          handleFiltersChange={onChangeFilters}
+          filters={filters}
+          enableAlertsInsights={isBaseLocation(tab)}
+        />
+        <FeedSorters
+          className={styles.sort}
+          onChangeSort={onChangeSort}
+          sortType={sortType}
+        />
+      </>}
     </div>
     <Tabs
       options={isLoggedIn ? tabs : tabs.filter(({requiredLogin}) => !requiredLogin)}
@@ -72,7 +76,7 @@ const Header = ({
   </div>
 )
 
-const Empty = () => (
+export const EmptyFeed = () => (
   <div className={styles.scrollable}>
     <PageLoader />
   </div>
@@ -146,6 +150,7 @@ const GeneralFeed = ({
           isLoggedIn={isLoggedIn}
           onChangeFilters={setFilters}
           filters={filters}
+          isPulse={isPulse}
         />
         <div className={styles.scrollable}>
           <PageLoader />
@@ -164,43 +169,45 @@ const GeneralFeed = ({
         tab={tab}
         onChangeFilters={setFilters}
         filters={filters}
+        isPulse={isPulse}
       />
 
-      <Query
-        query={FEED_QUERY}
-        variables={makeFeedVariables({
-          date: START_DATE,
-          orderBy: sortType.type,
-          filterBy: filters,
-          isPulse
-        })}
-        notifyOnNetworkStatusChange={true}
-        fetchPolicy='network-only'
-      >
-        {props => {
-          const {
-            data,
-            fetchMore: fetchMoreCommon,
-            loading: loadingEvents
-          } = props
+      <div className={styles.scrollable}>
 
-          if (!data) {
-            return <Empty />
-          }
+        {isPulse ? <PulseInsights/> : <Query
+          query={FEED_QUERY}
+          variables={makeFeedVariables({
+            date: START_DATE,
+            orderBy: sortType.type,
+            filterBy: filters,
+          })}
+          notifyOnNetworkStatusChange={true}
+          fetchPolicy='network-only'
+        >
+          {props => {
+            const {
+              data,
+              fetchMore: fetchMoreCommon,
+              loading: loadingEvents
+            } = props
 
-          return (
-            <FeedListLoading
-              events={extractEventsFromData(data)}
-              fetchMoreCommon={fetchMoreCommon}
-              isLoading={loadingEvents}
-              sortType={sortType}
-              filters={filters}
-              showProfileExplanation={isBaseLocation(tab)}
-              isPulse={isPulse}
-            />
-          )
-        }}
-      </Query>
+            if (!data) {
+              return <EmptyFeed />
+            }
+
+            return (
+              <FeedListLoading
+                events={extractEventsFromData(data)}
+                fetchMoreCommon={fetchMoreCommon}
+                isLoading={loadingEvents}
+                sortType={sortType}
+                filters={filters}
+                showProfileExplanation={isBaseLocation(tab)}
+              />
+            )
+          }}
+        </Query>}
+      </div>
     </div>
   )
 }
