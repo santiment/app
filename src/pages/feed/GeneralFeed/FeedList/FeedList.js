@@ -89,7 +89,7 @@ const FeedList = ({
   const groups = groupByDates(events)
 
   return (
-    <div className={externalStyles.scrollable}>
+    <>
       {hasData ? (
         groups.map((item, index) => {
           const { label, items } = item
@@ -121,7 +121,7 @@ const FeedList = ({
         <SonarFeedRecommendations description='There are not any activities yet' />
       )}
       {isLoading && <Loader className={styles.loader} />}
-    </div>
+    </>
   )
 }
 
