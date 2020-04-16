@@ -26,13 +26,13 @@ const tabs = [
     content: 'General'
   },
   {
+    index: pulseLocation,
+    content: 'Pulse Insights'
+  },
+  {
     index: personalLocation,
     content: 'Personal',
     requireLogin: true
-  },
-  {
-    index: pulseLocation,
-    content: 'Pulse Insights'
   }
 ]
 
