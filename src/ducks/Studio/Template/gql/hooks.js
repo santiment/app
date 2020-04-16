@@ -130,7 +130,7 @@ export function useUpdateTemplate () {
   const [mutate, data] = useMutation(UPDATE_TEMPLATE_MUTATION)
 
   function updateTemplate (oldTemplate, newConfig) {
-    const { id, title, project, metrics, isPublic } = oldTemplate
+    const { id, title, project, metrics } = oldTemplate
     const { projectId } = newConfig
 
     return mutate({
@@ -138,7 +138,7 @@ export function useUpdateTemplate () {
         id: +id,
         settings: {
           title: newConfig.title || title,
-          isPublic: newConfig.isPublic || isPublic,
+          isPublic: newConfig.isPublic,
           projectId: +(projectId || project.id),
           metrics: buildTemplateMetrics(newConfig) || metrics
         }
