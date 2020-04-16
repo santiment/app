@@ -1,0 +1,15 @@
+.wrapper {
+  background-image: url("insights-app/lib/static/pulse-icon.svg") !important;
+
+  :global {
+    .comments,
+    .stats button {
+      font-size: 14px;
+      line-height: 20px;
+
+      svg {
+        vertical-align: middle;
+      }
+    }
+  }
+}

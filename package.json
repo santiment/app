@@ -37,7 +37,7 @@
     "formik-effect": "^1.2.0",
     "graphql": "^0.11.7",
     "graphql-tag": "^2.5.0",
-    "insights-app": "https://github.com/santiment/insights-app#49c6963",
+    "insights-app": "https://github.com/santiment/insights-app#9f34c82",
     "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",
     "lodash.throttle": "^4.1.1",
