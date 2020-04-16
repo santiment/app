@@ -83,7 +83,7 @@ export const ALL_INSIGHTS_BY_PAGE_QUERY = gql`
 
 export const PULSE_INSIGHTS_BY_PAGE_QUERY = gql`
   query allInsights($page: Int) {
-    insights: allInsights(page: $page, pageSize: 3, isPulse: true) {
+    insights: allInsights(page: $page, pageSize: 10, isPulse: true) {
       text
       ...insightCommon
     }
