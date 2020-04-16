@@ -23,6 +23,7 @@ export const INSIGHT_COMMON_FRAGMENT = gql`
     shortDesc
     commentsCount
     isPaywallRequired
+    isPulse
     __typename
   }
 `
