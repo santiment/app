@@ -20,6 +20,7 @@ yarn-error.log*
 # editors
 # - emacs
 .#*
+.log
 
 .idea
 

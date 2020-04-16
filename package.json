@@ -37,7 +37,7 @@
     "formik-effect": "^1.2.0",
     "graphql": "^0.11.7",
     "graphql-tag": "^2.5.0",
-    "insights-app": "https://github.com/santiment/insights-app#49c6963",
+    "insights-app": "https://github.com/santiment/insights-app#0b5b24b",
     "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",
     "lodash.throttle": "^4.1.1",
@@ -149,7 +149,6 @@
   "lint-staged": {
     "linters": {
       "src/**/*.js": [
-        "yarn format",
         "git add"
       ],
       "*.{sass,scss,css}": [
