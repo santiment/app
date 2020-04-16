@@ -66,9 +66,11 @@ const BottomSlot = compose(withProject)(
         <PanelWithHeader header='General Info' className={styles.info__card}>
           <GeneralInfoBlock {...project} />
         </PanelWithHeader>
-        <PanelWithHeader header='Financials' className={styles.info__card}>
-          <FinancialsBlock {...project} />
-        </PanelWithHeader>
+        {project.fundsRaisedIcos && project.fundsRaisedIcos.length > 0 && (
+          <PanelWithHeader header='Financials' className={styles.info__card}>
+            <FinancialsBlock {...project} />
+          </PanelWithHeader>
+        )}
       </div>
 
       {isERC20 &&

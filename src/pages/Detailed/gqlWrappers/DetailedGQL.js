@@ -26,9 +26,6 @@ export const projectBySlugGQL = gql`
       slackLink
       infrastructure
       btcBalance
-      projectTransparency
-      projectTransparencyDescription
-      projectTransparencyStatus
       tokenAddress
       mainContractAddress
       fundsRaisedIcos {
