@@ -10,6 +10,8 @@ import {EmptyFeed} from "../GeneralFeed";
 import styles from "../FeedItemRenderer/FeedItemRenderer.module.scss";
 import feedlistStyles from "../FeedList/FeedList.module.scss";
 
+const MAX_INSIGHTS_COUNT = 10
+
 const PulseInsights = () => {
   const [page, setPage] = useState(1)
 
@@ -42,7 +44,8 @@ class InsightsList extends React.Component {
   unmounted = false;
 
   state = {
-    list: this.props.insights
+    list: this.props.insights,
+    isEnd: this.props.insights && this.props.insights.length < MAX_INSIGHTS_COUNT
   }
 
   handleScroll = debounce(event => {
@@ -65,7 +68,9 @@ class InsightsList extends React.Component {
           list: [...list, ...insights ]
         })
       }
-    } else {
+    }
+
+    if(!insight || insights.length < MAX_INSIGHTS_COUNT){
       this.setState({
         isEnd: true
       })
