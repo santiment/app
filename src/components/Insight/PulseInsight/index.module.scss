@@ -1,11 +1,26 @@
+@import '~@santiment-network/ui/mixins';
+
 .wrapper {
   background-image: url("insights-app/lib/static/pulse-icon.svg") !important;
 
   :global {
+    .text {
+      font-weight: normal;
+
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        @include text('caption');
+
+        margin: 0;
+      }
+    }
+
     .comments,
     .stats button {
-      font-size: 14px;
-      line-height: 20px;
+      @include text('body-3');
 
       svg {
         vertical-align: middle;
