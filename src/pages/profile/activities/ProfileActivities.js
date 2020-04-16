@@ -3,12 +3,15 @@ import cx from 'classnames'
 import PublicSignals from '../signals/PublicSignals'
 import PublicInsights from '../insights/PublicInsights'
 import PublicWatchlists from '../watchlists/PublicWatchlists'
+import { useUserTemplates } from '../../../ducks/Studio/Template/gql/hooks'
+import ProfileTemplates from '../templates/ProfileTemplates'
 import styles from './ProfileActivities.module.scss'
 
 const STEPS = {
   INSIGHTS: 1,
   SIGNALS: 2,
-  WATCHLISTS: 3
+  WATCHLISTS: 3,
+  TEMPLATES: 4
 }
 
 const Counter = ({ value }) => {
@@ -19,6 +22,10 @@ const ProfileActivities = ({ profile }) => {
   const { id: profileId, insights, triggers, watchlists } = profile
 
   const [step, setStep] = useState(STEPS.INSIGHTS)
+
+  const [templates] = useUserTemplates(profileId)
+
+  console.log(templates)
 
   return (
     <div className={styles.container}>
@@ -44,6 +51,12 @@ const ProfileActivities = ({ profile }) => {
         >
           Signals <Counter value={triggers.length} />
         </div>
+        <div
+          className={cx(styles.link, step === STEPS.TEMPLATES && styles.active)}
+          onClick={() => setStep(STEPS.TEMPLATES)}
+        >
+          Templates <Counter value={templates.length} />
+        </div>
       </div>
       <div className={styles.right}>
         {step === STEPS.INSIGHTS && (
@@ -54,6 +67,9 @@ const ProfileActivities = ({ profile }) => {
         )}
         {step === STEPS.WATCHLISTS && (
           <PublicWatchlists userId={profileId} data={watchlists} />
+        )}
+        {step === STEPS.TEMPLATES && (
+          <ProfileTemplates userId={profileId} data={templates} />
         )}
       </div>
     </div>

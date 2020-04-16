@@ -46,7 +46,7 @@ const Trigger = ({
         )}
       >
         <Icon type='cloud-small' className={styles.cloud} />
-        {selectedTemplate ? selectedTemplate.title : 'Save'}
+        {selectedTemplate ? selectedTemplate.title : 'Save as'}
       </div>
     </TooltipWrapper>
   )

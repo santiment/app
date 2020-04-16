@@ -14,6 +14,14 @@
   }
 }
 
+.unclickable {
+  cursor: auto;
+
+  &:hover {
+    background: initial;
+  }
+}
+
 .info {
   color: var(--waterloo);
 }
@@ -22,6 +30,7 @@
   margin-left: auto;
   fill: var(--casper);
   display: flex;
+  cursor: pointer;
 
   @include explanation('Private', 'top');
 
