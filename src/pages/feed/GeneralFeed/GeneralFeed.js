@@ -27,11 +27,11 @@ const tabs = [
   },
   {
     index: pulseLocation,
-    content: 'Pulse Insights'
+    content: 'Pulse'
   },
   {
     index: personalLocation,
-    content: 'Personal',
+    content: 'My Feed',
     requireLogin: true
   }
 ]
