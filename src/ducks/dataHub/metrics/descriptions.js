@@ -62,6 +62,32 @@ export const Description = {
     </>
   ),
 
+  [Metric.supply_on_exchanges.key]: (
+    <>
+      What amount of coins/tokens are stored in known exchange wallets. More info{' '}
+      <a
+        target='_blank'
+        rel='noopener noreferrer'
+        href='https://academy.santiment.net/metrics/supply-on-or-outside-exchanges/'
+      >
+        here
+      </a>
+    </>
+  ),
+
+  [Metric.supply_outside_exchanges.key]: (
+    <>
+      What amount of coins/tokens are stored outside known exchange wallets. More info{' '}
+      <a
+        target='_blank'
+        rel='noopener noreferrer'
+        href='https://academy.santiment.net/metrics/supply-on-or-outside-exchanges/'
+      >
+        here
+      </a>
+    </>
+  ),
+
   [Metric.percent_of_total_supply_on_exchanges.key]: (
     <>
       The percent of the total token supply which is on exchanges. More info{' '}
