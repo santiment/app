@@ -7,6 +7,7 @@ import {PULSE_INSIGHTS_BY_PAGE_QUERY} from "../../../../queries/InsightsGQL";
 import PulseInsightWrapper from "../../../../components/Insight/PulseInsight";
 import {isBottom} from "../utils";
 import {EmptyFeed} from "../GeneralFeed";
+import {groupByDates, RenderFeedGroups} from "../FeedList/FeedList";
 import styles from "../FeedItemRenderer/FeedItemRenderer.module.scss";
 import feedlistStyles from "../FeedList/FeedList.module.scss";
 
@@ -90,8 +91,12 @@ class InsightsList extends React.Component {
     const {list} = this.state
     const {isLoading} = this.props
 
+    const grouped = groupByDates(list)
+
     return <div className={feedlistStyles.block}>
-      {list.map(insight => <PulseInsightWrapper key={insight.id} insight={insight} className={cx(styles.card, styles.pulseInsight)} />)}
+      <RenderFeedGroups groups={grouped} groupRenderer={({items}) => {
+        return items.map(insight => <PulseInsightWrapper key={insight.id} insight={insight} className={cx(styles.card, styles.pulseInsight)} />)
+      }}/>
       {isLoading && <Loader className={feedlistStyles.loader} />}
     </div>
   }
