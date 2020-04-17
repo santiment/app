@@ -2,9 +2,9 @@ import React from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
-import styles from './SignalAnon.module.scss'
+import styles from './AnonBanner.module.scss'
 
-const SignalAnon = ({ className }) => (
+const AnonBanner = ({ className }) => (
   <div className={cx(styles.wrapper, className)}>
     <p>Please, log in to use this feature</p>
     <Button
@@ -20,4 +20,4 @@ const SignalAnon = ({ className }) => (
   </div>
 )
 
-export default SignalAnon
+export default AnonBanner

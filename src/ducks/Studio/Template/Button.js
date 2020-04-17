@@ -34,12 +34,13 @@ const Trigger = ({
   hasTemplates,
   selectedTemplate,
   saveTemplate,
-  openDialog
+  openDialog,
+  isLoggedIn
 }) => {
   return (
     <TooltipWrapper selectedTemplate={selectedTemplate}>
       <div
-        onClick={selectedTemplate ? saveTemplate : openDialog}
+        onClick={selectedTemplate && isLoggedIn ? saveTemplate : openDialog}
         className={cx(
           styles.btn__left,
           !hasTemplates && styles.btn__left_large
@@ -94,6 +95,7 @@ export default ({
             selectedTemplate={selectedTemplate}
             saveTemplate={saveTemplate}
             openDialog={openDialog}
+            isLoggedIn={isLoggedIn}
           />
         }
       />
