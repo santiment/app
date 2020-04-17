@@ -137,7 +137,10 @@ const Template = ({
                 onClose={closeMenu}
                 trigger={<Action>Duplicate template</Action>}
                 template={selectedTemplate}
-                onDuplicate={closeMenu}
+                onDuplicate={(template) => {
+                  closeMenu()
+                  selectTemplate(template)
+                }}
               />
             </>
           )}
