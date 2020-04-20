@@ -33,9 +33,9 @@ import { getConsentUrl } from './utils/utils'
 import CookiePopup from './components/CookiePopup/CookiePopup'
 import LogoutPage from './pages/Logout/Logout'
 import { mapSizesToProps } from './utils/withSizes'
+import CreateAccountFreeTrial from './pages/Login/CreateAccountFreeTrial'
 import styles from './App.module.scss'
 import './App.scss'
-import CreateAccountFreeTrial from './pages/Login/CreateAccountFreeTrial'
 
 export const PATHS = {
   FEED: '/feed',
@@ -44,7 +44,8 @@ export const PATHS = {
   LOGIN_VIA_EMAIL: '/login/email',
   CREATE_ACCOUNT: '/sign-up',
   GDPR: '/gdpr',
-  PRO_METRICS: '/pro-sheets-templates'
+  PRO_METRICS: '/pro-sheets-templates',
+  INDEX: '/index'
 }
 
 const FOOTER_DISABLED_FOR = [PATHS.FEED, PATHS.PRO_METRICS, PATHS.SOCIAL_TOOl]
@@ -57,6 +58,11 @@ const FOOTER_ABSOLUTE_FOR = [
 
 const LoadableProMetricsPage = Loadable({
   loader: () => import('./pages/ProMetrics/ProMetrics'),
+  loading: () => <PageLoader />
+})
+
+const LoadableMarketingPage = Loadable({
+  loader: () => import('./pages/Marketing/MarketingPage'),
   loading: () => <PageLoader />
 })
 
@@ -432,6 +438,12 @@ export const App = ({
           path={PATHS.PRO_METRICS}
           render={props => (
             <LoadableProMetricsPage isLoggedIn={isLoggedIn} {...props} />
+          )}
+        />
+        <Route
+          path={PATHS.INDEX}
+          render={props => (
+            <LoadableMarketingPage isLoggedIn={isLoggedIn} {...props} />
           )}
         />
         {!isDesktop && <Redirect from='/' to='/assets' />}
