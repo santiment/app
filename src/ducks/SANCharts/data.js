@@ -458,6 +458,15 @@ export const Metrics = {
     ),
     minInterval: '1d'
   },
+  mean_age: {
+    category: 'On-chain',
+    node: 'line',
+    Component: Line,
+    label: 'Mean Coin Age',
+    shortLabel: 'Mean C.A.',
+    abbreviation: 'mca',
+    isBeta: true
+  },
   nvt: {
     category: 'On-chain',
     node: 'line',

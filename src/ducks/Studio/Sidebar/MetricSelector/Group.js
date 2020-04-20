@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import {connect} from "react-redux";
 import MetricButton from './MetricButton'
 import { NO_GROUP } from '../utils'
 import { Metric } from '../../../dataHub/metrics'
@@ -17,7 +18,8 @@ const Group = ({
   toggleICOPrice,
   options,
   Submetrics,
-  isICOPriceDisabled
+  isICOPriceDisabled,
+  isBeta
 }) => {
   return (
     <>
@@ -25,6 +27,10 @@ const Group = ({
       {metrics.map(metric => {
         if (metric.hidden) {
           return null
+        }
+
+        if(metric.isBeta && !isBeta){
+          return null;
         }
 
         const submetrics = Submetrics[metric.key]
@@ -75,4 +81,8 @@ const Group = ({
   )
 }
 
-export default Group
+const mapStateToProps = state => ({
+  isBeta: state.rootUi.isBetaModeEnabled
+})
+
+export default connect(mapStateToProps)(Group)
