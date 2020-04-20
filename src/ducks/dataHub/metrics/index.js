@@ -200,6 +200,14 @@ export const Metric = {
     shortLabel: 'Mean D.I.A.',
     abbreviation: 'mdia'
   },
+  mean_age: {
+    category: 'On-chain',
+    node: 'line',
+    label: 'Mean Coin Age',
+    shortLabel: 'Mean C.A.',
+    abbreviation: 'mca',
+    isBeta: true
+  },
   nvt: {
     category: 'On-chain',
     node: 'line',
