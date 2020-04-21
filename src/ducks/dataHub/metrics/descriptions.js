@@ -220,6 +220,19 @@ export const Description = {
   [Metric.gasUsed.key]:
     'How much ETH has moved out of team wallets over time. While not tracked all the way to exchanges, this metric may suggest potential selling activity',
 
+  [Metric.mean_age.key]: (
+    <>
+      The average age of all coins/tokens on the blockchain. More info{' '}
+      <a
+        target='_blank'
+        rel='noopener noreferrer'
+        href='https://academy.santiment.net/metrics/mean-coin-age/'
+      >
+        here
+      </a>
+    </>
+  ),
+
   [Metric.mean_dollar_invested_age.key]: (
     <>
       For each coin we see how long it has stayed at its current address and we
