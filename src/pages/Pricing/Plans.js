@@ -60,7 +60,6 @@ const Plans = ({ id, classes = {}, subscription, isLoggedIn }) => {
           .filter(
             ({ name, interval }) => interval === billing || name === 'FREE'
           )
-          .sort(({ id: a }, { id: b }) => a - b)
           .map(plan =>
             plan.name === 'ENTERPRISE' ? (
               <Enterprise key={plan.id} />
