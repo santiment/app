@@ -128,7 +128,7 @@ export const RenderFeedGroupItems = ({items, groupIndex, showProfileExplanation}
         </div>
 
         {item.addStories && (
-          <StoriesList classes={styles} showScrollBtns={true} />
+          <StoriesList classes={styles} showScrollBtns />
         )}
       </Fragment>
     ))}

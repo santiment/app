@@ -2,9 +2,8 @@ import React from 'react'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import Panel from '@santiment-network/ui/Panel/Panel'
-import { TYPES } from './utils'
-import styles from './StoryPreview.module.scss'
 import { addDays } from '../../utils/dates'
+import styles from './StoryPreview.module.scss'
 
 const LIMIT_DAYS = 7
 
@@ -15,18 +14,19 @@ const StoryPreview = ({
   previewImage,
   createdAt,
   type,
+  isTutorial,
   ...info
 }) => {
   const isNew = addDays(new Date(), -1 * LIMIT_DAYS) <= new Date(createdAt)
 
   return (
-    <Panel className={cx(styles.wrapper, className)} onClick={onClick}>
+    <Panel className={cx(styles.wrapper, className, isTutorial && styles.tutorial)} onClick={onClick}>
       <div className={styles.info}>
         <h4 className={styles.heading}>
           {isNew && (
             <Label
               className={styles.newLabel}
-              accent={TYPES[type].color}
+              accent={isTutorial ? 'heliotrope' : 'jungle-green'}
               variant='fill'
             >
               NEW

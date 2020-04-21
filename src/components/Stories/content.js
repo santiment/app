@@ -47,6 +47,7 @@ export const stories = [
     type: 'SLIDES',
     previewTitle: 'Platform features',
     storyHeaderName: 'Platform features',
+    isTutorial: true,
     slides: [
       {
         description: (
@@ -209,6 +210,7 @@ export const stories = [
     type: 'SLIDES',
     previewTitle: 'Important facts about MakerDAO',
     storyHeaderName: 'Important facts about MakerDAO',
+    isTutorial: true,
     slides: [
       {
         title: 'The DAI stable coin might not seem 100% “stable”',
@@ -382,6 +384,7 @@ export const stories = [
     type: 'VIDEO',
     previewTitle: 'Sonar Introduction',
     storyHeaderName: 'Tips & Trics',
+    isTutorial: true,
     minutes: 5,
     slides: [
       {
@@ -397,6 +400,7 @@ export const stories = [
     type: 'VIDEO',
     previewTitle: 'How to create a signal',
     storyHeaderName: 'Tips & Trics',
+    isTutorial: true,
     minutes: 2,
     slides: [
       {
@@ -414,6 +418,7 @@ export const stories = [
     previewTitle: 'How to create a watchlist',
     storyHeaderName: 'Tips & Trics',
     minutes: 3,
+    isTutorial: true,
     slides: [
       {
         title: 'How to create a watchlist',
