@@ -89,15 +89,13 @@ const TrendsExplore = ({
           </div>
           {topic ? (
             <SocialTool
-              settings={{ slug: detectedAsset ? detectedAsset.slug : topic }}
-              detectedAsset={detectedAsset}
+              settings={{ slug: topic }}
             />
           ) : (
             <NoDataTemplate />
           )}
         </div>
         <Sidebar
-          detectedAsset={detectedAsset}
           topic={topic}
           hasPremium={hasPremium}
         />
