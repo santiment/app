@@ -4,3 +4,23 @@
   padding: 0 !important;
   max-width: 100% !important;
 }
+
+.stories {
+  margin: 9px 0 12px 0;
+}
+
+.subTitle {
+  color: var(--rhino);
+  margin-bottom: 24px;
+
+  @include text('h4', 'm');
+}
+
+.inner {
+  max-width: 1152px;
+  margin: auto;
+}
+
+.block {
+  margin-bottom: 64px;
+}
