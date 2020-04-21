@@ -6,6 +6,7 @@ import WatchlistCards from "../../components/Watchlists/WatchlistCards";
 import {CATEGORIES} from "../assets/assets-overview-constants";
 import styles from './MarketingPage.module.scss'
 import FeaturedInsightsGrid from "../../components/FeaturedInsights/FeaturedInsightsGrid";
+import FundamentalReports from "./FundamentalReports/FundamentalReports";
 
 const MarketingPage = () => {
   return <div className={cx('page', styles.container)}>
@@ -22,12 +23,13 @@ const MarketingPage = () => {
 
         <div>
           <div className={styles.subTitle}>Weekly Insights</div>
-          <FeaturedInsightsGrid classes={styles} />
+          <FeaturedInsightsGrid classes={styles} withAuthorPic />
         </div>
 
-        <div>
+        <div className={styles.reports}>
           <div className={styles.subTitle}>Fundamental Reports</div>
-          Why those reports are hidden?
+
+          <FundamentalReports />
         </div>
       </div>
 
