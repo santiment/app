@@ -465,6 +465,19 @@ export const Metrics = {
     label: 'Mean Coin Age',
     shortLabel: 'Mean C.A.',
     abbreviation: 'mca',
+    description: (
+      <>
+        The average age of all coins/tokens on the blockchain. More info{' '}
+        <a
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://academy.santiment.net/metrics/mean-coin-age/'
+        >
+          here
+        </a>
+      </>
+    ),
+    minInterval: '1d',
     isBeta: true
   },
   nvt: {
