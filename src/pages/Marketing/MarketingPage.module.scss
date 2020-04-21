@@ -24,3 +24,13 @@
 .block {
   margin-bottom: 64px;
 }
+
+.insightsBlocks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 24px;
+}
+
+.insights {
+  grid-template-columns: 1fr !important;
+}

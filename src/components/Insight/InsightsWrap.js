@@ -1,12 +1,13 @@
 import React from 'react'
+import cx from 'classnames'
 import withSizes from 'react-sizes'
 import InsightCard from './InsightCard'
 import { mapSizesToProps } from '../../utils/withSizes'
 import styles from './InsightsWrap.module.scss'
 
-const InsightsWrap = ({ insights, isDesktop, withAuthorPic = false }) => {
+const InsightsWrap = ({ insights, isDesktop, withAuthorPic = false, classes = {} }) => {
   return (
-    <div className={styles.insights}>
+    <div className={cx(styles.insights, classes.insights)}>
       {insights.slice(0, 9).map(insight => (
         <InsightCard
           isDesktop={isDesktop}
