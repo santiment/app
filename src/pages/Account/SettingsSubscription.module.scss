@@ -59,3 +59,15 @@
   height: auto;
   background: transparent;
 }
+
+.deprecated {
+  @include text('caption');
+
+  display: inline-block;
+  background: var(--jungle-green-light-2);
+  padding: 3px 8px;
+  border-radius: 2px;
+  margin-left: 10px;
+  position: relative;
+  top: -4px;
+}
