@@ -12,6 +12,7 @@ export const USER_SUBSCRIPTIONS_QUERY = gql`
         plan {
           id
           name
+          isDeprecated
           amount
           interval
           product {
@@ -34,6 +35,7 @@ export const PLANS_QUERY = gql`
         name
         amount
         interval
+        isDeprecated
       }
     }
   }

@@ -30,7 +30,7 @@ const PlanText = ({ subscription }) => {
     const {
       currentPeriodEnd,
       cancelAtPeriodEnd,
-      plan: { amount, name, interval },
+      plan: { amount, name, interval, isDeprecated },
       trialEnd
     } = subscription
 
@@ -42,6 +42,9 @@ const PlanText = ({ subscription }) => {
       <>
         <div className={styles.title}>
           {PLANS[name].title} Plan {getTrialLabel(trialEnd)}
+          {isDeprecated && (
+            <span className={styles.deprecated}>Deprecated</span>
+          )}
         </div>
         {trialEnd ? null : (
           <div className={styles.desc}>

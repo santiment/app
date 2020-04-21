@@ -51,7 +51,6 @@ const Plans = ({
           .filter(
             ({ name, interval }) => interval === billing || name === 'FREE'
           )
-          .sort(({ id: a }, { id: b }) => a - b)
           .map(plan => (
             <Plan
               key={plan.id}
