@@ -10,7 +10,7 @@ export const Description = {
       <a
         target='_blank'
         rel='noopener noreferrer'
-        href='https://academy.santiment.net/metrics/social-volume-metrics/'
+        href='https://academy.santiment.net/metrics/social-volume/'
       >
         here
       </a>
