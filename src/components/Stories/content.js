@@ -210,7 +210,6 @@ export const stories = [
     type: 'SLIDES',
     previewTitle: 'Important facts about MakerDAO',
     storyHeaderName: 'Important facts about MakerDAO',
-    isTutorial: true,
     slides: [
       {
         title: 'The DAI stable coin might not seem 100% “stable”',

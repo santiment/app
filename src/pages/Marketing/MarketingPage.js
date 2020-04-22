@@ -12,7 +12,7 @@ import PublicTemplates from "./PublicTemplates/PublicTemplates";
 const MarketingPage = () => {
   return <div className={cx('page', styles.container)}>
 
-    <StoriesList classes={styles} showScrollBtns />
+    <StoriesList classes={styles} showScrollBtns showShadows />
 
     <div className={styles.inner}>
       <div className={styles.block}>

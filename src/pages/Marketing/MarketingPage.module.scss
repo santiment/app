@@ -3,10 +3,14 @@
 .container {
   padding: 0 !important;
   max-width: 100% !important;
+  position: relative;
 }
 
 .stories {
   margin: 9px 0 12px 0;
+  max-width: 100%;
+  position: relative;
+  padding: 0 40px;
 }
 
 .subTitle {

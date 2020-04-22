@@ -29,7 +29,7 @@ const ScrollBtn = ({ isRight, show = true, onClick }) => {
 
 const SCROLL_OFFSET = 300
 
-const StoriesList = ({ classes = {}, showScrollBtns }) => {
+const StoriesList = ({ classes = {}, showScrollBtns, showShadows = false }) => {
   const [selected, setSelected] = useState()
 
   const [canScrollLeft, setLeft] = useState(false)
@@ -50,7 +50,11 @@ const StoriesList = ({ classes = {}, showScrollBtns }) => {
   }
 
   return (
-    <section className={cx(styles.list, classes.stories)}>
+    <section className={cx(styles.list, classes.stories,
+      showShadows && showScrollBtns && canScrollLeft && styles.hideLeft,
+      showShadows && showScrollBtns && canScrollRight && styles.hideRight
+      )}
+             style={{ '--offset': showShadows ? '56px' : '24px' }}>
       {showScrollBtns && canScrollLeft && (
         <DesktopOnly>
           <ScrollBtn
