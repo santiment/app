@@ -7,6 +7,7 @@ import {CATEGORIES} from "../assets/assets-overview-constants";
 import styles from './MarketingPage.module.scss'
 import FeaturedInsightsGrid from "../../components/FeaturedInsights/FeaturedInsightsGrid";
 import FundamentalReports from "./FundamentalReports/FundamentalReports";
+import PublicTemplates from "./PublicTemplates/PublicTemplates";
 
 const MarketingPage = () => {
   return <div className={cx('page', styles.container)}>
@@ -19,11 +20,17 @@ const MarketingPage = () => {
         <WatchlistCards watchlists={CATEGORIES}/>
       </div>
 
+      <div className={styles.block}>
+        <div className={styles.subTitle}>Explore Templates</div>
+
+        <PublicTemplates/>
+      </div>
+
       <div className={cx(styles.block, styles.insightsReports)}>
 
         <div>
           <div className={styles.subTitle}>Weekly Insights</div>
-          <FeaturedInsightsGrid classes={styles} withAuthorPic />
+          <FeaturedInsightsGrid classes={styles} withAuthorPic limit={3} />
         </div>
 
         <div className={styles.reports}>

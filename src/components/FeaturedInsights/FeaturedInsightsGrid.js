@@ -4,8 +4,8 @@ import { FEATURED_INSIGHTS_QUERY } from './../../queries/InsightsGQL'
 import { creationDateSort } from '../Insight/utils'
 import InsightsWrap from '../Insight/InsightsWrap'
 
-const FeaturedInsightsGrid = ({ data: { insights = [] }, withAuthorPic, classes }) => {
-  const sortedInsights = insights.sort(creationDateSort).slice(0, 6)
+const FeaturedInsightsGrid = ({ data: { insights = [] }, withAuthorPic, classes, limit = 6 }) => {
+  const sortedInsights = insights.sort(creationDateSort).slice(0, limit)
   return <InsightsWrap insights={sortedInsights} classes={classes} withAuthorPic={withAuthorPic}/>
 }
 
