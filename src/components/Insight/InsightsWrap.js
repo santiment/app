@@ -16,6 +16,7 @@ const InsightsWrap = ({ insights, isDesktop, withAuthorPic = false, classes = {}
           {...insight}
           key={insight.id}
           showDate={true}
+          className={cx(styles.insightCard, classes.insightCard)}
         />
       ))}
     </div>

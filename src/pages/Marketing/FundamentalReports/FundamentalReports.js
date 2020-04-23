@@ -26,6 +26,10 @@ const FundamentalReports = ({isDesktop, isProSanbase}) => {
                 return <Loader className={styles.loader} />
               }
 
+              if(!insight){
+                return null
+              }
+
               return <InsightCard
                 isDesktop={isDesktop}
                 disabled
