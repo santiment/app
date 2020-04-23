@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
+import {connect} from "react-redux";
 import Dialog from '@santiment-network/ui/Dialog'
 import Icon from '@santiment-network/ui/Icon'
 import StoryPreview from './StoryPreview'
@@ -29,7 +30,7 @@ const ScrollBtn = ({ isRight, show = true, onClick }) => {
 
 const SCROLL_OFFSET = 300
 
-const StoriesList = ({ classes = {}, showScrollBtns }) => {
+const StoriesList = ({ classes = {}, showScrollBtns, isNightModeEnabled, showShadows = false }) => {
   const [selected, setSelected] = useState()
 
   const [canScrollLeft, setLeft] = useState(false)
@@ -50,7 +51,15 @@ const StoriesList = ({ classes = {}, showScrollBtns }) => {
   }
 
   return (
-    <section className={cx(styles.list, classes.stories)}>
+    <section className={cx(styles.list, classes.stories,
+      showShadows && showScrollBtns && canScrollLeft && styles.hideLeft,
+      showShadows && showScrollBtns && canScrollRight && styles.hideRight
+      )}
+             style={{
+               '--offset': showShadows ? '56px' : '24px',
+               '--shadowFrom': isNightModeEnabled ? 'rgba(24, 27, 43, 0)' : 'rgba(255, 255, 255, 0)',
+               '--shadowTo':  isNightModeEnabled ? 'rgba(24, 27, 43, 0.9)' : 'rgba(255, 255, 255, 0.9)'
+             }}>
       {showScrollBtns && canScrollLeft && (
         <DesktopOnly>
           <ScrollBtn
@@ -105,4 +114,8 @@ const StoriesList = ({ classes = {}, showScrollBtns }) => {
   )
 }
 
-export default StoriesList
+const mapStateToProps = ({rootUi: {isNightModeEnabled}}) => ({
+  isNightModeEnabled: isNightModeEnabled,
+})
+
+export default connect(mapStateToProps)(StoriesList)
