@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import {push} from "react-router-redux";
+import {connect} from "react-redux";
+import {stringify} from "query-string";
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import { useDeleteTemplate, useUpdateTemplate } from '../../gql/hooks'
@@ -11,7 +14,9 @@ const Template = ({
   rerenderTemplates,
   rerenderTemplate,
   isAuthor = true,
-  className
+  asLink = false,
+  className,
+  redirect
 }) => {
   const { title, metrics, project } = template
   const [isPublic, setIsPublic] = useState(template.isPublic)
@@ -39,6 +44,20 @@ const Template = ({
     if (target === currentTarget) {
       selectTemplate && selectTemplate(template)
     }
+
+    if(asLink){
+      const {slug} = project
+
+      const Shareable = {
+        metrics
+      }
+
+      const link = `/projects/${slug}?` + stringify(Shareable, {
+        arrayFormat: 'comma'
+      })
+
+      redirect(link)
+    }
   }
 
   function onDeleteClick () {
@@ -57,7 +76,6 @@ const Template = ({
       className={cx(
         styles.wrapper,
         className,
-        !selectTemplate && styles.unclickable
       )}
       onClick={onTemplateClick}
     >
@@ -93,4 +111,10 @@ const Template = ({
   )
 }
 
-export default Template
+const mapDispatchToProps = dispatch => ({
+  redirect: (route) => {
+    dispatch(push(route))
+  }
+})
+
+export default connect(null, mapDispatchToProps)(Template)

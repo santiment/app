@@ -63,3 +63,5 @@ export const sortBy = sortBy => (a, b) => simpleSort(a[sortBy], b[sortBy])
 
 export const sortByAsDates = (sortBy, isDesc) => (a, b) =>
   sortDate(a[sortBy], b[sortBy], isDesc)
+
+export const sortById = (a, b) => b.id - a.id
