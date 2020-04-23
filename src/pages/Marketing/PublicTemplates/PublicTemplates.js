@@ -5,15 +5,15 @@ import {TEMPLATES} from "./utils";
 import Icon from "@santiment-network/ui/Icon";
 import {getCurrentSanbaseSubscription} from "../../../utils/plans";
 import {PRO} from "../../../components/Navbar/NavbarProfileDropdown";
-import styles from './PublicTemplates.module.scss'
 import UpgradeBtn from "../../../components/UpgradeBtn/UpgradeBtn";
+import styles from './PublicTemplates.module.scss'
 
 const PublicTemplates = ({isProSanbase}) => {
   return <div className={styles.container}>
     {TEMPLATES.map(({link, title, description, isProRequired}) => {
       const requirePro = isProRequired && !isProSanbase
 
-      return <div className={cx(styles.template, requirePro && styles.proTemplate)}>
+      return <div key={title} className={cx(styles.template, requirePro && styles.proTemplate)}>
         <div className={styles.title}>{title}</div>
 
         <div className={styles.description}>{description}</div>

@@ -10,7 +10,7 @@ const NonProBanner = () => {
       To unlock the full potential of Santiment metrics you need to upgrade your account to PRO
     </div>
 
-    <UpgradeBtn/>
+    <UpgradeBtn className={styles.upgradeBtn}/>
   </div>
 }
 

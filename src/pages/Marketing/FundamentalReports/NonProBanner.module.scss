@@ -31,3 +31,9 @@
   word-break: break-word;
   text-align: center;
 }
+
+.upgradeBtn {
+  @include responsive('phone', 'phone-xs') {
+    max-width: 200px;
+  }
+}

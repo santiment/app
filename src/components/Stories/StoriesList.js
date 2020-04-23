@@ -8,6 +8,7 @@ import Story from './Story'
 import { stories } from './content'
 import { DesktopOnly } from '../Responsive'
 import styles from './StoriesList.module.scss'
+import {connect} from "react-redux";
 
 const ScrollBtn = ({ isRight, show = true, onClick }) => {
   if (!show) {
@@ -29,7 +30,7 @@ const ScrollBtn = ({ isRight, show = true, onClick }) => {
 
 const SCROLL_OFFSET = 300
 
-const StoriesList = ({ classes = {}, showScrollBtns, showShadows = false }) => {
+const StoriesList = ({ classes = {}, showScrollBtns, isNightModeEnabled, showShadows = false }) => {
   const [selected, setSelected] = useState()
 
   const [canScrollLeft, setLeft] = useState(false)
@@ -54,7 +55,11 @@ const StoriesList = ({ classes = {}, showScrollBtns, showShadows = false }) => {
       showShadows && showScrollBtns && canScrollLeft && styles.hideLeft,
       showShadows && showScrollBtns && canScrollRight && styles.hideRight
       )}
-             style={{ '--offset': showShadows ? '56px' : '24px' }}>
+             style={{
+               '--offset': showShadows ? '56px' : '24px',
+               '--shadowFrom': isNightModeEnabled ? 'rgba(24, 27, 43, 0)' : 'rgba(255, 255, 255, 0)',
+               '--shadowTo':  isNightModeEnabled ? 'rgba(24, 27, 43, 0.9)' : 'rgba(255, 255, 255, 0.9)'
+             }}>
       {showScrollBtns && canScrollLeft && (
         <DesktopOnly>
           <ScrollBtn
@@ -109,4 +114,10 @@ const StoriesList = ({ classes = {}, showScrollBtns, showShadows = false }) => {
   )
 }
 
-export default StoriesList
+const mapStateToProps = ({rootUi: {isNightModeEnabled}}) => {
+  return {
+    isNightModeEnabled: isNightModeEnabled,
+  }
+}
+
+export default connect(mapStateToProps)(StoriesList)

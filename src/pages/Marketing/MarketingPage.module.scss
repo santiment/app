@@ -11,6 +11,10 @@
   max-width: 100%;
   position: relative;
   padding: 0 40px;
+
+  @include responsive('phone', 'phone-xs') {
+    padding: 0;
+  }
 }
 
 .subTitle {
@@ -23,16 +27,28 @@
 .inner {
   max-width: 1152px;
   margin: auto;
+
+  @include responsive('phone', 'phone-xs') {
+    padding: 0 16px;
+  }
 }
 
 .block {
   margin-bottom: 64px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-bottom: 48px;
+  }
 }
 
 .insightsReports {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 24px;
+
+  @include responsive('phone', 'phone-xs') {
+    grid-template-columns: 1fr;
+  }
 }
 
 .insights {
@@ -43,4 +59,12 @@
   display: flex;
   align-items: stretch;
   flex-direction: column;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-top: 48px;
+  }
+}
+
+.watchlists {
+  margin: 0;
 }

@@ -4,9 +4,9 @@ import { compose } from 'recompose'
 import {connect} from "react-redux";
 import withSizes from "react-sizes";
 import cx from 'classnames'
+import Loader from "@santiment-network/ui/Loader/Loader";
 import {mapSizesToProps} from "../../../utils/withSizes";
 import {INSIGHT_BY_ID_QUERY} from "../../../queries/InsightsGQL";
-import Loader from "@santiment-network/ui/Loader/Loader";
 import InsightCard from "../../../components/Insight/InsightCard";
 import {getCurrentSanbaseSubscription} from "../../../utils/plans";
 import {PRO} from "../../../components/Navbar/NavbarProfileDropdown";

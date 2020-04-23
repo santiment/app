@@ -1,23 +1,33 @@
 import React from 'react'
 import cx from "classnames";
-import ProMetricsFooter from "../ProMetrics/ProMetricsFooter/ProMetricsFooter";
+import CommonFooter from "../ProMetrics/ProMetricsFooter/CommonFooter";
 import StoriesList from "../../components/Stories/StoriesList";
 import WatchlistCards from "../../components/Watchlists/WatchlistCards";
 import {CATEGORIES} from "../assets/assets-overview-constants";
-import styles from './MarketingPage.module.scss'
 import FeaturedInsightsGrid from "../../components/FeaturedInsights/FeaturedInsightsGrid";
 import FundamentalReports from "./FundamentalReports/FundamentalReports";
 import PublicTemplates from "./PublicTemplates/PublicTemplates";
+import MobileHeader from "../../components/MobileHeader/MobileHeader";
+import {MobileOnly} from "../../components/Responsive";
+import styles from './MarketingPage.module.scss'
 
-const MarketingPage = () => {
+const MarketingPage = ({history}) => {
   return <div className={cx('page', styles.container)}>
+
+    <MobileOnly>
+      <MobileHeader
+        showBack={true}
+        goBack={history.goBack}
+        classes={styles}
+      />
+    </MobileOnly>
 
     <StoriesList classes={styles} showScrollBtns showShadows />
 
     <div className={styles.inner}>
       <div className={styles.block}>
         <div className={styles.subTitle}>Indices</div>
-        <WatchlistCards watchlists={CATEGORIES}/>
+        <WatchlistCards watchlists={CATEGORIES} classes={styles}/>
       </div>
 
       <div className={styles.block}>
@@ -27,7 +37,6 @@ const MarketingPage = () => {
       </div>
 
       <div className={cx(styles.block, styles.insightsReports)}>
-
         <div>
           <div className={styles.subTitle}>Weekly Insights</div>
           <FeaturedInsightsGrid classes={styles} withAuthorPic limit={3} />
@@ -42,17 +51,17 @@ const MarketingPage = () => {
 
       <div className={styles.block}>
         <div className={styles.subTitle}>Insights Signals Leaderboard</div>
-        <iframe title='insights' className="airtable-embed"
+        <iframe title='Insights table' className="airtable-embed"
                 src="https://airtable.com/embed/shrCwTMKbFLiRn3Eq?backgroundColor=gray&viewControls=on" frameBorder="0"
-                onmousewheel="" width="100%" height="533"
+                width="100%" height="533"
                 style={{
                   background: "transparent",
-                  border: "1px solid #ccc"
+                  border: "none"
                 }}></iframe>
       </div>
     </div>
 
-    <ProMetricsFooter />
+    <CommonFooter />
   </div>
 }
 

@@ -4,6 +4,14 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 24px;
+
+  @include responsive('phone', 'phone-xs') {
+    grid-template-columns: 1fr;
+  }
+
+  @include responsive('laptop', 'tablet') {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .useLink {
@@ -12,6 +20,8 @@
   color: var(--jungle-green);
   fill: var(--jungle-green);
   margin-top: 12px;
+
+  @include text('body-2');
 
   &:hover {
     color: var(--jungle-green-hover);
@@ -50,7 +60,7 @@
 }
 
 .block {
-  margin-top: 24px;
+  margin-top: 6px;
 }
 
 .proIcon {
