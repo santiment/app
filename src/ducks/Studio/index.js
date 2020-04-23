@@ -123,8 +123,7 @@ const Studio = ({
   useEffect(
     () => {
       if (
-        chartSidepane === TOP_HOLDERS_PANE &&
-        (settings.slug !== 'ethereum' || options.isMultiChartsActive)
+        chartSidepane === TOP_HOLDERS_PANE && options.isMultiChartsActive
       ) {
         setChartSidepane()
       }

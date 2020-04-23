@@ -3,7 +3,7 @@ import Dialog from '@santiment-network/ui/Dialog'
 import GA from '../../../utils/tracking'
 import PageLoader from '../../../components/Loader/PageLoader'
 import SignalMaster from '../signalFormManager/signalMaster/SignalMaster'
-import SignalAnon from './SignalAnon'
+import AnonBanner from '../../../components/AnonBanner/AnonBanner'
 import {
   NoSignal,
   signalModalTrigger,
@@ -127,7 +127,7 @@ const SignalDialog = ({
           />
         )}
 
-        {(isAnonWarning || !canOpen) && <SignalAnon className={styles.anon} />}
+        {(isAnonWarning || !canOpen) && <AnonBanner className={styles.anon} />}
       </Dialog.ScrollContent>
     </Dialog>
   )

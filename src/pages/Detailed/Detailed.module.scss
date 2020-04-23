@@ -29,6 +29,7 @@
 
   &__card {
     flex: 1;
+    max-width: calc(50% - 16px);
 
     &:first-child {
       margin-right: 16px;

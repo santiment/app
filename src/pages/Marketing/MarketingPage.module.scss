@@ -1,0 +1,74 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  padding: 0 !important;
+  max-width: 100% !important;
+  position: relative;
+}
+
+.stories {
+  margin: 9px 0 12px 0;
+  max-width: 100%;
+  position: relative;
+  padding: 0 40px;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    padding: 0;
+  }
+}
+
+.subTitle {
+  color: var(--rhino);
+  margin-bottom: 24px;
+
+  @include text('h4', 'm');
+}
+
+.inner {
+  max-width: 1152px;
+  margin: auto;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    padding: 0 16px;
+  }
+}
+
+.block {
+  margin-bottom: 64px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-bottom: 48px;
+  }
+}
+
+.insightsReports {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 24px;
+
+  @include responsive('phone', 'phone-xs') {
+    grid-template-columns: 1fr;
+  }
+}
+
+.insights {
+  grid-template-columns: 1fr !important;
+}
+
+.insightCard {
+  box-shadow: 0 2px 8px rgba(59, 84, 106, 0.03), 0 1px 2px rgba(59, 84, 106, 0.03);
+}
+
+.reports {
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-top: 48px;
+  }
+}
+
+.watchlists {
+  margin: 0;
+}

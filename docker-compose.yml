@@ -18,6 +18,6 @@ services:
     ports:
       - 8000:3000
     volumes:
-      - ./src:/usr/src/app/src
-      - ./public:/usr/src/app/public
+      - ./src:/app/src
+      - ./public:/app/public
     command: /bin/bash -c "yarn start"

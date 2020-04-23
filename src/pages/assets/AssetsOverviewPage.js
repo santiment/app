@@ -16,7 +16,6 @@ import styles from './AssetsOverview.module.scss'
 import Trends from '../../components/Trends/Trends'
 
 const AssetsOverview = ({
-  slugs,
   isLoggedIn,
   isLoggedInPending,
   isPublicWatchlistsLoading,
@@ -33,7 +32,7 @@ const AssetsOverview = ({
       <DesktopOnly>
         <h4 className={styles.heading}>Indices</h4>
         <div className={styles.section}>
-          <WatchlistCards watchlists={CATEGORIES} slugs={slugs} />
+          <WatchlistCards watchlists={CATEGORIES}/>
         </div>
         <div className={styles.section}>
           <MyWatchlist

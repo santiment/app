@@ -11,6 +11,11 @@ jest.mock('../../components/Insight/comments/Comments.js', () => ({
   default: () => <div />
 }))
 
+jest.mock('../../components/Insight/PulseInsight/index.js', () => ({
+  __esModule: true,
+  default: () => <div />
+}))
+
 describe('Project detail page container', () => {
   it('it should render correctly', () => {
     const store = configureStore([])({

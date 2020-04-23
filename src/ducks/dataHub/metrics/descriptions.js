@@ -10,7 +10,7 @@ export const Description = {
       <a
         target='_blank'
         rel='noopener noreferrer'
-        href='https://academy.santiment.net/metrics/social-volume-metrics/'
+        href='https://academy.santiment.net/metrics/social-volume/'
       >
         here
       </a>
@@ -56,6 +56,32 @@ export const Description = {
         target='_blank'
         rel='noopener noreferrer'
         href='https://academy.santiment.net/metrics/daily-active-addresses/'
+      >
+        here
+      </a>
+    </>
+  ),
+
+  [Metric.supply_on_exchanges.key]: (
+    <>
+      What amount of coins/tokens are stored in known exchange wallets. More info{' '}
+      <a
+        target='_blank'
+        rel='noopener noreferrer'
+        href='https://academy.santiment.net/metrics/supply-on-or-outside-exchanges/'
+      >
+        here
+      </a>
+    </>
+  ),
+
+  [Metric.supply_outside_exchanges.key]: (
+    <>
+      What amount of coins/tokens are stored outside known exchange wallets. More info{' '}
+      <a
+        target='_blank'
+        rel='noopener noreferrer'
+        href='https://academy.santiment.net/metrics/supply-on-or-outside-exchanges/'
       >
         here
       </a>
@@ -193,6 +219,19 @@ export const Description = {
 
   [Metric.gasUsed.key]:
     'How much ETH has moved out of team wallets over time. While not tracked all the way to exchanges, this metric may suggest potential selling activity',
+
+  [Metric.mean_age.key]: (
+    <>
+      The average age of all coins/tokens on the blockchain. More info{' '}
+      <a
+        target='_blank'
+        rel='noopener noreferrer'
+        href='https://academy.santiment.net/metrics/mean-coin-age/'
+      >
+        here
+      </a>
+    </>
+  ),
 
   [Metric.mean_dollar_invested_age.key]: (
     <>

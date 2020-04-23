@@ -23,6 +23,7 @@ export const INSIGHT_COMMON_FRAGMENT = gql`
     shortDesc
     commentsCount
     isPaywallRequired
+    isPulse
     __typename
   }
 `
@@ -56,6 +57,16 @@ export const ALL_TAGS_QUERY = gql`
 export const ALL_INSIGHTS_BY_PAGE_QUERY = gql`
   query allInsights($page: Int, $pageSize: Int = 10) {
     insights: allInsights(page: $page, pageSize: $pageSize) {
+      ...insightCommon
+    }
+  }
+  ${INSIGHT_COMMON_FRAGMENT}
+`
+
+export const PULSE_INSIGHTS_BY_PAGE_QUERY = gql`
+  query allInsights($page: Int) {
+    insights: allInsights(page: $page, pageSize: 10, isPulse: true) {
+      text
       ...insightCommon
     }
   }

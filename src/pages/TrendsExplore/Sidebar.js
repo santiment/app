@@ -23,18 +23,10 @@ function getTimePeriod (date) {
   }
 }
 
-const Sidebar = ({ topic, date, ...props }) => {
+const Sidebar = ({ topic, ...props }) => {
   const asideRef = useRef(null)
-  const [trendDate, setTrendDate] = useState([date])
-  const [trendPeriod, setTrendPeriod] = useState({})
-
-  useEffect(
-    () => {
-      setTrendDate([date])
-      setTrendPeriod(getTimePeriod(date))
-    },
-    [date]
-  )
+  const [trendDate, setTrendDate] = useState([MAX_DATE])
+  const [trendPeriod, setTrendPeriod] = useState(getTimePeriod(MAX_DATE))
 
   useEffect(() => {
     const sidebar = asideRef.current
@@ -111,10 +103,6 @@ const Sidebar = ({ topic, date, ...props }) => {
       <Footer classes={styles} />
     </aside>
   )
-}
-
-Sidebar.defaultProps = {
-  date: new Date()
 }
 
 export default Sidebar

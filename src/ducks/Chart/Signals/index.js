@@ -4,7 +4,6 @@ import Signal from './Signal'
 import Add from './Add'
 import {
   SIGNAL_ABOVE,
-  SIGNAL_BELOW,
   drawHoveredSignal,
   findMetricValueByY,
   findMetricLastValue,
@@ -21,10 +20,9 @@ import {
   fetchSignals,
   removeTrigger
 } from '../../Signals/common/actions'
-import { PRICE_CHANGE_TYPES } from '../../Signals/utils/constants'
-import { checkIsLoggedIn } from '../../../pages/UserSelectors'
-import styles from './index.module.scss'
 import { buildValueChangeSuggester } from '../../Studio/Alerts/suggestions/helpers'
+import LoginDialogWrapper from "../../../components/LoginDialog/LoginDialogWrapper";
+import styles from './index.module.scss'
 
 const TEXT_SIGNAL = 'Alert '
 const TEXT_ACTION = 'Click to '
@@ -105,18 +103,16 @@ const Signals = ({
     if (isHovered || data.length === 0 || target !== currentTarget) {
       return
     }
-
     const metric = metrics.find(checkPriceMetric) || metrics[0]
     const value = findMetricValueByY(chart, metric, y)
     const lastValue = findMetricLastValue(data, metric)
 
     if (value === undefined) return
 
-    const type =
-      PRICE_CHANGE_TYPES[value > lastValue ? SIGNAL_ABOVE : SIGNAL_BELOW]
-
     const suggester = AlertBuilder[metric.key] || buildValueChangeSuggester
-    createSignal(suggester(slug, value, type, metric))
+    const newSignal = suggester(metric)({slug, value, lastValue,  metric})
+
+    createSignal(newSignal.alert)
   }
 
   function onMouseLeave () {
@@ -172,7 +168,6 @@ const Signals = ({
 
 const mapStateToProps = (state, { slug, chart, scale }) => {
   return {
-    isLoggedIn: checkIsLoggedIn(state),
     signals: chart
       ? getSlugPriceSignals(state.signals.all || [], slug)
         .map(signal => makeSignalDrawable(signal, chart, scale))
@@ -190,10 +185,14 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(({ isLoggedIn, metrics, ...props }) => {
+)(({ metrics, ...props }) => {
   const alertMetrics = useAlertMetrics(metrics)
 
-  return isLoggedIn && alertMetrics.length > 0 ? (
+  if(alertMetrics.length === 0){
+    return null
+  }
+
+  return <LoginDialogWrapper title='Create signal'>
     <Signals {...props} metrics={alertMetrics} />
-  ) : null
+  </LoginDialogWrapper>
 })

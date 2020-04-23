@@ -10,7 +10,7 @@ import { FIRST_METRICS_GROUP } from './utils.js'
 import upgradeSvg from './../../assets/pro-metrics/upgrade.svg'
 import signSvg from './../../assets/pro-metrics/sign-bg.svg'
 import styles from './ProMetrics.module.scss'
-import ProMetricsFooter from './ProMetricsFooter/ProMetricsFooter'
+import CommonFooter from './ProMetricsFooter/CommonFooter'
 import SubscriptionForm from '../../components/SubscriptionForm/SubscriptionForm'
 import { InputWithIcon } from '@santiment-network/ui/Input'
 import { getCurrentSanbaseSubscription } from '../../utils/plans'
@@ -144,7 +144,7 @@ const ProMetrics = ({ history, isLoggedIn, isProSanbase }) => {
         </div>
       )}
 
-      <ProMetricsFooter />
+      <CommonFooter />
     </div>
   )
 }

@@ -13,7 +13,7 @@
   align-items: center;
   justify-content: center;
   top: 17px;
-  left: 24px;
+  left: var(--offset);
   user-select: none;
 }
 
@@ -35,6 +35,31 @@
     .scrollBtn {
       display: flex;
     }
+  }
+}
+
+.hideRight {
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 87px;
+    height: 74px;
+    background: linear-gradient(90deg, var(--shadowFrom) 0%, var(--shadowTo) 51.04%, var(--white) 100%);
+  }
+}
+
+.hideLeft {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 87px;
+    height: 74px;
+    background: linear-gradient(270deg, var(--shadowFrom) 0%, var(--shadowTo) 51.04%, var(--white) 100%);
+    z-index: 1;
   }
 }
 
@@ -102,7 +127,7 @@
 }
 
 .btnRight {
-  right: 24px;
+  right: var(--offset);
   left: initial;
 }
 

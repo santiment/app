@@ -30,6 +30,7 @@ export const FEED_QUERY = gql`
           username
         }
         post {
+          text
           ...insightCommon
         }
         trigger {

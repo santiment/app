@@ -100,7 +100,7 @@ export const Metrics = {
         <a
           target='_blank'
           rel='noopener noreferrer'
-          href='https://academy.santiment.net/metrics/social-volume-metrics/'
+          href='https://academy.santiment.net/metrics/social-volume/'
         >
           here
         </a>
@@ -457,6 +457,28 @@ export const Metrics = {
       </>
     ),
     minInterval: '1d'
+  },
+  mean_age: {
+    category: 'On-chain',
+    node: 'line',
+    Component: Line,
+    label: 'Mean Coin Age',
+    shortLabel: 'Mean C.A.',
+    abbreviation: 'mca',
+    description: (
+      <>
+        The average age of all coins/tokens on the blockchain. More info{' '}
+        <a
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://academy.santiment.net/metrics/mean-coin-age/'
+        >
+          here
+        </a>
+      </>
+    ),
+    minInterval: '1d',
+    isBeta: true
   },
   nvt: {
     category: 'On-chain',

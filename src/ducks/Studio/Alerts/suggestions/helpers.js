@@ -16,7 +16,7 @@ export const createSuggestion = (alert, render) => ({ alert, render })
 export const buildValueChangeSuggester = metric => {
   const { formatter, label } = metric
 
-  return ({ slug, value, lastValue, selector, ...rest }) => {
+  return ({ slug, value, lastValue, selector }) => {
     const isAbove = value > lastValue
     const type = PRICE_CHANGE_TYPES[isAbove ? SIGNAL_ABOVE : SIGNAL_BELOW]
 

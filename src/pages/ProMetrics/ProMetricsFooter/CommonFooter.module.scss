@@ -142,7 +142,7 @@
   @include text('body-3');
 
   @include responsive('phone', 'phone-xs') {
-    margin-bottom: 56px;
+    margin-bottom: 32px;
     border: none;
     flex-direction: column-reverse;
 

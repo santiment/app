@@ -13,7 +13,7 @@ import PageLoader from '../../../../components/Loader/PageLoader'
 export const TODAY = new Date().toLocaleDateString()
 export const YESTERDAY = addDays(new Date(), -1).toLocaleDateString()
 
-const getEventDate = ({ insertedAt }) => new Date(insertedAt)
+const getEventDate = ({ insertedAt, publishedAt }) => insertedAt ? new Date(insertedAt) : new Date(publishedAt)
 
 const makeDateLabel = date => {
   switch (date.toLocaleDateString()) {
@@ -44,7 +44,7 @@ const checkItemWithIndex = (group, item, index) => {
   group.items.push(item)
 }
 
-const groupByDates = events => {
+export const groupByDates = events => {
   const groups = []
 
   for (let i = 0; i < events.length;) {
@@ -89,40 +89,50 @@ const FeedList = ({
   const groups = groupByDates(events)
 
   return (
-    <div className={externalStyles.scrollable}>
+    <>
       {hasData ? (
-        groups.map((item, index) => {
-          const { label, items } = item
-          return (
-            <Fragment key={index}>
-              <div className={cx(styles.date, index !== 0 && styles.next)}>
-                {label}
-              </div>
-              {items.map((item, itemIndex) => (
-                <Fragment key={itemIndex}>
-                  <div className={styles.block}>
-                    <FeedItemRenderer
-                      item={item}
-                      index={index}
-                      showProfileExplanation={showProfileExplanation}
-                    />
-                    {item.addProCard && <MakeProSubscriptionCard />}
-                  </div>
-
-                  {item.addStories && (
-                    <StoriesList classes={styles} showScrollBtns={true} />
-                  )}
-                </Fragment>
-              ))}
-            </Fragment>
-          )
-        })
+        <RenderFeedGroups groups={groups} showProfileExplanation={showProfileExplanation}/>
       ) : (
         <SonarFeedRecommendations description='There are not any activities yet' />
       )}
       {isLoading && <Loader className={styles.loader} />}
-    </div>
+    </>
   )
+}
+
+export const RenderFeedGroups = ({groups, showProfileExplanation, groupRenderer:GroupRenderer = RenderFeedGroupItems}) => {
+  return  groups.map((item, index) => {
+    const { label, items } = item
+    return (
+      <Fragment key={index}>
+        <div className={cx(styles.date, index !== 0 && styles.next)}>
+          {label}
+        </div>
+        <GroupRenderer groupIndex={index} items={items} showProfileExplanation={showProfileExplanation}/>
+      </Fragment>
+    )
+  })
+}
+
+export const RenderFeedGroupItems = ({items, groupIndex, showProfileExplanation}) => {
+  return <>
+    {items.map((item, itemIndex) => (
+      <Fragment key={itemIndex}>
+        <div className={styles.block}>
+          <FeedItemRenderer
+            item={item}
+            index={groupIndex}
+            showProfileExplanation={showProfileExplanation}
+          />
+          {item.addProCard && <MakeProSubscriptionCard />}
+        </div>
+
+        {item.addStories && (
+          <StoriesList classes={styles} showScrollBtns />
+        )}
+      </Fragment>
+    ))}
+  </>
 }
 
 export default FeedList

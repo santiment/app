@@ -1,7 +1,5 @@
 import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
 import cx from 'classnames'
-import { Label } from '@santiment-network/ui'
 import {
   formatCryptoCurrency,
   formatNumber,
@@ -11,10 +9,6 @@ import WalletLink from '../../../components/WalletLink/WalletLink'
 import SmoothDropdown from '../../../components/SmoothDropdown/SmoothDropdown'
 import './FinancialsBlock.css'
 
-const propTypes = {
-  projectTransparencyStatus: PropTypes.string
-}
-
 export const collectedField = (currency, amount) => {
   if (currency === 'USD') {
     return formatNumber(amount, { currency: 'USD' })
@@ -22,19 +16,7 @@ export const collectedField = (currency, amount) => {
   return formatCryptoCurrency(currency, formatNumber(amount))
 }
 
-const showStatus = status => {
-  if (status === 'Certified') {
-    return (
-      <Label variant='fill' accent='jungle-green'>
-        Certified
-      </Label>
-    )
-  }
-  return status || 'Not Listed'
-}
-
 const FinancialsBlock = ({
-  projectTransparencyStatus,
   fundsRaisedIcos,
   ethSpent = null,
   ethBalance = null,
@@ -44,8 +26,6 @@ const FinancialsBlock = ({
   isERC20
 }) => (
   <div className='panel-container'>
-    <span className='row-header'>Project Transparency:&nbsp;</span>
-    {isERC20 ? showStatus(projectTransparencyStatus) : 'Not applicable'}
     {fundsRaisedIcos && fundsRaisedIcos.length !== 0 && (
       <div className='row-info'>
         <div>Collected</div>
@@ -119,7 +99,5 @@ const FinancialsBlock = ({
     )}
   </div>
 )
-
-FinancialsBlock.propTypes = propTypes
 
 export default FinancialsBlock

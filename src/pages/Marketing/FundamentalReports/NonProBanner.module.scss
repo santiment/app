@@ -1,0 +1,39 @@
+@import '~@santiment-network/ui/mixins';
+
+.banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  background: rgba(249, 250, 252, 0.85);
+  border: 1px solid var(--porcelain);
+  box-sizing: border-box;
+  border-radius: $border-radius;
+}
+
+.title {
+  @include text('body-2', 'l');
+
+  color: var(--rhino);
+  margin-bottom: 8px;
+}
+
+.description {
+  @include text('body-3');
+
+  color: var(--waterloo);
+  margin-bottom: 16px;
+  max-width: 284px;
+  word-break: break-word;
+  text-align: center;
+}
+
+.upgradeBtn {
+  @include responsive('phone', 'phone-xs') {
+    max-width: 200px;
+  }
+}

@@ -13,10 +13,12 @@ import FeedHelpPopup from './HelpPopup/FeedHelpPopup'
 import Tabs from '@santiment-network/ui/Tabs'
 import FeedFilters from '../filters/FeedFilters'
 import { AUTHOR_TYPES } from '../filters/AlertsAndInsightsFilter'
+import PulseInsights from "./PulseInsights/PulseInsights";
 import styles from './GeneralFeed.module.scss'
 
 const baseLocation = '/feed'
 export const personalLocation = `${baseLocation}/personal`
+export const pulseLocation = `${baseLocation}/pulse`
 
 const tabs = [
   {
@@ -24,8 +26,13 @@ const tabs = [
     content: 'General'
   },
   {
+    index: pulseLocation,
+    content: 'Pulse'
+  },
+  {
     index: personalLocation,
-    content: 'Personal'
+    content: 'My Feed',
+    requireLogin: true
   }
 ]
 
@@ -36,25 +43,28 @@ const Header = ({
   tab,
   onChangeFilters,
   filters,
-  isLoggedIn
+  isLoggedIn,
+  isPulse
 }) => (
   <div className={styles.header}>
     <div className={styles.title}>
       <div>Feed</div>
       <FeedHelpPopup />
-      <FeedFilters
-        handleFiltersChange={onChangeFilters}
-        filters={filters}
-        enableAlertsInsights={isBaseLocation(tab)}
-      />
-      <FeedSorters
-        className={styles.sort}
-        onChangeSort={onChangeSort}
-        sortType={sortType}
-      />
+      {!isPulse && <>
+        <FeedFilters
+          handleFiltersChange={onChangeFilters}
+          filters={filters}
+          enableAlertsInsights={isBaseLocation(tab)}
+        />
+        <FeedSorters
+          className={styles.sort}
+          onChangeSort={onChangeSort}
+          sortType={sortType}
+        />
+      </>}
     </div>
     <Tabs
-      options={isLoggedIn ? tabs : [tabs[0]]}
+      options={isLoggedIn ? tabs : tabs.filter(({requiredLogin}) => !requiredLogin)}
       defaultSelectedIndex={tab}
       passSelectionIndexToItem
       className={styles.tabs}
@@ -66,7 +76,7 @@ const Header = ({
   </div>
 )
 
-const Empty = () => (
+export const EmptyFeed = () => (
   <div className={styles.scrollable}>
     <PageLoader />
   </div>
@@ -74,7 +84,7 @@ const Empty = () => (
 
 const START_DATE = new Date()
 
-const isBaseLocation = tab => tab === baseLocation
+const isBaseLocation = tab => tab === baseLocation || tab === pulseLocation
 
 const getFeedAuthorType = tab => {
   if (isBaseLocation(tab) || !tab) {
@@ -97,6 +107,7 @@ const GeneralFeed = ({
   location: { pathname }
 }) => {
   const [tab, setTab] = useState(isLoggedIn ? pathname : baseLocation)
+  const [isPulse, setPulse] = useState(tab === pulseLocation)
   const [sortType, setSortType] = useState(DATETIME_SORT)
   const [filters, setFilters] = useState(getDefaultFilters(tab))
 
@@ -110,6 +121,7 @@ const GeneralFeed = ({
         ...filters,
         author: getFeedAuthorType(tab)
       })
+      setPulse(tab === pulseLocation)
     },
     [tab]
   )
@@ -138,6 +150,7 @@ const GeneralFeed = ({
           isLoggedIn={isLoggedIn}
           onChangeFilters={setFilters}
           filters={filters}
+          isPulse={isPulse}
         />
         <div className={styles.scrollable}>
           <PageLoader />
@@ -156,41 +169,45 @@ const GeneralFeed = ({
         tab={tab}
         onChangeFilters={setFilters}
         filters={filters}
+        isPulse={isPulse}
       />
 
-      <Query
-        query={FEED_QUERY}
-        variables={makeFeedVariables({
-          date: START_DATE,
-          orderBy: sortType.type,
-          filterBy: filters
-        })}
-        notifyOnNetworkStatusChange={true}
-        fetchPolicy='network-only'
-      >
-        {props => {
-          const {
-            data,
-            fetchMore: fetchMoreCommon,
-            loading: loadingEvents
-          } = props
+      <div className={styles.scrollable}>
 
-          if (!data) {
-            return <Empty />
-          }
+        {isPulse ? <PulseInsights/> : <Query
+          query={FEED_QUERY}
+          variables={makeFeedVariables({
+            date: START_DATE,
+            orderBy: sortType.type,
+            filterBy: filters,
+          })}
+          notifyOnNetworkStatusChange={true}
+          fetchPolicy='network-only'
+        >
+          {props => {
+            const {
+              data,
+              fetchMore: fetchMoreCommon,
+              loading: loadingEvents
+            } = props
 
-          return (
-            <FeedListLoading
-              events={extractEventsFromData(data)}
-              fetchMoreCommon={fetchMoreCommon}
-              isLoading={loadingEvents}
-              sortType={sortType}
-              filters={filters}
-              showProfileExplanation={isBaseLocation(tab)}
-            />
-          )
-        }}
-      </Query>
+            if (!data) {
+              return <EmptyFeed />
+            }
+
+            return (
+              <FeedListLoading
+                events={extractEventsFromData(data)}
+                fetchMoreCommon={fetchMoreCommon}
+                isLoading={loadingEvents}
+                sortType={sortType}
+                filters={filters}
+                showProfileExplanation={isBaseLocation(tab)}
+              />
+            )
+          }}
+        </Query>}
+      </div>
     </div>
   )
 }

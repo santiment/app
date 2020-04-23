@@ -65,3 +65,23 @@
     border: none;
   }
 }
+
+.tooltip {
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: $border-radius;
+  border: 1px solid var(--porcelain);
+  background-color: $fiord;
+  color: var(--white);
+}
+
+.tooltipIcon {
+  position: absolute;
+  top: -5px;
+  right: 50%;
+  transform: rotate(315deg);
+  width: 10px !important;
+  height: 10px !important;
+  background-size: contain;
+  fill: $fiord;
+}

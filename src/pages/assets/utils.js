@@ -43,11 +43,12 @@ export const normalizeCSV = items => {
 }
 
 export const getHelmetTags = (isList, listName) => {
+  const isWatchlist = isList && listName
   return {
-    title: isList
+    title: isWatchlist
       ? `Crypto Watchlist: ${getListName(listName.split('@')[0])} - Sanbase`
       : 'All Crypto Assets - Sanbase',
-    description: isList
+    description: isWatchlist
       ? 'Santiment Watchlists let you keep track of different crypto projects, and compare their performance, on-chain behavior and development activity.'
       : 'Financial, on-chain and development data for 1100+ crypto projects in the Santiment database, including BTC, XRP, ETH and 700+ ERC-20 tokens'
   }

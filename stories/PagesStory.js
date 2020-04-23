@@ -48,9 +48,6 @@ storiesOf('Project Detailted Page', module)
         id={project.id}
         marketCapUsd={null}
         name={project.name}
-        projectTransprency={false}
-        projectTransparencyDescription={null}
-        projectTransparencyStatus={null}
         redditLink={null}
         slackLink={null}
         ticker={project.ticker}

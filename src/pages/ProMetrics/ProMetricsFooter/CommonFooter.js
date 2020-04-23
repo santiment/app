@@ -3,7 +3,7 @@ import cx from 'classnames'
 import SocialMediaLinks from '../../../components/SocialMediaLinks/SocialMediaLinks'
 import SubscriptionForm from '../../../components/SubscriptionForm/SubscriptionForm'
 import downloadLinkSvg from './../../../assets/google-play.svg'
-import styles from './ProMetricsFooter.module.scss'
+import styles from './CommonFooter.module.scss'
 
 const LEFT_LINKS = [
   {
@@ -79,7 +79,7 @@ const BOTTOM_LINKS = [
   }
 ]
 
-const ProMetricsFooter = () => {
+const CommonFooter = () => {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
@@ -233,4 +233,4 @@ const ProMetricsFooter = () => {
   )
 }
 
-export default ProMetricsFooter
+export default CommonFooter
