@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
+import {connect} from "react-redux";
 import Dialog from '@santiment-network/ui/Dialog'
 import Icon from '@santiment-network/ui/Icon'
 import StoryPreview from './StoryPreview'
@@ -8,7 +9,6 @@ import Story from './Story'
 import { stories } from './content'
 import { DesktopOnly } from '../Responsive'
 import styles from './StoriesList.module.scss'
-import {connect} from "react-redux";
 
 const ScrollBtn = ({ isRight, show = true, onClick }) => {
   if (!show) {
@@ -114,10 +114,8 @@ const StoriesList = ({ classes = {}, showScrollBtns, isNightModeEnabled, showSha
   )
 }
 
-const mapStateToProps = ({rootUi: {isNightModeEnabled}}) => {
-  return {
-    isNightModeEnabled: isNightModeEnabled,
-  }
-}
+const mapStateToProps = ({rootUi: {isNightModeEnabled}}) => ({
+  isNightModeEnabled: isNightModeEnabled,
+})
 
 export default connect(mapStateToProps)(StoriesList)

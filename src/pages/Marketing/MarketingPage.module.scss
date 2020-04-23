@@ -12,7 +12,7 @@
   position: relative;
   padding: 0 40px;
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     padding: 0;
   }
 }
@@ -28,7 +28,7 @@
   max-width: 1152px;
   margin: auto;
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     padding: 0 16px;
   }
 }
