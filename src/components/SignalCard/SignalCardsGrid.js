@@ -6,6 +6,7 @@ import {
   removeTrigger,
   toggleTrigger
 } from '../../ducks/Signals/common/actions'
+import {sortById} from "../../utils/sortMethods";
 import styles from './SignalCardsGrid.module.scss'
 
 const SignalCardsGrid = ({
@@ -23,7 +24,7 @@ const SignalCardsGrid = ({
   return (
     <div className={cx(styles.wrapper, className)}>
       {signals
-        .sort((a, b) => b.id - a.id)
+        .sort(sortById)
         .map(signal => {
           const { id, index, userId: signalOwnerId, isActive } = signal
 
