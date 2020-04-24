@@ -41,7 +41,6 @@ export const TEMPLATES = [{
       In fact, since ‘Black Thursday’, these addresses have added another 559,000,000 USDT and 136,000,000 USDC, respectively, to their bags, indicating a strong desire to stay on the sidelines until they’re confident the market has in fact recovered.
     </div>
   </>,
-  isProRequired: true
 }, {
   title: 'Chainlink’s 30-day MVRV ratio approaching the ‘danger zone’?',
   link: 'https://app.santiment.net/?from=2018-02-28T23%3A00%3A00.000Z&interval=7d&isAnomalyActive=false&isCartesianGridActive=true&isClosestDataActive=true&isICOPriceActive=false&isLogScale=false&isMultiChartsActive=false&metrics=price_usd,mvrv_usd_30d&projectId=763&slug=chainlink&ticker=LINK&title=ChainLink%20%28LINK%29&to=2020-04-17T21%3A59%3A59.999Z',
@@ -52,5 +51,4 @@ export const TEMPLATES = [{
       This has been a contentious level in Chainlink’s recent history, as levels of 1.25 and above have often resulted in short-term corrections, as ‘new money’ feels more and more content with cashing out.
     </div>
   </>,
-  isProRequired: true
 }]

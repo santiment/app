@@ -9,10 +9,18 @@
   height: 100%;
   position: absolute;
   top: 0;
-  background: rgba(249, 250, 252, 0.85);
   border: 1px solid var(--porcelain);
   box-sizing: border-box;
   border-radius: $border-radius;
+}
+
+.bg {
+  background: var(--athens);
+  opacity: 0.85;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
 }
 
 .title {
@@ -20,6 +28,7 @@
 
   color: var(--rhino);
   margin-bottom: 8px;
+  z-index: 1;
 }
 
 .description {
@@ -30,9 +39,12 @@
   max-width: 284px;
   word-break: break-word;
   text-align: center;
+  z-index: 1;
 }
 
 .upgradeBtn {
+  z-index: 1;
+
   @include responsive('phone', 'phone-xs') {
     max-width: 200px;
   }

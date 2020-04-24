@@ -1,15 +1,28 @@
 import React from 'react'
 import cx from "classnames";
 import CommonFooter from "../ProMetrics/ProMetricsFooter/CommonFooter";
-import StoriesList from "../../components/Stories/StoriesList";
 import WatchlistCards from "../../components/Watchlists/WatchlistCards";
 import {CATEGORIES} from "../assets/assets-overview-constants";
-import FeaturedInsightsGrid from "../../components/FeaturedInsights/FeaturedInsightsGrid";
-import FundamentalReports from "./FundamentalReports/FundamentalReports";
 import PublicTemplates from "./PublicTemplates/PublicTemplates";
 import MobileHeader from "../../components/MobileHeader/MobileHeader";
 import {MobileOnly} from "../../components/Responsive";
 import styles from './MarketingPage.module.scss'
+
+/*
+<StoriesList classes={styles} showScrollBtns showShadows />
+
+<div className={cx(styles.block, styles.insightsReports)}>
+<div>
+<div className={styles.subTitle}>Weekly Insights</div>
+<FeaturedInsightsGrid classes={styles} withAuthorPic limit={3} />
+</div>
+
+<div className={styles.reports}>
+  <div className={styles.subTitle}>Fundamental Reports</div>
+
+  <FundamentalReports />
+</div>
+</div>*/
 
 const MarketingPage = ({history}) => {
   return <div className={cx('page', styles.container)}>
@@ -23,7 +36,6 @@ const MarketingPage = ({history}) => {
     </MobileOnly>
 
     <div className={styles.inner}>
-      <StoriesList classes={styles} showScrollBtns showShadows />
 
       <div className={styles.block}>
         <div className={styles.subTitle}>Indices</div>
@@ -34,19 +46,6 @@ const MarketingPage = ({history}) => {
         <div className={styles.subTitle}>Explore Templates</div>
 
         <PublicTemplates/>
-      </div>
-
-      <div className={cx(styles.block, styles.insightsReports)}>
-        <div>
-          <div className={styles.subTitle}>Weekly Insights</div>
-          <FeaturedInsightsGrid classes={styles} withAuthorPic limit={3} />
-        </div>
-
-        <div className={styles.reports}>
-          <div className={styles.subTitle}>Fundamental Reports</div>
-
-          <FundamentalReports />
-        </div>
       </div>
 
       <div className={styles.block}>
