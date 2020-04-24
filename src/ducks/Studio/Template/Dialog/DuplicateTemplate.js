@@ -8,13 +8,14 @@ export default ({ onDuplicate, template, ...props }) => {
   const [createTemplate, { loading }] = useCreateTemplate()
 
   function onSubmit (title) {
-    const { metrics, project, isPublic } = template
+    const { metrics, project, isPublic, options } = template
 
     createTemplate({
       title,
       metrics,
       isPublic,
-      projectId: +project.id
+      projectId: +project.id,
+      options: JSON.stringify(options)
     })
       .then(onDuplicate)
       .then(notifyDuplication)

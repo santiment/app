@@ -7,6 +7,7 @@ import Icon from '@santiment-network/ui/Icon'
 import { useDeleteTemplate, useUpdateTemplate } from '../../gql/hooks'
 import TemplateContextMenu from '../../TemplateContextMenu/TemplateContextMenu'
 import styles from './Template.module.scss'
+import {getMultiChartsValue} from "../../utils";
 
 const Template = ({
   template,
@@ -49,7 +50,8 @@ const Template = ({
       const {slug} = project
 
       const Shareable = {
-        metrics
+        metrics,
+        isMultiChartsActive: getMultiChartsValue(template)
       }
 
       const link = `/projects/${slug}?` + stringify(Shareable, {

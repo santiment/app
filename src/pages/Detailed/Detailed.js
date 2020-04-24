@@ -28,7 +28,7 @@ const DEFAULT_METRICS = [
 const TopSlot = ({ label }) => (
   <>
     <Breadcrumbs className={styles.breadcrumbs} crumbs={[CRUMB, { label }]} />
-    <StoriesList classes={styles} />
+    <StoriesList classes={styles} showScrollBtns />
     <CtaJoinPopup />
   </>
 )

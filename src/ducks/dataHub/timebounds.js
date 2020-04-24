@@ -20,52 +20,69 @@ const TimeboundMetricCache = new Map()
 const EMPTY_OBJECT = Object.create(null)
 const EMPTY_ARRAY = []
 
+export const tryMapToTimeboundMetric = (key) => {
+  const metrics = getTimeboundMetrics({metricKeys: [key]})
+
+  if(metrics){
+    const firstKey = Object.keys(metrics)[0]
+
+    if(firstKey) {
+      return metrics[firstKey][0]
+    }
+  }
+}
+
+export const getTimeboundMetrics = ({metricKeys}) => {
+  const NewTimebounds = Object.create(null)
+  const { length } = metricKeys
+
+  for (let i = 0; i < length; i++) {
+    const timeboundKey = metricKeys[i]
+    const timeRangeIndex = timeboundKey.lastIndexOf('_')
+    const key = timeboundKey.slice(0, timeRangeIndex)
+    const metric = Metric[key]
+
+    if (metric && AvailableTimeboundMetric[key]) {
+      const timebounds = NewTimebounds[key]
+      let timeboundMetric = TimeboundMetricCache.get(timeboundKey)
+
+      if (!timeboundMetric) {
+        const label =
+          metric.label + ` (${timeboundKey.slice(timeRangeIndex + 1)})`
+        timeboundMetric = {
+          ...metric,
+          label,
+          key: timeboundKey
+        }
+
+        TooltipSetting[timeboundKey] = {
+          label,
+          formatter: Metric[key].formatter
+        }
+
+        TimeboundMetricCache.set(timeboundKey, timeboundMetric)
+      }
+
+      if (timebounds) {
+        timebounds.push(timeboundMetric)
+      } else {
+        NewTimebounds[key] = [timeboundMetric]
+      }
+    }
+  }
+
+  Object.values(NewTimebounds).forEach(sortTimebounds)
+
+  return NewTimebounds
+}
+
 export function useTimebounds (metricKeys) {
   const [Timebounds, setTimebounds] = useState(EMPTY_OBJECT)
 
   useEffect(
     () => {
-      const NewTimebounds = Object.create(null)
-      const { length } = metricKeys
-
-      for (let i = 0; i < length; i++) {
-        const timeboundKey = metricKeys[i]
-        const timeRangeIndex = timeboundKey.lastIndexOf('_')
-        const key = timeboundKey.slice(0, timeRangeIndex)
-        const metric = Metric[key]
-
-        if (metric && AvailableTimeboundMetric[key]) {
-          const timebounds = NewTimebounds[key]
-          let timeboundMetric = TimeboundMetricCache.get(timeboundKey)
-
-          if (!timeboundMetric) {
-            const label =
-              metric.label + ` (${timeboundKey.slice(timeRangeIndex + 1)})`
-            timeboundMetric = {
-              ...metric,
-              label,
-              key: timeboundKey
-            }
-
-            TooltipSetting[timeboundKey] = {
-              label,
-              formatter: Metric[key].formatter
-            }
-
-            TimeboundMetricCache.set(timeboundKey, timeboundMetric)
-          }
-
-          if (timebounds) {
-            timebounds.push(timeboundMetric)
-          } else {
-            NewTimebounds[key] = [timeboundMetric]
-          }
-        }
-      }
-
-      Object.values(NewTimebounds).forEach(sortTimebounds)
-
-      setTimebounds(NewTimebounds)
+      const newTimebounds = getTimeboundMetrics({metricKeys})
+      setTimebounds(newTimebounds)
     },
     [metricKeys]
   )

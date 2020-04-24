@@ -21,6 +21,7 @@ const Group = ({
   isICOPriceDisabled,
   isBeta
 }) => {
+
   return (
     <>
       {title !== NO_GROUP && <h4 className={styles.group}>{title}</h4>}

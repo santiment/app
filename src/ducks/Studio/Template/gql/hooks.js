@@ -13,6 +13,7 @@ import {
   saveLastTemplate
 } from '../utils'
 import { store, client } from '../../../../index'
+import {getSavedMulticharts} from "../../../../utils/localStorage";
 
 const DEFAULT_TEMPLATES = []
 
@@ -100,6 +101,13 @@ export function useCreateTemplate () {
   })
 
   function createTemplate (newConfig) {
+
+    if(!newConfig.options){
+      newConfig.options = JSON.stringify( {
+        multi_chart: getSavedMulticharts()
+      })
+    }
+
     return mutate({
       variables: {
         settings: newConfig
@@ -139,6 +147,9 @@ export function useUpdateTemplate () {
         settings: {
           title: newConfig.title || title,
           isPublic: newConfig.isPublic,
+          options: JSON.stringify({
+            multi_chart: getSavedMulticharts()
+          }),
           projectId: +(projectId || project.id),
           metrics: buildTemplateMetrics(newConfig) || metrics
         }
