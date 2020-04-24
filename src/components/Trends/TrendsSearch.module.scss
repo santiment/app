@@ -8,7 +8,8 @@
 
 .examples {
   margin-top: 8px;
-  display: block !important;
+  display: flex;
+  align-items: center;
   color: $bali-hai;
 }
 
@@ -20,5 +21,9 @@
   &:hover {
     text-decoration: underline;
     text-underline-offset: 2px;
+  }
+
+  &:last-of-type {
+    margin-right: 8px;
   }
 }

@@ -1,7 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
 import TrendsForm from './../TrendsForm'
-import HelpPopupTrends from './../../../pages/Trends/HelpPopupTrends'
 import styles from './TrendsExploreSearch.module.scss'
 
 const TrendsExploreSearch = ({
@@ -16,7 +15,6 @@ const TrendsExploreSearch = ({
       defaultTopic={topic}
       history={history}
     />
-    {isDesktop && <HelpPopupTrends />}
   </div>
 )
 
