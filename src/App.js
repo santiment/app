@@ -28,7 +28,6 @@ import Footer from './components/Footer'
 import GDPRPage from './pages/GDPRPage/GDPRPage'
 import AssetsPage from './pages/assets/AssetsPage'
 import HistoricalBalancePage from './ducks/HistoricalBalance/page/HistoricalBalancePage'
-import WordCloudPage from './components/WordCloud/WordCloudPage'
 import { getConsentUrl } from './utils/utils'
 import CookiePopup from './components/CookiePopup/CookiePopup'
 import LogoutPage from './pages/Logout/Logout'
@@ -332,7 +331,6 @@ export const App = ({
             <HistoricalBalancePage {...props} isDesktop={isDesktop} />
           )}
         />
-        <Route exact path='/labs/wordcloud' component={WordCloudPage} />
         <Route
           exact
           path='/projects/:slug'
