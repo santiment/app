@@ -23,7 +23,7 @@ function getTimePeriod (date) {
   }
 }
 
-const Sidebar = ({ topic, ...props }) => {
+const Sidebar = ({ topic, isDesktop, ...props }) => {
   const asideRef = useRef(null)
   const [trendDate, setTrendDate] = useState([MAX_DATE])
   const [trendPeriod, setTrendPeriod] = useState(getTimePeriod(MAX_DATE))
@@ -77,12 +77,12 @@ const Sidebar = ({ topic, ...props }) => {
             Top 10 words with the highest spike in mentions on crypto social
             media for a given day.
           </HelpPopup>
-          <Calendar
+          {isDesktop && <Calendar
             dates={trendDate}
             onChange={onTrendCalendarChange}
             className={styles.calendar}
             maxDate={MAX_DATE}
-          />
+          />}
         </div>
         <GetHypedTrends
           interval='1d'
