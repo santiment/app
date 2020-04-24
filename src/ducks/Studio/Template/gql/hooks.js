@@ -13,6 +13,7 @@ import {
   saveLastTemplate
 } from '../utils'
 import { store, client } from '../../../../index'
+import {getSavedMulticharts} from "../../../../utils/localStorage";
 
 const DEFAULT_TEMPLATES = []
 
@@ -139,6 +140,7 @@ export function useUpdateTemplate () {
         settings: {
           title: newConfig.title || title,
           isPublic: newConfig.isPublic,
+          isMultiChartsActive: getSavedMulticharts(),
           projectId: +(projectId || project.id),
           metrics: buildTemplateMetrics(newConfig) || metrics
         }
