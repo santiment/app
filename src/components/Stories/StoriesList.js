@@ -56,7 +56,7 @@ const StoriesList = ({ classes = {}, showScrollBtns, isNightModeEnabled, showSha
       showShadows && showScrollBtns && canScrollRight && styles.hideRight
       )}
              style={{
-               '--offset': showShadows ? '56px' : '24px',
+               '--offset': '24px',
                '--shadowFrom': isNightModeEnabled ? 'rgba(24, 27, 43, 0)' : 'rgba(255, 255, 255, 0)',
                '--shadowTo':  isNightModeEnabled ? 'rgba(24, 27, 43, 0.9)' : 'rgba(255, 255, 255, 0.9)'
              }}>

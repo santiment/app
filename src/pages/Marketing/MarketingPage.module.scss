@@ -10,7 +10,7 @@
   margin: 9px 0 12px 0;
   max-width: 100%;
   position: relative;
-  padding: 0 40px;
+  padding: 0;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     padding: 0;

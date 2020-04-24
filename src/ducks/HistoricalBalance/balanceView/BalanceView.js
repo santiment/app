@@ -242,7 +242,11 @@ const BalanceView = ({
           to={to}
           interval={INTERVAL}
           render={({ data, error }) => {
-            if (error) return `Error!: ${error}`
+            if (error) {
+              throw new Error(
+                "Can't load historical balance. Apollo error: " + JSON.stringify(error)
+              )
+            }
             if (!data || Object.keys(data).length === 0) {
               return (
                 <>

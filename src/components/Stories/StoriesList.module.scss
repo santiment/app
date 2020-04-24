@@ -46,7 +46,7 @@
     right: 0;
     width: 87px;
     height: 74px;
-    background: linear-gradient(90deg, var(--shadowFrom) 0%, var(--shadowTo) 51.04%, var(--white) 100%);
+    background: linear-gradient(90deg, var(--shadowFrom) 0%, var(--shadowTo) 70%, var(--white) 100%);
   }
 }
 
@@ -58,7 +58,7 @@
     left: 0;
     width: 87px;
     height: 74px;
-    background: linear-gradient(270deg, var(--shadowFrom) 0%, var(--shadowTo) 51.04%, var(--white) 100%);
+    background: linear-gradient(270deg, var(--shadowFrom) 0%, var(--shadowTo) 70%, var(--white) 100%);
     z-index: 1;
   }
 }

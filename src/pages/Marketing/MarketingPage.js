@@ -22,9 +22,9 @@ const MarketingPage = ({history}) => {
       />
     </MobileOnly>
 
-    <StoriesList classes={styles} showScrollBtns showShadows />
-
     <div className={styles.inner}>
+      <StoriesList classes={styles} showScrollBtns showShadows />
+
       <div className={styles.block}>
         <div className={styles.subTitle}>Indices</div>
         <WatchlistCards watchlists={CATEGORIES} classes={styles}/>
