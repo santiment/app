@@ -54,7 +54,7 @@
   flex-direction: column;
 
   @include responsive('desktop', 'laptop') {
-    max-width: calc(100% - 375px);
+    max-width: calc(100% - 405px);
   }
 }
 
