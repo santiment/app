@@ -7,7 +7,6 @@ import {
   getNewInterval,
   INTERVAL_ALIAS
 } from '../../SANCharts/IntervalSelector'
-import { saveToggle } from '../../../utils/localStorage'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import styles from './Settings.module.scss'
 
@@ -17,19 +16,10 @@ export default ({
   setOptions,
   setSettings,
   className,
+  toggleMultiCharts,
   ...rest
 }) => {
   const { timeRange, from, to, title } = settings
-
-  function toggleMultiCharts () {
-    setOptions(state => ({
-      ...state,
-      isMultiChartsActive: saveToggle(
-        'isMultiChartsActive',
-        !state.isMultiChartsActive
-      )
-    }))
-  }
 
   function onTimerangeChange (timeRange) {
     const { from, to } = getIntervalByTimeRange(timeRange)

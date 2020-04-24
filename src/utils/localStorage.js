@@ -82,5 +82,7 @@ export const getSavedToggle = (key, defaultValue = false) => {
   return saved === null ? defaultValue : !!saved
 }
 
+export const getSavedMulticharts = () => getSavedToggle('isMultiChartsActive', true)
+
 export const saveToggle = (key, value) =>
   localStorage.setItem(key, value ? '+' : '') || value
