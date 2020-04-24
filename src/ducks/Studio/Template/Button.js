@@ -16,16 +16,11 @@ const TooltipWrapper = ({ selectedTemplate, children }) => {
       trigger={children}
       position='bottom'
       align='start'
+      withArrow
+      arrowClassName={styles.arrow}
       className={styles.tooltip}
     >
       Click to save '{selectedTemplate.title}'
-      <svg
-        fill='none'
-        xmlns='http://www.w3.org/2000/svg'
-        className={styles.tooltipIcon}
-      >
-        <path d='M24.69 25.44a2 2 0 01-2.93 0L1.24 3.38A2 2 0 012.7.02h41.05a2 2 0 011.46 3.36L24.7 25.44z' />
-      </svg>
     </Tooltip>
   )
 }

@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import TrendsExploreSearch from './Explore/TrendsExploreSearch'
+import HelpPopupTrends from '../../pages/Trends/HelpPopupTrends'
 import { DesktopOnly } from '../Responsive'
 import styles from './TrendsSearch.module.scss'
 
@@ -43,6 +44,7 @@ export const TrendsSamples = ({ samples = SAMPLES }) => (
           {index !== arr.length - 1 && ','}
         </Fragment>
       ))}
+    <HelpPopupTrends />
     </div>
   </DesktopOnly>
 )

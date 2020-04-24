@@ -1577,10 +1577,10 @@
   resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.158.tgz#080efd756bf3498a135e7f279b5b6d9d99798f14"
   integrity sha512-ioiT8Sc0zE7cI37anKhznZ0Rt8hDrn7fC1I0m+/jdmZvFdKVyIwBMTMqr2FxjaOIcKrACVvCCt/XV20yeo3ESw==
 
-"@santiment-network/ui@^0.5.160":
-  version "0.5.160"
-  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.160.tgz#003b454fca07f1e779c81799f0fa2dcebf901758"
-  integrity sha512-Syfx/8auwnR3HSptsZ8yr4UzpYz40zhtNQcN/v/CzxFA2d99HgvCs0n5ruA6OzYG+kqv2opt063sbXUB6LHlIg==
+"@santiment-network/ui@^0.5.163":
+  version "0.5.163"
+  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.163.tgz#55681da4eda0d1241cc5e947fa48b1970208e2c5"
+  integrity sha512-XQBKdZgZ/WpXWfN9jeBV+76LEQcAbt1kj3n3GS338V+BW3XIe86AtZr2ZNMSqeBF+NtPVu6O/LK/KYD/5/BUkw==
 
 "@sheerun/eslint-config-standard@^10.2.1":
   version "10.2.1"
