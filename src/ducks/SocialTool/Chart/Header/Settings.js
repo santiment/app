@@ -1,23 +1,42 @@
 import React from 'react'
 import cx from 'classnames'
-import Selector from '@santiment-network/ui/Selector/Selector'
-import CalendarBtn from '../../../../components/Calendar/CalendarBtn'
+import AdvancedCalendar from '../../../../components/AdvancedCalendar'
 import ContextMenu from '../../../Studio/Header/ContextMenu'
 import {
   getNewInterval,
   INTERVAL_ALIAS
 } from '../../../SANCharts/IntervalSelector'
 import PricePairsDropdown from '../PricePairsDropdown'
-import {
-  getIntervalByTimeRange,
-  getTimeIntervalFromToday,
-  DAY
-} from '../../../../utils/dates'
+import { getIntervalByTimeRange } from '../../../../utils/dates'
 import styles from './Settings.module.scss'
 
-const TIMERANGE_OPTIONS = ['1W', '1M', '3M', '6M', '1Y']
+const TIMERANGE_OPTIONS = [
+  {
+    index: '1w',
+    label: 'Last week'
+  },
+  {
+    index: '1m',
+    label: 'Last month'
+  },
+  {
+    index: '3m',
+    label: 'Last 3 months'
+  },
+  {
+    index: '6m',
+    label: 'Last 6 months'
+  },
+  {
+    index: '1y',
+    label: 'Last year'
+  },
+  {
+    index: 'all',
+    label: 'All time'
+  }
+]
 
-const { to: MAX_DATE } = getTimeIntervalFromToday(0, DAY)
 
 export default ({
   settings,
@@ -52,17 +71,14 @@ export default ({
 
   return (
     <div className={cx(styles.wrapper, className)}>
-      <Selector
-        className={styles.selector}
-        options={TIMERANGE_OPTIONS}
-        onSelectOption={onTimerangeChange}
-        defaultSelected={timeRange.toUpperCase()}
-      />
-      <CalendarBtn
-        onChange={onCalendarChange}
-        value={[new Date(from), new Date(to)]}
+      <AdvancedCalendar
         className={styles.calendar}
-        maxDate={MAX_DATE}
+        from={new Date(from)}
+        to={new Date(to)}
+        timeRange={timeRange}
+        options={TIMERANGE_OPTIONS}
+        onCalendarChange={onCalendarChange}
+        onTimerangeChange={onTimerangeChange}
       />
       <PricePairsDropdown
         {...rest}

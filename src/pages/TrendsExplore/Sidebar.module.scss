@@ -7,9 +7,9 @@
 
   @include responsive('desktop', 'laptop') {
     position: absolute;
-    top: 70px;
+    top: 145px;
     right: 0;
-    height: calc(100vh - 70px);
+    height: calc(100vh - 145px);
     flex-direction: column;
     width: 350px;
     margin: 0 10px 0 24px;
