@@ -4,7 +4,7 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import TemplateButton from './Button'
-import { parseTemplateMetrics } from './utils'
+import {getMultiChartsValue, parseTemplateMetrics} from './utils'
 import { notifySave } from './notifications'
 import {
   useUserTemplates,
@@ -52,13 +52,13 @@ const Template = ({
 
     if (!template) return
 
-    const { project, metrics: templateMetrics, options: {multi_chart} = {} } = template
+    const { project, metrics: templateMetrics} = template
     const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
 
     onProjectSelect(project)
     setMetrics(metrics)
     setComparables(comparables)
-    toggleMultiCharts(multi_chart)
+    toggleMultiCharts(getMultiChartsValue(template))
   }
 
   function rerenderTemplate (template) {

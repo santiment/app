@@ -1,6 +1,7 @@
 import { COMPARE_CONNECTOR, parseComparable, shareComparable } from '../url'
 import { Metric } from '../../dataHub/metrics'
 import { tryMapToTimeboundMetric} from "../../dataHub/timebounds";
+import {getSavedMulticharts} from "../../../utils/localStorage";
 
 const LAST_USED_TEMPLATE = 'LAST_USED_TEMPLATE'
 
@@ -10,8 +11,6 @@ export function parseTemplateMetrics (templateMetrics) {
   const { length } = templateMetrics
   const metrics = []
   const comparables = []
-
-  const timebounds = []
 
   for (let i = 0; i < length; i++) {
     const metricKey = templateMetrics[i]
@@ -58,4 +57,12 @@ export function saveLastTemplate (template) {
   if (!template) return
 
   localStorage.setItem(LAST_USED_TEMPLATE, JSON.stringify(template))
+}
+
+export const getMultiChartsValue = ({options}) => {
+  if(options && options.multi_chart !== undefined){
+    return options.multi_chart
+  }
+
+  return getSavedMulticharts()
 }
