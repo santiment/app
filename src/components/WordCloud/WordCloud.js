@@ -2,12 +2,12 @@ import React from 'react'
 import TagCloud from 'react-tag-cloud'
 import { Link } from 'react-router-dom'
 import { graphql } from 'react-apollo'
-import HelpPopupWordCloud from './HelpPopupWordCloud'
+import HelpPopup from './../../components/HelpPopup/HelpPopup'
 import WidgetTrend from '../Widget/WidgetTrend'
 import { WORD_CLOUD_QUERY } from './wordCloudGQL.js'
+import { formatNumber } from '../../utils/formatting'
 import { getTimeIntervalFromToday } from '../../utils/dates'
 import styles from './WordCloud.module.scss'
-import { formatNumber } from '../../utils/formatting'
 
 const BIG_LIMIT = 3
 
@@ -53,7 +53,9 @@ export const WordCloud = ({
       description={
         <>
           <span className={styles.heading}>Social context</span>
-          <HelpPopupWordCloud />
+          <HelpPopup>
+            These words are often used alongside the main keyword on crypto social media. Larger words are found more frequently in comments that also include the main keyword.
+          </HelpPopup>
         </>
       }
       isLoading={isLoading}

@@ -2,7 +2,7 @@
 
 .panel {
   max-width: 465px;
-  padding: 16px 24px 20px;
+  padding: 16px 24px;
   border-radius: $border-radius;
   text-align: left;
   color: var(--rhino);
@@ -21,4 +21,32 @@
   &:hover {
     fill: var(--jungle-green-hover);
   }
+}
+
+.list {
+  padding: 0;
+  list-style: none;
+}
+
+code {
+  padding: 1px 4px;
+  margin: 2px 0;
+  background-color: var(--athens);
+  border-radius: 4px;
+}
+
+.item + .item {
+  margin: 10px 0 0;
+}
+
+.heading {
+  @include text('body-2', 'm');
+
+  margin: 0 0 8px;
+}
+
+.title {
+  @include text('body-3', 'm');
+
+  margin: 0 0 4px;
 }
