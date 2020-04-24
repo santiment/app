@@ -140,7 +140,9 @@ export function useUpdateTemplate () {
         settings: {
           title: newConfig.title || title,
           isPublic: newConfig.isPublic,
-          isMultiChartsActive: getSavedMulticharts(),
+          options: {
+            multi_chart: getSavedMulticharts()
+          },
           projectId: +(projectId || project.id),
           metrics: buildTemplateMetrics(newConfig) || metrics
         }

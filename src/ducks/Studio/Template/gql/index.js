@@ -12,6 +12,9 @@ export const TEMPLATE_COMMON_FRAGMENT = gql`
       name
       ticker
     }
+    options {
+      multi_chart
+    }
     __typename
   }
 `

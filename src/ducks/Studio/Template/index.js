@@ -52,13 +52,13 @@ const Template = ({
 
     if (!template) return
 
-    const { project, metrics: templateMetrics, isMultiChartsActive } = template
+    const { project, metrics: templateMetrics, options: {multi_chart} = {} } = template
     const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
 
     onProjectSelect(project)
     setMetrics(metrics)
     setComparables(comparables)
-    toggleMultiCharts(isMultiChartsActive)
+    toggleMultiCharts(multi_chart)
   }
 
   function rerenderTemplate (template) {
