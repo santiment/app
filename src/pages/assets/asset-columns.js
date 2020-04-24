@@ -293,23 +293,23 @@ export const COLUMNS_SETTINGS = {
   [COLUMNS_NAMES.eth_spent]: {
     show: true,
     selectable: true,
-    description: Description.ethSpentOverTime
+    key: 'ethSpentOverTime',
   },
   [COLUMNS_NAMES.devact]: {
     show: true,
     selectable: true,
-    description: Description.dev_activity
+    key: 'dev_activity'
   },
   [COLUMNS_NAMES.daily_active_addresses]: {
     show: true,
     selectable: true,
-    description: Description.daily_active_addresses
+    key: 'daily_active_addresses'
   },
   [COLUMNS_NAMES.graph]: { show: false, selectable: false },
   [COLUMNS_NAMES.token_circulation]: {
     show: false,
     selectable: false,
-    description: Description.circulation
+    key: 'circulation'
   },
   [COLUMNS_NAMES.infrastructure]: { show: true, selectable: false },
   [COLUMNS_NAMES.devActivity7]: { show: true, selectable: false },
