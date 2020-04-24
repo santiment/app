@@ -1,6 +1,6 @@
 import { COMPARE_CONNECTOR, parseComparable, shareComparable } from '../url'
 import { Metric } from '../../dataHub/metrics'
-import {getTimeboundMetrics } from "../../dataHub/timebounds";
+import { tryMapToTimeboundMetric} from "../../dataHub/timebounds";
 
 const LAST_USED_TEMPLATE = 'LAST_USED_TEMPLATE'
 
@@ -24,21 +24,12 @@ export function parseTemplateMetrics (templateMetrics) {
       if (metric) {
           metrics.push(metric)
       } else {
-        timebounds.push(metricKey)
-      }
-    }
-  }
 
-  const timeboundMetrics = getTimeboundMetrics({
-    metricKeys: timebounds
-  })
+        const timeBoundMetric = tryMapToTimeboundMetric(metricKey)
 
-  if(timeboundMetrics){
-    for(let key in timeboundMetrics){
-      const list = timeboundMetrics[key]
-
-      if(list && list.length){
-        metrics.push(...list)
+        if(timeBoundMetric){
+          metrics.push(timeBoundMetric)
+        }
       }
     }
   }

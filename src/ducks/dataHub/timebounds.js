@@ -20,6 +20,18 @@ const TimeboundMetricCache = new Map()
 const EMPTY_OBJECT = Object.create(null)
 const EMPTY_ARRAY = []
 
+export const tryMapToTimeboundMetric = (key) => {
+  const metrics = getTimeboundMetrics({metricKeys: [key]})
+
+  if(metrics){
+    const firstKey = Object.keys(metrics)[0]
+
+    if(firstKey) {
+      return metrics[firstKey][0]
+    }
+  }
+}
+
 export const getTimeboundMetrics = ({metricKeys}) => {
   const NewTimebounds = Object.create(null)
   const { length } = metricKeys

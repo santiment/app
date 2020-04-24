@@ -5,6 +5,7 @@ import { Event } from '../dataHub/events'
 import { Metric } from '../dataHub/metrics'
 import { Submetrics } from '../dataHub/submetrics'
 import { CompatibleMetric } from '../dataHub/metrics/compatibility'
+import {tryMapToTimeboundMetric} from "../dataHub/timebounds";
 
 const { trendPositionHistory } = Event
 
@@ -12,7 +13,7 @@ export const COMPARE_CONNECTOR = '-CC-'
 const getMetricsKeys = metrics => metrics.map(({ key }) => key)
 const toArray = keys => (typeof keys === 'string' ? [keys] : keys)
 const convertKeyToMetric = (key, dict) =>
-  dict[key] || CompatibleMetric[key] || searchFromSubmetrics(key)
+  dict[key] || CompatibleMetric[key] || searchFromSubmetrics(key) || tryMapToTimeboundMetric(key)
 
 export const reduceStateKeys = (State, Data) =>
   Object.keys(State).reduce((acc, key) => {
