@@ -17,7 +17,7 @@
 }
 
 .chart {
-  margin: 0 24px;
+  margin: 0;
   z-index: 0;
 
   @include responsive('phone-xs', 'phone') {
@@ -29,7 +29,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 24px;
+  padding: 24px 0;
 
   @include responsive('phone-xs', 'phone') {
     padding: 16px 14px;
