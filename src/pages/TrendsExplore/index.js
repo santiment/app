@@ -98,6 +98,7 @@ const TrendsExplore = ({
         <Sidebar
           topic={topic}
           hasPremium={hasPremium}
+          isDesktop={isDesktop}
         />
       </div>
     </div>

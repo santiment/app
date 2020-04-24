@@ -10,7 +10,7 @@
   @include responsive('desktop', 'laptop', 'tablet') {
     width: 100%;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 0 20px 0 40px;
   }
 
   @include responsive('phone-xs', 'phone') {
@@ -54,7 +54,7 @@
   flex-direction: column;
 
   @include responsive('desktop', 'laptop') {
-    max-width: calc(100% - 375px);
+    max-width: calc(100% - 405px);
   }
 }
 

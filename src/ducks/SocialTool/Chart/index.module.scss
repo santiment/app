@@ -6,8 +6,10 @@
 }
 
 .top {
-  padding: 16px 13px 16px 24px;
+  padding: 21px 13px 21px 24px;
   background: var(--athens);
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
 
   @include responsive('phone-xs', 'phone') {
     padding: 0 14px;
@@ -15,7 +17,7 @@
 }
 
 .chart {
-  margin: 24px;
+  margin: 0;
   z-index: 0;
 
   @include responsive('phone-xs', 'phone') {
@@ -27,9 +29,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  border-top: 1px solid var(--porcelain);
-  border-bottom: 1px solid var(--porcelain);
-  padding: 24px;
+  padding: 24px 0;
 
   @include responsive('phone-xs', 'phone') {
     padding: 16px 14px;

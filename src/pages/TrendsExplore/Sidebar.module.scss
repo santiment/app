@@ -11,9 +11,9 @@
     right: 0;
     height: calc(100vh - 70px);
     flex-direction: column;
-    width: 350px;
-    margin: 0 10px 0 24px;
-    padding: 22px 24px 0;
+    width: 380px;
+    margin: 0 10px 0 32px;
+    padding: 22px 24px 0 32px;
     overflow: hidden;
     border-left: 1px solid var(--porcelain);
 
@@ -47,9 +47,8 @@
   min-width: 281px;
   height: 190px;
   border-radius: 0;
-  border-left: none;
-  border-right: none;
-  margin: 22px 0;
+  border: none;
+  margin: 22px 0 40px;
 
   @include responsive('tablet') {
     height: auto !important;
@@ -105,6 +104,7 @@
     .ReactTable {
       .rt-thead.-header {
         margin-top: 0 !important;
+        box-shadow: none;
       }
     }
   }

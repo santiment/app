@@ -6,7 +6,7 @@ import Button from '@santiment-network/ui/Button'
 import Calendar from '../Calendar/Calendar'
 import styles from './index.module.scss'
 
-const options = [
+const DEFAULT_OPTIONS = [
   {
     index: '1d',
     label: 'Last day'
@@ -52,6 +52,7 @@ const Popup = ({
   timeRange,
   onCalendarChange,
   onTimerangeChange,
+  options = DEFAULT_OPTIONS,
   ...props
 }) => {
   return (

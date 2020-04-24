@@ -9,13 +9,14 @@ const TrendsExploreSearch = ({
   classes: { wrapper: className, input: inputClassName } = {},
   isDesktop
 }) => (
-  <div className={cx(styles.wrapper, inputClassName)}>
-    <TrendsForm
-      classes={{ wrapper: className, input: styles.search }}
-      defaultTopic={topic}
-      history={history}
-    />
-  </div>
+  <TrendsForm
+    classes={{
+      wrapper: cx(className, styles.wrapper),
+      input: cx(inputClassName, styles.input)
+    }}
+    defaultTopic={topic}
+    history={history}
+  />
 )
 
 export default TrendsExploreSearch

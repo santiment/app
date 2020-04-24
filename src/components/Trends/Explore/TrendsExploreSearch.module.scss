@@ -4,6 +4,7 @@
   @include responsive('tablet', 'laptop', 'desktop') {
     display: flex;
     align-items: center;
+    width: 100%;
   }
 
   @include responsive('phone-xs', 'phone') {
@@ -11,10 +12,14 @@
   }
 }
 
-.search {
-  margin-right: 1rem;
+.input {
+  width: 100%;
 
   @include responsive('phone-xs', 'phone') {
     margin-right: 0;
+  }
+
+  & input {
+    height: 40px;
   }
 }
