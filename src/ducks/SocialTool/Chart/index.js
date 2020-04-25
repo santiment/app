@@ -25,6 +25,7 @@ const Canvas = ({
   setSettings,
   categories,
   selector,
+  detectedAsset,
   ...props
 }) => {
   const [FocusedMetric, setFocusedMetric] = useState()
@@ -43,6 +44,7 @@ const Canvas = ({
     <div className={cx(styles.wrapper, className)}>
       <ChartHeader
         {...props}
+        detectedAsset={detectedAsset}
         metrics={metrics}
         options={options}
         settings={settings}
@@ -79,6 +81,7 @@ const Canvas = ({
         metrics={metrics}
         MetricColor={MetricColor}
         setSettings={setSettings}
+        detectedAsset={detectedAsset}
         resizeDependencies={[]}
       >
         <Signals {...settings} metrics={metrics} selector={selector} />
@@ -87,10 +90,22 @@ const Canvas = ({
         {...options}
         {...props}
         scale={scale}
+        type='general'
         MetricColor={MetricColor}
         settings={settings}
-        setSettings={setSettings}
+        detectedAsset={detectedAsset}
       />
+      {detectedAsset && (
+        <DetailedBlock
+          {...options}
+          {...props}
+          scale={scale}
+          type='community'
+          MetricColor={MetricColor}
+          settings={settings}
+          detectedAsset={detectedAsset}
+        />
+      )}
     </div>
   )
 }

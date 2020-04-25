@@ -22,7 +22,7 @@
 .content {
   border-radius: 4px;
   background: var(--athens);
-  padding: 16px;
+  padding: 16px 24px;
   display: flex;
 }
 
@@ -30,11 +30,14 @@
   width: 40%;
   margin-right: 18px;
   display: flex;
-  margin-top: 16px;
 }
 
 .item + .item {
   margin-top: 18px;
+}
+
+.details {
+  width: 60%;
 }
 
 .column {

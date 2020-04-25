@@ -6,7 +6,6 @@ const Column = ({ className, percent }) => (
   <div
     className={cx(styles.wrapper, className)}
     style={{ '--percent': `${percent}%` }}
-    data-percent={percent + '%'}
   />
 )
 
