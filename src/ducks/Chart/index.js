@@ -210,7 +210,8 @@ const Chart = ({
       chart,
       isShowBrush ? CHART_WITH_BRUSH_PADDING : CHART_PADDING,
       brush,
-      data
+      data,
+      chartHeight
     )
 
     if (!brush) {

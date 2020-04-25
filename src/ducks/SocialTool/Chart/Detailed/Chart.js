@@ -3,7 +3,7 @@ import Chart from '../../../Chart'
 import { useTimeseries } from '../../../Studio/timeseries/hooks'
 import { metricsToPlotCategories } from '../../../Chart/Synchronizer'
 
-const CHART_HEIGHT = 300
+const CHART_HEIGHT = 250
 
 const DetailedChart = ({ charts, settings, MetricSettingMap, ...props }) => {
   const [data] = useTimeseries(charts, settings, MetricSettingMap)
