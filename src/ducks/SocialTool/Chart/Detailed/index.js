@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { graphql } from 'react-apollo'
+import Icon from '@santiment-network/ui/Icon/Icon'
 import Chart from './Chart'
-import Trigger from './Trigger'
 import { Metric } from '../../../dataHub/metrics'
 import { PROJECT_METRICS_BY_SLUG_QUERY } from '../../../SANCharts/gql'
 import { DetailedMetric } from './metrics'
@@ -68,10 +68,18 @@ const DetailedBlock = ({
         <h3 className={styles.heading}>{DefaultCharts[type].title}</h3>
         <div>
           {charts.map((chart, idx) => (
-            <Trigger key={idx} className={styles.trigger} {...chart} />
+            <span className={styles.tab} key={idx}>
+              <Icon
+                type='ring'
+                className={styles.icon}
+                style={{ '--color': chart.color }}
+              />
+              {chart.name}
+            </span>
           ))}
         </div>
       </div>
+    <div className={styles.charts}>
       {charts.map(chart => (
         <Chart
           key={chart.key}
@@ -84,6 +92,7 @@ const DetailedBlock = ({
           tooltipKey={chart.key}
         />
       ))}
+    </div>
     </>
   )
 }
