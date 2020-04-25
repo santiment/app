@@ -12,14 +12,7 @@ export const DEFAULT_SETTINGS = {
   to: TO.toISOString(),
   timeRange: DEFAULT_TIME_RANGE,
   asset: 'bitcoin',
-  ticker: 'BTC',
-  detailed_charts: [
-    'social_volume_telegram',
-    'social_volume_reddit',
-    'social_volume_professional_traders_chat',
-    'social_volume_discord',
-    'community_messages_count_telegram'
-  ]
+  ticker: 'BTC'
 }
 
 export const DEFAULT_OPTIONS = {

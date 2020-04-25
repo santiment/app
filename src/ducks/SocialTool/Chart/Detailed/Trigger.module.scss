@@ -1,19 +1,12 @@
 @import '~@santiment-network/ui/mixins';
 
-.button {
+.text {
   color: var(--rhino);
+
+  @include text('body-3');
 }
 
 .icon {
   fill: var(--color);
   margin-right: 11px;
-}
-
-.close {
-  fill: var(--waterloo);
-  margin-left: 13px;
-}
-
-.button:hover .close {
-  fill: var(--jungle-green);
 }
