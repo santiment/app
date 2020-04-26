@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Input from '@santiment-network/ui/Input'
 import { gotoExplore } from '../trendsUtils'
 
-export class TrendsInputSearch extends Component {
+export class TrendsSearchForm extends Component {
   static defaultProps = {
     classes: {}
   }
@@ -46,4 +46,4 @@ export class TrendsInputSearch extends Component {
 export default connect(
   null,
   gotoExplore
-)(TrendsInputSearch)
+)(TrendsSearchForm)
