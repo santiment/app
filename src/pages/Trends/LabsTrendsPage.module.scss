@@ -45,20 +45,20 @@
   margin: 30px auto 16px auto;
   width: 500px;
 
-  &__input {
-    height: 40px;
-  }
-
   @include responsive('phone', 'phone-xs') {
     width: 100%;
     padding: 0 16px;
-    margin: 0 0 16px 0;
+    margin: 8px 0 16px 0;
   }
 }
 
 .suggestions {
   margin: 0 auto 48px auto;
   justify-content: center;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-bottom: 20px;
+  }
 }
 
 .icon {

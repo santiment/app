@@ -5,6 +5,10 @@
   display: flex;
   align-items: center;
   color: $bali-hai;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-wrap: wrap;
+  }
 }
 
 .link {

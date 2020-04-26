@@ -1,6 +1,6 @@
 import { push } from 'react-router-redux'
 import Raven from 'raven-js'
-import GA from './../../utils/tracking'
+import GA from './../../../utils/tracking'
 
 export const gotoExplore = dispatch => ({
   gotoExplore: topic => {

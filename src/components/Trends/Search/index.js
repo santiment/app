@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
+import cx from 'classnames'
 import { connect } from 'react-redux'
 import Input from '@santiment-network/ui/Input'
-import { gotoExplore } from '../trendsUtils'
+import Button from '@santiment-network/ui/Button'
+import { gotoExplore } from './utils.js'
+import styles from './index.module.scss'
 
 export class TrendsSearchForm extends Component {
   static defaultProps = {
@@ -28,16 +31,37 @@ export class TrendsSearchForm extends Component {
   }
 
   render () {
-    const {classes: { wrapper: className, input: inputClassName }} = this.props
+    const {
+      classes: { wrapper: className, input: inputClassName },
+      withButton,
+      isMulti
+    } = this.props
 
     return (
-      <form onSubmit={this.handleSubmit} className={className}>
+      <form
+        onSubmit={this.handleSubmit}
+        className={cx(styles.wrapper, className)}
+      >
         <Input
-          className={inputClassName}
+          className={cx(
+            styles.input,
+            inputClassName,
+            withButton && styles.withButton
+          )}
           placeholder='Enter a word or a phrase...'
           value={this.state.topic}
           onChange={this.handleChange}
         />
+        {withButton && (
+          <Button
+            type='submit'
+            variant='fill'
+            accent='positive'
+            className={styles.button}
+          >
+            Go
+          </Button>
+        )}
       </form>
     )
   }

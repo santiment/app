@@ -64,10 +64,7 @@ const TrendsExplore = ({
               <>
                 <TrendsSearchForm
                   defaultTopic={topic}
-                  classes={{
-                    wrapper: styles.search,
-                    input: styles.searchInput
-                  }}
+                  classes={{ wrapper: styles.search }}
                 />
                 <Suggestions />
               </>
