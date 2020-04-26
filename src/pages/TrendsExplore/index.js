@@ -6,7 +6,6 @@ import { compose, withProps } from 'recompose'
 import Icon from '@santiment-network/ui/Icon'
 import * as actions from '../../components/Trends/actions'
 import SocialTool from '../SocialTool'
-import TrendsSearchForm from '../../components/Trends/Search'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import withDetectionAsset from '../../components/Trends/withDetectionAsset'
 import Suggestions from '../../components/Trends/Search/Suggestions'
@@ -14,6 +13,7 @@ import NoDataTemplate from '../../components/NoDataTemplate'
 import { checkHasPremium } from '../UserSelectors'
 import { safeDecode } from '../../utils/utils'
 import { addRecentTrends } from '../../utils/recent'
+import Search from './Search'
 import Sidebar from './Sidebar'
 import styles from './index.module.scss'
 
@@ -62,10 +62,7 @@ const TrendsExplore = ({
           <div className={styles.search}>
             {isDesktop ? (
               <>
-                <TrendsSearchForm
-                  defaultTopic={topic}
-                  classes={{ wrapper: styles.search }}
-                />
+                <Search topic={topic} />
                 <Suggestions />
               </>
             ) : (
@@ -78,10 +75,7 @@ const TrendsExplore = ({
                 }}
                 title=''
               >
-                <TrendsSearchForm
-                  classes={{ wrapper: styles.search }}
-                  defaultTopic={topic}
-                />
+                <Search topic={topic} />
               </MobileHeader>
             )}
           </div>

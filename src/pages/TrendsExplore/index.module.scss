@@ -58,20 +58,6 @@
   }
 }
 
-.search {
-  @include responsive('phone-xs', 'phone') {
-    width: 100%;
-  }
-
-  & form {
-    min-width: 400px;
-
-    @include responsive('phone-xs', 'phone') {
-      min-width: auto;
-    }
-  }
-}
-
 .wrapperHeader {
   display: flex;
   align-items: center;

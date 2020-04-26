@@ -6,6 +6,8 @@ import Button from '@santiment-network/ui/Button'
 import { gotoExplore } from './utils.js'
 import styles from './index.module.scss'
 
+export const DEFAULT_TEXT = 'Enter a word or a phrase...'
+
 export class TrendsSearchForm extends Component {
   static defaultProps = {
     classes: {}
@@ -33,8 +35,7 @@ export class TrendsSearchForm extends Component {
   render () {
     const {
       classes: { wrapper: className, input: inputClassName },
-      withButton,
-      isMulti
+      withButton
     } = this.props
 
     return (
@@ -48,7 +49,7 @@ export class TrendsSearchForm extends Component {
             inputClassName,
             withButton && styles.withButton
           )}
-          placeholder='Enter a word or a phrase...'
+          placeholder={DEFAULT_TEXT}
           value={this.state.topic}
           onChange={this.handleChange}
         />

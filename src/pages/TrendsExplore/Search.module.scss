@@ -1,0 +1,27 @@
+@import '~@santiment-network/ui/mixins';
+
+.input {
+  & button svg:last-of-type {
+    box-sizing: content-box;
+  }
+
+  padding-right: 40px;
+}
+
+.button {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  bottom: 4px;
+  height: auto;
+  background-color: var(--athens);
+}
+
+.limit {
+  top: calc(100% + 8px);
+  right: 0;
+  position: absolute;
+  color: var(--waterloo);
+
+  @include text('body-3');
+}
