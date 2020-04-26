@@ -6,10 +6,10 @@ import { compose, withProps } from 'recompose'
 import Icon from '@santiment-network/ui/Icon'
 import * as actions from '../../components/Trends/actions'
 import SocialTool from '../SocialTool'
-import TrendsExploreSearch from '../../components/Trends/Explore/TrendsExploreSearch'
+import TrendsInputSearch from '../../components/Trends/Search/TrendsInputSearch'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import withDetectionAsset from '../../components/Trends/withDetectionAsset'
-import { TrendsSamples } from '../../components/Trends/TrendsSearch'
+import Suggestions from '../../components/Trends/Search/Suggestions'
 import NoDataTemplate from '../../components/NoDataTemplate'
 import { checkHasPremium } from '../UserSelectors'
 import { safeDecode } from '../../utils/utils'
@@ -61,13 +61,16 @@ const TrendsExplore = ({
           )}
           <div className={styles.search}>
             {isDesktop ? (
-              <TrendsExploreSearch
-                topic={topic}
-                isDesktop={isDesktop}
-                history={history}
-                className={styles.search}
-                inputClassName={styles.searchInput}
-              />
+              <>
+                <TrendsInputSearch
+                  defaultTopic={topic}
+                  classes={{
+                    wrapper: styles.search,
+                    input: styles.searchInput
+                  }}
+                />
+                <Suggestions />
+              </>
             ) : (
               <MobileHeader
                 goBack={history.goBack}
@@ -78,28 +81,20 @@ const TrendsExplore = ({
                 }}
                 title=''
               >
-                <TrendsExploreSearch
-                  className={styles.search}
-                  topic={topic}
-                  isDesktop={isDesktop}
+                <TrendsInputSearch
+                  classes={{ wrapper: styles.search }}
+                  defaultTopic={topic}
                 />
               </MobileHeader>
             )}
-            <TrendsSamples />
           </div>
           {topic ? (
-            <SocialTool
-              settings={{ slug: topic }}
-            />
+            <SocialTool settings={{ slug: topic }} />
           ) : (
             <NoDataTemplate />
           )}
         </div>
-        <Sidebar
-          topic={topic}
-          hasPremium={hasPremium}
-          isDesktop={isDesktop}
-        />
+        <Sidebar topic={topic} hasPremium={hasPremium} isDesktop={isDesktop} />
       </div>
     </div>
   )

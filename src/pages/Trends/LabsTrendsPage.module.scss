@@ -42,25 +42,23 @@
 }
 
 .search {
-  margin-bottom: 45px;
-  align-items: center;
+  margin: 30px auto 16px auto;
+  width: 500px;
 
   &__input {
     height: 40px;
   }
 
-  &__form {
-    width: 500px;
-
-    @include responsive('phone', 'phone-xs') {
-      width: 100%;
-    }
-  }
-
   @include responsive('phone', 'phone-xs') {
+    width: 100%;
     padding: 0 16px;
-    margin-bottom: 16px;
+    margin: 0 0 16px 0;
   }
+}
+
+.suggestions {
+  margin: 0 auto 48px auto;
+  justify-content: center;
 }
 
 .icon {

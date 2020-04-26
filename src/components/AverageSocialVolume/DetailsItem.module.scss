@@ -21,10 +21,6 @@
 .title {
   display: inline-block;
   color: var(--rhino);
-
-  &::first-letter {
-    text-transform: uppercase;
-  }
 }
 
 .value {
