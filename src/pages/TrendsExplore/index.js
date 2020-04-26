@@ -59,26 +59,20 @@ const TrendsExplore = ({
               Social context
             </div>
           )}
-          <div className={styles.search}>
-            {isDesktop ? (
-              <>
-                <Search topic={topic} />
-                <Suggestions />
-              </>
-            ) : (
-              <MobileHeader
-                goBack={history.goBack}
-                backRoute={'/'}
-                classes={{
-                  wrapper: styles.wrapperHeader,
-                  searchBtn: styles.fullSearchBtn
-                }}
-                title=''
-              >
-                <Search topic={topic} />
-              </MobileHeader>
-            )}
-          </div>
+          {!isDesktop && (
+            <MobileHeader
+              goBack={history.goBack}
+              backRoute={'/'}
+              classes={{
+                wrapper: styles.mobileHeader,
+                left: styles.mobileHeader__left,
+                searchBtn: styles.mobileHeader__search
+              }}
+              title='Social context'
+            />
+          )}
+          <Search topic={topic} isDesktop={isDesktop} />
+          {isDesktop && <Suggestions />}
           {topic ? (
             <SocialTool settings={{ slug: topic }} />
           ) : (

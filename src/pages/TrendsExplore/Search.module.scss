@@ -6,6 +6,11 @@
   }
 
   padding-right: 40px;
+
+  @include responsive('phone', 'phone-xs') {
+    padding-right: 0;
+    margin-bottom: 74px;
+  }
 }
 
 .button {
@@ -15,6 +20,13 @@
   bottom: 4px;
   height: auto;
   background-color: var(--athens);
+
+  @include responsive('phone', 'phone-xs') {
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    height: 40px;
+  }
 }
 
 .limit {
