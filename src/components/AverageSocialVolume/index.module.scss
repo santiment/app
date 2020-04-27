@@ -40,16 +40,6 @@
   width: 60%;
 }
 
-.column {
-  &:first-child {
-    background-color: var(--texas-rose);
-  }
-
-  &:nth-child(2) {
-    background-color: $malibu;
-  }
-}
-
 .loader {
   font-size: 5px;
   margin: 41px auto;

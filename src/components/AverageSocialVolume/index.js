@@ -15,16 +15,29 @@ import Column from './Column'
 import PaywallBanner from './PaywallBanner'
 import styles from './index.module.scss'
 
-// NOTE(haritonasty): refactor after comparing
+const COLORS = [
+  '#68DBF4', // CYAN
+  '#FF5B5B', // RED
+  '#5275FF', // BLUE
+  '#FF8450', // SALMON
+  '#D4E763' // YELLOW-GREEN
+]
 
-const AverageSocialVolume = ({ text, hasPremium, detectedAsset }) => {
-  const defaultMetrics = [Metric.social_volume_total, buildExploredMetric(text)]
-  const [metrics, setMetrics] = useState(defaultMetrics)
+const AverageSocialVolume = ({ topics, linkedAssets, hasPremium }) => {
+  const defaultMetrics = topics.map(topic => buildExploredMetric(topic))
+  const [metrics, setMetrics] = useState([
+    Metric.social_volume_total,
+    defaultMetrics
+  ])
   const [avg, setAvg] = useState([])
 
-  DEFAULT_METRIC_SETTING_MAP.set(metrics[1], {
-    selector: detectedAsset ? 'slug' : 'text',
-    slug: detectedAsset ? detectedAsset.slug : text
+  defaultMetrics.forEach(metric => {
+    const topic = metric.text
+    const detectedAsset = linkedAssets.get(topic)
+    DEFAULT_METRIC_SETTING_MAP.set(metric, {
+      selector: detectedAsset ? 'slug' : 'text',
+      slug: detectedAsset ? detectedAsset.slug : topic
+    })
   })
 
   const [MetricSettingMap, setMetricSettingMap] = useState(
@@ -38,29 +51,32 @@ const AverageSocialVolume = ({ text, hasPremium, detectedAsset }) => {
     setAvg(newAvg)
   }
 
-  useEffect(
-    () => {
-      const newMetrics = [Metric.social_volume_total, buildExploredMetric(text)]
+  useEffect(() => {
+    let newMetrics = topics.map(topic => buildExploredMetric(topic))
+    newMetrics = [Metric.social_volume_total, ...newMetrics]
+    setMetrics(newMetrics)
+    setAvg([])
+  }, [topics])
 
-      setMetrics(newMetrics)
-      setAvg([])
-    },
-    [text]
-  )
-
-  useEffect(
-    () => {
-      const newMetricSettingMap = new Map(MetricSettingMap)
-      const metricSetting = {
+  useEffect(() => {
+    const newMetricSettingMap = new Map(MetricSettingMap)
+    const topicMetrics = metrics.slice(1)
+    topicMetrics.forEach(metric => {
+      const topic = metric.text
+    const detectedAsset = linkedAssets.get(topic)
+      newMetricSettingMap.set(metric, {
         selector: detectedAsset ? 'slug' : 'text',
-        slug: detectedAsset ? detectedAsset.slug : text
-      }
+        slug: detectedAsset ? detectedAsset.slug : topic
+      })
+    })
 
-      newMetricSettingMap.set(metrics[1], metricSetting)
-      setMetricSettingMap(newMetricSettingMap)
-    },
-    [metrics, detectedAsset]
-  )
+    setMetricSettingMap(newMetricSettingMap)
+  }, [metrics, linkedAssets])
+
+
+  const totalAvg = avg[0]
+  const remainingAvg = avg.slice(1)
+  const max = remainingAvg.length > 1 ? Math.max(...remainingAvg) : totalAvg
 
   return (
     <div className={styles.wrapper}>
@@ -72,23 +88,32 @@ const AverageSocialVolume = ({ text, hasPremium, detectedAsset }) => {
       </div>
       {hasPremium && (
         <div className={styles.content}>
-          {avg.length === 2 ? (
+          {avg.length > 1 ? (
             <>
               <div className={styles.chart}>
-                <Column percent={100} className={styles.column} />
-                <Column
-                  percent={calcPercentage(avg[0], avg[1])}
-                  className={styles.column}
-                />
+                {avg.length === 2 && (
+                  <Column percent={100} className={styles.column} />
+                )}
+                {remainingAvg.map((item, idx) => (
+                  <Column
+                    key={idx}
+                    color={COLORS[idx]}
+                    percent={calcPercentage(max, item)}
+                    className={styles.column}
+                  />
+                ))}
               </div>
               <div className={styles.details}>
-                <DetailsItem value={avg[0]} className={styles.item} />
-                <DetailsItem
-                  value={avg[1]}
-                  percentage={calcPercentage(avg[0], avg[1])}
-                  title={text}
-                  className={styles.item}
-                />
+                <DetailsItem value={totalAvg} className={styles.item} />
+                {remainingAvg.map((item, idx) => (
+                  <DetailsItem
+                    value={item}
+                    color={COLORS[idx]}
+                    percent={calcPercentage(totalAvg, item)}
+                    title={topics[idx]}
+                    className={styles.item}
+                  />
+                ))}
               </div>
             </>
           ) : (

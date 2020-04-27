@@ -7,7 +7,7 @@ export const DEFAULT_METRIC_SETTING_MAP = new Map().set(
   Metric.social_volume_total,
   {
     selector: 'text',
-    slug: '*'
+    slug: '*',
   }
 )
 
@@ -16,11 +16,10 @@ export function buildExploredMetric (text) {
   return {
     ...Metric.social_volume_total,
     queryKey: Metric.social_volume_total.key,
-    key
+    key,
+    text
   }
 }
-
-// NOTE(haritonasty): refactor after comparing
 
 export function calcAverage (metrics, data) {
   const initialValue = {}

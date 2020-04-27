@@ -16,7 +16,7 @@ import { safeDecode } from '../../utils/utils'
 import { addRecentTrends } from '../../utils/recent'
 import { trackTopicSearch } from '../../components/Trends/Search/utils'
 import { getTopicsFromUrl, updTopicsInUrl } from './url'
-
+import { detectWordWithAllTickersSlugs } from './utils'
 import Search from './Search'
 import Sidebar from './Sidebar'
 import styles from './index.module.scss'
@@ -28,7 +28,6 @@ const TrendsExplore = ({
   word,
   addedTopics,
   history,
-  detectedAsset,
   fetchAllTickersSlugs,
   fetchTrendSocialData,
   isDesktop,
@@ -39,13 +38,24 @@ const TrendsExplore = ({
 }) => {
   const topic = safeDecode(word)
   const [topics, setTopics] = useState([topic, ...addedTopics])
+  const [linkedAssets, setLinkedAssets] = useState(new Map())
 
   useEffect(() => {
-    console.log("topic, addedTopics")
+    console.log(topic, addedTopics)
   }, [topic])
 
   if (allAssets.length === 0) {
     fetchAllTickersSlugs()
+  } else if (linkedAssets.size === 0) {
+    const newLinkedAssets = new Map()
+    topics.forEach(topic => {
+      newLinkedAssets.set(
+        topic,
+        detectWordWithAllTickersSlugs({ word: topic, allAssets })
+      )
+    })
+
+    setLinkedAssets(newLinkedAssets)
   }
 
   function updTopics (newTopics) {
@@ -94,6 +104,7 @@ const TrendsExplore = ({
           )}
           <Search
             topics={topics}
+            linkedAssets={linkedAssets}
             isDesktop={isDesktop}
           />
           {isDesktop && <Suggestions />}
@@ -103,7 +114,12 @@ const TrendsExplore = ({
             <NoDataTemplate />
           )}
         </div>
-        <Sidebar topic={topic} hasPremium={hasPremium} isDesktop={isDesktop} />
+        <Sidebar
+          topics={topics}
+          linkedAssets={linkedAssets}
+          hasPremium={hasPremium}
+          isDesktop={isDesktop}
+        />
       </div>
     </div>
   )
@@ -152,6 +168,5 @@ export default compose(
       addedTopics,
       ...rest
     }
-  }),
-  withDetectionAsset
+  })
 )(TrendsExplore)
