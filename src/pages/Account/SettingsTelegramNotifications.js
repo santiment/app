@@ -7,8 +7,9 @@ import * as actions from '../../actions/types'
 import styles from './AccountPage.module.scss'
 
 const SettingsTelegramNotifications = ({
-  isTelegramNotificationEnabled,
+                                         signalNotifyTelegram,
   toggleTelegramNotification,
+                                         hasTelegramConnected,
   classes = {},
   description
 }) => {
@@ -18,12 +19,12 @@ const SettingsTelegramNotifications = ({
 
       <div className={cx(styles.setting__right_notifications, classes.right)}>
         {description}
-        <Toggle
-          isActive={isTelegramNotificationEnabled}
+        {hasTelegramConnected ? <Toggle
+          isActive={signalNotifyTelegram}
           onClick={() =>
-            toggleTelegramNotification(!isTelegramNotificationEnabled)
+            toggleTelegramNotification(!signalNotifyTelegram)
           }
-        />
+        /> : 'Please connect to telegram bot to enable notifications'}
       </div>
     </div>
   )
@@ -31,10 +32,11 @@ const SettingsTelegramNotifications = ({
 
 const mapStateToProps = ({
   user: {
-    data: { settings: { signalNotifyTelegram } = {} }
+    data: { settings: {hasTelegramConnected, signalNotifyTelegram } = {} }
   }
 }) => ({
-  isTelegramNotificationEnabled: signalNotifyTelegram
+  signalNotifyTelegram,
+  hasTelegramConnected
 })
 
 const mapDispatchToProps = dispatch => ({
