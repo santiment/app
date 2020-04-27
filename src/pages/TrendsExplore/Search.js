@@ -6,7 +6,7 @@ import styles from './Search.module.scss'
 
 const MAX_VALUES = 5
 
-const Search = ({ topics, onChangeTopics = () => {} }) => {
+const Search = ({ topics, onChangeTopics }) => {
   const [isInFocus, setIsInFocus] = useState(false)
   const [values, setValues] = useState(topics)
   const inputRef = useRef(null)
@@ -33,6 +33,12 @@ const Search = ({ topics, onChangeTopics = () => {} }) => {
   }
 
   return (
+    <>
+      {topics.map((topic, idx) => (
+        <h6 key={idx}>
+          {topic}
+        </h6>
+      ))}
     <MultiInput
       onValueAdd={(value, newValues) => setValues(newValues)}
       onValueRemove={(value, newValues) => setValues(newValues)}
@@ -40,6 +46,7 @@ const Search = ({ topics, onChangeTopics = () => {} }) => {
       onBlur={() => setIsInFocus(false)}
       maxValues={MAX_VALUES}
       placeholder={DEFAULT_TEXT}
+      values={topics}
       defaultValues={values}
       className={styles.input}
       forwardedRef={inputRef}
@@ -54,12 +61,8 @@ const Search = ({ topics, onChangeTopics = () => {} }) => {
           To add a new word, please delete one
         </span>
       )}
-      {/* {topics.map((topic, idx) => ( */}
-      {/*   <h6 key={idx}> */}
-      {/*     {topic} */}
-      {/*   </h6> */}
-      {/* ))} */}
     </MultiInput>
+    </>
   )
 }
 

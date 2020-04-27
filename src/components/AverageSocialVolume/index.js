@@ -19,7 +19,7 @@ const COLORS = [
   '#68DBF4', // CYAN
   '#FF5B5B', // RED
   '#5275FF', // BLUE
-  '#FF8450', // SALMON
+  '#F47BF7', // PURPLE
   '#D4E763' // YELLOW-GREEN
 ]
 

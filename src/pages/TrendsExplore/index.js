@@ -59,10 +59,10 @@ const TrendsExplore = ({
   }
 
   function updTopics (newTopics) {
-    console.log('UPD')
+    console.log('UPD', newTopics)
     if (newTopics !== topics) {
       setTopics(newTopics)
-      gotoExplore(newTopics)
+      // gotoExplore(newTopics)
     }
   }
 
@@ -105,6 +105,7 @@ const TrendsExplore = ({
           <Search
             topics={topics}
             linkedAssets={linkedAssets}
+            onChangeTopics={updTopics}
             isDesktop={isDesktop}
           />
           {isDesktop && <Suggestions />}
