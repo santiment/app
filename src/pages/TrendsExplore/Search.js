@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react'
 import MultiInput from '@santiment-network/ui/Input/MultiInput'
 import Button from '@santiment-network/ui/Button'
+import Toggle from '@santiment-network/ui/Toggle'
 import { DEFAULT_TEXT } from '../../components/Trends/Search'
 import styles from './Search.module.scss'
 
 const MAX_VALUES = 5
 
-const Search = ({ topics, onChangeTopics }) => {
+const Search = ({ topics, linkedAssets, onChangeTopics }) => {
   const [isInFocus, setIsInFocus] = useState(false)
   const [values, setValues] = useState(topics)
   const inputRef = useRef(null)
@@ -33,12 +34,6 @@ const Search = ({ topics, onChangeTopics }) => {
   }
 
   return (
-    <>
-      {topics.map((topic, idx) => (
-        <h6 key={idx}>
-          {topic}
-        </h6>
-      ))}
     <MultiInput
       onValueAdd={(value, newValues) => setValues(newValues)}
       onValueRemove={(value, newValues) => setValues(newValues)}
@@ -48,6 +43,20 @@ const Search = ({ topics, onChangeTopics }) => {
       placeholder={DEFAULT_TEXT}
       values={topics}
       defaultValues={values}
+      valueContent={text => {
+        const detectedAsset = linkedAssets.get(text)
+        return detectedAsset ? (
+          <div className={styles.content}>
+            <Toggle
+              className={styles.toggle}
+              onClick={() => console.log('toggle!')}
+            />
+            {text}
+          </div>
+        ) : (
+          text
+        )
+      }}
       className={styles.input}
       forwardedRef={inputRef}
     >
@@ -62,7 +71,6 @@ const Search = ({ topics, onChangeTopics }) => {
         </span>
       )}
     </MultiInput>
-    </>
   )
 }
 

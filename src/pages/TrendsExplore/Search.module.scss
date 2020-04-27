@@ -7,6 +7,10 @@
 
   padding-right: 40px;
 
+  &:hover {
+    cursor: text;
+  }
+
   @include responsive('phone', 'phone-xs') {
     padding-right: 0;
     margin-bottom: 74px;
@@ -36,4 +40,13 @@
   color: var(--waterloo);
 
   @include text('body-3');
+}
+
+.content {
+  display: flex;
+  align-items: center;
+}
+
+.toggle {
+  margin-right: 8px;
 }
