@@ -17,7 +17,7 @@ export const normalizeTopic = topic => {
   return topic
 }
 
-const trackTopicSearch = topic => {
+export const trackTopicSearch = topic => {
   if (process.env.NODE_ENV === 'production') {
     fetch(
       'https://us-central1-sanbase-search-ea4dc.cloudfunctions.net/trackTrends',

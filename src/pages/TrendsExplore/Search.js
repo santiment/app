@@ -6,9 +6,9 @@ import styles from './Search.module.scss'
 
 const MAX_VALUES = 5
 
-const Search = ({ topic }) => {
+const Search = ({ topics, onChangeTopics = () => {} }) => {
   const [isInFocus, setIsInFocus] = useState(false)
-  const [values, setValues] = useState([topic])
+  const [values, setValues] = useState(topics)
   const inputRef = useRef(null)
 
   const isMaxValuesReached = values.length === MAX_VALUES
@@ -16,8 +16,13 @@ const Search = ({ topic }) => {
   useEffect(() => {
     if (values.length === 0) {
       setFocus()
+      return
     } else if (isMaxValuesReached) {
       setIsInFocus(false)
+    }
+
+    if (topics !== values) {
+      onChangeTopics(values)
     }
   }, [values])
 
@@ -49,6 +54,11 @@ const Search = ({ topic }) => {
           To add a new word, please delete one
         </span>
       )}
+      {/* {topics.map((topic, idx) => ( */}
+      {/*   <h6 key={idx}> */}
+      {/*     {topic} */}
+      {/*   </h6> */}
+      {/* ))} */}
     </MultiInput>
   )
 }

@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import { compose, withProps } from 'recompose'
 import Icon from '@santiment-network/ui/Icon'
 import * as actions from '../../components/Trends/actions'
@@ -13,6 +14,9 @@ import NoDataTemplate from '../../components/NoDataTemplate'
 import { checkHasPremium } from '../UserSelectors'
 import { safeDecode } from '../../utils/utils'
 import { addRecentTrends } from '../../utils/recent'
+import { trackTopicSearch } from '../../components/Trends/Search/utils'
+import { getTopicsFromUrl, updTopicsInUrl } from './url'
+
 import Search from './Search'
 import Sidebar from './Sidebar'
 import styles from './index.module.scss'
@@ -22,35 +26,53 @@ const pageDescription =
 
 const TrendsExplore = ({
   word,
+  addedTopics,
   history,
   detectedAsset,
   fetchAllTickersSlugs,
   fetchTrendSocialData,
   isDesktop,
   hasPremium,
+  gotoExplore,
   data: { wordContext: wordData = [], loading, error } = {},
   allAssets
 }) => {
+  const topic = safeDecode(word)
+  const [topics, setTopics] = useState([topic, ...addedTopics])
+
+  useEffect(() => {
+    console.log("topic, addedTopics")
+  }, [topic])
+
   if (allAssets.length === 0) {
     fetchAllTickersSlugs()
+  }
+
+  function updTopics (newTopics) {
+    console.log('UPD')
+    if (newTopics !== topics) {
+      setTopics(newTopics)
+      gotoExplore(newTopics)
+    }
   }
 
   addRecentTrends(word)
   fetchTrendSocialData(word)
 
-  const topic = safeDecode(word)
   const pageTitle = `Crypto Social Trends for ${topic} - Sanbase`
 
   return (
     <div className={styles.wrapper}>
-      <Helmet>
-        <title>{pageTitle}</title>
-        <meta property='og:title' content={pageTitle} />
-        <meta property='og:description' content={pageDescription} />
-      </Helmet>
+      <Helmet
+        title={pageTitle}
+        meta={[
+          { property: 'og:title', content: pageTitle },
+          { property: 'og:description', content: pageDescription }
+        ]}
+      />
       <div className={styles.layout}>
         <div className={styles.main}>
-          {isDesktop && (
+          {isDesktop ? (
             <div className={styles.breadcrumbs}>
               <Link to='/labs/trends/' className={styles.link}>
                 Emerging trends
@@ -58,8 +80,7 @@ const TrendsExplore = ({
               <Icon type='arrow-right' className={styles.arrow} />
               Social context
             </div>
-          )}
-          {!isDesktop && (
+          ) : (
             <MobileHeader
               goBack={history.goBack}
               backRoute={'/'}
@@ -71,10 +92,13 @@ const TrendsExplore = ({
               title='Social context'
             />
           )}
-          <Search topic={topic} isDesktop={isDesktop} />
+          <Search
+            topics={topics}
+            isDesktop={isDesktop}
+          />
           {isDesktop && <Suggestions />}
           {topic ? (
-            <SocialTool settings={{ slug: topic }} />
+            <SocialTool settings={{ slug: topic, addedTopics }} />
           ) : (
             <NoDataTemplate />
           )}
@@ -101,6 +125,16 @@ const mapDispatchToProps = dispatch => ({
       type: actions.TRENDS_HYPED_WORD_SELECTED,
       payload
     })
+  },
+  gotoExplore: topics => {
+    const addedTopics = topics.slice(1)
+    const newOptions = updTopicsInUrl(addedTopics)
+    trackTopicSearch(topics[0])
+    dispatch(
+      push(
+        `/labs/trends/explore/${encodeURIComponent(topics[0])}?${newOptions}`
+      )
+    )
   }
 })
 
@@ -110,8 +144,12 @@ export default compose(
     mapDispatchToProps
   ),
   withProps(({ match = { params: {} }, ...rest }) => {
+    const addedTopics = getTopicsFromUrl()
+    const word = match.params.word
     return {
-      word: match.params.word,
+      word,
+      topic: safeDecode(word),
+      addedTopics,
       ...rest
     }
   }),
