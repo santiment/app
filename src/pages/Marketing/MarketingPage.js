@@ -49,7 +49,7 @@ const MarketingPage = ({history}) => {
       </div>
 
       <div className={styles.block}>
-        <div className={styles.subTitle}>Insights Signals Leaderboard</div>
+        <div className={styles.subTitle}>Top Market Calls</div>
         <iframe title='Insights table' className="airtable-embed"
                 src="https://airtable.com/embed/shrCwTMKbFLiRn3Eq?backgroundColor=gray&viewControls=on" frameBorder="0"
                 width="100%" height="533"
