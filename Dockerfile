@@ -1,5 +1,8 @@
 FROM node:13
 
+ARG GIT_HEAD
+RUN GIT_HEAD=$GIT_HEAD
+
 WORKDIR /app
 
 COPY ./package.json /app/package.json
