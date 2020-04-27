@@ -107,6 +107,7 @@ const AverageSocialVolume = ({ topics, linkedAssets, hasPremium }) => {
                 <DetailsItem value={totalAvg} className={styles.item} />
                 {remainingAvg.map((item, idx) => (
                   <DetailsItem
+                    key={idx}
                     value={item}
                     color={COLORS[idx]}
                     percent={calcPercentage(totalAvg, item)}

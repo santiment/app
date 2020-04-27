@@ -8,7 +8,6 @@ import Icon from '@santiment-network/ui/Icon'
 import * as actions from '../../components/Trends/actions'
 import SocialTool from '../SocialTool'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
-import withDetectionAsset from '../../components/Trends/withDetectionAsset'
 import Suggestions from '../../components/Trends/Search/Suggestions'
 import NoDataTemplate from '../../components/NoDataTemplate'
 import { checkHasPremium } from '../UserSelectors'
@@ -41,12 +40,10 @@ const TrendsExplore = ({
   const [linkedAssets, setLinkedAssets] = useState(new Map())
 
   useEffect(() => {
-    console.log(topic, addedTopics)
-  }, [topic])
+    setTopics([topic, ...addedTopics])
+  }, [topic, addedTopics])
 
-  if (allAssets.length === 0) {
-    fetchAllTickersSlugs()
-  } else if (linkedAssets.size === 0) {
+  useEffect(() => {
     const newLinkedAssets = new Map()
     topics.forEach(topic => {
       newLinkedAssets.set(
@@ -56,13 +53,16 @@ const TrendsExplore = ({
     })
 
     setLinkedAssets(newLinkedAssets)
+  }, [topics])
+
+  if (allAssets.length === 0) {
+    fetchAllTickersSlugs()
   }
 
   function updTopics (newTopics) {
     console.log('UPD', newTopics)
     if (newTopics !== topics) {
-      setTopics(newTopics)
-      // gotoExplore(newTopics)
+      gotoExplore(newTopics)
     }
   }
 
