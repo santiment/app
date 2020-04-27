@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
+import GA from '../../utils/tracking'
 import StudioSidebar from './Sidebar'
 import StudioMain from './Main'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
 import { MAX_METRICS_AMOUNT } from './constraints'
 import { generateShareLink, updateHistory } from './url'
-import { trackMetricState } from './analytics'
 import { useTimeseries } from './timeseries/hooks'
 import { buildAnomalies } from './timeseries/anomalies'
 import { buildComparedMetric } from './Compare/utils'
@@ -140,7 +140,6 @@ const Studio = ({
     if (metricSet.has(metric)) {
       if (activeMetrics.length === 1) return
       metricSet.delete(metric)
-      trackMetricState(metric, false)
     } else {
       if (
         !options.isMultiChartsActive &&
@@ -150,7 +149,13 @@ const Studio = ({
       }
 
       metricSet.add(metric)
-      trackMetricState(metric, true)
+      GA.event(
+        {
+          category: 'Chart',
+          action: `Showing "${metric.label}"`
+        },
+        ['ga', 'intercom']
+      )
     }
     setMetrics([...metricSet])
   }
