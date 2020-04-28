@@ -3,7 +3,7 @@ import { client } from '../../../index'
 import { getQuery, getPreTransform } from './fetcher'
 import { normalizeDatetimes } from './utils'
 import { mergeTimeseriesByKey } from '../../../utils/utils'
-import {Metrics} from "../../SANCharts/data";
+import {Metric} from "../../dataHub/metrics"
 
 // NOTE: Polyfill for a PingdomBot 0.8.5 browser (/sentry/sanbase-frontend/issues/29459/) [@vanguard | Feb 6, 2020]
 window.AbortController =
@@ -98,7 +98,7 @@ export function useTimeseries (
       let raceCondition = false
       let mergedData = []
 
-      const hasDaaMetric = metrics.some(({key}) => key === Metrics.daily_active_addresses.key)
+      const hasDaaMetric = metrics.some(({key}) => key === Metric.daily_active_addresses.key)
 
       metrics.forEach(metric => {
         const { key, reqMeta } = metric
