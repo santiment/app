@@ -38,6 +38,11 @@ const TrendsExplore = ({
 
   useEffect(() => {
     setTopics([topic, ...addedTopics])
+
+    if (topic !== topics[0]) {
+      trackTopicSearch(topic)
+    }
+
   }, [topic, addedTopics])
 
   useEffect(() => {
@@ -65,6 +70,11 @@ const TrendsExplore = ({
       const pathname = `/labs/trends/explore/${encodeURIComponent(
         newTopics[0]
       )}?`
+
+      if (newTopics.length !== 0) {
+        trackTopicSearch(newTopics.join(','))
+      }
+
       updateHistory(origin + pathname + newOptions)
       setTopics(newTopics)
     }
