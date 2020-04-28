@@ -11,17 +11,18 @@ const SettingsEmailNotifications = ({
   isEmailNotificationEnabled,
   toggleEmailNotification,
   classes = {},
-  description
+  description,
+  email
 }) => {
   return (
     <div className={cx(classes.container, styles.settingBlock)}>
       <Label className={classes.left}>Email notifications</Label>
       <div className={cx(styles.setting__right_notifications, classes.right)}>
         {description}
-        <Toggle
+        {email ? <Toggle
           isActive={isEmailNotificationEnabled}
           onClick={() => toggleEmailNotification(!isEmailNotificationEnabled)}
-        />
+        /> : 'Please add email to enable notifications'}
       </div>
     </div>
   )
@@ -29,10 +30,11 @@ const SettingsEmailNotifications = ({
 
 const mapStateToProps = ({
   user: {
-    data: { settings: { signalNotifyEmail } = {} }
+    data: {email, settings: { signalNotifyEmail } = {} }
   }
 }) => ({
-  isEmailNotificationEnabled: signalNotifyEmail
+  isEmailNotificationEnabled: signalNotifyEmail,
+  email
 })
 
 const mapDispatchToProps = dispatch => ({
