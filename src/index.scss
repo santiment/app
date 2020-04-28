@@ -132,15 +132,9 @@ hr {
   display: none;
 }
 
-#intercom-container,
-.intercom-namespace {
-  display: none;
-}
-
-@media (min-width: $breakpoint-desktop) {
-  #intercom-container,
-  .intercom-namespace {
-    display: block;
+.intercom-launcher {
+  @include responsive('phone', 'phone-xs') {
+    display: none;
   }
 }
 
