@@ -2,6 +2,9 @@ import sanitizeHtml from 'sanitize-html'
 import { createFactory } from 'react'
 import * as qs from 'query-string'
 import ms from 'ms'
+import {dateDifference, DAY} from "./dates";
+
+const INDEX_DATE = 'datetime'
 
 const calculateBTCVolume = ({ volume, priceUsd, priceBtc }) => {
   return (parseFloat(volume) / parseFloat(priceUsd)) * parseFloat(priceBtc)
@@ -131,14 +134,32 @@ const getYesterday = () => {
   return yesterday.toISOString()
 }
 
+const getDiffByDays = timeserie => {
+  if(!timeserie.length){
+    return 0
+  }
+
+  const diffResult = dateDifference({
+    from: new Date(timeserie[0][INDEX_DATE]),
+    to: new Date(timeserie[timeserie.length - 1][INDEX_DATE]),
+    format: DAY
+  })
+
+  return diffResult.diff
+}
+
 const mergeTimeseriesByKey = ({
   timeseries,
-  key: mergeKey = 'datetime',
+  key: mergeKey = INDEX_DATE,
   mergeData = (longestTSData, timeserieData) =>
     Object.assign({}, longestTSData, timeserieData)
 }) => {
+  const isDate = mergeKey === INDEX_DATE
   const longestTSMut = timeseries.reduce((acc, val) => {
-    return acc.length > val.length ? acc : val
+    const comparatorAcc = isDate ? getDiffByDays(acc) : acc.length
+    const comparatorVal = isDate ? getDiffByDays(val) : val.length
+
+    return comparatorAcc > comparatorVal ? acc : val
   }, [])
 
   const longestTS = longestTSMut.slice()
