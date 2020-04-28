@@ -40,8 +40,6 @@ const Canvas = ({
     setFocusedMetric()
   }
 
-  const isComparingMode = settings.addedTopics.length > 0
-
   return (
     <div className={cx(styles.wrapper, className)}>
       <ChartHeader
@@ -88,29 +86,25 @@ const Canvas = ({
       >
         <Signals {...settings} metrics={metrics} selector={selector} />
       </Chart>
-      {!isComparingMode && (
-        <>
-          <DetailedBlock
-            {...options}
-            {...props}
-            scale={scale}
-            type='general'
-            MetricColor={MetricColor}
-            settings={settings}
-            detectedAsset={detectedAsset}
-          />
-          {detectedAsset && (
-            <DetailedBlock
-              {...options}
-              {...props}
-              scale={scale}
-              type='community'
-              MetricColor={MetricColor}
-              settings={settings}
-              detectedAsset={detectedAsset}
-            />
-          )}
-        </>
+      <DetailedBlock
+        {...options}
+        {...props}
+        scale={scale}
+        type='general'
+        MetricColor={MetricColor}
+        settings={settings}
+        detectedAsset={detectedAsset}
+      />
+      {detectedAsset && (
+        <DetailedBlock
+          {...options}
+          {...props}
+          scale={scale}
+          type='community'
+          MetricColor={MetricColor}
+          settings={settings}
+          detectedAsset={detectedAsset}
+        />
       )}
     </div>
   )

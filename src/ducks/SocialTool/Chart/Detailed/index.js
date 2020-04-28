@@ -62,7 +62,9 @@ const DetailedBlock = ({
     }
   }, [priceAsset])
 
-  return (
+  const isComparingMode = settings.addedTopics.length > 0
+
+  return isComparingMode ? null : (
     <>
       <div className={styles.top}>
         <h3 className={styles.heading}>{DefaultCharts[type].title}</h3>
