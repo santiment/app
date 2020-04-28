@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import cx from 'classnames'
 import { Metric } from '../dataHub/metrics'
 import { useTimeseries } from '../Studio/timeseries/hooks'
-import { updateHistory, generateShareLink } from '../Studio/url'
+import {  generateShareLink } from '../Studio/url'
+import { updateHistory } from '../../utils/utils'
 import SocialToolChart from './Chart'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
 import styles from './index.module.scss'
@@ -57,12 +58,10 @@ const SocialTool = ({
 
   useEffect(
     () => {
-      const { slug } = defaultSettings
-      if (slug && slug !== settings.slug) {
-        setSettings(state => ({ ...state, slug }))
-      }
+      const { slug, addedTopics } = defaultSettings
+      setSettings(state => ({ ...state, slug, addedTopics }))
     },
-    [defaultSettings.slug]
+    [defaultSettings.slug, defaultSettings.addedTopics]
   )
 
   useEffect(

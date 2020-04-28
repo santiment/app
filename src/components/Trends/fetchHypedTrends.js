@@ -2,7 +2,6 @@ import Raven from 'raven-js'
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
 import * as actions from './actions'
-import { SOCIALVOLUME_DATA_FETCH } from '../SocialVolumeWidget/actions'
 
 const TRENDING_WORDS_QUERY = gql`
   query getTrendingWords($from: DateTime!, $to: DateTime!, $interval: Int!) {
@@ -23,20 +22,6 @@ const handleError = error => {
     payload: error
   })
 }
-
-export const selectHypedTrend = action$ =>
-  action$
-    .ofType(actions.TRENDS_HYPED_WORD_SELECTED)
-    .switchMap(({ payload }) => {
-      return payload
-        ? Observable.from([
-          {
-            type: SOCIALVOLUME_DATA_FETCH,
-            payload
-          }
-        ])
-        : Observable.empty()
-    })
 
 const fetchTrends$ = ({ client, from, to, interval = '1h', onlyTrends }) => {
   let fromIso = from

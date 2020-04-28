@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 import { compose, withProps } from 'recompose'
 import Icon from '@santiment-network/ui/Icon'
 import * as actions from '../../components/Trends/actions'
@@ -11,7 +10,7 @@ import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import Suggestions from '../../components/Trends/Search/Suggestions'
 import NoDataTemplate from '../../components/NoDataTemplate'
 import { checkHasPremium } from '../UserSelectors'
-import { safeDecode } from '../../utils/utils'
+import { safeDecode, updateHistory } from '../../utils/utils'
 import { addRecentTrends } from '../../utils/recent'
 import { trackTopicSearch } from '../../components/Trends/Search/utils'
 import { getTopicsFromUrl, updTopicsInUrl } from './url'
@@ -25,17 +24,15 @@ const pageDescription =
 
 const TrendsExplore = ({
   word,
+  topic,
   addedTopics,
   history,
   fetchAllTickersSlugs,
-  fetchTrendSocialData,
   isDesktop,
   hasPremium,
-  gotoExplore,
   data: { wordContext: wordData = [], loading, error } = {},
   allAssets
 }) => {
-  const topic = safeDecode(word)
   const [topics, setTopics] = useState([topic, ...addedTopics])
   const [linkedAssets, setLinkedAssets] = useState(new Map())
 
@@ -46,6 +43,7 @@ const TrendsExplore = ({
   useEffect(() => {
     const newLinkedAssets = new Map()
     topics.forEach(topic => {
+      addRecentTrends(topic)
       newLinkedAssets.set(
         topic,
         detectWordWithAllTickersSlugs({ word: topic, allAssets })
@@ -60,14 +58,17 @@ const TrendsExplore = ({
   }
 
   function updTopics (newTopics) {
-    console.log('UPD', newTopics)
     if (newTopics !== topics) {
-      gotoExplore(newTopics)
+      const { origin } = window.location
+      const addedTopics = newTopics.slice(1)
+      const newOptions = updTopicsInUrl(addedTopics)
+      const pathname = `/labs/trends/explore/${encodeURIComponent(
+        newTopics[0]
+      )}?`
+      updateHistory(origin + pathname + newOptions)
+      setTopics(newTopics)
     }
   }
-
-  addRecentTrends(word)
-  fetchTrendSocialData(word)
 
   const pageTitle = `Crypto Social Trends for ${topic} - Sanbase`
 
@@ -110,7 +111,9 @@ const TrendsExplore = ({
           />
           {isDesktop && <Suggestions />}
           {topic ? (
-            <SocialTool settings={{ slug: topic, addedTopics }} />
+            <SocialTool
+              settings={{ slug: topics[0], addedTopics: topics.slice(1) }}
+            />
           ) : (
             <NoDataTemplate />
           )}
@@ -136,22 +139,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch({
       type: actions.TRENDS_HYPED_FETCH_TICKERS_SLUGS
     })
-  },
-  fetchTrendSocialData: payload => {
-    dispatch({
-      type: actions.TRENDS_HYPED_WORD_SELECTED,
-      payload
-    })
-  },
-  gotoExplore: topics => {
-    const addedTopics = topics.slice(1)
-    const newOptions = updTopicsInUrl(addedTopics)
-    trackTopicSearch(topics[0])
-    dispatch(
-      push(
-        `/labs/trends/explore/${encodeURIComponent(topics[0])}?${newOptions}`
-      )
-    )
   }
 })
 

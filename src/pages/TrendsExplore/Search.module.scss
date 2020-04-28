@@ -1,8 +1,14 @@
 @import '~@santiment-network/ui/mixins';
 
 .input {
-  & button svg:last-of-type {
-    box-sizing: content-box;
+  & button {
+    min-height: 32px;
+    height: auto;
+
+    & svg:last-of-type {
+      box-sizing: content-box;
+      min-width: 6px;
+    }
   }
 
   padding-right: 40px;
@@ -14,6 +20,10 @@
   @include responsive('phone', 'phone-xs') {
     padding-right: 0;
     margin-bottom: 74px;
+
+    & button {
+      min-height: 40px;
+    }
   }
 }
 
