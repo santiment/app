@@ -24,9 +24,6 @@ import watchlistUi, {
 import hypedTrends, {
   initialState as initialHypedTrends
 } from './../components/Trends/reducers'
-import socialVolume, {
-  initialState as initialSocialVolume
-} from './../components/SocialVolumeWidget/reducers'
 import accountUi, {
   initialState as initialAccountUiState
 } from '../pages/Account/reducers'
@@ -47,7 +44,6 @@ export const intitialState = {
   rootUi: rootUiState,
   notification: initialNotificationState,
   router: routerReducer,
-  socialVolume: initialSocialVolume,
   accountUi: initialAccountUiState,
   recents: initialRecents,
   marketSegments: initialMarketSegments
@@ -64,7 +60,6 @@ export default combineReducers({
   insightsPageUi,
   watchlistUi,
   notification,
-  socialVolume,
   accountUi,
   recents,
   marketSegments

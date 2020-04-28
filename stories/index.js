@@ -2,8 +2,6 @@ import '@santiment-network/ui/main.scss'
 
 import './NavbarStory.js'
 import './EditorStory.js'
-import './WordCloudStory.js'
-import './SocialVolumeWidgetStory.js'
 import './SharePanelStory'
 import './NewInsightsStory'
 import './MultilineTextStory'
