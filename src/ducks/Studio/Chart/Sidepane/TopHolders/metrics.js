@@ -20,7 +20,7 @@ export const TopHolderMetric = {
   holders_distribution_1_to_10: {
     label: '[1 - 10) coins'
   },
-  holders_diStribution_10_to_100: {
+  holders_distribution_10_to_100: {
     label: '[10 - 100) coins'
   },
   holders_distribution_100_to_1k: {
