@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import MultiInput from '@santiment-network/ui/Input/MultiInput'
 import Button from '@santiment-network/ui/Button'
+import Icon from '@santiment-network/ui/Icon'
 import Toggle from '@santiment-network/ui/Toggle'
 import DarkTooltip from '../../components/Tooltip/DarkTooltip'
 import { DEFAULT_TEXT } from '../../components/Trends/Search'
@@ -93,15 +94,15 @@ const Search = ({
                 className={styles.link}
                 to={`/projects/${detectedAsset.slug}`}
               >
-              <DarkTooltip
-                position='top'
-                align='start'
-                on='hover'
-                className={styles.tooltip}
-                trigger={<div className={styles.hidden}>{text}</div>}
-              >
-                Click to explore project page
-              </DarkTooltip>
+                <DarkTooltip
+                  position='top'
+                  align='start'
+                  on='hover'
+                  className={styles.tooltip}
+                  trigger={<div className={styles.hidden}>{text}</div>}
+                >
+                  Click to explore project page
+                </DarkTooltip>
                 {text}
               </Link>
             </div>
@@ -115,7 +116,8 @@ const Search = ({
     >
       {(!isInFocus || isMaxValuesReached) && (
         <Button border className={styles.button} disabled={isMaxValuesReached}>
-          +
+          <Icon type='close' className={styles.plus} />
+          Compare
         </Button>
       )}
       {isMaxValuesReached && (

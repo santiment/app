@@ -34,6 +34,12 @@
   bottom: 4px;
   height: auto;
   background-color: var(--athens);
+  align-items: center;
+
+  &:hover {
+    color: var(--jungle-green);
+    fill: var(--jungle-green);
+  }
 
   @include responsive('phone', 'phone-xs') {
     top: calc(100% + 8px);
@@ -41,6 +47,11 @@
     right: 0;
     height: 40px;
   }
+}
+
+.plus {
+  margin-right: 11px;
+  transform: rotate(45deg) scale(0.8);
 }
 
 .limit {
