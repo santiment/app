@@ -8,7 +8,6 @@ const CHART_HEIGHT = 270
 const DetailedChart = ({ charts, settings, MetricSettingMap, ...props }) => {
   const [data] = useTimeseries(charts, settings, MetricSettingMap)
   const categories = metricsToPlotCategories(charts)
-  console.log(charts, MetricSettingMap)
 
   return (
     <Chart
