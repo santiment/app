@@ -2,9 +2,13 @@ import React from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import Input from '@santiment-network/ui/Input'
 import styles from './DialogForm.module.scss'
+import AutoresizeTextarea from "../../../../components/AutoresizeTextarea";
 
 export default ({
-  placeholder,
+                  placeholders={
+                    title: 'Name of the template...',
+                    description: 'Description'
+                  },
   buttonLabel,
   defaultValue,
   isLoading,
@@ -13,7 +17,10 @@ export default ({
 }) => {
   function onSubmit (e) {
     e.preventDefault()
-    onFormSubmit(e.currentTarget.templateName.value)
+    onFormSubmit({
+      title: e.currentTarget.name.value,
+      description: e.currentTarget.description.value
+    })
   }
 
   return (
@@ -22,18 +29,26 @@ export default ({
         <Input
           autoFocus
           required
-          name='templateName'
+          name='name'
           className={styles.input}
-          placeholder={placeholder}
+          placeholder={placeholders.title}
           defaultValue={defaultValue}
         />
-        <Dialog.Approve
-          className={styles.btn}
-          accent='positive'
-          isLoading={isLoading}
-        >
-          {buttonLabel}
-        </Dialog.Approve>
+        <AutoresizeTextarea
+          className={styles.textarea}
+          placeholder={placeholders.description}
+          name='description'
+        />
+
+        <div className={styles.actions}>
+          <Dialog.Approve
+            className={styles.btn}
+            accent='positive'
+            isLoading={isLoading}
+          >
+            {buttonLabel}
+          </Dialog.Approve>
+        </div>
       </form>
     </Dialog>
   )

@@ -7,8 +7,8 @@ export default ({ template, onRename, ...props }) => {
   const { title } = template
   const [updateTemplate, { loading }] = useUpdateTemplate()
 
-  function onSubmit (title) {
-    updateTemplate(template, { title })
+  function onSubmit ({title, description}) {
+    updateTemplate(template, { title, description })
       .then(onRename)
       .then(notifyRename)
   }
@@ -16,9 +16,9 @@ export default ({ template, onRename, ...props }) => {
   return (
     <DialogForm
       {...props}
-      title='Rename Template'
+      title='Save Chart Layout as...'
       onFormSubmit={onSubmit}
-      buttonLabel='Rename'
+      buttonLabel='Save'
       defaultValue={title}
       isLoading={loading}
     />

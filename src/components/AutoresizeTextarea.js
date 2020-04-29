@@ -85,7 +85,8 @@ class AutoresizeTextarea extends Component {
       placeholder,
       readOnly,
       rowsCount,
-      maxLength
+      maxLength,
+      name
     } = this.props
 
     return (
@@ -98,6 +99,7 @@ class AutoresizeTextarea extends Component {
         maxLength={maxLength}
         value={value}
         onChange={this.onChange}
+        name={name}
       />
     )
   }
