@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { Metric } from '../../ducks/dataHub/metrics'
 import { useTimeseries } from '../../ducks/Studio/timeseries/hooks'
+import { SOCIAL_VOLUME_COLORS} from '../../ducks/SocialTool/Chart/colors'
 import HelpPopup from '../HelpPopup/HelpPopup'
 import { SETTINGS } from './settings'
 import {
@@ -14,14 +15,6 @@ import DetailsItem from './DetailsItem'
 import Column from './Column'
 import PaywallBanner from './PaywallBanner'
 import styles from './index.module.scss'
-
-const COLORS = [
-  '#68DBF4', // CYAN
-  '#FF5B5B', // RED
-  '#5275FF', // BLUE
-  '#F47BF7', // PURPLE
-  '#D4E763' // YELLOW-GREEN
-]
 
 const AverageSocialVolume = ({ topics, linkedAssets, hasPremium }) => {
   const defaultMetrics = topics.map(topic => buildExploredMetric(topic))
@@ -97,7 +90,7 @@ const AverageSocialVolume = ({ topics, linkedAssets, hasPremium }) => {
                 {remainingAvg.map((item, idx) => (
                   <Column
                     key={idx}
-                    color={COLORS[idx]}
+                    color={SOCIAL_VOLUME_COLORS[idx]}
                     percent={calcPercentage(max, item)}
                     className={styles.column}
                   />
@@ -109,7 +102,7 @@ const AverageSocialVolume = ({ topics, linkedAssets, hasPremium }) => {
                   <DetailsItem
                     key={idx}
                     value={item}
-                    color={COLORS[idx]}
+                    color={SOCIAL_VOLUME_COLORS[idx]}
                     percent={calcPercentage(totalAvg, item)}
                     title={topics[idx]}
                     className={styles.item}
