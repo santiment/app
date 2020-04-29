@@ -35,6 +35,7 @@ const TrendsExplore = ({
 }) => {
   const [topics, setTopics] = useState([topic, ...addedTopics])
   const [linkedAssets, setLinkedAssets] = useState(new Map())
+  const [activeLinkedAssets, setActiveLinkedAssets] = useState(new Map())
 
   useEffect(() => {
     setTopics([topic, ...addedTopics])
@@ -116,6 +117,8 @@ const TrendsExplore = ({
           <Search
             topics={topics}
             linkedAssets={linkedAssets}
+            activeLinkedAssets={activeLinkedAssets}
+            setActiveLinkedAssets={setActiveLinkedAssets}
             onChangeTopics={updTopics}
             isDesktop={isDesktop}
           />
@@ -130,7 +133,7 @@ const TrendsExplore = ({
         </div>
         <Sidebar
           topics={topics}
-          linkedAssets={linkedAssets}
+          linkedAssets={activeLinkedAssets}
           hasPremium={hasPremium}
           isDesktop={isDesktop}
         />

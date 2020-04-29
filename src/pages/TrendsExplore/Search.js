@@ -11,7 +11,7 @@ function trimTopics (topics) {
   return topics.map(topic => topic.trim())
 }
 
-const Search = ({ topics, linkedAssets, onChangeTopics }) => {
+const Search = ({ topics, linkedAssets, activeLinkedAssets, onChangeTopics, setActiveLinkedAssets }) => {
   const [isInFocus, setIsInFocus] = useState(false)
   const [values, setValues] = useState(topics)
   const inputRef = useRef(null)
@@ -37,6 +37,17 @@ const Search = ({ topics, linkedAssets, onChangeTopics }) => {
     }
   }
 
+  function toggleLinkedAsset (text, asset, isActive) {
+    const newActiveLinkedAssets = new Map(activeLinkedAssets)
+    if (isActive) {
+      newActiveLinkedAssets.delete(text)
+    } else {
+      newActiveLinkedAssets.set(text, asset)
+    }
+
+    setActiveLinkedAssets(newActiveLinkedAssets)
+  }
+
   return (
     <MultiInput
       onValueAdd={(value, newValues) => setValues(newValues)}
@@ -49,11 +60,13 @@ const Search = ({ topics, linkedAssets, onChangeTopics }) => {
       defaultValues={values}
       valueContent={text => {
         const detectedAsset = linkedAssets.get(text)
+        const isActive = activeLinkedAssets.get(text)
         return detectedAsset ? (
           <div className={styles.content}>
             <Toggle
+              isActive={isActive}
               className={styles.toggle}
-              onClick={() => console.log('toggle!')}
+              onClick={() => toggleLinkedAsset(text, detectedAsset, isActive)}
             />
             {text}
           </div>
