@@ -1,0 +1,13 @@
+@import '~@santiment-network/ui/mixins';
+
+.tooltip {
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: $border-radius;
+  background-color: $fiord;
+  color: var(--white);
+}
+
+.arrow {
+  fill: $fiord;
+}
