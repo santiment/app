@@ -5,7 +5,7 @@ import {
   TREND_WORD_VOLUME_CHANGE_FULFILLED,
   TREND_WORD_VOLUME_CHANGE_FAILED
 } from '../../components/Trends/actions'
-import { SOCIAL_VOLUME_QUERY } from '../../components/SocialVolumeWidget/socialVolumeGQL'
+import { SOCIAL_VOLUME_QUERY } from '../../components/Trends/socialVolumeGQL'
 import { mergeTimeseriesByKey } from '../../utils/utils'
 import { getTimeIntervalFromToday } from '../../utils/dates'
 

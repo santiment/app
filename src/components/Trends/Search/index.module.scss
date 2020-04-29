@@ -1,0 +1,31 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  position: relative;
+}
+
+.input {
+  height: 40px;
+}
+
+.withButton {
+  @include responsive('tablet', 'desktop', 'laptop') {
+    padding-right: 86px;
+  }
+}
+
+.button {
+  justify-content: center;
+
+  @include responsive('tablet', 'desktop', 'laptop') {
+    width: 80px;
+    position: absolute;
+    right: 4px;
+    top: 4px;
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    margin-top: 8px;
+    width: 100%;
+  }
+}

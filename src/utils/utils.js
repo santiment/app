@@ -359,6 +359,12 @@ const safeDecode = pathname => {
   }
 }
 
+const updateHistory = url => {
+  const { history } = window
+  history.replaceState(history.state, null, url)
+}
+
+
 export {
   calculateBTCVolume,
   calculateBTCMarketcap,
@@ -384,5 +390,6 @@ export {
   isEthStrictAddress,
   mapItemsToKeys,
   isNotSafari,
-  safeDecode
+  safeDecode,
+  updateHistory
 }

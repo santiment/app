@@ -24,7 +24,7 @@ const getLabels = options =>
   options.map(([ticker]) => `${ticker}${SEPARATOR}USD`)
 
 const PricePairsDropdown = ({
-  detectedAsset,
+  allDetectedAssets,
   settings,
   setSettings,
   setPriceAsset,
@@ -44,16 +44,22 @@ const PricePairsDropdown = ({
 
   useEffect(
     () => {
-      if (detectedAsset) {
+      if (allDetectedAssets.size > 0) {
+        const pairs = []
+        allDetectedAssets.forEach(pair => {
+          if (pair) {
+            pairs.push([pair.ticker, pair.slug])
+          }
+        })
         const newPriceOptions = getPriceOptions([
           [ticker, slug],
-          [detectedAsset.ticker, detectedAsset.slug]
+          ...pairs
         ])
 
         setPriceOptions(newPriceOptions)
       }
     },
-    [detectedAsset]
+    [allDetectedAssets]
   )
 
   function onChangePriceOption (selectedPair) {

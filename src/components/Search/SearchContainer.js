@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import Icon from '@santiment-network/ui/Icon'
 import SearchProjects from './SearchProjects'
 import { TABS } from '../../pages/SearchMobilePage/SearchMobilePage'
-import TrendsForm from '../Trends/TrendsForm'
+import TrendsSearchForm from '../Trends/Search'
 import {
   getRecentAssets,
   addRecentAssets,
@@ -109,7 +109,7 @@ export const SearchContainer = ({
       }
     />
   ) : (
-    <TrendsForm
+    <TrendsSearchForm
       {...props}
       {...inputProps}
       classes={{ wrapper: className, input: styles.search }}

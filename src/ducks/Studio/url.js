@@ -125,8 +125,3 @@ export function parseUrl (
     comparables: sanitize(parseSharedComparables(data.comparables))
   }
 }
-
-export const updateHistory = url => {
-  const { history } = window
-  history.replaceState(history.state, null, url)
-}

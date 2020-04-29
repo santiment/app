@@ -52,11 +52,7 @@ import handleBetaModeToggle, {
   sendBetaModeIfDiff,
   saveBetaModeAfterLaunch
 } from './handleBetaModeToggle'
-import {
-  fetchHypedTrends,
-  selectHypedTrend
-} from '../components/Trends/fetchHypedTrends'
-import { fetchSocialVolumeEpic } from '../components/SocialVolumeWidget/socialVolumeEpic'
+import {fetchHypedTrends} from '../components/Trends/fetchHypedTrends'
 import fetchAllTickersSlugs from '../components/Trends/fetchAllTickersSlugs'
 import {
   connectTelegramEpic,
@@ -110,10 +106,7 @@ export default combineEpics(
   fetchTimeseriesEpic,
   // trends
   fetchHypedTrends,
-  selectHypedTrend,
   fetchAllTickersSlugs,
-  // SocialVolume
-  fetchSocialVolumeEpic,
   // Settings
   removeConnectedWallet,
   connectNewWallet,

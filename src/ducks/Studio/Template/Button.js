@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
-import Tooltip from '@santiment-network/ui/Tooltip'
+import DarkTooltip from '../../../components/Tooltip/DarkTooltip'
 import FormDialogNewTemplate from './Dialog/NewTemplate'
 import LoginDialog from '../../../components/LoginDialog'
 import styles from './index.module.scss'
@@ -12,16 +12,14 @@ const TooltipWrapper = ({ selectedTemplate, children }) => {
   }
 
   return (
-    <Tooltip
+    <DarkTooltip
       trigger={children}
       position='bottom'
       align='start'
-      withArrow
-      arrowClassName={styles.arrow}
       className={styles.tooltip}
     >
       Click to save '{selectedTemplate.title}'
-    </Tooltip>
+    </DarkTooltip>
   )
 }
 
