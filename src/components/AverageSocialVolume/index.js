@@ -81,7 +81,7 @@ const AverageSocialVolume = ({ topics, linkedAssets, hasPremium }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
-        <h3 className={styles.title}>Average</h3>
+        <h3 className={styles.title}>Average, 30d</h3>
         <HelpPopup>
           The average number of daily mentions in the past 30 days
         </HelpPopup>

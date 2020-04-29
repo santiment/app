@@ -115,7 +115,7 @@ export default ({ options, activeMetrics, ...rest }) => {
 
   return (
     <Canvas
-      tooltipKey='social_volume_total'
+      tooltipKey={activeMetrics[0].key}
       options={options}
       metrics={activeMetrics}
       categories={categories}

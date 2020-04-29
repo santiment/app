@@ -7,6 +7,10 @@ import styles from './Search.module.scss'
 
 const MAX_VALUES = 5
 
+function trimTopics (topics) {
+  return topics.map(topic => topic.trim())
+}
+
 const Search = ({ topics, linkedAssets, onChangeTopics }) => {
   const [isInFocus, setIsInFocus] = useState(false)
   const [values, setValues] = useState(topics)
@@ -23,7 +27,7 @@ const Search = ({ topics, linkedAssets, onChangeTopics }) => {
     }
 
     if (topics !== values) {
-      onChangeTopics(values)
+      onChangeTopics(trimTopics(values))
     }
   }, [values])
 
