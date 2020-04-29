@@ -60,3 +60,35 @@
 .toggle {
   margin-right: 8px;
 }
+
+.link {
+  color: var(--rhino);
+
+  &:hover {
+    color: var(--jungle-green);
+  }
+}
+
+.hidden {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+}
+
+.wrapper {
+  position: relative;
+  display: flex;
+  color: var(--rhino);
+
+  &:hover {
+    color: var(--jungle-green);
+  }
+}
+
+.hiddenToggle {
+  z-index: 1000;
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
