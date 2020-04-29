@@ -82,7 +82,7 @@ const SocialTool = ({
   function rebuildMetricSettingMap(metrics, slug) {
     const newMetricSettingMap = new Map(MetricSettingMap)
     metrics.forEach(metric => {
-      const detectedAsset = linkedAssets.get(metric.text)
+      const detectedAsset = linkedAssets.get(metric.text || slug)
       if (metric.key !== Metric.price_usd.key) {
         newMetricSettingMap.set(metric, {
           selector: detectedAsset ? 'slug': 'text',
