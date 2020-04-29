@@ -37,6 +37,9 @@ export const TopHolderMetric = {
   },
   holders_distribution_1M_to_10M: {
     label: '[1,000,000 - 10,000,000) coins'
+  },
+  holders_distribution_10M_to_inf: {
+    label: '[10,000,000 - infinity) coins'
   }
 }
 
