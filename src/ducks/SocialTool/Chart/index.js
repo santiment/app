@@ -12,7 +12,7 @@ import ChartHeader from './Header'
 import DetailedBlock from './Detailed'
 import styles from './index.module.scss'
 
-const CHART_HEIGHT = 380
+const CHART_HEIGHT = 420
 
 const Canvas = ({
   className,
@@ -24,8 +24,8 @@ const Canvas = ({
   boundaries,
   setSettings,
   categories,
-  selector,
-  detectedAsset,
+  linkedAssets,
+  allDetectedAssets,
   ...props
 }) => {
   const [FocusedMetric, setFocusedMetric] = useState()
@@ -44,7 +44,7 @@ const Canvas = ({
     <div className={cx(styles.wrapper, className)}>
       <ChartHeader
         {...props}
-        detectedAsset={detectedAsset}
+        allDetectedAssets={allDetectedAssets}
         metrics={metrics}
         options={options}
         settings={settings}
@@ -81,10 +81,9 @@ const Canvas = ({
         metrics={metrics}
         MetricColor={MetricColor}
         setSettings={setSettings}
-        detectedAsset={detectedAsset}
         resizeDependencies={[]}
       >
-        <Signals {...settings} metrics={metrics} selector={selector} />
+        <Signals {...settings} metrics={metrics} selector='text' />
       </Chart>
       <DetailedBlock
         {...options}
@@ -93,19 +92,17 @@ const Canvas = ({
         type='general'
         MetricColor={MetricColor}
         settings={settings}
-        detectedAsset={detectedAsset}
+        linkedAssets={linkedAssets}
       />
-      {detectedAsset && (
-        <DetailedBlock
-          {...options}
-          {...props}
-          scale={scale}
-          type='community'
-          MetricColor={MetricColor}
-          settings={settings}
-          detectedAsset={detectedAsset}
-        />
-      )}
+      <DetailedBlock
+        {...options}
+        {...props}
+        scale={scale}
+        type='community'
+        MetricColor={MetricColor}
+        settings={settings}
+        linkedAssets={linkedAssets}
+      />
     </div>
   )
 }

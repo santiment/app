@@ -34,7 +34,7 @@ const DefaultCharts = {
 }
 
 const DetailedBlock = ({
-  detectedAsset,
+  linkedAssets,
   MetricColor,
   priceAsset,
   settings,
@@ -44,14 +44,19 @@ const DetailedBlock = ({
 }) => {
   const [MetricSettingMap, setMetricSettingMap] = useState()
 
+  const detectedAsset = linkedAssets.get(settings.slug)
+
   useEffect(() => {
     const newMetricSettingMap = new Map(MetricSettingMap)
-    const metricSetting = { selector: detectedAsset ? 'slug' : 'text' }
+    const metricSetting = {
+      selector: detectedAsset ? 'slug' : 'text',
+      slug: detectedAsset ? detectedAsset.slug : settings.slug
+    }
 
     charts.forEach(metric => newMetricSettingMap.set(metric, metricSetting))
 
     setMetricSettingMap(newMetricSettingMap)
-  }, [detectedAsset])
+  }, [linkedAssets, settings.slug])
 
   useEffect(() => {
     if (priceAsset) {
@@ -63,8 +68,11 @@ const DetailedBlock = ({
   }, [priceAsset])
 
   const isComparingMode = settings.addedTopics.length > 0
+  const shouldShowChart = type !== 'community' || Boolean(detectedAsset)
 
-  return isComparingMode ? null : (
+  const defaultChart = priceAsset ? [priceMetric] : []
+
+  return isComparingMode || !shouldShowChart ? null : (
     <>
       <div className={styles.top}>
         <h3 className={styles.heading}>{DefaultCharts[type].title}</h3>
@@ -81,27 +89,32 @@ const DetailedBlock = ({
           ))}
         </div>
       </div>
-    <div className={styles.charts}>
-      {charts.map(chart => (
-        <Chart
-          key={chart.key}
-          {...props}
-          settings={settings}
-          charts={[chart, priceMetric]}
-          MetricSettingMap={MetricSettingMap}
-          className={styles.chart}
-          MetricColor={{ ...MetricColor, ...Colors }}
-          tooltipKey={chart.key}
-        />
-      ))}
-    </div>
+      <div className={styles.charts}>
+        {charts.map(chart => (
+          <Chart
+            key={chart.key}
+            {...props}
+            settings={settings}
+            charts={[chart, ...defaultChart]}
+            MetricSettingMap={MetricSettingMap}
+            className={styles.chart}
+            MetricColor={{ ...MetricColor, ...Colors }}
+            tooltipKey={chart.key}
+          />
+        ))}
+      </div>
     </>
   )
 }
 
 export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
-  skip: ({ detectedAsset, type }) => !detectedAsset || type !== 'community',
-  options: ({ detectedAsset }) => {
+  skip: ({ linkedAssets, settings, type }) => {
+    const detectedAsset = linkedAssets.get(settings.slug)
+
+    return !detectedAsset || type !== 'community' || settings.addedTopics.length > 0
+  },
+  options: ({ linkedAssets, settings }) => {
+    const detectedAsset = linkedAssets.get(settings.slug)
     return { variables: { slug: detectedAsset.slug } }
   },
   props: ({ data: { project: { availableMetrics = [] } = {} } }) => {

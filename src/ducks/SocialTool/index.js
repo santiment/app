@@ -13,6 +13,8 @@ const SocialTool = ({
   defaultSettings,
   defaultOptions,
   defaultMetrics,
+  linkedAssets,
+  allDetectedAssets,
   classes = {},
   ...props
 }) => {
@@ -35,9 +37,6 @@ const SocialTool = ({
   )
   const [shareLink, setShareLink] = useState('')
   const chartRef = useRef(null)
-
-  // const selector = detectedAsset ? 'slug' : 'text'
-  const selector = 'text'
 
   useEffect(() => {
     if (priceAsset) {
@@ -83,10 +82,11 @@ const SocialTool = ({
   function rebuildMetricSettingMap(metrics, slug) {
     const newMetricSettingMap = new Map(MetricSettingMap)
     metrics.forEach(metric => {
+      const detectedAsset = linkedAssets.get(metric.text)
       if (metric.key !== Metric.price_usd.key) {
         newMetricSettingMap.set(metric, {
-          selector: 'text',
-          slug: metric.text || slug
+          selector: detectedAsset ? 'slug': 'text',
+          slug: detectedAsset ? detectedAsset.slug : metric.text || slug
         })
       }
     })
@@ -102,7 +102,6 @@ const SocialTool = ({
       <div className={styles.chart}>
         <SocialToolChart
           {...props}
-          // detectedAsset={detectedAsset}
           className={styles.canvas}
           chartRef={chartRef}
           options={options}
@@ -115,7 +114,8 @@ const SocialTool = ({
           setOptions={setOptions}
           setSettings={setSettings}
           setPriceAsset={setPriceAsset}
-          selector={selector}
+          linkedAssets={linkedAssets}
+          allDetectedAssets={allDetectedAssets}
         />
       </div>
     </div>

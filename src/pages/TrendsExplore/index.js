@@ -19,6 +19,8 @@ import Search from './Search'
 import Sidebar from './Sidebar'
 import styles from './index.module.scss'
 
+const EMPTY_MAP = new Map()
+
 const pageDescription =
   'Explore the social volume of ANY word (or phrase) on crypto social media, including 100s of Telegram groups, crypto subreddits, discord channels, trader chats and more.'
 
@@ -34,8 +36,8 @@ const TrendsExplore = ({
   allAssets
 }) => {
   const [topics, setTopics] = useState([topic, ...addedTopics])
-  const [linkedAssets, setLinkedAssets] = useState(new Map())
-  const [activeLinkedAssets, setActiveLinkedAssets] = useState(new Map())
+  const [linkedAssets, setLinkedAssets] = useState(EMPTY_MAP)
+  const [activeLinkedAssets, setActiveLinkedAssets] = useState(EMPTY_MAP)
 
   useEffect(() => {
     setTopics([topic, ...addedTopics])
@@ -125,6 +127,8 @@ const TrendsExplore = ({
           {isDesktop && <Suggestions />}
           {topic ? (
             <SocialTool
+              linkedAssets={activeLinkedAssets}
+              allDetectedAssets={linkedAssets}
               settings={{ slug: topics[0], addedTopics: topics.slice(1) }}
             />
           ) : (
