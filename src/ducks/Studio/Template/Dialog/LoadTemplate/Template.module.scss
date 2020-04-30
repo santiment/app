@@ -1,5 +1,24 @@
 @import '~@santiment-network/ui/mixins';
 
+.menu {
+  width: 32px;
+  height: 32px;
+  fill: var(--mirage) !important;
+  box-sizing: border-box;
+  padding: 8px;
+  margin-left: auto;
+  border: 1px solid var(--porcelain);
+  box-shadow: 0 2px 8px rgba(59, 84, 106, 0.03), 0 1px 2px rgba(59, 84, 106, 0.03);
+  border-radius: 4px;
+  display: none;
+
+  @include text('body-3');
+
+  &:hover {
+    fill: var(--jungle-green-hover) !important;
+  }
+}
+
 .wrapper {
   padding: 12px 16px;
   border-radius: 4px;
@@ -11,62 +30,42 @@
 
   &:hover {
     background: var(--athens);
-  }
-}
 
-.unclickable {
-  cursor: auto !important;
-
-  &:hover {
-    background: initial;
+    .menu {
+      display: flex;
+    }
   }
 }
 
 .info {
   color: var(--waterloo);
-}
-
-.publicity {
-  margin-left: auto;
-  fill: var(--casper);
   display: flex;
-  cursor: pointer;
+  margin-top: 4px;
 
-  @include explanation('Private', 'top');
-
-  &:hover {
-    fill: var(--jungle-green);
-  }
-
-  &::before {
-    bottom: 140%;
-  }
-
-  &_public:hover::before {
-    content: 'Public';
-  }
+  @include text('body-3');
 }
 
-.icon {
-  width: 20px;
+.title {
+  color: var(--rhino);
+
+  @include text('body-2', 'm');
 }
 
-.left {
-  pointer-events: none;
-}
-
-.menu {
-  width: 32px;
-  margin-left: 6px;
-  fill: var(--casper);
-  padding: 9px;
-  background: transparent;
+.option {
+  padding: 10px 16px;
+  height: 37px;
 }
 
 .options {
-  padding: 8px;
+  padding: 0;
 }
 
 .toggle {
   margin-left: 16px;
+}
+
+.status {
+  border-bottom: 1px solid var(--porcelain);
+  border-radius: 0;
+  height: 44px;
 }

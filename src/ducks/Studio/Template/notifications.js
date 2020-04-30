@@ -7,16 +7,16 @@ const dispatchNotification = payload =>
 export function notifyCreation () {
   return dispatchNotification({
     variant: 'success',
-    title: 'Template created',
-    description: 'New template has been created successfully.'
+    title: 'Chart Layout created',
+    description: 'New Chart Layout has been created successfully.'
   })
 }
 
 export function notifyDuplication () {
   return dispatchNotification({
     variant: 'success',
-    title: 'Template duplicated',
-    description: 'Your template has been duplicated successfully.'
+    title: 'Chart Layout duplicated',
+    description: 'Your Chart Layout has been duplicated successfully.'
   })
 }
 

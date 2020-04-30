@@ -5,6 +5,7 @@ export const TEMPLATE_COMMON_FRAGMENT = gql`
     id
     isPublic
     title
+    description
     metrics
     project {
       id

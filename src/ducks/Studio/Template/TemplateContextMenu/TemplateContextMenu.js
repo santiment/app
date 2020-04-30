@@ -10,8 +10,8 @@ import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import styles from '../Dialog/LoadTemplate/Template.module.scss'
 
-const Option = props => (
-  <Button {...props} fluid variant='ghost' className={styles.context__btn} />
+export const Option = props => (
+  <Button {...props} fluid variant='ghost' className={cx(styles.option, props.className)} />
 )
 
 const TemplateContextMenu = ({
@@ -23,14 +23,15 @@ const TemplateContextMenu = ({
   onDeleteClick,
   onRename,
   isPublic,
-  isAuthor
+  isAuthor,
+                               classes={}
 }) => {
   return (
     <ContextMenu
       open={isMenuOpened}
       onClose={closeMenu}
       trigger={
-        <Button variant='flat' className={cx(styles.menu)} onClick={openMenu}>
+        <Button variant='ghost' className={cx(styles.menu, classes.menuBtn)} onClick={openMenu}>
           <Icon type='dots' />
         </Button>
       }
@@ -40,7 +41,7 @@ const TemplateContextMenu = ({
     >
       <Panel variant='modal' className={styles.options}>
         {isAuthor && (
-          <Option onClick={toggleIsPublic}>
+          <Option onClick={toggleIsPublic} className={styles.status}>
             Public
             <Toggle isActive={isPublic} className={styles.toggle} />
           </Option>

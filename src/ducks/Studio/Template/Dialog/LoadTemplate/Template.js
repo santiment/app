@@ -3,11 +3,26 @@ import {push} from "react-router-redux";
 import {connect} from "react-redux";
 import {stringify} from "query-string";
 import cx from 'classnames'
-import Icon from '@santiment-network/ui/Icon'
 import { useDeleteTemplate, useUpdateTemplate } from '../../gql/hooks'
-import TemplateContextMenu from '../../TemplateContextMenu/TemplateContextMenu'
-import styles from './Template.module.scss'
 import {getMultiChartsValue} from "../../utils";
+import {COMPARE_CONNECTOR} from "../../../url";
+import TemplateDetailsDialog from "../../TemplateDetailsDialog/TemplateDetailsDialog";
+import TemplateStatus from "../../TemplateStatus/TemplateStatus";
+import styles from './Template.module.scss'
+
+export function prepareTemplateLink(template) {
+  const {project, metrics} = template
+  const {slug} = project
+
+  const Shareable = {
+    metrics,
+    isMultiChartsActive: getMultiChartsValue(template)
+  }
+
+  return `/projects/${slug}?` + stringify(Shareable, {
+    arrayFormat: 'comma'
+  })
+}
 
 const Template = ({
   template,
@@ -19,13 +34,14 @@ const Template = ({
   className,
   redirect
 }) => {
-  const { title, metrics, project } = template
+  const { title, metrics } = template
   const [isPublic, setIsPublic] = useState(template.isPublic)
-  const [isMenuOpened, setIsMenuOpened] = useState(false)
   const [deleteTemplate] = useDeleteTemplate()
   const [updateTemplate] = useUpdateTemplate()
 
-  function toggleIsPublic () {
+  function toggleIsPublic (e) {
+    e.stopPropagation()
+
     setIsPublic(state => {
       const newState = !state
       updateTemplate(template, { isPublic: newState })
@@ -33,32 +49,16 @@ const Template = ({
     })
   }
 
-  function openMenu () {
-    setIsMenuOpened(true)
-  }
-
-  function closeMenu () {
-    setIsMenuOpened(false)
-  }
 
   function onTemplateClick ({ target, currentTarget }) {
     if (target === currentTarget) {
       selectTemplate && selectTemplate(template)
-    }
 
-    if(asLink){
-      const {slug} = project
+      if(asLink){
+        const link = prepareTemplateLink(template)
 
-      const Shareable = {
-        metrics,
-        isMultiChartsActive: getMultiChartsValue(template)
+        redirect(link)
       }
-
-      const link = `/projects/${slug}?` + stringify(Shareable, {
-        arrayFormat: 'comma'
-      })
-
-      redirect(link)
     }
   }
 
@@ -70,8 +70,9 @@ const Template = ({
   function onRename (template) {
     rerenderTemplates && rerenderTemplates()
     rerenderTemplate && rerenderTemplate(template)
-    closeMenu()
   }
+
+  const countAssets = metrics.reduce((total,x) => (x.indexOf(COMPARE_CONNECTOR) !== -1 ? total+1 : total), 0) + 1
 
   return (
     <div
@@ -82,33 +83,23 @@ const Template = ({
       onClick={onTemplateClick}
     >
       <div className={styles.left}>
-        <div>{title}</div>
+        <div className={styles.title}>{title}</div>
         <div className={styles.info}>
-          {project.name} · {metrics.length} metrics
+          <TemplateStatus isAuthor={isAuthor} isPublic={isPublic} toggleIsPublic={toggleIsPublic}/>
+          <span>
+             · {countAssets} asset(s) · {metrics.length} metric(s)
+          </span>
         </div>
       </div>
-      <div
-        className={cx(
-          styles.publicity,
-          isPublic && styles.publicity_public,
-          !isAuthor && styles.unclickable
-        )}
-        onClick={isAuthor && toggleIsPublic}
-      >
-        <Icon type={isPublic ? 'eye' : 'lock-small'} className={styles.icon} />
-      </div>
 
-      <TemplateContextMenu
+      <TemplateDetailsDialog
         template={template}
-        isMenuOpened={isMenuOpened}
-        closeMenu={closeMenu}
         toggleIsPublic={toggleIsPublic}
-        openMenu={openMenu}
         onDeleteClick={onDeleteClick}
         onRename={onRename}
         isPublic={isPublic}
-        isAuthor={isAuthor}
-      />
+        isAuthor={isAuthor}/>
+
     </div>
   )
 }

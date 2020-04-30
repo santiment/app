@@ -105,7 +105,7 @@ const Template = ({
       <Panel variant='modal' className={styles.context}>
         <div className={styles.group}>
           {selectedTemplate && (
-            <Action onClick={saveTemplate}>Save template</Action>
+            <Action onClick={saveTemplate}>Save Chart Layout</Action>
           )}
 
           <DialogLoadTemplate
@@ -115,14 +115,14 @@ const Template = ({
             updateTemplate={updateTemplate}
             rerenderTemplate={rerenderTemplate}
             templates={templates}
-            trigger={<Action>Load template</Action>}
+            trigger={<Action>Load Chart Layout</Action>}
           />
         </div>
         <div className={styles.group}>
           <DialogFormNewTemplate
             {...props}
             onClose={closeMenu}
-            trigger={<Action>New template</Action>}
+            trigger={<Action>New Chart Layout</Action>}
             onNew={onTemplateSelect}
           />
 
@@ -130,14 +130,14 @@ const Template = ({
             <>
               <DialogFormRenameTemplate
                 onClose={closeMenu}
-                trigger={<Action>Rename template</Action>}
+                trigger={<Action>Rename</Action>}
                 template={selectedTemplate}
                 onRename={closeMenu}
               />
 
               <DialogFormDuplicateTemplate
                 onClose={closeMenu}
-                trigger={<Action>Duplicate template</Action>}
+                trigger={<Action>Duplicate</Action>}
                 template={selectedTemplate}
                 onDuplicate={(template) => {
                   closeMenu()

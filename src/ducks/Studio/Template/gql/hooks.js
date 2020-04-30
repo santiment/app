@@ -138,7 +138,7 @@ export function useUpdateTemplate () {
   const [mutate, data] = useMutation(UPDATE_TEMPLATE_MUTATION)
 
   function updateTemplate (oldTemplate, newConfig) {
-    const { id, title, project, metrics } = oldTemplate
+    const { id, title, description, project, metrics } = oldTemplate
     const { projectId } = newConfig
 
     return mutate({
@@ -146,6 +146,7 @@ export function useUpdateTemplate () {
         id: +id,
         settings: {
           title: newConfig.title || title,
+          description: newConfig.description || description,
           isPublic: newConfig.isPublic,
           options: JSON.stringify({
             multi_chart: getSavedMulticharts()

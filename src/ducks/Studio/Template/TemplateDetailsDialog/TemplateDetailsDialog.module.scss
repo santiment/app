@@ -1,0 +1,76 @@
+@import '~@santiment-network/ui/mixins';
+
+.block {
+  margin-top: 22px;
+  display: flex;
+}
+
+.title {
+  @include text('body-2', 'm');
+
+  color: var(--rhino);
+}
+
+.subTitle {
+  @include text('body-3', 'm');
+
+  color: var(--waterloo);
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+  fill: var(--waterloo);
+}
+
+.description {
+  @include text('body-3');
+
+  color: var(--rhino);
+  margin-top: 8px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  margin-top: -3px;
+}
+
+.dialog {
+  max-height: 514px;
+  min-width: 480px;
+}
+
+.container {
+  padding: 24px;
+}
+
+.trigger {
+  min-width: 94px;
+  color: var(--waterloo);
+  padding: 7px 12px !important;
+}
+
+.menuBtn {
+  margin-left: 8px;
+  display: flex;
+}
+
+.actions {
+  display: flex;
+}
+
+.status {
+  display: flex;
+  border: 1px solid var(--porcelain);
+  padding: 7px 16px;
+  border-radius: $border-radius;
+  box-shadow: 0 2px 8px rgba(59, 84, 106, 0.03), 0 1px 2px rgba(59, 84, 106, 0.03);
+  margin: 0 0 0 8px !important;
+  color: var(--waterloo);
+}
+
+.noMargin {
+  margin: 0 !important;
+}

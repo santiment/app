@@ -46,7 +46,7 @@ const ProMetrics = ({ history, isLoggedIn, isProSanbase }) => {
             </div>
 
             <div className={styles.description}>
-              New templates and indices are added monthly.
+              New Chart Layouts and indices are added monthly.
             </div>
 
             {!isProSanbase && (
