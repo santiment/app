@@ -3,6 +3,8 @@ import { useQuery, useMutation } from '@apollo/react-hooks'
 import {
   TEMPLATE_QUERY,
   TEMPLATES_QUERY,
+  FEATURED_TEMPLATES_QUERY,
+  PUBLIC_PROJECT_TEMPLATES_QUERY,
   CREATE_TEMPLATE_MUTATION,
   UPDATE_TEMPLATE_MUTATION,
   DELETE_TEMPLATE_MUTATION
@@ -50,6 +52,23 @@ export function useUserTemplates (id) {
       userId: +id
     }
   })
+
+  return [data ? data.templates : DEFAULT_TEMPLATES, loading, error]
+}
+
+export function usePublicProjectTemplates (projectId) {
+  const { data, loading, error } = useQuery(PUBLIC_PROJECT_TEMPLATES_QUERY, {
+    skip: !projectId,
+    variables: {
+      projectId: +projectId
+    }
+  })
+
+  return [data ? data.templates : DEFAULT_TEMPLATES, loading, error]
+}
+
+export function useFeaturedTemplates (id) {
+  const { data, loading, error } = useQuery(FEATURED_TEMPLATES_QUERY)
 
   return [data ? data.templates : DEFAULT_TEMPLATES, loading, error]
 }

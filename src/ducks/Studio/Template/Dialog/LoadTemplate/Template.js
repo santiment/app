@@ -29,7 +29,7 @@ const Template = ({
   selectTemplate,
   rerenderTemplates,
   rerenderTemplate,
-  isAuthor = true,
+  isAuthor,
   asLink = false,
   className,
   redirect
@@ -99,15 +99,17 @@ const Template = ({
         onRename={onRename}
         isPublic={isPublic}
         isAuthor={isAuthor}/>
-
     </div>
   )
 }
 
+const mapStateToProps = ({ user }, { template: {user: {id} = {}} }) => ({
+  isAuthor: user && user.data && +user.data.id === +id
+})
 const mapDispatchToProps = dispatch => ({
   redirect: (route) => {
     dispatch(push(route))
   }
 })
 
-export default connect(null, mapDispatchToProps)(Template)
+export default connect(mapStateToProps, mapDispatchToProps)(Template)

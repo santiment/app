@@ -2,7 +2,14 @@ import React, { useState, useEffect } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import Search from '@santiment-network/ui/Search'
 import Template from './Template'
+import {usePublicProjectTemplates} from "../../gql/hooks";
+import Tabs from "@santiment-network/ui/Tabs";
 import styles from './index.module.scss'
+
+const TABS = {
+  OWN: 'Your library',
+  PROJECT: 'Public'
+}
 
 export default ({
   placeholder,
@@ -16,6 +23,23 @@ export default ({
   ...props
 }) => {
   const [filteredTemplates, setFilteredTemplates] = useState(templates)
+  const [tab, setTab] = useState(TABS.OWN)
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const {project: {id}} = selectedTemplate
+  const [projectTemplates] = usePublicProjectTemplates(id)
+
+  const search = () => {
+    const lowerCaseValue = searchTerm.toLowerCase()
+
+    const templates = getUsageTemplates();
+
+    setFilteredTemplates(
+      templates.filter(({ title }) =>
+        title.toLowerCase().includes(lowerCaseValue)
+      )
+    )
+  }
 
   useEffect(
     () => {
@@ -24,23 +48,42 @@ export default ({
     [templates]
   )
 
-  function searchTemplate (value) {
-    const lowerCaseValue = value.toLowerCase()
-    setFilteredTemplates(
-      templates.filter(({ title }) =>
-        title.toLowerCase().includes(lowerCaseValue)
-      )
-    )
+  useEffect(() => {
+    search()
+  }, [tab])
+
+  useEffect(() => {
+    search()
+  }, [searchTerm])
+
+  function getUsageTemplates() {
+    if(tab === TABS.PROJECT){
+      console.log('projects')
+      return projectTemplates
+    } else {
+      return templates
+    }
   }
 
   function rerenderTemplates () {
     setFilteredTemplates(state => state.slice())
   }
 
+  console.log('filteredTemplates', filteredTemplates, projectTemplates)
+
   return (
     <Dialog title='Load Chart Layout' {...props}>
+      <Tabs
+        options={Object.values(TABS)}
+        defaultSelectedIndex={tab}
+        onSelect={(tab) => {
+          setTab(tab)
+        }}
+        className={styles.tabs}
+      />
+
       <div className={styles.search}>
-        <Search placeholder='Search chart layout...' onChange={searchTemplate} />
+        <Search placeholder='Search chart layout...' value={searchTerm} onChange={setSearchTerm} />
       </div>
 
       <Dialog.ScrollContent className={styles.wrapper}>

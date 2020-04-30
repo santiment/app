@@ -27,6 +27,7 @@ const TemplateDetailsDialog = ({
 }) => {
   const {title, description, metrics: templateMetrics} = template
 
+  const [isOpen, setOpen] = useState(false)
   const [isMenuOpened, setIsMenuOpened] = useState(false)
   const usedAssets = getTemplateAssets(template)
   const { metrics } = parseTemplateMetrics(templateMetrics)
@@ -45,6 +46,9 @@ const TemplateDetailsDialog = ({
 
   return (
     <Dialog
+      open={isOpen}
+      onOpen={()=>{setOpen(true)}}
+      onClose={()=>{setOpen(false)}}
       title={title}
       classes={styles}
       trigger={
@@ -64,7 +68,10 @@ const TemplateDetailsDialog = ({
             toggleIsPublic={toggleIsPublic}
             openMenu={openMenu}
             onDeleteClick={onDeleteClick}
-            onRename={onRename}
+            onRename={(data) => {
+              setOpen(false)
+              onRename(data)
+            }}
             isPublic={isPublic}
             isAuthor={isAuthor}
             classes={styles}
