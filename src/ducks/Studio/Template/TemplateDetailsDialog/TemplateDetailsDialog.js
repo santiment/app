@@ -7,9 +7,9 @@ import TemplateContextMenu from "../TemplateContextMenu/TemplateContextMenu";
 import {parseTemplateMetrics} from "../utils";
 import {capitalizeStr} from "../../../../utils/utils";
 import TemplateStatus from "../TemplateStatus/TemplateStatus";
+import UseTemplateBtn from "../UseTemplateBtn/UseTemplateBtn";
 import externalStyles from '../Dialog/LoadTemplate/Template.module.scss'
 import styles from './TemplateDetailsDialog.module.scss'
-import UseTemplateBtn from "../UseTemplateBtn/UseTemplateBtn";
 
 const getTemplateAssets = ({metrics, project}) => {
   const assets = [project.slug];

@@ -87,7 +87,7 @@ const Template = ({
         <div className={styles.info}>
           <TemplateStatus isAuthor={isAuthor} isPublic={isPublic} toggleIsPublic={toggleIsPublic}/>
           <span>
-             · {countAssets} assets · {metrics.length} metrics
+             · {countAssets} asset(s) · {metrics.length} metric(s)
           </span>
         </div>
       </div>

@@ -1,8 +1,8 @@
 import React from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import Input from '@santiment-network/ui/Input'
-import styles from './DialogForm.module.scss'
 import AutoresizeTextarea from "../../../../components/AutoresizeTextarea";
+import styles from './DialogForm.module.scss'
 
 export default ({
                   placeholders={
