@@ -13,6 +13,9 @@ export const TEMPLATE_COMMON_FRAGMENT = gql`
       name
       ticker
     }
+    user {
+      id
+    }
     options
     __typename
   }
@@ -30,6 +33,24 @@ export const TEMPLATE_QUERY = gql`
 export const TEMPLATES_QUERY = gql`
   query chartConfigurations($userId: Int) {
     templates: chartConfigurations(userId: $userId) {
+      ...templateCommon
+    }
+  }
+  ${TEMPLATE_COMMON_FRAGMENT}
+`
+
+export const FEATURED_TEMPLATES_QUERY = gql`
+  query featuredChartConfigurations {
+    templates: featuredChartConfigurations {
+      ...templateCommon
+    }
+  }
+  ${TEMPLATE_COMMON_FRAGMENT}
+`
+
+export const PUBLIC_PROJECT_TEMPLATES_QUERY =  gql`
+  query chartConfigurations($projectId: Int) {
+    templates: chartConfigurations(projectId: $projectId) {
       ...templateCommon
     }
   }

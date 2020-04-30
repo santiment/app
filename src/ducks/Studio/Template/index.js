@@ -35,6 +35,9 @@ const Template = ({
   const [selectedTemplate, setSelectedTemplate] = useSelectedTemplate(
     templates[0]
   )
+
+  console.log(selectedTemplate)
+
   const [isMenuOpened, setIsMenuOpened] = useState(false)
 
   const hasTemplates = templates.length > 0
