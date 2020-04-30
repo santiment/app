@@ -13,6 +13,7 @@ export default ({
   defaultValue,
   isLoading,
   onFormSubmit,
+                  description = '',
   ...props
 }) => {
   function onSubmit (e) {
@@ -38,6 +39,7 @@ export default ({
           className={styles.textarea}
           placeholder={placeholders.description}
           name='description'
+          defaultValue={description || ''}
         />
 
         <div className={styles.actions}>

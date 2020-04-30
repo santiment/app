@@ -130,14 +130,14 @@ const Template = ({
             <>
               <DialogFormRenameTemplate
                 onClose={closeMenu}
-                trigger={<Action>Rename template</Action>}
+                trigger={<Action>Rename</Action>}
                 template={selectedTemplate}
                 onRename={closeMenu}
               />
 
               <DialogFormDuplicateTemplate
                 onClose={closeMenu}
-                trigger={<Action>Duplicate template</Action>}
+                trigger={<Action>Duplicate</Action>}
                 template={selectedTemplate}
                 onDuplicate={(template) => {
                   closeMenu()

@@ -21,8 +21,7 @@ const NewTemplate = ({ onNew, projectId, metrics, comparables, ...props }) => {
   return (
     <DialogForm
       {...props}
-      title='New Template'
-      placeholder='Name of the template...'
+      title='New Chart Layout'
       onFormSubmit={onSubmit}
       buttonLabel='Create'
       isLoading={loading}
