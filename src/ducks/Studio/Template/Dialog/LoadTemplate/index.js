@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import {compose} from "recompose";
+import {connect} from "react-redux";
 import Dialog from '@santiment-network/ui/Dialog'
 import Search from '@santiment-network/ui/Search'
 import Template from './Template'
@@ -11,7 +13,7 @@ const TABS = {
   PROJECT: 'Public'
 }
 
-export default ({
+const LoadTemplate = ({
   placeholder,
   buttonLabel,
   defaultValue,
@@ -20,6 +22,7 @@ export default ({
   selectedTemplate,
   selectTemplate,
   rerenderTemplate,
+  currentUserId,
   ...props
 }) => {
   const [filteredTemplates, setFilteredTemplates] = useState(templates)
@@ -58,8 +61,7 @@ export default ({
 
   function getUsageTemplates() {
     if(tab === TABS.PROJECT){
-      console.log('projects')
-      return projectTemplates
+      return projectTemplates.filter(({user: {id}}) => +id !== currentUserId)
     } else {
       return templates
     }
@@ -68,8 +70,6 @@ export default ({
   function rerenderTemplates () {
     setFilteredTemplates(state => state.slice())
   }
-
-  console.log('filteredTemplates', filteredTemplates, projectTemplates)
 
   return (
     <Dialog title='Load Chart Layout' {...props}>
@@ -103,3 +103,13 @@ export default ({
     </Dialog>
   )
 }
+
+const mapStateToProps = state => {
+  return {
+    currentUserId: state.user.data ? +state.user.data.id : null
+  }
+}
+
+export default compose(
+  connect(mapStateToProps),
+)(LoadTemplate)

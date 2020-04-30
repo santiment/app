@@ -11,7 +11,7 @@ const TemplateStatus = ({isAuthor, isPublic, toggleIsPublic, className, asEl:El 
       !isAuthor && styles.unclickable,
       className
     )}
-    onClick={isAuthor && toggleIsPublic}
+    onClick={isAuthor ? toggleIsPublic : undefined}
     {...rest}
   >
     <Icon type={isPublic ? 'eye' : 'lock-small'} className={styles.icon} /> {isPublic ? 'Public' : 'Private'}
