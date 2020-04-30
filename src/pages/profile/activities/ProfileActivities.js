@@ -11,7 +11,7 @@ const STEPS = {
   INSIGHTS: '#insights',
   SIGNALS: '#signals',
   WATCHLISTS: '#watchlists',
-  TEMPLATES: '#templates'
+  CHART_LAYOUTS: '#chart-layouts'
 }
 
 const Counter = ({ value }) => {
@@ -54,10 +54,10 @@ const ProfileActivities = ({ profile }) => {
           Signals <Counter value={triggers.length} />
         </div>
         <div
-          className={cx(styles.link, step === STEPS.TEMPLATES && styles.active)}
-          onClick={() => goTo(STEPS.TEMPLATES)}
+          className={cx(styles.link, step === STEPS.CHART_LAYOUTS && styles.active)}
+          onClick={() => goTo(STEPS.CHART_LAYOUTS)}
         >
-          Templates <Counter value={templates.length} />
+          Chart Layouts <Counter value={templates.length} />
         </div>
       </div>
       <div className={styles.right}>
@@ -70,7 +70,7 @@ const ProfileActivities = ({ profile }) => {
         {step === STEPS.WATCHLISTS && (
           <PublicWatchlists userId={profileId} data={watchlists} />
         )}
-        {step === STEPS.TEMPLATES && (
+        {step === STEPS.CHART_LAYOUTS && (
           <ProfileTemplates userId={profileId} data={templates} />
         )}
       </div>

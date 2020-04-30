@@ -38,14 +38,14 @@ export default ({
   }
 
   return (
-    <Dialog title='Load Template' {...props}>
+    <Dialog title='Load Chart Layout' {...props}>
       <div className={styles.search}>
-        <Search placeholder='Search templates...' onChange={searchTemplate} />
+        <Search placeholder='Search chart layout...' onChange={searchTemplate} />
       </div>
 
       <Dialog.ScrollContent className={styles.wrapper}>
         {templates.length === 0 || filteredTemplates.length === 0
-          ? 'No templates found'
+          ? 'No chart layouts found'
           : filteredTemplates.map(template => (
             <Template
               key={template.id}

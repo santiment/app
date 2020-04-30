@@ -78,7 +78,7 @@ export default ({
     <button className={styles.btn} ref={forwardedRef}>
       <Dialog
         {...props}
-        title='New Template'
+        title='New Chart Layout'
         open={isDialogOpened}
         onClose={closeDialog}
         onNew={onNew}
