@@ -45,7 +45,7 @@ const Canvas = ({
       <ChartHeader
         {...props}
         allDetectedAssets={allDetectedAssets}
-        metrics={metrics}
+        activeMetrics={metrics}
         options={options}
         settings={settings}
         setOptions={setOptions}
