@@ -47,13 +47,14 @@
 }
 
 .trigger {
-  width: 94px;
+  min-width: 94px;
   color: var(--waterloo);
   padding: 7px 12px !important;
 }
 
 .menuBtn {
   margin-left: 8px;
+  display: flex;
 }
 
 .actions {

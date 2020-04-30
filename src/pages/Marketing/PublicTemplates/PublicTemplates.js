@@ -20,11 +20,11 @@ const PublicTemplates = ({isProSanbase}) => {
 
         {requirePro ? <UpgradeBtn showCrownIcon={false} variant='flat' className={styles.proBtn}>
           <>
-            <Icon type='crown' className={styles.proIcon} /> PRO Template
+            <Icon type='crown' className={styles.proIcon} /> PRO Chart Layouts
           </>
         </UpgradeBtn> : <a className={styles.useLink}
            target='_blank'
-           rel='noopener noreferrer' href={link}>Use template <Icon className={styles.useIcon} type='pointer-right' /></a>}
+           rel='noopener noreferrer' href={link}>Use chart layout <Icon className={styles.useIcon} type='pointer-right' /></a>}
       </div>
     })}
   </div>

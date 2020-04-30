@@ -43,7 +43,7 @@ const MarketingPage = ({history}) => {
       </div>
 
       <div className={styles.block}>
-        <div className={styles.subTitle}>Explore Templates</div>
+        <div className={styles.subTitle}>Explore Chart Layouts</div>
 
         <PublicTemplates/>
       </div>
