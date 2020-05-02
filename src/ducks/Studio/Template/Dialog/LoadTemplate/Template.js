@@ -4,8 +4,7 @@ import {connect} from "react-redux";
 import {stringify} from "query-string";
 import cx from 'classnames'
 import { useUpdateTemplate } from '../../gql/hooks'
-import {getMultiChartsValue} from "../../utils";
-import {COMPARE_CONNECTOR} from "../../../url";
+import {getMultiChartsValue, getTemplateAssets, getTemplateMetrics} from "../../utils";
 import TemplateDetailsDialog, {TemplateInfoTrigger} from "../../TemplateDetailsDialog/TemplateDetailsDialog";
 import TemplateStatus from "../../TemplateStatus/TemplateStatus";
 import styles from './Template.module.scss'
@@ -50,7 +49,7 @@ const Template = ({
   onOpenTemplate,
   onRename = () => {}
 }) => {
-  const { title, metrics } = template
+  const { title } = template
   const {isPublic, toggleIsPublic} = usePublicTemplates(template);
 
   function onTemplateClick ({ target, currentTarget }) {
@@ -65,8 +64,8 @@ const Template = ({
     }
   }
 
-  const countAssets = metrics.reduce((total,x) => (x.indexOf(COMPARE_CONNECTOR) !== -1 ? total+1 : total), 0) + 1
-
+  const usedAssets = getTemplateAssets(template)
+  const usedMetrics = getTemplateMetrics(template)
 
   return (
     <div
@@ -81,7 +80,7 @@ const Template = ({
         <div className={styles.info}>
           <TemplateStatus isAuthor={isAuthor} isPublic={isPublic} toggleIsPublic={toggleIsPublic}/>
           <span>
-             · {countAssets} asset(s) · {metrics.length} metric(s)
+             · {usedAssets.length} asset(s) · {usedMetrics.length} metric(s)
           </span>
         </div>
       </div>
