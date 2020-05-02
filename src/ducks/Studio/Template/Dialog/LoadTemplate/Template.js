@@ -4,23 +4,21 @@ import {connect} from "react-redux";
 import {stringify} from "query-string";
 import cx from 'classnames'
 import { useUpdateTemplate } from '../../gql/hooks'
-import {getMultiChartsValue, getTemplateAssets, getTemplateMetrics} from "../../utils";
+import {getMultiChartsValue, getTemplateAssets, getTemplateMetrics, parseTemplateMetrics} from "../../utils";
 import TemplateDetailsDialog, {TemplateInfoTrigger} from "../../TemplateDetailsDialog/TemplateDetailsDialog";
 import TemplateStatus from "../../TemplateStatus/TemplateStatus";
 import styles from './Template.module.scss'
+import {generateShareLink} from "../../../url";
 
 export function prepareTemplateLink(template) {
-  const {project, metrics} = template
+  const {project, metrics: templateMetrics} = template
   const {slug} = project
 
-  const Shareable = {
-    metrics,
-    isMultiChartsActive: getMultiChartsValue(template)
-  }
+  const {metrics, comparables} = parseTemplateMetrics(templateMetrics)
 
-  return `/projects/${slug}?` + stringify(Shareable, {
-    arrayFormat: 'comma'
-  })
+  return `/projects/${slug}?` + generateShareLink({
+    isMultiChartsActive: getMultiChartsValue(template)
+  }, {}, metrics, [], comparables)
 }
 
 export const usePublicTemplates = (template) => {
