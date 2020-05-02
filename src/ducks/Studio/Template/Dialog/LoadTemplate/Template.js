@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import {push} from "react-router-redux";
 import {connect} from "react-redux";
-import {stringify} from "query-string";
 import cx from 'classnames'
 import { useUpdateTemplate } from '../../gql/hooks'
 import {getMultiChartsValue, getTemplateAssets, getTemplateMetrics, parseTemplateMetrics} from "../../utils";
 import TemplateDetailsDialog, {TemplateInfoTrigger} from "../../TemplateDetailsDialog/TemplateDetailsDialog";
 import TemplateStatus from "../../TemplateStatus/TemplateStatus";
-import styles from './Template.module.scss'
 import {generateShareLink} from "../../../url";
+import styles from './Template.module.scss'
 
 export function prepareTemplateLink(template) {
   const {project, metrics: templateMetrics} = template
