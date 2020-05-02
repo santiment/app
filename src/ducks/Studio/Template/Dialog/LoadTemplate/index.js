@@ -3,9 +3,11 @@ import {compose} from "recompose";
 import {connect} from "react-redux";
 import Dialog from '@santiment-network/ui/Dialog'
 import Search from '@santiment-network/ui/Search'
-import Template from './Template'
-import {usePublicProjectTemplates} from "../../gql/hooks";
 import Tabs from "@santiment-network/ui/Tabs";
+import Icon from '@santiment-network/ui/Icon'
+import Template from './Template'
+import { usePublicProjectTemplates } from "../../gql/hooks";
+import TemplateDetailsDialog from "../../TemplateDetailsDialog/TemplateDetailsDialog";
 import styles from './index.module.scss'
 
 const TABS = {
@@ -28,9 +30,23 @@ const LoadTemplate = ({
   const [filteredTemplates, setFilteredTemplates] = useState(templates)
   const [tab, setTab] = useState(TABS.OWN)
   const [searchTerm, setSearchTerm] = useState('')
+  const [openedTemplate, setOpenedTemplate] = useState()
 
   const {project: {id}} = selectedTemplate
   const [projectTemplates] = usePublicProjectTemplates(id)
+
+  function rerenderTemplates () {
+    setFilteredTemplates(state => state.slice())
+  }
+
+  function onRename (template) {
+    rerenderTemplates && rerenderTemplates()
+    rerenderTemplate && rerenderTemplate(template)
+  }
+
+  function onDelete() {
+    setOpenedTemplate()
+  }
 
   const search = () => {
     const lowerCaseValue = searchTerm.toLowerCase()
@@ -67,39 +83,48 @@ const LoadTemplate = ({
     }
   }
 
-  function rerenderTemplates () {
-    setFilteredTemplates(state => state.slice())
-  }
-
   return (
-    <Dialog title='Load Chart Layout' {...props}>
-      <Tabs
-        options={Object.values(TABS)}
-        defaultSelectedIndex={tab}
-        onSelect={(tab) => {
-          setTab(tab)
-        }}
-        className={styles.tabs}
-      />
+    <Dialog title={openedTemplate ? <div onClick={() => setOpenedTemplate()} className={styles.header}>
+        <Icon type='arrow-left-big' className={styles.headerIcon}/> {openedTemplate.title}
+      </div> : 'Load Chart Layout'} classes={styles} {...props}>
+      {!openedTemplate ? <>
+          <Tabs
+            options={Object.values(TABS)}
+            defaultSelectedIndex={tab}
+            onSelect={(tab) => {
+              setTab(tab)
+            }}
+            className={styles.tabs}
+          />
 
-      <div className={styles.search}>
-        <Search placeholder='Search chart layout...' value={searchTerm} onChange={setSearchTerm} />
-      </div>
+          <div className={styles.search}>
+            <Search placeholder='Search chart layout...' value={searchTerm} onChange={setSearchTerm} />
+          </div>
 
-      <Dialog.ScrollContent className={styles.wrapper}>
-        {templates.length === 0 || filteredTemplates.length === 0
-          ? 'No chart layouts found'
-          : filteredTemplates.map(template => (
-            <Template
-              key={template.id}
-              template={template}
-              selectedTemplate={selectedTemplate}
-              selectTemplate={selectTemplate}
-              rerenderTemplates={rerenderTemplates}
-              rerenderTemplate={rerenderTemplate}
-            />
-          ))}
-      </Dialog.ScrollContent>
+          <Dialog.ScrollContent className={styles.wrapper}>
+            {templates.length === 0 || filteredTemplates.length === 0
+              ? 'No chart layouts found'
+              : filteredTemplates.map(template => (
+                <Template
+                  key={template.id}
+                  template={template}
+                  selectedTemplate={selectedTemplate}
+                  selectTemplate={selectTemplate}
+                  rerenderTemplates={rerenderTemplates}
+                  rerenderTemplate={rerenderTemplate}
+                  onOpenTemplate={setOpenedTemplate}
+                  onRename={onRename}
+                />
+              ))}
+          </Dialog.ScrollContent>
+        </> :
+        <TemplateDetailsDialog
+          template={openedTemplate}
+          onRename={onRename}
+          onDelete={onDelete}
+          isDialog={false}
+        />
+      }
     </Dialog>
   )
 }

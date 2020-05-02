@@ -1,44 +1,28 @@
 import React, { useState } from 'react'
 import {push} from "react-router-redux";
 import {connect} from "react-redux";
-import {stringify} from "query-string";
 import cx from 'classnames'
-import { useDeleteTemplate, useUpdateTemplate } from '../../gql/hooks'
-import {getMultiChartsValue} from "../../utils";
-import {COMPARE_CONNECTOR} from "../../../url";
-import TemplateDetailsDialog from "../../TemplateDetailsDialog/TemplateDetailsDialog";
+import { useUpdateTemplate } from '../../gql/hooks'
+import {getMultiChartsValue, getTemplateAssets, getTemplateMetrics, parseTemplateMetrics} from "../../utils";
+import TemplateDetailsDialog, {TemplateInfoTrigger} from "../../TemplateDetailsDialog/TemplateDetailsDialog";
 import TemplateStatus from "../../TemplateStatus/TemplateStatus";
+import {generateShareLink} from "../../../url";
 import styles from './Template.module.scss'
 
 export function prepareTemplateLink(template) {
-  const {project, metrics} = template
+  const {project, metrics: templateMetrics} = template
   const {slug} = project
 
-  const Shareable = {
-    metrics,
-    isMultiChartsActive: getMultiChartsValue(template)
-  }
+  const {metrics, comparables} = parseTemplateMetrics(templateMetrics)
 
-  return `/projects/${slug}?` + stringify(Shareable, {
-    arrayFormat: 'comma'
-  })
+  return `/projects/${slug}?` + generateShareLink({
+    isMultiChartsActive: getMultiChartsValue(template)
+  }, {}, metrics, [], comparables)
 }
 
-const Template = ({
-  template,
-  selectTemplate,
-  rerenderTemplates,
-  rerenderTemplate,
-  isAuthor,
-  asLink = false,
-  className,
-  redirect
-}) => {
-  const { title, metrics } = template
-  const [isPublic, setIsPublic] = useState(template.isPublic)
-  const [deleteTemplate] = useDeleteTemplate()
+export const usePublicTemplates = (template) => {
   const [updateTemplate] = useUpdateTemplate()
-
+  const [isPublic, setIsPublic] = useState(template.isPublic)
   function toggleIsPublic (e) {
     e.stopPropagation()
 
@@ -49,6 +33,21 @@ const Template = ({
     })
   }
 
+  return {isPublic, toggleIsPublic}
+}
+
+const Template = ({
+  template,
+  selectTemplate,
+  isAuthor,
+  asLink = false,
+  className,
+  redirect,
+  onOpenTemplate,
+  onRename = () => {}
+}) => {
+  const { title } = template
+  const {isPublic, toggleIsPublic} = usePublicTemplates(template);
 
   function onTemplateClick ({ target, currentTarget }) {
     if (target === currentTarget) {
@@ -62,17 +61,8 @@ const Template = ({
     }
   }
 
-  function onDeleteClick () {
-    deleteTemplate(template)
-    selectTemplate && selectTemplate()
-  }
-
-  function onRename (template) {
-    rerenderTemplates && rerenderTemplates()
-    rerenderTemplate && rerenderTemplate(template)
-  }
-
-  const countAssets = metrics.reduce((total,x) => (x.indexOf(COMPARE_CONNECTOR) !== -1 ? total+1 : total), 0) + 1
+  const usedAssets = getTemplateAssets(template)
+  const usedMetrics = getTemplateMetrics(template)
 
   return (
     <div
@@ -87,18 +77,18 @@ const Template = ({
         <div className={styles.info}>
           <TemplateStatus isAuthor={isAuthor} isPublic={isPublic} toggleIsPublic={toggleIsPublic}/>
           <span>
-             · {countAssets} asset(s) · {metrics.length} metric(s)
+             · {usedAssets.length} asset(s) · {usedMetrics.length} metric(s)
           </span>
         </div>
       </div>
 
-      <TemplateDetailsDialog
-        template={template}
-        toggleIsPublic={toggleIsPublic}
-        onDeleteClick={onDeleteClick}
-        onRename={onRename}
-        isPublic={isPublic}
-        isAuthor={isAuthor}/>
+      {onOpenTemplate
+        ? <TemplateInfoTrigger onClick={() => onOpenTemplate(template)}/>
+        : <TemplateDetailsDialog
+          template={template}
+          onRename={onRename}
+          selectTemplate={selectTemplate}
+        />}
     </div>
   )
 }

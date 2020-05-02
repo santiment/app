@@ -6,13 +6,14 @@ import {prepareTemplateLink} from "../Dialog/LoadTemplate/Template";
 import DuplicateTemplate from "../Dialog/DuplicateTemplate";
 
 
-const UseTemplateBtn = ({template, redirect}) => {
-  return <DuplicateTemplate trigger={
+const UseTemplateBtn = ({template, redirect, onDuplicate}) => {
+  return <DuplicateTemplate  trigger={
     <Button variant='fill' accent='positive'>Use Chart Layout</Button>
   }
                             template={template}
                             onDuplicate={(newTemplate) => {
                               redirect(prepareTemplateLink(newTemplate))
+                              onDuplicate()
                             }
                             }/>
 }

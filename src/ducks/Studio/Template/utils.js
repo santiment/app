@@ -2,6 +2,7 @@ import { COMPARE_CONNECTOR, parseComparable, shareComparable } from '../url'
 import { Metric } from '../../dataHub/metrics'
 import { tryMapToTimeboundMetric} from "../../dataHub/timebounds";
 import {getSavedMulticharts} from "../../../utils/localStorage";
+import {capitalizeStr} from "../../../utils/utils";
 
 const LAST_USED_TEMPLATE = 'LAST_USED_TEMPLATE'
 
@@ -65,4 +66,25 @@ export const getMultiChartsValue = ({options}) => {
   }
 
   return getSavedMulticharts()
+}
+
+export const getTemplateAssets = ({metrics, project}) => {
+  const assets = [project.slug];
+
+  metrics.forEach(item => {
+    if(item.indexOf(COMPARE_CONNECTOR) !== -1) {
+      const [slug] = item.split(COMPARE_CONNECTOR)
+
+      if(slug){
+        assets.push(slug)
+      }
+    }
+  })
+
+  return assets.map((slug) => capitalizeStr(slug));
+}
+
+export function getTemplateMetrics({metrics}) {
+  const {metrics: parsedMetrics} = parseTemplateMetrics(metrics)
+  return  parsedMetrics.map(({label}) => label)
 }

@@ -18,7 +18,7 @@ const TemplateContextMenu = ({
   isMenuOpened,
   closeMenu,
   openMenu,
-  onDeleteClick,
+                               onDelete,
   onRename,
   isAuthor,
                                classes={}
@@ -42,7 +42,10 @@ const TemplateContextMenu = ({
           <DialogFormRenameTemplate
             trigger={<Option>Rename</Option>}
             template={template}
-            onRename={onRename}
+            onRename={(data) => {
+              onRename(data)
+              closeMenu()
+            }}
           />
         )}
         <DialogFormDuplicateTemplate
@@ -54,7 +57,9 @@ const TemplateContextMenu = ({
           <ConfirmDialog
             title='Do you want to delete this template?'
             trigger={<Option>Delete</Option>}
-            onApprove={onDeleteClick}
+            onApprove={() => {
+              onDelete(template)
+            }}
             onCancel={closeMenu}
           />
         )}
