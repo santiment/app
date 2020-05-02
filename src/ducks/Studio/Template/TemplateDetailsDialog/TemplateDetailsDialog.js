@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import cx from 'classnames'
+import {connect} from "react-redux";
 import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
 import Icon from '@santiment-network/ui/Icon'
@@ -8,29 +9,45 @@ import {parseTemplateMetrics} from "../utils";
 import {capitalizeStr} from "../../../../utils/utils";
 import UseTemplateBtn from "../UseTemplateBtn/UseTemplateBtn";
 import Toggle from "@santiment-network/ui/Toggle";
-
+import {usePublicTemplates} from "../Dialog/LoadTemplate/Template";
+import {useDeleteTemplate} from "../gql/hooks";
 import externalStyles from '../Dialog/LoadTemplate/Template.module.scss'
 import styles from './TemplateDetailsDialog.module.scss'
+
 const getTemplateAssets = ({metrics, project}) => {
   const assets = [project.slug];
+
+  console.log(metrics)
 
   return assets.map((slug) => capitalizeStr(slug)).join(', ');
 }
 
+export const TemplateInfoTrigger = (props) => <Button {...props} variant='flat' className={cx(externalStyles.menu, styles.trigger)}>
+  See details
+</Button>
+
 const TemplateDetailsDialog = ({
   template,
-  toggleIsPublic,
-  onDeleteClick,
+  isAuthor,
+  isDialog = true,
   onRename,
-  isPublic,
-  isAuthor
+                           onDelete
 }) => {
   const {title, description, metrics: templateMetrics} = template
 
+  const [deleteTemplate] = useDeleteTemplate()
+  const {isPublic, toggleIsPublic} = usePublicTemplates(template);
+
   const [isOpen, setOpen] = useState(false)
   const [isMenuOpened, setIsMenuOpened] = useState(false)
+
   const usedAssets = getTemplateAssets(template)
   const { metrics } = parseTemplateMetrics(templateMetrics)
+
+  function onDeleteHandler (template) {
+    deleteTemplate(template)
+    onDelete && onDelete(template)
+  }
 
   const usedMetrics = metrics.map(({label}) => label).join(', ')
 
@@ -44,35 +61,41 @@ const TemplateDetailsDialog = ({
     setIsMenuOpened(false)
   }
 
+  const El = isDialog ? Dialog : 'div'
+
   return (
-    <Dialog
+    <El
       open={isOpen}
       onOpen={()=>{setOpen(true)}}
       onClose={()=>{setOpen(false)}}
       title={title}
       classes={styles}
       trigger={
-        <Button variant='flat' className={cx(externalStyles.menu, styles.trigger)}>
-          See details
-        </Button>
+        <TemplateInfoTrigger/>
       }
+      className={styles.template}
     >
       <div className={styles.container}>
         <div className={styles.actions}>
-          {!isAuthor &&  <UseTemplateBtn template={template}/>}
+          {!isAuthor &&  <UseTemplateBtn template={template}
+                                         onDuplicate={() => {
+                                           setOpen(false)
+                                         }}/>}
           {isAuthor ? (
             <div onClick={toggleIsPublic} className={styles.status}>
               Public
               <Toggle isActive={isPublic} className={styles.toggle} />
             </div>
-          ) : (isPublic ? 'Public' : 'Private')}
+          ) : <div className={cx(styles.status, !isAuthor && styles.withUse)}>
+            {isPublic ? 'Public' : 'Private'}
+          </div>}
 
           <TemplateContextMenu
             template={template}
             isMenuOpened={isMenuOpened}
             closeMenu={closeMenu}
             openMenu={openMenu}
-            onDeleteClick={onDeleteClick}
+            onDelete={onDeleteHandler}
             onRename={(data) => {
               setOpen(false)
               onRename(data)
@@ -122,8 +145,12 @@ const TemplateDetailsDialog = ({
           </div>
         </div>}
       </div>
-    </Dialog>
+    </El>
   )
 }
 
-export default TemplateDetailsDialog
+const mapStateToProps = ({ user }, { template: {user: {id} = {}} }) => ({
+  isAuthor: user && user.data && +user.data.id === +id
+})
+
+export default connect(mapStateToProps)(TemplateDetailsDialog)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import Input from '@santiment-network/ui/Input'
 import AutoresizeTextarea from "../../../../components/AutoresizeTextarea";
@@ -16,6 +16,8 @@ export default ({
                   description = '',
   ...props
 }) => {
+  const [isOpen, setOpen] = useState(false)
+
   function onSubmit (e) {
     e.preventDefault()
     onFormSubmit({
@@ -25,7 +27,7 @@ export default ({
   }
 
   return (
-    <Dialog {...props} classes={styles}>
+    <Dialog  open={isOpen} onClose={() => setOpen(false)} onOpen={() => {setOpen(true)}} {...props} classes={styles}>
       <form className={styles.wrapper} onSubmit={onSubmit}>
         <Input
           autoFocus

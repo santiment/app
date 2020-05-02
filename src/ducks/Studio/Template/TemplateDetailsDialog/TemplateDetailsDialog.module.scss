@@ -39,7 +39,12 @@
 
 .dialog {
   max-height: 514px;
-  min-width: 480px;
+  max-width: 514px;
+  width: 100%;
+}
+
+.template {
+  overflow-y: auto;
 }
 
 .container {
@@ -80,4 +85,8 @@
 
 .noMargin {
   margin: 0 !important;
+}
+
+.withUse {
+  margin-left: 16px;
 }
