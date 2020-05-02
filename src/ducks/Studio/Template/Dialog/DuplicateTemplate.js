@@ -24,8 +24,8 @@ export default ({ onDuplicate, template, ...props }) => {
 
   return (
     <DialogForm
-      {...props}
       title='Duplicate Chart Layout'
+      {...props}
       onFormSubmit={onSubmit}
       buttonLabel='Duplicate'
       defaultValue={title + ' copy'}

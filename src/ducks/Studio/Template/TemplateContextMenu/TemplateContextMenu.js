@@ -3,7 +3,6 @@ import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
-import Toggle from '@santiment-network/ui/Toggle'
 import DialogFormRenameTemplate from '../Dialog/RenameTemplate'
 import DialogFormDuplicateTemplate from '../Dialog/DuplicateTemplate'
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog'
@@ -18,11 +17,9 @@ const TemplateContextMenu = ({
   template,
   isMenuOpened,
   closeMenu,
-  toggleIsPublic,
   openMenu,
   onDeleteClick,
   onRename,
-  isPublic,
   isAuthor,
                                classes={}
 }) => {
@@ -32,7 +29,7 @@ const TemplateContextMenu = ({
       onClose={closeMenu}
       trigger={
         <Button variant='ghost' className={cx(styles.menu, classes.menuBtn)} onClick={openMenu}>
-          <Icon type='dots' />
+          <Icon type='dots' className={styles.dots} />
         </Button>
       }
       passOpenStateAs='isActive'
@@ -40,12 +37,7 @@ const TemplateContextMenu = ({
       align='end'
     >
       <Panel variant='modal' className={styles.options}>
-        {isAuthor && (
-          <Option onClick={toggleIsPublic} className={styles.status}>
-            Public
-            <Toggle isActive={isPublic} className={styles.toggle} />
-          </Option>
-        )}
+
         {isAuthor && (
           <DialogFormRenameTemplate
             trigger={<Option>Rename</Option>}

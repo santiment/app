@@ -80,3 +80,10 @@
   background-size: contain;
   fill: $fiord;
 }
+
+.copyAction {
+  margin-left: auto;
+  color: var(--casper);
+
+  @include text('caption', 'b');
+}

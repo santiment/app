@@ -6,11 +6,11 @@ import Icon from '@santiment-network/ui/Icon'
 import TemplateContextMenu from "../TemplateContextMenu/TemplateContextMenu";
 import {parseTemplateMetrics} from "../utils";
 import {capitalizeStr} from "../../../../utils/utils";
-import TemplateStatus from "../TemplateStatus/TemplateStatus";
 import UseTemplateBtn from "../UseTemplateBtn/UseTemplateBtn";
+import Toggle from "@santiment-network/ui/Toggle";
+
 import externalStyles from '../Dialog/LoadTemplate/Template.module.scss'
 import styles from './TemplateDetailsDialog.module.scss'
-
 const getTemplateAssets = ({metrics, project}) => {
   const assets = [project.slug];
 
@@ -60,19 +60,23 @@ const TemplateDetailsDialog = ({
       <div className={styles.container}>
         <div className={styles.actions}>
           {!isAuthor &&  <UseTemplateBtn template={template}/>}
-          <TemplateStatus isPublic={isPublic} isAuthor={isAuthor} toggleIsPublic={toggleIsPublic} className={cx(styles.status, isAuthor && styles.noMargin)} asEl={Button} variant='ghost'/>
+          {isAuthor ? (
+            <div onClick={toggleIsPublic} className={styles.status}>
+              Public
+              <Toggle isActive={isPublic} className={styles.toggle} />
+            </div>
+          ) : (isPublic ? 'Public' : 'Private')}
+
           <TemplateContextMenu
             template={template}
             isMenuOpened={isMenuOpened}
             closeMenu={closeMenu}
-            toggleIsPublic={toggleIsPublic}
             openMenu={openMenu}
             onDeleteClick={onDeleteClick}
             onRename={(data) => {
               setOpen(false)
               onRename(data)
             }}
-            isPublic={isPublic}
             isAuthor={isAuthor}
             classes={styles}
           />
@@ -108,7 +112,7 @@ const TemplateDetailsDialog = ({
           </div>
         </div>
 
-        <div className={styles.block}>
+        {description && <div className={styles.block}>
           <Icon type='info-round' className={styles.icon}/>
           <div className={styles.info}>
             <div className={styles.subTitle}>Description</div>
@@ -116,7 +120,7 @@ const TemplateDetailsDialog = ({
               {description}
             </div>
           </div>
-        </div>
+        </div>}
       </div>
     </Dialog>
   )

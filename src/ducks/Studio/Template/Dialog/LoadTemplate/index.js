@@ -9,8 +9,8 @@ import Tabs from "@santiment-network/ui/Tabs";
 import styles from './index.module.scss'
 
 const TABS = {
-  OWN: 'Your library',
-  PROJECT: 'Public'
+  OWN: 'Your Chart Layout',
+  PROJECT: 'Explore'
 }
 
 const LoadTemplate = ({

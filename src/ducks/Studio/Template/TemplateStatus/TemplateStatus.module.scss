@@ -12,20 +12,10 @@
   align-items: center;
   margin-right: 5px;
 
-  @include explanation('Private', 'top');
-
   &:hover {
     .icon {
       fill: var(--jungle-green);
     }
-  }
-
-  &::before {
-    bottom: 140%;
-  }
-
-  &_public:hover::before {
-    content: 'Public';
   }
 }
 
