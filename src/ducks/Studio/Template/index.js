@@ -26,9 +26,6 @@ const useCtrlSPress = (callback) => {
     function listenHotkey (e) {
       const { target, ctrlKey, code } = e
 
-      console.log(e)
-
-
       if (target === document.body && ctrlKey && code === 'KeyS') {
         e.preventDefault()
 
