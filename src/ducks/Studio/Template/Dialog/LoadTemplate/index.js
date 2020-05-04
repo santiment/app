@@ -50,6 +50,7 @@ const LoadTemplate = ({
 
   function onDelete () {
     setOpenedTemplate()
+    rerenderTemplates() && rerenderTemplates()
   }
 
   function onDublicate () {
