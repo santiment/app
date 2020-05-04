@@ -1,5 +1,7 @@
 const OLD_DATE = { datetime: 0 }
 
+const newDataMapper = data => Object.assign({}, data)
+
 // TODO: Remove this after moving to dynamic query aliasing instead of preTransform [@vanguard | March 4, 2020]
 export const aliasTransform = (key, dataKey = key) => alias => data =>
   extractTimeseries(key)(data).map(({ datetime, ...value }) => ({
@@ -14,8 +16,6 @@ export const normalizeDatetimes = data => ({
   datetime: +new Date(data.datetime),
 })
 
-const newDataMapper = data => Object.assign({}, data)
-
 function findDatetimeBorder(baseTs, cursor, targetDatetime) {
   const baseTsLength = baseTs.length
 
@@ -29,7 +29,7 @@ function findDatetimeBorder(baseTs, cursor, targetDatetime) {
   return cursor
 }
 
-export const mergeTimeseries = (timeseries, options) => {
+export function mergeTimeseries(timeseries) {
   const timeseriesAmount = timeseries.length
 
   if (timeseriesAmount === 1) {
@@ -51,10 +51,9 @@ export const mergeTimeseries = (timeseries, options) => {
     if (timeserie === longestTS) continue
 
     const tsLength = timeserie.length
-    let baseTsCursor = 0
 
     for (
-      let timeserieCursor = 0;
+      let timeserieCursor = 0, baseTsCursor = 0;
       timeserieCursor < tsLength;
       timeserieCursor++, baseTsCursor++
     ) {
@@ -72,13 +71,6 @@ export const mergeTimeseries = (timeseries, options) => {
 
       if (timeserieDatetime > baseTsDatetime) {
         // current timeserie's datetime is greater than the base
-
-        /* do {
-         *   baseTsCursor++
-         * } while (
-         *   baseTsCursor < baseTs.length &&
-         *   timeserieDatetime > new Date(baseTs[baseTsCursor].datetime)
-         * ) */
 
         baseTsCursor = findDatetimeBorder(
           baseTs,
@@ -106,13 +98,6 @@ export const mergeTimeseries = (timeseries, options) => {
       } else {
         // current timeserie's datetime is less than the base
         const timeserieLeftCursor = timeserieCursor
-
-        /* do {
-         *   timeserieCursor++
-         * } while (
-         *   timeserieCursor < timeserie.length &&
-         *   baseTsDatetime > new Date(timeserie[timeserieCursor].datetime)
-         * ) */
 
         timeserieCursor = findDatetimeBorder(
           timeserie,

@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
 import { client } from '../../../index'
 import { getQuery, getPreTransform } from './fetcher'
-import { normalizeDatetimes } from './utils'
+import { normalizeDatetimes, mergeTimeseries } from './utils'
 import { mergeTimeseriesByKey } from '../../../utils/utils'
 
 // NOTE: Polyfill for a PingdomBot 0.8.5 browser (/sentry/sanbase-frontend/issues/29459/) [@vanguard | Feb 6, 2020]
 window.AbortController =
   window.AbortController ||
-  function () {
-    return { abort () {} }
+  function() {
+    return { abort() {} }
   }
 
 const DEFAULT_TS = []
@@ -24,12 +24,12 @@ const cancelQuery = ([controller, id]) => {
   const { queryManager } = client
   controller.abort()
   queryManager.inFlightLinkObservables.delete(
-    queryManager.queries.get(id.toString()).document
+    queryManager.queries.get(id.toString()).document,
   )
   queryManager.stopQuery(id)
 }
 
-function abortRemovedMetrics (abortables, newMetrics, MetricSettingMap) {
+function abortRemovedMetrics(abortables, newMetrics, MetricSettingMap) {
   const toAbort = new Map(abortables)
   newMetrics.forEach(metric => {
     const abortable = abortables.get(metric)
@@ -53,14 +53,14 @@ function abortRemovedMetrics (abortables, newMetrics, MetricSettingMap) {
   return reducedAbortables
 }
 
-function abortAllMetrics (abortables) {
+function abortAllMetrics(abortables) {
   return [...abortables.values()].forEach(cancelQuery)
 }
 
-export function useTimeseries (
+export function useTimeseries(
   metrics,
   settings,
-  MetricSettingMap = DEFAULT_METRIC_SETTINGS_MAP
+  MetricSettingMap = DEFAULT_METRIC_SETTINGS_MAP,
 ) {
   const [timeseries, setTimeseries] = useState(DEFAULT_TS)
   const [loadings, setLoadings] = useState(DEFAULT_LOADINGS)
@@ -77,7 +77,7 @@ export function useTimeseries (
 
       setAbortables(abortRemovedMetrics(abortables, metrics, MetricSettingMap))
     },
-    [metricsHash, MetricSettingMap]
+    [metricsHash, MetricSettingMap],
   )
 
   useEffect(
@@ -87,7 +87,7 @@ export function useTimeseries (
       setLoadings([...metrics])
       setErrorMsg({})
     },
-    [settings]
+    [settings],
   )
 
   useEffect(
@@ -134,22 +134,21 @@ export function useTimeseries (
               from,
               slug,
               ...reqMeta,
-              ...metricSettings
+              ...metricSettings,
             },
             context: {
               fetchOptions: {
-                signal: abortController.signal
-              }
-            }
+                signal: abortController.signal,
+              },
+            },
           })
           .then(getPreTransform(metric))
           .then(data => {
             if (raceCondition) return
 
             setTimeseries(() => {
-              mergedData = mergeTimeseriesByKey({
-                timeseries: [mergedData, data]
-              })
+              mergedData = mergeTimeseries([mergedData, data])
+
               return mergedData.map(normalizeDatetimes)
             })
           })
@@ -177,7 +176,7 @@ export function useTimeseries (
         raceCondition = true
       }
     },
-    [metricsHash, settings, MetricSettingMap]
+    [metricsHash, settings, MetricSettingMap],
   )
 
   return [timeseries, loadings, ErrorMsg]
