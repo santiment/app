@@ -26,6 +26,7 @@ const LoadTemplate = ({
   selectTemplate,
   rerenderTemplate,
   currentUserId,
+  projectId,
   ...props
 }) => {
   const [filteredTemplates, setFilteredTemplates] = useState(templates)
@@ -36,7 +37,10 @@ const LoadTemplate = ({
   const {
     project: { id }
   } = selectedTemplate
-  const [projectTemplates] = usePublicProjectTemplates(id)
+  const [
+    projectTemplates = [],
+    loadingProjectTemplates
+  ] = usePublicProjectTemplates(projectId)
 
   function rerenderTemplates () {
     setFilteredTemplates(state => state.slice())
@@ -61,18 +65,13 @@ const LoadTemplate = ({
     const templates = getUsageTemplates()
 
     setFilteredTemplates(
-      templates.filter(({ title }) =>
-        title.toLowerCase().includes(lowerCaseValue)
-      )
+      lowerCaseValue
+        ? templates.filter(({ title }) =>
+          title.toLowerCase().includes(lowerCaseValue)
+        )
+        : templates
     )
   }
-
-  useEffect(
-    () => {
-      setFilteredTemplates(templates)
-    },
-    [templates]
-  )
 
   useEffect(
     () => {
@@ -91,7 +90,7 @@ const LoadTemplate = ({
   function getUsageTemplates () {
     if (tab === TABS.PROJECT) {
       return projectTemplates.filter(
-        ({ user: { id } }) => +id !== currentUserId
+        ({ user: { id } }) => +id !== +currentUserId
       )
     } else {
       return templates
@@ -115,14 +114,16 @@ const LoadTemplate = ({
     >
       {!openedTemplate ? (
         <>
-          <Tabs
-            options={Object.values(TABS)}
-            defaultSelectedIndex={tab}
-            onSelect={tab => {
-              setTab(tab)
-            }}
-            className={styles.tabs}
-          />
+          {!loadingProjectTemplates && (
+            <Tabs
+              options={Object.values(TABS)}
+              defaultSelectedIndex={tab}
+              onSelect={tab => {
+                setTab(tab)
+              }}
+              className={styles.tabs}
+            />
+          )}
 
           <div className={styles.search}>
             <Search

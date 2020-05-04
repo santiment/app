@@ -49,6 +49,7 @@ const Template = ({
   setComparables,
   toggleMultiCharts,
   onProjectSelect,
+  projectId,
   ...props
 }) => {
   const [templates] = useUserTemplates(currentUser.id)
@@ -168,6 +169,7 @@ const Template = ({
             rerenderTemplate={rerenderTemplate}
             templates={templates}
             trigger={<Action>Load</Action>}
+            projectId={projectId}
           />
         </div>
         <div className={styles.group}>
