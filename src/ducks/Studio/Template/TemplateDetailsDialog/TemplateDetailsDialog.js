@@ -12,6 +12,7 @@ import { useDeleteTemplate } from '../gql/hooks'
 import { getTemplateAssets, getTemplateMetrics } from '../utils'
 import externalStyles from '../Dialog/LoadTemplate/Template.module.scss'
 import styles from './TemplateDetailsDialog.module.scss'
+import TemplateStatus from '../TemplateStatus/TemplateStatus'
 
 export const TemplateInfoTrigger = ({ onClick, classes = {}, ...rest }) => (
   <Button
@@ -63,8 +64,6 @@ const TemplateDetailsDialog = ({
 
   const El = isDialog ? Dialog : 'div'
 
-  console.log('isOpen', isOpen)
-
   return (
     <El
       open={isOpen}
@@ -110,9 +109,11 @@ const TemplateDetailsDialog = ({
               <Toggle isActive={isPublic} className={styles.toggle} />
             </div>
           ) : (
-            <div className={styles.status}>
-              {isPublic ? 'Public' : 'Private'}
-            </div>
+            <TemplateStatus
+              isAuthor={isAuthor}
+              isPublic={isPublic}
+              className={styles.status}
+            />
           )}
         </div>
 

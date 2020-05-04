@@ -22,7 +22,10 @@ const TemplateStatus = ({
       onClick={isAuthor ? toggleIsPublic : undefined}
       {...rest}
     >
-      <Icon type={isPublic ? 'eye' : 'lock-small'} className={styles.icon} />{' '}
+      <Icon
+        type={isPublic ? 'eye' : 'lock-small'}
+        className={cx(styles.icon, !isAuthor && styles.unclickableIcon)}
+      />{' '}
       {isPublic ? 'Public' : 'Private'}
     </El>
   )

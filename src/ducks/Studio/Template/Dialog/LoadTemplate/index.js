@@ -34,9 +34,6 @@ const LoadTemplate = ({
   const [searchTerm, setSearchTerm] = useState('')
   const [openedTemplate, setOpenedTemplate] = useState()
 
-  const {
-    project: { id }
-  } = selectedTemplate
   const [
     projectTemplates = [],
     loadingProjectTemplates

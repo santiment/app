@@ -19,10 +19,20 @@
   }
 }
 
+.unclickableIcon {
+  fill: var(--waterloo);
+  width: 13px;
+}
+
 .unclickable {
   cursor: auto !important;
+  color: var(--waterloo);
 
   &:hover {
     background: initial;
+
+    .unclickableIcon {
+      fill: var(--waterloo);
+    }
   }
 }
