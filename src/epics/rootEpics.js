@@ -52,7 +52,7 @@ import handleBetaModeToggle, {
   sendBetaModeIfDiff,
   saveBetaModeAfterLaunch
 } from './handleBetaModeToggle'
-import {fetchHypedTrends} from '../components/Trends/fetchHypedTrends'
+import { fetchHypedTrends } from '../components/Trends/fetchHypedTrends'
 import fetchAllTickersSlugs from '../components/Trends/fetchAllTickersSlugs'
 import {
   connectTelegramEpic,

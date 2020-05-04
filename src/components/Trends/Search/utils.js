@@ -4,7 +4,7 @@ import GA from './../../../utils/tracking'
 
 export const gotoExplore = dispatch => ({
   gotoExplore: topic => {
-  	trackTopicSearch(topic)
+    trackTopicSearch(topic)
     dispatch(push(`/labs/trends/explore/${encodeURIComponent(topic)}`))
   }
 })

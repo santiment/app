@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import {compose} from "recompose";
-import {connect} from "react-redux";
+import { compose } from 'recompose'
+import { connect } from 'react-redux'
 import Dialog from '@santiment-network/ui/Dialog'
 import Search from '@santiment-network/ui/Search'
-import Tabs from "@santiment-network/ui/Tabs";
+import Tabs from '@santiment-network/ui/Tabs'
 import Icon from '@santiment-network/ui/Icon'
 import Template from './Template'
-import { usePublicProjectTemplates } from "../../gql/hooks";
-import TemplateDetailsDialog from "../../TemplateDetailsDialog/TemplateDetailsDialog";
+import { usePublicProjectTemplates } from '../../gql/hooks'
+import TemplateDetailsDialog from '../../TemplateDetailsDialog/TemplateDetailsDialog'
 import styles from './index.module.scss'
+import { sortById } from '../../../../../utils/sortMethods'
 
 const TABS = {
   OWN: 'Your Chart Layout',
@@ -32,7 +33,9 @@ const LoadTemplate = ({
   const [searchTerm, setSearchTerm] = useState('')
   const [openedTemplate, setOpenedTemplate] = useState()
 
-  const {project: {id}} = selectedTemplate
+  const {
+    project: { id }
+  } = selectedTemplate
   const [projectTemplates] = usePublicProjectTemplates(id)
 
   function rerenderTemplates () {
@@ -44,14 +47,18 @@ const LoadTemplate = ({
     rerenderTemplate && rerenderTemplate(template)
   }
 
-  function onDelete() {
+  function onDelete () {
+    setOpenedTemplate()
+  }
+
+  function onDublicate () {
     setOpenedTemplate()
   }
 
   const search = () => {
     const lowerCaseValue = searchTerm.toLowerCase()
 
-    const templates = getUsageTemplates();
+    const templates = getUsageTemplates()
 
     setFilteredTemplates(
       templates.filter(({ title }) =>
@@ -67,64 +74,92 @@ const LoadTemplate = ({
     [templates]
   )
 
-  useEffect(() => {
-    search()
-  }, [tab])
+  useEffect(
+    () => {
+      search()
+    },
+    [tab]
+  )
 
-  useEffect(() => {
-    search()
-  }, [searchTerm])
+  useEffect(
+    () => {
+      search()
+    },
+    [searchTerm]
+  )
 
-  function getUsageTemplates() {
-    if(tab === TABS.PROJECT){
-      return projectTemplates.filter(({user: {id}}) => +id !== currentUserId)
+  function getUsageTemplates () {
+    if (tab === TABS.PROJECT) {
+      return projectTemplates.filter(
+        ({ user: { id } }) => +id !== currentUserId
+      )
     } else {
       return templates
     }
   }
 
   return (
-    <Dialog title={openedTemplate ? <div onClick={() => setOpenedTemplate()} className={styles.header}>
-        <Icon type='arrow-left-big' className={styles.headerIcon}/> {openedTemplate.title}
-      </div> : 'Load Chart Layout'} classes={styles} {...props}>
-      {!openedTemplate ? <>
+    <Dialog
+      title={
+        openedTemplate ? (
+          <div onClick={() => setOpenedTemplate()} className={styles.header}>
+            <Icon type='arrow-left-big' className={styles.headerIcon} />{' '}
+            {openedTemplate.title}
+          </div>
+        ) : (
+          'Load Chart Layout'
+        )
+      }
+      classes={styles}
+      {...props}
+    >
+      {!openedTemplate ? (
+        <>
           <Tabs
             options={Object.values(TABS)}
             defaultSelectedIndex={tab}
-            onSelect={(tab) => {
+            onSelect={tab => {
               setTab(tab)
             }}
             className={styles.tabs}
           />
 
           <div className={styles.search}>
-            <Search placeholder='Search chart layout...' value={searchTerm} onChange={setSearchTerm} />
+            <Search
+              placeholder='Search chart layout...'
+              value={searchTerm}
+              onChange={setSearchTerm}
+            />
           </div>
 
           <Dialog.ScrollContent className={styles.wrapper}>
             {templates.length === 0 || filteredTemplates.length === 0
               ? 'No chart layouts found'
-              : filteredTemplates.map(template => (
-                <Template
-                  key={template.id}
-                  template={template}
-                  selectedTemplate={selectedTemplate}
-                  selectTemplate={selectTemplate}
-                  rerenderTemplates={rerenderTemplates}
-                  rerenderTemplate={rerenderTemplate}
-                  onOpenTemplate={setOpenedTemplate}
-                  onRename={onRename}
-                />
-              ))}
+              : filteredTemplates
+                .sort(sortById)
+                .map(template => (
+                  <Template
+                    key={template.id}
+                    template={template}
+                    selectedTemplate={selectedTemplate}
+                    selectTemplate={selectTemplate}
+                    rerenderTemplates={rerenderTemplates}
+                    rerenderTemplate={rerenderTemplate}
+                    onOpenTemplate={setOpenedTemplate}
+                    onRename={onRename}
+                  />
+                ))}
           </Dialog.ScrollContent>
-        </> :
+        </>
+      ) : (
         <TemplateDetailsDialog
           template={openedTemplate}
           onRename={onRename}
           onDelete={onDelete}
+          onDublicate={onDublicate}
           isDialog={false}
         />
-      }
+      )}
     </Dialog>
   )
 }
@@ -135,6 +170,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default compose(
-  connect(mapStateToProps),
-)(LoadTemplate)
+export default compose(connect(mapStateToProps))(LoadTemplate)

@@ -7,7 +7,7 @@ const DEFAULT_TIME_RANGE = '3m'
 const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
 
 export const DEFAULT_SETTINGS = {
-	addedTopics: [],
+  addedTopics: [],
   asset: 'bitcoin',
   interval: getNewInterval(FROM, TO),
   from: FROM.toISOString(),

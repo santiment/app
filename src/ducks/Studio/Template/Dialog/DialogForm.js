@@ -1,19 +1,19 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import Input from '@santiment-network/ui/Input'
-import AutoresizeTextarea from "../../../../components/AutoresizeTextarea";
+import AutoresizeTextarea from '../../../../components/AutoresizeTextarea'
 import styles from './DialogForm.module.scss'
 
 export default ({
-                  placeholders={
-                    title: 'Name of the template...',
-                    description: 'Description'
-                  },
+  placeholders = {
+    title: 'Name of the template...',
+    description: 'Description'
+  },
   buttonLabel,
   defaultValue,
   isLoading,
   onFormSubmit,
-                  description = '',
+  description = '',
   ...props
 }) => {
   const [isOpen, setOpen] = useState(false)
@@ -27,7 +27,15 @@ export default ({
   }
 
   return (
-    <Dialog  open={isOpen} onClose={() => setOpen(false)} onOpen={() => {setOpen(true)}} {...props} classes={styles}>
+    <Dialog
+      open={isOpen}
+      onClose={() => setOpen(false)}
+      onOpen={() => {
+        setOpen(true)
+      }}
+      {...props}
+      classes={styles}
+    >
       <form className={styles.wrapper} onSubmit={onSubmit}>
         <Input
           autoFocus

@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import TemplateButton from './Button'
-import {getMultiChartsValue, parseTemplateMetrics} from './utils'
+import { getMultiChartsValue, parseTemplateMetrics } from './utils'
 import { notifySave } from './notifications'
 import {
   useUserTemplates,
@@ -21,7 +21,7 @@ const Action = props => (
   <Button {...props} fluid variant='ghost' className={styles.action} />
 )
 
-export const useCtrlSPress = (callback) => {
+export const useCtrlSPress = callback => {
   useEffect(() => {
     function listenHotkey (e) {
       const { ctrlKey, code } = e
@@ -72,7 +72,7 @@ const Template = ({
 
     if (!template) return
 
-    const { project, metrics: templateMetrics} = template
+    const { project, metrics: templateMetrics } = template
     const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
 
     onProjectSelect(project)
@@ -87,7 +87,7 @@ const Template = ({
     }
   }
 
-  const saveTemplate  = () => {
+  const saveTemplate = () => {
     const { metrics, comparables, projectId } = props
 
     updateTemplate(selectedTemplate || window.selectedTemplate, {
@@ -105,7 +105,7 @@ const Template = ({
   }
 
   useCtrlSPress(() => {
-    if(window.selectedTemplate){
+    if (window.selectedTemplate) {
       saveTemplate()
     }
   })
@@ -134,7 +134,9 @@ const Template = ({
       <Panel variant='modal' className={styles.context}>
         <div className={styles.group}>
           {selectedTemplate && (
-            <Action onClick={saveTemplate}>Save <span className={styles.copyAction}>Ctrl + S</span></Action>
+            <Action onClick={saveTemplate}>
+              Save <span className={styles.copyAction}>Ctrl + S</span>
+            </Action>
           )}
 
           {selectedTemplate && (
@@ -146,7 +148,7 @@ const Template = ({
                 ...selectedTemplate,
                 title: ''
               }}
-              onDuplicate={(template) => {
+              onDuplicate={template => {
                 closeMenu()
                 selectTemplate(template)
               }}
@@ -184,7 +186,7 @@ const Template = ({
                 onClose={closeMenu}
                 trigger={<Action>Duplicate</Action>}
                 template={selectedTemplate}
-                onDuplicate={(template) => {
+                onDuplicate={template => {
                   closeMenu()
                   selectTemplate(template)
                 }}

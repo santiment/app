@@ -39,27 +39,32 @@ const TrendsExplore = ({
   const [linkedAssets, setLinkedAssets] = useState(EMPTY_MAP)
   const [activeLinkedAssets, setActiveLinkedAssets] = useState(EMPTY_MAP)
 
-  useEffect(() => {
-    setTopics([topic, ...addedTopics])
+  useEffect(
+    () => {
+      setTopics([topic, ...addedTopics])
 
-    if (topic !== topics[0]) {
-      trackTopicSearch(topic)
-    }
+      if (topic !== topics[0]) {
+        trackTopicSearch(topic)
+      }
+    },
+    [topic, addedTopics]
+  )
 
-  }, [topic, addedTopics])
+  useEffect(
+    () => {
+      const newLinkedAssets = new Map()
+      topics.forEach(topic => {
+        addRecentTrends(topic)
+        newLinkedAssets.set(
+          topic,
+          detectWordWithAllTickersSlugs({ word: topic, allAssets })
+        )
+      })
 
-  useEffect(() => {
-    const newLinkedAssets = new Map()
-    topics.forEach(topic => {
-      addRecentTrends(topic)
-      newLinkedAssets.set(
-        topic,
-        detectWordWithAllTickersSlugs({ word: topic, allAssets })
-      )
-    })
-
-    setLinkedAssets(newLinkedAssets)
-  }, [topics])
+      setLinkedAssets(newLinkedAssets)
+    },
+    [topics]
+  )
 
   if (allAssets.length === 0) {
     fetchAllTickersSlugs()

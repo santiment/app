@@ -44,10 +44,7 @@ const LabsTrendsPage = ({ history }) => (
       </MobileOnly>
     </div>
 
-    <TrendsSearchForm
-      classes={{ wrapper: styles.search }}
-      withButton
-    />
+    <TrendsSearchForm classes={{ wrapper: styles.search }} withButton />
     <Suggestions className={styles.suggestions} />
 
     <Trends />

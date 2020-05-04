@@ -12,7 +12,9 @@ export function usePlans () {
       if (data) {
         const product = data.productsWithPlans.find(sanbaseProductFinder)
         if (product) {
-          const plans = product.plans.filter(({ isDeprecated }) => !isDeprecated)
+          const plans = product.plans.filter(
+            ({ isDeprecated }) => !isDeprecated
+          )
           setProductPlans(plans)
         }
       }

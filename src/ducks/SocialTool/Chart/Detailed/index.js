@@ -46,26 +46,32 @@ const DetailedBlock = ({
 
   const detectedAsset = linkedAssets.get(settings.slug)
 
-  useEffect(() => {
-    const newMetricSettingMap = new Map(MetricSettingMap)
-    const metricSetting = {
-      selector: detectedAsset ? 'slug' : 'text',
-      slug: detectedAsset ? detectedAsset.slug : settings.slug
-    }
-
-    charts.forEach(metric => newMetricSettingMap.set(metric, metricSetting))
-
-    setMetricSettingMap(newMetricSettingMap)
-  }, [linkedAssets, settings.slug])
-
-  useEffect(() => {
-    if (priceAsset) {
+  useEffect(
+    () => {
       const newMetricSettingMap = new Map(MetricSettingMap)
-      priceMetric = { ...Metric.price_usd, label: priceAsset.label }
-      newMetricSettingMap.set(priceMetric, { slug: priceAsset.slug })
+      const metricSetting = {
+        selector: detectedAsset ? 'slug' : 'text',
+        slug: detectedAsset ? detectedAsset.slug : settings.slug
+      }
+
+      charts.forEach(metric => newMetricSettingMap.set(metric, metricSetting))
+
       setMetricSettingMap(newMetricSettingMap)
-    }
-  }, [priceAsset])
+    },
+    [linkedAssets, settings.slug]
+  )
+
+  useEffect(
+    () => {
+      if (priceAsset) {
+        const newMetricSettingMap = new Map(MetricSettingMap)
+        priceMetric = { ...Metric.price_usd, label: priceAsset.label }
+        newMetricSettingMap.set(priceMetric, { slug: priceAsset.slug })
+        setMetricSettingMap(newMetricSettingMap)
+      }
+    },
+    [priceAsset]
+  )
 
   const isComparingMode = settings.addedTopics.length > 0
   const shouldShowChart = type !== 'community' || Boolean(detectedAsset)
@@ -111,7 +117,9 @@ export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
   skip: ({ linkedAssets, settings, type }) => {
     const detectedAsset = linkedAssets.get(settings.slug)
 
-    return !detectedAsset || type !== 'community' || settings.addedTopics.length > 0
+    return (
+      !detectedAsset || type !== 'community' || settings.addedTopics.length > 0
+    )
   },
   options: ({ linkedAssets, settings }) => {
     const detectedAsset = linkedAssets.get(settings.slug)

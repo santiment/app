@@ -38,54 +38,66 @@ const SocialTool = ({
   const [shareLink, setShareLink] = useState('')
   const chartRef = useRef(null)
 
-  useEffect(() => {
-    if (priceAsset) {
-      const newPriceMetric = { ...Metric.price_usd, label: priceAsset.label }
-      metrics[1] = newPriceMetric
-      setMetrics([...metrics])
-    }
-  }, [priceAsset])
+  useEffect(
+    () => {
+      if (priceAsset) {
+        const newPriceMetric = { ...Metric.price_usd, label: priceAsset.label }
+        metrics[1] = newPriceMetric
+        setMetrics([...metrics])
+      }
+    },
+    [priceAsset]
+  )
 
-  useEffect(() => {
-    const { slug, addedTopics } = defaultSettings
-    setSettings(state => ({ ...state, slug, addedTopics }))
+  useEffect(
+    () => {
+      const { slug, addedTopics } = defaultSettings
+      setSettings(state => ({ ...state, slug, addedTopics }))
 
-    const topics = [slug, ...addedTopics]
-    const newMetrics =
-      topics.length > 1 ? buildMetrics(metrics, topics) : metrics
+      const topics = [slug, ...addedTopics]
+      const newMetrics =
+        topics.length > 1 ? buildMetrics(metrics, topics) : metrics
 
-    setActiveMetrics(newMetrics)
-    rebuildMetricSettingMap(newMetrics, slug)
-  }, [defaultSettings.slug, defaultSettings.addedTopics, metrics])
+      setActiveMetrics(newMetrics)
+      rebuildMetricSettingMap(newMetrics, slug)
+    },
+    [defaultSettings.slug, defaultSettings.addedTopics, metrics]
+  )
 
-  useEffect(() => {
-    const metricSet = new Set(metrics)
-    const metric = Metric.social_dominance_total
+  useEffect(
+    () => {
+      const metricSet = new Set(metrics)
+      const metric = Metric.social_dominance_total
 
-    if (options.isSocialDominanceActive) {
-      metricSet.add(metric)
-    } else {
-      metricSet.delete(metric)
-    }
+      if (options.isSocialDominanceActive) {
+        metricSet.add(metric)
+      } else {
+        metricSet.delete(metric)
+      }
 
-    setMetrics([...metricSet])
-  }, [options.isSocialDominanceActive])
+      setMetrics([...metricSet])
+    },
+    [options.isSocialDominanceActive]
+  )
 
-  useEffect(() => {
-    const queryString = '?' + generateShareLink(settings, options)
+  useEffect(
+    () => {
+      const queryString = '?' + generateShareLink(settings, options)
 
-    const { origin, pathname } = window.location
-    setShareLink(origin + pathname + queryString)
-    updateHistory(queryString)
-  }, [settings, options])
+      const { origin, pathname } = window.location
+      setShareLink(origin + pathname + queryString)
+      updateHistory(queryString)
+    },
+    [settings, options]
+  )
 
-  function rebuildMetricSettingMap(metrics, slug) {
+  function rebuildMetricSettingMap (metrics, slug) {
     const newMetricSettingMap = new Map(MetricSettingMap)
     metrics.forEach(metric => {
       const detectedAsset = linkedAssets.get(metric.text || slug)
       if (metric.key !== Metric.price_usd.key) {
         newMetricSettingMap.set(metric, {
-          selector: detectedAsset ? 'slug': 'text',
+          selector: detectedAsset ? 'slug' : 'text',
           slug: detectedAsset ? detectedAsset.slug : metric.text || slug
         })
       }

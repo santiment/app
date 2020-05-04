@@ -15,7 +15,9 @@ const DetailsItem = ({
       {title === 'Total' && ' Social Volume'}
     </h3>
     <div className={styles.numbers}>
-      <span className={styles.value} style={{color: color}}>{value}</span>
+      <span className={styles.value} style={{ color: color }}>
+        {value}
+      </span>
       <span className={styles.percentage}>{percent}%</span>
     </div>
   </div>

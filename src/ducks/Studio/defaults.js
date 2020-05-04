@@ -1,7 +1,7 @@
 import { Metric } from '../dataHub/metrics'
 import { getNewInterval } from '../SANCharts/IntervalSelector'
 import { getIntervalByTimeRange } from '../../utils/dates'
-import {getSavedMulticharts, getSavedToggle} from '../../utils/localStorage'
+import { getSavedMulticharts, getSavedToggle } from '../../utils/localStorage'
 
 const DEFAULT_TIME_RANGE = '6m'
 const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)

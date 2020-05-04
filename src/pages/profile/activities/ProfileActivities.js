@@ -54,7 +54,10 @@ const ProfileActivities = ({ profile }) => {
           Signals <Counter value={triggers.length} />
         </div>
         <div
-          className={cx(styles.link, step === STEPS.CHART_LAYOUTS && styles.active)}
+          className={cx(
+            styles.link,
+            step === STEPS.CHART_LAYOUTS && styles.active
+          )}
           onClick={() => goTo(STEPS.CHART_LAYOUTS)}
         >
           Chart Layouts <Counter value={templates.length} />

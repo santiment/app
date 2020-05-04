@@ -7,7 +7,7 @@ import { useCreateTemplate } from '../gql/hooks'
 const NewTemplate = ({ onNew, projectId, metrics, comparables, ...props }) => {
   const [createTemplate, { loading }] = useCreateTemplate()
 
-  function onSubmit ({title, description}) {
+  function onSubmit ({ title, description }) {
     createTemplate({
       title,
       description,

@@ -6,7 +6,7 @@ import {
   removeTrigger,
   toggleTrigger
 } from '../../ducks/Signals/common/actions'
-import {sortById} from "../../utils/sortMethods";
+import { sortById } from '../../utils/sortMethods'
 import styles from './SignalCardsGrid.module.scss'
 
 const SignalCardsGrid = ({
@@ -23,33 +23,31 @@ const SignalCardsGrid = ({
 
   return (
     <div className={cx(styles.wrapper, className)}>
-      {signals
-        .sort(sortById)
-        .map(signal => {
-          const { id, index, userId: signalOwnerId, isActive } = signal
+      {signals.sort(sortById).map(signal => {
+        const { id, index, userId: signalOwnerId, isActive } = signal
 
-          return (
-            <SignalCard
-              deleteEnabled={deleteEnabled}
-              isUserTheAuthor={
-                isAuthor || (signalOwnerId && +signalOwnerId === +userId)
-              }
-              key={id || index}
-              id={id}
-              toggleSignal={() =>
-                toggleSignal({
-                  id,
-                  isActive
-                })
-              }
-              removeSignal={() => {
-                removeSignal(id)
-              }}
-              className={cx(styles.card, classes.card)}
-              signal={signal}
-            />
-          )
-        })}
+        return (
+          <SignalCard
+            deleteEnabled={deleteEnabled}
+            isUserTheAuthor={
+              isAuthor || (signalOwnerId && +signalOwnerId === +userId)
+            }
+            key={id || index}
+            id={id}
+            toggleSignal={() =>
+              toggleSignal({
+                id,
+                isActive
+              })
+            }
+            removeSignal={() => {
+              removeSignal(id)
+            }}
+            className={cx(styles.card, classes.card)}
+            signal={signal}
+          />
+        )
+      })}
     </div>
   )
 }

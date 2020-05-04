@@ -123,9 +123,7 @@ const Studio = ({
 
   useEffect(
     () => {
-      if (
-        chartSidepane === TOP_HOLDERS_PANE && options.isMultiChartsActive
-      ) {
+      if (chartSidepane === TOP_HOLDERS_PANE && options.isMultiChartsActive) {
         setChartSidepane()
       }
     },

@@ -48,7 +48,7 @@ export const FEATURED_TEMPLATES_QUERY = gql`
   ${TEMPLATE_COMMON_FRAGMENT}
 `
 
-export const PUBLIC_PROJECT_TEMPLATES_QUERY =  gql`
+export const PUBLIC_PROJECT_TEMPLATES_QUERY = gql`
   query chartConfigurations($projectId: Int) {
     templates: chartConfigurations(projectId: $projectId) {
       ...templateCommon

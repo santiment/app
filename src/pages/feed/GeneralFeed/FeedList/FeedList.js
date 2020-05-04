@@ -13,7 +13,8 @@ import PageLoader from '../../../../components/Loader/PageLoader'
 export const TODAY = new Date().toLocaleDateString()
 export const YESTERDAY = addDays(new Date(), -1).toLocaleDateString()
 
-const getEventDate = ({ insertedAt, publishedAt }) => insertedAt ? new Date(insertedAt) : new Date(publishedAt)
+const getEventDate = ({ insertedAt, publishedAt }) =>
+  insertedAt ? new Date(insertedAt) : new Date(publishedAt)
 
 const makeDateLabel = date => {
   switch (date.toLocaleDateString()) {
@@ -91,7 +92,10 @@ const FeedList = ({
   return (
     <>
       {hasData ? (
-        <RenderFeedGroups groups={groups} showProfileExplanation={showProfileExplanation}/>
+        <RenderFeedGroups
+          groups={groups}
+          showProfileExplanation={showProfileExplanation}
+        />
       ) : (
         <SonarFeedRecommendations description='There are not any activities yet' />
       )}
@@ -100,39 +104,51 @@ const FeedList = ({
   )
 }
 
-export const RenderFeedGroups = ({groups, showProfileExplanation, groupRenderer:GroupRenderer = RenderFeedGroupItems}) => {
-  return  groups.map((item, index) => {
+export const RenderFeedGroups = ({
+  groups,
+  showProfileExplanation,
+  groupRenderer: GroupRenderer = RenderFeedGroupItems
+}) => {
+  return groups.map((item, index) => {
     const { label, items } = item
     return (
       <Fragment key={index}>
         <div className={cx(styles.date, index !== 0 && styles.next)}>
           {label}
         </div>
-        <GroupRenderer groupIndex={index} items={items} showProfileExplanation={showProfileExplanation}/>
+        <GroupRenderer
+          groupIndex={index}
+          items={items}
+          showProfileExplanation={showProfileExplanation}
+        />
       </Fragment>
     )
   })
 }
 
-export const RenderFeedGroupItems = ({items, groupIndex, showProfileExplanation}) => {
-  return <>
-    {items.map((item, itemIndex) => (
-      <Fragment key={itemIndex}>
-        <div className={styles.block}>
-          <FeedItemRenderer
-            item={item}
-            index={groupIndex}
-            showProfileExplanation={showProfileExplanation}
-          />
-          {item.addProCard && <MakeProSubscriptionCard />}
-        </div>
+export const RenderFeedGroupItems = ({
+  items,
+  groupIndex,
+  showProfileExplanation
+}) => {
+  return (
+    <>
+      {items.map((item, itemIndex) => (
+        <Fragment key={itemIndex}>
+          <div className={styles.block}>
+            <FeedItemRenderer
+              item={item}
+              index={groupIndex}
+              showProfileExplanation={showProfileExplanation}
+            />
+            {item.addProCard && <MakeProSubscriptionCard />}
+          </div>
 
-        {item.addStories && (
-          <StoriesList classes={styles} showScrollBtns />
-        )}
-      </Fragment>
-    ))}
-  </>
+          {item.addStories && <StoriesList classes={styles} showScrollBtns />}
+        </Fragment>
+      ))}
+    </>
+  )
 }
 
 export default FeedList

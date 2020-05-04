@@ -10,7 +10,7 @@ export const buildKey = (key, selector) =>
 
 export function buildMetrics (metrics, topics) {
   const transformedMetrics = []
-  const priceMetric = metrics.find(({key}) => key === Metric.price_usd.key)
+  const priceMetric = metrics.find(({ key }) => key === Metric.price_usd.key)
   topics.forEach(topic => {
     metrics.forEach(metric => {
       if (metric.key === Metric.price_usd.key) {

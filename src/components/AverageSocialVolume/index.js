@@ -39,26 +39,32 @@ const AverageSocialVolume = ({ topics, linkedAssets, hasPremium }) => {
     setAvg(newAvg)
   }
 
-  useEffect(() => {
-    let newMetrics = topics.map(topic => buildExploredMetric(topic))
-    newMetrics = [Metric.social_volume_total, ...newMetrics]
-    setMetrics(newMetrics)
-    setAvg([])
-  }, [topics])
+  useEffect(
+    () => {
+      let newMetrics = topics.map(topic => buildExploredMetric(topic))
+      newMetrics = [Metric.social_volume_total, ...newMetrics]
+      setMetrics(newMetrics)
+      setAvg([])
+    },
+    [topics]
+  )
 
-  useEffect(() => {
-    const newMetricSettingMap = new Map(MetricSettingMap)
-    metrics.forEach(metric => {
-      const topic = metric.text || '*'
-      const detectedAsset = linkedAssets.get(topic)
-      newMetricSettingMap.set(metric, {
-        selector: detectedAsset ? 'slug' : 'text',
-        slug: detectedAsset ? detectedAsset.slug : topic
+  useEffect(
+    () => {
+      const newMetricSettingMap = new Map(MetricSettingMap)
+      metrics.forEach(metric => {
+        const topic = metric.text || '*'
+        const detectedAsset = linkedAssets.get(topic)
+        newMetricSettingMap.set(metric, {
+          selector: detectedAsset ? 'slug' : 'text',
+          slug: detectedAsset ? detectedAsset.slug : topic
+        })
       })
-    })
 
-    setMetricSettingMap(newMetricSettingMap)
-  }, [metrics, linkedAssets])
+      setMetricSettingMap(newMetricSettingMap)
+    },
+    [metrics, linkedAssets]
+  )
 
   const totalAvg = avg[0]
   const remainingAvg = avg.slice(1)

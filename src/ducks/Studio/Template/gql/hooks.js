@@ -15,7 +15,7 @@ import {
   saveLastTemplate
 } from '../utils'
 import { store, client } from '../../../../index'
-import {getSavedMulticharts} from "../../../../utils/localStorage";
+import { getSavedMulticharts } from '../../../../utils/localStorage'
 
 const DEFAULT_TEMPLATES = []
 
@@ -120,9 +120,8 @@ export function useCreateTemplate () {
   })
 
   function createTemplate (newConfig) {
-
-    if(!newConfig.options){
-      newConfig.options = JSON.stringify( {
+    if (!newConfig.options) {
+      newConfig.options = JSON.stringify({
         multi_chart: getSavedMulticharts()
       })
     }

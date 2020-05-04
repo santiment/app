@@ -27,18 +27,21 @@ const Search = ({
 
   const isMaxValuesReached = values.length === MAX_VALUES
 
-  useEffect(() => {
-    if (values.length === 0) {
-      setFocus()
-      return
-    } else if (isMaxValuesReached) {
-      setIsInFocus(false)
-    }
+  useEffect(
+    () => {
+      if (values.length === 0) {
+        setFocus()
+        return
+      } else if (isMaxValuesReached) {
+        setIsInFocus(false)
+      }
 
-    if (topics !== values) {
-      onChangeTopics(trimTopics(values))
-    }
-  }, [values])
+      if (topics !== values) {
+        onChangeTopics(trimTopics(values))
+      }
+    },
+    [values]
+  )
 
   function setFocus () {
     if (inputRef.current) {

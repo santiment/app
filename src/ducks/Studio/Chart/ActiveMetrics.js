@@ -21,7 +21,7 @@ const MetricButton = ({
 }) => {
   const { key, dataKey = key, node, label, comparedTicker } = metric
 
-  const Wrapper = ({children}) =>
+  const Wrapper = ({ children }) =>
     withDescription ? (
       <MetricExplanation
         metric={metric}

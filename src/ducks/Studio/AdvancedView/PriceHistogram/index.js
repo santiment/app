@@ -6,7 +6,7 @@ import RestrictionMessage from './RestrictionMessage'
 import ErrorMessage from './ErrorMessage'
 import UsageTip from '../UsageTip'
 import Calendar from '../Calendar'
-import MoreInfoLink from "../../../../components/MoreInfoLink/MoreInfoLink";
+import MoreInfoLink from '../../../../components/MoreInfoLink/MoreInfoLink'
 import { usdFormatter } from '../../../SANCharts/utils'
 import { millify } from '../../../../utils/formatting'
 import { ONE_MONTH_IN_MS } from '../../../../utils/dates'
@@ -86,7 +86,8 @@ const PriceHistogram = ({ title, slug, ticker, date, datesRange }) => {
 
       <div className={styles.description}>
         It shows at what price the tokens that were transacted today were last
-        moved. <MoreInfoLink href='https://academy.santiment.net/metrics/spent-coin-cost/'/>
+        moved.{' '}
+        <MoreInfoLink href='https://academy.santiment.net/metrics/spent-coin-cost/' />
       </div>
 
       <UsageTip />

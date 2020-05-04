@@ -39,9 +39,9 @@ export const THIRD_METRICS_GROUP = [
         circulating in the crypto economy. It’s calculated by dividing a token’s
         transaction volume (in USD) by its market cap (in USD).
         <div className={styles.block}>
-          Similar to the Daily Active Addresses Chart Layout, this model visualizes
-          when tokens are being overbought or oversold based on the historical
-          ebbs and flows of its velocity metric.
+          Similar to the Daily Active Addresses Chart Layout, this model
+          visualizes when tokens are being overbought or oversold based on the
+          historical ebbs and flows of its velocity metric.
         </div>
       </>
     ),

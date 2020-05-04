@@ -364,7 +364,6 @@ const updateHistory = url => {
   history.replaceState(history.state, null, url)
 }
 
-
 export {
   calculateBTCVolume,
   calculateBTCMarketcap,

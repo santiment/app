@@ -37,7 +37,6 @@ const TIMERANGE_OPTIONS = [
   }
 ]
 
-
 export default ({
   settings,
   options,

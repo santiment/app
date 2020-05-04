@@ -163,7 +163,7 @@ class SmoothDropdown extends Component {
     const { verticalOffset, verticalMotion } = this.props
     const ddContent = dropdownItem.querySelector('.dd__content')
 
-    if (!this.dropdownWrapperRef.current) {
+    if (!this.dropdownWrapperRef.current || !trigger) {
       return
     }
 

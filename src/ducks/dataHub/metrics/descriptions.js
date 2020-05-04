@@ -64,7 +64,8 @@ export const Description = {
 
   [Metric.supply_on_exchanges.key]: (
     <>
-      What amount of coins/tokens are stored in known exchange wallets. More info{' '}
+      What amount of coins/tokens are stored in known exchange wallets. More
+      info{' '}
       <a
         target='_blank'
         rel='noopener noreferrer'
@@ -77,7 +78,8 @@ export const Description = {
 
   [Metric.supply_outside_exchanges.key]: (
     <>
-      What amount of coins/tokens are stored outside known exchange wallets. More info{' '}
+      What amount of coins/tokens are stored outside known exchange wallets.
+      More info{' '}
       <a
         target='_blank'
         rel='noopener noreferrer'

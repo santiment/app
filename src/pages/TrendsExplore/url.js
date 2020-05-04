@@ -1,11 +1,11 @@
 import { parse, stringify } from 'query-string'
 
 function sanitize (topics = []) {
-	if (typeof topics === 'string') {
-		return [topics]
-	} else {
-		return topics.filter(Boolean)
-	}
+  if (typeof topics === 'string') {
+    return [topics]
+  } else {
+    return topics.filter(Boolean)
+  }
 }
 
 export function getTopicsFromUrl () {
@@ -15,7 +15,7 @@ export function getTopicsFromUrl () {
 
 export function updTopicsInUrl (topics) {
   const data = parse(window.location.search, { arrayFormat: 'comma' })
-  const WithNewTopics = {...data, addedTopics: topics}
+  const WithNewTopics = { ...data, addedTopics: topics }
 
   return stringify(WithNewTopics, {
     arrayFormat: 'comma'

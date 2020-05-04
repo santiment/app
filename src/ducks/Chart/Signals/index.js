@@ -21,7 +21,7 @@ import {
   removeTrigger
 } from '../../Signals/common/actions'
 import { buildValueChangeSuggester } from '../../Studio/Alerts/suggestions/helpers'
-import LoginDialogWrapper from "../../../components/LoginDialog/LoginDialogWrapper";
+import LoginDialogWrapper from '../../../components/LoginDialog/LoginDialogWrapper'
 import styles from './index.module.scss'
 
 const TEXT_SIGNAL = 'Alert '
@@ -110,7 +110,7 @@ const Signals = ({
     if (value === undefined) return
 
     const suggester = AlertBuilder[metric.key] || buildValueChangeSuggester
-    const newSignal = suggester(metric)({slug, value, lastValue,  metric})
+    const newSignal = suggester(metric)({ slug, value, lastValue, metric })
 
     createSignal(newSignal.alert)
   }
@@ -188,11 +188,13 @@ export default connect(
 )(({ metrics, ...props }) => {
   const alertMetrics = useAlertMetrics(metrics)
 
-  if(alertMetrics.length === 0){
+  if (alertMetrics.length === 0) {
     return null
   }
 
-  return <LoginDialogWrapper title='Create signal'>
-    <Signals {...props} metrics={alertMetrics} />
-  </LoginDialogWrapper>
+  return (
+    <LoginDialogWrapper title='Create signal'>
+      <Signals {...props} metrics={alertMetrics} />
+    </LoginDialogWrapper>
+  )
 })

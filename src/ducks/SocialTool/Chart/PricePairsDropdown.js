@@ -51,10 +51,7 @@ const PricePairsDropdown = ({
             pairs.push([pair.ticker, pair.slug])
           }
         })
-        const newPriceOptions = getPriceOptions([
-          [ticker, slug],
-          ...pairs
-        ])
+        const newPriceOptions = getPriceOptions([[ticker, slug], ...pairs])
 
         setPriceOptions(newPriceOptions)
       }

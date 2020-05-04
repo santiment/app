@@ -54,7 +54,9 @@ export const WordCloud = ({
         <>
           <span className={styles.heading}>Social context</span>
           <HelpPopup>
-            These words are often used alongside the main keyword on crypto social media. Larger words are found more frequently in comments that also include the main keyword.
+            These words are often used alongside the main keyword on crypto
+            social media. Larger words are found more frequently in comments
+            that also include the main keyword.
           </HelpPopup>
         </>
       }

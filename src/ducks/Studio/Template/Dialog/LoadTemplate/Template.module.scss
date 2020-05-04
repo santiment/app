@@ -9,13 +9,20 @@
   box-shadow: 0 2px 8px rgba(59, 84, 106, 0.03), 0 1px 2px rgba(59, 84, 106, 0.03);
   border-radius: 4px;
   display: none;
-  z-index: 100;
 
   @include text('body-3');
 
   &:hover {
     fill: var(--jungle-green-hover) !important;
   }
+}
+
+.delete {
+  color: var(--persimmon);
+}
+
+.template {
+  position: relative;
 }
 
 .wrapper {
@@ -26,6 +33,7 @@
   font-weight: 500;
   display: flex;
   align-items: center;
+  position: relative;
 
   &:hover {
     background: var(--athens);
@@ -57,4 +65,18 @@
 
 .options {
   padding: 0;
+}
+
+.withUse {
+  margin-left: 8px !important;
+}
+
+.left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.trigger {
+  right: 16px !important;
 }
