@@ -21,12 +21,14 @@ const Action = props => (
   <Button {...props} fluid variant='ghost' className={styles.action} />
 )
 
+const isMac = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)
+
 export const useCtrlSPress = callback => {
   useEffect(() => {
     function listenHotkey (e) {
-      const { ctrlKey, code } = e
+      const { ctrlKey, metaKey, code } = e
 
-      if (ctrlKey && code === 'KeyS') {
+      if ((metaKey || ctrlKey) && code === 'KeyS') {
         e.preventDefault()
 
         callback()
@@ -135,7 +137,10 @@ const Template = ({
         <div className={styles.group}>
           {selectedTemplate && (
             <Action onClick={saveTemplate}>
-              Save <span className={styles.copyAction}>Ctrl + S</span>
+              Save{' '}
+              <span className={styles.copyAction}>
+                {isMac ? 'Cmd + S' : 'Ctrl + S'}
+              </span>
             </Action>
           )}
 
