@@ -149,6 +149,7 @@
   "lint-staged": {
     "linters": {
       "src/**/*.js": [
+        "yarn format",
         "git add"
       ],
       "*.{sass,scss,css}": [
