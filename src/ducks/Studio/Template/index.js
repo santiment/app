@@ -21,12 +21,12 @@ const Action = props => (
   <Button {...props} fluid variant='ghost' className={styles.action} />
 )
 
-const useCtrlSPress = (callback) => {
+export const useCtrlSPress = (callback) => {
   useEffect(() => {
     function listenHotkey (e) {
-      const { target, ctrlKey, code } = e
+      const { ctrlKey, code } = e
 
-      if (target === document.body && ctrlKey && code === 'KeyS') {
+      if (ctrlKey && code === 'KeyS') {
         e.preventDefault()
 
         callback()
@@ -34,7 +34,9 @@ const useCtrlSPress = (callback) => {
     }
 
     window.addEventListener('keydown', listenHotkey)
-    return () => window.removeEventListener('keydown', listenHotkey)
+    return () => {
+      window.removeEventListener('keydown', listenHotkey)
+    }
   }, [])
 }
 
@@ -139,8 +141,11 @@ const Template = ({
             <DialogFormDuplicateTemplate
               onClose={closeMenu}
               trigger={<Action>Save as new Chart Layout</Action>}
-              title={'Save as new Chart Layout'}
-              template={selectedTemplate}
+              title='Save as new Chart Layout'
+              template={{
+                ...selectedTemplate,
+                title: ''
+              }}
               onDuplicate={(template) => {
                 closeMenu()
                 selectTemplate(template)

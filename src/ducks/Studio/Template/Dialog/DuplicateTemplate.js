@@ -28,7 +28,7 @@ export default ({ onDuplicate, template, ...props }) => {
       {...props}
       onFormSubmit={onSubmit}
       buttonLabel='Duplicate'
-      defaultValue={title + ' copy'}
+      defaultValue={title ? title + ' copy' : title}
       isLoading={loading}
     />
   )
