@@ -49,9 +49,9 @@ const Template = ({
   setComparables,
   toggleMultiCharts,
   onProjectSelect,
-  projectId,
   ...props
 }) => {
+  const { projectId } = props
   const [templates] = useUserTemplates(currentUser.id)
   const [updateTemplate] = useUpdateTemplate()
   const [selectedTemplate, setSelectedTemplate] = useSelectedTemplate(
