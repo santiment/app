@@ -141,12 +141,12 @@ export function useDeleteTemplate () {
     update: updateTemplatesOnDelete
   })
 
-  function deleteTemplate ({ id }) {
+  function deleteTemplate ({ id }, onDelete) {
     return mutate({
       variables: {
         id: +id
       }
-    })
+    }).then(onDelete)
   }
 
   return [deleteTemplate, data]

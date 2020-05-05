@@ -51,7 +51,6 @@ const LoadTemplate = ({
 
   function onDelete () {
     setOpenedTemplate()
-    rerenderTemplates() && rerenderTemplates()
   }
 
   function onDublicate () {
@@ -72,19 +71,7 @@ const LoadTemplate = ({
     )
   }
 
-  useEffect(
-    () => {
-      search()
-    },
-    [tab]
-  )
-
-  useEffect(
-    () => {
-      search()
-    },
-    [searchTerm]
-  )
+  useEffect(search, [tab, searchTerm, templates.length])
 
   function getUsageTemplates () {
     if (tab === TABS.PROJECT) {

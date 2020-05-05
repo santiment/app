@@ -53,8 +53,7 @@ const TemplateDetailsDialog = ({
   const usedMetrics = getTemplateMetrics(template)
 
   function onDeleteHandler (template) {
-    deleteTemplate(template)
-    onDelete && onDelete(template)
+    deleteTemplate(template, onDelete)
   }
 
   function openMenu (e) {
