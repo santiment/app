@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Chart from './Chart'
 import styles from './Item.module.scss'
 
 const Item = ({ topic, onTopicClick }) => (
@@ -7,6 +8,7 @@ const Item = ({ topic, onTopicClick }) => (
     <Link to={`/labs/trends/explore/${topic}`} className={styles.text}>
       {topic}
     </Link>
+    <Chart topic={topic} />
   </article>
 )
 
