@@ -34,6 +34,7 @@ const Chart = ({
   bars,
   daybars,
   chartHeight = CHART_HEIGHT,
+  chartPadding = CHART_PADDING,
   joinedCategories,
   domainGroups,
   events = [],
@@ -42,6 +43,10 @@ const Chart = ({
   MetricColor,
   syncedTooltipDate,
   hideBrush,
+  hideAxes,
+  hideWatermark,
+  onPlotTooltip,
+  useCustomTooltip,
   syncTooltips = () => {},
   onRangeSelect,
   onPointClick = () => {},
@@ -67,7 +72,7 @@ const Chart = ({
         canvas,
         width,
         chartHeight,
-        isShowBrush ? CHART_WITH_BRUSH_PADDING : CHART_PADDING
+        isShowBrush ? CHART_WITH_BRUSH_PADDING : chartPadding
       )
     )
     chart.tooltipKey = tooltipKey
@@ -90,7 +95,7 @@ const Chart = ({
       chartRef.current = canvas
     }
 
-    setupTooltip(chart, marker, syncTooltips)
+    setupTooltip(chart, marker, syncTooltips, useCustomTooltip, onPlotTooltip)
   }, [])
 
   if (brush) {
@@ -167,7 +172,9 @@ const Chart = ({
         updateBrushState(brush, chart, data)
       }
       plotChart(data)
-      plotAxes(chart, scale)
+      if (!hideAxes) {
+        plotAxes(chart, scale)
+      }
     },
     [
       data,
@@ -188,7 +195,11 @@ const Chart = ({
         const point =
           chart.points[findPointIndexByDate(chart.points, syncedTooltipDate)]
         if (point) {
-          plotTooltip(chart, marker, point)
+          if (useCustomTooltip) {
+            onPlotTooltip(point)
+          } else {
+            plotTooltip(chart, marker, point)
+          }
         }
       } else {
         clearCtx(chart, chart.tooltip.ctx)
@@ -208,7 +219,7 @@ const Chart = ({
 
     onResize(
       chart,
-      isShowBrush ? CHART_WITH_BRUSH_PADDING : CHART_PADDING,
+      isShowBrush ? CHART_WITH_BRUSH_PADDING : chartPadding,
       brush,
       data,
       chartHeight
@@ -223,7 +234,9 @@ const Chart = ({
         domainGroups
       )
       plotChart(data)
-      plotAxes(chart, scale)
+      if (!hideAxes) {
+        plotAxes(chart, scale)
+      }
     }
   }
 
@@ -240,7 +253,9 @@ const Chart = ({
 
     clearCtx(chart)
     plotChart(newData)
-    plotAxes(chart, scale)
+    if (!hideAxes) {
+      plotAxes(chart, scale)
+    }
   }
 
   function plotBrushData () {
@@ -250,7 +265,10 @@ const Chart = ({
   }
 
   function plotChart (data) {
-    drawWatermark(chart, isNightModeEnabled)
+    if (!hideWatermark) {
+      drawWatermark(chart, isNightModeEnabled)
+    }
+
     plotDayBars(chart, data, daybars, MetricColor, scale)
     plotBars(chart, data, bars, MetricColor, scale)
 

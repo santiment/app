@@ -13,6 +13,7 @@ import { checkHasPremium } from '../UserSelectors'
 import { safeDecode, updateHistory } from '../../utils/utils'
 import { addRecentTrends } from '../../utils/recent'
 import { trackTopicSearch } from '../../components/Trends/Search/utils'
+import SocialGrid from '../../components/SocialGrid'
 import { getTopicsFromUrl, updTopicsInUrl } from './url'
 import { detectWordWithAllTickersSlugs } from './utils'
 import Search from './Search'
@@ -35,16 +36,18 @@ const TrendsExplore = ({
   data: { wordContext: wordData = [], loading, error } = {},
   allAssets
 }) => {
-  const [topics, setTopics] = useState([topic, ...addedTopics])
+  const [topics, setTopics] = useState([topic, ...addedTopics].filter(Boolean))
   const [linkedAssets, setLinkedAssets] = useState(EMPTY_MAP)
   const [activeLinkedAssets, setActiveLinkedAssets] = useState(EMPTY_MAP)
 
   useEffect(
     () => {
-      setTopics([topic, ...addedTopics])
+      if (topic !== '') {
+        setTopics([topic, ...addedTopics])
 
-      if (topic !== topics[0]) {
-        trackTopicSearch(topic)
+        if (topic !== topics[0]) {
+          trackTopicSearch(topic)
+        }
       }
     },
     [topic, addedTopics]
@@ -75,20 +78,22 @@ const TrendsExplore = ({
       const { origin } = window.location
       const addedTopics = newTopics.slice(1)
       const newOptions = updTopicsInUrl(addedTopics)
-      const pathname = `/labs/trends/explore/${encodeURIComponent(
-        newTopics[0]
-      )}?`
+      const pathname = `/labs/trends/explore/${
+        newTopics[0] ? encodeURIComponent(newTopics[0]) : ''
+      }?${newOptions}`
 
       if (newTopics.length !== 0) {
         trackTopicSearch(newTopics.join(','))
       }
 
-      updateHistory(origin + pathname + newOptions)
+      updateHistory(origin + pathname)
       setTopics(newTopics)
     }
   }
 
   const pageTitle = `Crypto Social Trends for ${topic} - Sanbase`
+
+  const isEmptySearch = !topics[0]
 
   return (
     <div className={styles.wrapper}>
@@ -130,14 +135,17 @@ const TrendsExplore = ({
             isDesktop={isDesktop}
           />
           {isDesktop && <Suggestions />}
-          {topic ? (
+          {!isEmptySearch ? (
             <SocialTool
               linkedAssets={activeLinkedAssets}
               allDetectedAssets={linkedAssets}
               settings={{ slug: topics[0], addedTopics: topics.slice(1) }}
             />
           ) : (
-            <NoDataTemplate />
+            <>
+              <h4 className={styles.titlePopular}>Popular trends</h4>
+              <SocialGrid className={styles.grid} />
+            </>
           )}
         </div>
         <Sidebar
@@ -145,6 +153,7 @@ const TrendsExplore = ({
           linkedAssets={activeLinkedAssets}
           hasPremium={hasPremium}
           isDesktop={isDesktop}
+          isEmptySearch={isEmptySearch}
         />
       </div>
     </div>

@@ -1,0 +1,18 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  border-radius: 4px;
+  border: 1px solid var(--porcelain);
+  padding: 14px 16px 10px 0;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  position: relative;
+}
+
+.text {
+  color: var(--fiord);
+  margin: 0 80px 0 16px;
+
+  @include text('body-2');
+}

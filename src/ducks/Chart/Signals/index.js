@@ -25,8 +25,8 @@ import LoginDialogWrapper from '../../../components/LoginDialog/LoginDialogWrapp
 import styles from './index.module.scss'
 
 const TEXT_SIGNAL = 'Alert '
-const TEXT_ACTION = 'Click to '
-const TEXT_RESULT = 'create an alert '
+const TEXT_ACTION = 'Click to create an alert '
+const SHORT_TEXT_ACTION = 'Create an alert '
 const TEXT_IFS = {
   daily_active_addresses: [
     'if DAA count goes below ',
@@ -36,14 +36,20 @@ const TEXT_IFS = {
 
 const MOVING_TEXT_BY_SIGN = [' drops below ', ' rises above ']
 
-const getTextIf = (metric, index) => {
+const getTextIf = (metric, index, useShortRecord) => {
   const texts = TEXT_IFS[metric.key]
 
   if (texts) {
     return texts[index]
   }
 
-  return `if ${metric.label.toLowerCase()}${MOVING_TEXT_BY_SIGN[index]}`
+  let label = metric.label
+
+  if (useShortRecord) {
+    label = metric.shortLabel || label
+  }
+
+  return `if ${label.toLowerCase()}${MOVING_TEXT_BY_SIGN[index]}`
 }
 
 const priceFormatter = Metric.price_usd.formatter
@@ -57,7 +63,8 @@ const Signals = ({
   fetchSignals,
   createSignal,
   removeSignal,
-  metrics
+  metrics,
+  useShortRecord
 }) => {
   const [isHovered, setIsHovered] = useState()
   const [hoverPoint, setHoverPoint] = useState()
@@ -92,9 +99,8 @@ const Signals = ({
     setHoverPoint({ y, metricValues })
 
     drawHoveredSignal(chart, y, [
-      TEXT_ACTION,
-      TEXT_RESULT,
-      getTextIf(Metric[key], +(value > lastValue)),
+      useShortRecord ? SHORT_TEXT_ACTION : TEXT_ACTION,
+      getTextIf(Metric[key], +(value > lastValue), useShortRecord),
       Metric[key].formatter(value)
     ])
   }
@@ -126,7 +132,8 @@ const Signals = ({
       const { type, value, y } = signal
 
       drawHoveredSignal(chart, y, [
-        TEXT_SIGNAL + getTextIf(Metric.price_usd, +(type === SIGNAL_ABOVE)),
+        TEXT_SIGNAL +
+          getTextIf(Metric.price_usd, +(type === SIGNAL_ABOVE), useShortRecord),
         priceFormatter(value)
       ])
     }
