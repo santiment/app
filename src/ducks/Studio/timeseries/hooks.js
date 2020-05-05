@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
 import { client } from '../../../index'
 import { getQuery, getPreTransform } from './fetcher'
-import { normalizeDatetimes } from './utils'
-import { mergeTimeseriesByKey } from '../../../utils/utils'
+import { normalizeDatetimes, mergeTimeseries } from './utils'
 
 // NOTE: Polyfill for a PingdomBot 0.8.5 browser (/sentry/sanbase-frontend/issues/29459/) [@vanguard | Feb 6, 2020]
 window.AbortController =
@@ -147,9 +146,8 @@ export function useTimeseries (
             if (raceCondition) return
 
             setTimeseries(() => {
-              mergedData = mergeTimeseriesByKey({
-                timeseries: [mergedData, data]
-              })
+              mergedData = mergeTimeseries([mergedData, data])
+
               return mergedData.map(normalizeDatetimes)
             })
           })
