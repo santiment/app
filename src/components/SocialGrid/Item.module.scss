@@ -5,3 +5,9 @@
   border: 1px solid var(--porcelain);
   padding: 14px 14px 10px;
 }
+
+.text {
+  color: var(--fiord);
+
+  @include text('body-2');
+}
