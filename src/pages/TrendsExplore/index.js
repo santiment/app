@@ -142,8 +142,10 @@ const TrendsExplore = ({
               settings={{ slug: topics[0], addedTopics: topics.slice(1) }}
             />
           ) : (
-            // <NoDataTemplate />
-            <SocialGrid className={styles.grid} />
+            <>
+              <h4 className={styles.titlePopular}>Popular trends</h4>
+              <SocialGrid className={styles.grid} />
+            </>
           )}
         </div>
         <Sidebar

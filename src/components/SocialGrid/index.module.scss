@@ -9,3 +9,12 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+.loader {
+  font-size: 5px;
+  height: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}

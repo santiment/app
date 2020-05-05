@@ -84,3 +84,11 @@
 .grid {
   margin: 24px 0;
 }
+
+.titlePopular {
+  margin: 40px 0 0;
+
+  @include text('h4', 'm');
+
+  color: var(--rhino);
+}
