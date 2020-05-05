@@ -23,7 +23,13 @@ function getTimePeriod (date) {
   }
 }
 
-const Sidebar = ({ topics, linkedAssets, isDesktop, ...props }) => {
+const Sidebar = ({
+  topics,
+  linkedAssets,
+  isDesktop,
+  isEmptySearch,
+  ...props
+}) => {
   const asideRef = useRef(null)
   const [trendDate, setTrendDate] = useState([MAX_DATE])
   const [trendPeriod, setTrendPeriod] = useState(getTimePeriod(MAX_DATE))
@@ -59,7 +65,7 @@ const Sidebar = ({ topics, linkedAssets, isDesktop, ...props }) => {
 
   return (
     <aside className={styles.sidebar} ref={asideRef}>
-      {topics.length > 0 && (
+      {!isEmptySearch && (
         <>
           <AverageSocialVolume
             {...props}

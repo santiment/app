@@ -11,7 +11,7 @@ import styles from './Search.module.scss'
 const MAX_VALUES = 5
 
 function trimTopics (topics) {
-  return topics.map(topic => topic.trim())
+  return topics.map(topic => topic.trim()).filter(Boolean)
 }
 
 const Search = ({
@@ -31,7 +31,6 @@ const Search = ({
     () => {
       if (values.length === 0) {
         setFocus()
-        return
       } else if (isMaxValuesReached) {
         setIsInFocus(false)
       }
