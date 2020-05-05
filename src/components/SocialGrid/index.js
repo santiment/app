@@ -1,7 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
 import { SETTINGS } from './topics'
-import { updateHistory } from '../../utils/utils'
 import { TOPICS } from './topics'
 import Item from './Item'
 import styles from './index.module.scss'

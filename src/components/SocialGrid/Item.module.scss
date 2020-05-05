@@ -3,7 +3,7 @@
 .wrapper {
   border-radius: 4px;
   border: 1px solid var(--porcelain);
-  padding: 14px 14px 10px;
+  padding: 14px 16px 10px 0;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -11,6 +11,7 @@
 
 .text {
   color: var(--fiord);
+  margin-left: 16px;
 
   @include text('body-2');
 }

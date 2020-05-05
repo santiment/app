@@ -1,5 +1,4 @@
 import { getIntervalByTimeRange } from '../../utils/dates'
-import { getNewInterval } from '../../ducks/SANCharts/IntervalSelector'
 
 export const TOPICS = [
   'btc OR bitcoin',
@@ -7,10 +6,10 @@ export const TOPICS = [
   'bch OR halving OR bsv OR btc',
   'people',
   'fed OR unlimited OR infinite OR money OR printing OR dollar',
-  'stp OR stpt OR network OR projects OR networks OR use OR many OR advantages',
-  'sol OR solana',
-  'going',
-  'dow OR bitcoin'
+  'stp OR stpt OR network OR projects OR networks OR use OR many OR advantages'
+  // 'sol OR solana',
+  // 'going',
+  // 'dow OR bitcoin'
   // 'short',
   // 'eth',
   // 'april OR fools',
