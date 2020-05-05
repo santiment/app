@@ -7,11 +7,25 @@ import { getCurrentSanbaseSubscription } from '../../../utils/plans'
 import { PRO } from '../../../components/Navbar/NavbarProfileDropdown'
 import UpgradeBtn from '../../../components/UpgradeBtn/UpgradeBtn'
 import styles from './PublicTemplates.module.scss'
+import { useFeaturedTemplates } from '../../../ducks/Studio/Template/gql/hooks'
+import PageLoader from '../../../components/Loader/PageLoader'
+import { prepareTemplateLink } from '../../../ducks/Studio/Template/Dialog/LoadTemplate/Template'
 
 const PublicTemplates = ({ isProSanbase }) => {
+  const [templates, loading] = useFeaturedTemplates()
+
+  if (loading) {
+    return <PageLoader />
+  }
+
+  console.log(templates, loading)
+
+  const usingTemplates = templates.length > 0 ? templates : TEMPLATES
+
   return (
     <div className={styles.container}>
-      {TEMPLATES.map(({ link, title, description, isProRequired }) => {
+      {usingTemplates.map(template => {
+        const { link, title, description, isProRequired } = template
         const requirePro = isProRequired && !isProSanbase
 
         return (
@@ -39,7 +53,7 @@ const PublicTemplates = ({ isProSanbase }) => {
                 className={styles.useLink}
                 target='_blank'
                 rel='noopener noreferrer'
-                href={link}
+                href={link || prepareTemplateLink(template)}
               >
                 Use chart layout{' '}
                 <Icon className={styles.useIcon} type='pointer-right' />
