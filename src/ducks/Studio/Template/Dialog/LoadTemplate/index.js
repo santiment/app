@@ -8,8 +8,9 @@ import Icon from '@santiment-network/ui/Icon'
 import Template from './Template'
 import { usePublicProjectTemplates } from '../../gql/hooks'
 import TemplateDetailsDialog from '../../TemplateDetailsDialog/TemplateDetailsDialog'
-import styles from './index.module.scss'
 import { sortById } from '../../../../../utils/sortMethods'
+import NoChartLayouts from '../../NoChartLayouts/NoChartLayouts'
+import styles from './index.module.scss'
 
 const TABS = {
   OWN: 'Your Chart Layout',
@@ -132,9 +133,10 @@ const LoadTemplate = ({
           </div>
 
           <Dialog.ScrollContent className={styles.wrapper}>
-            {templates.length === 0 || filteredTemplates.length === 0
-              ? 'No chart layouts found'
-              : filteredTemplates
+            {templates.length === 0 || filteredTemplates.length === 0 ? (
+              <NoChartLayouts />
+            ) : (
+              filteredTemplates
                 .sort(sortById)
                 .map(template => (
                   <Template
@@ -147,7 +149,8 @@ const LoadTemplate = ({
                     onOpenTemplate={setOpenedTemplate}
                     onRename={onRename}
                   />
-                ))}
+                ))
+            )}
           </Dialog.ScrollContent>
         </>
       ) : (

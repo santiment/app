@@ -1,0 +1,32 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  border-radius: $border-radius;
+  border: 1px dashed var(--mystic);
+  width: 100%;
+  height: 120px;
+  background: linear-gradient(180deg, rgba(210, 214, 230, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
+  color: var(--casper);
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+
+  @include text('body-3');
+}
+
+.blockOne {
+  width: 344px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--mystic);
+}
+
+.blockSecond {
+  width: 171px;
+  height: 8px;
+  border-radius: 2px;
+  margin: 12px 0 24px 0;
+  background: var(--porcelain);
+}

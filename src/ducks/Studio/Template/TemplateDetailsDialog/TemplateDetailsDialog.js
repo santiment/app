@@ -13,6 +13,7 @@ import { getTemplateAssets, getTemplateMetrics } from '../utils'
 import externalStyles from '../Dialog/LoadTemplate/Template.module.scss'
 import styles from './TemplateDetailsDialog.module.scss'
 import TemplateStatus from '../TemplateStatus/TemplateStatus'
+import UserAvatar from '../../../../pages/Account/avatar/UserAvatar'
 
 export const TemplateInfoTrigger = ({ onClick, classes = {}, ...rest }) => (
   <Button
@@ -36,7 +37,11 @@ const TemplateDetailsDialog = ({
   onDelete,
   onDublicate
 }) => {
-  const { title, description } = template
+  const {
+    title,
+    description,
+    user: { id: userId, avatarUrl, username }
+  } = template
 
   const [deleteTemplate] = useDeleteTemplate()
   const { isPublic, toggleIsPublic } = usePublicTemplates(template)
@@ -180,6 +185,22 @@ const TemplateDetailsDialog = ({
             </div>
           </div>
         )}
+
+        <div className={styles.block}>
+          <Icon type='profile' className={styles.icon} />
+          <div className={styles.info}>
+            <div className={styles.subTitle}>Author</div>
+            <div className={cx(styles.description, styles.user)}>
+              <UserAvatar
+                userId={userId}
+                isExternal
+                externalAvatarUrl={avatarUrl}
+                classes={styles}
+              />
+              {username}
+            </div>
+          </div>
+        </div>
       </div>
     </El>
   )
