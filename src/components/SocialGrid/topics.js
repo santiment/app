@@ -3,7 +3,6 @@ import { getIntervalByTimeRange } from '../../utils/dates'
 export const TOPICS = [
   'oil OR negative OR barrel OR crude OR barrels OR contract OR futures OR wti',
   'btc OR bitcoin',
-  'oil OR negative OR futures OR contract OR wti',
   'oil',
   'markets OR tomorrow OR going OR market',
   'btc',
@@ -36,10 +35,8 @@ export const TOPICS = [
   'dump',
   'eos OR voice',
   'bobby OR wallet OR ballet',
-  'xrp',
   'easter',
   'bch OR halving',
-  'dump',
   'clicking OR tip OR button',
   'voice',
   'ontology',
@@ -47,10 +44,8 @@ export const TOPICS = [
   'futures',
   'bch',
   'tether OR usdt',
-  'fed',
   'china',
-  'tether',
-  'ctsi'
+  'tether'
 ]
 
 const DEFAULT_TIME_RANGE = '3m'
