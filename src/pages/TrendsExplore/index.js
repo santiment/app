@@ -13,6 +13,7 @@ import { checkHasPremium } from '../UserSelectors'
 import { safeDecode, updateHistory } from '../../utils/utils'
 import { addRecentTrends } from '../../utils/recent'
 import { trackTopicSearch } from '../../components/Trends/Search/utils'
+import SocialGrid from '../../components/SocialGrid'
 import { getTopicsFromUrl, updTopicsInUrl } from './url'
 import { detectWordWithAllTickersSlugs } from './utils'
 import Search from './Search'
@@ -141,7 +142,8 @@ const TrendsExplore = ({
               settings={{ slug: topics[0], addedTopics: topics.slice(1) }}
             />
           ) : (
-            <NoDataTemplate />
+            // <NoDataTemplate />
+            <SocialGrid className={styles.grid} />
           )}
         </div>
         <Sidebar

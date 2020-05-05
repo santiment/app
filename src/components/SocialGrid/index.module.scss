@@ -1,0 +1,11 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  @include grid-wrap(3);
+
+  grid-gap: 16px;
+
+  @include responsive('laptop') {
+    grid-template-columns: 1fr 1fr;
+  }
+}
