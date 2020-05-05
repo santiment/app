@@ -6,10 +6,10 @@ import Icon from '@santiment-network/ui/Icon'
 import { getCurrentSanbaseSubscription } from '../../../utils/plans'
 import { PRO } from '../../../components/Navbar/NavbarProfileDropdown'
 import UpgradeBtn from '../../../components/UpgradeBtn/UpgradeBtn'
-import styles from './PublicTemplates.module.scss'
 import { useFeaturedTemplates } from '../../../ducks/Studio/Template/gql/hooks'
 import PageLoader from '../../../components/Loader/PageLoader'
 import { prepareTemplateLink } from '../../../ducks/Studio/Template/Dialog/LoadTemplate/Template'
+import styles from './PublicTemplates.module.scss'
 
 const PublicTemplates = ({ isProSanbase }) => {
   const [templates, loading] = useFeaturedTemplates()
@@ -17,8 +17,6 @@ const PublicTemplates = ({ isProSanbase }) => {
   if (loading) {
     return <PageLoader />
   }
-
-  console.log(templates, loading)
 
   const usingTemplates = templates.length > 0 ? templates : TEMPLATES
 
