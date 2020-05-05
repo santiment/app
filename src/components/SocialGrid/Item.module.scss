@@ -7,11 +7,12 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  position: relative;
 }
 
 .text {
   color: var(--fiord);
-  margin-left: 16px;
+  margin: 0 80px 0 16px;
 
   @include text('body-2');
 }

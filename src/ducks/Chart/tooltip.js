@@ -35,6 +35,11 @@ export function setupTooltip (
     syncTooltips(point.value)
     if (useCustomTooltip) {
       onPlotTooltip(point)
+      plotTooltip(chart, marker, point, {
+        showLines: true,
+        customTooltip: true,
+        showAlertPlus: true
+      })
     } else {
       plotTooltip(chart, marker, point)
     }
@@ -92,10 +97,11 @@ export function setupTooltip (
   canvas.onmouseleave = () => {
     clearCtx(chart, ctx)
     syncTooltips(null)
+    onPlotTooltip && onPlotTooltip(null)
   }
 }
 
-export function plotTooltip (chart, marker, point) {
+export function plotTooltip (chart, marker, point, options) {
   const {
     tooltip: { ctx },
     tooltipKey,
@@ -111,23 +117,35 @@ export function plotTooltip (chart, marker, point) {
   const { x, value: datetime } = point
   const { y, value } = metricPoint
 
-  drawHoverLineX(chart, x, hoverLineColor, 5)
-  drawHoverLineY(chart, y, hoverLineColor, -20)
-
   const xBubbleFormatter = isDayInterval(chart)
     ? getDateHoursMinutes
     : getDateDayMonthYear
 
-  drawTooltip(ctx, point, TooltipSetting, marker, tooltipPaintConfig)
-  drawValueBubbleY(
-    chart,
-    yBubbleFormatter(value),
-    y,
-    bubblesPaintConfig,
-    chart.isAlertsActive ? -5 : 0
-  )
-  drawValueBubbleX(chart, xBubbleFormatter(datetime), x, bubblesPaintConfig)
-  drawAlertPlus(chart, y)
+  if (options && options.customTooltip) {
+    if (options.showLines) {
+      drawHoverLineX(chart, x, hoverLineColor, 0)
+      drawHoverLineY(chart, y, hoverLineColor, -5)
+    }
+
+    if (options.showAlertPlus) {
+      drawAlertPlus(chart, y)
+    }
+  } else {
+    drawHoverLineX(chart, x, hoverLineColor, 5)
+    drawHoverLineY(chart, y, hoverLineColor, -20)
+
+    drawAlertPlus(chart, y)
+
+    drawTooltip(ctx, point, TooltipSetting, marker, tooltipPaintConfig)
+    drawValueBubbleY(
+      chart,
+      yBubbleFormatter(value),
+      y,
+      bubblesPaintConfig,
+      chart.isAlertsActive ? -5 : 0
+    )
+    drawValueBubbleX(chart, xBubbleFormatter(datetime), x, bubblesPaintConfig)
+  }
 }
 
 function drawAlertPlus (chart, y) {

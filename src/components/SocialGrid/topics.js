@@ -9,7 +9,7 @@ export const TOPICS = [
   'stp OR stpt OR network OR projects OR networks OR use OR many OR advantages'
   // 'sol OR solana',
   // 'going',
-  // 'dow OR bitcoin'
+  // 'dow OR bitcoin',
   // 'short',
   // 'eth',
   // 'april OR fools',
