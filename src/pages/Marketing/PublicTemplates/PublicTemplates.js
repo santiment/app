@@ -6,12 +6,24 @@ import Icon from '@santiment-network/ui/Icon'
 import { getCurrentSanbaseSubscription } from '../../../utils/plans'
 import { PRO } from '../../../components/Navbar/NavbarProfileDropdown'
 import UpgradeBtn from '../../../components/UpgradeBtn/UpgradeBtn'
+import { useFeaturedTemplates } from '../../../ducks/Studio/Template/gql/hooks'
+import PageLoader from '../../../components/Loader/PageLoader'
+import { prepareTemplateLink } from '../../../ducks/Studio/Template/Dialog/LoadTemplate/Template'
 import styles from './PublicTemplates.module.scss'
 
 const PublicTemplates = ({ isProSanbase }) => {
+  const [templates, loading] = useFeaturedTemplates()
+
+  if (loading) {
+    return <PageLoader />
+  }
+
+  const usingTemplates = templates.length > 0 ? templates : TEMPLATES
+
   return (
     <div className={styles.container}>
-      {TEMPLATES.map(({ link, title, description, isProRequired }) => {
+      {usingTemplates.map(template => {
+        const { link, title, description, isProRequired } = template
         const requirePro = isProRequired && !isProSanbase
 
         return (
@@ -39,7 +51,7 @@ const PublicTemplates = ({ isProSanbase }) => {
                 className={styles.useLink}
                 target='_blank'
                 rel='noopener noreferrer'
-                href={link}
+                href={link || prepareTemplateLink(template)}
               >
                 Use chart layout{' '}
                 <Icon className={styles.useIcon} type='pointer-right' />
