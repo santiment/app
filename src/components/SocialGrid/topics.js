@@ -2,15 +2,15 @@ import { getIntervalByTimeRange } from '../../utils/dates'
 import { getNewInterval } from '../../ducks/SANCharts/IntervalSelector'
 
 export const TOPICS = [
-  'btc OR bitcoin'
-  // 'markets OR tomorrow OR going OR market',
-  // 'bch OR halving OR bsv OR btc',
-  // 'people',
-  // 'fed OR unlimited OR infinite OR money OR printing OR dollar',
-  // 'stp OR stpt OR network OR projects OR networks OR use OR many OR advantages',
-  // 'sol OR solana',
-  // 'going',
-  // 'dow OR bitcoin',
+  'btc OR bitcoin',
+  'markets OR tomorrow OR going OR market',
+  'bch OR halving OR bsv OR btc',
+  'people',
+  'fed OR unlimited OR infinite OR money OR printing OR dollar',
+  'stp OR stpt OR network OR projects OR networks OR use OR many OR advantages',
+  'sol OR solana',
+  'going',
+  'dow OR bitcoin'
   // 'short',
   // 'eth',
   // 'april OR fools',
@@ -58,7 +58,7 @@ const DEFAULT_TIME_RANGE = '3m'
 const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
 
 export const SETTINGS = {
-  interval: getNewInterval(FROM, TO),
+  interval: '2d',
   from: FROM.toISOString(),
   to: TO.toISOString(),
   timeRange: DEFAULT_TIME_RANGE
