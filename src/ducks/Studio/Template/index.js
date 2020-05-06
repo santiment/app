@@ -180,6 +180,7 @@ const Template = ({
                 closeMenu()
                 selectTemplate(template)
               }}
+              buttonLabel='Save'
             />
           )}
 

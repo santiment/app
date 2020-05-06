@@ -16,7 +16,6 @@ const DEFAULT_LOADINGS = []
 const DEFAULT_ERROR_MSG = Object.create(null)
 const DEFAULT_ABORTABLES = new Map()
 const DEFAULT_METRIC_SETTINGS_MAP = new Map()
-const CUSTOM_METRIC_SETTINGS_MAP = new Map()
 const ABORTABLE_METRIC_SETTINGS_INDEX = 2
 
 const hashMetrics = metrics => metrics.reduce((acc, { key }) => acc + key, '')
@@ -58,22 +57,28 @@ function abortAllMetrics (abortables) {
   return [...abortables.values()].forEach(cancelQuery)
 }
 
-export const getPreparedMetricSettings = metrics => {
+export const getPreparedMetricSettings = (metrics, settings) => {
   const hasDaaMetric = metrics.includes(Metric.daily_active_addresses)
 
   if (hasDaaMetric) {
     metrics.forEach(metric => {
-      CUSTOM_METRIC_SETTINGS_MAP.set(metric, {
+      settings.set(metric, {
         interval: '1d'
       })
     })
   } else {
-    CUSTOM_METRIC_SETTINGS_MAP.forEach((value, key) => {
-      CUSTOM_METRIC_SETTINGS_MAP.set(key, {})
+    settings.forEach((value, key) => {
+      const newValue = {
+        ...value
+      }
+
+      delete newValue['delete']
+
+      settings.set(key, newValue)
     })
   }
 
-  return CUSTOM_METRIC_SETTINGS_MAP
+  return settings
 }
 
 export function useTimeseries (

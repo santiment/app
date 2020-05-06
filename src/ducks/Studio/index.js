@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
-import GA from '../../utils/tracking'
 import StudioSidebar from './Sidebar'
 import StudioMain from './Main'
-import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
+import {
+  DEFAULT_SETTINGS,
+  DEFAULT_OPTIONS,
+  DEFAULT_METRICS,
+  DEFAULT_METRIC_SETTINGS_MAP
+} from './defaults'
 import { MAX_METRICS_AMOUNT } from './constraints'
 import { generateShareLink } from './url'
+import { trackMetricState } from './analytics'
 import { getPreparedMetricSettings, useTimeseries } from './timeseries/hooks'
 import { buildAnomalies } from './timeseries/anomalies'
 import { buildComparedMetric } from './Compare/utils'
@@ -22,6 +27,7 @@ const Studio = ({
   defaultEvents,
   defaultComparedMetrics,
   defaultComparables,
+  defaultMetricSettingsMap,
   topSlot,
   bottomSlot,
   ...props
@@ -33,6 +39,9 @@ const Studio = ({
   const [metrics, setMetrics] = useState(defaultMetrics)
   const [activeMetrics, setActiveMetrics] = useState(defaultMetrics)
   const [activeEvents, setActiveEvents] = useState(defaultEvents)
+  const [MetricSettingMap, setMetricSettingMap] = useState(
+    defaultMetricSettingsMap
+  )
   const [chartSidepane, setChartSidepane] = useState()
   const [advancedView, setAdvancedView] = useState()
   const [shareLink, setShareLink] = useState()
@@ -41,10 +50,11 @@ const Studio = ({
   const [rawData, loadings, ErrorMsg] = useTimeseries(
     activeMetrics,
     settings,
-    getPreparedMetricSettings(activeMetrics)
+    getPreparedMetricSettings(activeMetrics, MetricSettingMap)
   )
-  const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings)
   const [isSidebarClosed, setIsSidebarClosed] = useState()
+
+  const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings)
   const data = useClosestValueData(
     rawData,
     activeMetrics,
@@ -153,13 +163,7 @@ const Studio = ({
       }
 
       metricSet.add(metric)
-      GA.event(
-        {
-          category: 'Chart',
-          action: `Showing "${metric.label}"`
-        },
-        ['ga', 'intercom']
-      )
+      trackMetricState(metric, true)
     }
     setMetrics([...metricSet])
   }
@@ -197,6 +201,7 @@ const Studio = ({
         toggleAdvancedView={toggleAdvancedView}
         toggleChartSidepane={toggleChartSidepane}
         setIsSidebarClosed={setIsSidebarClosed}
+        setMetricSettingMap={setMetricSettingMap}
         isICOPriceDisabled={isICOPriceDisabled}
         isSidebarClosed={isSidebarClosed}
       />
@@ -248,6 +253,7 @@ export default ({
   metrics,
   events,
   comparables,
+  MetricSettingsMap,
   ...props
 }) => (
   <Studio
@@ -260,5 +266,6 @@ export default ({
     defaultMetrics={metrics || DEFAULT_METRICS}
     defaultEvents={events}
     defaultComparables={comparables}
+    defaultMetricSettingsMap={MetricSettingsMap || DEFAULT_METRIC_SETTINGS_MAP}
   />
 )

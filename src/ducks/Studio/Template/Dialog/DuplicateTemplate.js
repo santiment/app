@@ -3,7 +3,12 @@ import DialogForm from './DialogForm'
 import { notifyDuplication } from '../notifications'
 import { useCreateTemplate } from '../gql/hooks'
 
-export default ({ onDuplicate, template, ...props }) => {
+export default ({
+  onDuplicate,
+  template,
+  buttonLabel = 'Duplicate',
+  ...props
+}) => {
   const { title } = template
   const [createTemplate, { loading }] = useCreateTemplate()
 
@@ -27,7 +32,7 @@ export default ({ onDuplicate, template, ...props }) => {
       title='Duplicate Chart Layout'
       {...props}
       onFormSubmit={onSubmit}
-      buttonLabel='Duplicate'
+      buttonLabel={buttonLabel}
       defaultValue={title ? title + ' copy' : title}
       isLoading={loading}
     />

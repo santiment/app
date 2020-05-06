@@ -49,86 +49,11 @@
   user-select: none;
 }
 
-.plus {
-  box-sizing: content-box;
-  border-radius: 50%;
-  padding: 3px;
-  fill: var(--waterloo);
-  background: var(--porcelain);
-  margin-right: 8px;
-  min-width: 10px;
-}
-
-.active {
-  transform: rotate(45deg);
-}
-
 .group {
   @include text('caption');
 
   color: var(--waterloo);
   margin: 14px 0 8px;
-}
-
-.info {
-  visibility: hidden;
-  fill: var(--casper);
-  width: 16px;
-  height: 16px;
-  min-width: 16px;
-
-  &:hover {
-    fill: var(--rhino);
-  }
-}
-
-.btn {
-  text-align: left;
-  justify-content: space-between;
-  padding: 6px 9px;
-  min-height: 32px;
-  height: auto;
-  z-index: 1;
-
-  &_disabled {
-    color: var(--casper) !important;
-    pointer-events: none;
-
-    .plus {
-      fill: var(--casper);
-    }
-  }
-
-  &__left {
-    display: flex;
-    align-items: center;
-  }
-
-  &__error {
-    @include text('caption');
-
-    border-radius: 4px;
-    padding: 2px 5px;
-    margin-right: 8px;
-    background: var(--porcelain);
-    color: var(--casper);
-    white-space: nowrap;
-  }
-
-  &:hover {
-    .plus {
-      background: var(--jungle-green);
-      fill: var(--white);
-    }
-
-    .active {
-      background: var(--persimmon);
-    }
-
-    .info {
-      visibility: visible;
-    }
-  }
 }
 
 .advanced {

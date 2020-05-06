@@ -19,7 +19,8 @@ const Group = ({
   options,
   Submetrics,
   isICOPriceDisabled,
-  isBeta
+  isBeta,
+  setMetricSettingMap
 }) => {
   return (
     <>
@@ -43,6 +44,7 @@ const Group = ({
               isError={ErrorMsg[metric.key]}
               isActive={actives.includes(metric)}
               onClick={() => toggleMetric(metric)}
+              setMetricSettingMap={setMetricSettingMap}
             />
             {/* TODO: refactor 'ICO Price', 'advancedView' to be a submetric array [@vanguard | March 10, 2020] */}
             {isICOPriceDisabled ||

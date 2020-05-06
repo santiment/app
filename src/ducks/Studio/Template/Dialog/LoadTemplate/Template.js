@@ -17,6 +17,10 @@ import { generateShareLink } from '../../../url'
 import styles from './Template.module.scss'
 
 export function prepareTemplateLink (template) {
+  if (!template) {
+    return ''
+  }
+
   const { project, metrics: templateMetrics } = template
   const { slug } = project
 
@@ -65,7 +69,7 @@ const Template = ({
   const { title } = template
   const { isPublic, toggleIsPublic } = usePublicTemplates(template)
 
-  function onTemplateClick ({ target, currentTarget }) {
+  function onTemplateClick () {
     selectTemplate && selectTemplate(template)
 
     if (asLink) {
