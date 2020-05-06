@@ -10,9 +10,9 @@ import styles from './index.module.scss'
 const CHART_HEIGHT = 150
 
 const CHART_PADDING = {
-  top: 0,
+  top: 5,
   right: 0,
-  bottom: 0,
+  bottom: 5,
   left: 16
 }
 
@@ -21,15 +21,11 @@ const SmallChart = ({ topic, charts, settings, settingMap, ...props }) => {
   const [data, loadings] = useTimeseries(charts, settings, settingMap)
   const categories = metricsToPlotCategories(charts)
 
-  const latestPoint = data[data.length - 1]
-
   return loadings.length > 0 ? (
     <Loader className={styles.loader} />
   ) : (
     <>
-      {latestPoint && (
-        <Tooltip currentPoint={currentPoint} latestPoint={latestPoint} />
-      )}
+      {currentPoint && <Tooltip {...currentPoint} />}
       <Chart
         {...props}
         {...settings}
@@ -38,7 +34,13 @@ const SmallChart = ({ topic, charts, settings, settingMap, ...props }) => {
         hideAxes
         hideWatermark
         useCustomTooltip
-        onPlotTooltip={data => setCurrentPoint(data)}
+        onPlotTooltip={data =>
+          setCurrentPoint(
+            data
+              ? { point: data.social_volume_total.value, datetime: data.value }
+              : null
+          )
+        }
         MetricColor={{ social_volume_total: '#68DBF4' }}
         tooltipKey='social_volume_total'
         chartHeight={CHART_HEIGHT}
