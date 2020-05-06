@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
-import GA from '../../utils/tracking'
 import StudioSidebar from './Sidebar'
 import StudioMain from './Main'
-import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
+import {
+  DEFAULT_SETTINGS,
+  DEFAULT_OPTIONS,
+  DEFAULT_METRICS,
+  DEFAULT_METRIC_SETTINGS_MAP,
+} from './defaults'
 import { MAX_METRICS_AMOUNT } from './constraints'
 import { generateShareLink } from './url'
+import { trackMetricState } from './analytics'
 import { useTimeseries } from './timeseries/hooks'
 import { buildAnomalies } from './timeseries/anomalies'
 import { buildComparedMetric } from './Compare/utils'
@@ -22,6 +27,7 @@ const Studio = ({
   defaultEvents,
   defaultComparedMetrics,
   defaultComparables,
+  defaultMetricSettingsMap,
   topSlot,
   bottomSlot,
   ...props
@@ -33,38 +39,45 @@ const Studio = ({
   const [metrics, setMetrics] = useState(defaultMetrics)
   const [activeMetrics, setActiveMetrics] = useState(defaultMetrics)
   const [activeEvents, setActiveEvents] = useState(defaultEvents)
+  const [MetricSettingMap, setMetricSettingMap] = useState(
+    defaultMetricSettingsMap,
+  )
   const [chartSidepane, setChartSidepane] = useState()
   const [advancedView, setAdvancedView] = useState()
   const [shareLink, setShareLink] = useState()
   const [isICOPriceDisabled, setIsICOPriceDisabled] = useState(true)
-  const [rawData, loadings, ErrorMsg] = useTimeseries(activeMetrics, settings)
-  const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings)
   const [isSidebarClosed, setIsSidebarClosed] = useState()
+  const [rawData, loadings, ErrorMsg] = useTimeseries(
+    activeMetrics,
+    settings,
+    MetricSettingMap,
+  )
+  const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings)
   const data = useClosestValueData(
     rawData,
     activeMetrics,
-    options.isClosestDataActive
+    options.isClosestDataActive,
   )
 
   useEffect(
     () => {
       setComparedMetrics(comparables.map(buildComparedMetric))
     },
-    [comparables]
+    [comparables],
   )
 
   useEffect(
     () => {
       setActiveMetrics(metrics.concat(comparedMetrics))
     },
-    [metrics, comparedMetrics]
+    [metrics, comparedMetrics],
   )
 
   useEffect(
     () => {
       setMetrics(metrics.filter(({ key }) => !ErrorMsg[key]))
     },
-    [ErrorMsg]
+    [ErrorMsg],
   )
 
   useEffect(
@@ -84,17 +97,17 @@ const Studio = ({
         }
       }
     },
-    [options.isMultiChartsActive]
+    [options.isMultiChartsActive],
   )
 
   useEffect(
     () => {
       const { slug } = defaultSettings
       if (slug && slug !== settings.slug) {
-        setSettings(state => ({ ...state, slug }))
+        setSettings((state) => ({ ...state, slug }))
       }
     },
-    [defaultSettings.slug]
+    [defaultSettings.slug],
   )
 
   useEffect(
@@ -107,7 +120,7 @@ const Studio = ({
       setShareLink(origin + pathname + queryString)
       updateHistory(queryString)
     },
-    [settings, options, metrics, activeEvents, comparables]
+    [settings, options, metrics, activeEvents, comparables],
   )
 
   useEffect(
@@ -118,7 +131,7 @@ const Studio = ({
         setActiveEvents([])
       }
     },
-    [metrics, options.isAnomalyActive]
+    [metrics, options.isAnomalyActive],
   )
 
   useEffect(
@@ -127,10 +140,10 @@ const Studio = ({
         setChartSidepane()
       }
     },
-    [chartSidepane, settings.slug, options.isMultiChartsActive]
+    [chartSidepane, settings.slug, options.isMultiChartsActive],
   )
 
-  function toggleMetric (metric) {
+  function toggleMetric(metric) {
     if (metric.comparedTicker) {
       return removeComparedMetric(metric)
     }
@@ -148,27 +161,21 @@ const Studio = ({
       }
 
       metricSet.add(metric)
-      GA.event(
-        {
-          category: 'Chart',
-          action: `Showing "${metric.label}"`
-        },
-        ['ga', 'intercom']
-      )
+      trackMetricState(metric, true)
     }
     setMetrics([...metricSet])
   }
 
-  function toggleChartSidepane (sidepane) {
+  function toggleChartSidepane(sidepane) {
     setChartSidepane(chartSidepane === sidepane ? undefined : sidepane)
   }
 
-  function toggleAdvancedView (mode) {
+  function toggleAdvancedView(mode) {
     setAdvancedView(advancedView === mode ? undefined : mode)
   }
 
-  function removeComparedMetric ({ key }) {
-    setComparables(comparables.filter(comp => comp.key !== key))
+  function removeComparedMetric({ key }) {
+    setComparables(comparables.filter((comp) => comp.key !== key))
   }
 
   return (
@@ -176,7 +183,7 @@ const Studio = ({
       className={cx(
         styles.wrapper,
         classes.wrapper,
-        isSidebarClosed && styles.wrapper_wide
+        isSidebarClosed && styles.wrapper_wide,
       )}
     >
       <StudioSidebar
@@ -192,6 +199,7 @@ const Studio = ({
         toggleAdvancedView={toggleAdvancedView}
         toggleChartSidepane={toggleChartSidepane}
         setIsSidebarClosed={setIsSidebarClosed}
+        setMetricSettingMap={setMetricSettingMap}
         isICOPriceDisabled={isICOPriceDisabled}
         isSidebarClosed={isSidebarClosed}
       />
@@ -234,7 +242,7 @@ Studio.defaultProps = {
   defaultEvents: [],
   defaultComparables: [],
   onSlugChange: () => {},
-  classes: {}
+  classes: {},
 }
 
 export default ({
@@ -243,17 +251,19 @@ export default ({
   metrics,
   events,
   comparables,
+  MetricSettingsMap,
   ...props
 }) => (
   <Studio
     {...props}
     defaultSettings={{
       ...DEFAULT_SETTINGS,
-      ...settings
+      ...settings,
     }}
     defaultOptions={{ ...DEFAULT_OPTIONS, ...options }}
     defaultMetrics={metrics || DEFAULT_METRICS}
     defaultEvents={events}
     defaultComparables={comparables}
+    defaultMetricSettingsMap={MetricSettingsMap || DEFAULT_METRIC_SETTINGS_MAP}
   />
 )

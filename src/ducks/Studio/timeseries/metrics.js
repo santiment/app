@@ -5,7 +5,7 @@ const DEFAULT_SELECTOR = 'slug'
 
 export const GET_METRIC = (
   { key, queryKey = key },
-  { selector = DEFAULT_SELECTOR } = DEFAULT_SETTINGS
+  { selector = DEFAULT_SELECTOR } = DEFAULT_SETTINGS,
 ) => gql`
   query getMetric(
     $slug: String!
@@ -13,9 +13,10 @@ export const GET_METRIC = (
     $to: DateTime!
     $interval: interval
     $transform: TimeseriesMetricTransformInputObject
+    $holdersCount: Int
   ) {
     getMetric(metric: "${queryKey}") {
-      timeseriesData(selector: { ${selector}: $slug}, from: $from, to: $to, interval: $interval, transform: $transform) {
+      timeseriesData(selector: { ${selector}: $slug, holdersCount: $holdersCount }, from: $from, to: $to, interval: $interval, transform: $transform) {
         datetime
         ${key}: value
       }
@@ -174,5 +175,5 @@ export const METRICS = [
   'dev_activity',
   'dev_activity_contributors_count',
   'github_activity',
-  'github_activity_contributors_count'
+  'github_activity_contributors_count',
 ]
