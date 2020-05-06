@@ -51,6 +51,8 @@ export const TOPICS = [
 const DEFAULT_TIME_RANGE = '3m'
 const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
 
+TO.setUTCHours(0, 0, 0, 0)
+
 export const SETTINGS = {
   interval: '1d',
   from: FROM.toISOString(),

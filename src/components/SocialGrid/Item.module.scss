@@ -10,9 +10,64 @@
   position: relative;
 }
 
+.top {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
 .text {
   color: var(--fiord);
   margin: 0 80px 0 16px;
 
   @include text('body-2');
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+}
+
+.action {
+  padding: 10px;
+  margin: 0 3px;
+  position: relative;
+}
+
+.action + .action {
+  &::before {
+    position: absolute;
+    content: '';
+    display: block;
+    top: 9px;
+    left: -3px;
+    height: 16px;
+    width: 1px;
+    background-color: var(--porcelain);
+  }
+}
+
+.icon {
+  box-sizing: content-box;
+  fill: var(--jungle-green);
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.signal {
+  margin-left: 6px;
+}
+
+.wordCloud {
+  height: 320px;
+  width: 440px;
+}
+
+.button {
+  margin: 0;
+  padding: 0;
+  height: auto;
+  background-color: transparent !important;
 }
