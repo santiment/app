@@ -6,6 +6,10 @@ export const MetricSettings = Object.assign(Object.create(null), {
       key: 'holdersCount',
       label: 'Top Holders',
       defaultValue: 10,
+      constraints: {
+        min: 1,
+        max: 1000000,
+      },
     },
   ],
 })
