@@ -2,13 +2,13 @@ import React from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
-import Adjustments from './Adjustments'
+import Settings from './Settings'
 import { Metric } from '../../../dataHub/metrics'
 import MetricExplanation from '../../../SANCharts/MetricExplanation'
 import styles from './MetricButton.module.scss'
-import adjustmentsStyles from './Adjustments.module.scss'
+import settingsStyles from './Settings.module.scss'
 
-const MetricAdjustments = Object.assign(Object.create(null), {
+const MetricSettings = Object.assign(Object.create(null), {
   [Metric.amount_in_top_holders.key]: [
     {
       key: 'holdersCount',
@@ -28,7 +28,7 @@ const MetricButton = ({
   onClick,
   setMetricSettingMap,
 }) => {
-  const adjustments = isActive && metric && MetricAdjustments[metric.key]
+  const settings = isActive && metric && MetricSettings[metric.key]
 
   return (
     <Button
@@ -37,7 +37,7 @@ const MetricButton = ({
         styles.btn,
         className,
         (isError || isDisabled) && styles.disabled,
-        adjustments && adjustmentsStyles.adjustable,
+        settings && settingsStyles.adjustable,
       )}
       isActive={isActive}
       onClick={onClick}
@@ -59,10 +59,10 @@ const MetricButton = ({
           </MetricExplanation>
         )}
       </div>
-      {adjustments && (
-        <Adjustments
+      {settings && (
+        <Settings
           metric={metric}
-          adjustments={adjustments}
+          settings={settings}
           setMetricSettingMap={setMetricSettingMap}
         />
       )}
