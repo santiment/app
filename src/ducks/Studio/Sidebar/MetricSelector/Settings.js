@@ -6,16 +6,9 @@ import styles from './Settings.module.scss'
 const Setting = ({ settings, metric, setMetricSettingMap }) => {
   const { key, label, defaultValue } = settings
   const [value, setValue] = useState(defaultValue)
+  const [lastValidValue, setLastValidValue] = useState(defaultValue)
 
-  useDebounceEffect(
-    () =>
-      +value &&
-      updateMetricSettings({
-        [key]: +value,
-      }),
-    400,
-    [value],
-  )
+  useDebounceEffect(() => +value && updateMetricSettings(+value), 400, [value])
 
   function onChange({ currentTarget }) {
     setValue(currentTarget.value)
@@ -23,14 +16,24 @@ const Setting = ({ settings, metric, setMetricSettingMap }) => {
 
   function onBlur({ currentTarget }) {
     if (!+currentTarget.value) {
-      setValue(defaultValue)
+      setValue(lastValidValue)
     }
   }
 
-  function updateMetricSettings(settings) {
+  function updateMetricSettings(value) {
+    setLastValidValue(value)
+
     setMetricSettingMap((state) => {
+      const prevSettings = state.get(metric)
       const newState = new Map(state)
-      newState.set(metric, settings)
+
+      newState.set(
+        metric,
+        Object.assign(prevSettings, {
+          [key]: value,
+        }),
+      )
+
       return newState
     })
   }
