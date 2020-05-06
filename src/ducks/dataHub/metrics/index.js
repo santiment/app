@@ -51,7 +51,7 @@ export const Metric = {
   },
   social_volume_total: {
     category: 'Social',
-    node: 'bar',
+    node: 'line',
     label: 'Social Volume',
     shortLabel: 'Soc. Vol.',
     anomalyKey: 'SOCIAL_VOLUME',

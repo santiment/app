@@ -67,7 +67,7 @@ export function usePublicProjectTemplates (projectId) {
   return [data ? data.templates : DEFAULT_TEMPLATES, loading, error]
 }
 
-export function useFeaturedTemplates (id) {
+export function useFeaturedTemplates () {
   const { data, loading, error } = useQuery(FEATURED_TEMPLATES_QUERY)
 
   return [data ? data.templates : DEFAULT_TEMPLATES, loading, error]
@@ -141,12 +141,12 @@ export function useDeleteTemplate () {
     update: updateTemplatesOnDelete
   })
 
-  function deleteTemplate ({ id }) {
+  function deleteTemplate ({ id }, onDelete) {
     return mutate({
       variables: {
         id: +id
       }
-    })
+    }).then(onDelete)
   }
 
   return [deleteTemplate, data]

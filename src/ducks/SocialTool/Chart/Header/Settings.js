@@ -59,6 +59,8 @@ export default ({
   function changeTimePeriod (from, to, timeRange) {
     const interval = getNewInterval(from, to)
 
+    to.setUTCHours(0, 0, 0, 0)
+
     setSettings(state => ({
       ...state,
       timeRange,

@@ -1,33 +1,22 @@
 import React from 'react'
 import { Metric } from './index'
+import MoreInfoLink from '../../../components/MoreInfoLink/MoreInfoLink'
 
 export const Description = {
   [Metric.social_volume_total.key]: (
     <>
       Shows the amount of mentions of the coin on 1000+ crypto social media
       channels, including Telegram groups, crypto subreddits, discord groups,
-      private traders chats and more. More info{' '}
-      <a
-        target='_blank'
-        rel='noopener noreferrer'
-        href='https://academy.santiment.net/metrics/social-volume/'
-      >
-        here
-      </a>
+      private traders chats and more.{' '}
+      <MoreInfoLink href='https://academy.santiment.net/metrics/social-volume/' />
     </>
   ),
 
   [Metric.age_destroyed.key]: (
     <>
       Shows the amount of tokens changing addresses on a certain date,
-      multiplied by the number of days since they last moved. More info{' '}
-      <a
-        target='_blank'
-        rel='noopener noreferrer'
-        href='https://academy.santiment.net/metrics/token-age-consumed/'
-      >
-        here
-      </a>
+      multiplied by the number of days since they last moved.{' '}
+      <MoreInfoLink href='https://academy.santiment.net/metrics/age-consumed/' />
     </>
   ),
 
@@ -36,14 +25,8 @@ export const Description = {
       The flows of tokens going in to and out of exchange wallets combined on
       one graph. If the value is positive, more tokens entered the exchange than
       left. If the value is negative, more flowed out of exchanges than flowed
-      in. More info{' '}
-      <a
-        target='_blank'
-        rel='noopener noreferrer'
-        href='https://academy.santiment.net/metrics/exchange-flow-metrics/#exchange-flow-balance'
-      >
-        here
-      </a>
+      in.{' '}
+      <MoreInfoLink href='https://academy.santiment.net/metrics/exchange-funds-flow/' />
     </>
   ),
 
@@ -51,55 +34,29 @@ export const Description = {
     <>
       Shows the number of unique network addresses involved in transactions on a
       certain date. Simply put, DAA indicates the daily level of crowd
-      interaction (or speculation) with a certain token. More info{' '}
-      <a
-        target='_blank'
-        rel='noopener noreferrer'
-        href='https://academy.santiment.net/metrics/daily-active-addresses/'
-      >
-        here
-      </a>
+      interaction (or speculation) with a certain token.{' '}
+      <MoreInfoLink href='https://academy.santiment.net/metrics/daily-active-addresses/' />
     </>
   ),
 
   [Metric.supply_on_exchanges.key]: (
     <>
-      What amount of coins/tokens are stored in known exchange wallets. More
-      info{' '}
-      <a
-        target='_blank'
-        rel='noopener noreferrer'
-        href='https://academy.santiment.net/metrics/supply-on-or-outside-exchanges/'
-      >
-        here
-      </a>
+      What amount of coins/tokens are stored in known exchange wallets.{' '}
+      <MoreInfoLink href='https://academy.santiment.net/metrics/supply-on-or-outside-exchanges/' />
     </>
   ),
 
   [Metric.supply_outside_exchanges.key]: (
     <>
-      What amount of coins/tokens are stored outside known exchange wallets.
-      More info{' '}
-      <a
-        target='_blank'
-        rel='noopener noreferrer'
-        href='https://academy.santiment.net/metrics/supply-on-or-outside-exchanges/'
-      >
-        here
-      </a>
+      What amount of coins/tokens are stored outside known exchange wallets.{' '}
+      <MoreInfoLink href='https://academy.santiment.net/metrics/supply-on-or-outside-exchanges/' />
     </>
   ),
 
   [Metric.percent_of_total_supply_on_exchanges.key]: (
     <>
-      The percent of the total token supply which is on exchanges. More info{' '}
-      <a
-        target='_blank'
-        rel='noopener noreferrer'
-        href='https://academy.santiment.net/metrics/percentage-of-token-supply-on-exchanges/'
-      >
-        here
-      </a>
+      The percent of the total token supply which is on exchanges.{' '}
+      <MoreInfoLink href='https://academy.santiment.net/metrics/supply-on-or-outside-exchanges/' />
     </>
   ),
 
@@ -107,14 +64,8 @@ export const Description = {
     <>
       Shows the number of unique tokens being used during each day. If one token
       changes hands 5 times on a given day, it will be counted once by the token
-      circulation, but 5 times by the transaction volume. More info{' '}
-      <a
-        target='_blank'
-        rel='noopener noreferrer'
-        href='https://academy.santiment.net/metrics/token-circulation/'
-      >
-        here
-      </a>
+      circulation, but 5 times by the transaction volume.{' '}
+      <MoreInfoLink href='https://academy.santiment.net/metrics/circulation/' />
     </>
   ),
 
@@ -124,28 +75,16 @@ export const Description = {
       compares that investment to the coin’s current price to calculate the
       average profit or loss across all holders. Example: if MVRV = 2, then, on
       average, all coin holders have (currently) doubled their initial
-      investment. More info{' '}
-      <a
-        target='_blank'
-        rel='noopener noreferrer'
-        href='https://academy.santiment.net/metrics/mvrv/'
-      >
-        here
-      </a>
+      investment.{' '}
+      <MoreInfoLink href='https://academy.santiment.net/metrics/mvrv/' />
     </>
   ),
 
   [Metric.transaction_volume.key]: (
     <>
       Shows the aggregate amount of tokens across all transactions that happened
-      on the network on a certain date. More info{' '}
-      <a
-        target='_blank'
-        rel='noopener noreferrer'
-        href='https://academy.santiment.net/metrics/transaction-volume/'
-      >
-        here
-      </a>
+      on the network on a certain date.{' '}
+      <MoreInfoLink href='https://academy.santiment.net/metrics/transaction-volume/' />
     </>
   ),
 
@@ -153,30 +92,16 @@ export const Description = {
     <>
       Shows the number of new addresses being created on the network each day.
       Essentially, this chart illustrates user adoption over time, and can be
-      used to identify when the project is gaining - or losing - traction. More
-      info{' '}
-      <a
-        target='_blank'
-        rel='noopener noreferrer'
-        href='https://academy.santiment.net/metrics/network-growth/'
-      >
-        here
-      </a>
+      used to identify when the project is gaining - or losing - traction.{' '}
+      <MoreInfoLink href='https://academy.santiment.net/metrics/network-growth/' />
     </>
   ),
 
   [Metric.dev_activity.key]: (
     <>
       Based on number of Github 'events' including PRs, comments, and wiki
-      edits, plus the number of public repositories a project is maintaining.
-      More info{' '}
-      <a
-        target='_blank'
-        rel='noopener noreferrer'
-        href='https://academy.santiment.net/metrics/developer-activity/'
-      >
-        here
-      </a>
+      edits, plus the number of public repositories a project is maintaining.{' '}
+      <MoreInfoLink href='https://academy.santiment.net/metrics/developer-activity/' />
     </>
   ),
 
@@ -184,14 +109,8 @@ export const Description = {
     <>
       Shows the average number of times that a token changes wallets each day.
       Simply put, a higher token velocity means that a token is used in
-      transactions more often within a set time frame. More info{' '}
-      <a
-        target='_blank'
-        rel='noopener noreferrer'
-        href='https://academy.santiment.net/metrics/velocity-of-tokens/'
-      >
-        here
-      </a>
+      transactions more often within a set time frame.{' '}
+      <MoreInfoLink href='https://academy.santiment.net/metrics/velocity/' />
     </>
   ),
 
@@ -199,14 +118,8 @@ export const Description = {
     <>
       Shows the number of unique deposit addresses that participated in
       transactions for a given day. A deposit address is an address belonging to
-      an exchange that users use to deposit assets. More info{' '}
-      <a
-        target='_blank'
-        rel='noopener noreferrer'
-        href='https://academy.santiment.net/metrics/metrics-for-deposit-addresses/#daily-active-deposits'
-      >
-        here
-      </a>
+      an exchange that users use to deposit assets.{' '}
+      <MoreInfoLink href='https://academy.santiment.net/metrics/metrics-for-deposit-addresses/#daily-active-deposits' />
     </>
   ),
 
@@ -224,14 +137,8 @@ export const Description = {
 
   [Metric.mean_age.key]: (
     <>
-      The average age of all coins/tokens on the blockchain. More info{' '}
-      <a
-        target='_blank'
-        rel='noopener noreferrer'
-        href='https://academy.santiment.net/metrics/mean-coin-age/'
-      >
-        here
-      </a>
+      The average age of all coins/tokens on the blockchain.{' '}
+      <MoreInfoLink href='https://academy.santiment.net/metrics/mean-coin-age/' />
     </>
   ),
 
@@ -240,15 +147,8 @@ export const Description = {
       For each coin we see how long it has stayed at its current address and we
       compute the average of all those ages. The difference between "coin age"
       and "dollar age" comes from the different way that we compute the
-      averages. More info{' '}
-      <a
-        target='_blank'
-        rel='noopener noreferrer'
-        href='https://insights.santiment.net/read/%F0%9F%93%A2-mean-age-653'
-      >
-        here
-      </a>
-      .
+      averages.{' '}
+      <MoreInfoLink href='https://insights.santiment.net/read/%F0%9F%93%A2-mean-age-653' />
     </>
   ),
 
@@ -258,14 +158,8 @@ export const Description = {
       network. This version of NVT is calculated by dividing the coin’s Market
       Cap by its Token Circulation. The higher the NVT, the more expensive the
       network relative to the value it transmits, indicating an overvalued
-      asset. More info{' '}
-      <a
-        target='_blank'
-        rel='noopener noreferrer'
-        href='https://academy.santiment.net/metrics/nvt-ratio/'
-      >
-        here
-      </a>
+      asset.{' '}
+      <MoreInfoLink href='https://academy.santiment.net/metrics/nvt-ratio/' />
     </>
   ),
 

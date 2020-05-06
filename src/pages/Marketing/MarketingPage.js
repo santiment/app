@@ -4,6 +4,7 @@ import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import WatchlistCards from '../../components/Watchlists/WatchlistCards'
 import { CATEGORIES } from '../assets/assets-overview-constants'
 import PublicTemplates from './PublicTemplates/PublicTemplates'
+import SocialGrid from '../../components/SocialGrid'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { MobileOnly } from '../../components/Responsive'
 import styles from './MarketingPage.module.scss'
@@ -45,6 +46,11 @@ const MarketingPage = ({ history }) => {
           <div className={styles.subTitle}>Explore Chart Layouts</div>
 
           <PublicTemplates />
+        </div>
+
+        <div className={styles.block}>
+          <div className={styles.subTitle}>Popular trends</div>
+          <SocialGrid className={styles.grid} />
         </div>
 
         <div className={styles.block}>

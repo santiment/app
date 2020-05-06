@@ -15,6 +15,8 @@ export const TEMPLATE_COMMON_FRAGMENT = gql`
     }
     user {
       id
+      avatarUrl
+      username
     }
     options
     __typename

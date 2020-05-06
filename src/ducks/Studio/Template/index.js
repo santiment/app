@@ -4,12 +4,17 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import TemplateButton from './Button'
-import { getMultiChartsValue, parseTemplateMetrics } from './utils'
+import {
+  buildTemplateMetrics,
+  getMultiChartsValue,
+  parseTemplateMetrics
+} from './utils'
 import { notifySave } from './notifications'
 import {
   useUserTemplates,
   useUpdateTemplate,
-  useSelectedTemplate
+  useSelectedTemplate,
+  useCreateTemplate
 } from './gql/hooks'
 import DialogFormNewTemplate from './Dialog/NewTemplate'
 import DialogFormRenameTemplate from './Dialog/RenameTemplate'
@@ -54,6 +59,7 @@ const Template = ({
   const { projectId } = props
   const [templates] = useUserTemplates(currentUser.id)
   const [updateTemplate] = useUpdateTemplate()
+  const [createTemplate] = useCreateTemplate()
   const [selectedTemplate, setSelectedTemplate] = useSelectedTemplate(
     templates[0]
   )
@@ -93,11 +99,27 @@ const Template = ({
   const saveTemplate = () => {
     const { metrics, comparables, projectId } = props
 
-    updateTemplate(selectedTemplate || window.selectedTemplate, {
-      metrics,
-      comparables,
-      projectId
-    })
+    const template = selectedTemplate || window.selectedTemplate
+
+    const { user: { id } = {}, title, description } = template
+
+    const isCurrentUser = +id === +currentUser.id
+
+    const future = isCurrentUser
+      ? updateTemplate(template, {
+        metrics,
+        comparables,
+        projectId
+      })
+      : createTemplate({
+        title,
+        description,
+        metrics: buildTemplateMetrics({ metrics, comparables }),
+        projectId: +projectId
+      })
+
+    future
+      .then(selectTemplate)
       .then(closeMenu)
       .then(notifySave)
   }
