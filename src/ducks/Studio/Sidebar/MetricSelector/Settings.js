@@ -3,19 +3,37 @@ import Input from '@santiment-network/ui/Input'
 import { useDebounceEffect } from '../../../../hooks'
 import styles from './Settings.module.scss'
 
+// TODO: If query throws an error, metric will be disabled and settings will be collapsed [@vanguard | May 6, 2020]
 const Setting = ({ settings, metric, setMetricSettingMap }) => {
-  const { key, label, defaultValue } = settings
+  const { key, label, defaultValue, constraints } = settings
   const [value, setValue] = useState(defaultValue)
   const [lastValidValue, setLastValidValue] = useState(defaultValue)
+  const [error, setError] = useState()
 
-  useDebounceEffect(() => +value && updateMetricSettings(+value), 400, [value])
+  useDebounceEffect(
+    () => !error && +value && updateMetricSettings(+value),
+    400,
+    [value],
+  )
 
   function onChange({ currentTarget }) {
-    setValue(currentTarget.value)
+    const { min, max } = constraints
+    const newValue = currentTarget.value
+
+    const isInvalid = newValue < min || newValue > max
+
+    currentTarget.setCustomValidity(
+      isInvalid ? `${label} value should be between ${min} and ${max}` : '',
+    )
+    currentTarget.reportValidity()
+
+    setError(isInvalid)
+    setValue(newValue)
   }
 
   function onBlur({ currentTarget }) {
     if (!+currentTarget.value) {
+      currentTarget.setCustomValidity('')
       setValue(lastValidValue)
     }
   }
