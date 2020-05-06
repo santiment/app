@@ -16,10 +16,16 @@ const CHART_PADDING = {
   left: 16
 }
 
-const SmallChart = ({ topic, charts, settings, settingMap, ...props }) => {
+const SmallChart = ({ charts, settings, onLoad, ...props }) => {
   const [currentPoint, setCurrentPoint] = useState()
-  const [data, loadings] = useTimeseries(charts, settings, settingMap)
+  const [isLoading, setIsLoading] = useState(true)
+  const [data, loadings] = useTimeseries(charts, settings)
   const categories = metricsToPlotCategories(charts)
+
+  if (data.length !== 0 && loadings.length === 0 && isLoading) {
+    onLoad()
+    setIsLoading(false)
+  }
 
   return loadings.length > 0 ? (
     <Loader className={styles.loader} />
