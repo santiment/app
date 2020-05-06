@@ -3,20 +3,10 @@ import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Settings from './Settings'
-import { Metric } from '../../../dataHub/metrics'
+import { MetricSettings } from '../../../dataHub/metrics/settings'
 import MetricExplanation from '../../../SANCharts/MetricExplanation'
 import styles from './MetricButton.module.scss'
 import settingsStyles from './Settings.module.scss'
-
-const MetricSettings = Object.assign(Object.create(null), {
-  [Metric.amount_in_top_holders.key]: [
-    {
-      key: 'holdersCount',
-      label: 'Top Holders',
-      defaultValue: 10,
-    },
-  ],
-})
 
 const MetricButton = ({
   className,
