@@ -67,8 +67,8 @@ export const getMultiChartsValue = ({ options }) => {
   return getSavedMulticharts()
 }
 
-export const getTemplateAssets = ({ metrics, project }) => {
-  const assets = [project.slug]
+export const getTemplateAssets = ({ metrics, project: { slug, name } }) => {
+  const assets = [name || slug]
 
   metrics.forEach(item => {
     if (item.indexOf(COMPARE_CONNECTOR) !== -1) {
