@@ -10,7 +10,7 @@ import styles from './index.module.scss'
 const CHART_HEIGHT = 150
 
 const CHART_PADDING = {
-  top: 13,
+  top: 0,
   right: 0,
   bottom: 0,
   left: 16
