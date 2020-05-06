@@ -1,6 +1,6 @@
 import React from 'react'
 import { getDateDayMonthYear } from '../../ducks/Chart/utils'
-import ValueChange from '../ValueChange/ValueChange'
+// import ValueChange from '../ValueChange/ValueChange'
 import styles from './Tooltip.module.scss'
 
 const Tooltip = ({ latestPoint, currentPoint }) => {
