@@ -16,7 +16,7 @@ export const Description = {
     <>
       Shows the amount of tokens changing addresses on a certain date,
       multiplied by the number of days since they last moved.{' '}
-      <MoreInfoLink href='https://academy.santiment.net/metrics/token-age-consumed/' />
+      <MoreInfoLink href='https://academy.santiment.net/metrics/age-consumed/' />
     </>
   ),
 
@@ -26,7 +26,7 @@ export const Description = {
       one graph. If the value is positive, more tokens entered the exchange than
       left. If the value is negative, more flowed out of exchanges than flowed
       in.{' '}
-      <MoreInfoLink href='https://academy.santiment.net/metrics/exchange-flow-metrics/#exchange-flow-balance' />
+      <MoreInfoLink href='https://academy.santiment.net/metrics/exchange-funds-flow/' />
     </>
   ),
 
@@ -56,7 +56,7 @@ export const Description = {
   [Metric.percent_of_total_supply_on_exchanges.key]: (
     <>
       The percent of the total token supply which is on exchanges.{' '}
-      <MoreInfoLink href='https://academy.santiment.net/metrics/percentage-of-token-supply-on-exchanges/' />
+      <MoreInfoLink href='https://academy.santiment.net/metrics/supply-on-or-outside-exchanges/' />
     </>
   ),
 
@@ -65,7 +65,7 @@ export const Description = {
       Shows the number of unique tokens being used during each day. If one token
       changes hands 5 times on a given day, it will be counted once by the token
       circulation, but 5 times by the transaction volume.{' '}
-      <MoreInfoLink href='https://academy.santiment.net/metrics/token-circulation/' />
+      <MoreInfoLink href='https://academy.santiment.net/metrics/circulation/' />
     </>
   ),
 
@@ -110,7 +110,7 @@ export const Description = {
       Shows the average number of times that a token changes wallets each day.
       Simply put, a higher token velocity means that a token is used in
       transactions more often within a set time frame.{' '}
-      <MoreInfoLink href='https://academy.santiment.net/metrics/velocity-of-tokens/' />
+      <MoreInfoLink href='https://academy.santiment.net/metrics/velocity/' />
     </>
   ),
 
