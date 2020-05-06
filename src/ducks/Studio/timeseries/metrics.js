@@ -4,8 +4,8 @@ const DEFAULT_SETTINGS = {}
 const DEFAULT_SELECTOR = 'slug'
 
 export const GET_METRIC = (
-  { key, queryKey = key },
-  { selector = DEFAULT_SELECTOR } = DEFAULT_SETTINGS
+  { key, queryKey = key, selector = DEFAULT_SELECTOR },
+  settings = DEFAULT_SETTINGS
 ) => gql`
   query getMetric(
     $slug: String!
@@ -15,7 +15,8 @@ export const GET_METRIC = (
     $transform: TimeseriesMetricTransformInputObject
   ) {
     getMetric(metric: "${queryKey}") {
-      timeseriesData(selector: { ${selector}: $slug}, from: $from, to: $to, interval: $interval, transform: $transform) {
+      timeseriesData(selector: { ${settings.selector ||
+        selector}: $slug}, from: $from, to: $to, interval: $interval, transform: $transform) {
         datetime
         ${key}: value
       }

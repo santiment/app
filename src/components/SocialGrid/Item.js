@@ -6,20 +6,11 @@ import Tooltip from '@santiment-network/ui/Tooltip'
 import Button from '@santiment-network/ui/Button'
 import WordCloud from '../WordCloud/WordCloud'
 import DarkTooltip from '../Tooltip/DarkTooltip'
-import { Metric } from '../../ducks/dataHub/metrics'
 import Chart from './Chart'
 import styles from './Item.module.scss'
 
-const Item = ({ topic, onTopicClick, settings }) => {
-  const charts = [Metric.social_volume_total]
-  let MetricSettingMap = new Map()
-
-  MetricSettingMap.set(Metric.social_volume_total, {
-    selector: 'text',
-    slug: topic
-  })
-
-  return (
+const Item = ({ topic, charts, onTopicClick, show, onLoad, settings }) => {
+  return show ? (
     <article className={styles.wrapper}>
       <div className={styles.top}>
         <Link to={`/labs/trends/explore/${topic}`} className={styles.text}>
@@ -72,12 +63,12 @@ const Item = ({ topic, onTopicClick, settings }) => {
       <Chart
         topic={topic}
         charts={charts}
-        settingMap={MetricSettingMap}
         settings={settings}
+        onLoad={onLoad}
         className={styles.chart}
       />
     </article>
-  )
+  ) : null
 }
 
 export default Item
