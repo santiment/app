@@ -6,7 +6,7 @@ import StudioMain from './Main'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
 import { MAX_METRICS_AMOUNT } from './constraints'
 import { generateShareLink } from './url'
-import { useTimeseries } from './timeseries/hooks'
+import { getPreparedMetricSettings, useTimeseries } from './timeseries/hooks'
 import { buildAnomalies } from './timeseries/anomalies'
 import { buildComparedMetric } from './Compare/utils'
 import { TOP_HOLDERS_PANE } from './Chart/Sidepane/panes'
@@ -37,7 +37,12 @@ const Studio = ({
   const [advancedView, setAdvancedView] = useState()
   const [shareLink, setShareLink] = useState()
   const [isICOPriceDisabled, setIsICOPriceDisabled] = useState(true)
-  const [rawData, loadings, ErrorMsg] = useTimeseries(activeMetrics, settings)
+
+  const [rawData, loadings, ErrorMsg] = useTimeseries(
+    activeMetrics,
+    settings,
+    getPreparedMetricSettings(activeMetrics)
+  )
   const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings)
   const [isSidebarClosed, setIsSidebarClosed] = useState()
   const data = useClosestValueData(

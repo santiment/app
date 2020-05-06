@@ -16,6 +16,7 @@ const DEFAULT_LOADINGS = []
 const DEFAULT_ERROR_MSG = Object.create(null)
 const DEFAULT_ABORTABLES = new Map()
 const DEFAULT_METRIC_SETTINGS_MAP = new Map()
+const CUSTOM_METRIC_SETTINGS_MAP = new Map()
 const ABORTABLE_METRIC_SETTINGS_INDEX = 2
 
 const hashMetrics = metrics => metrics.reduce((acc, { key }) => acc + key, '')
@@ -55,6 +56,24 @@ function abortRemovedMetrics (abortables, newMetrics, MetricSettingMap) {
 
 function abortAllMetrics (abortables) {
   return [...abortables.values()].forEach(cancelQuery)
+}
+
+export const getPreparedMetricSettings = metrics => {
+  const hasDaaMetric = metrics.includes(Metric.daily_active_addresses)
+
+  if (hasDaaMetric) {
+    metrics.forEach(metric => {
+      CUSTOM_METRIC_SETTINGS_MAP.set(metric, {
+        interval: '1d'
+      })
+    })
+  } else {
+    CUSTOM_METRIC_SETTINGS_MAP.forEach((value, key) => {
+      CUSTOM_METRIC_SETTINGS_MAP.set(key, {})
+    })
+  }
+
+  return CUSTOM_METRIC_SETTINGS_MAP
 }
 
 export function useTimeseries (
@@ -97,10 +116,6 @@ export function useTimeseries (
       let raceCondition = false
       let mergedData = []
 
-      const hasDaaMetric = metrics.some(
-        ({ key }) => key === Metric.daily_active_addresses.key
-      )
-
       metrics.forEach(metric => {
         const { key, reqMeta } = metric
         const metricSettings = MetricSettingMap.get(metric)
@@ -128,14 +143,12 @@ export function useTimeseries (
           return [...loadingsSet]
         })
 
-        const strictInterval = hasDaaMetric ? '1d' : interval
-
         client
           .query({
             query,
             variables: {
               metric: key,
-              interval: strictInterval,
+              interval,
               to,
               from,
               slug,
