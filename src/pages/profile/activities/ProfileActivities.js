@@ -8,10 +8,10 @@ import ProfileTemplates from '../templates/ProfileTemplates'
 import styles from './ProfileActivities.module.scss'
 
 const STEPS = {
-  INSIGHTS: 1,
-  SIGNALS: 2,
-  WATCHLISTS: 3,
-  TEMPLATES: 4
+  INSIGHTS: '#insights',
+  SIGNALS: '#signals',
+  WATCHLISTS: '#watchlists',
+  CHART_LAYOUTS: '#chart-layouts'
 }
 
 const Counter = ({ value }) => {
@@ -21,15 +21,20 @@ const Counter = ({ value }) => {
 const ProfileActivities = ({ profile }) => {
   const { id: profileId, insights, triggers, watchlists } = profile
 
-  const [step, setStep] = useState(STEPS.INSIGHTS)
+  const [step, setStep] = useState(window.location.hash || STEPS.INSIGHTS)
   const [templates] = useUserTemplates(profileId)
+
+  const goTo = val => {
+    window.location.hash = val
+    return setStep(val)
+  }
 
   return (
     <div className={styles.container}>
       <div className={styles.left}>
         <div
           className={cx(styles.link, step === STEPS.INSIGHTS && styles.active)}
-          onClick={() => setStep(STEPS.INSIGHTS)}
+          onClick={() => goTo(STEPS.INSIGHTS)}
         >
           Insights <Counter value={insights.length} />
         </div>
@@ -38,21 +43,24 @@ const ProfileActivities = ({ profile }) => {
             styles.link,
             step === STEPS.WATCHLISTS && styles.active
           )}
-          onClick={() => setStep(STEPS.WATCHLISTS)}
+          onClick={() => goTo(STEPS.WATCHLISTS)}
         >
           Watchlists <Counter value={watchlists.length} />
         </div>
         <div
           className={cx(styles.link, step === STEPS.SIGNALS && styles.active)}
-          onClick={() => setStep(STEPS.SIGNALS)}
+          onClick={() => goTo(STEPS.SIGNALS)}
         >
           Signals <Counter value={triggers.length} />
         </div>
         <div
-          className={cx(styles.link, step === STEPS.TEMPLATES && styles.active)}
-          onClick={() => setStep(STEPS.TEMPLATES)}
+          className={cx(
+            styles.link,
+            step === STEPS.CHART_LAYOUTS && styles.active
+          )}
+          onClick={() => goTo(STEPS.CHART_LAYOUTS)}
         >
-          Templates <Counter value={templates.length} />
+          Chart Layouts <Counter value={templates.length} />
         </div>
       </div>
       <div className={styles.right}>
@@ -65,7 +73,7 @@ const ProfileActivities = ({ profile }) => {
         {step === STEPS.WATCHLISTS && (
           <PublicWatchlists userId={profileId} data={watchlists} />
         )}
-        {step === STEPS.TEMPLATES && (
+        {step === STEPS.CHART_LAYOUTS && (
           <ProfileTemplates userId={profileId} data={templates} />
         )}
       </div>

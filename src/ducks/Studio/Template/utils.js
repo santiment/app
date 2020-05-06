@@ -1,7 +1,8 @@
 import { COMPARE_CONNECTOR, parseComparable, shareComparable } from '../url'
 import { Metric } from '../../dataHub/metrics'
-import { tryMapToTimeboundMetric} from "../../dataHub/timebounds";
-import {getSavedMulticharts} from "../../../utils/localStorage";
+import { tryMapToTimeboundMetric } from '../../dataHub/timebounds'
+import { getSavedMulticharts } from '../../../utils/localStorage'
+import { capitalizeStr } from '../../../utils/utils'
 
 const LAST_USED_TEMPLATE = 'LAST_USED_TEMPLATE'
 
@@ -21,12 +22,11 @@ export function parseTemplateMetrics (templateMetrics) {
       const metric = Metric[metricKey]
 
       if (metric) {
-          metrics.push(metric)
+        metrics.push(metric)
       } else {
-
         const timeBoundMetric = tryMapToTimeboundMetric(metricKey)
 
-        if(timeBoundMetric){
+        if (timeBoundMetric) {
           metrics.push(timeBoundMetric)
         }
       }
@@ -59,10 +59,31 @@ export function saveLastTemplate (template) {
   localStorage.setItem(LAST_USED_TEMPLATE, JSON.stringify(template))
 }
 
-export const getMultiChartsValue = ({options}) => {
-  if(options && options.multi_chart !== undefined){
+export const getMultiChartsValue = ({ options }) => {
+  if (options && options.multi_chart !== undefined) {
     return options.multi_chart
   }
 
   return getSavedMulticharts()
+}
+
+export const getTemplateAssets = ({ metrics, project }) => {
+  const assets = [project.slug]
+
+  metrics.forEach(item => {
+    if (item.indexOf(COMPARE_CONNECTOR) !== -1) {
+      const [slug] = item.split(COMPARE_CONNECTOR)
+
+      if (slug) {
+        assets.push(slug)
+      }
+    }
+  })
+
+  return assets.map(slug => capitalizeStr(slug))
+}
+
+export function getTemplateMetrics ({ metrics }) {
+  const { metrics: parsedMetrics } = parseTemplateMetrics(metrics)
+  return parsedMetrics.map(({ label }) => label)
 }

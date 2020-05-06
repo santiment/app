@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from 'react'
 import cx from 'classnames'
 import { Metric } from '../dataHub/metrics'
 import { useTimeseries } from '../Studio/timeseries/hooks'
-import { updateHistory, generateShareLink } from '../Studio/url'
+import { generateShareLink } from '../Studio/url'
+import { updateHistory } from '../../utils/utils'
 import SocialToolChart from './Chart'
+import { buildMetrics } from './utils'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
 import styles from './index.module.scss'
 
@@ -11,32 +13,37 @@ const SocialTool = ({
   defaultSettings,
   defaultOptions,
   defaultMetrics,
-  detectedAsset,
+  linkedAssets,
+  allDetectedAssets,
   classes = {},
   ...props
 }) => {
+  const defaultTopics = [defaultSettings.slug, ...defaultSettings.addedTopics]
+  const defaultActiveMetrics =
+    defaultTopics.length > 1
+      ? buildMetrics(defaultMetrics, defaultTopics)
+      : defaultMetrics
+
   const [settings, setSettings] = useState(defaultSettings)
   const [options, setOptions] = useState(defaultOptions)
   const [metrics, setMetrics] = useState(defaultMetrics)
+  const [activeMetrics, setActiveMetrics] = useState(defaultActiveMetrics)
   const [MetricSettingMap, setMetricSettingMap] = useState()
   const [priceAsset, setPriceAsset] = useState()
-  const [data, loadings] = useTimeseries(metrics, settings, MetricSettingMap)
+  const [data, loadings] = useTimeseries(
+    activeMetrics,
+    settings,
+    MetricSettingMap
+  )
   const [shareLink, setShareLink] = useState('')
   const chartRef = useRef(null)
-
-  const selector = detectedAsset ? 'slug' : 'text'
 
   useEffect(
     () => {
       if (priceAsset) {
         const newPriceMetric = { ...Metric.price_usd, label: priceAsset.label }
-        const newMetricSettingMap = new Map(MetricSettingMap)
-
-        newMetricSettingMap.set(newPriceMetric, { slug: priceAsset.slug })
         metrics[1] = newPriceMetric
-
         setMetrics([...metrics])
-        setMetricSettingMap(newMetricSettingMap)
       }
     },
     [priceAsset]
@@ -44,25 +51,17 @@ const SocialTool = ({
 
   useEffect(
     () => {
-      const newMetricSettingMap = new Map(MetricSettingMap)
-      const metricSetting = { selector: detectedAsset ? 'slug' : 'text' }
+      const { slug, addedTopics } = defaultSettings
+      setSettings(state => ({ ...state, slug, addedTopics }))
 
-      newMetricSettingMap.set(Metric.social_volume_total, metricSetting)
-      newMetricSettingMap.set(Metric.social_dominance_total, metricSetting)
+      const topics = [slug, ...addedTopics]
+      const newMetrics =
+        topics.length > 1 ? buildMetrics(metrics, topics) : metrics
 
-      setMetricSettingMap(newMetricSettingMap)
+      setActiveMetrics(newMetrics)
+      rebuildMetricSettingMap(newMetrics, slug)
     },
-    [detectedAsset]
-  )
-
-  useEffect(
-    () => {
-      const { slug } = defaultSettings
-      if (slug && slug !== settings.slug) {
-        setSettings(state => ({ ...state, slug }))
-      }
-    },
-    [defaultSettings.slug]
+    [defaultSettings.slug, defaultSettings.addedTopics, metrics]
   )
 
   useEffect(
@@ -92,25 +91,43 @@ const SocialTool = ({
     [settings, options]
   )
 
+  function rebuildMetricSettingMap (metrics, slug) {
+    const newMetricSettingMap = new Map(MetricSettingMap)
+    metrics.forEach(metric => {
+      const detectedAsset = linkedAssets.get(metric.text || slug)
+      if (metric.key !== Metric.price_usd.key) {
+        newMetricSettingMap.set(metric, {
+          selector: detectedAsset ? 'slug' : 'text',
+          slug: detectedAsset ? detectedAsset.slug : metric.text || slug
+        })
+      }
+    })
+    if (priceAsset) {
+      newMetricSettingMap.set(metrics[1], { slug: priceAsset.slug })
+    }
+
+    setMetricSettingMap(newMetricSettingMap)
+  }
+
   return (
     <div className={cx(styles.wrapper, classes.wrapper)}>
       <div className={styles.chart}>
         <SocialToolChart
           {...props}
-          detectedAsset={detectedAsset}
           className={styles.canvas}
           chartRef={chartRef}
           options={options}
           settings={settings}
           shareLink={shareLink}
-          activeMetrics={metrics}
+          activeMetrics={activeMetrics}
           priceAsset={priceAsset}
           data={data}
           loadings={loadings}
           setOptions={setOptions}
           setSettings={setSettings}
           setPriceAsset={setPriceAsset}
-          selector={selector}
+          linkedAssets={linkedAssets}
+          allDetectedAssets={allDetectedAssets}
         />
       </div>
     </div>

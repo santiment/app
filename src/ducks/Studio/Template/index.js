@@ -1,15 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import TemplateButton from './Button'
-import {getMultiChartsValue, parseTemplateMetrics} from './utils'
+import {
+  buildTemplateMetrics,
+  getMultiChartsValue,
+  parseTemplateMetrics
+} from './utils'
 import { notifySave } from './notifications'
 import {
   useUserTemplates,
   useUpdateTemplate,
-  useSelectedTemplate
+  useSelectedTemplate,
+  useCreateTemplate
 } from './gql/hooks'
 import DialogFormNewTemplate from './Dialog/NewTemplate'
 import DialogFormRenameTemplate from './Dialog/RenameTemplate'
@@ -21,20 +26,44 @@ const Action = props => (
   <Button {...props} fluid variant='ghost' className={styles.action} />
 )
 
+const isMac = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)
+
+export const useCtrlSPress = callback => {
+  useEffect(() => {
+    function listenHotkey (e) {
+      const { ctrlKey, metaKey, code } = e
+
+      if ((metaKey || ctrlKey) && code === 'KeyS') {
+        e.preventDefault()
+
+        callback()
+      }
+    }
+
+    window.addEventListener('keydown', listenHotkey)
+    return () => {
+      window.removeEventListener('keydown', listenHotkey)
+    }
+  }, [])
+}
+
 const Template = ({
   className,
   currentUser,
   setMetrics,
   setComparables,
-                    toggleMultiCharts,
+  toggleMultiCharts,
   onProjectSelect,
   ...props
 }) => {
+  const { projectId } = props
   const [templates] = useUserTemplates(currentUser.id)
   const [updateTemplate] = useUpdateTemplate()
+  const [createTemplate] = useCreateTemplate()
   const [selectedTemplate, setSelectedTemplate] = useSelectedTemplate(
     templates[0]
   )
+
   const [isMenuOpened, setIsMenuOpened] = useState(false)
 
   const hasTemplates = templates.length > 0
@@ -52,7 +81,7 @@ const Template = ({
 
     if (!template) return
 
-    const { project, metrics: templateMetrics} = template
+    const { project, metrics: templateMetrics } = template
     const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
 
     onProjectSelect(project)
@@ -67,14 +96,30 @@ const Template = ({
     }
   }
 
-  function saveTemplate () {
+  const saveTemplate = () => {
     const { metrics, comparables, projectId } = props
 
-    updateTemplate(selectedTemplate, {
-      metrics,
-      comparables,
-      projectId
-    })
+    const template = selectedTemplate || window.selectedTemplate
+
+    const { user: { id } = {}, title, description } = template
+
+    const isCurrentUser = +id === +currentUser.id
+
+    const future = isCurrentUser
+      ? updateTemplate(template, {
+        metrics,
+        comparables,
+        projectId
+      })
+      : createTemplate({
+        title,
+        description,
+        metrics: buildTemplateMetrics({ metrics, comparables }),
+        projectId: +projectId
+      })
+
+    future
+      .then(selectTemplate)
       .then(closeMenu)
       .then(notifySave)
   }
@@ -83,6 +128,15 @@ const Template = ({
     selectTemplate(template)
     closeMenu()
   }
+
+  useCtrlSPress(() => {
+    if (window.selectedTemplate) {
+      saveTemplate()
+    }
+  })
+
+  // TODO: 2.05.2020, GarageInc, for useCtrlSPress
+  window.selectedTemplate = selectedTemplate
 
   return (
     <ContextMenu
@@ -105,7 +159,28 @@ const Template = ({
       <Panel variant='modal' className={styles.context}>
         <div className={styles.group}>
           {selectedTemplate && (
-            <Action onClick={saveTemplate}>Save template</Action>
+            <Action onClick={saveTemplate}>
+              Save{' '}
+              <span className={styles.copyAction}>
+                {isMac ? 'Cmd + S' : 'Ctrl + S'}
+              </span>
+            </Action>
+          )}
+
+          {selectedTemplate && (
+            <DialogFormDuplicateTemplate
+              onClose={closeMenu}
+              trigger={<Action>Save as new Chart Layout</Action>}
+              title='Save as new Chart Layout'
+              template={{
+                ...selectedTemplate,
+                title: ''
+              }}
+              onDuplicate={template => {
+                closeMenu()
+                selectTemplate(template)
+              }}
+            />
           )}
 
           <DialogLoadTemplate
@@ -115,14 +190,15 @@ const Template = ({
             updateTemplate={updateTemplate}
             rerenderTemplate={rerenderTemplate}
             templates={templates}
-            trigger={<Action>Load template</Action>}
+            trigger={<Action>Load</Action>}
+            projectId={projectId}
           />
         </div>
         <div className={styles.group}>
           <DialogFormNewTemplate
             {...props}
             onClose={closeMenu}
-            trigger={<Action>New template</Action>}
+            trigger={<Action>New</Action>}
             onNew={onTemplateSelect}
           />
 
@@ -130,16 +206,16 @@ const Template = ({
             <>
               <DialogFormRenameTemplate
                 onClose={closeMenu}
-                trigger={<Action>Rename template</Action>}
+                trigger={<Action>Rename</Action>}
                 template={selectedTemplate}
                 onRename={closeMenu}
               />
 
               <DialogFormDuplicateTemplate
                 onClose={closeMenu}
-                trigger={<Action>Duplicate template</Action>}
+                trigger={<Action>Duplicate</Action>}
                 template={selectedTemplate}
-                onDuplicate={(template) => {
+                onDuplicate={template => {
                   closeMenu()
                   selectTemplate(template)
                 }}

@@ -3,6 +3,8 @@ import { useQuery, useMutation } from '@apollo/react-hooks'
 import {
   TEMPLATE_QUERY,
   TEMPLATES_QUERY,
+  FEATURED_TEMPLATES_QUERY,
+  PUBLIC_PROJECT_TEMPLATES_QUERY,
   CREATE_TEMPLATE_MUTATION,
   UPDATE_TEMPLATE_MUTATION,
   DELETE_TEMPLATE_MUTATION
@@ -13,7 +15,7 @@ import {
   saveLastTemplate
 } from '../utils'
 import { store, client } from '../../../../index'
-import {getSavedMulticharts} from "../../../../utils/localStorage";
+import { getSavedMulticharts } from '../../../../utils/localStorage'
 
 const DEFAULT_TEMPLATES = []
 
@@ -50,6 +52,23 @@ export function useUserTemplates (id) {
       userId: +id
     }
   })
+
+  return [data ? data.templates : DEFAULT_TEMPLATES, loading, error]
+}
+
+export function usePublicProjectTemplates (projectId) {
+  const { data, loading, error } = useQuery(PUBLIC_PROJECT_TEMPLATES_QUERY, {
+    skip: !projectId,
+    variables: {
+      projectId: +projectId
+    }
+  })
+
+  return [data ? data.templates : DEFAULT_TEMPLATES, loading, error]
+}
+
+export function useFeaturedTemplates () {
+  const { data, loading, error } = useQuery(FEATURED_TEMPLATES_QUERY)
 
   return [data ? data.templates : DEFAULT_TEMPLATES, loading, error]
 }
@@ -101,9 +120,8 @@ export function useCreateTemplate () {
   })
 
   function createTemplate (newConfig) {
-
-    if(!newConfig.options){
-      newConfig.options = JSON.stringify( {
+    if (!newConfig.options) {
+      newConfig.options = JSON.stringify({
         multi_chart: getSavedMulticharts()
       })
     }
@@ -123,12 +141,12 @@ export function useDeleteTemplate () {
     update: updateTemplatesOnDelete
   })
 
-  function deleteTemplate ({ id }) {
+  function deleteTemplate ({ id }, onDelete) {
     return mutate({
       variables: {
         id: +id
       }
-    })
+    }).then(onDelete)
   }
 
   return [deleteTemplate, data]
@@ -138,7 +156,7 @@ export function useUpdateTemplate () {
   const [mutate, data] = useMutation(UPDATE_TEMPLATE_MUTATION)
 
   function updateTemplate (oldTemplate, newConfig) {
-    const { id, title, project, metrics } = oldTemplate
+    const { id, title, description, project, metrics } = oldTemplate
     const { projectId } = newConfig
 
     return mutate({
@@ -146,6 +164,7 @@ export function useUpdateTemplate () {
         id: +id,
         settings: {
           title: newConfig.title || title,
+          description: newConfig.description || description,
           isPublic: newConfig.isPublic,
           options: JSON.stringify({
             multi_chart: getSavedMulticharts()

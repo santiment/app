@@ -30,7 +30,7 @@ const MoreInfo = ({ link }) => {
 
 export const THIRD_METRICS_GROUP = [
   {
-    title: 'Velocity Vs. Price Template',
+    title: 'Velocity Vs. Price Chart Layout',
     linkToTemplate:
       'https://docs.google.com/spreadsheets/d/1FMyF31TI-ak7qFvIWSXF4LXhsQ5gtHFiS4USTvtowOc/view ',
     description: (
@@ -39,9 +39,9 @@ export const THIRD_METRICS_GROUP = [
         circulating in the crypto economy. It’s calculated by dividing a token’s
         transaction volume (in USD) by its market cap (in USD).
         <div className={styles.block}>
-          Similar to the Daily Active Addresses Template, this model visualizes
-          when tokens are being overbought or oversold based on the historical
-          ebbs and flows of its velocity metric.
+          Similar to the Daily Active Addresses Chart Layout, this model
+          visualizes when tokens are being overbought or oversold based on the
+          historical ebbs and flows of its velocity metric.
         </div>
       </>
     ),
@@ -147,7 +147,7 @@ export const THIRD_METRICS_GROUP = [
 
 export const SECOND_METRICS_GROUP = [
   {
-    title: 'MVRV and MVRV Long/Short Difference Ratio Template',
+    title: 'MVRV and MVRV Long/Short Difference Ratio Chart Layout',
     linkToTemplate:
       'https://docs.google.com/spreadsheets/d/1wIYCGcweukXIv465R23ItVYSwwafhK8QcZnt0Q3w4M4/view',
     description: (
@@ -170,7 +170,7 @@ export const SECOND_METRICS_GROUP = [
     svg: mvrvSvg
   },
   {
-    title: 'Thresholds Crossed Template',
+    title: 'Thresholds Crossed Chart Layout',
     linkToTemplate:
       'https://docs.google.com/spreadsheets/d/1jpWnbptnVIWHRvwAu41xmtg73naO4Ta1qEYzpLV1QpA/view',
     description: (
@@ -196,7 +196,7 @@ export const SECOND_METRICS_GROUP = [
 
 export const FIRST_METRICS_GROUP = [
   {
-    title: 'Maximal Mean Dollar Age Template',
+    title: 'Maximal Mean Dollar Age Chart Layout',
     isLeft: true,
     isImage: true,
     svg: maximalAgeSvg,
@@ -226,7 +226,7 @@ export const FIRST_METRICS_GROUP = [
     )
   },
   {
-    title: 'Top Holders Template',
+    title: 'Top Holders Chart Layout',
     linkToTemplate:
       'https://docs.google.com/spreadsheets/d/1j46lSYcHUDIh4mZfU9HewJYL_rAOZrHSpU-WvG9OxFo/view',
     description: (
@@ -246,7 +246,7 @@ export const FIRST_METRICS_GROUP = [
     svg: topHodersSvg
   },
   {
-    title: 'NVT Ratio Template',
+    title: 'NVT Ratio Chart Layout',
     linkToTemplate:
       'https://docs.google.com/spreadsheets/d/1WHf2CqD-pppmxO8Wt5eyU6p4I9q1A2kJ7MlNkQe_pC0/view',
     description: (
@@ -276,7 +276,7 @@ export const FIRST_METRICS_GROUP = [
     isLeft: true
   },
   {
-    title: 'Price-DAA Divergence Template',
+    title: 'Price-DAA Divergence Chart Layout',
     linkToTemplate:
       'https://docs.google.com/spreadsheets/u/1/d/1Wu-d_uBuvLp3FoNqz3azzbNzFr8Zaw2n6bcLLsQxNGc/view',
     description: (
@@ -301,7 +301,7 @@ export const FIRST_METRICS_GROUP = [
     svg: priceDaaSvg
   },
   {
-    title: 'Network Growth & Daily Active Addresses Template',
+    title: 'Network Growth & Daily Active Addresses Chart Layout',
     isLeft: true,
     isImage: true,
     linkToTemplate:

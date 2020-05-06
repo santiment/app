@@ -5,11 +5,12 @@ import StudioSidebar from './Sidebar'
 import StudioMain from './Main'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
 import { MAX_METRICS_AMOUNT } from './constraints'
-import { generateShareLink, updateHistory } from './url'
+import { generateShareLink } from './url'
 import { useTimeseries } from './timeseries/hooks'
 import { buildAnomalies } from './timeseries/anomalies'
 import { buildComparedMetric } from './Compare/utils'
 import { TOP_HOLDERS_PANE } from './Chart/Sidepane/panes'
+import { updateHistory } from '../../utils/utils'
 import { useClosestValueData } from '../Chart/hooks'
 import styles from './index.module.scss'
 
@@ -122,9 +123,7 @@ const Studio = ({
 
   useEffect(
     () => {
-      if (
-        chartSidepane === TOP_HOLDERS_PANE && options.isMultiChartsActive
-      ) {
+      if (chartSidepane === TOP_HOLDERS_PANE && options.isMultiChartsActive) {
         setChartSidepane()
       }
     },

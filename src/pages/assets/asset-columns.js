@@ -293,7 +293,7 @@ export const COLUMNS_SETTINGS = {
   [COLUMNS_NAMES.eth_spent]: {
     show: true,
     selectable: true,
-    key: 'ethSpentOverTime',
+    key: 'ethSpentOverTime'
   },
   [COLUMNS_NAMES.devact]: {
     show: true,

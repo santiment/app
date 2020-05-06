@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { useSuggestions } from './suggestions/hooks'
 import SignalMasterModalForm from '../../Signals/signalModal/SignalMasterModalForm'
 import { mapToOption } from '../../Signals/utils/utils'
-import LoginDialogWrapper from "../../../components/LoginDialog/LoginDialogWrapper";
+import LoginDialogWrapper from '../../../components/LoginDialog/LoginDialogWrapper'
 import styles from './index.module.scss'
 
 const Alert = ({ alert, render, createAlert }) => {
@@ -11,11 +11,13 @@ const Alert = ({ alert, render, createAlert }) => {
     createAlert(alert)
   }
 
-  return <LoginDialogWrapper title='Create signal'>
-    <div className={styles.alert} onClick={onClick}>
-      {render}
-    </div>
-  </LoginDialogWrapper>
+  return (
+    <LoginDialogWrapper title='Create signal'>
+      <div className={styles.alert} onClick={onClick}>
+        {render}
+      </div>
+    </LoginDialogWrapper>
+  )
 }
 
 export default ({ className, metricValues, onDialogClose, ...rest }) => {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
@@ -6,51 +6,106 @@ import { compose, withProps } from 'recompose'
 import Icon from '@santiment-network/ui/Icon'
 import * as actions from '../../components/Trends/actions'
 import SocialTool from '../SocialTool'
-import TrendsExploreSearch from '../../components/Trends/Explore/TrendsExploreSearch'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
-import withDetectionAsset from '../../components/Trends/withDetectionAsset'
-import { TrendsSamples } from '../../components/Trends/TrendsSearch'
-import NoDataTemplate from '../../components/NoDataTemplate'
+import Suggestions from '../../components/Trends/Search/Suggestions'
 import { checkHasPremium } from '../UserSelectors'
-import { safeDecode } from '../../utils/utils'
+import { safeDecode, updateHistory } from '../../utils/utils'
 import { addRecentTrends } from '../../utils/recent'
+import { trackTopicSearch } from '../../components/Trends/Search/utils'
+import SocialGrid from '../../components/SocialGrid'
+import { getTopicsFromUrl, updTopicsInUrl } from './url'
+import { detectWordWithAllTickersSlugs } from './utils'
+import Search from './Search'
 import Sidebar from './Sidebar'
 import styles from './index.module.scss'
+
+const EMPTY_MAP = new Map()
 
 const pageDescription =
   'Explore the social volume of ANY word (or phrase) on crypto social media, including 100s of Telegram groups, crypto subreddits, discord channels, trader chats and more.'
 
 const TrendsExplore = ({
   word,
+  topic,
+  addedTopics,
   history,
-  detectedAsset,
   fetchAllTickersSlugs,
-  fetchTrendSocialData,
   isDesktop,
   hasPremium,
   data: { wordContext: wordData = [], loading, error } = {},
   allAssets
 }) => {
+  const [topics, setTopics] = useState([topic, ...addedTopics].filter(Boolean))
+  const [linkedAssets, setLinkedAssets] = useState(EMPTY_MAP)
+  const [activeLinkedAssets, setActiveLinkedAssets] = useState(EMPTY_MAP)
+
+  useEffect(
+    () => {
+      if (topic !== '') {
+        setTopics([topic, ...addedTopics])
+
+        if (topic !== topics[0]) {
+          trackTopicSearch(topic)
+        }
+      }
+    },
+    [topic, addedTopics]
+  )
+
+  useEffect(
+    () => {
+      const newLinkedAssets = new Map()
+      topics.forEach(topic => {
+        addRecentTrends(topic)
+        newLinkedAssets.set(
+          topic,
+          detectWordWithAllTickersSlugs({ word: topic, allAssets })
+        )
+      })
+
+      setLinkedAssets(newLinkedAssets)
+    },
+    [topics]
+  )
+
   if (allAssets.length === 0) {
     fetchAllTickersSlugs()
   }
 
-  addRecentTrends(word)
-  fetchTrendSocialData(word)
+  function updTopics (newTopics) {
+    if (newTopics !== topics) {
+      const { origin } = window.location
+      const addedTopics = newTopics.slice(1)
+      const newOptions = updTopicsInUrl(addedTopics)
+      const pathname = `/labs/trends/explore/${
+        newTopics[0] ? encodeURIComponent(newTopics[0]) : ''
+      }?${newOptions}`
 
-  const topic = safeDecode(word)
+      if (newTopics.length !== 0) {
+        trackTopicSearch(newTopics.join(','))
+      }
+
+      updateHistory(origin + pathname)
+      setTopics(newTopics)
+    }
+  }
+
   const pageTitle = `Crypto Social Trends for ${topic} - Sanbase`
+
+  const isEmptySearch = !topics[0]
 
   return (
     <div className={styles.wrapper}>
-      <Helmet>
-        <title>{pageTitle}</title>
-        <meta property='og:title' content={pageTitle} />
-        <meta property='og:description' content={pageDescription} />
-      </Helmet>
+      <Helmet
+        title={pageTitle}
+        meta={[
+          { property: 'og:title', content: pageTitle },
+          { property: 'og:description', content: pageDescription }
+        ]}
+      />
       <div className={styles.layout}>
         <div className={styles.main}>
-          {isDesktop && (
+          {isDesktop ? (
             <div className={styles.breadcrumbs}>
               <Link to='/labs/trends/' className={styles.link}>
                 Emerging trends
@@ -58,47 +113,46 @@ const TrendsExplore = ({
               <Icon type='arrow-right' className={styles.arrow} />
               Social context
             </div>
+          ) : (
+            <MobileHeader
+              goBack={history.goBack}
+              backRoute={'/'}
+              classes={{
+                wrapper: styles.mobileHeader,
+                left: styles.mobileHeader__left,
+                searchBtn: styles.mobileHeader__search
+              }}
+              title='Social context'
+            />
           )}
-          <div className={styles.search}>
-            {isDesktop ? (
-              <TrendsExploreSearch
-                topic={topic}
-                isDesktop={isDesktop}
-                history={history}
-                className={styles.search}
-                inputClassName={styles.searchInput}
-              />
-            ) : (
-              <MobileHeader
-                goBack={history.goBack}
-                backRoute={'/'}
-                classes={{
-                  wrapper: styles.wrapperHeader,
-                  searchBtn: styles.fullSearchBtn
-                }}
-                title=''
-              >
-                <TrendsExploreSearch
-                  className={styles.search}
-                  topic={topic}
-                  isDesktop={isDesktop}
-                />
-              </MobileHeader>
-            )}
-            <TrendsSamples />
-          </div>
-          {topic ? (
+          <Search
+            topics={topics}
+            linkedAssets={linkedAssets}
+            activeLinkedAssets={activeLinkedAssets}
+            setActiveLinkedAssets={setActiveLinkedAssets}
+            onChangeTopics={updTopics}
+            isDesktop={isDesktop}
+          />
+          {isDesktop && <Suggestions />}
+          {!isEmptySearch ? (
             <SocialTool
-              settings={{ slug: topic }}
+              linkedAssets={activeLinkedAssets}
+              allDetectedAssets={linkedAssets}
+              settings={{ slug: topics[0], addedTopics: topics.slice(1) }}
             />
           ) : (
-            <NoDataTemplate />
+            <>
+              <h4 className={styles.titlePopular}>Popular trends</h4>
+              <SocialGrid className={styles.grid} />
+            </>
           )}
         </div>
         <Sidebar
-          topic={topic}
+          topics={topics}
+          linkedAssets={activeLinkedAssets}
           hasPremium={hasPremium}
           isDesktop={isDesktop}
+          isEmptySearch={isEmptySearch}
         />
       </div>
     </div>
@@ -115,12 +169,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch({
       type: actions.TRENDS_HYPED_FETCH_TICKERS_SLUGS
     })
-  },
-  fetchTrendSocialData: payload => {
-    dispatch({
-      type: actions.TRENDS_HYPED_WORD_SELECTED,
-      payload
-    })
   }
 })
 
@@ -130,10 +178,13 @@ export default compose(
     mapDispatchToProps
   ),
   withProps(({ match = { params: {} }, ...rest }) => {
+    const addedTopics = getTopicsFromUrl()
+    const word = match.params.word
     return {
-      word: match.params.word,
+      word,
+      topic: safeDecode(word),
+      addedTopics,
       ...rest
     }
-  }),
-  withDetectionAsset
+  })
 )(TrendsExplore)

@@ -16,17 +16,27 @@ const MetricButton = ({
   isLoading,
   isRemovable,
   toggleMetric,
+  withDescription,
   ...rest
 }) => {
   const { key, dataKey = key, node, label, comparedTicker } = metric
 
+  const Wrapper = ({ children }) =>
+    withDescription ? (
+      <MetricExplanation
+        metric={metric}
+        withChildren
+        closeTimeout={22}
+        offsetX={8}
+      >
+        {children}
+      </MetricExplanation>
+    ) : (
+      <>{children}</>
+    )
+
   return (
-    <MetricExplanation
-      metric={metric}
-      withChildren
-      closeTimeout={22}
-      offsetX={8}
-    >
+    <Wrapper>
       <Button {...rest} border className={cx(styles.btn, className)}>
         {isLoading ? (
           <div className={styles.loader} />
@@ -47,7 +57,7 @@ const MetricButton = ({
           />
         )}
       </Button>
-    </MetricExplanation>
+    </Wrapper>
   )
 }
 

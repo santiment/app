@@ -32,7 +32,7 @@ const AssetsOverview = ({
       <DesktopOnly>
         <h4 className={styles.heading}>Indices</h4>
         <div className={styles.section}>
-          <WatchlistCards watchlists={CATEGORIES}/>
+          <WatchlistCards watchlists={CATEGORIES} />
         </div>
         <div className={styles.section}>
           <MyWatchlist

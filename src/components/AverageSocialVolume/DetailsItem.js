@@ -5,8 +5,9 @@ import styles from './DetailsItem.module.scss'
 const DetailsItem = ({
   title = 'Total',
   value,
-  percentage = 100,
-  className
+  percent = 100,
+  className,
+  color = '#FFAD4D'
 }) => (
   <div className={cx(styles.wrapper, className)}>
     <h3 className={styles.text}>
@@ -14,8 +15,10 @@ const DetailsItem = ({
       {title === 'Total' && ' Social Volume'}
     </h3>
     <div className={styles.numbers}>
-      <span className={styles.value}>{value}</span>
-      <span className={styles.percentage}>{percentage}%</span>
+      <span className={styles.value} style={{ color: color }}>
+        {value}
+      </span>
+      <span className={styles.percentage}>{percent}%</span>
     </div>
   </div>
 )

@@ -5,7 +5,7 @@ import pick from 'lodash.pick'
 import { withApollo } from 'react-apollo'
 import { HISTORICAL_BALANCE_QUERY } from './common/queries'
 import { toEndOfDay } from '../../utils/dates'
-import Raven from "raven-js";
+import Raven from 'raven-js'
 
 const DEFAULT_FROM_DATE = '2017-12-01T16:28:22.486Z'
 const DEFAULT_TO_DATE = toEndOfDay(new Date()).toISOString()

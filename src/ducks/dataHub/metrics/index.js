@@ -51,9 +51,9 @@ export const Metric = {
   },
   social_volume_total: {
     category: 'Social',
-    node: 'bar',
+    node: 'line',
     label: 'Social Volume',
-    shortLabel: 'Soc. Volume',
+    shortLabel: 'Soc. Vol.',
     anomalyKey: 'SOCIAL_VOLUME',
     advancedView: 'Social Context',
     formatter: value => tooltipValueFormatter({ value })
@@ -172,7 +172,7 @@ export const Metric = {
     category: 'Social',
     node: 'line',
     label: 'Social Dominance',
-    shortLabel: 'Soc. Domin.',
+    shortLabel: 'Soc. Dom.',
     formatter: percentageFormatter
   },
   realized_value_usd: {

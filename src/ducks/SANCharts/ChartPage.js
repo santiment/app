@@ -542,7 +542,9 @@ class ChartPage extends Component {
             <>
               {viewOnly || hideSettings.header || (
                 <>
-                  {isWideChart &&  <StoriesList classes={styles} showScrollBtns />}
+                  {isWideChart && (
+                    <StoriesList classes={styles} showScrollBtns />
+                  )}
                   <Header
                     slug={slug}
                     isLoading={isParentLoading}

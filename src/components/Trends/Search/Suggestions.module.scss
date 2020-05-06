@@ -1,16 +1,14 @@
 @import '~@santiment-network/ui/mixins';
 
-.TrendsSearch {
-  display: flex;
-  flex-direction: column;
-  margin-top: 26px;
-}
-
 .examples {
   margin-top: 8px;
   display: flex;
   align-items: center;
   color: $bali-hai;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-wrap: wrap;
+  }
 }
 
 .link {

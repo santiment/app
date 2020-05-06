@@ -1,0 +1,38 @@
+@import '~@santiment-network/ui/mixins';
+
+.icon {
+  width: 12px;
+  margin-right: 7px;
+}
+
+.publicity {
+  fill: var(--casper);
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  margin-right: 5px;
+
+  &:hover {
+    .icon {
+      fill: var(--jungle-green);
+    }
+  }
+}
+
+.unclickableIcon {
+  fill: var(--waterloo);
+  width: 13px;
+}
+
+.unclickable {
+  cursor: auto !important;
+  color: var(--waterloo);
+
+  &:hover {
+    background: initial;
+
+    .unclickableIcon {
+      fill: var(--waterloo);
+    }
+  }
+}

@@ -2,7 +2,7 @@ import React from 'react'
 import { CSVLink } from 'react-csv'
 import Button from '@santiment-network/ui/Button'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
-import { mergeTimeseriesByKey } from '../../utils/utils'
+import { mergeTimeseries } from '../Studio/timeseries/utils'
 
 const getEventsWithAnomaly = (headers, data) => {
   const anomaly = data.find(({ metricAnomalyKey }) => metricAnomalyKey)
@@ -46,9 +46,7 @@ const DownloadCSVBtn = ({
       }))
   ]
 
-  const mergedData = mergeTimeseriesByKey({
-    timeseries: [data, eventsData]
-  }).map(item => ({
+  const mergedData = mergeTimeseries([data, eventsData]).map(item => ({
     ...item,
     datetime: new Date(item.datetime).toISOString()
   }))

@@ -2,7 +2,7 @@ import COLOR from '@santiment-network/ui/variables.scss'
 import { getTextWidth } from '@santiment-network/chart/utils'
 import { clearCtx } from '../utils'
 import { Metric } from '../../dataHub/metrics'
-import {dailyActiveAddressesSuggesters} from "../../Studio/Alerts/suggestions/dailyActiveAddresses";
+import { dailyActiveAddressesSuggesters } from '../../Studio/Alerts/suggestions/dailyActiveAddresses'
 
 export const SIGNAL_BELOW = 'BELOW'
 export const SIGNAL_ABOVE = 'ABOVE'

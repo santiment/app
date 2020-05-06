@@ -13,7 +13,7 @@ import FeedHelpPopup from './HelpPopup/FeedHelpPopup'
 import Tabs from '@santiment-network/ui/Tabs'
 import FeedFilters from '../filters/FeedFilters'
 import { AUTHOR_TYPES } from '../filters/AlertsAndInsightsFilter'
-import PulseInsights from "./PulseInsights/PulseInsights";
+import PulseInsights from './PulseInsights/PulseInsights'
 import styles from './GeneralFeed.module.scss'
 
 const baseLocation = '/feed'
@@ -50,21 +50,25 @@ const Header = ({
     <div className={styles.title}>
       <div>Feed</div>
       <FeedHelpPopup />
-      {!isPulse && <>
-        <FeedFilters
-          handleFiltersChange={onChangeFilters}
-          filters={filters}
-          enableAlertsInsights={isBaseLocation(tab)}
-        />
-        <FeedSorters
-          className={styles.sort}
-          onChangeSort={onChangeSort}
-          sortType={sortType}
-        />
-      </>}
+      {!isPulse && (
+        <>
+          <FeedFilters
+            handleFiltersChange={onChangeFilters}
+            filters={filters}
+            enableAlertsInsights={isBaseLocation(tab)}
+          />
+          <FeedSorters
+            className={styles.sort}
+            onChangeSort={onChangeSort}
+            sortType={sortType}
+          />
+        </>
+      )}
     </div>
     <Tabs
-      options={isLoggedIn ? tabs : tabs.filter(({requiredLogin}) => !requiredLogin)}
+      options={
+        isLoggedIn ? tabs : tabs.filter(({ requiredLogin }) => !requiredLogin)
+      }
       defaultSelectedIndex={tab}
       passSelectionIndexToItem
       className={styles.tabs}
@@ -173,40 +177,43 @@ const GeneralFeed = ({
       />
 
       <div className={styles.scrollable}>
+        {isPulse ? (
+          <PulseInsights />
+        ) : (
+          <Query
+            query={FEED_QUERY}
+            variables={makeFeedVariables({
+              date: START_DATE,
+              orderBy: sortType.type,
+              filterBy: filters
+            })}
+            notifyOnNetworkStatusChange={true}
+            fetchPolicy='network-only'
+          >
+            {props => {
+              const {
+                data,
+                fetchMore: fetchMoreCommon,
+                loading: loadingEvents
+              } = props
 
-        {isPulse ? <PulseInsights/> : <Query
-          query={FEED_QUERY}
-          variables={makeFeedVariables({
-            date: START_DATE,
-            orderBy: sortType.type,
-            filterBy: filters,
-          })}
-          notifyOnNetworkStatusChange={true}
-          fetchPolicy='network-only'
-        >
-          {props => {
-            const {
-              data,
-              fetchMore: fetchMoreCommon,
-              loading: loadingEvents
-            } = props
+              if (!data) {
+                return <EmptyFeed />
+              }
 
-            if (!data) {
-              return <EmptyFeed />
-            }
-
-            return (
-              <FeedListLoading
-                events={extractEventsFromData(data)}
-                fetchMoreCommon={fetchMoreCommon}
-                isLoading={loadingEvents}
-                sortType={sortType}
-                filters={filters}
-                showProfileExplanation={isBaseLocation(tab)}
-              />
-            )
-          }}
-        </Query>}
+              return (
+                <FeedListLoading
+                  events={extractEventsFromData(data)}
+                  fetchMoreCommon={fetchMoreCommon}
+                  isLoading={loadingEvents}
+                  sortType={sortType}
+                  filters={filters}
+                  showProfileExplanation={isBaseLocation(tab)}
+                />
+              )
+            }}
+          </Query>
+        )}
       </div>
     </div>
   )

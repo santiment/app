@@ -3,35 +3,46 @@ import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
-import Toggle from '@santiment-network/ui/Toggle'
 import DialogFormRenameTemplate from '../Dialog/RenameTemplate'
 import DialogFormDuplicateTemplate from '../Dialog/DuplicateTemplate'
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import styles from '../Dialog/LoadTemplate/Template.module.scss'
 
-const Option = props => (
-  <Button {...props} fluid variant='ghost' className={styles.context__btn} />
+export const Option = props => (
+  <Button
+    {...props}
+    fluid
+    variant='ghost'
+    className={cx(styles.option, props.className)}
+  />
 )
 
 const TemplateContextMenu = ({
   template,
   isMenuOpened,
   closeMenu,
-  toggleIsPublic,
   openMenu,
-  onDeleteClick,
+  onDelete,
   onRename,
-  isPublic,
-  isAuthor
+  isAuthor,
+  classes = {}
 }) => {
   return (
     <ContextMenu
       open={isMenuOpened}
       onClose={closeMenu}
       trigger={
-        <Button variant='flat' className={cx(styles.menu)} onClick={openMenu}>
-          <Icon type='dots' />
+        <Button
+          variant='ghost'
+          className={cx(
+            styles.menu,
+            classes.menuBtn,
+            !isAuthor && styles.withUse
+          )}
+          onClick={openMenu}
+        >
+          <Icon type='dots' className={styles.dots} />
         </Button>
       }
       passOpenStateAs='isActive'
@@ -40,16 +51,13 @@ const TemplateContextMenu = ({
     >
       <Panel variant='modal' className={styles.options}>
         {isAuthor && (
-          <Option onClick={toggleIsPublic}>
-            Public
-            <Toggle isActive={isPublic} className={styles.toggle} />
-          </Option>
-        )}
-        {isAuthor && (
           <DialogFormRenameTemplate
             trigger={<Option>Rename</Option>}
             template={template}
-            onRename={onRename}
+            onRename={data => {
+              onRename(data)
+              closeMenu()
+            }}
           />
         )}
         <DialogFormDuplicateTemplate
@@ -60,8 +68,10 @@ const TemplateContextMenu = ({
         {isAuthor && (
           <ConfirmDialog
             title='Do you want to delete this template?'
-            trigger={<Option>Delete</Option>}
-            onApprove={onDeleteClick}
+            trigger={<Option className={styles.delete}>Delete</Option>}
+            onApprove={() => {
+              onDelete(template)
+            }}
             onCancel={closeMenu}
           />
         )}

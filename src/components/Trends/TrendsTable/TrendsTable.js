@@ -301,7 +301,11 @@ class TrendsTable extends PureComponent {
     return (
       <PanelWithHeader
         header={header}
-        className={cx(styles.panel, className, isCompactView && styles.panel__compact)}
+        className={cx(
+          styles.panel,
+          className,
+          isCompactView && styles.panel__compact
+        )}
         contentClassName={cx(
           styles.content,
           isCompactView && styles.content__compact

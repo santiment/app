@@ -7,7 +7,7 @@ import ActivityRenderer from '../../../SonarFeed/ActivityRenderer/ActivityRender
 import TrendingWordsSignalCard, {
   isTrendingWordsSignal
 } from '../../../../components/SignalCard/card/TrendingWordsSignalCard'
-import PulseInsightWrapper from "../../../../components/Insight/PulseInsight";
+import PulseInsightWrapper from '../../../../components/Insight/PulseInsight'
 import styles from './FeedItemRenderer.module.scss'
 
 const FeedItemRenderer = ({ item, index, showProfileExplanation }) => {
@@ -45,8 +45,13 @@ const FeedItemRenderer = ({ item, index, showProfileExplanation }) => {
     if (post) {
       const { id: insightId, isPulse, ...rest } = post
 
-      if(isPulse){
-        return <PulseInsightWrapper insight={post} className={cx(styles.card, styles.pulseInsight)} />
+      if (isPulse) {
+        return (
+          <PulseInsightWrapper
+            insight={post}
+            className={cx(styles.card, styles.pulseInsight)}
+          />
+        )
       }
 
       return (

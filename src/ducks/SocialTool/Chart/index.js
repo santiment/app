@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import Chart from '../../Chart'
-import { useChartColors } from '../../Chart/colors'
+import { useChartColors } from './colors'
 import Signals from '../../Chart/Signals'
 import { metricsToPlotCategories } from '../../Chart/Synchronizer'
 import PaywallInfo from '../../Studio/Chart/PaywallInfo'
@@ -12,7 +12,7 @@ import ChartHeader from './Header'
 import DetailedBlock from './Detailed'
 import styles from './index.module.scss'
 
-const CHART_HEIGHT = 380
+const CHART_HEIGHT = 420
 
 const Canvas = ({
   className,
@@ -24,8 +24,8 @@ const Canvas = ({
   boundaries,
   setSettings,
   categories,
-  selector,
-  detectedAsset,
+  linkedAssets,
+  allDetectedAssets,
   ...props
 }) => {
   const [FocusedMetric, setFocusedMetric] = useState()
@@ -44,8 +44,8 @@ const Canvas = ({
     <div className={cx(styles.wrapper, className)}>
       <ChartHeader
         {...props}
-        detectedAsset={detectedAsset}
-        metrics={metrics}
+        allDetectedAssets={allDetectedAssets}
+        activeMetrics={metrics}
         options={options}
         settings={settings}
         setOptions={setOptions}
@@ -81,10 +81,9 @@ const Canvas = ({
         metrics={metrics}
         MetricColor={MetricColor}
         setSettings={setSettings}
-        detectedAsset={detectedAsset}
         resizeDependencies={[]}
       >
-        <Signals {...settings} metrics={metrics} selector={selector} />
+        <Signals {...settings} metrics={metrics} selector='text' />
       </Chart>
       <DetailedBlock
         {...options}
@@ -93,19 +92,17 @@ const Canvas = ({
         type='general'
         MetricColor={MetricColor}
         settings={settings}
-        detectedAsset={detectedAsset}
+        linkedAssets={linkedAssets}
       />
-      {detectedAsset && (
-        <DetailedBlock
-          {...options}
-          {...props}
-          scale={scale}
-          type='community'
-          MetricColor={MetricColor}
-          settings={settings}
-          detectedAsset={detectedAsset}
-        />
-      )}
+      <DetailedBlock
+        {...options}
+        {...props}
+        scale={scale}
+        type='community'
+        MetricColor={MetricColor}
+        settings={settings}
+        linkedAssets={linkedAssets}
+      />
     </div>
   )
 }
@@ -115,7 +112,7 @@ export default ({ options, activeMetrics, ...rest }) => {
 
   return (
     <Canvas
-      tooltipKey='social_volume_total'
+      tooltipKey={activeMetrics[0].key}
       options={options}
       metrics={activeMetrics}
       categories={categories}

@@ -58,34 +58,37 @@
   }
 }
 
-.search {
-  @include responsive('phone-xs', 'phone') {
-    width: 100%;
-  }
-
-  & form {
-    min-width: 400px;
-
-    @include responsive('phone-xs', 'phone') {
-      min-width: auto;
-    }
-  }
-}
-
-.searchInput {
-  height: 40px;
-}
-
-.wrapperHeader {
+.mobileHeader {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   padding-top: 6px;
   width: 100%;
   flex: 1 1;
-  margin-bottom: 20px;
+
+  & h1 {
+    @include text('h4', 'l');
+
+    display: inline-block;
+  }
+
+  &__search {
+    display: none;
+  }
+
+  &__left {
+    padding: 12px 16px 12px 0;
+  }
 }
 
-.fullSearchBtn {
-  display: none;
+.grid {
+  margin: 24px 0;
+}
+
+.titlePopular {
+  margin: 40px 0 0;
+
+  @include text('h4', 'm');
+
+  color: var(--rhino);
 }

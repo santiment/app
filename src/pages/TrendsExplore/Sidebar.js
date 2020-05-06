@@ -23,7 +23,13 @@ function getTimePeriod (date) {
   }
 }
 
-const Sidebar = ({ topic, isDesktop, ...props }) => {
+const Sidebar = ({
+  topics,
+  linkedAssets,
+  isDesktop,
+  isEmptySearch,
+  ...props
+}) => {
   const asideRef = useRef(null)
   const [trendDate, setTrendDate] = useState([MAX_DATE])
   const [trendPeriod, setTrendPeriod] = useState(getTimePeriod(MAX_DATE))
@@ -59,14 +65,18 @@ const Sidebar = ({ topic, isDesktop, ...props }) => {
 
   return (
     <aside className={styles.sidebar} ref={asideRef}>
-      {topic && (
+      {!isEmptySearch && (
         <>
-          <AverageSocialVolume {...props} text={topic} />
+          <AverageSocialVolume
+            {...props}
+            topics={topics}
+            linkedAssets={linkedAssets}
+          />
           <WordCloud
             hideWord
             className={styles.cloud}
             infoClassName={styles.cloud__header}
-            word={topic}
+            word={topics[0]}
           />
         </>
       )}
@@ -77,12 +87,14 @@ const Sidebar = ({ topic, isDesktop, ...props }) => {
             Top 10 words with the highest spike in mentions on crypto social
             media for a given day.
           </HelpPopup>
-          {isDesktop && <Calendar
-            dates={trendDate}
-            onChange={onTrendCalendarChange}
-            className={styles.calendar}
-            maxDate={MAX_DATE}
-          />}
+          {isDesktop && (
+            <Calendar
+              dates={trendDate}
+              onChange={onTrendCalendarChange}
+              className={styles.calendar}
+              maxDate={MAX_DATE}
+            />
+          )}
         </div>
         <GetHypedTrends
           interval='1d'

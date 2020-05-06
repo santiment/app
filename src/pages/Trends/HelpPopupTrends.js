@@ -4,7 +4,9 @@ import styles from './../../components/HelpPopup/HelpPopup.module.scss'
 
 const HelpPopupTrends = () => (
   <HelpPopup>
-    <h4 className={styles.heading}>Specify your search results with these modifiers:</h4>
+    <h4 className={styles.heading}>
+      Specify your search results with these modifiers:
+    </h4>
     <ul className={styles.list}>
       <li className={styles.item}>
         <code>btc moon</code> will search for the exact phrase
@@ -19,7 +21,7 @@ const HelpPopupTrends = () => (
       </li>
       <li className={styles.item}>
         You can also combine modifiers by using brackets:
-        <br/>
+        <br />
         <code>(btc OR bitcoin) AND moon</code>
       </li>
     </ul>

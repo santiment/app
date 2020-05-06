@@ -43,7 +43,7 @@ class FeedListLoading extends React.Component {
     const variables = makeFeedVariables({
       date: events[events.length - 1].insertedAt,
       orderBy: sortType.type,
-      filterBy: filters,
+      filterBy: filters
     })
 
     return fetchMore({
@@ -84,7 +84,7 @@ class FeedListLoading extends React.Component {
     const {
       events: propEvents,
       sortType: propsSortType,
-      filters: propFilters,
+      filters: propFilters
     } = nextProps
     const {
       events: currentEvents,
@@ -109,8 +109,8 @@ class FeedListLoading extends React.Component {
     }
 
     const filtered = this.getFilteredEvents({
-      events: propEvents,
-    });
+      events: propEvents
+    })
 
     if (filtered.length > 0) {
       const [event] = propEvents
@@ -132,7 +132,7 @@ class FeedListLoading extends React.Component {
     }
   }
 
-  getFilteredEvents({events}) {
+  getFilteredEvents ({ events }) {
     return events.filter(
       ({ post, payload, trigger }) => post || (trigger && payload)
     )
@@ -141,7 +141,7 @@ class FeedListLoading extends React.Component {
   render () {
     const { isLoading, showProfileExplanation } = this.props
     const { isNewEventsList, events } = this.state
-    const filtered = this.getFilteredEvents({events})
+    const filtered = this.getFilteredEvents({ events })
 
     return (
       <FeedList

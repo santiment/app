@@ -68,15 +68,6 @@
 
 .tooltip {
   cursor: pointer;
-  padding: 4px 8px;
-  border-radius: $border-radius;
-  border: 1px solid var(--porcelain);
-  background-color: $fiord;
-  color: var(--white);
-}
-
-.arrow {
-  fill: $fiord;
 }
 
 .tooltipIcon {
@@ -88,4 +79,11 @@
   height: 10px !important;
   background-size: contain;
   fill: $fiord;
+}
+
+.copyAction {
+  margin-left: auto;
+  color: var(--casper);
+
+  @include text('caption', 'b');
 }

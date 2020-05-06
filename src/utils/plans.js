@@ -47,11 +47,11 @@ export const getAlternativeBillingPlan = (plans, oldPlan) => {
   const { name, interval: oldInterval = 'month' } = oldPlan
   const oldName = name.toUpperCase()
   return plans
-  .filter(({ isDeprecated }) => !isDeprecated)
-  .find(
-    ({ name, interval }) =>
-      name.toUpperCase() === oldName && interval !== oldInterval
-  )
+    .filter(({ isDeprecated }) => !isDeprecated)
+    .find(
+      ({ name, interval }) =>
+        name.toUpperCase() === oldName && interval !== oldInterval
+    )
 }
 
 export const getTrialLabel = trialEnd => (trialEnd ? '(trial)' : '')

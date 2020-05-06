@@ -1,7 +1,8 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import InsightsTrends from '../../components/Insight/InsightsTrends'
-import TrendsSearch from '../../components/Trends/TrendsSearch'
+import TrendsSearchForm from '../../components/Trends/Search'
+import Suggestions from '../../components/Trends/Search/Suggestions'
 import HelpPopup from '../../components/Trends/HelpPopup/HelpPopup'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
@@ -43,13 +44,8 @@ const LabsTrendsPage = ({ history }) => (
       </MobileOnly>
     </div>
 
-    <TrendsSearch
-      classes={{
-        wrapper: styles.search,
-        form: styles.search__form,
-        input: styles.search__input
-      }}
-    />
+    <TrendsSearchForm classes={{ wrapper: styles.search }} withButton />
+    <Suggestions className={styles.suggestions} />
 
     <Trends />
 

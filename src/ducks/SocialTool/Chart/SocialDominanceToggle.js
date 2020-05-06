@@ -21,10 +21,7 @@ const SocialDominanceToggle = ({ className, options = {}, setOptions }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
       <Button variant='flat' onClick={toggle} className={styles.button}>
-        <Toggle
-          className={styles.toggle}
-          isActive={isActive}
-        />
+        <Toggle className={styles.toggle} isActive={isActive} />
         Social Dominance
       </Button>
     </div>

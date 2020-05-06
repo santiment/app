@@ -20,7 +20,10 @@ const StoryPreview = ({
   const isNew = addDays(new Date(), -1 * LIMIT_DAYS) <= new Date(createdAt)
 
   return (
-    <Panel className={cx(styles.wrapper, className, isTutorial && styles.tutorial)} onClick={onClick}>
+    <Panel
+      className={cx(styles.wrapper, className, isTutorial && styles.tutorial)}
+      onClick={onClick}
+    >
       <div className={styles.info}>
         <h4 className={styles.heading}>
           {isNew && (
