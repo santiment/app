@@ -116,7 +116,7 @@ const TemplateDetailsDialog = ({
             <TemplateStatus
               isAuthor={isAuthor}
               isPublic={isPublic}
-              className={styles.status}
+              classes={styles}
             />
           )}
         </div>

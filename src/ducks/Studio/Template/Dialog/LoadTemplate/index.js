@@ -120,7 +120,7 @@ const LoadTemplate = ({
           </div>
 
           <Dialog.ScrollContent className={styles.wrapper}>
-            {templates.length === 0 || filteredTemplates.length === 0 ? (
+            {filteredTemplates.length === 0 ? (
               <NoChartLayouts />
             ) : (
               filteredTemplates

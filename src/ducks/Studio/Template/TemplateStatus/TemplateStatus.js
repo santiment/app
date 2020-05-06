@@ -7,8 +7,8 @@ const TemplateStatus = ({
   isAuthor,
   isPublic,
   toggleIsPublic,
-  className,
   asEl: El = 'div',
+  classes = {},
   ...rest
 }) => {
   return (
@@ -17,14 +17,18 @@ const TemplateStatus = ({
         styles.publicity,
         isPublic && styles.publicity_public,
         !isAuthor && styles.unclickable,
-        className
+        classes.status
       )}
       onClick={isAuthor ? toggleIsPublic : undefined}
       {...rest}
     >
       <Icon
         type={isPublic ? 'eye' : 'lock-small'}
-        className={cx(styles.icon, !isAuthor && styles.unclickableIcon)}
+        className={cx(
+          styles.icon,
+          classes.statusIcon,
+          !isAuthor && styles.unclickableIcon
+        )}
       />{' '}
       {isPublic ? 'Public' : 'Private'}
     </El>

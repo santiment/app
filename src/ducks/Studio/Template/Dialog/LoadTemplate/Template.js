@@ -91,6 +91,7 @@ const Template = ({
             isAuthor={isAuthor}
             isPublic={isPublic}
             toggleIsPublic={toggleIsPublic}
+            classes={styles}
           />
           <span>
             · {usedAssets.length} asset(s) · {usedMetrics.length} metric(s)

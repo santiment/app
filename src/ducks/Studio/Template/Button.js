@@ -98,14 +98,12 @@ export default ({
           />
         }
       />
-      {hasTemplates && (
-        <div className={styles.dropdown} onClick={openMenu}>
-          <Icon
-            type='arrow-down'
-            className={cx(styles.icon, isMenuOpened && styles.active)}
-          />
-        </div>
-      )}
+      <div className={styles.dropdown} onClick={openMenu}>
+        <Icon
+          type='arrow-down'
+          className={cx(styles.icon, isMenuOpened && styles.active)}
+        />
+      </div>
     </button>
   )
 }
