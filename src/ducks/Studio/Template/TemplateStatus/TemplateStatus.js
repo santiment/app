@@ -2,6 +2,20 @@ import React from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import styles from './TemplateStatus.module.scss'
+import Toggle from '@santiment-network/ui/Toggle'
+
+export const TemplateStatusToggle = ({
+  toggleIsPublic,
+  isPublic,
+  classes = {}
+}) => {
+  return (
+    <div onClick={toggleIsPublic} className={classes.status}>
+      Public
+      <Toggle isActive={isPublic} className={classes.toggle} />
+    </div>
+  )
+}
 
 const TemplateStatus = ({
   isAuthor,

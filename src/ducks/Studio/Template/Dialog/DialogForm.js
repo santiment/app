@@ -18,6 +18,7 @@ const DialogForm = ({
   onFormSubmit,
   description = '',
   isLoggedIn,
+  actions,
   ...props
 }) => {
   const [isOpen, setOpen] = useState(false)
@@ -68,6 +69,7 @@ const DialogForm = ({
           >
             {buttonLabel}
           </Dialog.Approve>
+          {actions}
         </div>
       </form>
     </Dialog>

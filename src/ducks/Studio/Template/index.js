@@ -56,7 +56,7 @@ const Template = ({
   onProjectSelect,
   ...props
 }) => {
-  const { projectId } = props
+  const { projectId, isLoggedIn } = props
   const [templates] = useUserTemplates(currentUser.id)
   const [updateTemplate] = useUpdateTemplate()
   const [createTemplate] = useCreateTemplate()
@@ -138,6 +138,9 @@ const Template = ({
   // TODO: 2.05.2020, GarageInc, for useCtrlSPress
   window.selectedTemplate = selectedTemplate
 
+  const isAuthor =
+    selectedTemplate && +selectedTemplate.user.id === +currentUser.id
+
   return (
     <ContextMenu
       open={isMenuOpened}
@@ -158,7 +161,7 @@ const Template = ({
     >
       <Panel variant='modal' className={styles.context}>
         <div className={styles.group}>
-          {selectedTemplate && (
+          {selectedTemplate && isLoggedIn && (
             <Action onClick={saveTemplate}>
               Save{' '}
               <span className={styles.copyAction}>
@@ -205,12 +208,14 @@ const Template = ({
 
           {selectedTemplate && (
             <>
-              <DialogFormRenameTemplate
-                onClose={closeMenu}
-                trigger={<Action>Edit</Action>}
-                template={selectedTemplate}
-                onRename={closeMenu}
-              />
+              {isAuthor && (
+                <DialogFormRenameTemplate
+                  onClose={closeMenu}
+                  trigger={<Action>Edit</Action>}
+                  template={selectedTemplate}
+                  onRename={closeMenu}
+                />
+              )}
 
               <DialogFormDuplicateTemplate
                 onClose={closeMenu}

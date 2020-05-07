@@ -5,10 +5,11 @@ import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
 import TemplateContextMenu from '../TemplateContextMenu/TemplateContextMenu'
 import UseTemplateBtn from '../UseTemplateBtn/UseTemplateBtn'
-import Toggle from '@santiment-network/ui/Toggle'
 import { usePublicTemplates } from '../Dialog/LoadTemplate/Template'
 import { useDeleteTemplate } from '../gql/hooks'
-import TemplateStatus from '../TemplateStatus/TemplateStatus'
+import TemplateStatus, {
+  TemplateStatusToggle
+} from '../TemplateStatus/TemplateStatus'
 import TemplateInfo from './TemplateInfo'
 import TemplateTitle from './TemplateTitle'
 import externalStyles from '../Dialog/LoadTemplate/Template.module.scss'
@@ -34,7 +35,7 @@ const TemplateDetailsDialog = ({
   isDialog = true,
   onRename,
   onDelete,
-  onDublicate
+  onClose
 }) => {
   const [deleteTemplate] = useDeleteTemplate()
   const { isPublic, toggleIsPublic } = usePublicTemplates(template)
@@ -77,8 +78,8 @@ const TemplateDetailsDialog = ({
           {!isAuthor && (
             <UseTemplateBtn
               template={template}
-              onDuplicate={() => {
-                isDialog ? setOpen(false) : onDublicate()
+              onClick={() => {
+                onClose && onClose(template)
               }}
             />
           )}
@@ -98,10 +99,11 @@ const TemplateDetailsDialog = ({
           />
 
           {isAuthor ? (
-            <div onClick={toggleIsPublic} className={styles.status}>
-              Public
-              <Toggle isActive={isPublic} className={styles.toggle} />
-            </div>
+            <TemplateStatusToggle
+              isPublic={isPublic}
+              classes={styles}
+              toggleIsPublic={toggleIsPublic}
+            />
           ) : (
             <TemplateStatus
               isAuthor={isAuthor}

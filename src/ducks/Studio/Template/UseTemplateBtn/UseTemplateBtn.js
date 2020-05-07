@@ -3,10 +3,6 @@ import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import Button from '@santiment-network/ui/Button'
 import { prepareTemplateLink } from '../Dialog/LoadTemplate/Template'
-import { useCreateTemplate } from '../gql/hooks'
-import { notifyDuplication } from '../notifications'
-import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
-import LoginDialogWrapper from '../../../../components/LoginDialog/LoginDialogWrapper'
 
 const Trigger = ({ loading, onSubmit, ...rest }) => (
   <Button
@@ -20,36 +16,13 @@ const Trigger = ({ loading, onSubmit, ...rest }) => (
   </Button>
 )
 
-const UseTemplateBtn = ({ template, redirect, onDuplicate, isLoggedIn }) => {
-  if (!isLoggedIn) {
-    return (
-      <LoginDialogWrapper>
-        <Trigger />
-      </LoginDialogWrapper>
-    )
-  }
-
-  const [createTemplate, { loading }] = useCreateTemplate()
-
+const UseTemplateBtn = ({ template, onClick, redirect }) => {
   function onSubmit () {
-    const { metrics, project, isPublic, options, description, title } = template
-
-    createTemplate({
-      title,
-      description,
-      metrics,
-      isPublic,
-      projectId: +project.id,
-      options: JSON.stringify(options)
-    })
-      .then(() => {
-        redirect(prepareTemplateLink(template))
-        onDuplicate()
-      })
-      .then(notifyDuplication)
+    redirect(prepareTemplateLink(template))
+    onClick()
   }
 
-  return <Trigger loading={loading} onSubmit={onSubmit} />
+  return <Trigger onSubmit={onSubmit} />
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -58,11 +31,7 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
-const mapStateToProps = state => ({
-  isLoggedIn: checkIsLoggedIn(state)
-})
-
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(UseTemplateBtn)

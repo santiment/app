@@ -67,6 +67,7 @@
 .group {
   padding: 8px;
   border-bottom: 1px solid var(--porcelain);
+  min-width: 200px;
 
   &:last-child {
     border: none;

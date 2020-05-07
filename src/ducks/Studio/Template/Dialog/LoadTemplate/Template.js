@@ -125,6 +125,7 @@ const Template = ({
 const mapStateToProps = ({ user }, { template: { user: { id } = {} } }) => ({
   isAuthor: user && user.data && +user.data.id === +id
 })
+
 const mapDispatchToProps = dispatch => ({
   redirect: route => {
     dispatch(push(route))
