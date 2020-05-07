@@ -8,8 +8,8 @@ export const MetricSettings = Object.assign(Object.create(null), {
       defaultValue: 10,
       constraints: {
         min: 1,
-        max: 1000000,
-      },
-    },
-  ],
+        max: 1000000
+      }
+    }
+  ]
 })

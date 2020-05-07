@@ -16,7 +16,7 @@ const MetricButton = ({
   isError,
   isDisabled,
   onClick,
-  setMetricSettingMap,
+  setMetricSettingMap
 }) => {
   const settings = isActive && metric && MetricSettings[metric.key]
 
@@ -27,7 +27,7 @@ const MetricButton = ({
         styles.btn,
         className,
         (isError || isDisabled) && styles.disabled,
-        settings && settingsStyles.adjustable,
+        settings && settingsStyles.adjustable
       )}
       isActive={isActive}
       onClick={onClick}
