@@ -18,7 +18,7 @@
 }
 
 .icon {
-  width: 14px;
+  min-width: 14px;
   height: 14px;
   fill: var(--waterloo);
 }
@@ -30,19 +30,40 @@
   margin-top: 8px;
 }
 
+.avatar {
+  margin-right: 8px;
+
+  &:hover {
+    border: 1px solid var(--jungle-green-hover);
+  }
+}
+
+.link {
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
 .user {
   @include text('body-3');
 
   color: var(--rhino);
   display: flex;
   align-items: center;
-}
-
-.avatar {
-  margin-right: 8px;
+  cursor: pointer;
 
   &:hover {
-    border: 1px solid var(--jungle-green-hover);
+    color: var(--jungle-green-hover);
+
+    .link {
+      color: var(--jungle-green-hover);
+    }
+
+    .avatar {
+      border: 1px solid var(--jungle-green-hover);
+    }
   }
 }
 
@@ -61,6 +82,9 @@
 
 .template {
   overflow-y: auto;
+  border: none;
+  box-shadow: none;
+  min-width: 484px;
 }
 
 .container {
@@ -75,8 +99,8 @@
 }
 
 .menuBtn {
-  margin-left: 0;
-  display: flex;
+  margin-left: 0 !important;
+  display: flex !important;
   padding: 8px;
 }
 
@@ -86,6 +110,7 @@
 
 .actions {
   display: flex;
+  margin-bottom: 22px;
 }
 
 .status {

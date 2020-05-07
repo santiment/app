@@ -21,6 +21,8 @@
     overflow-x: hidden;
     white-space: nowrap;
     fill: var(--casper);
+    align-items: center;
+    display: flex;
 
     &_large {
       max-width: 135px;
@@ -52,6 +54,11 @@
   fill: var(--jungle-green);
 }
 
+.detailsIcon {
+  margin-right: 8px;
+  fill: var(--rhino);
+}
+
 .cloud {
   vertical-align: middle;
   margin-right: 6px;
@@ -60,6 +67,7 @@
 .group {
   padding: 8px;
   border-bottom: 1px solid var(--porcelain);
+  min-width: 200px;
 
   &:last-child {
     border: none;
@@ -86,4 +94,14 @@
   color: var(--casper);
 
   @include text('caption', 'b');
+}
+
+.templateInfo {
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  box-sizing: border-box;
+  box-shadow: 0 4px 8px rgba(24, 27, 43, 0.02);
+  border-radius: $border-radius;
+  width: 484px;
+  padding: 2px 24px 24px 24px;
 }
