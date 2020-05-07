@@ -225,7 +225,6 @@ export const App = ({
   isLoggedIn,
   isUserLoading,
   token,
-  isFullscreenMobile,
   isOffline,
   hasMetamask,
   isBetaModeEnabled,
@@ -241,12 +240,10 @@ export const App = ({
         timingFunction='ease-out'
         as='div'
       >
-        OFFLINE
+        It looks like you are offline. Some actions might not work.
       </FadeInDown>
     )}
-    {isFullscreenMobile ? (
-      undefined
-    ) : isDesktop ? (
+    {isDesktop ? (
       <Navbar activeLink={pathname} />
     ) : (
       <MobileNavbar activeLink={pathname} />
@@ -487,7 +484,6 @@ const mapStateToProps = (state, { location: { pathname, ...rest } }) => {
     isLoggedIn: state.user.data && !!state.user.data.id,
     isUserLoading: state.user.isLoading,
     token: state.user.token,
-    isFullscreenMobile: state.detailedPageUi.isFullscreenMobile,
     isOffline: !state.rootUi.isOnline,
     isBetaModeEnabled: state.rootUi.isBetaModeEnabled,
     hasMetamask: ethAccounts.length > 0 && ethAccounts[0].address,

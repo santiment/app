@@ -20,12 +20,12 @@ const Group = ({
   Submetrics,
   isICOPriceDisabled,
   isBeta,
-  setMetricSettingMap,
+  setMetricSettingMap
 }) => {
   return (
     <>
       {title !== NO_GROUP && <h4 className={styles.group}>{title}</h4>}
-      {metrics.map((metric) => {
+      {metrics.map(metric => {
         if (metric.hidden) {
           return null
         }
@@ -66,7 +66,7 @@ const Group = ({
               />
             )}
             {submetrics &&
-              submetrics.map((submetric) => (
+              submetrics.map(submetric => (
                 <MetricButton
                   key={submetric.key}
                   className={styles.advanced}
@@ -83,8 +83,8 @@ const Group = ({
   )
 }
 
-const mapStateToProps = (state) => ({
-  isBeta: state.rootUi.isBetaModeEnabled,
+const mapStateToProps = state => ({
+  isBeta: state.rootUi.isBetaModeEnabled
 })
 
 export default connect(mapStateToProps)(Group)

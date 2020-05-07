@@ -1,5 +1,4 @@
 export const initialState = {
-  isFullscreenMobile: false,
   isToggledMinimap: false,
   isToggledBurnRate: false,
   timeFilter: {
@@ -12,11 +11,6 @@ export const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case 'TOGGLE_FULLSCREEN_MOBILE':
-      return {
-        ...state,
-        isFullscreenMobile: !state.isFullscreenMobile
-      }
     case 'TOGGLE_MINIMAP':
       return {
         ...state,
