@@ -151,7 +151,7 @@ export const Metrics = {
         <a
           target='_blank'
           rel='noopener noreferrer'
-          href='https://academy.santiment.net/metrics/exchange-flow-metrics/#exchange-flow-balance'
+          href='https://academy.santiment.net/metrics/exchange-funds-flow/'
         >
           here
         </a>
@@ -358,7 +358,7 @@ export const Metrics = {
         <a
           target='_blank'
           rel='noopener noreferrer'
-          href='https://academy.santiment.net/metrics/velocity-of-tokens/'
+          href='https://academy.santiment.net/metrics/velocity/'
         >
           here
         </a>
@@ -497,7 +497,7 @@ export const Metrics = {
         <a
           target='_blank'
           rel='noopener noreferrer'
-          href='https://academy.santiment.net/metrics/nvt-ratio/'
+          href='https://academy.santiment.net/metrics/nvt/'
         >
           here
         </a>
