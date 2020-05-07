@@ -1,5 +1,3 @@
-@import 'variables.scss';
-
 .wrapper {
   background: var(--white);
   position: fixed;
@@ -76,11 +74,4 @@
   margin-bottom: 32px;
   background: none;
   border: none;
-}
-
-@media (min-width: $breakpoint-tablet) {
-  .logo {
-    margin-top: 62px;
-    margin-bottom: 122px;
-  }
 }
