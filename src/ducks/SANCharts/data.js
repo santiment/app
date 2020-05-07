@@ -3,6 +3,7 @@ import { Line, Bar, Area } from 'recharts'
 import { usdFormatter } from './utils'
 import { millify } from '../../utils/formatting'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
+import MoreInfoLink from '../../components/MoreInfoLink/MoreInfoLink'
 
 export const Events = {
   trendPositionHistory: {
@@ -96,14 +97,8 @@ export const Metrics = {
       <>
         Shows the amount of mentions of the coin on 1000+ crypto social media
         channels, including Telegram groups, crypto subreddits, discord groups,
-        private traders chats and more. More info{' '}
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://academy.santiment.net/metrics/social-volume/'
-        >
-          here
-        </a>
+        private traders chats and more.{' '}
+        <MoreInfoLink href='https://academy.santiment.net/metrics/social-volume/' />
       </>
     ),
     advancedView: 'Social Context'
@@ -121,14 +116,8 @@ export const Metrics = {
     description: (
       <>
         Shows the amount of tokens changing addresses on a certain date,
-        multiplied by the number of days since they last moved. More info{' '}
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://academy.santiment.net/metrics/token-age-consumed/'
-        >
-          here
-        </a>
+        multiplied by the number of days since they last moved.{' '}
+        <MoreInfoLink href='https://academy.santiment.net/metrics/age-consumed/' />
       </>
     ),
     formatter: value => (value ? millify(value, 2) : 'No data')
@@ -147,14 +136,8 @@ export const Metrics = {
         The flows of tokens going in to and out of exchange wallets combined on
         one graph. If the value is positive, more tokens entered the exchange
         than left. If the value is negative, more flowed out of exchanges than
-        flowed in. More info{' '}
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://academy.santiment.net/metrics/exchange-flow-metrics/#exchange-flow-balance'
-        >
-          here
-        </a>
+        flowed in.{' '}
+        <MoreInfoLink href='https://academy.santiment.net/metrics/exchange-funds-flow' />
       </>
     )
   },
@@ -172,14 +155,8 @@ export const Metrics = {
       <>
         Shows the number of unique network addresses involved in transactions on
         a certain date. Simply put, DAA indicates the daily level of crowd
-        interaction (or speculation) with a certain token. More info{' '}
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://academy.santiment.net/metrics/daily-active-addresses/'
-        >
-          here
-        </a>
+        interaction (or speculation) with a certain token.{' '}
+        <MoreInfoLink href='https://academy.santiment.net/metrics/daily-active-addresses/' />
       </>
     ),
 
@@ -196,14 +173,8 @@ export const Metrics = {
     // dataKey: 'percentOnExchanges',
     description: (
       <>
-        The percent of the total token supply which is on exchanges. More info{' '}
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://academy.santiment.net/metrics/percentage-of-token-supply-on-exchanges/'
-        >
-          here
-        </a>
+        The percent of the total token supply which is on exchanges.{' '}
+        <MoreInfoLink href='https://academy.santiment.net/metrics/supply-on-or-outside-exchanges/' />
       </>
     )
   },
@@ -228,14 +199,8 @@ export const Metrics = {
       <>
         Shows the number of unique tokens being used during each day. If one
         token changes hands 5 times on a given day, it will be counted once by
-        the token circulation, but 5 times by the transaction volume. More info{' '}
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://academy.santiment.net/metrics/token-circulation/'
-        >
-          here
-        </a>
+        the token circulation, but 5 times by the transaction volume.{' '}
+        <MoreInfoLink href='https://academy.santiment.net/metrics/circulation/' />
       </>
     ),
     minInterval: '1d'
@@ -256,14 +221,8 @@ export const Metrics = {
         compares that investment to the coin’s current price to calculate the
         average profit or loss across all holders. Example: if MVRV = 2, then,
         on average, all coin holders have (currently) doubled their initial
-        investment. More info{' '}
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://academy.santiment.net/metrics/mvrv/'
-        >
-          here
-        </a>
+        investment.{' '}
+        <MoreInfoLink href='https://academy.santiment.net/metrics/mvrv/' />
       </>
     ),
     minInterval: '1d'
@@ -279,14 +238,8 @@ export const Metrics = {
     description: (
       <>
         Shows the aggregate amount of tokens across all transactions that
-        happened on the network on a certain date. More info{' '}
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://academy.santiment.net/metrics/transaction-volume/'
-        >
-          here
-        </a>
+        happened on the network on a certain date.{' '}
+        <MoreInfoLink href='https://academy.santiment.net/metrics/transaction-volume/' />
       </>
     )
     // advancedView: 'Histogram'
@@ -304,14 +257,7 @@ export const Metrics = {
         Shows the number of new addresses being created on the network each day.
         Essentially, this chart illustrates user adoption over time, and can be
         used to identify when the project is gaining - or losing - traction.
-        More info{' '}
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://academy.santiment.net/metrics/network-growth/'
-        >
-          here
-        </a>
+        <MoreInfoLink href='https://academy.santiment.net/metrics/network-growth/' />
       </>
     ),
     minInterval: '1d'
@@ -327,14 +273,7 @@ export const Metrics = {
       <>
         Based on number of Github 'events' including PRs, comments, and wiki
         edits, plus the number of public repositories a project is maintaining.
-        More info{' '}
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://academy.santiment.net/metrics/developer-activity/'
-        >
-          here
-        </a>
+        <MoreInfoLink href='https://academy.santiment.net/metrics/developer-activity/' />
       </>
     ),
     reqMeta: {
@@ -354,14 +293,8 @@ export const Metrics = {
       <>
         Shows the average number of times that a token changes wallets each day.
         Simply put, a higher token velocity means that a token is used in
-        transactions more often within a set time frame. More info{' '}
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://academy.santiment.net/metrics/velocity-of-tokens/'
-        >
-          here
-        </a>
+        transactions more often within a set time frame.{' '}
+        <MoreInfoLink href='https://academy.santiment.net/metrics/velocity/' />
       </>
     ),
     minInterval: '1d'
@@ -377,14 +310,8 @@ export const Metrics = {
       <>
         Shows the number of unique deposit addresses that participated in
         transactions for a given day. A deposit address is an address belonging
-        to an exchange that users use to deposit assets. More info{' '}
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://academy.santiment.net/metrics/metrics-for-deposit-addresses/#daily-active-deposits'
-        >
-          here
-        </a>
+        to an exchange that users use to deposit assets.{' '}
+        <MoreInfoLink href='https://academy.santiment.net/metrics/metrics-for-deposit-addresses/#daily-active-deposits' />
       </>
     )
   },
@@ -445,14 +372,8 @@ export const Metrics = {
         For each coin we see how long it has stayed at its current address and
         we compute the average of all those ages. The difference between "coin
         age" and "dollar age" comes from the different way that we compute the
-        averages. More info{' '}
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://insights.santiment.net/read/%F0%9F%93%A2-mean-age-653'
-        >
-          here
-        </a>
+        averages.{' '}
+        <MoreInfoLink href='https://insights.santiment.net/read/%F0%9F%93%A2-mean-age-653' />
         .
       </>
     ),
@@ -467,14 +388,8 @@ export const Metrics = {
     abbreviation: 'mca',
     description: (
       <>
-        The average age of all coins/tokens on the blockchain. More info{' '}
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://academy.santiment.net/metrics/mean-coin-age/'
-        >
-          here
-        </a>
+        The average age of all coins/tokens on the blockchain.{' '}
+        <MoreInfoLink href='https://academy.santiment.net/metrics/mean-coin-age/' />
       </>
     ),
     minInterval: '1d',
@@ -493,14 +408,8 @@ export const Metrics = {
         network. This version of NVT is calculated by dividing the coin’s Market
         Cap by its Token Circulation. The higher the NVT, the more expensive the
         network relative to the value it transmits, indicating an overvalued
-        asset. More info{' '}
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://academy.santiment.net/metrics/nvt-ratio/'
-        >
-          here
-        </a>
+        asset.{' '}
+        <MoreInfoLink href='https://academy.santiment.net/metrics/nvt/' />
       </>
     ),
     minInterval: '1d'
