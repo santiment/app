@@ -5,7 +5,6 @@ import {
   Redirect,
   withRouter
 } from 'react-router-dom'
-import { FadeInDown } from 'animate-components'
 import Loadable from 'react-loadable'
 import withSizes from 'react-sizes'
 import { connect } from 'react-redux'
@@ -234,14 +233,9 @@ export const App = ({
 }) => (
   <div className='App'>
     {isOffline && (
-      <FadeInDown
-        className='offline-status-message'
-        duration='1.0s'
-        timingFunction='ease-out'
-        as='div'
-      >
+      <div className={styles.offline}>
         It looks like you are offline. Some actions might not work.
-      </FadeInDown>
+      </div>
     )}
     {isDesktop ? (
       <Navbar activeLink={pathname} />
