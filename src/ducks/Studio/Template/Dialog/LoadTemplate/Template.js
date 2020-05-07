@@ -15,6 +15,7 @@ import TemplateDetailsDialog, {
 import TemplateStatus from '../../TemplateStatus/TemplateStatus'
 import { generateShareLink } from '../../../url'
 import styles from './Template.module.scss'
+import TemplateTitle from '../../TemplateDetailsDialog/TemplateTitle'
 
 export function prepareTemplateLink (template) {
   if (!template) {
@@ -85,7 +86,9 @@ const Template = ({
   return (
     <div className={cx(styles.wrapper, className)}>
       <div className={styles.left} onClick={onTemplateClick}>
-        <div className={styles.title}>{title}</div>
+        <div className={styles.title}>
+          <TemplateTitle title={title} />
+        </div>
         <div className={styles.info}>
           <TemplateStatus
             isAuthor={isAuthor}

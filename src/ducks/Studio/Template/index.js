@@ -207,7 +207,7 @@ const Template = ({
             <>
               <DialogFormRenameTemplate
                 onClose={closeMenu}
-                trigger={<Action>Rename</Action>}
+                trigger={<Action>Edit</Action>}
                 template={selectedTemplate}
                 onRename={closeMenu}
               />

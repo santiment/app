@@ -14,7 +14,7 @@ export const DEFAULT_SETTINGS = {
   interval: getNewInterval(FROM, TO),
   from: FROM.toISOString(),
   to: TO.toISOString(),
-  timeRange: DEFAULT_TIME_RANGE,
+  timeRange: DEFAULT_TIME_RANGE
 }
 
 export const DEFAULT_OPTIONS = {
@@ -23,7 +23,7 @@ export const DEFAULT_OPTIONS = {
   isAnomalyActive: getSavedToggle('isAnomalyActive'),
   isMultiChartsActive: getSavedMulticharts(),
   isCartesianGridActive: getSavedToggle('isCartesianGridActive', true),
-  isClosestDataActive: getSavedToggle('isClosestDataActive', true),
+  isClosestDataActive: getSavedToggle('isClosestDataActive', true)
 }
 
 export const DEFAULT_METRICS = [Metric.price_usd]
@@ -32,7 +32,7 @@ export const DEFAULT_METRIC_SETTINGS_MAP = new Map([
   [
     Metric.amount_in_top_holders,
     {
-      holdersCount: 10,
-    },
-  ],
+      holdersCount: 10
+    }
+  ]
 ])

@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import Dialog from '@santiment-network/ui/Dialog'
 import Input from '@santiment-network/ui/Input'
 import AutoresizeTextarea from '../../../../components/AutoresizeTextarea'
+import LoginDialogWrapper from '../../../../components/LoginDialog/LoginDialogWrapper'
+import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
 import styles from './DialogForm.module.scss'
 
-export default ({
+const DialogForm = ({
   placeholders = {
     title: 'Name of the template...',
     description: 'Description'
@@ -14,6 +17,7 @@ export default ({
   isLoading,
   onFormSubmit,
   description = '',
+  isLoggedIn,
   ...props
 }) => {
   const [isOpen, setOpen] = useState(false)
@@ -24,6 +28,10 @@ export default ({
       title: e.currentTarget.name.value,
       description: e.currentTarget.description.value
     })
+  }
+
+  if (!isLoggedIn) {
+    return <LoginDialogWrapper>{props.trigger}</LoginDialogWrapper>
   }
 
   return (
@@ -65,3 +73,9 @@ export default ({
     </Dialog>
   )
 }
+
+const mapStateToProps = state => ({
+  isLoggedIn: checkIsLoggedIn(state)
+})
+
+export default connect(mapStateToProps)(DialogForm)

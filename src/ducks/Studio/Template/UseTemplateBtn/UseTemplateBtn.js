@@ -5,8 +5,30 @@ import Button from '@santiment-network/ui/Button'
 import { prepareTemplateLink } from '../Dialog/LoadTemplate/Template'
 import { useCreateTemplate } from '../gql/hooks'
 import { notifyDuplication } from '../notifications'
+import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
+import LoginDialogWrapper from '../../../../components/LoginDialog/LoginDialogWrapper'
 
-const UseTemplateBtn = ({ template, redirect, onDuplicate }) => {
+const Trigger = ({ loading, onSubmit, ...rest }) => (
+  <Button
+    variant='fill'
+    accent='positive'
+    isLoading={loading}
+    onClick={onSubmit}
+    {...rest}
+  >
+    Use Chart Layout
+  </Button>
+)
+
+const UseTemplateBtn = ({ template, redirect, onDuplicate, isLoggedIn }) => {
+  if (!isLoggedIn) {
+    return (
+      <LoginDialogWrapper>
+        <Trigger />
+      </LoginDialogWrapper>
+    )
+  }
+
   const [createTemplate, { loading }] = useCreateTemplate()
 
   function onSubmit () {
@@ -27,16 +49,7 @@ const UseTemplateBtn = ({ template, redirect, onDuplicate }) => {
       .then(notifyDuplication)
   }
 
-  return (
-    <Button
-      variant='fill'
-      accent='positive'
-      isLoading={loading}
-      onClick={onSubmit}
-    >
-      Use Chart Layout
-    </Button>
-  )
+  return <Trigger loading={loading} onSubmit={onSubmit} />
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -45,7 +58,11 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
+const mapStateToProps = state => ({
+  isLoggedIn: checkIsLoggedIn(state)
+})
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(UseTemplateBtn)

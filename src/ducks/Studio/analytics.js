@@ -1,12 +1,12 @@
 import GA from '../../utils/tracking'
 
-export function trackMetricState({ label }, state) {
+export function trackMetricState ({ label }, state) {
   const action = state ? 'Showing' : 'Removing'
   GA.event(
     {
       category: 'Chart',
-      action: `${action} "${label}"`,
+      action: `${action} "${label}"`
     },
-    ['ga', 'intercom'],
+    ['ga', 'intercom']
   )
 }
