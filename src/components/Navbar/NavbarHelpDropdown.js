@@ -21,7 +21,7 @@ const NavbarHelpDropdown = ({ activeLink }) => (
       className={styles.item}
       onClick={() => window.Intercom('show')}
     >
-      Contact Us
+      Contact us
     </Button>
   </div>
 )
