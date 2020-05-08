@@ -40,7 +40,8 @@ const NAVBAR_LINKS = [
 ]
 
 const MENU_LINKS = [
-  { linkTo: '/sonar', label: 'Signals' },
+  { linkTo: '/sonar/my-signals', label: 'Alerts' },
+  { linkTo: '/labs/trends', label: 'Emerging trends' },
   { linkTo: '/account', label: 'Account settings' }
 ]
 
@@ -115,7 +116,7 @@ const MobileNavbar = ({ history, isLogined, activeLink, logout }) => {
                   window.Intercom && window.Intercom('showNewMessage')
                 }
               >
-                Contact us
+                Support
               </button>
             </div>
           </div>
