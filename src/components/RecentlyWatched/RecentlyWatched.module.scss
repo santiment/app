@@ -37,7 +37,7 @@
 
 .item {
   margin-top: 8px;
-  padding: 12px;
+  padding: 13px 12px;
   border-radius: 4px;
   border: 1px solid var(--porcelain);
   display: flex;
@@ -46,12 +46,10 @@
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  transition: all ease-in-out 0.1s;
 
   &:hover {
     @include responsive('laptop', 'tablet', 'desktop') {
-      box-shadow: 0 14px 20px rgba(24, 27, 43, 0.06);
-      transform: translateY(-4px);
+      border-color: var(--mystic);
     }
   }
 }

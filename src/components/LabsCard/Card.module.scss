@@ -2,17 +2,16 @@
 @import '~@santiment-network/ui/mixins';
 
 .colBox {
-  box-shadow: 0 4px 50px rgba(21, 24, 31, 0.02);
   border-radius: $border-radius;
   display: inline-block;
   padding: 38px;
   min-height: 300px;
   position: relative;
   overflow: hidden;
-  color: var(--white);
+  color: white;
 
   &:hover {
-    color: var(--white);
+    color: white;
   }
 }
 

@@ -40,6 +40,9 @@
   border-radius: $border-radius;
   border: 1px solid var(--porcelain);
   border-left: 3px solid var(--jungle-green);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .proTemplate {

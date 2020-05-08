@@ -1,8 +1,6 @@
-@import 'variables.scss';
 @import '~@santiment-network/ui/main';
 @import '~@santiment-network/ui/mixins';
 @import '~insights-app/lib/ui/index.scss';
-@import 'mixins.scss';
 
 :global(#root) {
   @include responsive('phone', 'phone-xs') {

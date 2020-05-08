@@ -5,7 +5,6 @@ import {
   Redirect,
   withRouter
 } from 'react-router-dom'
-import { FadeInDown } from 'animate-components'
 import Loadable from 'react-loadable'
 import withSizes from 'react-sizes'
 import { connect } from 'react-redux'
@@ -225,7 +224,6 @@ export const App = ({
   isLoggedIn,
   isUserLoading,
   token,
-  isFullscreenMobile,
   isOffline,
   hasMetamask,
   isBetaModeEnabled,
@@ -235,18 +233,11 @@ export const App = ({
 }) => (
   <div className='App'>
     {isOffline && (
-      <FadeInDown
-        className='offline-status-message'
-        duration='1.0s'
-        timingFunction='ease-out'
-        as='div'
-      >
-        OFFLINE
-      </FadeInDown>
+      <div className={styles.offline}>
+        It looks like you are offline. Some actions might not work.
+      </div>
     )}
-    {isFullscreenMobile ? (
-      undefined
-    ) : isDesktop ? (
+    {isDesktop ? (
       <Navbar activeLink={pathname} />
     ) : (
       <MobileNavbar activeLink={pathname} />
@@ -487,7 +478,6 @@ const mapStateToProps = (state, { location: { pathname, ...rest } }) => {
     isLoggedIn: state.user.data && !!state.user.data.id,
     isUserLoading: state.user.isLoading,
     token: state.user.token,
-    isFullscreenMobile: state.detailedPageUi.isFullscreenMobile,
     isOffline: !state.rootUi.isOnline,
     isBetaModeEnabled: state.rootUi.isBetaModeEnabled,
     hasMetamask: ethAccounts.length > 0 && ethAccounts[0].address,
