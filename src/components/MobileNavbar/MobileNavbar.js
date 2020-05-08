@@ -120,14 +120,24 @@ const MobileNavbar = ({ history, isLogined, activeLink, logout }) => {
               </button>
             </div>
           </div>
-          {!isLogined && (
+          {!isLogined ? (
             <Button
-              className={styles.loginBtn}
+              className={styles.btn}
               variant='fill'
               accent='positive'
               onClick={() => handleNavigation('/login')}
             >
               Log in
+            </Button>
+          ) : (
+            <Button
+              className={cx(styles.btn, styles.logout)}
+              border
+              variant='flat'
+              accent='negative'
+              onClick={() => history.push('/logout')}
+            >
+              Log out
             </Button>
           )}
         </div>

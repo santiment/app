@@ -50,13 +50,17 @@
   }
 }
 
-.loginBtn {
+.btn {
   position: fixed;
   display: flex;
   justify-content: center;
   bottom: 100px;
   left: 10%;
   width: 80%;
+}
+
+.logout {
+  color: var(--persimmon) !important;
 }
 
 .navigationList {
