@@ -24,16 +24,16 @@ const FreeTrialBlock = () => {
         />
         <path
           stroke='var(--rhino)'
-          stroke-linecap='round'
-          stroke-linejoin='round'
-          stroke-width='1.5'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+          strokeWidth='1.5'
           d='M16.1 35.8h0v-1h0l-.3-2.2c0-.3-.2-.5-.4-.6l-.5-.2h0a14.2 14.2 0 01-.4-.2h0l-3.3-1.1h0a43.8 43.8 0 00-.3-.2c2-.5 3.9-1.1 5.8-1.8.3-.1.4-.4.5-.7l.1-1.6h0v-.4s0 0 0 0l.6-4.7s0 0 0 0h0s0 0 0 0h.1s0 0 0 0l1 1.3h0l.8 1.2.4.5h0l1.4 2 .6.3 3.1.5h0l2 .3h.1a.8.8 0 000 .1s0 0 0 0 0 0 0 0l-.7.7-2.2 1.9c-.3.1-.4.5-.3.8a88.6 88.6 0 001.4 3.7h0l.4 1.1h0l.5 1.3h0s0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0a42 42 0 01-5.5-2.2.7.7 0 00-.9.2 57.8 57.8 0 00-3.6 4.3l-.2-2.3h0l-.2-1zm.7 3.5s0 0 0 0h0zM4 56.2c0 2 .5 6 1 7M1 60c2 0 4.8 0 6.4-.3m182.7-1.2c-.8 1.7-2.6 5.4-2.5 6.5m-1.9-4.8a41 41 0 005.6 3'
         />
         <path
           fill='var(--porcelain)'
-          fill-rule='evenodd'
+          fillRule='evenodd'
           d='M86.5 32.1a32.2 32.2 0 00-7.4-8.9c-3.6-3.4-7.2-6.7-8.4-12.2-.7-3-3.9-3-5.7-1.5-2.8-1-6.8-.2-8.4 2.7-1.5 3 .8 5.7 2.6 8l.6.7a57.8 57.8 0 0016.4 13l-3.6.6-2.5.4a12 12 0 00-6.6 2.4c-.4.3-.3 1 .3 1 1.5 0 3.2.4 5 .8 3.9.8 8.1 1.7 11-.4.8-.5 1.2-1.3 1.2-2.1l.3.1.3.2c3.2 1.6 6.3-1.6 4.8-4.8zM63.6 14.3l.8-.5.5 1.7a112.3 112.3 0 01.1.4l-.4-.4c-.4-.4-.8-.8-1-1.2z'
-          clip-rule='evenodd'
+          clipRule='evenodd'
         />
         <path
           fill='var(--porcelain)'
@@ -49,37 +49,37 @@ const FreeTrialBlock = () => {
         />
         <path
           stroke='var(--rhino)'
-          stroke-linecap='round'
-          stroke-linejoin='round'
-          stroke-width='1.5'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+          strokeWidth='1.5'
           d='M58.6 57.2h30m11.6-.4h27.5m-69.1 45.9c-.5-14.5-.6-44.4-.5-58.9m.5 58.9H127c.2-14.9 0-30 0-45 0-1.9 1.8-.8 1.8-2.7 0-.8-.8-11-.8-15.4m11.8-.4c-.9 18.9-.2 38.8.8 59.5m-13.3-41.9c3.2-.4 7.6.3 10.8.4M88.3 39.9c.5 20 .9 42.7 1.5 62.7m10.4 0c-.5-21.2-1-42.7-1.3-63.8'
         />
         <path
           stroke='var(--rhino)'
-          stroke-linecap='round'
-          stroke-linejoin='round'
-          stroke-width='1.5'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+          strokeWidth='1.5'
           d='M49 50.5c6.7-8.2 19.7-11.7 35.3-11.7h55.1M49 50.5V43c-1.7 0-8.4.5-8.8-2-1-5.5 19-12 23.3-13.4'
         />
         <path
           stroke='var(--rhino)'
-          stroke-linecap='round'
-          stroke-linejoin='round'
-          stroke-width='1.5'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+          strokeWidth='1.5'
           d='M83.2 38.6c-.2-1.7-3.5-3.4-7.7-5.1-8.9-3.8-21-9-21-21.6 0-5.5 5-11.2 12.8-10.9 7.9.4 15.8 3.5 21.7 9.6a36.3 36.3 0 0110 28'
         />
         <path
           stroke='var(--rhino)'
-          stroke-linecap='round'
-          stroke-linejoin='round'
-          stroke-width='1.5'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+          strokeWidth='1.5'
           d='M55.3 9.5C58 7.9 61.6 7 64.6 7c9.9 0 25 13.4 25 25 0 2-.5 4.2-1.3 6.6m.2-7.8C82 30.2 69 22.4 69.8 9M96 19a41.2 41.2 0 0132-12.2c16.2 0 17.5 9.4 17.5 12.3 0 8-12.6 11-24.6 14-7 1.7-13.8 3.2-16.4 5.6'
         />
         <path
           stroke='var(--rhino)'
-          stroke-linecap='round'
-          stroke-linejoin='round'
-          stroke-width='1.5'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+          strokeWidth='1.5'
           d='M99 30.8a43 43 0 0128.6-13.6c4.3 0 10.2 2.3 10.2 9.9m13.7-9.7c-2.6 3.4-3 9.2-6 12.2 2-.2 5.8-.4 10.7 1 .8.2 1.1 1.5.4 2-.4.3-1.8 2-21.3 6.2m10.3-18.9c2.1-.7 3.4-1.2 6-2.4m-11 81c-.3 5.3-9.7 4.2-14.9 4.2'
         />
         <path
@@ -88,9 +88,9 @@ const FreeTrialBlock = () => {
         />
         <path
           stroke='var(--rhino)'
-          stroke-linecap='round'
-          stroke-linejoin='round'
-          stroke-width='1.5'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+          strokeWidth='1.5'
           d='M186.4 36.8l-.1.2s0 0 0 0 0 0 0 0h-.4l-.3-.4c-.1-3-.8-4.6-1.9-5.6-1-1-2.2-1.2-3-1.4h-.1a5 5 0 01-1.6-.7c-.5-.3-.8-.7-.8-1 0-.3.2-.6.5-.6 4.9-.2 8-3.7 9.5-6l.1-.3c0-.6.2-1.4.4-2 .3-.5.5-.6.8-.6.3 0 .4.1.4.2.1 0 .2.3.1.6a6 6 0 01-.6 2l-.1.4c0 3.1 1.9 6.2 4.8 7.2.3 0 .4.3.4.5 0 .3-.2.4-.4.5h0c-3.6.9-6 4.1-7.7 7z'
         />
         <path
@@ -99,9 +99,9 @@ const FreeTrialBlock = () => {
         />
         <path
           stroke='var(--rhino)'
-          stroke-linecap='round'
-          stroke-linejoin='round'
-          stroke-width='1.5'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+          strokeWidth='1.5'
           d='M164.2 56.3s0 0 0 0v-.4a22.7 22.7 0 010-1.5V53a3 3 0 00-.7-1.5c-.4-.4-1-.7-1.7-1a.6.6 0 01-.4-.6c0-.3.2-.4.4-.5 0 0 0 0 0 0 2.2-.6 3.6-2.5 4.7-4.1 0 0 0 0 0 0 0-.2.3-.3.5-.3s.4.2.4.5c0 1.6.4 2.6 1 3.2.6.6 1.3.8 1.7.9h.2s0 0 0 0c.8 0 1.4.6 1.5 1.1 0 .3-.2.6-.4.6-2.3 0-3.6 1.8-4.6 3.2l-.4.6c-.3.4-.6.9-1 1.2-.3.5-.6.6-.7.5a.6.6 0 01-.5-.4z'
         />
         <path
@@ -110,9 +110,9 @@ const FreeTrialBlock = () => {
         />
         <path
           stroke='var(--rhino)'
-          stroke-linecap='round'
-          stroke-linejoin='round'
-          stroke-width='1.5'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+          strokeWidth='1.5'
           d='M33.9 87.7A.8.8 0 0134 89c-1.1 1-2 2.3-2.7 3.9a.7.7 0 01-1.2.2 17.7 17.7 0 00-4.1-2.8.8.8 0 01-.1-1.3c1-.8 2.3-2 3-4a.7.7 0 011.3-.3 18 18 0 003.7 3.1zm12.3-14L41 72a.8.8 0 01-.5-1c.3-1.4.5-2.8.4-4.3h0L37.1 65a.8.8 0 01-.5-1l.7-3.3h0l.2-1.3-5-2a.8.8 0 01-.6-.8c0-1.9.2-3.6.5-5.2M176 89.3c-1.7.4-3.6.6-5.4.9a.8.8 0 01-1-.6c-.3-1.4-.8-2.8-1.5-4h0-4.1a.8.8 0 01-1-.6c-.1-1.1-.4-2.2-.8-3.2h0l-.4-1.3-5.4.6a.8.8 0 01-.8-.5 26 26 0 01-2-5'
         />
       </svg>

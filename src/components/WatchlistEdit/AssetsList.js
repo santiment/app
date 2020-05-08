@@ -1,6 +1,9 @@
 import React from 'react'
-import { AutoSizer, List } from 'react-virtualized'
-import { Button, Icon, Label } from '@santiment-network/ui'
+import List from 'react-virtualized/dist/commonjs/List'
+import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
+import Button from '@santiment-network/ui/Button'
+import Icon from '@santiment-network/ui/Icon'
+import Label from '@santiment-network/ui/Label'
 import { hasAssetById } from '../WatchlistPopup/WatchlistsPopup'
 import styles from './AssetsList.module.scss'
 

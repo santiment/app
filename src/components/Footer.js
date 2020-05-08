@@ -3,21 +3,24 @@ import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import styles from './Footer.module.scss'
-import './Footer.css'
 
 const Footer = ({ classes = {} }) => (
-  <div className={cx('sanbase-footer', classes.footer)}>
-    <div className='sanbase-footer__links'>
+  <div className={cx(styles.footer, classes.footer)}>
+    <div className={styles.links}>
       <Button
         as='a'
         onClick={() => window.Intercom('show')}
         className={styles.contact}
       >
-        Contact Us
+        Contact us
       </Button>
       <Link to={'/privacy-policy'}>Privacy</Link>
-      <a href='https://docs.google.com/forms/d/e/1FAIpQLSeFuCxjJjId98u1Bp3qpXCq2A9YAQ02OEdhOgiM9Hr-rMDxhQ/viewform'>
-        Request Token
+      <a
+        target='_blank'
+        rel='noopener noreferrer'
+        href='https://academy.santiment.net/sanbase/requesting-display-new-project/'
+      >
+        Request token
       </a>
     </div>
     <div>

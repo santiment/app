@@ -12,9 +12,7 @@ import { compose } from 'recompose'
 import nprogress from 'nprogress'
 import NotificationStack from './components/NotificationStack'
 import Roadmap from './pages/Roadmap'
-import Signals from './pages/Signals'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
-import BuildChallenge from './pages/BuildChallenge'
 import EmailLoginVerification from './pages/EmailVerification/EmailLoginVerification'
 import MobileNavbar from './components/MobileNavbar/MobileNavbar'
 import Navbar from './components/Navbar/Navbar'
@@ -22,7 +20,6 @@ import withTracker from './withTracker'
 import withIntercom from './withIntercom'
 import ErrorBoundary from './ErrorBoundary'
 import PageLoader from './components/Loader/PageLoader'
-import Status from './pages/Status'
 import Footer from './components/Footer'
 import GDPRPage from './pages/GDPRPage/GDPRPage'
 import AssetsPage from './pages/assets/AssetsPage'
@@ -312,7 +309,6 @@ export const App = ({
           }}
         />
         <Route exact path='/roadmap' component={Roadmap} />
-        <Route exact path='/signals' component={Signals} />
         <Route
           exact
           path='/labs/buidl-heroes'
@@ -382,9 +378,7 @@ export const App = ({
             />
           )}
         />
-        <Route exact path='/status' component={Status} />
         <Redirect from='/ethereum-spent' to='/projects/ethereum' />
-        <Route exact path='/build' component={BuildChallenge} />
         <Route exact path='/privacy-policy' component={PrivacyPolicyPage} />
         <Route path='/email_login' component={EmailLoginVerification} />
         <Route path='/verify_email' component={EmailLoginVerification} />

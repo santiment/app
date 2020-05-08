@@ -1,6 +1,5 @@
 import 'rxjs'
 import { combineEpics } from 'redux-observable'
-import handleOffline from './handleOffline'
 import handleLauched from './handleLaunch'
 import handleLogout from './handleLogout'
 import handleEmailLogin, {
@@ -74,7 +73,6 @@ import { trialSubscriptionEpic } from './trialSubscriptionEpic'
 import handleWideChartToggle from './handleWideChartToggle'
 
 export default combineEpics(
-  handleOffline,
   handleLauched,
   handleLogout,
   logoutEpic,
