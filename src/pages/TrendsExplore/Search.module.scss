@@ -70,6 +70,16 @@
 
 .toggle {
   margin-right: 8px;
+
+  &.active {
+    rect {
+      fill: var(--waterloo) !important;
+
+      &:hover {
+        fill: var(--waterloo) !important;
+      }
+    }
+  }
 }
 
 .link {
@@ -80,26 +90,7 @@
   }
 }
 
-.hidden {
-  opacity: 0;
-  position: absolute;
-  left: 0;
-}
-
-.wrapper {
-  position: relative;
-  display: flex;
-  color: var(--rhino);
-
-  &:hover {
-    color: var(--jungle-green);
-  }
-}
-
-.hiddenToggle {
-  z-index: 1000;
-  opacity: 0;
-  position: absolute;
-  left: 0;
-  right: 0;
+.btn {
+  width: auto;
+  padding: 0;
 }

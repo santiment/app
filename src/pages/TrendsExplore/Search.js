@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import cx from 'classnames'
 import MultiInput from '@santiment-network/ui/Input/MultiInput'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
@@ -75,39 +76,47 @@ const Search = ({
 
         return detectedAsset ? (
           <div className={styles.content}>
-            <div
-              className={styles.wrapper}
-              onClick={() => toggleLinkedAsset(text, detectedAsset, isActive)}
+            <DarkTooltip
+              position='top'
+              align='start'
+              on='hover'
+              className={styles.tooltip}
+              trigger={
+                <Button
+                  className={styles.btn}
+                  onClick={() =>
+                    toggleLinkedAsset(text, detectedAsset, isActive)
+                  }
+                >
+                  <Toggle
+                    Icon={() => (
+                      <path
+                        fill='#fff'
+                        d='M9.8 15h-.2v-1l-1.4-.4c-.4-.2-.7-.5-.9-.8a2 2 0 01-.3-1v-.1h1.4l.2.1c0 .3.2.5.5.7l1 .2c.6 0 1 0 1.2-.2.3-.2.4-.5.4-.8 0-.2 0-.3-.2-.5L11 11l-1.2-.4c-.8-.3-1.6-.6-2-.9-.4-.3-.6-.8-.6-1.5 0-.5.2-1 .6-1.4A3 3 0 019.5 6v-.7l.1-.2.2-.1h.9v1.1c.5 0 1 .2 1.3.4l.8.7.3.9a.2.2 0 01-.3.2h-1c-.2 0-.3 0-.3-.2s-.2-.4-.5-.6l-.9-.2c-.4 0-.7 0-1 .2a1 1 0 00-.3.7c0 .2 0 .4.2.5l.5.4 1.1.3a5 5 0 011.6.5c.4.2.6.4.8.7.2.3.3.6.3 1a2 2 0 01-.7 1.6c-.5.4-1 .7-1.8.8v.7l-.1.2-.2.1h-.7z'
+                      />
+                    )}
+                    isActive={isActive}
+                    className={cx(styles.toggle, isActive && styles.active)}
+                  />
+                </Button>
+              }
+            >
+              Click to switch to asset
+            </DarkTooltip>
+            <Link
+              className={styles.link}
+              to={`/projects/${detectedAsset.slug}`}
             >
               <DarkTooltip
                 position='top'
                 align='start'
                 on='hover'
                 className={styles.tooltip}
-                // NOTE: hidden div for tooltip trigger (doesn't work with Toggle/Link)
-                trigger={<div className={styles.hiddenToggle}>hidden</div>}
+                trigger={<Button className={styles.btn}>{text}</Button>}
               >
-                Click to switch to asset
+                Click to explore project page
               </DarkTooltip>
-              <Toggle isActive={isActive} className={styles.toggle} />
-            </div>
-            <div className={styles.wrapper}>
-              <Link
-                className={styles.link}
-                to={`/projects/${detectedAsset.slug}`}
-              >
-                <DarkTooltip
-                  position='top'
-                  align='start'
-                  on='hover'
-                  className={styles.tooltip}
-                  trigger={<div className={styles.hidden}>{text}</div>}
-                >
-                  Click to explore project page
-                </DarkTooltip>
-                {text}
-              </Link>
-            </div>
+            </Link>
           </div>
         ) : (
           text
