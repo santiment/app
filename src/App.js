@@ -12,7 +12,6 @@ import { compose } from 'recompose'
 import nprogress from 'nprogress'
 import NotificationStack from './components/NotificationStack'
 import Roadmap from './pages/Roadmap'
-import Signals from './pages/Signals'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import BuildChallenge from './pages/BuildChallenge'
 import EmailLoginVerification from './pages/EmailVerification/EmailLoginVerification'
@@ -312,7 +311,6 @@ export const App = ({
           }}
         />
         <Route exact path='/roadmap' component={Roadmap} />
-        <Route exact path='/signals' component={Signals} />
         <Route
           exact
           path='/labs/buidl-heroes'
