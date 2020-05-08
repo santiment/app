@@ -8,6 +8,7 @@ import { WORD_CLOUD_QUERY } from './wordCloudGQL.js'
 import { formatNumber } from '../../utils/formatting'
 import { getTimeIntervalFromToday } from '../../utils/dates'
 import styles from './WordCloud.module.scss'
+import stylesTooltip from '../../components/HelpPopup/HelpPopup.module.scss'
 
 const BIG_LIMIT = 3
 
@@ -54,6 +55,7 @@ export const WordCloud = ({
         <>
           <span className={styles.heading}>Social context</span>
           <HelpPopup>
+            <h4 className={stylesTooltip.title}>Social context</h4>
             These words are often used alongside the main keyword on crypto
             social media. Larger words are found more frequently in comments
             that also include the main keyword.
