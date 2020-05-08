@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import cx from 'classnames'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Input from '@santiment-network/ui/Input'
 import Button from '@santiment-network/ui/Button'
@@ -54,14 +55,29 @@ export class TrendsSearchForm extends Component {
           onChange={this.handleChange}
         />
         {withButton && (
-          <Button
-            type='submit'
-            variant='fill'
-            accent='positive'
-            className={styles.button}
-          >
-            Go
-          </Button>
+          <>
+            {this.state.topic ? (
+              <Button
+                type='submit'
+                variant='fill'
+                accent='positive'
+                className={styles.button}
+              >
+                Go
+              </Button>
+            ) : (
+              <Button
+                type='submit'
+                variant='fill'
+                accent='positive'
+                as={Link}
+                to='/labs/trends/explore/'
+                className={styles.button}
+              >
+                Go
+              </Button>
+            )}
+          </>
         )}
       </form>
     )

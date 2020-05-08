@@ -7,6 +7,7 @@ import styles from './TokensTooltip.module.scss'
 const TokensTooltip = () => (
   <div className={styles.sanTokens}>
     <Tooltip
+      on='click'
       trigger={
         <div className={styles.tooltipTrigger}>
           <span>
