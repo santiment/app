@@ -1,24 +1,22 @@
 @import "~@santiment-network/ui/variables.scss";
 
 .btn {
-    display: inline-flex;
-    align-items: center;
-    color: var(--black);
-    padding: 5px 10px;
-
+  display: inline-flex;
+  align-items: center;
+  color: var(--rhino);
+  padding: 5px 10px;
 }
 
 .icon {
-    height: 16px;
-    width: 16px;
-    fill: var(--grey-dark) !important;
+  height: 16px;
+  width: 16px;
+  fill: var(--casper) !important;
 
-    &:only-child{
-        fill: var(--black) !important;
-    }
+  &:only-child {
+    fill: var(--rhino) !important;
+  }
 }
 
-
 .text {
-    margin-left: 7px;
+  margin-left: 7px;
 }

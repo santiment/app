@@ -27,7 +27,7 @@
   margin: 0;
   font-size: 16px;
   line-height: 24px;
-  color: var(--mirage);
+  color: var(--rhino);
 }
 
 .close {
@@ -40,7 +40,6 @@
   display: flex;
   border-radius: $border-radius;
   overflow: hidden;
-  margin-bottom: 20px;
 
   &__input {
     border: none;
@@ -48,7 +47,7 @@
 
     @include text-normal;
 
-    color: var(--dodger-blue);
+    color: var(--waterloo);
     padding: 6px 10px;
     background-color: var(--white) !important;
   }
@@ -57,7 +56,8 @@
     white-space: nowrap;
     border-left: 1px solid var(--porcelain);
     border-radius: 0;
-    color: var(--mirage);
+    height: auto;
+    color: var(--rhino);
     position: relative;
 
     &::before {

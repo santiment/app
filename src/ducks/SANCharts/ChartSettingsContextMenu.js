@@ -12,17 +12,7 @@ import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import styles from './ChartPage.module.scss'
 
 const ShareChart = ({ trigger, shareLink }) => (
-  <ShareModalTrigger
-    trigger={trigger}
-    classes={styles}
-    shareLink={shareLink}
-    extraShare={[
-      {
-        value: `<iframe frameborder="0" height="340" src="${shareLink}"></iframe>`,
-        label: 'Copy iframe'
-      }
-    ]}
-  />
+  <ShareModalTrigger trigger={trigger} classes={styles} shareLink={shareLink} />
 )
 
 const ChartSettingsContextMenu = ({
