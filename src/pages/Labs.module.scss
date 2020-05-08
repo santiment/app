@@ -3,7 +3,8 @@
 .flexRow {
   @include grid-wrap(2);
 
-  margin-top: 22px;
+  margin: 22px 16px;
+  width: auto;
 }
 
 .historicalBalance {

@@ -8,6 +8,10 @@
   @include responsive('laptop') {
     grid-template-columns: 1fr 1fr;
   }
+
+  animation-name: shiftUp;
+  animation-timing-function: ease-out;
+  animation-duration: 0.5s;
 }
 
 .loader {
@@ -17,4 +21,14 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+}
+
+@keyframes shiftUp {
+  0% {
+    transform: translateY(10px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
 }

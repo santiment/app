@@ -38,6 +38,7 @@ const SocialGrid = ({ className, onTopicClick }) => {
           onTopicClick={onTopicClick}
           settings={settings[idx]}
           onLoad={onLoad}
+          className={styles.item}
         />
       ))}
     </section>

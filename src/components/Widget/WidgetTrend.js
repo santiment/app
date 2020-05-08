@@ -51,7 +51,7 @@ const WidgetTrend = ({
       </div>
 
       {msg ? (
-        <div>
+        <div className={styles.container}>
           {isLoading ? (
             <Loader className={styles.loader} />
           ) : (

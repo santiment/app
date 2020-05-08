@@ -31,9 +31,10 @@ const PublicTemplates = ({ isProSanbase }) => {
             key={title}
             className={cx(styles.template, requirePro && styles.proTemplate)}
           >
-            <div className={styles.title}>{title}</div>
-
-            <div className={styles.description}>{description}</div>
+            <div>
+              <div className={styles.title}>{title}</div>
+              <div className={styles.description}>{description}</div>
+            </div>
 
             {requirePro ? (
               <UpgradeBtn

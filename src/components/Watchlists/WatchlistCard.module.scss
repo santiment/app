@@ -13,13 +13,11 @@
   overflow: hidden;
   color: var(--mirage);
   cursor: pointer;
-  transition: all ease-in-out 0.1s;
   margin-bottom: 8px;
 
   @include responsive('laptop', 'desktop') {
     &:hover {
-      box-shadow: 0 14px 20px rgba(24, 27, 43, 0.06);
-      transform: translateY(-4px);
+      border-color: var(--mystic);
 
       .name {
         color: var(--jungle-green-hover);
