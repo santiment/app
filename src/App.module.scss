@@ -9,8 +9,11 @@
 }
 
 .offline {
+  position: absolute;
+  top: 0;
+  z-index: 30;
   text-align: center;
-  padding: 8px 0;
+  padding: 2px 0;
   background-color: var(--persimmon-light);
   color: var(--persimmon);
   width: 100%;
