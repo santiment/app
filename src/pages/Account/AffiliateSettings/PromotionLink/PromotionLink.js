@@ -6,7 +6,7 @@ import Icon from '@santiment-network/ui/Icon'
 import ShareMedias from '../../../../components/Share/medias/ShareMedias'
 import styles from './PromotionLink.module.scss'
 
-const PromotionLink = ({ data, classes }) => {
+const PromotionLink = ({ data }) => {
   const { referralLink } = data
 
   return (
@@ -21,17 +21,7 @@ const PromotionLink = ({ data, classes }) => {
         </Button>
       </div>
 
-      <div className={styles.block}>
-        <div className={classes.title}>Share on social media</div>
-
-        <div className={styles.share}>
-          <ShareMedias
-            shareLink={referralLink}
-            showShareLabel={false}
-            classes={styles}
-          />
-        </div>
-      </div>
+      <ShareMedias shareLink={referralLink} />
     </>
   )
 }

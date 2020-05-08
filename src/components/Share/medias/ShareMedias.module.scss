@@ -4,10 +4,13 @@
   border: 1px solid var(--porcelain);
   color: var(--mirage);
   text-decoration: none;
-  margin-bottom: 8px;
   padding: 8px 10px;
   display: flex;
+  width: 40px;
+  height: 40px;
+  margin-right: 8px;
   align-items: center;
+  justify-content: center;
 
   &:last-child {
     margin: 0;
@@ -37,8 +40,20 @@
 }
 
 .icon {
-  width: 16px;
+  width: 20px;
+  height: 20px;
   text-align: center;
-  margin-right: 7px;
-  fill: var(--casper) !important;
+  fill: var(--rhino) !important;
+}
+
+.share {
+  display: flex;
+}
+
+.block {
+  margin-top: 32px;
+}
+
+.title {
+  margin-bottom: 8px;
 }
