@@ -1,13 +1,18 @@
 import React, { PureComponent } from 'react'
 import debounce from 'lodash.debounce'
-import { Dialog, Toggle, Input, Label } from '@santiment-network/ui'
+import Toggle from '@santiment-network/ui/Toggle'
+import Label from '@santiment-network/ui/Label'
+import Input from '@santiment-network/ui/Input'
+import Dialog from '@santiment-network/ui/Dialog'
 import { connect } from 'react-redux'
 import { USER_ADD_NEW_ASSET_LIST } from '../../actions/types'
 import styles from './NewWatchlistDialog.module.scss'
 
+const MAX_LENGTH = 3
+
 const NAME_EXISTS_ERROR = 'The watchlist with this name already exists'
 
-const SHORT_NAME_ERROR = 'The name should be at least 5 characters'
+const SHORT_NAME_ERROR = `The name should be at least ${MAX_LENGTH} characters`
 
 const BAD_SYMBOLS_ERROR = "Use only letters, numbers, whitespace and _-.'/,"
 
@@ -57,7 +62,7 @@ class NewWatchlistDialog extends PureComponent {
     if (watchlists.some(({ name }) => name.toUpperCase() === upperCaseName)) {
       error = NAME_EXISTS_ERROR
     }
-    if (!name || name.length < 5) {
+    if (!name || name.length < MAX_LENGTH) {
       error = SHORT_NAME_ERROR
     }
 

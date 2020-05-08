@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
-import { Button, Icon } from '@santiment-network/ui'
+import Button from '@santiment-network/ui/Button'
+import Icon from '@santiment-network/ui/Icon'
 import styles from './WatchlistNewBtn.module.scss'
 
 const WatchlistNewBtn = props => (

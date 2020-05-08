@@ -50,7 +50,7 @@
   }
 }
 
-.loginBtn {
+.btn {
   position: fixed;
   display: flex;
   justify-content: center;
@@ -59,19 +59,25 @@
   width: 80%;
 }
 
+.logout {
+  color: var(--persimmon) !important;
+}
+
 .navigationList {
   display: flex;
   flex-direction: column;
 }
 
 .navigationList__link {
-  color: var(--mirage);
+  color: var(--rhino);
+  font-family: 'Proxima Nova', sans-serif;
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
   line-height: 26px;
   text-align: center;
   margin-bottom: 32px;
+  padding: 0;
   background: none;
   border: none;
 }
