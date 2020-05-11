@@ -50,7 +50,11 @@ const Trigger = ({
           align='start'
           offsetY={13}
           closeTimeout={500}
-          trigger={<Icon className={styles.detailsIcon} type='info-round' />}
+          trigger={
+            <div className={styles.detailsIcon}>
+              <Icon type='info-round' />
+            </div>
+          }
           className={styles.tooltip}
         >
           <TemplateInfo template={selectedTemplate} classes={styles} />

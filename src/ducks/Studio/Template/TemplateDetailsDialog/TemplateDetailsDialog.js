@@ -35,7 +35,7 @@ const TemplateDetailsDialog = ({
   isDialog = true,
   onRename,
   onDelete,
-  onClose
+  selectTemplate
 }) => {
   const [deleteTemplate] = useDeleteTemplate()
   const { isPublic, toggleIsPublic } = usePublicTemplates(template)
@@ -79,7 +79,7 @@ const TemplateDetailsDialog = ({
             <UseTemplateBtn
               template={template}
               onClick={() => {
-                onClose && onClose(template)
+                selectTemplate(template)
               }}
             />
           )}

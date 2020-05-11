@@ -142,11 +142,7 @@ const LoadTemplate = ({
           onRename={onRename}
           onDelete={onDelete}
           isDialog={false}
-          onClose={template => {
-            if (template) {
-              selectTemplate(template)
-            }
-          }}
+          selectTemplate={selectTemplate}
         />
       )}
     </Dialog>
