@@ -44,8 +44,6 @@ export const getPreparedMetricSettings = (metrics, settingsMap) => {
   } else {
     newSettingsMap.forEach((value, key) => {
       delete value['interval']
-
-      newSettingsMap.set(key, value)
     })
   }
 
