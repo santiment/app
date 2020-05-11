@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import { Metric } from '../dataHub/metrics'
 
-const splitByComma = str => str.split(',')
+const splitByComma = (str) => str.split(',')
 const lineMetricsFilter = ({ node }) => node === 'line'
 
-export function useDomainGroups (metrics) {
+export function useDomainGroups(metrics) {
   const [domainGroups, setDomainGroups] = useState()
 
   useEffect(
@@ -41,16 +41,16 @@ export function useDomainGroups (metrics) {
 
       setDomainGroups(newDomainGroups.length > 0 ? newDomainGroups : undefined)
     },
-    [metrics]
+    [metrics],
   )
 
   return domainGroups
 }
 
-export function useClosestValueData (
+export function useClosestValueData(
   rawData,
   metrics,
-  isClosestValueActive = true
+  isClosestValueActive = true,
 ) {
   const [newData, setNewData] = useState(rawData)
 
@@ -103,8 +103,72 @@ export function useClosestValueData (
 
       setNewData(data)
     },
-    [rawData, metrics, isClosestValueActive]
+    [rawData, metrics, isClosestValueActive],
   )
 
   return newData
+}
+
+export function useTooltipMetricKey(metrics) {
+  const [tooltipMetricKey, setTooltipMetricKey] = useState(metrics[0].key)
+
+  useEffect(
+    () => {
+      const { length } = metrics
+      let tooltipKey = metrics[0]
+
+      for (let i = 0; i < length; i++) {
+        const metric = metrics[i]
+
+        if (metric === Metric.price_usd) {
+          return setTooltipMetricKey(metric.key)
+        }
+
+        if (tooltipKey.node !== 'line') {
+          tooltipKey = metric
+        } else {
+          break
+        }
+      }
+
+      return setTooltipMetricKey(tooltipKey.key)
+    },
+    [metrics],
+  )
+
+  return tooltipMetricKey
+}
+
+export function useAxesMetricsKey(metrics) {
+  const [axesMetricKeys, setAxesMetricKeys] = useState([])
+
+  useEffect(
+    () => {
+      let leftAxisMetric = metrics[0]
+      let rightAxisMetric = {}
+
+      const { length } = metrics
+      if (length === 1) {
+        return setAxesMetricKeys([leftAxisMetric.key])
+      }
+
+      for (let i = 0; i < length; i++) {
+        const metric = metrics[i]
+
+        if (metric === Metric.price_usd) {
+          rightAxisMetric = metric
+        } else if (
+          leftAxisMetric.node !== 'line' ||
+          leftAxisMetric === Metric.price_usd
+        ) {
+          leftAxisMetric = metric
+        }
+      }
+
+      setAxesMetricKeys([leftAxisMetric.key, rightAxisMetric.key])
+    },
+    [metrics],
+  )
+
+  return axesMetricKeys
 }

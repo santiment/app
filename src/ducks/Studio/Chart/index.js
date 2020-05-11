@@ -11,14 +11,18 @@ import IcoPrice from './IcoPrice'
 import LastDayPrice from './LastDayPrice'
 import SharedAxisToggle from './SharedAxisToggle'
 import ChartMetricsExplanation, {
-  filterExplainableMetrics
+  filterExplainableMetrics,
 } from './Sidepane/MetricsExplanation'
 import { METRICS_EXPLANATION_PANE } from './Sidepane/panes'
 import { TOP_HOLDER_METRICS } from './Sidepane/TopHolders/metrics'
 import Chart from '../../Chart'
 import Signals from '../../Chart/Signals'
 import Synchronizer from '../../Chart/Synchronizer'
-import { useDomainGroups } from '../../Chart/hooks'
+import {
+  useDomainGroups,
+  useTooltipMetricKey,
+  useAxesMetricsKey,
+} from '../../Chart/hooks'
 import { useChartColors } from '../../Chart/colors'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './index.module.scss'
@@ -51,6 +55,8 @@ const Canvas = ({
   const [FocusedMetric, setFocusedMetric] = useState()
   const MetricColor = useChartColors(metrics, FocusedMetric)
   const domainGroups = useDomainGroups(metrics)
+  const tooltipKey = useTooltipMetricKey(metrics)
+  const axesMetricKeys = useAxesMetricsKey(metrics)
 
   const isBlurred = isAnon && index > 1
   const hasExplanaibles = filterExplainableMetrics(metrics).length > 0
@@ -62,16 +68,16 @@ const Canvas = ({
         toggleChartSidepane()
       }
     },
-    [hasExplanaibles]
+    [hasExplanaibles],
   )
 
   useEffect(onMetricHoverEnd, [metrics])
 
-  function onMetricHover (metric) {
+  function onMetricHover(metric) {
     setFocusedMetric(metric)
   }
 
-  function onMetricHoverEnd () {
+  function onMetricHoverEnd() {
     setFocusedMetric()
   }
 
@@ -80,7 +86,7 @@ const Canvas = ({
       className={cx(
         styles.wrapper,
         chartSidepane && styles.wrapper_explained,
-        className
+        className,
       )}
     >
       <div className={cx(styles.top, isBlurred && styles.blur)}>
@@ -89,7 +95,7 @@ const Canvas = ({
             className={styles.metric}
             MetricColor={MetricColor}
             activeMetrics={metrics.filter(
-              metric => !TOP_HOLDER_METRICS.includes(metric)
+              (metric) => !TOP_HOLDER_METRICS.includes(metric),
             )}
             activeEvents={activeEvents}
             toggleMetric={toggleMetric}
@@ -136,6 +142,8 @@ const Canvas = ({
         metrics={metrics}
         scale={scale}
         domainGroups={isDomainGroupingActive ? domainGroups : undefined}
+        tooltipKey={tooltipKey}
+        axesMetricKeys={axesMetricKeys}
         isMultiChartsActive={isMultiChartsActive}
         syncedTooltipDate={isBlurred || syncedTooltipDate}
         onPointClick={advancedView ? changeHoveredDate : undefined}
@@ -147,7 +155,7 @@ const Canvas = ({
           isMultiChartsActive,
           advancedView,
           chartSidepane,
-          isSidebarClosed
+          isSidebarClosed,
         ]}
       >
         <IcoPrice
@@ -155,7 +163,7 @@ const Canvas = ({
           {...options}
           metrics={metrics}
           className={styles.ico}
-          onResult={price => setIsICOPriceDisabled(!price)}
+          onResult={(price) => setIsICOPriceDisabled(!price)}
         />
         <LastDayPrice settings={settings} metrics={metrics} />
         <Signals {...settings} metrics={metrics} />
@@ -187,8 +195,8 @@ const Canvas = ({
   )
 }
 
-const mapStateToProps = state => ({
-  isAnon: !checkIsLoggedIn(state)
+const mapStateToProps = (state) => ({
+  isAnon: !checkIsLoggedIn(state),
 })
 
 export default connect(mapStateToProps)(
@@ -203,5 +211,5 @@ export default connect(mapStateToProps)(
         />
       </Synchronizer>
     )
-  }
+  },
 )

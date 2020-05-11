@@ -1,13 +1,18 @@
-import { drawAxes, drawAxesTicks } from '@santiment-network/chart/axes'
+import {
+  drawAxes,
+  drawAxesTicks,
+  drawRightAxis,
+  drawRightAxisTicks,
+} from '@santiment-network/chart/axes'
 import {
   isDayInterval,
   getDateDayMonthYear,
-  getDateHoursMinutes
+  getDateHoursMinutes,
 } from './utils'
 import { dayTicksPaintConfig, dayAxesColor } from './paintConfigs'
 import { millify } from '../../utils/formatting'
 
-const yFormatter = value => {
+const yFormatter = (value) => {
   if (!value) {
     return 0
   }
@@ -31,20 +36,33 @@ const yFormatter = value => {
   return Math.trunc(value)
 }
 
-export function plotAxes (chart, scale) {
+export function plotAxes(chart, scale) {
   const {
-    tooltipKey,
+    axesMetricKeys,
     ticksPaintConfig = dayTicksPaintConfig,
-    axesColor = dayAxesColor
+    axesColor = dayAxesColor,
   } = chart
+
+  const [leftAxisMetric, rightAxisMetric] = axesMetricKeys
 
   drawAxes(chart, axesColor)
   drawAxesTicks(
     chart,
-    tooltipKey,
+    leftAxisMetric,
     isDayInterval(chart) ? getDateHoursMinutes : getDateDayMonthYear,
     yFormatter,
     ticksPaintConfig,
-    scale
+    scale,
   )
+
+  if (rightAxisMetric) {
+    drawRightAxis(chart, axesColor)
+    drawRightAxisTicks(
+      chart,
+      rightAxisMetric,
+      yFormatter,
+      ticksPaintConfig,
+      scale,
+    )
+  }
 }

@@ -17,7 +17,7 @@ import {
   CHART_HEIGHT,
   BRUSH_HEIGHT,
   CHART_PADDING,
-  CHART_WITH_BRUSH_PADDING
+  CHART_WITH_BRUSH_PADDING,
 } from './settings'
 import { drawWatermark } from './watermark'
 import { onResize, useResizeEffect } from './resize'
@@ -40,6 +40,7 @@ const Chart = ({
   events = [],
   scale = linearScale,
   tooltipKey,
+  axesMetricKeys,
   MetricColor,
   syncedTooltipDate,
   hideBrush,
@@ -55,7 +56,7 @@ const Chart = ({
   isNightModeEnabled,
   isCartesianGridActive,
   resizeDependencies,
-  children
+  children,
 }) => {
   let [chart, setChart] = useState()
   let [brush, setBrush] = useState()
@@ -72,8 +73,8 @@ const Chart = ({
         canvas,
         width,
         chartHeight,
-        isShowBrush ? CHART_WITH_BRUSH_PADDING : chartPadding
-      )
+        isShowBrush ? CHART_WITH_BRUSH_PADDING : chartPadding,
+      ),
     )
     chart.tooltipKey = tooltipKey
 
@@ -84,7 +85,7 @@ const Chart = ({
         BRUSH_HEIGHT,
         dayBrushPaintConfig,
         plotBrushData,
-        onBrushChange
+        onBrushChange,
       )
       brush.canvas.classList.add(styles.brush)
       setBrush(brush)
@@ -114,35 +115,42 @@ const Chart = ({
         brush.paintConfig = brushPaintConfig
       }
     },
-    [isNightModeEnabled]
+    [isNightModeEnabled],
   )
 
   useEffect(
     () => {
       chart.onRangeSelect = onRangeSelect
     },
-    [onRangeSelect]
+    [onRangeSelect],
   )
 
   useEffect(
     () => {
       chart.onPointClick = onPointClick
     },
-    [onPointClick]
+    [onPointClick],
   )
 
   useEffect(
     () => {
       chart.tooltipKey = tooltipKey
     },
-    [tooltipKey]
+    [tooltipKey],
+  )
+
+  useEffect(
+    () => {
+      chart.axesMetricKeys = axesMetricKeys
+    },
+    [axesMetricKeys],
   )
 
   useEffect(
     () => {
       chart.colors = MetricColor
     },
-    [MetricColor]
+    [MetricColor],
   )
 
   useEffect(
@@ -152,7 +160,7 @@ const Chart = ({
       brush.startIndex = 0
       brush.endIndex = data.length - 1
     },
-    [data]
+    [data],
   )
 
   useEffect(
@@ -165,7 +173,7 @@ const Chart = ({
         data,
         joinedCategories,
         domainModifier,
-        domainGroups
+        domainGroups,
       )
       if (brush) {
         clearCtx(brush)
@@ -183,8 +191,8 @@ const Chart = ({
       domainGroups,
       MetricColor,
       isNightModeEnabled,
-      isCartesianGridActive
-    ]
+      isCartesianGridActive,
+    ],
   )
 
   useEffect(
@@ -205,14 +213,14 @@ const Chart = ({
         clearCtx(chart, chart.tooltip.ctx)
       }
     },
-    [syncedTooltipDate]
+    [syncedTooltipDate],
   )
 
   useEffect(handleResize, resizeDependencies)
 
   useResizeEffect(handleResize, [...resizeDependencies, data, brush])
 
-  function handleResize () {
+  function handleResize() {
     if (data.length === 0) {
       return
     }
@@ -222,7 +230,7 @@ const Chart = ({
       isShowBrush ? CHART_WITH_BRUSH_PADDING : chartPadding,
       brush,
       data,
-      chartHeight
+      chartHeight,
     )
 
     if (!brush) {
@@ -231,7 +239,7 @@ const Chart = ({
         data,
         joinedCategories,
         domainModifier,
-        domainGroups
+        domainGroups,
       )
       plotChart(data)
       if (!hideAxes) {
@@ -240,7 +248,7 @@ const Chart = ({
     }
   }
 
-  function onBrushChange (startIndex, endIndex) {
+  function onBrushChange(startIndex, endIndex) {
     const newData = data.slice(startIndex, endIndex + 1)
 
     updateChartState(
@@ -248,7 +256,7 @@ const Chart = ({
       newData,
       joinedCategories,
       domainModifier,
-      domainGroups
+      domainGroups,
     )
 
     clearCtx(chart)
@@ -258,13 +266,13 @@ const Chart = ({
     }
   }
 
-  function plotBrushData () {
+  function plotBrushData() {
     plotDayBars(brush, data, daybars, MetricColor, scale)
     plotBars(brush, data, bars, MetricColor, scale)
     plotLines(brush, data, lines, MetricColor, scale)
   }
 
-  function plotChart (data) {
+  function plotChart(data) {
     if (!hideWatermark) {
       drawWatermark(chart, isNightModeEnabled)
     }
@@ -280,11 +288,11 @@ const Chart = ({
     }
 
     events.forEach(({ metric, key, datetime, value, color }) =>
-      drawReferenceDot(chart, metric, datetime, color, key, value)
+      drawReferenceDot(chart, metric, datetime, color, key, value),
     )
   }
 
-  function marker (ctx, key, value, x, y) {
+  function marker(ctx, key, value, x, y) {
     const { colors } = chart
     const RADIUS = 4
 
@@ -307,20 +315,20 @@ const Chart = ({
       {chart &&
         React.Children.map(
           children,
-          child =>
+          (child) =>
             child &&
             React.cloneElement(child, {
               chart,
               scale,
-              data
-            })
+              data,
+            }),
         )}
     </div>
   )
 }
 
 const mapStateToProps = ({ rootUi: { isNightModeEnabled } }) => ({
-  isNightModeEnabled
+  isNightModeEnabled,
 })
 
 export default connect(mapStateToProps)(Chart)
