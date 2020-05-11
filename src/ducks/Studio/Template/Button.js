@@ -17,7 +17,7 @@ const TooltipWrapper = ({ selectedTemplate, children }) => {
   return (
     <DarkTooltip
       trigger={children}
-      position='top'
+      position='bottom'
       align='start'
       className={styles.tooltip}
     >

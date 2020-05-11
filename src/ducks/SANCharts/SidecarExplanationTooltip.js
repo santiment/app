@@ -13,6 +13,7 @@ const SidecarExplanationTooltip = props => {
     localStorageSuffix = '',
     className,
     position = 'left',
+    withArrow = false,
     align = 'start',
     dismissOnTouch = false,
     delay = TOOLTIP_DELAY_IN_MS,
@@ -59,6 +60,7 @@ const SidecarExplanationTooltip = props => {
       className={cx(styles.wrapper, className)}
       shown={shown}
       position={position}
+      withArrow={withArrow}
       align={align}
       as='div'
       onOpen={shown ? undefined : disableHelp}

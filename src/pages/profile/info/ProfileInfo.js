@@ -137,9 +137,10 @@ const ProfileInfo = ({
           <SidecarExplanationTooltip
             closeTimeout={500}
             localStorageSuffix='_PROFILE_FOLLOW_EXPLANATION'
-            position='top'
+            position='bottom'
             title={<div>Click to open list of users</div>}
             description=''
+            withArrow
           >
             <div className={styles.followersBlocks}>
               <FollowList

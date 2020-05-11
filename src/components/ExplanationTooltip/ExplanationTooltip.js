@@ -14,6 +14,7 @@ const ExplanationTooltip = ({
     {...props}
     className={cx(styles.wrapper, className)}
     closeTimeout={closeTimeout}
+    arrowClassName={styles.arrow}
     trigger={children}
   >
     {text}
