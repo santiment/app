@@ -2,13 +2,13 @@
 
 .explanation {
   z-index: 1000;
-  padding: 16px;
-  width: 275px;
+  padding: 18px 24px;
+  width: 304px;
   height: auto;
   background: var(--white);
   border: 1px solid var(--porcelain);
   border-radius: 4px;
-  color: var(--mirage);
+  color: var(--rhino);
 
   &__content {
     position: relative;
@@ -16,15 +16,16 @@
 }
 
 .title {
-  color: var(--mirage);
-  margin-bottom: 8px;
+  color: var(--rhino);
+  margin: 0 0 8px;
 
-  @include text('caption', 'l');
+  @include text('body-3', 'm');
 }
 
 .text {
-  @include text('caption');
+  @include text('body-3');
 
+  margin: 0;
   color: var(--fiord);
 }
 
@@ -33,6 +34,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 8px;
 
   &__text {
     margin-left: 8px;

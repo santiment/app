@@ -10,6 +10,7 @@ import DetailsItem from './DetailsItem'
 import Column from './Column'
 import PaywallBanner from './PaywallBanner'
 import styles from './index.module.scss'
+import stylesTooltip from '../../components/HelpPopup/HelpPopup.module.scss'
 
 const DEFAULT_MAP = new Map()
 
@@ -75,6 +76,7 @@ const AverageSocialVolume = ({ topics, linkedAssets, hasPremium }) => {
       <div className={styles.header}>
         <h3 className={styles.title}>Average, 30d</h3>
         <HelpPopup>
+          <h4 className={stylesTooltip.title}>Average Social Volume</h4>
           The average number of daily mentions in the past 30 days
         </HelpPopup>
       </div>

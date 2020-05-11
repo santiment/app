@@ -1,11 +1,15 @@
 @import '~@santiment-network/ui/mixins';
 
 .panel {
-  max-width: 465px;
-  padding: 16px 24px;
+  max-width: 350px;
+  padding: 18px 24px;
   border-radius: $border-radius;
   text-align: left;
   color: var(--rhino);
+
+  @include responsive('phone', 'phone-xs') {
+    max-width: 100%;
+  }
 }
 
 .wrapper {
@@ -19,7 +23,7 @@
   cursor: pointer;
 
   &:hover {
-    fill: var(--jungle-green-hover);
+    fill: var(--foird);
   }
 }
 

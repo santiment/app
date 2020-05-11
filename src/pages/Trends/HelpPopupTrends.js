@@ -4,7 +4,7 @@ import styles from './../../components/HelpPopup/HelpPopup.module.scss'
 
 const HelpPopupTrends = () => (
   <HelpPopup>
-    <h4 className={styles.heading}>
+    <h4 className={styles.title}>
       Specify your search results with these modifiers:
     </h4>
     <ul className={styles.list}>

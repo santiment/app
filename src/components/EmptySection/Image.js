@@ -11,15 +11,15 @@ const Image = ({ className }) => (
       <path
         d='M51.05 43.03a2.23 2.23 0 0 1 2.76-1.54l5.2 1.44a9.23 9.23 0 0 1 3.21-3.25 6 6 0 0 1 5.34-.58c1.68-4.91 6.34-7.8 11.18-6.45a7.19 7.19 0 0 1 4.8 4.42 6.57 6.57 0 0 1 4.81-.44c3.2.89 5.36 4.22 5.04 8.8.75-.02 1.45.1 2.01.26 1.08.3 2.3.92 3.18 2.17.87 1.26 1.3 3.01 1.04 5.4'
         stroke='var(--waterloo)'
-        strokeWidth='2'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
       />
       <path
         d='M146.4 54.01a66.96 66.96 0 0 1 2.93 3.85v.02a52.66 52.66 0 0 0 2.7 3.58'
-        stroke='var(--mirage)'
-        strokeWidth='2'
+        stroke='var(--rhino)'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
@@ -27,7 +27,7 @@ const Image = ({ className }) => (
       <path
         d='M380.01 37.1c.66-1.53 1.4-2.99 2.12-4.35v-.02a52.31 52.31 0 0 0 1.98-4.02'
         stroke='var(--waterloo)'
-        strokeWidth='2'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
@@ -35,15 +35,15 @@ const Image = ({ className }) => (
       <path
         d='M345.87 81.33c1.6.52 3.13 1.13 4.56 1.7l.01.01c1.44.61 2.82 1.14 4.21 1.6'
         stroke='var(--waterloo)'
-        strokeWidth='2'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
       />
       <path
         d='M226.44 171.12a66.86 66.86 0 0 1 2.94 3.86v.01a52.61 52.61 0 0 0 2.7 3.58'
-        stroke='var(--mirage)'
-        strokeWidth='2'
+        stroke='var(--rhino)'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
@@ -51,7 +51,7 @@ const Image = ({ className }) => (
       <path
         d='M123.43 180.77c1.54-2.4 2.01-5.11 2.78-7.58m3.63-7.67l1.7 7.75-9.41-3.45 7.71-4.3z'
         stroke='var(--waterloo)'
-        strokeWidth='2'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
@@ -59,7 +59,7 @@ const Image = ({ className }) => (
       <path
         d='M115.73 35.72c.33-.34.9-.72 1.71-1.14.8-.42 1.77-.85 2.86-1.29 1.03-.42 2.15-.84 3.3-1.28l.18-.07c1.2-.45 2.45-.93 3.64-1.42 2.36-.96 4.64-2.03 6.14-3.25a5.26 5.26 0 0 0 1.7-2.18c.34-.9.25-1.84-.27-2.75-.28-.5-.63-.89-1.04-1.15a2.09 2.09 0 0 0-1.33-.31c-.8.07-1.4.59-1.69.88m-2.64 6.73c-.7-2.06-2.95-7.3-7.64-4.82-4.68 2.48-1.89 7.21-1.39 8.27'
         stroke='var(--waterloo)'
-        strokeWidth='2'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
@@ -67,7 +67,7 @@ const Image = ({ className }) => (
       <path
         d='M317.24 157.91c-.32-.25-.71-.7-1.16-1.36-.44-.65-.9-1.45-1.39-2.34-.46-.85-.93-1.77-1.42-2.72l-.08-.15c-.51-1-1.04-2.02-1.58-3-1.06-1.94-2.21-3.8-3.42-4.98a4.63 4.63 0 0 0-2.06-1.26 2.83 2.83 0 0 0-2.38.5c-.4.28-.72.61-.9 1-.2.39-.24.8-.16 1.16.14.69.65 1.16.93 1.38m6.13 1.64c-1.74.8-6.1 3.22-3.5 7.02 2.6 3.8 6.48.96 7.36.43'
         stroke='var(--waterloo)'
-        strokeWidth='2'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
@@ -95,15 +95,15 @@ const Image = ({ className }) => (
       <path
         d='M61.42 135.47c6.25-9.92 2.62-25.63-8.18-30.6m-4.1 3.79h.03c9.26 4.07 10.45 14.35 7.88 23.2m-5.03-.6c2.9-6.3-.7-14.84-7.01-17.6m.47 12.18c.61-.97 1.63-3.33-1.4-5.23-.37-.23-.79-.31-1.12-.34a3.77 3.77 0 0 0-3.5 1.84c-1.1 1.75-.69 3.97.9 4.97 1.77 1.11 4.25.23 5.12-1.24z'
         stroke='var(--waterloo)'
-        strokeWidth='2'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
       />
       <path
         d='M98 120l.11.07c.11.08.27.23.48.49.3.36.61.85.94 1.44a38.83 38.83 0 0 1 1.95 4.2 86.53 86.53 0 0 1 1.97 5.36l.12.37.03.09v.02h.01m-1.02-5.85c1.4-.79 4.03-1.77 5.62-.96 3.19 1.6.64 4.55-3.53 6.33'
-        stroke='var(--mirage)'
-        strokeWidth='2'
+        stroke='var(--rhino)'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
@@ -111,14 +111,14 @@ const Image = ({ className }) => (
       <path
         d='M317.09 12.65c.04.01.1.05.18.1.18.14.44.38.78.8.47.6 1 1.39 1.53 2.35a63.15 63.15 0 0 1 3.18 6.82 141.56 141.56 0 0 1 3.39 9.32l.05.16.01.04m-1.65-9.52c2.28-1.28 6.55-2.87 9.13-1.57 5.19 2.62 1.04 7.4-5.74 10.3'
         stroke='var(--waterloo)'
-        strokeWidth='2'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
       />
       <path
         d='M351.28 124.52c-.23-.42-.22-.9.04-1.3s.67-.65 1.11-.64c1.53.04 3.85.22 6.13.33.44.02.88.29 1.11.76.24.47.22.94.01 1.4a99.81 99.81 0 0 0-2.57 5.12c-.27.56-.77.9-1.37.89a1.5 1.5 0 0 1-1.4-.82c-1.22-2.37-2.3-4.37-3.06-5.74z'
-        fill='var(--mirage)'
+        fill='var(--rhino)'
       />
       <path
         d='M351.8 153.23c-.1-.64-.6-1.17-1.24-1.37a1.86 1.86 0 0 0-1.8.41 240.65 240.65 0 0 1-7.9 7.45c-.6.56-.91 1.36-.82 2.17.15.81.65 1.52 1.45 1.83l9.58 4.26c.74.31 1.55.22 2.15-.28.59-.5.9-1.3.75-2.06l-2.18-12.41z'
@@ -135,7 +135,7 @@ const Image = ({ className }) => (
       <path
         d='M327.91 85.01c.55-.02 1.16.23 1.54.63l.54-.51-.54.51c.38.4.6.97.54 1.55-.4 5.03-1.13 14.65-1.65 22.16-.06.82-.8 1.51-1.7 1.49h-.04l-26.07-1.43a1.54 1.54 0 0 1-1.44-1.58c.13-3.27.36-6.6.58-9.88l.2-2.82.25-3.78.27-3.78v-.01a2.1 2.1 0 0 1 2.06-1.96l25.46-.59z'
         stroke='var(--waterloo)'
-        strokeWidth='2'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
       />
       <ellipse
@@ -150,8 +150,8 @@ const Image = ({ className }) => (
       />
       <path
         d='M34.87 89.72l.02-.03c4.12-5.25 8.45-10.31 12.6-15.52.53-.61.45-1.5-.17-2.02l-.05-.04c-6.47-5.4-13.4-10.21-20.07-15.37a1.5 1.5 0 0 0-1.96.16c-4.37 4.72-8.45 9.7-12.46 14.72A1.4 1.4 0 0 0 13 73.6c6.78 5.25 13.15 11 19.87 16.33.57.48 1.53.35 2-.2z'
-        stroke='var(--mirage)'
-        strokeWidth='2'
+        stroke='var(--rhino)'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
@@ -167,7 +167,7 @@ const Image = ({ className }) => (
       <path
         d='M100.6 74.39c.4-.89 37-1.13 38.06 0 1.05 1.11.81 17.57 1.05 26.35l-38.03.16c-.72-8.82-1.47-25.62-1.07-26.51z'
         stroke='var(--waterloo)'
-        strokeWidth='2'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
@@ -175,7 +175,7 @@ const Image = ({ className }) => (
       <path
         d='M128.5 72c-1.5-4.4-5.17-5.46-9-5.5-4.14-.04-6.83 1.63-8.42 5.77'
         stroke='var(--waterloo)'
-        strokeWidth='2'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
@@ -183,21 +183,21 @@ const Image = ({ className }) => (
       <path
         d='M125.21 86.37c0 2.87-2.34 5.2-5.25 5.2a5.23 5.23 0 0 1-5.25-5.2c0-2.86 2.34-5.2 5.25-5.2 2.9 0 5.25 2.34 5.25 5.2z'
         stroke='var(--waterloo)'
-        strokeWidth='2'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
       />
       <path
         d='M411.68 68.75l.02-.03c.4-1.04 1-2.5.92-4a4.6 4.6 0 0 0-.75-2.35 6.18 6.18 0 0 0-2.27-1.98 5.5 5.5 0 0 0-3.37-.6c-1.26.2-2.5.89-3.3 2.3l-.42.77a21.33 21.33 0 0 1-2.41 3.65 3.61 3.61 0 0 1-2.13 1.32c-.79.13-1.83 0-3.34-.56a45.12 45.12 0 0 1-5.82-2.8l-1.6-.9a90.3 90.3 0 0 0-1.63-.93l-.86-.47A2.6 2.6 0 0 0 383 62a2.23 2.23 0 0 0-1.4 1.16c-.6 1.17-1.16 2.33-1.7 3.46v.01l-.8 1.65a153.77 153.77 0 0 1-4.3 8.54 2.26 2.26 0 0 0 .54 2.9c2.88 2.19 6.92 4.7 12.61 7.81a60.82 60.82 0 0 0 9.6 4.43c2.6.87 4.76 1.18 6.6.92 3.81-.52 5.9-3.36 7.95-7 1.81-3.25 2.61-5.58 2.75-7.28.14-1.75-.44-2.93-1.44-3.57-1.89-1.26-2.41-2.26-2.51-3.08-.12-.91.24-1.86.78-3.2v-.01z'
-        stroke='var(--mirage)'
-        strokeWidth='2'
+        stroke='var(--rhino)'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
       />
       <path
         d='M390.83 65.7l-9.03 17.92'
-        stroke='var(--mirage)'
-        strokeWidth='2'
+        stroke='var(--rhino)'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
       />
       <path
@@ -206,8 +206,8 @@ const Image = ({ className }) => (
       />
       <path
         d='M335.39 59.47c-.54.8-.4 1.85.25 2.5.45.44 1.3 1.24 2.23 1.94.46.35.96.69 1.45.94.48.25 1.05.47 1.62.47.7 0 1.35-.4 1.84-.78a11 11 0 0 0 1.6-1.56c1.01-1.2 2-2.72 2.42-3.98a1 1 0 0 0-.29-1.07 86.61 86.61 0 0 1-3.51-3.3 2.04 2.04 0 0 0-1.42-.61c-.76 0-1.49.4-2.05.82-.6.43-1.2 1-1.73 1.59a29.07 29.07 0 0 0-2.41 3.04z'
-        stroke='var(--mirage)'
-        strokeWidth='2'
+        stroke='var(--rhino)'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
@@ -229,7 +229,7 @@ const Image = ({ className }) => (
       <path
         d='M258 28.5S270.5 10 272.5 10s39.5 21 40 22-17 33-18.49 33.32c-1.48.33-10.77-3.52-14.85-6.2m-9.7-29.75a13.4 13.4 0 0 1 13.49-6.15c5.55.78 15.67 7.86 13.26 17-2.36 9.1-8.52 13.42-15.4 11.64'
         stroke='var(--waterloo)'
-        strokeWidth='2'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
@@ -237,31 +237,31 @@ const Image = ({ className }) => (
       <path
         d='M282.72 34.87a1 1 0 0 0 .42 1.73 48.3 48.3 0 0 0 10.47 1.16 1 1 0 0 0 1.01-.9c.3-2.87.15-4.9-.55-6.16a2.74 2.74 0 0 0-1.63-1.36 3.52 3.52 0 0 0-2 .07 13.28 13.28 0 0 0-3.9 2.26c-1.15.88-2.32 1.9-3.38 2.81l-.44.39z'
         stroke='var(--waterloo)'
-        strokeWidth='2'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
       />
       <path
         d='M136.74 161.18c3.32-12.63 11.64-18.28 20.53-23.11a122.9 122.9 0 0 1-6.06-7.98c-1.2-1.77 0-3.24 1.9-3.05 5.56.53 25.7.7 28.47.7 2.78 0 4.86.68 4.17 3.44-.7 2.75-5 20.71-7.64 22.05-2.53 1.27-7.38-3.1-9.54-4.63-2.51 3.82-4.15 7.3-5.03 10.62-.84 3.2-.93 6.24-.3 9.05'
-        stroke='var(--mirage)'
-        strokeWidth='2'
+        stroke='var(--rhino)'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
       />
       <path
         d='M181.2 125.7c2.33-32.59 5.12-93.76 7.2-99.27 11.8 0 66.68.69 89.42 5.71 2.26 2.56-1.05 27.62-1.88 41.68-.33 5.48-.65 10.96-.95 16.44-1.03 19.58-2.64 35.22-1.16 54.03m-46.01-92.8c.2.47.7.67 1.13.45l.1-.06.05-.02.03-.02.02-.01.03-.02a.86.86 0 0 0 .1-.04l.03-.01c.79-.4 2-1.03 3.2-1 .9.03 1.78.56 2.9 1.34h.02c1.1.75 2.48 1.67 4.03 1.71.47.02 1-.08 1.52-.2l1.37-.38.32-.1h.02c1.69-.5 3.5-1 5.23-.95 1.73.05 3 .66 4.2 1.28h.01a7.95 7.95 0 0 0 3.43 1.1c1.2.03 2.31-.34 3.33-.69l.16-.05.09-.03a9.13 9.13 0 0 1 3.16-.69c1.53.05 3 .67 4.47 1.4m-.39 12.98c-1.46-.73-2.94-1.35-4.46-1.4-1-.02-2.05.3-3.16.69l-.09.03-.16.05a9.58 9.58 0 0 1-3.34.7 7.95 7.95 0 0 1-3.42-1.1 9.32 9.32 0 0 0-4.21-1.29c-1.73-.05-3.55.45-5.24.96l-.34.1m5.96 80.95c-3.93-.04-9.33.3-20.3 0h-.03l-11.5-.3c-15.24-.4-30.06-.74-33.85-.59'
-        stroke='var(--mirage)'
-        strokeWidth='2'
+        stroke='var(--rhino)'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
       />
       <path
         d='M269.44 163.84c6.44 6.2 16.1.18 13.1-5.6'
-        stroke='var(--mirage)'
-        strokeWidth='2'
+        stroke='var(--rhino)'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
@@ -280,40 +280,40 @@ const Image = ({ className }) => (
       />
       <path
         d='M259.32 107.34c5.83-14.45.94-30.53-11.56-38.26a29.2 29.2 0 0 0-5.13-2.52c-15.03-5.67-35.85-.15-43.42 18.51a34.21 34.21 0 0 0-1.14 22.42c1.84 6.03 6.45 14.17 18.2 18.6a33.69 33.69 0 0 0 43.04-18.76z'
-        stroke='var(--mirage)'
-        strokeWidth='2'
+        stroke='var(--rhino)'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
       />
       <path
         d='M282.53 158.22a387.45 387.45 0 0 0-14.33-19.65c-5.08-6.32-10.37-12.81-14.75-19.63'
-        stroke='var(--mirage)'
-        strokeWidth='2'
+        stroke='var(--rhino)'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
       />
       <path
         d='M240.16 126.71c8 12.95 23.79 30.4 29.28 37.06'
-        stroke='var(--mirage)'
-        strokeWidth='2'
+        stroke='var(--rhino)'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
       />
       <path
         d='M232.43 118.85c7.25-.93 13.3-5.73 16.44-13.84 3.92-10.2.48-21.97-8.11-27.97a17.79 17.79 0 0 0-3.4-1.84c-12.4-4.94-25.18 2.4-28.9 12.04-5.17 13.5 2.17 26 11.84 29.86a24.72 24.72 0 0 0 12.13 1.75z'
-        stroke='var(--mirage)'
-        strokeWidth='2'
+        stroke='var(--rhino)'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
       />
       <path
         d='M260.53 132.26c-2.88 2.53-5.8 4.97-8.72 7.2'
-        stroke='var(--mirage)'
-        strokeWidth='2'
+        stroke='var(--rhino)'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'
@@ -321,7 +321,7 @@ const Image = ({ className }) => (
       <path
         d='M385.48 133.02V133l.98-14.86c.12-1.54 1.21-2.66 2.43-2.8a303.1 303.1 0 0 1 29.5-1.81c.68-.01 1.37.3 1.84.88a3 3 0 0 1 .64 2.21c-.4 3.64-.93 8.96-1.47 14.35l-.12 1.2v.01c-.1 1.04-.8 1.78-1.66 1.9-5 .69-9.95 1.18-14.66 1.43a1 1 0 0 0-.73.37 38.51 38.51 0 0 1-9.25 8.4c-.03 0-.05.03-.07.04h-.01a.4.4 0 0 1-.07-.35 48.38 48.38 0 0 0 1.95-7.09 1 1 0 0 0-.97-1.2c-.63 0-1.25-.02-1.87-.03-1.54-.03-3.06-.1-4.54-.2a1.98 1.98 0 0 1-1.4-.72 2.48 2.48 0 0 1-.52-1.71z'
         stroke='var(--waterloo)'
-        strokeWidth='2'
+        strokeWidth='1.5'
         vectorEffect='non-scaling-stroke'
         strokeLinecap='round'
         strokeLinejoin='round'

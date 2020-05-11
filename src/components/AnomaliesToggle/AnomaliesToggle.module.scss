@@ -29,6 +29,10 @@
 .question {
   fill: var(--casper);
   margin: 0 !important;
+
+  &:hover {
+    fill: var(--fiord);
+  }
 }
 
 .tooltip {

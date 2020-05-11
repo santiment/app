@@ -5,8 +5,8 @@ import { checkIsLoggedIn } from '../../pages/UserSelectors'
 
 const LoginDialogWrapper = ({
   isLoggedIn,
-  children,
-  title = 'Login required'
+  title = 'Login required',
+  children
 }) => {
   if (isLoggedIn) {
     return children

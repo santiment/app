@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
-import { AutoSizer, List } from 'react-virtualized'
+import List from 'react-virtualized/dist/commonjs/List'
+import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import Button from '@santiment-network/ui/Button'
 import ProjectIcon from '../../../components/ProjectIcon/ProjectIcon'
 import styles from './Projects.module.scss'

@@ -158,8 +158,7 @@ export const Description = {
       network. This version of NVT is calculated by dividing the coin’s Market
       Cap by its Token Circulation. The higher the NVT, the more expensive the
       network relative to the value it transmits, indicating an overvalued
-      asset.{' '}
-      <MoreInfoLink href='https://academy.santiment.net/metrics/nvt-ratio/' />
+      asset. <MoreInfoLink href='https://academy.santiment.net/metrics/nvt/' />
     </>
   ),
 

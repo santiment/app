@@ -45,11 +45,7 @@ const SettingsAffiliate = ({ isPromoter }) => {
                       Your Sanbase referral link
                     </div>
                     {promotions.map(item => (
-                      <PromotionLink
-                        data={item}
-                        classes={styles}
-                        key={item.referralLink}
-                      />
+                      <PromotionLink data={item} key={item.referralLink} />
                     ))}
                   </div>
                 </Settings.Row>

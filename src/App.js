@@ -5,7 +5,6 @@ import {
   Redirect,
   withRouter
 } from 'react-router-dom'
-import { FadeInDown } from 'animate-components'
 import Loadable from 'react-loadable'
 import withSizes from 'react-sizes'
 import { connect } from 'react-redux'
@@ -13,9 +12,7 @@ import { compose } from 'recompose'
 import nprogress from 'nprogress'
 import NotificationStack from './components/NotificationStack'
 import Roadmap from './pages/Roadmap'
-import Signals from './pages/Signals'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
-import BuildChallenge from './pages/BuildChallenge'
 import EmailLoginVerification from './pages/EmailVerification/EmailLoginVerification'
 import MobileNavbar from './components/MobileNavbar/MobileNavbar'
 import Navbar from './components/Navbar/Navbar'
@@ -23,7 +20,6 @@ import withTracker from './withTracker'
 import withIntercom from './withIntercom'
 import ErrorBoundary from './ErrorBoundary'
 import PageLoader from './components/Loader/PageLoader'
-import Status from './pages/Status'
 import Footer from './components/Footer'
 import GDPRPage from './pages/GDPRPage/GDPRPage'
 import AssetsPage from './pages/assets/AssetsPage'
@@ -225,7 +221,6 @@ export const App = ({
   isLoggedIn,
   isUserLoading,
   token,
-  isFullscreenMobile,
   isOffline,
   hasMetamask,
   isBetaModeEnabled,
@@ -235,18 +230,11 @@ export const App = ({
 }) => (
   <div className='App'>
     {isOffline && (
-      <FadeInDown
-        className='offline-status-message'
-        duration='1.0s'
-        timingFunction='ease-out'
-        as='div'
-      >
-        OFFLINE
-      </FadeInDown>
+      <div className={styles.offline}>
+        It looks like you are offline. Some actions might not work.
+      </div>
     )}
-    {isFullscreenMobile ? (
-      undefined
-    ) : isDesktop ? (
+    {isDesktop ? (
       <Navbar activeLink={pathname} />
     ) : (
       <MobileNavbar activeLink={pathname} />
@@ -321,7 +309,6 @@ export const App = ({
           }}
         />
         <Route exact path='/roadmap' component={Roadmap} />
-        <Route exact path='/signals' component={Signals} />
         <Route
           exact
           path='/labs/buidl-heroes'
@@ -391,9 +378,7 @@ export const App = ({
             />
           )}
         />
-        <Route exact path='/status' component={Status} />
         <Redirect from='/ethereum-spent' to='/projects/ethereum' />
-        <Route exact path='/build' component={BuildChallenge} />
         <Route exact path='/privacy-policy' component={PrivacyPolicyPage} />
         <Route path='/email_login' component={EmailLoginVerification} />
         <Route path='/verify_email' component={EmailLoginVerification} />
@@ -487,7 +472,6 @@ const mapStateToProps = (state, { location: { pathname, ...rest } }) => {
     isLoggedIn: state.user.data && !!state.user.data.id,
     isUserLoading: state.user.isLoading,
     token: state.user.token,
-    isFullscreenMobile: state.detailedPageUi.isFullscreenMobile,
     isOffline: !state.rootUi.isOnline,
     isBetaModeEnabled: state.rootUi.isBetaModeEnabled,
     hasMetamask: ethAccounts.length > 0 && ethAccounts[0].address,

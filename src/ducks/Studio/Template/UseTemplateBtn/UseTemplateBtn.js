@@ -3,40 +3,26 @@ import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import Button from '@santiment-network/ui/Button'
 import { prepareTemplateLink } from '../Dialog/LoadTemplate/Template'
-import { useCreateTemplate } from '../gql/hooks'
-import { notifyDuplication } from '../notifications'
 
-const UseTemplateBtn = ({ template, redirect, onDuplicate }) => {
-  const [createTemplate, { loading }] = useCreateTemplate()
+const Trigger = ({ loading, onSubmit, ...rest }) => (
+  <Button
+    variant='fill'
+    accent='positive'
+    isLoading={loading}
+    onClick={onSubmit}
+    {...rest}
+  >
+    Use Chart Layout
+  </Button>
+)
 
+const UseTemplateBtn = ({ template, onClick, redirect }) => {
   function onSubmit () {
-    const { metrics, project, isPublic, options, description, title } = template
-
-    createTemplate({
-      title,
-      description,
-      metrics,
-      isPublic,
-      projectId: +project.id,
-      options: JSON.stringify(options)
-    })
-      .then(() => {
-        redirect(prepareTemplateLink(template))
-        onDuplicate()
-      })
-      .then(notifyDuplication)
+    redirect(prepareTemplateLink(template))
+    onClick()
   }
 
-  return (
-    <Button
-      variant='fill'
-      accent='positive'
-      isLoading={loading}
-      onClick={onSubmit}
-    >
-      Use Chart Layout
-    </Button>
-  )
+  return <Trigger onSubmit={onSubmit} />
 }
 
 const mapDispatchToProps = dispatch => ({

@@ -1,5 +1,4 @@
 @import "~@santiment-network/ui/mixins.scss";
-@import 'variables.scss';
 
 .header {
   display: flex;
@@ -35,7 +34,7 @@
 
 .historicalBalancePage {
   @include responsive('desktop') {
-    width: $breakpoint-desktop;
+    width: 1024px;
   }
 }
 

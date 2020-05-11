@@ -60,8 +60,7 @@ const Testimonials = () => {
           >
             <path
               d='M6 11L1 6L6 1'
-              stroke='#181B2B'
-              strokeWidth='2'
+              strokeWidth='1.5'
               strokeMiterlimit='10'
               strokeLinecap='round'
               strokeLinejoin='round'
@@ -98,7 +97,7 @@ const Testimonials = () => {
           >
             <path
               d='M1 11L6 6L1 1'
-              strokeWidth='2'
+              strokeWidth='1.5'
               strokeMiterlimit='10'
               strokeLinecap='round'
               strokeLinejoin='round'

@@ -9,9 +9,6 @@ import signals, {
   initialState as signalsState
 } from '../ducks/Signals/common/reducers'
 import rootUi, { initialState as rootUiState } from './root-ui'
-import detailedPageUi, {
-  initialState as detailedPageUiState
-} from './detailed-page-ui'
 import insightsPageUi, {
   initialState as insightsPageUiState
 } from './insights-page-ui'
@@ -38,7 +35,6 @@ export const intitialState = {
   hypedTrends: initialHypedTrends,
   timeseries: timeseriesState,
   signals: signalsState,
-  detailedPageUi: detailedPageUiState,
   insightsPageUi: insightsPageUiState,
   watchlistUi: initialWatchlistUiState,
   rootUi: rootUiState,
@@ -56,7 +52,6 @@ export default combineReducers({
   timeseries,
   signals,
   rootUi,
-  detailedPageUi,
   insightsPageUi,
   watchlistUi,
   notification,

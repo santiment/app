@@ -53,10 +53,6 @@ const LoadTemplate = ({
     setOpenedTemplate()
   }
 
-  function onDublicate () {
-    setOpenedTemplate()
-  }
-
   const search = () => {
     const lowerCaseValue = searchTerm.toLowerCase()
 
@@ -120,7 +116,7 @@ const LoadTemplate = ({
           </div>
 
           <Dialog.ScrollContent className={styles.wrapper}>
-            {templates.length === 0 || filteredTemplates.length === 0 ? (
+            {filteredTemplates.length === 0 ? (
               <NoChartLayouts />
             ) : (
               filteredTemplates
@@ -145,8 +141,12 @@ const LoadTemplate = ({
           template={openedTemplate}
           onRename={onRename}
           onDelete={onDelete}
-          onDublicate={onDublicate}
           isDialog={false}
+          onClose={template => {
+            if (template) {
+              selectTemplate(template)
+            }
+          }}
         />
       )}
     </Dialog>

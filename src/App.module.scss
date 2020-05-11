@@ -7,3 +7,27 @@
   bottom: 0;
   width: 100%;
 }
+
+.offline {
+  position: absolute;
+  top: 0;
+  z-index: 30;
+  text-align: center;
+  padding: 2px 0;
+  background-color: var(--persimmon-light);
+  color: var(--persimmon);
+  width: 100%;
+  animation-name: shiftDown;
+  animation-timing-function: ease-out;
+  animation-duration: 0.5s;
+}
+
+@keyframes shiftDown {
+  0% {
+    transform: translateY(-20px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}

@@ -13,13 +13,13 @@ export default ({
   const [createTemplate, { loading }] = useCreateTemplate()
 
   function onSubmit ({ title, description }) {
-    const { metrics, project, isPublic, options } = template
+    const { metrics, project, options } = template
 
     createTemplate({
       title,
       description,
       metrics,
-      isPublic,
+      isPublic: false,
       projectId: +project.id,
       options: JSON.stringify(options)
     })

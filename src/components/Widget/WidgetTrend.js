@@ -1,6 +1,5 @@
 import React from 'react'
 import cx from 'classnames'
-import { FadeIn } from 'animate-components'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import styles from './WidgetTrend.module.scss'
 
@@ -52,17 +51,13 @@ const WidgetTrend = ({
       </div>
 
       {msg ? (
-        <FadeIn
-          className={styles.container}
-          duration='1s'
-          timingFunction='ease-out'
-        >
+        <div className={styles.container}>
           {isLoading ? (
             <Loader className={styles.loader} />
           ) : (
             <h3 className={styles.msg}>{msg}</h3>
           )}
-        </FadeIn>
+        </div>
       ) : (
         <div className={cx(styles.content, contentClassName)}>{children}</div>
       )}

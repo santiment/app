@@ -30,30 +30,3 @@
     fill: var(--jungle-green-hover);
   }
 }
-
-.shareBtn {
-  width: 40px;
-  height: 40px;
-  margin-right: 8px;
-  align-items: center;
-  justify-content: center;
-}
-
-.shareIcon {
-  width: 20px;
-  height: 20px;
-  margin: 0;
-  fill: var(--rhino) !important;
-
-  &:hover {
-    fill: var(--jungle-green-hover) !important;
-  }
-}
-
-.share {
-  display: flex;
-}
-
-.block {
-  margin-top: 32px;
-}
