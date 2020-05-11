@@ -11,12 +11,13 @@ import {
 import { MAX_METRICS_AMOUNT } from './constraints'
 import { generateShareLink } from './url'
 import { trackMetricState } from './analytics'
-import { getPreparedMetricSettings, useTimeseries } from './timeseries/hooks'
+import { useTimeseries } from './timeseries/hooks'
 import { buildAnomalies } from './timeseries/anomalies'
 import { buildComparedMetric } from './Compare/utils'
 import { TOP_HOLDERS_PANE } from './Chart/Sidepane/panes'
 import { updateHistory } from '../../utils/utils'
 import { useClosestValueData } from '../Chart/hooks'
+import { getPreparedMetricSettings } from './timeseries/utils'
 import styles from './index.module.scss'
 
 const Studio = ({
@@ -50,8 +51,9 @@ const Studio = ({
   const [rawData, loadings, ErrorMsg] = useTimeseries(
     activeMetrics,
     settings,
-    getPreparedMetricSettings(activeMetrics, MetricSettingMap)
+    MetricSettingMap
   )
+
   const [isSidebarClosed, setIsSidebarClosed] = useState()
 
   const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings)
@@ -59,6 +61,15 @@ const Studio = ({
     rawData,
     activeMetrics,
     options.isClosestDataActive
+  )
+
+  useEffect(
+    () => {
+      setMetricSettingMap(
+        getPreparedMetricSettings(activeMetrics, MetricSettingMap)
+      )
+    },
+    [activeMetrics]
   )
 
   useEffect(

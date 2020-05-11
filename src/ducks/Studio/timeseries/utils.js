@@ -1,3 +1,5 @@
+import { Metric } from '../../dataHub/metrics'
+
 const OLD_DATE = { datetime: 0 }
 
 const newDataMapper = data => Object.assign({}, data)
@@ -27,6 +29,27 @@ function findDatetimeBorder (baseTs, cursor, targetDatetime) {
   )
 
   return cursor
+}
+
+export const getPreparedMetricSettings = (metrics, settingsMap) => {
+  const hasDaaMetric = metrics.includes(Metric.daily_active_addresses)
+  const newSettingsMap = new Map(settingsMap)
+
+  if (hasDaaMetric) {
+    metrics.forEach(metric => {
+      newSettingsMap.set(metric, {
+        interval: '1d'
+      })
+    })
+  } else {
+    newSettingsMap.forEach((value, key) => {
+      delete value['interval']
+
+      newSettingsMap.set(key, value)
+    })
+  }
+
+  return newSettingsMap
 }
 
 export function mergeTimeseries (timeseries) {

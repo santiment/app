@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { client } from '../../../index'
 import { getQuery, getPreTransform } from './fetcher'
 import { normalizeDatetimes, mergeTimeseries } from './utils'
-import { Metric } from '../../dataHub/metrics'
 
 // NOTE: Polyfill for a PingdomBot 0.8.5 browser (/sentry/sanbase-frontend/issues/29459/) [@vanguard | Feb 6, 2020]
 window.AbortController =
@@ -55,30 +54,6 @@ function abortRemovedMetrics (abortables, newMetrics, MetricSettingMap) {
 
 function abortAllMetrics (abortables) {
   return [...abortables.values()].forEach(cancelQuery)
-}
-
-export const getPreparedMetricSettings = (metrics, settings) => {
-  const hasDaaMetric = metrics.includes(Metric.daily_active_addresses)
-
-  if (hasDaaMetric) {
-    metrics.forEach(metric => {
-      settings.set(metric, {
-        interval: '1d'
-      })
-    })
-  } else {
-    settings.forEach((value, key) => {
-      const newValue = {
-        ...value
-      }
-
-      delete newValue['delete']
-
-      settings.set(key, newValue)
-    })
-  }
-
-  return settings
 }
 
 export function useTimeseries (
