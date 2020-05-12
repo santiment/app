@@ -1,13 +1,12 @@
 import React from 'react'
 import cx from 'classnames'
-import { Link } from 'react-router-dom'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import PublicTemplates from './PublicTemplates/PublicTemplates'
-import SocialGrid from '../../components/SocialGrid'
+import SocialTrends from './SocialTrends/SocialTrends'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { MobileOnly } from '../../components/Responsive'
 import IndexIndices from './IndexIndices/IndexIndices'
-import { INDEX_PAGE_GROUPS } from '../../components/SocialGrid/topics'
+
 import styles from './MarketingPage.module.scss'
 
 /*
@@ -50,23 +49,7 @@ const MarketingPage = ({ history }) => {
 
         <div className={styles.block}>
           <div className={styles.subTitle}>Social trends</div>
-          <div className={styles.description}>
-            Our previous analysis indicates that ERC-20 coins tend to be less
-            correlated to Ethereum during the bull market, and exhibit higher
-            correlation during the bear market. This Index charts the
-            correlation of ERC-20 market cap to the ETH market cap over the last
-            3 months.
-          </div>
-          <Link to={'/labs/trends'} className={styles.link}>
-            Start researching Emerging trends now
-          </Link>
-          {INDEX_PAGE_GROUPS.map(({ title, description, topics }) => (
-            <section className={styles.template}>
-              <h4 className={styles.template__title}>{title}</h4>
-              <p className={styles.template__description}>{description}</p>
-              <SocialGrid topics={topics} />
-            </section>
-          ))}
+          <SocialTrends />
         </div>
 
         <div className={styles.block}>
