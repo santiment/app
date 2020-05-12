@@ -2,8 +2,9 @@ import React, { PureComponent } from 'react'
 import { compose } from 'redux'
 import Table from 'react-table'
 import cx from 'classnames'
-import { Link } from 'react-router-dom'
+import withSizes from 'react-sizes'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { push } from 'react-router-redux'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Panel from '@santiment-network/ui/Panel/Panel'
@@ -18,10 +19,16 @@ import ValueChange from '../../../components/ValueChange/ValueChange'
 import WordCloud from '../../../components/WordCloud/WordCloud'
 import InsightCardSmall from '../../../components/Insight/InsightCardSmall'
 import ExplanationTooltip from '../../../components/ExplanationTooltip/ExplanationTooltip'
+import {
+  getTopicsFromUrl,
+  updTopicsInUrl
+} from '../../../pages/TrendsExplore/url'
+import { updateHistory } from '../../../utils/utils'
 import ConditionalWrapper from './ConditionalWrapper'
-import withSizes from 'react-sizes'
 import { mapSizesToProps } from '../../../utils/withSizes'
 import styles from './TrendsTable.module.scss'
+
+const EXPLORE_PAGE_URL = '/labs/trends/explore/'
 
 const MOBILE_COLUMNS = [
   {
@@ -71,7 +78,11 @@ const NumberCircle = ({ className, ...props }) => (
 
 const getTrGroupProps = (_, rowInfo) => {
   return {
-    onClick: ({ target, currentTarget }) => {
+    onClick: ({ target, currentTarget, ctrlKey, metaKey }) => {
+      if (ctrlKey || metaKey) {
+        return
+      }
+
       let node = target
       while (node && node !== currentTarget) {
         if (
@@ -275,7 +286,26 @@ class TrendsTable extends PureComponent {
               styles.word,
               trendConnections.includes(word.toUpperCase()) && styles.connected
             )}
-            to={`/labs/trends/explore/${word}`}
+            to={`${EXPLORE_PAGE_URL}${word}`}
+            onClick={evt => {
+              if (evt.ctrlKey || evt.metaKey) {
+                const { pathname } = window.location
+                const topic = pathname.replace(EXPLORE_PAGE_URL, '')
+
+                if (pathname.includes(EXPLORE_PAGE_URL)) {
+                  evt.preventDefault()
+                  evt.stopPropagation()
+                  if (word !== topic) {
+                    const addedTopics = new Set(getTopicsFromUrl())
+                    addedTopics.add(word)
+                    const newTopics = updTopicsInUrl([...addedTopics])
+                    const url = topic ? `?${newTopics}` : `${word}`
+
+                    store.dispatch(push(pathname + url))
+                  }
+                }
+              }
+            }}
           >
             {word}{' '}
           </Link>
