@@ -1,0 +1,21 @@
+@import '~@santiment-network/ui/mixins';
+
+.title {
+  cursor: pointer;
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+.yourTitle {
+  color: var(--casper);
+  margin-left: 32px;
+  cursor: pointer;
+
+  @include text('h4', 'm');
+}
+
+.header {
+  display: flex;
+}

@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import cx from 'classnames'
 import { CATEGORIES } from './assets-overview-constants'
@@ -10,17 +9,11 @@ import MyWatchlist from '../../components/Watchlists/MyWatchlist'
 import PageLoader from '../../components/Loader/PageLoader'
 import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
 import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
-import { checkIsLoggedIn, checkIsLoggedInPending } from './../UserSelectors'
 import StoriesList from '../../components/Stories/StoriesList'
 import styles from './AssetsOverview.module.scss'
 import Trends from '../../components/Trends/Trends'
 
-const AssetsOverview = ({
-  isLoggedIn,
-  isLoggedInPending,
-  isPublicWatchlistsLoading,
-  history
-}) => {
+const AssetsOverview = ({ isPublicWatchlistsLoading, history }) => {
   return (
     <div className={cx(styles.overviewPage, 'page')}>
       <DesktopOnly>
@@ -35,10 +28,7 @@ const AssetsOverview = ({
           <WatchlistCards watchlists={CATEGORIES} />
         </div>
         <div className={styles.section}>
-          <MyWatchlist
-            isLoggedIn={isLoggedIn}
-            isLoggedInPending={isLoggedInPending}
-          />
+          <MyWatchlist />
         </div>
       </DesktopOnly>
       <MobileOnly>
@@ -66,9 +56,4 @@ const AssetsOverview = ({
   )
 }
 
-const mapStateToProps = state => ({
-  isLoggedIn: checkIsLoggedIn(state),
-  isLoggedInPending: checkIsLoggedInPending(state)
-})
-
-export default withRouter(connect(mapStateToProps)(AssetsOverview))
+export default withRouter(AssetsOverview)

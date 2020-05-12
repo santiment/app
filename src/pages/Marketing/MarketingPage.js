@@ -1,12 +1,11 @@
 import React from 'react'
 import cx from 'classnames'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
-import WatchlistCards from '../../components/Watchlists/WatchlistCards'
-import { CATEGORIES } from '../assets/assets-overview-constants'
 import PublicTemplates from './PublicTemplates/PublicTemplates'
 import SocialGrid from '../../components/SocialGrid'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { MobileOnly } from '../../components/Responsive'
+import IndexIndices from './IndexIndices/IndexIndices'
 import styles from './MarketingPage.module.scss'
 
 /*
@@ -38,8 +37,7 @@ const MarketingPage = ({ history }) => {
 
       <div className={styles.inner}>
         <div className={styles.block}>
-          <div className={styles.subTitle}>Indices</div>
-          <WatchlistCards watchlists={CATEGORIES} classes={styles} />
+          <IndexIndices />
         </div>
 
         <div className={styles.block}>
