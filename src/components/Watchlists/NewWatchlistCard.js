@@ -11,15 +11,7 @@ const Trigger = <div className={styles.createLink}>Create your watchlist</div>
 const NewWatchlistCard = () => {
   return (
     <GetWatchlists
-      render={({ isWatchlistsLoading, watchlists }) => {
-        if (isWatchlistsLoading) {
-          return (
-            <div className={cx(styles.wrapper, styles.create)}>
-              <Loader className={styles.loader} />
-            </div>
-          )
-        }
-
+      render={({ watchlists = [] }) => {
         return (
           <div className={cx(styles.wrapper, styles.create)}>
             <div>
