@@ -1772,6 +1772,7 @@ export const buildDAAPercentUpDownSignal = slug => {
 export const buildInTrendingWordsSignal = topic => {
   return buildSignal(TRENDING_WORDS, TRENDING_WORDS_WORD_MENTIONED, topic, {
     metric: TRENDING_WORDS_METRIC,
-    signalType: { label: 'Trending words', value: 'trending_word' }
+    signalType: { label: 'Trending words', value: 'trending_word' },
+    trendingWordsWithWords: [{ value: topic, label: topic }]
   })
 }

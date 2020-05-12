@@ -40,6 +40,7 @@ const Item = ({
             onClick={() => buildInTrendingWordsSignal(topic)}
           >
             <DarkTooltip
+              align='end'
               trigger={
                 <Icon
                   type='signal'
@@ -69,7 +70,7 @@ const Item = ({
                       />
                     }
                     position='top'
-                    align='start'
+                    align='end'
                   >
                     Social context
                   </DarkTooltip>
