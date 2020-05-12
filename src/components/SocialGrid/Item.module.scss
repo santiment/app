@@ -19,6 +19,7 @@
 .text {
   color: var(--fiord);
   margin: 0 80px 0 16px;
+  min-height: 48px;
 
   @include text('body-2');
 }
@@ -26,6 +27,9 @@
 .actions {
   display: flex;
   align-items: center;
+  position: absolute;
+  right: -10px;
+  top: -2px;
 }
 
 .action {
@@ -53,6 +57,7 @@
 
   &:hover {
     cursor: pointer;
+    fill: var(--jungle-green-hover);
   }
 }
 
@@ -70,4 +75,8 @@
   padding: 0;
   height: auto;
   background-color: transparent !important;
+}
+
+.chart {
+  margin-top: 4px;
 }

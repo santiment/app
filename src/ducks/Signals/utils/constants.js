@@ -408,9 +408,16 @@ export const METRIC_DEFAULT_VALUES = {
     target: DEFAULT_TARGET
   },
   [TRENDING_WORDS]: {
+    frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
+    frequencyTimeType: { ...FREQUENCY_TIME_TYPE_DAILY_MODEL },
+    frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
     type: { ...TRENDING_WORDS_WORD_MENTIONED },
+    threshold: '',
+    isRepeating: true,
     channels: ['Telegram'],
-    target: DEFAULT_TARGET
+    target: DEFAULT_TARGET,
+    timeWindow: 1,
+    timeWindowUnit: { label: 'Day(s)', value: 'd' }
   }
 }
 

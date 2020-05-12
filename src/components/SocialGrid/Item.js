@@ -1,15 +1,36 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Icon from '@santiment-network/ui/Icon'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import Button from '@santiment-network/ui/Button'
+import { createTrigger } from '../../ducks/Signals/common/actions'
+import { buildInTrendingWordsSignal } from '../../ducks/Signals/utils/utils'
 import WordCloud from '../WordCloud/WordCloud'
 import DarkTooltip from '../Tooltip/DarkTooltip'
 import Chart from './Chart'
 import styles from './Item.module.scss'
 
-const Item = ({ topic, charts, onTopicClick, show, onLoad, settings }) => {
+const Item = ({
+  topic,
+  charts,
+  onTopicClick,
+  settingMap,
+  show,
+  onLoad,
+  settings,
+  createSignal
+}) => {
+  const MetricSettingMap = new Map()
+
+  MetricSettingMap.set(charts[0], {
+    selector: 'text',
+    slug: topic
+  })
+
+  const [map] = useState(MetricSettingMap)
+
   return show ? (
     <article className={styles.wrapper}>
       <div className={styles.top}>
@@ -17,21 +38,27 @@ const Item = ({ topic, charts, onTopicClick, show, onLoad, settings }) => {
           {topic}
         </Link>
         <div className={styles.actions}>
-          {/* <div className={styles.action}> */}
-          {/*   <DarkTooltip */}
-          {/*     trigger={ */}
-          {/*       <Icon */}
-          {/*         type='signal' */}
-          {/*         className={cx(styles.signal, styles.icon)} */}
-          {/*       /> */}
-          {/*     } */}
-          {/*     position='top' */}
-          {/*   > */}
-          {/*     Create an alert if the phrase */}
-          {/*     <br /> */}
-          {/*     appears in Emerging trends */}
-          {/*   </DarkTooltip> */}
-          {/* </div> */}
+          <div
+            className={styles.action}
+            onClick={() => {
+              createSignal(buildInTrendingWordsSignal(topic))
+            }}
+          >
+            <DarkTooltip
+              align='end'
+              trigger={
+                <Icon
+                  type='signal'
+                  className={cx(styles.signal, styles.icon)}
+                />
+              }
+              position='top'
+            >
+              Create an alert if the phrase
+              <br />
+              appears in Emerging trends
+            </DarkTooltip>
+          </div>
           <div className={styles.action}>
             <Tooltip
               on='click'
@@ -48,7 +75,7 @@ const Item = ({ topic, charts, onTopicClick, show, onLoad, settings }) => {
                       />
                     }
                     position='top'
-                    align='start'
+                    align='end'
                   >
                     Social context
                   </DarkTooltip>
@@ -65,10 +92,20 @@ const Item = ({ topic, charts, onTopicClick, show, onLoad, settings }) => {
         charts={charts}
         settings={settings}
         onLoad={onLoad}
+        settingMap={map}
         className={styles.chart}
       />
     </article>
   ) : null
 }
 
-export default Item
+const mapDispatchToProps = dispatch => ({
+  createSignal: payload => {
+    dispatch(createTrigger(payload))
+  }
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Item)

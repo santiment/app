@@ -16,10 +16,17 @@ const CHART_PADDING = {
   left: 16
 }
 
-const SmallChart = ({ charts, settings, onLoad, ...props }) => {
+const SmallChart = ({
+  charts,
+  settingMap,
+  settings,
+  topic,
+  onLoad,
+  ...props
+}) => {
   const [currentPoint, setCurrentPoint] = useState()
   const [isLoading, setIsLoading] = useState(true)
-  const [data, loadings] = useTimeseries(charts, settings)
+  const [data, loadings] = useTimeseries(charts, settings, settingMap)
   const categories = metricsToPlotCategories(charts)
 
   if (data.length !== 0 && loadings.length === 0 && isLoading) {
@@ -59,6 +66,7 @@ const SmallChart = ({ charts, settings, onLoad, ...props }) => {
           {...settings}
           metrics={charts}
           selector='text'
+          slug={topic}
         />
       </Chart>
     </>

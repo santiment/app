@@ -8,11 +8,7 @@ import styles from './index.module.scss'
 
 const SHOW_STEP = 6
 
-const settings = TOPICS.map(topic => ({
-  ...SETTINGS,
-  slug: topic,
-  selector: 'text'
-}))
+const charts = [Metric.social_volume_total]
 
 const SocialGrid = ({ className, onTopicClick }) => {
   const [showCount, setShowCount] = useState(SHOW_STEP)
@@ -34,9 +30,9 @@ const SocialGrid = ({ className, onTopicClick }) => {
           key={idx}
           show={showCount > idx}
           topic={topic}
-          charts={[{ ...Metric.social_volume_total, selector: 'text' }]}
+          charts={charts}
           onTopicClick={onTopicClick}
-          settings={settings[idx]}
+          settings={SETTINGS}
           onLoad={onLoad}
           className={styles.item}
         />
