@@ -7,6 +7,7 @@ import SocialGrid from '../../components/SocialGrid'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { MobileOnly } from '../../components/Responsive'
 import IndexIndices from './IndexIndices/IndexIndices'
+import { INDEX_PAGE_GROUPS } from '../../components/SocialGrid/topics'
 import styles from './MarketingPage.module.scss'
 
 /*
@@ -59,7 +60,13 @@ const MarketingPage = ({ history }) => {
           <Link to={'/labs/trends'} className={styles.link}>
             Start researching Emerging trends now
           </Link>
-          <SocialGrid className={styles.grid} />
+          {INDEX_PAGE_GROUPS.map(({ title, description, topics }) => (
+            <section className={styles.template}>
+              <h4 className={styles.template__title}>{title}</h4>
+              <p className={styles.template__description}>{description}</p>
+              <SocialGrid className={styles.grid} topics={topics} />
+            </section>
+          ))}
         </div>
 
         <div className={styles.block}>

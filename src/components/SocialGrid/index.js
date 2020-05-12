@@ -25,11 +25,12 @@ const SocialGrid = ({ className, onTopicClick, topics = TOPICS }) => {
 
   return (
     <section className={cx(styles.wrapper, className)}>
-      {TOPICS.map((topic, idx) => (
+      {topics.map((topic, idx) => (
         <Item
           key={idx}
           show={showCount > idx}
-          topic={topic}
+          topic={topic.name ? topic.name : topic}
+          link={topic.link ? topic.link : topic}
           charts={charts}
           onTopicClick={onTopicClick}
           settings={SETTINGS}
