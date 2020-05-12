@@ -252,12 +252,14 @@ export const Metric = {
   supply_on_exchanges: {
     node: 'line',
     label: 'Supply On Exchanges',
-    category: 'On-chain'
+    category: 'On-chain',
+    group: 'Exchange Flow'
   },
   supply_outside_exchanges: {
     node: 'line',
     label: 'Supply Outside Exchanges',
-    category: 'On-chain'
+    category: 'On-chain',
+    group: 'Exchange Flow'
   },
   amount_in_top_holders: {
     node: 'line',
