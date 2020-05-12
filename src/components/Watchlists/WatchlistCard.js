@@ -19,8 +19,8 @@ import { TRENDING_WATCHLIST_NAME } from '../../pages/assets/assets-overview-cons
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
 import { millify } from '../../utils/formatting'
-import styles from './WatchlistCard.module.scss'
 import NewLabel from '../NewLabel/NewLabel'
+import styles from './WatchlistCard.module.scss'
 
 const INTERVAL = '6h'
 const RANGE = 7
@@ -70,7 +70,10 @@ const WatchlistCard = ({
       {isSimplifiedView ? (
         <div className={cx(styles.flexRow, styles.content)}>
           <span className={styles.name}>
-            {[<NewLabel date={insertedAt} className={styles.new} />, name]}
+            {[
+              <NewLabel date={insertedAt} className={styles.new} key='new' />,
+              name
+            ]}
           </span>
           <PercentChanges changes={change} className={styles.change__simple} />
         </div>
@@ -78,7 +81,10 @@ const WatchlistCard = ({
         <>
           <div className={cx(styles.flexRow, styles.content)}>
             <span className={styles.name}>
-              {[<NewLabel date={insertedAt} className={styles.new} />, name]}
+              {[
+                <NewLabel date={insertedAt} className={styles.new} key='new' />,
+                name
+              ]}
             </span>
             {isPublic !== undefined && (
               <ExplanationTooltip

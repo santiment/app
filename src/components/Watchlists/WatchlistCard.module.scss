@@ -114,3 +114,29 @@
 .new {
   margin-right: 8px;
 }
+
+.createLink {
+  margin-left: 17px;
+}
+
+.create {
+  border: 1px dashed var(--porcelain);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--rhino);
+
+  @include text('body-2');
+
+  &:hover {
+    border: 1px dashed var(--jungle-green-hover);
+
+    .createLink {
+      color: var(--jungle-green-hover);
+    }
+  }
+}
+
+.loader {
+  font-size: 10px;
+}

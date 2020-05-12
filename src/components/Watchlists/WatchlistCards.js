@@ -3,10 +3,12 @@ import PropTypes from 'prop-types'
 import cx from 'classnames'
 import WatchlistCard from './WatchlistCard'
 import { getSharedWatchlistLink } from './FeaturedWatchlist'
+import NewWatchlistCard from './NewWatchlistCard'
 import styles from './WatchlistCards.module.scss'
 
 const WatchlistCards = ({
   watchlists = [],
+  showNew = false,
   makeSharedLinks = false,
   classes = {}
 }) => (
@@ -24,6 +26,7 @@ const WatchlistCards = ({
         />
       )
     })}
+    {showNew && <NewWatchlistCard />}
   </div>
 )
 

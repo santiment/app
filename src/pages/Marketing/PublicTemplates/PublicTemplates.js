@@ -34,7 +34,14 @@ const PublicTemplates = ({ isProSanbase }) => {
           >
             <div>
               <div className={styles.title}>
-                {[<NewLabel date={insertedAt} className={styles.new} />, title]}
+                {[
+                  <NewLabel
+                    date={insertedAt}
+                    className={styles.new}
+                    key='new'
+                  />,
+                  title
+                ]}
               </div>
 
               <div className={styles.description}>{description}</div>

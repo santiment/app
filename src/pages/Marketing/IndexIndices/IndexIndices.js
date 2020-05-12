@@ -31,7 +31,11 @@ export default () => {
         </div>
       </div>
       {tab === TABS.PUBLIC && (
-        <WatchlistCards watchlists={CATEGORIES} classes={externalStyles} />
+        <WatchlistCards
+          watchlists={CATEGORIES}
+          classes={externalStyles}
+          showNew={true}
+        />
       )}
       {tab === TABS.YOUR && <MyWatchlist showHeader={false} />}
     </>

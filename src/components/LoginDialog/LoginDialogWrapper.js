@@ -6,13 +6,16 @@ import { checkIsLoggedIn } from '../../pages/UserSelectors'
 const LoginDialogWrapper = ({
   isLoggedIn,
   title = 'Login required',
+  trigger,
   children
 }) => {
   if (isLoggedIn) {
     return children
   }
 
-  return <LoginDialog trigger={<div>{children}</div>} title={title} />
+  return (
+    <LoginDialog trigger={trigger || <div>{children}</div>} title={title} />
+  )
 }
 
 const mapStateToProps = state => {
