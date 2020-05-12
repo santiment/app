@@ -171,18 +171,12 @@ const Template = ({
           )}
 
           {selectedTemplate && (
-            <DialogFormDuplicateTemplate
+            <DialogFormNewTemplate
+              {...props}
               onClose={closeMenu}
               trigger={<Action>Save as new Chart Layout</Action>}
               title='Save as new Chart Layout'
-              template={{
-                ...selectedTemplate,
-                title: ''
-              }}
-              onDuplicate={template => {
-                closeMenu()
-                selectTemplate(template)
-              }}
+              onNew={onTemplateSelect}
               buttonLabel='Save'
             />
           )}
