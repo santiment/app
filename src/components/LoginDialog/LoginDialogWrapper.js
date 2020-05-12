@@ -6,7 +6,7 @@ import { checkIsLoggedIn } from '../../pages/UserSelectors'
 const LoginDialogWrapper = ({
   isLoggedIn,
   title = 'Login required',
-  trigger,
+  trigger: Trigger,
   children
 }) => {
   if (isLoggedIn) {
@@ -14,7 +14,10 @@ const LoginDialogWrapper = ({
   }
 
   return (
-    <LoginDialog trigger={trigger || <div>{children}</div>} title={title} />
+    <LoginDialog
+      trigger={Trigger ? <Trigger /> : <div>{children}</div>}
+      title={title}
+    />
   )
 }
 
