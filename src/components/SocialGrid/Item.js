@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Icon from '@santiment-network/ui/Icon'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import Button from '@santiment-network/ui/Button'
+import { createTrigger } from '../../ducks/Signals/common/actions'
 import { buildInTrendingWordsSignal } from '../../ducks/Signals/utils/utils'
 import WordCloud from '../WordCloud/WordCloud'
 import DarkTooltip from '../Tooltip/DarkTooltip'
@@ -17,7 +19,8 @@ const Item = ({
   settingMap,
   show,
   onLoad,
-  settings
+  settings,
+  createSignal
 }) => {
   const MetricSettingMap = new Map()
 
@@ -37,7 +40,9 @@ const Item = ({
         <div className={styles.actions}>
           <div
             className={styles.action}
-            onClick={() => buildInTrendingWordsSignal(topic)}
+            onClick={() => {
+              createSignal(buildInTrendingWordsSignal(topic))
+            }}
           >
             <DarkTooltip
               align='end'
@@ -94,4 +99,13 @@ const Item = ({
   ) : null
 }
 
-export default Item
+const mapDispatchToProps = dispatch => ({
+  createSignal: payload => {
+    dispatch(createTrigger(payload))
+  }
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Item)
