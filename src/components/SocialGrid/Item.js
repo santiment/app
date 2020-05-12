@@ -14,6 +14,7 @@ import styles from './Item.module.scss'
 
 const Item = ({
   topic,
+  link,
   charts,
   onTopicClick,
   settingMap,
@@ -26,7 +27,7 @@ const Item = ({
 
   MetricSettingMap.set(charts[0], {
     selector: 'text',
-    slug: topic
+    slug: link
   })
 
   const [map] = useState(MetricSettingMap)
@@ -34,14 +35,14 @@ const Item = ({
   return show ? (
     <article className={styles.wrapper}>
       <div className={styles.top}>
-        <Link to={`/labs/trends/explore/${topic}`} className={styles.text}>
+        <Link to={`/labs/trends/explore/${link}`} className={styles.text}>
           {topic}
         </Link>
         <div className={styles.actions}>
           <div
             className={styles.action}
             onClick={() => {
-              createSignal(buildInTrendingWordsSignal(topic))
+              createSignal(buildInTrendingWordsSignal(link))
             }}
           >
             <DarkTooltip
@@ -82,13 +83,13 @@ const Item = ({
                 </Button>
               }
             >
-              <WordCloud hideWord className={styles.wordCloud} word={topic} />
+              <WordCloud hideWord className={styles.wordCloud} word={link} />
             </Tooltip>
           </div>
         </div>
       </div>
       <Chart
-        topic={topic}
+        topic={link}
         charts={charts}
         settings={settings}
         onLoad={onLoad}

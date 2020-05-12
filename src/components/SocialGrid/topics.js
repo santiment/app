@@ -45,6 +45,89 @@ export const TOPICS = [
   'china'
 ]
 
+export const INDEX_PAGE_GROUPS = [
+  {
+    title: 'Recognized Economic Milestones',
+    description:
+      'The most popular global economy topics in crypto social media. Those reflecting worldwide economic and health topics',
+    topics: [
+      {
+        name: 'Oil negative rates',
+        link:
+          'oil OR negative OR barrel OR crude OR barrels OR contract OR futures OR wti'
+      },
+      {
+        name: 'Bitcoin halving',
+        link: 'halving OR halvening'
+      },
+      {
+        name: 'Coronavirus',
+        link: 'virus OR corona OR coronavirus OR covid OR covid19 OR "covid-19"'
+      },
+      {
+        name: 'Unlimited dollar printing',
+        link: 'fed OR unlimited OR infinite OR money OR printing OR dollar'
+      },
+      {
+        name: 'Zero Fed rates',
+        link: 'fed OR rates'
+      },
+      {
+        name: 'Stimulus bill',
+        link: 'stimulus OR bill'
+      }
+    ]
+  },
+  {
+    title: 'Biggest noticed pumps',
+    description: 'Biggest noticeable pumps. With or without related news',
+    topics: [
+      {
+        name: 'WRX',
+        link: 'wrx'
+      },
+      {
+        name: 'DATA',
+        link: 'data'
+      },
+      {
+        name: 'DASH',
+        link: 'dash'
+      },
+      {
+        name: 'ZRX',
+        link: 'zrx'
+      },
+      {
+        name: 'STEEM',
+        link: 'steem'
+      },
+      {
+        name: 'MTL',
+        link: 'mtl'
+      }
+    ]
+  },
+  {
+    title: 'Initial Exchange Offerings',
+    description: 'Humble ICO descendants starting to bloom slowly again',
+    topics: [
+      {
+        name: 'Cartesi',
+        link: 'ctsi OR cartesi'
+      },
+      {
+        name: 'Sheng',
+        link: 'sheng'
+      },
+      {
+        name: 'Frenzy',
+        link: 'fzy OR frenzy'
+      }
+    ]
+  }
+]
+
 const DEFAULT_TIME_RANGE = '3m'
 const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
 

@@ -2,10 +2,11 @@ import React from 'react'
 import cx from 'classnames'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import PublicTemplates from './PublicTemplates/PublicTemplates'
-import SocialGrid from '../../components/SocialGrid'
+import SocialTrends from './SocialTrends/SocialTrends'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { MobileOnly } from '../../components/Responsive'
 import IndexIndices from './IndexIndices/IndexIndices'
+
 import styles from './MarketingPage.module.scss'
 
 /*
@@ -47,8 +48,8 @@ const MarketingPage = ({ history }) => {
         </div>
 
         <div className={styles.block}>
-          <div className={styles.subTitle}>Popular trends</div>
-          <SocialGrid className={styles.grid} />
+          <div className={styles.subTitle}>Social trends</div>
+          <SocialTrends />
         </div>
 
         <div className={styles.block}>

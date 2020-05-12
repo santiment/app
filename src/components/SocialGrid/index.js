@@ -10,7 +10,7 @@ const SHOW_STEP = 6
 
 const charts = [Metric.social_volume_total]
 
-const SocialGrid = ({ className, onTopicClick }) => {
+const SocialGrid = ({ className, onTopicClick, topics = TOPICS }) => {
   const [showCount, setShowCount] = useState(SHOW_STEP)
   const [loadedCount, setLoadedCount] = useState(0)
 
@@ -25,11 +25,12 @@ const SocialGrid = ({ className, onTopicClick }) => {
 
   return (
     <section className={cx(styles.wrapper, className)}>
-      {TOPICS.map((topic, idx) => (
+      {topics.map((topic, idx) => (
         <Item
           key={idx}
           show={showCount > idx}
-          topic={topic}
+          topic={topic.name ? topic.name : topic}
+          link={topic.link ? topic.link : topic}
           charts={charts}
           onTopicClick={onTopicClick}
           settings={SETTINGS}
