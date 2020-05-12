@@ -19,6 +19,7 @@ import { TRENDING_WATCHLIST_NAME } from '../../pages/assets/assets-overview-cons
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
 import { millify } from '../../utils/formatting'
+import NewLabel from '../NewLabel/NewLabel'
 import styles from './WatchlistCard.module.scss'
 
 const INTERVAL = '6h'
@@ -29,11 +30,8 @@ const WatchlistCard = ({
   isPublic,
   stats,
   to,
-  isError,
-  isLoading,
-  watchlist,
+  watchlist = {},
   onClick,
-  slugs,
   className,
   isSimplifiedView
 }) => {
@@ -58,6 +56,8 @@ const WatchlistCard = ({
     }
     : { Component: Link, props: { to } }
 
+  const { insertedAt } = watchlist
+
   return (
     <res.Component
       className={cx(
@@ -69,13 +69,23 @@ const WatchlistCard = ({
     >
       {isSimplifiedView ? (
         <div className={cx(styles.flexRow, styles.content)}>
-          <span className={styles.name}>{name}</span>
+          <span className={styles.name}>
+            {[
+              <NewLabel date={insertedAt} className={styles.new} key='new' />,
+              name
+            ]}
+          </span>
           <PercentChanges changes={change} className={styles.change__simple} />
         </div>
       ) : (
         <>
           <div className={cx(styles.flexRow, styles.content)}>
-            <span className={styles.name}>{name}</span>
+            <span className={styles.name}>
+              {[
+                <NewLabel date={insertedAt} className={styles.new} key='new' />,
+                name
+              ]}
+            </span>
             {isPublic !== undefined && (
               <ExplanationTooltip
                 text={isPublic ? 'Public' : 'Private'}

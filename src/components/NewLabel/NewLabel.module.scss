@@ -1,0 +1,17 @@
+@import '~@santiment-network/ui/mixins';
+
+.label {
+  color: var(--white);
+  min-width: 32px;
+  width: 32px;
+  min-height: 16px;
+  height: 16px;
+  padding: 0 4px;
+
+  @include text('caption');
+
+  font-size: 11px;
+  line-height: 18px;
+  text-align: center;
+  cursor: pointer;
+}

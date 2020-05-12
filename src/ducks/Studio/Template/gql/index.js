@@ -19,6 +19,7 @@ export const TEMPLATE_COMMON_FRAGMENT = gql`
       username
     }
     options
+    insertedAt
     __typename
   }
 `
