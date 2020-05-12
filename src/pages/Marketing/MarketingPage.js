@@ -1,5 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
+import { Link } from 'react-router-dom'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import PublicTemplates from './PublicTemplates/PublicTemplates'
 import SocialGrid from '../../components/SocialGrid'
@@ -47,7 +48,17 @@ const MarketingPage = ({ history }) => {
         </div>
 
         <div className={styles.block}>
-          <div className={styles.subTitle}>Popular trends</div>
+          <div className={styles.subTitle}>Social trends</div>
+          <div className={styles.description}>
+            Our previous analysis indicates that ERC-20 coins tend to be less
+            correlated to Ethereum during the bull market, and exhibit higher
+            correlation during the bear market. This Index charts the
+            correlation of ERC-20 market cap to the ETH market cap over the last
+            3 months.
+          </div>
+          <Link to={'/labs/trends'} className={styles.link}>
+            Start researching Emerging trends now
+          </Link>
           <SocialGrid className={styles.grid} />
         </div>
 

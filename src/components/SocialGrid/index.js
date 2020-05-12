@@ -10,7 +10,7 @@ const SHOW_STEP = 6
 
 const charts = [Metric.social_volume_total]
 
-const SocialGrid = ({ className, onTopicClick }) => {
+const SocialGrid = ({ className, onTopicClick, topics = TOPICS }) => {
   const [showCount, setShowCount] = useState(SHOW_STEP)
   const [loadedCount, setLoadedCount] = useState(0)
 
