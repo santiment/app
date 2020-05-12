@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import Icon from '@santiment-network/ui/Icon'
@@ -9,7 +9,24 @@ import DarkTooltip from '../Tooltip/DarkTooltip'
 import Chart from './Chart'
 import styles from './Item.module.scss'
 
-const Item = ({ topic, charts, onTopicClick, show, onLoad, settings }) => {
+const Item = ({
+  topic,
+  charts,
+  onTopicClick,
+  settingMap,
+  show,
+  onLoad,
+  settings
+}) => {
+  const MetricSettingMap = new Map()
+
+  MetricSettingMap.set(charts[0], {
+    selector: 'text',
+    slug: topic
+  })
+
+  const [map] = useState(MetricSettingMap)
+
   return show ? (
     <article className={styles.wrapper}>
       <div className={styles.top}>
@@ -65,6 +82,7 @@ const Item = ({ topic, charts, onTopicClick, show, onLoad, settings }) => {
         charts={charts}
         settings={settings}
         onLoad={onLoad}
+        settingMap={map}
         className={styles.chart}
       />
     </article>
