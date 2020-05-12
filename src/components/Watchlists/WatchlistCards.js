@@ -17,6 +17,7 @@ const WatchlistCards = ({
         <WatchlistCard
           key={name}
           name={name}
+          watchlist={watchlist}
           className={classes.watchlist}
           to={makeSharedLinks ? getSharedWatchlistLink(watchlist) : undefined}
           {...rest}

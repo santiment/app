@@ -20,6 +20,7 @@ import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
 import { millify } from '../../utils/formatting'
 import styles from './WatchlistCard.module.scss'
+import NewLabel from '../NewLabel/NewLabel'
 
 const INTERVAL = '6h'
 const RANGE = 7
@@ -29,11 +30,8 @@ const WatchlistCard = ({
   isPublic,
   stats,
   to,
-  isError,
-  isLoading,
-  watchlist,
+  watchlist = {},
   onClick,
-  slugs,
   className,
   isSimplifiedView
 }) => {
@@ -58,6 +56,8 @@ const WatchlistCard = ({
     }
     : { Component: Link, props: { to } }
 
+  const { insertedAt } = watchlist
+
   return (
     <res.Component
       className={cx(
@@ -69,13 +69,17 @@ const WatchlistCard = ({
     >
       {isSimplifiedView ? (
         <div className={cx(styles.flexRow, styles.content)}>
-          <span className={styles.name}>{name}</span>
+          <span className={styles.name}>
+            {[<NewLabel date={insertedAt} className={styles.new} />, name]}
+          </span>
           <PercentChanges changes={change} className={styles.change__simple} />
         </div>
       ) : (
         <>
           <div className={cx(styles.flexRow, styles.content)}>
-            <span className={styles.name}>{name}</span>
+            <span className={styles.name}>
+              {[<NewLabel date={insertedAt} className={styles.new} />, name]}
+            </span>
             {isPublic !== undefined && (
               <ExplanationTooltip
                 text={isPublic ? 'Public' : 'Private'}

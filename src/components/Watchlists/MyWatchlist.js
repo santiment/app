@@ -107,6 +107,7 @@ const MyWatchlist = ({
               <WatchlistCard
                 key={watchlist.id}
                 name={watchlist.name}
+                watchlist={watchlist}
                 to={getWatchlistLink(watchlist)}
                 isPublic={watchlist.isPublic}
                 slugs={watchlist.listItems.map(({ project }) => project.slug)}
