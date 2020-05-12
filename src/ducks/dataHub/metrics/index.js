@@ -61,7 +61,7 @@ export const Metric = {
   age_destroyed: {
     category: 'On-chain',
     node: 'bar',
-    group: 'Token Flows/Movement/Activity',
+    group: 'Network Activity',
     label: 'Token Age Consumed',
     shortLabel: 'Token Age Cons.',
     abbreviation: 'tac',
@@ -72,7 +72,7 @@ export const Metric = {
   exchange_balance: {
     category: 'On-chain',
     node: 'line',
-    group: 'Exchange Flow',
+    group: 'Exchanges',
     label: 'Exchange Flow Balance',
     shortLabel: 'Exc. Flow Bal.',
     abbreviation: 'efb',
@@ -92,7 +92,7 @@ export const Metric = {
   percent_of_total_supply_on_exchanges: {
     category: 'On-chain',
     node: 'line',
-    group: 'Exchange Flow',
+    group: 'Exchanges',
     label: 'Percent of Total Supply on Exchanges',
     shortLabel: '% TS on Exc.'
   },
@@ -100,12 +100,13 @@ export const Metric = {
     category: 'On-chain',
     node: 'line',
     label: 'In Top Holders Total',
-    shortLabel: 'In T.H. Total'
+    shortLabel: 'In T.H. Total',
+    group: 'Top Holders'
   },
   circulation: {
     category: 'On-chain',
     node: 'line',
-    group: 'Token Flows/Movement/Activity',
+    group: 'Network Activity',
     label: 'Token Circulation',
     shortLabel: 'Token Circ.',
     abbreviation: 'tc'
@@ -113,7 +114,7 @@ export const Metric = {
   mvrv_usd: {
     category: 'On-chain',
     node: 'line',
-    group: 'Network value',
+    group: 'Network Value',
     label: 'MVRV',
     fullTitle: 'Market Value To Realized Value',
     shortLabel: 'MVRV',
@@ -123,7 +124,7 @@ export const Metric = {
   transaction_volume: {
     category: 'On-chain',
     node: 'bar',
-    group: 'Token Flows/Movement/Activity',
+    group: 'Network Activity',
     label: 'Transaction Volume',
     abbreviation: 'trv',
     shortLabel: 'Trans. Vol.'
@@ -152,7 +153,7 @@ export const Metric = {
   velocity: {
     category: 'On-chain',
     node: 'line',
-    group: 'Token Flows/Movement/Activity',
+    group: 'Network Activity',
     label: 'Token Velocity',
     shortLabel: 'Token Vel.',
     abbreviation: 'tv'
@@ -161,7 +162,8 @@ export const Metric = {
     category: 'On-chain',
     node: 'bar',
     label: 'Daily Active Deposits',
-    shortLabel: 'Daily A.D.'
+    shortLabel: 'Daily A.D.',
+    group: 'Exchanges'
   },
   twitter_followers: {
     category: 'Social',
@@ -178,7 +180,7 @@ export const Metric = {
   realized_value_usd: {
     category: 'On-chain',
     node: 'line',
-    group: 'Network value',
+    group: 'Network Value',
     label: 'Realized Cap',
     shortLabel: 'Real. Cap'
   },
@@ -198,7 +200,8 @@ export const Metric = {
     node: 'line',
     label: 'Mean Dollar Invested Age',
     shortLabel: 'Mean D.I.A.',
-    abbreviation: 'mdia'
+    abbreviation: 'mdia',
+    group: 'Network Value'
   },
   mean_age: {
     category: 'On-chain',
@@ -206,18 +209,19 @@ export const Metric = {
     label: 'Mean Coin Age',
     shortLabel: 'Mean C.A.',
     abbreviation: 'mca',
-    isBeta: true
+    isBeta: true,
+    group: 'Network Value'
   },
   nvt: {
     category: 'On-chain',
     node: 'line',
-    group: 'Network value',
+    group: 'Network Value',
     label: 'NVT Ratio Circulation',
     shortLabel: 'NVT R. Circ.'
   },
   nvt_transaction_volume: {
     node: 'bar',
-    group: 'Network value',
+    group: 'Network Value',
     label: 'NVT Ratio Transaction Volume',
     shortLabel: 'NVT R. T.V.',
     category: 'On-chain'
@@ -230,36 +234,38 @@ export const Metric = {
   deposit_transactions: {
     node: 'line',
     label: 'Deposit Transactions',
-    category: 'On-chain'
+    category: 'On-chain',
+    group: 'Exchanges'
   },
   withdrawal_transactions: {
     node: 'line',
     label: 'Withdrawal Transactions',
-    category: 'On-chain'
+    category: 'On-chain',
+    group: 'Exchanges'
   },
   exchange_inflow: {
     node: 'line',
     label: 'Exchange Inflow',
     category: 'On-chain',
-    group: 'Exchange Flow'
+    group: 'Exchanges'
   },
   exchange_outflow: {
     node: 'line',
     label: 'Exchange Outflow',
     category: 'On-chain',
-    group: 'Exchange Flow'
+    group: 'Exchanges'
   },
   supply_on_exchanges: {
     node: 'line',
     label: 'Supply On Exchanges',
     category: 'On-chain',
-    group: 'Exchange Flow'
+    group: 'Exchanges'
   },
   supply_outside_exchanges: {
     node: 'line',
     label: 'Supply Outside Exchanges',
     category: 'On-chain',
-    group: 'Exchange Flow'
+    group: 'Exchanges'
   },
   amount_in_top_holders: {
     node: 'line',
