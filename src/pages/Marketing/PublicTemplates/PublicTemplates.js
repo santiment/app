@@ -9,6 +9,7 @@ import UpgradeBtn from '../../../components/UpgradeBtn/UpgradeBtn'
 import { useFeaturedTemplates } from '../../../ducks/Studio/Template/gql/hooks'
 import PageLoader from '../../../components/Loader/PageLoader'
 import { prepareTemplateLink } from '../../../ducks/Studio/Template/Dialog/LoadTemplate/Template'
+import NewLabel from '../../../components/NewLabel/NewLabel'
 import styles from './PublicTemplates.module.scss'
 
 const PublicTemplates = ({ isProSanbase }) => {
@@ -23,7 +24,7 @@ const PublicTemplates = ({ isProSanbase }) => {
   return (
     <div className={styles.container}>
       {usingTemplates.map(template => {
-        const { link, title, description, isProRequired } = template
+        const { link, title, description, isProRequired, insertedAt } = template
         const requirePro = isProRequired && !isProSanbase
 
         return (
@@ -32,7 +33,17 @@ const PublicTemplates = ({ isProSanbase }) => {
             className={cx(styles.template, requirePro && styles.proTemplate)}
           >
             <div>
-              <div className={styles.title}>{title}</div>
+              <div className={styles.title}>
+                {[
+                  <NewLabel
+                    date={insertedAt}
+                    className={styles.new}
+                    key='new'
+                  />,
+                  title
+                ]}
+              </div>
+
               <div className={styles.description}>{description}</div>
             </div>
 

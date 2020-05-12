@@ -56,10 +56,19 @@
   color: var(--waterloo);
 }
 
+.header {
+  display: flex;
+}
+
 .title {
   @include text('body-2', 'l');
 
   color: var(--rhino);
+  word-break: break-word;
+}
+
+.new {
+  margin-right: 8px;
 }
 
 .block {

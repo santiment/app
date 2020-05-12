@@ -1,5 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel/Panel'
@@ -13,8 +14,13 @@ import NewWatchlistDialog from './NewWatchlistDialog'
 import WatchlistNewBtn from '../WatchlistPopup/WatchlistNewBtn'
 import WatchlistsAnon from '../WatchlistPopup/WatchlistsAnon'
 import WatchlistsAnonBanner from '../Banner/WatchlistsAnonBanner'
+import {
+  checkIsLoggedIn,
+  checkIsLoggedInPending
+} from '../../pages/UserSelectors'
 import stylesGrid from './WatchlistCards.module.scss'
 import styles from './Watchlist.module.scss'
+import NewWatchlistCard from './NewWatchlistCard'
 
 const WatchlistEmptySection = ({ watchlists }) => (
   <EmptySection imgClassName={styles.img}>
@@ -32,46 +38,59 @@ const WatchlistEmptySection = ({ watchlists }) => (
   </EmptySection>
 )
 
-const MyWatchlist = ({ isLoggedIn, isLoggedInPending, className }) => (
+const MyWatchlist = ({
+  isLoggedIn,
+  isLoggedInPending,
+  className,
+  showHeader = true,
+  showNew = false
+}) => (
   <GetWatchlists
     render={({ isWatchlistsLoading, watchlists }) => (
       <div className={cx(styles.wrapper, className)}>
-        <DesktopOnly>
-          <div className={styles.header}>
-            <h4 className={styles.heading}>My watchlists</h4>
-            <NewWatchlistDialog
-              trigger={<WatchlistNewBtn border disabled={!isLoggedIn} />}
-              watchlists={watchlists}
-            />
-          </div>
-        </DesktopOnly>
-        <MobileOnly>
+        {showHeader && (
           <>
-            <div className={styles.row}>
-              <h2
-                className={cx(styles.subtitle, styles.subtitle__myWatchlists)}
-              >
-                My watchlists
-              </h2>
-              {isLoggedIn && watchlists.length > 0 && (
+            <DesktopOnly>
+              <div className={styles.header}>
+                <h4 className={styles.heading}>My watchlists</h4>
                 <NewWatchlistDialog
+                  trigger={<WatchlistNewBtn border disabled={!isLoggedIn} />}
                   watchlists={watchlists}
-                  trigger={
-                    <WatchlistNewBtn
-                      accent='positive'
-                      className={styles.newBtn}
-                    />
-                  }
                 />
-              )}
-            </div>
-            <Skeleton
-              repeat={4}
-              className={styles.skeleton}
-              show={isWatchlistsLoading || isLoggedInPending}
-            />
+              </div>
+            </DesktopOnly>
+            <MobileOnly>
+              <>
+                <div className={styles.row}>
+                  <h2
+                    className={cx(
+                      styles.subtitle,
+                      styles.subtitle__myWatchlists
+                    )}
+                  >
+                    My watchlists
+                  </h2>
+                  {isLoggedIn && watchlists.length > 0 && (
+                    <NewWatchlistDialog
+                      watchlists={watchlists}
+                      trigger={
+                        <WatchlistNewBtn
+                          accent='positive'
+                          className={styles.newBtn}
+                        />
+                      }
+                    />
+                  )}
+                </div>
+                <Skeleton
+                  repeat={4}
+                  className={styles.skeleton}
+                  show={isWatchlistsLoading || isLoggedInPending}
+                />
+              </>
+            </MobileOnly>
           </>
-        </MobileOnly>
+        )}
         {isLoggedIn && !isWatchlistsLoading && !watchlists.length && (
           <>
             <DesktopOnly>
@@ -90,11 +109,13 @@ const MyWatchlist = ({ isLoggedIn, isLoggedInPending, className }) => (
               <WatchlistCard
                 key={watchlist.id}
                 name={watchlist.name}
+                watchlist={watchlist}
                 to={getWatchlistLink(watchlist)}
                 isPublic={watchlist.isPublic}
                 slugs={watchlist.listItems.map(({ project }) => project.slug)}
               />
             ))}
+            {showNew && <NewWatchlistCard />}
           </div>
         )}
         {!isWatchlistsLoading && !isLoggedInPending && !isLoggedIn && (
@@ -117,4 +138,9 @@ MyWatchlist.propTypes = {
   isLoggedInPending: PropTypes.bool.isRequired
 }
 
-export default MyWatchlist
+const mapStateToProps = state => ({
+  isLoggedIn: checkIsLoggedIn(state),
+  isLoggedInPending: checkIsLoggedInPending(state)
+})
+
+export default connect(mapStateToProps)(MyWatchlist)
