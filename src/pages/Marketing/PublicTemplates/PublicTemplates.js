@@ -11,6 +11,7 @@ import PageLoader from '../../../components/Loader/PageLoader'
 import { prepareTemplateLink } from '../../../ducks/Studio/Template/Dialog/LoadTemplate/Template'
 import NewLabel from '../../../components/NewLabel/NewLabel'
 import styles from './PublicTemplates.module.scss'
+import NewTemplateCard from '../../../components/TemplatesGrid/NewTemplateCard'
 
 const PublicTemplates = ({ isProSanbase }) => {
   const [templates, loading] = useFeaturedTemplates()
@@ -72,6 +73,8 @@ const PublicTemplates = ({ isProSanbase }) => {
           </div>
         )
       })}
+
+      <NewTemplateCard />
     </div>
   )
 }
