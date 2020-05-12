@@ -26,7 +26,12 @@ const Search = ({
   const [values, setValues] = useState(topics)
   const inputRef = useRef(null)
 
-  const isMaxValuesReached = values.length === MAX_VALUES
+  const isMaxValuesReached =
+    values.length >= MAX_VALUES || topics.length >= MAX_VALUES
+
+  if (topics.length > MAX_VALUES) {
+    onChangeTopics(topics.slice(0, MAX_VALUES))
+  }
 
   useEffect(
     () => {
