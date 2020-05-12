@@ -93,3 +93,22 @@
   margin-bottom: 24px;
   display: block;
 }
+
+.template {
+  background-color: var(--athens);
+  margin-bottom: 24px;
+  padding: 32px 40px;
+
+  &__title {
+    @include text('body-1', 'l');
+
+    margin: 0 0 16px;
+  }
+
+  &__description {
+    @include text('body-2');
+
+    color: var(--fiord);
+    margin: 0 0 24px;
+  }
+}

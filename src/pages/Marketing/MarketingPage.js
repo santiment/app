@@ -64,7 +64,7 @@ const MarketingPage = ({ history }) => {
             <section className={styles.template}>
               <h4 className={styles.template__title}>{title}</h4>
               <p className={styles.template__description}>{description}</p>
-              <SocialGrid className={styles.grid} topics={topics} />
+              <SocialGrid topics={topics} />
             </section>
           ))}
         </div>
