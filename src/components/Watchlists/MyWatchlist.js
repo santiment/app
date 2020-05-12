@@ -20,6 +20,7 @@ import {
 } from '../../pages/UserSelectors'
 import stylesGrid from './WatchlistCards.module.scss'
 import styles from './Watchlist.module.scss'
+import NewWatchlistCard from './NewWatchlistCard'
 
 const WatchlistEmptySection = ({ watchlists }) => (
   <EmptySection imgClassName={styles.img}>
@@ -41,7 +42,8 @@ const MyWatchlist = ({
   isLoggedIn,
   isLoggedInPending,
   className,
-  showHeader = true
+  showHeader = true,
+  showNew = false
 }) => (
   <GetWatchlists
     render={({ isWatchlistsLoading, watchlists }) => (
@@ -113,6 +115,7 @@ const MyWatchlist = ({
                 slugs={watchlist.listItems.map(({ project }) => project.slug)}
               />
             ))}
+            {showNew && <NewWatchlistCard />}
           </div>
         )}
         {!isWatchlistsLoading && !isLoggedInPending && !isLoggedIn && (

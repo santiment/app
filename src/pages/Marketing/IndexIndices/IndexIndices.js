@@ -37,7 +37,7 @@ export default () => {
           showNew={true}
         />
       )}
-      {tab === TABS.YOUR && <MyWatchlist showHeader={false} />}
+      {tab === TABS.YOUR && <MyWatchlist showHeader={false} showNew={true} />}
     </>
   )
 }
