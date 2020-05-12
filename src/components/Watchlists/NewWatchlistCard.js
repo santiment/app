@@ -1,25 +1,20 @@
 import React from 'react'
 import cx from 'classnames'
 import GetWatchlists from '../../ducks/Watchlists/GetWatchlists'
-import Loader from '@santiment-network/ui/Loader/Loader'
 import NewWatchlistDialog from './NewWatchlistDialog'
-import styles from './WatchlistCard.module.scss'
 import LoginDialogWrapper from '../LoginDialog/LoginDialogWrapper'
+import styles from './WatchlistCard.module.scss'
 
-const Trigger = <div className={styles.createLink}>Create your watchlist</div>
+const Trigger = props => (
+  <div {...props} className={styles.createLink}>
+    Create your watchlist
+  </div>
+)
 
 const NewWatchlistCard = () => {
   return (
     <GetWatchlists
-      render={({ isWatchlistsLoading, watchlists }) => {
-        if (isWatchlistsLoading) {
-          return (
-            <div className={cx(styles.wrapper, styles.create)}>
-              <Loader className={styles.loader} />
-            </div>
-          )
-        }
-
+      render={({ watchlists = [] }) => {
         return (
           <div className={cx(styles.wrapper, styles.create)}>
             <div>
@@ -65,7 +60,10 @@ const NewWatchlistCard = () => {
               </svg>
             </div>
             <LoginDialogWrapper title='Create watchlist' trigger={Trigger}>
-              <NewWatchlistDialog watchlists={watchlists} trigger={Trigger} />
+              <NewWatchlistDialog
+                watchlists={watchlists}
+                trigger={<Trigger />}
+              />
             </LoginDialogWrapper>
           </div>
         )
