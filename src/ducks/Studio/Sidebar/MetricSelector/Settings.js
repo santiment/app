@@ -42,7 +42,7 @@ const Setting = ({ settings, metric, setMetricSettingMap }) => {
     setLastValidValue(value)
 
     setMetricSettingMap(state => {
-      const prevSettings = state.get(metric)
+      const prevSettings = state.get(metric) || {}
       const newState = new Map(state)
 
       newState.set(
