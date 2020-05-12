@@ -23,7 +23,6 @@ import {
   getTopicsFromUrl,
   updTopicsInUrl
 } from '../../../pages/TrendsExplore/url'
-import { updateHistory } from '../../../utils/utils'
 import ConditionalWrapper from './ConditionalWrapper'
 import { mapSizesToProps } from '../../../utils/withSizes'
 import styles from './TrendsTable.module.scss'
