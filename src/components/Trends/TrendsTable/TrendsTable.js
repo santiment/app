@@ -78,7 +78,11 @@ const NumberCircle = ({ className, ...props }) => (
 
 const getTrGroupProps = (_, rowInfo) => {
   return {
-    onClick: ({ target, currentTarget }) => {
+    onClick: ({ target, currentTarget, ctrlKey, metaKey }) => {
+      if (ctrlKey || metaKey) {
+        return
+      }
+
       let node = target
       while (node && node !== currentTarget) {
         if (
