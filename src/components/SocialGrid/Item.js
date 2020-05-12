@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import Icon from '@santiment-network/ui/Icon'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import Button from '@santiment-network/ui/Button'
+import { buildInTrendingWordsSignal } from '../../ducks/Signals/utils/utils'
 import WordCloud from '../WordCloud/WordCloud'
 import DarkTooltip from '../Tooltip/DarkTooltip'
 import Chart from './Chart'
@@ -34,21 +35,24 @@ const Item = ({
           {topic}
         </Link>
         <div className={styles.actions}>
-          {/* <div className={styles.action}> */}
-          {/*   <DarkTooltip */}
-          {/*     trigger={ */}
-          {/*       <Icon */}
-          {/*         type='signal' */}
-          {/*         className={cx(styles.signal, styles.icon)} */}
-          {/*       /> */}
-          {/*     } */}
-          {/*     position='top' */}
-          {/*   > */}
-          {/*     Create an alert if the phrase */}
-          {/*     <br /> */}
-          {/*     appears in Emerging trends */}
-          {/*   </DarkTooltip> */}
-          {/* </div> */}
+          <div
+            className={styles.action}
+            onClick={() => buildInTrendingWordsSignal(topic)}
+          >
+            <DarkTooltip
+              trigger={
+                <Icon
+                  type='signal'
+                  className={cx(styles.signal, styles.icon)}
+                />
+              }
+              position='top'
+            >
+              Create an alert if the phrase
+              <br />
+              appears in Emerging trends
+            </DarkTooltip>
+          </div>
           <div className={styles.action}>
             <Tooltip
               on='click'
