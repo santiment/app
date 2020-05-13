@@ -42,7 +42,7 @@ const Chart = ({
   events = [],
   scale = linearScale,
   tooltipKey,
-  axesMetricKeys,
+  axesMetricKeys = [],
   MetricColor,
   syncedTooltipDate,
   hideBrush,
@@ -76,6 +76,7 @@ const Chart = ({
         width,
         chartHeight,
         buildPadding(
+          chartPadding,
           isShowBrush && BRUSH_PADDING,
           axesMetricKeys[1] && DOUBLE_AXIS_PADDING,
         ),
@@ -231,6 +232,7 @@ const Chart = ({
     }
 
     const padding = buildPadding(
+      chartPadding,
       isShowBrush && BRUSH_PADDING,
       axesMetricKeys[1] && DOUBLE_AXIS_PADDING,
     )
