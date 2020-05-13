@@ -3,7 +3,7 @@
 .wrapper {
   position: absolute;
   z-index: 11;
-  left: 0;
+  right: 0;
   top: 0;
 }
 
@@ -12,11 +12,11 @@
   cursor: pointer;
   width: 0;
   height: 0;
-  right: -6px;
+  left: -6px;
   border-top: 5px solid transparent;
   border-left: 7px solid var(--rhino);
   border-bottom: 5px solid transparent;
-  transform: translateY(-5px);
+  transform: translateY(-5px) rotate(180deg);
 
   &::before {
     content: '';
@@ -32,7 +32,7 @@
   display: none;
   width: 370px;
   position: absolute;
-  left: 17px;
+  right: 17px;
   transform: translateY(-50%);
   max-width: initial !important;
 }
@@ -40,7 +40,7 @@
 .add {
   position: absolute;
   margin-top: -6px;
-  right: -6px;
+  left: -6px;
   background: $waterloo;
   height: 13px;
   width: 13px;
@@ -72,7 +72,7 @@
         bottom: 30%;
         top: 30%;
         width: 13px;
-        right: 100%;
+        left: 100%;
       }
     }
   }

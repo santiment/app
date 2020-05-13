@@ -17,6 +17,7 @@ export default ({
   setSettings,
   className,
   toggleMultiCharts,
+  showMulti = true,
   ...rest
 }) => {
   const { timeRange, from, to, title } = settings
@@ -52,13 +53,15 @@ export default ({
         onCalendarChange={onCalendarChange}
         onTimerangeChange={onTimerangeChange}
       />
-      <div className={styles.multi} onClick={toggleMultiCharts}>
-        Multi charts
-        <Toggle
-          isActive={options.isMultiChartsActive}
-          className={styles.multi__toggle}
-        />
-      </div>
+      {showMulti && (
+        <div className={styles.multi} onClick={toggleMultiCharts}>
+          Multi charts
+          <Toggle
+            isActive={options.isMultiChartsActive}
+            className={styles.multi__toggle}
+          />
+        </div>
+      )}
       <ContextMenu
         title={title}
         showNightModeToggle={false}

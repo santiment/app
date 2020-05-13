@@ -8,9 +8,6 @@ import { BRUSH_HEIGHT } from './settings'
 
 export function onResize (chart, chartPadding, brush, data, chartHeight) {
   const parentWidth = chart.canvas.parentNode.offsetWidth
-  if (parentWidth === chart.canvasWidth) {
-    return
-  }
 
   updateChartDimensions(chart, parentWidth, chartHeight, chartPadding)
 

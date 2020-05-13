@@ -18,7 +18,7 @@ import { TOP_HOLDER_METRICS } from './Sidepane/TopHolders/metrics'
 import Chart from '../../Chart'
 import Signals from '../../Chart/Signals'
 import Synchronizer from '../../Chart/Synchronizer'
-import { useDomainGroups } from '../../Chart/hooks'
+import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
 import { useChartColors } from '../../Chart/colors'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './index.module.scss'
@@ -51,6 +51,7 @@ const Canvas = ({
   const [FocusedMetric, setFocusedMetric] = useState()
   const MetricColor = useChartColors(metrics, FocusedMetric)
   const domainGroups = useDomainGroups(metrics)
+  const axesMetricKeys = useAxesMetricsKey(metrics)
 
   const isBlurred = isAnon && index > 1
   const hasExplanaibles = filterExplainableMetrics(metrics).length > 0
@@ -136,6 +137,8 @@ const Canvas = ({
         metrics={metrics}
         scale={scale}
         domainGroups={isDomainGroupingActive ? domainGroups : undefined}
+        tooltipKey={axesMetricKeys[0]}
+        axesMetricKeys={axesMetricKeys}
         isMultiChartsActive={isMultiChartsActive}
         syncedTooltipDate={isBlurred || syncedTooltipDate}
         onPointClick={advancedView ? changeHoveredDate : undefined}
@@ -143,11 +146,11 @@ const Canvas = ({
           advancedView === 'Spent Coin Cost' ? changeDatesRange : undefined
         }
         resizeDependencies={[
-          MetricColor,
           isMultiChartsActive,
           advancedView,
           chartSidepane,
-          isSidebarClosed
+          isSidebarClosed,
+          axesMetricKeys
         ]}
       >
         <IcoPrice
