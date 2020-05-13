@@ -72,3 +72,16 @@
 .watchlists {
   margin: 0;
 }
+
+.description {
+  @include text('body-2');
+
+  width: 70%;
+  max-width: 711px;
+  color: var(--waterloo);
+  margin-bottom: 16px;
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    width: 100%;
+  }
+}
