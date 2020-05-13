@@ -152,16 +152,13 @@ export function useAxesMetricsKey (metrics) {
         return setAxesMetricKeys([mainAxisMetric.key])
       }
 
-      for (let i = 0; i < length; i++) {
+      for (let i = 1; i < length; i++) {
         const metric = metrics[i]
 
         if (metric === Metric.price_usd) {
+          secondaryAxisMetric = mainAxisMetric
           mainAxisMetric = metric
-        } else if (
-          secondaryAxisMetric.node !== 'line' ||
-          secondaryAxisMetric === Metric.price_usd
-        ) {
-          secondaryAxisMetric = metric
+          break
         }
       }
 
