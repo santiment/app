@@ -26,6 +26,8 @@
   justify-content: center;
   border: 1px dashed var(--mystic);
   border-radius: 4px;
+
+  @include text('body-2');
 }
 
 .useIcon {

@@ -52,30 +52,29 @@ export const INDEX_PAGE_GROUPS = [
       'The most popular global economy topics in crypto social media. Those reflecting worldwide economic and health topics',
     topics: [
       {
-        name: 'Oil negative rates',
-        query:
+        title: 'Oil negative rates',
+        slug:
           'oil OR negative OR barrel OR crude OR barrels OR contract OR futures OR wti'
       },
       {
-        name: 'Bitcoin halving',
-        query: 'halving OR halvening'
+        title: 'Bitcoin halving',
+        slug: 'halving OR halvening'
       },
       {
-        name: 'Coronavirus',
-        query:
-          'virus OR corona OR coronavirus OR covid OR covid19 OR "covid-19"'
+        title: 'Coronavirus',
+        slug: 'virus OR corona OR coronavirus OR covid OR covid19 OR "covid-19"'
       },
       {
-        name: 'Unlimited dollar printing',
-        query: 'fed OR unlimited OR infinite OR money OR printing OR dollar'
+        title: 'Unlimited dollar printing',
+        slug: 'fed OR unlimited OR infinite OR money OR printing OR dollar'
       },
       {
-        name: 'Zero Fed rates',
-        query: 'fed OR rates'
+        title: 'Zero Fed rates',
+        slug: 'fed OR rates'
       },
       {
-        name: 'Stimulus bill',
-        query: 'stimulus OR bill'
+        title: 'Stimulus bill',
+        slug: 'stimulus OR bill'
       }
     ]
   },
@@ -84,28 +83,28 @@ export const INDEX_PAGE_GROUPS = [
     description: 'Biggest noticeable pumps. With or without related news',
     topics: [
       {
-        name: 'WRX',
-        query: 'wrx'
+        title: 'WRX',
+        slug: 'wrx'
       },
       {
-        name: 'DATA',
-        query: 'data'
+        title: 'DATA',
+        slug: 'data'
       },
       {
-        name: 'DASH',
-        query: 'dash'
+        title: 'DASH',
+        slug: 'dash'
       },
       {
-        name: 'ZRX',
-        query: 'zrx'
+        title: 'ZRX',
+        slug: 'zrx'
       },
       {
-        name: 'STEEM',
-        query: 'steem'
+        title: 'STEEM',
+        slug: 'steem'
       },
       {
-        name: 'MTL',
-        query: 'mtl'
+        title: 'MTL',
+        slug: 'mtl'
       }
     ]
   },
@@ -114,16 +113,16 @@ export const INDEX_PAGE_GROUPS = [
     description: 'Humble ICO descendants starting to bloom slowly again',
     topics: [
       {
-        name: 'Cartesi',
-        query: 'ctsi OR cartesi'
+        title: 'Cartesi',
+        slug: 'ctsi OR cartesi'
       },
       {
-        name: 'Sheng',
-        query: 'sheng'
+        title: 'Sheng',
+        slug: 'sheng'
       },
       {
-        name: 'Frenzy',
-        query: 'fzy OR frenzy'
+        title: 'Frenzy',
+        slug: 'fzy OR frenzy'
       }
     ]
   }
