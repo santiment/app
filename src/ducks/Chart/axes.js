@@ -31,20 +31,26 @@ const yFormatter = value => {
   return Math.trunc(value)
 }
 
-export function plotAxes (chart, scale) {
+export function plotAxes (props) {
+  const { chart, scale, xFormatter, xTicksAmount } = props
   const {
     tooltipKey,
     ticksPaintConfig = dayTicksPaintConfig,
     axesColor = dayAxesColor
   } = chart
 
+  const xFormatterNew =
+    xFormatter ||
+    (isDayInterval(chart) ? getDateHoursMinutes : getDateDayMonthYear)
+
   drawAxes(chart, axesColor)
   drawAxesTicks(
     chart,
     tooltipKey,
-    isDayInterval(chart) ? getDateHoursMinutes : getDateDayMonthYear,
+    xFormatterNew,
     yFormatter,
     ticksPaintConfig,
-    scale
+    scale,
+    xTicksAmount
   )
 }
