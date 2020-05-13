@@ -2,15 +2,12 @@ import { useEffect } from 'react'
 import { updateChartDimensions, updateSize } from '@santiment-network/chart'
 import {
   updateBrushDimensions,
-  updateBrushState
+  updateBrushState,
 } from '@santiment-network/chart/brush'
 import { BRUSH_HEIGHT } from './settings'
 
-export function onResize (chart, chartPadding, brush, data, chartHeight) {
+export function onResize(chart, chartPadding, brush, data, chartHeight) {
   const parentWidth = chart.canvas.parentNode.offsetWidth
-  if (parentWidth === chart.canvasWidth) {
-    return
-  }
 
   updateChartDimensions(chart, parentWidth, chartHeight, chartPadding)
 
@@ -19,7 +16,7 @@ export function onResize (chart, chartPadding, brush, data, chartHeight) {
     chart.tooltip.ctx,
     chart.dpr,
     parentWidth,
-    chartHeight
+    chartHeight,
   )
 
   if (brush) {

@@ -5,7 +5,7 @@ import AdvancedCalendar from '../../../components/AdvancedCalendar'
 import ContextMenu from './ContextMenu'
 import {
   getNewInterval,
-  INTERVAL_ALIAS
+  INTERVAL_ALIAS,
 } from '../../SANCharts/IntervalSelector'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import styles from './Settings.module.scss'
@@ -17,28 +17,29 @@ export default ({
   setSettings,
   className,
   toggleMultiCharts,
+  showMulti = true,
   ...rest
 }) => {
   const { timeRange, from, to, title } = settings
 
-  function onTimerangeChange (timeRange) {
+  function onTimerangeChange(timeRange) {
     const { from, to } = getIntervalByTimeRange(timeRange)
     changeTimePeriod(from, to, timeRange)
   }
 
-  function onCalendarChange ([from, to]) {
+  function onCalendarChange([from, to]) {
     changeTimePeriod(from, to)
   }
 
-  function changeTimePeriod (from, to, timeRange) {
+  function changeTimePeriod(from, to, timeRange) {
     const interval = getNewInterval(from, to)
 
-    setSettings(state => ({
+    setSettings((state) => ({
       ...state,
       timeRange,
       interval: INTERVAL_ALIAS[interval] || interval,
       from: from.toISOString(),
-      to: to.toISOString()
+      to: to.toISOString(),
     }))
   }
 
@@ -52,13 +53,15 @@ export default ({
         onCalendarChange={onCalendarChange}
         onTimerangeChange={onTimerangeChange}
       />
-      <div className={styles.multi} onClick={toggleMultiCharts}>
-        Multi charts
-        <Toggle
-          isActive={options.isMultiChartsActive}
-          className={styles.multi__toggle}
-        />
-      </div>
+      {showMulti && (
+        <div className={styles.multi} onClick={toggleMultiCharts}>
+          Multi charts
+          <Toggle
+            isActive={options.isMultiChartsActive}
+            className={styles.multi__toggle}
+          />
+        </div>
+      )}
       <ContextMenu
         title={title}
         showNightModeToggle={false}

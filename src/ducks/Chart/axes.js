@@ -46,15 +46,17 @@ export function plotAxes(chart, scale) {
   const [mainAxisMetric, secondaryAxisMetric] = axesMetricKeys
 
   drawAxes(chart, axesColor)
-  drawAxesTicks(
-    chart,
-    mainAxisMetric,
-    isDayInterval(chart) ? getDateHoursMinutes : getDateDayMonthYear,
-    yFormatter,
-    ticksPaintConfig,
-    scale,
-  )
-  console.log(axesMetricKeys)
+
+  if (chart.minMaxes[mainAxisMetric]) {
+    drawAxesTicks(
+      chart,
+      mainAxisMetric,
+      isDayInterval(chart) ? getDateHoursMinutes : getDateDayMonthYear,
+      yFormatter,
+      ticksPaintConfig,
+      scale,
+    )
+  }
 
   if (secondaryAxisMetric && chart.minMaxes[secondaryAxisMetric]) {
     drawLeftAxis(chart, axesColor)

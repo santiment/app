@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import Chart from '../../Chart'
-import { useDomainGroups } from '../../Chart/hooks'
+import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
 import FullscreenDialogBtn from '../../../components/FullscreenDialogBtn'
 import { useTimeseries } from '../timeseries/hooks'
 import { generateShareLink } from '../url'
@@ -24,6 +24,7 @@ const FullscreenChart = ({
   const [data] = useTimeseries(metrics, settings)
   const [events] = useTimeseries(activeEvents, settings)
   const domainGroups = useDomainGroups(metrics)
+  const axesMetricKeys = useAxesMetricsKey(metrics)
   const chartRef = useRef(null)
 
   useEffect(
@@ -34,7 +35,7 @@ const FullscreenChart = ({
       const { origin, pathname } = window.location
       setShareLink(origin + pathname + queryString)
     },
-    [settings, options]
+    [settings, options],
   )
 
   return (
@@ -60,6 +61,8 @@ const FullscreenChart = ({
         {...props}
         chartRef={chartRef}
         data={data}
+        tooltipKey={axesMetricKeys[0]}
+        axesMetricKeys={axesMetricKeys}
         onPointHover={undefined}
         syncTooltips={undefined}
         isMultiChartsActive={false}
@@ -73,7 +76,7 @@ const FullscreenChart = ({
   )
 }
 
-export default props => (
+export default (props) => (
   <FullscreenDialogBtn
     title={props.settings.title}
     className={styles.btn}

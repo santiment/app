@@ -17,7 +17,9 @@ import {
   CHART_HEIGHT,
   BRUSH_HEIGHT,
   CHART_PADDING,
-  CHART_WITH_BRUSH_PADDING,
+  BRUSH_PADDING,
+  DOUBLE_AXIS_PADDING,
+  buildPadding,
 } from './settings'
 import { drawWatermark } from './watermark'
 import { onResize, useResizeEffect } from './resize'
@@ -73,7 +75,10 @@ const Chart = ({
         canvas,
         width,
         chartHeight,
-        isShowBrush ? CHART_WITH_BRUSH_PADDING : chartPadding,
+        buildPadding(
+          isShowBrush && BRUSH_PADDING,
+          axesMetricKeys[1] && DOUBLE_AXIS_PADDING,
+        ),
       ),
     )
     chart.tooltipKey = tooltipKey
@@ -216,7 +221,7 @@ const Chart = ({
     [syncedTooltipDate],
   )
 
-  useEffect(handleResize, resizeDependencies)
+  useEffect(handleResize, [...resizeDependencies, data])
 
   useResizeEffect(handleResize, [...resizeDependencies, data, brush])
 
@@ -225,13 +230,12 @@ const Chart = ({
       return
     }
 
-    onResize(
-      chart,
-      isShowBrush ? CHART_WITH_BRUSH_PADDING : chartPadding,
-      brush,
-      data,
-      chartHeight,
+    const padding = buildPadding(
+      isShowBrush && BRUSH_PADDING,
+      axesMetricKeys[1] && DOUBLE_AXIS_PADDING,
     )
+
+    onResize(chart, padding, brush, data, chartHeight)
 
     if (!brush) {
       updateChartState(

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Metric } from '../dataHub/metrics'
 
-const ALPHA_CHANNEL = '40'
+const ALPHA_CHANNEL = '29'
 
 // RESERVED COLORS
 const GREEN = '#26C953'
@@ -22,7 +22,7 @@ export const COLORS = [
   '#FFDAC5', // PEACH
   '#37D7BA', // AQUAMARINE
   '#777777', // GREY
-  '#222222' // BLACK
+  '#222222', // BLACK
 ]
 
 const MetricColor = {
@@ -30,11 +30,11 @@ const MetricColor = {
   [Metric.volume_usd.key]: GRAY,
   [Metric.social_volume_total.key]: CYAN,
   [Metric.daily_active_addresses.key]: ORANGE,
-  [Metric.dev_activity.key]: VIOLET
+  [Metric.dev_activity.key]: VIOLET,
 }
 
 const INITIAL_STATE = {}
-export function useChartColors (metrics, focusedMetric) {
+export function useChartColors(metrics, focusedMetric) {
   const [chartColors, setChartColors] = useState(INITIAL_STATE)
 
   useEffect(
@@ -57,7 +57,7 @@ export function useChartColors (metrics, focusedMetric) {
 
       setChartColors(newColors)
     },
-    [metrics, focusedMetric]
+    [metrics, focusedMetric],
   )
 
   return chartColors
