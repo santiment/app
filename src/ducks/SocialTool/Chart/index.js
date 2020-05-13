@@ -5,6 +5,7 @@ import Chart from '../../Chart'
 import { useChartColors } from './colors'
 import Signals from '../../Chart/Signals'
 import { metricsToPlotCategories } from '../../Chart/Synchronizer'
+import { useAxesMetricsKey } from '../../Chart/hooks'
 import PaywallInfo from '../../Studio/Chart/PaywallInfo'
 import ChartActiveMetrics from '../../Studio/Chart/ActiveMetrics'
 import SocialDominanceToggle from './SocialDominanceToggle'
@@ -30,13 +31,14 @@ const Canvas = ({
 }) => {
   const [FocusedMetric, setFocusedMetric] = useState()
   const MetricColor = useChartColors(metrics, FocusedMetric)
+  const axesMetricKeys = useAxesMetricsKey(metrics)
   const scale = options.isLogScale ? logScale : linearScale
 
-  function onMetricHover (metric) {
+  function onMetricHover(metric) {
     setFocusedMetric(metric)
   }
 
-  function onMetricHoverEnd () {
+  function onMetricHoverEnd() {
     setFocusedMetric()
   }
 
@@ -79,6 +81,7 @@ const Canvas = ({
         chartHeight={CHART_HEIGHT}
         className={styles.chart}
         metrics={metrics}
+        axesMetricKeys={axesMetricKeys}
         MetricColor={MetricColor}
         setSettings={setSettings}
         resizeDependencies={[]}

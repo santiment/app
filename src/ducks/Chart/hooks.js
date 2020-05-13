@@ -145,7 +145,7 @@ export function useAxesMetricsKey(metrics) {
   useEffect(
     () => {
       let mainAxisMetric = metrics[0]
-      let secondaryAxisMetric = {}
+      let secondaryAxisMetric = metrics[1]
 
       const { length } = metrics
       if (length === 1) {

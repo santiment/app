@@ -11,7 +11,7 @@ const GENERAL_CHARTS = [
   DetailedMetric.social_volume_telegram,
   DetailedMetric.social_volume_reddit,
   DetailedMetric.social_volume_professional_traders_chat,
-  DetailedMetric.social_volume_discord
+  DetailedMetric.social_volume_discord,
 ]
 const COMMUNITY_CHARTS = [DetailedMetric.community_messages_count_telegram]
 
@@ -25,12 +25,12 @@ let priceMetric = Metric.price_usd
 const DefaultCharts = {
   general: {
     charts: GENERAL_CHARTS,
-    title: 'Detailed charts'
+    title: 'Detailed charts',
   },
   community: {
     charts: [],
-    title: 'Community messages charts'
-  }
+    title: 'Community messages charts',
+  },
 }
 
 const DetailedBlock = ({
@@ -51,14 +51,14 @@ const DetailedBlock = ({
       const newMetricSettingMap = new Map(MetricSettingMap)
       const metricSetting = {
         selector: detectedAsset ? 'slug' : 'text',
-        slug: detectedAsset ? detectedAsset.slug : settings.slug
+        slug: detectedAsset ? detectedAsset.slug : settings.slug,
       }
 
-      charts.forEach(metric => newMetricSettingMap.set(metric, metricSetting))
+      charts.forEach((metric) => newMetricSettingMap.set(metric, metricSetting))
 
       setMetricSettingMap(newMetricSettingMap)
     },
-    [linkedAssets, settings.slug]
+    [linkedAssets, settings.slug],
   )
 
   useEffect(
@@ -70,7 +70,7 @@ const DetailedBlock = ({
         setMetricSettingMap(newMetricSettingMap)
       }
     },
-    [priceAsset]
+    [priceAsset],
   )
 
   const isComparingMode = settings.addedTopics.length > 0
@@ -96,11 +96,12 @@ const DetailedBlock = ({
         </div>
       </div>
       <div className={styles.charts}>
-        {charts.map(chart => (
+        {charts.map((chart) => (
           <Chart
             key={chart.key}
             {...props}
             settings={settings}
+            metrics={[chart]}
             charts={[chart, ...defaultChart]}
             MetricSettingMap={MetricSettingMap}
             className={styles.chart}
@@ -127,9 +128,9 @@ export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
   },
   props: ({ data: { project: { availableMetrics = [] } = {} } }) => {
     const availableCommunityCharts = COMMUNITY_CHARTS.filter(({ key }) =>
-      availableMetrics.includes(key)
+      availableMetrics.includes(key),
     )
 
     return { charts: availableCommunityCharts }
-  }
+  },
 })(DetailedBlock)
