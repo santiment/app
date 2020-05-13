@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import PublicTemplates from './PublicTemplates/PublicTemplates'
 import SocialTrends from './SocialTrends/SocialTrends'
@@ -11,8 +11,18 @@ import { MobileOnly } from '../../components/Responsive'
 import IndexIndices from './IndexIndices/IndexIndices'
 import IndexTab from './IndexTabs/IndexTab'
 import styles from './MarketingPage.module.scss'
+import { PATHS } from '../../App'
 
-const MarketingPage = ({ history, userId }) => {
+const isCharts = ({ search }) =>
+  search.indexOf('from') !== -1 && search.indexOf('to') !== -1
+
+const MarketingPage = props => {
+  const { history, userId, location } = props
+
+  if (isCharts(location)) {
+    return <Redirect to={PATHS.STUDIO} />
+  }
+
   return (
     <div className={cx('page', styles.container)}>
       <MobileOnly>
