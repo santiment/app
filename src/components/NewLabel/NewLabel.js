@@ -1,11 +1,14 @@
 import React from 'react'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
-import styles from './NewLabel.module.scss'
-import { addDays, dateDifferenceInWords } from '../../utils/dates'
+import { addDays, addMinutes, dateDifferenceInWords } from '../../utils/dates'
 import DarkTooltip from '../Tooltip/DarkTooltip'
+import styles from './NewLabel.module.scss'
 
-const NOW = new Date()
+const currentTimezoneOffset = new Date().getTimezoneOffset()
+const NOW = addMinutes(new Date(), currentTimezoneOffset)
+
+window.dateDifferenceInWords = dateDifferenceInWords
 
 const showNewLabel = (date, limitDays = 7) => {
   return date && addDays(date, limitDays).getTime() > NOW.getTime()

@@ -335,6 +335,12 @@ export const addDays = (date, days) => {
   return result
 }
 
+export const addMinutes = (date, minutes) => {
+  let result = new Date(date)
+  result.setTime(result.getTime() + minutes * 60 * 1000)
+  return result
+}
+
 export const dateDifferenceInWordsString = dateString =>
   dateDifferenceInWords({
     from: new Date(dateString)
