@@ -8,9 +8,6 @@ import styles from './SocialTrends.module.scss'
 
 const SocialTrends = () => (
   <>
-    <Link to={'/labs/trends'} className={styles.link}>
-      Start researching Emerging trends now
-    </Link>
     {INDEX_PAGE_GROUPS.map(({ title, description, topics }) => (
       <section className={styles.template}>
         <h4 className={styles.template__title}>{title}</h4>
@@ -19,14 +16,12 @@ const SocialTrends = () => (
       </section>
     ))}
     <Button
-      fluid
       variant='flat'
-      isActive
       className={styles.button}
       as={Link}
-      to={'/labs/trends'}
+      to={'/labs/trends/explore/'}
     >
-      Learn more about Social Tool{' '}
+      Start researching Social Tool{' '}
       <Icon className={styles.useIcon} type='pointer-right' />
     </Button>
   </>

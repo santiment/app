@@ -85,3 +85,9 @@
     width: 100%;
   }
 }
+
+.link {
+  @include text('body-2', 'l');
+
+  color: var(--jungle-green);
+}
