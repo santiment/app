@@ -10,6 +10,7 @@ import { buildInTrendingWordsSignal } from '../../ducks/Signals/utils/utils'
 import LoginDialogWrapper from '../LoginDialog/LoginDialogWrapper'
 import WordCloud from '../WordCloud/WordCloud'
 import DarkTooltip from '../Tooltip/DarkTooltip'
+import { dividePhraseInWords } from './topics'
 import Chart from './Chart'
 import styles from './Item.module.scss'
 
@@ -44,7 +45,8 @@ const Item = ({
             <div
               className={styles.action}
               onClick={() => {
-                createSignal(buildInTrendingWordsSignal(link))
+                const words = dividePhraseInWords(link)
+                createSignal(buildInTrendingWordsSignal(words))
               }}
             >
               <DarkTooltip

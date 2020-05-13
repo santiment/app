@@ -53,28 +53,29 @@ export const INDEX_PAGE_GROUPS = [
     topics: [
       {
         name: 'Oil negative rates',
-        link:
+        query:
           'oil OR negative OR barrel OR crude OR barrels OR contract OR futures OR wti'
       },
       {
         name: 'Bitcoin halving',
-        link: 'halving OR halvening'
+        query: 'halving OR halvening'
       },
       {
         name: 'Coronavirus',
-        link: 'virus OR corona OR coronavirus OR covid OR covid19 OR "covid-19"'
+        query:
+          'virus OR corona OR coronavirus OR covid OR covid19 OR "covid-19"'
       },
       {
         name: 'Unlimited dollar printing',
-        link: 'fed OR unlimited OR infinite OR money OR printing OR dollar'
+        query: 'fed OR unlimited OR infinite OR money OR printing OR dollar'
       },
       {
         name: 'Zero Fed rates',
-        link: 'fed OR rates'
+        query: 'fed OR rates'
       },
       {
         name: 'Stimulus bill',
-        link: 'stimulus OR bill'
+        query: 'stimulus OR bill'
       }
     ]
   },
@@ -84,27 +85,27 @@ export const INDEX_PAGE_GROUPS = [
     topics: [
       {
         name: 'WRX',
-        link: 'wrx'
+        query: 'wrx'
       },
       {
         name: 'DATA',
-        link: 'data'
+        query: 'data'
       },
       {
         name: 'DASH',
-        link: 'dash'
+        query: 'dash'
       },
       {
         name: 'ZRX',
-        link: 'zrx'
+        query: 'zrx'
       },
       {
         name: 'STEEM',
-        link: 'steem'
+        query: 'steem'
       },
       {
         name: 'MTL',
-        link: 'mtl'
+        query: 'mtl'
       }
     ]
   },
@@ -114,15 +115,15 @@ export const INDEX_PAGE_GROUPS = [
     topics: [
       {
         name: 'Cartesi',
-        link: 'ctsi OR cartesi'
+        query: 'ctsi OR cartesi'
       },
       {
         name: 'Sheng',
-        link: 'sheng'
+        query: 'sheng'
       },
       {
         name: 'Frenzy',
-        link: 'fzy OR frenzy'
+        query: 'fzy OR frenzy'
       }
     ]
   }
@@ -138,4 +139,17 @@ export const SETTINGS = {
   from: FROM.toISOString(),
   to: TO.toISOString(),
   timeRange: DEFAULT_TIME_RANGE
+}
+
+const EXCLUDED_WORDS = ['OR', 'AND']
+const ALLOWED_SYMBOLS = /[^a-zA-Z]+/g
+
+export function dividePhraseInWords (phrase) {
+  const words = new Set(
+    phrase
+      .split(' ')
+      .filter(word => !EXCLUDED_WORDS.includes(word))
+      .map(word => word.replace(ALLOWED_SYMBOLS, ''))
+  )
+  return [...words]
 }
