@@ -33,9 +33,9 @@ const MarketingPage = ({ history, userId }) => {
             tabs={[
               {
                 type: 'Explore Chart Layouts',
-                content: <PublicTemplates />
+                content: <PublicTemplates isFeatured />
               },
-              userId && {
+              {
                 type: 'Your Chart Layouts',
                 content: <PublicTemplates userId={userId} />
               }

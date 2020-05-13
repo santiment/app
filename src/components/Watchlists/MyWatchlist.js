@@ -13,7 +13,7 @@ import Skeleton from '../Skeleton/Skeleton'
 import NewWatchlistDialog from './NewWatchlistDialog'
 import WatchlistNewBtn from '../WatchlistPopup/WatchlistNewBtn'
 import WatchlistsAnon from '../WatchlistPopup/WatchlistsAnon'
-import WatchlistsAnonBanner from '../Banner/WatchlistsAnonBanner'
+import FeatureAnonBanner from '../Banner/FeatureAnonBanner'
 import {
   checkIsLoggedIn,
   checkIsLoggedInPending
@@ -121,7 +121,7 @@ const MyWatchlist = ({
         {!isWatchlistsLoading && !isLoggedInPending && !isLoggedIn && (
           <>
             <DesktopOnly>
-              <WatchlistsAnonBanner className={styles.anonBanner} />
+              <FeatureAnonBanner className={styles.anonBanner} />
             </DesktopOnly>
             <MobileOnly>
               <WatchlistsAnon isFullScreen={true} />
