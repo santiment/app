@@ -16,8 +16,8 @@ import NewLabel from '../../../components/NewLabel/NewLabel'
 import NewTemplateCard from '../../../components/TemplatesGrid/NewTemplateCard'
 import styles from './PublicTemplates.module.scss'
 
-const PublicTemplates = ({ isProSanbase, userId }) => {
-  const [templates, loading] = userId
+const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
+  const [templates, loading] = !isFeatured
     ? useUserTemplates(userId)
     : useFeaturedTemplates()
 
@@ -29,55 +29,62 @@ const PublicTemplates = ({ isProSanbase, userId }) => {
 
   return (
     <div className={styles.container}>
-      {usingTemplates.map(template => {
-        const { link, title, description, isProRequired, insertedAt } = template
-        const requirePro = isProRequired && !isProSanbase
+      {(isFeatured || userId) &&
+        usingTemplates.map(template => {
+          const {
+            link,
+            title,
+            description,
+            isProRequired,
+            insertedAt
+          } = template
+          const requirePro = isProRequired && !isProSanbase
 
-        return (
-          <div
-            key={title}
-            className={cx(styles.template, requirePro && styles.proTemplate)}
-          >
-            <div>
-              <div className={styles.title}>
-                {[
-                  <NewLabel
-                    date={insertedAt}
-                    className={styles.new}
-                    key='new'
-                  />,
-                  title
-                ]}
+          return (
+            <div
+              key={title}
+              className={cx(styles.template, requirePro && styles.proTemplate)}
+            >
+              <div>
+                <div className={styles.title}>
+                  {[
+                    <NewLabel
+                      date={insertedAt}
+                      className={styles.new}
+                      key='new'
+                    />,
+                    title
+                  ]}
+                </div>
+
+                <div className={styles.description}>{description}</div>
               </div>
 
-              <div className={styles.description}>{description}</div>
+              {requirePro ? (
+                <UpgradeBtn
+                  showCrownIcon={false}
+                  variant='flat'
+                  className={styles.proBtn}
+                >
+                  <>
+                    <Icon type='crown' className={styles.proIcon} /> PRO Chart
+                    Layouts
+                  </>
+                </UpgradeBtn>
+              ) : (
+                <a
+                  className={styles.useLink}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  href={link || prepareTemplateLink(template)}
+                >
+                  Use chart layout{' '}
+                  <Icon className={styles.useIcon} type='pointer-right' />
+                </a>
+              )}
             </div>
-
-            {requirePro ? (
-              <UpgradeBtn
-                showCrownIcon={false}
-                variant='flat'
-                className={styles.proBtn}
-              >
-                <>
-                  <Icon type='crown' className={styles.proIcon} /> PRO Chart
-                  Layouts
-                </>
-              </UpgradeBtn>
-            ) : (
-              <a
-                className={styles.useLink}
-                target='_blank'
-                rel='noopener noreferrer'
-                href={link || prepareTemplateLink(template)}
-              >
-                Use chart layout{' '}
-                <Icon className={styles.useIcon} type='pointer-right' />
-              </a>
-            )}
-          </div>
-        )
-      })}
+          )
+        })}
 
       <NewTemplateCard />
     </div>
