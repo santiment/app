@@ -15,7 +15,7 @@ const SocialTrends = () => (
       ERC-20 market cap to the ETH market cap over the last 3 months.
     </div>
     <Link to={'/labs/trends'} className={styles.link}>
-      Start researching Emerging trends now
+      Start researching Social Tool now
     </Link>
     {INDEX_PAGE_GROUPS.map(({ title, description, topics }, idx) => (
       <section key={idx} className={styles.template}>
