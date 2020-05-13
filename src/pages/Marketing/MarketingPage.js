@@ -8,8 +8,10 @@ import SocialTrends from './SocialTrends/SocialTrends'
 import Trends from '../../components/Trends/Trends'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { MobileOnly } from '../../components/Responsive'
-import IndexIndices from './IndexIndices/IndexIndices'
 import IndexTab from './IndexTabs/IndexTab'
+import WatchlistCards from '../../components/Watchlists/WatchlistCards'
+import { CATEGORIES } from '../assets/assets-overview-constants'
+import MyWatchlist from '../../components/Watchlists/MyWatchlist'
 import styles from './MarketingPage.module.scss'
 
 const MarketingPage = ({ history, userId }) => {
@@ -25,7 +27,30 @@ const MarketingPage = ({ history, userId }) => {
 
       <div className={styles.inner}>
         <div className={styles.block}>
-          <IndexIndices />
+          <IndexTab
+            tabs={[
+              {
+                type: 'Indices',
+                content: (
+                  <WatchlistCards
+                    watchlists={CATEGORIES}
+                    classes={styles}
+                    showNew={true}
+                  />
+                )
+              },
+              {
+                type: 'Your watchlists',
+                content: (
+                  <MyWatchlist
+                    showHeader={false}
+                    showNew={true}
+                    classes={styles}
+                  />
+                )
+              }
+            ]}
+          />
         </div>
 
         <div className={styles.block}>
