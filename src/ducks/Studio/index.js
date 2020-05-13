@@ -17,6 +17,7 @@ import { buildComparedMetric } from './Compare/utils'
 import { TOP_HOLDERS_PANE } from './Chart/Sidepane/panes'
 import { updateHistory } from '../../utils/utils'
 import { useClosestValueData } from '../Chart/hooks'
+import { getPreparedMetricSettings } from './timeseries/utils'
 import styles from './index.module.scss'
 
 const Studio = ({
@@ -46,17 +47,29 @@ const Studio = ({
   const [advancedView, setAdvancedView] = useState()
   const [shareLink, setShareLink] = useState()
   const [isICOPriceDisabled, setIsICOPriceDisabled] = useState(true)
-  const [isSidebarClosed, setIsSidebarClosed] = useState()
+
   const [rawData, loadings, ErrorMsg] = useTimeseries(
     activeMetrics,
     settings,
     MetricSettingMap
   )
+
+  const [isSidebarClosed, setIsSidebarClosed] = useState()
+
   const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings)
   const data = useClosestValueData(
     rawData,
     activeMetrics,
     options.isClosestDataActive
+  )
+
+  useEffect(
+    () => {
+      setMetricSettingMap(
+        getPreparedMetricSettings(activeMetrics, MetricSettingMap)
+      )
+    },
+    [activeMetrics]
   )
 
   useEffect(
