@@ -9,7 +9,7 @@ import {
   findMetricLastValue,
   makeSignalDrawable,
   checkPriceMetric,
-  AlertBuilder,
+  AlertBuilder
 } from './helpers'
 import { useAlertMetrics } from './hooks'
 import { clearCtx } from '../utils'
@@ -18,7 +18,7 @@ import { Metric } from '../../dataHub/metrics'
 import {
   createTrigger,
   fetchSignals,
-  removeTrigger,
+  removeTrigger
 } from '../../Signals/common/actions'
 import { buildValueChangeSuggester } from '../../Studio/Alerts/suggestions/helpers'
 import LoginDialogWrapper from '../../../components/LoginDialog/LoginDialogWrapper'
@@ -30,8 +30,8 @@ const SHORT_TEXT_ACTION = 'Create an alert '
 const TEXT_IFS = {
   daily_active_addresses: [
     'if DAA count goes below ',
-    'if DAA count goes above ',
-  ],
+    'if DAA count goes above '
+  ]
 }
 
 const MOVING_TEXT_BY_SIGN = [' drops below ', ' rises above ']
@@ -64,7 +64,7 @@ const Signals = ({
   createSignal,
   removeSignal,
   metrics,
-  useShortRecord,
+  useShortRecord
 }) => {
   const [isHovered, setIsHovered] = useState()
   const [hoverPoint, setHoverPoint] = useState()
@@ -78,15 +78,15 @@ const Signals = ({
     return () => (chart.isAlertsActive = false)
   }, [])
 
-  function onMouseMove({ target, currentTarget, nativeEvent: { offsetY: y } }) {
+  function onMouseMove ({ target, currentTarget, nativeEvent: { offsetY: y } }) {
     if (isHovered || data.length === 0 || target !== currentTarget) {
       return
     }
 
-    const metricValues = metrics.map((metric) => ({
+    const metricValues = metrics.map(metric => ({
       key: metric.key,
       value: findMetricValueByY(chart, metric, y),
-      lastValue: findMetricLastValue(data, metric),
+      lastValue: findMetricLastValue(data, metric)
     }))
 
     const priceIndex = metrics.findIndex(checkPriceMetric)
@@ -101,11 +101,11 @@ const Signals = ({
     drawHoveredSignal(chart, y, [
       useShortRecord ? SHORT_TEXT_ACTION : TEXT_ACTION,
       getTextIf(Metric[key], +(value > lastValue), useShortRecord),
-      Metric[key].formatter(value),
+      Metric[key].formatter(value)
     ])
   }
 
-  function onClick({ target, currentTarget, nativeEvent: { offsetY: y } }) {
+  function onClick ({ target, currentTarget, nativeEvent: { offsetY: y } }) {
     if (isHovered || data.length === 0 || target !== currentTarget) {
       return
     }
@@ -121,12 +121,12 @@ const Signals = ({
     createSignal(newSignal.alert)
   }
 
-  function onMouseLeave() {
+  function onMouseLeave () {
     setHoverPoint()
     clearCtx(chart, chart.tooltip.ctx)
   }
 
-  function setHoveredSignal(signal) {
+  function setHoveredSignal (signal) {
     setIsHovered(signal)
     if (signal) {
       const { type, value, y } = signal
@@ -134,7 +134,7 @@ const Signals = ({
       drawHoveredSignal(chart, y, [
         TEXT_SIGNAL +
           getTextIf(Metric.price_usd, +(type === SIGNAL_ABOVE), useShortRecord),
-        priceFormatter(value),
+        priceFormatter(value)
       ])
     }
   }
@@ -147,10 +147,10 @@ const Signals = ({
       className={styles.wrapper}
       style={{
         width: chart.padding.right,
-        height: chart.height + chart.top,
+        height: chart.height + chart.top
       }}
     >
-      {signals.map((signal) => (
+      {signals.map(signal => (
         <Signal
           key={signal.id}
           signal={signal}
@@ -177,21 +177,21 @@ const mapStateToProps = (state, { slug, chart, scale }) => {
   return {
     signals: chart
       ? getSlugPriceSignals(state.signals.all || [], slug)
-          .map((signal) => makeSignalDrawable(signal, chart, scale))
-          .filter(Boolean)
-      : [],
+        .map(signal => makeSignalDrawable(signal, chart, scale))
+        .filter(Boolean)
+      : []
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  createSignal: (payload) => dispatch(createTrigger(payload)),
+const mapDispatchToProps = dispatch => ({
+  createSignal: payload => dispatch(createTrigger(payload)),
   fetchSignals: () => dispatch(fetchSignals()),
-  removeSignal: (id) => dispatch(removeTrigger(id)),
+  removeSignal: id => dispatch(removeTrigger(id))
 })
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(({ metrics, ...props }) => {
   const alertMetrics = useAlertMetrics(metrics)
 

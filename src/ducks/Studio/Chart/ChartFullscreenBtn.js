@@ -35,7 +35,7 @@ const FullscreenChart = ({
       const { origin, pathname } = window.location
       setShareLink(origin + pathname + queryString)
     },
-    [settings, options],
+    [settings, options]
   )
 
   return (
@@ -76,7 +76,7 @@ const FullscreenChart = ({
   )
 }
 
-export default (props) => (
+export default props => (
   <FullscreenDialogBtn
     title={props.settings.title}
     className={styles.btn}

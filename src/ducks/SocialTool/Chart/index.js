@@ -34,11 +34,11 @@ const Canvas = ({
   const axesMetricKeys = useAxesMetricsKey(metrics)
   const scale = options.isLogScale ? logScale : linearScale
 
-  function onMetricHover(metric) {
+  function onMetricHover (metric) {
     setFocusedMetric(metric)
   }
 
-  function onMetricHoverEnd() {
+  function onMetricHoverEnd () {
     setFocusedMetric()
   }
 
