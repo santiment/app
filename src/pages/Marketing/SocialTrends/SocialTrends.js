@@ -8,8 +8,8 @@ import styles from './SocialTrends.module.scss'
 
 const SocialTrends = () => (
   <>
-    {INDEX_PAGE_GROUPS.map(({ title, description, topics }) => (
-      <section className={styles.template}>
+    {INDEX_PAGE_GROUPS.map(({ title, description, topics }, index) => (
+      <section className={styles.template} key={index}>
         <h4 className={styles.template__title}>{title}</h4>
         <p className={styles.template__description}>{description}</p>
         <SocialGrid topics={topics} />
