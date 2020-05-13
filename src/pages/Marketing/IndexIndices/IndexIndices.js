@@ -18,13 +18,21 @@ export default () => {
     <>
       <div className={styles.header}>
         <div
-          className={cx(externalStyles.subTitle, styles.title)}
+          className={cx(
+            externalStyles.subTitle,
+            styles.title,
+            tab === TABS.PUBLIC && styles.active
+          )}
           onClick={() => setTab(TABS.PUBLIC)}
         >
           Indices
         </div>
         <div
-          className={cx(styles.yourTitle, styles.title)}
+          className={cx(
+            styles.title,
+            styles.your,
+            tab === TABS.YOUR && styles.active
+          )}
           onClick={() => setTab(TABS.YOUR)}
         >
           Your watchlists

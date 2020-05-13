@@ -2,14 +2,18 @@
 
 .title {
   cursor: pointer;
+  color: var(--casper);
 
   &:hover {
     color: var(--jungle-green-hover);
   }
 }
 
-.yourTitle {
-  color: var(--casper);
+.active {
+  color: var(--rhino);
+}
+
+.your {
   margin-left: 32px;
   cursor: pointer;
 
