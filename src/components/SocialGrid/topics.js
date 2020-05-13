@@ -47,15 +47,10 @@ export const TOPICS = [
 
 export const INDEX_PAGE_GROUPS = [
   {
-    title: 'Recognized Economic Milestones',
+    title: 'General topics',
     description:
-      'The most popular global economy topics in crypto social media. Those reflecting worldwide economic and health topics',
+      'The most popular topics in crypto social media. Ranges from worldwide economic and health topics to the prices discussions',
     topics: [
-      {
-        title: 'Oil negative rates',
-        slug:
-          'oil OR negative OR barrel OR crude OR barrels OR contract OR futures OR wti'
-      },
       {
         title: 'Bitcoin halving',
         slug: 'halving OR halvening'
@@ -65,64 +60,24 @@ export const INDEX_PAGE_GROUPS = [
         slug: 'virus OR corona OR coronavirus OR covid OR covid19 OR "covid-19"'
       },
       {
+        title: 'Oil negative rates',
+        slug:
+          'oil OR negative OR barrel OR crude OR barrels OR contract OR futures OR wti'
+      },
+      {
         title: 'Unlimited dollar printing',
-        slug: 'fed OR unlimited OR infinite OR money OR printing OR dollar'
+        slug:
+          'fed OR (unlimited AND money) OR (infinite AND money) OR printing OR stimulus OR bill'
       },
       {
-        title: 'Zero Fed rates',
-        slug: 'fed OR rates'
+        title: 'Bought the bottom?',
+        slug: 'buy OR bought OR buying OR bottom'
       },
       {
-        title: 'Stimulus bill',
-        slug: 'stimulus OR bill'
-      }
-    ]
-  },
-  {
-    title: 'Biggest noticed pumps',
-    description: 'Biggest noticeable pumps. With or without related news',
-    topics: [
-      {
-        title: 'WRX',
-        slug: 'wrx'
-      },
-      {
-        title: 'DATA',
-        slug: 'data'
-      },
-      {
-        title: 'DASH',
-        slug: 'dash'
-      },
-      {
-        title: 'ZRX',
-        slug: 'zrx'
-      },
-      {
-        title: 'STEEM',
-        slug: 'steem'
-      },
-      {
-        title: 'MTL',
-        slug: 'mtl'
-      }
-    ]
-  },
-  {
-    title: 'Initial Exchange Offerings',
-    description: 'Humble ICO descendants starting to bloom slowly again',
-    topics: [
-      {
-        title: 'Cartesi',
-        slug: 'ctsi OR cartesi'
-      },
-      {
-        title: 'Sheng',
-        slug: 'sheng'
-      },
-      {
-        title: 'Frenzy',
-        slug: 'fzy OR frenzy'
+        title: 'The rise and fall of ZRX',
+        slug: 'zrx',
+        query:
+          'ZRX?asset=0x&from=2020-04-12T22%3A00%3A00.000Z&interval=2h&isCartesianGridActive=true&isSocialDominanceActive=true&slug=ZRX&ticker=ZRX&timeRange=1m&to=2020-05-13T00%3A00%3A00.000Z'
       }
     ]
   }
