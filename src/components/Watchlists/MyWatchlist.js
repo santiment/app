@@ -115,7 +115,7 @@ const MyWatchlist = ({
                 slugs={watchlist.listItems.map(({ project }) => project.slug)}
               />
             ))}
-            {showNew && <NewWatchlistCard />}
+            {showNew && watchlists.length && <NewWatchlistCard />}
           </div>
         )}
         {!isWatchlistsLoading && !isLoggedInPending && !isLoggedIn && (

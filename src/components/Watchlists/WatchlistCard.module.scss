@@ -125,7 +125,7 @@
   justify-content: center;
   color: var(--rhino);
 
-  @include text('body-2');
+  @include text('body-2', 'm');
 
   &:hover {
     border: 1px dashed var(--jungle-green-hover);

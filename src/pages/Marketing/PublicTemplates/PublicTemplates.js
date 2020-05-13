@@ -10,8 +10,8 @@ import { useFeaturedTemplates } from '../../../ducks/Studio/Template/gql/hooks'
 import PageLoader from '../../../components/Loader/PageLoader'
 import { prepareTemplateLink } from '../../../ducks/Studio/Template/Dialog/LoadTemplate/Template'
 import NewLabel from '../../../components/NewLabel/NewLabel'
-import styles from './PublicTemplates.module.scss'
 import NewTemplateCard from '../../../components/TemplatesGrid/NewTemplateCard'
+import styles from './PublicTemplates.module.scss'
 
 const PublicTemplates = ({ isProSanbase }) => {
   const [templates, loading] = useFeaturedTemplates()
@@ -28,6 +28,7 @@ const PublicTemplates = ({ isProSanbase }) => {
         const { link, title, description, isProRequired, insertedAt } = template
         const requirePro = isProRequired && !isProSanbase
 
+        console.log(insertedAt, title)
         return (
           <div
             key={title}
