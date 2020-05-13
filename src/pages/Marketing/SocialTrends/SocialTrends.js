@@ -17,8 +17,8 @@ const SocialTrends = () => (
     <Link to={'/labs/trends'} className={styles.link}>
       Start researching Emerging trends now
     </Link>
-    {INDEX_PAGE_GROUPS.map(({ title, description, topics }) => (
-      <section className={styles.template}>
+    {INDEX_PAGE_GROUPS.map(({ title, description, topics }, idx) => (
+      <section key={idx} className={styles.template}>
         <h4 className={styles.template__title}>{title}</h4>
         <p className={styles.template__description}>{description}</p>
         <SocialGrid topics={topics} />

@@ -29,8 +29,9 @@ const SocialGrid = ({ className, onTopicClick, topics = TOPICS }) => {
         <Item
           key={idx}
           show={showCount > idx}
-          topic={topic.name ? topic.name : topic}
-          link={topic.link ? topic.link : topic}
+          topic={topic.slug || topic}
+          title={topic.title || topic}
+          link={topic.link || topic.slug || topic}
           charts={charts}
           onTopicClick={onTopicClick}
           settings={SETTINGS}
