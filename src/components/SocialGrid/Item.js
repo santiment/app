@@ -7,8 +7,10 @@ import Tooltip from '@santiment-network/ui/Tooltip'
 import Button from '@santiment-network/ui/Button'
 import { createTrigger } from '../../ducks/Signals/common/actions'
 import { buildInTrendingWordsSignal } from '../../ducks/Signals/utils/utils'
+import LoginDialogWrapper from '../LoginDialog/LoginDialogWrapper'
 import WordCloud from '../WordCloud/WordCloud'
 import DarkTooltip from '../Tooltip/DarkTooltip'
+import { dividePhraseInWords } from './topics'
 import Chart from './Chart'
 import styles from './Item.module.scss'
 
@@ -39,27 +41,30 @@ const Item = ({
           {topic}
         </Link>
         <div className={styles.actions}>
-          <div
-            className={styles.action}
-            onClick={() => {
-              createSignal(buildInTrendingWordsSignal(link))
-            }}
-          >
-            <DarkTooltip
-              align='end'
-              trigger={
-                <Icon
-                  type='signal'
-                  className={cx(styles.signal, styles.icon)}
-                />
-              }
-              position='top'
+          <LoginDialogWrapper title='Create signal'>
+            <div
+              className={styles.action}
+              onClick={() => {
+                const words = dividePhraseInWords(link)
+                createSignal(buildInTrendingWordsSignal(words))
+              }}
             >
-              Create an alert if the phrase
-              <br />
-              appears in Emerging trends
-            </DarkTooltip>
-          </div>
+              <DarkTooltip
+                align='end'
+                trigger={
+                  <Icon
+                    type='signal'
+                    className={cx(styles.signal, styles.icon)}
+                  />
+                }
+                position='top'
+              >
+                Create an alert if the phrase
+                <br />
+                appears in Emerging trends
+              </DarkTooltip>
+            </div>
+          </LoginDialogWrapper>
           <div className={styles.action}>
             <Tooltip
               on='click'
