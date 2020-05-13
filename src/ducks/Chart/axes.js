@@ -1,8 +1,8 @@
 import {
   drawAxes,
   drawAxesTicks,
-  drawRightAxis,
-  drawRightAxisTicks,
+  drawLeftAxis,
+  drawLeftAxisTicks,
 } from '@santiment-network/chart/axes'
 import {
   isDayInterval,
@@ -43,23 +43,24 @@ export function plotAxes(chart, scale) {
     axesColor = dayAxesColor,
   } = chart
 
-  const [leftAxisMetric, rightAxisMetric] = axesMetricKeys
+  const [mainAxisMetric, secondaryAxisMetric] = axesMetricKeys
 
   drawAxes(chart, axesColor)
   drawAxesTicks(
     chart,
-    leftAxisMetric,
+    mainAxisMetric,
     isDayInterval(chart) ? getDateHoursMinutes : getDateDayMonthYear,
     yFormatter,
     ticksPaintConfig,
     scale,
   )
+  console.log(axesMetricKeys)
 
-  if (rightAxisMetric) {
-    drawRightAxis(chart, axesColor)
-    drawRightAxisTicks(
+  if (secondaryAxisMetric && chart.minMaxes[secondaryAxisMetric]) {
+    drawLeftAxis(chart, axesColor)
+    drawLeftAxisTicks(
       chart,
-      rightAxisMetric,
+      secondaryAxisMetric,
       yFormatter,
       ticksPaintConfig,
       scale,

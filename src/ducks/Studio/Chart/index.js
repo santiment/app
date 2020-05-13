@@ -156,6 +156,7 @@ const Canvas = ({
           advancedView,
           chartSidepane,
           isSidebarClosed,
+          axesMetricKeys,
         ]}
       >
         <IcoPrice

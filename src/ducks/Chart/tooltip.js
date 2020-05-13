@@ -3,7 +3,7 @@ import {
   drawHoverLineY,
   drawTooltip,
   drawValueBubbleY,
-  drawValueBubbleX
+  drawValueBubbleX,
 } from '@santiment-network/chart/tooltip'
 import { handleMove, getHoveredIndex } from '@santiment-network/chart/events'
 import { waterloo } from '@santiment-network/ui/variables.scss'
@@ -12,25 +12,25 @@ import {
   getDateDayMonthYear,
   getDateHoursMinutes,
   yBubbleFormatter,
-  isDayInterval
+  isDayInterval,
 } from './utils'
 import { TooltipSetting } from '../dataHub/tooltipSettings'
 
 const ALERT_ADD_SIZE = 13
 const ALERT_ADD_HALF_SIZE = 7
 
-export function setupTooltip (
+export function setupTooltip(
   chart,
   marker,
   syncTooltips,
   useCustomTooltip,
-  onPlotTooltip
+  onPlotTooltip,
 ) {
   const {
-    tooltip: { canvas, ctx }
+    tooltip: { canvas, ctx },
   } = chart
 
-  canvas.onmousemove = handleMove(chart, point => {
+  canvas.onmousemove = handleMove(chart, (point) => {
     if (!point) return
     syncTooltips(point.value)
     if (useCustomTooltip) {
@@ -38,14 +38,14 @@ export function setupTooltip (
       plotTooltip(chart, marker, point, {
         showLines: true,
         customTooltip: true,
-        showAlertPlus: true
+        showAlertPlus: true,
       })
     } else {
       plotTooltip(chart, marker, point)
     }
   })
 
-  canvas.onmousedown = handleMove(chart, point => {
+  canvas.onmousedown = handleMove(chart, (point) => {
     if (!point) return
     const { left, right, points, pointWidth } = chart
     const { x } = point
@@ -58,7 +58,7 @@ export function setupTooltip (
 
     window.addEventListener('mouseup', onMouseUp)
 
-    function onMouseMove ({ offsetX }) {
+    function onMouseMove({ offsetX }) {
       const { left, right, top, height } = chart
       if (offsetX < left || offsetX > right) {
         return
@@ -73,7 +73,7 @@ export function setupTooltip (
       ctx.restore()
     }
 
-    function onMouseUp ({ offsetX }) {
+    function onMouseUp({ offsetX }) {
       window.removeEventListener('mousemove', onMouseMove)
       window.removeEventListener('mouseup', onMouseUp)
 
@@ -101,13 +101,13 @@ export function setupTooltip (
   }
 }
 
-export function plotTooltip (chart, marker, point, options) {
+export function plotTooltip(chart, marker, point, options) {
   const {
     tooltip: { ctx },
     tooltipKey,
     hoverLineColor,
     tooltipPaintConfig,
-    bubblesPaintConfig
+    bubblesPaintConfig,
   } = chart
   const metricPoint = point[tooltipKey]
   if (!metricPoint) return
@@ -132,7 +132,7 @@ export function plotTooltip (chart, marker, point, options) {
     }
   } else {
     drawHoverLineX(chart, x, hoverLineColor, 5)
-    drawHoverLineY(chart, y, hoverLineColor, -20)
+    drawHoverLineY(chart, y, hoverLineColor, 0, 20)
 
     drawAlertPlus(chart, y)
 
@@ -142,35 +142,35 @@ export function plotTooltip (chart, marker, point, options) {
       yBubbleFormatter(value),
       y,
       bubblesPaintConfig,
-      chart.isAlertsActive ? -5 : 0
+      chart.isAlertsActive ? 5 : 0,
     )
     drawValueBubbleX(chart, xBubbleFormatter(datetime), x, bubblesPaintConfig)
   }
 }
 
-function drawAlertPlus (chart, y) {
+function drawAlertPlus(chart, y) {
   if (!chart.isAlertsActive) return
 
   const {
     tooltip: { ctx },
-    left
+    right,
   } = chart
 
   ctx.save()
 
   ctx.fillStyle = waterloo
   ctx.fillRect(
-    left - ALERT_ADD_HALF_SIZE,
+    right - ALERT_ADD_HALF_SIZE,
     y - ALERT_ADD_HALF_SIZE,
     ALERT_ADD_SIZE,
-    ALERT_ADD_SIZE
+    ALERT_ADD_SIZE,
   )
 
   const path = new Path2D(
-    'M3.27 7a.33.33 0 01-.23-.08.33.33 0 01-.07-.22V3.97H.3a.33.33 0 01-.22-.08.33.33 0 01-.08-.22v-.42c0-.09.03-.16.08-.2a.3.3 0 01.22-.1h2.67V.3c0-.09.02-.16.07-.2a.3.3 0 01.23-.1h.45c.09 0 .16.03.2.1.07.04.1.11.1.2v2.65H6.7c.09 0 .16.03.2.1.07.04.1.11.1.2v.42a.3.3 0 01-.1.22.28.28 0 01-.2.08H4.02V6.7a.3.3 0 01-.1.22.28.28 0 01-.2.08h-.45z'
+    'M3.27 7a.33.33 0 01-.23-.08.33.33 0 01-.07-.22V3.97H.3a.33.33 0 01-.22-.08.33.33 0 01-.08-.22v-.42c0-.09.03-.16.08-.2a.3.3 0 01.22-.1h2.67V.3c0-.09.02-.16.07-.2a.3.3 0 01.23-.1h.45c.09 0 .16.03.2.1.07.04.1.11.1.2v2.65H6.7c.09 0 .16.03.2.1.07.04.1.11.1.2v.42a.3.3 0 01-.1.22.28.28 0 01-.2.08H4.02V6.7a.3.3 0 01-.1.22.28.28 0 01-.2.08h-.45z',
   )
 
-  ctx.translate(left - 4, y - 4)
+  ctx.translate(right - 4, y - 4)
   ctx.fillStyle = 'white'
   ctx.fill(path)
   ctx.restore()

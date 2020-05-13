@@ -144,28 +144,28 @@ export function useAxesMetricsKey(metrics) {
 
   useEffect(
     () => {
-      let leftAxisMetric = metrics[0]
-      let rightAxisMetric = {}
+      let mainAxisMetric = metrics[0]
+      let secondaryAxisMetric = {}
 
       const { length } = metrics
       if (length === 1) {
-        return setAxesMetricKeys([leftAxisMetric.key])
+        return setAxesMetricKeys([mainAxisMetric.key])
       }
 
       for (let i = 0; i < length; i++) {
         const metric = metrics[i]
 
         if (metric === Metric.price_usd) {
-          rightAxisMetric = metric
+          mainAxisMetric = metric
         } else if (
-          leftAxisMetric.node !== 'line' ||
-          leftAxisMetric === Metric.price_usd
+          secondaryAxisMetric.node !== 'line' ||
+          secondaryAxisMetric === Metric.price_usd
         ) {
-          leftAxisMetric = metric
+          secondaryAxisMetric = metric
         }
       }
 
-      setAxesMetricKeys([leftAxisMetric.key, rightAxisMetric.key])
+      setAxesMetricKeys([mainAxisMetric.key, secondaryAxisMetric.key])
     },
     [metrics],
   )
