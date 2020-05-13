@@ -4,6 +4,7 @@
   padding: 0 !important;
   max-width: 100% !important;
   position: relative;
+  margin: 40px auto 0 auto !important;
 }
 
 .stories {
@@ -87,7 +88,14 @@
 }
 
 .link {
-  @include text('body-2', 'l');
+  @include text('body-2');
 
   color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+
+  display: flex;
+  margin-bottom: 40px;
 }

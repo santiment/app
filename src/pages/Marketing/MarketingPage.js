@@ -66,7 +66,21 @@ const MarketingPage = ({ history, userId }) => {
               },
               {
                 type: 'Emerging trends',
-                content: <Trends />
+                content: (
+                  <>
+                    <div className={styles.description}>
+                      Our previous analysis indicates that ERC-20 coins tend to
+                      be less correlated to Ethereum during the bull market, and
+                      exhibit higher correlation during the bear market. This
+                      Index charts the correlation of ERC-20 market cap to the
+                      ETH market cap over the last 3 months.
+                    </div>
+                    <Link to={'/labs/trends/'} className={styles.link}>
+                      Start researching Emerging Trends
+                    </Link>
+                    <Trends />
+                  </>
+                )
               }
             ]}
           />
