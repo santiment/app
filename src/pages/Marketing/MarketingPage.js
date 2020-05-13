@@ -52,8 +52,10 @@ const MarketingPage = ({ history, userId }) => {
             ]}
           />
         </div>
+      </div>
 
-        <div className={styles.block}>
+      <div className={cx(styles.block, styles.chartLayoutsWrapper)}>
+        <div className={styles.chartLayouts}>
           <IndexTab
             tabs={[
               {
@@ -67,7 +69,9 @@ const MarketingPage = ({ history, userId }) => {
             ]}
           />
         </div>
+      </div>
 
+      <div className={styles.inner}>
         <div className={styles.block}>
           <IndexTab
             tabs={[
