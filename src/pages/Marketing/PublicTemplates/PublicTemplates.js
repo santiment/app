@@ -6,15 +6,20 @@ import Icon from '@santiment-network/ui/Icon'
 import { getCurrentSanbaseSubscription } from '../../../utils/plans'
 import { PRO } from '../../../components/Navbar/NavbarProfileDropdown'
 import UpgradeBtn from '../../../components/UpgradeBtn/UpgradeBtn'
-import { useFeaturedTemplates } from '../../../ducks/Studio/Template/gql/hooks'
+import {
+  useFeaturedTemplates,
+  useUserTemplates
+} from '../../../ducks/Studio/Template/gql/hooks'
 import PageLoader from '../../../components/Loader/PageLoader'
 import { prepareTemplateLink } from '../../../ducks/Studio/Template/Dialog/LoadTemplate/Template'
 import NewLabel from '../../../components/NewLabel/NewLabel'
 import NewTemplateCard from '../../../components/TemplatesGrid/NewTemplateCard'
 import styles from './PublicTemplates.module.scss'
 
-const PublicTemplates = ({ isProSanbase }) => {
-  const [templates, loading] = useFeaturedTemplates()
+const PublicTemplates = ({ isProSanbase, userId }) => {
+  const [templates, loading] = userId
+    ? useUserTemplates(userId)
+    : useFeaturedTemplates()
 
   if (loading) {
     return <PageLoader />
@@ -28,7 +33,6 @@ const PublicTemplates = ({ isProSanbase }) => {
         const { link, title, description, isProRequired, insertedAt } = template
         const requirePro = isProRequired && !isProSanbase
 
-        console.log(insertedAt, title)
         return (
           <div
             key={title}

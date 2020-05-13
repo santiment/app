@@ -1,31 +1,16 @@
 import React from 'react'
 import cx from 'classnames'
+import { connect } from 'react-redux'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import PublicTemplates from './PublicTemplates/PublicTemplates'
 import SocialTrends from './SocialTrends'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { MobileOnly } from '../../components/Responsive'
 import IndexIndices from './IndexIndices/IndexIndices'
-
+import IndexTab from './IndexTabs/IndexTab'
 import styles from './MarketingPage.module.scss'
 
-/*
-<StoriesList classes={styles} showScrollBtns showShadows />
-
-<div className={cx(styles.block, styles.insightsReports)}>
-<div>
-<div className={styles.subTitle}>Weekly Insights</div>
-<FeaturedInsightsGrid classes={styles} withAuthorPic limit={3} />
-</div>
-
-<div className={styles.reports}>
-  <div className={styles.subTitle}>Fundamental Reports</div>
-
-  <FundamentalReports />
-</div>
-</div> */
-
-const MarketingPage = ({ history }) => {
+const MarketingPage = ({ history, userId }) => {
   return (
     <div className={cx('page', styles.container)}>
       <MobileOnly>
@@ -42,9 +27,18 @@ const MarketingPage = ({ history }) => {
         </div>
 
         <div className={styles.block}>
-          <div className={styles.subTitle}>Explore Chart Layouts</div>
-
-          <PublicTemplates />
+          <IndexTab
+            tabs={[
+              {
+                type: 'Explore Chart Layouts',
+                content: <PublicTemplates />
+              },
+              userId && {
+                type: 'Your Chart Layouts',
+                content: <PublicTemplates userId={userId} />
+              }
+            ]}
+          />
         </div>
 
         <div className={styles.block}>
@@ -73,4 +67,8 @@ const MarketingPage = ({ history }) => {
   )
 }
 
-export default MarketingPage
+const mapStateToProps = ({ user }) => ({
+  userId: user && user.data ? user.data.id : undefined
+})
+
+export default connect(mapStateToProps)(MarketingPage)
