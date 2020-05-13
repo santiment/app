@@ -14,9 +14,16 @@ import PageLoader from '../../../components/Loader/PageLoader'
 import { prepareTemplateLink } from '../../../ducks/Studio/Template/Dialog/LoadTemplate/Template'
 import NewLabel from '../../../components/NewLabel/NewLabel'
 import NewTemplateCard from '../../../components/TemplatesGrid/NewTemplateCard'
+import FeatureAnonBanner from '../../../components/Banner/FeatureAnonBanner'
 import styles from './PublicTemplates.module.scss'
 
 const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
+  if (!(isFeatured || userId)) {
+    return (
+      <FeatureAnonBanner title='Get ability to create your own Chart Layout when you login' />
+    )
+  }
+
   const [templates, loading] = !isFeatured
     ? useUserTemplates(userId)
     : useFeaturedTemplates()
@@ -26,65 +33,57 @@ const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
   }
 
   const usingTemplates = templates.length > 0 ? templates : TEMPLATES
-
   return (
     <div className={styles.container}>
-      {(isFeatured || userId) &&
-        usingTemplates.map(template => {
-          const {
-            link,
-            title,
-            description,
-            isProRequired,
-            insertedAt
-          } = template
-          const requirePro = isProRequired && !isProSanbase
+      {usingTemplates.map(template => {
+        const { link, title, description, isProRequired, insertedAt } = template
+        const requirePro = isProRequired && !isProSanbase
 
-          return (
-            <div
-              key={title}
-              className={cx(styles.template, requirePro && styles.proTemplate)}
-            >
-              <div>
-                <div className={styles.title}>
-                  {[
-                    <NewLabel
-                      date={insertedAt}
-                      className={styles.new}
-                      key='new'
-                    />,
-                    title
-                  ]}
-                </div>
-
-                <div className={styles.description}>{description}</div>
+        return (
+          <div
+            key={title}
+            className={cx(styles.template, requirePro && styles.proTemplate)}
+          >
+            <div>
+              <div className={styles.title}>
+                {[
+                  <NewLabel
+                    date={insertedAt}
+                    className={styles.new}
+                    key='new'
+                  />,
+                  title
+                ]}
               </div>
 
-              {requirePro ? (
-                <UpgradeBtn
-                  showCrownIcon={false}
-                  variant='flat'
-                  className={styles.proBtn}
-                >
-                  <>
-                    <Icon type='crown' className={styles.proIcon} /> PRO Chart
-                    Layouts
-                  </>
-                </UpgradeBtn>
-              ) : (
-                <a
-                  className={styles.useLink}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  href={link || prepareTemplateLink(template)}
-                >
-                  Use chart layout{' '}
-                  <Icon className={styles.useIcon} type='pointer-right' />
-                </a>
-              )}
+              <div className={styles.description}>{description}</div>
             </div>
-          )
-        })}
+
+            {requirePro ? (
+              <UpgradeBtn
+                showCrownIcon={false}
+                variant='flat'
+                className={styles.proBtn}
+              >
+                <>
+                  <Icon type='crown' className={styles.proIcon} /> PRO Chart
+                  Layouts
+                </>
+              </UpgradeBtn>
+            ) : (
+              <a
+                className={styles.useLink}
+                target='_blank'
+                rel='noopener noreferrer'
+                href={link || prepareTemplateLink(template)}
+              >
+                Use chart layout{' '}
+                <Icon className={styles.useIcon} type='pointer-right' />
+              </a>
+            )}
+          </div>
+        )
+      })}
 
       <NewTemplateCard />
     </div>
