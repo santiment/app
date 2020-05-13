@@ -32,7 +32,9 @@ const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
     return <PageLoader />
   }
 
-  const usingTemplates = templates.length > 0 ? templates : TEMPLATES
+  const defaultTemplates = userId ? [] : TEMPLATES
+  const usingTemplates = templates.length > 0 ? templates : defaultTemplates
+
   return (
     <div className={styles.container}>
       {usingTemplates.map(template => {

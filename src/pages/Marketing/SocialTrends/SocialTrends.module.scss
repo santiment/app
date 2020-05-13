@@ -2,12 +2,13 @@
 
 .template {
   background-color: var(--athens);
-  margin: 24px 0;
+  margin: 0 0 24px;
   padding: 32px 40px;
 
   &__title {
-    @include text('body-1', 'l');
+    @include text('body-1');
 
+    font-weight: 500;
     margin: 0 0 16px;
   }
 

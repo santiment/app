@@ -101,6 +101,7 @@ const DetailedBlock = ({
             key={chart.key}
             {...props}
             settings={settings}
+            metrics={[chart]}
             charts={[chart, ...defaultChart]}
             MetricSettingMap={MetricSettingMap}
             className={styles.chart}

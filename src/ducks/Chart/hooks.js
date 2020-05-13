@@ -108,3 +108,64 @@ export function useClosestValueData (
 
   return newData
 }
+
+export function useTooltipMetricKey (metrics) {
+  const [tooltipMetricKey, setTooltipMetricKey] = useState(metrics[0].key)
+
+  useEffect(
+    () => {
+      const { length } = metrics
+      let tooltipKey = metrics[0]
+
+      for (let i = 0; i < length; i++) {
+        const metric = metrics[i]
+
+        if (metric === Metric.price_usd) {
+          return setTooltipMetricKey(metric.key)
+        }
+
+        if (tooltipKey.node !== 'line') {
+          tooltipKey = metric
+        } else {
+          break
+        }
+      }
+
+      return setTooltipMetricKey(tooltipKey.key)
+    },
+    [metrics]
+  )
+
+  return tooltipMetricKey
+}
+
+export function useAxesMetricsKey (metrics) {
+  const [axesMetricKeys, setAxesMetricKeys] = useState([])
+
+  useEffect(
+    () => {
+      let mainAxisMetric = metrics[0]
+      let secondaryAxisMetric = metrics[1]
+
+      const { length } = metrics
+      if (length === 1) {
+        return setAxesMetricKeys([mainAxisMetric.key])
+      }
+
+      for (let i = 1; i < length; i++) {
+        const metric = metrics[i]
+
+        if (metric === Metric.price_usd) {
+          secondaryAxisMetric = mainAxisMetric
+          mainAxisMetric = metric
+          break
+        }
+      }
+
+      setAxesMetricKeys([mainAxisMetric.key, secondaryAxisMetric.key])
+    },
+    [metrics]
+  )
+
+  return axesMetricKeys
+}

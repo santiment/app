@@ -146,7 +146,7 @@ const Signals = ({
       onMouseLeave={onMouseLeave}
       className={styles.wrapper}
       style={{
-        width: chart.left,
+        width: chart.padding.right,
         height: chart.height + chart.top
       }}
     >

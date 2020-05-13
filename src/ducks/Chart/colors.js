@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Metric } from '../dataHub/metrics'
 
-const ALPHA_CHANNEL = '40'
+const ALPHA_CHANNEL = '29'
 
 // RESERVED COLORS
 const GREEN = '#26C953'

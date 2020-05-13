@@ -18,12 +18,12 @@ import {
   checkIsLoggedIn,
   checkIsLoggedInPending
 } from '../../pages/UserSelectors'
-import stylesGrid from './WatchlistCards.module.scss'
 import styles from './Watchlist.module.scss'
+import stylesGrid from './WatchlistCards.module.scss'
 import NewWatchlistCard from './NewWatchlistCard'
 
-const WatchlistEmptySection = ({ watchlists }) => (
-  <EmptySection imgClassName={styles.img}>
+const WatchlistEmptySection = ({ watchlists, className }) => (
+  <EmptySection imgClassName={cx(styles.img, className)}>
     <span>Create your own watchlist to track assets</span>
     <span>you are interested in</span>
 
@@ -43,7 +43,8 @@ const MyWatchlist = ({
   isLoggedInPending,
   className,
   showHeader = true,
-  showNew = false
+  showNew = false,
+  classes = {}
 }) => (
   <GetWatchlists
     render={({ isWatchlistsLoading, watchlists }) => (
@@ -94,11 +95,17 @@ const MyWatchlist = ({
         {isLoggedIn && !isWatchlistsLoading && !watchlists.length && (
           <>
             <DesktopOnly>
-              <WatchlistEmptySection watchlists={watchlists} />
+              <WatchlistEmptySection
+                watchlists={watchlists}
+                className={classes.emptyWatchlists}
+              />
             </DesktopOnly>
             <MobileOnly>
               <Panel className={styles.emptyWrapper}>
-                <WatchlistEmptySection watchlists={watchlists} />
+                <WatchlistEmptySection
+                  watchlists={watchlists}
+                  className={classes.emptyWatchlists}
+                />
               </Panel>
             </MobileOnly>
           </>
@@ -115,7 +122,7 @@ const MyWatchlist = ({
                 slugs={watchlist.listItems.map(({ project }) => project.slug)}
               />
             ))}
-            {showNew && watchlists.length && <NewWatchlistCard />}
+            {showNew && watchlists.length > 0 && <NewWatchlistCard />}
           </div>
         )}
         {!isWatchlistsLoading && !isLoggedInPending && !isLoggedIn && (

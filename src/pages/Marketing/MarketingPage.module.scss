@@ -4,6 +4,7 @@
   padding: 0 !important;
   max-width: 100% !important;
   position: relative;
+  margin: 40px auto 0 auto !important;
 }
 
 .stories {
@@ -39,6 +40,25 @@
   @include responsive('phone', 'phone-xs') {
     margin-bottom: 48px;
   }
+}
+
+.chartLayoutsWrapper {
+  width: 100%;
+  background: var(--athens);
+  padding: 64px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  @include responsive('phone', 'phone-xs') {
+    padding: 24px 16px;
+  }
+}
+
+.chartLayouts {
+  max-width: 1152px;
+  width: 100%;
 }
 
 .insightsReports {
@@ -87,7 +107,18 @@
 }
 
 .link {
-  @include text('body-2', 'l');
+  @include text('body-2');
 
   color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+
+  display: flex;
+  margin-bottom: 40px;
+}
+
+.emptyWatchlists {
+  margin-top: 0;
 }

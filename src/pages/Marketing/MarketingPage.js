@@ -8,8 +8,10 @@ import SocialTrends from './SocialTrends/SocialTrends'
 import Trends from '../../components/Trends/Trends'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { MobileOnly } from '../../components/Responsive'
-import IndexIndices from './IndexIndices/IndexIndices'
 import IndexTab from './IndexTabs/IndexTab'
+import WatchlistCards from '../../components/Watchlists/WatchlistCards'
+import { CATEGORIES } from '../assets/assets-overview-constants'
+import MyWatchlist from '../../components/Watchlists/MyWatchlist'
 import styles from './MarketingPage.module.scss'
 import { PATHS } from '../../App'
 
@@ -35,10 +37,35 @@ const MarketingPage = props => {
 
       <div className={styles.inner}>
         <div className={styles.block}>
-          <IndexIndices />
+          <IndexTab
+            tabs={[
+              {
+                type: 'Indices',
+                content: (
+                  <WatchlistCards
+                    watchlists={CATEGORIES}
+                    classes={styles}
+                    showNew={true}
+                  />
+                )
+              },
+              {
+                type: 'Your watchlists',
+                content: (
+                  <MyWatchlist
+                    showHeader={false}
+                    showNew={true}
+                    classes={styles}
+                  />
+                )
+              }
+            ]}
+          />
         </div>
+      </div>
 
-        <div className={styles.block}>
+      <div className={cx(styles.block, styles.chartLayoutsWrapper)}>
+        <div className={styles.chartLayouts}>
           <IndexTab
             tabs={[
               {
@@ -52,7 +79,9 @@ const MarketingPage = props => {
             ]}
           />
         </div>
+      </div>
 
+      <div className={styles.inner}>
         <div className={styles.block}>
           <IndexTab
             tabs={[
@@ -76,7 +105,21 @@ const MarketingPage = props => {
               },
               {
                 type: 'Emerging trends',
-                content: <Trends />
+                content: (
+                  <>
+                    <div className={styles.description}>
+                      Our previous analysis indicates that ERC-20 coins tend to
+                      be less correlated to Ethereum during the bull market, and
+                      exhibit higher correlation during the bear market. This
+                      Index charts the correlation of ERC-20 market cap to the
+                      ETH market cap over the last 3 months.
+                    </div>
+                    <Link to={'/labs/trends/'} className={styles.link}>
+                      Start researching Emerging Trends
+                    </Link>
+                    <Trends />
+                  </>
+                )
               }
             ]}
           />
