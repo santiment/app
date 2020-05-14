@@ -5,8 +5,8 @@ import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import DialogFormRenameTemplate from '../Dialog/RenameTemplate'
 import DialogFormDuplicateTemplate from '../Dialog/DuplicateTemplate'
-import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
+import DeleteTemplate from '../Dialog/Delete/DeleteTemplate'
 import styles from '../Dialog/LoadTemplate/Template.module.scss'
 
 export const Option = props => (
@@ -23,8 +23,8 @@ const TemplateContextMenu = ({
   isMenuOpened,
   closeMenu,
   openMenu,
-  onDelete,
   onRename,
+  onDelete,
   isAuthor,
   classes = {}
 }) => {
@@ -65,16 +65,13 @@ const TemplateContextMenu = ({
           template={template}
           onDuplicate={closeMenu}
         />
-        {isAuthor && (
-          <ConfirmDialog
-            title='Do you want to delete this template?'
-            trigger={<Option className={styles.delete}>Delete</Option>}
-            onApprove={() => {
-              onDelete(template)
-            }}
-            onCancel={closeMenu}
-          />
-        )}
+
+        <DeleteTemplate
+          isAuthor={isAuthor}
+          closeMenu={closeMenu}
+          onDelete={onDelete}
+          template={template}
+        />
       </Panel>
     </ContextMenu>
   )

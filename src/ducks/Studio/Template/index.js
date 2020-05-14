@@ -20,6 +20,7 @@ import DialogFormNewTemplate from './Dialog/NewTemplate'
 import DialogFormRenameTemplate from './Dialog/RenameTemplate'
 import DialogFormDuplicateTemplate from './Dialog/DuplicateTemplate'
 import DialogLoadTemplate from './Dialog/LoadTemplate'
+import DeleteTemplate from './Dialog/Delete/DeleteTemplate'
 import styles from './index.module.scss'
 
 const Action = props => (
@@ -60,9 +61,7 @@ const Template = ({
   const [templates] = useUserTemplates(currentUser.id)
   const [updateTemplate] = useUpdateTemplate()
   const [createTemplate] = useCreateTemplate()
-  const [selectedTemplate, setSelectedTemplate] = useSelectedTemplate(
-    templates[0]
-  )
+  const [selectedTemplate, setSelectedTemplate] = useSelectedTemplate(templates)
 
   const [isMenuOpened, setIsMenuOpened] = useState(false)
 
@@ -129,11 +128,17 @@ const Template = ({
     closeMenu()
   }
 
+  function onDelete () {
+    closeMenu()
+  }
+
   useCtrlSPress(() => {
     if (window.selectedTemplate) {
       saveTemplate()
     }
   })
+
+  console.log(templates)
 
   // TODO: 2.05.2020, GarageInc, for useCtrlSPress
   window.selectedTemplate = selectedTemplate
@@ -219,6 +224,14 @@ const Template = ({
                   closeMenu()
                   selectTemplate(template)
                 }}
+              />
+
+              <DeleteTemplate
+                isAuthor={isAuthor}
+                onDelete={onDelete}
+                closeMenu={closeMenu}
+                template={selectedTemplate}
+                className={styles.delete}
               />
             </>
           )}

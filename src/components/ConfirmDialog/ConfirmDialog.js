@@ -48,7 +48,14 @@ class ConfirmDialog extends PureComponent {
   }
 
   render () {
-    const { title, description, trigger, classes, confirmLabel } = this.props
+    const {
+      title,
+      description,
+      trigger,
+      classes,
+      confirmLabel,
+      isLoading
+    } = this.props
 
     const mergedClasses = { ...styles, ...classes }
 
@@ -60,6 +67,7 @@ class ConfirmDialog extends PureComponent {
         trigger={trigger}
         title={title}
         classes={mergedClasses}
+        isLoading={isLoading}
       >
         <Dialog.ScrollContent withPadding>
           <div className={classes.description}>{description}</div>
