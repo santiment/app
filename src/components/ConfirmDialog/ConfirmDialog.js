@@ -67,16 +67,19 @@ class ConfirmDialog extends PureComponent {
         trigger={trigger}
         title={title}
         classes={mergedClasses}
-        isLoading={isLoading}
       >
         <Dialog.ScrollContent withPadding>
           <div className={classes.description}>{description}</div>
         </Dialog.ScrollContent>
         <Dialog.Actions>
-          <Dialog.Cancel onClick={this.onClose} className={styles.cancel}>
+          <Dialog.Cancel
+            onClick={this.onClose}
+            className={styles.cancel}
+            isLoading={isLoading}
+          >
             Cancel
           </Dialog.Cancel>
-          <Dialog.Approve onClick={this.onDeleteClick}>
+          <Dialog.Approve onClick={this.onDeleteClick} isLoading={isLoading}>
             {confirmLabel}
           </Dialog.Approve>
         </Dialog.Actions>
