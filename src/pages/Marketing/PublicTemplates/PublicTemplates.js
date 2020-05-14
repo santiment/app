@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { connect } from 'react-redux'
 import { TEMPLATES } from './utils'
 import Icon from '@santiment-network/ui/Icon'
@@ -41,7 +42,10 @@ const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
         const requirePro = isProRequired && !isProSanbase
 
         return (
-          <div key={title} className={styles.template}>
+          <div
+            key={title}
+            className={cx(styles.template, requirePro && styles.proTemplate)}
+          >
             <div>
               <div className={styles.title}>
                 {[

@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import PublicTemplates from './PublicTemplates/PublicTemplates'
 import SocialTrends from './SocialTrends/SocialTrends'
@@ -13,18 +13,8 @@ import WatchlistCards from '../../components/Watchlists/WatchlistCards'
 import { CATEGORIES } from '../assets/assets-overview-constants'
 import MyWatchlist from '../../components/Watchlists/MyWatchlist'
 import styles from './MarketingPage.module.scss'
-import { PATHS } from '../../App'
 
-const isCharts = ({ search }) =>
-  search.indexOf('from') !== -1 && search.indexOf('to') !== -1
-
-const MarketingPage = props => {
-  const { history, userId, location } = props
-
-  if (isCharts(location)) {
-    return <Redirect to={PATHS.STUDIO} />
-  }
-
+const MarketingPage = ({ history, userId }) => {
   return (
     <div className={cx('page', styles.container)}>
       <MobileOnly>
