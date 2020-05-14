@@ -99,7 +99,7 @@ const Chart = ({
 
     setChart(chart)
     if (chartRef) {
-      chartRef.current = canvas
+      chartRef.current = chart
     }
 
     setupTooltip(chart, marker, syncTooltips, useCustomTooltip, onPlotTooltip)

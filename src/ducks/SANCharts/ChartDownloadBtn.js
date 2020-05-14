@@ -1,8 +1,9 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
-import { setupColorGenerator } from './utils'
+import { getChartColors } from '../Chart/colors'
+import { dayTicksPaintConfig } from '../Chart/paintConfigs'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
-import colors from '@santiment-network/ui/variables.scss'
+import { mirage } from '@santiment-network/ui/variables.scss'
 
 function setStyle (target, styles) {
   target.setAttribute('style', styles)
@@ -18,66 +19,85 @@ const LEGEND_RECT_ALIGN_CORRECTION = LEGEND_RECT_SIZE / 5
 const TEXT_RIGHT_MARGIN = 20
 const TEXT_FONT = '12px Proxima Nova'
 
-function drawAndMeasureText (ctx, text, x, y) {
-  ctx.fillText(text, x, y)
-  return ctx.measureText(text).width
+function drawAndMeasureText (pngCtx, text, x, y) {
+  pngCtx.fillText(text, x, y)
+  return pngCtx.measureText(text).width
 }
 
-function downloadChart ({ current: canvas }, metrics, title) {
+function downloadChart ({ current: chart }, metrics, title) {
+  const {
+    canvas,
+    ticksPaintConfig,
+    dpr,
+    canvasWidth: width,
+    canvasHeight: height
+  } = chart
+
   const div = document.createElement('div')
   setStyle(div, HIDDEN_STYLES)
-  const ctx = canvas.getContext('2d')
 
-  ctx.font = TEXT_FONT
-  const width = canvas.offsetWidth
-  const height = canvas.offsetHeight
+  const drawings = canvas.toDataURL()
+  const pngCanvas = canvas.cloneNode()
+  const pngCtx = pngCanvas.getContext('2d')
 
-  const generateColor = setupColorGenerator()
+  pngCtx.font = TEXT_FONT
 
-  const textWidth =
-    metrics.reduce((acc, { label }) => {
-      return (
-        acc +
-        LEGEND_RECT_SIZE +
-        LEGEND_RECT_RIGHT_MARGIN +
-        ctx.measureText(label).width
+  const MetricColor = getChartColors(metrics)
+  const isDayMode = ticksPaintConfig === dayTicksPaintConfig
+
+  const savedCtx = new Image()
+  savedCtx.src = drawings
+  savedCtx.onload = () => {
+    pngCtx.drawImage(savedCtx, 0, 0)
+    pngCtx.scale(dpr, dpr)
+
+    const textWidth =
+      metrics.reduce(
+        (acc, { label }) =>
+          acc +
+          LEGEND_RECT_SIZE +
+          LEGEND_RECT_RIGHT_MARGIN +
+          pngCtx.measureText(label).width,
+        0
+      ) +
+      TEXT_RIGHT_MARGIN * (metrics.length - 1)
+
+    const textY = height - 20
+    let textX = (width - textWidth) / 2
+
+    metrics.forEach(({ key, label }) => {
+      pngCtx.fillStyle = MetricColor[key]
+      pngCtx.fillRect(
+        textX,
+        textY - LEGEND_RECT_SIZE - LEGEND_RECT_ALIGN_CORRECTION,
+        LEGEND_RECT_SIZE,
+        LEGEND_RECT_SIZE
       )
-    }, 0) +
-    TEXT_RIGHT_MARGIN * (metrics.length - 1)
+      pngCtx.fillStyle = isDayMode ? mirage : 'white'
+      textX += LEGEND_RECT_SIZE + LEGEND_RECT_RIGHT_MARGIN
+      textX +=
+        drawAndMeasureText(pngCtx, label, textX, textY) + TEXT_RIGHT_MARGIN
+    })
 
-  const textY = height - 20
-  let textX = (width - textWidth) / 2
+    const date = new Date()
+    const { DD, MMM, YYYY } = getDateFormats(date)
+    const { HH, mm, ss } = getTimeFormats(date)
 
-  metrics.forEach(({ color, label }) => {
-    ctx.fillStyle = colors[generateColor(color)]
-    ctx.fillRect(
-      textX,
-      textY - LEGEND_RECT_SIZE - LEGEND_RECT_ALIGN_CORRECTION,
-      LEGEND_RECT_SIZE,
-      LEGEND_RECT_SIZE
-    )
-    ctx.fillStyle = colors.mirage
-    textX += LEGEND_RECT_SIZE + LEGEND_RECT_RIGHT_MARGIN
-    textX += drawAndMeasureText(ctx, label, textX, textY) + TEXT_RIGHT_MARGIN
-  })
+    const a = document.createElement('a')
+    a.download = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].png`
 
-  const date = new Date()
-  const { DD, MMM, YYYY } = getDateFormats(date)
-  const { HH, mm, ss } = getTimeFormats(date)
+    pngCtx.globalCompositeOperation = 'destination-over'
+    pngCtx.fillStyle = isDayMode ? 'white' : mirage
+    pngCtx.fillRect(0, 0, width, height)
+    a.href = pngCanvas.toDataURL('image/png', 1)
 
-  const a = document.createElement('a')
-  a.download = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].png`
+    div.appendChild(a)
+    a.click()
 
-  ctx.save()
-  ctx.globalCompositeOperation = 'destination-over'
-  ctx.fillStyle = 'white'
-  ctx.fillRect(0, 0, width, height)
-  a.href = canvas.toDataURL('image/png', 1)
-  ctx.restore()
-
-  div.appendChild(a)
-  a.click()
-  div.remove()
+    a.remove()
+    pngCanvas.remove()
+    div.remove()
+  }
 }
 
 const ChartDownloadBtn = ({ chartRef, metrics, title, ...props }) => {

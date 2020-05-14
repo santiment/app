@@ -33,29 +33,33 @@ const MetricColor = {
   [Metric.dev_activity.key]: VIOLET
 }
 
+export function getChartColors (metrics, focusedMetric) {
+  const { length } = metrics
+  const Color = {}
+  let freeColorIndex = 0
+
+  for (let i = 0; i < length; i++) {
+    const metric = metrics[i]
+    const { key } = metric
+
+    let color = MetricColor[key] || COLORS[freeColorIndex++]
+    if (focusedMetric && metric !== focusedMetric) {
+      color += ALPHA_CHANNEL
+    }
+
+    Color[key] = color
+  }
+
+  return Color
+}
+
 const INITIAL_STATE = {}
 export function useChartColors (metrics, focusedMetric) {
   const [chartColors, setChartColors] = useState(INITIAL_STATE)
 
   useEffect(
     () => {
-      const { length } = metrics
-      const newColors = {}
-      let freeColorIndex = 0
-
-      for (let i = 0; i < length; i++) {
-        const metric = metrics[i]
-        const { key } = metric
-
-        let color = MetricColor[key] || COLORS[freeColorIndex++]
-        if (focusedMetric && metric !== focusedMetric) {
-          color += ALPHA_CHANNEL
-        }
-
-        newColors[key] = color
-      }
-
-      setChartColors(newColors)
+      setChartColors(getChartColors(metrics, focusedMetric))
     },
     [metrics, focusedMetric]
   )
