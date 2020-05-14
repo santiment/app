@@ -40,7 +40,8 @@ export const PATHS = {
   CREATE_ACCOUNT: '/sign-up',
   GDPR: '/gdpr',
   PRO_METRICS: '/pro-sheets-templates',
-  INDEX: '/index'
+  INDEX: '/',
+  STUDIO: '/studio'
 }
 
 const FOOTER_DISABLED_FOR = [
@@ -429,20 +430,21 @@ export const App = ({
           )}
         />
         <Route
-          path={PATHS.INDEX}
-          render={props => (
-            <LoadableMarketingPage isLoggedIn={isLoggedIn} {...props} />
-          )}
-        />
-        {!isDesktop && <Redirect from='/' to='/assets' />}
-        <Route
-          path='/'
+          path={PATHS.STUDIO}
           render={props => (
             <LoadableChartPage
               classes={{ wrapper: styles.chart }}
               isLoggedIn={isLoggedIn}
               {...props}
             />
+          )}
+        />
+        {!isDesktop && <Redirect from={PATHS.STUDIO} to='/assets' />}
+        {!isDesktop && <Redirect from={PATHS.INDEX} to='/assets' />}
+        <Route
+          path={PATHS.INDEX}
+          render={props => (
+            <LoadableMarketingPage isLoggedIn={isLoggedIn} {...props} />
           )}
         />
       </Switch>

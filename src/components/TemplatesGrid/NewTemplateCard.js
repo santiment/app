@@ -5,7 +5,7 @@ import styles from './NewTemplateCard.module.scss'
 
 const NewTemplateCard = () => {
   return (
-    <Link className={styles.create} to='/'>
+    <Link className={styles.create} to='/studio'>
       <SvgNew className={styles.svg} />
       Start researching
     </Link>

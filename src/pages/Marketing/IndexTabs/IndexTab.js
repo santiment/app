@@ -17,6 +17,7 @@ const IndexTab = ({ tabs }) => {
 
           return (
             <div
+              key={type}
               className={cx(
                 styles.title,
                 type === activeTab.type && styles.active
