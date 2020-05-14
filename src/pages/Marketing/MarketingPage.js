@@ -30,7 +30,7 @@ const MarketingPage = ({ history, userId }) => {
           <IndexTab
             tabs={[
               {
-                type: 'Indices',
+                type: 'Explore Watchlists',
                 content: (
                   <WatchlistCards
                     watchlists={CATEGORIES}
@@ -40,7 +40,7 @@ const MarketingPage = ({ history, userId }) => {
                 )
               },
               {
-                type: 'Your watchlists',
+                type: 'Your Watchlists',
                 content: (
                   <MyWatchlist
                     showHeader={false}
@@ -76,18 +76,19 @@ const MarketingPage = ({ history, userId }) => {
           <IndexTab
             tabs={[
               {
-                type: 'Social Tool',
+                type: 'Search Trends',
                 content: (
                   <>
                     <div className={styles.description}>
-                      Our previous analysis indicates that ERC-20 coins tend to
-                      be less correlated to Ethereum during the bull market, and
-                      exhibit higher correlation during the bear market. This
-                      Index charts the correlation of ERC-20 market cap to the
-                      ETH market cap over the last 3 months.
+                      Navigate visually through the noise. Similar to Google
+                      Trends, Santiment developed this search platform to
+                      explore how keywords and topics fluctuate over time. See
+                      the total social volume and social dominance among various
+                      crypto-related discussion forums, and compare directly to
+                      others. See what Google Trends is unable to see.
                     </div>
                     <Link to={'/labs/trends/explore/'} className={styles.link}>
-                      Start researching Social Tool
+                      Start researching Search Trends
                     </Link>
                     <SocialTrends />
                   </>
@@ -98,11 +99,14 @@ const MarketingPage = ({ history, userId }) => {
                 content: (
                   <>
                     <div className={styles.description}>
-                      Our previous analysis indicates that ERC-20 coins tend to
-                      be less correlated to Ethereum during the bull market, and
-                      exhibit higher correlation during the bear market. This
-                      Index charts the correlation of ERC-20 market cap to the
-                      ETH market cap over the last 3 months.
+                      We removed the noise even more. Get top 10 emerging trends
+                      for recent time intervals. Use this “hot list” to see what
+                      the “hottest” topics are in a ranked format.{' '}
+                      <span className={styles.italics}>
+                        Hint: if any of the coins (except BTC and ETH) make to
+                        the top 3 - the top might be near. Crowd is{' '}
+                        <span className={styles.bold}>“all in”</span>
+                      </span>
                     </div>
                     <Link to={'/labs/trends/'} className={styles.link}>
                       Start researching Emerging Trends
@@ -116,7 +120,14 @@ const MarketingPage = ({ history, userId }) => {
         </div>
 
         <div className={styles.block}>
-          <div className={styles.subTitle}>Top Market Calls</div>
+          <div className={styles.subTitle}>Market Call Leaderboard</div>
+          <div className={styles.description}>
+            This leaderboard allows you to track our leading analysts and
+            authors as they make{' '}
+            <span className={styles.bold}>bold market calls.</span> They use the
+            same Santiment on-chain and social metrics that are available to
+            you.
+          </div>
           <iframe
             title='Insights table'
             className='airtable-embed'
