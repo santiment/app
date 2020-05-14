@@ -47,7 +47,7 @@ export const TOPICS = [
 
 export const INDEX_PAGE_GROUPS = [
   {
-    title: 'General topics',
+    title: 'Recent Highlights',
     description:
       'The most popular topics in crypto social media. Ranges from worldwide economic and health topics to the prices discussions',
     topics: [
