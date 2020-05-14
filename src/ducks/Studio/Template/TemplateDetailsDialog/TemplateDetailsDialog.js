@@ -6,7 +6,6 @@ import Dialog from '@santiment-network/ui/Dialog'
 import TemplateContextMenu from '../TemplateContextMenu/TemplateContextMenu'
 import UseTemplateBtn from '../UseTemplateBtn/UseTemplateBtn'
 import { usePublicTemplates } from '../Dialog/LoadTemplate/Template'
-import { useDeleteTemplate } from '../gql/hooks'
 import TemplateStatus, {
   TemplateStatusToggle
 } from '../TemplateStatus/TemplateStatus'
@@ -37,15 +36,10 @@ const TemplateDetailsDialog = ({
   onDelete,
   selectTemplate
 }) => {
-  const [deleteTemplate] = useDeleteTemplate()
   const { isPublic, toggleIsPublic } = usePublicTemplates(template)
 
   const [isOpen, setOpen] = useState(false)
   const [isMenuOpened, setIsMenuOpened] = useState(false)
-
-  function onDeleteHandler (template) {
-    deleteTemplate(template, onDelete)
-  }
 
   function openMenu (e) {
     e.stopPropagation()
@@ -89,13 +83,13 @@ const TemplateDetailsDialog = ({
             isMenuOpened={isMenuOpened}
             closeMenu={closeMenu}
             openMenu={openMenu}
-            onDelete={onDeleteHandler}
             onRename={data => {
               setOpen(false)
               onRename(data)
             }}
             isAuthor={isAuthor}
             classes={styles}
+            onDelete={onDelete}
           />
 
           {isAuthor ? (

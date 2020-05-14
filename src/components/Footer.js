@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
+import Version from './Version/Version'
 import styles from './Footer.module.scss'
 
 const Footer = ({ classes = {} }) => (
@@ -23,10 +24,7 @@ const Footer = ({ classes = {} }) => (
         Request token
       </a>
     </div>
-    <div>
-      <span className={classes.footerVersionDivider}>|&nbsp;&nbsp;&nbsp;</span>
-      ver. {process.env.REACT_APP_VERSION}
-    </div>
+    <Version classes={classes} />
   </div>
 )
 

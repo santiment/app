@@ -48,7 +48,14 @@ class ConfirmDialog extends PureComponent {
   }
 
   render () {
-    const { title, description, trigger, classes, confirmLabel } = this.props
+    const {
+      title,
+      description,
+      trigger,
+      classes,
+      confirmLabel,
+      isLoading
+    } = this.props
 
     const mergedClasses = { ...styles, ...classes }
 
@@ -65,10 +72,14 @@ class ConfirmDialog extends PureComponent {
           <div className={classes.description}>{description}</div>
         </Dialog.ScrollContent>
         <Dialog.Actions>
-          <Dialog.Cancel onClick={this.onClose} className={styles.cancel}>
+          <Dialog.Cancel
+            onClick={this.onClose}
+            className={styles.cancel}
+            isLoading={isLoading}
+          >
             Cancel
           </Dialog.Cancel>
-          <Dialog.Approve onClick={this.onDeleteClick}>
+          <Dialog.Approve onClick={this.onDeleteClick} isLoading={isLoading}>
             {confirmLabel}
           </Dialog.Approve>
         </Dialog.Actions>

@@ -20,6 +20,7 @@ import { getSavedMulticharts } from '../../../../utils/localStorage'
 const DEFAULT_TEMPLATES = []
 
 function buildTemplatesCacheUpdater (reducer) {
+  console.log('buildTemplatesCacheUpdater')
   return (cache, { data }) => {
     const variables = { userId: +store.getState().user.data.id }
 
@@ -37,8 +38,10 @@ function buildTemplatesCacheUpdater (reducer) {
 }
 
 const updateTemplatesOnDelete = buildTemplatesCacheUpdater(
-  ({ template: { id: deletedId } }, templates) =>
-    templates.filter(({ id }) => id !== deletedId)
+  ({ template: { id: deletedId } }, templates) => {
+    console.log('update on delete!')
+    return templates.filter(({ id }) => id !== deletedId)
+  }
 )
 
 const updateTemplatesOnCreation = buildTemplatesCacheUpdater(
@@ -73,7 +76,8 @@ export function useFeaturedTemplates () {
   return [data ? data.templates : DEFAULT_TEMPLATES, loading, error]
 }
 
-export function useSelectedTemplate (defaultTemplate) {
+export function useSelectedTemplate (templates) {
+  const defaultTemplate = templates[0]
   const [selectedTemplate, setSelectedTemplate] = useState()
 
   useEffect(() => {
@@ -102,6 +106,15 @@ export function useSelectedTemplate (defaultTemplate) {
       }
     },
     [defaultTemplate]
+  )
+
+  useEffect(
+    () => {
+      if (defaultTemplate) {
+        setSelectedTemplate(defaultTemplate)
+      }
+    },
+    [templates]
   )
 
   useEffect(
@@ -137,8 +150,9 @@ export function useCreateTemplate () {
 }
 
 export function useDeleteTemplate () {
-  const [mutate, data] = useMutation(DELETE_TEMPLATE_MUTATION, {
-    update: updateTemplatesOnDelete
+  const [mutate, { loading }] = useMutation(DELETE_TEMPLATE_MUTATION, {
+    update: updateTemplatesOnDelete,
+    notifyOnNetworkStatusChange: true
   })
 
   function deleteTemplate ({ id }, onDelete) {
@@ -149,7 +163,7 @@ export function useDeleteTemplate () {
     }).then(onDelete)
   }
 
-  return [deleteTemplate, data]
+  return [deleteTemplate, loading]
 }
 
 export function useUpdateTemplate () {
