@@ -4,7 +4,7 @@ import Button from '@santiment-network/ui/Button'
 const UseTemplateBtn = props => {
   return (
     <Button variant='fill' accent='positive' {...props}>
-      View Chart Layout
+      Use Chart Layout
     </Button>
   )
 }

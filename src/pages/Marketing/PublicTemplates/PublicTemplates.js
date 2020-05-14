@@ -75,7 +75,7 @@ const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
                 rel='noopener noreferrer'
                 href={link || prepareTemplateLink(template)}
               >
-                Use chart layout{' '}
+                View chart layout{' '}
                 <Icon className={styles.useIcon} type='pointer-right' />
               </a>
             )}
