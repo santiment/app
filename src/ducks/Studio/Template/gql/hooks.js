@@ -20,7 +20,6 @@ import { getSavedMulticharts } from '../../../../utils/localStorage'
 const DEFAULT_TEMPLATES = []
 
 function buildTemplatesCacheUpdater (reducer) {
-  console.log('buildTemplatesCacheUpdater')
   return (cache, { data }) => {
     const variables = { userId: +store.getState().user.data.id }
 
@@ -39,7 +38,6 @@ function buildTemplatesCacheUpdater (reducer) {
 
 const updateTemplatesOnDelete = buildTemplatesCacheUpdater(
   ({ template: { id: deletedId } }, templates) => {
-    console.log('update on delete!')
     return templates.filter(({ id }) => id !== deletedId)
   }
 )
@@ -74,6 +72,17 @@ export function useFeaturedTemplates () {
   const { data, loading, error } = useQuery(FEATURED_TEMPLATES_QUERY)
 
   return [data ? data.templates : DEFAULT_TEMPLATES, loading, error]
+}
+
+export function useTemplate (id) {
+  const { data, loading, error } = useQuery(TEMPLATE_QUERY, {
+    skip: !id,
+    variables: {
+      id: +id
+    }
+  })
+
+  return [data ? data.template : undefined, loading, error]
 }
 
 export function useSelectedTemplate (templates) {

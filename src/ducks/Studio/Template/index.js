@@ -138,8 +138,6 @@ const Template = ({
     }
   })
 
-  console.log(templates)
-
   // TODO: 2.05.2020, GarageInc, for useCtrlSPress
   window.selectedTemplate = selectedTemplate
 
