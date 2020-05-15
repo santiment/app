@@ -8,9 +8,21 @@ import { DesktopOnly, MobileOnly } from '../../../../components/Responsive'
 import CopySignal from '../../../../components/SignalCard/controls/CopySignal'
 import styles from './ShareTriggerForm.module.scss'
 
-const SharedTriggerForm = ({ id, trigger, onOpen, onCreate, settings }) => {
-  const { target, metric } = settings
-  const showChart = target && couldShowChart(trigger.settings)
+const SharedTriggerForm = ({
+  id,
+  trigger,
+  onOpen,
+  onCreate,
+  settings,
+  originalTrigger
+}) => {
+  const { metric } = settings
+
+  const {
+    settings: originalSettings,
+    settings: { target }
+  } = originalTrigger
+  const showChart = target && couldShowChart(originalSettings)
 
   return (
     <div className={styles.container}>
