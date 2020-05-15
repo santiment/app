@@ -1,5 +1,8 @@
 import React from 'react'
+import { compose } from 'redux'
+import { Helmet } from 'react-helmet'
 import ChartPage from '../Chart'
+import withProject from '../Detailed/withProject'
 import Breadcrumbs from '../profile/breadcrumbs/Breadcrumbs'
 import { parseUrl } from '../../ducks/Studio/url'
 import { Metric } from '../../ducks/dataHub/metrics'
@@ -18,16 +21,34 @@ const CRUMB = {
   to: '/assets'
 }
 
-const TopSlot = ({ label }) => (
+const TopSlot = compose(withProject)(({ slug, project, loading }) => (
   <>
+    <Helmet
+      title={loading ? 'Sanbase...' : `${project.ticker} project page`}
+      meta={[
+        {
+          property: 'og:title',
+          content: `Project overview: ${project.name} - Sanbase`
+        },
+        {
+          property: 'og:description',
+          content: `Financial, development, on-chain and social data for ${
+            project.name
+          }. Get access to full historical data & advanced metrics for ${
+            project.name
+          } by upgrading to Sanbase Dashboards.
+          `
+        }
+      ]}
+    />
     <Breadcrumbs
       className={styles.breadcrumbs}
-      crumbs={[CRUMB, { label, to: `/studio?slug=${label}` }]}
+      crumbs={[CRUMB, { label: project.name, to: `/studio?slug=${slug}` }]}
     />
     <StoriesList classes={styles} showScrollBtns />
     <CtaJoinPopup />
   </>
-)
+))
 
 export default ({ history, ...props }) => {
   const parsedUrl = parseUrl()
@@ -41,7 +62,7 @@ export default ({ history, ...props }) => {
   return (
     <ChartPage
       parsedUrl={parsedUrl}
-      topSlot={<TopSlot label={parsedUrl.settings.slug} />}
+      topSlot={<TopSlot slug={parsedUrl.settings.slug} />}
       metrics={DEFAULT_METRICS}
       onSlugChange={onSlugChange}
       {...props}
