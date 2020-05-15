@@ -12,5 +12,5 @@ export default withBoundaries(
     sharedState.events = sharedState.events || events
 
     return <Studio {...props} {...sharedState} />
-  },
+  }
 )

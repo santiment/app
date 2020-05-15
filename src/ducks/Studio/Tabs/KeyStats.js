@@ -43,7 +43,7 @@ const KeyStats = ({ slug, project, isERC20, loading }) => {
               <DetailedTransactionsTable project={project} />
             </div>
           </>
-        )}
+      )}
     </>
   )
 }

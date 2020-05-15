@@ -10,12 +10,12 @@ import styles from '../Detailed/Detailed.module.scss'
 const DEFAULT_METRICS = [
   Metric.price_usd,
   Metric.social_volume_total,
-  Metric.age_destroyed,
+  Metric.age_destroyed
 ]
 
 const CRUMB = {
   label: 'Assets',
-  to: '/assets',
+  to: '/assets'
 }
 
 const TopSlot = ({ label }) => (
@@ -29,7 +29,7 @@ const TopSlot = ({ label }) => (
 export default ({ history, ...props }) => {
   const parsedUrl = parseUrl()
 
-  function onSlugChange() {
+  function onSlugChange () {
     history.replace(`/studio${window.location.search}`)
   }
 

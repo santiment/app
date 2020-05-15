@@ -9,7 +9,7 @@ import {
   getRecentAssets,
   addRecentAssets,
   removeRecentAssets,
-  clearRecentAssets,
+  clearRecentAssets
 } from '../../utils/recent'
 import styles from './SearchContainer.module.scss'
 
@@ -38,24 +38,24 @@ export const SearchContainer = ({
   const [isFocused, setFocus] = useState(false)
   const [recentAssets, setRecentAssetSuggestions] = useState(getRecentAssets())
 
-  function addRecentAssetSuggestions(slug) {
+  function addRecentAssetSuggestions (slug) {
     setRecentAssetSuggestions(addRecentAssets(slug))
   }
 
-  function removeRecentAssetSuggestion(slug) {
+  function removeRecentAssetSuggestion (slug) {
     setRecentAssetSuggestions(removeRecentAssets(slug))
   }
 
-  function clearRecents() {
+  function clearRecents () {
     setRecentAssetSuggestions(clearRecentAssets())
   }
 
-  function onFocus() {
+  function onFocus () {
     if (isMobile) return
     setFocus(true)
   }
 
-  function onBlur() {
+  function onBlur () {
     if (isMobile) return
     setFocus(false)
   }
@@ -81,31 +81,31 @@ export const SearchContainer = ({
         isMobile || recentAssets.length === 0
           ? undefined
           : [
-              {
-                id: RECENT_ASSETS,
-                title: (
-                  <div className={styles.recents}>
+            {
+              id: RECENT_ASSETS,
+              title: (
+                <div className={styles.recents}>
                     Recently searched
-                    <Icon
-                      type='history-clear'
-                      className={styles.clear}
-                      onClick={clearRecents}
-                    />
-                  </div>
-                ),
-                items: recentAssets,
-                classes: styles,
-                suggestionContent: (suggestion) => (
-                  <Recent
-                    text={suggestion}
-                    onRemove={(e) => {
-                      e.stopPropagation()
-                      removeRecentAssetSuggestion(suggestion)
-                    }}
+                  <Icon
+                    type='history-clear'
+                    className={styles.clear}
+                    onClick={clearRecents}
                   />
-                ),
-              },
-            ]
+                </div>
+              ),
+              items: recentAssets,
+              classes: styles,
+              suggestionContent: suggestion => (
+                <Recent
+                  text={suggestion}
+                  onRemove={e => {
+                    e.stopPropagation()
+                    removeRecentAssetSuggestion(suggestion)
+                  }}
+                />
+              )
+            }
+          ]
       }
     />
   ) : (
