@@ -10,9 +10,8 @@
   height: 120px;
   position: relative;
   overflow: hidden;
-  color: var(--mirage);
+  color: var(--rhino);
   cursor: pointer;
-  margin-bottom: 8px;
 
   @include responsive('laptop', 'desktop') {
     &:hover {
@@ -128,10 +127,10 @@
   @include text('body-2', 'm');
 
   &:hover {
-    border: 1px dashed var(--jungle-green-hover);
+    border: 1px dashed var(--jungle-green);
 
     .createLink {
-      color: var(--jungle-green-hover);
+      color: var(--jungle-green);
     }
   }
 }
