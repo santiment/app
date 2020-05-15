@@ -19,17 +19,13 @@ export const MoreInfo = ({ slug, type }) => {
 
 const FeedSignalCardWithMarkdown = ({ trigger, user_trigger_data }) => {
   const { description } = trigger
-  const { chart_url, project_slug, trending_words } = user_trigger_data
+  const { project_slug, trending_words } = user_trigger_data
 
   return (
     <>
       <div className={styles.description}>{description}</div>
 
       <MoreInfo slug={project_slug} type={trending_words} />
-
-      {chart_url && (
-        <img src={chart_url} alt='Backtesting chart' className={styles.img} />
-      )}
     </>
   )
 }
