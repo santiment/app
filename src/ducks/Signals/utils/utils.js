@@ -988,7 +988,7 @@ export const getNearestTypeByMetric = metric => {
 }
 
 export const mapGQLTriggerToProps = ({ data: { trigger, loading, error } }) => {
-  if (!loading && !trigger) {
+  if (!trigger) {
     return {
       trigger: {
         isError: !!error,

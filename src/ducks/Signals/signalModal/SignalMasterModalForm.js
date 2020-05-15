@@ -36,8 +36,9 @@ const SignalMasterModalForm = ({
   const hasTrigger = +triggerId > 0
 
   const [dialogOpenState, setDialogOpenState] = useState(
-    defaultOpen ? hasTrigger : false
+    defaultOpen && hasTrigger
   )
+
   const [isApproving, setIsAppoving] = useState(false)
   const [isChanged, setIsChanged] = useState(false)
 
@@ -90,7 +91,8 @@ const SignalMasterModalForm = ({
     <GetSignal
       skip={!dialogOpenState}
       triggerId={triggerId}
-      render={({ trigger = {}, userId: triggerUserId }) => {
+      render={data => {
+        const { trigger = {}, userId: triggerUserId } = data
         const { isLoading, isError } = trigger
 
         let isShared =
