@@ -7,7 +7,7 @@ import FinancialsBlock from '../../../pages/Detailed/financialInfo/FinancialsBlo
 import DetailedTransactionsTable from '../../../pages/Detailed/transactionsInfo/DetailedTransactionsTable'
 import styles from '../../../pages/Detailed/Detailed.module.scss'
 
-const KeyStats = ({ slug, project, isERC20, ...props }) => {
+const KeyStats = ({ slug, project, isERC20, loading }) => {
   return (
     <>
       {slug === 'ethereum' && (
@@ -18,8 +18,9 @@ const KeyStats = ({ slug, project, isERC20, ...props }) => {
 
       <div className={styles.info}>
         <PanelWithHeader header='General Info' className={styles.info__card}>
-          <GeneralInfoBlock {...project} />
+          <GeneralInfoBlock {...project} loading={loading} />
         </PanelWithHeader>
+
         {project.fundsRaisedIcos && project.fundsRaisedIcos.length > 0 && (
           <PanelWithHeader header='Financials' className={styles.info__card}>
             <FinancialsBlock {...project} />
@@ -42,7 +43,7 @@ const KeyStats = ({ slug, project, isERC20, ...props }) => {
               <DetailedTransactionsTable project={project} />
             </div>
           </>
-      )}
+        )}
     </>
   )
 }

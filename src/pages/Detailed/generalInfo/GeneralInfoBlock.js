@@ -20,7 +20,8 @@ const GeneralInfoBlock = ({
   totalSupply,
   volumeUsd,
   ticker,
-  roiUsd
+  roiUsd,
+  loading,
 }) => (
   <div>
     <p>
@@ -34,29 +35,41 @@ const GeneralInfoBlock = ({
       <SocialLink link={whitepaperLink} text='Whitepaper' />
     </p>
     <Row
+      loading={loading}
       value={marketcapUsd}
-      format={value => formatNumber(value, { currency: 'USD' })}
+      format={(value) => formatNumber(value, { currency: 'USD' })}
       title='Market Cap'
     />
     <Row
+      loading={loading}
       value={priceUsd}
-      format={value => formatNumber(value, { currency: 'USD' })}
+      format={(value) => formatNumber(value, { currency: 'USD' })}
       title='Price (USD)'
     />
     <Row
+      loading={loading}
       value={volumeUsd}
-      format={value => formatNumber(value, { currency: 'USD' })}
+      format={(value) => formatNumber(value, { currency: 'USD' })}
       title='Volume (USD)'
     />
     <Row
+      loading={loading}
       value={totalSupply}
-      format={value => formatCryptoCurrency(ticker, formatNumber(totalSupply))}
+      format={(value) =>
+        formatCryptoCurrency(ticker, formatNumber(totalSupply))
+      }
       title='Total supply'
     />
-    <Row value={rank} format={value => value} title='Rank' />
     <Row
+      loading={loading}
+      value={rank}
+      format={(value) => value}
+      title='Rank'
+    />
+    <Row
+      loading={loading}
       value={roiUsd}
-      format={value => parseFloat(value).toFixed(2)}
+      format={(value) => parseFloat(value).toFixed(2)}
       title={
         <span>
           ROI since ICO{' '}
@@ -86,7 +99,7 @@ const GithubLinks = ({ links }) => {
       position='bottom'
     >
       <div className={styles.tooltip}>
-        {links.map(link => (
+        {links.map((link) => (
           <SocialLink key={link} link={link} text={link} />
         ))}
       </div>
@@ -107,28 +120,24 @@ const SocialLink = ({ link, text = '' }) => (
   </a>
 )
 
-const Row = ({ title, value, format }) => {
-  const noData = value === null
-
-  return (
-    <div
-      className={cx(
-        'row-info',
-        value === undefined || (!value && styles.disabled)
+const Row = ({ title, value, format, loading }) => (
+  <div
+    className={cx(
+      'row-info',
+      value === undefined || (!value && styles.disabled),
+    )}
+  >
+    <div>{title}</div>
+    <div className={styles.value}>
+      {loading ? (
+        <Loader className={styles.loader} />
+      ) : value ? (
+        format(value)
+      ) : (
+        'No data'
       )}
-    >
-      <div>{title}</div>
-      <div className={styles.value}>
-        {!!value && value !== undefined ? (
-          format(value)
-        ) : !noData ? (
-          <Loader className={styles.loader} />
-        ) : (
-          'No data'
-        )}
-      </div>
     </div>
-  )
-}
+  </div>
+)
 
 export default GeneralInfoBlock
