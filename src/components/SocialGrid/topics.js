@@ -76,8 +76,15 @@ export const INDEX_PAGE_GROUPS = [
       {
         title: 'The rise and fall of ZRX',
         slug: 'zrx',
+        type: 'PRO',
         query:
           'ZRX?asset=0x&from=2020-04-12T22%3A00%3A00.000Z&interval=2h&isCartesianGridActive=true&isSocialDominanceActive=true&slug=ZRX&ticker=ZRX&timeRange=1m&to=2020-05-13T00%3A00%3A00.000Z'
+      },
+      {
+        title: 'The rise and fall of MTL',
+        slug: 'mtl or metal',
+        type: 'FREE',
+        query: 'mtl%20OR%20metal?asset=metal&slug=mtl%20OR%20metal&ticker=MTL'
       }
     ]
   }
