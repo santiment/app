@@ -51,6 +51,10 @@
   align-items: center;
   justify-content: center;
 
+  @include responsive('tablet', 'laptop') {
+    padding: 72px 16px;
+  }
+
   @include responsive('phone', 'phone-xs') {
     padding: 24px 16px;
   }
