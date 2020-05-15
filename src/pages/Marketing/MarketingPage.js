@@ -50,7 +50,7 @@ const MarketingPage = props => {
                 )
               },
               {
-                type: 'Your Watchlists',
+                type: 'My Watchlists',
                 content: (
                   <MyWatchlist
                     showHeader={false}
@@ -73,7 +73,7 @@ const MarketingPage = props => {
                 content: <PublicTemplates isFeatured />
               },
               {
-                type: 'Your Chart Layouts',
+                type: 'My Chart Layouts',
                 content: <PublicTemplates userId={userId} />
               }
             ]}
