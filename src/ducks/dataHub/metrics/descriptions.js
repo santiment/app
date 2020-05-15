@@ -119,7 +119,7 @@ export const Description = {
       Shows the number of unique deposit addresses that participated in
       transactions for a given day. A deposit address is an address belonging to
       an exchange that users use to deposit assets.{' '}
-      <MoreInfoLink href='https://academy.santiment.net/metrics/metrics-for-deposit-addresses/#daily-active-deposits' />
+      <MoreInfoLink href='https://academy.santiment.net/metrics/daily-active-deposits/' />
     </>
   ),
 
