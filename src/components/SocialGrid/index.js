@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
+import { connect } from 'react-redux'
+import { checkHasPremium } from '../../pages/UserSelectors'
 import { SETTINGS } from './topics'
 import { TOPICS } from './topics'
 import Item from './Item'
@@ -10,7 +12,12 @@ const SHOW_STEP = 6
 
 const charts = [Metric.social_volume_total]
 
-const SocialGrid = ({ className, onTopicClick, topics = TOPICS }) => {
+const SocialGrid = ({
+  className,
+  onTopicClick,
+  hasPremium,
+  topics = TOPICS
+}) => {
   const [showCount, setShowCount] = useState(SHOW_STEP)
   const [loadedCount, setLoadedCount] = useState(0)
 
@@ -23,9 +30,21 @@ const SocialGrid = ({ className, onTopicClick, topics = TOPICS }) => {
     }
   }
 
+  const items = topics.filter(topic => {
+    if (topic.type) {
+      if (topic.type === 'PRO') {
+        return hasPremium
+      } else {
+        return !hasPremium
+      }
+    }
+
+    return true
+  })
+
   return (
     <section className={cx(styles.wrapper, className)}>
-      {topics.map((topic, idx) => (
+      {items.map((topic, idx) => (
         <Item
           key={idx}
           show={showCount > idx}
@@ -43,4 +62,8 @@ const SocialGrid = ({ className, onTopicClick, topics = TOPICS }) => {
   )
 }
 
-export default SocialGrid
+const mapStateToProps = state => ({
+  hasPremium: checkHasPremium(state)
+})
+
+export default connect(mapStateToProps)(SocialGrid)
