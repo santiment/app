@@ -20,7 +20,10 @@ const CRUMB = {
 
 const TopSlot = ({ label }) => (
   <>
-    <Breadcrumbs className={styles.breadcrumbs} crumbs={[CRUMB, { label }]} />
+    <Breadcrumbs
+      className={styles.breadcrumbs}
+      crumbs={[CRUMB, { label, to: `/studio?slug=${label}` }]}
+    />
     <StoriesList classes={styles} showScrollBtns />
     <CtaJoinPopup />
   </>
