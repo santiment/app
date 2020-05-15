@@ -29,7 +29,7 @@ import uploadLink from './apollo/upload-link'
 import errorLink from './apollo/error-link'
 import authLink from './apollo/auth-link'
 import retryLink from './apollo/retry-link'
-import ChartPage from './pages/Studio'
+import ChartPage from './pages/Chart'
 import { showNotification } from './actions/rootActions'
 import { register, unregister } from './serviceWorker'
 import RefreshNotificationActions from './components/Notifications/Refresh/RefreshNotificationActions'
@@ -44,7 +44,7 @@ if (process.env.NODE_ENV !== 'test') {
 emitter.addPlayListener((experiment, variant) => {
   window.mixpanel.track('Experiment Play', {
     experiment,
-    variant
+    variant,
   })
 })
 
@@ -71,13 +71,13 @@ const calculateHeight = () => {
 // https://github.com/facebook/react/issues/11538
 if (typeof Node === 'function' && Node.prototype) {
   const originalRemoveChild = Node.prototype.removeChild
-  Node.prototype.removeChild = function (child) {
+  Node.prototype.removeChild = function(child) {
     if (child.parentNode !== this) {
       if (console) {
         console.error(
           'Cannot remove a child from a different parent',
           child,
-          this
+          this,
         )
       }
       return child
@@ -86,13 +86,13 @@ if (typeof Node === 'function' && Node.prototype) {
   }
 
   const originalInsertBefore = Node.prototype.insertBefore
-  Node.prototype.insertBefore = function (newNode, referenceNode) {
+  Node.prototype.insertBefore = function(newNode, referenceNode) {
     if (referenceNode && referenceNode.parentNode !== this) {
       if (console) {
         console.error(
           'Cannot insert before a reference node from a different parent',
           referenceNode,
-          this
+          this,
         )
       }
       return newNode
@@ -104,12 +104,12 @@ if (typeof Node === 'function' && Node.prototype) {
 const main = () => {
   const httpLink = createHttpLink({
     uri: `${getAPIUrl()}/graphql`,
-    credentials: 'include'
+    credentials: 'include',
   })
   client = new ApolloClient({
     link: from([authLink, errorLink, retryLink, uploadLink, httpLink]),
     shouldBatch: true,
-    cache: new InMemoryCache()
+    cache: new InMemoryCache(),
   })
 
   calculateHeight()
@@ -121,23 +121,23 @@ const main = () => {
   const middleware = [
     createEpicMiddleware(epics, {
       dependencies: {
-        client
-      }
+        client,
+      },
     }),
     routerMiddleware(history),
-    createRavenMiddleware(getRaven())
+    createRavenMiddleware(getRaven()),
   ]
 
   store = createStore(
     reducers,
     {},
-    composeWithDevTools(applyMiddleware(...middleware))
+    composeWithDevTools(applyMiddleware(...middleware)),
   )
 
   store.subscribe(
     throttle(() => {
       saveState(store.getState().user)
-    }, 1000)
+    }, 1000),
   )
 
   store.dispatch(launchApp())
@@ -153,14 +153,14 @@ const main = () => {
         title: 'New version of Sanbase is available!',
         description: <RefreshNotificationActions onRefresh={hardReloadTabs} />,
         dismissAfter: 1000 * 60 * 5,
-        isWide: true
-      })
+        isWide: true,
+      }),
     )
   }
 
   if (isNotSafari) {
     register({
-      onUpdate: onServiceWorkerUpdate
+      onUpdate: onServiceWorkerUpdate,
     })
   } else {
     unregister()
@@ -179,7 +179,7 @@ const main = () => {
         </Provider>
       </ApolloProvider>
     </StripeProvider>,
-    document.getElementById('root')
+    document.getElementById('root'),
   )
 }
 

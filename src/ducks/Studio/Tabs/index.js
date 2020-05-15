@@ -6,12 +6,12 @@ import styles from './index.module.scss'
 const tabs = [
   {
     index: '/studio',
-    label: 'Studio'
+    label: 'Studio',
   },
   {
-    index: '/studio/key-stats',
-    label: 'Key Stats'
-  }
+    index: '/studio/stats',
+    label: 'Key Stats',
+  },
 ]
 
 const Tabs = ({ location: { pathname, search } }) => {

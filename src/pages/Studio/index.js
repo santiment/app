@@ -1,24 +1,47 @@
 import React from 'react'
-import Studio from '../../ducks/Studio'
-import withBoundaries from './withBoundaries'
+import ChartPage from '../Chart'
+import Breadcrumbs from '../profile/breadcrumbs/Breadcrumbs'
 import { parseUrl } from '../../ducks/Studio/url'
 import { Metric } from '../../ducks/dataHub/metrics'
+import StoriesList from '../../components/Stories/StoriesList'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
+import styles from '../Detailed/Detailed.module.scss'
 
 const DEFAULT_METRICS = [
   Metric.price_usd,
   Metric.social_volume_total,
-  Metric.age_destroyed
+  Metric.age_destroyed,
 ]
 
-export default withBoundaries(
-  ({ settings, options, metrics, events, ...props }) => {
-    const sharedState = parseUrl()
-    Object.assign(sharedState.settings, settings)
-    Object.assign(sharedState.options, options)
-    sharedState.metrics = sharedState.metrics || metrics || DEFAULT_METRICS
-    sharedState.events = sharedState.events || events
+const CRUMB = {
+  label: 'Assets',
+  to: '/assets',
+}
 
-    return <Studio topSlot={<CtaJoinPopup />} {...props} {...sharedState} />
-  }
+const TopSlot = ({ label }) => (
+  <>
+    <Breadcrumbs className={styles.breadcrumbs} crumbs={[CRUMB, { label }]} />
+    <StoriesList classes={styles} showScrollBtns />
+    <CtaJoinPopup />
+  </>
 )
+
+export default ({ history, ...props }) => {
+  const parsedUrl = parseUrl()
+
+  function onSlugChange() {
+    history.replace(`/studio${window.location.search}`)
+  }
+
+  parseUrl()
+
+  return (
+    <ChartPage
+      parsedUrl={parsedUrl}
+      topSlot={<TopSlot label={parsedUrl.settings.slug} />}
+      metrics={DEFAULT_METRICS}
+      onSlugChange={onSlugChange}
+      {...props}
+    />
+  )
+}
