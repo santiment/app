@@ -27,7 +27,9 @@ const FeedSignalCardWithMarkdown = ({ trigger, user_trigger_data }) => {
 
       <MoreInfo slug={project_slug} type={trending_words} />
 
-      <img src={chart_url} alt='Backtesting chart' className={styles.img} />
+      {chart_url && (
+        <img src={chart_url} alt='Backtesting chart' className={styles.img} />
+      )}
     </>
   )
 }
