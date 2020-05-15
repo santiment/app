@@ -1,40 +1,22 @@
-import React, { useState, useRef } from 'react'
-import cx from 'classnames'
-import StudioHeader from './Header'
-import StudioChart from './Chart'
-import StudioAdvancedView from './AdvancedView'
-import StudioInfo from '../SANCharts/Header'
-import styles from './index.module.scss'
+import React from "react";
+import cx from "classnames";
+import { Switch, Route } from "react-router-dom";
+import StudioTabs from "./Tabs";
+import StudioTabsChart from "./Tabs/Chart";
+import StudioInfo from "../SANCharts/Header";
+import styles from "./index.module.scss";
 
-const Main = ({ topSlot, bottomSlot, eventsData, onSlugChange, ...props }) => {
-  const { settings, advancedView, setSettings, setIsICOPriceDisabled } = props
-  const chartRef = useRef(null)
-  const [selectedDate, setSelectedDate] = useState()
-  const [selectedDatesRange, setSelectedDatesRange] = useState()
+const Main = ({ topSlot, bottomSlot, onSlugChange, ...props }) => {
+  const { settings, setSettings, setIsICOPriceDisabled } = props;
 
-  function onProjectSelect (project) {
-    if (!project) return
+  function onProjectSelect(project) {
+    if (!project) return;
 
-    const { slug, name, ticker, id: projectId } = project
-    const title = `${name} (${ticker})`
-    setSettings(state => ({ ...state, slug, title, projectId, ticker }))
-    setIsICOPriceDisabled(true)
-    onSlugChange(slug)
-  }
-
-  function changeSelectedDate ({ value }) {
-    setSelectedDate(new Date(value))
-    setSelectedDatesRange()
-  }
-
-  function changeDatesRange ({ value: leftDate }, { value: rightDate }) {
-    if (leftDate === rightDate) return
-
-    const [from, to] =
-      leftDate < rightDate ? [leftDate, rightDate] : [rightDate, leftDate]
-
-    setSelectedDate()
-    setSelectedDatesRange([new Date(from), new Date(to)])
+    const { slug, name, ticker, id: projectId } = project;
+    const title = `${name} (${ticker})`;
+    setSettings(state => ({ ...state, slug, title, projectId, ticker }));
+    setIsICOPriceDisabled(true);
+    onSlugChange(slug);
   }
 
   return (
@@ -48,39 +30,20 @@ const Main = ({ topSlot, bottomSlot, eventsData, onSlugChange, ...props }) => {
           onSlugSelect={onProjectSelect}
         />
       </div>
+      <StudioTabs />
       <div className={cx(styles.container, styles.content)}>
-        <StudioHeader
-          {...props}
-          chartRef={chartRef}
-          events={eventsData}
-          onProjectSelect={onProjectSelect}
-        />
-        <div className={styles.data}>
-          <div className={styles.chart}>
-            <StudioChart
-              {...props}
-              className={styles.canvas}
-              chartRef={chartRef}
-              events={eventsData}
-              changeHoveredDate={changeSelectedDate}
-              changeDatesRange={changeDatesRange}
-            />
-          </div>
-          {advancedView && (
-            <div className={cx(styles.canvas, styles.advanced)}>
-              <StudioAdvancedView
-                {...props}
-                {...settings}
-                date={selectedDate}
-                datesRange={selectedDatesRange}
-              />
-            </div>
-          )}
-        </div>
+        <Switch>
+          <Route path="/studio/key-stats">
+            <div>Stats</div>
+          </Route>
+          <Route path="/studio">
+            <StudioTabsChart {...props} />
+          </Route>
+        </Switch>
       </div>
       {bottomSlot}
     </>
-  )
-}
+  );
+};
 
-export default Main
+export default Main;
