@@ -1,30 +1,30 @@
-import React, { useState, useRef } from "react";
-import cx from "classnames";
-import StudioHeader from "../Header";
-import StudioChart from "../Chart";
-import StudioAdvancedView from "../AdvancedView";
-import styles from "../index.module.scss";
+import React, { useState, useRef } from 'react'
+import cx from 'classnames'
+import StudioHeader from '../Header'
+import StudioChart from '../Chart'
+import StudioAdvancedView from '../AdvancedView'
+import styles from '../index.module.scss'
 
 const Chart = ({ eventsData, onProjectSelect, ...props }) => {
-  const { settings, advancedView } = props;
+  const { settings, advancedView } = props
 
-  const chartRef = useRef(null);
-  const [selectedDate, setSelectedDate] = useState();
-  const [selectedDatesRange, setSelectedDatesRange] = useState();
+  const chartRef = useRef(null)
+  const [selectedDate, setSelectedDate] = useState()
+  const [selectedDatesRange, setSelectedDatesRange] = useState()
 
-  function changeSelectedDate({ value }) {
-    setSelectedDate(new Date(value));
-    setSelectedDatesRange();
+  function changeSelectedDate ({ value }) {
+    setSelectedDate(new Date(value))
+    setSelectedDatesRange()
   }
 
-  function changeDatesRange({ value: leftDate }, { value: rightDate }) {
-    if (leftDate === rightDate) return;
+  function changeDatesRange ({ value: leftDate }, { value: rightDate }) {
+    if (leftDate === rightDate) return
 
     const [from, to] =
-      leftDate < rightDate ? [leftDate, rightDate] : [rightDate, leftDate];
+      leftDate < rightDate ? [leftDate, rightDate] : [rightDate, leftDate]
 
-    setSelectedDate();
-    setSelectedDatesRange([new Date(from), new Date(to)]);
+    setSelectedDate()
+    setSelectedDatesRange([new Date(from), new Date(to)])
   }
 
   return (
@@ -58,7 +58,7 @@ const Chart = ({ eventsData, onProjectSelect, ...props }) => {
         )}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Chart;
+export default Chart

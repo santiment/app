@@ -1,22 +1,23 @@
-import React from "react";
-import cx from "classnames";
-import { Switch, Route } from "react-router-dom";
-import StudioTabs from "./Tabs";
-import StudioTabsChart from "./Tabs/Chart";
-import StudioInfo from "../SANCharts/Header";
-import styles from "./index.module.scss";
+import React from 'react'
+import cx from 'classnames'
+import { Switch, Route } from 'react-router-dom'
+import StudioTabs from './Tabs'
+import StudioTabsChart from './Tabs/Chart'
+import StudioTabsKeyStats from './Tabs/KeyStats'
+import StudioInfo from '../SANCharts/Header'
+import styles from './index.module.scss'
 
 const Main = ({ topSlot, bottomSlot, onSlugChange, ...props }) => {
-  const { settings, setSettings, setIsICOPriceDisabled } = props;
+  const { settings, setSettings, setIsICOPriceDisabled } = props
 
-  function onProjectSelect(project) {
-    if (!project) return;
+  function onProjectSelect (project) {
+    if (!project) return
 
-    const { slug, name, ticker, id: projectId } = project;
-    const title = `${name} (${ticker})`;
-    setSettings(state => ({ ...state, slug, title, projectId, ticker }));
-    setIsICOPriceDisabled(true);
-    onSlugChange(slug);
+    const { slug, name, ticker, id: projectId } = project
+    const title = `${name} (${ticker})`
+    setSettings(state => ({ ...state, slug, title, projectId, ticker }))
+    setIsICOPriceDisabled(true)
+    onSlugChange(slug)
   }
 
   return (
@@ -33,17 +34,17 @@ const Main = ({ topSlot, bottomSlot, onSlugChange, ...props }) => {
       <StudioTabs />
       <div className={cx(styles.container, styles.content)}>
         <Switch>
-          <Route path="/studio/key-stats">
-            <div>Stats</div>
+          <Route path='/studio/key-stats'>
+            <StudioTabsKeyStats {...props} {...settings} />
           </Route>
-          <Route path="/studio">
+          <Route path='/studio'>
             <StudioTabsChart {...props} />
           </Route>
         </Switch>
       </div>
       {bottomSlot}
     </>
-  );
-};
+  )
+}
 
-export default Main;
+export default Main
