@@ -89,8 +89,8 @@ export const mapToOption = item => {
   }
 }
 
-export const targetMapper = ({ value, slug, currency } = {}) =>
-  slug || value || currency
+export const targetMapper = ({ value, slug, watchlist_id, currency } = {}) =>
+  slug || value || currency || watchlist_id
 export const targetMapperWithName = ({ value, slug, name } = {}) =>
   name || slug || value
 
@@ -988,7 +988,7 @@ export const getNearestTypeByMetric = metric => {
 }
 
 export const mapGQLTriggerToProps = ({ data: { trigger, loading, error } }) => {
-  if (!loading && !trigger) {
+  if (!trigger) {
     return {
       trigger: {
         isError: !!error,
@@ -1261,8 +1261,13 @@ export const getCheckingMetric = settings => {
   return metric ? metric.value : type
 }
 
-export const getPreviewTarget = ({ selector, asset, target }) => {
-  const item = mapTargetObject(selector || asset || target)
+export const getPreviewTarget = ({
+  selector,
+  asset,
+  target,
+  targetWatchlist
+}) => {
+  const item = mapTargetObject(selector || asset || target || targetWatchlist)
 
   if (Array.isArray(item)) {
     return item.length === 1 ? item[0] : false
@@ -1276,15 +1281,10 @@ export const couldShowChart = (
   types = POSSIBLE_METRICS_FOR_CHART
 ) => {
   const {
-    signalType,
     target = {},
     ethAddress = target.address || target.eth_address,
     selector
   } = settings
-
-  if (signalType && isWatchlist(signalType)) {
-    return false
-  }
 
   if (!getPreviewTarget(settings)) {
     return false
@@ -1775,4 +1775,10 @@ export const buildInTrendingWordsSignal = topic => {
     signalType: { label: 'Trending words', value: 'trending_word' },
     trendingWordsWithWords: [{ value: topic, label: topic }]
   })
+}
+
+export const skipHistoricalPreview = ({ settings }) => {
+  const { target } = settings
+
+  return getCheckingMetric(settings) === TRENDING_WORDS || target.watchlist_id
 }

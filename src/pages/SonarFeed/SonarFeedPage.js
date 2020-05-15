@@ -48,14 +48,16 @@ const SonarFeed = ({
   isDesktop,
   isTelegramConnected,
   isUserLoading,
-  showTelegramAlert,
-  location: { hash } = {}
+  showTelegramAlert
 }) => {
   if (pathname === baseLocation) {
     return <Redirect to={tabs[0].index} />
   }
+  const pathParams = matchPath(pathname, SIGNAL_ROUTES.SIGNAL)
 
-  const [triggerId, setTriggerId] = useState(undefined)
+  const [triggerId, setTriggerId] = useState(
+    pathParams ? pathParams.params.id : undefined
+  )
 
   useEffect(
     () => {
@@ -72,8 +74,6 @@ const SonarFeed = ({
 
   useEffect(
     () => {
-      const pathParams = matchPath(pathname, SIGNAL_ROUTES.SIGNAL)
-
       if (triggerId && !pathParams) {
         setTriggerId(undefined)
       } else if (pathParams && pathParams.params) {
@@ -95,6 +95,7 @@ const SonarFeed = ({
             <SignalMasterModalForm
               id={triggerId}
               shareParams={shareSignalParams}
+              defaultOpen={!!triggerId}
             />
           )}
         </div>
@@ -106,6 +107,7 @@ const SonarFeed = ({
               <SignalMasterModalForm
                 id={triggerId}
                 shareParams={shareSignalParams}
+                defaultOpen={!!triggerId}
               />
             )}
           </div>

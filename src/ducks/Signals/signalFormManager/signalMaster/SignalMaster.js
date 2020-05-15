@@ -155,6 +155,7 @@ const SignalMaster = ({
             isLoggedIn ? handleSettingsChange(settings) : toggleAnon()
           }
           settings={settings}
+          originalTrigger={propsTrigger}
         />
       )}
     </div>

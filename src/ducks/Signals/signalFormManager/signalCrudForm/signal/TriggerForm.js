@@ -143,6 +143,7 @@ export const TriggerForm = ({
           metric,
           type = {},
           target,
+          targetWatchlist,
           frequencyType,
           frequencyTimeType,
           isRepeating,
@@ -155,7 +156,8 @@ export const TriggerForm = ({
         const { price } = lastPriceItem || {}
         const mappedTrigger = mapFormPropsToTrigger(values)
 
-        const showChart = target && couldShowChart(mappedTrigger.settings)
+        const showChart =
+          (target || targetWatchlist) && couldShowChart(mappedTrigger.settings)
 
         const typeSelectors = metric.key
           ? COMMON_PROPS_FOR_METRIC
@@ -174,6 +176,8 @@ export const TriggerForm = ({
 
         const isValidForm =
           isValid || !errors || Object.keys(errors).length === 0
+
+        const showDivider = showTypes || metricValueBlocks
 
         return (
           <Form>
@@ -233,7 +237,7 @@ export const TriggerForm = ({
                   {...titleMetricValuesHeader(!!metricValueBlocks, values)}
                   className={styles.chainBlock}
                 >
-                  {(showTypes || metricValueBlocks) && (
+                  {showDivider && (
                     <TriggerFormMetricValues
                       typeSelectors={typeSelectors}
                       metaFormSettings={metaFormSettings}
@@ -246,10 +250,13 @@ export const TriggerForm = ({
 
                   {showChart && (
                     <>
-                      {(showTypes || metricValueBlocks) && (
-                        <TriggerFormBlockDivider />
-                      )}
-                      <div className={styles.preview}>
+                      {showDivider && <TriggerFormBlockDivider />}
+                      <div
+                        className={cx(
+                          styles.preview,
+                          showDivider && styles.previewWithDiviver
+                        )}
+                      >
                         <SignalPreview
                           trigger={mappedTrigger}
                           type={metric.value}

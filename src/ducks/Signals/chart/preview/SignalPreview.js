@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import { Query } from '@apollo/react-components'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import {
-  getCheckingMetric,
   getNewMetricsByType,
   getOldMetricsByType,
   getPreviewTarget,
   getTimeRangeForChart,
-  isNewTypeSignal
+  isNewTypeSignal,
+  skipHistoricalPreview
 } from '../../utils/utils'
 import { Metric } from '../../../dataHub/metrics'
 import { getMetricYAxisId } from '../../../SANCharts/utils'
@@ -25,7 +25,8 @@ import {
   mapToRequestedMetrics,
   makeSameRange
 } from './utils'
-import { DAILY_ACTIVE_ADDRESSES, TRENDING_WORDS } from '../../utils/constants'
+import { DAILY_ACTIVE_ADDRESSES } from '../../utils/constants'
+import { useWatchlist } from '../../../Watchlists/gql/hooks'
 import styles from './SignalPreview.module.scss'
 
 const PreviewLoader = (
@@ -38,10 +39,31 @@ const getAvailableCooldown = baseCooldown => {
   return baseCooldown && baseCooldown.indexOf('m') !== -1 ? '1h' : baseCooldown
 }
 
+const getSlug = ({ settings }) => {
+  const {
+    target: { watchlist_id }
+  } = settings
+
+  const [watchlist] = useWatchlist(watchlist_id)
+
+  if (watchlist_id) {
+    if (watchlist) {
+      const { listItems } = watchlist
+
+      if (listItems.length > 0) {
+        return listItems[0].project.slug
+      }
+    }
+
+    return null
+  }
+
+  return getPreviewTarget(settings)
+}
+
 const SignalPreviewChart = ({
   target,
   type: oldSignalType,
-  slug,
   timeRange,
   label,
   points,
@@ -49,6 +71,8 @@ const SignalPreviewChart = ({
   showTitle,
   trigger
 }) => {
+  useEffect(() => clearCache, [])
+
   let triggeredSignals = points.filter(point => point['triggered?'])
 
   const isNew = isNewTypeSignal(trigger)
@@ -69,6 +93,12 @@ const SignalPreviewChart = ({
     address
   }
 
+  const slug = getSlug(trigger)
+
+  if (!slug) {
+    return null
+  }
+
   const requestedMetrics = mapToRequestedMetrics(metrics, {
     timeRange,
     interval: metricsInterval,
@@ -81,8 +111,6 @@ const SignalPreviewChart = ({
   )
 
   const syncedColors = getSyncedColors(metricsForSignalsChart)
-
-  useEffect(() => clearCache, [])
 
   return (
     <GetTimeSeries
@@ -160,18 +188,16 @@ const SignalPreview = ({
   showExpand = true,
   showTitle = true
 }) => {
-  const { settings, settings: { target, asset } = {}, cooldown } = trigger
+  const { settings: { target, asset } = {}, cooldown } = trigger
 
   if (!target && !asset) {
     return null
   }
 
-  const slug = getPreviewTarget(settings)
-
   return (
     <Query
       query={HISTORICAL_TRIGGER_POINTS_QUERY}
-      skip={getCheckingMetric(trigger.settings) === TRENDING_WORDS}
+      skip={skipHistoricalPreview(trigger)}
       variables={{
         cooldown: getAvailableCooldown(cooldown),
         settings: JSON.stringify(trigger.settings)
@@ -201,7 +227,6 @@ const SignalPreview = ({
         return (
           <SignalPreviewChart
             type={type}
-            slug={slug}
             label={label}
             timeRange={timeRange}
             points={points}
