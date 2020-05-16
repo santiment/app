@@ -72,7 +72,7 @@ export const SearchContainer = ({
         if (category === ASSETS || category === RECENT_ASSETS) {
           const { slug = item } = item
           addRecentAssetSuggestions(slug)
-          history.push(`/projects/${slug}`)
+          history.push(`/studio?slug=${slug}`)
         } else if (category === TRENDING_WORDS) {
           history.push(`/labs/trends/explore/${item}`)
         }
