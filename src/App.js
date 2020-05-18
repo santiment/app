@@ -467,15 +467,18 @@ function isPathnameInPages (pathname, pages) {
   return pages.some(path => !pathname.replace(path, '').includes('/'))
 }
 
-const mapStateToProps = (state, { location: { pathname, ...rest } }) => {
-  const { ethAccounts = [] } = state.user.data
+const mapStateToProps = (
+  { user, rootUi },
+  { location: { pathname, ...rest } }
+) => {
+  const { ethAccounts = [] } = user.data
 
   return {
-    isLoggedIn: state.user.data && !!state.user.data.id,
-    isUserLoading: state.user.isLoading,
-    token: state.user.token,
-    isOffline: !state.rootUi.isOnline,
-    isBetaModeEnabled: state.rootUi.isBetaModeEnabled,
+    isLoggedIn: user.data && !!user.data.id,
+    isUserLoading: user.isLoading,
+    token: user.token,
+    isOffline: !rootUi.isOnline,
+    isBetaModeEnabled: rootUi.isBetaModeEnabled,
     hasMetamask: ethAccounts.length > 0 && ethAccounts[0].address,
     showFooter: !isPathnameInPages(pathname, FOOTER_DISABLED_FOR)
   }

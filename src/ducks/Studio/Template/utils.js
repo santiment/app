@@ -3,10 +3,40 @@ import { Metric } from '../../dataHub/metrics'
 import { tryMapToTimeboundMetric } from '../../dataHub/timebounds'
 import { getSavedMulticharts } from '../../../utils/localStorage'
 import { capitalizeStr } from '../../../utils/utils'
+import { PATHS } from '../../../App'
+import { getSEOLinkFromIdAndTitle } from '../../../components/Insight/utils'
 
 const LAST_USED_TEMPLATE = 'LAST_USED_TEMPLATE'
 
 export const getMetricKey = ({ key }) => key
+
+export function prepareTemplateLink (template) {
+  if (!template) {
+    return ''
+  }
+
+  const { id, title } = template
+
+  return `${PATHS.STUDIO}/${getSEOLinkFromIdAndTitle(id, title)}`
+}
+
+export const isTemplateURL = () => {
+  const href = window.location.pathname
+
+  if (href.indexOf(PATHS.STUDIO) === -1) {
+    return false
+  }
+
+  const id = extractTemplateId(href)
+
+  return +id > 0
+}
+
+export const extractTemplateId = () => {
+  const href = window.location.pathname
+  const items = href.split('-')
+  return items[items.length - 1]
+}
 
 export function parseTemplateMetrics (templateMetrics) {
   const { length } = templateMetrics
@@ -56,6 +86,7 @@ export function getLastTemplate () {
 export function saveLastTemplate (template) {
   if (!template) return
 
+  console.log('saveLastTemplate', template)
   localStorage.setItem(LAST_USED_TEMPLATE, JSON.stringify(template))
 }
 

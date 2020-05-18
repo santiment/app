@@ -8,6 +8,7 @@ import SocialToolChart from './Chart'
 import { buildMetrics } from './utils'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
 import styles from './index.module.scss'
+import { isTemplateURL } from '../Studio/Template/utils'
 
 const SocialTool = ({
   defaultSettings,
@@ -82,6 +83,10 @@ const SocialTool = ({
 
   useEffect(
     () => {
+      if (isTemplateURL()) {
+        return
+      }
+
       const queryString = '?' + generateShareLink(settings, options)
 
       const { origin, pathname } = window.location

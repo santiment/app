@@ -11,7 +11,9 @@ import {
 } from './index'
 import {
   buildTemplateMetrics,
+  extractTemplateId,
   getLastTemplate,
+  isTemplateURL,
   saveLastTemplate
 } from '../utils'
 import { store, client } from '../../../../index'
@@ -75,22 +77,34 @@ export function useFeaturedTemplates () {
 }
 
 export function useTemplate (id) {
-  const { data, loading, error } = useQuery(TEMPLATE_QUERY, {
+  const { data: { template } = {}, loading, error } = useQuery(TEMPLATE_QUERY, {
     skip: !id,
     variables: {
       id: +id
     }
   })
 
-  return [data ? data.template : undefined, loading, error]
+  useEffect(
+    () => {
+      if (template) {
+        saveLastTemplate(template)
+      }
+    },
+    [template]
+  )
+
+  return [template, loading, error]
 }
 
-export function useSelectedTemplate (templates) {
+export function useSelectedTemplate (templates, selectTemplate) {
   const defaultTemplate = templates[0]
   const [selectedTemplate, setSelectedTemplate] = useState()
 
   useEffect(() => {
-    const savedTemplate = getLastTemplate()
+    const isTemplateUrl = isTemplateURL()
+    const savedTemplate = isTemplateUrl
+      ? getLastTemplate()
+      : { id: extractTemplateId() }
 
     if (!savedTemplate) return
 
@@ -104,7 +118,13 @@ export function useSelectedTemplate (templates) {
           id: +savedTemplate.id
         }
       })
-      .then(({ data: { template } }) => setSelectedTemplate(template))
+      .then(({ data: { template } }) => {
+        setSelectedTemplate(template)
+
+        if (isTemplateUrl) {
+          selectTemplate(template)
+        }
+      })
       .catch(console.warn)
   }, [])
 

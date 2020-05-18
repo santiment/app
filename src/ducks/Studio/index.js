@@ -18,6 +18,7 @@ import { TOP_HOLDERS_PANE } from './Chart/Sidepane/panes'
 import { updateHistory } from '../../utils/utils'
 import { useClosestValueData } from '../Chart/hooks'
 import styles from './index.module.scss'
+import { isTemplateURL } from './Template/utils'
 
 const Studio = ({
   classes,
@@ -112,6 +113,10 @@ const Studio = ({
 
   useEffect(
     () => {
+      if (isTemplateURL()) {
+        return
+      }
+
       const queryString =
         '?' +
         generateShareLink(settings, options, metrics, activeEvents, comparables)

@@ -22,6 +22,7 @@ const MarketingPage = props => {
   const { history, userId, location } = props
 
   if (isCharts(location)) {
+    debugger
     return <Redirect to={PATHS.STUDIO} />
   }
 

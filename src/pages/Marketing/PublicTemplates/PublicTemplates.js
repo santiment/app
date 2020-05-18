@@ -10,11 +10,11 @@ import {
   useUserTemplates
 } from '../../../ducks/Studio/Template/gql/hooks'
 import PageLoader from '../../../components/Loader/PageLoader'
-import { prepareTemplateLink } from '../../../ducks/Studio/Template/Dialog/LoadTemplate/Template'
 import NewLabel from '../../../components/NewLabel/NewLabel'
 import NewTemplateCard from '../../../components/TemplatesGrid/NewTemplateCard'
 import FeatureAnonBanner from '../../../components/Banner/FeatureAnonBanner'
 import styles from './PublicTemplates.module.scss'
+import { prepareTemplateLink } from '../../../ducks/Studio/Template/utils'
 
 const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
   if (!(isFeatured || userId)) {

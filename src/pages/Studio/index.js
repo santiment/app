@@ -54,7 +54,7 @@ export default ({ history, ...props }) => {
   const parsedUrl = parseUrl()
 
   function onSlugChange () {
-    history.replace(`/studio${window.location.search}`)
+    history.replace(`${window.location.pathname}${window.location.search}`)
   }
 
   parseUrl()

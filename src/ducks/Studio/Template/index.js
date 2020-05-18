@@ -6,6 +6,7 @@ import Panel from '@santiment-network/ui/Panel'
 import TemplateButton from './Button'
 import {
   buildTemplateMetrics,
+  extractTemplateId,
   getMultiChartsValue,
   parseTemplateMetrics
 } from './utils'
@@ -14,7 +15,8 @@ import {
   useUserTemplates,
   useUpdateTemplate,
   useSelectedTemplate,
-  useCreateTemplate
+  useCreateTemplate,
+  useTemplate
 } from './gql/hooks'
 import DialogFormNewTemplate from './Dialog/NewTemplate'
 import DialogFormRenameTemplate from './Dialog/RenameTemplate'
@@ -83,19 +85,6 @@ const Template = ({
   const [templates] = useUserTemplates(currentUser.id)
   const [updateTemplate] = useUpdateTemplate()
   const [createTemplate] = useCreateTemplate()
-  const [selectedTemplate, setSelectedTemplate] = useSelectedTemplate(templates)
-
-  const [isMenuOpened, setIsMenuOpened] = useState(false)
-
-  const hasTemplates = templates.length > 0
-
-  function openMenu () {
-    setIsMenuOpened(true)
-  }
-
-  function closeMenu () {
-    setIsMenuOpened(false)
-  }
 
   function selectTemplate (template) {
     setSelectedTemplate(template)
@@ -109,6 +98,28 @@ const Template = ({
     setMetrics(metrics)
     setComparables(comparables)
     toggleMultiCharts(getMultiChartsValue(template))
+  }
+  const [selectedTemplate, setSelectedTemplate] = useSelectedTemplate(
+    templates,
+    selectTemplate
+  )
+
+  useCtrlSPress(() => {
+    if (window.selectedTemplate) {
+      saveTemplate()
+    }
+  })
+
+  const [isMenuOpened, setIsMenuOpened] = useState(false)
+
+  const hasTemplates = templates.length > 0
+
+  function openMenu () {
+    setIsMenuOpened(true)
+  }
+
+  function closeMenu () {
+    setIsMenuOpened(false)
   }
 
   function rerenderTemplate (template) {
