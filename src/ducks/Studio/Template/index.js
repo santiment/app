@@ -6,7 +6,6 @@ import Panel from '@santiment-network/ui/Panel'
 import TemplateButton from './Button'
 import {
   buildTemplateMetrics,
-  extractTemplateId,
   getMultiChartsValue,
   parseTemplateMetrics
 } from './utils'
@@ -15,8 +14,7 @@ import {
   useUserTemplates,
   useUpdateTemplate,
   useSelectedTemplate,
-  useCreateTemplate,
-  useTemplate
+  useCreateTemplate
 } from './gql/hooks'
 import DialogFormNewTemplate from './Dialog/NewTemplate'
 import DialogFormRenameTemplate from './Dialog/RenameTemplate'

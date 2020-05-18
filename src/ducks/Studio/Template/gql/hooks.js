@@ -102,20 +102,22 @@ export function useSelectedTemplate (templates, selectTemplate) {
 
   useEffect(() => {
     const isTemplateUrl = isTemplateURL()
-    const savedTemplate = isTemplateUrl
-      ? getLastTemplate()
-      : { id: extractTemplateId() }
+    const targetTemplate = isTemplateUrl
+      ? { id: extractTemplateId() }
+      : getLastTemplate()
 
-    if (!savedTemplate) return
+    console.log('savedTemplate', targetTemplate)
 
-    setSelectedTemplate(savedTemplate)
+    if (!targetTemplate) return
+
+    setSelectedTemplate(targetTemplate)
 
     client
       .query({
         query: TEMPLATE_QUERY,
         fetchPolicy: 'network-only',
         variables: {
-          id: +savedTemplate.id
+          id: +targetTemplate.id
         }
       })
       .then(({ data: { template } }) => {
