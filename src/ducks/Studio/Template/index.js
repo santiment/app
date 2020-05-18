@@ -31,7 +31,7 @@ const isMac = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)
 
 export const useCtrlSPress = callback => {
   useEffect(() => {
-    function listenHotkey (e) {
+    const listenHotkey = e => {
       const { ctrlKey, metaKey, code } = e
 
       if ((metaKey || ctrlKey) && code === 'KeyS') {
@@ -96,8 +96,7 @@ const Template = ({
   }
 
   const saveTemplate = () => {
-    const { metrics, comparables, projectId } = props
-
+    const { metrics, comparables, projectId } = window.props || props
     const template = selectedTemplate || window.selectedTemplate
 
     const { user: { id } = {}, title, description } = template
@@ -140,6 +139,7 @@ const Template = ({
 
   // TODO: 2.05.2020, GarageInc, for useCtrlSPress
   window.selectedTemplate = selectedTemplate
+  window.props = props
 
   const isAuthor =
     selectedTemplate && +selectedTemplate.user.id === +currentUser.id
