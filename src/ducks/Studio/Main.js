@@ -38,7 +38,7 @@ const Main = ({ topSlot, bottomSlot, onSlugChange, ...props }) => {
             <StudioTabsKeyStats {...props} {...settings} />
           </Route>
           <Route path='/studio'>
-            <StudioTabsChart {...props} />
+            <StudioTabsChart {...props} onProjectSelect={onProjectSelect} />
           </Route>
         </Switch>
       </div>
