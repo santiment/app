@@ -1,0 +1,21 @@
+@import '~@santiment-network/ui/mixins';
+
+.tabs {
+  display: flex;
+  margin: 0 32px;
+}
+
+.tab {
+  @include text('body-3', 'm');
+
+  color: var(--casper);
+  border-bottom: 2px solid transparent;
+  padding: 0 0 7px;
+  margin: 0 16px;
+  display: block;
+}
+
+.active {
+  color: var(--jungle-green);
+  border-bottom-color: var(--jungle-green);
+}

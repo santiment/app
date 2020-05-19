@@ -25,6 +25,7 @@
 
   @include responsive('phone', 'phone-xs') {
     padding: 14px 16px;
+    margin-top: 8px;
   }
 
   &__simple {

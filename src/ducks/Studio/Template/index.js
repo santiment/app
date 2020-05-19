@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Button from '@santiment-network/ui/Button'
@@ -29,23 +29,45 @@ const Action = props => (
 
 const isMac = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)
 
-export const useCtrlSPress = callback => {
-  useEffect(() => {
-    function listenHotkey (e) {
-      const { ctrlKey, metaKey, code } = e
+function useEventListener (eventName, handler, element = window) {
+  const savedHandler = useRef()
 
-      if ((metaKey || ctrlKey) && code === 'KeyS') {
-        e.preventDefault()
+  useEffect(
+    () => {
+      savedHandler.current = handler
+    },
+    [handler]
+  )
 
-        callback()
+  useEffect(
+    () => {
+      const isSupported = element && element.addEventListener
+      if (!isSupported) return
+
+      const eventListener = event => savedHandler.current(event)
+
+      element.addEventListener(eventName, eventListener)
+
+      return () => {
+        element.removeEventListener(eventName, eventListener)
       }
-    }
+    },
+    [eventName, element]
+  )
+}
 
-    window.addEventListener('keydown', listenHotkey)
-    return () => {
-      window.removeEventListener('keydown', listenHotkey)
+export const useCtrlSPress = callback => {
+  const listenHotkey = e => {
+    const { ctrlKey, metaKey, code } = e
+
+    if ((metaKey || ctrlKey) && code === 'KeyS') {
+      e.preventDefault()
+
+      callback()
     }
-  }, [])
+  }
+
+  useEventListener('keydown', listenHotkey)
 }
 
 const Template = ({
@@ -97,8 +119,7 @@ const Template = ({
 
   const saveTemplate = () => {
     const { metrics, comparables, projectId } = props
-
-    const template = selectedTemplate || window.selectedTemplate
+    const template = selectedTemplate
 
     const { user: { id } = {}, title, description } = template
 
@@ -133,13 +154,10 @@ const Template = ({
   }
 
   useCtrlSPress(() => {
-    if (window.selectedTemplate) {
+    if (selectedTemplate) {
       saveTemplate()
     }
   })
-
-  // TODO: 2.05.2020, GarageInc, for useCtrlSPress
-  window.selectedTemplate = selectedTemplate
 
   const isAuthor =
     selectedTemplate && +selectedTemplate.user.id === +currentUser.id
