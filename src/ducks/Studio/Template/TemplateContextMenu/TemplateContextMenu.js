@@ -56,7 +56,7 @@ const TemplateContextMenu = ({
       <Panel variant='modal' className={styles.options}>
         {isAuthor && (
           <DialogFormRenameTemplate
-            trigger={<Option>Rename</Option>}
+            trigger={<Option>Edit</Option>}
             template={template}
             onRename={data => {
               onRename(data)
