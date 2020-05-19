@@ -86,7 +86,6 @@ export function getLastTemplate () {
 export function saveLastTemplate (template) {
   if (!template) return
 
-  console.log('saveLastTemplate', template)
   localStorage.setItem(LAST_USED_TEMPLATE, JSON.stringify(template))
 }
 

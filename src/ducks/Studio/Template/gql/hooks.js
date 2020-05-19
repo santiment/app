@@ -106,8 +106,6 @@ export function useSelectedTemplate (templates, selectTemplate) {
       ? { id: extractTemplateId() }
       : getLastTemplate()
 
-    console.log('savedTemplate', targetTemplate)
-
     if (!targetTemplate) return
 
     setSelectedTemplate(targetTemplate)
