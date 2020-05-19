@@ -6,6 +6,9 @@
   background: var(--white);
   max-height: 70px;
   border-bottom: 1px solid var(--porcelain);
+  animation-name: shiftDown;
+  animation-timing-function: ease-out;
+  animation-duration: 0.8s;
 
   a {
     text-decoration: none;
@@ -140,4 +143,14 @@
 
 .help {
   margin-right: 12px;
+}
+
+@keyframes shiftDown {
+  0% {
+    transform: translateY(-70px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
 }
