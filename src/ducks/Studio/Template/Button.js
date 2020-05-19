@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
+import Tooltip from '@santiment-network/ui/Tooltip'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import DarkTooltip from '../../../components/Tooltip/DarkTooltip'
 import FormDialogNewTemplate from './Dialog/NewTemplate'
 import LoginDialog from '../../../components/LoginDialog'
-import Tooltip from '@santiment-network/ui/Tooltip'
 import TemplateInfo from './TemplateDetailsDialog/TemplateInfo'
 import TemplateTitle from './TemplateDetailsDialog/TemplateTitle'
+import { isTemplateURL } from './utils'
 import styles from './index.module.scss'
 
 const TooltipWrapper = ({ selectedTemplate, children }) => {
@@ -65,6 +67,8 @@ const Trigger = ({
         <div>
           {selectedTemplate ? (
             <TemplateTitle title={selectedTemplate.title} />
+          ) : isTemplateURL() ? (
+            <Loader className={styles.loader} />
           ) : (
             'Save as'
           )}

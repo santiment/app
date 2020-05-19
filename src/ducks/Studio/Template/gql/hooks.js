@@ -97,15 +97,14 @@ export function useTemplate (id) {
 }
 
 export function useSelectedTemplate (templates, selectTemplate) {
-  const defaultTemplate = templates[0]
+  const isTemplateUrl = isTemplateURL()
+  const defaultTemplate = isTemplateUrl ? undefined : templates[0]
   const [selectedTemplate, setSelectedTemplate] = useState()
 
   useEffect(() => {
-    const isTemplateUrl = isTemplateURL()
     const targetTemplate = isTemplateUrl
       ? { id: extractTemplateId() }
       : getLastTemplate()
-
     if (!targetTemplate) return
 
     setSelectedTemplate(targetTemplate)
