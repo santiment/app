@@ -38,6 +38,6 @@ const TopHolders = ({ metrics, MetricColor, toggleMetric, setMetrics }) => {
   })
 }
 
-TopHolders.Title = ({ ticker }) => `${ticker} Holders Distributions`
+TopHolders.Title = ({ ticker }) => `${ticker} Holder Distribution`
 
 export default TopHolders
