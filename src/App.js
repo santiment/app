@@ -429,6 +429,7 @@ export const App = ({
             <LoadableProMetricsPage isLoggedIn={isLoggedIn} {...props} />
           )}
         />
+        {!isDesktop && <Redirect from={PATHS.STUDIO} to='/assets' />}
         <Route
           path={PATHS.STUDIO}
           render={props => (
@@ -439,7 +440,6 @@ export const App = ({
             />
           )}
         />
-        {!isDesktop && <Redirect from={PATHS.STUDIO} to='/assets' />}
         {!isDesktop && <Redirect from={PATHS.INDEX} to='/assets' />}
         <Route
           path={PATHS.INDEX}
