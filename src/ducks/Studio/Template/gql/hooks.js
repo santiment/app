@@ -11,7 +11,9 @@ import {
 } from './index'
 import {
   buildTemplateMetrics,
+  extractTemplateId,
   getLastTemplate,
+  isTemplateURL,
   saveLastTemplate
 } from '../utils'
 import { store, client } from '../../../../index'
@@ -74,37 +76,34 @@ export function useFeaturedTemplates () {
   return [data ? data.templates : DEFAULT_TEMPLATES, loading, error]
 }
 
-export function useTemplate (id) {
-  const { data, loading, error } = useQuery(TEMPLATE_QUERY, {
-    skip: !id,
-    variables: {
-      id: +id
-    }
-  })
-
-  return [data ? data.template : undefined, loading, error]
-}
-
-export function useSelectedTemplate (templates) {
-  const defaultTemplate = templates[0]
+export function useSelectedTemplate (templates, selectTemplate) {
+  const isTemplateUrl = isTemplateURL()
+  const defaultTemplate = isTemplateUrl ? undefined : templates[0]
   const [selectedTemplate, setSelectedTemplate] = useState()
 
   useEffect(() => {
-    const savedTemplate = getLastTemplate()
+    const targetTemplate = isTemplateUrl
+      ? { id: extractTemplateId() }
+      : getLastTemplate()
+    if (!targetTemplate) return
 
-    if (!savedTemplate) return
-
-    setSelectedTemplate(savedTemplate)
+    setSelectedTemplate(targetTemplate)
 
     client
       .query({
         query: TEMPLATE_QUERY,
         fetchPolicy: 'network-only',
         variables: {
-          id: +savedTemplate.id
+          id: +targetTemplate.id
         }
       })
-      .then(({ data: { template } }) => setSelectedTemplate(template))
+      .then(({ data: { template } }) => {
+        setSelectedTemplate(template)
+
+        if (isTemplateUrl) {
+          selectTemplate(template)
+        }
+      })
       .catch(console.warn)
   }, [])
 
