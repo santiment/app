@@ -38,6 +38,10 @@ export const extractTemplateId = () => {
   return items[items.length - 1]
 }
 
+export const getTemplateShareLink = template => {
+  return window.location.origin + prepareTemplateLink(template)
+}
+
 export function parseTemplateMetrics (templateMetrics) {
   const { length } = templateMetrics
   const metrics = []

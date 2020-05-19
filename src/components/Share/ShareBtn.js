@@ -4,27 +4,20 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import styles from './ShareBtn.module.scss'
 
-const ShareBtn = ({ asIcon, className, ...props }) => {
+const ShareBtn = ({ className, ...props }) => {
   return (
-    <Button
-      {...props}
-      className={`${className} ${styles.btn}`}
-      border={!asIcon}
-      variant={asIcon ? 'ghost' : 'flat'}
-    >
+    <Button variant='flat' {...props} className={`${className} ${styles.btn}`}>
       <Icon type='share' className={styles.icon} />
-      {asIcon ? '' : <span className={styles.text}>Share</span>}
+      <span className={styles.text}>Share</span>
     </Button>
   )
 }
 
 ShareBtn.propTypes = {
-  asIcon: PropTypes.bool,
   className: PropTypes.string
 }
 
 ShareBtn.defaultProps = {
-  asIcon: false,
   className: ''
 }
 

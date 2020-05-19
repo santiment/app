@@ -20,7 +20,7 @@ storiesOf('Share', module)
     <div>
       <ShareBtn />
       <br />
-      <ShareBtn asIcon />
+      <ShareBtn border={false} />
     </div>
   ))
   .add('Modal', () => (
@@ -35,7 +35,6 @@ storiesOf('Share', module)
 
       <ShareModalTrigger
         shareLink='http://share.santiment.net/ffd689tset.com'
-        asIcon
       />
     </div>
   ))

@@ -7,9 +7,9 @@ import DialogFormRenameTemplate from '../Dialog/RenameTemplate'
 import DialogFormDuplicateTemplate from '../Dialog/DuplicateTemplate'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import DeleteTemplate from '../Dialog/Delete/DeleteTemplate'
-import styles from '../Dialog/LoadTemplate/Template.module.scss'
 import ShareModalTrigger from '../../../../components/Share/ShareModalTrigger'
-import { prepareTemplateLink } from '../utils'
+import { getTemplateShareLink } from '../utils'
+import styles from '../Dialog/LoadTemplate/Template.module.scss'
 
 export const Option = props => (
   <Button
@@ -30,7 +30,7 @@ const TemplateContextMenu = ({
   isAuthor,
   classes = {}
 }) => {
-  const link = window.location.origin + prepareTemplateLink(template)
+  const link = getTemplateShareLink(template)
 
   return (
     <ContextMenu
@@ -74,6 +74,7 @@ const TemplateContextMenu = ({
           dialogTitle='Share Chart Layout'
           shareLink={link}
           className={cx(styles.option, styles.shareBtn)}
+          border={false}
         />
 
         <DeleteTemplate
