@@ -11,6 +11,10 @@ import TemplateTitle from './TemplateDetailsDialog/TemplateTitle'
 import { isTemplateURL } from './utils'
 import styles from './index.module.scss'
 
+const NoTemplateLabel = () => {
+  return isTemplateURL() ? <Loader className={styles.loader} /> : 'Save as'
+}
+
 const TooltipWrapper = ({ selectedTemplate, children }) => {
   if (!selectedTemplate) {
     return children
@@ -67,10 +71,8 @@ const Trigger = ({
         <div>
           {selectedTemplate ? (
             <TemplateTitle title={selectedTemplate.title} />
-          ) : isTemplateURL() ? (
-            <Loader className={styles.loader} />
           ) : (
-            'Save as'
+            <NoTemplateLabel />
           )}
         </div>
       </TooltipWrapper>

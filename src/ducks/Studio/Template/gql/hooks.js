@@ -76,26 +76,6 @@ export function useFeaturedTemplates () {
   return [data ? data.templates : DEFAULT_TEMPLATES, loading, error]
 }
 
-export function useTemplate (id) {
-  const { data: { template } = {}, loading, error } = useQuery(TEMPLATE_QUERY, {
-    skip: !id,
-    variables: {
-      id: +id
-    }
-  })
-
-  useEffect(
-    () => {
-      if (template) {
-        saveLastTemplate(template)
-      }
-    },
-    [template]
-  )
-
-  return [template, loading, error]
-}
-
 export function useSelectedTemplate (templates, selectTemplate) {
   const isTemplateUrl = isTemplateURL()
   const defaultTemplate = isTemplateUrl ? undefined : templates[0]
