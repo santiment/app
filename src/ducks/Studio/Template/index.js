@@ -7,7 +7,6 @@ import TemplateButton from './Button'
 import {
   buildTemplateMetrics,
   getMultiChartsValue,
-  getTemplateShareLink,
   parseTemplateMetrics
 } from './utils'
 import { notifySave } from './notifications'
@@ -22,7 +21,7 @@ import DialogFormRenameTemplate from './Dialog/RenameTemplate'
 import DialogFormDuplicateTemplate from './Dialog/DuplicateTemplate'
 import DialogLoadTemplate from './Dialog/LoadTemplate'
 import DeleteTemplate from './Dialog/Delete/DeleteTemplate'
-import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
+import ShareTemplate from './Share/ShareTemplate'
 import styles from './index.module.scss'
 
 const Action = props => <Button {...props} fluid variant='ghost' />
@@ -251,11 +250,9 @@ const Template = ({
                 }}
               />
 
-              <ShareModalTrigger
-                dialogTitle='Share Chart Layout'
-                shareLink={getTemplateShareLink(selectedTemplate)}
+              <ShareTemplate
+                template={selectedTemplate}
                 className={styles.shareBtn}
-                border={false}
                 fluid
                 variant='ghost'
               />
