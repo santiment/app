@@ -30,22 +30,6 @@
   margin-top: 8px;
 }
 
-.avatar {
-  margin-right: 8px;
-
-  &:hover {
-    border: 1px solid var(--jungle-green-hover);
-  }
-}
-
-.link {
-  color: var(--jungle-green);
-
-  &:hover {
-    color: var(--jungle-green-hover);
-  }
-}
-
 .user {
   @include text('body-3');
 
@@ -56,14 +40,6 @@
 
   &:hover {
     color: var(--jungle-green-hover);
-
-    .link {
-      color: var(--jungle-green-hover);
-    }
-
-    .avatar {
-      border: 1px solid var(--jungle-green-hover);
-    }
   }
 }
 

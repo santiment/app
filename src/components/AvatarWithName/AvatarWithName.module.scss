@@ -1,0 +1,21 @@
+@import '~@santiment-network/ui/mixins';
+
+.username {
+  @include text('body-3');
+
+  margin-left: 8px;
+  color: var(--rhino);
+  word-break: break-all;
+}
+
+.avatarBlock {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    .username {
+      color: var(--jungle-green-hover);
+    }
+  }
+}
