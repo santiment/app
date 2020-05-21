@@ -24,17 +24,17 @@ const ProjectSelectDialog = ({
         setSearchedProjects(allProjects)
       }
     },
-    [open],
+    [open]
   )
 
   useEffect(
     () => {
       searchProjects(lastSearchTerm)
     },
-    [allProjects],
+    [allProjects]
   )
 
-  function searchProjects(searchTerm) {
+  function searchProjects (searchTerm) {
     const lowerCase = searchTerm.toLowerCase()
 
     setSearchedProjects(
@@ -42,21 +42,21 @@ const ProjectSelectDialog = ({
         .filter(
           ({ ticker, name }) =>
             name.toLowerCase().includes(lowerCase) ||
-            ticker.toLowerCase().includes(lowerCase),
+            ticker.toLowerCase().includes(lowerCase)
         )
-        .sort(assetsSorter(searchTerm)),
+        .sort(assetsSorter(searchTerm))
     )
     setLastSearchTerm(searchTerm)
   }
 
-  function onDialogClose() {
+  function onDialogClose () {
     setSearchedProjects(allProjects)
     if (onClose) {
       onClose()
     }
   }
 
-  function onTabSelect(projects, isLoading) {
+  function onTabSelect (projects, isLoading) {
     if (!projects || isLoading) return
     setAllProjects(projects.filter(({ slug }) => slug !== activeSlug))
   }
@@ -86,7 +86,7 @@ const ProjectSelectDialog = ({
 }
 
 ProjectSelectDialog.defaultProps = {
-  projects: [],
+  projects: []
 }
 
 export default ProjectSelectDialog

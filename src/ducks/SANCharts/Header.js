@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {
   createSkeletonElement,
-  createSkeletonProvider,
+  createSkeletonProvider
 } from '@trainline/react-skeletor'
 import { graphql } from 'react-apollo'
 import withSizes from 'react-sizes'
@@ -28,13 +28,13 @@ const H1 = createSkeletonElement('h1')
 
 const ProjectInfo = createSkeletonProvider(
   {
-    name: '_______',
+    name: '_______'
   },
   ({ name }) => name === undefined,
   () => ({
     color: 'var(--mystic)',
-    backgroundColor: 'var(--mystic)',
-  }),
+    backgroundColor: 'var(--mystic)'
+  })
 )(({ name, ticker, slug, description, logoUrl, darkLogoUrl, onClick }) => (
   <div className={styles.selector} onClick={onClick}>
     <ProjectIcon
@@ -61,7 +61,7 @@ export const ProjectSelector = ({
   slug,
   project,
   onChange,
-  trigger = () => <ProjectInfo {...project} slug={slug} />,
+  trigger = () => <ProjectInfo {...project} slug={slug} />
 }) => (
   <GetProjects
     render={({ allProjects }) => {
@@ -90,11 +90,11 @@ const PriceWithChanges = ({
   ticker,
   slug,
   minmax,
-  totalSupply,
+  totalSupply
 }) => {
   const RANGES = [
     { range: '24h', value: percentChange24h },
-    { range: '7d', value: percentChange7d },
+    { range: '7d', value: percentChange7d }
   ]
 
   let [activeRange, setActiveRange] = useState(0)
@@ -169,7 +169,7 @@ const Header = ({
   onSlugSelect,
   isTablet,
   isLaptop,
-  className,
+  className
 }) => {
   const [isOpened, setIsOpened] = useState()
   const dataProject = isLoading ? {} : project
@@ -180,7 +180,7 @@ const Header = ({
     totalSupply = 0,
     priceUsd = 0,
     percentChange24h = 0,
-    percentChange7d = 0,
+    percentChange7d = 0
   } = dataProject
 
   useEffect(
@@ -189,18 +189,18 @@ const Header = ({
         onSlugSelect({ slug, ...project })
       }
     },
-    [project],
+    [project]
   )
 
-  function closeDialog() {
+  function closeDialog () {
     setIsOpened(false)
   }
 
-  function openDialog() {
+  function openDialog () {
     setIsOpened(true)
   }
 
-  function onProjectSelect(project) {
+  function onProjectSelect (project) {
     onSlugSelect(project)
     closeDialog()
   }
@@ -263,7 +263,7 @@ const Header = ({
 export default compose(
   graphql(PROJECT_BY_SLUG_QUERY, {
     skip: ({ slug }) => !slug,
-    options: ({ slug }) => ({ variables: { slug } }),
+    options: ({ slug }) => ({ variables: { slug } })
   }),
-  withSizes(mapSizesToProps),
+  withSizes(mapSizesToProps)
 )(Header)

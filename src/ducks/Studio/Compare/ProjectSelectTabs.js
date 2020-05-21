@@ -10,12 +10,12 @@ const Category = {
   ERC20: 'ERC20',
   Stablecoins: 'Stablecoins',
   Centralized: 'Centralized',
-  Decentralized: 'Decentralized',
+  Decentralized: 'Decentralized'
 }
 
 export const DEFAULT_TABS = Object.keys(Category)
 
-const GET_WATCHLIST_QUERY = (slug) => gql`
+const GET_WATCHLIST_QUERY = slug => gql`
   query watchlistBySlug {
     watchlist: watchlistBySlug(slug: "${slug}") {
       id
@@ -43,7 +43,7 @@ const CategoryQuery = {
   [Category.ERC20]: ERC20_PROJECTS_QUERY,
   [Category.Stablecoins]: GET_WATCHLIST_QUERY('stablecoins'),
   [Category.Centralized]: GET_WATCHLIST_QUERY('centralized_exchanges'),
-  [Category.Decentralized]: GET_WATCHLIST_QUERY('decentralized_exchanges'),
+  [Category.Decentralized]: GET_WATCHLIST_QUERY('decentralized_exchanges')
 }
 
 const projectsExtracter = ({ data: { projects } }) => projects
@@ -56,14 +56,14 @@ const CategoryDataExtracter = {
   [Category.ERC20]: projectsExtracter,
   [Category.Stablecoins]: watchlistProjectsExtracter,
   [Category.Centralized]: watchlistProjectsExtracter,
-  [Category.Decentralized]: watchlistProjectsExtracter,
+  [Category.Decentralized]: watchlistProjectsExtracter
 }
 
-const normalizeData = (data) => data.slice().sort(projectSorter)
+const normalizeData = data => data.slice().sort(projectSorter)
 
-const noop = (data) => data
+const noop = data => data
 
-function getProjectsByCategory(category, fetchCustomCategory, modifyCategory) {
+function getProjectsByCategory (category, fetchCustomCategory, modifyCategory) {
   if (fetchCustomCategory) {
     return fetchCustomCategory().then(normalizeData)
   }
@@ -80,17 +80,17 @@ const ProjectsSelectTabs = ({
   customTabs,
   CustomCategory,
   CategoryModifier,
-  onSelect,
+  onSelect
 }) => {
   useEffect(() => {
     onTabSelect('All')
   }, [])
 
-  function onTabSelect(category) {
+  function onTabSelect (category) {
     getProjectsByCategory(
       category,
       CustomCategory[category],
-      CategoryModifier[category],
+      CategoryModifier[category]
     ).then(onSelect)
 
     onSelect(null, true) // projects, isLoading
@@ -109,7 +109,7 @@ const ProjectsSelectTabs = ({
 ProjectsSelectTabs.defaultProps = {
   customTabs: DEFAULT_TABS,
   CustomCategory: {},
-  CategoryModifier: {},
+  CategoryModifier: {}
 }
 
 export default ProjectsSelectTabs

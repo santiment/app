@@ -24,12 +24,12 @@ const DEFAULT_PROJECTS = []
 
 export default graphql(ALL_PROJECTS_QUERY, {
   props: ({
-    data: { projects: allProjects = DEFAULT_PROJECTS, loading, error },
+    data: { projects: allProjects = DEFAULT_PROJECTS, loading, error }
   }) => {
     return {
       allProjects,
       loading,
-      error,
+      error
     }
-  },
+  }
 })

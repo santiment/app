@@ -10,13 +10,13 @@ import ProjectIcon from '../../../../components/ProjectIcon/ProjectIcon'
 import styles from './index.module.scss'
 
 const CUSTOM_CATEGORY = {
-  Fiat: () => Promise.resolve(FIAT_MARKET_ASSETS),
+  Fiat: () => Promise.resolve(FIAT_MARKET_ASSETS)
 }
 
 const CUSTOM_TABS = DEFAULT_TABS.concat(Object.keys(CUSTOM_CATEGORY))
 
 const CategoryModifier = {
-  All: (assets) => assets.concat(FIAT_MARKET_ASSETS),
+  All: assets => assets.concat(FIAT_MARKET_ASSETS)
 }
 
 export default ({
@@ -43,38 +43,38 @@ export default ({
         comparable.metric = selectedMetric
         comparable.project = selectedProject
 
-        return setComparables((state) => state.slice())
+        return setComparables(state => state.slice())
       }
 
       return (
         selectedMetric &&
-        setComparables((state) => [
+        setComparables(state => [
           ...state,
           {
             key: buildCompareKey(selectedMetric, selectedProject),
             metric: selectedMetric,
-            project: selectedProject,
-          },
+            project: selectedProject
+          }
         ])
       )
     },
-    [selectedProject, selectedMetric],
+    [selectedProject, selectedMetric]
   )
 
-  function selectProject(project) {
+  function selectProject (project) {
     setSelectedProject(project)
     closeDialog()
   }
 
-  function removeComparable() {
-    setComparables((state) => state.filter((comp) => comp !== comparable))
+  function removeComparable () {
+    setComparables(state => state.filter(comp => comp !== comparable))
   }
 
-  function closeDialog() {
+  function closeDialog () {
     setOpened(false)
   }
 
-  function openDialog() {
+  function openDialog () {
     setOpened(true)
   }
 
@@ -105,7 +105,7 @@ export default ({
         colors={colors}
         hiddenMetrics={getProjectHiddenMetrics(
           hiddenMetricsMap,
-          selectedProject,
+          selectedProject
         )}
         onSelect={setSelectedMetric}
       />

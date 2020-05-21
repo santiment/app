@@ -28,11 +28,11 @@ const Compare = ({
       setProjects(
         allProjects
           .concat(FIAT_MARKET_ASSETS)
-          .filter((project) => project.slug !== slug)
-          .sort(projectSorter),
+          .filter(project => project.slug !== slug)
+          .sort(projectSorter)
       )
     },
-    [allProjects, slug],
+    [allProjects, slug]
   )
 
   const canSelectMoreMetrics =
@@ -55,7 +55,7 @@ const Compare = ({
     >
       <Panel variant='modal' padding>
         <div>Compare with</div>
-        {comparables.map((comparable) => (
+        {comparables.map(comparable => (
           <Comparable
             {...rest}
             {...comparable}
