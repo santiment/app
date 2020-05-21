@@ -68,7 +68,7 @@ const TrendsExplore = ({
     [topics]
   )
 
-  if (allAssets.length === 0) {
+  if (!allAssets || allAssets.length === 0) {
     fetchAllTickersSlugs()
   }
 
