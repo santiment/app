@@ -5,7 +5,7 @@ export const SOCIAL_VOLUME_QUERY = gql`
     $word: String!
     $from: DateTime!
     $to: DateTime!
-    $interval: String
+    $interval: interval
   ) {
     telegram: topicSearch(
       source: TELEGRAM

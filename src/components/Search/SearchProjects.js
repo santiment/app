@@ -36,6 +36,19 @@ const trendWordsPredicate = searchTerm => {
   return word => word.toUpperCase().includes(upperCaseSearchTerm)
 }
 
+const calculateMatchIndex = (str, { name }) => {
+  const index = name.toUpperCase().indexOf(str)
+  return index === -1 ? Infinity : index
+}
+
+export const assetsSorter = searchTerm => {
+  const upperCaseSearchTerm = searchTerm.toUpperCase()
+
+  return (a, b) =>
+    calculateMatchIndex(upperCaseSearchTerm, a) -
+    calculateMatchIndex(upperCaseSearchTerm, b)
+}
+
 const AssetSuggestion = ({
   id,
   name,
@@ -94,6 +107,7 @@ const SearchProjects = ({
           title: 'Assets',
           predicate: assetsPredicate,
           items: projects,
+          sorter: assetsSorter,
           suggestionContent: ({
             name,
             ticker,

@@ -12,7 +12,7 @@ export const SOCIAL_VOLUME_QUERY = gql`
     $slug: String
     $from: DateTime!
     $to: DateTime!
-    $interval: String!
+    $interval: interval!
   ) {
     proffesionalSocialVolume: socialVolume(
       slug: $slug

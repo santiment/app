@@ -5,7 +5,7 @@ export const ETH_SPENT_OVER_TIME_QUERY = gql`
     $slug: String
     $from: DateTime
     $to: DateTime
-    $interval: String
+    $interval: interval
   ) {
     ethSpentOverTime: projectBySlug(slug: $slug) {
       id

@@ -5,7 +5,7 @@ export const DAILY_ACTIVE_DEPOSITS_QUERY = gql`
     $slug: String!
     $from: DateTime!
     $to: DateTime!
-    $interval: String!
+    $interval: interval!
   ) {
     dailyActiveDeposits(
       slug: $slug

@@ -5,7 +5,7 @@ export const TOKEN_VELOCITY_QUERY = gql`
     $slug: String!
     $from: DateTime!
     $to: DateTime!
-    $interval: String!
+    $interval: interval!
   ) {
     tokenVelocity(slug: $slug, from: $from, to: $to, interval: $interval) {
       datetime

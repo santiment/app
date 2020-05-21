@@ -4,7 +4,11 @@ import gql from 'graphql-tag'
 import * as actions from './actions'
 
 const TRENDING_WORDS_QUERY = gql`
-  query getTrendingWords($from: DateTime!, $to: DateTime!, $interval: Int!) {
+  query getTrendingWords(
+    $from: DateTime!
+    $to: DateTime!
+    $interval: interval
+  ) {
     getTrendingWords(size: 10, from: $from, to: $to, interval: $interval) {
       datetime
       topWords {

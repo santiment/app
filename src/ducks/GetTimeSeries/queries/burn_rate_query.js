@@ -5,7 +5,7 @@ export const BURN_RATE_QUERY = gql`
     $slug: String
     $from: DateTime
     $to: DateTime
-    $interval: String
+    $interval: interval
   ) {
     burnRate(slug: $slug, from: $from, to: $to, interval: $interval) {
       burnRate
