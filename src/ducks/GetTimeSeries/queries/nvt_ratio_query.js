@@ -5,7 +5,7 @@ export const NVT_RATIO_QUERY = gql`
     $slug: String
     $from: DateTime
     $to: DateTime
-    $interval: String
+    $interval: interval
   ) {
     nvtRatio(slug: $slug, from: $from, to: $to, interval: $interval) {
       datetime

@@ -5,7 +5,7 @@ export const GAS_USED_QUERY = gql`
     $slug: String
     $from: DateTime
     $to: DateTime
-    $interval: String
+    $interval: interval
   ) {
     gasUsed(slug: $slug, from: $from, to: $to, interval: $interval) {
       gasUsed

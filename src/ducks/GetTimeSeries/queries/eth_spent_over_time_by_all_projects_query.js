@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 
 export const ETH_SPENT_OVER_TIME_BY_ALL_PROJECTS_QUERY = gql`
   query ethSpentOverTimeByAllProjects(
-    $interval: String
+    $interval: interval
     $from: DateTime
     $to: DateTime
   ) {

@@ -5,7 +5,7 @@ export const CATEGORY_HISTORY_QUERY = gql`
     $from: DateTime!
     $to: DateTime!
     $slug: String
-    $interval: String = "1d"
+    $interval: interval = "1d"
   ) {
     historyPrice(from: $from, to: $to, slug: $slug, interval: $interval) {
       marketcap
@@ -20,7 +20,7 @@ export const PROJECTS_HISTORY_QUERY = gql`
     $from: DateTime!
     $to: DateTime!
     $slugs: [String]!
-    $interval: String = "1d"
+    $interval: interval = "1d"
   ) {
     projectsListHistoryStats(
       from: $from
@@ -40,7 +40,7 @@ export const WATCHLIST_HISTORY_QUERY = gql`
     $id: Int!
     $from: DateTime!
     $to: DateTime!
-    $interval: String = "1d"
+    $interval: interval = "1d"
   ) {
     watchlist(id: $id) {
       name
@@ -58,7 +58,7 @@ export const WATCHLIST_BY_SLUG_HISTORY_QUERY = gql`
     $slug: String!
     $from: DateTime!
     $to: DateTime!
-    $interval: String = "1d"
+    $interval: interval = "1d"
   ) {
     watchlistBySlug(slug: $slug) {
       name

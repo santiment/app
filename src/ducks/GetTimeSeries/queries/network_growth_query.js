@@ -5,7 +5,7 @@ export const NETWORK_GROWTH_QUERY = gql`
     $slug: String!
     $from: DateTime!
     $to: DateTime!
-    $interval: String!
+    $interval: interval!
   ) {
     networkGrowth(slug: $slug, from: $from, to: $to, interval: $interval) {
       datetime
