@@ -5,7 +5,7 @@ export const DEV_ACTIVITY_QUERY = gql`
     $slug: String
     $from: DateTime!
     $to: DateTime!
-    $interval: String!
+    $interval: interval!
     $transform: String
     $movingAverageIntervalBase: Int
   ) {

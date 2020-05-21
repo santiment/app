@@ -5,7 +5,7 @@ export const PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES = gql`
     $slug: String!
     $from: DateTime!
     $to: DateTime!
-    $interval: String!
+    $interval: interval!
   ) {
     percentOnExchanges: percentOfTokenSupplyOnExchanges(
       slug: $slug

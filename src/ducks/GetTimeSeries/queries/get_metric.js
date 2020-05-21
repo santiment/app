@@ -5,7 +5,7 @@ export const GET_METRIC = metric => gql`
     $slug: String!
     $from: DateTime!
     $to: DateTime!
-    $interval: String
+    $interval: interval
     $transform: TimeseriesMetricTransformInputObject
   ) {
     getMetric(metric: "${metric}") {
