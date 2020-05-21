@@ -10,7 +10,8 @@ const GENERAL_CHARTS = [
   DetailedMetric.social_volume_telegram,
   DetailedMetric.social_volume_reddit,
   DetailedMetric.social_volume_professional_traders_chat,
-  DetailedMetric.social_volume_discord
+  DetailedMetric.social_volume_discord,
+  DetailedMetric.social_volume_twitter
 ]
 const COMMUNITY_CHARTS = [DetailedMetric.community_messages_count_telegram]
 

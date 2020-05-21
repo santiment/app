@@ -184,6 +184,7 @@ const TIMESERIES = {
   social_volume_reddit: queryBuild('social_volume_reddit'),
   social_volume_discord: queryBuild('social_volume_discord'),
   social_volume_telegram: queryBuild('social_volume_telegram'),
+  social_volume_twitter: queryBuild('social_volume_twitter'),
   mean_age: queryBuild('mean_age')
 }
 

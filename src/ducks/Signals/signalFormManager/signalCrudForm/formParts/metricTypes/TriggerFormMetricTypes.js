@@ -44,6 +44,11 @@ export const SIGNAL_SUPPORTED_METRICS = [
     'Social volume (telegram)',
     'Social'
   ),
+  makeSignalMetric(
+    'social_volume_twitter',
+    'Social volume (twitter)',
+    'Social'
+  ),
 
   Metric.volume_usd,
   Metric.age_destroyed,
@@ -86,6 +91,11 @@ export const SIGNAL_SUPPORTED_METRICS = [
   makeSignalMetric(
     'social_dominance_telegram',
     'Social dominance (telegram)',
+    'Social'
+  ),
+  makeSignalMetric(
+    'social_dominance_twitter',
+    'Social dominance (twitter)',
     'Social'
   ),
 

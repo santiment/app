@@ -22,6 +22,11 @@ export const DetailedMetric = {
     name: 'Discord',
     label: 'Discord Social Volume'
   },
+  social_volume_twitter: {
+    color: '#1DA1F2',
+    name: 'Twitter',
+    label: 'Twitter Social Volume'
+  },
   community_messages_count_telegram: {
     color: '#5275FF',
     name: 'Telegram',
