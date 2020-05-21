@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { graphql } from 'react-apollo'
-import Icon from '@santiment-network/ui/Icon/Icon'
 import Chart from './Chart'
 import { Metric } from '../../../dataHub/metrics'
 import { PROJECT_METRICS_BY_SLUG_QUERY } from '../../../SANCharts/gql'
