@@ -14,6 +14,8 @@ import NewLabel from '../../../components/NewLabel/NewLabel'
 import NewTemplateCard from '../../../components/TemplatesGrid/NewTemplateCard'
 import FeatureAnonBanner from '../../../components/Banner/FeatureAnonBanner'
 import { prepareTemplateLink } from '../../../ducks/Studio/Template/utils'
+import TemplateTitle from '../../../ducks/Studio/Template/TemplateDetailsDialog/TemplateTitle'
+import AvatarWithName from '../../../components/AvatarWithName/AvatarWithName'
 import styles from './PublicTemplates.module.scss'
 
 const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
@@ -36,12 +38,19 @@ const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
 
   return (
     <div className={styles.container}>
-      {usingTemplates.map(template => {
-        const { link, title, description, isProRequired, insertedAt } = template
+      {usingTemplates.map((template, index) => {
+        const {
+          link,
+          title,
+          description,
+          isProRequired,
+          insertedAt,
+          user
+        } = template
         const requirePro = isProRequired && !isProSanbase
 
         return (
-          <div key={title} className={styles.template}>
+          <div key={index} className={styles.template}>
             <div>
               <div className={styles.title}>
                 {[
@@ -50,11 +59,13 @@ const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
                     className={styles.new}
                     key='new'
                   />,
-                  title
+                  <TemplateTitle title={title} key='title' />
                 ]}
               </div>
 
               <div className={styles.description}>{description}</div>
+
+              <AvatarWithName user={user} classes={styles} />
             </div>
 
             {requirePro ? (

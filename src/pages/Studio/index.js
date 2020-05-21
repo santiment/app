@@ -10,11 +10,7 @@ import StoriesList from '../../components/Stories/StoriesList'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import styles from '../Detailed/Detailed.module.scss'
 
-const DEFAULT_METRICS = [
-  Metric.price_usd,
-  Metric.social_volume_total,
-  Metric.age_destroyed
-]
+const DEFAULT_METRICS = [Metric.price_usd]
 
 const CRUMB = {
   label: 'Assets',

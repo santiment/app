@@ -19,7 +19,6 @@
   align-items: center;
   color: var(--jungle-green);
   fill: var(--jungle-green);
-  margin-top: 12px;
 
   @include text('body-2');
 
@@ -87,4 +86,8 @@
     fill: var(--texas-rose-hover);
     color: var(--texas-rose-hover);
   }
+}
+
+.avatarBlock {
+  margin: 16px 0 21px 0;
 }
