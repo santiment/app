@@ -37,7 +37,7 @@ export const PROJECTS_HISTORY_QUERY = gql`
 
 export const WATCHLIST_HISTORY_QUERY = gql`
   query watchlist(
-    $id: Int!
+    $id: ID!
     $from: DateTime!
     $to: DateTime!
     $interval: interval = "1d"
