@@ -23,4 +23,8 @@ export const DEFAULT_OPTIONS = {
   isCartesianGridActive: getSavedToggle('isCartesianGridActive', true)
 }
 
-export const DEFAULT_METRICS = [Metric.social_volume_total, Metric.price_usd]
+export const DEFAULT_METRICS = [
+  Metric.social_volume_total,
+  Metric.price_usd,
+  getSavedToggle('isSocialDominanceActive') && Metric.social_dominance_total
+].filter(Boolean)
