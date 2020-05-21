@@ -90,36 +90,56 @@ const Canvas = ({
       >
         <Signals {...settings} metrics={metrics} selector='text' />
       </Chart>
-      <ChartHeader
-        {...props}
-        allDetectedAssets={allDetectedAssets}
-        activeMetrics={metrics}
-        options={options}
-        settings={settings}
-        setOptions={setOptions}
-        setSettings={setSettings}
-        className={cx(styles.top, styles.detailed)}
-      >
-        <h3 className={styles.title}>Detailed charts</h3>
-      </ChartHeader>
-      <DetailedBlock
-        {...options}
-        {...props}
-        scale={scale}
-        type='general'
-        MetricColor={MetricColor}
-        settings={settings}
-        linkedAssets={linkedAssets}
-      />
-      <DetailedBlock
-        {...options}
-        {...props}
-        scale={scale}
-        type='community'
-        MetricColor={MetricColor}
-        settings={settings}
-        linkedAssets={linkedAssets}
-      />
+      {settings.addedTopics.length === 0 && (
+        <>
+          <DetailedBlock
+            {...options}
+            {...props}
+            scale={scale}
+            type='general'
+            MetricColor={MetricColor}
+            settings={settings}
+            allDetectedAssets={allDetectedAssets}
+            linkedAssets={linkedAssets}
+          >
+            <ChartHeader
+              {...props}
+              allDetectedAssets={allDetectedAssets}
+              activeMetrics={metrics}
+              options={options}
+              settings={settings}
+              setOptions={setOptions}
+              setSettings={setSettings}
+              className={cx(styles.top, styles.detailed)}
+            >
+              <h3 className={styles.title}>Detailed charts</h3>
+            </ChartHeader>
+          </DetailedBlock>
+          <DetailedBlock
+            {...options}
+            {...props}
+            scale={scale}
+            type='community'
+            MetricColor={MetricColor}
+            settings={settings}
+            linkedAssets={linkedAssets}
+            allDetectedAssets={allDetectedAssets}
+          >
+            <ChartHeader
+              {...props}
+              allDetectedAssets={allDetectedAssets}
+              activeMetrics={metrics}
+              options={options}
+              settings={settings}
+              setOptions={setOptions}
+              setSettings={setSettings}
+              className={cx(styles.top, styles.detailed)}
+            >
+              <h3 className={styles.title}>Community charts</h3>
+            </ChartHeader>
+          </DetailedBlock>
+        </>
+      )}
     </div>
   )
 }

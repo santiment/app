@@ -6,7 +6,7 @@ const MetricsCache = new Map()
 export const metricHash = (metric, selector) => metric + '_' + selector
 
 export const buildKey = (key, selector) =>
-  `${key}_${selector.replace(/[^a-zA-Z]+/g, '')}`
+  `${key}_${selector.replace(/[^a-zA-Z0-9]+/g, '')}`
 
 export function buildMetrics (metrics, topics) {
   const transformedMetrics = []

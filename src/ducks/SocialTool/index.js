@@ -72,7 +72,7 @@ const SocialTool = ({
         topics.length > 1 ? buildMetrics(metrics, topics) : metrics
 
       setActiveMetrics(newMetrics)
-      rebuildMetricSettingMap(activeMetrics)
+      rebuildMetricSettingMap(newMetrics)
     },
     [defaultSettings.slug, defaultSettings.addedTopics]
   )
@@ -92,7 +92,7 @@ const SocialTool = ({
         topics.length > 1 ? buildMetrics(metrics, topics) : metrics
 
       setActiveMetrics(newMetrics)
-      rebuildMetricSettingMap(activeMetrics)
+      rebuildMetricSettingMap(newMetrics)
     },
     [metrics]
   )

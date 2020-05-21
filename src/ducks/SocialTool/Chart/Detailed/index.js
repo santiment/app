@@ -20,8 +20,6 @@ const Colors = {}
 GENERAL_CHARTS.forEach(({ key, color }) => (Colors[key] = color))
 COMMUNITY_CHARTS.forEach(({ key, color }) => (Colors[key] = color))
 
-let priceMetric = Metric.price_usd
-
 const DefaultCharts = {
   general: GENERAL_CHARTS,
   community: []
@@ -29,16 +27,21 @@ const DefaultCharts = {
 
 const DetailedBlock = ({
   linkedAssets,
+  allDetectedAssets,
   MetricColor,
   priceAsset,
   settings,
   type,
   charts = DefaultCharts[type],
+  children,
   ...props
 }) => {
   const [MetricSettingMap, setMetricSettingMap] = useState()
 
-  const detectedAsset = linkedAssets.get(settings.slug)
+  const detectedAsset =
+    type === 'community'
+      ? allDetectedAssets.get(settings.slug)
+      : linkedAssets.get(settings.slug)
 
   useEffect(
     () => {
@@ -49,61 +52,52 @@ const DetailedBlock = ({
       }
 
       charts.forEach(metric => newMetricSettingMap.set(metric, metricSetting))
+      console.log(detectedAsset, newMetricSettingMap, charts)
 
       setMetricSettingMap(newMetricSettingMap)
     },
-    [linkedAssets, settings.slug]
+    [linkedAssets, allDetectedAssets, charts, settings.slug]
   )
 
-  useEffect(
-    () => {
-      if (priceAsset) {
-        const newMetricSettingMap = new Map(MetricSettingMap)
-        priceMetric = { ...Metric.price_usd, label: priceAsset.label }
-        newMetricSettingMap.set(priceMetric, { slug: priceAsset.slug })
-        setMetricSettingMap(newMetricSettingMap)
-      }
-    },
-    [priceAsset]
-  )
-
-  const isComparingMode = settings.addedTopics.length > 0
   const shouldShowChart = type !== 'community' || Boolean(detectedAsset)
 
-  const defaultChart = priceAsset ? [priceMetric] : []
-
-  return isComparingMode || !shouldShowChart ? null : (
-    <div className={styles.charts}>
-      {charts.map(chart => (
-        <div className={styles.chart} key={chart.key}>
-          <span className={styles.label} style={{ '--color': chart.color }}>
-            {chart.name}
-          </span>
-          <Chart
-            {...props}
-            settings={settings}
-            metrics={[chart]}
-            charts={[chart, ...defaultChart]}
-            MetricSettingMap={MetricSettingMap}
-            MetricColor={{ ...MetricColor, ...Colors }}
-            tooltipKey={chart.key}
-          />
-        </div>
-      ))}
-    </div>
+  return !shouldShowChart || !MetricSettingMap || !priceAsset ? null : (
+    <>
+      {charts.length > 0 && children}
+      <div className={styles.charts}>
+        {charts.map(chart => (
+          <div className={styles.chart} key={chart.key}>
+            <span className={styles.label} style={{ '--color': chart.color }}>
+              {chart.name}
+            </span>
+            <Chart
+              {...props}
+              settings={settings}
+              charts={[
+                chart,
+                { ...Metric.price_usd, reqMeta: { slug: priceAsset.slug } }
+              ]}
+              MetricSettingMap={MetricSettingMap}
+              MetricColor={{ ...MetricColor, ...Colors }}
+              tooltipKey={chart.key}
+            />
+          </div>
+        ))}
+      </div>
+    </>
   )
 }
 
 export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
-  skip: ({ linkedAssets, settings, type }) => {
-    const detectedAsset = linkedAssets.get(settings.slug)
+  skip: ({ allDetectedAssets, settings, type }) => {
+    const detectedAsset = allDetectedAssets.get(settings.slug)
 
     return (
       !detectedAsset || type !== 'community' || settings.addedTopics.length > 0
     )
   },
-  options: ({ linkedAssets, settings }) => {
-    const detectedAsset = linkedAssets.get(settings.slug)
+  options: ({ allDetectedAssets, settings }) => {
+    const detectedAsset = allDetectedAssets.get(settings.slug)
     return { variables: { slug: detectedAsset.slug } }
   },
   props: ({ data: { project: { availableMetrics = [] } = {} } }) => {
