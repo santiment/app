@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import Search from '@santiment-network/ui/Search'
 import Dialog from '@santiment-network/ui/Dialog'
 import Projects from './Projects'
-import styles from './ProjectSelectDialog.module.scss'
 import ProjectsSelectTabs from './ProjectSelectTabs'
 import { assetsSorter } from '../../../components/Search/SearchProjects'
+import styles from './ProjectSelectDialog.module.scss'
 
 const ProjectSelectDialog = ({
   activeSlug,
