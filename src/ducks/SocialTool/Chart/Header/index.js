@@ -3,9 +3,9 @@ import cx from 'classnames'
 import Settings from './Settings'
 import styles from './index.module.scss'
 
-const Header = ({ className, ...props }) => (
+const Header = ({ className, children, ...props }) => (
   <div className={cx(styles.wrapper, className)}>
-    <h3 className={styles.title}>Social volume</h3>
+    {children}
     <Settings {...props} withPricePair className={styles.settings} />
   </div>
 )

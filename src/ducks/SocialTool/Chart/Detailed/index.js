@@ -79,38 +79,21 @@ const DetailedBlock = ({
   const defaultChart = priceAsset ? [priceMetric] : []
 
   return isComparingMode || !shouldShowChart ? null : (
-    <>
-      <div className={styles.top}>
-        <h3 className={styles.heading}>{DefaultCharts[type].title}</h3>
-        <div>
-          {charts.map((chart, idx) => (
-            <span className={styles.tab} key={idx}>
-              <Icon
-                type='ring'
-                className={styles.icon}
-                style={{ '--color': chart.color }}
-              />
-              {chart.name}
-            </span>
-          ))}
-        </div>
-      </div>
-      <div className={styles.charts}>
-        {charts.map(chart => (
-          <Chart
-            key={chart.key}
-            {...props}
-            settings={settings}
-            metrics={[chart]}
-            charts={[chart, ...defaultChart]}
-            MetricSettingMap={MetricSettingMap}
-            className={styles.chart}
-            MetricColor={{ ...MetricColor, ...Colors }}
-            tooltipKey={chart.key}
-          />
-        ))}
-      </div>
-    </>
+    <div className={styles.charts}>
+      {charts.map(chart => (
+        <Chart
+          key={chart.key}
+          {...props}
+          settings={settings}
+          metrics={[chart]}
+          charts={[chart, ...defaultChart]}
+          MetricSettingMap={MetricSettingMap}
+          className={styles.chart}
+          MetricColor={{ ...MetricColor, ...Colors }}
+          tooltipKey={chart.key}
+        />
+      ))}
+    </div>
   )
 }
 

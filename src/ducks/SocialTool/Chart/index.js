@@ -53,7 +53,9 @@ const Canvas = ({
         setOptions={setOptions}
         setSettings={setSettings}
         className={styles.top}
-      />
+      >
+        <h3 className={styles.title}>Social Volume</h3>
+      </ChartHeader>
       <div className={styles.bottom}>
         <div className={styles.metrics}>
           <ChartActiveMetrics
@@ -88,6 +90,18 @@ const Canvas = ({
       >
         <Signals {...settings} metrics={metrics} selector='text' />
       </Chart>
+      <ChartHeader
+        {...props}
+        allDetectedAssets={allDetectedAssets}
+        activeMetrics={metrics}
+        options={options}
+        settings={settings}
+        setOptions={setOptions}
+        setSettings={setSettings}
+        className={cx(styles.top, styles.detailed)}
+      >
+        <h3 className={styles.title}>Detailed charts</h3>
+      </ChartHeader>
       <DetailedBlock
         {...options}
         {...props}
