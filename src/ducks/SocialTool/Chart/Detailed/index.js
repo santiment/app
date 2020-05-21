@@ -36,7 +36,7 @@ const DetailedBlock = ({
   children,
   ...props
 }) => {
-  const [MetricSettingMap, setMetricSettingMap] = useState()
+  const [MetricSettingMap, setMetricSettingMap] = useState(new Map())
 
   const detectedAsset =
     type === 'community'
@@ -52,16 +52,16 @@ const DetailedBlock = ({
       }
 
       charts.forEach(metric => newMetricSettingMap.set(metric, metricSetting))
-      console.log(detectedAsset, newMetricSettingMap, charts)
-
       setMetricSettingMap(newMetricSettingMap)
     },
-    [linkedAssets, allDetectedAssets, charts, settings.slug]
+    [linkedAssets, charts, settings.slug]
   )
 
   const shouldShowChart = type !== 'community' || Boolean(detectedAsset)
 
-  return !shouldShowChart || !MetricSettingMap || !priceAsset ? null : (
+  return !shouldShowChart ||
+    MetricSettingMap.size === 0 ||
+    !priceAsset ? null : (
     <>
       {charts.length > 0 && children}
       <div className={styles.charts}>
@@ -85,7 +85,7 @@ const DetailedBlock = ({
         ))}
       </div>
     </>
-  )
+    )
 }
 
 export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
