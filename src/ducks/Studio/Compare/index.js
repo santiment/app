@@ -13,7 +13,7 @@ import styles from './index.module.scss'
 
 const FiatMarketAssets = [
   { slug: 's-and-p-500', name: 'S&P500', ticker: 'SPX' },
-  { slug: 'gold', name: 'Gold', ticker: 'Gold' }
+  { slug: 'gold', name: 'Gold', ticker: 'Gold' },
 ]
 
 const Compare = ({
@@ -32,11 +32,11 @@ const Compare = ({
       setProjects(
         allProjects
           .concat(FiatMarketAssets)
-          .filter(project => project.slug !== slug)
-          .sort(projectSorter)
+          .filter((project) => project.slug !== slug)
+          .sort(projectSorter),
       )
     },
-    [allProjects, slug]
+    [allProjects, slug],
   )
 
   const canSelectMoreMetrics =
@@ -59,7 +59,7 @@ const Compare = ({
     >
       <Panel variant='modal' padding>
         <div>Compare with</div>
-        {comparables.map(comparable => (
+        {comparables.map((comparable) => (
           <Comparable
             {...rest}
             {...comparable}
@@ -68,6 +68,7 @@ const Compare = ({
             comparable={comparable}
             colors={MetricColor}
             hiddenMetricsMap={hiddenMetricsMap}
+            activeSlug={slug}
           />
         ))}
         {canSelectMoreMetrics ? (
@@ -76,6 +77,7 @@ const Compare = ({
             projects={projects}
             colors={MetricColor}
             hiddenMetricsMap={hiddenMetricsMap}
+            activeSlug={slug}
           />
         ) : (
           <div className={styles.info}>

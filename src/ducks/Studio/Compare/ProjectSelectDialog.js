@@ -1,44 +1,65 @@
 import React, { useState, useEffect } from 'react'
-import Dialog from '@santiment-network/ui/Dialog'
 import Search from '@santiment-network/ui/Search'
+import Dialog from '@santiment-network/ui/Dialog'
+import Tabs from '@santiment-network/ui/Tabs'
 import Projects from './Projects'
 import styles from './ProjectSelectDialog.module.scss'
+import ProjectsSelectTabs from './ProjectSelectTabs'
+import { assetsSorter } from '../../../components/Search/SearchProjects'
 
 const ProjectSelectDialog = ({
+  activeSlug,
   projects,
   open,
   onSelect,
   onClose,
   ...rest
 }) => {
-  const [searchedProjects, setSearchedProjects] = useState(projects)
+  const [allProjects, setAllProjects] = useState(projects)
+  const [searchedProjects, setSearchedProjects] = useState(allProjects)
+  const [lastSearchTerm, setLastSearchTerm] = useState('')
 
   useEffect(
     () => {
       if (!open) {
-        setSearchedProjects(projects)
+        setSearchedProjects(allProjects)
       }
     },
-    [open]
+    [open],
   )
 
-  function searchProjects (searchTerm) {
+  useEffect(
+    () => {
+      searchProjects(lastSearchTerm)
+    },
+    [allProjects],
+  )
+
+  function searchProjects(searchTerm) {
     const lowerCase = searchTerm.toLowerCase()
 
     setSearchedProjects(
-      projects.filter(
-        ({ ticker, name }) =>
-          name.toLowerCase().includes(lowerCase) ||
-          ticker.toLowerCase().includes(lowerCase)
-      )
+      allProjects
+        .filter(
+          ({ ticker, name }) =>
+            name.toLowerCase().includes(lowerCase) ||
+            ticker.toLowerCase().includes(lowerCase),
+        )
+        .sort(assetsSorter(searchTerm)),
     )
+    setLastSearchTerm(searchTerm)
   }
 
-  function onDialogClose () {
-    setSearchedProjects(projects)
+  function onDialogClose() {
+    setSearchedProjects(allProjects)
     if (onClose) {
       onClose()
     }
+  }
+
+  function onTabSelect(projects, isLoading) {
+    if (!projects || isLoading) return
+    setAllProjects(projects.filter(({ slug }) => slug !== activeSlug))
   }
 
   return (
@@ -50,6 +71,7 @@ const ProjectSelectDialog = ({
     >
       <div className={styles.wrapper}>
         <Search className={styles.search} onChange={searchProjects} autoFocus />
+        <ProjectsSelectTabs onSelect={onTabSelect} className={styles.tabs} />
         <Projects
           projects={searchedProjects}
           onSelect={onSelect}
@@ -61,7 +83,7 @@ const ProjectSelectDialog = ({
 }
 
 ProjectSelectDialog.defaultProps = {
-  projects: []
+  projects: [],
 }
 
 export default ProjectSelectDialog

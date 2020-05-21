@@ -23,7 +23,7 @@ const TRENDING_WORDS_QUERY = gql`
   }
 `
 
-const assetsPredicate = searchTerm => {
+const assetsPredicate = (searchTerm) => {
   const upperCaseSearchTerm = searchTerm.toUpperCase()
   return ({ ticker, name, slug }) =>
     name.toUpperCase().includes(upperCaseSearchTerm) ||
@@ -31,9 +31,22 @@ const assetsPredicate = searchTerm => {
     slug.toUpperCase().includes(upperCaseSearchTerm)
 }
 
-const trendWordsPredicate = searchTerm => {
+const trendWordsPredicate = (searchTerm) => {
   const upperCaseSearchTerm = searchTerm.toUpperCase()
-  return word => word.toUpperCase().includes(upperCaseSearchTerm)
+  return (word) => word.toUpperCase().includes(upperCaseSearchTerm)
+}
+
+const calculateMatchIndex = (str, { name }) => {
+  const index = name.toUpperCase().indexOf(str)
+  return index === -1 ? Infinity : index
+}
+
+export const assetsSorter = (searchTerm) => {
+  const upperCaseSearchTerm = searchTerm.toUpperCase()
+
+  return (a, b) =>
+    calculateMatchIndex(upperCaseSearchTerm, a) -
+    calculateMatchIndex(upperCaseSearchTerm, b)
 }
 
 const AssetSuggestion = ({
@@ -46,7 +59,7 @@ const AssetSuggestion = ({
   isCopyingAssets,
   checkedAssets,
   isEditingWatchlist,
-  isAssetInList
+  isAssetInList,
 }) => (
   <div className={styles.projectWrapper}>
     <div className={styles.projectInfo}>
@@ -94,13 +107,14 @@ const SearchProjects = ({
           title: 'Assets',
           predicate: assetsPredicate,
           items: projects,
+          sorter: assetsSorter,
           suggestionContent: ({
             name,
             ticker,
             slug,
             logoUrl,
             darkLogoUrl,
-            id
+            id,
           }) => {
             const isAssetInList = isEditingWatchlist
               ? hasAssetById({ listItems: watchlistItems, id })
@@ -119,14 +133,14 @@ const SearchProjects = ({
                 checkedAssets={checkedAssets}
               />
             )
-          }
+          },
         },
         {
           title: 'Trending words',
           predicate: trendWordsPredicate,
           items: trendWords,
-          suggestionContent: word => word
-        }
+          suggestionContent: (word) => word,
+        },
       ]}
     />
   )
@@ -144,8 +158,8 @@ const enhance = compose(
       return {
         variables: {
           from,
-          to
-        }
+          to,
+        },
       }
     },
     props: ({ data: { getTrendingWords = [] } }) => {
@@ -153,15 +167,15 @@ const enhance = compose(
       return {
         trendWords: trendWords
           ? trendWords.topWords.map(({ word }) => word)
-          : []
+          : [],
       }
-    }
+    },
   }),
   graphql(ALL_PROJECTS_FOR_SEARCH_QUERY, {
     skip: ({ projects }) => projects && projects.length > 0,
     options: () => ({
       context: { isRetriable: true },
-      variables: { minVolume: 0 }
+      variables: { minVolume: 0 },
     }),
     props: ({ data: { allProjects = [] } }) => {
       const projects = allProjects.length > 0 ? allProjects : ALL_PROJECTS
@@ -169,10 +183,12 @@ const enhance = compose(
       return {
         projects: projects
           .slice()
-          .sort(({ rank: a }, { rank: b }) => (a || Infinity) - (b || Infinity))
+          .sort(
+            ({ rank: a }, { rank: b }) => (a || Infinity) - (b || Infinity),
+          ),
       }
-    }
-  })
+    },
+  }),
 )
 
 export default enhance(SearchProjects)

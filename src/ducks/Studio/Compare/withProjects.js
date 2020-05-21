@@ -1,16 +1,23 @@
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
+export const projectSearchData = gql`
+  fragment projectSearchData on Project {
+    id
+    name
+    slug
+    ticker
+    rank
+  }
+`
+
 export const ALL_PROJECTS_QUERY = gql`
   query allProjects($minVolume: Int = 0) {
     allProjects(minVolume: $minVolume) {
-      id
-      name
-      slug
-      ticker
-      rank
+      ...projectSearchData
     }
   }
+  ${projectSearchData}
 `
 
 const DEFAULT_PROJECTS = []
@@ -20,7 +27,7 @@ export default graphql(ALL_PROJECTS_QUERY, {
     return {
       allProjects,
       loading,
-      error
+      error,
     }
-  }
+  },
 })

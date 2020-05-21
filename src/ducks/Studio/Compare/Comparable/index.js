@@ -15,6 +15,7 @@ export default ({
   colors,
   hiddenMetricsMap,
   setComparables,
+  activeSlug,
   ...rest
 }) => {
   const [selectedProject, setSelectedProject] = useState(project || projects[0])
@@ -30,38 +31,38 @@ export default ({
         comparable.metric = selectedMetric
         comparable.project = selectedProject
 
-        return setComparables(state => state.slice())
+        return setComparables((state) => state.slice())
       }
 
       return (
         selectedMetric &&
-        setComparables(state => [
+        setComparables((state) => [
           ...state,
           {
             key: buildCompareKey(selectedMetric, selectedProject),
             metric: selectedMetric,
-            project: selectedProject
-          }
+            project: selectedProject,
+          },
         ])
       )
     },
-    [selectedProject, selectedMetric]
+    [selectedProject, selectedMetric],
   )
 
-  function selectProject (project) {
+  function selectProject(project) {
     setSelectedProject(project)
     closeDialog()
   }
 
-  function removeComparable () {
-    setComparables(state => state.filter(comp => comp !== comparable))
+  function removeComparable() {
+    setComparables((state) => state.filter((comp) => comp !== comparable))
   }
 
-  function closeDialog () {
+  function closeDialog() {
     setOpened(false)
   }
 
-  function openDialog () {
+  function openDialog() {
     setOpened(true)
   }
 
@@ -76,6 +77,7 @@ export default ({
           </Button>
         }
         open={opened}
+        activeSlug={activeSlug}
         projects={projects}
         onOpen={openDialog}
         onClose={closeDialog}
@@ -88,7 +90,7 @@ export default ({
         colors={colors}
         hiddenMetrics={getProjectHiddenMetrics(
           hiddenMetricsMap,
-          selectedProject
+          selectedProject,
         )}
         onSelect={setSelectedMetric}
       />
