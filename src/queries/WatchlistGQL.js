@@ -109,7 +109,7 @@ export const FEATURED_WATCHLIST_QUERY = gql`
 `
 
 export const WATCHLIST_QUERY = gql`
-  query watchlist($id: Int!) {
+  query watchlist($id: ID!) {
     watchlist(id: $id) {
       ...generalListData
       listItems {
