@@ -23,14 +23,8 @@ COMMUNITY_CHARTS.forEach(({ key, color }) => (Colors[key] = color))
 let priceMetric = Metric.price_usd
 
 const DefaultCharts = {
-  general: {
-    charts: GENERAL_CHARTS,
-    title: 'Detailed charts'
-  },
-  community: {
-    charts: [],
-    title: 'Community messages charts'
-  }
+  general: GENERAL_CHARTS,
+  community: []
 }
 
 const DetailedBlock = ({
@@ -39,7 +33,7 @@ const DetailedBlock = ({
   priceAsset,
   settings,
   type,
-  charts = DefaultCharts[type].charts,
+  charts = DefaultCharts[type],
   ...props
 }) => {
   const [MetricSettingMap, setMetricSettingMap] = useState()
@@ -81,17 +75,20 @@ const DetailedBlock = ({
   return isComparingMode || !shouldShowChart ? null : (
     <div className={styles.charts}>
       {charts.map(chart => (
-        <Chart
-          key={chart.key}
-          {...props}
-          settings={settings}
-          metrics={[chart]}
-          charts={[chart, ...defaultChart]}
-          MetricSettingMap={MetricSettingMap}
-          className={styles.chart}
-          MetricColor={{ ...MetricColor, ...Colors }}
-          tooltipKey={chart.key}
-        />
+        <div className={styles.chart} key={chart.key}>
+          <span className={styles.label} style={{ '--color': chart.color }}>
+            {chart.name}
+          </span>
+          <Chart
+            {...props}
+            settings={settings}
+            metrics={[chart]}
+            charts={[chart, ...defaultChart]}
+            MetricSettingMap={MetricSettingMap}
+            MetricColor={{ ...MetricColor, ...Colors }}
+            tooltipKey={chart.key}
+          />
+        </div>
       ))}
     </div>
   )
