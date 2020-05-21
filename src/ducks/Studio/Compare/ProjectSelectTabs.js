@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import gql from 'graphql-tag'
 import Tabs from '@santiment-network/ui/Tabs'
 import { projectSorter } from './utils'
@@ -80,6 +80,10 @@ function getProjectsByCategory(category) {
 }
 
 const ProjectsSelectTabs = ({ onSelect, className }) => {
+  useEffect(() => {
+    onTabSelect('All')
+  }, [])
+
   function onTabSelect(category) {
     getProjectsByCategory(category).then(onSelect)
     onSelect(null, true) // projects, isLoading

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {
   createSkeletonElement,
-  createSkeletonProvider
+  createSkeletonProvider,
 } from '@trainline/react-skeletor'
 import { graphql } from 'react-apollo'
 import withSizes from 'react-sizes'
@@ -21,21 +21,22 @@ import { TriggerProjectsSelector } from '../Signals/signalFormManager/signalCrud
 import { formatNumber } from '../../utils/formatting'
 import { PROJECT_BY_SLUG_QUERY } from './gql'
 import ALL_PROJECTS from '../../allProjects.json'
+import ProjectSelectDialog from '../Studio/Compare/ProjectSelectDialog'
 import styles from './Header.module.scss'
 
 const H1 = createSkeletonElement('h1')
 
 const ProjectInfo = createSkeletonProvider(
   {
-    name: '_______'
+    name: '_______',
   },
   ({ name }) => name === undefined,
   () => ({
     color: 'var(--mystic)',
-    backgroundColor: 'var(--mystic)'
-  })
-)(({ name, ticker, slug, description, logoUrl, darkLogoUrl }) => (
-  <div className={styles.selector}>
+    backgroundColor: 'var(--mystic)',
+  }),
+)(({ name, ticker, slug, description, logoUrl, darkLogoUrl, onClick }) => (
+  <div className={styles.selector} onClick={onClick}>
     <ProjectIcon
       size={40}
       slug={slug}
@@ -60,7 +61,7 @@ export const ProjectSelector = ({
   slug,
   project,
   onChange,
-  trigger = () => <ProjectInfo {...project} slug={slug} />
+  trigger = () => <ProjectInfo {...project} slug={slug} />,
 }) => (
   <GetProjects
     render={({ allProjects }) => {
@@ -89,11 +90,11 @@ const PriceWithChanges = ({
   ticker,
   slug,
   minmax,
-  totalSupply
+  totalSupply,
 }) => {
   const RANGES = [
     { range: '24h', value: percentChange24h },
-    { range: '7d', value: percentChange7d }
+    { range: '7d', value: percentChange7d },
   ]
 
   let [activeRange, setActiveRange] = useState(0)
@@ -168,8 +169,9 @@ const Header = ({
   onSlugSelect,
   isTablet,
   isLaptop,
-  className
+  className,
 }) => {
+  const [isOpened, setIsOpened] = useState()
   const dataProject = isLoading ? {} : project
 
   const {
@@ -178,7 +180,7 @@ const Header = ({
     totalSupply = 0,
     priceUsd = 0,
     percentChange24h = 0,
-    percentChange7d = 0
+    percentChange7d = 0,
   } = dataProject
 
   useEffect(
@@ -187,21 +189,37 @@ const Header = ({
         onSlugSelect({ slug, ...project })
       }
     },
-    [project]
+    [project],
   )
+
+  function closeDialog() {
+    setIsOpened(false)
+  }
+
+  function openDialog() {
+    setIsOpened(true)
+  }
+
+  function onProjectSelect(project) {
+    onSlugSelect(project)
+    closeDialog()
+  }
 
   return (
     <div className={styles.container}>
       <div className={cx(styles.wrapper, className)}>
         <div>
-          <ProjectSelector
-            slug={slug}
-            project={dataProject}
-            onChange={([dataProject], closeDialog) => {
-              onSlugSelect(dataProject)
-              closeDialog()
-            }}
+          <ProjectSelectDialog
+            open={isOpened}
+            activeSlug={slug}
+            onOpen={openDialog}
+            onClose={closeDialog}
+            onSelect={onProjectSelect}
+            trigger={
+              <ProjectInfo {...project} slug={slug} onClick={openDialog} />
+            }
           />
+
           <div className={styles.actions}>
             <WatchlistsPopup
               trigger={
@@ -245,7 +263,7 @@ const Header = ({
 export default compose(
   graphql(PROJECT_BY_SLUG_QUERY, {
     skip: ({ slug }) => !slug,
-    options: ({ slug }) => ({ variables: { slug } })
+    options: ({ slug }) => ({ variables: { slug } }),
   }),
-  withSizes(mapSizesToProps)
+  withSizes(mapSizesToProps),
 )(Header)
