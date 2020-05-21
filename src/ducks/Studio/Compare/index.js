@@ -8,13 +8,9 @@ import Comparable from './Comparable'
 import withProjects from './withProjects'
 import { projectSorter, hashComparable, buildHiddenMetrics } from './utils'
 import { MAX_METRICS_AMOUNT } from '../constraints'
+import { FIAT_MARKET_ASSETS } from '../../dataHub/fiat'
 import { useChartColors } from '../../Chart/colors'
 import styles from './index.module.scss'
-
-const FiatMarketAssets = [
-  { slug: 's-and-p-500', name: 'S&P500', ticker: 'SPX' },
-  { slug: 'gold', name: 'Gold', ticker: 'Gold' },
-]
 
 const Compare = ({
   slug,
@@ -31,7 +27,7 @@ const Compare = ({
     () => {
       setProjects(
         allProjects
-          .concat(FiatMarketAssets)
+          .concat(FIAT_MARKET_ASSETS)
           .filter((project) => project.slug !== slug)
           .sort(projectSorter),
       )

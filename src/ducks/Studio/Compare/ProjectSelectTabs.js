@@ -5,21 +5,15 @@ import { projectSorter } from './utils'
 import { ALL_PROJECTS_QUERY, projectSearchData } from './withProjects'
 import { client } from '../../../index'
 
-const FIAT_MARKET_ASSETS = [
-  { slug: 's-and-p-500', name: 'S&P500', ticker: 'SPX' },
-  { slug: 'gold', name: 'Gold', ticker: 'Gold' },
-]
-
 const Category = {
   All: 'All',
   ERC20: 'ERC20',
   Stablecoins: 'Stablecoins',
   Centralized: 'Centralized',
   Decentralized: 'Decentralized',
-  Fiat: 'Fiat',
 }
 
-const OPTIONS = Object.keys(Category)
+export const DEFAULT_TABS = Object.keys(Category)
 
 const GET_WATCHLIST_QUERY = (slug) => gql`
   query watchlistBySlug {
@@ -37,7 +31,7 @@ const GET_WATCHLIST_QUERY = (slug) => gql`
 
 const ERC20_PROJECTS_QUERY = gql`
   query allErc20Projects($minVolume: Int = 0) {
-    allErc20Projects(minVolume: $minVolume) {
+    projects: allErc20Projects(minVolume: $minVolume) {
       ...projectSearchData
     }
   }
@@ -52,13 +46,14 @@ const CategoryQuery = {
   [Category.Decentralized]: GET_WATCHLIST_QUERY('decentralized_exchanges'),
 }
 
+const projectsExtracter = ({ data: { projects } }) => projects
+
 const watchlistProjectsExtracter = ({ data: { watchlist } }) =>
   watchlist.listItems.map(({ project }) => project)
 
 const CategoryDataExtracter = {
-  [Category.All]: ({ data: { allProjects } }) =>
-    allProjects.concat(FIAT_MARKET_ASSETS),
-  [Category.ERC20]: ({ data: { allErc20Projects } }) => allErc20Projects,
+  [Category.All]: projectsExtracter,
+  [Category.ERC20]: projectsExtracter,
   [Category.Stablecoins]: watchlistProjectsExtracter,
   [Category.Centralized]: watchlistProjectsExtracter,
   [Category.Decentralized]: watchlistProjectsExtracter,
@@ -66,37 +61,55 @@ const CategoryDataExtracter = {
 
 const normalizeData = (data) => data.slice().sort(projectSorter)
 
-function getProjectsByCategory(category) {
-  switch (category) {
-    case Category.Fiat:
-      return Promise.resolve(FIAT_MARKET_ASSETS)
+const noop = (data) => data
 
-    default:
-      return client
-        .query({ query: CategoryQuery[category] })
-        .then(CategoryDataExtracter[category])
-        .then(normalizeData)
+function getProjectsByCategory(category, fetchCustomCategory, modifyCategory) {
+  if (fetchCustomCategory) {
+    return fetchCustomCategory().then(normalizeData)
   }
+
+  return client
+    .query({ query: CategoryQuery[category] })
+    .then(CategoryDataExtracter[category])
+    .then(modifyCategory || noop)
+    .then(normalizeData)
 }
 
-const ProjectsSelectTabs = ({ onSelect, className }) => {
+const ProjectsSelectTabs = ({
+  className,
+  customTabs,
+  CustomCategory,
+  CategoryModifier,
+  onSelect,
+}) => {
   useEffect(() => {
     onTabSelect('All')
   }, [])
 
   function onTabSelect(category) {
-    getProjectsByCategory(category).then(onSelect)
+    getProjectsByCategory(
+      category,
+      CustomCategory[category],
+      CategoryModifier[category],
+    ).then(onSelect)
+
     onSelect(null, true) // projects, isLoading
   }
 
   return (
     <Tabs
-      options={OPTIONS}
+      options={customTabs}
       defaultSelectedIndex='All'
       onSelect={onTabSelect}
       className={className}
     />
   )
+}
+
+ProjectsSelectTabs.defaultProps = {
+  customTabs: DEFAULT_TABS,
+  CustomCategory: {},
+  CategoryModifier: {},
 }
 
 export default ProjectsSelectTabs

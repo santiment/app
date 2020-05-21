@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Search from '@santiment-network/ui/Search'
 import Dialog from '@santiment-network/ui/Dialog'
-import Tabs from '@santiment-network/ui/Tabs'
 import Projects from './Projects'
 import styles from './ProjectSelectDialog.module.scss'
 import ProjectsSelectTabs from './ProjectSelectTabs'
@@ -71,7 +70,11 @@ const ProjectSelectDialog = ({
     >
       <div className={styles.wrapper}>
         <Search className={styles.search} onChange={searchProjects} autoFocus />
-        <ProjectsSelectTabs onSelect={onTabSelect} className={styles.tabs} />
+        <ProjectsSelectTabs
+          {...rest}
+          onSelect={onTabSelect}
+          className={styles.tabs}
+        />
         <Projects
           projects={searchedProjects}
           onSelect={onSelect}

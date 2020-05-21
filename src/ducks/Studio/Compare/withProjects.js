@@ -13,7 +13,7 @@ export const projectSearchData = gql`
 
 export const ALL_PROJECTS_QUERY = gql`
   query allProjects($minVolume: Int = 0) {
-    allProjects(minVolume: $minVolume) {
+    projects: allProjects(minVolume: $minVolume) {
       ...projectSearchData
     }
   }
@@ -23,7 +23,9 @@ export const ALL_PROJECTS_QUERY = gql`
 const DEFAULT_PROJECTS = []
 
 export default graphql(ALL_PROJECTS_QUERY, {
-  props: ({ data: { allProjects = DEFAULT_PROJECTS, loading, error } }) => {
+  props: ({
+    data: { projects: allProjects = DEFAULT_PROJECTS, loading, error },
+  }) => {
     return {
       allProjects,
       loading,
