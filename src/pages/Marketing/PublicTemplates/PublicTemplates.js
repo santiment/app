@@ -59,7 +59,14 @@ const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
                     className={styles.new}
                     key='new'
                   />,
-                  <TemplateTitle title={title} key='title' />
+                  <a
+                    className={styles.title}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    href={link || prepareTemplateLink(template)}
+                  >
+                    <TemplateTitle title={title} key='title' />
+                  </a>
                 ]}
               </div>
 
