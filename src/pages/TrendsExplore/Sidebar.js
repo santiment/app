@@ -15,8 +15,7 @@ function getTimePeriod (date) {
   const from = new Date(date)
   const to = new Date(date)
 
-  from.setHours(0, 0, 0, 0)
-  to.setHours(24, 0, 0, 0)
+  from.setDate(to.getDate() - 1)
 
   return {
     from: from.toISOString(),
@@ -66,21 +65,21 @@ const Sidebar = ({
 
   return (
     <aside className={styles.sidebar} ref={asideRef}>
-      {!isEmptySearch && (
-        <>
-          <AverageSocialVolume
-            {...props}
-            topics={topics}
-            linkedAssets={linkedAssets}
-          />
-          <WordCloud
-            hideWord
-            className={styles.cloud}
-            infoClassName={styles.cloud__header}
-            word={topics[0]}
-          />
-        </>
-      )}
+      {/* {!isEmptySearch && ( */}
+      {/*   <> */}
+      {/*     <AverageSocialVolume */}
+      {/*       {...props} */}
+      {/*       topics={topics} */}
+      {/*       linkedAssets={linkedAssets} */}
+      {/*     /> */}
+      {/*     <WordCloud */}
+      {/*       hideWord */}
+      {/*       className={styles.cloud} */}
+      {/*       infoClassName={styles.cloud__header} */}
+      {/*       word={topics[0]} */}
+      {/*     /> */}
+      {/*   </> */}
+      {/* )} */}
       <div className={styles.trends}>
         <div className={styles.row}>
           <h3 className={styles.trend}>Trending words top 10</h3>
