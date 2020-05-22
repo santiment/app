@@ -1,19 +1,51 @@
-import React from 'react'
+import React, { useState } from 'react'
+import cx from 'classnames'
+import ContextMenu from '@santiment-network/ui/ContextMenu'
+import Button from '@santiment-network/ui/Button'
+import Panel from '@santiment-network/ui/Panel'
 import HelpPopup from '../HelpPopup/HelpPopup'
 import Content from './Content'
 import PaywallBanner from './PaywallBanner'
+import { PERIODS } from './utils'
 import styles from './index.module.scss'
 import stylesTooltip from '../../components/HelpPopup/HelpPopup.module.scss'
 
 const AverageSocialVolume = ({ hasPremium, ...props }) => {
+  const [period, setPeriod] = useState(PERIODS[0])
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
-        <h3 className={styles.title}>Average, 30d</h3>
-        <HelpPopup>
-          <h4 className={stylesTooltip.title}>Average Social Volume</h4>
-          The average number of daily mentions in the past 30 days
-        </HelpPopup>
+        <div className={styles.left}>
+          <h3 className={styles.title}>Average</h3>
+          <HelpPopup>
+            <h4 className={stylesTooltip.title}>Average Social Volume</h4>
+            The average number of daily mentions in the past {period.text}
+          </HelpPopup>
+        </div>
+        <ContextMenu
+          trigger={
+            <Button variant='flat' border className={styles.trigger}>
+              {period.label}
+            </Button>
+          }
+          position='bottom'
+          align='end'
+        >
+          <Panel className={styles.panel}>
+            {PERIODS.map(item => (
+              <span
+                className={cx(
+                  styles.period,
+                  item.label === period.label && styles.selected
+                )}
+                key={item.label}
+                onClick={() => setPeriod(item)}
+              >
+                {item.label}
+              </span>
+            ))}
+          </Panel>
+        </ContextMenu>
       </div>
       {hasPremium && <Content {...props} />}
       {hasPremium === false && <PaywallBanner />}

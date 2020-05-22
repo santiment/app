@@ -10,7 +10,13 @@
 .header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin: 0 0 16px;
+}
+
+.left {
+  display: flex;
+  align-items: center;
 }
 
 .title {
@@ -56,4 +62,21 @@
   justify-content: center;
   background-color: var(--athens);
   border-radius: 4px;
+}
+
+.panel {
+  padding: 2px 4px;
+}
+
+.period {
+  padding: 12px;
+  display: inline-block;
+
+  &:hover {
+    color: var(--jungle-green);
+  }
+
+  &.selected {
+    color: var(--waterloo);
+  }
 }
