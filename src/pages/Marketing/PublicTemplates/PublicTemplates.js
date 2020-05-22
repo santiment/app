@@ -49,7 +49,7 @@ const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
         } = template
         const requirePro = isProRequired && !isProSanbase
 
-        return (
+        return requirePro ? null : (
           <div key={index} className={styles.template}>
             <div>
               <div className={styles.title}>
@@ -59,37 +59,21 @@ const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
                     className={styles.new}
                     key='new'
                   />,
-                  <TemplateTitle title={title} key='title' />
+                  <a
+                    className={styles.title}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    href={link || prepareTemplateLink(template)}
+                  >
+                    <TemplateTitle title={title} key='title' />
+                  </a>
                 ]}
               </div>
 
               <div className={styles.description}>{description}</div>
-
-              <AvatarWithName user={user} classes={styles} />
             </div>
 
-            {requirePro ? (
-              <UpgradeBtn
-                showCrownIcon={false}
-                variant='flat'
-                className={styles.proBtn}
-              >
-                <>
-                  <Icon type='crown' className={styles.proIcon} /> PRO Chart
-                  Layouts
-                </>
-              </UpgradeBtn>
-            ) : (
-              <a
-                className={styles.useLink}
-                target='_blank'
-                rel='noopener noreferrer'
-                href={link || prepareTemplateLink(template)}
-              >
-                View chart layout{' '}
-                <Icon className={styles.useIcon} type='pointer-right' />
-              </a>
-            )}
+            <AvatarWithName user={user} classes={styles} />
           </div>
         )
       })}

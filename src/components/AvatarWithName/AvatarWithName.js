@@ -12,21 +12,24 @@ const AvatarWithName = ({ user, classes = {} }) => {
   const { id, username, avatarUrl } = user
 
   return (
-    <Link
-      to={'/profile/' + id}
-      className={cx(styles.avatarBlock, classes.avatarBlock)}
-    >
-      <UserAvatar
-        as='div'
-        userId={id}
-        isExternal
-        externalAvatarUrl={avatarUrl}
-        classes={styles}
-      />
+    <div className={cx(styles.avatarBlock, classes.avatarBlock)}>
+      <Link to={'/profile/' + id}>
+        <UserAvatar
+          as='div'
+          userId={id}
+          isExternal
+          externalAvatarUrl={avatarUrl}
+          classes={styles}
+        />
+      </Link>
       {username && (
-        <div className={cx(styles.username, classes.username)}>{username}</div>
+        <Link to={'/profile/' + id}>
+          <div className={cx(styles.username, classes.username)}>
+            {username}
+          </div>
+        </Link>
       )}
-    </Link>
+    </div>
   )
 }
 

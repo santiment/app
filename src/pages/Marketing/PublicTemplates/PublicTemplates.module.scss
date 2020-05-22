@@ -70,24 +70,6 @@
   margin-top: 6px;
 }
 
-.proIcon {
-  width: 16px;
-  height: 12px;
-  margin: 0 12px 0 6px;
-}
-
-.proBtn {
-  fill: var(--texas-rose);
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-
-  &:hover {
-    fill: var(--texas-rose-hover);
-    color: var(--texas-rose-hover);
-  }
-}
-
 .avatarBlock {
-  margin: 16px 0 21px 0;
+  margin: 16px 0 0;
 }
