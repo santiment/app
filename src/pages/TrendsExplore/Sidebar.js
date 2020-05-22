@@ -15,8 +15,7 @@ function getTimePeriod (date) {
   const from = new Date(date)
   const to = new Date(date)
 
-  from.setHours(0, 0, 0, 0)
-  to.setHours(24, 0, 0, 0)
+  from.setDate(to.getDate() - 1)
 
   return {
     from: from.toISOString(),

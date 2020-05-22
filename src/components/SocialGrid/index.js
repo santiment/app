@@ -48,9 +48,9 @@ const SocialGrid = ({
         <Item
           key={idx}
           show={showCount > idx}
-          topic={topic.slug || topic}
-          title={topic.title || topic}
-          link={topic.query || topic.slug || topic}
+          topic={topic.slug}
+          title={topic.title || topic.slug}
+          link={topic.query || topic.slug}
           charts={charts}
           onTopicClick={onTopicClick}
           settings={SETTINGS}

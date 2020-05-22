@@ -42,6 +42,7 @@ export const METRICS = [
   'social_dominance_professional_traders_chat',
   'social_dominance_total',
   'social_volume_telegram',
+  'social_volume_twitter',
   'social_volume_discord',
   'social_volume_reddit',
   'social_volume_professional_traders_chat',

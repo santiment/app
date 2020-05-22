@@ -34,7 +34,6 @@ const PricePairsDropdown = ({
   const defaultPriceOptions = getPriceOptions([[ticker, slug]])
 
   const [priceOptions, setPriceOptions] = useState(defaultPriceOptions)
-  const [selectedTicker, setSelectedTicker] = useState(ticker)
 
   const labels = getLabels([...priceOptions])
 
@@ -62,15 +61,13 @@ const PricePairsDropdown = ({
   function onChangePriceOption (selectedPair) {
     const ticker = selectedPair.split(SEPARATOR)[0]
     const slug = priceOptions.get(ticker)
-
-    setSelectedTicker(ticker)
     setPriceAsset({ slug, label: `${ticker}${SEPARATOR}USD` })
     setSettings(state => ({ ...state, asset: slug, ticker }))
   }
 
   return (
     <Dropdown
-      selected={`${selectedTicker}${SEPARATOR}USD`}
+      selected={`${ticker}${SEPARATOR}USD`}
       options={labels}
       classes={dropdownClasses}
       onSelect={onChangePriceOption}
