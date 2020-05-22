@@ -11,10 +11,11 @@
 .avatarBlock {
   display: flex;
   align-items: center;
-  cursor: pointer;
 
-  &:hover {
-    .username {
+  .username {
+    cursor: pointer;
+
+    &:hover {
       color: var(--jungle-green-hover);
     }
   }
