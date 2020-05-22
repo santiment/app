@@ -71,6 +71,7 @@
 .period {
   padding: 12px;
   display: inline-block;
+  cursor: pointer;
 
   &:hover {
     color: var(--jungle-green);

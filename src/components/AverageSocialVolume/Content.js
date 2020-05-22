@@ -3,7 +3,7 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import { Metric } from '../../ducks/dataHub/metrics'
 import { useTimeseries } from '../../ducks/Studio/timeseries/hooks'
 import { SOCIAL_VOLUME_COLORS } from '../../ducks/SocialTool/Chart/colors'
-import { SETTINGS } from './settings'
+import { getIntervalByTimeRange } from '../../utils/dates'
 import { buildExploredMetric, calcAverage, calcPercentage } from './utils'
 import DetailsItem from './DetailsItem'
 import Column from './Column'
@@ -37,13 +37,30 @@ function useSocialTimeseries (metrics, settings, MetricSettingMap) {
   return useTimeseries(activeMetrics, settings, MetricSettingMap)
 }
 
-const Content = ({ topics: defaultTopics, linkedAssets }) => {
+const Content = ({ topics: defaultTopics, range, linkedAssets }) => {
   const [metrics, setMetrics] = useState([])
   const [topics, setTopics] = useState()
   const [avg, setAvg] = useState([])
   const [MetricSettingMap, setMetricSettingMap] = useState(new Map())
+  const [settings, setSettings] = useState({ interval: '1d' })
 
-  const [data] = useSocialTimeseries(metrics, SETTINGS, MetricSettingMap)
+  const [data, loadings] = useSocialTimeseries(
+    metrics,
+    settings,
+    MetricSettingMap
+  )
+
+  useEffect(
+    () => {
+      const { from: FROM, to: TO } = getIntervalByTimeRange(range)
+      setSettings({
+        ...settings,
+        from: FROM.toISOString(),
+        to: TO.toISOString()
+      })
+    },
+    [range]
+  )
 
   useEffect(
     () => {
@@ -123,7 +140,9 @@ const Content = ({ topics: defaultTopics, linkedAssets }) => {
           />
         ))}
       </div>
-      {avg.length !== metrics.length && <Loader className={styles.loader} />}
+      {(avg.length !== metrics.length || loadings.length > 0) && (
+        <Loader className={styles.loader} />
+      )}
     </div>
   ) : null
 }

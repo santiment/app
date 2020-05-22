@@ -47,7 +47,7 @@ const AverageSocialVolume = ({ hasPremium, ...props }) => {
           </Panel>
         </ContextMenu>
       </div>
-      {hasPremium && <Content {...props} />}
+      {hasPremium && <Content {...props} range={period.query} />}
       {hasPremium === false && <PaywallBanner />}
     </div>
   )
