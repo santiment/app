@@ -121,6 +121,15 @@ export const Metric = {
     abbreviation: 'mvrv',
     video: 'https://www.youtube.com/watch?v=foMhhHbCgBE'
   },
+  mvrv_long_short_diff_usd: {
+    category: 'On-chain',
+    node: 'line',
+    group: 'Network Value',
+    label: 'MVRV Long-Short Difference',
+    fullTitle: 'Market Value To Realized Value Long-Short Difference',
+    shortLabel: 'MVRV L/S Diff',
+    isBeta: true
+  },
   transaction_volume: {
     category: 'On-chain',
     node: 'bar',
