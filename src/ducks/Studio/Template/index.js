@@ -96,7 +96,8 @@ const Template = ({
     setComparables(comparables)
     toggleMultiCharts(getMultiChartsValue(template))
   }
-  const [selectedTemplate, setSelectedTemplate] = useSelectedTemplate(
+
+  const [selectedTemplate, setSelectedTemplate, loading] = useSelectedTemplate(
     templates,
     selectTemplate
   )
@@ -185,6 +186,7 @@ const Template = ({
           saveTemplate={saveTemplate}
           onNewTemplate={onTemplateSelect}
           isMenuOpened={isMenuOpened}
+          loading={loading}
         />
       }
     >

@@ -80,6 +80,7 @@ export function useSelectedTemplate (templates, selectTemplate) {
   const isTemplateUrl = isTemplateURL()
   const defaultTemplate = isTemplateUrl ? undefined : templates[0]
   const [selectedTemplate, setSelectedTemplate] = useState()
+  const [loading, setLoading] = useState()
 
   useEffect(() => {
     const targetTemplate = isTemplateUrl
@@ -88,6 +89,7 @@ export function useSelectedTemplate (templates, selectTemplate) {
     if (!targetTemplate) return
 
     setSelectedTemplate(targetTemplate)
+    setLoading(true)
 
     client
       .query({
@@ -105,6 +107,9 @@ export function useSelectedTemplate (templates, selectTemplate) {
         }
       })
       .catch(console.warn)
+      .finally(() => {
+        setLoading(false)
+      })
   }, [])
 
   useEffect(
@@ -132,7 +137,7 @@ export function useSelectedTemplate (templates, selectTemplate) {
     [selectedTemplate]
   )
 
-  return [selectedTemplate, setSelectedTemplate]
+  return [selectedTemplate, setSelectedTemplate, loading]
 }
 
 export function useCreateTemplate () {

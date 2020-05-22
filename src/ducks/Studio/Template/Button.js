@@ -11,8 +11,12 @@ import TemplateTitle from './TemplateDetailsDialog/TemplateTitle'
 import { isTemplateURL } from './utils'
 import styles from './index.module.scss'
 
-const NoTemplateLabel = () => {
-  return isTemplateURL() ? <Loader className={styles.loader} /> : 'Save as'
+const NoTemplateLabel = ({ loading }) => {
+  return isTemplateURL() && loading ? (
+    <Loader className={styles.loader} />
+  ) : (
+    'Save as'
+  )
 }
 
 const TooltipWrapper = ({ selectedTemplate, children }) => {
@@ -37,7 +41,8 @@ const Trigger = ({
   selectedTemplate,
   saveTemplate,
   openDialog,
-  isLoggedIn
+  isLoggedIn,
+  loading
 }) => {
   return (
     <div
@@ -72,7 +77,7 @@ const Trigger = ({
           {selectedTemplate ? (
             <TemplateTitle title={selectedTemplate.title} />
           ) : (
-            <NoTemplateLabel />
+            <NoTemplateLabel loading={loading} />
           )}
         </div>
       </TooltipWrapper>
@@ -89,6 +94,7 @@ export default ({
   saveTemplate,
   openMenu,
   onNewTemplate,
+  loading,
   ...props
 }) => {
   const [isDialogOpened, setIsDialogOpened] = useState(false)
@@ -123,6 +129,7 @@ export default ({
             saveTemplate={saveTemplate}
             openDialog={openDialog}
             isLoggedIn={isLoggedIn}
+            loading={loading}
           />
         }
       />
