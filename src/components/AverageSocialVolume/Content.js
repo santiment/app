@@ -21,12 +21,25 @@ function useSocialTimeseries (metrics, settings, MetricSettingMap) {
     [metrics]
   )
 
+  useEffect(
+    () => {
+      if (
+        activeMetrics.length === 0 &&
+        metrics.length !== 0 &&
+        MetricSettingMap.size > 0
+      ) {
+        setMetrics(metrics)
+      }
+    },
+    [MetricSettingMap]
+  )
+
   return useTimeseries(activeMetrics, settings, MetricSettingMap)
 }
 
 const Content = ({ topics: defaultTopics, linkedAssets }) => {
   const [metrics, setMetrics] = useState([])
-  const [topics, setTopics] = useState(defaultTopics)
+  const [topics, setTopics] = useState()
   const [avg, setAvg] = useState([])
   const [MetricSettingMap, setMetricSettingMap] = useState(new Map())
 
@@ -45,6 +58,10 @@ const Content = ({ topics: defaultTopics, linkedAssets }) => {
   useEffect(
     () => {
       if (defaultTopics !== topics) {
+        if (JSON.stringify(defaultTopics) === JSON.stringify(topics)) {
+          return
+        }
+
         let newMetrics = defaultTopics.map(topic => buildExploredMetric(topic))
         newMetrics = [Metric.social_volume_total, ...newMetrics]
         setTopics(defaultTopics)
@@ -57,20 +74,24 @@ const Content = ({ topics: defaultTopics, linkedAssets }) => {
 
   useEffect(
     () => {
-      const newMetricSettingMap = new Map(new Map())
-      metrics.forEach(metric => {
-        const topic = metric.text || '*'
-        const detectedAsset = linkedAssets.get(topic)
-        newMetricSettingMap.set(metric, {
-          selector: detectedAsset ? 'slug' : 'text',
-          slug: detectedAsset ? detectedAsset.slug : topic
-        })
-      })
-
-      setMetricSettingMap(newMetricSettingMap)
+      rebuildMetricsMap()
     },
     [metrics, linkedAssets]
   )
+
+  function rebuildMetricsMap () {
+    const newMetricSettingMap = new Map(new Map())
+    metrics.forEach(metric => {
+      const topic = metric.text || '*'
+      const detectedAsset = linkedAssets.get(topic)
+      newMetricSettingMap.set(metric, {
+        selector: detectedAsset ? 'slug' : 'text',
+        slug: detectedAsset ? detectedAsset.slug : topic
+      })
+    })
+
+    setMetricSettingMap(newMetricSettingMap)
+  }
 
   const totalAvg = avg[0]
   const remainingAvg = avg.slice(1)

@@ -65,21 +65,21 @@ const Sidebar = ({
 
   return (
     <aside className={styles.sidebar} ref={asideRef}>
-      {/* {!isEmptySearch && ( */}
-      {/*   <> */}
-      {/*     <AverageSocialVolume */}
-      {/*       {...props} */}
-      {/*       topics={topics} */}
-      {/*       linkedAssets={linkedAssets} */}
-      {/*     /> */}
-      {/*     <WordCloud */}
-      {/*       hideWord */}
-      {/*       className={styles.cloud} */}
-      {/*       infoClassName={styles.cloud__header} */}
-      {/*       word={topics[0]} */}
-      {/*     /> */}
-      {/*   </> */}
-      {/* )} */}
+      {!isEmptySearch && (
+        <>
+          <AverageSocialVolume
+            {...props}
+            topics={topics}
+            linkedAssets={linkedAssets}
+          />
+          <WordCloud
+            hideWord
+            className={styles.cloud}
+            infoClassName={styles.cloud__header}
+            word={topics[0]}
+          />
+        </>
+      )}
       <div className={styles.trends}>
         <div className={styles.row}>
           <h3 className={styles.trend}>Trending words top 10</h3>
