@@ -127,7 +127,8 @@ export const Metric = {
     group: 'Network Value',
     label: 'MVRV Long-Short Difference',
     fullTitle: 'Market Value To Realized Value Long-Short Difference',
-    shortLabel: 'MVRV L/S Diff'
+    shortLabel: 'MVRV L/S Diff',
+    isBeta: true
   },
   transaction_volume: {
     category: 'On-chain',
