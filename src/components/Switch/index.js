@@ -13,12 +13,13 @@ const Switch = ({ case: id, children }) => {
     if (process.env.NODE_ENV === 'development') {
       if (child.type !== Case) {
         throw new Error(
-          '<Switch> component top level children should be a <Case> component'
+          `<Switch> should contain only <Case> elements as children, but you passed a <${child
+            .type.name || child.type}>`
         )
       }
     }
 
-    if (!of || id === of) {
+    if (!of || of === id) {
       return child
     }
   }
