@@ -53,8 +53,6 @@ export default ({ history, ...props }) => {
     history.replace(`${window.location.pathname}${window.location.search}`)
   }
 
-  parseUrl()
-
   return (
     <ChartPage
       parsedUrl={parsedUrl}

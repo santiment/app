@@ -1,0 +1,13 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 4px;
+  position: relative;
+  background: var(--white);
+}
