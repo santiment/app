@@ -9,6 +9,8 @@ import { Metric } from '../../ducks/dataHub/metrics'
 import StoriesList from '../../components/Stories/StoriesList'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import DialogSignUp from '../../components/Dialog/SignUp'
+import { UrlModal, useUrlModal } from '../../components/Dialog/hooks'
+
 import styles from '../Detailed/Detailed.module.scss'
 
 const DEFAULT_METRICS = [Metric.price_usd]
@@ -18,35 +20,39 @@ const CRUMB = {
   to: '/assets',
 }
 
-const TopSlot = compose(withProject)(({ slug, project, loading }) => (
-  <>
-    <Helmet
-      title={loading ? 'Sanbase...' : `${project.ticker} project page`}
-      meta={[
-        {
-          property: 'og:title',
-          content: `Project overview: ${project.name} - Sanbase`,
-        },
-        {
-          property: 'og:description',
-          content: `Financial, development, on-chain and social data for ${
-            project.name
-          }. Get access to full historical data & advanced metrics for ${
-            project.name
-          } by upgrading to Sanbase Dashboards.
+const TopSlot = compose(withProject)(({ slug, project, loading }) => {
+  const urlModal = useUrlModal()
+
+  return (
+    <>
+      <Helmet
+        title={loading ? 'Sanbase...' : `${project.ticker} project page`}
+        meta={[
+          {
+            property: 'og:title',
+            content: `Project overview: ${project.name} - Sanbase`,
+          },
+          {
+            property: 'og:description',
+            content: `Financial, development, on-chain and social data for ${
+              project.name
+            }. Get access to full historical data & advanced metrics for ${
+              project.name
+            } by upgrading to Sanbase Dashboards.
           `,
-        },
-      ]}
-    />
-    <Breadcrumbs
-      className={styles.breadcrumbs}
-      crumbs={[CRUMB, { label: project.name, to: `/studio?slug=${slug}` }]}
-    />
-    <StoriesList classes={styles} showScrollBtns />
-    <CtaJoinPopup />
-    <DialogSignUp />
-  </>
-))
+          },
+        ]}
+      />
+      <Breadcrumbs
+        className={styles.breadcrumbs}
+        crumbs={[CRUMB, { label: project.name, to: `/studio?slug=${slug}` }]}
+      />
+      <StoriesList classes={styles} showScrollBtns />
+      <CtaJoinPopup />
+      {urlModal === UrlModal.SIGN_UP && <DialogSignUp />}
+    </>
+  )
+})
 
 export default ({ history, ...props }) => {
   const parsedUrl = parseUrl()
@@ -54,8 +60,6 @@ export default ({ history, ...props }) => {
   function onSlugChange() {
     history.replace(`${window.location.pathname}${window.location.search}`)
   }
-
-  parseUrl()
 
   return (
     <ChartPage
