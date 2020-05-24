@@ -73,7 +73,7 @@ const TrialDescriptions = () => {
   )
 }
 
-export const SignupDescription = ({ loading, loginEmail, setEmail }) => {
+const SignupDescription = ({ loading, loginEmail, setEmail }) => {
   return (
     <div className={externalStyles.loginBlock}>
       <h2 className={externalStyles.title}>
@@ -99,7 +99,7 @@ export const SignupDescription = ({ loading, loginEmail, setEmail }) => {
   )
 }
 
-const PrepareState = props => {
+export const PrepareState = props => {
   const { isDesktop, loading, loginEmail, setEmail, history } = props
 
   if (isDesktop) {

@@ -3,13 +3,13 @@ import Dialog from '@santiment-network/ui/Dialog'
 import Switch, { Case } from '../Switch'
 import { LoginDescription } from '../../pages/Login/index'
 import LoginEmailForm from '../../pages/Login/LoginEmailForm'
-import { SignupDescription } from '../../pages/Login/CreateAccountFreeTrial'
+import { PrepareState } from '../../pages/Login/CreateAccountFreeTrial'
 import styles from './SignUp.module.scss'
 
-const DialogSignUp = () => {
+const DialogSignUp = ({ defaultRoute = '/login' }) => {
   const [isOpened, setIsOpened] = useState(true)
   const [parent, setParent] = useState()
-  const [route, setRoute] = useState('/login')
+  const [route, setRoute] = useState(defaultRoute)
   const wrapperRef = useRef()
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const DialogSignUp = () => {
 
   return (
     <Dialog
-      title='Sign up form'
+      title={route === '/sign-up' ? 'Sign Up' : 'Log In'}
       trigger={<div>trigger</div>}
       open={isOpened}
       onOpen={() => setIsOpened(true)}
@@ -46,14 +46,14 @@ const DialogSignUp = () => {
     >
       <div className={styles.wrapper} ref={wrapperRef}>
         <Switch case={route}>
+          <Case of='/login'>
+            <LoginDescription />
+          </Case>
           <Case of='/login/email'>
             <LoginEmailForm isDesktop />
           </Case>
           <Case of='/sign-up'>
-            <SignupDescription />
-          </Case>
-          <Case of='/login'>
-            <LoginDescription />
+            <LoginEmailForm isDesktop prepareState={PrepareState} />
           </Case>
         </Switch>
       </div>
