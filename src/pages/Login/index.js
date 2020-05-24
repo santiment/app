@@ -12,8 +12,8 @@ import SwipablePages from '../../components/SwipablePages/SwipablePages'
 import MobileWrapper from './Mobile/MobileWrapper'
 import styles from './index.module.scss'
 
-const LoginDescription = () => (
-  <div className={styles.loginBlock}>
+export const LoginDescription = ({ className }) => (
+  <div className={cx(styles.loginBlock, className)}>
     <h3 className={styles.title}>Welcome to Sanbase</h3>
     <div className={styles.options}>
       <LoginMetamaskBtn />
@@ -32,11 +32,11 @@ const LoginDescription = () => (
   </div>
 )
 
-const LoginOptions = props => {
+const LoginOptions = (props) => {
   if (props.isDesktop) {
     return (
       <div className={styles.container}>
-        <LoginDescription />
+        <LoginDescription className={styles.loginBlock_desktop} />
         <div>
           <FreeTrialBlock />
         </div>
@@ -53,7 +53,7 @@ const LoginOptions = props => {
         </MobileWrapper>,
         <MobileWrapper onBack={props.history.goBack}>
           <FreeTrialBlock />
-        </MobileWrapper>
+        </MobileWrapper>,
       ]}
     />
   )
@@ -63,7 +63,7 @@ export default ({
   isLoggedIn,
   isDesktop,
   token,
-  location: { search = '' }
+  location: { search = '' },
 }) => {
   if (isLoggedIn) {
     const { consent } = parse(search)
@@ -81,11 +81,11 @@ export default ({
       <Route
         exact
         path={PATHS.LOGIN_VIA_EMAIL}
-        render={props => <LoginEmailForm {...props} />}
+        render={(props) => <LoginEmailForm {...props} />}
       />
       <Route
         path={PATHS.LOGIN}
-        render={props => <LoginOptions {...props} isDesktop={isDesktop} />}
+        render={(props) => <LoginOptions {...props} isDesktop={isDesktop} />}
       />
     </Switch>
   )

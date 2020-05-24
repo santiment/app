@@ -73,7 +73,7 @@ const TrialDescriptions = () => {
   )
 }
 
-const SignupDescription = ({ loading, loginEmail, setEmail }) => {
+export const SignupDescription = ({ loading, loginEmail, setEmail }) => {
   return (
     <div className={externalStyles.loginBlock}>
       <h2 className={externalStyles.title}>

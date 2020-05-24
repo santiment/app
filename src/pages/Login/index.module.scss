@@ -23,8 +23,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-right: 1px solid var(--porcelain);
-  padding-right: 114px;
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     padding: 0;
@@ -32,13 +30,18 @@
     height: 100%;
     justify-content: center;
   }
+
+  &_desktop {
+    border-right: 1px solid var(--porcelain);
+    padding-right: 114px;
+  }
 }
 
 .wrapper {
   height: 100%;
   display: flex;
   align-items: center;
-  background-image: url("./../../../src/assets/login/pattern.svg");
+  background-image: url('./../../../src/assets/login/pattern.svg');
   background-size: cover;
   margin-top: 0 !important;
   max-width: 100% !important;
