@@ -11,6 +11,7 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import nprogress from 'nprogress'
 import NotificationStack from './components/NotificationStack'
+import UrlModals from './components/Modal/UrlModals'
 import Roadmap from './pages/Roadmap'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import EmailLoginVerification from './pages/EmailVerification/EmailLoginVerification'
@@ -241,6 +242,7 @@ export const App = ({
       <MobileNavbar activeLink={pathname} />
     )}
     <ErrorBoundary>
+      {isDesktop && <UrlModals />}
       <Switch>
         {['currencies', 'erc20', 'all', 'list'].map(name => (
           <Route

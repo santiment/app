@@ -1,8 +1,9 @@
 import React from 'react'
 
-export const Case = ({ children }) => children
+export const Case = ({ render: El, children, ...props }) =>
+  El ? <El {...props} /> : children
 
-export default ({ case: id, children }) => {
+const Switch = ({ case: id, children }) => {
   const childrenArray = React.Children.toArray(children)
 
   for (let i = 0; i < childrenArray.length; i++) {
@@ -21,4 +22,8 @@ export default ({ case: id, children }) => {
       return child
     }
   }
+
+  return null
 }
+
+export default Switch

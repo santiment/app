@@ -1,0 +1,19 @@
+.modal {
+  padding: 45px 55px;
+}
+
+.content {
+  padding: 45px 55px;
+}
+
+.close {
+  cursor: pointer;
+  fill: var(--waterloo);
+  position: absolute;
+  right: 20px;
+  top: 20px;
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+}
