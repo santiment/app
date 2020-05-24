@@ -8,7 +8,6 @@ import { parseUrl } from '../../ducks/Studio/url'
 import { Metric } from '../../ducks/dataHub/metrics'
 import StoriesList from '../../components/Stories/StoriesList'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
-
 import styles from '../Detailed/Detailed.module.scss'
 
 const DEFAULT_METRICS = [Metric.price_usd]
