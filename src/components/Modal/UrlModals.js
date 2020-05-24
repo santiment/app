@@ -5,10 +5,10 @@ import Switch, { Case } from '../Switch'
 
 const UrlModal = {
   SIGN_UP: 'signup',
-  LOGIN: 'login',
+  LOGIN: 'login'
 }
 
-function useUrlModal() {
+function useUrlModal () {
   const [urlModal, setUrlModal] = useState()
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const loading = () => null
 
 const LoadableSignUp = Loadable({
   loader: () => import('./SignUp'),
-  loading,
+  loading
 })
 
 const UrlModals = () => {

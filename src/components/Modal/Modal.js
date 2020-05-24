@@ -8,11 +8,11 @@ const Modal = ({ classes, children, ...props }) => (
   <UIModal
     classes={{
       wrapper: styles.wrapper,
-      modal: cx(styles.modal, classes.modal),
+      modal: cx(styles.modal, classes.modal)
     }}
     {...props}
   >
-    {(closeModal) => (
+    {closeModal => (
       <>
         <Icon
           type='close'
@@ -26,7 +26,7 @@ const Modal = ({ classes, children, ...props }) => (
 )
 
 Modal.defaultProps = {
-  classes: {},
+  classes: {}
 }
 
 export default Modal

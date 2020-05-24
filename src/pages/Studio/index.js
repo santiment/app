@@ -15,7 +15,7 @@ const DEFAULT_METRICS = [Metric.price_usd]
 
 const CRUMB = {
   label: 'Assets',
-  to: '/assets',
+  to: '/assets'
 }
 
 const TopSlot = compose(withProject)(({ slug, project, loading }) => (
@@ -25,7 +25,7 @@ const TopSlot = compose(withProject)(({ slug, project, loading }) => (
       meta={[
         {
           property: 'og:title',
-          content: `Project overview: ${project.name} - Sanbase`,
+          content: `Project overview: ${project.name} - Sanbase`
         },
         {
           property: 'og:description',
@@ -34,8 +34,8 @@ const TopSlot = compose(withProject)(({ slug, project, loading }) => (
           }. Get access to full historical data & advanced metrics for ${
             project.name
           } by upgrading to Sanbase Dashboards.
-          `,
-        },
+          `
+        }
       ]}
     />
     <Breadcrumbs
@@ -50,7 +50,7 @@ const TopSlot = compose(withProject)(({ slug, project, loading }) => (
 export default ({ history, ...props }) => {
   const parsedUrl = parseUrl()
 
-  function onSlugChange() {
+  function onSlugChange () {
     history.replace(`${window.location.pathname}${window.location.search}`)
   }
 

@@ -23,15 +23,15 @@ export const DialogSignUp = ({ defaultRoute, trigger }) => {
       const timer = setTimeout(() =>
         parent
           .querySelectorAll('a')
-          .forEach((link) => (link.onclick = onLinkClick)),
+          .forEach(link => (link.onclick = onLinkClick))
       )
 
       return () => clearTimeout(timer)
     },
-    [parent, route],
+    [parent, route]
   )
 
-  function onLinkClick(e) {
+  function onLinkClick (e) {
     e.preventDefault()
     setRoute(e.currentTarget.getAttribute('href'))
   }
@@ -63,14 +63,14 @@ export const DialogSignUp = ({ defaultRoute, trigger }) => {
 }
 
 DialogSignUp.defaultProps = {
-  defaultRoute: '/sign-up',
+  defaultRoute: '/sign-up'
 }
 
 const mapStateToProps = ({ user: { isLoading, data } }) => ({
   isLoading,
-  isLoggedIn: !!data.id,
+  isLoggedIn: !!data.id
 })
 
 export default connect(mapStateToProps)(({ isLoggedIn, isLoading, ...props }) =>
-  isLoading || isLoggedIn ? null : <DialogSignUp {...props} />,
+  isLoading || isLoggedIn ? null : <DialogSignUp {...props} />
 )

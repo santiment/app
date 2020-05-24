@@ -32,7 +32,7 @@ export const LoginDescription = ({ className }) => (
   </div>
 )
 
-const LoginOptions = (props) => {
+const LoginOptions = props => {
   if (props.isDesktop) {
     return (
       <div className={styles.container}>
@@ -53,7 +53,7 @@ const LoginOptions = (props) => {
         </MobileWrapper>,
         <MobileWrapper onBack={props.history.goBack}>
           <FreeTrialBlock />
-        </MobileWrapper>,
+        </MobileWrapper>
       ]}
     />
   )
@@ -63,7 +63,7 @@ export default ({
   isLoggedIn,
   isDesktop,
   token,
-  location: { search = '' },
+  location: { search = '' }
 }) => {
   if (isLoggedIn) {
     const { consent } = parse(search)
@@ -81,11 +81,11 @@ export default ({
       <Route
         exact
         path={PATHS.LOGIN_VIA_EMAIL}
-        render={(props) => <LoginEmailForm {...props} />}
+        render={props => <LoginEmailForm {...props} />}
       />
       <Route
         path={PATHS.LOGIN}
-        render={(props) => <LoginOptions {...props} isDesktop={isDesktop} />}
+        render={props => <LoginOptions {...props} isDesktop={isDesktop} />}
       />
     </Switch>
   )
