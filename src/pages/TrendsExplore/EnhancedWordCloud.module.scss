@@ -36,6 +36,10 @@
 
   &__content {
     padding: 15px 0 0;
+
+    @include responsive('phone', 'phone-xs') {
+      padding-top: 30px;
+    }
   }
 }
 
@@ -50,9 +54,15 @@
   top: 18px;
   right: 0;
   padding: 0 12px;
-  max-width: 170px;
+  max-width: 70%;
+  width: auto;
   white-space: nowrap;
   overflow: hidden;
+  justify-content: flex-start;
+
+  @include responsive('laptop', 'desktop') {
+    max-width: 170px;
+  }
 
   &::after {
     content: '';

@@ -69,6 +69,8 @@
 }
 
 .trigger {
+  width: auto;
+
   &:hover {
     color: var(--rhino);
     border-color: var(--jungle-green);
