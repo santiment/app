@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import Calendar from '../../ducks/Studio/AdvancedView/Calendar'
 import TrendsTable from '../../components/Trends/TrendsTable/TrendsTable'
 import GetHypedTrends from '../../components/Trends/GetHypedTrends'
-import WordCloud from '../../components/WordCloud/WordCloud'
+import EnhancedWordCloud from './EnhancedWordCloud'
 import AverageSocialVolume from '../../components/AverageSocialVolume'
 import HelpPopup from '../../components/HelpPopup/HelpPopup'
 import Footer from '../../components/Footer'
@@ -11,7 +11,7 @@ import stylesTooltip from '../../components/HelpPopup/HelpPopup.module.scss'
 
 const MAX_DATE = new Date()
 
-function getTimePeriod (date) {
+export function getTimePeriod (date) {
   const from = new Date(date)
   const to = new Date(date)
 
@@ -72,12 +72,7 @@ const Sidebar = ({
             topics={topics}
             linkedAssets={linkedAssets}
           />
-          <WordCloud
-            hideWord
-            className={styles.cloud}
-            infoClassName={styles.cloud__header}
-            word={topics[0]}
-          />
+          <EnhancedWordCloud words={topics} isDesktop={isDesktop} />
         </>
       )}
       <div className={styles.trends}>

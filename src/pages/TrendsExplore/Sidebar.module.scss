@@ -43,29 +43,6 @@
   }
 }
 
-.cloud {
-  min-width: 281px;
-  height: 190px;
-  border-radius: 0;
-  border: none;
-  margin: 22px 0 40px;
-
-  @include responsive('tablet') {
-    height: auto !important;
-    margin-top: 0;
-    border: none !important;
-  }
-
-  &__header {
-    border: none;
-    padding: 24px 0 5px;
-
-    @include responsive('tablet') {
-      padding: 0 0 5px;
-    }
-  }
-}
-
 .footer {
   display: none;
 

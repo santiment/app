@@ -1,10 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { TEMPLATES } from './utils'
-import Icon from '@santiment-network/ui/Icon'
 import { getCurrentSanbaseSubscription } from '../../../utils/plans'
 import { PRO } from '../../../components/Navbar/NavbarProfileDropdown'
-import UpgradeBtn from '../../../components/UpgradeBtn/UpgradeBtn'
 import {
   useFeaturedTemplates,
   useUserTemplates
