@@ -48,7 +48,7 @@
   height: 190px;
   border-radius: 0;
   border: none;
-  margin: 22px 0 40px;
+  margin: 0 0 40px;
 
   @include responsive('tablet') {
     height: auto !important;
@@ -58,7 +58,7 @@
 
   &__header {
     border: none;
-    padding: 24px 0 5px;
+    padding: 24px 0 10px;
 
     @include responsive('tablet') {
       padding: 0 0 5px;
@@ -108,4 +108,16 @@
       }
     }
   }
+}
+
+.cloud__calendar {
+  position: absolute;
+  top: 18px;
+  right: 0;
+  fill: var(--casper);
+}
+
+.cloud__wrapper {
+  position: relative;
+  margin: 22px 0 0;
 }

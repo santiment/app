@@ -6,7 +6,7 @@ import styles from './WidgetTrend.module.scss'
 const Message = {
   initial: 'Select a word',
   isLoading: 'Loading...',
-  hasNoData: 'No data in last 2 days'
+  hasNoData: 'No data'
 }
 
 const getMessage = ({ initial, isLoading, hasNoData }) => {
