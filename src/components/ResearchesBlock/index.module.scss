@@ -1,0 +1,77 @@
+@import '~@santiment-network/ui/mixins.scss';
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: $fiord;
+  background-image: url('./cubes.svg');
+  background-position: 50% 50%;
+  padding: 72px 40px;
+}
+
+.block + .block {
+  margin-left: 144px;
+}
+
+.heading {
+  @include text('h4', 'l');
+
+  color: $white;
+  margin: 0 0 12px;
+}
+
+.desc {
+  max-width: 468px;
+
+  @include text('body-2');
+
+  color: $athens;
+  margin: 0 0 24px;
+}
+
+.button {
+  background: none;
+  border-color: $white;
+  color: $white;
+  transition-property: color, border-color;
+  transition-duration: 0.2s;
+
+  &:hover,
+  &:focus {
+    border-color: var(--jungle-green-hover);
+    color: var(--jungle-green-hover);
+  }
+}
+
+.link {
+  color: var(--jungle-green);
+  position: relative;
+  transition: color 0.4s ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    width: 100%;
+    display: block;
+    height: 1px;
+    background-color: var(--jungle-green-light-3);
+    left: 0;
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s ease, background-color 0.35s ease;
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: var(--jungle-green-hover);
+
+    &::after {
+      transform-origin: left;
+      transform: scaleX(1);
+    }
+  }
+}
