@@ -12,7 +12,8 @@ const DEFAULT_COLOR = '#9faac4'
 
 const CustomProjectCategories = {
   gold: getCategoryGraph(['price_usd']),
-  's-and-p-500': getCategoryGraph(['price_usd'])
+  's-and-p-500': getCategoryGraph(['price_usd']),
+  'crude-oil': getCategoryGraph(['price_usd'])
 }
 
 const MetricSearch = withMetrics(
