@@ -6,6 +6,7 @@ import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import PublicTemplates from './PublicTemplates/PublicTemplates'
 import SocialTrends from './SocialTrends/SocialTrends'
 import Trends from '../../components/Trends/Trends'
+import ResearchesBlock from '../../components/ResearchesBlock'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { MobileOnly } from '../../components/Responsive'
 import IndexTab from './IndexTabs/IndexTab'
@@ -152,7 +153,7 @@ const MarketingPage = props => {
           />
         </div>
       </div>
-
+      <ResearchesBlock />
       <CommonFooter />
     </div>
   )
