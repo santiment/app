@@ -20,7 +20,8 @@ export const Metric = {
     node: 'line',
     label: 'Price BTC',
     category: 'Financial',
-    formatter: btcFormatter
+    formatter: btcFormatter,
+    isBeta: true
   },
   historyPricePreview: {
     queryKey: 'price_usd',
