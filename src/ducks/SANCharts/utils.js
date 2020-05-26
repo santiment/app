@@ -23,6 +23,9 @@ export const mapDatetimeToNumber = timeseries =>
 export const usdFormatter = val =>
   val || val === 0 ? formatNumber(val, { currency: 'USD' }) : 'No data'
 
+export const btcFormatter = val =>
+  val || val === 0 ? formatNumber(val, { currency: 'BTC' }) : 'No data'
+
 export const percentageFormatter = val =>
   val || val === 0 ? `${val}%` : 'No data'
 

@@ -1,6 +1,7 @@
 import { updateTooltipSettings } from '../tooltipSettings'
 import {
   usdFormatter,
+  btcFormatter,
   percentageFormatter,
   tooltipValueFormatter
 } from '../../SANCharts/utils'
@@ -14,6 +15,12 @@ export const Metric = {
     formatter: usdFormatter,
     historicalTriggersDataKey: 'price',
     advancedView: 'Spent Coin Cost'
+  },
+  price_btc: {
+    node: 'line',
+    label: 'Price BTC',
+    category: 'Financial',
+    formatter: btcFormatter
   },
   historyPricePreview: {
     queryKey: 'price_usd',
