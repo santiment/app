@@ -39,7 +39,7 @@
   align-items: center;
 
   svg {
-    fill: var(--mirage);
+    fill: var(--rhino);
   }
 }
 
@@ -78,9 +78,7 @@
   color: var(--waterloo);
 }
 
-.rightBtns {
-  margin: 0;
-
+.rightLink {
   svg {
     fill: var(--waterloo);
   }
@@ -142,7 +140,7 @@
 }
 
 .help {
-  margin-right: 12px;
+  color: var(--waterloo);
 }
 
 @keyframes shiftDown {

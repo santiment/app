@@ -25,7 +25,7 @@ const LoadableMySignals = Loadable({
 
 const DEFAULT_ROUTE = {
   index: SIGNAL_ROUTES.MY_SIGNALS,
-  content: 'My signals',
+  content: 'My alerts',
   component: LoadableMySignals
 }
 

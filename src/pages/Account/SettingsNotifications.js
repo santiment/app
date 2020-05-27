@@ -115,7 +115,7 @@ const SettingsNotifications = ({
                     className={styles.setting__description}
                     accent='waterloo'
                   >
-                    Receive the best insights and signals on Sanbase
+                    Receive the best insights and alerts on Sanbase
                     <br />
                     peersonalized based on your interests.
                   </Label>

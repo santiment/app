@@ -12,8 +12,8 @@ import SwipablePages from '../../components/SwipablePages/SwipablePages'
 import MobileWrapper from './Mobile/MobileWrapper'
 import styles from './index.module.scss'
 
-const LoginDescription = () => (
-  <div className={styles.loginBlock}>
+export const LoginDescription = ({ className }) => (
+  <div className={cx(styles.loginBlock, className)}>
     <h3 className={styles.title}>Welcome to Sanbase</h3>
     <div className={styles.options}>
       <LoginMetamaskBtn />
@@ -36,7 +36,7 @@ const LoginOptions = props => {
   if (props.isDesktop) {
     return (
       <div className={styles.container}>
-        <LoginDescription />
+        <LoginDescription className={styles.loginBlock_desktop} />
         <div>
           <FreeTrialBlock />
         </div>

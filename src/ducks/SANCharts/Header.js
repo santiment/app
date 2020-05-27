@@ -237,7 +237,7 @@ const Header = ({
               trigger={
                 <Button border className={cx(styles.btn, styles.signal)}>
                   <Icon type='signal' className={styles.btn__icon} />
-                  Add signal
+                  Add alert
                 </Button>
               }
             />

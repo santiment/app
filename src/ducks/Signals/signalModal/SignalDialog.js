@@ -54,7 +54,7 @@ const SignalDialog = ({
   useEffect(
     () => {
       if (!isLoggedIn) {
-        onSetDialogTitle('Create signal')
+        onSetDialogTitle('Create alert')
       }
     },
     [isLoggedIn]
@@ -71,7 +71,7 @@ const SignalDialog = ({
 
   useEffect(
     () => {
-      openSharedForm && onSetDialogTitle('Signal details')
+      openSharedForm && onSetDialogTitle('Alert details')
     },
     [openSharedForm]
   )

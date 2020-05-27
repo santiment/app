@@ -33,8 +33,8 @@ export default {
       </Button>
     ),
     features: [
-      'Access to basic signals',
-      'Up to 10 active signals at a time',
+      'Access to basic alerts',
+      'Up to 10 active alerts at a time',
       'Sanbase metrics - 2 years of historical data',
       'Sanbase metrics - up to last 30 days of data'
     ]
@@ -45,8 +45,8 @@ export default {
     link: 'Upgrade now',
     Component: PlanActionDialog,
     features: [
-      'Access to all signal types',
-      'Up to 10 active signals at a time',
+      'Access to all alert types',
+      'Up to 10 active alerts at a time',
       'Sanbase metrics - 2 years of historical data',
       'Sanbase metrics - up to last 7 days of data',
       'Exclusive market reports'
@@ -59,8 +59,8 @@ export default {
     Component: PlanActionDialog,
     link: 'Upgrade now',
     features: [
-      'Access to all signal types',
-      'Unlimited active signals',
+      'Access to all alert types',
+      'Unlimited active alerts',
       'Sanbase metrics - 5 years of historical data',
       'Sanbase metrics - including present-day data',
       'Exclusive market reports',
@@ -90,8 +90,8 @@ export default {
       />
     ),
     features: [
-      'Access to all signal types',
-      'Unlimited active signals',
+      'Access to all alert types',
+      'Unlimited active alerts',
       'Sanbase metrics - 3 years of historical data',
       'Sanbase metrics - including present-day data',
       'Exclusive market reports'

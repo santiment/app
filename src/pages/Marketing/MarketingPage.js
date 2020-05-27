@@ -6,6 +6,7 @@ import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import PublicTemplates from './PublicTemplates/PublicTemplates'
 import SocialTrends from './SocialTrends/SocialTrends'
 import Trends from '../../components/Trends/Trends'
+import ResearchesBlock from '../../components/ResearchesBlock'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { MobileOnly } from '../../components/Responsive'
 import IndexTab from './IndexTabs/IndexTab'
@@ -105,7 +106,7 @@ const MarketingPage = props => {
                 )
               },
               {
-                type: 'Emerging trends',
+                type: 'Santrends',
                 content: (
                   <>
                     <div className={styles.description}>
@@ -119,7 +120,7 @@ const MarketingPage = props => {
                       </span>
                     </div>
                     <Link to={'/labs/trends/'} className={styles.link}>
-                      Start researching Emerging Trends
+                      Start researching Santrends
                     </Link>
                     <Trends />
                   </>
@@ -152,7 +153,7 @@ const MarketingPage = props => {
           />
         </div>
       </div>
-
+      <ResearchesBlock />
       <CommonFooter />
     </div>
   )

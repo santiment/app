@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import ContextMenu from '@santiment-network/ui/ContextMenu'
+import Tooltip from '@santiment-network/ui/Tooltip'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import HelpPopup from '../HelpPopup/HelpPopup'
@@ -22,7 +22,8 @@ const AverageSocialVolume = ({ hasPremium, ...props }) => {
             The average number of daily mentions in the past {period.text}
           </HelpPopup>
         </div>
-        <ContextMenu
+        <Tooltip
+          on='click'
           trigger={
             <Button variant='flat' border className={styles.trigger}>
               {period.label}
@@ -45,7 +46,7 @@ const AverageSocialVolume = ({ hasPremium, ...props }) => {
               </span>
             ))}
           </Panel>
-        </ContextMenu>
+        </Tooltip>
       </div>
       {hasPremium && <Content {...props} range={period.query} />}
       {hasPremium === false && <PaywallBanner />}

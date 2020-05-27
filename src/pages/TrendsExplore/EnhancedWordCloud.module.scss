@@ -1,0 +1,96 @@
+@import '~@santiment-network/ui/mixins';
+
+.calendar {
+  position: absolute;
+  top: 18px;
+  right: 0;
+  fill: var(--casper);
+}
+
+.wrapper {
+  position: relative;
+  margin: 22px 0 0;
+}
+
+.cloud {
+  min-width: 281px;
+  height: 190px;
+  border-radius: 0;
+  border: none;
+  margin: 0 0 40px;
+
+  @include responsive('tablet') {
+    height: auto !important;
+    margin-top: 0;
+    border: none !important;
+  }
+
+  &__header {
+    border: none;
+    padding: 24px 0 0;
+
+    @include responsive('tablet') {
+      padding: 0 0 5px;
+    }
+  }
+
+  &__content {
+    padding: 15px 0 0;
+
+    @include responsive('phone', 'phone-xs') {
+      padding-top: 30px;
+    }
+  }
+}
+
+.panel {
+  padding: 2px 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.trigger {
+  position: absolute;
+  top: 18px;
+  right: 0;
+  padding: 0 12px;
+  max-width: 70%;
+  width: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  justify-content: flex-start;
+
+  @include responsive('laptop', 'desktop') {
+    max-width: 170px;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    left: 0;
+    background-image: linear-gradient(to right, transparent 70%, var(--white));
+  }
+
+  &:hover {
+    color: var(--rhino);
+    border-color: var(--jungle-green);
+  }
+}
+
+.word {
+  padding: 12px;
+  display: inline-block;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--jungle-green);
+  }
+
+  &.selected {
+    color: var(--waterloo);
+  }
+}

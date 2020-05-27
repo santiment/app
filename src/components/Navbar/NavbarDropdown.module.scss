@@ -7,8 +7,14 @@
 }
 
 .item {
-  padding: 6px 8px;
+  padding: 8px 16px;
   display: flex;
+  height: auto;
   align-items: center;
   justify-content: space-between;
+  color: var(--foird) !important;
+
+  &:hover {
+    color: var(--jungle-green) !important;
+  }
 }

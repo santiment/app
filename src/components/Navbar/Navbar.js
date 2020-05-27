@@ -11,12 +11,11 @@ import NavbarHelpDropdown from './NavbarHelpDropdown'
 import NavbarProfileDropdown from './NavbarProfileDropdown'
 import NavbarAssetsDropdown from './NavbarAssetsDropdown'
 import InsightsDropdown from './InsightsDropdown'
-import PlanEngage from './PlanEngage'
-import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProductsTooltip'
-import { LABS } from './SantimentProductsTooltip/Products'
-import UserAvatar from '../../pages/Account/avatar/UserAvatar'
 import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import { getCurrentSanbaseSubscription } from '../../utils/plans'
+import PlanEngage from './PlanEngage'
+import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProductsTooltip'
+import UserAvatar from '../../pages/Account/avatar/UserAvatar'
 import styles from './Navbar.module.scss'
 
 const ExternalLink = ({ children, className, ...rest }) => (
@@ -45,15 +44,9 @@ const PricingLink = connect(state => ({
 
 const leftLinks = [
   {
-    to: '/feed',
-    children: 'Feed',
+    to: '/',
+    children: 'Home',
     as: Link
-  },
-  {
-    to: '/assets',
-    children: 'Assets',
-    as: Link,
-    Dropdown: NavbarAssetsDropdown
   },
   {
     href: 'https://insights.santiment.net/',
@@ -62,44 +55,30 @@ const leftLinks = [
     Dropdown: InsightsDropdown
   },
   {
-    children: 'Labs',
-    as: props => (
-      <Link {...props} to={'/labs'}>
-        <SantimentProductsTooltip
-          imgClassName={styles.imgLab}
-          showArrows={false}
-          products={LABS}
-          position='start'
-          showHeader={false}
-          offsetX={-330}
-          productProps={{
-            className: styles.labCard
-          }}
-        >
-          {props.children}
-        </SantimentProductsTooltip>
-      </Link>
-    )
+    to: '/assets',
+    children: 'Watchlists',
+    as: Link,
+    Dropdown: NavbarAssetsDropdown
   },
   {
-    href: 'https://graphs.santiment.net/',
-    children: 'Graphs',
-    as: ExternalLink
-  },
-  {
-    to: '/pricing',
-    children: 'Pricing',
+    to: '/feed',
+    children: 'Alerts',
     as: PricingLink
   }
 ]
 
-const rightBtns = [
+const rightLinks = [
   {
-    icon: () => <Icon type='info-round' className={styles.headerIcon} />,
-    el: NavbarHelpDropdown,
-    links: ['/docs', '/dev-api', '/support'],
-    makeActive: true,
+    href: 'https://academy.santiment.net/',
+    children: 'Academy',
+    as: ExternalLink,
+    Dropdown: NavbarHelpDropdown,
     className: styles.help
+  },
+  {
+    to: '/pricing',
+    children: 'Pricing',
+    as: Link
   }
 ]
 
@@ -134,12 +113,13 @@ const Navbar = ({ activeLink = '/', isBetaModeEnabled }) => {
           </SantimentProductsTooltip>
           {leftLinks.map(({ Dropdown, ...rest }, index) => {
             const isActive = activeLink.includes(rest.to)
+            const isHome = rest.to === '/'
 
             const button = (
               <Button
                 key={index}
                 variant='flat'
-                isActive={isActive}
+                isActive={isHome ? activeLink === '/' : isActive}
                 className={cx(Dropdown || styles.leftLink, styles.btn)}
                 {...rest}
               />
@@ -164,27 +144,29 @@ const Navbar = ({ activeLink = '/', isBetaModeEnabled }) => {
               icon: 'search'
             }}
           />
-          {rightBtns.map(
-            (
-              { icon: El, el: Content, links, makeActive, className },
-              index
-            ) => (
-              <SmoothDropdownItem
+          {rightLinks.map(({ Dropdown, ...rest }, index) => {
+            const isActive = activeLink.includes(rest.to)
+
+            const button = (
+              <Button
                 key={index}
-                trigger={
-                  <Button
-                    variant='flat'
-                    className={cx(styles.btn, styles.rightBtns, className)}
-                    isActive={makeActive && links.includes(activeLink)}
-                  >
-                    <El />
-                  </Button>
-                }
-              >
-                <Content activeLink={activeLink} />
-              </SmoothDropdownItem>
+                variant='flat'
+                isActive={isActive}
+                className={cx(Dropdown || styles.rightLink, styles.btn)}
+                {...rest}
+              />
             )
-          )}
+
+            if (Dropdown) {
+              return (
+                <SmoothDropdownItem key={index} trigger={button}>
+                  <Dropdown activeLink={activeLink} />
+                </SmoothDropdownItem>
+              )
+            }
+
+            return button
+          })}
           <div className={cx(styles.divider, styles.center)}>
             <PlanEngage />
             <SmoothDropdownItem

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { compose } from 'recompose'
+import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import Dialog from '@santiment-network/ui/Dialog'
 import Search from '@santiment-network/ui/Search'
@@ -10,6 +11,7 @@ import { usePublicProjectTemplates } from '../../gql/hooks'
 import TemplateDetailsDialog from '../../TemplateDetailsDialog/TemplateDetailsDialog'
 import { sortById } from '../../../../../utils/sortMethods'
 import NoChartLayouts from '../../NoChartLayouts/NoChartLayouts'
+import { prepareTemplateLink } from '../../utils'
 import styles from './index.module.scss'
 
 const TABS = {
@@ -28,6 +30,7 @@ const LoadTemplate = ({
   rerenderTemplate,
   currentUserId,
   projectId,
+  redirect,
   ...props
 }) => {
   const [filteredTemplates, setFilteredTemplates] = useState(templates)
@@ -119,20 +122,21 @@ const LoadTemplate = ({
             {filteredTemplates.length === 0 ? (
               <NoChartLayouts />
             ) : (
-              filteredTemplates
-                .sort(sortById)
-                .map(template => (
-                  <Template
-                    key={template.id}
-                    template={template}
-                    selectedTemplate={selectedTemplate}
-                    selectTemplate={selectTemplate}
-                    rerenderTemplates={rerenderTemplates}
-                    rerenderTemplate={rerenderTemplate}
-                    onOpenTemplate={setOpenedTemplate}
-                    onRename={onRename}
-                  />
-                ))
+              filteredTemplates.sort(sortById).map(template => (
+                <Template
+                  key={template.id}
+                  template={template}
+                  selectedTemplate={selectedTemplate}
+                  selectTemplate={template => {
+                    template && redirect(prepareTemplateLink(template))
+                    selectTemplate(template)
+                  }}
+                  rerenderTemplates={rerenderTemplates}
+                  rerenderTemplate={rerenderTemplate}
+                  onOpenTemplate={setOpenedTemplate}
+                  onRename={onRename}
+                />
+              ))
             )}
           </Dialog.ScrollContent>
         </>
@@ -154,5 +158,15 @@ const mapStateToProps = state => {
     currentUserId: state.user.data ? +state.user.data.id : null
   }
 }
+const mapDispatchToProps = dispatch => ({
+  redirect: (path = '/') => {
+    dispatch(push(path))
+  }
+})
 
-export default compose(connect(mapStateToProps))(LoadTemplate)
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)(LoadTemplate)

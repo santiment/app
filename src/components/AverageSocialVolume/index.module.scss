@@ -68,6 +68,15 @@
   padding: 2px 4px;
 }
 
+.trigger {
+  width: auto;
+
+  &:hover {
+    color: var(--rhino);
+    border-color: var(--jungle-green);
+  }
+}
+
 .period {
   padding: 12px;
   display: inline-block;

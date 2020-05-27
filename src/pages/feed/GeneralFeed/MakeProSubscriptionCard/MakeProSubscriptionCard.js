@@ -36,8 +36,8 @@ const MakeProSubscriptionCard = () => {
               <div className={styles.content}>
                 <div className={styles.title}>Go PRO and get more data</div>
                 <div className={styles.description}>
-                  Unlimited metrics, all types of signals, handcrafted report
-                  and much more
+                  Unlimited metrics, all types of alerts, handcrafted report and
+                  much more
                 </div>
               </div>
             </div>
