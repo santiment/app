@@ -51,7 +51,7 @@ const cards = [
     ),
     link: '/labs/buidl-heroes',
     className: styles.dashboard,
-    bgClassName: styles.dashboardBg
+    bgClassName: styles.buidlBg
   }
 ]
 

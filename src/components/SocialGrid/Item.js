@@ -62,7 +62,7 @@ const Item = ({
               >
                 Create an alert if the phrase
                 <br />
-                appears in Emerging trends
+                appears in Santrends
               </DarkTooltip>
             </div>
           </LoginDialogWrapper>

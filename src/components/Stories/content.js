@@ -389,7 +389,7 @@ export const stories = [
       {
         title: 'Sonar Introduction: Tracking the Social Trends',
         description:
-          'Setup push or Telegram notifications to trigger any time an asset starts trending on social media via our Emerging Trends Tool to potentially spot local tops!',
+          'Setup push or Telegram notifications to trigger any time an asset starts trending on social media via our Santrends Tool to potentially spot local tops!',
         videoId: 'AsZRjm9x5HI'
       }
     ],
