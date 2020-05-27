@@ -13,7 +13,7 @@
   width: 100%;
 
   @include responsive('desktop') {
-    width: 1140px;
+    width: 1360px;
   }
 
   @include responsive('laptop', 'tablet') {
@@ -56,10 +56,15 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+
+  @include responsive('desktop') {
+    flex-wrap: nowrap;
+  }
 }
 
 .wrapper {
-  width: 358px;
+  width: 100%;
+  max-width: 358px;
   max-height: 124px;
   padding: 21px 9px 9px 9px;
   transition: background 0.2s;
@@ -119,6 +124,7 @@
     color: var(--waterloo);
     margin: 5px 0 9px 0;
     white-space: normal;
+    max-width: 230px;
 
     @include text('body-3');
   }

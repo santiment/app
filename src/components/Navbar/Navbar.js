@@ -13,7 +13,6 @@ import NavbarAssetsDropdown from './NavbarAssetsDropdown'
 import InsightsDropdown from './InsightsDropdown'
 import PlanEngage from './PlanEngage'
 import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProductsTooltip'
-import { LABS } from './SantimentProductsTooltip/Products'
 import UserAvatar from '../../pages/Account/avatar/UserAvatar'
 import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import { getCurrentSanbaseSubscription } from '../../utils/plans'
@@ -45,15 +44,9 @@ const PricingLink = connect(state => ({
 
 const leftLinks = [
   {
-    to: '/feed',
-    children: 'Feed',
+    to: '/',
+    children: 'Home',
     as: Link
-  },
-  {
-    to: '/assets',
-    children: 'Assets',
-    as: Link,
-    Dropdown: NavbarAssetsDropdown
   },
   {
     href: 'https://insights.santiment.net/',
@@ -62,34 +55,15 @@ const leftLinks = [
     Dropdown: InsightsDropdown
   },
   {
-    children: 'Labs',
-    as: props => (
-      <Link {...props} to={'/labs'}>
-        <SantimentProductsTooltip
-          imgClassName={styles.imgLab}
-          showArrows={false}
-          products={LABS}
-          position='start'
-          showHeader={false}
-          offsetX={-330}
-          productProps={{
-            className: styles.labCard
-          }}
-        >
-          {props.children}
-        </SantimentProductsTooltip>
-      </Link>
-    )
+    to: '/assets',
+    children: 'Watchlists',
+    as: Link,
+    Dropdown: NavbarAssetsDropdown
   },
   {
-    href: 'https://graphs.santiment.net/',
-    children: 'Graphs',
-    as: ExternalLink
-  },
-  {
-    to: '/pricing',
-    children: 'Pricing',
-    as: PricingLink
+    to: '/feed',
+    children: 'Alerts',
+    as: Link
   }
 ]
 
@@ -134,12 +108,13 @@ const Navbar = ({ activeLink = '/', isBetaModeEnabled }) => {
           </SantimentProductsTooltip>
           {leftLinks.map(({ Dropdown, ...rest }, index) => {
             const isActive = activeLink.includes(rest.to)
+            const isHome = rest.to === '/'
 
             const button = (
               <Button
                 key={index}
                 variant='flat'
-                isActive={isActive}
+                isActive={isHome ? activeLink === '/' : isActive}
                 className={cx(Dropdown || styles.leftLink, styles.btn)}
                 {...rest}
               />

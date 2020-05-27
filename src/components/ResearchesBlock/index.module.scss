@@ -15,7 +15,7 @@
 }
 
 .heading {
-  @include text('h4', 'l');
+  @include text('h4', 'm');
 
   color: $white;
   margin: 0 0 12px;
@@ -26,7 +26,7 @@
 
   @include text('body-2');
 
-  color: $athens;
+  color: $porcelain;
   margin: 0 0 24px;
 }
 
@@ -62,6 +62,10 @@
     transform: scaleX(0);
     transform-origin: right;
     transition: transform 0.4s ease, background-color 0.35s ease;
+
+    @include responsive('phone-xs', 'phone', 'tablet') {
+      display: none;
+    }
   }
 
   &:hover,
