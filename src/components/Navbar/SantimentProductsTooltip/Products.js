@@ -1,4 +1,3 @@
-import React from 'react'
 import sanbaseLogoImg from '../../../assets/logos/logo-sanbase.svg'
 import sheetsLogoImg from '../../../assets/logos/logo-sheets.svg'
 import trendsLogoImg from '../../../assets/logos/logo-trends.svg'

@@ -25,23 +25,6 @@ const ExternalLink = ({ children, className, ...rest }) => (
   </a>
 )
 
-const PricingLink = connect(state => ({
-  isLoggedIn: checkIsLoggedIn(state),
-  subscription: getCurrentSanbaseSubscription(state.user.data)
-}))(({ isLoggedIn, subscription, dispatch, ...props }) => {
-  const hasFreeSubscription = isLoggedIn && !subscription
-
-  if (
-    !isLoggedIn ||
-    hasFreeSubscription ||
-    (subscription && subscription.trialEnd)
-  ) {
-    return <Link {...props} />
-  }
-
-  return null
-})
-
 const leftLinks = [
   {
     to: '/',
@@ -69,8 +52,10 @@ const leftLinks = [
 
 const rightLinks = [
   {
+    href: 'https://academy.santiment.net/',
     children: 'Academy',
-    to: '/academy',
+    as: ExternalLink,
+    Dropdown: NavbarHelpDropdown,
     className: styles.help
   }
 ]
