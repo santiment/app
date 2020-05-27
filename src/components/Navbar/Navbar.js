@@ -14,8 +14,6 @@ import InsightsDropdown from './InsightsDropdown'
 import PlanEngage from './PlanEngage'
 import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProductsTooltip'
 import UserAvatar from '../../pages/Account/avatar/UserAvatar'
-import { checkIsLoggedIn } from '../../pages/UserSelectors'
-import { getCurrentSanbaseSubscription } from '../../utils/plans'
 import styles from './Navbar.module.scss'
 
 const ExternalLink = ({ children, className, ...rest }) => (

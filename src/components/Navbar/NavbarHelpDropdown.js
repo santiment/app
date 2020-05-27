@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import DropdownDevider from './DropdownDevider'
