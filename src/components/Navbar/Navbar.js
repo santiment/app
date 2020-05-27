@@ -63,7 +63,7 @@ const leftLinks = [
   {
     to: '/feed',
     children: 'Alerts',
-    as: Link
+    as: PricingLink
   }
 ]
 

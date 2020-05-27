@@ -236,7 +236,7 @@ export const NavbarProfileDropdown = ({
             variant='ghost'
             fluid
             as={Link}
-            className={cx(dropdownStyles.item, styles.createAcc)}
+            className={dropdownStyles.item}
             to='/login'
             isActive={activeLink === '/login'}
           >
