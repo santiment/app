@@ -67,12 +67,10 @@ const leftLinks = [
   }
 ]
 
-const rightBtns = [
+const rightLinks = [
   {
-    icon: () => <Icon type='info-round' className={styles.headerIcon} />,
-    el: NavbarHelpDropdown,
-    links: ['/docs', '/dev-api', '/support'],
-    makeActive: true,
+    children: 'Academy',
+    to: '/academy',
     className: styles.help
   }
 ]
@@ -139,27 +137,29 @@ const Navbar = ({ activeLink = '/', isBetaModeEnabled }) => {
               icon: 'search'
             }}
           />
-          {rightBtns.map(
-            (
-              { icon: El, el: Content, links, makeActive, className },
-              index
-            ) => (
-              <SmoothDropdownItem
+          {rightLinks.map(({ Dropdown, ...rest }, index) => {
+            const isActive = activeLink.includes(rest.to)
+
+            const button = (
+              <Button
                 key={index}
-                trigger={
-                  <Button
-                    variant='flat'
-                    className={cx(styles.btn, styles.rightBtns, className)}
-                    isActive={makeActive && links.includes(activeLink)}
-                  >
-                    <El />
-                  </Button>
-                }
-              >
-                <Content activeLink={activeLink} />
-              </SmoothDropdownItem>
+                variant='flat'
+                isActive={isActive}
+                className={cx(Dropdown || styles.rightLink, styles.btn)}
+                {...rest}
+              />
             )
-          )}
+
+            if (Dropdown) {
+              return (
+                <SmoothDropdownItem key={index} trigger={button}>
+                  <Dropdown activeLink={activeLink} />
+                </SmoothDropdownItem>
+              )
+            }
+
+            return button
+          })}
           <div className={cx(styles.divider, styles.center)}>
             <PlanEngage />
             <SmoothDropdownItem
