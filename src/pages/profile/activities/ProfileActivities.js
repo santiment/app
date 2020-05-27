@@ -51,7 +51,7 @@ const ProfileActivities = ({ profile }) => {
           className={cx(styles.link, step === STEPS.SIGNALS && styles.active)}
           onClick={() => goTo(STEPS.SIGNALS)}
         >
-          Signals <Counter value={triggers.length} />
+          Alerts <Counter value={triggers.length} />
         </div>
         <div
           className={cx(

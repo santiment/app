@@ -29,7 +29,7 @@ const RemoveSignalButton = ({
   withConfirm ? (
     <ConfirmDialog
       id={id}
-      title='Delete signal'
+      title='Delete alert'
       description={RemoveDescription(signalTitle)}
       onApprove={removeSignal}
       redirect={redirect}

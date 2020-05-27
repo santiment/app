@@ -24,7 +24,7 @@ const ShareSignal = ({ trigger, className, signalId, signalTitle }) => {
       <ShareModalTrigger
         trigger={trigger}
         shareTitle='Santiment'
-        shareText={`Crypto Signal '${signalTitle}'`}
+        shareText={`Crypto Alert '${signalTitle}'`}
         shareLink={link}
       />
     </div>

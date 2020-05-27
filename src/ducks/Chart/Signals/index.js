@@ -200,7 +200,7 @@ export default connect(
   }
 
   return (
-    <LoginDialogWrapper title='Create signal'>
+    <LoginDialogWrapper title='Create alert'>
       <Signals {...props} metrics={alertMetrics} />
     </LoginDialogWrapper>
   )

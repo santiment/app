@@ -1,5 +1,7 @@
 import React from 'react'
 import Card from '../components/LabsCard'
+import MobileHeader from '../components/MobileHeader/MobileHeader'
+import { DesktopOnly, MobileOnly } from '../components/Responsive'
 import styles from './Labs.module.scss'
 
 const cards = [
@@ -7,11 +9,8 @@ const cards = [
     title: 'Historical balance',
     description: (
       <div>
-        Look up any wallet’s history of Ethereum and ERC20 holdings.
-        <br />
-        <br />
-        Choose up to 5 assets at a time for a detailed breakdown of the wallet’s
-        balance over the last 15 months.
+        Look up any wallet’s history of Ethereum and ERC20 holdings. Choose up
+        to 5 assets for a detailed breakdown.
       </div>
     ),
     link: '/labs/balance',
@@ -19,15 +18,11 @@ const cards = [
     bgClassName: styles.historicalBalanceBg
   },
   {
-    title: 'Emerging trends',
+    title: 'Santrends',
     description: (
       <div>
-        Explore the social volume of ANY word/phrase on crypto social media over
+        Explore the social volume of any word/phrase on crypto social media over
         time.
-        <br />
-        <br />
-        Results gathered from 100s of Telegram channels, crypto subreddits,
-        discord groups, private trading chats and more.
       </div>
     ),
     link: '/labs/trends',
@@ -35,38 +30,39 @@ const cards = [
     bgClassName: styles.trendsBg
   },
   {
-    title: 'SANgraphs',
+    title: 'Graphs',
     description: (
       <div>
         Our advanced on-chain, social and development metrics for all crypto
         projects in Santiment’s database.
-        <br />
-        <br />
-        For those that want a full 360° overview of the crypto market and its
-        biggest driving forces.
       </div>
     ),
-    link: '/dashboards',
+    href: 'https://graphs.santiment.net/',
     className: styles.dashboard,
     bgClassName: styles.dashboardBg
   },
   {
-    title: 'Sheets',
+    title: 'Buidl heroes',
     description: (
       <div>
-        Import our price, on-chain and other data points directly into Google
-        Sheets. Keep track of all your positions, manage your risk and monitor
-        your portfolio performance
+        Compare the development activity of all Ethereum, EOS and DeFi projects
+        over time.
       </div>
     ),
-    link: '/sheets',
+    link: '/labs/buidl-heroes',
     className: styles.dashboard,
-    bgClassName: styles.dashboardBg
+    bgClassName: styles.buidlBg
   }
 ]
 
 const Labs = () => (
   <div className='page'>
+    <DesktopOnly>
+      <h1 className={styles.heading}>Labs</h1>
+    </DesktopOnly>
+    <MobileOnly>
+      <MobileHeader title='Labs' />
+    </MobileOnly>
     <div className={styles.flexRow}>
       {cards.map(card => (
         <Card key={card.link} {...card} />

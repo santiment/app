@@ -42,7 +42,7 @@ const Item = ({
           {title}
         </Link>
         <div className={styles.actions}>
-          <LoginDialogWrapper title='Create signal'>
+          <LoginDialogWrapper title='Create alert'>
             <div
               className={styles.action}
               onClick={() => {
@@ -62,7 +62,7 @@ const Item = ({
               >
                 Create an alert if the phrase
                 <br />
-                appears in Emerging trends
+                appears in Santrends
               </DarkTooltip>
             </div>
           </LoginDialogWrapper>

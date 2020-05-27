@@ -389,7 +389,7 @@ export const stories = [
       {
         title: 'Sonar Introduction: Tracking the Social Trends',
         description:
-          'Setup push or Telegram notifications to trigger any time an asset starts trending on social media via our Emerging Trends Tool to potentially spot local tops!',
+          'Setup push or Telegram notifications to trigger any time an asset starts trending on social media via our Santrends Tool to potentially spot local tops!',
         videoId: 'AsZRjm9x5HI'
       }
     ],
@@ -397,13 +397,13 @@ export const stories = [
   },
   {
     type: 'VIDEO',
-    previewTitle: 'How to create a signal',
+    previewTitle: 'How to create an alert',
     storyHeaderName: 'Tips & Trics',
     isTutorial: true,
     minutes: 2,
     slides: [
       {
-        title: 'How to create a signal',
+        title: 'How to create an alert',
         isDarkImage: true,
         description:
           'Recieve alerts via push or Telegram notification any time an asset crosses a price threshold, there is a significant change to the number of addresses transacting on-chain, and more!',

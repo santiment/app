@@ -13,7 +13,7 @@ export const BASIC_CATEGORIES = [
   }
 ]
 
-export const TRENDING_WATCHLIST_NAME = 'Emerging trending assets'
+export const TRENDING_WATCHLIST_NAME = 'Trending assets'
 
 export const WATCHLISTS_BY_SLUG = [
   {

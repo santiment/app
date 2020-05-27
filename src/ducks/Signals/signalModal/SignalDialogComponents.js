@@ -8,7 +8,7 @@ import styles from './SignalMasterModalForm.module.scss'
 export const TriggerModalTitle = ({
   showSharedBtn,
   isError,
-  dialogTitle = 'Signal details',
+  dialogTitle = 'Alert details',
   isLoggedIn
 }) => {
   if (isError) {
@@ -47,8 +47,8 @@ export const signalModalTrigger = (
 
 export const NoSignal = () => (
   <EmptySection className={styles.notSignalInfo}>
-    Signal doesn't exist
+    Alert doesn't exist
     <br />
-    or it's a private signal.
+    or it's a private alert.
   </EmptySection>
 )

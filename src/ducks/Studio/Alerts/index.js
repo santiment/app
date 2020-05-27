@@ -12,7 +12,7 @@ const Alert = ({ alert, render, createAlert }) => {
   }
 
   return (
-    <LoginDialogWrapper title='Create signal'>
+    <LoginDialogWrapper title='Create alert'>
       <div className={styles.alert} onClick={onClick}>
         {render}
       </div>
