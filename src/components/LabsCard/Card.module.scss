@@ -5,13 +5,17 @@
   border-radius: $border-radius;
   display: inline-block;
   padding: 38px;
-  min-height: 300px;
+  min-height: 250px;
   position: relative;
   overflow: hidden;
   color: white;
 
   &:hover {
     color: white;
+  }
+
+  @include responsive('phone-xs', 'phone') {
+    padding: 16px 24px;
   }
 }
 

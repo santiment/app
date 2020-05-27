@@ -5,6 +5,14 @@
 
   margin: 22px 16px;
   width: auto;
+
+  @include responsive('phone-xs', 'phone') {
+    margin-top: 0;
+  }
+}
+
+.heading {
+  padding-left: 16px;
 }
 
 .historicalBalance {
