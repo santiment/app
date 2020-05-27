@@ -51,6 +51,11 @@
   align-items: center;
   justify-content: space-between;
   user-select: none;
+  cursor: pointer;
+
+  &:hover .toggle {
+    fill: var(--jungle-green);
+  }
 }
 
 .group {
@@ -60,6 +65,11 @@
   margin: 14px 0 8px 9px;
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
+
+  &:hover .toggle {
+    fill: var(--jungle-green);
+  }
 
   &__list {
     display: flex;
