@@ -12,23 +12,35 @@ function trim (s) {
   return s.replace(/^\s+|\s+$/g, '')
 }
 
-function loadScript () {
-  const importGTAG = document.createElement('script')
-  importGTAG.async = true
-  importGTAG.type = 'text/javascript'
-  importGTAG.src = '//www.googletagmanager.com/gtag/js?id=' + TRACKER_IDs[0]
+function mixScript (src) {
+  const script = document.createElement('script')
+  script.async = true
+  script.type = 'text/javascript'
+  script.src = src
 
   const head = document.getElementsByTagName('head')[0]
-  head.appendChild(importGTAG)
+  head.appendChild(script)
+}
+
+function loadScript () {
+  mixScript('//www.googletagmanager.com/gtag/js?id=' + TRACKER_IDs[0])
+}
+
+const initHotjar = () => {
+  const settings = {
+    hjid: 1829649,
+    hjsv: 6
+  }
+  mixScript(
+    'https://static.hotjar.com/c/hotjar-' +
+      settings.hjid +
+      '.js?sv=' +
+      settings.hjsv
+  )
 }
 
 const initTwitterPixel = () => {
-  const importPixel = document.createElement('script')
-  importPixel.async = true
-  importPixel.type = 'text/javascript'
-  importPixel.src = '//static.ads-twitter.com/uwt.js'
-  const head = document.getElementsByTagName('head')[0]
-  head.appendChild(importPixel)
+  mixScript('//static.ads-twitter.com/uwt.js')
   window.twq = function twq () {
     window.twq.exe
       ? window.twq.exe.apply(window.twq, arguments)
@@ -54,8 +66,8 @@ export function initializeTracking (trackerIDs = TRACKER_IDs) {
       gtag('config', ID)
     })
 
-    // Initialize twitter pixel
     initTwitterPixel()
+    initHotjar()
   }
 }
 
@@ -147,7 +159,7 @@ export function pageview (rawPath, trackerIDs = TRACKER_IDs) {
 }
 
 export default {
-  initializeTracking,
+  // initializeTracking,
   event,
   pageview,
   update
