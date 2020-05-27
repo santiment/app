@@ -17,7 +17,7 @@ import styles from './NavbarProfileDropdown.module.scss'
 import dropdownStyles from './NavbarDropdown.module.scss'
 
 const personalLinks = [
-  { as: Link, to: '/sonar/my-signals', children: 'My signals' },
+  { as: Link, to: '/sonar/my-signals', children: 'My alerts' },
   { as: Link, to: '/assets', children: 'My watchlists' },
   {
     as: 'a',

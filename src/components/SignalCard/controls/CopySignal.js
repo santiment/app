@@ -16,7 +16,7 @@ const CopySignal = ({
   signal,
   createTrigger,
   onCreate,
-  label = 'Copy signal',
+  label = 'Copy alert',
   classes = {},
   btnParams
 }) => {

@@ -91,7 +91,7 @@ const VisualBacktestChart = ({
     <div className={styles.preview}>
       {titleEnabled && (
         <div className={styles.description}>
-          <span className={styles.fired}>Signal was fired:</span>
+          <span className={styles.fired}>Alert was fired:</span>
           <span className={styles.times}>
             {triggeredSignals.length} times in {label}
           </span>

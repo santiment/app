@@ -4,8 +4,8 @@ import list from '../../components/Plans/list'
 import styles from './Enterprise.module.scss'
 
 const features = [
-  'Access to all signal types',
-  'Unlimited active signals',
+  'Access to all alert types',
+  'Unlimited active alerts',
   'Sanbase metrics - 5 years of historical data',
   'Sanbase metrics - including present-day data',
   'Exclusive market reports'

@@ -397,13 +397,13 @@ export const stories = [
   },
   {
     type: 'VIDEO',
-    previewTitle: 'How to create a signal',
+    previewTitle: 'How to create an alert',
     storyHeaderName: 'Tips & Trics',
     isTutorial: true,
     minutes: 2,
     slides: [
       {
-        title: 'How to create a signal',
+        title: 'How to create an alert',
         isDarkImage: true,
         description:
           'Recieve alerts via push or Telegram notification any time an asset crosses a price threshold, there is a significant change to the number of addresses transacting on-chain, and more!',

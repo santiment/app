@@ -42,7 +42,7 @@ const Item = ({
           {title}
         </Link>
         <div className={styles.actions}>
-          <LoginDialogWrapper title='Create signal'>
+          <LoginDialogWrapper title='Create alert'>
             <div
               className={styles.action}
               onClick={() => {

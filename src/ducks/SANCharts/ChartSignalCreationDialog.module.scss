@@ -3,7 +3,7 @@
 .btn {
   margin-left: 20px;
 
-  @include explanation('Create signal') {
+  @include explanation('Create alert') {
     white-space: nowrap;
   }
 }

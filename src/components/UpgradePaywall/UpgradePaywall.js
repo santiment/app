@@ -20,7 +20,7 @@ const UpgradePaywall = ({ isAdvancedView, isWideChart }) => (
       />
       <UpgradeItem
         iconType='connection'
-        text='All types of signals'
+        text='All types of alerts'
         className={styles.item}
       />
       <UpgradeItem

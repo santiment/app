@@ -52,7 +52,7 @@ const SharedTriggerForm = ({
         <DesktopOnly>
           <CopySignal
             signal={trigger}
-            label='Add signal'
+            label='Add alert'
             onCreate={onCreate}
             classes={styles}
             as='div'
@@ -70,7 +70,7 @@ const SharedTriggerForm = ({
         <MobileOnly>
           <CopySignal
             signal={trigger}
-            label='Add signal'
+            label='Add alert'
             onCreate={onCreate}
             classes={styles}
             as='div'
@@ -81,7 +81,7 @@ const SharedTriggerForm = ({
             className={styles.btnEdit}
             onClick={() => onOpen(false)}
           >
-            Edit signal
+            Edit alert
           </Button>
         </MobileOnly>
       </div>

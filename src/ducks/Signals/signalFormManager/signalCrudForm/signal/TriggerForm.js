@@ -48,9 +48,9 @@ const getTitle = (formData, id, isShared) => {
   const isUpdate = id > 0 && !isShared
   const publicWord = formData.isPublic ? 'public' : 'private'
   if (isUpdate) {
-    return `Update ${publicWord} signal`
+    return `Update ${publicWord} alert`
   } else {
-    return `Create ${publicWord} signal`
+    return `Create ${publicWord} alert`
   }
 }
 
@@ -336,13 +336,13 @@ export const TriggerForm = ({
 
                   <div className={cx(styles.row, styles.descriptionBlock)}>
                     <div className={cx(styles.Field, styles.fieldFilled)}>
-                      <FormikLabel text='Name of the signal' />
+                      <FormikLabel text='Name of the alert' />
                       <FormikInput
                         name='title'
                         type='text'
                         minLength={MIN_TITLE_LENGTH}
                         maxLength={MAX_TITLE_LENGTH}
-                        placeholder='Name of the signal'
+                        placeholder='Name of the alert'
                         onChange={() =>
                           setFieldValue('titleChangedByUser', true)
                         }
@@ -358,7 +358,7 @@ export const TriggerForm = ({
                         }/${MAX_DESCR_LENGTH})`}
                       />
                       <FormikTextarea
-                        placeholder='Description of the signal'
+                        placeholder='Description of the alert'
                         name='description'
                         className={styles.descriptionTextarea}
                         rowsCount={3}
@@ -380,7 +380,7 @@ export const TriggerForm = ({
                 accent='positive'
                 className={styles.submitButton}
               >
-                {id && !isShared ? 'Update signal' : 'Create signal'}
+                {id && !isShared ? 'Update alert' : 'Create alert'}
               </Button>
             </div>
           </Form>

@@ -239,7 +239,7 @@ const MetricTypeRenderer = ({ metric = {}, onClick, showLabel = true }) => {
           )}
         </div>
         {showLabel && (
-          <div className={metricStyles.label}>Change signal type</div>
+          <div className={metricStyles.label}>Change alert type</div>
         )}
       </div>
     </div>
