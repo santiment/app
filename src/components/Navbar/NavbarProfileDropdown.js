@@ -213,6 +213,7 @@ export const NavbarProfileDropdown = ({
           fluid
           className={dropdownStyles.item}
           to='/labs'
+          as={Link}
         >
           Labs
         </Button>
