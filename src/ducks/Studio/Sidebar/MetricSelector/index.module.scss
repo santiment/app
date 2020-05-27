@@ -19,6 +19,10 @@
   &:hover {
     fill: var(--jungle-green);
   }
+
+  &_active {
+    transform: rotate(180deg);
+  }
 }
 
 .category {
@@ -53,7 +57,18 @@
   @include text('caption');
 
   color: var(--waterloo);
-  margin: 14px 0 8px;
+  margin: 14px 0 8px 9px;
+  display: flex;
+  justify-content: space-between;
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+
+    &_hidden {
+      display: none;
+    }
+  }
 }
 
 .advanced {
