@@ -26,11 +26,6 @@ const personalLinks = [
   }
 ]
 
-const commonLinks = [
-  { as: Link, to: '/labs', children: 'Labs' },
-  { as: Link, to: '/pricing', children: 'Pricing' }
-]
-
 const links = [
   { to: '/account', children: 'Account settings' },
   // { link: '/upgrade', label: 'Upgrade plan' },
@@ -185,7 +180,7 @@ export const NavbarProfileDropdown = ({
           </div>
         </div>
       )}
-
+      <DropdownDevider />
       <Button
         fluid
         variant='ghost'
@@ -194,6 +189,7 @@ export const NavbarProfileDropdown = ({
       >
         Night mode <Toggle isActive={isNightModeEnabled} />
       </Button>
+      <DropdownDevider />
       {isLoggedIn && (
         <>
           <div className={dropdownStyles.list}>
@@ -212,25 +208,15 @@ export const NavbarProfileDropdown = ({
         </>
       )}
       <div className={dropdownStyles.list}>
-        {commonLinks.map((props, index) => (
-          <Button
-            variant='ghost'
-            key={index}
-            fluid
-            className={dropdownStyles.item}
-            isActive={props.to === activeLink}
-            {...props}
-          />
-        ))}
         <Button
           variant='ghost'
           fluid
           className={dropdownStyles.item}
-          onClick={() => window.Intercom('show')}
+          to='/labs'
         >
-          Contact us
+          Labs
         </Button>
-        {isLoggedIn ? (
+        {isLoggedIn &&
           links.map((props, index) => {
             return (
               <Button
@@ -243,8 +229,9 @@ export const NavbarProfileDropdown = ({
                 {...props}
               />
             )
-          })
-        ) : (
+          })}
+
+        {!isLoggedIn && (
           <Button
             variant='ghost'
             fluid
