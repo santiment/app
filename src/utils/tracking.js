@@ -159,7 +159,7 @@ export function pageview (rawPath, trackerIDs = TRACKER_IDs) {
 }
 
 export default {
-  // initializeTracking,
+  initializeTracking,
   event,
   pageview,
   update
