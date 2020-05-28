@@ -8,7 +8,7 @@ import ConfirmSignalModalClose from './confirmClose/ConfirmSignalModalClose'
 import SignalDialog from './SignalDialog'
 
 const SignalMasterModalForm = ({
-  label = 'New signal',
+  label = 'New alert',
   metaFormSettings,
   canRedirect = true,
   enabled = true,

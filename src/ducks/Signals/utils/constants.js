@@ -172,7 +172,7 @@ export const PRICE_ABS_CHANGE_OUTSIDE = {
 }
 
 export const TRENDING_WORDS_METRIC = {
-  label: 'Emerging social trends',
+  label: 'Santrends',
   value: TRENDING_WORDS,
   metric: TRENDING_WORDS,
   description: 'Notify me when an asset starts trending on crypto social media'

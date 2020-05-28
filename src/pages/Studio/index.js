@@ -30,10 +30,7 @@ const TopSlot = compose(withProject)(({ slug, project, loading }) => (
           property: 'og:description',
           content: `Financial, development, on-chain and social data for ${
             project.name
-          }. Get access to full historical data & advanced metrics for ${
-            project.name
-          } by upgrading to Sanbase Dashboards.
-          `
+          }.`
         }
       ]}
     />

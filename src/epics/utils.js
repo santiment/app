@@ -16,11 +16,11 @@ export const handleErrorAndTriggerAction = action => (error, data) => {
       Observable.of(
         showNotification({
           variant: 'info',
-          title: "You've reached your signals limit (10)",
+          title: "You've reached your alerts limit (10)",
           description: (
             <div>
               <div className={styles.description}>
-                Please upgrade your account for unlimited signals
+                Please upgrade your account for unlimited alerts
               </div>
               <Link className={styles.link} to='/account#subscription'>
                 Upgrade plan

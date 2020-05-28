@@ -108,7 +108,7 @@ const TrendsExplore = ({
           {isDesktop ? (
             <div className={styles.breadcrumbs}>
               <Link to='/labs/trends/' className={styles.link}>
-                Emerging trends
+                Santrends
               </Link>
               <Icon type='arrow-right' className={styles.arrow} />
               Social context

@@ -106,7 +106,7 @@ const MarketingPage = props => {
                 )
               },
               {
-                type: 'Emerging trends',
+                type: 'Santrends',
                 content: (
                   <>
                     <div className={styles.description}>
@@ -120,7 +120,7 @@ const MarketingPage = props => {
                       </span>
                     </div>
                     <Link to={'/labs/trends/'} className={styles.link}>
-                      Start researching Emerging Trends
+                      Start researching Santrends
                     </Link>
                     <Trends />
                   </>

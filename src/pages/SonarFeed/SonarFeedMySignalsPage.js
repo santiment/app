@@ -14,7 +14,7 @@ const SonarFeedMySignalsPage = props => {
     <>
       <GetSignals
         filters={filters}
-        render={({ data: { signals, userId }, isLoading }) => {
+        render={({ data: { signals = [], userId } = {}, isLoading }) => {
           const hasSignals = signals && signals.length > 0
 
           if (isLoading) {

@@ -6,7 +6,6 @@ import * as rootActions from './../../actions/types'
 import { showNotification } from './../../actions/rootActions'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import { TRIGGERS_QUERY } from './common/queries'
-import { completeOnboardingTask } from '../../pages/Dashboard/utils'
 import GA from './../../utils/tracking'
 import { GA_FIRST_SIGNAL } from '../../enums/GaEvents'
 import SignalNotificationActions from './notifications/SignalNotificationActions'
@@ -105,8 +104,6 @@ export const createSignalEpic = (action$, store, { client }) =>
 
         return Observable.fromPromise(create)
           .mergeMap(props => {
-            completeOnboardingTask('signal')
-
             const {
               data: {
                 createTrigger: { trigger }
@@ -119,7 +116,7 @@ export const createSignalEpic = (action$, store, { client }) =>
               }),
               Observable.of(
                 showNotification({
-                  title: 'Signal was succesfully created',
+                  title: 'Alert was succesfully created',
                   description: (
                     <SignalNotificationActions
                       signal={trigger}
@@ -258,7 +255,7 @@ export const updateSignalEpic = (action$, store, { client }) =>
                 id: updateTrigger.trigger.id
               }
             }),
-            Observable.of(showNotification('Signal was succesfully updated'))
+            Observable.of(showNotification('Alert was succesfully updated'))
           )
         })
         .catch(handleErrorAndTriggerAction(actions.SIGNAL_UPDATE_FAILED))
@@ -310,7 +307,7 @@ export const removeSignalEpic = (action$, store, { client }) =>
               type: actions.SIGNAL_REMOVE_BY_ID_SUCCESS,
               payload: { id: removeTrigger.trigger.id }
             }),
-            Observable.of(showNotification('Signal has been removed'))
+            Observable.of(showNotification('Alert has been removed'))
           )
         })
         .catch(action => {
@@ -321,7 +318,7 @@ export const removeSignalEpic = (action$, store, { client }) =>
             ),
             Observable.of(
               showNotification({
-                title: 'Signal has not been removed',
+                title: 'Alert has not been removed',
                 variant: 'error'
               })
             )

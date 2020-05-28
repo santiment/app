@@ -40,7 +40,7 @@ export const signalsGqlMapper = {
 
     if (error) {
       throw new Error(
-        "Can't load signals. Apollo error: " + JSON.stringify(error)
+        "Can't load alerts. Apollo error: " + JSON.stringify(error)
       )
     }
 
