@@ -4,7 +4,7 @@
   padding: 0 !important;
   max-width: 100% !important;
   position: relative;
-  margin: 40px auto 0 auto !important;
+  margin: 0 auto !important;
 }
 
 .stories {
@@ -40,6 +40,10 @@
   @include responsive('phone', 'phone-xs') {
     margin-bottom: 48px;
   }
+}
+
+.firstBlock {
+  margin-top: 48px;
 }
 
 .chartLayoutsWrapper {
