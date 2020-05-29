@@ -32,6 +32,7 @@ const Category = ({
         {/* TODO: Find a better way to extend metrics categories with custom metrics [@vanguard | April 3, 2020] */}
         {isBeta && hasTopHolders && !rest.options.isMultiChartsActive && (
           <MetricButton
+            metric={{ isBeta: true }}
             label='Holder Distribution'
             isActive={chartSidepane === TOP_HOLDERS_PANE}
             onClick={() => toggleChartSidepane(TOP_HOLDERS_PANE)}

@@ -22,9 +22,10 @@ const hashMetrics = metrics => metrics.reduce((acc, { key }) => acc + key, '')
 const cancelQuery = ([controller, id]) => {
   const { queryManager } = client
   controller.abort()
-  queryManager.inFlightLinkObservables.delete(
-    queryManager.queries.get(id.toString()).document
-  )
+  const query = queryManager.queries.get(id.toString())
+  if (query) {
+    queryManager.inFlightLinkObservables.delete(query.document)
+  }
   queryManager.stopQuery(id)
 }
 
