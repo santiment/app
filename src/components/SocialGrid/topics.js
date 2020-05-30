@@ -76,9 +76,8 @@ export const INDEX_PAGE_GROUPS = [
         slug: 'virus OR corona OR coronavirus OR covid OR covid19 OR "covid-19"'
       },
       {
-        title: 'Oil negative rates',
-        slug:
-          'oil OR negative OR barrel OR crude OR barrels OR contract OR futures OR wti'
+        title: 'Satoshi coins moved',
+        slug: 'satoshi AND coins'
       },
       {
         title: 'Unlimited dollar printing',
