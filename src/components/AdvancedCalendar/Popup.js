@@ -4,37 +4,37 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Panel from '@santiment-network/ui/Panel'
 import Button from '@santiment-network/ui/Button'
 import Calendar from '../Calendar/Calendar'
-import styles from './index.module.scss'
+import styles from './Popup.module.scss'
 
 const DEFAULT_OPTIONS = [
   {
     index: '1d',
-    label: 'Last day'
+    label: 'Last day',
   },
   {
     index: '1w',
-    label: 'Last week'
+    label: 'Last week',
   },
   {
     index: '1m',
-    label: 'Last month'
+    label: 'Last month',
   },
   {
     index: '3m',
-    label: 'Last 3 months'
+    label: 'Last 3 months',
   },
   {
     index: '6m',
-    label: 'Last 6 months'
+    label: 'Last 6 months',
   },
   {
     index: '1y',
-    label: 'Last year'
+    label: 'Last year',
   },
   {
     index: 'all',
-    label: 'All time'
-  }
+    label: 'All time',
+  },
 ]
 
 const Option = ({ className, ...props }) => (
