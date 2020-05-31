@@ -39,15 +39,18 @@ function extractGroupValue(str, index) {
 }
 
 const Input = ({ value, onCalendarChange }) => {
-  const inputRef = useRef()
   const [input, setInput] = useState(value)
-  const debouncedChangeCalendar = useDebounce(changeCalendar, 500)
+  const [isFocused, setIsFocused] = useState()
+  const debouncedChangeCalendar = useDebounce(changeCalendar, 700)
+  const inputRef = useRef()
 
   useEffect(
     () => {
-      setInput(value)
+      if (!isFocused) {
+        setInput(value)
+      }
     },
-    [value],
+    [value, isFocused],
   )
 
   function changeCalendar(dates) {
@@ -125,6 +128,10 @@ const Input = ({ value, onCalendarChange }) => {
     return e.preventDefault()
   }
 
+  function toggleFocus() {
+    setIsFocused((state) => !state)
+  }
+
   return (
     <input
       ref={inputRef}
@@ -134,6 +141,8 @@ const Input = ({ value, onCalendarChange }) => {
       onKeyDown={onKeyDown}
       onClick={onClick}
       onChange={onChange}
+      onFocus={toggleFocus}
+      onBlur={toggleFocus}
     />
   )
 }
