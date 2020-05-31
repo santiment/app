@@ -37,6 +37,7 @@ const Trigger = ({
             ? getDateLabel(from)
             : `${getDateLabel(from)} - ${getDateLabel(to)}`
         }
+        onCalendarChange={onCalendarChange}
       />
       <Icon type='arrow-down' className={styles.arrow} />
     </div>

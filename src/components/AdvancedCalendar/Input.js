@@ -5,6 +5,7 @@ import {
   checkInvalidDate,
   getValidityMsg,
 } from './utils'
+import { useDebounce } from '../../hooks'
 import styles from './index.module.scss'
 
 const TO_RIGHT = true
@@ -18,8 +19,6 @@ const NavigationChar = {
   ArrowLeft: true,
   ArrowRight: true,
 }
-
-const groupStartIndeces = [0, 3, 6, 11, 14, 17]
 
 const canModifyChar = (char) => !Number.isNaN(parseInt(char, 10))
 const shouldBreakOnChar = (char) => char === '/' || char === ' '
@@ -42,6 +41,7 @@ function extractGroupValue(str, index) {
 const Input = ({ value, onCalendarChange }) => {
   const inputRef = useRef()
   const [input, setInput] = useState(value)
+  const debouncedChangeCalendar = useDebounce(changeCalendar, 500)
 
   useEffect(
     () => {
@@ -50,30 +50,42 @@ const Input = ({ value, onCalendarChange }) => {
     [value],
   )
 
-  useEffect(
-    () => {
-      const dates = input.split(' - ').map((item) => item.split('/'))
+  function changeCalendar(dates) {
+    onCalendarChange(dates)
+  }
 
-      const [from, to] = dates.map(
-        ([day, month, year]) => new Date(`${month}/${day}/20${year}`),
-      )
+  function updateInput(value) {
+    setInput(value)
+    const validDates = validateInput(value)
+    if (validDates) {
+      debouncedChangeCalendar(validDates)
+    }
+  }
 
-      let msg = ''
-      if (checkInvalidDate(from)) {
-        msg = getValidityMsg(dates[0])
-      } else if (checkInvalidDate(to)) {
-        msg = getValidityMsg(dates[1])
-      }
+  function validateInput(input) {
+    const dateSettings = input.split(' - ').map((item) => item.split('/'))
 
-      inputRef.current.setCustomValidity(msg)
-      inputRef.current.reportValidity()
-    },
-    [input],
-  )
+    const dates = dateSettings.map(
+      ([day, month, year]) => new Date(`${month}/${day}/20${year}`),
+    )
+    const [from, to] = dates
+
+    let msg = ''
+    if (checkInvalidDate(from)) {
+      msg = getValidityMsg(dateSettings[0])
+    } else if (checkInvalidDate(to)) {
+      msg = getValidityMsg(dateSettings[1])
+    }
+
+    inputRef.current.setCustomValidity(msg)
+    inputRef.current.reportValidity()
+
+    return msg ? null : dates
+  }
 
   function onChange({ target }) {
     const { value, selectionStart } = target
-    setInput(value)
+    updateInput(value)
 
     if (extractGroupValue(value, selectionStart - 1).length > 1) {
       selectNextGroup(target, TO_RIGHT)
@@ -82,7 +94,7 @@ const Input = ({ value, onCalendarChange }) => {
 
   function onClick({ target }) {
     const caret = target.selectionStart
-    setInput(fixDateRangeString(target))
+    updateInput(fixDateRangeString(target))
     selectNextGroup(target, null, caret)
   }
 
@@ -100,7 +112,7 @@ const Input = ({ value, onCalendarChange }) => {
     if (key === 'Backspace') {
       if (canModifyChar(charBeforeCaret)) return
     } else if (NavigationChar[key]) {
-      setInput(fixDateRangeString(target))
+      updateInput(fixDateRangeString(target))
       selectNextGroup(target, key === 'ArrowRight', beforeCaretIndex + 1)
     } else if (
       canModifyChar(key) ^

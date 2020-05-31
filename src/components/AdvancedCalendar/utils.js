@@ -1,5 +1,7 @@
 import { MONTH_NAMES } from '../../utils/dates'
 
+const groupStartIndeces = [0, 3, 6, 11, 14, 17]
+
 const getDaysInMonth = (year, month) => new Date(20 + year, month, 0).getDate()
 
 export const checkInvalidDate = (date) => Number.isNaN(+date)
