@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import AdvancedCalendarPopup from './Popup'
