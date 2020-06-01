@@ -6,18 +6,24 @@ const getDaysInMonth = (year, month) => new Date(20 + year, month, 0).getDate()
 
 const shouldBreakOnChar = char => char === '/' || char === ' '
 
-export const checkInvalidDate = date => Number.isNaN(+date)
+export function getValidityMsg (dateSettings) {
+  if (!dateSettings) return ''
 
-export function getValidityMsg ([day, fullMonth, year]) {
+  const [day, fullMonth, year] = dateSettings
+
   const month = fullMonth - 1
   if (month < 0 || month > 11) {
     return 'Month value should be between "1" and "12"'
-  } else {
-    const daysInMonth = getDaysInMonth(year, fullMonth)
+  }
+
+  const daysInMonth = getDaysInMonth(year, fullMonth)
+  if (day > daysInMonth) {
     return `${
       MONTH_NAMES[month]
     } has "${daysInMonth}" days, but tried to set "${day}"`
   }
+
+  return ''
 }
 
 export function fixDateRangeString (input) {
