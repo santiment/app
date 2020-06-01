@@ -32,6 +32,13 @@ const initHotjar = () => {
     hjid: 1829649,
     hjsv: 6
   }
+  window.hj =
+    window.hj ||
+    function () {
+      ;(window.hj.q = window.hj.q || []).push(arguments)
+    }
+  window._hjSettings = settings
+
   mixScript(
     'https://static.hotjar.com/c/hotjar-' +
       settings.hjid +
