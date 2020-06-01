@@ -3,7 +3,6 @@ import cx from 'classnames'
 import {
   selectNextGroup,
   fixDateRangeString,
-  checkInvalidDate,
   getValidityMsg,
   extractGroupValue
 } from './utils'
@@ -32,6 +31,7 @@ const Input = ({ value, onCalendarChange }) => {
   useEffect(
     () => {
       setInput(value)
+      setIsInvalid(false)
     },
     [value]
   )
@@ -88,12 +88,8 @@ const Input = ({ value, onCalendarChange }) => {
       dates[1] = fixedTo
     }
 
-    let msg = ''
-    if (checkInvalidDate(from)) {
-      msg = getValidityMsg(dateSettings[0])
-    } else if (checkInvalidDate(to)) {
-      msg = getValidityMsg(dateSettings[1])
-    } else if (from > to) {
+    let msg = getValidityMsg(dateSettings[0]) || getValidityMsg(dateSettings[1])
+    if (from > to) {
       msg = 'Left date should be before right date'
     }
 
