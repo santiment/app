@@ -4,7 +4,6 @@
   display: flex;
   align-items: center;
   position: relative;
-  z-index: 1001;
 }
 
 .input {
@@ -39,6 +38,8 @@
 }
 
 .active {
+  z-index: 1001;
+
   .input {
     border-color: var(--jungle-green);
   }
