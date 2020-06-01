@@ -75,7 +75,18 @@ const Input = ({ value, onCalendarChange }) => {
     const dates = dateSettings.map(
       ([day, month, year]) => new Date(`${month}/${day}/20${year}`),
     )
-    const [from, to] = dates
+
+    let [from, to] = dates
+
+    if (+from === +to) {
+      from.setHours(0, 0, 0)
+      to.setHours(23, 59, 59)
+    } else if (!to) {
+      const fixedTo = new Date(from)
+      fixedTo.setHours(23, 59, 59)
+      to = fixedTo
+      dates[1] = fixedTo
+    }
 
     let msg = ''
     if (checkInvalidDate(from)) {
