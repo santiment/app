@@ -28,7 +28,7 @@ const SharedTriggerForm = ({
     <div className={styles.container}>
       <SignalCard
         id={id}
-        signal={trigger}
+        signal={originalTrigger}
         showMoreActions={false}
         className={styles.cardPanel}
         showStatus={false}

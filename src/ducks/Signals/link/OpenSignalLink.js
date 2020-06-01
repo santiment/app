@@ -10,12 +10,17 @@ const PERCENT_REGEXP = new RegExp(
 const NEGATIVE_WORDS = ['down', 'below', 'decreases']
 
 const prepareTitle = title => {
-  const digits = title.match(PERCENT_REGEXP)
+  let checkingTitle = title
+  if (Array.isArray(title)) {
+    checkingTitle = title.join('')
+  }
+
+  const digits = checkingTitle.match(PERCENT_REGEXP)
 
   if (digits && digits.length) {
     let result = []
 
-    let temporaryTitle = title
+    let temporaryTitle = checkingTitle
 
     for (let i = 0; i < digits.length; i++) {
       const item = digits[i]
@@ -59,7 +64,7 @@ const prepareTitle = title => {
     return result
   }
 
-  return title
+  return checkingTitle
 }
 
 const OpenSignalLink = ({ signal: { id, title }, children }) => (
