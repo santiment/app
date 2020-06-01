@@ -65,7 +65,7 @@ const getFormData = (stateTrigger, metaFormSettings) =>
 
 const SignalMaster = ({
   canRedirect = true,
-  trigger: { trigger: propsTrigger = {} } = {},
+  trigger: { trigger: propsTrigger = {}, userId } = {},
   metaFormSettings,
   setTitle,
   onClose,
@@ -156,6 +156,7 @@ const SignalMaster = ({
           }
           settings={settings}
           originalTrigger={propsTrigger}
+          userId={userId}
         />
       )}
     </div>

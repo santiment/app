@@ -102,6 +102,8 @@ const SignalMasterModalForm = ({
           trigger.trigger = { ...trigger.trigger, ...shareParams }
         }
 
+        trigger.userId = triggerUserId
+
         return (
           <>
             {isApproving && (

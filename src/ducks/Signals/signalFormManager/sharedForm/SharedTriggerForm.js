@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import Button from '@santiment-network/ui/Button'
 import { couldShowChart } from '../../utils/utils'
 import SignalPreview from '../../chart/preview/SignalPreview'
@@ -14,7 +15,8 @@ const SharedTriggerForm = ({
   onOpen,
   onCreate,
   settings,
-  originalTrigger
+  originalTrigger,
+  isAuthor
 }) => {
   const { metric } = settings
 
@@ -28,7 +30,7 @@ const SharedTriggerForm = ({
     <div className={styles.container}>
       <SignalCard
         id={id}
-        signal={originalTrigger}
+        signal={trigger}
         showMoreActions={false}
         className={styles.cardPanel}
         showStatus={false}
@@ -63,7 +65,7 @@ const SharedTriggerForm = ({
             onClick={() => onOpen(false)}
             border
           >
-            Edit signal
+            {isAuthor ? 'Edit signal' : 'Open signal'}
           </Button>
         </DesktopOnly>
 
@@ -81,7 +83,7 @@ const SharedTriggerForm = ({
             className={styles.btnEdit}
             onClick={() => onOpen(false)}
           >
-            Edit alert
+            {isAuthor ? 'Edit signal' : 'Open signal'}
           </Button>
         </MobileOnly>
       </div>
@@ -89,4 +91,12 @@ const SharedTriggerForm = ({
   )
 }
 
-export default SharedTriggerForm
+const mapStateToProps = (state, { userId }) => {
+  const { user: { data: { id } = {} } = {} } = state
+
+  return {
+    isAuthor: +id === +userId
+  }
+}
+
+export default connect(mapStateToProps)(SharedTriggerForm)
