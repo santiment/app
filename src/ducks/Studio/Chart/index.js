@@ -39,7 +39,6 @@ const Canvas = ({
   toggleMetric,
   toggleChartSidepane,
   changeHoveredDate,
-  changeDatesRange,
   isMultiChartsActive,
   syncedTooltipDate,
   isAnon,

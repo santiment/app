@@ -18,14 +18,9 @@ const Chart = ({ eventsData, onProjectSelect, ...props }) => {
     setSelectedDatesRange()
   }
 
-  function changeDatesRange ({ value: leftDate }, { value: rightDate }) {
-    if (leftDate === rightDate) return
-
-    const [from, to] =
-      leftDate < rightDate ? [leftDate, rightDate] : [rightDate, leftDate]
-
+  function changeDatesRange (from, to) {
     setSelectedDate()
-    setSelectedDatesRange([new Date(from), new Date(to)])
+    setSelectedDatesRange([from, to])
   }
 
   function onRangeSelect ({ value: leftDate }, { value: rightDate }) {
@@ -65,7 +60,6 @@ const Chart = ({ eventsData, onProjectSelect, ...props }) => {
             events={eventsData}
             isSelectingRange={isSelectingRange}
             changeHoveredDate={changeSelectedDate}
-            changeDatesRange={changeDatesRange}
             onRangeSelect={onRangeSelect}
             onRangeSelectStart={onRangeSelectStart}
           />
