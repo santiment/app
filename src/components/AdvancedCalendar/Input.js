@@ -5,50 +5,49 @@ import {
   fixDateRangeString,
   checkInvalidDate,
   getValidityMsg,
-  extractGroupValue
+  extractGroupValue,
 } from './utils'
-import { useDebounce } from '../../hooks'
 import styles from './index.module.scss'
 
 const TO_RIGHT = true
 
 const BlockingNeighbourChar = {
   ' ': true,
-  '-': true
+  '-': true,
 }
 
 const NavigationChar = {
   ArrowLeft: true,
-  ArrowRight: true
+  ArrowRight: true,
 }
 
-const canModifyChar = char => !Number.isNaN(parseInt(char, 10))
+const canModifyChar = (char) => !Number.isNaN(parseInt(char, 10))
 
 const Input = ({ value, onCalendarChange }) => {
   const [input, setInput] = useState(value)
   const [isFocused, setIsFocused] = useState()
   const [isInvalid, setIsInvalid] = useState()
-  const debouncedChangeCalendar = useDebounce(changeCalendar, 500)
   const inputRef = useRef()
 
   useEffect(
     () => {
-      if (!isFocused) {
-        setInput(value)
-      }
+      setInput(value)
     },
-    [value]
+    [value],
   )
 
-  function changeCalendar (dates) {
-    onCalendarChange(dates)
+  function onFocus() {
+    setIsFocused(true)
   }
 
-  function toggleFocus () {
-    setIsFocused(state => !state)
+  function onBlur({ target }) {
+    if (!isFocused) return
+
+    changeCalendar()
+    setIsFocused(false)
   }
 
-  function onChange ({ target }) {
+  function onChange({ target }) {
     const { value, selectionStart } = target
     updateInput(value)
 
@@ -57,21 +56,24 @@ const Input = ({ value, onCalendarChange }) => {
     }
   }
 
-  function updateInput (value) {
-    const validDates = validateInput(value)
+  function updateInput(value) {
     setInput(value)
-    setIsInvalid(!validDates)
+    setIsInvalid(!validateInput(value))
+  }
+
+  function changeCalendar() {
+    const validDates = validateInput(input)
 
     if (validDates) {
-      debouncedChangeCalendar(validDates)
+      onCalendarChange(validDates)
     }
   }
 
-  function validateInput (input) {
-    const dateSettings = input.split(' - ').map(item => item.split('/'))
+  function validateInput(input) {
+    const dateSettings = input.split(' - ').map((item) => item.split('/'))
 
     const dates = dateSettings.map(
-      ([day, month, year]) => new Date(`${month}/${day}/20${year}`)
+      ([day, month, year]) => new Date(`${month}/${day}/20${year}`),
     )
     const [from, to] = dates
 
@@ -80,6 +82,8 @@ const Input = ({ value, onCalendarChange }) => {
       msg = getValidityMsg(dateSettings[0])
     } else if (checkInvalidDate(to)) {
       msg = getValidityMsg(dateSettings[1])
+    } else if (from > to) {
+      msg = 'Left date should be before right date'
     }
 
     inputRef.current.setCustomValidity(msg)
@@ -88,7 +92,7 @@ const Input = ({ value, onCalendarChange }) => {
     return msg ? null : dates
   }
 
-  function onClick ({ target }) {
+  function onClick({ target }) {
     const caret = target.selectionStart
     if (target.selectionEnd - caret !== 2) {
       updateInput(fixDateRangeString(target))
@@ -100,7 +104,7 @@ const Input = ({ value, onCalendarChange }) => {
     }
   }
 
-  function onKeyDown (e) {
+  function onKeyDown(e) {
     const { key, target } = e
 
     if (target.selectionEnd - target.selectionStart > 2) {
@@ -111,7 +115,9 @@ const Input = ({ value, onCalendarChange }) => {
     const charBeforeCaret = target.value[beforeCaretIndex]
     const charAfterCaret = target.value[target.selectionStart]
 
-    if (key === 'Backspace') {
+    if (key === 'Enter') {
+      changeCalendar()
+    } else if (key === 'Backspace') {
       if (canModifyChar(charBeforeCaret)) return
     } else if (NavigationChar[key]) {
       updateInput(fixDateRangeString(target))
@@ -136,8 +142,8 @@ const Input = ({ value, onCalendarChange }) => {
       onKeyDown={onKeyDown}
       onClick={onClick}
       onChange={onChange}
-      onFocus={toggleFocus}
-      onBlur={toggleFocus}
+      onFocus={onFocus}
+      onBlur={onBlur}
     />
   )
 }
