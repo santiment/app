@@ -6,7 +6,7 @@ import {
   DEFAULT_SETTINGS,
   DEFAULT_OPTIONS,
   DEFAULT_METRICS,
-  DEFAULT_METRIC_SETTINGS_MAP,
+  DEFAULT_METRIC_SETTINGS_MAP
 } from './defaults'
 import { MAX_METRICS_AMOUNT } from './constraints'
 import { generateShareLink } from './url'
@@ -41,7 +41,7 @@ const Studio = ({
   const [activeMetrics, setActiveMetrics] = useState(defaultMetrics)
   const [activeEvents, setActiveEvents] = useState(defaultEvents)
   const [MetricSettingMap, setMetricSettingMap] = useState(
-    defaultMetricSettingsMap,
+    defaultMetricSettingsMap
   )
   const [chartSidepane, setChartSidepane] = useState()
   const [advancedView, setAdvancedView] = useState()
@@ -51,34 +51,34 @@ const Studio = ({
   const [rawData, loadings, ErrorMsg] = useTimeseries(
     activeMetrics,
     settings,
-    MetricSettingMap,
+    MetricSettingMap
   )
   const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings)
   const data = useClosestValueData(
     rawData,
     activeMetrics,
-    options.isClosestDataActive,
+    options.isClosestDataActive
   )
 
   useEffect(
     () => {
       setComparedMetrics(comparables.map(buildComparedMetric))
     },
-    [comparables],
+    [comparables]
   )
 
   useEffect(
     () => {
       setActiveMetrics(metrics.concat(comparedMetrics))
     },
-    [metrics, comparedMetrics],
+    [metrics, comparedMetrics]
   )
 
   useEffect(
     () => {
       setMetrics(metrics.filter(({ key }) => !ErrorMsg[key]))
     },
-    [ErrorMsg],
+    [ErrorMsg]
   )
 
   useEffect(
@@ -98,17 +98,17 @@ const Studio = ({
         }
       }
     },
-    [options.isMultiChartsActive],
+    [options.isMultiChartsActive]
   )
 
   useEffect(
     () => {
       const { slug } = defaultSettings
       if (slug && slug !== settings.slug) {
-        setSettings((state) => ({ ...state, slug }))
+        setSettings(state => ({ ...state, slug }))
       }
     },
-    [defaultSettings.slug],
+    [defaultSettings.slug]
   )
 
   useEffect(
@@ -121,7 +121,7 @@ const Studio = ({
       setShareLink(origin + pathname + queryString)
       updateHistory(queryString)
     },
-    [settings, options, metrics, activeEvents, comparables],
+    [settings, options, metrics, activeEvents, comparables]
   )
 
   useEffect(
@@ -132,7 +132,7 @@ const Studio = ({
         setActiveEvents([])
       }
     },
-    [metrics, options.isAnomalyActive],
+    [metrics, options.isAnomalyActive]
   )
 
   useEffect(
@@ -141,10 +141,10 @@ const Studio = ({
         setChartSidepane()
       }
     },
-    [chartSidepane, settings.slug, options.isMultiChartsActive],
+    [chartSidepane, settings.slug, options.isMultiChartsActive]
   )
 
-  function toggleMetric(metric) {
+  function toggleMetric (metric) {
     if (metric.comparedTicker) {
       return removeComparedMetric(metric)
     }
@@ -167,27 +167,27 @@ const Studio = ({
     setMetrics([...metricSet])
   }
 
-  function toggleChartSidepane(sidepane) {
+  function toggleChartSidepane (sidepane) {
     setChartSidepane(chartSidepane === sidepane ? undefined : sidepane)
   }
 
-  function toggleAdvancedView(mode) {
+  function toggleAdvancedView (mode) {
     setAdvancedView(advancedView === mode ? undefined : mode)
   }
 
-  function removeComparedMetric({ key }) {
-    setComparables(comparables.filter((comp) => comp.key !== key))
+  function removeComparedMetric ({ key }) {
+    setComparables(comparables.filter(comp => comp.key !== key))
   }
 
-  function changeTimePeriod(from, to, timeRange) {
+  function changeTimePeriod (from, to, timeRange) {
     const interval = getNewInterval(from, to)
 
-    setSettings((state) => ({
+    setSettings(state => ({
       ...state,
       timeRange,
       interval: INTERVAL_ALIAS[interval] || interval,
       from: from.toISOString(),
-      to: to.toISOString(),
+      to: to.toISOString()
     }))
   }
 
@@ -196,7 +196,7 @@ const Studio = ({
       className={cx(
         styles.wrapper,
         classes.wrapper,
-        isSidebarClosed && styles.wrapper_wide,
+        isSidebarClosed && styles.wrapper_wide
       )}
     >
       <StudioSidebar
@@ -256,7 +256,7 @@ Studio.defaultProps = {
   defaultEvents: [],
   defaultComparables: [],
   onSlugChange: () => {},
-  classes: {},
+  classes: {}
 }
 
 export default ({
@@ -272,7 +272,7 @@ export default ({
     {...props}
     defaultSettings={{
       ...DEFAULT_SETTINGS,
-      ...settings,
+      ...settings
     }}
     defaultOptions={{ ...DEFAULT_OPTIONS, ...options }}
     defaultMetrics={metrics || DEFAULT_METRICS}

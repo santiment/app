@@ -68,6 +68,7 @@ export function useTimeseries (
   const [abortables, setAbortables] = useState(DEFAULT_ABORTABLES)
 
   const metricsHash = hashMetrics(metrics)
+  const { slug, from, to, interval } = settings
 
   useEffect(
     () => {
@@ -87,7 +88,7 @@ export function useTimeseries (
       setLoadings([...metrics])
       setErrorMsg({})
     },
-    [settings]
+    [slug, from, to, interval]
   )
 
   useEffect(

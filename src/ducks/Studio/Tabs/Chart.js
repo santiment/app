@@ -13,12 +13,12 @@ const Chart = ({ eventsData, onProjectSelect, ...props }) => {
   const [selectedDate, setSelectedDate] = useState()
   const [selectedDatesRange, setSelectedDatesRange] = useState()
 
-  function changeSelectedDate({ value }) {
+  function changeSelectedDate ({ value }) {
     setSelectedDate(new Date(value))
     setSelectedDatesRange()
   }
 
-  function changeDatesRange({ value: leftDate }, { value: rightDate }) {
+  function changeDatesRange ({ value: leftDate }, { value: rightDate }) {
     if (leftDate === rightDate) return
 
     const [from, to] =
@@ -28,7 +28,7 @@ const Chart = ({ eventsData, onProjectSelect, ...props }) => {
     setSelectedDatesRange([new Date(from), new Date(to)])
   }
 
-  function onRangeSelect({ value: leftDate }, { value: rightDate }) {
+  function onRangeSelect ({ value: leftDate }, { value: rightDate }) {
     setIsSelectingRange(false)
     if (leftDate === rightDate) return
 
@@ -44,7 +44,7 @@ const Chart = ({ eventsData, onProjectSelect, ...props }) => {
     changeTimePeriod(from, to)
   }
 
-  function onRangeSelectStart() {
+  function onRangeSelectStart () {
     setIsSelectingRange(true)
   }
 

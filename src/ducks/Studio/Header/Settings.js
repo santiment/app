@@ -19,12 +19,12 @@ export default ({
 }) => {
   const { timeRange, from, to, title } = settings
 
-  function onTimerangeChange(timeRange) {
+  function onTimerangeChange (timeRange) {
     const { from, to } = getIntervalByTimeRange(timeRange)
     changeTimePeriod(from, to, timeRange)
   }
 
-  function onCalendarChange([from, to]) {
+  function onCalendarChange ([from, to]) {
     changeTimePeriod(from, to)
   }
 
