@@ -101,9 +101,11 @@ const TrendingPeriod = ({ period }) => {
 
   const hours = period.split(':')[0]
 
+  const amPmTime = getAmPmWithHours(hours)
+
   return (
     <div className={styles.ampm}>
-      ({getAmPmWithHours(hours - 24)} - {getAmPmWithHours(hours)})
+      ({amPmTime} - {amPmTime})
     </div>
   )
 }
