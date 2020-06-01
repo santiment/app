@@ -52,6 +52,7 @@ const Chart = ({
   useCustomTooltip,
   syncTooltips = () => {},
   onRangeSelect,
+  onRangeSelectStart,
   onPointClick = () => {},
   isLoading,
   isMultiChartsActive,
@@ -129,6 +130,13 @@ const Chart = ({
       chart.onRangeSelect = onRangeSelect
     },
     [onRangeSelect]
+  )
+
+  useEffect(
+    () => {
+      chart.onRangeSelectStart = onRangeSelectStart
+    },
+    [onRangeSelectStart]
   )
 
   useEffect(

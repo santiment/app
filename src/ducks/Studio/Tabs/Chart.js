@@ -6,9 +6,10 @@ import StudioAdvancedView from '../AdvancedView'
 import styles from '../index.module.scss'
 
 const Chart = ({ eventsData, onProjectSelect, ...props }) => {
-  const { settings, advancedView } = props
+  const { settings, advancedView, changeTimePeriod } = props
 
   const chartRef = useRef(null)
+  const [isSelectingRange, setIsSelectingRange] = useState(false)
   const [selectedDate, setSelectedDate] = useState()
   const [selectedDatesRange, setSelectedDatesRange] = useState()
 
@@ -17,14 +18,29 @@ const Chart = ({ eventsData, onProjectSelect, ...props }) => {
     setSelectedDatesRange()
   }
 
-  function changeDatesRange ({ value: leftDate }, { value: rightDate }) {
+  function changeDatesRange (from, to) {
+    setSelectedDate()
+    setSelectedDatesRange([from, to])
+  }
+
+  function onRangeSelect ({ value: leftDate }, { value: rightDate }) {
+    setIsSelectingRange(false)
     if (leftDate === rightDate) return
 
-    const [from, to] =
+    const dates =
       leftDate < rightDate ? [leftDate, rightDate] : [rightDate, leftDate]
+    const from = new Date(dates[0])
+    const to = new Date(dates[1])
 
-    setSelectedDate()
-    setSelectedDatesRange([new Date(from), new Date(to)])
+    if (advancedView === 'Spent Coin Cost') {
+      return changeDatesRange(from, to)
+    }
+
+    changeTimePeriod(from, to)
+  }
+
+  function onRangeSelectStart () {
+    setIsSelectingRange(true)
   }
 
   return (
@@ -42,8 +58,10 @@ const Chart = ({ eventsData, onProjectSelect, ...props }) => {
             className={styles.canvas}
             chartRef={chartRef}
             events={eventsData}
+            isSelectingRange={isSelectingRange}
             changeHoveredDate={changeSelectedDate}
-            changeDatesRange={changeDatesRange}
+            onRangeSelect={onRangeSelect}
+            onRangeSelectStart={onRangeSelectStart}
           />
         </div>
         {advancedView && (

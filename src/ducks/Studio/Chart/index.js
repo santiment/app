@@ -39,11 +39,11 @@ const Canvas = ({
   toggleMetric,
   toggleChartSidepane,
   changeHoveredDate,
-  changeDatesRange,
   isMultiChartsActive,
   syncedTooltipDate,
   isAnon,
   isSidebarClosed,
+  isSelectingRange,
   setIsICOPriceDisabled,
   ...props
 }) => {
@@ -142,9 +142,6 @@ const Canvas = ({
         isMultiChartsActive={isMultiChartsActive}
         syncedTooltipDate={isBlurred || syncedTooltipDate}
         onPointClick={advancedView ? changeHoveredDate : undefined}
-        onRangeSelect={
-          advancedView === 'Spent Coin Cost' ? changeDatesRange : undefined
-        }
         resizeDependencies={[
           isMultiChartsActive,
           advancedView,
@@ -161,7 +158,7 @@ const Canvas = ({
           onResult={price => setIsICOPriceDisabled(!price)}
         />
         <LastDayPrice settings={settings} metrics={metrics} />
-        <Signals {...settings} metrics={metrics} />
+        {isSelectingRange || <Signals {...settings} metrics={metrics} />}
       </Chart>
 
       {isBlurred && (

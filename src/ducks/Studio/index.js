@@ -17,6 +17,7 @@ import { buildComparedMetric } from './Compare/utils'
 import { TOP_HOLDERS_PANE } from './Chart/Sidepane/panes'
 import { updateHistory } from '../../utils/utils'
 import { useClosestValueData } from '../Chart/hooks'
+import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
 import styles from './index.module.scss'
 
 const Studio = ({
@@ -178,6 +179,18 @@ const Studio = ({
     setComparables(comparables.filter(comp => comp.key !== key))
   }
 
+  function changeTimePeriod (from, to, timeRange) {
+    const interval = getNewInterval(from, to)
+
+    setSettings(state => ({
+      ...state,
+      timeRange,
+      interval: INTERVAL_ALIAS[interval] || interval,
+      from: from.toISOString(),
+      to: to.toISOString()
+    }))
+  }
+
   return (
     <div
       className={cx(
@@ -232,6 +245,7 @@ const Studio = ({
         toggleMetric={toggleMetric}
         toggleAdvancedView={toggleAdvancedView}
         toggleChartSidepane={toggleChartSidepane}
+        changeTimePeriod={changeTimePeriod}
       />
     </div>
   )
