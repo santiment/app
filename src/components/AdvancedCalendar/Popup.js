@@ -4,7 +4,7 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Panel from '@santiment-network/ui/Panel'
 import Button from '@santiment-network/ui/Button'
 import Calendar from '../Calendar/Calendar'
-import styles from './index.module.scss'
+import styles from './Popup.module.scss'
 
 const DEFAULT_OPTIONS = [
   {
