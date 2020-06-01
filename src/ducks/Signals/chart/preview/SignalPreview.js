@@ -33,6 +33,13 @@ const PreviewLoader = (
 )
 
 const getAvailableCooldown = baseCooldown => {
+  if (
+    baseCooldown &&
+    (baseCooldown.indexOf('d') !== -1 || baseCooldown.indexOf('w') !== -1)
+  ) {
+    return '1d'
+  }
+
   return baseCooldown && baseCooldown.indexOf('m') !== -1 ? '1h' : baseCooldown
 }
 
@@ -64,7 +71,6 @@ const SignalPreviewChart = ({
   timeRange,
   label,
   points,
-  showExpand,
   showTitle,
   trigger
 }) => {
