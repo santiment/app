@@ -94,12 +94,14 @@ const TrendingWordsSignalCard = ({
   )
 }
 
+const currentTimezoneOffset = new Date().getTimezoneOffset()
+
 const TrendingPeriod = ({ period }) => {
   if (!period) {
     return null
   }
 
-  const hours = period.split(':')[0]
+  const hours = +period.split(':')[0] + (-1 * currentTimezoneOffset) / 60
 
   const amPmTime = getAmPmWithHours(hours)
 
