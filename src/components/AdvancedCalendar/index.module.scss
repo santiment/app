@@ -26,6 +26,10 @@
   }
 }
 
+.error {
+  border-color: var(--persimmon) !important;
+}
+
 .arrow {
   fill: var(--casper);
   margin-left: auto;

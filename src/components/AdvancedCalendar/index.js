@@ -6,7 +6,7 @@ import { getDateFormats } from '../../utils/dates'
 import styles from './index.module.scss'
 import Input from './Input'
 
-const getDateLabel = (date) => {
+const getDateLabel = date => {
   const { DD, MM, YY } = getDateFormats(date)
   return `${DD}/${MM}/${YY}`
 }
@@ -23,7 +23,7 @@ const Trigger = ({
   className,
   forwardedRef,
   onClick,
-  onCalendarChange,
+  onCalendarChange
 }) => {
   return (
     <div

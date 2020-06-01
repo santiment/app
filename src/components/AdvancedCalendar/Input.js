@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
+import cx from 'classnames'
 import {
   selectNextGroup,
   fixDateRangeString,
   checkInvalidDate,
   getValidityMsg,
+  extractGroupValue
 } from './utils'
 import { useDebounce } from '../../hooks'
 import styles from './index.module.scss'
@@ -12,36 +14,21 @@ const TO_RIGHT = true
 
 const BlockingNeighbourChar = {
   ' ': true,
-  '-': true,
+  '-': true
 }
 
 const NavigationChar = {
   ArrowLeft: true,
-  ArrowRight: true,
+  ArrowRight: true
 }
 
-const canModifyChar = (char) => !Number.isNaN(parseInt(char, 10))
-const shouldBreakOnChar = (char) => char === '/' || char === ' '
-
-function extractGroupValue(str, index) {
-  let left = index
-  let right = index + 1
-  const { length } = str
-
-  for (; left > -1; left--) {
-    if (shouldBreakOnChar(str[left])) break
-  }
-  for (; right < length; right++) {
-    if (shouldBreakOnChar(str[right])) break
-  }
-
-  return str.slice(left + 1, right)
-}
+const canModifyChar = char => !Number.isNaN(parseInt(char, 10))
 
 const Input = ({ value, onCalendarChange }) => {
   const [input, setInput] = useState(value)
   const [isFocused, setIsFocused] = useState()
-  const debouncedChangeCalendar = useDebounce(changeCalendar, 700)
+  const [isInvalid, setIsInvalid] = useState()
+  const debouncedChangeCalendar = useDebounce(changeCalendar, 500)
   const inputRef = useRef()
 
   useEffect(
@@ -50,26 +37,41 @@ const Input = ({ value, onCalendarChange }) => {
         setInput(value)
       }
     },
-    [value, isFocused],
+    [value]
   )
 
-  function changeCalendar(dates) {
+  function changeCalendar (dates) {
     onCalendarChange(dates)
   }
 
-  function updateInput(value) {
-    setInput(value)
+  function toggleFocus () {
+    setIsFocused(state => !state)
+  }
+
+  function onChange ({ target }) {
+    const { value, selectionStart } = target
+    updateInput(value)
+
+    if (extractGroupValue(value, selectionStart - 1).length > 1) {
+      selectNextGroup(target, TO_RIGHT)
+    }
+  }
+
+  function updateInput (value) {
     const validDates = validateInput(value)
+    setInput(value)
+    setIsInvalid(!validDates)
+
     if (validDates) {
       debouncedChangeCalendar(validDates)
     }
   }
 
-  function validateInput(input) {
-    const dateSettings = input.split(' - ').map((item) => item.split('/'))
+  function validateInput (input) {
+    const dateSettings = input.split(' - ').map(item => item.split('/'))
 
     const dates = dateSettings.map(
-      ([day, month, year]) => new Date(`${month}/${day}/20${year}`),
+      ([day, month, year]) => new Date(`${month}/${day}/20${year}`)
     )
     const [from, to] = dates
 
@@ -86,22 +88,19 @@ const Input = ({ value, onCalendarChange }) => {
     return msg ? null : dates
   }
 
-  function onChange({ target }) {
-    const { value, selectionStart } = target
-    updateInput(value)
-
-    if (extractGroupValue(value, selectionStart - 1).length > 1) {
-      selectNextGroup(target, TO_RIGHT)
+  function onClick ({ target }) {
+    const caret = target.selectionStart
+    if (target.selectionEnd - caret !== 2) {
+      updateInput(fixDateRangeString(target))
+      selectNextGroup(target, null, caret)
+    } else {
+      target.selectionStart = caret
+      target.selectionEnd = caret // NOTE: Needed to preserve active selection [@vanguard | Jun 1, 2020]
+      target.selectionEnd = caret + 2
     }
   }
 
-  function onClick({ target }) {
-    const caret = target.selectionStart
-    updateInput(fixDateRangeString(target))
-    selectNextGroup(target, null, caret)
-  }
-
-  function onKeyDown(e) {
+  function onKeyDown (e) {
     const { key, target } = e
 
     if (target.selectionEnd - target.selectionStart > 2) {
@@ -128,16 +127,12 @@ const Input = ({ value, onCalendarChange }) => {
     return e.preventDefault()
   }
 
-  function toggleFocus() {
-    setIsFocused((state) => !state)
-  }
-
   return (
     <input
       ref={inputRef}
       size='10'
       value={input}
-      className={styles.input}
+      className={cx(styles.input, isInvalid && styles.error)}
       onKeyDown={onKeyDown}
       onClick={onClick}
       onChange={onChange}
