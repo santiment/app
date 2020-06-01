@@ -1,4 +1,5 @@
 const TRACKER_IDs = ['UA-100571693-1', 'UA-100571693-2']
+const APP_NAME = 'Sanbase'
 
 const isBrowser = typeof window !== 'undefined'
 const isProdApp = window.location.origin === 'https://app.santiment.net'
@@ -63,7 +64,7 @@ export function initializeTracking (trackerIDs = TRACKER_IDs) {
     gtag('js', new Date())
 
     trackerIDs.forEach(function (ID) {
-      gtag('config', ID)
+      gtag('config', ID, { app_name: APP_NAME })
     })
 
     initTwitterPixel()
@@ -77,12 +78,17 @@ export const update =
       window.gtag('set', {
         user_id: user.id
       })
+      window.gtag('event', 'screen_view', {
+        app_name: APP_NAME,
+        app_version: process.env.REACT_APP_VERSION
+      })
       window.Intercom('update', {
         name: user.username,
         user_id: user.id,
         email: user.email,
         ethAccounts: user.ethAccounts,
-        nightmode: (user.settings || {}).theme
+        nightmode: (user.settings || {}).theme,
+        app_version: process.env.REACT_APP_VERSION
       })
     }
     : () => {}
@@ -153,7 +159,7 @@ export function pageview (rawPath, trackerIDs = TRACKER_IDs) {
 
   if (typeof window.gtag === 'function') {
     trackerIDs.forEach(function (ID) {
-      window.gtag('config', ID, { page_path: path })
+      window.gtag('config', ID, { page_path: path, app_name: APP_NAME })
     })
   }
 }
