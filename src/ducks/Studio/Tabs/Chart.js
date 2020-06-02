@@ -3,6 +3,7 @@ import cx from 'classnames'
 import StudioHeader from '../Header'
 import StudioChart from '../Chart'
 import StudioAdvancedView from '../AdvancedView'
+import { ONE_HOUR_IN_MS } from '../../../utils/dates'
 import styles from '../index.module.scss'
 
 const Chart = ({ eventsData, onProjectSelect, ...props }) => {
@@ -36,7 +37,9 @@ const Chart = ({ eventsData, onProjectSelect, ...props }) => {
       return changeDatesRange(from, to)
     }
 
-    changeTimePeriod(from, to)
+    if (to - from >= ONE_HOUR_IN_MS) {
+      changeTimePeriod(from, to)
+    }
   }
 
   function onRangeSelectStart () {
