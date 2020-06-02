@@ -6,7 +6,6 @@ import * as rootActions from './../../actions/types'
 import { showNotification } from './../../actions/rootActions'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import { TRIGGERS_QUERY } from './common/queries'
-import { completeOnboardingTask } from '../../pages/Dashboard/utils'
 import GA from './../../utils/tracking'
 import { GA_FIRST_SIGNAL } from '../../enums/GaEvents'
 import SignalNotificationActions from './notifications/SignalNotificationActions'
@@ -105,8 +104,6 @@ export const createSignalEpic = (action$, store, { client }) =>
 
         return Observable.fromPromise(create)
           .mergeMap(props => {
-            completeOnboardingTask('signal')
-
             const {
               data: {
                 createTrigger: { trigger }

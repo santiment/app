@@ -55,8 +55,8 @@ const LEFT_LINKS = [
     link: 'https://app.santiment.net/labs/balance'
   },
   {
-    label: 'Sandata',
-    link: 'https://data.santiment.net'
+    label: 'Sangraphs',
+    link: 'https://graphs.santiment.net'
   },
 
   {

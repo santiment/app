@@ -2,63 +2,40 @@ import { getIntervalByTimeRange } from '../../utils/dates'
 
 export const TOPICS = [
   {
-    slug: 'halving OR block OR blocks OR bitcoin OR miners OR happy OR halved'
+    slug: 'halving OR block OR blocks OR bitcoin OR miners OR happy OR halved',
+    title: 'Bitcoin halving happened'
   },
-  { slug: 'hold OR love OR btc OR bitcoin OR buy' },
-  { slug: 'btc OR halving' },
+  { slug: 'hold OR love OR btc OR bitcoin OR buy', title: 'Buy Bitcoin' },
+  { slug: 'satoshi OR coins OR moved OR btc', title: 'Satoshi coins moved' },
+  { slug: 'btc OR halving', title: 'Bitcoin halving' },
   {
     slug:
-      'oil OR negative OR barrel OR crude OR barrels OR contract OR futures OR wti'
+      'oil OR negative OR barrel OR crude OR barrels OR contract OR futures OR wti',
+    title: 'Negative rates on oil'
   },
-  { slug: 'btc OR bitcoin' },
-  { slug: 'markets OR tomorrow OR going OR market' },
-  { slug: 'bch OR halving OR bsv OR btc' },
-  { slug: 'ctsi OR cartesi' },
-  { slug: 'people' },
-  { slug: 'fed OR unlimited OR infinite OR money OR printing OR dollar' },
-  { slug: 'bitmex OR mex' },
+  {
+    slug: 'markets OR tomorrow OR going OR market',
+    title: 'Markets predictions'
+  },
+  { slug: 'kava OR usdx OR defi OR blockchain OR winners', title: 'KAVA AMA' },
+  { slug: 'bch OR halving OR bsv OR btc', title: 'Bitcoin Cash halving' },
+  { slug: 'ctsi OR cartesi', title: 'Cartesi IEO in Binance' },
+  {
+    slug: 'fed OR unlimited OR infinite OR money OR printing OR dollar',
+    title: 'Unlimited dollar printing'
+  },
+  { slug: 'bitmex OR mex', title: 'Bitmex faces a lawsuit' },
   {
     slug:
-      'stp OR stpt OR network OR projects OR networks OR use OR many OR    advantages'
+      'stp OR stpt OR network OR projects OR networks OR use OR many OR advantages',
+    title: 'Standard Tokenization Protocol AMA'
   },
-  { slug: 'sol OR solana' },
-  { slug: 'chromia OR chr OR project' },
-  { slug: 'halving OR dump' },
-  { slug: 'going' },
-  { slug: 'dow OR bitcoin' },
-  { slug: 'halving OR see' },
-  { slug: 'short' },
-  { slug: 'eth' },
-  { slug: 'moons OR vault OR reddit OR moon OR bricks' },
-  { slug: 'april OR fools' },
-  { slug: 'eos OR eosdac OR mew OR tokens' },
-  { slug: 'iris OR irisnet OR cosmos' },
-  { slug: 'binance OR maintenance' },
-  { slug: 'xrp OR ripple' },
-  { slug: 'skype OR use OR using OR zoom' },
-  { slug: 'markets OR stock' },
-  { slug: 'pump OR fomo' },
-  { slug: 'bchabc OR prediction OR april' },
-  { slug: 'xrp' },
-  { slug: 'halving' },
-  { slug: 'eos' },
-  { slug: 'pump' },
-  { slug: 'cmc OR coinmarkecap OR binance' },
-  { slug: 'fed OR rates' },
-  { slug: 'dump' },
-  { slug: 'eos OR voice' },
-  { slug: 'alts' },
-  { slug: 'chr OR swftc OR swft' },
-  { slug: 'bobby OR wallet OR ballet' },
-  { slug: 'adam OR satoshi' },
-  { slug: 'cme OR gap' },
-  { slug: 'easter' },
-  { slug: 'fees' },
-  { slug: 'bch OR halving' },
-  { slug: 'fomo' },
-  { slug: 'clicking OR tip OR button' },
-  { slug: 'zrx' },
-  { slug: 'bulls' }
+  { slug: 'sol OR solana', title: 'Solana listing on Binance' },
+  { slug: 'chromia OR chr OR project', title: 'Chromia AMA' },
+  { slug: 'halving OR dump', title: 'Bearish before halving' },
+  { slug: 'omg OR coinbase', title: 'OMG listed on Coinbase' },
+  { slug: 'dow OR bitcoin', title: 'DOW and BTC are connected' },
+  { slug: 'halving OR see', title: '7 days prior to halving' }
 ]
 
 export const INDEX_PAGE_GROUPS = [
@@ -76,14 +53,12 @@ export const INDEX_PAGE_GROUPS = [
         slug: 'virus OR corona OR coronavirus OR covid OR covid19 OR "covid-19"'
       },
       {
-        title: 'Oil negative rates',
-        slug:
-          'oil OR negative OR barrel OR crude OR barrels OR contract OR futures OR wti'
+        title: 'Satoshi coins moved',
+        slug: 'satoshi AND coins'
       },
       {
-        title: 'Unlimited dollar printing',
-        slug:
-          'fed OR (unlimited AND money) OR (infinite AND money) OR printing OR stimulus OR bill'
+        title: 'Riots in United States',
+        slug: 'riot OR riots'
       },
       {
         title: 'Bought the bottom?',

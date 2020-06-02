@@ -13,7 +13,7 @@ export const WEEK = 'w'
 export const MONTH = 'm'
 export const YEAR = 'y'
 
-const MONTH_NAMES = [
+export const MONTH_NAMES = [
   'January',
   'February',
   'March',

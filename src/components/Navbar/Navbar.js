@@ -11,8 +11,6 @@ import NavbarHelpDropdown from './NavbarHelpDropdown'
 import NavbarProfileDropdown from './NavbarProfileDropdown'
 import NavbarAssetsDropdown from './NavbarAssetsDropdown'
 import InsightsDropdown from './InsightsDropdown'
-import { checkIsLoggedIn } from '../../pages/UserSelectors'
-import { getCurrentSanbaseSubscription } from '../../utils/plans'
 import PlanEngage from './PlanEngage'
 import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProductsTooltip'
 import UserAvatar from '../../pages/Account/avatar/UserAvatar'
@@ -24,23 +22,6 @@ const ExternalLink = ({ children, className, ...rest }) => (
     <Icon type='external-link' className={styles.externalLinkImg} />
   </a>
 )
-
-const PricingLink = connect(state => ({
-  isLoggedIn: checkIsLoggedIn(state),
-  subscription: getCurrentSanbaseSubscription(state.user.data)
-}))(({ isLoggedIn, subscription, dispatch, ...props }) => {
-  const hasFreeSubscription = isLoggedIn && !subscription
-
-  if (
-    !isLoggedIn ||
-    hasFreeSubscription ||
-    (subscription && subscription.trialEnd)
-  ) {
-    return <Link {...props} />
-  }
-
-  return null
-})
 
 const leftLinks = [
   {
@@ -63,7 +44,7 @@ const leftLinks = [
   {
     to: '/feed',
     children: 'Alerts',
-    as: PricingLink
+    as: Link
   }
 ]
 

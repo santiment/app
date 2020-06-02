@@ -48,25 +48,42 @@ export function setupTooltip (
   canvas.onmousedown = handleMove(chart, point => {
     if (!point) return
     const { left, right, points, pointWidth } = chart
+    const {
+      left: canvasPageLeft,
+      right: canvasPageRight
+    } = canvas.getBoundingClientRect()
     const { x } = point
 
     let moved = false
 
     if (chart.onRangeSelect) {
       window.addEventListener('mousemove', onMouseMove)
+
+      if (chart.onRangeSelectStart) {
+        chart.onRangeSelectStart(point)
+      }
     }
 
     window.addEventListener('mouseup', onMouseUp)
 
-    function onMouseMove ({ offsetX }) {
+    function onMouseMove ({ pageX }) {
       const { left, right, top, height } = chart
-      if (offsetX < left || offsetX > right) {
-        return
-      }
+
+      const isOutOfLeft = pageX < canvasPageLeft
+      const isOutOfRight = pageX > canvasPageRight
+      const relativeX = isOutOfLeft
+        ? left
+        : isOutOfRight
+          ? right
+          : pageX - canvasPageLeft
 
       moved = true
-      const width = offsetX - x
 
+      const index = getHoveredIndex(relativeX - left, pointWidth, points.length)
+      const endPoint = points[index < 0 ? 0 : index]
+      const width = endPoint.x - x
+
+      plotTooltip(chart, marker, endPoint)
       ctx.save()
       ctx.fillStyle = '#9faac435'
       ctx.fillRect(x, top, width, height)

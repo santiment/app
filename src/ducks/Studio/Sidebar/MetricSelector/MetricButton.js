@@ -43,6 +43,8 @@ const MetricButton = ({
         )}
         {label}
 
+        {metric && metric.isBeta && <div className={styles.beta}>BETA</div>}
+
         {metric && (
           <MetricExplanation metric={metric} position='right'>
             <Icon type='info-round' className={styles.info} />

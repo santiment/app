@@ -13,10 +13,7 @@ import { Metric } from '../../../dataHub/metrics'
 import { getMetricYAxisId } from '../../../SANCharts/utils'
 import { getSyncedColors, clearCache } from '../../../Chart/Synchronizer'
 import GetTimeSeries from '../../../GetTimeSeries/GetTimeSeries'
-import ChartWidget from '../../../SANCharts/ChartPage'
 import VisualBacktestChart, { GetReferenceDots } from '../VisualBacktestChart'
-import { ChartExpandView } from '../ChartExpandView'
-import { DesktopOnly } from '../../../../components/Responsive'
 import { HISTORICAL_TRIGGER_POINTS_QUERY } from '../../epics'
 import {
   cleanByDatakeys,
@@ -36,6 +33,13 @@ const PreviewLoader = (
 )
 
 const getAvailableCooldown = baseCooldown => {
+  if (
+    baseCooldown &&
+    (baseCooldown.indexOf('d') !== -1 || baseCooldown.indexOf('w') !== -1)
+  ) {
+    return '1d'
+  }
+
   return baseCooldown && baseCooldown.indexOf('m') !== -1 ? '1h' : baseCooldown
 }
 
@@ -67,7 +71,6 @@ const SignalPreviewChart = ({
   timeRange,
   label,
   points,
-  showExpand,
   showTitle,
   trigger
 }) => {
@@ -141,41 +144,17 @@ const SignalPreviewChart = ({
             : null
 
         return (
-          <>
-            <VisualBacktestChart
-              data={merged}
-              dataKeys={triggersBy}
-              label={label}
-              triggeredSignals={triggeredSignals}
-              metrics={metricsForSignalsChart}
-              signals={signals}
-              referenceDots={referenceDots}
-              syncedColors={syncedColors}
-              showTitle={showTitle}
-            />
-            {showExpand && (
-              <DesktopOnly>
-                <ChartExpandView>
-                  <ChartWidget
-                    alwaysShowingMetrics={triggersBy ? [triggersBy.key] : []}
-                    timeRange={timeRange}
-                    slug={slug}
-                    metrics={metrics}
-                    interval='1d'
-                    title={slug}
-                    hideSettings={{
-                      header: true,
-                      sidecar: true
-                    }}
-                    adjustNightMode={false}
-                    metricRest={metricRest}
-                  >
-                    {referenceDots}
-                  </ChartWidget>
-                </ChartExpandView>
-              </DesktopOnly>
-            )}
-          </>
+          <VisualBacktestChart
+            data={merged}
+            dataKeys={triggersBy}
+            label={label}
+            triggeredSignals={triggeredSignals}
+            metrics={metricsForSignalsChart}
+            signals={signals}
+            referenceDots={referenceDots}
+            syncedColors={syncedColors}
+            showTitle={showTitle}
+          />
         )
       }}
     />

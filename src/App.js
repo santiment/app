@@ -98,11 +98,6 @@ const LoadableMobileDetailedPage = Loadable({
   loading: () => <PageLoader />
 })
 
-const LoadableDashboardPage = Loadable({
-  loader: () => import('./pages/Dashboard/DashboardPage'),
-  loading: () => <PageLoader />
-})
-
 const LoadableTrendsLabsPage = Loadable({
   loader: () => import('./pages/Trends/LabsTrendsPage'),
   loading: () => <PageLoader />
@@ -306,7 +301,7 @@ export const App = ({
           path='/search'
           render={props => {
             if (isDesktop) {
-              return <Redirect to='/dashboard' />
+              return <Redirect to='/' />
             }
             return <LoadableSearchMobilePage {...props} />
           }}
@@ -353,18 +348,6 @@ export const App = ({
             <LoadableSonarFeedPage
               isDesktop={isDesktop}
               isLoggedIn={isLoggedIn}
-              {...props}
-            />
-          )}
-        />
-        <Route
-          exact
-          path='/dashboard'
-          render={props => (
-            <LoadableDashboardPage
-              isDesktop={isDesktop}
-              isLoggedIn={isLoggedIn}
-              hasMetamask={hasMetamask}
               {...props}
             />
           )}
