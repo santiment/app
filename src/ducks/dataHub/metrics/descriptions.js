@@ -163,5 +163,14 @@ export const Description = {
   ),
 
   [Metric.nvt_transaction_volume.key]:
-    'NVT tries to determine how much ‘value’ is being transmitted on a coin’s network. This version of NVT is calculated by dividing the coin’s Market Cap by its on-chain Transaction Volume. The higher the NVT, the more expensive the network relative to the value it transmits, indicating an overvalued asset.'
+    'NVT tries to determine how much ‘value’ is being transmitted on a coin’s network. This version of NVT is calculated by dividing the coin’s Market Cap by its on-chain Transaction Volume. The higher the NVT, the more expensive the network relative to the value it transmits, indicating an overvalued asset.',
+
+  [Metric.topHoldersPercentOfTotalSupply.key]:
+    'Shows the combined balance of the top 10 addresses overall, as a percentage of the coin’s total circulating supply',
+  [Metric.amount_in_top_holders.key]:
+    'Shows the combined balance of the top N addresses overall',
+  [Metric.amount_in_exchange_top_holders.key]:
+    'Shows the combined balance of the top N addresses belonging to exchanges',
+  [Metric.amount_in_non_exchange_top_holders.key]:
+    'Shows the combined balance of the top N addresses that don’t belong to exchanges'
 }

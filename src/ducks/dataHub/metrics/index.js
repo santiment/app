@@ -107,8 +107,8 @@ export const Metric = {
   topHoldersPercentOfTotalSupply: {
     category: 'On-chain',
     node: 'line',
-    label: 'In Top Holders Total',
-    shortLabel: 'In T.H. Total',
+    label: 'Amount held by top addresses (as % of total supply)',
+    shortLabel: 'ahta',
     group: 'Top Holders'
   },
   circulation: {
@@ -286,19 +286,19 @@ export const Metric = {
   },
   amount_in_top_holders: {
     node: 'line',
-    label: 'Amount in Top Holders',
+    label: 'Amount held by top addresses',
     category: 'On-chain',
     group: 'Top Holders'
   },
   amount_in_exchange_top_holders: {
     node: 'line',
-    label: 'Amount in Exchange Top Holders',
+    label: 'Amount held by top exchange addresses',
     category: 'On-chain',
     group: 'Top Holders'
   },
   amount_in_non_exchange_top_holders: {
     node: 'line',
-    label: 'Amount in Non Exchange Top Holders',
+    label: 'Amount held by top non-exchange addresses',
     category: 'On-chain',
     group: 'Top Holders'
   }
