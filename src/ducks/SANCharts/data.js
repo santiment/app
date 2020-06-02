@@ -182,10 +182,43 @@ export const Metrics = {
     category: 'On-chain',
     node: 'line',
     Component: Line,
-    label: 'In Top Holders Total',
-    shortLabel: 'In T.H. Total',
+    label: 'Amount held by top addresses (as % of total supply)',
+    shortLabel: 'ahta',
     // dataKey: 'inTopHoldersTotal'
-    insights: [5618, 5637, 5647]
+    insights: [5618, 5637, 5647],
+    description: (
+      <>
+        Shows the combined balance of the top 10 addresses overall, as a
+        percentage of the coin’s total circulating supply
+      </>
+    )
+  },
+  amount_in_top_holders: {
+    node: 'line',
+    label: 'Amount held by top addresses',
+    category: 'On-chain',
+    description: <>Shows the combined balance of the top N addresses overall</>
+  },
+  amount_in_exchange_top_holders: {
+    node: 'line',
+    label: 'Amount held by top exchange addresses',
+    category: 'On-chain',
+    description: (
+      <>
+        Shows the combined balance of the top N addresses belonging to exchanges
+      </>
+    )
+  },
+  amount_in_non_exchange_top_holders: {
+    node: 'line',
+    label: 'Amount held by top non-exchange addresses',
+    category: 'On-chain',
+    description: (
+      <>
+        Shows the combined balance of the top N addresses that don’t belong to
+        exchanges
+      </>
+    )
   },
   circulation: {
     category: 'On-chain',
