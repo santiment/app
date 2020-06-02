@@ -6,7 +6,7 @@ import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import PublicTemplates from './PublicTemplates/PublicTemplates'
 import SocialTrends from './SocialTrends/SocialTrends'
 import Trends from '../../components/Trends/Trends'
-import BannerYoutube from '../../components/BannerYoutube'
+import EventBanner from '../../components/EventBanner'
 import ResearchesBlock from '../../components/ResearchesBlock'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { MobileOnly } from '../../components/Responsive'
@@ -36,7 +36,7 @@ const MarketingPage = props => {
           classes={styles}
         />
       </MobileOnly>
-      <BannerYoutube className={styles.banner} />
+      <EventBanner className={styles.banner} />
       <div className={styles.inner}>
         <div className={cx(styles.block, styles.firstBlock)}>
           <IndexTab
