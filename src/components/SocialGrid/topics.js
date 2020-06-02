@@ -80,9 +80,8 @@ export const INDEX_PAGE_GROUPS = [
         slug: 'satoshi AND coins'
       },
       {
-        title: 'Unlimited dollar printing',
-        slug:
-          'fed OR (unlimited AND money) OR (infinite AND money) OR printing OR stimulus OR bill'
+        title: 'Riots in United States',
+        slug: 'riot OR riots'
       },
       {
         title: 'Bought the bottom?',
