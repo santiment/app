@@ -146,6 +146,9 @@ export function useTimeseries (
           .then(getPreTransform(metric))
           .then(data => {
             if (raceCondition) return
+            if (!data.length) {
+              throw new Error('No data')
+            }
 
             setTimeseries(() => {
               mergedData = mergeTimeseries([mergedData, data])
