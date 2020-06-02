@@ -1,0 +1,72 @@
+@import '~@santiment-network/ui/mixins';
+@import '../../animations';
+
+.wrapper {
+  width: 100%;
+  padding: 14px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--athens);
+  transform-origin: top center;
+  animation-name: grow;
+  animation-timing-function: ease-out;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  margin-right: 60px;
+}
+
+.title {
+  @include text('body-3', 'm');
+
+  margin: 0 0 8px;
+  color: var(--dodger-blue);
+}
+
+.desc {
+  @include text('body-1', 'm');
+
+  margin: 0;
+  max-width: 332px;
+}
+
+.media {
+  height: 112px;
+  width: 250px;
+  position: relative;
+  box-shadow: 0 1px 8px rgba(47, 53, 77, 0.3);
+  border-radius: 4px;
+  background-color: var(--waterloo);
+  overflow: hidden;
+}
+
+.img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.link {
+  height: 100%;
+  width: 100%;
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.info,
+.media {
+  animation-name: shiftDown, appear;
+  animation-delay: 0.4s, 0;
+  animation-timing-function: ease-in-out;
+  animation-duration: 1s, 0.5s;
+  animation-fill-mode: both;
+}
