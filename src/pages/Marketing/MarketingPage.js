@@ -16,6 +16,7 @@ import { CATEGORIES } from '../assets/assets-overview-constants'
 import MyWatchlist from '../../components/Watchlists/MyWatchlist'
 import styles from './MarketingPage.module.scss'
 import { PATHS } from '../../App'
+import AlphaBlock from './AlphaBlock/AlphaBlock'
 
 const isCharts = ({ search }) =>
   search.indexOf('from') !== -1 && search.indexOf('to') !== -1
@@ -84,6 +85,10 @@ const MarketingPage = props => {
       </div>
 
       <div className={styles.inner}>
+        <div className={styles.block}>
+          <AlphaBlock classes={styles} />
+        </div>
+
         <div className={styles.block}>
           <IndexTab
             tabs={[

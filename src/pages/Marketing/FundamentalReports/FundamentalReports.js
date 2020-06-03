@@ -12,6 +12,7 @@ import { getCurrentSanbaseSubscription } from '../../../utils/plans'
 import { PRO } from '../../../components/Navbar/NavbarProfileDropdown'
 import NonProBanner from './NonProBanner'
 import styles from './FundamentalReports.module.scss'
+import { checkIsProState } from '../../../utils/account'
 
 const FundamentalReports = ({ isDesktop, isProSanbase }) => {
   const insights = [5632, 3229, 2959]
@@ -52,18 +53,9 @@ const FundamentalReports = ({ isDesktop, isProSanbase }) => {
   )
 }
 
-const mapStateToProps = ({ user: { data } }) => {
-  const sanbaseSubscription = getCurrentSanbaseSubscription(data)
-
-  const isProSanbase =
-    sanbaseSubscription && sanbaseSubscription.plan
-      ? sanbaseSubscription.plan.name === PRO
-      : false
-
-  return {
-    isProSanbase
-  }
-}
+const mapStateToProps = state => ({
+  ...checkIsProState(state)
+})
 
 export default compose(
   connect(mapStateToProps),

@@ -1,8 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { TEMPLATES } from './utils'
-import { getCurrentSanbaseSubscription } from '../../../utils/plans'
-import { PRO } from '../../../components/Navbar/NavbarProfileDropdown'
 import {
   useFeaturedTemplates,
   useUserTemplates
@@ -14,6 +12,7 @@ import FeatureAnonBanner from '../../../components/Banner/FeatureAnonBanner'
 import { prepareTemplateLink } from '../../../ducks/Studio/Template/utils'
 import TemplateTitle from '../../../ducks/Studio/Template/TemplateDetailsDialog/TemplateTitle'
 import AvatarWithName from '../../../components/AvatarWithName/AvatarWithName'
+import { checkIsProState } from '../../../utils/account'
 import styles from './PublicTemplates.module.scss'
 
 const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
@@ -82,17 +81,8 @@ const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
   )
 }
 
-const mapStateToProps = ({ user: { data } }) => {
-  const sanbaseSubscription = getCurrentSanbaseSubscription(data)
-
-  const isProSanbase =
-    sanbaseSubscription && sanbaseSubscription.plan
-      ? sanbaseSubscription.plan.name === PRO
-      : false
-
-  return {
-    isProSanbase
-  }
-}
+const mapStateToProps = state => ({
+  ...checkIsProState(state)
+})
 
 export default connect(mapStateToProps)(PublicTemplates)

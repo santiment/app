@@ -2,9 +2,8 @@ import React from 'react'
 import { Query } from '@apollo/react-components'
 import UpgradeBtn from '../../../../components/UpgradeBtn/UpgradeBtn'
 import { USER_SUBSCRIPTIONS_QUERY } from '../../../../queries/plans'
-import { getCurrentSanbaseSubscription } from '../../../../utils/plans'
-import { PRO } from '../../../../components/Navbar/NavbarProfileDropdown'
 import Panel from '@santiment-network/ui/Panel/Panel'
+import { checkIsProUser } from '../../../../utils/account'
 import proIcon from './../../../../assets/feed/pro-icon.svg'
 import externalStyles from './../FeedItemRenderer/FeedItemRenderer.module.scss'
 import styles from './MakeProSubscriptionCard.module.scss'
@@ -17,12 +16,7 @@ const MakeProSubscriptionCard = () => {
           return 'Loading...'
         }
 
-        const sanbaseSubscription = getCurrentSanbaseSubscription(currentUser)
-
-        const isProSanbase =
-          sanbaseSubscription && sanbaseSubscription.plan
-            ? sanbaseSubscription.plan.name === PRO
-            : false
+        const isProSanbase = checkIsProUser(currentUser)
 
         if (isProSanbase) {
           return null

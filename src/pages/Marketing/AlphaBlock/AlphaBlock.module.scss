@@ -1,0 +1,19 @@
+@import '~@santiment-network/ui/mixins';
+
+.proLabel {
+  @include text('caption');
+
+  color: var(--white);
+  text-transform: uppercase;
+  margin-left: 12px;
+  width: 32px;
+  height: 16px;
+  min-height: 16px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+}
