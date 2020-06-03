@@ -20,7 +20,7 @@ const AlphaBlock = ({ classes = {}, isProSanbase }) => {
             trigger={
               <Label
                 className={styles.proLabel}
-                variant='round'
+                variant='fill'
                 accent='texas-rose'
               >
                 Pro

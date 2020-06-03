@@ -9,8 +9,9 @@
   width: 32px;
   height: 16px;
   min-height: 16px;
-  padding: 0;
+  padding: 1px 0 0 2px;
   cursor: pointer;
+  border-radius: $border-radius;
 }
 
 .title {

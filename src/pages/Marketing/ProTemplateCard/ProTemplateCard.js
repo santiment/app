@@ -90,10 +90,16 @@ const Img = (
 )
 
 const ProTemplateCard = ({ isPro }) => {
-  const El = isPro ? Link : 'div'
+  const linkProps = {
+    to: isPro
+      ? 'https://docs.google.com/spreadsheets/u/1/d/1Wu-d_uBuvLp3FoNqz3azzbNzFr8Zaw2n6bcLLsQxNGc/view'
+      : '/pricing',
+    rel: 'noopener noreferrer',
+    target: isPro ? '_blank' : '_self'
+  }
 
   return (
-    <El className={styles.card} href='#'>
+    <Link className={styles.card} {...linkProps}>
       <div className={styles.info}>
         <h3 className={styles.title}>Price - Daily Addresses Divergence</h3>
         <div className={styles.description}>
@@ -109,7 +115,7 @@ const ProTemplateCard = ({ isPro }) => {
       </div>
 
       {Img}
-    </El>
+    </Link>
   )
 }
 
