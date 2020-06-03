@@ -152,10 +152,6 @@ export function useAxesMetricsKey (metrics, isDomainGroupingActive) {
         return setAxesMetricKeys([mainAxisMetric.key])
       }
 
-      let hasSameDomain =
-        isDomainGroupingActive &&
-        mainAxisMetric.domainGroup === secondaryAxisMetric.domainGroup
-
       for (let i = 1; i < length; i++) {
         const metric = metrics[i]
 
@@ -164,20 +160,23 @@ export function useAxesMetricsKey (metrics, isDomainGroupingActive) {
           mainAxisMetric = metric
           break
         }
-
-        if (
-          hasSameDomain &&
-          mainAxisMetric.domainGroup !== metric.domainGroup
-        ) {
-          secondaryAxisMetric = metric
-          hasSameDomain = false
-          break
-        }
       }
 
-      hasSameDomain =
-        hasSameDomain &&
+      let hasSameDomain =
+        isDomainGroupingActive &&
         mainAxisMetric.domainGroup === secondaryAxisMetric.domainGroup
+
+      if (hasSameDomain) {
+        for (let i = 1; i < length; i++) {
+          const metric = metrics[i]
+
+          if (mainAxisMetric.domainGroup !== metric.domainGroup) {
+            secondaryAxisMetric = metric
+            hasSameDomain = false
+            break
+          }
+        }
+      }
 
       setAxesMetricKeys(
         hasSameDomain

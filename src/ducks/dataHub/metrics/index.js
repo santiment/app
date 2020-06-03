@@ -14,7 +14,8 @@ export const Metric = {
     category: 'Financial',
     formatter: usdFormatter,
     historicalTriggersDataKey: 'price',
-    advancedView: 'Spent Coin Cost'
+    advancedView: 'Spent Coin Cost',
+    domainGroup: 'price_usd'
   },
   price_btc: {
     node: 'line',
