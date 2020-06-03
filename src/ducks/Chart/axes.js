@@ -2,17 +2,17 @@ import {
   drawAxes,
   drawAxesTicks,
   drawLeftAxis,
-  drawLeftAxisTicks,
+  drawLeftAxisTicks
 } from '@santiment-network/chart/axes'
 import {
   isDayInterval,
   getDateDayMonthYear,
-  getDateHoursMinutes,
+  getDateHoursMinutes
 } from './utils'
 import { dayTicksPaintConfig, dayAxesColor } from './paintConfigs'
 import { millify } from '../../utils/formatting'
 
-const yFormatter = (value) => {
+const yFormatter = value => {
   const absValue = Math.abs(value)
 
   if (!value) {
@@ -31,18 +31,22 @@ const yFormatter = (value) => {
     return millify(value, 2)
   }
 
-  if (absValue > 9999) {
+  if (absValue > 99999) {
     return millify(value, 0)
+  }
+
+  if (absValue > 9999) {
+    return millify(value, 1)
   }
 
   return Math.trunc(value)
 }
 
-export function plotAxes(chart, scale) {
+export function plotAxes (chart, scale) {
   const {
     axesMetricKeys,
     ticksPaintConfig = dayTicksPaintConfig,
-    axesColor = dayAxesColor,
+    axesColor = dayAxesColor
   } = chart
 
   const [mainAxisMetric, secondaryAxisMetric] = axesMetricKeys
@@ -56,7 +60,7 @@ export function plotAxes(chart, scale) {
       isDayInterval(chart) ? getDateHoursMinutes : getDateDayMonthYear,
       yFormatter,
       ticksPaintConfig,
-      scale,
+      scale
     )
   }
 
@@ -67,7 +71,7 @@ export function plotAxes(chart, scale) {
       secondaryAxisMetric,
       yFormatter,
       ticksPaintConfig,
-      scale,
+      scale
     )
   }
 }
