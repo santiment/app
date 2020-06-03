@@ -12,6 +12,11 @@
   @include responsive('laptop', 'tablet') {
     grid-template-columns: 1fr 1fr;
   }
+
+  & iframe {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .useLink {
@@ -32,6 +37,10 @@
   margin-left: 8px;
   width: 8px;
   height: 6px;
+}
+
+.innerContainer {
+  position: relative;
 }
 
 .template {
@@ -72,4 +81,36 @@
 
 .avatarBlock {
   margin: 16px 0 0;
+}
+
+.preview {
+  border-radius: $border-radius;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.video {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 144px;
+  width: 352px;
+  margin-bottom: 33px;
+}
+
+.playBtn {
+  z-index: 1;
+}
+
+.menuBtn {
+  z-index: 100;
+  display: flex;
+  position: absolute;
+  right: 0;
+  top: 0;
 }

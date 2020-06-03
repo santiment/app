@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { connect } from 'react-redux'
 import { TEMPLATES } from './utils'
 import {
@@ -6,13 +6,10 @@ import {
   useUserTemplates
 } from '../../../ducks/Studio/Template/gql/hooks'
 import PageLoader from '../../../components/Loader/PageLoader'
-import NewLabel from '../../../components/NewLabel/NewLabel'
 import NewTemplateCard from '../../../components/TemplatesGrid/NewTemplateCard'
 import FeatureAnonBanner from '../../../components/Banner/FeatureAnonBanner'
-import { prepareTemplateLink } from '../../../ducks/Studio/Template/utils'
-import TemplateTitle from '../../../ducks/Studio/Template/TemplateDetailsDialog/TemplateTitle'
-import AvatarWithName from '../../../components/AvatarWithName/AvatarWithName'
 import { checkIsProState } from '../../../utils/account'
+import PublicTemplateCard from './PublicTemplateCard'
 import styles from './PublicTemplates.module.scss'
 
 const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
@@ -21,6 +18,7 @@ const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
       <FeatureAnonBanner title='Get ability to create your own Chart Layout when you login' />
     )
   }
+  const videoRef = useRef(null)
 
   const [templates, loading] = !isFeatured
     ? useUserTemplates(userId)
@@ -34,46 +32,9 @@ const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
   const usingTemplates = templates.length > 0 ? templates : defaultTemplates
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} ref={videoRef}>
       {usingTemplates.map((template, index) => {
-        const {
-          link,
-          title,
-          description,
-          isProRequired,
-          insertedAt,
-          user
-        } = template
-        const requirePro = isProRequired && !isProSanbase
-
-        return requirePro ? null : (
-          <div key={index} className={styles.template}>
-            <div>
-              <div className={styles.title}>
-                {[
-                  <NewLabel
-                    date={insertedAt}
-                    className={styles.new}
-                    key='new'
-                  />,
-                  <a
-                    className={styles.title}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    key='link'
-                    href={link || prepareTemplateLink(template)}
-                  >
-                    <TemplateTitle title={title} key='title' />
-                  </a>
-                ]}
-              </div>
-
-              <div className={styles.description}>{description}</div>
-            </div>
-
-            <AvatarWithName user={user} classes={styles} />
-          </div>
-        )
+        return <PublicTemplateCard template={template} key={index} />
       })}
 
       <NewTemplateCard />
@@ -81,8 +42,6 @@ const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
   )
 }
 
-const mapStateToProps = state => ({
-  ...checkIsProState(state)
-})
+const mapStateToProps = state => checkIsProState(state)
 
 export default connect(mapStateToProps)(PublicTemplates)

@@ -1,0 +1,8 @@
+.btn {
+  z-index: 1;
+  cursor: pointer;
+
+  &:hover {
+    fill: var(--jungle-green-hover);
+  }
+}

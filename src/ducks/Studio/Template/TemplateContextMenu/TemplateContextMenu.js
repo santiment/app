@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
@@ -19,16 +20,31 @@ export const Option = props => (
   />
 )
 
+const useMenuEffects = () => {
+  const [isMenuOpened, setIsMenuOpened] = useState(false)
+
+  function openMenu (e) {
+    e.stopPropagation()
+
+    setIsMenuOpened(true)
+  }
+
+  function closeMenu () {
+    setIsMenuOpened(false)
+  }
+
+  return [isMenuOpened, openMenu, closeMenu]
+}
+
 const TemplateContextMenu = ({
   template,
-  isMenuOpened,
-  closeMenu,
-  openMenu,
   onRename,
   onDelete,
   isAuthor,
   classes = {}
 }) => {
+  const [isMenuOpened, openMenu, closeMenu] = useMenuEffects()
+
   return (
     <ContextMenu
       open={isMenuOpened}
@@ -56,7 +72,7 @@ const TemplateContextMenu = ({
             trigger={<Option>Edit</Option>}
             template={template}
             onRename={data => {
-              onRename(data)
+              onRename && onRename(data)
               closeMenu()
             }}
           />
@@ -83,4 +99,8 @@ const TemplateContextMenu = ({
   )
 }
 
-export default TemplateContextMenu
+const mapStateToProps = ({ user }, { template: { user: { id } = {} } }) => ({
+  isAuthor: user && user.data && +user.data.id === +id
+})
+
+export default connect(mapStateToProps)(TemplateContextMenu)

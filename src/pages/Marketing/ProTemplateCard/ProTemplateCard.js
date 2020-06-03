@@ -99,9 +99,11 @@ const ProTemplateCard = ({ isPro }) => {
   }
 
   return (
-    <Link className={styles.card} {...linkProps}>
+    <div className={styles.card}>
       <div className={styles.info}>
-        <h3 className={styles.title}>Price - Daily Addresses Divergence</h3>
+        <Link className={styles.title} {...linkProps}>
+          Price - Daily Addresses Divergence
+        </Link>
         <div className={styles.description}>
           Tracks the relationship between Bitcoin’s price and the number of
           addresses interacting with BTC daily.
@@ -115,7 +117,7 @@ const ProTemplateCard = ({ isPro }) => {
       </div>
 
       {Img}
-    </Link>
+    </div>
   )
 }
 

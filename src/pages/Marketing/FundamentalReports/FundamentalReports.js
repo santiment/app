@@ -51,9 +51,7 @@ const FundamentalReports = ({ isDesktop, isProSanbase }) => {
   )
 }
 
-const mapStateToProps = state => ({
-  ...checkIsProState(state)
-})
+const mapStateToProps = state => checkIsProState(state)
 
 export default compose(
   connect(mapStateToProps),

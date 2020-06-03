@@ -3,10 +3,11 @@ import { PRO } from '../components/Navbar/NavbarProfileDropdown'
 
 export const checkIsProUser = data => {
   const sanbaseSubscription = getCurrentSanbaseSubscription(data)
-
-  return sanbaseSubscription && sanbaseSubscription.plan
-    ? sanbaseSubscription.plan.name === PRO
-    : false
+  return (
+    sanbaseSubscription &&
+    sanbaseSubscription.plan &&
+    sanbaseSubscription.plan.name === PRO
+  )
 }
 
 export const checkIsProState = ({ user: { data } }) => {
