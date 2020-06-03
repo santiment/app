@@ -2,6 +2,7 @@ import { updateTooltipSettings } from '../tooltipSettings'
 import {
   usdFormatter,
   btcFormatter,
+  ethFormatter,
   percentageFormatter,
   tooltipValueFormatter
 } from '../../SANCharts/utils'
@@ -21,6 +22,13 @@ export const Metric = {
     label: 'Price BTC',
     category: 'Financial',
     formatter: btcFormatter,
+    isBeta: true
+  },
+  price_eth: {
+    node: 'line',
+    label: 'Price ETH',
+    category: 'Financial',
+    formatter: ethFormatter,
     isBeta: true
   },
   historyPricePreview: {

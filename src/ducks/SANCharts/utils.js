@@ -20,11 +20,14 @@ export const mapDatetimeToNumber = timeseries =>
     datetime: +new Date(datetime)
   }))
 
-export const usdFormatter = val =>
-  val || val === 0 ? formatNumber(val, { currency: 'USD' }) : 'No data'
+const currencyFormatter = (val, currency) =>
+  val || val === 0 ? formatNumber(val, { currency }) : 'No data'
 
-export const btcFormatter = val =>
-  val || val === 0 ? formatNumber(val, { currency: 'BTC' }) : 'No data'
+export const usdFormatter = val => currencyFormatter(val, 'USD')
+
+export const btcFormatter = val => currencyFormatter(val, 'BTC')
+
+export const ethFormatter = val => currencyFormatter(val, 'ETH')
 
 export const percentageFormatter = val =>
   val || val === 0 ? `${val}%` : 'No data'

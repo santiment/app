@@ -161,6 +161,7 @@ const TIMESERIES = {
     preTransform: getMetricPreTransform
   },
   price_btc: queryBuild('price_btc'),
+  price_eth: queryBuild('price_eth'),
   exchange_inflow: queryBuild('exchange_inflow'),
   exchange_outflow: queryBuild('exchange_outflow'),
   github_activity: queryBuild('github_activity'),
