@@ -11,13 +11,15 @@ import {
 import { MAX_METRICS_AMOUNT } from './constraints'
 import { generateShareLink } from './url'
 import { trackMetricState } from './analytics'
+import { transformExchangeOutflow } from './utils'
 import { useTimeseries } from './timeseries/hooks'
 import { buildAnomalies } from './timeseries/anomalies'
 import { buildComparedMetric } from './Compare/utils'
 import { TOP_HOLDERS_PANE } from './Chart/Sidepane/panes'
-import { updateHistory } from '../../utils/utils'
 import { useClosestValueData } from '../Chart/hooks'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
+import { Metric } from '../dataHub/metrics'
+import { updateHistory } from '../../utils/utils'
 import styles from './index.module.scss'
 
 const Studio = ({
@@ -48,10 +50,12 @@ const Studio = ({
   const [shareLink, setShareLink] = useState()
   const [isICOPriceDisabled, setIsICOPriceDisabled] = useState(true)
   const [isSidebarClosed, setIsSidebarClosed] = useState()
+  const [MetricTransformer, setMetricTransformer] = useState({})
   const [rawData, loadings, ErrorMsg] = useTimeseries(
     activeMetrics,
     settings,
-    MetricSettingMap
+    MetricSettingMap,
+    MetricTransformer
   )
   const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings)
   const data = useClosestValueData(
@@ -72,6 +76,28 @@ const Studio = ({
       setActiveMetrics(metrics.concat(comparedMetrics))
     },
     [metrics, comparedMetrics]
+  )
+
+  useEffect(
+    () => {
+      if (
+        !options.isMultiChartsActive &&
+        metrics.includes(Metric.exchange_outflow)
+      ) {
+        if (metrics.includes(Metric.exchange_inflow)) {
+          return setMetricTransformer(state => ({
+            ...state,
+            [Metric.exchange_outflow.key]: transformExchangeOutflow
+          }))
+        }
+      }
+
+      setMetricTransformer(state => ({
+        ...state,
+        [Metric.exchange_outflow.key]: undefined
+      }))
+    },
+    [metrics, options.isMultiChartsActive]
   )
 
   useEffect(

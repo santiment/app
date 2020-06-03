@@ -10,31 +10,44 @@ import {
   getDateHoursMinutes
 } from './utils'
 import { dayTicksPaintConfig, dayAxesColor } from './paintConfigs'
+import { Metric } from '../dataHub/metrics'
 import { millify } from '../../utils/formatting'
 
-const yFormatter = value => {
+function yFormatter (value) {
+  const absValue = Math.abs(value)
+
   if (!value) {
     return 0
   }
 
-  if (value < 1) {
+  if (absValue < 1) {
     return +value.toFixed(3)
   }
 
-  if (value < 100) {
+  if (absValue < 100) {
     return millify(value, 3)
   }
 
-  if (value > 999999) {
+  if (absValue > 999999) {
     return millify(value, 2)
   }
 
-  if (value > 9999) {
+  if (absValue > 99999) {
     return millify(value, 0)
+  }
+
+  if (absValue > 9999) {
+    return millify(value, 1)
   }
 
   return Math.trunc(value)
 }
+
+const selectYFormatter = metricKey =>
+  metricKey === Metric.exchange_outflow.key ||
+  metricKey === Metric.exchange_inflow.key
+    ? value => yFormatter(Math.abs(value))
+    : yFormatter
 
 export function plotAxes (chart, scale) {
   const {
@@ -52,7 +65,7 @@ export function plotAxes (chart, scale) {
       chart,
       mainAxisMetric,
       isDayInterval(chart) ? getDateHoursMinutes : getDateDayMonthYear,
-      yFormatter,
+      selectYFormatter(mainAxisMetric),
       ticksPaintConfig,
       scale
     )
@@ -63,7 +76,7 @@ export function plotAxes (chart, scale) {
     drawLeftAxisTicks(
       chart,
       secondaryAxisMetric,
-      yFormatter,
+      selectYFormatter(secondaryAxisMetric),
       ticksPaintConfig,
       scale
     )

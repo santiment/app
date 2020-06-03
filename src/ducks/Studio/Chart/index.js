@@ -15,6 +15,7 @@ import ChartMetricsExplanation, {
 } from './Sidepane/MetricsExplanation'
 import { METRICS_EXPLANATION_PANE } from './Sidepane/panes'
 import { TOP_HOLDER_METRICS } from './Sidepane/TopHolders/metrics'
+import { extractMirrorMetricsDomainGroups } from '../utils'
 import Chart from '../../Chart'
 import Signals from '../../Chart/Signals'
 import Synchronizer from '../../Chart/Synchronizer'
@@ -51,7 +52,9 @@ const Canvas = ({
   const [FocusedMetric, setFocusedMetric] = useState()
   const MetricColor = useChartColors(metrics, FocusedMetric)
   const domainGroups = useDomainGroups(metrics)
-  const axesMetricKeys = useAxesMetricsKey(metrics)
+  const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
+
+  const mirrorDomainGroups = extractMirrorMetricsDomainGroups(domainGroups)
 
   const isBlurred = isAnon && index > 1
   const hasExplanaibles = filterExplainableMetrics(metrics).length > 0
@@ -104,7 +107,7 @@ const Canvas = ({
 
         <div className={styles.meta}>
           <ChartPaywallInfo boundaries={boundaries} metrics={metrics} />
-          {domainGroups && (
+          {domainGroups && domainGroups.length > mirrorDomainGroups.length && (
             <SharedAxisToggle
               isDomainGroupingActive={isDomainGroupingActive}
               setIsDomainGroupingActive={setIsDomainGroupingActive}
@@ -136,7 +139,9 @@ const Canvas = ({
         MetricColor={MetricColor}
         metrics={metrics}
         scale={scale}
-        domainGroups={isDomainGroupingActive ? domainGroups : undefined}
+        domainGroups={
+          isDomainGroupingActive ? domainGroups : mirrorDomainGroups
+        }
         tooltipKey={axesMetricKeys[0]}
         axesMetricKeys={axesMetricKeys}
         isMultiChartsActive={isMultiChartsActive}

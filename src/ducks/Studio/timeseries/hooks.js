@@ -13,9 +13,12 @@ window.AbortController =
 const DEFAULT_TS = []
 const DEFAULT_LOADINGS = []
 const DEFAULT_ERROR_MSG = Object.create(null)
+const DEFAULT_METRIC_TRANSFORMER = Object.create(null)
 const DEFAULT_ABORTABLES = new Map()
 const DEFAULT_METRIC_SETTINGS_MAP = new Map()
 const ABORTABLE_METRIC_SETTINGS_INDEX = 2
+
+const noop = v => v
 
 const hashMetrics = metrics => metrics.reduce((acc, { key }) => acc + key, '')
 
@@ -60,7 +63,8 @@ function abortAllMetrics (abortables) {
 export function useTimeseries (
   metrics,
   settings,
-  MetricSettingMap = DEFAULT_METRIC_SETTINGS_MAP
+  MetricSettingMap = DEFAULT_METRIC_SETTINGS_MAP,
+  MetricTransformer = DEFAULT_METRIC_TRANSFORMER
 ) {
   const [timeseries, setTimeseries] = useState(DEFAULT_TS)
   const [loadings, setLoadings] = useState(DEFAULT_LOADINGS)
@@ -144,6 +148,7 @@ export function useTimeseries (
             }
           })
           .then(getPreTransform(metric))
+          .then(MetricTransformer[metric.key] || noop)
           .then(data => {
             if (raceCondition) return
             if (!data.length) {
@@ -180,7 +185,7 @@ export function useTimeseries (
         raceCondition = true
       }
     },
-    [metricsHash, settings, MetricSettingMap]
+    [metricsHash, settings, MetricSettingMap, MetricTransformer]
   )
 
   return [timeseries, loadings, ErrorMsg]

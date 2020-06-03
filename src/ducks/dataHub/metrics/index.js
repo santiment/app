@@ -1,4 +1,4 @@
-import { updateTooltipSettings } from '../tooltipSettings'
+import { FORMATTER, updateTooltipSettings } from '../tooltipSettings'
 import {
   usdFormatter,
   btcFormatter,
@@ -15,7 +15,8 @@ export const Metric = {
     category: 'Financial',
     formatter: usdFormatter,
     historicalTriggersDataKey: 'price',
-    advancedView: 'Spent Coin Cost'
+    advancedView: 'Spent Coin Cost',
+    domainGroup: 'price_usd'
   },
   price_btc: {
     node: 'line',
@@ -272,13 +273,16 @@ export const Metric = {
     node: 'line',
     label: 'Exchange Inflow',
     category: 'On-chain',
-    group: 'Exchanges'
+    group: 'Exchanges',
+    domainGroup: 'exchange_inoutflow'
   },
   exchange_outflow: {
     node: 'line',
     label: 'Exchange Outflow',
     category: 'On-chain',
-    group: 'Exchanges'
+    group: 'Exchanges',
+    domainGroup: 'exchange_inoutflow',
+    formatter: value => FORMATTER(value && Math.abs(value))
   },
   supply_on_exchanges: {
     node: 'line',

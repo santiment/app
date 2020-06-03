@@ -139,7 +139,7 @@ export function useTooltipMetricKey (metrics) {
   return tooltipMetricKey
 }
 
-export function useAxesMetricsKey (metrics) {
+export function useAxesMetricsKey (metrics, isDomainGroupingActive) {
   const [axesMetricKeys, setAxesMetricKeys] = useState([])
 
   useEffect(
@@ -162,9 +162,29 @@ export function useAxesMetricsKey (metrics) {
         }
       }
 
-      setAxesMetricKeys([mainAxisMetric.key, secondaryAxisMetric.key])
+      let hasSameDomain =
+        isDomainGroupingActive &&
+        mainAxisMetric.domainGroup === secondaryAxisMetric.domainGroup
+
+      if (hasSameDomain) {
+        for (let i = 1; i < length; i++) {
+          const metric = metrics[i]
+
+          if (mainAxisMetric.domainGroup !== metric.domainGroup) {
+            secondaryAxisMetric = metric
+            hasSameDomain = false
+            break
+          }
+        }
+      }
+
+      setAxesMetricKeys(
+        hasSameDomain
+          ? [mainAxisMetric.key]
+          : [mainAxisMetric.key, secondaryAxisMetric.key]
+      )
     },
-    [metrics]
+    [metrics, isDomainGroupingActive]
   )
 
   return axesMetricKeys
