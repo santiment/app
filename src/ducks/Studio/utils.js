@@ -1,12 +1,12 @@
 import { Metric } from '../dataHub/metrics'
 
-export const transformExchangeOutflow = (data) =>
+export const transformExchangeOutflow = data =>
   data.map(({ datetime, exchange_outflow }) => ({
     datetime,
-    exchange_outflow: -exchange_outflow,
+    exchange_outflow: -exchange_outflow
   }))
 
-export function extractMirrorMetricsDomainGroups(domainGroups) {
+export function extractMirrorMetricsDomainGroups (domainGroups) {
   if (!domainGroups) return
 
   const { length } = domainGroups
