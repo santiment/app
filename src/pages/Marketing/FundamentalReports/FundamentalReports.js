@@ -8,11 +8,9 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import { mapSizesToProps } from '../../../utils/withSizes'
 import { INSIGHT_BY_ID_QUERY } from '../../../queries/InsightsGQL'
 import InsightCard from '../../../components/Insight/InsightCard'
-import { getCurrentSanbaseSubscription } from '../../../utils/plans'
-import { PRO } from '../../../components/Navbar/NavbarProfileDropdown'
 import NonProBanner from './NonProBanner'
-import styles from './FundamentalReports.module.scss'
 import { checkIsProState } from '../../../utils/account'
+import styles from './FundamentalReports.module.scss'
 
 const FundamentalReports = ({ isDesktop, isProSanbase }) => {
   const insights = [5632, 3229, 2959]
