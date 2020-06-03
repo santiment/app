@@ -69,6 +69,7 @@
 
   color: var(--rhino);
   word-break: break-word;
+  padding-right: 32px;
 }
 
 .new {
@@ -113,4 +114,7 @@
   position: absolute;
   right: 0;
   top: 0;
+  border: none;
+  box-shadow: none;
+  fill: var(--waterloo);
 }
