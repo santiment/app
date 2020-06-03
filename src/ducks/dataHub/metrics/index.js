@@ -3,7 +3,7 @@ import {
   usdFormatter,
   btcFormatter,
   percentageFormatter,
-  tooltipValueFormatter
+  tooltipValueFormatter,
 } from '../../SANCharts/utils'
 import { millify } from '../../../utils/formatting'
 
@@ -14,14 +14,14 @@ export const Metric = {
     category: 'Financial',
     formatter: usdFormatter,
     historicalTriggersDataKey: 'price',
-    advancedView: 'Spent Coin Cost'
+    advancedView: 'Spent Coin Cost',
   },
   price_btc: {
     node: 'line',
     label: 'Price BTC',
     category: 'Financial',
     formatter: btcFormatter,
-    isBeta: true
+    isBeta: true,
   },
   historyPricePreview: {
     queryKey: 'price_usd',
@@ -32,7 +32,7 @@ export const Metric = {
     category: 'Financial',
     gradientUrl: 'url(#totalUp)',
     formatter: usdFormatter,
-    hideYAxis: true
+    hideYAxis: true,
   },
   historicalBalance: {
     category: 'Financial',
@@ -42,20 +42,20 @@ export const Metric = {
     dataKey: 'balance',
     color: 'mystic',
     strokeWidth: 0,
-    hidden: true
+    hidden: true,
   },
   marketcap_usd: {
     category: 'Financial',
     node: 'line',
     label: 'Marketcap',
-    formatter: usdFormatter
+    formatter: usdFormatter,
   },
   volume_usd: {
     category: 'Financial',
     node: 'bar',
     label: 'Volume',
     fill: true,
-    formatter: usdFormatter
+    formatter: usdFormatter,
   },
   social_volume_total: {
     category: 'Social',
@@ -64,7 +64,7 @@ export const Metric = {
     shortLabel: 'Soc. Vol.',
     anomalyKey: 'SOCIAL_VOLUME',
     advancedView: 'Social Context',
-    formatter: value => tooltipValueFormatter({ value })
+    formatter: (value) => tooltipValueFormatter({ value }),
   },
   age_destroyed: {
     category: 'On-chain',
@@ -75,7 +75,7 @@ export const Metric = {
     abbreviation: 'tac',
     fill: true,
     video: 'https://www.youtube.com/watch?v=NZFtYT5QzS4',
-    formatter: value => (value ? millify(value, 2) : 'No data')
+    formatter: (value) => (value ? millify(value, 2) : 'No data'),
   },
   exchange_balance: {
     category: 'On-chain',
@@ -84,7 +84,7 @@ export const Metric = {
     label: 'Exchange Flow Balance',
     shortLabel: 'Exc. Flow Bal.',
     abbreviation: 'efb',
-    video: 'https://www.youtube.com/watch?v=0R6GDF2bg6A'
+    video: 'https://www.youtube.com/watch?v=0R6GDF2bg6A',
   },
   daily_active_addresses: {
     category: 'On-chain',
@@ -95,21 +95,21 @@ export const Metric = {
     anomalyKey: 'DAILY_ACTIVE_ADDRESSES',
     abbreviation: 'daa',
     video: 'https://www.youtube.com/watch?v=n3dUvWvQEpQ',
-    historicalTriggersDataKey: 'active_addresses'
+    historicalTriggersDataKey: 'active_addresses',
   },
   percent_of_total_supply_on_exchanges: {
     category: 'On-chain',
     node: 'line',
     group: 'Exchanges',
     label: 'Percent of Total Supply on Exchanges',
-    shortLabel: '% TS on Exc.'
+    shortLabel: '% TS on Exc.',
   },
   topHoldersPercentOfTotalSupply: {
     category: 'On-chain',
     node: 'line',
     label: 'Amount held by top addresses (as % of total supply)',
     shortLabel: 'ahta',
-    group: 'Top Holders'
+    group: 'Top Holders',
   },
   circulation: {
     category: 'On-chain',
@@ -117,7 +117,7 @@ export const Metric = {
     group: 'Network Activity',
     label: 'Token Circulation',
     shortLabel: 'Token Circ.',
-    abbreviation: 'tc'
+    abbreviation: 'tc',
   },
   mvrv_usd: {
     category: 'On-chain',
@@ -127,7 +127,7 @@ export const Metric = {
     fullTitle: 'Market Value To Realized Value',
     shortLabel: 'MVRV',
     abbreviation: 'mvrv',
-    video: 'https://www.youtube.com/watch?v=foMhhHbCgBE'
+    video: 'https://www.youtube.com/watch?v=foMhhHbCgBE',
   },
   mvrv_long_short_diff_usd: {
     category: 'On-chain',
@@ -136,7 +136,7 @@ export const Metric = {
     label: 'MVRV Long-Short Difference',
     fullTitle: 'Market Value To Realized Value Long-Short Difference',
     shortLabel: 'MVRV L/S Diff',
-    isBeta: true
+    isBeta: true,
   },
   transaction_volume: {
     category: 'On-chain',
@@ -144,7 +144,7 @@ export const Metric = {
     group: 'Network Activity',
     label: 'Transaction Volume',
     abbreviation: 'trv',
-    shortLabel: 'Trans. Vol.'
+    shortLabel: 'Trans. Vol.',
   },
   network_growth: {
     category: 'On-chain',
@@ -152,7 +152,7 @@ export const Metric = {
     group: 'Network Activity',
     label: 'Network Growth',
     shortLabel: 'Net. Growth',
-    video: 'https://www.youtube.com/watch?v=YaccxEEz8pg'
+    video: 'https://www.youtube.com/watch?v=YaccxEEz8pg',
   },
   dev_activity: {
     category: 'Development',
@@ -163,9 +163,9 @@ export const Metric = {
     reqMeta: {
       transform: {
         type: 'moving_average',
-        movingAverageBase: 7
-      }
-    }
+        movingAverageBase: 7,
+      },
+    },
   },
   velocity: {
     category: 'On-chain',
@@ -173,44 +173,44 @@ export const Metric = {
     group: 'Network Activity',
     label: 'Token Velocity',
     shortLabel: 'Token Vel.',
-    abbreviation: 'tv'
+    abbreviation: 'tv',
   },
   active_deposits: {
     category: 'On-chain',
     node: 'bar',
     label: 'Daily Active Deposits',
     shortLabel: 'Daily A.D.',
-    group: 'Exchanges'
+    group: 'Exchanges',
   },
   twitter_followers: {
     category: 'Social',
     node: 'line',
-    label: 'Twitter'
+    label: 'Twitter',
   },
   social_dominance_total: {
     category: 'Social',
     node: 'line',
     label: 'Social Dominance',
     shortLabel: 'Soc. Dom.',
-    formatter: percentageFormatter
+    formatter: percentageFormatter,
   },
   realized_value_usd: {
     category: 'On-chain',
     node: 'line',
     group: 'Network Value',
     label: 'Realized Cap',
-    shortLabel: 'Real. Cap'
+    shortLabel: 'Real. Cap',
   },
   ethSpentOverTime: {
     category: 'On-chain',
     node: 'line',
     label: 'Eth Spent Over Time',
-    shortLabel: 'Eth Spent'
+    shortLabel: 'Eth Spent',
   },
   gasUsed: {
     category: 'On-chain',
     node: 'line',
-    label: 'Gas Used'
+    label: 'Gas Used',
   },
   mean_dollar_invested_age: {
     category: 'On-chain',
@@ -218,7 +218,7 @@ export const Metric = {
     label: 'Mean Dollar Invested Age',
     shortLabel: 'Mean D.I.A.',
     abbreviation: 'mdia',
-    group: 'Network Value'
+    group: 'Network Value',
   },
   mean_age: {
     category: 'On-chain',
@@ -227,84 +227,87 @@ export const Metric = {
     shortLabel: 'Mean C.A.',
     abbreviation: 'mca',
     isBeta: true,
-    group: 'Network Value'
+    group: 'Network Value',
   },
   nvt: {
     category: 'On-chain',
     node: 'line',
     group: 'Network Value',
     label: 'NVT Ratio Circulation',
-    shortLabel: 'NVT R. Circ.'
+    shortLabel: 'NVT R. Circ.',
   },
   nvt_transaction_volume: {
     node: 'bar',
     group: 'Network Value',
     label: 'NVT Ratio Transaction Volume',
     shortLabel: 'NVT R. T.V.',
-    category: 'On-chain'
+    category: 'On-chain',
   },
   minersBalance: {
     node: 'line',
     label: 'Miners Balance',
-    category: 'On-chain'
+    category: 'On-chain',
   },
   deposit_transactions: {
     node: 'line',
     label: 'Deposit Transactions',
     category: 'On-chain',
-    group: 'Exchanges'
+    group: 'Exchanges',
   },
   withdrawal_transactions: {
     node: 'line',
     label: 'Withdrawal Transactions',
     category: 'On-chain',
-    group: 'Exchanges'
+    group: 'Exchanges',
   },
   exchange_inflow: {
     node: 'line',
     label: 'Exchange Inflow',
     category: 'On-chain',
-    group: 'Exchanges'
+    group: 'Exchanges',
+    domainGroup: 'exchange_inoutflow',
   },
   exchange_outflow: {
     node: 'line',
     label: 'Exchange Outflow',
     category: 'On-chain',
-    group: 'Exchanges'
+    group: 'Exchanges',
+    domainGroup: 'exchange_inoutflow',
+    formatter: (value) => millify(Math.abs(value), 2),
   },
   supply_on_exchanges: {
     node: 'line',
     label: 'Supply On Exchanges',
     category: 'On-chain',
-    group: 'Exchanges'
+    group: 'Exchanges',
   },
   supply_outside_exchanges: {
     node: 'line',
     label: 'Supply Outside Exchanges',
     category: 'On-chain',
-    group: 'Exchanges'
+    group: 'Exchanges',
   },
   amount_in_top_holders: {
     node: 'line',
     label: 'Amount held by top addresses',
     category: 'On-chain',
-    group: 'Top Holders'
+    group: 'Top Holders',
   },
   amount_in_exchange_top_holders: {
     node: 'line',
     label: 'Amount held by top exchange addresses',
     category: 'On-chain',
-    group: 'Top Holders'
+    group: 'Top Holders',
   },
   amount_in_non_exchange_top_holders: {
     node: 'line',
     label: 'Amount held by top non-exchange addresses',
     category: 'On-chain',
-    group: 'Top Holders'
-  }
+    group: 'Top Holders',
+  },
 }
 
-Object.keys(Metric).forEach(key => {
+Object.keys(Metric).forEach((key) => {
   Metric[key].key = key
 })
 

@@ -5,20 +5,20 @@ const LARGE_NUMBER_THRESHOLD = 99999
 
 export const TooltipSetting = {
   datetime: {
-    formatter: value => {
+    formatter: (value) => {
       const date = new Date(value)
       const { HH, mm } = getTimeFormats(date)
       const { MMMM, DD, YYYY } = getDateFormats(date)
       return `${HH}:${mm}, ${MMMM} ${DD}, ${YYYY}`
-    }
+    },
   },
   isAnomaly: {
     label: 'Anomaly',
-    formatter: v => v
-  }
+    formatter: (v) => v,
+  },
 }
 
-export function FORMATTER (value) {
+export function FORMATTER(value) {
   if (!value && typeof value !== 'number') {
     return 'No data'
   }
@@ -30,7 +30,7 @@ export function FORMATTER (value) {
   return Number.isInteger(value) ? value : value.toFixed(2)
 }
 
-export function updateTooltipSettings (metrics) {
+export function updateTooltipSettings(metrics) {
   const { length } = metrics
 
   for (let i = 0; i < length; i++) {
@@ -40,7 +40,7 @@ export function updateTooltipSettings (metrics) {
     metric.formatter = formatter
     TooltipSetting[dataKey] = {
       label,
-      formatter
+      formatter,
     }
   }
 }
