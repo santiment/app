@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import { Metric } from '../dataHub/metrics'
 
-const splitByComma = str => str.split(',')
+const splitByComma = (str) => str.split(',')
 const lineMetricsFilter = ({ node }) => node === 'line'
 
-export function useDomainGroups (metrics) {
+export function useDomainGroups(metrics) {
   const [domainGroups, setDomainGroups] = useState()
 
   useEffect(
@@ -41,16 +41,16 @@ export function useDomainGroups (metrics) {
 
       setDomainGroups(newDomainGroups.length > 0 ? newDomainGroups : undefined)
     },
-    [metrics]
+    [metrics],
   )
 
   return domainGroups
 }
 
-export function useClosestValueData (
+export function useClosestValueData(
   rawData,
   metrics,
-  isClosestValueActive = true
+  isClosestValueActive = true,
 ) {
   const [newData, setNewData] = useState(rawData)
 
@@ -103,13 +103,13 @@ export function useClosestValueData (
 
       setNewData(data)
     },
-    [rawData, metrics, isClosestValueActive]
+    [rawData, metrics, isClosestValueActive],
   )
 
   return newData
 }
 
-export function useTooltipMetricKey (metrics) {
+export function useTooltipMetricKey(metrics) {
   const [tooltipMetricKey, setTooltipMetricKey] = useState(metrics[0].key)
 
   useEffect(
@@ -133,13 +133,13 @@ export function useTooltipMetricKey (metrics) {
 
       return setTooltipMetricKey(tooltipKey.key)
     },
-    [metrics]
+    [metrics],
   )
 
   return tooltipMetricKey
 }
 
-export function useAxesMetricsKey (metrics) {
+export function useAxesMetricsKey(metrics, isDomainGroupingActive) {
   const [axesMetricKeys, setAxesMetricKeys] = useState([])
 
   useEffect(
@@ -152,6 +152,10 @@ export function useAxesMetricsKey (metrics) {
         return setAxesMetricKeys([mainAxisMetric.key])
       }
 
+      let hasSameDomain =
+        isDomainGroupingActive &&
+        mainAxisMetric.domainGroup === secondaryAxisMetric.domainGroup
+
       for (let i = 1; i < length; i++) {
         const metric = metrics[i]
 
@@ -160,11 +164,28 @@ export function useAxesMetricsKey (metrics) {
           mainAxisMetric = metric
           break
         }
+
+        if (
+          hasSameDomain &&
+          mainAxisMetric.domainGroup !== metric.domainGroup
+        ) {
+          secondaryAxisMetric = metric
+          hasSameDomain = false
+          break
+        }
       }
 
-      setAxesMetricKeys([mainAxisMetric.key, secondaryAxisMetric.key])
+      hasSameDomain =
+        hasSameDomain &&
+        mainAxisMetric.domainGroup === secondaryAxisMetric.domainGroup
+
+      setAxesMetricKeys(
+        hasSameDomain
+          ? [mainAxisMetric.key]
+          : [mainAxisMetric.key, secondaryAxisMetric.key],
+      )
     },
-    [metrics]
+    [metrics, isDomainGroupingActive],
   )
 
   return axesMetricKeys

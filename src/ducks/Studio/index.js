@@ -80,21 +80,24 @@ const Studio = ({
 
   useEffect(
     () => {
-      if (metrics.includes(Metric.exchange_outflow)) {
+      if (
+        !options.isMultiChartsActive &&
+        metrics.includes(Metric.exchange_outflow)
+      ) {
         if (metrics.includes(Metric.exchange_inflow)) {
-          setMetricTransformer((state) => ({
+          return setMetricTransformer((state) => ({
             ...state,
             [Metric.exchange_outflow.key]: transformExchangeOutflow,
           }))
-        } else {
-          setMetricTransformer((state) => ({
-            ...state,
-            [Metric.exchange_outflow.key]: undefined,
-          }))
         }
       }
+
+      setMetricTransformer((state) => ({
+        ...state,
+        [Metric.exchange_outflow.key]: undefined,
+      }))
     },
-    [metrics],
+    [metrics, options.isMultiChartsActive],
   )
 
   useEffect(

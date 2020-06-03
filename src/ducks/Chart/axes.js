@@ -60,7 +60,7 @@ export function plotAxes(chart, scale) {
     )
   }
 
-  if (false && secondaryAxisMetric && chart.minMaxes[secondaryAxisMetric]) {
+  if (secondaryAxisMetric && chart.minMaxes[secondaryAxisMetric]) {
     drawLeftAxis(chart, axesColor)
     drawLeftAxisTicks(
       chart,

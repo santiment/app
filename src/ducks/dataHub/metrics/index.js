@@ -1,4 +1,4 @@
-import { updateTooltipSettings } from '../tooltipSettings'
+import { FORMATTER, updateTooltipSettings } from '../tooltipSettings'
 import {
   usdFormatter,
   btcFormatter,
@@ -273,7 +273,7 @@ export const Metric = {
     category: 'On-chain',
     group: 'Exchanges',
     domainGroup: 'exchange_inoutflow',
-    formatter: (value) => millify(Math.abs(value), 2),
+    formatter: (value) => FORMATTER(Math.abs(value)),
   },
   supply_on_exchanges: {
     node: 'line',
