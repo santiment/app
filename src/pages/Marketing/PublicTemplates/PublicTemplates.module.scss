@@ -49,13 +49,16 @@
   border: 1px solid var(--porcelain);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   background: var(--white);
   position: relative;
 }
 
 .innerPadding {
   padding: 24px 16px;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .withoutVideo {
