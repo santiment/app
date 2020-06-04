@@ -1,9 +1,8 @@
 import React from 'react'
 import styles from './VideoPlayBtn.module.scss'
 
-const VideoPlayBtn = ({ onPlayClick, ...rest }) => (
+const VideoPlayBtn = ({ ...rest }) => (
   <svg
-    onClick={onPlayClick}
     className={styles.btn}
     {...rest}
     width='96'

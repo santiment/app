@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import TemplateContextMenu from '../../../ducks/Studio/Template/TemplateContextMenu/TemplateContextMenu'
 import VideoModal from '../../../components/VideoModal/VideoModal'
 import NewLabel from '../../../components/NewLabel/NewLabel'
@@ -21,39 +22,32 @@ const PublicTemplateCard = ({ template, index }) => {
 
   return (
     <div className={styles.template}>
-      <div className={styles.innerContainer}>
-        {videoId && (
-          <div className={styles.video}>
-            <img
-              alt='Chart layout'
-              className={styles.preview}
-              src={`https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`}
-            />
-            <VideoModal videoId={videoId} />
+      {videoId && <VideoModal videoId={videoId} />}
+
+      <TemplateContextMenu template={template} classes={styles} />
+
+      <div className={cx(styles.innerPadding, !videoId && styles.withoutVideo)}>
+        <div className={styles.innerContainer}>
+          <div className={styles.title}>
+            {[
+              <NewLabel date={insertedAt} className={styles.new} key='new' />,
+              <a
+                className={styles.title}
+                target='_blank'
+                rel='noopener noreferrer'
+                key='link'
+                href={link || prepareTemplateLink(template)}
+              >
+                <TemplateTitle title={title} key='title' />
+              </a>
+            ]}
           </div>
-        )}
 
-        <TemplateContextMenu template={template} classes={styles} />
-
-        <div className={styles.title}>
-          {[
-            <NewLabel date={insertedAt} className={styles.new} key='new' />,
-            <a
-              className={styles.title}
-              target='_blank'
-              rel='noopener noreferrer'
-              key='link'
-              href={link || prepareTemplateLink(template)}
-            >
-              <TemplateTitle title={title} key='title' />
-            </a>
-          ]}
+          <div className={styles.description}>{description}</div>
         </div>
 
-        <div className={styles.description}>{description}</div>
+        <AvatarWithName user={user} classes={styles} />
       </div>
-
-      <AvatarWithName user={user} classes={styles} />
     </div>
   )
 }
