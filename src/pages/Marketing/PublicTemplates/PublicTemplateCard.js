@@ -17,8 +17,16 @@ const PUBLIC_YOUTUBE_IDS = {
 }
 
 const PublicTemplateCard = ({ template, index }) => {
-  const { link, title, description, insertedAt, user, id } = template
-  const videoId = PUBLIC_YOUTUBE_IDS[id]
+  const {
+    link,
+    title,
+    description,
+    insertedAt,
+    user,
+    id,
+    options: { youtube_id } = {}
+  } = template
+  const videoId = youtube_id || PUBLIC_YOUTUBE_IDS[id]
 
   return (
     <div className={styles.template}>
