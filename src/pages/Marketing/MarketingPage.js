@@ -86,10 +86,6 @@ const MarketingPage = props => {
 
       <div className={styles.inner}>
         <div className={styles.block}>
-          <AlphaBlock classes={styles} />
-        </div>
-
-        <div className={styles.block}>
           <IndexTab
             tabs={[
               {
