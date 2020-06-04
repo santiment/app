@@ -16,6 +16,7 @@ import ChartMetricsExplanation, {
 import { METRICS_EXPLANATION_PANE } from './Sidepane/panes'
 import { TOP_HOLDER_METRICS } from './Sidepane/TopHolders/metrics'
 import { extractMirrorMetricsDomainGroups } from '../utils'
+import { useAllTimeData } from '../timeseries/hooks'
 import Chart from '../../Chart'
 import Signals from '../../Chart/Signals'
 import Synchronizer from '../../Chart/Synchronizer'
@@ -46,6 +47,7 @@ const Canvas = ({
   isSidebarClosed,
   isSelectingRange,
   setIsICOPriceDisabled,
+  changeTimePeriod,
   ...props
 }) => {
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
@@ -53,6 +55,7 @@ const Canvas = ({
   const MetricColor = useChartColors(metrics, FocusedMetric)
   const domainGroups = useDomainGroups(metrics)
   const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
+  const allTimeData = useAllTimeData(metrics, settings)
 
   const mirrorDomainGroups = extractMirrorMetricsDomainGroups(domainGroups)
 
@@ -77,6 +80,13 @@ const Canvas = ({
 
   function onMetricHoverEnd () {
     setFocusedMetric()
+  }
+
+  function onBrushChangeEnd (startIndex, endIndex) {
+    changeTimePeriod(
+      new Date(allTimeData[startIndex].datetime),
+      new Date(allTimeData[endIndex].datetime)
+    )
   }
 
   return (
@@ -134,6 +144,7 @@ const Canvas = ({
         {...options}
         {...settings}
         {...props}
+        brushData={allTimeData}
         chartRef={chartRef}
         className={cx(styles.chart, isBlurred && styles.blur)}
         MetricColor={MetricColor}
@@ -147,6 +158,7 @@ const Canvas = ({
         isMultiChartsActive={isMultiChartsActive}
         syncedTooltipDate={isBlurred || syncedTooltipDate}
         onPointClick={advancedView ? changeHoveredDate : undefined}
+        onBrushChangeEnd={onBrushChangeEnd}
         resizeDependencies={[
           isMultiChartsActive,
           advancedView,

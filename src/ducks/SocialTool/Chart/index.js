@@ -42,6 +42,14 @@ const Canvas = ({
     setFocusedMetric()
   }
 
+  function onBrushChangeEnd (startIndex, endIndex) {
+    const { brushData, changeTimePeriod } = props
+    changeTimePeriod(
+      new Date(brushData[startIndex].datetime),
+      new Date(brushData[endIndex].datetime)
+    )
+  }
+
   return (
     <div className={cx(styles.wrapper, className)}>
       <ChartHeader
@@ -86,6 +94,7 @@ const Canvas = ({
         axesMetricKeys={axesMetricKeys}
         MetricColor={MetricColor}
         setSettings={setSettings}
+        onBrushChangeEnd={onBrushChangeEnd}
         resizeDependencies={[]}
       >
         <Signals {...settings} metrics={metrics} selector='text' />

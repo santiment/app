@@ -26,12 +26,17 @@ import { onResize, useResizeEffect } from './resize'
 import { clearCtx, findPointIndexByDate } from './utils'
 import { domainModifier } from './domain'
 import { paintConfigs, dayBrushPaintConfig } from './paintConfigs'
+import { binarySearch } from '../../pages/Trends/utils'
 import styles from './index.module.scss'
+
+const moveClb = (target, { datetime }) => target < datetime
+const checkClb = (target, { datetime }) => target === datetime
 
 const Chart = ({
   className,
   chartRef,
   data,
+  brushData = data,
   lines,
   bars,
   daybars,
@@ -59,6 +64,7 @@ const Chart = ({
   isNightModeEnabled,
   isCartesianGridActive,
   resizeDependencies,
+  onBrushChangeEnd,
   children
 }) => {
   let [chart, setChart] = useState()
@@ -92,7 +98,8 @@ const Chart = ({
         BRUSH_HEIGHT,
         dayBrushPaintConfig,
         plotBrushData,
-        onBrushChange
+        undefined,
+        onBrushChangeEnd
       )
       brush.canvas.classList.add(styles.brush)
       setBrush(brush)
@@ -109,7 +116,7 @@ const Chart = ({
   if (brush) {
     // NOTE: Because func.component works with closures, captured values might be outdated [@vanguard | Jan 23, 2020]
     brush.plotBrushData = plotBrushData
-    brush.onChange = onBrushChange
+    brush.onChangeEnd = onBrushChangeEnd
   }
 
   useEffect(
@@ -169,12 +176,34 @@ const Chart = ({
 
   useEffect(
     () => {
-      if (data.length === 0 || !brush) return
+      if (brush && data.length && brushData.length) {
+        let { index: startIndex } = binarySearch({
+          moveClb,
+          checkClb,
+          array: brushData,
+          target: data[0].datetime
+        })
 
-      brush.startIndex = 0
-      brush.endIndex = data.length - 1
+        let { index: endIndex } = binarySearch({
+          moveClb,
+          checkClb,
+          array: brushData,
+          target: data[data.length - 1].datetime
+        })
+
+        if (endIndex - startIndex < 2) {
+          if (startIndex > 2) {
+            startIndex -= 2
+          } else {
+            endIndex += 2
+          }
+        }
+
+        brush.startIndex = startIndex
+        brush.endIndex = endIndex
+      }
     },
-    [data]
+    [brushData, data]
   )
 
   useEffect(
@@ -189,11 +218,8 @@ const Chart = ({
         domainModifier,
         domainGroups
       )
-      if (brush) {
-        clearCtx(brush)
-        updateBrushState(brush, chart, data)
-      }
       plotChart(data)
+
       if (!hideAxes) {
         plotAxes(chart, scale)
       }
@@ -207,6 +233,16 @@ const Chart = ({
       isNightModeEnabled,
       isCartesianGridActive
     ]
+  )
+
+  useEffect(
+    () => {
+      if (brush && brushData.length) {
+        clearCtx(brush)
+        updateBrushState(brush, brushData, joinedCategories)
+      }
+    },
+    [brushData, scale, domainGroups, isNightModeEnabled]
   )
 
   useEffect(
@@ -245,45 +281,26 @@ const Chart = ({
       axesMetricKeys[1] && DOUBLE_AXIS_PADDING
     )
 
-    onResize(chart, padding, brush, data, chartHeight)
-
-    if (!brush) {
-      updateChartState(
-        chart,
-        data,
-        joinedCategories,
-        domainModifier,
-        domainGroups
-      )
-      plotChart(data)
-      if (!hideAxes) {
-        plotAxes(chart, scale)
-      }
-    }
-  }
-
-  function onBrushChange (startIndex, endIndex) {
-    const newData = data.slice(startIndex, endIndex + 1)
+    onResize(chart, padding, brush, brushData, chartHeight, joinedCategories)
 
     updateChartState(
       chart,
-      newData,
+      data,
       joinedCategories,
       domainModifier,
       domainGroups
     )
+    plotChart(data)
 
-    clearCtx(chart)
-    plotChart(newData)
     if (!hideAxes) {
       plotAxes(chart, scale)
     }
   }
 
   function plotBrushData () {
-    plotDayBars(brush, data, daybars, MetricColor, scale)
-    plotBars(brush, data, bars, MetricColor, scale)
-    plotLines(brush, data, lines, MetricColor, scale)
+    plotDayBars(brush, brushData, daybars, MetricColor, scale)
+    plotBars(brush, brushData, bars, MetricColor, scale)
+    plotLines(brush, brushData, lines, MetricColor, scale)
   }
 
   function plotChart (data) {

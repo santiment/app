@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { client } from '../../../index'
 import { getQuery, getPreTransform } from './fetcher'
 import { normalizeDatetimes, mergeTimeseries } from './utils'
+import { getIntervalByTimeRange } from '../../../utils/dates'
 
 // NOTE: Polyfill for a PingdomBot 0.8.5 browser (/sentry/sanbase-frontend/issues/29459/) [@vanguard | Feb 6, 2020]
 window.AbortController =
@@ -189,4 +190,27 @@ export function useTimeseries (
   )
 
   return [timeseries, loadings, ErrorMsg]
+}
+
+const DEFAULT_BRUSH_SETTINGS = {
+  slug: 'bitcoin',
+  interval: '4d',
+  ...getIntervalByTimeRange('all')
+}
+
+export function useAllTimeData (metrics, settings, MetricSettingMap) {
+  const [brushSettings, setBrushSettings] = useState(DEFAULT_BRUSH_SETTINGS)
+  const [allTimeData] = useTimeseries(metrics, brushSettings, MetricSettingMap)
+
+  useEffect(
+    () => {
+      setBrushSettings({
+        ...brushSettings,
+        slug: settings.slug
+      })
+    },
+    [settings.slug]
+  )
+
+  return allTimeData
 }

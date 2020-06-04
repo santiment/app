@@ -15,8 +15,7 @@ export const Metric = {
     category: 'Financial',
     formatter: usdFormatter,
     historicalTriggersDataKey: 'price',
-    advancedView: 'Spent Coin Cost',
-    domainGroup: 'price_usd'
+    advancedView: 'Spent Coin Cost'
   },
   price_btc: {
     node: 'line',
@@ -273,15 +272,14 @@ export const Metric = {
     node: 'line',
     label: 'Exchange Inflow',
     category: 'On-chain',
-    group: 'Exchanges',
-    domainGroup: 'exchange_inoutflow'
+    group: 'Exchanges'
   },
   exchange_outflow: {
     node: 'line',
     label: 'Exchange Outflow',
     category: 'On-chain',
     group: 'Exchanges',
-    domainGroup: 'exchange_inoutflow',
+    domainGroup: 'exchange_inflow',
     formatter: value => FORMATTER(value && Math.abs(value))
   },
   supply_on_exchanges: {

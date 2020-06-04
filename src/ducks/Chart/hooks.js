@@ -3,6 +3,7 @@ import { Metric } from '../dataHub/metrics'
 
 const splitByComma = str => str.split(',')
 const lineMetricsFilter = ({ node }) => node === 'line'
+const getDomainGroup = ({ key, domainGroup = key }) => domainGroup
 
 export function useDomainGroups (metrics) {
   const [domainGroups, setDomainGroups] = useState()
@@ -148,6 +149,8 @@ export function useAxesMetricsKey (metrics, isDomainGroupingActive) {
       let secondaryAxisMetric = metrics[1]
 
       const { length } = metrics
+      if (length === 0) return
+
       if (length === 1) {
         return setAxesMetricKeys([mainAxisMetric.key])
       }
@@ -162,15 +165,16 @@ export function useAxesMetricsKey (metrics, isDomainGroupingActive) {
         }
       }
 
+      const mainAxisDomain = getDomainGroup(mainAxisMetric)
       let hasSameDomain =
         isDomainGroupingActive &&
-        mainAxisMetric.domainGroup === secondaryAxisMetric.domainGroup
+        mainAxisDomain === getDomainGroup(secondaryAxisMetric)
 
       if (hasSameDomain) {
         for (let i = 1; i < length; i++) {
           const metric = metrics[i]
 
-          if (mainAxisMetric.domainGroup !== metric.domainGroup) {
+          if (mainAxisDomain !== getDomainGroup(metric)) {
             secondaryAxisMetric = metric
             hasSameDomain = false
             break

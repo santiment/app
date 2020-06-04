@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react'
 import cx from 'classnames'
 import { Metric } from '../dataHub/metrics'
-import { useTimeseries } from '../Studio/timeseries/hooks'
+import { useTimeseries, useAllTimeData } from '../Studio/timeseries/hooks'
 import { generateShareLink } from '../Studio/url'
 import { updateHistory } from '../../utils/utils'
 import SocialToolChart from './Chart'
 import { buildMetrics } from './utils'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
+import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
 import styles from './index.module.scss'
 
 function useSocialTimeseries (activeMetrics, settings, MetricSettingMap) {
@@ -51,6 +52,7 @@ const SocialTool = ({
     settings,
     MetricSettingMap
   )
+  const allTimeData = useAllTimeData(activeMetrics, settings, MetricSettingMap)
   const [shareLink, setShareLink] = useState('')
   const chartRef = useRef(null)
 
@@ -160,6 +162,20 @@ const SocialTool = ({
     setMetricSettingMap(newMetricSettingMap)
   }
 
+  function changeTimePeriod (from, to, timeRange) {
+    const interval = getNewInterval(from, to)
+
+    to.setUTCHours(0, 0, 0, 0)
+
+    setSettings(state => ({
+      ...state,
+      timeRange,
+      interval: INTERVAL_ALIAS[interval] || interval,
+      from: from.toISOString(),
+      to: to.toISOString()
+    }))
+  }
+
   return (
     <div className={cx(styles.wrapper, classes.wrapper)}>
       <div className={styles.chart}>
@@ -174,9 +190,11 @@ const SocialTool = ({
           priceAsset={priceAsset}
           data={data}
           loadings={loadings}
+          brushData={allTimeData}
           setOptions={setOptions}
           setSettings={setSettings}
           setPriceAsset={setPriceAsset}
+          changeTimePeriod={changeTimePeriod}
           linkedAssets={linkedAssets}
           allDetectedAssets={allDetectedAssets}
         />
