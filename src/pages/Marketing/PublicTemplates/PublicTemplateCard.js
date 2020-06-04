@@ -24,9 +24,14 @@ const PublicTemplateCard = ({ template }) => {
     insertedAt,
     user,
     id,
-    options: { youtube_id } = {}
+    options = {}
   } = template
+  const { youtube_id } = options || {}
   const videoId = youtube_id || PUBLIC_YOUTUBE_IDS[id]
+
+  if (template.options) {
+    template.options.youtube_id = videoId
+  }
 
   return (
     <div className={styles.template}>
