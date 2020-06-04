@@ -4,13 +4,7 @@ import { useQuery } from '@apollo/react-hooks'
 import { ACTIVE_WIDGETS_QUERY } from './gql'
 import styles from './index.module.scss'
 
-const EventBanner = ({
-  className,
-  title = 'LIVE NOW',
-  description = 'Bullish divergences? Analizing BTC and ETH’s on-chain data',
-  videoLink = '',
-  imageLink = ''
-}) => {
+const EventBanner = ({ className }) => {
   const { data: { activeWidgets = [] } = {} } = useQuery(ACTIVE_WIDGETS_QUERY)
   const activeWidget = activeWidgets.length > 0 ? activeWidgets[0] : null
 
@@ -26,8 +20,13 @@ const EventBanner = ({
           target='_blank'
           rel='noopener noreferrer'
           className={styles.link}
-        />
-        <img src={activeWidget.imageLink} className={styles.img} />
+        >
+          <img
+            alt='Active widget'
+            src={activeWidget.imageLink}
+            className={styles.img}
+          />
+        </a>
       </div>
     </section>
   ) : null

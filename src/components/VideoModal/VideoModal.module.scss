@@ -1,0 +1,48 @@
+@import '~@santiment-network/ui/mixins';
+
+.title {
+  display: none;
+}
+
+.dialog {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+}
+
+.iframe {
+  width: 100%;
+  height: 100%;
+  border: transparent;
+}
+
+.video {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 144px;
+  width: 352px;
+  cursor: pointer;
+  border: 1px solid var(--mystic);
+  border-radius: $border-radius;
+}
+
+.preview {
+  border-radius: $border-radius;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.darkWrapper {
+  width: 100%;
+  height: 100%;
+  opacity: 0.55;
+  background-color: var(--mystic);
+  position: absolute;
+}

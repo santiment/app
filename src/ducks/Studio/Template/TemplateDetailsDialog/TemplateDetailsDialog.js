@@ -39,17 +39,6 @@ const TemplateDetailsDialog = ({
   const { isPublic, toggleIsPublic } = usePublicTemplates(template)
 
   const [isOpen, setOpen] = useState(false)
-  const [isMenuOpened, setIsMenuOpened] = useState(false)
-
-  function openMenu (e) {
-    e.stopPropagation()
-
-    setIsMenuOpened(true)
-  }
-
-  function closeMenu () {
-    setIsMenuOpened(false)
-  }
 
   const El = isDialog ? Dialog : 'div'
 
@@ -80,14 +69,10 @@ const TemplateDetailsDialog = ({
 
           <TemplateContextMenu
             template={template}
-            isMenuOpened={isMenuOpened}
-            closeMenu={closeMenu}
-            openMenu={openMenu}
             onRename={data => {
               setOpen(false)
               onRename(data)
             }}
-            isAuthor={isAuthor}
             classes={styles}
             onDelete={onDelete}
           />

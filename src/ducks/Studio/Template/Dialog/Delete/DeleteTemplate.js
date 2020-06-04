@@ -23,7 +23,7 @@ const DeleteTemplate = ({
       title='Do you want to delete this template?'
       trigger={<Option className={cx(styles.delete, className)}>Delete</Option>}
       onApprove={() => {
-        deleteTemplate(template, onDelete)
+        deleteTemplate(template, onDelete).then(closeMenu)
       }}
       onCancel={closeMenu}
       isLoading={loading}
