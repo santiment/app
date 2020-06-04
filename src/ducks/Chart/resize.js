@@ -1,12 +1,12 @@
-import { useEffect } from "react";
-import { updateChartDimensions, updateSize } from "@santiment-network/chart";
+import { useEffect } from 'react'
+import { updateChartDimensions, updateSize } from '@santiment-network/chart'
 import {
   updateBrushDimensions,
   updateBrushState
-} from "@santiment-network/chart/brush";
-import { BRUSH_HEIGHT } from "./settings";
+} from '@santiment-network/chart/brush'
+import { BRUSH_HEIGHT } from './settings'
 
-export function onResize(
+export function onResize (
   chart,
   chartPadding,
   brush,
@@ -14,9 +14,9 @@ export function onResize(
   chartHeight,
   joinedCategories
 ) {
-  const parentWidth = chart.canvas.parentNode.offsetWidth;
+  const parentWidth = chart.canvas.parentNode.offsetWidth
 
-  updateChartDimensions(chart, parentWidth, chartHeight, chartPadding);
+  updateChartDimensions(chart, parentWidth, chartHeight, chartPadding)
 
   updateSize(
     chart.tooltip.canvas,
@@ -24,21 +24,21 @@ export function onResize(
     chart.dpr,
     parentWidth,
     chartHeight
-  );
+  )
 
   if (brush) {
-    updateBrushDimensions(brush, parentWidth, BRUSH_HEIGHT);
+    updateBrushDimensions(brush, parentWidth, BRUSH_HEIGHT)
     if (brushData.length) {
-      updateBrushState(brush, brushData, joinedCategories);
+      updateBrushState(brush, brushData, joinedCategories)
     }
   }
 }
 
 export const useResizeEffect = (clb, deps) =>
   useEffect(() => {
-    window.addEventListener("resize", clb);
+    window.addEventListener('resize', clb)
 
     return () => {
-      window.removeEventListener("resize", clb);
-    };
-  }, deps);
+      window.removeEventListener('resize', clb)
+    }
+  }, deps)

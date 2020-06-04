@@ -1,36 +1,36 @@
-import React, { useState, useEffect } from "react";
-import cx from "classnames";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { linearScale, logScale } from "@santiment-network/chart/scales";
-import ChartPaywallInfo from "./PaywallInfo";
-import ChartActiveMetrics from "./ActiveMetrics";
-import ChartFullscreenBtn from "./ChartFullscreenBtn";
-import ChartSidepane from "./Sidepane";
-import IcoPrice from "./IcoPrice";
-import LastDayPrice from "./LastDayPrice";
-import SharedAxisToggle from "./SharedAxisToggle";
+import React, { useState, useEffect } from 'react'
+import cx from 'classnames'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { linearScale, logScale } from '@santiment-network/chart/scales'
+import ChartPaywallInfo from './PaywallInfo'
+import ChartActiveMetrics from './ActiveMetrics'
+import ChartFullscreenBtn from './ChartFullscreenBtn'
+import ChartSidepane from './Sidepane'
+import IcoPrice from './IcoPrice'
+import LastDayPrice from './LastDayPrice'
+import SharedAxisToggle from './SharedAxisToggle'
 import ChartMetricsExplanation, {
   filterExplainableMetrics
-} from "./Sidepane/MetricsExplanation";
-import { METRICS_EXPLANATION_PANE } from "./Sidepane/panes";
-import { TOP_HOLDER_METRICS } from "./Sidepane/TopHolders/metrics";
-import { extractMirrorMetricsDomainGroups } from "../utils";
-import { useTimeseries } from "../timeseries/hooks";
-import Chart from "../../Chart";
-import Signals from "../../Chart/Signals";
-import Synchronizer from "../../Chart/Synchronizer";
-import { useDomainGroups, useAxesMetricsKey } from "../../Chart/hooks";
-import { useChartColors } from "../../Chart/colors";
-import { checkIsLoggedIn } from "../../../pages/UserSelectors";
-import { getIntervalByTimeRange } from "../../../utils/dates";
-import styles from "./index.module.scss";
+} from './Sidepane/MetricsExplanation'
+import { METRICS_EXPLANATION_PANE } from './Sidepane/panes'
+import { TOP_HOLDER_METRICS } from './Sidepane/TopHolders/metrics'
+import { extractMirrorMetricsDomainGroups } from '../utils'
+import { useTimeseries } from '../timeseries/hooks'
+import Chart from '../../Chart'
+import Signals from '../../Chart/Signals'
+import Synchronizer from '../../Chart/Synchronizer'
+import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
+import { useChartColors } from '../../Chart/colors'
+import { checkIsLoggedIn } from '../../../pages/UserSelectors'
+import { getIntervalByTimeRange } from '../../../utils/dates'
+import styles from './index.module.scss'
 
 const test = {
-  slug: "bitcoin",
-  interval: "5d",
-  ...getIntervalByTimeRange("all")
-};
+  slug: 'bitcoin',
+  interval: '5d',
+  ...getIntervalByTimeRange('all')
+}
 
 const Canvas = ({
   index,
@@ -57,43 +57,43 @@ const Canvas = ({
   changeTimePeriod,
   ...props
 }) => {
-  const [isDomainGroupingActive, setIsDomainGroupingActive] = useState();
-  const [FocusedMetric, setFocusedMetric] = useState();
-  const MetricColor = useChartColors(metrics, FocusedMetric);
-  const domainGroups = useDomainGroups(metrics);
-  const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive);
-  const [allTimeData] = useTimeseries(metrics, test);
+  const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
+  const [FocusedMetric, setFocusedMetric] = useState()
+  const MetricColor = useChartColors(metrics, FocusedMetric)
+  const domainGroups = useDomainGroups(metrics)
+  const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
+  const [allTimeData] = useTimeseries(metrics, test)
 
-  const mirrorDomainGroups = extractMirrorMetricsDomainGroups(domainGroups);
+  const mirrorDomainGroups = extractMirrorMetricsDomainGroups(domainGroups)
 
-  const isBlurred = isAnon && index > 1;
-  const hasExplanaibles = filterExplainableMetrics(metrics).length > 0;
-  const scale = options.isLogScale ? logScale : linearScale;
+  const isBlurred = isAnon && index > 1
+  const hasExplanaibles = filterExplainableMetrics(metrics).length > 0
+  const scale = options.isLogScale ? logScale : linearScale
 
   useEffect(
     () => {
       if (chartSidepane === METRICS_EXPLANATION_PANE && !hasExplanaibles) {
-        toggleChartSidepane();
+        toggleChartSidepane()
       }
     },
     [hasExplanaibles]
-  );
+  )
 
-  useEffect(onMetricHoverEnd, [metrics]);
+  useEffect(onMetricHoverEnd, [metrics])
 
-  function onMetricHover(metric) {
-    setFocusedMetric(metric);
+  function onMetricHover (metric) {
+    setFocusedMetric(metric)
   }
 
-  function onMetricHoverEnd() {
-    setFocusedMetric();
+  function onMetricHoverEnd () {
+    setFocusedMetric()
   }
 
-  function onBrushChangeEnd(startIndex, endIndex) {
+  function onBrushChangeEnd (startIndex, endIndex) {
     changeTimePeriod(
       new Date(allTimeData[startIndex].datetime),
       new Date(allTimeData[endIndex].datetime)
-    );
+    )
   }
 
   return (
@@ -187,9 +187,9 @@ const Canvas = ({
 
       {isBlurred && (
         <div className={styles.restriction}>
-          <Link to="/login" className={styles.restriction__link}>
+          <Link to='/login' className={styles.restriction__link}>
             Sign in
-          </Link>{" "}
+          </Link>{' '}
           to unlock all Santiment Chart features
         </div>
       )}
@@ -208,12 +208,12 @@ const Canvas = ({
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
 const mapStateToProps = state => ({
   isAnon: !checkIsLoggedIn(state)
-});
+})
 
 export default connect(mapStateToProps)(
   ({ options, events, activeMetrics, ...rest }) => {
@@ -226,6 +226,6 @@ export default connect(mapStateToProps)(
           {...rest}
         />
       </Synchronizer>
-    );
+    )
   }
-);
+)

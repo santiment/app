@@ -1,182 +1,182 @@
-import { useState, useEffect } from "react";
-import { Metric } from "../dataHub/metrics";
+import { useState, useEffect } from 'react'
+import { Metric } from '../dataHub/metrics'
 
-const splitByComma = str => str.split(",");
-const lineMetricsFilter = ({ node }) => node === "line";
+const splitByComma = str => str.split(',')
+const lineMetricsFilter = ({ node }) => node === 'line'
 
-export function useDomainGroups(metrics) {
-  const [domainGroups, setDomainGroups] = useState();
+export function useDomainGroups (metrics) {
+  const [domainGroups, setDomainGroups] = useState()
 
   useEffect(
     () => {
-      const Domain = Object.create(null);
-      const { length } = metrics;
+      const Domain = Object.create(null)
+      const { length } = metrics
 
       for (let i = 0; i < length; i++) {
-        const { key, domainGroup } = metrics[i];
+        const { key, domainGroup } = metrics[i]
 
-        if (!domainGroup) continue;
+        if (!domainGroup) continue
 
         if (Domain[domainGroup]) {
-          Domain[domainGroup] += `,${key}`;
+          Domain[domainGroup] += `,${key}`
         } else {
           Domain[domainGroup] = metrics.includes(Metric[domainGroup])
             ? `${domainGroup},${key}`
-            : key;
+            : key
         }
       }
 
-      const domainKeys = Object.keys(Domain);
-      const domainKeysLength = domainKeys.length;
+      const domainKeys = Object.keys(Domain)
+      const domainKeysLength = domainKeys.length
 
       for (let i = 0; i < domainKeysLength; i++) {
-        const key = domainKeys[i];
+        const key = domainKeys[i]
 
-        if (Domain[key].indexOf(",") === -1) {
-          delete Domain[key];
+        if (Domain[key].indexOf(',') === -1) {
+          delete Domain[key]
         }
       }
 
-      const newDomainGroups = Object.values(Domain).map(splitByComma);
+      const newDomainGroups = Object.values(Domain).map(splitByComma)
 
-      setDomainGroups(newDomainGroups.length > 0 ? newDomainGroups : undefined);
+      setDomainGroups(newDomainGroups.length > 0 ? newDomainGroups : undefined)
     },
     [metrics]
-  );
+  )
 
-  return domainGroups;
+  return domainGroups
 }
 
-export function useClosestValueData(
+export function useClosestValueData (
   rawData,
   metrics,
   isClosestValueActive = true
 ) {
-  const [newData, setNewData] = useState(rawData);
+  const [newData, setNewData] = useState(rawData)
 
   useEffect(
     () => {
-      const lineMetrics = metrics.filter(lineMetricsFilter);
-      const dataLength = rawData.length;
-      const metricLength = lineMetrics.length;
+      const lineMetrics = metrics.filter(lineMetricsFilter)
+      const dataLength = rawData.length
+      const metricLength = lineMetrics.length
 
       if (!isClosestValueActive || !dataLength || metricLength < 2) {
-        setNewData(rawData);
-        return;
+        setNewData(rawData)
+        return
       }
 
-      const data = new Array(dataLength);
+      const data = new Array(dataLength)
       for (let i = 0; i < dataLength; i++) {
-        data[i] = Object.assign({}, rawData[i]);
+        data[i] = Object.assign({}, rawData[i])
       }
 
       for (let i = 0; i < metricLength; i++) {
-        const metricKey = lineMetrics[i].key;
+        const metricKey = lineMetrics[i].key
 
-        let firstValueIndex = 0;
-        let lastValueIndex = dataLength;
+        let firstValueIndex = 0
+        let lastValueIndex = dataLength
 
         for (; firstValueIndex < dataLength; firstValueIndex++) {
           if (data[firstValueIndex][metricKey]) {
-            break;
+            break
           }
         }
 
         if (firstValueIndex === dataLength) {
-          continue;
+          continue
         }
 
         while (!data[--lastValueIndex][metricKey]) {}
 
-        let neighbourValue = data[firstValueIndex][metricKey];
+        let neighbourValue = data[firstValueIndex][metricKey]
 
         for (let y = firstValueIndex + 1; y < lastValueIndex; y++) {
-          const item = data[y];
-          const value = item[metricKey];
+          const item = data[y]
+          const value = item[metricKey]
           if (value || value === 0) {
-            neighbourValue = value;
+            neighbourValue = value
           } else {
-            item[metricKey] = neighbourValue;
+            item[metricKey] = neighbourValue
           }
         }
       }
 
-      setNewData(data);
+      setNewData(data)
     },
     [rawData, metrics, isClosestValueActive]
-  );
+  )
 
-  return newData;
+  return newData
 }
 
-export function useTooltipMetricKey(metrics) {
-  const [tooltipMetricKey, setTooltipMetricKey] = useState(metrics[0].key);
+export function useTooltipMetricKey (metrics) {
+  const [tooltipMetricKey, setTooltipMetricKey] = useState(metrics[0].key)
 
   useEffect(
     () => {
-      const { length } = metrics;
-      let tooltipKey = metrics[0];
+      const { length } = metrics
+      let tooltipKey = metrics[0]
 
       for (let i = 0; i < length; i++) {
-        const metric = metrics[i];
+        const metric = metrics[i]
 
         if (metric === Metric.price_usd) {
-          return setTooltipMetricKey(metric.key);
+          return setTooltipMetricKey(metric.key)
         }
 
-        if (tooltipKey.node !== "line") {
-          tooltipKey = metric;
+        if (tooltipKey.node !== 'line') {
+          tooltipKey = metric
         } else {
-          break;
+          break
         }
       }
 
-      return setTooltipMetricKey(tooltipKey.key);
+      return setTooltipMetricKey(tooltipKey.key)
     },
     [metrics]
-  );
+  )
 
-  return tooltipMetricKey;
+  return tooltipMetricKey
 }
 
-const getDomainGroup = ({ key, domainGroup = key }) => domainGroup;
+const getDomainGroup = ({ key, domainGroup = key }) => domainGroup
 
-export function useAxesMetricsKey(metrics, isDomainGroupingActive) {
-  const [axesMetricKeys, setAxesMetricKeys] = useState([]);
+export function useAxesMetricsKey (metrics, isDomainGroupingActive) {
+  const [axesMetricKeys, setAxesMetricKeys] = useState([])
 
   useEffect(
     () => {
-      let mainAxisMetric = metrics[0];
-      let secondaryAxisMetric = metrics[1];
+      let mainAxisMetric = metrics[0]
+      let secondaryAxisMetric = metrics[1]
 
-      const { length } = metrics;
+      const { length } = metrics
       if (length === 1) {
-        return setAxesMetricKeys([mainAxisMetric.key]);
+        return setAxesMetricKeys([mainAxisMetric.key])
       }
 
       for (let i = 1; i < length; i++) {
-        const metric = metrics[i];
+        const metric = metrics[i]
 
         if (metric === Metric.price_usd) {
-          secondaryAxisMetric = mainAxisMetric;
-          mainAxisMetric = metric;
-          break;
+          secondaryAxisMetric = mainAxisMetric
+          mainAxisMetric = metric
+          break
         }
       }
 
-      const mainAxisDomain = getDomainGroup(mainAxisMetric);
+      const mainAxisDomain = getDomainGroup(mainAxisMetric)
       let hasSameDomain =
         isDomainGroupingActive &&
-        mainAxisDomain === getDomainGroup(secondaryAxisMetric);
+        mainAxisDomain === getDomainGroup(secondaryAxisMetric)
 
       if (hasSameDomain) {
         for (let i = 1; i < length; i++) {
-          const metric = metrics[i];
+          const metric = metrics[i]
 
           if (mainAxisDomain !== getDomainGroup(metric)) {
-            secondaryAxisMetric = metric;
-            hasSameDomain = false;
-            break;
+            secondaryAxisMetric = metric
+            hasSameDomain = false
+            break
           }
         }
       }
@@ -185,10 +185,10 @@ export function useAxesMetricsKey(metrics, isDomainGroupingActive) {
         hasSameDomain
           ? [mainAxisMetric.key]
           : [mainAxisMetric.key, secondaryAxisMetric.key]
-      );
+      )
     },
     [metrics, isDomainGroupingActive]
-  );
+  )
 
-  return axesMetricKeys;
+  return axesMetricKeys
 }
