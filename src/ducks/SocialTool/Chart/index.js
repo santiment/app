@@ -34,19 +34,19 @@ const Canvas = ({
   const axesMetricKeys = useAxesMetricsKey(metrics)
   const scale = options.isLogScale ? logScale : linearScale
 
-  function onMetricHover(metric) {
+  function onMetricHover (metric) {
     setFocusedMetric(metric)
   }
 
-  function onMetricHoverEnd() {
+  function onMetricHoverEnd () {
     setFocusedMetric()
   }
 
-  function onBrushChangeEnd(startIndex, endIndex) {
+  function onBrushChangeEnd (startIndex, endIndex) {
     const { brushData, changeTimePeriod } = props
     changeTimePeriod(
       new Date(brushData[startIndex].datetime),
-      new Date(brushData[endIndex].datetime),
+      new Date(brushData[endIndex].datetime)
     )
   }
 

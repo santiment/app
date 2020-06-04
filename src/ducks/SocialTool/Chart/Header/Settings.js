@@ -9,28 +9,28 @@ import styles from './Settings.module.scss'
 const TIMERANGE_OPTIONS = [
   {
     index: '1w',
-    label: 'Last week',
+    label: 'Last week'
   },
   {
     index: '1m',
-    label: 'Last month',
+    label: 'Last month'
   },
   {
     index: '3m',
-    label: 'Last 3 months',
+    label: 'Last 3 months'
   },
   {
     index: '6m',
-    label: 'Last 6 months',
+    label: 'Last 6 months'
   },
   {
     index: '1y',
-    label: 'Last year',
+    label: 'Last year'
   },
   {
     index: 'all',
-    label: 'All time',
-  },
+    label: 'All time'
+  }
 ]
 
 export default ({
@@ -44,12 +44,12 @@ export default ({
 }) => {
   const { timeRange = '', from, to, title } = settings
 
-  function onTimerangeChange(timeRange) {
+  function onTimerangeChange (timeRange) {
     const { from, to } = getIntervalByTimeRange(timeRange.toLowerCase())
     changeTimePeriod(from, to, timeRange)
   }
 
-  function onCalendarChange([from, to]) {
+  function onCalendarChange ([from, to]) {
     changeTimePeriod(from, to)
   }
 
