@@ -19,14 +19,18 @@ import {
   CHART_PADDING,
   BRUSH_PADDING,
   DOUBLE_AXIS_PADDING,
-  buildPadding
+  buildPadding,
 } from './settings'
 import { drawWatermark } from './watermark'
 import { onResize, useResizeEffect } from './resize'
 import { clearCtx, findPointIndexByDate } from './utils'
 import { domainModifier } from './domain'
 import { paintConfigs, dayBrushPaintConfig } from './paintConfigs'
+import { binarySearch } from '../../pages/Trends/utils'
 import styles from './index.module.scss'
+
+const moveClb = (target, { datetime }) => target < datetime
+const checkClb = (target, { datetime }) => target === datetime
 
 const Chart = ({
   className,
@@ -61,7 +65,7 @@ const Chart = ({
   isCartesianGridActive,
   resizeDependencies,
   onBrushChangeEnd,
-  children
+  children,
 }) => {
   let [chart, setChart] = useState()
   let [brush, setBrush] = useState()
@@ -81,9 +85,9 @@ const Chart = ({
         buildPadding(
           chartPadding,
           isShowBrush && BRUSH_PADDING,
-          axesMetricKeys[1] && DOUBLE_AXIS_PADDING
-        )
-      )
+          axesMetricKeys[1] && DOUBLE_AXIS_PADDING,
+        ),
+      ),
     )
     chart.tooltipKey = tooltipKey
 
@@ -95,7 +99,7 @@ const Chart = ({
         dayBrushPaintConfig,
         plotBrushData,
         undefined,
-        onBrushChangeEnd
+        onBrushChangeEnd,
       )
       brush.canvas.classList.add(styles.brush)
       setBrush(brush)
@@ -125,49 +129,73 @@ const Chart = ({
         brush.paintConfig = brushPaintConfig
       }
     },
-    [isNightModeEnabled]
+    [isNightModeEnabled],
   )
 
   useEffect(
     () => {
       chart.onRangeSelect = onRangeSelect
     },
-    [onRangeSelect]
+    [onRangeSelect],
   )
 
   useEffect(
     () => {
       chart.onRangeSelectStart = onRangeSelectStart
     },
-    [onRangeSelectStart]
+    [onRangeSelectStart],
   )
 
   useEffect(
     () => {
       chart.onPointClick = onPointClick
     },
-    [onPointClick]
+    [onPointClick],
   )
 
   useEffect(
     () => {
       chart.tooltipKey = tooltipKey
     },
-    [tooltipKey]
+    [tooltipKey],
   )
 
   useEffect(
     () => {
       chart.axesMetricKeys = axesMetricKeys
     },
-    [axesMetricKeys]
+    [axesMetricKeys],
   )
 
   useEffect(
     () => {
       chart.colors = MetricColor
     },
-    [MetricColor]
+    [MetricColor],
+  )
+
+  useEffect(
+    () => {
+      if (data.length && brushData.length) {
+        const firstItem = binarySearch({
+          moveClb,
+          checkClb,
+          array: brushData,
+          target: data[0].datetime,
+        })
+
+        const lastItem = binarySearch({
+          moveClb,
+          checkClb,
+          array: brushData,
+          target: data[data.length - 1].datetime,
+        })
+
+        brush.startIndex = firstItem.index || 0
+        brush.endIndex = lastItem.index || 0
+      }
+    },
+    [brushData, data],
   )
 
   useEffect(
@@ -180,7 +208,7 @@ const Chart = ({
         data,
         joinedCategories,
         domainModifier,
-        domainGroups
+        domainGroups,
       )
       plotChart(data)
 
@@ -195,8 +223,8 @@ const Chart = ({
       domainGroups,
       MetricColor,
       isNightModeEnabled,
-      isCartesianGridActive
-    ]
+      isCartesianGridActive,
+    ],
   )
 
   useEffect(
@@ -206,7 +234,7 @@ const Chart = ({
         updateBrushState(brush, brushData, joinedCategories)
       }
     },
-    [brushData, scale, domainGroups, isNightModeEnabled]
+    [brushData, scale, domainGroups, isNightModeEnabled],
   )
 
   useEffect(
@@ -227,14 +255,14 @@ const Chart = ({
         clearCtx(chart, chart.tooltip.ctx)
       }
     },
-    [syncedTooltipDate]
+    [syncedTooltipDate],
   )
 
   useEffect(handleResize, [...resizeDependencies, data])
 
   useResizeEffect(handleResize, [...resizeDependencies, data, brush])
 
-  function handleResize () {
+  function handleResize() {
     if (data.length === 0) {
       return
     }
@@ -242,7 +270,7 @@ const Chart = ({
     const padding = buildPadding(
       chartPadding,
       isShowBrush && BRUSH_PADDING,
-      axesMetricKeys[1] && DOUBLE_AXIS_PADDING
+      axesMetricKeys[1] && DOUBLE_AXIS_PADDING,
     )
 
     onResize(chart, padding, brush, brushData, chartHeight, joinedCategories)
@@ -252,7 +280,7 @@ const Chart = ({
       data,
       joinedCategories,
       domainModifier,
-      domainGroups
+      domainGroups,
     )
     plotChart(data)
 
@@ -261,33 +289,13 @@ const Chart = ({
     }
   }
 
-  /*
-  function onBrushChangeEnd(startIndex, endIndex) {
-    const newData = data.slice(startIndex, endIndex + 1)
-
-    updateChartState(
-      chart,
-      newData,
-      joinedCategories,
-      domainModifier,
-      domainGroups,
-    )
-
-    clearCtx(chart)
-    plotChart(newData)
-    if (!hideAxes) {
-      plotAxes(chart, scale)
-    }
-  }
-  */
-
-  function plotBrushData () {
+  function plotBrushData() {
     plotDayBars(brush, brushData, daybars, MetricColor, scale)
     plotBars(brush, brushData, bars, MetricColor, scale)
     plotLines(brush, brushData, lines, MetricColor, scale)
   }
 
-  function plotChart (data) {
+  function plotChart(data) {
     if (!hideWatermark) {
       drawWatermark(chart, isNightModeEnabled)
     }
@@ -303,11 +311,11 @@ const Chart = ({
     }
 
     events.forEach(({ metric, key, datetime, value, color }) =>
-      drawReferenceDot(chart, metric, datetime, color, key, value)
+      drawReferenceDot(chart, metric, datetime, color, key, value),
     )
   }
 
-  function marker (ctx, key, value, x, y) {
+  function marker(ctx, key, value, x, y) {
     const { colors } = chart
     const RADIUS = 4
 
@@ -330,20 +338,20 @@ const Chart = ({
       {chart &&
         React.Children.map(
           children,
-          child =>
+          (child) =>
             child &&
             React.cloneElement(child, {
               chart,
               scale,
-              data
-            })
+              data,
+            }),
         )}
     </div>
   )
 }
 
 const mapStateToProps = ({ rootUi: { isNightModeEnabled } }) => ({
-  isNightModeEnabled
+  isNightModeEnabled,
 })
 
 export default connect(mapStateToProps)(Chart)
