@@ -16,7 +16,7 @@ const PUBLIC_YOUTUBE_IDS = {
   203: '8sNUkR68nGA'
 }
 
-const PublicTemplateCard = ({ template, index }) => {
+const PublicTemplateCard = ({ template }) => {
   const {
     link,
     title,
