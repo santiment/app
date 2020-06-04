@@ -1,18 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { connect } from 'react-redux'
-import cx from 'classnames'
-import COLOR from '@santiment-network/ui/variables.scss'
-import { initChart, updateChartState } from '@santiment-network/chart'
-import { initTooltip } from '@santiment-network/chart/tooltip'
-import { plotLines } from '@santiment-network/chart/lines'
-import { plotDayBars, plotBars } from '@santiment-network/chart/bars'
-import { linearScale } from '@santiment-network/chart/scales'
-import { drawReferenceDot } from '@santiment-network/chart/references'
-import { drawCartesianGrid } from '@santiment-network/chart/cartesianGrid'
-import { initBrush, updateBrushState } from '@santiment-network/chart/brush'
-import Loader from './Loader/Loader'
-import { plotAxes } from './axes'
-import { setupTooltip, plotTooltip } from './tooltip'
+import React, { useState, useEffect, useRef } from "react";
+import { connect } from "react-redux";
+import cx from "classnames";
+import COLOR from "@santiment-network/ui/variables.scss";
+import { initChart, updateChartState } from "@santiment-network/chart";
+import { initTooltip } from "@santiment-network/chart/tooltip";
+import { plotLines } from "@santiment-network/chart/lines";
+import { plotDayBars, plotBars } from "@santiment-network/chart/bars";
+import { linearScale } from "@santiment-network/chart/scales";
+import { drawReferenceDot } from "@santiment-network/chart/references";
+import { drawCartesianGrid } from "@santiment-network/chart/cartesianGrid";
+import { initBrush, updateBrushState } from "@santiment-network/chart/brush";
+import Loader from "./Loader/Loader";
+import { plotAxes } from "./axes";
+import { setupTooltip, plotTooltip } from "./tooltip";
 import {
   CHART_HEIGHT,
   BRUSH_HEIGHT,
@@ -20,18 +20,19 @@ import {
   BRUSH_PADDING,
   DOUBLE_AXIS_PADDING,
   buildPadding
-} from './settings'
-import { drawWatermark } from './watermark'
-import { onResize, useResizeEffect } from './resize'
-import { clearCtx, findPointIndexByDate } from './utils'
-import { domainModifier } from './domain'
-import { paintConfigs, dayBrushPaintConfig } from './paintConfigs'
-import styles from './index.module.scss'
+} from "./settings";
+import { drawWatermark } from "./watermark";
+import { onResize, useResizeEffect } from "./resize";
+import { clearCtx, findPointIndexByDate } from "./utils";
+import { domainModifier } from "./domain";
+import { paintConfigs, dayBrushPaintConfig } from "./paintConfigs";
+import styles from "./index.module.scss";
 
 const Chart = ({
   className,
   chartRef,
   data,
+  brushData = data,
   lines,
   bars,
   daybars,
@@ -59,17 +60,18 @@ const Chart = ({
   isNightModeEnabled,
   isCartesianGridActive,
   resizeDependencies,
+  onBrushChangeEnd,
   children
 }) => {
-  let [chart, setChart] = useState()
-  let [brush, setBrush] = useState()
-  const canvasRef = useRef()
+  let [chart, setChart] = useState();
+  let [brush, setBrush] = useState();
+  const canvasRef = useRef();
 
-  const isShowBrush = !hideBrush && !isMultiChartsActive
+  const isShowBrush = !hideBrush && !isMultiChartsActive;
 
   useEffect(() => {
-    const { current: canvas } = canvasRef
-    const width = canvas.parentNode.offsetWidth
+    const { current: canvas } = canvasRef;
+    const width = canvas.parentNode.offsetWidth;
 
     chart = initTooltip(
       initChart(
@@ -82,8 +84,8 @@ const Chart = ({
           axesMetricKeys[1] && DOUBLE_AXIS_PADDING
         )
       )
-    )
-    chart.tooltipKey = tooltipKey
+    );
+    chart.tooltipKey = tooltipKey;
 
     if (isShowBrush) {
       brush = initBrush(
@@ -92,110 +94,98 @@ const Chart = ({
         BRUSH_HEIGHT,
         dayBrushPaintConfig,
         plotBrushData,
-        onBrushChange
-      )
-      brush.canvas.classList.add(styles.brush)
-      setBrush(brush)
+        undefined,
+        onBrushChangeEnd
+      );
+      brush.canvas.classList.add(styles.brush);
+      setBrush(brush);
     }
 
-    setChart(chart)
+    setChart(chart);
     if (chartRef) {
-      chartRef.current = chart
+      chartRef.current = chart;
     }
 
-    setupTooltip(chart, marker, syncTooltips, useCustomTooltip, onPlotTooltip)
-  }, [])
+    setupTooltip(chart, marker, syncTooltips, useCustomTooltip, onPlotTooltip);
+  }, []);
 
   if (brush) {
     // NOTE: Because func.component works with closures, captured values might be outdated [@vanguard | Jan 23, 2020]
-    brush.plotBrushData = plotBrushData
-    brush.onChange = onBrushChange
+    brush.plotBrushData = plotBrushData;
+    brush.onChangeEnd = onBrushChangeEnd;
   }
 
   useEffect(
     () => {
-      const { brushPaintConfig, ...rest } = paintConfigs[+isNightModeEnabled]
+      const { brushPaintConfig, ...rest } = paintConfigs[+isNightModeEnabled];
 
-      Object.assign(chart, rest)
+      Object.assign(chart, rest);
 
       if (brush) {
-        brush.paintConfig = brushPaintConfig
+        brush.paintConfig = brushPaintConfig;
       }
     },
     [isNightModeEnabled]
-  )
+  );
 
   useEffect(
     () => {
-      chart.onRangeSelect = onRangeSelect
+      chart.onRangeSelect = onRangeSelect;
     },
     [onRangeSelect]
-  )
+  );
 
   useEffect(
     () => {
-      chart.onRangeSelectStart = onRangeSelectStart
+      chart.onRangeSelectStart = onRangeSelectStart;
     },
     [onRangeSelectStart]
-  )
+  );
 
   useEffect(
     () => {
-      chart.onPointClick = onPointClick
+      chart.onPointClick = onPointClick;
     },
     [onPointClick]
-  )
+  );
 
   useEffect(
     () => {
-      chart.tooltipKey = tooltipKey
+      chart.tooltipKey = tooltipKey;
     },
     [tooltipKey]
-  )
+  );
 
   useEffect(
     () => {
-      chart.axesMetricKeys = axesMetricKeys
+      chart.axesMetricKeys = axesMetricKeys;
     },
     [axesMetricKeys]
-  )
+  );
 
   useEffect(
     () => {
-      chart.colors = MetricColor
+      chart.colors = MetricColor;
     },
     [MetricColor]
-  )
+  );
 
   useEffect(
     () => {
-      if (data.length === 0 || !brush) return
+      if (data.length === 0) return;
 
-      brush.startIndex = 0
-      brush.endIndex = data.length - 1
-    },
-    [data]
-  )
-
-  useEffect(
-    () => {
-      if (data.length === 0) return
-
-      clearCtx(chart)
+      clearCtx(chart);
       updateChartState(
         chart,
         data,
         joinedCategories,
         domainModifier,
         domainGroups
-      )
-      if (brush) {
-        clearCtx(brush)
-        updateBrushState(brush, chart, data)
-      }
-      plotChart(data)
+      );
+      plotChart(data);
+
       if (!hideAxes) {
-        plotAxes(chart, scale)
+        plotAxes(chart, scale);
       }
     },
     [
@@ -207,62 +197,72 @@ const Chart = ({
       isNightModeEnabled,
       isCartesianGridActive
     ]
-  )
+  );
 
   useEffect(
     () => {
-      if (data.length === 0) return
+      if (brush && brushData.length) {
+        clearCtx(brush);
+        updateBrushState(brush, brushData, joinedCategories);
+      }
+    },
+    [brushData, scale, domainGroups, isNightModeEnabled]
+  );
+
+  useEffect(
+    () => {
+      if (data.length === 0) return;
 
       if (syncedTooltipDate) {
         const point =
-          chart.points[findPointIndexByDate(chart.points, syncedTooltipDate)]
+          chart.points[findPointIndexByDate(chart.points, syncedTooltipDate)];
         if (point) {
           if (useCustomTooltip) {
-            onPlotTooltip(point)
+            onPlotTooltip(point);
           } else {
-            plotTooltip(chart, marker, point)
+            plotTooltip(chart, marker, point);
           }
         }
       } else {
-        clearCtx(chart, chart.tooltip.ctx)
+        clearCtx(chart, chart.tooltip.ctx);
       }
     },
     [syncedTooltipDate]
-  )
+  );
 
-  useEffect(handleResize, [...resizeDependencies, data])
+  useEffect(handleResize, [...resizeDependencies, data]);
 
-  useResizeEffect(handleResize, [...resizeDependencies, data, brush])
+  useResizeEffect(handleResize, [...resizeDependencies, data, brush]);
 
-  function handleResize () {
+  function handleResize() {
     if (data.length === 0) {
-      return
+      return;
     }
 
     const padding = buildPadding(
       chartPadding,
       isShowBrush && BRUSH_PADDING,
       axesMetricKeys[1] && DOUBLE_AXIS_PADDING
-    )
+    );
 
-    onResize(chart, padding, brush, data, chartHeight)
+    onResize(chart, padding, brush, brushData, chartHeight, joinedCategories);
 
-    if (!brush) {
-      updateChartState(
-        chart,
-        data,
-        joinedCategories,
-        domainModifier,
-        domainGroups
-      )
-      plotChart(data)
-      if (!hideAxes) {
-        plotAxes(chart, scale)
-      }
+    updateChartState(
+      chart,
+      data,
+      joinedCategories,
+      domainModifier,
+      domainGroups
+    );
+    plotChart(data);
+
+    if (!hideAxes) {
+      plotAxes(chart, scale);
     }
   }
 
-  function onBrushChange (startIndex, endIndex) {
+  /*
+  function onBrushChangeEnd(startIndex, endIndex) {
     const newData = data.slice(startIndex, endIndex + 1)
 
     updateChartState(
@@ -270,7 +270,7 @@ const Chart = ({
       newData,
       joinedCategories,
       domainModifier,
-      domainGroups
+      domainGroups,
     )
 
     clearCtx(chart)
@@ -279,46 +279,47 @@ const Chart = ({
       plotAxes(chart, scale)
     }
   }
+  */
 
-  function plotBrushData () {
-    plotDayBars(brush, data, daybars, MetricColor, scale)
-    plotBars(brush, data, bars, MetricColor, scale)
-    plotLines(brush, data, lines, MetricColor, scale)
+  function plotBrushData() {
+    plotDayBars(brush, brushData, daybars, MetricColor, scale);
+    plotBars(brush, brushData, bars, MetricColor, scale);
+    plotLines(brush, brushData, lines, MetricColor, scale);
   }
 
-  function plotChart (data) {
+  function plotChart(data) {
     if (!hideWatermark) {
-      drawWatermark(chart, isNightModeEnabled)
+      drawWatermark(chart, isNightModeEnabled);
     }
 
-    plotDayBars(chart, data, daybars, MetricColor, scale)
-    plotBars(chart, data, bars, MetricColor, scale)
+    plotDayBars(chart, data, daybars, MetricColor, scale);
+    plotBars(chart, data, bars, MetricColor, scale);
 
-    chart.ctx.lineWidth = 1.5
-    plotLines(chart, data, lines, MetricColor, scale)
+    chart.ctx.lineWidth = 1.5;
+    plotLines(chart, data, lines, MetricColor, scale);
 
     if (isCartesianGridActive) {
-      drawCartesianGrid(chart, chart.axesColor)
+      drawCartesianGrid(chart, chart.axesColor);
     }
 
     events.forEach(({ metric, key, datetime, value, color }) =>
       drawReferenceDot(chart, metric, datetime, color, key, value)
-    )
+    );
   }
 
-  function marker (ctx, key, value, x, y) {
-    const { colors } = chart
-    const RADIUS = 4
+  function marker(ctx, key, value, x, y) {
+    const { colors } = chart;
+    const RADIUS = 4;
 
-    if (key === 'isAnomaly' || key.includes('_anomaly')) {
-      ctx.beginPath()
-      ctx.arc(x + RADIUS, y + 1, RADIUS, 0, 2 * Math.PI)
-      ctx.lineWidth = 1.5
-      ctx.strokeStyle = COLOR.persimmon
-      ctx.stroke()
+    if (key === "isAnomaly" || key.includes("_anomaly")) {
+      ctx.beginPath();
+      ctx.arc(x + RADIUS, y + 1, RADIUS, 0, 2 * Math.PI);
+      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = COLOR.persimmon;
+      ctx.stroke();
     } else {
-      ctx.fillStyle = colors[key]
-      ctx.fillRect(x, y, 8, 2)
+      ctx.fillStyle = colors[key];
+      ctx.fillRect(x, y, 8, 2);
     }
   }
 
@@ -338,11 +339,11 @@ const Chart = ({
             })
         )}
     </div>
-  )
-}
+  );
+};
 
 const mapStateToProps = ({ rootUi: { isNightModeEnabled } }) => ({
   isNightModeEnabled
-})
+});
 
-export default connect(mapStateToProps)(Chart)
+export default connect(mapStateToProps)(Chart);
