@@ -12,7 +12,7 @@ const VideoModal = ({ videoId }) => (
           className={styles.preview}
           src={`https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`}
         />
-        <VideoPlayBtn />
+        <VideoPlayBtn className={styles.icon} />
         <div className={styles.darkWrapper} />
       </div>
     }

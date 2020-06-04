@@ -1,74 +1,22 @@
 import React from 'react'
+import cx from 'classnames'
 import styles from './VideoPlayBtn.module.scss'
 
-const VideoPlayBtn = ({ ...rest }) => (
+const VideoPlayBtn = ({ className, ...rest }) => (
   <svg
-    className={styles.btn}
+    width='48'
+    height='48'
     {...rest}
-    width='96'
-    height='96'
-    viewBox='0 0 96 96'
+    className={cx(className, styles.btn)}
+    viewBox='0 0 48 48'
     fill='none'
     xmlns='http://www.w3.org/2000/svg'
   >
-    <g filter='url(#filter0_dd)'>
-      <circle cx='48' cy='44' r='24' fill='var(--white)' />
-    </g>
+    <circle cx='24' cy='24' r='24' fill='var(--white)' />
     <path
-      d='M44 51.0914C44 51.8981 44.906 52.3728 45.5692 51.9136L55.8124 44.8222C56.3868 44.4245 56.3868 43.5755 55.8124 43.1778L45.5692 36.0864C44.906 35.6272 44 36.1019 44 36.9086V51.0914Z'
+      d='M20 31.0914C20 31.8981 20.906 32.3728 21.5692 31.9136L31.8124 24.8222C32.3868 24.4245 32.3868 23.5755 31.8124 23.1778L21.5692 16.0864C20.906 15.6272 20 16.1019 20 16.9086V31.0914Z'
       fill='var(--jungle-green)'
     />
-    <defs>
-      <filter
-        id='filter0_dd'
-        x='0'
-        y='0'
-        width='96'
-        height='96'
-        filterUnits='userSpaceOnUse'
-        colorInterpolationFilters='sRGB'
-      >
-        <feFlood floodOpacity='0' result='BackgroundImageFix' />
-        <feColorMatrix
-          in='SourceAlpha'
-          type='matrix'
-          values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
-        />
-        <feOffset dy='2' />
-        <feGaussianBlur stdDeviation='3' />
-        <feColorMatrix
-          type='matrix'
-          values='0 0 0 0 0.0941176 0 0 0 0 0.105882 0 0 0 0 0.168627 0 0 0 0.02 0'
-        />
-        <feBlend
-          mode='normal'
-          in2='BackgroundImageFix'
-          result='effect1_dropShadow'
-        />
-        <feColorMatrix
-          in='SourceAlpha'
-          type='matrix'
-          values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
-        />
-        <feOffset dy='4' />
-        <feGaussianBlur stdDeviation='12' />
-        <feColorMatrix
-          type='matrix'
-          values='0 0 0 0 0.0941176 0 0 0 0 0.105882 0 0 0 0 0.168627 0 0 0 0.05 0'
-        />
-        <feBlend
-          mode='normal'
-          in2='effect1_dropShadow'
-          result='effect2_dropShadow'
-        />
-        <feBlend
-          mode='normal'
-          in='SourceGraphic'
-          in2='effect2_dropShadow'
-          result='shape'
-        />
-      </filter>
-    </defs>
   </svg>
 )
 
