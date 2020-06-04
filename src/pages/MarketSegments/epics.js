@@ -19,6 +19,8 @@ export const fetchMarketSegments = (action$, store, { client }) =>
     .switchMap(({ payload: { segment, forced = false } }) => {
       const fetchPolicy = forced ? 'network-only' : 'cache-first'
 
+      const NOW = new Date()
+
       return Observable.forkJoin([
         Promise.resolve(forced),
         client.query({
@@ -29,8 +31,8 @@ export const fetchMarketSegments = (action$, store, { client }) =>
         client.query({
           query: DEV_ACTIVITY_CHANGE_QUERY,
           variables: {
-            from: addDays(new Date(), -30).toISOString(),
-            to: new Date().toISOString()
+            from: addDays(NOW, -30).toISOString(),
+            to: NOW.toISOString()
           },
           fetchPolicy
         })
@@ -44,14 +46,15 @@ export const fetchMarketSegments = (action$, store, { client }) =>
 
       const payload = {
         assets: assets.map(asset => {
-          if (!activityChangeMapping[asset.slug]) {
+          const target = activityChangeMapping[asset.slug]
+
+          if (!target) {
             return asset
           }
 
           return {
             ...asset,
-            devActChange30d:
-              activityChangeMapping[asset.slug].dev_activity_change_30d
+            devActChange30d: target.dev_activity_change_30d
           }
         })
       }
