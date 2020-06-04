@@ -11,8 +11,8 @@ import styles from './PublicTemplates.module.scss'
 const PUBLIC_YOUTUBE_IDS = {
   195: '0IT44B7DCso',
   197: '4zoC64C0q-A',
-  200: 'Ek_D_QVszKE',
-  202: 'ORqsG6AvNg8',
+  200: 'ORqsG6AvNg8',
+  202: 'Ek_D_QVszKE',
   203: '8sNUkR68nGA'
 }
 
