@@ -122,8 +122,8 @@ const SettingsNotifications = ({
                 </div>
                 <Selector
                   className={styles.digestSelector}
-                  options={['DAILY', 'WEEKLY', 'OFF']}
-                  nameOptions={['Daily', 'Weekly', 'Off']}
+                  options={['WEEKLY', 'OFF']}
+                  nameOptions={['Weekly', 'Off']}
                   onSelectOption={subscription =>
                     mutateDigestType({ variables: { subscription } })
                       .then(() => {

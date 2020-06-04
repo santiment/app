@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import TemplateContextMenu from '../../../ducks/Studio/Template/TemplateContextMenu/TemplateContextMenu'
 import VideoModal from '../../../components/VideoModal/VideoModal'
@@ -33,11 +33,17 @@ const PublicTemplateCard = ({ template }) => {
     template.options.youtube_id = videoId
   }
 
+  const [isActive, setIsActive] = useState(false)
+
   return (
-    <div className={styles.template}>
+    <div
+      className={styles.template}
+      onMouseLeave={() => setIsActive(false)}
+      onMouseOver={() => setIsActive(true)}
+    >
       {videoId && <VideoModal videoId={videoId} />}
 
-      <TemplateContextMenu template={template} classes={styles} />
+      {isActive && <TemplateContextMenu template={template} classes={styles} />}
 
       <div className={cx(styles.innerPadding, !videoId && styles.withoutVideo)}>
         <div className={styles.innerContainer}>
