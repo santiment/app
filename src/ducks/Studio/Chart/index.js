@@ -16,21 +16,14 @@ import ChartMetricsExplanation, {
 import { METRICS_EXPLANATION_PANE } from './Sidepane/panes'
 import { TOP_HOLDER_METRICS } from './Sidepane/TopHolders/metrics'
 import { extractMirrorMetricsDomainGroups } from '../utils'
-import { useTimeseries } from '../timeseries/hooks'
+import { useAllTimeData } from '../timeseries/hooks'
 import Chart from '../../Chart'
 import Signals from '../../Chart/Signals'
 import Synchronizer from '../../Chart/Synchronizer'
 import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
 import { useChartColors } from '../../Chart/colors'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
-import { getIntervalByTimeRange } from '../../../utils/dates'
 import styles from './index.module.scss'
-
-const brushSettings = {
-  slug: 'bitcoin',
-  interval: '5d',
-  ...getIntervalByTimeRange('all'),
-}
 
 const Canvas = ({
   index,
@@ -62,7 +55,7 @@ const Canvas = ({
   const MetricColor = useChartColors(metrics, FocusedMetric)
   const domainGroups = useDomainGroups(metrics)
   const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
-  const [allTimeData] = useTimeseries(metrics, brushSettings)
+  const allTimeData = useAllTimeData(metrics, settings)
 
   const mirrorDomainGroups = extractMirrorMetricsDomainGroups(domainGroups)
 

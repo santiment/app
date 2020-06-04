@@ -149,6 +149,8 @@ export function useAxesMetricsKey(metrics, isDomainGroupingActive) {
       let secondaryAxisMetric = metrics[1]
 
       const { length } = metrics
+      if (length === 0) return
+
       if (length === 1) {
         return setAxesMetricKeys([mainAxisMetric.key])
       }

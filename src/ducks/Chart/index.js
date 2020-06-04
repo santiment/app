@@ -176,23 +176,31 @@ const Chart = ({
 
   useEffect(
     () => {
-      if (data.length && brushData.length) {
-        const firstItem = binarySearch({
+      if (brush && data.length && brushData.length) {
+        let { index: startIndex } = binarySearch({
           moveClb,
           checkClb,
           array: brushData,
           target: data[0].datetime,
         })
 
-        const lastItem = binarySearch({
+        let { index: endIndex } = binarySearch({
           moveClb,
           checkClb,
           array: brushData,
           target: data[data.length - 1].datetime,
         })
 
-        brush.startIndex = firstItem.index || 0
-        brush.endIndex = lastItem.index || 0
+        if (endIndex - startIndex < 2) {
+          if (startIndex > 2) {
+            startIndex -= 2
+          } else {
+            endIndex += 2
+          }
+        }
+
+        brush.startIndex = startIndex
+        brush.endIndex = endIndex
       }
     },
     [brushData, data],
