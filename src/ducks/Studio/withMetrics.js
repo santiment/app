@@ -24,7 +24,7 @@ const PROJECT_METRICS_BY_SLUG_QUERY = gql`
   }
 `
 
-const DEFAULT_METRICS = [
+export const DEFAULT_METRICS = [
   'price_usd',
   'volume_usd',
   'marketcap_usd',

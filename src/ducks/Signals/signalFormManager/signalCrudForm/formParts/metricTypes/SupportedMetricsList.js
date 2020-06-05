@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Search from '../../../../../Studio/Sidebar/Search'
 import MetricsList from './MetricsList'
-import { withSignalMetrics } from '../../../../../Studio/withMetrics'
+import {
+  DEFAULT_METRICS,
+  withSignalMetrics
+} from '../../../../../Studio/withMetrics'
 import { getCategoryGraph } from '../../../../../Studio/Sidebar/utils'
 import { Metric } from '../../../../../dataHub/metrics'
 import metricStyles from './TriggerFormMetricTypes.module.scss'
@@ -95,15 +98,13 @@ export const SIGNAL_SUPPORTED_METRICS = [
   makeSignalMetric('github_activity', 'Github Activity', 'Development')
 ]
 
-const getByAvailable = (availableMetrics = []) =>
+const getByAvailable = (availableMetrics = DEFAULT_METRICS) =>
   SIGNAL_SUPPORTED_METRICS.filter(({ key }) => {
     return availableMetrics.indexOf(key) !== -1
   })
 
 const SupportedMetricsList = ({ onSelectMetric, slug, availableMetrics }) => {
   const [categories, setCategories] = useState({})
-
-  console.log('slug', slug)
 
   useEffect(
     () => {
