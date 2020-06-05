@@ -1,14 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import {
   getNearestTypeByMetric,
   getSlugFromSignalTarget
 } from '../../../../utils/utils'
-import { METRICS_OPTIONS, TRENDING_WORDS } from '../../../../utils/constants'
+import {
+  METRICS_OPTIONS,
+  PRICE_METRIC,
+  TRENDING_WORDS
+} from '../../../../utils/constants'
 import MetricTypeRenderer from '../metricTypeRenderer/MetricTypeRenderer'
-import SupportedMetricsList from './SupportedMetricsList'
+import SupportedMetricsList, {
+  useAvailableMetrics
+} from './SupportedMetricsList'
 import styles from '../../signal/TriggerForm.module.scss'
 import metricStyles from './TriggerFormMetricTypes.module.scss'
+import { showNotification } from '../../../../../../actions/rootActions'
+import { connect } from 'react-redux'
+import { capitalizeStr } from '../../../../../../utils/utils'
 
 const checkPossibleTarget = ({ metaFormSettings, setFieldValue, target }) => {
   if (!target || (Array.isArray(target) && target.length === 0)) {
@@ -21,7 +30,8 @@ const TriggerFormMetricTypes = ({
   target,
   setFieldValue,
   metaFormSettings,
-  trigger
+  trigger,
+  showErrorAlert
 }) => {
   const defaultMetric = metaFormSettings.metric
 
@@ -54,6 +64,32 @@ const TriggerFormMetricTypes = ({
 
   const slug = getSlugFromSignalTarget(trigger)
 
+  const [availableMetrics, loading] = useAvailableMetrics(slug)
+
+  useEffect(
+    () => {
+      if (slug && !loading) {
+        const checking = trigger.settings.metric
+
+        const notAvailable = availableMetrics.indexOf(checking) === -1
+        const notDefined = !METRICS_OPTIONS.some(
+          ({ metric }) => metric === checking
+        )
+
+        if (notAvailable && notDefined) {
+          onSelectMetric(PRICE_METRIC)
+          showErrorAlert(
+            `${capitalizeStr(
+              slug
+            )} does't support alerts with metric '${checking}'`,
+            `Selected default metric ${PRICE_METRIC.metric}`
+          )
+        }
+      }
+    },
+    [trigger.settings.target.slug, availableMetrics]
+  )
+
   return (
     <div className={styles.row}>
       <Dialog
@@ -84,7 +120,11 @@ const TriggerFormMetricTypes = ({
               ))}
             </div>
 
-            <SupportedMetricsList slug={slug} onSelectMetric={onSelectMetric} />
+            <SupportedMetricsList
+              slug={slug}
+              onSelectMetric={onSelectMetric}
+              availableMetrics={availableMetrics}
+            />
           </div>
         </Dialog.ScrollContent>
       </Dialog>
@@ -92,4 +132,21 @@ const TriggerFormMetricTypes = ({
   )
 }
 
-export default TriggerFormMetricTypes
+const mapDispatchToProps = dispatch => {
+  return {
+    showErrorAlert: (title, description) => {
+      dispatch(
+        showNotification({
+          variant: 'error',
+          title,
+          description
+        })
+      )
+    }
+  }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(TriggerFormMetricTypes)

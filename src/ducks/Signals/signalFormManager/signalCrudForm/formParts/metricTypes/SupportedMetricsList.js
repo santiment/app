@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
+import { useQuery } from '@apollo/react-hooks'
 import Search from '../../../../../Studio/Sidebar/Search'
 import MetricsList from './MetricsList'
-import {
-  DEFAULT_METRICS,
-  withSignalMetrics
-} from '../../../../../Studio/withMetrics'
+import { DEFAULT_METRICS } from '../../../../../Studio/withMetrics'
 import { getCategoryGraph } from '../../../../../Studio/Sidebar/utils'
 import { Metric } from '../../../../../dataHub/metrics'
+import { PROJECT_METRICS_BY_SLUG_QUERY } from '../../../../../SANCharts/gql'
 import metricStyles from './TriggerFormMetricTypes.module.scss'
 
 const makeSignalMetric = (key, label, category, node = 'line') => {
@@ -103,7 +102,23 @@ const getByAvailable = (availableMetrics = DEFAULT_METRICS) =>
     return availableMetrics.indexOf(key) !== -1
   })
 
-const SupportedMetricsList = ({ onSelectMetric, slug, availableMetrics }) => {
+export function useAvailableMetrics (slug) {
+  const { data, loading, error } = useQuery(PROJECT_METRICS_BY_SLUG_QUERY, {
+    skip: !slug,
+    variables: {
+      slug
+    },
+    fetchPolicy: 'cache-first'
+  })
+
+  return [
+    data ? data.project.availableMetrics : DEFAULT_METRICS,
+    loading,
+    error
+  ]
+}
+
+const SupportedMetricsList = ({ onSelectMetric, availableMetrics, slug }) => {
   const [categories, setCategories] = useState({})
 
   useEffect(
@@ -152,4 +167,4 @@ const SupportedMetricsList = ({ onSelectMetric, slug, availableMetrics }) => {
   )
 }
 
-export default withSignalMetrics(SupportedMetricsList)
+export default SupportedMetricsList

@@ -15,7 +15,7 @@ const PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY = gql`
   }
 `
 
-const PROJECT_METRICS_BY_SLUG_QUERY = gql`
+export const PROJECT_METRICS_BY_SLUG_QUERY = gql`
   query projectBySlug($slug: String!) {
     project: projectBySlug(slug: $slug) {
       id
@@ -49,18 +49,6 @@ export const DEFAULT_METRICS = [
   'social_dominance_total',
   'social_volume_total'
 ]
-
-export const withSignalMetrics = graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
-  props: ({
-    data: { loading, project: { availableMetrics = DEFAULT_METRICS } = {} }
-  }) => {
-    return {
-      availableMetrics
-    }
-  },
-  skip: ({ slug }) => !slug,
-  options: ({ slug }) => ({ variables: { slug } })
-})
 
 export default graphql(PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY, {
   props: ({
