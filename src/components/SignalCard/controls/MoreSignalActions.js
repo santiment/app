@@ -17,12 +17,19 @@ const generateShareLink = (id, title) => {
   })}`
 }
 
-const ShareSignal = ({ trigger, className, signalId, signalTitle }) => {
+const ShareSignal = ({
+  trigger,
+  className,
+  shareBtnClassName,
+  signalId,
+  signalTitle
+}) => {
   const link = generateShareLink(signalId, signalTitle)
   return (
     <div className={cx(styles.popupItem, styles.popupButton, className)}>
       <ShareModalTrigger
         trigger={trigger}
+        className={shareBtnClassName}
         shareTitle='Santiment'
         shareText={`Crypto Alert '${signalTitle}'`}
         shareLink={link}
@@ -48,6 +55,7 @@ const MoreSignalActions = ({
           className={styles.shareBtn}
           signalId={signalId}
           signalTitle={signalTitle}
+          shareBtnClassName={styles.shareSingle}
         />
       )
     )

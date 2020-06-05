@@ -220,6 +220,7 @@ export const TriggerForm = ({
                   setFieldValue={setFieldValue}
                   metric={metric}
                   target={target}
+                  trigger={mappedTrigger}
                 />
               )}
 

@@ -60,7 +60,8 @@ import {
 } from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
 import { Metric } from '../../dataHub/metrics'
-import { SIGNAL_SUPPORTED_METRICS } from '../signalFormManager/signalCrudForm/formParts/metricTypes/TriggerFormMetricTypes'
+import { useWatchlist } from '../../Watchlists/gql/hooks'
+import { SIGNAL_SUPPORTED_METRICS } from '../signalFormManager/signalCrudForm/formParts/metricTypes/SupportedMetricsList'
 
 export const mapToOptions = input => {
   if (!input) {
@@ -1783,14 +1784,24 @@ export const skipHistoricalPreview = ({ settings }) => {
   return getCheckingMetric(settings) === TRENDING_WORDS || target.watchlist_id
 }
 
-export const getSlugFromSignalTarget = target => {
-  if (Array.isArray(target)) {
-    if (target.length === 1) {
-      return targetMapperWithTicker(target[0])
-    } else {
-      return null
+export const getSlugFromSignalTarget = ({ settings }) => {
+  const {
+    target: { watchlist_id }
+  } = settings
+
+  const [watchlist] = useWatchlist(watchlist_id)
+
+  if (watchlist_id) {
+    if (watchlist) {
+      const { listItems } = watchlist
+
+      if (listItems.length > 0) {
+        return listItems[0].project.slug
+      }
     }
+
+    return null
   }
 
-  return targetMapperWithTicker(target)
+  return getPreviewTarget(settings)
 }
