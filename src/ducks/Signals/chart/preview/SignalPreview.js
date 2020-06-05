@@ -4,7 +4,7 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import {
   getNewMetricsByType,
   getOldMetricsByType,
-  getPreviewTarget,
+  getSlugFromSignalTarget,
   getTimeRangeForChart,
   isNewTypeSignal,
   skipHistoricalPreview
@@ -23,7 +23,6 @@ import {
   makeSameRange
 } from './utils'
 import { DAILY_ACTIVE_ADDRESSES } from '../../utils/constants'
-import { useWatchlist } from '../../../Watchlists/gql/hooks'
 import styles from './SignalPreview.module.scss'
 
 const PreviewLoader = (
@@ -41,28 +40,6 @@ const getAvailableCooldown = baseCooldown => {
   }
 
   return baseCooldown && baseCooldown.indexOf('m') !== -1 ? '1h' : baseCooldown
-}
-
-const getSlug = ({ settings }) => {
-  const {
-    target: { watchlist_id }
-  } = settings
-
-  const [watchlist] = useWatchlist(watchlist_id)
-
-  if (watchlist_id) {
-    if (watchlist) {
-      const { listItems } = watchlist
-
-      if (listItems.length > 0) {
-        return listItems[0].project.slug
-      }
-    }
-
-    return null
-  }
-
-  return getPreviewTarget(settings)
 }
 
 const SignalPreviewChart = ({
@@ -96,7 +73,7 @@ const SignalPreviewChart = ({
     address
   }
 
-  const slug = getSlug(trigger)
+  const slug = getSlugFromSignalTarget(trigger)
 
   if (!slug) {
     return null

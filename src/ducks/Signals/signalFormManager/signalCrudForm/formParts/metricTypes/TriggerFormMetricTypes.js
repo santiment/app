@@ -1,15 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
-import { getNearestTypeByMetric } from '../../../../utils/utils'
-import { METRICS_OPTIONS, TRENDING_WORDS } from '../../../../utils/constants'
-import { getCategoryGraph } from '../../../../../Studio/Sidebar/utils'
-import { Metric } from '../../../../../dataHub/metrics'
-import MetricsList from './MetricsList'
-import Search from './../../../../../Studio/Sidebar/Search'
-import HelpTooltip from '../../../../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
-import MetricIcons from './MetricIcons'
+import {
+  getNearestTypeByMetric,
+  getSlugFromSignalTarget
+} from '../../../../utils/utils'
+import {
+  METRICS_OPTIONS,
+  PRICE_METRIC,
+  TRENDING_WORDS
+} from '../../../../utils/constants'
+import MetricTypeRenderer from '../metricTypeRenderer/MetricTypeRenderer'
+import SupportedMetricsList, {
+  useAvailableMetrics
+} from './SupportedMetricsList'
 import styles from '../../signal/TriggerForm.module.scss'
 import metricStyles from './TriggerFormMetricTypes.module.scss'
+import { showNotification } from '../../../../../../actions/rootActions'
+import { connect } from 'react-redux'
+import { capitalizeStr } from '../../../../../../utils/utils'
 
 const checkPossibleTarget = ({ metaFormSettings, setFieldValue, target }) => {
   if (!target || (Array.isArray(target) && target.length === 0)) {
@@ -17,100 +25,13 @@ const checkPossibleTarget = ({ metaFormSettings, setFieldValue, target }) => {
   }
 }
 
-const makeSignalMetric = (key, label, category, node = 'line') => {
-  return {
-    key,
-    label,
-    category,
-    node
-  }
-}
-
-export const SIGNAL_SUPPORTED_METRICS = [
-  Metric.social_volume_total,
-  makeSignalMetric(
-    'social_volume_discord',
-    'Social volume (discord)',
-    'Social'
-  ),
-  makeSignalMetric(
-    'social_volume_professional_traders_chat',
-    'Social volume (pro traders chat)',
-    'Social'
-  ),
-  makeSignalMetric('social_volume_reddit', 'Social volume (reddit)', 'Social'),
-  makeSignalMetric(
-    'social_volume_telegram',
-    'Social volume (telegram)',
-    'Social'
-  ),
-  makeSignalMetric(
-    'social_volume_twitter',
-    'Social volume (twitter)',
-    'Social'
-  ),
-
-  Metric.volume_usd,
-  Metric.age_destroyed,
-  Metric.exchange_balance,
-  makeSignalMetric('price_btc', 'Price BTC', 'Financial'),
-  Metric.marketcap_usd,
-
-  makeSignalMetric(
-    'community_messages_count_total',
-    'Community messages count(total)',
-    'Social'
-  ),
-  makeSignalMetric(
-    'community_messages_count_telegram',
-    'Community messages count(telegram)',
-    'Social'
-  ),
-  // makeSignalMetric('community_messages_count_discord', 'Community messages count(discord)', 'Social'),
-
-  makeSignalMetric(
-    'social_dominance_total',
-    'Social dominance (total)',
-    'Social'
-  ),
-  makeSignalMetric(
-    'social_dominance_discord',
-    'Social dominance (discord)',
-    'Social'
-  ),
-  makeSignalMetric(
-    'social_dominance_professional_traders_chat',
-    'Social dominance (pro traders chat)',
-    'Social'
-  ),
-  makeSignalMetric(
-    'social_dominance_reddit',
-    'Social dominance (reddit)',
-    'Social'
-  ),
-  makeSignalMetric(
-    'social_dominance_telegram',
-    'Social dominance (telegram)',
-    'Social'
-  ),
-  makeSignalMetric(
-    'social_dominance_twitter',
-    'Social dominance (twitter)',
-    'Social'
-  ),
-
-  Metric.transaction_volume,
-  makeSignalMetric('exchange_inflow', 'Exchange Inflow', 'On-chain', 'bar'),
-  makeSignalMetric('exchange_outflow', 'Exchange Outflow', 'On-chain', 'bar'),
-  Metric.dev_activity,
-  makeSignalMetric('github_activity', 'Github Activity', 'Development')
-]
-
-export const TriggerFormMetricTypes = ({
+const TriggerFormMetricTypes = ({
   metric,
   target,
   setFieldValue,
-  metaFormSettings
+  metaFormSettings,
+  trigger,
+  showErrorAlert
 }) => {
   const defaultMetric = metaFormSettings.metric
 
@@ -141,8 +62,33 @@ export const TriggerFormMetricTypes = ({
     setOpen(false)
   }
 
-  const categories = getCategoryGraph(SIGNAL_SUPPORTED_METRICS, [])
-  const categoriesKeys = Object.keys(categories)
+  const slug = getSlugFromSignalTarget(trigger)
+
+  const [availableMetrics, loading] = useAvailableMetrics(slug)
+
+  useEffect(
+    () => {
+      if (slug && !loading) {
+        const checking = trigger.settings.metric
+
+        const notAvailable = availableMetrics.indexOf(checking) === -1
+        const notDefined = !METRICS_OPTIONS.some(
+          ({ metric }) => metric === checking
+        )
+
+        if (notAvailable && notDefined) {
+          onSelectMetric(PRICE_METRIC)
+          showErrorAlert(
+            `${capitalizeStr(
+              slug
+            )} does't support alerts with metric '${checking}'`,
+            `Selected default metric ${PRICE_METRIC.metric}`
+          )
+        }
+      }
+    },
+    [trigger.settings.target.slug, availableMetrics]
+  )
 
   return (
     <div className={styles.row}>
@@ -174,33 +120,11 @@ export const TriggerFormMetricTypes = ({
               ))}
             </div>
 
-            <div className={metricStyles.choose}>
-              <div className={metricStyles.chooseText}>
-                or choose from the group of metrics
-              </div>
-              <div className={metricStyles.divider} />
-            </div>
-
-            <Search
-              iconPosition='left'
-              inputProps={{
-                placeholder: 'Search for a Metric'
-              }}
-              toggleMetric={onSelectMetric}
-              className={metricStyles.search}
-              categories={categories}
+            <SupportedMetricsList
+              slug={slug}
+              onSelectMetric={onSelectMetric}
+              availableMetrics={availableMetrics}
             />
-
-            <div className={metricStyles.metrics}>
-              {categoriesKeys.map(key => (
-                <MetricsList
-                  key={key}
-                  metrikKey={key}
-                  list={categories[key]}
-                  onSelect={onSelectMetric}
-                />
-              ))}
-            </div>
           </div>
         </Dialog.ScrollContent>
       </Dialog>
@@ -208,40 +132,21 @@ export const TriggerFormMetricTypes = ({
   )
 }
 
-const MetricTypeRenderer = ({ metric = {}, onClick, showLabel = true }) => {
-  const { label, description } = metric
-
-  const [isHovered, setHovered] = useState(false)
-
-  return (
-    <div
-      onClick={() => onClick(metric)}
-      className={metricStyles.metric}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <div className={metricStyles.iconBlock}>
-        <MetricIcons metric={metric} isActive={isHovered} />
-      </div>
-      <div className={metricStyles.textBlocks}>
-        <div className={metricStyles.texts}>
-          <div className={metricStyles.type}>{label}</div>
-          {!showLabel && (
-            <HelpTooltip
-              withDesc={false}
-              position='bottom'
-              align='end'
-              onAction='hover'
-              classes={styles}
-            >
-              {description}
-            </HelpTooltip>
-          )}
-        </div>
-        {showLabel && (
-          <div className={metricStyles.label}>Change alert type</div>
-        )}
-      </div>
-    </div>
-  )
+const mapDispatchToProps = dispatch => {
+  return {
+    showErrorAlert: (title, description) => {
+      dispatch(
+        showNotification({
+          variant: 'error',
+          title,
+          description
+        })
+      )
+    }
+  }
 }
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(TriggerFormMetricTypes)
