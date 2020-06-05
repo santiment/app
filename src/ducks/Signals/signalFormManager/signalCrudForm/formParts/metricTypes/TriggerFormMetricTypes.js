@@ -1,13 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { compose } from 'recompose'
+import { connect } from 'react-redux'
 import Dialog from '@santiment-network/ui/Dialog'
-import { getNearestTypeByMetric } from '../../../../utils/utils'
+import {
+  getNearestTypeByMetric,
+  getSlugFromSignalTarget
+} from '../../../../utils/utils'
 import { METRICS_OPTIONS, TRENDING_WORDS } from '../../../../utils/constants'
 import { getCategoryGraph } from '../../../../../Studio/Sidebar/utils'
 import { Metric } from '../../../../../dataHub/metrics'
 import MetricsList from './MetricsList'
 import Search from './../../../../../Studio/Sidebar/Search'
-import HelpTooltip from '../../../../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
-import MetricIcons from './MetricIcons'
+import MetricTypeRenderer from '../metricTypeRenderer/MetricTypeRenderer'
+import { withSignalMetrics } from '../../../../../Studio/withMetrics'
 import styles from '../../signal/TriggerForm.module.scss'
 import metricStyles from './TriggerFormMetricTypes.module.scss'
 
@@ -106,15 +111,32 @@ export const SIGNAL_SUPPORTED_METRICS = [
   makeSignalMetric('github_activity', 'Github Activity', 'Development')
 ]
 
-export const TriggerFormMetricTypes = ({
+const getByAvailable = availableMetrics =>
+  SIGNAL_SUPPORTED_METRICS.filter(({ key }) => {
+    return availableMetrics.indexOf(key) !== -1
+  })
+
+const TriggerFormMetricTypes = ({
   metric,
   target,
   setFieldValue,
-  metaFormSettings
+  metaFormSettings,
+  availableMetrics
 }) => {
   const defaultMetric = metaFormSettings.metric
 
   const [open, setOpen] = useState(false)
+
+  const [categories, setCategories] = useState({})
+
+  useEffect(
+    () => {
+      const metrics = getByAvailable(availableMetrics)
+      const newCategories = getCategoryGraph(metrics, [])
+      setCategories(newCategories)
+    },
+    [target, availableMetrics]
+  )
 
   const onSelectMetric = newMetric => {
     metric &&
@@ -141,7 +163,6 @@ export const TriggerFormMetricTypes = ({
     setOpen(false)
   }
 
-  const categories = getCategoryGraph(SIGNAL_SUPPORTED_METRICS, [])
   const categoriesKeys = Object.keys(categories)
 
   return (
@@ -208,40 +229,11 @@ export const TriggerFormMetricTypes = ({
   )
 }
 
-const MetricTypeRenderer = ({ metric = {}, onClick, showLabel = true }) => {
-  const { label, description } = metric
+const mapStateToProps = (state, { target }) => ({
+  slug: getSlugFromSignalTarget(target)
+})
 
-  const [isHovered, setHovered] = useState(false)
-
-  return (
-    <div
-      onClick={() => onClick(metric)}
-      className={metricStyles.metric}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <div className={metricStyles.iconBlock}>
-        <MetricIcons metric={metric} isActive={isHovered} />
-      </div>
-      <div className={metricStyles.textBlocks}>
-        <div className={metricStyles.texts}>
-          <div className={metricStyles.type}>{label}</div>
-          {!showLabel && (
-            <HelpTooltip
-              withDesc={false}
-              position='bottom'
-              align='end'
-              onAction='hover'
-              classes={styles}
-            >
-              {description}
-            </HelpTooltip>
-          )}
-        </div>
-        {showLabel && (
-          <div className={metricStyles.label}>Change alert type</div>
-        )}
-      </div>
-    </div>
-  )
-}
+export default compose(
+  connect(mapStateToProps),
+  withSignalMetrics
+)(TriggerFormMetricTypes)

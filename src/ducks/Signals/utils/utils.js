@@ -1782,3 +1782,15 @@ export const skipHistoricalPreview = ({ settings }) => {
 
   return getCheckingMetric(settings) === TRENDING_WORDS || target.watchlist_id
 }
+
+export const getSlugFromSignalTarget = target => {
+  if (Array.isArray(target)) {
+    if (target.length === 1) {
+      return targetMapperWithTicker(target[0])
+    } else {
+      return null
+    }
+  }
+
+  return targetMapperWithTicker(target)
+}
