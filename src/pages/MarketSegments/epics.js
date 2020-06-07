@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs'
-import { PROJECTS_QUERY } from './queries'
+import { DEV_ACTIVITY_CHANGE_QUERY, PROJECTS_QUERY } from './queries'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import * as actions from './actions'
-import devActChange30d from './devActChange.json'
+import { addDays } from '../../utils/dates'
 
 const getFunction = segment =>
   `{"name": "market_segments", "args":{"market_segments": [ "${segment}" ]}}`
@@ -19,21 +19,44 @@ export const fetchMarketSegments = (action$, store, { client }) =>
     .switchMap(({ payload: { segment, forced = false } }) => {
       const fetchPolicy = forced ? 'network-only' : 'cache-first'
 
+      const NOW = new Date()
+
       return Observable.forkJoin([
         Promise.resolve(forced),
         client.query({
           query: PROJECTS_QUERY,
           variables: { fn: Fn[segment] },
           fetchPolicy
+        }),
+        client.query({
+          query: DEV_ACTIVITY_CHANGE_QUERY,
+          variables: {
+            from: addDays(NOW, -30).toISOString(),
+            to: NOW.toISOString()
+          },
+          fetchPolicy
         })
       ])
     })
-    .mergeMap(([forced, { data: { assets } }]) => {
+    .mergeMap(([forced, { data: { assets } }, { data: { allProjects } }]) => {
+      const activityChangeMapping = allProjects.reduce((acc, item) => {
+        acc[item.slug] = item
+        return acc
+      }, {})
+
       const payload = {
-        assets: assets.map(asset => ({
-          ...asset,
-          devActChange30d: devActChange30d[asset.slug]
-        }))
+        assets: assets.map(asset => {
+          const target = activityChangeMapping[asset.slug]
+
+          if (!target) {
+            return asset
+          }
+
+          return {
+            ...asset,
+            devActChange30d: target.dev_activity_change_30d
+          }
+        })
       }
       if (forced) {
         payload.timestamp = Date.now()
