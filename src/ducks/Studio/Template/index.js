@@ -22,6 +22,7 @@ import DialogFormDuplicateTemplate from './Dialog/DuplicateTemplate'
 import DialogLoadTemplate from './Dialog/LoadTemplate'
 import DeleteTemplate from './Dialog/Delete/DeleteTemplate'
 import ShareTemplate from './Share/ShareTemplate'
+import { isUserAuthorOfTemplate } from './Dialog/LoadTemplate/Template'
 import styles from './index.module.scss'
 
 const Action = props => <Button {...props} fluid variant='ghost' />
@@ -168,8 +169,7 @@ const Template = ({
     }
   })
 
-  const isAuthor =
-    selectedTemplate && +selectedTemplate.user.id === +currentUser.id
+  const isAuthor = isUserAuthorOfTemplate(currentUser, selectedTemplate)
 
   return (
     <ContextMenu

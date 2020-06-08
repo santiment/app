@@ -17,7 +17,10 @@ export function prepareTemplateLink (template) {
 
   const { id, title } = template
 
-  return `${PATHS.STUDIO}/${getSEOLinkFromIdAndTitle(id, title)}`
+  return (
+    `${PATHS.STUDIO}/${getSEOLinkFromIdAndTitle(id, title)}` +
+    window.location.search
+  )
 }
 
 export const isTemplateURL = () => {

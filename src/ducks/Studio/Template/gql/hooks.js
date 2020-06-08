@@ -79,16 +79,16 @@ export function useFeaturedTemplates () {
 export function useSelectedTemplate (templates, selectTemplate) {
   const isTemplateUrl = isTemplateURL()
   const defaultTemplate = isTemplateUrl ? undefined : templates[0]
+  const urlId = isTemplateUrl ? extractTemplateId() : undefined
   const [selectedTemplate, setSelectedTemplate] = useState()
   const [loading, setLoading] = useState()
 
-  useEffect(() => {
-    const targetTemplate = isTemplateUrl
-      ? { id: extractTemplateId() }
-      : getLastTemplate()
+  const loadTemplate = () => {
+    const targetTemplate = isTemplateUrl ? { id: urlId } : getLastTemplate()
     if (!targetTemplate) return
 
     setSelectedTemplate(targetTemplate)
+
     setLoading(true)
 
     client
@@ -110,8 +110,10 @@ export function useSelectedTemplate (templates, selectTemplate) {
       .finally(() => {
         setLoading(false)
       })
-  }, [])
+  }
 
+  useEffect(loadTemplate, [])
+  useEffect(loadTemplate, [urlId])
   useEffect(
     () => {
       if (!selectedTemplate) {

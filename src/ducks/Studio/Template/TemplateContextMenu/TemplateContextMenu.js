@@ -9,6 +9,7 @@ import DialogFormDuplicateTemplate from '../Dialog/DuplicateTemplate'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import DeleteTemplate from '../Dialog/Delete/DeleteTemplate'
 import ShareTemplate from '../Share/ShareTemplate'
+import { isUserAuthorOfTemplate } from '../Dialog/LoadTemplate/Template'
 import styles from '../Dialog/LoadTemplate/Template.module.scss'
 
 export const Option = props => (
@@ -99,8 +100,8 @@ const TemplateContextMenu = ({
   )
 }
 
-const mapStateToProps = ({ user }, { template: { user: { id } = {} } }) => ({
-  isAuthor: user && user.data && +user.data.id === +id
+const mapStateToProps = ({ user }, { template }) => ({
+  isAuthor: isUserAuthorOfTemplate(user, template)
 })
 
 export default connect(mapStateToProps)(TemplateContextMenu)

@@ -12,9 +12,13 @@ import TemplateDetailsDialog, {
   TemplateInfoTrigger
 } from '../../TemplateDetailsDialog/TemplateDetailsDialog'
 import TemplateStatus from '../../TemplateStatus/TemplateStatus'
-import TemplateTitle from '../../TemplateDetailsDialog/TemplateTitle'
 import styles from './Template.module.scss'
 import { updateHistory } from '../../../../../utils/utils'
+
+export const isUserAuthorOfTemplate = (template, user) => {
+  const { user: { id } = {} } = template
+  return user && user.data && +user.data.id === +id
+}
 
 export const usePublicTemplates = template => {
   const [updateTemplate] = useUpdateTemplate()
@@ -62,9 +66,7 @@ const Template = ({
   return (
     <div className={cx(styles.wrapper, className)}>
       <div className={styles.left} onClick={onTemplateClick}>
-        <div className={styles.title}>
-          <TemplateTitle title={title} />
-        </div>
+        <div className={styles.title}>{title}</div>
         <div className={styles.info}>
           <TemplateStatus
             isAuthor={isAuthor}
@@ -98,8 +100,8 @@ const Template = ({
   )
 }
 
-const mapStateToProps = ({ user }, { template: { user: { id } = {} } }) => ({
-  isAuthor: user && user.data && +user.data.id === +id
+const mapStateToProps = ({ user }, { template }) => ({
+  isAuthor: isUserAuthorOfTemplate(user, template)
 })
 
 const mapDispatchToProps = dispatch => ({

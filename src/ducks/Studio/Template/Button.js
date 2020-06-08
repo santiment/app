@@ -6,7 +6,6 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import FormDialogNewTemplate from './Dialog/NewTemplate'
 import LoginDialog from '../../../components/LoginDialog'
 import TemplateInfo from './TemplateDetailsDialog/TemplateInfo'
-import TemplateTitle from './TemplateDetailsDialog/TemplateTitle'
 import { isTemplateURL } from './utils'
 import styles from './index.module.scss'
 
@@ -57,8 +56,8 @@ const Trigger = ({
             }
         }
       >
-        {selectedTemplate ? (
-          <TemplateTitle title={selectedTemplate.title} />
+        {selectedTemplate && !loading ? (
+          selectedTemplate.title
         ) : (
           <NoTemplateLabel loading={loading} />
         )}
