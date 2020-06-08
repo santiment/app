@@ -4,7 +4,10 @@ import DialogForm from './DialogForm'
 import { notifyRename } from '../notifications'
 import { useUpdateTemplate } from '../gql/hooks'
 import { TemplateStatusToggle } from '../TemplateStatus/TemplateStatus'
-import { usePublicTemplates } from './LoadTemplate/Template'
+import {
+  isUserAuthorOfTemplate,
+  usePublicTemplates
+} from './LoadTemplate/Template'
 import styles from '../TemplateDetailsDialog/TemplateDetailsDialog.module.scss'
 
 const RenameTemplate = ({ template, onRename, isAuthor, ...props }) => {
@@ -41,8 +44,8 @@ const RenameTemplate = ({ template, onRename, isAuthor, ...props }) => {
   )
 }
 
-const mapStateToProps = ({ user }, { template: { user: { id } = {} } }) => ({
-  isAuthor: user && user.data && +user.data.id === +id
+const mapStateToProps = ({ user }, { template }) => ({
+  isAuthor: isUserAuthorOfTemplate(user, template)
 })
 
 export default connect(mapStateToProps)(RenameTemplate)

@@ -25,8 +25,8 @@ export default graphql(projectBySlugGQL, {
         to: to.toISOString(),
         fromOverTime: fromOverTime.toISOString(),
         interval: '7d'
-      },
-      skip: !slug
+      }
     }
-  }
+  },
+  skip: ({ slug }) => !slug
 })

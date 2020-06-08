@@ -193,7 +193,7 @@ export const Metric = {
   twitter_followers: {
     category: 'Social',
     node: 'line',
-    label: 'Twitter'
+    label: 'Twitter followers'
   },
   social_dominance_total: {
     category: 'Social',

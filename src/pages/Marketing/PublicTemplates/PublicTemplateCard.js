@@ -4,7 +4,6 @@ import TemplateContextMenu from '../../../ducks/Studio/Template/TemplateContextM
 import VideoModal from '../../../components/VideoModal/VideoModal'
 import NewLabel from '../../../components/NewLabel/NewLabel'
 import { prepareTemplateLink } from '../../../ducks/Studio/Template/utils'
-import TemplateTitle from '../../../ducks/Studio/Template/TemplateDetailsDialog/TemplateTitle'
 import AvatarWithName from '../../../components/AvatarWithName/AvatarWithName'
 import styles from './PublicTemplates.module.scss'
 
@@ -57,7 +56,7 @@ const PublicTemplateCard = ({ template }) => {
                 key='link'
                 href={link || prepareTemplateLink(template)}
               >
-                <TemplateTitle title={title} key='title' />
+                {title}
               </a>
             ]}
           </div>

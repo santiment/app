@@ -5,12 +5,14 @@ import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
 import TemplateContextMenu from '../TemplateContextMenu/TemplateContextMenu'
 import UseTemplateBtn from '../UseTemplateBtn/UseTemplateBtn'
-import { usePublicTemplates } from '../Dialog/LoadTemplate/Template'
+import {
+  isUserAuthorOfTemplate,
+  usePublicTemplates
+} from '../Dialog/LoadTemplate/Template'
 import TemplateStatus, {
   TemplateStatusToggle
 } from '../TemplateStatus/TemplateStatus'
 import TemplateInfo from './TemplateInfo'
-import TemplateTitle from './TemplateTitle'
 import externalStyles from '../Dialog/LoadTemplate/Template.module.scss'
 import styles from './TemplateDetailsDialog.module.scss'
 
@@ -51,7 +53,7 @@ const TemplateDetailsDialog = ({
       onClose={() => {
         setOpen(false)
       }}
-      title={isDialog && <TemplateTitle title={template.title} />}
+      title={isDialog && template.title}
       classes={styles}
       trigger={<TemplateInfoTrigger />}
       className={cx(styles.template)}
@@ -98,8 +100,8 @@ const TemplateDetailsDialog = ({
   )
 }
 
-const mapStateToProps = ({ user }, { template: { user: { id } = {} } }) => ({
-  isAuthor: user && user.data && +user.data.id === +id
+const mapStateToProps = ({ user }, { template }) => ({
+  isAuthor: isUserAuthorOfTemplate(user, template)
 })
 
 export default connect(mapStateToProps)(TemplateDetailsDialog)
