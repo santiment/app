@@ -25,7 +25,6 @@
   height: 144px;
   width: 352px;
   cursor: pointer;
-  border: 1px solid var(--mystic);
   border-radius: $border-radius;
 }
 
@@ -45,4 +44,5 @@
   opacity: 0.55;
   background-color: var(--mystic);
   position: absolute;
+  border-radius: $border-radius;
 }
