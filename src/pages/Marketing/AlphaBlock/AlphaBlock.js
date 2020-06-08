@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import { checkIsProState } from '../../../utils/account'
-import DarkTooltip from '../../../components/Tooltip/DarkTooltip'
 import ProTemplateCard from '../ProTemplateCard/ProTemplateCard'
 import styles from './AlphaBlock.module.scss'
 
@@ -13,22 +12,9 @@ const AlphaBlock = ({ classes = {}, isProSanbase }) => {
       <div className={cx(classes.subTitle, styles.title)}>
         Alpha
         {!isProSanbase && (
-          <DarkTooltip
-            position='top'
-            align='start'
-            on='hover'
-            trigger={
-              <Label
-                className={styles.proLabel}
-                variant='fill'
-                accent='texas-rose'
-              >
-                Pro
-              </Label>
-            }
-          >
-            Available for Pro-users
-          </DarkTooltip>
+          <Label className={styles.proLabel} variant='fill' accent='texas-rose'>
+            Pro
+          </Label>
         )}
       </div>
       <div className={classes.description}>

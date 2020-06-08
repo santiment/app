@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import styles from './ProTemplateCard.module.scss'
 
 const Img = (
@@ -91,7 +90,7 @@ const Img = (
 
 const ProTemplateCard = ({ isPro }) => {
   const linkProps = {
-    to: isPro
+    href: isPro
       ? 'https://docs.google.com/spreadsheets/u/1/d/1Wu-d_uBuvLp3FoNqz3azzbNzFr8Zaw2n6bcLLsQxNGc/view'
       : '/pricing',
     rel: 'noopener noreferrer',
@@ -101,9 +100,9 @@ const ProTemplateCard = ({ isPro }) => {
   return (
     <div className={styles.card}>
       <div className={styles.info}>
-        <Link className={styles.title} {...linkProps}>
+        <a className={styles.title} {...linkProps}>
           Price - Daily Addresses Divergence
-        </Link>
+        </a>
         <div className={styles.description}>
           Tracks the relationship between Bitcoin’s price and the number of
           addresses interacting with BTC daily.
