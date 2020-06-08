@@ -11,11 +11,9 @@ const AlphaBlock = ({ classes = {}, isProSanbase }) => {
     <div>
       <div className={cx(classes.subTitle, styles.title)}>
         Alpha
-        {!isProSanbase && (
-          <Label className={styles.proLabel} variant='fill' accent='texas-rose'>
-            Pro
-          </Label>
-        )}
+        <Label className={styles.proLabel} variant='fill' accent='texas-rose'>
+          Pro
+        </Label>
       </div>
       <div className={classes.description}>
         A growing collection of in-house strategies and new approaches to market
