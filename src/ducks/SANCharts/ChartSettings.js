@@ -23,6 +23,7 @@ const ChartSettings = ({
   onTimerangeChange,
   onCalendarChange,
   noTitle,
+  intervals = ['1d', '1w', '1m', '3m', '6m', '1y', 'all'],
   ...rest
 }) => {
   const notAdvancedView = !isAdvancedView
@@ -38,7 +39,7 @@ const ChartSettings = ({
       </div>
       <div className={cx(styles.settings__group, styles.settings__main)}>
         <Selector
-          options={['1d', '1w', '1m', '3m', '6m', '1y', 'all']}
+          options={intervals}
           onSelectOption={onTimerangeChange}
           defaultSelected={timeRange}
           className={styles.ranges}

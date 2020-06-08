@@ -43,7 +43,8 @@ const DEFAULT_STATE = {
   isShowAnomalies: !localStorage.getItem('hideAnomalies'),
   events: [],
   marketSegments: [],
-  isMultiChartsActive: true
+  isMultiChartsActive: true,
+  intervals: ['1d', '1w', '1m', '3m', '6m', '1y', 'all']
 }
 
 const LoadableChartSidecar = Loadable({
@@ -422,7 +423,8 @@ class ChartPage extends Component {
       isWideChart,
       project,
       hasPremium,
-      metricRest
+      metricRest,
+      intervals
     } = this.props
 
     const selectedInterval = INTERVAL_ALIAS[interval] || interval
@@ -570,7 +572,7 @@ class ChartPage extends Component {
                     {!viewOnly && (
                       <>
                         <LoadableChartSettings
-                          defaultTimerange={timeRange}
+                          timeRange={timeRange}
                           onTimerangeChange={this.onTimerangeChange}
                           onCalendarChange={this.onCalendarChange}
                           onNightModeSelect={this.onNightModeSelect}
@@ -594,6 +596,7 @@ class ChartPage extends Component {
                           slugTitle={slug}
                           project={project}
                           shareLink={this.generateShareLink(errors)}
+                          intervals={intervals}
                         />
                       </>
                     )}
