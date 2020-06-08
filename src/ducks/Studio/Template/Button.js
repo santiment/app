@@ -3,7 +3,6 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import DarkTooltip from '../../../components/Tooltip/DarkTooltip'
 import FormDialogNewTemplate from './Dialog/NewTemplate'
 import LoginDialog from '../../../components/LoginDialog'
 import TemplateInfo from './TemplateDetailsDialog/TemplateInfo'
@@ -19,23 +18,6 @@ const NoTemplateLabel = ({ loading }) => {
   )
 }
 
-const TooltipWrapper = ({ selectedTemplate, children }) => {
-  if (!selectedTemplate) {
-    return children
-  }
-
-  return (
-    <DarkTooltip
-      trigger={children}
-      position='bottom'
-      align='start'
-      className={styles.tooltip}
-    >
-      Click to save '<TemplateTitle title={selectedTemplate.title} />'
-    </DarkTooltip>
-  )
-}
-
 const Trigger = ({
   hasTemplates,
   selectedTemplate,
@@ -46,19 +28,13 @@ const Trigger = ({
 }) => {
   return (
     <div
-      onClick={
-        selectedTemplate && isLoggedIn
-          ? saveTemplate
-          : () => {
-            openDialog()
-          }
-      }
       className={cx(styles.btn__left, !hasTemplates && styles.btn__left_large)}
     >
       {selectedTemplate && (
         <Tooltip
           position='top'
           align='start'
+          on='click'
           offsetY={13}
           closeTimeout={500}
           trigger={
@@ -72,15 +48,21 @@ const Trigger = ({
         </Tooltip>
       )}
 
-      <TooltipWrapper selectedTemplate={selectedTemplate}>
-        <div>
-          {selectedTemplate ? (
-            <TemplateTitle title={selectedTemplate.title} />
-          ) : (
-            <NoTemplateLabel loading={loading} />
-          )}
-        </div>
-      </TooltipWrapper>
+      <div
+        onClick={
+          selectedTemplate && isLoggedIn
+            ? saveTemplate
+            : () => {
+              openDialog()
+            }
+        }
+      >
+        {selectedTemplate ? (
+          <TemplateTitle title={selectedTemplate.title} />
+        ) : (
+          <NoTemplateLabel loading={loading} />
+        )}
+      </div>
     </div>
   )
 }
