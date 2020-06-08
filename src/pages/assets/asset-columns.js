@@ -256,7 +256,7 @@ export const COLUMNS = (preload, props = {}) => [
     heading: 'Dev. Act. % change (30d)',
     accessor: 'devActChange30d',
     Cell: ({ value }) =>
-      isValidValue(value) ? <PercentChanges changes={value} /> : NO_DATA,
+      isValidValue(value) ? <PercentChanges changes={value * 100} /> : NO_DATA,
     sortMethod: simpleSort
   })
 ]
