@@ -304,8 +304,9 @@ export const Metrics = {
     anomalyKey: 'DEV_ACTIVITY',
     description: (
       <>
-        Based on number of Github 'events' including PRs, comments, and wiki
-        edits, plus the number of public repositories a project is maintaining.
+        Shows the project’s development activity over time based on a number of
+        pure development- related 'events' in the project’s public Github
+        repository. (not counted: comments on issues, forks, stars, etc.).{' '}
         <MoreInfoLink href='https://academy.santiment.net/metrics/developer-activity/' />
       </>
     ),

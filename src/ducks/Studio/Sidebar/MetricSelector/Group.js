@@ -55,7 +55,6 @@ const Group = ({
           }
 
           const submetrics = Submetrics[metric.key]
-
           return (
             <Fragment key={metric.key}>
               <MetricButton
@@ -88,6 +87,7 @@ const Group = ({
               {submetrics &&
                 submetrics.map(submetric => (
                   <MetricButton
+                    metric={submetric}
                     key={submetric.key}
                     className={styles.advanced}
                     label={submetric.label}

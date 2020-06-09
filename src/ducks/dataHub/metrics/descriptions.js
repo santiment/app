@@ -99,8 +99,9 @@ export const Description = {
 
   [Metric.dev_activity.key]: (
     <>
-      Based on number of Github 'events' including PRs, comments, and wiki
-      edits, plus the number of public repositories a project is maintaining.{' '}
+      Shows the project’s development activity over time based on a number of
+      pure development- related 'events' in the project’s public Github
+      repository. (not counted: comments on issues, forks, stars, etc.).{' '}
       <MoreInfoLink href='https://academy.santiment.net/metrics/developer-activity/' />
     </>
   ),
@@ -172,5 +173,9 @@ export const Description = {
   [Metric.amount_in_exchange_top_holders.key]:
     'Shows the combined balance of the top N addresses belonging to exchanges',
   [Metric.amount_in_non_exchange_top_holders.key]:
-    'Shows the combined balance of the top N addresses that don’t belong to exchanges'
+    'Shows the combined balance of the top N addresses that don’t belong to exchanges',
+  twitter_followers_24h:
+    'Shows the 24-hour change in the amount of followers of the project’s official Twitter account.',
+  twitter_followers_7d:
+    'Shows the 7-day change in the amount of followers of the project’s official Twitter account.'
 }
