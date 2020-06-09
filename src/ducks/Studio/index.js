@@ -102,7 +102,9 @@ const Studio = ({
 
   useEffect(
     () => {
-      setMetrics(metrics.filter(({ key }) => !ErrorMsg[key]))
+      if (Object.keys(ErrorMsg).length > 0) {
+        setMetrics(metrics.filter(({ key }) => !ErrorMsg[key]))
+      }
     },
     [ErrorMsg]
   )

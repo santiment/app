@@ -83,10 +83,11 @@ const Canvas = ({
   }
 
   function onBrushChangeEnd (startIndex, endIndex) {
-    changeTimePeriod(
-      new Date(allTimeData[startIndex].datetime),
-      new Date(allTimeData[endIndex].datetime)
-    )
+    const start = allTimeData[startIndex]
+    const end = allTimeData[endIndex]
+    if (start && end) {
+      changeTimePeriod(new Date(start.datetime), new Date(end.datetime))
+    }
   }
 
   return (

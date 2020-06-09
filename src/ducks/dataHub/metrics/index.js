@@ -386,25 +386,25 @@ export const Metric = {
   },
   sentiment_volume_consumed_total: {
     node: 'filledLine',
-    label: 'Sentiment Volume Consumed Total',
+    label: 'Weighted Social Sentiment Total',
     category: 'Social',
     group: 'Sentiment'
   },
   sentiment_volume_consumed_telegram: {
     node: 'filledLine',
-    label: 'Sentiment Volume Consumed Telegram',
+    label: 'Weighted Social Sentiment Telegram',
     category: 'Social',
     group: 'Sentiment'
   },
   sentiment_volume_consumed_reddit: {
     node: 'filledLine',
-    label: 'Sentiment Volume Consumed Reddit',
+    label: 'Weighted Social Sentiment Reddit',
     category: 'Social',
     group: 'Sentiment'
   },
   sentiment_volume_consumed_twitter: {
     node: 'filledLine',
-    label: 'Sentiment Volume Consumed Twitter',
+    label: 'Weighted Social Sentiment Twitter',
     category: 'Social',
     group: 'Sentiment'
   }

@@ -26,11 +26,7 @@ import { onResize, useResizeEffect } from './resize'
 import { clearCtx, findPointIndexByDate } from './utils'
 import { domainModifier } from './domain'
 import { paintConfigs, dayBrushPaintConfig } from './paintConfigs'
-import { binarySearch } from '../../pages/Trends/utils'
 import styles from './index.module.scss'
-
-const moveClb = (target, { datetime }) => target < datetime
-const checkClb = (target, { datetime }) => target === datetime
 
 const Chart = ({
   className,
@@ -51,6 +47,8 @@ const Chart = ({
   axesMetricKeys = [],
   MetricColor,
   syncedTooltipDate,
+  from,
+  to,
   hideBrush,
   hideAxes,
   hideWatermark,
@@ -177,20 +175,19 @@ const Chart = ({
 
   useEffect(
     () => {
-      if (brush && data.length && brushData.length) {
-        let { index: startIndex } = binarySearch({
-          moveClb,
-          checkClb,
-          array: brushData,
-          target: data[0].datetime
-        })
+      const { length } = brushData
+      if (brush && length) {
+        const [{ datetime: startTimestamp }] = brushData
+        const { datetime: endTimestamp } = brushData[length - 1]
+        const fromTimestamp = +new Date(from)
+        const toTimestamp = +new Date(to)
 
-        let { index: endIndex } = binarySearch({
-          moveClb,
-          checkClb,
-          array: brushData,
-          target: data[data.length - 1].datetime
-        })
+        const scale = length / (endTimestamp - startTimestamp)
+
+        let startIndex = Math.trunc(scale * (fromTimestamp - startTimestamp))
+        let endIndex = Math.trunc(scale * (toTimestamp - startTimestamp))
+        startIndex = startIndex > 0 ? startIndex : 0
+        endIndex = endIndex < length ? endIndex : length - 1
 
         if (endIndex - startIndex < 2) {
           if (startIndex > 2) {
@@ -204,7 +201,7 @@ const Chart = ({
         brush.endIndex = endIndex
       }
     },
-    [brushData, data]
+    [brushData, from, to]
   )
 
   useEffect(
