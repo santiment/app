@@ -18,11 +18,11 @@
 .info {
   display: flex;
   flex-direction: column;
-  margin-right: 60px;
+  margin-left: 40px;
 }
 
 .title {
-  @include text('body-3', 'm');
+  @include text('body-2', 'm');
 
   margin: 0 0 8px;
   color: var(--dodger-blue);

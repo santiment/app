@@ -10,10 +10,6 @@ const EventBanner = ({ className }) => {
 
   return activeWidget ? (
     <section className={cx(styles.wrapper, className)}>
-      <div className={styles.info}>
-        <h4 className={styles.title}>{activeWidget.title}</h4>
-        <p className={styles.desc}>{activeWidget.description}</p>
-      </div>
       <div className={styles.media}>
         <a
           href={activeWidget.videoLink}
@@ -27,6 +23,10 @@ const EventBanner = ({ className }) => {
             className={styles.img}
           />
         </a>
+      </div>
+      <div className={styles.info}>
+        <h4 className={styles.title}>{activeWidget.title}</h4>
+        <p className={styles.desc}>{activeWidget.description}</p>
       </div>
     </section>
   ) : null
