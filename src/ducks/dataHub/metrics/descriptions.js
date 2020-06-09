@@ -115,15 +115,6 @@ export const Description = {
     </>
   ),
 
-  [Metric.active_deposits.key]: (
-    <>
-      Shows the number of unique deposit addresses that participated in
-      transactions for a given day. A deposit address is an address belonging to
-      an exchange that users use to deposit assets.{' '}
-      <MoreInfoLink href='https://academy.santiment.net/metrics/daily-active-deposits/' />
-    </>
-  ),
-
   [Metric.twitter_followers.key]:
     "Shows the number of followers on the project's official Twitter account over time",
 
@@ -175,7 +166,17 @@ export const Description = {
   [Metric.amount_in_non_exchange_top_holders.key]:
     'Shows the combined balance of the top N addresses that don’t belong to exchanges',
   twitter_followers_24h:
-    'Shows the 24-hour change in the amount of followers of the project’s official Twitter account.',
+    'Shows the 24-hour change in the amount of followers of the project’s official Twitter account',
   twitter_followers_7d:
-    'Shows the 7-day change in the amount of followers of the project’s official Twitter account.'
+    'Shows the 7-day change in the amount of followers of the project’s official Twitter account',
+  holder_distribution:
+    'Breaks down the number of addresses based on the amount of [Project Ticker] they hold',
+  [Metric.ethSpentOverTime.key]:
+    'Shows the amount of ETH moved out of the project’s ICO wallets over time',
+  [Metric.minersBalance.key]:
+    'Shows the combined ETH balance of addresses belonging to Ethereum mining pools',
+  [Metric.gasUsed.key]:
+    'Shows the amount of Gas accrued on the Ethereum network daily. Gas is a unit that measures the amount of computational effort it will take to successfully conduct a transaction or execute a contract on the Ethereum blockchain',
+  [Metric.active_deposits.key]:
+    'Shows the amount of unique [Project Ticker] deposit addresses daily. Deposit addresses are used to deposit cryptocurrencies to centralized exchanges. Spikes in this metric may indicate a rise in short-term sell pressure. '
 }

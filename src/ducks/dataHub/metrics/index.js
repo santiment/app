@@ -188,7 +188,8 @@ export const Metric = {
     node: 'bar',
     label: 'Daily Active Deposits',
     shortLabel: 'Daily A.D.',
-    group: 'Exchanges'
+    group: 'Exchanges',
+    moreInfoLink: 'https://academy.santiment.net/metrics/daily-active-deposits/'
   },
   twitter_followers: {
     category: 'Social',

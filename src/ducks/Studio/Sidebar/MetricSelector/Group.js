@@ -22,7 +22,8 @@ const Group = ({
   Submetrics,
   isICOPriceDisabled,
   isBeta,
-  setMetricSettingMap
+  setMetricSettingMap,
+  project
 }) => {
   const hasGroup = title !== NO_GROUP
   const [hidden, setHidden] = useState(hasGroup)
@@ -64,6 +65,7 @@ const Group = ({
                 isActive={actives.includes(metric)}
                 onClick={() => toggleMetric(metric)}
                 setMetricSettingMap={setMetricSettingMap}
+                project={project}
               />
               {/* TODO: refactor 'ICO Price', 'advancedView' to be a submetric array [@vanguard | March 10, 2020] */}
               {isICOPriceDisabled ||
@@ -74,6 +76,7 @@ const Group = ({
                     isActive={options.isICOPriceActive}
                     isDisabled={!actives.includes(metric)}
                     onClick={toggleICOPrice}
+                    project={project}
                   />
                 ))}
               {metric.advancedView && (
@@ -82,6 +85,7 @@ const Group = ({
                   label={metric.advancedView}
                   isActive={advancedView === metric.advancedView}
                   onClick={() => toggleAdvancedView(metric.advancedView)}
+                  project={project}
                 />
               )}
               {submetrics &&
@@ -94,6 +98,7 @@ const Group = ({
                     isActive={actives.includes(submetric)}
                     isError={ErrorMsg[submetric.key]}
                     onClick={() => toggleMetric(submetric)}
+                    project={project}
                   />
                 ))}
             </Fragment>

@@ -14,6 +14,7 @@ const Category = ({
   hasTopHolders,
   toggleChartSidepane,
   isBeta,
+  project = {},
   ...rest
 }) => {
   const [hidden, setHidden] = useState(false)
@@ -32,14 +33,24 @@ const Category = ({
         {/* TODO: Find a better way to extend metrics categories with custom metrics [@vanguard | April 3, 2020] */}
         {isBeta && hasTopHolders && !rest.options.isMultiChartsActive && (
           <MetricButton
-            metric={{ isBeta: true }}
+            metric={{
+              isBeta: true,
+              key: 'holder_distribution'
+            }}
+            project={project}
             label='Holder Distribution'
             isActive={chartSidepane === TOP_HOLDERS_PANE}
             onClick={() => toggleChartSidepane(TOP_HOLDERS_PANE)}
           />
         )}
         {Object.keys(groups).map(group => (
-          <Group key={group} title={group} metrics={groups[group]} {...rest} />
+          <Group
+            key={group}
+            title={group}
+            metrics={groups[group]}
+            project={project}
+            {...rest}
+          />
         ))}
       </div>
     </div>

@@ -7,7 +7,13 @@ import StudioTabsKeyStats from './Tabs/KeyStats'
 import StudioInfo from '../SANCharts/Header'
 import styles from './index.module.scss'
 
-const Main = ({ topSlot, bottomSlot, onSlugChange, ...props }) => {
+const Main = ({
+  topSlot,
+  bottomSlot,
+  onSlugChange,
+  onProjectChange,
+  ...props
+}) => {
   const { settings, setSettings, setIsICOPriceDisabled } = props
 
   function onProjectSelect (project) {
@@ -18,6 +24,7 @@ const Main = ({ topSlot, bottomSlot, onSlugChange, ...props }) => {
     setSettings(state => ({ ...state, slug, title, projectId, ticker }))
     setIsICOPriceDisabled(true)
     onSlugChange(slug)
+    onProjectChange && onProjectChange(project)
   }
 
   return (

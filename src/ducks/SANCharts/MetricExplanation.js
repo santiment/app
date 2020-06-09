@@ -3,6 +3,7 @@ import Tooltip from '@santiment-network/ui/Tooltip'
 import Button from '@santiment-network/ui/Button'
 import { Event } from '../dataHub/events'
 import { Description } from '../dataHub/metrics/descriptions'
+import MoreInfoLink from '../../components/MoreInfoLink/MoreInfoLink'
 import styles from './MetricExplanation.module.scss'
 
 const Note = ({ children }) => (
@@ -17,15 +18,28 @@ Event.trendPositionHistory.note = <Note>It will disable Anomalies</Note>
 const COMPLEXITY_NOTE =
   'The requested period is outside of your plan boundaries'
 
+function prepareDescription (descriptionElement, project) {
+  if (!descriptionElement || !project) {
+    return descriptionElement
+  }
+
+  if (typeof descriptionElement === 'object') {
+    return descriptionElement
+  }
+
+  return descriptionElement.replace('[Project Ticker]', project.ticker)
+}
+
 const MetricExplanation = ({
   metric,
   withChildren = false,
   isComplexityError,
   children,
+  project = {},
   ...rest
 }) => {
-  const { key, label, fullTitle = label, video, note } = metric
-  const description = Description[key]
+  const { key, label, fullTitle = label, video, note, moreInfoLink } = metric
+  const description = prepareDescription(Description[key], project)
 
   if (!description && isComplexityError) {
     return (
@@ -41,7 +55,10 @@ const MetricExplanation = ({
     <Tooltip className={styles.explanation} trigger={children} {...rest}>
       <div className={styles.explanation__content}>
         <h4 className={styles.title}>{fullTitle}</h4>
-        <p className={styles.text}>{description}</p>
+        <p className={styles.text}>
+          {description}
+          {moreInfoLink && <MoreInfoLink href={moreInfoLink} />}
+        </p>
         {note && note}
         {video && (
           <Button
