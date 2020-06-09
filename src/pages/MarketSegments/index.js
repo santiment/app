@@ -79,7 +79,7 @@ const MarketSegmentsPage = ({
             leftBoundaryDate={false}
             rightBoundaryDate={false}
             intervals={['30d', '3m', '6m', '1y', 'all']}
-            timeRange='30d'
+            timeRange='6m'
           />
           <Tabs
             options={TABS}
