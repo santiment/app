@@ -9,6 +9,7 @@ const cache = new Map()
 export function metricsToPlotCategories (metrics) {
   const requestedData = {
     lines: [],
+    filledLines: [],
     daybars: [],
     bars: [],
     joinedCategories: [],
