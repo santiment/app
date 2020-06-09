@@ -311,6 +311,102 @@ export const Metric = {
     label: 'Amount held by top non-exchange addresses',
     category: 'On-chain',
     group: 'Top Holders'
+  },
+  sentiment_positive_total: {
+    node: 'line',
+    label: 'Sentiment Positive Total',
+    category: 'Social',
+    group: 'Sentiment'
+  },
+  sentiment_positive_telegram: {
+    node: 'line',
+    label: 'Sentiment Positive Telegram',
+    category: 'Social',
+    group: 'Sentiment'
+  },
+  sentiment_positive_reddit: {
+    node: 'line',
+    label: 'Sentiment Positive Reddit',
+    category: 'Social',
+    group: 'Sentiment'
+  },
+  sentiment_positive_twitter: {
+    node: 'line',
+    label: 'Sentiment Positive Twitter',
+    category: 'Social',
+    group: 'Sentiment'
+  },
+  sentiment_negative_total: {
+    node: 'line',
+    label: 'Sentiment Negative Total',
+    category: 'Social',
+    group: 'Sentiment'
+  },
+  sentiment_negative_telegram: {
+    node: 'line',
+    label: 'Sentiment Negative Telegram',
+    category: 'Social',
+    group: 'Sentiment'
+  },
+  sentiment_negative_reddit: {
+    node: 'line',
+    label: 'Sentiment Negative Reddit',
+    category: 'Social',
+    group: 'Sentiment'
+  },
+  sentiment_negative_twitter: {
+    node: 'line',
+    label: 'Sentiment Negative Twitter',
+    category: 'Social',
+    group: 'Sentiment'
+  },
+  sentiment_balance_total: {
+    node: 'filledLine',
+    label: 'Sentiment Balance Total',
+    category: 'Social',
+    group: 'Sentiment'
+  },
+  sentiment_balance_reddit: {
+    node: 'filledLine',
+    label: 'Sentiment Balance Reddit',
+    category: 'Social',
+    group: 'Sentiment'
+  },
+  sentiment_balance_telegram: {
+    node: 'filledLine',
+    label: 'Sentiment Balance Telegram',
+    category: 'Social',
+    group: 'Sentiment'
+  },
+  sentiment_balance_twitter: {
+    node: 'filledLine',
+    label: 'Sentiment Balance Twitter',
+    category: 'Social',
+    group: 'Sentiment'
+  },
+  sentiment_volume_consumed_total: {
+    node: 'filledLine',
+    label: 'Sentiment Volume Consumed Total',
+    category: 'Social',
+    group: 'Sentiment'
+  },
+  sentiment_volume_consumed_telegram: {
+    node: 'filledLine',
+    label: 'Sentiment Volume Consumed Telegram',
+    category: 'Social',
+    group: 'Sentiment'
+  },
+  sentiment_volume_consumed_reddit: {
+    node: 'filledLine',
+    label: 'Sentiment Volume Consumed Reddit',
+    category: 'Social',
+    group: 'Sentiment'
+  },
+  sentiment_volume_consumed_twitter: {
+    node: 'filledLine',
+    label: 'Sentiment Volume Consumed Twitter',
+    category: 'Social',
+    group: 'Sentiment'
   }
 }
 

@@ -177,5 +177,21 @@ export const METRICS = [
   'dev_activity',
   'dev_activity_contributors_count',
   'github_activity',
-  'github_activity_contributors_count'
+  'github_activity_contributors_count',
+  'sentiment_positive_total',
+  'sentiment_positive_telegram',
+  'sentiment_positive_reddit',
+  'sentiment_positive_twitter',
+  'sentiment_negative_total',
+  'sentiment_negative_telegram',
+  'sentiment_negative_reddit',
+  'sentiment_negative_twitter',
+  'sentiment_balance_total',
+  'sentiment_balance_telegram',
+  'sentiment_balance_reddit',
+  'sentiment_balance_twitter',
+  'sentiment_volume_consumed_total',
+  'sentiment_volume_consumed_telegram',
+  'sentiment_volume_consumed_reddit',
+  'sentiment_volume_consumed_twitter'
 ]
