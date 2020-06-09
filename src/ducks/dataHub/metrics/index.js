@@ -142,13 +142,14 @@ export const Metric = {
     fullTitle: 'Market Value To Realized Value',
     shortLabel: 'MVRV',
     abbreviation: 'mvrv',
-    video: 'https://www.youtube.com/watch?v=foMhhHbCgBE'
+    video: 'https://www.youtube.com/watch?v=foMhhHbCgBE',
+    moreInfoLink: 'https://academy.santiment.net/metrics/mvrv/'
   },
   mvrv_long_short_diff_usd: {
     category: 'On-chain',
     node: 'line',
     group: 'Network Value',
-    label: 'MVRV Long-Short Difference',
+    label: 'MVRV Long/Short Difference',
     fullTitle: 'Market Value To Realized Value Long-Short Difference',
     shortLabel: 'MVRV L/S Diff',
     isBeta: true
@@ -252,15 +253,17 @@ export const Metric = {
     category: 'On-chain',
     node: 'line',
     group: 'Network Value',
-    label: 'NVT Ratio Circulation',
-    shortLabel: 'NVT R. Circ.'
+    label: 'NVT Ratio (using Circulation)',
+    shortLabel: 'NVT R. Circ.',
+    moreInfoLink: 'https://academy.santiment.net/metrics/nvt/'
   },
   nvt_transaction_volume: {
     node: 'bar',
     group: 'Network Value',
-    label: 'NVT Ratio Transaction Volume',
+    label: 'NVT Ratio (Using Transaction Volume) ',
     shortLabel: 'NVT R. T.V.',
-    category: 'On-chain'
+    category: 'On-chain',
+    moreInfoLink: 'https://academy.santiment.net/metrics/nvt/'
   },
   minersBalance: {
     node: 'line',

@@ -45,16 +45,8 @@ export const Description = {
   [Metric.circulation.key]:
     'Shows only the number of unique [Project Ticker]  tokens transacted daily. If a token changes addresses 5 times on a given day, it will be counted only once by Token Circulation, and 5 times by Transaction Volume. ',
 
-  [Metric.mvrv_usd.key]: (
-    <>
-      MVRV measures how much every holder originally paid for their coins, and
-      compares that investment to the coin’s current price to calculate the
-      average profit or loss across all holders. Example: if MVRV = 2, then, on
-      average, all coin holders have (currently) doubled their initial
-      investment.{' '}
-      <MoreInfoLink href='https://academy.santiment.net/metrics/mvrv/' />
-    </>
-  ),
+  [Metric.mvrv_usd.key]:
+    'Shows the average profit or loss of all [Project ticker] holders based on the price when each token last moved. Example: if MVRV = 2, then all [Project ticker] holders are, on average, currently 2x on their initial investment. ',
 
   [Metric.transaction_volume.key]:
     'Shows the aggregate amount of [Project Ticker]  tokens across all transactions that happened on the network daily. ',
@@ -87,7 +79,7 @@ export const Description = {
     'Shows the share (or %) of the coin’s mentions on crypto-related social media, compared to a pool of 50+ of the most talked-about projects online.',
 
   [Metric.realized_value_usd.key]:
-    'Realized Cap shows the total amount that all holders spent to purchase the coin (i.e. the total acquisition cost). While market cap = supply X current price of each coin, realized cap = supply X price of each coin when it last ‘moved’',
+    'Shows the total amount that all [Project Ticker] holders spent to purchase their tokens (i.e. the total acquisition cost). Realized cap is calculated by dividing the [Project Ticker] supply by the price of each [Project Ticker] token when it last moved on-chain',
 
   [Metric.gasUsed.key]:
     'How much ETH has moved out of team wallets over time. While not tracked all the way to exchanges, this metric may suggest potential selling activity',
@@ -97,26 +89,18 @@ export const Description = {
 
   [Metric.mean_dollar_invested_age.key]: (
     <>
-      For each coin we see how long it has stayed at its current address and we
-      compute the average of all those ages. The difference between "coin age"
-      and "dollar age" comes from the different way that we compute the
-      averages.{' '}
+      A dollar-based equivalent of the Mean Coin Age. The difference between
+      "coin age" and "dollar age" comes from the different way that we compute
+      the averages.{' '}
       <MoreInfoLink href='https://insights.santiment.net/read/%F0%9F%93%A2-mean-age-653' />
     </>
   ),
 
-  [Metric.nvt.key]: (
-    <>
-      NVT tries to determine how much ‘value’ is being transmitted on a coin’s
-      network. This version of NVT is calculated by dividing the coin’s Market
-      Cap by its Token Circulation. The higher the NVT, the more expensive the
-      network relative to the value it transmits, indicating an overvalued
-      asset. <MoreInfoLink href='https://academy.santiment.net/metrics/nvt/' />
-    </>
-  ),
+  [Metric.nvt.key]:
+    'Shows the relationship between the [Project Ticker] market cap and the amount of [Project Ticker] tokens transacted on-chain daily. High NVT levels indicate an overvalued asset, and vice versa. This version of NVT is calculated by dividing the [Project Ticker] Market Cap by its on-chain Token Circulation. ',
 
   [Metric.nvt_transaction_volume.key]:
-    'NVT tries to determine how much ‘value’ is being transmitted on a coin’s network. This version of NVT is calculated by dividing the coin’s Market Cap by its on-chain Transaction Volume. The higher the NVT, the more expensive the network relative to the value it transmits, indicating an overvalued asset.',
+    'Shows the relationship between the [Project Ticker] market cap and the amount of [Project Ticker] tokens transacted on-chain daily. High NVT levels indicate an overvalued asset, and vice versa. This version of NVT is calculated by dividing the [Project Ticker] Market Cap by its on-chain Transaction Volume. ',
 
   [Metric.topHoldersPercentOfTotalSupply.key]:
     'Shows the combined balance of the top 10 addresses overall, as a percentage of the coin’s total circulating supply',
@@ -150,7 +134,9 @@ export const Description = {
   [Metric.supply_outside_exchanges.key]:
     'Shows the total amount of [Project Ticker]  located outside of known exchange wallets. Spikes in this metric may indicate an accumulation trend. ',
   [Metric.withdrawal_transactions.key]:
-    'Shows the amount of all incoming and outgoing transactions involving [Project Ticker] withdrawal addresses. Withdrawal addresses are used to withdraw cryptocurrencies from centralized exchanges. Spikes in this metric may indicate a short-term accumulation trend'
+    'Shows the amount of all incoming and outgoing transactions involving [Project Ticker] withdrawal addresses. Withdrawal addresses are used to withdraw cryptocurrencies from centralized exchanges. Spikes in this metric may indicate a short-term accumulation trend',
+  [Metric.mvrv_long_short_diff_usd.key]:
+    'Shows the difference between the 365-day MVRV ratio and 60-day MVRV ratio, respectively. For certain coins, this indicator tends to bottom at the lowest point of its bear market and peak at the top of its bull cycle. Negative values mean that short-term holders are going to realize higher profits than long-term holders if they sell at price at this moment. Negative values show the opposite.'
 }
 
 export const rebuildDescriptions = Submetrics => {
@@ -173,6 +159,26 @@ export const rebuildDescriptions = Submetrics => {
           ] = `Shows only the number of unique [Project Ticker] tokens transacted in the past ${
             metric.replacements.timebound
           } days. `
+        })
+        break
+      }
+      case Metric.mvrv_usd.key: {
+        list.forEach(metric => {
+          Description[
+            metric.key
+          ] = `Shows the average profit or loss of those holding [Project ticker] tokens which moved in the last ${
+            metric.replacements.timebound
+          }, based on the price when each token last moved. Example: if MVRV = 2, then these holders are, on average, currently 2x on their initial investment. `
+        })
+        break
+      }
+      case Metric.realized_value_usd.key: {
+        list.forEach(metric => {
+          Description[
+            metric.key
+          ] = `Shows the total amount spent on [Project Ticker] tokens that moved in the last ${
+            metric.replacements.timebound
+          }. Realized cap is calculated by dividing the [Project Ticker] supply by the price of each [Project Ticker] token when it last moved on-chain`
         })
         break
       }
