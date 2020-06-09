@@ -14,8 +14,9 @@ const Main = ({
   onProjectChange,
   ...props
 }) => {
-  const { settings, setSettings, setIsICOPriceDisabled } = props
+  const { settings, setSettings, setIsICOPriceDisabled, project } = props
 
+  console.log('props', props)
   function onProjectSelect (project) {
     if (!project) return
 
@@ -45,7 +46,11 @@ const Main = ({
             <StudioTabsKeyStats {...props} {...settings} />
           </Route>
           <Route path='/studio'>
-            <StudioTabsChart {...props} onProjectSelect={onProjectSelect} />
+            <StudioTabsChart
+              {...props}
+              project={project}
+              onProjectSelect={onProjectSelect}
+            />
           </Route>
         </Switch>
       </div>

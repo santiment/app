@@ -92,7 +92,8 @@ export const Metric = {
     label: 'Exchange Flow Balance',
     shortLabel: 'Exc. Flow Bal.',
     abbreviation: 'efb',
-    video: 'https://www.youtube.com/watch?v=0R6GDF2bg6A'
+    video: 'https://www.youtube.com/watch?v=0R6GDF2bg6A',
+    moreInfoLink: 'https://academy.santiment.net/metrics/exchange-funds-flow/'
   },
   daily_active_addresses: {
     category: 'On-chain',

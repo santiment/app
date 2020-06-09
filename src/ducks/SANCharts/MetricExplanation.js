@@ -18,16 +18,16 @@ Event.trendPositionHistory.note = <Note>It will disable Anomalies</Note>
 const COMPLEXITY_NOTE =
   'The requested period is outside of your plan boundaries'
 
-function prepareDescription (descriptionElement, project) {
-  if (!descriptionElement || !project) {
-    return descriptionElement
+export const MetricDescription = ({ description, project }) => {
+  if (!description || !project) {
+    return description
   }
 
-  if (typeof descriptionElement === 'object') {
-    return descriptionElement
+  if (typeof description === 'object') {
+    return description
   }
-
-  return descriptionElement.replace('[Project Ticker]', project.ticker)
+  var re = /\[Project Ticker\]/gi
+  return description.replace(re, project.ticker)
 }
 
 const MetricExplanation = ({
@@ -39,7 +39,7 @@ const MetricExplanation = ({
   ...rest
 }) => {
   const { key, label, fullTitle = label, video, note, moreInfoLink } = metric
-  const description = prepareDescription(Description[key], project)
+  const description = Description[key]
 
   if (!description && isComplexityError) {
     return (
@@ -56,7 +56,7 @@ const MetricExplanation = ({
       <div className={styles.explanation__content}>
         <h4 className={styles.title}>{fullTitle}</h4>
         <p className={styles.text}>
-          {description}
+          <MetricDescription description={description} project={project} />
           {moreInfoLink && <MoreInfoLink href={moreInfoLink} />}
         </p>
         {note && note}

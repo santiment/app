@@ -9,6 +9,7 @@ import MetricInsights from '../../../../../components/MetricInsight/MetricInsigh
 import MetricIcon from '../../../../SANCharts/MetricIcon'
 import { Description } from '../../../../dataHub/metrics/descriptions'
 import { Insights } from '../../../../dataHub/metrics/insights'
+import { MetricDescription } from '../../../../SANCharts/MetricExplanation'
 import styles from './index.module.scss'
 
 const OPTIONS = []
@@ -48,7 +49,13 @@ const Label = ({ metric: { key, dataKey = key, node, label }, colors }) => (
   </div>
 )
 
-const MetricsExplanation = ({ metrics, MetricColor, onClose, ...rest }) => {
+const MetricsExplanation = ({
+  metrics,
+  MetricColor,
+  onClose,
+  project,
+  ...rest
+}) => {
   const [options, setOptions] = useState(OPTIONS)
   const [selected, setSelected] = useState(SELECTED)
 
@@ -63,11 +70,14 @@ const MetricsExplanation = ({ metrics, MetricColor, onClose, ...rest }) => {
     [metrics]
   )
 
+  console.log('project', project)
+
   const { metric } = selected || {}
   if (!metric) return null
 
   const { key } = metric
 
+  const description = Description[key]
   return (
     <>
       <Dropdown
@@ -77,10 +87,12 @@ const MetricsExplanation = ({ metrics, MetricColor, onClose, ...rest }) => {
         onSelect={setSelected}
       />
       <DataInfo {...rest} metric={metric} />
-      {Description[key] && (
+      {description && (
         <>
           <div className={styles.subtitle}>Description</div>
-          <div className={styles.text}>{Description[key]}</div>
+          <div className={styles.text}>
+            <MetricDescription description={description} project={project} />
+          </div>
         </>
       )}
       <Explanations {...rest} metric={metric} />

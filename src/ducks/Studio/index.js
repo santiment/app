@@ -275,6 +275,7 @@ const Studio = ({
         toggleAdvancedView={toggleAdvancedView}
         toggleChartSidepane={toggleChartSidepane}
         changeTimePeriod={changeTimePeriod}
+        project={project}
       />
     </div>
   )

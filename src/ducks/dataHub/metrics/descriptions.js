@@ -20,15 +20,8 @@ export const Description = {
     </>
   ),
 
-  [Metric.exchange_balance.key]: (
-    <>
-      The flows of tokens going in to and out of exchange wallets combined on
-      one graph. If the value is positive, more tokens entered the exchange than
-      left. If the value is negative, more flowed out of exchanges than flowed
-      in.{' '}
-      <MoreInfoLink href='https://academy.santiment.net/metrics/exchange-funds-flow/' />
-    </>
-  ),
+  [Metric.exchange_balance.key]:
+    'Shows the difference in the amount of [Project Ticker] tokens moving to and out of exchange wallets. If the value is positive, more [Project Ticker] entered the exchange than have left. If the value is negative, more [Project Ticker] flowed out of exchanges than flowed in. ',
 
   [Metric.daily_active_addresses.key]: (
     <>
@@ -178,5 +171,7 @@ export const Description = {
   [Metric.gasUsed.key]:
     'Shows the amount of Gas accrued on the Ethereum network daily. Gas is a unit that measures the amount of computational effort it will take to successfully conduct a transaction or execute a contract on the Ethereum blockchain',
   [Metric.active_deposits.key]:
-    'Shows the amount of unique [Project Ticker] deposit addresses daily. Deposit addresses are used to deposit cryptocurrencies to centralized exchanges. Spikes in this metric may indicate a rise in short-term sell pressure. '
+    'Shows the amount of unique [Project Ticker] deposit addresses daily. Deposit addresses are used to deposit cryptocurrencies to centralized exchanges. Spikes in this metric may indicate a rise in short-term sell pressure. ',
+  [Metric.deposit_transactions.key]:
+    'Shows the amount of all incoming and outgoing transactions involving [Project Ticker] deposit addresses daily. Deposit addresses are used to deposit cryptocurrencies to centralized exchanges. Spikes in this metric may indicate a rise in short-term sell pressure'
 }
