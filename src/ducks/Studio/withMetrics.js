@@ -60,7 +60,7 @@ export default graphql(PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY, {
         marketSegments = []
       } = {}
     },
-    ownProps: { noMarketSegments, hiddenMetrics = [] }
+    ownProps: { noMarketSegments, hiddenMetrics = [], ...rest }
   }) => {
     const Submetrics = useMergedTimeboundSubmetrics(availableMetrics)
 

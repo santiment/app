@@ -78,12 +78,13 @@ export const Metric = {
     category: 'On-chain',
     node: 'bar',
     group: 'Network Activity',
-    label: 'Token Age Consumed',
-    shortLabel: 'Token Age Cons.',
+    label: 'Age Consumed',
+    shortLabel: 'Age Cons.',
     abbreviation: 'tac',
     fill: true,
     video: 'https://www.youtube.com/watch?v=NZFtYT5QzS4',
-    formatter: value => (value ? millify(value, 2) : 'No data')
+    formatter: value => (value ? millify(value, 2) : 'No data'),
+    moreInfoLink: 'https://academy.santiment.net/metrics/age-consumed/'
   },
   exchange_balance: {
     category: 'On-chain',
@@ -104,14 +105,18 @@ export const Metric = {
     anomalyKey: 'DAILY_ACTIVE_ADDRESSES',
     abbreviation: 'daa',
     video: 'https://www.youtube.com/watch?v=n3dUvWvQEpQ',
-    historicalTriggersDataKey: 'active_addresses'
+    historicalTriggersDataKey: 'active_addresses',
+    moreInfoLink:
+      'https://academy.santiment.net/metrics/daily-active-addresses/'
   },
   percent_of_total_supply_on_exchanges: {
     category: 'On-chain',
     node: 'line',
     group: 'Exchanges',
-    label: 'Percent of Total Supply on Exchanges',
-    shortLabel: '% TS on Exc.'
+    label: 'Coin Supply on Exchanges (as % of total supply)',
+    shortLabel: '% TS on Exc.',
+    moreInfoLink:
+      'https://academy.santiment.net/metrics/supply-on-or-outside-exchanges/'
   },
   topHoldersPercentOfTotalSupply: {
     category: 'On-chain',
@@ -124,9 +129,10 @@ export const Metric = {
     category: 'On-chain',
     node: 'line',
     group: 'Network Activity',
-    label: 'Token Circulation',
-    shortLabel: 'Token Circ.',
-    abbreviation: 'tc'
+    label: 'Circulation',
+    shortLabel: 'Circ.',
+    abbreviation: 'tc',
+    moreInfoLink: 'https://academy.santiment.net/metrics/circulation/'
   },
   mvrv_usd: {
     category: 'On-chain',
@@ -153,7 +159,8 @@ export const Metric = {
     group: 'Network Activity',
     label: 'Transaction Volume',
     abbreviation: 'trv',
-    shortLabel: 'Trans. Vol.'
+    shortLabel: 'Trans. Vol.',
+    moreInfoLink: 'https://academy.santiment.net/metrics/transaction-volume/'
   },
   network_growth: {
     category: 'On-chain',
@@ -180,9 +187,10 @@ export const Metric = {
     category: 'On-chain',
     node: 'line',
     group: 'Network Activity',
-    label: 'Token Velocity',
+    label: 'Velocity',
     shortLabel: 'Token Vel.',
-    abbreviation: 'tv'
+    abbreviation: 'tv',
+    moreInfoLink: 'https://academy.santiment.net/metrics/velocity/'
   },
   active_deposits: {
     category: 'On-chain',
@@ -237,7 +245,8 @@ export const Metric = {
     shortLabel: 'Mean C.A.',
     abbreviation: 'mca',
     isBeta: true,
-    group: 'Network Value'
+    group: 'Network Value',
+    moreInfoLink: 'https://academy.santiment.net/metrics/transaction-volume/'
   },
   nvt: {
     category: 'On-chain',
@@ -274,7 +283,8 @@ export const Metric = {
     node: 'line',
     label: 'Exchange Inflow',
     category: 'On-chain',
-    group: 'Exchanges'
+    group: 'Exchanges',
+    moreInfoLink: 'https://academy.santiment.net/metrics/exchange-funds-flow/'
   },
   exchange_outflow: {
     node: 'line',
@@ -282,19 +292,24 @@ export const Metric = {
     category: 'On-chain',
     group: 'Exchanges',
     domainGroup: 'exchange_inflow',
-    formatter: value => FORMATTER(value && Math.abs(value))
+    formatter: value => FORMATTER(value && Math.abs(value)),
+    moreInfoLink: 'https://academy.santiment.net/metrics/exchange-funds-flow/'
   },
   supply_on_exchanges: {
     node: 'line',
-    label: 'Supply On Exchanges',
+    label: 'Coin Supply on Exchanges',
     category: 'On-chain',
-    group: 'Exchanges'
+    group: 'Exchanges',
+    moreInfoLink:
+      'https://academy.santiment.net/metrics/supply-on-or-outside-exchanges/'
   },
   supply_outside_exchanges: {
     node: 'line',
-    label: 'Supply Outside Exchanges',
+    label: 'Coin Supply outside of Exchanges',
     category: 'On-chain',
-    group: 'Exchanges'
+    group: 'Exchanges',
+    moreInfoLink:
+      'https://academy.santiment.net/metrics/supply-on-or-outside-exchanges/'
   },
   amount_in_top_holders: {
     node: 'line',

@@ -11,6 +11,7 @@ import { Description } from '../../../../dataHub/metrics/descriptions'
 import { Insights } from '../../../../dataHub/metrics/insights'
 import { MetricDescription } from '../../../../SANCharts/MetricExplanation'
 import styles from './index.module.scss'
+import MoreInfoLink from '../../../../../components/MoreInfoLink/MoreInfoLink'
 
 const OPTIONS = []
 const SELECTED = ''
@@ -70,12 +71,10 @@ const MetricsExplanation = ({
     [metrics]
   )
 
-  console.log('project', project)
-
   const { metric } = selected || {}
   if (!metric) return null
 
-  const { key } = metric
+  const { key, moreInfoLink } = metric
 
   const description = Description[key]
   return (
@@ -92,6 +91,7 @@ const MetricsExplanation = ({
           <div className={styles.subtitle}>Description</div>
           <div className={styles.text}>
             <MetricDescription description={description} project={project} />
+            {moreInfoLink && <MoreInfoLink href={moreInfoLink} />}
           </div>
         </>
       )}

@@ -51,8 +51,6 @@ const Canvas = ({
   project,
   ...props
 }) => {
-  console.log('project', project, props)
-
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
   const [FocusedMetric, setFocusedMetric] = useState()
   const MetricColor = useChartColors(metrics, FocusedMetric)

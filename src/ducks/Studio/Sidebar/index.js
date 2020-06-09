@@ -8,6 +8,7 @@ import withMetrics from '../withMetrics'
 import { MAX_METRICS_AMOUNT } from '../constraints'
 import AnomaliesToggle from '../../../components/AnomaliesToggle/AnomaliesToggle'
 import { saveToggle } from '../../../utils/localStorage'
+import { rebuildDescriptions } from '../../dataHub/metrics/descriptions'
 import styles from './index.module.scss'
 
 const Anomalies = ({ options, setOptions }) => {
@@ -107,6 +108,15 @@ export default withMetrics(
     function closeSidebar () {
       setIsSidebarClosed(true)
     }
+
+    const { Submetrics } = props
+
+    useEffect(
+      () => {
+        rebuildDescriptions(Submetrics)
+      },
+      [Submetrics]
+    )
 
     return isSidebarClosed ? (
       <CloseButton onClick={openSidebar} className={styles.toggle_closed} />

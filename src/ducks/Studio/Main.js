@@ -16,7 +16,6 @@ const Main = ({
 }) => {
   const { settings, setSettings, setIsICOPriceDisabled, project } = props
 
-  console.log('props', props)
   function onProjectSelect (project) {
     if (!project) return
 

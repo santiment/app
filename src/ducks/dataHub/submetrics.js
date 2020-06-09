@@ -14,6 +14,9 @@ export const Submetrics = {
     reqMeta: {
       interval,
       transform: { type: 'changes' }
+    },
+    replacements: {
+      timebound: interval
     }
   }))
 }
