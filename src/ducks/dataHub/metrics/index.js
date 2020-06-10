@@ -408,6 +408,8 @@ export const Metric = {
     node: 'filledLine',
     label: 'Weighted Social Sentiment Twitter',
     category: 'Social',
+    group: 'Sentiment Twitter',
+    hidden: true
   },
   bitmex_perpetual_basis: {
     node: 'line',
