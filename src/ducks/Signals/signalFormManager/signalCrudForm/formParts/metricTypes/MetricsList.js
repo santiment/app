@@ -3,8 +3,8 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import { Description } from '../../../../../dataHub/metrics/descriptions'
 import HelpTooltip from '../../../../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
-import styles from './MetricsList.module.scss'
 import MetricDescription from '../../../../../SANCharts/MetricDescription/MetricDescription'
+import styles from './MetricsList.module.scss'
 
 export const NO_GROUP = '_'
 

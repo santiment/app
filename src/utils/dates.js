@@ -118,6 +118,16 @@ export const getTimeIntervalFromToday = (amount, dateFormat, options = {}) => {
 const calculateUnitByFormat = (diff, format) =>
   parseInt(diff / FormatToTimestamp[format], 10)
 
+const getUnitFormattedString = (amount, format) => {
+  if (format === SECOND && amount < 60) {
+    return 'a few seconds ago'
+  }
+
+  const plural = amount > 1 ? 's' : ''
+
+  return `${amount} ${FormatToString[format]}${plural} ago`
+}
+
 export const dateDifference = ({ from, to = new Date(), format = YEAR }) => {
   const diff = to - from
   let resultFormat
@@ -358,16 +368,6 @@ export const getAmPmWithHours = hours => {
 
 export const getAmPm = hours => (hours >= 12 ? 'pm' : 'am')
 
-const getUnitFormattedString = (amount, format) => {
-  if (format === SECOND && amount < 60) {
-    return 'a few seconds ago'
-  }
-
-  const plural = amount > 1 ? 's' : ''
-
-  return `${amount} ${FormatToString[format]}${plural} ago`
-}
-
 const INTERVALS_ACCUMULATOR = {}
 
 export const convertToReadableInterval = timebound => {
@@ -375,7 +375,7 @@ export const convertToReadableInterval = timebound => {
     return INTERVALS_ACCUMULATOR[timebound]
   }
 
-  let amount = timebound.slice(0, timebound.length - 1)
+  const amount = timebound.slice(0, timebound.length - 1)
   const format = timebound[timebound.length - 1]
   const plural = amount > 1 ? 's' : ''
   const result = `${amount} ${FormatToString[format]}${plural}`
