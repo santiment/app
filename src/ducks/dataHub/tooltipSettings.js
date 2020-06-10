@@ -27,6 +27,10 @@ export function FORMATTER (value) {
     return millify(value, 2)
   }
 
+  if (value < 1) {
+    return value.toFixed(6)
+  }
+
   return Number.isInteger(value) ? value : value.toFixed(2)
 }
 

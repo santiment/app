@@ -49,7 +49,8 @@ export const getCategoryGraph = (
   const categories = {
     Financial: undefined,
     Social: undefined,
-    Development: undefined
+    Development: undefined,
+    Derivatives: undefined
   }
   const { length } = availableMetrics
 

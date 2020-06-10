@@ -156,7 +156,7 @@ export function plotTooltip (chart, marker, point, options) {
     drawTooltip(ctx, point, TooltipSetting, marker, tooltipPaintConfig)
     drawValueBubbleY(
       chart,
-      yBubbleFormatter(value),
+      yBubbleFormatter(value, tooltipKey),
       y,
       bubblesPaintConfig,
       chart.isAlertsActive ? 5 : 0
