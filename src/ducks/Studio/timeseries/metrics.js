@@ -193,5 +193,6 @@ export const METRICS = [
   'sentiment_volume_consumed_total',
   'sentiment_volume_consumed_telegram',
   'sentiment_volume_consumed_reddit',
-  'sentiment_volume_consumed_twitter'
+  'sentiment_volume_consumed_twitter',
+  'mvrv_usd_intraday'
 ]

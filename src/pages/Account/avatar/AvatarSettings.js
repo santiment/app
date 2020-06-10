@@ -56,7 +56,7 @@ const AvatarSettings = ({
         onChangeUrl={onChangeUrl}
         title={avatarUrl ? 'Change avatar' : 'Create avatar'}
         onChange={file => {
-          var newFile = new File([file], new Date().getTime() + '.jpeg', {
+          let newFile = new File([file], new Date().getTime() + '.jpeg', {
             type: 'image/jpeg',
             lastModified: Date.now()
           })

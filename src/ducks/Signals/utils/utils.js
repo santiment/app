@@ -1638,11 +1638,11 @@ export const getNewDescription = newValues => {
     return ''
   }
 
-  let metricsHeaderStr = uncapitalizeStr(
-    Object.values(
-      titleMetricValuesHeader(true, newValues, `of ${targetsHeader}`)
-    ).join(' ')
+  let metricsHeaderStr = Object.values(
+    titleMetricValuesHeader(true, newValues, `of ${targetsHeader}`)
   )
+    .join(' ')
+    .toLowerCase()
 
   if (!metricsHeaderStr) {
     const {
