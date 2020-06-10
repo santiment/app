@@ -315,7 +315,7 @@ const Chart = ({
     plotFilledLines(chart, data, filledLines, scale, MetricColor)
 
     if (isCartesianGridActive) {
-      drawCartesianGrid(chart, chart.axesColor)
+      drawCartesianGrid(chart, chart.axesColor, 8, 8)
     }
 
     events.forEach(({ metric, key, datetime, value, color }) =>

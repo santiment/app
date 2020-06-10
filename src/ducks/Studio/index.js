@@ -76,6 +76,7 @@ const Studio = ({
     },
     [metrics, comparedMetrics]
   )
+
   useEffect(
     () => {
       const metricTransformer = Object.assign({}, MetricTransformer)
