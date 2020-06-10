@@ -38,13 +38,17 @@ export function getDateHoursMinutes (date) {
   return `${HH}:${mm}`
 }
 
-export function yBubbleFormatter (value) {
+export function yBubbleFormatter (value, metricKey) {
+  if (metricKey === 'mvrv_long_short_diff_usd') {
+    return `${Math.trunc(value * 100)}%`
+  }
+
   if (!value) {
     return '-'
   }
 
   if (value < 1) {
-    return value.toString().slice(0, 5)
+    return value.toFixed(4)
   }
 
   if (value < 100) {
