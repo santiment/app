@@ -10,8 +10,8 @@ import MetricIcon from '../../../../SANCharts/MetricIcon'
 import { Description } from '../../../../dataHub/metrics/descriptions'
 import { Insights } from '../../../../dataHub/metrics/insights'
 import { MetricDescription } from '../../../../SANCharts/MetricExplanation'
-import styles from './index.module.scss'
 import MoreInfoLink from '../../../../../components/MoreInfoLink/MoreInfoLink'
+import styles from './index.module.scss'
 
 const OPTIONS = []
 const SELECTED = ''
