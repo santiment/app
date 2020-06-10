@@ -16,30 +16,32 @@ const CRUMB = {
   to: '/assets'
 }
 
-const TopSlot = compose(withProject)(({ slug, project, loading }) => (
-  <>
-    <Helmet
-      title={loading ? 'Sanbase...' : `${project.ticker} project page`}
-      meta={[
-        {
-          property: 'og:title',
-          content: `Project overview: ${project.name} - Sanbase`
-        },
-        {
-          property: 'og:description',
-          content: `Financial, development, on-chain and social data for ${
-            project.name
-          }.`
-        }
-      ]}
-    />
-    <Breadcrumbs
-      className={styles.breadcrumbs}
-      crumbs={[CRUMB, { label: project.name, to: `/studio?slug=${slug}` }]}
-    />
-    <CtaJoinPopup />
-  </>
-))
+const TopSlot = compose(withProject)(({ slug, project, loading }) =>
+  project ? (
+    <>
+      <Helmet
+        title={loading ? 'Sanbase...' : `${project.ticker} project page`}
+        meta={[
+          {
+            property: 'og:title',
+            content: `Project overview: ${project.name} - Sanbase`
+          },
+          {
+            property: 'og:description',
+            content: `Financial, development, on-chain and social data for ${
+              project.name
+            }.`
+          }
+        ]}
+      />
+      <Breadcrumbs
+        className={styles.breadcrumbs}
+        crumbs={[CRUMB, { label: project.name, to: `/studio?slug=${slug}` }]}
+      />
+      <CtaJoinPopup />
+    </>
+  ) : null
+)
 
 export default ({ history, ...props }) => {
   const parsedUrl = parseUrl()
