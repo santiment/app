@@ -1,6 +1,7 @@
 import React from 'react'
 import { Metric } from './index'
 import MoreInfoLink from '../../../components/MoreInfoLink/MoreInfoLink'
+import { convertToReadableInterval } from '../../../utils/dates'
 
 export const Description = {
   [Metric.social_volume_total.key]: (
@@ -146,9 +147,9 @@ export const rebuildDescriptions = Submetrics => {
     switch (key) {
       case Metric.twitter_followers.key: {
         list.forEach(metric => {
-          Description[metric.key] = `Shows the ${
+          Description[metric.key] = `Shows the ${convertToReadableInterval(
             metric.replacements.timebound
-          } change in the amount of followers of the project’s official Twitter account`
+          )} change in the amount of followers of the project’s official Twitter account`
         })
         break
       }
@@ -156,9 +157,9 @@ export const rebuildDescriptions = Submetrics => {
         list.forEach(metric => {
           Description[
             metric.key
-          ] = `Shows only the number of unique [Project Ticker] tokens transacted in the past ${
+          ] = `Shows only the number of unique [Project Ticker] tokens transacted in the past ${convertToReadableInterval(
             metric.replacements.timebound
-          } days. `
+          )} . `
         })
         break
       }
@@ -166,9 +167,9 @@ export const rebuildDescriptions = Submetrics => {
         list.forEach(metric => {
           Description[
             metric.key
-          ] = `Shows the average profit or loss of those holding [Project ticker] tokens which moved in the last ${
+          ] = `Shows the average profit or loss of those holding [Project ticker] tokens which moved in the last ${convertToReadableInterval(
             metric.replacements.timebound
-          }, based on the price when each token last moved. Example: if MVRV = 2, then these holders are, on average, currently 2x on their initial investment. `
+          )}, based on the price when each token last moved. Example: if MVRV = 2, then these holders are, on average, currently 2x on their initial investment. `
         })
         break
       }
@@ -176,9 +177,9 @@ export const rebuildDescriptions = Submetrics => {
         list.forEach(metric => {
           Description[
             metric.key
-          ] = `Shows the total amount spent on [Project Ticker] tokens that moved in the last ${
+          ] = `Shows the total amount spent on [Project Ticker] tokens that moved in the last ${convertToReadableInterval(
             metric.replacements.timebound
-          }. Realized cap is calculated by dividing the [Project Ticker] supply by the price of each [Project Ticker] token when it last moved on-chain`
+          )}. Realized cap is calculated by dividing the [Project Ticker] supply by the price of each [Project Ticker] token when it last moved on-chain`
         })
         break
       }
