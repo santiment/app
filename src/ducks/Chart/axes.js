@@ -69,7 +69,9 @@ export function plotAxes (chart, scale) {
       isDayInterval(chart) ? getDateHoursMinutes : getDateDayMonthYear,
       selectYFormatter(mainAxisMetric),
       ticksPaintConfig,
-      scale
+      scale,
+      8,
+      8
     )
   }
 
@@ -80,7 +82,8 @@ export function plotAxes (chart, scale) {
       secondaryAxisMetric,
       selectYFormatter(secondaryAxisMetric),
       ticksPaintConfig,
-      scale
+      scale,
+      8
     )
   }
 }
