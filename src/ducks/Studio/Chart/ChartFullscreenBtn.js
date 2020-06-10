@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from 'react'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import { useTimeseries } from '../timeseries/hooks'
 import { generateShareLink } from '../url'
+import { extractMirrorMetricsDomainGroups } from '../utils'
 import Chart from '../../Chart'
 import Settings from '../Header/Settings'
+import { MirroredMetric } from '../../dataHub/metrics/mirrored'
 import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
 import {
   getNewInterval,
@@ -28,12 +30,14 @@ const FullscreenChart = ({
   const [isDomainGroupingActive] = useState()
   const [shareLink, setShareLink] = useState()
   const [chartHeight, setChartHeight] = useState()
-  const [data] = useTimeseries(metrics, settings)
+  const [MetricTransformer, setMetricTransformer] = useState({})
+  const [data] = useTimeseries(metrics, settings, undefined, MetricTransformer)
   const [events] = useTimeseries(activeEvents, settings)
   const domainGroups = useDomainGroups(metrics)
   const axesMetricKeys = useAxesMetricsKey(metrics)
   const chartRef = useRef(null)
   const containerRef = useRef(null)
+  const mirrorDomainGroups = extractMirrorMetricsDomainGroups(domainGroups)
 
   useEffect(
     () => {
@@ -51,6 +55,28 @@ const FullscreenChart = ({
       setChartHeight(chartRef.current.canvas.parentNode.clientHeight)
     },
     [chartRef]
+  )
+
+  useEffect(
+    () => {
+      const metricTransformer = Object.assign({}, MetricTransformer)
+
+      metrics.forEach(metric => {
+        const mirrorOf = MirroredMetric[metric.key]
+        if (mirrorOf) {
+          const { key, preTransformer } = metric
+
+          if (metrics.includes(mirrorOf)) {
+            metricTransformer[key] = preTransformer
+          } else {
+            metricTransformer[key] = undefined
+          }
+        }
+      })
+
+      setMetricTransformer(metricTransformer)
+    },
+    [metrics]
   )
 
   function changeTimePeriod (fromDate, toDate) {
@@ -120,7 +146,9 @@ const FullscreenChart = ({
         isMultiChartsActive={false}
         metrics={metrics}
         activeEvents={activeEvents}
-        domainGroups={isDomainGroupingActive ? domainGroups : undefined}
+        domainGroups={
+          isDomainGroupingActive ? domainGroups : mirrorDomainGroups
+        }
         scale={options.isLogScale ? logScale : linearScale}
         onBrushChangeEnd={onBrushChangeEnd}
         onRangeSelect={onRangeSelect}
