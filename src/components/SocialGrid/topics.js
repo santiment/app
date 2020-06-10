@@ -65,11 +65,11 @@ export const INDEX_PAGE_GROUPS = [
         slug: 'buy OR bought OR buying OR bottom'
       },
       {
-        title: 'The rise and fall of ZRX',
-        slug: 'zrx',
+        title: 'Bart',
+        slug: 'bart',
         type: 'PRO',
-        query:
-          'ZRX?asset=0x&from=2020-04-12T22%3A00%3A00.000Z&interval=2h&isCartesianGridActive=true&isSocialDominanceActive=true&slug=ZRX&ticker=ZRX&timeRange=1m&to=2020-05-13T00%3A00%3A00.000Z'
+        query: 'bart',
+        createdAt: '2020-06-10T07:18:20.922Z'
       },
       {
         title: 'The rise and fall of MTL',

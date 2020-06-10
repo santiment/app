@@ -1567,10 +1567,10 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@santiment-network/chart@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@santiment-network/chart/-/chart-0.4.0.tgz#c524cc8e38c9bcf43242bee738983c0f88f654ea"
-  integrity sha512-6d1Vdr9AyYLLMAah4IARnF5Oh0bfojXCY9seh6rbTpQ8f0UCdKWcz3qfNR/FMOOBUO5kyTZpjfn9HuUeHdFXfw==
+"@santiment-network/chart@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@santiment-network/chart/-/chart-0.5.0.tgz#c10ea35d2e5711c6e41ac43d8980df7c924bb3d6"
+  integrity sha512-V8CzByvpKiv+qD071MtHEGyv7o9QVF42WOFFs85yAVLttcCtyka/V0tl4bOmU/14ROgB6P6JPsE9/tr1sRritA==
 
 "@santiment-network/ui@^0.5.150":
   version "0.5.158"
@@ -18364,9 +18364,9 @@ websocket-driver@>=0.5.1:
     websocket-extensions ">=0.1.1"
 
 websocket-extensions@>=0.1.1:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.3.tgz#5d2ff22977003ec687a4b87073dfbbac146ccf29"
-  integrity sha512-nqHUnMXmBzT0w570r2JpJxfiSD1IzoI+HGVdd3aZ0yNi3ngvQ4jv1dtHt5VGxfI2yj5yqImPhOK4vmIh2xMbGg==
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.4.tgz#7f8473bc839dfd87608adb95d7eb075211578a42"
+  integrity sha512-OqedPIGOfsDlo31UNwYbCFMSaO9m9G/0faIHj5/dZFDMFqPTcx6UwqyOy3COEaEOg/9VsGIpdqn62W5KhoKSpg==
 
 whatwg-encoding@^1.0.1, whatwg-encoding@^1.0.3:
   version "1.0.5"

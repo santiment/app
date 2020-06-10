@@ -44,20 +44,24 @@ const SocialGrid = ({
 
   return (
     <section className={cx(styles.wrapper, className)}>
-      {items.map((topic, idx) => (
-        <Item
-          key={idx}
-          show={showCount > idx}
-          topic={topic.slug}
-          title={topic.title || topic.slug}
-          link={topic.query || topic.slug}
-          charts={charts}
-          onTopicClick={onTopicClick}
-          settings={SETTINGS}
-          onLoad={onLoad}
-          className={styles.item}
-        />
-      ))}
+      {items.map((topic, idx) => {
+        const { createdAt } = topic
+        return (
+          <Item
+            key={idx}
+            show={showCount > idx}
+            topic={topic.slug}
+            title={topic.title || topic.slug}
+            link={topic.query || topic.slug}
+            createdAt={createdAt}
+            charts={charts}
+            onTopicClick={onTopicClick}
+            settings={SETTINGS}
+            onLoad={onLoad}
+            className={styles.item}
+          />
+        )
+      })}
     </section>
   )
 }

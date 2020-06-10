@@ -6,12 +6,12 @@ import styles from './VideoModal.module.scss'
 const VideoModal = ({ videoId }) => (
   <Dialog
     trigger={
-      <div className={styles.video}>
-        <img
-          alt='Chart layout'
-          className={styles.preview}
-          src={`https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`}
-        />
+      <div
+        className={styles.video}
+        style={{
+          backgroundImage: `url('https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg')`
+        }}
+      >
         <VideoPlayBtn className={styles.icon} />
         <div className={styles.darkWrapper} />
       </div>
