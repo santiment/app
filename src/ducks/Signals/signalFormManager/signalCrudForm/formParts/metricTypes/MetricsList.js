@@ -4,6 +4,7 @@ import Icon from '@santiment-network/ui/Icon'
 import { Description } from '../../../../../dataHub/metrics/descriptions'
 import HelpTooltip from '../../../../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
 import styles from './MetricsList.module.scss'
+import MetricDescription from '../../../../../SANCharts/MetricDescription/MetricDescription'
 
 export const NO_GROUP = '_'
 
@@ -66,7 +67,7 @@ const Group = ({ groupLabel, onSelect, group }) => {
               onAction='hover'
               classes={styles}
             >
-              {Description[metric.key]}
+              <MetricDescription metric={metric} />
             </HelpTooltip>
           )}
         </div>

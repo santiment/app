@@ -9,8 +9,7 @@ import MetricInsights from '../../../../../components/MetricInsight/MetricInsigh
 import MetricIcon from '../../../../SANCharts/MetricIcon'
 import { Description } from '../../../../dataHub/metrics/descriptions'
 import { Insights } from '../../../../dataHub/metrics/insights'
-import { MetricDescription } from '../../../../SANCharts/MetricExplanation'
-import MoreInfoLink from '../../../../../components/MoreInfoLink/MoreInfoLink'
+import MetricDescription from '../../../../SANCharts/MetricDescription/MetricDescription'
 import styles from './index.module.scss'
 
 const OPTIONS = []
@@ -74,9 +73,10 @@ const MetricsExplanation = ({
   const { metric } = selected || {}
   if (!metric) return null
 
-  const { key, moreInfoLink } = metric
+  const { key } = metric
 
   const description = Description[key]
+
   return (
     <>
       <Dropdown
@@ -90,8 +90,7 @@ const MetricsExplanation = ({
         <>
           <div className={styles.subtitle}>Description</div>
           <div className={styles.text}>
-            <MetricDescription description={description} project={project} />
-            {moreInfoLink && <MoreInfoLink href={moreInfoLink} />}
+            <MetricDescription metric={metric} project={project} />
           </div>
         </>
       )}
