@@ -6,6 +6,7 @@ import { DEFAULT_METRICS } from '../../../../../Studio/withMetrics'
 import { getCategoryGraph } from '../../../../../Studio/Sidebar/utils'
 import { Metric } from '../../../../../dataHub/metrics'
 import { PROJECT_METRICS_BY_SLUG_QUERY } from '../../../../../SANCharts/gql'
+import { PROJECT_WITH_SLUG_QUERY } from '../../../../../../pages/Projects/allProjectsGQL'
 import metricStyles from './TriggerFormMetricTypes.module.scss'
 
 const makeSignalMetric = (key, label, category, node = 'line') => {
@@ -107,8 +108,7 @@ export function useAvailableMetrics (slug) {
     skip: !slug,
     variables: {
       slug
-    },
-    fetchPolicy: 'cache-first'
+    }
   })
 
   return [
@@ -116,6 +116,17 @@ export function useAvailableMetrics (slug) {
     loading,
     error
   ]
+}
+
+export function useProject (slug) {
+  const { data, loading, error } = useQuery(PROJECT_WITH_SLUG_QUERY, {
+    skip: !slug,
+    variables: {
+      slug
+    }
+  })
+
+  return [data ? data.projectBySlug : undefined, loading, error]
 }
 
 const SupportedMetricsList = ({ onSelectMetric, availableMetrics, slug }) => {
@@ -130,6 +141,7 @@ const SupportedMetricsList = ({ onSelectMetric, availableMetrics, slug }) => {
     [slug, availableMetrics]
   )
 
+  const [project] = useProject(slug)
   const categoriesKeys = Object.keys(categories)
 
   return (
@@ -159,6 +171,7 @@ const SupportedMetricsList = ({ onSelectMetric, availableMetrics, slug }) => {
               metrikKey={key}
               list={categories[key]}
               onSelect={onSelectMetric}
+              project={project}
             />
           ))}
         </div>
