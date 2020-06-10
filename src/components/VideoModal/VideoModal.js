@@ -9,7 +9,7 @@ const VideoModal = ({ videoId }) => (
       <div
         className={styles.video}
         style={{
-          'background-image': `url('https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg')`
+          backgroundImage: `url('https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg')`
         }}
       >
         <VideoPlayBtn className={styles.icon} />

@@ -13,14 +13,14 @@ import DarkTooltip from '../Tooltip/DarkTooltip'
 import { dividePhraseInWords } from './topics'
 import Chart from './Chart'
 import styles from './Item.module.scss'
+import NewLabel from '../NewLabel/NewLabel'
 
 const Item = ({
   topic,
   title,
   link,
+  createdAt,
   charts,
-  onTopicClick,
-  settingMap,
   show,
   onLoad,
   settings,
@@ -39,7 +39,10 @@ const Item = ({
     <article className={styles.wrapper}>
       <div className={styles.top}>
         <Link to={`/labs/trends/explore/${link}`} className={styles.text}>
-          {title}
+          {[
+            <NewLabel date={createdAt} className={styles.new} key='new' />,
+            title
+          ]}
         </Link>
         <div className={styles.actions}>
           <LoginDialogWrapper title='Create alert'>
