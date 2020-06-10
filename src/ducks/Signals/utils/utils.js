@@ -53,11 +53,7 @@ import {
   SIGNAL_METRIC_TYPES,
   METRIC_TYPES
 } from './constants'
-import {
-  capitalizeStr,
-  isEthStrictAddress,
-  uncapitalizeStr
-} from '../../../utils/utils'
+import { capitalizeStr, isEthStrictAddress } from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
 import { Metric } from '../../dataHub/metrics'
 import { useWatchlist } from '../../Watchlists/gql/hooks'
