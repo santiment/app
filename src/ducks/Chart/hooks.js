@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Metric } from '../dataHub/metrics'
+import { MirroredMetric } from '../dataHub/metrics/mirrored'
 
 const splitByComma = str => str.split(',')
 const lineMetricsFilter = ({ node }) => node === 'line'
 const getDomainGroup = ({ key, domainGroup = key }) => domainGroup
+const checkIfAreMirrored = (metricA, metricB) =>
+  MirroredMetric[metricA.key] === metricB ||
+  MirroredMetric[metricB.key] === metricA
 
 export function useDomainGroups (metrics) {
   const [domainGroups, setDomainGroups] = useState()
@@ -167,7 +171,8 @@ export function useAxesMetricsKey (metrics, isDomainGroupingActive) {
 
       const mainAxisDomain = getDomainGroup(mainAxisMetric)
       let hasSameDomain =
-        isDomainGroupingActive &&
+        (isDomainGroupingActive ||
+          checkIfAreMirrored(mainAxisMetric, secondaryAxisMetric)) &&
         mainAxisDomain === getDomainGroup(secondaryAxisMetric)
 
       if (hasSameDomain) {

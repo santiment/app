@@ -10,7 +10,7 @@ import {
   getDateHoursMinutes
 } from './utils'
 import { dayTicksPaintConfig, dayAxesColor } from './paintConfigs'
-import { Metric } from '../dataHub/metrics'
+import { mirroredMetrics } from '../dataHub/metrics/mirrored'
 import { millify } from '../../utils/formatting'
 
 function yFormatter (value) {
@@ -44,8 +44,7 @@ function yFormatter (value) {
 }
 
 const selectYFormatter = metricKey =>
-  metricKey === Metric.exchange_outflow.key ||
-  metricKey === Metric.exchange_inflow.key
+  mirroredMetrics.includes(metricKey)
     ? value => yFormatter(Math.abs(value))
     : yFormatter
 
