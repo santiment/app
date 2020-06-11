@@ -1,21 +1,22 @@
-import { Metric } from '../dataHub/metrics'
-
-export const transformExchangeOutflow = data =>
-  data.map(({ datetime, exchange_outflow }) => ({
-    datetime,
-    exchange_outflow: -exchange_outflow
-  }))
+import { MirroredMetric } from '../dataHub/metrics/mirrored'
 
 export function extractMirrorMetricsDomainGroups (domainGroups) {
   if (!domainGroups) return
 
+  const mirroredGroups = []
+
   const { length } = domainGroups
   for (let i = 0; i < length; i++) {
     const group = domainGroups[i]
-    if (group.includes(Metric.exchange_outflow.key)) {
-      return [group]
+    for (let y = group.length; y > 0; y--) {
+      const metricKey = group[y]
+
+      if (MirroredMetric[metricKey]) {
+        mirroredGroups.push(group)
+        break
+      }
     }
   }
 
-  return []
+  return mirroredGroups
 }

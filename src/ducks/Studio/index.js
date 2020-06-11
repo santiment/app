@@ -11,14 +11,13 @@ import {
 import { MAX_METRICS_AMOUNT } from './constraints'
 import { generateShareLink } from './url'
 import { trackMetricState } from './analytics'
-import { transformExchangeOutflow } from './utils'
 import { useTimeseries } from './timeseries/hooks'
 import { buildAnomalies } from './timeseries/anomalies'
 import { buildComparedMetric } from './Compare/utils'
 import { TOP_HOLDERS_PANE } from './Chart/Sidepane/panes'
 import { useClosestValueData } from '../Chart/hooks'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
-import { Metric } from '../dataHub/metrics'
+import { MirroredMetric } from '../dataHub/metrics/mirrored'
 import { updateHistory } from '../../utils/utils'
 import styles from './index.module.scss'
 
@@ -80,22 +79,23 @@ const Studio = ({
 
   useEffect(
     () => {
-      if (
-        !options.isMultiChartsActive &&
-        metrics.includes(Metric.exchange_outflow)
-      ) {
-        if (metrics.includes(Metric.exchange_inflow)) {
-          return setMetricTransformer(state => ({
-            ...state,
-            [Metric.exchange_outflow.key]: transformExchangeOutflow
-          }))
-        }
-      }
+      const metricTransformer = Object.assign({}, MetricTransformer)
+      const lookupMetrics = options.isMultiChartsActive ? [] : metrics
 
-      setMetricTransformer(state => ({
-        ...state,
-        [Metric.exchange_outflow.key]: undefined
-      }))
+      metrics.forEach(metric => {
+        const mirrorOf = MirroredMetric[metric.key]
+        if (mirrorOf) {
+          const { key, preTransformer } = metric
+
+          if (lookupMetrics.includes(mirrorOf)) {
+            metricTransformer[key] = preTransformer
+          } else {
+            metricTransformer[key] = undefined
+          }
+        }
+      })
+
+      setMetricTransformer(metricTransformer)
     },
     [metrics, options.isMultiChartsActive]
   )

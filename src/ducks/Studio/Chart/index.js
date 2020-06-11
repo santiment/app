@@ -138,6 +138,7 @@ const Canvas = ({
             metrics={metrics}
             activeEvents={activeEvents}
             scale={scale}
+            brushData={allTimeData}
           />
         </div>
       </div>

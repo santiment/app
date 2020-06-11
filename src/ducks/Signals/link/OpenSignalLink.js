@@ -15,6 +15,10 @@ const prepareTitle = title => {
     checkingTitle = title.join('')
   }
 
+  if (!checkingTitle || typeof checkingTitle !== 'string') {
+    return title
+  }
+
   const digits = checkingTitle.match(PERCENT_REGEXP)
 
   if (digits && digits.length) {

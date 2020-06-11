@@ -1,4 +1,4 @@
-import { FORMATTER, updateTooltipSettings } from '../tooltipSettings'
+import { updateTooltipSettings } from '../tooltipSettings'
 import {
   usdFormatter,
   btcFormatter,
@@ -139,11 +139,12 @@ export const Metric = {
   },
   mvrv_long_short_diff_usd: {
     category: 'On-chain',
-    node: 'line',
+    node: 'filledLine',
     group: 'Network Value',
     label: 'MVRV Long-Short Difference',
     fullTitle: 'Market Value To Realized Value Long-Short Difference',
     shortLabel: 'MVRV L/S Diff',
+    formatter: v => (v ? `${(v * 100).toFixed(2)}%` : 'No data'),
     isBeta: true
   },
   transaction_volume: {
@@ -278,9 +279,7 @@ export const Metric = {
     node: 'line',
     label: 'Exchange Outflow',
     category: 'On-chain',
-    group: 'Exchanges',
-    domainGroup: 'exchange_inflow',
-    formatter: value => FORMATTER(value && Math.abs(value))
+    group: 'Exchanges'
   },
   supply_on_exchanges: {
     node: 'line',
@@ -388,25 +387,49 @@ export const Metric = {
     node: 'filledLine',
     label: 'Weighted Social Sentiment Total',
     category: 'Social',
-    group: 'Sentiment Total'
+    group: 'Sentiment Total',
+    hidden: true
   },
   sentiment_volume_consumed_telegram: {
     node: 'filledLine',
     label: 'Weighted Social Sentiment Telegram',
     category: 'Social',
-    group: 'Sentiment Telegram'
+    group: 'Sentiment Telegram',
+    hidden: true
   },
   sentiment_volume_consumed_reddit: {
     node: 'filledLine',
     label: 'Weighted Social Sentiment Reddit',
     category: 'Social',
-    group: 'Sentiment Reddit'
+    group: 'Sentiment Reddit',
+    hidden: true
   },
   sentiment_volume_consumed_twitter: {
     node: 'filledLine',
     label: 'Weighted Social Sentiment Twitter',
     category: 'Social',
-    group: 'Sentiment Twitter'
+    group: 'Sentiment Twitter',
+    hidden: true
+  },
+  bitmex_perpetual_basis: {
+    node: 'line',
+    label: 'BitMEX Perpetual Contract Basis',
+    category: 'Derivatives'
+  },
+  bitmex_perpetual_open_interest: {
+    node: 'line',
+    label: 'BitMEX Perpetual Contracts Open Interest',
+    category: 'Derivatives'
+  },
+  bitmex_perpetual_funding_rate: {
+    node: 'line',
+    label: 'BitMEX Perpetual Contract Funding Rate',
+    category: 'Derivatives'
+  },
+  bitmex_perpetual_open_value: {
+    node: 'line',
+    label: 'BitMEX Perpetual Contracts Open Value',
+    category: 'Derivatives'
   }
 }
 
