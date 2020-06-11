@@ -36,8 +36,8 @@
 }
 
 .media {
-  height: 112px;
-  width: 250px;
+  height: 104px;
+  width: 230px;
   position: relative;
   border-radius: 4px;
   background-color: var(--waterloo);
@@ -68,4 +68,8 @@
   animation-timing-function: ease-in-out;
   animation-duration: 1s, 0.5s;
   animation-fill-mode: both;
+}
+
+.darkWrapper {
+  display: none;
 }

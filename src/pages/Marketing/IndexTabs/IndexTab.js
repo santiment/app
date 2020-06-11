@@ -3,33 +3,33 @@ import styles from './IndexTab.module.scss'
 import cx from 'classnames'
 
 const IndexTab = ({ tabs }) => {
-  const [activeTab, setTab] = useState(tabs[0])
+  const [activeTab, setTab] = useState(0)
+
+  const tab = tabs[activeTab]
+  const { content } = tab
 
   return (
     <>
       <div className={styles.header}>
-        {tabs.map(tab => {
-          if (!tab) {
+        {tabs.map((item, index) => {
+          if (!item) {
             return null
           }
 
-          const { type } = tab
+          const { title } = item
 
           return (
             <div
-              key={type}
-              className={cx(
-                styles.title,
-                type === activeTab.type && styles.active
-              )}
-              onClick={() => setTab(tab)}
+              key={index}
+              className={cx(styles.title, index === activeTab && styles.active)}
+              onClick={() => setTab(index)}
             >
-              {type}
+              {title}
             </div>
           )
         })}
       </div>
-      {activeTab.content}
+      {content}
     </>
   )
 }
