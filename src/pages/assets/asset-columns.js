@@ -103,7 +103,7 @@ export const COLUMNS = (preload, props = {}) => [
   }),
   constructColumn({
     id: COLUMNS_NAMES.price_change,
-    heading: 'Price +/-',
+    heading: 'Price 24h %',
     maxWidth: 100,
     accessor: 'percentChange24h',
     Cell: ({ value }) => (
@@ -127,7 +127,7 @@ export const COLUMNS = (preload, props = {}) => [
   }),
   constructColumn({
     id: COLUMNS_NAMES.volume_change,
-    heading: 'Volume +/-',
+    heading: 'Volume 24h %',
     maxWidth: 100,
     accessor: 'volumeChange24h',
     Cell: ({ value }) => (
