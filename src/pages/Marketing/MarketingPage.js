@@ -16,8 +16,8 @@ import { CATEGORIES } from '../assets/assets-overview-constants'
 import MyWatchlist from '../../components/Watchlists/MyWatchlist'
 import { PATHS } from '../../App'
 import AlphaBlock from './AlphaBlock/AlphaBlock'
-import styles from './MarketingPage.module.scss'
 import Label from '@santiment-network/ui/Label'
+import styles from './MarketingPage.module.scss'
 
 const isCharts = ({ search }) =>
   search.indexOf('from') !== -1 && search.indexOf('to') !== -1
