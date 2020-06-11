@@ -111,7 +111,6 @@ const MarketingPage = props => {
               title: 'Top Market Calls',
               content: (
                 <div className={styles.block}>
-                  <div className={styles.subTitle}>Top market calls</div>
                   <div className={styles.description}>
                     This leaderboard allows you to track our leading analysts
                     and authors as they make{' '}
