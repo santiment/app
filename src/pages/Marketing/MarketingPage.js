@@ -17,6 +17,7 @@ import MyWatchlist from '../../components/Watchlists/MyWatchlist'
 import { PATHS } from '../../App'
 import AlphaBlock from './AlphaBlock/AlphaBlock'
 import styles from './MarketingPage.module.scss'
+import Label from '@santiment-network/ui/Label'
 
 const isCharts = ({ search }) =>
   search.indexOf('from') !== -1 && search.indexOf('to') !== -1
@@ -43,7 +44,7 @@ const MarketingPage = props => {
           <IndexTab
             tabs={[
               {
-                type: 'Explore Watchlists',
+                title: 'Explore Watchlists',
                 content: (
                   <WatchlistCards
                     watchlists={CATEGORIES}
@@ -53,7 +54,7 @@ const MarketingPage = props => {
                 )
               },
               {
-                type: 'My Watchlists',
+                title: 'My Watchlists',
                 content: (
                   <MyWatchlist
                     showHeader={false}
@@ -72,11 +73,11 @@ const MarketingPage = props => {
           <IndexTab
             tabs={[
               {
-                type: 'Explore Chart Layouts',
+                title: 'Explore Chart Layouts',
                 content: <PublicTemplates isFeatured />
               },
               {
-                type: 'My Chart Layouts',
+                title: 'My Chart Layouts',
                 content: <PublicTemplates userId={userId} />
               }
             ]}
@@ -85,15 +86,62 @@ const MarketingPage = props => {
       </div>
 
       <div className={styles.inner}>
-        <div className={styles.block}>
-          <AlphaBlock classes={styles} />
-        </div>
+        <IndexTab
+          tabs={[
+            {
+              title: (
+                <div className={cx(styles.alphaTitle)}>
+                  Alpha
+                  <Label
+                    className={styles.proLabel}
+                    variant='fill'
+                    accent='texas-rose'
+                  >
+                    Pro
+                  </Label>
+                </div>
+              ),
+              content: (
+                <div className={styles.block}>
+                  <AlphaBlock classes={styles} />
+                </div>
+              )
+            },
+            {
+              title: 'Top Market Calls',
+              content: (
+                <div className={styles.block}>
+                  <div className={styles.subTitle}>Top market calls</div>
+                  <div className={styles.description}>
+                    This leaderboard allows you to track our leading analysts
+                    and authors as they make{' '}
+                    <span className={styles.bold}>bold market calls.</span> They
+                    use the same Santiment on-chain and social metrics that are
+                    available to you.
+                  </div>
+                  <iframe
+                    title='Insights table'
+                    className='airtable-embed'
+                    src='https://airtable.com/embed/shrCwTMKbFLiRn3Eq?backgroundColor=gray&viewControls=on'
+                    frameBorder='0'
+                    width='100%'
+                    height='533'
+                    style={{
+                      background: 'transparent',
+                      border: 'none'
+                    }}
+                  />
+                </div>
+              )
+            }
+          ]}
+        />
 
         <div className={styles.block}>
           <IndexTab
             tabs={[
               {
-                type: 'Search Trends',
+                title: 'Search Trends',
                 content: (
                   <>
                     <div className={styles.description}>
@@ -112,7 +160,7 @@ const MarketingPage = props => {
                 )
               },
               {
-                type: 'Santrends',
+                title: 'Santrends',
                 content: (
                   <>
                     <div className={styles.description}>
@@ -133,29 +181,6 @@ const MarketingPage = props => {
                 )
               }
             ]}
-          />
-        </div>
-
-        <div className={styles.block}>
-          <div className={styles.subTitle}>Top market calls</div>
-          <div className={styles.description}>
-            This leaderboard allows you to track our leading analysts and
-            authors as they make{' '}
-            <span className={styles.bold}>bold market calls.</span> They use the
-            same Santiment on-chain and social metrics that are available to
-            you.
-          </div>
-          <iframe
-            title='Insights table'
-            className='airtable-embed'
-            src='https://airtable.com/embed/shrCwTMKbFLiRn3Eq?backgroundColor=gray&viewControls=on'
-            frameBorder='0'
-            width='100%'
-            height='533'
-            style={{
-              background: 'transparent',
-              border: 'none'
-            }}
           />
         </div>
       </div>
