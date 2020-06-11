@@ -3,6 +3,36 @@ import { Metric } from './index'
 import MoreInfoLink from '../../../components/MoreInfoLink/MoreInfoLink'
 import { convertToReadableInterval } from '../../../utils/dates'
 
+const getSentimentVolumeDescr = (channel = 'all channels') => {
+  return (
+    'Shows the difference between positive and negative sentiment about [Project Ticker] on ' +
+    channel +
+    ', adjusted for the amount of [Project Ticker] mentions over time. Positive values indicate the crowd sentiment is bullish on average, and vice versa. The bigger the spike/dip, the more extreme the sentiment'
+  )
+}
+
+const getSentimentBalanceDescr = (channel = 'all channels') => {
+  return (
+    'Shows the difference between positive and negative sentiment about [Project Ticker] on ' +
+    channel +
+    '. Positive values indicate the crowd sentiment is bullish on average, and vice versa. The bigger the spike/dip, the more extreme the sentiment'
+  )
+}
+
+const getSentimentPositiveNegativeDescr = (
+  channel = 'all channels',
+  isPositive = true
+) => {
+  const type = isPositive ? 'positive (bullish)' : 'negative (bearish)'
+  return (
+    'Shows the ' +
+    type +
+    ' sentiment score for [Project Ticker] mentions on ' +
+    channel +
+    ' over time'
+  )
+}
+
 export const Description = {
   [Metric.social_volume_total.key]: (
     <>
@@ -137,7 +167,48 @@ export const Description = {
   [Metric.withdrawal_transactions.key]:
     'Shows the amount of all incoming and outgoing transactions involving [Project Ticker] withdrawal addresses. Withdrawal addresses are used to withdraw cryptocurrencies from centralized exchanges. Spikes in this metric may indicate a short-term accumulation trend',
   [Metric.mvrv_long_short_diff_usd.key]:
-    'Shows the difference between the 365-day MVRV ratio and 60-day MVRV ratio, respectively. For certain coins, this indicator tends to bottom at the lowest point of its bear market and peak at the top of its bull cycle. Negative values mean that short-term holders are going to realize higher profits than long-term holders if they sell at price at this moment. Negative values show the opposite.This an oscillating indicator, which reaches extreme negative values at the bottom of the large bear cycles and extreme positive values at the top of the bull markets. The intuition is that at the top of the bull runs the long term holders are at large profit and this puts large sell pressure. At the bottom of the bear markets, the long term holders are at large loss and are not willing to sell. Compared to the individual MVRVs, this indicator is going to give negative values when both long and short term holders are at the same profit and loss, thus indicating that the current price is not the long term top/bottom, but more of a short term move'
+    'Shows the difference between the 365-day MVRV ratio and 60-day MVRV ratio, respectively. For certain coins, this indicator tends to bottom at the lowest point of its bear market and peak at the top of its bull cycle. Negative values mean that short-term holders are going to realize higher profits than long-term holders if they sell at price at this moment. Negative values show the opposite.This an oscillating indicator, which reaches extreme negative values at the bottom of the large bear cycles and extreme positive values at the top of the bull markets. The intuition is that at the top of the bull runs the long term holders are at large profit and this puts large sell pressure. At the bottom of the bear markets, the long term holders are at large loss and are not willing to sell. Compared to the individual MVRVs, this indicator is going to give negative values when both long and short term holders are at the same profit and loss, thus indicating that the current price is not the long term top/bottom, but more of a short term move',
+
+  [Metric.sentiment_volume_consumed_total.key]: getSentimentVolumeDescr(),
+  [Metric.sentiment_volume_consumed_telegram.key]: getSentimentVolumeDescr(
+    'Telegram'
+  ),
+  [Metric.sentiment_volume_consumed_reddit.key]: getSentimentVolumeDescr(
+    'Reddit'
+  ),
+  [Metric.sentiment_volume_consumed_twitter.key]: getSentimentVolumeDescr(
+    'Twitter'
+  ),
+
+  [Metric.sentiment_balance_total.key]: getSentimentBalanceDescr(),
+  [Metric.sentiment_balance_telegram.key]: getSentimentBalanceDescr('Telegram'),
+  [Metric.sentiment_balance_reddit.key]: getSentimentBalanceDescr('Reddit'),
+  [Metric.sentiment_balance_twitter.key]: getSentimentBalanceDescr('Twitter'),
+
+  [Metric.sentiment_positive_total.key]: getSentimentPositiveNegativeDescr(),
+  [Metric.sentiment_positive_telegram.key]: getSentimentPositiveNegativeDescr(
+    'Telegram'
+  ),
+  [Metric.sentiment_positive_reddit.key]: getSentimentPositiveNegativeDescr(
+    'Reddit'
+  ),
+  [Metric.sentiment_positive_twitter.key]: getSentimentPositiveNegativeDescr(
+    'Twitter'
+  ),
+
+  [Metric.sentiment_negative_total.key]: getSentimentPositiveNegativeDescr(),
+  [Metric.sentiment_negative_telegram.key]: getSentimentPositiveNegativeDescr(
+    'Telegram',
+    false
+  ),
+  [Metric.sentiment_negative_reddit.key]: getSentimentPositiveNegativeDescr(
+    'Reddit',
+    false
+  ),
+  [Metric.sentiment_negative_twitter.key]: getSentimentPositiveNegativeDescr(
+    'Twitter',
+    false
+  )
 }
 
 export const rebuildDescriptions = Submetrics => {
