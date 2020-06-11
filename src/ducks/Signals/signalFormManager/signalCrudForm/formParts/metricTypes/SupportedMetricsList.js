@@ -9,12 +9,13 @@ import { PROJECT_METRICS_BY_SLUG_QUERY } from '../../../../../SANCharts/gql'
 import { PROJECT_WITH_SLUG_QUERY } from '../../../../../../pages/Projects/allProjectsGQL'
 import metricStyles from './TriggerFormMetricTypes.module.scss'
 
-const makeSignalMetric = (key, label, category, node = 'line') => {
+const makeSignalMetric = (key, label, category, node = 'line', group) => {
   return {
     key,
     label,
     category,
-    node
+    node,
+    group
   }
 }
 
@@ -92,10 +93,29 @@ export const SIGNAL_SUPPORTED_METRICS = [
   ),
 
   Metric.transaction_volume,
-  makeSignalMetric('exchange_inflow', 'Exchange Inflow', 'On-chain', 'bar'),
-  makeSignalMetric('exchange_outflow', 'Exchange Outflow', 'On-chain', 'bar'),
+  makeSignalMetric(
+    'exchange_inflow',
+    'Exchange Inflow',
+    'On-chain',
+    'bar',
+    'Exchanges'
+  ),
+  makeSignalMetric(
+    'exchange_outflow',
+    'Exchange Outflow',
+    'On-chain',
+    'bar',
+    'Exchanges'
+  ),
   Metric.dev_activity,
-  makeSignalMetric('github_activity', 'Github Activity', 'Development')
+  makeSignalMetric('github_activity', 'Github Activity', 'Development'),
+  makeSignalMetric(
+    'mvrv_usd_intraday',
+    'MVRV (intraday)',
+    'On-chain',
+    'line',
+    'Network Value'
+  )
 ]
 
 const getByAvailable = (availableMetrics = DEFAULT_METRICS) =>

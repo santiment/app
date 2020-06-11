@@ -137,7 +137,8 @@ export const fetchSignalsEpic = (action$, store, { client }) =>
     .takeUntil(action$.ofType(rootActions.USER_LOGIN_SUCCESS))
     .switchMap(() => {
       return Observable.fromPromise(client.query({ query: TRIGGERS_QUERY }))
-        .mergeMap(({ data: { currentUser: { triggers = [] } } = {} }) => {
+        .mergeMap(({ data: { currentUser } = {} }) => {
+          const { triggers = [] } = currentUser || {}
           return Observable.of({
             type: actions.SIGNAL_FETCH_ALL_SUCCESS,
             payload: {

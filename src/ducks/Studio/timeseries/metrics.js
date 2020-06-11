@@ -193,5 +193,10 @@ export const METRICS = [
   'sentiment_volume_consumed_total',
   'sentiment_volume_consumed_telegram',
   'sentiment_volume_consumed_reddit',
-  'sentiment_volume_consumed_twitter'
+  'sentiment_volume_consumed_twitter',
+  'bitmex_perpetual_basis',
+  'bitmex_perpetual_open_interest',
+  'bitmex_perpetual_funding_rate',
+  'bitmex_perpetual_open_value',
+  'mvrv_usd_intraday'
 ]

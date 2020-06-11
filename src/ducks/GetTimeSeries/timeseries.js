@@ -186,7 +186,9 @@ const TIMESERIES = {
   social_volume_discord: queryBuild('social_volume_discord'),
   social_volume_telegram: queryBuild('social_volume_telegram'),
   social_volume_twitter: queryBuild('social_volume_twitter'),
-  mean_age: queryBuild('mean_age')
+  mean_age: queryBuild('mean_age'),
+
+  mvrv_usd_intraday: queryBuild('mvrv_usd_intraday')
 }
 
 export const hasMetric = metric => !!TIMESERIES[metric]

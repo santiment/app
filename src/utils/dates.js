@@ -361,7 +361,7 @@ export const getAmPmWithHours = hours => {
     hours = 24 - hours
   }
 
-  var ampm = getAmPm(hours)
+  let ampm = getAmPm(hours)
 
   return make12Hours(hours, false) + ampm
 }

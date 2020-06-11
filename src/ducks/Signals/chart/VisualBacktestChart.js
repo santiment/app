@@ -97,22 +97,26 @@ const VisualBacktestChart = ({
           </span>
         </div>
       )}
-      <div className={styles.chartBlock}>
-        <div className={styles.chart}>
-          <div
-            className={cx(
-              chartStyles.wrapper,
-              sharedStyles.chart,
-              styles.wrapper,
-              !titleEnabled && styles.noTitle
-            )}
-          >
-            <ResponsiveContainer width='100%' height={120}>
-              {renderChart(data, dataKeys, markup, referenceDots)}
-            </ResponsiveContainer>
+      {data.length > 0 ? (
+        <div className={styles.chartBlock}>
+          <div className={styles.chart}>
+            <div
+              className={cx(
+                chartStyles.wrapper,
+                sharedStyles.chart,
+                styles.wrapper,
+                !titleEnabled && styles.noTitle
+              )}
+            >
+              <ResponsiveContainer width='100%' height={120}>
+                {renderChart(data, dataKeys, markup, referenceDots)}
+              </ResponsiveContainer>
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div>No data</div>
+      )}
     </div>
   )
 }
