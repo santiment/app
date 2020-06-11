@@ -15,7 +15,7 @@ const prepareTitle = title => {
     checkingTitle = title.join('')
   }
 
-  if (typeof checkingTitle !== 'string') {
+  if (!checkingTitle || typeof checkingTitle !== 'string') {
     return title
   }
 
