@@ -70,7 +70,7 @@ export function plotAxes (chart, scale) {
       selectYFormatter(mainAxisMetric),
       ticksPaintConfig,
       scale,
-      8,
+      10,
       8
     )
   }
