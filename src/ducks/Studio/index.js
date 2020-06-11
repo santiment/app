@@ -34,6 +34,7 @@ const Studio = ({
   bottomSlot,
   ...props
 }) => {
+  const [project, setProject] = useState()
   const [settings, setSettings] = useState(defaultSettings)
   const [options, setOptions] = useState(defaultOptions)
   const [comparables, setComparables] = useState(defaultComparables)
@@ -243,9 +244,11 @@ const Studio = ({
         setMetricSettingMap={setMetricSettingMap}
         isICOPriceDisabled={isICOPriceDisabled}
         isSidebarClosed={isSidebarClosed}
+        project={project}
       />
       <StudioMain
         {...props}
+        onProjectChange={setProject}
         topSlot={topSlot}
         bottomSlot={bottomSlot}
         options={options}
@@ -274,6 +277,7 @@ const Studio = ({
         toggleAdvancedView={toggleAdvancedView}
         toggleChartSidepane={toggleChartSidepane}
         changeTimePeriod={changeTimePeriod}
+        project={project}
       />
     </div>
   )

@@ -3,6 +3,7 @@ import Tooltip from '@santiment-network/ui/Tooltip'
 import Button from '@santiment-network/ui/Button'
 import { Event } from '../dataHub/events'
 import { Description } from '../dataHub/metrics/descriptions'
+import MetricDescription from './MetricDescription/MetricDescription'
 import styles from './MetricExplanation.module.scss'
 
 const Note = ({ children }) => (
@@ -22,6 +23,7 @@ const MetricExplanation = ({
   withChildren = false,
   isComplexityError,
   children,
+  project = {},
   ...rest
 }) => {
   const { key, label, fullTitle = label, video, note } = metric
@@ -41,7 +43,9 @@ const MetricExplanation = ({
     <Tooltip className={styles.explanation} trigger={children} {...rest}>
       <div className={styles.explanation__content}>
         <h4 className={styles.title}>{fullTitle}</h4>
-        <p className={styles.text}>{description}</p>
+        <p className={styles.text}>
+          <MetricDescription metric={metric} project={project} />
+        </p>
         {note && note}
         {video && (
           <Button

@@ -48,6 +48,7 @@ const Canvas = ({
   isSelectingRange,
   setIsICOPriceDisabled,
   changeTimePeriod,
+  project,
   ...props
 }) => {
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
@@ -199,6 +200,7 @@ const Canvas = ({
             MetricColor={MetricColor}
             toggleMetric={toggleMetric}
             toggleChartSidepane={toggleChartSidepane}
+            project={project}
           />
         </div>
       )}

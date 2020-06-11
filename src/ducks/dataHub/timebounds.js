@@ -47,12 +47,15 @@ export const getTimeboundMetrics = ({ metricKeys }) => {
       let timeboundMetric = TimeboundMetricCache.get(timeboundKey)
 
       if (!timeboundMetric) {
-        const label =
-          metric.label + ` (${timeboundKey.slice(timeRangeIndex + 1)})`
+        const timebound = timeboundKey.slice(timeRangeIndex + 1)
+        const label = metric.label + ` (${timebound})`
         timeboundMetric = {
           ...metric,
           label,
-          key: timeboundKey
+          key: timeboundKey,
+          replacements: {
+            timebound
+          }
         }
 
         TooltipSetting[timeboundKey] = {

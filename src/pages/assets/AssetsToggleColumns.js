@@ -9,6 +9,8 @@ import {
 } from '@santiment-network/ui'
 import { COLUMNS_NAMES, MARKET_SEGMENT_COLUMNS } from './asset-columns.js'
 import { Description } from '../../ducks/dataHub/metrics/descriptions'
+import MetricDescription from '../../ducks/SANCharts/MetricDescription/MetricDescription'
+import { Metric } from '../../ducks/dataHub/metrics'
 import styles from './AssetsToggleColumns.module.scss'
 
 const HIDDEN_COLUMNS = [
@@ -55,7 +57,9 @@ const AssetsToggleColumns = ({ columns = [], onChange }) => (
                       />
                     }
                   >
-                    <Panel padding>{Description[key]}</Panel>
+                    <Panel padding>
+                      <MetricDescription metric={Metric[key]} />
+                    </Panel>
                   </Tooltip>
                 )}
                 {!show && !selectable && (
