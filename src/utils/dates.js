@@ -296,7 +296,7 @@ export const getIntervalByTimeRange = (timeRange, options = {}) => {
     }
 
     return {
-      to: getTimeIntervalFromToday(-1, DAY).to,
+      to: getTimeIntervalFromToday(-1, DAY, options).to,
       from: CRYPTO_ERA_START_DATE
     }
   } else if (timeRange === '1d') {
@@ -320,7 +320,7 @@ export const getIntervalByTimeRange = (timeRange, options = {}) => {
     result.format = MONTH
   }
 
-  return getTimeIntervalFromToday(-result.amount, result.format)
+  return getTimeIntervalFromToday(-result.amount, result.format, options)
 }
 
 export const toEndOfDay = target => {
