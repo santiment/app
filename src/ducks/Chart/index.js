@@ -185,11 +185,17 @@ const Chart = ({
 
         const scale = length / (endTimestamp - startTimestamp)
 
-        if (fromTimestamp !== brushData[startIndex].datetime) {
+        if (
+          !brushData[startIndex] ||
+          fromTimestamp !== brushData[startIndex].datetime
+        ) {
           startIndex = Math.trunc(scale * (fromTimestamp - startTimestamp))
         }
 
-        if (toTimestamp !== brushData[endIndex].datetime) {
+        if (
+          !brushData[endIndex] ||
+          toTimestamp !== brushData[endIndex].datetime
+        ) {
           endIndex = Math.trunc(scale * (toTimestamp - startTimestamp))
         }
 
