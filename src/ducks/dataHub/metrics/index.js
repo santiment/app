@@ -8,6 +8,23 @@ import {
 } from '../../SANCharts/utils'
 import { millify } from '../../../utils/formatting'
 
+function normalizeAxisPercent (value) {
+  const percent = value * 100
+  const absPercent = Math.abs(percent)
+
+  if (absPercent >= 100) {
+    return Math.trunc(percent)
+  }
+
+  if (absPercent >= 10) {
+    return percent.toFixed(2)
+  }
+
+  return percent.toFixed(3)
+}
+
+const axisPercentFormatter = value => `${normalizeAxisPercent(value)}%`
+
 export const Metric = {
   price_usd: {
     node: 'line',
@@ -153,6 +170,7 @@ export const Metric = {
     fullTitle: 'Market Value To Realized Value Long-Short Difference',
     shortLabel: 'MVRV L/S Diff',
     formatter: v => (v ? `${(v * 100).toFixed(2)}%` : 'No data'),
+    axisFormatter: axisPercentFormatter,
     isBeta: true
   },
   transaction_volume: {
@@ -442,9 +460,11 @@ export const Metric = {
     category: 'Derivatives'
   },
   bitmex_perpetual_funding_rate: {
-    node: 'line',
+    node: 'filledLine',
     label: 'BitMEX Perpetual Contract Funding Rate',
-    category: 'Derivatives'
+    category: 'Derivatives',
+    formatter: v => (v ? `${(v * 100).toFixed(2)}%` : 'No data'),
+    axisFormatter: axisPercentFormatter
   },
   bitmex_perpetual_open_value: {
     node: 'line',

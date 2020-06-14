@@ -53,6 +53,8 @@ const Canvas = ({
 }) => {
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
   const [FocusedMetric, setFocusedMetric] = useState()
+  const [chartHeight, setChartHeight] = useState()
+  const [focusTimer, setFocusTimer] = useState()
   const MetricColor = useChartColors(metrics, FocusedMetric)
   const domainGroups = useDomainGroups(metrics)
   const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
@@ -66,6 +68,17 @@ const Canvas = ({
 
   useEffect(
     () => {
+      setChartHeight(
+        options.isMultiChartsActive
+          ? undefined
+          : chartRef.current.canvas.parentNode.clientHeight
+      )
+    },
+    [chartRef, options.isMultiChartsActive]
+  )
+
+  useEffect(
+    () => {
       if (chartSidepane === METRICS_EXPLANATION_PANE && !hasExplanaibles) {
         toggleChartSidepane()
       }
@@ -75,11 +88,21 @@ const Canvas = ({
 
   useEffect(onMetricHoverEnd, [metrics])
 
-  function onMetricHover (metric) {
-    setFocusedMetric(metric)
+  function onMetricHover (metric, { currentTarget }) {
+    const { parentNode } = currentTarget
+    // HACK: For some reason, fast pointer movement can trigger 'mouseenter' but not 'mouseleave'
+    // Hence, a metric might be stucked in the highlighted state [@vanguard | Jun 14, 2020]
+    setFocusTimer(
+      setTimeout(() => {
+        if (parentNode.querySelector(':hover')) {
+          setFocusedMetric(metric)
+        }
+      }, 60)
+    )
   }
 
   function onMetricHoverEnd () {
+    clearTimeout(focusTimer)
     setFocusedMetric()
   }
 
@@ -149,6 +172,7 @@ const Canvas = ({
         {...props}
         brushData={allTimeData}
         chartRef={chartRef}
+        chartHeight={chartHeight}
         className={cx(styles.chart, isBlurred && styles.blur)}
         MetricColor={MetricColor}
         metrics={metrics}

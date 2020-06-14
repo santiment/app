@@ -6,7 +6,11 @@ import { extractMirrorMetricsDomainGroups } from '../utils'
 import Chart from '../../Chart'
 import Settings from '../Header/Settings'
 import { MirroredMetric } from '../../dataHub/metrics/mirrored'
-import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
+import {
+  useClosestValueData,
+  useDomainGroups,
+  useAxesMetricsKey
+} from '../../Chart/hooks'
 import {
   getNewInterval,
   INTERVAL_ALIAS
@@ -31,8 +35,18 @@ const FullscreenChart = ({
   const [shareLink, setShareLink] = useState()
   const [chartHeight, setChartHeight] = useState()
   const [MetricTransformer, setMetricTransformer] = useState({})
-  const [data] = useTimeseries(metrics, settings, undefined, MetricTransformer)
+  const [rawData] = useTimeseries(
+    metrics,
+    settings,
+    undefined,
+    MetricTransformer
+  )
   const [events] = useTimeseries(activeEvents, settings)
+  const data = useClosestValueData(
+    rawData,
+    metrics,
+    options.isClosestDataActive
+  )
   const domainGroups = useDomainGroups(metrics)
   const axesMetricKeys = useAxesMetricsKey(metrics)
   const chartRef = useRef(null)
