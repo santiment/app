@@ -86,7 +86,7 @@ export default ({
           isLoading={loadings.includes(metric)}
           isRemovable={isMoreThanOneMetric && toggleMetric}
           toggleMetric={toggleMetric}
-          onMouseEnter={onMetricHover && (() => onMetricHover(metric))}
+          onMouseEnter={onMetricHover && (e => onMetricHover(metric, e))}
           onMouseLeave={onMetricHoverEnd && (() => onMetricHoverEnd(metric))}
         />
       ))}

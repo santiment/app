@@ -1,6 +1,9 @@
 .wrapper {
   position: relative;
   margin-top: 13px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
   &_explained {
     padding-right: 340px !important;
@@ -71,6 +74,10 @@
 .explain {
   margin-left: 12px;
   white-space: nowrap;
+}
+
+.chart {
+  flex: 1;
 }
 
 .chart:hover .ico {
