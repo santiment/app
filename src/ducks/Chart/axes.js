@@ -47,9 +47,7 @@ function yFormatter (value) {
 const selectYFormatter = metricKey =>
   mirroredMetrics.includes(metricKey)
     ? value => yFormatter(Math.abs(value))
-    : metricKey === Metric.mvrv_long_short_diff_usd.key
-      ? v => `${Math.trunc(v * 100)}%`
-      : yFormatter
+    : (Metric[metricKey] && Metric[metricKey].axisFormatter) || yFormatter
 
 export function plotAxes (chart, scale) {
   const {
