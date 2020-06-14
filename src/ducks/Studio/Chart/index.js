@@ -89,8 +89,8 @@ const Canvas = ({
 
   function onMetricHover (metric, { currentTarget }) {
     const { parentNode } = currentTarget
-    // HACK: For some reason, fast pointer movement can trigger 'mouseenter' but not 'mouseleavel'
-    // It will leave the button in the stucked highlighted state [@vanguard | Jun 14, 2020]
+    // HACK: For some reason, fast pointer movement can trigger 'mouseenter' but not 'mouseleave'
+    // Hence, a metric might be stucked in the highlighted state [@vanguard | Jun 14, 2020]
     setTimeout(() => {
       if (parentNode.querySelector(':hover')) {
         setFocusedMetric(metric)
