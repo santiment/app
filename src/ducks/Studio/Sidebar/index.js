@@ -1,22 +1,22 @@
-import React, { useRef, useEffect } from "react";
-import cx from "classnames";
-import Loader from "@santiment-network/ui/Loader/Loader";
-import Icon from "@santiment-network/ui/Icon";
-import MetricSelector from "./MetricSelector";
-import Search from "./Search";
-import withMetrics from "../withMetrics";
-import { MAX_METRICS_AMOUNT } from "../constraints";
-import AnomaliesToggle from "../../../components/AnomaliesToggle/AnomaliesToggle";
-import { saveToggle } from "../../../utils/localStorage";
-import { rebuildDescriptions } from "../../dataHub/metrics/descriptions";
-import styles from "./index.module.scss";
+import React, { useRef, useEffect } from 'react'
+import cx from 'classnames'
+import Loader from '@santiment-network/ui/Loader/Loader'
+import Icon from '@santiment-network/ui/Icon'
+import MetricSelector from './MetricSelector'
+import Search from './Search'
+import withMetrics from '../withMetrics'
+import { MAX_METRICS_AMOUNT } from '../constraints'
+import AnomaliesToggle from '../../../components/AnomaliesToggle/AnomaliesToggle'
+import { saveToggle } from '../../../utils/localStorage'
+import { rebuildDescriptions } from '../../dataHub/metrics/descriptions'
+import styles from './index.module.scss'
 
 const Anomalies = ({ options, setOptions }) => {
-  function onToggle() {
+  function onToggle () {
     setOptions(state => ({
       ...state,
-      isAnomalyActive: saveToggle("isAnomalyActive", !state.isAnomalyActive)
-    }));
+      isAnomalyActive: saveToggle('isAnomalyActive', !state.isAnomalyActive)
+    }))
   }
 
   return (
@@ -26,14 +26,14 @@ const Anomalies = ({ options, setOptions }) => {
       showToggleAnomalies={true}
       onToggleAnomalies={onToggle}
     />
-  );
-};
+  )
+}
 
 const Header = ({ activeMetrics, ...rest }) => {
   return (
     <div className={styles.header}>
       <h2 className={styles.title}>
-        Metrics{" "}
+        Metrics{' '}
         {rest.options.isMultiChartsActive || (
           <span className={styles.count}>
             ({activeMetrics.length}/{MAX_METRICS_AMOUNT})
@@ -43,19 +43,19 @@ const Header = ({ activeMetrics, ...rest }) => {
       <Search {...rest} />
       <Anomalies {...rest} />
     </div>
-  );
-};
+  )
+}
 
 const CloseButton = ({ onClick, className }) => {
   return (
     <div className={cx(styles.toggle, className)} onClick={onClick}>
       <div className={styles.close}>
-        <Icon type="hamburger" className={styles.hamburger} />
-        <Icon type="arrow-right" className={styles.arrow} />
+        <Icon type='hamburger' className={styles.hamburger} />
+        <Icon type='arrow-right' className={styles.arrow} />
       </div>
     </div>
-  );
-};
+  )
+}
 
 const Sidebar = ({ loading, children, ...rest }) => {
   return (
@@ -70,27 +70,27 @@ const Sidebar = ({ loading, children, ...rest }) => {
       </div>
       {children}
     </aside>
-  );
-};
+  )
+}
 
 export default withMetrics(
   ({ isSidebarClosed, setIsSidebarClosed, ...props }) => {
-    function openSidebar() {
-      setIsSidebarClosed(false);
+    function openSidebar () {
+      setIsSidebarClosed(false)
     }
 
-    function closeSidebar() {
-      setIsSidebarClosed(true);
+    function closeSidebar () {
+      setIsSidebarClosed(true)
     }
 
-    const { Submetrics } = props;
+    const { Submetrics } = props
 
     useEffect(
       () => {
-        rebuildDescriptions(Submetrics);
+        rebuildDescriptions(Submetrics)
       },
       [Submetrics]
-    );
+    )
 
     return isSidebarClosed ? (
       <CloseButton onClick={openSidebar} className={styles.toggle_closed} />
@@ -98,6 +98,6 @@ export default withMetrics(
       <Sidebar {...props} openSidebar={openSidebar} closeSidebar={closeSidebar}>
         <CloseButton onClick={closeSidebar} />
       </Sidebar>
-    );
+    )
   }
-);
+)

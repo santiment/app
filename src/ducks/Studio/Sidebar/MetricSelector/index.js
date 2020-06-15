@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import Category from "./Category";
-import { TopHolderMetric } from "../../Chart/Sidepane/TopHolders/metrics";
-import { Metric } from "../../../dataHub/metrics";
-import styles from "./index.module.scss";
+import React, { useState, useEffect } from 'react'
+import Category from './Category'
+import { TopHolderMetric } from '../../Chart/Sidepane/TopHolders/metrics'
+import { Metric } from '../../../dataHub/metrics'
+import styles from './index.module.scss'
 
-const { price_usd } = Metric;
+const { price_usd } = Metric
 
 const MetricSelector = ({ categories = {}, availableMetrics, ...rest }) => {
-  const [hasTopHolders, setHasTopHolders] = useState();
-  const { setOptions } = rest;
+  const [hasTopHolders, setHasTopHolders] = useState()
+  const { setOptions } = rest
 
   useEffect(
     () => {
@@ -16,16 +16,16 @@ const MetricSelector = ({ categories = {}, availableMetrics, ...rest }) => {
         availableMetrics.includes(
           TopHolderMetric.holders_distribution_1_to_10.key
         )
-      );
+      )
     },
     [availableMetrics]
-  );
+  )
 
-  function toggleICOPrice() {
+  function toggleICOPrice () {
     setOptions(state => ({
       ...state,
       isICOPriceActive: !state.isICOPriceActive
-    }));
+    }))
   }
 
   return (
@@ -36,12 +36,12 @@ const MetricSelector = ({ categories = {}, availableMetrics, ...rest }) => {
           title={key}
           groups={categories[key]}
           toggleICOPrice={toggleICOPrice}
-          hasTopHolders={key === "On-chain" && hasTopHolders}
+          hasTopHolders={key === 'On-chain' && hasTopHolders}
           {...rest}
         />
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default MetricSelector;
+export default MetricSelector

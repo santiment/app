@@ -1,17 +1,17 @@
-import React, { useRef, useEffect } from "react";
-import { initChart } from "@santiment-network/chart";
-import styles from "./index.module.scss";
+import React, { useRef, useEffect } from 'react'
+import { initChart } from '@santiment-network/chart'
+import styles from './index.module.scss'
 
 const ChartPreview = ({ widget, onClick, ...props }) => {
-  const canvasRef = useRef(null);
+  const canvasRef = useRef(null)
 
   useEffect(() => {
-    const { current: widgetChart } = widget.chartRef;
-    const { current: canvas } = canvasRef;
+    const { current: widgetChart } = widget.chartRef
+    const { current: canvas } = canvasRef
 
-    if (!widgetChart) return;
+    if (!widgetChart) return
 
-    const chart = initChart(canvas, canvas.clientWidth, canvas.clientHeight);
+    const chart = initChart(canvas, canvas.clientWidth, canvas.clientHeight)
 
     chart.ctx.drawImage(
       widgetChart.canvas,
@@ -19,14 +19,14 @@ const ChartPreview = ({ widget, onClick, ...props }) => {
       0,
       canvas.clientWidth,
       canvas.clientHeight + 25
-    );
-  }, []);
+    )
+  }, [])
 
   return (
     <div className={styles.overview__item} onClick={() => onClick(widget)}>
       <canvas ref={canvasRef} />
     </div>
-  );
-};
+  )
+}
 
-export default ChartPreview;
+export default ChartPreview
