@@ -199,7 +199,8 @@ const Chart = ({
           endIndex = Math.trunc(scale * (toTimestamp - startTimestamp))
         }
 
-        startIndex = startIndex > 0 ? startIndex : 0
+        startIndex =
+          startIndex > 0 ? (startIndex < length ? startIndex : length - 1) : 0
         endIndex = endIndex < length ? endIndex : length - 1
 
         if (endIndex - startIndex < 2) {
