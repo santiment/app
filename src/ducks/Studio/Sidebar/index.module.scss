@@ -2,15 +2,24 @@
 @import '../variables';
 
 .wrapper {
-  position: absolute;
-  top: 70px;
-  height: calc(100vh - 70px);
-  left: 0;
   width: $sidebar-width;
   background: var(--white);
   border-right: 1px solid var(--porcelain);
   display: flex;
   flex-direction: column;
+
+  /*
+  position: absolute;
+  top: 70px;
+  height: calc(100vh - 70px);
+  left: 0;
+  */
+
+  z-index: 1;
+  height: 100vh;
+  top: 0;
+  position: sticky;
+  align-self: flex-start;
 }
 
 .fixed {
