@@ -42,6 +42,10 @@
 .data {
   display: flex;
   flex: 1;
+
+  &_multicharts {
+    display: block;
+  }
 }
 
 .advanced {

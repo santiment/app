@@ -7,7 +7,7 @@ import { ONE_HOUR_IN_MS } from '../../../utils/dates'
 import styles from '../index.module.scss'
 
 const Chart = ({ eventsData, onProjectSelect, ...props }) => {
-  const { settings, advancedView, changeTimePeriod } = props
+  const { settings, options, advancedView, changeTimePeriod } = props
 
   const chartRef = useRef(null)
   const [isSelectingRange, setIsSelectingRange] = useState(false)
@@ -54,7 +54,12 @@ const Chart = ({ eventsData, onProjectSelect, ...props }) => {
         events={eventsData}
         onProjectSelect={onProjectSelect}
       />
-      <div className={styles.data}>
+      <div
+        className={cx(
+          styles.data,
+          options.isMultiChartsActive && styles.data_multicharts
+        )}
+      >
         <div className={styles.chart}>
           <StudioChart
             {...props}
