@@ -21,6 +21,7 @@ const defaultSettings = {
 const Studio = ({ ...props }) => {
   const [widgets, setWidgets] = useState([
     {
+      id: Date.now(),
       type: 'CHART',
       Widget: ChartWidget,
       metrics: [Metric.price_usd],
@@ -29,6 +30,19 @@ const Studio = ({ ...props }) => {
   ])
   const [settings, setSettings] = useState(defaultSettings)
   const [selectedMetrics, setSelectedMetrics] = useState([])
+  const [widgetMsgMap, setWidgetMsgMap] = useState(new WeakMap())
+
+  function useWidgetMessage(widget, hook) {
+    widgetMsgMap.set(widget, hook)
+  }
+
+  function sendWidgetMessage(widget, message) {
+    /* widgetMsgMap.set(widget, hook) */
+    const hook = widgetMsgMap.get(widget)
+    if (hook) {
+      hook(message)
+    }
+  }
 
   function toggleMetric(metric) {
     const newMetrics = new Set(selectedMetrics)
@@ -58,6 +72,7 @@ const Studio = ({ ...props }) => {
     setWidgets([
       ...widgets,
       {
+        id: Date.now(),
         type: 'CHART',
         Widget: ChartWidget,
         metrics: [...selectedMetrics],
@@ -80,15 +95,14 @@ const Studio = ({ ...props }) => {
       />
       <main className={styles.main}>
         <div className={styles.tab}>
-          <div className={styles.widget}>
-            {widgets.map(({ Widget, metrics, chartRef }) => (
-              <Widget
-                activeMetrics={metrics}
-                settings={settings}
-                chartRef={chartRef}
-              />
-            ))}
-          </div>
+          {widgets.map((widget) => (
+            <widget.Widget
+              key={widget.id}
+              settings={settings}
+              widget={widget}
+              sendWidgetMessage={sendWidgetMessage}
+            />
+          ))}
         </div>
         {selectedMetrics.length ? (
           <Overview
@@ -96,6 +110,7 @@ const Studio = ({ ...props }) => {
             onClose={onOverviewClose}
             onWidgetClick={onWidgetClick}
             onNewChartClick={onNewChartClick}
+            useWidgetMessage={useWidgetMessage}
           >
             <div className={styles.selection}>
               You have selected {selectedMetrics.length} metrics

@@ -25,6 +25,12 @@
   border: 1px solid var(--porcelain);
   box-shadow: 0 2px 8px rgba(59, 84, 106, 0.03),
     0 1px 2px rgba(59, 84, 106, 0.03);
+
+  margin-top: 16px;
+
+  &:first-child {
+    margin: 0;
+  }
 }
 
 @keyframes slide {

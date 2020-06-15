@@ -1,23 +1,36 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import StudioChart from '../Studio/Chart'
 import { useTimeseries } from '../Studio/timeseries/hooks'
 
-const ChartWidget = ({ settings, activeMetrics, chartRef, ...props }) => {
+import styles from './index.module.scss'
+
+const ChartWidget = ({ settings, widget, sendWidgetMessage, ...props }) => {
+  const { metrics, chartRef } = widget
   const [options, setOptions] = useState({})
-  const [data, loadings, ErrorMsg] = useTimeseries(activeMetrics, settings)
+  const [data, loadings, ErrorMsg] = useTimeseries(metrics, settings)
   /* const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings) */
   /* const data = useClosestValueData(rawData, activeMetrics, false) */
 
+  useEffect(
+    () => {
+      const message = loadings.length ? 'loading' : 'loaded'
+      sendWidgetMessage(widget, message)
+    },
+    [loadings],
+  )
+
   return (
-    <StudioChart
-      data={data}
-      chartRef={chartRef}
-      activeMetrics={activeMetrics}
-      settings={settings}
-      loadings={loadings}
-      options={options}
-      setIsICOPriceDisabled={() => {}}
-    />
+    <div className={styles.widget}>
+      <StudioChart
+        data={data}
+        chartRef={chartRef}
+        activeMetrics={metrics}
+        settings={settings}
+        loadings={loadings}
+        options={options}
+        setIsICOPriceDisabled={() => {}}
+      />
+    </div>
   )
 }
 

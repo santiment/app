@@ -13,6 +13,7 @@ const Overview = ({
   onClose,
   onWidgetClick,
   onNewChartClick,
+  useWidgetMessage,
   ...props
 }) => {
   useKeyDown(onClose, 'Escape')
@@ -21,9 +22,14 @@ const Overview = ({
     <div className={styles.wrapper}>
       <div className={styles.sticky}>
         <div className={styles.grid}>
-          {widgets.map((widget, i) => {
-            return <ChartPreview widget={widget} onClick={onWidgetClick} />
-          })}
+          {widgets.map((widget, i) => (
+            <ChartPreview
+              key={widget.id}
+              widget={widget}
+              onClick={onWidgetClick}
+              useWidgetMessage={useWidgetMessage}
+            />
+          ))}
           <div
             className={cx(styles.item, styles.item_new)}
             onClick={onNewChartClick}
