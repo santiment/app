@@ -43,6 +43,8 @@ const SanbaseBanner = () => {
     return null
   }
 
+  const { title, description } = template
+
   return (
     <div
       className={styles.container}
@@ -54,13 +56,10 @@ const SanbaseBanner = () => {
       <div className={styles.info}>
         <div>
           <div className={styles.title}>
-            Hi, this is chart layout '{template.id}'{' '}
+            Hi, this is a chart layout '{title}'{' '}
           </div>
 
-          <div className={styles.explanation}>
-            We have short 3 mins video with explnation how to work with this
-            chart layout.
-          </div>
+          <div className={styles.explanation}>{description}</div>
         </div>
 
         <VideoModal videoId={videoId} classes={styles} />
