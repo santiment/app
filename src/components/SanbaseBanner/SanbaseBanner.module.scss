@@ -4,6 +4,9 @@
   display: flex;
   background: var(--athens);
   padding: 24px 48px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 .info {
@@ -20,7 +23,8 @@
   color: var(--rhino);
   display: flex;
 
-  @include text('body-2'); }
+  @include text('body-2');
+}
 
 .link {
   &:hover {
@@ -37,4 +41,9 @@
 
 .media {
   margin-left: auto;
+  height: 58px;
+}
+
+.playBtn {
+  height: 32px;
 }

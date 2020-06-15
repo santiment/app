@@ -11,7 +11,6 @@ import {
 } from './index'
 import {
   buildTemplateMetrics,
-  extractTemplateId,
   getLastTemplate,
   getTemplateIdFromURL,
   saveLastTemplate
