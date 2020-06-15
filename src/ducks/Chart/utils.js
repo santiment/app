@@ -39,8 +39,8 @@ export function getDateHoursMinutes (date) {
 }
 
 export function yBubbleFormatter (value, metricKey) {
-  if (metricKey === 'mvrv_long_short_diff_usd') {
-    return `${Math.trunc(value * 100)}%`
+  if (Metric[metricKey].axisFormatter) {
+    return Metric[metricKey].axisFormatter(value)
   }
 
   if (!value) {

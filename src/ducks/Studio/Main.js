@@ -7,6 +7,8 @@ import StudioTabsKeyStats from './Tabs/KeyStats'
 import StudioInfo from '../SANCharts/Header'
 import styles from './index.module.scss'
 
+const isChartPath = () => window.location.pathname === '/studio'
+
 const Main = ({
   topSlot,
   bottomSlot,
@@ -14,7 +16,13 @@ const Main = ({
   onProjectChange,
   ...props
 }) => {
-  const { settings, setSettings, setIsICOPriceDisabled, project } = props
+  const {
+    settings,
+    options,
+    project,
+    setSettings,
+    setIsICOPriceDisabled
+  } = props
 
   function onProjectSelect (project) {
     if (!project) return
@@ -39,7 +47,15 @@ const Main = ({
         />
       </div>
       <StudioTabs />
-      <div className={cx(styles.container, styles.content)}>
+      <div
+        className={cx(
+          styles.container,
+          styles.content,
+          !options.isMultiChartsActive &&
+            isChartPath() &&
+            styles.container_chart
+        )}
+      >
         <Switch>
           <Route path='/studio/stats'>
             <StudioTabsKeyStats {...props} {...settings} />

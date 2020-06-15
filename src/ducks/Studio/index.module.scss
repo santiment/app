@@ -13,6 +13,12 @@
 
 .container {
   padding: 44px 25px;
+
+  &_chart {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .header {
@@ -35,6 +41,7 @@
 
 .data {
   display: flex;
+  flex: 1;
 }
 
 .advanced {
