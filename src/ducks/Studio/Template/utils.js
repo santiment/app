@@ -23,16 +23,14 @@ export function prepareTemplateLink (template) {
   )
 }
 
-export const isTemplateURL = () => {
+export const getTemplateIdFromURL = () => {
   const href = window.location.pathname
 
   if (href.indexOf(PATHS.STUDIO) === -1) {
     return false
   }
 
-  const id = extractTemplateId(href)
-
-  return +id > 0
+  return +extractTemplateId(href)
 }
 
 export const extractTemplateId = () => {

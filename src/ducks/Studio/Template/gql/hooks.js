@@ -13,7 +13,7 @@ import {
   buildTemplateMetrics,
   extractTemplateId,
   getLastTemplate,
-  isTemplateURL,
+  getTemplateIdFromURL,
   saveLastTemplate
 } from '../utils'
 import { store, client } from '../../../../index'
@@ -77,14 +77,13 @@ export function useFeaturedTemplates () {
 }
 
 export function useSelectedTemplate (templates, selectTemplate) {
-  const isTemplateUrl = isTemplateURL()
-  const defaultTemplate = isTemplateUrl ? undefined : templates[0]
-  const urlId = isTemplateUrl ? extractTemplateId() : undefined
+  const urlId = getTemplateIdFromURL()
+  const defaultTemplate = urlId ? undefined : templates[0]
   const [selectedTemplate, setSelectedTemplate] = useState()
   const [loading, setLoading] = useState()
 
   const loadTemplate = () => {
-    const targetTemplate = isTemplateUrl ? { id: urlId } : getLastTemplate()
+    const targetTemplate = urlId ? { id: urlId } : getLastTemplate()
     if (!targetTemplate) return
 
     setSelectedTemplate(targetTemplate)
@@ -102,7 +101,7 @@ export function useSelectedTemplate (templates, selectTemplate) {
       .then(({ data: { template } }) => {
         setSelectedTemplate(template)
 
-        if (isTemplateUrl) {
+        if (urlId) {
           selectTemplate(template)
         }
       })
