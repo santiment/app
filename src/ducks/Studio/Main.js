@@ -5,6 +5,7 @@ import StudioTabs from './Tabs'
 import StudioTabsChart from './Tabs/Chart'
 import StudioTabsKeyStats from './Tabs/KeyStats'
 import StudioInfo from '../SANCharts/Header'
+import SanbaseBanner from '../../components/SanbaseBanner/SanbaseBanner'
 import { Metric } from '../dataHub/metrics'
 import styles from './index.module.scss'
 
@@ -45,6 +46,7 @@ const Main = ({
 
   return (
     <>
+      <SanbaseBanner />
       <div className={styles.header}>
         {topSlot}
         <StudioInfo

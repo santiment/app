@@ -6,11 +6,11 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import FormDialogNewTemplate from './Dialog/NewTemplate'
 import LoginDialog from '../../../components/LoginDialog'
 import TemplateInfo from './TemplateDetailsDialog/TemplateInfo'
-import { isTemplateURL } from './utils'
+import { getTemplateIdFromURL } from './utils'
 import styles from './index.module.scss'
 
 const NoTemplateLabel = ({ loading }) => {
-  return isTemplateURL() && loading ? (
+  return getTemplateIdFromURL() && loading ? (
     <Loader className={styles.loader} />
   ) : (
     'Save as'

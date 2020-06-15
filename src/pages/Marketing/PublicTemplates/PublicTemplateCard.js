@@ -15,18 +15,17 @@ const PUBLIC_YOUTUBE_IDS = {
   203: '8sNUkR68nGA'
 }
 
-const PublicTemplateCard = ({ template }) => {
-  const {
-    link,
-    title,
-    description,
-    insertedAt,
-    user,
-    id,
-    options = {}
-  } = template
+export const getYoutubeIdForLayout = ({ id, options }) => {
   const { youtube_id } = options || {}
   const videoId = youtube_id || PUBLIC_YOUTUBE_IDS[id]
+
+  return videoId
+}
+
+const PublicTemplateCard = ({ template }) => {
+  const { link, title, description, insertedAt, user } = template
+
+  const videoId = getYoutubeIdForLayout(template)
 
   if (template.options) {
     template.options.youtube_id = videoId
