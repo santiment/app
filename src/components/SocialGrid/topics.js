@@ -65,7 +65,7 @@ export const INDEX_PAGE_GROUPS = [
         slug: 'buy OR bought OR buying OR bottom'
       },
       {
-        title: 'Bart',
+        title: '"Bart" Pattern',
         slug: 'bart',
         type: 'PRO',
         query: 'bart',
