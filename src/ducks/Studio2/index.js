@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
-import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
+import cx from 'classnames'
 import Sidebar from '../Studio/Sidebar'
 import { Metric } from '../dataHub/metrics'
 import styles from './index.module.scss'
 import ChartWidget from './ChartWidget'
-import ChartPreview from './ChartPreview'
-import { SvgNew } from '../../components/Watchlists/NewWatchlistCard'
-import { useKeyDown } from './hooks'
+import Overview from './Overview'
 
 const defaultSettings = {
   from: '2019-12-13T21:00:00.000Z',
@@ -17,7 +15,7 @@ const defaultSettings = {
   ticker: 'SAN',
   timeRange: '6m',
   title: 'Santiment (SAN)',
-  to: '2020-06-14T20:59:59.999Z'
+  to: '2020-06-14T20:59:59.999Z',
 }
 
 const Studio = ({ ...props }) => {
@@ -26,15 +24,13 @@ const Studio = ({ ...props }) => {
       type: 'CHART',
       Widget: ChartWidget,
       metrics: [Metric.price_usd],
-      chartRef: { current: null }
-    }
+      chartRef: { current: null },
+    },
   ])
   const [settings, setSettings] = useState(defaultSettings)
   const [selectedMetrics, setSelectedMetrics] = useState([])
 
-  useKeyDown(() => setSelectedMetrics([]), 'Escape')
-
-  function toggleMetric (metric) {
+  function toggleMetric(metric) {
     const newMetrics = new Set(selectedMetrics)
 
     if (newMetrics.has(metric)) {
@@ -46,11 +42,11 @@ const Studio = ({ ...props }) => {
     setSelectedMetrics([...newMetrics])
   }
 
-  function onClearClick () {
+  function onClearClick() {
     setSelectedMetrics([])
   }
 
-  function onWidgetClick (widget) {
+  function onWidgetClick(widget) {
     const newMetrics = new Set([...widget.metrics, ...selectedMetrics])
 
     widget.metrics = [...newMetrics]
@@ -58,16 +54,20 @@ const Studio = ({ ...props }) => {
     setWidgets([...widgets])
   }
 
-  function onNewChartClick () {
+  function onNewChartClick() {
     setWidgets([
       ...widgets,
       {
         type: 'CHART',
         Widget: ChartWidget,
         metrics: [...selectedMetrics],
-        chartRef: { current: null }
-      }
+        chartRef: { current: null },
+      },
     ])
+  }
+
+  function onOverviewClose() {
+    setSelectedMetrics([])
   }
 
   return (
@@ -91,31 +91,24 @@ const Studio = ({ ...props }) => {
           </div>
         </div>
         {selectedMetrics.length ? (
-          <div className={styles.overview}>
-            <div className={styles.test}>
-              {widgets.map((widget, i) => {
-                return <ChartPreview widget={widget} onClick={onWidgetClick} />
-              })}
-              <div
-                className={cx(styles.overview__item, styles.overview__item_new)}
-                onClick={onNewChartClick}
+          <Overview
+            widgets={widgets}
+            onClose={onOverviewClose}
+            onWidgetClick={onWidgetClick}
+            onNewChartClick={onNewChartClick}
+          >
+            <div className={styles.selection}>
+              You have selected {selectedMetrics.length} metrics
+              <Button
+                variant='fill'
+                accent='negative'
+                className={styles.clear}
+                onClick={onClearClick}
               >
-                <SvgNew />
-              </div>
-
-              <div className={styles.selection}>
-                You have selected {selectedMetrics.length} metrics
-                <Button
-                  variant='fill'
-                  accent='negative'
-                  className={styles.clear}
-                  onClick={onClearClick}
-                >
-                  Clear
-                </Button>
-              </div>
+                Clear
+              </Button>
             </div>
-          </div>
+          </Overview>
         ) : null}
       </main>
     </div>

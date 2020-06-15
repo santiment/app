@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import { initChart } from '@santiment-network/chart'
-import styles from './index.module.scss'
+import styles from './Overview.module.scss'
 
 const ChartPreview = ({ widget, onClick, ...props }) => {
   const canvasRef = useRef(null)
@@ -18,12 +18,12 @@ const ChartPreview = ({ widget, onClick, ...props }) => {
       0,
       0,
       canvas.clientWidth,
-      canvas.clientHeight + 25
+      canvas.clientHeight + 25,
     )
   }, [])
 
   return (
-    <div className={styles.overview__item} onClick={() => onClick(widget)}>
+    <div className={styles.item} onClick={() => onClick(widget)}>
       <canvas ref={canvasRef} />
     </div>
   )
