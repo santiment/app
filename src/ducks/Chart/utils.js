@@ -39,8 +39,9 @@ export function getDateHoursMinutes (date) {
 }
 
 export function yBubbleFormatter (value, metricKey) {
-  if (Metric[metricKey].axisFormatter) {
-    return Metric[metricKey].axisFormatter(value)
+  const metric = Metric[metricKey]
+  if (metric && metric.axisFormatter) {
+    return metric.axisFormatter(value)
   }
 
   if (!value) {
