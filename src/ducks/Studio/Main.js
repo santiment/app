@@ -5,9 +5,12 @@ import StudioTabs from './Tabs'
 import StudioTabsChart from './Tabs/Chart'
 import StudioTabsKeyStats from './Tabs/KeyStats'
 import StudioInfo from '../SANCharts/Header'
+import { Metric } from '../dataHub/metrics'
 import styles from './index.module.scss'
 
+const { price_usd } = Metric
 const isChartPath = () => window.location.pathname === '/studio'
+const noPriceFilter = metric => metric !== price_usd
 
 const Main = ({
   topSlot,
@@ -19,10 +22,15 @@ const Main = ({
   const {
     settings,
     options,
+    activeMetrics,
     project,
     setSettings,
     setIsICOPriceDisabled
   } = props
+
+  const isSingleChart =
+    !options.isMultiChartsActive ||
+    activeMetrics.filter(noPriceFilter).length < 2
 
   function onProjectSelect (project) {
     if (!project) return
@@ -51,9 +59,7 @@ const Main = ({
         className={cx(
           styles.container,
           styles.content,
-          !options.isMultiChartsActive &&
-            isChartPath() &&
-            styles.container_chart
+          isSingleChart && isChartPath() && styles.container_chart
         )}
       >
         <Switch>
