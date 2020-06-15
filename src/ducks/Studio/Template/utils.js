@@ -83,6 +83,12 @@ export function buildTemplateMetrics ({ metrics, comparables }) {
 }
 
 export function getLastTemplate () {
+  console.log(window.location.href)
+
+  if (window.location.pathname === PATHS.CHARTS) {
+    return undefined
+  }
+
   const savedTemplate = localStorage.getItem(LAST_USED_TEMPLATE)
 
   return savedTemplate ? JSON.parse(savedTemplate) : undefined

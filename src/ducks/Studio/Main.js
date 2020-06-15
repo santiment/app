@@ -10,7 +10,7 @@ import { Metric } from '../dataHub/metrics'
 import styles from './index.module.scss'
 
 const { price_usd } = Metric
-const isChartPath = () => window.location.pathname === '/studio'
+const isChartPath = pathname => pathname === '/studio'
 const noPriceFilter = metric => metric !== price_usd
 
 const Main = ({
@@ -44,6 +44,8 @@ const Main = ({
     onProjectChange && onProjectChange(project)
   }
 
+  const { pathname } = window.location
+
   return (
     <>
       <SanbaseBanner />
@@ -61,14 +63,14 @@ const Main = ({
         className={cx(
           styles.container,
           styles.content,
-          isSingleChart && isChartPath() && styles.container_chart
+          isSingleChart && isChartPath(pathname) && styles.container_chart
         )}
       >
         <Switch>
-          <Route path='/studio/stats'>
+          <Route path={`${pathname}/stats`}>
             <StudioTabsKeyStats {...props} {...settings} />
           </Route>
-          <Route path='/studio'>
+          <Route path={`${pathname}`}>
             <StudioTabsChart
               {...props}
               project={project}
