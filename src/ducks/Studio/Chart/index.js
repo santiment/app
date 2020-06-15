@@ -69,12 +69,12 @@ const Canvas = ({
   useEffect(
     () => {
       setChartHeight(
-        options.isMultiChartsActive
+        isMultiChartsActive
           ? undefined
           : chartRef.current.canvas.parentNode.clientHeight
       )
     },
-    [chartRef, options.isMultiChartsActive]
+    [chartRef, isMultiChartsActive]
   )
 
   useEffect(
