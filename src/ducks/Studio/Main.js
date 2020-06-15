@@ -31,10 +31,6 @@ const Main = ({
   const isSingleChart =
     !options.isMultiChartsActive ||
     activeMetrics.filter(noPriceFilter).length < 2
-  /* console.log(
-   *   !options.isMultiChartsActive,
-   *   activeMetrics.filter(noPriceFilter).length < 2,
-   * ) */
 
   function onProjectSelect (project) {
     if (!project) return
