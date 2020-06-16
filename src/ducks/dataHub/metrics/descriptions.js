@@ -225,7 +225,15 @@ export const Description = {
   [Metric.sentiment_negative_twitter.key]: getSentimentPositiveNegativeDescr(
     'Twitter',
     false
-  )
+  ),
+  [Metric.bitmex_perpetual_basis.key]:
+    'Shows the difference between BitMEX perpetual contract’s price of [Project Ticker] and BitMEX index (spot) price for [Project Ticker]',
+  [Metric.bitmex_perpetual_funding_rate.key]:
+    'The funding rate is a fee paid by one side of the perpetual contract to the other. When the funding rate is positive, Longs pay Shorts. When the funding rate is negative, Shorts pay Longs',
+  [Metric.bitmex_perpetual_open_interest.key]:
+    "Shows the amount of open perpetual contracts currently on Bitmex's [Project Ticker] / USD trading pairs. When open interest reaches unusually high numbers, it can precede increased volatility in the coin’s price",
+  [Metric.bitmex_perpetual_open_value.key]:
+    'Shows the value of the corresponding open interest in Satoshis (XBT/BTC)'
 }
 
 export const rebuildDescriptions = Submetrics => {
