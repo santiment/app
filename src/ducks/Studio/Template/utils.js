@@ -82,15 +82,29 @@ export function buildTemplateMetrics ({ metrics, comparables }) {
   return metrics.map(getMetricKey).concat(comparables.map(shareComparable))
 }
 
-export function getLastTemplate () {
-  console.log(window.location.href)
+export function getAvailableTemplate (templates) {
+  if (!availableDefaultTemplate()) {
+    return undefined
+  }
 
-  if (window.location.pathname === PATHS.CHARTS) {
+  const urlId = getTemplateIdFromURL()
+
+  if (urlId) {
+    return undefined
+  }
+
+  return templates[0]
+}
+
+const availableDefaultTemplate = () =>
+  window.location.pathname.indexOf(PATHS.CHARTS) === -1
+
+export function getLastTemplate () {
+  if (!availableDefaultTemplate()) {
     return undefined
   }
 
   const savedTemplate = localStorage.getItem(LAST_USED_TEMPLATE)
-
   return savedTemplate ? JSON.parse(savedTemplate) : undefined
 }
 
