@@ -45,10 +45,10 @@ const SocialGrid = ({
   return (
     <section className={cx(styles.wrapper, className)}>
       {items.map((topic, idx) => {
-        const { createdAt } = topic
+        const { createdAt, slug } = topic
         return (
           <Item
-            key={idx}
+            key={slug}
             show={showCount > idx}
             topic={topic.slug}
             title={topic.title || topic.slug}
