@@ -37,31 +37,21 @@ const Trigger = ({
           offsetY={13}
           closeTimeout={500}
           trigger={
-            <div className={styles.detailsIcon}>
-              <Icon type='info-round' />
+            <div className={styles.tooltipTrigger}>
+              <div className={styles.detailsIcon}>
+                <Icon type='info-round' />
+              </div>
+              {!loading && selectedTemplate.title}
             </div>
           }
-          className={styles.tooltip}
         >
           <TemplateInfo template={selectedTemplate} classes={styles} />
         </Tooltip>
       )}
 
-      <div
-        onClick={
-          selectedTemplate && isLoggedIn
-            ? saveTemplate
-            : () => {
-              openDialog()
-            }
-        }
-      >
-        {selectedTemplate && !loading ? (
-          selectedTemplate.title
-        ) : (
-          <NoTemplateLabel loading={loading} />
-        )}
-      </div>
+      {(!selectedTemplate || loading) && (
+        <div onClick={openDialog}>{<NoTemplateLabel loading={loading} />}</div>
+      )}
     </div>
   )
 }

@@ -42,7 +42,8 @@ export const PATHS = {
   GDPR: '/gdpr',
   PRO_METRICS: '/pro-sheets-templates',
   INDEX: '/',
-  STUDIO: '/studio'
+  STUDIO: '/studio',
+  CHARTS: '/charts'
 }
 
 const FOOTER_DISABLED_FOR = [
@@ -417,6 +418,16 @@ export const App = ({
         {!isDesktop && <Redirect from={PATHS.STUDIO} to='/assets' />}
         <Route
           path={PATHS.STUDIO}
+          render={props => (
+            <LoadableChartPage
+              classes={{ wrapper: styles.chart }}
+              isLoggedIn={isLoggedIn}
+              {...props}
+            />
+          )}
+        />
+        <Route
+          path={PATHS.CHARTS}
           render={props => (
             <LoadableChartPage
               classes={{ wrapper: styles.chart }}

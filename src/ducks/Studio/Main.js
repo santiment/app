@@ -7,11 +7,22 @@ import StudioTabsKeyStats from './Tabs/KeyStats'
 import StudioInfo from '../SANCharts/Header'
 import SanbaseBanner from '../../components/SanbaseBanner/SanbaseBanner'
 import { Metric } from '../dataHub/metrics'
+import { PATHS } from '../../App'
 import styles from './index.module.scss'
 
 const { price_usd } = Metric
-const isChartPath = () => window.location.pathname === '/studio'
+const isChartPath = pathname => pathname === PATHS.STUDIO
 const noPriceFilter = metric => metric !== price_usd
+
+function getCorrectPath () {
+  const { pathname } = window.location
+
+  if (pathname.indexOf(PATHS.CHARTS) !== -1) {
+    return PATHS.CHARTS
+  }
+
+  return PATHS.STUDIO
+}
 
 const Main = ({
   topSlot,
@@ -44,6 +55,8 @@ const Main = ({
     onProjectChange && onProjectChange(project)
   }
 
+  const pathName = getCorrectPath()
+
   return (
     <>
       <SanbaseBanner />
@@ -56,19 +69,19 @@ const Main = ({
           onSlugSelect={onProjectSelect}
         />
       </div>
-      <StudioTabs />
+      <StudioTabs root={pathName} />
       <div
         className={cx(
           styles.container,
           styles.content,
-          isSingleChart && isChartPath() && styles.container_chart
+          isSingleChart && isChartPath(pathName) && styles.container_chart
         )}
       >
         <Switch>
-          <Route path='/studio/stats'>
+          <Route path={`${pathName}/stats`}>
             <StudioTabsKeyStats {...props} {...settings} />
           </Route>
-          <Route path='/studio'>
+          <Route path={pathName}>
             <StudioTabsChart
               {...props}
               project={project}

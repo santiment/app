@@ -11,6 +11,7 @@ import {
 } from './index'
 import {
   buildTemplateMetrics,
+  getAvailableTemplate,
   getLastTemplate,
   getTemplateIdFromURL,
   saveLastTemplate
@@ -77,7 +78,7 @@ export function useFeaturedTemplates () {
 
 export function useSelectedTemplate (templates, selectTemplate) {
   const urlId = getTemplateIdFromURL()
-  const defaultTemplate = urlId ? undefined : templates[0]
+  const defaultTemplate = getAvailableTemplate(templates)
   const [selectedTemplate, setSelectedTemplate] = useState()
   const [loading, setLoading] = useState()
 
