@@ -7,8 +7,8 @@ import StudioTabsKeyStats from './Tabs/KeyStats'
 import StudioInfo from '../SANCharts/Header'
 import SanbaseBanner from '../../components/SanbaseBanner/SanbaseBanner'
 import { Metric } from '../dataHub/metrics'
-import styles from './index.module.scss'
 import { PATHS } from '../../App'
+import styles from './index.module.scss'
 
 const { price_usd } = Metric
 const isChartPath = pathname => pathname === PATHS.STUDIO
