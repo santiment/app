@@ -1,0 +1,29 @@
+@import '~@santiment-network/ui/mixins';
+
+.trigger {
+  color: var(--persimmon);
+  background: var(--persimmon-light);
+  padding: 2px 6px;
+  border-radius: $border-radius;
+  margin-left: 8px;
+  z-index: 100;
+}
+
+.explanation {
+  max-width: 234px;
+  padding: 16px 24px;
+}
+
+.reportBtn {
+  margin-top: 12px;
+}
+
+.link {
+  color: var(--jungle-green);
+  padding: 0;
+  height: auto;
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}

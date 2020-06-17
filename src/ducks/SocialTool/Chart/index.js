@@ -50,6 +50,8 @@ const Canvas = ({
     )
   }
 
+  const { priceAsset } = props
+
   return (
     <div className={cx(styles.wrapper, className)}>
       <ChartHeader
@@ -73,6 +75,7 @@ const Canvas = ({
             loadings={loadings}
             onMetricHover={onMetricHover}
             onMetricHoverEnd={onMetricHoverEnd}
+            project={priceAsset}
           />
         </div>
         <PaywallInfo boundaries={boundaries} metrics={metrics} />

@@ -137,6 +137,7 @@ const Canvas = ({
             isMultiChartsActive={isMultiChartsActive}
             onMetricHover={onMetricHover}
             onMetricHoverEnd={onMetricHoverEnd}
+            project={project}
           />
         </div>
 
