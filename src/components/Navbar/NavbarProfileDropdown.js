@@ -26,11 +26,14 @@ const personalLinks = [
   }
 ]
 
-const links = [
-  { to: '/account', children: 'Account settings' },
-  // { link: '/upgrade', label: 'Upgrade plan' },
+const LOGGED_IN_LINKS_1 = [
+  { to: '/account', children: 'Account settings', as: Link }
+]
+
+const LOGGED_IN_LINKS_2 = [
   {
     to: '/logout',
+    as: Link,
     className: styles.logout,
     children: (
       <>
@@ -99,13 +102,24 @@ const getSubscriptionText = (subscription, productName) => {
   )
 }
 
+const LinkBuilder = (props, index) => {
+  const { className } = props
+  return (
+    <Button
+      variant='ghost'
+      key={index}
+      fluid
+      className={cx(dropdownStyles.item, className)}
+      {...props}
+    />
+  )
+}
+
 export const NavbarProfileDropdown = ({
   activeLink,
-  picUrl,
-  status = 'offline',
   isNightModeEnabled,
   toggleNightMode,
-  toggleBetaMode,
+  isUpdateAvailable,
   user
 }) => {
   const isLoggedIn = user && user.id
@@ -193,16 +207,7 @@ export const NavbarProfileDropdown = ({
       {isLoggedIn && (
         <>
           <div className={dropdownStyles.list}>
-            {personalLinks.map((props, index) => (
-              <Button
-                variant='ghost'
-                key={index}
-                fluid
-                className={dropdownStyles.item}
-                isActive={props.to === activeLink}
-                {...props}
-              />
-            ))}
+            {personalLinks.map(LinkBuilder)}
           </div>
           <DropdownDevider />
         </>
@@ -217,20 +222,22 @@ export const NavbarProfileDropdown = ({
         >
           Labs
         </Button>
-        {isLoggedIn &&
-          links.map((props, index) => {
-            return (
-              <Button
-                variant='ghost'
-                key={index}
-                fluid
-                as={Link}
-                className={dropdownStyles.item}
-                isActive={props.to === activeLink}
-                {...props}
-              />
-            )
-          })}
+
+        {isLoggedIn && LOGGED_IN_LINKS_1.map(LinkBuilder)}
+
+        {isUpdateAvailable && (
+          <Button
+            variant='ghost'
+            fluid
+            accent='positive'
+            className={cx(dropdownStyles.item, dropdownStyles.updateBtn)}
+            onClick={() => window.location.reload(true)}
+          >
+            Update available. Restart now
+          </Button>
+        )}
+
+        {isLoggedIn && LOGGED_IN_LINKS_2.map(LinkBuilder)}
 
         {!isLoggedIn && (
           <Button
@@ -249,10 +256,11 @@ export const NavbarProfileDropdown = ({
   )
 }
 
-const mapStateToProps = state => ({
-  isNightModeEnabled: state.rootUi.isNightModeEnabled,
-  status: state.rootUi.isOnline ? 'online' : 'offline',
-  user: state.user.data
+const mapStateToProps = ({ rootUi, user, app }) => ({
+  isNightModeEnabled: rootUi.isNightModeEnabled,
+  status: rootUi.isOnline ? 'online' : 'offline',
+  user: user.data,
+  isUpdateAvailable: app.isUpdateAvailable
 })
 
 const mapDispatchToProps = dispatch => ({
