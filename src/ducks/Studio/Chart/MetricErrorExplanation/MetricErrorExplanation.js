@@ -26,7 +26,7 @@ const MetricErrorExplanation = ({ errorsForMetrics, metric, project }) => {
     <Tooltip
       position='bottom'
       align='start'
-      on='hover'
+      on='click'
       closeTimeout={500}
       trigger={<div className={styles.trigger}>No data?</div>}
     >
