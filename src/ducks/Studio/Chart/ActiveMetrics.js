@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import MetricExplanation from '../../SANCharts/MetricExplanation'
 import MetricIcon from '../../SANCharts/MetricIcon'
 import { Event } from '../../dataHub/events'
+import MetricErrorExplanation from './MetricErrorExplanation/MetricErrorExplanation'
 import styles from './ActiveMetrics.module.scss'
 
 const { trendPositionHistory } = Event
@@ -17,6 +18,8 @@ const MetricButton = ({
   isRemovable,
   toggleMetric,
   withDescription,
+  errorsForMetrics,
+  project,
   ...rest
 }) => {
   const { key, dataKey = key, node, label, comparedTicker } = metric
@@ -49,6 +52,11 @@ const MetricButton = ({
         )}
         {label}
         {comparedTicker && ` (${comparedTicker})`}
+        <MetricErrorExplanation
+          errorsForMetrics={errorsForMetrics}
+          metric={metric}
+          project={project}
+        />
         {isRemovable && (
           <Icon
             type='close-small'
@@ -61,6 +69,9 @@ const MetricButton = ({
   )
 }
 
+const API_TEST_URL =
+  'https://api-tests-json.s3.eu-central-1.amazonaws.com/latest_report.json'
+
 export default ({
   className,
   MetricColor,
@@ -71,9 +82,27 @@ export default ({
   eventLoadings,
   isMultiChartsActive,
   onMetricHover,
-  onMetricHoverEnd
+  onMetricHoverEnd,
+  project
 }) => {
   const isMoreThanOneMetric = activeMetrics.length > 1 || isMultiChartsActive
+  const [errorsForMetrics, setErrorsForMetrics] = useState()
+
+  useEffect(() => {
+    fetch(API_TEST_URL)
+      .then(response => {
+        if (!response.ok) {
+          return {}
+        }
+        return response.json()
+      })
+      .then(data => {
+        setErrorsForMetrics(data)
+      })
+  }, [])
+
+  const errors =
+    project && errorsForMetrics ? errorsForMetrics[project.slug] : []
 
   return (
     <>
@@ -88,6 +117,8 @@ export default ({
           toggleMetric={toggleMetric}
           onMouseEnter={onMetricHover && (e => onMetricHover(metric, e))}
           onMouseLeave={onMetricHoverEnd && (() => onMetricHoverEnd(metric))}
+          errorsForMetrics={errors}
+          project={project}
         />
       ))}
       {activeEvents.includes(trendPositionHistory) && (
@@ -98,6 +129,8 @@ export default ({
           colors={MetricColor}
           toggleMetric={toggleMetric}
           isLoading={eventLoadings.length}
+          errorsForMetrics={errors}
+          project={project}
         />
       )}
     </>
