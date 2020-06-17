@@ -34,7 +34,7 @@ const MetricErrorExplanation = ({ errorsForMetrics, metric, project }) => {
         <div>
           {[
             text,
-            'If Intercom is not activated or exist, send a email to ',
+            ' If Intercom is not activated or exist, send a email to ',
             <Button
               as='a'
               key='link'
