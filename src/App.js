@@ -220,9 +220,7 @@ export const App = ({
   isUserLoading,
   token,
   isOffline,
-  hasMetamask,
   isBetaModeEnabled,
-  location,
   showFooter,
   location: { pathname }
 }) => (
@@ -463,22 +461,14 @@ function isPathnameInPages (pathname, pages) {
   return pages.some(path => !pathname.replace(path, '').includes('/'))
 }
 
-const mapStateToProps = (
-  { user, rootUi },
-  { location: { pathname, ...rest } }
-) => {
-  const { ethAccounts = [] } = user.data
-
-  return {
-    isLoggedIn: user.data && !!user.data.id,
-    isUserLoading: user.isLoading,
-    token: user.token,
-    isOffline: !rootUi.isOnline,
-    isBetaModeEnabled: rootUi.isBetaModeEnabled,
-    hasMetamask: ethAccounts.length > 0 && ethAccounts[0].address,
-    showFooter: !isPathnameInPages(pathname, FOOTER_DISABLED_FOR)
-  }
-}
+const mapStateToProps = ({ user, rootUi }, { location: { pathname } }) => ({
+  isLoggedIn: user.data && !!user.data.id,
+  isUserLoading: user.isLoading,
+  token: user.token,
+  isOffline: !rootUi.isOnline,
+  isBetaModeEnabled: rootUi.isBetaModeEnabled,
+  showFooter: !isPathnameInPages(pathname, FOOTER_DISABLED_FOR)
+})
 
 const enhance = compose(
   connect(mapStateToProps),
