@@ -102,7 +102,7 @@ export default ({
   }, [])
 
   const errors =
-    project && errorsForMetrics ? errorsForMetrics[project.slug] : []
+    project && errorsForMetrics ? errorsForMetrics[project.slug] : {}
 
   return (
     <>

@@ -28,7 +28,6 @@ const MetricErrorExplanation = ({ errorsForMetrics, metric, project }) => {
       align='start'
       on='hover'
       closeTimeout={500}
-      passOpenStateAs='isActive'
       trigger={<div className={styles.trigger}>No data?</div>}
     >
       <Panel padding className={styles.explanation}>
