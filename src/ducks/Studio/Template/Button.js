@@ -6,30 +6,22 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import FormDialogNewTemplate from './Dialog/NewTemplate'
 import LoginDialog from '../../../components/LoginDialog'
 import TemplateInfo from './TemplateDetailsDialog/TemplateInfo'
-import { getTemplateIdFromURL } from './utils'
 import styles from './index.module.scss'
 
 const NoTemplateLabel = ({ loading }) => {
-  return getTemplateIdFromURL() && loading ? (
-    <Loader className={styles.loader} />
-  ) : (
-    'Save as'
-  )
+  return loading ? <Loader className={styles.loader} /> : 'Save as'
 }
 
-const Trigger = ({
-  hasTemplates,
-  selectedTemplate,
-  saveTemplate,
-  openDialog,
-  isLoggedIn,
-  loading
-}) => {
+const TemplateTitle = ({ loading, openDialog }) => (
+  <div onClick={openDialog}>{<NoTemplateLabel loading={loading} />}</div>
+)
+
+const Trigger = ({ hasTemplates, selectedTemplate, openDialog, loading }) => {
   return (
     <div
       className={cx(styles.btn__left, !hasTemplates && styles.btn__left_large)}
     >
-      {selectedTemplate && (
+      {selectedTemplate ? (
         <Tooltip
           position='top'
           align='start'
@@ -41,16 +33,18 @@ const Trigger = ({
               <div className={styles.detailsIcon}>
                 <Icon type='info-round' />
               </div>
-              {!loading && selectedTemplate.title}
+              {!loading ? (
+                selectedTemplate.title
+              ) : (
+                <TemplateTitle loading={loading} openDialog={openDialog} />
+              )}
             </div>
           }
         >
           <TemplateInfo template={selectedTemplate} classes={styles} />
         </Tooltip>
-      )}
-
-      {(!selectedTemplate || loading) && (
-        <div onClick={openDialog}>{<NoTemplateLabel loading={loading} />}</div>
+      ) : (
+        <TemplateTitle loading={loading} openDialog={openDialog} />
       )}
     </div>
   )
