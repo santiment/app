@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react'
 import cx from 'classnames'
 import StudioHeader from '../../Studio/Header'
-import StudioChart from '../../Studio/Chart'
 import StudioAdvancedView from '../../Studio/AdvancedView'
 import { ONE_HOUR_IN_MS } from '../../../utils/dates'
 import styles from '../index.module.scss'
+import MetricExplanation from './MetricExplanation'
 
 const Chart = ({ eventsData, onProjectSelect, widgets, ...props }) => {
   const { settings, options, advancedView, changeTimePeriod } = props
@@ -13,6 +13,9 @@ const Chart = ({ eventsData, onProjectSelect, widgets, ...props }) => {
   const [isSelectingRange, setIsSelectingRange] = useState(false)
   const [selectedDate, setSelectedDate] = useState()
   const [selectedDatesRange, setSelectedDatesRange] = useState()
+  const [isMetricExplanationOpened, setIsMetricExplanationOpened] = useState(
+    false,
+  )
 
   function changeSelectedDate({ value }) {
     setSelectedDate(new Date(value))
@@ -46,6 +49,10 @@ const Chart = ({ eventsData, onProjectSelect, widgets, ...props }) => {
     setIsSelectingRange(true)
   }
 
+  function toggleMetricExplanationVisibility() {
+    setIsMetricExplanationOpened((state) => !state)
+  }
+
   return (
     <>
       <StudioHeader
@@ -53,6 +60,7 @@ const Chart = ({ eventsData, onProjectSelect, widgets, ...props }) => {
         chartRef={chartRef}
         events={eventsData}
         onProjectSelect={onProjectSelect}
+        onExplainMetricsClick={toggleMetricExplanationVisibility}
       />
       {/* <div
           className={cx(
@@ -66,6 +74,7 @@ const Chart = ({ eventsData, onProjectSelect, widgets, ...props }) => {
             <div className={styles.tab}> */}
           {widgets.map((widget) => (
             <widget.Widget
+              {...props}
               key={widget.id}
               settings={settings}
               widget={widget}
@@ -73,7 +82,15 @@ const Chart = ({ eventsData, onProjectSelect, widgets, ...props }) => {
           ))}
         </div>
 
-        <div className={styles.side}>123</div>
+        {/* <div className={styles.side}>123</div> */}
+        {isMetricExplanationOpened && (
+          <MetricExplanation
+            widgets={widgets}
+            toggleMetricExplanationVisibility={
+              toggleMetricExplanationVisibility
+            }
+          />
+        )}
         {/* </div>
             </div> */}
         {advancedView && (

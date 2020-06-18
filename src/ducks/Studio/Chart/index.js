@@ -11,7 +11,7 @@ import IcoPrice from './IcoPrice'
 import LastDayPrice from './LastDayPrice'
 import SharedAxisToggle from './SharedAxisToggle'
 import ChartMetricsExplanation, {
-  filterExplainableMetrics
+  filterExplainableMetrics,
 } from './Sidepane/MetricsExplanation'
 import { METRICS_EXPLANATION_PANE } from './Sidepane/panes'
 import { TOP_HOLDER_METRICS } from './Sidepane/TopHolders/metrics'
@@ -71,10 +71,10 @@ const Canvas = ({
       setChartHeight(
         options.isMultiChartsActive
           ? undefined
-          : chartRef.current.canvas.parentNode.clientHeight
+          : chartRef.current.canvas.parentNode.clientHeight,
       )
     },
-    [chartRef, options.isMultiChartsActive]
+    [chartRef, options.isMultiChartsActive],
   )
 
   useEffect(
@@ -83,12 +83,12 @@ const Canvas = ({
         toggleChartSidepane()
       }
     },
-    [hasExplanaibles]
+    [hasExplanaibles],
   )
 
   useEffect(onMetricHoverEnd, [metrics])
 
-  function onMetricHover (metric, { currentTarget }) {
+  function onMetricHover(metric, { currentTarget }) {
     const { parentNode } = currentTarget
     // HACK: For some reason, fast pointer movement can trigger 'mouseenter' but not 'mouseleave'
     // Hence, a metric might be stucked in the highlighted state [@vanguard | Jun 14, 2020]
@@ -97,16 +97,16 @@ const Canvas = ({
         if (parentNode.querySelector(':hover')) {
           setFocusedMetric(metric)
         }
-      }, 60)
+      }, 60),
     )
   }
 
-  function onMetricHoverEnd () {
+  function onMetricHoverEnd() {
     clearTimeout(focusTimer)
     setFocusedMetric()
   }
 
-  function onBrushChangeEnd (startIndex, endIndex) {
+  function onBrushChangeEnd(startIndex, endIndex) {
     const start = allTimeData[startIndex]
     const end = allTimeData[endIndex]
     if (start && end) {
@@ -119,7 +119,7 @@ const Canvas = ({
       className={cx(
         styles.wrapper,
         chartSidepane && styles.wrapper_explained,
-        className
+        className,
       )}
     >
       <div className={cx(styles.top, isBlurred && styles.blur)}>
@@ -128,7 +128,7 @@ const Canvas = ({
             className={styles.metric}
             MetricColor={MetricColor}
             activeMetrics={metrics.filter(
-              metric => !TOP_HOLDER_METRICS.includes(metric)
+              (metric) => !TOP_HOLDER_METRICS.includes(metric),
             )}
             activeEvents={activeEvents}
             toggleMetric={toggleMetric}
@@ -148,12 +148,12 @@ const Canvas = ({
               setIsDomainGroupingActive={setIsDomainGroupingActive}
             />
           )}
-          {hasExplanaibles && (
-            <ChartMetricsExplanation.Button
+          {/* {hasExplanaibles && (
+              <ChartMetricsExplanation.Button
               className={styles.explain}
               onClick={toggleChartSidepane}
-            />
-          )}
+              />
+              )} */}
           <ChartFullscreenBtn
             {...props}
             options={options}
@@ -191,7 +191,7 @@ const Canvas = ({
           advancedView,
           chartSidepane,
           isSidebarClosed,
-          axesMetricKeys
+          axesMetricKeys,
         ]}
       >
         <IcoPrice
@@ -199,7 +199,7 @@ const Canvas = ({
           {...options}
           metrics={metrics}
           className={styles.ico}
-          onResult={price => setIsICOPriceDisabled(!price)}
+          onResult={(price) => setIsICOPriceDisabled(!price)}
         />
         <LastDayPrice settings={settings} metrics={metrics} />
         {isSelectingRange || <Signals {...settings} metrics={metrics} />}
@@ -232,8 +232,8 @@ const Canvas = ({
   )
 }
 
-const mapStateToProps = state => ({
-  isAnon: !checkIsLoggedIn(state)
+const mapStateToProps = (state) => ({
+  isAnon: !checkIsLoggedIn(state),
 })
 
 export default connect(mapStateToProps)(
@@ -248,5 +248,5 @@ export default connect(mapStateToProps)(
         />
       </Synchronizer>
     )
-  }
+  },
 )

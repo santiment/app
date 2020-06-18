@@ -9,9 +9,19 @@ import Overview from './Overview'
 import Manager from './Manager'
 import Main from './Main'
 import { TOP_HOLDER_METRICS } from '../Studio/Chart/Sidepane/TopHolders/metrics'
+import HolderDistributionWidget from './HolderDistributionWidget'
+import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
+
+import {
+  DEFAULT_SETTINGS,
+  DEFAULT_OPTIONS,
+  DEFAULT_METRICS,
+  DEFAULT_METRIC_SETTINGS_MAP,
+} from '../Studio/defaults'
 
 let id = -1
 
+/*
 const defaultSettings = {
   from: '2019-12-13T21:00:00.000Z',
   interval: '4h',
@@ -22,8 +32,18 @@ const defaultSettings = {
   title: 'Santiment (SAN)',
   to: '2020-06-14T20:59:59.999Z',
 }
+*/
 
-const Studio = ({ ...props }) => {
+const Studio = ({
+  defaultSettings,
+  defaultOptions,
+  defaultMetrics,
+  defaultEvents,
+  defaultComparedMetrics,
+  defaultComparables,
+  defaultMetricSettingsMap,
+  ...props
+}) => {
   const [widgets, setWidgets] = useState([
     {
       id: ++id,
@@ -35,14 +55,13 @@ const Studio = ({ ...props }) => {
     {
       id: ++id,
       type: 'CHART',
-      Widget: ChartWidget,
+      Widget: HolderDistributionWidget,
       metrics: TOP_HOLDER_METRICS,
       chartRef: { current: null },
     },
   ])
   const [settings, setSettings] = useState(defaultSettings)
   const [selectedMetrics, setSelectedMetrics] = useState([])
-  const [widgetMsgMap, setWidgetMsgMap] = useState(new WeakMap())
 
   function toggleMetric(metric) {
     const newMetrics = new Set(selectedMetrics)
@@ -85,6 +104,18 @@ const Studio = ({ ...props }) => {
     setSelectedMetrics([])
   }
 
+  function changeTimePeriod(from, to, timeRange) {
+    const interval = getNewInterval(from, to)
+
+    setSettings((state) => ({
+      ...state,
+      timeRange,
+      interval: INTERVAL_ALIAS[interval] || interval,
+      from: from.toISOString(),
+      to: to.toISOString(),
+    }))
+  }
+
   return (
     <Manager>
       <div className={styles.wrapper}>
@@ -95,7 +126,16 @@ const Studio = ({ ...props }) => {
           toggleMetric={toggleMetric}
         />
         <main className={styles.main}>
-          <Main widgets={widgets} settings={settings} options={{}} />
+          <Main
+            {...props}
+            widgets={widgets}
+            settings={settings}
+            options={{}}
+            // fn
+            setSettings={setSettings}
+            changeTimePeriod={changeTimePeriod}
+          />
+
           {selectedMetrics.length ? (
             <Overview
               widgets={widgets}
@@ -122,4 +162,25 @@ const Studio = ({ ...props }) => {
   )
 }
 
-export default Studio
+export default ({
+  settings,
+  options,
+  metrics,
+  events,
+  comparables,
+  MetricSettingsMap,
+  ...props
+}) => (
+  <Studio
+    {...props}
+    defaultSettings={{
+      ...DEFAULT_SETTINGS,
+      ...settings,
+    }}
+    defaultOptions={{ ...DEFAULT_OPTIONS, ...options }}
+    defaultMetrics={metrics || DEFAULT_METRICS}
+    defaultEvents={events}
+    defaultComparables={comparables}
+    defaultMetricSettingsMap={MetricSettingsMap || DEFAULT_METRIC_SETTINGS_MAP}
+  />
+)

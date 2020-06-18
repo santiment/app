@@ -21,15 +21,15 @@ const Main = ({
     options,
     project,
     setSettings,
-    setIsICOPriceDisabled
+    setIsICOPriceDisabled,
   } = props
 
-  function onProjectSelect (project) {
+  function onProjectSelect(project) {
     if (!project) return
 
     const { slug, name, ticker, id: projectId } = project
     const title = `${name} (${ticker})`
-    setSettings(state => ({ ...state, slug, title, projectId, ticker }))
+    setSettings((state) => ({ ...state, slug, title, projectId, ticker }))
     setIsICOPriceDisabled(true)
     onSlugChange(slug)
     onProjectChange && onProjectChange(project)
@@ -53,7 +53,7 @@ const Main = ({
           styles.content,
           !options.isMultiChartsActive &&
             isChartPath() &&
-            styles.container_chart
+            styles.container_chart,
         )}
       >
         <Switch>

@@ -22,14 +22,14 @@ const METRIC_BOUNDARIES_QUERY = gql`
   }
 `
 
-function formatDate (date) {
+function formatDate(date) {
   const { DD, MMM, YY } = getDateFormats(new Date(date))
   return `${DD} ${MMM}, ${YY}`
 }
 
 const DEFAULT_INFOS = []
 
-function useRestrictedInfo (metrics) {
+function useRestrictedInfo(metrics) {
   const [infos, setInfos] = useState(DEFAULT_INFOS)
 
   useEffect(
@@ -43,36 +43,36 @@ function useRestrictedInfo (metrics) {
           .query({
             query: METRIC_BOUNDARIES_QUERY,
             variables: {
-              metric: queryKey
-            }
+              metric: queryKey,
+            },
           })
           .then(({ data: { getMetric } }) => {
             if (race) return
 
             const {
-              metadata: { isRestricted, from, to }
+              metadata: { isRestricted, from, to },
             } = getMetric
 
             if (!isRestricted) return
 
-            setInfos(state => [
+            setInfos((state) => [
               ...state,
               {
                 key,
                 label,
                 from,
-                to
-              }
+                to,
+              },
             ])
           })
-          .catch(console.warn)
+          .catch(console.warn),
       )
 
       return () => {
         race = true
       }
     },
-    [metrics]
+    [metrics],
   )
 
   return infos
@@ -90,7 +90,8 @@ const PaywallInfo = ({ boundaries, subscription, metrics }) => {
 
   return (
     infos.length > 0 &&
-    checkHasBoundaries(boundaries) && (
+    /* checkHasBoundaries(boundaries) && ( */
+    boundaries && (
       <Tooltip
         position='bottom'
         trigger={
@@ -120,8 +121,8 @@ const PaywallInfo = ({ boundaries, subscription, metrics }) => {
   )
 }
 
-const mapStateToProps = state => ({
-  subscription: getCurrentSanbaseSubscription(state.user.data)
+const mapStateToProps = (state) => ({
+  subscription: getCurrentSanbaseSubscription(state.user.data),
 })
 
 export default connect(mapStateToProps)(PaywallInfo)

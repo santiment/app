@@ -15,7 +15,7 @@ const DEFAULT_METRICS = [Metric.price_usd]
 
 const CRUMB = {
   label: 'Assets',
-  to: '/assets'
+  to: '/assets',
 }
 
 const TopSlot = compose(withProject)(({ slug, project, loading }) =>
@@ -26,14 +26,14 @@ const TopSlot = compose(withProject)(({ slug, project, loading }) =>
         meta={[
           {
             property: 'og:title',
-            content: `Project overview: ${project.name} - Sanbase`
+            content: `Project overview: ${project.name} - Sanbase`,
           },
           {
             property: 'og:description',
             content: `Financial, development, on-chain and social data for ${
               project.name
-            }.`
-          }
+            }.`,
+          },
         ]}
       />
       <Breadcrumbs
@@ -42,17 +42,25 @@ const TopSlot = compose(withProject)(({ slug, project, loading }) =>
       />
       <CtaJoinPopup />
     </>
-  ) : null
+  ) : null,
 )
 
 export default ({ history, ...props }) => {
   const parsedUrl = parseUrl()
 
-  function onSlugChange () {
+  function onSlugChange() {
     history.replace(`${window.location.pathname}${window.location.search}`)
   }
 
-  return <Studio2 />
+  return (
+    <Studio2
+      parsedUrl={parsedUrl}
+      topSlot={<TopSlot slug={parsedUrl.settings.slug} />}
+      //metrics={DEFAULT_METRICS}
+      onSlugChange={onSlugChange}
+      {...props}
+    />
+  )
 
   return (
     <ChartPage

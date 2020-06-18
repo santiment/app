@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import { TOP_HOLDERS_PANE, METRICS_EXPLANATION_PANE } from './panes'
 import TopHolders from './TopHolders'
@@ -7,10 +8,10 @@ import styles from './index.module.scss'
 
 const Components = {
   [TOP_HOLDERS_PANE]: TopHolders,
-  [METRICS_EXPLANATION_PANE]: MetricsExplanation
+  [METRICS_EXPLANATION_PANE]: MetricsExplanation,
 }
 
-const CloseButton = props => (
+const CloseButton = (props) => (
   <div className={styles.close} {...props}>
     <div className={styles.icons}>
       <Icon type='hamburger' className={styles.hamburger} />
@@ -19,7 +20,12 @@ const CloseButton = props => (
   </div>
 )
 
-export default ({ chartSidepane, toggleChartSidepane, ...props }) => {
+export default ({
+  className,
+  chartSidepane,
+  toggleChartSidepane,
+  ...props
+}) => {
   const El = Components[chartSidepane]
 
   if (!El) {
@@ -28,12 +34,14 @@ export default ({ chartSidepane, toggleChartSidepane, ...props }) => {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cx(styles.wrapper, className)}>
       <CloseButton onClick={toggleChartSidepane} />
       <div className={styles.content}>
-        <div className={styles.title}>
-          <El.Title {...props} />
-        </div>
+        {El.Title && (
+          <div className={styles.title}>
+            <El.Title {...props} />
+          </div>
+        )}
         <El {...props} />
       </div>
     </div>

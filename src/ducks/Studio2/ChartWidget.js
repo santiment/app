@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react'
+import cx from 'classnames'
 import StudioChart from '../Studio/Chart'
 import { useTimeseries } from '../Studio/timeseries/hooks'
 import { useWidgetDispatcher } from './Manager/hooks'
 
 import styles from './index.module.scss'
 
-const ChartWidget = ({ settings, widget, sendWidgetMessage, ...props }) => {
+export const Widget = ({ className, children }) => (
+  <div className={cx(styles.widget, className)}>{children}</div>
+)
+
+export const Chart = ({ settings, widget, ...props }) => {
   const { metrics, chartRef } = widget
   const dispatch = useWidgetDispatcher(widget)
   const [options, setOptions] = useState({})
@@ -15,27 +20,30 @@ const ChartWidget = ({ settings, widget, sendWidgetMessage, ...props }) => {
 
   useEffect(
     () => {
-      /* console.log(loadings.length) */
       const phase = loadings.length ? 'loading' : 'loaded'
-      /* sendWidgetMessage(widget, phase) */
       dispatch(phase)
     },
     [loadings.length],
   )
 
   return (
-    <div className={styles.widget}>
-      <StudioChart
-        data={data}
-        chartRef={chartRef}
-        activeMetrics={metrics}
-        settings={settings}
-        loadings={loadings}
-        options={options}
-        setIsICOPriceDisabled={() => {}}
-      />
-    </div>
+    <StudioChart
+      {...props}
+      data={data}
+      chartRef={chartRef}
+      activeMetrics={metrics}
+      settings={settings}
+      loadings={loadings}
+      options={options}
+      setIsICOPriceDisabled={() => {}}
+    />
   )
 }
+
+const ChartWidget = (props) => (
+  <Widget>
+    <Chart {...props} />
+  </Widget>
+)
 
 export default ChartWidget

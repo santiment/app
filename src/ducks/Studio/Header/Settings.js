@@ -4,6 +4,7 @@ import Toggle from '@santiment-network/ui/Toggle'
 import AdvancedCalendar from '../../../components/AdvancedCalendar'
 import ContextMenu from './ContextMenu'
 import { getIntervalByTimeRange } from '../../../utils/dates'
+import MetricsExplanation from '../Chart/Sidepane/MetricsExplanation'
 import styles from './Settings.module.scss'
 
 export default ({
@@ -29,8 +30,17 @@ export default ({
     changeTimePeriod(from, to)
   }
 
+  /* const hasExplanaibles = filterExplainableMetrics(metrics).length > 0 */
+  const hasExplanaibles = true
+
   return (
     <div className={cx(styles.wrapper, className)}>
+      {hasExplanaibles && (
+        <MetricsExplanation.Button
+          onClick={onExplainMetricsClick}
+          className={styles.explain}
+        />
+      )}
       <AdvancedCalendar
         className={styles.calendar}
         from={new Date(from)}
@@ -48,7 +58,6 @@ export default ({
           />
         </div>
       )}
-      <button onClick={onExplainMetricsClick}>Explain metrics</button>
       <ContextMenu
         title={title}
         showNightModeToggle={false}

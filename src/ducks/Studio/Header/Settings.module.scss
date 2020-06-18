@@ -4,7 +4,6 @@
 }
 
 .calendar {
-  margin: 0 16px;
   min-width: 167px;
 }
 
@@ -18,4 +17,8 @@
   &__toggle {
     margin-left: 8px;
   }
+}
+
+.explain {
+  margin: 0 16px;
 }

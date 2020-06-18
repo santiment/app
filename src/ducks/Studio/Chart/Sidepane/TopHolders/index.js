@@ -12,13 +12,13 @@ const TopHolders = ({ metrics, MetricColor, toggleMetric, setMetrics }) => {
     setMetrics(metrics.concat(TOP_HOLDER_METRICS.slice(0, diff)))
 
     return () => {
-      setMetrics(state =>
-        state.filter(metric => !TOP_HOLDER_METRICS.includes(metric))
+      setMetrics((state) =>
+        state.filter((metric) => !TOP_HOLDER_METRICS.includes(metric)),
       )
     }
   }, [])
 
-  return TOP_HOLDER_METRICS.map(metric => {
+  return TOP_HOLDER_METRICS.map((metric) => {
     const { key, label } = metric
     return (
       <Button
@@ -38,6 +38,6 @@ const TopHolders = ({ metrics, MetricColor, toggleMetric, setMetrics }) => {
   })
 }
 
-TopHolders.Title = ({ ticker }) => `${ticker} Holder Distribution`
+/* TopHolders.Title = ({ ticker }) => `${ticker} Holder Distribution` */
 
 export default TopHolders

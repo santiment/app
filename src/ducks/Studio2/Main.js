@@ -31,11 +31,10 @@ const Main = ({
     const { slug, name, ticker, id: projectId } = project
     const title = `${name} (${ticker})`
     setSettings((state) => ({ ...state, slug, title, projectId, ticker }))
-    setIsICOPriceDisabled(true)
+    /* setIsICOPriceDisabled(true) */
     onSlugChange(slug)
-    onProjectChange && onProjectChange(project)
+    /* onProjectChange && onProjectChange(project) */
   }
-  function onProjectSelect(project) {}
 
   return (
     <>
