@@ -24,6 +24,7 @@ import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
 import { useChartColors } from '../../Chart/colors'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './index.module.scss'
+import ContextMenu from '../Header/ContextMenu'
 
 const Canvas = ({
   index,
@@ -41,8 +42,9 @@ const Canvas = ({
   toggleMetric,
   toggleChartSidepane,
   changeHoveredDate,
-  isMultiChartsActive,
   syncedTooltipDate,
+  isMultiChartsActive,
+  isSingleWidget = !isMultiChartsActive,
   isAnon,
   isSidebarClosed,
   isSelectingRange,
@@ -135,6 +137,7 @@ const Canvas = ({
             loadings={loadings}
             eventLoadings={eventLoadings}
             isMultiChartsActive={isMultiChartsActive}
+            isSingleWidget={isSingleWidget}
             onMetricHover={onMetricHover}
             onMetricHoverEnd={onMetricHoverEnd}
           />
@@ -154,6 +157,7 @@ const Canvas = ({
               onClick={toggleChartSidepane}
               />
               )} */}
+
           <ChartFullscreenBtn
             {...props}
             options={options}
@@ -163,6 +167,13 @@ const Canvas = ({
             activeEvents={activeEvents}
             scale={scale}
             brushData={allTimeData}
+          />
+
+          <ContextMenu
+            showNightModeToggle={false}
+            showMulti={false}
+            setOptions={props.setOptions}
+            {...options}
           />
         </div>
       </div>

@@ -1,6 +1,6 @@
 import cx from 'classnames'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useKeyDown } from './hooks'
 import { SvgNew } from '../../components/Watchlists/NewWatchlistCard'
 import ChartPreview from './ChartPreview'
@@ -17,6 +17,13 @@ const Overview = ({
   ...props
 }) => {
   useKeyDown(onClose, 'Escape')
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = null
+    }
+  }, [])
 
   return (
     <div className={styles.wrapper}>

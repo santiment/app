@@ -32,6 +32,7 @@ const ChartPreview = ({ widget, onClick, ...props }) => {
       setState(Phase.LOADING)
     } else if (phase === 'loaded') {
       setState(Phase.LOADED)
+
       document.querySelector('.circle').onanimationiteration = ({ target }) => {
         target.onanimationiteration = null
         document

@@ -10,7 +10,13 @@ export const Widget = ({ className, children }) => (
   <div className={cx(styles.widget, className)}>{children}</div>
 )
 
-export const Chart = ({ settings, widget, ...props }) => {
+export const Chart = ({
+  settings,
+  widget,
+  isSingleWidget,
+  toggleWidgetMetric,
+  ...props
+}) => {
   const { metrics, chartRef } = widget
   const dispatch = useWidgetDispatcher(widget)
   const [options, setOptions] = useState({})
@@ -36,6 +42,9 @@ export const Chart = ({ settings, widget, ...props }) => {
       loadings={loadings}
       options={options}
       setIsICOPriceDisabled={() => {}}
+      setOptions={setOptions}
+      isSingleWidget={isSingleWidget}
+      toggleMetric={(metric) => toggleWidgetMetric(widget, metric)}
     />
   )
 }

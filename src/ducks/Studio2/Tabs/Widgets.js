@@ -9,13 +9,16 @@ import MetricExplanation from './MetricExplanation'
 const Chart = ({ eventsData, onProjectSelect, widgets, ...props }) => {
   const { settings, options, advancedView, changeTimePeriod } = props
 
-  const chartRef = useRef(null)
+  const [syncedTooltipDate, syncTooltips] = useState()
   const [isSelectingRange, setIsSelectingRange] = useState(false)
   const [selectedDate, setSelectedDate] = useState()
   const [selectedDatesRange, setSelectedDatesRange] = useState()
   const [isMetricExplanationOpened, setIsMetricExplanationOpened] = useState(
     false,
   )
+  const chartRef = useRef(null)
+
+  const isSingleWidget = widgets.length === 0
 
   function changeSelectedDate({ value }) {
     setSelectedDate(new Date(value))
@@ -59,6 +62,7 @@ const Chart = ({ eventsData, onProjectSelect, widgets, ...props }) => {
         {...props}
         chartRef={chartRef}
         events={eventsData}
+        isMetricExplanationOpened={isMetricExplanationOpened}
         onProjectSelect={onProjectSelect}
         onExplainMetricsClick={toggleMetricExplanationVisibility}
       />
@@ -78,6 +82,9 @@ const Chart = ({ eventsData, onProjectSelect, widgets, ...props }) => {
               key={widget.id}
               settings={settings}
               widget={widget}
+              isSingleWidget={isSingleWidget}
+              syncedTooltipDate={syncedTooltipDate}
+              syncTooltips={syncTooltips}
             />
           ))}
         </div>

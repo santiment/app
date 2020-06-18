@@ -7,6 +7,10 @@ import styles from './index.module.scss'
 const HolderDistributionWidget = ({ widget, ...props }) => {
   const [isOpened, setIsOpened] = useState(true)
 
+  function toggleWidgetMetric(metric) {
+    props.toggleWidgetMetric(widget, metric)
+  }
+
   function closeSidepane() {
     setIsOpened(false)
   }
@@ -20,6 +24,7 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
           metrics={widget.metrics}
           MetricColor={{}}
           setMetrics={() => {}}
+          toggleMetric={toggleWidgetMetric}
           toggleChartSidepane={closeSidepane}
         />
       )}

@@ -69,11 +69,11 @@ export default ({
   loadings,
   toggleMetric,
   eventLoadings,
-  isMultiChartsActive,
+  isSingleWidget,
   onMetricHover,
-  onMetricHoverEnd
+  onMetricHoverEnd,
 }) => {
-  const isMoreThanOneMetric = activeMetrics.length > 1 || isMultiChartsActive
+  const isMoreThanOneMetric = activeMetrics.length > 1 || !isSingleWidget
 
   return (
     <>
@@ -86,7 +86,7 @@ export default ({
           isLoading={loadings.includes(metric)}
           isRemovable={isMoreThanOneMetric && toggleMetric}
           toggleMetric={toggleMetric}
-          onMouseEnter={onMetricHover && (e => onMetricHover(metric, e))}
+          onMouseEnter={onMetricHover && ((e) => onMetricHover(metric, e))}
           onMouseLeave={onMetricHoverEnd && (() => onMetricHoverEnd(metric))}
         />
       ))}

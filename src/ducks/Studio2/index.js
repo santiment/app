@@ -63,8 +63,23 @@ const Studio = ({
   const [settings, setSettings] = useState(defaultSettings)
   const [selectedMetrics, setSelectedMetrics] = useState([])
 
+  function toggleWidgetMetric(widget, metric) {
+    const metrics = deduceMetrics(widget.metrics, metric)
+
+    if (metrics.length === 0) {
+      setWidgets(widgets.filter((w) => w !== widget))
+    } else {
+      widget.metrics = metrics
+      setWidgets([...widgets])
+    }
+  }
+
   function toggleMetric(metric) {
-    const newMetrics = new Set(selectedMetrics)
+    setSelectedMetrics(deduceMetrics(selectedMetrics, metric))
+  }
+
+  function deduceMetrics(metrics, metric) {
+    const newMetrics = new Set(metrics)
 
     if (newMetrics.has(metric)) {
       newMetrics.delete(metric)
@@ -72,7 +87,7 @@ const Studio = ({
       newMetrics.add(metric)
     }
 
-    setSelectedMetrics([...newMetrics])
+    return [...newMetrics]
   }
 
   function onClearClick() {
@@ -134,6 +149,7 @@ const Studio = ({
             // fn
             setSettings={setSettings}
             changeTimePeriod={changeTimePeriod}
+            toggleWidgetMetric={toggleWidgetMetric}
           />
 
           {selectedMetrics.length ? (

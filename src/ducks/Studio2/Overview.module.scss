@@ -175,16 +175,16 @@ $preview-height: 250px;
 
 .loading {
   circle {
-    animation: cycle 1500ms infinite;
+    animation: cycle 1200ms infinite;
   }
 }
 
-.finish {
+.loaded {
   circle {
-    animation: draw 750ms;
+    animation: draw 600ms;
   }
   path {
-    transition-delay: 750ms;
+    transition-delay: 600ms;
     opacity: 1;
   }
 }

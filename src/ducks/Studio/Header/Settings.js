@@ -14,9 +14,11 @@ export default ({
   setSettings,
   className,
   showMulti = true,
+  isMetricExplanationOpened,
   toggleMultiCharts,
   changeTimePeriod,
   onExplainMetricsClick,
+
   ...rest
 }) => {
   const { timeRange, from, to, title } = settings
@@ -38,7 +40,7 @@ export default ({
       {hasExplanaibles && (
         <MetricsExplanation.Button
           onClick={onExplainMetricsClick}
-          className={styles.explain}
+          className={cx(isMetricExplanationOpened && styles.explain_active)}
         />
       )}
       <AdvancedCalendar
