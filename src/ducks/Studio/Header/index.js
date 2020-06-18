@@ -10,16 +10,16 @@ export default ({ settings, ...rest }) => {
 
   const { setOptions } = rest
 
-  function toggleMultiCharts (forceValue) {
-    setOptions(state => {
+  function toggleMultiCharts(forceValue) {
+    setOptions((state) => {
       return {
         ...state,
         isMultiChartsActive: saveToggle(
           'isMultiChartsActive',
           typeof forceValue === 'boolean'
             ? forceValue
-            : !state.isMultiChartsActive
-        )
+            : !state.isMultiChartsActive,
+        ),
       }
     })
   }
@@ -29,12 +29,13 @@ export default ({ settings, ...rest }) => {
       <Template {...rest} {...settings} toggleMultiCharts={toggleMultiCharts} />
       <div className={styles.divider} />
       <div className={styles.title}>{title}</div>
-      <Compare {...rest} slug={slug} className={styles.compare} />
+      {/* <Compare {...rest} slug={slug} className={styles.compare} /> */}
       <Settings
         {...rest}
         settings={settings}
         className={styles.settings}
         toggleMultiCharts={toggleMultiCharts}
+        showMulti={false}
       />
     </div>
   )

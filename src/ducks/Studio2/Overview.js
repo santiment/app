@@ -31,7 +31,7 @@ const Overview = ({
             />
           ))}
           <div
-            className={cx(styles.item, styles.item_new)}
+            className={cx(styles.item, styles.item_new, styles.idle)}
             onClick={onNewChartClick}
           >
             <SvgNew />

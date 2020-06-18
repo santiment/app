@@ -6,6 +6,11 @@ import { Metric } from '../dataHub/metrics'
 import styles from './index.module.scss'
 import ChartWidget from './ChartWidget'
 import Overview from './Overview'
+import Manager from './Manager'
+import Main from './Main'
+import { TOP_HOLDER_METRICS } from '../Studio/Chart/Sidepane/TopHolders/metrics'
+
+let id = -1
 
 const defaultSettings = {
   from: '2019-12-13T21:00:00.000Z',
@@ -21,28 +26,23 @@ const defaultSettings = {
 const Studio = ({ ...props }) => {
   const [widgets, setWidgets] = useState([
     {
-      id: Date.now(),
+      id: ++id,
       type: 'CHART',
       Widget: ChartWidget,
       metrics: [Metric.price_usd],
+      chartRef: { current: null },
+    },
+    {
+      id: ++id,
+      type: 'CHART',
+      Widget: ChartWidget,
+      metrics: TOP_HOLDER_METRICS,
       chartRef: { current: null },
     },
   ])
   const [settings, setSettings] = useState(defaultSettings)
   const [selectedMetrics, setSelectedMetrics] = useState([])
   const [widgetMsgMap, setWidgetMsgMap] = useState(new WeakMap())
-
-  function useWidgetMessage(widget, hook) {
-    widgetMsgMap.set(widget, hook)
-  }
-
-  function sendWidgetMessage(widget, message) {
-    /* widgetMsgMap.set(widget, hook) */
-    const hook = widgetMsgMap.get(widget)
-    if (hook) {
-      hook(message)
-    }
-  }
 
   function toggleMetric(metric) {
     const newMetrics = new Set(selectedMetrics)
@@ -86,47 +86,39 @@ const Studio = ({ ...props }) => {
   }
 
   return (
-    <div className={styles.wrapper}>
-      <Sidebar
-        slug='bitcoin'
-        options={{}}
-        activeMetrics={selectedMetrics}
-        toggleMetric={toggleMetric}
-      />
-      <main className={styles.main}>
-        <div className={styles.tab}>
-          {widgets.map((widget) => (
-            <widget.Widget
-              key={widget.id}
-              settings={settings}
-              widget={widget}
-              sendWidgetMessage={sendWidgetMessage}
-            />
-          ))}
-        </div>
-        {selectedMetrics.length ? (
-          <Overview
-            widgets={widgets}
-            onClose={onOverviewClose}
-            onWidgetClick={onWidgetClick}
-            onNewChartClick={onNewChartClick}
-            useWidgetMessage={useWidgetMessage}
-          >
-            <div className={styles.selection}>
-              You have selected {selectedMetrics.length} metrics
-              <Button
-                variant='fill'
-                accent='negative'
-                className={styles.clear}
-                onClick={onClearClick}
-              >
-                Clear
-              </Button>
-            </div>
-          </Overview>
-        ) : null}
-      </main>
-    </div>
+    <Manager>
+      <div className={styles.wrapper}>
+        <Sidebar
+          slug='bitcoin'
+          options={{}}
+          activeMetrics={selectedMetrics}
+          toggleMetric={toggleMetric}
+        />
+        <main className={styles.main}>
+          <Main widgets={widgets} settings={settings} options={{}} />
+          {selectedMetrics.length ? (
+            <Overview
+              widgets={widgets}
+              onClose={onOverviewClose}
+              onWidgetClick={onWidgetClick}
+              onNewChartClick={onNewChartClick}
+            >
+              <div className={styles.selection}>
+                You have selected {selectedMetrics.length} metrics
+                <Button
+                  variant='fill'
+                  accent='negative'
+                  className={styles.clear}
+                  onClick={onClearClick}
+                >
+                  Clear
+                </Button>
+              </div>
+            </Overview>
+          ) : null}
+        </main>
+      </div>
+    </Manager>
   )
 }
 

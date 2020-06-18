@@ -15,16 +15,17 @@ export default ({
   showMulti = true,
   toggleMultiCharts,
   changeTimePeriod,
+  onExplainMetricsClick,
   ...rest
 }) => {
   const { timeRange, from, to, title } = settings
 
-  function onTimerangeChange (timeRange) {
+  function onTimerangeChange(timeRange) {
     const { from, to } = getIntervalByTimeRange(timeRange)
     changeTimePeriod(from, to, timeRange)
   }
 
-  function onCalendarChange ([from, to]) {
+  function onCalendarChange([from, to]) {
     changeTimePeriod(from, to)
   }
 
@@ -47,6 +48,7 @@ export default ({
           />
         </div>
       )}
+      <button onClick={onExplainMetricsClick}>Explain metrics</button>
       <ContextMenu
         title={title}
         showNightModeToggle={false}
