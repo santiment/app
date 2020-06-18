@@ -52,11 +52,6 @@ const MetricButton = ({
         )}
         {label}
         {comparedTicker && ` (${comparedTicker})`}
-        <MetricErrorExplanation
-          errorsForMetrics={errorsForMetrics}
-          metric={metric}
-          project={project}
-        />
         {isRemovable && (
           <Icon
             type='close-small'
