@@ -3,6 +3,9 @@ import { Metric } from './index'
 import MoreInfoLink from '../../../components/MoreInfoLink/MoreInfoLink'
 import { convertToReadableInterval } from '../../../utils/dates'
 
+export const SOCIAL_CONTEXT_DESCRIPTION =
+  'Shows a set of words that have been frequently used alongside the coin’s name on crypto social media in the recent days.'
+
 const getSentimentVolumeDescr = (channel = 'all channels') => {
   return (
     'Shows the difference between positive and negative sentiment about [Project Ticker] on ' +
@@ -233,7 +236,8 @@ export const Description = {
   [Metric.bitmex_perpetual_open_interest.key]:
     "Shows the amount of open perpetual contracts currently on Bitmex's [Project Ticker] / USD trading pairs. When open interest reaches unusually high numbers, it can precede increased volatility in the coin’s price",
   [Metric.bitmex_perpetual_open_value.key]:
-    'Shows the value of the corresponding open interest in Satoshis (XBT/BTC)'
+    'Shows the value of the corresponding open interest in Satoshis (XBT/BTC)',
+  SOCIAL_VOLUME: SOCIAL_CONTEXT_DESCRIPTION
 }
 
 export const rebuildDescriptions = Submetrics => {

@@ -86,6 +86,9 @@ const Group = ({
                   isActive={advancedView === metric.advancedView}
                   onClick={() => toggleAdvancedView(metric.advancedView)}
                   project={project}
+                  metric={{
+                    key: metric.anomalyKey
+                  }}
                 />
               )}
               {submetrics &&
