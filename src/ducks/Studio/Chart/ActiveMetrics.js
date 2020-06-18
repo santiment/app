@@ -5,7 +5,6 @@ import Button from '@santiment-network/ui/Button'
 import MetricExplanation from '../../SANCharts/MetricExplanation'
 import MetricIcon from '../../SANCharts/MetricIcon'
 import { Event } from '../../dataHub/events'
-import MetricErrorExplanation from './MetricErrorExplanation/MetricErrorExplanation'
 import styles from './ActiveMetrics.module.scss'
 
 const { trendPositionHistory } = Event
