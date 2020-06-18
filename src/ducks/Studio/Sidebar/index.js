@@ -6,28 +6,8 @@ import MetricSelector from './MetricSelector'
 import Search from './Search'
 import withMetrics from '../withMetrics'
 import { MAX_METRICS_AMOUNT } from '../constraints'
-import AnomaliesToggle from '../../../components/AnomaliesToggle/AnomaliesToggle'
-import { saveToggle } from '../../../utils/localStorage'
 import { rebuildDescriptions } from '../../dataHub/metrics/descriptions'
 import styles from './index.module.scss'
-
-const Anomalies = ({ options, setOptions }) => {
-  function onToggle () {
-    setOptions(state => ({
-      ...state,
-      isAnomalyActive: saveToggle('isAnomalyActive', !state.isAnomalyActive)
-    }))
-  }
-
-  return (
-    <AnomaliesToggle
-      className={styles.anomaly}
-      isShowAnomalies={options.isAnomalyActive}
-      showToggleAnomalies={true}
-      onToggleAnomalies={onToggle}
-    />
-  )
-}
 
 const Header = ({ activeMetrics, ...rest }) => {
   return (
@@ -41,7 +21,6 @@ const Header = ({ activeMetrics, ...rest }) => {
         )}
       </h2>
       <Search {...rest} />
-      <Anomalies {...rest} />
     </div>
   )
 }
