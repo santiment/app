@@ -15,6 +15,7 @@ export const Chart = ({
   widget,
   isSingleWidget,
   toggleWidgetMetric,
+  deleteWidget,
   ...props
 }) => {
   const { metrics, chartRef } = widget
@@ -59,6 +60,7 @@ export const Chart = ({
       setOptions={setOptions}
       isSingleWidget={isSingleWidget}
       toggleMetric={(metric) => toggleWidgetMetric(widget, metric)}
+      onDeleteChartClick={() => deleteWidget(widget)}
     />
   )
 }

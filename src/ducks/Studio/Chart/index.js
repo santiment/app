@@ -21,7 +21,7 @@ import Chart from '../../Chart'
 import Signals from '../../Chart/Signals'
 import Synchronizer from '../../Chart/Synchronizer'
 import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
-import { useChartColors } from '../../Chart/colors'
+import { useChartColorsWithHighlight } from '../../Chart/colors'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './index.module.scss'
 import ContextMenu from '../Header/ContextMenu'
@@ -51,12 +51,13 @@ const Canvas = ({
   setIsICOPriceDisabled,
   changeTimePeriod,
   project,
+  onDeleteChartClick,
   ...props
 }) => {
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
-  const [FocusedMetric, setFocusedMetric] = useState()
+  const [focusedMetricKey, setFocusedMetricKey] = useState()
   const [focusTimer, setFocusTimer] = useState()
-  const MetricColor = useChartColors(metrics, FocusedMetric)
+  const MetricColor = useChartColorsWithHighlight(metrics, focusedMetricKey)
   const domainGroups = useDomainGroups(metrics)
   const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
   const allTimeData = useAllTimeData(metrics, settings)
@@ -85,7 +86,7 @@ const Canvas = ({
     setFocusTimer(
       setTimeout(() => {
         if (parentNode.querySelector(':hover')) {
-          setFocusedMetric(metric)
+          setFocusedMetricKey(metric.key)
         }
       }, 60),
     )
@@ -93,7 +94,7 @@ const Canvas = ({
 
   function onMetricHoverEnd() {
     clearTimeout(focusTimer)
-    setFocusedMetric()
+    setFocusedMetricKey()
   }
 
   function onBrushChangeEnd(startIndex, endIndex) {
@@ -161,6 +162,7 @@ const Canvas = ({
             showNightModeToggle={false}
             showMulti={false}
             setOptions={props.setOptions}
+            onDeleteChartClick={isSingleWidget ? undefined : onDeleteChartClick}
             {...options}
           />
         </div>

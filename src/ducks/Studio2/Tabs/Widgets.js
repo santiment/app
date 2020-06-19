@@ -18,7 +18,7 @@ const Chart = ({ eventsData, onProjectSelect, widgets, ...props }) => {
   )
   const chartRef = useRef(null)
 
-  const isSingleWidget = widgets.length === 0
+  const isSingleWidget = widgets.length === 1
 
   function changeSelectedDate({ value }) {
     setSelectedDate(new Date(value))
