@@ -94,10 +94,11 @@ $trigger-shared-form-width: 496px;
 }
 
 .notifyBlock {
-  display: flex;
-  margin-top: 5px;
+  margin-top: 2px;
   align-items: center;
   flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
 }
 
 .labelClassName {
@@ -335,4 +336,13 @@ a {
 
 .question {
   margin: 0;
+}
+
+.channel {
+  display: flex;
+  flex: auto;
+}
+
+.webhook {
+  margin-top: 18px;
 }

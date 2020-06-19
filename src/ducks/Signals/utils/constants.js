@@ -1,13 +1,15 @@
 export const CHANNEL_NAMES = {
   Telegram: 'Telegram',
   Email: 'Email',
-  Browser: 'Push'
+  Browser: 'Push',
+  Webhook: 'Webhook URL'
 }
 
 export const CHANNEL_TYPES = {
   Telegram: 'telegram',
   Email: 'email',
-  Browser: 'web_push'
+  Browser: 'web_push',
+  Webhook: 'webhook'
 }
 
 export const CHANNELS_MAP = [
