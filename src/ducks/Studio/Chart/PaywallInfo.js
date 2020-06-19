@@ -88,37 +88,35 @@ const PaywallInfo = ({ boundaries, subscription, metrics }) => {
     return <UpgradeBtn variant='fill' fluid className={styles.upgrade_trial} />
   }
 
-  return (
-    infos.length > 0 &&
+  return infos.length > 0 &&
     /* checkHasBoundaries(boundaries) && ( */
-    boundaries && (
-      <Tooltip
-        position='bottom'
-        trigger={
-          <Button className={styles.btn}>
-            <Icon className={styles.icon} type='question-round-small' />
-            Why the gaps?
-          </Button>
-        }
-        className={styles.tooltip}
-      >
-        <div className={styles.content}>
-          <h2 className={styles.title}>Why is some data hidden?</h2>
-          <p className={styles.text}>Your plan has limited data period for:</p>
-          {infos.map(({ label, from, to }) => (
-            <p key={label} className={styles.restriction}>
-              {label} ({formatDate(from)} - {formatDate(to)})
-            </p>
-          ))}
-          <p className={styles.text}>
-            To unlock the full potential of Santiment metrics you need to
-            upgrade your account to PRO
+    boundaries ? (
+    <Tooltip
+      position='bottom'
+      trigger={
+        <Button className={styles.btn}>
+          <Icon className={styles.icon} type='question-round-small' />
+          Why the gaps?
+        </Button>
+      }
+      className={styles.tooltip}
+    >
+      <div className={styles.content}>
+        <h2 className={styles.title}>Why is some data hidden?</h2>
+        <p className={styles.text}>Your plan has limited data period for:</p>
+        {infos.map(({ label, from, to }) => (
+          <p key={label} className={styles.restriction}>
+            {label} ({formatDate(from)} - {formatDate(to)})
           </p>
-          <UpgradeBtn variant='fill' fluid className={styles.upgrade} />
-        </div>
-      </Tooltip>
-    )
-  )
+        ))}
+        <p className={styles.text}>
+          To unlock the full potential of Santiment metrics you need to upgrade
+          your account to PRO
+        </p>
+        <UpgradeBtn variant='fill' fluid className={styles.upgrade} />
+      </div>
+    </Tooltip>
+  ) : null
 }
 
 const mapStateToProps = (state) => ({

@@ -280,7 +280,7 @@ const Chart = ({
     [syncedTooltipDate],
   )
 
-  function handleResize() {
+  function handleResize({ target }) {
     if (data.length === 0) {
       return
     }
@@ -291,7 +291,15 @@ const Chart = ({
       axesMetricKeys[1] && DOUBLE_AXIS_PADDING,
     )
 
-    onResize(chart, padding, brush, brushData, chartHeight, joinedCategories)
+    /* onResize(chart, padding, brush, brushData, chartHeight, joinedCategories) */
+    onResize(
+      chart,
+      padding,
+      brush,
+      brushData,
+      target.innerHeight,
+      joinedCategories,
+    )
 
     updateChartState(
       chart,

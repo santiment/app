@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
-import Button from '@santiment-network/ui/Button'
 import cx from 'classnames'
 import Sidebar from '../Studio/Sidebar'
 import { Metric } from '../dataHub/metrics'
-import styles from './index.module.scss'
 import ChartWidget from './ChartWidget'
-import Overview from './Overview'
+import SelectionOverview from './SelectionOverview'
 import Manager from './Manager'
 import Main from './Main'
 import { TOP_HOLDER_METRICS } from '../Studio/Chart/Sidepane/TopHolders/metrics'
 import HolderDistributionWidget from './HolderDistributionWidget'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
+import styles from './index.module.scss'
 
 import {
   DEFAULT_SETTINGS,
@@ -74,7 +73,7 @@ const Studio = ({
     }
   }
 
-  function toggleMetric(metric) {
+  function toggleSelectionMetric(metric) {
     setSelectedMetrics(deduceMetrics(selectedMetrics, metric))
   }
 
@@ -88,10 +87,6 @@ const Studio = ({
     }
 
     return [...newMetrics]
-  }
-
-  function onClearClick() {
-    setSelectedMetrics([])
   }
 
   function onWidgetClick(widget) {
@@ -138,7 +133,7 @@ const Studio = ({
           slug='bitcoin'
           options={{}}
           activeMetrics={selectedMetrics}
-          toggleMetric={toggleMetric}
+          toggleMetric={toggleSelectionMetric}
         />
         <main className={styles.main}>
           <Main
@@ -153,24 +148,14 @@ const Studio = ({
           />
 
           {selectedMetrics.length ? (
-            <Overview
+            <SelectionOverview
               widgets={widgets}
+              selectedMetrics={selectedMetrics}
+              toggleMetric={toggleSelectionMetric}
               onClose={onOverviewClose}
               onWidgetClick={onWidgetClick}
               onNewChartClick={onNewChartClick}
-            >
-              <div className={styles.selection}>
-                You have selected {selectedMetrics.length} metrics
-                <Button
-                  variant='fill'
-                  accent='negative'
-                  className={styles.clear}
-                  onClick={onClearClick}
-                >
-                  Clear
-                </Button>
-              </div>
-            </Overview>
+            />
           ) : null}
         </main>
       </div>
