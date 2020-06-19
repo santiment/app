@@ -104,9 +104,9 @@ const TrendingPeriod = ({ period }) => {
   const hours = +period.split(':')[0] + (-1 * currentTimezoneOffset) / 60
 
   const getText = hours => {
-    if (hours >= 0 && hours < 8) {
+    if (hours >= 12 && hours < 20) {
       return 'Europe markets open'
-    } else if (hours >= 8 && hours < 16) {
+    } else if (hours >= 4 && hours < 12) {
       return 'Asia markets open'
     } else {
       return 'US markets open'
