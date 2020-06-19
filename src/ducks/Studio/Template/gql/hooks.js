@@ -111,15 +111,17 @@ export function useSelectedTemplate (templates, selectTemplate) {
         }
       })
       .catch(() => {
-        store.dispatch(
-          showNotification({
-            variant: 'error',
-            title:
-              'Chart Layout with id ' +
-              targetTemplate.id +
-              " is private or doesn't exist"
-          })
-        )
+        if (urlId) {
+          store.dispatch(
+            showNotification({
+              variant: 'error',
+              title:
+                'Chart Layout with id ' +
+                targetTemplate.id +
+                " is private or doesn't exist"
+            })
+          )
+        }
       })
       .finally(data => {
         setLoading(false)
