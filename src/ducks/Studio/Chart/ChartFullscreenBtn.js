@@ -9,11 +9,11 @@ import { MirroredMetric } from '../../dataHub/metrics/mirrored'
 import {
   useClosestValueData,
   useDomainGroups,
-  useAxesMetricsKey
+  useAxesMetricsKey,
 } from '../../Chart/hooks'
 import {
   getNewInterval,
-  INTERVAL_ALIAS
+  INTERVAL_ALIAS,
 } from '../../SANCharts/IntervalSelector'
 import { ONE_HOUR_IN_MS } from '../../../utils/dates'
 import FullscreenDialogBtn from '../../../components/FullscreenDialogBtn'
@@ -39,13 +39,13 @@ const FullscreenChart = ({
     metrics,
     settings,
     undefined,
-    MetricTransformer
+    MetricTransformer,
   )
   const [events] = useTimeseries(activeEvents, settings)
   const data = useClosestValueData(
     rawData,
     metrics,
-    options.isClosestDataActive
+    options.isClosestDataActive,
   )
   const domainGroups = useDomainGroups(metrics)
   const axesMetricKeys = useAxesMetricsKey(metrics)
@@ -61,21 +61,21 @@ const FullscreenChart = ({
       const { origin, pathname } = window.location
       setShareLink(origin + pathname + queryString)
     },
-    [settings, options]
+    [settings, options],
   )
 
   useEffect(
     () => {
       setChartHeight(chartRef.current.canvas.parentNode.clientHeight)
     },
-    [chartRef]
+    [chartRef],
   )
 
   useEffect(
     () => {
       const metricTransformer = Object.assign({}, MetricTransformer)
 
-      metrics.forEach(metric => {
+      metrics.forEach((metric) => {
         const mirrorOf = MirroredMetric[metric.key]
         if (mirrorOf) {
           const { key, preTransformer } = metric
@@ -90,21 +90,21 @@ const FullscreenChart = ({
 
       setMetricTransformer(metricTransformer)
     },
-    [metrics]
+    [metrics],
   )
 
-  function changeTimePeriod (fromDate, toDate) {
+  function changeTimePeriod(fromDate, toDate) {
     const interval = getNewInterval(fromDate, toDate)
 
-    setSettings(state => ({
+    setSettings((state) => ({
       ...state,
       interval: INTERVAL_ALIAS[interval] || interval,
       from: fromDate.toISOString(),
-      to: toDate.toISOString()
+      to: toDate.toISOString(),
     }))
   }
 
-  function onBrushChangeEnd (startIndex, endIndex) {
+  function onBrushChangeEnd(startIndex, endIndex) {
     const start = brushData[startIndex]
     const end = brushData[endIndex]
     if (start && end) {
@@ -112,7 +112,7 @@ const FullscreenChart = ({
     }
   }
 
-  function onRangeSelect ({ value: leftDate }, { value: rightDate }) {
+  function onRangeSelect({ value: leftDate }, { value: rightDate }) {
     if (leftDate === rightDate) return
 
     const dates =
@@ -172,7 +172,7 @@ const FullscreenChart = ({
   )
 }
 
-export default props => (
+export default (props) => (
   <FullscreenDialogBtn
     title={props.settings.title}
     className={styles.btn}

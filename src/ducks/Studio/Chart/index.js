@@ -55,7 +55,6 @@ const Canvas = ({
 }) => {
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
   const [FocusedMetric, setFocusedMetric] = useState()
-  const [chartHeight, setChartHeight] = useState()
   const [focusTimer, setFocusTimer] = useState()
   const MetricColor = useChartColors(metrics, FocusedMetric)
   const domainGroups = useDomainGroups(metrics)
@@ -67,17 +66,6 @@ const Canvas = ({
   const isBlurred = isAnon && index > 1
   const hasExplanaibles = filterExplainableMetrics(metrics).length > 0
   const scale = options.isLogScale ? logScale : linearScale
-
-  useEffect(
-    () => {
-      setChartHeight(
-        options.isMultiChartsActive
-          ? undefined
-          : chartRef.current.canvas.parentNode.clientHeight,
-      )
-    },
-    [chartRef, options.isMultiChartsActive],
-  )
 
   useEffect(
     () => {
@@ -183,7 +171,6 @@ const Canvas = ({
         {...props}
         brushData={allTimeData}
         chartRef={chartRef}
-        chartHeight={chartHeight}
         className={cx(styles.chart, isBlurred && styles.blur)}
         MetricColor={MetricColor}
         metrics={metrics}

@@ -19,7 +19,7 @@ const Category = ({
 }) => {
   const [hidden, setHidden] = useState(false)
 
-  function onToggleClick () {
+  function onToggleClick() {
     setHidden(!hidden)
   }
 
@@ -35,19 +35,25 @@ const Category = ({
           <MetricButton
             metric={{
               isBeta: true,
-              key: 'holder_distribution'
+              key: 'holder_distribution',
+              type: 'widget',
             }}
             project={project}
             label='Holder Distribution'
-            isActive={chartSidepane === TOP_HOLDERS_PANE}
-            onClick={() => toggleChartSidepane(TOP_HOLDERS_PANE)}
+            onClick={() =>
+              rest.toggleMetric({
+                key: 'holder_distribution',
+                type: 'widget',
+                label: 'Holder Distribution',
+              })
+            }
           />
         )}
-        {Object.keys(groups).map(group => (
+        {Object.keys(groups).map((group) => (
           <Group
             key={group}
             title={group}
-            metrics={groups[group]}
+            nodes={groups[group]}
             project={project}
             {...rest}
           />
@@ -57,8 +63,8 @@ const Category = ({
   )
 }
 
-const mapStateToProps = state => ({
-  isBeta: state.rootUi.isBetaModeEnabled
+const mapStateToProps = (state) => ({
+  isBeta: state.rootUi.isBetaModeEnabled,
 })
 
 export default connect(mapStateToProps)(Category)

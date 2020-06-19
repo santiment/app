@@ -26,6 +26,18 @@ export const Chart = ({
 
   useEffect(
     () => {
+      if (!chartRef.current) return
+
+      if (widget.scrollIntoViewOnMount) {
+        chartRef.current.canvas.scrollIntoView()
+        widget.scrollIntoViewOnMount = false
+      }
+    },
+    [chartRef.current],
+  )
+
+  useEffect(
+    () => {
       const phase = loadings.length ? 'loading' : 'loaded'
       dispatch(phase)
     },
@@ -37,6 +49,8 @@ export const Chart = ({
       {...props}
       data={data}
       chartRef={chartRef}
+      metrics={metrics}
+      activeEvents={[]}
       activeMetrics={metrics}
       settings={settings}
       loadings={loadings}

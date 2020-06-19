@@ -37,7 +37,7 @@ const Chart = ({
   filledLines,
   bars,
   daybars,
-  chartHeight = CHART_HEIGHT,
+  chartHeight,
   chartPadding = CHART_PADDING,
   joinedCategories,
   domainGroups,
@@ -75,12 +75,14 @@ const Chart = ({
   useEffect(() => {
     const { current: canvas } = canvasRef
     const width = canvas.parentNode.offsetWidth
+    const height = chartHeight || canvas.parentNode.offsetHeight
 
     chart = initTooltip(
       initChart(
         canvas,
         width,
-        chartHeight,
+        /* chartHeight, */
+        height,
         buildPadding(
           chartPadding,
           isShowBrush && BRUSH_PADDING,

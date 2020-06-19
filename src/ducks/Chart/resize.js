@@ -17,9 +17,9 @@ export const ResizeListener = ({ onResize }) => {
   const iframeRef = useRef(null)
   const iframe = iframeRef.current
 
-  /* useEffect(() => {
-   *   iframeRef.current.contentWindow.onresize = console.log
-   * }, []) */
+  useEffect(() => {
+    onResize({ target: iframeRef.current.contentWindow })
+  }, [])
 
   if (iframe) {
     iframe.contentWindow.onresize = onResize

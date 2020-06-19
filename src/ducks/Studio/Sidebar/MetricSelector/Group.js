@@ -11,7 +11,7 @@ const { price_usd } = Metric
 
 const Group = ({
   title,
-  metrics,
+  nodes,
   activeMetrics,
   advancedView,
   ErrorMsg,
@@ -19,16 +19,16 @@ const Group = ({
   toggleAdvancedView,
   toggleICOPrice,
   options,
-  Submetrics,
+  //Submetrics,
   isICOPriceDisabled,
   isBeta,
   setMetricSettingMap,
-  project
+  project,
 }) => {
   const hasGroup = title !== NO_GROUP
   const [hidden, setHidden] = useState(hasGroup)
 
-  function onToggleClick () {
+  function onToggleClick() {
     setHidden(!hidden)
   }
 
@@ -46,29 +46,32 @@ const Group = ({
       <div
         className={cx(styles.group__list, hidden && styles.group__list_hidden)}
       >
-        {metrics.map(metric => {
-          if (metric.hidden) {
+        {nodes.map(({ item, subitems }) => {
+          if (item.hidden) {
             return null
           }
 
-          if (metric.isBeta && !isBeta) {
+          if (item.isBeta && !isBeta) {
             return null
           }
 
-          const submetrics = Submetrics[metric.key]
+          {
+            /* const submetrics = Submetrics[metric.key] */
+          }
           return (
-            <Fragment key={metric.key}>
+            <Fragment key={item.key}>
               <MetricButton
-                metric={metric}
-                label={metric.label}
-                onClick={() => toggleMetric(metric)}
+                metric={item}
+                label={item.label}
+                onClick={() => toggleMetric(item)}
                 setMetricSettingMap={setMetricSettingMap}
                 project={project}
-                isActive={activeMetrics.includes(metric)}
+                isActive={activeMetrics.includes(item)}
               />
               {/* TODO: refactor 'ICO Price', 'advancedView' to be a submetric array [@vanguard | March 10, 2020] */}
+              {/*
               {isICOPriceDisabled ||
-                (metric === price_usd && (
+                (item === price_usd && (
                   <MetricButton
                     className={styles.advanced}
                     label='ICO Price'
@@ -76,22 +79,25 @@ const Group = ({
                     project={project}
                   />
                 ))}
-              {metric.advancedView && (
+                  */}
+              {/*
+              {item.advancedView && (
                 <MetricButton
                   className={styles.advanced}
-                  label={metric.advancedView}
-                  onClick={() => toggleAdvancedView(metric.advancedView)}
+                  label={item.advancedView}
+                  onClick={() => toggleAdvancedView(item.advancedView)}
                   project={project}
                 />
               )}
-              {submetrics &&
-                submetrics.map(submetric => (
+                */}
+              {subitems &&
+                subitems.map((subitem) => (
                   <MetricButton
-                    metric={submetric}
-                    key={submetric.key}
+                    metric={subitem}
+                    key={subitem.key}
                     className={styles.advanced}
-                    label={submetric.label}
-                    onClick={() => toggleMetric(submetric)}
+                    label={subitem.label}
+                    onClick={() => toggleMetric(subitem)}
                     project={project}
                   />
                 ))}
@@ -103,8 +109,8 @@ const Group = ({
   )
 }
 
-const mapStateToProps = state => ({
-  isBeta: state.rootUi.isBetaModeEnabled
+const mapStateToProps = (state) => ({
+  isBeta: state.rootUi.isBetaModeEnabled,
 })
 
 export default connect(mapStateToProps)(Group)

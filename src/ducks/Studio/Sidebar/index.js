@@ -12,10 +12,10 @@ import { rebuildDescriptions } from '../../dataHub/metrics/descriptions'
 import styles from './index.module.scss'
 
 const Anomalies = ({ options, setOptions }) => {
-  function onToggle () {
-    setOptions(state => ({
+  function onToggle() {
+    setOptions((state) => ({
       ...state,
-      isAnomalyActive: saveToggle('isAnomalyActive', !state.isAnomalyActive)
+      isAnomalyActive: saveToggle('isAnomalyActive', !state.isAnomalyActive),
     }))
   }
 
@@ -29,19 +29,12 @@ const Anomalies = ({ options, setOptions }) => {
   )
 }
 
-const Header = ({ activeMetrics, ...rest }) => {
+const Header = (props) => {
   return (
     <div className={styles.header}>
-      <h2 className={styles.title}>
-        Metrics{' '}
-        {rest.options.isMultiChartsActive || (
-          <span className={styles.count}>
-            ({activeMetrics.length}/{MAX_METRICS_AMOUNT})
-          </span>
-        )}
-      </h2>
-      <Search {...rest} />
-      <Anomalies {...rest} />
+      <h2 className={styles.title}>Metrics</h2>
+      <Search {...props} />
+      <Anomalies {...props} />
     </div>
   )
 }
@@ -75,11 +68,11 @@ const Sidebar = ({ loading, children, ...rest }) => {
 
 export default withMetrics(
   ({ isSidebarClosed, setIsSidebarClosed, ...props }) => {
-    function openSidebar () {
+    function openSidebar() {
       setIsSidebarClosed(false)
     }
 
-    function closeSidebar () {
+    function closeSidebar() {
       setIsSidebarClosed(true)
     }
 
@@ -87,9 +80,10 @@ export default withMetrics(
 
     useEffect(
       () => {
+        // TODO: ???? [@vanguard | Jun 19, 2020]
         rebuildDescriptions(Submetrics)
       },
-      [Submetrics]
+      [Submetrics],
     )
 
     return isSidebarClosed ? (
@@ -99,5 +93,5 @@ export default withMetrics(
         <CloseButton onClick={closeSidebar} />
       </Sidebar>
     )
-  }
+  },
 )

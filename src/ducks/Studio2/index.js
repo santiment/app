@@ -51,13 +51,6 @@ const Studio = ({
       metrics: [Metric.price_usd],
       chartRef: { current: null },
     },
-    {
-      id: ++id,
-      type: 'CHART',
-      Widget: HolderDistributionWidget,
-      metrics: TOP_HOLDER_METRICS,
-      chartRef: { current: null },
-    },
   ])
   const [settings, setSettings] = useState(defaultSettings)
   const [selectedMetrics, setSelectedMetrics] = useState([])
@@ -89,6 +82,42 @@ const Studio = ({
     return [...newMetrics]
   }
 
+  function changeTimePeriod(from, to, timeRange) {
+    const interval = getNewInterval(from, to)
+
+    setSettings((state) => ({
+      ...state,
+      timeRange,
+      interval: INTERVAL_ALIAS[interval] || interval,
+      from: from.toISOString(),
+      to: to.toISOString(),
+    }))
+  }
+
+  function onSidebarItemClick(item) {
+    const { type, key } = item
+
+    if (type === 'widget') {
+      console.log('this is widget')
+
+      if (key === 'holder_distribution') {
+        setWidgets([
+          ...widgets,
+          {
+            id: ++id,
+            type: 'CHART',
+            Widget: HolderDistributionWidget,
+            metrics: TOP_HOLDER_METRICS,
+            chartRef: { current: null },
+            scrollIntoViewOnMount: true,
+          },
+        ])
+      }
+    } else {
+      toggleSelectionMetric(item)
+    }
+  }
+
   function onWidgetClick(widget) {
     const newMetrics = new Set([...widget.metrics, ...selectedMetrics])
 
@@ -114,18 +143,6 @@ const Studio = ({
     setSelectedMetrics([])
   }
 
-  function changeTimePeriod(from, to, timeRange) {
-    const interval = getNewInterval(from, to)
-
-    setSettings((state) => ({
-      ...state,
-      timeRange,
-      interval: INTERVAL_ALIAS[interval] || interval,
-      from: from.toISOString(),
-      to: to.toISOString(),
-    }))
-  }
-
   return (
     <Manager>
       <div className={styles.wrapper}>
@@ -133,7 +150,7 @@ const Studio = ({
           slug='bitcoin'
           options={{}}
           activeMetrics={selectedMetrics}
-          toggleMetric={toggleSelectionMetric}
+          toggleMetric={onSidebarItemClick}
         />
         <main className={styles.main}>
           <Main
