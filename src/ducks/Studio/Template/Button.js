@@ -28,6 +28,7 @@ const Trigger = ({ hasTemplates, selectedTemplate, openDialog, loading }) => {
           on='click'
           offsetY={13}
           closeTimeout={500}
+          className={styles.tooltip}
           trigger={
             <div className={styles.tooltipTrigger}>
               <div className={styles.detailsIcon}>

@@ -109,6 +109,10 @@
   padding: 2px 24px 24px 24px;
 }
 
+.tooltip {
+  z-index: 10;
+}
+
 .delete {
   padding: 6px 12px !important;
 }
