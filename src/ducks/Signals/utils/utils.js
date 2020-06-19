@@ -602,11 +602,13 @@ export const getChannels = ({ channels }) => {
     return mapToTriggerChannel[channels]
   } else {
     if (channels.length === 1) {
-      return mapToTriggerChannel(channels[0])
-    } else {
-      return channels.map(mapToTriggerChannel)
+      if (!findWebHook(channels)) {
+        return mapToTriggerChannel(channels[0])
+      }
     }
   }
+
+  return channels.map(mapToTriggerChannel)
 }
 
 export const isTrendingWordsByProjects = type =>

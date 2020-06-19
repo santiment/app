@@ -137,8 +137,6 @@ const TriggerFormChannels = ({
         required.push(CHANNEL_NAMES.Browser)
       }
 
-      console.log('setRequiredChannels', required)
-
       setRequiredChannels(required)
     },
     [isTelegramConnected, isEmailConnected, isWebPushEnabled]
@@ -148,8 +146,6 @@ const TriggerFormChannels = ({
     const channel = findWebHook(channels)
 
     const val = e.target.value
-
-    console.log('val', val)
 
     if (channel) {
       channel.webhook = val
@@ -171,7 +167,6 @@ const TriggerFormChannels = ({
     switch (channel) {
       case CHANNEL_NAMES.Webhook: {
         const whChannel = findWebHook(channels)
-        debugger
         if (!whChannel) {
           newChannels = [
             ...channels,
@@ -194,9 +189,20 @@ const TriggerFormChannels = ({
       }
     }
 
-    console.log('toggleChannel', newChannels)
     setFieldValue('channels', newChannels)
   }
+
+  useEffect(
+    () => {
+      if (!webhook) {
+        const whChannel = findWebHook(channels)
+        if (whChannel) {
+          setWebhook(whChannel.webhook)
+        }
+      }
+    },
+    [channels]
+  )
 
   const isDisabled = channel => {
     return disabledChannels.some(disabled => disabled === channel)
