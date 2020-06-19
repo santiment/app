@@ -18,6 +18,7 @@ import {
 } from '../utils'
 import { store, client } from '../../../../index'
 import { getSavedMulticharts } from '../../../../utils/localStorage'
+import { showNotification } from '../../../../actions/rootActions'
 
 const DEFAULT_TEMPLATES = []
 
@@ -83,6 +84,10 @@ export function useSelectedTemplate (templates, selectTemplate) {
   const [loading, setLoading] = useState()
 
   const loadTemplate = () => {
+    if (loading) {
+      return
+    }
+
     const targetTemplate = urlId ? { id: urlId } : getLastTemplate()
     if (!targetTemplate) return
 
@@ -105,13 +110,22 @@ export function useSelectedTemplate (templates, selectTemplate) {
           selectTemplate(template)
         }
       })
-      .catch(console.warn)
-      .finally(() => {
+      .catch(() => {
+        store.dispatch(
+          showNotification({
+            variant: 'error',
+            title:
+              'Chart Layout with id ' +
+              targetTemplate.id +
+              " is private or does't exist"
+          })
+        )
+      })
+      .finally(data => {
         setLoading(false)
       })
   }
 
-  useEffect(loadTemplate, [])
   useEffect(loadTemplate, [urlId])
   useEffect(
     () => {
