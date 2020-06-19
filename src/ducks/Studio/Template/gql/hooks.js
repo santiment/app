@@ -117,7 +117,7 @@ export function useSelectedTemplate (templates, selectTemplate) {
             title:
               'Chart Layout with id ' +
               targetTemplate.id +
-              " is private or does't exist"
+              " is private or doesn't exist"
           })
         )
       })
