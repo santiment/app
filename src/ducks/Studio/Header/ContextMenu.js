@@ -1,42 +1,46 @@
 import React from 'react'
-import ChartSettingsContextMenu from '../../SANCharts/ChartSettingsContextMenu'
+import Button from '@santiment-network/ui/Button'
+import ChartSettingsContextMenu, {
+  Icon,
+} from '../../SANCharts/ChartSettingsContextMenu'
 import { saveToggle } from '../../../utils/localStorage'
+import styles from './ContextMenu.module.scss'
 
-export default ({ setOptions, ...props }) => {
-  function toggleMultichart () {
-    setOptions(state => ({
+export default ({ setOptions, onDeleteChartClick, ...props }) => {
+  function toggleMultichart() {
+    setOptions((state) => ({
       ...state,
       isMultiChartsActive: saveToggle(
         'isMultiChartsActive',
-        !state.isMultiChartsActive
-      )
+        !state.isMultiChartsActive,
+      ),
     }))
   }
 
-  function toggleScale () {
-    setOptions(state => ({
+  function toggleScale() {
+    setOptions((state) => ({
       ...state,
-      isLogScale: !state.isLogScale
+      isLogScale: !state.isLogScale,
     }))
   }
 
-  function toggleCartesianGrid () {
-    setOptions(state => ({
+  function toggleCartesianGrid() {
+    setOptions((state) => ({
       ...state,
       isCartesianGridActive: saveToggle(
         'isCartesianGridActive',
-        !state.isCartesianGridActive
-      )
+        !state.isCartesianGridActive,
+      ),
     }))
   }
 
-  function toggleClosestData () {
-    setOptions(state => ({
+  function toggleClosestData() {
+    setOptions((state) => ({
       ...state,
       isClosestDataActive: saveToggle(
         'isClosestDataActive',
-        !state.isClosestDataActive
-      )
+        !state.isClosestDataActive,
+      ),
     }))
   }
 
@@ -47,6 +51,18 @@ export default ({ setOptions, ...props }) => {
       onMultiChartsChange={toggleMultichart}
       onClosestDataChange={toggleClosestData}
       {...props}
-    />
+    >
+      {onDeleteChartClick && (
+        <Button
+          fluid
+          variant='ghost'
+          onClick={onDeleteChartClick}
+          className={styles.delete}
+        >
+          <Icon type='remove-small' className={styles.icon} />
+          Delete chart
+        </Button>
+      )}
+    </ChartSettingsContextMenu>
   )
 }
