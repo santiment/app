@@ -53,6 +53,7 @@ export const Chart = ({
       metrics={metrics}
       activeEvents={[]}
       activeMetrics={metrics}
+      ErrorMsg={ErrorMsg}
       settings={settings}
       loadings={loadings}
       options={options}

@@ -6,10 +6,12 @@ import ContextMenu from './ContextMenu'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import MetricsExplanation from '../Chart/Sidepane/MetricsExplanation'
 import styles from './Settings.module.scss'
+import { METRICS_EXPLANATION_PANE } from '../../Studio/Chart/Sidepane/panes'
 
 export default ({
   settings,
   options,
+  sidepanel,
   setOptions,
   setSettings,
   className,
@@ -17,8 +19,7 @@ export default ({
   isMetricExplanationOpened,
   toggleMultiCharts,
   changeTimePeriod,
-  onExplainMetricsClick,
-
+  toggleSidepanel,
   ...rest
 }) => {
   const { timeRange, from, to, title } = settings
@@ -39,8 +40,10 @@ export default ({
     <div className={cx(styles.wrapper, className)}>
       {hasExplanaibles && (
         <MetricsExplanation.Button
-          onClick={onExplainMetricsClick}
-          className={cx(isMetricExplanationOpened && styles.explain_active)}
+          onClick={() => toggleSidepanel(METRICS_EXPLANATION_PANE)}
+          className={cx(
+            sidepanel === METRICS_EXPLANATION_PANE && styles.explain_active,
+          )}
         />
       )}
       <AdvancedCalendar

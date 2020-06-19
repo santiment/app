@@ -54,6 +54,11 @@ const Studio = ({
   ])
   const [settings, setSettings] = useState(defaultSettings)
   const [selectedMetrics, setSelectedMetrics] = useState([])
+  const [sidepanel, setSidepanel] = useState()
+
+  function toggleSidepanel(key) {
+    setSidepanel(sidepanel === key ? undefined : key)
+  }
 
   function deleteWidget(widget) {
     console.log(widget)
@@ -102,7 +107,9 @@ const Studio = ({
   function onSidebarItemClick(item) {
     const { type, key } = item
 
-    if (type === 'widget') {
+    if (type === 'sidepanel') {
+      toggleSidepanel(key)
+    } else if (type === 'widget') {
       console.log('this is widget')
 
       if (key === 'holder_distribution') {
@@ -163,10 +170,12 @@ const Studio = ({
             widgets={widgets}
             settings={settings}
             options={{}}
+            sidepanel={sidepanel}
             // fn
             setSettings={setSettings}
             changeTimePeriod={changeTimePeriod}
             toggleWidgetMetric={toggleWidgetMetric}
+            toggleSidepanel={toggleSidepanel}
             deleteWidget={deleteWidget}
           />
 

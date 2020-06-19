@@ -13,6 +13,7 @@ const MetricButton = ({
   className,
   metric,
   colors,
+  error,
   isLoading,
   isRemovable,
   toggleMetric,
@@ -37,7 +38,12 @@ const MetricButton = ({
 
   return (
     <Wrapper>
-      <Button {...rest} border className={cx(styles.btn, className)}>
+      <Button
+        {...rest}
+        border
+        className={cx(styles.btn, error && styles.btn_error, className)}
+        aria-invalid={error}
+      >
         {isLoading ? (
           <div className={styles.loader} />
         ) : (
@@ -69,6 +75,7 @@ export default ({
   loadings,
   toggleMetric,
   eventLoadings,
+  ErrorMsg = {},
   isSingleWidget,
   onMetricHover,
   onMetricHoverEnd,
@@ -83,6 +90,7 @@ export default ({
           className={className}
           metric={metric}
           colors={MetricColor}
+          error={ErrorMsg[metric.key]}
           isLoading={loadings.includes(metric)}
           isRemovable={isMoreThanOneMetric && toggleMetric}
           toggleMetric={toggleMetric}

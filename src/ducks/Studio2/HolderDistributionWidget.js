@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import { Widget, Chart } from './ChartWidget'
 import Sidepane from '../Studio/Chart/Sidepane'
+import { TOP_HOLDERS_PANE } from '../Studio/Chart/Sidepane/panes'
 import { useChartColors } from '../Chart/colors'
 import styles from './index.module.scss'
 
@@ -22,7 +23,7 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
       <Chart {...props} widget={widget} />
       {isOpened && (
         <Sidepane
-          chartSidepane='TOP_HOLDERS_PANE'
+          chartSidepane={TOP_HOLDERS_PANE}
           metrics={widget.metrics}
           MetricColor={MetricColor}
           setMetrics={() => {}}

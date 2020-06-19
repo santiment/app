@@ -1,14 +1,23 @@
 import React from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
-import { TOP_HOLDERS_PANE, METRICS_EXPLANATION_PANE } from './panes'
+import {
+  TOP_HOLDERS_PANE,
+  METRICS_EXPLANATION_PANE,
+  SPENT_COIN_COST,
+  SOCIAL_CONTEXT,
+} from './panes'
 import TopHolders from './TopHolders'
 import MetricsExplanation from './MetricsExplanation'
+import PriceHistogram from '../../AdvancedView/PriceHistogram'
+import SocialContext from '../../AdvancedView/SocialContext'
 import styles from './index.module.scss'
 
 const Components = {
   [TOP_HOLDERS_PANE]: TopHolders,
   [METRICS_EXPLANATION_PANE]: MetricsExplanation,
+  [SPENT_COIN_COST]: PriceHistogram,
+  [SOCIAL_CONTEXT]: SocialContext,
 }
 
 const CloseButton = (props) => (

@@ -37,6 +37,7 @@ const Canvas = ({
   metrics,
   activeEvents,
   boundaries,
+  ErrorMsg,
   advancedView,
   chartSidepane,
   toggleMetric,
@@ -118,12 +119,11 @@ const Canvas = ({
           <ChartActiveMetrics
             className={styles.metric}
             MetricColor={MetricColor}
-            activeMetrics={metrics.filter(
-              (metric) => !TOP_HOLDER_METRICS.includes(metric),
-            )}
+            activeMetrics={metrics}
             activeEvents={activeEvents}
             toggleMetric={toggleMetric}
             loadings={loadings}
+            ErrorMsg={ErrorMsg}
             eventLoadings={eventLoadings}
             isMultiChartsActive={isMultiChartsActive}
             isSingleWidget={isSingleWidget}

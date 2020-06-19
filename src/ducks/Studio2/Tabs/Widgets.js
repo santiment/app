@@ -5,17 +5,23 @@ import StudioAdvancedView from '../../Studio/AdvancedView'
 import { ONE_HOUR_IN_MS } from '../../../utils/dates'
 import styles from '../index.module.scss'
 import MetricExplanation from './MetricExplanation'
+import Sidepanel from '../../Studio/Chart/Sidepane'
 
-const Chart = ({ eventsData, onProjectSelect, widgets, ...props }) => {
+const Chart = ({
+  eventsData,
+  onProjectSelect,
+  widgets,
+  sidepanel,
+  toggleSidepanel,
+  ...props
+}) => {
   const { settings, options, advancedView, changeTimePeriod } = props
 
   const [syncedTooltipDate, syncTooltips] = useState()
   const [isSelectingRange, setIsSelectingRange] = useState(false)
   const [selectedDate, setSelectedDate] = useState()
   const [selectedDatesRange, setSelectedDatesRange] = useState()
-  const [isMetricExplanationOpened, setIsMetricExplanationOpened] = useState(
-    false,
-  )
+  const [isMetricExplanationOpened] = useState(false)
   const chartRef = useRef(null)
 
   const isSingleWidget = widgets.length === 1
@@ -52,19 +58,15 @@ const Chart = ({ eventsData, onProjectSelect, widgets, ...props }) => {
     setIsSelectingRange(true)
   }
 
-  function toggleMetricExplanationVisibility() {
-    setIsMetricExplanationOpened((state) => !state)
-  }
-
   return (
     <>
       <StudioHeader
         {...props}
         chartRef={chartRef}
         events={eventsData}
-        isMetricExplanationOpened={isMetricExplanationOpened}
+        sidepanel={sidepanel}
+        toggleSidepanel={toggleSidepanel}
         onProjectSelect={onProjectSelect}
-        onExplainMetricsClick={toggleMetricExplanationVisibility}
       />
       {/* <div
           className={cx(
@@ -90,12 +92,17 @@ const Chart = ({ eventsData, onProjectSelect, widgets, ...props }) => {
         </div>
 
         {/* <div className={styles.side}>123</div> */}
-        {isMetricExplanationOpened && (
-          <MetricExplanation
-            widgets={widgets}
-            toggleMetricExplanationVisibility={
-              toggleMetricExplanationVisibility
-            }
+        {sidepanel && (
+          <Sidepanel
+            className={styles.side}
+            chartSidepane={sidepanel}
+            MetricColor={{}}
+            metrics={widgets.reduce(
+              (acc, widget) => [...acc, ...widget.metrics],
+              [],
+            )}
+            toggleChartSidepane={toggleSidepanel}
+            //setMetrics={() => {}}
           />
         )}
         {/* </div>
