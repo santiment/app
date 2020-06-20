@@ -28,24 +28,26 @@ const Overview = ({
   return (
     <div className={styles.wrapper}>
       <div className={styles.sticky}>
-        <div className={styles.grid}>
-          {widgets.map((widget) => (
-            <ChartPreview
-              key={widget.id}
-              widget={widget}
-              selectedMetrics={selectedMetrics}
-              onClick={onWidgetClick}
-              useWidgetMessage={useWidgetMessage}
-            />
-          ))}
-          <div
-            className={cx(styles.item, styles.item_new, styles.idle)}
-            onClick={onNewChartClick}
-          >
-            <SvgNew />
+        <div className={styles.visible}>
+          <div className={styles.grid}>
+            {widgets.map((widget) => (
+              <ChartPreview
+                key={widget.id}
+                widget={widget}
+                selectedMetrics={selectedMetrics}
+                onClick={onWidgetClick}
+                useWidgetMessage={useWidgetMessage}
+              />
+            ))}
+            <div
+              className={cx(styles.item, styles.item_new, styles.idle)}
+              onClick={onNewChartClick}
+            >
+              <SvgNew />
+            </div>
           </div>
+          {children}
         </div>
-        {children}
       </div>
     </div>
   )

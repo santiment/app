@@ -18,7 +18,6 @@ $preview-height: 250px;
   display: flex;
   align-items: center;
   height: 100vh;
-  padding: 16px;
   position: sticky;
   top: 0;
 }
@@ -164,6 +163,13 @@ $preview-height: 250px;
   }
 }
 
+.visible {
+  overflow: auto;
+  flex: 1;
+  max-height: 100%;
+  padding: 16px;
+}
+
 .check {
   transition: opacity 200ms;
   opacity: 0;
@@ -185,7 +191,7 @@ $preview-height: 250px;
     }
     &::after {
       content: 'Selected metrics were applied to this chart';
-      transform: translateY(60px);
+      top: 130px;
     }
 
     &:hover::after {
@@ -206,7 +212,7 @@ $preview-height: 250px;
 
   &::after {
     content: 'Selected metrics were applied to this chart';
-    transform: translateY(60px);
+    top: 130px;
   }
 
   &:hover::after {
