@@ -6,8 +6,9 @@ import {
   DEFAULT_SETTINGS,
   DEFAULT_OPTIONS,
   DEFAULT_METRICS,
-  DEFAULT_METRIC_SETTINGS_MAP
+  DEFAULT_METRIC_SETTINGS_MAP,
 } from './defaults'
+import { calculateMovingAverageFromInterval } from './utils'
 import { MAX_METRICS_AMOUNT } from './constraints'
 import { generateShareLink } from './url'
 import { trackMetricState } from './analytics'
@@ -17,6 +18,7 @@ import { buildComparedMetric } from './Compare/utils'
 import { TOP_HOLDERS_PANE } from './Chart/Sidepane/panes'
 import { useClosestValueData } from '../Chart/hooks'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
+import { Metric } from '../dataHub/metrics'
 import { MirroredMetric } from '../dataHub/metrics/mirrored'
 import { updateHistory } from '../../utils/utils'
 import styles from './index.module.scss'
@@ -43,7 +45,7 @@ const Studio = ({
   const [activeMetrics, setActiveMetrics] = useState(defaultMetrics)
   const [activeEvents, setActiveEvents] = useState(defaultEvents)
   const [MetricSettingMap, setMetricSettingMap] = useState(
-    defaultMetricSettingsMap
+    defaultMetricSettingsMap,
   )
   const [chartSidepane, setChartSidepane] = useState()
   const [advancedView, setAdvancedView] = useState()
@@ -55,27 +57,56 @@ const Studio = ({
     activeMetrics,
     settings,
     MetricSettingMap,
-    MetricTransformer
+    MetricTransformer,
   )
   const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings)
   const data = useClosestValueData(
     rawData,
     activeMetrics,
-    options.isClosestDataActive
+    options.isClosestDataActive,
   )
 
   useEffect(
     () => {
       setComparedMetrics(comparables.map(buildComparedMetric))
     },
-    [comparables]
+    [comparables],
   )
 
   useEffect(
     () => {
       setActiveMetrics(metrics.concat(comparedMetrics))
     },
-    [metrics, comparedMetrics]
+    [metrics, comparedMetrics],
+  )
+
+  useEffect(
+    () => {
+      const metricsSet = new Set(metrics)
+
+      if (metricsSet.has(Metric.dev_activity)) {
+        const metric = Metric.dev_activity
+        setMetricSettingMap((state) => {
+          const prevSettings = state.get(metric) || {}
+          const newState = new Map(state)
+
+          newState.set(
+            metric,
+            Object.assign(prevSettings, {
+              transform: {
+                type: 'moving_average',
+                movingAverageBase: calculateMovingAverageFromInterval(
+                  settings.interval,
+                ),
+              },
+            }),
+          )
+
+          return newState
+        })
+      }
+    },
+    [metrics, settings.interval],
   )
 
   useEffect(
@@ -83,7 +114,7 @@ const Studio = ({
       const metricTransformer = Object.assign({}, MetricTransformer)
       const lookupMetrics = options.isMultiChartsActive ? [] : metrics
 
-      metrics.forEach(metric => {
+      metrics.forEach((metric) => {
         const mirrorOf = MirroredMetric[metric.key]
         if (mirrorOf) {
           const { key, preTransformer } = metric
@@ -98,7 +129,7 @@ const Studio = ({
 
       setMetricTransformer(metricTransformer)
     },
-    [metrics, options.isMultiChartsActive]
+    [metrics, options.isMultiChartsActive],
   )
 
   useEffect(
@@ -107,7 +138,7 @@ const Studio = ({
         setMetrics(metrics.filter(({ key }) => !ErrorMsg[key]))
       }
     },
-    [ErrorMsg]
+    [ErrorMsg],
   )
 
   useEffect(
@@ -127,17 +158,17 @@ const Studio = ({
         }
       }
     },
-    [options.isMultiChartsActive]
+    [options.isMultiChartsActive],
   )
 
   useEffect(
     () => {
       const { slug } = defaultSettings
       if (slug && slug !== settings.slug) {
-        setSettings(state => ({ ...state, slug }))
+        setSettings((state) => ({ ...state, slug }))
       }
     },
-    [defaultSettings.slug]
+    [defaultSettings.slug],
   )
 
   useEffect(
@@ -150,7 +181,7 @@ const Studio = ({
       setShareLink(origin + pathname + queryString)
       updateHistory(queryString)
     },
-    [settings, options, metrics, activeEvents, comparables]
+    [settings, options, metrics, activeEvents, comparables],
   )
 
   useEffect(
@@ -161,7 +192,7 @@ const Studio = ({
         setActiveEvents([])
       }
     },
-    [metrics, options.isAnomalyActive]
+    [metrics, options.isAnomalyActive],
   )
 
   useEffect(
@@ -170,10 +201,10 @@ const Studio = ({
         setChartSidepane()
       }
     },
-    [chartSidepane, settings.slug, options.isMultiChartsActive]
+    [chartSidepane, settings.slug, options.isMultiChartsActive],
   )
 
-  function toggleMetric (metric) {
+  function toggleMetric(metric) {
     if (metric.comparedTicker) {
       return removeComparedMetric(metric)
     }
@@ -196,27 +227,27 @@ const Studio = ({
     setMetrics([...metricSet])
   }
 
-  function toggleChartSidepane (sidepane) {
+  function toggleChartSidepane(sidepane) {
     setChartSidepane(chartSidepane === sidepane ? undefined : sidepane)
   }
 
-  function toggleAdvancedView (mode) {
+  function toggleAdvancedView(mode) {
     setAdvancedView(advancedView === mode ? undefined : mode)
   }
 
-  function removeComparedMetric ({ key }) {
-    setComparables(comparables.filter(comp => comp.key !== key))
+  function removeComparedMetric({ key }) {
+    setComparables(comparables.filter((comp) => comp.key !== key))
   }
 
-  function changeTimePeriod (from, to, timeRange) {
+  function changeTimePeriod(from, to, timeRange) {
     const interval = getNewInterval(from, to)
 
-    setSettings(state => ({
+    setSettings((state) => ({
       ...state,
       timeRange,
       interval: INTERVAL_ALIAS[interval] || interval,
       from: from.toISOString(),
-      to: to.toISOString()
+      to: to.toISOString(),
     }))
   }
 
@@ -225,7 +256,7 @@ const Studio = ({
       className={cx(
         styles.wrapper,
         classes.wrapper,
-        isSidebarClosed && styles.wrapper_wide
+        isSidebarClosed && styles.wrapper_wide,
       )}
     >
       <StudioSidebar
@@ -288,7 +319,7 @@ Studio.defaultProps = {
   defaultEvents: [],
   defaultComparables: [],
   onSlugChange: () => {},
-  classes: {}
+  classes: {},
 }
 
 export default ({
@@ -304,7 +335,7 @@ export default ({
     {...props}
     defaultSettings={{
       ...DEFAULT_SETTINGS,
-      ...settings
+      ...settings,
     }}
     defaultOptions={{ ...DEFAULT_OPTIONS, ...options }}
     defaultMetrics={metrics || DEFAULT_METRICS}
