@@ -66,5 +66,20 @@
 
 .holders {
   position: relative;
-  padding-right: 340px !important;
+
+  &_opened {
+    padding-right: 340px !important;
+  }
+}
+
+.toggle {
+  left: initial;
+  right: 0;
+  width: 24px;
+}
+
+.title {
+  font-weight: 700;
+  display: flex;
+  align-items: center;
 }

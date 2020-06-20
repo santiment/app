@@ -59,7 +59,6 @@ const Chart = ({
   onRangeSelectStart,
   onPointClick = () => {},
   isLoading,
-  isMultiChartsActive,
   isNightModeEnabled,
   isCartesianGridActive,
   resizeDependencies,
@@ -70,7 +69,7 @@ const Chart = ({
   let [brush, setBrush] = useState()
   const canvasRef = useRef()
 
-  const isShowBrush = !hideBrush && !isMultiChartsActive
+  const isShowBrush = !hideBrush
 
   useEffect(() => {
     const { current: canvas } = canvasRef
@@ -201,8 +200,10 @@ const Chart = ({
           endIndex = Math.trunc(scale * (toTimestamp - startTimestamp))
         }
 
-        startIndex = startIndex > 0 ? startIndex : 0
-        endIndex = endIndex < length ? endIndex : length - 1
+        startIndex =
+          startIndex > 0 ? (startIndex < length ? startIndex : length - 1) : 0
+        endIndex =
+          endIndex > 0 ? (endIndex < length ? endIndex : length - 1) : 0
 
         if (endIndex - startIndex < 2) {
           if (startIndex > 2) {
@@ -282,7 +283,9 @@ const Chart = ({
     [syncedTooltipDate],
   )
 
-  function handleResize({ target }) {
+  useEffect(handleResize, [...resizeDependencies, data])
+
+  function handleResize() {
     if (data.length === 0) {
       return
     }
@@ -293,15 +296,7 @@ const Chart = ({
       axesMetricKeys[1] && DOUBLE_AXIS_PADDING,
     )
 
-    /* onResize(chart, padding, brush, brushData, chartHeight, joinedCategories) */
-    onResize(
-      chart,
-      padding,
-      brush,
-      brushData,
-      target.innerHeight,
-      joinedCategories,
-    )
+    onResize(chart, padding, brush, brushData, joinedCategories)
 
     updateChartState(
       chart,

@@ -1,11 +1,10 @@
 import React, { useState, useRef } from 'react'
 import cx from 'classnames'
 import StudioHeader from '../../Studio/Header'
-import StudioAdvancedView from '../../Studio/AdvancedView'
+import Sidepanel from '../../Studio/Chart/Sidepane'
+import { SPENT_COIN_COST } from '../../Studio/Chart/Sidepane/panes'
 import { ONE_HOUR_IN_MS } from '../../../utils/dates'
 import styles from '../index.module.scss'
-import MetricExplanation from './MetricExplanation'
-import Sidepanel from '../../Studio/Chart/Sidepane'
 
 const Chart = ({
   eventsData,
@@ -15,21 +14,15 @@ const Chart = ({
   toggleSidepanel,
   ...props
 }) => {
-  const { settings, options, advancedView, changeTimePeriod } = props
-
+  const { settings, changeTimePeriod } = props
   const [syncedTooltipDate, syncTooltips] = useState()
   const [isSelectingRange, setIsSelectingRange] = useState(false)
   const [selectedDate, setSelectedDate] = useState()
   const [selectedDatesRange, setSelectedDatesRange] = useState()
-  const [isMetricExplanationOpened] = useState(false)
   const chartRef = useRef(null)
 
   const isSingleWidget = widgets.length === 1
-
-  function changeSelectedDate({ value }) {
-    setSelectedDate(new Date(value))
-    setSelectedDatesRange()
-  }
+  const onWidgetPointClick = sidepanel ? onPointClick : undefined
 
   function changeDatesRange(from, to) {
     setSelectedDate()
@@ -45,7 +38,7 @@ const Chart = ({
     const from = new Date(dates[0])
     const to = new Date(dates[1])
 
-    if (advancedView === 'Spent Coin Cost') {
+    if (sidepanel === SPENT_COIN_COST) {
       return changeDatesRange(from, to)
     }
 
@@ -56,6 +49,11 @@ const Chart = ({
 
   function onRangeSelectStart() {
     setIsSelectingRange(true)
+  }
+
+  function onPointClick({ value }) {
+    setSelectedDate(new Date(value))
+    setSelectedDatesRange()
   }
 
   return (
@@ -85,8 +83,12 @@ const Chart = ({
               settings={settings}
               widget={widget}
               isSingleWidget={isSingleWidget}
+              isSelectingRange={isSelectingRange}
               syncedTooltipDate={syncedTooltipDate}
               syncTooltips={syncTooltips}
+              onPointClick={onWidgetPointClick}
+              onRangeSelect={onRangeSelect}
+              onRangeSelectStart={onRangeSelectStart}
             />
           ))}
         </div>
@@ -96,18 +98,19 @@ const Chart = ({
           <Sidepanel
             className={styles.side}
             chartSidepane={sidepanel}
-            MetricColor={{}}
             metrics={widgets.reduce(
               (acc, widget) => [...acc, ...widget.metrics],
               [],
             )}
             toggleChartSidepane={toggleSidepanel}
-            //setMetrics={() => {}}
+            date={selectedDate}
+            datesRange={selectedDatesRange}
           />
         )}
         {/* </div>
             </div> */}
-        {advancedView && (
+
+        {/* {advancedView && (
           <div className={cx(styles.canvas, styles.advanced)}>
             <StudioAdvancedView
               {...props}
@@ -117,6 +120,7 @@ const Chart = ({
             />
           </div>
         )}
+      */}
       </div>
     </>
   )

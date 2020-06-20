@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
 import StudioChart from '../Studio/Chart'
 import { useTimeseries } from '../Studio/timeseries/hooks'
+import { useClosestValueData } from '../Chart/hooks'
 import { useWidgetDispatcher } from './Manager/hooks'
 
 import styles from './index.module.scss'
@@ -21,9 +22,13 @@ export const Chart = ({
   const { metrics, chartRef } = widget
   const dispatch = useWidgetDispatcher(widget)
   const [options, setOptions] = useState({})
-  const [data, loadings, ErrorMsg] = useTimeseries(metrics, settings)
+  const [rawData, loadings, ErrorMsg] = useTimeseries(metrics, settings)
   /* const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings) */
-  /* const data = useClosestValueData(rawData, activeMetrics, false) */
+  const data = useClosestValueData(
+    rawData,
+    metrics,
+    options.isClosestDataActive,
+  )
 
   useEffect(
     () => {

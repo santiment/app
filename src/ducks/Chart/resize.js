@@ -17,9 +17,7 @@ export const ResizeListener = ({ onResize }) => {
   const iframeRef = useRef(null)
   const iframe = iframeRef.current
 
-  useEffect(() => {
-    onResize({ target: iframeRef.current.contentWindow })
-  }, [])
+  useEffect(onResize, [])
 
   if (iframe) {
     iframe.contentWindow.onresize = onResize
@@ -33,10 +31,10 @@ export function onResize(
   chartPadding,
   brush,
   brushData,
-  chartHeight,
   joinedCategories,
 ) {
   const parentWidth = chart.canvas.parentNode.offsetWidth
+  const chartHeight = chart.canvas.parentNode.offsetHeight
 
   updateChartDimensions(chart, parentWidth, chartHeight, chartPadding)
 

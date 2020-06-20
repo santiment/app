@@ -16,16 +16,16 @@ const OPTIONS = []
 const SELECTED = ''
 
 const dropdownClasses = {
-  wrapper: styles.dropdown
+  wrapper: styles.dropdown,
 }
 
-export function filterExplainableMetrics (metrics) {
+export function filterExplainableMetrics(metrics) {
   return metrics.filter(
-    ({ key }) => Description[key] || Insights[key] || Explanation[key]
+    ({ key }) => Description[key] || Insights[key] || Explanation[key],
   )
 }
 
-function dedupMetrics (metrics) {
+function dedupMetrics(metrics) {
   const dups = new Set()
 
   return metrics.filter(({ key }) => {
@@ -34,11 +34,11 @@ function dedupMetrics (metrics) {
   })
 }
 
-function buildOptions (metrics, colors) {
-  return dedupMetrics(filterExplainableMetrics(metrics)).map(metric => ({
+function buildOptions(metrics, colors) {
+  return dedupMetrics(filterExplainableMetrics(metrics)).map((metric) => ({
     index: metric.key,
     content: <Label metric={metric} colors={colors} />,
-    metric
+    metric,
   }))
 }
 
@@ -67,7 +67,7 @@ const MetricsExplanation = ({
       setOptions(newOptions)
       setSelected(newSelected)
     },
-    [metrics]
+    [metrics],
   )
 
   const { metric } = selected || {}
@@ -108,5 +108,9 @@ MetricsExplanation.Button = ({ onClick, ...props }) => (
     Explain metrics
   </Button>
 )
+
+MetricsExplanation.defaultProps = {
+  MetricColor: {},
+}
 
 export default MetricsExplanation

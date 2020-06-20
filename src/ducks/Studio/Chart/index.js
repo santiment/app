@@ -38,11 +38,10 @@ const Canvas = ({
   activeEvents,
   boundaries,
   ErrorMsg,
-  advancedView,
   chartSidepane,
   toggleMetric,
   toggleChartSidepane,
-  changeHoveredDate,
+  onPointClick,
   syncedTooltipDate,
   isMultiChartsActive,
   isSingleWidget = !isMultiChartsActive,
@@ -53,6 +52,7 @@ const Canvas = ({
   changeTimePeriod,
   project,
   onDeleteChartClick,
+  TopLeftComponent = ChartActiveMetrics,
   ...props
 }) => {
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
@@ -116,8 +116,9 @@ const Canvas = ({
     >
       <div className={cx(styles.top, isBlurred && styles.blur)}>
         <div className={styles.metrics}>
-          <ChartActiveMetrics
+          <TopLeftComponent
             className={styles.metric}
+            settings={settings}
             MetricColor={MetricColor}
             activeMetrics={metrics}
             activeEvents={activeEvents}
@@ -140,6 +141,7 @@ const Canvas = ({
               setIsDomainGroupingActive={setIsDomainGroupingActive}
             />
           )}
+
           {/* {hasExplanaibles && (
               <ChartMetricsExplanation.Button
               className={styles.explain}
@@ -182,17 +184,10 @@ const Canvas = ({
         }
         tooltipKey={axesMetricKeys[0]}
         axesMetricKeys={axesMetricKeys}
-        isMultiChartsActive={isMultiChartsActive}
         syncedTooltipDate={isBlurred || syncedTooltipDate}
-        onPointClick={advancedView ? changeHoveredDate : undefined}
+        onPointClick={onPointClick}
         onBrushChangeEnd={onBrushChangeEnd}
-        resizeDependencies={[
-          isMultiChartsActive,
-          advancedView,
-          chartSidepane,
-          isSidebarClosed,
-          axesMetricKeys,
-        ]}
+        resizeDependencies={[chartSidepane, isSidebarClosed, axesMetricKeys]}
       >
         <IcoPrice
           {...settings}
