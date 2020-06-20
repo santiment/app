@@ -3,10 +3,10 @@ import { parseIntervalString } from '../../utils/dates'
 
 const IntervalFormatDividend = {
   h: 24,
-  m: 60 * 24,
+  m: 60 * 24
 }
 
-export function extractMirrorMetricsDomainGroups(domainGroups) {
+export function extractMirrorMetricsDomainGroups (domainGroups) {
   if (!domainGroups) return
 
   const mirroredGroups = []
@@ -27,7 +27,7 @@ export function extractMirrorMetricsDomainGroups(domainGroups) {
   return mirroredGroups
 }
 
-export function calculateMovingAverageFromInterval(interval) {
+export function calculateMovingAverageFromInterval (interval) {
   const { amount, format } = parseIntervalString(interval)
 
   const dividend = IntervalFormatDividend[format] || 1
