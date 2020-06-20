@@ -11,11 +11,11 @@ const SelectionOverview = ({
   onClose,
   onWidgetClick,
   onNewChartClick,
-  ...props
 }) => {
   return (
     <Overview
       widgets={widgets}
+      selectedMetrics={selectedMetrics}
       onClose={onClose}
       onWidgetClick={onWidgetClick}
       onNewChartClick={onNewChartClick}

@@ -10,11 +10,11 @@ import styles from './Overview.module.scss'
 const Overview = ({
   widgets,
   children,
+  selectedMetrics,
   onClose,
   onWidgetClick,
   onNewChartClick,
   useWidgetMessage,
-  ...props
 }) => {
   useKeyDown(onClose, 'Escape')
 
@@ -29,10 +29,11 @@ const Overview = ({
     <div className={styles.wrapper}>
       <div className={styles.sticky}>
         <div className={styles.grid}>
-          {widgets.map((widget, i) => (
+          {widgets.map((widget) => (
             <ChartPreview
               key={widget.id}
               widget={widget}
+              selectedMetrics={selectedMetrics}
               onClick={onWidgetClick}
               useWidgetMessage={useWidgetMessage}
             />

@@ -92,13 +92,11 @@ $preview-height: 250px;
     right: 0;
     top: 0;
     bottom: 0;
-    content: 'Click to apply selected metrics';
     opacity: 0;
+    content: 'Click to apply selected metrics';
     display: flex;
     align-items: center;
     justify-content: center;
-    // background: $mirage;
-    border-radius: 4px;
     color: $white;
     transition: opacity 200ms;
   }
@@ -114,7 +112,6 @@ $preview-height: 250px;
     }
   }
 
-  &.loaded::after,
   &.loading::after {
     content: '';
   }
@@ -177,14 +174,42 @@ $preview-height: 250px;
   circle {
     animation: cycle 1200ms infinite;
   }
+
+  &.success {
+    circle {
+      animation: draw 600ms;
+    }
+    path {
+      transition-delay: 600ms;
+      opacity: 1;
+    }
+    &::after {
+      content: 'Selected metrics were applied to this chart';
+      transform: translateY(60px);
+    }
+
+    &:hover::after {
+      transition-delay: 900ms;
+      opacity: 1;
+    }
+  }
 }
 
 .loaded {
   circle {
-    animation: draw 600ms;
+    stroke-dashoffset: 0;
   }
+
   path {
-    transition-delay: 600ms;
+    opacity: 1;
+  }
+
+  &::after {
+    content: 'Selected metrics were applied to this chart';
+    transform: translateY(60px);
+  }
+
+  &:hover::after {
     opacity: 1;
   }
 }

@@ -11,10 +11,16 @@ const Phase = {
   LOADED: 'loaded',
 }
 
-const ChartPreview = ({ widget, onClick, ...props }) => {
-  const [state, setState] = useState(Phase.IDLE)
+const hasEverySelectedMetric = (metrics, selectedMetrics) =>
+  metrics.length >= [...new Set(metrics.concat(selectedMetrics))].length
+
+const ChartPreview = ({ widget, selectedMetrics, onClick }) => {
+  const [phase, setPhase] = useState(Phase.IDLE)
+  const [previousPhase, setPreviousPhase] = useState(phase)
+  const [phaseStyles, setPhaseStyles] = useState(styles.idle)
   let [chart, setChart] = useState()
   const canvasRef = useRef(null)
+  const circleRef = useRef(null)
 
   useEffect(() => {
     const { current: canvas } = canvasRef
@@ -25,24 +31,58 @@ const ChartPreview = ({ widget, onClick, ...props }) => {
     drawChart()
   }, [])
 
-  useWidgetEffect(widget, (phase) => {
-    console.log(phase)
+  useEffect(
+    () => {
+      if (phase === Phase.LOADING) return
 
-    if (phase === 'loading') {
-      setState(Phase.LOADING)
-    } else if (phase === 'loaded') {
-      setState(Phase.LOADED)
-
-      document.querySelector('.circle').onanimationiteration = ({ target }) => {
-        target.onanimationiteration = null
-        document
-          .querySelector('.' + styles.indicator)
-          .classList.add(styles.finish)
+      if (hasEverySelectedMetric(widget.metrics, selectedMetrics)) {
+        setPhase(Phase.LOADED)
+      } else {
+        setPhase(Phase.IDLE)
       }
-    }
+    },
+    [selectedMetrics],
+  )
 
+  useEffect(
+    () => {
+      let timer
+
+      switch (phase) {
+        case Phase.LOADED:
+          switch (previousPhase) {
+            case Phase.LOADING:
+              circleRef.current.onanimationiteration = ({ target }) => {
+                target.onanimationiteration = null
+                setPhaseStyles(cx(styles.loading, styles.success))
+                timer = setTimeout(
+                  () => newPhase(Phase.LOADED, Phase.IDLE),
+                  900,
+                )
+              }
+              break
+            default:
+              setPhaseStyles(styles.loaded)
+          }
+          break
+        default:
+          setPhaseStyles(styles[phase])
+      }
+
+      return () => clearTimeout(timer)
+    },
+    [phase, previousPhase],
+  )
+
+  useWidgetEffect(widget, (phase) => {
+    newPhase(phase)
     drawChart()
   })
+
+  function newPhase(value, prevPhase = phase) {
+    setPreviousPhase(prevPhase)
+    setPhase(value)
+  }
 
   function drawChart() {
     const { current: widgetChart } = widget.chartRef
@@ -60,7 +100,7 @@ const ChartPreview = ({ widget, onClick, ...props }) => {
 
   return (
     <div
-      className={cx(styles.item, styles[state])}
+      className={cx(styles.item, phaseStyles)}
       onClick={() => onClick(widget)}
     >
       <canvas ref={canvasRef} />
@@ -84,6 +124,7 @@ const ChartPreview = ({ widget, onClick, ...props }) => {
           r='7.3'
           fill='transparent'
           strokeWidth='1.5'
+          ref={circleRef}
         />
       </svg>
     </div>
