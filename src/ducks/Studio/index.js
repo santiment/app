@@ -8,6 +8,7 @@ import {
   DEFAULT_METRICS,
   DEFAULT_METRIC_SETTINGS_MAP
 } from './defaults'
+import { calculateMovingAverageFromInterval } from './utils'
 import { MAX_METRICS_AMOUNT } from './constraints'
 import { generateShareLink } from './url'
 import { trackMetricState } from './analytics'
@@ -17,6 +18,7 @@ import { buildComparedMetric } from './Compare/utils'
 import { TOP_HOLDERS_PANE } from './Chart/Sidepane/panes'
 import { useClosestValueData } from '../Chart/hooks'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
+import { Metric } from '../dataHub/metrics'
 import { MirroredMetric } from '../dataHub/metrics/mirrored'
 import { updateHistory } from '../../utils/utils'
 import styles from './index.module.scss'
@@ -76,6 +78,35 @@ const Studio = ({
       setActiveMetrics(metrics.concat(comparedMetrics))
     },
     [metrics, comparedMetrics]
+  )
+
+  useEffect(
+    () => {
+      const metricsSet = new Set(metrics)
+
+      if (metricsSet.has(Metric.dev_activity)) {
+        const metric = Metric.dev_activity
+        setMetricSettingMap(state => {
+          const prevSettings = state.get(metric) || {}
+          const newState = new Map(state)
+
+          newState.set(
+            metric,
+            Object.assign(prevSettings, {
+              transform: {
+                type: 'moving_average',
+                movingAverageBase: calculateMovingAverageFromInterval(
+                  settings.interval
+                )
+              }
+            })
+          )
+
+          return newState
+        })
+      }
+    },
+    [metrics, settings.interval]
   )
 
   useEffect(

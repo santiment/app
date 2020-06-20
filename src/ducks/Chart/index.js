@@ -201,7 +201,8 @@ const Chart = ({
 
         startIndex =
           startIndex > 0 ? (startIndex < length ? startIndex : length - 1) : 0
-        endIndex = endIndex < length ? endIndex : length - 1
+        endIndex =
+          endIndex > 0 ? (endIndex < length ? endIndex : length - 1) : 0
 
         if (endIndex - startIndex < 2) {
           if (startIndex > 2) {
