@@ -153,6 +153,7 @@
   &__subtitleSuccess {
     margin-top: 16px;
     max-width: 340px;
+    text-align: center;
 
     @include responsive('phone-xs', 'phone', 'tablet') {
       margin-top: 24px;
