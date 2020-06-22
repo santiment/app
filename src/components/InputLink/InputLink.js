@@ -20,9 +20,7 @@ const InputLink = props => {
   const isError = value && !disabled && !validURL(value)
 
   return (
-    <>
-      <Input type='text' {...props} isError={isError} placeholder='https://' />
-    </>
+    <Input type='text' {...props} isError={isError} placeholder='https://' />
   )
 }
 

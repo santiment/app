@@ -265,6 +265,7 @@ const TriggerFormChannels = ({
                     disabled={!findWebHook(channels)}
                     value={webhook}
                     onChange={onWebhookChange}
+                    className={styles.inputLink}
                   />
                 )}
               </div>

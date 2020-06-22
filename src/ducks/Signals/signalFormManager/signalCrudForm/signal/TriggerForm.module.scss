@@ -94,7 +94,6 @@ $trigger-shared-form-width: 496px;
 }
 
 .notifyBlock {
-  margin-top: 2px;
   align-items: center;
   flex-wrap: wrap;
   display: flex;
@@ -345,4 +344,8 @@ a {
 
 .webhook {
   margin-top: 18px;
+}
+
+.inputLink {
+  margin-left: 18px;
 }

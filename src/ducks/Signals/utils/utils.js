@@ -867,8 +867,6 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
   }
   const cooldownParams = getCooldownParams(formProps)
 
-  console.log('settings', settings.channel)
-
   return {
     ...prevTrigger,
     settings,
