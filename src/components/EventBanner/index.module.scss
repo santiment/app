@@ -52,8 +52,27 @@
 .info,
 .media {
   animation-name: shiftDown, appear;
-  animation-delay: 0.4s, 0;
+  animation-delay: 0.4s;
   animation-timing-function: ease-in-out;
   animation-duration: 1s, 0.5s;
   animation-fill-mode: both;
+}
+
+.closeContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  right: -25px;
+  top: 0;
+  fill: var(--casper);
+  cursor: pointer;
+
+  &:hover {
+    fill: var(--waterloo);
+  }
 }
