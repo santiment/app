@@ -11,6 +11,8 @@ import { usdFormatter } from '../../../SANCharts/utils'
 import { millify } from '../../../../utils/formatting'
 import { ONE_MONTH_IN_MS } from '../../../../utils/dates'
 import styles from './index.module.scss'
+import MetricFrequence from '../../../SANCharts/MetricFrequence/MetricFrequence'
+import { SPENT_COINT_COST } from '../../../dataHub/metrics/frequences'
 
 const INTERVAL_ERROR_TEXT = 'allowed interval'
 
@@ -88,6 +90,12 @@ const PriceHistogram = ({ title, slug, ticker, date, datesRange }) => {
         It shows at what price the tokens that were transacted today were last
         moved.{' '}
         <MoreInfoLink href='https://academy.santiment.net/metrics/spent-coin-cost/' />
+        <MetricFrequence
+          metric={{
+            key: SPENT_COINT_COST
+          }}
+          classes={styles}
+        />
       </div>
 
       <UsageTip />
