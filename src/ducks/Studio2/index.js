@@ -1,64 +1,26 @@
 import React, { useState, useEffect } from 'react'
-import cx from 'classnames'
 import Sidebar from '../Studio/Sidebar'
 import { Metric } from '../dataHub/metrics'
 import { newChartWidget } from './Widget/ChartWidget'
 import { newHolderDistributionWidget } from './Widget/HolderDistributionWidget'
 import SelectionOverview from './SelectionOverview'
-import { generateUrlV2 } from './url'
-import { WidgetMessageProvider } from './widgetMessageContext'
 import Main from './Main'
-import { updateHistory } from '../../utils/utils'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
 import styles from './index.module.scss'
+import { DEFAULT_SETTINGS } from '../Studio/defaults'
 
-import {
-  DEFAULT_SETTINGS,
-  DEFAULT_OPTIONS,
-  DEFAULT_METRICS,
-  DEFAULT_METRIC_SETTINGS_MAP,
-} from '../Studio/defaults'
-
-/*
-const defaultSettings = {
-  from: '2019-12-13T21:00:00.000Z',
-  interval: '4h',
-  projectId: '101605',
-  slug: 'santiment',
-  ticker: 'SAN',
-  timeRange: '6m',
-  title: 'Santiment (SAN)',
-  to: '2020-06-14T20:59:59.999Z',
-}
-*/
+export const DEFAULT_WIDGETS = [newChartWidget()]
 
 export const Studio = ({
   defaultWidgets,
+  defaultSidepanel,
   defaultSettings = DEFAULT_SETTINGS,
-  defaultOptions,
-  defaultMetrics,
-  defaultEvents,
-  defaultComparedMetrics,
-  defaultComparables,
-  defaultMetricSettingsMap,
-  Extension,
-  ...props
+  extensions,
 }) => {
   const [widgets, setWidgets] = useState(defaultWidgets)
   const [settings, setSettings] = useState(defaultSettings)
+  const [sidepanel, setSidepanel] = useState(defaultSidepanel)
   const [selectedMetrics, setSelectedMetrics] = useState([])
-  const [sidepanel, setSidepanel] = useState()
-
-  useEffect(
-    () => {
-      const queryString = '?' + generateUrlV2({ settings, widgets, sidepanel })
-
-      /* const { origin, pathname } = window.location */
-      /* setShareLink(origin + pathname + queryString) */
-      updateHistory(queryString)
-    },
-    [settings, widgets, sidepanel],
-  )
 
   function toggleSidepanel(key) {
     setSidepanel(sidepanel === key ? undefined : key)
@@ -155,7 +117,6 @@ export const Studio = ({
       />
       <main className={styles.main}>
         <Main
-          {...props}
           widgets={widgets}
           settings={settings}
           options={{}}
@@ -179,37 +140,11 @@ export const Studio = ({
           />
         ) : null}
       </main>
+      {React.Children.map(extensions, (extension) =>
+        React.cloneElement(extension, { widgets, settings, sidepanel }),
+      )}
     </div>
   )
 }
-/*
- * export default ({
- *   settings,
- *   options,
- *   metrics,
- *   events,
- *   comparables,
- *   MetricSettingsMap,
- *   ...props
- * }) => (
- *   <Studio
- *     {...props}
- *     defaultSettings={{
- *       ...DEFAULT_SETTINGS,
- *       ...settings,
- *     }}
- *     defaultOptions={{ ...DEFAULT_OPTIONS, ...options }}
- *     defaultMetrics={metrics || DEFAULT_METRICS}
- *     defaultEvents={events}
- *     defaultComparables={comparables}
- *     defaultMetricSettingsMap={MetricSettingsMap || DEFAULT_METRIC_SETTINGS_MAP}
- *   />
- * )
- *
- *  */
 
-export default (props) => (
-  <WidgetMessageProvider>
-    <Studio {...props} />
-  </WidgetMessageProvider>
-)
+export default Studio

@@ -36,12 +36,12 @@ const ChartSettingsContextMenu = ({
   shareLink,
   title,
   showDownload = true,
+  showDownloadPNG,
   showMulti = true,
   classes = {},
   isLogScale,
   onScaleChange,
   isMultiChartsActive,
-  onMultiChartsChange,
   children,
   data,
   events,
@@ -49,8 +49,6 @@ const ChartSettingsContextMenu = ({
   activeEvents,
   isCartesianGridActive,
   onCartesianGridChange,
-  isDomainGroupingActive,
-  onDomainGroupingChange,
   isClosestDataActive,
   onClosestDataChange,
 }) => {
@@ -124,31 +122,32 @@ const ChartSettingsContextMenu = ({
             </UIButton>
           )}
         />
+
         {showDownload && (
-          <>
-            <DownloadCSVBtn
-              fluid
-              variant='ghost'
-              title={title}
-              data={data}
-              events={events}
-              activeEvents={activeEvents}
-              activeMetrics={activeMetrics}
-            >
-              <Icon type='save' />
-              Download as CSV
-            </DownloadCSVBtn>
-            <ChartDownloadBtn
-              fluid
-              variant='ghost'
-              metrics={activeMetrics}
-              title={title}
-              chartRef={chartRef}
-            >
-              <Icon type='save' />
-              Download as PNG
-            </ChartDownloadBtn>
-          </>
+          <DownloadCSVBtn
+            fluid
+            variant='ghost'
+            title={title}
+            data={data}
+            events={events}
+            activeEvents={activeEvents}
+            activeMetrics={activeMetrics}
+          >
+            <Icon type='save' />
+            Download as CSV
+          </DownloadCSVBtn>
+        )}
+        {showDownloadPNG && (
+          <ChartDownloadBtn
+            fluid
+            variant='ghost'
+            metrics={activeMetrics}
+            title={title}
+            chartRef={chartRef}
+          >
+            <Icon type='save' />
+            Download as PNG
+          </ChartDownloadBtn>
         )}
         {children}
       </Panel>

@@ -13,17 +13,13 @@ const Main = ({
   widgets,
   topSlot,
   bottomSlot,
-  onSlugChange,
-  onProjectChange,
+  settings,
+  setSettings,
   ...props
 }) => {
-  const {
-    settings,
-    options,
-    project,
-    setSettings,
-    setIsICOPriceDisabled,
-  } = props
+  /* const { options, project, setSettings, setIsICOPriceDisabled } = props */
+
+  const { slug } = settings
 
   function onProjectSelect(project) {
     if (!project) return
@@ -32,8 +28,7 @@ const Main = ({
     const title = `${name} (${ticker})`
     setSettings((state) => ({ ...state, slug, title, projectId, ticker }))
     /* setIsICOPriceDisabled(true) */
-    onSlugChange(slug)
-    /* onProjectChange && onProjectChange(project) */
+    /* onSlugChange(slug) */
   }
 
   return (
@@ -41,7 +36,7 @@ const Main = ({
       <div className={styles.header}>
         {topSlot}
         <StudioInfo
-          slug={settings.slug}
+          slug={slug}
           isLoading={false}
           isLoggedIn={false}
           onSlugSelect={onProjectSelect}
@@ -52,17 +47,16 @@ const Main = ({
         className={cx(
           styles.container,
           styles.content,
-          !options.isMultiChartsActive &&
-            isChartPath() &&
-            styles.container_chart,
+          //!options.isMultiChartsActive &&
+          isChartPath() && styles.container_chart,
         )}
       >
         <Switch>
           <Route path='/studio/stats'>
-            <StudioTabsKeyStats {...props} {...settings} />
+            <StudioTabsKeyStats slug={slug} />
           </Route>
           <Route path='/studio'>
-            <TabsWidgets {...props} widgets={widgets} />
+            <TabsWidgets {...props} settings={settings} widgets={widgets} />
             {/* <StudioTabsChart
                 {...props}
                 project={project}

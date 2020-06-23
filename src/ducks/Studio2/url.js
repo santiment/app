@@ -22,25 +22,31 @@ function parseUrlWidgets(urlWidgets) {
   }
 }
 
-export function generateUrlV2({ settings, widgets }) {
+function parseSidepanel(sidepanel) {
+  const parsed = JSON.parse(sidepanel)
+  return parsed.type
+}
+
+export function parseUrlV2(url) {
+  const { settings, widgets, sidepanel } = parse(url)
+  console.log('parsing')
+
+  return {
+    settings: settings ? JSON.parse(settings) : {},
+    widgets: widgets ? parseUrlWidgets(widgets) : [],
+    sidepanel: sidepanel ? parseSidepanel(sidepanel) : {},
+  }
+}
+
+export function generateUrlV2({ settings, widgets, sidepanel }) {
   const normalizedWidgets = widgets.map(({ Widget, metrics }) => ({
     widget: Widget.name,
     metrics: metrics.map(({ key }) => key),
   }))
 
-  /* console.log(settings, normalizedWidgets) */
-
   return stringify({
     settings: JSON.stringify(settings),
     widgets: JSON.stringify(normalizedWidgets),
+    sidepanel: sidepanel ? JSON.stringify({ type: sidepanel }) : undefined,
   })
-}
-
-export function parseUrlV2(url) {
-  const { settings, widgets } = parse(window.location.search)
-
-  return {
-    settings: JSON.parse(settings),
-    widgets: parseUrlWidgets(widgets),
-  }
 }

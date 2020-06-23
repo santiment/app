@@ -5,7 +5,7 @@
 
 .calendar {
   min-width: 167px;
-  margin: 0 16px;
+  margin: 0 8px 0 16px;
 }
 
 .multi {
@@ -23,4 +23,8 @@
 .explain_active {
   border-color: var(--jungle-green);
   --btn-accent-color-hover: var(--jungle-green-hover);
+}
+
+.share {
+  fill: var(--casper);
 }

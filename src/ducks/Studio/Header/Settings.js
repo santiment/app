@@ -1,26 +1,39 @@
 import React from 'react'
 import cx from 'classnames'
-import Toggle from '@santiment-network/ui/Toggle'
-import AdvancedCalendar from '../../../components/AdvancedCalendar'
+import { withRouter } from 'react-router-dom'
+import Button from '@santiment-network/ui/Button'
+import Icon from '@santiment-network/ui/Icon'
 import ContextMenu from './ContextMenu'
-import { getIntervalByTimeRange } from '../../../utils/dates'
+import AdvancedCalendar from '../../../components/AdvancedCalendar'
 import MetricsExplanation from '../Chart/Sidepane/MetricsExplanation'
-import styles from './Settings.module.scss'
+import { getIntervalByTimeRange } from '../../../utils/dates'
 import { METRICS_EXPLANATION_PANE } from '../../Studio/Chart/Sidepane/panes'
+import styles from './Settings.module.scss'
+import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
+import ChartSettingsContextMenu from '../../SANCharts/ChartSettingsContextMenu'
+
+/* import ChartMetricsExplanation, {
+ *   filterExplainableMetrics,
+ * } from './Sidepane/MetricsExplanation' */
+
+const ShareButton = withRouter(() => (
+  <ShareModalTrigger
+    trigger={(props) => (
+      <Button {...props} className={styles.share}>
+        <Icon type='share' />
+      </Button>
+    )}
+    classes={styles}
+    shareLink={window.location.href}
+  />
+))
 
 export default ({
   settings,
-  options,
   sidepanel,
-  setOptions,
-  setSettings,
   className,
-  showMulti = true,
-  isMetricExplanationOpened,
-  toggleMultiCharts,
   changeTimePeriod,
   toggleSidepanel,
-  ...rest
 }) => {
   const { timeRange, from, to, title } = settings
 
@@ -54,24 +67,8 @@ export default ({
         onCalendarChange={onCalendarChange}
         onTimerangeChange={onTimerangeChange}
       />
-      {showMulti && (
-        <div className={styles.multi} onClick={toggleMultiCharts}>
-          Multi charts
-          <Toggle
-            isActive={options.isMultiChartsActive}
-            className={styles.multi__toggle}
-          />
-        </div>
-      )}
-      <ContextMenu
-        title={title}
-        showNightModeToggle={false}
-        showDownload
-        showMulti={false}
-        setOptions={setOptions}
-        {...options}
-        {...rest}
-      />
+
+      <ShareButton />
     </div>
   )
 }

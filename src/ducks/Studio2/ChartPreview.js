@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react'
 import cx from 'classnames'
 import { initChart } from '@santiment-network/chart'
+import { useWidgetMessageEffect } from './widgetMessage'
 import { clearCtx } from '../Chart/utils'
-import { useWidgetMessageEffect } from './widgetMessageContext'
 import styles from './Overview.module.scss'
 
 const Phase = {
@@ -86,7 +86,7 @@ const ChartPreview = ({ widget, selectedMetrics, onClick }) => {
 
   function drawChart() {
     const { current: widgetChart } = widget.chartRef
-    if (!widgetChart) return
+    if (!widgetChart || !chart) return
 
     clearCtx(chart)
     chart.ctx.drawImage(

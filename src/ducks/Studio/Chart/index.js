@@ -6,30 +6,25 @@ import { linearScale, logScale } from '@santiment-network/chart/scales'
 import ChartPaywallInfo from './PaywallInfo'
 import ChartActiveMetrics from './ActiveMetrics'
 import ChartFullscreenBtn from './ChartFullscreenBtn'
-import ChartSidepane from './Sidepane'
 import IcoPrice from './IcoPrice'
 import LastDayPrice from './LastDayPrice'
 import SharedAxisToggle from './SharedAxisToggle'
-import ChartMetricsExplanation, {
-  filterExplainableMetrics,
-} from './Sidepane/MetricsExplanation'
-import { METRICS_EXPLANATION_PANE } from './Sidepane/panes'
-import { TOP_HOLDER_METRICS } from './Sidepane/TopHolders/metrics'
 import { extractMirrorMetricsDomainGroups } from '../utils'
 import { useAllTimeData } from '../timeseries/hooks'
 import Chart from '../../Chart'
 import Signals from '../../Chart/Signals'
-import Synchronizer from '../../Chart/Synchronizer'
+import { useMetricCategories } from '../../Chart/Synchronizer'
 import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
 import { useChartColorsWithHighlight } from '../../Chart/colors'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './index.module.scss'
-import ContextMenu from '../Header/ContextMenu'
+import ContextMenu from './ContextMenu'
 
 const Canvas = ({
   index,
   className,
   chartRef,
+  data,
   settings,
   options,
   loadings,
@@ -38,23 +33,23 @@ const Canvas = ({
   activeEvents,
   boundaries,
   ErrorMsg,
-  chartSidepane,
   toggleMetric,
-  toggleChartSidepane,
   onPointClick,
   syncedTooltipDate,
   isMultiChartsActive,
   isSingleWidget = !isMultiChartsActive,
   isAnon,
-  isSidebarClosed,
   isSelectingRange,
-  setIsICOPriceDisabled,
   changeTimePeriod,
-  project,
-  onDeleteChartClick,
   TopLeftComponent = ChartActiveMetrics,
-  ...props
+  setIsICOPriceDisabled,
+  setOptions,
+  onDeleteChartClick,
+  onRangeSelect,
+  onRangeSelectStart,
+  syncTooltips,
 }) => {
+  const categories = useMetricCategories(metrics)
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
   const [focusedMetricKey, setFocusedMetricKey] = useState()
   const [focusTimer, setFocusTimer] = useState()
@@ -64,19 +59,8 @@ const Canvas = ({
   const allTimeData = useAllTimeData(metrics, settings)
 
   const mirrorDomainGroups = extractMirrorMetricsDomainGroups(domainGroups)
-
   const isBlurred = isAnon && index > 1
-  const hasExplanaibles = filterExplainableMetrics(metrics).length > 0
   const scale = options.isLogScale ? logScale : linearScale
-
-  useEffect(
-    () => {
-      if (chartSidepane === METRICS_EXPLANATION_PANE && !hasExplanaibles) {
-        toggleChartSidepane()
-      }
-    },
-    [hasExplanaibles],
-  )
 
   useEffect(onMetricHoverEnd, [metrics])
 
@@ -107,13 +91,7 @@ const Canvas = ({
   }
 
   return (
-    <div
-      className={cx(
-        styles.wrapper,
-        chartSidepane && styles.wrapper_explained,
-        className,
-      )}
-    >
+    <div className={cx(styles.wrapper, className)}>
       <div className={cx(styles.top, isBlurred && styles.blur)}>
         <div className={styles.metrics}>
           <TopLeftComponent
@@ -142,37 +120,34 @@ const Canvas = ({
             />
           )}
 
-          {/* {hasExplanaibles && (
-              <ChartMetricsExplanation.Button
-              className={styles.explain}
-              onClick={toggleChartSidepane}
-              />
-              )} */}
+          <ContextMenu
+            setOptions={setOptions}
+            onDeleteChartClick={isSingleWidget ? undefined : onDeleteChartClick}
+            classes={styles}
+            chartRef={chartRef}
+            title={settings.title}
+            activeMetrics={metrics}
+            data={data}
+            {...options}
+          />
 
           <ChartFullscreenBtn
-            {...props}
+            categories={categories}
             options={options}
             settings={settings}
-            MetricColor={MetricColor}
             metrics={metrics}
             activeEvents={activeEvents}
             scale={scale}
             brushData={allTimeData}
-          />
-
-          <ContextMenu
-            showNightModeToggle={false}
-            showMulti={false}
-            setOptions={props.setOptions}
-            onDeleteChartClick={isSingleWidget ? undefined : onDeleteChartClick}
-            {...options}
+            MetricColor={MetricColor}
           />
         </div>
       </div>
       <Chart
+        {...categories}
         {...options}
         {...settings}
-        {...props}
+        data={data}
         brushData={allTimeData}
         chartRef={chartRef}
         className={cx(styles.chart, isBlurred && styles.blur)}
@@ -187,7 +162,10 @@ const Canvas = ({
         syncedTooltipDate={isBlurred || syncedTooltipDate}
         onPointClick={onPointClick}
         onBrushChangeEnd={onBrushChangeEnd}
-        resizeDependencies={[chartSidepane, isSidebarClosed, axesMetricKeys]}
+        onRangeSelect={onRangeSelect}
+        onRangeSelectStart={onRangeSelectStart}
+        syncTooltips={syncTooltips}
+        resizeDependencies={[axesMetricKeys]}
       >
         <IcoPrice
           {...settings}
@@ -208,21 +186,6 @@ const Canvas = ({
           to unlock all Santiment Chart features
         </div>
       )}
-
-      {chartSidepane && (
-        <div className={styles.explanation}>
-          <ChartSidepane
-            {...props}
-            {...settings}
-            chartSidepane={chartSidepane}
-            metrics={metrics}
-            MetricColor={MetricColor}
-            toggleMetric={toggleMetric}
-            toggleChartSidepane={toggleChartSidepane}
-            project={project}
-          />
-        </div>
-      )}
     </div>
   )
 }
@@ -231,17 +194,4 @@ const mapStateToProps = (state) => ({
   isAnon: !checkIsLoggedIn(state),
 })
 
-export default connect(mapStateToProps)(
-  ({ options, events, activeMetrics, ...rest }) => {
-    return (
-      <Synchronizer {...options} metrics={activeMetrics} events={events}>
-        <Canvas
-          options={options}
-          events={events}
-          activeMetrics={activeMetrics}
-          {...rest}
-        />
-      </Synchronizer>
-    )
-  },
-)
+export default connect(mapStateToProps)(Canvas)

@@ -2,10 +2,11 @@ import { stringify, parse } from 'query-string'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS } from './defaults'
 import { buildCompareKey } from './Compare/utils'
 import { Event } from '../dataHub/events'
+import { tryMapToTimeboundMetric } from '../dataHub/timebounds'
 import { Metric } from '../dataHub/metrics'
 import { Submetrics } from '../dataHub/submetrics'
 import { CompatibleMetric } from '../dataHub/metrics/compatibility'
-import { tryMapToTimeboundMetric } from '../dataHub/timebounds'
+import { TopHolderMetric } from './Chart/Sidepane/TopHolders/metrics'
 
 const { trendPositionHistory } = Event
 
@@ -17,7 +18,8 @@ export const convertKeyToMetric = (key, dict = Metric) =>
   dict[key] ||
   CompatibleMetric[key] ||
   searchFromSubmetrics(key) ||
-  tryMapToTimeboundMetric(key)
+  tryMapToTimeboundMetric(key) ||
+  TopHolderMetric[key]
 
 export const reduceStateKeys = (State, Data) =>
   Object.keys(State).reduce((acc, key) => {

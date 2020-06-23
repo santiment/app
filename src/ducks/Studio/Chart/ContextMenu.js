@@ -7,16 +7,6 @@ import { saveToggle } from '../../../utils/localStorage'
 import styles from './ContextMenu.module.scss'
 
 export default ({ setOptions, onDeleteChartClick, ...props }) => {
-  function toggleMultichart() {
-    setOptions((state) => ({
-      ...state,
-      isMultiChartsActive: saveToggle(
-        'isMultiChartsActive',
-        !state.isMultiChartsActive,
-      ),
-    }))
-  }
-
   function toggleScale() {
     setOptions((state) => ({
       ...state,
@@ -44,5 +34,27 @@ export default ({ setOptions, onDeleteChartClick, ...props }) => {
     }))
   }
 
-  return <ChartSettingsContextMenu {...props} />
+  return (
+    <ChartSettingsContextMenu
+      {...props}
+      showDownloadPNG
+      showNightModeToggle={false}
+      showMulti={false}
+      onScaleChange={toggleScale}
+      onCartesianGridChange={toggleCartesianGrid}
+      onClosestDataChange={toggleClosestData}
+    >
+      {onDeleteChartClick && (
+        <Button
+          fluid
+          variant='ghost'
+          onClick={onDeleteChartClick}
+          className={styles.delete}
+        >
+          <Icon type='remove-small' className={styles.icon} />
+          Delete chart
+        </Button>
+      )}
+    </ChartSettingsContextMenu>
+  )
 }

@@ -6,7 +6,7 @@ import { Metric } from '../dataHub/metrics'
 
 const cache = new Map()
 
-export function metricsToPlotCategories (metrics) {
+export function metricsToPlotCategories(metrics) {
   const requestedData = {
     lines: [],
     filledLines: [],
@@ -14,11 +14,11 @@ export function metricsToPlotCategories (metrics) {
     bars: [],
     joinedCategories: [],
     areas: [],
-    metrics
+    metrics,
   }
   const joinedCategories = requestedData.joinedCategories
 
-  metrics.forEach(metric => {
+  metrics.forEach((metric) => {
     const { key, dataKey = key, node } = metric
     requestedData[node + 's'].push(dataKey)
     joinedCategories.push(dataKey)
@@ -28,7 +28,7 @@ export function metricsToPlotCategories (metrics) {
 }
 
 export const clearCache = () => cache.clear()
-export const getSyncedColors = metrics => {
+export const getSyncedColors = (metrics) => {
   const cacheKey = metrics.map(({ key }) => key).toString()
   const cachedColors = cache.get(cacheKey)
 
@@ -49,7 +49,7 @@ export const getSyncedColors = metrics => {
 
 const { price_usd } = Metric
 
-function colorTrend (position) {
+function colorTrend(position) {
   if (position < 4) {
     return COLOR.persimmon
   }
@@ -60,7 +60,7 @@ function colorTrend (position) {
   return COLOR['bright-sun']
 }
 
-export function prepareEvents (events) {
+export function prepareEvents(events) {
   return events.map(({ datetime, position, metricAnomalyKey }) => {
     const date = +new Date(datetime)
     if (metricAnomalyKey) {
@@ -70,7 +70,7 @@ export function prepareEvents (events) {
         metric: dataKey,
         datetime: date,
         value: label,
-        color: COLOR.persimmon
+        color: COLOR.persimmon,
       }
     }
 
@@ -80,9 +80,22 @@ export function prepareEvents (events) {
       metric: 'priceUsd',
       datetime: date,
       value: [position, color],
-      color
+      color,
     }
   })
+}
+
+export function useMetricCategories(metrics) {
+  const [categories, setCategories] = useState()
+
+  useEffect(
+    () => {
+      setCategories(metricsToPlotCategories(metrics))
+    },
+    [metrics],
+  )
+
+  return categories
 }
 
 const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
@@ -95,18 +108,18 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
 
   useEffect(
     () => {
-      const noPriceMetrics = metrics.filter(metric => metric !== price_usd)
+      const noPriceMetrics = metrics.filter((metric) => metric !== price_usd)
       const hasPriceMetric = metrics.length !== noPriceMetrics.length
       const isValidMulti = isMultiChartsActive && noPriceMetrics.length > 1
 
       const categories = []
       if (isValidMulti) {
-        noPriceMetrics.forEach(metric =>
+        noPriceMetrics.forEach((metric) =>
           categories.push(
             metricsToPlotCategories(
-              hasPriceMetric ? [metric, price_usd] : [metric]
-            )
-          )
+              hasPriceMetric ? [metric, price_usd] : [metric],
+            ),
+          ),
         )
       } else {
         categories.push(metricsToPlotCategories(metrics))
@@ -118,7 +131,7 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
       setHasPriceMetric(hasPriceMetric)
       setIsValidMulti(isValidMulti)
     },
-    [metrics, events, isMultiChartsActive]
+    [metrics, events, isMultiChartsActive],
   )
 
   useEffect(() => clearCache, [])
@@ -129,43 +142,43 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
 
   return isValidMulti
     ? syncedCategories.map((categories, i) => {
-      const metric = noPriceMetrics[i]
-      if (!metric) {
-        return null
-      }
+        const metric = noPriceMetrics[i]
+        if (!metric) {
+          return null
+        }
 
-      const tooltipKey = getMetricKey(hasPriceMetric ? price_usd : metric)
+        const tooltipKey = getMetricKey(hasPriceMetric ? price_usd : metric)
 
-      return React.cloneElement(children, {
-        key: metric.key,
-        index: i,
-        isMultiChartsActive,
-        syncedTooltipDate,
-        syncTooltips,
-        hasPriceMetric,
-        tooltipKey,
-        ...categories,
-        events: syncedEvents
+        return React.cloneElement(children, {
+          key: metric.key,
+          index: i,
+          isMultiChartsActive,
+          syncedTooltipDate,
+          syncTooltips,
+          hasPriceMetric,
+          tooltipKey,
+          ...categories,
+          events: syncedEvents,
+        })
       })
-    })
     : React.cloneElement(children, {
-      ...syncedCategories[0],
-      isMultiChartsActive: false,
-      hasPriceMetric,
-      events: syncedEvents,
-      tooltipKey: getValidTooltipKey(
-        getMetricKey(findTooltipMetric(metrics)),
-        syncedCategories[0].joinedCategories
-      )
-    })
+        ...syncedCategories[0],
+        isMultiChartsActive: false,
+        hasPriceMetric,
+        events: syncedEvents,
+        tooltipKey: getValidTooltipKey(
+          getMetricKey(findTooltipMetric(metrics)),
+          syncedCategories[0].joinedCategories,
+        ),
+      })
 }
 
-function getMetricKey ({ key, dataKey = key }) {
+function getMetricKey({ key, dataKey = key }) {
   return dataKey
 }
 
 Synchronizer.defaultProps = {
-  metrics: []
+  metrics: [],
 }
 
 export default Synchronizer

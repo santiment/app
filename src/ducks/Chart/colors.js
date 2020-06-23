@@ -62,7 +62,7 @@ function preserveExistingMetricColor(metrics, PreviousColor) {
   return [uncoloredMetrics, PreservedColor]
 }
 
-export function getChartColors(metrics, PreviousColor) {
+export function getChartColors(metrics, PreviousColor = {}) {
   const [uncoloredMetrics, Color] = preserveExistingMetricColor(
     metrics,
     PreviousColor,

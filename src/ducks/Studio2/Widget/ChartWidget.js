@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Widget from './Widget'
 import { newWidget } from './utils'
-import { useWidgetMessageDispatcher } from '../widgetMessageContext'
+import { dispatchWidgetMessage } from '../widgetMessage'
 import { Metric } from '../../dataHub/metrics'
 import { useClosestValueData } from '../../Chart/hooks'
 import StudioChart from '../../Studio/Chart'
@@ -16,7 +16,6 @@ export const Chart = ({
   ...props
 }) => {
   const { metrics, chartRef } = widget
-  const dispatch = useWidgetMessageDispatcher()
   const [options, setOptions] = useState({})
   const [rawData, loadings, ErrorMsg] = useTimeseries(metrics, settings)
   /* const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings) */
@@ -41,7 +40,7 @@ export const Chart = ({
   useEffect(
     () => {
       const phase = loadings.length ? 'loading' : 'loaded'
-      dispatch(widget, phase)
+      dispatchWidgetMessage(widget, phase)
     },
     [loadings.length],
   )
@@ -53,7 +52,6 @@ export const Chart = ({
       chartRef={chartRef}
       metrics={metrics}
       activeEvents={[]}
-      activeMetrics={metrics}
       ErrorMsg={ErrorMsg}
       settings={settings}
       loadings={loadings}

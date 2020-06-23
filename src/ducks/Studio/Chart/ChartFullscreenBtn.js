@@ -24,10 +24,11 @@ const RESIZE_DEPENDENCIES = []
 const FullscreenChart = ({
   settings: studioSettings,
   options: studioOptions,
+  categories,
   metrics,
   activeEvents,
   brushData,
-  ...props
+  MetricColor,
 }) => {
   const [settings, setSettings] = useState(studioSettings)
   const [options, setOptions] = useState(studioOptions)
@@ -129,7 +130,6 @@ const FullscreenChart = ({
   return (
     <div className={styles.content} ref={containerRef}>
       <Settings
-        {...props}
         className={styles.settings}
         chartRef={chartRef}
         settings={settings}
@@ -145,9 +145,9 @@ const FullscreenChart = ({
         changeTimePeriod={changeTimePeriod}
       />
       <Chart
+        {...categories}
         {...options}
         {...settings}
-        {...props}
         className={styles.chart}
         chartRef={chartRef}
         chartHeight={chartHeight}
@@ -157,7 +157,7 @@ const FullscreenChart = ({
         axesMetricKeys={axesMetricKeys}
         onPointHover={undefined}
         syncTooltips={undefined}
-        isMultiChartsActive={false}
+        MetricColor={MetricColor}
         metrics={metrics}
         activeEvents={activeEvents}
         domainGroups={
