@@ -11,8 +11,8 @@ import { Description } from '../../../../dataHub/metrics/descriptions'
 import { Insights } from '../../../../dataHub/metrics/insights'
 import MetricDescription from '../../../../SANCharts/MetricDescription/MetricDescription'
 import MetricFrequence from '../../../../SANCharts/MetricFrequence/MetricFrequence'
-import styles from './index.module.scss'
 import Frequences from '../../../../dataHub/metrics/frequences'
+import styles from './index.module.scss'
 
 const OPTIONS = []
 const SELECTED = ''
