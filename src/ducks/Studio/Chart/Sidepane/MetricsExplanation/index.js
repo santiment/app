@@ -10,7 +10,9 @@ import MetricIcon from '../../../../SANCharts/MetricIcon'
 import { Description } from '../../../../dataHub/metrics/descriptions'
 import { Insights } from '../../../../dataHub/metrics/insights'
 import MetricDescription from '../../../../SANCharts/MetricDescription/MetricDescription'
+import MetricFrequence from '../../../../SANCharts/MetricFrequence/MetricFrequence'
 import styles from './index.module.scss'
+import Frequences from '../../../../dataHub/metrics/frequences'
 
 const OPTIONS = []
 const SELECTED = ''
@@ -21,7 +23,8 @@ const dropdownClasses = {
 
 export function filterExplainableMetrics (metrics) {
   return metrics.filter(
-    ({ key }) => Description[key] || Insights[key] || Explanation[key]
+    ({ key }) =>
+      Description[key] || Insights[key] || Explanation[key] || Frequences[key]
   )
 }
 
@@ -94,6 +97,7 @@ const MetricsExplanation = ({
           </div>
         </>
       )}
+      <MetricFrequence metric={metric} />
       <Explanations {...rest} metric={metric} />
       <MetricInsights insights={Insights[key]} />
     </>
