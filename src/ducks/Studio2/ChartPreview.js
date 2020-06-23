@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react'
 import cx from 'classnames'
 import { initChart } from '@santiment-network/chart'
 import { clearCtx } from '../Chart/utils'
-import { useWidgetEffect } from './Manager/hooks'
+import { useWidgetMessageEffect } from './widgetMessageContext'
 import styles from './Overview.module.scss'
 
 const Phase = {
@@ -74,7 +74,7 @@ const ChartPreview = ({ widget, selectedMetrics, onClick }) => {
     [phase, previousPhase],
   )
 
-  useWidgetEffect(widget, (phase) => {
+  useWidgetMessageEffect(widget, (phase) => {
     newPhase(phase)
     drawChart()
   })

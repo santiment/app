@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Sidebar from '../Studio/Sidebar'
 import { Metric } from '../dataHub/metrics'
-import ChartWidget from './ChartWidget'
+import { newChartWidget } from './Widget/ChartWidget'
+import { newHolderDistributionWidget } from './Widget/HolderDistributionWidget'
 import SelectionOverview from './SelectionOverview'
-import Manager from './Manager'
+import { generateUrlV2 } from './url'
+import { WidgetMessageProvider } from './widgetMessageContext'
 import Main from './Main'
-import { TOP_HOLDER_METRICS } from '../Studio/Chart/Sidepane/TopHolders/metrics'
-import HolderDistributionWidget from './HolderDistributionWidget'
+import { updateHistory } from '../../utils/utils'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
 import styles from './index.module.scss'
 
@@ -17,8 +18,6 @@ import {
   DEFAULT_METRICS,
   DEFAULT_METRIC_SETTINGS_MAP,
 } from '../Studio/defaults'
-
-let id = -1
 
 /*
 const defaultSettings = {
@@ -33,28 +32,33 @@ const defaultSettings = {
 }
 */
 
-const Studio = ({
-  defaultSettings,
+export const Studio = ({
+  defaultWidgets,
+  defaultSettings = DEFAULT_SETTINGS,
   defaultOptions,
   defaultMetrics,
   defaultEvents,
   defaultComparedMetrics,
   defaultComparables,
   defaultMetricSettingsMap,
+  Extension,
   ...props
 }) => {
-  const [widgets, setWidgets] = useState([
-    {
-      id: ++id,
-      type: 'CHART',
-      Widget: ChartWidget,
-      metrics: [Metric.price_usd],
-      chartRef: { current: null },
-    },
-  ])
+  const [widgets, setWidgets] = useState(defaultWidgets)
   const [settings, setSettings] = useState(defaultSettings)
   const [selectedMetrics, setSelectedMetrics] = useState([])
   const [sidepanel, setSidepanel] = useState()
+
+  useEffect(
+    () => {
+      const queryString = '?' + generateUrlV2({ settings, widgets, sidepanel })
+
+      /* const { origin, pathname } = window.location */
+      /* setShareLink(origin + pathname + queryString) */
+      updateHistory(queryString)
+    },
+    [settings, widgets, sidepanel],
+  )
 
   function toggleSidepanel(key) {
     setSidepanel(sidepanel === key ? undefined : key)
@@ -115,14 +119,9 @@ const Studio = ({
       if (key === 'holder_distribution') {
         setWidgets([
           ...widgets,
-          {
-            id: ++id,
-            type: 'CHART',
-            Widget: HolderDistributionWidget,
-            metrics: TOP_HOLDER_METRICS,
-            chartRef: { current: null },
+          newHolderDistributionWidget({
             scrollIntoViewOnMount: true,
-          },
+          }),
         ])
       }
     } else {
@@ -139,16 +138,7 @@ const Studio = ({
   }
 
   function onNewChartClick() {
-    setWidgets([
-      ...widgets,
-      {
-        id: Date.now(),
-        type: 'CHART',
-        Widget: ChartWidget,
-        metrics: [...selectedMetrics],
-        chartRef: { current: null },
-      },
-    ])
+    setWidgets([...widgets, newChartWidget({ metrics: selectedMetrics })])
   }
 
   function onOverviewClose() {
@@ -156,64 +146,70 @@ const Studio = ({
   }
 
   return (
-    <Manager>
-      <div className={styles.wrapper}>
-        <Sidebar
-          slug='bitcoin'
+    <div className={styles.wrapper}>
+      <Sidebar
+        slug='bitcoin'
+        options={{}}
+        activeMetrics={selectedMetrics}
+        toggleMetric={onSidebarItemClick}
+      />
+      <main className={styles.main}>
+        <Main
+          {...props}
+          widgets={widgets}
+          settings={settings}
           options={{}}
-          activeMetrics={selectedMetrics}
-          toggleMetric={onSidebarItemClick}
+          sidepanel={sidepanel}
+          // fn
+          setSettings={setSettings}
+          changeTimePeriod={changeTimePeriod}
+          toggleWidgetMetric={toggleWidgetMetric}
+          toggleSidepanel={toggleSidepanel}
+          deleteWidget={deleteWidget}
         />
-        <main className={styles.main}>
-          <Main
-            {...props}
-            widgets={widgets}
-            settings={settings}
-            options={{}}
-            sidepanel={sidepanel}
-            // fn
-            setSettings={setSettings}
-            changeTimePeriod={changeTimePeriod}
-            toggleWidgetMetric={toggleWidgetMetric}
-            toggleSidepanel={toggleSidepanel}
-            deleteWidget={deleteWidget}
-          />
 
-          {selectedMetrics.length ? (
-            <SelectionOverview
-              widgets={widgets}
-              selectedMetrics={selectedMetrics}
-              toggleMetric={toggleSelectionMetric}
-              onClose={onOverviewClose}
-              onWidgetClick={onWidgetClick}
-              onNewChartClick={onNewChartClick}
-            />
-          ) : null}
-        </main>
-      </div>
-    </Manager>
+        {selectedMetrics.length ? (
+          <SelectionOverview
+            widgets={widgets}
+            selectedMetrics={selectedMetrics}
+            toggleMetric={toggleSelectionMetric}
+            onClose={onOverviewClose}
+            onWidgetClick={onWidgetClick}
+            onNewChartClick={onNewChartClick}
+          />
+        ) : null}
+      </main>
+    </div>
   )
 }
+/*
+ * export default ({
+ *   settings,
+ *   options,
+ *   metrics,
+ *   events,
+ *   comparables,
+ *   MetricSettingsMap,
+ *   ...props
+ * }) => (
+ *   <Studio
+ *     {...props}
+ *     defaultSettings={{
+ *       ...DEFAULT_SETTINGS,
+ *       ...settings,
+ *     }}
+ *     defaultOptions={{ ...DEFAULT_OPTIONS, ...options }}
+ *     defaultMetrics={metrics || DEFAULT_METRICS}
+ *     defaultEvents={events}
+ *     defaultComparables={comparables}
+ *     defaultMetricSettingsMap={MetricSettingsMap || DEFAULT_METRIC_SETTINGS_MAP}
+ *   />
+ * )
+ *
+ *  */
 
-export default ({
-  settings,
-  options,
-  metrics,
-  events,
-  comparables,
-  MetricSettingsMap,
-  ...props
-}) => (
-  <Studio
-    {...props}
-    defaultSettings={{
-      ...DEFAULT_SETTINGS,
-      ...settings,
-    }}
-    defaultOptions={{ ...DEFAULT_OPTIONS, ...options }}
-    defaultMetrics={metrics || DEFAULT_METRICS}
-    defaultEvents={events}
-    defaultComparables={comparables}
-    defaultMetricSettingsMap={MetricSettingsMap || DEFAULT_METRIC_SETTINGS_MAP}
-  />
+export default (props) => (
+  <WidgetMessageProvider>
+    <Studio {...props} />
+  </WidgetMessageProvider>
 )

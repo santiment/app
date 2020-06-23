@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import cx from 'classnames'
-import StudioChart from '../Studio/Chart'
-import { useTimeseries } from '../Studio/timeseries/hooks'
-import { useClosestValueData } from '../Chart/hooks'
-import { useWidgetDispatcher } from './Manager/hooks'
-
-import styles from './index.module.scss'
-
-export const Widget = ({ className, children }) => (
-  <div className={cx(styles.widget, className)}>{children}</div>
-)
+import Widget from './Widget'
+import { newWidget } from './utils'
+import { useWidgetMessageDispatcher } from '../widgetMessageContext'
+import { Metric } from '../../dataHub/metrics'
+import { useClosestValueData } from '../../Chart/hooks'
+import StudioChart from '../../Studio/Chart'
+import { useTimeseries } from '../../Studio/timeseries/hooks'
 
 export const Chart = ({
   settings,
@@ -20,7 +16,7 @@ export const Chart = ({
   ...props
 }) => {
   const { metrics, chartRef } = widget
-  const dispatch = useWidgetDispatcher(widget)
+  const dispatch = useWidgetMessageDispatcher()
   const [options, setOptions] = useState({})
   const [rawData, loadings, ErrorMsg] = useTimeseries(metrics, settings)
   /* const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings) */
@@ -45,7 +41,7 @@ export const Chart = ({
   useEffect(
     () => {
       const phase = loadings.length ? 'loading' : 'loaded'
-      dispatch(phase)
+      dispatch(widget, phase)
     },
     [loadings.length],
   )
@@ -76,5 +72,11 @@ const ChartWidget = (props) => (
     <Chart {...props} />
   </Widget>
 )
+
+export const newChartWidget = (props) =>
+  newWidget(ChartWidget, {
+    metrics: [Metric.price_usd],
+    ...props,
+  })
 
 export default ChartWidget

@@ -5,9 +5,11 @@ import ChartPage from '../Chart'
 import withProject from '../Detailed/withProject'
 import Breadcrumbs from '../profile/breadcrumbs/Breadcrumbs'
 import { parseUrl } from '../../ducks/Studio/url'
+import { parseUrlV2 } from '../../ducks/Studio2/url'
 import { Metric } from '../../ducks/dataHub/metrics'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import styles from '../Detailed/Detailed.module.scss'
+/* import URLExtension from './URLExtension' */
 
 import Studio2 from '../../ducks/Studio2'
 
@@ -46,7 +48,9 @@ const TopSlot = compose(withProject)(({ slug, project, loading }) =>
 )
 
 export default ({ history, ...props }) => {
-  const parsedUrl = parseUrl()
+  /* const parsedUrl = parseUrl() */
+  const parsedUrl = parseUrlV2()
+  console.log(parseUrlV2())
 
   function onSlugChange() {
     history.replace(`${window.location.pathname}${window.location.search}`)
@@ -56,8 +60,10 @@ export default ({ history, ...props }) => {
     <Studio2
       parsedUrl={parsedUrl}
       topSlot={<TopSlot slug={parsedUrl.settings.slug} />}
+      defaultWidgets={parsedUrl.widgets}
       //metrics={DEFAULT_METRICS}
       onSlugChange={onSlugChange}
+      //Extension={URLExtension}
       {...props}
     />
   )

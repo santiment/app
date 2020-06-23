@@ -10,9 +10,10 @@ import { tryMapToTimeboundMetric } from '../dataHub/timebounds'
 const { trendPositionHistory } = Event
 
 export const COMPARE_CONNECTOR = '-CC-'
-const getMetricsKeys = metrics => metrics.map(({ key }) => key)
-const toArray = keys => (typeof keys === 'string' ? [keys] : keys)
-const convertKeyToMetric = (key, dict) =>
+const getMetricsKeys = (metrics) => metrics.map(({ key }) => key)
+const toArray = (keys) => (typeof keys === 'string' ? [keys] : keys)
+
+export const convertKeyToMetric = (key, dict = Metric) =>
   dict[key] ||
   CompatibleMetric[key] ||
   searchFromSubmetrics(key) ||
@@ -31,16 +32,16 @@ const convertKeysToMetrics = (keys, dict) =>
   keys &&
   toArray(keys)
     .filter(Boolean)
-    .map(key => convertKeyToMetric(key, dict))
+    .map((key) => convertKeyToMetric(key, dict))
 
-function searchFromSubmetrics (key) {
+function searchFromSubmetrics(key) {
   for (let list of Object.values(Submetrics)) {
     const found = list.find(({ key: subMetricKey }) => subMetricKey === key)
     if (found) return found
   }
 }
 
-export function shareComparable (Comparable) {
+export function shareComparable(Comparable) {
   const { project, metric } = Comparable
   const { slug, ticker } = project
   const { key } = metric
@@ -48,7 +49,7 @@ export function shareComparable (Comparable) {
   return `${slug}${COMPARE_CONNECTOR}${ticker}${COMPARE_CONNECTOR}${key}`
 }
 
-function parseValue (value) {
+function parseValue(value) {
   if (value === 'true') {
     return true
   }
@@ -59,14 +60,14 @@ function parseValue (value) {
   return value
 }
 
-function sanitize (array) {
+function sanitize(array) {
   if (!array) return
 
   const cleaned = array.filter(Boolean)
   return cleaned.length === 0 ? undefined : cleaned
 }
 
-export function parseComparable (comparable) {
+export function parseComparable(comparable) {
   const [slug, ticker, metricKey] = comparable.split(COMPARE_CONNECTOR)
   const metric = convertKeyToMetric(metricKey, Metric)
 
@@ -74,17 +75,17 @@ export function parseComparable (comparable) {
 
   const project = {
     slug,
-    ticker
+    ticker,
   }
 
   return {
     key: buildCompareKey(metric, project),
     metric,
-    project
+    project,
   }
 }
 
-function parseSharedComparables (comparables) {
+function parseSharedComparables(comparables) {
   if (!comparables) return
 
   const arr = toArray(comparables)
@@ -92,12 +93,12 @@ function parseSharedComparables (comparables) {
   return arr.map(parseComparable)
 }
 
-export function generateShareLink (
+export function generateShareLink(
   settings,
   options,
   metrics = [],
   events = [],
-  comparables = []
+  comparables = [],
 ) {
   const Shareable = {
     ...settings,
@@ -106,17 +107,17 @@ export function generateShareLink (
     events: events.includes(trendPositionHistory)
       ? getMetricsKeys(events)
       : undefined,
-    comparables: comparables.map(shareComparable)
+    comparables: comparables.map(shareComparable),
   }
 
   return stringify(Shareable, {
-    arrayFormat: 'comma'
+    arrayFormat: 'comma',
   })
 }
 
-export function parseUrl (
+export function parseUrl(
   settings = DEFAULT_SETTINGS,
-  options = DEFAULT_OPTIONS
+  options = DEFAULT_OPTIONS,
 ) {
   const data = parse(window.location.search, { arrayFormat: 'comma' })
 
@@ -125,6 +126,6 @@ export function parseUrl (
     options: reduceStateKeys(options, data),
     metrics: sanitize(convertKeysToMetrics(data.metrics, Metric)),
     events: sanitize(convertKeysToMetrics(data.events, Event)),
-    comparables: sanitize(parseSharedComparables(data.comparables))
+    comparables: sanitize(parseSharedComparables(data.comparables)),
   }
 }
