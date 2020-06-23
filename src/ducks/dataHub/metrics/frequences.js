@@ -25,9 +25,31 @@ const Daily = (
     Daily Intervals
   </FrequenceLink>
 )
+const Sentiment = (
+  <div className={styles.text}>
+    We store each of the{' '}
+    <FrequenceLink href='https://academy.santiment.net/metrics/details/social-data'>
+      social data
+    </FrequenceLink>{' '}
+    documents with its absolute timestamp. I.e. it is possible to aggregate the
+    data with any desired interval{' '}
+    <FrequenceLink href='https://academy.santiment.net/products-and-plans/access-plans/'>
+      on request
+    </FrequenceLink>
+    . Currently the time intervals we use are the following:
+    <div className={styles.block}>
+      In{' '}
+      <FrequenceLink href='https://graphs.santiment.net/social'>
+        Sanbase Graphs
+      </FrequenceLink>
+      : 6h, 12h, 1d.
+    </div>
+  </div>
+)
 
-// [GarageInc] Missed Sentiment, Spent Coin Cost, Top Social Gainers / Losers
-// [GarageInc] Missed Community Messages Count, Top Holders
+// [GarageInc] Missed Community Messages Count, Top Holders, Top Social Gainers / Losers
+
+export const SPENT_COINT_COST = 'spent_coint_cost'
 
 const Frequences = {
   [Metric.age_destroyed.key]: FiveMinute,
@@ -55,7 +77,29 @@ const Frequences = {
   [Metric.social_volume_total.key]: FiveMinute,
   [Metric.social_volume_total.key]: FiveMinute,
   [Metric.transaction_volume.key]: FiveMinute,
-  [Metric.velocity.key]: Daily
+  [Metric.velocity.key]: Daily,
+
+  [Metric.sentiment_positive_total.key]: Sentiment,
+  [Metric.sentiment_positive_reddit.key]: Sentiment,
+  [Metric.sentiment_positive_telegram.key]: Sentiment,
+  [Metric.sentiment_positive_twitter.key]: Sentiment,
+
+  [Metric.sentiment_negative_total.key]: Sentiment,
+  [Metric.sentiment_negative_reddit.key]: Sentiment,
+  [Metric.sentiment_negative_telegram.key]: Sentiment,
+  [Metric.sentiment_negative_twitter.key]: Sentiment,
+
+  [Metric.sentiment_volume_consumed_total.key]: Sentiment,
+  [Metric.sentiment_volume_consumed_telegram.key]: Sentiment,
+  [Metric.sentiment_volume_consumed_twitter.key]: Sentiment,
+  [Metric.sentiment_volume_consumed_reddit.key]: Sentiment,
+
+  [Metric.sentiment_balance_reddit.key]: Sentiment,
+  [Metric.sentiment_balance_telegram.key]: Sentiment,
+  [Metric.sentiment_balance_twitter.key]: Sentiment,
+  [Metric.sentiment_balance_total.key]: Sentiment,
+
+  [SPENT_COINT_COST]: FiveMinute
 }
 
 export default Frequences

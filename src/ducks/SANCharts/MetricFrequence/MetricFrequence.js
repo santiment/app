@@ -1,8 +1,9 @@
 import React from 'react'
+import cx from 'classnames'
 import Frequences from '../../dataHub/metrics/frequences'
 import styles from './MetricFrequence.module.scss'
 
-const MetricFrequence = ({ metric: { key } }) => {
+const MetricFrequence = ({ metric: { key }, classes = {} }) => {
   const fr = Frequences[key]
 
   if (!fr) {
@@ -10,11 +11,11 @@ const MetricFrequence = ({ metric: { key } }) => {
   }
 
   return (
-    <>
-      <div className={styles.title}>Frequency:</div>
+    <div className={classes.frequency}>
+      <div className={cx(styles.title, classes.frequencyTitle)}>Frequency:</div>
 
       {fr}
-    </>
+    </div>
   )
 }
 
