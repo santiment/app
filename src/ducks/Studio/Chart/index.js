@@ -33,10 +33,10 @@ const Canvas = ({
   metrics,
   comparables,
   activeEvents,
+  shareLink,
   boundaries,
   ErrorMsg,
   toggleMetric,
-  onPointClick,
   syncedTooltipDate,
   isMultiChartsActive,
   isSingleWidget = !isMultiChartsActive,
@@ -47,6 +47,7 @@ const Canvas = ({
   setIsICOPriceDisabled,
   setOptions,
   setComparables,
+  onPointClick,
   onDeleteChartClick,
   onRangeSelect,
   onRangeSelectStart,
@@ -134,6 +135,7 @@ const Canvas = ({
           />
 
           <ContextMenu
+            {...options}
             setOptions={setOptions}
             onDeleteChartClick={isSingleWidget ? undefined : onDeleteChartClick}
             classes={styles}
@@ -141,7 +143,7 @@ const Canvas = ({
             title={settings.title}
             activeMetrics={metrics}
             data={data}
-            {...options}
+            shareLink={shareLink}
           />
 
           <ChartFullscreenBtn

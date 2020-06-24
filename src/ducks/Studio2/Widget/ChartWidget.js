@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useMemo, useEffect, useState } from 'react'
 import Widget from './Widget'
 import { newWidget } from './utils'
 import { dispatchWidgetMessage } from '../widgetMessage'
@@ -8,6 +8,7 @@ import StudioChart from '../../Studio/Chart'
 import { useTimeseries } from '../../Studio/timeseries/hooks'
 import { DEFAULT_OPTIONS } from '../../Studio/defaults'
 import { buildComparedMetric } from '../../Studio/Compare/utils'
+import { buildChartShareLink } from '../url/generate'
 
 export const Chart = ({
   settings,
@@ -28,6 +29,11 @@ export const Chart = ({
     rawData,
     metrics,
     options.isClosestDataActive,
+  )
+
+  const shareLink = useMemo(
+    () => buildChartShareLink({ settings, widgets: [widget] }),
+    [settings, metrics, comparables],
   )
 
   useEffect(
@@ -83,6 +89,7 @@ export const Chart = ({
       loadings={loadings}
       options={options}
       comparables={comparables}
+      shareLink={shareLink}
       isSingleWidget={isSingleWidget}
       setIsICOPriceDisabled={() => {}}
       setOptions={setOptions}

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { generateUrlV2 } from '../../ducks/Studio2/url'
+import { generateUrlV2 } from '../../ducks/Studio2/url/generate'
 import { updateHistory } from '../../utils/utils'
 
 const URLExtension = ({ history, settings, widgets, sidepanel }) => {

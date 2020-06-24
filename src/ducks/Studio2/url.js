@@ -1,6 +1,5 @@
 import { stringify, parse } from 'query-string'
-import { newChartWidget } from './Widget/ChartWidget'
-import { newHolderDistributionWidget } from './Widget/HolderDistributionWidget'
+import { newChartWidget, newHolderDistributionWidget } from './Widget/creators'
 import {
   convertKeyToMetric,
   shareComparable,
@@ -23,7 +22,7 @@ function parseUrlWidgets(urlWidgets) {
       }),
     )
   } catch (e) {
-    return
+    return []
   }
 }
 
@@ -41,18 +40,4 @@ export function parseUrlV2(url) {
     widgets: widgets ? parseUrlWidgets(widgets) : [],
     sidepanel: sidepanel ? parseSidepanel(sidepanel) : {},
   }
-}
-
-export function generateUrlV2({ settings, widgets, sidepanel }) {
-  const normalizedWidgets = widgets.map(({ Widget, metrics, comparables }) => ({
-    widget: Widget.name,
-    metrics: metrics.map(({ key }) => key),
-    comparables: comparables.map(shareComparable),
-  }))
-
-  return stringify({
-    settings: JSON.stringify(settings),
-    widgets: JSON.stringify(normalizedWidgets),
-    sidepanel: sidepanel ? JSON.stringify({ type: sidepanel }) : undefined,
-  })
 }
