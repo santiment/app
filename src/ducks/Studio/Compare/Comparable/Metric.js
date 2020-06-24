@@ -13,7 +13,7 @@ const DEFAULT_COLOR = '#9faac4'
 const CustomProjectCategories = {
   gold: getCategoryGraph(['price_usd']),
   's-and-p-500': getCategoryGraph(['price_usd']),
-  'crude-oil': getCategoryGraph(['price_usd'])
+  'crude-oil': getCategoryGraph(['price_usd']),
 }
 
 const MetricSearch = withMetrics(
@@ -23,18 +23,19 @@ const MetricSearch = withMetrics(
       className={cx(className, loading && styles.loading)}
       categories={CustomProjectCategories[slug] || categories}
       emptySuggestions={getMetricSuggestions(
-        CustomProjectCategories[slug] || categories
+        CustomProjectCategories[slug] || categories,
       )}
       inputProps={{
-        placeholder: 'Type to search metrics...'
+        placeholder: 'Type to search metrics...',
       }}
     />
-  )
+  ),
 )
 
 const Label = ({ comparable, editMetric, colors, options }) => {
   const { node, label } = comparable.metric
-  const color = options.isMultiChartsActive ? COLORS[0] : colors[comparable.key]
+  /* const color = options.isMultiChartsActive ? COLORS[0] : colors[comparable.key] */
+  const color = colors[comparable.key]
 
   return (
     <div className={styles.selected} onClick={editMetric}>
@@ -60,7 +61,7 @@ export default ({
   const [isEditing, setEditing] = useState()
   const metricSelectorRef = useRef(null)
 
-  function onMetricSelect (metric) {
+  function onMetricSelect(metric) {
     if (comparable) {
       stopEditing()
     }
@@ -68,12 +69,12 @@ export default ({
     return onSelect(metric)
   }
 
-  function editMetric () {
+  function editMetric() {
     setEditing(true)
     metricSelectorRef.current.firstElementChild.firstElementChild.focus()
   }
 
-  function stopEditing () {
+  function stopEditing() {
     setEditing()
   }
 

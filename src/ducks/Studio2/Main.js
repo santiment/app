@@ -47,7 +47,6 @@ const Main = ({
         className={cx(
           styles.container,
           styles.content,
-          //!options.isMultiChartsActive &&
           isChartPath() && styles.container_chart,
         )}
       >
@@ -57,11 +56,6 @@ const Main = ({
           </Route>
           <Route path='/studio'>
             <TabsWidgets {...props} settings={settings} widgets={widgets} />
-            {/* <StudioTabsChart
-                {...props}
-                project={project}
-                onProjectSelect={onProjectSelect}
-                /> */}
           </Route>
         </Switch>
       </div>

@@ -46,6 +46,7 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
 export const newHolderDistributionWidget = (props) =>
   newWidget(HolderDistributionWidget, {
     metrics: TOP_HOLDER_METRICS,
+    comparables: [],
     ...props,
   })
 

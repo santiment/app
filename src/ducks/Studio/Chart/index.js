@@ -19,6 +19,7 @@ import { useChartColorsWithHighlight } from '../../Chart/colors'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './index.module.scss'
 import ContextMenu from './ContextMenu'
+import Compare from '../Compare'
 
 const Canvas = ({
   index,
@@ -30,6 +31,7 @@ const Canvas = ({
   loadings,
   eventLoadings,
   metrics,
+  comparables,
   activeEvents,
   boundaries,
   ErrorMsg,
@@ -44,6 +46,7 @@ const Canvas = ({
   TopLeftComponent = ChartActiveMetrics,
   setIsICOPriceDisabled,
   setOptions,
+  setComparables,
   onDeleteChartClick,
   onRangeSelect,
   onRangeSelectStart,
@@ -113,12 +116,22 @@ const Canvas = ({
 
         <div className={styles.meta}>
           <ChartPaywallInfo boundaries={boundaries} metrics={metrics} />
+
           {domainGroups && domainGroups.length > mirrorDomainGroups.length && (
             <SharedAxisToggle
               isDomainGroupingActive={isDomainGroupingActive}
               setIsDomainGroupingActive={setIsDomainGroupingActive}
             />
           )}
+
+          <Compare
+            comparables={comparables}
+            setComparables={setComparables}
+            activeMetrics={metrics}
+            MetricColor={MetricColor}
+            slug={settings.slug}
+            className={styles.compare}
+          />
 
           <ContextMenu
             setOptions={setOptions}

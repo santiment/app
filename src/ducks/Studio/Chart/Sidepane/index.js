@@ -44,7 +44,7 @@ export default ({
 
   return (
     <div className={cx(styles.wrapper, className)}>
-      <CloseButton onClick={toggleChartSidepane} />
+      <CloseButton onClick={() => toggleChartSidepane()} />
       <div className={styles.content}>
         {El.Title && (
           <div className={styles.title}>

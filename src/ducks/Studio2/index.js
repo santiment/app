@@ -22,6 +22,10 @@ export const Studio = ({
   const [sidepanel, setSidepanel] = useState(defaultSidepanel)
   const [selectedMetrics, setSelectedMetrics] = useState([])
 
+  function rerenderWidgets() {
+    setWidgets(widgets.slice())
+  }
+
   function toggleSidepanel(key) {
     setSidepanel(sidepanel === key ? undefined : key)
   }
@@ -127,6 +131,7 @@ export const Studio = ({
           toggleWidgetMetric={toggleWidgetMetric}
           toggleSidepanel={toggleSidepanel}
           deleteWidget={deleteWidget}
+          rerenderWidgets={rerenderWidgets}
         />
 
         {selectedMetrics.length ? (

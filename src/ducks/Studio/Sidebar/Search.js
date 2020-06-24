@@ -1,9 +1,9 @@
 import React from 'react'
 import { SearchWithSuggestions } from '@santiment-network/ui/Search'
 
-const predicate = searchTerm => {
+const predicate = (searchTerm) => {
   const upperCaseSearchTerm = searchTerm.toUpperCase()
-  return ({ label, abbreviation }) => {
+  return ({ item: { label, abbreviation } }) => {
     return (
       (abbreviation &&
         abbreviation.toUpperCase().includes(upperCaseSearchTerm)) ||
@@ -12,9 +12,9 @@ const predicate = searchTerm => {
   }
 }
 
-const suggestionContent = ({ label }) => label
+const suggestionContent = ({ item: { label } }) => label
 
-export const getMetricSuggestions = categories => {
+export const getMetricSuggestions = (categories) => {
   const suggestions = []
   for (const categoryKey in categories) {
     const category = categories[categoryKey]
@@ -26,7 +26,7 @@ export const getMetricSuggestions = categories => {
       suggestionContent,
       items,
       predicate,
-      title: categoryKey
+      title: categoryKey,
     })
   }
   return suggestions
@@ -37,7 +37,7 @@ const Search = ({ categories, toggleMetric, ...rest }) => (
     {...rest}
     withMoreSuggestions={false}
     data={getMetricSuggestions(categories)}
-    onSuggestionSelect={({ item }) => toggleMetric(item)}
+    onSuggestionSelect={({ item: { item } }) => toggleMetric(item)}
     dontResetStateAfterSelection
   />
 )

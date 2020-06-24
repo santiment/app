@@ -18,25 +18,26 @@ const Compare = ({
   comparables,
   activeMetrics,
   className,
+  MetricColor,
   ...rest
 }) => {
   const [projects, setProjects] = useState(allProjects)
-  const MetricColor = useChartColors(activeMetrics)
+  /* const MetricColor = useChartColors(activeMetrics) */
 
   useEffect(
     () => {
       setProjects(
         allProjects
           .concat(FIAT_MARKET_ASSETS)
-          .filter(project => project.slug !== slug)
-          .sort(projectSorter)
+          .filter((project) => project.slug !== slug)
+          .sort(projectSorter),
       )
     },
-    [allProjects, slug]
+    [allProjects, slug],
   )
 
   const canSelectMoreMetrics =
-    rest.options.isMultiChartsActive ||
+    /* rest.options.isMultiChartsActive || */
     activeMetrics.length < MAX_METRICS_AMOUNT
 
   const hiddenMetricsMap = buildHiddenMetrics(comparables)
@@ -45,7 +46,7 @@ const Compare = ({
     <ContextMenu
       passOpenStateAs='isActive'
       position='bottom'
-      align='start'
+      align='end'
       trigger={
         <Button border className={cx(styles.btn, className)} classes={styles}>
           <Icon type='compare' className={styles.icon} />
@@ -55,7 +56,7 @@ const Compare = ({
     >
       <Panel variant='modal' padding>
         <div>Compare with</div>
-        {comparables.map(comparable => (
+        {comparables.map((comparable) => (
           <Comparable
             {...rest}
             {...comparable}
