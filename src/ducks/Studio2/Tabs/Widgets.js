@@ -7,19 +7,19 @@ import { ONE_HOUR_IN_MS } from '../../../utils/dates'
 import styles from '../index.module.scss'
 
 const Chart = ({
-  eventsData,
-  onProjectSelect,
+  settings,
   widgets,
   sidepanel,
+  setWidgets,
   toggleSidepanel,
+  changeTimePeriod,
+  onProjectSelect,
   ...props
 }) => {
-  const { settings, changeTimePeriod } = props
   const [syncedTooltipDate, syncTooltips] = useState()
   const [isSelectingRange, setIsSelectingRange] = useState(false)
   const [selectedDate, setSelectedDate] = useState()
   const [selectedDatesRange, setSelectedDatesRange] = useState()
-  const chartRef = useRef(null)
 
   const isSingleWidget = widgets.length === 1
   const onWidgetPointClick = sidepanel ? onPointClick : undefined
@@ -59,23 +59,15 @@ const Chart = ({
   return (
     <>
       <StudioHeader
-        {...props}
-        chartRef={chartRef}
-        events={eventsData}
+        settings={settings}
+        widgets={widgets}
         sidepanel={sidepanel}
+        setWidgets={setWidgets}
         toggleSidepanel={toggleSidepanel}
         onProjectSelect={onProjectSelect}
       />
-      {/* <div
-          className={cx(
-          styles.data,
-          options.isMultiChartsActive && styles.data_multicharts,
-          )}
-          > */}
       <div className={styles.content}>
         <div className={styles.widgets}>
-          {/* <div className={styles.chart}>
-            <div className={styles.tab}> */}
           {widgets.map((widget) => (
             <widget.Widget
               {...props}
@@ -84,6 +76,7 @@ const Chart = ({
               widget={widget}
               isSingleWidget={isSingleWidget}
               isSelectingRange={isSelectingRange}
+              changeTimePeriod={changeTimePeriod}
               syncedTooltipDate={syncedTooltipDate}
               syncTooltips={syncTooltips}
               onPointClick={onWidgetPointClick}
@@ -93,7 +86,6 @@ const Chart = ({
           ))}
         </div>
 
-        {/* <div className={styles.side}>123</div> */}
         {sidepanel && (
           <Sidepanel
             className={styles.side}
@@ -107,20 +99,6 @@ const Chart = ({
             datesRange={selectedDatesRange}
           />
         )}
-        {/* </div>
-            </div> */}
-
-        {/* {advancedView && (
-          <div className={cx(styles.canvas, styles.advanced)}>
-            <StudioAdvancedView
-              {...props}
-              {...settings}
-              date={selectedDate}
-              datesRange={selectedDatesRange}
-            />
-          </div>
-        )}
-      */}
       </div>
     </>
   )

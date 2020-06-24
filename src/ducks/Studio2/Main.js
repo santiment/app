@@ -7,8 +7,6 @@ import StudioTabsKeyStats from '../Studio/Tabs/KeyStats'
 import StudioInfo from '../SANCharts/Header'
 import styles from '../Studio/index.module.scss'
 
-const isChartPath = () => window.location.pathname === '/studio'
-
 const Main = ({
   widgets,
   topSlot,
@@ -44,11 +42,7 @@ const Main = ({
       </div>
       <StudioTabs />
       <div
-        className={cx(
-          styles.container,
-          styles.content,
-          isChartPath() && styles.container_chart,
-        )}
+        className={cx(styles.container, styles.content, styles.container_chart)}
       >
         <Switch>
           <Route path='/studio/stats'>

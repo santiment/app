@@ -126,6 +126,7 @@ export const Studio = ({
           options={{}}
           sidepanel={sidepanel}
           // fn
+          setWidgets={setWidgets}
           setSettings={setSettings}
           changeTimePeriod={changeTimePeriod}
           toggleWidgetMetric={toggleWidgetMetric}

@@ -286,7 +286,7 @@ const Chart = ({
   useEffect(handleResize, [...resizeDependencies, data])
 
   function handleResize() {
-    if (data.length === 0) {
+    if (data.length === 0 || !chart) {
       return
     }
 

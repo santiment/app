@@ -7,33 +7,33 @@ import {
   PUBLIC_PROJECT_TEMPLATES_QUERY,
   CREATE_TEMPLATE_MUTATION,
   UPDATE_TEMPLATE_MUTATION,
-  DELETE_TEMPLATE_MUTATION
+  DELETE_TEMPLATE_MUTATION,
 } from './index'
 import {
   buildTemplateMetrics,
   extractTemplateId,
   getLastTemplate,
   isTemplateURL,
-  saveLastTemplate
+  saveLastTemplate,
 } from '../utils'
 import { store, client } from '../../../../index'
 import { getSavedMulticharts } from '../../../../utils/localStorage'
 
 const DEFAULT_TEMPLATES = []
 
-function buildTemplatesCacheUpdater (reducer) {
+function buildTemplatesCacheUpdater(reducer) {
   return (cache, { data }) => {
     const variables = { userId: +store.getState().user.data.id }
 
     const { templates } = cache.readQuery({
       variables,
-      query: TEMPLATES_QUERY
+      query: TEMPLATES_QUERY,
     })
 
     cache.writeQuery({
       variables,
       query: TEMPLATES_QUERY,
-      data: { templates: reducer(data, templates) }
+      data: { templates: reducer(data, templates) },
     })
   }
 }
@@ -41,42 +41,42 @@ function buildTemplatesCacheUpdater (reducer) {
 const updateTemplatesOnDelete = buildTemplatesCacheUpdater(
   ({ template: { id: deletedId } }, templates) => {
     return templates.filter(({ id }) => id !== deletedId)
-  }
+  },
 )
 
 const updateTemplatesOnCreation = buildTemplatesCacheUpdater(
-  ({ template }, templates) => [template].concat(templates)
+  ({ template }, templates) => [template].concat(templates),
 )
 
-export function useUserTemplates (id) {
+export function useUserTemplates(id) {
   const { data, loading, error } = useQuery(TEMPLATES_QUERY, {
     skip: !id,
     variables: {
-      userId: +id
-    }
+      userId: +id,
+    },
   })
 
   return [data ? data.templates : DEFAULT_TEMPLATES, loading, error]
 }
 
-export function usePublicProjectTemplates (projectId) {
+export function usePublicProjectTemplates(projectId) {
   const { data, loading, error } = useQuery(PUBLIC_PROJECT_TEMPLATES_QUERY, {
     skip: !projectId,
     variables: {
-      projectId: +projectId
-    }
+      projectId: +projectId,
+    },
   })
 
   return [data ? data.templates : DEFAULT_TEMPLATES, loading, error]
 }
 
-export function useFeaturedTemplates () {
+export function useFeaturedTemplates() {
   const { data, loading, error } = useQuery(FEATURED_TEMPLATES_QUERY)
 
   return [data ? data.templates : DEFAULT_TEMPLATES, loading, error]
 }
 
-export function useSelectedTemplate (templates, selectTemplate) {
+export function useSelectedTemplate(templates, selectTemplate) {
   const isTemplateUrl = isTemplateURL()
   const defaultTemplate = isTemplateUrl ? undefined : templates[0]
   const urlId = isTemplateUrl ? extractTemplateId() : undefined
@@ -96,8 +96,8 @@ export function useSelectedTemplate (templates, selectTemplate) {
         query: TEMPLATE_QUERY,
         fetchPolicy: 'network-only',
         variables: {
-          id: +targetTemplate.id
-        }
+          id: +targetTemplate.id,
+        },
       })
       .then(({ data: { template } }) => {
         setSelectedTemplate(template)
@@ -120,7 +120,7 @@ export function useSelectedTemplate (templates, selectTemplate) {
         setSelectedTemplate(defaultTemplate)
       }
     },
-    [defaultTemplate]
+    [defaultTemplate],
   )
 
   useEffect(
@@ -129,64 +129,66 @@ export function useSelectedTemplate (templates, selectTemplate) {
         setSelectedTemplate(defaultTemplate)
       }
     },
-    [templates]
+    [templates],
   )
 
   useEffect(
     () => {
       saveLastTemplate(selectedTemplate)
     },
-    [selectedTemplate]
+    [selectedTemplate],
   )
 
   return [selectedTemplate, setSelectedTemplate, loading]
 }
 
-export function useCreateTemplate () {
+export function useCreateTemplate() {
   const [mutate, data] = useMutation(CREATE_TEMPLATE_MUTATION, {
-    update: updateTemplatesOnCreation
+    update: updateTemplatesOnCreation,
   })
 
-  function createTemplate (newConfig) {
+  function createTemplate(newConfig) {
     if (!newConfig.options) {
-      newConfig.options = JSON.stringify({
-        multi_chart: getSavedMulticharts()
-      })
+      newConfig.options = {
+        multi_chart: getSavedMulticharts(),
+      }
     }
+
+    newConfig.options = JSON.stringify(newConfig.options)
 
     return mutate({
       variables: {
-        settings: newConfig
-      }
+        settings: newConfig,
+      },
     }).then(({ data: { template } }) => template)
   }
 
   return [createTemplate, data]
 }
 
-export function useDeleteTemplate () {
+export function useDeleteTemplate() {
   const [mutate, { loading }] = useMutation(DELETE_TEMPLATE_MUTATION, {
     update: updateTemplatesOnDelete,
-    notifyOnNetworkStatusChange: true
+    notifyOnNetworkStatusChange: true,
   })
 
-  function deleteTemplate ({ id }, onDelete) {
+  function deleteTemplate({ id }, onDelete) {
     return mutate({
       variables: {
-        id: +id
-      }
+        id: +id,
+      },
     }).then(onDelete)
   }
 
   return [deleteTemplate, loading]
 }
 
-export function useUpdateTemplate () {
+export function useUpdateTemplate() {
   const [mutate, data] = useMutation(UPDATE_TEMPLATE_MUTATION)
 
-  function updateTemplate (oldTemplate, newConfig) {
+  function updateTemplate(oldTemplate, newConfig) {
     const { id, title, description, project, metrics, options } = oldTemplate
-    const { projectId } = newConfig
+    const { projectId, options: newOptions } = newConfig
 
     return mutate({
       variables: {
@@ -197,12 +199,13 @@ export function useUpdateTemplate () {
           isPublic: newConfig.isPublic,
           options: JSON.stringify({
             ...options,
-            multi_chart: getSavedMulticharts()
+            ...newOptions,
+            multi_chart: getSavedMulticharts(),
           }),
           projectId: +(projectId || project.id),
-          metrics: buildTemplateMetrics(newConfig) || metrics
-        }
-      }
+          metrics: buildTemplateMetrics(newConfig) || metrics,
+        },
+      },
     }).then(({ data: { template } }) => Object.assign(oldTemplate, template))
   }
 

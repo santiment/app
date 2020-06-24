@@ -1,32 +1,30 @@
-import { stringify, parse } from 'query-string'
+import { parse } from 'query-string'
 import { newChartWidget, newHolderDistributionWidget } from './Widget/creators'
-import {
-  convertKeyToMetric,
-  shareComparable,
-  parseComparable,
-} from '../Studio/url'
+import { convertKeyToMetric, parseComparable } from '../Studio/url'
 
 const WidgetCreator = {
   ChartWidget: newChartWidget,
   HolderDistributionWidget: newHolderDistributionWidget,
 }
 
-function parseUrlWidgets(urlWidgets) {
-  try {
-    const parsedWidgets = JSON.parse(urlWidgets)
+export function parseSharedWidgets(sharedWidgets) {
+  return sharedWidgets.map(({ widget, metrics, comparables }) =>
+    WidgetCreator[widget]({
+      metrics: metrics.map((key) => convertKeyToMetric(key)).filter(Boolean),
+      comparables: comparables.map(parseComparable),
+    }),
+  )
+}
 
-    return parsedWidgets.map(({ widget, metrics, comparables }) =>
-      WidgetCreator[widget]({
-        metrics: metrics.map((key) => convertKeyToMetric(key)).filter(Boolean),
-        comparables: comparables.map(parseComparable),
-      }),
-    )
+export function parseWidgets(urlWidgets) {
+  try {
+    return parseSharedWidgets(JSON.parse(urlWidgets))
   } catch (e) {
-    return []
+    return [newChartWidget()]
   }
 }
 
-function parseSidepanel(sidepanel) {
+function parseSharedSidepanel(sidepanel) {
   const parsed = JSON.parse(sidepanel)
   return parsed.type
 }
@@ -37,7 +35,7 @@ export function parseUrlV2(url) {
 
   return {
     settings: settings ? JSON.parse(settings) : {},
-    widgets: widgets ? parseUrlWidgets(widgets) : [],
-    sidepanel: sidepanel ? parseSidepanel(sidepanel) : {},
+    widgets: widgets ? parseWidgets(widgets) : [],
+    sidepanel: sidepanel ? parseSharedSidepanel(sidepanel) : {},
   }
 }
