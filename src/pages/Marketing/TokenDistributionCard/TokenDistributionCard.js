@@ -1,11 +1,10 @@
 import React from 'react'
+import pdfFile from './../../../assets/report-3.pdf'
 import styles from './TokenDistributionCard.module.scss'
 
 const TokenDistributionCard = ({ isPro }) => {
   const linkProps = {
-    href: isPro
-      ? 'https://docs.google.com/spreadsheets/u/1/d/1Wu-d_uBuvLp3FoNqz3azzbNzFr8Zaw2n6bcLLsQxNGc/view'
-      : '/pricing',
+    href: isPro ? pdfFile : '/pricing',
     rel: 'noopener noreferrer',
     target: isPro ? '_blank' : '_self'
   }

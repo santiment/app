@@ -67,7 +67,6 @@ class CustomImageSideButton extends ImageSideButton {
           className={styles.input}
           id='md-sd-img-button'
           type='file'
-          accept='image/*'
           onChange={this.onChange}
         />
       </div>

@@ -16,7 +16,7 @@ const AlphaBlock = ({ classes = {}, isProSanbase }) => {
       <div className={styles.cards}>
         <ProPriceDivergenceCard isPro={isProSanbase} />
 
-        <TokenDistributionCard />
+        <TokenDistributionCard isPro={isProSanbase} />
       </div>
     </>
   )
