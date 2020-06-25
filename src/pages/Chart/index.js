@@ -1,16 +1,24 @@
 import React from 'react'
 import Studio from '../../ducks/Studio'
 import withBoundaries from '../Studio/withBoundaries'
-import { parseUrl } from '../../ducks/Studio/url'
+import { parseUrlV2 } from '../../ducks/Studio/url/parse'
+import { DEFAULT_SETTINGS } from '../../ducks/Studio/defaults'
+import { newChartWidget } from '../../ducks/Studio2/Widget/ChartWidget'
 
-export default withBoundaries(
-  ({ parsedUrl, settings, options, metrics, events, ...props }) => {
-    const sharedState = parsedUrl || parseUrl()
-    Object.assign(sharedState.settings, settings)
-    Object.assign(sharedState.options, options)
-    sharedState.metrics = sharedState.metrics || metrics
-    sharedState.events = sharedState.events || events
+const DEFAULT_WIDGETS = [newChartWidget()]
 
-    return <Studio {...props} {...sharedState} />
-  }
-)
+export default withBoundaries(({ parsedUrl, ...props }) => {
+  const { widgets, settings, sidepanel } = parsedUrl || parseUrlV2()
+
+  return (
+    <Studio
+      {...props}
+      defaultSettings={{
+        ...DEFAULT_SETTINGS,
+        ...settings,
+      }}
+      defaultWidgets={widgets && widgets.length > 0 ? widgets : DEFAULT_WIDGETS}
+      defaultSidepanel={sidepanel}
+    />
+  )
+})

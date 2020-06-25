@@ -1,4 +1,5 @@
-import { COMPARE_CONNECTOR, parseComparable, shareComparable } from '../url'
+import { COMPARE_CONNECTOR, parseComparable } from '../url/parse'
+import { shareComparable } from '../url/generate'
 import { Metric } from '../../dataHub/metrics'
 import { tryMapToTimeboundMetric } from '../../dataHub/timebounds'
 import { getSavedMulticharts } from '../../../utils/localStorage'
@@ -10,7 +11,7 @@ const LAST_USED_TEMPLATE = 'LAST_USED_TEMPLATE'
 
 export const getMetricKey = ({ key }) => key
 
-export function prepareTemplateLink (template) {
+export function prepareTemplateLink(template) {
   if (!template) {
     return ''
   }
@@ -41,11 +42,11 @@ export const extractTemplateId = () => {
   return items[items.length - 1]
 }
 
-export const getTemplateShareLink = template => {
+export const getTemplateShareLink = (template) => {
   return window.location.origin + prepareTemplateLink(template)
 }
 
-export function parseTemplateMetrics (templateMetrics) {
+export function parseTemplateMetrics(templateMetrics) {
   const { length } = templateMetrics
   const metrics = []
   const comparables = []
@@ -72,11 +73,11 @@ export function parseTemplateMetrics (templateMetrics) {
 
   return {
     metrics,
-    comparables
+    comparables,
   }
 }
 
-export function buildTemplateMetrics ({ metrics, comparables }) {
+export function buildTemplateMetrics({ metrics, comparables }) {
   if (!metrics && !comparables) {
     return
   }
@@ -84,13 +85,13 @@ export function buildTemplateMetrics ({ metrics, comparables }) {
   return metrics.map(getMetricKey).concat(comparables.map(shareComparable))
 }
 
-export function getLastTemplate () {
+export function getLastTemplate() {
   const savedTemplate = localStorage.getItem(LAST_USED_TEMPLATE)
 
   return savedTemplate ? JSON.parse(savedTemplate) : undefined
 }
 
-export function saveLastTemplate (template) {
+export function saveLastTemplate(template) {
   if (!template) return
 
   localStorage.setItem(LAST_USED_TEMPLATE, JSON.stringify(template))
@@ -107,7 +108,7 @@ export const getMultiChartsValue = ({ options }) => {
 export const getTemplateAssets = ({ metrics, project: { slug, name } }) => {
   const assets = [name || slug]
 
-  metrics.forEach(item => {
+  metrics.forEach((item) => {
     if (item.indexOf(COMPARE_CONNECTOR) !== -1) {
       const [slug] = item.split(COMPARE_CONNECTOR)
 
@@ -117,10 +118,10 @@ export const getTemplateAssets = ({ metrics, project: { slug, name } }) => {
     }
   })
 
-  return assets.map(slug => capitalizeStr(slug))
+  return assets.map((slug) => capitalizeStr(slug))
 }
 
-export function getTemplateMetrics ({ metrics }) {
+export function getTemplateMetrics({ metrics }) {
   const { metrics: parsedMetrics } = parseTemplateMetrics(metrics)
   return parsedMetrics.map(({ label }) => label)
 }

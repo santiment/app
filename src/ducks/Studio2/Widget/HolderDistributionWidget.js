@@ -4,9 +4,9 @@ import Widget from './Widget'
 import { newWidget } from './utils'
 import { Chart } from './ChartWidget'
 import { useChartColors } from '../../Chart/colors'
-import Sidepane, { CloseButton } from '../../Studio/Chart/Sidepane'
-import { TOP_HOLDERS_PANE } from '../../Studio/Chart/Sidepane/panes'
-import { TOP_HOLDER_METRICS } from '../../Studio/Chart/Sidepane/HolderDistribution/metrics'
+import Sidepanel, { CloseButton } from '../../Studio/Chart/Sidepanel'
+import { TOP_HOLDERS_PANE } from '../../Studio/Chart/Sidepanel/panes'
+import { TOP_HOLDER_METRICS } from '../../Studio/Chart/Sidepanel/HolderDistribution/metrics'
 import styles from '../index.module.scss'
 
 const Title = ({ settings }) => (
@@ -29,7 +29,7 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
     <Widget className={cx(styles.holders, isOpened && styles.holders_opened)}>
       <Chart {...props} widget={widget} TopLeftComponent={Title} />
       {isOpened ? (
-        <Sidepane
+        <Sidepanel
           chartSidepane={TOP_HOLDERS_PANE}
           metrics={widget.metrics}
           MetricColor={MetricColor}

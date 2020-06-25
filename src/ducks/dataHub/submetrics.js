@@ -1,6 +1,9 @@
 import { Metric } from './metrics'
 import { updateTooltipSettings } from './tooltipSettings'
-import { SPENT_COIN_COST, SOCIAL_CONTEXT } from '../Studio/Chart/Sidepane/panes'
+import {
+  SPENT_COIN_COST,
+  SOCIAL_CONTEXT,
+} from '../Studio/Chart/Sidepanel/panes'
 
 export const SOCIAL_TWITTER_INTERVALS = ['24h', '7d']
 

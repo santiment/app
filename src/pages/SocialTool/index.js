@@ -1,10 +1,10 @@
 import React from 'react'
 import SocialTool from '../../ducks/SocialTool'
 import withBoundaries from '../Studio/withBoundaries'
-import { parseUrl } from '../../ducks/Studio/url'
+import { parseUrl } from '../../ducks/Studio/url/parse'
 import {
   DEFAULT_SETTINGS,
-  DEFAULT_OPTIONS
+  DEFAULT_OPTIONS,
 } from '../../ducks/SocialTool/defaults'
 
 export default withBoundaries(({ settings, options, ...props }) => {

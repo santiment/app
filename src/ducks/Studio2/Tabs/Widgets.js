@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import StudioHeader from '../../Studio/Header'
-import Sidepanel from '../../Studio/Chart/Sidepane'
-import { SPENT_COIN_COST } from '../../Studio/Chart/Sidepane/panes'
+import Sidepanel from '../../Studio/Chart/Sidepanel'
+import { SPENT_COIN_COST } from '../../Studio/Chart/Sidepanel/panes'
 import { ONE_HOUR_IN_MS } from '../../../utils/dates'
 import styles from '../index.module.scss'
 

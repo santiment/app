@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import { useTimeseries } from '../timeseries/hooks'
-import { generateShareLink } from '../url'
+import { generateShareLink } from '../url/generate'
 import { extractMirrorMetricsDomainGroups } from '../utils'
 import Chart from '../../Chart'
 import Settings from '../Header/Settings'

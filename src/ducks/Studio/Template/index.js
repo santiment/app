@@ -20,8 +20,8 @@ import DeleteTemplate from './Dialog/Delete/DeleteTemplate'
 import ShareTemplate from './Share/ShareTemplate'
 import { isUserAuthorOfTemplate } from './Dialog/LoadTemplate/Template'
 import styles from './index.module.scss'
-import { parseSharedWidgets } from '../../Studio2/url'
-import { normalizeWidgets } from '../../Studio2/url/generate'
+import { parseSharedWidgets } from '../../Studio/url/parse'
+import { normalizeWidgets } from '../../Studio/url/generate'
 import { newChartWidget } from '../../Studio2/Widget/creators'
 
 const Action = (props) => <Button {...props} fluid variant='ghost' />

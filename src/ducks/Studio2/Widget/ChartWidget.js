@@ -9,7 +9,7 @@ import { useTimeseries } from '../../Studio/timeseries/hooks'
 import { buildAnomalies } from '../../Studio/timeseries/anomalies'
 import { DEFAULT_OPTIONS } from '../../Studio/defaults'
 import { buildComparedMetric } from '../../Studio/Compare/utils'
-import { buildChartShareLink } from '../url/generate'
+import { buildChartShareLink } from '../../Studio/url/generate'
 import { MirroredMetric } from '../../dataHub/metrics/mirrored'
 
 export const Chart = ({

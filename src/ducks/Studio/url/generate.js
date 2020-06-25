@@ -1,5 +1,15 @@
 import { stringify } from 'query-string'
-import { shareComparable } from '../../Studio/url'
+import { COMPARE_CONNECTOR } from './parse'
+
+const getMetricsKeys = (metrics) => metrics.map(({ key }) => key)
+
+export function shareComparable(Comparable) {
+  const { project, metric } = Comparable
+  const { slug, ticker } = project
+  const { key } = metric
+
+  return `${slug}${COMPARE_CONNECTOR}${ticker}${COMPARE_CONNECTOR}${key}`
+}
 
 export const normalizeWidget = ({ Widget, metrics, comparables }) => ({
   widget: Widget.name,
@@ -15,6 +25,25 @@ export function buildShareConfig({ settings, widgets, sidepanel }) {
     widgets: JSON.stringify(normalizeWidgets(widgets)),
     sidepanel: sidepanel ? JSON.stringify({ type: sidepanel }) : undefined,
   }
+}
+
+export function generateShareLink(
+  settings,
+  options,
+  metrics = [],
+  events = [],
+  comparables = [],
+) {
+  const Shareable = {
+    ...settings,
+    ...options,
+    metrics: getMetricsKeys(metrics),
+    comparables: comparables.map(shareComparable),
+  }
+
+  return stringify(Shareable, {
+    arrayFormat: 'comma',
+  })
 }
 
 export const generateUrlV2 = (config) => stringify(buildShareConfig(config))

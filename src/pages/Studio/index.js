@@ -4,18 +4,10 @@ import { Helmet } from 'react-helmet'
 import ChartPage from '../Chart'
 import withProject from '../Detailed/withProject'
 import Breadcrumbs from '../profile/breadcrumbs/Breadcrumbs'
-import { parseUrl } from '../../ducks/Studio/url'
-import { DEFAULT_SETTINGS } from '../../ducks/Studio/defaults'
-import { DEFAULT_WIDGETS } from '../../ducks/Studio2'
-import { parseUrlV2 } from '../../ducks/Studio2/url'
-import { Metric } from '../../ducks/dataHub/metrics'
+import { parseUrlV2 } from '../../ducks/Studio/url/parse'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import styles from '../Detailed/Detailed.module.scss'
 import URLExtension from './URLExtension'
-
-import Studio2 from '../../ducks/Studio2'
-
-const DEFAULT_METRICS = [Metric.price_usd]
 
 const CRUMB = {
   label: 'Assets',
@@ -51,20 +43,13 @@ const TopSlot = compose(withProject)(({ slug, project, loading }) =>
 
 export default ({ history }) => {
   const url = window.location.search
-  const { widgets, settings = {}, sidepanel } = useMemo(() => parseUrlV2(url), [
-    url,
-  ])
-  console.log({ widgets, settings, sidepanel })
+  const parsedUrl = useMemo(() => parseUrlV2(url), [url])
+  const { settings = {} } = parsedUrl
 
   return (
-    <Studio2
+    <ChartPage
+      parsedUrl={parsedUrl}
       topSlot={<TopSlot slug={settings.slug} />}
-      defaultSettings={{
-        ...DEFAULT_SETTINGS,
-        ...settings,
-      }}
-      defaultWidgets={widgets && widgets.length > 0 ? widgets : DEFAULT_WIDGETS}
-      defaultSidepanel={sidepanel}
       extensions={<URLExtension history={history} />}
     />
   )
