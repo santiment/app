@@ -31,7 +31,6 @@ function parseSharedSidepanel(sidepanel) {
 
 export function parseUrlV2(url) {
   const { settings, widgets, sidepanel } = parse(url)
-  console.log('parsing')
 
   if (!widgets) {
     const parsedV1Config = parseUrl(url)

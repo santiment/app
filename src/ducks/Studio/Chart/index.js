@@ -26,6 +26,7 @@ const Canvas = ({
   className,
   chartRef,
   data,
+  eventsData,
   settings,
   options,
   loadings,
@@ -162,6 +163,7 @@ const Canvas = ({
         {...options}
         {...settings}
         data={data}
+        events={eventsData}
         brushData={allTimeData}
         chartRef={chartRef}
         className={cx(styles.chart, isBlurred && styles.blur)}

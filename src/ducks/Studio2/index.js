@@ -8,6 +8,7 @@ import Main from './Main'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
 import styles from './index.module.scss'
 import { DEFAULT_SETTINGS } from '../Studio/defaults'
+import { saveToggle } from '../../utils/localStorage'
 
 export const DEFAULT_WIDGETS = [newChartWidget()]
 
@@ -21,6 +22,7 @@ export const Studio = ({
   const [settings, setSettings] = useState(defaultSettings)
   const [sidepanel, setSidepanel] = useState(defaultSidepanel)
   const [selectedMetrics, setSelectedMetrics] = useState([])
+  const [isAnomalyActive, setIsAnomalyActive] = useState(false)
   const [isICOPriceDisabled, setIsICOPriceDisabled] = useState(true)
   const [isICOPriceActive, setIsICOPriceActive] = useState(true)
 
@@ -55,6 +57,10 @@ export const Studio = ({
       widget.metrics = metrics
       setWidgets([...widgets])
     }
+  }
+
+  function toggleAnomaly() {
+    setIsAnomalyActive(saveToggle('isAnomalyActive', !isAnomalyActive))
   }
 
   function toggleSelectionMetric(metric) {
@@ -126,9 +132,11 @@ export const Studio = ({
     <div className={styles.wrapper}>
       <Sidebar
         slug={settings.slug}
-        options={{}}
+        //options={{}}
         activeMetrics={selectedMetrics}
+        isAnomalyActive={isAnomalyActive}
         toggleMetric={onSidebarItemClick}
+        toggleAnomaly={toggleAnomaly}
       />
       <main className={styles.main}>
         <Main
@@ -137,6 +145,7 @@ export const Studio = ({
           options={{}}
           sidepanel={sidepanel}
           isICOPriceActive={isICOPriceActive}
+          isAnomalyActive={isAnomalyActive}
           // fn
           setWidgets={setWidgets}
           setSettings={setSettings}

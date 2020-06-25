@@ -1,33 +1,22 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import cx from 'classnames'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Icon from '@santiment-network/ui/Icon'
 import MetricSelector from './MetricSelector'
 import Search from './Search'
 import withMetrics from '../withMetrics'
-import { MAX_METRICS_AMOUNT } from '../constraints'
 import AnomaliesToggle from '../../../components/AnomaliesToggle/AnomaliesToggle'
-import { saveToggle } from '../../../utils/localStorage'
 import { rebuildDescriptions } from '../../dataHub/metrics/descriptions'
 import styles from './index.module.scss'
 
-const Anomalies = ({ options, setOptions }) => {
-  function onToggle() {
-    setOptions((state) => ({
-      ...state,
-      isAnomalyActive: saveToggle('isAnomalyActive', !state.isAnomalyActive),
-    }))
-  }
-
-  return (
-    <AnomaliesToggle
-      className={styles.anomaly}
-      isShowAnomalies={options.isAnomalyActive}
-      showToggleAnomalies={true}
-      onToggleAnomalies={onToggle}
-    />
-  )
-}
+const Anomalies = ({ isAnomalyActive, toggleAnomaly }) => (
+  <AnomaliesToggle
+    className={styles.anomaly}
+    isShowAnomalies={isAnomalyActive}
+    showToggleAnomalies={true}
+    onToggleAnomalies={toggleAnomaly}
+  />
+)
 
 const Header = (props) => {
   return (

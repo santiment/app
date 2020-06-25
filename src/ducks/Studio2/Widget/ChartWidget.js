@@ -6,14 +6,17 @@ import { Metric } from '../../dataHub/metrics'
 import { useClosestValueData } from '../../Chart/hooks'
 import StudioChart from '../../Studio/Chart'
 import { useTimeseries } from '../../Studio/timeseries/hooks'
+import { buildAnomalies } from '../../Studio/timeseries/anomalies'
 import { DEFAULT_OPTIONS } from '../../Studio/defaults'
 import { buildComparedMetric } from '../../Studio/Compare/utils'
 import { buildChartShareLink } from '../url/generate'
+import { MirroredMetric } from '../../dataHub/metrics/mirrored'
 
 export const Chart = ({
   settings,
   widget,
   isSingleWidget,
+  isAnomalyActive,
   toggleWidgetMetric,
   deleteWidget,
   rerenderWidgets,
@@ -23,14 +26,21 @@ export const Chart = ({
   const [options, setOptions] = useState(DEFAULT_OPTIONS)
   const [comparables, setComparables] = useState(widget.comparables)
   const [activeMetrics, setActiveMetrics] = useState(metrics)
-  const [rawData, loadings, ErrorMsg] = useTimeseries(activeMetrics, settings)
-  /* const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings) */
+  const [activeEvents, setActiveEvents] = useState([])
+  const [MetricTransformer, setMetricTransformer] = useState({})
+  const [MetricSettingMap, setMetricSettingMap] = useState(new Map())
+  const [rawData, loadings, ErrorMsg] = useTimeseries(
+    activeMetrics,
+    settings,
+    MetricSettingMap,
+    MetricTransformer,
+  )
+  const [eventsData] = useTimeseries(activeEvents, settings)
   const data = useClosestValueData(
     rawData,
     metrics,
     options.isClosestDataActive,
   )
-
   const shareLink = useMemo(
     () => buildChartShareLink({ settings, widgets: [widget] }),
     [settings, metrics, comparables],
@@ -38,11 +48,10 @@ export const Chart = ({
 
   useEffect(
     () => {
-      widget.comparables = comparables
-      setActiveMetrics(metrics.concat(comparables.map(buildComparedMetric)))
-      rerenderWidgets()
+      const phase = loadings.length ? 'loading' : 'loaded'
+      dispatchWidgetMessage(widget, phase)
     },
-    [metrics, comparables],
+    [loadings.length],
   )
 
   useEffect(
@@ -59,10 +68,40 @@ export const Chart = ({
 
   useEffect(
     () => {
-      const phase = loadings.length ? 'loading' : 'loaded'
-      dispatchWidgetMessage(widget, phase)
+      widget.comparables = comparables
+      setActiveMetrics(metrics.concat(comparables.map(buildComparedMetric)))
+      rerenderWidgets()
     },
-    [loadings.length],
+    [metrics, comparables],
+  )
+
+  useEffect(
+    () => {
+      setActiveEvents(isAnomalyActive ? buildAnomalies(metrics) : [])
+    },
+    [metrics, isAnomalyActive],
+  )
+
+  useEffect(
+    () => {
+      const metricTransformer = Object.assign({}, MetricTransformer)
+
+      metrics.forEach((metric) => {
+        const mirrorOf = MirroredMetric[metric.key]
+        if (mirrorOf) {
+          const { key, preTransformer } = metric
+
+          if (metrics.includes(mirrorOf)) {
+            metricTransformer[key] = preTransformer
+          } else {
+            metricTransformer[key] = undefined
+          }
+        }
+      })
+
+      setMetricTransformer(metricTransformer)
+    },
+    [metrics],
   )
 
   function removeComparedMetric({ key }) {
@@ -83,7 +122,8 @@ export const Chart = ({
       data={data}
       chartRef={chartRef}
       metrics={activeMetrics}
-      activeEvents={[]}
+      eventsData={eventsData}
+      activeEvents={activeEvents}
       ErrorMsg={ErrorMsg}
       settings={settings}
       loadings={loadings}

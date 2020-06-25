@@ -31,7 +31,7 @@ const Category = ({
       </h3>
       <div className={styles.metrics}>
         {/* TODO: Find a better way to extend metrics categories with custom metrics [@vanguard | April 3, 2020] */}
-        {isBeta && hasTopHolders && !rest.options.isMultiChartsActive && (
+        {isBeta && hasTopHolders && (
           <MetricButton
             metric={{
               isBeta: true,
