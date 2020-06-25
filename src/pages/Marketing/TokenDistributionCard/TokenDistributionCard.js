@@ -1,5 +1,6 @@
 import React from 'react'
 import pdfFile from './../../../assets/report-3.pdf'
+import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
 import styles from './TokenDistributionCard.module.scss'
 
 const TokenDistributionCard = ({ isPro }) => {
@@ -8,6 +9,8 @@ const TokenDistributionCard = ({ isPro }) => {
     rel: 'noopener noreferrer',
     target: isPro ? '_blank' : '_self'
   }
+
+  console.log(window.location.href + pdfFile)
 
   return (
     <div className={styles.card}>
@@ -26,6 +29,17 @@ const TokenDistributionCard = ({ isPro }) => {
           </div>
         </div>
       </div>
+
+      {isPro && (
+        <div className={styles.shareBlock}>
+          <ShareModalTrigger
+            dialogTitle='Share'
+            className={styles.shareBtn}
+            shareLink={window.location.origin + pdfFile}
+            border={false}
+          />
+        </div>
+      )}
     </div>
   )
 }

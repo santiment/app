@@ -12,7 +12,7 @@
 }
 
 .info {
-  padding: 16px 24px;
+  padding: 24px;
 }
 
 .img {
@@ -42,4 +42,14 @@
 
 .block {
   margin-top: 16px;
+}
+
+.shareBlock {
+  border-top: 1px solid var(--porcelain);
+  margin: auto 24px 16px 24px;
+  padding-top: 14px;
+}
+
+.shareBtn {
+  padding-left: 0;
 }
