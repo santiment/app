@@ -23,9 +23,10 @@ export const Studio = ({
   const [selectedMetricSettingsMap, setSelectedMetricSettingsMap] = useState(
     new Map(),
   )
-  const [isAnomalyActive, setIsAnomalyActive] = useState(false)
   const [isICOPriceDisabled, setIsICOPriceDisabled] = useState(true)
   const [isICOPriceActive, setIsICOPriceActive] = useState(true)
+  const [isAnomalyActive, setIsAnomalyActive] = useState()
+  const [isSidebarClosed, setIsSidebarClosed] = useState()
 
   useEffect(
     () => {
@@ -145,11 +146,13 @@ export const Studio = ({
       <Sidebar
         slug={settings.slug}
         activeMetrics={selectedMetrics}
+        isSidebarClosed={isSidebarClosed}
         isAnomalyActive={isAnomalyActive}
         isICOPriceDisabled={isICOPriceDisabled}
         toggleMetric={onSidebarItemClick}
         toggleAnomaly={toggleAnomaly}
         setMetricSettingMap={setSelectedMetricSettingsMap}
+        setIsSidebarClosed={setIsSidebarClosed}
       />
       <main className={styles.main}>
         <Main
