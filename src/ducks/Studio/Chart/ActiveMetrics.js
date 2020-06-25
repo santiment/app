@@ -84,20 +84,20 @@ export default ({
   isSingleWidget,
   onMetricHover,
   onMetricHoverEnd,
-  project,
+  project
 }) => {
   const isMoreThanOneMetric = activeMetrics.length > 1 || !isSingleWidget
   const [errorsForMetrics, setErrorsForMetrics] = useState()
 
   useEffect(() => {
     fetch(API_TEST_URL)
-      .then((response) => {
+      .then(response => {
         if (!response.ok) {
           return {}
         }
         return response.json()
       })
-      .then((data) => {
+      .then(data => {
         setErrorsForMetrics(data)
       })
   }, [])
@@ -115,7 +115,7 @@ export default ({
       isLoading={loadings.includes(metric)}
       isRemovable={isMoreThanOneMetric && toggleMetric}
       toggleMetric={toggleMetric}
-      onMouseEnter={onMetricHover && ((e) => onMetricHover(metric, e))}
+      onMouseEnter={onMetricHover && (e => onMetricHover(metric, e))}
       onMouseLeave={onMetricHoverEnd && (() => onMetricHoverEnd(metric))}
       errorsForMetrics={errors}
       project={project}
