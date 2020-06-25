@@ -8,7 +8,6 @@ import LikeBtnWrapper from '../../Like/LikeBtnWrapper'
 import TrendingCardInsights from './trendingInsights/TrendingCardInsights'
 import TrendingCardWords from './trendingCard/TrendingCardWords'
 import FeedCardDate from '../../../pages/feed/GeneralFeed/CardDate/FeedCardDate'
-import { getAmPmWithHours } from '../../../utils/dates'
 import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
 import SignalCreator from './creator/SignalCreator'
 import TimelineEventComments from '../../TimelineEventComments/TimelineEventComments'
@@ -103,13 +102,17 @@ const TrendingPeriod = ({ period }) => {
 
   const hours = +period.split(':')[0] + (-1 * currentTimezoneOffset) / 60
 
-  const amPmTime = getAmPmWithHours(hours)
+  const getText = hours => {
+    if (hours >= 12 && hours < 20) {
+      return 'Europe markets open'
+    } else if (hours >= 4 && hours < 12) {
+      return 'Asia markets open'
+    } else {
+      return 'US markets open'
+    }
+  }
 
-  return (
-    <div className={styles.ampm}>
-      ({amPmTime} - {amPmTime})
-    </div>
-  )
+  return <div className={styles.ampm}>({getText(hours)})</div>
 }
 
 export default TrendingWordsSignalCard

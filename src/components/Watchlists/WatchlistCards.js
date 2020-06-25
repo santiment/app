@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import WatchlistCard from './WatchlistCard'
-import { getSharedWatchlistLink } from './FeaturedWatchlist'
+import FeaturedWatchlists, { getSharedWatchlistLink } from './FeaturedWatchlist'
 import NewWatchlistCard from './NewWatchlistCard'
 import styles from './WatchlistCards.module.scss'
 
@@ -10,7 +10,8 @@ const WatchlistCards = ({
   watchlists = [],
   showNew = false,
   makeSharedLinks = false,
-  classes = {}
+  classes = {},
+  showFeatured = false
 }) => (
   <div className={cx(styles.wrapper, classes.watchlists)}>
     {watchlists.map(watchlist => {
@@ -26,6 +27,7 @@ const WatchlistCards = ({
         />
       )
     })}
+    {showFeatured && <FeaturedWatchlists />}
     {showNew && <NewWatchlistCard />}
   </div>
 )

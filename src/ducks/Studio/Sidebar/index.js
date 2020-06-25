@@ -5,8 +5,8 @@ import Icon from '@santiment-network/ui/Icon'
 import MetricSelector from './MetricSelector'
 import Search from './Search'
 import withMetrics from '../withMetrics'
-import AnomaliesToggle from '../../../components/AnomaliesToggle/AnomaliesToggle'
 import { rebuildDescriptions } from '../../dataHub/metrics/descriptions'
+import AnomaliesToggle from '../../../components/AnomaliesToggle/AnomaliesToggle'
 import styles from './index.module.scss'
 
 const Anomalies = ({ isAnomalyActive, toggleAnomaly }) => (
@@ -18,7 +18,7 @@ const Anomalies = ({ isAnomalyActive, toggleAnomaly }) => (
   />
 )
 
-const Header = props => {
+const Header = (props) => {
   return (
     <div className={styles.header}>
       <h2 className={styles.title}>Metrics</h2>
@@ -57,11 +57,11 @@ const Sidebar = ({ loading, children, ...rest }) => {
 
 export default withMetrics(
   ({ isSidebarClosed, setIsSidebarClosed, ...props }) => {
-    function openSidebar () {
+    function openSidebar() {
       setIsSidebarClosed(false)
     }
 
-    function closeSidebar () {
+    function closeSidebar() {
       setIsSidebarClosed(true)
     }
 
@@ -69,10 +69,9 @@ export default withMetrics(
 
     useEffect(
       () => {
-        // TODO: ???? [@vanguard | Jun 19, 2020]
         rebuildDescriptions(Submetrics)
       },
-      [Submetrics]
+      [Submetrics],
     )
 
     return isSidebarClosed ? (
@@ -82,5 +81,5 @@ export default withMetrics(
         <CloseButton onClick={closeSidebar} />
       </Sidebar>
     )
-  }
+  },
 )

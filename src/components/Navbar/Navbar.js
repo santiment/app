@@ -30,6 +30,11 @@ const leftLinks = [
     as: Link
   },
   {
+    to: '/charts',
+    children: 'Charts',
+    as: Link
+  },
+  {
     href: 'https://insights.santiment.net/',
     children: 'Insights',
     as: ExternalLink,

@@ -40,25 +40,13 @@
   width: 230px;
   position: relative;
   border-radius: 4px;
-  background-color: var(--waterloo);
   overflow: hidden;
-}
-
-.img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-}
-
-.link {
-  height: 100%;
-  width: 100%;
-  display: block;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .info,
@@ -68,8 +56,4 @@
   animation-timing-function: ease-in-out;
   animation-duration: 1s, 0.5s;
   animation-fill-mode: both;
-}
-
-.darkWrapper {
-  display: none;
 }

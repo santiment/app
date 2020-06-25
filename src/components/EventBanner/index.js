@@ -2,7 +2,6 @@ import React from 'react'
 import cx from 'classnames'
 import { useQuery } from '@apollo/react-hooks'
 import { ACTIVE_WIDGETS_QUERY } from './gql'
-import VideoModal from '../VideoModal/VideoModal'
 import { DarkVideoPlayBtn } from '../VideoPlayBtn/VideoPlayBtn'
 import styles from './index.module.scss'
 
@@ -24,32 +23,21 @@ const EventBanner = ({ className }) => {
   }
 
   const videoId = extractYoutubeId(activeWidget.videoLink)
+  const coverImage =
+    activeWidget.imageLink ||
+    `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`
 
   return (
     <section className={cx(styles.wrapper, className)}>
-      {!videoId && (
-        <div className={styles.media}>
-          <a
-            href={activeWidget.videoLink}
-            target='_blank'
-            rel='noopener noreferrer'
-            className={styles.link}
-          >
-            <img
-              alt='Active widget'
-              src={activeWidget.imageLink}
-              className={styles.img}
-            />
-          </a>
-        </div>
-      )}
-      {
-        <VideoModal
-          videoId={videoId}
-          classes={styles}
-          playBtn={DarkVideoPlayBtn}
-        />
-      }
+      <a
+        href={activeWidget.videoLink}
+        target='_blank'
+        rel='noopener noreferrer'
+        className={styles.media}
+        style={{ backgroundImage: `url('${coverImage}')` }}
+      >
+        <DarkVideoPlayBtn />
+      </a>
       <div className={styles.info}>
         <h4 className={styles.title}>{activeWidget.title}</h4>
         <p className={styles.desc}>{activeWidget.description}</p>

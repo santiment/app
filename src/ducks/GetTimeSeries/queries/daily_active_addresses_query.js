@@ -5,7 +5,7 @@ export const DAILY_ACTIVE_ADDRESSES_QUERY = gql`
     $slug: String!
     $from: DateTime!
     $to: DateTime!
-    $interval: String!
+    $interval: interval!
   ) {
     dailyActiveAddresses(
       slug: $slug

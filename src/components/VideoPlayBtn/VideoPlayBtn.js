@@ -1,9 +1,10 @@
 import React from 'react'
+import cx from 'classnames'
 import styles from './VideoPlayBtn.module.scss'
 
-export const DarkVideoPlayBtn = () => (
+export const DarkVideoPlayBtn = ({ className }) => (
   <svg
-    className={styles.btn}
+    className={cx(styles.btn, className)}
     width='40'
     height='40'
     viewBox='0 0 40 40'
@@ -15,11 +16,11 @@ export const DarkVideoPlayBtn = () => (
   </svg>
 )
 
-const LigthVideoPlayBtn = () => (
+const LigthVideoPlayBtn = ({ className }) => (
   <svg
     width='48'
     height='48'
-    className={styles.btn}
+    className={cx(styles.btn, className)}
     viewBox='0 0 48 48'
     fill='none'
     xmlns='http://www.w3.org/2000/svg'

@@ -12,7 +12,7 @@ import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { MobileOnly } from '../../components/Responsive'
 import IndexTab from './IndexTabs/IndexTab'
 import WatchlistCards from '../../components/Watchlists/WatchlistCards'
-import { CATEGORIES } from '../assets/assets-overview-constants'
+import { BASIC_CATEGORIES } from '../assets/assets-overview-constants'
 import MyWatchlist from '../../components/Watchlists/MyWatchlist'
 import { PATHS } from '../../App'
 import AlphaBlock from './AlphaBlock/AlphaBlock'
@@ -47,9 +47,10 @@ const MarketingPage = props => {
                 title: 'Explore Watchlists',
                 content: (
                   <WatchlistCards
-                    watchlists={CATEGORIES}
+                    watchlists={BASIC_CATEGORIES}
                     classes={styles}
                     showNew={true}
+                    showFeatured={true}
                   />
                 )
               },

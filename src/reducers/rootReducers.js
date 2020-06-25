@@ -28,6 +28,9 @@ import recents, { initialState as initialRecents } from './recents'
 import marketSegments, {
   initialState as initialMarketSegments
 } from '../pages/MarketSegments/reducers'
+import app, {
+  initialState as appUpdateState
+} from './../ducks/Updates/reducers'
 
 export const intitialState = {
   user: userState,
@@ -42,7 +45,8 @@ export const intitialState = {
   router: routerReducer,
   accountUi: initialAccountUiState,
   recents: initialRecents,
-  marketSegments: initialMarketSegments
+  marketSegments: initialMarketSegments,
+  app: appUpdateState
 }
 
 export default combineReducers({
@@ -57,5 +61,6 @@ export default combineReducers({
   notification,
   accountUi,
   recents,
-  marketSegments
+  marketSegments,
+  app
 })

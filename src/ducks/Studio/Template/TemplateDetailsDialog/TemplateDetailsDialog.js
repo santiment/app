@@ -56,7 +56,7 @@ const TemplateDetailsDialog = ({
       title={isDialog && template.title}
       classes={styles}
       trigger={<TemplateInfoTrigger />}
-      className={cx(styles.template)}
+      className={styles.template}
     >
       <div className={styles.container}>
         <div className={styles.actions}>

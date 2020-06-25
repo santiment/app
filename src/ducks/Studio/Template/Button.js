@@ -6,62 +6,47 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import FormDialogNewTemplate from './Dialog/NewTemplate'
 import LoginDialog from '../../../components/LoginDialog'
 import TemplateInfo from './TemplateDetailsDialog/TemplateInfo'
-import { isTemplateURL } from './utils'
 import styles from './index.module.scss'
 
 const NoTemplateLabel = ({ loading }) => {
-  return isTemplateURL() && loading ? (
-    <Loader className={styles.loader} />
-  ) : (
-    'Save as'
-  )
+  return loading ? <Loader className={styles.loader} /> : 'Save as'
 }
 
-const Trigger = ({
-  hasTemplates,
-  selectedTemplate,
-  saveTemplate,
-  openDialog,
-  isLoggedIn,
-  loading
-}) => {
+const TemplateTitle = ({ loading, openDialog }) => (
+  <div onClick={openDialog}>{<NoTemplateLabel loading={loading} />}</div>
+)
+
+const Trigger = ({ hasTemplates, selectedTemplate, openDialog, loading }) => {
   return (
     <div
       className={cx(styles.btn__left, !hasTemplates && styles.btn__left_large)}
     >
-      {selectedTemplate && (
+      {selectedTemplate ? (
         <Tooltip
           position='top'
           align='start'
           on='click'
           offsetY={13}
           closeTimeout={500}
+          className={styles.tooltip}
           trigger={
-            <div className={styles.detailsIcon}>
-              <Icon type='info-round' />
+            <div className={styles.tooltipTrigger}>
+              <div className={styles.detailsIcon}>
+                <Icon type='info-round' />
+              </div>
+              {!loading ? (
+                selectedTemplate.title
+              ) : (
+                <TemplateTitle loading={loading} openDialog={openDialog} />
+              )}
             </div>
           }
-          className={styles.tooltip}
         >
           <TemplateInfo template={selectedTemplate} classes={styles} />
         </Tooltip>
+      ) : (
+        <TemplateTitle loading={loading} openDialog={openDialog} />
       )}
-
-      <div
-        onClick={
-          selectedTemplate && isLoggedIn
-            ? saveTemplate
-            : () => {
-              openDialog()
-            }
-        }
-      >
-        {selectedTemplate && !loading ? (
-          selectedTemplate.title
-        ) : (
-          <NoTemplateLabel loading={loading} />
-        )}
-      </div>
     </div>
   )
 }

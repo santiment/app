@@ -22,7 +22,7 @@ const VideoModal = ({
             backgroundImage: `url('https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg')`
           }}
         >
-          <PlayBtn />
+          <PlayBtn className={classes.playBtn} />
           <div className={cx(styles.darkWrapper, classes.darkWrapper)} />
         </div>
       }

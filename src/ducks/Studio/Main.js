@@ -5,6 +5,7 @@ import StudioTabs from './Tabs'
 import StudioTabsKeyStats from './Tabs/KeyStats'
 import TabsWidgets from './Tabs/Widgets'
 import StudioInfo from '../SANCharts/Header'
+import SanbaseBanner from '../../components/SanbaseBanner/SanbaseBanner'
 import styles from './Main.module.scss'
 
 const Main = ({
@@ -18,7 +19,7 @@ const Main = ({
 }) => {
   const { slug } = settings
 
-  function onProjectSelect (project) {
+  function onProjectSelect(project) {
     if (!project) return
 
     const { slug, name, ticker, id: projectId } = project
@@ -29,6 +30,7 @@ const Main = ({
 
   return (
     <>
+      <SanbaseBanner />
       <div className={styles.header}>
         {topSlot}
         <StudioInfo

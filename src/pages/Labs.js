@@ -65,7 +65,7 @@ const Labs = () => (
     </MobileOnly>
     <div className={styles.flexRow}>
       {cards.map(card => (
-        <Card key={card.link} {...card} />
+        <Card key={card.title} {...card} />
       ))}
     </div>
   </div>

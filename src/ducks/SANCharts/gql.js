@@ -49,7 +49,7 @@ export const HISTOGRAM_DATA_QUERY = gql`
     $slug: String!
     $from: DateTime!
     $to: DateTime!
-    $interval: Int
+    $interval: interval
   ) {
     getMetric(metric: "age_distribution") {
       histogramData(

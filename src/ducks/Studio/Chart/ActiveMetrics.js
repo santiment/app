@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
@@ -18,6 +18,8 @@ const MetricButton = ({
   isRemovable,
   toggleMetric,
   withDescription,
+  errorsForMetrics,
+  project,
   ...rest
 }) => {
   const { key, dataKey = key, node, label, comparedTicker } = metric
@@ -67,6 +69,9 @@ const MetricButton = ({
   )
 }
 
+const API_TEST_URL =
+  'https://api-tests-json.s3.eu-central-1.amazonaws.com/latest_report.json'
+
 export default ({
   className,
   MetricColor,
@@ -78,36 +83,42 @@ export default ({
   ErrorMsg = {},
   isSingleWidget,
   onMetricHover,
-  onMetricHoverEnd
+  onMetricHoverEnd,
+  project,
 }) => {
   const isMoreThanOneMetric = activeMetrics.length > 1 || !isSingleWidget
+  const [errorsForMetrics, setErrorsForMetrics] = useState()
 
-  return (
-    <>
-      {activeMetrics.map((metric, i) => (
-        <MetricButton
-          key={metric.key}
-          className={className}
-          metric={metric}
-          colors={MetricColor}
-          error={ErrorMsg[metric.key]}
-          isLoading={loadings.includes(metric)}
-          isRemovable={isMoreThanOneMetric && toggleMetric}
-          toggleMetric={toggleMetric}
-          onMouseEnter={onMetricHover && (e => onMetricHover(metric, e))}
-          onMouseLeave={onMetricHoverEnd && (() => onMetricHoverEnd(metric))}
-        />
-      ))}
-      {activeEvents.includes(trendPositionHistory) && (
-        <MetricButton
-          isRemovable
-          className={className}
-          metric={trendPositionHistory}
-          colors={MetricColor}
-          toggleMetric={toggleMetric}
-          isLoading={eventLoadings.length}
-        />
-      )}
-    </>
-  )
+  useEffect(() => {
+    fetch(API_TEST_URL)
+      .then((response) => {
+        if (!response.ok) {
+          return {}
+        }
+        return response.json()
+      })
+      .then((data) => {
+        setErrorsForMetrics(data)
+      })
+  }, [])
+
+  const errors =
+    project && errorsForMetrics ? errorsForMetrics[project.slug] : {}
+
+  return activeMetrics.map((metric, i) => (
+    <MetricButton
+      key={metric.key}
+      className={className}
+      metric={metric}
+      colors={MetricColor}
+      error={ErrorMsg[metric.key]}
+      isLoading={loadings.includes(metric)}
+      isRemovable={isMoreThanOneMetric && toggleMetric}
+      toggleMetric={toggleMetric}
+      onMouseEnter={onMetricHover && ((e) => onMetricHover(metric, e))}
+      onMouseLeave={onMetricHoverEnd && (() => onMetricHoverEnd(metric))}
+      errorsForMetrics={errors}
+      project={project}
+    />
+  ))
 }

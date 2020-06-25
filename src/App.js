@@ -3,7 +3,7 @@ import {
   Route as BasicRoute,
   Switch,
   Redirect,
-  withRouter
+  withRouter,
 } from 'react-router-dom'
 import Loadable from 'react-loadable'
 import withSizes from 'react-sizes'
@@ -42,7 +42,8 @@ export const PATHS = {
   GDPR: '/gdpr',
   PRO_METRICS: '/pro-sheets-templates',
   INDEX: '/',
-  STUDIO: '/studio'
+  STUDIO: '/studio',
+  CHARTS: '/charts',
 }
 
 const FOOTER_DISABLED_FOR = [
@@ -50,125 +51,125 @@ const FOOTER_DISABLED_FOR = [
   PATHS.FEED,
   PATHS.PRO_METRICS,
   PATHS.SOCIAL_TOOl,
-  PATHS.INDEX
+  PATHS.INDEX,
 ]
 const FOOTER_ABSOLUTE_FOR = [
   PATHS.LOGIN,
   PATHS.LOGIN_VIA_EMAIL,
   PATHS.CREATE_ACCOUNT,
-  PATHS.GDPR
+  PATHS.GDPR,
 ]
 
 const LoadableProMetricsPage = Loadable({
   loader: () => import('./pages/ProMetrics/ProMetrics'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const LoadableMarketingPage = Loadable({
   loader: () => import('./pages/Marketing/MarketingPage'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const LoadableLabsPage = Loadable({
   loader: () => import('./pages/Labs'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const LoadablePricingPage = Loadable({
   loader: () => import('./pages/Pricing'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const LoadableLoginPage = Loadable({
   loader: () => import('./pages/Login'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const LoadableAccountPage = Loadable({
   loader: () => import('./pages/Account/AccountPage'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const LoadableDetailedPage = Loadable({
   loader: () => import('./pages/Detailed/Detailed'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const LoadableMobileDetailedPage = Loadable({
   loader: () => import('./pages/Detailed/mobile/MobileDetailedPage'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const LoadableTrendsLabsPage = Loadable({
   loader: () => import('./pages/Trends/LabsTrendsPage'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const LoadableTrendsExplorePage = Loadable({
   loader: () => import('./pages/TrendsExplore'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const LoadableSonarFeedPage = Loadable({
   loader: () => import('./pages/SonarFeed/SonarFeedPage'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const LoadableAssetsOverviewPage = Loadable({
   loader: () => import('./pages/assets/AssetsOverviewPage'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const LoadableWatchlistsMobilePage = Loadable({
   loader: () => import('./pages/assets/WatchlistsMobilePage'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const LoadableAssetsMobilePage = Loadable({
   loader: () => import('./pages/assets/AssetsMobilePage'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const LoadableSearchMobilePage = Loadable({
   loader: () => import('./pages/SearchMobilePage/SearchMobilePage'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const LoadableChartPage = Loadable({
   loader: () => import('./pages/Studio'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const LoadableMarketSegmentsPage = Loadable({
   loader: () => import('./pages/MarketSegments'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const LoadableProfilePage = Loadable({
   loader: () => import('./pages/profile/ProfilePage'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const LoadableUnsubscribePage = Loadable({
   loader: () => import('./pages/Unsubscribe/Unsubscribe'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 const LoadableFeedPage = Loadable({
   loader: () => import('./pages/feed/Feed'),
-  loading: () => <PageLoader />
+  loading: () => <PageLoader />,
 })
 
 class Route extends React.Component {
-  componentWillMount () {
+  componentWillMount() {
     nprogress.start()
   }
 
-  componentDidMount () {
+  componentDidMount() {
     nprogress.done()
   }
 
-  render () {
+  render() {
     return <BasicRoute {...this.props} />
   }
 }
@@ -176,40 +177,40 @@ class Route extends React.Component {
 const ExternalRoutes = [
   {
     to: 'https://insights.santiment.net',
-    routes: ['insights']
+    routes: ['insights'],
   },
   {
     to: 'https://sheets.santiment.net',
-    routes: ['sheets']
+    routes: ['sheets'],
   },
   {
     to: 'https://data.santiment.net',
-    routes: ['data', 'dashboards']
+    routes: ['data', 'dashboards'],
   },
   {
     to: 'https://docs.santiment.net',
-    routes: ['apidocs', 'apiexamples']
+    routes: ['apidocs', 'apiexamples'],
   },
   {
     to: 'https://academy.santiment.net',
-    routes: ['docs', 'help']
+    routes: ['docs', 'help'],
   },
   {
     to: 'mailto:info@santiment.net',
-    routes: ['support']
+    routes: ['support'],
   },
   {
     to: 'https://academy.santiment.net/',
-    routes: ['academy']
-  }
+    routes: ['academy'],
+  },
 ]
 
 class ExternalRedirect extends React.Component {
-  componentWillMount () {
+  componentWillMount() {
     window.location = this.props.to
   }
 
-  render () {
+  render() {
     return <section>Redirecting...</section>
   }
 }
@@ -220,11 +221,9 @@ export const App = ({
   isUserLoading,
   token,
   isOffline,
-  hasMetamask,
   isBetaModeEnabled,
-  location,
   showFooter,
-  location: { pathname }
+  location: { pathname },
 }) => (
   <div className='App'>
     {isOffline && (
@@ -240,12 +239,12 @@ export const App = ({
     <ErrorBoundary>
       {isDesktop && <UrlModals />}
       <Switch>
-        {['currencies', 'erc20', 'all', 'list'].map(name => (
+        {['currencies', 'erc20', 'all', 'list'].map((name) => (
           <Route
             exact
             key={name}
             path={`/assets/${name}`}
-            render={props => {
+            render={(props) => {
               if (isDesktop) {
                 return (
                   <AssetsPage
@@ -271,12 +270,12 @@ export const App = ({
         <Route
           exact
           path={PATHS.GDPR}
-          render={props => <GDPRPage {...props} isDesktop={isDesktop} />}
+          render={(props) => <GDPRPage {...props} isDesktop={isDesktop} />}
         />
         <Route
           exact
           path={PATHS.CREATE_ACCOUNT}
-          render={props => (
+          render={(props) => (
             <CreateAccountFreeTrial {...props} isLoggedIn={isLoggedIn} />
           )}
         />
@@ -284,7 +283,7 @@ export const App = ({
         <Route
           exact
           path='/watchlists'
-          render={props =>
+          render={(props) =>
             isDesktop ? (
               <Redirect from='/watchlists' to='/assets' />
             ) : (
@@ -295,12 +294,12 @@ export const App = ({
         <Route exact path='/unsubscribe' component={LoadableUnsubscribePage} />
         <Route
           path={PATHS.FEED}
-          render={props => <LoadableFeedPage {...props} />}
+          render={(props) => <LoadableFeedPage {...props} />}
         />
         <Route
           exact
           path='/search'
-          render={props => {
+          render={(props) => {
             if (isDesktop) {
               return <Redirect to='/' />
             }
@@ -311,21 +310,21 @@ export const App = ({
         <Route
           exact
           path='/labs/buidl-heroes'
-          render={props => (
+          render={(props) => (
             <LoadableMarketSegmentsPage isLoggedIn={isLoggedIn} {...props} />
           )}
         />
         <Route
           exact
           path='/labs/balance'
-          render={props => (
+          render={(props) => (
             <HistoricalBalancePage {...props} isDesktop={isDesktop} />
           )}
         />
         <Route
           exact
           path='/projects/:slug'
-          render={props =>
+          render={(props) =>
             isDesktop ? (
               <LoadableDetailedPage isDesktop={isDesktop} {...props} />
             ) : (
@@ -339,13 +338,13 @@ export const App = ({
         <Route
           exact
           path={['/labs/trends/explore/:word', '/labs/trends/explore/']}
-          render={props => (
+          render={(props) => (
             <LoadableTrendsExplorePage isDesktop={isDesktop} {...props} />
           )}
         />
         <Route
           path='/sonar'
-          render={props => (
+          render={(props) => (
             <LoadableSonarFeedPage
               isDesktop={isDesktop}
               isLoggedIn={isLoggedIn}
@@ -357,7 +356,7 @@ export const App = ({
         <Route
           exact
           path='/account'
-          render={props => (
+          render={(props) => (
             <LoadableAccountPage
               {...props}
               isUserLoading={isUserLoading}
@@ -369,8 +368,8 @@ export const App = ({
         <Route exact path='/privacy-policy' component={PrivacyPolicyPage} />
         <Route path='/email_login' component={EmailLoginVerification} />
         <Route path='/verify_email' component={EmailLoginVerification} />
-        {ExternalRoutes.map(links => {
-          return links.routes.map(name => (
+        {ExternalRoutes.map((links) => {
+          return links.routes.map((name) => (
             <Route
               key={name}
               path={`/${name}`}
@@ -380,7 +379,7 @@ export const App = ({
         })}
         <Route
           path='/consent'
-          render={props => (
+          render={(props) => (
             <ExternalRedirect
               to={`${getConsentUrl()}/consent${props.location.search}`}
             />
@@ -388,7 +387,7 @@ export const App = ({
         />{' '}
         <Route
           path={['/profile/:id', '/profile']}
-          render={props => (
+          render={(props) => (
             <LoadableProfilePage
               isDesktop={isDesktop}
               isLoggedIn={isLoggedIn}
@@ -400,7 +399,7 @@ export const App = ({
         />
         <Route
           path={PATHS.LOGIN}
-          render={props => (
+          render={(props) => (
             <LoadableLoginPage
               isLoggedIn={isLoggedIn}
               token={token}
@@ -411,14 +410,24 @@ export const App = ({
         />
         <Route
           path={PATHS.PRO_METRICS}
-          render={props => (
+          render={(props) => (
             <LoadableProMetricsPage isLoggedIn={isLoggedIn} {...props} />
           )}
         />
         {!isDesktop && <Redirect from={PATHS.STUDIO} to='/assets' />}
         <Route
           path={PATHS.STUDIO}
-          render={props => (
+          render={(props) => (
+            <LoadableChartPage
+              classes={{ wrapper: styles.chart }}
+              isLoggedIn={isLoggedIn}
+              {...props}
+            />
+          )}
+        />
+        <Route
+          path={PATHS.CHARTS}
+          render={(props) => (
             <LoadableChartPage
               classes={{ wrapper: styles.chart }}
               isLoggedIn={isLoggedIn}
@@ -429,7 +438,7 @@ export const App = ({
         {!isDesktop && <Redirect from={PATHS.INDEX} to='/assets' />}
         <Route
           path={PATHS.INDEX}
-          render={props => (
+          render={(props) => (
             <LoadableMarketingPage isLoggedIn={isLoggedIn} {...props} />
           )}
         />
@@ -442,42 +451,34 @@ export const App = ({
         classes={{
           footer:
             isPathnameInPages(pathname, FOOTER_ABSOLUTE_FOR) &&
-            styles.footerAbsolute
+            styles.footerAbsolute,
         }}
       />
     )}
   </div>
 )
 
-function isPathnameInPages (pathname, pages) {
-  return pages.some(path => !pathname.replace(path, '').includes('/'))
+function isPathnameInPages(pathname, pages) {
+  return pages.some((path) => !pathname.replace(path, '').includes('/'))
 }
 
-const mapStateToProps = (
-  { user, rootUi },
-  { location: { pathname, ...rest } }
-) => {
-  const { ethAccounts = [] } = user.data
-
-  return {
-    isLoggedIn: user.data && !!user.data.id,
-    isUserLoading: user.isLoading,
-    token: user.token,
-    isOffline: !rootUi.isOnline,
-    isBetaModeEnabled: rootUi.isBetaModeEnabled,
-    hasMetamask: ethAccounts.length > 0 && ethAccounts[0].address,
-    showFooter:
-      !pathname.includes(PATHS.STUDIO) ||
-      !isPathnameInPages(pathname, FOOTER_DISABLED_FOR)
-  }
-}
+const mapStateToProps = ({ user, rootUi }, { location: { pathname } }) => ({
+  isLoggedIn: user.data && !!user.data.id,
+  isUserLoading: user.isLoading,
+  token: user.token,
+  isOffline: !rootUi.isOnline,
+  isBetaModeEnabled: rootUi.isBetaModeEnabled,
+  showFooter:
+    !pathname.includes(PATHS.STUDIO) ||
+    !isPathnameInPages(pathname, FOOTER_DISABLED_FOR),
+})
 
 const enhance = compose(
   connect(mapStateToProps),
   withSizes(mapSizesToProps),
   withTracker,
   withIntercom,
-  withRouter
+  withRouter,
 )
 
 export default enhance(App)

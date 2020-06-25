@@ -11,13 +11,14 @@ import {
 } from './index'
 import {
   buildTemplateMetrics,
-  extractTemplateId,
+  getAvailableTemplate,
   getLastTemplate,
-  isTemplateURL,
+  getTemplateIdFromURL,
   saveLastTemplate
 } from '../utils'
 import { store, client } from '../../../../index'
 import { getSavedMulticharts } from '../../../../utils/localStorage'
+import { showNotification } from '../../../../actions/rootActions'
 
 const DEFAULT_TEMPLATES = []
 
@@ -77,14 +78,17 @@ export function useFeaturedTemplates () {
 }
 
 export function useSelectedTemplate (templates, selectTemplate) {
-  const isTemplateUrl = isTemplateURL()
-  const defaultTemplate = isTemplateUrl ? undefined : templates[0]
-  const urlId = isTemplateUrl ? extractTemplateId() : undefined
+  const urlId = getTemplateIdFromURL()
+  const defaultTemplate = getAvailableTemplate(templates)
   const [selectedTemplate, setSelectedTemplate] = useState()
   const [loading, setLoading] = useState()
 
   const loadTemplate = () => {
-    const targetTemplate = isTemplateUrl ? { id: urlId } : getLastTemplate()
+    if (loading) {
+      return
+    }
+
+    const targetTemplate = urlId ? { id: urlId } : getLastTemplate()
     if (!targetTemplate) return
 
     setSelectedTemplate(targetTemplate)
@@ -102,17 +106,28 @@ export function useSelectedTemplate (templates, selectTemplate) {
       .then(({ data: { template } }) => {
         setSelectedTemplate(template)
 
-        if (isTemplateUrl) {
+        if (urlId) {
           selectTemplate(template)
         }
       })
-      .catch(console.warn)
-      .finally(() => {
+      .catch(() => {
+        if (urlId) {
+          store.dispatch(
+            showNotification({
+              variant: 'error',
+              title:
+                'Chart Layout with id ' +
+                targetTemplate.id +
+                " is private or doesn't exist"
+            })
+          )
+        }
+      })
+      .finally(data => {
         setLoading(false)
       })
   }
 
-  useEffect(loadTemplate, [])
   useEffect(loadTemplate, [urlId])
   useEffect(
     () => {
