@@ -1,6 +1,6 @@
 import { parse } from 'query-string'
 import { newChartWidget, newHolderDistributionWidget } from './Widget/creators'
-import { convertKeyToMetric, parseComparable } from '../Studio/url'
+import { parseUrl, convertKeyToMetric, parseComparable } from '../Studio/url'
 
 const WidgetCreator = {
   ChartWidget: newChartWidget,
@@ -20,7 +20,7 @@ export function parseWidgets(urlWidgets) {
   try {
     return parseSharedWidgets(JSON.parse(urlWidgets))
   } catch (e) {
-    return [newChartWidget()]
+    return
   }
 }
 
@@ -33,9 +33,15 @@ export function parseUrlV2(url) {
   const { settings, widgets, sidepanel } = parse(url)
   console.log('parsing')
 
+  if (!widgets) {
+    const parsedV1Config = parseUrl(url)
+    console.log(parsedV1Config)
+    return parsedV1Config
+  }
+
   return {
-    settings: settings ? JSON.parse(settings) : {},
-    widgets: widgets ? parseWidgets(widgets) : [],
-    sidepanel: sidepanel ? parseSharedSidepanel(sidepanel) : {},
+    settings: settings && JSON.parse(settings),
+    widgets: widgets && parseWidgets(widgets),
+    sidepanel: sidepanel && parseSharedSidepanel(sidepanel),
   }
 }

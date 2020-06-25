@@ -38,8 +38,8 @@ const Canvas = ({
   ErrorMsg,
   toggleMetric,
   syncedTooltipDate,
-  isMultiChartsActive,
-  isSingleWidget = !isMultiChartsActive,
+  isICOPriceActive,
+  isSingleWidget,
   isAnon,
   isSelectingRange,
   changeTimePeriod,
@@ -108,7 +108,6 @@ const Canvas = ({
             loadings={loadings}
             ErrorMsg={ErrorMsg}
             eventLoadings={eventLoadings}
-            isMultiChartsActive={isMultiChartsActive}
             isSingleWidget={isSingleWidget}
             onMetricHover={onMetricHover}
             onMetricHoverEnd={onMetricHoverEnd}
@@ -184,7 +183,7 @@ const Canvas = ({
       >
         <IcoPrice
           {...settings}
-          {...options}
+          isICOPriceActive={isICOPriceActive}
           metrics={metrics}
           className={styles.ico}
           onResult={(price) => setIsICOPriceDisabled(!price)}

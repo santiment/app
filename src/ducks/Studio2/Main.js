@@ -13,10 +13,9 @@ const Main = ({
   bottomSlot,
   settings,
   setSettings,
+  setIsICOPriceDisabled,
   ...props
 }) => {
-  /* const { options, project, setSettings, setIsICOPriceDisabled } = props */
-
   const { slug } = settings
 
   function onProjectSelect(project) {
@@ -24,9 +23,8 @@ const Main = ({
 
     const { slug, name, ticker, id: projectId } = project
     const title = `${name} (${ticker})`
-    setSettings((state) => ({ ...state, slug, title, projectId, ticker }))
-    /* setIsICOPriceDisabled(true) */
-    /* onSlugChange(slug) */
+    setSettings({ ...settings, slug, title, projectId, ticker })
+    setIsICOPriceDisabled(true)
   }
 
   return (
@@ -49,7 +47,12 @@ const Main = ({
             <StudioTabsKeyStats slug={slug} />
           </Route>
           <Route path='/studio'>
-            <TabsWidgets {...props} settings={settings} widgets={widgets} />
+            <TabsWidgets
+              {...props}
+              settings={settings}
+              widgets={widgets}
+              setIsICOPriceDisabled={setIsICOPriceDisabled}
+            />
           </Route>
         </Switch>
       </div>

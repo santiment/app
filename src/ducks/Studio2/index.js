@@ -21,6 +21,18 @@ export const Studio = ({
   const [settings, setSettings] = useState(defaultSettings)
   const [sidepanel, setSidepanel] = useState(defaultSidepanel)
   const [selectedMetrics, setSelectedMetrics] = useState([])
+  const [isICOPriceDisabled, setIsICOPriceDisabled] = useState(true)
+  const [isICOPriceActive, setIsICOPriceActive] = useState(true)
+
+  useEffect(
+    () => {
+      const { slug } = defaultSettings
+      if (slug && slug !== settings.slug) {
+        setSettings({ ...settings, slug })
+      }
+    },
+    [defaultSettings.slug],
+  )
 
   function rerenderWidgets() {
     setWidgets(widgets.slice())
@@ -31,7 +43,6 @@ export const Studio = ({
   }
 
   function deleteWidget(widget) {
-    console.log(widget)
     setWidgets(widgets.filter((w) => w !== widget))
   }
 
@@ -79,9 +90,9 @@ export const Studio = ({
 
     if (type === 'sidepanel') {
       toggleSidepanel(key)
+    } else if (type === 'ico_price') {
+      setIsICOPriceActive(!isICOPriceActive)
     } else if (type === 'widget') {
-      console.log('this is widget')
-
       if (key === 'holder_distribution') {
         setWidgets([
           ...widgets,
@@ -114,7 +125,7 @@ export const Studio = ({
   return (
     <div className={styles.wrapper}>
       <Sidebar
-        slug='bitcoin'
+        slug={settings.slug}
         options={{}}
         activeMetrics={selectedMetrics}
         toggleMetric={onSidebarItemClick}
@@ -125,9 +136,11 @@ export const Studio = ({
           settings={settings}
           options={{}}
           sidepanel={sidepanel}
+          isICOPriceActive={isICOPriceActive}
           // fn
           setWidgets={setWidgets}
           setSettings={setSettings}
+          setIsICOPriceDisabled={setIsICOPriceDisabled}
           changeTimePeriod={changeTimePeriod}
           toggleWidgetMetric={toggleWidgetMetric}
           toggleSidepanel={toggleSidepanel}

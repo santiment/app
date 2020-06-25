@@ -91,7 +91,6 @@ export const Chart = ({
       comparables={comparables}
       shareLink={shareLink}
       isSingleWidget={isSingleWidget}
-      setIsICOPriceDisabled={() => {}}
       setOptions={setOptions}
       setComparables={setComparables}
       toggleMetric={toggleMetric}

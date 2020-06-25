@@ -8,7 +8,7 @@ export const Submetrics = {
   [Metric.price_usd.key]: [
     {
       key: 'ico_price',
-      type: '???',
+      type: 'ico_price',
       label: 'ICO Price',
     },
     {

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useMemo } from 'react'
 import cx from 'classnames'
 import StudioHeader from '../../Studio/Header'
 import Sidepanel from '../../Studio/Chart/Sidepane'
@@ -23,6 +23,10 @@ const Chart = ({
 
   const isSingleWidget = widgets.length === 1
   const onWidgetPointClick = sidepanel ? onPointClick : undefined
+  const allMetrics = useMemo(
+    () => widgets.map(({ metrics }) => metrics).flat(),
+    [widgets],
+  )
 
   function changeDatesRange(from, to) {
     setSelectedDate()
@@ -90,10 +94,7 @@ const Chart = ({
           <Sidepanel
             className={styles.side}
             chartSidepane={sidepanel}
-            metrics={widgets.reduce(
-              (acc, widget) => [...acc, ...widget.metrics],
-              [],
-            )}
+            metrics={allMetrics}
             toggleChartSidepane={toggleSidepanel}
             date={selectedDate}
             datesRange={selectedDatesRange}

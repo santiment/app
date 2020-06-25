@@ -118,10 +118,11 @@ export function generateShareLink(
 }
 
 export function parseUrl(
+  url,
   settings = DEFAULT_SETTINGS,
   options = DEFAULT_OPTIONS,
 ) {
-  const data = parse(window.location.search, { arrayFormat: 'comma' })
+  const data = parse(url, { arrayFormat: 'comma' })
 
   return {
     settings: reduceStateKeys(settings, data),

@@ -51,7 +51,9 @@ const TopSlot = compose(withProject)(({ slug, project, loading }) =>
 
 export default ({ history }) => {
   const url = window.location.search
-  const { widgets, settings, sidepanel } = useMemo(() => parseUrlV2(url), [url])
+  const { widgets, settings = {}, sidepanel } = useMemo(() => parseUrlV2(url), [
+    url,
+  ])
   console.log({ widgets, settings, sidepanel })
 
   return (
@@ -61,7 +63,7 @@ export default ({ history }) => {
         ...DEFAULT_SETTINGS,
         ...settings,
       }}
-      defaultWidgets={widgets.length === 0 ? DEFAULT_WIDGETS : widgets}
+      defaultWidgets={widgets && widgets.length > 0 ? widgets : DEFAULT_WIDGETS}
       defaultSidepanel={sidepanel}
       extensions={<URLExtension history={history} />}
     />

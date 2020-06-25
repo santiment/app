@@ -55,9 +55,6 @@ const Group = ({
             return null
           }
 
-          {
-            /* const submetrics = Submetrics[metric.key] */
-          }
           return (
             <Fragment key={item.key}>
               <MetricButton
@@ -68,28 +65,6 @@ const Group = ({
                 project={project}
                 isActive={activeMetrics.includes(item)}
               />
-              {/* TODO: refactor 'ICO Price', 'advancedView' to be a submetric array [@vanguard | March 10, 2020] */}
-              {/*
-              {isICOPriceDisabled ||
-                (item === price_usd && (
-                  <MetricButton
-                    className={styles.advanced}
-                    label='ICO Price'
-                    onClick={toggleICOPrice}
-                    project={project}
-                  />
-                ))}
-                  */}
-              {/*
-              {item.advancedView && (
-                <MetricButton
-                  className={styles.advanced}
-                  label={item.advancedView}
-                  onClick={() => toggleAdvancedView(item.advancedView)}
-                  project={project}
-                />
-              )}
-                */}
               {subitems &&
                 subitems.map((subitem) => (
                   <MetricButton
