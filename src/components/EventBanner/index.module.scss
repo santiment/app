@@ -2,7 +2,6 @@
 @import '../../animations';
 
 .wrapper {
-  width: 100%;
   padding: 18px 40px;
   display: flex;
   align-items: center;
@@ -24,7 +23,7 @@
 .title {
   @include text('body-2', 'm');
 
-  margin: 0 0 8px;
+  margin: 0 0 4px;
   color: var(--dodger-blue);
 }
 
@@ -61,15 +60,17 @@
 .closeContainer {
   display: flex;
   align-items: center;
-  justify-content: center;
   position: relative;
+  max-width: 1152px;
+  margin: auto;
+  width: 100%;
 }
 
 .close {
   position: absolute;
-  right: -25px;
-  top: 0;
-  fill: var(--casper);
+  right: 0;
+  top: 10px;
+  fill: var(--rhino);
   cursor: pointer;
 
   &:hover {
