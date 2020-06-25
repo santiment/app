@@ -4,15 +4,12 @@ import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
 import Group from './Group'
 import MetricButton from './MetricButton'
-import { TOP_HOLDERS_PANE } from '../../Chart/Sidepane/panes'
 import styles from './index.module.scss'
 
 const Category = ({
   title,
   groups,
-  chartSidepane,
   hasTopHolders,
-  toggleChartSidepane,
   isBeta,
   project = {},
   ...rest

@@ -4,23 +4,13 @@ import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
 import MetricButton from './MetricButton'
 import { NO_GROUP } from '../utils'
-import { Metric } from '../../../dataHub/metrics'
 import styles from './index.module.scss'
-
-const { price_usd } = Metric
 
 const Group = ({
   title,
   nodes,
   activeMetrics,
-  advancedView,
-  ErrorMsg,
   toggleMetric,
-  toggleAdvancedView,
-  toggleICOPrice,
-  options,
-  //Submetrics,
-  isICOPriceDisabled,
   isBeta,
   setMetricSettingMap,
   project,

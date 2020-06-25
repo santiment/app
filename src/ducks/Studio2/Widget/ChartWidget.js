@@ -22,13 +22,12 @@ export const Chart = ({
   rerenderWidgets,
   ...props
 }) => {
-  const { metrics, chartRef } = widget
+  const { metrics, chartRef, MetricSettingMap } = widget
   const [options, setOptions] = useState(DEFAULT_OPTIONS)
   const [comparables, setComparables] = useState(widget.comparables)
   const [activeMetrics, setActiveMetrics] = useState(metrics)
   const [activeEvents, setActiveEvents] = useState([])
   const [MetricTransformer, setMetricTransformer] = useState({})
-  const [MetricSettingMap, setMetricSettingMap] = useState(new Map())
   const [rawData, loadings, ErrorMsg] = useTimeseries(
     activeMetrics,
     settings,
@@ -41,6 +40,7 @@ export const Chart = ({
     metrics,
     options.isClosestDataActive,
   )
+
   const shareLink = useMemo(
     () => buildChartShareLink({ settings, widgets: [widget] }),
     [settings, metrics, comparables],
@@ -149,6 +149,7 @@ export const newChartWidget = (props) =>
   newWidget(ChartWidget, {
     metrics: [Metric.price_usd],
     comparables: [],
+    MetricSettingMap: new Map(),
     ...props,
   })
 

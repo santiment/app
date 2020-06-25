@@ -9,6 +9,7 @@ import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
 import styles from './index.module.scss'
 import { DEFAULT_SETTINGS } from '../Studio/defaults'
 import { saveToggle } from '../../utils/localStorage'
+import { mergeMetricSettingMap } from './utils'
 
 export const DEFAULT_WIDGETS = [newChartWidget()]
 
@@ -22,6 +23,9 @@ export const Studio = ({
   const [settings, setSettings] = useState(defaultSettings)
   const [sidepanel, setSidepanel] = useState(defaultSidepanel)
   const [selectedMetrics, setSelectedMetrics] = useState([])
+  const [selectedMetricSettingsMap, setSelectedMetricSettingsMap] = useState(
+    new Map(),
+  )
   const [isAnomalyActive, setIsAnomalyActive] = useState(false)
   const [isICOPriceDisabled, setIsICOPriceDisabled] = useState(true)
   const [isICOPriceActive, setIsICOPriceActive] = useState(true)
@@ -116,33 +120,44 @@ export const Studio = ({
     const newMetrics = new Set([...widget.metrics, ...selectedMetrics])
 
     widget.metrics = [...newMetrics]
+    widget.MetricSettingMap = mergeMetricSettingMap(
+      widget.MetricSettingMap,
+      selectedMetricSettingsMap,
+    )
 
-    setWidgets([...widgets])
+    rerenderWidgets()
   }
 
   function onNewChartClick() {
-    setWidgets([...widgets, newChartWidget({ metrics: selectedMetrics })])
+    setWidgets([
+      ...widgets,
+      newChartWidget({
+        metrics: selectedMetrics,
+        MetricSettingMap: selectedMetricSettingsMap,
+      }),
+    ])
   }
 
   function onOverviewClose() {
     setSelectedMetrics([])
+    setSelectedMetricSettingsMap(new Map())
   }
 
   return (
     <div className={styles.wrapper}>
       <Sidebar
         slug={settings.slug}
-        //options={{}}
         activeMetrics={selectedMetrics}
         isAnomalyActive={isAnomalyActive}
+        isICOPriceDisabled={isICOPriceDisabled}
         toggleMetric={onSidebarItemClick}
         toggleAnomaly={toggleAnomaly}
+        setMetricSettingMap={setSelectedMetricSettingsMap}
       />
       <main className={styles.main}>
         <Main
           widgets={widgets}
           settings={settings}
-          options={{}}
           sidepanel={sidepanel}
           isICOPriceActive={isICOPriceActive}
           isAnomalyActive={isAnomalyActive}
