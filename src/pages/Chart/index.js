@@ -16,7 +16,7 @@ export default withBoundaries(({ parsedUrl, ...props }) => {
       {...props}
       defaultSettings={{
         ...DEFAULT_SETTINGS,
-        ...settings,
+        ...settings
       }}
       defaultWidgets={widgets && widgets.length > 0 ? widgets : DEFAULT_WIDGETS}
       defaultSidepanel={sidepanel}

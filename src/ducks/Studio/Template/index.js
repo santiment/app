@@ -19,7 +19,7 @@ import DialogLoadTemplate from './Dialog/LoadTemplate'
 import DeleteTemplate from './Dialog/Delete/DeleteTemplate'
 import ShareTemplate from './Share/ShareTemplate'
 import { isUserAuthorOfTemplate } from './Dialog/LoadTemplate/Template'
-import { parseSharedWidgets } from '../url/parse'
+import { parseSharedWidgets, translateMultiChartToWidgets } from '../url/parse'
 import { normalizeWidgets } from '../url/generate'
 import { newChartWidget } from '../Widget/creators'
 import styles from './index.module.scss'
@@ -90,18 +90,24 @@ const Template = ({
     const { project, metrics: templateMetrics, options } = template
     const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
 
-    if (onProjectSelect) onProjectSelect(project)
+    if (onProjectSelect) {
+      onProjectSelect(project)
+    }
 
     let widgets
     if (options && options.widgets) {
       widgets = parseSharedWidgets(options.widgets)
     } else {
-      widgets = [
-        newChartWidget({
-          metrics,
-          comparables
-        })
-      ]
+      if (options.multi_chart) {
+        widgets = translateMultiChartToWidgets(metrics, comparables)
+      } else {
+        widgets = [
+          newChartWidget({
+            metrics,
+            comparables
+          })
+        ]
+      }
     }
 
     setWidgets(widgets)

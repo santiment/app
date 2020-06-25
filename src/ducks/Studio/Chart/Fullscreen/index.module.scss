@@ -21,7 +21,8 @@
   flex-direction: column;
 }
 
-.settings {
+.header {
+  display: flex;
   justify-content: flex-end;
 }
 

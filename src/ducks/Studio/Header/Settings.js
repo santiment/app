@@ -3,18 +3,17 @@ import cx from 'classnames'
 import { withRouter } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
-import AdvancedCalendar from '../../../components/AdvancedCalendar'
+import Calendar from './Calendar'
 import MetricsExplanation, {
-  filterExplainableMetrics,
+  filterExplainableMetrics
 } from '../Chart/Sidepanel/MetricsExplanation'
 import { METRICS_EXPLANATION_PANE } from '../Chart/Sidepanel/panes'
-import { getIntervalByTimeRange } from '../../../utils/dates'
-import styles from './Settings.module.scss'
 import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
+import styles from './Settings.module.scss'
 
 const ShareButton = withRouter(() => (
   <ShareModalTrigger
-    trigger={(props) => (
+    trigger={props => (
       <Button {...props} className={styles.share}>
         <Icon type='share' />
       </Button>
@@ -30,22 +29,12 @@ export default ({
   sidepanel,
   className,
   changeTimePeriod,
-  toggleSidepanel,
+  toggleSidepanel
 }) => {
-  const { timeRange, from, to } = settings
   const hasExplanaibles = useMemo(
     () => filterExplainableMetrics(metrics).length > 0,
-    [metrics],
+    [metrics]
   )
-
-  function onTimerangeChange(timeRange) {
-    const { from, to } = getIntervalByTimeRange(timeRange)
-    changeTimePeriod(from, to, timeRange)
-  }
-
-  function onCalendarChange([from, to]) {
-    changeTimePeriod(from, to)
-  }
 
   return (
     <div className={cx(styles.wrapper, className)}>
@@ -53,19 +42,11 @@ export default ({
         <MetricsExplanation.Button
           onClick={() => toggleSidepanel(METRICS_EXPLANATION_PANE)}
           className={cx(
-            sidepanel === METRICS_EXPLANATION_PANE && styles.explain_active,
+            sidepanel === METRICS_EXPLANATION_PANE && styles.explain_active
           )}
         />
       )}
-      <AdvancedCalendar
-        className={styles.calendar}
-        from={new Date(from)}
-        to={new Date(to)}
-        timeRange={timeRange}
-        onCalendarChange={onCalendarChange}
-        onTimerangeChange={onTimerangeChange}
-      />
-
+      <Calendar settings={settings} changeTimePeriod={changeTimePeriod} />
       <ShareButton />
     </div>
   )

@@ -10,7 +10,7 @@ const SelectionOverview = ({
   toggleMetric,
   onClose,
   onWidgetClick,
-  onNewChartClick,
+  onNewChartClick
 }) => {
   return (
     <Overview

@@ -5,10 +5,12 @@ import { Link } from 'react-router-dom'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import ChartPaywallInfo from './PaywallInfo'
 import ChartActiveMetrics from './ActiveMetrics'
-import ChartFullscreenBtn from './ChartFullscreenBtn'
 import IcoPrice from './IcoPrice'
 import LastDayPrice from './LastDayPrice'
 import SharedAxisToggle from './SharedAxisToggle'
+import ContextMenu from './ContextMenu'
+import ChartFullscreenBtn from './Fullscreen'
+import Compare from '../Compare'
 import { extractMirrorMetricsDomainGroups } from '../utils'
 import { useAllTimeData } from '../timeseries/hooks'
 import Chart from '../../Chart'
@@ -18,8 +20,6 @@ import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
 import { useChartColorsWithHighlight } from '../../Chart/colors'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './index.module.scss'
-import ContextMenu from './ContextMenu'
-import Compare from '../Compare'
 
 const Canvas = ({
   index,
@@ -155,6 +155,7 @@ const Canvas = ({
             scale={scale}
             brushData={allTimeData}
             MetricColor={MetricColor}
+            shareLink={shareLink}
           />
         </div>
       </div>

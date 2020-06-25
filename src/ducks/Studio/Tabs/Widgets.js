@@ -24,15 +24,15 @@ const Chart = ({
   const onWidgetPointClick = sidepanel ? onPointClick : undefined
   const allMetrics = useMemo(
     () => widgets.map(({ metrics }) => metrics).flat(),
-    [widgets],
+    [widgets]
   )
 
-  function changeDatesRange(from, to) {
+  function changeDatesRange (from, to) {
     setSelectedDate()
     setSelectedDatesRange([from, to])
   }
 
-  function onRangeSelect({ value: leftDate }, { value: rightDate }) {
+  function onRangeSelect ({ value: leftDate }, { value: rightDate }) {
     setIsSelectingRange(false)
     if (leftDate === rightDate) return
 
@@ -50,11 +50,11 @@ const Chart = ({
     }
   }
 
-  function onRangeSelectStart() {
+  function onRangeSelectStart () {
     setIsSelectingRange(true)
   }
 
-  function onPointClick({ value }) {
+  function onPointClick ({ value }) {
     setSelectedDate(new Date(value))
     setSelectedDatesRange()
   }
@@ -73,7 +73,7 @@ const Chart = ({
       />
       <div className={styles.content}>
         <div className={styles.widgets}>
-          {widgets.map((widget) => (
+          {widgets.map(widget => (
             <widget.Widget
               {...props}
               key={widget.id}

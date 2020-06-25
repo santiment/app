@@ -1,23 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
-import { useTimeseries } from '../timeseries/hooks'
-import { generateShareLink } from '../url/generate'
-import { extractMirrorMetricsDomainGroups } from '../utils'
-import Chart from '../../Chart'
-import Settings from '../Header/Settings'
-import { MirroredMetric } from '../../dataHub/metrics/mirrored'
+import Header from './Header'
+import { useTimeseries } from '../../timeseries/hooks'
+import { extractMirrorMetricsDomainGroups } from '../../utils'
+import Chart from '../../../Chart'
+import { MirroredMetric } from '../../../dataHub/metrics/mirrored'
 import {
   useClosestValueData,
   useDomainGroups,
   useAxesMetricsKey
-} from '../../Chart/hooks'
+} from '../../../Chart/hooks'
 import {
   getNewInterval,
   INTERVAL_ALIAS
-} from '../../SANCharts/IntervalSelector'
-import { ONE_HOUR_IN_MS } from '../../../utils/dates'
-import FullscreenDialogBtn from '../../../components/FullscreenDialogBtn'
-import styles from './ChartFullscreenBtn.module.scss'
+} from '../../../SANCharts/IntervalSelector'
+import { ONE_HOUR_IN_MS } from '../../../../utils/dates'
+import FullscreenDialogBtn from '../../../../components/FullscreenDialogBtn'
+import styles from './index.module.scss'
 
 const RESIZE_DEPENDENCIES = []
 
@@ -28,12 +27,12 @@ const FullscreenChart = ({
   metrics,
   activeEvents,
   brushData,
-  MetricColor
+  MetricColor,
+  shareLink
 }) => {
   const [settings, setSettings] = useState(studioSettings)
   const [options, setOptions] = useState(studioOptions)
   const [isDomainGroupingActive] = useState()
-  const [shareLink, setShareLink] = useState()
   const [chartHeight, setChartHeight] = useState()
   const [MetricTransformer, setMetricTransformer] = useState({})
   const [rawData] = useTimeseries(
@@ -51,19 +50,7 @@ const FullscreenChart = ({
   const domainGroups = useDomainGroups(metrics)
   const axesMetricKeys = useAxesMetricsKey(metrics)
   const chartRef = useRef(null)
-  const containerRef = useRef(null)
   const mirrorDomainGroups = extractMirrorMetricsDomainGroups(domainGroups)
-
-  useEffect(
-    () => {
-      const queryString =
-        '?' + generateShareLink(settings, options, metrics, activeEvents)
-
-      const { origin, pathname } = window.location
-      setShareLink(origin + pathname + queryString)
-    },
-    [settings, options]
-  )
 
   useEffect(
     () => {
@@ -128,8 +115,8 @@ const FullscreenChart = ({
   }
 
   return (
-    <div className={styles.content} ref={containerRef}>
-      <Settings
+    <div className={styles.content}>
+      <Header
         className={styles.settings}
         chartRef={chartRef}
         settings={settings}

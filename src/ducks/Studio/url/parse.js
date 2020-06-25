@@ -102,13 +102,54 @@ export function parseWidgets (urlWidgets) {
   try {
     return parseSharedWidgets(JSON.parse(urlWidgets))
   } catch (e) {
-
+    console.error(e)
   }
 }
 
 function parseSharedSidepanel (sidepanel) {
   const parsed = JSON.parse(sidepanel)
   return parsed.type
+}
+
+export function translateMultiChartToWidgets (metrics, comparables) {
+  const noPriceMetrics = metrics.filter(metric => metric !== Metric.price_usd)
+  const hasPrice = noPriceMetrics.length < metrics.length
+
+  return noPriceMetrics
+    .map(metric =>
+      newChartWidget({
+        metrics: hasPrice ? [Metric.price_usd, metric] : [metric]
+      })
+    )
+    .concat(
+      comparables.map(comparable =>
+        newChartWidget({
+          metrics: hasPrice ? [Metric.price_usd] : [],
+          comparables: [comparable]
+        })
+      )
+    )
+}
+
+function translateV1ToV2 (v1Config) {
+  const { metrics = [], comparables = [], settings, options } = v1Config
+
+  let widgets
+  if (options.isMultiChartsActive) {
+    widgets = translateMultiChartToWidgets(metrics, comparables)
+  } else if (metrics.length || comparables.length) {
+    widgets = [
+      newChartWidget({
+        comparables,
+        metrics
+      })
+    ]
+  }
+
+  return {
+    settings,
+    widgets
+  }
 }
 
 export function parseUrl (
@@ -132,7 +173,7 @@ export function parseUrlV2 (url) {
 
   if (!widgets) {
     const parsedV1Config = parseUrl(url)
-    return parsedV1Config
+    return translateV1ToV2(parsedV1Config)
   }
 
   return {
