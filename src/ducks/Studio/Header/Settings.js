@@ -3,18 +3,12 @@ import cx from 'classnames'
 import { withRouter } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
-import ContextMenu from './ContextMenu'
 import AdvancedCalendar from '../../../components/AdvancedCalendar'
 import MetricsExplanation from '../Chart/Sidepane/MetricsExplanation'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import { METRICS_EXPLANATION_PANE } from '../../Studio/Chart/Sidepane/panes'
 import styles from './Settings.module.scss'
 import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
-import ChartSettingsContextMenu from '../../SANCharts/ChartSettingsContextMenu'
-
-/* import ChartMetricsExplanation, {
- *   filterExplainableMetrics,
- * } from './Sidepane/MetricsExplanation' */
 
 const ShareButton = withRouter(() => (
   <ShareModalTrigger
@@ -35,7 +29,7 @@ export default ({
   changeTimePeriod,
   toggleSidepanel,
 }) => {
-  const { timeRange, from, to, title } = settings
+  const { timeRange, from, to } = settings
 
   function onTimerangeChange(timeRange) {
     const { from, to } = getIntervalByTimeRange(timeRange)

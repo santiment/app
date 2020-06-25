@@ -23,7 +23,14 @@ export const ResizeListener = ({ onResize }) => {
     iframe.contentWindow.onresize = onResize
   }
 
-  return <iframe ref={iframeRef} frameBorder='0' style={iframeStyles} />
+  return (
+    <iframe
+      title='resizer'
+      ref={iframeRef}
+      frameBorder='0'
+      style={iframeStyles}
+    />
+  )
 }
 
 export function onResize(

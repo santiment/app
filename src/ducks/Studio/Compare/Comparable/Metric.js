@@ -5,7 +5,6 @@ import withMetrics from '../../withMetrics'
 import { getCategoryGraph } from '../../Sidebar/utils'
 import Search, { getMetricSuggestions } from '../../Sidebar/Search'
 import MetricIcon from '../../../SANCharts/MetricIcon'
-import { COLORS } from '../../../Chart/colors'
 import styles from './Metric.module.scss'
 
 const DEFAULT_COLOR = '#9faac4'
@@ -32,9 +31,8 @@ const MetricSearch = withMetrics(
   ),
 )
 
-const Label = ({ comparable, editMetric, colors, options }) => {
+const Label = ({ comparable, editMetric, colors }) => {
   const { node, label } = comparable.metric
-  /* const color = options.isMultiChartsActive ? COLORS[0] : colors[comparable.key] */
   const color = colors[comparable.key]
 
   return (

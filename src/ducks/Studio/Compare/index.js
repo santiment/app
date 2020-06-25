@@ -9,7 +9,6 @@ import withProjects from './withProjects'
 import { projectSorter, hashComparable, buildHiddenMetrics } from './utils'
 import { MAX_METRICS_AMOUNT } from '../constraints'
 import { FIAT_MARKET_ASSETS } from '../../dataHub/fiat'
-import { useChartColors } from '../../Chart/colors'
 import styles from './index.module.scss'
 
 const Compare = ({
@@ -22,7 +21,6 @@ const Compare = ({
   ...rest
 }) => {
   const [projects, setProjects] = useState(allProjects)
-  /* const MetricColor = useChartColors(activeMetrics) */
 
   useEffect(
     () => {
@@ -36,9 +34,7 @@ const Compare = ({
     [allProjects, slug],
   )
 
-  const canSelectMoreMetrics =
-    /* rest.options.isMultiChartsActive || */
-    activeMetrics.length < MAX_METRICS_AMOUNT
+  const canSelectMoreMetrics = activeMetrics.length < MAX_METRICS_AMOUNT
 
   const hiddenMetricsMap = buildHiddenMetrics(comparables)
 

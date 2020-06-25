@@ -1,5 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react'
-import cx from 'classnames'
+import React, { useState, useMemo } from 'react'
 import StudioHeader from '../../Studio/Header'
 import Sidepanel from '../../Studio/Chart/Sidepane'
 import { SPENT_COIN_COST } from '../../Studio/Chart/Sidepane/panes'

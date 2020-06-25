@@ -6,7 +6,7 @@ import { tryMapToTimeboundMetric } from '../dataHub/timebounds'
 import { Metric } from '../dataHub/metrics'
 import { Submetrics } from '../dataHub/submetrics'
 import { CompatibleMetric } from '../dataHub/metrics/compatibility'
-import { TopHolderMetric } from './Chart/Sidepane/TopHolders/metrics'
+import { TopHolderMetric } from './Chart/Sidepane/HolderDistribution/metrics'
 
 const { trendPositionHistory } = Event
 

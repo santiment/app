@@ -78,9 +78,6 @@ function useRestrictedInfo(metrics) {
   return infos
 }
 
-const checkHasBoundaries = ({ leftBoundaryDate: a, rightBoundaryDate: b }) =>
-  a || b
-
 const PaywallInfo = ({ boundaries, subscription, metrics }) => {
   const infos = useRestrictedInfo(metrics)
 

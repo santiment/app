@@ -6,7 +6,7 @@ import { Chart } from './ChartWidget'
 import { useChartColors } from '../../Chart/colors'
 import Sidepane, { CloseButton } from '../../Studio/Chart/Sidepane'
 import { TOP_HOLDERS_PANE } from '../../Studio/Chart/Sidepane/panes'
-import { TOP_HOLDER_METRICS } from '../../Studio/Chart/Sidepane/TopHolders/metrics'
+import { TOP_HOLDER_METRICS } from '../../Studio/Chart/Sidepane/HolderDistribution/metrics'
 import styles from '../index.module.scss'
 
 const Title = ({ settings }) => (

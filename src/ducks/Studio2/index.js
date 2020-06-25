@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import Sidebar from '../Studio/Sidebar'
-import { Metric } from '../dataHub/metrics'
 import { newChartWidget } from './Widget/ChartWidget'
 import { newHolderDistributionWidget } from './Widget/HolderDistributionWidget'
 import SelectionOverview from './SelectionOverview'

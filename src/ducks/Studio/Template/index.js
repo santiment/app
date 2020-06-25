@@ -4,11 +4,7 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import TemplateButton from './Button'
-import {
-  buildTemplateMetrics,
-  getMultiChartsValue,
-  parseTemplateMetrics,
-} from './utils'
+import { buildTemplateMetrics, parseTemplateMetrics } from './utils'
 import { notifySave } from './notifications'
 import {
   useUserTemplates,

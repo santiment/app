@@ -14,7 +14,6 @@ import Loader from './Loader/Loader'
 import { plotAxes } from './axes'
 import { setupTooltip, plotTooltip } from './tooltip'
 import {
-  CHART_HEIGHT,
   BRUSH_HEIGHT,
   CHART_PADDING,
   BRUSH_PADDING,
