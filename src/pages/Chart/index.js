@@ -3,7 +3,7 @@ import Studio from '../../ducks/Studio'
 import withBoundaries from '../Studio/withBoundaries'
 import { parseUrlV2 } from '../../ducks/Studio/url/parse'
 import { DEFAULT_SETTINGS } from '../../ducks/Studio/defaults'
-import { newChartWidget } from '../../ducks/Studio2/Widget/ChartWidget'
+import { newChartWidget } from '../../ducks/Studio/Widget/ChartWidget'
 
 const DEFAULT_WIDGETS = [newChartWidget()]
 

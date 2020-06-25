@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react'
 import cx from 'classnames'
 import { initChart } from '@santiment-network/chart'
-import { useWidgetMessageEffect } from './widgetMessage'
-import { clearCtx } from '../Chart/utils'
+import { useWidgetMessageEffect } from '../widgetMessage'
+import { clearCtx } from '../../Chart/utils'
 import styles from './Overview.module.scss'
 
 const Phase = {

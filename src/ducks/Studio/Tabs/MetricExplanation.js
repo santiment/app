@@ -1,6 +1,6 @@
 import React from 'react'
-import Sidepanel from '../../Studio/Chart/Sidepanel'
-import styles from '../index.module.scss'
+import Sidepanel from '../Chart/Sidepanel'
+import styles from './Widgets.module.scss'
 
 const MetricColor = {}
 

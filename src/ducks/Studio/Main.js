@@ -2,37 +2,29 @@ import React from 'react'
 import cx from 'classnames'
 import { Switch, Route } from 'react-router-dom'
 import StudioTabs from './Tabs'
-import StudioTabsChart from './Tabs/Chart'
+import TabsWidgets from '../Studio/Tabs/Widgets'
 import StudioTabsKeyStats from './Tabs/KeyStats'
 import StudioInfo from '../SANCharts/Header'
-import styles from './index.module.scss'
-
-const isChartPath = () => window.location.pathname === '/studio'
+import styles from './Main.module.scss'
 
 const Main = ({
+  widgets,
   topSlot,
   bottomSlot,
-  onSlugChange,
-  onProjectChange,
+  settings,
+  setSettings,
+  setIsICOPriceDisabled,
   ...props
 }) => {
-  const {
-    settings,
-    options,
-    project,
-    setSettings,
-    setIsICOPriceDisabled,
-  } = props
+  const { slug } = settings
 
   function onProjectSelect(project) {
     if (!project) return
 
     const { slug, name, ticker, id: projectId } = project
     const title = `${name} (${ticker})`
-    setSettings((state) => ({ ...state, slug, title, projectId, ticker }))
+    setSettings({ ...settings, slug, title, projectId, ticker })
     setIsICOPriceDisabled(true)
-    onSlugChange(slug)
-    onProjectChange && onProjectChange(project)
   }
 
   return (
@@ -40,31 +32,24 @@ const Main = ({
       <div className={styles.header}>
         {topSlot}
         <StudioInfo
-          slug={settings.slug}
+          slug={slug}
           isLoading={false}
           isLoggedIn={false}
           onSlugSelect={onProjectSelect}
         />
       </div>
       <StudioTabs />
-      <div
-        className={cx(
-          styles.container,
-          styles.content,
-          !options.isMultiChartsActive &&
-            isChartPath() &&
-            styles.container_chart,
-        )}
-      >
+      <div className={cx(styles.container, styles.content)}>
         <Switch>
           <Route path='/studio/stats'>
-            <StudioTabsKeyStats {...props} {...settings} />
+            <StudioTabsKeyStats slug={slug} />
           </Route>
           <Route path='/studio'>
-            <StudioTabsChart
+            <TabsWidgets
               {...props}
-              project={project}
-              onProjectSelect={onProjectSelect}
+              settings={settings}
+              widgets={widgets}
+              setIsICOPriceDisabled={setIsICOPriceDisabled}
             />
           </Route>
         </Switch>

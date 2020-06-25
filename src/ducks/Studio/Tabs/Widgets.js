@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react'
-import StudioHeader from '../../Studio/Header'
-import Sidepanel from '../../Studio/Chart/Sidepanel'
-import { SPENT_COIN_COST } from '../../Studio/Chart/Sidepanel/panes'
+import StudioHeader from '../Header'
+import Sidepanel from '../Chart/Sidepanel'
+import { SPENT_COIN_COST } from '../Chart/Sidepanel/panes'
 import { ONE_HOUR_IN_MS } from '../../../utils/dates'
-import styles from '../index.module.scss'
+import styles from './Widgets.module.scss'
 
 const Chart = ({
   settings,
@@ -66,6 +66,7 @@ const Chart = ({
         widgets={widgets}
         sidepanel={sidepanel}
         setWidgets={setWidgets}
+        changeTimePeriod={changeTimePeriod}
         toggleSidepanel={toggleSidepanel}
         onProjectSelect={onProjectSelect}
       />

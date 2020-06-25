@@ -1,8 +1,5 @@
 import { parse } from 'query-string'
-import {
-  newChartWidget,
-  newHolderDistributionWidget,
-} from '../../Studio2/Widget/creators'
+import { newChartWidget, newHolderDistributionWidget } from '../Widget/creators'
 import { buildCompareKey } from '../Compare/utils'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS } from '../defaults'
 import { Metric } from '../../dataHub/metrics'

@@ -1,7 +1,7 @@
 import React from 'react'
 import Overview from './Overview'
 import Button from '@santiment-network/ui/Button'
-import ActiveMetrics from '../Studio/Chart/ActiveMetrics'
+import ActiveMetrics from '../Chart/ActiveMetrics'
 import styles from './SelectionOverview.module.scss'
 
 const SelectionOverview = ({

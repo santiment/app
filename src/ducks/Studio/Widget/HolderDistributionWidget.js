@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Widget from './Widget'
-import { newWidget } from './utils'
 import { Chart } from './ChartWidget'
+import { newWidget } from './utils'
 import { useChartColors } from '../../Chart/colors'
-import Sidepanel, { CloseButton } from '../../Studio/Chart/Sidepanel'
-import { TOP_HOLDERS_PANE } from '../../Studio/Chart/Sidepanel/panes'
-import { TOP_HOLDER_METRICS } from '../../Studio/Chart/Sidepanel/HolderDistribution/metrics'
-import styles from '../index.module.scss'
+import Sidepanel, { CloseButton } from '../Chart/Sidepanel'
+import { TOP_HOLDERS_PANE } from '../Chart/Sidepanel/panes'
+import { TOP_HOLDER_METRICS } from '../Chart/Sidepanel/HolderDistribution/metrics'
+import styles from './HolderDistributionWidget.module.scss'
 
 const Title = ({ settings }) => (
   <div className={styles.title}>{settings.ticker} Holder Distribution</div>

@@ -1,64 +1,19 @@
-@import './variables';
+@import '~@santiment-network/ui/variables';
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
-  margin-left: $sidebar-width;
-
-  &_wide {
-    margin: 0;
-
-    --side-padding: 40px;
-  }
-}
-
-.container {
-  padding: 44px 25px;
-
-  &_chart {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-}
-
-.header {
-  padding: 32px var(--side-padding, 25px);
-}
-
-.content {
-  background: var(--athens);
-  padding: var(--side-padding, 25px);
-}
-
-.canvas {
-  background: var(--white);
-  border: 1px solid var(--porcelain);
-  box-shadow: 0 2px 8px rgba(59, 84, 106, 0.03),
-    0 1px 2px rgba(59, 84, 106, 0.03);
-  border-radius: 4px;
-  padding: 20px;
-}
-
-.data {
   display: flex;
-  flex: 1;
-
-  &_multicharts {
-    display: block;
-  }
+  position: relative;
 }
 
-.advanced {
-  flex: initial;
-  margin-left: 16px;
-  width: 390px;
-  padding: 0;
-  position: sticky;
-  top: 16px;
-  max-height: calc(100vh - 32px);
-  min-height: 495px;
+.main {
+  position: relative;
+  min-height: 100vh;
+  flex: 1;
 }
 
-.chart {
-  flex: 1;
+.tab {
+  background: var(--athens);
+  padding: 25px;
+  min-height: 100vh;
 }

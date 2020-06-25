@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import Sidebar from './Sidebar'
-import { newChartWidget } from '../Studio2/Widget/ChartWidget'
-import { newHolderDistributionWidget } from '../Studio2/Widget/HolderDistributionWidget'
-import SelectionOverview from '../Studio2/SelectionOverview'
-import Main from '../Studio2/Main'
-import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
-import styles from '../Studio2/index.module.scss'
-import { DEFAULT_SETTINGS } from '../Studio/defaults'
-import { saveToggle } from '../../utils/localStorage'
+import Main from './Main'
 import { mergeMetricSettingMap } from './utils'
+import { DEFAULT_SETTINGS } from './defaults'
+import { newChartWidget } from './Widget/ChartWidget'
+import { newHolderDistributionWidget } from './Widget/HolderDistributionWidget'
+import SelectionOverview from './Overview/SelectionOverview'
+import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
+import { saveToggle } from '../../utils/localStorage'
+import styles from './index.module.scss'
 
 export const Studio = ({
   defaultWidgets,

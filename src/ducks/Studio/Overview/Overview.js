@@ -1,10 +1,8 @@
 import cx from 'classnames'
-
 import React, { useEffect } from 'react'
-import { useKeyDown } from './hooks'
-import { SvgNew } from '../../components/Watchlists/NewWatchlistCard'
 import ChartPreview from './ChartPreview'
-/* import styles from './index.module.scss' */
+import { useKeyDown } from '../hooks'
+import { SvgNew } from '../../../components/Watchlists/NewWatchlistCard'
 import styles from './Overview.module.scss'
 
 const Overview = ({
