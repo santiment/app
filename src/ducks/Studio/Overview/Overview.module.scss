@@ -24,7 +24,6 @@ $preview-height: 250px;
 
 .grid {
   display: grid;
-  // grid-template-columns: repeat(auto-fit, 350px);
   grid-template-columns: repeat(auto-fit, $preview-width);
   grid-auto-flow: row dense;
   justify-content: center;

@@ -1,6 +1,6 @@
 import React from 'react'
-import Overview from './Overview'
 import Button from '@santiment-network/ui/Button'
+import Overview from './Overview'
 import ActiveMetrics from '../Chart/ActiveMetrics'
 import styles from './SelectionOverview.module.scss'
 
@@ -10,7 +10,7 @@ const SelectionOverview = ({
   toggleMetric,
   onClose,
   onWidgetClick,
-  onNewChartClick
+  onNewChartClick,
 }) => {
   return (
     <Overview
@@ -38,7 +38,6 @@ const SelectionOverview = ({
           variant='fill'
           accent='negative'
           className={styles.clear}
-          // onClick={onClearClick}
           onClick={onClose}
         >
           Clear

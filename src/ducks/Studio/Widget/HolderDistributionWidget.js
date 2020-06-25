@@ -3,10 +3,10 @@ import cx from 'classnames'
 import Widget from './Widget'
 import { Chart } from './ChartWidget'
 import { newWidget } from './utils'
-import { useChartColors } from '../../Chart/colors'
 import Sidepanel, { CloseButton } from '../Chart/Sidepanel'
 import { TOP_HOLDERS_PANE } from '../Chart/Sidepanel/panes'
 import { TOP_HOLDER_METRICS } from '../Chart/Sidepanel/HolderDistribution/metrics'
+import { useChartColors } from '../../Chart/colors'
 import styles from './HolderDistributionWidget.module.scss'
 
 const Title = ({ settings }) => (
@@ -17,11 +17,11 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
   const [isOpened, setIsOpened] = useState(true)
   const MetricColor = useChartColors(widget.metrics)
 
-  function toggleWidgetMetric (metric) {
+  function toggleWidgetMetric(metric) {
     props.toggleWidgetMetric(widget, metric)
   }
 
-  function toggleSidepane () {
+  function toggleSidepane() {
     setIsOpened(!isOpened)
   }
 
@@ -43,12 +43,12 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
   )
 }
 
-export const newHolderDistributionWidget = props =>
+export const newHolderDistributionWidget = (props) =>
   newWidget(HolderDistributionWidget, {
     metrics: TOP_HOLDER_METRICS,
     comparables: [],
     MetricSettingMap: new Map(),
-    ...props
+    ...props,
   })
 
 export default HolderDistributionWidget

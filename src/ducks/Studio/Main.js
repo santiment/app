@@ -2,8 +2,8 @@ import React from 'react'
 import cx from 'classnames'
 import { Switch, Route } from 'react-router-dom'
 import StudioTabs from './Tabs'
-import TabsWidgets from '../Studio/Tabs/Widgets'
 import StudioTabsKeyStats from './Tabs/KeyStats'
+import TabsWidgets from './Tabs/Widgets'
 import StudioInfo from '../SANCharts/Header'
 import styles from './Main.module.scss'
 
@@ -18,7 +18,7 @@ const Main = ({
 }) => {
   const { slug } = settings
 
-  function onProjectSelect (project) {
+  function onProjectSelect(project) {
     if (!project) return
 
     const { slug, name, ticker, id: projectId } = project

@@ -8,14 +8,15 @@ import { newChartWidget } from '../../ducks/Studio/Widget/ChartWidget'
 const DEFAULT_WIDGETS = [newChartWidget()]
 
 export default withBoundaries(({ parsedUrl, ...props }) => {
-  const { widgets, settings, sidepanel } = parsedUrl || parseUrlV2()
+  const { widgets, settings, sidepanel } =
+    parsedUrl || parseUrlV2(window.location.search)
 
   return (
     <Studio
       {...props}
       defaultSettings={{
         ...DEFAULT_SETTINGS,
-        ...settings
+        ...settings,
       }}
       defaultWidgets={widgets && widgets.length > 0 ? widgets : DEFAULT_WIDGETS}
       defaultSidepanel={sidepanel}
