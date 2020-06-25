@@ -1,7 +1,7 @@
 import React from 'react'
 import { SearchWithSuggestions } from '@santiment-network/ui/Search'
 
-const predicate = (searchTerm) => {
+const predicate = searchTerm => {
   const upperCaseSearchTerm = searchTerm.toUpperCase()
   return ({ item: { label, abbreviation } }) => {
     return (
@@ -14,7 +14,7 @@ const predicate = (searchTerm) => {
 
 const suggestionContent = ({ item: { label } }) => label
 
-export const getMetricSuggestions = (categories) => {
+export const getMetricSuggestions = categories => {
   const suggestions = []
   for (const categoryKey in categories) {
     const category = categories[categoryKey]
@@ -26,7 +26,7 @@ export const getMetricSuggestions = (categories) => {
       suggestionContent,
       items,
       predicate,
-      title: categoryKey,
+      title: categoryKey
     })
   }
   return suggestions

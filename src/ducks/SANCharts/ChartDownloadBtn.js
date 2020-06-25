@@ -5,7 +5,7 @@ import { dayTicksPaintConfig } from '../Chart/paintConfigs'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import { mirage } from '@santiment-network/ui/variables.scss'
 
-function setStyle(target, styles) {
+function setStyle (target, styles) {
   target.setAttribute('style', styles)
 }
 
@@ -19,18 +19,18 @@ const LEGEND_RECT_ALIGN_CORRECTION = LEGEND_RECT_SIZE / 5
 const TEXT_RIGHT_MARGIN = 20
 const TEXT_FONT = '12px Proxima Nova'
 
-function drawAndMeasureText(pngCtx, text, x, y) {
+function drawAndMeasureText (pngCtx, text, x, y) {
   pngCtx.fillText(text, x, y)
   return pngCtx.measureText(text).width
 }
 
-function downloadChart({ current: chart }, metrics, title) {
+function downloadChart ({ current: chart }, metrics, title) {
   const {
     canvas,
     ticksPaintConfig,
     dpr,
     canvasWidth: width,
-    canvasHeight: height,
+    canvasHeight: height
   } = chart
 
   const div = document.createElement('div')
@@ -58,7 +58,7 @@ function downloadChart({ current: chart }, metrics, title) {
           LEGEND_RECT_SIZE +
           LEGEND_RECT_RIGHT_MARGIN +
           pngCtx.measureText(label).width,
-        0,
+        0
       ) +
       TEXT_RIGHT_MARGIN * (metrics.length - 1)
 
@@ -71,7 +71,7 @@ function downloadChart({ current: chart }, metrics, title) {
         textX,
         textY - LEGEND_RECT_SIZE - LEGEND_RECT_ALIGN_CORRECTION,
         LEGEND_RECT_SIZE,
-        LEGEND_RECT_SIZE,
+        LEGEND_RECT_SIZE
       )
       pngCtx.fillStyle = isDayMode ? mirage : 'white'
       textX += LEGEND_RECT_SIZE + LEGEND_RECT_RIGHT_MARGIN

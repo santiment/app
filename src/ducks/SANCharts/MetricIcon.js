@@ -12,13 +12,13 @@ export default ({ node, color = CASPER, ...rest }) => {
   const props =
     node === 'bar'
       ? {
-          type: 'chart-bars',
-          fill: color,
-        }
+        type: 'chart-bars',
+        fill: color
+      }
       : {
-          type: 'chart-line',
-          fill: color,
-          stroke: color,
-        }
+        type: 'chart-line',
+        fill: color,
+        stroke: color
+      }
   return <Icon {...rest} {...props} />
 }

@@ -5,7 +5,7 @@ import {
   TOP_HOLDERS_PANE,
   METRICS_EXPLANATION_PANE,
   SPENT_COIN_COST,
-  SOCIAL_CONTEXT,
+  SOCIAL_CONTEXT
 } from './panes'
 import HolderDistribution from './HolderDistribution'
 import MetricsExplanation from './MetricsExplanation'
@@ -17,7 +17,7 @@ const Components = {
   [TOP_HOLDERS_PANE]: HolderDistribution,
   [METRICS_EXPLANATION_PANE]: MetricsExplanation,
   [SPENT_COIN_COST]: PriceHistogram,
-  [SOCIAL_CONTEXT]: SocialContext,
+  [SOCIAL_CONTEXT]: SocialContext
 }
 
 export const CloseButton = ({ className, ...props }) => (

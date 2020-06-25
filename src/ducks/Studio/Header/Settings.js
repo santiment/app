@@ -12,7 +12,7 @@ import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
 
 const ShareButton = withRouter(() => (
   <ShareModalTrigger
-    trigger={(props) => (
+    trigger={props => (
       <Button {...props} className={styles.share}>
         <Icon type='share' />
       </Button>
@@ -27,16 +27,16 @@ export default ({
   sidepanel,
   className,
   changeTimePeriod,
-  toggleSidepanel,
+  toggleSidepanel
 }) => {
   const { timeRange, from, to } = settings
 
-  function onTimerangeChange(timeRange) {
+  function onTimerangeChange (timeRange) {
     const { from, to } = getIntervalByTimeRange(timeRange)
     changeTimePeriod(from, to, timeRange)
   }
 
-  function onCalendarChange([from, to]) {
+  function onCalendarChange ([from, to]) {
     changeTimePeriod(from, to)
   }
 
@@ -49,7 +49,7 @@ export default ({
         <MetricsExplanation.Button
           onClick={() => toggleSidepanel(METRICS_EXPLANATION_PANE)}
           className={cx(
-            sidepanel === METRICS_EXPLANATION_PANE && styles.explain_active,
+            sidepanel === METRICS_EXPLANATION_PANE && styles.explain_active
           )}
         />
       )}

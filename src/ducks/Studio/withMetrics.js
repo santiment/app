@@ -47,7 +47,7 @@ export const DEFAULT_METRICS = [
   'percent_of_total_supply_on_exchanges',
   'velocity',
   'social_dominance_total',
-  'social_volume_total',
+  'social_volume_total'
 ]
 
 export default graphql(PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY, {
@@ -57,10 +57,10 @@ export default graphql(PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY, {
       project: {
         availableMetrics = DEFAULT_METRICS,
         availableQueries = [],
-        marketSegments = [],
-      } = {},
+        marketSegments = []
+      } = {}
     },
-    ownProps: { noMarketSegments, hiddenMetrics = [] },
+    ownProps: { noMarketSegments, hiddenMetrics = [] }
   }) => {
     const Submetrics = useMergedTimeboundSubmetrics(availableMetrics)
 
@@ -69,15 +69,15 @@ export default graphql(PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY, {
         .concat(availableMetrics)
         .concat(noMarketSegments ? [] : marketSegments.map(getMarketSegment)),
       hiddenMetrics,
-      Submetrics,
+      Submetrics
     )
 
     return {
       categories,
       Submetrics,
-      availableMetrics,
+      availableMetrics
     }
   },
   skip: ({ slug }) => !slug,
-  options: ({ slug }) => ({ variables: { slug } }),
+  options: ({ slug }) => ({ variables: { slug } })
 })

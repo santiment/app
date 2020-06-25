@@ -18,7 +18,7 @@ const Anomalies = ({ isAnomalyActive, toggleAnomaly }) => (
   />
 )
 
-const Header = (props) => {
+const Header = props => {
   return (
     <div className={styles.header}>
       <h2 className={styles.title}>Metrics</h2>
@@ -57,11 +57,11 @@ const Sidebar = ({ loading, children, ...rest }) => {
 
 export default withMetrics(
   ({ isSidebarClosed, setIsSidebarClosed, ...props }) => {
-    function openSidebar() {
+    function openSidebar () {
       setIsSidebarClosed(false)
     }
 
-    function closeSidebar() {
+    function closeSidebar () {
       setIsSidebarClosed(true)
     }
 
@@ -72,7 +72,7 @@ export default withMetrics(
         // TODO: ???? [@vanguard | Jun 19, 2020]
         rebuildDescriptions(Submetrics)
       },
-      [Submetrics],
+      [Submetrics]
     )
 
     return isSidebarClosed ? (
@@ -82,5 +82,5 @@ export default withMetrics(
         <CloseButton onClick={closeSidebar} />
       </Sidebar>
     )
-  },
+  }
 )

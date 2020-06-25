@@ -3,7 +3,7 @@ import Settings from './Settings'
 import Template from '../Template'
 import styles from './index.module.scss'
 
-export default (props) => {
+export default props => {
   return (
     <div className={styles.wrapper}>
       <Template {...props} {...props.settings} />

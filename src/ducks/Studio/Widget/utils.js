@@ -7,7 +7,7 @@ export const newWidget = (Widget, props) =>
     {
       Widget,
       id: newId(),
-      chartRef: { current: null },
+      chartRef: { current: null }
     },
-    props,
+    props
   )

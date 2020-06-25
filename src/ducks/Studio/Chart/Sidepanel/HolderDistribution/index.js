@@ -7,7 +7,7 @@ import MetricIcon from '../../../../SANCharts/MetricIcon'
 import styles from './index.module.scss'
 
 const TopHolders = ({ metrics, MetricColor, toggleMetric }) => {
-  return TOP_HOLDER_METRICS.map((metric) => {
+  return TOP_HOLDER_METRICS.map(metric => {
     const { key, label } = metric
     return (
       <Button

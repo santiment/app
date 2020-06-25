@@ -10,7 +10,7 @@ import {
   useUserTemplates,
   useUpdateTemplate,
   useSelectedTemplate,
-  useCreateTemplate,
+  useCreateTemplate
 } from './gql/hooks'
 import DialogFormNewTemplate from './Dialog/NewTemplate'
 import DialogFormRenameTemplate from './Dialog/RenameTemplate'
@@ -24,18 +24,18 @@ import { normalizeWidgets } from '../url/generate'
 import { newChartWidget } from '../Widget/creators'
 import styles from './index.module.scss'
 
-const Action = (props) => <Button {...props} fluid variant='ghost' />
+const Action = props => <Button {...props} fluid variant='ghost' />
 
 const isMac = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)
 
-function useEventListener(eventName, handler, element = window) {
+function useEventListener (eventName, handler, element = window) {
   const savedHandler = useRef()
 
   useEffect(
     () => {
       savedHandler.current = handler
     },
-    [handler],
+    [handler]
   )
 
   useEffect(
@@ -43,7 +43,7 @@ function useEventListener(eventName, handler, element = window) {
       const isSupported = element && element.addEventListener
       if (!isSupported) return
 
-      const eventListener = (event) => savedHandler.current(event)
+      const eventListener = event => savedHandler.current(event)
 
       element.addEventListener(eventName, eventListener)
 
@@ -51,12 +51,12 @@ function useEventListener(eventName, handler, element = window) {
         element.removeEventListener(eventName, eventListener)
       }
     },
-    [eventName, element],
+    [eventName, element]
   )
 }
 
-export const useCtrlSPress = (callback) => {
-  const listenHotkey = (e) => {
+export const useCtrlSPress = callback => {
+  const listenHotkey = e => {
     const { ctrlKey, metaKey, code } = e
 
     if ((metaKey || ctrlKey) && code === 'KeyS') {
@@ -82,7 +82,7 @@ const Template = ({
   const [updateTemplate] = useUpdateTemplate()
   const [createTemplate] = useCreateTemplate()
 
-  function selectTemplate(template) {
+  function selectTemplate (template) {
     setSelectedTemplate(template)
 
     if (!template) return
@@ -99,8 +99,8 @@ const Template = ({
       widgets = [
         newChartWidget({
           metrics,
-          comparables,
-        }),
+          comparables
+        })
       ]
     }
 
@@ -109,7 +109,7 @@ const Template = ({
 
   const [selectedTemplate, setSelectedTemplate, loading] = useSelectedTemplate(
     templates,
-    selectTemplate,
+    selectTemplate
   )
 
   useCtrlSPress(() => {
@@ -122,15 +122,15 @@ const Template = ({
 
   const hasTemplates = templates.length > 0
 
-  function openMenu() {
+  function openMenu () {
     setIsMenuOpened(true)
   }
 
-  function closeMenu() {
+  function closeMenu () {
     setIsMenuOpened(false)
   }
 
-  function rerenderTemplate(template) {
+  function rerenderTemplate (template) {
     if (selectedTemplate && selectedTemplate.id === template.id) {
       setSelectedTemplate(template)
     }
@@ -147,23 +147,23 @@ const Template = ({
     const comparables = widgets.map(({ comparables }) => comparables).flat()
 
     const options = {
-      widgets: normalizeWidgets(widgets),
+      widgets: normalizeWidgets(widgets)
     }
 
     const future = isCurrentUser
       ? updateTemplate(template, {
-          metrics,
-          comparables,
-          projectId,
-          options,
-        })
+        metrics,
+        comparables,
+        projectId,
+        options
+      })
       : createTemplate({
-          title,
-          description,
-          metrics: buildTemplateMetrics({ metrics, comparables }),
-          projectId: +projectId,
-          options,
-        })
+        title,
+        description,
+        metrics: buildTemplateMetrics({ metrics, comparables }),
+        projectId: +projectId,
+        options
+      })
 
     future
       .then(selectTemplate)
@@ -171,12 +171,12 @@ const Template = ({
       .then(notifySave)
   }
 
-  function onTemplateSelect(template) {
+  function onTemplateSelect (template) {
     selectTemplate(template)
     closeMenu()
   }
 
-  function onDelete() {
+  function onDelete () {
     closeMenu()
   }
 
@@ -263,7 +263,7 @@ const Template = ({
                 onClose={closeMenu}
                 trigger={<Action>Duplicate</Action>}
                 template={selectedTemplate}
-                onDuplicate={(template) => {
+                onDuplicate={template => {
                   closeMenu()
                   selectTemplate(template)
                 }}
@@ -291,8 +291,8 @@ const Template = ({
   )
 }
 
-const mapStateToProps = (state) => ({
-  currentUser: state.user.data,
+const mapStateToProps = state => ({
+  currentUser: state.user.data
 })
 
 export default connect(mapStateToProps)(Template)

@@ -5,15 +5,15 @@ export const CHART_PADDING = {
   top: 10,
   right: 45,
   bottom: 23,
-  left: 0,
+  left: 0
 }
 
 export const BRUSH_PADDING = {
-  bottom: 23 + BRUSH_HEIGHT + 10,
+  bottom: 23 + BRUSH_HEIGHT + 10
 }
 
 export const DOUBLE_AXIS_PADDING = {
-  left: 45,
+  left: 45
 }
 
 export const buildPadding = (...modifiers) =>

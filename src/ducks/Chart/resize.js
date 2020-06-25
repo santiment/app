@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { updateChartDimensions, updateSize } from '@santiment-network/chart'
 import {
   updateBrushDimensions,
-  updateBrushState,
+  updateBrushState
 } from '@santiment-network/chart/brush'
 import { BRUSH_HEIGHT } from './settings'
 
@@ -10,7 +10,7 @@ const iframeStyles = {
   position: 'absolute',
   width: '100%',
   height: '100%',
-  zIndex: -1,
+  zIndex: -1
 }
 
 export const ResizeListener = ({ onResize }) => {
@@ -33,12 +33,12 @@ export const ResizeListener = ({ onResize }) => {
   )
 }
 
-export function onResize(
+export function onResize (
   chart,
   chartPadding,
   brush,
   brushData,
-  joinedCategories,
+  joinedCategories
 ) {
   const parentWidth = chart.canvas.parentNode.offsetWidth
   const chartHeight = chart.canvas.parentNode.offsetHeight
@@ -50,7 +50,7 @@ export function onResize(
     chart.tooltip.ctx,
     chart.dpr,
     parentWidth,
-    chartHeight,
+    chartHeight
   )
 
   if (brush) {

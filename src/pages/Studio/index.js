@@ -11,7 +11,7 @@ import URLExtension from './URLExtension'
 
 const CRUMB = {
   label: 'Assets',
-  to: '/assets',
+  to: '/assets'
 }
 
 const TopSlot = compose(withProject)(({ slug, project, loading }) =>
@@ -22,14 +22,14 @@ const TopSlot = compose(withProject)(({ slug, project, loading }) =>
         meta={[
           {
             property: 'og:title',
-            content: `Project overview: ${project.name} - Sanbase`,
+            content: `Project overview: ${project.name} - Sanbase`
           },
           {
             property: 'og:description',
             content: `Financial, development, on-chain and social data for ${
               project.name
-            }.`,
-          },
+            }.`
+          }
         ]}
       />
       <Breadcrumbs
@@ -38,7 +38,7 @@ const TopSlot = compose(withProject)(({ slug, project, loading }) =>
       />
       <CtaJoinPopup />
     </>
-  ) : null,
+  ) : null
 )
 
 export default ({ history }) => {

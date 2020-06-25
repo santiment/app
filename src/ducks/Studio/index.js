@@ -14,14 +14,14 @@ export const Studio = ({
   defaultWidgets,
   defaultSidepanel,
   defaultSettings = DEFAULT_SETTINGS,
-  extensions,
+  extensions
 }) => {
   const [widgets, setWidgets] = useState(defaultWidgets)
   const [settings, setSettings] = useState(defaultSettings)
   const [sidepanel, setSidepanel] = useState(defaultSidepanel)
   const [selectedMetrics, setSelectedMetrics] = useState([])
   const [selectedMetricSettingsMap, setSelectedMetricSettingsMap] = useState(
-    new Map(),
+    new Map()
   )
   const [isICOPriceDisabled, setIsICOPriceDisabled] = useState(true)
   const [isICOPriceActive, setIsICOPriceActive] = useState(true)
@@ -35,22 +35,22 @@ export const Studio = ({
         setSettings({ ...settings, slug })
       }
     },
-    [defaultSettings.slug],
+    [defaultSettings.slug]
   )
 
-  function rerenderWidgets() {
+  function rerenderWidgets () {
     setWidgets(widgets.slice())
   }
 
-  function toggleSidepanel(key) {
+  function toggleSidepanel (key) {
     setSidepanel(sidepanel === key ? undefined : key)
   }
 
-  function deleteWidget(widget) {
-    setWidgets(widgets.filter((w) => w !== widget))
+  function deleteWidget (widget) {
+    setWidgets(widgets.filter(w => w !== widget))
   }
 
-  function toggleWidgetMetric(widget, metric) {
+  function toggleWidgetMetric (widget, metric) {
     const metrics = deduceMetrics(widget.metrics, metric)
 
     if (metrics.length === 0) {
@@ -61,15 +61,15 @@ export const Studio = ({
     }
   }
 
-  function toggleAnomaly() {
+  function toggleAnomaly () {
     setIsAnomalyActive(saveToggle('isAnomalyActive', !isAnomalyActive))
   }
 
-  function toggleSelectionMetric(metric) {
+  function toggleSelectionMetric (metric) {
     setSelectedMetrics(deduceMetrics(selectedMetrics, metric))
   }
 
-  function deduceMetrics(metrics, metric) {
+  function deduceMetrics (metrics, metric) {
     const newMetrics = new Set(metrics)
 
     if (newMetrics.has(metric)) {
@@ -81,19 +81,19 @@ export const Studio = ({
     return [...newMetrics]
   }
 
-  function changeTimePeriod(from, to, timeRange) {
+  function changeTimePeriod (from, to, timeRange) {
     const interval = getNewInterval(from, to)
 
-    setSettings((state) => ({
+    setSettings(state => ({
       ...state,
       timeRange,
       interval: INTERVAL_ALIAS[interval] || interval,
       from: from.toISOString(),
-      to: to.toISOString(),
+      to: to.toISOString()
     }))
   }
 
-  function onSidebarItemClick(item) {
+  function onSidebarItemClick (item) {
     const { type, key } = item
 
     if (type === 'sidepanel') {
@@ -105,8 +105,8 @@ export const Studio = ({
         setWidgets([
           ...widgets,
           newHolderDistributionWidget({
-            scrollIntoViewOnMount: true,
-          }),
+            scrollIntoViewOnMount: true
+          })
         ])
       }
     } else {
@@ -114,29 +114,29 @@ export const Studio = ({
     }
   }
 
-  function onWidgetClick(widget) {
+  function onWidgetClick (widget) {
     const newMetrics = new Set([...widget.metrics, ...selectedMetrics])
 
     widget.metrics = [...newMetrics]
     widget.MetricSettingMap = mergeMetricSettingMap(
       widget.MetricSettingMap,
-      selectedMetricSettingsMap,
+      selectedMetricSettingsMap
     )
 
     rerenderWidgets()
   }
 
-  function onNewChartClick() {
+  function onNewChartClick () {
     setWidgets([
       ...widgets,
       newChartWidget({
         metrics: selectedMetrics,
-        MetricSettingMap: selectedMetricSettingsMap,
-      }),
+        MetricSettingMap: selectedMetricSettingsMap
+      })
     ])
   }
 
-  function onOverviewClose() {
+  function onOverviewClose () {
     setSelectedMetrics([])
     setSelectedMetricSettingsMap(new Map())
   }
@@ -183,8 +183,8 @@ export const Studio = ({
           />
         ) : null}
       </main>
-      {React.Children.map(extensions, (extension) =>
-        React.cloneElement(extension, { widgets, settings, sidepanel }),
+      {React.Children.map(extensions, extension =>
+        React.cloneElement(extension, { widgets, settings, sidepanel })
       )}
     </div>
   )

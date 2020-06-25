@@ -1,6 +1,6 @@
 import { MirroredMetric } from '../dataHub/metrics/mirrored'
 
-export function extractMirrorMetricsDomainGroups(domainGroups) {
+export function extractMirrorMetricsDomainGroups (domainGroups) {
   if (!domainGroups) return
 
   const mirroredGroups = []
@@ -21,11 +21,11 @@ export function extractMirrorMetricsDomainGroups(domainGroups) {
   return mirroredGroups
 }
 
-export function mergeMetricSettingMap(oldMap, newMap) {
+export function mergeMetricSettingMap (oldMap, newMap) {
   const mergedMap = new Map()
 
   newMap.forEach((newSettings, metric) =>
-    mergedMap.set(metric, Object.assign({}, oldMap.get(metric), newSettings)),
+    mergedMap.set(metric, Object.assign({}, oldMap.get(metric), newSettings))
   )
 
   return mergedMap

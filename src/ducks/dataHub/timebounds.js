@@ -7,12 +7,12 @@ import { parseIntervalString } from '../../utils/dates'
 const AvailableTimeboundMetric = {
   [Metric.mvrv_usd.key]: true,
   [Metric.realized_value_usd.key]: true,
-  [Metric.circulation.key]: true,
+  [Metric.circulation.key]: true
 }
 
 const TimerangeCoeficient = {
   d: 1,
-  y: 365,
+  y: 365
 }
 
 const TimeboundMetricCache = new Map()
@@ -20,7 +20,7 @@ const TimeboundMetricCache = new Map()
 const EMPTY_OBJECT = Object.create(null)
 const EMPTY_ARRAY = []
 
-export const tryMapToTimeboundMetric = (key) => {
+export const tryMapToTimeboundMetric = key => {
   const metrics = getTimeboundMetrics({ metricKeys: [key] })
 
   if (metrics) {
@@ -54,13 +54,13 @@ export const getTimeboundMetrics = ({ metricKeys }) => {
           label,
           key: timeboundKey,
           replacements: {
-            timebound,
-          },
+            timebound
+          }
         }
 
         TooltipSetting[timeboundKey] = {
           label,
-          formatter: Metric[key].formatter,
+          formatter: Metric[key].formatter
         }
 
         TimeboundMetricCache.set(timeboundKey, timeboundMetric)
@@ -79,7 +79,7 @@ export const getTimeboundMetrics = ({ metricKeys }) => {
   return NewTimebounds
 }
 
-export function useTimebounds(metricKeys) {
+export function useTimebounds (metricKeys) {
   const [Timebounds, setTimebounds] = useState(EMPTY_OBJECT)
 
   useEffect(
@@ -87,13 +87,13 @@ export function useTimebounds(metricKeys) {
       const newTimebounds = getTimeboundMetrics({ metricKeys })
       setTimebounds(newTimebounds)
     },
-    [metricKeys],
+    [metricKeys]
   )
 
   return Timebounds
 }
 
-export function useMergedTimeboundSubmetrics(metricKeys) {
+export function useMergedTimeboundSubmetrics (metricKeys) {
   const [Merged, setMerged] = useState(EMPTY_OBJECT)
   const Timebounds = useTimebounds(metricKeys)
 
@@ -102,10 +102,10 @@ export function useMergedTimeboundSubmetrics(metricKeys) {
       const NewMerged = Object.create(null)
 
       const setOfKeys = new Set(
-        Object.keys(Timebounds).concat(Object.keys(Submetrics)),
+        Object.keys(Timebounds).concat(Object.keys(Submetrics))
       )
 
-      setOfKeys.forEach((key) => {
+      setOfKeys.forEach(key => {
         const timebounds = Timebounds[key] || EMPTY_ARRAY
         const submetrics = Submetrics[key] || EMPTY_ARRAY
 
@@ -114,27 +114,27 @@ export function useMergedTimeboundSubmetrics(metricKeys) {
 
       setMerged(NewMerged)
     },
-    [Timebounds],
+    [Timebounds]
   )
 
   return Merged
 }
 
-function getTimerange(timeboundKey) {
+function getTimerange (timeboundKey) {
   const timeRangeIndex = timeboundKey.lastIndexOf('_') + 1
   return timeboundKey.slice(timeRangeIndex)
 }
 
-function sortTimebounds(timebounds) {
+function sortTimebounds (timebounds) {
   return timebounds.sort(timeboundsSorter)
 }
 
-function timeboundsSorter({ key: aKey }, { key: bKey }) {
+function timeboundsSorter ({ key: aKey }, { key: bKey }) {
   const { amount: aAmount, format: aFormat } = parseIntervalString(
-    getTimerange(aKey),
+    getTimerange(aKey)
   )
   const { amount: bAmount, format: bFormat } = parseIntervalString(
-    getTimerange(bKey),
+    getTimerange(bKey)
   )
 
   return (

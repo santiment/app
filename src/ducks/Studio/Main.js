@@ -18,7 +18,7 @@ const Main = ({
 }) => {
   const { slug } = settings
 
-  function onProjectSelect(project) {
+  function onProjectSelect (project) {
     if (!project) return
 
     const { slug, name, ticker, id: projectId } = project

@@ -10,7 +10,7 @@ import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
 import styles from './index.module.scss'
 
-function useSocialTimeseries(activeMetrics, settings, MetricSettingMap) {
+function useSocialTimeseries (activeMetrics, settings, MetricSettingMap) {
   const [metrics, setMetrics] = useState([])
 
   useEffect(
@@ -20,7 +20,7 @@ function useSocialTimeseries(activeMetrics, settings, MetricSettingMap) {
         setMetrics(activeMetrics)
       }
     },
-    [activeMetrics],
+    [activeMetrics]
   )
 
   return useTimeseries(metrics, settings, MetricSettingMap)
@@ -50,7 +50,7 @@ const SocialTool = ({
   const [data, loadings] = useSocialTimeseries(
     activeMetrics,
     settings,
-    MetricSettingMap,
+    MetricSettingMap
   )
   const allTimeData = useAllTimeData(activeMetrics, settings, MetricSettingMap)
   const [shareLink, setShareLink] = useState('')
@@ -67,7 +67,7 @@ const SocialTool = ({
         return
       }
 
-      setSettings((state) => ({ ...state, slug, addedTopics }))
+      setSettings(state => ({ ...state, slug, addedTopics }))
 
       const topics = [slug, ...addedTopics]
       const newMetrics =
@@ -76,14 +76,14 @@ const SocialTool = ({
       setActiveMetrics(newMetrics)
       rebuildMetricSettingMap(newMetrics)
     },
-    [defaultSettings.slug, defaultSettings.addedTopics],
+    [defaultSettings.slug, defaultSettings.addedTopics]
   )
 
   useEffect(
     () => {
       rebuildMetricSettingMap(activeMetrics)
     },
-    [linkedAssets],
+    [linkedAssets]
   )
 
   useEffect(
@@ -96,7 +96,7 @@ const SocialTool = ({
       setActiveMetrics(newMetrics)
       rebuildMetricSettingMap(newMetrics)
     },
-    [metrics],
+    [metrics]
   )
 
   useEffect(
@@ -105,13 +105,13 @@ const SocialTool = ({
         const newPriceMetric = {
           ...Metric.price_usd,
           label: priceAsset.label,
-          reqMeta: { slug: priceAsset.slug },
+          reqMeta: { slug: priceAsset.slug }
         }
         metrics[1] = newPriceMetric
         setMetrics([...metrics])
       }
     },
-    [priceAsset],
+    [priceAsset]
   )
 
   useEffect(
@@ -129,7 +129,7 @@ const SocialTool = ({
         setMetrics([...metricSet])
       }
     },
-    [options.isSocialDominanceActive],
+    [options.isSocialDominanceActive]
   )
 
   useEffect(
@@ -140,21 +140,21 @@ const SocialTool = ({
       setShareLink(origin + pathname + queryString)
       updateHistory(queryString)
     },
-    [settings, options],
+    [settings, options]
   )
 
-  function rebuildMetricSettingMap(metrics) {
+  function rebuildMetricSettingMap (metrics) {
     const newMetricSettingMap = new Map(MetricSettingMap)
-    metrics.forEach((metric) => {
+    metrics.forEach(metric => {
       const detectedAsset = linkedAssets.get(
-        metric.text || defaultSettings.slug,
+        metric.text || defaultSettings.slug
       )
       if (metric.key !== Metric.price_usd.key) {
         newMetricSettingMap.set(metric, {
           selector: detectedAsset ? 'slug' : 'text',
           slug: detectedAsset
             ? detectedAsset.slug
-            : metric.text || defaultSettings.slug,
+            : metric.text || defaultSettings.slug
         })
       }
     })
@@ -162,17 +162,17 @@ const SocialTool = ({
     setMetricSettingMap(newMetricSettingMap)
   }
 
-  function changeTimePeriod(from, to, timeRange) {
+  function changeTimePeriod (from, to, timeRange) {
     const interval = getNewInterval(from, to)
 
     to.setUTCHours(0, 0, 0, 0)
 
-    setSettings((state) => ({
+    setSettings(state => ({
       ...state,
       timeRange,
       interval: INTERVAL_ALIAS[interval] || interval,
       from: from.toISOString(),
-      to: to.toISOString(),
+      to: to.toISOString()
     }))
   }
 

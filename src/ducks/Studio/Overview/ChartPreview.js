@@ -8,7 +8,7 @@ import styles from './Overview.module.scss'
 const Phase = {
   IDLE: 'idle',
   LOADING: 'loading',
-  LOADED: 'loaded',
+  LOADED: 'loaded'
 }
 
 const hasEverySelectedMetric = (metrics, selectedMetrics) =>
@@ -41,7 +41,7 @@ const ChartPreview = ({ widget, selectedMetrics, onClick }) => {
         setPhase(Phase.IDLE)
       }
     },
-    [selectedMetrics],
+    [selectedMetrics]
   )
 
   useEffect(
@@ -57,7 +57,7 @@ const ChartPreview = ({ widget, selectedMetrics, onClick }) => {
                 setPhaseStyles(cx(styles.loading, styles.success))
                 timer = setTimeout(
                   () => newPhase(Phase.LOADED, Phase.IDLE),
-                  900,
+                  900
                 )
               }
               break
@@ -71,20 +71,20 @@ const ChartPreview = ({ widget, selectedMetrics, onClick }) => {
 
       return () => clearTimeout(timer)
     },
-    [phase, previousPhase],
+    [phase, previousPhase]
   )
 
-  useWidgetMessageEffect(widget, (phase) => {
+  useWidgetMessageEffect(widget, phase => {
     newPhase(phase)
     drawChart()
   })
 
-  function newPhase(value, prevPhase = phase) {
+  function newPhase (value, prevPhase = phase) {
     setPreviousPhase(prevPhase)
     setPhase(value)
   }
 
-  function drawChart() {
+  function drawChart () {
     const { current: widgetChart } = widget.chartRef
     if (!widgetChart || !chart) return
 
@@ -94,7 +94,7 @@ const ChartPreview = ({ widget, selectedMetrics, onClick }) => {
       0,
       0,
       chart.canvasWidth,
-      chart.canvasHeight + 25,
+      chart.canvasHeight + 25
     )
   }
 

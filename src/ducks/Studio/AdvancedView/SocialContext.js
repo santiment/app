@@ -9,7 +9,7 @@ import { INTERVAL_ALIAS } from '../../SANCharts/IntervalSelector'
 import { parseIntervalString, ONE_MONTH_IN_MS } from '../../../utils/dates'
 import styles from './SocialContext.module.scss'
 
-function getTimePeriod(date, interval) {
+function getTimePeriod (date, interval) {
   const { amount, format } = parseIntervalString(interval)
   const from = new Date(date)
   const to = new Date(date)
@@ -22,7 +22,7 @@ function getTimePeriod(date, interval) {
 
   return {
     from: from.toISOString(),
-    to: to.toISOString(),
+    to: to.toISOString()
   }
 }
 
@@ -42,15 +42,15 @@ const SocialContext = ({ interval, date, slug }) => {
       setContextPeriod(period)
       setTrendPeriod(period)
     },
-    [date, interval],
+    [date, interval]
   )
 
-  function onTrendCalendarChange(datetime) {
+  function onTrendCalendarChange (datetime) {
     setTrendDate([datetime])
     setTrendPeriod(getTimePeriod(datetime, constrainedInterval))
   }
 
-  function onContextCalendarChange(datetime) {
+  function onContextCalendarChange (datetime) {
     setContextDate([datetime])
     setContextPeriod(getTimePeriod(datetime, constrainedInterval))
   }
@@ -102,7 +102,7 @@ SocialContext.Icon = <Icon type='cloud-small' />
 SocialContext.defaultProps = {
   date: new Date(Date.now() - ONE_MONTH_IN_MS * 3),
   interval: '1d',
-  slug: 'bitcoin',
+  slug: 'bitcoin'
 }
 
 export default SocialContext

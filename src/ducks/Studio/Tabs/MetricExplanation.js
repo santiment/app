@@ -11,7 +11,7 @@ const MetricExplanation = ({ widgets, toggleMetricExplanationVisibility }) => {
       chartSidepane='METRICS_EXPLANATION_PANE'
       metrics={widgets.reduce((acc, widget) => [...acc, ...widget.metrics], [])}
       MetricColor={MetricColor}
-      //setMetrics={() => {}}
+      // setMetrics={() => {}}
       toggleChartSidepane={toggleMetricExplanationVisibility}
     />
   )

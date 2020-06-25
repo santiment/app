@@ -24,19 +24,19 @@ const IcoPrice = ({
   slug,
   className,
   isICOPriceActive,
-  onResult,
+  onResult
 }) => {
   const [{ top, price, isOnChart }, setValue] = useState(DEFAULT_VALUE)
   const { data, loading } = useQuery(PROJECT_ICO_PRICE_QUERY, {
     variables: {
-      slug,
-    },
+      slug
+    }
   })
 
   const {
     height,
     minMaxes,
-    padding: { left, right },
+    padding: { left, right }
   } = chart
   const priceMinMax = minMaxes && minMaxes.price_usd
 
@@ -60,11 +60,11 @@ const IcoPrice = ({
       setValue({
         isOnChart,
         top: isOnChart ? scale(chart, min, max)(icoPrice) : 0,
-        price: formatter(icoPrice),
+        price: formatter(icoPrice)
       })
       onResult(icoPrice)
     },
-    [data, priceMinMax, height],
+    [data, priceMinMax, height]
   )
 
   return isICOPriceActive && !loading && price ? (
@@ -81,7 +81,7 @@ const IcoPrice = ({
 }
 
 IcoPrice.defaultProps = {
-  onResult: () => {},
+  onResult: () => {}
 }
 
 export default IcoPrice

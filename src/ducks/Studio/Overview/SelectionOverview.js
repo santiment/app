@@ -10,7 +10,7 @@ const SelectionOverview = ({
   toggleMetric,
   onClose,
   onWidgetClick,
-  onNewChartClick,
+  onNewChartClick
 }) => {
   return (
     <Overview
@@ -38,7 +38,7 @@ const SelectionOverview = ({
           variant='fill'
           accent='negative'
           className={styles.clear}
-          //onClick={onClearClick}
+          // onClick={onClearClick}
           onClick={onClose}
         >
           Clear
