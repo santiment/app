@@ -1,7 +1,8 @@
 import React from 'react'
 import WatchlistCard from './WatchlistCard'
 import GetFeaturedWatchlists from './../../ducks/Watchlists/GetFeaturedWatchlists'
-import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
+import { getWatchlistLink } from '../../ducks/Watchlists/watchlistUtils'
+import { sortById } from '../../utils/sortMethods'
 
 export const getSharedWatchlistLink = watchlist =>
   getWatchlistLink(watchlist) + '#shared'
@@ -13,7 +14,7 @@ const FeaturedWatchlists = () => (
         return null
       }
 
-      return watchlists.map(watchlist => {
+      return watchlists.sort(sortById).map(watchlist => {
         return (
           <WatchlistCard
             key={watchlist.id}

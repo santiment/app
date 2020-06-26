@@ -96,12 +96,11 @@ export const SidecarItems = ({
         className={cx(styles.back, classes.sidecarBackBtn)}
         onClick={() => setOpenedList()}
       >
-        <Icon type='arrow-left' /> Back
+        <Icon type='arrow-left' className={styles.backIcon} /> Back
       </h2>
       <AssetsList
         items={openedList.listItems.map(({ project }) => project)}
         renderer={assetsRenderer}
-        rowHeight={50}
       />
       {showFooter && <Footer classes={styles} />}
     </div>

@@ -14,7 +14,7 @@ const PayWithCrypto = () => (
           as='a'
           rel='noopener noreferrer'
           target='_blank'
-          href='https://academy.santiment.net/san-tokens/how-to-pay-with-crypto/'
+          href='https://academy.santiment.net/products-and-plans/how-to-pay-with-crypto/'
         >
           Learn more
         </Button>
