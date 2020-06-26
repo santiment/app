@@ -87,6 +87,8 @@ export default ({
   const [errorsForMetrics, setErrorsForMetrics] = useState()
 
   useEffect(() => {
+    let mounted = true
+
     fetch(API_TEST_URL)
       .then(response => {
         if (!response.ok) {
@@ -94,9 +96,11 @@ export default ({
         }
         return response.json()
       })
-      .then(data => {
-        setErrorsForMetrics(data)
-      })
+      .then(data => mounted && setErrorsForMetrics(data))
+
+    return () => {
+      mounted = false
+    }
   }, [])
 
   const errors =

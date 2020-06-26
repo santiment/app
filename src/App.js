@@ -469,8 +469,8 @@ const mapStateToProps = ({ user, rootUi }, { location: { pathname } }) => ({
   isOffline: !rootUi.isOnline,
   isBetaModeEnabled: rootUi.isBetaModeEnabled,
   showFooter:
-    !pathname.includes(PATHS.STUDIO) ||
-    !isPathnameInPages(pathname, FOOTER_DISABLED_FOR)
+    !isPathnameInPages(pathname, FOOTER_DISABLED_FOR) &&
+    !pathname.includes(PATHS.STUDIO)
 })
 
 const enhance = compose(
