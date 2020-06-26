@@ -10,8 +10,6 @@ const TokenDistributionCard = ({ isPro }) => {
     target: isPro ? '_blank' : '_self'
   }
 
-  console.log(window.location.href + pdfFile)
-
   return (
     <div className={styles.card}>
       <div className={styles.info}>
