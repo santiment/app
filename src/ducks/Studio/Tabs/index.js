@@ -1,30 +1,37 @@
 import React from 'react'
-import cx from 'classnames'
-import { Link, withRouter } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
 import styles from './index.module.scss'
 
-const tabs = [
+const TABS = [
   {
-    index: '/studio',
+    path: '/studio',
     label: 'Studio'
   },
   {
-    index: '/studio/stats',
+    path: '/studio/stats',
     label: 'Key Stats'
   }
 ]
 
+const PATHS = TABS.map(({ path }) => path).reverse()
+
+const getPathRoot = path => root => path.includes(root)
+const getSubpath = path => path.replace(PATHS.find(getPathRoot(path)), '')
+
 const Tabs = ({ location: { pathname, search } }) => {
+  const subpath = getSubpath(pathname)
   return (
     <div className={styles.tabs}>
-      {tabs.map(({ index, label }) => (
-        <Link
-          key={index}
-          to={{ pathname: index, search }}
-          className={cx(styles.tab, pathname === index && styles.active)}
+      {TABS.map(({ path, label }) => (
+        <NavLink
+          exact
+          key={path}
+          to={{ pathname: path + subpath, search }}
+          className={styles.tab}
+          activeClassName={styles.active}
         >
           {label}
-        </Link>
+        </NavLink>
       ))}
     </div>
   )

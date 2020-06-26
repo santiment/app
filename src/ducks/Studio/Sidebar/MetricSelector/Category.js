@@ -11,7 +11,7 @@ const Category = ({
   groups,
   hasTopHolders,
   isBeta,
-  project = {},
+  project,
   ...rest
 }) => {
   const [hidden, setHidden] = useState(false)

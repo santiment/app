@@ -94,6 +94,7 @@ const Chart = ({
         {sidepanel && (
           <Sidepanel
             className={styles.side}
+            project={settings}
             chartSidepane={sidepanel}
             metrics={allMetrics}
             toggleChartSidepane={toggleSidepanel}

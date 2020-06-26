@@ -145,6 +145,7 @@ export const Studio = ({
     <div className={styles.wrapper}>
       <Sidebar
         slug={settings.slug}
+        project={settings}
         activeMetrics={selectedMetrics}
         isSidebarClosed={isSidebarClosed}
         isAnomalyActive={isAnomalyActive}

@@ -9,6 +9,8 @@ import MetricInsights from '../../../../../components/MetricInsight/MetricInsigh
 import MetricIcon from '../../../../SANCharts/MetricIcon'
 import { Description } from '../../../../dataHub/metrics/descriptions'
 import { Insights } from '../../../../dataHub/metrics/insights'
+import Frequences from '../../../../dataHub/metrics/frequences'
+import MetricFrequence from '../../../../SANCharts/MetricFrequence/MetricFrequence'
 import MetricDescription from '../../../../SANCharts/MetricDescription/MetricDescription'
 import styles from './index.module.scss'
 
@@ -21,7 +23,8 @@ const dropdownClasses = {
 
 export function filterExplainableMetrics (metrics) {
   return metrics.filter(
-    ({ key }) => Description[key] || Insights[key] || Explanation[key]
+    ({ key }) =>
+      Description[key] || Insights[key] || Explanation[key] || Frequences[key]
   )
 }
 
@@ -85,7 +88,7 @@ const MetricsExplanation = ({
         classes={dropdownClasses}
         onSelect={setSelected}
       />
-      <DataInfo {...rest} metric={metric} />
+      <DataInfo {...rest} metric={metric} slug={project.slug} />
       {description && (
         <>
           <div className={styles.subtitle}>Description</div>
@@ -94,6 +97,7 @@ const MetricsExplanation = ({
           </div>
         </>
       )}
+      <MetricFrequence metric={metric} />
       <Explanations {...rest} metric={metric} />
       <MetricInsights insights={Insights[key]} />
     </>
