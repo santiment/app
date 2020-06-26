@@ -40,8 +40,13 @@ class FeedListLoading extends React.Component {
 
     const { sortType, filters } = this.props
 
+    // [GarageInc]: less by 1 second, because API returns old event for that date
+    const newDate = new Date(
+      new Date(events[events.length - 1].insertedAt).getTime() - 1000
+    )
+
     const variables = makeFeedVariables({
-      date: events[events.length - 1].insertedAt,
+      date: newDate,
       orderBy: sortType.type,
       filterBy: filters
     })
