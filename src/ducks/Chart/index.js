@@ -79,7 +79,6 @@ const Chart = ({
       initChart(
         canvas,
         width,
-        /* chartHeight, */
         height,
         buildPadding(
           chartPadding,

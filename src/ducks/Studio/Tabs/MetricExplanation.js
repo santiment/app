@@ -4,17 +4,14 @@ import styles from './Widgets.module.scss'
 
 const MetricColor = {}
 
-const MetricExplanation = ({ widgets, toggleMetricExplanationVisibility }) => {
-  return (
-    <Sidepanel
-      className={styles.side}
-      chartSidepane='METRICS_EXPLANATION_PANE'
-      metrics={widgets.reduce((acc, widget) => [...acc, ...widget.metrics], [])}
-      MetricColor={MetricColor}
-      // setMetrics={() => {}}
-      toggleChartSidepane={toggleMetricExplanationVisibility}
-    />
-  )
-}
+const MetricExplanation = ({ widgets, toggleMetricExplanationVisibility }) => (
+  <Sidepanel
+    className={styles.side}
+    chartSidepane='METRICS_EXPLANATION_PANE'
+    metrics={widgets.reduce((acc, widget) => [...acc, ...widget.metrics], [])}
+    MetricColor={MetricColor}
+    toggleChartSidepane={toggleMetricExplanationVisibility}
+  />
+)
 
 export default MetricExplanation

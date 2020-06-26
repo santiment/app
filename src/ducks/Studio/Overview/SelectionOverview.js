@@ -4,6 +4,9 @@ import Overview from './Overview'
 import ActiveMetrics from '../Chart/ActiveMetrics'
 import styles from './SelectionOverview.module.scss'
 
+const MetricColor = {}
+const loadings = []
+
 const SelectionOverview = ({
   widgets,
   selectedMetrics,
@@ -26,8 +29,8 @@ const SelectionOverview = ({
           <div className={styles.metrics}>
             <ActiveMetrics
               className={styles.metric}
-              MetricColor={{}}
-              loadings={[]}
+              MetricColor={MetricColor}
+              loadings={loadings}
               activeMetrics={selectedMetrics}
               toggleMetric={toggleMetric}
               isSingleWidget={false}
