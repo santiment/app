@@ -164,10 +164,12 @@ export function useCreateTemplate () {
 
   function createTemplate (newConfig) {
     if (!newConfig.options) {
-      newConfig.options = JSON.stringify({
+      newConfig.options = {
         multi_chart: getSavedMulticharts()
-      })
+      }
     }
+
+    newConfig.options = JSON.stringify(newConfig.options)
 
     return mutate({
       variables: {
@@ -201,7 +203,7 @@ export function useUpdateTemplate () {
 
   function updateTemplate (oldTemplate, newConfig) {
     const { id, title, description, project, metrics, options } = oldTemplate
-    const { projectId } = newConfig
+    const { projectId, options: newOptions } = newConfig
 
     return mutate({
       variables: {
@@ -212,6 +214,7 @@ export function useUpdateTemplate () {
           isPublic: newConfig.isPublic,
           options: JSON.stringify({
             ...options,
+            ...newOptions,
             multi_chart: getSavedMulticharts()
           }),
           projectId: +(projectId || project.id),

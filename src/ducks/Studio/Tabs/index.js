@@ -1,54 +1,38 @@
 import React from 'react'
-import cx from 'classnames'
 import { NavLink, withRouter } from 'react-router-dom'
 import styles from './index.module.scss'
-import { getTemplateIdFromURL } from '../Template/utils'
 
-const SUB_PATHS = {
-  STATS: 'stats',
-  STUDIO: ''
-}
-
-const tabs = [
+const TABS = [
   {
-    index: '',
+    path: '/studio',
     label: 'Studio'
   },
   {
-    index: SUB_PATHS.STATS,
+    path: '/studio/stats',
     label: 'Key Stats'
   }
 ]
 
-function getPreparedLink (root, index) {
-  if (getTemplateIdFromURL()) {
-    const parts = window.location.pathname.split('/')
-    const templateUrl = parts[parts.length - 1]
+const PATHS = TABS.map(({ path }) => path).reverse()
 
-    const indexPart = index ? '/' + index : ''
-    return root + indexPart + '/' + templateUrl
-  }
+const getPathRoot = path => root => path.includes(root)
+const getSubpath = path => path.replace(PATHS.find(getPathRoot(path)), '')
 
-  return root + '/' + index
-}
-
-const Tabs = ({ root, location: { search } }) => {
+const Tabs = ({ location: { pathname, search } }) => {
+  const subpath = getSubpath(pathname)
   return (
     <div className={styles.tabs}>
-      {tabs.map(({ index, label }) => {
-        const to = getPreparedLink(root, index)
-        return (
-          <NavLink
-            key={to}
-            exact
-            to={{ pathname: to, search }}
-            activeClassName={styles.active}
-            className={cx(styles.tab)}
-          >
-            {label}
-          </NavLink>
-        )
-      })}
+      {TABS.map(({ path, label }) => (
+        <NavLink
+          exact
+          key={path}
+          to={{ pathname: path + subpath, search }}
+          className={styles.tab}
+          activeClassName={styles.active}
+        >
+          {label}
+        </NavLink>
+      ))}
     </div>
   )
 }

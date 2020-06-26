@@ -245,7 +245,8 @@ class TrendsTable extends PureComponent {
       selectedTrends,
       trendConnections,
       isDesktop,
-      isCompactView
+      isCompactView,
+      contentClassName
     } = this.props
 
     const tableData = trendWords.map(({ word, score }, index) => {
@@ -337,7 +338,8 @@ class TrendsTable extends PureComponent {
         )}
         contentClassName={cx(
           styles.content,
-          isCompactView && styles.content__compact
+          isCompactView && styles.content__compact,
+          contentClassName
         )}
         headerClassName={cx(
           styles.header,

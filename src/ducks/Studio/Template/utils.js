@@ -1,4 +1,5 @@
-import { COMPARE_CONNECTOR, parseComparable, shareComparable } from '../url'
+import { COMPARE_CONNECTOR, parseComparable } from '../url/parse'
+import { shareComparable } from '../url/generate'
 import { Metric } from '../../dataHub/metrics'
 import { tryMapToTimeboundMetric } from '../../dataHub/timebounds'
 import { getSavedMulticharts } from '../../../utils/localStorage'

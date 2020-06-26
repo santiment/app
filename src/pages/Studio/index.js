@@ -1,15 +1,13 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { compose } from 'redux'
 import { Helmet } from 'react-helmet'
 import ChartPage from '../Chart'
 import withProject from '../Detailed/withProject'
 import Breadcrumbs from '../profile/breadcrumbs/Breadcrumbs'
-import { parseUrl } from '../../ducks/Studio/url'
-import { Metric } from '../../ducks/dataHub/metrics'
+import { parseUrlV2 } from '../../ducks/Studio/url/parse'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 import styles from '../Detailed/Detailed.module.scss'
-
-const DEFAULT_METRICS = [Metric.price_usd]
+import URLExtension from './URLExtension'
 
 const CRUMB = {
   label: 'Assets',
@@ -43,20 +41,16 @@ const TopSlot = compose(withProject)(({ slug, project, loading }) =>
   ) : null
 )
 
-export default ({ history, ...props }) => {
-  const parsedUrl = parseUrl()
-
-  function onSlugChange () {
-    history.replace(`${window.location.pathname}${window.location.search}`)
-  }
+export default ({ history }) => {
+  const url = window.location.search
+  const parsedUrl = useMemo(() => parseUrlV2(url), [url])
+  const { settings = {} } = parsedUrl
 
   return (
     <ChartPage
       parsedUrl={parsedUrl}
-      topSlot={<TopSlot slug={parsedUrl.settings.slug} />}
-      metrics={DEFAULT_METRICS}
-      onSlugChange={onSlugChange}
-      {...props}
+      topSlot={<TopSlot slug={settings.slug} />}
+      extensions={<URLExtension history={history} />}
     />
   )
 }

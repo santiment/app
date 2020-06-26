@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { client } from '../../../index'
 import { getQuery, getPreTransform } from './fetcher'
 import { normalizeDatetimes, mergeTimeseries } from './utils'
+import { substituteErrorMsg } from './errors'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 
 // NOTE: Polyfill for a PingdomBot 0.8.5 browser (/sentry/sanbase-frontend/issues/29459/) [@vanguard | Feb 6, 2020]
@@ -61,6 +62,8 @@ function abortAllMetrics (abortables) {
   return [...abortables.values()].forEach(cancelQuery)
 }
 
+const NO_DATA_MSG = 'No data for the requested period'
+
 export function useTimeseries (
   metrics,
   settings,
@@ -113,7 +116,7 @@ export function useTimeseries (
 
         if (!query) {
           return setErrorMsg(state => {
-            state[key] = 'No data'
+            state[key] = NO_DATA_MSG
             return { ...state }
           })
         }
@@ -153,7 +156,7 @@ export function useTimeseries (
           .then(data => {
             if (raceCondition) return
             if (!data.length) {
-              throw new Error('No data')
+              throw new Error(NO_DATA_MSG)
             }
 
             setTimeseries(() => {
@@ -165,7 +168,7 @@ export function useTimeseries (
           .catch(({ message }) => {
             if (raceCondition) return
             setErrorMsg(state => {
-              state[key] = message
+              state[key] = substituteErrorMsg(message)
               return { ...state }
             })
           })

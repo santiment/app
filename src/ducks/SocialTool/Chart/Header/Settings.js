@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import AdvancedCalendar from '../../../../components/AdvancedCalendar'
-import ContextMenu from '../../../Studio/Header/ContextMenu'
+import ContextMenu from '../../../Studio/Chart/ContextMenu'
 import PricePairsDropdown from '../PricePairsDropdown'
 import { getIntervalByTimeRange } from '../../../../utils/dates'
 import styles from './Settings.module.scss'

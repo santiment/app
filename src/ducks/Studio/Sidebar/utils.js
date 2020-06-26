@@ -2,18 +2,14 @@ import { Metric } from '../../dataHub/metrics'
 
 export const NO_GROUP = '_'
 
-const addItemToGraph = (categories, metricCategories, metrics) => {
-  return (typeof metricCategories === 'string'
-    ? [metricCategories]
-    : metricCategories
-  ).forEach(metricCategory => {
-    const category = categories[metricCategory]
-    if (category) {
-      category.push(...metrics)
-    } else {
-      categories[metricCategory] = metrics
-    }
-  })
+const addItemToGraph = (graph, node, item) => {
+  const items = graph[node]
+
+  if (items) {
+    items.push(item)
+  } else {
+    graph[node] = [item]
+  }
 }
 
 function sortCategoryGroups (category, Submetrics) {
@@ -65,20 +61,12 @@ export const getCategoryGraph = (
       continue
     }
 
-    if (Array.isArray(metric)) {
-      const metricCategory = metric[0].category
-      addItemToGraph(categories, metricCategory, metric)
-      continue
-    }
-
-    const metricCategory = metric.category
-    const metrics = []
-
     if (!hiddenMetrics.includes(metric)) {
-      metrics.push(metric)
+      addItemToGraph(categories, metric.category, {
+        item: metric,
+        subitems: Submetrics[metric.key] || []
+      })
     }
-
-    addItemToGraph(categories, metricCategory, metrics)
   }
 
   Object.keys(categories).forEach(key => {
@@ -87,9 +75,9 @@ export const getCategoryGraph = (
     }
 
     const category = categories[key].reduce(
-      (acc, metric) => {
-        const { group = NO_GROUP } = metric
-        addItemToGraph(acc, group, [metric])
+      (acc, value) => {
+        const { group = NO_GROUP } = value.item
+        addItemToGraph(acc, group, value)
         return acc
       },
       { [NO_GROUP]: [] }

@@ -14,7 +14,6 @@ import Loader from './Loader/Loader'
 import { plotAxes } from './axes'
 import { setupTooltip, plotTooltip } from './tooltip'
 import {
-  CHART_HEIGHT,
   BRUSH_HEIGHT,
   CHART_PADDING,
   BRUSH_PADDING,
@@ -22,7 +21,7 @@ import {
   buildPadding
 } from './settings'
 import { drawWatermark } from './watermark'
-import { onResize, useResizeEffect } from './resize'
+import { ResizeListener, onResize } from './resize'
 import { clearCtx, findPointIndexByDate } from './utils'
 import { domainModifier } from './domain'
 import { paintConfigs, dayBrushPaintConfig } from './paintConfigs'
@@ -37,7 +36,7 @@ const Chart = ({
   filledLines,
   bars,
   daybars,
-  chartHeight = CHART_HEIGHT,
+  chartHeight,
   chartPadding = CHART_PADDING,
   joinedCategories,
   domainGroups,
@@ -59,7 +58,6 @@ const Chart = ({
   onRangeSelectStart,
   onPointClick = () => {},
   isLoading,
-  isMultiChartsActive,
   isNightModeEnabled,
   isCartesianGridActive,
   resizeDependencies,
@@ -70,17 +68,18 @@ const Chart = ({
   let [brush, setBrush] = useState()
   const canvasRef = useRef()
 
-  const isShowBrush = !hideBrush && !isMultiChartsActive
+  const isShowBrush = !hideBrush
 
   useEffect(() => {
     const { current: canvas } = canvasRef
     const width = canvas.parentNode.offsetWidth
+    const height = chartHeight || canvas.parentNode.offsetHeight
 
     chart = initTooltip(
       initChart(
         canvas,
         width,
-        chartHeight,
+        height,
         buildPadding(
           chartPadding,
           isShowBrush && BRUSH_PADDING,
@@ -214,6 +213,9 @@ const Chart = ({
 
         brush.startIndex = startIndex
         brush.endIndex = endIndex
+
+        clearCtx(brush)
+        updateBrushState(brush, brushData, joinedCategories)
       }
     },
     [brushData, from, to]
@@ -281,10 +283,8 @@ const Chart = ({
 
   useEffect(handleResize, [...resizeDependencies, data])
 
-  useResizeEffect(handleResize, [...resizeDependencies, data, brush])
-
   function handleResize () {
-    if (data.length === 0) {
+    if (data.length === 0 || !chart) {
       return
     }
 
@@ -294,7 +294,7 @@ const Chart = ({
       axesMetricKeys[1] && DOUBLE_AXIS_PADDING
     )
 
-    onResize(chart, padding, brush, brushData, chartHeight, joinedCategories)
+    onResize(chart, padding, brush, brushData, joinedCategories)
 
     updateChartState(
       chart,
@@ -356,6 +356,7 @@ const Chart = ({
 
   return (
     <div className={cx(styles.wrapper, className)}>
+      <ResizeListener onResize={handleResize} />
       <canvas ref={canvasRef} />
       {isLoading && <Loader />}
       {chart &&

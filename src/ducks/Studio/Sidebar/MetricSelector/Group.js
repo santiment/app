@@ -4,23 +4,13 @@ import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
 import MetricButton from './MetricButton'
 import { NO_GROUP } from '../utils'
-import { Metric } from '../../../dataHub/metrics'
 import styles from './index.module.scss'
-
-const { price_usd } = Metric
 
 const Group = ({
   title,
-  metrics,
-  actives,
-  advancedView,
-  ErrorMsg,
+  nodes,
+  activeMetrics,
   toggleMetric,
-  toggleAdvancedView,
-  toggleICOPrice,
-  options,
-  Submetrics,
-  isICOPriceDisabled,
   isBeta,
   setMetricSettingMap,
   project
@@ -46,61 +36,33 @@ const Group = ({
       <div
         className={cx(styles.group__list, hidden && styles.group__list_hidden)}
       >
-        {metrics.map(metric => {
-          if (metric.hidden) {
+        {nodes.map(({ item, subitems }) => {
+          if (item.hidden) {
             return null
           }
 
-          if (metric.isBeta && !isBeta) {
+          if (item.isBeta && !isBeta) {
             return null
           }
 
-          const submetrics = Submetrics[metric.key]
           return (
-            <Fragment key={metric.key}>
+            <Fragment key={item.key}>
               <MetricButton
-                metric={metric}
-                label={metric.label}
-                isError={ErrorMsg[metric.key]}
-                isActive={actives.includes(metric)}
-                onClick={() => toggleMetric(metric)}
+                metric={item}
+                label={item.label}
+                onClick={() => toggleMetric(item)}
                 setMetricSettingMap={setMetricSettingMap}
                 project={project}
+                isActive={activeMetrics.includes(item)}
               />
-              {/* TODO: refactor 'ICO Price', 'advancedView' to be a submetric array [@vanguard | March 10, 2020] */}
-              {isICOPriceDisabled ||
-                (metric === price_usd && (
+              {subitems &&
+                subitems.map(subitem => (
                   <MetricButton
+                    metric={subitem}
+                    key={subitem.key}
                     className={styles.advanced}
-                    label='ICO Price'
-                    isActive={options.isICOPriceActive}
-                    isDisabled={!actives.includes(metric)}
-                    onClick={toggleICOPrice}
-                    project={project}
-                  />
-                ))}
-              {metric.advancedView && (
-                <MetricButton
-                  className={styles.advanced}
-                  label={metric.advancedView}
-                  isActive={advancedView === metric.advancedView}
-                  onClick={() => toggleAdvancedView(metric.advancedView)}
-                  project={project}
-                  metric={{
-                    key: metric.anomalyKey
-                  }}
-                />
-              )}
-              {submetrics &&
-                submetrics.map(submetric => (
-                  <MetricButton
-                    metric={submetric}
-                    key={submetric.key}
-                    className={styles.advanced}
-                    label={submetric.label}
-                    isActive={actives.includes(submetric)}
-                    isError={ErrorMsg[submetric.key]}
-                    onClick={() => toggleMetric(submetric)}
+                    label={subitem.label}
+                    onClick={() => toggleMetric(subitem)}
                     project={project}
                   />
                 ))}

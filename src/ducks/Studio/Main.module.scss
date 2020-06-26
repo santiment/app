@@ -1,0 +1,18 @@
+@import './variables';
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  padding: 44px 25px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  padding: 32px var(--side-padding, 25px);
+}
+
+.content {
+  background: var(--athens);
+  padding: var(--side-padding, 25px);
+}

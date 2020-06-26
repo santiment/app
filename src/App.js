@@ -47,6 +47,7 @@ export const PATHS = {
 }
 
 const FOOTER_DISABLED_FOR = [
+  PATHS.STUDIO,
   PATHS.FEED,
   PATHS.PRO_METRICS,
   PATHS.SOCIAL_TOOl,
@@ -467,7 +468,9 @@ const mapStateToProps = ({ user, rootUi }, { location: { pathname } }) => ({
   token: user.token,
   isOffline: !rootUi.isOnline,
   isBetaModeEnabled: rootUi.isBetaModeEnabled,
-  showFooter: !isPathnameInPages(pathname, FOOTER_DISABLED_FOR)
+  showFooter:
+    !isPathnameInPages(pathname, FOOTER_DISABLED_FOR) &&
+    !pathname.includes(PATHS.STUDIO)
 })
 
 const enhance = compose(

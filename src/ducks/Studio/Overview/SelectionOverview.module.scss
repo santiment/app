@@ -1,0 +1,42 @@
+@import '~@santiment-network/ui/variables';
+
+.selection {
+  position: fixed;
+  bottom: 20px;
+  border-radius: 4px;
+  background: $fiord;
+  padding: 12px 16px;
+  color: $white;
+  left: calc(50% + 130px);
+  animation: slide 400ms ease-out;
+  animation-fill-mode: forwards;
+  display: flex;
+  align-items: center;
+  max-width: 70%;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+}
+
+.metrics {
+}
+
+.metric {
+  margin-top: 8px;
+}
+
+.clear {
+  margin-left: 24px;
+}
+
+@keyframes slide {
+  from {
+    transform: translate(-50%, 200px);
+  }
+
+  to {
+    transform: translate(-50%, 0);
+  }
+}

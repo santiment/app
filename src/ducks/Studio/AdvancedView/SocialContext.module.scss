@@ -19,7 +19,7 @@
     display: flex;
     flex-direction: column;
     border-top: 1px solid var(--porcelain);
-    padding: 16px;
+    padding: 16px 0 0;
   }
 }
 
@@ -28,7 +28,7 @@
 }
 
 .cloud__header {
-  padding: 23px 16px 10px;
+  padding: 0;
   border: none;
 }
 
@@ -45,11 +45,17 @@
 
 .table {
   flex: 1;
-  height: 248px;
+  height: 100%;
   overflow: auto;
+
+  &__content {
+    height: 100%;
+  }
 
   :global {
     .ReactTable {
+      height: 100%;
+
       .rt-thead.-header {
         padding: 0 16px;
       }

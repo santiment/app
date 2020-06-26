@@ -9,9 +9,9 @@ import MetricInsights from '../../../../../components/MetricInsight/MetricInsigh
 import MetricIcon from '../../../../SANCharts/MetricIcon'
 import { Description } from '../../../../dataHub/metrics/descriptions'
 import { Insights } from '../../../../dataHub/metrics/insights'
-import MetricDescription from '../../../../SANCharts/MetricDescription/MetricDescription'
-import MetricFrequence from '../../../../SANCharts/MetricFrequence/MetricFrequence'
 import Frequences from '../../../../dataHub/metrics/frequences'
+import MetricFrequence from '../../../../SANCharts/MetricFrequence/MetricFrequence'
+import MetricDescription from '../../../../SANCharts/MetricDescription/MetricDescription'
 import styles from './index.module.scss'
 
 const OPTIONS = []
@@ -88,7 +88,7 @@ const MetricsExplanation = ({
         classes={dropdownClasses}
         onSelect={setSelected}
       />
-      <DataInfo {...rest} metric={metric} />
+      <DataInfo {...rest} metric={metric} slug={project.slug} />
       {description && (
         <>
           <div className={styles.subtitle}>Description</div>
@@ -112,5 +112,9 @@ MetricsExplanation.Button = ({ onClick, ...props }) => (
     Explain metrics
   </Button>
 )
+
+MetricsExplanation.defaultProps = {
+  MetricColor: {}
+}
 
 export default MetricsExplanation

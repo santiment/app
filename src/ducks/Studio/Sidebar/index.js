@@ -1,26 +1,29 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import cx from 'classnames'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Icon from '@santiment-network/ui/Icon'
 import MetricSelector from './MetricSelector'
 import Search from './Search'
 import withMetrics from '../withMetrics'
-import { MAX_METRICS_AMOUNT } from '../constraints'
 import { rebuildDescriptions } from '../../dataHub/metrics/descriptions'
+import AnomaliesToggle from '../../../components/AnomaliesToggle/AnomaliesToggle'
 import styles from './index.module.scss'
 
-const Header = ({ activeMetrics, ...rest }) => {
+const Anomalies = ({ isAnomalyActive, toggleAnomaly }) => (
+  <AnomaliesToggle
+    className={styles.anomaly}
+    isShowAnomalies={isAnomalyActive}
+    showToggleAnomalies={true}
+    onToggleAnomalies={toggleAnomaly}
+  />
+)
+
+const Header = props => {
   return (
     <div className={styles.header}>
-      <h2 className={styles.title}>
-        Metrics{' '}
-        {rest.options.isMultiChartsActive || (
-          <span className={styles.count}>
-            ({activeMetrics.length}/{MAX_METRICS_AMOUNT})
-          </span>
-        )}
-      </h2>
-      <Search {...rest} />
+      <h2 className={styles.title}>Metrics</h2>
+      <Search {...props} />
+      <Anomalies {...props} />
     </div>
   )
 }
@@ -37,34 +40,8 @@ const CloseButton = ({ onClick, className }) => {
 }
 
 const Sidebar = ({ loading, children, ...rest }) => {
-  const asideRef = useRef(null)
-
-  useEffect(() => {
-    const sidebar = asideRef.current
-    const header = document.querySelector('header')
-
-    if (!header) {
-      sidebar.style.top = 0
-      return
-    }
-
-    const { offsetHeight } = header
-
-    function fixSidebar () {
-      requestAnimationFrame(() => {
-        const dif = offsetHeight - window.scrollY
-        sidebar.classList.toggle(styles.fixed, dif < 0)
-      })
-    }
-
-    fixSidebar()
-
-    window.addEventListener('scroll', fixSidebar)
-    return () => window.removeEventListener('scroll', fixSidebar)
-  }, [])
-
   return (
-    <aside className={styles.wrapper} ref={asideRef}>
+    <aside className={styles.wrapper}>
       <Header {...rest} />
       <div className={styles.selector}>
         {loading ? (

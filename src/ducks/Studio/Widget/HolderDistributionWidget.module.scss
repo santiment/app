@@ -1,0 +1,19 @@
+.holders {
+  position: relative;
+
+  &_opened {
+    padding-right: 340px !important;
+  }
+}
+
+.toggle {
+  left: initial !important;
+  right: 0;
+  width: 24px !important;
+}
+
+.title {
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}

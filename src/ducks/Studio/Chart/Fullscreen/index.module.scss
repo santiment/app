@@ -1,5 +1,4 @@
 .btn {
-  margin-left: 8px;
   fill: var(--casper);
 }
 
@@ -22,10 +21,12 @@
   flex-direction: column;
 }
 
-.settings {
+.header {
+  display: flex;
   justify-content: flex-end;
 }
 
 .chart {
   flex: 1;
+  height: 0;
 }
