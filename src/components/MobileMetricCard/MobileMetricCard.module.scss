@@ -69,3 +69,9 @@
 .diff {
   margin-left: 9px;
 }
+
+.metric {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -14,7 +14,6 @@ import {
   mapWithTimeseries,
   mapWithTimeseriesAndYCoord
 } from './utils'
-import { Metric } from '../../../dataHub/metrics'
 import GetTimeSeries from '../../../GetTimeSeries/GetTimeSeries'
 import VisualBacktestChart, { GetReferenceDots } from '../VisualBacktestChart'
 import { getMetricYAxisId } from '../../../SANCharts/utils'

@@ -27,7 +27,7 @@ const MobileMetricCard = ({
   const [isOpenDescription, setIsOpenDescription] = useState(false)
   const { label, key, dataKey = key } = metric
   const [settings, setSettings] = useState({ ...DEFAULT_SETTINGS, slug })
-  const [data, loadings, ErrorMsg] = useTimeseries([metric], settings)
+  const [data, loadings] = useTimeseries([metric], settings)
 
   useEffect(
     () => {
@@ -36,18 +36,8 @@ const MobileMetricCard = ({
     [slug]
   )
 
-  // const errorOnChart = errorsMetricsKeys.includes(key)
-  let errorText = ''
-
-  // if (
-  //   Object.keys(errorMetrics).includes(key) ||
-  //   isError ||
-  //   errorOnChart
-  // ) {
-  //   errorText = `Failed to fetch the ${
-  //     errorOnChart ? '' : 'latest '
-  //   }data`
-  // }
+  let errorText =
+    errorsMetricsKeys[dataKey] && 'Failed to fetch the latest data'
 
   let value = null
   let diff = null

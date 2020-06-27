@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
@@ -13,7 +13,6 @@ import ChartSelector from './MobileAssetChartSelector'
 import MobilePopularMetrics from './MobilePopularMetrics'
 import { checkHasPremium } from '../../UserSelectors'
 import { useTimeseries } from '../../../ducks/Studio/timeseries/hooks'
-import ErrorRequest from '../../../ducks/SANCharts/ErrorRequest'
 import ChartMetricsTool from '../../../ducks/SANCharts/ChartMetricsTool'
 import { getNewInterval } from '../../../ducks/SANCharts/IntervalSelector'
 import {
@@ -183,7 +182,7 @@ const MobileDetailedPage = ({
                   onToggleMetric={() => toggleMetric(metric)}
                   key={metric.label + 'selected'}
                   hasPremium={hasPremium}
-                  // errorsMetricsKeys={errors}
+                  errorsMetricsKeys={ErrorMsg}
                   colors={MetricColor}
                   width={width}
                   project={project}
@@ -204,7 +203,7 @@ const MobileDetailedPage = ({
           metrics={metrics}
           width={width}
           hasPremium={hasPremium}
-          // errorsMetricsKeys={errors}
+          errorsMetricsKeys={ErrorMsg}
           isOuterEvent={isOuterEvent}
           project={project}
           onToggleMetric={toggleMetric}
