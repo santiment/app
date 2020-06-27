@@ -9,6 +9,7 @@ import { TooltipSetting } from '../dataHub/tooltipSettings'
 
 const RechartComponent = {
   line: Line,
+  filledLine: Line,
   area: Area,
   bar: Bar,
   daybar: Bar

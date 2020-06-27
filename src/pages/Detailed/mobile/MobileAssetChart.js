@@ -7,11 +7,11 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  ReferenceLine,
-  ReferenceDot
+  ReferenceLine
 } from 'recharts'
 import throttle from 'lodash.throttle'
 import Gradients from '../../../components/WatchlistOverview/Gradients'
+import { Metric } from '../../../ducks/dataHub/metrics'
 import { tooltipLabelFormatter } from '../../../ducks/SANCharts/CustomTooltip'
 import { generateMetricsMarkup } from '../../../ducks/SANCharts/utils'
 import { clearCache } from '../../../ducks/Chart/Synchronizer'
@@ -26,29 +26,27 @@ const MobileAssetChart = ({
   slug: asset,
   icoPrice,
   metrics = [],
-  syncedColors,
+  MetricColor,
   setIcoPricePos,
   icoPricePos,
   chartHeight,
   isLoading = true,
   isLandscapeMode,
-  events = [],
-  eventsObj = {},
   ...props
 }) => {
   const [isTouch, setIsTouch] = useState(false)
   const [activeIndex, setActiveIndex] = useState(null)
 
   const markup = generateMetricsMarkup(metrics, {
-    syncedColors,
+    syncedColors: MetricColor,
     useShortName: true,
-    activeLineDataKey: 'price_usd',
+    activeLineDataKey: Metric.price_usd.key,
     showActiveDot: false
   })
 
   const chartMediumIndex = data.length / 2
 
-  const hideTooltipItem = key => key === 'price_usd'
+  const hideTooltipItem = key => key === Metric.price_usd.key
 
   const setCurrentIndex = throttle(
     evt => setActiveIndex(evt ? evt.activeTooltipIndex : null),
@@ -95,7 +93,7 @@ const MobileAssetChart = ({
                 return dataMax
               }
             ]}
-            dataKey={'price_usd'}
+            dataKey={Metric.price_usd.key}
           />
           {isTouch && (
             <Tooltip
@@ -118,7 +116,6 @@ const MobileAssetChart = ({
                         styles.rightAlign
                     )}
                     hideItem={hideTooltipItem}
-                    events={eventsObj}
                     metrics={metrics}
                   />
                 </>
@@ -126,20 +123,6 @@ const MobileAssetChart = ({
             />
           )}
           {markup}
-          {events.map(({ datetime, metric, color, y, key }) => (
-            <ReferenceDot
-              key={datetime + key + metric}
-              yAxisId={'axis-' + metric}
-              x={datetime}
-              y={y}
-              ifOverflow='extendDomain'
-              r={4}
-              isFront
-              stroke='var(--white)'
-              strokeWidth='2px'
-              fill={color}
-            />
-          ))}
           {icoPrice && (
             <ReferenceLine
               strokeDasharray='5 5'
