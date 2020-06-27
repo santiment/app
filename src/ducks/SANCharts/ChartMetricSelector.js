@@ -138,22 +138,24 @@ const ChartMetricSelector = ({
                             {group !== NO_GROUP && (
                               <h3 className={styles.group__title}>{group}</h3>
                             )}
-                            {categories[activeCategory][group].map(metric => {
-                              if (metric.hidden) {
-                                return null
-                              }
+                            {categories[activeCategory][group].map(
+                              ({ item: metric }) => {
+                                if (metric.hidden) {
+                                  return null
+                                }
 
-                              return (
-                                <ToggleMetricButton
-                                  key={metric.label}
-                                  metric={metric}
-                                  onClick={() => toggleMetric(metric)}
-                                  isActive={isActiveMetric(metric)}
-                                  isMobile={true}
-                                  label={metric.label}
-                                />
-                              )
-                            })}
+                                return (
+                                  <ToggleMetricButton
+                                    key={metric.label}
+                                    metric={metric}
+                                    onClick={() => toggleMetric(metric)}
+                                    isActive={isActiveMetric(metric)}
+                                    isMobile={true}
+                                    label={metric.label}
+                                  />
+                                )
+                              }
+                            )}
                           </div>
                         ))}
                     </div>
