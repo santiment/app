@@ -5,9 +5,9 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import { client } from '../../../index'
-import UpgradeBtn from '../../../components/UpgradeBtn/UpgradeBtn'
 import { getCurrentSanbaseSubscription } from '../../../utils/plans'
 import { getDateFormats } from '../../../utils/dates'
+import UpgradeBtn from '../../../components/UpgradeBtn/UpgradeBtn'
 import styles from './PaywallInfo.module.scss'
 
 const METRIC_BOUNDARIES_QUERY = gql`
@@ -78,9 +78,6 @@ function useRestrictedInfo (metrics) {
   return infos
 }
 
-const checkHasBoundaries = ({ leftBoundaryDate: a, rightBoundaryDate: b }) =>
-  a || b
-
 const PaywallInfo = ({ boundaries, subscription, metrics }) => {
   const infos = useRestrictedInfo(metrics)
 
@@ -88,36 +85,33 @@ const PaywallInfo = ({ boundaries, subscription, metrics }) => {
     return <UpgradeBtn variant='fill' fluid className={styles.upgrade_trial} />
   }
 
-  return (
-    infos.length > 0 &&
-    checkHasBoundaries(boundaries) && (
-      <Tooltip
-        position='bottom'
-        trigger={
-          <Button className={styles.btn}>
-            <Icon className={styles.icon} type='question-round-small' />
-            Why the gaps?
-          </Button>
-        }
-        className={styles.tooltip}
-      >
-        <div className={styles.content}>
-          <h2 className={styles.title}>Why is some data hidden?</h2>
-          <p className={styles.text}>Your plan has limited data period for:</p>
-          {infos.map(({ label, from, to }) => (
-            <p key={label} className={styles.restriction}>
-              {label} ({formatDate(from)} - {formatDate(to)})
-            </p>
-          ))}
-          <p className={styles.text}>
-            To unlock the full potential of Santiment metrics you need to
-            upgrade your account to PRO
+  return infos.length > 0 && boundaries ? (
+    <Tooltip
+      position='bottom'
+      trigger={
+        <Button className={styles.btn}>
+          <Icon className={styles.icon} type='question-round-small' />
+          Why the gaps?
+        </Button>
+      }
+      className={styles.tooltip}
+    >
+      <div className={styles.content}>
+        <h2 className={styles.title}>Why is some data hidden?</h2>
+        <p className={styles.text}>Your plan has limited data period for:</p>
+        {infos.map(({ label, from, to }) => (
+          <p key={label} className={styles.restriction}>
+            {label} ({formatDate(from)} - {formatDate(to)})
           </p>
-          <UpgradeBtn variant='fill' fluid className={styles.upgrade} />
-        </div>
-      </Tooltip>
-    )
-  )
+        ))}
+        <p className={styles.text}>
+          To unlock the full potential of Santiment metrics you need to upgrade
+          your account to PRO
+        </p>
+        <UpgradeBtn variant='fill' fluid className={styles.upgrade} />
+      </div>
+    </Tooltip>
+  ) : null
 }
 
 const mapStateToProps = state => ({

@@ -4,11 +4,7 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import TemplateButton from './Button'
-import {
-  buildTemplateMetrics,
-  getMultiChartsValue,
-  parseTemplateMetrics
-} from './utils'
+import { buildTemplateMetrics, parseTemplateMetrics } from './utils'
 import { notifySave } from './notifications'
 import {
   useUserTemplates,
@@ -23,6 +19,9 @@ import DialogLoadTemplate from './Dialog/LoadTemplate'
 import DeleteTemplate from './Dialog/Delete/DeleteTemplate'
 import ShareTemplate from './Share/ShareTemplate'
 import { isUserAuthorOfTemplate } from './Dialog/LoadTemplate/Template'
+import { parseSharedWidgets, translateMultiChartToWidgets } from '../url/parse'
+import { normalizeWidgets } from '../url/generate'
+import { newChartWidget } from '../Widget/creators'
 import styles from './index.module.scss'
 
 const Action = props => <Button {...props} fluid variant='ghost' />
@@ -73,9 +72,8 @@ export const useCtrlSPress = callback => {
 const Template = ({
   className,
   currentUser,
-  setMetrics,
-  setComparables,
-  toggleMultiCharts,
+  widgets,
+  setWidgets,
   onProjectSelect,
   ...props
 }) => {
@@ -89,13 +87,30 @@ const Template = ({
 
     if (!template) return
 
-    const { project, metrics: templateMetrics } = template
+    const { project, metrics: templateMetrics, options } = template
     const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
 
-    onProjectSelect(project)
-    setMetrics(metrics)
-    setComparables(comparables)
-    toggleMultiCharts(getMultiChartsValue(template))
+    if (onProjectSelect) {
+      onProjectSelect(project)
+    }
+
+    let widgets
+    if (options && options.widgets) {
+      widgets = parseSharedWidgets(options.widgets)
+    } else {
+      if (options.multi_chart) {
+        widgets = translateMultiChartToWidgets(metrics, comparables)
+      } else {
+        widgets = [
+          newChartWidget({
+            metrics,
+            comparables
+          })
+        ]
+      }
+    }
+
+    setWidgets(widgets)
   }
 
   const [selectedTemplate, setSelectedTemplate, loading] = useSelectedTemplate(
@@ -128,24 +143,32 @@ const Template = ({
   }
 
   const saveTemplate = () => {
-    const { metrics, comparables, projectId } = props
+    const { projectId } = props
     const template = selectedTemplate
 
     const { user: { id } = {}, title, description } = template
 
     const isCurrentUser = +id === +currentUser.id
+    const metrics = widgets.map(({ metrics }) => metrics).flat()
+    const comparables = widgets.map(({ comparables }) => comparables).flat()
+
+    const options = {
+      widgets: normalizeWidgets(widgets)
+    }
 
     const future = isCurrentUser
       ? updateTemplate(template, {
         metrics,
         comparables,
-        projectId
+        projectId,
+        options
       })
       : createTemplate({
         title,
         description,
         metrics: buildTemplateMetrics({ metrics, comparables }),
-        projectId: +projectId
+        projectId: +projectId,
+        options
       })
 
     future

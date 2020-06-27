@@ -18,6 +18,7 @@ import {
 } from '../utils'
 import { store, client } from '../../../../index'
 import { getSavedMulticharts } from '../../../../utils/localStorage'
+import { showNotification } from '../../../../actions/rootActions'
 
 const DEFAULT_TEMPLATES = []
 
@@ -83,6 +84,10 @@ export function useSelectedTemplate (templates, selectTemplate) {
   const [loading, setLoading] = useState()
 
   const loadTemplate = () => {
+    if (loading) {
+      return
+    }
+
     const targetTemplate = urlId ? { id: urlId } : getLastTemplate()
     if (!targetTemplate) return
 
@@ -105,13 +110,24 @@ export function useSelectedTemplate (templates, selectTemplate) {
           selectTemplate(template)
         }
       })
-      .catch(console.warn)
-      .finally(() => {
+      .catch(() => {
+        if (urlId) {
+          store.dispatch(
+            showNotification({
+              variant: 'error',
+              title:
+                'Chart Layout with id ' +
+                targetTemplate.id +
+                " is private or doesn't exist"
+            })
+          )
+        }
+      })
+      .finally(data => {
         setLoading(false)
       })
   }
 
-  useEffect(loadTemplate, [])
   useEffect(loadTemplate, [urlId])
   useEffect(
     () => {
@@ -148,10 +164,12 @@ export function useCreateTemplate () {
 
   function createTemplate (newConfig) {
     if (!newConfig.options) {
-      newConfig.options = JSON.stringify({
+      newConfig.options = {
         multi_chart: getSavedMulticharts()
-      })
+      }
     }
+
+    newConfig.options = JSON.stringify(newConfig.options)
 
     return mutate({
       variables: {
@@ -185,7 +203,7 @@ export function useUpdateTemplate () {
 
   function updateTemplate (oldTemplate, newConfig) {
     const { id, title, description, project, metrics, options } = oldTemplate
-    const { projectId } = newConfig
+    const { projectId, options: newOptions } = newConfig
 
     return mutate({
       variables: {
@@ -196,6 +214,7 @@ export function useUpdateTemplate () {
           isPublic: newConfig.isPublic,
           options: JSON.stringify({
             ...options,
+            ...newOptions,
             multi_chart: getSavedMulticharts()
           }),
           projectId: +(projectId || project.id),

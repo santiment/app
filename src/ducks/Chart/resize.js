@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { updateChartDimensions, updateSize } from '@santiment-network/chart'
 import {
   updateBrushDimensions,
@@ -6,15 +6,42 @@ import {
 } from '@santiment-network/chart/brush'
 import { BRUSH_HEIGHT } from './settings'
 
+const iframeStyles = {
+  position: 'absolute',
+  width: '100%',
+  height: '100%',
+  zIndex: -1
+}
+
+export const ResizeListener = ({ onResize }) => {
+  const iframeRef = useRef(null)
+  const iframe = iframeRef.current
+
+  useEffect(onResize, [])
+
+  if (iframe) {
+    iframe.contentWindow.onresize = onResize
+  }
+
+  return (
+    <iframe
+      title='resizer'
+      ref={iframeRef}
+      frameBorder='0'
+      style={iframeStyles}
+    />
+  )
+}
+
 export function onResize (
   chart,
   chartPadding,
   brush,
   brushData,
-  chartHeight,
   joinedCategories
 ) {
   const parentWidth = chart.canvas.parentNode.offsetWidth
+  const chartHeight = chart.canvas.parentNode.offsetHeight
 
   updateChartDimensions(chart, parentWidth, chartHeight, chartPadding)
 

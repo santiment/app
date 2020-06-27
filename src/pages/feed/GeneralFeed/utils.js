@@ -14,16 +14,18 @@ export const makeFeedVariables = ({
   type = CURSOR_TYPES.before,
   orderBy = DATETIME_SORT.type,
   filterBy
-}) => ({
-  limit: isPulse ? PULSE_MAX_LIMIT : MAX_LIMIT,
-  cursor: {
-    type,
-    datetime: date
-  },
-  orderBy: orderBy,
-  filterBy: filterBy,
-  isPulse
-})
+}) => {
+  return {
+    limit: isPulse ? PULSE_MAX_LIMIT : MAX_LIMIT,
+    cursor: {
+      type,
+      datetime: date
+    },
+    orderBy: orderBy,
+    filterBy: filterBy,
+    isPulse
+  }
+}
 
 export const extractEventsFromData = data => {
   const { timelineEvents } = data

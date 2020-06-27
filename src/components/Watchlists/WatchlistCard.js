@@ -202,7 +202,8 @@ const enhance = compose(
     }),
     skip: ({ id }) => !id,
     props: ({ data: { watchlist = {}, loading, error } }) => ({
-      stats: watchlist.historicalStats || [],
+      stats:
+        watchlist && watchlist.historicalStats ? watchlist.historicalStats : [],
       isLoading: loading,
       isError: error
     })

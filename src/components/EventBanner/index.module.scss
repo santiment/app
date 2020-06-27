@@ -2,7 +2,6 @@
 @import '../../animations';
 
 .wrapper {
-  width: 100%;
   padding: 18px 40px;
   display: flex;
   align-items: center;
@@ -24,7 +23,7 @@
 .title {
   @include text('body-2', 'm');
 
-  margin: 0 0 8px;
+  margin: 0 0 4px;
   color: var(--dodger-blue);
 }
 
@@ -40,36 +39,41 @@
   width: 230px;
   position: relative;
   border-radius: 4px;
-  background-color: var(--waterloo);
   overflow: hidden;
-}
-
-.img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-}
-
-.link {
-  height: 100%;
-  width: 100%;
-  display: block;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .info,
 .media {
   animation-name: shiftDown, appear;
-  animation-delay: 0.4s, 0;
+  animation-delay: 0.4s;
   animation-timing-function: ease-in-out;
   animation-duration: 1s, 0.5s;
   animation-fill-mode: both;
 }
 
-.darkWrapper {
-  display: none;
+.closeContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+  max-width: 1152px;
+  margin: auto;
+  width: 100%;
+}
+
+.close {
+  position: absolute;
+  right: 0;
+  top: 10px;
+  fill: var(--rhino);
+  cursor: pointer;
+
+  &:hover {
+    fill: var(--waterloo);
+  }
 }

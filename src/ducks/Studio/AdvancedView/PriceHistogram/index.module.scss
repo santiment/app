@@ -28,7 +28,6 @@
 }
 
 .wrapper {
-  padding: 14px 24px 20px;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -129,4 +128,12 @@
 .description {
   color: var(--waterloo);
   margin: 16px 0;
+}
+
+.frequency {
+  color: var(--rhino);
+}
+
+.frequencyTitle {
+  margin-top: 16px;
 }

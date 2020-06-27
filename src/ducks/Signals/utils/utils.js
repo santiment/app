@@ -58,6 +58,7 @@ import { formatNumber } from '../../../utils/formatting'
 import { Metric } from '../../dataHub/metrics'
 import { useWatchlist } from '../../Watchlists/gql/hooks'
 import { SIGNAL_SUPPORTED_METRICS } from '../signalFormManager/signalCrudForm/formParts/metricTypes/SupportedMetricsList'
+import { findWebHook } from '../signalFormManager/signalCrudForm/formParts/channels/TriggerFormChannels'
 
 export const mapToOptions = input => {
   if (!input) {
@@ -581,10 +582,18 @@ const mapTargetInfrastructure = target => {
   return target.infrastructure || ETH_INFRASTRUCTURE
 }
 
-const mapToTriggerChannel = formLabel => {
-  return CHANNELS_MAP.find(({ label }) => label === formLabel).value
+const mapToTriggerChannel = formItem => {
+  if (typeof formItem === 'object') {
+    return formItem
+  }
+
+  return CHANNELS_MAP.find(({ label }) => label === formItem).value
 }
 const mapToFormChannel = channelValue => {
+  if (typeof channelValue === 'object') {
+    return channelValue
+  }
+
   return CHANNELS_MAP.find(({ value }) => value === channelValue).label
 }
 
@@ -593,11 +602,13 @@ export const getChannels = ({ channels }) => {
     return mapToTriggerChannel[channels]
   } else {
     if (channels.length === 1) {
-      return mapToTriggerChannel(channels[0])
-    } else {
-      return channels.map(mapToTriggerChannel)
+      if (!findWebHook(channels)) {
+        return mapToTriggerChannel(channels[0])
+      }
     }
   }
+
+  return channels.map(mapToTriggerChannel)
 }
 
 export const isTrendingWordsByProjects = type =>
@@ -1220,6 +1231,12 @@ export const descriptionBlockErrors = values => {
 
   if (channels && channels.length === 0) {
     errors.channels = 'You must setup notification channel'
+  } else {
+    const webhookChannel = findWebHook(channels)
+
+    if (webhookChannel && !webhookChannel.webhook) {
+      errors.channels = 'Need to enter a valid webhook URL'
+    }
   }
 
   if (!frequencyType || !frequencyType.value) {

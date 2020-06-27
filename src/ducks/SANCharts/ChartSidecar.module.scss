@@ -88,11 +88,17 @@
 
   cursor: pointer;
   fill: var(--mirage);
+  align-items: center;
+  display: flex;
 
   &:hover {
     color: var(--jungle-green-hover);
     fill: var(--jungle-green-hover);
   }
+}
+
+.backIcon {
+  margin-right: 8px;
 }
 
 .content {

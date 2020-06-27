@@ -198,5 +198,6 @@ export const METRICS = [
   'bitmex_perpetual_open_interest',
   'bitmex_perpetual_funding_rate',
   'bitmex_perpetual_open_value',
-  'mvrv_usd_intraday'
+  'mvrv_usd_intraday',
+  'minersBalance'
 ]

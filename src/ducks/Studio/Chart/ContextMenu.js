@@ -1,18 +1,12 @@
 import React from 'react'
-import ChartSettingsContextMenu from '../../SANCharts/ChartSettingsContextMenu'
+import Button from '@santiment-network/ui/Button'
+import ChartSettingsContextMenu, {
+  Icon
+} from '../../SANCharts/ChartSettingsContextMenu'
 import { saveToggle } from '../../../utils/localStorage'
+import styles from './ContextMenu.module.scss'
 
-export default ({ setOptions, ...props }) => {
-  function toggleMultichart () {
-    setOptions(state => ({
-      ...state,
-      isMultiChartsActive: saveToggle(
-        'isMultiChartsActive',
-        !state.isMultiChartsActive
-      )
-    }))
-  }
-
+export default ({ setOptions, onDeleteChartClick, ...props }) => {
   function toggleScale () {
     setOptions(state => ({
       ...state,
@@ -42,11 +36,25 @@ export default ({ setOptions, ...props }) => {
 
   return (
     <ChartSettingsContextMenu
-      onCartesianGridChange={toggleCartesianGrid}
-      onScaleChange={toggleScale}
-      onMultiChartsChange={toggleMultichart}
-      onClosestDataChange={toggleClosestData}
       {...props}
-    />
+      showDownloadPNG
+      showNightModeToggle={false}
+      showMulti={false}
+      onScaleChange={toggleScale}
+      onCartesianGridChange={toggleCartesianGrid}
+      onClosestDataChange={toggleClosestData}
+    >
+      {onDeleteChartClick && (
+        <Button
+          fluid
+          variant='ghost'
+          onClick={onDeleteChartClick}
+          className={styles.delete}
+        >
+          <Icon type='remove-small' className={styles.icon} />
+          Delete chart
+        </Button>
+      )}
+    </ChartSettingsContextMenu>
   )
 }

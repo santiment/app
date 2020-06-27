@@ -2,60 +2,31 @@ import React from 'react'
 import cx from 'classnames'
 import { Switch, Route } from 'react-router-dom'
 import StudioTabs from './Tabs'
-import StudioTabsChart from './Tabs/Chart'
 import StudioTabsKeyStats from './Tabs/KeyStats'
+import TabsWidgets from './Tabs/Widgets'
 import StudioInfo from '../SANCharts/Header'
 import SanbaseBanner from '../../components/SanbaseBanner/SanbaseBanner'
-import { Metric } from '../dataHub/metrics'
-import { PATHS } from '../../App'
-import styles from './index.module.scss'
-
-const { price_usd } = Metric
-const isChartPath = pathname => pathname === PATHS.STUDIO
-const noPriceFilter = metric => metric !== price_usd
-
-function getCorrectPath () {
-  const { pathname } = window.location
-
-  if (pathname.indexOf(PATHS.CHARTS) !== -1) {
-    return PATHS.CHARTS
-  }
-
-  return PATHS.STUDIO
-}
+import styles from './Main.module.scss'
 
 const Main = ({
+  widgets,
   topSlot,
   bottomSlot,
-  onSlugChange,
-  onProjectChange,
+  settings,
+  setSettings,
+  setIsICOPriceDisabled,
   ...props
 }) => {
-  const {
-    settings,
-    options,
-    activeMetrics,
-    project,
-    setSettings,
-    setIsICOPriceDisabled
-  } = props
-
-  const isSingleChart =
-    !options.isMultiChartsActive ||
-    activeMetrics.filter(noPriceFilter).length < 2
+  const { slug } = settings
 
   function onProjectSelect (project) {
     if (!project) return
 
     const { slug, name, ticker, id: projectId } = project
     const title = `${name} (${ticker})`
-    setSettings(state => ({ ...state, slug, title, projectId, ticker }))
+    setSettings({ ...settings, slug, title, projectId, ticker })
     setIsICOPriceDisabled(true)
-    onSlugChange(slug)
-    onProjectChange && onProjectChange(project)
   }
-
-  const pathName = getCorrectPath()
 
   return (
     <>
@@ -63,29 +34,24 @@ const Main = ({
       <div className={styles.header}>
         {topSlot}
         <StudioInfo
-          slug={settings.slug}
+          slug={slug}
           isLoading={false}
           isLoggedIn={false}
           onSlugSelect={onProjectSelect}
         />
       </div>
-      <StudioTabs root={pathName} />
-      <div
-        className={cx(
-          styles.container,
-          styles.content,
-          isSingleChart && isChartPath(pathName) && styles.container_chart
-        )}
-      >
+      <StudioTabs />
+      <div className={cx(styles.container, styles.content)}>
         <Switch>
-          <Route path={`${pathName}/stats`}>
-            <StudioTabsKeyStats {...props} {...settings} />
+          <Route path='/studio/stats'>
+            <StudioTabsKeyStats slug={slug} />
           </Route>
-          <Route path={pathName}>
-            <StudioTabsChart
+          <Route path='/studio'>
+            <TabsWidgets
               {...props}
-              project={project}
-              onProjectSelect={onProjectSelect}
+              settings={settings}
+              widgets={widgets}
+              setIsICOPriceDisabled={setIsICOPriceDisabled}
             />
           </Route>
         </Switch>

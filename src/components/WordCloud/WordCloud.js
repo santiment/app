@@ -7,6 +7,7 @@ import WidgetTrend from '../Widget/WidgetTrend'
 import { WORD_CLOUD_QUERY } from './wordCloudGQL.js'
 import { formatNumber } from '../../utils/formatting'
 import { getTimeIntervalFromToday } from '../../utils/dates'
+import { SOCIAL_CONTEXT_DESCRIPTION } from '../../ducks/dataHub/metrics/descriptions'
 import styles from './WordCloud.module.scss'
 import stylesTooltip from '../../components/HelpPopup/HelpPopup.module.scss'
 
@@ -56,8 +57,7 @@ export const WordCloud = ({
           <span className={styles.heading}>Social context</span>
           <HelpPopup>
             <h4 className={stylesTooltip.title}>Social context</h4>
-            Shows a set of words that have been frequently used alongside the
-            coin’s name on crypto social media in the recent days.
+            {SOCIAL_CONTEXT_DESCRIPTION}
           </HelpPopup>
         </>
       }
