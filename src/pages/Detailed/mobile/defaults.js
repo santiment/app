@@ -5,7 +5,7 @@ import { getIntervalByTimeRange } from '../../../utils/dates'
 const DEFAULT_TIME_RANGE = '6m'
 const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
 
-const PriceMobileStyles = {
+export const PriceMobileStyles = {
   node: 'area',
   gradientUrl: 'url(#totalUp)',
   hideYAxis: true

@@ -15,8 +15,10 @@ import { checkHasPremium } from '../../UserSelectors'
 import { useTimeseries } from '../../../ducks/Studio/timeseries/hooks'
 import ChartMetricsTool from '../../../ducks/SANCharts/ChartMetricsTool'
 import { getNewInterval } from '../../../ducks/SANCharts/IntervalSelector'
+import { Metric } from '../../../ducks/dataHub/metrics'
 import {
   PriceMetric,
+  PriceMobileStyles,
   DEFAULT_SETTINGS,
   MAX_METRICS_PER_CHART
 } from './defaults'
@@ -39,6 +41,7 @@ const MobileDetailedPage = ({
   addRecentAssets(slug)
 
   const [metrics, setMetrics] = useState([PriceMetric])
+  const [PriceCurrency, setPriceCurrency] = useState(Metric.price_usd)
   const [settings, setSettings] = useState({ ...DEFAULT_SETTINGS, slug })
   const [icoPricePos, setIcoPricePos] = useState(null)
   const [fullscreen, toggleFullscreen] = useState(false)
@@ -64,8 +67,8 @@ const MobileDetailedPage = ({
         action: `Removing "${metric.label} on movile"`
       })
     }
-
-    if (newMetrics.size > MAX_METRICS_PER_CHART) {
+    // NOTE: +1 because we don't count price metric
+    if (newMetrics.size > MAX_METRICS_PER_CHART + 1) {
       setIsLimitReached(true)
       return
     } else if (isLimitReached) {
@@ -99,7 +102,8 @@ const MobileDetailedPage = ({
     slug,
     toggleMetric,
     showLimitMessage: isLimitReached,
-    activeMetrics: metrics,
+    activeMetrics: metrics.slice(1),
+    hiddenMetrics: [PriceCurrency],
     isMobile: true
   }
 
@@ -171,25 +175,27 @@ const MobileDetailedPage = ({
         <div
           className={cx(styles.selected, metrics.length === 0 && styles.hide)}
         >
-          {metrics.length > 0 && (
+          {metrics.length > 1 && (
             <>
               <h3 className={styles.heading}>Selected Metrics</h3>
-              {metrics.map(metric => (
-                <MobileMetricCard
-                  metric={metric}
-                  ticker={project.ticker}
-                  isSelected
-                  onToggleMetric={() => toggleMetric(metric)}
-                  key={metric.label + 'selected'}
-                  hasPremium={hasPremium}
-                  errorsMetricsKeys={ErrorMsg}
-                  colors={MetricColor}
-                  width={width}
-                  project={project}
-                  slug={slug}
-                  isOuterEvent={isOuterEvent}
-                />
-              ))}
+              {metrics.map(metric =>
+                metric.key === PriceCurrency.key ? null : (
+                  <MobileMetricCard
+                    metric={metric}
+                    ticker={project.ticker}
+                    isSelected
+                    onToggleMetric={() => toggleMetric(metric)}
+                    key={metric.label + 'selected'}
+                    hasPremium={hasPremium}
+                    errorsMetricsKeys={ErrorMsg}
+                    colors={MetricColor}
+                    width={width}
+                    project={project}
+                    slug={slug}
+                    isOuterEvent={isOuterEvent}
+                  />
+                )
+              )}
             </>
           )}
         </div>
