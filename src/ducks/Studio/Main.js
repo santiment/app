@@ -19,7 +19,7 @@ const Main = ({
 }) => {
   const { slug } = settings
 
-  function onProjectSelect (project) {
+  function onProjectSelect(project) {
     if (!project) return
 
     const { slug, name, ticker, id: projectId } = project
@@ -43,10 +43,10 @@ const Main = ({
       <StudioTabs />
       <div className={cx(styles.container, styles.content)}>
         <Switch>
-          <Route path='/studio/stats'>
+          <Route path='/:base/stats'>
             <StudioTabsKeyStats slug={slug} />
           </Route>
-          <Route path='/studio'>
+          <Route>
             <TabsWidgets
               {...props}
               settings={settings}
