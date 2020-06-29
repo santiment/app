@@ -37,11 +37,13 @@ const Group = ({
         className={cx(styles.group__list, hidden && styles.group__list_hidden)}
       >
         {nodes.map(({ item, subitems }) => {
-          if (item.hidden) {
+          const { hidden, isBeta: isBetaMetric, selectable = true } = item
+
+          if (hidden) {
             return null
           }
 
-          if (item.isBeta && !isBeta) {
+          if (isBetaMetric && !isBeta) {
             return null
           }
 
@@ -49,6 +51,7 @@ const Group = ({
             <Fragment key={item.key}>
               <MetricButton
                 metric={item}
+                isDisabled={!selectable}
                 label={item.label}
                 onClick={() => toggleMetric(item)}
                 setMetricSettingMap={setMetricSettingMap}

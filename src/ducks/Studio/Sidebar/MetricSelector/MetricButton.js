@@ -31,7 +31,7 @@ const MetricButton = ({
         settings && settingsStyles.adjustable
       )}
       isActive={isActive}
-      onClick={onClick}
+      onClick={!isDisabled ? onClick : null}
     >
       <div className={styles.top}>
         {isError ? (

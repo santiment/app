@@ -51,7 +51,7 @@ export const getCategoryGraph = (
   }
   const { length } = availableMetrics
 
-  console.log('availableMetrics', availableMetrics)
+  const availableTimebounds = { ...AVAILABLE_TIMEBOUNDS }
 
   for (let i = 0; i < length; i++) {
     const availableMetric = availableMetrics[i]
@@ -62,14 +62,15 @@ export const getCategoryGraph = (
         : Metric[availableMetric]
 
     if (!metric) {
-      const availableTimeboundKey = Object.keys(AVAILABLE_TIMEBOUNDS).find(
+      const availableTimeboundKey = Object.keys(availableTimebounds).find(
         key => {
           return availableMetric.indexOf(key) !== -1
         }
       )
 
       if (availableTimeboundKey) {
-        metric = AVAILABLE_TIMEBOUNDS[availableTimeboundKey].base
+        metric = availableTimebounds[availableTimeboundKey].base
+        delete availableTimebounds[availableTimeboundKey]
       }
 
       if (!metric) {
@@ -101,8 +102,6 @@ export const getCategoryGraph = (
 
     categories[key] = sortCategoryGroups(category, Submetrics)
   })
-
-  console.log('categories', categories)
 
   return categories
 }
