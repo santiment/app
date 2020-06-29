@@ -60,11 +60,6 @@ export const savePrevAuthProvider = (authProviderType = 'email') => {
   }
 }
 
-export const hardReloadTabs = () => {
-  localStorage.setItem('reload', new Date().getTime())
-  window.location.reload(true)
-}
-
 window.addEventListener('storage', ({ key, oldValue, newValue }) => {
   if (
     key === 'user' &&

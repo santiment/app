@@ -63,17 +63,17 @@ export default ({
   isLoggedIn,
   isDesktop,
   token,
-  location: { search = '' }
+  location: { search = '' },
+  history
 }) => {
   if (isLoggedIn) {
     const { consent } = parse(search)
-    let redirectTo = '/'
-
     if (consent) {
-      redirectTo = `/consent?consent=${consent}&token=${token}`
+      const redirectTo = `/consent?consent=${consent}&token=${token}`
+      return <Redirect to={redirectTo} />
+    } else {
+      history.goBack()
     }
-
-    return <Redirect to={redirectTo} />
   }
 
   const child = (
