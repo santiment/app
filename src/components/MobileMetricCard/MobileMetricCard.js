@@ -36,8 +36,7 @@ const MobileMetricCard = ({
     [slug]
   )
 
-  let errorText =
-    errorsMetricsKeys[dataKey] && 'Failed to fetch the latest data'
+  let errorText = errorsMetricsKeys[dataKey] && 'Failed to fetch the data'
 
   let value = null
   let diff = null

@@ -18,7 +18,6 @@ import { getNewInterval } from '../../../ducks/SANCharts/IntervalSelector'
 import { Metric } from '../../../ducks/dataHub/metrics'
 import {
   PriceMetric,
-  PriceMobileStyles,
   DEFAULT_SETTINGS,
   MAX_METRICS_PER_CHART
 } from './defaults'
@@ -41,7 +40,7 @@ const MobileDetailedPage = ({
   addRecentAssets(slug)
 
   const [metrics, setMetrics] = useState([PriceMetric])
-  const [PriceCurrency, setPriceCurrency] = useState(Metric.price_usd)
+  const [PriceCurrency] = useState(Metric.price_usd)
   const [settings, setSettings] = useState({ ...DEFAULT_SETTINGS, slug })
   const [icoPricePos, setIcoPricePos] = useState(null)
   const [fullscreen, toggleFullscreen] = useState(false)
