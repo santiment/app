@@ -4,6 +4,10 @@ import { newWidget } from './utils'
 import StudioChart from '../Chart'
 import { dispatchWidgetMessage } from '../widgetMessage'
 import { DEFAULT_OPTIONS } from '../defaults'
+import {
+  calculateMovingAverageFromInterval,
+  mergeMetricSettingMap,
+} from '../utils'
 import { useTimeseries } from '../timeseries/hooks'
 import { buildAnomalies } from '../timeseries/anomalies'
 import { buildComparedMetric } from '../Compare/utils'
@@ -42,7 +46,7 @@ export const Chart = ({
   )
 
   const shareLink = useMemo(
-    () => bshareuildChartShareLink({ settings, widgets: [widget] }),
+    () => buildChartShareLink({ settings, widgets: [widget] }),
     [settings, metrics, comparables],
   )
 
@@ -102,6 +106,33 @@ export const Chart = ({
       setMetricTransformer(metricTransformer)
     },
     [metrics],
+  )
+
+  useEffect(
+    () => {
+      const metricsSet = new Set(metrics)
+
+      const metric = Metric.dev_activity
+      if (metricsSet.has(metric)) {
+        const newMap = new Map()
+        newMap.set(metric, {
+          transform: {
+            type: 'moving_average',
+            movingAverageBase: calculateMovingAverageFromInterval(
+              settings.interval,
+            ),
+          },
+        })
+
+        widget.MetricSettingMap = mergeMetricSettingMap(
+          MetricSettingMap,
+          newMap,
+        )
+
+        rerenderWidgets()
+      }
+    },
+    [metrics, settings.interval],
   )
 
   function removeComparedMetric({ key }) {
