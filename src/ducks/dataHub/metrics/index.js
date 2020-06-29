@@ -146,7 +146,8 @@ export const Metric = {
     group: 'Network Activity',
     label: 'Dormant Circulation',
     shortLabel: 'Dorm. Circ.',
-    selectable: false
+    selectable: false,
+    isBeta: true
   },
   mvrv_usd: {
     category: 'On-chain',
