@@ -48,17 +48,6 @@ export const Metric = {
     formatter: ethFormatter,
     isBeta: true
   },
-  historyPricePreview: {
-    queryKey: 'price_usd',
-    node: 'area',
-    color: 'jungle-green',
-    label: 'Price',
-    dataKey: 'price_usd',
-    category: 'Financial',
-    gradientUrl: 'url(#totalUp)',
-    formatter: usdFormatter,
-    hideYAxis: true
-  },
   historicalBalance: {
     category: 'Financial',
     node: 'bar',

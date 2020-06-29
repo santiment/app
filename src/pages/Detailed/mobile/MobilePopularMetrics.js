@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Icon from '@santiment-network/ui/Icon'
-import { POPULAR_METRICS } from './utils'
+import { POPULAR_METRICS } from './defaults'
 import MobileMetricCard from '../../../components/MobileMetricCard/MobileMetricCard'
 import styles from './MobilePopularMetrics.module.scss'
 
@@ -54,7 +54,7 @@ const MobilePopularMetrics = ({
               hideTooltip()
             }
           }}
-          key={metric.key + 'popular'}
+          key={metric.label + 'popular'}
           {...rest}
         />
       ))}

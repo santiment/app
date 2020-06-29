@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { clearCache, getSyncedColors } from '../../../Chart/Synchronizer'
+import { clearCache } from '../../../Chart/Synchronizer'
 import {
   getNewMetricsByType,
   getOldMetricsByType,
@@ -14,7 +14,6 @@ import {
   mapWithTimeseries,
   mapWithTimeseriesAndYCoord
 } from './utils'
-import { Metric } from '../../../dataHub/metrics'
 import GetTimeSeries from '../../../GetTimeSeries/GetTimeSeries'
 import VisualBacktestChart, { GetReferenceDots } from '../VisualBacktestChart'
 import { getMetricYAxisId } from '../../../SANCharts/utils'
@@ -64,12 +63,6 @@ const SignalPreviewChart = ({
     ...metricRest
   })
 
-  const metricsForSignalsChart = metrics.map(metric =>
-    metric === Metric.price_usd ? Metric.historyPricePreview : metric
-  )
-
-  const syncedColors = getSyncedColors(metricsForSignalsChart)
-
   return (
     <GetTimeSeries
       metrics={requestedMetrics}
@@ -104,10 +97,9 @@ const SignalPreviewChart = ({
             dataKeys={triggersBy}
             label={label}
             triggeredSignals={triggeredSignals}
-            metrics={metricsForSignalsChart}
+            metrics={metrics}
             signals={signals}
             referenceDots={referenceDots}
-            syncedColors={syncedColors}
             showTitle={showTitle}
           />
         )

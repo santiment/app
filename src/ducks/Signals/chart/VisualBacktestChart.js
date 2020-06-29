@@ -11,6 +11,7 @@ import cx from 'classnames'
 import Gradients from '../../../components/WatchlistOverview/Gradients'
 import { generateMetricsMarkup } from './../../SANCharts/utils'
 import CustomTooltip from './../../SANCharts/CustomTooltip'
+import { useChartColors } from './../../Chart/colors'
 import { ActiveDot } from '../../SANCharts/tooltip/ActiveLine'
 import chartStyles from './../../SANCharts/Chart.module.scss'
 import sharedStyles from './../../SANCharts/ChartPage.module.scss'
@@ -76,11 +77,10 @@ const VisualBacktestChart = ({
   data,
   dataKeys,
   referenceDots,
-  syncedColors,
   showTitle
 }) => {
   const markup = generateMetricsMarkup(metrics, {
-    syncedColors,
+    syncedColors: useChartColors(metrics),
     activeDotEl: ActiveDot,
     hideYAxis: true
   })
