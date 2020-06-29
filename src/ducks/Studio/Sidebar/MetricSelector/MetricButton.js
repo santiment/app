@@ -17,9 +17,13 @@ const MetricButton = ({
   isDisabled,
   onClick,
   setMetricSettingMap,
-  project
+  project,
+  showBetaLabel = true,
+  showTooltip = false
 }) => {
   const settings = isActive && metric && MetricSettings[metric.key]
+
+  const { selectable = true } = metric
 
   return (
     <Button
@@ -31,7 +35,7 @@ const MetricButton = ({
         settings && settingsStyles.adjustable
       )}
       isActive={isActive}
-      onClick={!isDisabled ? onClick : null}
+      onClick={selectable ? onClick : null}
     >
       <div className={styles.top}>
         {isError ? (
@@ -44,10 +48,17 @@ const MetricButton = ({
         )}
         {label}
 
-        {metric && metric.isBeta && <div className={styles.beta}>BETA</div>}
+        {metric && metric.isBeta && showBetaLabel && (
+          <div className={styles.beta}>BETA</div>
+        )}
 
         {metric && (
-          <MetricExplanation metric={metric} project={project} position='right'>
+          <MetricExplanation
+            metric={metric}
+            project={project}
+            position='right'
+            withChildren={showTooltip}
+          >
             <Icon type='info-round' className={styles.info} />
           </MetricExplanation>
         )}
