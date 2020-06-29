@@ -5,17 +5,17 @@ import styles from './index.module.scss'
 const TABS = [
   {
     path: '',
-    label: 'Studio',
+    label: 'Studio'
   },
   {
     path: '/stats',
-    label: 'Key Stats',
-  },
+    label: 'Key Stats'
+  }
 ]
 
 const SUBPATHS = new Set(TABS.map(({ path }) => path))
 
-function getSubpath(path) {
+function getSubpath (path) {
   const slashPosition = path.lastIndexOf('/', path.length - 2)
   const subpath = path.slice(slashPosition, path.endsWith('/') ? -1 : undefined)
   return SUBPATHS.has(subpath) ? '' : subpath
