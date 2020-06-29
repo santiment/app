@@ -1,10 +1,20 @@
-const SUBSCRIPTION_INTERVAL_ANCHOR = 'outside the allowed interval'
-const SUBSCRIPTION_INTERVAL_MSG =
-  'Requested dates are outside of the allowed interval for your subscription'
+const SUBSCRIPTION_INTERVAL = {
+  anchor: 'outside the allowed interval',
+  msg:
+    'Requested dates are outside of the allowed interval for your subscription'
+}
+
+const PROJECT_FETCH = {
+  anchor: 'for project with slug: ',
+  msg: "Can't fetch data for this project"
+}
+
+const ERRORS = [SUBSCRIPTION_INTERVAL, PROJECT_FETCH]
 
 export function substituteErrorMsg (backendMsg) {
-  if (backendMsg.includes(SUBSCRIPTION_INTERVAL_ANCHOR)) {
-    return SUBSCRIPTION_INTERVAL_MSG
+  const error = ERRORS.find(({ anchor }) => backendMsg.includes(anchor))
+  if (error) {
+    return error.msg
   }
 
   return backendMsg

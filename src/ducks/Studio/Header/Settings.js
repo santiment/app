@@ -11,6 +11,11 @@ import { METRICS_EXPLANATION_PANE } from '../Chart/Sidepanel/panes'
 import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
 import styles from './Settings.module.scss'
 
+function buildStudioShareLink () {
+  const { origin, search } = window.location
+  return `${origin}/studio${search}`
+}
+
 const ShareButton = withRouter(() => (
   <ShareModalTrigger
     trigger={props => (
@@ -19,7 +24,7 @@ const ShareButton = withRouter(() => (
       </Button>
     )}
     classes={styles}
-    shareLink={window.location.href}
+    shareLink={buildStudioShareLink()}
   />
 ))
 
