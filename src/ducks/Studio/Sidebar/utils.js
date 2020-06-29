@@ -1,4 +1,5 @@
 import { Metric } from '../../dataHub/metrics'
+import { AVAILABLE_TIMEBOUNDS } from '../../dataHub/submetrics'
 
 export const NO_GROUP = '_'
 
@@ -50,15 +51,30 @@ export const getCategoryGraph = (
   }
   const { length } = availableMetrics
 
+  console.log('availableMetrics', availableMetrics)
+
   for (let i = 0; i < length; i++) {
     const availableMetric = availableMetrics[i]
-    const metric =
+
+    let metric =
       typeof availableMetric === 'object'
         ? availableMetric
         : Metric[availableMetric]
 
     if (!metric) {
-      continue
+      const availableTimeboundKey = Object.keys(AVAILABLE_TIMEBOUNDS).find(
+        key => {
+          return availableMetric.indexOf(key) !== -1
+        }
+      )
+
+      if (availableTimeboundKey) {
+        metric = AVAILABLE_TIMEBOUNDS[availableTimeboundKey].base
+      }
+
+      if (!metric) {
+        continue
+      }
     }
 
     if (!hiddenMetrics.includes(metric)) {
@@ -85,6 +101,8 @@ export const getCategoryGraph = (
 
     categories[key] = sortCategoryGroups(category, Submetrics)
   })
+
+  console.log('categories', categories)
 
   return categories
 }
