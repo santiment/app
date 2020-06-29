@@ -37,7 +37,7 @@ const Group = ({
         className={cx(styles.group__list, hidden && styles.group__list_hidden)}
       >
         {nodes.map(({ item, subitems }) => {
-          const { hidden, isBeta: isBetaMetric, selectable = true } = item
+          const { hidden, isBeta: isBetaMetric } = item
 
           if (hidden) {
             return null
@@ -51,12 +51,12 @@ const Group = ({
             <Fragment key={item.key}>
               <MetricButton
                 metric={item}
-                isDisabled={!selectable}
                 label={item.label}
                 onClick={() => toggleMetric(item)}
                 setMetricSettingMap={setMetricSettingMap}
                 project={project}
                 isActive={activeMetrics.includes(item)}
+                showTooltip={item.showTooltip}
               />
               {subitems &&
                 subitems.map(subitem => (
@@ -67,6 +67,7 @@ const Group = ({
                     label={subitem.label}
                     onClick={() => toggleMetric(subitem)}
                     project={project}
+                    showBetaLabel={false}
                   />
                 ))}
             </Fragment>

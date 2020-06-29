@@ -147,7 +147,8 @@ export const Metric = {
     label: 'Dormant Circulation',
     shortLabel: 'Dorm. Circ.',
     selectable: false,
-    isBeta: true
+    isBeta: true,
+    showTooltip: true
   },
   mvrv_usd: {
     category: 'On-chain',

@@ -237,7 +237,9 @@ export const Description = {
     "Shows the amount of open perpetual contracts currently on Bitmex's [Project Ticker] / USD trading pairs. When open interest reaches unusually high numbers, it can precede increased volatility in the coin’s price",
   [Metric.bitmex_perpetual_open_value.key]:
     'Shows the value of the corresponding open interest in Satoshis (XBT/BTC)',
-  SOCIAL_VOLUME: SOCIAL_CONTEXT_DESCRIPTION
+  SOCIAL_VOLUME: SOCIAL_CONTEXT_DESCRIPTION,
+  [Metric.dormant_circulation.key]:
+    'Main metric is not available for selected asset'
 }
 
 export const rebuildDescriptions = Submetrics => {
