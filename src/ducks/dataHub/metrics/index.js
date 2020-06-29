@@ -140,6 +140,14 @@ export const Metric = {
     abbreviation: 'tc',
     moreInfoLink: 'https://academy.santiment.net/metrics/circulation/'
   },
+  dormant_circulation: {
+    category: 'On-chain',
+    node: 'line',
+    group: 'Network Activity',
+    label: 'Dormant Circulation',
+    shortLabel: 'Dorm. Circ.',
+    selectable: false
+  },
   mvrv_usd: {
     category: 'On-chain',
     node: 'line',

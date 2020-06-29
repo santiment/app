@@ -199,5 +199,11 @@ export const METRICS = [
   'bitmex_perpetual_funding_rate',
   'bitmex_perpetual_open_value',
   'mvrv_usd_intraday',
-  'minersBalance'
+  'minersBalance',
+  'dormant_circulation_180d',
+  'dormant_circulation_2y',
+  'dormant_circulation_365d',
+  'dormant_circulation_3y',
+  'dormant_circulation_5y',
+  'dormant_circulation_90d'
 ]

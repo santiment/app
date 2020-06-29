@@ -7,6 +7,12 @@ import {
 
 export const SOCIAL_TWITTER_INTERVALS = ['24h', '7d']
 
+export const AVAILABLE_TIMEBOUNDS = {
+  dormant_circulation_: {
+    base: Metric.dormant_circulation
+  }
+}
+
 export const Submetrics = {
   [Metric.price_usd.key]: [
     {

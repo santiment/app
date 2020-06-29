@@ -105,6 +105,10 @@ const TIMESERIES = {
     query: GET_METRIC('circulation'),
     preTransform: getMetricPreTransform
   },
+  dormant_circulation: {
+    query: GET_METRIC('dormant_circulation'),
+    preTransform: getMetricPreTransform
+  },
   mvrv_usd: {
     query: GET_METRIC('mvrv_usd'),
     preTransform: getMetricPreTransform
