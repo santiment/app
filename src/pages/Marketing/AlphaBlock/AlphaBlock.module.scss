@@ -1,0 +1,10 @@
+.cards {
+  display: grid;
+  grid-row-gap: 24px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column-gap: 24px;
+}
+
+.description {
+  margin-bottom: 0 !important;
+}

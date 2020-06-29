@@ -1,0 +1,55 @@
+@import '~@santiment-network/ui/mixins';
+
+.card {
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  box-sizing: border-box;
+  border-radius: $border-radius;
+  max-width: 368px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 48px;
+}
+
+.info {
+  padding: 24px;
+}
+
+.img {
+  margin-top: 24px;
+  position: relative;
+  right: 1px;
+}
+
+.title {
+  @include text('body-2', 'l');
+
+  color: var(--rhino);
+  margin: 0;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+.description {
+  @include text('body-3');
+
+  color: var(--waterloo);
+  margin-top: 8px;
+}
+
+.block {
+  margin-top: 16px;
+}
+
+.shareBlock {
+  border-top: 1px solid var(--porcelain);
+  margin: auto 24px 16px 24px;
+  padding-top: 14px;
+}
+
+.shareBtn {
+  padding-left: 0;
+}
