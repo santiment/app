@@ -7,6 +7,9 @@ import { MetricSettings } from '../../../dataHub/metrics/settings'
 import MetricExplanation from '../../../SANCharts/MetricExplanation'
 import styles from './MetricButton.module.scss'
 import settingsStyles from './Settings.module.scss'
+import { Metric } from '../../../dataHub/metrics'
+
+const UNSELECTABLE_METRICS = [Metric.dormant_circulation.key]
 
 const MetricButton = ({
   className,
@@ -23,7 +26,7 @@ const MetricButton = ({
 }) => {
   const settings = isActive && metric && MetricSettings[metric.key]
 
-  const { selectable = true } = metric
+  const unselectable = UNSELECTABLE_METRICS.includes(metric.key)
 
   return (
     <Button
@@ -32,10 +35,11 @@ const MetricButton = ({
         styles.btn,
         className,
         (isError || isDisabled) && styles.disabled,
+        unselectable && styles.unselectable,
         settings && settingsStyles.adjustable
       )}
       isActive={isActive}
-      onClick={selectable ? onClick : null}
+      onClick={unselectable ? null : onClick}
     >
       <div className={styles.top}>
         {isError ? (

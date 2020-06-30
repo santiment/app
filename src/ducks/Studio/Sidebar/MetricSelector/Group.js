@@ -37,7 +37,7 @@ const Group = ({
         className={cx(styles.group__list, hidden && styles.group__list_hidden)}
       >
         {nodes.map(({ item, subitems }) => {
-          const { hidden, isBeta: isBetaMetric } = item
+          const { hidden, isBeta: isBetaMetric, selectable = true } = item
 
           if (hidden) {
             return null
@@ -57,6 +57,7 @@ const Group = ({
                 project={project}
                 isActive={activeMetrics.includes(item)}
                 showTooltip={item.showTooltip}
+                isDisabled={!selectable}
               />
               {subitems &&
                 subitems.map(subitem => (

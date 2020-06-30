@@ -36,6 +36,15 @@
   }
 }
 
+.unselectable {
+  pointer-events: all;
+
+  .plus {
+    fill: var(--casper) !important;
+    background: var(--porcelain) !important;
+  }
+}
+
 .btn {
   text-align: left;
   justify-content: space-between;
