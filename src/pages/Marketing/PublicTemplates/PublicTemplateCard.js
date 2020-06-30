@@ -47,7 +47,12 @@ const PublicTemplateCard = ({ template }) => {
         <div className={styles.innerContainer}>
           <div className={styles.title}>
             {[
-              <NewLabel date={insertedAt} className={styles.new} key='new' />,
+              <NewLabel
+                date={insertedAt}
+                className={styles.new}
+                key='new'
+                withOffset={false}
+              />,
               <a
                 className={styles.title}
                 target='_blank'
