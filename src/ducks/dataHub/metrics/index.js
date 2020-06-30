@@ -151,6 +151,15 @@ export const Metric = {
     isBeta: true,
     moreInfoLink: 'https://academy.santiment.net/metrics/dormant-circulation/'
   },
+  stock_to_flow: {
+    category: 'On-chain',
+    node: 'line',
+    group: 'Network Activity',
+    label: 'Stock To Flow',
+    shortLabel: 'St. to Fl.',
+    isBeta: true,
+    moreInfoLink: 'https://academy.santiment.net/metrics/stock-to-flow/'
+  },
   mvrv_usd: {
     category: 'On-chain',
     node: 'line',

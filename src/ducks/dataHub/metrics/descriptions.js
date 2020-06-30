@@ -2,6 +2,7 @@ import React from 'react'
 import { Metric } from './index'
 import MoreInfoLink from '../../../components/MoreInfoLink/MoreInfoLink'
 import { convertToReadableInterval } from '../../../utils/dates'
+import { Link } from './frequences'
 
 export const SOCIAL_CONTEXT_DESCRIPTION =
   'Shows a set of words that have been frequently used alongside the coin’s name on crypto social media in the recent days.'
@@ -241,7 +242,19 @@ export const Description = {
   [Metric.dormant_circulation
     .key]: `Shows how many coins/tokens that have not been moved for more than ${convertToReadableInterval(
     '365d'
-  )} were transacted during a day. This is useful for spotting when really old Bitcoins move. `
+  )} were transacted during a day. This is useful for spotting when really old Bitcoins move. `,
+  [Metric.stock_to_flow.key]: (
+    <>
+      Stock To Flow model is a measure of scarcity/abundance of particular
+      resource. It shows how much supply enters yearly relative to the total
+      supply of the resource. We measure Stock To Flow for a given asset as the
+      ratio between{' '}
+      <Link href='https://academy.santiment.net/metrics/circulation/'>
+        Total Circulation
+      </Link>{' '}
+      of the asset and the daily minted coins multiplied by days in one year.{' '}
+    </>
+  )
 }
 
 export const rebuildDescriptions = Submetrics => {
