@@ -5,22 +5,20 @@ import { addDays } from '../../../utils/dates'
 import PageLoader from '../../../components/Loader/PageLoader'
 import ChartProvider from './ChartProvider'
 import styles from './VolumeChart.module.scss'
-import { metricsToPlotCategories } from '../../../ducks/Chart/Synchronizer'
-import Chart from '../../../ducks/SocialTool/Chart/Detailed/Chart'
-import { useChartColors } from '../../../ducks/Chart/colors'
-import { connect } from 'react-redux'
-import { updateTooltipSettings } from '../../../ducks/dataHub/tooltipSettings'
+import {metricsToPlotCategories} from "../../../ducks/Chart/Synchronizer";
+import Chart from "../../../ducks/SocialTool/Chart/Detailed/Chart";
+import {useChartColors} from "../../../ducks/Chart/colors";
+import {connect} from "react-redux";
+import {updateTooltipSettings} from "../../../ducks/dataHub/tooltipSettings";
 
 const NOW = new Date()
 
-const fakeMetrics = [
-  {
-    dataKey: 'aggregatedTimeseriesData',
-    key: 'aggregatedTimeseriesData',
-    node: 'bar',
-    label: 'Price/volume'
-  }
-]
+const fakeMetrics = [{
+  dataKey: 'aggregatedTimeseriesData',
+  key: 'aggregatedTimeseriesData',
+  node: 'bar',
+  label: 'Price/volume',
+}]
 
 const MetricColor = {
   aggregatedTimeseriesData: '#5275ff'
@@ -28,7 +26,7 @@ const MetricColor = {
 
 updateTooltipSettings(fakeMetrics)
 
-const VolumeChart = ({ isNightModeEnabled }) => {
+const VolumeChart = ({isNightModeEnabled}) => {
   const [interval, setInterval] = useState(30)
 
   const variables = {
@@ -39,17 +37,10 @@ const VolumeChart = ({ isNightModeEnabled }) => {
 
   const chartRef = useRef(null)
 
-  return (
-    <div className={styles.container}>
-      <Query query={ALL_PROJECTS_AGGREGATED_QUERY} variables={variables}>
-        {props => {
-          const { data: { allProjects: data = [] } = {}, loading } = props
-
-          if (loading) {
-            return <PageLoader />
-          }
-
-          const categories = metricsToPlotCategories(fakeMetrics)
+  return <div className={styles.container}>
+    <Query query={ALL_PROJECTS_AGGREGATED_QUERY} variables={variables}>
+      {(props) => {
+        const { data: { allProjects: data = [] } = {}, loading } = props
 
           const mapped = data.map(item => {
             return {
