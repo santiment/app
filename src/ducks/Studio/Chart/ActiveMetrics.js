@@ -5,8 +5,8 @@ import Button from '@santiment-network/ui/Button'
 import MetricExplanation from '../../SANCharts/MetricExplanation'
 import MetricIcon from '../../SANCharts/MetricIcon'
 import MetricErrorExplanation from './MetricErrorExplanation/MetricErrorExplanation'
-import styles from './ActiveMetrics.module.scss'
 import { getMetricLabel } from '../../dataHub/metrics/labels'
+import styles from './ActiveMetrics.module.scss'
 
 const MetricButton = ({
   className,
