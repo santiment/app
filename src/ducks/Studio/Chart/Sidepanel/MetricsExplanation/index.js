@@ -12,6 +12,7 @@ import { Insights } from '../../../../dataHub/metrics/insights'
 import Frequences from '../../../../dataHub/metrics/frequences'
 import MetricFrequence from '../../../../SANCharts/MetricFrequence/MetricFrequence'
 import MetricDescription from '../../../../SANCharts/MetricDescription/MetricDescription'
+import { getMetricLabel } from '../../../../dataHub/metrics/labels'
 import styles from './index.module.scss'
 
 const OPTIONS = []
@@ -33,6 +34,7 @@ function dedupMetrics (metrics) {
 
   return metrics.filter(({ key }) => {
     const description = Description[key]
+
     return dups.has(description) ? false : dups.add(description)
   })
 }
@@ -45,12 +47,15 @@ function buildOptions (metrics, colors) {
   }))
 }
 
-const Label = ({ metric: { key, dataKey = key, node, label }, colors }) => (
-  <div className={styles.label}>
-    <MetricIcon node={node} color={colors[dataKey]} className={styles.icon} />
-    {label}
-  </div>
-)
+const Label = ({ metric, colors }) => {
+  const { key, dataKey = key, node } = metric
+  return (
+    <div className={styles.label}>
+      <MetricIcon node={node} color={colors[dataKey]} className={styles.icon} />
+      {getMetricLabel(metric)}
+    </div>
+  )
+}
 
 const MetricsExplanation = ({
   metrics,

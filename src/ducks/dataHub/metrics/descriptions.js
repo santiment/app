@@ -238,8 +238,10 @@ export const Description = {
   [Metric.bitmex_perpetual_open_value.key]:
     'Shows the value of the corresponding open interest in Satoshis (XBT/BTC)',
   SOCIAL_VOLUME: SOCIAL_CONTEXT_DESCRIPTION,
-  [Metric.dormant_circulation.key]:
-    'Dormant Circulation shows number of unique coins/tokens transacted on a given day that have not been moved for big amount of time. '
+  [Metric.dormant_circulation
+    .key]: `Shows how many coins/tokens that have not been moved for more than ${convertToReadableInterval(
+    '365d'
+  )} were transacted during a day. This is useful for spotting when really old Bitcoins move. `
 }
 
 export const rebuildDescriptions = Submetrics => {
@@ -253,7 +255,7 @@ export const rebuildDescriptions = Submetrics => {
             metric.key
           ] = `Shows how many coins/tokens that have not been moved for more than ${convertToReadableInterval(
             metric.replacements.timebound
-          )} were transacted during a day. This is useful for spotting when really old Bitcoins move.`
+          )} were transacted during a day. This is useful for spotting when really old Bitcoins move. `
         })
         break
       }
