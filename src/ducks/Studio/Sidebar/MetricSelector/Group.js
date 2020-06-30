@@ -56,7 +56,6 @@ const Group = ({
                 setMetricSettingMap={setMetricSettingMap}
                 project={project}
                 isActive={activeMetrics.includes(item)}
-                showTooltip={item.showTooltip}
                 isDisabled={!selectable}
               />
               {subitems &&

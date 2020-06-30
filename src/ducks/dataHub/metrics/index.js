@@ -145,10 +145,11 @@ export const Metric = {
     node: 'line',
     group: 'Network Activity',
     label: 'Dormant Circulation',
+    rootLabel: 'Dormant Circulation (365d)',
     shortLabel: 'Dorm. Circ.',
-    selectable: false,
+    queryKey: 'dormant_circulation_365d',
     isBeta: true,
-    showTooltip: true
+    moreInfoLink: 'https://academy.santiment.net/metrics/dormant-circulation/'
   },
   mvrv_usd: {
     category: 'On-chain',
