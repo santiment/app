@@ -1,12 +1,48 @@
-import { COMPARE_CONNECTOR, parseComparable, shareComparable } from '../url'
+import { COMPARE_CONNECTOR, parseComparable } from '../url/parse'
+import { shareComparable } from '../url/generate'
 import { Metric } from '../../dataHub/metrics'
 import { tryMapToTimeboundMetric } from '../../dataHub/timebounds'
 import { getSavedMulticharts } from '../../../utils/localStorage'
 import { capitalizeStr } from '../../../utils/utils'
+import { PATHS } from '../../../App'
+import { getSEOLinkFromIdAndTitle } from '../../../components/Insight/utils'
 
 const LAST_USED_TEMPLATE = 'LAST_USED_TEMPLATE'
 
 export const getMetricKey = ({ key }) => key
+
+export function prepareTemplateLink (template) {
+  if (!template) {
+    return ''
+  }
+
+  const { id, title } = template
+
+  return (
+    `${PATHS.STUDIO}/${getSEOLinkFromIdAndTitle(id, title)}` +
+    window.location.search
+  )
+}
+
+export const getTemplateIdFromURL = () => {
+  const href = window.location.pathname
+
+  if (href.indexOf(PATHS.STUDIO) === -1) {
+    return false
+  }
+
+  return +extractTemplateId(href)
+}
+
+export const extractTemplateId = () => {
+  const href = window.location.pathname
+  const items = href.split('-')
+  return items[items.length - 1]
+}
+
+export const getTemplateShareLink = template => {
+  return window.location.origin + prepareTemplateLink(template)
+}
 
 export function parseTemplateMetrics (templateMetrics) {
   const { length } = templateMetrics
@@ -47,9 +83,29 @@ export function buildTemplateMetrics ({ metrics, comparables }) {
   return metrics.map(getMetricKey).concat(comparables.map(shareComparable))
 }
 
-export function getLastTemplate () {
-  const savedTemplate = localStorage.getItem(LAST_USED_TEMPLATE)
+export function getAvailableTemplate (templates) {
+  if (!availableDefaultTemplate()) {
+    return undefined
+  }
 
+  const urlId = getTemplateIdFromURL()
+
+  if (urlId) {
+    return undefined
+  }
+
+  return templates[0]
+}
+
+const availableDefaultTemplate = () =>
+  window.location.pathname.indexOf(PATHS.CHARTS) === -1
+
+export function getLastTemplate () {
+  if (!availableDefaultTemplate()) {
+    return undefined
+  }
+
+  const savedTemplate = localStorage.getItem(LAST_USED_TEMPLATE)
   return savedTemplate ? JSON.parse(savedTemplate) : undefined
 }
 

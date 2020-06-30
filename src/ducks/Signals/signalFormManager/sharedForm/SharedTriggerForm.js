@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import Button from '@santiment-network/ui/Button'
 import { couldShowChart } from '../../utils/utils'
 import SignalPreview from '../../chart/preview/SignalPreview'
@@ -8,9 +9,22 @@ import { DesktopOnly, MobileOnly } from '../../../../components/Responsive'
 import CopySignal from '../../../../components/SignalCard/controls/CopySignal'
 import styles from './ShareTriggerForm.module.scss'
 
-const SharedTriggerForm = ({ id, trigger, onOpen, onCreate, settings }) => {
-  const { target, metric } = settings
-  const showChart = target && couldShowChart(trigger.settings)
+const SharedTriggerForm = ({
+  id,
+  trigger,
+  onOpen,
+  onCreate,
+  settings,
+  originalTrigger,
+  isAuthor
+}) => {
+  const { metric } = settings
+
+  const {
+    settings: originalSettings,
+    settings: { target }
+  } = originalTrigger
+  const showChart = target && couldShowChart(originalSettings)
 
   return (
     <div className={styles.container}>
@@ -40,7 +54,7 @@ const SharedTriggerForm = ({ id, trigger, onOpen, onCreate, settings }) => {
         <DesktopOnly>
           <CopySignal
             signal={trigger}
-            label='Add signal'
+            label='Add alert'
             onCreate={onCreate}
             classes={styles}
             as='div'
@@ -51,14 +65,14 @@ const SharedTriggerForm = ({ id, trigger, onOpen, onCreate, settings }) => {
             onClick={() => onOpen(false)}
             border
           >
-            Edit signal
+            {isAuthor ? 'Edit signal' : 'Open signal'}
           </Button>
         </DesktopOnly>
 
         <MobileOnly>
           <CopySignal
             signal={trigger}
-            label='Add signal'
+            label='Add alert'
             onCreate={onCreate}
             classes={styles}
             as='div'
@@ -69,7 +83,7 @@ const SharedTriggerForm = ({ id, trigger, onOpen, onCreate, settings }) => {
             className={styles.btnEdit}
             onClick={() => onOpen(false)}
           >
-            Edit signal
+            {isAuthor ? 'Edit signal' : 'Open signal'}
           </Button>
         </MobileOnly>
       </div>
@@ -77,4 +91,12 @@ const SharedTriggerForm = ({ id, trigger, onOpen, onCreate, settings }) => {
   )
 }
 
-export default SharedTriggerForm
+const mapStateToProps = (state, { userId }) => {
+  const { user: { data: { id } = {} } = {} } = state
+
+  return {
+    isAuthor: +id === +userId
+  }
+}
+
+export default connect(mapStateToProps)(SharedTriggerForm)

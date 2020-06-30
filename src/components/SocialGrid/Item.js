@@ -7,17 +7,20 @@ import Tooltip from '@santiment-network/ui/Tooltip'
 import Button from '@santiment-network/ui/Button'
 import { createTrigger } from '../../ducks/Signals/common/actions'
 import { buildInTrendingWordsSignal } from '../../ducks/Signals/utils/utils'
+import LoginDialogWrapper from '../LoginDialog/LoginDialogWrapper'
 import WordCloud from '../WordCloud/WordCloud'
 import DarkTooltip from '../Tooltip/DarkTooltip'
+import { dividePhraseInWords } from './topics'
 import Chart from './Chart'
 import styles from './Item.module.scss'
+import NewLabel from '../NewLabel/NewLabel'
 
 const Item = ({
   topic,
+  title,
   link,
+  createdAt,
   charts,
-  onTopicClick,
-  settingMap,
   show,
   onLoad,
   settings,
@@ -27,7 +30,7 @@ const Item = ({
 
   MetricSettingMap.set(charts[0], {
     selector: 'text',
-    slug: link
+    slug: topic
   })
 
   const [map] = useState(MetricSettingMap)
@@ -36,30 +39,36 @@ const Item = ({
     <article className={styles.wrapper}>
       <div className={styles.top}>
         <Link to={`/labs/trends/explore/${link}`} className={styles.text}>
-          {topic}
+          {[
+            <NewLabel date={createdAt} className={styles.new} key='new' />,
+            title
+          ]}
         </Link>
         <div className={styles.actions}>
-          <div
-            className={styles.action}
-            onClick={() => {
-              createSignal(buildInTrendingWordsSignal(link))
-            }}
-          >
-            <DarkTooltip
-              align='end'
-              trigger={
-                <Icon
-                  type='signal'
-                  className={cx(styles.signal, styles.icon)}
-                />
-              }
-              position='top'
+          <LoginDialogWrapper title='Create alert'>
+            <div
+              className={styles.action}
+              onClick={() => {
+                const words = dividePhraseInWords(topic)
+                createSignal(buildInTrendingWordsSignal(words))
+              }}
             >
-              Create an alert if the phrase
-              <br />
-              appears in Emerging trends
-            </DarkTooltip>
-          </div>
+              <DarkTooltip
+                align='end'
+                trigger={
+                  <Icon
+                    type='signal'
+                    className={cx(styles.signal, styles.icon)}
+                  />
+                }
+                position='top'
+              >
+                Create an alert if the phrase
+                <br />
+                appears in Santrends
+              </DarkTooltip>
+            </div>
+          </LoginDialogWrapper>
           <div className={styles.action}>
             <Tooltip
               on='click'
@@ -83,13 +92,13 @@ const Item = ({
                 </Button>
               }
             >
-              <WordCloud hideWord className={styles.wordCloud} word={link} />
+              <WordCloud hideWord className={styles.wordCloud} word={topic} />
             </Tooltip>
           </div>
         </div>
       </div>
       <Chart
-        topic={link}
+        topic={topic}
         charts={charts}
         settings={settings}
         onLoad={onLoad}

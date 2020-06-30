@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Metric } from '../dataHub/metrics'
 
-const ALPHA_CHANNEL = '40'
+const ALPHA_CHANNEL = '29'
 
 // RESERVED COLORS
 const GREEN = '#26C953'
@@ -25,6 +25,8 @@ export const COLORS = [
   '#222222' // BLACK
 ]
 
+export const COLORS_SET = new Set(COLORS)
+
 const MetricColor = {
   [Metric.price_usd.key]: GREEN,
   [Metric.volume_usd.key]: GRAY,
@@ -33,32 +35,94 @@ const MetricColor = {
   [Metric.dev_activity.key]: VIOLET
 }
 
+function getUnusedColors (usedColorsSet) {
+  const unusedColorsSet = new Set(COLORS_SET)
+
+  usedColorsSet.forEach(color => unusedColorsSet.delete(color))
+
+  return [...unusedColorsSet]
+}
+
+function preserveExistingMetricColor (metrics, PreviousColor) {
+  const PreservedColor = {}
+  const uncoloredMetrics = []
+  const { length } = metrics
+
+  for (let i = 0; i < length; i++) {
+    const { key } = metrics[i]
+    const color = PreviousColor[key]
+
+    if (color) {
+      PreservedColor[key] = color
+    } else {
+      uncoloredMetrics.push(key)
+    }
+  }
+
+  return [uncoloredMetrics, PreservedColor]
+}
+
+export function getChartColors (metrics, PreviousColor = {}) {
+  const [uncoloredMetrics, Color] = preserveExistingMetricColor(
+    metrics,
+    PreviousColor
+  )
+  const unusedColors = getUnusedColors(Object.values(Color))
+
+  let freeColorIndex = 0
+  const { length } = uncoloredMetrics
+
+  for (let i = 0; i < length; i++) {
+    const metricKey = uncoloredMetrics[i]
+    Color[metricKey] = MetricColor[metricKey] || unusedColors[freeColorIndex++]
+  }
+
+  return Color
+}
+
 const INITIAL_STATE = {}
-export function useChartColors (metrics, focusedMetric) {
-  const [chartColors, setChartColors] = useState(INITIAL_STATE)
+export function useChartColors (metrics) {
+  const [ChartColor, setChartColors] = useState(INITIAL_STATE)
 
   useEffect(
     () => {
-      const { length } = metrics
-      const newColors = {}
-      let freeColorIndex = 0
+      setChartColors(getChartColors(metrics, ChartColor))
+    },
+    [metrics]
+  )
 
-      for (let i = 0; i < length; i++) {
-        const metric = metrics[i]
-        const { key } = metric
+  return ChartColor
+}
 
-        let color = MetricColor[key] || COLORS[freeColorIndex++]
-        if (focusedMetric && metric !== focusedMetric) {
+export function useChartColorsWithHighlight (metrics, focusedMetricKey) {
+  const MetricColor = useChartColors(metrics)
+  const [HighlightedMetricColor, setHighlightedMetricColor] = useState(
+    MetricColor
+  )
+
+  useEffect(
+    () => {
+      if (!focusedMetricKey) {
+        setHighlightedMetricColor(MetricColor)
+        return
+      }
+
+      const NewColor = {}
+
+      Object.keys(MetricColor).forEach(metricKey => {
+        let color = MetricColor[metricKey]
+
+        if (metricKey !== focusedMetricKey) {
           color += ALPHA_CHANNEL
         }
 
-        newColors[key] = color
-      }
+        NewColor[metricKey] = color
+      })
 
-      setChartColors(newColors)
+      setHighlightedMetricColor(NewColor)
     },
-    [metrics, focusedMetric]
+    [MetricColor, focusedMetricKey]
   )
 
-  return chartColors
+  return HighlightedMetricColor
 }

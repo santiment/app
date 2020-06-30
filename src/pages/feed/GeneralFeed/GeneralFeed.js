@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Query } from 'react-apollo'
+import Loadable from 'react-loadable'
 import { FEED_QUERY } from '../../../queries/FeedGQL'
 import PageLoader from '../../../components/Loader/PageLoader'
 import FeedListLoading from './FeedList/FeedListLoading'
@@ -17,8 +18,14 @@ import PulseInsights from './PulseInsights/PulseInsights'
 import styles from './GeneralFeed.module.scss'
 
 const baseLocation = '/feed'
-export const personalLocation = `${baseLocation}/personal`
 export const pulseLocation = `${baseLocation}/pulse`
+export const personalLocation = `${baseLocation}/personal`
+export const myAlertsLocation = `${baseLocation}/my-alerts`
+
+const LoadableMyAlertsPage = Loadable({
+  loader: () => import('../../SonarFeed/SonarFeedMySignalsPage'),
+  loading: () => <PageLoader />
+})
 
 const tabs = [
   {
@@ -32,6 +39,11 @@ const tabs = [
   {
     index: personalLocation,
     content: 'My Feed',
+    requireLogin: true
+  },
+  {
+    index: myAlertsLocation,
+    content: 'My Alerts',
     requireLogin: true
   }
 ]
@@ -108,8 +120,10 @@ const GeneralFeed = ({
   isLoggedIn,
   isUserLoading,
   fetchSignals,
-  location: { pathname }
+  location,
+  ...props
 }) => {
+  const { pathname } = location
   const [tab, setTab] = useState(isLoggedIn ? pathname : baseLocation)
   const [isPulse, setPulse] = useState(tab === pulseLocation)
   const [sortType, setSortType] = useState(DATETIME_SORT)
@@ -177,7 +191,13 @@ const GeneralFeed = ({
       />
 
       <div className={styles.scrollable}>
-        {isPulse ? (
+        {tab === '/feed/my-alerts' ? (
+          <LoadableMyAlertsPage
+            isLoggedIn={isLoggedIn}
+            location={location}
+            {...props}
+          />
+        ) : isPulse ? (
           <PulseInsights />
         ) : (
           <Query

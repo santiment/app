@@ -5,7 +5,7 @@ export const TOKEN_AGE_CONSUMED_QUERY = gql`
     $slug: String!
     $from: DateTime!
     $to: DateTime!
-    $interval: String!
+    $interval: interval!
   ) {
     tokenAgeConsumed(slug: $slug, from: $from, to: $to, interval: $interval) {
       datetime

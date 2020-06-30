@@ -1,0 +1,79 @@
+@import '~@santiment-network/ui/mixins';
+@import '../../animations';
+
+.wrapper {
+  padding: 18px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--athens);
+  transform-origin: top center;
+  animation-name: grow;
+  animation-timing-function: ease-out;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 40px;
+}
+
+.title {
+  @include text('body-2', 'm');
+
+  margin: 0 0 4px;
+  color: var(--dodger-blue);
+}
+
+.desc {
+  @include text('body-1', 'm');
+
+  margin: 0;
+  max-width: 332px;
+}
+
+.media {
+  height: 104px;
+  width: 230px;
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.info,
+.media {
+  animation-name: shiftDown, appear;
+  animation-delay: 0.4s;
+  animation-timing-function: ease-in-out;
+  animation-duration: 1s, 0.5s;
+  animation-fill-mode: both;
+}
+
+.closeContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+  max-width: 1152px;
+  margin: auto;
+  width: 100%;
+}
+
+.close {
+  position: absolute;
+  right: 0;
+  top: 10px;
+  fill: var(--rhino);
+  cursor: pointer;
+
+  &:hover {
+    fill: var(--waterloo);
+  }
+}

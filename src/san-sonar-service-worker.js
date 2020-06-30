@@ -63,7 +63,7 @@ function getFirstValueFromTable (storeName, checkCallback) {
   const cursorRequest = objectStore.openCursor()
 
   cursorRequest.onsuccess = event => {
-    var cursor = event.target.result
+    let cursor = event.target.result
     if (cursor) {
       checkCallback(cursor.value)
     } else {

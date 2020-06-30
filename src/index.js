@@ -15,12 +15,10 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloProvider } from 'react-apollo'
 import createHistory from 'history/createBrowserHistory'
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux'
-import mixpanelHelper from 'react-ab-test/lib/helpers/mixpanel'
-import emitter from 'react-ab-test/lib/emitter'
 import App from './App'
 import reducers from './reducers/rootReducers.js'
 import epics from './epics/rootEpics.js'
-import { hardReloadTabs, saveState } from './utils/localStorage'
+import { saveState } from './utils/localStorage'
 import { getAPIUrl, isNotSafari } from './utils/utils'
 import detectNetwork from './utils/detectNetwork'
 import getRaven from './utils/getRaven'
@@ -29,29 +27,10 @@ import uploadLink from './apollo/upload-link'
 import errorLink from './apollo/error-link'
 import authLink from './apollo/auth-link'
 import retryLink from './apollo/retry-link'
-import ChartPage from './pages/Studio'
-import { showNotification } from './actions/rootActions'
+import ChartPage from './pages/Chart'
 import { register, unregister } from './serviceWorker'
-import RefreshNotificationActions from './components/Notifications/Refresh/RefreshNotificationActions'
+import { newAppAvailable } from './ducks/Updates/actions'
 import './index.scss'
-
-// window.mixpanel has been set by Mixpanel's embed snippet.
-if (process.env.NODE_ENV !== 'test') {
-  mixpanelHelper.enable()
-}
-
-// Called when the experiment is displayed to the user.
-emitter.addPlayListener((experiment, variant) => {
-  window.mixpanel.track('Experiment Play', {
-    experiment,
-    variant
-  })
-})
-
-// Called when a 'win' is emitted, in this case by this.refs.experiment.win()
-emitter.addWinListener((experiment, variant) => {
-  window.mixpanel.track('Experiment Win', { experiment, variant })
-})
 
 export let client
 export let store
@@ -147,15 +126,7 @@ const main = () => {
   })
 
   const onServiceWorkerUpdate = () => {
-    store.dispatch(
-      showNotification({
-        variant: 'info',
-        title: 'New version of Sanbase is available!',
-        description: <RefreshNotificationActions onRefresh={hardReloadTabs} />,
-        dismissAfter: 1000 * 60 * 5,
-        isWide: true
-      })
-    )
+    store.dispatch(newAppAvailable())
   }
 
   if (isNotSafari) {

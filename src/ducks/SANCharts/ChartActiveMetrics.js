@@ -4,7 +4,6 @@ import Icon from '@santiment-network/ui/Icon'
 import Label from '@santiment-network/ui/Label'
 import Button from '@santiment-network/ui/Button'
 import MetricExplanation from './MetricExplanation'
-import AnomaliesToggle from '../../components/AnomaliesToggle/AnomaliesToggle'
 import MetricIcon from './MetricIcon'
 import { METRIC_COLORS } from './utils'
 import styles from './ChartActiveMetrics.module.scss'
@@ -14,9 +13,7 @@ const ChartActiveMetrics = ({
   activeMetrics,
   alwaysShowingMetrics = [],
   toggleMetric,
-  isShowAnomalies,
-  isWideChart,
-  ...rest
+  isWideChart
 }) => {
   let newColorId = 0
   return (
@@ -67,10 +64,6 @@ const ChartActiveMetrics = ({
           )
         })}
       </section>
-      <AnomaliesToggle
-        {...rest}
-        isShowAnomalies={isShowAnomalies && activeEvents.length === 0}
-      />
       <Button
         border
         as='a'

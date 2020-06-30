@@ -103,7 +103,7 @@ export const COLUMNS = (preload, props = {}) => [
   }),
   constructColumn({
     id: COLUMNS_NAMES.price_change,
-    heading: 'Price +/-',
+    heading: 'Price 24h %',
     maxWidth: 100,
     accessor: 'percentChange24h',
     Cell: ({ value }) => (
@@ -127,7 +127,7 @@ export const COLUMNS = (preload, props = {}) => [
   }),
   constructColumn({
     id: COLUMNS_NAMES.volume_change,
-    heading: 'Volume +/-',
+    heading: 'Volume 24h %',
     maxWidth: 100,
     accessor: 'volumeChange24h',
     Cell: ({ value }) => (
@@ -256,7 +256,7 @@ export const COLUMNS = (preload, props = {}) => [
     heading: 'Dev. Act. % change (30d)',
     accessor: 'devActChange30d',
     Cell: ({ value }) =>
-      isValidValue(value) ? <PercentChanges changes={value} /> : NO_DATA,
+      isValidValue(value) ? <PercentChanges changes={value * 100} /> : NO_DATA,
     sortMethod: simpleSort
   })
 ]

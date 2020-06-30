@@ -65,8 +65,10 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
         const timePeriod = {}
         if (!from || !to) {
           const { from: fromDate, to: toDate } = getIntervalByTimeRange(
-            timeRange
+            timeRange,
+            { isUTC: true }
           )
+
           timePeriod.from = fromDate.toISOString()
           timePeriod.to = toDate.toISOString()
         }

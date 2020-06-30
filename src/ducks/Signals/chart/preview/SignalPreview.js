@@ -1,157 +1,43 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Query } from '@apollo/react-components'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import {
-  getCheckingMetric,
-  getNewMetricsByType,
-  getOldMetricsByType,
-  getPreviewTarget,
-  getTimeRangeForChart,
-  isNewTypeSignal
-} from '../../utils/utils'
-import { Metric } from '../../../dataHub/metrics'
-import { getMetricYAxisId } from '../../../SANCharts/utils'
-import { getSyncedColors, clearCache } from '../../../Chart/Synchronizer'
-import GetTimeSeries from '../../../GetTimeSeries/GetTimeSeries'
-import ChartWidget from '../../../SANCharts/ChartPage'
-import VisualBacktestChart, { GetReferenceDots } from '../VisualBacktestChart'
-import { ChartExpandView } from '../ChartExpandView'
-import { DesktopOnly } from '../../../../components/Responsive'
+import { getTimeRangeForChart, skipHistoricalPreview } from '../../utils/utils'
 import { HISTORICAL_TRIGGER_POINTS_QUERY } from '../../epics'
-import {
-  cleanByDatakeys,
-  mapWithTimeseries,
-  mapWithTimeseriesAndYCoord,
-  mapToRequestedMetrics,
-  makeSameRange
-} from './utils'
-import { DAILY_ACTIVE_ADDRESSES, TRENDING_WORDS } from '../../utils/constants'
+import SignalPreviewChart from './SignalPreviewChart'
 import styles from './SignalPreview.module.scss'
 
-const PreviewLoader = (
+export const PreviewLoader = (
   <div className={styles.loaderWrapper}>
     <Loader className={styles.loader} />
   </div>
 )
 
-const getAvailableCooldown = baseCooldown => {
+export const getAvailableCooldown = baseCooldown => {
+  if (
+    baseCooldown &&
+    (baseCooldown.indexOf('d') !== -1 || baseCooldown.indexOf('w') !== -1)
+  ) {
+    return '1d'
+  }
+
   return baseCooldown && baseCooldown.indexOf('m') !== -1 ? '1h' : baseCooldown
 }
 
-const SignalPreviewChart = ({
-  target,
-  type: oldSignalType,
-  slug,
-  timeRange,
-  label,
-  points,
-  showExpand,
-  showTitle,
-  trigger
-}) => {
-  let triggeredSignals = points.filter(point => point['triggered?'])
+const filterPoints = (points, { settings: { metric } = {} }) => {
+  switch (metric) {
+    case 'mvrv_usd_intraday': {
+      const last = points[points.length - 1]
 
-  const isNew = isNewTypeSignal(trigger)
+      if (last && last.current !== 0) {
+        return points
+      }
 
-  const { metrics, triggersBy } = isNew
-    ? getNewMetricsByType(trigger)
-    : getOldMetricsByType(oldSignalType)
-
-  const isStrongDaily = oldSignalType === DAILY_ACTIVE_ADDRESSES
-
-  const { cooldown } = trigger
-
-  const metricsInterval = isStrongDaily ? '1d' : getAvailableCooldown(cooldown)
-
-  const { eth_address, address = eth_address } = target || {}
-
-  const metricRest = {
-    address
+      return points.slice(0, points.length - 1)
+    }
+    default: {
+      return points
+    }
   }
-
-  const requestedMetrics = mapToRequestedMetrics(metrics, {
-    timeRange,
-    interval: metricsInterval,
-    slug,
-    ...metricRest
-  })
-
-  const metricsForSignalsChart = metrics.map(metric =>
-    metric === Metric.price_usd ? Metric.historyPricePreview : metric
-  )
-
-  const syncedColors = getSyncedColors(metricsForSignalsChart)
-
-  useEffect(() => clearCache, [])
-
-  return (
-    <GetTimeSeries
-      metrics={requestedMetrics}
-      render={({ timeseries }) => {
-        if (!timeseries) {
-          return PreviewLoader
-        }
-
-        const data = mapWithTimeseries(timeseries)
-        const merged = cleanByDatakeys(
-          data,
-          triggersBy.dataKey || triggersBy.key
-        )
-
-        triggeredSignals = makeSameRange(triggeredSignals, merged)
-
-        const signals = mapWithTimeseriesAndYCoord(
-          triggeredSignals,
-          triggersBy,
-          merged,
-          isStrongDaily
-        )
-
-        const referenceDots =
-          triggeredSignals.length > 0 && triggersBy
-            ? GetReferenceDots(signals, getMetricYAxisId(triggersBy))
-            : null
-
-        return (
-          <>
-            <VisualBacktestChart
-              data={merged}
-              dataKeys={triggersBy}
-              label={label}
-              triggeredSignals={triggeredSignals}
-              metrics={metricsForSignalsChart}
-              signals={signals}
-              referenceDots={referenceDots}
-              syncedColors={syncedColors}
-              showTitle={showTitle}
-            />
-            {showExpand && (
-              <DesktopOnly>
-                <ChartExpandView>
-                  <ChartWidget
-                    alwaysShowingMetrics={triggersBy ? [triggersBy.key] : []}
-                    timeRange={timeRange}
-                    slug={slug}
-                    metrics={metrics}
-                    interval='1d'
-                    title={slug}
-                    hideSettings={{
-                      header: true,
-                      sidecar: true
-                    }}
-                    adjustNightMode={false}
-                    metricRest={metricRest}
-                  >
-                    {referenceDots}
-                  </ChartWidget>
-                </ChartExpandView>
-              </DesktopOnly>
-            )}
-          </>
-        )
-      }}
-    />
-  )
 }
 
 const SignalPreview = ({
@@ -160,18 +46,16 @@ const SignalPreview = ({
   showExpand = true,
   showTitle = true
 }) => {
-  const { settings, settings: { target, asset } = {}, cooldown } = trigger
+  const { settings: { target, asset } = {}, cooldown } = trigger
 
   if (!target && !asset) {
     return null
   }
 
-  const slug = getPreviewTarget(settings)
-
   return (
     <Query
       query={HISTORICAL_TRIGGER_POINTS_QUERY}
-      skip={getCheckingMetric(trigger.settings) === TRENDING_WORDS}
+      skip={skipHistoricalPreview(trigger)}
       variables={{
         cooldown: getAvailableCooldown(cooldown),
         settings: JSON.stringify(trigger.settings)
@@ -201,10 +85,9 @@ const SignalPreview = ({
         return (
           <SignalPreviewChart
             type={type}
-            slug={slug}
             label={label}
             timeRange={timeRange}
-            points={points}
+            points={filterPoints(points, trigger)}
             showExpand={showExpand}
             showTitle={showTitle}
             target={target}

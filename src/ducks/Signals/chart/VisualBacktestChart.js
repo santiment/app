@@ -11,6 +11,7 @@ import cx from 'classnames'
 import Gradients from '../../../components/WatchlistOverview/Gradients'
 import { generateMetricsMarkup } from './../../SANCharts/utils'
 import CustomTooltip from './../../SANCharts/CustomTooltip'
+import { useChartColors } from './../../Chart/colors'
 import { ActiveDot } from '../../SANCharts/tooltip/ActiveLine'
 import chartStyles from './../../SANCharts/Chart.module.scss'
 import sharedStyles from './../../SANCharts/ChartPage.module.scss'
@@ -76,11 +77,10 @@ const VisualBacktestChart = ({
   data,
   dataKeys,
   referenceDots,
-  syncedColors,
   showTitle
 }) => {
   const markup = generateMetricsMarkup(metrics, {
-    syncedColors,
+    syncedColors: useChartColors(metrics),
     activeDotEl: ActiveDot,
     hideYAxis: true
   })
@@ -91,28 +91,32 @@ const VisualBacktestChart = ({
     <div className={styles.preview}>
       {titleEnabled && (
         <div className={styles.description}>
-          <span className={styles.fired}>Signal was fired:</span>
+          <span className={styles.fired}>Alert was fired:</span>
           <span className={styles.times}>
             {triggeredSignals.length} times in {label}
           </span>
         </div>
       )}
-      <div className={styles.chartBlock}>
-        <div className={styles.chart}>
-          <div
-            className={cx(
-              chartStyles.wrapper,
-              sharedStyles.chart,
-              styles.wrapper,
-              !titleEnabled && styles.noTitle
-            )}
-          >
-            <ResponsiveContainer width='100%' height={120}>
-              {renderChart(data, dataKeys, markup, referenceDots)}
-            </ResponsiveContainer>
+      {data.length > 0 ? (
+        <div className={styles.chartBlock}>
+          <div className={styles.chart}>
+            <div
+              className={cx(
+                chartStyles.wrapper,
+                sharedStyles.chart,
+                styles.wrapper,
+                !titleEnabled && styles.noTitle
+              )}
+            >
+              <ResponsiveContainer width='100%' height={120}>
+                {renderChart(data, dataKeys, markup, referenceDots)}
+              </ResponsiveContainer>
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div>No data</div>
+      )}
     </div>
   )
 }

@@ -11,7 +11,7 @@ const CHART_HEIGHT = 150
 
 const CHART_PADDING = {
   top: 5,
-  right: 0,
+  right: 16,
   bottom: 5,
   left: 16
 }

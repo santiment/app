@@ -1,6 +1,5 @@
 .wrapper {
   padding: 8px 16px;
-  width: 350px;
 }
 
 .search {
@@ -8,5 +7,16 @@
 }
 
 .projects {
-  height: 192px;
+  height: 300px;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin: 12px 0;
+  padding: 0 10px;
+
+  & > div {
+    padding-bottom: 7px;
+  }
 }

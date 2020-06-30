@@ -9,7 +9,6 @@ import createHistory from 'history/createBrowserHistory'
 import { routerMiddleware } from 'react-router-redux'
 import reducers from '../src/reducers/rootReducers.js'
 import epics from '../src/epics/rootEpics.js'
-import { getAPIUrl } from '../src/utils/utils'
 
 import uploadLink from '../src/apollo/upload-link'
 import errorLink from '../src/apollo/error-link'

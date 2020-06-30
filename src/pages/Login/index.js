@@ -12,8 +12,8 @@ import SwipablePages from '../../components/SwipablePages/SwipablePages'
 import MobileWrapper from './Mobile/MobileWrapper'
 import styles from './index.module.scss'
 
-const LoginDescription = () => (
-  <div className={styles.loginBlock}>
+export const LoginDescription = ({ className }) => (
+  <div className={cx(styles.loginBlock, className)}>
     <h3 className={styles.title}>Welcome to Sanbase</h3>
     <div className={styles.options}>
       <LoginMetamaskBtn />
@@ -36,7 +36,7 @@ const LoginOptions = props => {
   if (props.isDesktop) {
     return (
       <div className={styles.container}>
-        <LoginDescription />
+        <LoginDescription className={styles.loginBlock_desktop} />
         <div>
           <FreeTrialBlock />
         </div>
@@ -63,17 +63,17 @@ export default ({
   isLoggedIn,
   isDesktop,
   token,
-  location: { search = '' }
+  location: { search = '' },
+  history
 }) => {
   if (isLoggedIn) {
     const { consent } = parse(search)
-    let redirectTo = '/'
-
     if (consent) {
-      redirectTo = `/consent?consent=${consent}&token=${token}`
+      const redirectTo = `/consent?consent=${consent}&token=${token}`
+      return <Redirect to={redirectTo} />
+    } else {
+      history.goBack()
     }
-
-    return <Redirect to={redirectTo} />
   }
 
   const child = (

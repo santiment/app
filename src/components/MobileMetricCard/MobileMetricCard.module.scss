@@ -37,30 +37,15 @@
 
 .metric,
 .value,
-.period,
-.events {
+.period {
   color: var(--rhino);
   margin: 0;
 
   @include text('body-2');
 }
 
-.value {
-  &__trends {
-    color: var(--jungle-green);
-  }
-}
-
 .period {
   color: var(--casper);
-}
-
-.events {
-  color: var(--persimmon);
-
-  &__trends {
-    color: var(--rhino);
-  }
 }
 
 .dialog {
@@ -83,4 +68,10 @@
 
 .diff {
   margin-left: 9px;
+}
+
+.metric {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

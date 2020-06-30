@@ -1,27 +1,49 @@
+@import '~@santiment-network/ui/mixins';
+
 .wrapper {
   display: flex;
-  align-items: stretch;
+  align-items: center;
+  position: relative;
 }
 
-.right {
-  padding: 8px;
-  min-width: 150px;
+.input {
+  @include text('body-3', 'm');
+
+  width: 100%;
+  outline: none;
+  color: var(--rhino);
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  box-shadow: 0 2px 8px rgba(59, 84, 106, 0.03),
+    0 1px 2px rgba(59, 84, 106, 0.03);
+  border-radius: 4px;
+  height: 32px;
+  padding: 6px 12px;
+
+  &:hover {
+    border-color: var(--jungle-green);
+    color: var(--rhino);
+  }
 }
 
-.calendar {
-  box-shadow: none;
-  border: none;
-  border-right: 1px solid var(--porcelain);
-  border-radius: 0;
+.error {
+  border-color: var(--persimmon) !important;
 }
 
 .arrow {
   fill: var(--casper);
   margin-left: auto;
+  position: absolute;
+  right: 12px;
+  cursor: pointer;
 }
 
-.btn.active {
-  border-color: var(--jungle-green);
+.active {
+  z-index: 1001;
+
+  .input {
+    border-color: var(--jungle-green);
+  }
 
   .arrow {
     transform: rotate(180deg);

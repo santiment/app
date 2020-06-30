@@ -33,7 +33,11 @@ const IcoPrice = ({
     }
   })
 
-  const { height, minMaxes, left } = chart
+  const {
+    height,
+    minMaxes,
+    padding: { left, right }
+  } = chart
   const priceMinMax = minMaxes && minMaxes.price_usd
 
   useEffect(
@@ -66,7 +70,7 @@ const IcoPrice = ({
   return isICOPriceActive && !loading && price ? (
     <div
       className={cx(styles.wrapper, isOnChart && styles.dashed, className)}
-      style={{ left, top }}
+      style={{ left, right, top }}
     >
       <div className={styles.label}>
         ICO price

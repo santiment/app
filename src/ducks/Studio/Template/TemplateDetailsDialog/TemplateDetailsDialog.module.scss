@@ -30,22 +30,6 @@
   margin-top: 8px;
 }
 
-.avatar {
-  margin-right: 8px;
-
-  &:hover {
-    border: 1px solid var(--jungle-green-hover);
-  }
-}
-
-.link {
-  color: var(--jungle-green);
-
-  &:hover {
-    color: var(--jungle-green-hover);
-  }
-}
-
 .user {
   @include text('body-3');
 
@@ -56,14 +40,6 @@
 
   &:hover {
     color: var(--jungle-green-hover);
-
-    .link {
-      color: var(--jungle-green-hover);
-    }
-
-    .avatar {
-      border: 1px solid var(--jungle-green-hover);
-    }
   }
 }
 
@@ -75,7 +51,6 @@
 }
 
 .dialog {
-  max-height: 514px;
   max-width: 514px;
   width: 100%;
 }
@@ -92,7 +67,6 @@
 }
 
 .trigger {
-  min-width: 94px;
   color: var(--waterloo);
   position: absolute;
   right: 24px;

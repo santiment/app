@@ -1,9 +1,5 @@
 @import '~@santiment-network/ui/mixins';
 
-.wrapper {
-  padding: 16px;
-}
-
 .metrics {
   margin: 13px 0 0;
   display: flex;
@@ -13,20 +9,21 @@
 .toggle {
   cursor: pointer;
   box-sizing: content-box;
-  padding: 8px;
+  padding: 6px;
   fill: var(--mirage);
+  height: 8px;
+  width: 4.5px;
+  transform: rotate(-90deg);
+  margin-right: 8px;
 
-  &:hover {
-    fill: var(--jungle-green);
+  &_active {
+    transform: rotate(90deg);
   }
 }
 
 .category {
-  margin: 0 0 22px;
-
-  &:last-child {
-    margin: 0;
-  }
+  padding: 22px 16px 16px;
+  border-bottom: 1px solid var(--porcelain);
 
   &_hidden {
     .metrics {
@@ -34,7 +31,7 @@
     }
 
     .toggle {
-      transform: rotate(180deg);
+      transform: rotate(90deg);
     }
   }
 }
@@ -45,15 +42,41 @@
   margin: 0 0 0 9px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   user-select: none;
+  cursor: pointer;
+
+  &:hover .toggle {
+    fill: var(--jungle-green);
+  }
 }
 
 .group {
   @include text('caption');
 
+  user-select: none;
   color: var(--waterloo);
-  margin: 14px 0 8px;
+  margin: 14px 0 8px 9px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+
+  .toggle {
+    padding: 2px 6px;
+    fill: var(--waterloo);
+  }
+
+  &:hover .toggle {
+    fill: var(--jungle-green);
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+
+    &_hidden {
+      display: none;
+    }
+  }
 }
 
 .advanced {

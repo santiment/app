@@ -131,15 +131,17 @@ const ImageEditor = ({
               />
               Upload
             </Button>
-            <Button
-              variant='fill'
-              accent='positive'
-              disabled={!imageUrl}
-              className={styles.cropBtn}
-              onClick={showCroppedImage}
-            >
-              Create
-            </Button>
+            {imageUrl && (
+              <Button
+                variant='fill'
+                accent='positive'
+                disabled={!imageUrl}
+                className={styles.cropBtn}
+                onClick={showCroppedImage}
+              >
+                Update
+              </Button>
+            )}
           </div>
         </div>
       </Dialog.ScrollContent>

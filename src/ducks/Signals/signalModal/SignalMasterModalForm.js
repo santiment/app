@@ -8,7 +8,7 @@ import ConfirmSignalModalClose from './confirmClose/ConfirmSignalModalClose'
 import SignalDialog from './SignalDialog'
 
 const SignalMasterModalForm = ({
-  label = 'New signal',
+  label = 'New alert',
   metaFormSettings,
   canRedirect = true,
   enabled = true,
@@ -36,8 +36,9 @@ const SignalMasterModalForm = ({
   const hasTrigger = +triggerId > 0
 
   const [dialogOpenState, setDialogOpenState] = useState(
-    defaultOpen ? hasTrigger : false
+    defaultOpen && hasTrigger
   )
+
   const [isApproving, setIsAppoving] = useState(false)
   const [isChanged, setIsChanged] = useState(false)
 
@@ -90,7 +91,8 @@ const SignalMasterModalForm = ({
     <GetSignal
       skip={!dialogOpenState}
       triggerId={triggerId}
-      render={({ trigger = {}, userId: triggerUserId }) => {
+      render={data => {
+        const { trigger = {}, userId: triggerUserId } = data
         const { isLoading, isError } = trigger
 
         let isShared =
@@ -99,6 +101,8 @@ const SignalMasterModalForm = ({
         if (isShared && trigger && trigger.trigger) {
           trigger.trigger = { ...trigger.trigger, ...shareParams }
         }
+
+        trigger.userId = triggerUserId
 
         return (
           <>

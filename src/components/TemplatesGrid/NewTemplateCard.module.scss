@@ -15,12 +15,14 @@
   align-items: center;
   justify-content: center;
   color: var(--rhino);
+  min-height: 130px;
+  background: var(--white);
 
   @include text('body-2', 'm');
 
   &:hover {
     cursor: pointer;
-    border: 1px dashed var(--jungle-green-hover);
+    border: 1px dashed var(--jungle-green);
 
     .link {
       color: var(--jungle-green-hover);

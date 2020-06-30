@@ -1,7 +1,7 @@
 @import "~@santiment-network/ui/mixins";
 
 .container {
-  padding: 16px 24px 32px 24px;
+  padding: 16px 24px 24px 24px;
 
   @include responsive('phone', 'phone-xs') {
     padding: 24px 24px 12px 24px;
@@ -23,6 +23,7 @@
 .chartDivider {
   border-top: 1px solid var(--porcelain);
   margin-bottom: 24px;
+  padding-top: 16px;
 
   @include responsive('phone', 'phone-xs') {
     display: none;

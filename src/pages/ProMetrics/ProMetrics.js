@@ -1,21 +1,20 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
+import { InputWithIcon } from '@santiment-network/ui/Input'
 import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
 import ProMetric from './ProMetric/ProMetric'
 import { SECOND_METRICS_GROUP, THIRD_METRICS_GROUP } from './utils'
 import { MobileOnly } from '../../components/Responsive'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { FIRST_METRICS_GROUP } from './utils.js'
+import CommonFooter from './ProMetricsFooter/CommonFooter'
+import SubscriptionForm from '../../components/SubscriptionForm/SubscriptionForm'
+import { checkIsProState } from '../../utils/account'
 import upgradeSvg from './../../assets/pro-metrics/upgrade.svg'
 import signSvg from './../../assets/pro-metrics/sign-bg.svg'
 import styles from './ProMetrics.module.scss'
-import CommonFooter from './ProMetricsFooter/CommonFooter'
-import SubscriptionForm from '../../components/SubscriptionForm/SubscriptionForm'
-import { InputWithIcon } from '@santiment-network/ui/Input'
-import { getCurrentSanbaseSubscription } from '../../utils/plans'
-import { PRO } from '../../components/Navbar/NavbarProfileDropdown'
-import { connect } from 'react-redux'
 
 const ProMetrics = ({ history, isLoggedIn, isProSanbase }) => {
   return (
@@ -149,17 +148,6 @@ const ProMetrics = ({ history, isLoggedIn, isProSanbase }) => {
   )
 }
 
-const mapStateToProps = ({ user: { data } }) => {
-  const sanbaseSubscription = getCurrentSanbaseSubscription(data)
-
-  const isProSanbase =
-    sanbaseSubscription && sanbaseSubscription.plan
-      ? sanbaseSubscription.plan.name === PRO
-      : false
-
-  return {
-    isProSanbase
-  }
-}
+const mapStateToProps = state => checkIsProState(state)
 
 export default connect(mapStateToProps)(ProMetrics)

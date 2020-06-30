@@ -4,7 +4,7 @@ export const PROJECT_TREND_HISTORY_QUERY = gql`
   query getProjectTrendingHistory(
     $from: DateTime!
     $to: DateTime!
-    $interval: String
+    $interval: interval
     $slug: String!
   ) {
     getProjectTrendingHistory(

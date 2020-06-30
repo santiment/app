@@ -12,30 +12,20 @@ import FullscreenChart from './MobileFullscreenChart'
 import ChartSelector from './MobileAssetChartSelector'
 import MobilePopularMetrics from './MobilePopularMetrics'
 import { checkHasPremium } from '../../UserSelectors'
-import { Metric } from '../../../ducks/dataHub/metrics'
-import { mapDatetimeToNumber } from '../../../ducks/SANCharts/utils'
-import ErrorRequest from '../../../ducks/SANCharts/ErrorRequest'
+import { useTimeseries } from '../../../ducks/Studio/timeseries/hooks'
 import ChartMetricsTool from '../../../ducks/SANCharts/ChartMetricsTool'
-import GetTimeSeries from '../../../ducks/GetTimeSeries/GetTimeSeries'
+import { getNewInterval } from '../../../ducks/SANCharts/IntervalSelector'
+import { Metric } from '../../../ducks/dataHub/metrics'
 import {
-  getNewInterval,
-  INTERVAL_ALIAS
-} from '../../../ducks/SANCharts/IntervalSelector'
-import {
-  makeRequestedData,
-  convertEventsToObj,
-  DEFAULT_METRIC,
-  DEFAULT_TIME_RANGE,
+  PriceMetric,
+  DEFAULT_SETTINGS,
   MAX_METRICS_PER_CHART
-} from './utils'
+} from './defaults'
 import PageLoader from '../../../components/Loader/PageLoader'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
 import MobileMetricCard from '../../../components/MobileMetricCard/MobileMetricCard'
 import MobileProPopup from '../../../components/MobileProPopup/MobileProPopup'
-import {
-  getSyncedColors,
-  prepareEvents
-} from '../../../ducks/Chart/Synchronizer'
+import { useChartColors } from '../../../ducks/Chart/colors'
 import { addRecentAssets } from '../../../utils/recent'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import styles from './MobileDetailedPage.module.scss'
@@ -46,17 +36,21 @@ const MobileDetailedPage = ({
   ...props
 }) => {
   const slug = props.match.params.slug
-  const [timeRange, setTimeRange] = useState(DEFAULT_TIME_RANGE)
-  const [icoPricePos, setIcoPricePos] = useState(null)
-  const [fullscreen, toggleFullscreen] = useState(false)
-  const [metrics, setMetrics] = useState([])
-  const [isLimitReached, setIsLimitReached] = useState(false)
-  const [width, setWidth] = useState()
-  const [isOuterEvent, setIsOuterEvent] = useState(false)
 
   addRecentAssets(slug)
 
-  const toggleMetric = metric => {
+  const [metrics, setMetrics] = useState([PriceMetric])
+  const [PriceCurrency] = useState(Metric.price_usd)
+  const [settings, setSettings] = useState({ ...DEFAULT_SETTINGS, slug })
+  const [icoPricePos, setIcoPricePos] = useState(null)
+  const [fullscreen, toggleFullscreen] = useState(false)
+  const [isLimitReached, setIsLimitReached] = useState(false)
+  const [width, setWidth] = useState()
+  const [isOuterEvent, setIsOuterEvent] = useState(false)
+  const MetricColor = useChartColors(metrics)
+  const [data, loadings, ErrorMsg] = useTimeseries(metrics, settings)
+
+  function toggleMetric (metric) {
     const newMetrics = new Set(metrics)
 
     if (!newMetrics.delete(metric)) {
@@ -72,8 +66,8 @@ const MobileDetailedPage = ({
         action: `Removing "${metric.label} on movile"`
       })
     }
-
-    if (newMetrics.size > MAX_METRICS_PER_CHART) {
+    // NOTE: +1 because we don't count price metric
+    if (newMetrics.size > MAX_METRICS_PER_CHART + 1) {
       setIsLimitReached(true)
       return
     } else if (isLimitReached) {
@@ -83,21 +77,34 @@ const MobileDetailedPage = ({
     setMetrics([...newMetrics])
   }
 
-  const { from, to } = getIntervalByTimeRange(timeRange)
-
-  const interval = getNewInterval(from, to, '1d', { isMobile: true })
-
-  const rest = {
-    slug,
-    from,
-    to,
-    interval: INTERVAL_ALIAS[interval] || interval
+  function onChangeTimeRange (timeRange) {
+    const { from: FROM, to: TO } = getIntervalByTimeRange(timeRange)
+    const interval = getNewInterval(FROM, TO, '1d', { isMobile: true })
+    setSettings({
+      ...settings,
+      timeRange,
+      interval,
+      from: FROM.toISOString(),
+      to: TO.toISOString()
+    })
   }
 
-  const requestedData = makeRequestedData({
-    metrics: [DEFAULT_METRIC, ...metrics],
-    ...rest
-  })
+  const commonChartProps = {
+    MetricColor,
+    isLoading: loadings.length > 0,
+    slug,
+    data,
+    metrics
+  }
+
+  const commonMetricsToolProps = {
+    slug,
+    toggleMetric,
+    showLimitMessage: isLimitReached,
+    activeMetrics: metrics.slice(1),
+    hiddenMetrics: [PriceCurrency],
+    isMobile: true
+  }
 
   return loading ? (
     <div className={cx('page', styles.wrapper)}>
@@ -127,159 +134,84 @@ const MobileDetailedPage = ({
           }
         }}
       >
-        <GetTimeSeries
-          {...requestedData}
-          render={({
-            timeseries = [],
-            errorMetrics = {},
-            eventsData = [],
-            isError,
-            isLoading,
-            errorType
-          }) => {
-            if (isError) {
-              return <ErrorRequest errorType={errorType} />
-            }
-
-            const errors = Object.keys(errorMetrics)
-            const finalMetrics = metrics.filter(
-              ({ key }) => !errors.includes(key)
-            )
-
-            const chartMetrics = [
-              Metric.historyPricePreview,
-              ...finalMetrics
-            ].filter(({ type }) => type !== 'events')
-            const syncedColors = getSyncedColors(chartMetrics)
-
-            const filteredEvents = eventsData.filter(
-              ({ metricAnomalyKey }) =>
-                !metricAnomalyKey ||
-                metrics.some(({ key }) => key === metricAnomalyKey)
-            )
-
-            const data = mapDatetimeToNumber(timeseries)
-
-            const events = prepareEvents(filteredEvents).map(
-              ({ metric, datetime, key, ...rest }) => {
-                const day = data.find(item => item.datetime === datetime)
-                return {
-                  metric,
-                  y: day ? day[metric] : 0,
-                  datetime,
-                  key,
-                  ...rest,
-                  color: key === 'trendingPosition' ? '#505573' : rest.color
-                }
-              }
-            )
-
-            const eventsObj = convertEventsToObj(events)
-
-            const commonChartProps = {
-              syncedColors,
-              isLoading,
-              slug,
-              events,
-              eventsObj,
-              data,
-              metrics: chartMetrics
-            }
-
-            const commonMetricsToolProps = {
-              slug,
-              toggleMetric,
-              showLimitMessage: isLimitReached,
-              activeMetrics: metrics,
-              hiddenMetrics: [Metric.price_usd],
-              isMobile: true
-            }
-
-            return (
-              <>
-                <PriceBlock {...project} slug={slug} />
-                {!fullscreen && (
-                  <AssetChart
-                    icoPrice={project.icoPrice}
-                    icoPricePos={icoPricePos}
-                    setIcoPricePos={setIcoPricePos}
-                    {...commonChartProps}
-                  />
-                )}
-                <div className={styles.bottom}>
-                  {!fullscreen && (
-                    <ChartSelector
-                      onChangeTimeRange={value => {
-                        setTimeRange(value)
-                        setIcoPricePos(null)
-                      }}
-                      timeRange={timeRange}
-                      className={styles.selector}
-                    />
-                  )}
-                  <FullscreenChart
-                    isOpen={fullscreen}
-                    toggleOpen={toggleFullscreen}
+        <PriceBlock {...project} slug={slug} />
+        {!fullscreen && (
+          <AssetChart
+            icoPrice={project.icoPrice}
+            icoPricePos={icoPricePos}
+            setIcoPricePos={setIcoPricePos}
+            {...commonChartProps}
+          />
+        )}
+        <div className={styles.bottom}>
+          {!fullscreen && (
+            <ChartSelector
+              onChangeTimeRange={value => {
+                onChangeTimeRange(value)
+                setIcoPricePos(null)
+              }}
+              timeRange={settings.timeRange}
+              className={styles.selector}
+            />
+          )}
+          <FullscreenChart
+            isOpen={fullscreen}
+            toggleOpen={toggleFullscreen}
+            project={project}
+            onChangeTimeRange={onChangeTimeRange}
+            timeRange={settings.timeRange}
+            chartProps={commonChartProps}
+            metricsToolProps={commonMetricsToolProps}
+          />
+        </div>
+        {!hasPremium && metrics.length > 0 && <MobileProPopup />}
+        <ChartMetricsTool
+          classes={styles}
+          addMetricBtnText='Add metrics'
+          className={styles.metricsPopup}
+          {...commonMetricsToolProps}
+        />
+        <div
+          className={cx(styles.selected, metrics.length === 0 && styles.hide)}
+        >
+          {metrics.length > 1 && (
+            <>
+              <h3 className={styles.heading}>Selected Metrics</h3>
+              {metrics.map(metric =>
+                metric.key === PriceCurrency.key ? null : (
+                  <MobileMetricCard
+                    metric={metric}
+                    ticker={project.ticker}
+                    isSelected
+                    onToggleMetric={() => toggleMetric(metric)}
+                    key={metric.label + 'selected'}
+                    hasPremium={hasPremium}
+                    errorsMetricsKeys={ErrorMsg}
+                    colors={MetricColor}
+                    width={width}
                     project={project}
-                    onChangeTimeRange={setTimeRange}
-                    timeRange={timeRange}
-                    chartProps={commonChartProps}
-                    metricsToolProps={commonMetricsToolProps}
+                    slug={slug}
+                    isOuterEvent={isOuterEvent}
                   />
-                </div>
-                {!hasPremium && metrics.length > 0 && <MobileProPopup />}
-                <ChartMetricsTool
-                  classes={styles}
-                  addMetricBtnText='Add metrics'
-                  className={styles.metricsPopup}
-                  {...commonMetricsToolProps}
-                />
-                <div
-                  className={cx(
-                    styles.selected,
-                    finalMetrics.length === 0 && styles.hide
-                  )}
-                >
-                  {metrics.length > 0 && (
-                    <>
-                      <h3 className={styles.heading}>Selected Metrics</h3>
-                      {metrics.map(metric => (
-                        <MobileMetricCard
-                          metric={metric}
-                          ticker={project.ticker}
-                          isSelected
-                          onToggleMetric={() => toggleMetric(metric)}
-                          key={metric.key + 'selected'}
-                          {...rest}
-                          hasPremium={hasPremium}
-                          errorsMetricsKeys={errors}
-                          colors={syncedColors}
-                          width={width}
-                          project={project}
-                          isOuterEvent={isOuterEvent}
-                        />
-                      ))}
-                    </>
-                  )}
-                </div>
-                {isLimitReached && (
-                  <div className={styles.limit}>
-                    To add a new metric, please de-select another one
-                  </div>
-                )}
-                <MobilePopularMetrics
-                  metrics={metrics}
-                  width={width}
-                  hasPremium={hasPremium}
-                  errorsMetricsKeys={errors}
-                  isOuterEvent={isOuterEvent}
-                  project={project}
-                  onToggleMetric={toggleMetric}
-                  {...rest}
-                />
-              </>
-            )
-          }}
+                )
+              )}
+            </>
+          )}
+        </div>
+        {isLimitReached && (
+          <div className={styles.limit}>
+            To add a new metric, please de-select another one
+          </div>
+        )}
+        <MobilePopularMetrics
+          slug={slug}
+          metrics={metrics}
+          width={width}
+          hasPremium={hasPremium}
+          errorsMetricsKeys={ErrorMsg}
+          isOuterEvent={isOuterEvent}
+          project={project}
+          onToggleMetric={toggleMetric}
         />
       </div>
     </div>

@@ -27,5 +27,6 @@ export default graphql(projectBySlugGQL, {
         interval: '7d'
       }
     }
-  }
+  },
+  skip: ({ slug }) => !slug
 })

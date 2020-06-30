@@ -4,8 +4,8 @@
 }
 
 .calendar {
-  margin: 0 16px;
   min-width: 167px;
+  margin: 0 8px 0 16px;
 }
 
 .multi {
@@ -18,4 +18,13 @@
   &__toggle {
     margin-left: 8px;
   }
+}
+
+.explain_active {
+  border-color: var(--jungle-green);
+  --btn-accent-color-hover: var(--jungle-green-hover);
+}
+
+.share {
+  fill: var(--casper);
 }

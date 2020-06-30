@@ -21,6 +21,7 @@ import { TriggerProjectsSelector } from '../Signals/signalFormManager/signalCrud
 import { formatNumber } from '../../utils/formatting'
 import { PROJECT_BY_SLUG_QUERY } from './gql'
 import ALL_PROJECTS from '../../allProjects.json'
+import ProjectSelectDialog from '../Studio/Compare/ProjectSelectDialog'
 import styles from './Header.module.scss'
 
 const H1 = createSkeletonElement('h1')
@@ -34,8 +35,8 @@ const ProjectInfo = createSkeletonProvider(
     color: 'var(--mystic)',
     backgroundColor: 'var(--mystic)'
   })
-)(({ name, ticker, slug, description, logoUrl, darkLogoUrl }) => (
-  <div className={styles.selector}>
+)(({ name, ticker, slug, description, logoUrl, darkLogoUrl, onClick }) => (
+  <div className={styles.selector} onClick={onClick}>
     <ProjectIcon
       size={40}
       slug={slug}
@@ -170,6 +171,7 @@ const Header = ({
   isLaptop,
   className
 }) => {
+  const [isOpened, setIsOpened] = useState()
   const dataProject = isLoading ? {} : project
 
   const {
@@ -190,18 +192,34 @@ const Header = ({
     [project]
   )
 
+  function closeDialog () {
+    setIsOpened(false)
+  }
+
+  function openDialog () {
+    setIsOpened(true)
+  }
+
+  function onProjectSelect (project) {
+    onSlugSelect(project)
+    closeDialog()
+  }
+
   return (
     <div className={styles.container}>
       <div className={cx(styles.wrapper, className)}>
         <div>
-          <ProjectSelector
-            slug={slug}
-            project={dataProject}
-            onChange={([dataProject], closeDialog) => {
-              onSlugSelect(dataProject)
-              closeDialog()
-            }}
+          <ProjectSelectDialog
+            open={isOpened}
+            activeSlug={slug}
+            onOpen={openDialog}
+            onClose={closeDialog}
+            onSelect={onProjectSelect}
+            trigger={
+              <ProjectInfo {...project} slug={slug} onClick={openDialog} />
+            }
           />
+
           <div className={styles.actions}>
             <WatchlistsPopup
               trigger={
@@ -219,7 +237,7 @@ const Header = ({
               trigger={
                 <Button border className={cx(styles.btn, styles.signal)}>
                   <Icon type='signal' className={styles.btn__icon} />
-                  Add signal
+                  Add alert
                 </Button>
               }
             />

@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Metric } from '../dataHub/metrics'
+import { MirroredMetric } from '../dataHub/metrics/mirrored'
 
 const splitByComma = str => str.split(',')
-const lineMetricsFilter = ({ node }) => node === 'line'
+const lineMetricsFilter = ({ node }) => node === 'line' || node === 'filledLine'
+const getDomainGroup = ({ key, domainGroup = key }) => domainGroup
+const checkIfAreMirrored = (metricA, metricB) =>
+  MirroredMetric[metricA.key] === metricB ||
+  MirroredMetric[metricB.key] === metricA
 
 export function useDomainGroups (metrics) {
   const [domainGroups, setDomainGroups] = useState()
@@ -107,4 +112,89 @@ export function useClosestValueData (
   )
 
   return newData
+}
+
+export function useTooltipMetricKey (metrics) {
+  const [tooltipMetricKey, setTooltipMetricKey] = useState(metrics[0].key)
+
+  useEffect(
+    () => {
+      const { length } = metrics
+      let tooltipKey = metrics[0]
+
+      for (let i = 0; i < length; i++) {
+        const metric = metrics[i]
+
+        if (metric === Metric.price_usd) {
+          return setTooltipMetricKey(metric.key)
+        }
+
+        if (tooltipKey.node !== 'line') {
+          tooltipKey = metric
+        } else {
+          break
+        }
+      }
+
+      return setTooltipMetricKey(tooltipKey.key)
+    },
+    [metrics]
+  )
+
+  return tooltipMetricKey
+}
+
+export function useAxesMetricsKey (metrics, isDomainGroupingActive) {
+  const [axesMetricKeys, setAxesMetricKeys] = useState([])
+
+  useEffect(
+    () => {
+      let mainAxisMetric = metrics[0]
+      let secondaryAxisMetric = metrics[1]
+
+      const { length } = metrics
+      if (length === 0) return
+
+      if (length === 1) {
+        return setAxesMetricKeys([mainAxisMetric.key])
+      }
+
+      for (let i = 1; i < length; i++) {
+        const metric = metrics[i]
+
+        if (metric === Metric.price_usd) {
+          secondaryAxisMetric = mainAxisMetric
+          mainAxisMetric = metric
+          break
+        }
+      }
+
+      const mainAxisDomain = getDomainGroup(mainAxisMetric)
+      let hasSameDomain =
+        (isDomainGroupingActive ||
+          checkIfAreMirrored(mainAxisMetric, secondaryAxisMetric)) &&
+        mainAxisDomain === getDomainGroup(secondaryAxisMetric)
+
+      if (hasSameDomain) {
+        for (let i = 1; i < length; i++) {
+          const metric = metrics[i]
+
+          if (mainAxisDomain !== getDomainGroup(metric)) {
+            secondaryAxisMetric = metric
+            hasSameDomain = false
+            break
+          }
+        }
+      }
+
+      setAxesMetricKeys(
+        hasSameDomain
+          ? [mainAxisMetric.key]
+          : [mainAxisMetric.key, secondaryAxisMetric.key]
+      )
+    },
+    [metrics, isDomainGroupingActive]
+  )
+
+  return axesMetricKeys
 }

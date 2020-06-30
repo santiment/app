@@ -99,7 +99,7 @@ const SignupDescription = ({ loading, loginEmail, setEmail }) => {
   )
 }
 
-const PrepareState = props => {
+export const PrepareState = props => {
   const { isDesktop, loading, loginEmail, setEmail, history } = props
 
   if (isDesktop) {

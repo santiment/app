@@ -8,9 +8,8 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import { mapSizesToProps } from '../../../utils/withSizes'
 import { INSIGHT_BY_ID_QUERY } from '../../../queries/InsightsGQL'
 import InsightCard from '../../../components/Insight/InsightCard'
-import { getCurrentSanbaseSubscription } from '../../../utils/plans'
-import { PRO } from '../../../components/Navbar/NavbarProfileDropdown'
 import NonProBanner from './NonProBanner'
+import { checkIsProState } from '../../../utils/account'
 import styles from './FundamentalReports.module.scss'
 
 const FundamentalReports = ({ isDesktop, isProSanbase }) => {
@@ -52,18 +51,7 @@ const FundamentalReports = ({ isDesktop, isProSanbase }) => {
   )
 }
 
-const mapStateToProps = ({ user: { data } }) => {
-  const sanbaseSubscription = getCurrentSanbaseSubscription(data)
-
-  const isProSanbase =
-    sanbaseSubscription && sanbaseSubscription.plan
-      ? sanbaseSubscription.plan.name === PRO
-      : false
-
-  return {
-    isProSanbase
-  }
-}
+const mapStateToProps = state => checkIsProState(state)
 
 export default compose(
   connect(mapStateToProps),

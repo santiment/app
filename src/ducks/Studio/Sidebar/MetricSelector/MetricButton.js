@@ -16,7 +16,9 @@ const MetricButton = ({
   isError,
   isDisabled,
   onClick,
-  setMetricSettingMap
+  setMetricSettingMap,
+  project,
+  showBetaLabel = true
 }) => {
   const settings = isActive && metric && MetricSettings[metric.key]
 
@@ -43,8 +45,12 @@ const MetricButton = ({
         )}
         {label}
 
+        {metric && metric.isBeta && showBetaLabel && (
+          <div className={styles.beta}>BETA</div>
+        )}
+
         {metric && (
-          <MetricExplanation metric={metric} position='right'>
+          <MetricExplanation metric={metric} project={project} position='right'>
             <Icon type='info-round' className={styles.info} />
           </MetricExplanation>
         )}

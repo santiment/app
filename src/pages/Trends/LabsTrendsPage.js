@@ -12,7 +12,7 @@ import styles from './LabsTrendsPage.module.scss'
 const TrendsHeader = () => {
   return (
     <div className={styles.titleWrapper}>
-      <div className={styles.title}>Emerging Trends</div>
+      <div className={styles.title}>Santrends</div>
       <HelpPopup />
     </div>
   )

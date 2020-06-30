@@ -1,12 +1,13 @@
 import gql from 'graphql-tag'
 import { extractTimeseries } from './utils'
 import { TooltipSetting } from '../../dataHub/tooltipSettings'
+import { Description } from '../../dataHub/metrics/descriptions'
 
 export const GET_MARKET_SEGMENT_QUERY = ({ key }) => gql`
   query devActivity(
     $from: DateTime!
     $to: DateTime!
-    $interval: String!
+    $interval: interval!
     $transform: String
     $movingAverageIntervalBase: Int
     $selector: GithubOrganizationsSelector
@@ -54,6 +55,11 @@ export const getMarketSegment = key => {
     }
   }
   MarketSegments.set(key, newSegment)
+
+  Description[
+    key
+  ] = `Shows the combined development activity of all projects in the ${key} market segment`
+
   return newSegment
 }
 

@@ -6,6 +6,9 @@
   background: var(--white);
   max-height: 70px;
   border-bottom: 1px solid var(--porcelain);
+  animation-name: shiftDown;
+  animation-timing-function: cubic-bezier(0, 0.96, 1, 1);
+  animation-duration: 1s;
 
   a {
     text-decoration: none;
@@ -36,7 +39,7 @@
   align-items: center;
 
   svg {
-    fill: var(--mirage);
+    fill: var(--rhino);
   }
 }
 
@@ -75,9 +78,7 @@
   color: var(--waterloo);
 }
 
-.rightBtns {
-  margin: 0;
-
+.rightLink {
   svg {
     fill: var(--waterloo);
   }
@@ -139,5 +140,15 @@
 }
 
 .help {
-  margin-right: 12px;
+  color: var(--waterloo);
+}
+
+@keyframes shiftDown {
+  0% {
+    transform: translateY(-20px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
 }

@@ -5,21 +5,19 @@ import { Link } from 'react-router-dom'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import ChartPaywallInfo from './PaywallInfo'
 import ChartActiveMetrics from './ActiveMetrics'
-import ChartFullscreenBtn from './ChartFullscreenBtn'
-import ChartSidepane from './Sidepane'
 import IcoPrice from './IcoPrice'
 import LastDayPrice from './LastDayPrice'
 import SharedAxisToggle from './SharedAxisToggle'
-import ChartMetricsExplanation, {
-  filterExplainableMetrics
-} from './Sidepane/MetricsExplanation'
-import { METRICS_EXPLANATION_PANE } from './Sidepane/panes'
-import { TOP_HOLDER_METRICS } from './Sidepane/TopHolders/metrics'
+import ContextMenu from './ContextMenu'
+import ChartFullscreenBtn from './Fullscreen'
+import Compare from '../Compare'
+import { extractMirrorMetricsDomainGroups } from '../utils'
+import { useAllTimeData } from '../timeseries/hooks'
 import Chart from '../../Chart'
 import Signals from '../../Chart/Signals'
-import Synchronizer from '../../Chart/Synchronizer'
-import { useDomainGroups } from '../../Chart/hooks'
-import { useChartColors } from '../../Chart/colors'
+import { useMetricCategories } from '../../Chart/Synchronizer'
+import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
+import { useChartColorsWithHighlight } from '../../Chart/colors'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './index.module.scss'
 
@@ -27,75 +25,91 @@ const Canvas = ({
   index,
   className,
   chartRef,
+  data,
+  eventsData,
   settings,
   options,
   loadings,
   eventLoadings,
   metrics,
+  comparables,
   activeEvents,
+  shareLink,
   boundaries,
-  advancedView,
-  chartSidepane,
+  ErrorMsg,
   toggleMetric,
-  toggleChartSidepane,
-  changeHoveredDate,
-  changeDatesRange,
-  isMultiChartsActive,
   syncedTooltipDate,
+  isICOPriceActive,
+  isSingleWidget,
   isAnon,
-  isSidebarClosed,
+  isSelectingRange,
+  changeTimePeriod,
+  TopLeftComponent = ChartActiveMetrics,
   setIsICOPriceDisabled,
-  ...props
+  setOptions,
+  setComparables,
+  onPointClick,
+  onDeleteChartClick,
+  onRangeSelect,
+  onRangeSelectStart,
+  syncTooltips
 }) => {
+  const categories = useMetricCategories(metrics)
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
-  const [FocusedMetric, setFocusedMetric] = useState()
-  const MetricColor = useChartColors(metrics, FocusedMetric)
+  const [focusedMetricKey, setFocusedMetricKey] = useState()
+  const [focusTimer, setFocusTimer] = useState()
+  const MetricColor = useChartColorsWithHighlight(metrics, focusedMetricKey)
   const domainGroups = useDomainGroups(metrics)
+  const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
+  const allTimeData = useAllTimeData(metrics, settings)
 
+  const mirrorDomainGroups = extractMirrorMetricsDomainGroups(domainGroups)
   const isBlurred = isAnon && index > 1
-  const hasExplanaibles = filterExplainableMetrics(metrics).length > 0
   const scale = options.isLogScale ? logScale : linearScale
-
-  useEffect(
-    () => {
-      if (chartSidepane === METRICS_EXPLANATION_PANE && !hasExplanaibles) {
-        toggleChartSidepane()
-      }
-    },
-    [hasExplanaibles]
-  )
 
   useEffect(onMetricHoverEnd, [metrics])
 
-  function onMetricHover (metric) {
-    setFocusedMetric(metric)
+  function onMetricHover (metric, { currentTarget }) {
+    const { parentNode } = currentTarget
+    // HACK: For some reason, fast pointer movement can trigger 'mouseenter' but not 'mouseleave'
+    // Hence, a metric might be stucked in the highlighted state [@vanguard | Jun 14, 2020]
+    setFocusTimer(
+      setTimeout(() => {
+        if (parentNode.querySelector(':hover')) {
+          setFocusedMetricKey(metric.key)
+        }
+      }, 60)
+    )
   }
 
   function onMetricHoverEnd () {
-    setFocusedMetric()
+    clearTimeout(focusTimer)
+    setFocusedMetricKey()
+  }
+
+  function onBrushChangeEnd (startIndex, endIndex) {
+    const start = allTimeData[startIndex]
+    const end = allTimeData[endIndex]
+    if (start && end) {
+      changeTimePeriod(new Date(start.datetime), new Date(end.datetime))
+    }
   }
 
   return (
-    <div
-      className={cx(
-        styles.wrapper,
-        chartSidepane && styles.wrapper_explained,
-        className
-      )}
-    >
+    <div className={cx(styles.wrapper, className)}>
       <div className={cx(styles.top, isBlurred && styles.blur)}>
         <div className={styles.metrics}>
-          <ChartActiveMetrics
+          <TopLeftComponent
             className={styles.metric}
+            settings={settings}
             MetricColor={MetricColor}
-            activeMetrics={metrics.filter(
-              metric => !TOP_HOLDER_METRICS.includes(metric)
-            )}
+            activeMetrics={metrics}
             activeEvents={activeEvents}
             toggleMetric={toggleMetric}
             loadings={loadings}
+            ErrorMsg={ErrorMsg}
             eventLoadings={eventLoadings}
-            isMultiChartsActive={isMultiChartsActive}
+            isSingleWidget={isSingleWidget}
             onMetricHover={onMetricHover}
             onMetricHoverEnd={onMetricHoverEnd}
           />
@@ -103,62 +117,82 @@ const Canvas = ({
 
         <div className={styles.meta}>
           <ChartPaywallInfo boundaries={boundaries} metrics={metrics} />
-          {domainGroups && (
+
+          {domainGroups && domainGroups.length > mirrorDomainGroups.length && (
             <SharedAxisToggle
               isDomainGroupingActive={isDomainGroupingActive}
               setIsDomainGroupingActive={setIsDomainGroupingActive}
             />
           )}
-          {hasExplanaibles && (
-            <ChartMetricsExplanation.Button
-              className={styles.explain}
-              onClick={toggleChartSidepane}
-            />
-          )}
+
+          <Compare
+            comparables={comparables}
+            setComparables={setComparables}
+            activeMetrics={metrics}
+            MetricColor={MetricColor}
+            slug={settings.slug}
+            className={styles.compare}
+          />
+
+          <ContextMenu
+            {...options}
+            setOptions={setOptions}
+            onDeleteChartClick={isSingleWidget ? undefined : onDeleteChartClick}
+            classes={styles}
+            chartRef={chartRef}
+            title={settings.title}
+            activeMetrics={metrics}
+            data={data}
+            shareLink={shareLink}
+          />
+
           <ChartFullscreenBtn
-            {...props}
+            categories={categories}
             options={options}
             settings={settings}
-            MetricColor={MetricColor}
             metrics={metrics}
             activeEvents={activeEvents}
             scale={scale}
+            brushData={allTimeData}
+            MetricColor={MetricColor}
+            shareLink={shareLink}
           />
         </div>
       </div>
       <Chart
+        {...categories}
         {...options}
         {...settings}
-        {...props}
+        data={data}
+        events={eventsData}
+        brushData={allTimeData}
         chartRef={chartRef}
         className={cx(styles.chart, isBlurred && styles.blur)}
         MetricColor={MetricColor}
         metrics={metrics}
         scale={scale}
-        domainGroups={isDomainGroupingActive ? domainGroups : undefined}
-        isMultiChartsActive={isMultiChartsActive}
-        syncedTooltipDate={isBlurred || syncedTooltipDate}
-        onPointClick={advancedView ? changeHoveredDate : undefined}
-        onRangeSelect={
-          advancedView === 'Spent Coin Cost' ? changeDatesRange : undefined
+        domainGroups={
+          isDomainGroupingActive ? domainGroups : mirrorDomainGroups
         }
-        resizeDependencies={[
-          MetricColor,
-          isMultiChartsActive,
-          advancedView,
-          chartSidepane,
-          isSidebarClosed
-        ]}
+        tooltipKey={axesMetricKeys[0]}
+        axesMetricKeys={axesMetricKeys}
+        syncedTooltipDate={isBlurred || syncedTooltipDate}
+        onPointClick={onPointClick}
+        onBrushChangeEnd={onBrushChangeEnd}
+        onRangeSelect={onRangeSelect}
+        onRangeSelectStart={onRangeSelectStart}
+        syncTooltips={syncTooltips}
+        resizeDependencies={[axesMetricKeys]}
       >
         <IcoPrice
           {...settings}
-          {...options}
+          isICOPriceActive={isICOPriceActive}
           metrics={metrics}
           className={styles.ico}
           onResult={price => setIsICOPriceDisabled(!price)}
         />
         <LastDayPrice settings={settings} metrics={metrics} />
-        <Signals {...settings} metrics={metrics} />
+        {isSelectingRange || <Signals {...settings} metrics={metrics} />}
       </Chart>
 
       {isBlurred && (
@@ -169,20 +203,6 @@ const Canvas = ({
           to unlock all Santiment Chart features
         </div>
       )}
-
-      {chartSidepane && (
-        <div className={styles.explanation}>
-          <ChartSidepane
-            {...props}
-            {...settings}
-            chartSidepane={chartSidepane}
-            metrics={metrics}
-            MetricColor={MetricColor}
-            toggleMetric={toggleMetric}
-            toggleChartSidepane={toggleChartSidepane}
-          />
-        </div>
-      )}
     </div>
   )
 }
@@ -191,17 +211,4 @@ const mapStateToProps = state => ({
   isAnon: !checkIsLoggedIn(state)
 })
 
-export default connect(mapStateToProps)(
-  ({ options, events, activeMetrics, ...rest }) => {
-    return (
-      <Synchronizer {...options} metrics={activeMetrics} events={events}>
-        <Canvas
-          options={options}
-          events={events}
-          activeMetrics={activeMetrics}
-          {...rest}
-        />
-      </Synchronizer>
-    )
-  }
-)
+export default connect(mapStateToProps)(Canvas)

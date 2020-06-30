@@ -66,15 +66,13 @@ export const allProjects50GQL = gql`
   ${project}
 `
 
-export const projectBySlugGQL = gql`
+export const PROJECT_WITH_SLUG_QUERY = gql`
   query projectBySlugGQL($slug: String!) {
     projectBySlug(slug: $slug) {
       ...generalData
-      ...project
     }
   }
   ${generalData}
-  ${project}
 `
 
 export const RECENT_ASSET_QUERY = gql`

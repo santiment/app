@@ -1,0 +1,11 @@
+.btn {
+  z-index: 1;
+  cursor: pointer;
+  transition: all 1s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+
+  &:hover {
+    fill: var(--jungle-green-hover);
+    transform: scale(1.2);
+  }
+}

@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { client } from '../../../index'
 import { getQuery, getPreTransform } from './fetcher'
 import { normalizeDatetimes, mergeTimeseries } from './utils'
+import { substituteErrorMsg } from './errors'
+import { getIntervalByTimeRange } from '../../../utils/dates'
 
 // NOTE: Polyfill for a PingdomBot 0.8.5 browser (/sentry/sanbase-frontend/issues/29459/) [@vanguard | Feb 6, 2020]
 window.AbortController =
@@ -13,18 +15,22 @@ window.AbortController =
 const DEFAULT_TS = []
 const DEFAULT_LOADINGS = []
 const DEFAULT_ERROR_MSG = Object.create(null)
+const DEFAULT_METRIC_TRANSFORMER = Object.create(null)
 const DEFAULT_ABORTABLES = new Map()
 const DEFAULT_METRIC_SETTINGS_MAP = new Map()
 const ABORTABLE_METRIC_SETTINGS_INDEX = 2
+
+const noop = v => v
 
 const hashMetrics = metrics => metrics.reduce((acc, { key }) => acc + key, '')
 
 const cancelQuery = ([controller, id]) => {
   const { queryManager } = client
   controller.abort()
-  queryManager.inFlightLinkObservables.delete(
-    queryManager.queries.get(id.toString()).document
-  )
+  const query = queryManager.queries.get(id.toString())
+  if (query) {
+    queryManager.inFlightLinkObservables.delete(query.document)
+  }
   queryManager.stopQuery(id)
 }
 
@@ -56,10 +62,13 @@ function abortAllMetrics (abortables) {
   return [...abortables.values()].forEach(cancelQuery)
 }
 
+const NO_DATA_MSG = 'No data for the requested period'
+
 export function useTimeseries (
   metrics,
   settings,
-  MetricSettingMap = DEFAULT_METRIC_SETTINGS_MAP
+  MetricSettingMap = DEFAULT_METRIC_SETTINGS_MAP,
+  MetricTransformer = DEFAULT_METRIC_TRANSFORMER
 ) {
   const [timeseries, setTimeseries] = useState(DEFAULT_TS)
   const [loadings, setLoadings] = useState(DEFAULT_LOADINGS)
@@ -67,6 +76,7 @@ export function useTimeseries (
   const [abortables, setAbortables] = useState(DEFAULT_ABORTABLES)
 
   const metricsHash = hashMetrics(metrics)
+  const { slug, from, to, interval } = settings
 
   useEffect(
     () => {
@@ -86,7 +96,7 @@ export function useTimeseries (
       setLoadings([...metrics])
       setErrorMsg({})
     },
-    [settings]
+    [slug, from, to, interval]
   )
 
   useEffect(
@@ -106,7 +116,7 @@ export function useTimeseries (
 
         if (!query) {
           return setErrorMsg(state => {
-            state[key] = 'No data'
+            state[key] = NO_DATA_MSG
             return { ...state }
           })
         }
@@ -142,8 +152,12 @@ export function useTimeseries (
             }
           })
           .then(getPreTransform(metric))
+          .then(MetricTransformer[metric.key] || noop)
           .then(data => {
             if (raceCondition) return
+            if (!data.length) {
+              throw new Error(NO_DATA_MSG)
+            }
 
             setTimeseries(() => {
               mergedData = mergeTimeseries([mergedData, data])
@@ -154,7 +168,7 @@ export function useTimeseries (
           .catch(({ message }) => {
             if (raceCondition) return
             setErrorMsg(state => {
-              state[key] = message
+              state[key] = substituteErrorMsg(message)
               return { ...state }
             })
           })
@@ -175,8 +189,31 @@ export function useTimeseries (
         raceCondition = true
       }
     },
-    [metricsHash, settings, MetricSettingMap]
+    [metricsHash, settings, MetricSettingMap, MetricTransformer]
   )
 
   return [timeseries, loadings, ErrorMsg]
+}
+
+const DEFAULT_BRUSH_SETTINGS = {
+  slug: 'bitcoin',
+  interval: '4d',
+  ...getIntervalByTimeRange('all')
+}
+
+export function useAllTimeData (metrics, settings, MetricSettingMap) {
+  const [brushSettings, setBrushSettings] = useState(DEFAULT_BRUSH_SETTINGS)
+  const [allTimeData] = useTimeseries(metrics, brushSettings, MetricSettingMap)
+
+  useEffect(
+    () => {
+      setBrushSettings({
+        ...brushSettings,
+        slug: settings.slug
+      })
+    },
+    [settings.slug]
+  )
+
+  return allTimeData
 }

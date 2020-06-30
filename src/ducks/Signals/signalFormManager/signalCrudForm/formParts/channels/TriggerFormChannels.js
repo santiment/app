@@ -9,13 +9,28 @@ import { getSanSonarSW } from '../../../../../../pages/Account/SettingsSonarWebP
 import FormikCheckbox from '../../../../../../components/formik-santiment-ui/FormikCheckbox'
 import SidecarExplanationTooltip from '../../../../../SANCharts/SidecarExplanationTooltip'
 import { CHANNEL_NAMES } from '../../../../utils/constants'
+import InputLink from '../../../../../../components/InputLink/InputLink'
 import styles from '../../signal/TriggerForm.module.scss'
 
 const CHANNELS = [
   CHANNEL_NAMES.Email,
   CHANNEL_NAMES.Telegram,
-  CHANNEL_NAMES.Browser
+  CHANNEL_NAMES.Browser,
+  CHANNEL_NAMES.Webhook
 ]
+
+export const findWebHook = channels => {
+  return channels.find(item => {
+    return isWebhookChannel(item)
+  })
+}
+
+export const isWebhookChannel = channel => {
+  return (
+    typeof channel === 'object' &&
+    (channel.hasOwnProperty('webhook') || Object.keys(channel).length === 0)
+  )
+}
 
 const TriggerFormChannels = ({
   channels,
@@ -27,6 +42,7 @@ const TriggerFormChannels = ({
   isNew
 }) => {
   const [isWebPushEnabled, setWebPushEnabled] = useState(true)
+  const [webhook, setWebhook] = useState('')
   const [disabledChannels, setDisabledChannels] = useState([])
 
   const [requiredChannels, setRequiredChannels] = useState([])
@@ -126,20 +142,81 @@ const TriggerFormChannels = ({
     [isTelegramConnected, isEmailConnected, isWebPushEnabled]
   )
 
-  const toggleChannel = channel => {
-    if (channels.indexOf(channel) !== -1) {
-      setFieldValue('channels', channels.filter(item => item !== channel))
+  const onWebhookChange = e => {
+    const channel = findWebHook(channels)
+
+    const val = e.target.value
+
+    if (channel) {
+      channel.webhook = val
+      setFieldValue('channels', channels)
     } else {
-      setFieldValue('channels', [...channels, channel])
+      setFieldValue('channels', [
+        ...channels,
+        {
+          webhook: val
+        }
+      ])
     }
+
+    setWebhook(val)
   }
+
+  const toggleChannel = channel => {
+    let newChannels = []
+    switch (channel) {
+      case CHANNEL_NAMES.Webhook: {
+        const whChannel = findWebHook(channels)
+        if (!whChannel) {
+          newChannels = [
+            ...channels,
+            {
+              webhook
+            }
+          ]
+        } else {
+          newChannels = channels.filter(item => !isWebhookChannel(item))
+        }
+        break
+      }
+
+      default: {
+        if (channels.indexOf(channel) !== -1) {
+          newChannels = channels.filter(item => item !== channel)
+        } else {
+          newChannels = [...channels, channel]
+        }
+      }
+    }
+
+    setFieldValue('channels', newChannels)
+  }
+
+  useEffect(
+    () => {
+      if (!webhook) {
+        const whChannel = findWebHook(channels)
+        if (whChannel) {
+          setWebhook(whChannel.webhook)
+        }
+      }
+    },
+    [channels]
+  )
 
   const isDisabled = channel => {
     return disabledChannels.some(disabled => disabled === channel)
   }
 
   const isActive = channel => {
-    return channels.some(active => active === channel)
+    switch (channel) {
+      case CHANNEL_NAMES.Webhook: {
+        return findWebHook(channels)
+      }
+      default: {
+        return channels.some(active => active === channel)
+      }
+    }
   }
 
   const isRequired = channel => {
@@ -168,16 +245,30 @@ const TriggerFormChannels = ({
               return null
             }
 
+            const isWebhook = channel === CHANNEL_NAMES.Webhook
+
             return (
-              <ChannelCheckbox
-                key={channel}
-                channel={channel}
-                isActive={isActive}
-                isDisabled={isDisabled}
-                toggleChannel={toggleChannel}
-                isRequired={isRequired}
-                recheckBrowserNotifications={recheckBrowserNotifications}
-              />
+              <div className={cx(styles.channel, isWebhook && styles.webhook)}>
+                <ChannelCheckbox
+                  key={channel}
+                  channel={channel}
+                  isActive={isActive}
+                  isDisabled={isDisabled}
+                  toggleChannel={toggleChannel}
+                  isRequired={isRequired}
+                  recheckBrowserNotifications={recheckBrowserNotifications}
+                  isConnectable={!isWebhook}
+                />
+                {isWebhook && (
+                  <InputLink
+                    name='webhook'
+                    disabled={!findWebHook(channels)}
+                    value={webhook}
+                    onChange={onWebhookChange}
+                    className={styles.inputLink}
+                  />
+                )}
+              </div>
             )
           })}
         </div>
@@ -193,7 +284,8 @@ const ChannelCheckbox = ({
   isActive,
   isDisabled,
   isRequired,
-  recheckBrowserNotifications
+  recheckBrowserNotifications,
+  isConnectable = true
 }) => {
   return (
     <div className={styles.checkbox}>
@@ -207,13 +299,15 @@ const ChannelCheckbox = ({
           toggleChannel(channel)
         }}
       />
-      <TriggerChannelSettings
-        showTrigger={isRequired(channel)}
-        recheckBrowserNotifications={recheckBrowserNotifications}
-        trigger={
-          <div className={styles.requiredChannelExplanation}>Connect</div>
-        }
-      />
+      {isConnectable && (
+        <TriggerChannelSettings
+          showTrigger={isRequired(channel)}
+          recheckBrowserNotifications={recheckBrowserNotifications}
+          trigger={
+            <div className={styles.requiredChannelExplanation}>Connect</div>
+          }
+        />
+      )}
     </div>
   )
 }

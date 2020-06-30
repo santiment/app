@@ -1,7 +1,6 @@
 @import '~@santiment-network/ui/mixins';
 
 .menu {
-  width: 32px;
   height: 32px;
   box-sizing: border-box;
   margin-left: auto;
@@ -15,10 +14,6 @@
   &:hover {
     fill: var(--jungle-green-hover) !important;
   }
-}
-
-.delete {
-  color: var(--persimmon);
 }
 
 .template {

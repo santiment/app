@@ -4,6 +4,7 @@ import SocialMediaLinks from '../../../components/SocialMediaLinks/SocialMediaLi
 import SubscriptionForm from '../../../components/SubscriptionForm/SubscriptionForm'
 import downloadLinkSvg from './../../../assets/google-play.svg'
 import styles from './CommonFooter.module.scss'
+import Version from '../../../components/Version/Version'
 
 const LEFT_LINKS = [
   {
@@ -54,8 +55,8 @@ const LEFT_LINKS = [
     link: 'https://app.santiment.net/labs/balance'
   },
   {
-    label: 'Sandata',
-    link: 'https://data.santiment.net'
+    label: 'Sangraphs',
+    link: 'https://graphs.santiment.net'
   },
 
   {
@@ -200,7 +201,8 @@ const CommonFooter = () => {
         <div className={styles.bottom}>
           <div className={styles.bottomLinks}>
             <div className={styles.bottomLeft}>
-              © 2016—{new Date().getFullYear()} Santiment
+              © 2016—{new Date().getFullYear()} Santiment{' '}
+              <Version classes={styles} />
             </div>
 
             <div className={styles.bottomCenter}>

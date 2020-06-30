@@ -5,7 +5,7 @@ export const EXCHANGE_FUNDS_FLOW_QUERY = gql`
     $slug: String!
     $from: DateTime!
     $to: DateTime!
-    $interval: String!
+    $interval: interval!
   ) {
     exchangeFundsFlow(slug: $slug, from: $from, to: $to, interval: $interval) {
       datetime

@@ -4,8 +4,20 @@ import Icon from '@santiment-network/ui/Icon'
 import ComparableMetric from './Metric'
 import { buildCompareKey, getProjectHiddenMetrics } from '../utils'
 import ProjectSelectDialog from '../ProjectSelectDialog'
+import { DEFAULT_TABS } from '../ProjectSelectTabs'
+import { FIAT_MARKET_ASSETS } from '../../../dataHub/fiat'
 import ProjectIcon from '../../../../components/ProjectIcon/ProjectIcon'
 import styles from './index.module.scss'
+
+const CUSTOM_CATEGORY = {
+  Fiat: () => Promise.resolve(FIAT_MARKET_ASSETS)
+}
+
+const CUSTOM_TABS = DEFAULT_TABS.concat(Object.keys(CUSTOM_CATEGORY))
+
+const CategoryModifier = {
+  All: assets => assets.concat(FIAT_MARKET_ASSETS)
+}
 
 export default ({
   comparable,
@@ -15,6 +27,7 @@ export default ({
   colors,
   hiddenMetricsMap,
   setComparables,
+  activeSlug,
   ...rest
 }) => {
   const [selectedProject, setSelectedProject] = useState(project || projects[0])
@@ -76,7 +89,11 @@ export default ({
           </Button>
         }
         open={opened}
+        activeSlug={activeSlug}
         projects={projects}
+        customTabs={CUSTOM_TABS}
+        CustomCategory={CUSTOM_CATEGORY}
+        CategoryModifier={CategoryModifier}
         onOpen={openDialog}
         onClose={closeDialog}
         onSelect={selectProject}

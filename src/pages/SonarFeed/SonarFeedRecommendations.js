@@ -8,13 +8,13 @@ import styles from './SonarFeedRecommendations.module.scss'
 
 const SonarFeedRecommendations = ({
   showButton,
-  description = 'Start to add signals you want to track or just interested in'
+  description = 'Start to add alerts you want to track or just interested in'
 }) => {
   return (
     <div className={styles.wrapper}>
       <EmptySection className={styles.empty}>
         <div className={styles.description}>{description}</div>
-        {showButton && <SignalMasterModalForm label='Add first signal' />}
+        {showButton && <SignalMasterModalForm label='Add first alert' />}
       </EmptySection>
     </div>
   )

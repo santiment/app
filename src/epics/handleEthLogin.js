@@ -4,7 +4,7 @@ import * as web3Helpers from './../web3Helpers'
 import * as actions from './../actions/types'
 import { handleErrorAndTriggerAction } from './utils'
 import { getUserWallet } from '../pages/UserSelectors'
-import { savePrevAuthProvider } from './../utils/localStorage'
+import { savePrevAuthProvider } from '../utils/localStorage'
 import GA from './../utils/tracking'
 import { USER_GQL_FRAGMENT } from './handleLaunch'
 

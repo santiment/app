@@ -53,14 +53,12 @@ import {
   SIGNAL_METRIC_TYPES,
   METRIC_TYPES
 } from './constants'
-import {
-  capitalizeStr,
-  isEthStrictAddress,
-  uncapitalizeStr
-} from '../../../utils/utils'
+import { capitalizeStr, isEthStrictAddress } from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
 import { Metric } from '../../dataHub/metrics'
-import { SIGNAL_SUPPORTED_METRICS } from '../signalFormManager/signalCrudForm/formParts/metricTypes/TriggerFormMetricTypes'
+import { useWatchlist } from '../../Watchlists/gql/hooks'
+import { SIGNAL_SUPPORTED_METRICS } from '../signalFormManager/signalCrudForm/formParts/metricTypes/SupportedMetricsList'
+import { findWebHook } from '../signalFormManager/signalCrudForm/formParts/channels/TriggerFormChannels'
 
 export const mapToOptions = input => {
   if (!input) {
@@ -89,8 +87,8 @@ export const mapToOption = item => {
   }
 }
 
-export const targetMapper = ({ value, slug, currency } = {}) =>
-  slug || value || currency
+export const targetMapper = ({ value, slug, watchlist_id, currency } = {}) =>
+  slug || value || currency || watchlist_id
 export const targetMapperWithName = ({ value, slug, name } = {}) =>
   name || slug || value
 
@@ -584,10 +582,18 @@ const mapTargetInfrastructure = target => {
   return target.infrastructure || ETH_INFRASTRUCTURE
 }
 
-const mapToTriggerChannel = formLabel => {
-  return CHANNELS_MAP.find(({ label }) => label === formLabel).value
+const mapToTriggerChannel = formItem => {
+  if (typeof formItem === 'object') {
+    return formItem
+  }
+
+  return CHANNELS_MAP.find(({ label }) => label === formItem).value
 }
 const mapToFormChannel = channelValue => {
+  if (typeof channelValue === 'object') {
+    return channelValue
+  }
+
   return CHANNELS_MAP.find(({ value }) => value === channelValue).label
 }
 
@@ -596,11 +602,13 @@ export const getChannels = ({ channels }) => {
     return mapToTriggerChannel[channels]
   } else {
     if (channels.length === 1) {
-      return mapToTriggerChannel(channels[0])
-    } else {
-      return channels.map(mapToTriggerChannel)
+      if (!findWebHook(channels)) {
+        return mapToTriggerChannel(channels[0])
+      }
     }
   }
+
+  return channels.map(mapToTriggerChannel)
 }
 
 export const isTrendingWordsByProjects = type =>
@@ -988,7 +996,7 @@ export const getNearestTypeByMetric = metric => {
 }
 
 export const mapGQLTriggerToProps = ({ data: { trigger, loading, error } }) => {
-  if (!loading && !trigger) {
+  if (!trigger) {
     return {
       trigger: {
         isError: !!error,
@@ -1223,6 +1231,12 @@ export const descriptionBlockErrors = values => {
 
   if (channels && channels.length === 0) {
     errors.channels = 'You must setup notification channel'
+  } else {
+    const webhookChannel = findWebHook(channels)
+
+    if (webhookChannel && !webhookChannel.webhook) {
+      errors.channels = 'Need to enter a valid webhook URL'
+    }
   }
 
   if (!frequencyType || !frequencyType.value) {
@@ -1261,8 +1275,13 @@ export const getCheckingMetric = settings => {
   return metric ? metric.value : type
 }
 
-export const getPreviewTarget = ({ selector, asset, target }) => {
-  const item = mapTargetObject(selector || asset || target)
+export const getPreviewTarget = ({
+  selector,
+  asset,
+  target,
+  targetWatchlist
+}) => {
+  const item = mapTargetObject(selector || asset || target || targetWatchlist)
 
   if (Array.isArray(item)) {
     return item.length === 1 ? item[0] : false
@@ -1276,15 +1295,10 @@ export const couldShowChart = (
   types = POSSIBLE_METRICS_FOR_CHART
 ) => {
   const {
-    signalType,
     target = {},
     ethAddress = target.address || target.eth_address,
     selector
   } = settings
-
-  if (signalType && isWatchlist(signalType)) {
-    return false
-  }
 
   if (!getPreviewTarget(settings)) {
     return false
@@ -1637,11 +1651,11 @@ export const getNewDescription = newValues => {
     return ''
   }
 
-  let metricsHeaderStr = uncapitalizeStr(
-    Object.values(
-      titleMetricValuesHeader(true, newValues, `of ${targetsHeader}`)
-    ).join(' ')
+  let metricsHeaderStr = Object.values(
+    titleMetricValuesHeader(true, newValues, `of ${targetsHeader}`)
   )
+    .join(' ')
+    .toLowerCase()
 
   if (!metricsHeaderStr) {
     const {
@@ -1775,4 +1789,32 @@ export const buildInTrendingWordsSignal = topic => {
     signalType: { label: 'Trending words', value: 'trending_word' },
     trendingWordsWithWords: [{ value: topic, label: topic }]
   })
+}
+
+export const skipHistoricalPreview = ({ settings }) => {
+  const { target } = settings
+
+  return getCheckingMetric(settings) === TRENDING_WORDS || target.watchlist_id
+}
+
+export const getSlugFromSignalTarget = ({ settings }) => {
+  const {
+    target: { watchlist_id }
+  } = settings
+
+  const [watchlist] = useWatchlist(watchlist_id)
+
+  if (watchlist_id) {
+    if (watchlist) {
+      const { listItems } = watchlist
+
+      if (listItems.length > 0) {
+        return listItems[0].project.slug
+      }
+    }
+
+    return null
+  }
+
+  return getPreviewTarget(settings)
 }

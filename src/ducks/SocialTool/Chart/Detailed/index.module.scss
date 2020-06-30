@@ -1,40 +1,34 @@
 @import '~@santiment-network/ui/mixins';
 
-.top {
-  position: sticky;
-  top: 0;
+.chart {
+  margin: 24px 0 16px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-top-right-radius: 4px;
-  border-top-left-radius: 4px;
-  background-color: var(--athens);
-  padding: 0 24px;
-  margin-top: 48px;
-  z-index: 1;
+  flex-direction: column;
 }
 
-.heading {
-  color: var(--waterloo);
+.label {
+  margin: 0 auto;
+  position: relative;
 
   @include text('body-2');
-}
 
-.tab {
-  color: var(--rhino);
+  &::before,
+ &::after {
+    content: '';
+    position: absolute;
+    display: block;
+    top: 10px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: var(--color);
+  }
 
-  @include text('body-3');
-}
+  &::before {
+    left: -10px;
+  }
 
-.tab + .tab {
-  margin-left: 42px;
-}
-
-.icon {
-  fill: var(--color);
-  margin-right: 11px;
-}
-
-.chart {
-  margin: 30px 0 0;
+  &::after {
+    right: -10px;
+  }
 }

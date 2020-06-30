@@ -1,11 +1,10 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Query } from 'react-apollo'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { Button, Toggle } from '@santiment-network/ui'
 import DropdownDevider from './DropdownDevider'
-import ProfileInfo from '../Insight/ProfileInfo'
 import * as actions from '../../actions/types'
 import { dateDifference, DAY } from '../../utils/dates'
 import {
@@ -17,8 +16,8 @@ import UpgradeBtn from '../UpgradeBtn/UpgradeBtn'
 import styles from './NavbarProfileDropdown.module.scss'
 import dropdownStyles from './NavbarDropdown.module.scss'
 
-const mys = [
-  { as: Link, to: '/sonar/my-signals', children: 'My signals' },
+const personalLinks = [
+  { as: Link, to: '/sonar/my-signals', children: 'My alerts' },
   { as: Link, to: '/assets', children: 'My watchlists' },
   {
     as: 'a',
@@ -27,11 +26,14 @@ const mys = [
   }
 ]
 
-const links = [
-  { to: '/account', children: 'Account settings' },
-  // { link: '/upgrade', label: 'Upgrade plan' },
+const LOGGED_IN_LINKS_1 = [
+  { to: '/account', children: 'Account settings', as: Link }
+]
+
+const LOGGED_IN_LINKS_2 = [
   {
     to: '/logout',
+    as: Link,
     className: styles.logout,
     children: (
       <>
@@ -100,14 +102,24 @@ const getSubscriptionText = (subscription, productName) => {
   )
 }
 
+const LinkBuilder = (props, index) => {
+  const { className } = props
+  return (
+    <Button
+      variant='ghost'
+      key={index}
+      fluid
+      className={cx(dropdownStyles.item, className)}
+      {...props}
+    />
+  )
+}
+
 export const NavbarProfileDropdown = ({
   activeLink,
-  picUrl,
-  status = 'offline',
   isNightModeEnabled,
   toggleNightMode,
-  toggleBetaMode,
-  isBetaModeEnabled,
+  isUpdateAvailable,
   user
 }) => {
   const isLoggedIn = user && user.id
@@ -120,120 +132,114 @@ export const NavbarProfileDropdown = ({
       })}
     >
       {isLoggedIn && (
-        <Fragment>
-          <ProfileInfo
-            className={styles.profile}
-            authorId={user.id}
-            authorName={user.username || user.email}
-            status={
-              <div className={styles.plan}>
-                <Query query={USER_SUBSCRIPTIONS_QUERY}>
-                  {({ loading, data: { currentUser = {} } = {} }) => {
-                    if (loading) {
-                      return 'Loading...'
-                    }
+        <div className={styles.profile}>
+          <Link className={styles.name} to={`/profile/${user.id}`}>
+            {user.username || user.email}
+          </Link>
+          <div className={styles.plan}>
+            <Query query={USER_SUBSCRIPTIONS_QUERY}>
+              {({ loading, data: { currentUser = {} } = {} }) => {
+                if (loading) {
+                  return 'Loading...'
+                }
 
-                    const { subscriptions } = currentUser || {}
+                const { subscriptions } = currentUser || {}
 
-                    const sanbaseSubscription = getCurrentSanbaseSubscription(
-                      currentUser
-                    )
+                const sanbaseSubscription = getCurrentSanbaseSubscription(
+                  currentUser
+                )
 
-                    const isOnlySanbase =
-                      sanbaseSubscription && subscriptions.length === 1
-                    const sanbaseText = getSubscriptionText(
-                      sanbaseSubscription,
-                      isOnlySanbase ? null : 'Sanbase'
-                    )
-                    const isProSanbase =
-                      sanbaseSubscription && sanbaseSubscription.plan
-                        ? sanbaseSubscription.plan.name === PRO
-                        : false
+                const isOnlySanbase =
+                  sanbaseSubscription && subscriptions.length === 1
+                const sanbaseText = getSubscriptionText(
+                  sanbaseSubscription,
+                  isOnlySanbase ? null : 'Sanbase'
+                )
+                const isProSanbase =
+                  sanbaseSubscription && sanbaseSubscription.plan
+                    ? sanbaseSubscription.plan.name === PRO
+                    : false
 
-                    return (
-                      <>
-                        {sanbaseText}
-                        {subscriptions &&
-                          subscriptions.map(subscription => {
-                            const {
-                              plan: {
-                                product: { id }
-                              }
-                            } = subscription
+                return (
+                  <>
+                    {sanbaseText}
+                    {subscriptions &&
+                      subscriptions.map(subscription => {
+                        const {
+                          plan: {
+                            product: { id }
+                          }
+                        } = subscription
 
-                            switch (id) {
-                              case neuroProductId: {
-                                return getSubscriptionText(
-                                  subscription,
-                                  'SanAPI'
-                                )
-                              }
-                              default: {
-                                return null
-                              }
-                            }
-                          })}
-                        {!isProSanbase && (
-                          <UpgradeBtn className={styles.upgrade} />
-                        )}
-                      </>
-                    )
-                  }}
-                </Query>
-              </div>
-            }
-          />
-
-          <DropdownDevider />
-        </Fragment>
+                        switch (id) {
+                          case neuroProductId: {
+                            return getSubscriptionText(subscription, 'SanAPI')
+                          }
+                          default: {
+                            return null
+                          }
+                        }
+                      })}
+                    {!isProSanbase && (
+                      <UpgradeBtn
+                        variant='flat'
+                        accent='orange'
+                        className={styles.upgrade}
+                      />
+                    )}
+                  </>
+                )
+              }}
+            </Query>
+          </div>
+        </div>
       )}
-
-      <div className={dropdownStyles.list}>
-        <Button
-          fluid
-          variant='ghost'
-          className={styles.setting + ' ' + dropdownStyles.item}
-          onClick={toggleNightMode}
-        >
-          Night mode <Toggle isActive={isNightModeEnabled} />
-        </Button>
-      </div>
+      <DropdownDevider />
+      <Button
+        fluid
+        variant='ghost'
+        className={cx(styles.setting, dropdownStyles.item, styles.nightMode)}
+        onClick={toggleNightMode}
+      >
+        Night mode <Toggle isActive={isNightModeEnabled} />
+      </Button>
       <DropdownDevider />
       {isLoggedIn && (
         <>
           <div className={dropdownStyles.list}>
-            {mys.map((props, index) => {
-              return (
-                <Button
-                  variant='ghost'
-                  key={index}
-                  fluid
-                  className={dropdownStyles.item}
-                  isActive={props.to === activeLink}
-                  {...props}
-                />
-              )
-            })}
+            {personalLinks.map(LinkBuilder)}
           </div>
           <DropdownDevider />
         </>
       )}
       <div className={dropdownStyles.list}>
-        {isLoggedIn ? (
-          links.map((props, index) => {
-            return (
-              <Button
-                variant='ghost'
-                key={index}
-                fluid
-                as={Link}
-                className={dropdownStyles.item}
-                isActive={props.to === activeLink}
-                {...props}
-              />
-            )
-          })
-        ) : (
+        <Button
+          variant='ghost'
+          fluid
+          className={dropdownStyles.item}
+          to='/labs'
+          as={Link}
+        >
+          Labs
+        </Button>
+
+        {isLoggedIn && LOGGED_IN_LINKS_1.map(LinkBuilder)}
+
+        {isUpdateAvailable && (
+          <Button
+            variant='ghost'
+            fluid
+            accent='positive'
+            className={cx(dropdownStyles.item, dropdownStyles.updateBtn)}
+            onClick={() => window.location.reload(true)}
+          >
+            Update available. Restart now
+          </Button>
+        )}
+
+        {isLoggedIn && LOGGED_IN_LINKS_2.map(LinkBuilder)}
+
+        {!isLoggedIn && (
           <Button
             variant='ghost'
             fluid
@@ -250,23 +256,15 @@ export const NavbarProfileDropdown = ({
   )
 }
 
-const mapStateToProps = state => ({
-  isNightModeEnabled: state.rootUi.isNightModeEnabled,
-  isBetaModeEnabled: state.rootUi.isBetaModeEnabled,
-  status: state.rootUi.isOnline ? 'online' : 'offline',
-  user: state.user.data
+const mapStateToProps = ({ rootUi, user, app }) => ({
+  isNightModeEnabled: rootUi.isNightModeEnabled,
+  status: rootUi.isOnline ? 'online' : 'offline',
+  user: user.data,
+  isUpdateAvailable: app.isUpdateAvailable
 })
 
 const mapDispatchToProps = dispatch => ({
-  toggleNightMode: () =>
-    dispatch({
-      type: actions.USER_TOGGLE_NIGHT_MODE
-    }),
-  toggleBetaMode: () => {
-    dispatch({
-      type: actions.USER_TOGGLE_BETA_MODE
-    })
-  }
+  toggleNightMode: () => dispatch({ type: actions.USER_TOGGLE_NIGHT_MODE })
 })
 
 export default connect(

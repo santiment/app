@@ -1,0 +1,28 @@
+@import '~@santiment-network/ui/mixins';
+
+.title {
+  cursor: pointer;
+  color: var(--casper);
+  margin-left: 32px;
+  user-select: none;
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+
+  &:first-child {
+    margin-left: 0;
+  }
+}
+
+.active {
+  color: var(--rhino);
+}
+
+.header {
+  display: flex;
+  margin-bottom: 32px;
+  color: var(--rhino);
+
+  @include text('h4', 'm');
+}

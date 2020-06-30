@@ -115,15 +115,15 @@ const SettingsNotifications = ({
                     className={styles.setting__description}
                     accent='waterloo'
                   >
-                    Receive the best insights and signals on Sanbase
+                    Receive the best insights and alerts on Sanbase
                     <br />
                     peersonalized based on your interests.
                   </Label>
                 </div>
                 <Selector
                   className={styles.digestSelector}
-                  options={['DAILY', 'WEEKLY', 'OFF']}
-                  nameOptions={['Daily', 'Weekly', 'Off']}
+                  options={['WEEKLY', 'OFF']}
+                  nameOptions={['Weekly', 'Off']}
                   onSelectOption={subscription =>
                     mutateDigestType({ variables: { subscription } })
                       .then(() => {

@@ -3,7 +3,7 @@ import { SearchWithSuggestions } from '@santiment-network/ui/Search'
 
 const predicate = searchTerm => {
   const upperCaseSearchTerm = searchTerm.toUpperCase()
-  return ({ label, abbreviation }) => {
+  return ({ item: { label, abbreviation } }) => {
     return (
       (abbreviation &&
         abbreviation.toUpperCase().includes(upperCaseSearchTerm)) ||
@@ -12,7 +12,7 @@ const predicate = searchTerm => {
   }
 }
 
-const suggestionContent = ({ label }) => label
+const suggestionContent = ({ item: { label } }) => label
 
 export const getMetricSuggestions = categories => {
   const suggestions = []
@@ -37,7 +37,7 @@ const Search = ({ categories, toggleMetric, ...rest }) => (
     {...rest}
     withMoreSuggestions={false}
     data={getMetricSuggestions(categories)}
-    onSuggestionSelect={({ item }) => toggleMetric(item)}
+    onSuggestionSelect={({ item: { item } }) => toggleMetric(item)}
     dontResetStateAfterSelection
   />
 )

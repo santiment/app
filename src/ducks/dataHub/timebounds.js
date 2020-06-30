@@ -7,7 +7,8 @@ import { parseIntervalString } from '../../utils/dates'
 const AvailableTimeboundMetric = {
   [Metric.mvrv_usd.key]: true,
   [Metric.realized_value_usd.key]: true,
-  [Metric.circulation.key]: true
+  [Metric.circulation.key]: true,
+  [Metric.dormant_circulation.key]: true
 }
 
 const TimerangeCoeficient = {
@@ -47,12 +48,15 @@ export const getTimeboundMetrics = ({ metricKeys }) => {
       let timeboundMetric = TimeboundMetricCache.get(timeboundKey)
 
       if (!timeboundMetric) {
-        const label =
-          metric.label + ` (${timeboundKey.slice(timeRangeIndex + 1)})`
+        const timebound = timeboundKey.slice(timeRangeIndex + 1)
+        const label = metric.label + ` (${timebound})`
         timeboundMetric = {
           ...metric,
           label,
-          key: timeboundKey
+          key: timeboundKey,
+          replacements: {
+            timebound
+          }
         }
 
         TooltipSetting[timeboundKey] = {

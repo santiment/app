@@ -18,6 +18,6 @@ export const TYPES = {
   SIGNAL: {
     color: 'persimmon',
     icon: 'ring',
-    previewInfo: () => `signal suggestion`
+    previewInfo: () => `alert suggestion`
   }
 }

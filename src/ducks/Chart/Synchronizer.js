@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import COLOR from '@santiment-network/ui/variables.scss'
 import { getValidTooltipKey, findTooltipMetric } from './utils'
 import { setupColorGenerator } from '../SANCharts/utils'
@@ -9,6 +9,7 @@ const cache = new Map()
 export function metricsToPlotCategories (metrics) {
   const requestedData = {
     lines: [],
+    filledLines: [],
     daybars: [],
     bars: [],
     joinedCategories: [],
@@ -83,6 +84,9 @@ export function prepareEvents (events) {
     }
   })
 }
+
+export const useMetricCategories = metrics =>
+  useMemo(() => metricsToPlotCategories(metrics), [metrics])
 
 const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
   const [syncedTooltipDate, syncTooltips] = useState()

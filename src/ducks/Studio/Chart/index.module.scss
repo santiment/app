@@ -1,6 +1,9 @@
 .wrapper {
   position: relative;
   margin-top: 13px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
   &_explained {
     padding-right: 340px !important;
@@ -73,6 +76,16 @@
   white-space: nowrap;
 }
 
+.chart {
+  flex: 1;
+  height: 0; // NOTE: This is needed to make chart occupy all the available height but not more [@vanguard | Jun 19, 2020]
+  min-height: 0;
+}
+
 .chart:hover .ico {
   display: none;
+}
+
+.compare {
+  margin: 0 8px 0 16px;
 }

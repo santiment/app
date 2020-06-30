@@ -3,18 +3,14 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel'
 import { getTemplateAssets, getTemplateMetrics } from '../utils'
-import UserAvatar from '../../../../pages/Account/avatar/UserAvatar'
+import AvatarWithName from '../../../../components/AvatarWithName/AvatarWithName'
 import styles from './TemplateDetailsDialog.module.scss'
-import { Link } from 'react-router-dom'
 
 const TemplateInfo = ({ template, as: El = Panel, classes = {} }) => {
   const usedAssets = getTemplateAssets(template)
   const usedMetrics = getTemplateMetrics(template)
 
-  const {
-    description,
-    user: { id: userId, avatarUrl, username }
-  } = template
+  const { description, user } = template
 
   return (
     <El className={classes.templateInfo}>
@@ -87,15 +83,7 @@ const TemplateInfo = ({ template, as: El = Panel, classes = {} }) => {
         <div className={styles.info}>
           <div className={styles.subTitle}>Author</div>
           <div className={cx(styles.description, styles.user)}>
-            <UserAvatar
-              userId={userId}
-              isExternal
-              externalAvatarUrl={avatarUrl}
-              classes={styles}
-            />
-            <Link to={'/profile/' + userId} className={styles.link}>
-              {username}
-            </Link>
+            <AvatarWithName user={user} classes={styles} />
           </div>
         </div>
       </div>

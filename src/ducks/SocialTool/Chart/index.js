@@ -5,6 +5,7 @@ import Chart from '../../Chart'
 import { useChartColors } from './colors'
 import Signals from '../../Chart/Signals'
 import { metricsToPlotCategories } from '../../Chart/Synchronizer'
+import { useAxesMetricsKey } from '../../Chart/hooks'
 import PaywallInfo from '../../Studio/Chart/PaywallInfo'
 import ChartActiveMetrics from '../../Studio/Chart/ActiveMetrics'
 import SocialDominanceToggle from './SocialDominanceToggle'
@@ -30,6 +31,7 @@ const Canvas = ({
 }) => {
   const [FocusedMetric, setFocusedMetric] = useState()
   const MetricColor = useChartColors(metrics, FocusedMetric)
+  const axesMetricKeys = useAxesMetricsKey(metrics)
   const scale = options.isLogScale ? logScale : linearScale
 
   function onMetricHover (metric) {
@@ -39,6 +41,16 @@ const Canvas = ({
   function onMetricHoverEnd () {
     setFocusedMetric()
   }
+
+  function onBrushChangeEnd (startIndex, endIndex) {
+    const { brushData, changeTimePeriod } = props
+    changeTimePeriod(
+      new Date(brushData[startIndex].datetime),
+      new Date(brushData[endIndex].datetime)
+    )
+  }
+
+  const { priceAsset } = props
 
   return (
     <div className={cx(styles.wrapper, className)}>
@@ -51,7 +63,9 @@ const Canvas = ({
         setOptions={setOptions}
         setSettings={setSettings}
         className={styles.top}
-      />
+      >
+        <h3 className={styles.title}>Social Volume</h3>
+      </ChartHeader>
       <div className={styles.bottom}>
         <div className={styles.metrics}>
           <ChartActiveMetrics
@@ -61,6 +75,7 @@ const Canvas = ({
             loadings={loadings}
             onMetricHover={onMetricHover}
             onMetricHoverEnd={onMetricHoverEnd}
+            project={priceAsset}
           />
         </div>
         <PaywallInfo boundaries={boundaries} metrics={metrics} />
@@ -79,30 +94,64 @@ const Canvas = ({
         chartHeight={CHART_HEIGHT}
         className={styles.chart}
         metrics={metrics}
+        axesMetricKeys={axesMetricKeys}
         MetricColor={MetricColor}
         setSettings={setSettings}
+        onBrushChangeEnd={onBrushChangeEnd}
         resizeDependencies={[]}
       >
         <Signals {...settings} metrics={metrics} selector='text' />
       </Chart>
-      <DetailedBlock
-        {...options}
-        {...props}
-        scale={scale}
-        type='general'
-        MetricColor={MetricColor}
-        settings={settings}
-        linkedAssets={linkedAssets}
-      />
-      <DetailedBlock
-        {...options}
-        {...props}
-        scale={scale}
-        type='community'
-        MetricColor={MetricColor}
-        settings={settings}
-        linkedAssets={linkedAssets}
-      />
+      {settings.addedTopics.length === 0 && (
+        <>
+          <DetailedBlock
+            {...options}
+            {...props}
+            scale={scale}
+            type='general'
+            MetricColor={MetricColor}
+            settings={settings}
+            allDetectedAssets={allDetectedAssets}
+            linkedAssets={linkedAssets}
+          >
+            <ChartHeader
+              {...props}
+              allDetectedAssets={allDetectedAssets}
+              activeMetrics={metrics}
+              options={options}
+              settings={settings}
+              setOptions={setOptions}
+              setSettings={setSettings}
+              className={cx(styles.top, styles.detailed)}
+            >
+              <h3 className={styles.title}>Detailed charts</h3>
+            </ChartHeader>
+          </DetailedBlock>
+          <DetailedBlock
+            {...options}
+            {...props}
+            scale={scale}
+            type='community'
+            MetricColor={MetricColor}
+            settings={settings}
+            linkedAssets={linkedAssets}
+            allDetectedAssets={allDetectedAssets}
+          >
+            <ChartHeader
+              {...props}
+              allDetectedAssets={allDetectedAssets}
+              activeMetrics={metrics}
+              options={options}
+              settings={settings}
+              setOptions={setOptions}
+              setSettings={setSettings}
+              className={cx(styles.top, styles.detailed)}
+            >
+              <h3 className={styles.title}>Community charts</h3>
+            </ChartHeader>
+          </DetailedBlock>
+        </>
+      )}
     </div>
   )
 }

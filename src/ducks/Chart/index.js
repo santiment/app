@@ -4,7 +4,7 @@ import cx from 'classnames'
 import COLOR from '@santiment-network/ui/variables.scss'
 import { initChart, updateChartState } from '@santiment-network/chart'
 import { initTooltip } from '@santiment-network/chart/tooltip'
-import { plotLines } from '@santiment-network/chart/lines'
+import { plotLines, plotFilledLines } from '@santiment-network/chart/lines'
 import { plotDayBars, plotBars } from '@santiment-network/chart/bars'
 import { linearScale } from '@santiment-network/chart/scales'
 import { drawReferenceDot } from '@santiment-network/chart/references'
@@ -14,13 +14,14 @@ import Loader from './Loader/Loader'
 import { plotAxes } from './axes'
 import { setupTooltip, plotTooltip } from './tooltip'
 import {
-  CHART_HEIGHT,
   BRUSH_HEIGHT,
   CHART_PADDING,
-  CHART_WITH_BRUSH_PADDING
+  BRUSH_PADDING,
+  DOUBLE_AXIS_PADDING,
+  buildPadding
 } from './settings'
 import { drawWatermark } from './watermark'
-import { onResize, useResizeEffect } from './resize'
+import { ResizeListener, onResize } from './resize'
 import { clearCtx, findPointIndexByDate } from './utils'
 import { domainModifier } from './domain'
 import { paintConfigs, dayBrushPaintConfig } from './paintConfigs'
@@ -30,18 +31,23 @@ const Chart = ({
   className,
   chartRef,
   data,
+  brushData = data,
   lines,
+  filledLines,
   bars,
   daybars,
-  chartHeight = CHART_HEIGHT,
+  chartHeight,
   chartPadding = CHART_PADDING,
   joinedCategories,
   domainGroups,
   events = [],
   scale = linearScale,
   tooltipKey,
+  axesMetricKeys = [],
   MetricColor,
   syncedTooltipDate,
+  from,
+  to,
   hideBrush,
   hideAxes,
   hideWatermark,
@@ -49,30 +55,36 @@ const Chart = ({
   useCustomTooltip,
   syncTooltips = () => {},
   onRangeSelect,
+  onRangeSelectStart,
   onPointClick = () => {},
   isLoading,
-  isMultiChartsActive,
   isNightModeEnabled,
   isCartesianGridActive,
   resizeDependencies,
+  onBrushChangeEnd,
   children
 }) => {
   let [chart, setChart] = useState()
   let [brush, setBrush] = useState()
   const canvasRef = useRef()
 
-  const isShowBrush = !hideBrush && !isMultiChartsActive
+  const isShowBrush = !hideBrush
 
   useEffect(() => {
     const { current: canvas } = canvasRef
     const width = canvas.parentNode.offsetWidth
+    const height = chartHeight || canvas.parentNode.offsetHeight
 
     chart = initTooltip(
       initChart(
         canvas,
         width,
-        chartHeight,
-        isShowBrush ? CHART_WITH_BRUSH_PADDING : chartPadding
+        height,
+        buildPadding(
+          chartPadding,
+          isShowBrush && BRUSH_PADDING,
+          axesMetricKeys[1] && DOUBLE_AXIS_PADDING
+        )
       )
     )
     chart.tooltipKey = tooltipKey
@@ -84,7 +96,8 @@ const Chart = ({
         BRUSH_HEIGHT,
         dayBrushPaintConfig,
         plotBrushData,
-        onBrushChange
+        undefined,
+        onBrushChangeEnd
       )
       brush.canvas.classList.add(styles.brush)
       setBrush(brush)
@@ -92,7 +105,7 @@ const Chart = ({
 
     setChart(chart)
     if (chartRef) {
-      chartRef.current = canvas
+      chartRef.current = chart
     }
 
     setupTooltip(chart, marker, syncTooltips, useCustomTooltip, onPlotTooltip)
@@ -101,7 +114,7 @@ const Chart = ({
   if (brush) {
     // NOTE: Because func.component works with closures, captured values might be outdated [@vanguard | Jan 23, 2020]
     brush.plotBrushData = plotBrushData
-    brush.onChange = onBrushChange
+    brush.onChangeEnd = onBrushChangeEnd
   }
 
   useEffect(
@@ -126,6 +139,13 @@ const Chart = ({
 
   useEffect(
     () => {
+      chart.onRangeSelectStart = onRangeSelectStart
+    },
+    [onRangeSelectStart]
+  )
+
+  useEffect(
+    () => {
       chart.onPointClick = onPointClick
     },
     [onPointClick]
@@ -140,6 +160,13 @@ const Chart = ({
 
   useEffect(
     () => {
+      chart.axesMetricKeys = axesMetricKeys
+    },
+    [axesMetricKeys]
+  )
+
+  useEffect(
+    () => {
       chart.colors = MetricColor
     },
     [MetricColor]
@@ -147,12 +174,51 @@ const Chart = ({
 
   useEffect(
     () => {
-      if (data.length === 0 || !brush) return
+      const { length } = brushData
+      if (brush && length) {
+        let { startIndex = 0, endIndex = length - 1 } = brush
+        const [{ datetime: startTimestamp }] = brushData
+        const { datetime: endTimestamp } = brushData[length - 1]
+        const fromTimestamp = +new Date(from)
+        const toTimestamp = +new Date(to)
 
-      brush.startIndex = 0
-      brush.endIndex = data.length - 1
+        const scale = length / (endTimestamp - startTimestamp)
+
+        if (
+          !brushData[startIndex] ||
+          fromTimestamp !== brushData[startIndex].datetime
+        ) {
+          startIndex = Math.trunc(scale * (fromTimestamp - startTimestamp))
+        }
+
+        if (
+          !brushData[endIndex] ||
+          toTimestamp !== brushData[endIndex].datetime
+        ) {
+          endIndex = Math.trunc(scale * (toTimestamp - startTimestamp))
+        }
+
+        startIndex =
+          startIndex > 0 ? (startIndex < length ? startIndex : length - 1) : 0
+        endIndex =
+          endIndex > 0 ? (endIndex < length ? endIndex : length - 1) : 0
+
+        if (endIndex - startIndex < 2) {
+          if (startIndex > 2) {
+            startIndex -= 2
+          } else {
+            endIndex += 2
+          }
+        }
+
+        brush.startIndex = startIndex
+        brush.endIndex = endIndex
+
+        clearCtx(brush)
+        updateBrushState(brush, brushData, joinedCategories)
+      }
     },
-    [data]
+    [brushData, from, to]
   )
 
   useEffect(
@@ -167,11 +233,8 @@ const Chart = ({
         domainModifier,
         domainGroups
       )
-      if (brush) {
-        clearCtx(brush)
-        updateBrushState(brush, chart, data)
-      }
       plotChart(data)
+
       if (!hideAxes) {
         plotAxes({ chart, scale })
       }
@@ -185,6 +248,16 @@ const Chart = ({
       isNightModeEnabled,
       isCartesianGridActive
     ]
+  )
+
+  useEffect(
+    () => {
+      if (brush && brushData.length) {
+        clearCtx(brush)
+        updateBrushState(brush, brushData, joinedCategories)
+      }
+    },
+    [brushData, scale, domainGroups, isNightModeEnabled]
   )
 
   useEffect(
@@ -208,60 +281,40 @@ const Chart = ({
     [syncedTooltipDate]
   )
 
-  useEffect(handleResize, resizeDependencies)
-
-  useResizeEffect(handleResize, [...resizeDependencies, data, brush])
+  useEffect(handleResize, [...resizeDependencies, data])
 
   function handleResize () {
-    if (data.length === 0) {
+    if (data.length === 0 || !chart) {
       return
     }
 
-    onResize(
-      chart,
-      isShowBrush ? CHART_WITH_BRUSH_PADDING : chartPadding,
-      brush,
-      data,
-      chartHeight
+    const padding = buildPadding(
+      chartPadding,
+      isShowBrush && BRUSH_PADDING,
+      axesMetricKeys[1] && DOUBLE_AXIS_PADDING
     )
 
-    if (!brush) {
-      updateChartState(
-        chart,
-        data,
-        joinedCategories,
-        domainModifier,
-        domainGroups
-      )
-      plotChart(data)
-      if (!hideAxes) {
-        plotAxes({ chart, scale })
-      }
-    }
-  }
-
-  function onBrushChange (startIndex, endIndex) {
-    const newData = data.slice(startIndex, endIndex + 1)
+    onResize(chart, padding, brush, brushData, joinedCategories)
 
     updateChartState(
       chart,
-      newData,
+      data,
       joinedCategories,
       domainModifier,
       domainGroups
     )
+    plotChart(data)
 
-    clearCtx(chart)
-    plotChart(newData)
     if (!hideAxes) {
       plotAxes({ chart, scale })
     }
   }
 
   function plotBrushData () {
-    plotDayBars(brush, data, daybars, MetricColor, scale)
-    plotBars(brush, data, bars, MetricColor, scale)
-    plotLines(brush, data, lines, MetricColor, scale)
+    plotDayBars(brush, brushData, daybars, scale, MetricColor)
+    plotBars(brush, brushData, bars, scale, MetricColor)
+    plotLines(brush, brushData, lines, scale, MetricColor)
+    plotFilledLines(brush, brushData, filledLines, scale, MetricColor)
   }
 
   function plotChart (data) {
@@ -269,14 +322,15 @@ const Chart = ({
       drawWatermark(chart, isNightModeEnabled)
     }
 
-    plotDayBars(chart, data, daybars, MetricColor, scale)
-    plotBars(chart, data, bars, MetricColor, scale)
+    plotDayBars(chart, data, daybars, scale, MetricColor)
+    plotBars(chart, data, bars, scale, MetricColor)
 
     chart.ctx.lineWidth = 1.5
-    plotLines(chart, data, lines, MetricColor, scale)
+    plotLines(chart, data, lines, scale, MetricColor)
+    plotFilledLines(chart, data, filledLines, scale, MetricColor)
 
     if (isCartesianGridActive) {
-      drawCartesianGrid(chart, chart.axesColor)
+      drawCartesianGrid(chart, chart.axesColor, 10, 8)
     }
 
     events.forEach(({ metric, key, datetime, value, color }) =>
@@ -302,6 +356,7 @@ const Chart = ({
 
   return (
     <div className={cx(styles.wrapper, className)}>
+      <ResizeListener onResize={handleResize} />
       <canvas ref={canvasRef} />
       {isLoading && <Loader />}
       {chart &&

@@ -1,75 +1,52 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
-import DarkTooltip from '../../../components/Tooltip/DarkTooltip'
+import Tooltip from '@santiment-network/ui/Tooltip'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import FormDialogNewTemplate from './Dialog/NewTemplate'
 import LoginDialog from '../../../components/LoginDialog'
-import Tooltip from '@santiment-network/ui/Tooltip'
 import TemplateInfo from './TemplateDetailsDialog/TemplateInfo'
-import TemplateTitle from './TemplateDetailsDialog/TemplateTitle'
 import styles from './index.module.scss'
 
-const TooltipWrapper = ({ selectedTemplate, children }) => {
-  if (!selectedTemplate) {
-    return children
-  }
-
-  return (
-    <DarkTooltip
-      trigger={children}
-      position='bottom'
-      align='start'
-      className={styles.tooltip}
-    >
-      Click to save '<TemplateTitle title={selectedTemplate.title} />'
-    </DarkTooltip>
-  )
+const NoTemplateLabel = ({ loading }) => {
+  return loading ? <Loader className={styles.loader} /> : 'Save as'
 }
 
-const Trigger = ({
-  hasTemplates,
-  selectedTemplate,
-  saveTemplate,
-  openDialog,
-  isLoggedIn
-}) => {
+const TemplateTitle = ({ loading, openDialog }) => (
+  <div onClick={openDialog}>{<NoTemplateLabel loading={loading} />}</div>
+)
+
+const Trigger = ({ hasTemplates, selectedTemplate, openDialog, loading }) => {
   return (
     <div
-      onClick={
-        selectedTemplate && isLoggedIn
-          ? saveTemplate
-          : () => {
-            openDialog()
-          }
-      }
       className={cx(styles.btn__left, !hasTemplates && styles.btn__left_large)}
     >
-      {selectedTemplate && (
+      {selectedTemplate ? (
         <Tooltip
           position='top'
           align='start'
+          on='click'
           offsetY={13}
           closeTimeout={500}
+          className={styles.tooltip}
           trigger={
-            <div className={styles.detailsIcon}>
-              <Icon type='info-round' />
+            <div className={styles.tooltipTrigger}>
+              <div className={styles.detailsIcon}>
+                <Icon type='info-round' />
+              </div>
+              {!loading ? (
+                selectedTemplate.title
+              ) : (
+                <TemplateTitle loading={loading} openDialog={openDialog} />
+              )}
             </div>
           }
-          className={styles.tooltip}
         >
           <TemplateInfo template={selectedTemplate} classes={styles} />
         </Tooltip>
+      ) : (
+        <TemplateTitle loading={loading} openDialog={openDialog} />
       )}
-
-      <TooltipWrapper selectedTemplate={selectedTemplate}>
-        <div>
-          {selectedTemplate ? (
-            <TemplateTitle title={selectedTemplate.title} />
-          ) : (
-            'Save as'
-          )}
-        </div>
-      </TooltipWrapper>
     </div>
   )
 }
@@ -83,6 +60,7 @@ export default ({
   saveTemplate,
   openMenu,
   onNewTemplate,
+  loading,
   ...props
 }) => {
   const [isDialogOpened, setIsDialogOpened] = useState(false)
@@ -117,6 +95,7 @@ export default ({
             saveTemplate={saveTemplate}
             openDialog={openDialog}
             isLoggedIn={isLoggedIn}
+            loading={loading}
           />
         }
       />

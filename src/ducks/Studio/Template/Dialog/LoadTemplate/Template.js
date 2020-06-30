@@ -4,41 +4,20 @@ import { connect } from 'react-redux'
 import cx from 'classnames'
 import { useUpdateTemplate } from '../../gql/hooks'
 import {
-  getMultiChartsValue,
   getTemplateAssets,
   getTemplateMetrics,
-  parseTemplateMetrics
+  prepareTemplateLink
 } from '../../utils'
 import TemplateDetailsDialog, {
   TemplateInfoTrigger
 } from '../../TemplateDetailsDialog/TemplateDetailsDialog'
 import TemplateStatus from '../../TemplateStatus/TemplateStatus'
-import { generateShareLink } from '../../../url'
 import styles from './Template.module.scss'
-import TemplateTitle from '../../TemplateDetailsDialog/TemplateTitle'
+import { updateHistory } from '../../../../../utils/utils'
 
-export function prepareTemplateLink (template) {
-  if (!template) {
-    return ''
-  }
-
-  const { project, metrics: templateMetrics } = template
-  const { slug } = project
-
-  const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
-
-  return (
-    `/projects/${slug}?` +
-    generateShareLink(
-      {
-        isMultiChartsActive: getMultiChartsValue(template)
-      },
-      {},
-      metrics,
-      [],
-      comparables
-    )
-  )
+export const isUserAuthorOfTemplate = (template, user) => {
+  const { user: { id } = {} } = template
+  return user && user.data && +user.data.id === +id
 }
 
 export const usePublicTemplates = template => {
@@ -76,6 +55,7 @@ const Template = ({
     if (asLink) {
       const link = prepareTemplateLink(template)
 
+      updateHistory(link)
       redirect(link)
     }
   }
@@ -86,9 +66,7 @@ const Template = ({
   return (
     <div className={cx(styles.wrapper, className)}>
       <div className={styles.left} onClick={onTemplateClick}>
-        <div className={styles.title}>
-          <TemplateTitle title={title} />
-        </div>
+        <div className={styles.title}>{title}</div>
         <div className={styles.info}>
           <TemplateStatus
             isAuthor={isAuthor}
@@ -122,8 +100,8 @@ const Template = ({
   )
 }
 
-const mapStateToProps = ({ user }, { template: { user: { id } = {} } }) => ({
-  isAuthor: user && user.data && +user.data.id === +id
+const mapStateToProps = ({ user }, { template }) => ({
+  isAuthor: isUserAuthorOfTemplate(user, template)
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -13,7 +13,7 @@ export const WEEK = 'w'
 export const MONTH = 'm'
 export const YEAR = 'y'
 
-const MONTH_NAMES = [
+export const MONTH_NAMES = [
   'January',
   'February',
   'March',
@@ -123,10 +123,9 @@ const getUnitFormattedString = (amount, format) => {
     return 'a few seconds ago'
   }
 
-  const number = amount + ' '
   const plural = amount > 1 ? 's' : ''
 
-  return `${number}${FormatToString[format]}${plural} ago`
+  return `${amount} ${FormatToString[format]}${plural} ago`
 }
 
 export const dateDifference = ({ from, to = new Date(), format = YEAR }) => {
@@ -297,7 +296,7 @@ export const getIntervalByTimeRange = (timeRange, options = {}) => {
     }
 
     return {
-      to: getTimeIntervalFromToday(-1, DAY).to,
+      to: getTimeIntervalFromToday(-1, DAY, options).to,
       from: CRYPTO_ERA_START_DATE
     }
   } else if (timeRange === '1d') {
@@ -321,7 +320,7 @@ export const getIntervalByTimeRange = (timeRange, options = {}) => {
     result.format = MONTH
   }
 
-  return getTimeIntervalFromToday(-result.amount, result.format)
+  return getTimeIntervalFromToday(-result.amount, result.format, options)
 }
 
 export const toEndOfDay = target => {
@@ -332,6 +331,12 @@ export const toEndOfDay = target => {
 export const addDays = (date, days) => {
   let result = new Date(date)
   result.setDate(result.getDate() + days)
+  return result
+}
+
+export const addMinutes = (date, minutes) => {
+  let result = new Date(date)
+  result.setTime(result.getTime() + minutes * 60 * 1000)
   return result
 }
 
@@ -356,9 +361,24 @@ export const getAmPmWithHours = hours => {
     hours = 24 - hours
   }
 
-  var ampm = getAmPm(hours)
+  let ampm = getAmPm(hours)
 
   return make12Hours(hours, false) + ampm
 }
 
 export const getAmPm = hours => (hours >= 12 ? 'pm' : 'am')
+
+const INTERVALS_ACCUMULATOR = {}
+
+export const convertToReadableInterval = timebound => {
+  if (INTERVALS_ACCUMULATOR[timebound]) {
+    return INTERVALS_ACCUMULATOR[timebound]
+  }
+
+  const amount = timebound.slice(0, timebound.length - 1)
+  const format = timebound[timebound.length - 1]
+  const plural = amount > 1 ? 's' : ''
+  const result = `${amount} ${FormatToString[format]}${plural}`
+
+  return (INTERVALS_ACCUMULATOR[timebound] = result)
+}

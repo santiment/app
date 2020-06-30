@@ -86,6 +86,7 @@ const SocialContext = ({ interval, date, slug }) => {
               <TrendsTable
                 trendWords={trends && trends.topWords}
                 className={styles.table}
+                contentClassName={styles.table__content}
                 isLoading={isLoading}
               />
             )

@@ -5,7 +5,7 @@ export const MVRV_QUERY = gql`
     $slug: String!
     $from: DateTime!
     $to: DateTime!
-    $interval: String!
+    $interval: interval!
   ) {
     mvrvRatio(slug: $slug, from: $from, to: $to, interval: $interval) {
       datetime

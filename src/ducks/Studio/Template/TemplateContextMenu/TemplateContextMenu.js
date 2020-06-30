@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import DialogFormRenameTemplate from '../Dialog/RenameTemplate'
 import DialogFormDuplicateTemplate from '../Dialog/DuplicateTemplate'
-import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
+import DeleteTemplate from '../Dialog/Delete/DeleteTemplate'
+import ShareTemplate from '../Share/ShareTemplate'
+import { isUserAuthorOfTemplate } from '../Dialog/LoadTemplate/Template'
 import styles from '../Dialog/LoadTemplate/Template.module.scss'
 
 export const Option = props => (
@@ -18,16 +21,31 @@ export const Option = props => (
   />
 )
 
+const useMenuEffects = () => {
+  const [isMenuOpened, setIsMenuOpened] = useState(false)
+
+  function openMenu (e) {
+    e.stopPropagation()
+
+    setIsMenuOpened(true)
+  }
+
+  function closeMenu () {
+    setIsMenuOpened(false)
+  }
+
+  return [isMenuOpened, openMenu, closeMenu]
+}
+
 const TemplateContextMenu = ({
   template,
-  isMenuOpened,
-  closeMenu,
-  openMenu,
-  onDelete,
   onRename,
+  onDelete,
   isAuthor,
   classes = {}
 }) => {
+  const [isMenuOpened, openMenu, closeMenu] = useMenuEffects()
+
   return (
     <ContextMenu
       open={isMenuOpened}
@@ -52,10 +70,10 @@ const TemplateContextMenu = ({
       <Panel variant='modal' className={styles.options}>
         {isAuthor && (
           <DialogFormRenameTemplate
-            trigger={<Option>Rename</Option>}
+            trigger={<Option>Edit</Option>}
             template={template}
             onRename={data => {
-              onRename(data)
+              onRename && onRename(data)
               closeMenu()
             }}
           />
@@ -65,19 +83,25 @@ const TemplateContextMenu = ({
           template={template}
           onDuplicate={closeMenu}
         />
-        {isAuthor && (
-          <ConfirmDialog
-            title='Do you want to delete this template?'
-            trigger={<Option className={styles.delete}>Delete</Option>}
-            onApprove={() => {
-              onDelete(template)
-            }}
-            onCancel={closeMenu}
-          />
-        )}
+
+        <ShareTemplate
+          template={template}
+          className={cx(styles.option, styles.shareBtn)}
+        />
+
+        <DeleteTemplate
+          isAuthor={isAuthor}
+          closeMenu={closeMenu}
+          onDelete={onDelete}
+          template={template}
+        />
       </Panel>
     </ContextMenu>
   )
 }
 
-export default TemplateContextMenu
+const mapStateToProps = ({ user }, { template }) => ({
+  isAuthor: isUserAuthorOfTemplate(user, template)
+})
+
+export default connect(mapStateToProps)(TemplateContextMenu)

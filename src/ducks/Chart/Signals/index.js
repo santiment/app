@@ -146,7 +146,7 @@ const Signals = ({
       onMouseLeave={onMouseLeave}
       className={styles.wrapper}
       style={{
-        width: chart.left,
+        width: chart.padding.right,
         height: chart.height + chart.top
       }}
     >
@@ -200,7 +200,7 @@ export default connect(
   }
 
   return (
-    <LoginDialogWrapper title='Create signal'>
+    <LoginDialogWrapper title='Create alert'>
       <Signals {...props} metrics={alertMetrics} />
     </LoginDialogWrapper>
   )

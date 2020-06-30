@@ -3,11 +3,12 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import { Description } from '../../../../../dataHub/metrics/descriptions'
 import HelpTooltip from '../../../../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
+import MetricDescription from '../../../../../SANCharts/MetricDescription/MetricDescription'
 import styles from './MetricsList.module.scss'
 
 export const NO_GROUP = '_'
 
-const MetricsList = ({ metrikKey, list, onSelect }) => {
+const MetricsList = ({ metrikKey, list, onSelect, project }) => {
   const [isOpen, setOpen] = useState(false)
 
   const keys = Object.keys(list)
@@ -35,6 +36,7 @@ const MetricsList = ({ metrikKey, list, onSelect }) => {
                 groupLabel={key}
                 group={items}
                 onSelect={onSelect}
+                project={project}
               />
             )
           })}
@@ -44,7 +46,7 @@ const MetricsList = ({ metrikKey, list, onSelect }) => {
   )
 }
 
-const Group = ({ groupLabel, onSelect, group }) => {
+const Group = ({ groupLabel, onSelect, group, project }) => {
   return (
     <>
       {groupLabel !== NO_GROUP && (
@@ -66,7 +68,7 @@ const Group = ({ groupLabel, onSelect, group }) => {
               onAction='hover'
               classes={styles}
             >
-              {Description[metric.key]}
+              <MetricDescription metric={metric} project={project} />
             </HelpTooltip>
           )}
         </div>

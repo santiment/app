@@ -75,8 +75,10 @@
   }
 }
 
-.tooltip {
+.tooltipTrigger {
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .tooltipIcon {
@@ -105,4 +107,20 @@
   border-radius: $border-radius;
   width: 484px;
   padding: 2px 24px 24px 24px;
+}
+
+.tooltip {
+  z-index: 10;
+}
+
+.delete {
+  padding: 6px 12px !important;
+}
+
+.shareBtn {
+  width: 100%;
+}
+
+.loader {
+  font-size: 6px;
 }

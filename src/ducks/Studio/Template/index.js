@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import TemplateButton from './Button'
-import {
-  buildTemplateMetrics,
-  getMultiChartsValue,
-  parseTemplateMetrics
-} from './utils'
+import { buildTemplateMetrics, parseTemplateMetrics } from './utils'
 import { notifySave } from './notifications'
 import {
   useUserTemplates,
@@ -20,39 +16,64 @@ import DialogFormNewTemplate from './Dialog/NewTemplate'
 import DialogFormRenameTemplate from './Dialog/RenameTemplate'
 import DialogFormDuplicateTemplate from './Dialog/DuplicateTemplate'
 import DialogLoadTemplate from './Dialog/LoadTemplate'
+import DeleteTemplate from './Dialog/Delete/DeleteTemplate'
+import ShareTemplate from './Share/ShareTemplate'
+import { isUserAuthorOfTemplate } from './Dialog/LoadTemplate/Template'
+import { parseSharedWidgets, translateMultiChartToWidgets } from '../url/parse'
+import { normalizeWidgets } from '../url/generate'
+import { newChartWidget } from '../Widget/creators'
 import styles from './index.module.scss'
 
-const Action = props => (
-  <Button {...props} fluid variant='ghost' className={styles.action} />
-)
+const Action = props => <Button {...props} fluid variant='ghost' />
 
 const isMac = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)
 
-export const useCtrlSPress = callback => {
-  useEffect(() => {
-    function listenHotkey (e) {
-      const { ctrlKey, metaKey, code } = e
+function useEventListener (eventName, handler, element = window) {
+  const savedHandler = useRef()
 
-      if ((metaKey || ctrlKey) && code === 'KeyS') {
-        e.preventDefault()
+  useEffect(
+    () => {
+      savedHandler.current = handler
+    },
+    [handler]
+  )
 
-        callback()
+  useEffect(
+    () => {
+      const isSupported = element && element.addEventListener
+      if (!isSupported) return
+
+      const eventListener = event => savedHandler.current(event)
+
+      element.addEventListener(eventName, eventListener)
+
+      return () => {
+        element.removeEventListener(eventName, eventListener)
       }
-    }
+    },
+    [eventName, element]
+  )
+}
 
-    window.addEventListener('keydown', listenHotkey)
-    return () => {
-      window.removeEventListener('keydown', listenHotkey)
+export const useCtrlSPress = callback => {
+  const listenHotkey = e => {
+    const { ctrlKey, metaKey, code } = e
+
+    if ((metaKey || ctrlKey) && code === 'KeyS') {
+      e.preventDefault()
+
+      callback()
     }
-  }, [])
+  }
+
+  useEventListener('keydown', listenHotkey)
 }
 
 const Template = ({
   className,
   currentUser,
-  setMetrics,
-  setComparables,
-  toggleMultiCharts,
+  widgets,
+  setWidgets,
   onProjectSelect,
   ...props
 }) => {
@@ -60,9 +81,48 @@ const Template = ({
   const [templates] = useUserTemplates(currentUser.id)
   const [updateTemplate] = useUpdateTemplate()
   const [createTemplate] = useCreateTemplate()
-  const [selectedTemplate, setSelectedTemplate] = useSelectedTemplate(
-    templates[0]
+
+  function selectTemplate (template) {
+    setSelectedTemplate(template)
+
+    if (!template) return
+
+    const { project, metrics: templateMetrics, options } = template
+    const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
+
+    if (onProjectSelect) {
+      onProjectSelect(project)
+    }
+
+    let widgets
+    if (options && options.widgets) {
+      widgets = parseSharedWidgets(options.widgets)
+    } else {
+      if (options.multi_chart) {
+        widgets = translateMultiChartToWidgets(metrics, comparables)
+      } else {
+        widgets = [
+          newChartWidget({
+            metrics,
+            comparables
+          })
+        ]
+      }
+    }
+
+    setWidgets(widgets)
+  }
+
+  const [selectedTemplate, setSelectedTemplate, loading] = useSelectedTemplate(
+    templates,
+    selectTemplate
   )
+
+  useCtrlSPress(() => {
+    if (window.selectedTemplate) {
+      saveTemplate()
+    }
+  })
 
   const [isMenuOpened, setIsMenuOpened] = useState(false)
 
@@ -76,20 +136,6 @@ const Template = ({
     setIsMenuOpened(false)
   }
 
-  function selectTemplate (template) {
-    setSelectedTemplate(template)
-
-    if (!template) return
-
-    const { project, metrics: templateMetrics } = template
-    const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
-
-    onProjectSelect(project)
-    setMetrics(metrics)
-    setComparables(comparables)
-    toggleMultiCharts(getMultiChartsValue(template))
-  }
-
   function rerenderTemplate (template) {
     if (selectedTemplate && selectedTemplate.id === template.id) {
       setSelectedTemplate(template)
@@ -97,25 +143,32 @@ const Template = ({
   }
 
   const saveTemplate = () => {
-    const { metrics, comparables, projectId } = props
-
-    const template = selectedTemplate || window.selectedTemplate
+    const { projectId } = props
+    const template = selectedTemplate
 
     const { user: { id } = {}, title, description } = template
 
     const isCurrentUser = +id === +currentUser.id
+    const metrics = widgets.map(({ metrics }) => metrics).flat()
+    const comparables = widgets.map(({ comparables }) => comparables).flat()
+
+    const options = {
+      widgets: normalizeWidgets(widgets)
+    }
 
     const future = isCurrentUser
       ? updateTemplate(template, {
         metrics,
         comparables,
-        projectId
+        projectId,
+        options
       })
       : createTemplate({
         title,
         description,
         metrics: buildTemplateMetrics({ metrics, comparables }),
-        projectId: +projectId
+        projectId: +projectId,
+        options
       })
 
     future
@@ -129,17 +182,17 @@ const Template = ({
     closeMenu()
   }
 
+  function onDelete () {
+    closeMenu()
+  }
+
   useCtrlSPress(() => {
-    if (window.selectedTemplate) {
+    if (selectedTemplate) {
       saveTemplate()
     }
   })
 
-  // TODO: 2.05.2020, GarageInc, for useCtrlSPress
-  window.selectedTemplate = selectedTemplate
-
-  const isAuthor =
-    selectedTemplate && +selectedTemplate.user.id === +currentUser.id
+  const isAuthor = isUserAuthorOfTemplate(currentUser, selectedTemplate)
 
   return (
     <ContextMenu
@@ -156,6 +209,7 @@ const Template = ({
           saveTemplate={saveTemplate}
           onNewTemplate={onTemplateSelect}
           isMenuOpened={isMenuOpened}
+          loading={loading}
         />
       }
     >
@@ -219,6 +273,21 @@ const Template = ({
                   closeMenu()
                   selectTemplate(template)
                 }}
+              />
+
+              <ShareTemplate
+                template={selectedTemplate}
+                className={styles.shareBtn}
+                fluid
+                variant='ghost'
+              />
+
+              <DeleteTemplate
+                isAuthor={isAuthor}
+                onDelete={onDelete}
+                closeMenu={closeMenu}
+                template={selectedTemplate}
+                className={styles.delete}
               />
             </>
           )}

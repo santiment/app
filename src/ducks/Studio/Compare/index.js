@@ -8,13 +8,8 @@ import Comparable from './Comparable'
 import withProjects from './withProjects'
 import { projectSorter, hashComparable, buildHiddenMetrics } from './utils'
 import { MAX_METRICS_AMOUNT } from '../constraints'
-import { useChartColors } from '../../Chart/colors'
+import { FIAT_MARKET_ASSETS } from '../../dataHub/fiat'
 import styles from './index.module.scss'
-
-const FiatMarketAssets = [
-  { slug: 's-and-p-500', name: 'S&P500', ticker: 'SPX' },
-  { slug: 'gold', name: 'Gold', ticker: 'Gold' }
-]
 
 const Compare = ({
   slug,
@@ -22,16 +17,16 @@ const Compare = ({
   comparables,
   activeMetrics,
   className,
+  MetricColor,
   ...rest
 }) => {
   const [projects, setProjects] = useState(allProjects)
-  const MetricColor = useChartColors(activeMetrics)
 
   useEffect(
     () => {
       setProjects(
         allProjects
-          .concat(FiatMarketAssets)
+          .concat(FIAT_MARKET_ASSETS)
           .filter(project => project.slug !== slug)
           .sort(projectSorter)
       )
@@ -39,9 +34,7 @@ const Compare = ({
     [allProjects, slug]
   )
 
-  const canSelectMoreMetrics =
-    rest.options.isMultiChartsActive ||
-    activeMetrics.length < MAX_METRICS_AMOUNT
+  const canSelectMoreMetrics = activeMetrics.length < MAX_METRICS_AMOUNT
 
   const hiddenMetricsMap = buildHiddenMetrics(comparables)
 
@@ -49,7 +42,7 @@ const Compare = ({
     <ContextMenu
       passOpenStateAs='isActive'
       position='bottom'
-      align='start'
+      align='end'
       trigger={
         <Button border className={cx(styles.btn, className)} classes={styles}>
           <Icon type='compare' className={styles.icon} />
@@ -68,6 +61,7 @@ const Compare = ({
             comparable={comparable}
             colors={MetricColor}
             hiddenMetricsMap={hiddenMetricsMap}
+            activeSlug={slug}
           />
         ))}
         {canSelectMoreMetrics ? (
@@ -76,6 +70,7 @@ const Compare = ({
             projects={projects}
             colors={MetricColor}
             hiddenMetricsMap={hiddenMetricsMap}
+            activeSlug={slug}
           />
         ) : (
           <div className={styles.info}>

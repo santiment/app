@@ -11,11 +11,14 @@ import {
 } from './index'
 import {
   buildTemplateMetrics,
+  getAvailableTemplate,
   getLastTemplate,
+  getTemplateIdFromURL,
   saveLastTemplate
 } from '../utils'
 import { store, client } from '../../../../index'
 import { getSavedMulticharts } from '../../../../utils/localStorage'
+import { showNotification } from '../../../../actions/rootActions'
 
 const DEFAULT_TEMPLATES = []
 
@@ -37,8 +40,9 @@ function buildTemplatesCacheUpdater (reducer) {
 }
 
 const updateTemplatesOnDelete = buildTemplatesCacheUpdater(
-  ({ template: { id: deletedId } }, templates) =>
-    templates.filter(({ id }) => id !== deletedId)
+  ({ template: { id: deletedId } }, templates) => {
+    return templates.filter(({ id }) => id !== deletedId)
+  }
 )
 
 const updateTemplatesOnCreation = buildTemplatesCacheUpdater(
@@ -73,28 +77,58 @@ export function useFeaturedTemplates () {
   return [data ? data.templates : DEFAULT_TEMPLATES, loading, error]
 }
 
-export function useSelectedTemplate (defaultTemplate) {
+export function useSelectedTemplate (templates, selectTemplate) {
+  const urlId = getTemplateIdFromURL()
+  const defaultTemplate = getAvailableTemplate(templates)
   const [selectedTemplate, setSelectedTemplate] = useState()
+  const [loading, setLoading] = useState()
 
-  useEffect(() => {
-    const savedTemplate = getLastTemplate()
+  const loadTemplate = () => {
+    if (loading) {
+      return
+    }
 
-    if (!savedTemplate) return
+    const targetTemplate = urlId ? { id: urlId } : getLastTemplate()
+    if (!targetTemplate) return
 
-    setSelectedTemplate(savedTemplate)
+    setSelectedTemplate(targetTemplate)
+
+    setLoading(true)
 
     client
       .query({
         query: TEMPLATE_QUERY,
         fetchPolicy: 'network-only',
         variables: {
-          id: +savedTemplate.id
+          id: +targetTemplate.id
         }
       })
-      .then(({ data: { template } }) => setSelectedTemplate(template))
-      .catch(console.warn)
-  }, [])
+      .then(({ data: { template } }) => {
+        setSelectedTemplate(template)
 
+        if (urlId) {
+          selectTemplate(template)
+        }
+      })
+      .catch(() => {
+        if (urlId) {
+          store.dispatch(
+            showNotification({
+              variant: 'error',
+              title:
+                'Chart Layout with id ' +
+                targetTemplate.id +
+                " is private or doesn't exist"
+            })
+          )
+        }
+      })
+      .finally(data => {
+        setLoading(false)
+      })
+  }
+
+  useEffect(loadTemplate, [urlId])
   useEffect(
     () => {
       if (!selectedTemplate) {
@@ -106,12 +140,21 @@ export function useSelectedTemplate (defaultTemplate) {
 
   useEffect(
     () => {
+      if (defaultTemplate) {
+        setSelectedTemplate(defaultTemplate)
+      }
+    },
+    [templates]
+  )
+
+  useEffect(
+    () => {
       saveLastTemplate(selectedTemplate)
     },
     [selectedTemplate]
   )
 
-  return [selectedTemplate, setSelectedTemplate]
+  return [selectedTemplate, setSelectedTemplate, loading]
 }
 
 export function useCreateTemplate () {
@@ -121,10 +164,12 @@ export function useCreateTemplate () {
 
   function createTemplate (newConfig) {
     if (!newConfig.options) {
-      newConfig.options = JSON.stringify({
+      newConfig.options = {
         multi_chart: getSavedMulticharts()
-      })
+      }
     }
+
+    newConfig.options = JSON.stringify(newConfig.options)
 
     return mutate({
       variables: {
@@ -137,8 +182,9 @@ export function useCreateTemplate () {
 }
 
 export function useDeleteTemplate () {
-  const [mutate, data] = useMutation(DELETE_TEMPLATE_MUTATION, {
-    update: updateTemplatesOnDelete
+  const [mutate, { loading }] = useMutation(DELETE_TEMPLATE_MUTATION, {
+    update: updateTemplatesOnDelete,
+    notifyOnNetworkStatusChange: true
   })
 
   function deleteTemplate ({ id }, onDelete) {
@@ -149,15 +195,15 @@ export function useDeleteTemplate () {
     }).then(onDelete)
   }
 
-  return [deleteTemplate, data]
+  return [deleteTemplate, loading]
 }
 
 export function useUpdateTemplate () {
   const [mutate, data] = useMutation(UPDATE_TEMPLATE_MUTATION)
 
   function updateTemplate (oldTemplate, newConfig) {
-    const { id, title, description, project, metrics } = oldTemplate
-    const { projectId } = newConfig
+    const { id, title, description, project, metrics, options } = oldTemplate
+    const { projectId, options: newOptions } = newConfig
 
     return mutate({
       variables: {
@@ -167,6 +213,8 @@ export function useUpdateTemplate () {
           description: newConfig.description || description,
           isPublic: newConfig.isPublic,
           options: JSON.stringify({
+            ...options,
+            ...newOptions,
             multi_chart: getSavedMulticharts()
           }),
           projectId: +(projectId || project.id),

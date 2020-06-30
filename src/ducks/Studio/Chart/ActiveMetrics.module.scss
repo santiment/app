@@ -17,6 +17,15 @@
   &:last-child {
     margin-left: 0;
   }
+
+  &_error {
+    border-color: var(--persimmon);
+    @include explanation(attr(aria-invalid), 'top');
+
+    &:hover {
+      border-color: var(--persimmon-hover);
+    }
+  }
 }
 
 .label {

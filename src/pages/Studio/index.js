@@ -1,17 +1,56 @@
-import React from 'react'
-import Studio from '../../ducks/Studio'
-import withBoundaries from './withBoundaries'
-import { parseUrl } from '../../ducks/Studio/url'
+import React, { useMemo } from 'react'
+import { compose } from 'redux'
+import { Helmet } from 'react-helmet'
+import ChartPage from '../Chart'
+import withProject from '../Detailed/withProject'
+import Breadcrumbs from '../profile/breadcrumbs/Breadcrumbs'
+import { parseUrlV2 } from '../../ducks/Studio/url/parse'
 import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
+import styles from '../Detailed/Detailed.module.scss'
+import URLExtension from './URLExtension'
 
-export default withBoundaries(
-  ({ settings, options, metrics, events, ...props }) => {
-    const sharedState = parseUrl()
-    Object.assign(sharedState.settings, settings)
-    Object.assign(sharedState.options, options)
-    sharedState.metrics = sharedState.metrics || metrics
-    sharedState.events = sharedState.events || events
+const CRUMB = {
+  label: 'Assets',
+  to: '/assets'
+}
 
-    return <Studio topSlot={<CtaJoinPopup />} {...props} {...sharedState} />
-  }
+const TopSlot = compose(withProject)(({ slug, project, loading }) =>
+  project ? (
+    <>
+      <Helmet
+        title={loading ? 'Sanbase...' : `${project.ticker} project page`}
+        meta={[
+          {
+            property: 'og:title',
+            content: `Project overview: ${project.name} - Sanbase`
+          },
+          {
+            property: 'og:description',
+            content: `Financial, development, on-chain and social data for ${
+              project.name
+            }.`
+          }
+        ]}
+      />
+      <Breadcrumbs
+        className={styles.breadcrumbs}
+        crumbs={[CRUMB, { label: project.name, to: `/studio?slug=${slug}` }]}
+      />
+      <CtaJoinPopup />
+    </>
+  ) : null
 )
+
+export default ({ history }) => {
+  const url = window.location.search
+  const parsedUrl = useMemo(() => parseUrlV2(url), [url])
+  const { settings = {} } = parsedUrl
+
+  return (
+    <ChartPage
+      parsedUrl={parsedUrl}
+      topSlot={<TopSlot slug={settings.slug} />}
+      extensions={<URLExtension history={history} />}
+    />
+  )
+}

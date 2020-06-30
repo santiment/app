@@ -3,13 +3,7 @@ import Raven from 'raven-js'
 import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
 import { showNotification } from './../actions/rootActions'
-import GA from './../utils/tracking'
 import { ALL_WATCHLISTS_QUERY } from '../queries/WatchlistGQL'
-import {
-  completeOnboardingTask,
-  getOnboardingCompletedTasks
-} from '../pages/Dashboard/utils'
-import { GA_FIRST_WATCHLIST } from '../enums/GaEvents'
 import * as actions from './../actions/types'
 import WatchlistNotificationActions from '../pages/assets/notifications/WatchlistNotificationActions'
 import { MakeWatchlistLink } from '../components/Navbar/NavbarAssetsDropdownWatchlist'
@@ -89,11 +83,6 @@ const createWatchlistEpic = (action$, store, { client }) =>
               createUserList: { id, name }
             }
           } = props
-          const completedTasks = getOnboardingCompletedTasks()
-          if (!completedTasks.includes('watchlist')) {
-            completeOnboardingTask('watchlist')
-            GA.event(GA_FIRST_WATCHLIST)
-          }
           return Observable.merge(
             Observable.of({
               type: actions.USER_ADD_NEW_ASSET_LIST_SUCCESS

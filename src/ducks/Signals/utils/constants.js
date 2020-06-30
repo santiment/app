@@ -1,13 +1,15 @@
 export const CHANNEL_NAMES = {
   Telegram: 'Telegram',
   Email: 'Email',
-  Browser: 'Push'
+  Browser: 'Push',
+  Webhook: 'Webhook URL'
 }
 
 export const CHANNEL_TYPES = {
   Telegram: 'telegram',
   Email: 'email',
-  Browser: 'web_push'
+  Browser: 'web_push',
+  Webhook: 'webhook'
 }
 
 export const CHANNELS_MAP = [
@@ -172,7 +174,7 @@ export const PRICE_ABS_CHANGE_OUTSIDE = {
 }
 
 export const TRENDING_WORDS_METRIC = {
-  label: 'Emerging social trends',
+  label: 'Santrends',
   value: TRENDING_WORDS,
   metric: TRENDING_WORDS,
   description: 'Notify me when an asset starts trending on crypto social media'
@@ -531,7 +533,10 @@ export const POSSIBLE_METRICS_FOR_CHART = [
   ETH_WALLET_METRIC.value,
 
   METRIC_TYPES.METRIC_SIGNAL,
-  METRIC_TYPES.WALLET_MOVEMENT
+  METRIC_TYPES.WALLET_MOVEMENT,
+
+  PRICE_PERCENT_CHANGE,
+  PRICE_ABSOLUTE_CHANGE
 ]
 
 export const METRIC_KEYS_WITH_TEXT_SELECTOR = [

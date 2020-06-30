@@ -5,7 +5,7 @@ export const REALIZED_VALUE_QUERY = gql`
     $slug: String!
     $from: DateTime!
     $to: DateTime!
-    $interval: String!
+    $interval: interval!
   ) {
     realizedValue(slug: $slug, from: $from, to: $to, interval: $interval) {
       datetime

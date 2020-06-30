@@ -34,4 +34,10 @@
   color: var(--waterloo);
   margin-left: 4px;
   min-width: 100px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  top: 1px;
+
+  @include text('caption');
 }

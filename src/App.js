@@ -11,6 +11,7 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import nprogress from 'nprogress'
 import NotificationStack from './components/NotificationStack'
+import UrlModals from './components/Modal/UrlModals'
 import Roadmap from './pages/Roadmap'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import EmailLoginVerification from './pages/EmailVerification/EmailLoginVerification'
@@ -40,10 +41,13 @@ export const PATHS = {
   CREATE_ACCOUNT: '/sign-up',
   GDPR: '/gdpr',
   PRO_METRICS: '/pro-sheets-templates',
-  INDEX: '/index'
+  INDEX: '/',
+  STUDIO: '/studio',
+  CHARTS: '/charts'
 }
 
 const FOOTER_DISABLED_FOR = [
+  PATHS.STUDIO,
   PATHS.FEED,
   PATHS.PRO_METRICS,
   PATHS.SOCIAL_TOOl,
@@ -93,11 +97,6 @@ const LoadableDetailedPage = Loadable({
 
 const LoadableMobileDetailedPage = Loadable({
   loader: () => import('./pages/Detailed/mobile/MobileDetailedPage'),
-  loading: () => <PageLoader />
-})
-
-const LoadableDashboardPage = Loadable({
-  loader: () => import('./pages/Dashboard/DashboardPage'),
   loading: () => <PageLoader />
 })
 
@@ -222,9 +221,7 @@ export const App = ({
   isUserLoading,
   token,
   isOffline,
-  hasMetamask,
   isBetaModeEnabled,
-  location,
   showFooter,
   location: { pathname }
 }) => (
@@ -240,6 +237,7 @@ export const App = ({
       <MobileNavbar activeLink={pathname} />
     )}
     <ErrorBoundary>
+      {isDesktop && <UrlModals />}
       <Switch>
         {['currencies', 'erc20', 'all', 'list'].map(name => (
           <Route
@@ -303,7 +301,7 @@ export const App = ({
           path='/search'
           render={props => {
             if (isDesktop) {
-              return <Redirect to='/dashboard' />
+              return <Redirect to='/' />
             }
             return <LoadableSearchMobilePage {...props} />
           }}
@@ -350,18 +348,6 @@ export const App = ({
             <LoadableSonarFeedPage
               isDesktop={isDesktop}
               isLoggedIn={isLoggedIn}
-              {...props}
-            />
-          )}
-        />
-        <Route
-          exact
-          path='/dashboard'
-          render={props => (
-            <LoadableDashboardPage
-              isDesktop={isDesktop}
-              isLoggedIn={isLoggedIn}
-              hasMetamask={hasMetamask}
               {...props}
             />
           )}
@@ -428,21 +414,32 @@ export const App = ({
             <LoadableProMetricsPage isLoggedIn={isLoggedIn} {...props} />
           )}
         />
+        {!isDesktop && <Redirect from={PATHS.STUDIO} to='/assets' />}
         <Route
-          path={PATHS.INDEX}
-          render={props => (
-            <LoadableMarketingPage isLoggedIn={isLoggedIn} {...props} />
-          )}
-        />
-        {!isDesktop && <Redirect from='/' to='/assets' />}
-        <Route
-          path='/'
+          path={PATHS.STUDIO}
           render={props => (
             <LoadableChartPage
               classes={{ wrapper: styles.chart }}
               isLoggedIn={isLoggedIn}
               {...props}
             />
+          )}
+        />
+        <Route
+          path={PATHS.CHARTS}
+          render={props => (
+            <LoadableChartPage
+              classes={{ wrapper: styles.chart }}
+              isLoggedIn={isLoggedIn}
+              {...props}
+            />
+          )}
+        />
+        {!isDesktop && <Redirect from={PATHS.INDEX} to='/assets' />}
+        <Route
+          path={PATHS.INDEX}
+          render={props => (
+            <LoadableMarketingPage isLoggedIn={isLoggedIn} {...props} />
           )}
         />
       </Switch>
@@ -465,19 +462,16 @@ function isPathnameInPages (pathname, pages) {
   return pages.some(path => !pathname.replace(path, '').includes('/'))
 }
 
-const mapStateToProps = (state, { location: { pathname, ...rest } }) => {
-  const { ethAccounts = [] } = state.user.data
-
-  return {
-    isLoggedIn: state.user.data && !!state.user.data.id,
-    isUserLoading: state.user.isLoading,
-    token: state.user.token,
-    isOffline: !state.rootUi.isOnline,
-    isBetaModeEnabled: state.rootUi.isBetaModeEnabled,
-    hasMetamask: ethAccounts.length > 0 && ethAccounts[0].address,
-    showFooter: !isPathnameInPages(pathname, FOOTER_DISABLED_FOR)
-  }
-}
+const mapStateToProps = ({ user, rootUi }, { location: { pathname } }) => ({
+  isLoggedIn: user.data && !!user.data.id,
+  isUserLoading: user.isLoading,
+  token: user.token,
+  isOffline: !rootUi.isOnline,
+  isBetaModeEnabled: rootUi.isBetaModeEnabled,
+  showFooter:
+    !isPathnameInPages(pathname, FOOTER_DISABLED_FOR) &&
+    !pathname.includes(PATHS.STUDIO)
+})
 
 const enhance = compose(
   connect(mapStateToProps),

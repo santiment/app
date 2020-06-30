@@ -4,7 +4,7 @@ import { getCategoryGraph } from './Sidebar/utils'
 import { useMergedTimeboundSubmetrics } from '../dataHub/timebounds'
 import { getMarketSegment } from './timeseries/marketSegments'
 
-const PROJECT_METRICS_BY_SLUG_QUERY = gql`
+const PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY = gql`
   query projectBySlug($slug: String!) {
     project: projectBySlug(slug: $slug) {
       id
@@ -15,7 +15,16 @@ const PROJECT_METRICS_BY_SLUG_QUERY = gql`
   }
 `
 
-const DEFAULT_METRICS = [
+export const PROJECT_METRICS_BY_SLUG_QUERY = gql`
+  query projectBySlug($slug: String!) {
+    project: projectBySlug(slug: $slug) {
+      id
+      availableMetrics
+    }
+  }
+`
+
+export const DEFAULT_METRICS = [
   'price_usd',
   'volume_usd',
   'marketcap_usd',
@@ -41,7 +50,7 @@ const DEFAULT_METRICS = [
   'social_volume_total'
 ]
 
-export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
+export default graphql(PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY, {
   props: ({
     data: {
       loading,

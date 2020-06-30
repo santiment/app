@@ -5,7 +5,7 @@ export const TRANSACTION_VOLUME_QUERY = gql`
     $slug: String!
     $from: DateTime!
     $to: DateTime!
-    $interval: String!
+    $interval: interval!
   ) {
     transactionVolume(slug: $slug, from: $from, to: $to, interval: $interval) {
       datetime

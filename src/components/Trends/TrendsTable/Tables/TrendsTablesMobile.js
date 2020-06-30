@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import TrendsTable from '../TrendsTable'
-import PageLoader from '../../../Loader/PageLoader'
 import styles from './TrendsTables.module.scss'
 
 const TABS = [
@@ -35,7 +34,7 @@ const TrendsTablesMobile = ({
   allTrends
 }) => {
   if (!trends.length) {
-    return <PageLoader />
+    return null
   }
 
   const [index, setIndex] = useState(0)

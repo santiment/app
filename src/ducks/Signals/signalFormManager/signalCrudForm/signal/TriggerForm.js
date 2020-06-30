@@ -31,7 +31,7 @@ import {
   getNewDescription
 } from '../../../utils/utils'
 import { TriggerFormMetricValues } from '../formParts/TriggerFormMetricValues'
-import { TriggerFormMetricTypes } from '../formParts/metricTypes/TriggerFormMetricTypes'
+import TriggerFormMetricTypes from '../formParts/metricTypes/TriggerFormMetricTypes'
 import { TriggerFormFrequency } from '../formParts/TriggerFormFrequency'
 import SignalPreview from '../../../chart/preview/SignalPreview'
 import TriggerMetricTypesResolver from '../formParts/TriggerMetricTypesResolver'
@@ -48,9 +48,9 @@ const getTitle = (formData, id, isShared) => {
   const isUpdate = id > 0 && !isShared
   const publicWord = formData.isPublic ? 'public' : 'private'
   if (isUpdate) {
-    return `Update ${publicWord} signal`
+    return `Update ${publicWord} alert`
   } else {
-    return `Create ${publicWord} signal`
+    return `Create ${publicWord} alert`
   }
 }
 
@@ -143,6 +143,7 @@ export const TriggerForm = ({
           metric,
           type = {},
           target,
+          targetWatchlist,
           frequencyType,
           frequencyTimeType,
           isRepeating,
@@ -155,7 +156,8 @@ export const TriggerForm = ({
         const { price } = lastPriceItem || {}
         const mappedTrigger = mapFormPropsToTrigger(values)
 
-        const showChart = target && couldShowChart(mappedTrigger.settings)
+        const showChart =
+          (target || targetWatchlist) && couldShowChart(mappedTrigger.settings)
 
         const typeSelectors = metric.key
           ? COMMON_PROPS_FOR_METRIC
@@ -174,6 +176,8 @@ export const TriggerForm = ({
 
         const isValidForm =
           isValid || !errors || Object.keys(errors).length === 0
+
+        const showDivider = showTypes || metricValueBlocks
 
         return (
           <Form>
@@ -216,6 +220,7 @@ export const TriggerForm = ({
                   setFieldValue={setFieldValue}
                   metric={metric}
                   target={target}
+                  trigger={mappedTrigger}
                 />
               )}
 
@@ -233,7 +238,7 @@ export const TriggerForm = ({
                   {...titleMetricValuesHeader(!!metricValueBlocks, values)}
                   className={styles.chainBlock}
                 >
-                  {(showTypes || metricValueBlocks) && (
+                  {showDivider && (
                     <TriggerFormMetricValues
                       typeSelectors={typeSelectors}
                       metaFormSettings={metaFormSettings}
@@ -246,10 +251,13 @@ export const TriggerForm = ({
 
                   {showChart && (
                     <>
-                      {(showTypes || metricValueBlocks) && (
-                        <TriggerFormBlockDivider />
-                      )}
-                      <div className={styles.preview}>
+                      {showDivider && <TriggerFormBlockDivider />}
+                      <div
+                        className={cx(
+                          styles.preview,
+                          showDivider && styles.previewWithDiviver
+                        )}
+                      >
                         <SignalPreview
                           trigger={mappedTrigger}
                           type={metric.value}
@@ -329,13 +337,13 @@ export const TriggerForm = ({
 
                   <div className={cx(styles.row, styles.descriptionBlock)}>
                     <div className={cx(styles.Field, styles.fieldFilled)}>
-                      <FormikLabel text='Name of the signal' />
+                      <FormikLabel text='Name of the alert' />
                       <FormikInput
                         name='title'
                         type='text'
                         minLength={MIN_TITLE_LENGTH}
                         maxLength={MAX_TITLE_LENGTH}
-                        placeholder='Name of the signal'
+                        placeholder='Name of the alert'
                         onChange={() =>
                           setFieldValue('titleChangedByUser', true)
                         }
@@ -351,7 +359,7 @@ export const TriggerForm = ({
                         }/${MAX_DESCR_LENGTH})`}
                       />
                       <FormikTextarea
-                        placeholder='Description of the signal'
+                        placeholder='Description of the alert'
                         name='description'
                         className={styles.descriptionTextarea}
                         rowsCount={3}
@@ -373,7 +381,7 @@ export const TriggerForm = ({
                 accent='positive'
                 className={styles.submitButton}
               >
-                {id && !isShared ? 'Update signal' : 'Create signal'}
+                {id && !isShared ? 'Update alert' : 'Create alert'}
               </Button>
             </div>
           </Form>

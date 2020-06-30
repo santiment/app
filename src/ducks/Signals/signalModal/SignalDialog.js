@@ -54,7 +54,7 @@ const SignalDialog = ({
   useEffect(
     () => {
       if (!isLoggedIn) {
-        onSetDialogTitle('Create signal')
+        onSetDialogTitle('Create alert')
       }
     },
     [isLoggedIn]
@@ -71,12 +71,13 @@ const SignalDialog = ({
 
   useEffect(
     () => {
-      openSharedForm && onSetDialogTitle('Signal details')
+      openSharedForm && onSetDialogTitle('Alert details')
     },
     [openSharedForm]
   )
 
   const canOpen = (isLoggedIn || isShared) && !isAnonWarning
+
   return (
     <Dialog
       open={dialogOpenState}
@@ -112,22 +113,28 @@ const SignalDialog = ({
 
         {!isError && isLoading && <PageLoader className={styles.loading} />}
 
-        {!isError && !isLoading && canOpen && (
-          <SignalMaster
-            setOpenSharedForm={setOpenForm}
-            openSharedForm={openSharedForm}
-            isShared={isShared}
-            trigger={trigger}
-            setTitle={onSetDialogTitle}
-            onClose={closeDialog}
-            canRedirect={canRedirect}
-            metaFormSettings={metaFormSettings}
-            formChangedCallback={formChangedCallback}
-            toggleAnon={toggleAnon}
-          />
-        )}
+        {!isError && !isLoading && (
+          <>
+            {canOpen && (
+              <SignalMaster
+                setOpenSharedForm={setOpenForm}
+                openSharedForm={openSharedForm}
+                isShared={isShared}
+                trigger={trigger}
+                setTitle={onSetDialogTitle}
+                onClose={closeDialog}
+                canRedirect={canRedirect}
+                metaFormSettings={metaFormSettings}
+                formChangedCallback={formChangedCallback}
+                toggleAnon={toggleAnon}
+              />
+            )}
 
-        {(isAnonWarning || !canOpen) && <AnonBanner className={styles.anon} />}
+            {(isAnonWarning || !canOpen) && (
+              <AnonBanner className={styles.anon} />
+            )}
+          </>
+        )}
       </Dialog.ScrollContent>
     </Dialog>
   )

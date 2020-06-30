@@ -1,56 +1,87 @@
-import { drawAxes, drawAxesTicks } from '@santiment-network/chart/axes'
+import {
+  drawAxes,
+  drawAxesTicks,
+  drawLeftAxis,
+  drawLeftAxisTicks
+} from '@santiment-network/chart/axes'
 import {
   isDayInterval,
   getDateDayMonthYear,
   getDateHoursMinutes
 } from './utils'
 import { dayTicksPaintConfig, dayAxesColor } from './paintConfigs'
+import { Metric } from '../dataHub/metrics'
+import { mirroredMetrics } from '../dataHub/metrics/mirrored'
 import { millify } from '../../utils/formatting'
 
-const yFormatter = value => {
+function yFormatter (value) {
+  const absValue = Math.abs(value)
+
   if (!value) {
     return 0
   }
 
-  if (value < 1) {
+  if (absValue < 1) {
     return +value.toFixed(3)
   }
 
-  if (value < 100) {
+  if (absValue < 100) {
     return millify(value, 3)
   }
 
-  if (value > 999999) {
+  if (absValue > 999999) {
     return millify(value, 2)
   }
 
-  if (value > 9999) {
+  if (absValue > 99999) {
     return millify(value, 0)
+  }
+
+  if (absValue > 9999) {
+    return millify(value, 1)
   }
 
   return Math.trunc(value)
 }
 
-export function plotAxes (props) {
-  const { chart, scale, xFormatter, xTicksAmount } = props
+const selectYFormatter = metricKey =>
+  mirroredMetrics.includes(metricKey)
+    ? value => yFormatter(Math.abs(value))
+    : (Metric[metricKey] && Metric[metricKey].axisFormatter) || yFormatter
+
+export function plotAxes (chart, scale) {
   const {
-    tooltipKey,
+    axesMetricKeys,
     ticksPaintConfig = dayTicksPaintConfig,
     axesColor = dayAxesColor
   } = chart
 
-  const xFormatterNew =
-    xFormatter ||
-    (isDayInterval(chart) ? getDateHoursMinutes : getDateDayMonthYear)
+  const [mainAxisMetric, secondaryAxisMetric] = axesMetricKeys
 
   drawAxes(chart, axesColor)
-  drawAxesTicks(
-    chart,
-    tooltipKey,
-    xFormatterNew,
-    yFormatter,
-    ticksPaintConfig,
-    scale,
-    xTicksAmount
-  )
+
+  if (chart.minMaxes[mainAxisMetric]) {
+    drawAxesTicks(
+      chart,
+      mainAxisMetric,
+      isDayInterval(chart) ? getDateHoursMinutes : getDateDayMonthYear,
+      selectYFormatter(mainAxisMetric),
+      ticksPaintConfig,
+      scale,
+      10,
+      8
+    )
+  }
+
+  if (secondaryAxisMetric && chart.minMaxes[secondaryAxisMetric]) {
+    drawLeftAxis(chart, axesColor)
+    drawLeftAxisTicks(
+      chart,
+      secondaryAxisMetric,
+      selectYFormatter(secondaryAxisMetric),
+      ticksPaintConfig,
+      scale,
+      8
+    )
+  }
 }

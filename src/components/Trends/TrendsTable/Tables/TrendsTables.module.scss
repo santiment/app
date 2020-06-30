@@ -1,8 +1,12 @@
 @import "~@santiment-network/ui/mixins";
+@import "../../../../animations";
 
 .tables {
   display: flex;
   justify-content: space-between;
+  animation-name: shiftUp;
+  animation-timing-function: ease-out;
+  animation-duration: 0.5s;
 }
 
 .table {
