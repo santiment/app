@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import Category from './Category'
 import { TopHolderMetric } from '../../Chart/Sidepanel/HolderDistribution/metrics'
-import styles from './index.module.scss'
 
 const MetricSelector = ({ categories = {}, availableMetrics, ...rest }) => {
   const hasTopHolders = useMemo(
@@ -13,7 +12,7 @@ const MetricSelector = ({ categories = {}, availableMetrics, ...rest }) => {
   )
 
   return (
-    <div className={styles.wrapper}>
+    <div>
       {Object.keys(categories).map(key => (
         <Category
           key={key}

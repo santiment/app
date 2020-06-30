@@ -26,11 +26,11 @@ const Group = ({
     <>
       {hasGroup && (
         <h4 className={styles.group} onClick={onToggleClick}>
-          {title}
           <Icon
-            type='arrow-up'
+            type='arrow-right-big'
             className={cx(styles.toggle, hidden && styles.toggle_active)}
           />
+          {title}
         </h4>
       )}
       <div
