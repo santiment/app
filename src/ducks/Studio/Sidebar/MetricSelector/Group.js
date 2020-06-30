@@ -13,12 +13,12 @@ const Group = ({
   toggleMetric,
   isBeta,
   setMetricSettingMap,
-  project,
+  project
 }) => {
   const hasGroup = title !== NO_GROUP
   const [hidden, setHidden] = useState(hasGroup)
 
-  function onToggleClick() {
+  function onToggleClick () {
     setHidden(!hidden)
   }
 
@@ -60,7 +60,7 @@ const Group = ({
                 isDisabled={!selectable}
               />
               {subitems &&
-                subitems.map((subitem) => (
+                subitems.map(subitem => (
                   <MetricButton
                     metric={subitem}
                     key={subitem.key}
@@ -79,8 +79,8 @@ const Group = ({
   )
 }
 
-const mapStateToProps = (state) => ({
-  isBeta: state.rootUi.isBetaModeEnabled,
+const mapStateToProps = state => ({
+  isBeta: state.rootUi.isBetaModeEnabled
 })
 
 export default connect(mapStateToProps)(Group)

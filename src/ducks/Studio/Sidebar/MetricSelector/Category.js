@@ -16,7 +16,7 @@ const Category = ({
 }) => {
   const [hidden, setHidden] = useState(false)
 
-  function onToggleClick() {
+  function onToggleClick () {
     setHidden(!hidden)
   }
 
@@ -33,7 +33,7 @@ const Category = ({
             metric={{
               isBeta: true,
               key: 'holder_distribution',
-              type: 'widget',
+              type: 'widget'
             }}
             project={project}
             label='Holder Distribution'
@@ -41,12 +41,12 @@ const Category = ({
               rest.toggleMetric({
                 key: 'holder_distribution',
                 type: 'widget',
-                label: 'Holder Distribution',
+                label: 'Holder Distribution'
               })
             }
           />
         )}
-        {Object.keys(groups).map((group) => (
+        {Object.keys(groups).map(group => (
           <Group
             key={group}
             title={group}
@@ -60,8 +60,8 @@ const Category = ({
   )
 }
 
-const mapStateToProps = (state) => ({
-  isBeta: state.rootUi.isBetaModeEnabled,
+const mapStateToProps = state => ({
+  isBeta: state.rootUi.isBetaModeEnabled
 })
 
 export default connect(mapStateToProps)(Category)
