@@ -5,6 +5,7 @@ import Button from '@santiment-network/ui/Button'
 import MetricExplanation from '../../SANCharts/MetricExplanation'
 import MetricIcon from '../../SANCharts/MetricIcon'
 import MetricErrorExplanation from './MetricErrorExplanation/MetricErrorExplanation'
+import { getMetricLabel } from '../../dataHub/metrics/labels'
 import styles from './ActiveMetrics.module.scss'
 
 const MetricButton = ({
@@ -20,7 +21,9 @@ const MetricButton = ({
   project,
   ...rest
 }) => {
-  const { key, dataKey = key, node, label, comparedTicker } = metric
+  const { key, dataKey = key, node, comparedTicker } = metric
+
+  const label = getMetricLabel(metric)
 
   const Wrapper = ({ children }) =>
     withDescription ? (

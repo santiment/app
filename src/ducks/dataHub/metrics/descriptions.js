@@ -238,8 +238,10 @@ export const Description = {
   [Metric.bitmex_perpetual_open_value.key]:
     'Shows the value of the corresponding open interest in Satoshis (XBT/BTC)',
   SOCIAL_VOLUME: SOCIAL_CONTEXT_DESCRIPTION,
-  [Metric.dormant_circulation.key]:
-    'Main metric is not available for selected asset'
+  [Metric.dormant_circulation
+    .key]: `Shows how many coins/tokens that have not been moved for more than ${convertToReadableInterval(
+    '365d'
+  )} were transacted during a day. This is useful for spotting when really old Bitcoins move. `
 }
 
 export const rebuildDescriptions = Submetrics => {
@@ -247,6 +249,16 @@ export const rebuildDescriptions = Submetrics => {
     const list = Submetrics[key]
 
     switch (key) {
+      case Metric.dormant_circulation.key: {
+        list.forEach(metric => {
+          Description[
+            metric.key
+          ] = `Shows how many coins/tokens that have not been moved for more than ${convertToReadableInterval(
+            metric.replacements.timebound
+          )} were transacted during a day. This is useful for spotting when really old Bitcoins move. `
+        })
+        break
+      }
       case Metric.twitter_followers.key: {
         list.forEach(metric => {
           Description[metric.key] = `Shows the ${convertToReadableInterval(

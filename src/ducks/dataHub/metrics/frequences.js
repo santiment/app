@@ -99,7 +99,8 @@ const Frequences = {
   [Metric.sentiment_balance_twitter.key]: Sentiment,
   [Metric.sentiment_balance_total.key]: Sentiment,
 
-  [SPENT_COINT_COST]: FiveMinute
+  [SPENT_COINT_COST]: FiveMinute,
+  [Metric.dormant_circulation.key]: Daily
 }
 
 export default Frequences
