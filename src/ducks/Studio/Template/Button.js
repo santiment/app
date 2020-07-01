@@ -7,6 +7,7 @@ import FormDialogNewTemplate from './Dialog/NewTemplate'
 import LoginDialog from '../../../components/LoginDialog'
 import TemplateInfo from './TemplateDetailsDialog/TemplateInfo'
 import styles from './index.module.scss'
+import btnStyles from './Button.module.scss'
 
 const NoTemplateLabel = ({ loading }) => {
   return loading ? <Loader className={styles.loader} /> : 'Save as'
@@ -65,15 +66,15 @@ export default ({
 }) => {
   const [isDialogOpened, setIsDialogOpened] = useState(false)
 
-  function openDialog () {
+  function openDialog() {
     setIsDialogOpened(true)
   }
 
-  function closeDialog () {
+  function closeDialog() {
     setIsDialogOpened(false)
   }
 
-  function onNew (template) {
+  function onNew(template) {
     onNewTemplate(template)
     closeDialog()
   }
@@ -81,7 +82,27 @@ export default ({
   const Dialog = isLoggedIn ? FormDialogNewTemplate : LoginDialog
 
   return (
-    <button className={styles.btn} ref={forwardedRef}>
+    <div className={btnStyles.btn} ref={forwardedRef}>
+      <span className={btnStyles.action}>Save</span>
+      <span className={btnStyles.action} onClick={openMenu}>
+        <Icon
+          type='arrow-down'
+          className={cx(btnStyles.arrow, isMenuOpened && styles.active)}
+        />
+      </span>
+    </div>
+  )
+
+  return (
+    <>
+      <Trigger
+        hasTemplates={hasTemplates}
+        selectedTemplate={selectedTemplate}
+        saveTemplate={saveTemplate}
+        openDialog={openDialog}
+        isLoggedIn={isLoggedIn}
+        loading={loading}
+      />
       <Dialog
         {...props}
         title='New Chart Layout'
@@ -89,22 +110,17 @@ export default ({
         onClose={closeDialog}
         onNew={onNew}
         trigger={
-          <Trigger
-            hasTemplates={hasTemplates}
-            selectedTemplate={selectedTemplate}
-            saveTemplate={saveTemplate}
-            openDialog={openDialog}
-            isLoggedIn={isLoggedIn}
-            loading={loading}
-          />
+          <div className={btnStyles.btn}>
+            <span className={btnStyles.action}>Save</span>
+            <span className={btnStyles.action} onClick={openMenu}>
+              <Icon
+                type='arrow-down'
+                className={cx(btnStyles.arrow, isMenuOpened && styles.active)}
+              />
+            </span>
+          </div>
         }
       />
-      <div className={styles.dropdown} onClick={openMenu}>
-        <Icon
-          type='arrow-down'
-          className={cx(styles.icon, isMenuOpened && styles.active)}
-        />
-      </div>
-    </button>
+    </>
   )
 }
