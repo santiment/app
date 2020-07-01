@@ -248,9 +248,11 @@ const TriggerFormChannels = ({
             const isWebhook = channel === CHANNEL_NAMES.Webhook
 
             return (
-              <div className={cx(styles.channel, isWebhook && styles.webhook)}>
+              <div
+                className={cx(styles.channel, isWebhook && styles.webhook)}
+                key={channel}
+              >
                 <ChannelCheckbox
-                  key={channel}
                   channel={channel}
                   isActive={isActive}
                   isDisabled={isDisabled}
