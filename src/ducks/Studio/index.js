@@ -3,6 +3,7 @@ import Sidebar from './Sidebar'
 import Main from './Main'
 import { mergeMetricSettingMap } from './utils'
 import { DEFAULT_SETTINGS } from './defaults'
+import { usePhase } from './hooks'
 import { newChartWidget } from './Widget/ChartWidget'
 import { newHolderDistributionWidget } from './Widget/HolderDistributionWidget'
 import SelectionOverview from './Overview/SelectionOverview'
@@ -10,23 +11,31 @@ import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
 import { saveToggle } from '../../utils/localStorage'
 import styles from './index.module.scss'
 
+const Phase = {
+  IDLE: 'idle',
+  OVERVIEW: 'overview',
+  OVERVIEW_SELECTION: 'overview_selection',
+}
+
 export const Studio = ({
   defaultWidgets,
   defaultSidepanel,
   defaultSettings = DEFAULT_SETTINGS,
-  extensions
+  extensions,
 }) => {
   const [widgets, setWidgets] = useState(defaultWidgets)
   const [settings, setSettings] = useState(defaultSettings)
   const [sidepanel, setSidepanel] = useState(defaultSidepanel)
   const [selectedMetrics, setSelectedMetrics] = useState([])
   const [selectedMetricSettingsMap, setSelectedMetricSettingsMap] = useState(
-    new Map()
+    new Map(),
   )
   const [isICOPriceDisabled, setIsICOPriceDisabled] = useState(true)
   const [isICOPriceActive, setIsICOPriceActive] = useState(true)
   const [isAnomalyActive, setIsAnomalyActive] = useState()
   const [isSidebarClosed, setIsSidebarClosed] = useState()
+  const { currentPhase, previousPhase, setPhase } = usePhase(Phase.IDLE)
+  const isOverviewOpened = currentPhase.startsWith(Phase.OVERVIEW)
 
   useEffect(
     () => {
@@ -35,22 +44,37 @@ export const Studio = ({
         setSettings({ ...settings, slug })
       }
     },
-    [defaultSettings.slug]
+    [defaultSettings.slug],
   )
 
-  function rerenderWidgets () {
+  useEffect(
+    () => {
+      if (selectedMetrics.length) {
+        setPhase(Phase.OVERVIEW_SELECTION)
+      } else if (previousPhase === Phase.OVERVIEW_SELECTION) {
+        setPhase(Phase.OVERVIEW)
+      }
+    },
+    [selectedMetrics.length],
+  )
+
+  function toggleOverview() {
+    setPhase(isOverviewOpened ? Phase.IDLE : Phase.OVERVIEW)
+  }
+
+  function rerenderWidgets() {
     setWidgets(widgets.slice())
   }
 
-  function toggleSidepanel (key) {
+  function toggleSidepanel(key) {
     setSidepanel(sidepanel === key ? undefined : key)
   }
 
-  function deleteWidget (widget) {
-    setWidgets(widgets.filter(w => w !== widget))
+  function deleteWidget(widget) {
+    setWidgets(widgets.filter((w) => w !== widget))
   }
 
-  function toggleWidgetMetric (widget, metric) {
+  function toggleWidgetMetric(widget, metric) {
     const metrics = deduceMetrics(widget.metrics, metric)
 
     if (metrics.length === 0) {
@@ -61,15 +85,15 @@ export const Studio = ({
     }
   }
 
-  function toggleAnomaly () {
+  function toggleAnomaly() {
     setIsAnomalyActive(saveToggle('isAnomalyActive', !isAnomalyActive))
   }
 
-  function toggleSelectionMetric (metric) {
+  function toggleSelectionMetric(metric) {
     setSelectedMetrics(deduceMetrics(selectedMetrics, metric))
   }
 
-  function deduceMetrics (metrics, metric) {
+  function deduceMetrics(metrics, metric) {
     const newMetrics = new Set(metrics)
 
     if (newMetrics.has(metric)) {
@@ -81,19 +105,19 @@ export const Studio = ({
     return [...newMetrics]
   }
 
-  function changeTimePeriod (from, to, timeRange) {
+  function changeTimePeriod(from, to, timeRange) {
     const interval = getNewInterval(from, to)
 
-    setSettings(state => ({
+    setSettings((state) => ({
       ...state,
       timeRange,
       interval: INTERVAL_ALIAS[interval] || interval,
       from: from.toISOString(),
-      to: to.toISOString()
+      to: to.toISOString(),
     }))
   }
 
-  function onSidebarItemClick (item) {
+  function onSidebarItemClick(item) {
     const { type, key } = item
 
     if (type === 'sidepanel') {
@@ -105,8 +129,8 @@ export const Studio = ({
         setWidgets([
           ...widgets,
           newHolderDistributionWidget({
-            scrollIntoViewOnMount: true
-          })
+            scrollIntoViewOnMount: true,
+          }),
         ])
       }
     } else {
@@ -114,29 +138,36 @@ export const Studio = ({
     }
   }
 
-  function onWidgetClick (widget) {
+  function onWidgetClick(widget) {
     const newMetrics = new Set([...widget.metrics, ...selectedMetrics])
 
     widget.metrics = [...newMetrics]
     widget.MetricSettingMap = mergeMetricSettingMap(
       widget.MetricSettingMap,
-      selectedMetricSettingsMap
+      selectedMetricSettingsMap,
     )
 
     rerenderWidgets()
+    resetSelecion()
   }
 
-  function onNewChartClick () {
+  function onNewChartClick() {
     setWidgets([
       ...widgets,
       newChartWidget({
         metrics: selectedMetrics,
-        MetricSettingMap: selectedMetricSettingsMap
-      })
+        MetricSettingMap: selectedMetricSettingsMap,
+      }),
     ])
+    resetSelecion()
   }
 
-  function onOverviewClose () {
+  function onOverviewClose() {
+    setPhase(Phase.IDLE)
+    resetSelecion()
+  }
+
+  function resetSelecion() {
     setSelectedMetrics([])
     setSelectedMetricSettingsMap(new Map())
   }
@@ -162,6 +193,7 @@ export const Studio = ({
           sidepanel={sidepanel}
           isICOPriceActive={isICOPriceActive}
           isAnomalyActive={isAnomalyActive}
+          isOverviewOpened={isOverviewOpened}
           // fn
           setWidgets={setWidgets}
           setSettings={setSettings}
@@ -171,21 +203,25 @@ export const Studio = ({
           toggleSidepanel={toggleSidepanel}
           deleteWidget={deleteWidget}
           rerenderWidgets={rerenderWidgets}
+          toggleOverview={toggleOverview}
         />
 
-        {selectedMetrics.length ? (
+        {/* {selectedMetrics.length ? ( */}
+        {isOverviewOpened && (
           <SelectionOverview
             widgets={widgets}
             selectedMetrics={selectedMetrics}
+            currentPhase={currentPhase}
             toggleMetric={toggleSelectionMetric}
+            resetSelecion={resetSelecion}
             onClose={onOverviewClose}
             onWidgetClick={onWidgetClick}
             onNewChartClick={onNewChartClick}
           />
-        ) : null}
+        )}
       </main>
-      {React.Children.map(extensions, extension =>
-        React.cloneElement(extension, { widgets, settings, sidepanel })
+      {React.Children.map(extensions, (extension) =>
+        React.cloneElement(extension, { widgets, settings, sidepanel }),
       )}
     </div>
   )
