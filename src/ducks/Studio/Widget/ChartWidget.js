@@ -43,7 +43,6 @@ export const Chart = ({
     metrics,
     options.isClosestDataActive
   )
-
   // TODO: Solve the webpack circular dependency issue to share singular chart [@vanguard | Jul 1, 2020]
   // const shareLink = useMemo(
   // () => buildChartShareLink({ settings, widgets: [widget] }),
@@ -151,6 +150,7 @@ export const Chart = ({
     <StudioChart
       {...props}
       data={data}
+      widget={widget}
       chartRef={chartRef}
       metrics={activeMetrics}
       eventsData={eventsData}
@@ -180,6 +180,7 @@ const newChartWidget = props =>
     metrics: [Metric.price_usd],
     comparables: [],
     MetricSettingMap: new Map(),
+    MetricColor: {},
     ...props
   })
 

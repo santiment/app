@@ -71,7 +71,7 @@ export default ({
   return (
     <div className={cx(styles.wrapper, className)}>
       <Calendar settings={settings} changeTimePeriod={changeTimePeriod} />
-      {hasExplanaibles && (
+      {!isOverviewOpened && hasExplanaibles && (
         <MetricsExplanation.Button
           onClick={() => toggleSidepanel(METRICS_EXPLANATION_PANE)}
           className={cx(

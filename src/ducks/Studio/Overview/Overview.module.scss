@@ -1,5 +1,4 @@
 @import '~@santiment-network/ui/variables';
-@import '../../../animations';
 
 $preview-width: 475px;
 $preview-height: 250px;
@@ -12,6 +11,7 @@ $preview-height: 250px;
   bottom: 0;
   background: var(--athens);
   z-index: 20;
+  animation: appear 200ms;
 }
 
 .sticky {
@@ -21,11 +21,6 @@ $preview-height: 250px;
   position: sticky;
   top: 0;
   padding: 64px 25px;
-  animation-name: appear;
-  animation-timing-function: ease-out;
-  animation-duration: 0.35s;
-  animation-delay: 0.2s;
-  animation-fill-mode: both;
 }
 
 .grid {
@@ -62,15 +57,13 @@ $preview-height: 250px;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: rgba($mirage, 0.84);
     color: $white;
-    background: rgba(47, 53, 77, 0.8);
-    transition: opacity 0.35s ease-in-out;
+    transition: opacity 200ms ease-in-out;
   }
 
-  &:hover {
-    &::after {
-      opacity: 1;
-    }
+  &:hover::after {
+    opacity: 1;
   }
 
   &_new {
@@ -104,5 +97,47 @@ $preview-height: 250px;
 .mapview_selection {
   &::after {
     content: 'Click to apply selected metrics';
+  }
+}
+
+.metrics {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background: rgba($casper, 0.6);
+  opacity: 0;
+  transition: opacity 150ms;
+
+  &_visible {
+    opacity: 1;
+  }
+
+  &__list {
+    margin-top: -8px;
+    flex-wrap: wrap;
+  }
+
+  &,
+  &__list {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.metric {
+  margin-top: 8px;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }
