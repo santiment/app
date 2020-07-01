@@ -8,9 +8,9 @@ import {
 export const WATCHLIST_GENERAL_FRAGMENT = gql`
   fragment generalListData on UserList {
     id
-    color
     isPublic
     name
+    function
     insertedAt
     isMonitored
     updatedAt

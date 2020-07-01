@@ -22,6 +22,10 @@ import styles from './Watchlist.module.scss'
 import stylesGrid from './WatchlistCards.module.scss'
 import NewWatchlistCard from './NewWatchlistCard'
 
+function isStaticWatchlist ({ args = [], name }) {
+  return name === 'empty' && Array.isArray(args) && args.length === 0
+}
+
 const WatchlistEmptySection = ({ watchlists, className }) => (
   <EmptySection imgClassName={cx(styles.img, className)}>
     <span>Create your own watchlist to track assets</span>
@@ -47,96 +51,98 @@ const MyWatchlist = ({
   classes = {}
 }) => (
   <GetWatchlists
-    render={({ isWatchlistsLoading, watchlists }) => (
-      <div className={cx(styles.wrapper, className)}>
-        {showHeader && (
-          <>
-            <DesktopOnly>
-              <div className={styles.header}>
-                <h4 className={styles.heading}>My watchlists</h4>
-                <NewWatchlistDialog
-                  trigger={<WatchlistNewBtn border disabled={!isLoggedIn} />}
-                  watchlists={watchlists}
-                />
-              </div>
-            </DesktopOnly>
-            <MobileOnly>
-              <>
-                <div className={styles.row}>
-                  <h2
-                    className={cx(
-                      styles.subtitle,
-                      styles.subtitle__myWatchlists
-                    )}
-                  >
-                    My watchlists
-                  </h2>
-                  {isLoggedIn && watchlists.length > 0 && (
-                    <NewWatchlistDialog
-                      watchlists={watchlists}
-                      trigger={
-                        <WatchlistNewBtn
-                          accent='positive'
-                          className={styles.newBtn}
-                        />
-                      }
-                    />
-                  )}
+    render={({ isWatchlistsLoading, watchlists = [] }) => {
+      const staticWatchlists = watchlists.filter(item =>
+        isStaticWatchlist(item.function)
+      )
+
+      return (
+        <div className={cx(styles.wrapper, className)}>
+          {showHeader && (
+            <>
+              <DesktopOnly>
+                <div className={styles.header}>
+                  <h4 className={styles.heading}>My watchlists</h4>
                 </div>
-                <Skeleton
-                  repeat={4}
-                  className={styles.skeleton}
-                  show={isWatchlistsLoading || isLoggedInPending}
-                />
-              </>
-            </MobileOnly>
-          </>
-        )}
-        {isLoggedIn && !isWatchlistsLoading && !watchlists.length && (
-          <>
-            <DesktopOnly>
-              <WatchlistEmptySection
-                watchlists={watchlists}
-                className={classes.emptyWatchlists}
-              />
-            </DesktopOnly>
-            <MobileOnly>
-              <Panel className={styles.emptyWrapper}>
+              </DesktopOnly>
+              <MobileOnly>
+                <>
+                  <div className={styles.row}>
+                    <h2
+                      className={cx(
+                        styles.subtitle,
+                        styles.subtitle__myWatchlists
+                      )}
+                    >
+                      My watchlists
+                    </h2>
+                    {isLoggedIn && watchlists.length > 0 && (
+                      <NewWatchlistDialog
+                        watchlists={watchlists}
+                        trigger={
+                          <WatchlistNewBtn
+                            accent='positive'
+                            className={styles.newBtn}
+                          />
+                        }
+                      />
+                    )}
+                  </div>
+                  <Skeleton
+                    repeat={4}
+                    className={styles.skeleton}
+                    show={isWatchlistsLoading || isLoggedInPending}
+                  />
+                </>
+              </MobileOnly>
+            </>
+          )}
+          {isLoggedIn && !isWatchlistsLoading && !watchlists.length && (
+            <>
+              <DesktopOnly>
                 <WatchlistEmptySection
                   watchlists={watchlists}
                   className={classes.emptyWatchlists}
                 />
-              </Panel>
-            </MobileOnly>
-          </>
-        )}
-        {isLoggedIn && (
-          <div className={stylesGrid.wrapper}>
-            {watchlists.map(watchlist => (
-              <WatchlistCard
-                key={watchlist.id}
-                name={watchlist.name}
-                watchlist={watchlist}
-                to={getWatchlistLink(watchlist)}
-                isPublic={watchlist.isPublic}
-                slugs={watchlist.listItems.map(({ project }) => project.slug)}
-              />
-            ))}
-            {showNew && watchlists.length > 0 && <NewWatchlistCard />}
-          </div>
-        )}
-        {!isWatchlistsLoading && !isLoggedInPending && !isLoggedIn && (
-          <>
-            <DesktopOnly>
-              <FeatureAnonBanner className={styles.anonBanner} />
-            </DesktopOnly>
-            <MobileOnly>
-              <WatchlistsAnon isFullScreen={true} />
-            </MobileOnly>
-          </>
-        )}
-      </div>
-    )}
+              </DesktopOnly>
+              <MobileOnly>
+                <Panel className={styles.emptyWrapper}>
+                  <WatchlistEmptySection
+                    watchlists={staticWatchlists}
+                    className={classes.emptyWatchlists}
+                  />
+                </Panel>
+              </MobileOnly>
+            </>
+          )}
+          {isLoggedIn && (
+            <div className={stylesGrid.wrapper}>
+              {staticWatchlists.map(watchlist => (
+                <WatchlistCard
+                  key={watchlist.id}
+                  name={watchlist.name}
+                  watchlist={watchlist}
+                  to={getWatchlistLink(watchlist)}
+                  isPublic={watchlist.isPublic}
+                  slugs={watchlist.listItems.map(({ project }) => project.slug)}
+                />
+              ))}
+              {showNew && staticWatchlists.length > 0 && <NewWatchlistCard />}
+            </div>
+          )}
+          {!isWatchlistsLoading && !isLoggedInPending && !isLoggedIn && (
+            <>
+              <DesktopOnly>
+                <FeatureAnonBanner className={styles.anonBanner} />
+              </DesktopOnly>
+              <MobileOnly>
+                <WatchlistsAnon isFullScreen={true} />
+              </MobileOnly>
+            </>
+          )}
+        </div>
+      )
+    }}
   />
 )
 
