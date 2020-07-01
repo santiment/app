@@ -236,7 +236,7 @@ const Chart = ({
       plotChart(data)
 
       if (!hideAxes) {
-        plotAxes({ chart, scale })
+        plotAxes(chart, scale)
       }
     },
     [
@@ -306,7 +306,7 @@ const Chart = ({
     plotChart(data)
 
     if (!hideAxes) {
-      plotAxes({ chart, scale })
+      plotAxes(chart, scale)
     }
   }
 

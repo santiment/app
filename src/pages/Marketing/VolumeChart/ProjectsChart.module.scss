@@ -1,0 +1,22 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  display: flex;
+  height: 222px;
+  width: 100%;
+  flex-direction: column;
+}
+
+.title {
+  background: var(--athens);
+  color: var(--fiord);
+  align-items: center;
+  display: flex;
+  padding: 6px 12px;
+
+  @include text('caption', 'm');
+}
+
+.selector {
+  margin-left: 12px;
+}
