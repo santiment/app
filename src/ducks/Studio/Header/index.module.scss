@@ -27,9 +27,14 @@
 }
 
 .title {
-  @include text('body-3');
+  @include text('body-1');
+  color: var(--rhino);
+  display: flex;
+  align-items: center;
+}
 
-  color: var(--waterloo);
+.icon {
+  margin-right: 8px;
 }
 
 .settings {
