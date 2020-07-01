@@ -215,17 +215,17 @@ const Template = ({
       }
     >
       <Panel variant='modal' className={styles.context}>
-        <div className={styles.group}>
-          {selectedTemplate && isLoggedIn && (
-            <Action onClick={saveTemplate}>
-              Save{' '}
-              <span className={styles.copyAction}>
-                {isMac ? 'Cmd + S' : 'Ctrl + S'}
-              </span>
-            </Action>
-          )}
+        {selectedTemplate && (
+          <div className={styles.group}>
+            {isLoggedIn && (
+              <Action onClick={saveTemplate}>
+                Save{' '}
+                <span className={styles.copyAction}>
+                  {isMac ? 'Cmd + S' : 'Ctrl + S'}
+                </span>
+              </Action>
+            )}
 
-          {selectedTemplate && (
             <DialogFormNewTemplate
               {...props}
               onClose={closeMenu}
@@ -234,8 +234,28 @@ const Template = ({
               onNew={onTemplateSelect}
               buttonLabel='Save'
             />
-          )}
+            {isAuthor && (
+              <DialogFormRenameTemplate
+                onClose={closeMenu}
+                trigger={<Action>Edit</Action>}
+                template={selectedTemplate}
+                onRename={closeMenu}
+              />
+            )}
 
+            <DialogFormDuplicateTemplate
+              onClose={closeMenu}
+              trigger={<Action>Duplicate</Action>}
+              template={selectedTemplate}
+              onDuplicate={template => {
+                closeMenu()
+                selectTemplate(template)
+              }}
+            />
+          </div>
+        )}
+
+        <div className={styles.group}>
           <DialogLoadTemplate
             onClose={closeMenu}
             selectedTemplate={selectedTemplate}
@@ -246,8 +266,7 @@ const Template = ({
             trigger={<Action>Load</Action>}
             projectId={projectId}
           />
-        </div>
-        <div className={styles.group}>
+
           <DialogFormNewTemplate
             {...props}
             onClose={closeMenu}
@@ -257,25 +276,6 @@ const Template = ({
 
           {selectedTemplate && (
             <>
-              {isAuthor && (
-                <DialogFormRenameTemplate
-                  onClose={closeMenu}
-                  trigger={<Action>Edit</Action>}
-                  template={selectedTemplate}
-                  onRename={closeMenu}
-                />
-              )}
-
-              <DialogFormDuplicateTemplate
-                onClose={closeMenu}
-                trigger={<Action>Duplicate</Action>}
-                template={selectedTemplate}
-                onDuplicate={template => {
-                  closeMenu()
-                  selectTemplate(template)
-                }}
-              />
-
               <ShareTemplate
                 template={selectedTemplate}
                 className={styles.shareBtn}
