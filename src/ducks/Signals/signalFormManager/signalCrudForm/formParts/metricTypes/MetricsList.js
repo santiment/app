@@ -52,7 +52,7 @@ const Group = ({ groupLabel, onSelect, group, project }) => {
       {groupLabel !== NO_GROUP && (
         <div className={styles.group}>{groupLabel}</div>
       )}
-      {group.map(metric => (
+      {group.map(({ item: metric }) => (
         <div
           key={metric.key}
           className={styles.item}

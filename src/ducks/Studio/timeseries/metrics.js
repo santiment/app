@@ -205,5 +205,6 @@ export const METRICS = [
   'dormant_circulation_365d',
   'dormant_circulation_3y',
   'dormant_circulation_5y',
-  'dormant_circulation_90d'
+  'dormant_circulation_90d',
+  'stock_to_flow'
 ]

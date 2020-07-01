@@ -78,8 +78,9 @@ const Template = ({
   onProjectSelect,
   ...props
 }) => {
+  const user = currentUser.data
   const { projectId, isLoggedIn } = props
-  const [templates] = useUserTemplates(currentUser.id)
+  const [templates] = useUserTemplates(user.id)
   const [updateTemplate] = useUpdateTemplate()
   const [createTemplate] = useCreateTemplate()
 
@@ -149,7 +150,7 @@ const Template = ({
 
     const { user: { id } = {}, title, description } = template
 
-    const isCurrentUser = +id === +currentUser.id
+    const isCurrentUser = +id === +user.id
     const metrics = widgets.map(({ metrics }) => metrics).flat()
     const comparables = widgets.map(({ comparables }) => comparables).flat()
 
@@ -198,28 +199,29 @@ const Template = ({
   return (
     <>
       {selectedTemplate && <TemplateTitle template={selectedTemplate} />}
-      <ContextMenu
-        open={isMenuOpened}
-        onClose={closeMenu}
-        position='bottom'
-        align='start'
-        trigger={
-          <TemplateButton
-            {...props}
-            selectedTemplate={selectedTemplate}
-            widgets={widgets}
-            hasTemplates={hasTemplates}
-            openMenu={openMenu}
-            saveTemplate={saveTemplate}
-            onNewTemplate={onTemplateSelect}
-            isMenuOpened={isMenuOpened}
-            loading={loading}
-          />
-        }
-      >
-        <Panel variant='modal' className={styles.context}>
+    <ContextMenu
+      open={isMenuOpened}
+      onClose={closeMenu}
+      position='bottom'
+      align='start'
+      trigger={
+        <TemplateButton
+          {...props}
+          selectedTemplate={selectedTemplate}
+                widgets={widgets}
+          hasTemplates={hasTemplates}
+          openMenu={openMenu}
+          saveTemplate={saveTemplate}
+          onNewTemplate={onTemplateSelect}
+          isMenuOpened={isMenuOpened}
+          loading={loading}
+        />
+      }
+    >
+      <Panel variant='modal' className={styles.context}>
+        {selectedTemplate && (
           <div className={styles.group}>
-            {selectedTemplate && isLoggedIn && (
+            {isLoggedIn && (
               <Action onClick={saveTemplate}>
                 Save{' '}
                 <span className={styles.copyAction}>
@@ -228,84 +230,83 @@ const Template = ({
               </Action>
             )}
 
-            {selectedTemplate && (
-              <DialogFormNewTemplate
-                {...props}
+            <DialogFormNewTemplate
+              {...props}
+              onClose={closeMenu}
                 widgets={widgets}
+              trigger={<Action>Save as new Chart Layout</Action>}
+              title='Save as new Chart Layout'
+              onNew={onTemplateSelect}
+              buttonLabel='Save'
+            />
+            {isAuthor && (
+              <DialogFormRenameTemplate
                 onClose={closeMenu}
-                trigger={<Action>Save as new Chart Layout</Action>}
-                title='Save as new Chart Layout'
-                onNew={onTemplateSelect}
-                buttonLabel='Save'
+                trigger={<Action>Edit</Action>}
+                template={selectedTemplate}
+                onRename={closeMenu}
               />
             )}
 
-            <DialogLoadTemplate
+            <DialogFormDuplicateTemplate
               onClose={closeMenu}
-              selectedTemplate={selectedTemplate}
-              selectTemplate={onTemplateSelect}
-              updateTemplate={updateTemplate}
-              rerenderTemplate={rerenderTemplate}
-              templates={templates}
-              trigger={<Action>Load</Action>}
-              projectId={projectId}
+              trigger={<Action>Duplicate</Action>}
+              template={selectedTemplate}
+              onDuplicate={template => {
+                closeMenu()
+                selectTemplate(template)
+              }}
             />
           </div>
-          <div className={styles.group}>
-            <DialogFormNewTemplate
-              {...props}
+        )}
+
+        <div className={styles.group}>
+          <DialogLoadTemplate
+            onClose={closeMenu}
+            selectedTemplate={selectedTemplate}
+            selectTemplate={onTemplateSelect}
+            updateTemplate={updateTemplate}
+            rerenderTemplate={rerenderTemplate}
+            templates={templates}
+            trigger={<Action>Load</Action>}
+            projectId={projectId}
+          />
+
+          <DialogFormNewTemplate
+            {...props}
+            onClose={closeMenu}
               widgets={widgets}
-              onClose={closeMenu}
-              trigger={<Action>New</Action>}
-              onNew={onTemplateSelect}
-            />
+            trigger={<Action>New</Action>}
+            onNew={onTemplateSelect}
+          />
 
-            {selectedTemplate && (
-              <>
-                {isAuthor && (
-                  <DialogFormRenameTemplate
-                    onClose={closeMenu}
-                    trigger={<Action>Edit</Action>}
-                    template={selectedTemplate}
-                    onRename={closeMenu}
-                  />
-                )}
+          {selectedTemplate && (
+            <>
+              <ShareTemplate
+                template={selectedTemplate}
+                className={styles.shareBtn}
+                fluid
+                variant='ghost'
+              />
 
-                <DialogFormDuplicateTemplate
-                  onClose={closeMenu}
-                  trigger={<Action>Duplicate</Action>}
-                  template={selectedTemplate}
-                  onDuplicate={template => {
-                    closeMenu()
-                    selectTemplate(template)
-                  }}
-                />
-
-                <ShareTemplate
-                  template={selectedTemplate}
-                  className={styles.shareBtn}
-                  fluid
-                  variant='ghost'
-                />
-
-                <DeleteTemplate
-                  isAuthor={isAuthor}
-                  onDelete={onDelete}
-                  closeMenu={closeMenu}
-                  template={selectedTemplate}
-                  className={styles.delete}
-                />
-              </>
-            )}
-          </div>
-        </Panel>
-      </ContextMenu>
+              <DeleteTemplate
+                isAuthor={isAuthor}
+                onDelete={onDelete}
+                closeMenu={closeMenu}
+                template={selectedTemplate}
+                className={styles.delete}
+              />
+            </>
+          )}
+        </div>
+      </Panel>
+    </ContextMenu>
     </>
   )
 }
 
 const mapStateToProps = state => ({
-  currentUser: state.user.data
+  currentUser: state.user
 })
 
 export default connect(mapStateToProps)(Template)
