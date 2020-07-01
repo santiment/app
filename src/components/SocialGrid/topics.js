@@ -1,41 +1,43 @@
 import { getIntervalByTimeRange } from '../../utils/dates'
 
 export const TOPICS = [
-  {
-    slug: 'halving OR block OR blocks OR bitcoin OR miners OR happy OR halved',
-    title: 'Bitcoin halving happened'
-  },
   { slug: 'hold OR love OR btc OR bitcoin OR buy', title: 'Buy Bitcoin' },
-  { slug: 'satoshi OR coins OR moved OR btc', title: 'Satoshi coins moved' },
   { slug: 'btc OR halving', title: 'Bitcoin halving' },
   {
     slug:
       'oil OR negative OR barrel OR crude OR barrels OR contract OR futures OR wti',
     title: 'Negative rates on oil'
   },
-  {
-    slug: 'markets OR tomorrow OR going OR market',
-    title: 'Markets predictions'
-  },
   { slug: 'kava OR usdx OR defi OR blockchain OR winners', title: 'KAVA AMA' },
   { slug: 'bch OR halving OR bsv OR btc', title: 'Bitcoin Cash halving' },
+  {
+    slug: 'whales OR price OR market OR yesterday',
+    title: 'Blaming whales in dumps'
+  },
   { slug: 'ctsi OR cartesi', title: 'Cartesi IEO in Binance' },
+  { slug: 'satoshi OR coins OR moved', title: 'Satoshi coins moved' },
   {
     slug: 'fed OR unlimited OR infinite OR money OR printing OR dollar',
     title: 'Unlimited dollar printing'
   },
   { slug: 'bitmex OR mex', title: 'Bitmex faces a lawsuit' },
-  {
-    slug:
-      'stp OR stpt OR network OR projects OR networks OR use OR many OR advantages',
-    title: 'Standard Tokenization Protocol AMA'
-  },
-  { slug: 'sol OR solana', title: 'Solana listing on Binance' },
+  { slug: 'sngls OR singulardtv OR snglsdao OR content', title: 'Solana AMA' },
   { slug: 'chromia OR chr OR project', title: 'Chromia AMA' },
   { slug: 'halving OR dump', title: 'Bearish before halving' },
-  { slug: 'omg OR coinbase', title: 'OMG listed on Coinbase' },
   { slug: 'dow OR bitcoin', title: 'DOW and BTC are connected' },
-  { slug: 'halving OR see', title: '7 days prior to halving' }
+  { slug: 'halving OR see', title: '7 days prior to halving' },
+  {
+    slug: 'vet OR coinbase OR vechain OR listing',
+    title: 'Vechain in Coinbase list'
+  },
+  {
+    slug: 'moons OR vault OR reddit OR moon OR bricks',
+    title: 'Reddit launching ERC20 tokens'
+  },
+  {
+    slug: 'craig OR satoshi OR wright OR message OR addresses',
+    title: 'Craig Wright is a fraud'
+  }
 ]
 
 export const INDEX_PAGE_GROUPS = [
@@ -45,8 +47,10 @@ export const INDEX_PAGE_GROUPS = [
       'The most popular topics in crypto social media. Ranges from worldwide economic and health topics to the prices discussions',
     topics: [
       {
-        title: 'Bitcoin halving',
-        slug: 'halving OR halvening'
+        title: 'Yield farming',
+        slug: 'yield OR farming',
+        query: 'yield%20OR%20farming?asset=ethereum&ticker=ETH',
+        createdAt: '2020-07-01T15:18:20.922Z'
       },
       {
         title: 'Coronavirus',
@@ -67,15 +71,7 @@ export const INDEX_PAGE_GROUPS = [
       {
         title: '"Bart" Pattern',
         slug: 'bart',
-        type: 'PRO',
-        query: 'bart',
         createdAt: '2020-06-10T07:18:20.922Z'
-      },
-      {
-        title: 'The rise and fall of MTL',
-        slug: 'mtl or metal',
-        type: 'FREE',
-        query: 'mtl%20OR%20metal?asset=metal&slug=mtl%20OR%20metal&ticker=MTL'
       }
     ]
   }
