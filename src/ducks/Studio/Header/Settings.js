@@ -5,7 +5,7 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Calendar from './Calendar'
 import MetricsExplanation, {
-  filterExplainableMetrics
+  filterExplainableMetrics,
 } from '../Chart/Sidepanel/MetricsExplanation'
 import { METRICS_EXPLANATION_PANE } from '../Chart/Sidepanel/panes'
 import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
@@ -14,14 +14,14 @@ import headerStyles from './index.module.scss'
 
 const SAN_HEADER_HEIGHT = 70
 
-function buildStudioShareLink () {
+function buildStudioShareLink() {
   const { origin, search } = window.location
   return `${origin}/studio${search}`
 }
 
 const ShareButton = withRouter(() => (
   <ShareModalTrigger
-    trigger={props => (
+    trigger={(props) => (
       <Button {...props} className={styles.share}>
         <Icon type='share' />
       </Button>
@@ -40,11 +40,11 @@ export default ({
   isOverviewOpened,
   changeTimePeriod,
   toggleSidepanel,
-  toggleOverview
+  toggleOverview,
 }) => {
   const hasExplanaibles = useMemo(
     () => filterExplainableMetrics(metrics).length > 0,
-    [metrics]
+    [metrics],
   )
 
   useEffect(
@@ -65,17 +65,17 @@ export default ({
       header.classList.toggle(headerStyles.wrapper_fixed, !!transform)
       header.style.transform = transform
     },
-    [isOverviewOpened]
+    [isOverviewOpened],
   )
 
   return (
     <div className={cx(styles.wrapper, className)}>
       <Calendar settings={settings} changeTimePeriod={changeTimePeriod} />
-      {hasExplanaibles && (
+      {!isOverviewOpened && hasExplanaibles && (
         <MetricsExplanation.Button
           onClick={() => toggleSidepanel(METRICS_EXPLANATION_PANE)}
           className={cx(
-            sidepanel === METRICS_EXPLANATION_PANE && styles.explain_active
+            sidepanel === METRICS_EXPLANATION_PANE && styles.explain_active,
           )}
         />
       )}
@@ -83,7 +83,7 @@ export default ({
         border
         className={cx(
           styles.mapview,
-          isOverviewOpened && styles.mapview_active
+          isOverviewOpened && styles.mapview_active,
         )}
         onClick={toggleOverview}
       >

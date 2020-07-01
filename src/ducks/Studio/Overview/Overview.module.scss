@@ -11,6 +11,7 @@ $preview-height: 250px;
   bottom: 0;
   background: var(--athens);
   z-index: 20;
+  animation: appear 200ms;
 }
 
 .sticky {
@@ -46,21 +47,6 @@ $preview-height: 250px;
     height: 100%;
   }
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    opacity: 0.8;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(225deg, $mirage 81%, rgba($mirage, 0) 87%);
-    background-size: 360%;
-    background-position: -39%;
-    background-repeat: no-repeat;
-    transition: background-position 300ms;
-  }
-
   &::after {
     position: absolute;
     left: 0;
@@ -72,18 +58,13 @@ $preview-height: 250px;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: rgba($mirage, 0.84);
     color: $white;
-    transition: opacity 200ms;
+    transition: opacity 150ms;
   }
 
-  &:hover {
-    &::before {
-      background-position: 31%;
-    }
-
-    &::after {
-      opacity: 1;
-    }
+  &:hover::after {
+    opacity: 1;
   }
 
   &_new {
@@ -117,5 +98,15 @@ $preview-height: 250px;
 .mapview_selection {
   &::after {
     content: 'Click to apply selected metrics';
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }
