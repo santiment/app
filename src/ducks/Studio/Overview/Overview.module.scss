@@ -16,17 +16,20 @@ $preview-height: 250px;
 
 .sticky {
   display: flex;
-  align-items: center;
+  // align-items: center;
+  flex-direction: column;
   height: 100vh;
   position: sticky;
   top: 0;
+
+  padding: 64px 25px;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, $preview-width);
   grid-auto-flow: row dense;
-  justify-content: center;
+  // justify-content: center;
   grid-gap: 23px;
   flex: 1;
 }
@@ -104,6 +107,7 @@ $preview-height: 250px;
     align-items: center;
     justify-content: center;
     border-style: dashed;
+    flex-direction: column;
 
     &::after {
       content: 'Click to create a new chart with selected metrics';
@@ -113,6 +117,10 @@ $preview-height: 250px;
   &.loading::after {
     content: '';
   }
+}
+
+.iconNew {
+  margin-bottom: 8px;
 }
 
 @keyframes appear {
@@ -166,7 +174,7 @@ $preview-height: 250px;
   overflow: auto;
   flex: 1;
   max-height: 100%;
-  padding: 25px;
+  // padding: 25px;
 }
 
 .check {

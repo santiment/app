@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 
 export function useKeyDown(clb, key) {
   useEffect(() => {
@@ -12,20 +12,4 @@ export function useKeyDown(clb, key) {
 
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [])
-}
-
-export function usePhase(defaultPhase) {
-  const [currentPhase, setCurrentPhase] = useState(defaultPhase)
-  const [previousPhase, setPreviousPhase] = useState(currentPhase)
-
-  function setPhase(newPhase, prevPhase = newPhase) {
-    setPreviousPhase(prevPhase)
-    setCurrentPhase(newPhase)
-  }
-
-  return {
-    currentPhase,
-    previousPhase,
-    setPhase,
-  }
 }

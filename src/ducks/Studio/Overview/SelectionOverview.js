@@ -21,6 +21,7 @@ const SelectionOverview = ({
   return (
     <Overview
       widgets={widgets}
+      currentPhase={currentPhase}
       selectedMetrics={selectedMetrics}
       onClose={onClose}
       onWidgetClick={onWidgetClick}

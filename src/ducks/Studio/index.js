@@ -3,19 +3,13 @@ import Sidebar from './Sidebar'
 import Main from './Main'
 import { mergeMetricSettingMap } from './utils'
 import { DEFAULT_SETTINGS } from './defaults'
-import { usePhase } from './hooks'
+import { Phase, usePhase } from './phases'
 import ChartWidget from './Widget/ChartWidget'
 import HolderDistributionWidget from './Widget/HolderDistributionWidget'
 import SelectionOverview from './Overview/SelectionOverview'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
 import { saveToggle } from '../../utils/localStorage'
 import styles from './index.module.scss'
-
-const Phase = {
-  IDLE: 'idle',
-  OVERVIEW: 'overview',
-  OVERVIEW_SELECTION: 'overview_selection',
-}
 
 export const Studio = ({
   defaultWidgets,
@@ -35,7 +29,7 @@ export const Studio = ({
   const [isAnomalyActive, setIsAnomalyActive] = useState()
   const [isSidebarClosed, setIsSidebarClosed] = useState()
   const { currentPhase, previousPhase, setPhase } = usePhase(Phase.IDLE)
-  const isOverviewOpened = currentPhase.startsWith(Phase.OVERVIEW)
+  const isOverviewOpened = currentPhase.startsWith(Phase.MAPVIEW)
 
   useEffect(
     () => {
@@ -50,16 +44,20 @@ export const Studio = ({
   useEffect(
     () => {
       if (selectedMetrics.length) {
-        setPhase(Phase.OVERVIEW_SELECTION)
-      } else if (previousPhase === Phase.OVERVIEW_SELECTION) {
-        setPhase(Phase.OVERVIEW)
+        setPhase(Phase.MAPVIEW_SELECTION)
+      } else if (previousPhase === Phase.MAPVIEW_SELECTION) {
+        setPhase(Phase.MAPVIEW)
       }
     },
     [selectedMetrics.length],
   )
 
   function toggleOverview() {
-    setPhase(isOverviewOpened ? Phase.IDLE : Phase.OVERVIEW)
+    if (isOverviewOpened) {
+      onOverviewClose()
+    } else {
+      setPhase(Phase.MAPVIEW)
+    }
   }
 
   function rerenderWidgets() {
@@ -206,7 +204,6 @@ export const Studio = ({
           toggleOverview={toggleOverview}
         />
 
-        {/* {selectedMetrics.length ? ( */}
         {isOverviewOpened && (
           <SelectionOverview
             widgets={widgets}

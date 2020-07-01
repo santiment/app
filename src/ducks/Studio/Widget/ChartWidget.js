@@ -55,7 +55,7 @@ export const Chart = ({
       const phase = loadings.length ? 'loading' : 'loaded'
       dispatchWidgetMessage(widget, phase)
     },
-    [loadings.length],
+    [loadings],
   )
 
   useEffect(
