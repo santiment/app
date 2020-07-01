@@ -192,7 +192,8 @@ const TIMESERIES = {
   social_volume_twitter: queryBuild('social_volume_twitter'),
   mean_age: queryBuild('mean_age'),
 
-  mvrv_usd_intraday: queryBuild('mvrv_usd_intraday')
+  mvrv_usd_intraday: queryBuild('mvrv_usd_intraday'),
+  stock_to_flow: queryBuild('stock_to_flow')
 }
 
 export const hasMetric = metric => !!TIMESERIES[metric]
