@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Area, AreaChart, ResponsiveContainer } from 'recharts'
 import PercentChanges from '../PercentChanges'
+import emptyChart from './emptyChart.svg'
 import {
   CATEGORY_HISTORY_QUERY,
   PROJECTS_HISTORY_QUERY,
@@ -15,7 +16,6 @@ import {
 } from '../WatchlistOverview/WatchlistHistory/WatchlistHistoryGQL'
 import ExplanationTooltip from '../ExplanationTooltip/ExplanationTooltip'
 import Gradients from '../WatchlistOverview/Gradients'
-import { TRENDING_WATCHLIST_NAME } from '../../pages/assets/assets-overview-constants'
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
 import { millify } from '../../utils/formatting'
@@ -33,9 +33,9 @@ const WatchlistCard = ({
   watchlist = {},
   onClick,
   className,
+  isLoading,
   isSimplifiedView
 }) => {
-  if (name === TRENDING_WATCHLIST_NAME && stats.length === 0) return null
   const { marketcap: latestMarketcap } = stats.slice(-1)[0] || {}
   const { marketcap } = stats.slice(0, 1)[0] || {}
   const change = marketcap
@@ -98,35 +98,48 @@ const WatchlistCard = ({
               </ExplanationTooltip>
             )}
           </div>
-          {latestMarketcap ? (
+          {!isLoading && (
             <>
               <div className={cx(styles.flexRow, styles.content)}>
                 <span className={styles.marketcap}>
-                  $&nbsp;{millify(latestMarketcap)}
+                  $&nbsp;{latestMarketcap ? millify(latestMarketcap) : 0}
                 </span>
-                <ResponsiveContainer height={35} className={styles.chart}>
-                  <AreaChart data={chartStats}>
-                    <defs>
-                      <Gradients />
-                    </defs>
-                    <Area
-                      dataKey='marketcap'
-                      type='monotone'
-                      strokeWidth={2}
-                      stroke={color}
-                      isAnimationActive={false}
-                      fill={`url(#total${change >= 0 ? 'Up' : 'Down'})`}
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
+                {latestMarketcap ? (
+                  <ResponsiveContainer height={35} className={styles.chart}>
+                    <AreaChart data={chartStats}>
+                      <defs>
+                        <Gradients />
+                      </defs>
+                      <Area
+                        dataKey='marketcap'
+                        type='monotone'
+                        strokeWidth={2}
+                        stroke={color}
+                        isAnimationActive={false}
+                        fill={`url(#total${change >= 0 ? 'Up' : 'Down'})`}
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <img src={emptyChart} className={styles.empty} />
+                )}
               </div>
               <div className={styles.flexRow}>
-                <PercentChanges changes={change} className={styles.change} />
-                &nbsp;&nbsp;
-                <span className={styles.volumeLabel}> total cap, 7d </span>
+                {latestMarketcap && (
+                  <>
+                    <PercentChanges
+                      changes={change}
+                      className={styles.change}
+                    />
+                    &nbsp;&nbsp;
+                  </>
+                )}
+                <span className={styles.volumeLabel}>
+                  {latestMarketcap ? 'total cap, 7d' : 'No assets'}
+                </span>
               </div>
             </>
-          ) : null}
+          )}
         </>
       )}
     </res.Component>
