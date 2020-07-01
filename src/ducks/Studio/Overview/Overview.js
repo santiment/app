@@ -36,6 +36,7 @@ const Overview = ({
               <ChartPreview
                 key={widget.id}
                 widget={widget}
+                currentPhase={currentPhase}
                 selectedMetrics={selectedMetrics}
                 onClick={onWidgetClick}
                 useWidgetMessage={useWidgetMessage}

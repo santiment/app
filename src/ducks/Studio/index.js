@@ -137,6 +137,12 @@ export const Studio = ({
   }
 
   function onWidgetClick(widget) {
+    if (currentPhase === Phase.MAPVIEW) {
+      widget.chartRef.current.canvas.scrollIntoView({ block: 'center' })
+      onOverviewClose()
+      return
+    }
+
     const newMetrics = new Set([...widget.metrics, ...selectedMetrics])
 
     widget.metrics = [...newMetrics]
