@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import cx from 'classnames'
 import { withRouter } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
@@ -10,6 +10,9 @@ import MetricsExplanation, {
 import { METRICS_EXPLANATION_PANE } from '../Chart/Sidepanel/panes'
 import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
 import styles from './Settings.module.scss'
+import headerStyles from './index.module.scss'
+
+const SAN_HEADER_HEIGHT = 70
 
 function buildStudioShareLink () {
   const { origin, search } = window.location
@@ -29,20 +32,45 @@ const ShareButton = withRouter(() => (
 ))
 
 export default ({
+  className,
+  headerRef,
   metrics,
   settings,
   sidepanel,
-  className,
+  isOverviewOpened,
   changeTimePeriod,
-  toggleSidepanel
+  toggleSidepanel,
+  toggleOverview
 }) => {
   const hasExplanaibles = useMemo(
     () => filterExplainableMetrics(metrics).length > 0,
     [metrics]
   )
 
+  useEffect(
+    () => {
+      const { current: header } = headerRef
+      let transform
+      if (isOverviewOpened) {
+        let { top } = header.getBoundingClientRect()
+
+        if (window.scrollY < SAN_HEADER_HEIGHT) {
+          top -= SAN_HEADER_HEIGHT - window.scrollY - 1
+        }
+
+        transform = `translateY(-${top}px)`
+      } else {
+        transform = null
+      }
+      header.classList.toggle(headerStyles.wrapper_fixed, !!transform)
+      header.style.transform = transform
+    },
+    [isOverviewOpened]
+  )
+
   return (
     <div className={cx(styles.wrapper, className)}>
+      <Calendar settings={settings} changeTimePeriod={changeTimePeriod} />
       {hasExplanaibles && (
         <MetricsExplanation.Button
           onClick={() => toggleSidepanel(METRICS_EXPLANATION_PANE)}
@@ -51,7 +79,16 @@ export default ({
           )}
         />
       )}
-      <Calendar settings={settings} changeTimePeriod={changeTimePeriod} />
+      <Button
+        border
+        className={cx(
+          styles.mapview,
+          isOverviewOpened && styles.mapview_active
+        )}
+        onClick={toggleOverview}
+      >
+        {isOverviewOpened ? 'Close' : 'Open'} Mapview
+      </Button>
       <ShareButton />
     </div>
   )

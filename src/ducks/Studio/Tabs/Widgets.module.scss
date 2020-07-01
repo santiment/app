@@ -16,6 +16,6 @@
   margin-left: 16px;
   width: 355px;
   position: sticky !important;
-  top: 67px !important;
-  max-height: calc(100vh - 54px - 13px - 13px - 12px);
+  top: #{64px + 13px} !important;
+  max-height: calc(100vh - 64px - 13px - 13px - 12px);
 }

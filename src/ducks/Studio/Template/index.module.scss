@@ -1,40 +1,5 @@
 @import '~@santiment-network/ui/mixins';
 
-.btn {
-  background: var(--white);
-  border: 1px solid var(--porcelain);
-  height: 32px;
-  display: flex;
-  align-items: center;
-  padding: 0;
-  border-radius: 4px;
-  cursor: pointer;
-  outline: none;
-
-  &__left {
-    @include text('body-3');
-
-    color: var(--mirage);
-    padding: 0 12px;
-    max-width: 115px;
-    text-overflow: ellipsis;
-    overflow-x: hidden;
-    white-space: nowrap;
-    fill: var(--casper);
-    align-items: center;
-    display: flex;
-
-    &_large {
-      max-width: 135px;
-    }
-
-    &:hover {
-      color: var(--jungle-green);
-      fill: var(--jungle-green);
-    }
-  }
-}
-
 .dropdown {
   width: 32px;
   height: 30px;

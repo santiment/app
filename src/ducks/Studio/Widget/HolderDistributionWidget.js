@@ -43,12 +43,14 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
   )
 }
 
-export const newHolderDistributionWidget = props =>
+const newHolderDistributionWidget = props =>
   newWidget(HolderDistributionWidget, {
     metrics: TOP_HOLDER_METRICS,
     comparables: [],
     MetricSettingMap: new Map(),
     ...props
   })
+
+HolderDistributionWidget.new = newHolderDistributionWidget
 
 export default HolderDistributionWidget

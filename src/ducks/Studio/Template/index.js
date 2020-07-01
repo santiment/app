@@ -4,6 +4,7 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import TemplateButton from './Button'
+import TemplateTitle from './Title'
 import { buildTemplateMetrics, parseTemplateMetrics } from './utils'
 import { notifySave } from './notifications'
 import {
@@ -21,7 +22,7 @@ import ShareTemplate from './Share/ShareTemplate'
 import { isUserAuthorOfTemplate } from './Dialog/LoadTemplate/Template'
 import { parseSharedWidgets, translateMultiChartToWidgets } from '../url/parse'
 import { normalizeWidgets } from '../url/generate'
-import { newChartWidget } from '../Widget/creators'
+import ChartWidget from '../Widget/ChartWidget'
 import styles from './index.module.scss'
 
 const Action = props => <Button {...props} fluid variant='ghost' />
@@ -103,7 +104,7 @@ const Template = ({
         widgets = translateMultiChartToWidgets(metrics, comparables)
       } else {
         widgets = [
-          newChartWidget({
+          ChartWidget.new({
             metrics,
             comparables
           })
@@ -196,105 +197,111 @@ const Template = ({
   const isAuthor = isUserAuthorOfTemplate(currentUser, selectedTemplate)
 
   return (
-    <ContextMenu
-      open={isMenuOpened}
-      onClose={closeMenu}
-      position='bottom'
-      align='start'
-      trigger={
-        <TemplateButton
-          {...props}
-          selectedTemplate={selectedTemplate}
-          hasTemplates={hasTemplates}
-          openMenu={openMenu}
-          saveTemplate={saveTemplate}
-          onNewTemplate={onTemplateSelect}
-          isMenuOpened={isMenuOpened}
-          loading={loading}
-        />
-      }
-    >
-      <Panel variant='modal' className={styles.context}>
-        {selectedTemplate && (
+    <>
+      {selectedTemplate && <TemplateTitle template={selectedTemplate} />}
+      <ContextMenu
+        open={isMenuOpened}
+        onClose={closeMenu}
+        position='bottom'
+        align='start'
+        trigger={
+          <TemplateButton
+            {...props}
+            selectedTemplate={selectedTemplate}
+            widgets={widgets}
+            hasTemplates={hasTemplates}
+            openMenu={openMenu}
+            saveTemplate={saveTemplate}
+            onNewTemplate={onTemplateSelect}
+            isMenuOpened={isMenuOpened}
+            loading={loading}
+          />
+        }
+      >
+        <Panel variant='modal' className={styles.context}>
+          {selectedTemplate && (
+            <div className={styles.group}>
+              {isLoggedIn && (
+                <Action onClick={saveTemplate}>
+                  Save{' '}
+                  <span className={styles.copyAction}>
+                    {isMac ? 'Cmd + S' : 'Ctrl + S'}
+                  </span>
+                </Action>
+              )}
+
+              <DialogFormNewTemplate
+                {...props}
+                onClose={closeMenu}
+                widgets={widgets}
+                trigger={<Action>Save as new Chart Layout</Action>}
+                title='Save as new Chart Layout'
+                onNew={onTemplateSelect}
+                buttonLabel='Save'
+              />
+              {isAuthor && (
+                <DialogFormRenameTemplate
+                  onClose={closeMenu}
+                  trigger={<Action>Edit</Action>}
+                  template={selectedTemplate}
+                  onRename={closeMenu}
+                />
+              )}
+
+              <DialogFormDuplicateTemplate
+                onClose={closeMenu}
+                trigger={<Action>Duplicate</Action>}
+                template={selectedTemplate}
+                onDuplicate={template => {
+                  closeMenu()
+                  selectTemplate(template)
+                }}
+              />
+            </div>
+          )}
+
           <div className={styles.group}>
-            {isLoggedIn && (
-              <Action onClick={saveTemplate}>
-                Save{' '}
-                <span className={styles.copyAction}>
-                  {isMac ? 'Cmd + S' : 'Ctrl + S'}
-                </span>
-              </Action>
-            )}
+            <DialogLoadTemplate
+              onClose={closeMenu}
+              selectedTemplate={selectedTemplate}
+              selectTemplate={onTemplateSelect}
+              updateTemplate={updateTemplate}
+              rerenderTemplate={rerenderTemplate}
+              templates={templates}
+              trigger={<Action>Load</Action>}
+              projectId={projectId}
+            />
 
             <DialogFormNewTemplate
               {...props}
               onClose={closeMenu}
-              trigger={<Action>Save as new Chart Layout</Action>}
-              title='Save as new Chart Layout'
+              widgets={widgets}
+              trigger={<Action>New</Action>}
               onNew={onTemplateSelect}
-              buttonLabel='Save'
             />
-            {isAuthor && (
-              <DialogFormRenameTemplate
-                onClose={closeMenu}
-                trigger={<Action>Edit</Action>}
-                template={selectedTemplate}
-                onRename={closeMenu}
-              />
+
+            {selectedTemplate && (
+              <>
+                <ShareTemplate
+                  template={selectedTemplate}
+                  className={styles.shareBtn}
+                  fluid
+                  variant='ghost'
+                />
+
+                <DeleteTemplate
+                  isAuthor={isAuthor}
+                  onDelete={onDelete}
+                  closeMenu={closeMenu}
+                  template={selectedTemplate}
+                  className={styles.delete}
+                />
+              </>
             )}
-
-            <DialogFormDuplicateTemplate
-              onClose={closeMenu}
-              trigger={<Action>Duplicate</Action>}
-              template={selectedTemplate}
-              onDuplicate={template => {
-                closeMenu()
-                selectTemplate(template)
-              }}
-            />
           </div>
-        )}
-
-        <div className={styles.group}>
-          <DialogLoadTemplate
-            onClose={closeMenu}
-            selectedTemplate={selectedTemplate}
-            selectTemplate={onTemplateSelect}
-            updateTemplate={updateTemplate}
-            rerenderTemplate={rerenderTemplate}
-            templates={templates}
-            trigger={<Action>Load</Action>}
-            projectId={projectId}
-          />
-
-          <DialogFormNewTemplate
-            {...props}
-            onClose={closeMenu}
-            trigger={<Action>New</Action>}
-            onNew={onTemplateSelect}
-          />
-
-          {selectedTemplate && (
-            <>
-              <ShareTemplate
-                template={selectedTemplate}
-                className={styles.shareBtn}
-                fluid
-                variant='ghost'
-              />
-
-              <DeleteTemplate
-                isAuthor={isAuthor}
-                onDelete={onDelete}
-                closeMenu={closeMenu}
-                template={selectedTemplate}
-                className={styles.delete}
-              />
-            </>
-          )}
-        </div>
-      </Panel>
-    </ContextMenu>
+        </Panel>
+      </ContextMenu>
+    </>
   )
 }
 
