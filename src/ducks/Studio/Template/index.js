@@ -77,8 +77,9 @@ const Template = ({
   onProjectSelect,
   ...props
 }) => {
+  const user = currentUser.data
   const { projectId, isLoggedIn } = props
-  const [templates] = useUserTemplates(currentUser.id)
+  const [templates] = useUserTemplates(user.id)
   const [updateTemplate] = useUpdateTemplate()
   const [createTemplate] = useCreateTemplate()
 
@@ -148,7 +149,7 @@ const Template = ({
 
     const { user: { id } = {}, title, description } = template
 
-    const isCurrentUser = +id === +currentUser.id
+    const isCurrentUser = +id === +user.id
     const metrics = widgets.map(({ metrics }) => metrics).flat()
     const comparables = widgets.map(({ comparables }) => comparables).flat()
 
@@ -298,7 +299,7 @@ const Template = ({
 }
 
 const mapStateToProps = state => ({
-  currentUser: state.user.data
+  currentUser: state.user
 })
 
 export default connect(mapStateToProps)(Template)
