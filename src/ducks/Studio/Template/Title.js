@@ -25,7 +25,7 @@ const Title = ({ template }) => (
 )
 
 Title.defaultProps = {
-  template: {},
+  template: {}
 }
 
 export default Title

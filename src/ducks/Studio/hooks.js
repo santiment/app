@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 
-export function useKeyDown(clb, key) {
+export function useKeyDown (clb, key) {
   useEffect(() => {
-    function onKeyDown(e) {
+    function onKeyDown (e) {
       if (e.key === key) {
         clb(e)
       }

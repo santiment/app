@@ -3,14 +3,14 @@ import { useState } from 'react'
 export const Phase = {
   IDLE: 'idle',
   MAPVIEW: 'mapview',
-  MAPVIEW_SELECTION: 'mapview_selection',
+  MAPVIEW_SELECTION: 'mapview_selection'
 }
 
-export function usePhase() {
+export function usePhase () {
   const [currentPhase, setCurrentPhase] = useState(Phase.IDLE)
   const [previousPhase, setPreviousPhase] = useState(currentPhase)
 
-  function setPhase(newPhase, prevPhase = newPhase) {
+  function setPhase (newPhase, prevPhase = newPhase) {
     setPreviousPhase(prevPhase)
     setCurrentPhase(newPhase)
   }
@@ -18,6 +18,6 @@ export function usePhase() {
   return {
     currentPhase,
     previousPhase,
-    setPhase,
+    setPhase
   }
 }

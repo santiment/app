@@ -5,11 +5,11 @@ const reverseKeyValue = ([key, value]) => [value, key]
 
 export const TypeToWidget = {
   ChartWidget,
-  HolderDistributionWidget,
+  HolderDistributionWidget
 }
 
 console.log(TypeToWidget)
 
 export const WidgetToTypeMap = new Map(
-  Object.entries(TypeToWidget).map(reverseKeyValue),
+  Object.entries(TypeToWidget).map(reverseKeyValue)
 )

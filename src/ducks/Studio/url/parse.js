@@ -11,16 +11,16 @@ import { TopHolderMetric } from '../Chart/Sidepanel/HolderDistribution/metrics'
 
 export const COMPARE_CONNECTOR = '-CC-'
 
-const toArray = (keys) => (typeof keys === 'string' ? [keys] : keys)
+const toArray = keys => (typeof keys === 'string' ? [keys] : keys)
 
-function sanitize(array) {
+function sanitize (array) {
   if (!array) return
 
   const cleaned = array.filter(Boolean)
   return cleaned.length === 0 ? undefined : cleaned
 }
 
-function parseValue(value) {
+function parseValue (value) {
   if (value === 'true') {
     return true
   }
@@ -35,7 +35,7 @@ const convertKeysToMetrics = (keys, dict) =>
   keys &&
   toArray(keys)
     .filter(Boolean)
-    .map((key) => convertKeyToMetric(key, dict))
+    .map(key => convertKeyToMetric(key, dict))
 
 export const reduceStateKeys = (State, Data) =>
   Object.keys(State).reduce((acc, key) => {
@@ -46,7 +46,7 @@ export const reduceStateKeys = (State, Data) =>
     return acc
   }, {})
 
-function searchFromSubmetrics(key) {
+function searchFromSubmetrics (key) {
   for (let list of Object.values(Submetrics)) {
     const found = list.find(({ key: subMetricKey }) => subMetricKey === key)
     if (found) return found
@@ -60,7 +60,7 @@ export const convertKeyToMetric = (key, dict = Metric) =>
   tryMapToTimeboundMetric(key) ||
   TopHolderMetric[key]
 
-export function parseComparable(comparable) {
+export function parseComparable (comparable) {
   const [slug, ticker, metricKey] = comparable.split(COMPARE_CONNECTOR)
   const metric = convertKeyToMetric(metricKey, Metric)
 
@@ -68,17 +68,17 @@ export function parseComparable(comparable) {
 
   const project = {
     slug,
-    ticker,
+    ticker
   }
 
   return {
     key: buildCompareKey(metric, project),
     metric,
-    project,
+    project
   }
 }
 
-function parseSharedComparables(comparables) {
+function parseSharedComparables (comparables) {
   if (!comparables) return
 
   const arr = toArray(comparables)
@@ -86,16 +86,16 @@ function parseSharedComparables(comparables) {
   return arr.map(parseComparable)
 }
 
-export function parseSharedWidgets(sharedWidgets) {
+export function parseSharedWidgets (sharedWidgets) {
   return sharedWidgets.map(({ widget, metrics, comparables }) =>
     TypeToWidget[widget].new({
-      metrics: metrics.map((key) => convertKeyToMetric(key)).filter(Boolean),
-      comparables: comparables.map(parseComparable),
-    }),
+      metrics: metrics.map(key => convertKeyToMetric(key)).filter(Boolean),
+      comparables: comparables.map(parseComparable)
+    })
   )
 }
 
-export function parseWidgets(urlWidgets) {
+export function parseWidgets (urlWidgets) {
   try {
     return parseSharedWidgets(JSON.parse(urlWidgets))
   } catch (e) {
@@ -103,32 +103,32 @@ export function parseWidgets(urlWidgets) {
   }
 }
 
-function parseSharedSidepanel(sidepanel) {
+function parseSharedSidepanel (sidepanel) {
   const parsed = JSON.parse(sidepanel)
   return parsed.type
 }
 
-export function translateMultiChartToWidgets(metrics, comparables) {
-  const noPriceMetrics = metrics.filter((metric) => metric !== Metric.price_usd)
+export function translateMultiChartToWidgets (metrics, comparables) {
+  const noPriceMetrics = metrics.filter(metric => metric !== Metric.price_usd)
   const hasPrice = noPriceMetrics.length < metrics.length
 
   return noPriceMetrics
-    .map((metric) =>
+    .map(metric =>
       ChartWidget.new({
-        metrics: hasPrice ? [Metric.price_usd, metric] : [metric],
-      }),
+        metrics: hasPrice ? [Metric.price_usd, metric] : [metric]
+      })
     )
     .concat(
-      comparables.map((comparable) =>
+      comparables.map(comparable =>
         ChartWidget.new({
           metrics: hasPrice ? [Metric.price_usd] : [],
-          comparables: [comparable],
-        }),
-      ),
+          comparables: [comparable]
+        })
+      )
     )
 }
 
-function translateV1ToV2(v1Config) {
+function translateV1ToV2 (v1Config) {
   const { metrics = [], comparables = [], settings, options } = v1Config
 
   let widgets
@@ -138,21 +138,21 @@ function translateV1ToV2(v1Config) {
     widgets = [
       ChartWidget.new({
         comparables,
-        metrics,
-      }),
+        metrics
+      })
     ]
   }
 
   return {
     settings,
-    widgets,
+    widgets
   }
 }
 
-export function parseUrl(
+export function parseUrl (
   url,
   settings = DEFAULT_SETTINGS,
-  options = DEFAULT_OPTIONS,
+  options = DEFAULT_OPTIONS
 ) {
   const data = parse(url, { arrayFormat: 'comma' })
 
@@ -161,11 +161,11 @@ export function parseUrl(
     options: reduceStateKeys(options, data),
     metrics: sanitize(convertKeysToMetrics(data.metrics, Metric)),
     events: sanitize(convertKeysToMetrics(data.events, Event)),
-    comparables: sanitize(parseSharedComparables(data.comparables)),
+    comparables: sanitize(parseSharedComparables(data.comparables))
   }
 }
 
-export function parseUrlV2(url) {
+export function parseUrlV2 (url) {
   const { settings, widgets, sidepanel } = parse(url)
 
   if (!widgets) {
@@ -176,6 +176,6 @@ export function parseUrlV2(url) {
   return {
     settings: settings && JSON.parse(settings),
     widgets: widgets && parseWidgets(widgets),
-    sidepanel: sidepanel && parseSharedSidepanel(sidepanel),
+    sidepanel: sidepanel && parseSharedSidepanel(sidepanel)
   }
 }

@@ -4,7 +4,7 @@ import Template from '../Template'
 import ProjectIcon from '../../../components/ProjectIcon/ProjectIcon'
 import styles from './index.module.scss'
 
-export default (props) => {
+export default props => {
   const headerRef = useRef(null)
 
   return (

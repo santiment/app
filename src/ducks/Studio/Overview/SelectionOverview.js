@@ -16,7 +16,7 @@ const SelectionOverview = ({
   resetSelecion,
   onClose,
   onWidgetClick,
-  onNewChartClick,
+  onNewChartClick
 }) => {
   return (
     <Overview
@@ -30,7 +30,7 @@ const SelectionOverview = ({
       <div
         className={cx(
           styles.selection,
-          selectedMetrics.length && styles.selection_visible,
+          selectedMetrics.length && styles.selection_visible
         )}
       >
         <div className={styles.left}>

@@ -15,7 +15,7 @@ const Overview = ({
   onClose,
   onWidgetClick,
   onNewChartClick,
-  useWidgetMessage,
+  useWidgetMessage
 }) => {
   useKeyDown(onClose, 'Escape')
 
@@ -32,7 +32,7 @@ const Overview = ({
         <Header />
         <div className={styles.visible}>
           <div className={styles.grid}>
-            {widgets.map((widget) => (
+            {widgets.map(widget => (
               <ChartPreview
                 key={widget.id}
                 widget={widget}

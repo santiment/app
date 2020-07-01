@@ -20,7 +20,7 @@ const ChartPreview = ({ widget, selectedMetrics, currentPhase, onClick }) => {
 
   useWidgetMessageEffect(widget, drawChart)
 
-  function drawChart() {
+  function drawChart () {
     const { current: widgetChart } = widget.chartRef
     if (!widgetChart || !chart) return
 
@@ -30,7 +30,7 @@ const ChartPreview = ({ widget, selectedMetrics, currentPhase, onClick }) => {
       0,
       0,
       chart.canvasWidth,
-      chart.canvasHeight + 25,
+      chart.canvasHeight + 25
     )
   }
 

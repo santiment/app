@@ -50,7 +50,7 @@ const ChartSettingsContextMenu = ({
   isCartesianGridActive,
   onCartesianGridChange,
   isClosestDataActive,
-  onClosestDataChange,
+  onClosestDataChange
 }) => {
   return (
     <ContextMenu
@@ -116,7 +116,7 @@ const ChartSettingsContextMenu = ({
         {shareLink && (
           <ShareChart
             shareLink={shareLink}
-            trigger={(props) => (
+            trigger={props => (
               <UIButton fluid variant='ghost' {...props}>
                 <Icon type='share' />
                 Share chart
@@ -158,7 +158,7 @@ const ChartSettingsContextMenu = ({
 }
 
 const mapStateToProps = ({ rootUi: { isWideChartEnabled } }) => ({
-  isWideChart: isWideChartEnabled,
+  isWideChart: isWideChartEnabled
 })
 
 export default connect(mapStateToProps)(ChartSettingsContextMenu)

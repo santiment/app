@@ -6,7 +6,7 @@ import { dispatchWidgetMessage } from '../widgetMessage'
 import { DEFAULT_OPTIONS } from '../defaults'
 import {
   calculateMovingAverageFromInterval,
-  mergeMetricSettingMap,
+  mergeMetricSettingMap
 } from '../utils'
 import { useTimeseries } from '../timeseries/hooks'
 import { buildAnomalies } from '../timeseries/anomalies'
@@ -35,27 +35,27 @@ export const Chart = ({
     activeMetrics,
     settings,
     MetricSettingMap,
-    MetricTransformer,
+    MetricTransformer
   )
   const [eventsData] = useTimeseries(activeEvents, settings)
   const data = useClosestValueData(
     rawData,
     metrics,
-    options.isClosestDataActive,
+    options.isClosestDataActive
   )
 
   // TODO: Solve the webpack circular dependency issue to share singular chart [@vanguard | Jul 1, 2020]
-  //const shareLink = useMemo(
-  //() => buildChartShareLink({ settings, widgets: [widget] }),
-  //[settings, metrics, comparables],
-  //)
+  // const shareLink = useMemo(
+  // () => buildChartShareLink({ settings, widgets: [widget] }),
+  // [settings, metrics, comparables],
+  // )
 
   useEffect(
     () => {
       const phase = loadings.length ? 'loading' : 'loaded'
       dispatchWidgetMessage(widget, phase)
     },
-    [loadings],
+    [loadings]
   )
 
   useEffect(
@@ -67,7 +67,7 @@ export const Chart = ({
         widget.scrollIntoViewOnMount = false
       }
     },
-    [chartRef.current],
+    [chartRef.current]
   )
 
   useEffect(
@@ -76,21 +76,21 @@ export const Chart = ({
       setActiveMetrics(metrics.concat(comparables.map(buildComparedMetric)))
       rerenderWidgets()
     },
-    [metrics, comparables],
+    [metrics, comparables]
   )
 
   useEffect(
     () => {
       setActiveEvents(isAnomalyActive ? buildAnomalies(metrics) : [])
     },
-    [metrics, isAnomalyActive],
+    [metrics, isAnomalyActive]
   )
 
   useEffect(
     () => {
       const metricTransformer = Object.assign({}, MetricTransformer)
 
-      metrics.forEach((metric) => {
+      metrics.forEach(metric => {
         const mirrorOf = MirroredMetric[metric.key]
         if (mirrorOf) {
           const { key, preTransformer } = metric
@@ -105,7 +105,7 @@ export const Chart = ({
 
       setMetricTransformer(metricTransformer)
     },
-    [metrics],
+    [metrics]
   )
 
   useEffect(
@@ -119,27 +119,27 @@ export const Chart = ({
           transform: {
             type: 'moving_average',
             movingAverageBase: calculateMovingAverageFromInterval(
-              settings.interval,
-            ),
-          },
+              settings.interval
+            )
+          }
         })
 
         widget.MetricSettingMap = mergeMetricSettingMap(
           MetricSettingMap,
-          newMap,
+          newMap
         )
 
         rerenderWidgets()
       }
     },
-    [metrics, settings.interval],
+    [metrics, settings.interval]
   )
 
-  function removeComparedMetric({ key }) {
-    setComparables(comparables.filter((comp) => comp.key !== key))
+  function removeComparedMetric ({ key }) {
+    setComparables(comparables.filter(comp => comp.key !== key))
   }
 
-  function toggleMetric(metric) {
+  function toggleMetric (metric) {
     if (metric.comparedTicker) {
       return removeComparedMetric(metric)
     }
@@ -169,18 +169,18 @@ export const Chart = ({
   )
 }
 
-const ChartWidget = (props) => (
+const ChartWidget = props => (
   <Widget>
     <Chart {...props} />
   </Widget>
 )
 
-const newChartWidget = (props) =>
+const newChartWidget = props =>
   newWidget(ChartWidget, {
     metrics: [Metric.price_usd],
     comparables: [],
     MetricSettingMap: new Map(),
-    ...props,
+    ...props
   })
 
 ChartWidget.new = newChartWidget
