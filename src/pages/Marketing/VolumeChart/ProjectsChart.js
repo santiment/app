@@ -64,75 +64,72 @@ const ProjectsChart = ({ assets }) => {
         </div>
       </div>
 
-      <Query query={ALL_PROJECTS_PRICE_CHANGES_QUERY}>
-        {props => {
-          const { data: { allProjects: data = [] } = {}, loading } = props
+      <div className={styles.chartWrapper}>
+        <Query query={ALL_PROJECTS_PRICE_CHANGES_QUERY}>
+          {props => {
+            const { data: { allProjects: data = [] } = {}, loading } = props
 
-          if (loading) {
-            return <PageLoader />
-          }
+            if (loading) {
+              return <PageLoader />
+            }
 
-          const mapped = data
-            .filter(({ slug }) => {
-              return mapAssets[slug]
-            })
-            .map(item => ({
-              ...item,
-              index: item.slug,
-              value: item[key]
-            }))
+            const mapped = data
+              .filter(({ slug }) => {
+                return mapAssets[slug]
+              })
+              .map(item => ({
+                ...item,
+                [key]: +item[key]
+              }))
 
-          console.log('mapped', mapped)
+            return (
+              <div className={styles.chart}>
+                <ResponsiveContainer width='100%' height='100%'>
+                  <ComposedChart
+                    data={mapped}
+                    margin={{ top: 8, right: 0, left: -20, bottom: 0 }}
+                  >
+                    <CartesianGrid vertical={false} stroke='#F9FAFC' />
 
-          return (
-            <ResponsiveContainer width='100%' height='100%'>
-              <ComposedChart
-                data={mapped}
-                margin={{ top: 8, right: 0, left: -20, bottom: 20 }}
-              >
-                <CartesianGrid vertical={false} stroke='#F9FAFC' />
+                    <YAxis dataKey={key} axisLine={false} tickLine={false} />
 
-                <YAxis
-                  domain={['auto', 'auto']}
-                  dataKey={key}
-                  interval='preserveStartEnd'
-                  axisLine={false}
-                  tickLine={false}
-                />
+                    <Bar dataKey={key} fill='#5275FF' />
 
-                <XAxis
-                  dataKey='slug'
-                  minTickGap={5}
-                  interval={10}
-                  domain={['auto', 'auto']}
-                  axisLine={false}
-                  tickLine={false}
-                  angle={-90}
-                  height={80}
-                  textAnchor='end'
-                />
-
-                <Bar dataKey={key} fill='#5275FF' />
-
-                <Tooltip
-                  content={
-                    <ChartTooltip
-                      className={styles.tooltip}
-                      labelFormatter={data => {
-                        return data
-                      }}
-                      valueFormatter={({ value }) => {
-                        return value + ' %'
-                      }}
-                      showValueLabel={false}
+                    <XAxis
+                      dataKey='slug'
+                      minTickGap={5}
+                      interval={0}
+                      domain={['auto', 'auto']}
+                      axisLine={false}
+                      tickLine={false}
+                      angle={-90}
+                      height={130}
+                      fontSize={12}
+                      textAnchor='end'
+                      verticalAnchor='end'
                     />
-                  }
-                />
-              </ComposedChart>
-            </ResponsiveContainer>
-          )
-        }}
-      </Query>
+
+                    <Tooltip
+                      content={
+                        <ChartTooltip
+                          className={styles.tooltip}
+                          labelFormatter={data => {
+                            return data
+                          }}
+                          valueFormatter={({ value }) => {
+                            return value + ' %'
+                          }}
+                          showValueLabel={false}
+                        />
+                      }
+                    />
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </div>
+            )
+          }}
+        </Query>
+      </div>
     </div>
   )
 }

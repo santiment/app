@@ -2,9 +2,22 @@
 
 .container {
   display: flex;
-  height: 222px;
+  height: 322px;
   width: 100%;
   flex-direction: column;
+  margin-bottom: 24px;
+}
+
+.chartWrapper {
+  position: relative;
+}
+
+.chart {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  overflow-y: auto;
+  height: 300px;
 }
 
 .title {
