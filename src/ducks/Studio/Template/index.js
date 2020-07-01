@@ -23,6 +23,7 @@ import { isUserAuthorOfTemplate } from './Dialog/LoadTemplate/Template'
 import { parseSharedWidgets, translateMultiChartToWidgets } from '../url/parse'
 import { normalizeWidgets } from '../url/generate'
 import ChartWidget from '../Widget/ChartWidget'
+import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './index.module.scss'
 
 const Action = props => <Button {...props} fluid variant='ghost' />
@@ -215,6 +216,7 @@ const Template = ({
             onNewTemplate={onTemplateSelect}
             isMenuOpened={isMenuOpened}
             loading={loading}
+            isLoggedIn={isLoggedIn}
           />
         }
       >
@@ -306,7 +308,8 @@ const Template = ({
 }
 
 const mapStateToProps = state => ({
-  currentUser: state.user
+  currentUser: state.user,
+  isLoggedIn: checkIsLoggedIn(state)
 })
 
 export default connect(mapStateToProps)(Template)
