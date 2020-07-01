@@ -4,6 +4,7 @@ import Main from './Main'
 import { mergeMetricSettingMap } from './utils'
 import { DEFAULT_SETTINGS } from './defaults'
 import { Phase, usePhase } from './phases'
+import { useKeyboardShortcut } from './hooks'
 import ChartWidget from './Widget/ChartWidget'
 import HolderDistributionWidget from './Widget/HolderDistributionWidget'
 import SelectionOverview from './Overview/SelectionOverview'
@@ -30,6 +31,8 @@ export const Studio = ({
   const [isSidebarClosed, setIsSidebarClosed] = useState()
   const { currentPhase, previousPhase, setPhase } = usePhase(Phase.IDLE)
   const isOverviewOpened = currentPhase.startsWith(Phase.MAPVIEW)
+
+  useKeyboardShortcut('m', toggleOverview)
 
   useEffect(
     () => {

@@ -8,8 +8,6 @@ export const TypeToWidget = {
   HolderDistributionWidget
 }
 
-console.log(TypeToWidget)
-
 export const WidgetToTypeMap = new Map(
   Object.entries(TypeToWidget).map(reverseKeyValue)
 )
