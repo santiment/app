@@ -1,6 +1,6 @@
 @import '~@santiment-network/ui/variables';
 
-$preview-width: 450px;
+$preview-width: 475px;
 $preview-height: 250px;
 
 .wrapper {
@@ -9,7 +9,7 @@ $preview-height: 250px;
   width: 100%;
   top: 0;
   bottom: 0;
-  background: var(--white);
+  background: var(--athens);
   z-index: 20;
   animation: appear 200ms;
 }
@@ -27,20 +27,20 @@ $preview-height: 250px;
   grid-template-columns: repeat(auto-fit, $preview-width);
   grid-auto-flow: row dense;
   justify-content: center;
-  grid-gap: 24px;
+  grid-gap: 23px;
   flex: 1;
 }
 
 .item {
-  flex: 0 0 25%;
-  width: $preview-width;
+  // width: $preview-width;
+  width: 100%;
   height: $preview-height;
-  border: 1px solid var(--mystic);
-  border-radius: 4px;
+  border: 1px solid var(--porcelain);
+  border-radius: 8px;
   cursor: pointer;
   position: relative;
-  box-shadow: 0 2px 8px rgba(59, 84, 106, 0.03),
-    0 1px 2px rgba(59, 84, 106, 0.03);
+  overflow: hidden;
+  background: var(--white);
 
   canvas {
     width: 100%;
@@ -77,7 +77,7 @@ $preview-height: 250px;
   }
 
   &:hover {
-    border-color: var(--jungle-green);
+    // border-color: var(--jungle-green);
 
     &::before {
       background-position: 31%;
@@ -166,7 +166,7 @@ $preview-height: 250px;
   overflow: auto;
   flex: 1;
   max-height: 100%;
-  padding: 16px;
+  padding: 25px;
 }
 
 .check {

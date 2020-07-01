@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Overview from './Overview'
 import ActiveMetrics from '../Chart/ActiveMetrics'
@@ -9,11 +10,13 @@ const loadings = []
 
 const SelectionOverview = ({
   widgets,
+  currentPhase,
   selectedMetrics,
   toggleMetric,
+  resetSelecion,
   onClose,
   onWidgetClick,
-  onNewChartClick
+  onNewChartClick,
 }) => {
   return (
     <Overview
@@ -23,7 +26,12 @@ const SelectionOverview = ({
       onWidgetClick={onWidgetClick}
       onNewChartClick={onNewChartClick}
     >
-      <div className={styles.selection}>
+      <div
+        className={cx(
+          styles.selection,
+          selectedMetrics.length && styles.selection_visible,
+        )}
+      >
         <div className={styles.left}>
           You have selected {selectedMetrics.length} metrics:
           <div className={styles.metrics}>
@@ -37,13 +45,8 @@ const SelectionOverview = ({
             />
           </div>
         </div>
-        <Button
-          variant='fill'
-          accent='negative'
-          className={styles.clear}
-          onClick={onClose}
-        >
-          Clear
+        <Button className={styles.clear} onClick={resetSelecion}>
+          Clear selected
         </Button>
       </div>
     </Overview>
