@@ -7,14 +7,14 @@ const URLExtension = ({ history, settings, widgets, sidepanel }) => {
     () => {
       history.replace(`${window.location.pathname}${window.location.search}`)
     },
-    [settings.slug]
+    [settings.slug],
   )
 
   useEffect(
     () => {
       updateHistory('?' + generateUrlV2({ settings, widgets, sidepanel }))
     },
-    [settings, widgets, sidepanel]
+    [settings, widgets, sidepanel],
   )
 
   return null

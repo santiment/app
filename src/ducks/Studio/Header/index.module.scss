@@ -40,22 +40,3 @@
 .settings {
   margin-left: auto;
 }
-
-.compare {
-  margin-left: 12px;
-}
-
-.overview {
-  border-color: var(--jungle-green);
-  color: var(--jungle-green);
-  margin-left: 8px;
-
-  &:hover {
-    border-color: var(--jungle-green-hover);
-    color: var(--jungle-green-hover);
-  }
-
-  &_active {
-    background: var(--jungle-green-light);
-  }
-}

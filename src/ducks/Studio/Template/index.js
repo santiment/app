@@ -22,7 +22,7 @@ import ShareTemplate from './Share/ShareTemplate'
 import { isUserAuthorOfTemplate } from './Dialog/LoadTemplate/Template'
 import { parseSharedWidgets, translateMultiChartToWidgets } from '../url/parse'
 import { normalizeWidgets } from '../url/generate'
-import { newChartWidget } from '../Widget/creators'
+import ChartWidget from '../Widget/ChartWidget'
 import styles from './index.module.scss'
 
 const Action = (props) => <Button {...props} fluid variant='ghost' />
@@ -103,7 +103,7 @@ const Template = ({
         widgets = translateMultiChartToWidgets(metrics, comparables)
       } else {
         widgets = [
-          newChartWidget({
+          ChartWidget.new({
             metrics,
             comparables,
           }),
@@ -207,6 +207,7 @@ const Template = ({
           <TemplateButton
             {...props}
             selectedTemplate={selectedTemplate}
+            widgets={widgets}
             hasTemplates={hasTemplates}
             openMenu={openMenu}
             saveTemplate={saveTemplate}
@@ -230,6 +231,7 @@ const Template = ({
             {selectedTemplate && (
               <DialogFormNewTemplate
                 {...props}
+                widgets={widgets}
                 onClose={closeMenu}
                 trigger={<Action>Save as new Chart Layout</Action>}
                 title='Save as new Chart Layout'
@@ -252,6 +254,7 @@ const Template = ({
           <div className={styles.group}>
             <DialogFormNewTemplate
               {...props}
+              widgets={widgets}
               onClose={closeMenu}
               trigger={<Action>New</Action>}
               onNew={onTemplateSelect}

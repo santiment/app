@@ -17,11 +17,11 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
   const [isOpened, setIsOpened] = useState(true)
   const MetricColor = useChartColors(widget.metrics)
 
-  function toggleWidgetMetric (metric) {
+  function toggleWidgetMetric(metric) {
     props.toggleWidgetMetric(widget, metric)
   }
 
-  function toggleSidepane () {
+  function toggleSidepane() {
     setIsOpened(!isOpened)
   }
 
@@ -43,12 +43,14 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
   )
 }
 
-export const newHolderDistributionWidget = props =>
+const newHolderDistributionWidget = (props) =>
   newWidget(HolderDistributionWidget, {
     metrics: TOP_HOLDER_METRICS,
     comparables: [],
     MetricSettingMap: new Map(),
-    ...props
+    ...props,
   })
+
+HolderDistributionWidget.new = newHolderDistributionWidget
 
 export default HolderDistributionWidget

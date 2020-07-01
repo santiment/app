@@ -4,8 +4,8 @@ import Main from './Main'
 import { mergeMetricSettingMap } from './utils'
 import { DEFAULT_SETTINGS } from './defaults'
 import { usePhase } from './hooks'
-import { newChartWidget } from './Widget/ChartWidget'
-import { newHolderDistributionWidget } from './Widget/HolderDistributionWidget'
+import ChartWidget from './Widget/ChartWidget'
+import HolderDistributionWidget from './Widget/HolderDistributionWidget'
 import SelectionOverview from './Overview/SelectionOverview'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
 import { saveToggle } from '../../utils/localStorage'
@@ -128,7 +128,7 @@ export const Studio = ({
       if (key === 'holder_distribution') {
         setWidgets([
           ...widgets,
-          newHolderDistributionWidget({
+          HolderDistributionWidget.new({
             scrollIntoViewOnMount: true,
           }),
         ])
@@ -154,7 +154,7 @@ export const Studio = ({
   function onNewChartClick() {
     setWidgets([
       ...widgets,
-      newChartWidget({
+      ChartWidget.new({
         metrics: selectedMetrics,
         MetricSettingMap: selectedMetricSettingsMap,
       }),
