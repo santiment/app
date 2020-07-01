@@ -13,10 +13,7 @@
   position: sticky;
   top: 0;
   z-index: 21;
-
-  &_fixed {
-    transition: transform 150ms;
-  }
+  transition: transform 0.3s ease-out;
 }
 
 .divider {
@@ -28,6 +25,7 @@
 
 .title {
   @include text('body-1');
+
   color: var(--rhino);
   display: flex;
   align-items: center;
