@@ -52,6 +52,7 @@ const Main = ({
               settings={settings}
               widgets={widgets}
               setIsICOPriceDisabled={setIsICOPriceDisabled}
+              onProjectSelect={onProjectSelect}
             />
           </Route>
         </Switch>
