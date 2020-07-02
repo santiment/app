@@ -89,11 +89,17 @@ const ProjectsChart = ({ assets }) => {
                     data={mapped}
                     margin={{ top: 8, right: 0, left: -20, bottom: 0 }}
                   >
-                    <CartesianGrid vertical={false} stroke='#F9FAFC' />
+                    <CartesianGrid vertical={false} stroke='var(--athens)' />
 
-                    <YAxis dataKey={key} axisLine={false} tickLine={false} />
+                    <YAxis
+                      dataKey={key}
+                      axisLine={false}
+                      tickLine={false}
+                      fontSize={10}
+                      stroke={'var(--casper)'}
+                    />
 
-                    <Bar dataKey={key} fill='#5275FF' />
+                    <Bar dataKey={key} fill='var(--dodger-blue)' />
 
                     <XAxis
                       dataKey='slug'
@@ -107,6 +113,7 @@ const ProjectsChart = ({ assets }) => {
                       fontSize={12}
                       textAnchor='end'
                       verticalAnchor='end'
+                      stroke={'var(--fiord)'}
                     />
 
                     <Tooltip
