@@ -6,24 +6,13 @@ import MetricSelector from './MetricSelector'
 import Search from './Search'
 import withMetrics from '../withMetrics'
 import { rebuildDescriptions } from '../../dataHub/metrics/descriptions'
-import AnomaliesToggle from '../../../components/AnomaliesToggle/AnomaliesToggle'
 import styles from './index.module.scss'
-
-const Anomalies = ({ isAnomalyActive, toggleAnomaly }) => (
-  <AnomaliesToggle
-    className={styles.anomaly}
-    isShowAnomalies={isAnomalyActive}
-    showToggleAnomalies={true}
-    onToggleAnomalies={toggleAnomaly}
-  />
-)
 
 const Header = props => {
   return (
     <div className={styles.header}>
       <h2 className={styles.title}>Metrics</h2>
       <Search {...props} />
-      <Anomalies {...props} />
     </div>
   )
 }

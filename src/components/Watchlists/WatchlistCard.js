@@ -121,7 +121,7 @@ const WatchlistCard = ({
                     </AreaChart>
                   </ResponsiveContainer>
                 ) : (
-                  <img src={emptyChart} className={styles.empty} />
+                  <img src={emptyChart} alt='empty chart' />
                 )}
               </div>
               <div className={styles.flexRow}>
