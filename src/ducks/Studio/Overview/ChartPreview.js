@@ -12,7 +12,7 @@ const loadings = []
 const ChartPreview = ({ widget, selectedMetrics, currentPhase, onClick }) => {
   let [chart, setChart] = useState()
   const canvasRef = useRef(null)
-  const { metrics } = widget
+  const { metrics, comparedMetrics } = widget
 
   useEffect(() => {
     const { current: canvas } = canvasRef
@@ -54,7 +54,7 @@ const ChartPreview = ({ widget, selectedMetrics, currentPhase, onClick }) => {
         <div className={styles.metrics__list}>
           <ActiveMetrics
             className={styles.metric}
-            activeMetrics={metrics}
+            activeMetrics={metrics.concat(comparedMetrics)}
             loadings={loadings}
             MetricColor={widget.MetricColor}
           />

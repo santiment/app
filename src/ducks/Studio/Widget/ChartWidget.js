@@ -71,8 +71,10 @@ export const Chart = ({
 
   useEffect(
     () => {
+      const comparedMetrics = comparables.map(buildComparedMetric)
       widget.comparables = comparables
-      setActiveMetrics(metrics.concat(comparables.map(buildComparedMetric)))
+      widget.comparedMetrics = comparedMetrics
+      setActiveMetrics(metrics.concat(comparedMetrics))
       rerenderWidgets()
     },
     [metrics, comparables]
@@ -175,10 +177,11 @@ const ChartWidget = props => (
   </Widget>
 )
 
-const newChartWidget = props =>
-  newWidget(ChartWidget, {
+const newChartWidget = (props, widget = ChartWidget) =>
+  newWidget(widget, {
     metrics: [Metric.price_usd],
     comparables: [],
+    comparedMetrics: [],
     MetricSettingMap: new Map(),
     MetricColor: {},
     ...props
