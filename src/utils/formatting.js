@@ -4,7 +4,7 @@ const formatCryptoCurrency = (currency, amount) => `${currency} ${amount}`
 
 const formatBTC = price => {
   price = parseFloat(price)
-  const precision = price >= 2 ? 2 : 8
+  const precision = price >= 1 ? 2 : 8
 
   return parseFloat(price.toFixed(precision))
 }
