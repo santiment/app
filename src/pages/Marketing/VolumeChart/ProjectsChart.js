@@ -97,13 +97,13 @@ const ProjectsChart = ({ assets }) => {
 
                     <XAxis
                       dataKey='slug'
-                      minTickGap={5}
-                      interval={0}
+                      minTickGap={0}
+                      interval={mapped.length > 100 ? 'preserveStartEnd' : 0}
                       domain={['auto', 'auto']}
                       axisLine={false}
                       tickLine={false}
                       angle={-90}
-                      height={130}
+                      height={135}
                       fontSize={12}
                       textAnchor='end'
                       verticalAnchor='end'
