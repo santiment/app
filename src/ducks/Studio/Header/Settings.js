@@ -10,7 +10,6 @@ import MetricsExplanation, {
 import { METRICS_EXPLANATION_PANE } from '../Chart/Sidepanel/panes'
 import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
 import styles from './Settings.module.scss'
-import headerStyles from './index.module.scss'
 
 const SAN_HEADER_HEIGHT = 70
 
@@ -62,7 +61,6 @@ export default ({
       } else {
         transform = null
       }
-      header.classList.toggle(headerStyles.wrapper_fixed, !!transform)
       header.style.transform = transform
     },
     [isOverviewOpened]
