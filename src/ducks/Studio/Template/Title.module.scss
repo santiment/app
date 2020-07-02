@@ -2,6 +2,7 @@
 
 .wrapper {
   @include text('body-3');
+
   color: var(--rhino);
   display: flex;
   align-items: center;
@@ -9,7 +10,7 @@
 }
 
 .info {
-  fill: var(--waterloo);
+  fill: var(--casper);
   margin-right: 8px;
   cursor: pointer;
 
