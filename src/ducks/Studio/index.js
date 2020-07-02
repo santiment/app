@@ -78,7 +78,7 @@ export const Studio = ({
   function toggleWidgetMetric (widget, metric) {
     const metrics = deduceMetrics(widget.metrics, metric)
 
-    if (metrics.length === 0) {
+    if (metrics.length === 0 && widget.comparables.length === 0) {
       deleteWidget(widget)
     } else {
       widget.metrics = metrics
