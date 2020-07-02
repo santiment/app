@@ -42,7 +42,11 @@ const Bucket = ({
   </div>
 )
 
-const PriceHistogram = ({ title, slug, ticker, date, datesRange }) => {
+const PriceHistogram = ({
+  project: { title, slug, ticker },
+  date,
+  datesRange
+}) => {
   const [dates, setDates] = useState([date])
   const [from, to] = dates
   const [data, loading, error] = usePriceHistogramData({ slug, from, to })
@@ -145,8 +149,8 @@ const PriceHistogram = ({ title, slug, ticker, date, datesRange }) => {
 PriceHistogram.Icon = 'H'
 
 PriceHistogram.defaultProps = {
-  date: new Date(Date.now() - ONE_MONTH_IN_MS * 3),
-  slug: 'bitcoin'
+  project: { slug: 'bitcoin' },
+  date: new Date(Date.now() - ONE_MONTH_IN_MS * 3)
 }
 
 export default PriceHistogram
