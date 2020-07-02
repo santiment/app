@@ -109,6 +109,15 @@ function parseSharedSidepanel (sidepanel) {
 }
 
 export function translateMultiChartToWidgets (metrics, comparables) {
+  if (metrics.length + comparables.length < 2) {
+    return [
+      ChartWidget.new({
+        metrics,
+        comparables
+      })
+    ]
+  }
+
   const noPriceMetrics = metrics.filter(metric => metric !== Metric.price_usd)
   const hasPrice = noPriceMetrics.length < metrics.length
 

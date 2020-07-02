@@ -5,13 +5,14 @@ import { HISTOGRAM_DATA_QUERY } from './gql'
 
 const Chart = {
   height: 50,
-  top: 0
+  top: 0,
+  bottom: 50
 }
 
 function formatHistogramData (data, price) {
   const { length } = data
 
-  let max = 0
+  let max = 1
 
   for (let i = 0; i < length; i++) {
     const { value } = data[i]
