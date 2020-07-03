@@ -41,7 +41,6 @@
     "lodash.isequal": "^4.5.0",
     "lodash.throttle": "^4.1.1",
     "medium-draft": "^0.5.15",
-    "ms": "^2.1.1",
     "nprogress": "^0.2.0",
     "outliers": "^0.0.3",
     "query-string": "^6.5.0",

@@ -1,6 +1,5 @@
 import React from 'react'
 import { compose } from 'redux'
-import Icon from '@santiment-network/ui/Icon'
 import cx from 'classnames'
 import { graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
@@ -14,7 +13,7 @@ import {
   WATCHLIST_HISTORY_QUERY,
   WATCHLIST_BY_SLUG_HISTORY_QUERY
 } from '../WatchlistOverview/WatchlistHistory/WatchlistHistoryGQL'
-import ExplanationTooltip from '../ExplanationTooltip/ExplanationTooltip'
+import { VisibilityIndicator } from '../VisibilityIndicator'
 import Gradients from '../WatchlistOverview/Gradients'
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
@@ -87,15 +86,7 @@ const WatchlistCard = ({
               ]}
             </span>
             {isPublic !== undefined && (
-              <ExplanationTooltip
-                text={isPublic ? 'Public' : 'Private'}
-                offsetY={7}
-              >
-                <Icon
-                  type={isPublic ? 'eye' : 'lock-small'}
-                  className={styles.icon}
-                />
-              </ExplanationTooltip>
+              <VisibilityIndicator isPublic={isPublic} />
             )}
           </div>
           {!isLoading && (

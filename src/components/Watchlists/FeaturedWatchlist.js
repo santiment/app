@@ -1,7 +1,7 @@
 import React from 'react'
 import WatchlistCard from './WatchlistCard'
 import GetFeaturedWatchlists from './../../ducks/Watchlists/GetFeaturedWatchlists'
-import { getWatchlistLink } from '../../ducks/Watchlists/watchlistUtils'
+import { getWatchlistLink } from '../../ducks/Watchlists/utils'
 import { sortById } from '../../utils/sortMethods'
 
 export const getSharedWatchlistLink = watchlist =>
