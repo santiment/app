@@ -21,8 +21,6 @@ const TABS = {
 
 const LoadTemplate = ({
   placeholder,
-  buttonLabel,
-  defaultValue,
   onFormSubmit,
   templates,
   selectedTemplate,
@@ -129,7 +127,7 @@ const LoadTemplate = ({
                   selectedTemplate={selectedTemplate}
                   selectTemplate={template => {
                     template && redirect(prepareTemplateLink(template))
-                    selectTemplate(template)
+                    selectTemplate && selectTemplate(template)
                   }}
                   rerenderTemplates={rerenderTemplates}
                   rerenderTemplate={rerenderTemplate}

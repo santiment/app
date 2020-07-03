@@ -1,0 +1,11 @@
+@import '~@santiment-network/ui/mixins';
+
+.counter {
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  min-height: 16px;
+}
