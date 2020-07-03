@@ -474,7 +474,7 @@ export const Metric = {
     category: 'Derivatives'
   },
   bitmex_perpetual_funding_rate: {
-    node: 'filledLine',
+    node: 'bar',
     label: 'BitMEX Perpetual Contract Funding Rate',
     category: 'Derivatives',
     formatter: v => (v ? `${(v * 100).toFixed(2)}%` : 'No data'),
