@@ -2,7 +2,7 @@ import React from 'react'
 import { Metric } from './index'
 import styles from './Frequence.module.scss'
 
-const FrequenceLink = ({ href, children }) => {
+export const Link = ({ href, children }) => {
   return (
     <a
       className={styles.link}
@@ -16,33 +16,30 @@ const FrequenceLink = ({ href, children }) => {
 }
 
 const FiveMinute = (
-  <FrequenceLink href='https://academy.santiment.net/metrics/details/frequency#five-minute-frequency'>
+  <Link href='https://academy.santiment.net/metrics/details/frequency#five-minute-frequency'>
     Five-Minute Intervals
-  </FrequenceLink>
+  </Link>
 )
 const Daily = (
-  <FrequenceLink href='https://academy.santiment.net/metrics/details/frequency#daily-frequency'>
+  <Link href='https://academy.santiment.net/metrics/details/frequency#daily-frequency'>
     Daily Intervals
-  </FrequenceLink>
+  </Link>
 )
 const Sentiment = (
   <div className={styles.text}>
     We store each of the{' '}
-    <FrequenceLink href='https://academy.santiment.net/metrics/details/social-data'>
+    <Link href='https://academy.santiment.net/metrics/details/social-data'>
       social data
-    </FrequenceLink>{' '}
+    </Link>{' '}
     documents with its absolute timestamp. I.e. it is possible to aggregate the
     data with any desired interval{' '}
-    <FrequenceLink href='https://academy.santiment.net/products-and-plans/access-plans/'>
+    <Link href='https://academy.santiment.net/products-and-plans/access-plans/'>
       on request
-    </FrequenceLink>
+    </Link>
     . Currently the time intervals we use are the following:
     <div className={styles.block}>
-      In{' '}
-      <FrequenceLink href='https://graphs.santiment.net/social'>
-        Sanbase Graphs
-      </FrequenceLink>
-      : 6h, 12h, 1d.
+      In <Link href='https://graphs.santiment.net/social'>Sanbase Graphs</Link>:
+      6h, 12h, 1d.
     </div>
   </div>
 )
@@ -99,7 +96,9 @@ const Frequences = {
   [Metric.sentiment_balance_twitter.key]: Sentiment,
   [Metric.sentiment_balance_total.key]: Sentiment,
 
-  [SPENT_COINT_COST]: FiveMinute
+  [SPENT_COINT_COST]: FiveMinute,
+  [Metric.dormant_circulation.key]: Daily,
+  [Metric.stock_to_flow.key]: Daily
 }
 
 export default Frequences

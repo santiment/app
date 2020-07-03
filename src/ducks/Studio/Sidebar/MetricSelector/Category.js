@@ -23,8 +23,8 @@ const Category = ({
   return (
     <div className={cx(styles.category, hidden && styles.category_hidden)}>
       <h3 className={styles.title} onClick={onToggleClick}>
+        <Icon type='arrow-right-big' className={styles.toggle} />
         {title}
-        <Icon type='arrow-up' className={styles.toggle} />
       </h3>
       <div className={styles.metrics}>
         {/* TODO: Find a better way to extend metrics categories with custom metrics [@vanguard | April 3, 2020] */}

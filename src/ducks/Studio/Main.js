@@ -43,15 +43,16 @@ const Main = ({
       <StudioTabs />
       <div className={cx(styles.container, styles.content)}>
         <Switch>
-          <Route path='/studio/stats'>
+          <Route path='/:base/stats'>
             <StudioTabsKeyStats slug={slug} />
           </Route>
-          <Route path='/studio'>
+          <Route>
             <TabsWidgets
               {...props}
               settings={settings}
               widgets={widgets}
               setIsICOPriceDisabled={setIsICOPriceDisabled}
+              onProjectSelect={onProjectSelect}
             />
           </Route>
         </Switch>

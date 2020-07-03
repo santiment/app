@@ -1,5 +1,6 @@
 import { stringify } from 'query-string'
 import { COMPARE_CONNECTOR } from './parse'
+import { WidgetToTypeMap } from '../Widget/types'
 
 const getMetricsKeys = metrics => metrics.map(({ key }) => key)
 
@@ -12,7 +13,7 @@ export function shareComparable (Comparable) {
 }
 
 export const normalizeWidget = ({ Widget, metrics, comparables }) => ({
-  widget: Widget.name,
+  widget: WidgetToTypeMap.get(Widget),
   metrics: metrics.map(({ key }) => key),
   comparables: comparables.map(shareComparable)
 })
@@ -49,6 +50,6 @@ export function generateShareLink (
 export const generateUrlV2 = config => stringify(buildShareConfig(config))
 
 export function buildChartShareLink (config) {
-  const { origin, pathname } = window.location
-  return origin + pathname + '?' + generateUrlV2(config)
+  const { origin } = window.location
+  return `${origin}/studio?${generateUrlV2(config)}`
 }

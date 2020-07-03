@@ -15,7 +15,10 @@ import TemplateStatus from '../../TemplateStatus/TemplateStatus'
 import styles from './Template.module.scss'
 import { updateHistory } from '../../../../../utils/utils'
 
-export const isUserAuthorOfTemplate = (template, user) => {
+export const isUserAuthorOfTemplate = (user, template) => {
+  if (!template) {
+    return false
+  }
   const { user: { id } = {} } = template
   return user && user.data && +user.data.id === +id
 }

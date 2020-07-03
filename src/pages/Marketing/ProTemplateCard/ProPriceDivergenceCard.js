@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './ProTemplateCard.module.scss'
+import styles from './ProPriceDivergenceCard.module.scss'
 
 const Img = (
   <svg
@@ -88,7 +88,7 @@ const Img = (
   </svg>
 )
 
-const ProTemplateCard = ({ isPro }) => {
+const ProPriceDivergenceCard = ({ isPro }) => {
   const linkProps = {
     href: isPro
       ? 'https://docs.google.com/spreadsheets/u/1/d/1Wu-d_uBuvLp3FoNqz3azzbNzFr8Zaw2n6bcLLsQxNGc/view'
@@ -120,4 +120,4 @@ const ProTemplateCard = ({ isPro }) => {
   )
 }
 
-export default ProTemplateCard
+export default ProPriceDivergenceCard

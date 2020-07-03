@@ -2,6 +2,7 @@ import React from 'react'
 import { Metric } from './index'
 import MoreInfoLink from '../../../components/MoreInfoLink/MoreInfoLink'
 import { convertToReadableInterval } from '../../../utils/dates'
+import { Link } from './frequences'
 
 export const SOCIAL_CONTEXT_DESCRIPTION =
   'Shows a set of words that have been frequently used alongside the coin’s name on crypto social media in the recent days.'
@@ -237,7 +238,23 @@ export const Description = {
     "Shows the amount of open perpetual contracts currently on Bitmex's [Project Ticker] / USD trading pairs. When open interest reaches unusually high numbers, it can precede increased volatility in the coin’s price",
   [Metric.bitmex_perpetual_open_value.key]:
     'Shows the value of the corresponding open interest in Satoshis (XBT/BTC)',
-  SOCIAL_VOLUME: SOCIAL_CONTEXT_DESCRIPTION
+  SOCIAL_VOLUME: SOCIAL_CONTEXT_DESCRIPTION,
+  [Metric.dormant_circulation
+    .key]: `Shows how many coins/tokens that have not been moved for more than ${convertToReadableInterval(
+    '365d'
+  )} were transacted during a day. This is useful for spotting when really old Bitcoins move. `,
+  [Metric.stock_to_flow.key]: (
+    <>
+      Stock To Flow model is a measure of scarcity/abundance of particular
+      resource. It shows how much supply enters yearly relative to the total
+      supply of the resource. We measure Stock To Flow for a given asset as the
+      ratio between{' '}
+      <Link href='https://academy.santiment.net/metrics/circulation/'>
+        Total Circulation
+      </Link>{' '}
+      of the asset and the daily minted coins multiplied by days in one year.{' '}
+    </>
+  )
 }
 
 export const rebuildDescriptions = Submetrics => {
@@ -245,6 +262,16 @@ export const rebuildDescriptions = Submetrics => {
     const list = Submetrics[key]
 
     switch (key) {
+      case Metric.dormant_circulation.key: {
+        list.forEach(metric => {
+          Description[
+            metric.key
+          ] = `Shows how many coins/tokens that have not been moved for more than ${convertToReadableInterval(
+            metric.replacements.timebound
+          )} were transacted during a day. This is useful for spotting when really old Bitcoins move. `
+        })
+        break
+      }
       case Metric.twitter_followers.key: {
         list.forEach(metric => {
           Description[metric.key] = `Shows the ${convertToReadableInterval(

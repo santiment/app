@@ -26,22 +26,30 @@ const Group = ({
     <>
       {hasGroup && (
         <h4 className={styles.group} onClick={onToggleClick}>
-          {title}
           <Icon
-            type='arrow-up'
+            type='arrow-right-big'
             className={cx(styles.toggle, hidden && styles.toggle_active)}
           />
+          {title}
         </h4>
       )}
       <div
         className={cx(styles.group__list, hidden && styles.group__list_hidden)}
       >
         {nodes.map(({ item, subitems }) => {
-          if (item.hidden) {
+          const {
+            hidden,
+            isBeta: isBetaMetric,
+            selectable = true,
+            label,
+            rootLabel = label
+          } = item
+
+          if (hidden) {
             return null
           }
 
-          if (item.isBeta && !isBeta) {
+          if (isBetaMetric && !isBeta) {
             return null
           }
 
@@ -49,11 +57,12 @@ const Group = ({
             <Fragment key={item.key}>
               <MetricButton
                 metric={item}
-                label={item.label}
+                label={rootLabel}
                 onClick={() => toggleMetric(item)}
                 setMetricSettingMap={setMetricSettingMap}
                 project={project}
                 isActive={activeMetrics.includes(item)}
+                isDisabled={!selectable}
               />
               {subitems &&
                 subitems.map(subitem => (
@@ -64,6 +73,7 @@ const Group = ({
                     label={subitem.label}
                     onClick={() => toggleMetric(subitem)}
                     project={project}
+                    showBetaLabel={false}
                   />
                 ))}
             </Fragment>

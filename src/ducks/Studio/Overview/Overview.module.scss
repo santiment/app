@@ -1,6 +1,6 @@
 @import '~@santiment-network/ui/variables';
 
-$preview-width: 450px;
+$preview-width: 475px;
 $preview-height: 250px;
 
 .wrapper {
@@ -9,79 +9,41 @@ $preview-height: 250px;
   width: 100%;
   top: 0;
   bottom: 0;
-  background: var(--white);
+  background: var(--athens);
   z-index: 20;
   animation: appear 200ms;
 }
 
 .sticky {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   height: 100vh;
   position: sticky;
   top: 0;
+  padding: 64px 25px;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, $preview-width);
   grid-auto-flow: row dense;
-  justify-content: center;
-  grid-gap: 24px;
+  grid-gap: 23px;
   flex: 1;
 }
 
 .item {
-  flex: 0 0 25%;
-  width: $preview-width;
+  width: 100%;
   height: $preview-height;
-  border: 1px solid var(--mystic);
-  border-radius: 4px;
+  border: 1px solid var(--porcelain);
+  border-radius: 8px;
   cursor: pointer;
   position: relative;
-  box-shadow: 0 2px 8px rgba(59, 84, 106, 0.03),
-    0 1px 2px rgba(59, 84, 106, 0.03);
+  overflow: hidden;
+  background: var(--white);
 
   canvas {
     width: 100%;
     height: 100%;
-  }
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    opacity: 0.8;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(225deg, $mirage 81%, rgba($mirage, 0) 87%);
-    background-size: 360%;
-    background-position: -31%;
-    background-repeat: no-repeat;
-    transition: background-position 300ms;
-  }
-
-  &.idle {
-    .indicator {
-      opacity: 0;
-    }
-
-    &::before {
-      background-position: -39%;
-    }
-
-    &:hover::after {
-      opacity: 1;
-    }
-  }
-
-  &:hover {
-    border-color: var(--jungle-green);
-
-    &::before {
-      background-position: 31%;
-    }
   }
 
   &::after {
@@ -91,12 +53,17 @@ $preview-height: 250px;
     top: 0;
     bottom: 0;
     opacity: 0;
-    content: 'Click to apply selected metrics';
+    content: 'Click to zoom into chart';
     display: flex;
     align-items: center;
     justify-content: center;
+    background: rgba($mirage, 0.84);
     color: $white;
-    transition: opacity 200ms;
+    transition: opacity 200ms ease-in-out;
+  }
+
+  &:hover::after {
+    opacity: 1;
   }
 
   &_new {
@@ -104,6 +71,7 @@ $preview-height: 250px;
     align-items: center;
     justify-content: center;
     border-style: dashed;
+    flex-direction: column;
 
     &::after {
       content: 'Click to create a new chart with selected metrics';
@@ -115,6 +83,55 @@ $preview-height: 250px;
   }
 }
 
+.iconNew {
+  margin-bottom: 8px;
+}
+
+.visible {
+  overflow: auto;
+  flex: 1;
+  max-height: 100%;
+  margin-right: -25px;
+}
+
+.mapview_selection {
+  &::after {
+    content: 'Click to apply selected metrics';
+  }
+}
+
+.metrics {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background: rgba($casper, 0.6);
+  opacity: 0;
+  transition: opacity 150ms;
+
+  &_visible {
+    opacity: 1;
+  }
+
+  &__list {
+    margin-top: -8px;
+    flex-wrap: wrap;
+  }
+
+  &,
+  &__list {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.metric {
+  margin-top: 8px;
+}
+
 @keyframes appear {
   from {
     opacity: 0;
@@ -122,117 +139,5 @@ $preview-height: 250px;
 
   to {
     opacity: 1;
-  }
-}
-
-.indicator {
-  $scale: 3;
-  $size: 20px;
-
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  z-index: 1;
-  transition: transform 300ms, opacity 300ms;
-  width: $size;
-  height: $size;
-  transform-origin: top right;
-
-  circle {
-    stroke: $white;
-    stroke-dasharray: 46;
-    stroke-dashoffset: 0;
-    animation-fill-mode: forwards;
-  }
-
-  .item:hover & {
-    transform: scale($scale)
-      translateX(
-        calc(
-          (#{$size * $scale + ($size) / $scale + 5} - #{$preview-width}) / #{2 *
-            $scale}
-        )
-      )
-      translateY(
-        calc(
-          (#{$preview-height} - #{$size * $scale + ($size) / $scale + 5}) / #{2 *
-            $scale}
-        )
-      );
-  }
-}
-
-.visible {
-  overflow: auto;
-  flex: 1;
-  max-height: 100%;
-  padding: 16px;
-}
-
-.check {
-  transition: opacity 200ms;
-  opacity: 0;
-  fill: $white;
-}
-
-.loading {
-  circle {
-    animation: cycle 1200ms infinite;
-  }
-
-  &.success {
-    circle {
-      animation: draw 600ms;
-    }
-    path {
-      transition-delay: 600ms;
-      opacity: 1;
-    }
-    &::after {
-      content: 'Selected metrics were applied to this chart';
-      top: 130px;
-    }
-
-    &:hover::after {
-      transition-delay: 900ms;
-      opacity: 1;
-    }
-  }
-}
-
-.loaded {
-  circle {
-    stroke-dashoffset: 0;
-  }
-
-  path {
-    opacity: 1;
-  }
-
-  &::after {
-    content: 'Selected metrics were applied to this chart';
-    top: 130px;
-  }
-
-  &:hover::after {
-    opacity: 1;
-  }
-}
-
-@keyframes cycle {
-  from {
-    stroke-dashoffset: 46;
-  }
-  to {
-    stroke-dashoffset: -46;
-  }
-}
-
-@keyframes draw {
-  from {
-    stroke-dashoffset: 46;
-  }
-  to {
-    stroke-dashoffset: 0;
   }
 }

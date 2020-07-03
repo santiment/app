@@ -1,5 +1,6 @@
 import { parse } from 'query-string'
-import { newChartWidget, newHolderDistributionWidget } from '../Widget/creators'
+import ChartWidget from '../Widget/ChartWidget'
+import { TypeToWidget } from '../Widget/types'
 import { buildCompareKey } from '../Compare/utils'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS } from '../defaults'
 import { Metric } from '../../dataHub/metrics'
@@ -9,10 +10,6 @@ import { CompatibleMetric } from '../../dataHub/metrics/compatibility'
 import { TopHolderMetric } from '../Chart/Sidepanel/HolderDistribution/metrics'
 
 export const COMPARE_CONNECTOR = '-CC-'
-const WidgetCreator = {
-  ChartWidget: newChartWidget,
-  HolderDistributionWidget: newHolderDistributionWidget
-}
 
 const toArray = keys => (typeof keys === 'string' ? [keys] : keys)
 
@@ -91,7 +88,7 @@ function parseSharedComparables (comparables) {
 
 export function parseSharedWidgets (sharedWidgets) {
   return sharedWidgets.map(({ widget, metrics, comparables }) =>
-    WidgetCreator[widget]({
+    TypeToWidget[widget].new({
       metrics: metrics.map(key => convertKeyToMetric(key)).filter(Boolean),
       comparables: comparables.map(parseComparable)
     })
@@ -112,18 +109,27 @@ function parseSharedSidepanel (sidepanel) {
 }
 
 export function translateMultiChartToWidgets (metrics, comparables) {
+  if (metrics.length + comparables.length < 2) {
+    return [
+      ChartWidget.new({
+        metrics,
+        comparables
+      })
+    ]
+  }
+
   const noPriceMetrics = metrics.filter(metric => metric !== Metric.price_usd)
   const hasPrice = noPriceMetrics.length < metrics.length
 
   return noPriceMetrics
     .map(metric =>
-      newChartWidget({
+      ChartWidget.new({
         metrics: hasPrice ? [Metric.price_usd, metric] : [metric]
       })
     )
     .concat(
       comparables.map(comparable =>
-        newChartWidget({
+        ChartWidget.new({
           metrics: hasPrice ? [Metric.price_usd] : [],
           comparables: [comparable]
         })
@@ -139,7 +145,7 @@ function translateV1ToV2 (v1Config) {
     widgets = translateMultiChartToWidgets(metrics, comparables)
   } else if (metrics.length || comparables.length) {
     widgets = [
-      newChartWidget({
+      ChartWidget.new({
         comparables,
         metrics
       })

@@ -4,6 +4,8 @@ import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import MetricExplanation from '../../SANCharts/MetricExplanation'
 import MetricIcon from '../../SANCharts/MetricIcon'
+import MetricErrorExplanation from './MetricErrorExplanation/MetricErrorExplanation'
+import { getMetricLabel } from '../../dataHub/metrics/labels'
 import styles from './ActiveMetrics.module.scss'
 
 const MetricButton = ({
@@ -19,7 +21,9 @@ const MetricButton = ({
   project,
   ...rest
 }) => {
-  const { key, dataKey = key, node, label, comparedTicker } = metric
+  const { key, dataKey = key, node, comparedTicker } = metric
+
+  const label = getMetricLabel(metric)
 
   const Wrapper = ({ children }) =>
     withDescription ? (
@@ -54,6 +58,11 @@ const MetricButton = ({
         )}
         {label}
         {comparedTicker && ` (${comparedTicker})`}
+        <MetricErrorExplanation
+          errorsForMetrics={errorsForMetrics}
+          metric={metric}
+          project={project}
+        />
         {isRemovable && (
           <Icon
             type='close-small'
@@ -67,7 +76,7 @@ const MetricButton = ({
 }
 
 const API_TEST_URL =
-  'https://api-tests-json.s3.eu-central-1.amazonaws.com/latest_report.json'
+  'https://api-tests-json.s3.eu-central-1.amazonaws.com/latest_report_stable.json'
 
 export default ({
   className,

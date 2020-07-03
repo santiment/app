@@ -4,6 +4,7 @@ import { getQuery, getPreTransform } from './fetcher'
 import { normalizeDatetimes, mergeTimeseries } from './utils'
 import { substituteErrorMsg } from './errors'
 import { getIntervalByTimeRange } from '../../../utils/dates'
+import { getAvailableInterval } from '../../dataHub/metrics/intervals'
 
 // NOTE: Polyfill for a PingdomBot 0.8.5 browser (/sentry/sanbase-frontend/issues/29459/) [@vanguard | Feb 6, 2020]
 window.AbortController =
@@ -138,7 +139,7 @@ export function useTimeseries (
             query,
             variables: {
               metric: key,
-              interval,
+              interval: getAvailableInterval(metric, interval),
               to,
               from,
               slug,

@@ -26,7 +26,7 @@ function getTimePeriod (date, interval) {
   }
 }
 
-const SocialContext = ({ interval, date, slug }) => {
+const SocialContext = ({ interval, date, project: { slug } }) => {
   const [trendDate, setTrendDate] = useState([date])
   const [contextDate, setContextDate] = useState([date])
   const [contextPeriod, setContextPeriod] = useState({})
@@ -102,7 +102,9 @@ SocialContext.Icon = <Icon type='cloud-small' />
 SocialContext.defaultProps = {
   date: new Date(Date.now() - ONE_MONTH_IN_MS * 3),
   interval: '1d',
-  slug: 'bitcoin'
+  project: {
+    slug: 'bitcoin'
+  }
 }
 
 export default SocialContext

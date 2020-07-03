@@ -28,3 +28,18 @@
 .share {
   fill: var(--casper);
 }
+
+.mapview {
+  border-color: var(--jungle-green);
+  color: var(--jungle-green);
+  margin: 0 8px;
+
+  &:hover {
+    border-color: var(--jungle-green-hover);
+    color: var(--jungle-green-hover);
+  }
+
+  &_active {
+    background: var(--jungle-green-light);
+  }
+}

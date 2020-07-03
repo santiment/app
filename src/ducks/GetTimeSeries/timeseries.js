@@ -105,6 +105,10 @@ const TIMESERIES = {
     query: GET_METRIC('circulation'),
     preTransform: getMetricPreTransform
   },
+  dormant_circulation: {
+    query: GET_METRIC('dormant_circulation'),
+    preTransform: getMetricPreTransform
+  },
   mvrv_usd: {
     query: GET_METRIC('mvrv_usd'),
     preTransform: getMetricPreTransform
@@ -188,7 +192,8 @@ const TIMESERIES = {
   social_volume_twitter: queryBuild('social_volume_twitter'),
   mean_age: queryBuild('mean_age'),
 
-  mvrv_usd_intraday: queryBuild('mvrv_usd_intraday')
+  mvrv_usd_intraday: queryBuild('mvrv_usd_intraday'),
+  stock_to_flow: queryBuild('stock_to_flow')
 }
 
 export const hasMetric = metric => !!TIMESERIES[metric]
