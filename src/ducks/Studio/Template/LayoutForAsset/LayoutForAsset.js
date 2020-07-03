@@ -28,7 +28,12 @@ const Trigger = ({ hovered, counter, ...rest }) => (
   </div>
 )
 
-const LayoutForAsset = ({ currentUser, item: { slug }, index }) => {
+const LayoutForAsset = ({
+  currentUser,
+  item: { slug, id: projectId },
+  item,
+  index
+}) => {
   const user = currentUser.data
   const [templates] = useUserTemplates(user.id)
 
@@ -57,6 +62,8 @@ const LayoutForAsset = ({ currentUser, item: { slug }, index }) => {
       }
       templates={templates}
       slug={slug}
+      isFeatured={true}
+      asLink={true}
     />
   )
 }

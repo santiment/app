@@ -5,7 +5,11 @@ import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import TemplateButton from './Button'
 import TemplateTitle from './Title'
-import { buildTemplateMetrics, parseTemplateMetrics } from './utils'
+import {
+  buildTemplateMetrics,
+  extractTemplateProject,
+  parseTemplateMetrics
+} from './utils'
 import { notifySave } from './notifications'
 import {
   useUserTemplates,
@@ -86,6 +90,7 @@ const Template = ({
   const [createTemplate] = useCreateTemplate()
 
   function selectTemplate (template) {
+    debugger
     setSelectedTemplate(template)
 
     if (!template) return
@@ -94,7 +99,9 @@ const Template = ({
     const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
 
     if (onProjectSelect) {
-      onProjectSelect(project)
+      const projectFromUrl = extractTemplateProject()
+
+      onProjectSelect(projectFromUrl ? { slug: projectFromUrl } : project)
     }
 
     let widgets
