@@ -5,7 +5,11 @@ import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import TemplateButton from './Button'
 import TemplateTitle from './Title'
-import { buildTemplateMetrics, parseTemplateMetrics } from './utils'
+import {
+  buildTemplateMetrics,
+  extractTemplateProject,
+  parseTemplateMetrics
+} from './utils'
 import { notifySave } from './notifications'
 import {
   useUserTemplates,
@@ -24,6 +28,7 @@ import { parseSharedWidgets, translateMultiChartToWidgets } from '../url/parse'
 import { normalizeWidgets } from '../url/generate'
 import ChartWidget from '../Widget/ChartWidget'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
+import { useProjectById } from '../../../hooks/project'
 import styles from './index.module.scss'
 
 const Action = props => <Button {...props} fluid variant='ghost' />
@@ -85,7 +90,19 @@ const Template = ({
   const [updateTemplate] = useUpdateTemplate()
   const [createTemplate] = useCreateTemplate()
 
-  function selectTemplate (template) {
+  const projectFromUrl = extractTemplateProject()
+  const [urlProject] = useProjectById(projectFromUrl)
+
+  useEffect(
+    () => {
+      if (onProjectSelect && urlProject) {
+        onProjectSelect(urlProject)
+      }
+    },
+    [urlProject]
+  )
+
+  const selectTemplate = template => {
     setSelectedTemplate(template)
 
     if (!template) return
@@ -93,15 +110,17 @@ const Template = ({
     const { project, metrics: templateMetrics, options } = template
     const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
 
-    if (onProjectSelect) {
+    if (onProjectSelect && !projectFromUrl) {
       onProjectSelect(project)
     }
+
+    console.log(template)
 
     let widgets
     if (options && options.widgets) {
       widgets = parseSharedWidgets(options.widgets)
     } else {
-      if (options.multi_chart) {
+      if (options && options.multi_chart) {
         widgets = translateMultiChartToWidgets(metrics, comparables)
       } else {
         widgets = [

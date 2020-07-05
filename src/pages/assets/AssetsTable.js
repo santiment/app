@@ -13,7 +13,7 @@ import Refresh from '../../components/Refresh/Refresh'
 import ServerErrorMessage from './../../components/ServerErrorMessage'
 import AssetsToggleColumns from './AssetsToggleColumns'
 import { COLUMNS, COMMON_SETTINGS, COLUMNS_SETTINGS } from './asset-columns'
-import './../Projects/ProjectsTable.css'
+import '../Projects/ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
 
 export const CustomHeadComponent = ({ children, className, ...rest }) => (

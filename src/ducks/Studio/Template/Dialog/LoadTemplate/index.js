@@ -7,7 +7,10 @@ import Search from '@santiment-network/ui/Search'
 import Tabs from '@santiment-network/ui/Tabs'
 import Icon from '@santiment-network/ui/Icon'
 import Template from './Template'
-import { usePublicProjectTemplates } from '../../gql/hooks'
+import {
+  useFeaturedTemplates,
+  usePublicProjectTemplates
+} from '../../gql/hooks'
 import TemplateDetailsDialog from '../../TemplateDetailsDialog/TemplateDetailsDialog'
 import { sortById } from '../../../../../utils/sortMethods'
 import NoChartLayouts from '../../NoChartLayouts/NoChartLayouts'
@@ -21,8 +24,6 @@ const TABS = {
 
 const LoadTemplate = ({
   placeholder,
-  buttonLabel,
-  defaultValue,
   onFormSubmit,
   templates,
   selectedTemplate,
@@ -31,6 +32,9 @@ const LoadTemplate = ({
   currentUserId,
   projectId,
   redirect,
+  isFeatured = false,
+  asProject,
+  asLink,
   ...props
 }) => {
   const [filteredTemplates, setFilteredTemplates] = useState(templates)
@@ -38,10 +42,29 @@ const LoadTemplate = ({
   const [searchTerm, setSearchTerm] = useState('')
   const [openedTemplate, setOpenedTemplate] = useState()
 
-  const [
-    projectTemplates = [],
-    loadingProjectTemplates
-  ] = usePublicProjectTemplates(projectId)
+  const search = () => {
+    const lowerCaseValue = searchTerm.toLowerCase()
+
+    const templates = getUsageTemplates()
+
+    const filtered = lowerCaseValue
+      ? templates.filter(({ title }) =>
+        title.toLowerCase().includes(lowerCaseValue)
+      )
+      : templates
+    setFilteredTemplates(filtered)
+  }
+
+  useEffect(
+    () => {
+      search()
+    },
+    [templates]
+  )
+
+  const [projectTemplates = [], loadingProjectTemplates] = isFeatured
+    ? useFeaturedTemplates()
+    : usePublicProjectTemplates(projectId)
 
   function rerenderTemplates () {
     setFilteredTemplates(state => state.slice())
@@ -54,20 +77,6 @@ const LoadTemplate = ({
 
   function onDelete () {
     setOpenedTemplate()
-  }
-
-  const search = () => {
-    const lowerCaseValue = searchTerm.toLowerCase()
-
-    const templates = getUsageTemplates()
-
-    setFilteredTemplates(
-      lowerCaseValue
-        ? templates.filter(({ title }) =>
-          title.toLowerCase().includes(lowerCaseValue)
-        )
-        : templates
-    )
   }
 
   useEffect(search, [tab, searchTerm, templates.length])
@@ -129,12 +138,14 @@ const LoadTemplate = ({
                   selectedTemplate={selectedTemplate}
                   selectTemplate={template => {
                     template && redirect(prepareTemplateLink(template))
-                    selectTemplate(template)
+                    selectTemplate && selectTemplate(template)
                   }}
                   rerenderTemplates={rerenderTemplates}
                   rerenderTemplate={rerenderTemplate}
                   onOpenTemplate={setOpenedTemplate}
                   onRename={onRename}
+                  asProject={asProject}
+                  asLink={asLink}
                 />
               ))
             )}
