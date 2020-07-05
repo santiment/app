@@ -9,9 +9,7 @@ import PercentChanges from '../PercentChanges'
 import emptyChart from './emptyChart.svg'
 import {
   CATEGORY_HISTORY_QUERY,
-  PROJECTS_HISTORY_QUERY,
-  WATCHLIST_HISTORY_QUERY,
-  WATCHLIST_BY_SLUG_HISTORY_QUERY
+  WATCHLIST_HISTORY_QUERY
 } from '../WatchlistOverview/WatchlistHistory/WatchlistHistoryGQL'
 import { VisibilityIndicator } from '../VisibilityIndicator'
 import Gradients from '../WatchlistOverview/Gradients'
@@ -33,6 +31,7 @@ const WatchlistCard = ({
   onClick,
   className,
   isLoading,
+  skipIndicator,
   isSimplifiedView
 }) => {
   const { marketcap: latestMarketcap } = stats.slice(-1)[0] || {}
@@ -85,7 +84,7 @@ const WatchlistCard = ({
                 name
               ]}
             </span>
-            {isPublic !== undefined && (
+            {isPublic !== undefined && !skipIndicator && (
               <VisibilityIndicator isPublic={isPublic} />
             )}
           </div>
@@ -139,6 +138,7 @@ const WatchlistCard = ({
 
 WatchlistCard.propTypes = {
   name: PropTypes.string,
+  id: PropTypes.number.isRequired,
   change: PropTypes.number,
   isPublic: PropTypes.bool,
   to: PropTypes.string,
@@ -151,21 +151,7 @@ WatchlistCard.defaultProps = {
 }
 
 const enhance = compose(
-  graphql(PROJECTS_HISTORY_QUERY, {
-    options: ({ slugs = [] }) => ({
-      variables: {
-        slugs,
-        ...getTimeIntervalFromToday(-RANGE, DAY),
-        interval: INTERVAL
-      }
-    }),
-    skip: ({ slugs }) => !slugs || !slugs.length,
-    props: ({ data: { projectsListHistoryStats = [], loading, error } }) => ({
-      stats: projectsListHistoryStats,
-      isLoading: loading,
-      isError: error
-    })
-  }),
+  // NOTE(haritonsty): remove CATEGORY_HISTORY_QUERY after migration to dynamic watchlists
   graphql(CATEGORY_HISTORY_QUERY, {
     options: ({ slug }) => ({
       variables: {
@@ -177,21 +163,6 @@ const enhance = compose(
     skip: ({ slug }) => !slug,
     props: ({ data: { historyPrice = [], loading, error } }) => ({
       stats: historyPrice,
-      isLoading: loading,
-      isError: error
-    })
-  }),
-  graphql(WATCHLIST_BY_SLUG_HISTORY_QUERY, {
-    options: ({ bySlug }) => ({
-      variables: {
-        slug: bySlug,
-        ...getTimeIntervalFromToday(-RANGE, DAY),
-        interval: INTERVAL
-      }
-    }),
-    skip: ({ bySlug }) => !bySlug,
-    props: ({ data: { watchlistBySlug = {}, loading, error } }) => ({
-      stats: watchlistBySlug.historicalStats || [],
       isLoading: loading,
       isError: error
     })

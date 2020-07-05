@@ -31,7 +31,7 @@ const AssetsOverview = ({ isPublicWatchlistsLoading, history }) => {
           />
         </div>
         <div className={styles.section}>
-          <MyWatchlist showNew />
+          <MyWatchlist />
         </div>
       </DesktopOnly>
       <MobileOnly>

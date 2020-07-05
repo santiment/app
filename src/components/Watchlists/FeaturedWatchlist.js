@@ -12,9 +12,10 @@ const FeaturedWatchlists = () => {
         return (
           <WatchlistCard
             key={watchlist.id}
+            name={watchlist.name}
+            skipIndicator
             watchlist={watchlist}
             to={getSharedWatchlistLink(watchlist)}
-            slugs={watchlist.listItems.map(({ project }) => project.slug)}
             {...watchlist}
           />
         )

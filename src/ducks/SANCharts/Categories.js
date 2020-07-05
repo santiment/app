@@ -13,9 +13,9 @@ const Categories = ({ onClick, classes = {} }) => {
         key={name}
         watchlist={watchlist}
         name={name}
-        slugs={listItems.map(({ project }) => project.slug)}
         onClick={onClick}
         className={classes.watchlist}
+        {...watchlist}
       />
     )
   })

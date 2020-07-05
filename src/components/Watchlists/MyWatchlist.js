@@ -42,7 +42,6 @@ const MyWatchlist = ({
   isLoggedInPending,
   className,
   showHeader = true,
-  showNew = false,
   classes = {}
 }) => {
   const [watchlists, loading] = useUserWatchlists()
@@ -100,10 +99,10 @@ const MyWatchlist = ({
               watchlist={watchlist}
               to={getWatchlistLink(watchlist)}
               isPublic={watchlist.isPublic}
-              slugs={watchlist.listItems.map(({ project }) => project.slug)}
+              {...watchlist}
             />
           ))}
-          {showNew && watchlists.length > 0 && <NewWatchlistCard />}
+          {watchlists.length > 0 && <NewWatchlistCard />}
         </div>
       )}
       {!loading && !isLoggedInPending && !isLoggedIn && (
