@@ -47,7 +47,6 @@ const AssetsTable = ({
   showAll = false,
   preload,
   refetchAssets,
-  setMinVolumeFilter,
   minVolume = 0,
   listName,
   settings,
@@ -109,6 +108,11 @@ const AssetsTable = ({
   const shownColumns = COLUMNS(preload, columnProps).filter(
     ({ id }) => columns[id].show && allColumns.includes(id)
   )
+
+  if (items.length > 0) {
+    const index = items.length > 3 ? 2 : 0
+    items[index].showTooltip = true
+  }
 
   return (
     <>

@@ -10,6 +10,13 @@
   flex: 1;
   min-width: 26px;
   height: 32px;
+  color: var(--waterloo);
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .tooltip {

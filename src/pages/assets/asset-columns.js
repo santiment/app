@@ -55,12 +55,12 @@ export const COLUMNS = (preload, props = {}) => [
     heading: '#',
     maxWidth: 45,
     Cell: row => {
-      const { original, index, page, pageSize, viewIndex } = row
+      const { original, page, pageSize, viewIndex } = row
       return (
         <LayoutForAsset
           item={original}
           index={page * pageSize + viewIndex + 1}
-          showTooltip={index === 2}
+          showTooltip={original.showTooltip}
         />
       )
     }
