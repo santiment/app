@@ -40,7 +40,7 @@ const WatchlistShare = ({
       fluid
       className={styles.btn}
     >
-      Secret <Toggle isActive={isActive} />
+      Private <Toggle isActive={isActive} />
     </Button>
   )
 }

@@ -2,7 +2,10 @@ import React from 'react'
 import cx from 'classnames'
 import NewWatchlistDialog from './NewWatchlistDialog'
 import LoginDialogWrapper from '../LoginDialog/LoginDialogWrapper'
-import { useUserWatchlists } from '../../ducks/Watchlists/gql/hooks'
+import {
+  useUserWatchlists,
+  useUserScreeners
+} from '../../ducks/Watchlists/gql/hooks'
 import styles from './WatchlistCard.module.scss'
 
 export const SvgNew = ({ className }) => (
@@ -42,21 +45,35 @@ export const SvgNew = ({ className }) => (
   </svg>
 )
 
-const Trigger = props => {
+const Trigger = ({ type, ...props }) => {
   return (
     <div className={cx(styles.wrapper, styles.create)} {...props}>
       <SvgNew />
-      <div className={styles.createLink}>Create your watchlist</div>
+      <div className={styles.createLink}>Create your {type}</div>
     </div>
   )
 }
 
-const NewWatchlistCard = () => {
-  const [watchlists = []] = useUserWatchlists()
+const NewWatchlistCard = ({ type = 'watchlist' }) => {
+  let lists = []
+  if (type === 'watchlist') {
+    const [watchlists = []] = useUserWatchlists()
+    lists = watchlists
+  } else {
+    const [watchlists = []] = useUserScreeners()
+    lists = watchlists
+  }
 
   return (
-    <LoginDialogWrapper title='Create watchlist' trigger={Trigger}>
-      <NewWatchlistDialog watchlists={watchlists} trigger={<Trigger />} />
+    <LoginDialogWrapper
+      title={`Create ${type}`}
+      trigger={props => <Trigger type={type} {...props} />}
+    >
+      <NewWatchlistDialog
+        watchlists={lists}
+        trigger={<Trigger type={type} />}
+        type={type}
+      />
     </LoginDialogWrapper>
   )
 }

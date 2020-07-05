@@ -14,6 +14,7 @@ import IndexTab from './IndexTabs/IndexTab'
 import WatchlistCards from '../../components/Watchlists/WatchlistCards'
 import { BASIC_CATEGORIES } from '../assets/assets-overview-constants'
 import MyWatchlist from '../../components/Watchlists/MyWatchlist'
+import MyScreeners from '../../pages/Screener/MyScreeners'
 import { PATHS } from '../../App'
 import AlphaBlock from './AlphaBlock/AlphaBlock'
 import Label from '@santiment-network/ui/Label'
@@ -57,6 +58,10 @@ const MarketingPage = props => {
               {
                 title: 'My Watchlists',
                 content: <MyWatchlist showHeader={false} classes={styles} />
+              },
+              {
+                title: 'My Screeners',
+                content: <MyScreeners showHeader={false} classes={styles} />
               }
             ]}
           />

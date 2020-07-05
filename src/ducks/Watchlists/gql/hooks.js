@@ -35,18 +35,18 @@ export function useUserWatchlists () {
   ]
 }
 
-// export function useUserScreeners (isLoggedIn) {
-//   const { data, loading, error } = useQuery(USER_WATCHLISTS_QUERY, {
-//     skip: !isLoggedIn
-//   })
-//   const { fetchUserLists: watchlists } = data || {}
-//
-//   return [
-//     watchlists ? watchlists.filter(isDynamicWatchlist) : DEFAULT_WATCHLISTS,
-//     loading,
-//     error
-//   ]
-// }
+export function useUserScreeners (isLoggedIn) {
+  const { data, loading, error } = useQuery(USER_WATCHLISTS_QUERY, {
+    skip: !isLoggedIn
+  })
+  const { fetchUserLists: watchlists } = data || {}
+
+  return [
+    watchlists ? watchlists.filter(isDynamicWatchlist) : DEFAULT_WATCHLISTS,
+    loading,
+    error
+  ]
+}
 
 export function useFeaturedWatchlists () {
   const { data, loading, error } = useQuery(FEATURED_WATCHLISTS_QUERY)

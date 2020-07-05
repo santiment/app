@@ -138,7 +138,6 @@ const WatchlistCard = ({
 
 WatchlistCard.propTypes = {
   name: PropTypes.string,
-  id: PropTypes.number.isRequired,
   change: PropTypes.number,
   isPublic: PropTypes.bool,
   to: PropTypes.string,
@@ -151,7 +150,7 @@ WatchlistCard.defaultProps = {
 }
 
 const enhance = compose(
-  // NOTE(haritonsty): remove CATEGORY_HISTORY_QUERY after migration to dynamic watchlists
+  // NOTE(haritonasty): remove CATEGORY_HISTORY_QUERY after migration to dynamic watchlists
   graphql(CATEGORY_HISTORY_QUERY, {
     options: ({ slug }) => ({
       variables: {

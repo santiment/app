@@ -10,7 +10,7 @@ import styles from './NewWatchlistDialog.module.scss'
 
 const MAX_LENGTH = 3
 
-const NAME_EXISTS_ERROR = 'The watchlist with this name already exists'
+const NAME_EXISTS_ERROR = 'This name already exists'
 
 const SHORT_NAME_ERROR = `The name should be at least ${MAX_LENGTH} characters`
 
@@ -86,12 +86,12 @@ class NewWatchlistDialog extends PureComponent {
 
   render () {
     const { open, name, isPublic, error } = this.state
-    const { isPending, trigger } = this.props
+    const { isPending, trigger, type } = this.props
     const { length: nameLength } = name
 
     return (
       <Dialog
-        title='New watchlist'
+        title={`New ${type}`}
         trigger={trigger}
         onOpen={this.openDialog}
         onClose={this.cancelDialog}
@@ -126,7 +126,7 @@ class NewWatchlistDialog extends PureComponent {
                 className={styles.toggle}
                 onClick={this.onToggleClick}
               />
-              Secret
+              Private
             </div>
           </Dialog.ScrollContent>
           <Dialog.Actions className={styles.actions}>
