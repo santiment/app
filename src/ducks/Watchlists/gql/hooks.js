@@ -35,7 +35,8 @@ export function useUserWatchlists () {
   ]
 }
 
-export function useUserScreeners (isLoggedIn) {
+export function useUserScreeners () {
+  const isLoggedIn = checkIsLoggedIn(store.getState())
   const { data, loading, error } = useQuery(USER_WATCHLISTS_QUERY, {
     skip: !isLoggedIn
   })
