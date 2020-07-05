@@ -17,13 +17,11 @@ export function prepareTemplateLink (template, asProject) {
   }
 
   const { id, title } = template
-
-  let search = window.location.search
-
-  const templateId = asProject ? id + '@' + asProject : asProject
+  const templateId = asProject ? id + '@' + asProject : id
 
   return (
-    `${PATHS.STUDIO}/${getSEOLinkFromIdAndTitle(templateId, title)}` + search
+    `${PATHS.STUDIO}/${getSEOLinkFromIdAndTitle(templateId, title)}` +
+    window.location.search
   )
 }
 

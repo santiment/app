@@ -92,7 +92,6 @@ const Template = ({
 
   const projectFromUrl = extractTemplateProject()
   const [urlProject] = useProjectById(projectFromUrl)
-  console.log('projectFromUrl', projectFromUrl)
 
   useEffect(
     () => {
@@ -115,11 +114,13 @@ const Template = ({
       onProjectSelect(project)
     }
 
+    console.log(template)
+
     let widgets
     if (options && options.widgets) {
       widgets = parseSharedWidgets(options.widgets)
     } else {
-      if (options.multi_chart) {
+      if (options && options.multi_chart) {
         widgets = translateMultiChartToWidgets(metrics, comparables)
       } else {
         widgets = [
