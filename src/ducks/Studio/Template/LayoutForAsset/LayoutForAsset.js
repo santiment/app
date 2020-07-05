@@ -1,8 +1,9 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, Fragment } from 'react'
 import { connect } from 'react-redux'
 import LoadTemplate from '../Dialog/LoadTemplate'
 import { useUserTemplates } from '../gql/hooks'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
+import SidecarExplanationTooltip from '../../../SANCharts/SidecarExplanationTooltip'
 import styles from './LayoutForAsset.module.scss'
 
 const Icon = (
@@ -22,17 +23,50 @@ const Icon = (
   </svg>
 )
 
-const Trigger = ({ hovered, counter, ...rest }) => (
-  <div {...rest} className={styles.counter}>
-    {hovered ? Icon : counter}
-  </div>
-)
+const TooltipWrapper = ({ children }) => {
+  return (
+    <div className={styles.tooltipWrapper}>
+      <SidecarExplanationTooltip
+        closeTimeout={500}
+        localStorageSuffix='_ASSET_CL'
+        position='top'
+        title={
+          <div className={styles.tooltip}>
+            {[
+              <div key='new' className={styles.new}>
+                New!
+              </div>,
+              'Click to use chart layout'
+            ]}
+          </div>
+        }
+        description=''
+        withArrow
+        dismissOnTouch
+      >
+        {children}
+      </SidecarExplanationTooltip>
+    </div>
+  )
+}
+
+const Trigger = ({ showTooltip, hovered, counter, ...rest }) => {
+  const El = showTooltip ? TooltipWrapper : Fragment
+
+  return (
+    <El>
+      <div {...rest} className={styles.counter}>
+        {hovered ? <div>{Icon}</div> : counter}
+      </div>
+    </El>
+  )
+}
 
 const LayoutForAsset = ({
   currentUser,
-  item: { slug, id: projectId },
-  item,
-  index
+  item: { id },
+  index,
+  showTooltip = false
 }) => {
   const user = currentUser.data
   const [templates] = useUserTemplates(user.id)
@@ -51,6 +85,7 @@ const LayoutForAsset = ({
     <LoadTemplate
       trigger={
         <Trigger
+          showTooltip={showTooltip}
           hovered={hovered}
           counter={index}
           onTouchStart={handleMouseEnter}
@@ -61,7 +96,7 @@ const LayoutForAsset = ({
         />
       }
       templates={templates}
-      slug={slug}
+      asProject={id}
       isFeatured={true}
       asLink={true}
     />

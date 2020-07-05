@@ -111,6 +111,7 @@
       display: flex;
       align-items: center;
       cursor: default;
+      overflow: visible;
 
       & > div {
         @include text('body-3');

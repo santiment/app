@@ -28,6 +28,7 @@ import { parseSharedWidgets, translateMultiChartToWidgets } from '../url/parse'
 import { normalizeWidgets } from '../url/generate'
 import ChartWidget from '../Widget/ChartWidget'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
+import { useProjectById } from '../../../hooks/project'
 import styles from './index.module.scss'
 
 const Action = props => <Button {...props} fluid variant='ghost' />
@@ -89,8 +90,20 @@ const Template = ({
   const [updateTemplate] = useUpdateTemplate()
   const [createTemplate] = useCreateTemplate()
 
-  function selectTemplate (template) {
-    debugger
+  const projectFromUrl = extractTemplateProject()
+  const [urlProject] = useProjectById(projectFromUrl)
+  console.log('projectFromUrl', projectFromUrl)
+
+  useEffect(
+    () => {
+      if (onProjectSelect && urlProject) {
+        onProjectSelect(urlProject)
+      }
+    },
+    [urlProject]
+  )
+
+  const selectTemplate = template => {
     setSelectedTemplate(template)
 
     if (!template) return
@@ -98,10 +111,8 @@ const Template = ({
     const { project, metrics: templateMetrics, options } = template
     const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
 
-    if (onProjectSelect) {
-      const projectFromUrl = extractTemplateProject()
-
-      onProjectSelect(projectFromUrl ? { slug: projectFromUrl } : project)
+    if (onProjectSelect && !projectFromUrl) {
+      onProjectSelect(project)
     }
 
     let widgets

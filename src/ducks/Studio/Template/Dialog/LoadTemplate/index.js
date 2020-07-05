@@ -33,7 +33,7 @@ const LoadTemplate = ({
   projectId,
   redirect,
   isFeatured = false,
-  slug,
+  asProject,
   asLink,
   ...props
 }) => {
@@ -144,7 +144,7 @@ const LoadTemplate = ({
                   rerenderTemplate={rerenderTemplate}
                   onOpenTemplate={setOpenedTemplate}
                   onRename={onRename}
-                  slug={slug}
+                  asProject={asProject}
                   asLink={asLink}
                 />
               ))

@@ -48,7 +48,7 @@ const Template = ({
   redirect,
   onOpenTemplate,
   onRename = () => {},
-  slug
+  asProject
 }) => {
   const { title } = template
   const { isPublic, toggleIsPublic } = usePublicTemplates(template)
@@ -57,7 +57,7 @@ const Template = ({
     selectTemplate && selectTemplate(template)
 
     if (asLink) {
-      const link = prepareTemplateLink(template, slug)
+      const link = prepareTemplateLink(template, asProject)
 
       updateHistory(link)
       redirect(link)

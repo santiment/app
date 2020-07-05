@@ -6,6 +6,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 16px;
   min-height: 16px;
+  flex: 1;
+  min-width: 26px;
+  height: 32px;
+}
+
+.tooltip {
+  display: flex;
+
+  @include text('caption');
+}
+
+.tooltipWrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.new {
+  color: var(--jungle-green);
+  margin-right: 8px;
 }

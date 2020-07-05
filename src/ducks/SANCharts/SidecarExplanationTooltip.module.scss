@@ -2,7 +2,6 @@
 
 .wrapper {
   padding: 10px 12px;
-  width: 150px;
   z-index: 10;
 
   @include responsive('phone-xs', 'phone') {

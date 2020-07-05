@@ -4,7 +4,7 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import { columns } from './columns'
 import GetAssets, { FIRST_LOAD_SIZE } from '../../pages/assets/GetAssets'
-import '../../pages/Projects/ProjectsTable.css'
+import '../../pages/Projects/ProjectsTable.scss'
 import styles from './EthSpentTable.module.scss'
 
 const EthSpentTable = () => {
