@@ -19,8 +19,10 @@ export function useWatchlist (id) {
   return [data ? data.watchlist : undefined, loading, error]
 }
 
-export function useUserWatchlists () {
-  const { data, loading, error } = useQuery(WATCHLISTS_QUERY)
+export function useUserWatchlists (isLoggedIn) {
+  const { data, loading, error } = useQuery(WATCHLISTS_QUERY, {
+    skip: !isLoggedIn
+  })
   const { fetchUserLists: watchlists } = data || {}
 
   return [
@@ -30,8 +32,10 @@ export function useUserWatchlists () {
   ]
 }
 
-export function useUserScreeners () {
-  const { data, loading, error } = useQuery(WATCHLISTS_QUERY)
+export function useUserScreeners (isLoggedIn) {
+  const { data, loading, error } = useQuery(WATCHLISTS_QUERY, {
+    skip: !isLoggedIn
+  })
   const { fetchUserLists: watchlists } = data || {}
 
   return [

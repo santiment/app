@@ -19,6 +19,7 @@ const CREATE_WATCHLIST_MUTATION = gql`
       name
       isPublic
       color
+      function
       insertedAt
       isMonitored
       updatedAt
