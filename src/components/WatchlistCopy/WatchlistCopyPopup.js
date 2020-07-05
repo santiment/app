@@ -23,7 +23,7 @@ const WatchlistCopyPopup = ({
 }) => {
   if (!isLoggedIn) return null
 
-  const [watchlists = []] = useUserWatchlists(isLoggedIn)
+  const [watchlists = []] = useUserWatchlists()
   const [isShown, setIsShown] = useState(false)
   const [isEditing, setEditing] = useState(false)
   const [warning, setWarning] = useState(false)

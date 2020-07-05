@@ -11,3 +11,6 @@ export function isDynamicWatchlist (watchlist) {
   const { name } = watchlist.function || {}
   return name !== 'empty'
 }
+
+export const getSharedWatchlistLink = watchlist =>
+  getWatchlistLink(watchlist) + '#shared'

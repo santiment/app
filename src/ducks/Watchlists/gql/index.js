@@ -47,7 +47,7 @@ export const WATCHLIST_QUERY = gql`
   ${PROJECT_RECENT_DATA_FRAGMENT}
 `
 
-export const WATCHLISTS_QUERY = gql`
+export const USER_WATCHLISTS_QUERY = gql`
   query fetchWatchlists {
     fetchUserLists {
       ...generalListData

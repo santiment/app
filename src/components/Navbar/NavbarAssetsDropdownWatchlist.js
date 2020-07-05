@@ -20,7 +20,7 @@ const NavbarAssetsDropdownWatchlist = ({
   isLoggedIn,
   isLoggedInPending
 }) => {
-  const [watchlists, loading] = useUserWatchlists(isLoggedIn)
+  const [watchlists, loading] = useUserWatchlists()
   const isLoading = loading || isLoggedInPending
 
   return isLoading ? (

@@ -5,6 +5,7 @@ import PublicInsights from '../insights/PublicInsights'
 import PublicWatchlists from '../watchlists/PublicWatchlists'
 import { useUserTemplates } from '../../../ducks/Studio/Template/gql/hooks'
 import ProfileTemplates from '../templates/ProfileTemplates'
+import { isStaticWatchlist } from '../../../ducks/Watchlists/utils'
 import styles from './ProfileActivities.module.scss'
 
 const STEPS = {
@@ -19,10 +20,11 @@ const Counter = ({ value }) => {
 }
 
 const ProfileActivities = ({ profile }) => {
-  const { id: profileId, insights, triggers, watchlists } = profile
+  const { id: profileId, insights, triggers, watchlists = [] } = profile
 
   const [step, setStep] = useState(window.location.hash || STEPS.INSIGHTS)
   const [templates] = useUserTemplates(profileId)
+  const staticWatchlists = watchlists.filter(isStaticWatchlist)
 
   const goTo = val => {
     window.location.hash = val
@@ -45,7 +47,7 @@ const ProfileActivities = ({ profile }) => {
           )}
           onClick={() => goTo(STEPS.WATCHLISTS)}
         >
-          Watchlists <Counter value={watchlists.length} />
+          Watchlists <Counter value={staticWatchlists.length} />
         </div>
         <div
           className={cx(styles.link, step === STEPS.SIGNALS && styles.active)}
@@ -71,7 +73,7 @@ const ProfileActivities = ({ profile }) => {
           <PublicSignals userId={profileId} data={triggers} />
         )}
         {step === STEPS.WATCHLISTS && (
-          <PublicWatchlists userId={profileId} data={watchlists} />
+          <PublicWatchlists userId={profileId} data={staticWatchlists} />
         )}
         {step === STEPS.CHART_LAYOUTS && (
           <ProfileTemplates userId={profileId} data={templates} />

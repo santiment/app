@@ -45,7 +45,7 @@ const MyWatchlist = ({
   showNew = false,
   classes = {}
 }) => {
-  const [watchlists, loading] = useUserWatchlists(isLoggedIn)
+  const [watchlists, loading] = useUserWatchlists()
   return (
     <div className={cx(styles.wrapper, className)}>
       {showHeader && (
