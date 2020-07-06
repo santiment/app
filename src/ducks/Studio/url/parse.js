@@ -78,6 +78,11 @@ export function parseComparable (comparable) {
   }
 }
 
+const parseConnectedWidget = ({ widget, from, to }) =>
+  TypeToWidget[widget].new({
+    datesRange: from && to ? [new Date(from), new Date(to)] : undefined
+  })
+
 function parseSharedComparables (comparables) {
   if (!comparables) return
 
@@ -87,11 +92,15 @@ function parseSharedComparables (comparables) {
 }
 
 export function parseSharedWidgets (sharedWidgets) {
-  return sharedWidgets.map(({ widget, metrics, comparables }) =>
-    TypeToWidget[widget].new({
-      metrics: metrics.map(key => convertKeyToMetric(key)).filter(Boolean),
-      comparables: comparables.map(parseComparable)
-    })
+  return sharedWidgets.map(
+    ({ widget, metrics, comparables, connectedWidgets }) =>
+      TypeToWidget[widget].new({
+        metrics: metrics.map(key => convertKeyToMetric(key)).filter(Boolean),
+        comparables: comparables.map(parseComparable),
+        connectedWidgets: connectedWidgets
+          ? connectedWidgets.map(parseConnectedWidget)
+          : []
+      })
   )
 }
 

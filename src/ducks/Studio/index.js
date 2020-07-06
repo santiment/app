@@ -75,6 +75,13 @@ export const Studio = ({
     setWidgets(widgets.filter(w => w !== widget))
   }
 
+  function deleteConnectedWidget (connectedWidget, parentWidget) {
+    parentWidget.connectedWidgets = parentWidget.connectedWidgets.filter(
+      w => w !== connectedWidget
+    )
+    rerenderWidgets()
+  }
+
   function toggleWidgetMetric (widget, metric) {
     const metrics = deduceMetrics(widget.metrics, metric)
 
@@ -82,7 +89,7 @@ export const Studio = ({
       deleteWidget(widget)
     } else {
       widget.metrics = metrics
-      setWidgets([...widgets])
+      rerenderWidgets()
     }
   }
 
@@ -209,6 +216,7 @@ export const Studio = ({
           toggleWidgetMetric={toggleWidgetMetric}
           toggleSidepanel={toggleSidepanel}
           deleteWidget={deleteWidget}
+          deleteConnectedWidget={deleteConnectedWidget}
           rerenderWidgets={rerenderWidgets}
           toggleOverview={toggleOverview}
         />
