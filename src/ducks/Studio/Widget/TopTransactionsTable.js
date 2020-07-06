@@ -5,6 +5,7 @@ import Icon from '@santiment-network/ui/Icon'
 import { newWidget } from './utils'
 import Calendar from '../AdvancedView/Calendar'
 import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
+import HelpPopup from '../../../components/HelpPopup/HelpPopup'
 import {
   TransactionTable,
   normalizeTransactionData
@@ -57,6 +58,9 @@ const Header = ({ dates, onCalendarChange, onCloseClick }) => (
       dates={dates}
       onChange={onCalendarChange}
     />
+    <HelpPopup>
+      Hold "Shift", click and move mouse on the chart to select a time range
+    </HelpPopup>
     <Icon type='close' className={widgetStyles.close} onClick={onCloseClick} />
   </div>
 )

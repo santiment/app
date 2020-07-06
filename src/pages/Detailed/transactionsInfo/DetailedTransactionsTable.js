@@ -47,12 +47,12 @@ export const TransactionTable = ({ header, data, className, ...props }) => (
   >
     <SmoothDropdown verticalMotion>
       <ReactTable
+        minRows={1}
         {...props}
         data={data}
         columns={columns}
         className={styles.transactionsTable}
         defaultSorted={DEFAULT_SORTED}
-        minRows={1}
         showPagination={false}
         resizable={false}
       />
