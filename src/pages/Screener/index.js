@@ -6,9 +6,8 @@ import GetAssets from '../assets/GetAssets'
 import { getWatchlistName } from '../assets/utils'
 import AssetsTable from '../assets/AssetsTable'
 import { ASSETS_TABLE_COLUMNS } from '../assets/asset-columns'
-import styles from './index.module.scss'
-import Panel from '@santiment-network/ui/Panel/Panel'
 import ProjectsChart from '../Marketing/VolumeChart/ProjectsChart'
+import styles from './index.module.scss'
 
 const Screener = props => {
   const [isPriceChartActive, setPriceChart] = useState(false)

@@ -15,6 +15,10 @@ import ChartTooltip from '../../../ducks/SANCharts/tooltip/CommonChartTooltip'
 import Range from '../../../components/WatchlistOverview/Range'
 import styles from './ProjectsChart.module.scss'
 
+const byMarketcap = (a, b) => {
+  return b.marketcapUsd - a.marketcapUsd
+}
+
 const RANGES = [
   {
     label: '1h',
@@ -77,6 +81,8 @@ const ProjectsChart = ({ assets }) => {
               .filter(({ slug }) => {
                 return mapAssets[slug]
               })
+              .sort(byMarketcap)
+              .slice(0, 100)
               .map(item => ({
                 ...item,
                 [key]: +item[key]
@@ -97,6 +103,7 @@ const ProjectsChart = ({ assets }) => {
                       tickLine={false}
                       fontSize={10}
                       stroke={'var(--casper)'}
+                      tickCount={8}
                     />
 
                     <Bar dataKey={key} fill='var(--dodger-blue)' />
