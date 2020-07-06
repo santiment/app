@@ -144,7 +144,7 @@ const ChartSettingsContextMenu = ({
             <Icon type='save' />
             Download as CSV
           </span>
-          {!!subscription || (
+          {!subscription && (
             <Label
               as={Link}
               to='/pricing'
