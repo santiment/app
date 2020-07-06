@@ -1,0 +1,26 @@
+@import '~@santiment-network/ui/mixins';
+
+.triggerButton {
+  width: 32px;
+  padding: 0 !important;
+  align-items: center;
+  margin-left: 8px;
+  justify-content: center;
+  background: transparent;
+  fill: var(--waterloo);
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+}
+
+.wrapper {
+  width: 250px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
+  }
+}

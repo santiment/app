@@ -5,15 +5,16 @@ import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import WatchlistDeleteDialog from '../../assets/WatchlistDeleteDialog'
 import WatchlistCopyPopup from '../../../components/WatchlistCopy/WatchlistCopyPopup'
+import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
 import WatchlistPublicityToggle from '../../../components/WatchlistShare/WatchlistShare'
-import styles from './index.module.scss'
+import styles from './Actions.module.scss'
 
-const Actions = ({ isAuthor, id, name }) => {
+const Actions = ({ isAuthor, id, name, shareLink }) => {
   return (
     <ContextMenu
       trigger={
-        <Button variant='flat'>
-          <Icon type='dots' className={styles.dots} />
+        <Button variant='flat' className={styles.triggerButton}>
+          <Icon type='dots-vertical' />
         </Button>
       }
       passOpenStateAs='isActive'
@@ -35,8 +36,19 @@ const Actions = ({ isAuthor, id, name }) => {
               </Button>
             }
           />
+          {shareLink && (
+            <ShareModalTrigger
+              shareLink={shareLink}
+              trigger={props => (
+                <Button {...props} variant='ghost' fluid>
+                  Share screener
+                </Button>
+              )}
+            />
+          )}
           {isAuthor && (
             <WatchlistDeleteDialog
+              title='Do you want to delete this screener?'
               id={id}
               trigger={
                 <Button variant='ghost' fluid>

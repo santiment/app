@@ -1,8 +1,9 @@
 import React from 'react'
 import Actions from './Actions'
+import Widgets from './Widgets'
 import styles from './index.module.scss'
 
-const TopPanel = ({ name, id, isAuthor, isLoggedIn }) => {
+const TopPanel = ({ name, id, isLoggedIn, ...props }) => {
   return (
     <section className={styles.wrapper}>
       <div>
@@ -11,7 +12,10 @@ const TopPanel = ({ name, id, isAuthor, isLoggedIn }) => {
       <div>
         <h2 className={styles.marketcap}>Total marketcap</h2>
       </div>
-      {isLoggedIn && <Actions name={name} id={id} isAuthor={isAuthor} />}
+      <div>
+        {isLoggedIn && <Actions name={name} id={id} {...props} />}
+        <Widgets />
+      </div>
     </section>
   )
 }

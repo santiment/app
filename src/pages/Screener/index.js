@@ -29,6 +29,7 @@ const Screener = props => {
               <TopPanel
                 name={title || props.name}
                 id={listId}
+                shareLink={window.location.href + '#shared'}
                 isAuthor={isCurrentUserTheAuthor}
                 isLoggedIn={props.isLoggedIn}
               />

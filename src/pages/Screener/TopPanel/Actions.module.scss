@@ -1,7 +1,7 @@
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
-  width: 180px;
+  width: 200px;
   display: flex;
   flex-direction: column;
 
@@ -21,4 +21,28 @@
 
 .btn {
   justify-content: space-between;
+}
+
+.triggerButton {
+  width: 32px;
+  margin-right: 16px;
+  justify-content: center;
+  background: transparent;
+  position: relative;
+  fill: var(--waterloo);
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    display: block;
+    top: 4px;
+    right: -16px;
+    width: 1px;
+    height: 24px;
+    background: var(--porcelain);
+  }
 }
