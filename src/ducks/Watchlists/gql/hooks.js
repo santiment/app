@@ -3,7 +3,7 @@ import {
   WATCHLIST_QUERY,
   USER_WATCHLISTS_QUERY,
   FEATURED_WATCHLISTS_QUERY,
-  CREATE_SCREENER_MUTATION
+  CREATE_WATCHLIST_MUTATION
 } from './index'
 import { store } from '../../../index'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
@@ -83,7 +83,7 @@ export function useFeaturedWatchlists () {
 }
 
 export function useCreateScreener () {
-  const [mutate, data] = useMutation(CREATE_SCREENER_MUTATION, {
+  const [mutate, data] = useMutation(CREATE_WATCHLIST_MUTATION, {
     update: updateWatchlistsOnCreation
   })
 

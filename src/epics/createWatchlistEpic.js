@@ -1,39 +1,13 @@
 import React from 'react'
 import Raven from 'raven-js'
-import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
 import { showNotification } from './../actions/rootActions'
 import { ALL_WATCHLISTS_QUERY } from '../queries/WatchlistGQL'
+import { CREATE_WATCHLIST_MUTATION } from '../ducks/Watchlists/gql'
 import * as actions from './../actions/types'
 import { DEFAULT_SCREENER_FUNCTION } from './../ducks/Watchlists/utils'
 import WatchlistNotificationActions from '../pages/assets/notifications/WatchlistNotificationActions'
 import { getWatchlistLink } from '../ducks/Watchlists/utils'
-
-const CREATE_WATCHLIST_MUTATION = gql`
-  mutation createWatchlist(
-    $isPublic: Boolean
-    $name: String!
-    $function: json
-  ) {
-    createUserList(isPublic: $isPublic, name: $name, function: $function) {
-      id
-      name
-      isPublic
-      function
-      insertedAt
-      isMonitored
-      updatedAt
-      listItems {
-        project {
-          id
-        }
-      }
-      user {
-        id
-      }
-    }
-  }
-`
 
 const createWatchlistEpic = (action$, store, { client }) =>
   action$
@@ -57,7 +31,8 @@ const createWatchlistEpic = (action$, store, { client }) =>
             isPublic,
             name,
             listItems,
-            function: watchlistFunction,
+            function:
+              type === 'screener' ? watchlistFunction : { name: 'empty' },
             isMonitored: false,
             insertedAt: new Date(),
             updatedAt: new Date(),
@@ -86,7 +61,7 @@ const createWatchlistEpic = (action$, store, { client }) =>
             }),
             Observable.of(
               showNotification({
-                title: 'Created the new watchlist',
+                title: `Created the new ${type}`,
                 description: (
                   <WatchlistNotificationActions
                     id={id}
@@ -109,8 +84,7 @@ const createWatchlistEpic = (action$, store, { client }) =>
               showNotification({
                 variant: 'error',
                 title: 'Error',
-                description:
-                  "Can't create the watchlist. Please, try again later."
+                description: `Can't create the ${type}. Please, try again later.`
               })
             )
           )

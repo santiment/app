@@ -69,7 +69,7 @@ export const FEATURED_WATCHLISTS_QUERY = gql`
   ${PROJECT_ITEM_FRAGMENT}
 `
 
-export const CREATE_SCREENER_MUTATION = gql`
+export const CREATE_WATCHLIST_MUTATION = gql`
   mutation createWatchlist(
     $isPublic: Boolean
     $name: String!
