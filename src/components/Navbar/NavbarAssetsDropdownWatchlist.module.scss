@@ -24,19 +24,6 @@
   text-decoration: none;
 }
 
-.icon {
-  fill: var(--casper);
-  width: 16px;
-
-  &:hover {
-    fill: var(--waterloo);
-  }
-}
-
-.explanation {
-  z-index: 10000;
-}
-
 .watchlistName {
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -65,4 +52,12 @@
 
 .createBtn {
   padding: 12px 5px;
+}
+
+.loader {
+  font-size: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }

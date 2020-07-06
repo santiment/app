@@ -13,7 +13,7 @@ import {
 } from '../../actions/types'
 import { getRecentAssets, getRecentWatchlists } from '../../utils/recent'
 import { formatNumber } from '../../utils/formatting'
-import { getWatchlistLink } from '../../ducks/Watchlists/watchlistUtils'
+import { getWatchlistLink } from '../../ducks/Watchlists/utils'
 import styles from './RecentlyWatched.module.scss'
 
 export const Asset = ({ project, classes = {}, onClick }) => {

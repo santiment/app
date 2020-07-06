@@ -26,19 +26,6 @@
   cursor: pointer;
 }
 
-.explanation {
-  z-index: 10000;
-}
-
-.icon {
-  fill: var(--casper);
-  width: 16px;
-
-  &:hover {
-    fill: var(--waterloo);
-  }
-}
-
 .label {
   padding-left: 5px;
   text-align: left;

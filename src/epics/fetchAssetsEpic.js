@@ -6,10 +6,7 @@ import {
   allProjectsGQL,
   currenciesGQL
 } from './../pages/Projects/allProjectsGQL'
-import {
-  WATCHLIST_BY_SLUG_BIG_QUERY,
-  WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY
-} from '../queries/WatchlistGQL.js'
+import { WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY } from '../queries/WatchlistGQL.js'
 import * as actions from './../actions/types'
 
 const handleError = error => {
@@ -106,18 +103,14 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
     .mergeMap(({ payload: { list, filters } }) => {
       return Observable.from(
         client.watchQuery({
-          query: list.slug
-            ? WATCHLIST_BY_SLUG_BIG_QUERY
-            : WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY,
-          variables: list.slug
-            ? { slug: list.slug, filters }
-            : { id: list.id, filters },
+          query: WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY,
+          variables: { id: list.id, filters },
           context: { isRetriable: true },
           fetchPolicy: 'network-only'
         })
       )
         .concatMap(({ data }) => {
-          const watchlist = data.watchlist || data.watchlistBySlug
+          const watchlist = data.watchlist
 
           if (!watchlist) {
             return Observable.of({

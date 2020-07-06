@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import * as actions from './../../actions/types.js'
 import { sortBy } from './../../utils/sortMethods'
-import { WATCHLISTS_BY_SLUG } from '../assets/assets-overview-constants'
 
 export const SORT_TYPES = {
   marketcap: 'marketcapUsd',
@@ -27,24 +26,20 @@ class GetAssets extends Component {
 
   getInfoFromListname = (listname = '') => {
     const [listName, listId] = listname.split('@')
-    const listBySlug = WATCHLISTS_BY_SLUG.find(
-      ({ assetType }) => assetType === listName
-    )
-    return listId
-      ? { listName, listId }
-      : { listName, listSlug: listBySlug && listBySlug.bySlug }
+
+    return { listName, listId }
   }
 
   getType = () => {
     const { search, hash } = this.props.location || {}
-    const { listName, listId, listSlug } = compose(
+    const { listName, listId } = compose(
       this.getInfoFromListname,
       parsed => parsed.name,
       qs.parse
     )(search)
     const type =
       hash === '#shared' ? 'list#shared' : this.props.type || qs.parse(search)
-    return { type, listName, listId, listSlug }
+    return { type, listName, listId }
   }
 
   componentDidMount () {
@@ -83,10 +78,10 @@ class GetAssets extends Component {
   }
 
   fetch (pageSize) {
-    const { type, listName, listId, listSlug } = this.getType()
+    const { type, listName, listId } = this.getType()
     this.props.fetchAssets({
       type,
-      list: { name: listName, id: listId, slug: listSlug },
+      list: { name: listName, id: listId },
       minVolume: this.props.minVolume,
       page: 1,
       pageSize

@@ -1,0 +1,14 @@
+@import '~@santiment-network/ui/mixins';
+
+.explanation {
+  z-index: 10000;
+}
+
+.icon {
+  fill: var(--casper);
+  width: 16px;
+
+  &:hover {
+    fill: var(--waterloo);
+  }
+}

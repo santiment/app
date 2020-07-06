@@ -1,7 +1,7 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import cx from 'classnames'
-import { CATEGORIES } from './assets-overview-constants'
+import { BASIC_CATEGORIES } from './assets-overview-constants'
 import WatchlistCards from '../../components/Watchlists/WatchlistCards'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from './../../components/Responsive'
@@ -10,8 +10,8 @@ import PageLoader from '../../components/Loader/PageLoader'
 import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
 import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
 import StoriesList from '../../components/Stories/StoriesList'
-import styles from './AssetsOverview.module.scss'
 import Trends from '../../components/Trends/Trends'
+import styles from './AssetsOverview.module.scss'
 
 const AssetsOverview = ({ isPublicWatchlistsLoading, history }) => {
   return (
@@ -25,7 +25,10 @@ const AssetsOverview = ({ isPublicWatchlistsLoading, history }) => {
       <DesktopOnly>
         <h4 className={styles.heading}>Indices</h4>
         <div className={styles.section}>
-          <WatchlistCards watchlists={CATEGORIES} />
+          <WatchlistCards
+            watchlists={BASIC_CATEGORIES.slice().reverse()}
+            showFeatured={true}
+          />
         </div>
         <div className={styles.section}>
           <MyWatchlist />
@@ -39,7 +42,10 @@ const AssetsOverview = ({ isPublicWatchlistsLoading, history }) => {
             <StoriesList classes={styles} />
             <RecentlyWatched className={styles.recents} type='assets' />
             <h2 className={styles.subtitle}>Indices</h2>
-            <WatchlistCards watchlists={CATEGORIES} />
+            <WatchlistCards
+              watchlists={BASIC_CATEGORIES.slice().reverse()}
+              showFeatured={true}
+            />
             <GainersLosersTabs
               className={styles.gainers}
               timeWindow='2d'

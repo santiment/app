@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { compose } from 'recompose'
-import { graphql } from 'react-apollo'
 import Dialog from '@santiment-network/ui/Dialog'
 import Label from '@santiment-network/ui/Label'
-import { ALL_WATCHLISTS_QUERY } from '../../queries/WatchlistGQL'
 import { USER_EDIT_ASSETS_IN_LIST } from '../../actions/types'
 import { sortByAsDates } from '../../utils/sortMethods'
+import { useUserWatchlists } from '../../ducks/Watchlists/gql/hooks'
 import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import { showNotification } from '../../actions/rootActions'
 import Watchlists from '../WatchlistPopup/Watchlists'
@@ -16,7 +14,6 @@ import styles from './WatchlistCopyPopup.module.scss'
 
 const WatchlistCopyPopup = ({
   assets = [],
-  data = {},
   trigger,
   isLoggedIn,
   watchlistUi: { editableWatchlists },
@@ -26,6 +23,7 @@ const WatchlistCopyPopup = ({
 }) => {
   if (!isLoggedIn) return null
 
+  const [watchlists = []] = useUserWatchlists()
   const [isShown, setIsShown] = useState(false)
   const [isEditing, setEditing] = useState(false)
   const [warning, setWarning] = useState(false)
@@ -58,8 +56,7 @@ const WatchlistCopyPopup = ({
     return remainingAssets
   }
 
-  const { fetchUserLists = [] } = data
-  let lists = fetchUserLists
+  let lists = watchlists
     .filter(({ id }) => id !== currentId)
     .sort(sortByAsDates('insertedAt'))
     .reverse()
@@ -208,12 +205,7 @@ const mapDispatchToProps = dispatch => ({
   setNotification: message => dispatch(showNotification(message))
 })
 
-export default compose(
-  graphql(ALL_WATCHLISTS_QUERY, {
-    options: () => ({ context: { isRetriable: true } })
-  }),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
 )(WatchlistCopyPopup)

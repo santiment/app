@@ -6,10 +6,10 @@ import { showNotification } from './../actions/rootActions'
 import { ALL_WATCHLISTS_QUERY } from '../queries/WatchlistGQL'
 import * as actions from './../actions/types'
 import WatchlistNotificationActions from '../pages/assets/notifications/WatchlistNotificationActions'
-import { MakeWatchlistLink } from '../components/Navbar/NavbarAssetsDropdownWatchlist'
+import { getWatchlistLink } from '../ducks/Watchlists/utils'
 
-const createUserListGQL = gql`
-  mutation createUserList(
+const CREATE_WATCHLIST_MUTATION = gql`
+  mutation createWatchlist(
     $color: ColorEnum
     $isPublic: Boolean
     $name: String!
@@ -19,6 +19,7 @@ const createUserListGQL = gql`
       name
       isPublic
       color
+      function
       insertedAt
       isMonitored
       updatedAt
@@ -46,7 +47,7 @@ const createWatchlistEpic = (action$, store, { client }) =>
         listItems = []
       } = action.payload
       const mutationPromise = client.mutate({
-        mutation: createUserListGQL,
+        mutation: CREATE_WATCHLIST_MUTATION,
         variables: {
           name,
           isPublic,
@@ -93,7 +94,7 @@ const createWatchlistEpic = (action$, store, { client }) =>
                 description: (
                   <WatchlistNotificationActions
                     id={id}
-                    toLink={MakeWatchlistLink(id, name)}
+                    toLink={getWatchlistLink({ id, name })}
                   />
                 )
               })
