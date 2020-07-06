@@ -1,14 +1,17 @@
 import React from 'react'
+import { NavLink as Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Toggle from '@santiment-network/ui/Toggle'
 import UIButton from '@santiment-network/ui/Button'
+import Label from '@santiment-network/ui/Label'
 import UIIcon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
+import { getCurrentSanbaseSubscription } from '../../utils/plans'
+import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import ChartDownloadBtn from './ChartDownloadBtn'
 import DownloadCSVBtn from './DownloadCSVBtn'
-import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import styles from './ChartPage.module.scss'
 
 const ShareChart = ({ trigger, shareLink }) => (
@@ -29,6 +32,7 @@ export const Button = ({ className, ...props }) => (
 )
 
 const ChartSettingsContextMenu = ({
+  subscription,
   chartRef,
   showNightModeToggle = true,
   isNightModeActive,
@@ -52,6 +56,7 @@ const ChartSettingsContextMenu = ({
   isClosestDataActive,
   onClosestDataChange
 }) => {
+  console.log(!!subscription)
   return (
     <ContextMenu
       trigger={
@@ -131,12 +136,27 @@ const ChartSettingsContextMenu = ({
             variant='ghost'
             title={title}
             data={data}
+            disabled={!subscription}
             events={events}
             activeEvents={activeEvents}
             activeMetrics={activeMetrics}
+            className={styles.context__btn}
           >
-            <Icon type='save' />
-            Download as CSV
+            <span className={styles.context__btn_icon_and_name}>
+              <Icon type='save' />
+              Download as CSV
+            </span>
+            {!!subscription || (
+              <Label
+                as={Link}
+                to='/pricing'
+                className={styles.context__btn_paywalled_label}
+                variant='fill'
+                accent='texas-rose'
+              >
+                PRO
+              </Label>
+            )}
           </DownloadCSVBtn>
         )}
         {showDownloadPNG && (
@@ -157,8 +177,8 @@ const ChartSettingsContextMenu = ({
   )
 }
 
-const mapStateToProps = ({ rootUi: { isWideChartEnabled } }) => ({
-  isWideChart: isWideChartEnabled
+const mapStateToProps = state => ({
+  subscription: getCurrentSanbaseSubscription(state.user.data)
 })
 
 export default connect(mapStateToProps)(ChartSettingsContextMenu)
