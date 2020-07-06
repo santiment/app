@@ -8,9 +8,9 @@ import {
 export const WATCHLIST_GENERAL_FRAGMENT = gql`
   fragment generalListData on UserList {
     id
-    color
     isPublic
     name
+    function
     insertedAt
     isMonitored
     updatedAt
@@ -34,72 +34,6 @@ export const PROJECT_ITEM_FRAGMENT = gql`
 export const ALL_WATCHLISTS_QUERY = gql`
   query fetchWatchlists {
     fetchUserLists {
-      ...generalListData
-      ...listShortItems
-    }
-  }
-  ${WATCHLIST_GENERAL_FRAGMENT}
-  ${PROJECT_ITEM_FRAGMENT}
-`
-
-export const PUBLIC_WATCHLIST_QUERY = gql`
-  query fetchAllWatchlists {
-    fetchAllPublicUserLists {
-      ...generalListData
-      ...listShortItems
-    }
-  }
-  ${WATCHLIST_GENERAL_FRAGMENT}
-  ${PROJECT_ITEM_FRAGMENT}
-`
-
-export const WATCHLIST_BY_SLUG_SHORT_QUERY = gql`
-  query watchlistBySlug($slug: String!) {
-    watchlistBySlug(slug: $slug) {
-      ...generalListData
-      listItems {
-        project {
-          ...generalData
-          ...recentProjectData
-        }
-      }
-    }
-  }
-  ${WATCHLIST_GENERAL_FRAGMENT}
-  ${generalData}
-  ${PROJECT_RECENT_DATA_FRAGMENT}
-`
-
-export const WATCHLIST_BY_SLUG_BIG_QUERY = gql`
-  query watchlistBySlug($slug: String!) {
-    watchlistBySlug(slug: $slug) {
-      ...generalListData
-      stats {
-        trendingProjects {
-          ...generalData
-          ...project
-        }
-      }
-      settings {
-        pageSize
-        tableColumns
-      }
-      listItems {
-        project {
-          ...generalData
-          ...project
-        }
-      }
-    }
-  }
-  ${WATCHLIST_GENERAL_FRAGMENT}
-  ${generalData}
-  ${project}
-`
-
-export const FEATURED_WATCHLIST_QUERY = gql`
-  query featuredWatchlists {
-    featuredWatchlists {
       ...generalListData
       ...listShortItems
     }

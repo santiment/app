@@ -3,9 +3,8 @@ import { Helmet } from 'react-helmet'
 import qs from 'query-string'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import { getOrigin } from '../../utils/utils'
-import { getHelmetTags, getTableTitle } from './utils'
+import { getHelmetTags, getWatchlistName } from './utils'
 import { RANGES } from '../../components/WatchlistOverview/constants'
-import { TRENDING_WATCHLIST_NAME } from './assets-overview-constants'
 import GetAssets from './GetAssets'
 import AssetsTable from './AssetsTable'
 import { ASSETS_TABLE_COLUMNS } from './asset-columns'
@@ -58,7 +57,7 @@ const AssetsPage = props => {
         {...props}
         type={props.type}
         render={Assets => {
-          const title = getTableTitle(props)
+          const title = getWatchlistName(props)
           const {
             typeInfo: { listId },
             isLoading,
@@ -80,9 +79,7 @@ const AssetsPage = props => {
               <div className='page-head page-head-projects'>
                 <div className='page-head-projects__left'>
                   <h1 className={styles.heading}>{title}</h1>
-                  <HelpPopupAssets
-                    isTrendingWatchlist={title === TRENDING_WATCHLIST_NAME}
-                  />
+                  <HelpPopupAssets />
                 </div>
                 <div className='page-head-projects__right'>
                   <WatchlistActions

@@ -1,8 +1,14 @@
 import React from 'react'
 import cx from 'classnames'
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import NewWatchlistDialog from './NewWatchlistDialog'
 import LoginDialogWrapper from '../LoginDialog/LoginDialogWrapper'
-import GetWatchlists from '../../ducks/Watchlists/GetWatchlists'
+import {
+  useUserWatchlists,
+  useUserScreeners
+} from '../../ducks/Watchlists/gql/hooks'
+import { checkHasPremium } from '../../pages/UserSelectors'
 import styles from './WatchlistCard.module.scss'
 
 export const SvgNew = ({ className }) => (
@@ -42,27 +48,55 @@ export const SvgNew = ({ className }) => (
   </svg>
 )
 
-const Trigger = props => {
+const Trigger = ({ type, showProBanner, ...props }) => {
   return (
     <div className={cx(styles.wrapper, styles.create)} {...props}>
       <SvgNew />
-      <div className={styles.createLink}>Create your watchlist</div>
+      <div className={styles.createLink}>
+        Create your {type}
+        {showProBanner && (
+          <Link className={styles.link} to='pricing'>
+            For PRO users
+          </Link>
+        )}
+      </div>
     </div>
   )
 }
 
-const NewWatchlistCard = () => {
+const NewWatchlistCard = ({ type = 'watchlist', hasPremium }) => {
+  let lists = []
+
+  if (type === 'watchlist') {
+    const [watchlists = []] = useUserWatchlists()
+    lists = watchlists
+  } else {
+    const [screeners = []] = useUserScreeners()
+    lists = screeners
+  }
+
+  const showProBanner = type === 'screener' && !hasPremium
+
   return (
-    <LoginDialogWrapper title='Create watchlist' trigger={Trigger}>
-      <GetWatchlists
-        render={({ watchlists = [] }) => {
-          return (
-            <NewWatchlistDialog watchlists={watchlists} trigger={<Trigger />} />
-          )
-        }}
-      />
+    <LoginDialogWrapper
+      title={`Create ${type}`}
+      trigger={props => <Trigger type={type} {...props} />}
+    >
+      {showProBanner ? (
+        <Trigger showProBanner type={type} />
+      ) : (
+        <NewWatchlistDialog
+          watchlists={lists}
+          trigger={<Trigger type={type} />}
+          type={type}
+        />
+      )}
     </LoginDialogWrapper>
   )
 }
 
-export default NewWatchlistCard
+const mapStateToProps = state => ({
+  hasPremium: checkHasPremium(state)
+})
+
+export default connect(mapStateToProps)(NewWatchlistCard)

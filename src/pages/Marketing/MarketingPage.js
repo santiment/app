@@ -57,13 +57,7 @@ const MarketingPage = props => {
               },
               {
                 title: 'My Watchlists',
-                content: (
-                  <MyWatchlist
-                    showHeader={false}
-                    showNew={true}
-                    classes={styles}
-                  />
-                )
+                content: <MyWatchlist showHeader={false} classes={styles} />
               }
             ]}
           />

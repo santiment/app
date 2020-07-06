@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
-import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
-import { compose } from 'recompose'
-import { Button, Dialog } from '@santiment-network/ui'
-import { ALL_WATCHLISTS_QUERY } from '../../queries/WatchlistGQL'
+import Dialog from '@santiment-network/ui/Dialog'
+import Button from '@santiment-network/ui/Button'
 import {
   USER_ADD_ASSET_TO_LIST,
   USER_REMOVE_ASSET_FROM_LIST
@@ -12,6 +10,7 @@ import { showNotification } from '../../actions/rootActions'
 import WatchlistsAnon from './WatchlistsAnon'
 import Watchlists from './Watchlists'
 import { checkIsLoggedIn } from '../../pages/UserSelectors'
+import { useUserWatchlists } from '../../ducks/Watchlists/gql/hooks'
 import styles from './WatchlistsPopup.module.scss'
 
 const AddToListBtn = (
@@ -31,7 +30,6 @@ const WatchlistPopup = ({
   applyChanges,
   setNotification,
   projectId,
-  lists = [],
   watchlistUi: { editableAssetsInList },
   dialogProps,
   ...props
@@ -39,6 +37,12 @@ const WatchlistPopup = ({
   const [changes, setChanges] = useState([])
   const [isShown, setIsShown] = useState(false)
   const [editableAssets, setEditableAssets] = useState(editableAssetsInList)
+  const [watchlists = []] = useUserWatchlists()
+
+  const lists = watchlists.sort(sortWatchlists).map(list => ({
+    ...list,
+    listItems: list.listItems.map(assets => assets.project)
+  }))
 
   const addChange = change => {
     const prevLength = changes.length
@@ -147,21 +151,7 @@ const mapDispatchToProps = dispatch => ({
   setNotification: message => dispatch(showNotification(message))
 })
 
-export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  graphql(ALL_WATCHLISTS_QUERY, {
-    name: 'Watchlists',
-    skip: ({ isLoggedIn }) => !isLoggedIn,
-    options: () => ({ context: { isRetriable: true } }),
-    props: ({ Watchlists: { fetchUserLists = [], loading = true } }) => ({
-      lists: fetchUserLists.sort(sortWatchlists).map(list => ({
-        ...list,
-        listItems: list.listItems.map(assets => assets.project)
-      })),
-      isLoading: loading
-    })
-  })
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
 )(WatchlistPopup)

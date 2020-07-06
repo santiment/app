@@ -1,8 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
-import { Checkboxes, Icon } from '@santiment-network/ui'
+import Checkboxes from '@santiment-network/ui/Checkboxes'
 import { hasAssetById } from './WatchlistsPopup'
-import ExplanationTooltip from '../ExplanationTooltip/ExplanationTooltip'
+import { VisibilityIndicator } from '../VisibilityIndicator'
 import NewWatchlistDialog from '../Watchlists/NewWatchlistDialog'
 import WatchlistNewBtn from './WatchlistNewBtn'
 import styles from './Watchlists.module.scss'
@@ -37,16 +37,7 @@ const Watchlists = ({
                   })
                 }
               />
-              <ExplanationTooltip
-                text={isPublic ? 'Public' : 'Private'}
-                className={styles.explanation}
-                offsetY={5}
-              >
-                <Icon
-                  type={isPublic ? 'eye' : 'lock-small'}
-                  className={styles.icon}
-                />
-              </ExplanationTooltip>
+              <VisibilityIndicator isPublic={isPublic} />
             </div>
           ))
         ) : (
