@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
+import Label from '@santiment-network/ui/Label'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import PublicTemplates from './PublicTemplates/PublicTemplates'
 import SocialTrends from './SocialTrends/SocialTrends'
@@ -16,7 +17,6 @@ import { BASIC_CATEGORIES } from '../assets/assets-overview-constants'
 import MyWatchlist from '../../components/Watchlists/MyWatchlist'
 import { PATHS } from '../../App'
 import AlphaBlock from './AlphaBlock/AlphaBlock'
-import Label from '@santiment-network/ui/Label'
 import styles from './MarketingPage.module.scss'
 
 const isCharts = ({ search }) =>
@@ -38,6 +38,7 @@ const MarketingPage = props => {
           classes={styles}
         />
       </MobileOnly>
+
       <EventBanner className={styles.banner} />
       <div className={styles.inner}>
         <div className={cx(styles.block, styles.firstBlock)}>

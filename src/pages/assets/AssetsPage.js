@@ -14,6 +14,7 @@ import WatchlistAnomalies from '../../components/WatchlistOverview/WatchlistAnom
 import AssetsTemplates from './AssetsTemplates'
 import PageLoader from '../../components/Loader/PageLoader'
 import WatchlistActions from './WatchlistActions'
+import ProjectsChart from '../Marketing/VolumeChart/ProjectsChart'
 import styles from '../../components/Watchlists/Watchlist.module.scss'
 import './Assets.css'
 
@@ -119,6 +120,7 @@ const AssetsPage = props => {
                       onFilterAssets={toggleAssetsFiltering}
                     />
                   </Panel>
+
                   <AssetsTable
                     Assets={Assets}
                     filterType={filterType}

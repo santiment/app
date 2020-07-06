@@ -134,4 +134,14 @@ export const ALL_ERC20_PROJECTS_QUERY = gql`
   }
 `
 
+export const ALL_PROJECTS_PRICE_CHANGES_QUERY = gql(`
+  {
+  allProjects {
+    slug
+    percentChange1h
+    percentChange24h
+    percentChange7d
+  }
+}`)
+
 export default allProjectsGQL

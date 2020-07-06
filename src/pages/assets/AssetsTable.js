@@ -100,11 +100,6 @@ const AssetsTable = ({
     ({ id }) => columns[id].show && allColumns.includes(id)
   )
 
-  if (items.length > 0) {
-    const index = items.length > 3 ? 2 : 0
-    items[index].showTooltip = true
-  }
-
   return (
     <div className={classes.container}>
       <div className={styles.top}>
