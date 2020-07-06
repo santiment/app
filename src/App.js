@@ -249,6 +249,7 @@ export const App = ({
                   <WatchlistPage
                     type={name}
                     isLoggedIn={isLoggedIn}
+                    preload={() => LoadableDetailedPage.preload()}
                     {...props}
                   />
                 )

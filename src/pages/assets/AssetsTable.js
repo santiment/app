@@ -24,17 +24,7 @@ export const CustomHeadComponent = ({ children, className, ...rest }) => (
   </Sticky>
 )
 
-export const filterColumnsByTableSection = (tableSection, columns) => {
-  if (tableSection === 'currencies') {
-    return columns.filter(
-      column =>
-        column.id !== 'eth_spent' &&
-        column.id !== 'daily_active_addresses' &&
-        column.id !== 'signals'
-    )
-  }
-  return columns
-}
+export const filterColumnsByTableSection = (_, columns) => columns
 
 const AssetsTable = ({
   Assets = {
@@ -55,6 +45,7 @@ const AssetsTable = ({
   setHiddenColumns,
   showCollumnsToggle = true,
   className,
+  classes = {},
   columnProps
 }) => {
   const { isLoading, error, timestamp, typeInfo } = Assets
@@ -111,7 +102,7 @@ const AssetsTable = ({
   )
 
   return (
-    <>
+    <div className={classes.container}>
       <div className={styles.top}>
         {filterType ? (
           <span>Showed based on {filterType} anomalies</span>
@@ -149,7 +140,7 @@ const AssetsTable = ({
           style: { border: 'none' }
         })}
       />
-    </>
+    </div>
   )
 }
 
