@@ -21,11 +21,25 @@
 
 .left {
   display: flex;
-  align-items: center;
   margin-right: 24px;
   flex: 1;
-  white-space: nowrap;
   font-weight: 600;
+  flex-direction: column;
+
+  &__row {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    white-space: nowrap;
+
+    &:last-child {
+      margin-top: 8px;
+    }
+
+    &:only-child {
+      margin-top: 0;
+    }
+  }
 }
 
 .metrics {

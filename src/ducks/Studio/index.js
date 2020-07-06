@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import Sidebar from './Sidebar'
 import Main from './Main'
-import { mergeMetricSettingMap } from './utils'
+import {
+  mergeMetricSettingMap,
+  mergeConnectedWidgetsWithSelected
+} from './utils'
 import { DEFAULT_SETTINGS } from './defaults'
 import { Phase, usePhase } from './phases'
 import { useKeyboardShortcut } from './hooks'
 import ChartWidget from './Widget/ChartWidget'
 import HolderDistributionWidget from './Widget/HolderDistributionWidget'
 import SelectionOverview from './Overview/SelectionOverview'
+import * as Type from './Sidebar/MetricSelector/types'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
 import { saveToggle } from '../../utils/localStorage'
 import styles from './index.module.scss'
@@ -22,6 +26,7 @@ export const Studio = ({
   const [settings, setSettings] = useState(defaultSettings)
   const [sidepanel, setSidepanel] = useState(defaultSidepanel)
   const [selectedMetrics, setSelectedMetrics] = useState([])
+  const [selectedWidgets, setSelectedWidgets] = useState([])
   const [selectedMetricSettingsMap, setSelectedMetricSettingsMap] = useState(
     new Map()
   )
@@ -75,14 +80,21 @@ export const Studio = ({
     setWidgets(widgets.filter(w => w !== widget))
   }
 
+  function deleteConnectedWidget (connectedWidget, parentWidget) {
+    parentWidget.connectedWidgets = parentWidget.connectedWidgets.filter(
+      w => w !== connectedWidget
+    )
+    rerenderWidgets()
+  }
+
   function toggleWidgetMetric (widget, metric) {
-    const metrics = deduceMetrics(widget.metrics, metric)
+    const metrics = deduceItems(widget.metrics, metric)
 
     if (metrics.length === 0 && widget.comparables.length === 0) {
       deleteWidget(widget)
     } else {
       widget.metrics = metrics
-      setWidgets([...widgets])
+      rerenderWidgets()
     }
   }
 
@@ -91,19 +103,34 @@ export const Studio = ({
   }
 
   function toggleSelectionMetric (metric) {
-    setSelectedMetrics(deduceMetrics(selectedMetrics, metric))
+    setSelectedMetrics(deduceItems(selectedMetrics, metric))
   }
 
-  function deduceMetrics (metrics, metric) {
-    const newMetrics = new Set(metrics)
+  function toggleSelectionWidget (selectedWidget) {
+    const newSelectedWidgets = deduceItems(selectedWidgets, selectedWidget)
+    const { requiredMetric } = selectedWidget
 
-    if (newMetrics.has(metric)) {
-      newMetrics.delete(metric)
-    } else {
-      newMetrics.add(metric)
+    if (requiredMetric && selectedWidgets.length < newSelectedWidgets.length) {
+      const newMetrics = new Set(selectedMetrics)
+
+      if (!newMetrics.has(requiredMetric)) {
+        setSelectedMetrics([...newMetrics, requiredMetric])
+      }
     }
 
-    return [...newMetrics]
+    setSelectedWidgets(newSelectedWidgets)
+  }
+
+  function deduceItems (items, item) {
+    const newItems = new Set(items)
+
+    if (newItems.has(item)) {
+      newItems.delete(item)
+    } else {
+      newItems.add(item)
+    }
+
+    return [...newItems]
   }
 
   function changeTimePeriod (from, to, timeRange) {
@@ -121,11 +148,13 @@ export const Studio = ({
   function onSidebarItemClick (item) {
     const { type, key } = item
 
-    if (type === 'sidepanel') {
+    if (type === Type.SIDEPANEL) {
       toggleSidepanel(key)
-    } else if (type === 'ico_price') {
+    } else if (type === Type.ICO_PRICE) {
       setIsICOPriceActive(!isICOPriceActive)
-    } else if (type === 'widget') {
+    } else if (type === Type.CONNECTED_WIDGET) {
+      toggleSelectionWidget(item)
+    } else if (type === Type.WIDGET) {
       if (key === 'holder_distribution') {
         setWidgets([
           ...widgets,
@@ -149,6 +178,10 @@ export const Studio = ({
     const newMetrics = new Set([...widget.metrics, ...selectedMetrics])
 
     widget.metrics = [...newMetrics]
+    widget.connectedWidgets = mergeConnectedWidgetsWithSelected(
+      widget.connectedWidgets,
+      selectedWidgets
+    )
     widget.MetricSettingMap = mergeMetricSettingMap(
       widget.MetricSettingMap,
       selectedMetricSettingsMap
@@ -163,7 +196,8 @@ export const Studio = ({
       ...widgets,
       ChartWidget.new({
         metrics: selectedMetrics,
-        MetricSettingMap: selectedMetricSettingsMap
+        MetricSettingMap: selectedMetricSettingsMap,
+        connectedWidgets: mergeConnectedWidgetsWithSelected([], selectedWidgets)
       })
     ])
     resetSelecion()
@@ -175,6 +209,7 @@ export const Studio = ({
   }
 
   function resetSelecion () {
+    setSelectedWidgets([])
     setSelectedMetrics([])
     setSelectedMetricSettingsMap(new Map())
   }
@@ -209,6 +244,7 @@ export const Studio = ({
           toggleWidgetMetric={toggleWidgetMetric}
           toggleSidepanel={toggleSidepanel}
           deleteWidget={deleteWidget}
+          deleteConnectedWidget={deleteConnectedWidget}
           rerenderWidgets={rerenderWidgets}
           toggleOverview={toggleOverview}
         />
@@ -217,8 +253,10 @@ export const Studio = ({
           <SelectionOverview
             widgets={widgets}
             selectedMetrics={selectedMetrics}
+            selectedWidgets={selectedWidgets}
             currentPhase={currentPhase}
             toggleMetric={toggleSelectionMetric}
+            toggleWidget={toggleSelectionWidget}
             resetSelecion={resetSelecion}
             onClose={onOverviewClose}
             onWidgetClick={onWidgetClick}

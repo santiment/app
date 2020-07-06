@@ -36,7 +36,6 @@ const Canvas = ({
   comparables,
   activeEvents,
   shareLink,
-  boundaries,
   ErrorMsg,
   toggleMetric,
   syncedTooltipDate,
@@ -121,7 +120,7 @@ const Canvas = ({
         </div>
 
         <div className={styles.meta}>
-          <ChartPaywallInfo boundaries={boundaries} metrics={metrics} />
+          <ChartPaywallInfo metrics={metrics} />
 
           {domainGroups && domainGroups.length > mirrorDomainGroups.length && (
             <SharedAxisToggle

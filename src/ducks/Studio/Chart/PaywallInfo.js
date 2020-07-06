@@ -78,14 +78,14 @@ function useRestrictedInfo (metrics) {
   return infos
 }
 
-const PaywallInfo = ({ boundaries, subscription, metrics }) => {
+const PaywallInfo = ({ subscription, metrics }) => {
   const infos = useRestrictedInfo(metrics)
 
   if (subscription && new Date(subscription.trialEnd) > new Date()) {
     return <UpgradeBtn variant='fill' fluid className={styles.upgrade_trial} />
   }
 
-  return infos.length > 0 && boundaries ? (
+  return infos.length > 0 ? (
     <Tooltip
       position='bottom'
       trigger={

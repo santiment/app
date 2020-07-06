@@ -12,10 +12,24 @@ export function shareComparable (Comparable) {
   return `${slug}${COMPARE_CONNECTOR}${ticker}${COMPARE_CONNECTOR}${key}`
 }
 
-export const normalizeWidget = ({ Widget, metrics, comparables }) => ({
+const normalizeConnectedWidget = ({ Widget, datesRange }) => ({
+  widget: WidgetToTypeMap.get(Widget),
+  from: datesRange[0].toISOString(),
+  to: datesRange[1].toISOString()
+})
+
+export const normalizeWidget = ({
+  Widget,
+  metrics,
+  comparables,
+  connectedWidgets
+}) => ({
   widget: WidgetToTypeMap.get(Widget),
   metrics: metrics.map(({ key }) => key),
-  comparables: comparables.map(shareComparable)
+  comparables: comparables.map(shareComparable),
+  connectedWidgets: connectedWidgets
+    ? connectedWidgets.map(normalizeConnectedWidget)
+    : undefined
 })
 
 export const normalizeWidgets = widgets => widgets.map(normalizeWidget)
