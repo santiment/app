@@ -196,7 +196,8 @@ export const Studio = ({
       ...widgets,
       ChartWidget.new({
         metrics: selectedMetrics,
-        MetricSettingMap: selectedMetricSettingsMap
+        MetricSettingMap: selectedMetricSettingsMap,
+        connectedWidgets: mergeConnectedWidgetsWithSelected([], selectedWidgets)
       })
     ])
     resetSelecion()
