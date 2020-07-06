@@ -16,7 +16,7 @@
 
 .wrapper {
   width: 250px;
-  padding: 12px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
 
@@ -27,7 +27,8 @@
 
 .widgetInfo {
   display: flex;
-  width: 203px;
+  width: 100%;
+  align-items: center;
 }
 
 .toggle {
