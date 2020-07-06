@@ -132,3 +132,12 @@
 .loader {
   font-size: 10px;
 }
+
+.link {
+  color: var(--texas-rose);
+  display: block;
+
+  &:hover {
+    color: var(--texas-rose-hover);
+  }
+}
