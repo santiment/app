@@ -1,5 +1,11 @@
 import { Metric } from './metrics'
 import { updateTooltipSettings } from './tooltipSettings'
+import TopTransactionsTable from '../Studio/Widget/TopTransactionsTable'
+import {
+  CONNECTED_WIDGET,
+  SIDEPANEL,
+  ICO_PRICE
+} from '../Studio/Sidebar/MetricSelector/types'
 import {
   SPENT_COIN_COST,
   SOCIAL_CONTEXT
@@ -17,20 +23,30 @@ export const Submetrics = {
   [Metric.price_usd.key]: [
     {
       key: 'ico_price',
-      type: 'ico_price',
+      type: ICO_PRICE,
       label: 'ICO Price'
     },
     {
       key: SPENT_COIN_COST,
-      type: 'sidepanel',
+      type: SIDEPANEL,
       label: 'Spent Coin Cost'
+    }
+  ],
+
+  [Metric.transaction_volume.key]: [
+    {
+      key: 'TopTransactionsTable',
+      type: CONNECTED_WIDGET,
+      label: 'Top Transactions Table',
+      widget: TopTransactionsTable,
+      requiredMetric: Metric.transaction_volume
     }
   ],
 
   [Metric.social_volume_total.key]: [
     {
       key: SOCIAL_CONTEXT,
-      type: 'sidepanel',
+      type: SIDEPANEL,
       label: 'Social Context'
     }
   ],

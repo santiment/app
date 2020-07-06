@@ -8,11 +8,32 @@ import styles from './SelectionOverview.module.scss'
 const MetricColor = {}
 const loadings = []
 
+const SelectionInfo = ({ items, label, onToggle, ...props }) => {
+  return (
+    <div className={styles.left__row}>
+      You have selected {items.length} {label}(s):
+      <div className={styles.metrics}>
+        <ActiveMetrics
+          {...props}
+          className={styles.metric}
+          activeMetrics={items}
+          MetricColor={MetricColor}
+          loadings={loadings}
+          toggleMetric={onToggle}
+          isSingleWidget={false}
+        />
+      </div>
+    </div>
+  )
+}
+
 const SelectionOverview = ({
   widgets,
   currentPhase,
   selectedMetrics,
+  selectedWidgets,
   toggleMetric,
+  toggleWidget,
   resetSelecion,
   onClose,
   onWidgetClick,
@@ -34,17 +55,22 @@ const SelectionOverview = ({
         )}
       >
         <div className={styles.left}>
-          You have selected {selectedMetrics.length} metrics:
-          <div className={styles.metrics}>
-            <ActiveMetrics
-              className={styles.metric}
-              MetricColor={MetricColor}
-              loadings={loadings}
-              activeMetrics={selectedMetrics}
-              toggleMetric={toggleMetric}
-              isSingleWidget={false}
+          {selectedMetrics.length ? (
+            <SelectionInfo
+              label='metric'
+              items={selectedMetrics}
+              onToggle={toggleMetric}
             />
-          </div>
+          ) : null}
+
+          {selectedWidgets.length ? (
+            <SelectionInfo
+              label='widget'
+              items={selectedWidgets}
+              onToggle={toggleWidget}
+              isWithIcon={false}
+            />
+          ) : null}
         </div>
         <Button className={styles.clear} onClick={resetSelecion}>
           Clear selected

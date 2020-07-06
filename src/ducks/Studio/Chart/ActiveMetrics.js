@@ -13,6 +13,7 @@ const MetricButton = ({
   metric,
   colors,
   error,
+  isWithIcon,
   isLoading,
   isRemovable,
   toggleMetric,
@@ -47,15 +48,17 @@ const MetricButton = ({
         className={cx(styles.btn, error && styles.btn_error, className)}
         aria-invalid={error}
       >
-        {isLoading ? (
-          <div className={styles.loader} />
-        ) : (
-          <MetricIcon
-            node={node}
-            color={colors[dataKey]}
-            className={styles.label}
-          />
-        )}
+        {isWithIcon ? (
+          isLoading ? (
+            <div className={styles.loader} />
+          ) : (
+            <MetricIcon
+              node={node}
+              color={colors[dataKey]}
+              className={styles.label}
+            />
+          )
+        ) : null}
         {label}
         {comparedTicker && ` (${comparedTicker})`}
         <MetricErrorExplanation
@@ -88,6 +91,7 @@ export default ({
   eventLoadings,
   ErrorMsg = {},
   isSingleWidget,
+  isWithIcon = true,
   onMetricHover,
   onMetricHoverEnd,
   project
@@ -122,6 +126,7 @@ export default ({
       metric={metric}
       colors={MetricColor}
       error={ErrorMsg[metric.key]}
+      isWithIcon={isWithIcon}
       isLoading={loadings.includes(metric)}
       isRemovable={isMoreThanOneMetric && toggleMetric}
       toggleMetric={toggleMetric}

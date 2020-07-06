@@ -1,5 +1,12 @@
 import { useState, useEffect } from 'react'
 
+const DEFAULT_PRESSED_MOFIER = {
+  altKey: false,
+  shiftKey: false,
+  metaKey: false,
+  ctrlKey: false
+}
+
 export function useKeyDown (clb, key) {
   useEffect(() => {
     function onKeyDown (e) {
@@ -31,13 +38,6 @@ export function useKeyboardShortcut (key, clb, target = window) {
     },
     [clb, target]
   )
-}
-
-const DEFAULT_PRESSED_MOFIER = {
-  altKey: false,
-  shiftKey: false,
-  metaKey: false,
-  ctrlKey: false
 }
 
 export function usePressedModifier () {
