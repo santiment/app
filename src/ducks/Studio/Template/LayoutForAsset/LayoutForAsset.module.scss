@@ -1,5 +1,9 @@
 @import '~@santiment-network/ui/mixins';
 
+.icon {
+  fill: var(--rhino);
+}
+
 .counter {
   cursor: pointer;
   padding: 5px;
@@ -17,6 +21,12 @@
     justify-content: center;
     align-items: center;
   }
+
+  &:hover {
+    .icon {
+      fill: var(--jungle-green-hover);
+    }
+  }
 }
 
 .tooltip {
@@ -28,10 +38,10 @@
 .tooltipWrapper {
   display: flex;
   justify-content: center;
-  width: 100%;
+  width: 153px;
 }
 
 .new {
   color: var(--jungle-green);
-  margin-right: 8px;
+  margin-right: 4px;
 }
