@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import debounce from 'lodash.debounce'
 import Toggle from '@santiment-network/ui/Toggle'
 import Label from '@santiment-network/ui/Label'
 import Input from '@santiment-network/ui/Input'
 import Dialog from '@santiment-network/ui/Dialog'
-import { connect } from 'react-redux'
 import { USER_ADD_NEW_ASSET_LIST } from '../../actions/types'
 import styles from './NewWatchlistDialog.module.scss'
 
@@ -75,13 +75,13 @@ class NewWatchlistDialog extends PureComponent {
   onSubmit = e => {
     e.preventDefault()
     const { name, isPublic, error } = this.state
-    const { isPending } = this.props
+    const { isPending, type } = this.props
 
     if (!name || isPending || error) {
       return
     }
 
-    this.props.createWatchlist({ name, isPublic })
+    this.props.createWatchlist({ name, isPublic, type })
   }
 
   render () {

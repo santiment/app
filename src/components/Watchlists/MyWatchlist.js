@@ -71,8 +71,11 @@ const MyWatchlist = ({
         </>
       )}
       {isLoggedIn && !loading && !watchlists.length && (
-        <div className={cx(classes.emptyWatchlists, styles.emptyWrapper)}>
-          <WatchlistEmptySection watchlists={watchlists} />
+        <div className={styles.emptyWrapper}>
+          <WatchlistEmptySection
+            watchlists={watchlists}
+            className={classes.emptyWatchlists}
+          />
         </div>
       )}
       {isLoggedIn && (

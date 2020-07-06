@@ -26,7 +26,10 @@ const AssetsOverview = ({ isPublicWatchlistsLoading, history }) => {
           showFeatured={true}
           classes={{ watchlists: styles.section }}
         />
-        <MyWatchlist className={styles.section} />
+        <MyWatchlist
+          className={styles.section}
+          classes={{ emptyWatchlists: styles.emptyWatchlists }}
+        />
         <MyScreeners className={styles.section} />
       </DesktopOnly>
       <MobileOnly>

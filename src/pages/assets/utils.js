@@ -1,11 +1,11 @@
 import qs from 'query-string'
 
-export const getTableTitle = ({ type, location: { search } }) => {
+export const getWatchlistName = ({ type, location: { search } }) => {
   switch (type) {
     case 'all':
       return 'All Assets'
-    case 'currencies':
-      return 'Currencies'
+    case 'screener':
+      return 'My Screener'
     case 'erc20':
       return 'ERC20 Assets'
     case 'list':

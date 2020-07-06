@@ -68,3 +68,30 @@ export const FEATURED_WATCHLISTS_QUERY = gql`
   ${WATCHLIST_GENERAL_FRAGMENT}
   ${PROJECT_ITEM_FRAGMENT}
 `
+
+export const CREATE_SCREENER_MUTATION = gql`
+  mutation createWatchlist(
+    $isPublic: Boolean
+    $name: String!
+    $function: json
+  ) {
+    createUserList(isPublic: $isPublic, name: $name, function: $function) {
+      id
+      name
+      isPublic
+      function
+      insertedAt
+      isMonitored
+      updatedAt
+      listItems {
+        project {
+          id
+          slug
+        }
+      }
+      user {
+        id
+      }
+    }
+  }
+`

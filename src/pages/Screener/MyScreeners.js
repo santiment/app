@@ -21,6 +21,7 @@ const MyScreeners = ({
   showHeader = true
 }) => {
   const [screeners, loading] = useUserScreeners()
+
   return (
     <div className={cx(styles.wrapper, className)}>
       {showHeader && (
@@ -51,7 +52,7 @@ const MyScreeners = ({
       <div className={stylesGrid.wrapper}>
         {screeners.map(watchlist => (
           <WatchlistCard
-            key={watchlist.id}
+            key={watchlist.name + watchlist.id}
             name={watchlist.name}
             watchlist={watchlist}
             to={getWatchlistLink(watchlist)}

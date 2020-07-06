@@ -40,9 +40,6 @@ const NavbarAssetsDropdown = ({ activeLink }) => {
           <h3 className={styles.title}>My Watchlists</h3>
           <NavbarAssetsDropdownWatchlist activeLink={activeLink} />
         </div>
-        <div className={cx(styles.block, styles.list)}>
-          <h3 className={styles.title}>My Screeners</h3>
-        </div>
       </div>
     </Panel>
   )

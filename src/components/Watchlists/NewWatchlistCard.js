@@ -56,12 +56,13 @@ const Trigger = ({ type, ...props }) => {
 
 const NewWatchlistCard = ({ type = 'watchlist' }) => {
   let lists = []
+
   if (type === 'watchlist') {
     const [watchlists = []] = useUserWatchlists()
     lists = watchlists
   } else {
-    const [watchlists = []] = useUserScreeners()
-    lists = watchlists
+    const [screeners = []] = useUserScreeners()
+    lists = screeners
   }
 
   return (

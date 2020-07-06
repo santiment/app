@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet'
 import qs from 'query-string'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import { getOrigin } from '../../utils/utils'
-import { getHelmetTags, getTableTitle } from './utils'
+import { getHelmetTags, getWatchlistName } from './utils'
 import { RANGES } from '../../components/WatchlistOverview/constants'
 import GetAssets from './GetAssets'
 import AssetsTable from './AssetsTable'
@@ -56,7 +56,7 @@ const AssetsPage = props => {
         {...props}
         type={props.type}
         render={Assets => {
-          const title = getTableTitle(props)
+          const title = getWatchlistName(props)
           const {
             typeInfo: { listId },
             isLoading,
