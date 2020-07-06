@@ -121,8 +121,6 @@ const AssetsPage = props => {
                     />
                   </Panel>
 
-                  <ProjectsChart assets={filteredItems || items} />
-
                   <AssetsTable
                     Assets={Assets}
                     filterType={filterType}

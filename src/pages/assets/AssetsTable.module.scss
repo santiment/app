@@ -9,6 +9,7 @@
 .assetsTable:global(.ReactTable) {
   margin-bottom: 20px;
   color: var(--mirage);
+  overflow: visible;
 
   :global {
     .overview-name {
@@ -40,6 +41,14 @@
     .overview-price-percent,
     .overview-volume-percent {
       margin-left: -10px;
+    }
+
+    .rt-tbody {
+      overflow: visible;
+    }
+
+    .rt-table {
+      overflow: visible;
     }
 
     .rt-th {

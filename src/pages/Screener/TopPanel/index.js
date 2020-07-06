@@ -15,7 +15,7 @@ const TopPanel = ({ name, id, isLoggedIn, ...props }) => {
       <MarketcapHistory />
       <div>
         {isLoggedIn && <Actions name={name} id={id} {...props} />}
-        <Widgets />
+        <Widgets {...props} />
       </div>
     </section>
   )

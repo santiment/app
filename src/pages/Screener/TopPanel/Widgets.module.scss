@@ -24,3 +24,19 @@
     width: 100%;
   }
 }
+
+.widgetInfo {
+  display: flex;
+  width: 203px;
+}
+
+.toggle {
+  margin-left: auto;
+}
+
+.label {
+  color: var(--rhino);
+  margin-left: 10px;
+
+  @include text('body-3');
+}

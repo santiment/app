@@ -1,4 +1,4 @@
-import React, { useState, useCallback, Fragment } from 'react'
+import React, { useState, useCallback } from 'react'
 import { connect } from 'react-redux'
 import LoadTemplate from '../Dialog/LoadTemplate'
 import { useUserTemplates } from '../gql/hooks'
@@ -51,14 +51,12 @@ const TooltipWrapper = ({ children }) => {
 }
 
 const Trigger = ({ showTooltip, hovered, counter, ...rest }) => {
-  const El = showTooltip ? TooltipWrapper : Fragment
-
   return (
-    <El>
+    <TooltipWrapper>
       <div {...rest} className={styles.counter}>
         {hovered ? <div>{Icon}</div> : counter}
       </div>
-    </El>
+    </TooltipWrapper>
   )
 }
 

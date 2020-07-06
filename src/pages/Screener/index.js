@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import PageLoader from '../../components/Loader/PageLoader'
 import TopPanel from './TopPanel'
@@ -7,8 +7,12 @@ import { getWatchlistName } from '../assets/utils'
 import AssetsTable from '../assets/AssetsTable'
 import { ASSETS_TABLE_COLUMNS } from '../assets/asset-columns'
 import styles from './index.module.scss'
+import Panel from '@santiment-network/ui/Panel/Panel'
+import ProjectsChart from '../Marketing/VolumeChart/ProjectsChart'
 
 const Screener = props => {
+  const [isPriceChartActive, setPriceChart] = useState(false)
+
   return (
     <div className={('page', styles.container)}>
       <GetAssets
@@ -32,20 +36,29 @@ const Screener = props => {
                 shareLink={window.location.href + '#shared'}
                 isAuthor={isCurrentUserTheAuthor}
                 isLoggedIn={props.isLoggedIn}
+                widgets={{
+                  priceActive: isPriceChartActive
+                }}
+                togglers={{
+                  priceToggle: setPriceChart
+                }}
               />
               {isLoading && <PageLoader className={styles.loading} />}
 
               {!isLoading && items.length > 0 && (
-                <AssetsTable
-                  Assets={Assets}
-                  items={items}
-                  classes={{ container: styles.tableWrapper }}
-                  className={styles.table}
-                  goto={props.history.push}
-                  preload={props.preload}
-                  listName={title}
-                  allColumns={ASSETS_TABLE_COLUMNS}
-                />
+                <>
+                  {isPriceChartActive && <ProjectsChart assets={items} />}
+                  <AssetsTable
+                    Assets={Assets}
+                    items={items}
+                    classes={{ container: styles.tableWrapper }}
+                    className={styles.table}
+                    goto={props.history.push}
+                    preload={props.preload}
+                    listName={title}
+                    allColumns={ASSETS_TABLE_COLUMNS}
+                  />
+                </>
               )}
             </>
           )
