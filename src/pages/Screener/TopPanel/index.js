@@ -1,7 +1,8 @@
 import React from 'react'
+import Actions from './Actions'
 import styles from './index.module.scss'
 
-const TopPanel = ({ name }) => {
+const TopPanel = ({ name, id, isAuthor, isLoggedIn }) => {
   return (
     <section className={styles.wrapper}>
       <div>
@@ -10,7 +11,7 @@ const TopPanel = ({ name }) => {
       <div>
         <h2 className={styles.marketcap}>Total marketcap</h2>
       </div>
-      <div>context menu</div>
+      {isLoggedIn && <Actions name={name} id={id} isAuthor={isAuthor} />}
     </section>
   )
 }

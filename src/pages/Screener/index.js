@@ -26,7 +26,12 @@ const Screener = props => {
 
           return (
             <>
-              <TopPanel name={title || props.name} />
+              <TopPanel
+                name={title || props.name}
+                id={listId}
+                isAuthor={isCurrentUserTheAuthor}
+                isLoggedIn={props.isLoggedIn}
+              />
               {isLoading && <PageLoader className={styles.loading} />}
 
               {!isLoading && items.length > 0 && (

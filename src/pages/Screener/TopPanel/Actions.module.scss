@@ -1,0 +1,24 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
+  }
+}
+
+.block {
+  padding: 8px;
+  border-bottom: 1px solid var(--porcelain);
+
+  &:last-child {
+    border: none;
+  }
+}
+
+.btn {
+  justify-content: space-between;
+}
