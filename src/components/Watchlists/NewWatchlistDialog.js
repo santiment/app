@@ -1,16 +1,16 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import debounce from 'lodash.debounce'
 import Toggle from '@santiment-network/ui/Toggle'
 import Label from '@santiment-network/ui/Label'
 import Input from '@santiment-network/ui/Input'
 import Dialog from '@santiment-network/ui/Dialog'
-import { connect } from 'react-redux'
 import { USER_ADD_NEW_ASSET_LIST } from '../../actions/types'
 import styles from './NewWatchlistDialog.module.scss'
 
 const MAX_LENGTH = 3
 
-const NAME_EXISTS_ERROR = 'The watchlist with this name already exists'
+const NAME_EXISTS_ERROR = 'This name already exists'
 
 const SHORT_NAME_ERROR = `The name should be at least ${MAX_LENGTH} characters`
 
@@ -75,23 +75,23 @@ class NewWatchlistDialog extends PureComponent {
   onSubmit = e => {
     e.preventDefault()
     const { name, isPublic, error } = this.state
-    const { isPending } = this.props
+    const { isPending, type } = this.props
 
     if (!name || isPending || error) {
       return
     }
 
-    this.props.createWatchlist({ name, isPublic })
+    this.props.createWatchlist({ name, isPublic, type })
   }
 
   render () {
     const { open, name, isPublic, error } = this.state
-    const { isPending, trigger } = this.props
+    const { isPending, trigger, type } = this.props
     const { length: nameLength } = name
 
     return (
       <Dialog
-        title='New watchlist'
+        title={`New ${type}`}
         trigger={trigger}
         onOpen={this.openDialog}
         onClose={this.cancelDialog}
@@ -126,7 +126,7 @@ class NewWatchlistDialog extends PureComponent {
                 className={styles.toggle}
                 onClick={this.onToggleClick}
               />
-              Secret
+              Private
             </div>
           </Dialog.ScrollContent>
           <Dialog.Actions className={styles.actions}>

@@ -1,9 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import Button from '@santiment-network/ui/Button'
-import Panel from '@santiment-network/ui/Panel/Panel'
 import WatchlistCard from './WatchlistCard'
 import { getWatchlistLink } from './../../ducks/Watchlists/utils'
 import { DesktopOnly, MobileOnly } from './../Responsive'
@@ -73,22 +71,12 @@ const MyWatchlist = ({
         </>
       )}
       {isLoggedIn && !loading && !watchlists.length && (
-        <>
-          <DesktopOnly>
-            <WatchlistEmptySection
-              watchlists={watchlists}
-              className={classes.emptyWatchlists}
-            />
-          </DesktopOnly>
-          <MobileOnly>
-            <Panel className={styles.emptyWrapper}>
-              <WatchlistEmptySection
-                watchlists={watchlists}
-                className={classes.emptyWatchlists}
-              />
-            </Panel>
-          </MobileOnly>
-        </>
+        <div className={styles.emptyWrapper}>
+          <WatchlistEmptySection
+            watchlists={watchlists}
+            className={classes.emptyWatchlists}
+          />
+        </div>
       )}
       {isLoggedIn && (
         <div className={stylesGrid.wrapper}>
@@ -117,11 +105,6 @@ const MyWatchlist = ({
       )}
     </div>
   )
-}
-
-MyWatchlist.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired,
-  isLoggedInPending: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => ({

@@ -3,8 +3,7 @@ import { Observable } from 'rxjs'
 import {
   ERC20_PROJECTS_QUERY,
   allProjects50GQL,
-  allProjectsGQL,
-  currenciesGQL
+  allProjectsGQL
 } from './../pages/Projects/allProjectsGQL'
 import { WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY } from '../queries/WatchlistGQL.js'
 import * as actions from './../actions/types'
@@ -33,8 +32,6 @@ const pickProjectsType = type => {
       return { projects: 'allProjects', gql: allProjects50GQL }
     case 'restAll':
       return { projects: 'allProjects', gql: allProjectsGQL }
-    case 'currency':
-      return { projects: 'allCurrencyProjects', gql: currenciesGQL }
     case 'erc20':
       return { projects: 'allErc20Projects', gql: ERC20_PROJECTS_QUERY }
     default:

@@ -40,7 +40,11 @@
   width: 100%;
   justify-content: center;
   margin: 24px 0 16px;
-  max-width: 400px;
+  max-width: 220px;
+
+  @include responsive('phone', 'phone-xs') {
+    max-width: 100%;
+  }
 }
 
 .img {
@@ -55,11 +59,15 @@
 }
 
 .emptyWrapper {
-  padding: 30px 16px 16px;
-  margin: 0 16px;
+  @include responsive('phone', 'phone-xs') {
+    padding: 30px 16px 16px;
+    border: 1px solid var(--porcelain);
+    border-radius: 4px;
+    margin: 0 16px;
 
-  & .img {
-    margin-top: 0;
+    & .img {
+      margin-top: 0;
+    }
   }
 }
 

@@ -6,7 +6,7 @@ import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import Label from '@santiment-network/ui/Label'
 import GetAssets, { SORT_TYPES } from './GetAssets'
 import { RANGES } from '../../components/WatchlistOverview/constants'
-import { getTableTitle } from './utils'
+import { getWatchlistName } from './utils'
 import { addRecentWatchlists, removeRecentWatchlists } from '../../utils/recent'
 import AssetCard from './AssetCard'
 import AssetsTemplates from './AssetsTemplates'
@@ -99,7 +99,7 @@ const AssetsMobilePage = props => {
             )
           }
 
-          const title = getTableTitle(props)
+          const title = getWatchlistName(props)
 
           if (items.length && (isCurrentUserTheAuthor || isPublicWatchlist)) {
             addRecentWatchlists(listId)
