@@ -27,7 +27,7 @@ const Screener = props => {
           return (
             <>
               <TopPanel name={title || props.name} />
-              {isLoading && <PageLoader />}
+              {isLoading && <PageLoader className={styles.loading} />}
 
               {!isLoading && items.length > 0 && (
                 <AssetsTable

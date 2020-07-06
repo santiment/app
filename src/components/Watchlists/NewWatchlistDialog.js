@@ -86,7 +86,7 @@ class NewWatchlistDialog extends PureComponent {
 
   render () {
     const { open, name, isPublic, error } = this.state
-    const { isPending, trigger, type } = this.props
+    const { isPending, trigger, type = 'watchlist' } = this.props
     const { length: nameLength } = name
 
     return (
