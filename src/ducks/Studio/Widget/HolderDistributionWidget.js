@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Widget from './Widget'
-import { Chart } from './ChartWidget'
-import { newWidget } from './utils'
+import ChartWidget, { Chart } from './ChartWidget'
 import Sidepanel, { CloseButton } from '../Chart/Sidepanel'
 import { TOP_HOLDERS_PANE } from '../Chart/Sidepanel/panes'
 import { TOP_HOLDER_METRICS } from '../Chart/Sidepanel/HolderDistribution/metrics'
@@ -43,12 +42,15 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
   )
 }
 
-export const newHolderDistributionWidget = props =>
-  newWidget(HolderDistributionWidget, {
-    metrics: TOP_HOLDER_METRICS,
-    comparables: [],
-    MetricSettingMap: new Map(),
-    ...props
-  })
+const newHolderDistributionWidget = props =>
+  ChartWidget.new(
+    {
+      metrics: TOP_HOLDER_METRICS,
+      ...props
+    },
+    HolderDistributionWidget
+  )
+
+HolderDistributionWidget.new = newHolderDistributionWidget
 
 export default HolderDistributionWidget

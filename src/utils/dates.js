@@ -1,7 +1,10 @@
+import memoize from 'lodash.memoize'
+
 export const ONE_SECOND_IN_MS = 1000
 export const ONE_MINUTE_IN_MS = ONE_SECOND_IN_MS * 60
 export const ONE_HOUR_IN_MS = ONE_MINUTE_IN_MS * 60
 export const ONE_DAY_IN_MS = ONE_HOUR_IN_MS * 24
+export const ONE_WEEK_IN_MS = ONE_DAY_IN_MS * 7
 export const ONE_MONTH_IN_MS = 2505600000 // Estimate
 export const ONE_YEAR_IN_MS = 31557600000 // Estimate
 
@@ -368,17 +371,14 @@ export const getAmPmWithHours = hours => {
 
 export const getAmPm = hours => (hours >= 12 ? 'pm' : 'am')
 
-const INTERVALS_ACCUMULATOR = {}
+export const convertToReadableInterval = memoize(timebound => {
+  const amount = timebound.slice(0, timebound.length - 1)
 
-export const convertToReadableInterval = timebound => {
-  if (INTERVALS_ACCUMULATOR[timebound]) {
-    return INTERVALS_ACCUMULATOR[timebound]
+  if (!Number(amount)) {
+    return timebound
   }
 
-  const amount = timebound.slice(0, timebound.length - 1)
   const format = timebound[timebound.length - 1]
   const plural = amount > 1 ? 's' : ''
-  const result = `${amount} ${FormatToString[format]}${plural}`
-
-  return (INTERVALS_ACCUMULATOR[timebound] = result)
-}
+  return `${amount} ${FormatToString[format]}${plural}`
+})

@@ -11,15 +11,16 @@ const LAST_USED_TEMPLATE = 'LAST_USED_TEMPLATE'
 
 export const getMetricKey = ({ key }) => key
 
-export function prepareTemplateLink (template) {
+export function prepareTemplateLink (template, asProject) {
   if (!template) {
     return ''
   }
 
   const { id, title } = template
+  const templateId = asProject ? id + '@' + asProject : id
 
   return (
-    `${PATHS.STUDIO}/${getSEOLinkFromIdAndTitle(id, title)}` +
+    `${PATHS.STUDIO}/${getSEOLinkFromIdAndTitle(templateId, title)}` +
     window.location.search
   )
 }
@@ -34,10 +35,23 @@ export const getTemplateIdFromURL = () => {
   return +extractTemplateId(href)
 }
 
-export const extractTemplateId = () => {
-  const href = window.location.pathname
+const extractTemplateInfo = () => {
+  const href = decodeURIComponent(window.location.pathname)
   const items = href.split('-')
-  return items[items.length - 1]
+
+  const idWithReplacement = items[items.length - 1]
+
+  return idWithReplacement.split('@')
+}
+
+const extractTemplateId = () => {
+  const [id] = extractTemplateInfo()
+  return id
+}
+
+export const extractTemplateProject = () => {
+  const [, project] = extractTemplateInfo()
+  return project
 }
 
 export const getTemplateShareLink = template => {

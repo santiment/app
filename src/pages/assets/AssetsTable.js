@@ -13,7 +13,7 @@ import Refresh from '../../components/Refresh/Refresh'
 import ServerErrorMessage from './../../components/ServerErrorMessage'
 import AssetsToggleColumns from './AssetsToggleColumns'
 import { COLUMNS, COMMON_SETTINGS, COLUMNS_SETTINGS } from './asset-columns'
-import './../Projects/ProjectsTable.css'
+import '../Projects/ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
 
 export const CustomHeadComponent = ({ children, className, ...rest }) => (
@@ -47,7 +47,6 @@ const AssetsTable = ({
   showAll = false,
   preload,
   refetchAssets,
-  setMinVolumeFilter,
   minVolume = 0,
   listName,
   settings,
@@ -109,6 +108,11 @@ const AssetsTable = ({
   const shownColumns = COLUMNS(preload, columnProps).filter(
     ({ id }) => columns[id].show && allColumns.includes(id)
   )
+
+  if (items.length > 0) {
+    const index = items.length > 3 ? 2 : 0
+    items[index].showTooltip = true
+  }
 
   return (
     <>

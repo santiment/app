@@ -43,6 +43,26 @@
   outline: 0;
 }
 
+.ReactTable .rt-td > a,
+.ReactTable .rt-td > div {
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.rt-thead {
+  .rt-th {
+    &:first-child {
+      div {
+        .heading {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+        }
+      }
+    }
+  }
+}
+
 .rt-thead.-filters {
   display: none;
 }
@@ -72,12 +92,6 @@
 .ReactTable .rt-tbody .rt-td {
   border-right: 1px solid rgba(0, 0, 0, 0.05);
   padding: 6px;
-}
-
-.ReactTable .rt-td > a,
-.ReactTable .rt-td > div {
-  font-size: 16px;
-  line-height: 1.2;
 }
 
 .percent-changes--negative,

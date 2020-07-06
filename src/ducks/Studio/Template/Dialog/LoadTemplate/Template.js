@@ -15,7 +15,10 @@ import TemplateStatus from '../../TemplateStatus/TemplateStatus'
 import styles from './Template.module.scss'
 import { updateHistory } from '../../../../../utils/utils'
 
-export const isUserAuthorOfTemplate = (template, user) => {
+export const isUserAuthorOfTemplate = (user, template) => {
+  if (!template) {
+    return false
+  }
   const { user: { id } = {} } = template
   return user && user.data && +user.data.id === +id
 }
@@ -44,7 +47,8 @@ const Template = ({
   className,
   redirect,
   onOpenTemplate,
-  onRename = () => {}
+  onRename = () => {},
+  asProject
 }) => {
   const { title } = template
   const { isPublic, toggleIsPublic } = usePublicTemplates(template)
@@ -53,7 +57,7 @@ const Template = ({
     selectTemplate && selectTemplate(template)
 
     if (asLink) {
-      const link = prepareTemplateLink(template)
+      const link = prepareTemplateLink(template, asProject)
 
       updateHistory(link)
       redirect(link)

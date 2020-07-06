@@ -6,6 +6,7 @@ import { formatNumber, millify } from '../../utils/formatting'
 import ProjectLabel from '../../components/ProjectLabel'
 import PercentChanges from '../../components/PercentChanges'
 import { Description } from '../../ducks/dataHub/metrics/descriptions'
+import LayoutForAsset from '../../ducks/Studio/Template/LayoutForAsset/LayoutForAsset'
 import styles from './AssetsToggleColumns.module.scss'
 
 const simpleSort = (a, b) => b - a
@@ -53,7 +54,16 @@ export const COLUMNS = (preload, props = {}) => [
     id: COLUMNS_NAMES.index,
     heading: '#',
     maxWidth: 45,
-    Cell: row => row.page * row.pageSize + row.viewIndex + 1
+    Cell: row => {
+      const { original, page, pageSize, viewIndex } = row
+      return (
+        <LayoutForAsset
+          item={original}
+          index={page * pageSize + viewIndex + 1}
+          showTooltip={original.showTooltip}
+        />
+      )
+    }
   }),
   constructColumn({
     id: COLUMNS_NAMES.project,

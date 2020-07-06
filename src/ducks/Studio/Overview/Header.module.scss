@@ -1,0 +1,16 @@
+@import '~@santiment-network/ui/mixins';
+.wrapper {
+  margin: 40px 0 32px;
+}
+
+.title {
+  @include text('body-1', 'm');
+  color: var(--rhino);
+  margin: 0 0 8px;
+}
+
+.subtitle {
+  @include text('body-2');
+  color: var(--waterloo);
+  margin: 0;
+}

@@ -458,6 +458,11 @@ export const Metric = {
     group: 'Sentiment Twitter',
     hidden: true
   },
+  bitmex_perpetual_basis_ratio: {
+    node: 'line',
+    label: 'BitMEX Perpetual Basis Ratio',
+    category: 'Derivatives'
+  },
   bitmex_perpetual_basis: {
     node: 'line',
     label: 'BitMEX Perpetual Contract Basis',
@@ -469,7 +474,7 @@ export const Metric = {
     category: 'Derivatives'
   },
   bitmex_perpetual_funding_rate: {
-    node: 'filledLine',
+    node: 'bar',
     label: 'BitMEX Perpetual Contract Funding Rate',
     category: 'Derivatives',
     formatter: v => (v ? `${(v * 100).toFixed(2)}%` : 'No data'),

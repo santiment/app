@@ -23,6 +23,7 @@ import styles from './index.module.scss'
 
 const Canvas = ({
   index,
+  widget,
   className,
   chartRef,
   data,
@@ -66,6 +67,10 @@ const Canvas = ({
   const mirrorDomainGroups = extractMirrorMetricsDomainGroups(domainGroups)
   const isBlurred = isAnon && index > 1
   const scale = options.isLogScale ? logScale : linearScale
+
+  if (widget) {
+    widget.MetricColor = MetricColor
+  }
 
   useEffect(onMetricHoverEnd, [metrics])
 

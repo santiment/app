@@ -75,6 +75,15 @@ export const PROJECT_WITH_SLUG_QUERY = gql`
   ${generalData}
 `
 
+export const PROJECT_BY_ID_QUERY = gql`
+  query project($id: ID!) {
+    project(id: $id) {
+      ...generalData
+    }
+  }
+  ${generalData}
+`
+
 export const RECENT_ASSET_QUERY = gql`
   query projectBySlugGQL($slug: String!) {
     projectBySlug(slug: $slug) {

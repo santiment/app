@@ -4,7 +4,12 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import TemplateButton from './Button'
-import { buildTemplateMetrics, parseTemplateMetrics } from './utils'
+import TemplateTitle from './Title'
+import {
+  buildTemplateMetrics,
+  extractTemplateProject,
+  parseTemplateMetrics
+} from './utils'
 import { notifySave } from './notifications'
 import {
   useUserTemplates,
@@ -21,7 +26,9 @@ import ShareTemplate from './Share/ShareTemplate'
 import { isUserAuthorOfTemplate } from './Dialog/LoadTemplate/Template'
 import { parseSharedWidgets, translateMultiChartToWidgets } from '../url/parse'
 import { normalizeWidgets } from '../url/generate'
-import { newChartWidget } from '../Widget/creators'
+import ChartWidget from '../Widget/ChartWidget'
+import { checkIsLoggedIn } from '../../../pages/UserSelectors'
+import { useProjectById } from '../../../hooks/project'
 import styles from './index.module.scss'
 
 const Action = props => <Button {...props} fluid variant='ghost' />
@@ -77,12 +84,25 @@ const Template = ({
   onProjectSelect,
   ...props
 }) => {
+  const user = currentUser.data
   const { projectId, isLoggedIn } = props
-  const [templates] = useUserTemplates(currentUser.id)
+  const [templates] = useUserTemplates(user.id)
   const [updateTemplate] = useUpdateTemplate()
   const [createTemplate] = useCreateTemplate()
 
-  function selectTemplate (template) {
+  const projectFromUrl = extractTemplateProject()
+  const [urlProject] = useProjectById(projectFromUrl)
+
+  useEffect(
+    () => {
+      if (onProjectSelect && urlProject) {
+        onProjectSelect(urlProject)
+      }
+    },
+    [urlProject]
+  )
+
+  const selectTemplate = template => {
     setSelectedTemplate(template)
 
     if (!template) return
@@ -90,19 +110,21 @@ const Template = ({
     const { project, metrics: templateMetrics, options } = template
     const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
 
-    if (onProjectSelect) {
+    if (onProjectSelect && !projectFromUrl) {
       onProjectSelect(project)
     }
+
+    console.log(template)
 
     let widgets
     if (options && options.widgets) {
       widgets = parseSharedWidgets(options.widgets)
     } else {
-      if (options.multi_chart) {
+      if (options && options.multi_chart) {
         widgets = translateMultiChartToWidgets(metrics, comparables)
       } else {
         widgets = [
-          newChartWidget({
+          ChartWidget.new({
             metrics,
             comparables
           })
@@ -144,11 +166,11 @@ const Template = ({
 
   const saveTemplate = () => {
     const { projectId } = props
-    const template = selectedTemplate
+    const template = selectedTemplate || {}
 
     const { user: { id } = {}, title, description } = template
 
-    const isCurrentUser = +id === +currentUser.id
+    const isCurrentUser = +id === +user.id
     const metrics = widgets.map(({ metrics }) => metrics).flat()
     const comparables = widgets.map(({ comparables }) => comparables).flat()
 
@@ -195,67 +217,49 @@ const Template = ({
   const isAuthor = isUserAuthorOfTemplate(currentUser, selectedTemplate)
 
   return (
-    <ContextMenu
-      open={isMenuOpened}
-      onClose={closeMenu}
-      position='bottom'
-      align='start'
-      trigger={
-        <TemplateButton
-          {...props}
-          selectedTemplate={selectedTemplate}
-          hasTemplates={hasTemplates}
-          openMenu={openMenu}
-          saveTemplate={saveTemplate}
-          onNewTemplate={onTemplateSelect}
-          isMenuOpened={isMenuOpened}
-          loading={loading}
-        />
-      }
-    >
-      <Panel variant='modal' className={styles.context}>
-        <div className={styles.group}>
-          {selectedTemplate && isLoggedIn && (
-            <Action onClick={saveTemplate}>
-              Save{' '}
-              <span className={styles.copyAction}>
-                {isMac ? 'Cmd + S' : 'Ctrl + S'}
-              </span>
-            </Action>
-          )}
-
-          {selectedTemplate && (
-            <DialogFormNewTemplate
-              {...props}
-              onClose={closeMenu}
-              trigger={<Action>Save as new Chart Layout</Action>}
-              title='Save as new Chart Layout'
-              onNew={onTemplateSelect}
-              buttonLabel='Save'
-            />
-          )}
-
-          <DialogLoadTemplate
-            onClose={closeMenu}
-            selectedTemplate={selectedTemplate}
-            selectTemplate={onTemplateSelect}
-            updateTemplate={updateTemplate}
-            rerenderTemplate={rerenderTemplate}
-            templates={templates}
-            trigger={<Action>Load</Action>}
-            projectId={projectId}
-          />
-        </div>
-        <div className={styles.group}>
-          <DialogFormNewTemplate
+    <>
+      {selectedTemplate && <TemplateTitle template={selectedTemplate} />}
+      <ContextMenu
+        open={isMenuOpened}
+        onClose={closeMenu}
+        position='bottom'
+        align='start'
+        trigger={
+          <TemplateButton
             {...props}
-            onClose={closeMenu}
-            trigger={<Action>New</Action>}
-            onNew={onTemplateSelect}
+            selectedTemplate={selectedTemplate}
+            widgets={widgets}
+            hasTemplates={hasTemplates}
+            openMenu={openMenu}
+            saveTemplate={saveTemplate}
+            onNewTemplate={onTemplateSelect}
+            isMenuOpened={isMenuOpened}
+            loading={loading}
+            isLoggedIn={isLoggedIn}
           />
-
+        }
+      >
+        <Panel variant='modal' className={styles.context}>
           {selectedTemplate && (
-            <>
+            <div className={styles.group}>
+              {isLoggedIn && (
+                <Action onClick={saveTemplate}>
+                  Save{' '}
+                  <span className={styles.copyAction}>
+                    {isMac ? 'Cmd + S' : 'Ctrl + S'}
+                  </span>
+                </Action>
+              )}
+
+              <DialogFormNewTemplate
+                {...props}
+                onClose={closeMenu}
+                widgets={widgets}
+                trigger={<Action>Save as new Chart Layout</Action>}
+                title='Save as new Chart Layout'
+                onNew={onTemplateSelect}
+                buttonLabel='Save'
+              />
               {isAuthor && (
                 <DialogFormRenameTemplate
                   onClose={closeMenu}
@@ -274,31 +278,57 @@ const Template = ({
                   selectTemplate(template)
                 }}
               />
-
-              <ShareTemplate
-                template={selectedTemplate}
-                className={styles.shareBtn}
-                fluid
-                variant='ghost'
-              />
-
-              <DeleteTemplate
-                isAuthor={isAuthor}
-                onDelete={onDelete}
-                closeMenu={closeMenu}
-                template={selectedTemplate}
-                className={styles.delete}
-              />
-            </>
+            </div>
           )}
-        </div>
-      </Panel>
-    </ContextMenu>
+
+          <div className={styles.group}>
+            <DialogLoadTemplate
+              onClose={closeMenu}
+              selectedTemplate={selectedTemplate}
+              selectTemplate={onTemplateSelect}
+              updateTemplate={updateTemplate}
+              rerenderTemplate={rerenderTemplate}
+              templates={templates}
+              trigger={<Action>Load</Action>}
+              projectId={projectId}
+            />
+
+            <DialogFormNewTemplate
+              {...props}
+              onClose={closeMenu}
+              widgets={widgets}
+              trigger={<Action>New</Action>}
+              onNew={onTemplateSelect}
+            />
+
+            {selectedTemplate && (
+              <>
+                <ShareTemplate
+                  template={selectedTemplate}
+                  className={styles.shareBtn}
+                  fluid
+                  variant='ghost'
+                />
+
+                <DeleteTemplate
+                  isAuthor={isAuthor}
+                  onDelete={onDelete}
+                  closeMenu={closeMenu}
+                  template={selectedTemplate}
+                  className={styles.delete}
+                />
+              </>
+            )}
+          </div>
+        </Panel>
+      </ContextMenu>
+    </>
   )
 }
 
 const mapStateToProps = state => ({
-  currentUser: state.user.data
+  currentUser: state.user,
+  isLoggedIn: checkIsLoggedIn(state)
 })
 
 export default connect(mapStateToProps)(Template)

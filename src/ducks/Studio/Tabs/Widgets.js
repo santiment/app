@@ -9,8 +9,10 @@ const Chart = ({
   settings,
   widgets,
   sidepanel,
+  isOverviewOpened,
   setWidgets,
   toggleSidepanel,
+  toggleOverview,
   changeTimePeriod,
   onProjectSelect,
   ...props
@@ -66,9 +68,11 @@ const Chart = ({
         widgets={widgets}
         sidepanel={sidepanel}
         metrics={allMetrics}
+        isOverviewOpened={isOverviewOpened}
         setWidgets={setWidgets}
         changeTimePeriod={changeTimePeriod}
         toggleSidepanel={toggleSidepanel}
+        toggleOverview={toggleOverview}
         onProjectSelect={onProjectSelect}
       />
       <div className={styles.content}>

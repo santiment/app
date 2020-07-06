@@ -70,10 +70,10 @@
   position: absolute;
   right: 0;
   top: 10px;
-  fill: var(--rhino);
+  fill: var(--waterloo);
   cursor: pointer;
 
   &:hover {
-    fill: var(--waterloo);
+    fill: var(--rhino);
   }
 }

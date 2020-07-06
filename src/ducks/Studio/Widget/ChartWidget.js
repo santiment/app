@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Widget from './Widget'
 import { newWidget } from './utils'
 import StudioChart from '../Chart'
@@ -11,7 +11,6 @@ import {
 import { useTimeseries } from '../timeseries/hooks'
 import { buildAnomalies } from '../timeseries/anomalies'
 import { buildComparedMetric } from '../Compare/utils'
-import { buildChartShareLink } from '../url/generate'
 import { useClosestValueData } from '../../Chart/hooks'
 import { Metric } from '../../dataHub/metrics'
 import { MirroredMetric } from '../../dataHub/metrics/mirrored'
@@ -44,18 +43,18 @@ export const Chart = ({
     metrics,
     options.isClosestDataActive
   )
-
-  const shareLink = useMemo(
-    () => buildChartShareLink({ settings, widgets: [widget] }),
-    [settings, metrics, comparables]
-  )
+  // TODO: Solve the webpack circular dependency issue to share singular chart [@vanguard | Jul 1, 2020]
+  // const shareLink = useMemo(
+  // () => buildChartShareLink({ settings, widgets: [widget] }),
+  // [settings, metrics, comparables],
+  // )
 
   useEffect(
     () => {
       const phase = loadings.length ? 'loading' : 'loaded'
       dispatchWidgetMessage(widget, phase)
     },
-    [loadings.length]
+    [loadings]
   )
 
   useEffect(
@@ -72,8 +71,10 @@ export const Chart = ({
 
   useEffect(
     () => {
+      const comparedMetrics = comparables.map(buildComparedMetric)
       widget.comparables = comparables
-      setActiveMetrics(metrics.concat(comparables.map(buildComparedMetric)))
+      widget.comparedMetrics = comparedMetrics
+      setActiveMetrics(metrics.concat(comparedMetrics))
       rerenderWidgets()
     },
     [metrics, comparables]
@@ -151,6 +152,7 @@ export const Chart = ({
     <StudioChart
       {...props}
       data={data}
+      widget={widget}
       chartRef={chartRef}
       metrics={activeMetrics}
       eventsData={eventsData}
@@ -160,7 +162,6 @@ export const Chart = ({
       loadings={loadings}
       options={options}
       comparables={comparables}
-      shareLink={shareLink}
       isSingleWidget={isSingleWidget}
       setOptions={setOptions}
       setComparables={setComparables}
@@ -176,12 +177,16 @@ const ChartWidget = props => (
   </Widget>
 )
 
-export const newChartWidget = props =>
-  newWidget(ChartWidget, {
+const newChartWidget = (props, widget = ChartWidget) =>
+  newWidget(widget, {
     metrics: [Metric.price_usd],
     comparables: [],
+    comparedMetrics: [],
     MetricSettingMap: new Map(),
+    MetricColor: {},
     ...props
   })
+
+ChartWidget.new = newChartWidget
 
 export default ChartWidget

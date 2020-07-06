@@ -113,15 +113,17 @@ const ChartSettingsContextMenu = ({
           </Button>
         )}
 
-        <ShareChart
-          shareLink={shareLink}
-          trigger={props => (
-            <UIButton fluid variant='ghost' {...props}>
-              <Icon type='share' />
-              Share chart
-            </UIButton>
-          )}
-        />
+        {shareLink && (
+          <ShareChart
+            shareLink={shareLink}
+            trigger={props => (
+              <UIButton fluid variant='ghost' {...props}>
+                <Icon type='share' />
+                Share chart
+              </UIButton>
+            )}
+          />
+        )}
 
         {showDownload && (
           <DownloadCSVBtn
