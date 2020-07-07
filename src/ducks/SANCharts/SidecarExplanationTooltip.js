@@ -83,7 +83,8 @@ export const ExplanationTooltipWrapper = props => {
     withArrow = false,
     align = 'start',
     title = 'Explore assets',
-    description = 'Quick navigation through your assets'
+    description = 'Quick navigation through your assets',
+    classes = {}
   } = props
 
   return (
@@ -103,7 +104,7 @@ export const ExplanationTooltipWrapper = props => {
           {shown && !dismissOnTouch && (
             <Icon
               type='close-small'
-              className={styles.btn}
+              className={cx(styles.btn, classes.tooltipClose)}
               onClick={hideTooltip}
             />
           )}

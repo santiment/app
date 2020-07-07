@@ -63,3 +63,13 @@
   color: var(--rhino);
   padding: 16px 24px !important;
 }
+
+.tab {
+  padding-bottom: 8px;
+  margin-right: 10px;
+  color: var(--casper);
+}
+
+.selectedTab {
+  color: var(--jungle-green);
+}

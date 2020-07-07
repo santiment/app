@@ -31,8 +31,14 @@
 
 .tooltip {
   display: flex;
+  flex-direction: column;
+  max-width: 153px;
 
   @include text('caption');
+}
+
+.titleLine {
+  display: flex;
 }
 
 .tooltipWrapper {
