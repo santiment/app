@@ -173,13 +173,25 @@
     &_big {
       height: auto;
       text-align: left;
-      max-width: 180px;
+    }
+
+    &_icon_and_name {
+      display: flex;
+    }
+
+    &_paywalled_label {
+      pointer-events: all;
+    }
+
+    &_paywalled_label:hover {
+      color: white;
+      cursor: pointer;
     }
   }
 
   & .icon {
     fill: var(--casper);
-    margin-right: 18px;
+    margin-right: 8px;
     width: 15px;
 
     &.flash {
