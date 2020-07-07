@@ -13,7 +13,6 @@ import HolderDistributionWidget from './Widget/HolderDistributionWidget'
 import SelectionOverview from './Overview/SelectionOverview'
 import * as Type from './Sidebar/MetricSelector/types'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
-import { saveToggle } from '../../utils/localStorage'
 import styles from './index.module.scss'
 
 export const Studio = ({
@@ -31,8 +30,7 @@ export const Studio = ({
     new Map()
   )
   const [isICOPriceDisabled, setIsICOPriceDisabled] = useState(true)
-  const [isICOPriceActive, setIsICOPriceActive] = useState(true)
-  const [isAnomalyActive, setIsAnomalyActive] = useState()
+  const [isICOPriceActive, setIsICOPriceActive] = useState(false)
   const [isSidebarClosed, setIsSidebarClosed] = useState()
   const { currentPhase, previousPhase, setPhase } = usePhase(Phase.IDLE)
   const isOverviewOpened = currentPhase.startsWith(Phase.MAPVIEW)
@@ -96,10 +94,6 @@ export const Studio = ({
       widget.metrics = metrics
       rerenderWidgets()
     }
-  }
-
-  function toggleAnomaly () {
-    setIsAnomalyActive(saveToggle('isAnomalyActive', !isAnomalyActive))
   }
 
   function toggleSelectionMetric (metric) {
@@ -220,11 +214,11 @@ export const Studio = ({
         slug={settings.slug}
         project={settings}
         activeMetrics={selectedMetrics}
+        sidepanel={sidepanel}
         isSidebarClosed={isSidebarClosed}
-        isAnomalyActive={isAnomalyActive}
         isICOPriceDisabled={isICOPriceDisabled}
+        isICOPriceActive={isICOPriceActive}
         toggleMetric={onSidebarItemClick}
-        toggleAnomaly={toggleAnomaly}
         setMetricSettingMap={setSelectedMetricSettingsMap}
         setIsSidebarClosed={setIsSidebarClosed}
       />
@@ -234,7 +228,6 @@ export const Studio = ({
           settings={settings}
           sidepanel={sidepanel}
           isICOPriceActive={isICOPriceActive}
-          isAnomalyActive={isAnomalyActive}
           isOverviewOpened={isOverviewOpened}
           // fn
           setWidgets={setWidgets}

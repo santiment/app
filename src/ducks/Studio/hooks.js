@@ -60,12 +60,18 @@ export function usePressedModifier () {
       )
     }
 
+    function onBlur () {
+      setPressedModifier(DEFAULT_PRESSED_MOFIER)
+    }
+
     window.addEventListener('keydown', onKeyEvent)
     window.addEventListener('keyup', onKeyEvent)
+    window.addEventListener('blur', onBlur)
 
     return () => {
       window.removeEventListener('keydown', onKeyEvent)
       window.removeEventListener('keyup', onKeyEvent)
+      window.removeEventListener('blur', onBlur)
     }
   }, [])
 
