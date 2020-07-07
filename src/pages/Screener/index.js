@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import cx from 'classnames'
 import PageLoader from '../../components/Loader/PageLoader'
 import TopPanel from './TopPanel'
 import GetAssets from '../assets/GetAssets'
@@ -23,15 +22,15 @@ const Screener = props => {
             typeInfo: { listId },
             isLoading,
             isCurrentUserTheAuthor,
-            isPublicWatchlist,
             items = []
           } = Assets
 
           return (
             <>
               <TopPanel
-                name={title || props.name}
+                name={props.watchlist.name || props.name}
                 id={listId}
+                watchlist={props.watchlist}
                 shareLink={window.location.href + '#shared'}
                 isAuthor={isCurrentUserTheAuthor}
                 isLoggedIn={props.isLoggedIn}
@@ -50,6 +49,7 @@ const Screener = props => {
                   <AssetsTable
                     Assets={Assets}
                     items={items}
+                    type='screener'
                     classes={{ container: styles.tableWrapper }}
                     className={styles.table}
                     goto={props.history.push}

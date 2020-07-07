@@ -11,8 +11,8 @@ export const WATCHLIST_GENERAL_FRAGMENT = gql`
     name
     function
     insertedAt
-    isMonitored
     updatedAt
+    isMonitored
     user {
       id
     }
@@ -76,22 +76,38 @@ export const CREATE_WATCHLIST_MUTATION = gql`
     $function: json
   ) {
     createUserList(isPublic: $isPublic, name: $name, function: $function) {
-      id
-      name
-      isPublic
-      function
-      insertedAt
-      isMonitored
-      updatedAt
+      ...generalListData
+      ...listShortItems
+    }
+  }
+  ${WATCHLIST_GENERAL_FRAGMENT}
+  ${PROJECT_ITEM_FRAGMENT}
+`
+
+export const UPDATE_WATCHLIST_MUTATION = gql`
+  mutation updateWatchlist(
+    $id: Int!
+    $isPublic: Boolean
+    $name: String
+    $function: json
+  ) {
+    updateUserList(
+      id: $id
+      isPublic: $isPublic
+      name: $name
+      function: $function
+    ) {
+      ...generalListData
       listItems {
         project {
-          id
-          slug
+          ...generalData
+          ...recentProjectData
         }
-      }
-      user {
-        id
       }
     }
   }
+
+  ${WATCHLIST_GENERAL_FRAGMENT}
+  ${generalData}
+  ${PROJECT_RECENT_DATA_FRAGMENT}
 `
