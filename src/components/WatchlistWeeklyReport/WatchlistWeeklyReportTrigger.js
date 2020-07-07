@@ -13,9 +13,8 @@ const WatchlistWeeklyReportTrigger = ({ isMonitored, ...props }) => {
       trigger={
         <Button border variant='flat' accent='positive'>
           <Icon type='report' className={styles.icon} />
-          <span className={cx(styles.text, isMonitored && styles.active)}>
-            Weekly report
-          </span>
+          {isMonitored && <span className={styles.active} />}
+          {!isMonitored && <span className={styles.text}>Enable report</span>}
         </Button>
       }
     />
