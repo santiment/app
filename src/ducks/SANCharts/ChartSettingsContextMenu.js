@@ -54,7 +54,9 @@ const ChartSettingsContextMenu = ({
   isCartesianGridActive,
   onCartesianGridChange,
   isClosestDataActive,
-  onClosestDataChange
+  onClosestDataChange,
+  onWatermarkLighterChange,
+  isWatermarkLighter
 }) => (
   <ContextMenu
     trigger={
@@ -115,7 +117,18 @@ const ChartSettingsContextMenu = ({
           />
         </Button>
       )}
-
+      {
+        <Button
+          onClick={onWatermarkLighterChange}
+          className={styles.context__btn}
+        >
+          Make watermark less visible
+          <Toggle
+            isActive={isWatermarkLighter}
+            className={styles.context__toggle}
+          />
+        </Button>
+      }
       {shareLink && (
         <ShareChart
           shareLink={shareLink}
