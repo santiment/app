@@ -65,7 +65,6 @@ const Chart = ({
   isWatermarkLighter,
   children
 }) => {
-  console.log(isWatermarkLighter)
   let [chart, setChart] = useState()
   let [brush, setBrush] = useState()
   const canvasRef = useRef()
