@@ -18,7 +18,7 @@ import { prepareTemplateLink } from '../../utils'
 import styles from './index.module.scss'
 
 const TABS = {
-  OWN: 'Your Chart Layout',
+  OWN: 'Your library',
   PROJECT: 'Explore'
 }
 
@@ -116,11 +116,14 @@ const LoadTemplate = ({
                 setTab(tab)
               }}
               className={styles.tabs}
+              classes={styles}
+              disabledClassName={styles.disabledTab}
             />
           )}
 
           <div className={styles.search}>
             <Search
+              className={styles.searchInput}
               placeholder='Search chart layout...'
               value={searchTerm}
               onChange={setSearchTerm}

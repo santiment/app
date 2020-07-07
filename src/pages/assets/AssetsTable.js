@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import ReactTable from 'react-table'
 import cx from 'classnames'
 import Sticky from 'react-stickynode'
@@ -47,6 +47,15 @@ const AssetsTable = ({
   classes = {},
   columnProps
 }) => {
+  const [stateItems, setStateItems] = useState(items)
+
+  useEffect(
+    () => {
+      setStateItems(items)
+    },
+    [items]
+  )
+
   const { isLoading, error, timestamp, typeInfo } = Assets
   const key = typeInfo.listId || listName
   const { sorting, pageSize, hiddenColumns } = settings[key] || {}
@@ -100,6 +109,22 @@ const AssetsTable = ({
     ({ id }) => columns[id].show && allColumns.includes(id)
   )
 
+  const onMouseEnter = useCallback(
+    ({ index }) => {
+      stateItems[index].showTooltip = true
+      setStateItems(stateItems.slice())
+    },
+    [stateItems]
+  )
+
+  const onMouseLeave = useCallback(
+    ({ index }) => {
+      stateItems[index].showTooltip = false
+      setStateItems(stateItems.slice())
+    },
+    [stateItems]
+  )
+
   return (
     <div className={classes.container}>
       <div className={styles.top}>
@@ -122,13 +147,13 @@ const AssetsTable = ({
         showPaginationBottom
         defaultPageSize={columnsAmount}
         pageSizeOptions={[5, 10, 20, 25, 50, 100]}
-        pageSize={showAll ? items && items.length : undefined}
+        pageSize={showAll ? stateItems && stateItems.length : undefined}
         minRows={0}
         sortable={false}
         resizable={false}
         defaultSorted={[sortingColumn]}
         className={cx('-highlight', styles.assetsTable, className)}
-        data={items}
+        data={stateItems}
         columns={shownColumns}
         loadingText='Loading...'
         TheadComponent={CustomHeadComponent}
@@ -138,6 +163,16 @@ const AssetsTable = ({
           },
           style: { border: 'none' }
         })}
+        getTrGroupProps={(state, rowInfo) => {
+          return {
+            onMouseEnter: () => {
+              onMouseEnter(rowInfo)
+            },
+            onMouseLeave: () => {
+              onMouseLeave(rowInfo)
+            }
+          }
+        }}
       />
     </div>
   )
