@@ -2,17 +2,29 @@
 
 .wrapper {
   min-height: 230px;
-  padding: 16px 12px;
+  padding: 12px 14px;
 }
 
 .search {
-  padding: 8px 11px;
+  padding: 8px 24px;
   background: var(--athens);
   border-bottom: 1px solid var(--porcelain);
 }
 
 .tabs {
-  padding: 28px 24px 0 24px;
+  padding: 20px 24px 0 24px;
+}
+
+.disabledTab {
+  color: var(--casper);
+}
+
+.searchInput {
+  input {
+    &::placeholder {
+      color: var(--casper);
+    }
+  }
 }
 
 .headerIcon {
@@ -40,12 +52,14 @@
 }
 
 .dialog {
-  width: 514px;
+  width: 600px;
   height: 480px;
+  border: none;
 }
 
 .title {
-  @include text('body-2', 'm');
+  @include text('body-2');
 
   color: var(--rhino);
+  padding: 16px 24px !important;
 }
