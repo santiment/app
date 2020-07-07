@@ -1,6 +1,5 @@
 import React, { Fragment, useState } from 'react'
 import cx from 'classnames'
-import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
 import MetricButton from './MetricButton'
 import { NO_GROUP } from '../utils'
@@ -13,7 +12,8 @@ const Group = ({
   toggleMetric,
   isBeta,
   setMetricSettingMap,
-  project
+  project,
+  ...rest
 }) => {
   const hasGroup = title !== NO_GROUP
   const [hidden, setHidden] = useState(hasGroup)
@@ -65,17 +65,25 @@ const Group = ({
                 isDisabled={!selectable}
               />
               {subitems &&
-                subitems.map(subitem => (
-                  <MetricButton
-                    metric={subitem}
-                    key={subitem.key}
-                    className={styles.advanced}
-                    label={subitem.label}
-                    onClick={() => toggleMetric(subitem)}
-                    project={project}
-                    showBetaLabel={false}
-                  />
-                ))}
+                subitems.map(subitem => {
+                  const { checkIsVisible, checkIsActive } = subitem
+                  if (checkIsVisible && !checkIsVisible(rest)) return null
+
+                  const isActive = checkIsActive && checkIsActive(rest)
+
+                  return (
+                    <MetricButton
+                      metric={subitem}
+                      key={subitem.key}
+                      className={styles.advanced}
+                      label={subitem.label}
+                      onClick={() => toggleMetric(subitem)}
+                      project={project}
+                      showBetaLabel={false}
+                      isActive={isActive}
+                    />
+                  )
+                })}
             </Fragment>
           )
         })}
@@ -84,8 +92,4 @@ const Group = ({
   )
 }
 
-const mapStateToProps = state => ({
-  isBeta: state.rootUi.isBetaModeEnabled
-})
-
-export default connect(mapStateToProps)(Group)
+export default Group

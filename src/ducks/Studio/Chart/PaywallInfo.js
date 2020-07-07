@@ -5,6 +5,7 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import { client } from '../../../index'
+import { checkIsProUser } from '../../../utils/account'
 import { getCurrentSanbaseSubscription } from '../../../utils/plans'
 import { getDateFormats } from '../../../utils/dates'
 import UpgradeBtn from '../../../components/UpgradeBtn/UpgradeBtn'
@@ -78,12 +79,14 @@ function useRestrictedInfo (metrics) {
   return infos
 }
 
-const PaywallInfo = ({ subscription, metrics }) => {
+const PaywallInfo = ({ subscription, metrics, isPro }) => {
   const infos = useRestrictedInfo(metrics)
 
   if (subscription && new Date(subscription.trialEnd) > new Date()) {
     return <UpgradeBtn variant='fill' fluid className={styles.upgrade_trial} />
   }
+
+  if (isPro) return
 
   return infos.length > 0 ? (
     <Tooltip
@@ -101,7 +104,11 @@ const PaywallInfo = ({ subscription, metrics }) => {
         <p className={styles.text}>Your plan has limited data period for:</p>
         {infos.map(({ label, from, to }) => (
           <p key={label} className={styles.restriction}>
-            {label} ({formatDate(from)} - {formatDate(to)})
+            {label} (
+            {from && to
+              ? `${formatDate(from)} - ${formatDate(to)}`
+              : formatDate(from || to)}
+            )
           </p>
         ))}
         <p className={styles.text}>
@@ -115,7 +122,8 @@ const PaywallInfo = ({ subscription, metrics }) => {
 }
 
 const mapStateToProps = state => ({
-  subscription: getCurrentSanbaseSubscription(state.user.data)
+  subscription: getCurrentSanbaseSubscription(state.user.data),
+  isPro: checkIsProUser(state.user.data)
 })
 
 export default connect(mapStateToProps)(PaywallInfo)

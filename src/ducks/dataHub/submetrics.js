@@ -24,12 +24,15 @@ export const Submetrics = {
     {
       key: 'ico_price',
       type: ICO_PRICE,
-      label: 'ICO Price'
+      label: 'ICO Price',
+      checkIsVisible: ({ isICOPriceDisabled }) => !isICOPriceDisabled,
+      checkIsActive: ({ isICOPriceActive }) => isICOPriceActive
     },
     {
       key: SPENT_COIN_COST,
       type: SIDEPANEL,
-      label: 'Spent Coin Cost'
+      label: 'Spent Coin Cost',
+      checkIsActive: ({ sidepanel }) => sidepanel === SPENT_COIN_COST
     }
   ],
 
@@ -47,7 +50,8 @@ export const Submetrics = {
     {
       key: SOCIAL_CONTEXT,
       type: SIDEPANEL,
-      label: 'Social Context'
+      label: 'Social Context',
+      checkIsActive: ({ sidepanel }) => sidepanel === SOCIAL_CONTEXT
     }
   ],
 
