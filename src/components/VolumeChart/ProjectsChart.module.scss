@@ -11,12 +11,20 @@
   position: relative;
 }
 
+.loader {
+  height: 180px;
+}
+
 .chart {
   position: absolute;
   top: 0;
   width: 100%;
   overflow-y: auto;
   height: 358px;
+}
+
+.treeMap {
+  height: 130px;
 }
 
 .title {

@@ -29,6 +29,11 @@
   display: flex;
   width: 100%;
   align-items: center;
+  margin-bottom: 16px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .toggle {

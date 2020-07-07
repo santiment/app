@@ -27,8 +27,14 @@ const WatchlistActions = ({
   isDesktop,
   isLoggedIn,
   isMonitored,
-  watchlist: { isPublic } = {}
+  watchlist = {}
 }) => {
+  if (!watchlist) {
+    return null
+  }
+
+  const { isPublic } = watchlist
+
   const hasCSV = isNotSafari && items && items.length > 0
   const title = upperCaseFirstLetter(initialTitle)
 

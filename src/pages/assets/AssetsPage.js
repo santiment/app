@@ -14,7 +14,7 @@ import WatchlistAnomalies from '../../components/WatchlistOverview/WatchlistAnom
 import AssetsTemplates from './AssetsTemplates'
 import PageLoader from '../../components/Loader/PageLoader'
 import WatchlistActions from './WatchlistActions'
-import ProjectsChart from '../Marketing/VolumeChart/ProjectsChart'
+import ProjectsChart from '../../components/VolumeChart/ProjectsChart'
 import styles from '../../components/Watchlists/Watchlist.module.scss'
 import './Assets.css'
 
