@@ -116,6 +116,7 @@ const LoadTemplate = ({
                 setTab(tab)
               }}
               className={styles.tabs}
+              classes={styles}
               disabledClassName={styles.disabledTab}
             />
           )}
