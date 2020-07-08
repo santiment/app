@@ -7,7 +7,7 @@ import {
 } from './utils'
 import { DEFAULT_SETTINGS } from './defaults'
 import { Phase, usePhase } from './phases'
-import { useKeyboardShortcut } from './hooks'
+import { usePressedModifier, useKeyboardShortcut } from './hooks'
 import ChartWidget from './Widget/ChartWidget'
 import HolderDistributionWidget from './Widget/HolderDistributionWidget'
 import SelectionOverview from './Overview/SelectionOverview'
@@ -34,6 +34,7 @@ export const Studio = ({
   const [isICOPriceActive, setIsICOPriceActive] = useState(false)
   const [isSidebarClosed, setIsSidebarClosed] = useState()
   const { currentPhase, previousPhase, setPhase } = usePhase(Phase.IDLE)
+  const PressedModifier = usePressedModifier()
   const isOverviewOpened = currentPhase.startsWith(Phase.MAPVIEW)
 
   useKeyboardShortcut('m', toggleOverview)
@@ -98,7 +99,9 @@ export const Studio = ({
   }
 
   function toggleSelectionMetric (metric) {
-    setSelectedMetrics(deduceItems(selectedMetrics, metric))
+    const deducedMetric = deduceItems(selectedMetrics, metric)
+    setSelectedMetrics(deducedMetric)
+    return deducedMetric
   }
 
   function toggleSelectionWidget (selectedWidget) {
@@ -114,6 +117,7 @@ export const Studio = ({
     }
 
     setSelectedWidgets(newSelectedWidgets)
+    return newSelectedWidgets
   }
 
   function deduceItems (items, item) {
@@ -142,6 +146,8 @@ export const Studio = ({
 
   function onSidebarItemClick (item) {
     const { type, key } = item
+    let appliedMetrics
+    let appliedWidgets
 
     if (NewMetric[key]) {
       seeMetric(item)
@@ -152,7 +158,7 @@ export const Studio = ({
     } else if (type === Type.ICO_PRICE) {
       setIsICOPriceActive(!isICOPriceActive)
     } else if (type === Type.CONNECTED_WIDGET) {
-      toggleSelectionWidget(item)
+      appliedWidgets = toggleSelectionWidget(item)
     } else if (type === Type.WIDGET) {
       if (key === 'holder_distribution') {
         setWidgets([
@@ -163,23 +169,34 @@ export const Studio = ({
         ])
       }
     } else {
-      toggleSelectionMetric(item)
+      appliedMetrics = toggleSelectionMetric(item)
+    }
+
+    if (
+      currentPhase === Phase.IDLE &&
+      (PressedModifier.metaKey || PressedModifier.ctrlKey)
+    ) {
+      onWidgetClick(widgets[0], appliedMetrics, appliedWidgets)
     }
   }
 
-  function onWidgetClick (widget) {
+  function onWidgetClick (
+    widget,
+    appliedMetrics = selectedMetrics,
+    appliedWidgets = selectedWidgets
+  ) {
     if (currentPhase === Phase.MAPVIEW) {
       widget.chartRef.current.canvas.scrollIntoView({ block: 'center' })
       onOverviewClose()
       return
     }
 
-    const newMetrics = new Set([...widget.metrics, ...selectedMetrics])
+    const newMetrics = new Set([...widget.metrics, ...appliedMetrics])
 
     widget.metrics = [...newMetrics]
     widget.connectedWidgets = mergeConnectedWidgetsWithSelected(
       widget.connectedWidgets,
-      selectedWidgets
+      appliedWidgets
     )
     widget.MetricSettingMap = mergeMetricSettingMap(
       widget.MetricSettingMap,
