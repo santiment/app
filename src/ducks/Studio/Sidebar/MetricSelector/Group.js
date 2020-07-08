@@ -42,7 +42,8 @@ const Group = ({
             isBeta: isBetaMetric,
             selectable = true,
             label,
-            rootLabel = label
+            rootLabel = label,
+            checkIsVisible
           } = item
 
           if (hidden) {
@@ -52,6 +53,8 @@ const Group = ({
           if (isBetaMetric && !isBeta) {
             return null
           }
+
+          if (checkIsVisible && !checkIsVisible(rest)) return null
 
           return (
             <Fragment key={item.key}>
