@@ -39,14 +39,14 @@ export const Metric = {
     label: 'Price BTC',
     category: 'Financial',
     formatter: btcFormatter,
-    isBeta: true
+    checkIsVisible: ({ slug }) => slug !== 'bitcoin'
   },
   price_eth: {
     node: 'line',
     label: 'Price ETH',
     category: 'Financial',
     formatter: ethFormatter,
-    isBeta: true
+    checkIsVisible: ({ slug }) => slug !== 'ethereum'
   },
   historicalBalance: {
     category: 'Financial',

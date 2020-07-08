@@ -42,7 +42,8 @@ const Group = ({
             isBeta: isBetaMetric,
             selectable = true,
             label,
-            rootLabel = label
+            rootLabel = label,
+            checkIsVisible
           } = item
 
           if (hidden) {
@@ -50,6 +51,10 @@ const Group = ({
           }
 
           if (isBetaMetric && !isBeta) {
+            return null
+          }
+
+          if (checkIsVisible && !checkIsVisible(rest)) {
             return null
           }
 
@@ -67,7 +72,9 @@ const Group = ({
               {subitems &&
                 subitems.map(subitem => {
                   const { checkIsVisible, checkIsActive } = subitem
-                  if (checkIsVisible && !checkIsVisible(rest)) return null
+                  if (checkIsVisible && !checkIsVisible(rest)) {
+                    return null
+                  }
 
                   const isActive = checkIsActive && checkIsActive(rest)
 
