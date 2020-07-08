@@ -54,7 +54,7 @@ const Filter = ({ watchlist, projectsCount }) => {
       },
       name: 'top_all_projects'
     }
-
+    updateFilter([])
     updateWatchlist(watchlist, { function: func })
   }
 
