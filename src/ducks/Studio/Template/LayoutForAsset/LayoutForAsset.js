@@ -41,8 +41,6 @@ const TooltipWrapper = ({ children, showEnabled = false }) => {
         }
         description=''
         withArrow
-        delay={0}
-        showEnabled={showEnabled}
       >
         <div />
       </ForceClosableExplanationTooltip>
