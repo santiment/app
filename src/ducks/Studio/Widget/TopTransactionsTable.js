@@ -20,7 +20,7 @@ export const TRANSACTIONS_QUERY = gql`
   query projectBySlug($slug: String!, $from: DateTime!, $to: DateTime!) {
     projectBySlug(slug: $slug) {
       id
-      tokenTopTransactions(from: $from, to: $to) {
+      tokenTopTransactions(from: $from, to: $to, limit: 50) {
         datetime
         trxValue
         trxHash
@@ -106,6 +106,7 @@ const TopTransactionsTable = ({
   return (
     <TransactionTable
       className={widgetStyles.widget_secondary}
+      defaultPageSize={50}
       header={
         <Header
           dates={dates}
