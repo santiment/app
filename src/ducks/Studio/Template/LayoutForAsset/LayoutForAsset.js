@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import LoadTemplate from '../Dialog/LoadTemplate'
 import { useUserTemplates } from '../gql/hooks'
@@ -49,42 +49,33 @@ const TooltipWrapper = ({ children, showEnabled = false }) => {
   )
 }
 
-const Trigger = ({ showTooltip, hovered, counter, ...rest }) => {
+const Trigger = ({ showTooltip, isHovered, counter, ...rest }) => {
   return (
     <TooltipWrapper showEnabled={showTooltip}>
       <div {...rest} className={styles.counter}>
-        {hovered || showTooltip ? <div>{Icon}</div> : counter}
+        {isHovered ? <div>{Icon}</div> : counter}
       </div>
     </TooltipWrapper>
   )
 }
 
-const LayoutForAsset = ({ currentUser, item: { id, showTooltip }, index }) => {
+const LayoutForAsset = ({
+  currentUser,
+  item: { id },
+  showTooltip,
+  isHovered,
+  index
+}) => {
   const user = currentUser.data
   const [templates] = useUserTemplates(user.id)
-
-  const [hovered, setHovered] = useState(false)
-
-  const handleMouseEnter = useCallback(() => {
-    setHovered(true)
-  })
-
-  const handleMouseLeave = useCallback(() => {
-    setHovered(false)
-  })
 
   return (
     <LoadTemplate
       trigger={
         <Trigger
           showTooltip={showTooltip}
-          hovered={hovered}
+          isHovered={isHovered}
           counter={index}
-          onTouchStart={handleMouseEnter}
-          onMouseEnter={handleMouseEnter}
-          onTouchEnd={handleMouseLeave}
-          onTouchCancel={handleMouseLeave}
-          onMouseLeave={handleMouseLeave}
         />
       }
       templates={templates}
