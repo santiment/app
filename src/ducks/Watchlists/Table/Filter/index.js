@@ -60,10 +60,20 @@ const Filter = ({ watchlist, projectsCount }) => {
 
   function updFilter (params) {
     let currFilter = [...filter]
-    const containMetric = currFilter.find(({ metric }) => metric === params.key)
+    const metric = currFilter.find(({ metric }) => metric === params.key)
 
-    if (containMetric) {
+    if (metric) {
       currFilter = currFilter.filter(({ metric }) => metric !== params.key)
+      if (params.type === 'update') {
+        currFilter.push({
+          aggregation: 'last',
+          dynamicFrom: '1d',
+          dynamicTo: 'now',
+          metric: params.key,
+          operator: 'greater_than_or_equal_to',
+          threshold: params.threshold
+        })
+      }
     } else {
       currFilter.push({
         aggregation: 'last',
@@ -74,6 +84,7 @@ const Filter = ({ watchlist, projectsCount }) => {
         threshold: params.threshold
       })
     }
+
     updateFilter([...currFilter])
 
     updateWatchlist(watchlist, {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
@@ -9,13 +9,22 @@ import styles from './FilterMetric.module.scss'
 
 const FilterMetric = ({ metric, isActive, toggleMetric }) => {
   const { key, label } = metric
-  const threshold = Thresholds[key]
+  const [threshold, setThreshold] = useState(Thresholds[key] || 100)
+
+  function onInputChange ({ currentTarget: { value } }) {
+    setThreshold(value || 0)
+
+    if (isActive) {
+      toggleMetric({ key, threshold: value, type: 'update' })
+    }
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.top}>
         <Checkbox
           isActive={isActive}
-          onClick={() => toggleMetric({ key, threshold: threshold || 100 })}
+          onClick={() => toggleMetric({ key, threshold })}
           className={styles.checkbox}
         />
         <span className={styles.label}>{label}</span>
@@ -37,7 +46,7 @@ const FilterMetric = ({ metric, isActive, toggleMetric }) => {
             />
           </svg>
         </Button>
-        <Input defaultValue={threshold} />
+        <Input defaultValue={threshold} onBlur={onInputChange} />
       </div>
     </div>
   )
