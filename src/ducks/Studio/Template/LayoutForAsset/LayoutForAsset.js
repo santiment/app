@@ -28,7 +28,7 @@ const TooltipWrapper = ({ children, showEnabled = false }) => {
     <div className={styles.tooltipWrapper}>
       <ForceClosableExplanationTooltip
         closeTimeout={500}
-        localStorageSuffix='_ASSET_CL'
+        localStorageSuffix='_ASSET_CHART_LAYOUTS'
         position='top'
         shown={showEnabled}
         title={
