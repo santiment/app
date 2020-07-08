@@ -22,7 +22,8 @@ const Screener = props => {
             typeInfo: { listId },
             isLoading,
             isCurrentUserTheAuthor,
-            items = []
+            items = [],
+            projectsCount
           } = Assets
 
           return (
@@ -50,6 +51,8 @@ const Screener = props => {
                     Assets={Assets}
                     items={items}
                     type='screener'
+                    projectsCount={projectsCount}
+                    watchlist={props.watchlist}
                     classes={{ container: styles.tableWrapper }}
                     className={styles.table}
                     goto={props.history.push}

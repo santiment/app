@@ -6,6 +6,10 @@
   justify-content: space-between;
 }
 
+.actions {
+  display: flex;
+}
+
 .assetsTable:global(.ReactTable) {
   margin-bottom: 20px;
   color: var(--mirage);
@@ -49,6 +53,7 @@
 
     .rt-table {
       overflow: visible;
+      flex: 0 0;
     }
 
     .rt-th {
@@ -129,10 +134,6 @@
       &:nth-child(2) {
         padding-left: 0;
       }
-    }
-
-    .rt-table {
-      flex: 0 0;
     }
 
     .-pagination {

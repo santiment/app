@@ -11,6 +11,9 @@ import {
 } from '../../actions/types'
 import Refresh from '../../components/Refresh/Refresh'
 import ServerErrorMessage from './../../components/ServerErrorMessage'
+
+import { useUpdateWatchlist } from '../../ducks/Watchlists/gql/hooks'
+import Filter from '../../ducks/Watchlists/Table/Filter'
 import AssetsToggleColumns from './AssetsToggleColumns'
 import { COLUMNS, COMMON_SETTINGS, COLUMNS_SETTINGS } from './asset-columns'
 import '../Projects/ProjectsTable.scss'
@@ -34,6 +37,9 @@ const AssetsTable = ({
   },
   items,
   filterType,
+  type,
+  watchlist,
+  projectsCount,
   showAll = false,
   preload,
   refetchAssets,
@@ -127,7 +133,7 @@ const AssetsTable = ({
 
   return (
     <div className={classes.container}>
-      <div className={styles.top}>
+      <div className={styles.top} id='tableTop'>
         {filterType ? (
           <span>Showed based on {filterType} anomalies</span>
         ) : (
@@ -136,9 +142,14 @@ const AssetsTable = ({
             onRefreshClick={() => refetchAssets({ ...typeInfo, minVolume })}
           />
         )}
-        {showCollumnsToggle && (
-          <AssetsToggleColumns columns={columns} onChange={toggleColumn} />
-        )}
+        <div className={styles.actions}>
+          {showCollumnsToggle && (
+            <AssetsToggleColumns columns={columns} onChange={toggleColumn} />
+          )}
+          {type === 'screener' && (
+            <Filter watchlist={watchlist} projectsCount={projectsCount} />
+          )}
+        </div>
       </div>
       <ReactTable
         loading={isLoading}

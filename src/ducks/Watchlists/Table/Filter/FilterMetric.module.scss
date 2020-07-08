@@ -1,0 +1,30 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 0 32px 32px;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.label {
+  margin-left: 12px;
+}
+
+.settings {
+  display: flex;
+}
+
+.operator {
+  width: 32px;
+  min-width: 32px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin-right: 8px;
+}
