@@ -7,6 +7,10 @@ import Group from './Group'
 import MetricButton from './MetricButton'
 import styles from './index.module.scss'
 
+const DEFAULT_OPENED_CATEGORY = {
+  Financial: true
+}
+
 const HOLDER_DISTRIBUTION_NODE = {
   key: 'holder_distribution',
   type: WIDGET,
@@ -14,7 +18,7 @@ const HOLDER_DISTRIBUTION_NODE = {
 }
 
 const Category = ({ title, groups, hasTopHolders, project, ...rest }) => {
-  const [hidden, setHidden] = useState(false)
+  const [hidden, setHidden] = useState(!DEFAULT_OPENED_CATEGORY[title])
 
   function onToggleClick () {
     setHidden(!hidden)
