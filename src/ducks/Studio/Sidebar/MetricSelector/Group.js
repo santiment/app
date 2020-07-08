@@ -3,6 +3,7 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import MetricButton from './MetricButton'
 import { NO_GROUP } from '../utils'
+import { GroupWithNews } from '../../../dataHub/metrics/news'
 import styles from './index.module.scss'
 
 const Group = ({
@@ -25,7 +26,10 @@ const Group = ({
   return (
     <>
       {hasGroup && (
-        <h4 className={styles.group} onClick={onToggleClick}>
+        <h4
+          className={cx(styles.group, GroupWithNews[title] && styles.news)}
+          onClick={onToggleClick}
+        >
           <Icon
             type='arrow-right-big'
             className={cx(styles.toggle, hidden && styles.toggle_active)}
