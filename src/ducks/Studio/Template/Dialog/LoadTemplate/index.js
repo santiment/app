@@ -6,7 +6,7 @@ import Dialog from '@santiment-network/ui/Dialog'
 import Search from '@santiment-network/ui/Search'
 import Tabs from '@santiment-network/ui/Tabs'
 import Icon from '@santiment-network/ui/Icon'
-import Template from './Template'
+import Template, { openTemplate } from './Template'
 import {
   useFeaturedTemplates,
   usePublicProjectTemplates
@@ -160,7 +160,11 @@ const LoadTemplate = ({
           onRename={onRename}
           onDelete={onDelete}
           isDialog={false}
-          selectTemplate={selectTemplate}
+          selectTemplate={data => {
+            selectTemplate
+              ? selectTemplate(data)
+              : openTemplate({ redirect, template: data, asProject })
+          }}
         />
       )}
     </Dialog>
