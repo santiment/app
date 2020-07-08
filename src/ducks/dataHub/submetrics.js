@@ -19,6 +19,16 @@ export const AVAILABLE_TIMEBOUNDS = {
   }
 }
 
+export const TopTransactionTable = {
+  key: 'TopTransactionsTable',
+  type: CONNECTED_WIDGET,
+  label: 'Top Transactions Table',
+  widget: TopTransactionsTable,
+  requiredMetric: Metric.transaction_volume,
+  category: Metric.transaction_volume.category,
+  group: Metric.transaction_volume.group
+}
+
 export const Submetrics = {
   [Metric.price_usd.key]: [
     {
@@ -36,15 +46,7 @@ export const Submetrics = {
     }
   ],
 
-  [Metric.transaction_volume.key]: [
-    {
-      key: 'TopTransactionsTable',
-      type: CONNECTED_WIDGET,
-      label: 'Top Transactions Table',
-      widget: TopTransactionsTable,
-      requiredMetric: Metric.transaction_volume
-    }
-  ],
+  [Metric.transaction_volume.key]: [TopTransactionTable],
 
   [Metric.social_volume_total.key]: [
     {
