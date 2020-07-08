@@ -3,6 +3,7 @@
 .wrapper {
   padding: 10px 12px;
   z-index: 10;
+  display: flex;
 
   @include responsive('phone-xs', 'phone') {
     padding: 16px 18px;
@@ -20,13 +21,13 @@
 
 .btn {
   cursor: pointer;
+  fill: var(--mystic);
   outline: none;
   border: none;
-  background: transparent;
-  padding: 0;
-  color: var(--jungle-green);
+  margin-top: 5px;
+  margin-left: 8px;
 
   &:hover {
-    color: var(--jungle-green-hover);
+    fill: var(--jungle-green-hover);
   }
 }

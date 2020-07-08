@@ -141,6 +141,7 @@ const ProfileInfo = ({
             title={<div>Click to open list of users</div>}
             description=''
             withArrow
+            classes={styles}
           >
             <div className={styles.followersBlocks}>
               <FollowList
