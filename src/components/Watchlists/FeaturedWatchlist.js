@@ -21,6 +21,7 @@ const FeaturedWatchlists = () => (
             watchlist={watchlist}
             to={getSharedWatchlistLink(watchlist)}
             slugs={watchlist.listItems.map(({ project }) => project.slug)}
+            showStatus={false}
             {...watchlist}
           />
         )

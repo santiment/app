@@ -34,6 +34,7 @@ const WatchlistCard = ({
   onClick,
   className,
   isLoading,
+  showStatus = true,
   isSimplifiedView
 }) => {
   const { marketcap: latestMarketcap } = stats.slice(-1)[0] || {}
@@ -86,7 +87,7 @@ const WatchlistCard = ({
                 name
               ]}
             </span>
-            {isPublic !== undefined && (
+            {showStatus && isPublic !== undefined && (
               <ExplanationTooltip
                 text={isPublic ? 'Public' : 'Private'}
                 offsetY={7}
