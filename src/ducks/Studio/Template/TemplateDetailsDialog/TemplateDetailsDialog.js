@@ -63,9 +63,7 @@ const TemplateDetailsDialog = ({
           {!isAuthor && (
             <UseTemplateBtn
               template={template}
-              onClick={() => {
-                selectTemplate(template)
-              }}
+              onClick={() => selectTemplate(template)}
             />
           )}
 

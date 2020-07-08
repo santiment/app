@@ -39,6 +39,13 @@ export const usePublicTemplates = template => {
   return { isPublic, toggleIsPublic }
 }
 
+export const openTemplate = ({ redirect, template, asProject }) => {
+  const link = prepareTemplateLink(template, asProject)
+
+  updateHistory(link)
+  redirect(link)
+}
+
 const Template = ({
   template,
   selectTemplate,
@@ -57,10 +64,7 @@ const Template = ({
     selectTemplate && selectTemplate(template)
 
     if (asLink) {
-      const link = prepareTemplateLink(template, asProject)
-
-      updateHistory(link)
-      redirect(link)
+      openTemplate({ redirect, template, asProject })
     }
   }
 

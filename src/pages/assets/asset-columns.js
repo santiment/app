@@ -61,6 +61,7 @@ export const COLUMNS = (preload, props = {}) => [
           item={original}
           index={page * pageSize + viewIndex + 1}
           showTooltip={original.showTooltip}
+          isHovered={original.isHovered}
         />
       )
     }

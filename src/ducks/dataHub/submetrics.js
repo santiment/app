@@ -1,5 +1,11 @@
 import { Metric } from './metrics'
 import { updateTooltipSettings } from './tooltipSettings'
+import TopTransactionsTable from '../Studio/Widget/TopTransactionsTable'
+import {
+  CONNECTED_WIDGET,
+  SIDEPANEL,
+  ICO_PRICE
+} from '../Studio/Sidebar/MetricSelector/types'
 import {
   SPENT_COIN_COST,
   SOCIAL_CONTEXT
@@ -13,25 +19,41 @@ export const AVAILABLE_TIMEBOUNDS = {
   }
 }
 
+export const TopTransactionsTableMetric = {
+  key: 'TopTransactionsTable',
+  type: CONNECTED_WIDGET,
+  label: 'Top Transactions Table',
+  widget: TopTransactionsTable,
+  requiredMetric: Metric.transaction_volume,
+  category: Metric.transaction_volume.category,
+  group: Metric.transaction_volume.group
+}
+
 export const Submetrics = {
   [Metric.price_usd.key]: [
     {
       key: 'ico_price',
-      type: 'ico_price',
-      label: 'ICO Price'
+      type: ICO_PRICE,
+      label: 'ICO Price',
+      checkIsVisible: ({ isICOPriceDisabled }) => !isICOPriceDisabled,
+      checkIsActive: ({ isICOPriceActive }) => isICOPriceActive
     },
     {
       key: SPENT_COIN_COST,
-      type: 'sidepanel',
-      label: 'Spent Coin Cost'
+      type: SIDEPANEL,
+      label: 'Spent Coin Cost',
+      checkIsActive: ({ sidepanel }) => sidepanel === SPENT_COIN_COST
     }
   ],
+
+  [Metric.transaction_volume.key]: [TopTransactionsTableMetric],
 
   [Metric.social_volume_total.key]: [
     {
       key: SOCIAL_CONTEXT,
-      type: 'sidepanel',
-      label: 'Social Context'
+      type: SIDEPANEL,
+      label: 'Social Context',
+      checkIsActive: ({ sidepanel }) => sidepanel === SOCIAL_CONTEXT
     }
   ],
 

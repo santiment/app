@@ -2,19 +2,24 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
+import { WIDGET } from './types'
 import Group from './Group'
 import MetricButton from './MetricButton'
+import { CategoryWithNews } from '../../../dataHub/metrics/news'
 import styles from './index.module.scss'
 
-const Category = ({
-  title,
-  groups,
-  hasTopHolders,
-  isBeta,
-  project,
-  ...rest
-}) => {
-  const [hidden, setHidden] = useState(false)
+const DEFAULT_OPENED_CATEGORY = {
+  Financial: true
+}
+
+const HOLDER_DISTRIBUTION_NODE = {
+  key: 'holder_distribution',
+  type: WIDGET,
+  label: 'Holder Distribution'
+}
+
+const Category = ({ title, groups, hasTopHolders, project, ...rest }) => {
+  const [hidden, setHidden] = useState(!DEFAULT_OPENED_CATEGORY[title])
 
   function onToggleClick () {
     setHidden(!hidden)
@@ -22,28 +27,21 @@ const Category = ({
 
   return (
     <div className={cx(styles.category, hidden && styles.category_hidden)}>
-      <h3 className={styles.title} onClick={onToggleClick}>
+      <h3
+        className={cx(styles.title, CategoryWithNews[title] && styles.news)}
+        onClick={onToggleClick}
+      >
         <Icon type='arrow-right-big' className={styles.toggle} />
         {title}
       </h3>
       <div className={styles.metrics}>
         {/* TODO: Find a better way to extend metrics categories with custom metrics [@vanguard | April 3, 2020] */}
-        {isBeta && hasTopHolders && (
+        {hasTopHolders && (
           <MetricButton
-            metric={{
-              isBeta: true,
-              key: 'holder_distribution',
-              type: 'widget'
-            }}
+            metric={HOLDER_DISTRIBUTION_NODE}
             project={project}
             label='Holder Distribution'
-            onClick={() =>
-              rest.toggleMetric({
-                key: 'holder_distribution',
-                type: 'widget',
-                label: 'Holder Distribution'
-              })
-            }
+            onClick={() => rest.toggleMetric(HOLDER_DISTRIBUTION_NODE)}
           />
         )}
         {Object.keys(groups).map(group => (

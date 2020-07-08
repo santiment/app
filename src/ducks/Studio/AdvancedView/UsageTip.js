@@ -23,7 +23,9 @@ export default () => {
           select a date
         </div>
         <div>
-          <span className={styles.action}>Click and move mouse </span>
+          <span className={styles.action}>
+            Hold "Shift", click and move mouse{' '}
+          </span>
           to select a time range
         </div>
       </div>

@@ -1,5 +1,4 @@
 import React from 'react'
-import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import WatchlistWeeklyReport from './WatchlistWeeklyReport'
@@ -13,9 +12,8 @@ const WatchlistWeeklyReportTrigger = ({ isMonitored, ...props }) => {
       trigger={
         <Button border variant='flat' accent='positive'>
           <Icon type='report' className={styles.icon} />
-          <span className={cx(styles.text, isMonitored && styles.active)}>
-            Weekly report
-          </span>
+          {isMonitored && <span className={styles.active} />}
+          {!isMonitored && <span className={styles.text}>Enable report</span>}
         </Button>
       }
     />

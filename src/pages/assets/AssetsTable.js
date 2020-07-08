@@ -111,18 +111,27 @@ const AssetsTable = ({
 
   const onMouseEnter = useCallback(
     ({ index }) => {
-      stateItems[index].showTooltip = true
+      stateItems[index].isHovered = true
       setStateItems(stateItems.slice())
+
+      stateItems[index].timeout = setTimeout(() => {
+        stateItems[index].showTooltip = true
+        setStateItems(stateItems.slice())
+      }, 1000)
     },
-    [stateItems]
+    [items]
   )
 
   const onMouseLeave = useCallback(
     ({ index }) => {
+      clearTimeout(stateItems[index].timeout)
+
       stateItems[index].showTooltip = false
+      stateItems[index].isHovered = false
+
       setStateItems(stateItems.slice())
     },
-    [stateItems]
+    [items]
   )
 
   return (

@@ -1,9 +1,25 @@
 import React, { useState, useMemo } from 'react'
 import StudioHeader from '../Header'
+import { usePressedModifier } from '../hooks'
 import Sidepanel from '../Chart/Sidepanel'
-import { SPENT_COIN_COST } from '../Chart/Sidepanel/panes'
 import { ONE_HOUR_IN_MS } from '../../../utils/dates'
 import styles from './Widgets.module.scss'
+
+const Widget = ({ widget, index, datesRange, ...props }) => (
+  <>
+    <widget.Widget {...props} widget={widget} index={index} />
+
+    {widget.connectedWidgets.map(connectedWidget => (
+      <connectedWidget.Widget
+        {...props}
+        key={connectedWidget.id}
+        widget={connectedWidget}
+        parentWidget={widget}
+        datesRange={datesRange}
+      />
+    ))}
+  </>
+)
 
 const Chart = ({
   settings,
@@ -21,6 +37,7 @@ const Chart = ({
   const [isSelectingRange, setIsSelectingRange] = useState(false)
   const [selectedDate, setSelectedDate] = useState()
   const [selectedDatesRange, setSelectedDatesRange] = useState()
+  const PressedModifier = usePressedModifier()
 
   const isSingleWidget = widgets.length === 1
   const onWidgetPointClick = sidepanel ? onPointClick : undefined
@@ -43,7 +60,7 @@ const Chart = ({
     const from = new Date(dates[0])
     const to = new Date(dates[1])
 
-    if (sidepanel === SPENT_COIN_COST) {
+    if (PressedModifier.shiftKey) {
       return changeDatesRange(from, to)
     }
 
@@ -77,12 +94,14 @@ const Chart = ({
       />
       <div className={styles.content}>
         <div className={styles.widgets}>
-          {widgets.map(widget => (
-            <widget.Widget
+          {widgets.map((widget, index) => (
+            <Widget
               {...props}
               key={widget.id}
-              settings={settings}
+              index={index}
               widget={widget}
+              settings={settings}
+              datesRange={selectedDatesRange}
               isSingleWidget={isSingleWidget}
               isSelectingRange={isSelectingRange}
               changeTimePeriod={changeTimePeriod}

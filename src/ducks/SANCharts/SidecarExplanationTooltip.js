@@ -27,16 +27,17 @@ export const ForceClosableExplanationTooltip = props => {
     setShown = () => {},
     shown
   } = props
+  const [forceClosed, setForceClosed] = useState(false)
 
   const localStorageLabel = LS_SIDECAR_TOOLTIP_SHOWN + localStorageSuffix
   const wasShown = localStorage.getItem(localStorageLabel)
-  const canShow = !dismissOnTouch && !wasShown && shown
+  const canShow = !wasShown && !forceClosed && shown
 
   const [timer, setTimer] = useState()
 
   function hideTooltip () {
     localStorage.setItem(localStorageLabel, '+')
-    setShown(false) // HACK(vanguard): To immediatly hide tooltip and then back to not controlled state
+    setForceClosed(true) // HACK(vanguard): To immediatly hide tooltip and then back to not controlled state
     setTimeout(() => setShown(undefined), 0)
   }
 
@@ -84,6 +85,7 @@ export const ExplanationTooltipWrapper = props => {
     align = 'start',
     title = 'Explore assets',
     description = 'Quick navigation through your assets',
+    closable = true,
     classes = {}
   } = props
 
@@ -101,7 +103,7 @@ export const ExplanationTooltipWrapper = props => {
         <>
           {title}
           {description && <div className={styles.text}>{description}</div>}
-          {shown && !dismissOnTouch && (
+          {shown && !dismissOnTouch && closable && (
             <Icon
               type='close-small'
               className={cx(styles.btn, classes.tooltipClose)}

@@ -110,11 +110,9 @@ const Template = ({
     const { project, metrics: templateMetrics, options } = template
     const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
 
-    if (onProjectSelect && !projectFromUrl) {
+    if (onProjectSelect && !projectFromUrl && project) {
       onProjectSelect(project)
     }
-
-    console.log(template)
 
     let widgets
     if (options && options.widgets) {
