@@ -32,7 +32,7 @@
 .tooltip {
   display: flex;
   flex-direction: column;
-  max-width: 153px;
+  max-width: 180px;
 
   @include text('caption');
 }
@@ -44,7 +44,7 @@
 .tooltipWrapper {
   display: flex;
   justify-content: center;
-  width: 153px;
+  width: 180px;
 }
 
 .new {

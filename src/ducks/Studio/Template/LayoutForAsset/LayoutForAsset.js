@@ -32,14 +32,10 @@ const TooltipWrapper = ({ children, showEnabled = false }) => {
         position='top'
         shown={showEnabled}
         title={
-          <div className={styles.tooltip}>
-            <div className={styles.titleLine}>
-              <span key='label'>Apply chart layout on</span>
-            </div>
-            <div>the asset</div>
-          </div>
+          <div className={styles.tooltip}>Apply chart layout on the asset</div>
         }
         description=''
+        closable={false}
         withArrow
       >
         <div />
