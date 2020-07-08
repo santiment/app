@@ -114,8 +114,6 @@ const Template = ({
       onProjectSelect(project)
     }
 
-    console.log(template)
-
     let widgets
     if (options && options.widgets) {
       widgets = parseSharedWidgets(options.widgets)
