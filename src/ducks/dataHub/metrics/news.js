@@ -4,6 +4,7 @@ import { TopTransactionsTableMetric } from '../submetrics'
 const NEW_METRICS = [
   Metric.price_btc,
   Metric.price_eth,
+  Metric.bitmex_perpetual_basis_ratio,
   TopTransactionsTableMetric
 ]
 
