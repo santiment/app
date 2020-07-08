@@ -149,7 +149,8 @@ export const Metric = {
     shortLabel: 'Dorm. Circ.',
     queryKey: 'dormant_circulation_365d',
     isBeta: true,
-    moreInfoLink: 'https://academy.santiment.net/metrics/dormant-circulation/'
+    moreInfoLink: 'https://academy.santiment.net/metrics/dormant-circulation/',
+    withoutRoot: true
   },
   stock_to_flow: {
     category: 'On-chain',
