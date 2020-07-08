@@ -13,6 +13,7 @@ import HolderDistributionWidget from './Widget/HolderDistributionWidget'
 import SelectionOverview from './Overview/SelectionOverview'
 import * as Type from './Sidebar/MetricSelector/types'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
+import { NewMetric, seeMetric } from '../dataHub/metrics/news'
 import styles from './index.module.scss'
 
 export const Studio = ({
@@ -141,6 +142,10 @@ export const Studio = ({
 
   function onSidebarItemClick (item) {
     const { type, key } = item
+
+    if (NewMetric[key]) {
+      seeMetric(item)
+    }
 
     if (type === Type.SIDEPANEL) {
       toggleSidepanel(key)

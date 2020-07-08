@@ -5,6 +5,7 @@ import Icon from '@santiment-network/ui/Icon'
 import { WIDGET } from './types'
 import Group from './Group'
 import MetricButton from './MetricButton'
+import { CategoryWithNews } from '../../../dataHub/metrics/news'
 import styles from './index.module.scss'
 
 const DEFAULT_OPENED_CATEGORY = {
@@ -26,7 +27,10 @@ const Category = ({ title, groups, hasTopHolders, project, ...rest }) => {
 
   return (
     <div className={cx(styles.category, hidden && styles.category_hidden)}>
-      <h3 className={styles.title} onClick={onToggleClick}>
+      <h3
+        className={cx(styles.title, CategoryWithNews[title] && styles.news)}
+        onClick={onToggleClick}
+      >
         <Icon type='arrow-right-big' className={styles.toggle} />
         {title}
       </h3>

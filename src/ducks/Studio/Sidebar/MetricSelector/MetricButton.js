@@ -4,6 +4,7 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Settings from './Settings'
 import { MetricSettings } from '../../../dataHub/metrics/settings'
+import { NewMetric } from '../../../dataHub/metrics/news'
 import MetricExplanation from '../../../SANCharts/MetricExplanation'
 import styles from './MetricButton.module.scss'
 import settingsStyles from './Settings.module.scss'
@@ -44,6 +45,10 @@ const MetricButton = ({
           />
         )}
         {label}
+
+        {metric && NewMetric[metric.key] && (
+          <div className={styles.new}>NEW</div>
+        )}
 
         {metric && metric.isBeta && showBetaLabel && (
           <div className={styles.beta}>BETA</div>
