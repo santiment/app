@@ -1,5 +1,4 @@
 import React from 'react'
-import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import WatchlistWeeklyReport from './WatchlistWeeklyReport'
