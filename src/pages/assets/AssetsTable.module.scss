@@ -9,6 +9,7 @@
 .assetsTable:global(.ReactTable) {
   margin-bottom: 20px;
   color: var(--mirage);
+  overflow: visible;
 
   :global {
     .overview-name {
@@ -103,6 +104,7 @@
     .rt-thead.-header {
       border-radius: 4px;
       border-bottom: none;
+      overflow: visible;
     }
 
     .rt-td {
@@ -124,6 +126,7 @@
 
     .rt-table {
       flex: 0 0;
+      overflow: visible;
     }
 
     .-pagination {

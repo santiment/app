@@ -1,4 +1,4 @@
-import React, { useState, useCallback, Fragment } from 'react'
+import React, { useState, useCallback } from 'react'
 import { connect } from 'react-redux'
 import LoadTemplate from '../Dialog/LoadTemplate'
 import { useUserTemplates } from '../gql/hooks'
@@ -34,12 +34,7 @@ const TooltipWrapper = ({ children, showEnabled = false }) => {
         title={
           <div className={styles.tooltip}>
             <div className={styles.titleLine}>
-              {[
-                <span key='new' className={styles.new}>
-                  New!
-                </span>,
-                <span key='label'>Apply chart layout on</span>
-              ]}
+              <span key='label'>Apply chart layout on</span>
             </div>
             <div>the asset</div>
           </div>
@@ -57,14 +52,12 @@ const TooltipWrapper = ({ children, showEnabled = false }) => {
 }
 
 const Trigger = ({ showTooltip, hovered, counter, ...rest }) => {
-  const El = showTooltip ? TooltipWrapper : Fragment
-
   return (
     <TooltipWrapper showEnabled={showTooltip}>
       <div {...rest} className={styles.counter}>
         {hovered || showTooltip ? <div>{Icon}</div> : counter}
       </div>
-    </El>
+    </TooltipWrapper>
   )
 }
 
