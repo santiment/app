@@ -69,7 +69,8 @@ const transformAliases = [
 export const getQuery = (metric, metricSettings) => {
   const { key, queryKey = key, withoutRoot } = metric
 
-  const metricFetcher = withoutRoot ? Fetcher[key] : Fetcher[queryKey]
+  const metricFetcher =
+    withoutRoot && Fetcher[key] ? Fetcher[key] : Fetcher[queryKey]
 
   if (!metricFetcher) return
 
