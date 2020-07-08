@@ -86,7 +86,7 @@ const PaywallInfo = ({ subscription, metrics, isPro }) => {
     return <UpgradeBtn variant='fill' fluid className={styles.upgrade_trial} />
   }
 
-  if (isPro) return
+  if (isPro) return null
 
   return infos.length > 0 ? (
     <Tooltip
