@@ -19,7 +19,7 @@ export const AVAILABLE_TIMEBOUNDS = {
   }
 }
 
-export const TopTransactionTable = {
+export const TopTransactionsTableMetric = {
   key: 'TopTransactionsTable',
   type: CONNECTED_WIDGET,
   label: 'Top Transactions Table',
@@ -46,7 +46,7 @@ export const Submetrics = {
     }
   ],
 
-  [Metric.transaction_volume.key]: [TopTransactionTable],
+  [Metric.transaction_volume.key]: [TopTransactionsTableMetric],
 
   [Metric.social_volume_total.key]: [
     {

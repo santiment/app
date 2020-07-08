@@ -1,7 +1,11 @@
 import { Metric } from './index'
-import { TopTransactionTable } from '../submetrics'
+import { TopTransactionsTableMetric } from '../submetrics'
 
-const NEW_METRICS = [Metric.price_btc, Metric.price_eth, TopTransactionTable]
+const NEW_METRICS = [
+  Metric.price_btc,
+  Metric.price_eth,
+  TopTransactionsTableMetric
+]
 
 const NewMetric = {}
 const CategoryWithNews = {}
