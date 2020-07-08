@@ -54,7 +54,9 @@ const Group = ({
             return null
           }
 
-          if (checkIsVisible && !checkIsVisible(rest)) return null
+          if (checkIsVisible && !checkIsVisible(rest)) {
+            return null
+          }
 
           return (
             <Fragment key={item.key}>
@@ -70,7 +72,9 @@ const Group = ({
               {subitems &&
                 subitems.map(subitem => {
                   const { checkIsVisible, checkIsActive } = subitem
-                  if (checkIsVisible && !checkIsVisible(rest)) return null
+                  if (checkIsVisible && !checkIsVisible(rest)) {
+                    return null
+                  }
 
                   const isActive = checkIsActive && checkIsActive(rest)
 
