@@ -45,6 +45,7 @@ const BalanceViewChartSettings = ({
           shareLink={window.location.origin + '/labs/balance' + queryString}
           showDownload={false}
           showMulti={false}
+          showWatermarkSettings={false}
           classes={balanceViewStyles}
           onScaleChange={onScaleChange}
           scale={scale}

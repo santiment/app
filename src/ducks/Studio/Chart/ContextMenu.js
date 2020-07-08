@@ -34,6 +34,16 @@ export default ({ setOptions, onDeleteChartClick, ...props }) => {
     }))
   }
 
+  function toggleWatermarkLighter () {
+    setOptions(state => ({
+      ...state,
+      isWatermarkLighter: saveToggle(
+        'isWatermarkLighter',
+        !state.isWatermarkLighter
+      )
+    }))
+  }
+
   return (
     <ChartSettingsContextMenu
       {...props}
@@ -43,6 +53,7 @@ export default ({ setOptions, onDeleteChartClick, ...props }) => {
       onScaleChange={toggleScale}
       onCartesianGridChange={toggleCartesianGrid}
       onClosestDataChange={toggleClosestData}
+      onWatermarkLighterChange={toggleWatermarkLighter}
     >
       {onDeleteChartClick && (
         <Button

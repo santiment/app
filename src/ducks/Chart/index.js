@@ -62,6 +62,7 @@ const Chart = ({
   isCartesianGridActive,
   resizeDependencies,
   onBrushChangeEnd,
+  isWatermarkLighter,
   children
 }) => {
   let [chart, setChart] = useState()
@@ -246,7 +247,8 @@ const Chart = ({
       domainGroups,
       MetricColor,
       isNightModeEnabled,
-      isCartesianGridActive
+      isCartesianGridActive,
+      isWatermarkLighter
     ]
   )
 
@@ -319,7 +321,7 @@ const Chart = ({
 
   function plotChart (data) {
     if (!hideWatermark) {
-      drawWatermark(chart, isNightModeEnabled)
+      drawWatermark(chart, isNightModeEnabled, isWatermarkLighter)
     }
 
     plotDayBars(chart, data, daybars, scale, MetricColor)

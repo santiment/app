@@ -54,7 +54,10 @@ const ChartSettingsContextMenu = ({
   isCartesianGridActive,
   onCartesianGridChange,
   isClosestDataActive,
-  onClosestDataChange
+  onClosestDataChange,
+  showWatermarkSettings = true,
+  onWatermarkLighterChange,
+  isWatermarkLighter
 }) => (
   <ContextMenu
     trigger={
@@ -115,7 +118,32 @@ const ChartSettingsContextMenu = ({
           />
         </Button>
       )}
-
+      {showWatermarkSettings && (
+        <Button
+          onClick={onWatermarkLighterChange}
+          disabled={!subscription}
+          className={styles.context__btn}
+        >
+          Make watermark less visible
+          {subscription && (
+            <Toggle
+              isActive={isWatermarkLighter}
+              className={styles.context__toggle}
+            />
+          )}
+          {!subscription && (
+            <Label
+              as={Link}
+              to='/pricing'
+              className={styles.context__btn_paywalled_label}
+              variant='fill'
+              accent='texas-rose'
+            >
+              PRO
+            </Label>
+          )}
+        </Button>
+      )}
       {shareLink && (
         <ShareChart
           shareLink={shareLink}
