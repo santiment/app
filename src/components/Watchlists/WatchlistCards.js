@@ -14,7 +14,6 @@ const WatchlistCards = ({
   showFeatured = false
 }) => (
   <div className={cx(styles.wrapper, classes.watchlists)}>
-    {showFeatured && <FeaturedWatchlists />}
     {watchlists.map(watchlist => {
       const { name, ...rest } = watchlist
       return (
@@ -28,6 +27,7 @@ const WatchlistCards = ({
         />
       )
     })}
+    {showFeatured && <FeaturedWatchlists />}
     {showNew && <NewWatchlistCard />}
   </div>
 )
