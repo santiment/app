@@ -2,8 +2,8 @@ import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import { getCategoryGraph } from './Sidebar/utils'
 import { useMergedTimeboundSubmetrics } from '../dataHub/timebounds'
-import { getMarketSegment } from './timeseries/marketSegments'
 import { getAssetNewMetrics } from '../dataHub/metrics/news'
+import { getMarketSegment } from './timeseries/marketSegments'
 
 const PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY = gql`
   query projectBySlug($slug: String!) {

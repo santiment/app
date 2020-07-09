@@ -12,7 +12,6 @@ const MetricButton = ({
   className,
   metric,
   label,
-  NewMetric,
   isActive,
   isError,
   isDisabled,
