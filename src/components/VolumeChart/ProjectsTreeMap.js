@@ -21,9 +21,9 @@ const RANGES = [
 ]
 
 const getColor = (colors, index) => {
-  if (index < 4) {
+  if (index % 2 === 0) {
     return colors[0]
-  } else if (index < 7) {
+  } else if (index % 3) {
     return colors[1]
   } else {
     return colors[2]
@@ -73,13 +73,7 @@ const ProjectsTreeMap = ({ assets, title, ranges, colors, className }) => {
               dataKey={key}
               ratio={4 / 3}
               fill='var(--jungle-green)'
-              content={
-                <CustomizedContent
-                  colors={colors}
-                  payload={data}
-                  dataKey={key}
-                />
-              }
+              content={<CustomizedContent colors={colors} dataKey={key} />}
             />
           </ResponsiveContainer>
         </div>
@@ -89,10 +83,19 @@ const ProjectsTreeMap = ({ assets, title, ranges, colors, className }) => {
 }
 
 const CustomizedContent = props => {
-  const { x, y, width, height, index, payload, colors, dataKey } = props
+  const {
+    x,
+    y,
+    width,
+    height,
+    index,
+    colors,
+    dataKey,
+    root: { children }
+  } = props
 
-  const item = payload[index]
-  const { name } = item
+  const item = children[index]
+  const { ticker } = item
 
   const fontSize = getFontSize(index)
 
@@ -116,7 +119,7 @@ const CustomizedContent = props => {
         fill='var(--fiord)'
         fontSize={fontSize}
       >
-        {name}
+        {ticker}
       </text>
       <text
         x={x + width / 2}

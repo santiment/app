@@ -138,7 +138,7 @@ export const ALL_PROJECTS_PRICE_CHANGES_QUERY = gql`
   {
     allProjects {
       slug
-      name
+      ticker
       percentChange1h
       percentChange24h
       percentChange7d

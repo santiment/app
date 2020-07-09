@@ -38,8 +38,9 @@ export function useProjectPriceChanges ({
   const items = data ? data.allProjects : []
 
   const mapped = items
-    .filter(({ slug }) => {
-      return mapAssets[slug]
+    .filter(item => {
+      const { slug } = item
+      return mapAssets[slug] && item[key]
     })
     .sort(sorter)
     .slice(0, limit)

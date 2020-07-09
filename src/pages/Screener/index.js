@@ -12,11 +12,7 @@ import ProjectsChart, {
 import styles from './index.module.scss'
 import ProjectsTreeMap from '../../components/VolumeChart/ProjectsTreeMap'
 
-const COLORS = [
-  'var(--jungle-green)',
-  'var(--jungle-green-light-3)',
-  'var(--jungle-green-light-2)'
-]
+const COLORS = ['#89E1C9', '#DCF6EF', '#EDF8F5']
 const SOCIAL_VOLUME_PROJECTS_COLORS = ['#C9C2FF', '#E7E4FF', '#F3F1FF']
 
 const Screener = props => {
@@ -66,12 +62,7 @@ const Screener = props => {
                 <>
                   {(isVolumeTreeMap || isPriceTreeMap) && (
                     <>
-                      <div
-                        className={cx(
-                          styles.treeMaps,
-                          bothCharts && styles.twoTrees
-                        )}
-                      >
+                      <div className={styles.treeMaps}>
                         {isPriceTreeMap && (
                           <ProjectsTreeMap
                             className={cx(

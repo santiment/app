@@ -17,14 +17,14 @@
 }
 
 .treeMaps {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-column-gap: 8px;
-  margin: 0 32px 24px 32px;
+  display: flex;
+  margin: 0 32px;
+  justify-content: space-between;
 }
 
 .twoTrees {
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  justify-content: space-between;
 }
 
 .containerTreeMap {
@@ -35,5 +35,5 @@
 }
 
 .both {
-  width: 100%;
+  width: calc(50% - 4px);
 }
