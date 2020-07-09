@@ -106,6 +106,7 @@ const ProjectsChart = ({ assets }) => {
                   axisLine={false}
                   tickLine={false}
                   fontSize={10}
+                  fontWeight={500}
                   stroke={'var(--casper)'}
                   tickCount={8}
                 />
@@ -122,6 +123,7 @@ const ProjectsChart = ({ assets }) => {
                   angle={-90}
                   height={135}
                   fontSize={12}
+                  fontWeight={500}
                   textAnchor='end'
                   verticalAnchor='end'
                   stroke={'var(--fiord)'}
@@ -130,7 +132,6 @@ const ProjectsChart = ({ assets }) => {
                 <Tooltip
                   content={
                     <ChartTooltip
-                      className={styles.tooltip}
                       labelFormatter={data => {
                         return data
                       }}
