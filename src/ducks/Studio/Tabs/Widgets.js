@@ -60,7 +60,7 @@ const Chart = ({
     const from = new Date(dates[0])
     const to = new Date(dates[1])
 
-    if (PressedModifier.shiftKey) {
+    if (PressedModifier.cmdKey) {
       return changeDatesRange(from, to)
     }
 
