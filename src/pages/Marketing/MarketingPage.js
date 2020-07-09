@@ -48,7 +48,7 @@ const MarketingPage = props => {
                 title: 'Explore Watchlists',
                 content: (
                   <WatchlistCards
-                    watchlists={BASIC_CATEGORIES.slice()}
+                    watchlists={BASIC_CATEGORIES}
                     classes={styles}
                     showNew={true}
                     showFeatured={true}

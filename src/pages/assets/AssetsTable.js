@@ -24,8 +24,6 @@ export const CustomHeadComponent = ({ children, className, ...rest }) => (
   </Sticky>
 )
 
-export const filterColumnsByTableSection = (_, columns) => columns
-
 const AssetsTable = ({
   Assets = {
     isLoading: true,
@@ -36,6 +34,7 @@ const AssetsTable = ({
   filterType,
   showAll = false,
   preload,
+  classes = {},
   refetchAssets,
   minVolume = 0,
   listName,
@@ -44,7 +43,6 @@ const AssetsTable = ({
   setHiddenColumns,
   showCollumnsToggle = true,
   className,
-  classes = {},
   columnProps
 }) => {
   const [hovered, setHovered] = useState()
@@ -135,13 +133,13 @@ const AssetsTable = ({
         showPaginationBottom
         defaultPageSize={columnsAmount}
         pageSizeOptions={[5, 10, 20, 25, 50, 100]}
-        pageSize={showAll ? stateItems && stateItems.length : undefined}
+        pageSize={showAll ? items && items.length : undefined}
         minRows={0}
         sortable={false}
         resizable={false}
         defaultSorted={[sortingColumn]}
         className={cx('-highlight', styles.assetsTable, className)}
-        data={stateItems}
+        data={items}
         columns={shownColumns}
         loadingText='Loading...'
         TheadComponent={CustomHeadComponent}

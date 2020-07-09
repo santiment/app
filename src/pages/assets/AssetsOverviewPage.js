@@ -22,7 +22,7 @@ const AssetsOverview = ({ isPublicWatchlistsLoading, history }) => {
       <DesktopOnly>
         <h4 className={styles.heading}>Indices</h4>
         <WatchlistCards
-          watchlists={BASIC_CATEGORIES.slice().reverse()}
+          watchlists={BASIC_CATEGORIES}
           showFeatured={true}
           classes={{ watchlists: styles.section }}
         />
@@ -37,10 +37,7 @@ const AssetsOverview = ({ isPublicWatchlistsLoading, history }) => {
           <StoriesList classes={styles} />
           <RecentlyWatched className={styles.recents} type='assets' />
           <h2 className={styles.subtitle}>Indices</h2>
-          <WatchlistCards
-            watchlists={BASIC_CATEGORIES.slice().reverse()}
-            showFeatured={true}
-          />
+          <WatchlistCards watchlists={BASIC_CATEGORIES} showFeatured={true} />
           <GainersLosersTabs
             className={styles.gainers}
             timeWindow='2d'
