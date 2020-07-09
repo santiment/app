@@ -25,8 +25,7 @@ export const TopTransactionsTableMetric = {
   label: 'Top Transactions Table',
   widget: TopTransactionsTable,
   requiredMetric: Metric.transaction_volume,
-  category: Metric.transaction_volume.category,
-  group: Metric.transaction_volume.group
+  parentMetric: Metric.transaction_volume
 }
 
 export const Submetrics = {

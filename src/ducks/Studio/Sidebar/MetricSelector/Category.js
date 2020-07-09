@@ -5,7 +5,6 @@ import Icon from '@santiment-network/ui/Icon'
 import { WIDGET } from './types'
 import Group from './Group'
 import MetricButton from './MetricButton'
-import { CategoryWithNews } from '../../../dataHub/metrics/news'
 import styles from './index.module.scss'
 
 const DEFAULT_OPENED_CATEGORY = {
@@ -18,7 +17,14 @@ const HOLDER_DISTRIBUTION_NODE = {
   label: 'Holder Distribution'
 }
 
-const Category = ({ title, groups, hasTopHolders, project, ...rest }) => {
+const Category = ({
+  title,
+  groups,
+  hasTopHolders,
+  project,
+  NewMetricsCategory,
+  ...rest
+}) => {
   const [hidden, setHidden] = useState(!DEFAULT_OPENED_CATEGORY[title])
 
   function onToggleClick () {
@@ -28,7 +34,7 @@ const Category = ({ title, groups, hasTopHolders, project, ...rest }) => {
   return (
     <div className={cx(styles.category, hidden && styles.category_hidden)}>
       <h3
-        className={cx(styles.title, CategoryWithNews[title] && styles.news)}
+        className={cx(styles.title, NewMetricsCategory[title] && styles.news)}
         onClick={onToggleClick}
       >
         <Icon type='arrow-right-big' className={styles.toggle} />
