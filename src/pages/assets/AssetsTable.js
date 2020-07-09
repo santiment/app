@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import ReactTable from 'react-table'
 import cx from 'classnames'
 import Sticky from 'react-stickynode'
@@ -47,14 +47,7 @@ const AssetsTable = ({
   classes = {},
   columnProps
 }) => {
-  const [stateItems, setStateItems] = useState(items)
-
-  useEffect(
-    () => {
-      setStateItems(items)
-    },
-    [items]
-  )
+  const [hovered, setHovered] = useState()
 
   const { isLoading, error, timestamp, typeInfo } = Assets
   const key = typeInfo.listId || listName
@@ -111,22 +104,17 @@ const AssetsTable = ({
 
   const onMouseEnter = useCallback(
     ({ index }) => {
-      stateItems[index].showTooltip = true
-      setStateItems(stateItems.slice())
+      setHovered(items[index])
     },
-    [stateItems]
+    [items]
   )
 
-  const onMouseLeave = useCallback(
-    ({ index }) => {
-      stateItems[index].showTooltip = false
-      setStateItems(stateItems.slice())
-    },
-    [stateItems]
-  )
+  const onMouseLeave = () => {
+    setHovered()
+  }
 
   return (
-    <div className={classes.container}>
+    <div onMouseLeave={onMouseLeave} className={classes.container}>
       <div className={styles.top}>
         {filterType ? (
           <span>Showed based on {filterType} anomalies</span>
@@ -161,15 +149,13 @@ const AssetsTable = ({
           onClick: (e, handleOriginal) => {
             if (handleOriginal) handleOriginal()
           },
-          style: { border: 'none' }
+          style: { border: 'none' },
+          hovered: hovered
         })}
         getTrGroupProps={(state, rowInfo) => {
           return {
             onMouseEnter: () => {
               onMouseEnter(rowInfo)
-            },
-            onMouseLeave: () => {
-              onMouseLeave(rowInfo)
             }
           }
         }}

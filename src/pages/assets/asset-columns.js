@@ -55,12 +55,18 @@ export const COLUMNS = (preload, props = {}) => [
     heading: '#',
     maxWidth: 45,
     Cell: row => {
-      const { original, page, pageSize, viewIndex } = row
+      const {
+        original,
+        page,
+        pageSize,
+        viewIndex,
+        tdProps: { rest: { hovered } = {} }
+      } = row
       return (
         <LayoutForAsset
           item={original}
           index={page * pageSize + viewIndex + 1}
-          showTooltip={original.showTooltip}
+          isHovered={hovered && hovered.id === original.id}
         />
       )
     }

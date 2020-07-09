@@ -1,9 +1,9 @@
-import React, { useState, useCallback } from 'react'
+import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import LoadTemplate from '../Dialog/LoadTemplate'
 import { useUserTemplates } from '../gql/hooks'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
-import { ForceClosableExplanationTooltip } from '../../../SANCharts/SidecarExplanationTooltip'
+import SidecarExplanationTooltip from '../../../SANCharts/SidecarExplanationTooltip'
 import styles from './LayoutForAsset.module.scss'
 
 const Icon = (
@@ -23,75 +23,56 @@ const Icon = (
   </svg>
 )
 
-const TooltipWrapper = ({ children, showEnabled = false }) => {
+const TooltipWrapper = ({ children }) => {
   return (
     <div className={styles.tooltipWrapper}>
-      <ForceClosableExplanationTooltip
+      <SidecarExplanationTooltip
         closeTimeout={500}
-        localStorageSuffix='_ASSET_CL'
+        localStorageSuffix='_ASSET_CHART_LAYOUTS'
         position='top'
-        shown={showEnabled}
         title={
-          <div className={styles.tooltip}>
-            <div className={styles.titleLine}>
-              {[
-                <span key='new' className={styles.new}>
-                  New!
-                </span>,
-                <span key='label'>Apply chart layout on</span>
-              ]}
-            </div>
-            <div>the asset</div>
-          </div>
+          <div className={styles.tooltip}>Apply chart layout on the asset</div>
         }
         description=''
+        closable={false}
         withArrow
-        delay={0}
-        showEnabled={showEnabled}
+        delay={1000}
       >
         <div />
-      </ForceClosableExplanationTooltip>
+      </SidecarExplanationTooltip>
       {children}
     </div>
   )
 }
 
-const Trigger = ({ showTooltip, hovered, counter, ...rest }) => {
+const Trigger = ({ showTooltip, isHovered, counter, ...rest }) => {
+  const El = isHovered ? TooltipWrapper : Fragment
   return (
-    <TooltipWrapper showEnabled={showTooltip}>
+    <El>
       <div {...rest} className={styles.counter}>
-        {hovered || showTooltip ? <div>{Icon}</div> : counter}
+        {isHovered ? <div>{Icon}</div> : counter}
       </div>
-    </TooltipWrapper>
+    </El>
   )
 }
 
-const LayoutForAsset = ({ currentUser, item: { id, showTooltip }, index }) => {
+const LayoutForAsset = ({
+  currentUser,
+  item: { id },
+  showTooltip,
+  isHovered,
+  index
+}) => {
   const user = currentUser.data
   const [templates] = useUserTemplates(user.id)
-
-  const [hovered, setHovered] = useState(false)
-
-  const handleMouseEnter = useCallback(() => {
-    setHovered(true)
-  })
-
-  const handleMouseLeave = useCallback(() => {
-    setHovered(false)
-  })
 
   return (
     <LoadTemplate
       trigger={
         <Trigger
           showTooltip={showTooltip}
-          hovered={hovered}
+          isHovered={isHovered}
           counter={index}
-          onTouchStart={handleMouseEnter}
-          onMouseEnter={handleMouseEnter}
-          onTouchEnd={handleMouseLeave}
-          onTouchCancel={handleMouseLeave}
-          onMouseLeave={handleMouseLeave}
         />
       }
       templates={templates}

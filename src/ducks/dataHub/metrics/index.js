@@ -39,14 +39,14 @@ export const Metric = {
     label: 'Price BTC',
     category: 'Financial',
     formatter: btcFormatter,
-    isBeta: true
+    checkIsVisible: ({ slug }) => slug !== 'bitcoin'
   },
   price_eth: {
     node: 'line',
     label: 'Price ETH',
     category: 'Financial',
     formatter: ethFormatter,
-    isBeta: true
+    checkIsVisible: ({ slug }) => slug !== 'ethereum'
   },
   historicalBalance: {
     category: 'Financial',
@@ -149,7 +149,8 @@ export const Metric = {
     shortLabel: 'Dorm. Circ.',
     queryKey: 'dormant_circulation_365d',
     isBeta: true,
-    moreInfoLink: 'https://academy.santiment.net/metrics/dormant-circulation/'
+    moreInfoLink: 'https://academy.santiment.net/metrics/dormant-circulation/',
+    withoutRoot: true
   },
   stock_to_flow: {
     category: 'On-chain',
@@ -474,7 +475,7 @@ export const Metric = {
     category: 'Derivatives'
   },
   bitmex_perpetual_funding_rate: {
-    node: 'bar',
+    node: 'filledLine',
     label: 'BitMEX Perpetual Contract Funding Rate',
     category: 'Derivatives',
     formatter: v => (v ? `${(v * 100).toFixed(2)}%` : 'No data'),

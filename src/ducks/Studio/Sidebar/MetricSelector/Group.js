@@ -1,9 +1,9 @@
 import React, { Fragment, useState } from 'react'
 import cx from 'classnames'
-import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
 import MetricButton from './MetricButton'
 import { NO_GROUP } from '../utils'
+import { GroupWithNews } from '../../../dataHub/metrics/news'
 import styles from './index.module.scss'
 
 const Group = ({
@@ -13,7 +13,8 @@ const Group = ({
   toggleMetric,
   isBeta,
   setMetricSettingMap,
-  project
+  project,
+  ...rest
 }) => {
   const hasGroup = title !== NO_GROUP
   const [hidden, setHidden] = useState(hasGroup)
@@ -25,7 +26,10 @@ const Group = ({
   return (
     <>
       {hasGroup && (
-        <h4 className={styles.group} onClick={onToggleClick}>
+        <h4
+          className={cx(styles.group, GroupWithNews[title] && styles.news)}
+          onClick={onToggleClick}
+        >
           <Icon
             type='arrow-right-big'
             className={cx(styles.toggle, hidden && styles.toggle_active)}
@@ -42,7 +46,8 @@ const Group = ({
             isBeta: isBetaMetric,
             selectable = true,
             label,
-            rootLabel = label
+            rootLabel = label,
+            checkIsVisible
           } = item
 
           if (hidden) {
@@ -50,6 +55,10 @@ const Group = ({
           }
 
           if (isBetaMetric && !isBeta) {
+            return null
+          }
+
+          if (checkIsVisible && !checkIsVisible(rest)) {
             return null
           }
 
@@ -65,17 +74,27 @@ const Group = ({
                 isDisabled={!selectable}
               />
               {subitems &&
-                subitems.map(subitem => (
-                  <MetricButton
-                    metric={subitem}
-                    key={subitem.key}
-                    className={styles.advanced}
-                    label={subitem.label}
-                    onClick={() => toggleMetric(subitem)}
-                    project={project}
-                    showBetaLabel={false}
-                  />
-                ))}
+                subitems.map(subitem => {
+                  const { checkIsVisible, checkIsActive } = subitem
+                  if (checkIsVisible && !checkIsVisible(rest)) {
+                    return null
+                  }
+
+                  const isActive = checkIsActive && checkIsActive(rest)
+
+                  return (
+                    <MetricButton
+                      metric={subitem}
+                      key={subitem.key}
+                      className={styles.advanced}
+                      label={subitem.label}
+                      onClick={() => toggleMetric(subitem)}
+                      project={project}
+                      showBetaLabel={false}
+                      isActive={isActive}
+                    />
+                  )
+                })}
             </Fragment>
           )
         })}
@@ -84,8 +103,4 @@ const Group = ({
   )
 }
 
-const mapStateToProps = state => ({
-  isBeta: state.rootUi.isBetaModeEnabled
-})
-
-export default connect(mapStateToProps)(Group)
+export default Group

@@ -8,7 +8,7 @@
 .active {
   position: relative;
 
-  &::before {
+  &::after {
     content: '';
     position: absolute;
     display: block;
@@ -16,7 +16,7 @@
     background: var(--persimmon);
     border: 2px solid var(--white);
     box-sizing: content-box;
-    top: -3px;
+    top: -10px;
     left: -7px;
     width: 4px;
     height: 4px;

@@ -59,7 +59,7 @@
   display: flex;
   cursor: pointer;
   align-items: center;
-
+  /* stylelint-disable */
   .toggle {
     padding: 2px 6px;
     fill: var(--waterloo);
@@ -68,6 +68,7 @@
   &:hover .toggle {
     fill: var(--jungle-green);
   }
+  /* stylelint-enable */
 
   &__list {
     display: flex;
@@ -102,4 +103,14 @@
     height: 1px;
     width: 16px;
   }
+}
+
+.news::after {
+  display: inline-block;
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--texas-rose-hover);
+  border-radius: 50%;
+  margin-left: 8px;
 }

@@ -184,6 +184,7 @@ const newChartWidget = (props, widget = ChartWidget) =>
     comparedMetrics: [],
     MetricSettingMap: new Map(),
     MetricColor: {},
+    connectedWidgets: [],
     ...props
   })
 
