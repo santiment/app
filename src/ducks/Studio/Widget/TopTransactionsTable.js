@@ -15,6 +15,12 @@ import widgetStyles from './Widget.module.scss'
 
 const { from, to } = getTimeIntervalFromToday(-30, DAY)
 const DEFAULT_DATES = [from, to]
+const DEFAULT_SORTED = [
+  {
+    id: 'value',
+    desc: true
+  }
+]
 
 export const TRANSACTIONS_QUERY = gql`
   query projectBySlug($slug: String!, $from: DateTime!, $to: DateTime!) {
@@ -107,6 +113,7 @@ const TopTransactionsTable = ({
     <TransactionTable
       className={widgetStyles.widget_secondary}
       defaultPageSize={50}
+      defaultSorted={DEFAULT_SORTED}
       header={
         <Header
           dates={dates}
