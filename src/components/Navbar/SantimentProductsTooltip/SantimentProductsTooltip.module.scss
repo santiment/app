@@ -31,6 +31,8 @@
 
 .link {
   margin-left: auto;
+  display: flex;
+  align-items: center;
   color: var(--jungle-green);
   fill: var(--jungle-green);
 

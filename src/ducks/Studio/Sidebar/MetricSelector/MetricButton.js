@@ -40,7 +40,7 @@ const MetricButton = ({
           <div className={styles.error}>no data</div>
         ) : (
           <Icon
-            type='plus'
+            type='plus-small'
             className={cx(styles.plus, isActive && styles.active)}
           />
         )}

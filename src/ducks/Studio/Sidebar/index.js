@@ -21,8 +21,7 @@ const CloseButton = ({ onClick, className }) => {
   return (
     <div className={cx(styles.toggle, className)} onClick={onClick}>
       <div className={styles.close}>
-        <Icon type='hamburger' className={styles.hamburger} />
-        <Icon type='arrow-right' className={styles.arrow} />
+        <Icon type='sidebar' className={styles.icon} />
       </div>
     </div>
   )

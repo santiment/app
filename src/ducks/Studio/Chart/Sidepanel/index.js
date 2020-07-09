@@ -23,8 +23,7 @@ const Components = {
 export const CloseButton = ({ className, ...props }) => (
   <div className={cx(styles.close, className)} {...props}>
     <div className={styles.icons}>
-      <Icon type='hamburger' className={styles.hamburger} />
-      <Icon type='arrow-right' className={styles.arrow} />
+      <Icon type='sidebar' className={styles.icon} />
     </div>
   </div>
 )

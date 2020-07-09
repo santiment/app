@@ -37,7 +37,7 @@ const Category = ({
         className={cx(styles.title, NewMetricsCategory[title] && styles.news)}
         onClick={onToggleClick}
       >
-        <Icon type='arrow-right-big' className={styles.toggle} />
+        <Icon type='arrow-right-small' className={styles.toggle} />
         {title}
       </h3>
       <div className={styles.metrics}>
