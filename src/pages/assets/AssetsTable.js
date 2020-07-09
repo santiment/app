@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import ReactTable from 'react-table'
 import cx from 'classnames'
 import Sticky from 'react-stickynode'
@@ -47,14 +47,7 @@ const AssetsTable = ({
   classes = {},
   columnProps
 }) => {
-  const [stateItems, setStateItems] = useState(items)
-
-  useEffect(
-    () => {
-      setStateItems(items)
-    },
-    [items]
-  )
+  const [hovered, setHovered] = useState()
 
   const { isLoading, error, timestamp, typeInfo } = Assets
   const key = typeInfo.listId || listName
@@ -111,31 +104,17 @@ const AssetsTable = ({
 
   const onMouseEnter = useCallback(
     ({ index }) => {
-      stateItems[index].isHovered = true
-      setStateItems(stateItems.slice())
-
-      stateItems[index].timeout = setTimeout(() => {
-        stateItems[index].showTooltip = true
-        setStateItems(stateItems.slice())
-      }, 1000)
+      setHovered(items[index])
     },
     [items]
   )
 
-  const onMouseLeave = useCallback(
-    ({ index }) => {
-      clearTimeout(stateItems[index].timeout)
-
-      stateItems[index].showTooltip = false
-      stateItems[index].isHovered = false
-
-      setStateItems(stateItems.slice())
-    },
-    [items]
-  )
+  const onMouseLeave = () => {
+    setHovered()
+  }
 
   return (
-    <div className={classes.container}>
+    <div onMouseLeave={onMouseLeave}>
       <div className={styles.top}>
         {filterType ? (
           <span>Showed based on {filterType} anomalies</span>
@@ -156,13 +135,13 @@ const AssetsTable = ({
         showPaginationBottom
         defaultPageSize={columnsAmount}
         pageSizeOptions={[5, 10, 20, 25, 50, 100]}
-        pageSize={showAll ? stateItems && stateItems.length : undefined}
+        pageSize={showAll ? items && items.length : undefined}
         minRows={0}
         sortable={false}
         resizable={false}
         defaultSorted={[sortingColumn]}
         className={cx('-highlight', styles.assetsTable, className)}
-        data={stateItems}
+        data={items}
         columns={shownColumns}
         loadingText='Loading...'
         TheadComponent={CustomHeadComponent}
@@ -170,15 +149,13 @@ const AssetsTable = ({
           onClick: (e, handleOriginal) => {
             if (handleOriginal) handleOriginal()
           },
-          style: { border: 'none' }
+          style: { border: 'none' },
+          hovered: hovered
         })}
         getTrGroupProps={(state, rowInfo) => {
           return {
             onMouseEnter: () => {
               onMouseEnter(rowInfo)
-            },
-            onMouseLeave: () => {
-              onMouseLeave(rowInfo)
             }
           }
         }}

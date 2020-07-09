@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import LoadTemplate from '../Dialog/LoadTemplate'
 import { useUserTemplates } from '../gql/hooks'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
-import { ForceClosableExplanationTooltip } from '../../../SANCharts/SidecarExplanationTooltip'
+import SidecarExplanationTooltip from '../../../SANCharts/SidecarExplanationTooltip'
 import styles from './LayoutForAsset.module.scss'
 
 const Icon = (
@@ -23,35 +23,36 @@ const Icon = (
   </svg>
 )
 
-const TooltipWrapper = ({ children, showEnabled = false }) => {
+const TooltipWrapper = ({ children }) => {
   return (
     <div className={styles.tooltipWrapper}>
-      <ForceClosableExplanationTooltip
+      <SidecarExplanationTooltip
         closeTimeout={500}
         localStorageSuffix='_ASSET_CHART_LAYOUTS'
         position='top'
-        shown={showEnabled}
         title={
           <div className={styles.tooltip}>Apply chart layout on the asset</div>
         }
         description=''
         closable={false}
         withArrow
+        delay={1000}
       >
         <div />
-      </ForceClosableExplanationTooltip>
+      </SidecarExplanationTooltip>
       {children}
     </div>
   )
 }
 
 const Trigger = ({ showTooltip, isHovered, counter, ...rest }) => {
+  const El = isHovered ? TooltipWrapper : Fragment
   return (
-    <TooltipWrapper showEnabled={showTooltip}>
+    <El>
       <div {...rest} className={styles.counter}>
         {isHovered ? <div>{Icon}</div> : counter}
       </div>
-    </TooltipWrapper>
+    </El>
   )
 }
 

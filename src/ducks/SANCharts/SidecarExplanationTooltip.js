@@ -101,8 +101,10 @@ export const ExplanationTooltipWrapper = props => {
       onOpen={shown ? undefined : disableHelp}
       text={
         <>
-          {title}
-          {description && <div className={styles.text}>{description}</div>}
+          <div>
+            {title}
+            {description && <div className={styles.text}>{description}</div>}
+          </div>
           {shown && !dismissOnTouch && closable && (
             <Icon
               type='close-small'

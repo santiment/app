@@ -3,11 +3,9 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import Message from '@santiment-network/ui/Message'
-import FormikLabel from '../../../../../../components/formik-santiment-ui/FormikLabel'
 import TriggerChannelSettings from './TriggerChannelSettings'
 import { getSanSonarSW } from '../../../../../../pages/Account/SettingsSonarWebPushNotifications'
 import FormikCheckbox from '../../../../../../components/formik-santiment-ui/FormikCheckbox'
-import SidecarExplanationTooltip from '../../../../../SANCharts/SidecarExplanationTooltip'
 import { CHANNEL_NAMES } from '../../../../utils/constants'
 import InputLink from '../../../../../../components/InputLink/InputLink'
 import styles from '../../signal/TriggerForm.module.scss'
@@ -229,16 +227,6 @@ const TriggerFormChannels = ({
   return (
     <div className={cx(styles.row, styles.rowSingle)}>
       <div className={cx(styles.Field, styles.fieldFilled)}>
-        <SidecarExplanationTooltip
-          closeTimeout={500}
-          localStorageSuffix='_TRIGGER_FORM_EXPLANATION'
-          position='top'
-          title='Connect channels'
-          description='Get fast notifications through Email, Telegram or Browser Push'
-          className={styles.explanation}
-        >
-          <FormikLabel text='Notify me via' />
-        </SidecarExplanationTooltip>
         <div className={styles.notifyBlock}>
           {CHANNELS.map(channel => {
             if (channel === CHANNEL_NAMES.Browser && !isBeta) {
