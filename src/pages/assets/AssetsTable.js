@@ -118,8 +118,12 @@ const AssetsTable = ({
     [items]
   )
 
+  const onMouseLeave = () => {
+    setHovered()
+  }
+
   return (
-    <>
+    <div onMouseLeave={onMouseLeave}>
       <div className={styles.top}>
         {filterType ? (
           <span>Showed based on {filterType} anomalies</span>
@@ -165,7 +169,7 @@ const AssetsTable = ({
           }
         }}
       />
-    </>
+    </div>
   )
 }
 
