@@ -6,7 +6,7 @@ import {
   percentageFormatter,
   tooltipValueFormatter
 } from '../../SANCharts/utils'
-import { millify } from '../../../utils/formatting'
+import { formatNumber, millify } from '../../../utils/formatting'
 
 function normalizeAxisPercent (value) {
   const percent = value * 100
@@ -100,7 +100,8 @@ export const Metric = {
     shortLabel: 'Exc. Flow Bal.',
     abbreviation: 'efb',
     video: 'https://www.youtube.com/watch?v=0R6GDF2bg6A',
-    moreInfoLink: 'https://academy.santiment.net/metrics/exchange-funds-flow/'
+    moreInfoLink: 'https://academy.santiment.net/metrics/exchange-funds-flow/',
+    formatter: v => millify(v, 2)
   },
   daily_active_addresses: {
     category: 'On-chain',

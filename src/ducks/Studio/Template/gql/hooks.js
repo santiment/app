@@ -111,7 +111,6 @@ export function useSelectedTemplate (templates, selectTemplate) {
         }
       })
       .catch(err => {
-        console.log(err)
         if (urlId) {
           store.dispatch(
             showNotification({
