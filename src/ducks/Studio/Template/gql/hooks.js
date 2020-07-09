@@ -108,11 +108,6 @@ export function useSelectedTemplate (templates, selectTemplate) {
 
         if (urlId) {
           selectTemplate(template)
-        } else {
-          selectTemplate({
-            ...template,
-            project: null
-          })
         }
       })
       .catch(err => {
