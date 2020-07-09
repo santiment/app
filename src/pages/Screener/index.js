@@ -6,11 +6,21 @@ import GetAssets from '../assets/GetAssets'
 import { getWatchlistName } from '../assets/utils'
 import AssetsTable from '../assets/AssetsTable'
 import { ASSETS_TABLE_COLUMNS } from '../assets/asset-columns'
-import ProjectsChart from '../Marketing/VolumeChart/ProjectsChart'
+import ProjectsChart, {
+  RANGES
+} from '../../components/VolumeChart/ProjectsChart'
 import styles from './index.module.scss'
+import ProjectsTreeMap from '../../components/VolumeChart/ProjectsTreeMap'
+
+const COLORS = ['#89E1C9', '#DCF6EF', '#EDF8F5']
+const SOCIAL_VOLUME_PROJECTS_COLORS = ['#C9C2FF', '#E7E4FF', '#F3F1FF']
 
 const Screener = props => {
   const [isPriceChartActive, setPriceChart] = useState(false)
+  const [isPriceTreeMap, setPriceTreeMap] = useState(false)
+  const [isVolumeTreeMap, setVolumeTreeMap] = useState(false)
+
+  const bothCharts = isPriceTreeMap && isVolumeTreeMap
 
   return (
     <div className={('page', styles.container)}>
@@ -36,16 +46,55 @@ const Screener = props => {
                 isAuthor={isCurrentUserTheAuthor}
                 isLoggedIn={props.isLoggedIn}
                 widgets={{
-                  priceActive: isPriceChartActive
+                  isPriceChart: isPriceChartActive,
+                  isPriceTreeMap: isPriceTreeMap,
+                  isVolumeTreeMap: isVolumeTreeMap
                 }}
                 togglers={{
-                  priceToggle: setPriceChart
+                  priceToggle: setPriceChart,
+                  togglePriceTreeMap: setPriceTreeMap,
+                  toggleVolumeTreeMap: setVolumeTreeMap
                 }}
               />
               {isLoading && <PageLoader className={styles.loading} />}
 
               {!isLoading && items.length > 0 && (
                 <>
+                  {(isVolumeTreeMap || isPriceTreeMap) && (
+                    <>
+                      <div className={styles.treeMaps}>
+                        {isPriceTreeMap && (
+                          <ProjectsTreeMap
+                            className={cx(
+                              styles.containerTreeMap,
+                              bothCharts && styles.both
+                            )}
+                            assets={items}
+                            title='Top 10: Price Up'
+                            colors={COLORS}
+                            ranges={RANGES}
+                          />
+                        )}
+                        {isVolumeTreeMap && (
+                          <ProjectsTreeMap
+                            className={cx(
+                              styles.containerTreeMap,
+                              bothCharts && styles.both
+                            )}
+                            assets={items}
+                            title='Top 10: Social volume'
+                            ranges={[
+                              {
+                                label: '24h',
+                                key: 'volumeChange24h'
+                              }
+                            ]}
+                            colors={SOCIAL_VOLUME_PROJECTS_COLORS}
+                          />
+                        )}
+                      </div>
+                    </>
+                  )}
                   {isPriceChartActive && <ProjectsChart assets={items} />}
                   <AssetsTable
                     Assets={Assets}

@@ -15,3 +15,25 @@
 .loading {
   height: 70vh;
 }
+
+.treeMaps {
+  display: flex;
+  margin: 0 32px;
+  justify-content: space-between;
+}
+
+.twoTrees {
+  display: flex;
+  justify-content: space-between;
+}
+
+.containerTreeMap {
+  display: flex;
+  height: 158px;
+  flex-direction: column;
+  width: 100%;
+}
+
+.both {
+  width: calc(50% - 4px);
+}
