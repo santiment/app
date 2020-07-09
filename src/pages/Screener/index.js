@@ -33,7 +33,6 @@ const Screener = props => {
             typeInfo: { listId },
             isLoading,
             isCurrentUserTheAuthor,
-            isPublicWatchlist,
             items = []
           } = Assets
 

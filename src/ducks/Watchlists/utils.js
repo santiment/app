@@ -29,7 +29,7 @@ export function getWatchlistId (search) {
   const { name: str } = qs.parse(search) || {}
 
   if (str) {
-    const [_, id] = str.split('@')
+    const [, id] = str.split('@')
     return id
   }
 }

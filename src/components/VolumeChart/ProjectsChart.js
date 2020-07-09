@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Query } from 'react-apollo'
 import {
   Bar,
   CartesianGrid,

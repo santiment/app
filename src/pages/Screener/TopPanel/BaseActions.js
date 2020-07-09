@@ -1,6 +1,5 @@
 import React from 'react'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
-import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import styles from './BaseActions.module.scss'
