@@ -234,7 +234,7 @@ const AssetsListDescription = ({
                 onRemove(asset)
               }}
             >
-              <Icon type='close' className={styles.closeIcon} />
+              <Icon type='close-small' className={styles.closeIcon} />
             </Button>
           </span>
         )

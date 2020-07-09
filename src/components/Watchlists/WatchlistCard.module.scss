@@ -105,6 +105,7 @@
 
 .icon {
   fill: var(--casper);
+  min-width: 12px;
 
   &:hover {
     fill: var(--jungle-green);

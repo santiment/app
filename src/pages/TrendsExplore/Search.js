@@ -132,7 +132,7 @@ const Search = ({
     >
       {(!isInFocus || isMaxValuesReached) && (
         <Button border className={styles.button} disabled={isMaxValuesReached}>
-          <Icon type='close' className={styles.plus} />
+          <Icon type='plus' className={styles.plus} />
           Compare
         </Button>
       )}

@@ -15,7 +15,7 @@ const Modal = ({ classes, children, ...props }) => (
     {closeModal => (
       <>
         <Icon
-          type='close'
+          type='close-medium'
           onClick={closeModal}
           className={cx(styles.close, classes.close)}
         />

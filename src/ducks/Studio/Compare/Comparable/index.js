@@ -111,7 +111,7 @@ export default ({
       />
       {comparable && (
         <Icon
-          type='close'
+          type='close-medium'
           className={styles.remove}
           onClick={removeComparable}
         />
