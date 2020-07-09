@@ -6,10 +6,14 @@ import Icon from '@santiment-network/ui/Icon'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import { client } from '../../../index'
 import { checkIsProUser } from '../../../utils/account'
-import { getCurrentSanbaseSubscription } from '../../../utils/plans'
+/* import { getCurrentSanbaseSubscription } from '../../../utils/plans' */
 import { getDateFormats } from '../../../utils/dates'
 import UpgradeBtn from '../../../components/UpgradeBtn/UpgradeBtn'
 import styles from './PaywallInfo.module.scss'
+import {
+  useUserSubscription,
+  useIsProUser
+} from '../../../contexts/user/subscriptions'
 
 const METRIC_BOUNDARIES_QUERY = gql`
   query($metric: String!) {
@@ -79,14 +83,16 @@ function useRestrictedInfo (metrics) {
   return infos
 }
 
-const PaywallInfo = ({ subscription, metrics, isPro }) => {
+const PaywallInfo = ({ metrics }) => {
   const infos = useRestrictedInfo(metrics)
+  const { subscription } = useUserSubscription()
+  const { isProUser } = useIsProUser()
 
   if (subscription && new Date(subscription.trialEnd) > new Date()) {
     return <UpgradeBtn variant='fill' fluid className={styles.upgrade_trial} />
   }
 
-  if (isPro) return null
+  if (isProUser) return null
 
   return infos.length > 0 ? (
     <Tooltip
@@ -121,9 +127,4 @@ const PaywallInfo = ({ subscription, metrics, isPro }) => {
   ) : null
 }
 
-const mapStateToProps = state => ({
-  subscription: getCurrentSanbaseSubscription(state.user.data),
-  isPro: checkIsProUser(state.user.data)
-})
-
-export default connect(mapStateToProps)(PaywallInfo)
+export default PaywallInfo

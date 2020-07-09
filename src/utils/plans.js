@@ -29,18 +29,21 @@ export const findSanbasePlan = ({ id }) => id === sanbaseProductId
 
 export const noBasicPlan = ({ name }) => name !== PLANS.BASIC
 
-export const getCurrentSanbaseSubscription = user => {
-  if (!user) return
-  const { subscriptions: subs } = user
-  if (!subs) return
-
-  return subs.find(
+export const getSanbaseSubscription = subscriptions =>
+  subscriptions.find(
     ({
       plan: {
         product: { id }
       }
     }) => id === sanbaseProductId
   )
+
+export const getCurrentSanbaseSubscription = user => {
+  if (!user) return
+  const { subscriptions: subs } = user
+  if (!subs) return
+
+  return getSanbaseSubscription(subs)
 }
 
 export const getAlternativeBillingPlan = (plans, oldPlan) => {
