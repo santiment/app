@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ResponsiveContainer, Treemap } from 'recharts'
 import PageLoader from '../Loader/PageLoader'
 import Range from '../WatchlistOverview/Range'
 import { useProjectRanges } from './ProjectsChart'
 import styles from './ProjectsChart.module.scss'
+import { formatNumber } from '../../utils/formatting'
 
 const RANGES = [
   {
@@ -71,7 +72,7 @@ const ProjectsTreeMap = ({ assets, title, ranges, colors, className }) => {
             <Treemap
               data={data}
               dataKey={key}
-              ratio={4 / 3}
+              ratio={2 / 3}
               fill='var(--jungle-green)'
               content={<CustomizedContent colors={colors} dataKey={key} />}
             />
@@ -128,7 +129,7 @@ const CustomizedContent = props => {
         fill='var(--fiord)'
         fontSize={fontSize}
       >
-        {'+' + item[dataKey] + '%'}
+        {'+' + formatNumber(item[dataKey]) + '%'}
       </text>
     </g>
   )
