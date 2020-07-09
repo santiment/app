@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 import gql from 'graphql-tag'
-import { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { client } from '../../index'
 
@@ -29,10 +28,7 @@ export function updateUser (newUser) {
   client.writeQuery({
     query: USER_QUERY,
     data: {
-      currentUser: newUser && {
-        ...currentUser,
-        ...newUser
-      }
+      currentUser: newUser && Object.assign({}, currentUser, newUser)
     }
   })
 }

@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
 import gql from 'graphql-tag'
-import { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { client } from '../../index'
 import { PLANS, getSanbaseSubscription } from '../../utils/plans'
+import { ONE_DAY_IN_MS } from '../../utils/dates'
 
 const { PRO } = PLANS
 
@@ -27,23 +27,22 @@ export const USER_SUBSCRIPTIONS_QUERY = gql`
     }
   }
 `
+export function updateUserSubscriptions (newUserSubscriptions) {
+  const { currentUser } = client.readQuery({
+    query: USER_SUBSCRIPTIONS_QUERY
+  })
 
-/*
- * export function updateUser(newUser) {
- *   const { currentUser } = client.readQuery({
- *     query: USER_QUERY,
- *   })
- *
- *   client.writeQuery({
- *     query: USER_QUERY,
- *     data: {
- *       currentUser: newUser && {
- *         ...currentUser,
- *         ...newUser,
- *       },
- *     },
- *   })
- * } */
+  if (newUserSubscriptions) {
+    currentUser.subscriptions = newUserSubscriptions
+  }
+
+  client.writeQuery({
+    query: USER_SUBSCRIPTIONS_QUERY,
+    data: {
+      currentUser: newUserSubscriptions && Object.assign({}, currentUser)
+    }
+  })
+}
 
 export function useUserSubscriptions () {
   const query = useQuery(USER_SUBSCRIPTIONS_QUERY)
@@ -53,7 +52,8 @@ export function useUserSubscriptions () {
       const { loading, data } = query
       return {
         loading,
-        subscriptions: data && data.currentUser.subscriptions
+        subscriptions:
+          data && data.currentUser && data.currentUser.subscriptions
       }
     },
     [query]
@@ -75,15 +75,31 @@ export function useUserSubscription () {
   )
 }
 
-export function useIsProUser () {
+export function useUserSubscriptionStatus () {
   const data = useUserSubscription()
 
   return useMemo(
     () => {
       const { loading, subscription } = data
+
+      let isPro = false
+      let isTrial = false
+      let trialDaysLeft = null
+
+      if (subscription) {
+        const { trialEnd, plan } = subscription
+        isPro = plan.name === PRO
+        trialDaysLeft =
+          trialEnd &&
+          Math.ceil((new Date(trialEnd) - Date.now()) / ONE_DAY_IN_MS)
+        isTrial = trialDaysLeft > 0
+      }
+
       return {
         loading,
-        isProUser: subscription && subscription.plan.name === PRO
+        isPro,
+        isTrial,
+        trialDaysLeft
       }
     },
     [data]
