@@ -10,7 +10,7 @@ import {
   ReferenceLine
 } from 'recharts'
 import throttle from 'lodash.throttle'
-import Gradients from '../../../components/WatchlistOverview/Gradients'
+import Gradients from '../../../ducks/Watchlists/Widgets/WatchlistOverview/Gradients'
 import { Metric } from '../../../ducks/dataHub/metrics'
 import { tooltipLabelFormatter } from '../../../ducks/SANCharts/CustomTooltip'
 import { generateMetricsMarkup } from '../../../ducks/SANCharts/utils'

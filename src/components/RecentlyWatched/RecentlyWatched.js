@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import ProjectIcon from '../ProjectIcon/ProjectIcon'
 import PercentChanges from '../PercentChanges'
-import WatchlistCard from '../Watchlists/WatchlistCard'
+import WatchlistCard from '../../ducks/Watchlists/Cards/WatchlistCard'
 import Skeleton from '../Skeleton/Skeleton'
 import { store } from '../../index'
 import {

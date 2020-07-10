@@ -1,14 +1,14 @@
 import React from 'react'
 import PageLoader from '../../components/Loader/PageLoader'
-import AssetPage from '../assets/AssetsPage'
-import ScreenerPage from '../Screener'
+import AssetPage from '../Watchlist/AssetsPage'
+import ScreenerPage from './Screener'
 import NewScreener from './NewScreenerFromDefault'
 import { useWatchlist } from '../../ducks/Watchlists/gql/hooks'
-import { getWatchlistName } from '../assets/utils'
 import {
   getWatchlistId,
   isUserDynamicWatchlist,
-  isDefaultScreenerPath
+  isDefaultScreenerPath,
+  getWatchlistName
 } from '../../ducks/Watchlists/utils'
 
 const Watchlist = ({ isLoggedIn, ...props }) => {
