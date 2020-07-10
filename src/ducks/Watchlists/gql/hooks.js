@@ -3,7 +3,8 @@ import {
   WATCHLIST_QUERY,
   USER_WATCHLISTS_QUERY,
   FEATURED_WATCHLISTS_QUERY,
-  CREATE_WATCHLIST_MUTATION
+  CREATE_WATCHLIST_MUTATION,
+  UPDATE_WATCHLIST_MUTATION
 } from './index'
 import { store } from '../../../index'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
@@ -28,8 +29,27 @@ function buildWatchlistsCacheUpdater (reducer) {
   }
 }
 
+function buildWatchlistCacheUpdater (reducer) {
+  return (cache, { data }) => {
+    const watchlist = cache.readQuery({
+      query: WATCHLIST_QUERY,
+      variables: { id: +data.updateUserList.id }
+    })
+
+    cache.writeQuery({
+      query: WATCHLIST_QUERY,
+      variables: { id: +data.updateUserList.id },
+      data: { watchlist: reducer(data, watchlist) }
+    })
+  }
+}
+
 const updateWatchlistsOnCreation = buildWatchlistsCacheUpdater(
   ({ createUserList }, watchlists) => [createUserList].concat(watchlists)
+)
+
+const updateWatchlistOnEdit = buildWatchlistCacheUpdater(
+  ({ updateUserList }, watchlist) => ({ ...watchlist, ...updateUserList })
 )
 
 export function useWatchlist (id) {
@@ -100,4 +120,30 @@ export function useCreateScreener () {
   }
 
   return [createScreener, data]
+}
+
+export function useUpdateWatchlist () {
+  const [mutate, data] = useMutation(UPDATE_WATCHLIST_MUTATION, {
+    update: updateWatchlistOnEdit
+  })
+
+  function updateWatchlist (oldWatchlist, newParams) {
+    const { id, isPublic, name, function: oldFunction } = oldWatchlist
+
+    return mutate({
+      variables: {
+        id: +id,
+        isPublic:
+          newParams.isPublic === undefined ? isPublic : newParams.isPublic,
+        name: newParams.name || name,
+        function:
+          JSON.stringify(newParams.function) || JSON.stringify(oldFunction)
+      }
+    }).then(({ data: { updateUserList: watchlist } }) => ({
+      ...oldWatchlist,
+      ...watchlist
+    }))
+  }
+
+  return [updateWatchlist, data]
 }

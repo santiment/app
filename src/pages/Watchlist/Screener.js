@@ -33,14 +33,16 @@ const Screener = props => {
             typeInfo: { listId },
             isLoading,
             isCurrentUserTheAuthor,
-            items = []
+            items = [],
+            projectsCount
           } = Assets
 
           return (
             <>
               <TopPanel
-                name={title || props.name}
+                name={props.watchlist.name || props.name}
                 id={listId}
+                watchlist={props.watchlist}
                 shareLink={window.location.href + '#shared'}
                 isAuthor={isCurrentUserTheAuthor}
                 isLoggedIn={props.isLoggedIn}
@@ -98,6 +100,9 @@ const Screener = props => {
                   <AssetsTable
                     Assets={Assets}
                     items={items}
+                    type='screener'
+                    projectsCount={projectsCount}
+                    watchlist={props.watchlist}
                     classes={{ container: styles.tableWrapper }}
                     className={styles.table}
                     goto={props.history.push}

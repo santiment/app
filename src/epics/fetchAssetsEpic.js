@@ -130,6 +130,7 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
             isMonitored,
             items: listItems.map(asset => asset.project),
             trendingAssets: stats.trendingProjects,
+            projectsCount: stats.projectsCount,
             isCurrentUserTheAuthor: store.getState().user.data.id === user.id,
             isPublicWatchlist: isPublic
           }

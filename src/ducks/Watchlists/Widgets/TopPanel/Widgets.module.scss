@@ -38,12 +38,6 @@
 
 .toggle {
   margin-left: auto;
-
-  &__active {
-    rect {
-      fill: var(--fiord) !important;
-    }
-  }
 }
 
 .label {

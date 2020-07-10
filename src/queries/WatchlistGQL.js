@@ -99,6 +99,7 @@ export const WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY = gql`
     watchlist(id: $id) {
       ...generalListData
       stats {
+        projectsCount
         trendingProjects {
           ...generalData
           ...project
