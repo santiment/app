@@ -29,7 +29,7 @@ const RowTooltipWrapper = ({ children }) => {
         }
         description=''
         withArrow
-        delay={2000}
+        delay={1000}
       >
         <div />
       </SidecarExplanationTooltip>
@@ -49,7 +49,6 @@ const IconTooltipWrapper = ({ children }) => {
           <div className={styles.tooltip}>Click to apply chart layout</div>
         }
         description=''
-        withArrow
         closable={false}
         delay={0}
       >
