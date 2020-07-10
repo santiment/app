@@ -21,11 +21,7 @@ const MetricTypeRenderer = ({ metric = {}, onClick, showLabel = true }) => {
       <div className={metricStyles.textBlocks}>
         <div className={metricStyles.texts}>
           <div className={metricStyles.type}>{label}</div>
-          {!showLabel && (
-            <HelpPopup position='bottom' align='end'>
-              {description}
-            </HelpPopup>
-          )}
+          {!showLabel && <HelpPopup on='hover'>{description}</HelpPopup>}
         </div>
         {showLabel && (
           <div className={metricStyles.label}>Change alert type</div>

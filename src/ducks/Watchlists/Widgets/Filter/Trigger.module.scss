@@ -1,0 +1,22 @@
+@import '~@santiment-network/ui/mixins';
+
+.button {
+  background: var(--athens);
+  fill: var(--casper);
+  margin-left: 20px;
+
+  &:hover {
+    fill: var(--jungle-green-light-3);
+  }
+}
+
+.active {
+  background: var(--jungle-green-light);
+  color: var(--jungle-green);
+  fill: var(--jungle-green-light-3);
+  margin-right: 376px;
+}
+
+.icon {
+  margin-right: 9px;
+}

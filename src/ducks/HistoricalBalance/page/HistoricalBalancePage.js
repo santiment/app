@@ -123,7 +123,7 @@ const BalancePageExplanation = () => (
   <>
     <span>Historical balance</span>
     <span className={styles.questionIcon}>
-      <HelpPopup position='bottom' align='start'>
+      <HelpPopup>
         Enter any ERC-20 wallet's address and choose up to 5 assets for a
         detailed breakdown of the wallet's balance over time.
       </HelpPopup>

@@ -31,7 +31,13 @@ const Watchlist = ({ isLoggedIn, ...props }) => {
       {loading ? (
         <PageLoader />
       ) : isScreener ? (
-        <ScreenerPage {...props} name={name} id={id} isLoggedIn={isLoggedIn} />
+        <ScreenerPage
+          {...props}
+          name={name}
+          id={id}
+          isLoggedIn={isLoggedIn}
+          watchlist={watchlist}
+        />
       ) : (
         <AssetPage {...props} isLoggedIn={isLoggedIn} />
       )}
