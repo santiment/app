@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
+import { buildRefetcher } from './utils'
 import { client } from '../../index'
 
 export const USER_SETTINGS_QUERY = gql`
@@ -22,6 +23,8 @@ export const USER_SETTINGS_QUERY = gql`
     }
   }
 `
+
+export const refetchUserSettings = buildRefetcher(USER_SETTINGS_QUERY)
 
 export function updateUserSettings (newUserSettings) {
   const { currentUser } = client.readQuery({

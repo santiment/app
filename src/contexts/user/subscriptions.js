@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
+import { buildRefetcher } from './utils'
 import { client } from '../../index'
 import { PLANS, getSanbaseSubscription } from '../../utils/plans'
 import { ONE_DAY_IN_MS } from '../../utils/dates'
@@ -27,6 +28,9 @@ export const USER_SUBSCRIPTIONS_QUERY = gql`
     }
   }
 `
+
+export const refetchUserSubscriptions = buildRefetcher(USER_SUBSCRIPTIONS_QUERY)
+
 export function updateUserSubscriptions (newUserSubscriptions) {
   const { currentUser } = client.readQuery({
     query: USER_SUBSCRIPTIONS_QUERY

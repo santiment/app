@@ -1,5 +1,6 @@
 import { stores } from '../svelte'
-import * as actions from './../actions/types'
+import * as actions from '../actions/types'
+import { loginUser, logoutUser } from '../contexts/user/flow'
 
 const { session } = stores()
 
@@ -35,6 +36,7 @@ export default (state = initialState, action) => {
         isLoading: true
       }
     case actions.USER_LOGIN_SUCCESS:
+      loginUser()
       session.update(ses => {
         ses.currentUser = {
           ...action.user
@@ -52,6 +54,7 @@ export default (state = initialState, action) => {
         }
       }
     case actions.USER_LOGOUT_SUCCESS:
+      logoutUser()
       return {
         ...initialState,
         error: false,
