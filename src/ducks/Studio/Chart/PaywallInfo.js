@@ -6,8 +6,8 @@ import Tooltip from '@santiment-network/ui/Tooltip'
 import { client } from '../../../index'
 import { getDateFormats } from '../../../utils/dates'
 import UpgradeBtn from '../../../components/UpgradeBtn/UpgradeBtn'
+import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import styles from './PaywallInfo.module.scss'
-import { useUserSubscriptionStatus } from '../../../contexts/user/subscriptions'
 
 const METRIC_BOUNDARIES_QUERY = gql`
   query($metric: String!) {

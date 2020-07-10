@@ -9,7 +9,7 @@ import ShowIf from '../../../../../../components/ShowIf/ShowIf'
 import {
   DEFAULT_SETTINGS,
   useUserSettings
-} from '../../../../../../contexts/user/settings'
+} from '../../../../../../stores/user/settings'
 import styles from './TriggerChannelSettings.module.scss'
 
 const DefaultTrigger = <div className={styles.connect}>Enable in settings</div>

@@ -11,7 +11,7 @@ import PLANS from '../../components/Plans/list.js'
 import { formatPrice, getTrialLabel } from '../../utils/plans'
 import { getDateFormats } from '../../utils/dates'
 import { RENEW_SUBSCRIPTION_MUTATION } from '../../queries/plans'
-import { useUserSubscription } from '../../contexts/user/subscriptions'
+import { useUserSubscription } from '../../stores/user/subscriptions'
 import styles from './SettingsSubscription.module.scss'
 
 const PERIOD_END_ACTION = {

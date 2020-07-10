@@ -19,7 +19,7 @@ import { getAlternativeBillingPlan } from '../../utils/plans'
 import { usePlans } from '../../ducks/Plans/hooks'
 import GA from '../../utils/tracking'
 import { USER_SUBSCRIPTION_CHANGE } from '../../actions/types'
-import { updateUserSubscriptions } from '../../contexts/user/subscriptions'
+import { updateUserSubscriptions } from '../../stores/user/subscriptions'
 import styles from './PlanPaymentDialog.module.scss'
 import sharedStyles from './Plans.module.scss'
 

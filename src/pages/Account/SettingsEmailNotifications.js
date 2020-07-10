@@ -5,7 +5,7 @@ import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import Toggle from '@santiment-network/ui/Toggle'
 import * as actions from '../../actions/types'
-import { useUser } from '../../contexts/user'
+import { useUser } from '../../stores/user'
 import styles from './AccountPage.module.scss'
 
 const SettingsEmailNotifications = ({

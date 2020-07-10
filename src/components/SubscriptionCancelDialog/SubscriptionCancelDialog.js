@@ -12,7 +12,7 @@ import {
   USER_SUBSCRIPTIONS_QUERY,
   CANCEL_SUBSCRIPTION_MUTATION
 } from '../../queries/plans'
-import { updateUserSubscriptions } from '../../contexts/user/subscriptions'
+import { updateUserSubscriptions } from '../../stores/user/subscriptions'
 
 const createCacheUpdate = subsId =>
   function updateCache (cache, { data: { cancelSubscription } }) {

@@ -5,8 +5,8 @@ import Label from '@santiment-network/ui/Label'
 import Plan from './Plan'
 import { noBasicPlan } from '../../utils/plans'
 import { usePlans } from '../../ducks/Plans/hooks'
-import { useUser } from '../../contexts/user'
-import { useUserSubscription } from '../../contexts/user/subscriptions'
+import { useUser } from '../../stores/user'
+import { useUserSubscription } from '../../stores/user/subscriptions'
 import styles from './Plans.module.scss'
 
 const billingOptions = [

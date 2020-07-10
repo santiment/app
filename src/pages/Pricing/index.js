@@ -4,7 +4,7 @@ import Plans from './Plans'
 import TokensTooltip from './TokensTooltip'
 import Testimonials from '../../components/Testimonials'
 import PayWithCrypto from './PayWithCrypto'
-import { useUserSubscriptionStatus } from '../../contexts/user/subscriptions'
+import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import styles from './index.module.scss'
 
 const Page = () => {

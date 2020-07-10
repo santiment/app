@@ -1,9 +1,9 @@
 import { stores } from '../svelte'
 import * as actions from '../actions/types'
-import { updateUser } from '../contexts/user'
-import { updateUserSettings } from '../contexts/user/settings'
-import { updateUserSubscriptions } from '../contexts/user/subscriptions'
-import { loginUser, logoutUser } from '../contexts/user/flow'
+import { updateUser } from '../stores/user'
+import { updateUserSettings } from '../stores/user/settings'
+import { updateUserSubscriptions } from '../stores/user/subscriptions'
+import { loginUser, logoutUser } from '../stores/user/flow'
 
 const { session } = stores()
 

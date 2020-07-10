@@ -6,7 +6,7 @@ import Button from '@santiment-network/ui/Button'
 import { getAlternativeBillingPlan } from '../../utils/plans'
 import PlanPaymentDialog from '../../components/Plans/PlanPaymentDialog'
 import { usePlans } from '../../ducks/Plans/hooks'
-import { useUserSubscription } from '../../contexts/user/subscriptions'
+import { useUserSubscription } from '../../stores/user/subscriptions'
 import styles from './UpgradeBtn.module.scss'
 
 const Trigger = ({

@@ -26,7 +26,7 @@ import { isUserAuthorOfTemplate } from './Dialog/LoadTemplate/Template'
 import { parseSharedWidgets, translateMultiChartToWidgets } from '../url/parse'
 import { normalizeWidgets } from '../url/generate'
 import ChartWidget from '../Widget/ChartWidget'
-import { useUser } from '../../../contexts/user'
+import { useUser } from '../../../stores/user'
 import { useProjectById } from '../../../hooks/project'
 import styles from './index.module.scss'
 

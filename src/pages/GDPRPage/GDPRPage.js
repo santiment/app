@@ -9,7 +9,7 @@ import Panel from '@santiment-network/ui/Panel'
 import * as actions from './../../actions/types'
 import styles from './GDPRPage.module.scss'
 import MobileWrapper from '../Login/Mobile/MobileWrapper'
-import { useUser } from '../../contexts/user'
+import { useUser } from '../../stores/user'
 
 const GdprDescription = ({ toggleGDPR, isGDPR, togglePrivacyPolicy }) => {
   return (

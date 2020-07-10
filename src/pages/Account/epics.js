@@ -4,7 +4,7 @@ import { USER_EMAIL_LOGIN_QEURY } from './../../epics/handleLaunch'
 import { handleErrorAndTriggerAction } from './../../epics/utils'
 import { showNotification } from './../../actions/rootActions'
 import * as actions from './../../actions/types'
-import { updateUserSettings } from '../../contexts/user/settings'
+import { updateUserSettings } from '../../stores/user/settings'
 
 const TELEGRAM_DEEP_LINK_QUERY = gql`
   {

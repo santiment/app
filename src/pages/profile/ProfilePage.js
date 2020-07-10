@@ -11,7 +11,7 @@ import { MobileOnly } from '../../components/Responsive'
 import { mapQSToState } from '../../utils/utils'
 import ProfileActivities from './activities/ProfileActivities'
 import { updateCurrentUserQueryCache } from './follow/FollowBtn'
-import { useUser } from '../../contexts/user'
+import { useUser } from '../../stores/user'
 import styles from './ProfilePage.module.scss'
 
 const getQueryVariables = ({

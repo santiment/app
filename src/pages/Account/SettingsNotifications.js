@@ -17,7 +17,7 @@ import GetSignals, {
   filterByChannels
 } from '../../ducks/Signals/common/getSignals'
 import { CHANNEL_TYPES } from '../../ducks/Signals/utils/constants'
-import { DEFAULT_SETTINGS, useUserSettings } from '../../contexts/user/settings'
+import { DEFAULT_SETTINGS, useUserSettings } from '../../stores/user/settings'
 import styles from './AccountPage.module.scss'
 import Link from 'react-router-dom/Link'
 

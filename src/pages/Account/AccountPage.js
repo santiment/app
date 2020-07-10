@@ -13,7 +13,7 @@ import SettingsAPIKeys from './SettingsAPIKeys'
 import SettingsSubscription from './SettingsSubscription'
 import SettingsPlans from './SettingsPlans'
 import SettingsAffiliate from './AffiliateSettings/SettingsAffiliate'
-import { useUser } from '../../contexts/user'
+import { useUser } from '../../stores/user'
 import styles from './AccountPage.module.scss'
 
 export const ACCOUNT_PAGE_HASHES = {
