@@ -5,6 +5,7 @@ import { handleErrorAndTriggerAction } from './utils'
 import { USER_EMAIL_LOGIN_QEURY } from './handleLaunch'
 import Raven from 'raven-js'
 import * as actions from './../actions/types'
+import { updateUser } from '../contexts/user'
 
 const PRIVACY_QUERY = gql`
   mutation updateTermsAndConditions(
@@ -39,6 +40,7 @@ const getVariablesByType = ({ user, type }) => {
 
 const privacyGQLHelper = (user, type) => {
   const variables = getVariablesByType({ user, type })
+  updateUser(variables)
   return {
     variables,
     optimisticResponse: {

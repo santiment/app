@@ -9,6 +9,7 @@ import Panel from '@santiment-network/ui/Panel'
 import * as actions from './../../actions/types'
 import styles from './GDPRPage.module.scss'
 import MobileWrapper from '../Login/Mobile/MobileWrapper'
+import { useUser } from '../../contexts/user'
 
 const GdprDescription = ({ toggleGDPR, isGDPR, togglePrivacyPolicy }) => {
   return (
@@ -45,15 +46,12 @@ const GdprDescription = ({ toggleGDPR, isGDPR, togglePrivacyPolicy }) => {
   )
 }
 
-const GDPRPage = ({
-  togglePrivacyPolicy,
-  privacyPolicyAccepted,
-  isDesktop
-}) => {
+const GDPRPage = ({ togglePrivacyPolicy, isDesktop }) => {
+  const { user } = useUser()
   const [isGDPR, setGDPR] = useState(false)
   const toggleGDPR = () => setGDPR(!isGDPR)
 
-  if (privacyPolicyAccepted) {
+  if (user && user.privacyPolicyAccepted) {
     return <Redirect to='/' />
   }
 
@@ -139,12 +137,6 @@ const GDPRPage = ({
   )
 }
 
-const mapStateToProps = state => {
-  return {
-    privacyPolicyAccepted: state.user.data.privacyPolicyAccepted
-  }
-}
-
 const mapDispatchToProps = dispatch => {
   return {
     togglePrivacyPolicy: () => {
@@ -155,7 +147,7 @@ const mapDispatchToProps = dispatch => {
 
 const enhance = compose(
   connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
   )
 )
