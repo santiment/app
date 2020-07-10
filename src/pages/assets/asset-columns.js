@@ -66,7 +66,7 @@ export const COLUMNS = (preload, props = {}) => [
         <LayoutForAsset
           item={original}
           index={page * pageSize + viewIndex + 1}
-          isHovered={hovered && hovered.id === original.id}
+          isHoveredRow={hovered && hovered.id === original.id}
         />
       )
     }

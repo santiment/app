@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
 import LoadTemplate from '../Dialog/LoadTemplate'
@@ -7,20 +7,29 @@ import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
 import SidecarExplanationTooltip from '../../../SANCharts/SidecarExplanationTooltip'
 import styles from './LayoutForAsset.module.scss'
 
-const TooltipWrapper = ({ children }) => {
+const RowTooltipWrapper = ({ children }) => {
   return (
     <div className={styles.tooltipWrapper}>
       <SidecarExplanationTooltip
         closeTimeout={500}
-        localStorageSuffix='_ASSET_CHART_LAYOUTS'
+        localStorageSuffix='_ASSET_CHART_LAYOUTS_ROW'
         position='top'
         title={
-          <div className={styles.tooltip}>Apply chart layout on the asset</div>
+          <div className={styles.tooltip}>
+            <div className={styles.titleLine}>
+              {[
+                <div className={styles.new} key='new'>
+                  New!
+                </div>,
+                'Apply chart layout'
+              ]}
+            </div>
+            <div>on the asset</div>
+          </div>
         }
         description=''
-        closable={false}
         withArrow
-        delay={1000}
+        delay={2000}
       >
         <div />
       </SidecarExplanationTooltip>
@@ -29,12 +38,49 @@ const TooltipWrapper = ({ children }) => {
   )
 }
 
-const Trigger = ({ showTooltip, isHovered, counter, ...rest }) => {
-  const El = isHovered ? TooltipWrapper : Fragment
+const IconTooltipWrapper = ({ children }) => {
+  return (
+    <div className={styles.tooltipWrapper}>
+      <SidecarExplanationTooltip
+        closeTimeout={500}
+        localStorageSuffix='_ASSET_CHART_LAYOUTS_ICON'
+        position='top'
+        title={
+          <div className={styles.tooltip}>Click to apply chart layout</div>
+        }
+        description=''
+        withArrow
+        closable={false}
+        delay={0}
+      >
+        <div />
+      </SidecarExplanationTooltip>
+      {children}
+    </div>
+  )
+}
+
+const Trigger = ({
+  showTooltip,
+  isHoveredRow,
+  isIconHovered,
+  counter,
+  ...rest
+}) => {
+  let El = Fragment
+
+  if (isHoveredRow) {
+    El = RowTooltipWrapper
+  }
+
+  if (isIconHovered) {
+    El = IconTooltipWrapper
+  }
+
   return (
     <El>
       <div {...rest} className={styles.counter}>
-        {isHovered ? (
+        {isHoveredRow || isIconHovered ? (
           <Icon type='chart-layout' className={styles.icon} />
         ) : (
           counter
@@ -48,18 +94,23 @@ const LayoutForAsset = ({
   currentUser,
   item: { id },
   showTooltip,
-  isHovered,
+  isHoveredRow,
   index
 }) => {
   const user = currentUser.data
   const [templates] = useUserTemplates(user.id)
 
+  const [isIconHovered, setIsIconHovered] = useState(false)
+
   return (
     <LoadTemplate
       trigger={
         <Trigger
+          onMouseEnter={() => setIsIconHovered(true)}
+          onMouseLeave={() => setIsIconHovered(false)}
           showTooltip={showTooltip}
-          isHovered={isHovered}
+          isHoveredRow={isHoveredRow}
+          isIconHovered={isIconHovered}
           counter={index}
         />
       }
