@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { ResponsiveContainer, Treemap } from 'recharts'
 import PageLoader from '../Loader/PageLoader'
 import Range from '../WatchlistOverview/Range'
 import { useProjectRanges } from './ProjectsChart'
-import styles from './ProjectsChart.module.scss'
 import { formatNumber } from '../../utils/formatting'
+import styles from './ProjectsChart.module.scss'
 
 const RANGES = [
   {
