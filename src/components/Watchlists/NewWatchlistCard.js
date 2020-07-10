@@ -48,11 +48,15 @@ const NewWatchlistCard = ({ type = 'watchlist', hasPremium }) => {
   return (
     <LoginDialogWrapper
       title={`Create ${type}`}
-      trigger={props => (
-        <Link to='/pricing'>
-          <Trigger showProBanner={showProBanner} type={type} {...props} />
-        </Link>
-      )}
+      trigger={props =>
+        showProBanner ? (
+          <Link to='/pricing'>
+            <Trigger showProBanner type={type} {...props} />
+          </Link>
+        ) : (
+          <Trigger type={type} {...props} />
+        )
+      }
     >
       {showProBanner ? (
         <Trigger showProBanner type={type} />

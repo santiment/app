@@ -96,7 +96,10 @@ const MyWatchlist = ({
       {!loading && !isLoggedInPending && !isLoggedIn && (
         <>
           <DesktopOnly>
-            <FeatureAnonBanner className={styles.anonBanner} />
+            <FeatureAnonBanner
+              title='Get ability to create your own watchlist when you login'
+              description="Track selected assets in one place and check it's status"
+            />
           </DesktopOnly>
           <MobileOnly>
             <WatchlistsAnon isFullScreen={true} />
