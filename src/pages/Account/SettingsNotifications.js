@@ -17,6 +17,10 @@ import GetSignals, {
   filterByChannels
 } from '../../ducks/Signals/common/getSignals'
 import { CHANNEL_TYPES } from '../../ducks/Signals/utils/constants'
+import {
+  useUserSettings,
+  updateUserSettings
+} from '../../contexts/user/settings'
 import styles from './AccountPage.module.scss'
 import Link from 'react-router-dom/Link'
 
@@ -55,13 +59,17 @@ const SignalsDescription = (mappedCount, allCount, channel) => {
 }
 
 const SettingsNotifications = ({
-  digestType,
+  // digestType,
   changeDigestType,
   mutateDigestType
 }) => {
+  const { settings } = useUserSettings()
+  const digestType = settings && settings.newsletterSubscription
+  console.log(digestType)
+
   return (
     <GetSignals
-      render={({ data: { signals }, isLoading }) => {
+      render={({ data: { signals = [] } = {}, isLoading }) => {
         const allCount = signals.length
         const countWithEmail = channelByTypeLength(signals, CHANNEL_TYPES.Email)
         const countWithTelegram = channelByTypeLength(
@@ -129,6 +137,9 @@ const SettingsNotifications = ({
                       .then(() => {
                         changeDigestType(subscription)
                         onDigestChangeSuccess()
+                        updateUserSettings({
+                          newsletterSubscription: subscription
+                        })
                       })
                       .catch(onDigestChangeError)
                   }
@@ -161,7 +172,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
   ),
   graphql(NEWSLETTER_SUBSCRIPTION_MUTATION, { name: 'mutateDigestType' })

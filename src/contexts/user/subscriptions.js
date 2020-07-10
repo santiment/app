@@ -36,14 +36,14 @@ export function updateUserSubscriptions (newUserSubscriptions) {
     query: USER_SUBSCRIPTIONS_QUERY
   })
 
-  if (newUserSubscriptions) {
-    currentUser.subscriptions = newUserSubscriptions
-  }
-
   client.writeQuery({
     query: USER_SUBSCRIPTIONS_QUERY,
     data: {
-      currentUser: newUserSubscriptions && Object.assign({}, currentUser)
+      currentUser:
+        newUserSubscriptions &&
+        Object.assign({}, currentUser, {
+          subscriptions: newUserSubscriptions
+        })
     }
   })
 }

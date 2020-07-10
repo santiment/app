@@ -13,6 +13,7 @@ import SettingsAPIKeys from './SettingsAPIKeys'
 import SettingsSubscription from './SettingsSubscription'
 import SettingsPlans from './SettingsPlans'
 import SettingsAffiliate from './AffiliateSettings/SettingsAffiliate'
+import { useUser } from '../../contexts/user'
 import styles from './AccountPage.module.scss'
 
 export const ACCOUNT_PAGE_HASHES = {
@@ -88,12 +89,14 @@ const tabs = [
   }
 ]
 
-const AccountPage = ({ history, isUserLoading, isLoggedIn, location }) => {
-  if (isUserLoading) {
+const AccountPage = ({ history, location }) => {
+  const { loading, user } = useUser()
+
+  if (loading) {
     return null
   }
 
-  if (!isLoggedIn) {
+  if (!user) {
     return <Redirect to='/login' />
   }
 

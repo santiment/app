@@ -5,7 +5,7 @@ import { buildRefetcher } from './utils'
 import { client } from '../../index'
 
 export const USER_SETTINGS_QUERY = gql`
-  {
+  query currentUser {
     currentUser {
       id
       settings {
@@ -31,14 +31,14 @@ export function updateUserSettings (newUserSettings) {
     query: USER_SETTINGS_QUERY
   })
 
-  if (newUserSettings) {
-    Object.assign(currentUser.settings, newUserSettings)
-  }
-
   client.writeQuery({
     query: USER_SETTINGS_QUERY,
     data: {
-      currentUser: newUserSettings && Object.assign({}, currentUser)
+      currentUser:
+        newUserSettings &&
+        Object.assign({}, currentUser, {
+          settings: Object.assign({}, currentUser.settings, newUserSettings)
+        })
     }
   })
 }
@@ -51,7 +51,7 @@ export function useUserSettings () {
       const { loading, data } = query
       return {
         loading,
-        settings: data && data.currentUser.settings
+        settings: data && data.currentUser && data.currentUser.settings
       }
     },
     [query]
