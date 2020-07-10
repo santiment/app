@@ -10,13 +10,13 @@ import * as actions from '../../actions/types'
 import styles from './AccountPage.module.scss'
 
 const SettingsGeneral = ({
+  email,
   username,
   dispatchNewUsername,
   toggleNightMode,
   toggleBetaMode,
   isNightModeEnabled,
-  isBetaModeEnabled,
-  email
+  isBetaModeEnabled
 }) => (
   <>
     {!email && (
@@ -51,11 +51,8 @@ const SettingsGeneral = ({
 )
 
 const mapStateToProps = ({
-  user: { data: { username, email } = {} },
   rootUi: { isNightModeEnabled, isBetaModeEnabled }
 }) => ({
-  username,
-  email,
   isNightModeEnabled,
   isBetaModeEnabled
 })

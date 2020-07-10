@@ -1,5 +1,7 @@
 import { stores } from '../svelte'
 import * as actions from '../actions/types'
+import { updateUser } from '../contexts/user'
+import { updateUserSettings } from '../contexts/user/settings'
 import { loginUser, logoutUser } from '../contexts/user/flow'
 
 const { session } = stores()
@@ -74,6 +76,7 @@ export default (state = initialState, action) => {
         errorMessage: action.payload
       }
     case actions.USER_EMAIL_CHANGE:
+      updateUser({ email: action.email })
       return {
         ...state,
         data: {
@@ -92,6 +95,7 @@ export default (state = initialState, action) => {
         }
       }
     case actions.USER_USERNAME_CHANGE:
+      updateUser({ username: action.username })
       return {
         ...state,
         data: {
@@ -100,6 +104,7 @@ export default (state = initialState, action) => {
         }
       }
     case actions.USER_AVATAR_CHANGE: {
+      updateUser({ avatarUrl: action.avatarUrl })
       return {
         ...state,
         data: {
@@ -109,6 +114,9 @@ export default (state = initialState, action) => {
       }
     }
     case actions.USER_DIGEST_CHANGE:
+      updateUserSettings({
+        newsletterSubscription: action.payload
+      })
       return {
         ...state,
         data: {
@@ -122,6 +130,7 @@ export default (state = initialState, action) => {
 
     case actions.USER_SETTING_GDPR:
       const { privacyPolicyAccepted, marketingAccepted } = action.payload
+      updateUser({ privacyPolicyAccepted, marketingAccepted })
       return {
         ...state,
         data: {

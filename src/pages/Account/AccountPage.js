@@ -119,7 +119,7 @@ const AccountPage = ({ history, location }) => {
         defaultSelectedIndex={selectedIndex}
       />
       <div className={styles.container}>
-        <SettingsGeneral />
+        <SettingsGeneral {...user} />
         <SettingsAffiliate />
         <SettingsConnections />
         <SettingsNotifications />
