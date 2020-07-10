@@ -20,6 +20,8 @@ export const USER_SUBSCRIPTIONS_QUERY = gql`
         plan {
           id
           name
+          amount
+          interval
           product {
             id
           }

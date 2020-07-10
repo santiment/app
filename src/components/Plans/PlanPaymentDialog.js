@@ -19,6 +19,7 @@ import { getAlternativeBillingPlan } from '../../utils/plans'
 import { usePlans } from '../../ducks/Plans/hooks'
 import GA from '../../utils/tracking'
 import { USER_SUBSCRIPTION_CHANGE } from '../../actions/types'
+import { updateUserSubscriptions } from '../../contexts/user/subscriptions'
 import styles from './PlanPaymentDialog.module.scss'
 import sharedStyles from './Plans.module.scss'
 
@@ -36,6 +37,8 @@ function updateCache (cache, { data: { subscribe } }) {
   let subscriptions = currentUser.subscriptions
     ? [subscribe, ...currentUser.subscriptions]
     : [subscribe]
+
+  updateUserSubscriptions(subscriptions)
 
   cache.writeQuery({
     query: USER_SUBSCRIPTIONS_QUERY,

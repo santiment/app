@@ -1,5 +1,5 @@
 import React from 'react'
-import { Query, Mutation } from 'react-apollo'
+import { Mutation } from 'react-apollo'
 import Label from '@santiment-network/ui/Label'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
@@ -8,16 +8,10 @@ import PlansDialog from '../../components/Plans/PlansDialog'
 import CancelSubscriptionDialog from '../../components/SubscriptionCancelDialog/SubscriptionCancelDialog'
 import ChangeBillingDialog from '../../components/BillingChangeDialog/BillingChangeDialog'
 import PLANS from '../../components/Plans/list.js'
-import {
-  getCurrentSanbaseSubscription,
-  formatPrice,
-  getTrialLabel
-} from '../../utils/plans'
+import { formatPrice, getTrialLabel } from '../../utils/plans'
 import { getDateFormats } from '../../utils/dates'
-import {
-  USER_SUBSCRIPTIONS_QUERY,
-  RENEW_SUBSCRIPTION_MUTATION
-} from '../../queries/plans'
+import { RENEW_SUBSCRIPTION_MUTATION } from '../../queries/plans'
+import { useUserSubscription } from '../../contexts/user/subscriptions'
 import styles from './SettingsSubscription.module.scss'
 
 const PERIOD_END_ACTION = {
@@ -100,42 +94,35 @@ const SubscriptionRenewButton = ({ subscription: { id } = {} }) => {
 }
 
 const SettingsSubscription = () => {
+  const { subscription } = useUserSubscription()
+  const notCanceled = subscription && !subscription.cancelAtPeriodEnd
+  const PlanBtn =
+    !subscription || notCanceled ? PlansDialog : SubscriptionRenewButton
+
   return (
-    <Query query={USER_SUBSCRIPTIONS_QUERY}>
-      {({ data: { currentUser = {} } = {} }) => {
-        const subscription = getCurrentSanbaseSubscription(currentUser)
-        const notCanceled = subscription && !subscription.cancelAtPeriodEnd
+    <Settings id='subscription' header='Subscription'>
+      <Settings.Row>
+        <Panel className={styles.plan}>
+          <div>
+            <PlanText subscription={subscription} />
+          </div>
+          <PlanBtn subscription={subscription} />
+        </Panel>
+      </Settings.Row>
+      {notCanceled && (
+        <Settings.Row>
+          <div>
+            <div>Cancel subscription</div>
 
-        const PlanBtn =
-          !subscription || notCanceled ? PlansDialog : SubscriptionRenewButton
-
-        return (
-          <Settings id='subscription' header='Subscription'>
-            <Settings.Row>
-              <Panel className={styles.plan}>
-                <div>
-                  <PlanText subscription={subscription} />
-                </div>
-                <PlanBtn subscription={subscription} />
-              </Panel>
-            </Settings.Row>
-            {notCanceled && (
-              <Settings.Row>
-                <div>
-                  <div>Cancel subscription</div>
-
-                  <Label accent='waterloo'>
-                    If you cancel your subscription, you will not be able to see
-                    the most recent data
-                  </Label>
-                </div>
-                <CancelSubscriptionDialog subscription={subscription} />
-              </Settings.Row>
-            )}
-          </Settings>
-        )
-      }}
-    </Query>
+            <Label accent='waterloo'>
+              If you cancel your subscription, you will not be able to see the
+              most recent data
+            </Label>
+          </div>
+          <CancelSubscriptionDialog subscription={subscription} />
+        </Settings.Row>
+      )}
+    </Settings>
   )
 }
 
