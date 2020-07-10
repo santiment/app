@@ -1,16 +1,12 @@
 import React from 'react'
 import cx from 'classnames'
-import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
-import {
-  getCurrentSanbaseSubscription,
-  getAlternativeBillingPlan
-} from '../../utils/plans'
-import { checkIsLoggedIn } from '../../pages/UserSelectors'
+import { getAlternativeBillingPlan } from '../../utils/plans'
 import PlanPaymentDialog from '../../components/Plans/PlanPaymentDialog'
 import { usePlans } from '../../ducks/Plans/hooks'
+import { useUserSubscription } from '../../contexts/user/subscriptions'
 import styles from './UpgradeBtn.module.scss'
 
 const Trigger = ({
@@ -31,25 +27,20 @@ const Trigger = ({
   </Button>
 )
 
-// NOTE(vanguard): redux passes "dispatch" prop to the component.
-// We should capture it in order to not assign it as a invalid dom attribute
 const UpgradeBtn = ({
-  isLoggedIn,
-  isUserLoading,
   loginRequired = true,
-  subscription,
-  dispatch,
   className,
   variant = 'fill',
   ...props
 }) => {
+  const { loading, subscription } = useUserSubscription()
   const [plans] = usePlans()
 
-  if (isUserLoading) {
+  if (loading) {
     return null
   }
 
-  if (subscription.trialEnd) {
+  if (subscription && subscription.trialEnd) {
     const upgradePlan = getAlternativeBillingPlan(plans, subscription.plan)
     const { id, name, amount, interval } = upgradePlan || {}
 
@@ -87,12 +78,4 @@ const UpgradeBtn = ({
   )
 }
 
-const mapStateToProps = state => {
-  return {
-    isUserLoading: state.user.isLoading,
-    isLoggedIn: checkIsLoggedIn(state),
-    subscription: getCurrentSanbaseSubscription(state.user.data) || {}
-  }
-}
-
-export default connect(mapStateToProps)(UpgradeBtn)
+export default UpgradeBtn
