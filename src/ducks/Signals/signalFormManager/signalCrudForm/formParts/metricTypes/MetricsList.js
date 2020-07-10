@@ -58,10 +58,9 @@ const Group = ({ groupLabel, onSelect, group, project }) => {
           className={styles.item}
           onClick={() => onSelect(metric)}
         >
-          {metric.label}
-
+          <span className={styles.name}>{metric.label}</span>
           {Description[metric.key] && (
-            <HelpPopup position='bottom' align='start'>
+            <HelpPopup on='hover'>
               <MetricDescription metric={metric} project={project} />
             </HelpPopup>
           )}
