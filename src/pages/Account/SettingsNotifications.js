@@ -18,6 +18,7 @@ import GetSignals, {
 } from '../../ducks/Signals/common/getSignals'
 import { CHANNEL_TYPES } from '../../ducks/Signals/utils/constants'
 import {
+  DEFAULT_SETTINGS,
   useUserSettings,
   updateUserSettings
 } from '../../contexts/user/settings'
@@ -58,14 +59,14 @@ const SignalsDescription = (mappedCount, allCount, channel) => {
   )
 }
 
-const SettingsNotifications = ({
-  // digestType,
-  changeDigestType,
-  mutateDigestType
-}) => {
+const SettingsNotifications = ({ changeDigestType, mutateDigestType }) => {
   const { settings } = useUserSettings()
-  const digestType = settings && settings.newsletterSubscription
-  console.log(digestType)
+  const {
+    newsletterSubscription: digestType,
+    signalNotifyEmail,
+    signalNotifyTelegram,
+    hasTelegramConnected
+  } = settings || DEFAULT_SETTINGS
 
   return (
     <GetSignals
@@ -85,6 +86,7 @@ const SettingsNotifications = ({
           <Settings id='notifications' header='Notifications'>
             <Settings.Row>
               <SettingsEmailNotifications
+                isEmailNotificationEnabled={signalNotifyEmail}
                 description={SignalsDescription(
                   countWithEmail,
                   allCount,
@@ -95,6 +97,8 @@ const SettingsNotifications = ({
 
             <Settings.Row>
               <SettingsTelegramNotifications
+                signalNotifyTelegram={signalNotifyTelegram}
+                hasTelegramConnected={hasTelegramConnected}
                 description={SignalsDescription(
                   countWithTelegram,
                   allCount,
@@ -153,14 +157,6 @@ const SettingsNotifications = ({
     />
   )
 }
-
-const mapStateToProps = ({
-  user: {
-    data: { settings: { newsletterSubscription } = {} }
-  }
-}) => ({
-  digestType: newsletterSubscription
-})
 
 const mapDispatchToProps = dispatch => ({
   changeDigestType: type =>

@@ -4,6 +4,19 @@ import { useQuery } from '@apollo/react-hooks'
 import { buildRefetcher } from './utils'
 import { client } from '../../index'
 
+export const DEFAULT_SETTINGS = {
+  isBetaMode: false,
+  isPromoter: false,
+  hasTelegramConnected: false,
+  hidePrivacyData: true,
+  signalNotifyEmail: false,
+  signalNotifyTelegram: false,
+  pageSize: 20,
+  tableColumns: {},
+  theme: 'default',
+  newsletterSubscription: 'OFF'
+}
+
 export const USER_SETTINGS_QUERY = gql`
   query currentUser {
     currentUser {
@@ -27,6 +40,7 @@ export const USER_SETTINGS_QUERY = gql`
 export const refetchUserSettings = buildRefetcher(USER_SETTINGS_QUERY)
 
 export function updateUserSettings (newUserSettings) {
+  console.log('Updating', newUserSettings)
   const { currentUser } = client.readQuery({
     query: USER_SETTINGS_QUERY
   })
