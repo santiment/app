@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
@@ -8,7 +8,12 @@ import OperatorMenu from './operators/OperatorMenu'
 import { Operator } from './operators/index'
 import styles from './FilterMetric.module.scss'
 
-const FilterMetric = ({ metric, filter = [], isNoFilters, updMetricInFilter }) => {
+const FilterMetric = ({
+  metric,
+  filter = [],
+  isNoFilters,
+  updMetricInFilter
+}) => {
   const metricFilters = filter.filter(item => item.metric === metric.key)
   const initialOperators = metricFilters.map(({ operator }) => operator)
   const thresholds = metricFilters.map(({ threshold }) => threshold)
@@ -23,6 +28,17 @@ const FilterMetric = ({ metric, filter = [], isNoFilters, updMetricInFilter }) =
   )
   const [firstInputValue, setFirstInputValue] = useState(thresholds[0])
 
+  useEffect(
+    () => {
+      if (isNoFilters) {
+        setIsOpened(false)
+        setFirstInputValue(null)
+        setOperator(Operator.greater_than.key)
+      }
+    },
+    [isNoFilters]
+  )
+
   const { key, label } = metric
 
   function onCheckboxClicked () {
@@ -31,6 +47,16 @@ const FilterMetric = ({ metric, filter = [], isNoFilters, updMetricInFilter }) =
 
   function onOperatorChange (operator) {
     setOperator(operator)
+    if (firstInputValue) {
+      updMetricInFilter({
+        aggregation: 'last',
+        dynamicFrom: '1d',
+        dynamicTo: 'now',
+        metric: metric.key,
+        operator: operator,
+        threshold: firstInputValue
+      })
+    }
   }
 
   function onFirstInputChange ({ currentTarget: { value } }) {
@@ -40,7 +66,7 @@ const FilterMetric = ({ metric, filter = [], isNoFilters, updMetricInFilter }) =
       dynamicFrom: '1d',
       dynamicTo: 'now',
       metric: metric.key,
-      operator: 'greater_than',
+      operator: operator,
       threshold: parseFloat(value)
     })
   }

@@ -50,6 +50,7 @@ const Filter = ({ watchlist, projectsCount }) => {
   }, [])
 
   function resetAll () {
+    console.log('here')
     const func = {
       args: {
         size: 10000
@@ -102,7 +103,7 @@ const Filter = ({ watchlist, projectsCount }) => {
           {/* <span className={styles.count}>{projectsCount} assets</span> */}
           <Button
             className={cx(styles.reset, isNoFilters && styles.reset__disabled)}
-            onClick={() => (isNoFilters ? null : resetAll)}
+            onClick={() => (isNoFilters ? null : resetAll())}
           >
             Reset all
           </Button>
