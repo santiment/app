@@ -8,7 +8,7 @@ import OperatorMenu from './operators/OperatorMenu'
 import { Operator } from './operators/index'
 import styles from './FilterMetric.module.scss'
 
-const FilterMetric = ({ metric, filter = [], toggleMetric }) => {
+const FilterMetric = ({ metric, filter = [], isNoFilters, updMetricInFilter }) => {
   const metricFilters = filter.filter(item => item.metric === metric.key)
   const initialOperators = metricFilters.map(({ operator }) => operator)
   const thresholds = metricFilters.map(({ threshold }) => threshold)
@@ -16,33 +16,33 @@ const FilterMetric = ({ metric, filter = [], toggleMetric }) => {
   const isActive = !!metricFilters.length
 
   const [isOpened, setIsOpened] = useState(isActive)
-  const [operators, setOperators] = useState(
-    initialOperators.length > 0 ? initialOperators : [Operator.greater_than.key]
+  const [operator, setOperator] = useState(
+    initialOperators.length > 0
+      ? initialOperators[0]
+      : Operator.greater_than.key
   )
+  const [firstInputValue, setFirstInputValue] = useState(thresholds[0])
 
   const { key, label } = metric
 
-  //   function onInputChange ({ currentTarget: { value } }) {
-  //     // setThreshold(value || 0)
-  //
-  //     if (isActive) {
-  //       toggleMetric({ key, threshold: value, type: 'update' })
-  //     }
-  //   }
   function onCheckboxClicked () {
     setIsOpened(!isOpened)
   }
 
-  function onOperatorChange (operators) {
-    setOperators([...operators])
+  function onOperatorChange (operator) {
+    setOperator(operator)
   }
 
-  function onFirstInputChange () {
-    console.log('first')
-  }
-
-  function onSecondInputChange () {
-    console.log('second')
+  function onFirstInputChange ({ currentTarget: { value } }) {
+    setFirstInputValue(parseFloat(value))
+    updMetricInFilter({
+      aggregation: 'last',
+      dynamicFrom: '1d',
+      dynamicTo: 'now',
+      metric: metric.key,
+      operator: 'greater_than',
+      threshold: parseFloat(value)
+    })
   }
 
   return (
@@ -57,17 +57,17 @@ const FilterMetric = ({ metric, filter = [], toggleMetric }) => {
       </div>
       {isOpened && (
         <div className={styles.settings}>
-          <OperatorMenu operators={operators} onChange={onOperatorChange} />
-          <Input onBlur={onFirstInputChange} defaultValue={thresholds[0]} />
-          {thresholds.length === 2 && (
-            <>
-              <span className={styles.preposition}>to</span>
-              <Input
-                onBlur={onSecondInputChange}
-                defaultValue={thresholds[1]}
-              />
-            </>
-          )}
+          <OperatorMenu operator={operator} onChange={onOperatorChange} />
+          <Input onBlur={onFirstInputChange} defaultValue={firstInputValue} />
+          {/* {thresholds.length === 2 && ( */}
+          {/*   <> */}
+          {/*     <span className={styles.preposition}>to</span> */}
+          {/*     <Input */}
+          {/*       onBlur={onSecondInputChange} */}
+          {/*       defaultValue={thresholds[1]} */}
+          {/*     /> */}
+          {/*   </> */}
+          {/* )} */}
           {/* {isShowTimeRange && <TimeRangeContextMenu timeRange={metricFilters[0].from} />} */}
         </div>
       )}

@@ -60,51 +60,28 @@ const Filter = ({ watchlist, projectsCount }) => {
     updateWatchlist(watchlist, { function: func })
   }
 
-  function updFilter (params) {
-    //     let currFilter = [...filter]
-    //     const metric = currFilter.find(({ metric }) => metric === params.key)
-    //
-    //     if (metric) {
-    //       currFilter = currFilter.filter(({ metric }) => metric !== params.key)
-    //       if (params.type === 'update') {
-    //         currFilter.push({
-    //           aggregation: 'last',
-    //           dynamicFrom: '1d',
-    //           dynamicTo: 'now',
-    //           metric: params.key,
-    //           operator: 'greater_than_or_equal_to',
-    //           threshold: params.threshold
-    //         })
-    //       }
-    //     } else {
-    //       currFilter.push({
-    //         aggregation: 'last',
-    //         dynamicFrom: '1d',
-    //         dynamicTo: 'now',
-    //         metric: params.key,
-    //         operator: 'greater_than_or_equal_to',
-    //         threshold: params.threshold
-    //       })
-    //     }
-    //
-    //     updateFilter([...currFilter])
-    //
-    //     updateWatchlist(watchlist, {
-    //       function:
-    //         currFilter.length > 0
-    //           ? {
-    //             args: {
-    //               filters: currFilter
-    //             },
-    //             name: 'selector'
-    //           }
-    //           : {
-    //             args: {
-    //               size: 10000
-    //             },
-    //             name: 'top_all_projects'
-    //           }
-    //     })
+  function updMetricInFilter (metric) {
+    const filters = isNoFilters
+      ? []
+      : filter.filter(item => item.metric !== metric.metric)
+    const newFilter = [...filters, metric]
+    updateFilter(newFilter)
+    updateWatchlist(watchlist, {
+      function:
+        newFilter.length > 0
+          ? {
+            args: {
+              filters: newFilter
+            },
+            name: 'selector'
+          }
+          : {
+            args: {
+              size: 10000
+            },
+            name: 'top_all_projects'
+          }
+    })
   }
 
   console.log(filter)
@@ -132,10 +109,11 @@ const Filter = ({ watchlist, projectsCount }) => {
         </div>
         {metrics.map(metric => (
           <FilterMetric
+            isNoFilters={isNoFilters}
             filter={filter}
             key={metric.key}
             metric={metric}
-            toggleMetric={updFilter}
+            updMetricInFilter={updMetricInFilter}
           />
         ))}
       </section>
