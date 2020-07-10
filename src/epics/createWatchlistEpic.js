@@ -5,9 +5,11 @@ import { showNotification } from './../actions/rootActions'
 import { ALL_WATCHLISTS_QUERY } from '../queries/WatchlistGQL'
 import { CREATE_WATCHLIST_MUTATION } from '../ducks/Watchlists/gql'
 import * as actions from './../actions/types'
-import { DEFAULT_SCREENER_FUNCTION } from './../ducks/Watchlists/utils'
-import WatchlistNotificationActions from '../pages/assets/notifications/WatchlistNotificationActions'
-import { getWatchlistLink } from '../ducks/Watchlists/utils'
+import WatchlistNotificationActions from '../ducks/Watchlists/Actions/notifications/WatchlistNotificationActions'
+import {
+  getWatchlistLink,
+  DEFAULT_SCREENER_FUNCTION
+} from '../ducks/Watchlists/utils'
 
 const createWatchlistEpic = (action$, store, { client }) =>
   action$

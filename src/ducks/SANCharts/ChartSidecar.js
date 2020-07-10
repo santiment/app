@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Categories from './Categories'
-import { AssetsList } from '../../pages/assets/AssetsMobilePage'
+import { AssetsList } from '../../pages/Watchlists/AssetsMobilePage'
 import RecentlyWatched, {
   Asset
 } from '../../components/RecentlyWatched/RecentlyWatched'

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import { Description } from '../../../../../dataHub/metrics/descriptions'
-import HelpTooltip from '../../../../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
+import HelpPopup from '../../../../../../components/HelpPopup/HelpPopup'
 import MetricDescription from '../../../../../SANCharts/MetricDescription/MetricDescription'
 import styles from './MetricsList.module.scss'
 
@@ -61,15 +61,9 @@ const Group = ({ groupLabel, onSelect, group, project }) => {
           {metric.label}
 
           {Description[metric.key] && (
-            <HelpTooltip
-              position='bottom'
-              align='start'
-              withDesc={false}
-              onAction='hover'
-              classes={styles}
-            >
+            <HelpPopup position='bottom' align='start'>
               <MetricDescription metric={metric} project={project} />
-            </HelpTooltip>
+            </HelpPopup>
           )}
         </div>
       ))}

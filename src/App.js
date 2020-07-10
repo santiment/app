@@ -115,18 +115,18 @@ const LoadableSonarFeedPage = Loadable({
   loading: () => <PageLoader />
 })
 
-const LoadableAssetsOverviewPage = Loadable({
-  loader: () => import('./pages/assets/AssetsOverviewPage'),
+const LoadableWatchlistsPage = Loadable({
+  loader: () => import('./pages/Watchlists'),
   loading: () => <PageLoader />
 })
 
 const LoadableWatchlistsMobilePage = Loadable({
-  loader: () => import('./pages/assets/WatchlistsMobilePage'),
+  loader: () => import('./pages/Watchlists/WatchlistsMobilePage'),
   loading: () => <PageLoader />
 })
 
 const LoadableAssetsMobilePage = Loadable({
-  loader: () => import('./pages/assets/AssetsMobilePage'),
+  loader: () => import('./pages/Watchlists/AssetsMobilePage'),
   loading: () => <PageLoader />
 })
 
@@ -277,7 +277,7 @@ export const App = ({
             <CreateAccountFreeTrial {...props} isLoggedIn={isLoggedIn} />
           )}
         />
-        <Route exact path='/assets' component={LoadableAssetsOverviewPage} />
+        <Route exact path='/assets' component={LoadableWatchlistsPage} />
         <Route
           exact
           path='/watchlists'

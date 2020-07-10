@@ -1,13 +1,12 @@
 import React from 'react'
-import { NavLink as Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Toggle from '@santiment-network/ui/Toggle'
 import UIButton from '@santiment-network/ui/Button'
-import Label from '@santiment-network/ui/Label'
 import UIIcon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
+import { ProLabel } from '../../components/ProLabel'
 import { getCurrentSanbaseSubscription } from '../../utils/plans'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import ChartDownloadBtn from './ChartDownloadBtn'
@@ -131,17 +130,7 @@ const ChartSettingsContextMenu = ({
               className={styles.context__toggle}
             />
           )}
-          {!subscription && (
-            <Label
-              as={Link}
-              to='/pricing'
-              className={styles.context__btn_paywalled_label}
-              variant='fill'
-              accent='texas-rose'
-            >
-              PRO
-            </Label>
-          )}
+          {!subscription && <ProLabel />}
         </Button>
       )}
       {shareLink && (
@@ -172,17 +161,7 @@ const ChartSettingsContextMenu = ({
             <Icon type='save' />
             Download as CSV
           </span>
-          {!subscription && (
-            <Label
-              as={Link}
-              to='/pricing'
-              className={styles.context__btn_paywalled_label}
-              variant='fill'
-              accent='texas-rose'
-            >
-              PRO
-            </Label>
-          )}
+          {!subscription && <ProLabel />}
         </DownloadCSVBtn>
       )}
       {showDownloadPNG && (
