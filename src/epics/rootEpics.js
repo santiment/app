@@ -23,8 +23,8 @@ import {
   removeAssetFromWatchlistEpic,
   addAssetToWatchlistEpic,
   editAssetsInWatchlistEpic
-} from './../components/WatchlistEdit/editAssetsInWatchlistEpic'
-import { watchlistToggleMonitoringEpic } from '../components/WatchlistWeeklyReport/watchlistToggleMonitoringEpic'
+} from './../ducks/Watchlists/Actions/WatchlistEdit/editAssetsInWatchlistEpic'
+import { watchlistToggleMonitoringEpic } from '../ducks/Watchlists/Actions/WatchlistWeeklyReport/watchlistToggleMonitoringEpic'
 import {
   changeColumnsSettingsEpic,
   saveWatchlistsSettingsAfterLaunch

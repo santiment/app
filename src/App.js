@@ -121,12 +121,12 @@ const LoadableWatchlistsPage = Loadable({
 })
 
 const LoadableWatchlistsMobilePage = Loadable({
-  loader: () => import('./pages/assets/WatchlistsMobilePage'),
+  loader: () => import('./pages/Watchlists/WatchlistsMobilePage'),
   loading: () => <PageLoader />
 })
 
 const LoadableAssetsMobilePage = Loadable({
-  loader: () => import('./pages/assets/AssetsMobilePage'),
+  loader: () => import('./pages/Watchlists/AssetsMobilePage'),
   loading: () => <PageLoader />
 })
 
