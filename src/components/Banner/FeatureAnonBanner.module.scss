@@ -1,8 +1,8 @@
-@import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins';
 
 .wrapper {
   width: 100%;
-  padding: 33px 60px 33px 24px;
+  padding: 33px 56px 33px 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -12,7 +12,11 @@
   background-color: $white;
   background-image: url(./wavesWhite.svg);
   background-repeat: no-repeat;
-  background-position: 110% 35%;
+  background-position: 115% 35%;
+
+  @include responsive('laptop', 'tablet') {
+    padding: 24px;
+  }
 }
 
 .left {
@@ -22,8 +26,15 @@
 .title {
   font-size: 18px;
   line-height: 26px;
-  color: $mirage;
-  margin-bottom: 4px;
+  color: $rhino;
+  margin-bottom: 6px;
+}
+
+.buttons {
+  @include responsive('tablet') {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .description {
@@ -36,6 +47,13 @@
 
 .btn {
   width: 180px;
+  margin-left: 16px;
   justify-content: center;
   height: 40px;
+
+  &:first-child {
+    @include responsive('tablet') {
+      margin-bottom: 8px;
+    }
+  }
 }

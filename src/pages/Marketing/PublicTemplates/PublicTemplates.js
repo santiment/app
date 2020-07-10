@@ -15,7 +15,10 @@ import styles from './PublicTemplates.module.scss'
 const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
   if (!(isFeatured || userId)) {
     return (
-      <FeatureAnonBanner title='Get ability to create your own Chart Layout when you login' />
+      <FeatureAnonBanner
+        title='Log in to make your own Chart Layouts'
+        description='Create, load and save your personal chart views'
+      />
     )
   }
   const videoRef = useRef(null)

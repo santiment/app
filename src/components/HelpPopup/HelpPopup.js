@@ -16,9 +16,9 @@ const HelpPopup = ({
   children,
   content,
   className,
-  wrapperClassName,
   position = 'bottom',
   align = 'center',
+  on = 'click',
   trigger = HelpPopupTrigger,
   isPhone
 }) => {
@@ -33,7 +33,7 @@ const HelpPopup = ({
       trigger={trigger}
       position={position}
       align={align}
-      on='click'
+      on={on}
       className={cx(styles.wrapper, className)}
     >
       <Panel className={styles.panel}>{render}</Panel>
