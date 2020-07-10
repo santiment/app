@@ -13,7 +13,7 @@ const MobileProPopup = () => {
         Go PRO and get more data
       </Link>
       <Icon
-        type='close'
+        type='close-medium'
         onClick={() => setIsShow(false)}
         className={styles.close}
       />

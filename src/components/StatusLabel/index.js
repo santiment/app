@@ -5,11 +5,11 @@ import styles from './StatusLabel.module.scss'
 
 const statusMap = [
   {
-    icon: 'lock',
+    icon: 'lock-small',
     label: 'Private'
   },
   {
-    icon: 'public',
+    icon: 'eye',
     label: 'Public'
   }
 ]

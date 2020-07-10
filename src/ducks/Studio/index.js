@@ -13,7 +13,7 @@ import HolderDistributionWidget from './Widget/HolderDistributionWidget'
 import SelectionOverview from './Overview/SelectionOverview'
 import * as Type from './Sidebar/MetricSelector/types'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
-import { NewMetric, seeMetric } from '../dataHub/metrics/news'
+import { NEW_METRIC_KEY_SET, seeMetric } from '../dataHub/metrics/news'
 import styles from './index.module.scss'
 
 export const Studio = ({
@@ -149,7 +149,7 @@ export const Studio = ({
     let appliedMetrics
     let appliedWidgets
 
-    if (NewMetric[key]) {
+    if (NEW_METRIC_KEY_SET.has(key)) {
       seeMetric(item)
     }
 
@@ -172,10 +172,7 @@ export const Studio = ({
       appliedMetrics = toggleSelectionMetric(item)
     }
 
-    if (
-      currentPhase === Phase.IDLE &&
-      (PressedModifier.metaKey || PressedModifier.ctrlKey)
-    ) {
+    if (currentPhase === Phase.IDLE && PressedModifier.cmdKey) {
       onWidgetClick(widgets[0], appliedMetrics, appliedWidgets)
     }
   }

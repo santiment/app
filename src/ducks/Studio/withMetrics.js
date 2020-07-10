@@ -2,6 +2,7 @@ import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import { getCategoryGraph } from './Sidebar/utils'
 import { useMergedTimeboundSubmetrics } from '../dataHub/timebounds'
+import { getAssetNewMetrics } from '../dataHub/metrics/news'
 import { getMarketSegment } from './timeseries/marketSegments'
 
 const PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY = gql`
@@ -60,7 +61,7 @@ export default graphql(PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY, {
         marketSegments = []
       } = {}
     },
-    ownProps: { noMarketSegments, hiddenMetrics = [] }
+    ownProps: { noMarketSegments, hiddenMetrics = [], slug }
   }) => {
     const Submetrics = useMergedTimeboundSubmetrics(availableMetrics)
 
@@ -75,7 +76,8 @@ export default graphql(PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY, {
     return {
       categories,
       Submetrics,
-      availableMetrics
+      availableMetrics,
+      ...getAssetNewMetrics(availableMetrics, { slug })
     }
   },
   skip: ({ slug }) => !slug,

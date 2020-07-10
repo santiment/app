@@ -127,7 +127,7 @@ const Navbar = ({ activeLink = '/', isBetaModeEnabled }) => {
           <Search
             inputProps={{
               placeholder: 'Search for assets...',
-              icon: 'search'
+              icon: 'search-small'
             }}
           />
           {rightLinks.map(({ Dropdown, ...rest }, index) => {

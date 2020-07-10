@@ -22,7 +22,7 @@ const SocialTrends = () => (
       to={'/labs/trends/explore/'}
     >
       Start researching Social Tool{' '}
-      <Icon className={styles.useIcon} type='pointer-right' />
+      <Icon className={styles.useIcon} type='pointer-right-small' />
     </Button>
   </>
 )

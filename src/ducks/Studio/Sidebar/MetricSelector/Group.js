@@ -3,17 +3,18 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import MetricButton from './MetricButton'
 import { NO_GROUP } from '../utils'
-import { GroupWithNews } from '../../../dataHub/metrics/news'
 import styles from './index.module.scss'
 
 const Group = ({
   title,
   nodes,
   activeMetrics,
+  project,
+  NewMetric,
+  NewMetricsGroup,
   toggleMetric,
   isBeta,
   setMetricSettingMap,
-  project,
   ...rest
 }) => {
   const hasGroup = title !== NO_GROUP
@@ -27,11 +28,11 @@ const Group = ({
     <>
       {hasGroup && (
         <h4
-          className={cx(styles.group, GroupWithNews[title] && styles.news)}
+          className={cx(styles.group, NewMetricsGroup[title] && styles.news)}
           onClick={onToggleClick}
         >
           <Icon
-            type='arrow-right-big'
+            type='arrow-right-small'
             className={cx(styles.toggle, hidden && styles.toggle_active)}
           />
           {title}
@@ -72,6 +73,7 @@ const Group = ({
                 project={project}
                 isActive={activeMetrics.includes(item)}
                 isDisabled={!selectable}
+                isNew={NewMetric[item.key]}
               />
               {subitems &&
                 subitems.map(subitem => {
@@ -92,6 +94,7 @@ const Group = ({
                       project={project}
                       showBetaLabel={false}
                       isActive={isActive}
+                      isNew={NewMetric[subitem.key]}
                     />
                   )
                 })}

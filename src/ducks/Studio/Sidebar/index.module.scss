@@ -88,13 +88,9 @@
   }
 }
 
-.hamburger {
-  transform: scale(0.33, 0.8);
-  margin: -1px -3px 0 3px;
-}
-
-.arrow {
-  width: 4px;
+.icon {
+  transform: rotate(180deg);
+  margin: 0 8px;
 }
 
 .toggle_closed {

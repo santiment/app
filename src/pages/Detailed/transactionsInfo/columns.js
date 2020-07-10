@@ -1,4 +1,5 @@
 import React from 'react'
+import { formatNumber } from '../../../utils/formatting'
 import WalletLink from '../../../components/WalletLink/WalletLink'
 
 const TrxAddressCell = ({ value }) => <WalletLink {...value} />
@@ -17,11 +18,13 @@ export const columns = [
     sortMethod: (a, b) => (new Date(a) > new Date(b) ? 1 : -1)
   },
   {
+    id: 'value',
     Header: 'Value',
     accessor: 'trxValue',
     minWidth: 100,
     maxWidth: 150,
-    sortable: true
+    sortable: true,
+    Cell: ({ value }) => formatNumber(value)
   },
   {
     Header: 'From',

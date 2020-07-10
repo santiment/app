@@ -1,7 +1,7 @@
 @import '~@santiment-network/ui/mixins';
 
 .icon {
-  width: 12px;
+  min-width: 14px;
   margin-right: 7px;
 }
 
@@ -21,7 +21,7 @@
 
 .unclickableIcon {
   fill: var(--waterloo);
-  width: 13px;
+  min-width: 15px;
 }
 
 .unclickable {
