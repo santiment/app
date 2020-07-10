@@ -6,7 +6,7 @@ import {
   percentageFormatter,
   tooltipValueFormatter
 } from '../../SANCharts/utils'
-import { formatNumber, millify } from '../../../utils/formatting'
+import { millify } from '../../../utils/formatting'
 
 function normalizeAxisPercent (value) {
   const percent = value * 100
