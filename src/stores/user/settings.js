@@ -18,7 +18,7 @@ export const DEFAULT_SETTINGS = {
 }
 
 export const USER_SETTINGS_QUERY = gql`
-  query currentUser {
+  {
     currentUser {
       id
       settings {

@@ -27,6 +27,7 @@ import AssetsPage from './pages/assets/AssetsPage'
 import HistoricalBalancePage from './ducks/HistoricalBalance/page/HistoricalBalancePage'
 import { getConsentUrl } from './utils/utils'
 import CookiePopup from './components/CookiePopup/CookiePopup'
+import GdprRedirector from './components/GdprRedirector'
 import LogoutPage from './pages/Logout/Logout'
 import { mapSizesToProps } from './utils/withSizes'
 import CreateAccountFreeTrial from './pages/Login/CreateAccountFreeTrial'
@@ -237,6 +238,7 @@ export const App = ({
       <MobileNavbar activeLink={pathname} />
     )}
     <ErrorBoundary>
+      <GdprRedirector pathname={pathname} />
       {isDesktop && <UrlModals />}
       <Switch>
         {['currencies', 'erc20', 'all', 'list'].map(name => (

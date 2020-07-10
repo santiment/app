@@ -42,7 +42,6 @@ export function useUser () {
   return useMemo(
     () => {
       const { loading, data } = query
-      console.log(data && data.currentUser)
       return {
         loading,
         user: data && data.currentUser

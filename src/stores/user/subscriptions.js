@@ -12,7 +12,7 @@ import {
 const { PRO } = PLANS
 
 export const USER_SUBSCRIPTIONS_QUERY = gql`
-  query {
+  {
     currentUser {
       id
       subscriptions {
