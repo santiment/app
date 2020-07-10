@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Query } from 'react-apollo'
-import Loadable from 'react-loadable'
 import { FEED_QUERY } from '../../../queries/FeedGQL'
 import PageLoader from '../../../components/Loader/PageLoader'
 import FeedListLoading from './FeedList/FeedListLoading'
@@ -20,12 +19,6 @@ import styles from './GeneralFeed.module.scss'
 const baseLocation = '/feed'
 export const pulseLocation = `${baseLocation}/pulse`
 export const personalLocation = `${baseLocation}/personal`
-export const myAlertsLocation = `${baseLocation}/my-alerts`
-
-const LoadableMyAlertsPage = Loadable({
-  loader: () => import('../../SonarFeed/SonarFeedMySignalsPage'),
-  loading: () => <PageLoader />
-})
 
 const tabs = [
   {
@@ -39,11 +32,6 @@ const tabs = [
   {
     index: personalLocation,
     content: 'My Feed',
-    requireLogin: true
-  },
-  {
-    index: myAlertsLocation,
-    content: 'My Alerts',
     requireLogin: true
   }
 ]
@@ -191,13 +179,7 @@ const GeneralFeed = ({
       />
 
       <div className={styles.scrollable}>
-        {tab === '/feed/my-alerts' ? (
-          <LoadableMyAlertsPage
-            isLoggedIn={isLoggedIn}
-            location={location}
-            {...props}
-          />
-        ) : isPulse ? (
+        {isPulse ? (
           <PulseInsights />
         ) : (
           <Query

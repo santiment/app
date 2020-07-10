@@ -12,6 +12,7 @@ $margin-between-cards: 28px;
 .card {
   margin-bottom: 24px;
   width: calc(50% - #{$margin-between-cards/2});
+  padding: 16px 24px !important;
 }
 
 @include responsive('phone', 'phone-xs') {
