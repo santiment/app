@@ -2,6 +2,7 @@ import { stores } from '../svelte'
 import * as actions from '../actions/types'
 import { updateUser } from '../contexts/user'
 import { updateUserSettings } from '../contexts/user/settings'
+import { updateUserSubscriptions } from '../contexts/user/subscriptions'
 import { loginUser, logoutUser } from '../contexts/user/flow'
 
 const { session } = stores()
@@ -85,13 +86,15 @@ export default (state = initialState, action) => {
         }
       }
     case actions.USER_SUBSCRIPTION_CHANGE:
+      const subscriptions = Array.isArray(state.data.subscriptions)
+        ? [action.payload, ...state.data.subscriptions]
+        : [action.payload]
+      updateUserSubscriptions(subscriptions)
       return {
         ...state,
         data: {
           ...state.data,
-          subscriptions: Array.isArray(state.data.subscriptions)
-            ? [action.payload, ...state.data.subscriptions]
-            : [action.payload]
+          subscriptions
         }
       }
     case actions.USER_USERNAME_CHANGE:
