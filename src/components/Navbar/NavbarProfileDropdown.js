@@ -1,18 +1,22 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { connect } from 'react-redux'
-import { Query } from 'react-apollo'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { Button, Toggle } from '@santiment-network/ui'
 import DropdownDevider from './DropdownDevider'
 import * as actions from '../../actions/types'
-import { dateDifference, DAY } from '../../utils/dates'
 import {
-  getCurrentSanbaseSubscription,
-  neuroProductId
+  calculateTrialDaysLeft,
+  activeSubscriptionsFilter,
+  ProductNameById
 } from '../../utils/plans'
-import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
 import UpgradeBtn from '../UpgradeBtn/UpgradeBtn'
+import { useIsNightMode } from '../../stores/ui'
+import { useUser } from '../../stores/user'
+import {
+  useUserSubscriptions,
+  useUserSubscriptionStatus
+} from '../../stores/user/subscriptions'
 import styles from './NavbarProfileDropdown.module.scss'
 import dropdownStyles from './NavbarDropdown.module.scss'
 
@@ -51,57 +55,6 @@ const LOGGED_IN_LINKS_2 = [
   }
 ]
 
-const getTrialText = subscription => {
-  let trial = ''
-  let plan = 'FREE'
-  if (subscription) {
-    plan = subscription.plan.name
-    let trialEnd = subscription.trialEnd || ''
-    if (trialEnd) {
-      const daysNumber =
-        dateDifference({
-          from: new Date(),
-          to: new Date(trialEnd),
-          format: DAY
-        }).diff + 1
-
-      const daysLeft = daysNumber === 1 ? 'last day' : `${daysNumber} days left`
-
-      trial = `(trial - ${daysLeft})`
-    }
-  }
-
-  return { plan, trial }
-}
-
-export const PRO = 'PRO'
-
-const getSubscriptionText = (subscription, productName) => {
-  let { plan, trial } = getTrialText(subscription)
-
-  const userPlan = subscription ? subscription.plan.name : 'FREE'
-
-  let text = ''
-  if (userPlan === PRO) {
-    text = `${plan} plan`
-  } else {
-    if (trial) {
-      text = `${plan} plan ${trial}`
-    } else {
-      text = plan + ' plan'
-    }
-  }
-
-  return (
-    <div key={productName + text}>
-      {productName && (
-        <span className={styles.productName}>{productName}: </span>
-      )}
-      {text}
-    </div>
-  )
-}
-
 const LinkBuilder = (props, index) => {
   const { className } = props
   return (
@@ -115,83 +68,71 @@ const LinkBuilder = (props, index) => {
   )
 }
 
-export const NavbarProfileDropdown = ({
-  activeLink,
-  isNightModeEnabled,
-  toggleNightMode,
-  isUpdateAvailable,
-  user
+const ProductSubscription = ({
+  trialEnd,
+  plan: {
+    name,
+    product: { id }
+  }
 }) => {
-  const isLoggedIn = user && user.id
+  const daysLeft = trialEnd && calculateTrialDaysLeft(trialEnd)
+  const trial =
+    daysLeft &&
+    ` (trial - ${daysLeft === 1 ? 'last day' : `${daysLeft} days left`})`
 
   return (
-    <div
-      className={cx({
-        [styles.wrapper]: true,
-        [styles.login]: !isLoggedIn
-      })}
-    >
-      {isLoggedIn && (
+    <div>
+      <span className={styles.productName}>{ProductNameById[id]}: </span>
+      {name} plan
+      {trial}
+    </div>
+  )
+}
+
+const SubscriptionsList = () => {
+  const { loading, subscriptions } = useUserSubscriptions()
+
+  const activeSubscriptions = useMemo(
+    () =>
+      subscriptions ? subscriptions.filter(activeSubscriptionsFilter) : [],
+    [subscriptions]
+  )
+
+  return (
+    <div className={styles.plan}>
+      {loading
+        ? 'Loading...'
+        : activeSubscriptions.map(subscription => (
+          <ProductSubscription key={subscription.id} {...subscription} />
+        ))}
+    </div>
+  )
+}
+
+export const NavbarProfileDropdown = ({
+  activeLink,
+  toggleNightMode,
+  isUpdateAvailable
+}) => {
+  const { user } = useUser()
+  const { isPro } = useUserSubscriptionStatus()
+  const isNightMode = useIsNightMode()
+
+  return (
+    <div className={cx(styles.wrapper, !user && styles.login)}>
+      {user && (
         <div className={styles.profile}>
           <Link className={styles.name} to={`/profile/${user.id}`}>
             {user.username || user.email}
           </Link>
-          <div className={styles.plan}>
-            <Query query={USER_SUBSCRIPTIONS_QUERY}>
-              {({ loading, data: { currentUser = {} } = {} }) => {
-                if (loading) {
-                  return 'Loading...'
-                }
-
-                const { subscriptions } = currentUser || {}
-
-                const sanbaseSubscription = getCurrentSanbaseSubscription(
-                  currentUser
-                )
-
-                const isOnlySanbase =
-                  sanbaseSubscription && subscriptions.length === 1
-                const sanbaseText = getSubscriptionText(
-                  sanbaseSubscription,
-                  isOnlySanbase ? null : 'Sanbase'
-                )
-                const isProSanbase =
-                  sanbaseSubscription && sanbaseSubscription.plan
-                    ? sanbaseSubscription.plan.name === PRO
-                    : false
-
-                return (
-                  <>
-                    {sanbaseText}
-                    {subscriptions &&
-                      subscriptions.map(subscription => {
-                        const {
-                          plan: {
-                            product: { id }
-                          }
-                        } = subscription
-
-                        switch (id) {
-                          case neuroProductId: {
-                            return getSubscriptionText(subscription, 'SanAPI')
-                          }
-                          default: {
-                            return null
-                          }
-                        }
-                      })}
-                    {!isProSanbase && (
-                      <UpgradeBtn
-                        variant='flat'
-                        accent='orange'
-                        className={styles.upgrade}
-                      />
-                    )}
-                  </>
-                )
-              }}
-            </Query>
-          </div>
+          <SubscriptionsList />
+          {isPro || (
+            <UpgradeBtn
+              variant='flat'
+              accent='orange'
+              className={styles.upgrade}
+            />
+          )}
         </div>
       )}
       <DropdownDevider />
@@ -201,10 +142,10 @@ export const NavbarProfileDropdown = ({
         className={cx(styles.setting, dropdownStyles.item, styles.nightMode)}
         onClick={toggleNightMode}
       >
-        Night mode <Toggle isActive={isNightModeEnabled} />
+        Night mode <Toggle isActive={isNightMode} />
       </Button>
       <DropdownDevider />
-      {isLoggedIn && (
+      {user && (
         <>
           <div className={dropdownStyles.list}>
             {personalLinks.map(LinkBuilder)}
@@ -223,7 +164,7 @@ export const NavbarProfileDropdown = ({
           Labs
         </Button>
 
-        {isLoggedIn && LOGGED_IN_LINKS_1.map(LinkBuilder)}
+        {user && LOGGED_IN_LINKS_1.map(LinkBuilder)}
 
         {isUpdateAvailable && (
           <Button
@@ -237,9 +178,9 @@ export const NavbarProfileDropdown = ({
           </Button>
         )}
 
-        {isLoggedIn && LOGGED_IN_LINKS_2.map(LinkBuilder)}
+        {user && LOGGED_IN_LINKS_2.map(LinkBuilder)}
 
-        {!isLoggedIn && (
+        {!user && (
           <Button
             variant='ghost'
             fluid
@@ -257,9 +198,7 @@ export const NavbarProfileDropdown = ({
 }
 
 const mapStateToProps = ({ rootUi, user, app }) => ({
-  isNightModeEnabled: rootUi.isNightModeEnabled,
   status: rootUi.isOnline ? 'online' : 'offline',
-  user: user.data,
   isUpdateAvailable: app.isUpdateAvailable
 })
 

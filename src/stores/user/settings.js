@@ -40,7 +40,6 @@ export const USER_SETTINGS_QUERY = gql`
 export const refetchUserSettings = buildRefetcher(USER_SETTINGS_QUERY)
 
 export function updateUserSettings (newUserSettings) {
-  console.log('Updating', newUserSettings)
   const { currentUser } = client.readQuery({
     query: USER_SETTINGS_QUERY
   })

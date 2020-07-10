@@ -1,5 +1,6 @@
 import * as actions from './../actions/types'
 import { loadKeyState } from '../utils/localStorage'
+import { updateIsNightMode, updateIsBetaMode } from '../stores/ui'
 
 const isNightMode = loadKeyState('isNightMode')
 const isNightModeDeprecated = loadKeyState('isNightModeEnabled')
@@ -57,6 +58,7 @@ export default (state = initialState, action) => {
     case actions.APP_USER_HAS_INACTIVE_TOKEN:
       return { ...state }
     case actions.APP_USER_NIGHT_MODE_SAVE:
+      updateIsNightMode(action.payload)
       return {
         ...state,
         isNightModeEnabled: action.payload
@@ -67,6 +69,7 @@ export default (state = initialState, action) => {
         isWideChartEnabled: action.payload
       }
     case actions.APP_USER_BETA_MODE_SAVE:
+      updateIsBetaMode(action.payload)
       return {
         ...state,
         isBetaModeEnabled: action.payload

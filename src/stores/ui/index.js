@@ -1,18 +1,52 @@
-import { useState, useEffect } from 'react'
+import { useMemo } from 'react'
+import { useQuery } from '@apollo/react-hooks'
 import { USER_QUERY } from '../user'
-import { client } from '../../index'
+import { USER_SETTINGS_QUERY, updateUserSettings } from '../user/settings'
+
+const NIGHTMODE = 'nightmode'
+export const THEMES = ['default', NIGHTMODE]
+
+export const updateIsNightMode = isNightMode =>
+  updateUserSettings({ theme: THEMES[+isNightMode] })
+
+export const updateIsBetaMode = isBetaMode => updateUserSettings({ isBetaMode })
 
 export function useIsLoggedIn () {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const query = useQuery(USER_QUERY)
 
-  useEffect(
-    () =>
-      client.cache.watch({
-        query: USER_QUERY,
-        callback: ({ result: { currentUser } }) => setIsLoggedIn(!!currentUser)
-      }),
-    []
+  return useMemo(
+    () => {
+      const { data } = query
+      return data && !!data.currentUser
+    },
+    [query]
   )
+}
 
-  return isLoggedIn
+export function useIsNightMode () {
+  const query = useQuery(USER_SETTINGS_QUERY)
+
+  return useMemo(
+    () => {
+      const { data } = query
+      return (
+        data &&
+        data.currentUser &&
+        data.currentUser.settings.theme === NIGHTMODE
+      )
+    },
+    [query]
+  )
+}
+
+export function useIsBetaMode () {
+  const query = useQuery(USER_SETTINGS_QUERY)
+
+  return useMemo(
+    () => {
+      const { data } = query
+      return data && data.currentUser && data.currentUser.settings.isBetaMode
+    },
+    [query]
+  )
 }

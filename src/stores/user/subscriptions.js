@@ -3,8 +3,11 @@ import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import { buildRefetcher } from './utils'
 import { client } from '../../index'
-import { PLANS, getSanbaseSubscription } from '../../utils/plans'
-import { ONE_DAY_IN_MS } from '../../utils/dates'
+import {
+  PLANS,
+  getSanbaseSubscription,
+  calculateTrialDaysLeft
+} from '../../utils/plans'
 
 const { PRO } = PLANS
 
@@ -14,6 +17,7 @@ export const USER_SUBSCRIPTIONS_QUERY = gql`
       id
       subscriptions {
         id
+        status
         trialEnd
         cancelAtPeriodEnd
         currentPeriodEnd
@@ -95,9 +99,7 @@ export function useUserSubscriptionStatus () {
       if (subscription) {
         const { trialEnd, plan } = subscription
         isPro = plan.name === PRO
-        trialDaysLeft =
-          trialEnd &&
-          Math.ceil((new Date(trialEnd) - Date.now()) / ONE_DAY_IN_MS)
+        trialDaysLeft = trialEnd && calculateTrialDaysLeft(trialEnd)
         isTrial = trialDaysLeft > 0
       }
 

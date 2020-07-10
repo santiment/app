@@ -1,8 +1,24 @@
+import { ONE_DAY_IN_MS } from './dates'
+
 export const PLANS = {
   FREE: 'FREE',
   BASIC: 'BASIC',
   PRO: 'PRO'
 }
+
+export const sanbaseProductId = '2'
+export const neuroProductId = '1'
+
+export const ProductNameById = {
+  [sanbaseProductId]: 'Sanbase',
+  [neuroProductId]: 'SanAPI'
+}
+
+export const calculateTrialDaysLeft = trialEnd =>
+  Math.ceil((new Date(trialEnd) - Date.now()) / ONE_DAY_IN_MS)
+
+export const activeSubscriptionsFilter = ({ status }) =>
+  status === 'ACTIVE' || status === 'TRIALING'
 
 export const formatOnlyPrice = amount => `$${parseInt(amount / 100, 10)}`
 
@@ -21,9 +37,6 @@ export const getYearMonthPrices = (amount, billing) => {
   const [mult, div] = billing === 'year' ? YEAR_MULT_DIV : MONTH_MULT_DIV
   return [formatOnlyPrice(amount * mult), formatOnlyPrice(amount / div)]
 }
-
-export const sanbaseProductId = '2'
-export const neuroProductId = '1'
 
 export const findSanbasePlan = ({ id }) => id === sanbaseProductId
 

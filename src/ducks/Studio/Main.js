@@ -18,7 +18,6 @@ const Main = ({
   ...props
 }) => {
   const { slug } = settings
-
   function onProjectSelect (project) {
     if (!project) return
 
