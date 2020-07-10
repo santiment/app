@@ -6,7 +6,7 @@ import Tooltip from '@santiment-network/ui/Tooltip'
 import { Operator } from './index'
 import styles from './OperatorMenu.module.scss'
 
-const OperatorMenu = ({ operators, onChangeOperator }) => (
+const OperatorMenu = ({ operators, onChange }) => (
   <Tooltip
     on='click'
     trigger={
@@ -30,7 +30,7 @@ const OperatorMenu = ({ operators, onChangeOperator }) => (
           isDisabled={isDisabled}
           fluid
           className={cx(styles.button, isDisabled && styles.button__disabled)}
-          onClick={() => (isDisabled ? null : onChangeOperator(key))}
+          onClick={() => (isDisabled ? null : onChange([key]))}
         >
           <img src={icon} alt='operator' className={styles.img} />
           <span className={styles.label}>{label}</span>

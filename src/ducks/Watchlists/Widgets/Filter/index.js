@@ -12,6 +12,7 @@ const VIEWPORT_HEIGHT = window.innerHeight
 
 const Filter = ({ watchlist, projectsCount }) => {
   const { filters = [] } = watchlist.function.args
+  const isNoFilters = watchlist.function.name === 'top_all_projects'
   const [isActive, setIsActive] = useState(false)
   const filterRef = useRef(null)
   const [filter, updateFilter] = useState(filters)
@@ -121,8 +122,11 @@ const Filter = ({ watchlist, projectsCount }) => {
           onClick={() => setIsActive(!isActive)}
         />
         <div className={styles.top}>
-          <span className={styles.count}>{projectsCount} assets</span>
-          <Button className={styles.reset} onClick={resetAll}>
+          {/* <span className={styles.count}>{projectsCount} assets</span> */}
+          <Button
+            className={cx(styles.reset, isNoFilters && styles.reset__disabled)}
+            onClick={() => (isNoFilters ? null : resetAll)}
+          >
             Reset all
           </Button>
         </div>

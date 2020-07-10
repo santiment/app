@@ -10,10 +10,15 @@ import styles from './FilterMetric.module.scss'
 
 const FilterMetric = ({ metric, filter = [], toggleMetric }) => {
   const metricFilters = filter.filter(item => item.metric === metric.key)
-  const operators = metricFilters.map(({ operator }) => operator)
+  const initialOperators = metricFilters.map(({ operator }) => operator)
   const thresholds = metricFilters.map(({ threshold }) => threshold)
   const isShowTimeRange = false
   const isActive = !!metricFilters.length
+
+  const [isOpened, setIsOpened] = useState(isActive)
+  const [operators, setOperators] = useState(
+    initialOperators.length > 0 ? initialOperators : [Operator.greater_than.key]
+  )
 
   const { key, label } = metric
 
@@ -24,6 +29,13 @@ const FilterMetric = ({ metric, filter = [], toggleMetric }) => {
   //       toggleMetric({ key, threshold: value, type: 'update' })
   //     }
   //   }
+  function onCheckboxClicked () {
+    setIsOpened(!isOpened)
+  }
+
+  function onOperatorChange (operators) {
+    setOperators([...operators])
+  }
 
   function onFirstInputChange () {
     console.log('first')
@@ -37,18 +49,15 @@ const FilterMetric = ({ metric, filter = [], toggleMetric }) => {
     <div className={styles.wrapper}>
       <div className={styles.top}>
         <Checkbox
-          isActive={isActive}
-          onClick={() => console.log('hello')}
+          isActive={isOpened}
+          onClick={onCheckboxClicked}
           className={styles.checkbox}
         />
         <span className={styles.label}>{label}</span>
       </div>
-      {isActive && (
+      {isOpened && (
         <div className={styles.settings}>
-          <OperatorMenu
-            operators={operators}
-            onChangeOperator={data => console.log(data)}
-          />
+          <OperatorMenu operators={operators} onChange={onOperatorChange} />
           <Input onBlur={onFirstInputChange} defaultValue={thresholds[0]} />
           {thresholds.length === 2 && (
             <>
