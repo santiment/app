@@ -50,7 +50,6 @@ const Filter = ({ watchlist, projectsCount }) => {
   }, [])
 
   function resetAll () {
-    console.log('here')
     const func = {
       args: {
         size: 10000
@@ -84,8 +83,6 @@ const Filter = ({ watchlist, projectsCount }) => {
           }
     })
   }
-
-  console.log(filter)
 
   return (
     <>
