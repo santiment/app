@@ -43,7 +43,7 @@ const Label = ({ comparable, editMetric, colors }) => {
         className={styles.label}
       />
       {label}
-      <Icon type='edit' className={styles.edit} />
+      <Icon type='edit-small' className={styles.edit} />
     </div>
   )
 }

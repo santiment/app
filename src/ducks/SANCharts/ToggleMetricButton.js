@@ -56,7 +56,7 @@ const ToggleMetricButton = ({
                 isActive ? styles.btn__action_remove : styles.btn__action_add
               )}
             >
-              <Icon type={isActive ? 'close-small' : 'plus'} />
+              <Icon type={isActive ? 'close-small' : 'plus-small'} />
             </div>
           </ExplanationTooltip>
         )}{' '}

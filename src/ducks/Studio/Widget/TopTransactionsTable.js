@@ -67,7 +67,11 @@ const Header = ({ dates, onCalendarChange, onCloseClick }) => (
     <HelpPopup>
       Hold "Shift", click and move mouse on the chart to select a time range
     </HelpPopup>
-    <Icon type='close' className={widgetStyles.close} onClick={onCloseClick} />
+    <Icon
+      type='close-medium'
+      className={widgetStyles.close}
+      onClick={onCloseClick}
+    />
   </div>
 )
 

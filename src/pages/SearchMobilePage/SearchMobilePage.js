@@ -68,7 +68,7 @@ const SearchMobilePage = ({ history }) => {
                 <span className={styles.name}>{slug}</span>
               </Link>
               <Icon
-                type='close'
+                type='close-medium'
                 className={cx(styles.icon, styles.delete)}
                 onClick={() => {
                   removeRecentAssets(slug)
@@ -86,7 +86,7 @@ const SearchMobilePage = ({ history }) => {
                 <span className={styles.name}>{safeDecode(word)}</span>
               </Link>
               <Icon
-                type='close'
+                type='close-medium'
                 className={cx(styles.icon, styles.delete)}
                 onClick={() => {
                   removeRecentTrends(word)

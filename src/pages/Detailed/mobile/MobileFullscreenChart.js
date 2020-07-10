@@ -90,7 +90,7 @@ const MobileFullscreenChart = ({
                 }}
                 className={cx(styles.button)}
               >
-                <Icon type='close' />
+                <Icon type='close-medium' />
               </Button>
               {landscapeMode && (
                 <Title slug={project.name} ticker={project.ticker} />
