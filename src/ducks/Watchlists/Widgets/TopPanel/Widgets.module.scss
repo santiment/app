@@ -16,7 +16,7 @@
 
 .wrapper {
   width: 250px;
-  padding: 24px;
+  padding: 20px 23px;
   display: flex;
   flex-direction: column;
 
@@ -38,6 +38,12 @@
 
 .toggle {
   margin-left: auto;
+
+  &__active {
+    rect {
+      fill: var(--fiord) !important;
+    }
+  }
 }
 
 .label {

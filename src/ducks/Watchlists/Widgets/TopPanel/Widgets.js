@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Toggle from '@santiment-network/ui/Toggle'
 import Button from '@santiment-network/ui/Button'
@@ -61,7 +62,11 @@ const ToggleWidget = ({ index, isActive, toggle, title }) => {
 
       <div className={styles.label}>{title}</div>
 
-      <Toggle isActive={isActive} onClick={toggle} className={styles.toggle} />
+      <Toggle
+        isActive={isActive}
+        onClick={toggle}
+        className={cx(styles.toggle, isActive && styles.toggle__active)}
+      />
     </div>
   )
 }
