@@ -12,7 +12,6 @@ import {
 import Refresh from '../../../../components/Refresh/Refresh'
 import ServerErrorMessage from './../../../../components/ServerErrorMessage'
 import AssetsToggleColumns from './AssetsToggleColumns'
-import { useUpdateWatchlist } from '../../gql/hooks'
 import Filter from '../Filter'
 import { COLUMNS, COMMON_SETTINGS, COLUMNS_SETTINGS } from './asset-columns'
 import '../../../../pages/Projects/ProjectsTable.scss'

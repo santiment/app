@@ -16,7 +16,7 @@ const Filter = ({ watchlist, projectsCount }) => {
   const [isActive, setIsActive] = useState(false)
   const filterRef = useRef(null)
   const [filter, updateFilter] = useState(filters)
-  const [updateWatchlist, { loading }] = useUpdateWatchlist()
+  const [updateWatchlist] = useUpdateWatchlist()
 
   useEffect(() => {
     const sidebar = filterRef.current

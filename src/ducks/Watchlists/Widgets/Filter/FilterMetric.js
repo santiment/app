@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import cx from 'classnames'
-import Icon from '@santiment-network/ui/Icon'
-import Button from '@santiment-network/ui/Button'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import Input from '@santiment-network/ui/Input'
 import OperatorMenu from './operators/OperatorMenu'
@@ -17,7 +14,7 @@ const FilterMetric = ({
   const metricFilters = filter.filter(item => item.metric === metric.key)
   const initialOperators = metricFilters.map(({ operator }) => operator)
   const thresholds = metricFilters.map(({ threshold }) => threshold)
-  const isShowTimeRange = false
+  // const isShowTimeRange = false
   const isActive = !!metricFilters.length
 
   const [isOpened, setIsOpened] = useState(isActive)
@@ -52,7 +49,7 @@ const FilterMetric = ({
         aggregation: 'last',
         dynamicFrom: '1d',
         dynamicTo: 'now',
-        metric: metric.key,
+        metric: key,
         operator: operator,
         threshold: firstInputValue
       })
@@ -65,7 +62,7 @@ const FilterMetric = ({
       aggregation: 'last',
       dynamicFrom: '1d',
       dynamicTo: 'now',
-      metric: metric.key,
+      metric: key,
       operator: operator,
       threshold: parseFloat(value)
     })
