@@ -20,7 +20,7 @@ const SonarFeedRecommendations = ({
   )
 }
 
-export const RecommendedSignals = ({ showTitle }) => (
+export const RecommendedSignals = ({ showTitle = true, showNew }) => (
   <GetFeaturedUserTriggers
     always
     render={({ data: { signals }, isLoading }) => {
@@ -41,7 +41,7 @@ export const RecommendedSignals = ({ showTitle }) => (
             {showTitle && (
               <h4 className={styles.subtitle}>Recommended for you</h4>
             )}
-            <SignalCardsGrid signals={mapToCardGridSignals} />
+            <SignalCardsGrid signals={mapToCardGridSignals} showNew={showNew} />
           </>
         )
       )

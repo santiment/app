@@ -1,0 +1,27 @@
+@import '~@santiment-network/ui/mixins';
+
+.createLink {
+  margin-left: 22px;
+}
+
+.wrapper {
+  border: 1px solid var(--porcelain);
+  min-height: 198px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--rhino);
+  height: 100%;
+  cursor: pointer;
+  border-radius: $border-radius;
+
+  @include text('body-2', 'm');
+
+  &:hover {
+    border: 1px solid var(--jungle-green);
+
+    .createLink {
+      color: var(--jungle-green);
+    }
+  }
+}

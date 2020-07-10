@@ -42,9 +42,9 @@ export const SvgNew = ({ className }) => (
   </svg>
 )
 
-const Trigger = props => {
+const Trigger = ({ title, ...rest }) => {
   return (
-    <div className={cx(styles.wrapper, styles.create)} {...props}>
+    <div className={cx(styles.wrapper, styles.create)} {...rest}>
       <SvgNew />
       <div className={styles.createLink}>Create your watchlist</div>
     </div>
