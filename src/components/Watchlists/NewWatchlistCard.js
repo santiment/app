@@ -26,7 +26,7 @@ const Trigger = ({ type, showProBanner, ...props }) => {
       <Plus isDisabled={showProBanner} />
       <div className={styles.createLink}>
         Create {type}
-        {showProBanner && <ProLabel className={styles.proLabel} />}
+        {showProBanner && <ProLabel className={styles.proLabel} as={'span'} />}
       </div>
     </div>
   )

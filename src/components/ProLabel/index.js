@@ -4,9 +4,9 @@ import { NavLink as Link } from 'react-router-dom'
 import Label from '@santiment-network/ui/Label'
 import styles from './index.module.scss'
 
-export const ProLabel = ({ className }) => (
+export const ProLabel = ({ className, as = Link }) => (
   <Label
-    as={Link}
+    as={as}
     to='/pricing'
     className={cx(styles.label, className)}
     variant='fill'
