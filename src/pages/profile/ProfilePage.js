@@ -1,7 +1,6 @@
 import React from 'react'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
-import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import cx from 'classnames'
 import ProfileInfo, { ShareProfile } from './info/ProfileInfo'
@@ -12,6 +11,7 @@ import { MobileOnly } from '../../components/Responsive'
 import { mapQSToState } from '../../utils/utils'
 import ProfileActivities from './activities/ProfileActivities'
 import { updateCurrentUserQueryCache } from './follow/FollowBtn'
+import { useUser } from '../../contexts/user'
 import styles from './ProfilePage.module.scss'
 
 const getQueryVariables = ({
@@ -37,14 +37,8 @@ const getQueryVariables = ({
 }
 
 const ProfilePage = props => {
-  const {
-    currentUser,
-    profile,
-    isLoading,
-    isLoggedIn,
-    isUserLoading,
-    history
-  } = props
+  const { user } = useUser()
+  const { profile, isLoading, isLoggedIn, isUserLoading, history } = props
 
   if (isUserLoading || isLoading) {
     return <PageLoader />
@@ -68,7 +62,7 @@ const ProfilePage = props => {
       cache,
       queryData,
       queryVariables,
-      +currentUser.id
+      user && +user.id
     )
   }
 
@@ -92,14 +86,7 @@ const ProfilePage = props => {
   )
 }
 
-const mapStateToProps = state => {
-  return {
-    currentUser: state.user.data
-  }
-}
-
 const enhance = compose(
-  connect(mapStateToProps),
   graphql(PUBLIC_USER_DATA_QUERY, {
     options: props => ({
       variables: getQueryVariables(props)

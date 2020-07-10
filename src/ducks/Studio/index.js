@@ -7,7 +7,7 @@ import {
 } from './utils'
 import { DEFAULT_SETTINGS } from './defaults'
 import { Phase, usePhase } from './phases'
-import { usePressedModifier, useKeyboardShortcut } from './hooks'
+import { usePressedModifier, useKeyboardCmdShortcut } from './hooks'
 import ChartWidget from './Widget/ChartWidget'
 import HolderDistributionWidget from './Widget/HolderDistributionWidget'
 import SelectionOverview from './Overview/SelectionOverview'
@@ -37,7 +37,7 @@ export const Studio = ({
   const PressedModifier = usePressedModifier()
   const isOverviewOpened = currentPhase.startsWith(Phase.MAPVIEW)
 
-  useKeyboardShortcut('m', toggleOverview)
+  useKeyboardCmdShortcut('m', toggleOverview)
 
   useEffect(
     () => {

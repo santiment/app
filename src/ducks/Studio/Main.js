@@ -33,12 +33,7 @@ const Main = ({
       <SanbaseBanner />
       <div className={styles.header}>
         {topSlot}
-        <StudioInfo
-          slug={slug}
-          isLoading={false}
-          isLoggedIn={false}
-          onSlugSelect={onProjectSelect}
-        />
+        <StudioInfo slug={slug} onSlugSelect={onProjectSelect} />
       </div>
       <StudioTabs />
       <div className={cx(styles.container, styles.content)}>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { connect } from 'react-redux'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
@@ -27,7 +26,7 @@ import { isUserAuthorOfTemplate } from './Dialog/LoadTemplate/Template'
 import { parseSharedWidgets, translateMultiChartToWidgets } from '../url/parse'
 import { normalizeWidgets } from '../url/generate'
 import ChartWidget from '../Widget/ChartWidget'
-import { checkIsLoggedIn } from '../../../pages/UserSelectors'
+import { useUser } from '../../../contexts/user'
 import { useProjectById } from '../../../hooks/project'
 import styles from './index.module.scss'
 
@@ -84,9 +83,9 @@ const Template = ({
   onProjectSelect,
   ...props
 }) => {
-  const user = currentUser.data
-  const { projectId, isLoggedIn } = props
-  const [templates] = useUserTemplates(user.id)
+  const { user } = useUser()
+  const { projectId } = props
+  const [templates] = useUserTemplates(user && user.id)
   const [updateTemplate] = useUpdateTemplate()
   const [createTemplate] = useCreateTemplate()
 
@@ -212,7 +211,7 @@ const Template = ({
     }
   })
 
-  const isAuthor = isUserAuthorOfTemplate(currentUser, selectedTemplate)
+  const isAuthor = isUserAuthorOfTemplate(user, selectedTemplate)
 
   return (
     <>
@@ -233,14 +232,14 @@ const Template = ({
             onNewTemplate={onTemplateSelect}
             isMenuOpened={isMenuOpened}
             loading={loading}
-            isLoggedIn={isLoggedIn}
+            isLoggedIn={user}
           />
         }
       >
         <Panel variant='modal' className={styles.context}>
           {selectedTemplate && (
             <div className={styles.group}>
-              {isLoggedIn && (
+              {user && (
                 <Action onClick={saveTemplate}>
                   Save{' '}
                   <span className={styles.copyAction}>
@@ -324,9 +323,4 @@ const Template = ({
   )
 }
 
-const mapStateToProps = state => ({
-  currentUser: state.user,
-  isLoggedIn: checkIsLoggedIn(state)
-})
-
-export default connect(mapStateToProps)(Template)
+export default Template
