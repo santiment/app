@@ -59,7 +59,9 @@ const NewWatchlistCard = ({ type = 'watchlist', hasPremium }) => {
       }
     >
       {showProBanner ? (
-        <Trigger showProBanner type={type} />
+        <Link to='/pricing'>
+          <Trigger showProBanner type={type} />
+        </Link>
       ) : (
         <NewWatchlistDialog
           watchlists={lists}
