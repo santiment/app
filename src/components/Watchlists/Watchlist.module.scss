@@ -52,6 +52,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 
   @include responsive('phone', 'phone-xs') {
     margin-top: 22vh;
@@ -71,18 +72,45 @@
   }
 }
 
+.empty__text {
+  @include responsive('desktop', 'laptop', 'tablet') {
+    display: flex;
+    align-items: baseline;
+    margin-left: 55px;
+    flex-direction: column;
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+}
+
+.empty__row {
+  @include responsive('desktop', 'laptop', 'tablet') {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+  }
+}
+
 .emptyText {
+  display: block;
   width: 274px;
-  margin-bottom: 29px;
+  margin-bottom: 16px;
   font-size: 16px;
   line-height: 24px;
-  color: var(--mirage);
+  color: var(--rhino);
 }
 
 .emptyBtn {
   justify-content: center;
   align-items: center;
-  width: 200px;
+  width: 160px;
+  margin-top: 16px;
 }
 
 .subtitle {

@@ -20,18 +20,23 @@ import stylesGrid from './WatchlistCards.module.scss'
 import styles from './Watchlist.module.scss'
 
 const WatchlistEmptySection = ({ watchlists, className }) => (
-  <EmptySection imgClassName={cx(styles.img, className)}>
-    <span>Create your own watchlist to track assets</span>
-    <span>you are interested in</span>
+  <EmptySection
+    className={styles.empty__row}
+    imgClassName={cx(styles.img, className)}
+  >
+    <div className={styles.empty__text}>
+      <span>Create your own watchlist to track assets</span>
+      <span>you are interested in</span>
 
-    <NewWatchlistDialog
-      trigger={
-        <Button variant='fill' accent='positive' className={styles.btn}>
-          Create watchlist
-        </Button>
-      }
-      watchlists={watchlists}
-    />
+      <NewWatchlistDialog
+        trigger={
+          <Button variant='fill' accent='positive' className={styles.emptyBtn}>
+            Create watchlist
+          </Button>
+        }
+        watchlists={watchlists}
+      />
+    </div>
   </EmptySection>
 )
 
@@ -96,7 +101,10 @@ const MyWatchlist = ({
       {!loading && !isLoggedInPending && !isLoggedIn && (
         <>
           <DesktopOnly>
-            <FeatureAnonBanner className={styles.anonBanner} />
+            <FeatureAnonBanner
+              title='Get ability to create your own watchlist when you login'
+              description="Track selected assets in one place and check it's status"
+            />
           </DesktopOnly>
           <MobileOnly>
             <WatchlistsAnon isFullScreen={true} />

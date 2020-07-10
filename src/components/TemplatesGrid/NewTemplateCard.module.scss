@@ -9,7 +9,7 @@
 }
 
 .create {
-  border: 1px dashed var(--porcelain);
+  border: 1px solid var(--porcelain);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,7 +22,7 @@
 
   &:hover {
     cursor: pointer;
-    border: 1px dashed var(--jungle-green);
+    border: 1px solid var(--jungle-green);
 
     .link {
       color: var(--jungle-green-hover);

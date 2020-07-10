@@ -7,7 +7,7 @@ import styles from './WatchlistNewBtn.module.scss'
 const WatchlistNewBtn = props => (
   <Button className={cx(styles.button, props.className)} {...props}>
     <Icon type='plus-round' className={styles.icon} />
-    New watchlist
+    Create watchlist
   </Button>
 )
 
