@@ -1,24 +1,32 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import BaseActions from './BaseActions'
-import MarketcapHistory from './MarketcapHistory'
+// import MarketcapHistory from './MarketcapHistory'
 import Actions from './Actions'
 import Widgets from './Widgets'
+import { checkHasPremium } from '../../../../pages/UserSelectors'
 import styles from './index.module.scss'
 
-const TopPanel = ({ name, id, isLoggedIn, ...props }) => {
+const TopPanel = ({ name, id, isLoggedIn, hasPremium, ...props }) => {
   return (
     <section className={styles.wrapper}>
       <div>
-        <BaseActions />
+        <BaseActions hasPremium={hasPremium} />
         <h1 className={styles.name}>{name}</h1>
       </div>
-      <MarketcapHistory />
+      {/* <MarketcapHistory /> */}
       <div>
-        {isLoggedIn && <Actions name={name} id={id} {...props} />}
+        {isLoggedIn && (
+          <Actions name={name} hasPremium={hasPremium} id={id} {...props} />
+        )}
         <Widgets {...props} />
       </div>
     </section>
   )
 }
 
-export default TopPanel
+const mapStateToProps = state => ({
+  hasPremium: checkHasPremium(state)
+})
+
+export default connect(mapStateToProps)(TopPanel)
