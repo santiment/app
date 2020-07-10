@@ -4,9 +4,11 @@ import { Link } from 'react-router-dom'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Button from '@santiment-network/ui/Button'
 import { useFeaturedWatchlists } from '../../ducks/Watchlists/gql/hooks'
-import { BASIC_CATEGORIES } from '../../pages/assets/assets-overview-constants'
 import NavbarAssetsDropdownWatchlist from './NavbarAssetsDropdownWatchlist'
-import { getSharedWatchlistLink } from '../../ducks/Watchlists/utils'
+import {
+  getSharedWatchlistLink,
+  BASIC_CATEGORIES
+} from '../../ducks/Watchlists/utils'
 import styles from './NavbarAssetsDropdown.module.scss'
 
 const NavbarAssetsDropdown = ({ activeLink }) => {

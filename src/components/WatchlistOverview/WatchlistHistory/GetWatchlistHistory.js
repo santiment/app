@@ -5,7 +5,7 @@ import {
   CATEGORY_HISTORY_QUERY,
   PROJECTS_HISTORY_QUERY
 } from './WatchlistHistoryGQL'
-import { BASIC_CATEGORIES } from '../../../pages/assets/assets-overview-constants'
+import { BASIC_CATEGORIES } from '../../../ducks/Watchlists/utils'
 import WatchlistHistoryWidget from './WatchlistHistoryWidget'
 
 const getHistoryQuery = ({ projects, interval, method, slug }) => {

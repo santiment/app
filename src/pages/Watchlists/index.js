@@ -1,7 +1,7 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import cx from 'classnames'
-import { BASIC_CATEGORIES } from './assets-overview-constants'
+import { BASIC_CATEGORIES } from '../../ducks/Watchlists/utils'
 import WatchlistCards from '../../components/Watchlists/WatchlistCards'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from './../../components/Responsive'
@@ -11,9 +11,9 @@ import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTa
 import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
 import StoriesList from '../../components/Stories/StoriesList'
 import Trends from '../../components/Trends/Trends'
-import styles from './AssetsOverview.module.scss'
+import styles from './index.module.scss'
 
-const AssetsOverview = ({ isPublicWatchlistsLoading, history }) => {
+const Watchlists = ({ isPublicWatchlistsLoading, history }) => {
   return (
     <div className={cx(styles.overviewPage, 'page')}>
       <MobileOnly>
@@ -53,4 +53,4 @@ const AssetsOverview = ({ isPublicWatchlistsLoading, history }) => {
   )
 }
 
-export default withRouter(AssetsOverview)
+export default withRouter(Watchlists)
