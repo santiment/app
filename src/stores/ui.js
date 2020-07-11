@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useQuery } from '@apollo/react-hooks'
-import { USER_QUERY } from '../user'
-import { USER_SETTINGS_QUERY, updateUserSettings } from '../user/settings'
+import { USER_QUERY } from './user'
+import { USER_SETTINGS_QUERY, updateUserSettings } from './user/settings'
 
 const NIGHTMODE = 'nightmode'
 export const THEMES = ['default', NIGHTMODE]

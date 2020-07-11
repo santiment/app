@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import { buildRefetcher } from './utils'
+import { buildRefetcher, update } from './utils'
 import { client } from '../../index'
 
 export const DEFAULT_SETTINGS = {
@@ -50,7 +50,11 @@ export function updateUserSettings (newUserSettings) {
       currentUser:
         newUserSettings &&
         Object.assign({}, currentUser, {
-          settings: Object.assign({}, currentUser.settings, newUserSettings)
+          settings: Object.assign(
+            {},
+            currentUser.settings,
+            update(currentUser.settings, newUserSettings)
+          )
         })
     }
   })

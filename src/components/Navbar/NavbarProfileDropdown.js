@@ -7,7 +7,7 @@ import DropdownDevider from './DropdownDevider'
 import * as actions from '../../actions/types'
 import {
   calculateTrialDaysLeft,
-  activeSubscriptionsFilter,
+  checkIsActiveSubscription,
   ProductNameById
 } from '../../utils/plans'
 import UpgradeBtn from '../UpgradeBtn/UpgradeBtn'
@@ -94,7 +94,7 @@ const SubscriptionsList = () => {
 
   const activeSubscriptions = useMemo(
     () =>
-      subscriptions ? subscriptions.filter(activeSubscriptionsFilter) : [],
+      subscriptions ? subscriptions.filter(checkIsActiveSubscription) : [],
     [subscriptions]
   )
 

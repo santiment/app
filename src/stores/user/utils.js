@@ -5,3 +5,6 @@ export const buildRefetcher = query => () =>
     query,
     fetchPolicy: 'network-only'
   })
+
+export const update = (prevState, updater) =>
+  typeof updater === 'function' ? updater(prevState) : updater

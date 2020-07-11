@@ -17,7 +17,7 @@ export const ProductNameById = {
 export const calculateTrialDaysLeft = trialEnd =>
   Math.ceil((new Date(trialEnd) - Date.now()) / ONE_DAY_IN_MS)
 
-export const activeSubscriptionsFilter = ({ status }) =>
+export const checkIsActiveSubscription = ({ status }) =>
   status === 'ACTIVE' || status === 'TRIALING'
 
 export const formatOnlyPrice = amount => `$${parseInt(amount / 100, 10)}`
@@ -42,13 +42,17 @@ export const findSanbasePlan = ({ id }) => id === sanbaseProductId
 
 export const noBasicPlan = ({ name }) => name !== PLANS.BASIC
 
+const checkIsSanbaseSubscription = ({
+  plan: {
+    product: { id }
+  }
+}) => id === sanbaseProductId
+
 export const getSanbaseSubscription = subscriptions =>
   subscriptions.find(
-    ({
-      plan: {
-        product: { id }
-      }
-    }) => id === sanbaseProductId
+    subscription =>
+      checkIsSanbaseSubscription(subscription) &&
+      checkIsActiveSubscription(subscription)
   )
 
 export const getCurrentSanbaseSubscription = user => {

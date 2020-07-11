@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import { buildRefetcher } from './utils'
+import { buildRefetcher, update } from './utils'
 import { client } from '../../index'
 import {
   PLANS,
@@ -48,7 +48,7 @@ export function updateUserSubscriptions (newUserSubscriptions) {
       currentUser:
         newUserSubscriptions &&
         Object.assign({}, currentUser, {
-          subscriptions: newUserSubscriptions
+          subscriptions: update(currentUser.subscriptions, newUserSubscriptions)
         })
     }
   })
