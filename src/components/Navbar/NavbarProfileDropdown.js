@@ -13,7 +13,7 @@ import {
   ProductNameById
 } from '../../utils/plans'
 import UpgradeBtn from '../UpgradeBtn/UpgradeBtn'
-import { useIsNightMode } from '../../stores/ui'
+import { useTheme } from '../../stores/ui/theme'
 import { useUser } from '../../stores/user'
 import {
   useUserSubscriptions,
@@ -110,7 +110,7 @@ export const NavbarProfileDropdown = ({
 }) => {
   const { user } = useUser()
   const { isPro } = useUserSubscriptionStatus()
-  const isNightMode = useIsNightMode()
+  const { isNightMode } = useTheme()
 
   return (
     <div className={cx(styles.wrapper, !user && styles.login)}>
