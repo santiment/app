@@ -97,6 +97,7 @@
 
 .follow {
   height: 32px;
+  fill: var(--jungle-green);
 
   @include responsive('phone', 'phone-xs') {
     display: none;

@@ -32,7 +32,7 @@ const Group = ({
           onClick={onToggleClick}
         >
           <Icon
-            type='arrow-right-big'
+            type='arrow-right-small'
             className={cx(styles.toggle, hidden && styles.toggle_active)}
           />
           {title}

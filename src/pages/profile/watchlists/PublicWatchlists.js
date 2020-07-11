@@ -1,5 +1,5 @@
 import React from 'react'
-import WatchlistCards from '../../../components/Watchlists/WatchlistCards'
+import WatchlistCards from '../../../ducks/Watchlists/Cards/index'
 import styles from './../ProfilePage.module.scss'
 
 const PublicWatchlists = ({ data: watchlists }) => {

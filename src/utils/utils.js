@@ -1,15 +1,5 @@
 import sanitizeHtml from 'sanitize-html'
-import { createFactory } from 'react'
 import * as qs from 'query-string'
-import ms from 'ms'
-
-const calculateBTCVolume = ({ volume, priceUsd, priceBtc }) => {
-  return (parseFloat(volume) / parseFloat(priceUsd)) * parseFloat(priceBtc)
-}
-
-const calculateBTCMarketcap = ({ marketcap, priceUsd, priceBtc }) => {
-  return (parseFloat(marketcap) / parseFloat(priceUsd)) * parseFloat(priceBtc)
-}
 
 const getOrigin = () => {
   if (process.env.NODE_ENV === 'development') {
@@ -69,16 +59,6 @@ const sanitizeMediumDraftHtml = html =>
     })
   )
 
-const filterProjectsByMarketSegment = (projects, categories) => {
-  if (projects === undefined || Object.keys(categories).length === 0) {
-    return projects
-  }
-
-  return projects.filter(project =>
-    Object.keys(categories).includes(project.marketSegment)
-  )
-}
-
 const binarySearchDirection = {
   MOVE_STOP_TO_LEFT: -1,
   MOVE_START_TO_RIGHT: 1
@@ -86,7 +66,6 @@ const binarySearchDirection = {
 
 const isCurrentDatetimeBeforeTarget = (current, target) =>
   new Date(current.datetime) < new Date(target)
-/* moment(current.datetime).isBefore(moment(target)) */
 
 const binarySearchHistoryPriceIndex = (history, targetDatetime) => {
   let start = 0
@@ -117,18 +96,6 @@ const binarySearchHistoryPriceIndex = (history, targetDatetime) => {
   }
 
   return middle
-}
-
-const getStartOfTheDay = () => {
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-  return today.toISOString()
-}
-
-const getYesterday = () => {
-  const yesterday = new Date(Date.now() - 86400000)
-  yesterday.setHours(0, 0, 0, 0)
-  return yesterday.toISOString()
 }
 
 const mergeTimeseriesByKey = ({
@@ -221,35 +188,11 @@ const mergeTimeseriesByKey = ({
   return longestTS
 }
 
-const getTimeFromFromString = (time = '1y') => {
-  if (isNaN(new Date(time).getDate())) {
-    const timeExpression = time.replace(/\d/g, '')
-    const multiplier = time.replace(/[a-zA-Z]+/g, '') || 1
-    let diff = 0
-    if (timeExpression === 'all') {
-      diff = 2 * 12 * 30 * 24 * 60 * 60 * 1000
-    } else if (timeExpression === 'm') {
-      diff = multiplier * 30 * 24 * 60 * 60 * 1000
-    } else if (timeExpression === 'w') {
-      diff = multiplier * 7 * 24 * 60 * 60 * 1000
-    } else {
-      diff = ms(time)
-    }
-    return new Date(+new Date() - diff).toISOString()
-  }
-  return time
-}
-
 const capitalizeStr = (string = '') =>
   string.charAt(0).toUpperCase() + string.slice(1)
+
 const uncapitalizeStr = string =>
   string.charAt(0).toLowerCase() + string.slice(1)
-
-/* UTILS METHOD  */
-// Escaping for corrent alias syntax
-// Otherwise: GraphQLError: Syntax Error GraphQL request (16:7) Expected Name, found Int "0" - for 0x
-// bitcoin-cash | ab-chain-rtb = Syntax Error GraphQL request (4:15) Invalid number, expected digit but got: "c"
-const getEscapedGQLFieldAlias = fieldName => '_' + fieldName.replace(/-/g, '')
 
 const mapParsedTrueFalseFields = object => {
   if (typeof object === 'object') {
@@ -277,42 +220,6 @@ const mapStateToQS = state =>
     arrayFormat: 'bracket'
   })
 
-const renderComponent = (compOrFunc, props) => {
-  if (
-    typeof compOrFunc === 'function' &&
-    !!(compOrFunc.prototype || {}).isReactComponent
-  ) {
-    return createFactory(compOrFunc)(props)
-  }
-  if (typeof compOrFunc === 'function') {
-    return compOrFunc(props)
-  }
-  return createFactory(compOrFunc)(props)
-}
-
-const fork = (
-  condition,
-  leftComponent,
-  rightComponent = undefined
-) => props => {
-  if (condition(props)) {
-    return renderComponent(leftComponent, props)
-  }
-  if (rightComponent) {
-    return renderComponent(rightComponent, props)
-  }
-}
-
-const pickFork = (...forks) => props => {
-  for (const fork of forks) {
-    const _consructComponent = fork(props)
-    if (_consructComponent) {
-      return _consructComponent
-    }
-  }
-  return ''
-}
-
 /**
  * Checks if the given string is an ethereum address
  *
@@ -321,15 +228,6 @@ const pickFork = (...forks) => props => {
  * @return {Boolean}
  */
 const isEthStrictAddress = address => /^(0x)?[0-9a-fA-F]{40}$/.test(address)
-
-const mapItemsToKeys = (items, { keyPath, getKeyPath }) =>
-  items.reduce(
-    (prev, next) => ({
-      ...prev,
-      [getKeyPath ? getKeyPath(next) : next[keyPath]]: next
-    }),
-    {}
-  )
 
 /**
  * Function to calculate the percentage change between two numbers.
@@ -365,29 +263,19 @@ const updateHistory = url => {
 }
 
 export {
-  calculateBTCVolume,
-  calculateBTCMarketcap,
-  calcPercentageChange,
   getOrigin,
   getAPIUrl,
   getConsentUrl,
   sanitizeMediumDraftHtml,
-  filterProjectsByMarketSegment,
   binarySearchHistoryPriceIndex,
-  getStartOfTheDay,
-  getYesterday,
+  mapParsedTrueFalseFields,
   mergeTimeseriesByKey,
-  getTimeFromFromString,
   capitalizeStr,
   uncapitalizeStr,
-  getEscapedGQLFieldAlias,
   mapQSToState,
-  mapParsedTrueFalseFields,
   mapStateToQS,
-  fork,
-  pickFork,
   isEthStrictAddress,
-  mapItemsToKeys,
+  calcPercentageChange,
   isNotSafari,
   safeDecode,
   updateHistory

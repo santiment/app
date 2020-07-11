@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import Dialog from '@santiment-network/ui/Dialog'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import SearchProjects from '../../../../../../components/Search/SearchProjects'
-import { hasAssetById } from '../../../../../../components/WatchlistPopup/WatchlistsPopup'
+import { hasAssetById } from '../../../../../Watchlists/utils'
 import ProjectsList from './ProjectsList'
-import Loader from '@santiment-network/ui/Loader/Loader'
 import styles from './TriggerProjectsSelector.module.scss'
 
 export const TriggerProjectsSelector = ({
@@ -234,7 +234,7 @@ const AssetsListDescription = ({
                 onRemove(asset)
               }}
             >
-              <Icon type='close' className={styles.closeIcon} />
+              <Icon type='close-small' className={styles.closeIcon} />
             </Button>
           </span>
         )

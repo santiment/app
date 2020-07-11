@@ -13,7 +13,8 @@ import { DesktopOnly } from '../Responsive'
 export const AWAITING_APPROVAL_STATE = 'awaiting_approval'
 export const AwaitingApproval = () => (
   <div className={styles.awaiting}>
-    <Icon type='awaiting' className={styles.awaiting__icon} /> Awaiting approval
+    <Icon type='clock-small' className={styles.awaiting__icon} /> Awaiting
+    approval
   </div>
 )
 

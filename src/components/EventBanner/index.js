@@ -71,7 +71,11 @@ const EventBanner = ({ className }) => {
           <p className={styles.desc}>{activeWidget.description}</p>
         </div>
 
-        <Icon type='close' className={styles.close} onClick={hideTooltip} />
+        <Icon
+          type='close-medium'
+          className={styles.close}
+          onClick={hideTooltip}
+        />
       </div>
     </section>
   )

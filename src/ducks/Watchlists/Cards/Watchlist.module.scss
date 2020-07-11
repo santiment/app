@@ -1,0 +1,148 @@
+@import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins.scss';
+
+.wrapper {
+  width: 100%;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-top: 32px;
+  }
+}
+
+.row {
+  display: flex;
+  margin: 0 16px 13px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 26px;
+}
+
+.heading {
+  font-family: 'Proxima Nova', sans-serif;
+  color: var(--mirage);
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: normal;
+  margin: 0;
+
+  &::first-letter {
+    text-transform: uppercase;
+  }
+}
+
+.btn {
+  width: 100%;
+  justify-content: center;
+  margin: 24px 0 16px;
+  max-width: 220px;
+
+  @include responsive('phone', 'phone-xs') {
+    max-width: 100%;
+  }
+}
+
+.img {
+  margin-top: 12vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-top: 22vh;
+  }
+}
+
+.emptyWrapper {
+  @include responsive('phone', 'phone-xs') {
+    padding: 30px 16px 16px;
+    border: 1px solid var(--porcelain);
+    border-radius: 4px;
+    margin: 0 16px;
+
+    & .img {
+      margin-top: 0;
+    }
+  }
+}
+
+.empty__text {
+  @include responsive('desktop', 'laptop', 'tablet') {
+    display: flex;
+    align-items: baseline;
+    margin-left: 55px;
+    flex-direction: column;
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+}
+
+.empty__row {
+  @include responsive('desktop', 'laptop', 'tablet') {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+  }
+}
+
+.emptyText {
+  display: block;
+  width: 274px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--rhino);
+}
+
+.emptyBtn {
+  justify-content: center;
+  align-items: center;
+  width: 160px;
+  margin-top: 16px;
+}
+
+.subtitle {
+  @include text('body-1', 'l');
+
+  color: var(--rhino);
+  margin: 32px 16px 12px;
+
+  &__myWatchlists {
+    margin: 0;
+  }
+}
+
+.overviewInfo {
+  margin: 22px 0 56px;
+  border-right: none;
+}
+
+.newBtn {
+  padding: 12px 6px;
+  height: auto;
+  position: absolute;
+  right: 20px;
+
+  @include text('body-2');
+}
+
+.skeleton {
+  height: 120px;
+  margin: 0 16px;
+}
+
+.skeleton + .skeleton {
+  margin-top: 8px;
+}

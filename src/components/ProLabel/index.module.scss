@@ -1,0 +1,10 @@
+@import '~@santiment-network/ui/mixins';
+
+.label {
+  pointer-events: all;
+  cursor: pointer;
+
+  &:hover {
+    color: white;
+  }
+}

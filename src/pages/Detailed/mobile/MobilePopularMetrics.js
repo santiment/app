@@ -39,7 +39,11 @@ const MobilePopularMetrics = ({
             Swipe left to add or remove a metric. Swipe right to learn more
             about the selected metric.
           </span>
-          <Icon type='close' className={styles.close} onClick={hideTooltip} />
+          <Icon
+            type='close-medium'
+            className={styles.close}
+            onClick={hideTooltip}
+          />
         </div>
       )}
       {metrics.map(metric => (

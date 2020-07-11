@@ -1,7 +1,7 @@
 import React from 'react'
-import styles from './TemplatesGrid.module.scss'
 import Template from '../../ducks/Studio/Template/Dialog/LoadTemplate/Template'
 import { sortById } from '../../utils/sortMethods'
+import styles from './TemplatesGrid.module.scss'
 
 const TemplatesGrid = ({ templates }) => {
   return (

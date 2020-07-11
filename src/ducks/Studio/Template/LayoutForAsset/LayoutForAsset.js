@@ -1,40 +1,33 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux'
+import Icon from '@santiment-network/ui/Icon'
 import LoadTemplate from '../Dialog/LoadTemplate'
 import { useUserTemplates } from '../gql/hooks'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
 import SidecarExplanationTooltip from '../../../SANCharts/SidecarExplanationTooltip'
 import styles from './LayoutForAsset.module.scss'
 
-const Icon = (
-  <svg
-    className={styles.icon}
-    width='16'
-    height='16'
-    viewBox='0 0 16 16'
-    fill='none'
-    xmlns='http://www.w3.org/2000/svg'
-  >
-    <path
-      fillRule='evenodd'
-      clipRule='evenodd'
-      d='M0.171828 5.10338C-0.0572759 5.25754 -0.0572759 5.50749 0.171828 5.66165L7.5841 10.6493C7.81321 10.8035 8.18466 10.8035 8.41376 10.6493L15.8262 5.66157C16.0553 5.50741 16.0553 5.25746 15.8262 5.1033L8.41388 0.115622C8.18478 -0.0385407 7.81333 -0.0385405 7.58422 0.115622L0.171828 5.10338ZM7.99893 9.81192L1.41631 5.38252L7.99905 0.95303L14.5817 5.38243L7.99893 9.81192ZM1.00149 10.3367C0.772382 10.1826 0.400932 10.1826 0.171828 10.3367C-0.0572759 10.4909 -0.0572759 10.7408 0.171828 10.895L7.5841 15.8827C7.81321 16.0368 8.18466 16.0368 8.41376 15.8827L15.8262 10.8949C16.0553 10.7407 16.0553 10.4908 15.8262 10.3366C15.5971 10.1825 15.2256 10.1825 14.9965 10.3366L7.99893 15.0453L1.00149 10.3367Z'
-    />
-  </svg>
-)
-
-const TooltipWrapper = ({ children }) => {
+const RowTooltipWrapper = ({ children }) => {
   return (
     <div className={styles.tooltipWrapper}>
       <SidecarExplanationTooltip
         closeTimeout={500}
-        localStorageSuffix='_ASSET_CHART_LAYOUTS'
+        localStorageSuffix='_ASSET_CHART_LAYOUTS_ROW'
         position='top'
         title={
-          <div className={styles.tooltip}>Apply chart layout on the asset</div>
+          <div className={styles.tooltip}>
+            <div className={styles.titleLine}>
+              {[
+                <div className={styles.new} key='new'>
+                  New!
+                </div>,
+                'Apply chart layout'
+              ]}
+            </div>
+            <div>on the asset</div>
+          </div>
         }
         description=''
-        closable={false}
         withArrow
         delay={1000}
       >
@@ -45,12 +38,52 @@ const TooltipWrapper = ({ children }) => {
   )
 }
 
-const Trigger = ({ showTooltip, isHovered, counter, ...rest }) => {
-  const El = isHovered ? TooltipWrapper : Fragment
+const IconTooltipWrapper = ({ children }) => {
+  return (
+    <div className={styles.tooltipWrapper}>
+      <SidecarExplanationTooltip
+        closeTimeout={500}
+        localStorageSuffix='_ASSET_CHART_LAYOUTS_ICON'
+        position='top'
+        title={
+          <div className={styles.tooltip}>Click to apply chart layout</div>
+        }
+        description=''
+        closable={false}
+        delay={0}
+      >
+        <div />
+      </SidecarExplanationTooltip>
+      {children}
+    </div>
+  )
+}
+
+const Trigger = ({
+  showTooltip,
+  isHoveredRow,
+  isIconHovered,
+  counter,
+  ...rest
+}) => {
+  let El = Fragment
+
+  if (isHoveredRow) {
+    El = RowTooltipWrapper
+  }
+
+  if (isIconHovered) {
+    El = IconTooltipWrapper
+  }
+
   return (
     <El>
       <div {...rest} className={styles.counter}>
-        {isHovered ? <div>{Icon}</div> : counter}
+        {isHoveredRow || isIconHovered ? (
+          <Icon type='chart-layout' className={styles.icon} />
+        ) : (
+          counter
+        )}
       </div>
     </El>
   )
@@ -60,18 +93,23 @@ const LayoutForAsset = ({
   currentUser,
   item: { id },
   showTooltip,
-  isHovered,
+  isHoveredRow,
   index
 }) => {
   const user = currentUser.data
   const [templates] = useUserTemplates(user.id)
 
+  const [isIconHovered, setIsIconHovered] = useState(false)
+
   return (
     <LoadTemplate
       trigger={
         <Trigger
+          onMouseEnter={() => setIsIconHovered(true)}
+          onMouseLeave={() => setIsIconHovered(false)}
           showTooltip={showTooltip}
-          isHovered={isHovered}
+          isHoveredRow={isHoveredRow}
+          isIconHovered={isIconHovered}
           counter={index}
         />
       }

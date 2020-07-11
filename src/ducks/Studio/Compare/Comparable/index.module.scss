@@ -1,5 +1,6 @@
 .row {
   display: flex;
+  align-items: center;
   margin-top: 8px;
 }
 
@@ -14,8 +15,6 @@
 
 .remove {
   margin-left: 13px;
-  height: 32px;
-  width: 9px;
   fill: var(--waterloo);
   cursor: pointer;
 
