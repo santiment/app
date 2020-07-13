@@ -1,7 +1,7 @@
 import React from 'react'
 import SignalCardsGrid from '../../components/SignalCard/SignalCardsGrid'
 import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
-import GetFeaturedUserTriggers from '../../ducks/Signals/common/getFeaturedUserTriggers'
+import { useFeaturedUserTriggers } from '../../ducks/Signals/common/useFeaturedUserTriggers'
 import EmptySection from '../../components/EmptySection/EmptySection'
 import PageLoader from '../../components/Loader/PageLoader'
 import styles from './SonarFeedRecommendations.module.scss'
@@ -20,33 +20,32 @@ const SonarFeedRecommendations = ({
   )
 }
 
-export const RecommendedSignals = ({ showTitle = true, showNew }) => (
-  <GetFeaturedUserTriggers
-    always
-    render={({ data: { signals }, isLoading }) => {
-      const hasSignals = signals && signals.length > 0
+export const RecommendedSignals = ({ showTitle = true, showNew }) => {
+  const [signals, loading] = useFeaturedUserTriggers()
 
-      if (isLoading) {
-        return <PageLoader className={styles.loader} />
-      }
+  if (!signals) {
+    return null
+  }
 
-      const mapToCardGridSignals = signals.map(({ trigger, userId }) => ({
-        ...trigger,
-        userId: userId
-      }))
+  if (loading) {
+    return <PageLoader className={styles.loader} />
+  }
 
-      return (
-        hasSignals && (
-          <>
-            {showTitle && (
-              <h4 className={styles.subtitle}>Recommended for you</h4>
-            )}
-            <SignalCardsGrid signals={mapToCardGridSignals} showNew={showNew} />
-          </>
-        )
-      )
-    }}
-  />
-)
+  const mapped = signals.map(({ trigger, userId }) => ({
+    ...trigger,
+    userId: userId
+  }))
+
+  const hasSignals = mapped && mapped.length > 0
+
+  return (
+    hasSignals && (
+      <>
+        {showTitle && <h4 className={styles.subtitle}>Recommended for you</h4>}
+        <SignalCardsGrid signals={mapped} showNew={showNew} />
+      </>
+    )
+  )
+}
 
 export default SonarFeedRecommendations
