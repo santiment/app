@@ -114,7 +114,7 @@ const SignalMaster = ({
 
     const data = {
       ...newTrigger,
-      shouldReload: canRedirect
+      shouldReload: true
     }
 
     const { id } = data

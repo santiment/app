@@ -54,10 +54,6 @@ export const signalsGqlMapper = {
     }
   }
 }
-export const featuredSignalsGqlMapper = {
-  ...signalsGqlMapper,
-  skip: () => true
-}
 
 export default compose(
   connect(mapStateToProps),
