@@ -3,14 +3,12 @@ import { Mutation } from 'react-apollo'
 import { connect } from 'react-redux'
 import cloneDeep from 'lodash/cloneDeep'
 import Button from '@santiment-network/ui/Button'
+import Icon from '@santiment-network/ui/Icon'
 import {
   FOLLOW_MUTATION,
   PUBLIC_USER_DATA_QUERY,
   UNFOLLOW_MUTATION
 } from '../../../queries/ProfileGQL'
-import followImg from './../../../assets/follow/follow.svg'
-import followedImg from './../../../assets/follow/followed.svg'
-import followingImg from './../../../assets/follow/following.svg'
 import styles from './FollowBtn.module.scss'
 
 export const updateFollowersList = (followers, follow, unfollow, userId) => {
@@ -107,24 +105,12 @@ const FollowBtn = ({
           >
             {!loading ? (
               isInFollowers ? (
-                <img
-                  className={styles.followImg}
-                  src={followedImg}
-                  alt='followed'
-                />
+                <Icon type='followers' className={styles.followImg} />
               ) : (
-                <img
-                  className={styles.followImg}
-                  src={followImg}
-                  alt='follow'
-                />
+                <Icon type='follow' className={styles.followImg} />
               )
             ) : (
-              <img
-                className={styles.followImg}
-                src={followingImg}
-                alt='following'
-              />
+              <Icon type='following' className={styles.followImg} />
             )}
             {isInFollowers ? 'Followed' : 'Follow'}
           </Button>

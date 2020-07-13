@@ -45,7 +45,7 @@ const SignalCardBottom = ({
           <h4 className={styles.author}>
             {isAwaiting && (
               <div className={styles.awaitingBlock}>
-                <Icon type='awaiting' />
+                <Icon type='clock-small' />
                 <span>&nbsp;&nbsp;Awaiting confirmation</span>
               </div>
             )}

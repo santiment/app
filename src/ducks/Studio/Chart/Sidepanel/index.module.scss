@@ -50,11 +50,7 @@
   }
 }
 
-.hamburger {
-  transform: scale(0.33, 0.8);
-  margin: -1px -3px 0 3px;
-}
-
-.arrow {
-  height: 6px;
+.icon {
+  margin-left: 8px;
+  transform: rotate(180deg);
 }

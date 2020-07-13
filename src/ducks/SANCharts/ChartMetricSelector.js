@@ -181,7 +181,7 @@ const ChartMetricSelector = ({
                     >
                       {category}
                       {counter > 0 && `  (${counter})`}
-                      <Icon type='arrow-right' />
+                      <Icon type='arrow-right-small' />
                     </Button>
                   </div>
                 )

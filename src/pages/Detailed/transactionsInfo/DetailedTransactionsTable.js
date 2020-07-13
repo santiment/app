@@ -2,7 +2,6 @@ import React from 'react'
 import cx from 'classnames'
 import ReactTable from 'react-table'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
-import { formatNumber } from '../../../utils/formatting'
 import { getDateFormats, getTimeFormats } from '../../../utils/dates'
 import SmoothDropdown from '../../../components/SmoothDropdown/SmoothDropdown'
 import { columns } from './columns'
@@ -25,6 +24,7 @@ export function normalizeTransactionData (
 
   return {
     trxHash,
+    trxValue,
     fromAddress: {
       ...fromAddress,
       assets: [slug, 'ethereum']
@@ -33,7 +33,6 @@ export function normalizeTransactionData (
       ...toAddress,
       assets: [slug, 'ethereum']
     },
-    trxValue: formatNumber(trxValue),
     datetime: `${YYYY}-${MM}-${DD} ${HH}:${mm}:${ss}`
   }
 }
@@ -48,13 +47,13 @@ export const TransactionTable = ({ header, data, className, ...props }) => (
     <SmoothDropdown verticalMotion>
       <ReactTable
         minRows={1}
-        {...props}
-        data={data}
-        columns={columns}
         className={styles.transactionsTable}
         defaultSorted={DEFAULT_SORTED}
         showPagination={false}
         resizable={false}
+        {...props}
+        data={data}
+        columns={columns}
       />
     </SmoothDropdown>
   </PanelWithHeader>

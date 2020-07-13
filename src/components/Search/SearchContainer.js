@@ -23,7 +23,7 @@ const Recent = ({ icon = 'clock', text, onRemove }) => (
       <Icon type={icon} className={styles.clock} />
       {text}
     </div>
-    <Icon type='close' className={styles.remove} onClick={onRemove} />
+    <Icon type='close-medium' className={styles.remove} onClick={onRemove} />
   </div>
 )
 

@@ -11,7 +11,7 @@ export const DarkVideoPlayBtn = ({ className }) => (
     fill='none'
     xmlns='http://www.w3.org/2000/svg'
   >
-    <circle opacity='0.8' cx='20' cy='20' r='20' fill='var(--rhino)' />
+    <circle opacity='0.8' cx='20' cy='20' r='20' fill='#2F354D' />
     <path d='M26 20L17 25.1961L17 14.8038L26 20Z' fill='#8B93B6' />
   </svg>
 )

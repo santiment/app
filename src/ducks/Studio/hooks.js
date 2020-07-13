@@ -4,7 +4,9 @@ const DEFAULT_PRESSED_MOFIER = {
   altKey: false,
   shiftKey: false,
   metaKey: false,
-  ctrlKey: false
+  ctrlKey: false,
+  // NOTE: cmdKey is the "command" on macOS and the "ctrl" on Windows  [@vanguard | Jul  9, 2020]
+  cmdKey: false
 }
 
 export function useKeyDown (clb, key) {
@@ -25,6 +27,7 @@ export function useKeyboardShortcut (key, clb, target = window) {
   useEffect(
     () => {
       function onKeyDown (e) {
+        e.preventDefault()
         const { ctrlKey, metaKey } = e
 
         if ((metaKey || ctrlKey) && key === e.key) {
@@ -55,7 +58,8 @@ export function usePressedModifier () {
             altKey,
             shiftKey,
             metaKey,
-            ctrlKey
+            ctrlKey,
+            cmdKey: metaKey || ctrlKey
           }
       )
     }
