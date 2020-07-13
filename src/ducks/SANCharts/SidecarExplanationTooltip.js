@@ -86,7 +86,8 @@ export const ExplanationTooltipWrapper = props => {
     title = 'Explore assets',
     description = 'Quick navigation through your assets',
     closable = true,
-    classes = {}
+    classes = {},
+    isNew
   } = props
 
   return (
@@ -102,7 +103,16 @@ export const ExplanationTooltipWrapper = props => {
       text={
         <>
           <div>
-            {title}
+            <div className={styles.title}>
+              {[
+                isNew && (
+                  <span className={styles.new} key='new'>
+                    New!
+                  </span>
+                ),
+                <span key='title'>{title}</span>
+              ]}
+            </div>
             {description && <div className={styles.text}>{description}</div>}
           </div>
           {shown && !dismissOnTouch && closable && (

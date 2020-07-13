@@ -7,6 +7,7 @@ import {
   toggleTrigger
 } from '../../ducks/Signals/common/actions'
 import { sortById } from '../../utils/sortMethods'
+import NewSignalCard from './new/NewSignaLCard'
 import styles from './SignalCardsGrid.module.scss'
 
 const SignalCardsGrid = ({
@@ -17,6 +18,7 @@ const SignalCardsGrid = ({
   toggleSignal,
   removeSignal,
   deleteEnabled = true,
+  showNew = false,
   classes = {}
 }) => {
   const isAuthor = +userId === +ownerId
@@ -48,6 +50,8 @@ const SignalCardsGrid = ({
           />
         )
       })}
+
+      {showNew && <NewSignalCard />}
     </div>
   )
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { DesktopOnly } from '../../Responsive'
 import Icon from '@santiment-network/ui/Icon'
 import Toggle from '@santiment-network/ui/Toggle'
@@ -58,6 +59,11 @@ const SignalCardBottom = ({
         )}
         {isUserTheAuthor && toggleSignal && (
           <div className={styles.right}>
+            <div
+              className={cx(styles.toggleLabel, !isActive && styles.disabled)}
+            >
+              {isActive ? 'Active' : 'Disabled'}
+            </div>
             <Toggle onClick={toggleSignal} isActive={isActive} />
           </div>
         )}

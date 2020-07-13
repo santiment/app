@@ -49,7 +49,7 @@
 
   word-break: break-word;
   color: var(--waterloo);
-  margin-top: 10px;
+  margin-top: 4px;
 }
 
 .pointer {
@@ -89,7 +89,7 @@
 }
 
 .bottom {
-  margin-top: 19px;
+  margin-top: 22px;
   display: flex;
   align-items: center;
 
@@ -117,6 +117,11 @@
 .share {
   cursor: pointer;
   padding: 0;
+  fill: var(--waterloo);
+
+  &:hover {
+    fill: var(--jungle-green-hover);
+  }
 }
 
 .removeSignal {
@@ -173,6 +178,15 @@
   margin-left: auto;
   align-items: center;
   display: flex;
+}
+
+.toggleLabel {
+  margin-right: 8px;
+  color: var(--jungle-green);
+}
+
+.disabled {
+  color: var(--waterloo);
 }
 
 .subscriptions {
