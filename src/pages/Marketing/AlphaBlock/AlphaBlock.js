@@ -1,12 +1,32 @@
 import React from 'react'
 import cx from 'classnames'
-import ProPriceDivergenceCard from '../ProTemplateCard/ProPriceDivergenceCard'
-import TokenDistributionCard from '../TokenDistributionCard/TokenDistributionCard'
-import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
+import gql from 'graphql-tag'
+import { useQuery } from '@apollo/react-hooks'
+import AlphaCard from '../AlphaCard/AlphaCard'
+import PageLoader from '../../../components/Loader/PageLoader'
 import styles from './AlphaBlock.module.scss'
 
+const REPORTS_QUERY = gql`
+  {
+    getReports {
+      name
+      description
+      url
+    }
+  }
+`
+
+const useAlphaReports = () => {
+  const { data, loading, error } = useQuery(REPORTS_QUERY)
+  return [data ? data.getReports : [], loading, error]
+}
+
 const AlphaBlock = ({ classes = {} }) => {
-  const { isPro } = useUserSubscriptionStatus()
+  const [reports, loading] = useAlphaReports()
+
+  if (loading) {
+    return <PageLoader />
+  }
 
   return (
     <>
@@ -15,11 +35,15 @@ const AlphaBlock = ({ classes = {} }) => {
         analysis developed by the Santiment team. New Alphas added weekly!
       </div>
 
-      <div className={styles.cards}>
-        <ProPriceDivergenceCard isPro={isPro} />
-
-        <TokenDistributionCard isPro={isPro} />
-      </div>
+      {loading ? (
+        <PageLoader />
+      ) : (
+        <div className={styles.cards}>
+          {reports.map((item, index) => (
+            <AlphaCard key={index} data={item} />
+          ))}
+        </div>
+      )}
     </>
   )
 }
