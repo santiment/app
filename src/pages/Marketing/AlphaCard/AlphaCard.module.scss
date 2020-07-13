@@ -8,7 +8,6 @@
   max-width: 368px;
   display: flex;
   flex-direction: column;
-  margin-top: 48px;
 }
 
 .info {
@@ -42,4 +41,14 @@
 
 .block {
   margin-top: 16px;
+}
+
+.shareBlock {
+  border-top: 1px solid var(--porcelain);
+  margin: auto 24px 16px 24px;
+  padding-top: 14px;
+}
+
+.shareBtn {
+  padding-left: 0;
 }
