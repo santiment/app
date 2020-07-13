@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/react-hooks'
 import AlphaCard from '../AlphaCard/AlphaCard'
 import PageLoader from '../../../components/Loader/PageLoader'
 import styles from './AlphaBlock.module.scss'
+import ProPriceDivergenceCard from '../ProTemplateCard/ProPriceDivergenceCard'
 
 const REPORTS_QUERY = gql`
   {
@@ -39,6 +40,7 @@ const AlphaBlock = ({ classes = {} }) => {
         <PageLoader />
       ) : (
         <div className={styles.cards}>
+          <ProPriceDivergenceCard />
           {reports.map((item, index) => (
             <AlphaCard key={index} data={item} />
           ))}
