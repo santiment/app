@@ -109,9 +109,11 @@ const ActivityWithBacktesting = ({
                   closeTimeout={500}
                   localStorageSuffix='_FEED_PROFILE_EXPLANATION'
                   position='top'
-                  title={<div>New! Click to open profile</div>}
+                  title='Click to open profile'
                   className={styles.avatarTooltip}
                   description=''
+                  isNew
+                  withArrow
                   showEnabled={index === 0 && showProfileExplanation}
                 >
                   <SignalCreator user={user} className={styles.creator} />

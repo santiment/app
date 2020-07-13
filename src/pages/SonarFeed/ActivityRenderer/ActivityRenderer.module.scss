@@ -16,6 +16,7 @@
 
 .tooltip {
   margin-top: auto;
+  display: flex;
 }
 
 .wrapper {
@@ -61,13 +62,6 @@
     border-radius: $border-radius;
     max-width: 100%;
   }
-
-  p {
-    @include text('caption');
-
-    margin-bottom: 0 !important;
-    color: var(--waterloo);
-  }
 }
 
 .activityItemBacktest {
@@ -75,10 +69,6 @@
 
   img {
     display: none;
-  }
-
-  p {
-    margin-top: 8px;
   }
 }
 
@@ -162,5 +152,10 @@
 }
 
 .avatarTooltip {
-  width: 177px;
+  max-width: 180px;
+}
+
+.new {
+  color: var(--jungle-green);
+  margin-right: 4px;
 }
