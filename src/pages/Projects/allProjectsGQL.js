@@ -121,44 +121,6 @@ export const ERC20_PROJECTS_QUERY = gql`
   ${project}
 `
 
-export const currenciesGQL = gql`
-  query allCurrencyProjects($minVolume: Int!) {
-    allCurrencyProjects(minVolume: $minVolume) {
-      ...generalData
-      ...project
-    }
-  }
-  ${generalData}
-  ${project}
-`
-
-export const allMarketSegmentsGQL = gql`
-  {
-    allMarketSegments {
-      name
-      count
-    }
-  }
-`
-
-export const erc20MarketSegmentsGQL = gql`
-  {
-    erc20MarketSegments {
-      name
-      count
-    }
-  }
-`
-
-export const currenciesMarketSegmentsGQL = gql`
-  {
-    currenciesMarketSegments {
-      name
-      count
-    }
-  }
-`
-
 export const ALL_ERC20_PROJECTS_QUERY = gql`
   {
     allErc20Projects {
@@ -168,6 +130,20 @@ export const ALL_ERC20_PROJECTS_QUERY = gql`
       slug
       mainContractAddress
       infrastructure
+    }
+  }
+`
+
+export const ALL_PROJECTS_PRICE_CHANGES_QUERY = gql`
+  {
+    allProjects {
+      slug
+      ticker
+      percentChange1h
+      percentChange24h
+      percentChange7d
+      volumeChange24h
+      marketcapUsd
     }
   }
 `

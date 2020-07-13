@@ -4,7 +4,7 @@ import Header from './Header'
 import ChartPreview from './ChartPreview'
 import { Phase } from '../phases'
 import { useKeyDown } from '../hooks'
-import { SvgNew } from '../../../components/Watchlists/NewWatchlistCard'
+import { Plus } from '../../../components/Illustrations/Plus'
 import styles from './Overview.module.scss'
 
 const Overview = ({
@@ -47,7 +47,7 @@ const Overview = ({
                 className={cx(styles.item, styles.item_new, styles.idle)}
                 onClick={onNewChartClick}
               >
-                <SvgNew className={styles.iconNew} />
+                <Plus className={styles.iconNew} />
                 Add new chart
               </div>
             )}

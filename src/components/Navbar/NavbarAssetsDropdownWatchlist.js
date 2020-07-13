@@ -1,105 +1,93 @@
-import React, { Fragment } from 'react'
+import React from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Button, Icon } from '@santiment-network/ui'
-import { fork, pickFork } from './../../utils/utils'
-import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
-import ExplanationTooltip from '../ExplanationTooltip/ExplanationTooltip'
-import WatchlistsAnon from './../WatchlistPopup/WatchlistsAnon'
-import WatchlistNewBtn from '../WatchlistPopup/WatchlistNewBtn'
-import NewWatchlistDialog from '../Watchlists/NewWatchlistDialog'
+import Button from '@santiment-network/ui/Button'
+import Loader from '@santiment-network/ui/Loader/Loader'
+import WatchlistsAnon from '../../ducks/Watchlists/Actions/WatchlistPopup/WatchlistsAnon'
+import WatchlistNewBtn from '../../ducks/Watchlists/Actions/WatchlistPopup/WatchlistNewBtn'
+import NewWatchlistDialog from '../../ducks/Watchlists/Actions/NewWatchlistDialog'
+import { getWatchlistLink } from '../../ducks/Watchlists/utils'
+import { VisibilityIndicator } from '../VisibilityIndicator'
+import { useUserWatchlists } from '../../ducks/Watchlists/gql/hooks'
+import {
+  checkIsLoggedIn,
+  checkIsLoggedInPending
+} from '../../pages/UserSelectors'
 import styles from './NavbarAssetsDropdownWatchlist.module.scss'
 
-const NavbarAssetsDropdownWatchlist = ({ activeLink }) => (
-  <GetWatchlists
-    render={props => {
-      const renderWatchlistsList = pickFork(
-        ifLoading,
-        ifAnonymous,
-        ifEmpty,
-        ifData
-      )
-      return (
-        <Fragment>
-          {renderWatchlistsList({ activeLink, ...props })}
-          {renderNewWatchlistForm({
-            trigger: <WatchlistNewBtn border className={styles.watchlistNew} />,
-            ...props
-          })}
-        </Fragment>
-      )
-    }}
-  />
-)
+const NavbarAssetsDropdownWatchlist = ({
+  activeLink,
+  isLoggedIn,
+  isLoggedInPending
+}) => {
+  const [watchlists, loading] = useUserWatchlists()
+  const isLoading = loading || isLoggedInPending
 
-const renderNewWatchlistForm = fork(
-  props => props.isLoggedIn,
-  NewWatchlistDialog
-)
-
-const ifLoading = fork(
-  props => props.isWatchlistsLoading,
-  () => <h2 style={{ marginLeft: 30, flex: 1 }}>Loading...</h2>
-)
-
-const ifAnonymous = fork(props => !props.isLoggedIn, WatchlistsAnon)
-
-const ifEmpty = fork(
-  props => props.watchlists.length === 0,
-  ({ watchlists }) => (
-    <div className={styles.emptyWrapper}>
-      <span>
-        <NewWatchlistDialog
-          trigger={
-            <Button accent='positive' className={styles.createBtn}>
-              Create
-            </Button>
-          }
-          watchlists={watchlists}
-        />
-        your own watchlist to track
-      </span>
-      <span>assets you are interested in</span>
-    </div>
+  return isLoading ? (
+    <Loader className={styles.loader} />
+  ) : isLoggedIn ? (
+    <>
+      {watchlists.length === 0 ? (
+        <EmptySection watchlists={watchlists} />
+      ) : (
+        <>
+          <WatchlistList watchlists={watchlists} activeLink={activeLink} />,
+          <NewWatchlistDialog
+            trigger={<WatchlistNewBtn border className={styles.watchlistNew} />}
+            watchlists={watchlists}
+          />
+        </>
+      )}
+    </>
+  ) : (
+    <WatchlistsAnon />
   )
-)
+}
 
-export const MakeWatchlistLink = (id, name) => `/assets/list?name=${name}@${id}`
-
-const ifData = fork(
-  props => props.watchlists.length > 0,
-  // TODO: activeLink is '/sonar' and we can't highlight here choosed watchlist
-  ({ watchlists, isWatchlistsLoading, activeLink }) => (
-    <div className={styles.wrapper}>
-      <div className={styles.list}>
-        {watchlists.map(({ name, id, isPublic }) => {
-          const link = MakeWatchlistLink(id, name)
-          return (
-            <Button
-              fluid
-              variant='ghost'
-              key={id}
-              as={Link}
-              className={styles.item}
-              to={link}
-              isActive={activeLink === link}
-            >
-              <span className={styles.watchlistName}>{name}</span>
-              <ExplanationTooltip
-                text={isPublic ? 'Public' : 'Private'}
-                className={styles.explanation}
-                offsetY={5}
-              >
-                <Icon
-                  type={isPublic ? 'eye' : 'lock-small'}
-                  className={styles.icon}
-                />
-              </ExplanationTooltip>
-            </Button>
-          )
-        })}
-      </div>
+const WatchlistList = ({ watchlists, activeLink }) => (
+  <div className={styles.wrapper}>
+    <div className={styles.list}>
+      {watchlists.map(({ name, id, isPublic }) => {
+        const link = getWatchlistLink({ id, name })
+        return (
+          <Button
+            fluid
+            variant='ghost'
+            key={id}
+            as={Link}
+            className={styles.item}
+            to={link}
+            isActive={activeLink === link}
+          >
+            <span className={styles.watchlistName}>{name}</span>
+            <VisibilityIndicator isPublic={isPublic} />
+          </Button>
+        )
+      })}
     </div>
-  )
+  </div>
 )
 
-export default NavbarAssetsDropdownWatchlist
+const EmptySection = ({ watchlists }) => (
+  <div className={styles.emptyWrapper}>
+    <span>
+      <NewWatchlistDialog
+        trigger={
+          <Button accent='positive' className={styles.createBtn}>
+            Create
+          </Button>
+        }
+        watchlists={watchlists}
+      />
+      your own watchlist to track
+    </span>
+    <span>assets you are interested in</span>
+  </div>
+)
+
+const mapStateToProps = state => ({
+  isLoggedIn: checkIsLoggedIn(state),
+  isLoggedInPending: checkIsLoggedInPending(state)
+})
+
+export default connect(mapStateToProps)(NavbarAssetsDropdownWatchlist)

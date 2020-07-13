@@ -23,10 +23,11 @@ import ErrorBoundary from './ErrorBoundary'
 import PageLoader from './components/Loader/PageLoader'
 import Footer from './components/Footer'
 import GDPRPage from './pages/GDPRPage/GDPRPage'
-import AssetsPage from './pages/assets/AssetsPage'
+import WatchlistPage from './pages/Watchlist'
 import HistoricalBalancePage from './ducks/HistoricalBalance/page/HistoricalBalancePage'
 import { getConsentUrl } from './utils/utils'
 import CookiePopup from './components/CookiePopup/CookiePopup'
+import GdprRedirector from './components/GdprRedirector'
 import LogoutPage from './pages/Logout/Logout'
 import { mapSizesToProps } from './utils/withSizes'
 import CreateAccountFreeTrial from './pages/Login/CreateAccountFreeTrial'
@@ -115,18 +116,18 @@ const LoadableSonarFeedPage = Loadable({
   loading: () => <PageLoader />
 })
 
-const LoadableAssetsOverviewPage = Loadable({
-  loader: () => import('./pages/assets/AssetsOverviewPage'),
+const LoadableWatchlistsPage = Loadable({
+  loader: () => import('./pages/Watchlists'),
   loading: () => <PageLoader />
 })
 
 const LoadableWatchlistsMobilePage = Loadable({
-  loader: () => import('./pages/assets/WatchlistsMobilePage'),
+  loader: () => import('./pages/Watchlists/WatchlistsMobilePage'),
   loading: () => <PageLoader />
 })
 
 const LoadableAssetsMobilePage = Loadable({
-  loader: () => import('./pages/assets/AssetsMobilePage'),
+  loader: () => import('./pages/Watchlists/AssetsMobilePage'),
   loading: () => <PageLoader />
 })
 
@@ -221,7 +222,6 @@ export const App = ({
   isUserLoading,
   token,
   isOffline,
-  isBetaModeEnabled,
   showFooter,
   location: { pathname }
 }) => (
@@ -237,9 +237,10 @@ export const App = ({
       <MobileNavbar activeLink={pathname} />
     )}
     <ErrorBoundary>
+      <GdprRedirector pathname={pathname} />
       {isDesktop && <UrlModals />}
       <Switch>
-        {['currencies', 'erc20', 'all', 'list'].map(name => (
+        {['erc20', 'all', 'list', 'screener'].map(name => (
           <Route
             exact
             key={name}
@@ -247,10 +248,9 @@ export const App = ({
             render={props => {
               if (isDesktop) {
                 return (
-                  <AssetsPage
+                  <WatchlistPage
                     type={name}
                     isLoggedIn={isLoggedIn}
-                    isBetaModeEnabled={isBetaModeEnabled}
                     preload={() => LoadableDetailedPage.preload()}
                     {...props}
                   />
@@ -279,7 +279,7 @@ export const App = ({
             <CreateAccountFreeTrial {...props} isLoggedIn={isLoggedIn} />
           )}
         />
-        <Route exact path='/assets' component={LoadableAssetsOverviewPage} />
+        <Route exact path='/assets' component={LoadableWatchlistsPage} />
         <Route
           exact
           path='/watchlists'
@@ -467,7 +467,6 @@ const mapStateToProps = ({ user, rootUi }, { location: { pathname } }) => ({
   isUserLoading: user.isLoading,
   token: user.token,
   isOffline: !rootUi.isOnline,
-  isBetaModeEnabled: rootUi.isBetaModeEnabled,
   showFooter:
     !isPathnameInPages(pathname, FOOTER_DISABLED_FOR) &&
     !pathname.includes(PATHS.STUDIO)

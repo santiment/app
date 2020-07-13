@@ -1,0 +1,69 @@
+@import '~@santiment-network/ui/variables';
+@import '~@santiment-network/ui/mixins';
+
+.overviewPage {
+  color: var(--rhino);
+
+  @include responsive('phone-xs', 'phone') {
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overflow-y: overlay;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0 !important;
+    margin-bottom: 60px;
+  }
+}
+
+.section {
+  margin: 25px 0 50px;
+}
+
+.tabs {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 4px 10px 0;
+}
+
+.heading {
+  font-family: 'Proxima Nova', sans-serif;
+  color: var(--rhino);
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: normal;
+  margin: 12px 0 26px;
+}
+
+.subtitle {
+  @include text('body-1', 'l');
+
+  margin: 0 16px 12px;
+}
+
+.recents {
+  margin-bottom: 32px;
+  padding: 0 16px;
+}
+
+.gainers {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.watchlists {
+  margin-bottom: 32px;
+}
+
+.stories {
+  position: relative;
+  margin-top: 1px;
+}
+
+.trends {
+  margin-top: 11px;
+}
+
+.emptyWatchlists {
+  margin-top: 10px;
+}

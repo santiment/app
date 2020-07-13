@@ -1,0 +1,61 @@
+@import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins';
+
+.listWrapper {
+  position: relative;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  max-height: 364px;
+  overflow-y: auto;
+  box-sizing: content-box;
+  padding-right: 8px;
+  margin-bottom: 15px;
+}
+
+.watchlist {
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  cursor: pointer;
+}
+
+.label {
+  padding-left: 5px;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-right: 10px;
+  min-width: 180px;
+  width: calc(100% - (16px + 20px));
+
+  &::first-letter {
+    text-transform: uppercase;
+  }
+}
+
+.checkbox {
+  justify-content: flex-end;
+  width: 94%;
+
+  &:hover {
+    @include responsive('tablet', 'laptop', 'desktop') {
+      & .label {
+        color: var(--jungle-green-hover);
+      }
+    }
+  }
+}
+
+.watchlistNew {
+  width: 100%;
+  fill: var(--casper);
+  justify-content: center;
+}

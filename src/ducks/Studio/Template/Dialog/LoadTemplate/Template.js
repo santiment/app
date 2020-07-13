@@ -20,7 +20,7 @@ export const isUserAuthorOfTemplate = (user, template) => {
     return false
   }
   const { user: { id } = {} } = template
-  return user && user.data && +user.data.id === +id
+  return user && (user.data ? +user.data.id : +user.id) === +id
 }
 
 export const usePublicTemplates = template => {

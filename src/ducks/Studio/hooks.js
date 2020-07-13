@@ -23,14 +23,14 @@ export function useKeyDown (clb, key) {
   }, [])
 }
 
-export function useKeyboardShortcut (key, clb, target = window) {
+export function useKeyboardCmdShortcut (key, clb, target = window) {
   useEffect(
     () => {
       function onKeyDown (e) {
-        e.preventDefault()
         const { ctrlKey, metaKey } = e
 
         if ((metaKey || ctrlKey) && key === e.key) {
+          e.preventDefault()
           clb()
         }
       }

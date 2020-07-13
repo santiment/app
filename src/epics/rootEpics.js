@@ -12,7 +12,6 @@ import handleEthLogin, {
 } from './handleEthLogin'
 import logoutEpic from './../pages/Logout/LogoutEpic'
 import handleGDPR from './handleGDPR'
-import handleRouter from './handleRouter'
 import apikeyGenerateEpic from './apikeyGenerateEpic'
 import apikeyRevokeEpic from './apikeyRevokeEpic'
 import createWatchlistEpic, {
@@ -23,8 +22,8 @@ import {
   removeAssetFromWatchlistEpic,
   addAssetToWatchlistEpic,
   editAssetsInWatchlistEpic
-} from './../components/WatchlistEdit/editAssetsInWatchlistEpic'
-import { watchlistToggleMonitoringEpic } from '../components/WatchlistWeeklyReport/watchlistToggleMonitoringEpic'
+} from './../ducks/Watchlists/Actions/WatchlistEdit/editAssetsInWatchlistEpic'
+import { watchlistToggleMonitoringEpic } from '../ducks/Watchlists/Actions/WatchlistWeeklyReport/watchlistToggleMonitoringEpic'
 import {
   changeColumnsSettingsEpic,
   saveWatchlistsSettingsAfterLaunch
@@ -82,7 +81,6 @@ export default combineEpics(
   digestSubscriptionEpic,
   handleEthLogin,
   handleGDPR,
-  handleRouter,
   keyboardEpic,
   // user's assets lists
   createWatchlistEpic,

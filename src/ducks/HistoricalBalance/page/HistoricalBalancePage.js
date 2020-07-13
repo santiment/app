@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import cx from 'classnames'
 import BalanceView from '../balanceView/BalanceView'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
-import HelpTooltip from '../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
+import HelpPopup from '../../../components/HelpPopup/HelpPopup'
 import { mapQSToState, mapStateToQS } from '../../../utils/utils'
 import styles from './HistoricalBalancePage.module.scss'
 
@@ -123,15 +123,10 @@ const BalancePageExplanation = () => (
   <>
     <span>Historical balance</span>
     <span className={styles.questionIcon}>
-      <HelpTooltip
-        position='bottom'
-        align='start'
-        classes={styles}
-        withDesc={false}
-      >
+      <HelpPopup>
         Enter any ERC-20 wallet's address and choose up to 5 assets for a
         detailed breakdown of the wallet's balance over time.
-      </HelpTooltip>
+      </HelpPopup>
     </span>
   </>
 )

@@ -12,6 +12,7 @@ import {
   USER_SUBSCRIPTIONS_QUERY,
   CANCEL_SUBSCRIPTION_MUTATION
 } from '../../queries/plans'
+import { updateUserSubscriptions } from '../../stores/user/subscriptions'
 
 const createCacheUpdate = subsId =>
   function updateCache (cache, { data: { cancelSubscription } }) {
@@ -23,6 +24,7 @@ const createCacheUpdate = subsId =>
     canceled.currentPeriodEnd = cancelSubscription.scheduledForCancellationAt
 
     currentUser.subscriptions = [...currentUser.subscriptions]
+    updateUserSubscriptions(currentUser.subscriptions)
 
     cache.writeQuery({
       query: USER_SUBSCRIPTIONS_QUERY,

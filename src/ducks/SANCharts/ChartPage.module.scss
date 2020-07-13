@@ -178,15 +178,6 @@
     &_icon_and_name {
       display: flex;
     }
-
-    &_paywalled_label {
-      pointer-events: all;
-    }
-
-    &_paywalled_label:hover {
-      color: white;
-      cursor: pointer;
-    }
   }
 
   & .icon {

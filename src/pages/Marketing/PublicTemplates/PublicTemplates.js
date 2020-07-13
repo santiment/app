@@ -1,5 +1,4 @@
 import React, { useRef } from 'react'
-import { connect } from 'react-redux'
 import { TEMPLATES } from './utils'
 import {
   useFeaturedTemplates,
@@ -8,14 +7,16 @@ import {
 import PageLoader from '../../../components/Loader/PageLoader'
 import NewTemplateCard from '../../../components/TemplatesGrid/NewTemplateCard'
 import FeatureAnonBanner from '../../../components/Banner/FeatureAnonBanner'
-import { checkIsProState } from '../../../utils/account'
 import PublicTemplateCard from './PublicTemplateCard'
 import styles from './PublicTemplates.module.scss'
 
-const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
+const PublicTemplates = ({ isFeatured, userId }) => {
   if (!(isFeatured || userId)) {
     return (
-      <FeatureAnonBanner title='Get ability to create your own Chart Layout when you login' />
+      <FeatureAnonBanner
+        title='Log in to make your own Chart Layouts'
+        description='Create, load and save your personal chart views'
+      />
     )
   }
   const videoRef = useRef(null)
@@ -42,6 +43,4 @@ const PublicTemplates = ({ isProSanbase, isFeatured, userId }) => {
   )
 }
 
-const mapStateToProps = state => checkIsProState(state)
-
-export default connect(mapStateToProps)(PublicTemplates)
+export default PublicTemplates

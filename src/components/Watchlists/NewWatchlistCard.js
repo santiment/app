@@ -1,9 +1,9 @@
 import React from 'react'
 import cx from 'classnames'
-import NewWatchlistDialog from './NewWatchlistDialog'
 import LoginDialogWrapper from '../LoginDialog/LoginDialogWrapper'
-import GetWatchlists from '../../ducks/Watchlists/GetWatchlists'
-import styles from './WatchlistCard.module.scss'
+import { useUserWatchlists } from '../../ducks/Watchlists/gql/hooks'
+import NewWatchlistDialog from '../../ducks/Watchlists/Actions/NewWatchlistDialog'
+import styles from './../../ducks/Watchlists/Cards/WatchlistCard.module.scss'
 
 export const SvgNew = ({ className }) => (
   <svg
@@ -52,15 +52,11 @@ const Trigger = ({ title, ...rest }) => {
 }
 
 const NewWatchlistCard = () => {
+  const [watchlists = []] = useUserWatchlists()
+
   return (
     <LoginDialogWrapper title='Create watchlist' trigger={Trigger}>
-      <GetWatchlists
-        render={({ watchlists = [] }) => {
-          return (
-            <NewWatchlistDialog watchlists={watchlists} trigger={<Trigger />} />
-          )
-        }}
-      />
+      <NewWatchlistDialog watchlists={watchlists} trigger={<Trigger />} />
     </LoginDialogWrapper>
   )
 }

@@ -1,12 +1,13 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import cx from 'classnames'
-import { checkIsProState } from '../../../utils/account'
 import ProPriceDivergenceCard from '../ProTemplateCard/ProPriceDivergenceCard'
 import TokenDistributionCard from '../TokenDistributionCard/TokenDistributionCard'
+import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import styles from './AlphaBlock.module.scss'
 
-const AlphaBlock = ({ classes = {}, isProSanbase }) => {
+const AlphaBlock = ({ classes = {} }) => {
+  const { isPro } = useUserSubscriptionStatus()
+
   return (
     <>
       <div className={cx(classes.description, styles.description)}>
@@ -15,14 +16,12 @@ const AlphaBlock = ({ classes = {}, isProSanbase }) => {
       </div>
 
       <div className={styles.cards}>
-        <ProPriceDivergenceCard isPro={isProSanbase} />
+        <ProPriceDivergenceCard isPro={isPro} />
 
-        <TokenDistributionCard isPro={isProSanbase} />
+        <TokenDistributionCard isPro={isPro} />
       </div>
     </>
   )
 }
 
-const mapStateToProps = state => checkIsProState(state)
-
-export default connect(mapStateToProps)(AlphaBlock)
+export default AlphaBlock

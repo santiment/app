@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import MetricIcons from '../metricTypes/MetricIcons'
-import HelpTooltip from '../../../../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
-import styles from '../../signal/TriggerForm.module.scss'
+import HelpPopup from '../../../../../../components/HelpPopup/HelpPopup'
 import metricStyles from '../metricTypes/TriggerFormMetricTypes.module.scss'
 
 const MetricTypeRenderer = ({ metric = {}, onClick, showLabel = true }) => {
@@ -22,17 +21,7 @@ const MetricTypeRenderer = ({ metric = {}, onClick, showLabel = true }) => {
       <div className={metricStyles.textBlocks}>
         <div className={metricStyles.texts}>
           <div className={metricStyles.type}>{label}</div>
-          {!showLabel && (
-            <HelpTooltip
-              withDesc={false}
-              position='bottom'
-              align='end'
-              onAction='hover'
-              classes={styles}
-            >
-              {description}
-            </HelpTooltip>
-          )}
+          {!showLabel && <HelpPopup on='hover'>{description}</HelpPopup>}
         </div>
         {showLabel && (
           <div className={metricStyles.label}>Change alert type</div>

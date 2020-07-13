@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
+import Label from '@santiment-network/ui/Label'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import PublicTemplates from './PublicTemplates/PublicTemplates'
 import SocialTrends from './SocialTrends/SocialTrends'
@@ -11,12 +12,11 @@ import ResearchesBlock from '../../components/ResearchesBlock'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { MobileOnly } from '../../components/Responsive'
 import IndexTab from './IndexTabs/IndexTab'
-import WatchlistCards from '../../components/Watchlists/WatchlistCards'
-import { BASIC_CATEGORIES } from '../assets/assets-overview-constants'
-import MyWatchlist from '../../components/Watchlists/MyWatchlist'
+import WatchlistCards from '../../ducks/Watchlists/Cards'
+import { BASIC_CATEGORIES } from '../../ducks/Watchlists/utils'
+import MyWatchlist from '../../ducks/Watchlists/Cards/MyWatchlist'
 import { PATHS } from '../../App'
 import AlphaBlock from './AlphaBlock/AlphaBlock'
-import Label from '@santiment-network/ui/Label'
 import styles from './MarketingPage.module.scss'
 
 const isCharts = ({ search }) =>
@@ -38,6 +38,7 @@ const MarketingPage = props => {
           classes={styles}
         />
       </MobileOnly>
+
       <EventBanner className={styles.banner} />
       <div className={styles.inner}>
         <div className={cx(styles.block, styles.firstBlock)}>
@@ -47,7 +48,7 @@ const MarketingPage = props => {
                 title: 'Explore Watchlists',
                 content: (
                   <WatchlistCards
-                    watchlists={BASIC_CATEGORIES.slice()}
+                    watchlists={BASIC_CATEGORIES}
                     classes={styles}
                     showNew={true}
                     showFeatured={true}
@@ -56,13 +57,7 @@ const MarketingPage = props => {
               },
               {
                 title: 'My Watchlists',
-                content: (
-                  <MyWatchlist
-                    showHeader={false}
-                    showNew={true}
-                    classes={styles}
-                  />
-                )
+                content: <MyWatchlist showHeader={false} classes={styles} />
               }
             ]}
           />
