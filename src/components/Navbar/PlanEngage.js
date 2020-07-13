@@ -1,41 +1,23 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import Icon from '@santiment-network/ui/Icon'
-import { getCurrentSanbaseSubscription } from '../../utils/plans'
-import { dateDifference, DAY } from '../../utils/dates'
+import { useUser } from '../../stores/user'
+import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import styles from './PlanEngage.module.scss'
 
-export const getTrialDaysLeft = subscription => {
-  if (!subscription) return
+export const getTrialDaysLeft = () => ''
 
-  let trialEnd = subscription.trialEnd
-  if (!trialEnd) return
+export const getDaysLeftLabel = daysLeft =>
+  daysLeft === 1 ? 'last day' : `${daysLeft} days left`
 
-  const { diff, format } = dateDifference({
-    from: new Date(),
-    to: new Date(trialEnd),
-    format: DAY
-  })
+const PlanEngage = ({ currentUser }) => {
+  const { user } = useUser()
+  const { loading, isPro, trialDaysLeft } = useUserSubscriptionStatus()
 
-  if (diff < 0) return
+  if (loading) return null
 
-  if (format !== DAY) {
-    return 'last day'
-  }
-
-  const daysNumber = diff + 1
-
-  const daysLeft = daysNumber === 1 ? 'last day' : `${daysNumber} days left`
-
-  return daysLeft
-}
-
-const PlanEngage = ({ isLoading, currentUser }) => {
-  if (isLoading) return null
-
-  if (!currentUser.id) {
+  if (!user) {
     return (
       <Link to='/login' className={cx(styles.text, styles.link)}>
         Log in
@@ -43,9 +25,7 @@ const PlanEngage = ({ isLoading, currentUser }) => {
     )
   }
 
-  const subscription = getCurrentSanbaseSubscription(currentUser)
-
-  if (!subscription || subscription.plan.name === 'FREE') {
+  if (!isPro) {
     return (
       <div className={cx(styles.text, styles.free)}>
         Free plan
@@ -56,8 +36,6 @@ const PlanEngage = ({ isLoading, currentUser }) => {
     )
   }
 
-  const trialDaysLeft = getTrialDaysLeft(subscription)
-
   return (
     <a
       target='_blank'
@@ -66,14 +44,9 @@ const PlanEngage = ({ isLoading, currentUser }) => {
       className={cx(styles.text, styles.premium)}
     >
       <Icon type='crown' className={styles.icon} />
-      Pro {trialDaysLeft && `Trial (${trialDaysLeft})`}
+      Pro {trialDaysLeft && `Trial (${getDaysLeftLabel(trialDaysLeft)})`}
     </a>
   )
 }
 
-const mapStateToProps = state => ({
-  isLoading: state.user.isLoading,
-  currentUser: state.user.data
-})
-
-export default connect(mapStateToProps)(PlanEngage)
+export default PlanEngage

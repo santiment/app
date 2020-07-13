@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { connect } from 'react-redux'
 import gql from 'graphql-tag'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import { client } from '../../../index'
-import { checkIsProUser } from '../../../utils/account'
-import { getCurrentSanbaseSubscription } from '../../../utils/plans'
 import { getDateFormats } from '../../../utils/dates'
 import UpgradeBtn from '../../../components/UpgradeBtn/UpgradeBtn'
+import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import styles from './PaywallInfo.module.scss'
 
 const METRIC_BOUNDARIES_QUERY = gql`
@@ -79,10 +77,12 @@ function useRestrictedInfo (metrics) {
   return infos
 }
 
-const PaywallInfo = ({ subscription, metrics, isPro }) => {
+const PaywallInfo = ({ metrics }) => {
   const infos = useRestrictedInfo(metrics)
+  const { isPro, isTrial } = useUserSubscriptionStatus()
 
-  if (subscription && new Date(subscription.trialEnd) > new Date()) {
+  /* if (subscription && new Date(subscription.trialEnd) > new Date()) { */
+  if (isTrial) {
     return <UpgradeBtn variant='fill' fluid className={styles.upgrade_trial} />
   }
 
@@ -121,9 +121,4 @@ const PaywallInfo = ({ subscription, metrics, isPro }) => {
   ) : null
 }
 
-const mapStateToProps = state => ({
-  subscription: getCurrentSanbaseSubscription(state.user.data),
-  isPro: checkIsProUser(state.user.data)
-})
-
-export default connect(mapStateToProps)(PaywallInfo)
+export default PaywallInfo

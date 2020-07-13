@@ -17,6 +17,7 @@ import GetSignals, {
   filterByChannels
 } from '../../ducks/Signals/common/getSignals'
 import { CHANNEL_TYPES } from '../../ducks/Signals/utils/constants'
+import { DEFAULT_SETTINGS, useUserSettings } from '../../stores/user/settings'
 import styles from './AccountPage.module.scss'
 import Link from 'react-router-dom/Link'
 
@@ -54,14 +55,18 @@ const SignalsDescription = (mappedCount, allCount, channel) => {
   )
 }
 
-const SettingsNotifications = ({
-  digestType,
-  changeDigestType,
-  mutateDigestType
-}) => {
+const SettingsNotifications = ({ changeDigestType, mutateDigestType }) => {
+  const { settings } = useUserSettings()
+  const {
+    newsletterSubscription: digestType,
+    signalNotifyEmail,
+    signalNotifyTelegram,
+    hasTelegramConnected
+  } = settings || DEFAULT_SETTINGS
+
   return (
     <GetSignals
-      render={({ data: { signals }, isLoading }) => {
+      render={({ data: { signals = [] } = {}, isLoading }) => {
         const allCount = signals.length
         const countWithEmail = channelByTypeLength(signals, CHANNEL_TYPES.Email)
         const countWithTelegram = channelByTypeLength(
@@ -77,6 +82,7 @@ const SettingsNotifications = ({
           <Settings id='notifications' header='Notifications'>
             <Settings.Row>
               <SettingsEmailNotifications
+                isEmailNotificationEnabled={signalNotifyEmail}
                 description={SignalsDescription(
                   countWithEmail,
                   allCount,
@@ -87,6 +93,8 @@ const SettingsNotifications = ({
 
             <Settings.Row>
               <SettingsTelegramNotifications
+                signalNotifyTelegram={signalNotifyTelegram}
+                hasTelegramConnected={hasTelegramConnected}
                 description={SignalsDescription(
                   countWithTelegram,
                   allCount,
@@ -143,14 +151,6 @@ const SettingsNotifications = ({
   )
 }
 
-const mapStateToProps = ({
-  user: {
-    data: { settings: { newsletterSubscription } = {} }
-  }
-}) => ({
-  digestType: newsletterSubscription
-})
-
 const mapDispatchToProps = dispatch => ({
   changeDigestType: type =>
     dispatch({
@@ -161,7 +161,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
   ),
   graphql(NEWSLETTER_SUBSCRIPTION_MUTATION, { name: 'mutateDigestType' })

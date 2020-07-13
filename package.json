@@ -34,7 +34,7 @@
     "draftjs-md-converter": "^0.1.6",
     "formik": "^1.5.1",
     "formik-effect": "^1.2.0",
-    "graphql": "^0.11.7",
+    "graphql": "^15.3.0",
     "graphql-tag": "^2.5.0",
     "insights-app": "https://github.com/santiment/insights-app#0b5b24b",
     "lodash.debounce": "^4.0.8",

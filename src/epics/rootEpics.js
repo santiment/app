@@ -12,7 +12,6 @@ import handleEthLogin, {
 } from './handleEthLogin'
 import logoutEpic from './../pages/Logout/LogoutEpic'
 import handleGDPR from './handleGDPR'
-import handleRouter from './handleRouter'
 import apikeyGenerateEpic from './apikeyGenerateEpic'
 import apikeyRevokeEpic from './apikeyRevokeEpic'
 import createWatchlistEpic, {
@@ -82,7 +81,6 @@ export default combineEpics(
   digestSubscriptionEpic,
   handleEthLogin,
   handleGDPR,
-  handleRouter,
   keyboardEpic,
   // user's assets lists
   createWatchlistEpic,

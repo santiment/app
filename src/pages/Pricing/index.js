@@ -1,16 +1,14 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import Button from '@santiment-network/ui/Button'
 import Plans from './Plans'
 import TokensTooltip from './TokensTooltip'
 import Testimonials from '../../components/Testimonials'
 import PayWithCrypto from './PayWithCrypto'
-import { getCurrentSanbaseSubscription } from '../../utils/plans'
-import { getTrialDaysLeft } from '../../components/Navbar/PlanEngage'
+import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import styles from './index.module.scss'
 
-const Page = ({ subscription }) => {
-  const trialDaysLeft = getTrialDaysLeft(subscription)
+const Page = () => {
+  const { trialDaysLeft } = useUserSubscriptionStatus()
 
   return (
     <div className={styles.wrapper + ' page'}>
@@ -49,8 +47,4 @@ const Page = ({ subscription }) => {
   )
 }
 
-const mapStateToProps = state => ({
-  subscription: getCurrentSanbaseSubscription(state.user.data)
-})
-
-export default connect(mapStateToProps)(Page)
+export default Page

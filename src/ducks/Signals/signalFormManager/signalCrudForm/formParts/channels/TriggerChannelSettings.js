@@ -6,6 +6,10 @@ import SettingsTelegramNotifications from '../../../../../../pages/Account/Setti
 import SettingsEmailNotifications from '../../../../../../pages/Account/SettingsEmailNotifications'
 import SettingsSonarWebPushNotifications from '../../../../../../pages/Account/SettingsSonarWebPushNotifications'
 import ShowIf from '../../../../../../components/ShowIf/ShowIf'
+import {
+  DEFAULT_SETTINGS,
+  useUserSettings
+} from '../../../../../../stores/user/settings'
 import styles from './TriggerChannelSettings.module.scss'
 
 const DefaultTrigger = <div className={styles.connect}>Enable in settings</div>
@@ -15,7 +19,11 @@ const TriggerChannelSettings = ({
   trigger = DefaultTrigger,
   showTrigger = true
 }) => {
+  const { settings } = useUserSettings()
   const [open, setOpen] = useState(false)
+
+  const { signalNotifyEmail, signalNotifyTelegram, hasTelegramConnected } =
+    settings || DEFAULT_SETTINGS
 
   return (
     <>
@@ -28,10 +36,17 @@ const TriggerChannelSettings = ({
       >
         <Dialog.ScrollContent>
           <EmailSetting classes={styles} hideIfEmail />
-          <SettingsEmailNotifications classes={styles} />
+          <SettingsEmailNotifications
+            classes={styles}
+            isEmailNotificationEnabled={signalNotifyEmail}
+          />
 
           <ConnectTelegramBlock classes={styles} />
-          <SettingsTelegramNotifications classes={styles} />
+          <SettingsTelegramNotifications
+            classes={styles}
+            signalNotifyTelegram={signalNotifyTelegram}
+            hasTelegramConnected={hasTelegramConnected}
+          />
 
           <ShowIf beta>
             <SettingsSonarWebPushNotifications

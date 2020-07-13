@@ -32,15 +32,6 @@ const SettingsTelegramNotifications = ({
   )
 }
 
-const mapStateToProps = ({
-  user: {
-    data: { settings: { hasTelegramConnected, signalNotifyTelegram } = {} }
-  }
-}) => ({
-  signalNotifyTelegram,
-  hasTelegramConnected
-})
-
 const mapDispatchToProps = dispatch => ({
   toggleTelegramNotification: signalNotifyTelegram =>
     dispatch({
@@ -50,7 +41,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )
 

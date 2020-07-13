@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
 import cx from 'classnames'
 import Toggle from '@santiment-network/ui/Toggle'
 import Plan from './Plan'
-import { getCurrentSanbaseSubscription, noBasicPlan } from '../../utils/plans'
+import { noBasicPlan } from '../../utils/plans'
 import { usePlans } from '../../ducks/Plans/hooks'
-import { checkIsLoggedIn } from '../UserSelectors'
+import { useUser } from '../../stores/user'
+import { useUserSubscription } from '../../stores/user/subscriptions'
 import Enterprise from './Enterprise'
 import styles from './Plans.module.scss'
 
@@ -42,7 +42,9 @@ const Billing = ({ selected, onClick }) => {
   )
 }
 
-const Plans = ({ id, classes = {}, subscription, isLoggedIn }) => {
+const Plans = ({ id, classes = {} }) => {
+  const { user } = useUser()
+  const { subscription } = useUserSubscription()
   const [billing, setBilling] = useState('year')
   const [plans] = usePlans()
 
@@ -67,7 +69,7 @@ const Plans = ({ id, classes = {}, subscription, isLoggedIn }) => {
               <Plan
                 key={plan.id}
                 {...plan}
-                isLoggedIn={isLoggedIn}
+                isLoggedIn={user}
                 billing={billing}
                 plans={plans}
                 userPlan={userPlan}
@@ -81,9 +83,4 @@ const Plans = ({ id, classes = {}, subscription, isLoggedIn }) => {
   )
 }
 
-const mapStateToProps = state => ({
-  isLoggedIn: checkIsLoggedIn(state),
-  subscription: getCurrentSanbaseSubscription(state.user.data)
-})
-
-export default connect(mapStateToProps)(Plans)
+export default Plans
