@@ -1,7 +1,7 @@
 import React from 'react'
 import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
-import styles from './AlphaCard.module.scss'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
+import styles from './AlphaCard.module.scss'
 
 const AlphaCard = ({ data: { name, description, url } }) => {
   const { isPro } = useUserSubscriptionStatus()
