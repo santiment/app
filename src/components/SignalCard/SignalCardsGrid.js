@@ -7,8 +7,8 @@ import {
   toggleTrigger
 } from '../../ducks/Signals/common/actions'
 import { sortById } from '../../utils/sortMethods'
-import styles from './SignalCardsGrid.module.scss'
 import NewSignalCard from './new/NewSignaLCard'
+import styles from './SignalCardsGrid.module.scss'
 
 const SignalCardsGrid = ({
   userId,
