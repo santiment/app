@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { withRouter, NavLink as Link } from 'react-router-dom'
 import cx from 'classnames'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
 import Button from '@santiment-network/ui/Button'
 import MobileNavbarAction from './MobileNavbarAction'
 import SantimentLogo from './SantimentLogo'
@@ -12,8 +10,8 @@ import FeedIcon from './FeedIcon'
 import InsightsIcon from './InsightsIcon'
 import WatchlistsIcon from './WatchlistsIcon'
 import MenuIcon from './MenuIcon'
+import { useIsLoggedIn } from '../../stores/ui'
 import styles from './MobileNavbar.module.scss'
-import * as actions from './../../actions/types'
 
 const NAVBAR_LINKS = [
   {
@@ -45,7 +43,8 @@ const MENU_LINKS = [
   { linkTo: '/account', label: 'Account settings' }
 ]
 
-const MobileNavbar = ({ history, isLogined, activeLink, logout }) => {
+const MobileNavbar = ({ history, activeLink }) => {
+  const isLoggedIn = useIsLoggedIn()
   const [isOpened, setOpened] = useState(false)
 
   const toggleMenu = () => setOpened(!isOpened)
@@ -120,25 +119,25 @@ const MobileNavbar = ({ history, isLogined, activeLink, logout }) => {
               </button>
             </div>
           </div>
-          {!isLogined ? (
-            <Button
-              className={styles.btn}
-              variant='fill'
-              accent='positive'
-              onClick={() => handleNavigation('/login')}
-            >
-              Log in
-            </Button>
-          ) : (
-            <Button
-              className={cx(styles.btn, styles.logout)}
-              border
-              variant='flat'
-              accent='negative'
-              onClick={() => history.push('/logout')}
-            >
-              Log out
-            </Button>
+          {!isLoggedIn && (
+            <>
+              <Button
+                className={cx(styles.btn, styles.btn__login)}
+                variant='fill'
+                accent='positive'
+                onClick={() => handleNavigation('/login')}
+              >
+                Log in
+              </Button>
+              <Button
+                className={cx(styles.btn, styles.btn__create)}
+                variant='flat'
+                border
+                onClick={() => handleNavigation('/sign-up')}
+              >
+                Create an account
+              </Button>
+            </>
           )}
         </div>
       )}
@@ -146,28 +145,4 @@ const MobileNavbar = ({ history, isLogined, activeLink, logout }) => {
   )
 }
 
-const mapStateToProps = ({ user = {} }) => {
-  return {
-    isLogined: user.data && !!user.data.id
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    logout: () => {
-      dispatch({
-        type: actions.USER_LOGOUT
-      })
-    }
-  }
-}
-
-const enhance = compose(
-  withRouter,
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)
-
-export default enhance(MobileNavbar)
+export default withRouter(MobileNavbar)

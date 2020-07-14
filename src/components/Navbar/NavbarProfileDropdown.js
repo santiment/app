@@ -180,8 +180,8 @@ export const NavbarProfileDropdown = ({
             fluid
             as={Link}
             className={dropdownStyles.item}
-            to='/login'
-            isActive={activeLink === '/login'}
+            to='/sign-up'
+            isActive={activeLink === '/sign-up'}
           >
             Create an account
           </Button>
