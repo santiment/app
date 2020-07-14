@@ -1,5 +1,5 @@
 import React from 'react'
-import { ResponsiveContainer, Treemap } from 'recharts'
+import { ResponsiveContainer, Tooltip, Treemap } from 'recharts'
 import PageLoader from '../../../../components/Loader/PageLoader'
 import Range from '../WatchlistOverview/Range'
 import { getSorter, useProjectRanges } from './ProjectsChart'
@@ -21,34 +21,24 @@ const RANGES = [
   }
 ]
 
-const getColor = (colors, index) => {
-  if (index % 2 === 0) {
-    return colors[0]
-  } else if (index % 3) {
-    return colors[1]
-  } else {
-    return colors[2]
-  }
-}
-
 const getFontSize = (index, length) => {
-  if (index < length * 0.1) {
-    return 14
-  } else if (index < length * 0.15) {
+  if (index < length * 0.05) {
     return 12
-  } else {
+  } else if (index < length * 0.1) {
     return 10
+  } else {
+    return 8
   }
 }
 
 const TREEMAP_COLORS = [
-  '#14C393',
+  'var(--persimmon)',
   '#89E1C9',
   '#DCF6EF',
-  '#9FAAC4',
+  'var(--mystic)',
   '#FFE6E6',
   '#EFA7A7',
-  '#FF5B5B'
+  'var(--jungle-green)'
 ]
 
 const MARKETCAP_USD_SORTER = getSorter('marketcapUsd')
@@ -58,24 +48,17 @@ const ProjectsTreeMap = ({ assets, title, ranges, className }) => {
     data,
     loading,
     { intervalIndex, setIntervalIndex, label, key }
-  ] = useProjectRanges({ assets, ranges, limit: 50 })
+  ] = useProjectRanges({ assets, ranges, limit: 100 })
 
   let border = data.length / TREEMAP_COLORS.length
 
-  console.log('--------', border)
-
   let sortedByChange = data.sort(getSorter(key)).map((item, index) => {
-    const colorIndex = Math.round(index / border)
-
-    console.log(colorIndex, index, TREEMAP_COLORS[colorIndex])
-
+    const colorIndex = Math.floor(index / border)
     return {
       ...item,
       color: TREEMAP_COLORS[colorIndex]
     }
   })
-
-  console.log(data, sortedByChange)
 
   const sortedByMarketcap = sortedByChange.sort(MARKETCAP_USD_SORTER)
 
@@ -106,6 +89,7 @@ const ProjectsTreeMap = ({ assets, title, ranges, className }) => {
               ratio={2 / 3}
               fill='var(--jungle-green)'
               content={<CustomizedContent dataKey={key} />}
+              tooltip={<Tooltip />}
             />
           </ResponsiveContainer>
         </div>
@@ -113,6 +97,8 @@ const ProjectsTreeMap = ({ assets, title, ranges, className }) => {
     </div>
   )
 }
+
+const getWordLength = (fontSize, word) => (fontSize - 3) * word.length + 8
 
 const CustomizedContent = props => {
   const {
@@ -126,11 +112,18 @@ const CustomizedContent = props => {
   } = props
 
   const item = children[index]
-  const { ticker, color } = item
+  const { ticker = '', color } = item
+  const value =
+    formatNumber(item[dataKey], {
+      maximumFractionDigits: 2
+    }) + '%'
 
   const fontSize = getFontSize(index, children.length)
 
-  const showChange = index < 10
+  const tickerLength = getWordLength(fontSize, ticker)
+
+  const showTicker = tickerLength < width
+  const showChange = showTicker && fontSize * 2 + 8 < height
 
   return (
     <g>
@@ -145,10 +138,10 @@ const CustomizedContent = props => {
           strokeWidth: 2
         }}
       />
-      {index < 25 && (
+      {showTicker && (
         <text
           x={x + width / 2}
-          y={y + height / 2 - (showChange ? 5 : -4)}
+          y={y + height / 2 - (showChange ? 5 : -2)}
           textAnchor='middle'
           fill='var(--fiord)'
           fontSize={fontSize}
@@ -164,9 +157,7 @@ const CustomizedContent = props => {
           fill='var(--fiord)'
           fontSize={fontSize}
         >
-          {formatNumber(item[dataKey], {
-            maximumFractionDigits: 3
-          }) + '%'}
+          {value}
         </text>
       )}
     </g>
