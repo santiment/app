@@ -1,11 +1,11 @@
 import React from 'react'
 import Loadable from 'react-loadable'
+import { connect } from 'react-redux'
 import IndexTab from '../../Marketing/IndexTabs/IndexTab'
 import PageLoader from '../../../components/Loader/PageLoader'
 import { RecommendedSignals } from '../../SonarFeed/SonarFeedRecommendations'
-import styles from './FeedAlerts.module.scss'
 import { checkIsLoggedIn } from '../../UserSelectors'
-import { connect } from 'react-redux'
+import styles from './FeedAlerts.module.scss'
 
 const LoadableAlertsList = Loadable({
   loader: () => import('../../SonarFeed/SignalsList'),

@@ -1,18 +1,21 @@
-@import "~@santiment-network/ui/mixins.scss";
+@import "~@santiment-network/ui/mixins";
 
 .wrapper {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 24px;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
 }
 
 .card {
   padding: 16px 24px !important;
-}
 
-@include responsive('phone', 'phone-xs') {
-  .card {
+  @include responsive('phone', 'phone-xs') {
     width: 100%;
   }
 }
