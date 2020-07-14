@@ -24,7 +24,7 @@ export default () => {
         </div>
         <div>
           <span className={styles.action}>
-            Hold "Shift", click and move mouse{' '}
+            Hold "CTRL" or "CMD", click and move mouse{' '}
           </span>
           to select a time range
         </div>

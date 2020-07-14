@@ -10,7 +10,7 @@ import FeedIcon from './FeedIcon'
 import InsightsIcon from './InsightsIcon'
 import WatchlistsIcon from './WatchlistsIcon'
 import MenuIcon from './MenuIcon'
-import { useIsLoggedIn } from '../../stores/ui'
+import { useUser } from '../../stores/user'
 import styles from './MobileNavbar.module.scss'
 
 const NAVBAR_LINKS = [
@@ -44,7 +44,7 @@ const MENU_LINKS = [
 ]
 
 const MobileNavbar = ({ history, activeLink }) => {
-  const isLoggedIn = useIsLoggedIn()
+  const { isLoggedIn } = useUser()
   const [isOpened, setOpened] = useState(false)
 
   const toggleMenu = () => setOpened(!isOpened)
