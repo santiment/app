@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import memoize from 'lodash.memoize'
 import {
   Bar,
   CartesianGrid,
@@ -14,9 +15,14 @@ import Range from '../WatchlistOverview/Range'
 import styles from './ProjectsChart.module.scss'
 import { useProjectPriceChanges } from '../../../../hooks/project'
 
-const getSorter = key => (a, b) => +b[key] - +a[key]
+export const getSorter = memoize(key => (a, b) => +b[key] - +a[key])
 
-export const useProjectRanges = ({ assets, ranges, limit, sortByKey }) => {
+export const useProjectRanges = ({
+  assets,
+  ranges,
+  limit,
+  sortByKey = 'marketcapUsd'
+}) => {
   const [mapAssets, setMapAssets] = useState({})
   const [intervalIndex, setIntervalIndex] = useState(
     Math.min(ranges.length - 1, 1)
@@ -37,7 +43,7 @@ export const useProjectRanges = ({ assets, ranges, limit, sortByKey }) => {
 
   const { label, key } = ranges[intervalIndex]
 
-  const sorter = getSorter(sortByKey || key)
+  const sorter = getSorter(sortByKey)
 
   const [data, loading] = useProjectPriceChanges({
     mapAssets,

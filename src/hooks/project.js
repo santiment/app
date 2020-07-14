@@ -49,5 +49,7 @@ export function useProjectPriceChanges ({
       [key]: +item[key]
     }))
 
+  console.log('limit', limit)
+
   return [mapped, loading, error]
 }
