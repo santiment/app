@@ -12,9 +12,6 @@ import ProjectsChart, {
 } from '../../ducks/Watchlists/Widgets/VolumeChart/ProjectsChart'
 import styles from './Screener.module.scss'
 
-const COLORS = ['#89E1C9', '#DCF6EF', '#EDF8F5']
-const SOCIAL_VOLUME_PROJECTS_COLORS = ['#C9C2FF', '#E7E4FF', '#F3F1FF']
-
 const Screener = props => {
   const [isPriceChartActive, setPriceChart] = useState(false)
   const [isPriceTreeMap, setPriceTreeMap] = useState(false)
@@ -71,8 +68,7 @@ const Screener = props => {
                               bothCharts && styles.both
                             )}
                             assets={items}
-                            title='Top 10: Price Up'
-                            colors={COLORS}
+                            title='Top: Price Up'
                             ranges={RANGES}
                           />
                         )}
@@ -83,14 +79,13 @@ const Screener = props => {
                               bothCharts && styles.both
                             )}
                             assets={items}
-                            title='Top 10: Social volume'
+                            title='Top: Social volume'
                             ranges={[
                               {
                                 label: '24h',
                                 key: 'volumeChange24h'
                               }
                             ]}
-                            colors={SOCIAL_VOLUME_PROJECTS_COLORS}
                           />
                         )}
                       </div>

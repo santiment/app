@@ -29,13 +29,13 @@ const Widgets = ({
       <Panel variant='modal' className={styles.wrapper}>
         <ToggleWidget
           index={1}
-          title='Top 10: Price up'
+          title='Top: Price up'
           isActive={isPriceTreeMap}
           toggle={() => togglePriceTreeMap(!isPriceTreeMap)}
         />
         <ToggleWidget
           index={1}
-          title='Top 10: Social volume'
+          title='Top: Social volume'
           isActive={isVolumeTreeMap}
           toggle={() => toggleVolumeTreeMap(!isVolumeTreeMap)}
         />
