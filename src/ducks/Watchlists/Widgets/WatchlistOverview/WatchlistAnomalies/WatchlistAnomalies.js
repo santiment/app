@@ -5,7 +5,6 @@ import Icon from '@santiment-network/ui/Icon'
 import { filteringTypes } from '../constants'
 import Range from '../Range'
 import Stat from '../Stat'
-import HelpTooltip from './HelpTooltip'
 import styles from './WatchlistAnomalies.module.scss'
 
 const WatchlistAnomalies = ({
@@ -29,7 +28,7 @@ const WatchlistAnomalies = ({
           className={styles.top}
           onClick={isDesktop ? null : toggleOpenAnomalies}
         >
-          <Icon type='flash' className={styles.icon} />
+          <Icon type='flash-filled' className={styles.icon} />
           {isDesktop || isOpen ? (
             <Range
               label='Anomalies'
@@ -72,7 +71,6 @@ const WatchlistAnomalies = ({
             </Button>
           </div>
         )}
-        {isDesktop && <HelpTooltip />}
       </div>
       {!isDesktop && type && (
         <div className={styles.filterDescription}>

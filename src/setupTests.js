@@ -6,6 +6,11 @@ import Adapter from 'enzyme-adapter-react-16'
 
 Enzyme.configure({ adapter: new Adapter() })
 
+jest.mock('./stores/user/utils', () => ({
+  __esModule: true,
+  buildRefetcher: () => () => {}
+}))
+
 jest.mock('svelte-adapter/react', () => ({
   __esModule: true,
   default: () => ({})

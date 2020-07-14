@@ -75,7 +75,7 @@ class NewWatchlistDialog extends PureComponent {
   onSubmit = e => {
     e.preventDefault()
     const { name, isPublic, error } = this.state
-    const { isPending, type } = this.props
+    const { isPending, type = 'watchlist' } = this.props
 
     if (!name || isPending || error) {
       return

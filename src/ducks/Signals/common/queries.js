@@ -13,19 +13,6 @@ export const TRIGGERS_COMMON_FRAGMENT = gql`
   }
 `
 
-export const PUBLIC_TRIGGERS_FOR_USER_QUERY = gql`
-  query publicTriggersForUser($userId: ID!) {
-    publicTriggersForUser(userId: $userId) {
-      trigger {
-        ...triggersCommon
-      }
-      userId
-      __typename
-    }
-  }
-  ${TRIGGERS_COMMON_FRAGMENT}
-`
-
 export const TRIGGERS_QUERY = gql`
   query {
     currentUser {

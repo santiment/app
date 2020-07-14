@@ -54,13 +54,16 @@
   position: fixed;
   display: flex;
   justify-content: center;
-  bottom: 100px;
   left: 10%;
   width: 80%;
-}
 
-.logout {
-  color: var(--persimmon) !important;
+  &__login {
+    bottom: 160px;
+  }
+
+  &__create {
+    bottom: 100px;
+  }
 }
 
 .navigationList {

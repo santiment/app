@@ -30,11 +30,11 @@ export const filterByChannels = (signals, type) =>
 
 export const signalsGqlMapper = {
   name: 'Signals',
-  skip: ({ isLoggedIn, always = false }) => !always && !isLoggedIn,
+  skip: ({ isLoggedIn }) => !isLoggedIn,
   options: {
     fetchPolicy: 'cache-and-network'
   },
-  props: ({ Signals, filters }) => {
+  props: ({ Signals }) => {
     const { currentUser, featuredUserTriggers, loading, error } = Signals
     let signals = (currentUser || {}).triggers || featuredUserTriggers || []
 

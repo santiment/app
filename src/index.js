@@ -30,6 +30,7 @@ import retryLink from './apollo/retry-link'
 import ChartPage from './pages/Chart'
 import { register, unregister } from './serviceWorker'
 import { newAppAvailable } from './ducks/Updates/actions'
+import { ThemeProvider } from './stores/ui/theme'
 import './index.scss'
 
 export let client
@@ -140,14 +141,16 @@ const main = () => {
   ReactDOM.render(
     <StripeProvider apiKey={stripeKey}>
       <ApolloProvider client={client}>
-        <Provider store={store}>
-          <ConnectedRouter history={history}>
-            <Switch>
-              <Route exact path='/chart' component={ChartPage} />
-              <Route path='/' component={App} />
-            </Switch>
-          </ConnectedRouter>
-        </Provider>
+        <ThemeProvider>
+          <Provider store={store}>
+            <ConnectedRouter history={history}>
+              <Switch>
+                <Route exact path='/chart' component={ChartPage} />
+                <Route path='/' component={App} />
+              </Switch>
+            </ConnectedRouter>
+          </Provider>
+        </ThemeProvider>
       </ApolloProvider>
     </StripeProvider>,
     document.getElementById('root')

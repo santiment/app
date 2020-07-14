@@ -6,6 +6,10 @@
   justify-content: space-between;
 }
 
+.actions {
+  display: flex;
+}
+
 .assetsTable:global(.ReactTable) {
   margin-bottom: 20px;
   color: var(--mirage);

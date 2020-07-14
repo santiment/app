@@ -1,8 +1,24 @@
+import { ONE_DAY_IN_MS } from './dates'
+
 export const PLANS = {
   FREE: 'FREE',
   BASIC: 'BASIC',
   PRO: 'PRO'
 }
+
+export const sanbaseProductId = '2'
+export const neuroProductId = '1'
+
+export const ProductNameById = {
+  [sanbaseProductId]: 'Sanbase',
+  [neuroProductId]: 'SanAPI'
+}
+
+export const calculateTrialDaysLeft = trialEnd =>
+  Math.ceil((new Date(trialEnd) - Date.now()) / ONE_DAY_IN_MS)
+
+export const checkIsActiveSubscription = ({ status }) =>
+  status === 'ACTIVE' || status === 'TRIALING'
 
 export const formatOnlyPrice = amount => `$${parseInt(amount / 100, 10)}`
 
@@ -22,25 +38,29 @@ export const getYearMonthPrices = (amount, billing) => {
   return [formatOnlyPrice(amount * mult), formatOnlyPrice(amount / div)]
 }
 
-export const sanbaseProductId = '2'
-export const neuroProductId = '1'
-
 export const findSanbasePlan = ({ id }) => id === sanbaseProductId
 
 export const noBasicPlan = ({ name }) => name !== PLANS.BASIC
+
+const checkIsSanbaseSubscription = ({
+  plan: {
+    product: { id }
+  }
+}) => id === sanbaseProductId
+
+export const getSanbaseSubscription = subscriptions =>
+  subscriptions.find(
+    subscription =>
+      checkIsSanbaseSubscription(subscription) &&
+      checkIsActiveSubscription(subscription)
+  )
 
 export const getCurrentSanbaseSubscription = user => {
   if (!user) return
   const { subscriptions: subs } = user
   if (!subs) return
 
-  return subs.find(
-    ({
-      plan: {
-        product: { id }
-      }
-    }) => id === sanbaseProductId
-  )
+  return getSanbaseSubscription(subs)
 }
 
 export const getAlternativeBillingPlan = (plans, oldPlan) => {

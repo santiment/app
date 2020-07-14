@@ -1,21 +1,21 @@
-@import "~@santiment-network/ui/mixins.scss";
+@import "~@santiment-network/ui/mixins";
 
 .wrapper {
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 24px;
 
-$margin-between-cards: 28px;
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+}
 
 .card {
-  margin-bottom: 24px;
-  width: calc(50% - #{$margin-between-cards/2});
-}
+  padding: 16px 24px !important;
 
-@include responsive('phone', 'phone-xs') {
-  .card {
+  @include responsive('phone', 'phone-xs') {
     width: 100%;
   }
 }

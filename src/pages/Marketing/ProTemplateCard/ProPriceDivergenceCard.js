@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './ProPriceDivergenceCard.module.scss'
+import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 
 const Img = (
   <svg
@@ -88,7 +89,9 @@ const Img = (
   </svg>
 )
 
-const ProPriceDivergenceCard = ({ isPro }) => {
+const ProPriceDivergenceCard = () => {
+  const { isPro } = useUserSubscriptionStatus()
+
   const linkProps = {
     href: isPro
       ? 'https://docs.google.com/spreadsheets/u/1/d/1Wu-d_uBuvLp3FoNqz3azzbNzFr8Zaw2n6bcLLsQxNGc/view'

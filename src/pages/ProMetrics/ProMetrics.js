@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import { InputWithIcon } from '@santiment-network/ui/Input'
@@ -11,12 +10,13 @@ import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { FIRST_METRICS_GROUP } from './utils.js'
 import CommonFooter from './ProMetricsFooter/CommonFooter'
 import SubscriptionForm from '../../components/SubscriptionForm/SubscriptionForm'
-import { checkIsProState } from '../../utils/account'
 import upgradeSvg from './../../assets/pro-metrics/upgrade.svg'
 import signSvg from './../../assets/pro-metrics/sign-bg.svg'
+import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import styles from './ProMetrics.module.scss'
 
-const ProMetrics = ({ history, isLoggedIn, isProSanbase }) => {
+const ProMetrics = ({ history, isLoggedIn }) => {
+  const { isPro } = useUserSubscriptionStatus()
   return (
     <div className={cx('page', styles.container)}>
       <div className={styles.inner}>
@@ -48,25 +48,23 @@ const ProMetrics = ({ history, isLoggedIn, isProSanbase }) => {
               New Chart Layouts and indices are added monthly.
             </div>
 
-            {!isProSanbase && (
+            {!isPro && (
               <UpgradeBtn loginRequired={false} className={styles.upgradeBtn}>
                 Upgrade
               </UpgradeBtn>
             )}
           </div>
 
-          {FIRST_METRICS_GROUP.map((metric, index) => {
-            return (
-              <ProMetric
-                isProSanbase={isProSanbase}
-                metric={metric}
-                key={index}
-                classes={{
-                  container: styles.firstGroup
-                }}
-              />
-            )
-          })}
+          {FIRST_METRICS_GROUP.map((metric, index) => (
+            <ProMetric
+              isProSanbase={isPro}
+              metric={metric}
+              key={index}
+              classes={{
+                container: styles.firstGroup
+              }}
+            />
+          ))}
 
           <div
             className={cx(styles.ask, styles.bgSvg)}
@@ -84,37 +82,33 @@ const ProMetrics = ({ history, isLoggedIn, isProSanbase }) => {
           </div>
 
           <div className={styles.row}>
-            {SECOND_METRICS_GROUP.map((metric, index) => {
-              return (
-                <ProMetric
-                  isProSanbase={isProSanbase}
-                  metric={metric}
-                  key={index}
-                  classes={{
-                    container: styles.secondGroup,
-                    svg: styles.secondGroupSvg
-                  }}
-                />
-              )
-            })}
+            {SECOND_METRICS_GROUP.map((metric, index) => (
+              <ProMetric
+                isProSanbase={isPro}
+                metric={metric}
+                key={index}
+                classes={{
+                  container: styles.secondGroup,
+                  svg: styles.secondGroupSvg
+                }}
+              />
+            ))}
           </div>
         </div>
 
         <div className={styles.secondStep}>
           <div className={styles.grid}>
-            {THIRD_METRICS_GROUP.map((metric, index) => {
-              return (
-                <ProMetric
-                  isProSanbase={isProSanbase}
-                  metric={metric}
-                  key={index}
-                  classes={{
-                    container: styles.thirdGroup,
-                    svg: styles.thirdGroupSvg
-                  }}
-                />
-              )
-            })}
+            {THIRD_METRICS_GROUP.map((metric, index) => (
+              <ProMetric
+                isProSanbase={isPro}
+                metric={metric}
+                key={index}
+                classes={{
+                  container: styles.thirdGroup,
+                  svg: styles.thirdGroupSvg
+                }}
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -148,6 +142,4 @@ const ProMetrics = ({ history, isLoggedIn, isProSanbase }) => {
   )
 }
 
-const mapStateToProps = state => checkIsProState(state)
-
-export default connect(mapStateToProps)(ProMetrics)
+export default ProMetrics
