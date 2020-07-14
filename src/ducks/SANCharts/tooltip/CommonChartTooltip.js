@@ -30,35 +30,48 @@ const ChartTooltip = ({
     payload.length > 0 && (
       <div className={cx(styles.details, className)}>
         {withLabel && (
-          <div className={styles.title}>{labelFormatter(label)}</div>
+          <div className={styles.title}>{labelFormatter(label, payload)}</div>
         )}
         <div className={styles.content}>
-          {payload.map(
-            ({ key, dataKey = key, value, color, name, formatter }) => {
-              const foundedSettings = TooltipSetting[key] || {}
-              return (
-                <div
-                  key={dataKey}
-                  style={{ '--color': color }}
-                  className={styles.metric}
-                >
-                  <span className={styles.value}>
-                    {valueFormatter({
-                      value,
-                      key: dataKey,
-                      formatter: foundedSettings.formatter || formatter,
-                      payload
-                    })}
-                  </span>
-                  {showValueLabel && (
-                    <span className={styles.name}>
-                      {foundedSettings.label || name || dataKey}
-                    </span>
-                  )}
-                </div>
-              )
+          {payload.map(p => {
+            const {
+              key,
+              dataKey = key,
+              value,
+              name,
+              formatter,
+              payload: innerPayload
+            } = p
+
+            // // for compability with tree maps [GarageInc|14.07.2020]
+            let { color } = p
+            if (!color && innerPayload) {
+              color = innerPayload.color
             }
-          )}
+
+            const foundedSettings = TooltipSetting[key] || {}
+            return (
+              <div
+                key={dataKey}
+                style={{ '--color': color }}
+                className={styles.metric}
+              >
+                <span className={styles.value}>
+                  {valueFormatter({
+                    value,
+                    key: dataKey,
+                    formatter: foundedSettings.formatter || formatter,
+                    payload
+                  })}
+                </span>
+                {showValueLabel && (
+                  <span className={styles.name}>
+                    {foundedSettings.label || name || dataKey}
+                  </span>
+                )}
+              </div>
+            )
+          })}
         </div>
       </div>
     )

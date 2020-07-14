@@ -1,10 +1,11 @@
 import React from 'react'
-import { ResponsiveContainer, Tooltip, Treemap } from 'recharts'
+import { ComposedChart, ResponsiveContainer, Tooltip, Treemap } from 'recharts'
 import PageLoader from '../../../../components/Loader/PageLoader'
 import Range from '../WatchlistOverview/Range'
 import { getSorter, useProjectRanges } from './ProjectsChart'
 import { formatNumber } from '../../../../utils/formatting'
 import styles from './ProjectsChart.module.scss'
+import ChartTooltip from '../../../SANCharts/tooltip/CommonChartTooltip'
 
 const RANGES = [
   {
@@ -89,8 +90,27 @@ const ProjectsTreeMap = ({ assets, title, ranges, className }) => {
               ratio={2 / 3}
               fill='var(--jungle-green)'
               content={<CustomizedContent dataKey={key} />}
-              tooltip={<Tooltip />}
-            />
+            >
+              <Tooltip
+                content={
+                  <ChartTooltip
+                    labelFormatter={(value, payload) => {
+                      const data = payload[0]
+                      if (data.payload) {
+                        return data.payload.ticker
+                      }
+                    }}
+                    showValueLabel={false}
+                    valueFormatter={({ payload }) => {
+                      const data = payload[0]
+                      if (data.payload) {
+                        return data.payload[key] + '%'
+                      }
+                    }}
+                  />
+                }
+              />
+            </Treemap>
           </ResponsiveContainer>
         </div>
       )}
