@@ -83,7 +83,6 @@ const ProjectsList = ({ projects, onSelect, className }) => {
             rowCount={rowCount}
             overscanRowCount={5}
             rowRenderer={rowRenderer}
-            //
             scrollToIndex={cursor}
           />
         )}
