@@ -1,3 +1,10 @@
+@import "~@santiment-network/ui/mixins";
+
 .container {
   margin: 48px 0 80px 0;
+
+  @include responsive('phone', 'phone-xs') {
+    padding: 0 16px;
+    margin: 16px 0;
+  }
 }
