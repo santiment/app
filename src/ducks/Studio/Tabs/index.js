@@ -21,15 +21,16 @@ function getSubpath (path) {
   return SUBPATHS.has(subpath) ? '' : subpath
 }
 
-const Tabs = ({ location: { pathname, search }, match: { path: base } }) => {
+const Tabs = ({ location: { pathname }, match: { path: base }, slug }) => {
   const subpath = getSubpath(pathname.slice(base.length))
+  const search = window.location.search
 
   return (
     <div className={styles.tabs}>
       {TABS.map(({ path, label }) => (
         <NavLink
           exact
-          key={label}
+          key={path}
           to={{ pathname: base + path + subpath, search }}
           className={styles.tab}
           activeClassName={styles.active}
