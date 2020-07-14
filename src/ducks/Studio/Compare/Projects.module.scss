@@ -16,6 +16,10 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+
+  &_cursored {
+    background: var(--porcelain);
+  }
 }
 
 .panel {

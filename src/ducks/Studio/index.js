@@ -183,8 +183,10 @@ export const Studio = ({
     appliedWidgets = selectedWidgets
   ) {
     if (currentPhase === Phase.MAPVIEW) {
-      widget.chartRef.current.canvas.scrollIntoView({ block: 'center' })
-      onOverviewClose()
+      if (widget.chartRef) {
+        widget.chartRef.current.canvas.scrollIntoView({ block: 'center' })
+        onOverviewClose()
+      }
       return
     }
 

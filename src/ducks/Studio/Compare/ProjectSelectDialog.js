@@ -22,6 +22,7 @@ const ProjectSelectDialog = ({
     () => {
       if (!open) {
         setSearchedProjects(allProjects)
+        setLastSearchTerm('')
       }
     },
     [open]

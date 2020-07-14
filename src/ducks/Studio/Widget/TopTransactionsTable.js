@@ -65,7 +65,8 @@ const Header = ({ dates, onCalendarChange, onCloseClick }) => (
       onChange={onCalendarChange}
     />
     <HelpPopup>
-      Hold "Shift", click and move mouse on the chart to select a time range
+      Hold "CTRL" or "CMD", click and move mouse on the chart to select a time
+      range
     </HelpPopup>
     <Icon
       type='close-medium'
