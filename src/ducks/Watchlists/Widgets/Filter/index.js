@@ -10,7 +10,11 @@ import styles from './index.module.scss'
 
 const VIEWPORT_HEIGHT = window.innerHeight
 
-const Filter = ({ watchlist, projectsCount }) => {
+const Filter = ({ watchlist = {}, projectsCount }) => {
+  if (!watchlist.function) {
+    return null
+  }
+
   const { filters = [] } = watchlist.function.args
   const isNoFilters = watchlist.function.name === 'top_all_projects'
   const [isActive, setIsActive] = useState(false)
