@@ -104,8 +104,8 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
           className={styles.closeIcon}
           onClick={() => setIsActive(!isActive)}
         />
-        <div className={styles.top}>
-          {/* <span className={styles.count}>{projectsCount} assets</span> */}
+        <div className={cx(styles.top, !isAuthor && styles.top__column)}>
+          <span className={styles.count}>{projectsCount} assets</span>
           <Button
             className={cx(styles.reset, isNoFilters && styles.reset__disabled)}
             onClick={() => (isNoFilters ? null : resetAll())}

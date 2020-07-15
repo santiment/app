@@ -134,7 +134,8 @@ const AssetsTable = ({
           {type === 'screener' && (
             <Filter
               watchlist={watchlist}
-              projectsCount={projectsCount}
+              // projectsCount={projectsCount}
+              projectsCount={items.length}
               isAuthor={isAuthor}
             />
           )}
