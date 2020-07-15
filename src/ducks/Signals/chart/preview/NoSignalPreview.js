@@ -12,7 +12,7 @@ const NoSignalPreview = () => {
         alt='no_signal_preview'
       />
       <div className={styles.explanation}>
-        <span>No chart available</span>
+        <span className={styles.label}>No chart available</span>
         <HelpPopup>
           We currently don't have enough data to display this. Support of
           backtesting charts for this signal will be added soon!
