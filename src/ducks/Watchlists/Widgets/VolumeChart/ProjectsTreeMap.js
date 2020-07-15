@@ -1,5 +1,5 @@
 import React from 'react'
-import { ComposedChart, ResponsiveContainer, Tooltip, Treemap } from 'recharts'
+import { ResponsiveContainer, Tooltip, Treemap } from 'recharts'
 import PageLoader from '../../../../components/Loader/PageLoader'
 import Range from '../WatchlistOverview/Range'
 import { getSorter, useProjectRanges } from './ProjectsChart'

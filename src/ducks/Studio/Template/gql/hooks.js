@@ -74,7 +74,13 @@ export function usePublicProjectTemplates (projectId) {
 export function useFeaturedTemplates () {
   const { data, loading, error } = useQuery(FEATURED_TEMPLATES_QUERY)
 
-  return [data ? data.templates : DEFAULT_TEMPLATES, loading, error]
+  return [
+    data
+      ? data.templates.filter(({ isPublic }) => isPublic)
+      : DEFAULT_TEMPLATES,
+    loading,
+    error
+  ]
 }
 
 export function useSelectedTemplate (templates, selectTemplate) {
