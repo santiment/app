@@ -34,11 +34,11 @@ const getFontSize = (index, length) => {
 
 const TREEMAP_COLORS = [
   'var(--jungle-green)',
-  '#EFA7A7',
-  '#FFE6E6',
-  'var(--mystic)',
-  '#DCF6EF',
   '#89E1C9',
+  '#DCF6EF',
+  'var(--mystic)',
+  '#FFE6E6',
+  '#EFA7A7',
   'var(--persimmon)'
 ]
 
