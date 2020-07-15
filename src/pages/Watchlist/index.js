@@ -6,7 +6,7 @@ import NewScreener from './NewScreenerFromDefault'
 import { useWatchlist } from '../../ducks/Watchlists/gql/hooks'
 import {
   getWatchlistId,
-  isUserDynamicWatchlist,
+  isDynamicWatchlist,
   isDefaultScreenerPath,
   getWatchlistName
 } from '../../ducks/Watchlists/utils'
@@ -20,7 +20,7 @@ const Watchlist = ({ isLoggedIn, ...props }) => {
   }
 
   const name = getWatchlistName(props)
-  let isScreener = isUserDynamicWatchlist(watchlist) || name === 'My Screener'
+  let isScreener = isDynamicWatchlist(watchlist) || name === 'My Screener'
 
   if (error) {
     console.err(error)
