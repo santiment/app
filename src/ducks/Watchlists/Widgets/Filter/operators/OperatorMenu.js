@@ -27,7 +27,7 @@ const OperatorMenu = ({ operator, onChange }) => (
         <Button
           key={key}
           variant='ghost'
-          isDisabled={isDisabled}
+          disabled={isDisabled}
           fluid
           className={cx(styles.button, isDisabled && styles.button__disabled)}
           onClick={() => (isDisabled ? null : onChange(key))}

@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import Input from '@santiment-network/ui/Input'
 import OperatorMenu from './operators/OperatorMenu'
-import { Operator } from './operators/index'
+import {
+  Operator,
+  defaultMetricFormatter,
+  defaultValueFormatter
+} from './operators/index'
 import { useDebounce } from '../../../../hooks'
 import styles from './FilterMetric.module.scss'
 
@@ -73,21 +77,27 @@ const FilterMetric = ({
     setOperator(operator)
     if (firstInputValue) {
       onMetricUpdate({
+        operator,
         metric: key,
-        operator: operator,
         threshold: firstInputValue
       })
     }
   }
 
   function onMetricUpdate ({ metric, operator, threshold }) {
+    const {
+      key,
+      dataKey = key,
+      metricFormatter = defaultMetricFormatter,
+      serverValueFormatter = defaultValueFormatter
+    } = Operator[operator]
     updMetricInFilter({
       aggregation: 'last',
       dynamicFrom: '1d',
       dynamicTo: 'now',
-      metric,
-      operator,
-      threshold
+      metric: metricFormatter({ metric }),
+      operator: dataKey,
+      threshold: serverValueFormatter(threshold)
     })
   }
 
