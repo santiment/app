@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import Input from '@santiment-network/ui/Input'
+import Button from '@santiment-network/ui/Button'
 import OperatorMenu from './operators/OperatorMenu'
 import {
   Operator,
@@ -32,6 +33,20 @@ function getInitialThreshold ({ metricFilters, isPercentMetric }) {
   return isPercentMetric ? thresholds[0] * 100 : thresholds[0]
 }
 
+function getInitialTimeRange ({ metricFilters }) {
+  if (metricFilters.length > 0) {
+    return metricFilters[0].dynamicFrom
+  }
+  return '1d'
+}
+
+function checkIsPercentMetric ({ metricFilters }) {
+  if (metricFilters.length > 0) {
+    return metricFilters[0].metric.includes('_change_')
+  }
+  return false
+}
+
 const FilterMetric = ({
   metric,
   filter = [],
@@ -40,11 +55,12 @@ const FilterMetric = ({
   isAuthor
 }) => {
   const metricFilters = filter.filter(item => item.metric.includes(metric.key))
-  const isPercentMetric =
-    metricFilters.length > 0 && metricFilters[0].metric.includes('_change_')
-  const isShowTimeRange = isPercentMetric
+  const isPercentMetric = checkIsPercentMetric({ metricFilters })
   const isActive = !!metricFilters.length
   const [isOpened, setIsOpened] = useState(isActive)
+  const [timeRange, setTimeRange] = useState(
+    getInitialTimeRange({ metricFilters })
+  )
   const [operator, setOperator] = useState(
     getInitialOperator({ metricFilters, isPercentMetric })
   )
@@ -147,7 +163,11 @@ const FilterMetric = ({
           {/*     /> */}
           {/*   </> */}
           {/* )} */}
-          {/* {isShowTimeRange && <TimeRangeContextMenu timeRange={metricFilters[0].from} />} */}
+          {isPercentMetric && (
+            <Button className={styles.timerange} border variant='flat'>
+              {timeRange}
+            </Button>
+          )}
         </div>
       )}
     </div>
