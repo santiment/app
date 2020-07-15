@@ -40,7 +40,7 @@ const Screener = props => {
           return (
             <>
               <TopPanel
-                name={props.watchlist.name || props.name}
+                name={(props.watchlist || {}).name || props.name}
                 id={listId}
                 watchlist={props.watchlist}
                 shareLink={window.location.href + '#shared'}

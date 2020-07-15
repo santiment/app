@@ -45,18 +45,20 @@ export const Operator = {
     icon: PercentUp,
     dataKey: 'greater_than',
     label: 'Moving up %',
-    metricFormatter: percentMetricFormatter,
-    valueFormatter: percentValueFormatter,
-    serverValueFormatter: percentServerValueFormatter
-  },
-  percent_less_than: {
-    icon: PercentDown,
-    label: 'Moving down %',
-    dataKey: 'less_than',
+    type: 'percent',
     metricFormatter: percentMetricFormatter,
     valueFormatter: percentValueFormatter,
     serverValueFormatter: percentServerValueFormatter
   }
+  // percent_less_than: {
+  //   icon: PercentDown,
+  //   label: 'Moving down %',
+  //   dataKey: 'less_than',
+  //   type: 'percent',
+  //   metricFormatter: percentMetricFormatter,
+  //   valueFormatter: percentValueFormatter,
+  //   serverValueFormatter: percentServerValueFormatter
+  // }
   // moving_in: {
   //   icon: PercentBetween,
   //   label: 'Between %',

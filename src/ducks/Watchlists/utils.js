@@ -15,10 +15,23 @@ export function isDynamicWatchlist (watchlist) {
   return name !== 'empty'
 }
 
-export function isUserDynamicWatchlist ({ user = {}, ...props }) {
-  const userId = store.getState().user.data.id
-  const { name } = props.function || {}
-  return name !== 'empty' && userId === user.id
+export function isUserDynamicWatchlist (watchlist) {
+  const storeState = store.getState()
+  let userId
+  let watchlistUserId
+  if (storeState) {
+    userId = storeState.user.data.id
+  }
+
+  if (!watchlist) {
+    return
+  }
+
+  if (watchlist && watchlist.user) {
+    watchlistUserId = watchlist.user.id
+  }
+  const { name } = watchlist && watchlist.function ? watchlist.function : {}
+  return name !== 'empty' && userId === watchlistUserId
 }
 
 export function getSharedWatchlistLink (watchlist) {

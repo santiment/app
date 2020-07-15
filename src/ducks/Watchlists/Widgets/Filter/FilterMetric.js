@@ -50,11 +50,14 @@ function getAvailableTimeRanges ({ key, availableMetrics }) {
   return DEFAULT_TIMERANGES.filter(timeRange => timeRanges.includes(timeRange))
 }
 
-function checkIsPercentMetric ({ metricFilters }) {
+function getMetricKey ({ metricFilters }) {
   if (metricFilters.length > 0) {
-    return metricFilters[0].metric.includes('_change_')
+    return metricFilters[0].metric
   }
-  return false
+}
+
+function checkIsPercentMetric (key) {
+  return key.includes('_change_')
 }
 
 const FilterMetric = ({
@@ -66,9 +69,12 @@ const FilterMetric = ({
   availableMetrics
 }) => {
   const metricFilters = filter.filter(item => item.metric.includes(metric.key))
-  const isPercentMetric = checkIsPercentMetric({ metricFilters })
   const isActive = !!metricFilters.length
   const [isOpened, setIsOpened] = useState(isActive)
+  const [metricKey, setMetricKey] = useState(
+    getMetricKey({ metricFilters }) || metric.key
+  )
+  const isPercentMetric = checkIsPercentMetric(metricKey)
   const [timeRanges, setTimeRanges] = useState(
     getAvailableTimeRanges({
       key: metric.key,
@@ -95,6 +101,8 @@ const FilterMetric = ({
       if (isNoFilters) {
         setIsOpened(false)
         setFirstInputValue('')
+        setTimeRange('1d')
+        setMetricKey(metric.key)
         setOperator(Operator.greater_than.key)
       }
     },
@@ -129,11 +137,23 @@ const FilterMetric = ({
       return null
     }
 
+    const formatter =
+      Operator[operator].metricFormatter || defaultMetricFormatter
+    // const timeRange = timeRange ? timeRange : '1d'
+
+    const newMetricKey = formatter({ metric: metric.key, timeRange })
+
     setOperator(operator)
+    setMetricKey(newMetricKey)
+    // if (!timeRange && Operator[operator].type === 'percent') {
+    //   setTimeRange('1d')
+    // }
+
     if (firstInputValue) {
       onMetricUpdate({
         operator,
-        threshold: firstInputValue
+        threshold: firstInputValue,
+        key: newMetricKey
       })
     }
   }
@@ -149,10 +169,7 @@ const FilterMetric = ({
       aggregation: 'last',
       dynamicFrom: props.timeRange || timeRange,
       dynamicTo: 'now',
-      metric: metricFormatter({
-        metric: metric.key,
-        timeRange: props.timeRange || timeRange
-      }),
+      metric: props.key || metricKey,
       operator: dataKey,
       threshold: serverValueFormatter(props.threshold || firstInputValue)
     })
@@ -168,10 +185,17 @@ const FilterMetric = ({
     const activeIndex = timeRanges.indexOf(timeRange)
     const nextIndex = activeIndex + 1 >= timeRanges.length ? 0 : activeIndex + 1
     const nextTimeRange = timeRanges[nextIndex]
+    const formatter =
+      Operator[operator].metricFormatter || defaultMetricFormatter
+    const newMetricKey = formatter({
+      metric: metric.key,
+      timeRange: nextTimeRange
+    })
     setTimeRange(nextTimeRange)
+    setMetricKey(newMetricKey)
 
     if (firstInputValue) {
-      onMetricUpdate({ timeRange: nextTimeRange })
+      onMetricUpdate({ timeRange: nextTimeRange, key: newMetricKey })
     }
   }
 
