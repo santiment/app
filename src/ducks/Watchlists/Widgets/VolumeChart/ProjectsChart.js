@@ -85,14 +85,12 @@ const ProjectsChart = ({ assets }) => {
     <div className={styles.container}>
       <div className={styles.title}>
         <div>Bar chart: Price changes, %</div>
-        <div className={styles.selector}>
-          <Range
-            range={label}
-            changeRange={() => {
-              setIntervalIndex((intervalIndex + 1) % RANGES.length)
-            }}
-          />
-        </div>
+        <Range
+          range={label}
+          changeRange={() => {
+            setIntervalIndex((intervalIndex + 1) % RANGES.length)
+          }}
+        />
       </div>
 
       <div className={styles.chartWrapper}>
