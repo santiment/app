@@ -59,6 +59,10 @@
   margin: 19px 32px 13px;
   display: flex;
   align-items: baseline;
+
+  &__column {
+    flex-direction: column;
+  }
 }
 
 .count {
