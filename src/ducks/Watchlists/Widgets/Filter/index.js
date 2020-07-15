@@ -7,6 +7,7 @@ import { useUpdateWatchlist } from '../../gql/hooks'
 import Trigger from './Trigger'
 import { metrics } from './operators/index'
 import FilterMetric from './FilterMetric'
+import { useAvailableMetrics } from '../../gql/hooks'
 import styles from './index.module.scss'
 
 const VIEWPORT_HEIGHT = window.innerHeight
@@ -22,6 +23,7 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
   const filterRef = useRef(null)
   const [filter, updateFilter] = useState(filters)
   const [updateWatchlist, { loading }] = useUpdateWatchlist()
+  const [availableMetrics] = useAvailableMetrics()
 
   useEffect(() => {
     const sidebar = filterRef.current
@@ -116,6 +118,7 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
         </div>
         {metrics.map(metric => (
           <FilterMetric
+            availableMetrics={availableMetrics}
             isAuthor={isAuthor}
             isNoFilters={isNoFilters}
             filter={filter}

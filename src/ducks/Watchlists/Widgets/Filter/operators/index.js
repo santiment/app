@@ -14,6 +14,8 @@ export const metrics = [
   Metric.volume_usd
 ]
 
+export const DEFAULT_TIMERANGES = ['1d', '7d', '30d']
+
 export const defaultValueFormatter = value => value
 export const defaultMetricFormatter = ({ metric }) => metric
 

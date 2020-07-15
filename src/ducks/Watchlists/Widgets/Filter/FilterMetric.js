@@ -6,7 +6,8 @@ import OperatorMenu from './operators/OperatorMenu'
 import {
   Operator,
   defaultMetricFormatter,
-  defaultValueFormatter
+  defaultValueFormatter,
+  DEFAULT_TIMERANGES
 } from './operators/index'
 import { useDebounce } from '../../../../hooks'
 import styles from './FilterMetric.module.scss'
@@ -40,6 +41,15 @@ function getInitialTimeRange ({ metricFilters }) {
   return '1d'
 }
 
+function getAvailableTimeRanges ({ key, availableMetrics }) {
+  const metrics = availableMetrics.filter(metric =>
+    metric.includes(`${key}_change_`)
+  )
+  const timeRanges = metrics.map(metric => metric.replace(`${key}_change_`, ''))
+
+  return DEFAULT_TIMERANGES.filter(timeRange => timeRanges.includes(timeRange))
+}
+
 function checkIsPercentMetric ({ metricFilters }) {
   if (metricFilters.length > 0) {
     return metricFilters[0].metric.includes('_change_')
@@ -52,12 +62,14 @@ const FilterMetric = ({
   filter = [],
   isNoFilters,
   updMetricInFilter,
-  isAuthor
+  isAuthor,
+  availableMetrics
 }) => {
   const metricFilters = filter.filter(item => item.metric.includes(metric.key))
   const isPercentMetric = checkIsPercentMetric({ metricFilters })
   const isActive = !!metricFilters.length
   const [isOpened, setIsOpened] = useState(isActive)
+  const [timeRanges, setTimeRanges] = useState(null)
   const [timeRange, setTimeRange] = useState(
     getInitialTimeRange({ metricFilters })
   )
@@ -82,6 +94,19 @@ const FilterMetric = ({
       }
     },
     [isNoFilters]
+  )
+
+  useEffect(
+    () => {
+      if (!timeRanges) {
+        const timeRanges = getAvailableTimeRanges({
+          key: metric.key,
+          availableMetrics
+        })
+        setTimeRanges(timeRanges[0])
+      }
+    },
+    [availableMetrics]
   )
 
   const { key, label } = metric
@@ -148,7 +173,11 @@ const FilterMetric = ({
       </div>
       {isOpened && (
         <div className={styles.settings}>
-          <OperatorMenu operator={operator} onChange={onOperatorChange} />
+          <OperatorMenu
+            operator={operator}
+            onChange={onOperatorChange}
+            showPercentFilters={timeRanges && timeRanges.length > 0}
+          />
           <Input
             onChange={onFirstInputChange}
             disabled={!isAuthor}
