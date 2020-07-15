@@ -56,7 +56,7 @@ const Screener = props => {
               />
               {isLoading && <PageLoader className={styles.loading} />}
 
-              {!isLoading && items.length > 0 && (
+              {!isLoading && (
                 <>
                   {(isVolumeTreeMap || isPriceTreeMap) && (
                     <>
