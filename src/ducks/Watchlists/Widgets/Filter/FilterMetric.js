@@ -69,7 +69,12 @@ const FilterMetric = ({
   const isPercentMetric = checkIsPercentMetric({ metricFilters })
   const isActive = !!metricFilters.length
   const [isOpened, setIsOpened] = useState(isActive)
-  const [timeRanges, setTimeRanges] = useState(null)
+  const [timeRanges, setTimeRanges] = useState(
+    getAvailableTimeRanges({
+      key: metric.key,
+      availableMetrics
+    })
+  )
   const [timeRange, setTimeRange] = useState(
     getInitialTimeRange({ metricFilters })
   )
@@ -98,12 +103,12 @@ const FilterMetric = ({
 
   useEffect(
     () => {
-      if (!timeRanges) {
+      if (timeRanges.length === 0) {
         const timeRanges = getAvailableTimeRanges({
           key: metric.key,
           availableMetrics
         })
-        setTimeRanges(timeRanges[0])
+        setTimeRanges(timeRanges)
       }
     },
     [availableMetrics]
@@ -161,6 +166,26 @@ const FilterMetric = ({
     })
   }
 
+  function toggleTimeRange (timeRange) {
+    const activeIndex = timeRanges.indexOf(timeRange)
+    const nextIndex = activeIndex + 1 >= timeRanges.length ? 0 : activeIndex + 1
+    console.log(
+      activeIndex,
+      nextIndex,
+      timeRanges[nextIndex],
+      timeRanges,
+      timeRange
+    )
+    setTimeRange(timeRanges[nextIndex])
+    if (firstInputValue) {
+      onMetricUpdate({
+        operator,
+        metric: key,
+        threshold: firstInputValue
+      })
+    }
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.top}>
@@ -187,13 +212,19 @@ const FilterMetric = ({
           {/*   <> */}
           {/*     <span className={styles.preposition}>to</span> */}
           {/*     <Input */}
+
           {/*       onBlur={onSecondInputChange} */}
           {/*       defaultValue={thresholds[1]} */}
           {/*     /> */}
           {/*   </> */}
           {/* )} */}
           {isPercentMetric && (
-            <Button className={styles.timerange} border variant='flat'>
+            <Button
+              className={styles.timerange}
+              border
+              variant='flat'
+              onClick={() => toggleTimeRange(timeRange)}
+            >
               {timeRange}
             </Button>
           )}
