@@ -236,7 +236,7 @@ const FilterMetric = ({
               className={styles.timerange}
               border
               variant='flat'
-              onClick={() => toggleTimeRange(timeRange)}
+              onClick={() => (isAuthor ? toggleTimeRange(timeRange) : {})}
             >
               {timeRange}
             </Button>
