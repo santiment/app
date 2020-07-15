@@ -38,6 +38,14 @@
   width: 100%;
 }
 
+.unsupported {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--waterloo);
+}
+
 .btnEdit {
   margin-left: 8px;
 
