@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Toggle from '@santiment-network/ui/Toggle'
@@ -8,15 +8,24 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import styles from './Widgets.module.scss'
 
 const Widgets = ({
-  isAuthor,
-  id,
-  name,
-  shareLink,
   widgets: { isPriceChart, isPriceTreeMap, isVolumeTreeMap } = {},
-  togglers: { priceToggle, togglePriceTreeMap, toggleVolumeTreeMap } = {}
+  togglers = {}
 }) => {
+  const { priceToggle, togglePriceTreeMap, toggleVolumeTreeMap } = togglers
+  const [isOpen, setOpen] = useState(false)
+
+  useEffect(
+    () => {
+      setTimeout(() => setOpen(false), 300)
+    },
+    [togglers]
+  )
+
   return (
     <ContextMenu
+      open={isOpen}
+      onOpen={() => setOpen(true)}
+      onClose={() => setOpen(false)}
       trigger={
         <Button variant='flat' className={styles.triggerButton}>
           <Icon type='view-option' />
