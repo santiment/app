@@ -6,6 +6,7 @@ import { getSorter, useProjectRanges } from './ProjectsChart'
 import { formatNumber } from '../../../../utils/formatting'
 import styles from './ProjectsChart.module.scss'
 import ChartTooltip from '../../../SANCharts/tooltip/CommonChartTooltip'
+import ColorsExplanation from './ColorsExplanation'
 
 const RANGES = [
   {
@@ -21,6 +22,14 @@ const RANGES = [
     key: 'percentChange7d'
   }
 ]
+
+const getWordLength = (fontSize, word) => (fontSize - 3) * word.length + 8
+
+export const formatProjectTreeMapValue = val =>
+  formatNumber(val, {
+    maximumFractionDigits: 2,
+    directionSymbol: true
+  }) + '%'
 
 const getFontSize = (index, length) => {
   if (index < length * 0.05) {
@@ -58,11 +67,17 @@ const ProjectsTreeMap = ({ assets, title, ranges, className }) => {
 
   let border = logData.length / TREEMAP_COLORS.length
 
+  const colorMaps = {}
+
   let sortedByChange = logData.sort(getSorter(key)).map((item, index) => {
     const colorIndex = Math.floor(index / border)
+    const color = TREEMAP_COLORS[colorIndex]
+    if (!colorMaps[color]) {
+      colorMaps[color] = item[key]
+    }
     return {
       ...item,
-      color: TREEMAP_COLORS[colorIndex]
+      color
     }
   })
 
@@ -116,13 +131,13 @@ const ProjectsTreeMap = ({ assets, title, ranges, className }) => {
               />
             </Treemap>
           </ResponsiveContainer>
+
+          <ColorsExplanation colors={TREEMAP_COLORS} colorMaps={colorMaps} />
         </div>
       )}
     </div>
   )
 }
-
-const getWordLength = (fontSize, word) => (fontSize - 3) * word.length + 8
 
 const CustomizedContent = props => {
   const {
@@ -137,10 +152,7 @@ const CustomizedContent = props => {
 
   const item = children[index]
   const { ticker = '', color } = item
-  const value =
-    formatNumber(item[dataKey], {
-      maximumFractionDigits: 2
-    }) + '%'
+  const value = formatProjectTreeMapValue(item[dataKey])
 
   const fontSize = getFontSize(index, children.length)
 

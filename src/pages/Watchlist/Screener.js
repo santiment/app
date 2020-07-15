@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import cx from 'classnames'
 import PageLoader from '../../components/Loader/PageLoader'
 import { getWatchlistName } from '../../ducks/Watchlists/utils'
 import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
@@ -16,8 +15,6 @@ const Screener = props => {
   const [isPriceChartActive, setPriceChart] = useState(false)
   const [isPriceTreeMap, setPriceTreeMap] = useState(false)
   const [isVolumeTreeMap, setVolumeTreeMap] = useState(false)
-
-  const bothCharts = isPriceTreeMap && isVolumeTreeMap
 
   return (
     <div className={('page', styles.container)}>

@@ -1,0 +1,22 @@
+@import '~@santiment-network/ui/mixins';
+
+.card {
+  width: 80px;
+  height: 16px;
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--rhino);
+
+  @include text('caption', 'm');
+
+  font-size: 10px;
+  line-height: 14px;
+}
+
+.container {
+  display: flex;
+  margin-top: 16px;
+  margin-left: auto;
+}

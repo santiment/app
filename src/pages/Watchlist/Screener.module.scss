@@ -17,9 +17,7 @@
 }
 
 .treeMaps {
-  margin: 0 32px 24px 32px;
-  display: grid;
-  grid-row-gap: 24px;
+  margin: 0 32px 0 32px;
 }
 
 .twoTrees {
@@ -28,9 +26,10 @@
 
 .containerTreeMap {
   display: flex;
-  height: 158px;
+  height: 186px;
   flex-direction: column;
   width: 100%;
+  margin-bottom: 24px;
 }
 
 .both {
