@@ -66,7 +66,8 @@ const FilterMetric = ({
   isNoFilters,
   updMetricInFilter,
   isAuthor,
-  availableMetrics
+  availableMetrics,
+  toggleMetricInFilter
 }) => {
   const metricFilters = filter.filter(item => item.metric.includes(metric.key))
   const isActive = !!metricFilters.length
@@ -129,7 +130,20 @@ const FilterMetric = ({
       return null
     }
 
+    const valueFormatter =
+      Operator[operator].serverValueFormatter || defaultValueFormatter
+
     setIsOpened(!isOpened)
+    if (firstInputValue) {
+      toggleMetricInFilter({
+        aggregation: 'last',
+        dynamicFrom: timeRange,
+        dynamicTo: 'now',
+        metric: metricKey,
+        operator,
+        threshold: valueFormatter(firstInputValue)
+      })
+    }
   }
 
   function onOperatorChange (operator) {
@@ -139,15 +153,11 @@ const FilterMetric = ({
 
     const formatter =
       Operator[operator].metricFormatter || defaultMetricFormatter
-    // const timeRange = timeRange ? timeRange : '1d'
 
     const newMetricKey = formatter({ metric: metric.key, timeRange })
 
     setOperator(operator)
     setMetricKey(newMetricKey)
-    // if (!timeRange && Operator[operator].type === 'percent') {
-    //   setTimeRange('1d')
-    // }
 
     if (firstInputValue) {
       onMetricUpdate({

@@ -92,6 +92,36 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
     })
   }
 
+  function toggleMetricInFilter (metric) {
+    const key = metric.metric.replace(`_change_${metric.dynamicFrom}`, '')
+    const isMetricInList = filter.some(item => item.metric.includes(key))
+    let newFilter = []
+    if (isMetricInList) {
+      newFilter = filter.filter(item => !item.metric.includes(key))
+    } else {
+      newFilter = [...filter, metric]
+    }
+
+    console.log(metric, newFilter)
+    updateFilter(newFilter)
+    updateWatchlist(watchlist, {
+      function:
+        newFilter.length > 0
+          ? {
+            args: {
+              filters: newFilter
+            },
+            name: 'selector'
+          }
+          : {
+            args: {
+              size: 10000
+            },
+            name: 'top_all_projects'
+          }
+    })
+  }
+
   return (
     <>
       <Trigger isActive={isActive} onClick={setIsActive} />
@@ -119,6 +149,7 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
         </div>
         {metrics.map(metric => (
           <FilterMetric
+            toggleMetricInFilter={toggleMetricInFilter}
             availableMetrics={availableMetrics}
             isAuthor={isAuthor}
             isNoFilters={isNoFilters}
