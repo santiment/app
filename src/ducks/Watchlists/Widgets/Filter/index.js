@@ -68,9 +68,10 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
   }
 
   function updMetricInFilter (metric) {
+    const key = metric.metric.replace(`_change_${metric.dynamicFrom}`, '')
     const filters = isNoFilters
       ? []
-      : filter.filter(item => item.metric !== metric.metric)
+      : filter.filter(item => !item.metric.includes(key))
     const newFilter = [...filters, metric]
     updateFilter(newFilter)
     updateWatchlist(watchlist, {

@@ -133,56 +133,45 @@ const FilterMetric = ({
     if (firstInputValue) {
       onMetricUpdate({
         operator,
-        metric: key,
         threshold: firstInputValue
       })
     }
   }
 
-  function onMetricUpdate ({ metric, operator, threshold }) {
+  function onMetricUpdate (props) {
     const {
       key,
       dataKey = key,
       metricFormatter = defaultMetricFormatter,
       serverValueFormatter = defaultValueFormatter
-    } = Operator[operator]
+    } = Operator[props.operator || operator]
     updMetricInFilter({
       aggregation: 'last',
-      dynamicFrom: '1d',
+      dynamicFrom: props.timeRange || timeRange,
       dynamicTo: 'now',
-      metric: metricFormatter({ metric }),
+      metric: metricFormatter({
+        metric: metric.key,
+        timeRange: props.timeRange || timeRange
+      }),
       operator: dataKey,
-      threshold: serverValueFormatter(threshold)
+      threshold: serverValueFormatter(props.threshold || firstInputValue)
     })
   }
 
   function onFirstInputChange ({ currentTarget: { value } }) {
     const newValue = isNaN(parseFloat(value)) ? '' : parseFloat(value)
     setFirstInputValue(newValue)
-    onMetricUpdateDebounced({
-      metric: key,
-      operator: operator,
-      threshold: newValue
-    })
+    onMetricUpdateDebounced({ threshold: newValue })
   }
 
   function toggleTimeRange (timeRange) {
     const activeIndex = timeRanges.indexOf(timeRange)
     const nextIndex = activeIndex + 1 >= timeRanges.length ? 0 : activeIndex + 1
-    console.log(
-      activeIndex,
-      nextIndex,
-      timeRanges[nextIndex],
-      timeRanges,
-      timeRange
-    )
-    setTimeRange(timeRanges[nextIndex])
+    const nextTimeRange = timeRanges[nextIndex]
+    setTimeRange(nextTimeRange)
+
     if (firstInputValue) {
-      onMetricUpdate({
-        operator,
-        metric: key,
-        threshold: firstInputValue
-      })
+      onMetricUpdate({ timeRange: nextTimeRange })
     }
   }
 
