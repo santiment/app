@@ -898,8 +898,8 @@ export const getNewMetricsByType = ({ settings: { type, metric } }) => {
   switch (type) {
     case METRIC_TYPES.WALLET_MOVEMENT: {
       return {
-        metrics: [Metric.historicalBalance, Metric.price_usd],
-        triggersBy: Metric.historicalBalance,
+        metrics: [Metric.balance, Metric.price_usd],
+        triggersBy: Metric.balance,
         historicalTriggersDataKey: 'current'
       }
     }
@@ -953,8 +953,8 @@ export const getOldMetricsByType = type => {
       }
     case ETH_WALLET:
       return {
-        metrics: [Metric.historicalBalance, Metric.price_usd],
-        triggersBy: Metric.historicalBalance
+        metrics: [Metric.balance, Metric.price_usd],
+        triggersBy: Metric.balance
       }
     default:
       return {

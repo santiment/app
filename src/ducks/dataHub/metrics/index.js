@@ -48,12 +48,11 @@ export const Metric = {
     formatter: ethFormatter,
     checkIsVisible: ({ slug }) => slug !== 'ethereum'
   },
-  historicalBalance: {
+  balance: {
     category: 'Financial',
     node: 'bar',
     label: 'Balance',
     fill: true,
-    dataKey: 'balance',
     color: 'mystic',
     strokeWidth: 0,
     hidden: true

@@ -122,7 +122,7 @@ const FilterMetric = ({
     [availableMetrics]
   )
 
-  const { key, label } = metric
+  const { label } = metric
 
   function onCheckboxClicked () {
     if (!isAuthor) {
@@ -162,7 +162,6 @@ const FilterMetric = ({
     const {
       key,
       dataKey = key,
-      metricFormatter = defaultMetricFormatter,
       serverValueFormatter = defaultValueFormatter
     } = Operator[props.operator || operator]
     updMetricInFilter({
