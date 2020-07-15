@@ -101,6 +101,7 @@ const Screener = props => {
                     Assets={Assets}
                     items={items}
                     type='screener'
+                    isAuthor={isCurrentUserTheAuthor}
                     projectsCount={projectsCount}
                     watchlist={props.watchlist}
                     classes={{ container: styles.tableWrapper }}

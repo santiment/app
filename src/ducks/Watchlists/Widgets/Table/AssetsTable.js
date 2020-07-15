@@ -44,6 +44,7 @@ const AssetsTable = ({
   projectsCount,
   settings,
   allColumns,
+  isAuthor,
   setHiddenColumns,
   showCollumnsToggle = true,
   className,
@@ -131,7 +132,11 @@ const AssetsTable = ({
             <AssetsToggleColumns columns={columns} onChange={toggleColumn} />
           )}
           {type === 'screener' && (
-            <Filter watchlist={watchlist} projectsCount={projectsCount} />
+            <Filter
+              watchlist={watchlist}
+              projectsCount={projectsCount}
+              isAuthor={isAuthor}
+            />
           )}
         </div>
       </div>

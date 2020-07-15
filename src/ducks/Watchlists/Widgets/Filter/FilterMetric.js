@@ -3,6 +3,7 @@ import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import Input from '@santiment-network/ui/Input'
 import OperatorMenu from './operators/OperatorMenu'
 import { Operator } from './operators/index'
+import { useDebounce } from '../../../../hooks'
 import styles from './FilterMetric.module.scss'
 
 const FilterMetric = ({
@@ -23,13 +24,20 @@ const FilterMetric = ({
       ? initialOperators[0]
       : Operator.greater_than.key
   )
-  const [firstInputValue, setFirstInputValue] = useState(thresholds[0])
+  const [firstInputValue, setFirstInputValue] = useState(
+    isNaN(thresholds[0]) ? '' : thresholds[0]
+  )
+
+  const onMetricUpdateDebounced = useDebounce(
+    value => onMetricUpdate(value),
+    800
+  )
 
   useEffect(
     () => {
       if (isNoFilters) {
         setIsOpened(false)
-        setFirstInputValue(null)
+        setFirstInputValue('')
         setOperator(Operator.greater_than.key)
       }
     },
@@ -45,10 +53,7 @@ const FilterMetric = ({
   function onOperatorChange (operator) {
     setOperator(operator)
     if (firstInputValue) {
-      updMetricInFilter({
-        aggregation: 'last',
-        dynamicFrom: '1d',
-        dynamicTo: 'now',
+      onMetricUpdate({
         metric: key,
         operator: operator,
         threshold: firstInputValue
@@ -56,15 +61,24 @@ const FilterMetric = ({
     }
   }
 
-  function onFirstInputChange ({ currentTarget: { value } }) {
-    setFirstInputValue(parseFloat(value))
+  function onMetricUpdate ({ metric, operator, threshold }) {
     updMetricInFilter({
       aggregation: 'last',
       dynamicFrom: '1d',
       dynamicTo: 'now',
+      metric,
+      operator,
+      threshold
+    })
+  }
+
+  function onFirstInputChange ({ currentTarget: { value } }) {
+    const newValue = isNaN(parseFloat(value)) ? '' : parseFloat(value)
+    setFirstInputValue(newValue)
+    onMetricUpdateDebounced({
       metric: key,
       operator: operator,
-      threshold: parseFloat(value)
+      threshold: newValue
     })
   }
 
@@ -81,7 +95,7 @@ const FilterMetric = ({
       {isOpened && (
         <div className={styles.settings}>
           <OperatorMenu operator={operator} onChange={onOperatorChange} />
-          <Input onBlur={onFirstInputChange} defaultValue={firstInputValue} />
+          <Input onChange={onFirstInputChange} defaultValue={firstInputValue} />
           {/* {thresholds.length === 2 && ( */}
           {/*   <> */}
           {/*     <span className={styles.preposition}>to</span> */}
