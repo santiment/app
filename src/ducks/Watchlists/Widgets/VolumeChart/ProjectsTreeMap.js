@@ -4,9 +4,9 @@ import PageLoader from '../../../../components/Loader/PageLoader'
 import Range from '../WatchlistOverview/Range'
 import { getSorter, useProjectRanges } from './ProjectsChart'
 import { formatNumber } from '../../../../utils/formatting'
-import styles from './ProjectsChart.module.scss'
 import ChartTooltip from '../../../SANCharts/tooltip/CommonChartTooltip'
 import ColorsExplanation from './ColorsExplanation'
+import styles from './ProjectsChart.module.scss'
 
 const RANGES = [
   {
@@ -26,10 +26,12 @@ const RANGES = [
 const getWordLength = (fontSize, word) => (fontSize - 3) * word.length + 8
 
 export const formatProjectTreeMapValue = val =>
-  formatNumber(val, {
-    maximumFractionDigits: 2,
-    directionSymbol: true
-  }) + '%'
+  val
+    ? formatNumber(val, {
+      maximumFractionDigits: 2,
+      directionSymbol: true
+    }) + '%'
+    : null
 
 const getFontSize = (index, length) => {
   if (index < length * 0.05) {
@@ -60,16 +62,11 @@ const ProjectsTreeMap = ({ assets, title, ranges, className }) => {
     { intervalIndex, setIntervalIndex, label, key }
   ] = useProjectRanges({ assets, ranges, limit: 100 })
 
-  const logData = data.map(item => ({
-    ...item,
-    marketcapUsd: Math.log2(item.marketcapUsd)
-  }))
-
-  let border = logData.length / TREEMAP_COLORS.length
+  let border = data.length / TREEMAP_COLORS.length
 
   const colorMaps = {}
 
-  let sortedByChange = logData.sort(getSorter(key)).map((item, index) => {
+  let sortedByChange = data.sort(getSorter(key)).map((item, index) => {
     const colorIndex = Math.floor(index / border)
     const color = TREEMAP_COLORS[colorIndex]
     if (!colorMaps[color]) {
