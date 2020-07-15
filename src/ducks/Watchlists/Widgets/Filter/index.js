@@ -2,15 +2,17 @@ import React, { useState, useRef, useEffect } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import { useUpdateWatchlist } from '../../gql/hooks'
 import Trigger from './Trigger'
 import { metrics } from './operators/index'
 import FilterMetric from './FilterMetric'
+import { useAvailableMetrics } from '../../gql/hooks'
 import styles from './index.module.scss'
 
 const VIEWPORT_HEIGHT = window.innerHeight
 
-const Filter = ({ watchlist = {}, projectsCount }) => {
+const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
   if (!watchlist.function) {
     return null
   }
@@ -20,7 +22,8 @@ const Filter = ({ watchlist = {}, projectsCount }) => {
   const [isActive, setIsActive] = useState(false)
   const filterRef = useRef(null)
   const [filter, updateFilter] = useState(filters)
-  const [updateWatchlist] = useUpdateWatchlist()
+  const [updateWatchlist, { loading }] = useUpdateWatchlist()
+  const [availableMetrics] = useAvailableMetrics()
 
   useEffect(() => {
     const sidebar = filterRef.current
@@ -65,9 +68,10 @@ const Filter = ({ watchlist = {}, projectsCount }) => {
   }
 
   function updMetricInFilter (metric) {
+    const key = metric.metric.replace(`_change_${metric.dynamicFrom}`, '')
     const filters = isNoFilters
       ? []
-      : filter.filter(item => item.metric !== metric.metric)
+      : filter.filter(item => !item.metric.includes(key))
     const newFilter = [...filters, metric]
     updateFilter(newFilter)
     updateWatchlist(watchlist, {
@@ -105,12 +109,18 @@ const Filter = ({ watchlist = {}, projectsCount }) => {
           <Button
             className={cx(styles.reset, isNoFilters && styles.reset__disabled)}
             onClick={() => (isNoFilters ? null : resetAll())}
+            disabled={!isAuthor}
           >
-            Reset all
+            {isAuthor
+              ? 'Reset all'
+              : "View only. You aren't the author of this list"}
           </Button>
+          {loading && <Loader className={styles.loader} />}
         </div>
         {metrics.map(metric => (
           <FilterMetric
+            availableMetrics={availableMetrics}
+            isAuthor={isAuthor}
             isNoFilters={isNoFilters}
             filter={filter}
             key={metric.key}

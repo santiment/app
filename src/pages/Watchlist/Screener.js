@@ -37,7 +37,7 @@ const Screener = props => {
           return (
             <>
               <TopPanel
-                name={props.watchlist.name || props.name}
+                name={(props.watchlist || {}).name || props.name}
                 id={listId}
                 watchlist={props.watchlist}
                 shareLink={window.location.href + '#shared'}
@@ -96,6 +96,7 @@ const Screener = props => {
                     Assets={Assets}
                     items={items}
                     type='screener'
+                    isAuthor={isCurrentUserTheAuthor}
                     projectsCount={projectsCount}
                     watchlist={props.watchlist}
                     classes={{ container: styles.tableWrapper }}

@@ -69,6 +69,12 @@ export const FEATURED_WATCHLISTS_QUERY = gql`
   ${PROJECT_ITEM_FRAGMENT}
 `
 
+export const AVAILABLE_METRICS_QUERY = gql`
+  query getAvailableMetrics {
+    getAvailableMetrics
+  }
+`
+
 export const CREATE_WATCHLIST_MUTATION = gql`
   mutation createWatchlist(
     $isPublic: Boolean

@@ -42,10 +42,17 @@
 
 .reset {
   color: var(--jungle-green);
+  margin-left: -12px;
 
   // &__disabled {
   //   color: var(--waterloo);
   // }
+}
+
+.loader {
+  margin-left: 16px;
+  font-size: 5px;
+  color: var(--fiord);
 }
 
 .top {

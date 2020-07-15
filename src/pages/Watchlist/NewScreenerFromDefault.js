@@ -1,3 +1,5 @@
+import React from 'react'
+import PageLoader from '../../components/Loader/PageLoader'
 import {
   useUserScreeners,
   useCreateScreener
@@ -46,7 +48,7 @@ const NewScreener = ({ history }) => {
     })
   }
 
-  return null
+  return <PageLoader />
 }
 
 export default NewScreener

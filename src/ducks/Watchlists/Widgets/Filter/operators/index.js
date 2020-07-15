@@ -1,18 +1,28 @@
 import { Metric } from '../../../../dataHub/metrics'
 import Above from './icons/above.svg'
 import Below from './icons/below.svg'
-import Between from './icons/between.svg'
-import Outide from './icons/outside.svg'
+// import Between from './icons/between.svg'
+// import Outide from './icons/outside.svg'
 import PercentUp from './icons/percent-up.svg'
 import PercentDown from './icons/percent-down.svg'
-import PercentBetween from './icons/percent-between.svg'
-import PercentOutside from './icons/percent-outside.svg'
+// import PercentBetween from './icons/percent-between.svg'
+// import PercentOutside from './icons/percent-outside.svg'
 
 export const metrics = [
   Metric.price_usd,
   Metric.marketcap_usd,
   Metric.volume_usd
 ]
+
+export const DEFAULT_TIMERANGES = ['1d', '7d', '30d']
+
+export const defaultValueFormatter = value => value
+export const defaultMetricFormatter = ({ metric }) => metric
+
+const percentServerValueFormatter = value => value / 100
+const percentValueFormatter = value => value * 100
+const percentMetricFormatter = ({ metric, timeRange = '1d' }) =>
+  `${metric}_change_${timeRange}`
 
 export const Operator = {
   greater_than: {
@@ -23,40 +33,40 @@ export const Operator = {
     icon: Below,
     label: 'Below'
   },
-  beetween: {
-    // type: ['greater_than_or_equal_to', 'less_than_or_equal_to'],
-    icon: Between,
-    label: 'Between',
-    isDisabled: true
-  },
-  outside: {
-    // type: ['less_than_or_equal_to', 'greater_than_or_equal_to'],
-    icon: Outide,
-    label: 'Outside',
-    isDisabled: true
-  },
-  moving_up: {
+  // beetween: {
+  //   icon: Between,
+  //   label: 'Between',
+  // },
+  // outside: {
+  //   icon: Outide,
+  //   label: 'Outside',
+  // },
+  percent_greater_than: {
     icon: PercentUp,
+    dataKey: 'greater_than',
     label: 'Moving up %',
-    isDisabled: true
-  },
-  moving_down: {
-    icon: PercentDown,
-    label: 'Moving down %',
-    isDisabled: true
-  },
-  moving_in: {
-    // type: ['greater_than_or_equal_to', 'less_than_or_equal_to'],
-    icon: PercentBetween,
-    label: 'Between %',
-    isDisabled: true
-  },
-  moving_out: {
-    // type: ['less_than_or_equal_to', 'greater_than_or_equal_to'],
-    icon: PercentOutside,
-    label: 'Up or down %',
-    isDisabled: true
+    type: 'percent',
+    metricFormatter: percentMetricFormatter,
+    valueFormatter: percentValueFormatter,
+    serverValueFormatter: percentServerValueFormatter
   }
+  // percent_less_than: {
+  //   icon: PercentDown,
+  //   label: 'Moving down %',
+  //   dataKey: 'less_than',
+  //   type: 'percent',
+  //   metricFormatter: percentMetricFormatter,
+  //   valueFormatter: percentValueFormatter,
+  //   serverValueFormatter: percentServerValueFormatter
+  // }
+  // moving_in: {
+  //   icon: PercentBetween,
+  //   label: 'Between %',
+  // },
+  // moving_out: {
+  //   icon: PercentOutside,
+  //   label: 'Up or down %',
+  // }
 }
 
 Object.keys(Operator).forEach(key => {

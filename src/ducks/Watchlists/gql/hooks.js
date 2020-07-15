@@ -4,7 +4,8 @@ import {
   USER_WATCHLISTS_QUERY,
   FEATURED_WATCHLISTS_QUERY,
   CREATE_WATCHLIST_MUTATION,
-  UPDATE_WATCHLIST_MUTATION
+  UPDATE_WATCHLIST_MUTATION,
+  AVAILABLE_METRICS_QUERY
 } from './index'
 import { store } from '../../../index'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
@@ -146,4 +147,10 @@ export function useUpdateWatchlist () {
   }
 
   return [updateWatchlist, data]
+}
+
+export function useAvailableMetrics () {
+  const { data, loading } = useQuery(AVAILABLE_METRICS_QUERY)
+
+  return [data ? data.getAvailableMetrics : [], loading]
 }
