@@ -63,10 +63,7 @@ const Screener = props => {
                       <div className={styles.treeMaps}>
                         {isPriceTreeMap && (
                           <ProjectsTreeMap
-                            className={cx(
-                              styles.containerTreeMap,
-                              bothCharts && styles.both
-                            )}
+                            className={styles.containerTreeMap}
                             assets={items}
                             title='Top: Price Up'
                             ranges={RANGES}
@@ -74,10 +71,7 @@ const Screener = props => {
                         )}
                         {isVolumeTreeMap && (
                           <ProjectsTreeMap
-                            className={cx(
-                              styles.containerTreeMap,
-                              bothCharts && styles.both
-                            )}
+                            className={styles.containerTreeMap}
                             assets={items}
                             title='Top: Social volume'
                             ranges={[

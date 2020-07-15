@@ -51,9 +51,14 @@ const ProjectsTreeMap = ({ assets, title, ranges, className }) => {
     { intervalIndex, setIntervalIndex, label, key }
   ] = useProjectRanges({ assets, ranges, limit: 100 })
 
-  let border = data.length / TREEMAP_COLORS.length
+  const logData = data.map(item => ({
+    ...item,
+    marketcapUsd: Math.log2(item.marketcapUsd)
+  }))
 
-  let sortedByChange = data.sort(getSorter(key)).map((item, index) => {
+  let border = logData.length / TREEMAP_COLORS.length
+
+  let sortedByChange = logData.sort(getSorter(key)).map((item, index) => {
     const colorIndex = Math.floor(index / border)
     return {
       ...item,
@@ -160,10 +165,11 @@ const CustomizedContent = props => {
       {showTicker && (
         <text
           x={x + width / 2}
-          y={y + height / 2 - (showChange ? 5 : -2)}
+          y={y + height / 2 - (showChange ? 2 : -2)}
           textAnchor='middle'
           fill='var(--fiord)'
           fontSize={fontSize}
+          fontWeight={500}
         >
           {ticker}
         </text>
@@ -175,6 +181,7 @@ const CustomizedContent = props => {
           textAnchor='middle'
           fill='var(--fiord)'
           fontSize={fontSize}
+          fontWeight={500}
         >
           {value}
         </text>
