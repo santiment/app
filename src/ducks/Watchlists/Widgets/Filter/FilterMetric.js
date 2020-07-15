@@ -6,26 +6,45 @@ import { Operator } from './operators/index'
 import { useDebounce } from '../../../../hooks'
 import styles from './FilterMetric.module.scss'
 
+function getInitialOperator ({ metricFilters, isPercentMetric }) {
+  const initialOperators = metricFilters.map(({ operator }) => operator)
+
+  if (initialOperators.length > 0) {
+    return isPercentMetric
+      ? `percent_${initialOperators[0]}`
+      : initialOperators[0]
+  }
+
+  return Operator.greater_than.key
+}
+
+function getInitialThreshold ({ metricFilters, isPercentMetric }) {
+  const thresholds = metricFilters.map(({ threshold }) => threshold)
+
+  if (isNaN(thresholds[0])) {
+    return ''
+  }
+
+  return isPercentMetric ? thresholds[0] * 100 : thresholds[0]
+}
+
 const FilterMetric = ({
   metric,
   filter = [],
   isNoFilters,
   updMetricInFilter
 }) => {
-  const metricFilters = filter.filter(item => item.metric === metric.key)
-  const initialOperators = metricFilters.map(({ operator }) => operator)
-  const thresholds = metricFilters.map(({ threshold }) => threshold)
-  // const isShowTimeRange = false
+  const metricFilters = filter.filter(item => item.metric.includes(metric.key))
+  const isPercentMetric =
+    metricFilters.length > 0 && metricFilters[0].metric.includes('_change_')
+  const isShowTimeRange = isPercentMetric
   const isActive = !!metricFilters.length
-
   const [isOpened, setIsOpened] = useState(isActive)
   const [operator, setOperator] = useState(
-    initialOperators.length > 0
-      ? initialOperators[0]
-      : Operator.greater_than.key
+    getInitialOperator({ metricFilters, isPercentMetric })
   )
   const [firstInputValue, setFirstInputValue] = useState(
-    isNaN(thresholds[0]) ? '' : thresholds[0]
+    getInitialThreshold({ metricFilters, isPercentMetric })
   )
 
   const onMetricUpdateDebounced = useDebounce(

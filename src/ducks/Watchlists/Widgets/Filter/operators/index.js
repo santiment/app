@@ -23,40 +23,38 @@ export const Operator = {
     icon: Below,
     label: 'Below'
   },
-  beetween: {
-    // type: ['greater_than_or_equal_to', 'less_than_or_equal_to'],
-    icon: Between,
-    label: 'Between',
-    isDisabled: true
-  },
-  outside: {
-    // type: ['less_than_or_equal_to', 'greater_than_or_equal_to'],
-    icon: Outide,
-    label: 'Outside',
-    isDisabled: true
-  },
-  moving_up: {
+  // beetween: {
+  //   // type: ['greater_than_or_equal_to', 'less_than_or_equal_to'],
+  //   icon: Between,
+  //   label: 'Between',
+  //   isDisabled: true
+  // },
+  // outside: {
+  //   // type: ['less_than_or_equal_to', 'greater_than_or_equal_to'],
+  //   icon: Outide,
+  //   label: 'Outside',
+  //   isDisabled: true
+  // },
+  percent_greater_than: {
     icon: PercentUp,
-    label: 'Moving up %',
-    isDisabled: true
+    label: 'Moving up %'
   },
-  moving_down: {
+  percent_less_than: {
     icon: PercentDown,
-    label: 'Moving down %',
-    isDisabled: true
-  },
-  moving_in: {
-    // type: ['greater_than_or_equal_to', 'less_than_or_equal_to'],
-    icon: PercentBetween,
-    label: 'Between %',
-    isDisabled: true
-  },
-  moving_out: {
-    // type: ['less_than_or_equal_to', 'greater_than_or_equal_to'],
-    icon: PercentOutside,
-    label: 'Up or down %',
-    isDisabled: true
+    label: 'Moving down %'
   }
+  // moving_in: {
+  //   // type: ['greater_than_or_equal_to', 'less_than_or_equal_to'],
+  //   icon: PercentBetween,
+  //   label: 'Between %',
+  //   isDisabled: true
+  // },
+  // moving_out: {
+  //   // type: ['less_than_or_equal_to', 'greater_than_or_equal_to'],
+  //   icon: PercentOutside,
+  //   label: 'Up or down %',
+  //   isDisabled: true
+  // }
 }
 
 Object.keys(Operator).forEach(key => {
