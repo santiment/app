@@ -36,7 +36,8 @@ const FilterMetric = ({
   metric,
   filter = [],
   isNoFilters,
-  updMetricInFilter
+  updMetricInFilter,
+  isAuthor
 }) => {
   const metricFilters = filter.filter(item => item.metric.includes(metric.key))
   const isPercentMetric =
@@ -70,10 +71,18 @@ const FilterMetric = ({
   const { key, label } = metric
 
   function onCheckboxClicked () {
+    if (!isAuthor) {
+      return null
+    }
+
     setIsOpened(!isOpened)
   }
 
   function onOperatorChange (operator) {
+    if (!isAuthor) {
+      return null
+    }
+
     setOperator(operator)
     if (firstInputValue) {
       onMetricUpdate({
@@ -124,7 +133,11 @@ const FilterMetric = ({
       {isOpened && (
         <div className={styles.settings}>
           <OperatorMenu operator={operator} onChange={onOperatorChange} />
-          <Input onChange={onFirstInputChange} defaultValue={firstInputValue} />
+          <Input
+            onChange={onFirstInputChange}
+            disabled={!isAuthor}
+            defaultValue={firstInputValue}
+          />
           {/* {thresholds.length === 2 && ( */}
           {/*   <> */}
           {/*     <span className={styles.preposition}>to</span> */}

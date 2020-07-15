@@ -11,7 +11,7 @@ import styles from './index.module.scss'
 
 const VIEWPORT_HEIGHT = window.innerHeight
 
-const Filter = ({ watchlist = {}, projectsCount }) => {
+const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
   if (!watchlist.function) {
     return null
   }
@@ -106,13 +106,17 @@ const Filter = ({ watchlist = {}, projectsCount }) => {
           <Button
             className={cx(styles.reset, isNoFilters && styles.reset__disabled)}
             onClick={() => (isNoFilters ? null : resetAll())}
+            disabled={!isAuthor}
           >
-            Reset all
+            {isAuthor
+              ? 'Reset all'
+              : "View only. You aren't the author of this list"}
           </Button>
           {loading && <Loader className={styles.loader} />}
         </div>
         {metrics.map(metric => (
           <FilterMetric
+            isAuthor={isAuthor}
             isNoFilters={isNoFilters}
             filter={filter}
             key={metric.key}
