@@ -33,13 +33,13 @@ const getFontSize = (index, length) => {
 }
 
 const TREEMAP_COLORS = [
-  'var(--persimmon)',
-  '#89E1C9',
-  '#DCF6EF',
-  'var(--mystic)',
-  '#FFE6E6',
+  'var(--jungle-green)',
   '#EFA7A7',
-  'var(--jungle-green)'
+  '#FFE6E6',
+  'var(--mystic)',
+  '#DCF6EF',
+  '#89E1C9',
+  'var(--persimmon)'
 ]
 
 const MARKETCAP_USD_SORTER = getSorter('marketcapUsd')
@@ -87,7 +87,6 @@ const ProjectsTreeMap = ({ assets, title, ranges, className }) => {
             <Treemap
               data={sortedByMarketcap}
               dataKey={'marketcapUsd'}
-              ratio={2 / 3}
               fill='var(--jungle-green)'
               content={<CustomizedContent dataKey={key} />}
             >
