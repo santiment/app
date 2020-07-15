@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import { useUpdateWatchlist } from '../../gql/hooks'
 import Trigger from './Trigger'
 import { metrics } from './operators/index'
@@ -20,7 +21,7 @@ const Filter = ({ watchlist = {}, projectsCount }) => {
   const [isActive, setIsActive] = useState(false)
   const filterRef = useRef(null)
   const [filter, updateFilter] = useState(filters)
-  const [updateWatchlist] = useUpdateWatchlist()
+  const [updateWatchlist, { loading }] = useUpdateWatchlist()
 
   useEffect(() => {
     const sidebar = filterRef.current
@@ -108,6 +109,7 @@ const Filter = ({ watchlist = {}, projectsCount }) => {
           >
             Reset all
           </Button>
+          {loading && <Loader className={styles.loader} />}
         </div>
         {metrics.map(metric => (
           <FilterMetric
