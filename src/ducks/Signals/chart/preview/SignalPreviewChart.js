@@ -56,12 +56,14 @@ const SignalPreviewChart = ({
     return null
   }
 
-  const requestedMetrics = mapToRequestedMetrics(metrics, {
+  const settings = {
     timeRange,
     interval: metricsInterval,
     slug,
     ...metricRest
-  })
+  }
+
+  const requestedMetrics = mapToRequestedMetrics(metrics, settings)
 
   return (
     <GetTimeSeries

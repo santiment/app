@@ -57,9 +57,6 @@ const TIMESERIES = {
   historyTwitterData: {
     query: HISTORY_TWITTER_DATA_QUERY
   },
-  historicalBalance: {
-    query: HISTORICAL_BALANCE_QUERY
-  },
   price_usd: {
     query: GET_METRIC('price_usd'),
     preTransform: getMetricPreTransform
@@ -193,14 +190,17 @@ const TIMESERIES = {
   mean_age: queryBuild('mean_age'),
 
   mvrv_usd_intraday: queryBuild('mvrv_usd_intraday'),
-  stock_to_flow: queryBuild('stock_to_flow')
+  stock_to_flow: queryBuild('stock_to_flow'),
+  balance: {
+    query: HISTORICAL_BALANCE_QUERY,
+    preTransform: ({ historicalBalance }) => historicalBalance
+  }
 }
 
 export const hasMetric = metric => !!TIMESERIES[metric]
 export const getMetricQUERY = metric => TIMESERIES[metric].query
 export const getPreTransform = (name, metricAnomalyKey, alias = name) => {
   const transform = TIMESERIES[name].preTransform
-
   return ({ data, ...rest }) => ({
     ...rest,
     data: transform ? { [alias]: transform(data, metricAnomalyKey) } : data,
