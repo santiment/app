@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import memoize from 'lodash.memoize'
+import cx from 'classnames'
 import {
   Bar,
   CartesianGrid,
@@ -43,7 +44,7 @@ export const useProjectRanges = ({
 
   const { label, key } = ranges[intervalIndex]
 
-  const sorter = getSorter(sortByKey)
+  const sorter = getSorter(sortByKey || key)
 
   const [data, loading] = useProjectPriceChanges({
     mapAssets,
@@ -70,7 +71,22 @@ export const RANGES = [
   }
 ]
 
+export const SORT_RANGES = [
+  {
+    label: 'Marketcap',
+    key: 'marketcapUsd'
+  },
+  {
+    label: 'Price',
+    key: ''
+  }
+]
+
 const ProjectsChart = ({ assets }) => {
+  const [sortedByIndex, setSortedByIndex] = useState(0)
+
+  const { key: sortByKey, label: sortLabel } = SORT_RANGES[sortedByIndex]
+
   const [
     data,
     loading,
@@ -79,18 +95,30 @@ const ProjectsChart = ({ assets }) => {
     assets,
     limit: 100,
     ranges: RANGES,
-    sortByKey: 'marketcapUsd'
+    sortByKey
   })
+
   return (
     <div className={styles.container}>
       <div className={styles.title}>
-        <div>Bar chart: Price changes, %</div>
-        <Range
-          range={label}
-          changeRange={() => {
-            setIntervalIndex((intervalIndex + 1) % RANGES.length)
-          }}
-        />
+        <div className={styles.range}>
+          <div>Bar chart: Price changes, %</div>
+          <Range
+            range={label}
+            changeRange={() => {
+              setIntervalIndex((intervalIndex + 1) % RANGES.length)
+            }}
+          />
+        </div>
+        <div className={cx(styles.range, styles.sortedBy)}>
+          <div className={styles.sortedByLabel}>Sorted by </div>
+          <Range
+            range={sortLabel}
+            changeRange={() => {
+              setSortedByIndex((sortedByIndex + 1) % SORT_RANGES.length)
+            }}
+          />
+        </div>
       </div>
 
       <div className={styles.chartWrapper}>
