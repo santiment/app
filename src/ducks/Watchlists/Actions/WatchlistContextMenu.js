@@ -5,7 +5,7 @@ import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import { normalizeCSV } from '../utils'
-import WatchlistDeleteDialog from './WatchlistDeleteDialog'
+import Delete from './Delete'
 import Edit from './Edit'
 import WeeklyReport from './WeeklyReport'
 import Copy from './Copy'
@@ -85,7 +85,7 @@ const WatchlistContextMenu = ({
             </CSVLink>
           )}
           {isAuthor && (
-            <WatchlistDeleteDialog
+            <Delete
               id={id}
               trigger={
                 <Button variant='ghost' fluid>
