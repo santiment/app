@@ -30,6 +30,7 @@ const RowTooltipWrapper = ({ children }) => {
         description=''
         withArrow
         delay={1000}
+        className={styles.tooltipContainer}
       >
         <div />
       </SidecarExplanationTooltip>
@@ -51,6 +52,7 @@ const IconTooltipWrapper = ({ children }) => {
         description=''
         closable={false}
         delay={0}
+        className={styles.tooltipContainer}
       >
         <div />
       </SidecarExplanationTooltip>

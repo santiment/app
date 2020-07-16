@@ -35,8 +35,10 @@ export const formatProjectTreeMapValue = val =>
 
 const getFontSize = (index, length) => {
   if (index < length * 0.05) {
-    return 12
+    return 16
   } else if (index < length * 0.1) {
+    return 12
+  } else if (index < length * 0.2) {
     return 10
   } else {
     return 8
@@ -156,7 +158,7 @@ const CustomizedContent = props => {
   const tickerLength = getWordLength(fontSize, ticker)
 
   const showTicker = tickerLength < width
-  const showChange = showTicker && fontSize * 2 + 8 < height
+  const showChange = showTicker && fontSize * 2 + 5 < height
 
   return (
     <g>
@@ -186,7 +188,7 @@ const CustomizedContent = props => {
       {showChange && (
         <text
           x={x + width / 2}
-          y={y + height / 2 + fontSize - 3}
+          y={y + height / 2 + fontSize - 1}
           textAnchor='middle'
           fill='var(--fiord)'
           fontSize={fontSize}
