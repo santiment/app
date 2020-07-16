@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { NavLink as Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import NewWatchlistDialog from '../Actions/NewWatchlistDialog'
+import NewWatchlist from '../Actions/New'
 import { ProLabel } from '../../../components/ProLabel'
 import LoginDialogWrapper from '../../../components/LoginDialog/LoginDialogWrapper'
 import { useUserWatchlists, useUserScreeners } from '../gql/hooks'
@@ -60,7 +60,7 @@ const NewCard = ({ type = 'watchlist', hasPremium }) => {
           <Trigger showProBanner type={type} />
         </Link>
       ) : (
-        <NewWatchlistDialog
+        <NewWatchlist
           watchlists={lists}
           trigger={<Trigger type={type} />}
           type={type}

@@ -5,7 +5,7 @@ import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import WatchlistsAnon from '../../ducks/Watchlists/Actions/WatchlistPopup/WatchlistsAnon'
 import WatchlistNewBtn from '../../ducks/Watchlists/Actions/WatchlistPopup/WatchlistNewBtn'
-import NewWatchlistDialog from '../../ducks/Watchlists/Actions/NewWatchlistDialog'
+import NewWatchlist from '../../ducks/Watchlists/Actions/New'
 import { getWatchlistLink } from '../../ducks/Watchlists/utils'
 import { VisibilityIndicator } from '../VisibilityIndicator'
 import { useUserWatchlists } from '../../ducks/Watchlists/gql/hooks'
@@ -32,7 +32,7 @@ const NavbarAssetsDropdownWatchlist = ({
       ) : (
         <>
           <WatchlistList watchlists={watchlists} activeLink={activeLink} />,
-          <NewWatchlistDialog
+          <NewWatchlist
             trigger={<WatchlistNewBtn border className={styles.watchlistNew} />}
             watchlists={watchlists}
           />
@@ -71,7 +71,7 @@ const WatchlistList = ({ watchlists, activeLink }) => (
 const EmptySection = ({ watchlists }) => (
   <div className={styles.emptyWrapper}>
     <span>
-      <NewWatchlistDialog
+      <NewWatchlist
         trigger={
           <Button accent='positive' className={styles.createBtn}>
             Create

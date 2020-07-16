@@ -5,8 +5,8 @@ import Toggle from '@santiment-network/ui/Toggle'
 import Label from '@santiment-network/ui/Label'
 import Input from '@santiment-network/ui/Input'
 import Dialog from '@santiment-network/ui/Dialog'
-import { USER_ADD_NEW_ASSET_LIST } from '../../../actions/types'
-import styles from './NewWatchlistDialog.module.scss'
+import { USER_ADD_NEW_ASSET_LIST } from '../../../../actions/types'
+import styles from './index.module.scss'
 
 const MAX_LENGTH = 3
 
@@ -18,7 +18,7 @@ const BAD_SYMBOLS_ERROR = "Use only letters, numbers, whitespace and _-.'/,"
 
 const ALLOWED_SYMBOLS_REGEXP = /^([.\-/_' ,\w]*)$/
 
-class NewWatchlistDialog extends PureComponent {
+class NewWatchlist extends PureComponent {
   static getDerivedStateFromProps ({ isSuccess }) {
     if (!isSuccess) {
       return null
@@ -166,4 +166,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(NewWatchlistDialog)
+)(NewWatchlist)

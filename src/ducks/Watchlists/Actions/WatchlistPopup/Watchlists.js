@@ -3,7 +3,7 @@ import cx from 'classnames'
 import Checkboxes from '@santiment-network/ui/Checkboxes'
 import { hasAssetById } from '../../utils'
 import { VisibilityIndicator } from '../../../../components/VisibilityIndicator'
-import NewWatchlistDialog from '../NewWatchlistDialog'
+import NewWatchlist from '../New'
 import WatchlistNewBtn from './WatchlistNewBtn'
 import styles from './Watchlists.module.scss'
 
@@ -45,7 +45,7 @@ const Watchlists = ({
         )}
       </div>
     </div>
-    <NewWatchlistDialog
+    <NewWatchlist
       trigger={<WatchlistNewBtn border className={styles.watchlistNew} />}
       watchlists={lists}
     />

@@ -7,7 +7,7 @@ import { getWatchlistLink } from '../utils'
 import { DesktopOnly, MobileOnly } from './../../../components/Responsive'
 import EmptySection from '../../../components/EmptySection/EmptySection'
 import Skeleton from '../../../components/Skeleton/Skeleton'
-import NewWatchlistDialog from '../Actions/NewWatchlistDialog'
+import NewWatchlist from '../Actions/New'
 import WatchlistsAnon from '../Actions/WatchlistPopup/WatchlistsAnon'
 import FeatureAnonBanner from '../../../components/Banner/FeatureAnonBanner'
 import {
@@ -28,7 +28,7 @@ const WatchlistEmptySection = ({ watchlists, className }) => (
       <span>Create your own watchlist to track assets</span>
       <span>you are interested in</span>
 
-      <NewWatchlistDialog
+      <NewWatchlist
         trigger={
           <Button variant='fill' accent='positive' className={styles.emptyBtn}>
             Create watchlist

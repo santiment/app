@@ -7,7 +7,6 @@ import { getHelmetTags, getWatchlistName } from '../../ducks/Watchlists/utils'
 import PageLoader from '../../components/Loader/PageLoader'
 import GetAssets from '../../ducks/Watchlists/Widgets/Table/GetAssets'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table/AssetsTable'
-import HelpPopupAssets from '../../ducks/Watchlists/Actions/HelpPopupAssets'
 import AssetsTemplates from '../../ducks/Watchlists/Widgets/Table/AssetsTemplates'
 import { RANGES } from '../../ducks/Watchlists/Widgets/WatchlistOverview/constants'
 import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/asset-columns'
@@ -78,7 +77,6 @@ const AssetsPage = props => {
               <div className='page-head page-head-projects'>
                 <div className='page-head-projects__left'>
                   <h1 className={styles.heading}>{title}</h1>
-                  <HelpPopupAssets />
                 </div>
                 <div className='page-head-projects__right'>
                   <WatchlistActions
