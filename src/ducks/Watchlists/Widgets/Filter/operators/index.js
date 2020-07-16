@@ -4,7 +4,7 @@ import Below from './icons/below.svg'
 // import Between from './icons/between.svg'
 // import Outide from './icons/outside.svg'
 import PercentUp from './icons/percent-up.svg'
-// import PercentDown from './icons/percent-down.svg'
+import PercentDown from './icons/percent-down.svg'
 // import PercentBetween from './icons/percent-between.svg'
 // import PercentOutside from './icons/percent-outside.svg'
 
@@ -49,16 +49,16 @@ export const Operator = {
     metricFormatter: percentMetricFormatter,
     valueFormatter: percentValueFormatter,
     serverValueFormatter: percentServerValueFormatter
+  },
+  percent_less_than: {
+    icon: PercentDown,
+    label: 'Moving down %',
+    dataKey: 'less_than',
+    type: 'percent',
+    metricFormatter: percentMetricFormatter,
+    valueFormatter: value => percentValueFormatter(-value),
+    serverValueFormatter: value => percentServerValueFormatter(-value)
   }
-  // percent_less_than: {
-  //   icon: PercentDown,
-  //   label: 'Moving down %',
-  //   dataKey: 'less_than',
-  //   type: 'percent',
-  //   metricFormatter: percentMetricFormatter,
-  //   valueFormatter: percentValueFormatter,
-  //   serverValueFormatter: percentServerValueFormatter
-  // }
   // moving_in: {
   //   icon: PercentBetween,
   //   label: 'Between %',

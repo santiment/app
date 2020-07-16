@@ -31,7 +31,15 @@ function getInitialThreshold ({ metricFilters, isPercentMetric }) {
     return ''
   }
 
-  return isPercentMetric ? thresholds[0] * 100 : thresholds[0]
+  let operatorKey = metricFilters[0].operator
+  if (isPercentMetric) {
+    operatorKey = `percent_${operatorKey}`
+  }
+
+  const valueFormatter =
+    Operator[operatorKey].valueFormatter || defaultValueFormatter
+
+  return valueFormatter(thresholds[0])
 }
 
 function getInitialTimeRange ({ metricFilters }) {
@@ -130,7 +138,7 @@ const FilterMetric = ({
       return null
     }
 
-    const valueFormatter =
+    const serverValueFormatter =
       Operator[operator].serverValueFormatter || defaultValueFormatter
 
     setIsOpened(!isOpened)
@@ -141,7 +149,7 @@ const FilterMetric = ({
         dynamicTo: 'now',
         metric: metricKey,
         operator,
-        threshold: valueFormatter(firstInputValue)
+        threshold: serverValueFormatter(firstInputValue)
       })
     }
   }
