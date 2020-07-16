@@ -8,7 +8,7 @@ import { isNotSafari } from '../../../utils/utils'
 import { upperCaseFirstLetter } from '../../../utils/formatting'
 import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
 import EditTrigger from './Edit/Trigger'
-import WatchlistWeeklyReportTrigger from './WatchlistWeeklyReport/WatchlistWeeklyReportTrigger'
+import WeeklyReportTrigger from './WeeklyReport/Trigger'
 import Copy from './Copy'
 import WatchlistContextMenu from './WatchlistContextMenu'
 import { WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
@@ -86,7 +86,7 @@ const WatchlistActions = ({
               {isAuthor && (
                 <>
                   <EditTrigger name={title} id={id} assets={items} />
-                  <WatchlistWeeklyReportTrigger
+                  <WeeklyReportTrigger
                     id={id}
                     name={title}
                     isMonitored={isMonitored}

@@ -9,7 +9,7 @@ import EmailImage from './EmailImage'
 import EmailSetting from '../../../../pages/Account/EmailSetting'
 import { showNotification } from '../../../../actions/rootActions'
 import { WATCHLIST_TOGGLE_MONITORING } from '../../../../actions/types'
-import styles from './WatchlistWeeklyReport.module.scss'
+import styles from './index.module.scss'
 
 const NOTIFICATION = {
   connected: {

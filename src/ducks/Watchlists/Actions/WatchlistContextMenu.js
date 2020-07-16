@@ -7,7 +7,7 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import { normalizeCSV } from '../utils'
 import WatchlistDeleteDialog from './WatchlistDeleteDialog'
 import Edit from './Edit'
-import WatchlistWeeklyReport from './WatchlistWeeklyReport/WatchlistWeeklyReport'
+import WeeklyReport from './WeeklyReport'
 import Copy from './Copy'
 import VisibilityToggle from './ChangeVisibility'
 import styles from './WatchlistContextMenu.module.scss'
@@ -62,7 +62,7 @@ const WatchlistContextMenu = ({
             }
           />
           {!isDesktop && isAuthor && (
-            <WatchlistWeeklyReport
+            <WeeklyReport
               id={id}
               isMonitored={isMonitored}
               name={name}
