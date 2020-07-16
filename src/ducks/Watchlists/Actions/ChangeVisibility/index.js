@@ -5,9 +5,9 @@ import { Button, Toggle } from '@santiment-network/ui'
 import * as qs from 'query-string'
 import { compose } from 'recompose'
 import { updateUserListGQL, fetchUserListsGQL } from './watchlistShareGQL'
-import styles from './WatchlistShare.module.css'
+import styles from './index.module.css'
 
-const WatchlistShare = ({
+const VisibilityToggle = ({
   isPublic,
   toggleWatchlistPublicity,
   watchlistId
@@ -83,4 +83,4 @@ const enhance = compose(
   })
 )
 
-export default enhance(WatchlistShare)
+export default enhance(VisibilityToggle)

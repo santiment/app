@@ -7,7 +7,7 @@ import UIIcon from '@santiment-network/ui/Icon'
 import WatchlistDeleteDialog from '../../Actions/WatchlistDeleteDialog'
 import Copy from '../../Actions/Copy'
 import ShareModalTrigger from '../../../../components/Share/ShareModalTrigger'
-import WatchlistPublicityToggle from '../../Actions/WatchlistShare/WatchlistShare'
+import VisibilityToggle from '../../Actions/ChangeVisibility'
 import styles from './Actions.module.scss'
 
 export const Icon = ({ className, ...props }) => (
@@ -38,7 +38,7 @@ const Actions = ({ isAuthor, id, name, shareLink }) => {
       <Panel variant='modal' className={styles.wrapper}>
         {isAuthor && (
           <div className={styles.block}>
-            <WatchlistPublicityToggle />
+            <VisibilityToggle />
           </div>
         )}
         <Copy

@@ -9,7 +9,7 @@ import WatchlistDeleteDialog from './WatchlistDeleteDialog'
 import Edit from './Edit'
 import WatchlistWeeklyReport from './WatchlistWeeklyReport/WatchlistWeeklyReport'
 import Copy from './Copy'
-import WatchlistPublicityToggle from './WatchlistShare/WatchlistShare'
+import VisibilityToggle from './ChangeVisibility'
 import styles from './WatchlistContextMenu.module.scss'
 
 const WatchlistContextMenu = ({
@@ -37,7 +37,7 @@ const WatchlistContextMenu = ({
       <Panel variant='modal' className={styles.wrapper}>
         {isAuthor && (
           <div className={styles.block}>
-            <WatchlistPublicityToggle />
+            <VisibilityToggle />
           </div>
         )}
         <div className={styles.block}>
