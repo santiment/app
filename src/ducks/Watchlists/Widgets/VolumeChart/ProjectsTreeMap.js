@@ -62,7 +62,12 @@ const ProjectsTreeMap = ({ assets, title, ranges, className }) => {
     data,
     loading,
     { intervalIndex, setIntervalIndex, label, key }
-  ] = useProjectRanges({ assets, ranges, limit: 100 })
+  ] = useProjectRanges({
+    assets,
+    ranges,
+    limit: 100,
+    sortByKey: 'marketcapUsd'
+  })
 
   let border = data.length / TREEMAP_COLORS.length
 

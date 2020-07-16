@@ -7,7 +7,11 @@ const ColorsExplanation = ({ colors, colorMaps }) => {
     <div className={styles.container}>
       {colors.map(val => {
         return (
-          <div className={styles.card} style={{ 'background-color': val }}>
+          <div
+            key={val}
+            className={styles.card}
+            style={{ backgroundColor: val }}
+          >
             {formatProjectTreeMapValue(colorMaps[val])}
           </div>
         )
