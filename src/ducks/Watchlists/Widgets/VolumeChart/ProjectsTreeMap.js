@@ -130,6 +130,7 @@ const ProjectsTreeMap = ({ assets, title, ranges, className }) => {
               data={sortedByMarketcap}
               dataKey={'marketcapUsd'}
               fill='var(--jungle-green)'
+              isAnimationActive={false}
               content={<CustomizedContent dataKey={key} />}
             >
               <Tooltip
