@@ -45,15 +45,44 @@ const getFontSize = (index, length) => {
   }
 }
 
-const TREEMAP_COLORS = [
+const TREEMAP_COLORS_POSITIVS = [
   'var(--jungle-green)',
   '#89E1C9',
   '#DCF6EF',
-  'var(--mystic)',
-  '#FFE6E6',
-  '#EFA7A7',
-  'var(--persimmon)'
+  'var(--mystic)'
 ]
+
+const TREEMAP_COLORS_NEGATIVS = ['#FFE6E6', '#EFA7A7', 'var(--persimmon)']
+
+const mapToColors = (data, key, colors, colorMaps) => {
+  let border = data.length / colors.length
+
+  let result = data.map((item, index) => {
+    const colorIndex = Math.floor(index / border)
+    const color = colors[colorIndex]
+    if (!colorMaps[color]) {
+      colorMaps[color] = item[key]
+    }
+    return {
+      ...item,
+      color
+    }
+  })
+
+  return result
+}
+
+const getWithColors = (sorted, key) => {
+  const colorMaps = {}
+
+  let positivs = sorted.filter(item => item[key] >= 0)
+  let negativs = sorted.filter(item => item[key] < 0)
+
+  positivs = mapToColors(positivs, key, TREEMAP_COLORS_POSITIVS, colorMaps)
+  negativs = mapToColors(negativs, key, TREEMAP_COLORS_NEGATIVS, colorMaps)
+
+  return [[...positivs, ...negativs], colorMaps]
+}
 
 const MARKETCAP_USD_SORTER = getSorter('marketcapUsd')
 
@@ -69,21 +98,10 @@ const ProjectsTreeMap = ({ assets, title, ranges, className }) => {
     sortByKey: 'marketcapUsd'
   })
 
-  let border = data.length / TREEMAP_COLORS.length
-
-  const colorMaps = {}
-
-  let sortedByChange = data.sort(getSorter(key)).map((item, index) => {
-    const colorIndex = Math.floor(index / border)
-    const color = TREEMAP_COLORS[colorIndex]
-    if (!colorMaps[color]) {
-      colorMaps[color] = item[key]
-    }
-    return {
-      ...item,
-      color
-    }
-  })
+  const [sortedByChange, colorMaps] = getWithColors(
+    data.sort(getSorter(key)),
+    key
+  )
 
   const sortedByMarketcap = sortedByChange.sort(MARKETCAP_USD_SORTER)
 
@@ -136,7 +154,10 @@ const ProjectsTreeMap = ({ assets, title, ranges, className }) => {
             </Treemap>
           </ResponsiveContainer>
 
-          <ColorsExplanation colors={TREEMAP_COLORS} colorMaps={colorMaps} />
+          <ColorsExplanation
+            colors={[...TREEMAP_COLORS_POSITIVS, ...TREEMAP_COLORS_NEGATIVS]}
+            colorMaps={colorMaps}
+          />
         </div>
       )}
     </div>
