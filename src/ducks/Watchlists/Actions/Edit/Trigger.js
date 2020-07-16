@@ -2,7 +2,7 @@ import React from 'react'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Edit from './index'
-import styles from '../WatchlistActionButton.module.scss'
+import styles from './Trigger.module.scss'
 
 const Trigger = ({ name, ...props }) => {
   return (

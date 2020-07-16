@@ -12,7 +12,7 @@ import { RANGES } from '../../ducks/Watchlists/Widgets/WatchlistOverview/constan
 import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/asset-columns'
 import GetWatchlistHistory from '../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistHistory/GetWatchlistHistory'
 import WatchlistAnomalies from '../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistAnomalies/WatchlistAnomalies'
-import WatchlistActions from '../../ducks/Watchlists/Actions/WatchlistActions'
+import WatchlistActions from '../../ducks/Watchlists/Widgets/TopPanel/WatchlistActions'
 import styles from '../../ducks/Watchlists/Cards/Watchlist.module.scss'
 import './Assets.css'
 
