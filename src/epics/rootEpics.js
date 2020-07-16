@@ -22,7 +22,7 @@ import {
   removeAssetFromWatchlistEpic,
   addAssetToWatchlistEpic,
   editAssetsInWatchlistEpic
-} from './../ducks/Watchlists/Actions/WatchlistEdit/editAssetsInWatchlistEpic'
+} from './../ducks/Watchlists/Actions/Edit/editAssetsInWatchlistEpic'
 import { watchlistToggleMonitoringEpic } from '../ducks/Watchlists/Actions/WatchlistWeeklyReport/watchlistToggleMonitoringEpic'
 import {
   changeColumnsSettingsEpic,

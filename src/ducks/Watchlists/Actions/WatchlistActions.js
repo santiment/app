@@ -7,7 +7,7 @@ import { normalizeCSV } from '../utils'
 import { isNotSafari } from '../../../utils/utils'
 import { upperCaseFirstLetter } from '../../../utils/formatting'
 import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
-import WatchlistEditTrigger from './WatchlistEdit/WatchlistEditTrigger'
+import EditTrigger from './Edit/Trigger'
 import WatchlistWeeklyReportTrigger from './WatchlistWeeklyReport/WatchlistWeeklyReportTrigger'
 import Copy from './Copy'
 import WatchlistContextMenu from './WatchlistContextMenu'
@@ -85,7 +85,7 @@ const WatchlistActions = ({
               {isPublic && <ShareModalTrigger shareLink={shareLink} />}
               {isAuthor && (
                 <>
-                  <WatchlistEditTrigger name={title} id={id} assets={items} />
+                  <EditTrigger name={title} id={id} assets={items} />
                   <WatchlistWeeklyReportTrigger
                     id={id}
                     name={title}

@@ -6,7 +6,7 @@ import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import { normalizeCSV } from '../utils'
 import WatchlistDeleteDialog from './WatchlistDeleteDialog'
-import WatchlistEdit from './WatchlistEdit/WatchlistEdit'
+import Edit from './Edit'
 import WatchlistWeeklyReport from './WatchlistWeeklyReport/WatchlistWeeklyReport'
 import Copy from './Copy'
 import WatchlistPublicityToggle from './WatchlistShare/WatchlistShare'
@@ -42,7 +42,7 @@ const WatchlistContextMenu = ({
         )}
         <div className={styles.block}>
           {!isDesktop && isAuthor && (
-            <WatchlistEdit
+            <Edit
               id={id}
               assets={assets}
               name={name}
