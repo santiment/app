@@ -13,7 +13,7 @@ import { mapSizesToProps } from '../../utils/withSizes'
 import Range from '../Watchlists/Widgets/WatchlistOverview/Range'
 import ChartSignalCreationDialog from './ChartSignalCreationDialog'
 import PercentChanges from '../../components/PercentChanges'
-import WatchlistsPopup from '../Watchlists/Actions/WatchlistPopup/WatchlistsPopup'
+import AddToWatchlist from '../Watchlists/Actions/Add'
 import PriceChangesWidget from '../../components/PriceChangesWidget/PriceChangesWidget'
 import ProjectIcon from '../../components/ProjectIcon/ProjectIcon'
 import GetProjects from '../Signals/common/projects/getProjects'
@@ -221,7 +221,7 @@ const Header = ({
           />
 
           <div className={styles.actions}>
-            <WatchlistsPopup
+            <AddToWatchlist
               trigger={
                 <Button border className={styles.btn}>
                   <Icon type='add-watchlist' className={styles.btn__icon} />

@@ -7,12 +7,12 @@ import {
   USER_REMOVE_ASSET_FROM_LIST
 } from './../../../../actions/types'
 import { showNotification } from '../../../../actions/rootActions'
-import WatchlistsAnon from './WatchlistsAnon'
-import Watchlists from './Watchlists'
+import WatchlistsAnon from '../WatchlistPopup/WatchlistsAnon'
+import Watchlists from '../WatchlistPopup/Watchlists'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
 import { hasAssetById } from '../../utils'
 import { useUserWatchlists } from '../../gql/hooks'
-import styles from './WatchlistsPopup.module.scss'
+import styles from './index.module.scss'
 
 const AddToListBtn = (
   <Button variant='fill' accent='positive' className={styles.btn}>
