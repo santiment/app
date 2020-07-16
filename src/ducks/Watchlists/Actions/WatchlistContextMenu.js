@@ -8,7 +8,7 @@ import { normalizeCSV } from '../utils'
 import WatchlistDeleteDialog from './WatchlistDeleteDialog'
 import WatchlistEdit from './WatchlistEdit/WatchlistEdit'
 import WatchlistWeeklyReport from './WatchlistWeeklyReport/WatchlistWeeklyReport'
-import WatchlistCopyPopup from './WatchlistCopy/WatchlistCopyPopup'
+import Copy from './Copy'
 import WatchlistPublicityToggle from './WatchlistShare/WatchlistShare'
 import styles from './WatchlistContextMenu.module.scss'
 
@@ -53,7 +53,7 @@ const WatchlistContextMenu = ({
               }
             />
           )}
-          <WatchlistCopyPopup
+          <Copy
             id={id}
             trigger={
               <Button variant='ghost' fluid>

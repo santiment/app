@@ -9,7 +9,7 @@ import { upperCaseFirstLetter } from '../../../utils/formatting'
 import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
 import WatchlistEditTrigger from './WatchlistEdit/WatchlistEditTrigger'
 import WatchlistWeeklyReportTrigger from './WatchlistWeeklyReport/WatchlistWeeklyReportTrigger'
-import WatchlistCopyPopup from './WatchlistCopy/WatchlistCopyPopup'
+import Copy from './Copy'
 import WatchlistContextMenu from './WatchlistContextMenu'
 import { WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
 import styles from './WatchlistActionButton.module.scss'
@@ -43,7 +43,7 @@ const WatchlistActions = ({
       {(!isList || (listType === '#shared' && !isAuthor) || !isLoggedIn) &&
       isDesktop ? (
         <>
-          <WatchlistCopyPopup
+          <Copy
             id={id}
             trigger={
               <Button border variant='flat'>

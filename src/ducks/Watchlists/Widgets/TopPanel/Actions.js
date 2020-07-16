@@ -5,7 +5,7 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import UIButton from '@santiment-network/ui/Button'
 import UIIcon from '@santiment-network/ui/Icon'
 import WatchlistDeleteDialog from '../../Actions/WatchlistDeleteDialog'
-import WatchlistCopyPopup from '../../Actions/WatchlistCopy/WatchlistCopyPopup'
+import Copy from '../../Actions/Copy'
 import ShareModalTrigger from '../../../../components/Share/ShareModalTrigger'
 import WatchlistPublicityToggle from '../../Actions/WatchlistShare/WatchlistShare'
 import styles from './Actions.module.scss'
@@ -41,7 +41,7 @@ const Actions = ({ isAuthor, id, name, shareLink }) => {
             <WatchlistPublicityToggle />
           </div>
         )}
-        <WatchlistCopyPopup
+        <Copy
           id={id}
           trigger={
             <Button>
