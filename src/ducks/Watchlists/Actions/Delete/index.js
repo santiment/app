@@ -1,7 +1,7 @@
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
-import { USER_REMOVE_ASSET_LIST } from '../../../actions/types'
-import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog'
+import { USER_REMOVE_ASSET_LIST } from '../../../../actions/types'
+import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog'
 
 class WatchlistDeleteDialog extends ConfirmDialog {}
 

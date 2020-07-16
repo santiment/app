@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import WatchlistsAnon from '../../ducks/Watchlists/Actions/WatchlistPopup/WatchlistsAnon'
-import WatchlistNewBtn from '../../ducks/Watchlists/Actions/WatchlistPopup/WatchlistNewBtn'
+import WatchlistsAnon from '../../ducks/Watchlists/Templates/Anon/WatchlistsAnon'
+import NewBtn from '../../ducks/Watchlists/Actions/New/NewBtn'
 import NewWatchlist from '../../ducks/Watchlists/Actions/New'
 import { getWatchlistLink } from '../../ducks/Watchlists/utils'
 import { VisibilityIndicator } from '../VisibilityIndicator'
@@ -33,7 +33,7 @@ const NavbarAssetsDropdownWatchlist = ({
         <>
           <WatchlistList watchlists={watchlists} activeLink={activeLink} />,
           <NewWatchlist
-            trigger={<WatchlistNewBtn border className={styles.watchlistNew} />}
+            trigger={<NewBtn border className={styles.watchlistNew} />}
             watchlists={watchlists}
           />
         </>

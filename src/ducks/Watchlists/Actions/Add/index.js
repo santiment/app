@@ -7,8 +7,8 @@ import {
   USER_REMOVE_ASSET_FROM_LIST
 } from './../../../../actions/types'
 import { showNotification } from '../../../../actions/rootActions'
-import WatchlistsAnon from '../WatchlistPopup/WatchlistsAnon'
-import Watchlists from '../WatchlistPopup/Watchlists'
+import WatchlistsAnon from '../../Templates/Anon/WatchlistsAnon'
+import Watchlists from '../../Templates/Watchlists'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
 import { hasAssetById } from '../../utils'
 import { useUserWatchlists } from '../../gql/hooks'

@@ -8,7 +8,7 @@ import { DesktopOnly, MobileOnly } from './../../../components/Responsive'
 import EmptySection from '../../../components/EmptySection/EmptySection'
 import Skeleton from '../../../components/Skeleton/Skeleton'
 import NewWatchlist from '../Actions/New'
-import WatchlistsAnon from '../Actions/WatchlistPopup/WatchlistsAnon'
+import WatchlistsAnon from '../Templates/Anon/WatchlistsAnon'
 import FeatureAnonBanner from '../../../components/Banner/FeatureAnonBanner'
 import {
   checkIsLoggedIn,

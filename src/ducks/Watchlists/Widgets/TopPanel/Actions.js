@@ -4,7 +4,7 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import UIButton from '@santiment-network/ui/Button'
 import UIIcon from '@santiment-network/ui/Icon'
-import WatchlistDeleteDialog from '../../Actions/WatchlistDeleteDialog'
+import Delete from '../../Actions/Delete'
 import Copy from '../../Actions/Copy'
 import ShareModalTrigger from '../../../../components/Share/ShareModalTrigger'
 import VisibilityToggle from '../../Actions/ChangeVisibility'
@@ -62,7 +62,7 @@ const Actions = ({ isAuthor, id, name, shareLink }) => {
           />
         )}
         {isAuthor && (
-          <WatchlistDeleteDialog
+          <Delete
             title='Do you want to delete this screener?'
             id={id}
             trigger={
