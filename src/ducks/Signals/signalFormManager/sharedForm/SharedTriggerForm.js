@@ -7,6 +7,7 @@ import SignalCard from '../../../../components/SignalCard/card/SignalCard'
 import NoSignalPreview from '../../chart/preview/NoSignalPreview'
 import { DesktopOnly, MobileOnly } from '../../../../components/Responsive'
 import CopySignal from '../../../../components/SignalCard/controls/CopySignal'
+import { isStrictTrendingWords } from '../../../../components/SignalCard/card/TrendingWordsSignalCard'
 import styles from './ShareTriggerForm.module.scss'
 
 const SharedTriggerForm = ({
@@ -25,6 +26,18 @@ const SharedTriggerForm = ({
     settings: { target }
   } = originalTrigger
   const showChart = target && couldShowChart(originalSettings)
+
+  const isUnsupportedTrigger = isStrictTrendingWords(originalSettings)
+
+  if (isUnsupportedTrigger) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.unsupported}>
+          This type of alerts is deprecated
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className={styles.container}>
