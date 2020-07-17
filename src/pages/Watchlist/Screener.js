@@ -70,7 +70,7 @@ const Screener = props => {
                           <ProjectsTreeMap
                             className={styles.containerTreeMap}
                             assets={items}
-                            title='Social volume'
+                            title='Volume'
                             ranges={[
                               {
                                 label: '24h',
