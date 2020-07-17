@@ -7,6 +7,10 @@ import styles from './SidecarExplanationTooltip.module.scss'
 const LS_SIDECAR_TOOLTIP_SHOWN = 'LS_SIDECAR_TOOLTIP_SHOWN'
 const TOOLTIP_DELAY_IN_MS = 10000
 
+export const markedAsShowed = localStorageSuffix => {
+  return localStorage.getItem(LS_SIDECAR_TOOLTIP_SHOWN + localStorageSuffix)
+}
+
 const SidecarExplanationTooltip = props => {
   const [shown, setShown] = useState(false)
   return (
@@ -25,12 +29,13 @@ export const ForceClosableExplanationTooltip = props => {
     delay = TOOLTIP_DELAY_IN_MS,
     showEnabled = true,
     setShown = () => {},
-    shown
+    shown,
+    onClose
   } = props
   const [forceClosed, setForceClosed] = useState(false)
 
   const localStorageLabel = LS_SIDECAR_TOOLTIP_SHOWN + localStorageSuffix
-  const wasShown = localStorage.getItem(localStorageLabel)
+  const wasShown = markedAsShowed(localStorageSuffix)
   const canShow = !wasShown && !forceClosed && shown
 
   const [timer, setTimer] = useState()
@@ -44,6 +49,7 @@ export const ForceClosableExplanationTooltip = props => {
   function disableHelp () {
     localStorage.setItem(localStorageLabel, '+')
     clearTimeout(timer)
+    onClose && onClose()
   }
 
   useEffect(() => {
