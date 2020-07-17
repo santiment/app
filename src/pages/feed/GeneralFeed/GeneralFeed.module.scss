@@ -42,7 +42,7 @@
     width: 715px;
   }
 
-  @include responsive("phone", "phone-xs") {
+  @include responsive("phone", "phone-xs", "tablet", "laptop") {
     padding: 0;
     margin: 0;
   }
