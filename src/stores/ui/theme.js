@@ -5,7 +5,7 @@ import { client } from '../../index'
 
 const NIGHTMODE = 'nightmode'
 export const THEMES = ['default', NIGHTMODE]
-const DEFAULT_STATE = { isNightMode: loadKeyState('isNightMode') }
+const DEFAULT_STATE = { isNightMode: loadKeyState('isNightMode') || false }
 const WATCH_QUERY = { query: USER_SETTINGS_QUERY }
 
 const ThemeContext = React.createContext()
