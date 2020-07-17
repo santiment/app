@@ -14,13 +14,12 @@ import { mirage } from '@santiment-network/ui/variables.scss'
 
 const CHART_PADDING = {
   top: 10,
-  left: 60,
-  right: 60,
+  left: 65,
+  right: 65,
   bottom: 75
 }
 const LEGEND_RECT_SIZE = 9
 const LEGEND_RECT_RIGHT_MARGIN = 5
-const LEGEND_RECT_ALIGN_CORRECTION = LEGEND_RECT_SIZE / 5
 const TEXT_RIGHT_MARGIN = 20
 const LEGEND_FONT = '15px Proxima Nova'
 
@@ -56,7 +55,7 @@ function drawLegend (pngChart, metrics, isNightMode) {
     pngCtx.fillStyle = colors[key]
     pngCtx.fillRect(
       textX,
-      textY - LEGEND_RECT_SIZE - LEGEND_RECT_ALIGN_CORRECTION,
+      textY - LEGEND_RECT_SIZE,
       LEGEND_RECT_SIZE,
       LEGEND_RECT_SIZE
     )
