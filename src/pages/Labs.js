@@ -40,19 +40,19 @@ const cards = [
     href: 'https://graphs.santiment.net/',
     className: styles.dashboard,
     bgClassName: styles.dashboardBg
-  },
-  {
-    title: 'Buidl heroes',
-    description: (
-      <div>
-        Compare the development activity of all Ethereum, EOS and DeFi projects
-        over time.
-      </div>
-    ),
-    link: '/labs/buidl-heroes',
-    className: styles.dashboard,
-    bgClassName: styles.buidlBg
   }
+  // {
+  //   title: 'Buidl heroes',
+  //   description: (
+  //     <div>
+  //       Compare the development activity of all Ethereum, EOS and DeFi projects
+  //       over time.
+  //     </div>
+  //   ),
+  //   link: '/labs/buidl-heroes',
+  //   className: styles.dashboard,
+  //   bgClassName: styles.buidlBg
+  // }
 ]
 
 const Labs = () => (
