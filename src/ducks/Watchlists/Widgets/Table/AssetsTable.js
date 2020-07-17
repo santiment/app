@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import ReactTable from 'react-table'
 import cx from 'classnames'
 import Sticky from 'react-stickynode'
@@ -50,8 +50,6 @@ const AssetsTable = ({
   className,
   columnProps
 }) => {
-  const [hovered, setHovered] = useState()
-
   const { isLoading, error, timestamp, typeInfo } = Assets
   const key = typeInfo.listId || listName
   const { sorting, pageSize, hiddenColumns } = settings[key] || {}
@@ -105,19 +103,8 @@ const AssetsTable = ({
     ({ id }) => columns[id].show && allColumns.includes(id)
   )
 
-  const onMouseEnter = useCallback(
-    ({ index }) => {
-      setHovered(items[index])
-    },
-    [items]
-  )
-
-  const onMouseLeave = () => {
-    setHovered()
-  }
-
   return (
-    <div onMouseLeave={onMouseLeave} className={classes.container}>
+    <div className={classes.container}>
       <div className={styles.top} id='tableTop'>
         {filterType ? (
           <span>Showed based on {filterType} anomalies</span>
@@ -162,16 +149,8 @@ const AssetsTable = ({
           onClick: (e, handleOriginal) => {
             if (handleOriginal) handleOriginal()
           },
-          style: { border: 'none' },
-          hovered: hovered
+          style: { border: 'none' }
         })}
-        getTrGroupProps={(state, rowInfo) => {
-          return {
-            onMouseEnter: () => {
-              onMouseEnter(rowInfo)
-            }
-          }
-        }}
       />
     </div>
   )
