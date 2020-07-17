@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Metric } from '../dataHub/metrics'
 
 const ALPHA_CHANNEL = '29'
@@ -80,6 +80,26 @@ export function getChartColors (metrics, PreviousColor = {}) {
   return Color
 }
 
+export function highlightMetricColor (MetricColor, focusedMetricKey) {
+  if (!focusedMetricKey) {
+    return MetricColor
+  }
+
+  const NewColor = {}
+
+  Object.keys(MetricColor).forEach(metricKey => {
+    let color = MetricColor[metricKey]
+
+    if (metricKey !== focusedMetricKey) {
+      color += ALPHA_CHANNEL
+    }
+
+    NewColor[metricKey] = color
+  })
+
+  return NewColor
+}
+
 const INITIAL_STATE = {}
 export function useChartColors (metrics) {
   const [ChartColor, setChartColors] = useState(INITIAL_STATE)
@@ -94,35 +114,13 @@ export function useChartColors (metrics) {
   return ChartColor
 }
 
+export function useHighlightMetricColor (MetricColor, focusedMetricKey) {
+  return useMemo(() => highlightMetricColor(MetricColor, focusedMetricKey), [
+    MetricColor,
+    focusedMetricKey
+  ])
+}
+
 export function useChartColorsWithHighlight (metrics, focusedMetricKey) {
-  const MetricColor = useChartColors(metrics)
-  const [HighlightedMetricColor, setHighlightedMetricColor] = useState(
-    MetricColor
-  )
-
-  useEffect(
-    () => {
-      if (!focusedMetricKey) {
-        setHighlightedMetricColor(MetricColor)
-        return
-      }
-
-      const NewColor = {}
-
-      Object.keys(MetricColor).forEach(metricKey => {
-        let color = MetricColor[metricKey]
-
-        if (metricKey !== focusedMetricKey) {
-          color += ALPHA_CHANNEL
-        }
-
-        NewColor[metricKey] = color
-      })
-
-      setHighlightedMetricColor(NewColor)
-    },
-    [MetricColor, focusedMetricKey]
-  )
-
-  return HighlightedMetricColor
+  return useHighlightMetricColor(useChartColors(metrics), focusedMetricKey)
 }

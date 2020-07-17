@@ -8,6 +8,15 @@ import MetricErrorExplanation from './MetricErrorExplanation/MetricErrorExplanat
 import { getMetricLabel } from '../../dataHub/metrics/labels'
 import styles from './ActiveMetrics.module.scss'
 
+const API_TEST_URL =
+  'https://api-tests-json.s3.eu-central-1.amazonaws.com/latest_report_stable.json'
+
+const Customization = ({ metric, onClick }) => (
+  <div className={styles.settings} onClick={() => onClick(metric)}>
+    <Icon type='settings' />
+  </div>
+)
+
 const MetricButton = ({
   className,
   metric,
@@ -16,10 +25,12 @@ const MetricButton = ({
   isWithIcon,
   isLoading,
   isRemovable,
+  isWithSettings,
   toggleMetric,
   withDescription,
   errorsForMetrics,
   project,
+  onSettingsClick,
   ...rest
 }) => {
   const { key, dataKey = key, node, comparedTicker } = metric
@@ -45,7 +56,12 @@ const MetricButton = ({
       <Button
         {...rest}
         border
-        className={cx(styles.btn, error && styles.btn_error, className)}
+        className={cx(
+          styles.btn,
+          error && styles.btn_error,
+          isWithSettings && styles.btn_settings,
+          className
+        )}
         aria-invalid={error}
       >
         {isWithIcon ? (
@@ -73,13 +89,13 @@ const MetricButton = ({
             onClick={() => toggleMetric(metric)}
           />
         )}
+        {isWithSettings && (
+          <Customization metric={metric} onClick={onSettingsClick} />
+        )}
       </Button>
     </Wrapper>
   )
 }
-
-const API_TEST_URL =
-  'https://api-tests-json.s3.eu-central-1.amazonaws.com/latest_report_stable.json'
 
 export default ({
   className,
@@ -92,8 +108,10 @@ export default ({
   ErrorMsg = {},
   isSingleWidget,
   isWithIcon = true,
+  isWithSettings = false,
   onMetricHover,
   onMetricHoverEnd,
+  onSettingsClick,
   project
 }) => {
   const isMoreThanOneMetric = activeMetrics.length > 1 || !isSingleWidget
@@ -129,9 +147,11 @@ export default ({
       isWithIcon={isWithIcon}
       isLoading={loadings.includes(metric)}
       isRemovable={isMoreThanOneMetric && toggleMetric}
+      isWithSettings={isWithSettings}
       toggleMetric={toggleMetric}
       onMouseEnter={onMetricHover && (e => onMetricHover(metric, e))}
       onMouseLeave={onMetricHoverEnd && (() => onMetricHoverEnd(metric))}
+      onSettingsClick={onSettingsClick}
       errorsForMetrics={errors}
       project={project}
     />

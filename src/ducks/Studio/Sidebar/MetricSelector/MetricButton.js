@@ -8,10 +8,6 @@ import MetricExplanation from '../../../SANCharts/MetricExplanation'
 import styles from './MetricButton.module.scss'
 import settingsStyles from './Settings.module.scss'
 
-const Customization = () => {
-  return <Icon type='settings' />
-}
-
 const MetricButton = ({
   className,
   metric,

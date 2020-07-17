@@ -9,17 +9,18 @@ import {
   mergeMetricSettingMap
 } from '../utils'
 import { useTimeseries } from '../timeseries/hooks'
-import { buildAnomalies } from '../timeseries/anomalies'
 import { buildComparedMetric } from '../Compare/utils'
 import { useClosestValueData } from '../../Chart/hooks'
 import { Metric } from '../../dataHub/metrics'
 import { MirroredMetric } from '../../dataHub/metrics/mirrored'
+import ColorProvider from './ChartWidgetColorProvider'
+
+const activeEvents = []
 
 export const Chart = ({
   settings,
   widget,
   isSingleWidget,
-  isAnomalyActive,
   toggleWidgetMetric,
   deleteWidget,
   rerenderWidgets,
@@ -29,7 +30,6 @@ export const Chart = ({
   const [options, setOptions] = useState(DEFAULT_OPTIONS)
   const [comparables, setComparables] = useState(widget.comparables)
   const [activeMetrics, setActiveMetrics] = useState(metrics)
-  const [activeEvents, setActiveEvents] = useState([])
   const [MetricTransformer, setMetricTransformer] = useState({})
   const [rawData, loadings, ErrorMsg] = useTimeseries(
     activeMetrics,
@@ -78,13 +78,6 @@ export const Chart = ({
       rerenderWidgets()
     },
     [metrics, comparables]
-  )
-
-  useEffect(
-    () => {
-      setActiveEvents(isAnomalyActive ? buildAnomalies(metrics) : [])
-    },
-    [metrics, isAnomalyActive]
   )
 
   useEffect(
@@ -149,25 +142,27 @@ export const Chart = ({
   }
 
   return (
-    <StudioChart
-      {...props}
-      data={data}
-      widget={widget}
-      chartRef={chartRef}
-      metrics={activeMetrics}
-      eventsData={eventsData}
-      activeEvents={activeEvents}
-      ErrorMsg={ErrorMsg}
-      settings={settings}
-      loadings={loadings}
-      options={options}
-      comparables={comparables}
-      isSingleWidget={isSingleWidget}
-      setOptions={setOptions}
-      setComparables={setComparables}
-      toggleMetric={toggleMetric}
-      onDeleteChartClick={() => deleteWidget(widget)}
-    />
+    <ColorProvider widget={widget}>
+      <StudioChart
+        {...props}
+        data={data}
+        widget={widget}
+        chartRef={chartRef}
+        metrics={activeMetrics}
+        eventsData={eventsData}
+        activeEvents={activeEvents}
+        ErrorMsg={ErrorMsg}
+        settings={settings}
+        loadings={loadings}
+        options={options}
+        comparables={comparables}
+        isSingleWidget={isSingleWidget}
+        setOptions={setOptions}
+        setComparables={setComparables}
+        toggleMetric={toggleMetric}
+        onDeleteChartClick={() => deleteWidget(widget)}
+      />
+    </ColorProvider>
   )
 }
 
