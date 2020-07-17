@@ -8,6 +8,7 @@ export const projectSearchData = gql`
     slug
     ticker
     rank
+    marketcapUsd
   }
 `
 

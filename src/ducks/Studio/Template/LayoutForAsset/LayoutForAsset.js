@@ -8,8 +8,8 @@ import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
 import SidecarExplanationTooltip, {
   markedAsShowed
 } from '../../../SANCharts/SidecarExplanationTooltip'
-import styles from './LayoutForAsset.module.scss'
 import DarkTooltip from '../../../../components/Tooltip/DarkTooltip'
+import styles from './LayoutForAsset.module.scss'
 
 const EXPLANATION_TOOLTIP_MARK = '_ASSET_CHART_LAYOUTS_ROW'
 
