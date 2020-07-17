@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
-import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import ChartPaywallInfo from './PaywallInfo'
@@ -18,7 +17,7 @@ import Signals from '../../Chart/Signals'
 import { useMetricCategories } from '../../Chart/Synchronizer'
 import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
 import { useChartColorsWithHighlight } from '../../Chart/colors'
-import { checkIsLoggedIn } from '../../../pages/UserSelectors'
+import { useUser } from '../../../stores/user'
 import styles from './index.module.scss'
 
 const Canvas = ({
@@ -41,7 +40,6 @@ const Canvas = ({
   syncedTooltipDate,
   isICOPriceActive,
   isSingleWidget,
-  isAnon,
   isSelectingRange,
   changeTimePeriod,
   TopLeftComponent = ChartActiveMetrics,
@@ -54,6 +52,7 @@ const Canvas = ({
   onRangeSelectStart,
   syncTooltips
 }) => {
+  const { isLoggedIn } = useUser()
   const categories = useMetricCategories(metrics)
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
   const [focusedMetricKey, setFocusedMetricKey] = useState()
@@ -64,7 +63,7 @@ const Canvas = ({
   const allTimeData = useAllTimeData(metrics, settings)
 
   const mirrorDomainGroups = extractMirrorMetricsDomainGroups(domainGroups)
-  const isBlurred = isAnon && index > 1
+  const isBlurred = !isLoggedIn && index > 1
   const scale = options.isLogScale ? logScale : linearScale
 
   if (widget) {
@@ -211,8 +210,4 @@ const Canvas = ({
   )
 }
 
-const mapStateToProps = state => ({
-  isAnon: !checkIsLoggedIn(state)
-})
-
-export default connect(mapStateToProps)(Canvas)
+export default Canvas

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { connect } from 'react-redux'
 import cx from 'classnames'
 import COLOR from '@santiment-network/ui/variables.scss'
 import { initChart, updateChartState } from '@santiment-network/chart'
@@ -25,6 +24,7 @@ import { ResizeListener, onResize } from './resize'
 import { clearCtx, findPointIndexByDate } from './utils'
 import { domainModifier } from './domain'
 import { paintConfigs, dayBrushPaintConfig } from './paintConfigs'
+import { useTheme } from '../../stores/ui/theme'
 import styles from './index.module.scss'
 
 const Chart = ({
@@ -58,13 +58,14 @@ const Chart = ({
   onRangeSelectStart,
   onPointClick = () => {},
   isLoading,
-  isNightModeEnabled,
+
   isCartesianGridActive,
   resizeDependencies,
   onBrushChangeEnd,
   isWatermarkLighter,
   children
 }) => {
+  const { isNightMode } = useTheme()
   let [chart, setChart] = useState()
   let [brush, setBrush] = useState()
   const canvasRef = useRef()
@@ -120,7 +121,7 @@ const Chart = ({
 
   useEffect(
     () => {
-      const { brushPaintConfig, ...rest } = paintConfigs[+isNightModeEnabled]
+      const { brushPaintConfig, ...rest } = paintConfigs[+isNightMode]
 
       Object.assign(chart, rest)
 
@@ -128,50 +129,23 @@ const Chart = ({
         brush.paintConfig = brushPaintConfig
       }
     },
-    [isNightModeEnabled]
+    [isNightMode]
   )
 
-  useEffect(
-    () => {
-      chart.onRangeSelect = onRangeSelect
-    },
-    [onRangeSelect]
-  )
-
-  useEffect(
-    () => {
-      chart.onRangeSelectStart = onRangeSelectStart
-    },
-    [onRangeSelectStart]
-  )
-
-  useEffect(
-    () => {
-      chart.onPointClick = onPointClick
-    },
-    [onPointClick]
-  )
-
-  useEffect(
-    () => {
-      chart.tooltipKey = tooltipKey
-    },
-    [tooltipKey]
-  )
-
-  useEffect(
-    () => {
-      chart.axesMetricKeys = axesMetricKeys
-    },
-    [axesMetricKeys]
-  )
-
-  useEffect(
-    () => {
-      chart.colors = MetricColor
-    },
-    [MetricColor]
-  )
+  if (chart) {
+    chart.onRangeSelect = onRangeSelect
+    chart.onRangeSelectStart = onRangeSelectStart
+    chart.onPointClick = onPointClick
+    chart.tooltipKey = tooltipKey
+    chart.axesMetricKeys = axesMetricKeys
+    chart.colors = MetricColor
+    chart.scale = scale
+    chart.domainModifier = domainModifier
+    chart.domainGroups = domainGroups
+    chart.isCartesianGridActive = isCartesianGridActive
+    chart.isWatermarkLighter = isWatermarkLighter
+    chart.hideWatermark = hideWatermark
+  }
 
   useEffect(
     () => {
@@ -246,7 +220,7 @@ const Chart = ({
       events,
       domainGroups,
       MetricColor,
-      isNightModeEnabled,
+      isNightMode,
       isCartesianGridActive,
       isWatermarkLighter
     ]
@@ -259,7 +233,7 @@ const Chart = ({
         updateBrushState(brush, brushData, joinedCategories)
       }
     },
-    [brushData, scale, domainGroups, isNightModeEnabled]
+    [brushData, scale, domainGroups, isNightMode]
   )
 
   useEffect(
@@ -321,7 +295,7 @@ const Chart = ({
 
   function plotChart (data) {
     if (!hideWatermark) {
-      drawWatermark(chart, isNightModeEnabled, isWatermarkLighter)
+      drawWatermark(chart, isNightMode, isWatermarkLighter)
     }
 
     plotDayBars(chart, data, daybars, scale, MetricColor)
@@ -376,8 +350,4 @@ const Chart = ({
   )
 }
 
-const mapStateToProps = ({ rootUi: { isNightModeEnabled } }) => ({
-  isNightModeEnabled
-})
-
-export default connect(mapStateToProps)(Chart)
+export default Chart
