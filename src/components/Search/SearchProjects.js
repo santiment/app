@@ -44,9 +44,16 @@ const calculateMatchIndex = (str, { name }) => {
 export const assetsSorter = searchTerm => {
   const upperCaseSearchTerm = searchTerm.toUpperCase()
 
-  return (a, b) =>
-    calculateMatchIndex(upperCaseSearchTerm, a) -
-    calculateMatchIndex(upperCaseSearchTerm, b)
+  return (a, b) => {
+    if (a.marketcapUsd === b.marketcapUsd) {
+      return (
+        calculateMatchIndex(upperCaseSearchTerm, a) -
+        calculateMatchIndex(upperCaseSearchTerm, b)
+      )
+    } else {
+      return b.marketcapUsd - a.marketcapUsd
+    }
+  }
 }
 
 const AssetSuggestion = ({
