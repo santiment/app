@@ -9,6 +9,10 @@
   @include text('caption', 'm');
 }
 
+.arrow {
+  margin-left: 10px;
+}
+
 .setting {
   display: flex;
   align-items: center;
@@ -22,18 +26,24 @@
   }
 }
 
-.arrow {
-  margin-left: 10px;
-}
-
 .input {
   border: none;
-  width: auto;
   padding: 0;
   color: var(--waterloo);
   margin-left: 10px;
-  width: 30px;
+  width: 2ch;
   outline: none;
+  -moz-appearance: textfield;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &:focus {
+    color: var(--rhino);
+  }
 }
 
 .colorInput {
