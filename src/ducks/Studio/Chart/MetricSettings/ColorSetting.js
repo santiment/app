@@ -1,11 +1,11 @@
 import React, { useRef } from 'react'
 import Setting from './Setting'
-import styles from './index.module.scss'
 import {
   useColorByMetric,
   useMetricColorUpdater
 } from '../../Widget/ChartWidgetColorProvider'
 import { useDebounce } from '../../../../hooks/index'
+import styles from './index.module.scss'
 
 const ColorSetting = ({ metric }) => {
   const inputRef = useRef()

@@ -35,17 +35,16 @@ function ColorProvider ({ widget, rerenderWidgets, children }) {
   )
 }
 
-function useMetricColor () {
+export function useMetricColor () {
   return React.useContext(ColorContext)
 }
 
-function useColorByMetric ({ key }) {
+export function useColorByMetric ({ key }) {
   return React.useContext(ColorContext)[key]
 }
 
-function useMetricColorUpdater () {
+export function useMetricColorUpdater () {
   return React.useContext(ColorUpdaterContext)
 }
 
-export { useMetricColor, useColorByMetric, useMetricColorUpdater }
 export default ColorProvider

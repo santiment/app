@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Widget from './Widget'
+import ColorProvider from './ChartWidgetColorProvider'
 import { newWidget } from './utils'
 import StudioChart from '../Chart'
 import { dispatchWidgetMessage } from '../widgetMessage'
@@ -13,7 +14,6 @@ import { buildComparedMetric } from '../Compare/utils'
 import { useClosestValueData } from '../../Chart/hooks'
 import { Metric } from '../../dataHub/metrics'
 import { MirroredMetric } from '../../dataHub/metrics/mirrored'
-import ColorProvider from './ChartWidgetColorProvider'
 
 const activeEvents = []
 

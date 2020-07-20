@@ -1,9 +1,9 @@
 import React from 'react'
 import cx from 'classnames'
-import styles from './index.module.scss'
 import TopHoldersSetting from './TopHoldersSetting'
 import ColorSetting from './ColorSetting'
 import { MetricSettings } from '../../../dataHub/metrics/settings'
+import styles from './index.module.scss'
 
 const SettingToComponent = {
   holdersCount: TopHoldersSetting
