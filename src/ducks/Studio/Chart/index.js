@@ -109,6 +109,13 @@ const Canvas = ({
     setMetricSettings(metric)
   }
 
+  function onMetricRemove (metric) {
+    if (metric === metricSettings) {
+      setMetricSettings()
+    }
+    toggleMetric(metric)
+  }
+
   return (
     <div className={cx(styles.wrapper, className)}>
       <div className={cx(styles.top, isBlurred && styles.blur)}>
@@ -120,7 +127,7 @@ const Canvas = ({
             MetricColor={MetricColor}
             activeMetrics={metrics}
             activeEvents={activeEvents}
-            toggleMetric={toggleMetric}
+            toggleMetric={onMetricRemove}
             loadings={loadings}
             ErrorMsg={ErrorMsg}
             eventLoadings={eventLoadings}
