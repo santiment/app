@@ -1,19 +1,26 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
+import cx from 'classnames'
 import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
 import LoadTemplate from '../Dialog/LoadTemplate'
 import { useUserTemplates } from '../gql/hooks'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
-import SidecarExplanationTooltip from '../../../SANCharts/SidecarExplanationTooltip'
+import SidecarExplanationTooltip, {
+  markedAsShowed
+} from '../../../SANCharts/SidecarExplanationTooltip'
+import DarkTooltip from '../../../../components/Tooltip/DarkTooltip'
 import styles from './LayoutForAsset.module.scss'
 
-const RowTooltipWrapper = ({ children }) => {
+const EXPLANATION_TOOLTIP_MARK = '_ASSET_CHART_LAYOUTS_ROW'
+
+const RowTooltipWrapper = ({ onClose }) => ({ children }) => {
   return (
     <div className={styles.tooltipWrapper}>
       <SidecarExplanationTooltip
         closeTimeout={500}
-        localStorageSuffix='_ASSET_CHART_LAYOUTS_ROW'
+        localStorageSuffix={EXPLANATION_TOOLTIP_MARK}
         position='top'
+        onClose={onClose}
         title={
           <div className={styles.tooltip}>
             <div className={styles.titleLine}>
@@ -29,7 +36,7 @@ const RowTooltipWrapper = ({ children }) => {
         }
         description=''
         withArrow
-        delay={1000}
+        delay={0}
         className={styles.tooltipContainer}
       >
         <div />
@@ -42,79 +49,68 @@ const RowTooltipWrapper = ({ children }) => {
 const IconTooltipWrapper = ({ children }) => {
   return (
     <div className={styles.tooltipWrapper}>
-      <SidecarExplanationTooltip
-        closeTimeout={500}
+      <DarkTooltip
+        closeTimeout={0}
+        align='start'
         localStorageSuffix='_ASSET_CHART_LAYOUTS_ICON'
         position='top'
-        title={
-          <div className={styles.tooltip}>Click to apply chart layout</div>
-        }
         description=''
         closable={false}
-        delay={0}
+        delay={500}
         className={styles.tooltipContainer}
+        trigger={children}
       >
-        <div />
-      </SidecarExplanationTooltip>
-      {children}
+        <div className={cx(styles.iconTooltip, styles.tooltip)}>
+          Click to apply chart layout
+        </div>
+      </DarkTooltip>
     </div>
   )
 }
 
-const Trigger = ({
-  showTooltip,
-  isHoveredRow,
-  isIconHovered,
-  counter,
-  ...rest
-}) => {
+const Trigger = ({ showTooltip, isIconHovered, counter, ...rest }) => {
+  const [showExplanation, setShow] = useState(false)
+
+  useEffect(() => {
+    if (counter === 1 && !markedAsShowed(EXPLANATION_TOOLTIP_MARK)) {
+      setTimeout(() => setShow(true), 5000)
+    }
+  }, [])
+
   let El = Fragment
+  let Wrapper = showExplanation
+    ? RowTooltipWrapper({ onClose: () => setShow(false) })
+    : Fragment
 
-  if (isHoveredRow) {
-    El = RowTooltipWrapper
-  }
-
-  if (isIconHovered) {
+  if (!showExplanation) {
     El = IconTooltipWrapper
   }
 
   return (
-    <El>
-      <div {...rest} className={styles.counter}>
-        {isHoveredRow || isIconHovered ? (
+    <Wrapper>
+      <El>
+        <div
+          {...rest}
+          className={cx(
+            styles.counterContainer,
+            isIconHovered && styles.hovered
+          )}
+        >
           <Icon type='chart-layout' className={styles.icon} />
-        ) : (
-          counter
-        )}
-      </div>
-    </El>
+          <div className={styles.counter}>{counter}</div>
+        </div>
+      </El>
+    </Wrapper>
   )
 }
 
-const LayoutForAsset = ({
-  currentUser,
-  item: { id },
-  showTooltip,
-  isHoveredRow,
-  index
-}) => {
+const LayoutForAsset = ({ currentUser, item: { id }, showTooltip, index }) => {
   const user = currentUser.data
   const [templates] = useUserTemplates(user.id)
 
-  const [isIconHovered, setIsIconHovered] = useState(false)
-
   return (
     <LoadTemplate
-      trigger={
-        <Trigger
-          onMouseEnter={() => setIsIconHovered(true)}
-          onMouseLeave={() => setIsIconHovered(false)}
-          showTooltip={showTooltip}
-          isHoveredRow={isHoveredRow}
-          isIconHovered={isIconHovered}
-          counter={index}
-        />
-      }
+      trigger={<Trigger showTooltip={showTooltip} counter={index} />}
       templates={templates}
       asProject={id}
       isFeatured={true}

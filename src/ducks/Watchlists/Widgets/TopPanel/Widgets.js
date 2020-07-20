@@ -11,7 +11,7 @@ const Widgets = ({
   widgets: { isPriceChart, isPriceTreeMap, isVolumeTreeMap } = {},
   togglers = {}
 }) => {
-  const { priceToggle, togglePriceTreeMap, toggleVolumeTreeMap } = togglers
+  const { priceToggle, togglePriceTreeMap } = togglers
   const [isOpen, setOpen] = useState(false)
 
   useEffect(
@@ -41,12 +41,6 @@ const Widgets = ({
           title='Price up'
           isActive={isPriceTreeMap}
           toggle={() => togglePriceTreeMap(!isPriceTreeMap)}
-        />
-        <ToggleWidget
-          index={1}
-          title='Social volume'
-          isActive={isVolumeTreeMap}
-          toggle={() => toggleVolumeTreeMap(!isVolumeTreeMap)}
         />
         <ToggleWidget
           index={0}

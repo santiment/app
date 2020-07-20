@@ -73,7 +73,6 @@ const Canvas = ({
     () => extractMirrorMetricsDomainGroups(domainGroups),
     [domainGroups]
   )
-
   const isBlurred = !isLoggedIn && index > 1
   const scale = options.isLogScale ? logScale : linearScale
 
