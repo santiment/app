@@ -44,6 +44,7 @@ const Canvas = ({
   isSingleWidget,
   isSelectingRange,
   changeTimePeriod,
+  rerenderWidgets,
   TopLeftComponent = ChartActiveMetrics,
   setIsICOPriceDisabled,
   setOptions,
@@ -179,6 +180,8 @@ const Canvas = ({
         <ChartMetricSettings
           className={styles.settings}
           metric={metricSettings}
+          widget={widget}
+          rerenderWidgets={rerenderWidgets}
         />
       )}
 

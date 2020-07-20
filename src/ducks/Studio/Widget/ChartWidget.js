@@ -160,6 +160,7 @@ export const Chart = ({
         setOptions={setOptions}
         setComparables={setComparables}
         toggleMetric={toggleMetric}
+        rerenderWidgets={rerenderWidgets}
         onDeleteChartClick={() => deleteWidget(widget)}
       />
     </ColorProvider>

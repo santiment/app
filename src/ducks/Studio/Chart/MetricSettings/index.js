@@ -19,7 +19,9 @@ const Settings = ({ className, metric, ...props }) => {
       {settings &&
         settings.map(({ key }) => {
           const Setting = SettingToComponent[key]
-          return Setting ? <Setting key={key} metric={metric} /> : null
+          return Setting ? (
+            <Setting key={key} metric={metric} {...props} />
+          ) : null
         })}
     </div>
   )
