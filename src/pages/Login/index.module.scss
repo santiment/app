@@ -23,17 +23,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-right: 106px;
+  border-right: 1px solid var(--porcelain);
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     padding: 0;
     border: none;
     height: 100%;
     justify-content: center;
-  }
-
-  &_desktop {
-    border-right: 1px solid var(--porcelain);
-    padding-right: 114px;
   }
 }
 
@@ -53,7 +50,7 @@
 
 .panel {
   margin: 0 auto;
-  padding: 54px 107px;
+  padding: 51px 99px;
   min-width: 608px;
   text-align: center;
 
@@ -84,7 +81,7 @@
 }
 
 .options {
-  margin: 24px 0 0;
+  margin: 32px 0 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -99,7 +96,6 @@
   fill: var(--white);
   padding: 9px 12px;
   text-align: left;
-  margin-bottom: 8px;
   height: 40px;
   max-width: 280px;
   width: 100%;
@@ -230,7 +226,7 @@
 .use {
   color: var(--waterloo);
   position: absolute;
-  top: -10px;
+  top: -7px;
   left: 50%;
   padding: 0 10px;
   background: var(--white);
@@ -241,9 +237,16 @@
 
 .new {
   color: var(--waterloo);
-  margin-top: 32px;
+  margin-top: 40px;
 
   @include text('body-2');
+}
+
+.noCredit {
+  @include text('caption', 'm');
+
+  color: var(--waterloo);
+  margin-top: 8px;
 }
 
 .createLink {
@@ -264,7 +267,7 @@
 
 .emailInput {
   background: var(--white);
-  margin-top: 32px;
+  margin-top: 23px;
   width: 280px;
   height: 40px;
 

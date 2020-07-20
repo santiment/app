@@ -89,6 +89,8 @@ const SignupDescription = ({ loading, loginEmail, setEmail }) => {
         setEmail={setEmail}
       />
 
+      <div className={externalStyles.noCredit}>No credit card required</div>
+
       <div className={externalStyles.new}>
         Have an account?{' '}
         <Link to={PATHS.LOGIN} className={externalStyles.createLink}>
