@@ -16,7 +16,7 @@
 }
 
 .container {
-  padding: 62px 81px !important;
+  padding: 47px 113px !important;
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     padding: 0 !important;
@@ -29,12 +29,12 @@
   @include text('body-2');
 
   color: var(--waterloo);
-  margin-top: 12px;
+  margin-top: 9px;
 }
 
 .trialDescr {
   color: var(--rhino);
-  max-width: 280px;
+  max-width: 266px;
   word-break: break-word;
   margin-left: 24px;
   text-align: left;
