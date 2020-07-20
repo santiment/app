@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ResponsiveContainer, Tooltip, Treemap } from 'recharts'
 import PageLoader from '../../../../components/Loader/PageLoader'
 import Range from '../WatchlistOverview/Range'
 import { getSorter, useProjectRanges } from './ProjectsChart'
 import { formatNumber } from '../../../../utils/formatting'
 import ChartTooltip from '../../../SANCharts/tooltip/CommonChartTooltip'
-import ColorsExplanation from './ColorsExplanation'
+import ColorsExplanation, {
+  COLOR_MAPS,
+  getTreeMapColor
+} from './ColorsExplanation'
 import styles from './ProjectsChart.module.scss'
 
 const RANGES = [
@@ -45,43 +48,29 @@ const getFontSize = (index, length) => {
   }
 }
 
-const TREEMAP_COLORS_POSITIVS = [
-  'var(--jungle-green)',
-  '#89E1C9',
-  '#DCF6EF',
-  'var(--mystic)'
-]
-
-const TREEMAP_COLORS_NEGATIVS = ['#FFE6E6', '#EFA7A7', 'var(--persimmon)']
-
-const mapToColors = (data, key, colors, colorMaps) => {
-  let border = data.length / colors.length
-
-  let result = data.map((item, index) => {
-    const colorIndex = Math.floor(index / border)
-    const color = colors[colorIndex]
-    if (!colorMaps[color]) {
-      colorMaps[color] = item[key]
-    }
+const mapToColors = (data, key) => {
+  return data.map(item => {
+    const value = +item[key]
+    const color = getTreeMapColor(value)
     return {
       ...item,
       color
     }
   })
-
-  return result
 }
 
-const getWithColors = (sorted, key) => {
-  const colorMaps = {}
+const useWithColors = (data, key) => {
+  const [result, setResult] = useState([])
 
-  let positivs = sorted.filter(item => item[key] >= 0)
-  let negativs = sorted.filter(item => item[key] < 0)
+  useEffect(
+    () => {
+      const sorted = data.sort(getSorter(key))
+      setResult(mapToColors(sorted, key))
+    },
+    [data.length, key]
+  )
 
-  positivs = mapToColors(positivs, key, TREEMAP_COLORS_POSITIVS, colorMaps)
-  negativs = mapToColors(negativs, key, TREEMAP_COLORS_NEGATIVS, colorMaps)
-
-  return [[...positivs, ...negativs], colorMaps]
+  return result
 }
 
 const MARKETCAP_USD_SORTER = getSorter('marketcapUsd')
@@ -98,10 +87,7 @@ const ProjectsTreeMap = ({ assets, title, ranges, className }) => {
     sortByKey: 'marketcapUsd'
   })
 
-  const [sortedByChange, colorMaps] = getWithColors(
-    data.sort(getSorter(key)),
-    key
-  )
+  const sortedByChange = useWithColors(data, key)
 
   const sortedByMarketcap = sortedByChange.sort(MARKETCAP_USD_SORTER)
 
@@ -155,10 +141,7 @@ const ProjectsTreeMap = ({ assets, title, ranges, className }) => {
             </Treemap>
           </ResponsiveContainer>
 
-          <ColorsExplanation
-            colors={[...TREEMAP_COLORS_POSITIVS, ...TREEMAP_COLORS_NEGATIVS]}
-            colorMaps={colorMaps}
-          />
+          <ColorsExplanation colorMaps={COLOR_MAPS} />
         </div>
       )}
     </div>
