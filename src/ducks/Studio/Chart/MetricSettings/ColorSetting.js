@@ -5,18 +5,20 @@ import {
   useColorByMetric,
   useMetricColorUpdater
 } from '../../Widget/ChartWidgetColorProvider'
+import { useDebounce } from '../../../../hooks/index'
 
 const ColorSetting = ({ metric }) => {
   const inputRef = useRef()
   const color = useColorByMetric(metric)
   const updateMetricColor = useMetricColorUpdater()
+  const debouncedColorUpdate = useDebounce(updateMetricColor, 500)
 
   function onClick () {
     inputRef.current.click()
   }
 
   function onChange ({ target: { value } }) {
-    updateMetricColor(metric.key, value)
+    debouncedColorUpdate(metric.key, value)
   }
 
   return (

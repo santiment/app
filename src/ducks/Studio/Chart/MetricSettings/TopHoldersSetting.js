@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import Setting from './Setting'
 import Input from './Input'
 import { mergeMetricSettingMap } from '../../utils'
+import { useDebounce } from '../../../../hooks/index'
 
 const TopHoldersSetting = ({ metric, widget, rerenderWidgets }) => {
   const { MetricSettingMap } = widget
@@ -9,6 +10,7 @@ const TopHoldersSetting = ({ metric, widget, rerenderWidgets }) => {
     const MetricSetting = MetricSettingMap.get(metric)
     return MetricSetting && MetricSetting.holdersCount
   }, [])
+  const debouncedRerender = useDebounce(rerenderWidgets, 700)
 
   function onChange (holdersCount) {
     const newMap = new Map()
@@ -22,7 +24,7 @@ const TopHoldersSetting = ({ metric, widget, rerenderWidgets }) => {
       newMap
     )
 
-    rerenderWidgets()
+    debouncedRerender()
   }
 
   return (
