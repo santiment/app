@@ -142,7 +142,7 @@ export const Chart = ({
   }
 
   return (
-    <ColorProvider widget={widget}>
+    <ColorProvider widget={widget} rerenderWidgets={rerenderWidgets}>
       <StudioChart
         {...props}
         data={data}

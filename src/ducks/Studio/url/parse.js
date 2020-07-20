@@ -93,13 +93,14 @@ function parseSharedComparables (comparables) {
 
 export function parseSharedWidgets (sharedWidgets) {
   return sharedWidgets.map(
-    ({ widget, metrics, comparables, connectedWidgets }) =>
+    ({ widget, metrics, comparables, connectedWidgets, colors }) =>
       TypeToWidget[widget].new({
         metrics: metrics.map(key => convertKeyToMetric(key)).filter(Boolean),
         comparables: comparables.map(parseComparable),
         connectedWidgets: connectedWidgets
           ? connectedWidgets.map(parseConnectedWidget)
-          : []
+          : [],
+        MetricColor: colors
       })
   )
 }

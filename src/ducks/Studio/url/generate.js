@@ -22,14 +22,16 @@ export const normalizeWidget = ({
   Widget,
   metrics,
   comparables,
-  connectedWidgets
+  connectedWidgets,
+  MetricColor
 }) => ({
   widget: WidgetToTypeMap.get(Widget),
   metrics: metrics.map(({ key }) => key),
   comparables: comparables.map(shareComparable),
   connectedWidgets: connectedWidgets
     ? connectedWidgets.map(normalizeConnectedWidget)
-    : undefined
+    : undefined,
+  colors: MetricColor
 })
 
 export const normalizeWidgets = widgets => widgets.map(normalizeWidget)

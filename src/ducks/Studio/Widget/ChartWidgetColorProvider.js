@@ -6,12 +6,15 @@ const DEFAULT_STATE = {}
 const ColorContext = React.createContext()
 const ColorUpdaterContext = React.createContext()
 
-function ColorProvider ({ widget, children }) {
-  const { metrics } = widget
-  const [state, setState] = useState(DEFAULT_STATE)
+function ColorProvider ({ widget, rerenderWidgets, children }) {
+  const { metrics, MetricColor } = widget
+  const [state, setState] = useState(MetricColor || DEFAULT_STATE)
 
   function updateMetricColor (metricKey, color) {
-    setState(Object.assign({}, state, { [metricKey]: color }))
+    const NewMetricColor = Object.assign({}, state, { [metricKey]: color })
+    setState(NewMetricColor)
+    widget.MetricColor = NewMetricColor
+    rerenderWidgets()
   }
 
   useEffect(
