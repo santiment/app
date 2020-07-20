@@ -5,8 +5,8 @@ import { mergeMetricSettingMap } from '../../utils'
 import { useDebounce } from '../../../../hooks/index'
 
 const TopHoldersSetting = ({ metric, widget, rerenderWidgets }) => {
-  const { MetricSettingMap } = widget
   const defaultValue = useMemo(() => {
+    const { MetricSettingMap } = widget
     const MetricSetting = MetricSettingMap.get(metric)
     return MetricSetting && MetricSetting.holdersCount
   }, [])
