@@ -12,6 +12,16 @@ export function shareComparable (Comparable) {
   return `${slug}${COMPARE_CONNECTOR}${ticker}${COMPARE_CONNECTOR}${key}`
 }
 
+function shareMetricSettings (MetricSettingMap) {
+  const sharedMetricSettings = {}
+
+  MetricSettingMap.forEach((settings, { key }) => {
+    sharedMetricSettings[key] = settings
+  })
+
+  return sharedMetricSettings
+}
+
 const normalizeConnectedWidget = ({ Widget, datesRange }) => ({
   widget: WidgetToTypeMap.get(Widget),
   from: datesRange[0].toISOString(),
@@ -22,14 +32,18 @@ export const normalizeWidget = ({
   Widget,
   metrics,
   comparables,
-  connectedWidgets
+  connectedWidgets,
+  MetricColor,
+  MetricSettingMap
 }) => ({
   widget: WidgetToTypeMap.get(Widget),
   metrics: metrics.map(({ key }) => key),
   comparables: comparables.map(shareComparable),
   connectedWidgets: connectedWidgets
     ? connectedWidgets.map(normalizeConnectedWidget)
-    : undefined
+    : undefined,
+  colors: MetricColor,
+  settings: shareMetricSettings(MetricSettingMap)
 })
 
 export const normalizeWidgets = widgets => widgets.map(normalizeWidget)

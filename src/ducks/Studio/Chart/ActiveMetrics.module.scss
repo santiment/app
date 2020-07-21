@@ -3,7 +3,7 @@
 .btn {
   @include text('body-3');
 
-  background: var(--athens);
+  position: relative;
   margin: 0 8px 0 0;
   min-height: 32px;
   height: auto;
@@ -20,11 +20,16 @@
 
   &_error {
     border-color: var(--persimmon);
+
     @include explanation(attr(aria-invalid), 'top');
 
     &:hover {
       border-color: var(--persimmon-hover);
     }
+  }
+
+  &_settings {
+    padding-right: 45px;
   }
 }
 
@@ -65,5 +70,24 @@
 
   100% {
     transform: rotate(360deg);
+  }
+}
+
+.settings {
+  @include explanation('Metric Settings', 'top') {
+    margin-bottom: 8px;
+  }
+
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 32px;
+  border-left: 1px solid var(--porcelain);
+  padding: 8px;
+  fill: var(--rhino);
+  border-radius: 0 4px 4px 0;
+
+  &:hover {
+    background: var(--athens);
   }
 }
