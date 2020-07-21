@@ -21,7 +21,9 @@
   &_error {
     border-color: var(--persimmon);
 
-    @include explanation(attr(aria-invalid), 'top');
+    @include explanation(attr(aria-invalid), 'top') {
+      margin-bottom: 8px;
+    }
 
     &:hover {
       border-color: var(--persimmon-hover);
@@ -89,5 +91,15 @@
 
   &:hover {
     background: var(--athens);
+  }
+
+  &_active {
+    fill: var(--jungle-green);
+    background: var(--jungle-green-light);
+
+    &:hover {
+      fill: var(--jungle-green-hover);
+      background: var(--jungle-green-light);
+    }
   }
 }
