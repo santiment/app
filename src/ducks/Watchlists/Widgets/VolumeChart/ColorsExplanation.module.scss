@@ -18,5 +18,26 @@
 .container {
   display: flex;
   margin-top: 16px;
+  align-items: center;
+}
+
+.colors {
   margin-left: auto;
+  display: flex;
+}
+
+.explanation {
+  margin-right: auto;
+  color: var(--fiord);
+  display: flex;
+  align-items: center;
+
+  @include text('caption');
+}
+
+.iconRound {
+  fill: var(--casper);
+  margin-right: 8px;
+  position: relative;
+  top: -1px;
 }

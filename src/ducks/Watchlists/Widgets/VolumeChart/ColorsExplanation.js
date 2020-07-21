@@ -1,4 +1,5 @@
 import React from 'react'
+import Icon from '@santiment-network/ui/Icon'
 import styles from './ColorsExplanation.module.scss'
 
 const TREEMAP_COLORS = [
@@ -44,17 +45,24 @@ const COLORS = ['20', '5', '5 - 0', '0', '0 - (-5)', '-5', '-20']
 const ColorsExplanation = ({ colorMaps }) => {
   return (
     <div className={styles.container}>
-      {COLORS.map(key => {
-        return (
-          <div
-            key={key}
-            className={styles.card}
-            style={{ backgroundColor: colorMaps[key] }}
-          >
-            {key}
-          </div>
-        )
-      })}
+      <div className={styles.explanation}>
+        <Icon type='info-round' className={styles.iconRound} />
+        Color indicates today's asset perfomance in percent. Size represents
+        market cap.
+      </div>
+      <div className={styles.colors}>
+        {COLORS.map(key => {
+          return (
+            <div
+              key={key}
+              className={styles.card}
+              style={{ backgroundColor: colorMaps[key] }}
+            >
+              {key}
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }
