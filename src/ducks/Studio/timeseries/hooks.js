@@ -160,6 +160,13 @@ export function useTimeseries (
               throw new Error(NO_DATA_MSG)
             }
 
+            setErrorMsg(state => {
+              if (!state[key]) return state
+
+              const newState = Object.assign({}, state)
+              delete newState[key]
+              return newState
+            })
             setTimeseries(() => {
               mergedData = mergeTimeseries([mergedData, data])
 
