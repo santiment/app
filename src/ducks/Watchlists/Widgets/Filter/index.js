@@ -5,8 +5,9 @@ import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { useUpdateWatchlist } from '../../gql/hooks'
 import Trigger from './Trigger'
-import { metrics } from './operators/index'
-import FilterMetric from './FilterMetric'
+import { metrics } from './metrics'
+import Category from './Category'
+import { getCategoryGraph } from '../../../Studio/Sidebar/utils'
 import { useAvailableMetrics } from '../../gql/hooks'
 import styles from './index.module.scss'
 
@@ -122,6 +123,8 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
     })
   }
 
+  const categories = getCategoryGraph(metrics)
+
   return (
     <>
       <Trigger isActive={isActive} onClick={setIsActive} />
@@ -147,15 +150,16 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
           </Button>
           {loading && <Loader className={styles.loader} />}
         </div>
-        {metrics.map(metric => (
-          <FilterMetric
+        {Object.keys(categories).map(key => (
+          <Category
+            key={key}
+            title={key}
+            groups={categories[key]}
             toggleMetricInFilter={toggleMetricInFilter}
             availableMetrics={availableMetrics}
             isAuthor={isAuthor}
             isNoFilters={isNoFilters}
-            filter={filter}
-            key={metric.key}
-            metric={metric}
+            filters={filter}
             updMetricInFilter={updMetricInFilter}
           />
         ))}
