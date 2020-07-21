@@ -4,10 +4,6 @@ import Dialog from '@santiment-network/ui/Dialog'
 import SharePanel from './SharePanel'
 import ShareBtn from './ShareBtn'
 
-const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-export const getText = (text, link) =>
-  isSafari ? `${text} ${encodeURIComponent(link)}` : text
-
 const ShareModalTrigger = ({
   shareTitle,
   shareText,
@@ -23,7 +19,7 @@ const ShareModalTrigger = ({
       onClick={() => {
         window.navigator.share({
           title: shareTitle,
-          text: getText(shareText, shareLink),
+          text: shareText,
           url: shareLink
         })
       }}
