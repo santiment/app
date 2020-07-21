@@ -1,5 +1,7 @@
 import React from 'react'
+import Icon from '@santiment-network/ui/Icon'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
+import MetricExplanation from '../../../SANCharts/MetricExplanation'
 import styles from './FilterMetricState.module.scss'
 
 const FilterMetricState = ({
@@ -20,6 +22,9 @@ const FilterMetricState = ({
       />
       <span className={styles.label}>{metric.label}</span>
     </div>
+    <MetricExplanation metric={metric} position='right'>
+      <Icon type='info-round-small' className={styles.info} />
+    </MetricExplanation>
   </div>
 )
 

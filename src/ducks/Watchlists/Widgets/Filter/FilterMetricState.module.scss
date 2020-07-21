@@ -15,3 +15,12 @@
 .label {
   margin-left: 12px;
 }
+
+.info {
+  fill: var(--casper);
+  margin-left: auto;
+
+  &:hover {
+    fill: var(--rhino);
+  }
+}

@@ -26,7 +26,9 @@ export const Metric = {
   active_addresses_24h: {
     category: 'On-chain',
     group: 'Network Activity',
-    label: 'Daily Active Addresses'
+    label: 'Daily Active Addresses',
+    moreInfoLink:
+      'https://academy.santiment.net/metrics/daily-active-addresses/'
   }
 }
 
@@ -37,3 +39,7 @@ export const metrics = [
   Metric.dev_activity,
   Metric.active_addresses_24h
 ]
+
+Object.keys(Metric).forEach(key => {
+  Metric[key].key = key
+})
