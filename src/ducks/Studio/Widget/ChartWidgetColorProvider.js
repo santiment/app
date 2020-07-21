@@ -7,7 +7,7 @@ const ColorContext = React.createContext()
 const ColorUpdaterContext = React.createContext()
 
 function ColorProvider ({ widget, rerenderWidgets, children }) {
-  const { metrics, MetricColor } = widget
+  const { metrics, comparables, MetricColor } = widget
   const [state, setState] = useState(MetricColor || DEFAULT_STATE)
 
   function updateMetricColor (metricKey, color) {
@@ -19,11 +19,11 @@ function ColorProvider ({ widget, rerenderWidgets, children }) {
 
   useEffect(
     () => {
-      const NewMetricColor = getChartColors(metrics, state)
+      const NewMetricColor = getChartColors(metrics.concat(comparables), state)
       setState(NewMetricColor)
       widget.MetricColor = NewMetricColor
     },
-    [metrics]
+    [metrics, comparables]
   )
 
   return (
