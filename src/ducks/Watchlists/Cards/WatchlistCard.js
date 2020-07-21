@@ -168,6 +168,7 @@ const enhance = compose(
   }),
   graphql(WATCHLIST_HISTORY_QUERY, {
     options: ({ id }) => ({
+      fetchPolicy: 'no-cache',
       variables: {
         id,
         ...getTimeIntervalFromToday(-RANGE, DAY),
