@@ -5,7 +5,8 @@ import SharePanel from './SharePanel'
 import ShareBtn from './ShareBtn'
 
 const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-export const getText = (text, link) => (isSafari ? `${text} ${link}` : text)
+export const getText = (text, link) =>
+  isSafari ? `${text} ${encodeURIComponent(link)}` : text
 
 const ShareModalTrigger = ({
   shareTitle,
