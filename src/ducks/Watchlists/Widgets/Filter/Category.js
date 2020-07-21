@@ -9,7 +9,7 @@ const DEFAULT_OPENED_CATEGORY = {
   Financial: true
 }
 
-const Category = ({ title, groups, ...rest }) => {
+const Category = ({ title, groups, counter, ...rest }) => {
   const [isCollapsed, setIsCollapsed] = useState(
     !DEFAULT_OPENED_CATEGORY[title]
   )
@@ -23,7 +23,10 @@ const Category = ({ title, groups, ...rest }) => {
       className={cx(styles.category, isCollapsed && styles.category__collapsed)}
     >
       <h3 className={styles.title} onClick={onToggleClick}>
-        <div>{title}</div>
+        <div>
+          {title}
+          {counter > 0 && <span className={styles.counter}>({counter})</span>}
+        </div>
         <Icon type='arrow-right' className={styles.toggle} />
       </h3>
       <div className={styles.metrics}>

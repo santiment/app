@@ -8,6 +8,8 @@ import Trigger from './Trigger'
 import { metrics } from './metrics'
 import Category from './Category'
 import { getCategoryGraph } from '../../../Studio/Sidebar/utils'
+import { countCategoryActiveMetrics } from '../../../SANCharts/ChartMetricSelector'
+import { getActiveBaseMetrics } from './utils'
 import { useAvailableMetrics } from '../../gql/hooks'
 import styles from './index.module.scss'
 
@@ -103,7 +105,7 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
       newFilter = [...filter, metric]
     }
 
-    console.log(metric, newFilter)
+    // console.log(metric, newFilter)
     updateFilter(newFilter)
     updateWatchlist(watchlist, {
       function:
@@ -124,6 +126,10 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
   }
 
   const categories = getCategoryGraph(metrics)
+  const activeBaseMetrics = getActiveBaseMetrics(filter)
+  const categoryActiveMetricsCounter = countCategoryActiveMetrics(
+    activeBaseMetrics
+  )
 
   return (
     <>
@@ -154,6 +160,7 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
           <Category
             key={key}
             title={key}
+            counter={categoryActiveMetricsCounter[key]}
             groups={categories[key]}
             toggleMetricInFilter={toggleMetricInFilter}
             availableMetrics={availableMetrics}
