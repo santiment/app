@@ -7,6 +7,10 @@
 .trigger {
   padding: 8px;
   margin-right: 8px;
+
+  &:hover {
+    border-color: var(--mystic);
+  }
 }
 
 .img {

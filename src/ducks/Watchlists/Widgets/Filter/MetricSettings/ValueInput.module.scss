@@ -13,6 +13,14 @@
   &__withBadge {
     padding-left: 26px;
   }
+
+  &:hover {
+    border-color: var(--mystic);
+  }
+
+  &:focus {
+    border-color: var(--jungle-green);
+  }
 }
 
 .badge {
