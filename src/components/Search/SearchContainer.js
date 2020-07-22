@@ -17,7 +17,7 @@ const RECENT_ASSETS = 'Recently searched'
 const ASSETS = 'Assets'
 const TRENDING_WORDS = 'Trending words'
 const INPUT_ID = 'projects-search'
-const EDITABLE_TAGS = ['INPUT', 'TEXTAREA']
+const EDITABLE_TAGS = new Set(['INPUT', 'TEXTAREA'])
 
 const Recent = ({ icon = 'clock', text, onRemove }) => (
   <div className={styles.recent}>
@@ -70,7 +70,7 @@ export const SearchContainer = ({
 
     function onKeyPress (e) {
       const { code, target } = e
-      if (code === 'Slash' && !EDITABLE_TAGS.includes(target.tagName)) {
+      if (code === 'Slash' && !EDITABLE_TAGS.has(target.tagName)) {
         e.preventDefault()
         input.focus()
       }
