@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node scripts && PORT=8080 REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version')-$(echo $GIT_HEAD) react-app-rewired start",
+    "start": "node scripts && REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version')-$(echo $GIT_HEAD) react-app-rewired start",
     "format": "prettier-standard 'src/**/*.js'",
     "precommit": "lint-staged",
     "storybook": "start-storybook -p 9001 -c .storybook",
