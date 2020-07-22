@@ -1,0 +1,38 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.title {
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 18px 0 28px;
+}
+
+.info {
+  position: absolute;
+  right: 0;
+  top: 4px;
+  fill: var(--casper);
+  margin-left: auto;
+  cursor: pointer;
+
+  &:hover {
+    fill: var(--rhino);
+  }
+}
+
+.checkbox {
+  position: absolute;
+  top: 2px;
+  left: 0;
+}
+
+.explanation {
+  text-transform: lowercase;
+  color: var(--waterloo);
+  margin-left: 6px;
+}

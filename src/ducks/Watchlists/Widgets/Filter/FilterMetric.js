@@ -5,7 +5,7 @@ import {
   getTimeRangesByMetric,
   extractFilterByMetricType
 } from './detector'
-import FilterMetricState from './FilterMetricState'
+import MetricState from './MetricState'
 import MetricSettings from './MetricSettings'
 import { DEFAULT_SETTINGS } from './defaults'
 
@@ -78,9 +78,10 @@ const FilterMetric = ({
 
   return (
     <>
-      <FilterMetricState
+      <MetricState
         isAuthor={isAuthor}
         metric={baseMetric}
+        settings={settings}
         isActive={settings.isActive}
         onCheckboxClicked={onCheckboxClicked}
       />

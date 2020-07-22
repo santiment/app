@@ -33,7 +33,8 @@ export const Filter = {
   // },
   percent_up: {
     icon: PercentUp,
-    label: 'Moving up %',
+    label: 'Moving up',
+    shortLabel: 'up',
     aggregation: 'last',
     badge: '%',
     isPro: true,
@@ -43,7 +44,8 @@ export const Filter = {
   },
   percent_down: {
     icon: PercentDown,
-    label: 'Moving down %',
+    label: 'Moving down',
+    shortLabel: 'down',
     aggregation: 'last',
     badge: '%',
     isPro: true,
@@ -53,7 +55,7 @@ export const Filter = {
   }
   // percent_between: {
   //   icon: PercentBetween,
-  //   label: 'Between %',
+  //   label: 'Between',
   //   aggregation: 'last',
   //   badge: '%',
   //   isPro: true,
@@ -64,7 +66,7 @@ export const Filter = {
   // },
   // percent_up_or_down: {
   //   icon: PercentOutside,
-  //   label: 'Up or down %',
+  //   label: 'Up or down',
   //   aggregation: 'last',
   //   badge: '%',
   //   isPro: true,

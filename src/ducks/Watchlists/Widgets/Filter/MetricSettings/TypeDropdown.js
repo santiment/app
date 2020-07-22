@@ -23,7 +23,8 @@ const TypeDropdown = ({ isPro, type, onChange, showTimeRangesFilters }) => (
   >
     <Panel className={styles.panel}>
       {Object.values(Filter).map(({ icon, label, key, showTimeRange }) => {
-        const isDisabled = Filter[type].isPro && !isPro
+        const isDisabled = Filter[key].isPro && !isPro
+        const badge = Filter[key].badge
         let isShow = true
 
         if (!showTimeRangesFilters && showTimeRange) {
@@ -49,6 +50,7 @@ const TypeDropdown = ({ isPro, type, onChange, showTimeRangesFilters }) => (
             >
               <img src={icon} alt='filter type' className={styles.img} />
               {label}
+              {badge && ` ${badge}`}
             </Button>
           </Fragment>
         ) : null
