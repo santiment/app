@@ -147,15 +147,17 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
         />
         <div className={cx(styles.top, !isAuthor && styles.top__column)}>
           <span className={styles.count}>{projectsCount} assets</span>
-          <Button
-            className={cx(styles.reset, isNoFilters && styles.reset__disabled)}
-            onClick={() => (isNoFilters ? null : resetAll())}
-            disabled={!isAuthor}
-          >
-            {isAuthor
-              ? 'Reset all'
-              : "View only. You aren't the author of this list"}
-          </Button>
+          {!isNoFilters && (
+            <Button
+              className={styles.reset}
+              onClick={() => (isNoFilters ? null : resetAll())}
+              disabled={!isAuthor}
+            >
+              {isAuthor
+                ? 'Reset all'
+                : "View only. You aren't the author of this list"}
+            </Button>
+          )}
           {loading && <Loader className={styles.loader} />}
         </div>
         {Object.keys(categories).map(key => (

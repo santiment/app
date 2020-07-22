@@ -44,10 +44,6 @@
 .reset {
   color: var(--jungle-green);
   margin-left: -12px;
-
-  // &__disabled {
-  //   color: var(--waterloo);
-  // }
 }
 
 .loader {
@@ -60,6 +56,7 @@
   margin: 19px 32px 13px;
   display: flex;
   align-items: baseline;
+  min-height: 32px;
 
   &__column {
     flex-direction: column;
