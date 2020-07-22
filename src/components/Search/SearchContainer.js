@@ -18,6 +18,7 @@ const ASSETS = 'Assets'
 const TRENDING_WORDS = 'Trending words'
 const INPUT_ID = 'projects-search'
 const EDITABLE_TAGS = new Set(['INPUT', 'TEXTAREA'])
+const INPUT_ID_PROPS = { id: INPUT_ID }
 
 const Recent = ({ icon = 'clock', text, onRemove }) => (
   <div className={styles.recent}>
@@ -40,7 +41,7 @@ export const SearchContainer = ({
   const [isFocused, setFocus] = useState(false)
   const [recentAssets, setRecentAssetSuggestions] = useState(getRecentAssets())
 
-  Object.assign(inputProps, { id: INPUT_ID })
+  Object.assign(inputProps, INPUT_ID_PROPS)
 
   function addRecentAssetSuggestions (slug) {
     setRecentAssetSuggestions(addRecentAssets(slug))
@@ -142,7 +143,7 @@ export const SearchContainer = ({
 }
 
 SearchContainer.defaultProps = {
-  inputProps: { id: INPUT_ID }
+  inputProps: INPUT_ID_PROPS
 }
 
 export default withRouter(SearchContainer)
