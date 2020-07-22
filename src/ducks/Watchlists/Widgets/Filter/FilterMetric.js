@@ -73,11 +73,7 @@ const FilterMetric = ({
   }
 
   function onTimeRangeChange (timeRange) {
-    const activeIndex = timeRanges.indexOf(timeRange)
-    const nextIndex = activeIndex + 1 >= timeRanges.length ? 0 : activeIndex + 1
-    const nextTimeRange = timeRanges[nextIndex]
-
-    setSettings(state => ({ ...state, timeRange: nextTimeRange }))
+    setSettings(state => ({ ...state, timeRange }))
   }
 
   return (

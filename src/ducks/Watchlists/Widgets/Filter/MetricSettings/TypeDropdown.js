@@ -14,7 +14,7 @@ const TypeDropdown = ({ isPro, type, onChange, showTimeRangesFilters }) => (
     on='click'
     trigger={
       <Button variant='flat' border className={styles.trigger}>
-        <img src={Filter[type].icon} alt='operator' className={styles.img} />
+        <img src={Filter[type].icon} alt='filter type' className={styles.img} />
       </Button>
     }
     position='bottom'
@@ -47,8 +47,8 @@ const TypeDropdown = ({ isPro, type, onChange, showTimeRangesFilters }) => (
               )}
               onClick={() => (isDisabled ? null : onChange(key))}
             >
-              <img src={icon} alt='operator' className={styles.img} />
-              <span className={styles.label}>{label}</span>
+              <img src={icon} alt='filter type' className={styles.img} />
+              {label}
             </Button>
           </Fragment>
         ) : null

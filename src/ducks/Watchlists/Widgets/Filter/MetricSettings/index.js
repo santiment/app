@@ -1,7 +1,7 @@
 import React from 'react'
 import Input from '@santiment-network/ui/Input'
-import Button from '@santiment-network/ui/Button'
 import TypeDropdown from './TypeDropdown'
+import TimeRangeDropdown from './TimeRangeDropdown'
 import { Filter } from '../types'
 import styles from './index.module.scss'
 
@@ -22,14 +22,11 @@ const FilterMetricSettings = ({
     />
     <Input onChange={onFirstThresholdChange} defaultValue={firstThreshold} />
     {Filter[type].showTimeRange && (
-      <Button
-        className={styles.timerange}
-        border
-        variant='flat'
-        onClick={() => onTimeRangeChange(timeRange)}
-      >
-        {timeRange}
-      </Button>
+      <TimeRangeDropdown
+        timeRange={timeRange}
+        timeRanges={timeRanges}
+        onChange={onTimeRangeChange}
+      />
     )}
   </div>
 )

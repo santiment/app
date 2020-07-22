@@ -95,7 +95,7 @@ export function getTimeRangesByMetric (baseMetric, availableMetrics = []) {
     metric.replace(`${baseMetric.key}_change_`, '')
   )
 
-  return DEFAULT_TIMERANGES.filter(timeRange => timeRanges.includes(timeRange))
+  return DEFAULT_TIMERANGES.filter(({ type }) => timeRanges.includes(type))
 }
 
 // function checkIsRange(filter = []) {
