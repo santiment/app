@@ -91,7 +91,7 @@ function parseSharedComparables (comparables) {
   return arr.map(parseComparable)
 }
 
-function parseMetricSetting (MetricSetting) {
+function parseMetricSetting (MetricSetting = {}) {
   const MetricSettingMap = new Map()
 
   Object.keys(MetricSetting).forEach(key => {
