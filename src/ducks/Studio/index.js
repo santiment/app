@@ -3,7 +3,7 @@ import Sidebar from './Sidebar'
 import Main from './Main'
 import {
   mergeMetricSettingMap,
-  mergeConnectedWidgetsWithSelected
+  mergeConnectedWidgetsWithSelected,
 } from './utils'
 import { DEFAULT_SETTINGS } from './defaults'
 import { Phase, usePhase } from './phases'
@@ -20,7 +20,7 @@ export const Studio = ({
   defaultWidgets,
   defaultSidepanel,
   defaultSettings = DEFAULT_SETTINGS,
-  extensions
+  extensions,
 }) => {
   const [widgets, setWidgets] = useState(defaultWidgets)
   const [settings, setSettings] = useState(defaultSettings)
@@ -28,7 +28,7 @@ export const Studio = ({
   const [selectedMetrics, setSelectedMetrics] = useState([])
   const [selectedWidgets, setSelectedWidgets] = useState([])
   const [selectedMetricSettingsMap, setSelectedMetricSettingsMap] = useState(
-    new Map()
+    new Map(),
   )
   const [isICOPriceDisabled, setIsICOPriceDisabled] = useState(true)
   const [isICOPriceActive, setIsICOPriceActive] = useState(false)
@@ -38,6 +38,7 @@ export const Studio = ({
   const isOverviewOpened = currentPhase.startsWith(Phase.MAPVIEW)
 
   useKeyboardCmdShortcut('m', toggleOverview)
+  useKeyboardCmdShortcut('\\', toggleSidebar)
 
   useEffect(
     () => {
@@ -46,7 +47,7 @@ export const Studio = ({
         setSettings({ ...settings, slug })
       }
     },
-    [defaultSettings.slug]
+    [defaultSettings.slug],
   )
 
   useEffect(
@@ -57,10 +58,10 @@ export const Studio = ({
         setPhase(Phase.MAPVIEW)
       }
     },
-    [selectedMetrics.length]
+    [selectedMetrics.length],
   )
 
-  function toggleOverview () {
+  function toggleOverview() {
     if (isOverviewOpened) {
       onOverviewClose()
     } else {
@@ -68,26 +69,30 @@ export const Studio = ({
     }
   }
 
-  function rerenderWidgets () {
+  function toggleSidebar() {
+    setIsSidebarClosed(!isSidebarClosed)
+  }
+
+  function rerenderWidgets() {
     setWidgets(widgets.slice())
   }
 
-  function toggleSidepanel (key) {
+  function toggleSidepanel(key) {
     setSidepanel(sidepanel === key ? undefined : key)
   }
 
-  function deleteWidget (widget) {
-    setWidgets(widgets.filter(w => w !== widget))
+  function deleteWidget(widget) {
+    setWidgets(widgets.filter((w) => w !== widget))
   }
 
-  function deleteConnectedWidget (connectedWidget, parentWidget) {
+  function deleteConnectedWidget(connectedWidget, parentWidget) {
     parentWidget.connectedWidgets = parentWidget.connectedWidgets.filter(
-      w => w !== connectedWidget
+      (w) => w !== connectedWidget,
     )
     rerenderWidgets()
   }
 
-  function toggleWidgetMetric (widget, metric) {
+  function toggleWidgetMetric(widget, metric) {
     const metrics = deduceItems(widget.metrics, metric)
 
     if (metrics.length === 0 && widget.comparables.length === 0) {
@@ -98,13 +103,13 @@ export const Studio = ({
     }
   }
 
-  function toggleSelectionMetric (metric) {
+  function toggleSelectionMetric(metric) {
     const deducedMetric = deduceItems(selectedMetrics, metric)
     setSelectedMetrics(deducedMetric)
     return deducedMetric
   }
 
-  function toggleSelectionWidget (selectedWidget) {
+  function toggleSelectionWidget(selectedWidget) {
     const newSelectedWidgets = deduceItems(selectedWidgets, selectedWidget)
     const { requiredMetric } = selectedWidget
 
@@ -120,7 +125,7 @@ export const Studio = ({
     return newSelectedWidgets
   }
 
-  function deduceItems (items, item) {
+  function deduceItems(items, item) {
     const newItems = new Set(items)
 
     if (newItems.has(item)) {
@@ -132,19 +137,19 @@ export const Studio = ({
     return [...newItems]
   }
 
-  function changeTimePeriod (from, to, timeRange) {
+  function changeTimePeriod(from, to, timeRange) {
     const interval = getNewInterval(from, to)
 
-    setSettings(state => ({
+    setSettings((state) => ({
       ...state,
       timeRange,
       interval: INTERVAL_ALIAS[interval] || interval,
       from: from.toISOString(),
-      to: to.toISOString()
+      to: to.toISOString(),
     }))
   }
 
-  function onSidebarItemClick (item) {
+  function onSidebarItemClick(item) {
     const { type, key } = item
     let appliedMetrics
     let appliedWidgets
@@ -164,8 +169,8 @@ export const Studio = ({
         setWidgets([
           ...widgets,
           HolderDistributionWidget.new({
-            scrollIntoViewOnMount: true
-          })
+            scrollIntoViewOnMount: true,
+          }),
         ])
       }
     } else {
@@ -177,10 +182,10 @@ export const Studio = ({
     }
   }
 
-  function onWidgetClick (
+  function onWidgetClick(
     widget,
     appliedMetrics = selectedMetrics,
-    appliedWidgets = selectedWidgets
+    appliedWidgets = selectedWidgets,
   ) {
     if (currentPhase === Phase.MAPVIEW) {
       if (widget.chartRef) {
@@ -195,35 +200,38 @@ export const Studio = ({
     widget.metrics = [...newMetrics]
     widget.connectedWidgets = mergeConnectedWidgetsWithSelected(
       widget.connectedWidgets,
-      appliedWidgets
+      appliedWidgets,
     )
     widget.MetricSettingMap = mergeMetricSettingMap(
       widget.MetricSettingMap,
-      selectedMetricSettingsMap
+      selectedMetricSettingsMap,
     )
 
     rerenderWidgets()
     resetSelecion()
   }
 
-  function onNewChartClick () {
+  function onNewChartClick() {
     setWidgets([
       ...widgets,
       ChartWidget.new({
         metrics: selectedMetrics,
         MetricSettingMap: selectedMetricSettingsMap,
-        connectedWidgets: mergeConnectedWidgetsWithSelected([], selectedWidgets)
-      })
+        connectedWidgets: mergeConnectedWidgetsWithSelected(
+          [],
+          selectedWidgets,
+        ),
+      }),
     ])
     resetSelecion()
   }
 
-  function onOverviewClose () {
+  function onOverviewClose() {
     setPhase(Phase.IDLE)
     resetSelecion()
   }
 
-  function resetSelecion () {
+  function resetSelecion() {
     setSelectedWidgets([])
     setSelectedMetrics([])
     setSelectedMetricSettingsMap(new Map())
@@ -278,8 +286,8 @@ export const Studio = ({
           />
         )}
       </main>
-      {React.Children.map(extensions, extension =>
-        React.cloneElement(extension, { widgets, settings, sidepanel })
+      {React.Children.map(extensions, (extension) =>
+        React.cloneElement(extension, { widgets, settings, sidepanel }),
       )}
     </div>
   )
