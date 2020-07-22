@@ -11,6 +11,7 @@ import { getCategoryGraph } from '../../../Studio/Sidebar/utils'
 import { countCategoryActiveMetrics } from '../../../SANCharts/ChartMetricSelector'
 import { getActiveBaseMetrics } from './utils'
 import { useAvailableMetrics } from '../../gql/hooks'
+import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import styles from './index.module.scss'
 
 const VIEWPORT_HEIGHT = window.innerHeight
@@ -27,6 +28,7 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
   const [filter, updateFilter] = useState(filters)
   const [updateWatchlist, { loading }] = useUpdateWatchlist()
   const [availableMetrics] = useAvailableMetrics()
+  const { isPro } = useUserSubscriptionStatus()
 
   useEffect(() => {
     const sidebar = filterRef.current
@@ -168,6 +170,7 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
             isNoFilters={isNoFilters}
             filters={filter}
             updMetricInFilter={updMetricInFilter}
+            isPro={isPro}
           />
         ))}
       </section>

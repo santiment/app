@@ -1,5 +1,5 @@
-import { Combinator, Operator, Filter, DEFAULT_TIMERANGES } from './types'
-import { Metric } from './metrics'
+import { Operator, Filter } from './types'
+import { DEFAULT_TIMERANGES } from './defaults'
 
 export function extractFilterByMetricType (filters = [], metric) {
   return filters.filter(item => item.metric.includes(metric.key))
@@ -56,32 +56,15 @@ function checkIsPercentMetric (filter = []) {
   )
 }
 
-export function getDefaultParams (baseMetric) {
-  const defaultFilterType = Filter.above
-
-  return {
-    isActive: false,
-    metricKey: baseMetric.key,
-    operator: defaultFilterType.key,
-    firstThreshold: '',
-    // secondThreshold: '',
-    timeRange: DEFAULT_TIMERANGES[0]
-  }
-}
-
 export function extractParams (filter = [], filterType, baseMetric) {
-  return {
-    isActive: true,
-    metricKey: extractMetricKey(filter),
-    operator: filterType.key,
-    firstThreshold: extractThreshold(filter, filterType),
-    // secondThreshold,
-    timeRange: extractTimeRange(filter)
-  }
-}
-
-function extractMetricKey (filter = []) {
-  return filter[0].metric
+  return filter.length === 0
+    ? {}
+    : {
+      isActive: true,
+      type: filterType.key,
+      firstThreshold: extractThreshold(filter, filterType),
+      timeRange: extractTimeRange(filter)
+    }
 }
 
 function extractTimeRange (filter = []) {

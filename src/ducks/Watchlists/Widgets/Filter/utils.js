@@ -5,7 +5,7 @@ export function getActiveBaseMetrics (filter) {
     filter.map(({ metric }) => {
       const transformedMetricIndex = metric.indexOf('_change_')
       const baseMetricKey =
-        transformedMetricIndex == -1
+        transformedMetricIndex === -1
           ? metric
           : metric.substring(0, transformedMetricIndex)
 
@@ -15,3 +15,10 @@ export function getActiveBaseMetrics (filter) {
 
   return [...activeMetrics]
 }
+
+export const percentServerValueFormatter = value => value / 100
+
+export const percentValueFormatter = value => value * 100
+
+export const percentMetricFormatter = ({ metric, timeRange = '1d' }) =>
+  `${metric}_change_${timeRange}`

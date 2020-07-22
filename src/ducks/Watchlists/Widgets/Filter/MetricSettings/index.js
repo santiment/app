@@ -1,28 +1,27 @@
 import React from 'react'
 import Input from '@santiment-network/ui/Input'
 import Button from '@santiment-network/ui/Button'
-// import OperatorMenu from './operators/OperatorMenu'
-import { Filter } from './types'
-import styles from './FilterMetricState.module.scss'
+import TypeDropdown from './TypeDropdown'
+import { Filter } from '../types'
+import styles from './index.module.scss'
 
 const FilterMetricSettings = ({
-  operator,
-  onOperatorChange,
-  timeRange,
+  isPro,
   timeRanges,
+  onFilterTypeChange,
   onTimeRangeChange,
-  firstThreshold,
   onFirstThresholdChange,
-  FilterType
+  settings: { firstThreshold, timeRange, type }
 }) => (
   <div className={styles.wrapper}>
-    {/* <OperatorMenu */}
-    {/*   operator={operator} */}
-    {/*   onChange={onOperatorChange} */}
-    {/*   showPercentFilters={timeRanges && timeRanges.length > 0} */}
-    {/* /> */}
+    <TypeDropdown
+      isPro={isPro}
+      type={type}
+      onChange={onFilterTypeChange}
+      showTimeRangesFilters={timeRanges && timeRanges.length > 0}
+    />
     <Input onChange={onFirstThresholdChange} defaultValue={firstThreshold} />
-    {FilterType.showTimeRange && (
+    {Filter[type].showTimeRange && (
       <Button
         className={styles.timerange}
         border

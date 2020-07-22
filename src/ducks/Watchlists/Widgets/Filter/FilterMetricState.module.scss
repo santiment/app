@@ -19,6 +19,7 @@
 .info {
   fill: var(--casper);
   margin-left: auto;
+  cursor: pointer;
 
   &:hover {
     fill: var(--rhino);

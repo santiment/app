@@ -22,7 +22,7 @@ const FilterMetricState = ({
       />
       <span className={styles.label}>{metric.label}</span>
     </div>
-    <MetricExplanation metric={metric} position='right'>
+    <MetricExplanation on='click' metric={metric} position='right'>
       <Icon type='info-round-small' className={styles.info} />
     </MetricExplanation>
   </div>
