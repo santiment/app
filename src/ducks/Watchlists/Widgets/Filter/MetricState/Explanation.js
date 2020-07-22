@@ -9,11 +9,14 @@ const Explanation = ({ firstThreshold, timeRange, type, metric }) => {
 
   const badge = Filter[type].badge || metric.badge || ''
   const label = Filter[type].shortLabel || Filter[type].label
+  const timeText = Filter[type].showTimeRange
+    ? ` compared to ${timeRange} earlier`
+    : ''
 
   return (
     <span
       className={styles.explanation}
-    >{`${label} ${firstThreshold}${badge}`}</span>
+    >{`${label} ${firstThreshold}${badge}${timeText}`}</span>
   )
 }
 
