@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import MetricExplanation from '../../../../SANCharts/MetricExplanation'
@@ -16,10 +17,10 @@ const FilterMetricState = ({
     <div onClick={() => (isAuthor ? onCheckboxClicked() : null)}>
       <Checkbox
         isActive={isActive}
-        disabled={!isAuthor}
+        disabled={!isAuthor && !isActive}
         className={styles.checkbox}
       />
-      <div className={styles.title}>
+      <div className={cx(styles.title, !isAuthor && styles.title__notActive)}>
         <span className={styles.label}>{metric.label}</span>
         <Explanation
           {...settings}
