@@ -5,6 +5,7 @@ import {
   getTimeRangesByMetric,
   extractFilterByMetricType
 } from './detector'
+import { Filter } from './types'
 import MetricState from './MetricState'
 import MetricSettings from './MetricSettings'
 import { DEFAULT_SETTINGS } from './defaults'
@@ -43,21 +44,41 @@ const FilterMetric = ({
     [availableMetrics]
   )
 
-  // useEffect(
-  //   () => {
-  //     if () {
-  //       updMetricInFilter({
-  //         aggregation: 'last',
-  //         dynamicFrom: settings.timeRange,
-  //         dynamicTo: 'now',
-  //         metric: settings.metricKey,
-  //         operator: settings.operator,
-  //         threshold: serverValueFormatter(props.threshold || firstInputValue)
-  //       })
-  //     }
-  //   },
-  //   [settings]
-  // )
+  useEffect(
+    () => {
+      if (settings !== defaultSettings) {
+        const { firstThreshold, type, timeRange, isActive } = settings
+        const { isActive: previousIsActive } = defaultSettings
+
+        const dynamicFrom = Filter[type].showTimeRange ? timeRange : '1d'
+        const aggregation =
+          Filter[type].aggregation || baseMetric.aggregation || 'last'
+        const metric = Filter[type].showTimeRange
+          ? `${baseMetric.key}_change_${timeRange}`
+          : baseMetric.key
+        const operator = Filter[type].operator
+        const formatter = Filter[type].serverValueFormatter
+
+        const newFilter = {
+          aggregation,
+          dynamicFrom,
+          dynamicTo: 'now',
+          metric,
+          operator,
+          threshold: formatter ? formatter(firstThreshold) : firstThreshold
+        }
+
+        if (firstThreshold) {
+          if (previousIsActive !== isActive) {
+            toggleMetricInFilter(newFilter)
+          } else {
+            updMetricInFilter(newFilter)
+          }
+        }
+      }
+    },
+    [settings]
+  )
 
   function onCheckboxClicked () {
     setSettings(state => ({ ...state, isActive: !settings.isActive }))

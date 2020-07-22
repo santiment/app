@@ -10,7 +10,6 @@ export function getFilterType (filter = []) {
     return Filter.above
   }
 
-  // const isRange = checkIsRange(filter)
   const isPercent = checkIsPercentMetric(filter)
   const operators = filter.map(({ operator }) => operator)
 
@@ -97,17 +96,3 @@ export function getTimeRangesByMetric (baseMetric, availableMetrics = []) {
 
   return DEFAULT_TIMERANGES.filter(({ type }) => timeRanges.includes(type))
 }
-
-// function checkIsRange(filter = []) {
-// 	const combinator = filter.filtersCombinator
-//
-// 	if (filter.length == 2 && Combinator[combinator] !== undefined) {
-// 		return true
-// 	}
-//
-// 	if (filter.length === 1 && Combinator[combinator] === undefined) {
-// 		return false
-// 	}
-//
-// 	console.error(`Error in ${filter.metric} combination: ${filter.length} args with ${Combinator[combinator]} combinator`)
-// }

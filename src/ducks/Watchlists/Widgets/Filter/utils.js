@@ -17,8 +17,4 @@ export function getActiveBaseMetrics (filter) {
 }
 
 export const percentServerValueFormatter = value => value / 100
-
 export const percentValueFormatter = value => value * 100
-
-export const percentMetricFormatter = ({ metric, timeRange = '1d' }) =>
-  `${metric}_change_${timeRange}`
