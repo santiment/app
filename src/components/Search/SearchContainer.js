@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import { withRouter } from 'react-router-dom'
 import Icon from '@santiment-network/ui/Icon'
@@ -16,6 +16,9 @@ import styles from './SearchContainer.module.scss'
 const RECENT_ASSETS = 'Recently searched'
 const ASSETS = 'Assets'
 const TRENDING_WORDS = 'Trending words'
+const INPUT_ID = 'projects-search'
+const EDITABLE_TAGS = new Set(['INPUT', 'TEXTAREA'])
+const INPUT_ID_PROPS = { id: INPUT_ID }
 
 const Recent = ({ icon = 'clock', text, onRemove }) => (
   <div className={styles.recent}>
@@ -38,6 +41,8 @@ export const SearchContainer = ({
   const [isFocused, setFocus] = useState(false)
   const [recentAssets, setRecentAssetSuggestions] = useState(getRecentAssets())
 
+  Object.assign(inputProps, INPUT_ID_PROPS)
+
   function addRecentAssetSuggestions (slug) {
     setRecentAssetSuggestions(addRecentAssets(slug))
   }
@@ -59,6 +64,22 @@ export const SearchContainer = ({
     if (isMobile) return
     setFocus(false)
   }
+
+  useEffect(() => {
+    const input = document.querySelector('#' + INPUT_ID)
+    if (!input) return
+
+    function onKeyPress (e) {
+      const { code, target } = e
+      if (code === 'Slash' && !EDITABLE_TAGS.has(target.tagName)) {
+        e.preventDefault()
+        input.focus()
+      }
+    }
+
+    window.addEventListener('keypress', onKeyPress)
+    return () => window.removeEventListener('keypress', onKeyPress)
+  }, [])
 
   return selectedTab === TABS[0].index ? (
     <SearchProjects
@@ -119,6 +140,10 @@ export const SearchContainer = ({
       classes={{ wrapper: className, input: styles.search }}
     />
   )
+}
+
+SearchContainer.defaultProps = {
+  inputProps: INPUT_ID_PROPS
 }
 
 export default withRouter(SearchContainer)

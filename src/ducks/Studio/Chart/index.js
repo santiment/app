@@ -105,7 +105,7 @@ const Canvas = ({
   }
 
   function onMetricSettingsClick (metric) {
-    setMetricSettings(metric)
+    setMetricSettings(metric === metricSettings ? undefined : metric)
   }
 
   function onMetricRemove (metric) {
@@ -126,11 +126,12 @@ const Canvas = ({
             MetricColor={MetricColor}
             activeMetrics={metrics}
             activeEvents={activeEvents}
-            toggleMetric={onMetricRemove}
+            metricSettings={metricSettings}
             loadings={loadings}
             ErrorMsg={ErrorMsg}
             eventLoadings={eventLoadings}
             isSingleWidget={isSingleWidget}
+            toggleMetric={onMetricRemove}
             onMetricHover={onMetricHover}
             onMetricHoverEnd={onMetricHoverEnd}
             onSettingsClick={onMetricSettingsClick}

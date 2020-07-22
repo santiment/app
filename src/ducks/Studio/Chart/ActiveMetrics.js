@@ -11,9 +11,19 @@ import styles from './ActiveMetrics.module.scss'
 const API_TEST_URL =
   'https://api-tests-json.s3.eu-central-1.amazonaws.com/latest_report_stable.json'
 
-const Customization = ({ metric, onClick }) => (
-  <div className={styles.settings} onClick={() => onClick(metric)}>
-    <Icon type='settings' />
+const Customization = ({ metric, isActive, onClick }) => (
+  <div className={cx(styles.settings)}>
+    <div className={cx(styles.settings__visible)}>
+      <div
+        className={cx(
+          styles.settings__btn,
+          isActive && styles.settings__btn_active
+        )}
+        onClick={() => onClick(metric)}
+      >
+        <Icon type='settings' />
+      </div>
+    </div>
   </div>
 )
 
@@ -22,6 +32,7 @@ const MetricButton = ({
   metric,
   colors,
   error,
+  metricSettings,
   isWithIcon,
   isLoading,
   isRemovable,
@@ -82,6 +93,7 @@ const MetricButton = ({
           metric={metric}
           project={project}
         />
+
         {isRemovable && (
           <Icon
             type='close-small'
@@ -89,8 +101,13 @@ const MetricButton = ({
             onClick={() => toggleMetric(metric)}
           />
         )}
+
         {isWithSettings && (
-          <Customization metric={metric} onClick={onSettingsClick} />
+          <Customization
+            metric={metric}
+            onClick={onSettingsClick}
+            isActive={metricSettings === metric}
+          />
         )}
       </Button>
     </Wrapper>
@@ -102,6 +119,7 @@ export default ({
   MetricColor,
   activeMetrics,
   activeEvents = [],
+  metricSettings,
   loadings,
   toggleMetric,
   eventLoadings,
@@ -144,6 +162,7 @@ export default ({
       metric={metric}
       colors={MetricColor}
       error={ErrorMsg[metric.key]}
+      metricSettings={metricSettings}
       isWithIcon={isWithIcon}
       isLoading={loadings.includes(metric)}
       isRemovable={isMoreThanOneMetric && toggleMetric}

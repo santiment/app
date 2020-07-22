@@ -23,6 +23,7 @@ import DialogLoadTemplate from './Dialog/LoadTemplate'
 import DeleteTemplate from './Dialog/Delete/DeleteTemplate'
 import ShareTemplate from './Share/ShareTemplate'
 import { isUserAuthorOfTemplate } from './Dialog/LoadTemplate/Template'
+import { useKeyboardCmdShortcut } from '../hooks'
 import { parseSharedWidgets, translateMultiChartToWidgets } from '../url/parse'
 import { normalizeWidgets } from '../url/generate'
 import ChartWidget from '../Widget/ChartWidget'
@@ -88,9 +89,12 @@ const Template = ({
   const [templates] = useUserTemplates(user && user.id)
   const [updateTemplate] = useUpdateTemplate()
   const [createTemplate] = useCreateTemplate()
+  const [isLoadDialogOpened, setIsLoadDialogOpened] = useState(false)
 
   const projectFromUrl = extractTemplateProject()
   const [urlProject] = useProjectById(projectFromUrl)
+
+  useKeyboardCmdShortcut('l', toggleLoadDialog)
 
   useEffect(
     () => {
@@ -153,6 +157,7 @@ const Template = ({
 
   function closeMenu () {
     setIsMenuOpened(false)
+    closeLoadDialog()
   }
 
   function rerenderTemplate (template) {
@@ -212,6 +217,18 @@ const Template = ({
   })
 
   const isAuthor = isUserAuthorOfTemplate(user, selectedTemplate)
+
+  function openLoadDialog () {
+    setIsLoadDialogOpened(true)
+  }
+
+  function closeLoadDialog () {
+    setIsLoadDialogOpened(false)
+  }
+
+  function toggleLoadDialog () {
+    setIsLoadDialogOpened(!isLoadDialogOpened)
+  }
 
   return (
     <>
@@ -279,16 +296,7 @@ const Template = ({
           )}
 
           <div className={styles.group}>
-            <DialogLoadTemplate
-              onClose={closeMenu}
-              selectedTemplate={selectedTemplate}
-              selectTemplate={onTemplateSelect}
-              updateTemplate={updateTemplate}
-              rerenderTemplate={rerenderTemplate}
-              templates={templates}
-              trigger={<Action>Load</Action>}
-              projectId={projectId}
-            />
+            <Action onClick={openLoadDialog}>Load</Action>
 
             <DialogFormNewTemplate
               {...props}
@@ -319,6 +327,17 @@ const Template = ({
           </div>
         </Panel>
       </ContextMenu>
+
+      <DialogLoadTemplate
+        open={isLoadDialogOpened}
+        onClose={closeMenu}
+        selectedTemplate={selectedTemplate}
+        selectTemplate={onTemplateSelect}
+        updateTemplate={updateTemplate}
+        rerenderTemplate={rerenderTemplate}
+        templates={templates}
+        projectId={projectId}
+      />
     </>
   )
 }
