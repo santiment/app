@@ -1,13 +1,14 @@
 import React from 'react'
-import Input from '@santiment-network/ui/Input'
 import TypeDropdown from './TypeDropdown'
 import TimeRangeDropdown from './TimeRangeDropdown'
+import ValueInput from './ValueInput'
 import { Filter } from '../types'
 import styles from './index.module.scss'
 
 const FilterMetricSettings = ({
   isPro,
   timeRanges,
+  metric,
   onFilterTypeChange,
   onTimeRangeChange,
   onFirstThresholdChange,
@@ -20,7 +21,12 @@ const FilterMetricSettings = ({
       onChange={onFilterTypeChange}
       showTimeRangesFilters={timeRanges && timeRanges.length > 0}
     />
-    <Input onChange={onFirstThresholdChange} defaultValue={firstThreshold} />
+    <ValueInput
+      type={type}
+      metric={metric}
+      defaultValue={firstThreshold}
+      onChange={onFirstThresholdChange}
+    />
     {Filter[type].showTimeRange && (
       <TimeRangeDropdown
         timeRange={timeRange}

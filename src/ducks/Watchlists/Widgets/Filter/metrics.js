@@ -7,16 +7,19 @@ export const Metric = {
   price_usd: {
     label: 'Price',
     category: 'Financial',
+    badge: '$',
     formatter: usdFormatter
   },
   marketcap_usd: {
     category: 'Financial',
     label: 'Marketcap',
+    badge: '$',
     formatter: usdFormatter
   },
   volume_usd: {
     category: 'Financial',
     label: 'Volume',
+    badge: '$',
     formatter: usdFormatter
   },
   dev_activity: {

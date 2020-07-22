@@ -87,6 +87,7 @@ const FilterMetric = ({
       {settings.isActive && isAuthor && (
         <MetricSettings
           isPro={isPro}
+          metric={baseMetric}
           settings={settings}
           timeRanges={timeRanges}
           onFilterTypeChange={onFilterTypeChange}

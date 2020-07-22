@@ -5,14 +5,12 @@ import FilterMetric from './FilterMetric'
 import { NO_GROUP } from '../../../Studio/Sidebar/utils'
 import styles from './Category.module.scss'
 
-const DEFAULT_OPENED_CATEGORY = {
-  Financial: true
-}
+// const DEFAULT_OPENED_CATEGORY = {
+//   Financial: true
+// }
 
 const Category = ({ title, groups, counter, ...rest }) => {
-  const [isCollapsed, setIsCollapsed] = useState(
-    !DEFAULT_OPENED_CATEGORY[title]
-  )
+  const [isCollapsed, setIsCollapsed] = useState(false)
 
   function onToggleClick () {
     setIsCollapsed(!isCollapsed)
