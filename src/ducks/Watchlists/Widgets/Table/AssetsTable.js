@@ -16,6 +16,7 @@ import Filter from '../Filter'
 import { COLUMNS, COMMON_SETTINGS, COLUMNS_SETTINGS } from './asset-columns'
 import '../../../../pages/Projects/ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
+import ScreenerSignalDialog from '../../../Signals/ScreenerSignal/ScreenerSignalDialog'
 
 export const CustomHeadComponent = ({ children, className, ...rest }) => (
   <Sticky enabled innerZ={1}>
@@ -119,12 +120,15 @@ const AssetsTable = ({
             <AssetsToggleColumns columns={columns} onChange={toggleColumn} />
           )}
           {type === 'screener' && (
-            <Filter
-              watchlist={watchlist}
-              // projectsCount={projectsCount}
-              projectsCount={items.length}
-              isAuthor={isAuthor}
-            />
+            <>
+              <ScreenerSignalDialog watchlist={watchlist} classes={styles} />
+              <Filter
+                watchlist={watchlist}
+                // projectsCount={projectsCount}
+                projectsCount={items.length}
+                isAuthor={isAuthor}
+              />
+            </>
           )}
         </div>
       </div>
