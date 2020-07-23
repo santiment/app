@@ -18,17 +18,17 @@ export const Metric = {
     label: 'Volume',
     badge: '$'
   },
-  dev_activity: {
+  dev_activity_1d: {
     category: 'Development',
     label: 'Development Activity',
+    descriptionKey: 'dev_activity',
     aggregation: 'sum'
   },
   active_addresses_24h: {
     category: 'On-chain',
     group: 'Network Activity',
     label: 'Daily Active Addresses',
-    moreInfoLink:
-      'https://academy.santiment.net/metrics/daily-active-addresses/'
+    descriptionKey: 'daily_active_addresses'
   }
 }
 
@@ -36,7 +36,7 @@ export const metrics = [
   Metric.price_usd,
   Metric.marketcap_usd,
   Metric.volume_usd,
-  Metric.dev_activity,
+  Metric.dev_activity_1d,
   Metric.active_addresses_24h
 ]
 

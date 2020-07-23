@@ -56,9 +56,6 @@ export const Description = {
   [Metric.daily_active_addresses.key]:
     'Shows the number of unique addresses involved in [Project Ticker] transactions daily. This metric indicates the daily level of crowd interaction (or speculation) with a token. ',
 
-  active_addresses_24h:
-    'Shows the number of unique addresses involved in [Project Ticker] transactions daily. This metric indicates the daily level of crowd interaction (or speculation) with a token. ',
-
   [Metric.supply_on_exchanges.key]: (
     <>
       What amount of coins/tokens are stored in known exchange wallets.{' '}
