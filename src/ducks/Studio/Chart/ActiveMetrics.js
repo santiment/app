@@ -8,18 +8,40 @@ import MetricErrorExplanation from './MetricErrorExplanation/MetricErrorExplanat
 import { getMetricLabel } from '../../dataHub/metrics/labels'
 import styles from './ActiveMetrics.module.scss'
 
+const API_TEST_URL =
+  'https://api-tests-json.s3.eu-central-1.amazonaws.com/latest_report_stable.json'
+
+const Customization = ({ metric, isActive, onClick }) => (
+  <div className={cx(styles.settings)}>
+    <div className={cx(styles.settings__visible)}>
+      <div
+        className={cx(
+          styles.settings__btn,
+          isActive && styles.settings__btn_active
+        )}
+        onClick={() => onClick(metric)}
+      >
+        <Icon type='settings' />
+      </div>
+    </div>
+  </div>
+)
+
 const MetricButton = ({
   className,
   metric,
   colors,
   error,
+  metricSettings,
   isWithIcon,
   isLoading,
   isRemovable,
+  isWithSettings,
   toggleMetric,
   withDescription,
   errorsForMetrics,
   project,
+  onSettingsClick,
   ...rest
 }) => {
   const { key, dataKey = key, node, comparedTicker } = metric
@@ -45,7 +67,12 @@ const MetricButton = ({
       <Button
         {...rest}
         border
-        className={cx(styles.btn, error && styles.btn_error, className)}
+        className={cx(
+          styles.btn,
+          error && styles.btn_error,
+          isWithSettings && styles.btn_settings,
+          className
+        )}
         aria-invalid={error}
       >
         {isWithIcon ? (
@@ -66,6 +93,7 @@ const MetricButton = ({
           metric={metric}
           project={project}
         />
+
         {isRemovable && (
           <Icon
             type='close-small'
@@ -73,27 +101,35 @@ const MetricButton = ({
             onClick={() => toggleMetric(metric)}
           />
         )}
+
+        {isWithSettings && (
+          <Customization
+            metric={metric}
+            onClick={onSettingsClick}
+            isActive={metricSettings === metric}
+          />
+        )}
       </Button>
     </Wrapper>
   )
 }
-
-const API_TEST_URL =
-  'https://api-tests-json.s3.eu-central-1.amazonaws.com/latest_report_stable.json'
 
 export default ({
   className,
   MetricColor,
   activeMetrics,
   activeEvents = [],
+  metricSettings,
   loadings,
   toggleMetric,
   eventLoadings,
   ErrorMsg = {},
   isSingleWidget,
   isWithIcon = true,
+  isWithSettings = false,
   onMetricHover,
   onMetricHoverEnd,
+  onSettingsClick,
   project
 }) => {
   const isMoreThanOneMetric = activeMetrics.length > 1 || !isSingleWidget
@@ -126,12 +162,15 @@ export default ({
       metric={metric}
       colors={MetricColor}
       error={ErrorMsg[metric.key]}
+      metricSettings={metricSettings}
       isWithIcon={isWithIcon}
       isLoading={loadings.includes(metric)}
       isRemovable={isMoreThanOneMetric && toggleMetric}
+      isWithSettings={isWithSettings}
       toggleMetric={toggleMetric}
       onMouseEnter={onMetricHover && (e => onMetricHover(metric, e))}
       onMouseLeave={onMetricHoverEnd && (() => onMetricHoverEnd(metric))}
+      onSettingsClick={onSettingsClick}
       errorsForMetrics={errors}
       project={project}
     />

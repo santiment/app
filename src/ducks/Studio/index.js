@@ -38,6 +38,7 @@ export const Studio = ({
   const isOverviewOpened = currentPhase.startsWith(Phase.MAPVIEW)
 
   useKeyboardCmdShortcut('m', toggleOverview)
+  useKeyboardCmdShortcut('\\', toggleSidebar)
 
   useEffect(
     () => {
@@ -68,6 +69,10 @@ export const Studio = ({
     }
   }
 
+  function toggleSidebar () {
+    setIsSidebarClosed(!isSidebarClosed)
+  }
+
   function rerenderWidgets () {
     setWidgets(widgets.slice())
   }
@@ -88,9 +93,15 @@ export const Studio = ({
   }
 
   function toggleWidgetMetric (widget, metric) {
-    const metrics = deduceItems(widget.metrics, metric)
+    const metrics = Array.isArray(metric)
+      ? metric
+      : deduceItems(widget.metrics, metric)
 
-    if (metrics.length === 0 && widget.comparables.length === 0) {
+    if (
+      widget.Widget !== HolderDistributionWidget &&
+      metrics.length === 0 &&
+      widget.comparables.length === 0
+    ) {
       deleteWidget(widget)
     } else {
       widget.metrics = metrics
@@ -212,7 +223,10 @@ export const Studio = ({
       ChartWidget.new({
         metrics: selectedMetrics,
         MetricSettingMap: selectedMetricSettingsMap,
-        connectedWidgets: mergeConnectedWidgetsWithSelected([], selectedWidgets)
+        connectedWidgets: mergeConnectedWidgetsWithSelected(
+          [],
+          selectedWidgets
+        )
       })
     ])
     resetSelecion()
