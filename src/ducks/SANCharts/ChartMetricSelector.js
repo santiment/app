@@ -40,7 +40,7 @@ const getMetricSuggestions = categories => {
   return suggestions
 }
 
-const countCategoryActiveMetrics = (activeMetrics = []) => {
+export const countCategoryActiveMetrics = (activeMetrics = []) => {
   const counter = {}
   for (let i = 0; i < activeMetrics.length; i++) {
     let { category } = activeMetrics[i]
