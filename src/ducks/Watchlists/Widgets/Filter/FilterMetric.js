@@ -21,7 +21,7 @@ const FilterMetric = ({
   isPro
 }) => {
   const [settings, setSettings] = useState(defaultSettings)
-  const [timeRanges, setTimeRanges] = useState(
+  const [percentTimeRanges, setPercentTimeRanges] = useState(
     getTimeRangesByMetric(baseMetric, availableMetrics)
   )
 
@@ -36,9 +36,9 @@ const FilterMetric = ({
 
   useEffect(
     () => {
-      if (timeRanges.length === 0) {
+      if (percentTimeRanges.length === 0) {
         const timeRanges = getTimeRangesByMetric(baseMetric, availableMetrics)
-        setTimeRanges(timeRanges)
+        setPercentTimeRanges(timeRanges)
       }
     },
     [availableMetrics]
@@ -50,7 +50,10 @@ const FilterMetric = ({
         const { firstThreshold, type, timeRange, isActive } = settings
         const { isActive: previousIsActive } = defaultSettings
 
-        const dynamicFrom = Filter[type].showTimeRange ? timeRange : '1d'
+        const dynamicFrom =
+          Filter[type].showTimeRange || baseMetric.showTimeRange
+            ? timeRange
+            : '1d'
         const aggregation =
           Filter[type].aggregation || baseMetric.aggregation || 'last'
         const metric = Filter[type].showTimeRange
@@ -115,7 +118,7 @@ const FilterMetric = ({
           isPro={isPro}
           metric={baseMetric}
           settings={settings}
-          timeRanges={timeRanges}
+          percentTimeRanges={percentTimeRanges}
           onFilterTypeChange={onFilterTypeChange}
           onTimeRangeChange={onTimeRangeChange}
           onFirstThresholdChange={onFirstThresholdChange}

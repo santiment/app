@@ -3,38 +3,53 @@ import TypeDropdown from './TypeDropdown'
 import TimeRangeDropdown from './TimeRangeDropdown'
 import ValueInput from './ValueInput'
 import { Filter } from '../types'
+import { DEFAULT_TIMERANGES } from '../defaults'
 import styles from './index.module.scss'
 
 const FilterMetricSettings = ({
   isPro,
-  timeRanges,
+  percentTimeRanges,
   metric,
   onFilterTypeChange,
   onTimeRangeChange,
   onFirstThresholdChange,
   settings: { firstThreshold, timeRange, type }
-}) => (
-  <div className={styles.wrapper}>
-    <TypeDropdown
-      isPro={isPro}
-      type={type}
-      onChange={onFilterTypeChange}
-      showTimeRangesFilters={timeRanges && timeRanges.length > 0}
-    />
-    <ValueInput
-      type={type}
-      metric={metric}
-      defaultValue={firstThreshold}
-      onChange={onFirstThresholdChange}
-    />
-    {Filter[type].showTimeRange && (
-      <TimeRangeDropdown
-        timeRange={timeRange}
-        timeRanges={timeRanges}
-        onChange={onTimeRangeChange}
+}) => {
+  const isShowTimeRange = Filter[type].showTimeRange || metric.showTimeRange
+  let timeRanges = null
+
+  if (isShowTimeRange) {
+    if (Filter[type].showTimeRange) {
+      timeRanges = percentTimeRanges
+    } else if (metric.showTimeRange) {
+      timeRanges = DEFAULT_TIMERANGES
+    }
+  }
+
+  return (
+    <div className={styles.wrapper}>
+      <TypeDropdown
+        isPro={isPro}
+        type={type}
+        onChange={onFilterTypeChange}
+        showPercentFilters={percentTimeRanges && percentTimeRanges.length > 0}
       />
-    )}
-  </div>
-)
+      <ValueInput
+        type={type}
+        metric={metric}
+        defaultValue={firstThreshold}
+        onChange={onFirstThresholdChange}
+      />
+      {timeRanges && (
+        <TimeRangeDropdown
+          timeRange={timeRange}
+          timeRanges={timeRanges}
+          withInput={metric.showTimeRange && !Filter[type].showTimeRange}
+          onChange={onTimeRangeChange}
+        />
+      )}
+    </div>
+  )
+}
 
 export default FilterMetricSettings

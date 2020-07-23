@@ -34,3 +34,21 @@
     margin-right: 10px;
   }
 }
+
+.input {
+  color: var(--waterloo);
+  padding-right: 50px;
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin: 8px 2px 4px;
+  }
+
+  &__badge {
+    position: absolute;
+    right: 13px;
+    color: var(--casper);
+  }
+}

@@ -9,7 +9,7 @@ import styles from './TypeDropdown.module.scss'
 
 const METRIC_SEPARATOR = Filter.percent_up.key
 
-const TypeDropdown = ({ isPro, type, onChange, showTimeRangesFilters }) => (
+const TypeDropdown = ({ isPro, type, onChange, showPercentFilters }) => (
   <Tooltip
     on='click'
     trigger={
@@ -27,7 +27,7 @@ const TypeDropdown = ({ isPro, type, onChange, showTimeRangesFilters }) => (
         const badge = Filter[key].badge
         let isShow = true
 
-        if (!showTimeRangesFilters && showTimeRange) {
+        if (!showPercentFilters && showTimeRange) {
           isShow = false
         }
 

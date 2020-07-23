@@ -22,7 +22,8 @@ export const Metric = {
     category: 'Development',
     label: 'Development Activity',
     descriptionKey: 'dev_activity',
-    aggregation: 'avg'
+    aggregation: 'avg',
+    showTimeRange: true
   },
   active_addresses_24h: {
     category: 'On-chain',
