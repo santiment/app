@@ -107,7 +107,6 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
       newFilter = [...filter, metric]
     }
 
-    // console.log(metric, newFilter)
     updateFilter(newFilter)
     updateWatchlist(watchlist, {
       function:
@@ -147,15 +146,17 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
         />
         <div className={cx(styles.top, !isAuthor && styles.top__column)}>
           <span className={styles.count}>{projectsCount} assets</span>
-          {!isNoFilters && (
+          {!isNoFilters && isAuthor && (
             <Button
-              className={styles.reset}
+              className={styles.button}
               onClick={() => (isNoFilters ? null : resetAll())}
-              disabled={!isAuthor}
             >
-              {isAuthor
-                ? 'Reset all'
-                : "View only. You aren't the author of this list"}
+              Reset all
+            </Button>
+          )}
+          {!isAuthor && (
+            <Button className={styles.button} disabled>
+              View only. You aren't the author of this list
             </Button>
           )}
           {loading && <Loader className={styles.loader} />}

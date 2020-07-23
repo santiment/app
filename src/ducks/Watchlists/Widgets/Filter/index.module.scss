@@ -41,7 +41,7 @@
   }
 }
 
-.reset {
+.button {
   color: var(--jungle-green);
   margin-left: -12px;
 }
@@ -55,11 +55,12 @@
 .top {
   margin: 19px 32px 13px;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   min-height: 32px;
 
   &__column {
     flex-direction: column;
+    align-items: baseline;
   }
 }
 

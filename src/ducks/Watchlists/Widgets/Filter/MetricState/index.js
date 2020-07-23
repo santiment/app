@@ -22,11 +22,13 @@ const FilterMetricState = ({
       />
       <div className={cx(styles.title, !isAuthor && styles.title__notActive)}>
         <span className={styles.label}>{metric.label}</span>
-        <Explanation
-          {...settings}
-          metric={metric}
-          className={styles.explanation}
-        />
+        {isActive && (
+          <Explanation
+            {...settings}
+            metric={metric}
+            className={styles.explanation}
+          />
+        )}
       </div>
     </div>
     <MetricExplanation on='click' metric={metric} position='right'>

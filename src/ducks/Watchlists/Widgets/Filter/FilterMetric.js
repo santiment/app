@@ -75,6 +75,10 @@ const FilterMetric = ({
             updMetricInFilter(newFilter)
           }
         }
+
+        if (!firstThreshold && isActive && defaultSettings.isActive) {
+          toggleMetricInFilter(newFilter)
+        }
       }
     },
     [settings]
@@ -88,7 +92,7 @@ const FilterMetric = ({
     setSettings(state => ({ ...state, type }))
   }
 
-  function onFirstThresholdChange ({ currentTarget: { value } }) {
+  function onFirstThresholdChange (value) {
     const newValue = isNaN(parseFloat(value)) ? '' : parseFloat(value)
     setSettings(state => ({ ...state, firstThreshold: newValue }))
   }
