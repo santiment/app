@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
-import MetricExplanation from '../../SANCharts/MetricExplanation'
-import MetricIcon from '../../SANCharts/MetricIcon'
 import MetricErrorExplanation from './MetricErrorExplanation/MetricErrorExplanation'
+import MetricIcon from '../../SANCharts/MetricIcon'
 import { getMetricLabel } from '../../dataHub/metrics/labels'
 import styles from './ActiveMetrics.module.scss'
 
@@ -32,7 +31,6 @@ const MetricButton = ({
   isRemovable,
   isWithSettings,
   toggleMetric,
-  withDescription,
   errorsForMetrics,
   project,
   onSettingsClick,
@@ -42,69 +40,53 @@ const MetricButton = ({
 
   const label = getMetricLabel(metric)
 
-  const Wrapper = ({ children }) =>
-    withDescription ? (
-      <MetricExplanation
-        metric={metric}
-        withChildren
-        closeTimeout={22}
-        offsetX={8}
-      >
-        {children}
-      </MetricExplanation>
-    ) : (
-      <>{children}</>
-    )
-
   return (
-    <Wrapper>
-      <Button
-        {...rest}
-        border
-        className={cx(
-          styles.btn,
-          error && styles.btn_error,
-          isWithSettings && styles.btn_settings,
-          className
-        )}
-        aria-invalid={error}
-      >
-        {isWithIcon ? (
-          isLoading ? (
-            <div className={styles.loader} />
-          ) : (
-            <MetricIcon
-              node={node}
-              color={colors[dataKey]}
-              className={styles.label}
-            />
-          )
-        ) : null}
-        {label}
-        {comparedTicker && ` (${comparedTicker})`}
-        <MetricErrorExplanation
-          errorsForMetrics={errorsForMetrics}
-          metric={metric}
-          project={project}
+    <Button
+      {...rest}
+      border
+      className={cx(
+        styles.btn,
+        error && styles.btn_error,
+        isWithSettings && styles.btn_settings,
+        className
+      )}
+      aria-invalid={error}
+    >
+      {isWithIcon ? (
+        isLoading ? (
+          <div className={styles.loader} />
+        ) : (
+          <MetricIcon
+            node={node}
+            color={colors[dataKey]}
+            className={styles.label}
+          />
+        )
+      ) : null}
+      {label}
+      {comparedTicker && ` (${comparedTicker})`}
+      <MetricErrorExplanation
+        errorsForMetrics={errorsForMetrics}
+        metric={metric}
+        project={project}
+      />
+
+      {isRemovable && (
+        <Icon
+          type='close-small'
+          className={styles.icon}
+          onClick={() => toggleMetric(metric)}
         />
+      )}
 
-        {isRemovable && (
-          <Icon
-            type='close-small'
-            className={styles.icon}
-            onClick={() => toggleMetric(metric)}
-          />
-        )}
-
-        {isWithSettings && (
-          <Customization
-            metric={metric}
-            onClick={onSettingsClick}
-            isActive={metricSettings === metric}
-          />
-        )}
-      </Button>
-    </Wrapper>
+      {isWithSettings && (
+        <Customization
+          metric={metric}
+          onClick={onSettingsClick}
+          isActive={metricSettings === metric}
+        />
+      )}
+    </Button>
   )
 }
 
