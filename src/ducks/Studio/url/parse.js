@@ -91,15 +91,30 @@ function parseSharedComparables (comparables) {
   return arr.map(parseComparable)
 }
 
+function parseMetricSetting (MetricSetting = {}) {
+  const MetricSettingMap = new Map()
+
+  Object.keys(MetricSetting).forEach(key => {
+    const metric = Metric[key]
+    if (!metric) return
+
+    MetricSettingMap.set(metric, MetricSetting[key])
+  })
+
+  return MetricSettingMap
+}
+
 export function parseSharedWidgets (sharedWidgets) {
   return sharedWidgets.map(
-    ({ widget, metrics, comparables, connectedWidgets }) =>
+    ({ widget, metrics, comparables, connectedWidgets, colors, settings }) =>
       TypeToWidget[widget].new({
         metrics: metrics.map(key => convertKeyToMetric(key)).filter(Boolean),
         comparables: comparables.map(parseComparable),
         connectedWidgets: connectedWidgets
           ? connectedWidgets.map(parseConnectedWidget)
-          : []
+          : [],
+        MetricColor: colors,
+        MetricSettingMap: parseMetricSetting(settings)
       })
   )
 }

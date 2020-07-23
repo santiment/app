@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import cx from 'classnames'
-import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
+import ChartMetricSettings from './MetricSettings'
 import ChartPaywallInfo from './PaywallInfo'
 import ChartActiveMetrics from './ActiveMetrics'
 import IcoPrice from './IcoPrice'
@@ -17,8 +17,9 @@ import Chart from '../../Chart'
 import Signals from '../../Chart/Signals'
 import { useMetricCategories } from '../../Chart/Synchronizer'
 import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
-import { useChartColorsWithHighlight } from '../../Chart/colors'
-import { checkIsLoggedIn } from '../../../pages/UserSelectors'
+import { useHighlightMetricColor } from '../../Chart/colors'
+import { useUser } from '../../../stores/user'
+import { useMetricColor } from '../Widget/ChartWidgetColorProvider'
 import styles from './index.module.scss'
 
 const Canvas = ({
@@ -41,9 +42,9 @@ const Canvas = ({
   syncedTooltipDate,
   isICOPriceActive,
   isSingleWidget,
-  isAnon,
   isSelectingRange,
   changeTimePeriod,
+  rerenderWidgets,
   TopLeftComponent = ChartActiveMetrics,
   setIsICOPriceDisabled,
   setOptions,
@@ -54,22 +55,26 @@ const Canvas = ({
   onRangeSelectStart,
   syncTooltips
 }) => {
+  const { isLoggedIn } = useUser()
   const categories = useMetricCategories(metrics)
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
   const [focusedMetricKey, setFocusedMetricKey] = useState()
   const [focusTimer, setFocusTimer] = useState()
-  const MetricColor = useChartColorsWithHighlight(metrics, focusedMetricKey)
+  const [metricSettings, setMetricSettings] = useState()
+  const MetricColor = useMetricColor()
+  const HighlightedMetricColor = useHighlightMetricColor(
+    MetricColor,
+    focusedMetricKey
+  )
   const domainGroups = useDomainGroups(metrics)
   const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
   const allTimeData = useAllTimeData(metrics, settings)
-
-  const mirrorDomainGroups = extractMirrorMetricsDomainGroups(domainGroups)
-  const isBlurred = isAnon && index > 1
+  const mirrorDomainGroups = useMemo(
+    () => extractMirrorMetricsDomainGroups(domainGroups),
+    [domainGroups]
+  )
+  const isBlurred = !isLoggedIn && index > 1
   const scale = options.isLogScale ? logScale : linearScale
-
-  if (widget) {
-    widget.MetricColor = MetricColor
-  }
 
   useEffect(onMetricHoverEnd, [metrics])
 
@@ -99,23 +104,37 @@ const Canvas = ({
     }
   }
 
+  function onMetricSettingsClick (metric) {
+    setMetricSettings(metric === metricSettings ? undefined : metric)
+  }
+
+  function onMetricRemove (metric) {
+    if (metric === metricSettings) {
+      setMetricSettings()
+    }
+    toggleMetric(metric)
+  }
+
   return (
     <div className={cx(styles.wrapper, className)}>
       <div className={cx(styles.top, isBlurred && styles.blur)}>
         <div className={styles.metrics}>
           <TopLeftComponent
+            isWithSettings
             className={styles.metric}
             settings={settings}
             MetricColor={MetricColor}
             activeMetrics={metrics}
             activeEvents={activeEvents}
-            toggleMetric={toggleMetric}
+            metricSettings={metricSettings}
             loadings={loadings}
             ErrorMsg={ErrorMsg}
             eventLoadings={eventLoadings}
             isSingleWidget={isSingleWidget}
+            toggleMetric={onMetricRemove}
             onMetricHover={onMetricHover}
             onMetricHoverEnd={onMetricHoverEnd}
+            onSettingsClick={onMetricSettingsClick}
           />
         </div>
 
@@ -163,6 +182,16 @@ const Canvas = ({
           />
         </div>
       </div>
+
+      {metricSettings && (
+        <ChartMetricSettings
+          className={styles.settings}
+          metric={metricSettings}
+          widget={widget}
+          rerenderWidgets={rerenderWidgets}
+        />
+      )}
+
       <Chart
         {...categories}
         {...options}
@@ -172,7 +201,7 @@ const Canvas = ({
         brushData={allTimeData}
         chartRef={chartRef}
         className={cx(styles.chart, isBlurred && styles.blur)}
-        MetricColor={MetricColor}
+        MetricColor={HighlightedMetricColor}
         metrics={metrics}
         scale={scale}
         domainGroups={
@@ -211,8 +240,4 @@ const Canvas = ({
   )
 }
 
-const mapStateToProps = state => ({
-  isAnon: !checkIsLoggedIn(state)
-})
-
-export default connect(mapStateToProps)(Canvas)
+export default Canvas

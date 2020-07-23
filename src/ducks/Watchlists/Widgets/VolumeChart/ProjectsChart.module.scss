@@ -38,3 +38,18 @@
 
   @include text('caption', 'm');
 }
+
+.sortedBy {
+  margin-left: auto;
+}
+
+.sortedByLabel {
+  margin-right: 4px;
+}
+
+.range {
+  @include text('caption');
+
+  color: var(--waterloo);
+  display: flex;
+}

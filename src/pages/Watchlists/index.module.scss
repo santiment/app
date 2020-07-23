@@ -39,16 +39,29 @@
   @include text('body-1', 'l');
 
   margin: 0 16px 12px;
+
+  @include responsive('laptop', 'tablet') {
+    margin-left: 0;
+  }
 }
 
 .recents {
   margin-bottom: 32px;
   padding: 0 16px;
+
+  @include responsive('laptop', 'tablet') {
+    padding: 0;
+  }
 }
 
 .gainers {
   padding: 0 16px;
   margin-bottom: 16px;
+
+  @include responsive('laptop', 'tablet') {
+    margin-top: 24px;
+    padding: 0;
+  }
 }
 
 .watchlists {

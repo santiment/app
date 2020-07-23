@@ -33,7 +33,7 @@ const ChartTooltip = ({
           <div className={styles.title}>{labelFormatter(label, payload)}</div>
         )}
         <div className={styles.content}>
-          {payload.map(p => {
+          {payload.map((p, index) => {
             const {
               key,
               dataKey = key,
@@ -52,7 +52,7 @@ const ChartTooltip = ({
             const foundedSettings = TooltipSetting[key] || {}
             return (
               <div
-                key={dataKey}
+                key={dataKey || index}
                 style={{ '--color': color }}
                 className={styles.metric}
               >
@@ -81,14 +81,14 @@ const ChartTooltip = ({
 export const renderLegend = ({ payload: items, labelFormatter }) => {
   return (
     <div className={styles.legend}>
-      {items.map(item => {
+      {items.map((item, index) => {
         const {
           payload: { color, fill, opacity, dataKey }
         } = item
 
         return (
           <div
-            key={dataKey}
+            key={dataKey || index}
             style={{ '--color': color || fill }}
             opacity={opacity}
             className={cx(styles.metric, styles.label)}

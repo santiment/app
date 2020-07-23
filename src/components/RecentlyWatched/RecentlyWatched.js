@@ -119,10 +119,9 @@ const RecentlyWatched = ({
                   isSimplifiedView={true}
                   key={watchlist.name}
                   watchlist={watchlist}
-                  name={watchlist.name}
                   to={getWatchlistLink(watchlist)}
-                  slugs={watchlist.listItems.map(({ project }) => project.slug)}
                   onClick={onWatchlistClick}
+                  {...watchlist}
                 />
               ))}
           </div>

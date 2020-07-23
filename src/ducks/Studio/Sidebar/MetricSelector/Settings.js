@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Input from '@santiment-network/ui/Input'
-import { useDebounceEffect } from '../../../../hooks'
 import styles from './Settings.module.scss'
 
 // TODO: If query throws an error, metric will be disabled and settings will be collapsed [@vanguard | May 6, 2020]
@@ -10,9 +9,12 @@ const Setting = ({ settings, metric, setMetricSettingMap }) => {
   const [lastValidValue, setLastValidValue] = useState(defaultValue)
   const [error, setError] = useState()
 
-  useDebounceEffect(
-    () => !error && +value && updateMetricSettings(+value),
-    400,
+  useEffect(
+    () => {
+      if (!error && +value) {
+        updateMetricSettings(+value)
+      }
+    },
     [value]
   )
 

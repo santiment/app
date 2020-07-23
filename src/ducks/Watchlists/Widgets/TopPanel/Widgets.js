@@ -11,7 +11,7 @@ const Widgets = ({
   widgets: { isPriceChart, isPriceTreeMap, isVolumeTreeMap } = {},
   togglers = {}
 }) => {
-  const { priceToggle, togglePriceTreeMap, toggleVolumeTreeMap } = togglers
+  const { priceToggle, togglePriceTreeMap } = togglers
   const [isOpen, setOpen] = useState(false)
 
   useEffect(
@@ -38,15 +38,9 @@ const Widgets = ({
       <Panel variant='modal' className={styles.wrapper}>
         <ToggleWidget
           index={1}
-          title='Top: Price up'
+          title='Price up'
           isActive={isPriceTreeMap}
           toggle={() => togglePriceTreeMap(!isPriceTreeMap)}
-        />
-        <ToggleWidget
-          index={1}
-          title='Top: Social volume'
-          isActive={isVolumeTreeMap}
-          toggle={() => toggleVolumeTreeMap(!isVolumeTreeMap)}
         />
         <ToggleWidget
           index={0}

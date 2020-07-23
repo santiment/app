@@ -172,6 +172,7 @@ const ChartSettingsContextMenu = ({
             fluid
             variant='ghost'
             metrics={activeMetrics}
+            data={data}
             title={title}
             chartRef={chartRef}
           >

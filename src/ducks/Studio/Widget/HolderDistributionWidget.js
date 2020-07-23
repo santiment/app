@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import Widget from './Widget'
 import ChartWidget, { Chart } from './ChartWidget'
+import { usePressedModifier } from '../hooks'
 import Sidepanel, { CloseButton } from '../Chart/Sidepanel'
 import { TOP_HOLDERS_PANE } from '../Chart/Sidepanel/panes'
 import { TOP_HOLDER_METRICS } from '../Chart/Sidepanel/HolderDistribution/metrics'
@@ -15,9 +16,10 @@ const Title = ({ settings }) => (
 const HolderDistributionWidget = ({ widget, ...props }) => {
   const [isOpened, setIsOpened] = useState(true)
   const MetricColor = useChartColors(widget.metrics)
+  const PressedModifier = usePressedModifier()
 
   function toggleWidgetMetric (metric) {
-    props.toggleWidgetMetric(widget, metric)
+    props.toggleWidgetMetric(widget, PressedModifier.cmdKey ? [metric] : metric)
   }
 
   function toggleSidepane () {

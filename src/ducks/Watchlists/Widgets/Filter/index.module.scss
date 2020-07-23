@@ -15,6 +15,7 @@
   right: 0;
   transition: transform 0.3s ease-in-out;
   transform: translateX(376px);
+  user-select: none;
 }
 
 .active {
@@ -40,13 +41,9 @@
   }
 }
 
-.reset {
+.button {
   color: var(--jungle-green);
   margin-left: -12px;
-
-  // &__disabled {
-  //   color: var(--waterloo);
-  // }
 }
 
 .loader {
@@ -58,10 +55,12 @@
 .top {
   margin: 19px 32px 13px;
   display: flex;
-  align-items: baseline;
+  align-items: center;
+  min-height: 32px;
 
   &__column {
     flex-direction: column;
+    align-items: baseline;
   }
 }
 
