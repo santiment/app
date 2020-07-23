@@ -21,7 +21,7 @@ import {
 } from './settings'
 import { drawWatermark } from './watermark'
 import { ResizeListener, onResize } from './resize'
-import { clearCtx, findPointIndexByDate } from './utils'
+import { clearCtx, findPointByDate } from './utils'
 import { domainModifier } from './domain'
 import { paintConfigs, dayBrushPaintConfig } from './paintConfigs'
 import { useTheme } from '../../stores/ui/theme'
@@ -53,16 +53,15 @@ const Chart = ({
   hideWatermark,
   onPlotTooltip,
   useCustomTooltip,
+  isLoading,
+  isCartesianGridActive,
+  isWatermarkLighter,
   syncTooltips = () => {},
   onRangeSelect,
   onRangeSelectStart,
   onPointClick = () => {},
-  isLoading,
-
-  isCartesianGridActive,
   resizeDependencies,
   onBrushChangeEnd,
-  isWatermarkLighter,
   children
 }) => {
   const { isNightMode } = useTheme()
@@ -241,8 +240,7 @@ const Chart = ({
       if (data.length === 0) return
 
       if (syncedTooltipDate) {
-        const point =
-          chart.points[findPointIndexByDate(chart.points, syncedTooltipDate)]
+        const point = findPointByDate(chart.points, syncedTooltipDate)
         if (point) {
           if (useCustomTooltip) {
             onPlotTooltip(point)

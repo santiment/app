@@ -64,11 +64,41 @@ export const findTooltipMetric = metrics =>
   metrics.find(({ node }) => node === 'line') ||
   metrics[0]
 
-export function findPointIndexByDate (points, target) {
+export function findPointByDate (points, target) {
   const lastIndex = points.length - 1
   const firstDate = points[0].value
   const lastDate = points[lastIndex].value
 
   const factor = lastIndex / (lastDate - firstDate)
-  return Math.round((target - firstDate) * factor)
+  let index = Math.round((target - firstDate) * factor)
+  let point = points[index]
+
+  if (!point) return
+
+  const foundDatetime = point.value
+
+  if (foundDatetime === target) {
+    return point
+  }
+
+  // Adjusting found date to be closest to the target date
+  if (foundDatetime < target) {
+    index += 1
+    while (index < points.length) {
+      point = points[index]
+      if (point.value >= target) {
+        return point
+      }
+      index += 1
+    }
+  } else {
+    index -= 1
+    while (index > -1) {
+      point = points[index]
+      if (point.value <= target) {
+        return point
+      }
+      index -= 1
+    }
+  }
 }

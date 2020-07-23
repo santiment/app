@@ -33,7 +33,7 @@ const Chart = ({
   onProjectSelect,
   ...props
 }) => {
-  const [syncedTooltipDate, syncTooltips] = useState()
+  const [syncedTooltipDate, setSyncedTooltipDate] = useState()
   const [isSelectingRange, setIsSelectingRange] = useState(false)
   const [selectedDate, setSelectedDate] = useState()
   const [selectedDatesRange, setSelectedDatesRange] = useState()
@@ -45,6 +45,12 @@ const Chart = ({
     () => widgets.map(({ metrics }) => metrics).flat(),
     [widgets]
   )
+
+  function syncTooltips (datetime) {
+    if (isSingleWidget) return
+
+    setSyncedTooltipDate(datetime)
+  }
 
   function changeDatesRange (from, to) {
     setSelectedDate()
