@@ -25,11 +25,12 @@ export const Metric = {
     aggregation: 'avg',
     showTimeRange: true
   },
-  active_addresses_24h: {
+  daily_active_addresses: {
     category: 'On-chain',
     group: 'Network Activity',
     label: 'Daily Active Addresses',
-    descriptionKey: 'daily_active_addresses'
+    aggregation: 'avg',
+    showTimeRange: true
   }
 }
 
@@ -38,7 +39,7 @@ export const metrics = [
   Metric.marketcap_usd,
   Metric.volume_usd,
   Metric.dev_activity_1d,
-  Metric.active_addresses_24h
+  Metric.daily_active_addresses
 ]
 
 Object.keys(Metric).forEach(key => {

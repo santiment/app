@@ -11,6 +11,7 @@ const Explanation = ({ firstThreshold, timeRange, type, metric }) => {
   let label = Filter[type].shortLabel || Filter[type].label
   label = label.toLowerCase()
 
+  const aggregation = metric.aggregation ? `(${metric.aggregation}) ` : ''
   const badge = Filter[type].badge || metric.badge || ''
   const timeText = Filter[type].showTimeRange
     ? ` compared to ${timeRange} earlier`
@@ -20,7 +21,10 @@ const Explanation = ({ firstThreshold, timeRange, type, metric }) => {
 
   return (
     <span className={styles.explanation}>
-      {`${label} ${millify(firstThreshold, 10)}${badge}${timeText}`}
+      {`${aggregation}${label} ${millify(
+        firstThreshold,
+        10
+      )}${badge}${timeText}`}
     </span>
   )
 }
