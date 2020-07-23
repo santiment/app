@@ -19,7 +19,8 @@ const WatchlistContextMenu = ({
   hasCSV,
   isDesktop,
   name,
-  isMonitored
+  isMonitored,
+  watchlist
 }) => {
   if (!(isAuthor || hasCSV)) return null
 
@@ -37,7 +38,7 @@ const WatchlistContextMenu = ({
       <Panel variant='modal' className={styles.wrapper}>
         {isAuthor && (
           <div className={styles.block}>
-            <VisibilityToggle />
+            <VisibilityToggle watchlist={watchlist} />
           </div>
         )}
         <div className={styles.block}>

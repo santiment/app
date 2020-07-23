@@ -69,6 +69,7 @@ const WatchlistActions = ({
         <>
           {isLoggedIn && (
             <WatchlistContextMenu
+              watchlist={watchlist}
               isAuthor={isAuthor}
               id={id}
               name={title}

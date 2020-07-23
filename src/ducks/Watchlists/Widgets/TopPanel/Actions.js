@@ -6,8 +6,6 @@ import UIButton from '@santiment-network/ui/Button'
 import UIIcon from '@santiment-network/ui/Icon'
 import Delete from '../../Actions/Delete'
 import Copy from '../../Actions/Copy'
-import ShareModalTrigger from '../../../../components/Share/ShareModalTrigger'
-import VisibilityToggle from '../../Actions/ChangeVisibility'
 import styles from './Actions.module.scss'
 
 export const Icon = ({ className, ...props }) => (
@@ -23,7 +21,7 @@ export const Button = ({ className, ...props }) => (
   />
 )
 
-const Actions = ({ isAuthor, id, name, shareLink }) => {
+const Actions = ({ isAuthor, id, name }) => {
   return (
     <ContextMenu
       trigger={
@@ -36,11 +34,6 @@ const Actions = ({ isAuthor, id, name, shareLink }) => {
       align='end'
     >
       <Panel variant='modal' className={styles.wrapper}>
-        {isAuthor && (
-          <div className={styles.block}>
-            <VisibilityToggle />
-          </div>
-        )}
         <Copy
           id={id}
           trigger={
@@ -50,17 +43,6 @@ const Actions = ({ isAuthor, id, name, shareLink }) => {
             </Button>
           }
         />
-        {shareLink && (
-          <ShareModalTrigger
-            shareLink={shareLink}
-            trigger={props => (
-              <Button {...props}>
-                <Icon type='share' />
-                Share screener
-              </Button>
-            )}
-          />
-        )}
         {isAuthor && (
           <Delete
             title='Do you want to delete this screener?'
