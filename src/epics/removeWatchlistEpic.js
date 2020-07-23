@@ -6,7 +6,7 @@ import { ALL_WATCHLISTS_QUERY } from '../queries/WatchlistGQL'
 import * as actions from './../actions/types'
 
 const removeUserListGQL = gql`
-  mutation removeUserList($id: Int!) {
+  mutation removeWatchlist($id: Int!) {
     removeUserList(id: $id) {
       id
     }

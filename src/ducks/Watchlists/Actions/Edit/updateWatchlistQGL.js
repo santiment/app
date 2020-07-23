@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 export const updateUserListGQL = gql`
-  mutation updateUserList(
+  mutation updateWatchlist(
     $id: Int!
     $isPublic: Boolean
     $name: String
