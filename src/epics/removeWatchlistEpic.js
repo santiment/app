@@ -9,6 +9,7 @@ const removeUserListGQL = gql`
   mutation removeWatchlist($id: Int!) {
     removeUserList(id: $id) {
       id
+      name
     }
   }
 `
@@ -19,6 +20,8 @@ const removeWatchlistEpic = (action$, store, { client }) =>
     .debounceTime(200)
     .mergeMap(action => {
       const id = +action.payload.id
+      const name = action.payload.name
+
       if (!id) {
         return Observable.of({
           type: actions.USER_REMOVE_ASSET_LIST_FAILED,
@@ -34,7 +37,8 @@ const removeWatchlistEpic = (action$, store, { client }) =>
           __typename: 'Mutation',
           removeUserList: {
             __typename: 'UserList',
-            id
+            id,
+            name
           }
         },
         update: proxy => {
@@ -50,7 +54,12 @@ const removeWatchlistEpic = (action$, store, { client }) =>
             Observable.of({
               type: actions.USER_REMOVE_ASSET_LIST_SUCCESS
             }),
-            Observable.of(showNotification('Removed watchlist'))
+            Observable.of(
+              showNotification({
+                variant: 'success',
+                title: `“${name}” have been successfully deleted`
+              })
+            )
           )
         })
         .catch(error => {

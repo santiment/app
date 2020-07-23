@@ -65,6 +65,7 @@ const Actions = ({ isAuthor, id, name, shareLink }) => {
           <Delete
             title='Do you want to delete this screener?'
             id={id}
+            name={name}
             trigger={
               <Button>
                 <Icon type='remove' />

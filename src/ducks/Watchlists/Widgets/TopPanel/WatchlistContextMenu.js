@@ -87,6 +87,7 @@ const WatchlistContextMenu = ({
           {isAuthor && (
             <Delete
               id={id}
+              name={name}
               trigger={
                 <Button variant='ghost' fluid>
                   Delete

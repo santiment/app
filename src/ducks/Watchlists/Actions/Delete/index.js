@@ -7,10 +7,10 @@ class WatchlistDeleteDialog extends ConfirmDialog {}
 
 const mapDispatchToProps = dispatch => {
   return {
-    onApprove: id => {
+    onApprove: (id, name) => {
       dispatch({
         type: USER_REMOVE_ASSET_LIST,
-        payload: { id }
+        payload: { id, name }
       })
     },
     redirect: () => dispatch(push('/assets'))
