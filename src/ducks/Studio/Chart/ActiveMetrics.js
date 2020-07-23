@@ -12,15 +12,9 @@ const API_TEST_URL =
   'https://api-tests-json.s3.eu-central-1.amazonaws.com/latest_report_stable.json'
 
 const Customization = ({ metric, isActive, onClick }) => (
-  <div className={cx(styles.settings)}>
-    <div className={cx(styles.settings__visible)}>
-      <div
-        className={cx(
-          styles.settings__btn,
-          isActive && styles.settings__btn_active
-        )}
-        onClick={() => onClick(metric)}
-      >
+  <div className={cx(styles.settings, isActive && styles.settings_active)}>
+    <div className={styles.settings__visible}>
+      <div className={styles.settings__btn} onClick={() => onClick(metric)}>
         <Icon type='settings' />
       </div>
     </div>
