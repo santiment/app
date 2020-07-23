@@ -379,12 +379,10 @@ export const TriggerForm = ({
 
 TriggerForm.propTypes = propTypes
 
-export const mapTriggerStateToProps = state => {
-  return {
-    isTelegramConnected: isTelegramConnectedAndEnabled(state),
-    isEmailConnected: selectIsEmailConnected(state)
-  }
-}
+export const mapTriggerStateToProps = state => ({
+  isTelegramConnected: isTelegramConnectedAndEnabled(state),
+  isEmailConnected: selectIsEmailConnected(state)
+})
 
 const enhance = compose(
   connect(state => {

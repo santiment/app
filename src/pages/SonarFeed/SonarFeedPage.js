@@ -70,7 +70,7 @@ const SonarFeed = ({
 
   useEffect(() => {
     sendParams()
-  })
+  }, [])
 
   useEffect(
     () => {

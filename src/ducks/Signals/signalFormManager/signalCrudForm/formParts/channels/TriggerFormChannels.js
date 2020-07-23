@@ -39,6 +39,12 @@ const TriggerFormChannels = ({
   setFieldValue,
   isNew
 }) => {
+  console.log(
+    '2 isTelegramConnected',
+    isTelegramConnected,
+    'isEmailConnected',
+    isEmailConnected
+  )
   const [isWebPushEnabled, setWebPushEnabled] = useState(true)
   const [webhook, setWebhook] = useState('')
   const [disabledChannels, setDisabledChannels] = useState([])
@@ -78,6 +84,7 @@ const TriggerFormChannels = ({
   useEffect(
     () => {
       let newChannels = channels
+      console.log('isNew', isNew)
       if (isNew) {
         if (!isTelegramConnected) {
           newChannels = newChannels.filter(
@@ -90,6 +97,7 @@ const TriggerFormChannels = ({
         }
       }
 
+      console.log('setFieldValue 1', newChannels)
       setFieldValue('channels', newChannels)
     },
     [isTelegramConnected, isEmailConnected]
@@ -102,13 +110,6 @@ const TriggerFormChannels = ({
       }
     },
     [isWebPushEnabled, channels]
-  )
-
-  useEffect(
-    () => {
-      calculateDisabledChannels()
-    },
-    [isTelegramConnected, isEmailConnected, isWebPushEnabled]
   )
 
   useEffect(
@@ -136,6 +137,7 @@ const TriggerFormChannels = ({
       }
 
       setRequiredChannels(required)
+      calculateDisabledChannels()
     },
     [isTelegramConnected, isEmailConnected, isWebPushEnabled]
   )
@@ -147,8 +149,15 @@ const TriggerFormChannels = ({
 
     if (channel) {
       channel.webhook = val
+      console.log('setFieldValue 2', channels)
       setFieldValue('channels', channels)
     } else {
+      console.log('setFieldValue 3', [
+        ...channels,
+        {
+          webhook: val
+        }
+      ])
       setFieldValue('channels', [
         ...channels,
         {
@@ -187,6 +196,7 @@ const TriggerFormChannels = ({
       }
     }
 
+    console.log('setFieldValue 4', newChannels)
     setFieldValue('channels', newChannels)
   }
 

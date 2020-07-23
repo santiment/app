@@ -14,9 +14,9 @@ import ServerErrorMessage from './../../../../components/ServerErrorMessage'
 import AssetsToggleColumns from './AssetsToggleColumns'
 import Filter from '../Filter'
 import { COLUMNS, COMMON_SETTINGS, COLUMNS_SETTINGS } from './asset-columns'
+import ScreenerSignalDialog from '../../../Signals/ScreenerSignal/ScreenerSignalDialog'
 import '../../../../pages/Projects/ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
-import ScreenerSignalDialog from '../../../Signals/ScreenerSignal/ScreenerSignalDialog'
 
 export const CustomHeadComponent = ({ children, className, ...rest }) => (
   <Sticky enabled innerZ={1}>
@@ -121,7 +121,10 @@ const AssetsTable = ({
           )}
           {type === 'screener' && (
             <>
-              <ScreenerSignalDialog watchlist={watchlist} classes={styles} />
+              <ScreenerSignalDialog
+                watchlistId={watchlist.id}
+                classes={styles}
+              />
               <Filter
                 watchlist={watchlist}
                 // projectsCount={projectsCount}

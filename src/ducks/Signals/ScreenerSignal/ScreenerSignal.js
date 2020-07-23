@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { compose } from 'recompose'
 import { Formik, Form } from 'formik'
 import { connect } from 'react-redux'
 import isEqual from 'lodash.isequal'
@@ -26,7 +25,7 @@ export const SreenerSignal = ({
   onSubmit
 }) => {
   const { id = 0 } = signal
-  const isNew = id > 0
+  const isNew = !(id > 0)
   const [initialValues, setInitialValues] = useState(
     mapTriggerToFormProps(signal)
   )
@@ -37,16 +36,20 @@ export const SreenerSignal = ({
     },
     [signal]
   )
-
-  console.log('initialValues', initialValues)
+  console.log(
+    '1 isTelegramConnected',
+    isTelegramConnected,
+    'isEmailConnected',
+    isEmailConnected
+  )
 
   return (
     <Formik
       initialValues={initialValues}
       enableReinitialize
       validate={validateChannels}
-      onSubmit={values => {
-        onSubmit(mapFormPropsToScreenerTrigger(values))
+      onSubmit={formProps => {
+        onSubmit(mapFormPropsToScreenerTrigger({ formProps, signal }))
       }}
     >
       {({
@@ -61,8 +64,6 @@ export const SreenerSignal = ({
 
         const isValidForm =
           isValid || !errors || Object.keys(errors).length === 0
-
-        console.log('values', values)
 
         return (
           <Form className={styles.form}>
@@ -104,12 +105,11 @@ export const SreenerSignal = ({
               <Button
                 type='submit'
                 disabled={!isValidForm || isSubmitting}
-                isActive={isValidForm && !isSubmitting}
-                border
-                variant='ghost'
+                variant='fill'
+                accent={'positive'}
                 className={styles.submit}
               >
-                {id ? 'Update' : 'Create'}
+                {id ? 'Save changes' : 'Create'}
               </Button>
               <Button
                 variant='ghost'
@@ -128,6 +128,4 @@ export const SreenerSignal = ({
   )
 }
 
-const enhance = compose(connect(mapTriggerStateToProps))
-
-export default enhance(SreenerSignal)
+export default connect(state => mapTriggerStateToProps(state))(SreenerSignal)

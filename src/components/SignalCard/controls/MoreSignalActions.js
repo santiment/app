@@ -79,7 +79,7 @@ const MoreSignalActions = ({
               to={`/sonar/signal/${signalId}/edit${window.location.search}`}
               className={styles.link}
             >
-              Edit signal
+              Edit
             </Link>
           </div>
         )}

@@ -1,6 +1,8 @@
 import React from 'react'
 import SignalMasterModalForm from '../signalModal/SignalMasterModalForm'
 import styles from './OpenSignalLink.module.scss'
+import ScreenerSignalDialog from '../ScreenerSignal/ScreenerSignalDialog'
+import { METRIC_TYPES } from '../utils/constants'
 
 const PERCENT_REGEXP = new RegExp(
   '((0x)?[0-9a-fA-F]{40})|( {1}[-\\$]?\\d+[,.]?\\d{0,}[,.$%]?\\d{0,}[$%]?[^x| ])|( {1}[-\\$]?\\d+[,.$%]?\\d{0,}[$%]? )',
@@ -71,18 +73,37 @@ const prepareTitle = title => {
   return checkingTitle
 }
 
-const OpenSignalLink = ({ signal: { id, title }, children }) => (
-  <SignalMasterModalForm
-    id={id}
-    defaultOpen={false}
-    canRedirect={false}
-    trigger={
-      <div>
-        <div className={styles.link}>{prepareTitle(title)}</div>
-        {children}
-      </div>
+const OpenSignalLink = ({
+  signal: {
+    id,
+    title,
+    settings: { type }
+  },
+  signal,
+  children
+}) => {
+  const trigger = (
+    <div>
+      <div className={styles.link}>{prepareTitle(title)}</div>
+      {children}
+    </div>
+  )
+
+  switch (type) {
+    case METRIC_TYPES.SCREENER_SIGNAL: {
+      return <ScreenerSignalDialog signal={signal} trigger={trigger} />
     }
-  />
-)
+    default: {
+      return (
+        <SignalMasterModalForm
+          id={id}
+          defaultOpen={false}
+          canRedirect={false}
+          trigger={trigger}
+        />
+      )
+    }
+  }
+}
 
 export default OpenSignalLink

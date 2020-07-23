@@ -2,9 +2,15 @@
 
 .btn {
   color: var(--fiord);
+
+  &:hover {
+    svg {
+      fill: var(--jungle-green);
+    }
+  }
 }
 
-.icon {
+.iconAlert {
   margin-right: 8px;
   fill: var(--casper);
 }

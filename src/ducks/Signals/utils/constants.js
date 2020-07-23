@@ -49,7 +49,8 @@ export const PRICE_VOLUME_DIFFERENCE = 'price_volume_difference'
 
 export const METRIC_TYPES = {
   WALLET_MOVEMENT: 'wallet_movement',
-  METRIC_SIGNAL: 'metric_signal'
+  METRIC_SIGNAL: 'metric_signal',
+  SCREENER_SIGNAL: 'screener_signal'
 }
 
 export const SIGNAL_METRIC_TYPES = {

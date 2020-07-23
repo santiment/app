@@ -390,11 +390,11 @@ const getFormTrendingWords = ({ settings: { operation, target } }) => {
   }
 }
 
-export const mapFormPropsToScreenerTrigger = formProps => {
-  const { description, title, channels } = formProps
-  const trigger = { ...SCREENER_DEFAULT_SIGNAL, description, title }
+export const mapFormPropsToScreenerTrigger = ({ formProps, signal }) => {
+  const { description, title } = formProps
+  const trigger = { ...SCREENER_DEFAULT_SIGNAL, ...signal, description, title }
 
-  trigger.settings.channels = channels
+  trigger.settings.channel = getChannels(formProps)
 
   return trigger
 }
@@ -604,7 +604,8 @@ const mapToFormChannel = channelValue => {
     return channelValue
   }
 
-  return CHANNELS_MAP.find(({ value }) => value === channelValue).label
+  return CHANNELS_MAP.find(({ value }) => value === channelValue.toLowerCase())
+    .label
 }
 
 export const getChannels = ({ channels }) => {
