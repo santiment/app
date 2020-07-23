@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
-import MetricExplanation from '../../SANCharts/MetricExplanation'
-import MetricIcon from '../../SANCharts/MetricIcon'
 import MetricErrorExplanation from './MetricErrorExplanation/MetricErrorExplanation'
+import MetricIcon from '../../SANCharts/MetricIcon'
 import { getMetricLabel } from '../../dataHub/metrics/labels'
 import styles from './ActiveMetrics.module.scss'
 
@@ -12,15 +11,9 @@ const API_TEST_URL =
   'https://api-tests-json.s3.eu-central-1.amazonaws.com/latest_report_stable.json'
 
 const Customization = ({ metric, isActive, onClick }) => (
-  <div className={cx(styles.settings)}>
-    <div className={cx(styles.settings__visible)}>
-      <div
-        className={cx(
-          styles.settings__btn,
-          isActive && styles.settings__btn_active
-        )}
-        onClick={() => onClick(metric)}
-      >
+  <div className={cx(styles.settings, isActive && styles.settings_active)}>
+    <div className={styles.settings__visible}>
+      <div className={styles.settings__btn} onClick={() => onClick(metric)}>
         <Icon type='settings' />
       </div>
     </div>
@@ -38,7 +31,6 @@ const MetricButton = ({
   isRemovable,
   isWithSettings,
   toggleMetric,
-  withDescription,
   errorsForMetrics,
   project,
   onSettingsClick,
@@ -48,69 +40,53 @@ const MetricButton = ({
 
   const label = getMetricLabel(metric)
 
-  const Wrapper = ({ children }) =>
-    withDescription ? (
-      <MetricExplanation
-        metric={metric}
-        withChildren
-        closeTimeout={22}
-        offsetX={8}
-      >
-        {children}
-      </MetricExplanation>
-    ) : (
-      <>{children}</>
-    )
-
   return (
-    <Wrapper>
-      <Button
-        {...rest}
-        border
-        className={cx(
-          styles.btn,
-          error && styles.btn_error,
-          isWithSettings && styles.btn_settings,
-          className
-        )}
-        aria-invalid={error}
-      >
-        {isWithIcon ? (
-          isLoading ? (
-            <div className={styles.loader} />
-          ) : (
-            <MetricIcon
-              node={node}
-              color={colors[dataKey]}
-              className={styles.label}
-            />
-          )
-        ) : null}
-        {label}
-        {comparedTicker && ` (${comparedTicker})`}
-        <MetricErrorExplanation
-          errorsForMetrics={errorsForMetrics}
-          metric={metric}
-          project={project}
+    <Button
+      {...rest}
+      border
+      className={cx(
+        styles.btn,
+        error && styles.btn_error,
+        isWithSettings && styles.btn_settings,
+        className
+      )}
+      aria-invalid={error}
+    >
+      {isWithIcon ? (
+        isLoading ? (
+          <div className={styles.loader} />
+        ) : (
+          <MetricIcon
+            node={node}
+            color={colors[dataKey]}
+            className={styles.label}
+          />
+        )
+      ) : null}
+      {label}
+      {comparedTicker && ` (${comparedTicker})`}
+      <MetricErrorExplanation
+        errorsForMetrics={errorsForMetrics}
+        metric={metric}
+        project={project}
+      />
+
+      {isRemovable && (
+        <Icon
+          type='close-small'
+          className={styles.icon}
+          onClick={() => toggleMetric(metric)}
         />
+      )}
 
-        {isRemovable && (
-          <Icon
-            type='close-small'
-            className={styles.icon}
-            onClick={() => toggleMetric(metric)}
-          />
-        )}
-
-        {isWithSettings && (
-          <Customization
-            metric={metric}
-            onClick={onSettingsClick}
-            isActive={metricSettings === metric}
-          />
-        )}
-      </Button>
-    </Wrapper>
+      {isWithSettings && (
+        <Customization
+          metric={metric}
+          onClick={onSettingsClick}
+          isActive={metricSettings === metric}
+        />
+      )}
+    </Button>
   )
 }
 

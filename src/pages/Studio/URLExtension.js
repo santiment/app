@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { generateUrlV2 } from '../../ducks/Studio/url/generate'
-import { updateHistory } from '../../utils/utils'
 
 const URLExtension = ({ history, settings, widgets, sidepanel }) => {
   useEffect(
@@ -12,7 +11,13 @@ const URLExtension = ({ history, settings, widgets, sidepanel }) => {
 
   useEffect(
     () => {
-      updateHistory('?' + generateUrlV2({ settings, widgets, sidepanel }))
+      history.replace(
+        `${window.location.pathname}?${generateUrlV2({
+          settings,
+          widgets,
+          sidepanel
+        })}`
+      )
     },
     [settings, widgets, sidepanel]
   )

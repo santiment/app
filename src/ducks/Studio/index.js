@@ -223,10 +223,7 @@ export const Studio = ({
       ChartWidget.new({
         metrics: selectedMetrics,
         MetricSettingMap: selectedMetricSettingsMap,
-        connectedWidgets: mergeConnectedWidgetsWithSelected(
-          [],
-          selectedWidgets
-        )
+        connectedWidgets: mergeConnectedWidgetsWithSelected([], selectedWidgets)
       })
     ])
     resetSelecion()
