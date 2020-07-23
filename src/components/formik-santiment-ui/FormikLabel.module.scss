@@ -7,7 +7,7 @@
   overflow: hidden;
   color: var(--waterloo);
 
-  @include text('caption');
+  @include text('body-3', 'm');
 }
 
 .inner {

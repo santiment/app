@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import cx from 'classnames'
 import { compose } from 'recompose'
 import { Formik, Form } from 'formik'
 import { connect } from 'react-redux'
@@ -7,63 +6,47 @@ import isEqual from 'lodash.isequal'
 import FormikEffect from '../../../components/formik-santiment-ui/FormikEffect'
 import FormikLabel from '../../../components/formik-santiment-ui/FormikLabel'
 import Button from '@santiment-network/ui/Button'
-import { MAX_DESCR_LENGTH } from '../utils/constants'
 import {
-  validateTriggerForm,
-  getNewDescription,
+  mapFormPropsToScreenerTrigger,
   mapTriggerToFormProps,
-  mapFormPropsToTrigger
+  validateChannels
 } from '../utils/utils'
-import FormikTextarea from '../../../components/formik-santiment-ui/FormikTextarea'
 import TriggerFormChannels from '../signalFormManager/signalCrudForm/formParts/channels/TriggerFormChannels'
 import externalStyles from './../signalFormManager/signalCrudForm/signal/TriggerForm.module.scss'
 import { mapTriggerStateToProps } from '../signalFormManager/signalCrudForm/signal/TriggerForm'
-
-const getTitle = (formData, id) => {
-  const isUpdate = id > 0
-  const publicWord = formData.isPublic ? 'public' : 'private'
-  if (isUpdate) {
-    return `Update ${publicWord} alert`
-  } else {
-    return `Create ${publicWord} alert`
-  }
-}
+import SignalFormDescription from '../signalFormManager/signalCrudForm/formParts/description/SignalFormDescription'
+import { TriggerFormBlockDivider } from '../signalFormManager/signalCrudForm/formParts/block/TriggerFormBlock'
+import styles from './ScreenerSignal.module.scss'
 
 export const SreenerSignal = ({
-  stateSignal,
-  stateSignal: { id, settings },
+  signal,
   isTelegramConnected = false,
   isEmailConnected = false,
-  setTitle
+  onCancel,
+  onSubmit
 }) => {
-  const isNew = !id
+  const { id = 0 } = signal
+  const isNew = id > 0
   const [initialValues, setInitialValues] = useState(
-    mapTriggerToFormProps(stateSignal)
+    mapTriggerToFormProps(signal)
   )
 
   useEffect(
     () => {
-      setInitialValues(mapTriggerToFormProps(settings))
+      setInitialValues(mapTriggerToFormProps(signal))
     },
-    [stateSignal]
+    [signal]
   )
 
-  useEffect(
-    () => {
-      setTitle && setTitle(getTitle(initialValues, id))
-    },
-    [initialValues.isPublic]
-  )
+  console.log('initialValues', initialValues)
 
   return (
     <Formik
       initialValues={initialValues}
-      isInitialValid={!isNew}
       enableReinitialize
-      validate={validateTriggerForm}
+      validate={validateChannels}
       onSubmit={values => {
-        console.log(values)
-        console.log(mapFormPropsToTrigger(values))
+        onSubmit(mapFormPropsToScreenerTrigger(values))
       }}
     >
       {({
@@ -79,24 +62,23 @@ export const SreenerSignal = ({
         const isValidForm =
           isValid || !errors || Object.keys(errors).length === 0
 
+        console.log('values', values)
+
         return (
-          <Form>
+          <Form className={styles.form}>
             <FormikEffect
               onChange={(current, prev) => {
                 let { values: newValues } = current
 
                 if (!isEqual(newValues, prev.values)) {
                   validateForm()
-
-                  if (isNew) {
-                    !newValues.descriptionChangedByUser &&
-                      setFieldValue('description', getNewDescription(newValues))
-                  }
                 }
               }}
             />
 
-            <div className={externalStyles.triggerFormItem}>
+            <div className={styles.block}>
+              <FormikLabel text='Notify me via' />
+
               <TriggerFormChannels
                 isNew={isNew}
                 channels={channels}
@@ -105,41 +87,38 @@ export const SreenerSignal = ({
                 isEmailConnected={isEmailConnected}
                 setFieldValue={setFieldValue}
               />
+            </div>
 
+            <TriggerFormBlockDivider className={styles.divider} />
+
+            <div className={styles.block}>
               <div className={externalStyles.row}>
-                <div
-                  className={cx(
-                    externalStyles.Field,
-                    externalStyles.fieldFilled
-                  )}
-                >
-                  <FormikLabel
-                    text={`Description (${
-                      (description || '').length
-                    }/${MAX_DESCR_LENGTH})`}
-                  />
-                  <FormikTextarea
-                    placeholder='Description of the alert'
-                    name='description'
-                    className={externalStyles.descriptionTextarea}
-                    rowsCount={3}
-                    maxLength={MAX_DESCR_LENGTH}
-                    onChange={() =>
-                      setFieldValue('descriptionChangedByUser', true)
-                    }
-                  />
-                </div>
+                <SignalFormDescription
+                  description={description}
+                  setFieldValue={setFieldValue}
+                />
               </div>
+            </div>
 
+            <div className={styles.actions}>
               <Button
                 type='submit'
                 disabled={!isValidForm || isSubmitting}
                 isActive={isValidForm && !isSubmitting}
-                variant={'fill'}
-                accent='positive'
-                className={externalStyles.submitButton}
+                border
+                variant='ghost'
+                className={styles.submit}
               >
                 {id ? 'Update' : 'Create'}
+              </Button>
+              <Button
+                variant='ghost'
+                disabled={isSubmitting}
+                border
+                className={styles.cancel}
+                onClick={onCancel}
+              >
+                Cancel
               </Button>
             </div>
           </Form>
