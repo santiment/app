@@ -20,6 +20,7 @@ export const TOPICS = [
     slug: 'fed OR unlimited OR infinite OR money OR printing OR dollar',
     title: 'Unlimited dollar printing'
   },
+  { slug: 'twitter OR hack', title: 'Twitter hack' },
   { slug: 'bitmex OR mex', title: 'Bitmex faces a lawsuit' },
   { slug: 'sngls OR singulardtv OR snglsdao OR content', title: 'Solana AMA' },
   { slug: 'chromia OR chr OR project', title: 'Chromia AMA' },
@@ -33,10 +34,6 @@ export const TOPICS = [
   {
     slug: 'moons OR vault OR reddit OR moon OR bricks',
     title: 'Reddit launching ERC20 tokens'
-  },
-  {
-    slug: 'craig OR satoshi OR wright OR message OR addresses',
-    title: 'Craig Wright is a fraud'
   }
 ]
 
@@ -65,8 +62,8 @@ export const INDEX_PAGE_GROUPS = [
         slug: 'riot OR riots'
       },
       {
-        title: 'Bought the bottom?',
-        slug: 'buy OR bought OR buying OR bottom'
+        title: 'Twitter "Send me your crypto to double" hack',
+        slug: 'twitter OR hack'
       },
       {
         title: '"Bart" Pattern',
