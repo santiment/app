@@ -7,9 +7,10 @@ const Input = ({ defaultValue, onChange, ...props }) => {
   const inputRef = useRef()
 
   useEffect(resize, [value])
+  useEffect(() => setValue(defaultValue), [defaultValue])
 
   function resize () {
-    inputRef.current.style.width = value.length + 1 + 'ch'
+    inputRef.current.style.width = value.toString().length + 1 + 'ch'
   }
 
   function onInputChange ({ target: { value } }) {
