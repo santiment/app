@@ -1,7 +1,3 @@
-// all percent metrics exists as a part of base metric.
-// base metric: price_usd
-// percent metric: price_usd_change_1d
-
 export const Metric = {
   price_usd: {
     label: 'Price',
@@ -24,7 +20,8 @@ export const Metric = {
     descriptionKey: 'dev_activity',
     percentMetricKey: 'dev_activity',
     aggregation: 'avg',
-    showTimeRange: true
+    showTimeRange: true,
+    defaultTimeRange: '30d'
   },
   daily_active_addresses: {
     category: 'On-chain',
