@@ -22,6 +22,7 @@ export const Metric = {
     category: 'Development',
     label: 'Development Activity',
     descriptionKey: 'dev_activity',
+    percentMetricKey: 'dev_activity',
     aggregation: 'avg',
     showTimeRange: true
   },
@@ -29,10 +30,15 @@ export const Metric = {
     category: 'On-chain',
     group: 'Network Activity',
     label: 'Daily Active Addresses',
+    percentMetricKey: 'active_addresses_24h',
     aggregation: 'avg',
     showTimeRange: true
   }
 }
+
+Object.keys(Metric).forEach(key => {
+  Metric[key].key = key
+})
 
 export const metrics = [
   Metric.price_usd,
@@ -42,6 +48,7 @@ export const metrics = [
   Metric.daily_active_addresses
 ]
 
-Object.keys(Metric).forEach(key => {
-  Metric[key].key = key
-})
+export const MetricAlias = {
+  active_addresses_24h: Metric.daily_active_addresses,
+  dev_activity: Metric.dev_activity
+}

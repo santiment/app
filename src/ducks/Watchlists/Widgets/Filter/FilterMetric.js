@@ -39,9 +39,33 @@ const FilterMetric = ({
       if (percentTimeRanges.length === 0) {
         const timeRanges = getTimeRangesByMetric(baseMetric, availableMetrics)
         setPercentTimeRanges(timeRanges)
+
+        if (
+          Filter[settings.type].showTimeRange &&
+          !timeRanges.includes(settings.timeRange) &&
+          timeRanges[0]
+        ) {
+          setSettings(state => ({ ...state, timeRange: timeRanges[0].type }))
+        }
       }
     },
     [availableMetrics]
+  )
+
+  useEffect(
+    () => {
+      if (
+        Filter[settings.type].showTimeRange &&
+        !percentTimeRanges.includes(settings.timeRange) &&
+        percentTimeRanges[0]
+      ) {
+        setSettings(state => ({
+          ...state,
+          timeRange: percentTimeRanges[0].type
+        }))
+      }
+    },
+    [settings.type]
   )
 
   useEffect(
@@ -57,7 +81,8 @@ const FilterMetric = ({
         const aggregation =
           Filter[type].aggregation || baseMetric.aggregation || 'last'
         const metric = Filter[type].showTimeRange
-          ? `${baseMetric.key}_change_${timeRange}`
+          ? `${baseMetric.percentMetricKey ||
+              baseMetric.key}_change_${timeRange}`
           : baseMetric.key
         const operator = Filter[type].operator
         const formatter = Filter[type].serverValueFormatter
@@ -73,14 +98,26 @@ const FilterMetric = ({
 
         if (firstThreshold) {
           if (previousIsActive !== isActive) {
-            toggleMetricInFilter(newFilter)
+            toggleMetricInFilter(
+              newFilter,
+              baseMetric.key,
+              baseMetric.percentMetricKey
+            )
           } else {
-            updMetricInFilter(newFilter)
+            updMetricInFilter(
+              newFilter,
+              baseMetric.key,
+              baseMetric.percentMetricKey
+            )
           }
         }
 
         if (!firstThreshold && isActive && defaultSettings.isActive) {
-          toggleMetricInFilter(newFilter)
+          toggleMetricInFilter(
+            newFilter,
+            baseMetric.key,
+            baseMetric.percentMetricKey
+          )
         }
       }
     },

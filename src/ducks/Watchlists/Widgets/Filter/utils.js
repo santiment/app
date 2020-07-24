@@ -1,4 +1,4 @@
-import { Metric } from './metrics'
+import { Metric, MetricAlias } from './metrics'
 
 export function getActiveBaseMetrics (filter) {
   const activeMetrics = new Set(
@@ -9,7 +9,7 @@ export function getActiveBaseMetrics (filter) {
           ? metric
           : metric.substring(0, transformedMetricIndex)
 
-      return Metric[baseMetricKey]
+      return Metric[baseMetricKey] || MetricAlias[baseMetricKey]
     })
   )
 
