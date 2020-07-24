@@ -51,7 +51,8 @@ import {
   CHANNELS_MAP,
   POSSIBLE_METRICS_FOR_CHART,
   SIGNAL_METRIC_TYPES,
-  METRIC_TYPES
+  METRIC_TYPES,
+  SCREENER_DEFAULT_SIGNAL
 } from './constants'
 import { capitalizeStr, isEthStrictAddress } from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
@@ -104,8 +105,8 @@ const getTimeWindowUnit = timeWindow => {
 
 const getFormTriggerTarget = settings => {
   const {
-    target,
-    target: { eth_address, address = eth_address, text },
+    target = {},
+    target: { eth_address, address = eth_address, text } = {},
     selector,
     asset
   } = settings
@@ -221,7 +222,7 @@ const getFormTriggerType = ({ target, type, operation }) => {
     }
 
     default: {
-      return undefined
+      return type
     }
   }
 }
@@ -320,7 +321,7 @@ const getFormMetric = ({ type, metric }) => {
       return TRENDING_WORDS_METRIC
     }
     default: {
-      return undefined
+      return metric
     }
   }
 }
@@ -387,6 +388,15 @@ const getFormTrendingWords = ({ settings: { operation, target } }) => {
       return undefined
     }
   }
+}
+
+export const mapFormPropsToScreenerTrigger = ({ formProps, signal }) => {
+  const { description, title } = formProps
+  const trigger = { ...SCREENER_DEFAULT_SIGNAL, ...signal, description, title }
+
+  trigger.settings.channel = getChannels(formProps)
+
+  return trigger
 }
 
 export const mapTriggerToFormProps = currentTrigger => {
@@ -594,7 +604,8 @@ const mapToFormChannel = channelValue => {
     return channelValue
   }
 
-  return CHANNELS_MAP.find(({ value }) => value === channelValue).label
+  return CHANNELS_MAP.find(({ value }) => value === channelValue.toLowerCase())
+    .label
 }
 
 export const getChannels = ({ channels }) => {
@@ -1007,6 +1018,7 @@ export const mapGQLTriggerToProps = ({ data: { trigger, loading, error } }) => {
     }
   }
 
+  debugger
   const checkingTrigger = trigger ? trigger.trigger : undefined
   const { userId } = trigger || {}
 
@@ -1056,7 +1068,8 @@ export const validateTriggerForm = values => {
   const errors = {
     ...metricTypesBlockErrors(values),
     ...metricValuesBlockErrors(values),
-    ...descriptionBlockErrors(values)
+    ...descriptionBlockErrors(values),
+    ...validateChannels(values)
   }
 
   return errors
@@ -1153,6 +1166,10 @@ export const metricValuesBlockErrors = values => {
     if (!threshold) errors.threshold = REQUIRED_MESSAGE
   }
 
+  if (!type) {
+    return errors
+  }
+
   if (
     type.metric === DAILY_ACTIVE_ADDRESSES ||
     type.metric === PRICE_PERCENT_CHANGE
@@ -1218,16 +1235,9 @@ export const metricValuesBlockErrors = values => {
   return errors
 }
 
-export const descriptionBlockErrors = values => {
+export const validateChannels = values => {
   let errors = {}
-  const {
-    channels,
-    frequencyType,
-    frequencyTimeValue,
-    frequencyTimeType,
-    title,
-    description
-  } = values
+  const { channels } = values
 
   if (channels && channels.length === 0) {
     errors.channels = 'You must setup notification channel'
@@ -1238,6 +1248,19 @@ export const descriptionBlockErrors = values => {
       errors.channels = 'Need to enter a valid webhook URL'
     }
   }
+
+  return errors
+}
+
+export const descriptionBlockErrors = values => {
+  let errors = {}
+  const {
+    frequencyType,
+    frequencyTimeValue,
+    frequencyTimeType,
+    title,
+    description
+  } = values
 
   if (!frequencyType || !frequencyType.value) {
     errors.frequencyType = REQUIRED_MESSAGE
@@ -1406,61 +1429,65 @@ export const getTargetsHeader = values => {
     ethAddress = ''
   } = values
 
-  if (metric.value === TRENDING_WORDS) {
-    switch (type.value) {
-      case TRENDING_WORDS_PROJECT_MENTIONED.value: {
-        const targets = mapTargetObject(target, targetMapperWithName)
+  if (metric) {
+    if (metric.value === TRENDING_WORDS) {
+      switch (type.value) {
+        case TRENDING_WORDS_PROJECT_MENTIONED.value: {
+          const targets = mapTargetObject(target, targetMapperWithName)
 
-        return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
+          return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
+        }
+        case TRENDING_WORDS_WORD_MENTIONED.value: {
+          const targets = mapTargetObject(
+            trendingWordsWithWords,
+            targetMapperWithName
+          )
+          return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
+        }
+        case TRENDING_WORDS_WATCHLIST_MENTIONED.value: {
+          return buildFormBlock(
+            NOTIFY_ME_WHEN,
+            targetMapperWithName(targetWatchlist)
+          )
+        }
+        default: {
+        }
       }
-      case TRENDING_WORDS_WORD_MENTIONED.value: {
-        const targets = mapTargetObject(
-          trendingWordsWithWords,
-          targetMapperWithName
+    } else if (metric.value === ETH_WALLET) {
+      const targets = mapTargetObject(target, targetMapperWithTicker)
+      const addresses = mapTargetObject(ethAddress) || ''
+
+      if (Array.isArray(ethAddress) && ethAddress.length > 1) {
+        return buildFormBlock(
+          NOTIFY_ME_WHEN,
+          `${targetsJoin(targets)} wallets [${addresses.join(', ')}]`
         )
-        return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
+      } else {
+        const walletDescription = addresses ? 'wallet ' + addresses : ''
+        return buildFormBlock(
+          NOTIFY_ME_WHEN,
+          `${targetsJoin(targets)} ${walletDescription}`
+        )
       }
-      case TRENDING_WORDS_WATCHLIST_MENTIONED.value: {
+    }
+  }
+
+  if (signalType) {
+    switch (signalType.value) {
+      case METRIC_TARGET_WATCHLIST.value: {
         return buildFormBlock(
           NOTIFY_ME_WHEN,
           targetMapperWithName(targetWatchlist)
         )
       }
-      default: {
+      case METRIC_TARGET_TEXT.value: {
+        const targets = mapTargetObject(textSelector || {})
+        return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
       }
-    }
-  } else if (metric.value === ETH_WALLET) {
-    const targets = mapTargetObject(target, targetMapperWithTicker)
-    const addresses = mapTargetObject(ethAddress) || ''
-
-    if (Array.isArray(ethAddress) && ethAddress.length > 1) {
-      return buildFormBlock(
-        NOTIFY_ME_WHEN,
-        `${targetsJoin(targets)} wallets [${addresses.join(', ')}]`
-      )
-    } else {
-      const walletDescription = addresses ? 'wallet ' + addresses : ''
-      return buildFormBlock(
-        NOTIFY_ME_WHEN,
-        `${targetsJoin(targets)} ${walletDescription}`
-      )
-    }
-  }
-
-  switch (signalType.value) {
-    case METRIC_TARGET_WATCHLIST.value: {
-      return buildFormBlock(
-        NOTIFY_ME_WHEN,
-        targetMapperWithName(targetWatchlist)
-      )
-    }
-    case METRIC_TARGET_TEXT.value: {
-      const targets = mapTargetObject(textSelector || {})
-      return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
-    }
-    default: {
-      const targets = mapTargetObject(target, targetMapperWithName)
-      return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
+      default: {
+        const targets = mapTargetObject(target, targetMapperWithName)
+        return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
+      }
     }
   }
 }

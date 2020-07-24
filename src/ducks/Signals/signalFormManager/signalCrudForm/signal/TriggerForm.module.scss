@@ -262,6 +262,7 @@ a {
 .descriptionTextarea {
   border: 0 !important;
   padding: 0 !important;
+  color: var(--casper) !important;
 
   @include responsive('phone-xs', 'phone') {
     font-size: 16px !important;
@@ -300,6 +301,10 @@ a {
   margin-top: 2px;
   cursor: pointer;
   color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
 }
 
 .percentagesBlock {
@@ -343,7 +348,11 @@ a {
 }
 
 .webhook {
-  margin-top: 18px;
+  margin-top: 14px;
+}
+
+.inputWebhook {
+  margin-left: 0 !important;
 }
 
 .inputLink {

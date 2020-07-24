@@ -1,0 +1,24 @@
+@import '~@santiment-network/ui/mixins';
+
+.btn {
+  color: var(--fiord);
+
+  &:hover {
+    svg {
+      fill: var(--jungle-green);
+    }
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    color: var(--rhino);
+  }
+}
+
+.iconAlert {
+  margin-right: 8px;
+  fill: var(--casper);
+}
+
+.dialog {
+  width: 480px;
+}

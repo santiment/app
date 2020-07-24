@@ -252,9 +252,7 @@ export const updateSignalEpic = (action$, store, { client }) =>
           return Observable.merge(
             Observable.of({
               type: actions.SIGNAL_UPDATE_SUCCESS,
-              payload: {
-                id: updateTrigger.trigger.id
-              }
+              payload: updateTrigger.trigger
             }),
             Observable.of(showNotification('Alert was succesfully updated'))
           )

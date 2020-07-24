@@ -1,7 +1,7 @@
-import { graphql } from 'react-apollo'
 import * as qs from 'query-string'
 import { TRIGGER_BY_ID_QUERY } from './queries'
 import { mapGQLTriggerToProps } from '../utils/utils'
+import { useQuery } from '@apollo/react-hooks'
 
 export const getShareSignalParams = () => {
   const { search, hash } = window.location || {}
@@ -23,19 +23,12 @@ export const getShareSignalParams = () => {
   return triggerParams
 }
 
-const GetSignal = ({ render, ...props }) => render(props)
+export const useSignal = ({ triggerId, skip }) => {
+  const { data, loading, error } = useQuery(TRIGGER_BY_ID_QUERY, {
+    skip: skip || !triggerId,
+    variables: { id: +triggerId },
+    props: mapGQLTriggerToProps
+  })
 
-GetSignal.defaultProps = {
-  isLoading: false
+  return { data, loading, error }
 }
-
-export default graphql(TRIGGER_BY_ID_QUERY, {
-  skip: ({ triggerId, skip }) => skip || !triggerId,
-  options: ({ triggerId: id }) => {
-    return {
-      fetchPolicy: 'network-only',
-      variables: { id: +id }
-    }
-  },
-  props: mapGQLTriggerToProps
-})(GetSignal)

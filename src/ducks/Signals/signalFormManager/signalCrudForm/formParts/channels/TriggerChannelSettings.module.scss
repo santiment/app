@@ -64,3 +64,11 @@
 .notifications {
   display: flex;
 }
+
+.dialog {
+  min-width: 637px;
+
+  @include responsive('phone', 'phone-xs') {
+    min-width: initial;
+  }
+}

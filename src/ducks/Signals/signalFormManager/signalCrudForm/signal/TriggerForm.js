@@ -15,7 +15,6 @@ import Button from '@santiment-network/ui/Button'
 import RadioBtns from '@santiment-network/ui/RadioBtns'
 import {
   METRIC_TO_TYPES,
-  MAX_DESCR_LENGTH,
   MIN_TITLE_LENGTH,
   MAX_TITLE_LENGTH,
   TRIGGER_FORM_STEPS,
@@ -39,9 +38,9 @@ import TriggerFormBlock, {
   TriggerFormBlockDivider
 } from '../formParts/block/TriggerFormBlock'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
-import FormikTextarea from '../../../../../components/formik-santiment-ui/FormikTextarea'
 import TriggerFormChannels from '../formParts/channels/TriggerFormChannels'
 import FormikCheckbox from '../../../../../components/formik-santiment-ui/FormikCheckbox'
+import SignalFormDescription from '../formParts/description/SignalFormDescription'
 import styles from './TriggerForm.module.scss'
 
 const getTitle = (formData, id, isShared) => {
@@ -352,23 +351,10 @@ export const TriggerForm = ({
                   </div>
 
                   <div className={styles.row}>
-                    <div className={cx(styles.Field, styles.fieldFilled)}>
-                      <FormikLabel
-                        text={`Description (${
-                          (description || '').length
-                        }/${MAX_DESCR_LENGTH})`}
-                      />
-                      <FormikTextarea
-                        placeholder='Description of the alert'
-                        name='description'
-                        className={styles.descriptionTextarea}
-                        rowsCount={3}
-                        maxLength={MAX_DESCR_LENGTH}
-                        onChange={() =>
-                          setFieldValue('descriptionChangedByUser', true)
-                        }
-                      />
-                    </div>
+                    <SignalFormDescription
+                      setFieldValue={setFieldValue}
+                      description={description}
+                    />
                   </div>
                 </Fragment>
               )}
@@ -393,16 +379,20 @@ export const TriggerForm = ({
 
 TriggerForm.propTypes = propTypes
 
-const mapStateToProps = state => {
-  return {
-    isTelegramConnected: isTelegramConnectedAndEnabled(state),
-    isEmailConnected: selectIsEmailConnected(state),
-    lastPriceItem: state.signals.points
-      ? state.signals.points[state.signals.points.length - 1]
-      : undefined
-  }
-}
+export const mapTriggerStateToProps = state => ({
+  isTelegramConnected: isTelegramConnectedAndEnabled(state),
+  isEmailConnected: selectIsEmailConnected(state)
+})
 
-const enhance = compose(connect(mapStateToProps))
+const enhance = compose(
+  connect(state => {
+    return {
+      ...mapTriggerStateToProps(state),
+      lastPriceItem: state.signals.points
+        ? state.signals.points[state.signals.points.length - 1]
+        : undefined
+    }
+  })
+)
 
 export default enhance(TriggerForm)

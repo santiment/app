@@ -1,0 +1,34 @@
+.form {
+  padding: 20px 24px;
+}
+
+.divider {
+  margin: 20px -24px;
+}
+
+.actions {
+  margin-top: 24px;
+  display: flex;
+}
+
+.cancel {
+  margin-left: 16px;
+  width: 104px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.submit {
+  display: flex;
+  justify-content: center;
+  min-width: 104px;
+}
+
+.reports {
+  margin-top: 20px;
+}
+
+.textarea {
+  height: 40px;
+}

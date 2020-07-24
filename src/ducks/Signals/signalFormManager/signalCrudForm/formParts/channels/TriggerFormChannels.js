@@ -48,16 +48,14 @@ const TriggerFormChannels = ({
   const calculateDisabledChannels = () => {
     const disabled = []
 
-    if (isNew) {
-      if (!isEmailConnected) {
-        disabled.push(CHANNEL_NAMES.Email)
-      }
-      if (!isTelegramConnected) {
-        disabled.push(CHANNEL_NAMES.Telegram)
-      }
-      if (!isWebPushEnabled) {
-        disabled.push(CHANNEL_NAMES.Browser)
-      }
+    if (!isEmailConnected) {
+      disabled.push(CHANNEL_NAMES.Email)
+    }
+    if (!isTelegramConnected) {
+      disabled.push(CHANNEL_NAMES.Telegram)
+    }
+    if (!isWebPushEnabled) {
+      disabled.push(CHANNEL_NAMES.Browser)
     }
 
     setDisabledChannels(disabled)
@@ -106,13 +104,6 @@ const TriggerFormChannels = ({
 
   useEffect(
     () => {
-      calculateDisabledChannels()
-    },
-    [isTelegramConnected, isEmailConnected, isWebPushEnabled]
-  )
-
-  useEffect(
-    () => {
       let required = []
       if (
         !isTelegramConnected &&
@@ -136,6 +127,7 @@ const TriggerFormChannels = ({
       }
 
       setRequiredChannels(required)
+      calculateDisabledChannels()
     },
     [isTelegramConnected, isEmailConnected, isWebPushEnabled]
   )
@@ -245,7 +237,7 @@ const TriggerFormChannels = ({
                   isActive={isActive}
                   isDisabled={isDisabled}
                   toggleChannel={toggleChannel}
-                  isRequired={isRequired}
+                  isRequired={isRequired(channel)}
                   recheckBrowserNotifications={recheckBrowserNotifications}
                   isConnectable={!isWebhook}
                 />
@@ -255,7 +247,7 @@ const TriggerFormChannels = ({
                     disabled={!findWebHook(channels)}
                     value={webhook}
                     onChange={onWebhookChange}
-                    className={styles.inputLink}
+                    className={cx(styles.inputLink, styles.inputWebhook)}
                   />
                 )}
               </div>
@@ -291,7 +283,7 @@ const ChannelCheckbox = ({
       />
       {isConnectable && (
         <TriggerChannelSettings
-          showTrigger={isRequired(channel)}
+          showTrigger={isRequired}
           recheckBrowserNotifications={recheckBrowserNotifications}
           trigger={
             <div className={styles.requiredChannelExplanation}>Connect</div>

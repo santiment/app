@@ -44,8 +44,8 @@ const TriggerFormBlock = ({
   )
 }
 
-export const TriggerFormBlockDivider = () => (
-  <div className={styles.dividerContainer}>
+export const TriggerFormBlockDivider = ({ className }) => (
+  <div className={cx(styles.dividerContainer, className)}>
     <div className={styles.divider} />
   </div>
 )

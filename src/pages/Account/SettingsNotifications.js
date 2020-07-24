@@ -18,8 +18,8 @@ import GetSignals, {
 } from '../../ducks/Signals/common/getSignals'
 import { CHANNEL_TYPES } from '../../ducks/Signals/utils/constants'
 import { DEFAULT_SETTINGS, useUserSettings } from '../../stores/user/settings'
-import styles from './AccountPage.module.scss'
 import Link from 'react-router-dom/Link'
+import styles from './AccountPage.module.scss'
 
 export const NEWSLETTER_SUBSCRIPTION_MUTATION = gql`
   mutation changeNewsletterSubscription(

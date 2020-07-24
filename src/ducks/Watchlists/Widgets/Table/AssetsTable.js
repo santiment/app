@@ -14,6 +14,7 @@ import ServerErrorMessage from './../../../../components/ServerErrorMessage'
 import AssetsToggleColumns from './AssetsToggleColumns'
 import Filter from '../Filter'
 import { COLUMNS, COMMON_SETTINGS, COLUMNS_SETTINGS } from './asset-columns'
+import ScreenerSignalDialog from '../../../Signals/ScreenerSignal/ScreenerSignalDialog'
 import '../../../../pages/Projects/ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
 
@@ -119,12 +120,18 @@ const AssetsTable = ({
             <AssetsToggleColumns columns={columns} onChange={toggleColumn} />
           )}
           {type === 'screener' && (
-            <Filter
-              watchlist={watchlist}
-              // projectsCount={projectsCount}
-              projectsCount={items.length}
-              isAuthor={isAuthor}
-            />
+            <>
+              <ScreenerSignalDialog
+                watchlistId={watchlist.id}
+                classes={styles}
+              />
+              <Filter
+                watchlist={watchlist}
+                // projectsCount={projectsCount}
+                projectsCount={items.length}
+                isAuthor={isAuthor}
+              />
+            </>
           )}
         </div>
       </div>

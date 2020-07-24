@@ -7,7 +7,6 @@ import PageLoader from '../../../components/Loader/PageLoader'
 import FeedListLoading from './FeedList/FeedListLoading'
 import { checkIsLoggedIn, checkIsLoggedInPending } from '../../UserSelectors'
 import { extractEventsFromData, makeFeedVariables } from './utils'
-import { fetchSignals } from '../../../ducks/Signals/common/actions'
 import FeedSorters, { DATETIME_SORT } from '../sorters/FeedSorters'
 import FeedHelpPopup from './HelpPopup/FeedHelpPopup'
 import Tabs from '@santiment-network/ui/Tabs'
@@ -104,13 +103,7 @@ export const getDefaultFilters = tab => ({
   assets: []
 })
 
-const GeneralFeed = ({
-  isLoggedIn,
-  isUserLoading,
-  fetchSignals,
-  location,
-  ...props
-}) => {
+const GeneralFeed = ({ isLoggedIn, isUserLoading, location }) => {
   const { pathname } = location
   const [tab, setTab] = useState(isLoggedIn ? pathname : baseLocation)
   const [isPulse, setPulse] = useState(tab === pulseLocation)
@@ -130,13 +123,6 @@ const GeneralFeed = ({
       setPulse(tab === pulseLocation)
     },
     [tab]
-  )
-
-  useEffect(
-    () => {
-      isLoggedIn && fetchSignals()
-    },
-    [isLoggedIn]
   )
 
   const onChangeSort = value => {
@@ -226,13 +212,4 @@ const mapStateToProps = state => ({
   isUserLoading: checkIsLoggedInPending(state)
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchSignals: payload => {
-    return dispatch(fetchSignals())
-  }
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(GeneralFeed)
+export default connect(mapStateToProps)(GeneralFeed)

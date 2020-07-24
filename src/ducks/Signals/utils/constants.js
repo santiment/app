@@ -49,7 +49,8 @@ export const PRICE_VOLUME_DIFFERENCE = 'price_volume_difference'
 
 export const METRIC_TYPES = {
   WALLET_MOVEMENT: 'wallet_movement',
-  METRIC_SIGNAL: 'metric_signal'
+  METRIC_SIGNAL: 'metric_signal',
+  SCREENER_SIGNAL: 'screener_signal'
 }
 
 export const SIGNAL_METRIC_TYPES = {
@@ -551,3 +552,15 @@ export const METRIC_KEYS_WITH_TEXT_SELECTOR = [
   'social_dominance_discord',
   'social_dominance_professional_traders_chat'
 ]
+
+export const SCREENER_DEFAULT_SIGNAL = {
+  settings: {
+    type: 'screener_signal',
+    metric: 'social_volume_total',
+    channel: 'telegram',
+    operation: {
+      selector: {}
+    }
+  },
+  description: 'Notify me about changes inside the monitoring Screener'
+}

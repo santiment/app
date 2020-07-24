@@ -17,7 +17,9 @@ const DefaultTrigger = <div className={styles.connect}>Enable in settings</div>
 const TriggerChannelSettings = ({
   recheckBrowserNotifications,
   trigger = DefaultTrigger,
-  showTrigger = true
+  showTrigger = true,
+  showWebPush = true,
+  showTelegram = true
 }) => {
   const { settings } = useUserSettings()
   const [open, setOpen] = useState(false)
@@ -33,6 +35,7 @@ const TriggerChannelSettings = ({
         onOpen={() => setOpen(true)}
         trigger={showTrigger && trigger}
         title='Notification settings'
+        classes={styles}
       >
         <Dialog.ScrollContent>
           <EmailSetting classes={styles} hideIfEmail />
@@ -41,20 +44,28 @@ const TriggerChannelSettings = ({
             isEmailNotificationEnabled={signalNotifyEmail}
           />
 
-          <ConnectTelegramBlock classes={styles} />
-          <SettingsTelegramNotifications
-            classes={styles}
-            signalNotifyTelegram={signalNotifyTelegram}
-            hasTelegramConnected={hasTelegramConnected}
-          />
+          {showTelegram && (
+            <>
+              <ConnectTelegramBlock classes={styles} />
+              <SettingsTelegramNotifications
+                classes={styles}
+                signalNotifyTelegram={signalNotifyTelegram}
+                hasTelegramConnected={hasTelegramConnected}
+              />
+            </>
+          )}
 
-          <ShowIf beta>
-            <SettingsSonarWebPushNotifications
-              classes={styles}
-              className={styles.notifications}
-              recheckBrowserNotifications={recheckBrowserNotifications}
-            />
-          </ShowIf>
+          {showWebPush && (
+            <>
+              <ShowIf beta>
+                <SettingsSonarWebPushNotifications
+                  classes={styles}
+                  className={styles.notifications}
+                  recheckBrowserNotifications={recheckBrowserNotifications}
+                />
+              </ShowIf>
+            </>
+          )}
         </Dialog.ScrollContent>
       </Dialog>
     </>
