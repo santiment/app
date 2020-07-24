@@ -176,6 +176,7 @@ export default ({ filters, baseMetric, ...props }) => {
       baseMetric={baseMetric}
       defaultSettings={{
         ...DEFAULT_SETTINGS,
+        timeRange: baseMetric.defaultTimeRange || DEFAULT_SETTINGS.timeRange,
         ...settings,
         type: filterType.key
       }}
