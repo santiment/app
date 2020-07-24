@@ -1,12 +1,12 @@
 import React from 'react'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
-import WatchlistEdit from './WatchlistEdit'
-import styles from '../WatchlistActionButton.module.scss'
+import Edit from './index'
+import styles from './Trigger.module.scss'
 
-const WatchlistEditTrigger = ({ name, ...props }) => {
+const Trigger = ({ name, ...props }) => {
   return (
-    <WatchlistEdit
+    <Edit
       {...props}
       name={name}
       trigger={
@@ -19,4 +19,4 @@ const WatchlistEditTrigger = ({ name, ...props }) => {
   )
 }
 
-export default WatchlistEditTrigger
+export default Trigger

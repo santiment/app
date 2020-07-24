@@ -1,12 +1,12 @@
 import React from 'react'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
-import WatchlistWeeklyReport from './WatchlistWeeklyReport'
-import styles from './WatchlistWeeklyReportTrigger.module.scss'
+import WeeklyReport from './index'
+import styles from './Trigger.module.scss'
 
-const WatchlistWeeklyReportTrigger = ({ isMonitored, ...props }) => {
+const WeeklyReportTrigger = ({ isMonitored, ...props }) => {
   return (
-    <WatchlistWeeklyReport
+    <WeeklyReport
       {...props}
       isMonitored={isMonitored}
       trigger={
@@ -20,4 +20,4 @@ const WatchlistWeeklyReportTrigger = ({ isMonitored, ...props }) => {
   )
 }
 
-export default WatchlistWeeklyReportTrigger
+export default WeeklyReportTrigger

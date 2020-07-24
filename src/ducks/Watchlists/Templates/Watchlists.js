@@ -1,10 +1,10 @@
 import React from 'react'
 import cx from 'classnames'
 import Checkboxes from '@santiment-network/ui/Checkboxes'
-import { hasAssetById } from '../../utils'
-import { VisibilityIndicator } from '../../../../components/VisibilityIndicator'
-import NewWatchlistDialog from '../NewWatchlistDialog'
-import WatchlistNewBtn from './WatchlistNewBtn'
+import { hasAssetById } from '../utils'
+import { VisibilityIndicator } from '../../../components/VisibilityIndicator'
+import NewWatchlist from '../Actions/New'
+import NewBtn from '../Actions/New/NewBtn'
 import styles from './Watchlists.module.scss'
 
 const Watchlists = ({
@@ -45,8 +45,8 @@ const Watchlists = ({
         )}
       </div>
     </div>
-    <NewWatchlistDialog
-      trigger={<WatchlistNewBtn border className={styles.watchlistNew} />}
+    <NewWatchlist
+      trigger={<NewBtn border className={styles.watchlistNew} />}
       watchlists={lists}
     />
   </>

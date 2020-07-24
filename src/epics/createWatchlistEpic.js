@@ -67,6 +67,7 @@ const createWatchlistEpic = (action$, store, { client }) =>
                 description: (
                   <WatchlistNotificationActions
                     id={id}
+                    name={name}
                     toLink={getWatchlistLink({ id, name })}
                   />
                 )

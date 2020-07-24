@@ -7,10 +7,10 @@ import { sortByAsDates } from '../../../../utils/sortMethods'
 import { useUserWatchlists } from '../../gql/hooks'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
 import { showNotification } from '../../../../actions/rootActions'
-import Watchlists from '../WatchlistPopup/Watchlists'
+import Watchlists from '../../Templates/Watchlists'
 import AssetsList from './AssetsList'
 import SearchProjects from '../../../../components/Search/SearchProjects'
-import styles from './WatchlistCopyPopup.module.scss'
+import styles from './index.module.scss'
 
 const WatchlistCopyPopup = ({
   assets = [],

@@ -40,8 +40,8 @@ class ConfirmDialog extends PureComponent {
   }
 
   onDeleteClick = () => {
-    const { id, onApprove, redirect } = this.props
-    onApprove(id)
+    const { id, onApprove, redirect, name } = this.props
+    onApprove(id, name)
     if (redirect) {
       redirect()
     }

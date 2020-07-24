@@ -22,3 +22,8 @@
 
   @include text('body-3');
 }
+
+.right {
+  display: flex;
+  align-items: center;
+}

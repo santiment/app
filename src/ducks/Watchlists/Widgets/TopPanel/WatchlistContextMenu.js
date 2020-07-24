@@ -4,12 +4,12 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel/Panel'
-import { normalizeCSV } from '../utils'
-import WatchlistDeleteDialog from './WatchlistDeleteDialog'
-import WatchlistEdit from './WatchlistEdit/WatchlistEdit'
-import WatchlistWeeklyReport from './WatchlistWeeklyReport/WatchlistWeeklyReport'
-import WatchlistCopyPopup from './WatchlistCopy/WatchlistCopyPopup'
-import WatchlistPublicityToggle from './WatchlistShare/WatchlistShare'
+import { normalizeCSV } from '../../utils'
+import Delete from '../../Actions/Delete'
+import Edit from '../../Actions/Edit'
+import WeeklyReport from '../../Actions/WeeklyReport'
+import Copy from '../../Actions/Copy'
+import VisibilityToggle from '../../Actions/ChangeVisibility'
 import styles from './WatchlistContextMenu.module.scss'
 
 const WatchlistContextMenu = ({
@@ -19,7 +19,8 @@ const WatchlistContextMenu = ({
   hasCSV,
   isDesktop,
   name,
-  isMonitored
+  isMonitored,
+  watchlist
 }) => {
   if (!(isAuthor || hasCSV)) return null
 
@@ -37,12 +38,12 @@ const WatchlistContextMenu = ({
       <Panel variant='modal' className={styles.wrapper}>
         {isAuthor && (
           <div className={styles.block}>
-            <WatchlistPublicityToggle />
+            <VisibilityToggle watchlist={watchlist} fluid variant='ghost' />
           </div>
         )}
         <div className={styles.block}>
           {!isDesktop && isAuthor && (
-            <WatchlistEdit
+            <Edit
               id={id}
               assets={assets}
               name={name}
@@ -53,7 +54,7 @@ const WatchlistContextMenu = ({
               }
             />
           )}
-          <WatchlistCopyPopup
+          <Copy
             id={id}
             trigger={
               <Button variant='ghost' fluid>
@@ -62,7 +63,7 @@ const WatchlistContextMenu = ({
             }
           />
           {!isDesktop && isAuthor && (
-            <WatchlistWeeklyReport
+            <WeeklyReport
               id={id}
               isMonitored={isMonitored}
               name={name}
@@ -85,8 +86,9 @@ const WatchlistContextMenu = ({
             </CSVLink>
           )}
           {isAuthor && (
-            <WatchlistDeleteDialog
+            <Delete
               id={id}
+              name={name}
               trigger={
                 <Button variant='ghost' fluid>
                   Delete

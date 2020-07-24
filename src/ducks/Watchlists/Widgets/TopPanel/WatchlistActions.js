@@ -3,15 +3,15 @@ import { CSVLink } from 'react-csv'
 import { graphql } from 'react-apollo'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
-import { normalizeCSV } from '../utils'
-import { isNotSafari } from '../../../utils/utils'
-import { upperCaseFirstLetter } from '../../../utils/formatting'
-import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
-import WatchlistEditTrigger from './WatchlistEdit/WatchlistEditTrigger'
-import WatchlistWeeklyReportTrigger from './WatchlistWeeklyReport/WatchlistWeeklyReportTrigger'
-import WatchlistCopyPopup from './WatchlistCopy/WatchlistCopyPopup'
+import { normalizeCSV } from '../../utils'
+import { isNotSafari } from '../../../../utils/utils'
+import { upperCaseFirstLetter } from '../../../../utils/formatting'
+import ShareModalTrigger from '../../../../components/Share/ShareModalTrigger'
+import EditTrigger from '../../Actions/Edit/Trigger'
+import WeeklyReportTrigger from '../../Actions/WeeklyReport/Trigger'
+import Copy from '../../Actions/Copy'
 import WatchlistContextMenu from './WatchlistContextMenu'
-import { WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
+import { WATCHLIST_QUERY } from '../../../../queries/WatchlistGQL'
 import styles from './WatchlistActionButton.module.scss'
 
 const WatchlistActions = ({
@@ -43,7 +43,7 @@ const WatchlistActions = ({
       {(!isList || (listType === '#shared' && !isAuthor) || !isLoggedIn) &&
       isDesktop ? (
         <>
-          <WatchlistCopyPopup
+          <Copy
             id={id}
             trigger={
               <Button border variant='flat'>
@@ -69,6 +69,7 @@ const WatchlistActions = ({
         <>
           {isLoggedIn && (
             <WatchlistContextMenu
+              watchlist={watchlist}
               isAuthor={isAuthor}
               id={id}
               name={title}
@@ -85,8 +86,8 @@ const WatchlistActions = ({
               {isPublic && <ShareModalTrigger shareLink={shareLink} />}
               {isAuthor && (
                 <>
-                  <WatchlistEditTrigger name={title} id={id} assets={items} />
-                  <WatchlistWeeklyReportTrigger
+                  <EditTrigger name={title} id={id} assets={items} />
+                  <WeeklyReportTrigger
                     id={id}
                     name={title}
                     isMonitored={isMonitored}
