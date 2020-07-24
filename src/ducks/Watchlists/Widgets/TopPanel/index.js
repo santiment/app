@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 // import MarketcapHistory from './MarketcapHistory'
 import Actions from './Actions'
 import Widgets from './Widgets'
-import Button from './Actions'
-import Icon from './Actions'
+import { Button, Icon } from './Actions'
 import ShareModalTrigger from '../../../../components/Share/ShareModalTrigger'
 import { checkHasPremium } from '../../../../pages/UserSelectors'
 import styles from './index.module.scss'
@@ -17,6 +16,7 @@ const TopPanel = ({
   shareLink,
   watchlist,
   hasPremium,
+  isAuthor,
   ...props
 }) => {
   return (
@@ -26,29 +26,27 @@ const TopPanel = ({
         {/* <BaseActions hasPremium={hasPremium} /> */}
       </div>
       {/* <MarketcapHistory /> */}
-      <div>
-        {isLoggedIn && (
-          <>
-            {shareLink && (
-              <ShareModalTrigger
-                shareLink={shareLink}
-                trigger={props => (
-                  <Button {...props}>
-                    <Icon type='share' />
-                    Share
-                  </Button>
-                )}
-              />
+      <div className={styles.right}>
+        {isAuthor && shareLink && (
+          <ShareModalTrigger
+            shareLink={shareLink}
+            trigger={props => (
+              <Button {...props} className={styles.share__btn}>
+                <Icon type='share' />
+                Share
+              </Button>
             )}
-            <Actions
-              hasPremium={hasPremium}
-              {...props}
-              watchlist={watchlist}
-              name={name}
-              id={id}
-            />
-          </>
+          />
         )}
+        <Actions
+          {...props}
+          isLoggedIn={isLoggedIn}
+          isAuthor={isAuthor}
+          hasPremium={hasPremium}
+          watchlist={watchlist}
+          name={name}
+          id={id}
+        />
         <Widgets {...props} />
       </div>
     </section>
