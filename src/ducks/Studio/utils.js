@@ -28,7 +28,7 @@ export function extractMirrorMetricsDomainGroups (domainGroups) {
 }
 
 export function mergeMetricSettingMap (oldMap, newMap) {
-  const mergedMap = new Map()
+  const mergedMap = new Map(oldMap)
 
   newMap.forEach((newSettings, metric) =>
     mergedMap.set(metric, Object.assign({}, oldMap.get(metric), newSettings))

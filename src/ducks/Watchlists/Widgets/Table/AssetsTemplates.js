@@ -1,7 +1,7 @@
 import React from 'react'
 import Label from '@santiment-network/ui/Label'
 import Button from '@santiment-network/ui/Button'
-import WatchlistEdit from '../../Actions/WatchlistEdit/WatchlistEdit'
+import Edit from '../../Actions/Edit'
 import EmptySection from '../../../../components/EmptySection/EmptySection'
 import styles from '../../Cards/Watchlist.module.scss'
 
@@ -27,7 +27,7 @@ const AssetsTemplates = ({ isAuthor, items, listId, isPublic, title }) => (
           Start to add assets you want to track or just interested in
         </Label>
 
-        <WatchlistEdit
+        <Edit
           name={title}
           id={listId}
           assets={items}

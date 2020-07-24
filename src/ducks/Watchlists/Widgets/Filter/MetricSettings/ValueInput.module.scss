@@ -1,0 +1,31 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  position: relative;
+
+  &__withBadge {
+    padding-left: 26px;
+  }
+
+  &:hover {
+    border-color: var(--mystic);
+  }
+
+  &:focus {
+    border-color: var(--jungle-green);
+  }
+}
+
+.badge {
+  position: absolute;
+  left: 12px;
+  color: var(--casper);
+  z-index: 1;
+}

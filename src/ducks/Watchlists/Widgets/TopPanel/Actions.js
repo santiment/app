@@ -4,10 +4,8 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import UIButton from '@santiment-network/ui/Button'
 import UIIcon from '@santiment-network/ui/Icon'
-import WatchlistDeleteDialog from '../../Actions/WatchlistDeleteDialog'
-import WatchlistCopyPopup from '../../Actions/WatchlistCopy/WatchlistCopyPopup'
-import ShareModalTrigger from '../../../../components/Share/ShareModalTrigger'
-import WatchlistPublicityToggle from '../../Actions/WatchlistShare/WatchlistShare'
+import Delete from '../../Actions/Delete'
+import Copy from '../../Actions/Copy'
 import styles from './Actions.module.scss'
 
 export const Icon = ({ className, ...props }) => (
@@ -23,7 +21,7 @@ export const Button = ({ className, ...props }) => (
   />
 )
 
-const Actions = ({ isAuthor, id, name, shareLink }) => {
+const Actions = ({ isAuthor, id, name }) => {
   return (
     <ContextMenu
       trigger={
@@ -36,12 +34,7 @@ const Actions = ({ isAuthor, id, name, shareLink }) => {
       align='end'
     >
       <Panel variant='modal' className={styles.wrapper}>
-        {isAuthor && (
-          <div className={styles.block}>
-            <WatchlistPublicityToggle />
-          </div>
-        )}
-        <WatchlistCopyPopup
+        <Copy
           id={id}
           trigger={
             <Button>
@@ -50,21 +43,11 @@ const Actions = ({ isAuthor, id, name, shareLink }) => {
             </Button>
           }
         />
-        {shareLink && (
-          <ShareModalTrigger
-            shareLink={shareLink}
-            trigger={props => (
-              <Button {...props}>
-                <Icon type='share' />
-                Share screener
-              </Button>
-            )}
-          />
-        )}
         {isAuthor && (
-          <WatchlistDeleteDialog
+          <Delete
             title='Do you want to delete this screener?'
             id={id}
+            name={name}
             trigger={
               <Button>
                 <Icon type='remove' />

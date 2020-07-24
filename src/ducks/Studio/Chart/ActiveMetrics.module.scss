@@ -108,8 +108,12 @@
     &:hover {
       background: var(--athens);
     }
+  }
 
-    &_active {
+  &_active {
+    width: 32px;
+
+    .settings__btn {
       fill: var(--jungle-green);
       background: var(--jungle-green-light);
 

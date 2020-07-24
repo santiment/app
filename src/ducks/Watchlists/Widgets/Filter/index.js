@@ -5,9 +5,13 @@ import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { useUpdateWatchlist } from '../../gql/hooks'
 import Trigger from './Trigger'
-import { metrics } from './operators/index'
-import FilterMetric from './FilterMetric'
+import { metrics } from './metrics'
+import Category from './Category'
+import { getCategoryGraph } from '../../../Studio/Sidebar/utils'
+import { countCategoryActiveMetrics } from '../../../SANCharts/ChartMetricSelector'
+import { getActiveBaseMetrics } from './utils'
 import { useAvailableMetrics } from '../../gql/hooks'
+import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import styles from './index.module.scss'
 
 const VIEWPORT_HEIGHT = window.innerHeight
@@ -24,6 +28,7 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
   const [filter, updateFilter] = useState(filters)
   const [updateWatchlist, { loading }] = useUpdateWatchlist()
   const [availableMetrics] = useAvailableMetrics()
+  const { isPro } = useUserSubscriptionStatus()
 
   useEffect(() => {
     const sidebar = filterRef.current
@@ -102,7 +107,6 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
       newFilter = [...filter, metric]
     }
 
-    console.log(metric, newFilter)
     updateFilter(newFilter)
     updateWatchlist(watchlist, {
       function:
@@ -122,6 +126,12 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
     })
   }
 
+  const categories = getCategoryGraph(metrics)
+  const activeBaseMetrics = getActiveBaseMetrics(filter)
+  const categoryActiveMetricsCounter = countCategoryActiveMetrics(
+    activeBaseMetrics
+  )
+
   return (
     <>
       <Trigger isActive={isActive} onClick={setIsActive} />
@@ -136,27 +146,34 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
         />
         <div className={cx(styles.top, !isAuthor && styles.top__column)}>
           <span className={styles.count}>{projectsCount} assets</span>
-          <Button
-            className={cx(styles.reset, isNoFilters && styles.reset__disabled)}
-            onClick={() => (isNoFilters ? null : resetAll())}
-            disabled={!isAuthor}
-          >
-            {isAuthor
-              ? 'Reset all'
-              : "View only. You aren't the author of this list"}
-          </Button>
+          {!isNoFilters && isAuthor && (
+            <Button
+              className={styles.button}
+              onClick={() => (isNoFilters ? null : resetAll())}
+            >
+              Reset all
+            </Button>
+          )}
+          {!isAuthor && (
+            <Button className={styles.button} disabled>
+              View only. You aren't the author of this list
+            </Button>
+          )}
           {loading && <Loader className={styles.loader} />}
         </div>
-        {metrics.map(metric => (
-          <FilterMetric
+        {Object.keys(categories).map(key => (
+          <Category
+            key={key}
+            title={key}
+            counter={categoryActiveMetricsCounter[key]}
+            groups={categories[key]}
             toggleMetricInFilter={toggleMetricInFilter}
             availableMetrics={availableMetrics}
             isAuthor={isAuthor}
             isNoFilters={isNoFilters}
-            filter={filter}
-            key={metric.key}
-            metric={metric}
+            filters={filter}
             updMetricInFilter={updMetricInFilter}
+            isPro={isPro}
           />
         ))}
       </section>

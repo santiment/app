@@ -3,23 +3,23 @@ import { connect } from 'react-redux'
 import NotificationActions from '../../../../components/NotificationActions/NotificationActions'
 import { USER_REMOVE_ASSET_LIST } from '../../../../actions/types'
 
-const WatchlistNotificationActions = ({ id, toLink, onDelete }) => {
+const WatchlistNotificationActions = ({ id, name, toLink, onDelete }) => {
   return (
     <NotificationActions
       id={id}
       link={toLink}
       isDialog={false}
-      onClick={() => onDelete(id)}
+      onClick={() => onDelete(id, name)}
     />
   )
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onDelete: id => {
+    onDelete: (id, name) => {
       dispatch({
         type: USER_REMOVE_ASSET_LIST,
-        payload: { id }
+        payload: { id, name }
       })
     }
   }
