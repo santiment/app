@@ -46,18 +46,21 @@ const AlertWeeklyReports = ({
     <div className={styles.container}>
       <Checkbox
         isActive={isMonitored}
-        onClick={toggle}
+        onClick={isEmailConnected && toggle}
+        disabled={!isEmailConnected}
         className={styles.checkbox}
       />
       <div className={styles.info}>
         <div className={styles.title}>
           Receive weekly report
-          <TriggerChannelSettings
-            showTrigger={isEmailConnected}
-            trigger={<div className={styles.connect}>Connect email</div>}
-            showTelegram={false}
-            showWebPush={false}
-          />
+          {!isEmailConnected && (
+            <TriggerChannelSettings
+              showTrigger
+              trigger={<div className={styles.connect}>Connect email</div>}
+              showTelegram={false}
+              showWebPush={false}
+            />
+          )}
         </div>
         <div className={styles.description}>
           Every Sunday, you'll receive a report to your inbox with insights from

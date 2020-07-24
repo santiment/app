@@ -15,14 +15,18 @@
 
 .title {
   color: var(--rhino);
+  display: flex;
+  flex: 1;
 
-  @include text('body-3'); }
+  @include text('body-3');
+}
 
 .description {
   color: var(--waterloo);
   margin-top: 8px;
 
-  @include text('body-3'); }
+  @include text('body-3');
+}
 
 .checkbox {
   display: flex;
@@ -31,4 +35,9 @@
 .connect {
   margin-left: auto;
   color: var(--jungle-green);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
 }

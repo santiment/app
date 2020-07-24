@@ -8,6 +8,10 @@
       fill: var(--jungle-green);
     }
   }
+
+  @include responsive('phone', 'phone-xs') {
+    color: var(--rhino);
+  }
 }
 
 .iconAlert {

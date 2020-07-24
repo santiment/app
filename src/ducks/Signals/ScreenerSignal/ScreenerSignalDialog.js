@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import memoize from 'lodash.memoize'
 import { connect } from 'react-redux'
 import Dialog from '@santiment-network/ui/Dialog'
+import Button from '@santiment-network/ui/Button'
+import Icon from '@santiment-network/ui/Icon'
 import ScreenerSignal from './ScreenerSignal'
 import { fetchSignals, updateTrigger, createTrigger } from '../common/actions'
 import { SCREENER_DEFAULT_SIGNAL } from '../utils/constants'
-import styles from './ScreenerSignalDialog.module.scss'
 import { useWatchlist } from '../../Watchlists/gql/hooks'
 import PageLoader from '../../../components/Loader/PageLoader'
-import Button from '@santiment-network/ui/Button'
-import Icon from '@santiment-network/ui/Icon'
+import styles from './ScreenerSignalDialog.module.scss'
 
 export const EditSignalIcon = ({ className }) => (
   <svg
@@ -31,19 +32,19 @@ export const EditSignalIcon = ({ className }) => (
   </svg>
 )
 
-const getWachlistIdFromSignal = (signal = {}) => {
+const getWachlistIdFromSignal = memoize((signal = {}) => {
   const {
     settings: { operation: { selector: { watchlist_id } = {} } = {} }
   } = signal
   return watchlist_id
-}
+})
 
-const getWatchlistSignal = ({ signals, watchlist: { id } }) => {
+const getWatchlistSignal = memoize(({ signals, watchlist: { id } }) => {
   return signals.find(signal => {
     const wId = getWachlistIdFromSignal(signal)
     return wId && +wId === +id
   })
-}
+})
 
 const ScreenerSignalDialog = ({
   trigger: ElTrigger,
@@ -56,29 +57,26 @@ const ScreenerSignalDialog = ({
 }) => {
   const [stateSignal, setSignal] = useState(signal || SCREENER_DEFAULT_SIGNAL)
 
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(true)
   const targetId = watchlistId || getWachlistIdFromSignal(signal)
-  const [watchlist = {}, loading] = useWatchlist(open ? targetId : null)
+  const [watchlist = {}, loading] = useWatchlist(targetId)
+
+  useEffect(() => {
+    if (signals.length === 0) {
+      fetchSignals()
+    }
+  }, [])
 
   useEffect(
     () => {
-      if (open && !signals.length) {
-        fetchSignals()
-      }
-    },
-    [open]
-  )
-
-  useEffect(
-    () => {
-      if (signals) {
+      if (signals && watchlist) {
         let signalOfWatchlist = getWatchlistSignal({ signals, watchlist })
         if (signalOfWatchlist) {
           setSignal(signalOfWatchlist)
         }
       }
     },
-    [signals]
+    [signals, watchlist]
   )
 
   useEffect(

@@ -35,6 +35,7 @@ const TriggerChannelSettings = ({
         onOpen={() => setOpen(true)}
         trigger={showTrigger && trigger}
         title='Notification settings'
+        classes={styles}
       >
         <Dialog.ScrollContent>
           <EmailSetting classes={styles} hideIfEmail />

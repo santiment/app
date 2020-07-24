@@ -171,6 +171,7 @@ const SettingsSonarWebPushNotifications = ({
           localStorageSuffix='_TRIGGER_PUSH_NOTIFICATION_EXPLANATION'
           align='end'
           title='Push Notifications'
+          withArrow
           description='Get fast notifications through Push Notifications'
         >
           <div className={styles.toggleWrapper}>
