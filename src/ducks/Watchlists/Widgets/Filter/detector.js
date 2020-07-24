@@ -2,7 +2,11 @@ import { Operator, Filter } from './types'
 import { DEFAULT_TIMERANGES } from './defaults'
 
 export function extractFilterByMetricType (filters = [], metric) {
-  return filters.filter(item => item.metric.includes(metric.key))
+  return filters.filter(
+    item =>
+      item.metric.includes(metric.key) ||
+      item.metric.includes(metric.percentMetricKey)
+  )
 }
 
 export function getFilterType (filter = []) {
@@ -88,10 +92,13 @@ function extractThreshold (filter = [], filterType) {
 
 export function getTimeRangesByMetric (baseMetric, availableMetrics = []) {
   const metrics = availableMetrics.filter(metric =>
-    metric.includes(`${baseMetric.key}_change_`)
+    metric.includes(`${baseMetric.percentMetricKey || baseMetric.key}_change_`)
   )
   const timeRanges = metrics.map(metric =>
-    metric.replace(`${baseMetric.key}_change_`, '')
+    metric.replace(
+      `${baseMetric.percentMetricKey || baseMetric.key}_change_`,
+      ''
+    )
   )
 
   return DEFAULT_TIMERANGES.filter(({ type }) => timeRanges.includes(type))

@@ -72,11 +72,13 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
     updateWatchlist(watchlist, { function: func })
   }
 
-  function updMetricInFilter (metric) {
-    const key = metric.metric.replace(`_change_${metric.dynamicFrom}`, '')
+  function updMetricInFilter (metric, key, alternativeKey = key) {
     const filters = isNoFilters
       ? []
-      : filter.filter(item => !item.metric.includes(key))
+      : filter.filter(
+        item =>
+          !item.metric.includes(key) && !item.metric.includes(alternativeKey)
+      )
     const newFilter = [...filters, metric]
     updateFilter(newFilter)
     updateWatchlist(watchlist, {
@@ -97,12 +99,16 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
     })
   }
 
-  function toggleMetricInFilter (metric) {
-    const key = metric.metric.replace(`_change_${metric.dynamicFrom}`, '')
-    const isMetricInList = filter.some(item => item.metric.includes(key))
+  function toggleMetricInFilter (metric, key, alternativeKey = key) {
+    const isMetricInList = filter.some(
+      item => item.metric.includes(key) || item.metric.includes(alternativeKey)
+    )
     let newFilter = []
     if (isMetricInList) {
-      newFilter = filter.filter(item => !item.metric.includes(key))
+      newFilter = filter.filter(
+        item =>
+          !item.metric.includes(key) && !item.metric.includes(alternativeKey)
+      )
     } else {
       newFilter = [...filter, metric]
     }
