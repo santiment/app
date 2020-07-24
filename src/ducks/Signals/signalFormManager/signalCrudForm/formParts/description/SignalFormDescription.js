@@ -5,7 +5,7 @@ import { MAX_DESCR_LENGTH } from '../../../../utils/constants'
 import FormikTextarea from '../../../../../../components/formik-santiment-ui/FormikTextarea'
 import styles from '../../signal/TriggerForm.module.scss'
 
-const SignalFormDescription = ({ setFieldValue, description }) => {
+const SignalFormDescription = ({ setFieldValue, description, className }) => {
   return (
     <>
       <div className={cx(styles.Field, styles.fieldFilled)}>
@@ -17,7 +17,7 @@ const SignalFormDescription = ({ setFieldValue, description }) => {
         <FormikTextarea
           placeholder='Description of the alert'
           name='description'
-          className={styles.descriptionTextarea}
+          className={cx(styles.descriptionTextarea, className)}
           rowsCount={3}
           maxLength={MAX_DESCR_LENGTH}
           onChange={() => setFieldValue('descriptionChangedByUser', true)}

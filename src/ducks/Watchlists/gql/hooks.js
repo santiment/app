@@ -1,12 +1,12 @@
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import {
-  WATCHLIST_QUERY,
   USER_WATCHLISTS_QUERY,
   FEATURED_WATCHLISTS_QUERY,
   CREATE_WATCHLIST_MUTATION,
   UPDATE_WATCHLIST_MUTATION,
   AVAILABLE_METRICS_QUERY
 } from './index'
+import { WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
 import { store } from '../../../index'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import {

@@ -56,7 +56,7 @@ const ScreenerSignalDialog = ({
 }) => {
   const [stateSignal, setSignal] = useState(signal || SCREENER_DEFAULT_SIGNAL)
 
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const targetId = watchlistId || getWachlistIdFromSignal(signal)
   const [watchlist = {}, loading] = useWatchlist(open ? targetId : null)
 
@@ -142,6 +142,7 @@ const ScreenerSignalDialog = ({
           <PageLoader />
         ) : (
           <ScreenerSignal
+            watchlist={watchlist}
             signal={stateSignal}
             onCancel={() => setOpen(false)}
             onSubmit={onSubmit}

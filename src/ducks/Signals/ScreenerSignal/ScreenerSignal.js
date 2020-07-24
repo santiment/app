@@ -16,9 +16,11 @@ import { mapTriggerStateToProps } from '../signalFormManager/signalCrudForm/sign
 import SignalFormDescription from '../signalFormManager/signalCrudForm/formParts/description/SignalFormDescription'
 import { TriggerFormBlockDivider } from '../signalFormManager/signalCrudForm/formParts/block/TriggerFormBlock'
 import styles from './ScreenerSignal.module.scss'
+import AlertWeeklyReports from '../signalFormManager/signalCrudForm/formParts/weeklyReports/AlertWeeklyReports'
 
 export const SreenerSignal = ({
   signal,
+  watchlist,
   isTelegramConnected = false,
   isEmailConnected = false,
   onCancel,
@@ -35,12 +37,6 @@ export const SreenerSignal = ({
       setInitialValues(mapTriggerToFormProps(signal))
     },
     [signal]
-  )
-  console.log(
-    '1 isTelegramConnected',
-    isTelegramConnected,
-    'isEmailConnected',
-    isEmailConnected
   )
 
   return (
@@ -97,8 +93,13 @@ export const SreenerSignal = ({
                 <SignalFormDescription
                   description={description}
                   setFieldValue={setFieldValue}
+                  className={styles.textarea}
                 />
               </div>
+            </div>
+
+            <div className={styles.reports}>
+              <AlertWeeklyReports watchlist={watchlist} />
             </div>
 
             <div className={styles.actions}>
