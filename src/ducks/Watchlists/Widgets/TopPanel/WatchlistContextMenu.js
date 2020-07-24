@@ -38,7 +38,7 @@ const WatchlistContextMenu = ({
       <Panel variant='modal' className={styles.wrapper}>
         {isAuthor && (
           <div className={styles.block}>
-            <VisibilityToggle watchlist={watchlist} />
+            <VisibilityToggle watchlist={watchlist} fluid variant='ghost' />
           </div>
         )}
         <div className={styles.block}>

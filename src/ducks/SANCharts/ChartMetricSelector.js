@@ -43,7 +43,7 @@ const getMetricSuggestions = categories => {
 export const countCategoryActiveMetrics = (activeMetrics = []) => {
   const counter = {}
   for (let i = 0; i < activeMetrics.length; i++) {
-    let { category } = activeMetrics[i]
+    let { category } = activeMetrics[i] || {}
     if (Array.isArray(category)) {
       category = category[0]
     }

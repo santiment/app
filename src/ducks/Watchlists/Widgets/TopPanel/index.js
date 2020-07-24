@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 // import MarketcapHistory from './MarketcapHistory'
 import Actions from './Actions'
 import Widgets from './Widgets'
-import { Button, Icon } from './Actions'
-import ShareModalTrigger from '../../../../components/Share/ShareModalTrigger'
+import Share from '../../Actions/Share'
 import { checkHasPremium } from '../../../../pages/UserSelectors'
 import styles from './index.module.scss'
 
@@ -28,15 +27,7 @@ const TopPanel = ({
       {/* <MarketcapHistory /> */}
       <div className={styles.right}>
         {isAuthor && shareLink && (
-          <ShareModalTrigger
-            shareLink={shareLink}
-            trigger={props => (
-              <Button {...props} className={styles.share__btn}>
-                <Icon type='share' />
-                Share
-              </Button>
-            )}
-          />
+          <Share shareLink={shareLink} watchlist={watchlist} />
         )}
         <Actions
           {...props}
