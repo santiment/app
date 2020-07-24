@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import memoize from 'lodash.memoize'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import Dialog from '@santiment-network/ui/Dialog'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
@@ -53,35 +54,45 @@ const ScreenerSignalDialog = ({
   signals,
   fetchSignals,
   createTrigger,
-  updateTrigger
+  updateTrigger,
+  defaultOpen,
+  redirect,
+  goBackTo
 }) => {
   const [stateSignal, setSignal] = useState(signal || SCREENER_DEFAULT_SIGNAL)
 
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(defaultOpen)
   const targetId = watchlistId || getWachlistIdFromSignal(signal)
   const [watchlist = {}, loading] = useWatchlist(targetId)
 
+  const hasSignal = signal && signal.id > 0
+
   useEffect(() => {
-    if (signals.length === 0) {
+    if (!hasSignal && signals.length === 0) {
       fetchSignals()
     }
   }, [])
 
   useEffect(
     () => {
-      if (signals && watchlist) {
-        let signalOfWatchlist = getWatchlistSignal({ signals, watchlist })
-        if (signalOfWatchlist) {
-          setSignal(signalOfWatchlist)
-        }
+      if (hasSignal) {
+        setSignal(signal)
       }
     },
-    [signals, watchlist]
+    [signal]
   )
 
   useEffect(
     () => {
-      if (watchlist && !stateSignal.id) {
+      if (watchlist && !hasSignal) {
+        if (signals.length > 0) {
+          let signalOfWatchlist = getWatchlistSignal({ signals, watchlist })
+          if (signalOfWatchlist) {
+            setSignal(signalOfWatchlist)
+            return
+          }
+        }
+
         const newSignal = {
           ...SCREENER_DEFAULT_SIGNAL,
           title: `Alert for screener '${watchlist.name}'`
@@ -90,7 +101,7 @@ const ScreenerSignalDialog = ({
         setSignal(newSignal)
       }
     },
-    [watchlist]
+    [signals, watchlist]
   )
 
   const onSubmit = useCallback(
@@ -109,14 +120,17 @@ const ScreenerSignalDialog = ({
   )
 
   const isNew = !stateSignal.id
-
   const title = isNew ? 'Enable Alert' : 'Edit Alert'
 
   return (
     <Dialog
       open={open}
       onOpen={() => setOpen(true)}
-      onClose={() => setOpen(false)}
+      onClose={() => {
+        setOpen(false)
+
+        goBackTo && redirect(goBackTo)
+      }}
       title={title}
       classes={styles}
       trigger={
@@ -151,15 +165,22 @@ const ScreenerSignalDialog = ({
   )
 }
 
-export default connect(
-  state => {
-    return {
-      signals: state.signals.all
+const mapStateToProps = state => ({
+  signals: state.signals.all
+})
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchSignals: () => dispatch(fetchSignals()),
+    createTrigger: payload => dispatch(createTrigger(payload)),
+    updateTrigger: payload => dispatch(updateTrigger(payload)),
+    redirect: url => {
+      dispatch(push(url))
     }
-  },
-  {
-    fetchSignals,
-    createTrigger,
-    updateTrigger
   }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
 )(ScreenerSignalDialog)

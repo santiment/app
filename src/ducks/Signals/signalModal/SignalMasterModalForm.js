@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
-import GetSignal from '../common/getSignal'
+import { useSignal } from '../common/getSignal'
 import { SIGNAL_ROUTES } from '../common/constants'
 import ConfirmSignalModalClose from './confirmClose/ConfirmSignalModalClose'
 import SignalDialog from './SignalDialog'
@@ -87,55 +87,49 @@ const SignalMasterModalForm = ({
     }
   }
 
+  const { data = {}, loading: isLoading, error: isError } = useSignal({
+    triggerId,
+    skip: !dialogOpenState
+  })
+  const { trigger = {}, userId: triggerUserId } = data
+
+  let isShared = isOldShared || (!!triggerUserId && +userId !== triggerUserId)
+
+  if (isShared && trigger && trigger.trigger) {
+    trigger.trigger = { ...trigger.trigger, ...shareParams }
+  }
+
+  trigger.userId = triggerUserId
+
   return (
-    <GetSignal
-      skip={!dialogOpenState}
-      triggerId={triggerId}
-      render={data => {
-        const { trigger = {}, userId: triggerUserId } = data
-        const { isLoading, isError } = trigger
-
-        let isShared =
-          isOldShared || (!!triggerUserId && +userId !== triggerUserId)
-
-        if (isShared && trigger && trigger.trigger) {
-          trigger.trigger = { ...trigger.trigger, ...shareParams }
-        }
-
-        trigger.userId = triggerUserId
-
-        return (
-          <>
-            {isApproving && (
-              <ConfirmSignalModalClose
-                isOpen={isApproving}
-                onCancel={onCancelClose}
-                onApprove={onApprove}
-              />
-            )}
-            <SignalDialog
-              dialogOpenState={dialogOpenState}
-              setDialogOpenState={setDialogOpenState}
-              closeDialog={closeDialog}
-              onCloseMainModal={onCloseMainModal}
-              dialogTrigger={dialogTrigger}
-              enabled={enabled}
-              label={label}
-              isError={isError}
-              isShared={isShared}
-              isLoggedIn={isLoggedIn}
-              dialogProps={dialogProps}
-              isLoading={isLoading}
-              trigger={trigger}
-              formChangedCallback={formChangedCallback}
-              canRedirect={canRedirect}
-              metaFormSettings={metaFormSettings}
-              buttonParams={buttonParams}
-            />
-          </>
-        )
-      }}
-    />
+    <>
+      {isApproving && (
+        <ConfirmSignalModalClose
+          isOpen={isApproving}
+          onCancel={onCancelClose}
+          onApprove={onApprove}
+        />
+      )}
+      <SignalDialog
+        dialogOpenState={dialogOpenState}
+        setDialogOpenState={setDialogOpenState}
+        closeDialog={closeDialog}
+        onCloseMainModal={onCloseMainModal}
+        dialogTrigger={dialogTrigger}
+        enabled={enabled}
+        label={label}
+        isError={isError}
+        isShared={isShared}
+        isLoggedIn={isLoggedIn}
+        dialogProps={dialogProps}
+        isLoading={isLoading}
+        trigger={trigger}
+        formChangedCallback={formChangedCallback}
+        canRedirect={canRedirect}
+        metaFormSettings={metaFormSettings}
+        buttonParams={buttonParams}
+      />
+    </>
   )
 }
 

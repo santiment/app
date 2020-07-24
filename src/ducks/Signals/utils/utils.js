@@ -1018,6 +1018,7 @@ export const mapGQLTriggerToProps = ({ data: { trigger, loading, error } }) => {
     }
   }
 
+  debugger
   const checkingTrigger = trigger ? trigger.trigger : undefined
   const { userId } = trigger || {}
 

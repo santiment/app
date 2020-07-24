@@ -6,15 +6,20 @@ import Loadable from 'react-loadable'
 import PageLoader from '../../components/Loader/PageLoader'
 import UnAuth from '../../components/UnAuth/UnAuth'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
-import { isTelegramConnected } from '../../pages/UserSelectors'
+import { isTelegramConnected } from '../UserSelectors'
 import SonarFeedHeader from './SonarFeedActions/SonarFeedHeader'
 import { showNotification } from '../../actions/rootActions'
 import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
 import { SIGNAL_ROUTES } from '../../ducks/Signals/common/constants'
-import { getShareSignalParams } from '../../ducks/Signals/common/getSignal'
+import {
+  getShareSignalParams,
+  useSignal
+} from '../../ducks/Signals/common/getSignal'
 import { sendParams } from '../Account/SettingsSonarWebPushNotifications'
 import { RecommendedSignals } from './SonarFeedRecommendations'
 import styles from './SonarFeedPage.module.scss'
+import { METRIC_TYPES } from '../../ducks/Signals/utils/constants'
+import ScreenerSignalDialog from '../../ducks/Signals/ScreenerSignal/ScreenerSignalDialog'
 
 const baseLocation = '/sonar'
 
@@ -41,6 +46,42 @@ const MY_SIGNALS_MODAL_VIEW = {
 }
 
 const tabs = [MY_SIGNALS_LIST, MY_SIGNALS_MODAL_VIEW]
+
+const SignalModal = ({ id: triggerId }) => {
+  const shareSignalParams = getShareSignalParams()
+
+  const { data = {}, loading } = useSignal({ triggerId, skip: !triggerId })
+
+  if (loading || !data) {
+    return null
+  }
+
+  const { trigger: { trigger = {} } = {} } = data
+  const { settings: { type } = {} } = trigger
+
+  const isOpen = !!triggerId
+
+  switch (type) {
+    case METRIC_TYPES.SCREENER_SIGNAL: {
+      return (
+        <ScreenerSignalDialog
+          signal={trigger}
+          defaultOpen={isOpen}
+          goBackTo={SIGNAL_ROUTES.MY_SIGNALS}
+        />
+      )
+    }
+    default: {
+      return (
+        <SignalMasterModalForm
+          id={triggerId}
+          shareParams={shareSignalParams}
+          defaultOpen={isOpen}
+        />
+      )
+    }
+  }
+}
 
 const SonarFeed = ({
   location: { pathname },
@@ -83,7 +124,6 @@ const SonarFeed = ({
     [pathname]
   )
 
-  const shareSignalParams = getShareSignalParams()
   const defaultRoute = <Route component={tabs[0].component} />
 
   return (
@@ -91,25 +131,13 @@ const SonarFeed = ({
       {isDesktop ? (
         <div className={styles.header}>
           <SonarFeedHeader />
-          {!isUserLoading && (
-            <SignalMasterModalForm
-              id={triggerId}
-              shareParams={shareSignalParams}
-              defaultOpen={!!triggerId}
-            />
-          )}
+          {!isUserLoading && <SignalModal id={triggerId} />}
         </div>
       ) : (
         <div className={styles.header}>
           <MobileHeader title={<SonarFeedHeader />} />
           <div className={styles.addSignal}>
-            {!isUserLoading && (
-              <SignalMasterModalForm
-                id={triggerId}
-                shareParams={shareSignalParams}
-                defaultOpen={!!triggerId}
-              />
-            )}
+            {!isUserLoading && <SignalModal id={triggerId} />}
           </div>
         </div>
       )}

@@ -46,7 +46,7 @@ const AlertWeeklyReports = ({
     <div className={styles.container}>
       <Checkbox
         isActive={isMonitored}
-        onClick={isEmailConnected && toggle}
+        onClick={isEmailConnected ? toggle : undefined}
         disabled={!isEmailConnected}
         className={styles.checkbox}
       />

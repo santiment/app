@@ -129,4 +129,6 @@ export const SreenerSignal = ({
   )
 }
 
-export default connect(state => mapTriggerStateToProps(state))(SreenerSignal)
+const mapStateToProps = state => mapTriggerStateToProps(state)
+
+export default connect(mapStateToProps)(SreenerSignal)
