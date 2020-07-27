@@ -13,6 +13,7 @@ const ValueInput = ({ onChange, defaultValue, type, metric }) => {
     <div className={styles.wrapper}>
       <span className={styles.badge}>{badge}</span>
       <Input
+        autoFocus
         onChange={({ currentTarget: { value } }) => onChangeDebounced(value)}
         defaultValue={defaultValue}
         className={cx(styles.input, badge && styles.input__withBadge)}
