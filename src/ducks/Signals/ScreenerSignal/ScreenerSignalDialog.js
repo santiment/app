@@ -13,7 +13,7 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import styles from './ScreenerSignalDialog.module.scss'
 import { useSignals } from '../common/getSignals'
 
-export const EditSignalIcon = ({ className }) => (
+export const EditSignalIcon = ({ className, isActive }) => (
   <svg
     className={className}
     width='16'
@@ -29,7 +29,7 @@ export const EditSignalIcon = ({ className }) => (
     />
     <path
       d='M11 7C11 8.65685 9.65685 10 8 10C6.34315 10 5 8.65685 5 7C5 5.34315 6.34315 4 8 4C9.65685 4 11 5.34315 11 7Z'
-      fill='var(--persimmon)'
+      fill={isActive ? 'var(--persimmon)' : 'inherit'}
     />
   </svg>
 )
@@ -147,7 +147,11 @@ const ScreenerSignalDialog = ({
               </>
             ) : (
               <>
-                <EditSignalIcon className={styles.iconAlert} /> {title}
+                <EditSignalIcon
+                  className={styles.iconAlert}
+                  isActive={stateSignal.isActive}
+                />{' '}
+                {title}
               </>
             )}
           </Button>
