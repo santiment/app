@@ -262,6 +262,24 @@ export const COLUMNS = (preload, props = {}) => [
     Cell: ({ value }) =>
       isValidValue(value) ? <PercentChanges changes={value * 100} /> : NO_DATA,
     sortMethod: simpleSort
+  }),
+  constructColumn({
+    id: COLUMNS_NAMES.marketSegments,
+    heading: 'Market Segments',
+    accessor: 'marketSegments',
+    Cell: ({ value: values }) =>
+      values ? (
+        <div className={styles.segments}>
+          {values.map(segment => (
+            <Label variant='fill' className={styles.segment}>
+              {segment}
+            </Label>
+          ))}
+        </div>
+      ) : (
+        NO_DATA
+      ),
+    sortMethod: simpleSort
   })
 ]
 
@@ -282,7 +300,8 @@ export const COLUMNS_NAMES = {
   infrastructure: 'Infrastructure',
   devActivity7: 'Dev. activity (7d)',
   devActivity30: 'Dev. activity (30d)',
-  devActivityChange30d: 'Dev. activity % change (30d)'
+  devActivityChange30d: 'Dev. activity % change (30d)',
+  marketSegments: 'Market Segments'
 }
 
 export const COLUMNS_SETTINGS = {
@@ -294,6 +313,7 @@ export const COLUMNS_SETTINGS = {
   [COLUMNS_NAMES.volume_change]: { show: true, selectable: true },
   [COLUMNS_NAMES.marketcapUsd]: { show: true, selectable: true },
   [COLUMNS_NAMES.rank]: { show: true, selectable: true },
+  [COLUMNS_NAMES.marketSegments]: { show: true, selectable: true },
   [COLUMNS_NAMES.eth_spent]: {
     show: true,
     selectable: true,
@@ -323,13 +343,13 @@ export const COLUMNS_SETTINGS = {
 
 export const COMMON_SETTINGS = {
   pageSize: 20,
-  hiddenColumns: [COLUMNS_NAMES.eth_spent],
+  hiddenColumns: [COLUMNS_NAMES.eth_spent, COLUMNS_NAMES.marketSegments],
   sorting: { id: COLUMNS_NAMES.marketcapUsd, desc: false }
 }
 
 export const CATEGORIES_SETTINGS = {
   'All Assets': {
-    hiddenColumns: [COLUMNS_NAMES.eth_spent]
+    hiddenColumns: [COLUMNS_NAMES.eth_spent, COLUMNS_NAMES.marketSegments]
   },
   'ERC20 Assets': { hiddenColumns: [] },
   'Top 50 ERC20': {
@@ -352,6 +372,7 @@ export const ASSETS_TABLE_COLUMNS = [
   COLUMNS_NAMES.marketcapUsd,
   COLUMNS_NAMES.rank,
   COLUMNS_NAMES.eth_spent,
+  COLUMNS_NAMES.marketSegments,
   COLUMNS_NAMES.devact,
   COLUMNS_NAMES.daily_active_addresses
 ]

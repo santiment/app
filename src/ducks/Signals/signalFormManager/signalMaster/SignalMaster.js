@@ -110,13 +110,7 @@ const SignalMaster = ({
   )
 
   const handleSettingsChange = formProps => {
-    const newTrigger = mapFormPropsToTrigger(formProps, stateTrigger)
-
-    const data = {
-      ...newTrigger,
-      shouldReload: true
-    }
-
+    const data = mapFormPropsToTrigger(formProps, stateTrigger)
     const { id } = data
 
     if (id > 0 && !isShared) {
