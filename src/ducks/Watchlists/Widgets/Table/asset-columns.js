@@ -275,7 +275,14 @@ export const COLUMNS = (preload, props = {}) => [
     id: COLUMNS_NAMES.marketSegments,
     heading: 'Market Segments',
     accessor: 'marketSegments',
-    Cell: ({ value }) => (value ? value.join(', ') : NO_DATA),
+    Cell: ({ value: values }) =>
+      values
+        ? values.map(segment => (
+          <Label variant='fill' className={styles.segment}>
+            {segment}
+          </Label>
+        ))
+        : NO_DATA,
     sortMethod: simpleSort
   })
 ]
