@@ -37,7 +37,7 @@ const CustomNoDataComponent = ({ isLoading }) => {
   return (
     <NoDataTemplate
       className={styles.noData}
-      desc='The assets for the filter you searching for was not found. Check if it is correct or try another filter settings.'
+      desc="The assets for the filter which you applying weren't found. Check if it's correct or try another filter settings."
     />
   )
 }
