@@ -3,6 +3,7 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
+import throttle from 'lodash.throttle'
 import { useUpdateWatchlist } from '../../gql/hooks'
 import Trigger from './Trigger'
 import { metrics } from './metrics'
@@ -57,7 +58,7 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
       })
     }
 
-    changeFilterHeight()
+    throttle(changeFilterHeight, 200)
 
     window.addEventListener('scroll', changeFilterHeight)
     return () => window.removeEventListener('scroll', changeFilterHeight)

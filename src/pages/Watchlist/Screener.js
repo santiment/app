@@ -17,7 +17,7 @@ const Screener = props => {
   const [isVolumeTreeMap, setVolumeTreeMap] = useState(false)
 
   return (
-    <div className={('page', styles.container)}>
+    <div className={('page', styles.screener)}>
       <GetAssets
         {...props}
         type={props.type}

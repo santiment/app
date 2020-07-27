@@ -134,7 +134,7 @@ const AssetsTable = ({
             <AssetsToggleColumns columns={columns} onChange={toggleColumn} />
           )}
           {type === 'screener' && (
-            <div className={styles.rightActions}>
+            <>
               <ScreenerSignalDialog
                 watchlistId={watchlist.id}
                 classes={styles}
@@ -145,7 +145,7 @@ const AssetsTable = ({
                 projectsCount={items.length}
                 isAuthor={isAuthor}
               />
-            </div>
+            </>
           )}
         </div>
       </div>
