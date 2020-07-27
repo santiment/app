@@ -1,7 +1,8 @@
 @import '~@santiment-network/ui/mixins.scss';
 
-.container {
+.screener {
   background: var(--white);
+  min-height: calc(100vh - 150px);
 }
 
 .tableWrapper {

@@ -4,7 +4,7 @@ import Timer from '../Timer'
 import { dateDifferenceInWords } from '../../utils/dates'
 import styles from './Refresh.module.scss'
 
-const Refresh = ({ onRefreshClick, timestamp }) => {
+const Refresh = ({ onRefreshClick, timestamp, isLoading }) => {
   const options = { from: new Date(timestamp) }
 
   return (
@@ -16,9 +16,11 @@ const Refresh = ({ onRefreshClick, timestamp }) => {
       />
       <Timer interval={1000 * 60} syncRef={timestamp}>
         {() =>
-          timestamp
-            ? `Updated ${dateDifferenceInWords(options)}`
-            : 'Data is not loaded'
+          isLoading
+            ? 'Loading...'
+            : timestamp
+              ? `Updated ${dateDifferenceInWords(options)}`
+              : "Data isn't loaded"
         }
       </Timer>
     </div>

@@ -1,9 +1,5 @@
 @import '~@santiment-network/ui/mixins';
 
-.container {
-  position: absolute;
-}
-
 .wrapper {
   background-color: var(--white);
   border-top: 1px solid var(--porcelain);
@@ -17,7 +13,7 @@
   transition: transform 0.3s ease-in-out;
   transform: translateX(376px);
   user-select: none;
-  min-height: 100vh;
+  min-height: calc(100vh - 200px);
 }
 
 .active {

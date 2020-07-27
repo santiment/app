@@ -1,22 +1,59 @@
 @import '~@santiment-network/ui/mixins';
 
+.icon {
+  margin-right: 9px;
+}
+
+.text {
+  position: relative;
+
+  &__active::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -13px;
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    border: 1px solid var(--athens);
+    background: var(--jungle-green);
+  }
+}
+
 .button {
   background: var(--athens);
   fill: var(--casper);
   margin-left: 20px;
 
+  &.active {
+    background: var(--jungle-green-light);
+    color: var(--jungle-green);
+    fill: var(--jungle-green-light-3);
+    margin-right: 376px;
+
+    & .text__active::after {
+      background: var(--jungle-green-hover);
+    }
+  }
+
   &:hover {
     fill: var(--jungle-green-light-3);
+
+    & .text__active::after {
+      background: var(--jungle-green-hover);
+    }
   }
 }
 
-.active {
-  background: var(--jungle-green-light);
-  color: var(--jungle-green);
-  fill: var(--jungle-green-light-3);
-  margin-right: 376px;
+.tooltip {
+  z-index: 10000;
 }
 
-.icon {
-  margin-right: 9px;
+.tooltipWrapper {
+  position: relative;
+}
+
+.tooltipContainer {
+  width: 205px;
 }

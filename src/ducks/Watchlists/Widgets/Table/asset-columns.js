@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
-import { Panel, Tooltip, Label } from '@santiment-network/ui'
+import Label from '@santiment-network/ui/Label'
 import { formatNumber, millify } from '../../../../utils/formatting'
 import ProjectLabel from '../../../../components/ProjectLabel'
 import PercentChanges from '../../../../components/PercentChanges'
@@ -10,12 +10,6 @@ import LayoutForAsset from '../../../Studio/Template/LayoutForAsset/LayoutForAss
 import styles from './AssetsToggleColumns.module.scss'
 
 const simpleSort = (a, b) => b - a
-
-const HeaderWithDesc = ({ description, heading }) => (
-  <Tooltip className={styles.tooltip} trigger={<span>{heading}</span>}>
-    <Panel padding>{description}</Panel>
-  </Tooltip>
-)
 
 const isValidValue = value => !isNaN(parseFloat(value))
 
@@ -32,15 +26,7 @@ const constructColumn = ({
 }) => {
   return {
     id,
-    Header: () => (
-      <div className={cx('heading', className)}>
-        {description ? (
-          <HeaderWithDesc description={description} heading={heading} />
-        ) : (
-          heading
-        )}
-      </div>
-    ),
+    Header: () => <div className={cx('heading', className)}>{heading}</div>,
     sortable: Boolean(sortMethod),
     sortMethod,
     filterable: Boolean(filterMethod),

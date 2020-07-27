@@ -48,10 +48,12 @@
 
   margin: 0;
   max-width: 326px;
+  min-width: 250px;
 }
 
 .img {
   margin: 0 36px 0 0;
+  min-width: 344px;
 
   @include responsive('phone-xs', 'phone') {
     margin: 0;

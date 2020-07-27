@@ -1,12 +1,11 @@
 import React, { Fragment } from 'react'
-import {
-  Button,
-  Checkbox,
-  ContextMenu,
-  Icon,
-  Panel,
-  Tooltip
-} from '@santiment-network/ui'
+import cx from 'classnames'
+import Button from '@santiment-network/ui/Button'
+import Tooltip from '@santiment-network/ui/Tooltip'
+import Panel from '@santiment-network/ui/Panel'
+import { Checkbox } from '@santiment-network/ui/Checkboxes'
+import Icon from '@santiment-network/ui/Icon'
+import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { COLUMNS_NAMES, MARKET_SEGMENT_COLUMNS } from './asset-columns.js'
 import { Description } from '../../../dataHub/metrics/descriptions'
 import MetricDescription from '../../../SANCharts/MetricDescription/MetricDescription'
@@ -19,10 +18,14 @@ const HIDDEN_COLUMNS = [
   ...MARKET_SEGMENT_COLUMNS
 ]
 
-const AssetsToggleColumns = ({ columns = [], onChange }) => (
+const AssetsToggleColumns = ({ columns = [], onChange, isScreener }) => (
   <ContextMenu
     trigger={
-      <Button fluid variant='flat' className={styles.button}>
+      <Button
+        fluid
+        variant='flat'
+        className={cx(styles.button, isScreener && styles.button__withLine)}
+      >
         <Icon type='columns' />
       </Button>
     }

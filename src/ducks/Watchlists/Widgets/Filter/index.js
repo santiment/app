@@ -3,6 +3,7 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
+import throttle from 'lodash.throttle'
 import { useUpdateWatchlist } from '../../gql/hooks'
 import Trigger from './Trigger'
 import { metrics } from './metrics'
@@ -16,14 +17,19 @@ import styles from './index.module.scss'
 
 const VIEWPORT_HEIGHT = window.innerHeight
 
-const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
+const Filter = ({
+  watchlist = {},
+  projectsCount,
+  isAuthor,
+  setIsOpen,
+  isOpen
+}) => {
   if (!watchlist.function) {
     return null
   }
 
   const { filters = [] } = watchlist.function.args
   const isNoFilters = watchlist.function.name === 'top_all_projects'
-  const [isActive, setIsActive] = useState(false)
   const filterRef = useRef(null)
   const filterContentRef = useRef(null)
   const [filter, updateFilter] = useState(filters)
@@ -57,7 +63,7 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
       })
     }
 
-    changeFilterHeight()
+    throttle(changeFilterHeight, 200)
 
     window.addEventListener('scroll', changeFilterHeight)
     return () => window.removeEventListener('scroll', changeFilterHeight)
@@ -142,15 +148,19 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
 
   return (
     <>
-      <Trigger isActive={isActive} onClick={setIsActive} />
+      <Trigger
+        isOpen={isOpen}
+        onClick={() => setIsOpen(!isOpen)}
+        activeMetricsCount={activeBaseMetrics.length}
+      />
       <section
-        className={cx(styles.wrapper, isActive && styles.active)}
+        className={cx(styles.wrapper, isOpen && styles.active)}
         ref={filterRef}
       >
         <Icon
           type='close'
           className={styles.closeIcon}
-          onClick={() => setIsActive(!isActive)}
+          onClick={() => setIsOpen(false)}
         />
         <div className={cx(styles.top, !isAuthor && styles.top__column)}>
           <span className={styles.count}>{projectsCount} assets</span>
@@ -170,7 +180,7 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
           {loading && <Loader className={styles.loader} />}
         </div>
         <div className={styles.content} ref={filterContentRef}>
-          {isActive &&
+          {isOpen &&
             Object.keys(categories).map(key => (
               <Category
                 key={key}

@@ -55,6 +55,8 @@ const IconTooltipWrapper = ({ children }) => {
         description=''
         closable={false}
         delay={500}
+        withArrow={false}
+        offsetY={3}
         className={styles.tooltipContainer}
         trigger={children}
       >

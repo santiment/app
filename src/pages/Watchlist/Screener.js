@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import PageLoader from '../../components/Loader/PageLoader'
 import { getWatchlistName } from '../../ducks/Watchlists/utils'
 import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
 import GetAssets from '../../ducks/Watchlists/Widgets/Table/GetAssets'
@@ -17,7 +16,7 @@ const Screener = props => {
   const [isVolumeTreeMap, setVolumeTreeMap] = useState(false)
 
   return (
-    <div className={('page', styles.container)}>
+    <div className={('page', styles.screener)}>
       <GetAssets
         {...props}
         type={props.type}
@@ -25,7 +24,6 @@ const Screener = props => {
           const title = getWatchlistName(props)
           const {
             typeInfo: { listId },
-            isLoading,
             isCurrentUserTheAuthor,
             items = [],
             projectsCount
@@ -51,54 +49,48 @@ const Screener = props => {
                   toggleVolumeTreeMap: setVolumeTreeMap
                 }}
               />
-              {isLoading && <PageLoader className={styles.loading} />}
-
-              {!isLoading && (
+              {(isVolumeTreeMap || isPriceTreeMap) && (
                 <>
-                  {(isVolumeTreeMap || isPriceTreeMap) && (
-                    <>
-                      <div className={styles.treeMaps}>
-                        {isPriceTreeMap && (
-                          <ProjectsTreeMap
-                            className={styles.containerTreeMap}
-                            assets={items}
-                            title='Price Up'
-                            ranges={RANGES}
-                          />
-                        )}
-                        {isVolumeTreeMap && (
-                          <ProjectsTreeMap
-                            className={styles.containerTreeMap}
-                            assets={items}
-                            title='Volume'
-                            ranges={[
-                              {
-                                label: '24h',
-                                key: 'volumeChange24h'
-                              }
-                            ]}
-                          />
-                        )}
-                      </div>
-                    </>
-                  )}
-                  {isPriceChartActive && <ProjectsChart assets={items} />}
-                  <AssetsTable
-                    Assets={Assets}
-                    items={items}
-                    type='screener'
-                    isAuthor={isCurrentUserTheAuthor}
-                    projectsCount={projectsCount}
-                    watchlist={props.watchlist}
-                    classes={{ container: styles.tableWrapper }}
-                    className={styles.table}
-                    goto={props.history.push}
-                    preload={props.preload}
-                    listName={title}
-                    allColumns={ASSETS_TABLE_COLUMNS}
-                  />
+                  <div className={styles.treeMaps}>
+                    {isPriceTreeMap && (
+                      <ProjectsTreeMap
+                        className={styles.containerTreeMap}
+                        assets={items}
+                        title='Price Up'
+                        ranges={RANGES}
+                      />
+                    )}
+                    {isVolumeTreeMap && (
+                      <ProjectsTreeMap
+                        className={styles.containerTreeMap}
+                        assets={items}
+                        title='Volume'
+                        ranges={[
+                          {
+                            label: '24h',
+                            key: 'volumeChange24h'
+                          }
+                        ]}
+                      />
+                    )}
+                  </div>
                 </>
               )}
+              {isPriceChartActive && <ProjectsChart assets={items} />}
+              <AssetsTable
+                Assets={Assets}
+                items={items}
+                type='screener'
+                isAuthor={isCurrentUserTheAuthor}
+                projectsCount={projectsCount}
+                watchlist={props.watchlist}
+                classes={{ container: styles.tableWrapper }}
+                className={styles.table}
+                goto={props.history.push}
+                preload={props.preload}
+                listName={title}
+                allColumns={ASSETS_TABLE_COLUMNS}
+              />
             </>
           )
         }}

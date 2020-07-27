@@ -199,17 +199,6 @@ hr {
   background-color: #661400;
 }
 
-/* CHART */
-
-.night-mode .chart-header,
-.night-mode .chart-footer {
-  border-color: #2d3239;
-}
-
-.night-mode .project-chart-body {
-  background-color: #23252a;
-}
-
 .modal[class*='svelte'] {
   position: fixed !important;
 }

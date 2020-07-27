@@ -11,6 +11,7 @@ import {
 } from '../../../../actions/types'
 import Refresh from '../../../../components/Refresh/Refresh'
 import ServerErrorMessage from './../../../../components/ServerErrorMessage'
+import NoDataTemplate from '../../../../components/NoDataTemplate/index'
 import AssetsToggleColumns from './AssetsToggleColumns'
 import Filter from '../Filter'
 import { COLUMNS, COMMON_SETTINGS, COLUMNS_SETTINGS } from './asset-columns'
@@ -27,6 +28,19 @@ export const CustomHeadComponent = ({ children, className, ...rest }) => (
     </div>
   </Sticky>
 )
+
+const CustomNoDataComponent = ({ isLoading }) => {
+  if (isLoading) {
+    return null
+  }
+
+  return (
+    <NoDataTemplate
+      className={styles.noData}
+      desc="The assets for the filter which you applying weren't found. Check if it's correct or try another filter settings."
+    />
+  )
+}
 
 const AssetsTable = ({
   Assets = {
@@ -54,6 +68,7 @@ const AssetsTable = ({
   columnProps
 }) => {
   const [markedAsNew, setAsNewMarked] = useState()
+  const [isFilterOpened, setIsFilterOpened] = useState(false)
 
   const hideMarkedAsNew = useCallback(() => {
     setAsNewMarked(undefined)
@@ -127,12 +142,17 @@ const AssetsTable = ({
         ) : (
           <Refresh
             timestamp={timestamp}
+            isLoading={isLoading}
             onRefreshClick={() => refetchAssets({ ...typeInfo, minVolume })}
           />
         )}
         <div className={styles.actions}>
           {showCollumnsToggle && (
-            <AssetsToggleColumns columns={columns} onChange={toggleColumn} />
+            <AssetsToggleColumns
+              columns={columns}
+              onChange={toggleColumn}
+              isScreener={type === 'screener'}
+            />
           )}
           {type === 'screener' && (
             <>
@@ -145,6 +165,8 @@ const AssetsTable = ({
                 // projectsCount={projectsCount}
                 projectsCount={items.length}
                 isAuthor={isAuthor}
+                isOpen={isFilterOpened}
+                setIsOpen={setIsFilterOpened}
               />
             </>
           )}
@@ -158,14 +180,20 @@ const AssetsTable = ({
         defaultPageSize={columnsAmount}
         pageSizeOptions={[5, 10, 20, 25, 50, 100]}
         pageSize={showAll ? items && items.length : undefined}
-        minRows={0}
+        minRows={5}
         sortable={false}
         resizable={false}
         defaultSorted={[sortingColumn]}
-        className={cx('-highlight', styles.assetsTable, className)}
+        className={cx(
+          '-highlight',
+          styles.assetsTable,
+          isFilterOpened && styles.assetsTable__filterView,
+          className
+        )}
         data={items}
         columns={shownColumns}
-        loadingText='Loading...'
+        loadingText=''
+        NoDataComponent={() => <CustomNoDataComponent isLoading={isLoading} />}
         TheadComponent={CustomHeadComponent}
         getTdProps={() => ({
           onClick: (e, handleOriginal) => {
