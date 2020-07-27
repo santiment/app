@@ -6,11 +6,12 @@ import Dialog from '@santiment-network/ui/Dialog'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import ScreenerSignal from './ScreenerSignal'
-import { fetchSignals, updateTrigger, createTrigger } from '../common/actions'
+import { updateTrigger, createTrigger } from '../common/actions'
 import { SCREENER_DEFAULT_SIGNAL } from '../utils/constants'
 import { useWatchlist } from '../../Watchlists/gql/hooks'
-import PageLoader from '../../../components/Loader/PageLoader'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import styles from './ScreenerSignalDialog.module.scss'
+import { useSignals } from '../common/getSignals'
 
 export const EditSignalIcon = ({ className }) => (
   <svg
@@ -51,8 +52,6 @@ const ScreenerSignalDialog = ({
   trigger: ElTrigger,
   signal,
   watchlistId,
-  signals,
-  fetchSignals,
   createTrigger,
   updateTrigger,
   defaultOpen,
@@ -60,18 +59,16 @@ const ScreenerSignalDialog = ({
   goBackTo
 }) => {
   const [stateSignal, setSignal] = useState(signal || SCREENER_DEFAULT_SIGNAL)
-
   const [open, setOpen] = useState(defaultOpen)
+
   const targetId = watchlistId || getWachlistIdFromSignal(signal)
-  const [watchlist = {}, loading] = useWatchlist(targetId)
+  const [watchlist = {}, watchlistLoading] = useWatchlist(targetId)
 
   const hasSignal = signal && signal.id > 0
 
-  useEffect(() => {
-    if (!hasSignal && signals.length === 0) {
-      fetchSignals()
-    }
-  }, [])
+  const { data: signals = [], loading: signalsLoading } = useSignals({
+    skip: hasSignal
+  })
 
   useEffect(
     () => {
@@ -101,7 +98,7 @@ const ScreenerSignalDialog = ({
         setSignal(newSignal)
       }
     },
-    [signals, watchlist]
+    [signals.length, watchlist]
   )
 
   const onSubmit = useCallback(
@@ -119,18 +116,26 @@ const ScreenerSignalDialog = ({
     [stateSignal]
   )
 
+  const close = useCallback(
+    () => {
+      setOpen(false)
+      goBackTo && redirect(goBackTo)
+    },
+    [goBackTo, redirect, setOpen]
+  )
+
   const isNew = !stateSignal.id
   const title = isNew ? 'Enable Alert' : 'Edit Alert'
+
+  if (watchlistLoading || signalsLoading) {
+    return <Loader className={styles.loader} />
+  }
 
   return (
     <Dialog
       open={open}
       onOpen={() => setOpen(true)}
-      onClose={() => {
-        setOpen(false)
-
-        goBackTo && redirect(goBackTo)
-      }}
+      onClose={close}
       title={title}
       classes={styles}
       trigger={
@@ -150,28 +155,19 @@ const ScreenerSignalDialog = ({
       }
     >
       <Dialog.ScrollContent>
-        {loading ? (
-          <PageLoader />
-        ) : (
-          <ScreenerSignal
-            watchlist={watchlist}
-            signal={stateSignal}
-            onCancel={() => setOpen(false)}
-            onSubmit={onSubmit}
-          />
-        )}
+        <ScreenerSignal
+          watchlist={watchlist}
+          signal={stateSignal}
+          onCancel={close}
+          onSubmit={onSubmit}
+        />
       </Dialog.ScrollContent>
     </Dialog>
   )
 }
 
-const mapStateToProps = state => ({
-  signals: state.signals.all
-})
-
 const mapDispatchToProps = dispatch => {
   return {
-    fetchSignals: () => dispatch(fetchSignals()),
     createTrigger: payload => dispatch(createTrigger(payload)),
     updateTrigger: payload => dispatch(updateTrigger(payload)),
     redirect: url => {
@@ -181,6 +177,6 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(ScreenerSignalDialog)

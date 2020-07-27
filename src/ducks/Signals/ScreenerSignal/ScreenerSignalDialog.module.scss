@@ -2,6 +2,7 @@
 
 .btn {
   color: var(--fiord);
+  margin-left: 20px;
 
   &:hover {
     svg {
@@ -21,4 +22,13 @@
 
 .dialog {
   width: 480px;
+}
+
+.loader {
+  font-size: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 103px;
+  margin-left: 20px;
 }

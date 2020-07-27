@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import Link from 'react-router-dom/Link'
 import Label from '@santiment-network/ui/Label'
 import Selector from '@santiment-network/ui/Selector/Selector'
 import Settings from './Settings'
@@ -13,12 +14,12 @@ import SettingsTelegramNotifications from './SettingsTelegramNotifications'
 import SettingsEmailNotifications from './SettingsEmailNotifications'
 import SettingsSonarWebPushNotifications from './SettingsSonarWebPushNotifications'
 import ShowIf from '../../components/ShowIf/ShowIf'
-import GetSignals, {
-  filterByChannels
+import {
+  filterByChannels,
+  useSignals
 } from '../../ducks/Signals/common/getSignals'
 import { CHANNEL_TYPES } from '../../ducks/Signals/utils/constants'
 import { DEFAULT_SETTINGS, useUserSettings } from '../../stores/user/settings'
-import Link from 'react-router-dom/Link'
 import styles from './AccountPage.module.scss'
 
 export const NEWSLETTER_SUBSCRIPTION_MUTATION = gql`
@@ -64,90 +65,80 @@ const SettingsNotifications = ({ changeDigestType, mutateDigestType }) => {
     hasTelegramConnected
   } = settings || DEFAULT_SETTINGS
 
+  const { data: signals } = useSignals()
+
+  const allCount = signals.length
+  const countWithEmail = channelByTypeLength(signals, CHANNEL_TYPES.Email)
+  const countWithTelegram = channelByTypeLength(signals, CHANNEL_TYPES.Telegram)
+  const countWithBrowserPush = channelByTypeLength(
+    signals,
+    CHANNEL_TYPES.Browser
+  )
+
   return (
-    <GetSignals
-      render={({ data: { signals = [] } = {}, isLoading }) => {
-        const allCount = signals.length
-        const countWithEmail = channelByTypeLength(signals, CHANNEL_TYPES.Email)
-        const countWithTelegram = channelByTypeLength(
-          signals,
-          CHANNEL_TYPES.Telegram
-        )
-        const countWithBrowserPush = channelByTypeLength(
-          signals,
-          CHANNEL_TYPES.Browser
-        )
+    <Settings id='notifications' header='Notifications'>
+      <Settings.Row>
+        <SettingsEmailNotifications
+          isEmailNotificationEnabled={signalNotifyEmail}
+          description={SignalsDescription(
+            countWithEmail,
+            allCount,
+            CHANNEL_TYPES.Email
+          )}
+        />
+      </Settings.Row>
 
-        return (
-          <Settings id='notifications' header='Notifications'>
-            <Settings.Row>
-              <SettingsEmailNotifications
-                isEmailNotificationEnabled={signalNotifyEmail}
-                description={SignalsDescription(
-                  countWithEmail,
-                  allCount,
-                  CHANNEL_TYPES.Email
-                )}
-              />
-            </Settings.Row>
+      <Settings.Row>
+        <SettingsTelegramNotifications
+          signalNotifyTelegram={signalNotifyTelegram}
+          hasTelegramConnected={hasTelegramConnected}
+          description={SignalsDescription(
+            countWithTelegram,
+            allCount,
+            CHANNEL_TYPES.Telegram
+          )}
+        />
+      </Settings.Row>
 
-            <Settings.Row>
-              <SettingsTelegramNotifications
-                signalNotifyTelegram={signalNotifyTelegram}
-                hasTelegramConnected={hasTelegramConnected}
-                description={SignalsDescription(
-                  countWithTelegram,
-                  allCount,
-                  CHANNEL_TYPES.Telegram
-                )}
-              />
-            </Settings.Row>
+      <ShowIf beta>
+        <Settings.Row>
+          <SettingsSonarWebPushNotifications
+            description={SignalsDescription(
+              countWithBrowserPush,
+              allCount,
+              CHANNEL_TYPES.Browser
+            )}
+          />
+        </Settings.Row>
+      </ShowIf>
 
-            <ShowIf beta>
-              <Settings.Row>
-                <SettingsSonarWebPushNotifications
-                  description={SignalsDescription(
-                    countWithBrowserPush,
-                    allCount,
-                    CHANNEL_TYPES.Browser
-                  )}
-                />
-              </Settings.Row>
-            </ShowIf>
-
-            <Settings.Row>
-              <div className={styles.digest}>
-                <div className={styles.setting__left}>
-                  <Label>Digest</Label>
-                  <Label
-                    className={styles.setting__description}
-                    accent='waterloo'
-                  >
-                    Receive the best insights and alerts on Sanbase
-                    <br />
-                    peersonalized based on your interests.
-                  </Label>
-                </div>
-                <Selector
-                  className={styles.digestSelector}
-                  options={['WEEKLY', 'OFF']}
-                  nameOptions={['Weekly', 'Off']}
-                  onSelectOption={subscription =>
-                    mutateDigestType({ variables: { subscription } })
-                      .then(() => {
-                        changeDigestType(subscription)
-                        onDigestChangeSuccess()
-                      })
-                      .catch(onDigestChangeError)
-                  }
-                  defaultSelected={digestType}
-                />
-              </div>
-            </Settings.Row>
-          </Settings>
-        )
-      }}
-    />
+      <Settings.Row>
+        <div className={styles.digest}>
+          <div className={styles.setting__left}>
+            <Label>Digest</Label>
+            <Label className={styles.setting__description} accent='waterloo'>
+              Receive the best insights and alerts on Sanbase
+              <br />
+              peersonalized based on your interests.
+            </Label>
+          </div>
+          <Selector
+            className={styles.digestSelector}
+            options={['WEEKLY', 'OFF']}
+            nameOptions={['Weekly', 'Off']}
+            onSelectOption={subscription =>
+              mutateDigestType({ variables: { subscription } })
+                .then(() => {
+                  changeDigestType(subscription)
+                  onDigestChangeSuccess()
+                })
+                .catch(onDigestChangeError)
+            }
+            defaultSelected={digestType}
+          />
+        </div>
+      </Settings.Row>
+    </Settings>
   )
 }
 
