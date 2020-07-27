@@ -1,8 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
-import Panel from '@santiment-network/ui/Panel'
-import Tooltip from '@santiment-network/ui/Tooltip'
 import Label from '@santiment-network/ui/Label'
 import { formatNumber, millify } from '../../../../utils/formatting'
 import ProjectLabel from '../../../../components/ProjectLabel'
@@ -12,12 +10,6 @@ import LayoutForAsset from '../../../Studio/Template/LayoutForAsset/LayoutForAss
 import styles from './AssetsToggleColumns.module.scss'
 
 const simpleSort = (a, b) => b - a
-
-const HeaderWithDesc = ({ description, heading }) => (
-  <Tooltip className={styles.tooltip} trigger={<span>{heading}</span>}>
-    <Panel padding>{description}</Panel>
-  </Tooltip>
-)
 
 const isValidValue = value => !isNaN(parseFloat(value))
 

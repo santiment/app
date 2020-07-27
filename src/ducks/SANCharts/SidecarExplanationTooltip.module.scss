@@ -21,11 +21,12 @@
 
 .btn {
   cursor: pointer;
-  fill: var(--mystic);
+  fill: var(--casper);
   outline: none;
   border: none;
   margin-top: 5px;
   margin-left: 8px;
+  min-width: 7px;
 
   &:hover {
     fill: var(--jungle-green-hover);

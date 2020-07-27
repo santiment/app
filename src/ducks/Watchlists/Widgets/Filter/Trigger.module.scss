@@ -49,3 +49,11 @@
 .tooltip {
   z-index: 10000;
 }
+
+.tooltipWrapper {
+  position: relative;
+}
+
+.tooltipContainer {
+  width: 205px;
+}

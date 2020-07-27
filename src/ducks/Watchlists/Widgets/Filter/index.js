@@ -149,7 +149,7 @@ const Filter = ({
   return (
     <>
       <Trigger
-        isActive={isOpen}
+        isOpen={isOpen}
         onClick={() => setIsOpen(!isOpen)}
         activeMetricsCount={activeBaseMetrics.length}
       />

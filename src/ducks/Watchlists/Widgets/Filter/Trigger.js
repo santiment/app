@@ -3,17 +3,20 @@ import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Tooltip from '../../../../components/Tooltip/DarkTooltip'
+import ExplanationTooltip from '../../../SANCharts/SidecarExplanationTooltip'
 import styles from './Trigger.module.scss'
 
-const Trigger = ({ activeMetricsCount, isActive, onClick }) =>
+export const EXPLANATION_TOOLTIP_MARK = '_FILTER_EXPLANATION'
+
+const Trigger = ({ activeMetricsCount, isOpen, onClick }) =>
   activeMetricsCount > 0 ? (
     <Tooltip
       className={styles.tooltip}
       withArrow={false}
       trigger={
         <Button
-          className={cx(styles.button, isActive && styles.active)}
-          onClick={() => onClick(!isActive)}
+          className={cx(styles.button, isOpen && styles.active)}
+          onClick={() => onClick(!isOpen)}
         >
           <Icon className={styles.icon} type='filter-filled' />
           <span
@@ -32,20 +35,39 @@ const Trigger = ({ activeMetricsCount, isActive, onClick }) =>
       } applied`}
     </Tooltip>
   ) : (
-    <Button
-      className={cx(styles.button, isActive && styles.active)}
-      onClick={() => onClick(!isActive)}
-    >
-      <Icon className={styles.icon} type='filter-filled' />
-      <span
-        className={cx(
-          styles.text,
-          activeMetricsCount > 0 && styles.text__active
-        )}
+    <div className={styles.tooltipWrapper}>
+      <ExplanationTooltip
+        closeTimeout={500}
+        localStorageSuffix={EXPLANATION_TOOLTIP_MARK}
+        position='top'
+        align='end'
+        forceClose={isOpen}
+        title={
+          <div className={styles.tooltip}>
+            Customize your screener with multiple asset filters
+          </div>
+        }
+        description=''
+        withArrow
+        delay={0}
+        className={styles.tooltipContainer}
       >
-        Filter
-      </span>
-    </Button>
+        <Button
+          className={cx(styles.button, isOpen && styles.active)}
+          onClick={() => onClick(!isOpen)}
+        >
+          <Icon className={styles.icon} type='filter-filled' />
+          <span
+            className={cx(
+              styles.text,
+              activeMetricsCount > 0 && styles.text__active
+            )}
+          >
+            Filter
+          </span>
+        </Button>
+      </ExplanationTooltip>
+    </div>
   )
 
 export default Trigger

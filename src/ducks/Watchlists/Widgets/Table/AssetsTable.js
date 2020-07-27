@@ -192,7 +192,7 @@ const AssetsTable = ({
         )}
         data={items}
         columns={shownColumns}
-        loadingText='Loading...'
+        loadingText=''
         NoDataComponent={() => <CustomNoDataComponent isLoading={isLoading} />}
         TheadComponent={CustomHeadComponent}
         getTdProps={() => ({

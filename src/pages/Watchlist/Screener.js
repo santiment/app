@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import PageLoader from '../../components/Loader/PageLoader'
 import { getWatchlistName } from '../../ducks/Watchlists/utils'
 import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
 import GetAssets from '../../ducks/Watchlists/Widgets/Table/GetAssets'
@@ -25,7 +24,6 @@ const Screener = props => {
           const title = getWatchlistName(props)
           const {
             typeInfo: { listId },
-            isLoading,
             isCurrentUserTheAuthor,
             items = [],
             projectsCount
