@@ -4,6 +4,11 @@
   margin-top: 0;
 }
 
+.assets-table-row-tooltip {
+  display: flex;
+}
+
+
 .row {
   display: flex;
   width: 100%;
@@ -111,6 +116,16 @@
 
 .ReactTable .rt-tr-group:hover {
   background: var(--athens) !important;
+
+  .assets-table-row-tooltip {
+    svg {
+      display: flex;
+    }
+
+    div {
+      display: none;
+    }
+  }
 }
 
 .ReactTable .rt-tr:hover {
