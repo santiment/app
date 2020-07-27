@@ -29,12 +29,11 @@
   }
 
   &__disabled {
-    color: var(--waterloo);
+    opacity: 0.5;
     cursor: not-allowed;
 
     &:hover {
       background: none;
-      color: var(--waterloo);
     }
   }
 }

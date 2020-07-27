@@ -3,8 +3,15 @@
 .label {
   pointer-events: all;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  min-height: 20px;
+  padding: 1px 7px;
+
+  @include text('caption', 'm');
 
   &:hover {
     color: white;
+    background-color: var(--texas-rose-hover);
   }
 }
