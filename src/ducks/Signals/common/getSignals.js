@@ -6,7 +6,7 @@ export const filterByChannels = (signals, type) =>
     Array.isArray(channel) ? channel.indexOf(type) !== -1 : channel === type
   )
 
-export const useSignals = ({ skip = false, filters }) => {
+export const useSignals = ({ skip = false, filters } = {}) => {
   const { data = {}, loading, error } = useQuery(TRIGGERS_QUERY, {
     skip: skip
   })
