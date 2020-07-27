@@ -62,7 +62,7 @@ const ScreenerSignalDialog = ({
   const [open, setOpen] = useState(defaultOpen)
 
   const targetId = watchlistId || getWachlistIdFromSignal(signal)
-  const [watchlist = {}] = useWatchlist({ id: targetId, skip: !open })
+  const [watchlist = {}, watchlistLoading] = useWatchlist({ id: targetId })
 
   const hasSignal = signal && signal.id > 0
 
