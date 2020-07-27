@@ -148,7 +148,11 @@ const Filter = ({
 
   return (
     <>
-      <Trigger isActive={isOpen} onClick={() => setIsOpen(!isOpen)} />
+      <Trigger
+        isActive={isOpen}
+        onClick={() => setIsOpen(!isOpen)}
+        activeMetricsCount={activeBaseMetrics.length}
+      />
       <section
         className={cx(styles.wrapper, isOpen && styles.active)}
         ref={filterRef}
