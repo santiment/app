@@ -13,6 +13,7 @@ const FilterMetricSettings = ({
   onFilterTypeChange,
   onTimeRangeChange,
   onFirstThresholdChange,
+  autoFocus,
   settings: { firstThreshold, timeRange, type }
 }) => {
   const isShowTimeRange = Filter[type].showTimeRange || metric.showTimeRange
@@ -37,6 +38,7 @@ const FilterMetricSettings = ({
       <ValueInput
         type={type}
         metric={metric}
+        autoFocus={autoFocus}
         defaultValue={firstThreshold}
         onChange={onFirstThresholdChange}
       />

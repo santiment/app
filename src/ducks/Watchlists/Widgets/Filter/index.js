@@ -167,21 +167,22 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
           )}
           {loading && <Loader className={styles.loader} />}
         </div>
-        {Object.keys(categories).map(key => (
-          <Category
-            key={key}
-            title={key}
-            counter={categoryActiveMetricsCounter[key]}
-            groups={categories[key]}
-            toggleMetricInFilter={toggleMetricInFilter}
-            availableMetrics={availableMetrics}
-            isAuthor={isAuthor}
-            isNoFilters={isNoFilters}
-            filters={filter}
-            updMetricInFilter={updMetricInFilter}
-            isPro={isPro}
-          />
-        ))}
+        {isActive &&
+          Object.keys(categories).map(key => (
+            <Category
+              key={key}
+              title={key}
+              counter={categoryActiveMetricsCounter[key]}
+              groups={categories[key]}
+              toggleMetricInFilter={toggleMetricInFilter}
+              availableMetrics={availableMetrics}
+              isAuthor={isAuthor}
+              isNoFilters={isNoFilters}
+              filters={filter}
+              updMetricInFilter={updMetricInFilter}
+              isPro={isPro}
+            />
+          ))}
       </section>
     </>
   )

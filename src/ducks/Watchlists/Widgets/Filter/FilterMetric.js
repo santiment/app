@@ -155,6 +155,7 @@ const FilterMetric = ({
           isPro={isPro}
           metric={baseMetric}
           settings={settings}
+          autoFocus={settings.isActive && !defaultSettings.isActive}
           percentTimeRanges={percentTimeRanges}
           onFilterTypeChange={onFilterTypeChange}
           onTimeRangeChange={onTimeRangeChange}
