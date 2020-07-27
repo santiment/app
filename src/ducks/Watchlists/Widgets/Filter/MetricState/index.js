@@ -16,11 +16,13 @@ const FilterMetricState = ({
 }) => {
   const metricForDescription = Metric[metric.descriptionKey || metric.key]
 
+  const isDisabled = !isAuthor && !isActive
+
   return (
     <div className={styles.wrapper}>
       <div
         onClick={() => (isAuthor ? onCheckboxClicked() : null)}
-        className={styles.toggle}
+        className={cx(styles.toggle, isDisabled && styles.toggle__disabled)}
       >
         <Checkbox
           isActive={isActive}

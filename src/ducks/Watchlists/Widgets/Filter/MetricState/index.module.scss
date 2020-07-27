@@ -40,6 +40,10 @@
   border-color: var(--jungle-green);
 }
 
+.toggle__disabled:hover .checkbox div {
+  border-color: var(--porcelain);
+}
+
 .explanation {
   color: var(--waterloo);
   margin-left: 6px;

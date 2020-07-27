@@ -25,6 +25,7 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
   const isNoFilters = watchlist.function.name === 'top_all_projects'
   const [isActive, setIsActive] = useState(false)
   const filterRef = useRef(null)
+  const filterContentRef = useRef(null)
   const [filter, updateFilter] = useState(filters)
   const [updateWatchlist, { loading }] = useUpdateWatchlist()
   const [availableMetrics] = useAvailableMetrics()
@@ -32,6 +33,7 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
 
   useEffect(() => {
     const sidebar = filterRef.current
+    const sidebarContent = filterContentRef.current
     const tableHeader = document.querySelector('#tableTop')
 
     if (!tableHeader) {
@@ -40,14 +42,14 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
 
     function changeFilterHeight () {
       requestAnimationFrame(() => {
-        const { top } = tableHeader.getBoundingClientRect()
+        const { bottom, top } = tableHeader.getBoundingClientRect()
 
         if (!sidebar) {
           return
         }
 
         if (top > 0) {
-          sidebar.style.height = `${VIEWPORT_HEIGHT - top}px`
+          sidebarContent.style.height = `${VIEWPORT_HEIGHT - bottom - 30}px`
           sidebar.classList.remove(styles.fixed)
         } else {
           sidebar.classList.add(styles.fixed)
@@ -167,22 +169,24 @@ const Filter = ({ watchlist = {}, projectsCount, isAuthor }) => {
           )}
           {loading && <Loader className={styles.loader} />}
         </div>
-        {isActive &&
-          Object.keys(categories).map(key => (
-            <Category
-              key={key}
-              title={key}
-              counter={categoryActiveMetricsCounter[key]}
-              groups={categories[key]}
-              toggleMetricInFilter={toggleMetricInFilter}
-              availableMetrics={availableMetrics}
-              isAuthor={isAuthor}
-              isNoFilters={isNoFilters}
-              filters={filter}
-              updMetricInFilter={updMetricInFilter}
-              isPro={isPro}
-            />
-          ))}
+        <div className={styles.content} ref={filterContentRef}>
+          {isActive &&
+            Object.keys(categories).map(key => (
+              <Category
+                key={key}
+                title={key}
+                counter={categoryActiveMetricsCounter[key]}
+                groups={categories[key]}
+                toggleMetricInFilter={toggleMetricInFilter}
+                availableMetrics={availableMetrics}
+                isAuthor={isAuthor}
+                isNoFilters={isNoFilters}
+                filters={filter}
+                updMetricInFilter={updMetricInFilter}
+                isPro={isPro}
+              />
+            ))}
+        </div>
       </section>
     </>
   )
