@@ -1,61 +1,26 @@
-import { graphql } from 'react-apollo'
-import { compose } from 'recompose'
-import { connect } from 'react-redux'
-import { checkIsLoggedIn } from '../../../pages/UserSelectors'
+import { useQuery } from '@apollo/react-hooks'
 import { TRIGGERS_QUERY } from './queries'
-
-const GetSignals = ({ render, filters, signals, ...props }) => {
-  if (filters && filters.channel) {
-    signals = filterByChannels(signals, filters.channel)
-  }
-
-  return render({ signals, filters, ...props })
-}
-
-GetSignals.defaultProps = {
-  signals: [],
-  filters: {}
-}
-
-const mapStateToProps = state => {
-  return {
-    isLoggedIn: checkIsLoggedIn(state)
-  }
-}
 
 export const filterByChannels = (signals, type) =>
   signals.filter(({ settings: { channel } }) =>
     Array.isArray(channel) ? channel.indexOf(type) !== -1 : channel === type
   )
 
-export const signalsGqlMapper = {
-  name: 'Signals',
-  skip: ({ isLoggedIn }) => !isLoggedIn,
-  options: {
-    fetchPolicy: 'cache-and-network'
-  },
-  props: ({ Signals }) => {
-    const { currentUser, featuredUserTriggers, loading, error } = Signals
-    let signals = (currentUser || {}).triggers || featuredUserTriggers || []
+export const useSignals = ({ skip = false, filters }) => {
+  const { data = {}, loading, error } = useQuery(TRIGGERS_QUERY, {
+    skip: skip
+  })
 
-    if (error) {
-      throw new Error(
-        "Can't load alerts. Apollo error: " + JSON.stringify(error)
-      )
-    }
+  const { currentUser } = data
+  let signals = (currentUser || {}).triggers || []
 
-    return {
-      data: {
-        userId: currentUser ? currentUser.id : undefined,
-        signals
-      },
-      isLoading: loading,
-      isError: !!error
-    }
+  if (filters && filters.channel) {
+    signals = filterByChannels(signals, filters.channel)
+  }
+
+  return {
+    data: signals,
+    loading,
+    error
   }
 }
-
-export default compose(
-  connect(mapStateToProps),
-  graphql(TRIGGERS_QUERY, signalsGqlMapper)
-)(GetSignals)

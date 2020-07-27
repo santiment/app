@@ -1829,7 +1829,7 @@ export const getSlugFromSignalTarget = ({ settings }) => {
     target: { watchlist_id }
   } = settings
 
-  const [watchlist] = useWatchlist(watchlist_id)
+  const [watchlist] = useWatchlist({ id: watchlist_id })
 
   if (watchlist_id) {
     if (watchlist) {
