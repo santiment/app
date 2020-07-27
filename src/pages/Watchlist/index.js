@@ -13,7 +13,7 @@ import {
 
 const Watchlist = ({ isLoggedIn, ...props }) => {
   const id = getWatchlistId(props.location.search)
-  const [watchlist = {}, loading, error] = useWatchlist(id)
+  const [watchlist = {}, loading, error] = useWatchlist({ id })
 
   if (isDefaultScreenerPath(props.location.pathname) && isLoggedIn) {
     return <NewScreener {...props} />

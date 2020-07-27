@@ -53,9 +53,9 @@ const updateWatchlistOnEdit = buildWatchlistCacheUpdater(
   ({ updateUserList }, watchlist) => ({ ...watchlist, ...updateUserList })
 )
 
-export function useWatchlist (id) {
+export function useWatchlist ({ id, skip }) {
   const { data, loading, error } = useQuery(WATCHLIST_QUERY, {
-    skip: !id,
+    skip: !id || skip,
     variables: {
       id: +id
     }

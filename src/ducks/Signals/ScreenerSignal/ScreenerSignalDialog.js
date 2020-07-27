@@ -62,7 +62,7 @@ const ScreenerSignalDialog = ({
   const [open, setOpen] = useState(defaultOpen)
 
   const targetId = watchlistId || getWachlistIdFromSignal(signal)
-  const [watchlist = {}, watchlistLoading] = useWatchlist(targetId)
+  const [watchlist = {}] = useWatchlist({ id: targetId, skip: !open })
 
   const hasSignal = signal && signal.id > 0
 
@@ -127,7 +127,7 @@ const ScreenerSignalDialog = ({
   const isNew = !stateSignal.id
   const title = isNew ? 'Enable Alert' : 'Edit Alert'
 
-  if (watchlistLoading || signalsLoading) {
+  if (signalsLoading) {
     return <Loader className={styles.loader} />
   }
 
