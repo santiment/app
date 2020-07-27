@@ -276,13 +276,17 @@ export const COLUMNS = (preload, props = {}) => [
     heading: 'Market Segments',
     accessor: 'marketSegments',
     Cell: ({ value: values }) =>
-      values
-        ? values.map(segment => (
-          <Label variant='fill' className={styles.segment}>
-            {segment}
-          </Label>
-        ))
-        : NO_DATA,
+      values ? (
+        <div className={styles.segments}>
+          {values.map(segment => (
+            <Label variant='fill' className={styles.segment}>
+              {segment}
+            </Label>
+          ))}
+        </div>
+      ) : (
+        NO_DATA
+      ),
     sortMethod: simpleSort
   })
 ]

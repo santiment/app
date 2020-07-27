@@ -64,8 +64,15 @@
   color: var(--mirage);
 }
 
+.segments {
+  display: flex;
+  overflow: auto;
+}
+
 .segment {
   background-color: var(--porcelain);
   color: var(--mirage);
   margin-right: 4px;
+  margin-bottom: 4px;
+  min-width: auto;
 }
