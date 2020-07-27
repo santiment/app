@@ -80,6 +80,7 @@ const AssetsTable = ({
   }
 
   const savedHidden = hiddenColumns || COMMON_SETTINGS.hiddenColumns
+
   const sortingColumn = sorting || COMMON_SETTINGS.sorting
   const columnsAmount = pageSize || COMMON_SETTINGS.pageSize
 
