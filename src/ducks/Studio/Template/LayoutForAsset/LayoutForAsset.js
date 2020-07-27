@@ -68,7 +68,7 @@ const IconTooltipWrapper = ({ children }) => {
   )
 }
 
-const Trigger = ({ showTooltip, isIconHovered, counter, ...rest }) => {
+const Trigger = ({ showTooltip, isRowHovered, counter, ...rest }) => {
   const [showExplanation, setShow] = useState(false)
 
   useEffect(() => {
@@ -86,15 +86,14 @@ const Trigger = ({ showTooltip, isIconHovered, counter, ...rest }) => {
     El = IconTooltipWrapper
   }
 
+  const showIcon = isRowHovered || showExplanation
+
   return (
     <Wrapper>
       <El>
         <div
           {...rest}
-          className={cx(
-            styles.counterContainer,
-            isIconHovered && styles.hovered
-          )}
+          className={cx(styles.counterContainer, showIcon && styles.hovered)}
         >
           <Icon type='chart-layout' className={styles.icon} />
           <div className={styles.counter}>{counter}</div>
@@ -104,13 +103,25 @@ const Trigger = ({ showTooltip, isIconHovered, counter, ...rest }) => {
   )
 }
 
-const LayoutForAsset = ({ currentUser, item: { id }, showTooltip, index }) => {
+const LayoutForAsset = ({
+  currentUser,
+  item: { id },
+  isRowHovered,
+  showTooltip,
+  index
+}) => {
   const user = currentUser.data
   const [templates] = useUserTemplates(user.id)
 
   return (
     <LoadTemplate
-      trigger={<Trigger showTooltip={showTooltip} counter={index} />}
+      trigger={
+        <Trigger
+          showTooltip={showTooltip}
+          counter={index}
+          isRowHovered={isRowHovered}
+        />
+      }
       templates={templates}
       asProject={id}
       isFeatured={true}

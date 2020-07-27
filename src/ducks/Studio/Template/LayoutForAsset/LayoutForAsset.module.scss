@@ -12,14 +12,12 @@
 .hovered {
   display: flex;
 
-  &:hover {
-    svg {
-      display: flex;
-    }
+  svg {
+    display: flex;
+  }
 
-    .counter {
-      display: none;
-    }
+  .counter {
+    display: none;
   }
 }
 
