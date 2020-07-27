@@ -1,26 +1,24 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment } from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
 import LoadTemplate from '../Dialog/LoadTemplate'
 import { useUserTemplates } from '../gql/hooks'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
-import SidecarExplanationTooltip, {
-  markedAsShowed
-} from '../../../SANCharts/SidecarExplanationTooltip'
+import SidecarExplanationTooltip from '../../../SANCharts/SidecarExplanationTooltip'
 import DarkTooltip from '../../../../components/Tooltip/DarkTooltip'
 import styles from './LayoutForAsset.module.scss'
 
-const EXPLANATION_TOOLTIP_MARK = '_ASSET_CHART_LAYOUTS_ROW'
+export const EXPLANATION_TOOLTIP_MARK = '_ASSET_CHART_LAYOUTS_ROW'
 
-const RowTooltipWrapper = ({ onClose }) => ({ children }) => {
+const RowTooltipWrapper = ({ onHide }) => ({ children }) => {
   return (
     <div className={styles.tooltipWrapper}>
       <SidecarExplanationTooltip
         closeTimeout={500}
         localStorageSuffix={EXPLANATION_TOOLTIP_MARK}
         position='top'
-        onClose={onClose}
+        onHide={onHide}
         title={
           <div className={styles.tooltip}>
             <div className={styles.titleLine}>
@@ -68,32 +66,23 @@ const IconTooltipWrapper = ({ children }) => {
   )
 }
 
-const Trigger = ({ showTooltip, isRowHovered, counter, ...rest }) => {
-  const [showExplanation, setShow] = useState(false)
-
-  useEffect(() => {
-    if (counter === 1 && !markedAsShowed(EXPLANATION_TOOLTIP_MARK)) {
-      setTimeout(() => setShow(true), 5000)
-    }
-  }, [])
-
-  let El = Fragment
-  let Wrapper = showExplanation
-    ? RowTooltipWrapper({ onClose: () => setShow(false) })
+const Trigger = ({ markedAsNew, hideMarkedAsNew, counter, ...rest }) => {
+  let Wrapper = markedAsNew
+    ? RowTooltipWrapper({ onHide: () => hideMarkedAsNew(false) })
     : Fragment
 
-  if (!showExplanation) {
-    El = IconTooltipWrapper
-  }
-
-  const showIcon = isRowHovered || showExplanation
+  const El = !markedAsNew ? IconTooltipWrapper : Fragment
 
   return (
     <Wrapper>
       <El>
         <div
           {...rest}
-          className={cx(styles.counterContainer, showIcon && styles.hovered)}
+          className={cx(
+            styles.counterContainer,
+            markedAsNew && styles.hovered,
+            'assets-table-row-tooltip'
+          )}
         >
           <Icon type='chart-layout' className={styles.icon} />
           <div className={styles.counter}>{counter}</div>
@@ -106,8 +95,8 @@ const Trigger = ({ showTooltip, isRowHovered, counter, ...rest }) => {
 const LayoutForAsset = ({
   currentUser,
   item: { id },
-  isRowHovered,
-  showTooltip,
+  hideMarkedAsNew,
+  markedAsNew,
   index
 }) => {
   const user = currentUser.data
@@ -117,9 +106,9 @@ const LayoutForAsset = ({
     <LoadTemplate
       trigger={
         <Trigger
-          showTooltip={showTooltip}
           counter={index}
-          isRowHovered={isRowHovered}
+          markedAsNew={markedAsNew}
+          hideMarkedAsNew={hideMarkedAsNew}
         />
       }
       templates={templates}

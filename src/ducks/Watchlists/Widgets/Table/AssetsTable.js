@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import ReactTable from 'react-table'
 import cx from 'classnames'
 import Sticky from 'react-stickynode'
@@ -15,6 +15,8 @@ import AssetsToggleColumns from './AssetsToggleColumns'
 import Filter from '../Filter'
 import { COLUMNS, COMMON_SETTINGS, COLUMNS_SETTINGS } from './asset-columns'
 import ScreenerSignalDialog from '../../../Signals/ScreenerSignal/ScreenerSignalDialog'
+import { markedAsShowed } from '../../../SANCharts/SidecarExplanationTooltip'
+import { EXPLANATION_TOOLTIP_MARK } from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
 import '../../../../pages/Projects/ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
 
@@ -51,7 +53,18 @@ const AssetsTable = ({
   className,
   columnProps
 }) => {
-  const [hovered, setHovered] = useState()
+  const [markedAsNew, setAsNewMarked] = useState()
+
+  const hideMarkedAsNew = useCallback(() => {
+    setAsNewMarked(undefined)
+  }, [])
+
+  useEffect(() => {
+    if (!markedAsShowed(EXPLANATION_TOOLTIP_MARK)) {
+      setTimeout(() => setAsNewMarked(items[0]), 5000)
+    }
+  }, [])
+
   const { isLoading, error, timestamp, typeInfo } = Assets
   const key = typeInfo.listId || listName
   const { sorting, pageSize, hiddenColumns } = settings[key] || {}
@@ -105,19 +118,8 @@ const AssetsTable = ({
     ({ id }) => columns[id].show && allColumns.includes(id)
   )
 
-  const onMouseEnter = useCallback(
-    ({ index }) => {
-      setHovered(items[index])
-    },
-    [items]
-  )
-
-  const onMouseLeave = () => {
-    setHovered()
-  }
-
   return (
-    <div onMouseLeave={onMouseLeave} className={classes.container}>
+    <div className={classes.container}>
       <div className={styles.top} id='tableTop'>
         {filterType ? (
           <span>Showed based on {filterType} anomalies</span>
@@ -169,15 +171,9 @@ const AssetsTable = ({
             if (handleOriginal) handleOriginal()
           },
           style: { border: 'none' },
-          hovered: hovered
+          markedasnew: markedAsNew,
+          hideMarkedAsNew: hideMarkedAsNew
         })}
-        getTrGroupProps={(state, rowInfo) => {
-          return {
-            onMouseEnter: () => {
-              onMouseEnter(rowInfo)
-            }
-          }
-        }}
       />
     </div>
   )
