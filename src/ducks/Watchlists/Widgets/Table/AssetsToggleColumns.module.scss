@@ -9,14 +9,16 @@
   fill: var(--casper);
   position: relative;
 
-  &::before {
-    display: block;
-    content: '';
-    position: absolute;
-    right: -8px;
-    height: 24px;
-    width: 1px;
-    background: var(--porcelain);
+  &__withLine {
+    &::before {
+      display: block;
+      content: '';
+      position: absolute;
+      right: -8px;
+      height: 24px;
+      width: 1px;
+      background: var(--porcelain);
+    }
   }
 }
 

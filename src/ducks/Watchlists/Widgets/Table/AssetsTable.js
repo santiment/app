@@ -146,7 +146,11 @@ const AssetsTable = ({
         )}
         <div className={styles.actions}>
           {showCollumnsToggle && (
-            <AssetsToggleColumns columns={columns} onChange={toggleColumn} />
+            <AssetsToggleColumns
+              columns={columns}
+              onChange={toggleColumn}
+              isScreener={type === 'screener'}
+            />
           )}
           {type === 'screener' && (
             <>
