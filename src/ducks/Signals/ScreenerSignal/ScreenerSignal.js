@@ -107,7 +107,7 @@ export const SreenerSignal = ({
                 type='submit'
                 disabled={!isValidForm || isSubmitting}
                 variant='fill'
-                accent={'positive'}
+                accent='positive'
                 className={styles.submit}
               >
                 {id ? 'Save changes' : 'Create'}

@@ -10,6 +10,7 @@ export const generalData = gql`
     rank
     logoUrl
     darkLogoUrl
+    marketSegments
   }
 `
 
