@@ -18,7 +18,7 @@ const TypeDropdown = ({ isPro, type, onChange, showPercentFilters }) => (
       </Button>
     }
     position='bottom'
-    align='end'
+    align='start'
     className={styles.tooltip}
   >
     <Panel className={styles.panel}>
