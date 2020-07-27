@@ -11,6 +11,7 @@ import {
 } from '../../../../actions/types'
 import Refresh from '../../../../components/Refresh/Refresh'
 import ServerErrorMessage from './../../../../components/ServerErrorMessage'
+import NoDataTemplate from '../../../../components/NoDataTemplate/index'
 import AssetsToggleColumns from './AssetsToggleColumns'
 import Filter from '../Filter'
 import { COLUMNS, COMMON_SETTINGS, COLUMNS_SETTINGS } from './asset-columns'
@@ -27,6 +28,19 @@ export const CustomHeadComponent = ({ children, className, ...rest }) => (
     </div>
   </Sticky>
 )
+
+const CustomNoDataComponent = ({ isLoading }) => {
+  if (isLoading) {
+    return null
+  }
+
+  return (
+    <NoDataTemplate
+      className={styles.noData}
+      desc='The assets for the filter you searching for was not found. Check if it is correct or try another filter settings.'
+    />
+  )
+}
 
 const AssetsTable = ({
   Assets = {
@@ -126,6 +140,7 @@ const AssetsTable = ({
         ) : (
           <Refresh
             timestamp={timestamp}
+            isLoading={isLoading}
             onRefreshClick={() => refetchAssets({ ...typeInfo, minVolume })}
           />
         )}
@@ -157,7 +172,7 @@ const AssetsTable = ({
         defaultPageSize={columnsAmount}
         pageSizeOptions={[5, 10, 20, 25, 50, 100]}
         pageSize={showAll ? items && items.length : undefined}
-        minRows={0}
+        minRows={5}
         sortable={false}
         resizable={false}
         defaultSorted={[sortingColumn]}
@@ -165,6 +180,7 @@ const AssetsTable = ({
         data={items}
         columns={shownColumns}
         loadingText='Loading...'
+        NoDataComponent={() => <CustomNoDataComponent isLoading={isLoading} />}
         TheadComponent={CustomHeadComponent}
         getTdProps={() => ({
           onClick: (e, handleOriginal) => {

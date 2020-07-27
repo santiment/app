@@ -32,15 +32,7 @@ const constructColumn = ({
 }) => {
   return {
     id,
-    Header: () => (
-      <div className={cx('heading', className)}>
-        {description ? (
-          <HeaderWithDesc description={description} heading={heading} />
-        ) : (
-          heading
-        )}
-      </div>
-    ),
+    Header: () => <div className={cx('heading', className)}>{heading}</div>,
     sortable: Boolean(sortMethod),
     sortMethod,
     filterable: Boolean(filterMethod),

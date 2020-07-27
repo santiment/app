@@ -10,6 +10,15 @@
   display: flex;
 }
 
+.loading {
+  background-color: var(--athens);
+}
+
+.noData {
+  position: absolute;
+  top: 25px;
+}
+
 .assetsTable:global(.ReactTable) {
   margin-bottom: 20px;
   color: var(--mirage);
