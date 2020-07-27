@@ -68,6 +68,7 @@ const AssetsTable = ({
   columnProps
 }) => {
   const [markedAsNew, setAsNewMarked] = useState()
+  const [isFilterOpened, setIsFilterOpened] = useState(false)
 
   const hideMarkedAsNew = useCallback(() => {
     setAsNewMarked(undefined)
@@ -164,6 +165,8 @@ const AssetsTable = ({
                 // projectsCount={projectsCount}
                 projectsCount={items.length}
                 isAuthor={isAuthor}
+                isOpen={isFilterOpened}
+                setIsOpen={setIsFilterOpened}
               />
             </>
           )}
@@ -181,7 +184,12 @@ const AssetsTable = ({
         sortable={false}
         resizable={false}
         defaultSorted={[sortingColumn]}
-        className={cx('-highlight', styles.assetsTable, className)}
+        className={cx(
+          '-highlight',
+          styles.assetsTable,
+          isFilterOpened && styles.assetsTable__filterView,
+          className
+        )}
         data={items}
         columns={shownColumns}
         loadingText='Loading...'

@@ -19,10 +19,14 @@
   top: 25px;
 }
 
+.assetsTable__filterView {
+  width: calc(100% - 376px);
+}
+
 .assetsTable:global(.ReactTable) {
   margin-bottom: 20px;
-  color: var(--mirage);
-  overflow: visible;
+  color: var(--rhino);
+  overflow-x: auto;
 
   :global {
     .overview-name {
@@ -79,7 +83,7 @@
 
       &.-sort-desc,
       &.-sort-asc {
-        color: var(--mirage);
+        color: var(--rhino);
         box-shadow: none !important;
 
         & .heading {

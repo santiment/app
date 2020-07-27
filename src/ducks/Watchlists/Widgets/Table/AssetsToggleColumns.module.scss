@@ -44,7 +44,7 @@
   display: flex;
   align-items: center;
   margin-top: 12px;
-  color: var(--mirage);
+  color: var(--rhino);
 
   @include text('body-3');
 }
@@ -75,7 +75,7 @@
 
 .rank {
   background-color: var(--porcelain);
-  color: var(--mirage);
+  color: var(--rhino);
 }
 
 .segments {
@@ -85,7 +85,7 @@
 
 .segment {
   background-color: var(--porcelain);
-  color: var(--mirage);
+  color: var(--rhino);
   margin-right: 4px;
   margin-bottom: 4px;
   min-width: auto;
