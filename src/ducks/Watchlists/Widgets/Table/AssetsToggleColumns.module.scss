@@ -6,6 +6,18 @@
   justify-content: center;
   width: auto;
   padding: 9px;
+  fill: var(--casper);
+  position: relative;
+
+  &::before {
+    display: block;
+    content: '';
+    position: absolute;
+    right: -8px;
+    height: 24px;
+    width: 1px;
+    background: var(--porcelain);
+  }
 }
 
 .wrapper {
