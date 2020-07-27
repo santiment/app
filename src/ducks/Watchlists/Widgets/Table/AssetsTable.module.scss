@@ -26,7 +26,12 @@
 .assetsTable:global(.ReactTable) {
   margin-bottom: 20px;
   color: var(--rhino);
-  overflow-x: auto;
+  overflow-x: hidden;
+
+  &:hover {
+    overflow-x: auto;
+    overflow-x: overlay;
+  }
 
   :global {
     .overview-name {
