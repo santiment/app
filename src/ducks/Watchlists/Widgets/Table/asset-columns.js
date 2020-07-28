@@ -265,7 +265,7 @@ export const COLUMNS = (preload, props = {}) => [
       values ? (
         <div className={styles.segments}>
           {values.map(segment => (
-            <Label variant='fill' className={styles.segment}>
+            <Label variant='fill' className={styles.segment} key={segment}>
               {segment}
             </Label>
           ))}

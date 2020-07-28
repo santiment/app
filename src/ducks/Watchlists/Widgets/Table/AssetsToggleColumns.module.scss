@@ -79,7 +79,6 @@
 }
 
 .segments {
-  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -94,5 +93,7 @@
   justify-content: center;
   word-break: break-word;
   white-space: normal;
+  width: max-content;
 
-  @include text('caption'); }
+  @include text('caption');
+}
