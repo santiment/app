@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import 'react-table/react-table.css'
 import {
   ASSETS_FETCH,
-  ASSETS_SET_MIN_VOLUME_FILTER,
   WATCHLIST_TOGGLE_COLUMNS
 } from '../../../../actions/types'
 import Refresh from '../../../../components/Refresh/Refresh'
@@ -227,7 +226,6 @@ const mapDispatchToProps = (dispatch, { refetchAssets }) => ({
           filters: { minVolume }
         }
       })),
-  setMinVolumeFilter: () => dispatch({ type: ASSETS_SET_MIN_VOLUME_FILTER }),
   setHiddenColumns: payload =>
     dispatch({ type: WATCHLIST_TOGGLE_COLUMNS, payload })
 })
