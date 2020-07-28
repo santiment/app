@@ -64,7 +64,7 @@ const AlertWeeklyReports = ({
         </div>
         <div className={styles.description}>
           Every Sunday, you'll receive a report to your inbox with insights from
-          the San family, based on your monitored watchlists.
+          the San family, based on your monitored screener.
         </div>
       </div>
     </div>
