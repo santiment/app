@@ -15,7 +15,7 @@ const FilterMetric = ({
   isNoFilters,
   defaultSettings,
   updMetricInFilter,
-  isAuthor,
+  isViewMode,
   availableMetrics,
   toggleMetricInFilter,
   isPro
@@ -144,13 +144,13 @@ const FilterMetric = ({
   return (
     <>
       <MetricState
-        isAuthor={isAuthor}
+        isViewMode={isViewMode}
         metric={baseMetric}
         settings={settings}
         isActive={settings.isActive}
         onCheckboxClicked={onCheckboxClicked}
       />
-      {settings.isActive && isAuthor && (
+      {settings.isActive && !isViewMode && (
         <MetricSettings
           isPro={isPro}
           metric={baseMetric}

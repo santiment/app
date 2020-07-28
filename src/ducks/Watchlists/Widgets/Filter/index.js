@@ -4,13 +4,16 @@ import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import throttle from 'lodash.throttle'
+import { store } from '../../../../index'
+import { showNotification } from '../../../../actions/rootActions'
 import { useUpdateWatchlist } from '../../gql/hooks'
 import Trigger from './Trigger'
 import { metrics } from './metrics'
 import Category from './Category'
+import { DEFAULT_SCREENER_FUNCTION } from '../../utils'
 import { getCategoryGraph } from '../../../Studio/Sidebar/utils'
 import { countCategoryActiveMetrics } from '../../../SANCharts/ChartMetricSelector'
-import { getActiveBaseMetrics } from './utils'
+import { getActiveBaseMetrics, getNewFunction } from './utils'
 import { useAvailableMetrics } from '../../gql/hooks'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import styles from './index.module.scss'
@@ -22,14 +25,19 @@ const Filter = ({
   projectsCount,
   isAuthor,
   setIsOpen,
-  isOpen
+  isOpen,
+  screenerFunction,
+  setScreenerFunction,
+  isLoggedIn,
+  isDefaultScreener
 }) => {
-  if (!watchlist.function) {
+  if (!screenerFunction) {
     return null
   }
 
-  const { filters = [] } = watchlist.function.args
-  const isNoFilters = watchlist.function.name === 'top_all_projects'
+  const isViewMode = !isAuthor && (isLoggedIn || !isDefaultScreener)
+  const { filters = [] } = screenerFunction.args
+  const isNoFilters = screenerFunction.name === 'top_all_projects'
   const filterRef = useRef(null)
   const filterContentRef = useRef(null)
   const [filter, updateFilter] = useState(filters)
@@ -72,14 +80,13 @@ const Filter = ({
   }, [])
 
   function resetAll () {
-    const func = {
-      args: {
-        size: 10000
-      },
-      name: 'top_all_projects'
-    }
+    const func = DEFAULT_SCREENER_FUNCTION
     updateFilter([])
-    updateWatchlist(watchlist, { function: func })
+
+    if (watchlist.id) {
+      updateWatchlist(watchlist, { function: func })
+    }
+    setScreenerFunction(func)
   }
 
   function updMetricInFilter (metric, key, alternativeKey = key) {
@@ -90,23 +97,14 @@ const Filter = ({
           !item.metric.includes(key) && !item.metric.includes(alternativeKey)
       )
     const newFilter = [...filters, metric]
+
+    const newFunction = getNewFunction(newFilter)
     updateFilter(newFilter)
-    updateWatchlist(watchlist, {
-      function:
-        newFilter.length > 0
-          ? {
-            args: {
-              filters: newFilter
-            },
-            name: 'selector'
-          }
-          : {
-            args: {
-              size: 10000
-            },
-            name: 'top_all_projects'
-          }
-    })
+
+    if (watchlist.id) {
+      updateWatchlist(watchlist, { function: newFunction })
+    }
+    setScreenerFunction(newFunction)
   }
 
   function toggleMetricInFilter (metric, key, alternativeKey = key) {
@@ -123,23 +121,14 @@ const Filter = ({
       newFilter = [...filter, metric]
     }
 
+    const newFunction = getNewFunction(newFilter)
+
     updateFilter(newFilter)
-    updateWatchlist(watchlist, {
-      function:
-        newFilter.length > 0
-          ? {
-            args: {
-              filters: newFilter
-            },
-            name: 'selector'
-          }
-          : {
-            args: {
-              size: 10000
-            },
-            name: 'top_all_projects'
-          }
-    })
+
+    if (watchlist.id) {
+      updateWatchlist(watchlist, { function: newFunction })
+    }
+    setScreenerFunction(newFunction)
   }
 
   const categories = getCategoryGraph(metrics)
@@ -152,7 +141,20 @@ const Filter = ({
     <>
       <Trigger
         isOpen={isOpen}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={newIsOpenState => {
+          setIsOpen(newIsOpenState)
+
+          if (!isLoggedIn && newIsOpenState && !isViewMode) {
+            store.dispatch(
+              showNotification({
+                variant: 'warning',
+                title: `Log in to save your filter settings`,
+                dismissAfter: 8000000,
+                solidFill: true
+              })
+            )
+          }
+        }}
         activeMetricsCount={activeBaseMetrics.length}
       />
       <section
@@ -164,9 +166,9 @@ const Filter = ({
           className={styles.closeIcon}
           onClick={() => setIsOpen(false)}
         />
-        <div className={cx(styles.top, !isAuthor && styles.top__column)}>
+        <div className={cx(styles.top, isViewMode && styles.top__column)}>
           <span className={styles.count}>{projectsCount} assets</span>
-          {!isNoFilters && isAuthor && (
+          {!isNoFilters && !isViewMode && (
             <Button
               className={styles.button}
               onClick={() => (isNoFilters ? null : resetAll())}
@@ -174,7 +176,7 @@ const Filter = ({
               Reset all
             </Button>
           )}
-          {!isAuthor && (
+          {isViewMode && (
             <Button className={styles.button} disabled>
               View only. You aren't the author of this list
             </Button>
@@ -191,7 +193,7 @@ const Filter = ({
                 groups={categories[key]}
                 toggleMetricInFilter={toggleMetricInFilter}
                 availableMetrics={availableMetrics}
-                isAuthor={isAuthor}
+                isViewMode={isViewMode}
                 isNoFilters={isNoFilters}
                 filters={filter}
                 updMetricInFilter={updMetricInFilter}

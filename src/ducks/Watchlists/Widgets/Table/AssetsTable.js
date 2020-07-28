@@ -64,7 +64,8 @@ const AssetsTable = ({
   setHiddenColumns,
   showCollumnsToggle = true,
   className,
-  columnProps
+  columnProps,
+  ...props
 }) => {
   const [markedAsNew, setAsNewMarked] = useState()
   const [isFilterOpened, setIsFilterOpened] = useState(false)
@@ -166,6 +167,7 @@ const AssetsTable = ({
                 isAuthor={isAuthor}
                 isOpen={isFilterOpened}
                 setIsOpen={setIsFilterOpened}
+                {...props}
               />
             </>
           )}
