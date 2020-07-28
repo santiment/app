@@ -11,7 +11,7 @@ import Category from './Category'
 import { DEFAULT_SCREENER_FUNCTION } from '../../utils'
 import { getCategoryGraph } from '../../../Studio/Sidebar/utils'
 import { countCategoryActiveMetrics } from '../../../SANCharts/ChartMetricSelector'
-import { getActiveBaseMetrics } from './utils'
+import { getActiveBaseMetrics, getNewFunction } from './utils'
 import { useAvailableMetrics } from '../../gql/hooks'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import styles from './index.module.scss'
@@ -80,7 +80,11 @@ const Filter = ({
   function resetAll () {
     const func = DEFAULT_SCREENER_FUNCTION
     updateFilter([])
-    // updateWatchlist(watchlist, { function: func })
+
+    if (watchlist.id) {
+      updateWatchlist(watchlist, { function: func })
+    }
+    setScreenerFunction(func)
   }
 
   function updMetricInFilter (metric, key, alternativeKey = key) {
@@ -91,18 +95,14 @@ const Filter = ({
           !item.metric.includes(key) && !item.metric.includes(alternativeKey)
       )
     const newFilter = [...filters, metric]
+
+    const newFunction = getNewFunction(newFilter)
     updateFilter(newFilter)
-    // updateWatchlist(watchlist, {
-    //   function:
-    //     newFilter.length > 0
-    //       ? {
-    //         args: {
-    //           filters: newFilter
-    //         },
-    //         name: 'selector'
-    //       }
-    //       : DEFAULT_SCREENER_FUNCTION
-    // })
+
+    if (watchlist.id) {
+      updateWatchlist(watchlist, { function: newFunction })
+    }
+    setScreenerFunction(newFunction)
   }
 
   function toggleMetricInFilter (metric, key, alternativeKey = key) {
@@ -119,18 +119,14 @@ const Filter = ({
       newFilter = [...filter, metric]
     }
 
+    const newFunction = getNewFunction(newFilter)
+
     updateFilter(newFilter)
-    // updateWatchlist(watchlist, {
-    //   function:
-    //     newFilter.length > 0
-    //       ? {
-    //         args: {
-    //           filters: newFilter
-    //         },
-    //         name: 'selector'
-    //       }
-    //       : DEFAULT_SCREENER_FUNCTION
-    // })
+
+    if (watchlist.id) {
+      updateWatchlist(watchlist, { function: newFunction })
+    }
+    setScreenerFunction(newFunction)
   }
 
   const categories = getCategoryGraph(metrics)
