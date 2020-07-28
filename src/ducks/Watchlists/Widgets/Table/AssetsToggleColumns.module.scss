@@ -79,8 +79,9 @@
 }
 
 .segments {
+  width: 100%;
   display: flex;
-  overflow: auto;
+  flex-direction: column;
 }
 
 .segment {
@@ -88,5 +89,10 @@
   color: var(--rhino);
   margin-right: 4px;
   margin-bottom: 4px;
-  min-width: auto;
-}
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  word-break: break-word;
+  white-space: normal;
+
+  @include text('caption'); }

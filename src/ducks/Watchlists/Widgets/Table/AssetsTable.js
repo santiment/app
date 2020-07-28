@@ -201,7 +201,7 @@ const AssetsTable = ({
           },
           style: { border: 'none' },
           markedasnew: markedAsNew,
-          hideMarkedAsNew: hideMarkedAsNew
+          hide: hideMarkedAsNew
         })}
       />
     </div>

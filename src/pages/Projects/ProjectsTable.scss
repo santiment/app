@@ -86,7 +86,7 @@
 
 .ReactTable .rt-tbody .rt-tr-group {
   border-bottom: 1px solid var(--porcelain);
-  max-height: 60px;
+  min-height: 60px;
 }
 
 .rt-td:hover {

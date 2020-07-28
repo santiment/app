@@ -141,7 +141,7 @@ const ProjectsTreeMap = ({ assets, title, ranges, className }) => {
             </Treemap>
           </ResponsiveContainer>
 
-          <ColorsExplanation colorMaps={COLOR_MAPS} />
+          <ColorsExplanation colorMaps={COLOR_MAPS} range={label} />
         </div>
       )}
     </div>

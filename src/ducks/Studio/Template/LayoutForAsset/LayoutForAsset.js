@@ -97,7 +97,7 @@ const Trigger = ({ markedAsNew, hideMarkedAsNew, counter, ...rest }) => {
 const LayoutForAsset = ({
   currentUser,
   item: { id },
-  hideMarkedAsNew,
+  hide,
   markedAsNew,
   index
 }) => {
@@ -110,7 +110,7 @@ const LayoutForAsset = ({
         <Trigger
           counter={index}
           markedAsNew={markedAsNew}
-          hideMarkedAsNew={hideMarkedAsNew}
+          hideMarkedAsNew={hide}
         />
       }
       templates={templates}
