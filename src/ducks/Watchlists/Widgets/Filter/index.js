@@ -41,6 +41,7 @@ const Filter = ({
     const sidebar = filterRef.current
     const sidebarContent = filterContentRef.current
     const tableHeader = document.querySelector('#tableTop')
+    const table = document.querySelector('#table')
 
     if (!tableHeader) {
       return
@@ -49,6 +50,7 @@ const Filter = ({
     function changeFilterHeight () {
       requestAnimationFrame(() => {
         const { bottom, top } = tableHeader.getBoundingClientRect()
+        const { bottom: bottomTable } = table.getBoundingClientRect()
 
         if (!sidebar) {
           return
@@ -57,7 +59,7 @@ const Filter = ({
         if (top > 0) {
           sidebarContent.style.height = `${VIEWPORT_HEIGHT - bottom - 30}px`
           sidebar.classList.remove(styles.fixed)
-        } else {
+        } else if (bottomTable > VIEWPORT_HEIGHT) {
           sidebar.classList.add(styles.fixed)
         }
       })
