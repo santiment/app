@@ -8,6 +8,7 @@ import { useUpdateWatchlist } from '../../gql/hooks'
 import Trigger from './Trigger'
 import { metrics } from './metrics'
 import Category from './Category'
+import { DEFAULT_SCREENER_FUNCTION } from '../../utils'
 import { getCategoryGraph } from '../../../Studio/Sidebar/utils'
 import { countCategoryActiveMetrics } from '../../../SANCharts/ChartMetricSelector'
 import { getActiveBaseMetrics } from './utils'
@@ -22,14 +23,19 @@ const Filter = ({
   projectsCount,
   isAuthor,
   setIsOpen,
-  isOpen
+  isOpen,
+  screenerFunction,
+  setScreenerFunction,
+  isLoggedIn,
+  isDefaultScreener
 }) => {
-  if (!watchlist.function) {
+  if (!screenerFunction) {
     return null
   }
 
-  const { filters = [] } = watchlist.function.args
-  const isNoFilters = watchlist.function.name === 'top_all_projects'
+  const isViewMode = !isAuthor && (isLoggedIn || !isDefaultScreener)
+  const { filters = [] } = screenerFunction.args
+  const isNoFilters = screenerFunction.name === 'top_all_projects'
   const filterRef = useRef(null)
   const filterContentRef = useRef(null)
   const [filter, updateFilter] = useState(filters)
@@ -72,14 +78,9 @@ const Filter = ({
   }, [])
 
   function resetAll () {
-    const func = {
-      args: {
-        size: 10000
-      },
-      name: 'top_all_projects'
-    }
+    const func = DEFAULT_SCREENER_FUNCTION
     updateFilter([])
-    updateWatchlist(watchlist, { function: func })
+    // updateWatchlist(watchlist, { function: func })
   }
 
   function updMetricInFilter (metric, key, alternativeKey = key) {
@@ -91,22 +92,17 @@ const Filter = ({
       )
     const newFilter = [...filters, metric]
     updateFilter(newFilter)
-    updateWatchlist(watchlist, {
-      function:
-        newFilter.length > 0
-          ? {
-            args: {
-              filters: newFilter
-            },
-            name: 'selector'
-          }
-          : {
-            args: {
-              size: 10000
-            },
-            name: 'top_all_projects'
-          }
-    })
+    // updateWatchlist(watchlist, {
+    //   function:
+    //     newFilter.length > 0
+    //       ? {
+    //         args: {
+    //           filters: newFilter
+    //         },
+    //         name: 'selector'
+    //       }
+    //       : DEFAULT_SCREENER_FUNCTION
+    // })
   }
 
   function toggleMetricInFilter (metric, key, alternativeKey = key) {
@@ -124,22 +120,17 @@ const Filter = ({
     }
 
     updateFilter(newFilter)
-    updateWatchlist(watchlist, {
-      function:
-        newFilter.length > 0
-          ? {
-            args: {
-              filters: newFilter
-            },
-            name: 'selector'
-          }
-          : {
-            args: {
-              size: 10000
-            },
-            name: 'top_all_projects'
-          }
-    })
+    // updateWatchlist(watchlist, {
+    //   function:
+    //     newFilter.length > 0
+    //       ? {
+    //         args: {
+    //           filters: newFilter
+    //         },
+    //         name: 'selector'
+    //       }
+    //       : DEFAULT_SCREENER_FUNCTION
+    // })
   }
 
   const categories = getCategoryGraph(metrics)
@@ -164,9 +155,9 @@ const Filter = ({
           className={styles.closeIcon}
           onClick={() => setIsOpen(false)}
         />
-        <div className={cx(styles.top, !isAuthor && styles.top__column)}>
+        <div className={cx(styles.top, isViewMode && styles.top__column)}>
           <span className={styles.count}>{projectsCount} assets</span>
-          {!isNoFilters && isAuthor && (
+          {!isNoFilters && !isViewMode && (
             <Button
               className={styles.button}
               onClick={() => (isNoFilters ? null : resetAll())}
@@ -174,7 +165,7 @@ const Filter = ({
               Reset all
             </Button>
           )}
-          {!isAuthor && (
+          {isViewMode && (
             <Button className={styles.button} disabled>
               View only. You aren't the author of this list
             </Button>
@@ -191,7 +182,7 @@ const Filter = ({
                 groups={categories[key]}
                 toggleMetricInFilter={toggleMetricInFilter}
                 availableMetrics={availableMetrics}
-                isAuthor={isAuthor}
+                isViewMode={isViewMode}
                 isNoFilters={isNoFilters}
                 filters={filter}
                 updMetricInFilter={updMetricInFilter}

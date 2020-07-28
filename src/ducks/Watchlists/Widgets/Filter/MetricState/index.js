@@ -10,26 +10,28 @@ import styles from './index.module.scss'
 const FilterMetricState = ({
   isActive,
   onCheckboxClicked,
-  isAuthor,
+  isViewMode,
   metric,
   settings
 }) => {
   const metricForDescription = Metric[metric.descriptionKey || metric.key]
 
-  const isDisabled = !isAuthor && !isActive
+  const isDisabled = isViewMode && !isActive
 
   return (
     <div className={styles.wrapper}>
       <div
-        onClick={() => (isAuthor ? onCheckboxClicked() : null)}
+        onClick={() => (!isViewMode ? onCheckboxClicked() : null)}
         className={cx(styles.toggle, isDisabled && styles.toggle__disabled)}
       >
         <Checkbox
           isActive={isActive}
-          disabled={!isAuthor && !isActive}
+          disabled={isDisabled}
           className={styles.checkbox}
         />
-        <div className={cx(styles.title, !isAuthor && styles.title__notActive)}>
+        <div
+          className={cx(styles.title, isViewMode && styles.title__notActive)}
+        >
           <span className={styles.label}>{metric.label}</span>
           {isActive && (
             <Explanation

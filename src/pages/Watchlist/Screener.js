@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
-import { getWatchlistName } from '../../ducks/Watchlists/utils'
+import {
+  getWatchlistName,
+  DEFAULT_SCREENER_FUNCTION
+} from '../../ducks/Watchlists/utils'
 import { getProjectsByFunction } from '../../ducks/Watchlists/gql/hooks'
 import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
 import GetAssets from '../../ducks/Watchlists/Widgets/Table/GetAssets'
@@ -15,7 +18,10 @@ const Screener = props => {
   const [isPriceChartActive, setPriceChart] = useState(false)
   const [isPriceTreeMap, setPriceTreeMap] = useState(false)
   const [isVolumeTreeMap, setVolumeTreeMap] = useState(false)
-  const [assets = [], loading] = getProjectsByFunction(props.watchlist.function)
+  const [screenerFunction, setScreenerFunction] = useState(
+    props.watchlist.function || DEFAULT_SCREENER_FUNCTION
+  )
+  const [assets = [], loading] = getProjectsByFunction(screenerFunction)
 
   return (
     <div className={('page', styles.screener)}>
@@ -82,6 +88,10 @@ const Screener = props => {
                 Assets={{ ...Assets, isLoading: loading }}
                 items={assets}
                 type='screener'
+                isDefaultScreener={props.isDefaultScreener}
+                isLoggedIn={props.isLoggedIn}
+                screenerFunction={screenerFunction}
+                setScreenerFunction={setScreenerFunction}
                 isAuthor={isCurrentUserTheAuthor}
                 projectsCount={projectsCount}
                 watchlist={props.watchlist}
