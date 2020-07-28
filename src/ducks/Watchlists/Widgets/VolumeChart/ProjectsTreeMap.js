@@ -159,6 +159,10 @@ const CustomizedContent = props => {
     root: { children }
   } = props
 
+  if (!children) {
+    return null
+  }
+
   const item = children[index]
   const { ticker = '', color } = item
   const value = formatProjectTreeMapValue(item[dataKey])
