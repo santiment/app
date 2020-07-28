@@ -42,13 +42,19 @@ export const getTreeMapColor = value => {
 
 const COLORS = ['20', '5', '5 - 0', '0', '0 - (-5)', '-5', '-20']
 
-const ColorsExplanation = ({ colorMaps }) => {
+const DATE_MAPS = {
+  '24h': "today's",
+  '7d': "week's",
+  '1h': "hour's"
+}
+
+const ColorsExplanation = ({ colorMaps, range }) => {
   return (
     <div className={styles.container}>
       <div className={styles.explanation}>
         <Icon type='info-round' className={styles.iconRound} />
-        Color indicates today's asset perfomance in percent. Size represents
-        market cap.
+        Color indicates {DATE_MAPS[range]} asset perfomance in percent. Size
+        represents market cap.
       </div>
       <div className={styles.colors}>
         {COLORS.map(key => {
@@ -58,7 +64,7 @@ const ColorsExplanation = ({ colorMaps }) => {
               className={styles.card}
               style={{ backgroundColor: colorMaps[key] }}
             >
-              {key}
+              {key}%
             </div>
           )
         })}
