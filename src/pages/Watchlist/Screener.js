@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { getWatchlistName } from '../../ducks/Watchlists/utils'
+import { getProjectsByFunction } from '../../ducks/Watchlists/gql/hooks'
 import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
 import GetAssets from '../../ducks/Watchlists/Widgets/Table/GetAssets'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table/AssetsTable'
@@ -14,6 +15,7 @@ const Screener = props => {
   const [isPriceChartActive, setPriceChart] = useState(false)
   const [isPriceTreeMap, setPriceTreeMap] = useState(false)
   const [isVolumeTreeMap, setVolumeTreeMap] = useState(false)
+  const [assets = [], loading] = getProjectsByFunction(props.watchlist.function)
 
   return (
     <div className={('page', styles.screener)}>
@@ -25,7 +27,6 @@ const Screener = props => {
           const {
             typeInfo: { listId },
             isCurrentUserTheAuthor,
-            items = [],
             projectsCount
           } = Assets
 
@@ -55,7 +56,7 @@ const Screener = props => {
                     {isPriceTreeMap && (
                       <ProjectsTreeMap
                         className={styles.containerTreeMap}
-                        assets={items}
+                        assets={assets}
                         title='Price Up'
                         ranges={RANGES}
                       />
@@ -63,7 +64,7 @@ const Screener = props => {
                     {isVolumeTreeMap && (
                       <ProjectsTreeMap
                         className={styles.containerTreeMap}
-                        assets={items}
+                        assets={assets}
                         title='Volume'
                         ranges={[
                           {
@@ -76,10 +77,10 @@ const Screener = props => {
                   </div>
                 </>
               )}
-              {isPriceChartActive && <ProjectsChart assets={items} />}
+              {isPriceChartActive && <ProjectsChart assets={assets} />}
               <AssetsTable
-                Assets={Assets}
-                items={items}
+                Assets={{ ...Assets, isLoading: loading }}
+                items={assets}
                 type='screener'
                 isAuthor={isCurrentUserTheAuthor}
                 projectsCount={projectsCount}

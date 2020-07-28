@@ -4,7 +4,8 @@ import {
   FEATURED_WATCHLISTS_QUERY,
   CREATE_WATCHLIST_MUTATION,
   UPDATE_WATCHLIST_MUTATION,
-  AVAILABLE_METRICS_QUERY
+  AVAILABLE_METRICS_QUERY,
+  PROJECTS_BY_FUNCTION_QUERY
 } from './index'
 import { WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
 import { store } from '../../../index'
@@ -153,4 +154,19 @@ export function useAvailableMetrics () {
   const { data, loading } = useQuery(AVAILABLE_METRICS_QUERY)
 
   return [data ? data.getAvailableMetrics : [], loading]
+}
+
+export function getProjectsByFunction (func) {
+  const { data, loading, error } = useQuery(PROJECTS_BY_FUNCTION_QUERY, {
+    skip: !func,
+    variables: {
+      fn: JSON.stringify(func)
+    }
+  })
+
+  return [
+    data ? data.allProjectsByFunction.projects : undefined,
+    loading,
+    error
+  ]
 }

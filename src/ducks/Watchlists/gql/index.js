@@ -1,6 +1,7 @@
 import gql from 'graphql-tag'
 import {
   generalData,
+  project,
   PROJECT_RECENT_DATA_FRAGMENT
 } from '../../../pages/Projects/allProjectsGQL'
 
@@ -98,4 +99,20 @@ export const UPDATE_WATCHLIST_MUTATION = gql`
   ${WATCHLIST_GENERAL_FRAGMENT}
   ${generalData}
   ${PROJECT_RECENT_DATA_FRAGMENT}
+`
+
+export const PROJECTS_BY_FUNCTION_QUERY = gql`
+  query allProjectsByFunction($fn: json) {
+    allProjectsByFunction(function: $fn) {
+      projects {
+        ...generalData
+        ...project
+      }
+      stats {
+        projectsCount
+      }
+    }
+  }
+  ${generalData}
+  ${project}
 `
