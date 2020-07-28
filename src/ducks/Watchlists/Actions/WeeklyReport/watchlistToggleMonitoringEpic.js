@@ -19,7 +19,6 @@ export const watchlistToggleMonitoringEpic = (action$, store, { client }) =>
             }
           }
         ) => {
-          debugger
           const cache = store.readQuery({
             query: WATCHLIST_QUERY,
             variables: { id }

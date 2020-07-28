@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import cx from 'classnames'
@@ -30,6 +30,26 @@ export const isWebhookChannel = channel => {
   )
 }
 
+export const getDisabled = ({
+  isEmailConnected,
+  isTelegramConnected,
+  isWebPushEnabled
+}) => {
+  const disabled = []
+
+  if (!isEmailConnected) {
+    disabled.push(CHANNEL_NAMES.Email)
+  }
+  if (!isTelegramConnected) {
+    disabled.push(CHANNEL_NAMES.Telegram)
+  }
+  if (!isWebPushEnabled) {
+    disabled.push(CHANNEL_NAMES.Browser)
+  }
+
+  return disabled
+}
+
 const TriggerFormChannels = ({
   channels,
   errors,
@@ -45,33 +65,39 @@ const TriggerFormChannels = ({
 
   const [requiredChannels, setRequiredChannels] = useState([])
 
-  const calculateDisabledChannels = () => {
-    const disabled = []
+  const isDisabled = useCallback(
+    channel => {
+      return disabledChannels.some(disabled => disabled === channel)
+    },
+    [disabledChannels]
+  )
 
-    if (!isEmailConnected) {
-      disabled.push(CHANNEL_NAMES.Email)
-    }
-    if (!isTelegramConnected) {
-      disabled.push(CHANNEL_NAMES.Telegram)
-    }
-    if (!isWebPushEnabled) {
-      disabled.push(CHANNEL_NAMES.Browser)
-    }
-
-    setDisabledChannels(disabled)
-  }
-
-  const recheckBrowserNotifications = () => {
-    navigator.serviceWorker &&
-      navigator.serviceWorker.getRegistrations &&
-      navigator.serviceWorker.getRegistrations().then(registrations => {
-        const sw = getSanSonarSW(registrations)
-        const hasServiceWorker = !!sw
-
-        setWebPushEnabled(hasServiceWorker)
-        calculateDisabledChannels()
+  const calculateDisabledChannels = useCallback(
+    () => {
+      const disabled = getDisabled({
+        isTelegramConnected,
+        isWebPushEnabled,
+        isEmailConnected
       })
-  }
+      setDisabledChannels(disabled)
+    },
+    [isEmailConnected, isWebPushEnabled, isTelegramConnected]
+  )
+
+  const recheckBrowserNotifications = useCallback(
+    () => {
+      navigator.serviceWorker &&
+        navigator.serviceWorker.getRegistrations &&
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          const sw = getSanSonarSW(registrations)
+          const hasServiceWorker = !!sw
+
+          setWebPushEnabled(hasServiceWorker)
+          calculateDisabledChannels()
+        })
+    },
+    [setWebPushEnabled, calculateDisabledChannels]
+  )
 
   useEffect(
     () => {
@@ -88,7 +114,9 @@ const TriggerFormChannels = ({
         }
       }
 
-      setFieldValue('channels', newChannels)
+      const active = newChannels.filter(channel => !isDisabled(channel))
+
+      setFieldValue('channels', active)
     },
     [isTelegramConnected, isEmailConnected]
   )
@@ -104,6 +132,7 @@ const TriggerFormChannels = ({
 
   useEffect(
     () => {
+      calculateDisabledChannels()
       let required = []
       if (
         !isTelegramConnected &&
@@ -127,94 +156,111 @@ const TriggerFormChannels = ({
       }
 
       setRequiredChannels(required)
-      calculateDisabledChannels()
     },
     [isTelegramConnected, isEmailConnected, isWebPushEnabled]
   )
 
-  const onWebhookChange = e => {
-    const channel = findWebHook(channels)
+  const onWebhookChange = useCallback(
+    e => {
+      const channel = findWebHook(channels)
 
-    const val = e.target.value
+      const val = e.target.value
 
-    if (channel) {
-      channel.webhook = val
-      setFieldValue('channels', channels)
-    } else {
-      setFieldValue('channels', [
-        ...channels,
-        {
-          webhook: val
-        }
-      ])
-    }
-
-    setWebhook(val)
-  }
-
-  const toggleChannel = channel => {
-    let newChannels = []
-    switch (channel) {
-      case CHANNEL_NAMES.Webhook: {
-        const whChannel = findWebHook(channels)
-        if (!whChannel) {
-          newChannels = [
-            ...channels,
-            {
-              webhook
-            }
-          ]
-        } else {
-          newChannels = channels.filter(item => !isWebhookChannel(item))
-        }
-        break
+      if (channel) {
+        channel.webhook = val
+        setFieldValue('channels', channels)
+      } else {
+        setFieldValue('channels', [
+          ...channels,
+          {
+            webhook: val
+          }
+        ])
       }
 
-      default: {
-        if (channels.indexOf(channel) !== -1) {
-          newChannels = channels.filter(item => item !== channel)
-        } else {
-          newChannels = [...channels, channel]
+      setWebhook(val)
+    },
+    [channels, setFieldValue]
+  )
+
+  const toggleChannel = useCallback(
+    channel => {
+      let newChannels = []
+      switch (channel) {
+        case CHANNEL_NAMES.Webhook: {
+          const whChannel = findWebHook(channels)
+          if (!whChannel) {
+            newChannels = [
+              ...channels,
+              {
+                webhook
+              }
+            ]
+          } else {
+            newChannels = channels.filter(item => !isWebhookChannel(item))
+          }
+          break
+        }
+
+        default: {
+          if (channels.indexOf(channel) !== -1) {
+            newChannels = channels.filter(item => item !== channel)
+          } else {
+            newChannels = [...channels, channel]
+          }
         }
       }
-    }
 
-    setFieldValue('channels', newChannels)
-  }
+      setFieldValue('channels', newChannels)
+    },
+    [channels, setFieldValue]
+  )
 
   useEffect(
     () => {
+      if (!channels.length) {
+        return
+      }
+
       if (!webhook) {
         const whChannel = findWebHook(channels)
         if (whChannel) {
           setWebhook(whChannel.webhook)
         }
       }
+
+      const active = channels.filter(channel => !isDisabled(channel))
+
+      if (!channels.some(channel => active.indexOf(channel) !== -1)) {
+        setFieldValue('channels', active)
+      }
     },
     [channels]
   )
 
-  const isDisabled = channel => {
-    return disabledChannels.some(disabled => disabled === channel)
-  }
-
-  const isActive = channel => {
-    switch (channel) {
-      case CHANNEL_NAMES.Webhook: {
-        return findWebHook(channels)
+  const isActive = useCallback(
+    channel => {
+      switch (channel) {
+        case CHANNEL_NAMES.Webhook: {
+          return findWebHook(channels)
+        }
+        default: {
+          return channels.some(active => active === channel)
+        }
       }
-      default: {
-        return channels.some(active => active === channel)
-      }
-    }
-  }
+    },
+    [channels]
+  )
 
-  const isRequired = channel => {
-    return (
-      requiredChannels.some(required => required === channel) ||
-      disabledChannels.some(disabled => disabled === channel)
-    )
-  }
+  const isRequired = useCallback(
+    channel => {
+      return (
+        requiredChannels.some(required => required === channel) ||
+        disabledChannels.some(disabled => disabled === channel)
+      )
+    },
+    [requiredChannels, disabledChannels]
+  )
 
   return (
     <div className={cx(styles.row, styles.rowSingle)}>
@@ -247,7 +293,7 @@ const TriggerFormChannels = ({
                     disabled={!findWebHook(channels)}
                     value={webhook}
                     onChange={onWebhookChange}
-                    className={cx(styles.inputLink, styles.inputWebhook)}
+                    className={styles.inputLink}
                   />
                 )}
               </div>

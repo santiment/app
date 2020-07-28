@@ -31,8 +31,9 @@
 
 .textarea {
   height: 40px;
+  resize: none;
 
-  &:active {
+  &:focus {
     color: var(--rhino) !important;
   }
 }
