@@ -135,7 +135,7 @@ const AssetsTable = ({
   )
 
   return (
-    <div className={classes.container}>
+    <div className={classes.container} id='table'>
       <div className={styles.top} id='tableTop'>
         {filterType ? (
           <span>Showed based on {filterType} anomalies</span>
