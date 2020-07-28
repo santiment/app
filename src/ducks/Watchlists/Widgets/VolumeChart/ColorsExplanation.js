@@ -49,7 +49,6 @@ const DATE_MAPS = {
 }
 
 const ColorsExplanation = ({ colorMaps, range }) => {
-  console.log('range', range)
   return (
     <div className={styles.container}>
       <div className={styles.explanation}>
