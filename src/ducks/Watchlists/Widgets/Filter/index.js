@@ -4,6 +4,8 @@ import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import throttle from 'lodash.throttle'
+import { store } from '../../../../index'
+import { showNotification } from '../../../../actions/rootActions'
 import { useUpdateWatchlist } from '../../gql/hooks'
 import Trigger from './Trigger'
 import { metrics } from './metrics'
@@ -139,7 +141,20 @@ const Filter = ({
     <>
       <Trigger
         isOpen={isOpen}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={newIsOpenState => {
+          setIsOpen(newIsOpenState)
+
+          if (!isLoggedIn && newIsOpenState && !isViewMode) {
+            store.dispatch(
+              showNotification({
+                variant: 'warning',
+                title: `Log in to save your filter settings`,
+                dismissAfter: 8000000,
+                solidFill: true
+              })
+            )
+          }
+        }}
         activeMetricsCount={activeBaseMetrics.length}
       />
       <section
