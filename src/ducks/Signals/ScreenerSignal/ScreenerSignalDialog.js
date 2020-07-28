@@ -10,8 +10,10 @@ import { updateTrigger, createTrigger } from '../common/actions'
 import { SCREENER_DEFAULT_SIGNAL } from '../utils/constants'
 import { useWatchlist } from '../../Watchlists/gql/hooks'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import styles from './ScreenerSignalDialog.module.scss'
 import { useSignals } from '../common/getSignals'
+import { checkIsLoggedIn } from '../../../pages/UserSelectors'
+import AnonBanner from '../../../components/AnonBanner/AnonBanner'
+import styles from './ScreenerSignalDialog.module.scss'
 
 export const EditSignalIcon = ({ className, isActive }) => (
   <svg
@@ -36,7 +38,7 @@ export const EditSignalIcon = ({ className, isActive }) => (
 
 const getWachlistIdFromSignal = memoize((signal = {}) => {
   const {
-    settings: { operation: { selector: { watchlist_id } = {} } = {} }
+    settings: { operation: { selector: { watchlist_id } = {} } = {} } = {}
   } = signal
   return watchlist_id
 })
@@ -56,7 +58,8 @@ const ScreenerSignalDialog = ({
   updateTrigger,
   defaultOpen,
   redirect,
-  goBackTo
+  goBackTo,
+  isLoggedIn
 }) => {
   const [stateSignal, setSignal] = useState(signal || SCREENER_DEFAULT_SIGNAL)
   const [open, setOpen] = useState(defaultOpen)
@@ -137,7 +140,9 @@ const ScreenerSignalDialog = ({
       onOpen={() => setOpen(true)}
       onClose={close}
       title={title}
-      classes={styles}
+      classes={{
+        dialog: isLoggedIn ? styles.dialog : undefined
+      }}
       trigger={
         ElTrigger || (
           <Button className={styles.btn} type='button' variant='ghost'>
@@ -159,12 +164,16 @@ const ScreenerSignalDialog = ({
       }
     >
       <Dialog.ScrollContent>
-        <ScreenerSignal
-          watchlist={watchlist}
-          signal={stateSignal}
-          onCancel={close}
-          onSubmit={onSubmit}
-        />
+        {isLoggedIn ? (
+          <ScreenerSignal
+            watchlist={watchlist}
+            signal={stateSignal}
+            onCancel={close}
+            onSubmit={onSubmit}
+          />
+        ) : (
+          <AnonBanner className={styles.anon} />
+        )}
       </Dialog.ScrollContent>
     </Dialog>
   )
@@ -180,7 +189,10 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
+const mapStateToProps = state => ({
+  isLoggedIn: checkIsLoggedIn(state)
+})
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(ScreenerSignalDialog)
