@@ -22,10 +22,7 @@ const MyScreeners = ({
 }) => {
   const [screeners, loading] = useUserScreeners()
 
-  // NOTE (haritonasty): this checking only when screener is in hidden mode. Will remove it
-  const haveScreeners = screeners && screeners.length && !screeners[0].slug
-
-  return haveScreeners ? (
+  return (
     <div className={cx(styles.wrapper, className)}>
       {showHeader && (
         <>
@@ -66,7 +63,7 @@ const MyScreeners = ({
         <NewWatchlistCard type='screener' />
       </div>
     </div>
-  ) : null
+  )
 }
 
 const mapStateToProps = state => ({
