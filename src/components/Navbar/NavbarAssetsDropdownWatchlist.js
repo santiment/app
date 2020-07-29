@@ -31,7 +31,7 @@ const NavbarAssetsDropdownWatchlist = ({
         <EmptySection watchlists={watchlists} />
       ) : (
         <>
-          <WatchlistList watchlists={watchlists} activeLink={activeLink} />,
+          <WatchlistList watchlists={watchlists} activeLink={activeLink} />
           <NewWatchlist
             trigger={<NewBtn border className={styles.watchlistNew} />}
             watchlists={watchlists}

@@ -60,7 +60,9 @@ const MyScreeners = ({
             {...watchlist}
           />
         ))}
-        <NewWatchlistCard type='screener' />
+        <DesktopOnly>
+          <NewWatchlistCard type='screener' />
+        </DesktopOnly>
       </div>
     </div>
   )

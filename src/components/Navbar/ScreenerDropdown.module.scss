@@ -1,0 +1,63 @@
+@import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins.scss';
+
+.wrapper {
+  box-sizing: border-box;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.list {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+
+.item {
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+}
+
+.watchlistName {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+
+  &::first-letter {
+    text-transform: uppercase;
+  }
+}
+
+.watchlistNew {
+  margin: 10px;
+  width: calc(100% - 20px);
+  fill: var(--casper);
+  justify-content: center;
+}
+
+.emptyWrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.createBtn {
+  padding: 12px 5px;
+}
+
+.loader {
+  font-size: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
