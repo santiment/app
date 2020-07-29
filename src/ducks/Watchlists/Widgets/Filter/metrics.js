@@ -35,6 +35,13 @@ export const Metric = {
     percentMetricKey: 'active_addresses_24h',
     aggregation: 'avg',
     showTimeRange: true
+  },
+  transaction_volume: {
+    category: 'On-chain',
+    group: 'Network Activity',
+    label: 'Transaction Volume',
+    aggregation: 'sum',
+    showTimeRange: true
   }
 }
 
@@ -48,7 +55,8 @@ export const metrics = [
   Metric.marketcap_usd,
   Metric.volume_usd,
   Metric.dev_activity_1d,
-  Metric.daily_active_addresses
+  Metric.daily_active_addresses,
+  Metric.transaction_volume
 ]
 
 export const MetricAlias = {
