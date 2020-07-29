@@ -6,7 +6,12 @@ import { Filter } from '../types'
 import styles from './ValueInput.module.scss'
 
 const ValueInput = ({ onChange, defaultValue, type, metric, autoFocus }) => {
-  const badge = Filter[type].badge || metric.badge || ''
+  let badge = Filter[type].badge || metric.badge || ''
+
+  if (badge.length > 1) {
+    badge = ''
+  }
+
   const onChangeDebounced = useDebounce(value => onChange(value), 500)
 
   return (
