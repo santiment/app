@@ -4,6 +4,11 @@ export const Metric = {
     category: 'Financial',
     badge: '$'
   },
+  price_btc: {
+    label: 'Price BTC',
+    category: 'Financial',
+    badge: 'BTC'
+  },
   marketcap_usd: {
     category: 'Financial',
     label: 'Marketcap',
@@ -39,6 +44,7 @@ Object.keys(Metric).forEach(key => {
 
 export const metrics = [
   Metric.price_usd,
+  Metric.price_btc,
   Metric.marketcap_usd,
   Metric.volume_usd,
   Metric.dev_activity_1d,
