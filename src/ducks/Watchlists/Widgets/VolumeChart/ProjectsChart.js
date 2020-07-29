@@ -15,6 +15,7 @@ import ChartTooltip from '../../../SANCharts/tooltip/CommonChartTooltip'
 import Range from '../WatchlistOverview/Range'
 import styles from './ProjectsChart.module.scss'
 import { useProjectPriceChanges } from '../../../../hooks/project'
+import NoDataCharts from './NoDataCharts'
 
 export const getSorter = memoize(key => (a, b) => +b[key] - +a[key])
 
@@ -121,64 +122,70 @@ const ProjectsChart = ({ assets }) => {
         </div>
       </div>
 
-      <div className={styles.chartWrapper}>
-        {loading ? (
-          <PageLoader />
-        ) : (
-          <div className={styles.chart}>
-            <ResponsiveContainer width='100%' height='100%'>
-              <ComposedChart
-                data={data}
-                margin={{ top: 8, right: 0, left: -20, bottom: 0 }}
-              >
-                <CartesianGrid vertical={false} stroke='var(--athens)' />
+      {assets.length === 0 ? (
+        <div className={styles.noData}>
+          <NoDataCharts />
+        </div>
+      ) : (
+        <div className={styles.chartWrapper}>
+          {loading ? (
+            <PageLoader />
+          ) : (
+            <div className={styles.chart}>
+              <ResponsiveContainer width='100%' height='100%'>
+                <ComposedChart
+                  data={data}
+                  margin={{ top: 8, right: 0, left: -20, bottom: 0 }}
+                >
+                  <CartesianGrid vertical={false} stroke='var(--athens)' />
 
-                <YAxis
-                  dataKey={key}
-                  axisLine={false}
-                  tickLine={false}
-                  fontSize={10}
-                  fontWeight={500}
-                  stroke={'var(--casper)'}
-                  tickCount={8}
-                />
+                  <YAxis
+                    dataKey={key}
+                    axisLine={false}
+                    tickLine={false}
+                    fontSize={10}
+                    fontWeight={500}
+                    stroke={'var(--casper)'}
+                    tickCount={8}
+                  />
 
-                <Bar dataKey={key} fill='var(--dodger-blue)' />
+                  <Bar dataKey={key} fill='var(--dodger-blue)' />
 
-                <XAxis
-                  dataKey='slug'
-                  minTickGap={0}
-                  interval={0}
-                  domain={['auto', 'auto']}
-                  axisLine={false}
-                  tickLine={false}
-                  angle={-90}
-                  height={135}
-                  fontSize={12}
-                  fontWeight={500}
-                  textAnchor='end'
-                  verticalAnchor='end'
-                  stroke={'var(--fiord)'}
-                />
+                  <XAxis
+                    dataKey='slug'
+                    minTickGap={0}
+                    interval={0}
+                    domain={['auto', 'auto']}
+                    axisLine={false}
+                    tickLine={false}
+                    angle={-90}
+                    height={135}
+                    fontSize={12}
+                    fontWeight={500}
+                    textAnchor='end'
+                    verticalAnchor='end'
+                    stroke={'var(--fiord)'}
+                  />
 
-                <Tooltip
-                  content={
-                    <ChartTooltip
-                      labelFormatter={data => {
-                        return data
-                      }}
-                      valueFormatter={({ value }) => {
-                        return value + ' %'
-                      }}
-                      showValueLabel={false}
-                    />
-                  }
-                />
-              </ComposedChart>
-            </ResponsiveContainer>
-          </div>
-        )}
-      </div>
+                  <Tooltip
+                    content={
+                      <ChartTooltip
+                        labelFormatter={data => {
+                          return data
+                        }}
+                        valueFormatter={({ value }) => {
+                          return value + ' %'
+                        }}
+                        showValueLabel={false}
+                      />
+                    }
+                  />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }

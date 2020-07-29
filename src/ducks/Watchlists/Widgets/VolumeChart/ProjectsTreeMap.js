@@ -10,6 +10,7 @@ import ColorsExplanation, {
   getTreeMapColor
 } from './ColorsExplanation'
 import styles from './ProjectsChart.module.scss'
+import NoDataCharts from './NoDataCharts'
 
 const RANGES = [
   {
@@ -107,7 +108,11 @@ const ProjectsTreeMap = ({ assets, title, ranges, className }) => {
         </div>
       </div>
 
-      {loading ? (
+      {assets.length === 0 ? (
+        <div className={styles.noDataTreeMap}>
+          <NoDataCharts />
+        </div>
+      ) : loading ? (
         <PageLoader containerClass={styles.loader} className={styles.loader} />
       ) : (
         <div className={styles.treeMap}>
