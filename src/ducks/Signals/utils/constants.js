@@ -562,5 +562,6 @@ export const SCREENER_DEFAULT_SIGNAL = {
       selector: {}
     }
   },
+  isActive: true,
   description: 'Notify me about changes inside the monitoring Screener'
 }

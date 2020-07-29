@@ -131,7 +131,7 @@ export const SreenerSignal = ({
               </Button>
 
               <div className={styles.toggleContainer}>
-                {isActive ? 'Active' : 'Disabled'}
+                {isActive ? 'Enabled' : 'Disabled'}
                 <Toggle
                   isActive={isActive}
                   className={styles.toggle}
