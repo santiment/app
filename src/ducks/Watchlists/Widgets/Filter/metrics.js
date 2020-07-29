@@ -61,6 +61,27 @@ export const Metric = {
     label: 'Network Growth',
     aggregation: 'sum',
     showTimeRange: true
+  },
+  exchange_inflow: {
+    label: 'Exchange Inflow',
+    category: 'On-chain',
+    group: 'Exchanges',
+    aggregation: 'sum',
+    showTimeRange: true
+  },
+  exchange_outflow: {
+    label: 'Exchange Outflow',
+    category: 'On-chain',
+    group: 'Exchanges',
+    aggregation: 'sum',
+    showTimeRange: true
+  },
+  exchange_balance: {
+    category: 'On-chain',
+    group: 'Exchanges',
+    label: 'Exchange Flow Balance',
+    aggregation: 'sum',
+    showTimeRange: true
   }
 }
 
@@ -78,7 +99,10 @@ export const metrics = [
   Metric.transaction_volume,
   Metric.mvrv_usd,
   Metric.circulation,
-  Metric.network_growth
+  Metric.network_growth,
+  Metric.exchange_inflow,
+  Metric.exchange_outflow,
+  Metric.exchange_balance
 ]
 
 export const MetricAlias = {
