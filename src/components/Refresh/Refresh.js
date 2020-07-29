@@ -20,7 +20,7 @@ const Refresh = ({ onRefreshClick, timestamp, isLoading }) => {
             ? 'Loading...'
             : timestamp
               ? `Updated ${dateDifferenceInWords(options)}`
-              : "Data isn't loaded"
+              : ''
         }
       </Timer>
     </div>
