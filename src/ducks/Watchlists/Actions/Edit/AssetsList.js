@@ -22,7 +22,7 @@ const AssetsList = ({
       <div key={key} className={styles.project} style={style}>
         <div>
           <Label className={styles.name}>{name}</Label>
-          <Label accent='waterloo'>({ticker})</Label>
+          <Label accent='waterloo'>{ticker}</Label>
         </div>
         <Button
           className={styles.actionBtn}

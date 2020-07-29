@@ -20,7 +20,7 @@ const ProjectLabel = ({
       size={20}
     />
     <span className={styles.name}>{name}</span>
-    <span className={styles.ticker}>({ticker})</span>
+    <span className={styles.ticker}>{ticker}</span>
   </div>
 )
 

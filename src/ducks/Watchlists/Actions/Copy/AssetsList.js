@@ -21,7 +21,7 @@ const AssetsList = ({ items, selectedItems, onToggleAsset, classes }) => {
       >
         <Checkbox isActive={isSelectedAsset} className={styles.checkbox} />
         <Label className={styles.name}>{name}</Label>
-        <Label accent='waterloo'>({ticker})</Label>
+        <Label accent='casper'>{ticker}</Label>
       </div>
     )
   }

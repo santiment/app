@@ -10,7 +10,7 @@ export function isStaticWatchlist (watchlist) {
   return name === 'empty'
 }
 
-export function isDynamicWatchlist (watchlist) {
+export function isDynamicWatchlist (watchlist = {}) {
   const { name } = watchlist.function || {}
   return (
     name !== 'empty' && (name === 'selector' || name === 'top_all_projects')

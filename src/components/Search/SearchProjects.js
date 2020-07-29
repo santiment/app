@@ -85,7 +85,7 @@ const AssetSuggestion = ({
         />
       )}
       <span className={styles.name}>{name}</span>
-      <span className={styles.ticker}>({ticker})</span>
+      <span className={styles.ticker}>{ticker}</span>
     </div>
     {isEditingWatchlist && (
       <Icon
