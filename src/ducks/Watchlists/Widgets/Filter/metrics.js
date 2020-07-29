@@ -54,6 +54,13 @@ export const Metric = {
     category: 'On-chain',
     group: 'Network Activity',
     label: 'Circulation'
+  },
+  network_growth: {
+    category: 'On-chain',
+    group: 'Network Activity',
+    label: 'Network Growth',
+    aggregation: 'sum',
+    showTimeRange: true
   }
 }
 
@@ -70,7 +77,8 @@ export const metrics = [
   Metric.daily_active_addresses,
   Metric.transaction_volume,
   Metric.mvrv_usd,
-  Metric.circulation
+  Metric.circulation,
+  Metric.network_growth
 ]
 
 export const MetricAlias = {
