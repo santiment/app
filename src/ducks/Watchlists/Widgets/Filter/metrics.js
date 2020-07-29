@@ -42,6 +42,13 @@ export const Metric = {
     label: 'Transaction Volume',
     aggregation: 'sum',
     showTimeRange: true
+  },
+  mvrv_usd: {
+    category: 'On-chain',
+    group: 'Network Value',
+    label: 'MVRV',
+    aggregation: 'avg',
+    showTimeRange: true
   }
 }
 
@@ -56,7 +63,8 @@ export const metrics = [
   Metric.volume_usd,
   Metric.dev_activity_1d,
   Metric.daily_active_addresses,
-  Metric.transaction_volume
+  Metric.transaction_volume,
+  Metric.mvrv_usd
 ]
 
 export const MetricAlias = {
