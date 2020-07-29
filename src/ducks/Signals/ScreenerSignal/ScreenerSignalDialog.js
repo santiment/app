@@ -15,7 +15,7 @@ import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import AnonBanner from '../../../components/AnonBanner/AnonBanner'
 import styles from './ScreenerSignalDialog.module.scss'
 
-export const EditSignalIcon = ({ className, isActive }) => (
+export const EditSignalIcon = ({ className }) => (
   <svg
     className={className}
     width='16'
@@ -31,7 +31,7 @@ export const EditSignalIcon = ({ className, isActive }) => (
     />
     <path
       d='M11 7C11 8.65685 9.65685 10 8 10C6.34315 10 5 8.65685 5 7C5 5.34315 6.34315 4 8 4C9.65685 4 11 5.34315 11 7Z'
-      fill={isActive ? 'var(--persimmon)' : 'inherit'}
+      fill='var(--persimmon)'
     />
   </svg>
 )
@@ -127,8 +127,8 @@ const ScreenerSignalDialog = ({
     [goBackTo, redirect, setOpen]
   )
 
-  const isNew = !stateSignal.id
-  const title = isNew ? 'Enable Alert' : 'Edit Alert'
+  const isActive = !!stateSignal.id && !!stateSignal.isActive
+  const title = isActive ? 'Edit Alert' : 'Enable Alert'
 
   if (signalsLoading) {
     return <Loader className={styles.loader} />
@@ -146,17 +146,13 @@ const ScreenerSignalDialog = ({
       trigger={
         ElTrigger || (
           <Button className={styles.btn} type='button' variant='ghost'>
-            {isNew ? (
+            {!isActive ? (
               <>
                 <Icon type='signal' className={styles.iconAlert} /> {title}
               </>
             ) : (
               <>
-                <EditSignalIcon
-                  className={styles.iconAlert}
-                  isActive={stateSignal.isActive}
-                />{' '}
-                {title}
+                <EditSignalIcon className={styles.iconAlert} /> {title}
               </>
             )}
           </Button>
