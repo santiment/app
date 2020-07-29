@@ -18,7 +18,7 @@ const ScreenerDropdown = ({ activeLink, isLoggedIn, isLoggedInPending }) => {
 
   return (
     <>
-      <List screeners={screeners} activeLink={activeLink} />,
+      <List screeners={screeners} activeLink={activeLink} />
       {/* <NewWatchlist */}
       {/*   trigger={<NewBtn border className={styles.watchlistNew} />} */}
       {/*   watchlists={watchlists} */}
