@@ -103,7 +103,7 @@ const ProjectsChart = ({ assets }) => {
     <div className={styles.container}>
       <div className={styles.title}>
         <div className={styles.range}>
-          <div>Bar chart: Price changes, %</div>
+          <div>Price Up</div>
           <Range
             range={label}
             changeRange={() => {
