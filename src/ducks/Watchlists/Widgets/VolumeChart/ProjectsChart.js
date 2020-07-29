@@ -17,13 +17,20 @@ import styles from './ProjectsChart.module.scss'
 import { useProjectPriceChanges } from '../../../../hooks/project'
 import NoDataCharts from './NoDataCharts'
 
-export const getSorter = memoize(key => (a, b) => +b[key] - +a[key])
+export const getSorter = memoize(({ sortKey, desc }) => (a, b) => {
+  if (desc) {
+    return +b[sortKey] - +a[sortKey]
+  } else {
+    return +a[sortKey] - +b[sortKey]
+  }
+})
 
 export const useProjectRanges = ({
   assets,
   ranges,
   limit,
-  sortByKey = 'marketcapUsd'
+  sortByKey = 'marketcapUsd',
+  desc = true
 }) => {
   const [mapAssets, setMapAssets] = useState({})
   const [intervalIndex, setIntervalIndex] = useState(
@@ -45,7 +52,8 @@ export const useProjectRanges = ({
 
   const { label, key } = ranges[intervalIndex]
 
-  const sorter = getSorter(sortByKey || key)
+  const sortKey = sortByKey || key
+  const sorter = getSorter({ sortKey, desc })
 
   const [data, loading] = useProjectPriceChanges({
     mapAssets,
@@ -78,15 +86,20 @@ export const SORT_RANGES = [
     key: 'marketcapUsd'
   },
   {
-    label: 'Price',
+    label: `Price changes  ⬆️`,
     key: ''
+  },
+  {
+    label: 'Price changes  ⬇️',
+    key: '',
+    desc: false
   }
 ]
 
 const ProjectsChart = ({ assets }) => {
   const [sortedByIndex, setSortedByIndex] = useState(0)
 
-  const { key: sortByKey, label: sortLabel } = SORT_RANGES[sortedByIndex]
+  const { key: sortByKey, label: sortLabel, desc } = SORT_RANGES[sortedByIndex]
 
   const [
     data,
@@ -96,7 +109,8 @@ const ProjectsChart = ({ assets }) => {
     assets,
     limit: 100,
     ranges: RANGES,
-    sortByKey
+    sortByKey,
+    desc
   })
 
   return (
@@ -114,6 +128,7 @@ const ProjectsChart = ({ assets }) => {
         <div className={cx(styles.range, styles.sortedBy)}>
           <div className={styles.sortedByLabel}>Sorted by </div>
           <Range
+            className={styles.rangeValue}
             range={sortLabel}
             changeRange={() => {
               setSortedByIndex((sortedByIndex + 1) % SORT_RANGES.length)
