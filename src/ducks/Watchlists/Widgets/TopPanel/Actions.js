@@ -6,6 +6,7 @@ import UIButton from '@santiment-network/ui/Button'
 import UIIcon from '@santiment-network/ui/Icon'
 import Delete from '../../Actions/Delete'
 import Copy from '../../Actions/Copy'
+import { useUserScreeners } from '../../gql/hooks'
 import styles from './Actions.module.scss'
 
 export const Icon = ({ className, ...props }) => (
@@ -22,6 +23,12 @@ export const Button = ({ className, ...props }) => (
 )
 
 const Actions = ({ isAuthor, id, name }) => {
+  if (!id) {
+    return null
+  }
+
+  const [screeners = [], loading] = useUserScreeners()
+
   return (
     <ContextMenu
       trigger={
@@ -43,13 +50,13 @@ const Actions = ({ isAuthor, id, name }) => {
             </Button>
           }
         />
-        {isAuthor && (
+        {isAuthor && screeners.length > 1 && (
           <Delete
             title='Do you want to delete this screener?'
             id={id}
             name={name}
             trigger={
-              <Button>
+              <Button variant='negative' className={styles.delete}>
                 <Icon type='remove' />
                 Delete
               </Button>

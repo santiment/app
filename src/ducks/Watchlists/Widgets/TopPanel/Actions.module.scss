@@ -64,3 +64,13 @@
     background: var(--porcelain);
   }
 }
+
+.delete {
+  fill: var(--persimmon);
+  color: var(--persimmon);
+
+  &:hover {
+    fill: var(--persimmon-hover);
+    color: var(--persimmon-hover);
+  }
+}

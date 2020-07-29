@@ -149,7 +149,9 @@ const Filter = ({
               showNotification({
                 variant: 'warning',
                 title: `Log in to save your filter settings`,
-                dismissAfter: 8000000,
+                description:
+                  "Your settings will be lost after refresh if you're not logged in to Sanbase",
+                dismissAfter: 8000,
                 solidFill: true
               })
             )
