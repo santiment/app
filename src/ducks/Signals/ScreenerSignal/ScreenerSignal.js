@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Formik, Form } from 'formik'
 import { connect } from 'react-redux'
 import isEqual from 'lodash.isequal'
@@ -15,8 +15,9 @@ import externalStyles from './../signalFormManager/signalCrudForm/signal/Trigger
 import { mapTriggerStateToProps } from '../signalFormManager/signalCrudForm/signal/TriggerForm'
 import SignalFormDescription from '../signalFormManager/signalCrudForm/formParts/description/SignalFormDescription'
 import { TriggerFormBlockDivider } from '../signalFormManager/signalCrudForm/formParts/block/TriggerFormBlock'
-import styles from './ScreenerSignal.module.scss'
 import AlertWeeklyReports from '../signalFormManager/signalCrudForm/formParts/weeklyReports/AlertWeeklyReports'
+import Toggle from '@santiment-network/ui/Toggle'
+import styles from './ScreenerSignal.module.scss'
 
 export const SreenerSignal = ({
   signal,
@@ -39,6 +40,14 @@ export const SreenerSignal = ({
     [signal]
   )
 
+  const toggleSignalActive = useCallback(
+    values => {
+      const newValues = { ...values, isActive: !values.isActive }
+      setInitialValues(newValues)
+    },
+    [setInitialValues]
+  )
+
   return (
     <Formik
       initialValues={initialValues}
@@ -56,7 +65,7 @@ export const SreenerSignal = ({
         isValid,
         validateForm
       }) => {
-        const { description, channels = [] } = values
+        const { description, channels = [], isActive } = values
 
         const isValidForm =
           isValid || !errors || Object.keys(errors).length === 0
@@ -120,6 +129,15 @@ export const SreenerSignal = ({
               >
                 Cancel
               </Button>
+
+              <div className={styles.toggleContainer}>
+                {isActive ? 'Active' : 'Disabled'}
+                <Toggle
+                  isActive={isActive}
+                  className={styles.toggle}
+                  onClick={() => toggleSignalActive(values)}
+                />
+              </div>
             </div>
           </Form>
         )

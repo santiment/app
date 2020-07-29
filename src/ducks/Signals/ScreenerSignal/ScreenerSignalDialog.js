@@ -6,7 +6,7 @@ import Dialog from '@santiment-network/ui/Dialog'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import ScreenerSignal from './ScreenerSignal'
-import { updateTrigger, createTrigger } from '../common/actions'
+import { updateTrigger, createTrigger, toggleTrigger } from '../common/actions'
 import { SCREENER_DEFAULT_SIGNAL } from '../utils/constants'
 import { useWatchlist } from '../../Watchlists/gql/hooks'
 import Loader from '@santiment-network/ui/Loader/Loader'
@@ -101,7 +101,7 @@ const ScreenerSignalDialog = ({
         setSignal(newSignal)
       }
     },
-    [signals.length, watchlist]
+    [signals, watchlist]
   )
 
   const onSubmit = useCallback(
