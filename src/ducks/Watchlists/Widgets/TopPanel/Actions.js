@@ -27,7 +27,7 @@ const Actions = ({ isAuthor, id, name }) => {
     return null
   }
 
-  const [screeners = [], loading] = useUserScreeners()
+  const [screeners = []] = useUserScreeners()
 
   return (
     <ContextMenu
