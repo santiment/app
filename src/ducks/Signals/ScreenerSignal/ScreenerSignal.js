@@ -113,7 +113,6 @@ export const SreenerSignal = ({
                 {id ? 'Save changes' : 'Create'}
               </Button>
               <Button
-                variant='ghost'
                 disabled={isSubmitting}
                 border
                 className={styles.cancel}
