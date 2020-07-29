@@ -11,7 +11,6 @@ import WeeklyReport from '../../Actions/WeeklyReport'
 import Copy from '../../Actions/Copy'
 import VisibilityToggle from '../../Actions/ChangeVisibility'
 import styles from './WatchlistContextMenu.module.scss'
-import ScreenerSignalDialog from '../../../Signals/ScreenerSignal/ScreenerSignalDialog'
 
 const WatchlistContextMenu = ({
   isAuthor,
@@ -63,19 +62,6 @@ const WatchlistContextMenu = ({
               </Button>
             }
           />
-          {!isDesktop && isAuthor && (
-            <>
-              <ScreenerSignalDialog
-                watchlistId={watchlist.id}
-                classes={styles}
-                trigger={
-                  <Button variant='ghost' fluid>
-                    Alert
-                  </Button>
-                }
-              />
-            </>
-          )}
           {!isDesktop && isAuthor && (
             <WeeklyReport
               id={id}
