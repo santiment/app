@@ -391,8 +391,14 @@ const getFormTrendingWords = ({ settings: { operation, target } }) => {
 }
 
 export const mapFormPropsToScreenerTrigger = ({ formProps, signal }) => {
-  const { description, title } = formProps
-  const trigger = { ...SCREENER_DEFAULT_SIGNAL, ...signal, description, title }
+  const { description, title, isActive } = formProps
+  const trigger = {
+    ...SCREENER_DEFAULT_SIGNAL,
+    ...signal,
+    description,
+    title,
+    isActive
+  }
 
   trigger.settings.channel = getChannels(formProps)
 

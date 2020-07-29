@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState, useEffect, Fragment, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import { compose } from 'recompose'
@@ -107,10 +107,13 @@ export const TriggerForm = ({
     [initialValues.isPublic]
   )
 
-  const toggleSignalPublic = values => {
-    const newValues = { ...values, isPublic: !values.isPublic }
-    setInitialValues(newValues)
-  }
+  const toggleSignalPublic = useCallback(
+    values => {
+      const newValues = { ...values, isPublic: !values.isPublic }
+      setInitialValues(newValues)
+    },
+    [setInitialValues]
+  )
 
   const validateAndSetStep = newStep => {
     if (isNew) {
