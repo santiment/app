@@ -2,13 +2,14 @@
 
 .container {
   display: flex;
-  height: 390px;
   flex-direction: column;
   margin: 0 32px 0 32px;
+  position: relative;
 }
 
 .chartWrapper {
   position: relative;
+  height: 368px;
 }
 
 .loader {
@@ -52,4 +53,14 @@
 
   color: var(--waterloo);
   display: flex;
+}
+
+.noData {
+  height: 188px;
+}
+
+.noDataTreeMap {
+  background: var(--athens);
+  height: 120px;
+  margin-top: 2px;
 }
