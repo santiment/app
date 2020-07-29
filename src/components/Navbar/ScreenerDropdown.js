@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
-import NewBtn from '../../ducks/Watchlists/Actions/New/NewBtn'
-import NewWatchlist from '../../ducks/Watchlists/Actions/New'
+// import NewBtn from '../../ducks/Watchlists/Actions/New/NewBtn'
+// import NewWatchlist from '../../ducks/Watchlists/Actions/New'
 import { getWatchlistLink } from '../../ducks/Watchlists/utils'
 import { VisibilityIndicator } from '../VisibilityIndicator'
 import { useUserScreeners } from '../../ducks/Watchlists/gql/hooks'
@@ -14,7 +14,7 @@ import {
 import styles from './NavbarAssetsDropdownWatchlist.module.scss'
 
 const ScreenerDropdown = ({ activeLink, isLoggedIn, isLoggedInPending }) => {
-  const [screeners, loading] = useUserScreeners()
+  const [screeners = []] = useUserScreeners()
 
   return (
     <>
