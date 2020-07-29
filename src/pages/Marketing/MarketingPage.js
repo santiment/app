@@ -15,6 +15,7 @@ import IndexTab from './IndexTabs/IndexTab'
 import WatchlistCards from '../../ducks/Watchlists/Cards'
 import { BASIC_CATEGORIES } from '../../ducks/Watchlists/utils'
 import MyWatchlist from '../../ducks/Watchlists/Cards/MyWatchlist'
+import MyScreeners from '../../ducks/Watchlists/Cards/MyScreeners'
 import { PATHS } from '../../App'
 import AlphaBlock from './AlphaBlock/AlphaBlock'
 import styles from './MarketingPage.module.scss'
@@ -58,6 +59,10 @@ const MarketingPage = props => {
               {
                 title: 'My Watchlists',
                 content: <MyWatchlist showHeader={false} classes={styles} />
+              },
+              {
+                title: 'My Screeners',
+                content: <MyScreeners showHeader={false} classes={styles} />
               }
             ]}
           />

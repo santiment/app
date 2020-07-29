@@ -162,7 +162,7 @@ const Filter = ({
         ref={filterRef}
       >
         <Icon
-          type='close'
+          type='close-medium'
           className={styles.closeIcon}
           onClick={() => setIsOpen(false)}
         />
