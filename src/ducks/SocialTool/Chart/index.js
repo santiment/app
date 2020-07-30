@@ -34,6 +34,8 @@ const Canvas = ({
   const axesMetricKeys = useAxesMetricsKey(metrics)
   const scale = options.isLogScale ? logScale : linearScale
 
+  const detectedAsset = allDetectedAssets.get(settings.slug) || {}
+
   function onMetricHover (metric) {
     setFocusedMetric(metric)
   }
@@ -147,7 +149,9 @@ const Canvas = ({
               setSettings={setSettings}
               className={cx(styles.top, styles.detailed)}
             >
-              <h3 className={styles.title}>Community charts</h3>
+              <h3 className={styles.title}>
+                {detectedAsset.ticker} own community charts
+              </h3>
             </ChartHeader>
           </DetailedBlock>
         </>
