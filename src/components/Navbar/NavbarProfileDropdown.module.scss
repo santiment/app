@@ -43,7 +43,7 @@
 }
 
 .profile {
-  padding: 15px 20px 12px 24px;
+  padding: 18px 20px 16px 24px;
 }
 
 .icon {
@@ -77,11 +77,8 @@
 .setting {
   display: flex;
   justify-content: space-between;
-  padding: 12px 24px;
   width: 100%;
   box-sizing: border-box;
-  border-left: 1px solid var(--porcelain);
-  border-right: 1px solid var(--porcelain);
   border-radius: 0;
   height: auto;
 
@@ -105,4 +102,20 @@
 
 .productName {
   text-transform: capitalize;
+}
+
+.version {
+  color: var(--rhino);
+  padding: 2px 16px;
+  display: flex;
+  flex-direction: column;
+
+  @include text('caption'); }
+
+.versionLabel {
+  color: var(--waterloo);
+}
+
+.newInsight {
+  margin: 6px 0 8px 16px;
 }

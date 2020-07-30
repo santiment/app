@@ -20,6 +20,7 @@ import {
   useUserSubscriptionStatus
 } from '../../stores/user/subscriptions'
 import styles from './NavbarProfileDropdown.module.scss'
+import { VersionLabel } from '../Version/Version'
 import dropdownStyles from './NavbarDropdown.module.scss'
 
 const personalLinks = [
@@ -130,24 +131,54 @@ export const NavbarProfileDropdown = ({
         </div>
       )}
       <DropdownDevider />
-      <Button
-        fluid
-        variant='ghost'
-        className={cx(styles.setting, dropdownStyles.item, styles.nightMode)}
-        onClick={toggleNightMode}
-      >
-        Night mode <Toggle isActive={isNightMode} />
-      </Button>
+
+      <div className={dropdownStyles.list}>
+        {isUpdateAvailable ? (
+          <Button
+            variant='ghost'
+            fluid
+            accent='positive'
+            className={cx(dropdownStyles.item, dropdownStyles.updateBtn)}
+            onClick={() => window.location.reload(true)}
+          >
+            Update available. Restart now
+          </Button>
+        ) : (
+          <div className={styles.version}>
+            You have the latest version!
+            <VersionLabel className={styles.versionLabel} />
+          </div>
+        )}
+      </div>
+
       <DropdownDevider />
       {user && (
         <>
           <div className={dropdownStyles.list}>
             {personalLinks.map(LinkBuilder)}
+            <Button
+              as='a'
+              href='https://insights-stage.santiment.net/new'
+              className={styles.newInsight}
+              accent='positive'
+              variant='fill'
+            >
+              Write Insight
+            </Button>
           </div>
           <DropdownDevider />
         </>
       )}
-      <div className={dropdownStyles.list}>
+      <div className={cx(dropdownStyles.list, dropdownStyles.listBottom)}>
+        <Button
+          fluid
+          variant='ghost'
+          className={cx(styles.setting, dropdownStyles.item, styles.nightMode)}
+          onClick={toggleNightMode}
+        >
+          Night mode <Toggle isActive={isNightMode} />
+        </Button>
+
         <Button
           variant='ghost'
           fluid
@@ -160,17 +191,14 @@ export const NavbarProfileDropdown = ({
 
         {user && LOGGED_IN_LINKS_1.map(LinkBuilder)}
 
-        {isUpdateAvailable && (
-          <Button
-            variant='ghost'
-            fluid
-            accent='positive'
-            className={cx(dropdownStyles.item, dropdownStyles.updateBtn)}
-            onClick={() => window.location.reload(true)}
-          >
-            Update available. Restart now
-          </Button>
-        )}
+        <Button
+          variant='ghost'
+          fluid
+          className={dropdownStyles.item}
+          onClick={() => window.Intercom('show')}
+        >
+          Contact us
+        </Button>
 
         {user && LOGGED_IN_LINKS_2.map(LinkBuilder)}
 

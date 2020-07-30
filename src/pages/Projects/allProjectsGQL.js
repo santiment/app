@@ -143,7 +143,6 @@ export const ALL_PROJECTS_PRICE_CHANGES_QUERY = gql`
       percentChange1h
       percentChange24h
       percentChange7d
-      volumeChange24h
       marketcapUsd
     }
   }
