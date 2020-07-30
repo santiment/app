@@ -17,6 +17,7 @@
   color: var(--rhino);
   min-height: 130px;
   background: var(--white);
+  border-radius: $border-radius;
 
   @include text('body-2', 'm');
 
