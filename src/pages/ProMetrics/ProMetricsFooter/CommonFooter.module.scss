@@ -99,7 +99,7 @@
   width: 180px;
 
   &:hover {
-    color: var(--jungle-green-hover);
+    color: var(--jungle-green);
   }
 
   @include responsive('phone', 'phone-xs') {
