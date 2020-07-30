@@ -58,17 +58,21 @@ const SignalCardBottom = ({
           <UnpublishedMsg />
         )}
         {isUserTheAuthor && toggleSignal && (
-          <div className={styles.right}>
-            <div
-              className={cx(styles.toggleLabel, !isActive && styles.disabled)}
-            >
-              {isActive ? 'Active' : 'Disabled'}
-            </div>
-            <Toggle onClick={toggleSignal} isActive={isActive} />
-          </div>
+          <ToggleSignal isActive={isActive} toggleSignal={toggleSignal} />
         )}
       </div>
     )
+  )
+}
+
+export const ToggleSignal = ({ isActive, toggleSignal }) => {
+  return (
+    <div className={styles.right}>
+      <div className={cx(styles.toggleLabel, !isActive && styles.disabled)}>
+        {isActive ? 'Enabled' : 'Disabled'}
+      </div>
+      <Toggle onClick={toggleSignal} isActive={isActive} />
+    </div>
   )
 }
 

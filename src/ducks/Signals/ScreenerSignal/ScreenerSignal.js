@@ -16,7 +16,7 @@ import { mapTriggerStateToProps } from '../signalFormManager/signalCrudForm/sign
 import SignalFormDescription from '../signalFormManager/signalCrudForm/formParts/description/SignalFormDescription'
 import { TriggerFormBlockDivider } from '../signalFormManager/signalCrudForm/formParts/block/TriggerFormBlock'
 import AlertWeeklyReports from '../signalFormManager/signalCrudForm/formParts/weeklyReports/AlertWeeklyReports'
-import Toggle from '@santiment-network/ui/Toggle'
+import { ToggleSignal } from '../../../components/SignalCard/card/SignalCardBottom'
 import styles from './ScreenerSignal.module.scss'
 
 export const SreenerSignal = ({
@@ -130,14 +130,12 @@ export const SreenerSignal = ({
                 Cancel
               </Button>
 
-              <div className={styles.toggleContainer}>
-                {isActive ? 'Enabled' : 'Disabled'}
-                <Toggle
+              {!isNew && (
+                <ToggleSignal
                   isActive={isActive}
-                  className={styles.toggle}
-                  onClick={() => toggleSignalActive(values)}
+                  toggleSignal={() => toggleSignalActive(values)}
                 />
-              </div>
+              )}
             </div>
           </Form>
         )
