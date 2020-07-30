@@ -19,8 +19,8 @@ import ChartTooltip from '../../../SANCharts/tooltip/CommonChartTooltip'
 import Range from '../WatchlistOverview/Range'
 import { useProjectPriceChanges } from '../../../../hooks/project'
 import NoDataCharts from './NoDataCharts'
-import styles from './ProjectsChart.module.scss'
 import { formatNumber } from '../../../../utils/formatting'
+import styles from './ProjectsChart.module.scss'
 
 export const getSorter = memoize(({ sortKey, desc }) => (a, b) => {
   if (desc) {
