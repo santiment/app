@@ -1,21 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import memoize from 'lodash.memoize'
+import { push } from 'react-router-redux'
+import { connect } from 'react-redux'
 import cx from 'classnames'
 import {
   Bar,
+  Cell,
   CartesianGrid,
   ComposedChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis
+  YAxis,
+  LabelList
 } from 'recharts'
 import PageLoader from '../../../../components/Loader/PageLoader'
 import ChartTooltip from '../../../SANCharts/tooltip/CommonChartTooltip'
 import Range from '../WatchlistOverview/Range'
-import styles from './ProjectsChart.module.scss'
 import { useProjectPriceChanges } from '../../../../hooks/project'
 import NoDataCharts from './NoDataCharts'
+import { formatNumber } from '../../../../utils/formatting'
+import styles from './ProjectsChart.module.scss'
 
 export const getSorter = memoize(({ sortKey, desc }) => (a, b) => {
   if (desc) {
@@ -82,8 +87,13 @@ export const RANGES = [
 
 export const SORT_RANGES = [
   {
-    label: 'Marketcap',
+    label: 'Marketcap  ⬆️',
     key: 'marketcapUsd'
+  },
+  {
+    label: 'Marketcap  ⬇️',
+    key: 'marketcapUsd',
+    desc: false
   },
   {
     label: `Price changes  ⬆️`,
@@ -96,7 +106,35 @@ export const SORT_RANGES = [
   }
 ]
 
-const ProjectsChart = ({ assets }) => {
+const renderCustomizedLabel = props => {
+  const { x, y, width, value, fill } = props
+
+  const fontSize = width < 20 ? 7 : 14
+  const position = +value >= 0 ? -1 * (fontSize / 2) : fontSize
+
+  return (
+    <g>
+      <text
+        x={x + width / 2}
+        y={y + position}
+        fill={fill}
+        textAnchor='middle'
+        fontSize={fontSize}
+        fontWeight={500}
+      >
+        {formatNumber(value, {
+          maximumFractionDigits: 2
+        })}
+      </text>
+    </g>
+  )
+}
+
+function getColor (val) {
+  return +val > 0 ? 'var(--jungle-green)' : 'var(--persimmon)'
+}
+
+const ProjectsChart = ({ assets, redirect }) => {
   const [sortedByIndex, setSortedByIndex] = useState(0)
 
   const { key: sortByKey, label: sortLabel, desc } = SORT_RANGES[sortedByIndex]
@@ -112,6 +150,16 @@ const ProjectsChart = ({ assets }) => {
     sortByKey,
     desc
   })
+
+  const onProjectClick = useCallback(
+    data => {
+      const { value } = data
+      return redirect(`/projects/${value}`)
+    },
+    [redirect]
+  )
+
+  const datakey = 'slug'
 
   return (
     <div className={styles.container}>
@@ -149,8 +197,9 @@ const ProjectsChart = ({ assets }) => {
             <div className={styles.chart}>
               <ResponsiveContainer width='100%' height='100%'>
                 <ComposedChart
+                  cursor='pointer'
                   data={data}
-                  margin={{ top: 8, right: 0, left: -20, bottom: 0 }}
+                  margin={{ top: 20, right: 0, left: -20, bottom: 0 }}
                 >
                   <CartesianGrid vertical={false} stroke='var(--athens)' />
 
@@ -164,10 +213,24 @@ const ProjectsChart = ({ assets }) => {
                     tickCount={8}
                   />
 
-                  <Bar dataKey={key} fill='var(--dodger-blue)' />
+                  <Bar dataKey={key}>
+                    <LabelList dataKey={key} content={renderCustomizedLabel} />
+                    {data.map((entry, index) => {
+                      const color = getColor(entry[key])
+                      return (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={color}
+                          onClick={() =>
+                            onProjectClick({ value: entry[datakey] })
+                          }
+                        />
+                      )
+                    })}
+                  </Bar>
 
                   <XAxis
-                    dataKey='slug'
+                    dataKey={datakey}
                     minTickGap={0}
                     interval={0}
                     domain={['auto', 'auto']}
@@ -180,6 +243,7 @@ const ProjectsChart = ({ assets }) => {
                     textAnchor='end'
                     verticalAnchor='end'
                     stroke={'var(--fiord)'}
+                    onClick={onProjectClick}
                   />
 
                   <Tooltip
@@ -205,4 +269,13 @@ const ProjectsChart = ({ assets }) => {
   )
 }
 
-export default ProjectsChart
+const mapDispatchToProps = dispatch => ({
+  redirect: route => {
+    dispatch(push(route))
+  }
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(ProjectsChart)
