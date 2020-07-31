@@ -13,7 +13,7 @@ import Category from './Category'
 import { DEFAULT_SCREENER_FUNCTION } from '../../utils'
 import { getCategoryGraph } from '../../../Studio/Sidebar/utils'
 import { countCategoryActiveMetrics } from '../../../SANCharts/ChartMetricSelector'
-import { getActiveBaseMetrics, getNewFunction } from './utils'
+import { getActiveBaseMetrics, getNewFunction, isContainMetric } from './utils'
 import { useAvailableMetrics } from '../../gql/hooks'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import styles from './index.module.scss'
@@ -94,7 +94,8 @@ const Filter = ({
       ? []
       : filter.filter(
         item =>
-          !item.metric.includes(key) && !item.metric.includes(alternativeKey)
+          !isContainMetric(item.metric, key) &&
+            !isContainMetric(item.metric, alternativeKey)
       )
     const newFilter = [...filters, metric]
 
@@ -109,13 +110,16 @@ const Filter = ({
 
   function toggleMetricInFilter (metric, key, alternativeKey = key) {
     const isMetricInList = filter.some(
-      item => item.metric.includes(key) || item.metric.includes(alternativeKey)
+      item =>
+        isContainMetric(item.metric, key) ||
+        isContainMetric(item.metric, alternativeKey)
     )
     let newFilter = []
     if (isMetricInList) {
       newFilter = filter.filter(
         item =>
-          !item.metric.includes(key) && !item.metric.includes(alternativeKey)
+          !isContainMetric(item.metric, key) &&
+          !isContainMetric(item.metric, alternativeKey)
       )
     } else {
       newFilter = [...filter, metric]
