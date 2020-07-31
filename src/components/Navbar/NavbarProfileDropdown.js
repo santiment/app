@@ -158,7 +158,7 @@ export const NavbarProfileDropdown = ({
             {personalLinks.map(LinkBuilder)}
             <Button
               as='a'
-              href='https://insights-stage.santiment.net/new'
+              href='https://insights.santiment.net/new'
               className={styles.newInsight}
               accent='positive'
               variant='fill'
