@@ -3,6 +3,31 @@
 .wrapper {
   display: flex;
   margin-bottom: 24px;
+  flex-direction: column;
+}
+
+.settings {
+  display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.suggestions {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.hint {
+  padding: 1px 8px;
+  background: var(--athens);
+  border-radius: 2px;
+  border: 1px solid var(--porcelain);
+  margin: 0 0 0 8px;
+
+  @include text('caption', 'm');
+}
+
+.tooltip {
+  max-width: 250px;
 }

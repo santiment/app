@@ -50,6 +50,57 @@ export const Metric = {
     aggregation: 'avg',
     showTimeRange: true
   },
+  mvrv_usd_30d: {
+    category: 'On-chain',
+    group: 'Network Value',
+    label: 'MVRV (30d)',
+    hints: [
+      {
+        label: '< 1',
+        description:
+          'Average ROI is below 0% (breakeven) for addresses that acquired tokens in the past 30 days'
+      },
+      {
+        label: '> 1.5',
+        description:
+          'Average ROI is above 50% for addresses that acquired tokens in the past 30 days'
+      }
+    ]
+  },
+  mvrv_usd_180d: {
+    category: 'On-chain',
+    group: 'Network Value',
+    label: 'MVRV (180d)',
+    hints: [
+      {
+        label: '< 1',
+        description:
+          'Average ROI is below 0% (breakeven) for addresses that acquired tokens in the past 180 days'
+      },
+      {
+        label: '> 1.5',
+        description:
+          'Average ROI is above 50% for addresses that acquired tokens in the past 180 days'
+      }
+    ]
+  },
+  mvrv_usd_365d: {
+    category: 'On-chain',
+    group: 'Network Value',
+    label: 'MVRV (1y)',
+    hints: [
+      {
+        label: '< 1',
+        description:
+          'Average ROI is below 0% (breakeven) for addresses that acquired tokens in the past 1 year'
+      },
+      {
+        label: '> 1.5',
+        description:
+          'Average ROI is above 50% for addresses that acquired tokens in the past 1 year'
+      }
+    ]
+  },
   circulation: {
     category: 'On-chain',
     group: 'Network Activity',
@@ -102,7 +153,10 @@ export const metrics = [
   Metric.network_growth,
   Metric.exchange_inflow,
   Metric.exchange_outflow,
-  Metric.exchange_balance
+  Metric.exchange_balance,
+  Metric.mvrv_usd_30d,
+  Metric.mvrv_usd_180d,
+  Metric.mvrv_usd_365d
 ]
 
 export const MetricAlias = {

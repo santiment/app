@@ -5,7 +5,6 @@ import styles from './DarkTooltip.module.scss'
 
 const DarkTooltip = ({ className, arrowClassName, ...props }) => (
   <Tooltip
-    withArrow
     {...props}
     arrowClassName={cx(styles.arrow, arrowClassName)}
     className={cx(styles.tooltip, className)}
