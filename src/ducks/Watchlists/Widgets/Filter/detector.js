@@ -1,11 +1,12 @@
 import { Operator, Filter } from './types'
 import { DEFAULT_TIMERANGES } from './defaults'
+import { isContainMetric } from './utils'
 
 export function extractFilterByMetricType (filters = [], metric) {
   return filters.filter(
     item =>
-      item.metric.includes(metric.key) ||
-      item.metric.includes(metric.percentMetricKey)
+      isContainMetric(item.metric, metric.percentMetricKey) ||
+      isContainMetric(item.metric, metric.key)
   )
 }
 

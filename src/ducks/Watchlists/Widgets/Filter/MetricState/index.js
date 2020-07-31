@@ -14,7 +14,7 @@ const FilterMetricState = ({
   metric,
   settings
 }) => {
-  const metricForDescription = Metric[metric.descriptionKey || metric.key]
+  const metricForDescription = Metric[metric.descriptionKey || metric.key] || {}
 
   const isDisabled = isViewMode && !isActive
 

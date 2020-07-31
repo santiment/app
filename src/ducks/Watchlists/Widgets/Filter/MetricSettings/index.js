@@ -3,6 +3,7 @@ import TypeDropdown from './TypeDropdown'
 import TimeRangeDropdown from './TimeRangeDropdown'
 import ValueInput from './ValueInput'
 import { Filter } from '../types'
+import DarkTooltip from '../../../../../components/Tooltip/DarkTooltip'
 import { DEFAULT_TIMERANGES } from '../defaults'
 import styles from './index.module.scss'
 
@@ -29,26 +30,44 @@ const FilterMetricSettings = ({
 
   return (
     <div className={styles.wrapper}>
-      <TypeDropdown
-        isPro={isPro}
-        type={type}
-        onChange={onFilterTypeChange}
-        showPercentFilters={percentTimeRanges && percentTimeRanges.length > 0}
-      />
-      <ValueInput
-        type={type}
-        metric={metric}
-        autoFocus={autoFocus}
-        defaultValue={firstThreshold}
-        onChange={onFirstThresholdChange}
-      />
-      {timeRanges && (
-        <TimeRangeDropdown
-          timeRange={timeRange}
-          timeRanges={timeRanges}
-          withInput={metric.showTimeRange && !Filter[type].showTimeRange}
-          onChange={onTimeRangeChange}
+      <div className={styles.settings}>
+        <TypeDropdown
+          isPro={isPro}
+          type={type}
+          onChange={onFilterTypeChange}
+          showPercentFilters={percentTimeRanges && percentTimeRanges.length > 0}
         />
+        <ValueInput
+          type={type}
+          metric={metric}
+          autoFocus={autoFocus}
+          defaultValue={firstThreshold}
+          onChange={onFirstThresholdChange}
+        />
+        {timeRanges && (
+          <TimeRangeDropdown
+            timeRange={timeRange}
+            timeRanges={timeRanges}
+            withInput={metric.showTimeRange && !Filter[type].showTimeRange}
+            onChange={onTimeRangeChange}
+          />
+        )}
+      </div>
+      {metric.hints && (
+        <div className={styles.suggestions}>
+          Suggestions:
+          {metric.hints.map(({ label, description }) => (
+            <DarkTooltip
+              position='top'
+              align='center'
+              on='hover'
+              className={styles.tooltip}
+              trigger={<span className={styles.hint}>{label}</span>}
+            >
+              {description}
+            </DarkTooltip>
+          ))}
+        </div>
       )}
     </div>
   )
