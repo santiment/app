@@ -1,35 +1,58 @@
-import React, { useMemo, useEffect } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { useQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import Point from './Point'
+import { PROJECT_INSIGHTS_QUERY } from './gql'
+import { findPointByDate } from '../../../Chart/utils'
 import styles from './index.module.scss'
 
-export const PROJECT_INSIGHTS_QUERY = gql`
-  query allInsights($ticker: String!) {
-    insights: allInsights(tags: [$ticker]) {
-      id
-      title
-      publishedAt
-      user {
-        id
-        username
-        avatarUrl
-      }
-    }
-  }
-`
+const DEFAULT_INSIGHTS = []
+const POINT_MARGIN = 13
 
-const Insights = ({ ticker, ...props }) => {
+const newPoint = (insight, top, left) =>
+  Object.assign({}, insight, { top, left })
+
+function getStackOffset (stack, x) {
+  const offset = stack[x] || 0
+  stack[x] = offset ? offset + POINT_MARGIN : POINT_MARGIN
+  return offset
+}
+
+function buildInsightPoints (chart, insights) {
+  const { length } = insights
+  const points = []
+  const stack = {}
+
+  for (let i = 0; i < length; i++) {
+    const insight = insights[i]
+    const point = findPointByDate(chart.points, +new Date(insight.publishedAt))
+    if (!point) continue
+
+    const { x } = point
+    points.push(newPoint(insight, chart.bottom - getStackOffset(stack, x), x))
+  }
+
+  return points
+}
+
+const Insights = ({ chart, ticker, ...props }) => {
   const { data } = useQuery(PROJECT_INSIGHTS_QUERY, {
     variables: {
       ticker
     }
   })
-  const insights = useMemo(() => (data ? data.insights : []), [data])
+  const [insights, setInsights] = useState(DEFAULT_INSIGHTS)
 
   useEffect(
     () => {
-      console.log('insights', ticker)
+      if (!(data && data.insights.length && chart.points.length)) return
+
+      setInsights(buildInsightPoints(chart, data.insights))
+    },
+    [data, chart.points]
+  )
+
+  useEffect(
+    () => {
       console.log(insights)
     },
     [insights]
@@ -37,7 +60,9 @@ const Insights = ({ ticker, ...props }) => {
 
   return (
     <div className={styles.wrapper}>
-      <Point />
+      {insights.map(insight => (
+        <Point key={insight.id} {...insight} />
+      ))}
     </div>
   )
 }
