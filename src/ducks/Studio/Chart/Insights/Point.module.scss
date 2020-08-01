@@ -1,0 +1,20 @@
+.wrapper {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--white);
+  background: url('https://production-sanbase-images.s3.amazonaws.com/uploads/4cd3074cecefea204d613bfa92da8f6982dfc3efb972b145e6202819047cb1cd_1594415555541_1594415555733.jpeg')
+    no-repeat 50% / cover;
+  box-shadow: 0 2px 4px rgba(24, 27, 43, 0.1);
+  cursor: pointer;
+  position: absolute;
+
+  //
+  top: 30%;
+  left: 30%;
+  //
+
+  &:hover {
+    border-color: var(--jungle-green);
+  }
+}

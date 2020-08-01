@@ -21,6 +21,7 @@ import { useHighlightMetricColor } from '../../Chart/colors'
 import { useUser } from '../../../stores/user'
 import { useMetricColor } from '../Widget/ChartWidgetColorProvider'
 import styles from './index.module.scss'
+import Insights from './Insights'
 
 const Canvas = ({
   index,
@@ -226,6 +227,7 @@ const Canvas = ({
         />
         <LastDayPrice settings={settings} metrics={metrics} />
         {isSelectingRange || <Signals {...settings} metrics={metrics} />}
+        <Insights ticker={settings.ticker} />
       </Chart>
 
       {isBlurred && (
