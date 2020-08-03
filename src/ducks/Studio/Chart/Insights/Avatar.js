@@ -3,22 +3,15 @@ import cx from 'classnames'
 import userPlaceholderSvg from './user-placeholder.svg'
 import styles from './Avatar.module.scss'
 
-const Avatar = ({
-  className,
-  avatarUrl,
-  top,
-  left,
-  forwardedRef,
-  ...props
-}) => (
+const Avatar = ({ className, src, top, left, forwardedRef, ...props }) => (
   <div
     {...props}
     ref={forwardedRef}
-    className={cx(styles.wrapper, avatarUrl || styles.empty, className)}
+    className={cx(styles.wrapper, !src && styles.empty, className)}
     style={{
       left,
       top,
-      '--author': `url("${avatarUrl || userPlaceholderSvg}")`
+      '--author': `url("${src || userPlaceholderSvg}")`
     }}
   />
 )

@@ -1,12 +1,54 @@
 @import '~@santiment-network/ui/mixins';
 
+.wrapper {
+  padding: 0 12px;
+  max-height: 100%;
+  overflow: auto;
+
+  :global {
+    section {
+      margin: 0 !important;
+    }
+
+    h2,
+    section > .profile {
+      display: none !important;
+    }
+
+    .pic {
+      width: 32px !important;
+      height: 32px !important;
+      min-width: 32px !important;
+    }
+
+    p {
+      margin-bottom: 4px !important;
+    }
+
+    h4 {
+      font-size: 14px !important;
+    }
+
+    textarea {
+      min-height: 35px !important;
+    }
+
+    .submit {
+      height: 35px !important;
+    }
+
+    .action {
+      font-size: 12px !important;
+    }
+  }
+}
+
 .top {
   display: flex;
 }
 
 .header {
   border-bottom: 1px solid var(--porcelain);
-  margin: 0 12px;
 }
 
 .title {

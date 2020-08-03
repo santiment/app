@@ -9,7 +9,7 @@ import sharedStyles from '../InsightCard.module.scss'
 import styles from './Comments.module.scss'
 import { deleteComment, editComment } from './utils'
 
-const Comments = toReact(SvelteComments, {}, 'div')
+export const Comments = toReact(SvelteComments, {}, 'div')
 
 export default ({ id, authorId, count, createComment, getComments }) => {
   const [comments, setComments] = useState([])

@@ -4,6 +4,7 @@ import Tooltip from '@santiment-network/ui/Tooltip'
 import Insight from './Insight'
 import Avatar from './Avatar'
 import styles from './Point.module.scss'
+import insightStyles from './Insight.module.scss'
 
 const Point = ({ left, top, user, ...insight }) => {
   const [isOpened, setIsOpened] = useState()
@@ -26,14 +27,14 @@ const Point = ({ left, top, user, ...insight }) => {
       trigger={
         <Avatar
           className={cx(styles.avatar, isOpened && styles.avatar_active)}
-          avatarUrl={user.avatarUrl}
+          src={user.avatarUrl}
           left={left}
           top={top}
         />
       }
-      // className={styles.tooltip}
+      className={styles.tooltip}
     >
-      <div className={styles.content}>
+      <div className={insightStyles.wrapper}>
         {isOpened && <Insight {...insight} user={user} />}
       </div>
     </Tooltip>
