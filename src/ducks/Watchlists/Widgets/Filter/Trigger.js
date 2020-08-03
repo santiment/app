@@ -17,6 +17,7 @@ const Trigger = ({ activeMetricsCount, isOpen, onClick }) =>
         <Button
           className={cx(styles.button, isOpen && styles.active)}
           onClick={() => onClick(!isOpen)}
+          border
         >
           <Icon className={styles.icon} type='filter-filled' />
           <span
@@ -54,6 +55,7 @@ const Trigger = ({ activeMetricsCount, isOpen, onClick }) =>
       >
         <Button
           className={cx(styles.button, isOpen && styles.active)}
+          border
           onClick={() => onClick(!isOpen)}
         >
           <Icon className={styles.icon} type='filter-filled' />
