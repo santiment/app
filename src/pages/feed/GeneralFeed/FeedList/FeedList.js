@@ -16,7 +16,7 @@ export const YESTERDAY = addDays(new Date(), -1).toLocaleDateString()
 const getEventDate = ({ insertedAt, publishedAt }) =>
   insertedAt ? new Date(insertedAt) : new Date(publishedAt)
 
-const makeDateLabel = date => {
+export const makeDateLabel = date => {
   switch (date.toLocaleDateString()) {
     case TODAY: {
       return 'Today'

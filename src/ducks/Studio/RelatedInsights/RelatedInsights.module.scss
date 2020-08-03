@@ -1,0 +1,32 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  width: 668px;
+}
+
+.wrapper {
+  display: flex;
+  padding-top: 80px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.header {
+  margin-bottom: 32px;
+}
+
+.title {
+  @include text('h4', 'm');
+
+  margin-right: auto;
+}
+
+.insights {
+  display: block;
+}
+
+.insightCard {
+  margin: 0 0 24px 0;
+  background-color: var(--white) !important;
+}
