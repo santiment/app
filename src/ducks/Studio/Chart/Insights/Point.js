@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import Tooltip from '@santiment-network/ui/Tooltip'
+import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Insight from './Insight'
 import Avatar from './Avatar'
 import styles from './Point.module.scss'
@@ -18,7 +18,7 @@ const Point = ({ left, top, user, ...insight }) => {
   }
 
   return (
-    <Tooltip
+    <ContextMenu
       position='top'
       on='click'
       offsetY={16}
@@ -37,7 +37,7 @@ const Point = ({ left, top, user, ...insight }) => {
       <div className={insightStyles.wrapper}>
         {isOpened && <Insight {...insight} user={user} />}
       </div>
-    </Tooltip>
+    </ContextMenu>
   )
 }
 

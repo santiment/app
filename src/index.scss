@@ -199,10 +199,6 @@ hr {
   background-color: #661400;
 }
 
-.modal[class*='svelte'] {
-  position: fixed !important;
-}
-
 .modal[class*='svelte'],
 .bg[class*='svelte'] {
   z-index: 10000 !important;

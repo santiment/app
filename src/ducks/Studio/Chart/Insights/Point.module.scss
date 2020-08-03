@@ -1,3 +1,5 @@
+@import '~@santiment-network/ui/variables';
+
 .avatar {
   border: 1px solid var(--white);
   box-shadow: 0 2px 4px rgba(24, 27, 43, 0.1);
@@ -37,6 +39,7 @@
   width: 561px;
   height: 293px;
   padding: 12px 8px;
+  z-index: 12;
 
   &::after {
     content: '';
@@ -45,10 +48,10 @@
     left: 8px;
     right: 12px;
     bottom: 12px;
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0) 0%,
-      #fff 100%
-    );
+    background: linear-gradient(180deg, rgba($white, 0) 0%, $white 100%);
   }
+}
+
+:global(.night-mode) .tooltip::after {
+  background: linear-gradient(180deg, rgba($mirage, 0) 0%, $mirage 100%);
 }
