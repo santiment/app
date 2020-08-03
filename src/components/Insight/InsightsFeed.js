@@ -26,7 +26,11 @@ const InsightsFeed = ({ insights, dateKey = 'createdAt', classes = {} }) => {
                 onLike={mutateInsightById(id)}
               />
             ) : (
-              <PulseInsightWrapper key={id} insight={insight} />
+              <PulseInsightWrapper
+                key={id}
+                insight={insight}
+                className={classes.insightCard}
+              />
             )
           }}
           dateKey={dateKey}

@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { getDateFormats } from '../../utils/dates'
 import styles from './Feed.module.scss'
 
-const Feed = ({ component: El, data, dateKey, isAllInsightsPage }) => {
+const Feed = ({ component: El, data, dateKey }) => {
   let lastDateKey
   return data.map((item, index) => {
     const id = item.id || index

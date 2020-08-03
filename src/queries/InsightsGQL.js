@@ -55,8 +55,8 @@ export const ALL_TAGS_QUERY = gql`
 `
 
 export const ALL_INSIGHTS_QUERY = gql`
-  query allInsights($tag: String!, $page: Int, $pageSize: Int = 10) {
-    insights: allInsights(page: $page, pageSize: $pageSize, tag: $tag) {
+  query allInsights($tags: String!, $page: Int, $pageSize: Int = 10) {
+    insights: allInsights(page: $page, pageSize: $pageSize, tags: $tags) {
       text
       ...insightCommon
     }

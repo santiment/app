@@ -1,20 +1,50 @@
-import React from 'react'
-import { useInsighgsByTag } from '../../../hooks/insights'
+import React, { useCallback, useEffect, useState } from 'react'
+import {
+  DEFAULT_INSIGHTS_PER_PAGE,
+  useInsighgsByTag
+} from '../../../hooks/insights'
 import PageLoader from '../../../components/Loader/PageLoader'
 import NoInsights from './NoInsights'
 import InsightsFeed from '../../../components/Insight/InsightsFeed'
+import InfiniteScroll from 'react-infinite-scroller'
 import styles from './RelatedInsights.module.scss'
 
 const RelatedInsights = ({ settings }) => {
   const { ticker } = settings
 
+  const [page, setPage] = useState(1)
+
+  const [insights, setInsights] = useState([])
+  const { data, loading: isLoading } = useInsighgsByTag({
+    tags: [ticker],
+    page: page,
+    pageSize: DEFAULT_INSIGHTS_PER_PAGE
+  })
+
+  useEffect(
+    () => {
+      if (data.length > 0) {
+        setInsights([...insights, ...data])
+      }
+    },
+    [data]
+  )
+
+  const loadMore = useCallback(
+    () => {
+      if (!isLoading) {
+        setPage(page + 1)
+      }
+    },
+    [isLoading, setPage, page]
+  )
+
   if (!ticker) {
     return null
   }
 
-  const { data, loading } = useInsighgsByTag({ tag: ticker })
-
-  console.log('data', data)
+  const canLoad =
+    insights.length > 0 && insights.length % DEFAULT_INSIGHTS_PER_PAGE === 0
 
   return (
     <div className={styles.wrapper}>
@@ -24,11 +54,17 @@ const RelatedInsights = ({ settings }) => {
         </div>
 
         <div className={styles.insights}>
-          {loading && <PageLoader />}
+          {!isLoading && insights.length === 0 && <NoInsights />}
 
-          {!loading && data.length === 0 && <NoInsights />}
-
-          <InsightsFeed insights={data} />
+          <InfiniteScroll
+            pageStart={0}
+            loadMore={loadMore}
+            hasMore={!isLoading && canLoad}
+            loader={PageLoader}
+            threshold={0}
+          >
+            <InsightsFeed insights={insights} classes={styles} />
+          </InfiniteScroll>
         </div>
       </div>
     </div>

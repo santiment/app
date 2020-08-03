@@ -1,18 +1,23 @@
 import { useQuery } from '@apollo/react-hooks'
-import {
-  ALL_INSIGHTS_BY_PAGE_QUERY,
-  ALL_INSIGHTS_QUERY
-} from '../queries/InsightsGQL'
+import { ALL_INSIGHTS_QUERY } from '../queries/InsightsGQL'
 
-export const useInsighgsByTag = ({ tag } = {}) => {
+export const DEFAULT_INSIGHTS_PER_PAGE = 10
+
+export const useInsighgsByTag = ({
+  tags,
+  page,
+  pageSize = DEFAULT_INSIGHTS_PER_PAGE
+} = {}) => {
   const { data = {}, loading, error } = useQuery(ALL_INSIGHTS_QUERY, {
-    skip: !tag,
     variables: {
-      tag
-    }
+      tags,
+      page,
+      pageSize
+    },
+    skip: page === 0
   })
 
-  const insighs = data ? data.allInsightsByTag : []
+  const insighs = data ? data.insights : []
 
   return {
     data: insighs || [],
