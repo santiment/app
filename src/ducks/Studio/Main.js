@@ -7,6 +7,13 @@ import TabsWidgets from './Tabs/Widgets'
 import StudioInfo from '../SANCharts/Header'
 import SanbaseBanner from '../../components/SanbaseBanner/SanbaseBanner'
 import styles from './Main.module.scss'
+import Loadable from 'react-loadable'
+import PageLoader from '../../components/Loader/PageLoader'
+
+const LoadableRelatedInsights = Loadable({
+  loader: () => import('./RelatedInsights/RelatedInsights'),
+  loading: () => <PageLoader />
+})
 
 const Main = ({
   widgets,
@@ -24,7 +31,7 @@ const Main = ({
 
     const { slug, name, ticker, id: projectId } = project
     const title = `${name} (${ticker})`
-    setSettings({ ...settings, slug, title, projectId, ticker })
+    setSettings({ ...settings, slug, title, name, projectId, ticker })
     setIsICOPriceDisabled(true)
   }
 
@@ -35,9 +42,12 @@ const Main = ({
         {topSlot}
         <StudioInfo slug={slug} onSlugSelect={onProjectSelect} />
       </div>
-      <StudioTabs />
+      <StudioTabs settings={settings} />
       <div className={cx(styles.container, styles.content)}>
         <Switch>
+          <Route path='/:base/related-insights'>
+            <LoadableRelatedInsights settings={settings} />
+          </Route>
           <Route path='/:base/stats'>
             <StudioTabsKeyStats slug={slug} />
           </Route>
