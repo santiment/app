@@ -28,6 +28,7 @@
 
   &.active {
     background: var(--jungle-green-light);
+    border: 1px solid var(--jungle-green-light-2);
     color: var(--jungle-green);
     fill: var(--jungle-green-light-3);
     margin-right: 376px;
