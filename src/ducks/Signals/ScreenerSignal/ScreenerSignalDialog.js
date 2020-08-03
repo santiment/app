@@ -145,7 +145,7 @@ const ScreenerSignalDialog = ({
       }}
       trigger={
         ElTrigger || (
-          <Button className={styles.btn} type='button' variant='ghost'>
+          <Button className={styles.btn} type='button'>
             {!isActive ? (
               <>
                 <Icon type='signal' className={styles.iconAlert} /> {title}

@@ -1,17 +1,15 @@
 @import '~@santiment-network/ui/mixins';
 
 .btn {
-  color: var(--fiord);
+  color: var(--rhino);
   margin-left: 20px;
+
+  @include text('body-3');
 
   &:hover {
     svg {
       fill: var(--jungle-green);
     }
-  }
-
-  @include responsive('phone', 'phone-xs') {
-    color: var(--rhino);
   }
 }
 
