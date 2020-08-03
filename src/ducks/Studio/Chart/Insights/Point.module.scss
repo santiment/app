@@ -1,9 +1,5 @@
-.wrapper {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
+.avatar {
   border: 1px solid var(--white);
-  background: var(--author) no-repeat 50% / cover, var(--porcelain);
   box-shadow: 0 2px 4px rgba(24, 27, 43, 0.1);
   cursor: pointer;
   position: absolute;
@@ -12,4 +8,33 @@
   &:hover {
     border-color: var(--jungle-green);
   }
+
+  &_active {
+    border-color: var(--jungle-green);
+  }
+}
+
+.insight {
+  position: absolute;
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  box-shadow: 0 4px 8px rgba(24, 27, 43, 0.03);
+  border-radius: 4px;
+  bottom: 100%;
+  margin-bottom: 16px;
+  width: 561px;
+  height: 293px;
+  max-width: initial;
+  transform: translateX(-50%);
+  left: 50%;
+}
+
+.content {
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  box-shadow: 0 4px 8px rgba(24, 27, 43, 0.03);
+  border-radius: 4px;
+  width: 561px;
+  height: 293px;
+  padding: 12px 8px;
 }

@@ -1,16 +1,42 @@
-import React from 'react'
+import React, { useState } from 'react'
+import cx from 'classnames'
+import Tooltip from '@santiment-network/ui/Tooltip'
+import Insight from './Insight'
+import Avatar from './Avatar'
 import styles from './Point.module.scss'
 
 const Point = ({ left, top, user, ...insight }) => {
+  const [isOpened, setIsOpened] = useState()
+
+  function openInsight () {
+    setIsOpened(true)
+  }
+
+  function closeInsight () {
+    setIsOpened(false)
+  }
+
   return (
-    <div
-      className={styles.wrapper}
-      style={{
-        left,
-        top,
-        '--author': `url("${user.avatarUrl}")`
-      }}
-    />
+    <Tooltip
+      position='top'
+      on='click'
+      offsetY={16}
+      onOpen={openInsight}
+      onClose={closeInsight}
+      trigger={
+        <Avatar
+          className={cx(styles.avatar, isOpened && styles.avatar_active)}
+          avatarUrl={user.avatarUrl}
+          left={left}
+          top={top}
+        />
+      }
+      // className={styles.tooltip}
+    >
+      <div className={styles.content}>
+        {isOpened && <Insight {...insight} user={user} />}
+      </div>
+    </Tooltip>
   )
 }
 

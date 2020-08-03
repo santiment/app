@@ -1,0 +1,10 @@
+.wrapper {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--author) no-repeat 50% / cover, var(--porcelain);
+}
+
+.empty {
+  background-size: 50%;
+}

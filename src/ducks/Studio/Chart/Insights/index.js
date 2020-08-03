@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import Point from './Point'
 import { PROJECT_INSIGHTS_QUERY } from './gql'
@@ -34,7 +34,7 @@ function buildInsightPoints (chart, insights) {
   return points
 }
 
-const Insights = ({ chart, ticker, ...props }) => {
+const Insights = ({ chart, ticker }) => {
   const { data } = useQuery(PROJECT_INSIGHTS_QUERY, {
     variables: {
       ticker
