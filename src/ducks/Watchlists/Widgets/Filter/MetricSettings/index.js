@@ -14,6 +14,7 @@ const FilterMetricSettings = ({
   onFilterTypeChange,
   onTimeRangeChange,
   onFirstThresholdChange,
+  onSuggestionClick,
   autoFocus,
   settings: { firstThreshold, timeRange, type }
 }) => {
@@ -56,13 +57,20 @@ const FilterMetricSettings = ({
       {metric.hints && (
         <div className={styles.suggestions}>
           Suggestions:
-          {metric.hints.map(({ label, description }) => (
+          {metric.hints.map(({ label, description, ...props }) => (
             <DarkTooltip
-              position='top'
+              position='bottom'
               align='center'
               on='hover'
               className={styles.tooltip}
-              trigger={<span className={styles.hint}>{label}</span>}
+              trigger={
+                <span
+                  className={styles.hint}
+                  onClick={() => onSuggestionClick(props)}
+                >
+                  {label}
+                </span>
+              }
             >
               {description}
             </DarkTooltip>
