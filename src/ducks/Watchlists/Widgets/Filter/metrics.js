@@ -1,3 +1,5 @@
+import { Filter } from './types'
+
 export const Metric = {
   price_usd: {
     label: 'Price',
@@ -57,11 +59,15 @@ export const Metric = {
     hints: [
       {
         label: '< 1',
+        firstThreshold: 1,
+        type: Filter.below.key,
         description:
           'Average ROI is below 0% (breakeven) for addresses that acquired tokens in the past 30 days'
       },
       {
         label: '> 1.5',
+        firstThreshold: 1.5,
+        type: Filter.above.key,
         description:
           'Average ROI is above 50% for addresses that acquired tokens in the past 30 days'
       }
@@ -74,11 +80,15 @@ export const Metric = {
     hints: [
       {
         label: '< 1',
+        firstThreshold: 1,
+        type: Filter.below.key,
         description:
           'Average ROI is below 0% (breakeven) for addresses that acquired tokens in the past 180 days'
       },
       {
         label: '> 1.5',
+        firstThreshold: 1.5,
+        type: Filter.above.key,
         description:
           'Average ROI is above 50% for addresses that acquired tokens in the past 180 days'
       }
@@ -91,11 +101,15 @@ export const Metric = {
     hints: [
       {
         label: '< 1',
+        firstThreshold: 1,
+        type: Filter.below.key,
         description:
           'Average ROI is below 0% (breakeven) for addresses that acquired tokens in the past 1 year'
       },
       {
         label: '> 1.5',
+        firstThreshold: 1.5,
+        type: Filter.above.key,
         description:
           'Average ROI is above 50% for addresses that acquired tokens in the past 1 year'
       }

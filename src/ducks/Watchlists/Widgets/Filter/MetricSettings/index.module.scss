@@ -24,6 +24,7 @@
   border-radius: 2px;
   border: 1px solid var(--porcelain);
   margin: 0 0 0 8px;
+  cursor: pointer;
 
   @include text('caption', 'm');
 }

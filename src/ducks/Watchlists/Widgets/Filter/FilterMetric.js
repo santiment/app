@@ -141,6 +141,10 @@ const FilterMetric = ({
     setSettings(state => ({ ...state, timeRange }))
   }
 
+  function onSuggestionClick (props) {
+    setSettings(state => ({ ...state, ...props }))
+  }
+
   return (
     <>
       <MetricState
@@ -160,6 +164,7 @@ const FilterMetric = ({
           onFilterTypeChange={onFilterTypeChange}
           onTimeRangeChange={onTimeRangeChange}
           onFirstThresholdChange={onFirstThresholdChange}
+          onSuggestionClick={onSuggestionClick}
         />
       )}
     </>
