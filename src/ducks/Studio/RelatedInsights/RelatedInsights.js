@@ -1,9 +1,8 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { useInsighgsByTag } from '../../../hooks/insights'
 import PageLoader from '../../../components/Loader/PageLoader'
-import WithInsightLikesMutation from '../../../components/Like/WithInsightLikesMutation'
-import InsightCard from '../../../components/Insight/InsightCardWithMarketcap'
-import PulseInsightWrapper from '../../../components/Insight/PulseInsight'
+import NoInsights from './NoInsights'
+import InsightsFeed from '../../../components/Insight/InsightsFeed'
 import styles from './RelatedInsights.module.scss'
 
 const RelatedInsights = ({ settings }) => {
@@ -15,6 +14,8 @@ const RelatedInsights = ({ settings }) => {
 
   const { data, loading } = useInsighgsByTag({ tag: ticker })
 
+  console.log('data', data)
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -25,25 +26,9 @@ const RelatedInsights = ({ settings }) => {
         <div className={styles.insights}>
           {loading && <PageLoader />}
 
-          {data.map(insight => {
-            return (
-              <Fragment key={insight.id}>
-                {insight.isPulse ? (
-                  <PulseInsightWrapper key={insight.id} insight={insight} />
-                ) : (
-                  <WithInsightLikesMutation>
-                    {like => (
-                      <InsightCard
-                        {...insight}
-                        onLike={like(insight.id)}
-                        showIcon={true}
-                      />
-                    )}
-                  </WithInsightLikesMutation>
-                )}
-              </Fragment>
-            )
-          })}
+          {!loading && data.length === 0 && <NoInsights />}
+
+          <InsightsFeed insights={data} />
         </div>
       </div>
     </div>

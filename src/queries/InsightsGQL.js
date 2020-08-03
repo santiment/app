@@ -54,6 +54,16 @@ export const ALL_TAGS_QUERY = gql`
   }
 `
 
+export const ALL_INSIGHTS_QUERY = gql`
+  query allInsights($tag: String!, $page: Int, $pageSize: Int = 10) {
+    insights: allInsights(page: $page, pageSize: $pageSize, tag: $tag) {
+      text
+      ...insightCommon
+    }
+  }
+  ${INSIGHT_COMMON_FRAGMENT}
+`
+
 export const ALL_INSIGHTS_BY_PAGE_QUERY = gql`
   query allInsights($page: Int, $pageSize: Int = 10) {
     insights: allInsights(page: $page, pageSize: $pageSize) {
