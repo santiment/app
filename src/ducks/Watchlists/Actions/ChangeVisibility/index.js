@@ -18,7 +18,7 @@ const PublicityToggle = ({ watchlist, className, ...props }) => {
       }}
       {...props}
     >
-      {isActive ? 'Public' : 'Private'}
+      <span className={styles.text}>{isActive ? 'Public' : 'Private'}</span>
       <Toggle isActive={isActive} className={styles.toggle} />
     </Button>
   )
