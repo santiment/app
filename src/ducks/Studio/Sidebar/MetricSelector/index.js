@@ -11,19 +11,15 @@ const MetricSelector = ({ categories = {}, availableMetrics, ...rest }) => {
     [availableMetrics]
   )
 
-  return (
-    <div>
-      {Object.keys(categories).map(key => (
-        <Category
-          key={key}
-          title={key}
-          groups={categories[key]}
-          hasTopHolders={key === 'On-chain' && hasTopHolders}
-          {...rest}
-        />
-      ))}
-    </div>
-  )
+  return Object.keys(categories).map(key => (
+    <Category
+      key={key}
+      title={key}
+      groups={categories[key]}
+      hasTopHolders={key === 'On-chain' && hasTopHolders}
+      {...rest}
+    />
+  ))
 }
 
 export default MetricSelector

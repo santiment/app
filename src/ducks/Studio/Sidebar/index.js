@@ -4,6 +4,7 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import Tabs from '@santiment-network/ui/Tabs'
 import Icon from '@santiment-network/ui/Icon'
 import MetricSelector from './MetricSelector'
+import InsightAlertSelector from './InsightAlertSelector'
 import Search from './Search'
 import withMetrics from '../withMetrics'
 import { rebuildDescriptions } from '../../dataHub/metrics/descriptions'
@@ -11,6 +12,11 @@ import styles from './index.module.scss'
 
 const TABS = ['Metrics', 'Insights']
 const DEFAULT_TAB = TABS[0]
+
+const TabToComponent = {
+  [TABS[0]]: MetricSelector,
+  [TABS[1]]: InsightAlertSelector
+}
 
 const Header = ({ activeTab, setActiveTab, ...props }) => (
   <div className={styles.header}>
@@ -36,6 +42,7 @@ const CloseButton = ({ onClick, className }) => (
 
 const Sidebar = ({ loading, children, ...rest }) => {
   const [activeTab, setActiveTab] = useState(DEFAULT_TAB)
+  const TabComponent = TabToComponent[activeTab]
 
   return (
     <aside className={styles.wrapper}>
@@ -44,7 +51,7 @@ const Sidebar = ({ loading, children, ...rest }) => {
         {loading ? (
           <Loader className={styles.loading} />
         ) : (
-          <MetricSelector {...rest} />
+          <TabComponent {...rest} />
         )}
       </div>
       {children}

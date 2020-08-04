@@ -3,12 +3,14 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Group from './Group'
 import Button from './Button'
-import { WIDGET } from './MetricSelector/types'
+import { WIDGET } from './Button/types'
 import styles from './MetricSelector/index.module.scss'
 import { useIsBetaMode } from '../../../stores/ui'
 
 const DEFAULT_OPENED_CATEGORY = {
-  Financial: true
+  Financial: true,
+  'Santiment Insights': true,
+  'Santiment Alerts': true
 }
 
 const HOLDER_DISTRIBUTION_NODE = {

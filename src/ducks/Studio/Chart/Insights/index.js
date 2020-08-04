@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useMemo, useState, useEffect, useCallback } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import Point from './Point'
 import { PROJECT_INSIGHTS_QUERY } from './gql'
+import { useInsights } from '../../insights/context'
 import { findPointByDate } from '../../../Chart/utils'
 import styles from './index.module.scss'
 
-const DEFAULT_INSIGHTS = []
 const POINT_MARGIN = 13
 
 const newPoint = (insight, top, left) =>
@@ -34,31 +34,21 @@ function buildInsightPoints (chart, insights) {
 }
 
 const Insights = ({ chart, ticker }) => {
-  const { data } = useQuery(PROJECT_INSIGHTS_QUERY, {
-    variables: {
-      ticker
-    }
-  })
-  const [insights, setInsights] = useState(DEFAULT_INSIGHTS)
+  const insights = useInsights()
+  const points = useMemo(
+    () => (chart.points.length ? buildInsightPoints(chart, insights) : []),
+    [chart.points, insights]
+  )
   const [openedIndex, setOpenedIndex] = useState()
   const onPrevClick = useCallback(() => setOpenedIndex(i => i - 1), [])
   const onNextClick = useCallback(() => setOpenedIndex(i => i + 1), [])
-  const lastIndex = insights.length - 1
-
-  useEffect(
-    () => {
-      if (!(data && data.insights.length && chart.points.length)) return
-
-      setInsights(buildInsightPoints(chart, data.insights))
-    },
-    [data, chart.points]
-  )
+  const lastIndex = points.length - 1
 
   return (
     <div className={styles.wrapper}>
-      {insights.map((insight, i) => (
+      {points.map((point, i) => (
         <Point
-          key={insight.id}
+          key={point.id}
           index={i}
           isOpened={i === openedIndex}
           isFirst={i === 0}
@@ -66,7 +56,7 @@ const Insights = ({ chart, ticker }) => {
           setOpenedIndex={setOpenedIndex}
           onPrevClick={onPrevClick}
           onNextClick={onNextClick}
-          {...insight}
+          {...point}
         />
       ))}
     </div>
