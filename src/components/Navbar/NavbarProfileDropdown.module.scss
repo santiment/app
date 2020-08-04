@@ -65,7 +65,6 @@
 .plan {
   @include text('caption');
 
-  line-height: 1px;
   text-transform: lowercase;
   margin-top: 4px;
   color: var(--waterloo);
@@ -92,7 +91,7 @@
 .upgrade {
   padding: 6px 8px !important;
   border: 1px solid var(--texas-rose);
-  margin-top: 9px;
+  margin-top: 14px;
   text-transform: capitalize;
 
   &:hover,
