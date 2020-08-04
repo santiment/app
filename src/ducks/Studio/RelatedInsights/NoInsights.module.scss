@@ -1,0 +1,8 @@
+@import '~@santiment-network/ui/mixins';
+
+.description {
+  color: var(--waterloo);
+  text-align: center;
+
+  @include text('body-1');
+}

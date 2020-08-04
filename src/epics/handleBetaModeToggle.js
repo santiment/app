@@ -1,13 +1,14 @@
 import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
+import { handleErrorAndTriggerAction } from './utils'
 import {
   USER_TOGGLE_BETA_MODE,
   APP_USER_BETA_MODE_SAVE,
   APP_USER_BETA_MODE_SAVE_FAILED,
   CHANGE_USER_DATA
-} from './../actions/types'
+} from '../actions/types'
 import { saveKeyState, loadKeyState } from '../utils/localStorage'
-import { handleErrorAndTriggerAction } from './utils'
+import { updateIsBetaMode } from '../stores/ui'
 
 const BETA_MODE_MUTATION = gql`
   mutation updateUserSettings($isBetaMode: Boolean!) {
@@ -23,6 +24,7 @@ const handleBetaModeToggle = (action$, store, { client }) =>
     .map(() => {
       const isBetaModeEnabled = !store.getState().rootUi.isBetaModeEnabled
       saveKeyState('isBetaMode', isBetaModeEnabled)
+      updateIsBetaMode(isBetaModeEnabled)
       return Observable.of(isBetaModeEnabled)
     })
     .mergeMap(({ value }) => {

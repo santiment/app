@@ -208,5 +208,6 @@ export const METRICS = [
   'dormant_circulation_90d',
   'stock_to_flow',
   'bitmex_perpetual_basis_ratio',
-  'balance'
+  'balance',
+  'defi_total_value_locked_usd'
 ]

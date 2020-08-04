@@ -5,7 +5,7 @@ import {
   CONNECTED_WIDGET,
   SIDEPANEL,
   ICO_PRICE
-} from '../Studio/Sidebar/MetricSelector/types'
+} from '../Studio/Sidebar/Button/types'
 import {
   SPENT_COIN_COST,
   SOCIAL_CONTEXT

@@ -8,10 +8,11 @@ import {
 import { DEFAULT_SETTINGS } from './defaults'
 import { Phase, usePhase } from './phases'
 import { usePressedModifier, useKeyboardCmdShortcut } from './hooks'
+import { withInsights } from './insights/withInsights'
 import ChartWidget from './Widget/ChartWidget'
 import HolderDistributionWidget from './Widget/HolderDistributionWidget'
 import SelectionOverview from './Overview/SelectionOverview'
-import * as Type from './Sidebar/MetricSelector/types'
+import * as Type from './Sidebar/Button/types'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
 import { NEW_METRIC_KEY_SET, seeMetric } from '../dataHub/metrics/news'
 import styles from './index.module.scss'
@@ -296,4 +297,4 @@ export const Studio = ({
   )
 }
 
-export default Studio
+export default withInsights(Studio)

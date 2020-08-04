@@ -1,6 +1,5 @@
 import React from 'react'
 import { Query } from 'react-apollo'
-import { compose } from 'recompose'
 import withSizes from 'react-sizes'
 import cx from 'classnames'
 import Loader from '@santiment-network/ui/Loader/Loader'

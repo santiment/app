@@ -1,15 +1,16 @@
 import React, { Fragment, useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
-import MetricButton from './MetricButton'
-import { NO_GROUP } from '../utils'
-import styles from './index.module.scss'
+import Button from './Button'
+import { NO_GROUP } from './utils'
+import styles from './MetricSelector/index.module.scss'
 
 const Group = ({
   title,
   nodes,
   activeMetrics,
   project,
+  ErrorMsg,
   NewMetric,
   NewMetricsGroup,
   toggleMetric,
@@ -18,7 +19,7 @@ const Group = ({
   ...rest
 }) => {
   const hasGroup = title !== NO_GROUP
-  const [hidden, setHidden] = useState(hasGroup)
+  const [hidden, setHidden] = useState(hasGroup && title !== 'Projects')
 
   function onToggleClick () {
     setHidden(!hidden)
@@ -65,7 +66,7 @@ const Group = ({
 
           return (
             <Fragment key={item.key}>
-              <MetricButton
+              <Button
                 metric={item}
                 label={rootLabel}
                 onClick={() => toggleMetric(item)}
@@ -74,6 +75,7 @@ const Group = ({
                 isActive={activeMetrics.includes(item)}
                 isDisabled={!selectable}
                 isNew={NewMetric[item.key]}
+                isError={ErrorMsg && ErrorMsg[item.key]}
               />
               {subitems &&
                 subitems.map(subitem => {
@@ -85,7 +87,7 @@ const Group = ({
                   const isActive = checkIsActive && checkIsActive(rest)
 
                   return (
-                    <MetricButton
+                    <Button
                       metric={subitem}
                       key={subitem.key}
                       className={styles.advanced}

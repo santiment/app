@@ -10,6 +10,10 @@ const TABS = [
   {
     path: '/stats',
     label: 'Key Stats'
+  },
+  {
+    path: '/related-insights',
+    LabelComponent: ({ name }) => `Related ${name} Insights`
   }
 ]
 
@@ -21,13 +25,17 @@ function getSubpath (path) {
   return SUBPATHS.has(subpath) ? '' : subpath
 }
 
-const Tabs = ({ location: { pathname }, match: { path: base }, slug }) => {
+const Tabs = ({
+  location: { pathname },
+  match: { path: base },
+  settings: { name }
+}) => {
   const subpath = getSubpath(pathname.slice(base.length))
   const search = window.location.search
 
   return (
     <div className={styles.tabs}>
-      {TABS.map(({ path, label }) => (
+      {TABS.map(({ path, label, LabelComponent }) => (
         <NavLink
           exact
           key={path}
@@ -35,7 +43,7 @@ const Tabs = ({ location: { pathname }, match: { path: base }, slug }) => {
           className={styles.tab}
           activeClassName={styles.active}
         >
-          {label}
+          {label || <LabelComponent name={name} />}
         </NavLink>
       ))}
     </div>
