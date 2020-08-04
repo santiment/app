@@ -10,6 +10,7 @@ import LastDayPrice from './LastDayPrice'
 import SharedAxisToggle from './SharedAxisToggle'
 import ContextMenu from './ContextMenu'
 import ChartFullscreenBtn from './Fullscreen'
+import Insights from './Insights'
 import Compare from '../Compare'
 import { extractMirrorMetricsDomainGroups } from '../utils'
 import { useAllTimeData } from '../timeseries/hooks'
@@ -226,6 +227,7 @@ const Canvas = ({
         />
         <LastDayPrice settings={settings} metrics={metrics} />
         {isSelectingRange || <Signals {...settings} metrics={metrics} />}
+        <Insights />
       </Chart>
 
       {isBlurred && (

@@ -1,0 +1,122 @@
+/* stylelint-disable */
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  padding: 0 12px;
+  max-height: 100%;
+  overflow: auto;
+
+  :global {
+    section {
+      margin: 0 !important;
+    }
+
+    h2,
+    section > .profile {
+      display: none !important;
+    }
+
+    .pic {
+      width: 32px !important;
+      height: 32px !important;
+      min-width: 32px !important;
+    }
+
+    p {
+      margin-bottom: 4px !important;
+    }
+
+    h4 {
+      font-size: 14px !important;
+    }
+
+    textarea {
+      min-height: 35px !important;
+    }
+
+    .submit {
+      height: 35px !important;
+    }
+
+    .action {
+      font-size: 12px !important;
+    }
+  }
+}
+
+.top {
+  display: flex;
+  position: relative;
+}
+
+.header {
+  border-bottom: 1px solid var(--porcelain);
+}
+
+.title {
+  @include text('body-2', 'm');
+
+  color: var(--rhino);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 85%;
+}
+
+.user {
+  @include text('caption', 'm');
+
+  color: var(--waterloo);
+  margin: 5px 0 12px;
+  display: flex;
+  align-items: center;
+  max-width: 85%;
+
+  &__avatar {
+    margin-right: 8px;
+    box-shadow: 0 0 1px 0 #777;
+  }
+}
+
+.actions {
+  position: absolute;
+  display: flex;
+  top: 0;
+  right: 0;
+}
+
+.action {
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--white);
+  cursor: pointer;
+  fill: var(--rhino);
+
+  &:hover {
+    fill: var(--jungle-green);
+    border-color: var(--jungle-green);
+  }
+
+  &.left {
+    transform: rotate(180deg);
+    margin-right: 8px;
+  }
+
+  &_disabled {
+    fill: var(--mystic);
+    pointer-events: none;
+  }
+}
+
+.loader {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  font-size: 8px;
+  transform: translateX(-50%);
+}

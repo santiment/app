@@ -87,7 +87,7 @@ export function findPointByDate (points, target) {
     while (index < points.length) {
       point = points[index]
       if (point.value >= target) {
-        return point
+        return points[index - 1]
       }
       index += 1
     }
@@ -96,7 +96,7 @@ export function findPointByDate (points, target) {
     while (index > -1) {
       point = points[index]
       if (point.value <= target) {
-        return point
+        return points[index + 1]
       }
       index -= 1
     }

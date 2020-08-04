@@ -2,11 +2,11 @@ import React from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
-import Settings from './Settings'
+import Settings from '../MetricSelector/Settings'
 import { MetricSettings } from '../../../dataHub/metrics/settings'
 import MetricExplanation from '../../../SANCharts/MetricExplanation'
-import styles from './MetricButton.module.scss'
-import settingsStyles from './Settings.module.scss'
+import styles from './index.module.scss'
+import settingsStyles from '../MetricSelector/Settings.module.scss'
 
 const MetricButton = ({
   className,
