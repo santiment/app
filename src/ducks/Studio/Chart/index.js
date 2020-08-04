@@ -227,7 +227,7 @@ const Canvas = ({
         />
         <LastDayPrice settings={settings} metrics={metrics} />
         {isSelectingRange || <Signals {...settings} metrics={metrics} />}
-        <Insights ticker={settings.ticker} />
+        <Insights />
       </Chart>
 
       {isBlurred && (

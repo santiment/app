@@ -30,7 +30,7 @@ function buildInsightPoints (chart, insights) {
   return points
 }
 
-const Insights = ({ chart, ticker }) => {
+const Insights = ({ chart }) => {
   const insights = useInsights()
   const points = useMemo(
     () => (chart.points.length ? buildInsightPoints(chart, insights) : []),
