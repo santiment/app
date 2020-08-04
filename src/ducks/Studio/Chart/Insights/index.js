@@ -2,7 +2,6 @@ import React, { useMemo, useState, useCallback } from 'react'
 import Point from './Point'
 import { useInsights } from '../../insights/context'
 import { findPointByDate } from '../../../Chart/utils'
-import styles from './index.module.scss'
 
 const POINT_MARGIN = 13
 
@@ -42,23 +41,21 @@ const Insights = ({ chart, ticker }) => {
   const onNextClick = useCallback(() => setOpenedIndex(i => i + 1), [])
   const lastIndex = points.length - 1
 
-  return points.length ? (
-    <div className={styles.wrapper}>
-      {points.map((point, i) => (
-        <Point
-          key={point.id}
-          index={i}
-          isOpened={i === openedIndex}
-          isFirst={i === 0}
-          isLast={i === lastIndex}
-          setOpenedIndex={setOpenedIndex}
-          onPrevClick={onPrevClick}
-          onNextClick={onNextClick}
-          {...point}
-        />
-      ))}
-    </div>
-  ) : null
+  return points.length
+    ? points.map((point, i) => (
+      <Point
+        key={point.id}
+        index={i}
+        isOpened={i === openedIndex}
+        isFirst={i === 0}
+        isLast={i === lastIndex}
+        setOpenedIndex={setOpenedIndex}
+        onPrevClick={onPrevClick}
+        onNextClick={onNextClick}
+        {...point}
+      />
+    ))
+    : null
 }
 
 export default Insights

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import Avatar from './Avatar'
 import { Comments } from '../../../../components/Insight/comments/Comments'
 import {
@@ -36,14 +37,20 @@ const Insight = ({
   onNextClick
 }) => {
   const [comments, setComments] = useState(DEFAULT_COMMENTS)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState()
   const { username, avatarUrl } = user
 
   useEffect(() => {
+    let comments
+    const timer = setTimeout(() => comments || setLoading(true), 300)
+
     getInsightComments(id).then(({ data }) => {
-      setComments(data.comments)
+      comments = data.comments
+      setComments(comments)
       setLoading(false)
     })
+
+    return () => clearTimeout(timer)
   }, [])
 
   return (
@@ -76,7 +83,7 @@ const Insight = ({
         editComment={editComment}
         deleteComment={deleteComment}
       />
-      {loading && 'Loading...'}
+      {loading && <Loader className={styles.loader} />}
     </>
   )
 }

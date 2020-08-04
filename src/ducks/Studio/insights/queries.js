@@ -17,7 +17,7 @@ export const INSIGHT_COMMON_FRAGMENT = gql`
 
 export const PROJECT_INSIGHTS_QUERY = gql`
   query allInsights($ticker: String!) {
-    insights: allInsights(tags: [$ticker], pageSize: 40) {
+    insights: allInsights(tags: [$ticker], pageSize: 50) {
       ...insightCommon
     }
   }

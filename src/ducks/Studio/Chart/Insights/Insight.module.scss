@@ -74,6 +74,7 @@
 
   &__avatar {
     margin-right: 8px;
+    box-shadow: 0 0 1px 0 #777;
   }
 }
 
@@ -110,4 +111,12 @@
     fill: var(--mystic);
     pointer-events: none;
   }
+}
+
+.loader {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  font-size: 8px;
+  transform: translateX(-50%);
 }
