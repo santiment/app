@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const updateUserListGQL = gql`
+export const updateWatchlistGQL = gql`
   mutation updateWatchlist(
     $id: Int!
     $isPublic: Boolean
@@ -8,7 +8,7 @@ export const updateUserListGQL = gql`
     $color: ColorEnum
     $listItems: [InputListItem]
   ) {
-    updateUserList(
+    updateWatchlist(
       id: $id
       isPublic: $isPublic
       name: $name

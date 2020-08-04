@@ -30,18 +30,17 @@ const ScreenerDropdown = ({ activeLink, isLoggedIn, isLoggedInPending }) => {
 const List = ({ screeners, activeLink }) => (
   <div className={styles.wrapper}>
     <div className={styles.list}>
-      {screeners.map(({ name, id, isPublic, ...rest }) => {
+      {screeners.map(({ name, id, isPublic }, idx) => {
         const link = getWatchlistLink({ id, name })
         return (
           <Button
             fluid
             variant='ghost'
-            key={id}
+            key={idx}
             as={Link}
             className={styles.item}
             to={link}
             isActive={activeLink === link}
-            {...rest}
           >
             <span className={styles.watchlistName}>{name}</span>
             <VisibilityIndicator isPublic={isPublic} />
