@@ -65,7 +65,7 @@ const Filter = ({
         }
 
         if (top > 0) {
-          sidebarContent.style.height = `${VIEWPORT_HEIGHT - bottom - 30}px`
+          sidebarContent.style.height = `${VIEWPORT_HEIGHT - bottom - 34}px`
           sidebar.classList.remove(styles.fixed)
         } else if (bottomTable > VIEWPORT_HEIGHT) {
           sidebar.classList.add(styles.fixed)
