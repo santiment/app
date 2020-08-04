@@ -16,7 +16,7 @@
 }
 
 .container {
-  padding: 47px 113px !important;
+  padding: 40px 113px !important;
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     padding: 0 !important;
@@ -29,15 +29,17 @@
   @include text('body-2');
 
   color: var(--waterloo);
-  margin-top: 9px;
+  margin-top: 8px;
 }
 
 .trialDescr {
   color: var(--rhino);
   max-width: 266px;
   word-break: break-word;
-  margin-left: 24px;
+  margin-left: 16px;
   text-align: left;
+  position: relative;
+  top: -5px;
 
   @include text('body-2');
 }
@@ -47,7 +49,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-left: 96px;
+  margin-left: 102px;
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     margin: 0;

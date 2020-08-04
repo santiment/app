@@ -8,7 +8,7 @@
 }
 
 .container {
-  padding: 74px 132px !important;
+  padding: 81px 144px !important;
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     padding: 0 !important;
@@ -42,7 +42,7 @@
 .description {
   @include text('body-2');
 
-  margin: 16px 0 0 0;
+  margin: 24px 0 0 0;
   color: var(--waterloo);
   max-width: 350px;
 

@@ -9,10 +9,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 0 10px;
 }
 
 .emailSuccess {
-  padding: 48px 24px;
+  padding: 44px 0;
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     padding: 0;
@@ -23,8 +24,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-right: 106px;
+  padding-right: 113px;
   border-right: 1px solid var(--porcelain);
+  min-height: 340px;
+  justify-content: center;
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     padding: 0;
@@ -50,8 +53,7 @@
 
 .panel {
   margin: 0 auto;
-  padding: 51px 99px;
-  min-width: 608px;
+  padding: 70px 130px;
   text-align: center;
 
   @include responsive('phone', 'phone-xs') {
@@ -134,10 +136,10 @@
     @include text('body-2');
 
     color: var(--waterloo);
-    margin-top: 8px;
-    margin-bottom: 0;
+    margin-top: 16px;
     max-width: 320px;
     word-break: break-word;
+    margin-bottom: 8px;
 
     @include responsive('phone-xs', 'phone', 'tablet') {
       padding: 0 16px;
@@ -147,7 +149,8 @@
   }
 
   &__subtitleSuccess {
-    margin-top: 16px;
+    margin-top: 24px;
+    margin-bottom: 0;
     max-width: 340px;
     text-align: center;
 
@@ -170,7 +173,7 @@
   }
 
   &__btn {
-    margin-top: 24px;
+    margin-top: 16px;
     width: 280px;
     height: 40px;
     display: flex;
@@ -237,13 +240,13 @@
 
 .new {
   color: var(--waterloo);
-  margin-top: 40px;
+  margin-top: 24px;
 
   @include text('body-2');
 }
 
 .noCredit {
-  @include text('caption', 'm');
+  @include text('caption');
 
   color: var(--waterloo);
   margin-top: 8px;
@@ -267,7 +270,7 @@
 
 .emailInput {
   background: var(--white);
-  margin-top: 23px;
+  margin-top: 24px;
   width: 280px;
   height: 40px;
 

@@ -23,7 +23,7 @@ export const LoginDescription = ({ className }) => (
       <LoginEmailBtn />
 
       <div className={styles.new}>
-        New to Sanbase?{' '}
+        New to Santiment?{' '}
         <Link to={PATHS.CREATE_ACCOUNT} className={styles.createLink}>
           Create an account
         </Link>
