@@ -1,4 +1,5 @@
 import React, { useMemo, useEffect } from 'react'
+import { NO_GROUP } from '../utils'
 import Category from '../Category'
 import { INSIGHT } from '../Button/types'
 import {
@@ -64,7 +65,7 @@ function buildGroups (ticker) {
     label: ticker.toUpperCase() + ' Insights'
   }
   const groups = {
-    _: NO_GROUP_ITEMS,
+    [NO_GROUP]: NO_GROUP_ITEMS,
     Projects: [
       {
         item

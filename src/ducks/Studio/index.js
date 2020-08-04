@@ -169,9 +169,6 @@ export const Studio = ({
       toggleSidepanel(key)
     } else if (type === Type.ICO_PRICE) {
       setIsICOPriceActive(!isICOPriceActive)
-    } else if (type === Type.INSIGHT) {
-      /* setIsICOPriceActive(!isICOPriceActive) */
-      console.log(item)
     } else if (type === Type.CONNECTED_WIDGET) {
       appliedWidgets = toggleSelectionWidget(item)
     } else if (type === Type.WIDGET) {

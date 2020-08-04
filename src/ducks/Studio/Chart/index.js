@@ -10,6 +10,7 @@ import LastDayPrice from './LastDayPrice'
 import SharedAxisToggle from './SharedAxisToggle'
 import ContextMenu from './ContextMenu'
 import ChartFullscreenBtn from './Fullscreen'
+import Insights from './Insights'
 import Compare from '../Compare'
 import { extractMirrorMetricsDomainGroups } from '../utils'
 import { useAllTimeData } from '../timeseries/hooks'
@@ -21,7 +22,6 @@ import { useHighlightMetricColor } from '../../Chart/colors'
 import { useUser } from '../../../stores/user'
 import { useMetricColor } from '../Widget/ChartWidgetColorProvider'
 import styles from './index.module.scss'
-import Insights from './Insights'
 
 const Canvas = ({
   index,
