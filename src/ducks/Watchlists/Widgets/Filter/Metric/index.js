@@ -4,11 +4,11 @@ import {
   extractParams,
   getTimeRangesByMetric,
   extractFilterByMetricType
-} from './detector'
-import { Filter } from './types'
+} from '../detector'
+import { Filter } from '../dataHub/types'
 import MetricState from './MetricState'
 import MetricSettings from './MetricSettings'
-import { DEFAULT_SETTINGS } from './defaults'
+import { DEFAULT_SETTINGS } from '../defaults'
 
 const FilterMetric = ({
   baseMetric,

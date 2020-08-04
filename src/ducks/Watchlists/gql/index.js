@@ -33,7 +33,7 @@ export const PROJECT_ITEM_FRAGMENT = gql`
 
 export const USER_WATCHLISTS_QUERY = gql`
   query fetchWatchlists {
-    fetchUserLists {
+    fetchWatchlists {
       ...generalListData
       ...listShortItems
     }
@@ -65,7 +65,7 @@ export const CREATE_WATCHLIST_MUTATION = gql`
     $name: String!
     $function: json
   ) {
-    createUserList(isPublic: $isPublic, name: $name, function: $function) {
+    createWatchlist(isPublic: $isPublic, name: $name, function: $function) {
       ...generalListData
       ...listShortItems
     }
@@ -81,7 +81,7 @@ export const UPDATE_WATCHLIST_MUTATION = gql`
     $name: String
     $function: json
   ) {
-    updateUserList(
+    updateWatchlist(
       id: $id
       isPublic: $isPublic
       name: $name

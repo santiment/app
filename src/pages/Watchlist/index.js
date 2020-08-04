@@ -20,30 +20,32 @@ const Watchlist = ({ isLoggedIn, ...props }) => {
     return <NewScreener {...props} />
   }
 
-  const name = getWatchlistName(props)
-  let isScreener = isDynamicWatchlist(watchlist) || name === 'My Screener'
-
   if (error) {
     console.err(error)
   }
 
-  return (
-    <>
-      {loading ? (
-        <PageLoader />
-      ) : isScreener ? (
-        <ScreenerPage
-          {...props}
-          name={name}
-          id={id}
-          isDefaultScreener={isDefaultScreener}
-          isLoggedIn={isLoggedIn}
-          watchlist={watchlist}
-        />
-      ) : (
-        <AssetPage {...props} isLoggedIn={isLoggedIn} />
-      )}
-    </>
+  if (loading) {
+    return <PageLoader />
+  }
+
+  if (watchlist === null) {
+    return <AssetPage {...props} />
+  }
+
+  const name = getWatchlistName(props)
+  let isScreener = isDynamicWatchlist(watchlist) || name === 'My Screener'
+
+  return isScreener ? (
+    <ScreenerPage
+      {...props}
+      name={name}
+      id={id}
+      isDefaultScreener={isDefaultScreener}
+      isLoggedIn={isLoggedIn}
+      watchlist={watchlist}
+    />
+  ) : (
+    <AssetPage {...props} isLoggedIn={isLoggedIn} />
   )
 }
 

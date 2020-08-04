@@ -3,8 +3,8 @@ import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import Tooltip from '@santiment-network/ui/Tooltip'
-import { Filter } from '../types'
-import { ProLabel } from '../../../../../components/ProLabel'
+import { Filter } from '../../dataHub/types'
+import { ProLabel } from '../../../../../../components/ProLabel'
 import styles from './TypeDropdown.module.scss'
 
 const METRIC_SEPARATOR = Filter.percent_up.key

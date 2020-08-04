@@ -71,12 +71,10 @@
   margin-right: 8px;
 
   &.active {
-    rect {
-      fill: var(--waterloo) !important;
+    background-color: var(--waterloo);
 
-      &:hover {
-        fill: var(--waterloo) !important;
-      }
+    &:hover {
+      background-color: var(--waterloo);
     }
   }
 }

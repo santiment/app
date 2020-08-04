@@ -1,6 +1,6 @@
 import React from 'react'
-import { Filter } from '../types'
-import { millify } from '../../../../../utils/formatting'
+import { Filter } from '../../dataHub/types'
+import { millify } from '../../../../../../utils/formatting'
 import styles from './index.module.scss'
 
 const Explanation = ({ firstThreshold, timeRange, type, metric }) => {

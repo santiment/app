@@ -72,9 +72,9 @@ export const saveWatchlistsSettingsAfterLaunch = (action$, store, { client }) =>
     return Observable.from(
       client.watchQuery({ query: WATCHLISTS_SETTINGS_QUERY })
     )
-      .concatMap(({ data: { fetchUserLists } }) => {
+      .concatMap(({ data: { fetchWatchlists } }) => {
         const normalizedSettings = {}
-        fetchUserLists.forEach(
+        fetchWatchlists.forEach(
           ({
             id,
             settings: {

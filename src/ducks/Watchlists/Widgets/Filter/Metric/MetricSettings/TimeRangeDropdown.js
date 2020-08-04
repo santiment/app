@@ -3,7 +3,7 @@ import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import Input from '@santiment-network/ui/Input'
 import Tooltip from '@santiment-network/ui/Tooltip'
-import { useDebounce } from '../../../../../hooks'
+import { useDebounce } from '../../../../../../hooks'
 import styles from './TimeRangeDropdown.module.scss'
 
 const TimeRangeDropdown = ({ timeRange, timeRanges, withInput, onChange }) => {

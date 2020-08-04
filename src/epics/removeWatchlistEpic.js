@@ -5,9 +5,9 @@ import { showNotification } from './../actions/rootActions'
 import { ALL_WATCHLISTS_QUERY } from '../queries/WatchlistGQL'
 import * as actions from './../actions/types'
 
-const removeUserListGQL = gql`
+const removeWatchlistGQL = gql`
   mutation removeWatchlist($id: Int!) {
-    removeUserList(id: $id) {
+    removeWatchlist(id: $id) {
       id
       name
     }
@@ -29,22 +29,24 @@ const removeWatchlistEpic = (action$, store, { client }) =>
         })
       }
       const mutationPromise = client.mutate({
-        mutation: removeUserListGQL,
+        mutation: removeWatchlistGQL,
         variables: {
           id
         },
         optimisticResponse: {
           __typename: 'Mutation',
-          removeUserList: {
-            __typename: 'UserList',
+          removeWatchlist: {
+            __typename: 'Watchlist',
             id,
             name
           }
         },
         update: proxy => {
           let data = proxy.readQuery({ query: ALL_WATCHLISTS_QUERY })
-          const _userLists = data.fetchUserLists ? [...data.fetchUserLists] : []
-          data.fetchUserLists = _userLists.filter(obj => +obj.id !== id)
+          const watchlists = data.fetchWatchlists
+            ? [...data.fetchWatchlists]
+            : []
+          data.fetchWatchlists = watchlists.filter(obj => +obj.id !== id)
           proxy.writeQuery({ query: ALL_WATCHLISTS_QUERY, data })
         }
       })

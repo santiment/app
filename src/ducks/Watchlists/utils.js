@@ -11,6 +11,10 @@ export function isStaticWatchlist (watchlist) {
 }
 
 export function isDynamicWatchlist (watchlist = {}) {
+  if (watchlist === null) {
+    return
+  }
+
   const { name } = watchlist.function || {}
   return (
     name !== 'empty' && (name === 'selector' || name === 'top_all_projects')

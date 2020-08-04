@@ -1,0 +1,13 @@
+@import '~@santiment-network/ui/mixins';
+
+.toggle {
+  padding: 0 5px;
+
+  @include responsive('phone-xs', 'phone') {
+    padding: 0 9px;
+  }
+}
+
+.icon {
+  fill: $jungle-green-light-2;
+}

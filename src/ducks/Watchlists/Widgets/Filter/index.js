@@ -3,12 +3,11 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import throttle from 'lodash.throttle'
 import { store } from '../../../../index'
 import { showNotification } from '../../../../actions/rootActions'
 import { useUpdateWatchlist } from '../../gql/hooks'
 import Trigger from './Trigger'
-import { metrics } from './metrics'
+import { metrics } from './dataHub/metrics'
 import Category from './Category'
 import { DEFAULT_SCREENER_FUNCTION } from '../../utils'
 import { getCategoryGraph } from '../../../Studio/Sidebar/utils'
@@ -29,7 +28,8 @@ const Filter = ({
   screenerFunction,
   setScreenerFunction,
   isLoggedIn,
-  isDefaultScreener
+  isDefaultScreener,
+  history
 }) => {
   if (!screenerFunction) {
     return null
@@ -65,7 +65,7 @@ const Filter = ({
         }
 
         if (top > 0) {
-          sidebarContent.style.height = `${VIEWPORT_HEIGHT - bottom - 30}px`
+          sidebarContent.style.height = `${VIEWPORT_HEIGHT - bottom - 34}px`
           sidebar.classList.remove(styles.fixed)
         } else if (bottomTable > VIEWPORT_HEIGHT) {
           sidebar.classList.add(styles.fixed)
@@ -73,7 +73,7 @@ const Filter = ({
       })
     }
 
-    throttle(changeFilterHeight, 200)
+    changeFilterHeight()
 
     window.addEventListener('scroll', changeFilterHeight)
     return () => window.removeEventListener('scroll', changeFilterHeight)
@@ -156,7 +156,16 @@ const Filter = ({
                 description:
                   "Your settings will be lost after refresh if you're not logged in to Sanbase",
                 dismissAfter: 8000,
-                solidFill: true
+                actions: [
+                  {
+                    label: 'Log in',
+                    onClick: () => history.push('/login')
+                  },
+                  {
+                    label: 'Create an account',
+                    onClick: () => history.push('/sign-up')
+                  }
+                ]
               })
             )
           }

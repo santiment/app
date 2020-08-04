@@ -33,7 +33,7 @@ export const PROJECT_ITEM_FRAGMENT = gql`
 
 export const ALL_WATCHLISTS_QUERY = gql`
   query fetchWatchlists {
-    fetchUserLists {
+    fetchWatchlists {
       ...generalListData
       ...listShortItems
     }
@@ -84,7 +84,7 @@ export const WATCHLIST_WITH_TRENDING_ASSETS_QUERY = gql`
 
 export const WATCHLISTS_SETTINGS_QUERY = gql`
   query fetchWatchlists {
-    fetchUserLists {
+    fetchWatchlists {
       id
       settings {
         pageSize

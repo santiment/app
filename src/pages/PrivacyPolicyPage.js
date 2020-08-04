@@ -12,7 +12,7 @@ const PrivacyPolicyPage = ({ isLoggedIn }) => (
       <title>Privacy Policy</title>
     </Helmet>
 
-    <div className='page-head'>
+    <div>
       <h2>Privacy Statement</h2>
       <p>Last updated May 2018</p>
     </div>

@@ -2,9 +2,9 @@ import React from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
-import MetricExplanation from '../../../../SANCharts/MetricExplanation'
+import MetricExplanation from '../../../../../SANCharts/MetricExplanation'
 import Explanation from './Explanation'
-import { Metric } from '../../../../dataHub/metrics'
+import { Metric } from '../../../../../dataHub/metrics'
 import styles from './index.module.scss'
 
 const FilterMetricState = ({
@@ -45,7 +45,8 @@ const FilterMetricState = ({
       <MetricExplanation
         on='click'
         metric={metricForDescription}
-        position='right'
+        position='bottom'
+        align='end'
       >
         <Icon type='info-round-small' className={styles.info} />
       </MetricExplanation>

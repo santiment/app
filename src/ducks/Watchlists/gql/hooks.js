@@ -22,11 +22,13 @@ const DEFAULT_SCREENERS = [DEFAULT_SCREENER]
 
 function buildWatchlistsCacheUpdater (reducer) {
   return (cache, { data }) => {
-    const { fetchUserLists } = cache.readQuery({ query: USER_WATCHLISTS_QUERY })
+    const { fetchWatchlists } = cache.readQuery({
+      query: USER_WATCHLISTS_QUERY
+    })
 
     cache.writeQuery({
       query: USER_WATCHLISTS_QUERY,
-      data: { fetchUserLists: reducer(data, fetchUserLists) }
+      data: { fetchWatchlists: reducer(data, fetchWatchlists) }
     })
   }
 }
@@ -35,23 +37,23 @@ function buildWatchlistCacheUpdater (reducer) {
   return (cache, { data }) => {
     const watchlist = cache.readQuery({
       query: WATCHLIST_QUERY,
-      variables: { id: +data.updateUserList.id }
+      variables: { id: +data.updateWatchlist.id }
     })
 
     cache.writeQuery({
       query: WATCHLIST_QUERY,
-      variables: { id: +data.updateUserList.id },
+      variables: { id: +data.updateWatchlist.id },
       data: { watchlist: reducer(data, watchlist) }
     })
   }
 }
 
 const updateWatchlistsOnCreation = buildWatchlistsCacheUpdater(
-  ({ createUserList }, watchlists) => [createUserList].concat(watchlists)
+  ({ createWatchlist }, watchlists) => [createWatchlist].concat(watchlists)
 )
 
 const updateWatchlistOnEdit = buildWatchlistCacheUpdater(
-  ({ updateUserList }, watchlist) => ({ ...watchlist, ...updateUserList })
+  ({ updateWatchlist }, watchlist) => ({ ...watchlist, ...updateWatchlist })
 )
 
 export function useWatchlist ({ id, skip }) {
@@ -70,7 +72,7 @@ export function useUserWatchlists () {
   const { data, loading, error } = useQuery(USER_WATCHLISTS_QUERY, {
     skip: !isLoggedIn
   })
-  const { fetchUserLists: watchlists } = data || {}
+  const { fetchWatchlists: watchlists } = data || {}
 
   return [
     watchlists ? watchlists.filter(isStaticWatchlist) : DEFAULT_WATCHLISTS,
@@ -88,7 +90,7 @@ export function useUserScreeners () {
   const { data, loading, error } = useQuery(USER_WATCHLISTS_QUERY, {
     skip: !isLoggedIn
   })
-  const { fetchUserLists: watchlists } = data || {}
+  const { fetchWatchlists: watchlists } = data || {}
   let screeners = []
   if (watchlists && watchlists.length) {
     screeners = watchlists.filter(isDynamicWatchlist)
@@ -118,7 +120,7 @@ export function useCreateScreener () {
         isPublic,
         function: screenerFunction
       }
-    }).then(({ data: { createUserList } }) => createUserList)
+    }).then(({ data: { createWatchlist } }) => createWatchlist)
   }
 
   return [createScreener, data]
@@ -141,7 +143,7 @@ export function useUpdateWatchlist () {
         function:
           JSON.stringify(newParams.function) || JSON.stringify(oldFunction)
       }
-    }).then(({ data: { updateUserList: watchlist } }) => ({
+    }).then(({ data: { updateWatchlist: watchlist } }) => ({
       ...oldWatchlist,
       ...watchlist
     }))

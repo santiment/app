@@ -10,7 +10,7 @@ const AssetsTemplates = ({ isAuthor, items, listId, isPublic, title }) => (
     {!isAuthor && !isPublic && (
       <EmptySection imgClassName={styles.img}>
         <Label className={styles.emptyText}>
-          Watchlist is private or doesn't exist
+          List is private or doesn't exist
         </Label>
       </EmptySection>
     )}

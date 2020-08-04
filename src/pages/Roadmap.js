@@ -27,7 +27,7 @@ const Roadmap = () => (
       <title>Roadmap</title>
       <link rel='canonical' href={`${getOrigin()}/roadmap`} />
     </Helmet>
-    <div className='page-head'>
+    <div>
       <h1>Sanbase Roadmap</h1>
       <p>
         Please see our Sanbase roadmap below. It is a living document;
