@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import cx from 'classnames'
+import Icon from '@santiment-network/ui/Icon'
 import Avatar from './Avatar'
 import { Comments } from '../../../../components/Insight/comments/Comments'
 import {
@@ -11,7 +13,28 @@ import styles from './Insight.module.scss'
 
 const DEFAULT_COMMENTS = []
 
-const Insight = ({ id, title, user }) => {
+const Action = ({ type, isDisabled, ...props }) => (
+  <div
+    {...props}
+    className={cx(
+      styles.action,
+      styles[type],
+      isDisabled && styles.action_disabled
+    )}
+  >
+    <Icon type='arrow-right-big' />
+  </div>
+)
+
+const Insight = ({
+  id,
+  title,
+  user,
+  isFirst,
+  isLast,
+  onPrevClick,
+  onNextClick
+}) => {
   const [comments, setComments] = useState(DEFAULT_COMMENTS)
   const [loading, setLoading] = useState(true)
   const { username, avatarUrl } = user
@@ -33,6 +56,10 @@ const Insight = ({ id, title, user }) => {
           >
             {title}
           </a>
+          <div className={styles.actions}>
+            <Action type='left' onClick={onPrevClick} isDisabled={isFirst} />
+            <Action type='right' onClick={onNextClick} isDisabled={isLast} />
+          </div>
         </div>
         <a className={styles.user} href={`/profile/${user.id}`}>
           <Avatar className={styles.user__avatar} src={avatarUrl} />
@@ -49,8 +76,9 @@ const Insight = ({ id, title, user }) => {
         editComment={editComment}
         deleteComment={deleteComment}
       />
+      {loading && 'Loading...'}
     </>
   )
 }
 
-export default Insight
+export default React.memo(Insight)

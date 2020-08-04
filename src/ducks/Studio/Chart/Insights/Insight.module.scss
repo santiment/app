@@ -1,3 +1,4 @@
+/* stylelint-disable */
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
@@ -45,6 +46,7 @@
 
 .top {
   display: flex;
+  position: relative;
 }
 
 .header {
@@ -71,5 +73,40 @@
 
   &__avatar {
     margin-right: 8px;
+  }
+}
+
+.actions {
+  position: absolute;
+  display: flex;
+  top: 0;
+  right: 0;
+}
+
+.action {
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--white);
+  cursor: pointer;
+  fill: var(--rhino);
+
+  &:hover {
+    fill: var(--jungle-green);
+    border-color: var(--jungle-green);
+  }
+
+  &.left {
+    transform: rotate(180deg);
+    margin-right: 8px;
+  }
+
+  &_disabled {
+    fill: var(--mystic);
+    pointer-events: none;
   }
 }

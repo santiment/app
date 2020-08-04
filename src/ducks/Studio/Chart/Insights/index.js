@@ -18,11 +18,10 @@ function getStackOffset (stack, x) {
 }
 
 function buildInsightPoints (chart, insights) {
-  const { length } = insights
   const points = []
   const stack = {}
 
-  for (let i = 0; i < length; i++) {
+  for (let i = insights.length - 1; i > -1; i--) {
     const insight = insights[i]
     const point = findPointByDate(chart.points, +new Date(insight.publishedAt))
     if (!point) continue
@@ -41,6 +40,8 @@ const Insights = ({ chart, ticker }) => {
     }
   })
   const [insights, setInsights] = useState(DEFAULT_INSIGHTS)
+  const [openedIndex, setOpenedIndex] = useState()
+  const lastIndex = insights.length - 1
 
   useEffect(
     () => {
@@ -51,17 +52,28 @@ const Insights = ({ chart, ticker }) => {
     [data, chart.points]
   )
 
-  useEffect(
-    () => {
-      console.log(insights)
-    },
-    [insights]
-  )
+  function onPrevClick () {
+    setOpenedIndex(openedIndex - 1)
+  }
+
+  function onNextClick () {
+    setOpenedIndex(openedIndex + 1)
+  }
 
   return (
     <div className={styles.wrapper}>
-      {insights.map(insight => (
-        <Point key={insight.id} {...insight} />
+      {insights.map((insight, i) => (
+        <Point
+          key={insight.id}
+          index={i}
+          isOpened={i === openedIndex}
+          isFirst={i === 0}
+          isLast={i === lastIndex}
+          setOpenedIndex={setOpenedIndex}
+          onPrevClick={onPrevClick}
+          onNextClick={onNextClick}
+          {...insight}
+        />
       ))}
     </div>
   )

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Insight from './Insight'
@@ -6,19 +6,26 @@ import Avatar from './Avatar'
 import styles from './Point.module.scss'
 import insightStyles from './Insight.module.scss'
 
-const Point = ({ left, top, user, ...insight }) => {
-  const [isOpened, setIsOpened] = useState()
-
+const Point = ({
+  index,
+  left,
+  top,
+  user,
+  isOpened,
+  setOpenedIndex,
+  ...props
+}) => {
   function openInsight () {
-    setIsOpened(true)
+    setOpenedIndex(index)
   }
 
   function closeInsight () {
-    setIsOpened(false)
+    setOpenedIndex()
   }
 
   return (
     <ContextMenu
+      open={isOpened}
       position='top'
       on='click'
       offsetY={16}
@@ -35,7 +42,7 @@ const Point = ({ left, top, user, ...insight }) => {
       className={styles.tooltip}
     >
       <div className={insightStyles.wrapper}>
-        {isOpened && <Insight {...insight} user={user} />}
+        {isOpened && <Insight {...props} user={user} />}
       </div>
     </ContextMenu>
   )
