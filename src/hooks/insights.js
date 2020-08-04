@@ -3,7 +3,7 @@ import { ALL_INSIGHTS_QUERY } from '../queries/InsightsGQL'
 
 export const DEFAULT_INSIGHTS_PER_PAGE = 10
 
-export const useInsighgsByTag = ({
+export const useInsightsByTag = ({
   tags,
   page,
   pageSize = DEFAULT_INSIGHTS_PER_PAGE
@@ -13,8 +13,7 @@ export const useInsighgsByTag = ({
       tags,
       page,
       pageSize
-    },
-    skip: page === 0
+    }
   })
 
   const insighs = data ? data.insights : []
