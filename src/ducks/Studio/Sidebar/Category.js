@@ -68,4 +68,10 @@ const Category = ({
   )
 }
 
+Category.defaultProps = {
+  NewMetricsCategory: {},
+  NewMetricsGroup: {},
+  NewMetric: {}
+}
+
 export default Category

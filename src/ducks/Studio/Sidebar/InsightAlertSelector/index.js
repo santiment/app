@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import Category from '../Category'
 import { INSIGHT } from '../Button/types'
 import {
@@ -7,67 +7,91 @@ import {
   useInsightsErrorMsg
 } from '../../insights/context'
 
-const GROUPS = {
-  _: [
-    {
-      item: {
-        type: INSIGHT,
-        key: 'sanfam',
-        label: 'SANFAM Insights'
-      }
-    },
-    {
-      item: {
-        type: INSIGHT,
-        key: 'my',
-        label: 'My Insights'
-      }
-    },
-    {
-      item: {
-        type: INSIGHT,
-        key: 'followings',
-        label: 'My Followings'
-      }
+const NO_GROUP_ITEMS = [
+  {
+    item: {
+      type: INSIGHT,
+      key: 'sanfam',
+      label: 'SANFAM Insights'
     }
-  ],
-  Projects: [
-    {
-      item: {
-        type: INSIGHT,
-        key: 'eth',
-        label: 'ETH Insights'
-      }
-    },
-    {
-      item: {
-        type: INSIGHT,
-        key: 'btc',
-        label: 'BTC Insights'
-      }
-    },
-    {
-      item: {
-        type: INSIGHT,
-        key: 'defi',
-        label: 'DEFI Insights'
-      }
+  },
+  {
+    item: {
+      type: INSIGHT,
+      key: 'my',
+      label: 'My Insights'
     }
-  ]
+  },
+  {
+    item: {
+      type: INSIGHT,
+      key: 'followings',
+      label: 'My Followings'
+    }
+  }
+]
+
+const PROJECT_GROUP_ITEMS = [
+  {
+    item: {
+      type: INSIGHT,
+      key: 'eth',
+      label: 'ETH Insights',
+      checkIsVisible: ({ slug }) => slug !== 'ethereum'
+    }
+  },
+  {
+    item: {
+      type: INSIGHT,
+      key: 'btc',
+      label: 'BTC Insights',
+      checkIsVisible: ({ slug }) => slug !== 'bitcoin'
+    }
+  },
+  {
+    item: {
+      type: INSIGHT,
+      key: 'defi',
+      label: 'DEFI Insights'
+    }
+  }
+]
+
+function buildGroups (ticker) {
+  const item = {
+    type: INSIGHT,
+    key: ticker,
+    label: ticker.toUpperCase() + ' Insights'
+  }
+  const groups = {
+    _: NO_GROUP_ITEMS,
+    Projects: [
+      {
+        item
+      },
+      ...PROJECT_GROUP_ITEMS
+    ]
+  }
+
+  return { groups, toggle: item }
 }
 
-const InsightAlertSelector = ({ categories = {}, ...rest }) => {
+const InsightAlertSelector = ({ categories = {}, slug, project }) => {
+  const { ticker } = project
   const toggleInsight = useToggleInsight()
   const activeMetrics = [useActiveToggleInsight()]
   const ErrorMsg = useInsightsErrorMsg()
+  const { toggle, groups } = useMemo(() => buildGroups(ticker), [ticker])
 
+  useEffect(() => toggleInsight(toggle), [ticker])
   useEffect(() => toggleInsight, [])
 
   return (
     <Category
       title='Santiment Insights'
-      groups={GROUPS}
-      {...rest}
+      slug={slug}
+      groups={groups}
+      project={project}
       toggleMetric={toggleInsight}
       activeMetrics={activeMetrics}
       ErrorMsg={ErrorMsg}
