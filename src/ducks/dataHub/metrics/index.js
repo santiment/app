@@ -480,6 +480,15 @@ export const Metric = {
     node: 'line',
     label: 'BitMEX Perpetual Contracts Open Value',
     category: 'Derivatives'
+  },
+  defi_total_value_locked_usd: {
+    category: 'On-chain',
+    group: 'Defi',
+    node: 'bar',
+    label: 'Defi Total Value Locked in USD',
+    shortLabel: 'Defi Locked',
+    fill: true,
+    isBeta: true
   }
 }
 

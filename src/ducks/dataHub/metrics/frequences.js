@@ -25,6 +25,11 @@ const Daily = (
     Daily Intervals
   </Link>
 )
+const Hourly = (
+  <Link href='https://academy.santiment.net/metrics/details/frequency#hourly-frequency'>
+    Hourly Intervals
+  </Link>
+)
 const Sentiment = (
   <div className={styles.text}>
     We store each of the{' '}
@@ -98,7 +103,8 @@ const Frequences = {
 
   [SPENT_COINT_COST]: FiveMinute,
   [Metric.dormant_circulation.key]: Daily,
-  [Metric.stock_to_flow.key]: Daily
+  [Metric.stock_to_flow.key]: Daily,
+  [Metric.defi_total_value_locked_usd.key]: Hourly
 }
 
 export default Frequences
