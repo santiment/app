@@ -254,6 +254,12 @@ export const Description = {
       </Link>{' '}
       of the asset and the daily minted coins multiplied by days in one year.{' '}
     </>
+  ),
+  [Metric.defi_total_value_locked_usd.key]: (
+    <>
+      Shows total value locked in DeFi projects, available in USD.{' '}
+      <MoreInfoLink href='https://academy.santiment.net/metrics/defi' />
+    </>
   )
 }
 
