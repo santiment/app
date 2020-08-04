@@ -6,8 +6,8 @@ import {
   getFollowingsInsights
 } from './queries'
 
-const InsightsContext = React.createContext()
-const InsightsToggleContext = React.createContext()
+const DEFAULT_STATE = []
+const DEFAULT_ERROR_MSG = {}
 
 const LoadInsights = {
   my: getMyInsights,
@@ -15,11 +15,15 @@ const LoadInsights = {
   sanfam: getSANFAMInsights
 }
 
-const DEFAULT_STATE = []
+const InsightsContext = React.createContext()
+const InsightsToggleContext = React.createContext()
+const InsightsActiveToggleContext = React.createContext()
+const InsightsErrorContext = React.createContext()
 
-const InsightsProvider = ({ children }) => {
+export const InsightsProvider = ({ children }) => {
   const [state, setState] = useState(DEFAULT_STATE)
-  const [toggle, setToggle] = useState({ key: 'followings' })
+  const [toggle, setToggle] = useState()
+  const [ErrorMsg, setErrorMsg] = useState(DEFAULT_ERROR_MSG)
 
   function toggleInsight (newToggle) {
     setToggle(toggle === newToggle ? undefined : newToggle)
@@ -35,10 +39,19 @@ const InsightsProvider = ({ children }) => {
       const abortController = new AbortController()
       const loadInsights = LoadInsights[key] || getInsights
 
-      loadInsights(abortController.signal, key).then(insights => {
-        setState(insights)
-        console.log(insights)
-      })
+      loadInsights(abortController.signal, key)
+        .then(insights => {
+          if (!insights.length) {
+            throw new Error('No data')
+          }
+
+          setState(insights)
+        })
+        .catch(
+          ({ message }) =>
+            setErrorMsg(state => ({ ...state, [key]: message })) &&
+            setState(DEFAULT_STATE)
+        )
 
       return () => abortController.abort()
     },
@@ -47,19 +60,29 @@ const InsightsProvider = ({ children }) => {
 
   return (
     <InsightsContext.Provider value={state}>
-      <InsightsToggleContext.Provider value={toggleInsight}>
-        {children}
-      </InsightsToggleContext.Provider>
+      <InsightsActiveToggleContext.Provider value={toggle}>
+        <InsightsErrorContext.Provider value={ErrorMsg}>
+          <InsightsToggleContext.Provider value={toggleInsight}>
+            {children}
+          </InsightsToggleContext.Provider>
+        </InsightsErrorContext.Provider>
+      </InsightsActiveToggleContext.Provider>
     </InsightsContext.Provider>
   )
 }
 
-function useInsights () {
+export function useInsights () {
   return React.useContext(InsightsContext)
 }
 
-function useToggleInsight () {
+export function useToggleInsight () {
   return React.useContext(InsightsToggleContext)
 }
 
-export { InsightsProvider, useInsights, useToggleInsight }
+export function useActiveToggleInsight () {
+  return React.useContext(InsightsActiveToggleContext)
+}
+
+export function useInsightsErrorMsg () {
+  return React.useContext(InsightsErrorContext)
+}

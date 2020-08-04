@@ -73,10 +73,10 @@ const buildInsightsGetter = (query, variables, signal) =>
     }
   })
 
-export function getInsights (signal, tag) {
+export function getInsights (signal, ticker) {
   return buildInsightsGetter(
     PROJECT_INSIGHTS_QUERY,
-    { tag: tag.toUpperCase() },
+    { ticker: ticker.toUpperCase() },
     signal
   ).then(({ data: { insights } }) => insights)
 }

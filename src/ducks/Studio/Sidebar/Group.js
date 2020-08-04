@@ -10,6 +10,7 @@ const Group = ({
   nodes,
   activeMetrics,
   project,
+  ErrorMsg,
   NewMetric,
   NewMetricsGroup,
   toggleMetric,
@@ -74,6 +75,7 @@ const Group = ({
                 isActive={activeMetrics.includes(item)}
                 isDisabled={!selectable}
                 isNew={NewMetric[item.key]}
+                isError={ErrorMsg && ErrorMsg[item.key]}
               />
               {subitems &&
                 subitems.map(subitem => {

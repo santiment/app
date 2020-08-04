@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react'
 import Category from '../Category'
 import { INSIGHT } from '../Button/types'
-import { useToggleInsight } from '../../insights/context'
+import {
+  useToggleInsight,
+  useActiveToggleInsight,
+  useInsightsErrorMsg
+} from '../../insights/context'
 
 const GROUPS = {
   _: [
@@ -54,9 +58,21 @@ const GROUPS = {
 
 const InsightAlertSelector = ({ categories = {}, ...rest }) => {
   const toggleInsight = useToggleInsight()
+  const activeMetrics = [useActiveToggleInsight()]
+  const ErrorMsg = useInsightsErrorMsg()
+
   useEffect(() => toggleInsight, [])
 
-  return <Category title='Santiment Insights' groups={GROUPS} {...rest} />
+  return (
+    <Category
+      title='Santiment Insights'
+      groups={GROUPS}
+      {...rest}
+      toggleMetric={toggleInsight}
+      activeMetrics={activeMetrics}
+      ErrorMsg={ErrorMsg}
+    />
+  )
 }
 
 export default InsightAlertSelector

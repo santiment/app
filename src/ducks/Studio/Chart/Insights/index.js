@@ -1,7 +1,5 @@
-import React, { useMemo, useState, useEffect, useCallback } from 'react'
-import { useQuery } from '@apollo/react-hooks'
+import React, { useMemo, useState, useCallback } from 'react'
 import Point from './Point'
-import { PROJECT_INSIGHTS_QUERY } from './gql'
 import { useInsights } from '../../insights/context'
 import { findPointByDate } from '../../../Chart/utils'
 import styles from './index.module.scss'
@@ -44,7 +42,7 @@ const Insights = ({ chart, ticker }) => {
   const onNextClick = useCallback(() => setOpenedIndex(i => i + 1), [])
   const lastIndex = points.length - 1
 
-  return (
+  return points.length ? (
     <div className={styles.wrapper}>
       {points.map((point, i) => (
         <Point
@@ -60,7 +58,7 @@ const Insights = ({ chart, ticker }) => {
         />
       ))}
     </div>
-  )
+  ) : null
 }
 
 export default Insights
