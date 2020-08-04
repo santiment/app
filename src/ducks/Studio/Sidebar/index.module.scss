@@ -21,15 +21,9 @@
 }
 
 .header {
-  padding: 18px 24px;
+  padding: 12px 24px 16px;
   border-bottom: 1px solid var(--porcelain);
   box-shadow: 0 4px 12px rgba(24, 27, 43, 0.04);
-}
-
-.title {
-  @include text('body-3', 'l');
-
-  margin: 0 0 12px;
 }
 
 .count {
@@ -126,4 +120,23 @@
     padding: 0;
     margin: -1px -4px 0 6px;
   }
+}
+
+.tabs {
+  border: none;
+  margin: 0 0 16px;
+  display: flex;
+}
+
+.tab {
+  padding: 0 10px 7px;
+  margin: 0;
+  color: var(--casper);
+  font-weight: 600;
+  flex: 1;
+  justify-content: center;
+}
+
+.selectedTab {
+  color: var(--rhino);
 }

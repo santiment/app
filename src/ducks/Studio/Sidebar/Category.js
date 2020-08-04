@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
-import { WIDGET } from './types'
 import Group from './Group'
-import MetricButton from './MetricButton'
-import styles from './index.module.scss'
+import Button from './Button'
+import { WIDGET } from './MetricSelector/types'
+import styles from './MetricSelector/index.module.scss'
+import { useIsBetaMode } from '../../../stores/ui'
 
 const DEFAULT_OPENED_CATEGORY = {
   Financial: true
@@ -26,6 +26,7 @@ const Category = ({
   ...rest
 }) => {
   const [hidden, setHidden] = useState(!DEFAULT_OPENED_CATEGORY[title])
+  const isBeta = useIsBetaMode()
 
   function onToggleClick () {
     setHidden(!hidden)
@@ -43,7 +44,7 @@ const Category = ({
       <div className={styles.metrics}>
         {/* TODO: Find a better way to extend metrics categories with custom metrics [@vanguard | April 3, 2020] */}
         {hasTopHolders && (
-          <MetricButton
+          <Button
             metric={HOLDER_DISTRIBUTION_NODE}
             project={project}
             label='Holder Distribution'
@@ -56,6 +57,7 @@ const Category = ({
             title={group}
             nodes={groups[group]}
             project={project}
+            isBeta={isBeta}
             {...rest}
           />
         ))}
@@ -64,8 +66,4 @@ const Category = ({
   )
 }
 
-const mapStateToProps = state => ({
-  isBeta: state.rootUi.isBetaModeEnabled
-})
-
-export default connect(mapStateToProps)(Category)
+export default Category

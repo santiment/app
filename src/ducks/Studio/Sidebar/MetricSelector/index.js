@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import Category from './Category'
+import Category from '../Category'
 import { TopHolderMetric } from '../../Chart/Sidepanel/HolderDistribution/metrics'
 
 const MetricSelector = ({ categories = {}, availableMetrics, ...rest }) => {

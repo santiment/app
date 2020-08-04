@@ -1,9 +1,9 @@
 import React, { Fragment, useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
-import MetricButton from './MetricButton'
-import { NO_GROUP } from '../utils'
-import styles from './index.module.scss'
+import Button from './Button'
+import { NO_GROUP } from './utils'
+import styles from './MetricSelector/index.module.scss'
 
 const Group = ({
   title,
@@ -65,7 +65,7 @@ const Group = ({
 
           return (
             <Fragment key={item.key}>
-              <MetricButton
+              <Button
                 metric={item}
                 label={rootLabel}
                 onClick={() => toggleMetric(item)}
@@ -85,7 +85,7 @@ const Group = ({
                   const isActive = checkIsActive && checkIsActive(rest)
 
                   return (
-                    <MetricButton
+                    <Button
                       metric={subitem}
                       key={subitem.key}
                       className={styles.advanced}
