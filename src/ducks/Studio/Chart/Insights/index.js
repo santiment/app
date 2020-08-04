@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import Point from './Point'
 import { PROJECT_INSIGHTS_QUERY } from './gql'
@@ -41,6 +41,8 @@ const Insights = ({ chart, ticker }) => {
   })
   const [insights, setInsights] = useState(DEFAULT_INSIGHTS)
   const [openedIndex, setOpenedIndex] = useState()
+  const onPrevClick = useCallback(() => setOpenedIndex(i => i - 1), [])
+  const onNextClick = useCallback(() => setOpenedIndex(i => i + 1), [])
   const lastIndex = insights.length - 1
 
   useEffect(
@@ -51,14 +53,6 @@ const Insights = ({ chart, ticker }) => {
     },
     [data, chart.points]
   )
-
-  function onPrevClick () {
-    setOpenedIndex(openedIndex - 1)
-  }
-
-  function onNextClick () {
-    setOpenedIndex(openedIndex + 1)
-  }
 
   return (
     <div className={styles.wrapper}>
