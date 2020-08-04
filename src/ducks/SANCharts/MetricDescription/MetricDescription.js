@@ -18,7 +18,7 @@ const getPrepared = (
     return description
   }
 
-  return description.replace(PROJECT_TICKER_REG, project.ticker)
+  return description.replace(PROJECT_TICKER_REG, project.ticker || 'project')
 }
 
 const MetricDescription = ({ metric: { key, moreInfoLink }, project }) => {
