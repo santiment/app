@@ -44,7 +44,7 @@ export const SIGNAL_SUPPORTED_METRICS = [
   ),
 
   Metric.volume_usd,
-  Metric.age_destroyed,
+  Metric.age_consumed,
   Metric.exchange_balance,
   makeSignalMetric('price_btc', 'Price BTC', 'Financial'),
   Metric.marketcap_usd,

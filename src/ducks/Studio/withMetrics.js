@@ -31,7 +31,7 @@ export const DEFAULT_METRICS = [
   'marketcap_usd',
   'twitter_followers',
   'dev_activity',
-  'age_destroyed',
+  'age_consumed',
   'transaction_volume',
   'exchange_balance',
   'age_distribution',
