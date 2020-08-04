@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import {
   DEFAULT_INSIGHTS_PER_PAGE,
-  useInsighgsByTag
+  useInsightsByTag
 } from '../../../hooks/insights'
 import PageLoader from '../../../components/Loader/PageLoader'
 import NoInsights from './NoInsights'
@@ -14,8 +14,16 @@ const RelatedInsights = ({ settings }) => {
 
   const [page, setPage] = useState(1)
 
+  useEffect(
+    () => {
+      setPage(1)
+      setInsights([])
+    },
+    [ticker]
+  )
+
   const [insights, setInsights] = useState([])
-  const { data, loading: isLoading } = useInsighgsByTag({
+  const { data, loading: isLoading } = useInsightsByTag({
     tags: [ticker],
     page: page,
     pageSize: DEFAULT_INSIGHTS_PER_PAGE
@@ -39,10 +47,6 @@ const RelatedInsights = ({ settings }) => {
     [isLoading, setPage, page]
   )
 
-  if (!ticker) {
-    return null
-  }
-
   const canLoad =
     insights.length > 0 && insights.length % DEFAULT_INSIGHTS_PER_PAGE === 0
 
@@ -54,7 +58,9 @@ const RelatedInsights = ({ settings }) => {
         </div>
 
         <div className={styles.insights}>
-          {!isLoading && insights.length === 0 && <NoInsights />}
+          {!isLoading && insights.length === 0 && data.length === 0 && (
+            <NoInsights />
+          )}
 
           <InfiniteScroll
             pageStart={0}
