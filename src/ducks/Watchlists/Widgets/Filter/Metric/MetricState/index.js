@@ -45,7 +45,8 @@ const FilterMetricState = ({
       <MetricExplanation
         on='click'
         metric={metricForDescription}
-        position='right'
+        position='bottom'
+        align='end'
       >
         <Icon type='info-round-small' className={styles.info} />
       </MetricExplanation>

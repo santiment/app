@@ -34,13 +34,6 @@
   }
 }
 
-.elem-container {
-  margin-left: auto !important;
-  margin-right: auto !important;
-  max-width: 1170px;
-  padding: 0 15px;
-}
-
 .container {
   margin: 0 auto;
   padding-right: 15px;
@@ -50,10 +43,6 @@
   @include responsive("desktop") {
     max-width: 1170px;
   }
-}
-
-.page-head {
-  margin-bottom: 30px;
 }
 
 @supports (--css: variables) {

@@ -74,7 +74,7 @@ const AssetsPage = props => {
 
           return (
             <>
-              <div className='page-head page-head-projects'>
+              <div className='page-head-projects'>
                 <div className='page-head-projects__left'>
                   <h1 className={styles.heading}>{title}</h1>
                 </div>

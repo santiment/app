@@ -2,7 +2,7 @@
 
 .container {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
   width: 100%;
 }
 
@@ -17,7 +17,7 @@
 .undo {
   color: var(--persimmon);
   cursor: pointer;
-  margin-left: auto;
+  margin-left: 16px;
 
   &:hover {
     color: var(--persimmon-hover);

@@ -30,7 +30,7 @@ const ScreenerDropdown = ({ activeLink, isLoggedIn, isLoggedInPending }) => {
 const List = ({ screeners, activeLink }) => (
   <div className={styles.wrapper}>
     <div className={styles.list}>
-      {screeners.map(({ name, id, isPublic }, idx) => {
+      {screeners.map(({ name, id, isPublic, to }, idx) => {
         const link = getWatchlistLink({ id, name })
         return (
           <Button
@@ -39,7 +39,7 @@ const List = ({ screeners, activeLink }) => (
             key={idx}
             as={Link}
             className={styles.item}
-            to={link}
+            to={to || link}
             isActive={activeLink === link}
           >
             <span className={styles.watchlistName}>{name}</span>

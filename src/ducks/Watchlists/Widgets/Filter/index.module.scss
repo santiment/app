@@ -11,13 +11,14 @@
   position: absolute;
   right: 0;
   transition: transform 0.3s ease-in-out;
-  transform: translateX(376px);
+  transform: scaleX(0);
+  transform-origin: top right;
   user-select: none;
   min-height: calc(100vh - 200px);
 }
 
 .active {
-  transform: translateX(0);
+  transform: scaleX(1);
 }
 
 .fixed {

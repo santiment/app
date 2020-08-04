@@ -13,10 +13,6 @@
   @include text('body-3', 'l');
 }
 
-.title + .title {
-  margin-top: 4px;
-}
-
 .toggle {
   fill: var(--fiord);
   transform: rotate(-90deg);
@@ -29,7 +25,7 @@
 }
 
 .metrics {
-  padding: 22px 32px 10px 32px;
+  padding: 0 32px 10px 32px;
   background: var(--white);
 }
 
@@ -48,7 +44,13 @@
   }
 }
 
+.category + .category {
+  margin-top: 4px;
+}
+
 .group {
+  margin-top: 22px;
+
   &__title {
     @include text('caption', 'l');
 
