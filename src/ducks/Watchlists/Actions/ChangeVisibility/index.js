@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
-import Toggle from '@santiment-network/ui/Toggle'
+import Toggle from '../../../../components/VisibilityIndicator/Toggle'
 import { useUpdateWatchlist } from '../../gql/hooks'
 import styles from './index.module.scss'
 
@@ -18,7 +18,8 @@ const PublicityToggle = ({ watchlist, className, ...props }) => {
       }}
       {...props}
     >
-      Public <Toggle isActive={isActive} className={styles.toggle} />
+      {isActive ? 'Public' : 'Private'}
+      <Toggle isActive={isActive} className={styles.toggle} />
     </Button>
   )
 }
