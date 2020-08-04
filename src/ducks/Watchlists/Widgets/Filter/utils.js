@@ -1,4 +1,4 @@
-import { Metric, MetricAlias } from './metrics'
+import { Metric, MetricAlias } from './dataHub/metrics'
 import { DEFAULT_SCREENER_FUNCTION } from '../../utils'
 
 export function getActiveBaseMetrics (filter) {

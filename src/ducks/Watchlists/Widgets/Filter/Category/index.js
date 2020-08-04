@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
-import FilterMetric from './FilterMetric'
-import { NO_GROUP } from '../../../Studio/Sidebar/utils'
-import styles from './Category.module.scss'
+import FilterMetric from '../Metric'
+import { NO_GROUP } from '../../../../Studio/Sidebar/utils'
+import styles from './index.module.scss'
 
 const Category = ({ title, groups, counter, ...rest }) => {
   const [isCollapsed, setIsCollapsed] = useState(false)

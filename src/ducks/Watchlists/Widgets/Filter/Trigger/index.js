@@ -2,9 +2,9 @@ import React from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
-import Tooltip from '../../../../components/Tooltip/DarkTooltip'
-import ExplanationTooltip from '../../../SANCharts/SidecarExplanationTooltip'
-import styles from './Trigger.module.scss'
+import Tooltip from '../../../../../components/Tooltip/DarkTooltip'
+import ExplanationTooltip from '../../../../SANCharts/SidecarExplanationTooltip'
+import styles from './index.module.scss'
 
 export const EXPLANATION_TOOLTIP_MARK = '_FILTER_EXPLANATION'
 

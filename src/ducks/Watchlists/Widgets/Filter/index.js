@@ -3,12 +3,11 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import throttle from 'lodash.throttle'
 import { store } from '../../../../index'
 import { showNotification } from '../../../../actions/rootActions'
 import { useUpdateWatchlist } from '../../gql/hooks'
 import Trigger from './Trigger'
-import { metrics } from './metrics'
+import { metrics } from './dataHub/metrics'
 import Category from './Category'
 import { DEFAULT_SCREENER_FUNCTION } from '../../utils'
 import { getCategoryGraph } from '../../../Studio/Sidebar/utils'
@@ -73,7 +72,7 @@ const Filter = ({
       })
     }
 
-    throttle(changeFilterHeight, 200)
+    changeFilterHeight()
 
     window.addEventListener('scroll', changeFilterHeight)
     return () => window.removeEventListener('scroll', changeFilterHeight)
