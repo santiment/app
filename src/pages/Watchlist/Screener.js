@@ -98,6 +98,7 @@ const Screener = props => {
                 classes={{ container: styles.tableWrapper }}
                 className={styles.table}
                 goto={props.history.push}
+                history={props.history}
                 preload={props.preload}
                 listName={title}
                 allColumns={ASSETS_TABLE_COLUMNS}

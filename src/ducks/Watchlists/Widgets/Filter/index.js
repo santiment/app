@@ -28,7 +28,8 @@ const Filter = ({
   screenerFunction,
   setScreenerFunction,
   isLoggedIn,
-  isDefaultScreener
+  isDefaultScreener,
+  history
 }) => {
   if (!screenerFunction) {
     return null
@@ -155,7 +156,16 @@ const Filter = ({
                 description:
                   "Your settings will be lost after refresh if you're not logged in to Sanbase",
                 dismissAfter: 8000,
-                solidFill: true
+                actions: [
+                  {
+                    label: 'Log in',
+                    onClick: () => history.push('/login')
+                  },
+                  {
+                    label: 'Create an account',
+                    onClick: () => history.push('/sign-up')
+                  }
+                ]
               })
             )
           }

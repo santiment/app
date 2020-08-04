@@ -27,8 +27,7 @@ export const handleErrorAndTriggerAction = action => (error, data) => {
               </Link>
             </div>
           ),
-          dismissAfter: 8000,
-          isWide: true
+          dismissAfter: 8000
         })
       )
     )
