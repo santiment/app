@@ -13,7 +13,8 @@ const TABS = [
   },
   {
     path: '/related-insights',
-    LabelComponent: ({ name }) => `Related ${name} Insights`
+    LabelComponent: ({ name }) =>
+      name ? `Related ${name} Insights` : 'Related Insights'
   }
 ]
 

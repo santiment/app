@@ -63,7 +63,7 @@ const Screener = props => {
                       <ProjectsTreeMap
                         className={styles.containerTreeMap}
                         assets={assets}
-                        title='Price Up'
+                        title='Price treemap'
                         ranges={RANGES}
                       />
                     )}
@@ -71,7 +71,7 @@ const Screener = props => {
                       <ProjectsTreeMap
                         className={styles.containerTreeMap}
                         assets={assets}
-                        title='Volume'
+                        title='Volume treemap'
                         ranges={[
                           {
                             label: '24h',
