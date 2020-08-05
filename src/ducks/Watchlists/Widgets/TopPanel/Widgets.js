@@ -23,7 +23,7 @@ const Widgets = ({
 
   const getCharts = useCallback(
     () => {
-      return JSON.parse(parsedUrl.charts)
+      return parsedUrl && parsedUrl.charts ? JSON.parse(parsedUrl.charts) : {}
     },
     [parsedUrl]
   )
