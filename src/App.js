@@ -31,6 +31,7 @@ import GdprRedirector from './components/GdprRedirector'
 import LogoutPage from './pages/Logout/Logout'
 import { mapSizesToProps } from './utils/withSizes'
 import CreateAccountFreeTrial from './pages/Login/CreateAccountFreeTrial'
+import { withSavedComment } from './withSavedComment'
 import styles from './App.module.scss'
 import './App.scss'
 
@@ -473,6 +474,7 @@ const mapStateToProps = ({ user, rootUi }, { location: { pathname } }) => ({
 })
 
 const enhance = compose(
+  withSavedComment,
   connect(mapStateToProps),
   withSizes(mapSizesToProps),
   withTracker,

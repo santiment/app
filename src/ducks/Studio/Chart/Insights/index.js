@@ -41,21 +41,19 @@ const Insights = ({ chart }) => {
   const onNextClick = useCallback(() => setOpenedIndex(i => i + 1), [])
   const lastIndex = points.length - 1
 
-  return points.length
-    ? points.map((point, i) => (
-      <Point
-        key={point.id}
-        index={i}
-        isOpened={i === openedIndex}
-        isFirst={i === 0}
-        isLast={i === lastIndex}
-        setOpenedIndex={setOpenedIndex}
-        onPrevClick={onPrevClick}
-        onNextClick={onNextClick}
-        {...point}
-      />
-    ))
-    : null
+  return points.map((point, i) => (
+    <Point
+      key={point.id}
+      index={i}
+      isOpened={i === openedIndex}
+      isFirst={i === 0}
+      isLast={i === lastIndex}
+      setOpenedIndex={setOpenedIndex}
+      onPrevClick={onPrevClick}
+      onNextClick={onNextClick}
+      {...point}
+    />
+  ))
 }
 
 export default Insights
