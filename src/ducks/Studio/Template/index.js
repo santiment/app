@@ -18,7 +18,6 @@ import {
 } from './gql/hooks'
 import DialogFormNewTemplate from './Dialog/NewTemplate'
 import DialogFormRenameTemplate from './Dialog/RenameTemplate'
-import DialogFormDuplicateTemplate from './Dialog/DuplicateTemplate'
 import DialogLoadTemplate from './Dialog/LoadTemplate'
 import DeleteTemplate from './Dialog/Delete/DeleteTemplate'
 import ShareTemplate from './Share/ShareTemplate'
@@ -282,16 +281,6 @@ const Template = ({
                   onRename={closeMenu}
                 />
               )}
-
-              <DialogFormDuplicateTemplate
-                onClose={closeMenu}
-                trigger={<Action>Duplicate</Action>}
-                template={selectedTemplate}
-                onDuplicate={template => {
-                  closeMenu()
-                  selectTemplate(template)
-                }}
-              />
             </div>
           )}
 

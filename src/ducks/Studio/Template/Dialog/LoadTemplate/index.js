@@ -18,8 +18,8 @@ import { prepareTemplateLink } from '../../utils'
 import styles from './index.module.scss'
 
 const TABS = {
-  OWN: 'Your library',
-  PROJECT: 'Explore'
+  PROJECT: 'Explore',
+  OWN: 'My library'
 }
 
 const LoadTemplate = ({
@@ -38,7 +38,7 @@ const LoadTemplate = ({
   ...props
 }) => {
   const [filteredTemplates, setFilteredTemplates] = useState(templates)
-  const [tab, setTab] = useState(TABS.OWN)
+  const [tab, setTab] = useState(TABS.PROJECT)
   const [searchTerm, setSearchTerm] = useState('')
   const [openedTemplate, setOpenedTemplate] = useState()
 
@@ -55,16 +55,16 @@ const LoadTemplate = ({
     setFilteredTemplates(filtered)
   }
 
+  const [projectTemplates = [], loadingProjectTemplates] = isFeatured
+    ? useFeaturedTemplates()
+    : usePublicProjectTemplates(projectId)
+
   useEffect(
     () => {
       search()
     },
-    [templates]
+    [templates, projectTemplates]
   )
-
-  const [projectTemplates = [], loadingProjectTemplates] = isFeatured
-    ? useFeaturedTemplates()
-    : usePublicProjectTemplates(projectId)
 
   function rerenderTemplates () {
     setFilteredTemplates(state => state.slice())

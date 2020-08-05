@@ -21,7 +21,7 @@ export default ({
       metrics,
       isPublic: false,
       projectId: +project.id,
-      options: JSON.stringify(options)
+      options: options
     })
       .then(onDuplicate)
       .then(notifyDuplication)
