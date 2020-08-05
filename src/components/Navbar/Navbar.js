@@ -42,7 +42,7 @@ const leftLinks = [
   },
   {
     to: '/assets',
-    children: 'Watchlists',
+    children: 'Market',
     as: Link,
     Dropdown: NavbarAssetsDropdown
   },

@@ -20,7 +20,7 @@ const Watchlists = ({ isPublicWatchlistsLoading, history }) => {
         <MobileHeader title='Explore assets' />
       </MobileOnly>
       <DesktopOnly>
-        <h4 className={styles.heading}>Indices</h4>
+        <h4 className={styles.heading}>Explore Watchlists</h4>
         <WatchlistCards
           watchlists={BASIC_CATEGORIES}
           showFeatured={true}
