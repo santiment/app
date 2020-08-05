@@ -3,7 +3,7 @@ import { client } from '../../../index'
 import { publishDateSorter } from '../../../components/Insight/utils'
 
 export const INSIGHT_COMMON_FRAGMENT = gql`
-  fragment insightCommon on Post {
+  fragment studioInsightCommon on Post {
     id
     title
     publishedAt
@@ -18,7 +18,7 @@ export const INSIGHT_COMMON_FRAGMENT = gql`
 export const PROJECT_INSIGHTS_QUERY = gql`
   query allInsights($ticker: String!) {
     insights: allInsights(tags: [$ticker], pageSize: 50) {
-      ...insightCommon
+      ...studioInsightCommon
     }
   }
   ${INSIGHT_COMMON_FRAGMENT}
@@ -27,7 +27,7 @@ export const PROJECT_INSIGHTS_QUERY = gql`
 export const SANFAM_INSIGHTS_QUERY = gql`
   query allInsights {
     insights: allInsightsForUser(userId: 7) {
-      ...insightCommon
+      ...studioInsightCommon
     }
   }
   ${INSIGHT_COMMON_FRAGMENT}
@@ -38,7 +38,7 @@ export const MY_INSIGHTS_QUERY = gql`
     currentUser {
       id
       insights {
-        ...insightCommon
+        ...studioInsightCommon
       }
     }
   }
@@ -53,7 +53,7 @@ export const FOLLOWINGS_INSIGHTS_QUERY = gql`
         users {
           id
           insights {
-            ...insightCommon
+            ...studioInsightCommon
           }
         }
       }
@@ -62,33 +62,37 @@ export const FOLLOWINGS_INSIGHTS_QUERY = gql`
   ${INSIGHT_COMMON_FRAGMENT}
 `
 
-const buildInsightsGetter = (query, variables, signal) =>
-  client.query({
-    query,
-    variables,
-    context: {
-      fetchOptions: {
-        signal
+export const FOLLOWINGS_COUNT_QUERY = gql`
+  query currentUser {
+    currentUser {
+      id
+      following {
+        count
       }
     }
+  }
+`
+
+const buildInsightsGetter = (query, variables) =>
+  client.query({
+    query,
+    variables
   })
 
-export function getInsights (signal, ticker) {
-  return buildInsightsGetter(
-    PROJECT_INSIGHTS_QUERY,
-    { ticker: ticker.toUpperCase() },
-    signal
-  ).then(({ data: { insights } }) => insights)
+export function getInsights (ticker) {
+  return buildInsightsGetter(PROJECT_INSIGHTS_QUERY, {
+    ticker: ticker.toUpperCase()
+  }).then(({ data: { insights } }) => insights)
 }
 
-export function getSANFAMInsights (signal) {
-  return buildInsightsGetter(SANFAM_INSIGHTS_QUERY, undefined, signal).then(
+export function getSANFAMInsights () {
+  return buildInsightsGetter(SANFAM_INSIGHTS_QUERY).then(
     ({ data: { insights } }) => insights.slice().sort(publishDateSorter)
   )
 }
 
-export function getMyInsights (signal) {
-  return buildInsightsGetter(MY_INSIGHTS_QUERY, undefined, signal).then(
+export function getMyInsights () {
+  return buildInsightsGetter(MY_INSIGHTS_QUERY).then(
     ({
       data: {
         currentUser: { insights }
@@ -97,8 +101,8 @@ export function getMyInsights (signal) {
   )
 }
 
-export function getFollowingsInsights (signal) {
-  return buildInsightsGetter(FOLLOWINGS_INSIGHTS_QUERY, undefined, signal).then(
+export function getFollowingsInsights () {
+  return buildInsightsGetter(FOLLOWINGS_INSIGHTS_QUERY).then(
     ({
       data: {
         currentUser: {
@@ -107,4 +111,12 @@ export function getFollowingsInsights (signal) {
       }
     }) => users.flatMap(({ insights }) => insights).sort(publishDateSorter)
   )
+}
+
+export function getFlowingsCount () {
+  return client
+    .query({ query: FOLLOWINGS_COUNT_QUERY })
+    .then(({ data: { currentUser } }) =>
+      currentUser ? currentUser.following.count : 0
+    )
 }

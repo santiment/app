@@ -13,7 +13,7 @@ const NO_GROUP_ITEMS = [
     item: {
       type: INSIGHT,
       key: 'sanfam',
-      label: 'SANFAM Insights'
+      label: 'Sanfam Insights'
     }
   },
   {

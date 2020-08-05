@@ -3,7 +3,8 @@ import {
   getInsights,
   getSANFAMInsights,
   getMyInsights,
-  getFollowingsInsights
+  getFollowingsInsights,
+  getFlowingsCount
 } from './queries'
 
 const DEFAULT_STATE = []
@@ -29,21 +30,31 @@ export const InsightsProvider = ({ children }) => {
     setToggle(toggle === newToggle ? undefined : newToggle)
   }
 
+  useEffect(() => {
+    getFlowingsCount().then(
+      count =>
+        count === 0 &&
+        setErrorMsg(state => Object.assign({ followings: 'No data' }, state))
+    )
+  }, [])
+
   useEffect(
     () => {
       if (!toggle) {
         return setState(DEFAULT_STATE)
       }
 
+      let race = false
       const { key } = toggle
-      const abortController = new AbortController()
       const loadInsights = LoadInsights[key] || getInsights
 
-      loadInsights(abortController.signal, key)
+      loadInsights(key)
         .then(insights => {
           if (!insights.length) {
             throw new Error('No data')
           }
+
+          if (race) return
 
           setState(insights)
         })
@@ -53,7 +64,7 @@ export const InsightsProvider = ({ children }) => {
             setState(DEFAULT_STATE)
         )
 
-      return () => abortController.abort()
+      return () => (race = true)
     },
     [toggle]
   )
