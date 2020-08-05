@@ -185,7 +185,13 @@ export const Studio = ({
     }
 
     if (currentPhase === Phase.IDLE && PressedModifier.cmdKey) {
-      onWidgetClick(widgets[0], appliedMetrics, appliedWidgets)
+      if (PressedModifier.shiftKey) {
+        if (appliedMetrics) {
+          onNewChartClick(appliedMetrics, true)
+        }
+      } else {
+        onWidgetClick(widgets[0], appliedMetrics, appliedWidgets)
+      }
     }
   }
 
@@ -218,11 +224,15 @@ export const Studio = ({
     resetSelecion()
   }
 
-  function onNewChartClick () {
+  function onNewChartClick (
+    appliedMetrics = selectedMetrics,
+    scrollIntoViewOnMount
+  ) {
     setWidgets([
       ...widgets,
       ChartWidget.new({
-        metrics: selectedMetrics,
+        scrollIntoViewOnMount,
+        metrics: appliedMetrics,
         MetricSettingMap: selectedMetricSettingsMap,
         connectedWidgets: mergeConnectedWidgetsWithSelected([], selectedWidgets)
       })
