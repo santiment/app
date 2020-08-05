@@ -138,8 +138,6 @@ function getColor (val) {
 const ProjectsChart = ({ assets, redirect, loading: assetsLoading }) => {
   const [sortedByIndex, setSortedByIndex] = useState(0)
 
-  console.log('assetsLoading', assetsLoading)
-
   const { key: sortByKey, label: sortLabel, desc } = SORT_RANGES[sortedByIndex]
 
   const [

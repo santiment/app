@@ -21,20 +21,39 @@ const Widgets = ({
     location.search
   ])
 
-  useEffect(() => {
-    if (parsedUrl.isPriceChart) {
-      priceToggle(true)
-    }
+  const getCharts = useCallback(
+    () => {
+      return JSON.parse(parsedUrl.charts)
+    },
+    [parsedUrl]
+  )
 
-    if (parsedUrl.isPriceTreeMap) {
-      togglePriceTreeMap(true)
-    }
-  }, [])
+  useEffect(
+    () => {
+      const charts = getCharts()
+      if (charts) {
+        if (charts.isPriceChart) {
+          priceToggle(true)
+        }
+
+        if (charts.isPriceTreeMap) {
+          togglePriceTreeMap(true)
+        }
+      }
+    },
+    [parsedUrl]
+  )
 
   const urlChange = useCallback(
     data => {
+      const oldCharts = getCharts()
       history.replace(
-        `${window.location.pathname}?${queryString.stringify(data)}`
+        `${window.location.pathname}?${queryString.stringify({
+          charts: JSON.stringify({
+            ...oldCharts,
+            ...data
+          })
+        })}`
       )
     },
     [parsedUrl]
@@ -68,7 +87,7 @@ const Widgets = ({
           isActive={isPriceTreeMap}
           toggle={() => {
             togglePriceTreeMap(!isPriceTreeMap)
-            urlChange({ ...parsedUrl, isPriceTreeMap: !isPriceTreeMap })
+            urlChange({ isPriceTreeMap: !isPriceTreeMap })
           }}
         />
         <ToggleWidget
@@ -77,7 +96,7 @@ const Widgets = ({
           isActive={isPriceChart}
           toggle={() => {
             priceToggle(!isPriceChart)
-            urlChange({ ...parsedUrl, isPriceChart: !isPriceChart })
+            urlChange({ isPriceChart: !isPriceChart })
           }}
         />
       </Panel>
