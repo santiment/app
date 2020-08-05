@@ -42,6 +42,12 @@
       font-size: 12px !important;
     }
   }
+
+  &_anon :global {
+    .actions {
+      display: none !important;
+    }
+  }
 }
 
 .top {

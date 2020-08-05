@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useCallback } from 'react'
 import Point from './Point'
 import { useInsights } from '../../insights/context'
+import { useUser } from '../../../../stores/user'
 import { findPointByDate } from '../../../Chart/utils'
 
 const POINT_MARGIN = 13
@@ -32,6 +33,7 @@ function buildInsightPoints (chart, insights) {
 
 const Insights = ({ chart }) => {
   const insights = useInsights()
+  const isAnon = !useUser().isLoggedIn
   const points = useMemo(
     () => (chart.points.length ? buildInsightPoints(chart, insights) : []),
     [chart.points, insights]
@@ -51,6 +53,7 @@ const Insights = ({ chart }) => {
       setOpenedIndex={setOpenedIndex}
       onPrevClick={onPrevClick}
       onNextClick={onNextClick}
+      isAnon={isAnon}
       {...point}
     />
   ))
