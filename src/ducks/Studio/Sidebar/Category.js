@@ -13,7 +13,7 @@ const DEFAULT_OPENED_CATEGORY = {
   'Santiment Alerts': true
 }
 
-const HOLDER_DISTRIBUTION_NODE = {
+export const HOLDER_DISTRIBUTION_NODE = {
   key: 'holder_distribution',
   type: WIDGET,
   label: 'Holder Distribution'
