@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import {
-  getInsights,
+  getAllInsights,
+  getPulseInsights,
+  getTagInsights,
   getSANFAMInsights,
   getMyInsights,
-  getFollowingsInsights,
-  getFollowingsCount
+  getFollowingsInsights
 } from './queries'
 
 const DEFAULT_STATE = []
 const DEFAULT_ERROR_MSG = {}
 
 const LoadInsights = {
+  all: getAllInsights,
+  pulse: getPulseInsights,
   my: getMyInsights,
   followings: getFollowingsInsights,
   sanfam: getSANFAMInsights
@@ -30,14 +33,6 @@ export const InsightsProvider = ({ children }) => {
     setToggle(toggle === newToggle ? undefined : newToggle)
   }
 
-  useEffect(() => {
-    getFollowingsCount().then(
-      count =>
-        count === 0 &&
-        setErrorMsg(state => Object.assign({ followings: 'No data' }, state))
-    )
-  }, [])
-
   useEffect(
     () => {
       if (!toggle) {
@@ -46,7 +41,7 @@ export const InsightsProvider = ({ children }) => {
 
       let race = false
       const { key } = toggle
-      const loadInsights = LoadInsights[key] || getInsights
+      const loadInsights = LoadInsights[key] || getTagInsights
 
       loadInsights(key)
         .then(insights => {

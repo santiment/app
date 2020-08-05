@@ -16,8 +16,8 @@ export const INSIGHT_COMMON_FRAGMENT = gql`
 `
 
 export const PROJECT_INSIGHTS_QUERY = gql`
-  query allInsights($ticker: String!) {
-    insights: allInsights(tags: [$ticker], pageSize: 50) {
+  query allInsights($tags: [String!], $isPulse: Boolean) {
+    insights: allInsights(tags: $tags, isPulse: $isPulse, pageSize: 50) {
       ...studioInsightCommon
     }
   }
@@ -79,10 +79,22 @@ const buildInsightsGetter = (query, variables) =>
     variables
   })
 
-export function getInsights (ticker) {
+const allInsightsExtractor = ({ data: { insights } }) => insights
+
+export function getAllInsights () {
+  return buildInsightsGetter(PROJECT_INSIGHTS_QUERY).then(allInsightsExtractor)
+}
+
+export function getPulseInsights () {
+  return buildInsightsGetter(PROJECT_INSIGHTS_QUERY, { isPulse: true }).then(
+    allInsightsExtractor
+  )
+}
+
+export function getTagInsights (tag) {
   return buildInsightsGetter(PROJECT_INSIGHTS_QUERY, {
-    ticker: ticker.toUpperCase()
-  }).then(({ data: { insights } }) => insights)
+    tags: [tag.toUpperCase()]
+  }).then(allInsightsExtractor)
 }
 
 export function getSANFAMInsights () {
@@ -93,23 +105,19 @@ export function getSANFAMInsights () {
 
 export function getMyInsights () {
   return buildInsightsGetter(MY_INSIGHTS_QUERY).then(
-    ({
-      data: {
-        currentUser: { insights }
-      }
-    }) => insights.slice().sort(publishDateSorter)
+    ({ data: { currentUser } }) =>
+      currentUser ? currentUser.insights.slice().sort(publishDateSorter) : []
   )
 }
 
 export function getFollowingsInsights () {
   return buildInsightsGetter(FOLLOWINGS_INSIGHTS_QUERY).then(
-    ({
-      data: {
-        currentUser: {
-          following: { users }
-        }
-      }
-    }) => users.flatMap(({ insights }) => insights).sort(publishDateSorter)
+    ({ data: { currentUser } }) =>
+      currentUser
+        ? currentUser.following.users
+          .flatMap(({ insights }) => insights)
+          .sort(publishDateSorter)
+        : []
   )
 }
 

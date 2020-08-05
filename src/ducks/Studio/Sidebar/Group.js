@@ -19,7 +19,7 @@ const Group = ({
   ...rest
 }) => {
   const hasGroup = title !== NO_GROUP
-  const [hidden, setHidden] = useState(hasGroup && title !== 'Projects')
+  const [hidden, setHidden] = useState(hasGroup && title !== 'Tags')
 
   function onToggleClick () {
     setHidden(!hidden)

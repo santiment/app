@@ -1,41 +1,51 @@
-import React, { useMemo, useEffect } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { NO_GROUP } from '../utils'
 import Category from '../Category'
-import { INSIGHT } from '../Button/types'
 import {
   useToggleInsight,
   useActiveToggleInsight,
   useInsightsErrorMsg
 } from '../../insights/context'
+import { getFollowingsCount, getMyInsights } from '../../insights/queries'
 
 const NO_GROUP_ITEMS = [
   {
     item: {
-      type: INSIGHT,
+      key: 'all',
+      label: 'All Insights'
+    }
+  },
+  {
+    item: {
+      key: 'pulse',
+      label: 'Pulse Insights'
+    }
+  },
+  {
+    item: {
       key: 'sanfam',
       label: 'Sanfam Insights'
     }
   },
   {
     item: {
-      type: INSIGHT,
       key: 'my',
-      label: 'My Insights'
+      label: 'My Insights',
+      checkIsVisible: ({ hasMyInsights }) => hasMyInsights
     }
   },
   {
     item: {
-      type: INSIGHT,
       key: 'followings',
-      label: 'My Followings'
+      label: 'My Followings',
+      checkIsVisible: ({ hasFollowings }) => hasFollowings
     }
   }
 ]
 
-const PROJECT_GROUP_ITEMS = [
+const TAG_GROUP_ITEMS = [
   {
     item: {
-      type: INSIGHT,
       key: 'eth',
       label: 'ETH Insights',
       checkIsVisible: ({ slug }) => slug !== 'ethereum'
@@ -43,7 +53,6 @@ const PROJECT_GROUP_ITEMS = [
   },
   {
     item: {
-      type: INSIGHT,
       key: 'btc',
       label: 'BTC Insights',
       checkIsVisible: ({ slug }) => slug !== 'bitcoin'
@@ -51,7 +60,6 @@ const PROJECT_GROUP_ITEMS = [
   },
   {
     item: {
-      type: INSIGHT,
       key: 'defi',
       label: 'DEFI Insights'
     }
@@ -60,17 +68,16 @@ const PROJECT_GROUP_ITEMS = [
 
 function buildGroups (ticker) {
   const item = {
-    type: INSIGHT,
     key: ticker,
     label: ticker.toUpperCase() + ' Insights'
   }
   const groups = {
     [NO_GROUP]: NO_GROUP_ITEMS,
-    Projects: [
+    Tags: [
       {
         item
       },
-      ...PROJECT_GROUP_ITEMS
+      ...TAG_GROUP_ITEMS
     ]
   }
 
@@ -82,10 +89,17 @@ const InsightAlertSelector = ({ categories = {}, slug, project }) => {
   const toggleInsight = useToggleInsight()
   const activeMetrics = [useActiveToggleInsight()]
   const ErrorMsg = useInsightsErrorMsg()
+  const [hasMyInsights, setHasMyInsights] = useState(false)
+  const [hasFollowings, setHasFollowings] = useState(false)
   const { toggle, groups } = useMemo(() => buildGroups(ticker), [ticker])
 
   useEffect(() => toggleInsight(toggle), [ticker])
-  useEffect(() => toggleInsight, [])
+  useEffect(() => {
+    getMyInsights().then(insights => setHasMyInsights(!!insights.length))
+    getFollowingsCount().then(count => setHasFollowings(!!count))
+
+    return toggleInsight
+  }, [])
 
   return (
     <Category
@@ -96,6 +110,8 @@ const InsightAlertSelector = ({ categories = {}, slug, project }) => {
       toggleMetric={toggleInsight}
       activeMetrics={activeMetrics}
       ErrorMsg={ErrorMsg}
+      hasMyInsights={hasMyInsights}
+      hasFollowings={hasFollowings}
     />
   )
 }
