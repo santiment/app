@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import InfiniteScroll from 'react-infinite-scroller'
 import {
   DEFAULT_INSIGHTS_PER_PAGE,
   useInsightsByTag
@@ -6,7 +7,6 @@ import {
 import PageLoader from '../../../components/Loader/PageLoader'
 import NoInsights from './NoInsights'
 import InsightsFeed from '../../../components/Insight/InsightsFeed'
-import InfiniteScroll from 'react-infinite-scroller'
 import styles from './RelatedInsights.module.scss'
 
 const RelatedInsights = ({ settings }) => {

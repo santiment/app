@@ -1,14 +1,14 @@
 import React from 'react'
 import cx from 'classnames'
+import Loadable from 'react-loadable'
 import { Switch, Route } from 'react-router-dom'
 import StudioTabs from './Tabs'
 import StudioTabsKeyStats from './Tabs/KeyStats'
 import TabsWidgets from './Tabs/Widgets'
 import StudioInfo from '../SANCharts/Header'
 import SanbaseBanner from '../../components/SanbaseBanner/SanbaseBanner'
-import styles from './Main.module.scss'
-import Loadable from 'react-loadable'
 import PageLoader from '../../components/Loader/PageLoader'
+import styles from './Main.module.scss'
 
 const LoadableRelatedInsights = Loadable({
   loader: () => import('./RelatedInsights/RelatedInsights'),
