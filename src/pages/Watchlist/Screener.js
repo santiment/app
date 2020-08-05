@@ -56,34 +56,20 @@ const Screener = props => {
                   toggleVolumeTreeMap: setVolumeTreeMap
                 }}
               />
-              {(isVolumeTreeMap || isPriceTreeMap) && (
-                <>
-                  <div className={styles.treeMaps}>
-                    {isPriceTreeMap && (
-                      <ProjectsTreeMap
-                        className={styles.containerTreeMap}
-                        assets={assets}
-                        title='Price treemap'
-                        ranges={RANGES}
-                      />
-                    )}
-                    {isVolumeTreeMap && (
-                      <ProjectsTreeMap
-                        className={styles.containerTreeMap}
-                        assets={assets}
-                        title='Volume treemap'
-                        ranges={[
-                          {
-                            label: '24h',
-                            key: 'volumeChange24h'
-                          }
-                        ]}
-                      />
-                    )}
-                  </div>
-                </>
+              {isPriceTreeMap && (
+                <div className={styles.treeMaps}>
+                  <ProjectsTreeMap
+                    className={styles.containerTreeMap}
+                    assets={assets}
+                    title='Price changes'
+                    ranges={RANGES}
+                    loading={loading}
+                  />
+                </div>
               )}
-              {isPriceChartActive && <ProjectsChart assets={assets} />}
+              {isPriceChartActive && (
+                <ProjectsChart loading={loading} assets={assets} />
+              )}
               <AssetsTable
                 Assets={{ ...Assets, isLoading: loading }}
                 items={assets}
