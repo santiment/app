@@ -45,7 +45,8 @@ const Overview = ({
             {currentPhase === Phase.MAPVIEW_SELECTION && (
               <div
                 className={cx(styles.item, styles.item_new, styles.idle)}
-                onClick={onNewChartClick}
+                onClick={() => onNewChartClick()}
+                // NOTE: Not passing `onNewChartClick` as a reference since arguments will be mapped incorrectly [@vanguard | Aug  5, 2020]
               >
                 <Plus className={styles.iconNew} />
                 Add new chart
