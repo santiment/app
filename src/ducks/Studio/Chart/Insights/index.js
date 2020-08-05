@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useCallback } from 'react'
 import Point from './Point'
 import { useInsights } from '../../insights/context'
+import { useUser } from '../../../../stores/user'
 import { findPointByDate } from '../../../Chart/utils'
 
 const POINT_MARGIN = 13
@@ -32,6 +33,7 @@ function buildInsightPoints (chart, insights) {
 
 const Insights = ({ chart }) => {
   const insights = useInsights()
+  const isAnon = !useUser().isLoggedIn
   const points = useMemo(
     () => (chart.points.length ? buildInsightPoints(chart, insights) : []),
     [chart.points, insights]
@@ -41,21 +43,20 @@ const Insights = ({ chart }) => {
   const onNextClick = useCallback(() => setOpenedIndex(i => i + 1), [])
   const lastIndex = points.length - 1
 
-  return points.length
-    ? points.map((point, i) => (
-      <Point
-        key={point.id}
-        index={i}
-        isOpened={i === openedIndex}
-        isFirst={i === 0}
-        isLast={i === lastIndex}
-        setOpenedIndex={setOpenedIndex}
-        onPrevClick={onPrevClick}
-        onNextClick={onNextClick}
-        {...point}
-      />
-    ))
-    : null
+  return points.map((point, i) => (
+    <Point
+      key={point.id}
+      index={i}
+      isOpened={i === openedIndex}
+      isFirst={i === 0}
+      isLast={i === lastIndex}
+      setOpenedIndex={setOpenedIndex}
+      onPrevClick={onPrevClick}
+      onNextClick={onNextClick}
+      isAnon={isAnon}
+      {...point}
+    />
+  ))
 }
 
 export default Insights

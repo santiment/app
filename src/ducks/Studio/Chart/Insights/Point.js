@@ -12,6 +12,7 @@ const Point = ({
   top,
   user,
   isOpened,
+  isAnon,
   setOpenedIndex,
   ...props
 }) => {
@@ -41,7 +42,12 @@ const Point = ({
       }
       className={styles.tooltip}
     >
-      <div className={insightStyles.wrapper}>
+      <div
+        className={cx(
+          insightStyles.wrapper,
+          isAnon && insightStyles.wrapper_anon
+        )}
+      >
         {isOpened && <Insight {...props} user={user} />}
       </div>
     </ContextMenu>

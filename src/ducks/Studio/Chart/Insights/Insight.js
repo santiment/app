@@ -3,6 +3,7 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Avatar from './Avatar'
+import { saveComment } from './utils'
 import { Comments } from '../../../../components/Insight/comments/Comments'
 import {
   getInsightComments,
@@ -82,6 +83,7 @@ const Insight = ({
         createComment={createInsightComment}
         editComment={editComment}
         deleteComment={deleteComment}
+        saveComment={saveComment}
       />
       {loading && <Loader className={styles.loader} />}
     </>
