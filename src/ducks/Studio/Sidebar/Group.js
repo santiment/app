@@ -13,13 +13,14 @@ const Group = ({
   ErrorMsg,
   NewMetric,
   NewMetricsGroup,
+  OpenedGroup,
   toggleMetric,
   isBeta,
   setMetricSettingMap,
   ...rest
 }) => {
   const hasGroup = title !== NO_GROUP
-  const [hidden, setHidden] = useState(hasGroup && title !== 'Tags')
+  const [hidden, setHidden] = useState(hasGroup && !OpenedGroup[title])
 
   function onToggleClick () {
     setHidden(!hidden)
@@ -106,6 +107,10 @@ const Group = ({
       </div>
     </>
   )
+}
+
+Group.defaultProps = {
+  OpenedGroup: {}
 }
 
 export default Group

@@ -8,6 +8,10 @@ import {
 } from '../../insights/context'
 import { getFollowingsCount, getMyInsights } from '../../insights/queries'
 
+const OPENED_GROUP = {
+  Tags: true
+}
+
 const NO_GROUP_ITEMS = [
   {
     item: {
@@ -110,6 +114,7 @@ const InsightAlertSelector = ({ categories = {}, slug, project }) => {
       toggleMetric={toggleInsight}
       activeMetrics={activeMetrics}
       ErrorMsg={ErrorMsg}
+      OpenedGroup={OPENED_GROUP}
       hasMyInsights={hasMyInsights}
       hasFollowings={hasFollowings}
     />
