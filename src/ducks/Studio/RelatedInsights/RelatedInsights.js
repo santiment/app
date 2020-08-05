@@ -66,10 +66,10 @@ const RelatedInsights = ({ settings }) => {
             pageStart={0}
             loadMore={loadMore}
             hasMore={!isLoading && canLoad}
-            loader={PageLoader}
+            loader={<PageLoader key='loader' />}
             threshold={0}
           >
-            <InsightsFeed insights={insights} classes={styles} />
+            <InsightsFeed key='feed' insights={insights} classes={styles} />
           </InfiniteScroll>
         </div>
       </div>
