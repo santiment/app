@@ -15,16 +15,6 @@
   }
 }
 
-.container {
-  padding: 40px 113px !important;
-
-  @include responsive('phone', 'phone-xs', 'tablet') {
-    padding: 0 !important;
-    width: 100%;
-    margin: 16px;
-  }
-}
-
 .subtitle {
   @include text('body-2');
 
@@ -49,7 +39,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-left: 102px;
+  min-width: 320px;
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     margin: 0;

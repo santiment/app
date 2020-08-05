@@ -97,6 +97,10 @@ const SignupDescription = ({ loading, loginEmail, setEmail }) => {
   )
 }
 
+export const LoginDivider = () => (
+  <div className={externalStyles.verticalDivider} />
+)
+
 export const PrepareState = props => {
   const { isDesktop, loading, loginEmail, setEmail, history } = props
 
@@ -108,6 +112,9 @@ export const PrepareState = props => {
           loginEmail={loginEmail}
           setEmail={setEmail}
         />
+
+        <LoginDivider />
+
         <TrialDescriptions />
       </div>
     )
@@ -141,7 +148,7 @@ const CreateAccountFreeTrial = props => {
 
   return props.isDesktop ? (
     <div className={cx('page', styles.wrapper)}>
-      <Panel padding className={styles.container}>
+      <Panel padding className={externalStyles.panel}>
         {child}
       </Panel>
     </div>

@@ -11,6 +11,7 @@ import { PATHS } from '../../App'
 import SwipablePages from '../../components/SwipablePages/SwipablePages'
 import MobileWrapper from './Mobile/MobileWrapper'
 import styles from './index.module.scss'
+import { LoginDivider } from './CreateAccountFreeTrial'
 
 export const LoginDescription = ({ className }) => (
   <div className={cx(styles.loginBlock, className)}>
@@ -37,9 +38,8 @@ const LoginOptions = props => {
     return (
       <div className={styles.container}>
         <LoginDescription className={styles.loginBlock_desktop} />
-        <div>
-          <FreeTrialBlock />
-        </div>
+        <LoginDivider />
+        <FreeTrialBlock />
       </div>
     )
   }

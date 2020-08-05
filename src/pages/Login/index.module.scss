@@ -2,6 +2,8 @@
 
 .container {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .loginViaEmail {
@@ -24,9 +26,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-right: 113px;
-  border-right: 1px solid var(--porcelain);
-  min-height: 340px;
+  min-width: 320px;
   justify-content: center;
 
   @include responsive('phone', 'phone-xs', 'tablet') {
@@ -35,6 +35,11 @@
     height: 100%;
     justify-content: center;
   }
+}
+
+.verticalDivider {
+  border-right: 1px solid var(--porcelain);
+  min-height: 340px;
 }
 
 .wrapper {
@@ -53,8 +58,11 @@
 
 .panel {
   margin: 0 auto;
-  padding: 70px 130px;
   text-align: center;
+  padding: 40px 98px !important;
+  min-width: 1020px;
+  min-height: 420px;
+  justify-content: center;
 
   @include responsive('phone', 'phone-xs') {
     width: 100%;
