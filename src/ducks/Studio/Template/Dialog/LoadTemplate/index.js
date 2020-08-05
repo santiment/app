@@ -65,14 +65,19 @@ const LoadTemplate = ({
   useEffect(
     () => {
       search()
+    },
+    [templates]
+  )
 
+  useEffect(
+    () => {
       if (templates.length === 0 && projectTemplates.length > 0) {
         setTab(TABS.PROJECT)
       } else {
         setTab(TABS.OWN)
       }
     },
-    [templates, projectTemplates]
+    [loadingProjectTemplates]
   )
 
   function rerenderTemplates () {
