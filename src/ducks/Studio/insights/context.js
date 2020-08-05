@@ -4,7 +4,7 @@ import {
   getSANFAMInsights,
   getMyInsights,
   getFollowingsInsights,
-  getFlowingsCount
+  getFollowingsCount
 } from './queries'
 
 const DEFAULT_STATE = []
@@ -31,7 +31,7 @@ export const InsightsProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    getFlowingsCount().then(
+    getFollowingsCount().then(
       count =>
         count === 0 &&
         setErrorMsg(state => Object.assign({ followings: 'No data' }, state))

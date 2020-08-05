@@ -113,7 +113,7 @@ export function getFollowingsInsights () {
   )
 }
 
-export function getFlowingsCount () {
+export function getFollowingsCount () {
   return client
     .query({ query: FOLLOWINGS_COUNT_QUERY })
     .then(({ data: { currentUser } }) =>
