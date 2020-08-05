@@ -49,6 +49,7 @@ const Widgets = ({
       const oldCharts = getCharts()
       history.replace(
         `${window.location.pathname}?${queryString.stringify({
+          ...parsedUrl,
           charts: JSON.stringify({
             ...oldCharts,
             ...data
