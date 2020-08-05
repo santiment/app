@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import cx from 'classnames'
+import queryString from 'query-string'
+import { withRouter } from 'react-router-dom'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Toggle from '@santiment-network/ui/Toggle'
 import Button from '@santiment-network/ui/Button'
@@ -8,11 +10,35 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import styles from './Widgets.module.scss'
 
 const Widgets = ({
-  widgets: { isPriceChart, isPriceTreeMap, isVolumeTreeMap } = {},
-  togglers = {}
+  widgets: { isPriceChart, isPriceTreeMap } = {},
+  togglers = {},
+  history,
+  location
 }) => {
   const { priceToggle, togglePriceTreeMap } = togglers
   const [isOpen, setOpen] = useState(false)
+  const parsedUrl = useMemo(() => queryString.parse(location.search), [
+    location.search
+  ])
+
+  useEffect(() => {
+    if (parsedUrl.isPriceChart) {
+      priceToggle(true)
+    }
+
+    if (parsedUrl.isPriceTreeMap) {
+      togglePriceTreeMap(true)
+    }
+  }, [])
+
+  const urlChange = useCallback(
+    data => {
+      history.replace(
+        `${window.location.pathname}?${queryString.stringify(data)}`
+      )
+    },
+    [parsedUrl]
+  )
 
   useEffect(
     () => {
@@ -40,13 +66,19 @@ const Widgets = ({
           index={1}
           title='Price treemap'
           isActive={isPriceTreeMap}
-          toggle={() => togglePriceTreeMap(!isPriceTreeMap)}
+          toggle={() => {
+            togglePriceTreeMap(!isPriceTreeMap)
+            urlChange({ ...parsedUrl, isPriceTreeMap: !isPriceTreeMap })
+          }}
         />
         <ToggleWidget
           index={0}
           title='Price bar chart'
           isActive={isPriceChart}
-          toggle={() => priceToggle(!isPriceChart)}
+          toggle={() => {
+            priceToggle(!isPriceChart)
+            urlChange({ ...parsedUrl, isPriceChart: !isPriceChart })
+          }}
         />
       </Panel>
     </ContextMenu>
@@ -105,4 +137,4 @@ const SVGs = [
   </svg>
 ]
 
-export default Widgets
+export default withRouter(Widgets)

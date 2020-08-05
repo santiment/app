@@ -20,6 +20,7 @@ import Range from '../WatchlistOverview/Range'
 import { useProjectPriceChanges } from '../../../../hooks/project'
 import NoDataCharts from './NoDataCharts'
 import { formatNumber } from '../../../../utils/formatting'
+import ScreenerChartTitle from './ScreenerChartTitle'
 import styles from './ProjectsChart.module.scss'
 
 export const getSorter = memoize(({ sortKey, desc }) => (a, b) => {
@@ -134,8 +135,10 @@ function getColor (val) {
   return +val > 0 ? 'var(--jungle-green)' : 'var(--persimmon)'
 }
 
-const ProjectsChart = ({ assets, redirect }) => {
+const ProjectsChart = ({ assets, redirect, loading: assetsLoading }) => {
   const [sortedByIndex, setSortedByIndex] = useState(0)
+
+  console.log('assetsLoading', assetsLoading)
 
   const { key: sortByKey, label: sortLabel, desc } = SORT_RANGES[sortedByIndex]
 
@@ -161,12 +164,15 @@ const ProjectsChart = ({ assets, redirect }) => {
 
   const datakey = 'slug'
 
+  const noData = !assetsLoading && assets.length === 0
+
   return (
     <div className={styles.container}>
       <div className={styles.title}>
         <div className={styles.range}>
-          <div>Price bar chart</div>
+          <ScreenerChartTitle type='Bar chart' title='Price Changes, %' />
           <Range
+            className={styles.selector}
             range={label}
             changeRange={() => {
               setIntervalIndex((intervalIndex + 1) % RANGES.length)
@@ -185,13 +191,13 @@ const ProjectsChart = ({ assets, redirect }) => {
         </div>
       </div>
 
-      {assets.length === 0 ? (
+      {noData ? (
         <div className={styles.noData}>
           <NoDataCharts />
         </div>
       ) : (
         <div className={styles.chartWrapper}>
-          {loading ? (
+          {loading || assetsLoading ? (
             <PageLoader />
           ) : (
             <div className={styles.chart}>

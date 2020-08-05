@@ -22,6 +22,8 @@ const TABS = {
   OWN: 'My library'
 }
 
+const TABS_FOR_USER = [TABS.OWN, TABS.PROJECT]
+
 const LoadTemplate = ({
   placeholder,
   onFormSubmit,
@@ -38,7 +40,8 @@ const LoadTemplate = ({
   ...props
 }) => {
   const [filteredTemplates, setFilteredTemplates] = useState(templates)
-  const [tab, setTab] = useState(TABS.PROJECT)
+
+  const [tab, setTab] = useState(TABS.OWN)
   const [searchTerm, setSearchTerm] = useState('')
   const [openedTemplate, setOpenedTemplate] = useState()
 
@@ -62,6 +65,12 @@ const LoadTemplate = ({
   useEffect(
     () => {
       search()
+
+      if (templates.length === 0 && projectTemplates.length > 0) {
+        setTab(TABS.PROJECT)
+      } else {
+        setTab(TABS.OWN)
+      }
     },
     [templates, projectTemplates]
   )
@@ -110,7 +119,7 @@ const LoadTemplate = ({
         <>
           {!loadingProjectTemplates && (
             <Tabs
-              options={Object.values(TABS)}
+              options={TABS_FOR_USER}
               defaultSelectedIndex={tab}
               onSelect={tab => {
                 setTab(tab)
