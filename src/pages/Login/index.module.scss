@@ -4,6 +4,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 39px 99px;
+  min-width: 1018px;
+  min-height: 418px;
 }
 
 .loginViaEmail {
@@ -11,14 +14,27 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0 10px;
+  min-width: 598px;
+  min-height: 418px;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    min-width: initial;
+    min-height: initial;
+  }
 }
 
 .emailSuccess {
-  padding: 44px 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 598px;
+  min-height: 418px;
+  justify-content: center;
+  align-items: center;
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     padding: 0;
+    min-width: initial;
+    min-height: initial;
   }
 }
 
@@ -34,7 +50,12 @@
     border: none;
     height: 100%;
     justify-content: center;
+    min-width: initial;
   }
+}
+
+.noMetamask {
+  padding: 19px 0;
 }
 
 .verticalDivider {
@@ -59,10 +80,8 @@
 .panel {
   margin: 0 auto;
   text-align: center;
-  padding: 40px 98px !important;
-  min-width: 1020px;
-  min-height: 420px;
   justify-content: center;
+  padding: 0 !important;
 
   @include responsive('phone', 'phone-xs') {
     width: 100%;
@@ -81,6 +100,10 @@
   max-width: 344px;
   margin: 0;
   text-align: center;
+
+  @include responsive('phone', 'phone-xs') {
+    max-width: 160px;
+  }
 }
 
 .metamask {

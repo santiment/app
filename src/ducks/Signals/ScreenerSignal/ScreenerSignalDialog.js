@@ -134,6 +134,8 @@ const ScreenerSignalDialog = ({
     return <Loader className={styles.loader} />
   }
 
+  console.log(stateSignal)
+
   return (
     <Dialog
       open={open}

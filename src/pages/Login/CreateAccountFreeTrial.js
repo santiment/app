@@ -106,7 +106,7 @@ export const PrepareState = props => {
 
   if (isDesktop) {
     return (
-      <div className={externalStyles.container}>
+      <div className={styles.container}>
         <SignupDescription
           loading={loading}
           loginEmail={loginEmail}

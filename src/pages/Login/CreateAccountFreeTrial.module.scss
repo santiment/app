@@ -34,6 +34,15 @@
   @include text('body-2');
 }
 
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 39px 99px;
+  min-width: 1018px;
+  min-height: 418px;
+}
+
 .trials {
   display: flex;
   flex-direction: column;
@@ -44,6 +53,7 @@
   @include responsive('phone', 'phone-xs', 'tablet') {
     margin: 0;
     height: 100%;
+    min-width: initial;
   }
 }
 

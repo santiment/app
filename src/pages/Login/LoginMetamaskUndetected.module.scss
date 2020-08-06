@@ -8,6 +8,7 @@
   max-width: 344px;
   margin-top: -8px;
   box-shadow: none;
+  border-radius: $border-radius;
 
   @include text('body-3');
 
@@ -33,7 +34,7 @@
   }
 
   &__bottom {
-    margin-top: 7px;
+    margin-top: 8px;
   }
 }
 

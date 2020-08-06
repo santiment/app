@@ -10,11 +10,20 @@ import FreeTrialBlock from './FreeTrialBlock'
 import { PATHS } from '../../App'
 import SwipablePages from '../../components/SwipablePages/SwipablePages'
 import MobileWrapper from './Mobile/MobileWrapper'
-import styles from './index.module.scss'
 import { LoginDivider } from './CreateAccountFreeTrial'
+import { hasMetamask as detectMetamask } from '../../web3Helpers'
+import styles from './index.module.scss'
+
+const hasMetamask = detectMetamask()
 
 export const LoginDescription = ({ className }) => (
-  <div className={cx(styles.loginBlock, className)}>
+  <div
+    className={cx(
+      styles.loginBlock,
+      className,
+      !hasMetamask && styles.noMetamask
+    )}
+  >
     <h3 className={styles.title}>Welcome to Sanbase</h3>
     <div className={styles.options}>
       <LoginMetamaskBtn />
@@ -37,8 +46,10 @@ const LoginOptions = props => {
   if (props.isDesktop) {
     return (
       <div className={styles.container}>
-        <LoginDescription className={styles.loginBlock_desktop} />
+        <LoginDescription />
+
         <LoginDivider />
+
         <FreeTrialBlock />
       </div>
     )
