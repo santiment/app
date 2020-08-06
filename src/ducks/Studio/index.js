@@ -7,14 +7,15 @@ import {
 } from './utils'
 import { DEFAULT_SETTINGS } from './defaults'
 import { Phase, usePhase } from './phases'
-import { usePressedModifier, useKeyboardCmdShortcut } from './hooks'
-import { withInsights } from './insights/withInsights'
+import { useKeyboardCmdShortcut } from './hooks'
+import { withInsightsProvider } from './insights/context'
 import ChartWidget from './Widget/ChartWidget'
 import HolderDistributionWidget from './Widget/HolderDistributionWidget'
 import SelectionOverview from './Overview/SelectionOverview'
 import * as Type from './Sidebar/Button/types'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
 import { NEW_METRIC_KEY_SET, seeMetric } from '../dataHub/metrics/news'
+import { usePressedModifier } from '../../hooks/keyboard'
 import styles from './index.module.scss'
 
 export const Studio = ({
@@ -258,6 +259,7 @@ export const Studio = ({
         project={settings}
         activeMetrics={selectedMetrics}
         sidepanel={sidepanel}
+        widgets={widgets}
         isSidebarClosed={isSidebarClosed}
         isICOPriceDisabled={isICOPriceDisabled}
         isICOPriceActive={isICOPriceActive}
@@ -307,4 +309,4 @@ export const Studio = ({
   )
 }
 
-export default withInsights(Studio)
+export default withInsightsProvider(Studio)

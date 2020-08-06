@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import {
   getAllInsights,
   getPulseInsights,
   getTagInsights,
   getSANFAMInsights,
   getMyInsights,
+  getProInsights,
   getFollowingsInsights
 } from './queries'
 
@@ -13,6 +14,7 @@ const DEFAULT_ERROR_MSG = {}
 
 const LoadInsights = {
   all: getAllInsights,
+  pro: getProInsights,
   pulse: getPulseInsights,
   my: getMyInsights,
   followings: getFollowingsInsights,
@@ -77,18 +79,14 @@ export const InsightsProvider = ({ children }) => {
   )
 }
 
-export function useInsights () {
-  return React.useContext(InsightsContext)
-}
+export const useInsights = () => useContext(InsightsContext)
+export const useToggleInsight = () => useContext(InsightsToggleContext)
+export const useInsightsErrorMsg = () => useContext(InsightsErrorContext)
+export const useActiveToggleInsight = () =>
+  useContext(InsightsActiveToggleContext)
 
-export function useToggleInsight () {
-  return React.useContext(InsightsToggleContext)
-}
-
-export function useActiveToggleInsight () {
-  return React.useContext(InsightsActiveToggleContext)
-}
-
-export function useInsightsErrorMsg () {
-  return React.useContext(InsightsErrorContext)
-}
+export const withInsightsProvider = Component => props => (
+  <InsightsProvider>
+    <Component {...props} />
+  </InsightsProvider>
+)

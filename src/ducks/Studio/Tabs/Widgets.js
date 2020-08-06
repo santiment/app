@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react'
 import StudioHeader from '../Header'
-import { usePressedModifier } from '../hooks'
 import Sidepanel from '../Chart/Sidepanel'
 import { ONE_HOUR_IN_MS } from '../../../utils/dates'
+import { usePressedModifier } from '../../../hooks/keyboard'
 import styles from './Widgets.module.scss'
 
 const Widget = ({ widget, index, datesRange, ...props }) => (

@@ -31,3 +31,5 @@ jest.mock('./components/Insight/PulseInsight/index.js', () => ({
   __esModule: true,
   default: () => <div />
 }))
+
+window.IntersectionObserver = class {}

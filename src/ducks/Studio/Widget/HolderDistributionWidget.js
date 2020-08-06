@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import Widget from './Widget'
 import ChartWidget, { Chart } from './ChartWidget'
-import { usePressedModifier } from '../hooks'
 import Sidepanel, { CloseButton } from '../Chart/Sidepanel'
 import { TOP_HOLDERS_PANE } from '../Chart/Sidepanel/panes'
 import { TOP_HOLDER_METRICS } from '../Chart/Sidepanel/HolderDistribution/metrics'
 import { useChartColors } from '../../Chart/colors'
+import { usePressedModifier } from '../../../hooks/keyboard'
 import styles from './HolderDistributionWidget.module.scss'
 
 const Title = ({ settings }) => (
