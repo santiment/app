@@ -8,7 +8,7 @@ import {
 import { DEFAULT_SETTINGS } from './defaults'
 import { Phase, usePhase } from './phases'
 import { useKeyboardCmdShortcut } from './hooks'
-import { withInsights } from './insights/withInsights'
+import { withInsightsProvider } from './insights/context'
 import ChartWidget from './Widget/ChartWidget'
 import HolderDistributionWidget from './Widget/HolderDistributionWidget'
 import SelectionOverview from './Overview/SelectionOverview'
@@ -259,6 +259,7 @@ export const Studio = ({
         project={settings}
         activeMetrics={selectedMetrics}
         sidepanel={sidepanel}
+        widgets={widgets}
         isSidebarClosed={isSidebarClosed}
         isICOPriceDisabled={isICOPriceDisabled}
         isICOPriceActive={isICOPriceActive}
@@ -308,4 +309,4 @@ export const Studio = ({
   )
 }
 
-export default withInsights(Studio)
+export default withInsightsProvider(Studio)

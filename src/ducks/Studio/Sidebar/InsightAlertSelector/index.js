@@ -12,12 +12,14 @@ const OPENED_GROUP = {
   Tags: true
 }
 
+const ALL_INSIGHTS_TOGGLE = {
+  key: 'all',
+  label: 'All Insights'
+}
+
 const NO_GROUP_ITEMS = [
   {
-    item: {
-      key: 'all',
-      label: 'All Insights'
-    }
+    item: ALL_INSIGHTS_TOGGLE
   },
   {
     item: {
@@ -73,7 +75,8 @@ const TAG_GROUP_ITEMS = [
 function buildGroups (ticker) {
   const item = {
     key: ticker,
-    label: ticker.toUpperCase() + ' Insights'
+    label: ticker.toUpperCase() + ' Insights',
+    type: 'project'
   }
   const groups = {
     [NO_GROUP]: NO_GROUP_ITEMS,
@@ -88,17 +91,31 @@ function buildGroups (ticker) {
   return { groups, toggle: item }
 }
 
-const InsightAlertSelector = ({ categories = {}, slug, project }) => {
+const InsightAlertSelector = ({ widgets, categories = {}, slug, project }) => {
   const { ticker } = project
   const toggleInsight = useToggleInsight()
-  const activeMetrics = [useActiveToggleInsight()]
+  const activeToggle = useActiveToggleInsight()
   const ErrorMsg = useInsightsErrorMsg()
   const [hasMyInsights, setHasMyInsights] = useState(false)
   const [hasFollowings, setHasFollowings] = useState(false)
   const { toggle, groups } = useMemo(() => buildGroups(ticker), [ticker])
 
-  useEffect(() => toggleInsight(toggle), [ticker])
+  useEffect(
+    () => {
+      if (activeToggle && activeToggle.type === 'project') {
+        toggleInsight(toggle)
+      }
+    },
+    [ticker]
+  )
+
   useEffect(() => {
+    const widget = widgets[0]
+    toggleInsight(ALL_INSIGHTS_TOGGLE)
+    if (widget) {
+      widget.chartRef.current.canvas.scrollIntoView({ block: 'center' })
+    }
+
     getMyInsights().then(insights => setHasMyInsights(!!insights.length))
     getFollowingsCount().then(count => setHasFollowings(!!count))
 
@@ -112,7 +129,7 @@ const InsightAlertSelector = ({ categories = {}, slug, project }) => {
       groups={groups}
       project={project}
       toggleMetric={toggleInsight}
-      activeMetrics={activeMetrics}
+      activeMetrics={[activeToggle]}
       ErrorMsg={ErrorMsg}
       OpenedGroup={OPENED_GROUP}
       hasMyInsights={hasMyInsights}

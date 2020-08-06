@@ -17,7 +17,7 @@ export const INSIGHT_COMMON_FRAGMENT = gql`
 
 export const PROJECT_INSIGHTS_QUERY = gql`
   query allInsights($tags: [String!], $isPulse: Boolean) {
-    insights: allInsights(tags: $tags, isPulse: $isPulse, pageSize: 50) {
+    insights: allInsights(tags: $tags, isPulse: $isPulse, pageSize: 70) {
       ...studioInsightCommon
     }
   }
