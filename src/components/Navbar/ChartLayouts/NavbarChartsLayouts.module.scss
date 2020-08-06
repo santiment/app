@@ -22,24 +22,9 @@
   align-items: center;
   justify-content: space-between;
   text-decoration: none;
-}
-
-.watchlistName {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 100%;
-
-  &::first-letter {
-    text-transform: uppercase;
-  }
-}
-
-.watchlistNew {
-  margin: 10px;
-  width: calc(100% - 20px);
-  fill: var(--casper);
-  justify-content: center;
+  height: initial;
+  min-height: 32px;
+  white-space: normal;
 }
 
 .emptyWrapper {
@@ -72,4 +57,8 @@
   align-items: center;
   justify-content: center;
   height: 100%;
+}
+
+.anon {
+  margin-top: auto;
 }

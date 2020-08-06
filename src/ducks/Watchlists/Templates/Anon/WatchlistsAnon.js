@@ -31,9 +31,12 @@ const WrapperType = ({ isFullScreen, children }) => {
   )
 }
 
-const WatchlistsAnon = ({ isFullScreen }) => (
+const WatchlistsAnon = ({ isFullScreen, className }) => (
   <WrapperType isFullScreen={isFullScreen}>
-    <EmptySection imgClassName={cx(styles.hide, isFullScreen && styles.img)}>
+    <EmptySection
+      className={className}
+      imgClassName={cx(styles.hide, className, isFullScreen && styles.img)}
+    >
       <p className={styles.title}>Easy asset tracking</p>
       <p className={styles.desc}>Use watchlists to organize and track</p>
       <p className={styles.desc}>assets you are interested in</p>
@@ -42,9 +45,12 @@ const WatchlistsAnon = ({ isFullScreen }) => (
   </WrapperType>
 )
 
-export const ChartLayoutsAnon = ({ isFullScreen }) => (
+export const ChartLayoutsAnon = ({ isFullScreen, className }) => (
   <WrapperType isFullScreen={isFullScreen}>
-    <EmptySection imgClassName={cx(styles.hide, isFullScreen && styles.img)}>
+    <EmptySection
+      className={className}
+      imgClassName={cx(styles.hide, isFullScreen && styles.img)}
+    >
       <p className={styles.title}>Your own Chart Layouts</p>
       <p className={styles.desc}>Create, load and save</p>
       <p className={styles.desc}>your personal chart views</p>

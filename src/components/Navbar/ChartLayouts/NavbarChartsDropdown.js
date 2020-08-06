@@ -9,8 +9,8 @@ import NavbarChartsLayouts from './NavbarChartsLayouts'
 import styles from './NavbarChartsDropdown.module.scss'
 
 const NavbarChartsDropdown = ({ activeLink }) => {
-  let [layouts = []] = useFeaturedTemplates()
-  layouts = [...layouts, ...layouts]
+  const [layouts = []] = useFeaturedTemplates()
+
   return (
     <Panel>
       <div className={styles.wrapper}>

@@ -1,5 +1,4 @@
-@import '../../../../node_modules/@santiment-network/ui/variables';
-@import '../../../../node_modules/@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/mixins';
 
 .wrapper {
   display: flex;
@@ -42,4 +41,7 @@
   word-break: break-all;
   overflow-wrap: break-word;
   max-width: 100%;
+  height: initial;
+  min-height: 32px;
+  white-space: normal;
 }

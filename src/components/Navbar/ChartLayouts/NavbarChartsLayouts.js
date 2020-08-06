@@ -31,7 +31,7 @@ const NavbarChartsLayouts = () => {
       )}
     </>
   ) : (
-    <ChartLayoutsAnon />
+    <ChartLayoutsAnon className={styles.anon} />
   )
 }
 

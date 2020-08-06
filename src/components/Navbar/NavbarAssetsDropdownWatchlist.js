@@ -40,7 +40,7 @@ const NavbarAssetsDropdownWatchlist = ({
       )}
     </>
   ) : (
-    <WatchlistsAnon />
+    <WatchlistsAnon className={styles.anon} />
   )
 }
 
