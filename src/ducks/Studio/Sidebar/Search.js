@@ -1,5 +1,8 @@
 import React from 'react'
 import { SearchWithSuggestions } from '@santiment-network/ui/Search'
+import { HOLDER_DISTRIBUTION_NODE } from './Category'
+
+const HOLDER_DISTRIBUTION_ITEM = { item: HOLDER_DISTRIBUTION_NODE }
 
 const predicate = searchTerm => {
   const upperCaseSearchTerm = searchTerm.toUpperCase()
@@ -18,7 +21,7 @@ export const getMetricSuggestions = categories => {
   const suggestions = []
   for (const categoryKey in categories) {
     const category = categories[categoryKey]
-    const items = []
+    const items = categoryKey === 'On-chain' ? [HOLDER_DISTRIBUTION_ITEM] : []
     for (const group in category) {
       items.push(...category[group])
     }

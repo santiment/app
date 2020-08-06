@@ -1,8 +1,8 @@
-import Above from './icons/above.svg'
-import Below from './icons/below.svg'
-import PercentUp from './icons/percent-up.svg'
-import PercentDown from './icons/percent-down.svg'
-import { percentValueFormatter, percentServerValueFormatter } from './utils'
+import Above from '../icons/above.svg'
+import Below from '../icons/below.svg'
+import PercentUp from '../icons/percent-up.svg'
+import PercentDown from '../icons/percent-down.svg'
+import { percentValueFormatter, percentServerValueFormatter } from '../utils'
 
 export const Operator = {
   more: 'greater_than',

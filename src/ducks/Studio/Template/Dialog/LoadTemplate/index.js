@@ -18,9 +18,11 @@ import { prepareTemplateLink } from '../../utils'
 import styles from './index.module.scss'
 
 const TABS = {
-  OWN: 'Your library',
-  PROJECT: 'Explore'
+  PROJECT: 'Explore',
+  OWN: 'My library'
 }
+
+const TABS_FOR_USER = [TABS.OWN, TABS.PROJECT]
 
 const LoadTemplate = ({
   placeholder,
@@ -38,6 +40,7 @@ const LoadTemplate = ({
   ...props
 }) => {
   const [filteredTemplates, setFilteredTemplates] = useState(templates)
+
   const [tab, setTab] = useState(TABS.OWN)
   const [searchTerm, setSearchTerm] = useState('')
   const [openedTemplate, setOpenedTemplate] = useState()
@@ -55,6 +58,10 @@ const LoadTemplate = ({
     setFilteredTemplates(filtered)
   }
 
+  const [projectTemplates = [], loadingProjectTemplates] = isFeatured
+    ? useFeaturedTemplates()
+    : usePublicProjectTemplates(projectId)
+
   useEffect(
     () => {
       search()
@@ -62,9 +69,16 @@ const LoadTemplate = ({
     [templates]
   )
 
-  const [projectTemplates = [], loadingProjectTemplates] = isFeatured
-    ? useFeaturedTemplates()
-    : usePublicProjectTemplates(projectId)
+  useEffect(
+    () => {
+      if (templates.length === 0 && projectTemplates.length > 0) {
+        setTab(TABS.PROJECT)
+      } else {
+        setTab(TABS.OWN)
+      }
+    },
+    [loadingProjectTemplates]
+  )
 
   function rerenderTemplates () {
     setFilteredTemplates(state => state.slice())
@@ -110,7 +124,7 @@ const LoadTemplate = ({
         <>
           {!loadingProjectTemplates && (
             <Tabs
-              options={Object.values(TABS)}
+              options={TABS_FOR_USER}
               defaultSelectedIndex={tab}
               onSelect={tab => {
                 setTab(tab)

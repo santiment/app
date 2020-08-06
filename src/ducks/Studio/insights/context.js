@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import {
-  getInsights,
+  getAllInsights,
+  getPulseInsights,
+  getTagInsights,
   getSANFAMInsights,
   getMyInsights,
   getFollowingsInsights
@@ -10,6 +12,8 @@ const DEFAULT_STATE = []
 const DEFAULT_ERROR_MSG = {}
 
 const LoadInsights = {
+  all: getAllInsights,
+  pulse: getPulseInsights,
   my: getMyInsights,
   followings: getFollowingsInsights,
   sanfam: getSANFAMInsights
@@ -35,15 +39,17 @@ export const InsightsProvider = ({ children }) => {
         return setState(DEFAULT_STATE)
       }
 
+      let race = false
       const { key } = toggle
-      const abortController = new AbortController()
-      const loadInsights = LoadInsights[key] || getInsights
+      const loadInsights = LoadInsights[key] || getTagInsights
 
-      loadInsights(abortController.signal, key)
+      loadInsights(key)
         .then(insights => {
           if (!insights.length) {
             throw new Error('No data')
           }
+
+          if (race) return
 
           setState(insights)
         })
@@ -53,7 +59,7 @@ export const InsightsProvider = ({ children }) => {
             setState(DEFAULT_STATE)
         )
 
-      return () => abortController.abort()
+      return () => (race = true)
     },
     [toggle]
   )

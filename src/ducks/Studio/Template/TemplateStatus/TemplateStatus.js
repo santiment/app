@@ -1,8 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
+import Toggle from '../../../../components/VisibilityIndicator/Toggle'
 import styles from './TemplateStatus.module.scss'
-import Toggle from '@santiment-network/ui/Toggle'
 
 export const TemplateStatusToggle = ({
   toggleIsPublic,
@@ -37,7 +37,7 @@ const TemplateStatus = ({
       {...rest}
     >
       <Icon
-        type={isPublic ? 'eye' : 'lock-small'}
+        type={isPublic ? 'eye' : 'eye-disabled'}
         className={cx(
           styles.icon,
           classes.statusIcon,

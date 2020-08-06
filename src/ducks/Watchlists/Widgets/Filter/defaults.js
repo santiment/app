@@ -1,4 +1,4 @@
-import { Filter } from './types'
+import { Filter } from './dataHub/types'
 
 const DEFAULT_FILTER = Filter.above
 

@@ -15,7 +15,7 @@ const Title = ({ settings }) => (
 
 const HolderDistributionWidget = ({ widget, ...props }) => {
   const [isOpened, setIsOpened] = useState(true)
-  const MetricColor = useChartColors(widget.metrics)
+  const MetricColor = useChartColors(widget.metrics, widget.MetricColor)
   const PressedModifier = usePressedModifier()
 
   function toggleWidgetMetric (metric) {

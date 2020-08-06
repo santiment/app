@@ -13,7 +13,8 @@ const TABS = [
   },
   {
     path: '/related-insights',
-    LabelComponent: ({ name }) => `Related ${name} Insights`
+    labelFormatter: name =>
+      name ? `Related ${name} Insights` : 'Related Insights'
   }
 ]
 
@@ -35,7 +36,7 @@ const Tabs = ({
 
   return (
     <div className={styles.tabs}>
-      {TABS.map(({ path, label, LabelComponent }) => (
+      {TABS.map(({ path, label, labelFormatter }) => (
         <NavLink
           exact
           key={path}
@@ -43,7 +44,7 @@ const Tabs = ({
           className={styles.tab}
           activeClassName={styles.active}
         >
-          {label || <LabelComponent name={name} />}
+          {label || labelFormatter(name)}
         </NavLink>
       ))}
     </div>

@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import InfiniteScroll from 'react-infinite-scroller'
 import {
   DEFAULT_INSIGHTS_PER_PAGE,
   useInsightsByTag
@@ -6,7 +7,6 @@ import {
 import PageLoader from '../../../components/Loader/PageLoader'
 import NoInsights from './NoInsights'
 import InsightsFeed from '../../../components/Insight/InsightsFeed'
-import InfiniteScroll from 'react-infinite-scroller'
 import styles from './RelatedInsights.module.scss'
 
 const RelatedInsights = ({ settings }) => {
@@ -66,10 +66,10 @@ const RelatedInsights = ({ settings }) => {
             pageStart={0}
             loadMore={loadMore}
             hasMore={!isLoading && canLoad}
-            loader={PageLoader}
+            loader={<PageLoader key='loader' />}
             threshold={0}
           >
-            <InsightsFeed insights={insights} classes={styles} />
+            <InsightsFeed key='feed' insights={insights} classes={styles} />
           </InfiniteScroll>
         </div>
       </div>

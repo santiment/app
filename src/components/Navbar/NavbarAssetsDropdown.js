@@ -19,7 +19,7 @@ const NavbarAssetsDropdown = ({ activeLink }) => {
     <Panel>
       <div className={styles.wrapper}>
         <div className={styles.block}>
-          <h3 className={styles.title}>Categories</h3>
+          <h3 className={styles.title}>Explore Watchlists</h3>
           <div>
             {categories.map(({ to, name, id }) => {
               const link = to || getSharedWatchlistLink({ name, id })

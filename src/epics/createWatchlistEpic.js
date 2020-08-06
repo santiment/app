@@ -27,7 +27,7 @@ const createWatchlistEpic = (action$, store, { client }) =>
         },
         optimisticResponse: {
           __typename: 'Mutation',
-          createUserList: {
+          createWatchlist: {
             __typename: 'UserList',
             id: +new Date(),
             isPublic,
@@ -44,9 +44,9 @@ const createWatchlistEpic = (action$, store, { client }) =>
             }
           }
         },
-        update: (store, { data: { createUserList } }) => {
+        update: (store, { data: { createWatchlist } }) => {
           const data = store.readQuery({ query: ALL_WATCHLISTS_QUERY })
-          data.fetchUserLists.push(createUserList)
+          data.fetchWatchlists.push(createWatchlist)
           store.writeQuery({ query: ALL_WATCHLISTS_QUERY, data })
         }
       })
@@ -54,7 +54,7 @@ const createWatchlistEpic = (action$, store, { client }) =>
         .mergeMap(props => {
           const {
             data: {
-              createUserList: { id, name }
+              createWatchlist: { id, name }
             }
           } = props
           return Observable.merge(

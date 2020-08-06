@@ -2,9 +2,9 @@ import React from 'react'
 import TypeDropdown from './TypeDropdown'
 import TimeRangeDropdown from './TimeRangeDropdown'
 import ValueInput from './ValueInput'
-import { Filter } from '../types'
-import DarkTooltip from '../../../../../components/Tooltip/DarkTooltip'
-import { DEFAULT_TIMERANGES } from '../defaults'
+import { Filter } from '../../dataHub/types'
+import DarkTooltip from '../../../../../../components/Tooltip/DarkTooltip'
+import { DEFAULT_TIMERANGES } from '../../defaults'
 import styles from './index.module.scss'
 
 const FilterMetricSettings = ({

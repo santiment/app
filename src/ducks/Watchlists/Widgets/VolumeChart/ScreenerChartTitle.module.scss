@@ -1,0 +1,12 @@
+@import '~@santiment-network/ui/mixins';
+
+.title {
+  color: var(--fiord);
+  margin-left: 8px;
+
+  @include text('caption'); }
+
+.type {
+  color: var(--rhino);
+
+  @include text('caption', 'm'); }

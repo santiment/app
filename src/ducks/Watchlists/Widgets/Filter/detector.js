@@ -1,4 +1,4 @@
-import { Operator, Filter } from './types'
+import { Operator, Filter } from './dataHub/types'
 import { DEFAULT_TIMERANGES } from './defaults'
 import { isContainMetric } from './utils'
 

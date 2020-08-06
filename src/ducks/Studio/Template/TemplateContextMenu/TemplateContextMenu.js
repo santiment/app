@@ -5,7 +5,6 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import DialogFormRenameTemplate from '../Dialog/RenameTemplate'
-import DialogFormDuplicateTemplate from '../Dialog/DuplicateTemplate'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import DeleteTemplate from '../Dialog/Delete/DeleteTemplate'
 import ShareTemplate from '../Share/ShareTemplate'
@@ -78,11 +77,6 @@ const TemplateContextMenu = ({
             }}
           />
         )}
-        <DialogFormDuplicateTemplate
-          trigger={<Option>Duplicate</Option>}
-          template={template}
-          onDuplicate={closeMenu}
-        />
 
         <ShareTemplate
           template={template}

@@ -9,8 +9,9 @@ import ColorsExplanation, {
   COLOR_MAPS,
   getTreeMapColor
 } from './ColorsExplanation'
-import styles from './ProjectsChart.module.scss'
 import NoDataCharts from './NoDataCharts'
+import ScreenerChartTitle from './ScreenerChartTitle'
+import styles from './ProjectsChart.module.scss'
 
 const RANGES = [
   {
@@ -76,7 +77,12 @@ const useWithColors = (data, key) => {
 
 const MARKETCAP_USD_SORTER = getSorter('marketcapUsd')
 
-const ProjectsTreeMap = ({ assets, title, ranges, className }) => {
+const ProjectsTreeMap = ({
+  assets,
+  loading: assetsLoading,
+  ranges,
+  className
+}) => {
   const [
     data,
     loading,
@@ -92,27 +98,27 @@ const ProjectsTreeMap = ({ assets, title, ranges, className }) => {
 
   const sortedByMarketcap = sortedByChange.sort(MARKETCAP_USD_SORTER)
 
+  const noData = !assetsLoading && assets.length === 0
   return (
     <div className={className}>
       <div className={styles.title}>
-        <div>{title}</div>
-        <div className={styles.selector}>
-          <Range
-            range={label}
-            changeRange={() => {
-              setIntervalIndex(
-                ranges.length === 1 ? 0 : (intervalIndex + 1) % RANGES.length
-              )
-            }}
-          />
-        </div>
+        <ScreenerChartTitle type='Treemap' title='Price Changes, %' />
+        <Range
+          className={styles.selector}
+          range={label}
+          changeRange={() => {
+            setIntervalIndex(
+              ranges.length === 1 ? 0 : (intervalIndex + 1) % RANGES.length
+            )
+          }}
+        />
       </div>
 
-      {assets.length === 0 ? (
+      {noData ? (
         <div className={styles.noDataTreeMap}>
           <NoDataCharts />
         </div>
-      ) : loading ? (
+      ) : loading || assetsLoading ? (
         <PageLoader containerClass={styles.loader} className={styles.loader} />
       ) : (
         <div className={styles.treeMap}>

@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import cx from 'classnames'
+import queryString from 'query-string'
+import { withRouter } from 'react-router-dom'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Toggle from '@santiment-network/ui/Toggle'
 import Button from '@santiment-network/ui/Button'
@@ -8,11 +10,55 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import styles from './Widgets.module.scss'
 
 const Widgets = ({
-  widgets: { isPriceChart, isPriceTreeMap, isVolumeTreeMap } = {},
-  togglers = {}
+  widgets: { isPriceChart, isPriceTreeMap } = {},
+  togglers = {},
+  history,
+  location
 }) => {
   const { priceToggle, togglePriceTreeMap } = togglers
   const [isOpen, setOpen] = useState(false)
+  const parsedUrl = useMemo(() => queryString.parse(location.search), [
+    location.search
+  ])
+
+  const getCharts = useCallback(
+    () => {
+      return parsedUrl && parsedUrl.charts ? JSON.parse(parsedUrl.charts) : {}
+    },
+    [parsedUrl]
+  )
+
+  useEffect(
+    () => {
+      const charts = getCharts()
+      if (charts) {
+        if (charts.isPriceChart) {
+          priceToggle(true)
+        }
+
+        if (charts.isPriceTreeMap) {
+          togglePriceTreeMap(true)
+        }
+      }
+    },
+    [parsedUrl]
+  )
+
+  const urlChange = useCallback(
+    data => {
+      const oldCharts = getCharts()
+      history.replace(
+        `${window.location.pathname}?${queryString.stringify({
+          ...parsedUrl,
+          charts: JSON.stringify({
+            ...oldCharts,
+            ...data
+          })
+        })}`
+      )
+    },
+    [parsedUrl]
+  )
 
   useEffect(
     () => {
@@ -38,15 +84,21 @@ const Widgets = ({
       <Panel variant='modal' className={styles.wrapper}>
         <ToggleWidget
           index={1}
-          title='Price Treemap'
+          title='Price treemap'
           isActive={isPriceTreeMap}
-          toggle={() => togglePriceTreeMap(!isPriceTreeMap)}
+          toggle={() => {
+            togglePriceTreeMap(!isPriceTreeMap)
+            urlChange({ isPriceTreeMap: !isPriceTreeMap })
+          }}
         />
         <ToggleWidget
           index={0}
-          title='Price Bar chart'
+          title='Price bar chart'
           isActive={isPriceChart}
-          toggle={() => priceToggle(!isPriceChart)}
+          toggle={() => {
+            priceToggle(!isPriceChart)
+            urlChange({ isPriceChart: !isPriceChart })
+          }}
         />
       </Panel>
     </ContextMenu>
@@ -105,4 +157,4 @@ const SVGs = [
   </svg>
 ]
 
-export default Widgets
+export default withRouter(Widgets)

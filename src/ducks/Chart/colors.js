@@ -101,8 +101,8 @@ export function highlightMetricColor (MetricColor, focusedMetricKey) {
 }
 
 const INITIAL_STATE = {}
-export function useChartColors (metrics) {
-  const [ChartColor, setChartColors] = useState(INITIAL_STATE)
+export function useChartColors (metrics, initialState = INITIAL_STATE) {
+  const [ChartColor, setChartColors] = useState(initialState)
 
   useEffect(
     () => {

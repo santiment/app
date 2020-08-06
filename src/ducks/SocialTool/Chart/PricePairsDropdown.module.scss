@@ -9,7 +9,7 @@
     display: none;
   }
 
-  @include text('body-3', 'm');
+  @include text('body-3');
 
   color: var(--rhino);
 }

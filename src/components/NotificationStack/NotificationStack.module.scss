@@ -30,16 +30,8 @@ $notify-duration: 300;
 .notification {
   margin-top: 10px;
   transition: transform 200ms;
-  width: 320px;
-  transition-delay: #{$notify-duration - 100}ms;
-
-  @include responsive('phone-xs') {
-    width: 100%;
-  }
-}
-
-.wideNotification {
   width: 360px;
+  transition-delay: #{$notify-duration - 100}ms;
 
   @include responsive('phone-xs') {
     width: 100%;
