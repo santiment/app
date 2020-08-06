@@ -6,7 +6,8 @@
 
 .icon {
   fill: var(--casper);
-  width: 16px;
+  max-width: 16px;
+  min-width: 16px;
 
   &:hover {
     fill: var(--waterloo);
