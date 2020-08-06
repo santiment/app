@@ -1,5 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
+import withSizes from 'react-sizes'
 import { parse } from 'query-string'
 import { Switch, Route, Link, Redirect } from 'react-router-dom'
 import Panel from '@santiment-network/ui/Panel/Panel'
@@ -12,9 +13,8 @@ import SwipablePages from '../../components/SwipablePages/SwipablePages'
 import MobileWrapper from './Mobile/MobileWrapper'
 import { LoginDivider } from './CreateAccountFreeTrial'
 import { hasMetamask as detectMetamask } from '../../web3Helpers'
-import styles from './index.module.scss'
-import withSizes from 'react-sizes'
 import { mapSizesToProps } from '../../utils/withSizes'
+import styles from './index.module.scss'
 
 const hasMetamask = detectMetamask()
 
