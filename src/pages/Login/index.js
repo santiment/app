@@ -13,6 +13,8 @@ import MobileWrapper from './Mobile/MobileWrapper'
 import { LoginDivider } from './CreateAccountFreeTrial'
 import { hasMetamask as detectMetamask } from '../../web3Helpers'
 import styles from './index.module.scss'
+import withSizes from 'react-sizes'
+import { mapSizesToProps } from '../../utils/withSizes'
 
 const hasMetamask = detectMetamask()
 
@@ -70,7 +72,7 @@ const LoginOptions = props => {
   )
 }
 
-export default ({
+const Login = ({
   isLoggedIn,
   isDesktop,
   token,
@@ -111,3 +113,5 @@ export default ({
     </div>
   )
 }
+
+export default withSizes(mapSizesToProps)(Login)

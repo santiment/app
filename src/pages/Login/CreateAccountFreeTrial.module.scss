@@ -41,6 +41,12 @@
   padding: 39px 99px;
   min-width: 1018px;
   min-height: 418px;
+
+  @include responsive('phone', 'phone-xs', 'tablet', 'laptop') {
+    min-width: initial;
+    min-height: initial;
+    padding: 32px;
+  }
 }
 
 .trials {
@@ -48,7 +54,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-width: 320px;
+  min-width: 344px;
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     margin: 0;

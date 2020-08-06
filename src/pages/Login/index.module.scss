@@ -7,6 +7,12 @@
   padding: 39px 99px;
   min-width: 1018px;
   min-height: 418px;
+
+  @include responsive('phone', 'phone-xs', 'tablet', 'laptop') {
+    min-width: initial;
+    min-height: initial;
+    padding: 32px;
+  }
 }
 
 .loginViaEmail {
@@ -42,7 +48,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 320px;
+  min-width: 344px;
   justify-content: center;
 
   @include responsive('phone', 'phone-xs', 'tablet') {
@@ -56,11 +62,19 @@
 
 .noMetamask {
   padding: 19px 0;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    padding: 0;
+  }
 }
 
 .verticalDivider {
   border-right: 1px solid var(--porcelain);
   min-height: 340px;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    margin: 0 32px;
+  }
 }
 
 .wrapper {
@@ -100,10 +114,6 @@
   max-width: 344px;
   margin: 0;
   text-align: center;
-
-  @include responsive('phone', 'phone-xs') {
-    max-width: 160px;
-  }
 }
 
 .metamask {

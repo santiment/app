@@ -6,9 +6,11 @@
   align-items: center;
   justify-content: center;
   height: 100%;
+  min-width: 344px;
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     margin: 0;
+    min-width: initial;
   }
 }
 
