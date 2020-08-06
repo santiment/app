@@ -3,7 +3,9 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Avatar from './Avatar'
+import Text from './Text'
 import { saveComment } from './utils'
+import { getInsightText } from './queries'
 import { Comments } from '../../../../components/Insight/comments/Comments'
 import {
   getInsightComments,
@@ -32,6 +34,7 @@ const Insight = ({
   id,
   title,
   user,
+  isPulseInsights,
   isFirst,
   isLast,
   onPrevClick,
@@ -39,12 +42,14 @@ const Insight = ({
 }) => {
   const [comments, setComments] = useState(DEFAULT_COMMENTS)
   const [loading, setLoading] = useState()
+  const [text, setText] = useState()
   const { username, avatarUrl } = user
 
   useEffect(() => {
     let comments
     const timer = setTimeout(() => comments || setLoading(true), 300)
 
+    getInsightText(id).then(setText)
     getInsightComments(id).then(({ data }) => {
       comments = data.comments
       setComments(comments)
@@ -90,6 +95,7 @@ const Insight = ({
           {username}
         </a>
       </div>
+      {text && <Text text={text} />}
       <Comments
         comments={comments}
         id={id}

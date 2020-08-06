@@ -4,7 +4,7 @@ const OPTIONS = {
   threshold: 0.4
 }
 
-const observePressedModifier = (() => {
+const observeChartsInViewport = (() => {
   const subscribers = new Set()
   const visibles = new Set()
 
@@ -39,7 +39,7 @@ export const withViewportFilter = Component => ({ chart, insights }) => {
 
   useEffect(() => {
     const { canvas } = chart
-    return observePressedModifier(canvas, visibles =>
+    return observeChartsInViewport(canvas, visibles =>
       setIsVisible(visibles.has(canvas))
     )
   }, [])

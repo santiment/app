@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useCallback } from 'react'
 import Point from './Point'
 import { withViewportFilter } from './withViewportFilter'
-import { useInsights } from '../../insights/context'
+import { useInsights, useActiveToggleInsight } from '../../insights/context'
 import { useUser } from '../../../../stores/user'
 import { findPointByDate } from '../../../Chart/utils'
 
@@ -34,6 +34,8 @@ function buildInsightPoints (chart, insights) {
 
 const Insights = ({ chart, insights }) => {
   const isAnon = !useUser().isLoggedIn
+  const activeInsightType = useActiveToggleInsight()
+  const isPulseInsights = activeInsightType && activeInsightType.key === 'pulse'
   const points = useMemo(
     () => (chart.points.length ? buildInsightPoints(chart, insights) : []),
     [chart.points, insights]
@@ -50,10 +52,11 @@ const Insights = ({ chart, insights }) => {
       isOpened={i === openedIndex}
       isFirst={i === 0}
       isLast={i === lastIndex}
-      setOpenedIndex={setOpenedIndex}
+      isPulseInsights={isPulseInsights}
+      isAnon={isAnon}
       onPrevClick={onPrevClick}
       onNextClick={onNextClick}
-      isAnon={isAnon}
+      setOpenedIndex={setOpenedIndex}
       {...point}
     />
   ))

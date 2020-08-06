@@ -82,7 +82,9 @@ const buildInsightsGetter = (query, variables) =>
 const allInsightsExtractor = ({ data: { insights } }) => insights
 
 export function getAllInsights () {
-  return buildInsightsGetter(PROJECT_INSIGHTS_QUERY).then(allInsightsExtractor)
+  return buildInsightsGetter(PROJECT_INSIGHTS_QUERY, { isPulse: false }).then(
+    allInsightsExtractor
+  )
 }
 
 export function getPulseInsights () {
