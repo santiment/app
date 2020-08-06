@@ -80,7 +80,7 @@ export const EmailForm = ({
 
 const SuccessState = ({ email, isDesktop, history, showBack = true }) => {
   const child = (
-    <div className={cx(styles.loginViaEmail, styles.emailSuccess)}>
+    <div className={cx(styles.emailSuccess)}>
       <h2 className={cx(styles.title, styles.email__title)}>
         Email Confirmation
       </h2>

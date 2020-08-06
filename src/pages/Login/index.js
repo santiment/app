@@ -1,5 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
+import withSizes from 'react-sizes'
 import { parse } from 'query-string'
 import { Switch, Route, Link, Redirect } from 'react-router-dom'
 import Panel from '@santiment-network/ui/Panel/Panel'
@@ -10,10 +11,21 @@ import FreeTrialBlock from './FreeTrialBlock'
 import { PATHS } from '../../App'
 import SwipablePages from '../../components/SwipablePages/SwipablePages'
 import MobileWrapper from './Mobile/MobileWrapper'
+import { LoginDivider } from './CreateAccountFreeTrial'
+import { hasMetamask as detectMetamask } from '../../web3Helpers'
+import { mapSizesToProps } from '../../utils/withSizes'
 import styles from './index.module.scss'
 
+const hasMetamask = detectMetamask()
+
 export const LoginDescription = ({ className }) => (
-  <div className={cx(styles.loginBlock, className)}>
+  <div
+    className={cx(
+      styles.loginBlock,
+      className,
+      !hasMetamask && styles.noMetamask
+    )}
+  >
     <h3 className={styles.title}>Welcome to Sanbase</h3>
     <div className={styles.options}>
       <LoginMetamaskBtn />
@@ -23,7 +35,7 @@ export const LoginDescription = ({ className }) => (
       <LoginEmailBtn />
 
       <div className={styles.new}>
-        New to Sanbase?{' '}
+        New to Santiment?{' '}
         <Link to={PATHS.CREATE_ACCOUNT} className={styles.createLink}>
           Create an account
         </Link>
@@ -36,10 +48,11 @@ const LoginOptions = props => {
   if (props.isDesktop) {
     return (
       <div className={styles.container}>
-        <LoginDescription className={styles.loginBlock_desktop} />
-        <div>
-          <FreeTrialBlock />
-        </div>
+        <LoginDescription />
+
+        <LoginDivider />
+
+        <FreeTrialBlock />
       </div>
     )
   }
@@ -59,7 +72,7 @@ const LoginOptions = props => {
   )
 }
 
-export default ({
+const Login = ({
   isLoggedIn,
   isDesktop,
   token,
@@ -100,3 +113,5 @@ export default ({
     </div>
   )
 }
+
+export default withSizes(mapSizesToProps)(Login)

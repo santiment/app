@@ -404,7 +404,6 @@ export const App = ({
             <LoadableLoginPage
               isLoggedIn={isLoggedIn}
               token={token}
-              isDesktop={isDesktop}
               {...props}
             />
           )}
