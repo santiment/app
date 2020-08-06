@@ -11,7 +11,7 @@ import {
 } from '../utils'
 import { useTimeseries } from '../timeseries/hooks'
 import { buildComparedMetric } from '../Compare/utils'
-import { useClosestValueData } from '../../Chart/hooks'
+import { useEdgeGaps, useClosestValueData } from '../../Chart/hooks'
 import { Metric } from '../../dataHub/metrics'
 import { MirroredMetric } from '../../dataHub/metrics/mirrored'
 
@@ -38,10 +38,8 @@ export const Chart = ({
     MetricTransformer
   )
   const [eventsData] = useTimeseries(activeEvents, settings)
-  const data = useClosestValueData(
-    rawData,
-    metrics,
-    options.isClosestDataActive
+  const data = useEdgeGaps(
+    useClosestValueData(rawData, metrics, options.isClosestDataActive)
   )
   // TODO: Solve the webpack circular dependency issue to share singular chart [@vanguard | Jul 1, 2020]
   // const shareLink = useMemo(

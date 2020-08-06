@@ -6,6 +6,7 @@ import { extractMirrorMetricsDomainGroups } from '../../utils'
 import Chart from '../../../Chart'
 import { MirroredMetric } from '../../../dataHub/metrics/mirrored'
 import {
+  useEdgeGaps,
   useClosestValueData,
   useDomainGroups,
   useAxesMetricsKey
@@ -42,10 +43,8 @@ const FullscreenChart = ({
     MetricTransformer
   )
   const [events] = useTimeseries(activeEvents, settings)
-  const data = useClosestValueData(
-    rawData,
-    metrics,
-    options.isClosestDataActive
+  const data = useEdgeGaps(
+    useClosestValueData(rawData, metrics, options.isClosestDataActive)
   )
   const domainGroups = useDomainGroups(metrics)
   const axesMetricKeys = useAxesMetricsKey(metrics)
