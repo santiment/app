@@ -132,7 +132,7 @@ export const METRICS = [
   'active_addresses_24h_change_1d',
   'price_usd_5m',
   'scd_locked_token',
-  'age_destroyed',
+  'age_consumed',
   'circulation_2y',
   'realized_value_usd_5y',
   'price_usd_change_1d',

@@ -78,7 +78,7 @@ export const Metric = {
     advancedView: 'Social Context',
     formatter: value => tooltipValueFormatter({ value })
   },
-  age_destroyed: {
+  age_consumed: {
     category: 'On-chain',
     node: 'bar',
     group: 'Network Activity',

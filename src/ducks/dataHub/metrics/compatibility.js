@@ -20,6 +20,6 @@ export const CompatibleMetric = {
   networkGrowth: Metric.network_growth,
   nvtRatioCirculation: Metric.nvt,
   nvtRatioTxVolume: Metric.nvt_transaction_volume,
-  tokenAgeConsumed: Metric.age_destroyed,
+  tokenAgeConsumed: Metric.age_consumed,
   exchangeFundsFlow: Metric.exchange_balance
 }

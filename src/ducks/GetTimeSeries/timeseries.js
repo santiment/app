@@ -86,8 +86,8 @@ const TIMESERIES = {
   topHoldersPercentOfTotalSupply: {
     query: TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY
   },
-  age_destroyed: {
-    query: GET_METRIC('age_destroyed'),
+  age_consumed: {
+    query: GET_METRIC('age_consumed'),
     preTransform: getMetricPreTransform
   },
   exchange_balance: {

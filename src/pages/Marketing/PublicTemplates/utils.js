@@ -5,7 +5,7 @@ export const TEMPLATES = [
   {
     title: 'Price volatility ahead for BNB?',
     link:
-      'https://app.santiment.net/projects/binance-coin?from=2020-01-16T23%3A00%3A00.000Z&interval=12h&isAnomalyActive=false&isCartesianGridActive=true&isClosestDataActive=true&isICOPriceActive=true&isLogScale=false&isMultiChartsActive=false&metrics=price_usd,social_volume_total,age_destroyed&projectId=235885&slug=binance-coin&ticker=BNB&timeRange=3m&title=Binance%20Coin%20%28BNB%29&to=2020-04-17T21%3A59%3A59.999Z',
+      'https://app.santiment.net/projects/binance-coin?from=2020-01-16T23%3A00%3A00.000Z&interval=12h&isAnomalyActive=false&isCartesianGridActive=true&isClosestDataActive=true&isICOPriceActive=true&isLogScale=false&isMultiChartsActive=false&metrics=price_usd,social_volume_total,age_consumed&projectId=235885&slug=binance-coin&ticker=BNB&timeRange=3m&title=Binance%20Coin%20%28BNB%29&to=2020-04-17T21%3A59%3A59.999Z',
     description: (
       <>
         In the past 24 hours, BNB’s social volume and token age consumed

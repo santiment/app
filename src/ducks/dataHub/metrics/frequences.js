@@ -54,7 +54,7 @@ const Sentiment = (
 export const SPENT_COINT_COST = 'spent_coint_cost'
 
 const Frequences = {
-  [Metric.age_destroyed.key]: FiveMinute,
+  [Metric.age_consumed.key]: FiveMinute,
   [Metric.circulation.key]: Daily,
   [Metric.daily_active_addresses.key]: Daily,
   [Metric.active_deposits.key]: Daily,

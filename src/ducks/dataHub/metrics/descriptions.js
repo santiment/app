@@ -47,7 +47,7 @@ export const Description = {
     </>
   ),
 
-  [Metric.age_destroyed.key]:
+  [Metric.age_consumed.key]:
     'Tracks the movement of previously idle [Project Ticker] tokens. The metric shows the amount of [Project Ticker] changing addresses daily multiplied by the number of days since they last moved. Spikes indicate a significant amount of previously idle [Project Ticker] tokens moving between addresses. ',
 
   [Metric.exchange_balance.key]:
