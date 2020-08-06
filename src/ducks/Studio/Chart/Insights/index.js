@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useCallback } from 'react'
 import Point from './Point'
+import { withViewportFilter } from './withViewportFilter'
 import { useInsights } from '../../insights/context'
 import { useUser } from '../../../../stores/user'
 import { findPointByDate } from '../../../Chart/utils'
@@ -31,8 +32,7 @@ function buildInsightPoints (chart, insights) {
   return points
 }
 
-const Insights = ({ chart }) => {
-  const insights = useInsights()
+const Insights = ({ chart, insights }) => {
   const isAnon = !useUser().isLoggedIn
   const points = useMemo(
     () => (chart.points.length ? buildInsightPoints(chart, insights) : []),
@@ -59,4 +59,9 @@ const Insights = ({ chart }) => {
   ))
 }
 
-export default Insights
+const withOnlyIfInsights = Component => props => {
+  const insights = useInsights()
+  return insights.length ? <Component {...props} insights={insights} /> : null
+}
+
+export default withOnlyIfInsights(withViewportFilter(Insights))
