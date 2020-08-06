@@ -21,7 +21,7 @@ export const INSIGHTS_QUERY = gql`
       tags: $tags
       isPulse: $isPulse
       isPaywallRequired: $isOnlyPro
-      pageSize: 70
+      pageSize: 100
     ) {
       ...studioInsightCommon
     }
