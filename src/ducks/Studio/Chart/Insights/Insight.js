@@ -51,7 +51,23 @@ const Insight = ({
       setLoading(false)
     })
 
-    return () => clearTimeout(timer)
+    function onKeyDown ({ target, key }) {
+      if (target !== document.body) return
+
+      // eslint-disable-next-line
+      switch (key) {
+        case 'ArrowLeft':
+          return isFirst || onPrevClick()
+        case 'ArrowRight':
+          return isLast || onNextClick()
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => {
+      clearTimeout(timer)
+      window.removeEventListener('keydown', onKeyDown)
+    }
   }, [])
 
   return (
