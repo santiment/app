@@ -12,8 +12,8 @@ import TemplateDetailsDialog, {
   TemplateInfoTrigger
 } from '../../TemplateDetailsDialog/TemplateDetailsDialog'
 import TemplateStatus from '../../TemplateStatus/TemplateStatus'
-import styles from './Template.module.scss'
 import { updateHistory } from '../../../../../utils/utils'
+import styles from './Template.module.scss'
 
 export const isUserAuthorOfTemplate = (user, template) => {
   if (!template) {

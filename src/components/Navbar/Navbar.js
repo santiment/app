@@ -10,6 +10,7 @@ import SmoothDropdownItem from '../SmoothDropdown/SmoothDropdownItem'
 import NavbarHelpDropdown from './NavbarHelpDropdown'
 import NavbarProfileDropdown from './NavbarProfileDropdown'
 import NavbarAssetsDropdown from './NavbarAssetsDropdown'
+import NavbarChartsDropdown from './ChartLayouts/NavbarChartsDropdown'
 import InsightsDropdown from './InsightsDropdown'
 import PlanEngage from './PlanEngage'
 import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProductsTooltip'
@@ -32,7 +33,8 @@ const leftLinks = [
   {
     to: '/charts',
     children: 'Charts',
-    as: Link
+    as: Link,
+    Dropdown: NavbarChartsDropdown
   },
   {
     href: 'https://insights.santiment.net/',
