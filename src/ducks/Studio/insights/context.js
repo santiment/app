@@ -5,6 +5,7 @@ import {
   getTagInsights,
   getSANFAMInsights,
   getMyInsights,
+  getProInsights,
   getFollowingsInsights
 } from './queries'
 
@@ -13,6 +14,7 @@ const DEFAULT_ERROR_MSG = {}
 
 const LoadInsights = {
   all: getAllInsights,
+  pro: getProInsights,
   pulse: getPulseInsights,
   my: getMyInsights,
   followings: getFollowingsInsights,

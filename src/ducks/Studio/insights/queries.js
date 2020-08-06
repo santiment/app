@@ -15,9 +15,14 @@ export const INSIGHT_COMMON_FRAGMENT = gql`
   }
 `
 
-export const PROJECT_INSIGHTS_QUERY = gql`
-  query allInsights($tags: [String!], $isPulse: Boolean) {
-    insights: allInsights(tags: $tags, isPulse: $isPulse, pageSize: 70) {
+export const INSIGHTS_QUERY = gql`
+  query allInsights($tags: [String!], $isPulse: Boolean, $isOnlyPro: Boolean) {
+    insights: allInsights(
+      tags: $tags
+      isPulse: $isPulse
+      isPaywallRequired: $isOnlyPro
+      pageSize: 70
+    ) {
       ...studioInsightCommon
     }
   }
@@ -82,19 +87,25 @@ const buildInsightsGetter = (query, variables) =>
 const allInsightsExtractor = ({ data: { insights } }) => insights
 
 export function getAllInsights () {
-  return buildInsightsGetter(PROJECT_INSIGHTS_QUERY, { isPulse: false }).then(
+  return buildInsightsGetter(INSIGHTS_QUERY, { isOnlyPro: false }).then(
+    allInsightsExtractor
+  )
+}
+
+export function getProInsights () {
+  return buildInsightsGetter(INSIGHTS_QUERY, { isOnlyPro: true }).then(
     allInsightsExtractor
   )
 }
 
 export function getPulseInsights () {
-  return buildInsightsGetter(PROJECT_INSIGHTS_QUERY, { isPulse: true }).then(
+  return buildInsightsGetter(INSIGHTS_QUERY, { isPulse: true }).then(
     allInsightsExtractor
   )
 }
 
 export function getTagInsights (tag) {
-  return buildInsightsGetter(PROJECT_INSIGHTS_QUERY, {
+  return buildInsightsGetter(INSIGHTS_QUERY, {
     tags: [tag.toUpperCase()]
   }).then(allInsightsExtractor)
 }

@@ -14,12 +14,18 @@ const OPENED_GROUP = {
 
 const ALL_INSIGHTS_TOGGLE = {
   key: 'all',
-  label: 'All Insights'
+  label: 'Recent 100 Insights'
 }
 
 const NO_GROUP_ITEMS = [
   {
     item: ALL_INSIGHTS_TOGGLE
+  },
+  {
+    item: {
+      key: 'pro',
+      label: 'Pro Insights'
+    }
   },
   {
     item: {

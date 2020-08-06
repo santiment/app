@@ -49,7 +49,9 @@ const Insight = ({
     let comments
     const timer = setTimeout(() => comments || setLoading(true), 300)
 
-    getInsightText(id).then(setText)
+    if (isPulseInsights) {
+      getInsightText(id).then(setText)
+    }
     getInsightComments(id).then(({ data }) => {
       comments = data.comments
       setComments(comments)
