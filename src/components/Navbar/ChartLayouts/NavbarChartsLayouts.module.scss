@@ -27,30 +27,6 @@
   white-space: normal;
 }
 
-.emptyWrapper {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.createBtn {
-  padding: 6px 16px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  margin-top: 16px;
-}
-
-.createLink {
-  color: var(--jungle-green);
-
-  &:hover {
-    color: var(--jungle-green-hover);
-  }
-}
-
 .loader {
   font-size: 5px;
   display: flex;

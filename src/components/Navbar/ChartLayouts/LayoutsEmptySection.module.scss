@@ -1,0 +1,35 @@
+@import '~@santiment-network/ui/mixins';
+
+.createBtn {
+  padding: 6px 16px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.wrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 37px;
+}
+
+.link {
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+.description {
+  margin-top: 6px;
+}
+
+.first {
+  margin-top: auto;
+  width: 100%;
+}

@@ -7,6 +7,8 @@ import { useUser } from '../../../stores/user'
 import { ChartLayoutsAnon } from '../../../ducks/Watchlists/Templates/Anon/WatchlistsAnon'
 import { VisibilityIndicator } from '../../VisibilityIndicator'
 import { prepareTemplateLink } from '../../../ducks/Studio/Template/utils'
+import LayoutsEmptySection from './LayoutEmptySection'
+import CreateLayoutLink from './CreateLayoutLink'
 import styles from './NavbarChartsLayouts.module.scss'
 
 const NavbarChartsLayouts = () => {
@@ -20,13 +22,11 @@ const NavbarChartsLayouts = () => {
   ) : isLoggedIn ? (
     <>
       {templates.length === 0 ? (
-        <EmptySection />
+        <LayoutsEmptySection />
       ) : (
         <>
           <LayoutsList templates={templates} />
-          <Button as={Link} to='/charts' border className={styles.createBtn}>
-            Create chart layout
-          </Button>
+          <CreateLayoutLink />
         </>
       )}
     </>
@@ -53,24 +53,12 @@ const LayoutsList = ({ templates, activeLink }) => (
             to={link}
             isActive={activeLink === link}
           >
-            <span className={styles.watchlistName}>{title}</span>
+            <span>{title}</span>
             <VisibilityIndicator isPublic={isPublic} />
           </Button>
         )
       })}
     </div>
-  </div>
-)
-
-const EmptySection = () => (
-  <div className={styles.emptyWrapper}>
-    <span>
-      <Link to='/charts' className={styles.createLink}>
-        Create
-      </Link>{' '}
-      your own chart layout for
-    </span>
-    <span>quick token analysis</span>
   </div>
 )
 

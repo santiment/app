@@ -11,7 +11,7 @@ import {
   checkIsLoggedIn,
   checkIsLoggedInPending
 } from '../../pages/UserSelectors'
-import styles from './NavbarAssetsDropdownWatchlist.module.scss'
+import styles from './Watchlists/NavbarAssetsDropdownWatchlist.module.scss'
 
 const ScreenerDropdown = ({ activeLink, isLoggedIn, isLoggedInPending }) => {
   const [screeners = []] = useUserScreeners()

@@ -8,7 +8,7 @@ import { Panel } from '@santiment-network/ui'
 import Navbar from './../src/components/Navbar/Navbar'
 import { NavbarProfileDropdown } from './../src/components/Navbar/NavbarProfileDropdown'
 import NavbarHelpDropdown from './../src/components/Navbar/NavbarHelpDropdown'
-import NavbarAssetsDropdown from './../src/components/Navbar/NavbarAssetsDropdown'
+import NavbarAssetsDropdown from '../src/components/Navbar/Watchlists/NavbarAssetsDropdown'
 import store from './store'
 
 const mockedData = {
