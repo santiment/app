@@ -109,7 +109,7 @@ const Chart = ({
       chartRef.current = chart
     }
 
-    setupTooltip(chart, marker, syncTooltips, useCustomTooltip, onPlotTooltip)
+    setupTooltip(chart, marker, useCustomTooltip, onPlotTooltip)
   }, [])
 
   if (brush) {
@@ -144,6 +144,7 @@ const Chart = ({
     chart.isCartesianGridActive = isCartesianGridActive
     chart.isWatermarkLighter = isWatermarkLighter
     chart.hideWatermark = hideWatermark
+    chart.syncTooltips = syncTooltips
   }
 
   useEffect(

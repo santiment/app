@@ -38,7 +38,6 @@ const Chart = ({
   const [selectedDate, setSelectedDate] = useState()
   const [selectedDatesRange, setSelectedDatesRange] = useState()
   const PressedModifier = usePressedModifier()
-
   const isSingleWidget = widgets.length === 1
   const onWidgetPointClick = sidepanel ? onPointClick : undefined
   const allMetrics = useMemo(
