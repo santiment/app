@@ -54,10 +54,18 @@ export const projectBySlugGQL = gql`
         fromAddress {
           address
           isExchange
+          labels {
+            name
+            metadata
+          }
         }
         toAddress {
           address
           isExchange
+          labels {
+            name
+            metadata
+          }
         }
       }
 
@@ -68,10 +76,18 @@ export const projectBySlugGQL = gql`
         fromAddress {
           address
           isExchange
+          labels {
+            name
+            metadata
+          }
         }
         toAddress {
           address
           isExchange
+          labels {
+            name
+            metadata
+          }
         }
       }
 

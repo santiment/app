@@ -1,23 +1,16 @@
 import React from 'react'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
-import Label from '@santiment-network/ui/Label'
 import SmoothDropdownItem from './../SmoothDropdown/SmoothDropdownItem'
 import ViewBalanceDialog from './ViewBalanceDialog'
+import TransactionTableLabels from './TransactionTableLabels'
 import styles from './WalletLink.module.scss'
-
-const propTypes = {
-  address: PropTypes.string.isRequired,
-  assets: PropTypes.arrayOf(PropTypes.string),
-  isTx: PropTypes.bool,
-  isExchange: PropTypes.bool
-}
 
 const WalletLink = ({
   address,
   assets = [],
   isTx = false,
   isExchange = false,
+  labels,
   isDesktop
 }) => {
   const trigger = (
@@ -26,6 +19,7 @@ const WalletLink = ({
       isTx={isTx}
       isExchange={isExchange}
       asLink={isTx}
+      labels={labels}
     />
   )
 
@@ -84,12 +78,13 @@ const EtherscanLink = ({
   )
 }
 
-export const Address = ({ isExchange, ...rest }) => (
-  <>
-    <EtherscanLink {...rest} isExchange={isExchange} />
-    {isExchange && <Label className={styles.exchange}>exchange</Label>}
-  </>
-)
-WalletLink.propTypes = propTypes
+export const Address = ({ isExchange, labels, ...rest }) => {
+  return (
+    <>
+      <EtherscanLink {...rest} isExchange={isExchange} />
+      {labels && <TransactionTableLabels labels={labels} />}
+    </>
+  )
+}
 
 export default WalletLink

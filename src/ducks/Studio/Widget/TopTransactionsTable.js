@@ -33,10 +33,18 @@ export const TRANSACTIONS_QUERY = gql`
         fromAddress {
           address
           isExchange
+          labels {
+            name
+            metadata
+          }
         }
         toAddress {
           address
           isExchange
+          labels {
+            name
+            metadata
+          }
         }
       }
     }
