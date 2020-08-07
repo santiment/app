@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useMemo } from 'react'
 import { Metric } from '../dataHub/metrics'
 import { MirroredMetric } from '../dataHub/metrics/mirrored'
 
@@ -10,9 +10,7 @@ const checkIfAreMirrored = (metricA, metricB) =>
   MirroredMetric[metricB.key] === metricA
 
 export function useDomainGroups (metrics) {
-  const [domainGroups, setDomainGroups] = useState()
-
-  useEffect(
+  return useMemo(
     () => {
       const Domain = Object.create(null)
       const { length } = metrics
@@ -44,12 +42,10 @@ export function useDomainGroups (metrics) {
 
       const newDomainGroups = Object.values(Domain).map(splitByComma)
 
-      setDomainGroups(newDomainGroups.length > 0 ? newDomainGroups : undefined)
+      return newDomainGroups.length > 0 ? newDomainGroups : undefined
     },
     [metrics]
   )
-
-  return domainGroups
 }
 
 export function useClosestValueData (
@@ -57,17 +53,14 @@ export function useClosestValueData (
   metrics,
   isClosestValueActive = true
 ) {
-  const [newData, setNewData] = useState(rawData)
-
-  useEffect(
+  return useMemo(
     () => {
       const lineMetrics = metrics.filter(lineMetricsFilter)
       const dataLength = rawData.length
       const metricLength = lineMetrics.length
 
       if (!isClosestValueActive || !dataLength || metricLength < 2) {
-        setNewData(rawData)
-        return
+        return rawData
       }
 
       const data = new Array(dataLength)
@@ -106,18 +99,14 @@ export function useClosestValueData (
         }
       }
 
-      setNewData(data)
+      return data
     },
     [rawData, metrics, isClosestValueActive]
   )
-
-  return newData
 }
 
 export function useTooltipMetricKey (metrics) {
-  const [tooltipMetricKey, setTooltipMetricKey] = useState(metrics[0].key)
-
-  useEffect(
+  return useMemo(
     () => {
       const { length } = metrics
       let tooltipKey = metrics[0]
@@ -126,7 +115,7 @@ export function useTooltipMetricKey (metrics) {
         const metric = metrics[i]
 
         if (metric === Metric.price_usd) {
-          return setTooltipMetricKey(metric.key)
+          return metric.key
         }
 
         if (tooltipKey.node !== 'line') {
@@ -136,27 +125,23 @@ export function useTooltipMetricKey (metrics) {
         }
       }
 
-      return setTooltipMetricKey(tooltipKey.key)
+      return tooltipKey.key
     },
     [metrics]
   )
-
-  return tooltipMetricKey
 }
 
 export function useAxesMetricsKey (metrics, isDomainGroupingActive) {
-  const [axesMetricKeys, setAxesMetricKeys] = useState([])
-
-  useEffect(
+  return useMemo(
     () => {
       let mainAxisMetric = metrics[0]
       let secondaryAxisMetric = metrics[1]
 
       const { length } = metrics
-      if (length === 0) return
+      if (length === 0) return []
 
       if (length === 1) {
-        return setAxesMetricKeys([mainAxisMetric.key])
+        return [mainAxisMetric.key]
       }
 
       for (let i = 1; i < length; i++) {
@@ -187,14 +172,47 @@ export function useAxesMetricsKey (metrics, isDomainGroupingActive) {
         }
       }
 
-      setAxesMetricKeys(
-        hasSameDomain
-          ? [mainAxisMetric.key]
-          : [mainAxisMetric.key, secondaryAxisMetric.key]
-      )
+      return hasSameDomain
+        ? [mainAxisMetric.key]
+        : [mainAxisMetric.key, secondaryAxisMetric.key]
     },
     [metrics, isDomainGroupingActive]
   )
+}
 
-  return axesMetricKeys
+function adjustGapLengthByDataSize (size) {
+  if (size < 70) return 1
+
+  if (size < 130) return 2
+
+  if (size < 200) return 3
+
+  if (size < 300) return 4
+
+  return 6
+}
+
+export function useEdgeGaps (data) {
+  return useMemo(
+    () => {
+      const { length } = data
+      if (length < 2) return data
+
+      const lastDatetime = data[length - 1].datetime
+      const datetimeDiff = lastDatetime - data[length - 2].datetime
+      let gapDatetime = lastDatetime + datetimeDiff
+
+      const gapLength = adjustGapLengthByDataSize(length)
+      const gapData = new Array(gapLength)
+
+      for (let i = 0; i < gapLength; i++, gapDatetime += datetimeDiff) {
+        gapData[i] = {
+          datetime: gapDatetime
+        }
+      }
+
+      return data.concat(gapData)
+    },
+    [data]
+  )
 }

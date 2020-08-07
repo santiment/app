@@ -19,20 +19,14 @@ import { TooltipSetting } from '../dataHub/tooltipSettings'
 const ALERT_ADD_SIZE = 13
 const ALERT_ADD_HALF_SIZE = 7
 
-export function setupTooltip (
-  chart,
-  marker,
-  syncTooltips,
-  useCustomTooltip,
-  onPlotTooltip
-) {
+export function setupTooltip (chart, marker, useCustomTooltip, onPlotTooltip) {
   const {
     tooltip: { canvas, ctx }
   } = chart
 
   canvas.onmousemove = handleMove(chart, point => {
     if (!point) return
-    syncTooltips(point.value)
+    chart.syncTooltips(point.value)
     if (useCustomTooltip) {
       onPlotTooltip(point)
       plotTooltip(chart, marker, point, {
@@ -113,7 +107,7 @@ export function setupTooltip (
 
   canvas.onmouseleave = () => {
     clearCtx(chart, ctx)
-    syncTooltips(null)
+    chart.syncTooltips(null)
     onPlotTooltip && onPlotTooltip(null)
   }
 }
