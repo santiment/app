@@ -29,7 +29,7 @@ import authLink from './apollo/auth-link'
 import retryLink from './apollo/retry-link'
 import ChartPage from './pages/Chart'
 import { register, unregister } from './serviceWorker'
-import { newAppAvailable } from './ducks/Updates/actions'
+import { markAsLatestApp, newAppAvailable } from './ducks/Updates/actions'
 import { ThemeProvider } from './stores/ui/theme'
 import './index.scss'
 
@@ -126,13 +126,14 @@ const main = () => {
     store.dispatch(changeNetworkStatus(online))
   })
 
-  const onServiceWorkerUpdate = () => {
-    store.dispatch(newAppAvailable())
-  }
-
   if (isNotSafari) {
     register({
-      onUpdate: onServiceWorkerUpdate
+      onUpdate: () => {
+        store.dispatch(newAppAvailable())
+      },
+      onSuccess: () => {
+        store.dispatch(markAsLatestApp())
+      }
     })
   } else {
     unregister()
