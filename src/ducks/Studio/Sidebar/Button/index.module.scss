@@ -69,6 +69,22 @@
   }
 }
 
+.pro {
+  color: var(--texas-rose);
+
+  &:hover {
+    color: var(--texas-rose-hover);
+
+    .plus {
+      background: var(--texas-rose);
+    }
+
+    .active {
+      background: var(--persimmon);
+    }
+  }
+}
+
 .top {
   display: flex;
   align-items: center;

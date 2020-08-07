@@ -24,7 +24,8 @@ const NO_GROUP_ITEMS = [
   {
     item: {
       key: 'pro',
-      label: 'Pro Insights'
+      label: 'PRO Insights',
+      isPro: true
     }
   },
   {
