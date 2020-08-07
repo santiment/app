@@ -16,12 +16,13 @@ const MetricButton = ({
   isError,
   isDisabled,
   isNew,
-  onClick,
-  setMetricSettingMap,
   project,
-  showBetaLabel = true
+  showBetaLabel = true,
+  onClick,
+  setMetricSettingMap
 }) => {
   const settings = isActive && metric && MetricSettings[metric.key]
+  const isPro = metric && metric.isPro
 
   return (
     <Button
@@ -29,6 +30,7 @@ const MetricButton = ({
       className={cx(
         styles.btn,
         className,
+        isPro && styles.pro,
         (isError || isDisabled) && styles.disabled,
         settings && settingsStyles.adjustable
       )}
