@@ -80,10 +80,6 @@ const LoadTemplate = ({
 
   useEffect(
     () => {
-      console.log(
-        'templates.length === 0 && projectTemplates.length > 0',
-        templates.length === 0 && projectTemplates.length > 0
-      )
       if (templates.length === 0 && projectTemplates.length > 0) {
         setTab(TABS.PROJECT)
       } else {
