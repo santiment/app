@@ -56,9 +56,10 @@ const FilterMetricSettings = ({
       </div>
       {metric.hints && (
         <div className={styles.suggestions}>
-          Suggestions:
-          {metric.hints.map(({ label, description, ...props }) => (
+          For example:
+          {metric.hints.map(({ label, description, ...props }, idx) => (
             <DarkTooltip
+              key={idx}
               position='bottom'
               align='center'
               on='hover'
