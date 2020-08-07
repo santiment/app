@@ -21,8 +21,8 @@ import {
 } from '../../stores/user/subscriptions'
 import styles from './NavbarProfileDropdown.module.scss'
 import { VersionLabel } from '../Version/Version'
-import dropdownStyles from './NavbarDropdown.module.scss'
 import { APP_STATES } from '../../ducks/Updates/reducers'
+import dropdownStyles from './NavbarDropdown.module.scss'
 
 const personalLinks = [
   { as: Link, to: '/sonar/my-signals', children: 'My alerts' },
