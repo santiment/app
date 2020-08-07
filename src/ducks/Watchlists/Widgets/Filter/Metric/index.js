@@ -42,7 +42,7 @@ const FilterMetric = ({
 
         if (
           Filter[settings.type].showTimeRange &&
-          !timeRanges.includes(settings.timeRange) &&
+          !timeRanges.some(item => item.type === settings.timeRange) &&
           timeRanges[0]
         ) {
           setSettings(state => ({ ...state, timeRange: timeRanges[0].type }))
@@ -50,22 +50,6 @@ const FilterMetric = ({
       }
     },
     [availableMetrics]
-  )
-
-  useEffect(
-    () => {
-      if (
-        Filter[settings.type].showTimeRange &&
-        !percentTimeRanges.includes(settings.timeRange) &&
-        percentTimeRanges[0]
-      ) {
-        setSettings(state => ({
-          ...state,
-          timeRange: percentTimeRanges[0].type
-        }))
-      }
-    },
-    [settings.type]
   )
 
   useEffect(
@@ -129,7 +113,19 @@ const FilterMetric = ({
   }
 
   function onFilterTypeChange (type) {
-    setSettings(state => ({ ...state, type }))
+    if (
+      Filter[type].showTimeRange &&
+      !percentTimeRanges.some(item => item.type === settings.timeRange) &&
+      percentTimeRanges[0]
+    ) {
+      setSettings(state => ({
+        ...state,
+        type,
+        timeRange: percentTimeRanges[0].type
+      }))
+    } else {
+      setSettings(state => ({ ...state, type }))
+    }
   }
 
   function onFirstThresholdChange (value) {
