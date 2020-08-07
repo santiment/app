@@ -26,14 +26,6 @@
 .assetsTable:global(.ReactTable) {
   margin-bottom: 20px;
   color: var(--rhino);
-  overflow-x: hidden;
-  padding-top: 8px;
-  overflow-y: hidden;
-
-  &:hover {
-    overflow-x: auto;
-    overflow-x: overlay;
-  }
 
   :global {
     .overview-name {
@@ -138,7 +130,7 @@
     .rt-td {
       min-height: 60px;
       padding: 10px;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       cursor: default;
       overflow: visible;
@@ -158,7 +150,14 @@
 
     .rt-table {
       flex: 0 0;
-      overflow: visible;
+      overflow-x: hidden;
+      padding-top: 8px;
+      overflow-y: hidden;
+
+      &:hover {
+        overflow-x: auto;
+        overflow-x: overlay;
+      }
     }
 
     .-pagination {

@@ -79,21 +79,21 @@
 }
 
 .segments {
-  display: flex;
-  flex-direction: column;
+  display: inline-flex;
+  width: fit-content;
 }
 
 .segment {
   background-color: var(--porcelain);
   color: var(--rhino);
-  margin-right: 4px;
-  margin-bottom: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  word-break: break-word;
-  white-space: normal;
-  width: max-content;
+  white-space: nowrap;
 
   @include text('caption');
+}
+
+.segment + .segment {
+  margin-left: 4px;
 }
