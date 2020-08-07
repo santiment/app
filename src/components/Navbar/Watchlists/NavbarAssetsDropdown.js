@@ -3,13 +3,13 @@ import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Button from '@santiment-network/ui/Button'
-import { useFeaturedWatchlists } from '../../ducks/Watchlists/gql/hooks'
+import { useFeaturedWatchlists } from '../../../ducks/Watchlists/gql/hooks'
 import NavbarAssetsDropdownWatchlist from './NavbarAssetsDropdownWatchlist'
-import ScreenerDropdown from './ScreenerDropdown'
+import ScreenerDropdown from '../ScreenerDropdown'
 import {
   getSharedWatchlistLink,
   BASIC_CATEGORIES
-} from '../../ducks/Watchlists/utils'
+} from '../../../ducks/Watchlists/utils'
 import styles from './NavbarAssetsDropdown.module.scss'
 
 const NavbarAssetsDropdown = ({ activeLink }) => {

@@ -1,0 +1,40 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  box-sizing: border-box;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  margin-top: 14px;
+}
+
+.list {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+
+.item {
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  height: initial;
+  min-height: 32px;
+  white-space: normal;
+}
+
+.loader {
+  font-size: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.anon {
+  margin-top: auto;
+}

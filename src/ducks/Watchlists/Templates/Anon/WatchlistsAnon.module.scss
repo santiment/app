@@ -1,7 +1,7 @@
-@import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins';
 
 .wrapper {
-  padding: 0 16px 10px;
+  padding: 0 8px;
   width: 100%;
   height: 100%;
   margin: 0 auto;
@@ -26,23 +26,25 @@
 }
 
 .title {
-  color: var(--mirage);
-  margin-bottom: 4px;
-  margin-top: 8px;
-  font-size: 16px;
-  line-height: 24px;
-}
+  color: var(--rhino);
+  margin-bottom: 12px;
+
+  @include text('body-2'); }
 
 .desc {
   margin: 0;
   text-align: center;
-  color: var(--waterloo);
-}
+  color: var(--fiord);
+
+  @include text('body-3'); }
+
+.login {
+  @include text('caption'); }
 
 .btn {
   width: 100%;
   justify-content: center;
-  margin-top: 16px;
+  margin-top: 12px;
   max-width: 350px;
 }
 
@@ -51,5 +53,5 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin-top: 20px;
+  margin-top: 48px;
 }

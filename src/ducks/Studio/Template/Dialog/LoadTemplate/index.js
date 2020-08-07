@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { compose } from 'recompose'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
@@ -45,28 +45,37 @@ const LoadTemplate = ({
   const [searchTerm, setSearchTerm] = useState('')
   const [openedTemplate, setOpenedTemplate] = useState()
 
-  const search = () => {
-    const lowerCaseValue = searchTerm.toLowerCase()
-
-    const templates = getUsageTemplates()
-
-    const filtered = lowerCaseValue
-      ? templates.filter(({ title }) =>
-        title.toLowerCase().includes(lowerCaseValue)
-      )
-      : templates
-    setFilteredTemplates(filtered)
-  }
-
   const [projectTemplates = [], loadingProjectTemplates] = isFeatured
     ? useFeaturedTemplates()
     : usePublicProjectTemplates(projectId)
 
-  useEffect(
+  const getUsageTemplates = useCallback(
     () => {
-      search()
+      if (tab === TABS.PROJECT) {
+        return projectTemplates.filter(
+          ({ user: { id } }) => +id !== +currentUserId
+        )
+      } else {
+        return templates
+      }
     },
-    [templates]
+    [TABS, tab, projectTemplates, currentUserId, templates]
+  )
+
+  const search = useCallback(
+    () => {
+      const lowerCaseValue = searchTerm.toLowerCase()
+
+      const templates = getUsageTemplates()
+
+      const filtered = lowerCaseValue
+        ? templates.filter(({ title }) =>
+          title.toLowerCase().includes(lowerCaseValue)
+        )
+        : templates
+      setFilteredTemplates(filtered)
+    },
+    [searchTerm, getUsageTemplates, setFilteredTemplates]
   )
 
   useEffect(
@@ -77,33 +86,32 @@ const LoadTemplate = ({
         setTab(TABS.OWN)
       }
     },
-    [loadingProjectTemplates]
+    [templates, loadingProjectTemplates]
   )
-
-  function rerenderTemplates () {
-    setFilteredTemplates(state => state.slice())
-  }
-
-  function onRename (template) {
-    rerenderTemplates && rerenderTemplates()
-    rerenderTemplate && rerenderTemplate(template)
-  }
-
-  function onDelete () {
-    setOpenedTemplate()
-  }
 
   useEffect(search, [tab, searchTerm, templates.length])
 
-  function getUsageTemplates () {
-    if (tab === TABS.PROJECT) {
-      return projectTemplates.filter(
-        ({ user: { id } }) => +id !== +currentUserId
-      )
-    } else {
-      return templates
-    }
-  }
+  const rerenderTemplates = useCallback(
+    () => {
+      setFilteredTemplates(state => state.slice())
+    },
+    [setFilteredTemplates]
+  )
+
+  const onRename = useCallback(
+    template => {
+      rerenderTemplates && rerenderTemplates()
+      rerenderTemplate && rerenderTemplate(template)
+    },
+    [rerenderTemplate, rerenderTemplates]
+  )
+
+  const onDelete = useCallback(
+    () => {
+      setOpenedTemplate()
+    },
+    [setOpenedTemplate]
+  )
 
   return (
     <Dialog

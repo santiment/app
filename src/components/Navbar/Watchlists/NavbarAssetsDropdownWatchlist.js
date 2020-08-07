@@ -3,16 +3,16 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import WatchlistsAnon from '../../ducks/Watchlists/Templates/Anon/WatchlistsAnon'
-import NewBtn from '../../ducks/Watchlists/Actions/New/NewBtn'
-import NewWatchlist from '../../ducks/Watchlists/Actions/New'
-import { getWatchlistLink } from '../../ducks/Watchlists/utils'
-import { VisibilityIndicator } from '../VisibilityIndicator'
-import { useUserWatchlists } from '../../ducks/Watchlists/gql/hooks'
+import WatchlistsAnon from '../../../ducks/Watchlists/Templates/Anon/WatchlistsAnon'
+import NewBtn from '../../../ducks/Watchlists/Actions/New/NewBtn'
+import NewWatchlist from '../../../ducks/Watchlists/Actions/New'
+import { getWatchlistLink } from '../../../ducks/Watchlists/utils'
+import { VisibilityIndicator } from '../../VisibilityIndicator'
+import { useUserWatchlists } from '../../../ducks/Watchlists/gql/hooks'
 import {
   checkIsLoggedIn,
   checkIsLoggedInPending
-} from '../../pages/UserSelectors'
+} from '../../../pages/UserSelectors'
 import styles from './NavbarAssetsDropdownWatchlist.module.scss'
 
 const NavbarAssetsDropdownWatchlist = ({
@@ -40,7 +40,7 @@ const NavbarAssetsDropdownWatchlist = ({
       )}
     </>
   ) : (
-    <WatchlistsAnon />
+    <WatchlistsAnon className={styles.anon} />
   )
 }
 

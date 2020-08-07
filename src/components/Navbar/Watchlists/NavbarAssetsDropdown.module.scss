@@ -1,5 +1,5 @@
-@import '~@santiment-network/ui/variables';
-@import '~@santiment-network/ui/mixins';
+@import '../../../../node_modules/@santiment-network/ui/variables';
+@import '../../../../node_modules/@santiment-network/ui/mixins';
 
 .wrapper {
   display: flex;
@@ -9,7 +9,7 @@
 .block {
   flex: 1;
   width: 280px;
-  padding: 24px 16px 16px;
+  padding: 24px 16px 24px;
 }
 
 .block + .block {

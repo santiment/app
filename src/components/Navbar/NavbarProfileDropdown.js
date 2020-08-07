@@ -219,7 +219,7 @@ export const NavbarProfileDropdown = ({
   )
 }
 
-const mapStateToProps = ({ rootUi, user, app }) => ({
+const mapStateToProps = ({ rootUi, app }) => ({
   status: rootUi.isOnline ? 'online' : 'offline',
   isUpdateAvailable: app.isUpdateAvailable
 })

@@ -9,7 +9,8 @@ import SmoothDropdown from '../SmoothDropdown/SmoothDropdown'
 import SmoothDropdownItem from '../SmoothDropdown/SmoothDropdownItem'
 import NavbarHelpDropdown from './NavbarHelpDropdown'
 import NavbarProfileDropdown from './NavbarProfileDropdown'
-import NavbarAssetsDropdown from './NavbarAssetsDropdown'
+import NavbarAssetsDropdown from './Watchlists/NavbarAssetsDropdown'
+import NavbarChartsDropdown from './ChartLayouts/NavbarChartsDropdown'
 import InsightsDropdown from './InsightsDropdown'
 import PlanEngage from './PlanEngage'
 import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProductsTooltip'
@@ -32,7 +33,11 @@ const leftLinks = [
   {
     to: '/charts',
     children: 'Charts',
-    as: Link
+    as: Link,
+    Dropdown: NavbarChartsDropdown,
+    ddParams: {
+      position: 'start'
+    }
   },
   {
     href: 'https://insights.santiment.net/',
@@ -97,7 +102,7 @@ const Navbar = ({ activeLink = '/', isBetaModeEnabled }) => {
               </svg>
             </Link>
           </SantimentProductsTooltip>
-          {leftLinks.map(({ Dropdown, ...rest }, index) => {
+          {leftLinks.map(({ Dropdown, ddParams, ...rest }, index) => {
             const isActive = activeLink.includes(rest.to)
             const isHome = rest.to === '/'
 
@@ -113,7 +118,11 @@ const Navbar = ({ activeLink = '/', isBetaModeEnabled }) => {
 
             if (Dropdown) {
               return (
-                <SmoothDropdownItem key={index} trigger={button}>
+                <SmoothDropdownItem
+                  key={index}
+                  trigger={button}
+                  ddParams={ddParams}
+                >
                   <Dropdown activeLink={activeLink} />
                 </SmoothDropdownItem>
               )
