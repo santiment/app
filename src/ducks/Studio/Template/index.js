@@ -30,8 +30,8 @@ import ChartWidget from '../Widget/ChartWidget'
 import { useUser } from '../../../stores/user'
 import { useProjectById } from '../../../hooks/project'
 import { PATHS } from '../../../App'
-import styles from './index.module.scss'
 import { useCtrlSPress } from '../../../hooks/eventListeners'
+import styles from './index.module.scss'
 
 const Action = props => <Button {...props} fluid variant='ghost' />
 
