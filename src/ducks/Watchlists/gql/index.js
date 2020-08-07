@@ -26,6 +26,12 @@ export const PROJECT_ITEM_FRAGMENT = gql`
       project {
         id
         slug
+        name
+        ticker
+        priceUsd
+        percentChange7d
+        logoUrl
+        darkLogoUrl
       }
     }
   }
