@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
+import { withRouter } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import TemplateButton from './Button'
@@ -28,52 +29,13 @@ import { normalizeWidgets } from '../url/generate'
 import ChartWidget from '../Widget/ChartWidget'
 import { useUser } from '../../../stores/user'
 import { useProjectById } from '../../../hooks/project'
+import { PATHS } from '../../../App'
 import styles from './index.module.scss'
+import { useCtrlSPress } from '../../../hooks/eventListeners'
 
 const Action = props => <Button {...props} fluid variant='ghost' />
 
 const isMac = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)
-
-function useEventListener (eventName, handler, element = window) {
-  const savedHandler = useRef()
-
-  useEffect(
-    () => {
-      savedHandler.current = handler
-    },
-    [handler]
-  )
-
-  useEffect(
-    () => {
-      const isSupported = element && element.addEventListener
-      if (!isSupported) return
-
-      const eventListener = event => savedHandler.current(event)
-
-      element.addEventListener(eventName, eventListener)
-
-      return () => {
-        element.removeEventListener(eventName, eventListener)
-      }
-    },
-    [eventName, element]
-  )
-}
-
-export const useCtrlSPress = callback => {
-  const listenHotkey = e => {
-    const { ctrlKey, metaKey, code } = e
-
-    if ((metaKey || ctrlKey) && code === 'KeyS') {
-      e.preventDefault()
-
-      callback()
-    }
-  }
-
-  useEventListener('keydown', listenHotkey)
-}
 
 const Template = ({
   className,
@@ -81,6 +43,7 @@ const Template = ({
   widgets,
   setWidgets,
   onProjectSelect,
+  location: { pathname },
   ...props
 }) => {
   const { user } = useUser()
@@ -92,17 +55,6 @@ const Template = ({
 
   const projectFromUrl = extractTemplateProject()
   const [urlProject] = useProjectById(projectFromUrl)
-
-  useKeyboardCmdShortcut('l', toggleLoadDialog)
-
-  useEffect(
-    () => {
-      if (onProjectSelect && urlProject) {
-        onProjectSelect(urlProject)
-      }
-    },
-    [urlProject]
-  )
 
   const selectTemplate = template => {
     setSelectedTemplate(template)
@@ -140,8 +92,35 @@ const Template = ({
     selectTemplate
   )
 
+  const toggleLoadDialog = useCallback(
+    () => {
+      setIsLoadDialogOpened(!isLoadDialogOpened)
+    },
+    [setIsLoadDialogOpened, isLoadDialogOpened]
+  )
+
+  useKeyboardCmdShortcut('l', toggleLoadDialog)
+
+  useEffect(
+    () => {
+      if (onProjectSelect && urlProject) {
+        onProjectSelect(urlProject)
+      }
+    },
+    [urlProject]
+  )
+
+  useEffect(
+    () => {
+      if (pathname === PATHS.CHARTS) {
+        selectTemplate()
+      }
+    },
+    [pathname]
+  )
+
   useCtrlSPress(() => {
-    if (window.selectedTemplate) {
+    if (selectedTemplate) {
       saveTemplate()
     }
   })
@@ -150,84 +129,107 @@ const Template = ({
 
   const hasTemplates = templates.length > 0
 
-  function openMenu () {
-    setIsMenuOpened(true)
-  }
+  const openMenu = useCallback(
+    () => {
+      setIsMenuOpened(true)
+    },
+    [setIsMenuOpened]
+  )
 
-  function closeMenu () {
-    setIsMenuOpened(false)
-    closeLoadDialog()
-  }
+  const closeLoadDialog = useCallback(
+    () => {
+      setIsLoadDialogOpened(false)
+    },
+    [setIsLoadDialogOpened]
+  )
 
-  function rerenderTemplate (template) {
-    if (selectedTemplate && selectedTemplate.id === template.id) {
-      setSelectedTemplate(template)
-    }
-  }
+  const closeMenu = useCallback(
+    () => {
+      setIsMenuOpened(false)
+      closeLoadDialog()
+    },
+    [setIsMenuOpened, closeLoadDialog]
+  )
 
-  const saveTemplate = () => {
-    const { projectId } = props
-    const template = selectedTemplate || {}
+  const rerenderTemplate = useCallback(
+    template => {
+      if (selectedTemplate && selectedTemplate.id === template.id) {
+        setSelectedTemplate(template)
+      }
+    },
+    [selectedTemplate, setSelectedTemplate]
+  )
 
-    const { user: { id } = {}, title, description } = template
+  const saveTemplate = useCallback(
+    () => {
+      const template = selectedTemplate || {}
 
-    const isCurrentUser = +id === +user.id
-    const metrics = widgets.map(({ metrics }) => metrics).flat()
-    const comparables = widgets.map(({ comparables }) => comparables).flat()
+      const { user: { id } = {}, title, description } = template
 
-    const options = {
-      widgets: normalizeWidgets(widgets)
-    }
+      const isCurrentUser = +id === +user.id
+      const metrics = widgets.map(({ metrics }) => metrics).flat()
+      const comparables = widgets.map(({ comparables }) => comparables).flat()
 
-    const future = isCurrentUser
-      ? updateTemplate(template, {
-        metrics,
-        comparables,
-        projectId,
-        options
-      })
-      : createTemplate({
-        title,
-        description,
-        metrics: buildTemplateMetrics({ metrics, comparables }),
-        projectId: +projectId,
-        options
-      })
+      const options = {
+        widgets: normalizeWidgets(widgets)
+      }
 
-    future
-      .then(selectTemplate)
-      .then(closeMenu)
-      .then(notifySave)
-  }
+      const future = isCurrentUser
+        ? updateTemplate(template, {
+          metrics,
+          comparables,
+          projectId,
+          options
+        })
+        : createTemplate({
+          title,
+          description,
+          metrics: buildTemplateMetrics({ metrics, comparables }),
+          projectId: +projectId,
+          options
+        })
 
-  function onTemplateSelect (template) {
-    selectTemplate(template)
-    closeMenu()
-  }
+      future
+        .then(selectTemplate)
+        .then(closeMenu)
+        .then(notifySave)
+    },
+    [
+      projectId,
+      selectedTemplate,
+      user,
+      widgets,
+      updateTemplate,
+      createTemplate,
+      selectTemplate,
+      closeMenu,
+      notifySave
+    ]
+  )
 
-  function onDelete () {
-    closeMenu()
-  }
+  const onTemplateSelect = useCallback(
+    template => {
+      selectTemplate(template)
+      closeMenu()
+    },
+    [selectTemplate, closeMenu]
+  )
 
-  useCtrlSPress(() => {
-    if (selectedTemplate) {
-      saveTemplate()
-    }
-  })
+  const onDelete = useCallback(
+    () => {
+      closeMenu()
+    },
+    [closeMenu]
+  )
 
   const isAuthor = isUserAuthorOfTemplate(user, selectedTemplate)
 
-  function openLoadDialog () {
-    setIsLoadDialogOpened(true)
-  }
-
-  function closeLoadDialog () {
-    setIsLoadDialogOpened(false)
-  }
-
-  function toggleLoadDialog () {
-    setIsLoadDialogOpened(!isLoadDialogOpened)
-  }
+  const openLoadDialog = useCallback(
+    () => {
+      setIsLoadDialogOpened(true)
+    },
+    [setIsLoadDialogOpened]
+  )
 
   return (
     <>
@@ -331,4 +333,4 @@ const Template = ({
   )
 }
 
-export default Template
+export default withRouter(Template)
