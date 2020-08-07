@@ -22,6 +22,7 @@ import {
 import styles from './NavbarProfileDropdown.module.scss'
 import { VersionLabel } from '../Version/Version'
 import dropdownStyles from './NavbarDropdown.module.scss'
+import { APP_STATES } from '../../ducks/Updates/reducers'
 
 const personalLinks = [
   { as: Link, to: '/sonar/my-signals', children: 'My alerts' },
@@ -107,7 +108,7 @@ const SubscriptionsList = () => {
 export const NavbarProfileDropdown = ({
   activeLink,
   toggleNightMode,
-  isUpdateAvailable
+  appVersionState
 }) => {
   const { user } = useUser()
   const { isPro } = useUserSubscriptionStatus()
@@ -130,28 +131,35 @@ export const NavbarProfileDropdown = ({
           )}
         </div>
       )}
+
       <DropdownDevider />
 
-      <div className={dropdownStyles.list}>
-        {isUpdateAvailable ? (
-          <Button
-            variant='ghost'
-            fluid
-            accent='positive'
-            className={cx(dropdownStyles.item, dropdownStyles.updateBtn)}
-            onClick={() => window.location.reload(true)}
-          >
-            Update available. Restart now
-          </Button>
-        ) : (
-          <div className={styles.version}>
-            You have the latest version!
-            <VersionLabel className={styles.versionLabel} />
+      {appVersionState && (
+        <>
+          <div className={dropdownStyles.list}>
+            {appVersionState === APP_STATES.LATEST && (
+              <div className={styles.version}>
+                You have the latest version!
+                <VersionLabel className={styles.versionLabel} />
+              </div>
+            )}
+            {appVersionState === APP_STATES.NEW_AVAILABLE && (
+              <Button
+                variant='ghost'
+                fluid
+                accent='positive'
+                className={cx(dropdownStyles.item, dropdownStyles.updateBtn)}
+                onClick={() => window.location.reload(true)}
+              >
+                Update available. Restart now
+              </Button>
+            )}
           </div>
-        )}
-      </div>
 
-      <DropdownDevider />
+          <DropdownDevider />
+        </>
+      )}
+
       {user && (
         <>
           <div className={dropdownStyles.list}>
@@ -221,7 +229,7 @@ export const NavbarProfileDropdown = ({
 
 const mapStateToProps = ({ rootUi, app }) => ({
   status: rootUi.isOnline ? 'online' : 'offline',
-  isUpdateAvailable: app.isUpdateAvailable
+  appVersionState: app.appVersionState
 })
 
 const mapDispatchToProps = dispatch => ({
