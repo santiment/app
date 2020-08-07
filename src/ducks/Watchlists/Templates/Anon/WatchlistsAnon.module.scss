@@ -29,17 +29,20 @@
   color: var(--rhino);
   margin-bottom: 12px;
 
-  @include text('body-2'); }
+  @include text('body-2', 'm');
+}
 
 .desc {
   margin: 0;
   text-align: center;
   color: var(--fiord);
 
-  @include text('body-3'); }
+  @include text('body-3');
+}
 
 .login {
-  @include text('caption'); }
+  @include text('caption');
+}
 
 .btn {
   width: 100%;

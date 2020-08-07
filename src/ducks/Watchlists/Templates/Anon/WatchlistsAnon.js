@@ -51,7 +51,7 @@ export const ChartLayoutsAnon = ({ isFullScreen, className }) => (
       className={className}
       imgClassName={cx(styles.hide, isFullScreen && styles.img)}
     >
-      <p className={styles.title}>Your own Chart Layouts</p>
+      <p className={styles.title}>Make your own Chart Layouts</p>
       <p className={styles.desc}>Create, load and save</p>
       <p className={styles.desc}>your personal chart views</p>
       <LoginBlock />
