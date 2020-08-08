@@ -57,6 +57,7 @@ export const COLUMNS = (preload, props = {}) => [
     id: COLUMNS_NAMES.project,
     heading: 'Project',
     minWidth: 200,
+    maxWidth: 350,
     resizable: true,
     Cell: ({ original }) => {
       const { slug, priceUsd } = original
