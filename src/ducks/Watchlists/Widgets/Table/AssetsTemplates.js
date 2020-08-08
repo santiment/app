@@ -1,7 +1,7 @@
 import React from 'react'
 import Label from '@santiment-network/ui/Label'
 import Button from '@santiment-network/ui/Button'
-import Edit from '../../Actions/Edit'
+import Edit from '../../Actions/Edit/EditAssets'
 import EmptySection from '../../../../components/EmptySection/EmptySection'
 import styles from '../../Cards/Watchlist.module.scss'
 

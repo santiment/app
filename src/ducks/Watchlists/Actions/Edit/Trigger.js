@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
-import Edit from './index'
+import Edit from './EditAssets'
 import styles from './Trigger.module.scss'
 
 const Trigger = ({ name, ...props }) => {

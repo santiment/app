@@ -9,7 +9,7 @@ import { ALL_PROJECTS_FOR_SEARCH_QUERY } from '../../../../pages/Projects/allPro
 import AssetsList from './AssetsList'
 import { hasAssetById } from '../../utils'
 import SearchProjects from '../../../../components/Search/SearchProjects'
-import styles from './index.module.scss'
+import styles from './EditAssets.module.scss'
 
 const WatchlistEdit = ({
   assets,
