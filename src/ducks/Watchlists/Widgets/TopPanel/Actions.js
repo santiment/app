@@ -7,6 +7,7 @@ import UIIcon from '@santiment-network/ui/Icon'
 import Delete from '../../Actions/Delete'
 import Copy from '../../Actions/Copy'
 import DownloadCSV from '../../Actions/DownloadCSV'
+import { ProLabel } from '../../../../components/ProLabel'
 import { useUserScreeners } from '../../gql/hooks'
 import styles from './Actions.module.scss'
 
@@ -23,7 +24,7 @@ export const Button = ({ className, ...props }) => (
   />
 )
 
-const Actions = ({ isAuthor, id, name, assets }) => {
+const Actions = ({ isAuthor, id, name, assets, isPro }) => {
   if (!id) {
     return null
   }
@@ -53,15 +54,16 @@ const Actions = ({ isAuthor, id, name, assets }) => {
         />
         <DownloadCSV
           name={name}
-          className={cx(styles.btn, styles.btn__csv)}
-          trigger={
-            <Button className={styles.csv}>
-              <Icon type='save' />
-              Download .csv
-            </Button>
-          }
+          fluid
+          variant='ghost'
+          disabled={!isPro}
           items={assets}
-        />
+          className={styles.btn}
+        >
+          <Icon type='save' />
+          Download .csv
+          {!isPro && <ProLabel className={styles.proLabel} />}
+        </DownloadCSV>
         {isAuthor && screeners.length > 1 && (
           <Delete
             title='Do you want to delete this screener?'

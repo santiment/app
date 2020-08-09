@@ -6,6 +6,7 @@ import UIButton from '@santiment-network/ui/Button'
 import UIIcon from '@santiment-network/ui/Icon'
 import Delete from '../../Actions/Delete'
 import EditForm from '../../Actions/Edit/EditForm'
+import { ProLabel } from '../../../../components/ProLabel'
 import { useUserScreeners } from '../../gql/hooks'
 import styles from './BaseActions.module.scss'
 
@@ -42,7 +43,7 @@ const Trigger = ({ watchlist, name, forwardedRef, isMenuOpened, openMenu }) => (
   </div>
 )
 
-const BaseActions = ({ isAuthor, id, name, assets, watchlist }) => {
+const BaseActions = ({ isAuthor, id, name, assets, watchlist, isPro }) => {
   if (!id) {
     return null
   }
@@ -86,9 +87,10 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist }) => {
             description={watchlist.description}
             watchlist={watchlist}
             trigger={
-              <Button>
+              <Button disabled={!isPro}>
                 <Icon type='disk' />
                 Save as
+                {!isPro && <ProLabel className={styles.proLabel} />}
               </Button>
             }
           />
@@ -99,9 +101,10 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist }) => {
             description={watchlist.description}
             watchlist={watchlist}
             trigger={
-              <Button>
+              <Button disabled={!isPro}>
                 <Icon type='plus-round' />
                 New
+                {!isPro && <ProLabel className={styles.proLabel} />}
               </Button>
             }
           />

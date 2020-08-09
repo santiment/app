@@ -4,9 +4,12 @@ import Actions from './Actions'
 import BaseActions from './BaseActions'
 import Widgets from './Widgets'
 import Share from '../../Actions/Share'
+import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import styles from './index.module.scss'
 
 const TopPanel = ({ name, id, watchlist, isAuthor, assets, ...props }) => {
+  const { isPro } = useUserSubscriptionStatus()
+
   return (
     <section className={styles.wrapper}>
       <div className={styles.left}>
@@ -14,6 +17,7 @@ const TopPanel = ({ name, id, watchlist, isAuthor, assets, ...props }) => {
         {isAuthor && (
           <BaseActions
             isAuthor={isAuthor}
+            isPro={isPro}
             name={name}
             id={id}
             watchlist={watchlist}
@@ -23,7 +27,13 @@ const TopPanel = ({ name, id, watchlist, isAuthor, assets, ...props }) => {
       {/* <MarketcapHistory /> */}
       <div className={styles.right}>
         <Share watchlist={watchlist} isAuthor={isAuthor} />
-        <Actions isAuthor={isAuthor} name={name} id={id} assets={assets} />
+        <Actions
+          isAuthor={isAuthor}
+          name={name}
+          id={id}
+          assets={assets}
+          isPro={isPro}
+        />
         <Widgets {...props} />
       </div>
     </section>

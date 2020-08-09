@@ -9,6 +9,8 @@ import Edit from '../../Actions/Edit/EditAssets'
 import DownloadCSV from '../../Actions/DownloadCSV'
 import WeeklyReport from '../../Actions/WeeklyReport'
 import VisibilityToggle from '../../Actions/ChangeVisibility'
+import { ProLabel } from '../../../../components/ProLabel'
+import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import styles from './WatchlistContextMenu.module.scss'
 
 const WatchlistContextMenu = ({
@@ -20,6 +22,8 @@ const WatchlistContextMenu = ({
   isMonitored,
   watchlist
 }) => {
+  const { isPro } = useUserSubscriptionStatus()
+
   return (
     <ContextMenu
       trigger={
@@ -73,13 +77,14 @@ const WatchlistContextMenu = ({
           {isDesktop && (
             <DownloadCSV
               name={name}
-              trigger={
-                <Button variant='ghost' fluid>
-                  Download .csv
-                </Button>
-              }
+              disabled={!isPro}
+              variant='ghost'
+              fluid
               items={items}
-            />
+            >
+              Download .csv
+              {!isPro && <ProLabel className={styles.proLabel} />}
+            </DownloadCSV>
           )}
           {isAuthor && (
             <Delete
