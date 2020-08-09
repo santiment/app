@@ -4,7 +4,7 @@ import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
-import { ALL_ERC20_PROJECTS_QUERY } from '../../../../../pages/Projects/allProjectsGQL'
+import { ALL_ERC20_PROJECTS_QUERY } from '../../../../Watchlists/gql/allProjectsGQL'
 import { ASSETS_BY_WALLET_QUERY } from '../../../../HistoricalBalance/common/queries'
 import {
   isPossibleEthAddress,

@@ -1,0 +1,33 @@
+@import '~@santiment-network/ui/mixins.scss';
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+}
+
+.heading {
+  @include text('h4');
+
+  margin: 0 6px 0 0 !important;
+
+  &::first-letter {
+    text-transform: uppercase;
+  }
+}
+
+.right {
+  display: flex;
+  align-items: center;
+}
+
+.overviewInfo {
+  margin: 22px 0 56px;
+  border-right: none;
+  box-shadow: none;
+}

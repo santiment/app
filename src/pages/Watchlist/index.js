@@ -1,6 +1,6 @@
 import React from 'react'
 import PageLoader from '../../components/Loader/PageLoader'
-import AssetPage from '../Watchlist/AssetsPage'
+import WatchlistPage from '../Watchlist/Watchlist'
 import ScreenerPage from './Screener'
 import NewScreener from './NewScreenerFromDefault'
 import { useWatchlist } from '../../ducks/Watchlists/gql/hooks'
@@ -29,7 +29,7 @@ const Watchlist = ({ isLoggedIn, ...props }) => {
   }
 
   if (watchlist === null) {
-    return <AssetPage {...props} />
+    return <Watchlist {...props} />
   }
 
   const name = getWatchlistName(props)
@@ -45,7 +45,7 @@ const Watchlist = ({ isLoggedIn, ...props }) => {
       watchlist={watchlist}
     />
   ) : (
-    <AssetPage {...props} isLoggedIn={isLoggedIn} />
+    <WatchlistPage {...props} isLoggedIn={isLoggedIn} watchlist={watchlist} />
   )
 }
 

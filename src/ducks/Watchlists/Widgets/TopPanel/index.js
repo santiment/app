@@ -1,5 +1,4 @@
 import React from 'react'
-import Button from '@santiment-network/ui/Button'
 // import MarketcapHistory from './MarketcapHistory'
 import Actions from './Actions'
 import Widgets from './Widgets'
@@ -8,16 +7,7 @@ import Share from '../../Actions/Share'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import styles from './index.module.scss'
 
-const TopPanel = ({
-  name,
-  id,
-  isLoggedIn,
-  shareLink,
-  watchlist,
-  hasPremium,
-  isAuthor,
-  ...props
-}) => {
+const TopPanel = ({ name, id, watchlist, isAuthor, ...props }) => {
   const { isPro } = useUserSubscriptionStatus()
   return (
     <section className={styles.wrapper}>
@@ -27,20 +17,8 @@ const TopPanel = ({
       </div>
       {/* <MarketcapHistory /> */}
       <div className={styles.right}>
-        <Share
-          shareLink={shareLink}
-          watchlist={watchlist}
-          isAuthor={isAuthor}
-        />
-        <Actions
-          {...props}
-          isLoggedIn={isLoggedIn}
-          isAuthor={isAuthor}
-          isPro={isPro}
-          watchlist={watchlist}
-          name={name}
-          id={id}
-        />
+        <Share watchlist={watchlist} isAuthor={isAuthor} />
+        <Actions isAuthor={isAuthor} name={name} id={id} />
         <Widgets {...props} />
       </div>
     </section>

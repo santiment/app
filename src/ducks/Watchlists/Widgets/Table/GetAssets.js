@@ -37,8 +37,8 @@ class GetAssets extends Component {
       parsed => parsed.name,
       qs.parse
     )(search)
-    const type =
-      hash === '#shared' ? 'list#shared' : this.props.type || qs.parse(search)
+
+    const type = this.props.type || qs.parse(search)
     return { type, listName, listId }
   }
 

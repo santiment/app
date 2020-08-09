@@ -10,7 +10,6 @@ export const generalData = gql`
     rank
     logoUrl
     darkLogoUrl
-    marketSegments
   }
 `
 
@@ -26,7 +25,7 @@ const ethereumData = gql`
 export const project = gql`
   fragment project on Project {
     rank
-    marketSegment
+    marketSegments
     priceUsd
     percentChange24h
     volumeUsd

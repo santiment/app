@@ -17,7 +17,7 @@ import { COLUMNS, COMMON_SETTINGS, COLUMNS_SETTINGS } from './asset-columns'
 import ScreenerSignalDialog from '../../../Signals/ScreenerSignal/ScreenerSignalDialog'
 import { markedAsShowed } from '../../../SANCharts/SidecarExplanationTooltip'
 import { EXPLANATION_TOOLTIP_MARK } from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
-import '../../../../pages/Projects/ProjectsTable.scss'
+import './ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
 
 export const CustomHeadComponent = ({ children, className, ...rest }) => (

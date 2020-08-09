@@ -6,7 +6,7 @@ import { columns } from './columns'
 import GetAssets, {
   FIRST_LOAD_SIZE
 } from '../../ducks/Watchlists/Widgets/Table/GetAssets'
-import '../../pages/Projects/ProjectsTable.scss'
+import '../../ducks/Watchlists/Widgets/Table/ProjectsTable.scss'
 import styles from './EthSpentTable.module.scss'
 
 const EthSpentTable = () => {

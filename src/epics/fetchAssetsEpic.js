@@ -4,7 +4,7 @@ import {
   ERC20_PROJECTS_QUERY,
   allProjects50GQL,
   allProjectsGQL
-} from './../pages/Projects/allProjectsGQL'
+} from './../ducks/Watchlists/gql/allProjectsGQL'
 import { WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY } from '../queries/WatchlistGQL.js'
 import * as actions from './../actions/types'
 

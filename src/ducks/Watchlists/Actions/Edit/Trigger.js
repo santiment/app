@@ -10,7 +10,7 @@ const Trigger = ({ name, ...props }) => {
       {...props}
       name={name}
       trigger={
-        <Button border variant='flat'>
+        <Button variant='flat' className={styles.trigger}>
           <Icon type='edit' className={styles.icon} />
           <span className={styles.text}>Edit</span>
         </Button>

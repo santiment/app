@@ -7,8 +7,8 @@ import { useFeaturedWatchlists } from '../../../ducks/Watchlists/gql/hooks'
 import NavbarAssetsDropdownWatchlist from './NavbarAssetsDropdownWatchlist'
 import ScreenerDropdown from '../ScreenerDropdown'
 import {
-  getSharedWatchlistLink,
-  BASIC_CATEGORIES
+  BASIC_CATEGORIES,
+  getWatchlistLink
 } from '../../../ducks/Watchlists/utils'
 import styles from './NavbarAssetsDropdown.module.scss'
 
@@ -22,7 +22,7 @@ const NavbarAssetsDropdown = ({ activeLink }) => {
           <h3 className={styles.title}>Explore Watchlists</h3>
           <div>
             {categories.map(({ to, name, id }) => {
-              const link = to || getSharedWatchlistLink({ name, id })
+              const link = to || getWatchlistLink({ name, id })
 
               return (
                 <Button

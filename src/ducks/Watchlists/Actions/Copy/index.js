@@ -5,23 +5,24 @@ import Label from '@santiment-network/ui/Label'
 import { USER_EDIT_ASSETS_IN_LIST } from '../../../../actions/types'
 import { sortByAsDates } from '../../../../utils/sortMethods'
 import { useUserWatchlists } from '../../gql/hooks'
-import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
 import { showNotification } from '../../../../actions/rootActions'
 import Watchlists from '../../Templates/Watchlists'
 import AssetsList from './AssetsList'
+import { useUser } from '../../../../stores/user/index'
+import LoginDialogWrapper from '../../../../components/LoginDialog/LoginDialogWrapper'
 import SearchProjects from '../../../../components/Search/SearchProjects'
 import styles from './index.module.scss'
 
 const WatchlistCopyPopup = ({
   assets = [],
   trigger,
-  isLoggedIn,
   watchlistUi: { editableWatchlists },
   id: currentId,
   sendChanges,
   setNotification
 }) => {
-  if (!isLoggedIn) return null
+  const { isLoggedIn } = useUser()
+  if (!isLoggedIn) return <LoginDialogWrapper>{trigger}</LoginDialogWrapper>
 
   const [watchlists = []] = useUserWatchlists()
   const [isShown, setIsShown] = useState(false)
@@ -192,7 +193,6 @@ const WatchlistCopyPopup = ({
 
 const mapStateToProps = state => ({
   watchlistUi: state.watchlistUi,
-  isLoggedIn: checkIsLoggedIn(state),
   assets: state.projects.items
 })
 

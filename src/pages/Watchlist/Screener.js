@@ -42,9 +42,7 @@ const Screener = props => {
                 name={(props.watchlist || {}).name || props.name}
                 id={listId}
                 watchlist={props.watchlist}
-                shareLink={window.location.href + '#shared'}
                 isAuthor={isCurrentUserTheAuthor}
-                isLoggedIn={props.isLoggedIn}
                 widgets={{
                   isPriceChart: isPriceChartActive,
                   isPriceTreeMap: isPriceTreeMap,

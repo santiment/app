@@ -3,7 +3,7 @@ import {
   ALL_PROJECTS_PRICE_CHANGES_QUERY,
   PROJECT_BY_ID_QUERY,
   PROJECT_WITH_SLUG_QUERY
-} from '../pages/Projects/allProjectsGQL'
+} from '../ducks/Watchlists/gql/allProjectsGQL'
 
 export function useProjectById (id) {
   const { data, loading, error } = useQuery(PROJECT_BY_ID_QUERY, {

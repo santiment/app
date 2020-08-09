@@ -9,11 +9,7 @@ const PublicWatchlists = ({ data: watchlists }) => {
 
   return (
     <div className={styles.block}>
-      <WatchlistCards
-        watchlists={watchlists}
-        classes={styles}
-        makeSharedLinks
-      />
+      <WatchlistCards watchlists={watchlists} classes={styles} />
     </div>
   )
 }
