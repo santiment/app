@@ -94,6 +94,7 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, isPro }) => {
               </Button>
             }
           />
+          <div className={styles.divider} />
           <EditForm
             title='New screener'
             buttonLabel='Create'
