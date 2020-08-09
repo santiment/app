@@ -14,10 +14,10 @@ import {
   YAxis,
   LabelList
 } from 'recharts'
-import PageLoader from '../../../../components/Loader/PageLoader'
 import ChartTooltip from '../../../SANCharts/tooltip/CommonChartTooltip'
 import Range from '../WatchlistOverview/Range'
 import { useProjectPriceChanges } from '../../../../hooks/project'
+import Skeleton from '../../../../components/Skeleton/Skeleton'
 import NoDataCharts from './NoDataCharts'
 import { formatNumber } from '../../../../utils/formatting'
 import ScreenerChartTitle from './ScreenerChartTitle'
@@ -163,6 +163,7 @@ const ProjectsChart = ({ assets, redirect, loading: assetsLoading }) => {
   const datakey = 'slug'
 
   const noData = !assetsLoading && assets.length === 0
+  const isLoading = loading || assetsLoading
 
   return (
     <div className={styles.container}>
@@ -195,9 +196,17 @@ const ProjectsChart = ({ assets, redirect, loading: assetsLoading }) => {
         </div>
       ) : (
         <div className={styles.chartWrapper}>
-          {loading || assetsLoading ? (
-            <PageLoader />
-          ) : (
+          <Skeleton
+            className={styles.ProjectsChart__skeletonTop}
+            show={isLoading}
+            repeat={1}
+          />
+          <Skeleton
+            className={styles.ProjectsChart__skeletonBottom}
+            show={isLoading}
+            repeat={1}
+          />
+          {!isLoading && (
             <div className={styles.chart}>
               <ResponsiveContainer width='100%' height='100%'>
                 <ComposedChart

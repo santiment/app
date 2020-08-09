@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { ResponsiveContainer, Tooltip, Treemap } from 'recharts'
-import PageLoader from '../../../../components/Loader/PageLoader'
 import Range from '../WatchlistOverview/Range'
 import { getSorter, useProjectRanges } from './ProjectsChart'
 import { formatNumber } from '../../../../utils/formatting'
+import Skeleton from '../../../../components/Skeleton/Skeleton'
 import ChartTooltip from '../../../SANCharts/tooltip/CommonChartTooltip'
 import ColorsExplanation, {
   COLOR_MAPS,
@@ -95,10 +95,11 @@ const ProjectsTreeMap = ({
   })
 
   const sortedByChange = useWithColors(data, key)
-
   const sortedByMarketcap = sortedByChange.sort(MARKETCAP_USD_SORTER)
 
   const noData = !assetsLoading && assets.length === 0
+  const isLoading = loading || assetsLoading
+
   return (
     <div className={className}>
       <div className={styles.title}>
@@ -113,14 +114,21 @@ const ProjectsTreeMap = ({
           }}
         />
       </div>
-
+      <Skeleton
+        className={styles.treeMap__skeletonTop}
+        show={isLoading}
+        repeat={1}
+      />
+      <Skeleton
+        className={styles.treeMap__skeletonBottom}
+        show={isLoading}
+        repeat={1}
+      />
       {noData ? (
         <div className={styles.noDataTreeMap}>
           <NoDataCharts />
         </div>
-      ) : loading || assetsLoading ? (
-        <PageLoader containerClass={styles.loader} className={styles.loader} />
-      ) : (
+      ) : !isLoading ? (
         <div className={styles.treeMap}>
           <ResponsiveContainer width='100%' height='100%'>
             <Treemap
@@ -154,7 +162,7 @@ const ProjectsTreeMap = ({
 
           <ColorsExplanation colorMaps={COLOR_MAPS} range={label} />
         </div>
-      )}
+      ) : null}
     </div>
   )
 }
