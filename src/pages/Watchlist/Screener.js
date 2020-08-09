@@ -41,6 +41,7 @@ const Screener = props => {
               <TopPanel
                 name={(props.watchlist || {}).name || props.name}
                 id={listId}
+                assets={assets}
                 watchlist={props.watchlist}
                 isAuthor={isCurrentUserTheAuthor}
                 widgets={{

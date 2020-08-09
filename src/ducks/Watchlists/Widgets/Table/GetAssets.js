@@ -31,7 +31,7 @@ class GetAssets extends Component {
   }
 
   getType = () => {
-    const { search, hash } = this.props.location || {}
+    const { search } = this.props.location || {}
     const { listName, listId } = compose(
       this.getInfoFromListname,
       parsed => parsed.name,

@@ -4,11 +4,9 @@ import Actions from './Actions'
 import Widgets from './Widgets'
 import Share from '../../Actions/Share'
 // import EditForm from '../../Actions/Edit/EditForm'
-import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import styles from './index.module.scss'
 
-const TopPanel = ({ name, id, watchlist, isAuthor, ...props }) => {
-  const { isPro } = useUserSubscriptionStatus()
+const TopPanel = ({ name, id, watchlist, isAuthor, assets, ...props }) => {
   return (
     <section className={styles.wrapper}>
       <div>
@@ -18,7 +16,7 @@ const TopPanel = ({ name, id, watchlist, isAuthor, ...props }) => {
       {/* <MarketcapHistory /> */}
       <div className={styles.right}>
         <Share watchlist={watchlist} isAuthor={isAuthor} />
-        <Actions isAuthor={isAuthor} name={name} id={id} />
+        <Actions isAuthor={isAuthor} name={name} id={id} assets={assets} />
         <Widgets {...props} />
       </div>
     </section>

@@ -25,7 +25,6 @@ const WatchlistPage = props => {
   const { name } = qs.parse(props.location.search)
   const isList = props.type === 'list'
   const { title, description } = getHelmetTags(isList, name)
-  const { isLoggedIn } = props
 
   const changeRange = () => {
     const newPointer = pointer === RANGES.length - 1 ? 0 : pointer + 1

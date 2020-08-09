@@ -3,7 +3,7 @@ import { CSVLink } from 'react-csv'
 import { normalizeCSV } from '../../utils'
 import { isNotSafari } from '../../../../utils/utils'
 
-const DownloadCSV = ({ items, name, trigger }) => {
+const DownloadCSV = ({ items, name, trigger, className }) => {
   const hasCSV = isNotSafari && items && items.length > 0
 
   if (!hasCSV) {
@@ -15,6 +15,7 @@ const DownloadCSV = ({ items, name, trigger }) => {
       data={normalizeCSV(items)}
       filename={`${name}.csv`}
       target='_blank'
+      className={className}
     >
       {trigger}
     </CSVLink>

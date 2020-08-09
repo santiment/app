@@ -6,6 +6,7 @@ import UIButton from '@santiment-network/ui/Button'
 import UIIcon from '@santiment-network/ui/Icon'
 import Delete from '../../Actions/Delete'
 import Copy from '../../Actions/Copy'
+import DownloadCSV from '../../Actions/DownloadCSV'
 import { useUserScreeners } from '../../gql/hooks'
 import styles from './Actions.module.scss'
 
@@ -22,7 +23,7 @@ export const Button = ({ className, ...props }) => (
   />
 )
 
-const Actions = ({ isAuthor, id, name }) => {
+const Actions = ({ isAuthor, id, name, assets }) => {
   if (!id) {
     return null
   }
@@ -49,6 +50,17 @@ const Actions = ({ isAuthor, id, name }) => {
               Copy assets to watchlist
             </Button>
           }
+        />
+        <DownloadCSV
+          name={name}
+          className={cx(styles.btn, styles.btn__csv)}
+          trigger={
+            <Button className={styles.csv}>
+              <Icon type='save' />
+              Download .csv
+            </Button>
+          }
+          items={assets}
         />
         {isAuthor && screeners.length > 1 && (
           <Delete

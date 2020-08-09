@@ -35,11 +35,8 @@ const INITIAL_REMAINING_HEIGHT =
 const ROW_HEIGHT = 60
 
 const AssetsMobilePage = props => {
-  const { isLoggedIn } = props
-  const isList = props.type === 'list'
-
   const id = getWatchlistId(props.location.search)
-  const [watchlist = {}, loading, error] = useWatchlist({ id })
+  const [watchlist = {}] = useWatchlist({ id })
   const [pointer, setPointer] = useState(1)
   const [range, setRange] = useState(RANGES[pointer])
   const [filteredItems, setFilteredItems] = useState(null)

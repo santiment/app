@@ -1,13 +1,8 @@
 import React from 'react'
-import Icon from '@santiment-network/ui/Icon'
-import Button from '@santiment-network/ui/Button'
 import WatchlistContextMenu from './WatchlistContextMenu'
 import { upperCaseFirstLetter } from '../../../../utils/formatting'
-import Copy from '../../Actions/Copy'
 import Share from '../../Actions/Share'
-import DownloadCSV from '../../Actions/DownloadCSV'
 import WeeklyReportTrigger from '../../Actions/WeeklyReport/Trigger'
-import styles from './WatchlistActionButton.module.scss'
 
 const WatchlistActions = ({
   isAuthor,
@@ -23,7 +18,6 @@ const WatchlistActions = ({
     return null
   }
 
-  const { isPublic } = watchlist
   const title = upperCaseFirstLetter(initialTitle)
 
   return (
