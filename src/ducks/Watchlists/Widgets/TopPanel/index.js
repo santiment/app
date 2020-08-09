@@ -1,17 +1,24 @@
 import React from 'react'
 // import MarketcapHistory from './MarketcapHistory'
 import Actions from './Actions'
+import BaseActions from './BaseActions'
 import Widgets from './Widgets'
 import Share from '../../Actions/Share'
-// import EditForm from '../../Actions/Edit/EditForm'
 import styles from './index.module.scss'
 
 const TopPanel = ({ name, id, watchlist, isAuthor, assets, ...props }) => {
   return (
     <section className={styles.wrapper}>
-      <div>
+      <div className={styles.left}>
         <h1 className={styles.name}>{name}</h1>
-        {/* <EditForm trigger={<Button fluid variant='ghost'>Edit</Button>} /> */}
+        {isAuthor && (
+          <BaseActions
+            isAuthor={isAuthor}
+            name={name}
+            id={id}
+            watchlist={watchlist}
+          />
+        )}
       </div>
       {/* <MarketcapHistory /> */}
       <div className={styles.right}>

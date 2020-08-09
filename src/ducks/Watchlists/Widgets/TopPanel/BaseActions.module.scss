@@ -1,0 +1,88 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  width: 175px;
+  display: flex;
+  padding: 6px 0;
+  flex-direction: column;
+
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
+  }
+}
+
+.block {
+  border-bottom: 1px solid var(--porcelain);
+  padding: 4px 8px 8px;
+  margin-bottom: 6px;
+
+  & button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.icon {
+  margin-right: 8px;
+}
+
+.btn {
+  justify-content: flex-start;
+  align-items: center;
+  padding: 8px;
+  width: auto;
+  margin: 2px 8px;
+  fill: var(--casper);
+
+  &:hover {
+    fill: var(--jungle-green-light-3);
+  }
+}
+
+.trigger {
+  border: 1px solid var(--mystic);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+
+  &__text {
+    background: inherit;
+    border-right: 1px solid var(--porcelain);
+    border-radius: 0;
+    padding: 5px 15px;
+
+    &:hover {
+      background: inherit;
+    }
+  }
+
+  &__arrow {
+    padding: 14px 12px;
+    fill: var(--waterloo);
+    cursor: pointer;
+    box-sizing: content-box;
+
+    &:active {
+      fill: var(--jungle-green);
+      transform: rotate(180deg);
+      background-color: var(--jungle-green-light-2);
+    }
+
+    &:hover {
+      fill: var(--jungle-green);
+    }
+  }
+}
+
+.delete {
+  fill: var(--persimmon);
+  color: var(--persimmon);
+
+  &:hover {
+    fill: var(--persimmon-hover);
+    color: var(--persimmon-hover);
+  }
+}

@@ -3,7 +3,7 @@ import ReactTable from 'react-table'
 import cx from 'classnames'
 import Sticky from 'react-stickynode'
 import { connect } from 'react-redux'
-import PageLoader from '../../../../components/Loader/PageLoader'
+// import PageLoader from '../../../../components/Loader/PageLoader'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
 import 'react-table/react-table.css'
 import {
