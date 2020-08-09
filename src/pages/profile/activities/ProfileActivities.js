@@ -12,6 +12,7 @@ const STEPS = {
   INSIGHTS: '#insights',
   SIGNALS: '#signals',
   WATCHLISTS: '#watchlists',
+  SCREENERS: '#screeners',
   CHART_LAYOUTS: '#chart-layouts'
 }
 
@@ -25,6 +26,7 @@ const ProfileActivities = ({ profile }) => {
   const [step, setStep] = useState(window.location.hash || STEPS.INSIGHTS)
   const [templates] = useUserTemplates(profileId)
   const staticWatchlists = watchlists.filter(isStaticWatchlist)
+  const screeners = watchlists.filter(item => !isStaticWatchlist(item))
 
   const goTo = val => {
     window.location.hash = val
@@ -48,6 +50,12 @@ const ProfileActivities = ({ profile }) => {
           onClick={() => goTo(STEPS.WATCHLISTS)}
         >
           Watchlists <Counter value={staticWatchlists.length} />
+        </div>
+        <div
+          className={cx(styles.link, step === STEPS.SCREENERS && styles.active)}
+          onClick={() => goTo(STEPS.SCREENERS)}
+        >
+          Screeners <Counter value={screeners.length} />
         </div>
         <div
           className={cx(styles.link, step === STEPS.SIGNALS && styles.active)}
@@ -74,6 +82,9 @@ const ProfileActivities = ({ profile }) => {
         )}
         {step === STEPS.WATCHLISTS && (
           <PublicWatchlists userId={profileId} data={staticWatchlists} />
+        )}
+        {step === STEPS.SCREENERS && (
+          <PublicWatchlists userId={profileId} data={screeners} />
         )}
         {step === STEPS.CHART_LAYOUTS && (
           <ProfileTemplates userId={profileId} data={templates} />
