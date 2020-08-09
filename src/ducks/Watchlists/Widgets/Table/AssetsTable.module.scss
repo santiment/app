@@ -19,6 +19,12 @@
   top: 25px;
 }
 
+.loader {
+  position: absolute;
+  width: 100%;
+  top: 43px;
+}
+
 .assetsTable__filterView {
   width: calc(100% - 376px);
 }
@@ -164,4 +170,12 @@
       border-top: none;
     }
   }
+}
+
+.skeleton {
+  height: 56px;
+}
+
+.skeleton + .skeleton {
+  margin-top: 4px;
 }
