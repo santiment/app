@@ -1,11 +1,11 @@
 import React from 'react'
-import { connect } from 'react-redux'
-// import BaseActions from './BaseActions'
+import Button from '@santiment-network/ui/Button'
 // import MarketcapHistory from './MarketcapHistory'
 import Actions from './Actions'
 import Widgets from './Widgets'
 import Share from '../../Actions/Share'
-import { checkHasPremium } from '../../../../pages/UserSelectors'
+// import EditForm from '../../Actions/Edit/EditForm'
+import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import styles from './index.module.scss'
 
 const TopPanel = ({
@@ -18,22 +18,25 @@ const TopPanel = ({
   isAuthor,
   ...props
 }) => {
+  const { isPro } = useUserSubscriptionStatus()
   return (
     <section className={styles.wrapper}>
       <div>
         <h1 className={styles.name}>{name}</h1>
-        {/* <BaseActions hasPremium={hasPremium} /> */}
+        {/* <EditForm trigger={<Button fluid variant='ghost'>Edit</Button>} /> */}
       </div>
       {/* <MarketcapHistory /> */}
       <div className={styles.right}>
-        {isAuthor && shareLink && (
-          <Share shareLink={shareLink} watchlist={watchlist} />
-        )}
+        <Share
+          shareLink={shareLink}
+          watchlist={watchlist}
+          isAuthor={isAuthor}
+        />
         <Actions
           {...props}
           isLoggedIn={isLoggedIn}
           isAuthor={isAuthor}
-          hasPremium={hasPremium}
+          isPro={isPro}
           watchlist={watchlist}
           name={name}
           id={id}
@@ -44,8 +47,4 @@ const TopPanel = ({
   )
 }
 
-const mapStateToProps = state => ({
-  hasPremium: checkHasPremium(state)
-})
-
-export default connect(mapStateToProps)(TopPanel)
+export default TopPanel

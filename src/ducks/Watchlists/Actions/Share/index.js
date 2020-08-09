@@ -6,9 +6,14 @@ import PublicityToggle from '../ChangeVisibility'
 import ShareModalTrigger from '../../../../components/Share/ShareModalTrigger'
 import styles from './index.module.scss'
 
-const Share = ({ shareLink, watchlist }) => {
+const Share = ({ shareLink, watchlist, isAuthor }) => {
   const [isOpen, setOpen] = useState(false)
   const [isPublic, setIsPublic] = useState(watchlist.isPublic)
+
+  if (!shareLink) {
+    return null
+  }
+
   return isPublic ? (
     <ShareModalTrigger
       shareLink={shareLink}
@@ -19,7 +24,7 @@ const Share = ({ shareLink, watchlist }) => {
         </Button>
       )}
     />
-  ) : (
+  ) : isAuthor ? (
     <Dialog
       title='Share Screener'
       open={isOpen}
@@ -62,7 +67,7 @@ const Share = ({ shareLink, watchlist }) => {
         </div>
       </div>
     </Dialog>
-  )
+  ) : null
 }
 
 export default Share
