@@ -9,3 +9,11 @@
 
   @include text('caption');
 }
+
+.link {
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
