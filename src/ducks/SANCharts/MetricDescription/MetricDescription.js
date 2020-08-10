@@ -24,12 +24,12 @@ const getPrepared = (
 
 const MetricDescription = ({ metric: { key }, project }) => {
   const description = Description[key]
-  const linkItem = AcademyLinks[key]
+  const link = AcademyLinks[key]
 
   return (
     <>
       {getPrepared(description, project)}
-      {linkItem && <MoreInfoLink href={linkItem.link} />}
+      {link && <MoreInfoLink href={link} />}
     </>
   )
 }
