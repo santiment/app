@@ -1,13 +1,13 @@
 import React from 'react'
 import Panel from '@santiment-network/ui/Panel/Panel'
-import metamaskSvg from './../../assets/metamask.svg'
+import Icon from '@santiment-network/ui/Icon'
 import styles from './LoginMetamaskUndetected.module.scss'
 
 const LoginMetamaskUndetected = () => {
   return (
     <Panel className={styles.undetected}>
       <div>
-        <img src={metamaskSvg} alt='metamask' />
+        <Icon type='metamask' className={styles.metamask} />
       </div>
       <div className={styles.info}>
         <h4 className={styles.undetected__title}>We can't detect Metamask!</h4>
