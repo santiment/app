@@ -1,21 +1,17 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import debounce from 'lodash.debounce'
-import Toggle from '@santiment-network/ui/Toggle'
 import Label from '@santiment-network/ui/Label'
 import Input from '@santiment-network/ui/Input'
 import Dialog from '@santiment-network/ui/Dialog'
+import Toggle from '../ChangeVisibility/Toggle'
 import { USER_ADD_NEW_ASSET_LIST } from '../../../../actions/types'
 import styles from './index.module.scss'
 
 const MAX_LENGTH = 3
-
 const NAME_EXISTS_ERROR = 'This name already exists'
-
 const SHORT_NAME_ERROR = `The name should be at least ${MAX_LENGTH} characters`
-
 const BAD_SYMBOLS_ERROR = "Use only letters, numbers, whitespace and _-.'/,"
-
 const ALLOWED_SYMBOLS_REGEXP = /^([.\-/_' ,\w]*)$/
 
 class NewWatchlist extends PureComponent {
@@ -27,14 +23,14 @@ class NewWatchlist extends PureComponent {
     return {
       open: false,
       name: '',
-      isPublic: true
+      isPublic: false
     }
   }
 
   state = {
     open: false,
     name: '',
-    isPublic: true
+    isPublic: false
   }
 
   onToggleClick = () => {
@@ -126,7 +122,6 @@ class NewWatchlist extends PureComponent {
                 className={styles.toggle}
                 onClick={this.onToggleClick}
               />
-              Private
             </div>
           </Dialog.ScrollContent>
           <Dialog.Actions className={styles.actions}>

@@ -29,7 +29,7 @@
 
 .textarea {
   border-radius: $border-radius;
-  margin: 24px 0;
+  margin: 0 0 24px;
   padding: 10px 16px;
   color: var(--rhino);
   background: var(--white);
@@ -45,7 +45,7 @@
   }
 
   &:hover,
- &:focus {
+  &:focus {
     border: 1px solid var(--jungle-green);
   }
 }
@@ -59,4 +59,16 @@
   width: auto;
   margin-left: auto;
   padding-right: 0;
+}
+
+.error {
+  min-height: 22px;
+}
+
+.name__label {
+  margin-bottom: 4px;
+}
+
+.description__label {
+  margin: 8px 0 4px;
 }
