@@ -87,8 +87,7 @@ export const Metric = {
     abbreviation: 'tac',
     fill: true,
     video: 'https://www.youtube.com/watch?v=NZFtYT5QzS4',
-    formatter: value => (value ? millify(value, 2) : 'No data'),
-    moreInfoLink: 'https://academy.santiment.net/metrics/age-consumed/'
+    formatter: value => (value ? millify(value, 2) : 'No data')
   },
   exchange_balance: {
     category: 'On-chain',
@@ -98,7 +97,6 @@ export const Metric = {
     shortLabel: 'Exc. Flow Bal.',
     abbreviation: 'efb',
     video: 'https://www.youtube.com/watch?v=0R6GDF2bg6A',
-    moreInfoLink: 'https://academy.santiment.net/metrics/exchange-funds-flow/',
     formatter: v => millify(v, 2)
   },
   daily_active_addresses: {
@@ -110,18 +108,14 @@ export const Metric = {
     anomalyKey: 'DAILY_ACTIVE_ADDRESSES',
     abbreviation: 'daa',
     video: 'https://www.youtube.com/watch?v=n3dUvWvQEpQ',
-    historicalTriggersDataKey: 'active_addresses',
-    moreInfoLink:
-      'https://academy.santiment.net/metrics/daily-active-addresses/'
+    historicalTriggersDataKey: 'active_addresses'
   },
   percent_of_total_supply_on_exchanges: {
     category: 'On-chain',
     node: 'line',
     group: 'Exchanges',
     label: 'Coin Supply on Exchanges (as % of total supply)',
-    shortLabel: '% TS on Exc.',
-    moreInfoLink:
-      'https://academy.santiment.net/metrics/supply-on-or-outside-exchanges/'
+    shortLabel: '% TS on Exc.'
   },
   topHoldersPercentOfTotalSupply: {
     category: 'On-chain',
@@ -136,8 +130,7 @@ export const Metric = {
     group: 'Network Activity',
     label: 'Circulation',
     shortLabel: 'Circ.',
-    abbreviation: 'tc',
-    moreInfoLink: 'https://academy.santiment.net/metrics/circulation/'
+    abbreviation: 'tc'
   },
   dormant_circulation: {
     category: 'On-chain',
@@ -148,7 +141,6 @@ export const Metric = {
     shortLabel: 'Dorm. Circ.',
     queryKey: 'dormant_circulation_365d',
     isBeta: true,
-    moreInfoLink: 'https://academy.santiment.net/metrics/dormant-circulation/',
     withoutRoot: true
   },
   stock_to_flow: {
@@ -157,8 +149,7 @@ export const Metric = {
     group: 'Network Activity',
     label: 'Stock To Flow',
     shortLabel: 'St. to Fl.',
-    isBeta: true,
-    moreInfoLink: 'https://academy.santiment.net/metrics/stock-to-flow/'
+    isBeta: true
   },
   mvrv_usd: {
     category: 'On-chain',
@@ -168,8 +159,7 @@ export const Metric = {
     fullTitle: 'Market Value To Realized Value',
     shortLabel: 'MVRV',
     abbreviation: 'mvrv',
-    video: 'https://www.youtube.com/watch?v=foMhhHbCgBE',
-    moreInfoLink: 'https://academy.santiment.net/metrics/mvrv/'
+    video: 'https://www.youtube.com/watch?v=foMhhHbCgBE'
   },
   mvrv_long_short_diff_usd: {
     category: 'On-chain',
@@ -188,8 +178,7 @@ export const Metric = {
     group: 'Network Activity',
     label: 'Transaction Volume',
     abbreviation: 'trv',
-    shortLabel: 'Trans. Vol.',
-    moreInfoLink: 'https://academy.santiment.net/metrics/transaction-volume/'
+    shortLabel: 'Trans. Vol.'
   },
   network_growth: {
     category: 'On-chain',
@@ -218,16 +207,14 @@ export const Metric = {
     group: 'Network Activity',
     label: 'Velocity',
     shortLabel: 'Token Vel.',
-    abbreviation: 'tv',
-    moreInfoLink: 'https://academy.santiment.net/metrics/velocity/'
+    abbreviation: 'tv'
   },
   active_deposits: {
     category: 'On-chain',
     node: 'bar',
     label: 'Daily Active Deposits',
     shortLabel: 'Daily A.D.',
-    group: 'Exchanges',
-    moreInfoLink: 'https://academy.santiment.net/metrics/daily-active-deposits/'
+    group: 'Exchanges'
   },
   twitter_followers: {
     category: 'Social',
@@ -274,24 +261,21 @@ export const Metric = {
     shortLabel: 'Mean C.A.',
     abbreviation: 'mca',
     isBeta: true,
-    group: 'Network Value',
-    moreInfoLink: 'https://academy.santiment.net/metrics/transaction-volume/'
+    group: 'Network Value'
   },
   nvt: {
     category: 'On-chain',
     node: 'line',
     group: 'Network Value',
     label: 'NVT Ratio (using Circulation)',
-    shortLabel: 'NVT R. Circ.',
-    moreInfoLink: 'https://academy.santiment.net/metrics/nvt/'
+    shortLabel: 'NVT R. Circ.'
   },
   nvt_transaction_volume: {
     node: 'bar',
     group: 'Network Value',
     label: 'NVT Ratio (Using Transaction Volume) ',
     shortLabel: 'NVT R. T.V.',
-    category: 'On-chain',
-    moreInfoLink: 'https://academy.santiment.net/metrics/nvt/'
+    category: 'On-chain'
   },
   minersBalance: {
     node: 'line',
@@ -314,31 +298,25 @@ export const Metric = {
     node: 'line',
     label: 'Exchange Inflow',
     category: 'On-chain',
-    group: 'Exchanges',
-    moreInfoLink: 'https://academy.santiment.net/metrics/exchange-funds-flow/'
+    group: 'Exchanges'
   },
   exchange_outflow: {
     node: 'line',
     label: 'Exchange Outflow',
     category: 'On-chain',
-    group: 'Exchanges',
-    moreInfoLink: 'https://academy.santiment.net/metrics/exchange-funds-flow/'
+    group: 'Exchanges'
   },
   supply_on_exchanges: {
     node: 'line',
     label: 'Coin Supply on Exchanges',
     category: 'On-chain',
-    group: 'Exchanges',
-    moreInfoLink:
-      'https://academy.santiment.net/metrics/supply-on-or-outside-exchanges/'
+    group: 'Exchanges'
   },
   supply_outside_exchanges: {
     node: 'line',
     label: 'Coin Supply outside of Exchanges',
     category: 'On-chain',
-    group: 'Exchanges',
-    moreInfoLink:
-      'https://academy.santiment.net/metrics/supply-on-or-outside-exchanges/'
+    group: 'Exchanges'
   },
   amount_in_top_holders: {
     node: 'line',

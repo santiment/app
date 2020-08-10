@@ -1,6 +1,11 @@
 @import '~@santiment-network/ui/mixins';
 
+.wrapper {
+  margin-left: 6px;
+}
+
 .link {
+  cursor: pointer;
   color: var(--jungle-green);
 
   &:hover {

@@ -93,7 +93,7 @@ const PriceHistogram = ({
 
       <div className={styles.description}>
         It shows at what price the tokens that were transacted today were last
-        moved.{' '}
+        moved.
         <MoreInfoLink href='https://academy.santiment.net/metrics/spent-coin-cost/' />
         <MetricFrequence
           metric={{
