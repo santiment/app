@@ -29,7 +29,7 @@ const Watchlist = ({ isLoggedIn, ...props }) => {
   }
 
   if (watchlist === null) {
-    return <Watchlist {...props} />
+    return <WatchlistPage {...props} />
   }
 
   const name = getWatchlistName(props)
