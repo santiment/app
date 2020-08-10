@@ -391,8 +391,6 @@ export const App = ({
           render={props => (
             <LoadableProfilePage
               isDesktop={isDesktop}
-              isLoggedIn={isLoggedIn}
-              isUserLoading={isUserLoading}
               location={props.location}
               {...props}
             />
