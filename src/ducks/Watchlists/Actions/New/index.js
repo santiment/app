@@ -118,7 +118,7 @@ class NewWatchlist extends PureComponent {
             </Label>
             <div className={styles.toggleWrapper}>
               <Toggle
-                isActive={!isPublic}
+                isActive={isPublic}
                 className={styles.toggle}
                 onClick={this.onToggleClick}
               />
