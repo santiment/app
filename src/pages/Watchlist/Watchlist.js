@@ -13,10 +13,10 @@ import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/asset
 import GetWatchlistHistory from '../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistHistory/GetWatchlistHistory'
 import WatchlistAnomalies from '../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistAnomalies/WatchlistAnomalies'
 import WatchlistActions from '../../ducks/Watchlists/Widgets/TopPanel/WatchlistActions'
-import styles from '../../ducks/Watchlists/Cards/Watchlist.module.scss'
-import './Assets.css'
+import EditAssets from '../../ducks/Watchlists/Actions/Edit/Trigger'
+import styles from './Watchlist.module.scss'
 
-const AssetsPage = props => {
+const WatchlistPage = props => {
   const [pointer, setPointer] = useState(1)
   const [range, setRange] = useState(RANGES[pointer])
   const [filteredItems, setFilteredItems] = useState(null)
@@ -25,7 +25,6 @@ const AssetsPage = props => {
   const { name } = qs.parse(props.location.search)
   const isList = props.type === 'list'
   const { title, description } = getHelmetTags(isList, name)
-  const { isLoggedIn } = props
 
   const changeRange = () => {
     const newPointer = pointer === RANGES.length - 1 ? 0 : pointer + 1
@@ -74,24 +73,22 @@ const AssetsPage = props => {
 
           return (
             <>
-              <div className='page-head-projects'>
-                <div className='page-head-projects__left'>
-                  <h1 className={styles.heading}>{title}</h1>
+              <div className={styles.top}>
+                <div className={styles.left}>
+                  <h2 className={styles.heading}>{title}</h2>
+                  {isCurrentUserTheAuthor && (
+                    <EditAssets name={title} id={listId} assets={items} />
+                  )}
                 </div>
-                <div className='page-head-projects__right'>
+                <div className={styles.right}>
                   <WatchlistActions
-                    isLoggedIn={isLoggedIn}
                     isDesktop={true}
-                    isList={isList}
-                    listType={props.location.hash}
-                    shareLink={window.location.href + '#shared'}
                     isAuthor={isCurrentUserTheAuthor}
                     id={listId}
                     title={title}
                     items={items}
-                    type={props.type}
-                    location={props.location}
                     isMonitored={isMonitored}
+                    watchlist={props.watchlist}
                   />
                 </div>
               </div>
@@ -146,4 +143,4 @@ const AssetsPage = props => {
   )
 }
 
-export default AssetsPage
+export default WatchlistPage

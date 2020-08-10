@@ -1,33 +1,33 @@
 import React from 'react'
-import { CSVLink } from 'react-csv'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel/Panel'
-import { normalizeCSV } from '../../utils'
-import Delete from '../../Actions/Delete'
-import Edit from '../../Actions/Edit'
-import WeeklyReport from '../../Actions/WeeklyReport'
 import Copy from '../../Actions/Copy'
+import Delete from '../../Actions/Delete'
+import Edit from '../../Actions/Edit/EditAssets'
+import DownloadCSV from '../../Actions/DownloadCSV'
+import WeeklyReport from '../../Actions/WeeklyReport'
 import VisibilityToggle from '../../Actions/ChangeVisibility'
+import { ProLabel } from '../../../../components/ProLabel'
+import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import styles from './WatchlistContextMenu.module.scss'
 
 const WatchlistContextMenu = ({
   isAuthor,
-  assets,
+  items,
   id,
-  hasCSV,
   isDesktop,
   name,
   isMonitored,
   watchlist
 }) => {
-  if (!(isAuthor || hasCSV)) return null
+  const { isPro } = useUserSubscriptionStatus()
 
   return (
     <ContextMenu
       trigger={
-        <Button variant='flat'>
+        <Button variant='flat' className={styles.trigger}>
           <Icon type='dots' />
         </Button>
       }
@@ -45,7 +45,7 @@ const WatchlistContextMenu = ({
           {!isDesktop && isAuthor && (
             <Edit
               id={id}
-              assets={assets}
+              assets={items}
               name={name}
               trigger={
                 <Button variant='ghost' fluid>
@@ -74,16 +74,17 @@ const WatchlistContextMenu = ({
               }
             />
           )}
-          {hasCSV && isDesktop && (
-            <CSVLink
-              data={normalizeCSV(assets)}
-              filename={`${name}.csv`}
-              target='_blank'
+          {isDesktop && (
+            <DownloadCSV
+              name={name}
+              disabled={!isPro}
+              variant='ghost'
+              fluid
+              items={items}
             >
-              <Button variant='ghost' fluid>
-                Download .csv
-              </Button>
-            </CSVLink>
+              Download .csv
+              {!isPro && <ProLabel className={styles.proLabel} />}
+            </DownloadCSV>
           )}
           {isAuthor && (
             <Delete

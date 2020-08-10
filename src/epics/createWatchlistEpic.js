@@ -30,6 +30,7 @@ const createWatchlistEpic = (action$, store, { client }) =>
           createWatchlist: {
             __typename: 'UserList',
             id: +new Date(),
+            description: '',
             isPublic,
             name,
             listItems,

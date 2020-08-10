@@ -1,27 +1,41 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import UIButton from '@santiment-network/ui/Button'
 import { Button, Icon } from '../../Widgets/TopPanel/Actions'
 import PublicityToggle from '../ChangeVisibility'
 import ShareModalTrigger from '../../../../components/Share/ShareModalTrigger'
+import { isDynamicWatchlist } from '../../utils'
 import styles from './index.module.scss'
 
-const Share = ({ shareLink, watchlist }) => {
+const Share = ({ watchlist, isAuthor }) => {
   const [isOpen, setOpen] = useState(false)
   const [isPublic, setIsPublic] = useState(watchlist.isPublic)
+
+  const type = isDynamicWatchlist(watchlist) ? 'screener' : 'watchlist'
+  const shareLink = window.location.href
+
+  useEffect(
+    () => {
+      if (isPublic !== watchlist.isPublic && !isOpen) {
+        setIsPublic(watchlist.isPublic)
+      }
+    },
+    [watchlist.isPublic]
+  )
+
   return isPublic ? (
     <ShareModalTrigger
       shareLink={shareLink}
       trigger={props => (
-        <Button {...props} className={styles.share__btn}>
+        <Button {...props} className={styles.trigger}>
           <Icon type='share' />
           Share
         </Button>
       )}
     />
-  ) : (
+  ) : isAuthor ? (
     <Dialog
-      title='Share Screener'
+      title={`Share ${type}`}
       open={isOpen}
       onClose={() => {
         setIsPublic(watchlist.isPublic)
@@ -29,7 +43,7 @@ const Share = ({ shareLink, watchlist }) => {
       }}
       onOpen={() => setOpen(true)}
       trigger={
-        <Button className={styles.share__btn}>
+        <Button className={styles.trigger}>
           <Icon type='share' />
           Share
         </Button>
@@ -37,8 +51,8 @@ const Share = ({ shareLink, watchlist }) => {
     >
       <div className={styles.content}>
         <p className={styles.text}>
-          To share your screener, please switch it to 'Public' first and press
-          the 'Share Screener' button.
+          {`To share your ${type}, please switch it to 'Public' first and press
+          the 'Share ${type}' button.`}
         </p>
         <div className={styles.actions}>
           <ShareModalTrigger
@@ -50,7 +64,7 @@ const Share = ({ shareLink, watchlist }) => {
                 accent='positive'
                 disabled={!watchlist.isPublic}
               >
-                Share screener
+                {`Share ${type}`}
               </UIButton>
             )}
           />
@@ -62,7 +76,7 @@ const Share = ({ shareLink, watchlist }) => {
         </div>
       </div>
     </Dialog>
-  )
+  ) : null
 }
 
 export default Share

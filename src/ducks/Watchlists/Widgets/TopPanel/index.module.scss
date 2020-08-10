@@ -2,7 +2,7 @@
 
 .wrapper {
   background-color: var(--athens);
-  padding: 12px 32px;
+  padding: 16px 32px;
   margin: 0  0 16px 0;
   display: flex;
   align-items: center;
@@ -12,8 +12,8 @@
 .name {
   @include text('h4');
 
-  margin: 0;
-  display: inline-block;
+  white-space: nowrap;
+  margin: 0 16px 0 0;
 }
 
 .marketcap {
@@ -24,6 +24,11 @@
 }
 
 .right {
+  display: flex;
+  align-items: center;
+}
+
+.left {
   display: flex;
   align-items: center;
 }

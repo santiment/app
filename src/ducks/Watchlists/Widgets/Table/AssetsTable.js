@@ -3,6 +3,8 @@ import ReactTable from 'react-table'
 import cx from 'classnames'
 import Sticky from 'react-stickynode'
 import { connect } from 'react-redux'
+// import PageLoader from '../../../../components/Loader/PageLoader'
+import Skeleton from '../../../../components/Skeleton/Skeleton'
 import 'react-table/react-table.css'
 import {
   ASSETS_FETCH,
@@ -17,7 +19,7 @@ import { COLUMNS, COMMON_SETTINGS, COLUMNS_SETTINGS } from './asset-columns'
 import ScreenerSignalDialog from '../../../Signals/ScreenerSignal/ScreenerSignalDialog'
 import { markedAsShowed } from '../../../SANCharts/SidecarExplanationTooltip'
 import { EXPLANATION_TOOLTIP_MARK } from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
-import '../../../../pages/Projects/ProjectsTable.scss'
+import './ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
 
 export const CustomHeadComponent = ({ children, className, ...rest }) => (
@@ -38,6 +40,14 @@ const CustomNoDataComponent = ({ isLoading }) => {
       className={styles.noData}
       desc="The assets for the filter which you applying weren't found. Check if it's correct or try another filter settings."
     />
+  )
+}
+
+const CustomLoadingComponent = ({ repeat, isLoading }) => {
+  return (
+    <div className={styles.loader}>
+      <Skeleton className={styles.skeleton} show={isLoading} repeat={repeat} />
+    </div>
   )
 }
 
@@ -194,6 +204,12 @@ const AssetsTable = ({
         data={items}
         columns={shownColumns}
         loadingText=''
+        LoadingComponent={() => (
+          <CustomLoadingComponent
+            isLoading={isLoading}
+            repeat={columnsAmount}
+          />
+        )}
         NoDataComponent={() => <CustomNoDataComponent isLoading={isLoading} />}
         TheadComponent={CustomHeadComponent}
         getTdProps={() => ({

@@ -7,6 +7,8 @@ import Label from '@santiment-network/ui/Label'
 import GetAssets, {
   SORT_TYPES
 } from '../../ducks/Watchlists/Widgets/Table/GetAssets'
+import { useWatchlist } from '../../ducks/Watchlists/gql/hooks'
+import { getWatchlistId } from '../../ducks/Watchlists/utils'
 import { RANGES } from '../../ducks/Watchlists/Widgets/WatchlistOverview/constants'
 import { getWatchlistName } from '../../ducks/Watchlists/utils'
 import { addRecentWatchlists, removeRecentWatchlists } from '../../utils/recent'
@@ -33,9 +35,8 @@ const INITIAL_REMAINING_HEIGHT =
 const ROW_HEIGHT = 60
 
 const AssetsMobilePage = props => {
-  const { isLoggedIn } = props
-  const isList = props.type === 'list'
-
+  const id = getWatchlistId(props.location.search)
+  const [watchlist = {}] = useWatchlist({ id })
   const [pointer, setPointer] = useState(1)
   const [range, setRange] = useState(RANGES[pointer])
   const [filteredItems, setFilteredItems] = useState(null)
@@ -136,22 +137,15 @@ const AssetsMobilePage = props => {
                 title={title}
                 backRoute={backRoute}
                 rightActions={
-                  isLoggedIn ? (
-                    <WatchlistActions
-                      isLoggedIn={isLoggedIn}
-                      isDesktop={false}
-                      isList={isList}
-                      listType={props.location.hash}
-                      shareLink={window.location.href + '#shared'}
-                      isAuthor={isCurrentUserTheAuthor}
-                      id={listId}
-                      title={title}
-                      items={items}
-                      type={props.type}
-                      location={props.location}
-                      isMonitored={isMonitored}
-                    />
-                  ) : null
+                  <WatchlistActions
+                    watchlist={watchlist}
+                    isDesktop={false}
+                    isAuthor={isCurrentUserTheAuthor}
+                    id={listId}
+                    title={title}
+                    items={items}
+                    isMonitored={isMonitored}
+                  />
                 }
               />
               {items.length > 0 && (

@@ -1,42 +1,38 @@
 import React from 'react'
-import { connect } from 'react-redux'
-// import BaseActions from './BaseActions'
 // import MarketcapHistory from './MarketcapHistory'
 import Actions from './Actions'
+import BaseActions from './BaseActions'
 import Widgets from './Widgets'
 import Share from '../../Actions/Share'
-import { checkHasPremium } from '../../../../pages/UserSelectors'
+import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import styles from './index.module.scss'
 
-const TopPanel = ({
-  name,
-  id,
-  isLoggedIn,
-  shareLink,
-  watchlist,
-  hasPremium,
-  isAuthor,
-  ...props
-}) => {
+const TopPanel = ({ name, id, watchlist, isAuthor, assets, ...props }) => {
+  const { isPro } = useUserSubscriptionStatus()
+
   return (
     <section className={styles.wrapper}>
-      <div>
+      <div className={styles.left}>
         <h1 className={styles.name}>{name}</h1>
-        {/* <BaseActions hasPremium={hasPremium} /> */}
+        {isAuthor && (
+          <BaseActions
+            isAuthor={isAuthor}
+            isPro={isPro}
+            name={name}
+            id={id}
+            watchlist={watchlist}
+          />
+        )}
       </div>
       {/* <MarketcapHistory /> */}
       <div className={styles.right}>
-        {isAuthor && shareLink && (
-          <Share shareLink={shareLink} watchlist={watchlist} />
-        )}
+        <Share watchlist={watchlist} isAuthor={isAuthor} />
         <Actions
-          {...props}
-          isLoggedIn={isLoggedIn}
           isAuthor={isAuthor}
-          hasPremium={hasPremium}
-          watchlist={watchlist}
           name={name}
           id={id}
+          assets={assets}
+          isPro={isPro}
         />
         <Widgets {...props} />
       </div>
@@ -44,8 +40,4 @@ const TopPanel = ({
   )
 }
 
-const mapStateToProps = state => ({
-  hasPremium: checkHasPremium(state)
-})
-
-export default connect(mapStateToProps)(TopPanel)
+export default TopPanel

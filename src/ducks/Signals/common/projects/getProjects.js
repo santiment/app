@@ -2,7 +2,7 @@ import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
-import { ALL_PROJECTS_FOR_SEARCH_QUERY } from '../../../../pages/Projects/allProjectsGQL'
+import { ALL_PROJECTS_FOR_SEARCH_QUERY } from '../../../Watchlists/gql/allProjectsGQL'
 
 const GetProjects = ({ render, ...props }) => render(props)
 

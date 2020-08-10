@@ -5,9 +5,13 @@
   width: 480px;
 }
 
-.share__btn {
-  margin: 0 6px;
+.trigger {
+  margin: 0 6px 0 0;
   background: inherit;
+
+  &:hover {
+    background: inherit;
+  }
 }
 
 .actions {

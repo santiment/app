@@ -40,10 +40,6 @@ export function isUserDynamicWatchlist (watchlist) {
   return name !== 'empty' && userId === watchlistUserId
 }
 
-export function getSharedWatchlistLink (watchlist) {
-  return getWatchlistLink(watchlist) + '#shared'
-}
-
 export function getWatchlistId (search) {
   const { name: str } = qs.parse(search) || {}
 

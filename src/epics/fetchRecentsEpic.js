@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs'
-import { RECENT_ASSET_QUERY } from '../pages/Projects/allProjectsGQL'
+import { RECENT_ASSET_QUERY } from '../ducks/Watchlists/gql/allProjectsGQL'
 import { WATCHLIST_QUERY } from '../queries/WatchlistGQL'
 import { getRecentAssets, getRecentWatchlists } from '../utils/recent'
 import { handleErrorAndTriggerAction } from './utils'

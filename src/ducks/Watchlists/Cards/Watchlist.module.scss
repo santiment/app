@@ -24,11 +24,10 @@
 }
 
 .heading {
-  font-family: 'Proxima Nova', sans-serif;
-  color: var(--mirage);
-  font-size: 22px;
-  line-height: 30px;
-  font-weight: normal;
+  color: var(--rhino);
+
+  @include text('h4');
+
   margin: 0;
 
   &::first-letter {
@@ -122,11 +121,6 @@
   &__myWatchlists {
     margin: 0;
   }
-}
-
-.overviewInfo {
-  margin: 22px 0 56px;
-  border-right: none;
 }
 
 .newBtn {

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import Select from '@santiment-network/ui/Search/Select/Select'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import { ALL_ERC20_PROJECTS_QUERY } from '../../pages/Projects/allProjectsGQL'
+import { ALL_ERC20_PROJECTS_QUERY } from '../Watchlists/gql/allProjectsGQL'
 import { ASSETS_BY_WALLET_QUERY } from './common/queries'
 import {
   isPossibleEthAddress,

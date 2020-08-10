@@ -3,13 +3,14 @@ import {
   generalData,
   project,
   PROJECT_RECENT_DATA_FRAGMENT
-} from '../pages/Projects/allProjectsGQL'
+} from '../ducks/Watchlists/gql/allProjectsGQL'
 
 export const WATCHLIST_GENERAL_FRAGMENT = gql`
   fragment generalListData on UserList {
     id
     isPublic
     name
+    description
     function
     insertedAt
     isMonitored

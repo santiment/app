@@ -31,14 +31,14 @@ class GetAssets extends Component {
   }
 
   getType = () => {
-    const { search, hash } = this.props.location || {}
+    const { search } = this.props.location || {}
     const { listName, listId } = compose(
       this.getInfoFromListname,
       parsed => parsed.name,
       qs.parse
     )(search)
-    const type =
-      hash === '#shared' ? 'list#shared' : this.props.type || qs.parse(search)
+
+    const type = this.props.type || qs.parse(search)
     return { type, listName, listId }
   }
 

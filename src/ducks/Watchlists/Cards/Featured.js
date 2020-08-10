@@ -1,7 +1,7 @@
 import React from 'react'
 import Card from './WatchlistCard'
 import { useFeaturedWatchlists } from '../gql/hooks'
-import { getSharedWatchlistLink } from '../utils'
+import { getWatchlistLink } from '../utils'
 import { sortById } from '../../../utils/sortMethods'
 
 const Featured = () => {
@@ -15,7 +15,7 @@ const Featured = () => {
             name={watchlist.name}
             skipIndicator
             watchlist={watchlist}
-            to={getSharedWatchlistLink(watchlist)}
+            to={getWatchlistLink(watchlist)}
             {...watchlist}
           />
         )

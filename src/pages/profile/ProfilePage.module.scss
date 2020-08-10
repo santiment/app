@@ -38,24 +38,12 @@
 }
 
 .watchlists {
-  display: flex !important;
-  flex-wrap: wrap;
-  justify-content: space-between;
-
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    width: auto;
-    margin: 0 !important;
+  @include responsive('laptop', 'desktop') {
+    grid-template-columns: 1fr 1fr 1fr !important;
   }
-}
 
-.watchlist {
-  margin-bottom: 24px !important;
-  width: calc(50% - 14px);
-  min-width: 458px;
-
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    min-width: auto;
-    width: 100%;
+  @include responsive('tablet', 'phone') {
+    grid-template-columns: 1fr 1fr !important;
   }
 }
 

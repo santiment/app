@@ -3,13 +3,14 @@ import {
   generalData,
   project,
   PROJECT_RECENT_DATA_FRAGMENT
-} from '../../../pages/Projects/allProjectsGQL'
+} from './allProjectsGQL'
 
 export const WATCHLIST_GENERAL_FRAGMENT = gql`
   fragment generalListData on UserList {
     id
     isPublic
     name
+    description
     function
     insertedAt
     isMonitored
@@ -69,9 +70,15 @@ export const CREATE_WATCHLIST_MUTATION = gql`
   mutation createWatchlist(
     $isPublic: Boolean
     $name: String!
+    $description: String
     $function: json
   ) {
-    createWatchlist(isPublic: $isPublic, name: $name, function: $function) {
+    createWatchlist(
+      isPublic: $isPublic
+      name: $name
+      description: $description
+      function: $function
+    ) {
       ...generalListData
       ...listShortItems
     }
@@ -85,12 +92,14 @@ export const UPDATE_WATCHLIST_MUTATION = gql`
     $id: Int!
     $isPublic: Boolean
     $name: String
+    $description: String
     $function: json
   ) {
     updateWatchlist(
       id: $id
       isPublic: $isPublic
       name: $name
+      description: $description
       function: $function
     ) {
       ...generalListData

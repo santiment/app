@@ -132,7 +132,13 @@ export function useUpdateWatchlist () {
   })
 
   function updateWatchlist (oldWatchlist, newParams) {
-    const { id, isPublic, name, function: oldFunction } = oldWatchlist
+    const {
+      id,
+      isPublic,
+      name,
+      description,
+      function: oldFunction
+    } = oldWatchlist
 
     return mutate({
       variables: {
@@ -140,6 +146,7 @@ export function useUpdateWatchlist () {
         isPublic:
           newParams.isPublic === undefined ? isPublic : newParams.isPublic,
         name: newParams.name || name,
+        description: newParams.description || description,
         function:
           JSON.stringify(newParams.function) || JSON.stringify(oldFunction)
       }

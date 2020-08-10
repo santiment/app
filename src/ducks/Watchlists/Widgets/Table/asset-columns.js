@@ -57,7 +57,7 @@ export const COLUMNS = (preload, props = {}) => [
     id: COLUMNS_NAMES.project,
     heading: 'Project',
     minWidth: 200,
-    maxWidth: 280,
+    maxWidth: 350,
     resizable: true,
     Cell: ({ original }) => {
       const { slug, priceUsd } = original
@@ -261,9 +261,10 @@ export const COLUMNS = (preload, props = {}) => [
     id: COLUMNS_NAMES.marketSegments,
     heading: 'Market Segments',
     accessor: 'marketSegments',
+    minWidth: 205,
     Cell: ({ value: values }) =>
       values ? (
-        <div className={styles.segments}>
+        <div className={cx(styles.segments, 'segments')}>
           {values.map(segment => (
             <Label variant='fill' className={styles.segment} key={segment}>
               {segment}

@@ -1,7 +1,7 @@
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
-  width: 216px;
+  width: 175px;
   display: flex;
   padding: 6px 0;
   flex-direction: column;
@@ -24,6 +24,10 @@
   }
 }
 
+.icon {
+  margin-right: 8px;
+}
+
 .btn {
   justify-content: flex-start;
   align-items: center;
@@ -37,40 +41,41 @@
   }
 }
 
-.btn__csv {
-  padding: 0;
-}
+.trigger {
+  border: 1px solid var(--mystic);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  height: 32px;
 
-.csv {
-  width: 100%;
-  margin: 0;
-}
+  &__text {
+    background: inherit;
+    border-right: 1px solid var(--porcelain);
+    border-radius: 0;
+    padding: 5px 15px;
+    height: 30px;
 
-.icon {
-  margin-right: 9px;
-}
-
-.triggerButton {
-  width: 32px;
-  margin-right: 16px;
-  justify-content: center;
-  background: transparent;
-  position: relative;
-  fill: var(--waterloo);
-
-  &:hover {
-    fill: var(--jungle-green);
+    &:hover {
+      background: inherit;
+    }
   }
 
-  &::before {
-    content: '';
-    position: absolute;
-    display: block;
-    top: 4px;
-    right: -16px;
-    width: 1px;
-    height: 24px;
-    background: var(--porcelain);
+  &__arrow {
+    padding: 13px 12px;
+    fill: var(--waterloo);
+    cursor: pointer;
+    box-sizing: content-box;
+
+    &:active {
+      fill: var(--jungle-green);
+      transform: rotate(180deg);
+      background-color: var(--jungle-green-light-2);
+    }
+
+    &:hover {
+      fill: var(--jungle-green);
+    }
   }
 }
 
@@ -86,4 +91,11 @@
 
 .proLabel {
   margin-left: 8px;
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  background: var(--porcelain);
+  margin: 6px 0;
 }
