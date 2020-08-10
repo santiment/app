@@ -27,9 +27,12 @@ const Trigger = ({ watchlist, name, forwardedRef, isMenuOpened, openMenu }) => (
   <div className={styles.trigger} ref={forwardedRef}>
     <EditForm
       title='Edit screener'
-      defaultValue={name}
-      description={watchlist.description}
-      watchlist={watchlist}
+      onFormSubmit={payload => console.log(payload)}
+      settings={{
+        name,
+        description: watchlist.description,
+        isPublic: watchlist.isPublic
+      }}
       trigger={<UIButton className={styles.trigger__text}>Edit</UIButton>}
     />
     <UIIcon
@@ -71,9 +74,12 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, isPro }) => {
         <Panel variant='modal' className={styles.wrapper}>
           <EditForm
             title='Edit screener'
-            defaultValue={name}
-            description={watchlist.description}
-            watchlist={watchlist}
+            onFormSubmit={payload => console.log(payload)}
+            settings={{
+              name,
+              description: watchlist.description,
+              isPublic: watchlist.isPublic
+            }}
             trigger={
               <Button>
                 <Icon type='edit' />
@@ -83,9 +89,8 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, isPro }) => {
           />
           <EditForm
             title='Save as ...'
-            defaultValue={name}
-            description={watchlist.description}
-            watchlist={watchlist}
+            onFormSubmit={payload => console.log(payload)}
+            settings={{ name, description: watchlist.description }}
             trigger={
               <Button disabled={!isPro}>
                 <Icon type='disk' />
@@ -98,8 +103,7 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, isPro }) => {
           <EditForm
             title='New screener'
             buttonLabel='Create'
-            defaultValue={name}
-            description={watchlist.description}
+            onFormSubmit={payload => console.log(payload)}
             watchlist={watchlist}
             trigger={
               <Button disabled={!isPro}>

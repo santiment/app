@@ -21,7 +21,7 @@ const EditForm = ({
   ...props
 }) => {
   const [isOpen, setOpen] = useState(false)
-  const [formState, setFormState] = useState({ ...defaultSettings })
+  const [formState, setFormState] = useState(defaultSettings)
   const debouncedCheckName = useDebounce(checkName, 300)
 
   function onSubmit (evt) {
@@ -33,7 +33,7 @@ const EditForm = ({
       checkName(name)
     }
 
-    // onFormSubmit({ name, description, isPublic })
+    onFormSubmit({ name, description, isPublic })
   }
 
   function onInputChange ({ currentTarget: { value: name } }) {
@@ -118,7 +118,7 @@ const EditForm = ({
   )
 }
 
-export default ({ settings, ...props }) => (
+export default ({ settings = {}, ...props }) => (
   <EditForm
     {...props}
     defaultSettings={{
