@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import Input from '@santiment-network/ui/Input'
 import Label from '@santiment-network/ui/Label'
-import AutoresizeTextarea from '../../../../components/AutoresizeTextarea'
 // import LoginDialogWrapper from '../../../../components/LoginDialog/LoginDialogWrapper'
 import PublicityToggle from '../ChangeVisibility/Toggle'
 import { useDebounce } from '../../../../hooks/index'
@@ -39,6 +38,10 @@ const EditForm = ({
   function onInputChange ({ currentTarget: { value: name } }) {
     setFormState(state => ({ ...state, name }))
     debouncedCheckName(name)
+  }
+
+  function onTextareaChange ({ currentTarget: { value: description } }) {
+    setFormState(state => ({ ...state, description }))
   }
 
   function onToggleClick (evt) {
@@ -92,10 +95,11 @@ const EditForm = ({
         <Label accent='waterloo' className={styles.description__label}>
           Description (optional)
         </Label>
-        <AutoresizeTextarea
+        <textarea
           className={styles.textarea}
           name='description'
           defaultValue={formState.description || ''}
+          onChange={onTextareaChange}
         />
         <div className={styles.actions}>
           <Dialog.Approve

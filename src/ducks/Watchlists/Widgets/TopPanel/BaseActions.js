@@ -7,7 +7,7 @@ import UIIcon from '@santiment-network/ui/Icon'
 import Delete from '../../Actions/Delete'
 import EditForm from '../../Actions/Edit/EditForm'
 import { ProLabel } from '../../../../components/ProLabel'
-import { useUserScreeners } from '../../gql/hooks'
+import { useUserScreeners, useUpdateWatchlist } from '../../gql/hooks'
 import styles from './BaseActions.module.scss'
 
 export const Icon = ({ className, ...props }) => (
@@ -23,11 +23,18 @@ export const Button = ({ className, ...props }) => (
   />
 )
 
-const Trigger = ({ watchlist, name, forwardedRef, isMenuOpened, openMenu }) => (
+const Trigger = ({
+  watchlist,
+  name,
+  forwardedRef,
+  isMenuOpened,
+  onPrimaryAction,
+  openMenu
+}) => (
   <div className={styles.trigger} ref={forwardedRef}>
     <EditForm
       title='Edit screener'
-      onFormSubmit={payload => console.log(payload)}
+      onFormSubmit={onPrimaryAction}
       settings={{
         name,
         description: watchlist.description,
@@ -53,6 +60,7 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, isPro }) => {
 
   const [isMenuOpened, setIsMenuOpened] = useState(false)
   const [screeners = []] = useUserScreeners()
+  const [updateWatchlist] = useUpdateWatchlist()
 
   return (
     <>
@@ -63,6 +71,9 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, isPro }) => {
             name={name}
             openMenu={() => setIsMenuOpened(true)}
             isMenuOpened={isMenuOpened}
+            onPrimaryAction={payload =>
+              updateWatchlist(watchlist, { ...payload })
+            }
           />
         }
         passOpenStateAs='isActive'
@@ -74,7 +85,7 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, isPro }) => {
         <Panel variant='modal' className={styles.wrapper}>
           <EditForm
             title='Edit screener'
-            onFormSubmit={payload => console.log(payload)}
+            onFormSubmit={payload => updateWatchlist(watchlist, { ...payload })}
             settings={{
               name,
               description: watchlist.description,

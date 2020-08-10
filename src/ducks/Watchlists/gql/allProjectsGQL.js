@@ -4,6 +4,7 @@ export const generalData = gql`
   fragment generalData on Project {
     id
     name
+    description
     slug
     description
     ticker
