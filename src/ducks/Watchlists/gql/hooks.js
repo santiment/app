@@ -132,7 +132,6 @@ export function useUpdateWatchlist () {
   })
 
   function updateWatchlist (oldWatchlist, newParams) {
-    console.log(newParams, oldWatchlist)
     const {
       id,
       isPublic,

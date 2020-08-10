@@ -17,9 +17,10 @@ const EditForm = ({
   isLoading,
   onFormSubmit,
   defaultSettings,
+  open: isOpen,
+  toggleOpen,
   ...props
 }) => {
-  const [isOpen, setOpen] = useState(false)
   const [formState, setFormState] = useState(defaultSettings)
   const debouncedCheckName = useDebounce(checkName, 300)
 
@@ -30,6 +31,10 @@ const EditForm = ({
 
     if (!error) {
       checkName(name)
+    }
+
+    if (error) {
+      return
     }
 
     onFormSubmit({ name, description, isPublic })
@@ -65,8 +70,14 @@ const EditForm = ({
   return (
     <Dialog
       open={isOpen}
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
+      onClose={() => {
+        toggleOpen(false)
+        setFormState({ ...defaultSettings })
+      }}
+      onOpen={() => {
+        toggleOpen(true)
+        setFormState({ ...defaultSettings })
+      }}
       {...props}
       classes={styles}
     >

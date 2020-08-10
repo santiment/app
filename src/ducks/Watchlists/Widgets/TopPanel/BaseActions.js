@@ -8,6 +8,7 @@ import Delete from '../../Actions/Delete'
 import EditForm from '../../Actions/Edit/EditForm'
 import { ProLabel } from '../../../../components/ProLabel'
 import { useUserScreeners, useUpdateWatchlist } from '../../gql/hooks'
+import { notifyUpdate } from './notifications'
 import styles from './BaseActions.module.scss'
 
 export const Icon = ({ className, ...props }) => (
@@ -29,29 +30,39 @@ const Trigger = ({
   forwardedRef,
   isMenuOpened,
   onPrimaryAction,
+  isLoading,
   openMenu
-}) => (
-  <div className={styles.trigger} ref={forwardedRef}>
-    <EditForm
-      title='Edit screener'
-      onFormSubmit={onPrimaryAction}
-      settings={{
-        name,
-        description: watchlist.description,
-        isPublic: watchlist.isPublic
-      }}
-      trigger={<UIButton className={styles.trigger__text}>Edit</UIButton>}
-    />
-    <UIIcon
-      type='arrow-down'
-      className={cx(
-        styles.trigger__arrow,
-        isMenuOpened && styles.trigger__arrow_active
-      )}
-      onClick={openMenu}
-    />
-  </div>
-)
+}) => {
+  const [isEditPopupOpened, setIsEditPopupOpened] = useState(false)
+
+  return (
+    <div className={styles.trigger} ref={forwardedRef}>
+      <EditForm
+        title='Edit screener'
+        onFormSubmit={payload =>
+          onPrimaryAction(payload).then(() => setIsEditPopupOpened(false))
+        }
+        isLoading={isLoading}
+        open={isEditPopupOpened}
+        toggleOpen={setIsEditPopupOpened}
+        settings={{
+          name,
+          description: watchlist.description,
+          isPublic: watchlist.isPublic
+        }}
+        trigger={<UIButton className={styles.trigger__text}>Edit</UIButton>}
+      />
+      <UIIcon
+        type='arrow-down'
+        className={cx(
+          styles.trigger__arrow,
+          isMenuOpened && styles.trigger__arrow_active
+        )}
+        onClick={openMenu}
+      />
+    </div>
+  )
+}
 
 const BaseActions = ({ isAuthor, id, name, assets, watchlist, isPro }) => {
   if (!id) {
@@ -59,8 +70,9 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, isPro }) => {
   }
 
   const [isMenuOpened, setIsMenuOpened] = useState(false)
+  const [isEditPopupOpened, setIsEditPopupOpened] = useState(false)
   const [screeners = []] = useUserScreeners()
-  const [updateWatchlist] = useUpdateWatchlist()
+  const [updateWatchlist, { loading }] = useUpdateWatchlist()
 
   return (
     <>
@@ -70,9 +82,10 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, isPro }) => {
             watchlist={watchlist}
             name={name}
             openMenu={() => setIsMenuOpened(true)}
+            isLoading={loading}
             isMenuOpened={isMenuOpened}
             onPrimaryAction={payload =>
-              updateWatchlist(watchlist, { ...payload })
+              updateWatchlist(watchlist, { ...payload }).then(notifyUpdate)
             }
           />
         }
@@ -85,7 +98,15 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, isPro }) => {
         <Panel variant='modal' className={styles.wrapper}>
           <EditForm
             title='Edit screener'
-            onFormSubmit={payload => updateWatchlist(watchlist, { ...payload })}
+            isLoading={loading}
+            open={isEditPopupOpened}
+            toggleOpen={setIsEditPopupOpened}
+            onFormSubmit={payload =>
+              updateWatchlist(watchlist, { ...payload })
+                .then(() => setIsEditPopupOpened(false))
+                .then(() => setIsMenuOpened(false))
+                .then(notifyUpdate)
+            }
             settings={{
               name,
               description: watchlist.description,
@@ -98,32 +119,32 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, isPro }) => {
               </Button>
             }
           />
-          <EditForm
-            title='Save as ...'
-            onFormSubmit={payload => console.log(payload)}
-            settings={{ name, description: watchlist.description }}
-            trigger={
-              <Button disabled={!isPro}>
-                <Icon type='disk' />
-                Save as
-                {!isPro && <ProLabel className={styles.proLabel} />}
-              </Button>
-            }
-          />
-          <div className={styles.divider} />
-          <EditForm
-            title='New screener'
-            buttonLabel='Create'
-            onFormSubmit={payload => console.log(payload)}
-            watchlist={watchlist}
-            trigger={
-              <Button disabled={!isPro}>
-                <Icon type='plus-round' />
-                New
-                {!isPro && <ProLabel className={styles.proLabel} />}
-              </Button>
-            }
-          />
+          {/* <EditForm */}
+          {/*   title='Save as ...' */}
+          {/*   onFormSubmit={payload => console.log(payload)} */}
+          {/*   settings={{ name, description: watchlist.description }} */}
+          {/*   trigger={ */}
+          {/*     <Button disabled={!isPro}> */}
+          {/*       <Icon type='disk' /> */}
+          {/*       Save as */}
+          {/*       {!isPro && <ProLabel className={styles.proLabel} />} */}
+          {/*     </Button> */}
+          {/*   } */}
+          {/* /> */}
+          {/* <div className={styles.divider} /> */}
+          {/* <EditForm */}
+          {/*   title='New screener' */}
+          {/*   buttonLabel='Create' */}
+          {/*   onFormSubmit={payload => console.log(payload)} */}
+          {/*   watchlist={watchlist} */}
+          {/*   trigger={ */}
+          {/*     <Button disabled={!isPro}> */}
+          {/*       <Icon type='plus-round' /> */}
+          {/*       New */}
+          {/*       {!isPro && <ProLabel className={styles.proLabel} />} */}
+          {/*     </Button> */}
+          {/*   } */}
+          {/* /> */}
           {isAuthor && screeners.length > 1 && (
             <Delete
               title='Do you want to delete this screener?'
