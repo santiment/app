@@ -29,20 +29,6 @@
   color: var(--fiord);
 }
 
-.button {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 8px;
-
-  &__text {
-    margin-left: 8px;
-
-    @include text('body-3');
-  }
-}
-
 .note {
   padding: 8px;
   margin: 9px 0;
