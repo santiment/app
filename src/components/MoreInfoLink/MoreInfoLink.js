@@ -3,7 +3,7 @@ import styles from './MoreInfoLink.module.scss'
 
 const MoreInfoLink = ({ href }) => {
   return (
-    <>
+    <span className={styles.wrapper}>
       More info{' '}
       <a
         target='_blank'
@@ -13,7 +13,7 @@ const MoreInfoLink = ({ href }) => {
       >
         here
       </a>
-    </>
+    </span>
   )
 }
 
