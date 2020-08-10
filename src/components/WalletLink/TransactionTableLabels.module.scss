@@ -1,0 +1,19 @@
+@import '~@santiment-network/ui/mixins';
+
+.label {
+  color: var(--waterloo);
+  background-color: var(--porcelain);
+  border-radius: 2px;
+  padding: 3px 6px;
+  margin-left: 6px;
+
+  @include text('caption');
+}
+
+.link {
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
