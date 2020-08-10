@@ -1,4 +1,6 @@
+import React from 'react'
 import { Filter } from './types'
+import MarketSegments from '../Widget/MarketSegments'
 
 export const Metric = {
   price_usd: {
@@ -147,6 +149,10 @@ export const Metric = {
     label: 'Exchange Flow Balance',
     aggregation: 'sum',
     showTimeRange: true
+  },
+  market_segments: {
+    category: 'Financial',
+    Widget: props => <MarketSegments {...props} />
   }
 }
 
@@ -170,7 +176,8 @@ export const metrics = [
   Metric.exchange_balance,
   Metric.mvrv_usd_30d,
   Metric.mvrv_usd_180d,
-  Metric.mvrv_usd_365d
+  Metric.mvrv_usd_365d,
+  Metric.market_segments
 ]
 
 export const MetricAlias = {

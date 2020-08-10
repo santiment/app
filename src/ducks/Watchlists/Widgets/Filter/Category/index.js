@@ -30,13 +30,17 @@ const Category = ({ title, groups, counter, ...rest }) => {
               {group !== NO_GROUP && (
                 <h3 className={styles.group__title}>{group}</h3>
               )}
-              {groups[group].map(({ item: metric }) => (
-                <FilterMetric
-                  key={metric.label}
-                  baseMetric={metric}
-                  {...rest}
-                />
-              ))}
+              {groups[group].map(({ item: metric }) =>
+                metric.Widget ? (
+                  <metric.Widget {...rest} />
+                ) : (
+                  <FilterMetric
+                    key={metric.label}
+                    baseMetric={metric}
+                    {...rest}
+                  />
+                )
+              )}
             </div>
           ))}
       </div>
