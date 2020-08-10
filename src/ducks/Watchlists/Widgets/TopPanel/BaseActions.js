@@ -28,7 +28,7 @@ const Trigger = ({
   watchlist,
   name,
   forwardedRef,
-  isMenuOpened,
+  isActive,
   onPrimaryAction,
   isLoading,
   openMenu
@@ -52,14 +52,21 @@ const Trigger = ({
         }}
         trigger={<UIButton className={styles.trigger__text}>Edit</UIButton>}
       />
-      <UIIcon
-        type='arrow-down'
+      <div
         className={cx(
-          styles.trigger__arrow,
-          isMenuOpened && styles.trigger__arrow_active
+          styles.trigger__arrowBtn,
+          isActive && styles.trigger__arrowBtn_active
         )}
         onClick={openMenu}
-      />
+      >
+        <UIIcon
+          type='arrow-down'
+          className={cx(
+            styles.trigger__arrow,
+            isActive && styles.trigger__arrow_active
+          )}
+        />
+      </div>
     </div>
   )
 }
@@ -83,7 +90,6 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, isPro }) => {
             name={name}
             openMenu={() => setIsMenuOpened(true)}
             isLoading={loading}
-            isMenuOpened={isMenuOpened}
             onPrimaryAction={payload =>
               updateWatchlist(watchlist, { ...payload }).then(notifyUpdate)
             }
