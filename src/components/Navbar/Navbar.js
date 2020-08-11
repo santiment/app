@@ -43,13 +43,19 @@ const leftLinks = [
     href: 'https://insights.santiment.net/',
     children: 'Insights',
     as: ExternalLink,
-    Dropdown: InsightsDropdown
+    Dropdown: InsightsDropdown,
+    ddParams: {
+      position: 'start'
+    }
   },
   {
     to: '/assets',
     children: 'Market',
     as: Link,
-    Dropdown: NavbarAssetsDropdown
+    Dropdown: NavbarAssetsDropdown,
+    ddParams: {
+      position: 'start'
+    }
   },
   {
     to: '/feed',
