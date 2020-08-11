@@ -6,6 +6,7 @@
   display: flex;
   justify-content: center;
   margin: 16px 2px 0;
+  background: none !important;
 }
 
 .wrapper {
@@ -29,4 +30,8 @@
 .btnInText {
   padding: 0 2px;
   height: auto;
+}
+
+.proLabel {
+  margin-left: 8px;
 }
