@@ -12,14 +12,12 @@ const OPENED_GROUP = {
   Tags: true
 }
 
-const ALL_INSIGHTS_TOGGLE = {
-  key: 'all',
-  label: 'Recent 100 Insights'
-}
-
 const NO_GROUP_ITEMS = [
   {
-    item: ALL_INSIGHTS_TOGGLE
+    item: {
+      key: 'all',
+      label: 'Recent 100 Insights'
+    }
   },
   {
     item: {
@@ -118,7 +116,7 @@ const InsightAlertSelector = ({ widgets, categories = {}, slug, project }) => {
 
   useEffect(() => {
     const widget = widgets[0]
-    toggleInsight(ALL_INSIGHTS_TOGGLE)
+    toggleInsight(toggle)
     if (widget) {
       widget.chartRef.current.canvas.scrollIntoView({ block: 'center' })
     }
