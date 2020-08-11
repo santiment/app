@@ -1,5 +1,17 @@
 @import '~@santiment-network/ui/mixins';
 
+.wrapper {
+  min-width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader {
+  height: 22px;
+  width: 60px;
+}
+
 .text {
   @include text('caption');
 
