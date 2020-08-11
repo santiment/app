@@ -176,8 +176,8 @@ export const metrics = [
   Metric.exchange_balance,
   Metric.mvrv_usd_30d,
   Metric.mvrv_usd_180d,
-  Metric.mvrv_usd_365d,
-  Metric.market_segments
+  Metric.mvrv_usd_365d
+  // Metric.market_segments
 ]
 
 export const MetricAlias = {

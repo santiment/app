@@ -6,7 +6,9 @@ import UIButton from '@santiment-network/ui/Button'
 import UIIcon from '@santiment-network/ui/Icon'
 import Delete from '../../Actions/Delete'
 import EditForm from '../../Actions/Edit/EditForm'
-// import { ProLabel } from '../../../../components/ProLabel'
+import SaveAs from '../../Actions/SaveAs'
+import New from '../../Actions/New/NewScreener'
+import { ProLabel } from '../../../../components/ProLabel'
 import { useUserScreeners, useUpdateWatchlist } from '../../gql/hooks'
 import { notifyUpdate } from './notifications'
 import styles from './BaseActions.module.scss'
@@ -125,32 +127,28 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, isPro }) => {
               </Button>
             }
           />
-          {/* <EditForm */}
-          {/*   title='Save as ...' */}
-          {/*   onFormSubmit={payload => console.log(payload)} */}
-          {/*   settings={{ name, description: watchlist.description }} */}
-          {/*   trigger={ */}
-          {/*     <Button disabled={!isPro}> */}
-          {/*       <Icon type='disk' /> */}
-          {/*       Save as */}
-          {/*       {!isPro && <ProLabel className={styles.proLabel} />} */}
-          {/*     </Button> */}
-          {/*   } */}
-          {/* /> */}
-          {/* <div className={styles.divider} /> */}
-          {/* <EditForm */}
-          {/*   title='New screener' */}
-          {/*   buttonLabel='Create' */}
-          {/*   onFormSubmit={payload => console.log(payload)} */}
-          {/*   watchlist={watchlist} */}
-          {/*   trigger={ */}
-          {/*     <Button disabled={!isPro}> */}
-          {/*       <Icon type='plus-round' /> */}
-          {/*       New */}
-          {/*       {!isPro && <ProLabel className={styles.proLabel} />} */}
-          {/*     </Button> */}
-          {/*   } */}
-          {/* /> */}
+          <SaveAs
+            onSubmit={() => setIsMenuOpened(false)}
+            watchlist={watchlist}
+            trigger={
+              <Button disabled={!isPro}>
+                <Icon type='disk' />
+                Save as
+                {!isPro && <ProLabel className={styles.proLabel} />}
+              </Button>
+            }
+          />
+          <div className={styles.divider} />
+          <New
+            onSubmit={() => setIsMenuOpened(false)}
+            trigger={
+              <Button disabled={!isPro}>
+                <Icon type='plus-round' />
+                New
+                {!isPro && <ProLabel className={styles.proLabel} />}
+              </Button>
+            }
+          />
           {isAuthor && screeners.length > 1 && (
             <Delete
               title='Do you want to delete this screener?'
