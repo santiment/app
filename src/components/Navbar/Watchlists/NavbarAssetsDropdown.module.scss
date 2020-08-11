@@ -9,7 +9,7 @@
 .block {
   flex: 1;
   width: 280px;
-  padding: 24px 16px 24px;
+  padding: 24px 22px;
 }
 
 .block + .block {
@@ -22,7 +22,7 @@
   color: var(--waterloo);
   display: flex;
   justify-content: space-between;
-  margin: 0 0 8px 8px;
+  margin: 0 0 8px 10px;
 }
 
 .list {
