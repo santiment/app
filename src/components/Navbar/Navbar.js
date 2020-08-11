@@ -7,7 +7,7 @@ import Button from '@santiment-network/ui/Button'
 import Search from './../Search/SearchContainer'
 import SmoothDropdown from '../SmoothDropdown/SmoothDropdown'
 import SmoothDropdownItem from '../SmoothDropdown/SmoothDropdownItem'
-import NavbarHelpDropdown from './NavbarHelpDropdown'
+import NavbarHelpDropdown from './Academy/NavbarHelpDropdown'
 import NavbarProfileDropdown from './NavbarProfileDropdown'
 import NavbarAssetsDropdown from './Watchlists/NavbarAssetsDropdown'
 import NavbarChartsDropdown from './ChartLayouts/NavbarChartsDropdown'
@@ -43,13 +43,19 @@ const leftLinks = [
     href: 'https://insights.santiment.net/',
     children: 'Insights',
     as: ExternalLink,
-    Dropdown: InsightsDropdown
+    Dropdown: InsightsDropdown,
+    ddParams: {
+      position: 'start'
+    }
   },
   {
     to: '/assets',
     children: 'Market',
     as: Link,
-    Dropdown: NavbarAssetsDropdown
+    Dropdown: NavbarAssetsDropdown,
+    ddParams: {
+      position: 'start'
+    }
   },
   {
     to: '/feed',

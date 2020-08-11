@@ -61,20 +61,31 @@
     }
   }
 
-  &__arrow {
+  &__arrowBtn {
     padding: 13px 12px;
-    fill: var(--waterloo);
     cursor: pointer;
-    box-sizing: content-box;
-
-    &:active {
-      fill: var(--jungle-green);
-      transform: rotate(180deg);
-      background-color: var(--jungle-green-light-2);
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    fill: var(--waterloo);
+    transition: background-color 0.2s ease-in-out;
 
     &:hover {
       fill: var(--jungle-green);
+    }
+
+    &_active {
+      fill: var(--jungle-green);
+      background-color: var(--jungle-green-light-2);
+    }
+  }
+
+  &__arrow {
+    box-sizing: content-box;
+    transition: transform 0.2s ease-in-out;
+
+    &_active {
+      transform: rotate(180deg);
     }
   }
 }

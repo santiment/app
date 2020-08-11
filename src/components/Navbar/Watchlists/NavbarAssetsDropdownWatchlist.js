@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import WatchlistsAnon from '../../../ducks/Watchlists/Templates/Anon/WatchlistsAnon'
-import NewBtn from '../../../ducks/Watchlists/Actions/New/NewBtn'
-import NewWatchlist from '../../../ducks/Watchlists/Actions/New'
+import WatchlistsEmptySection from './WatchlistsEmptySection'
+import CreateWatchlistBtn from './CreateWatchlistBtn'
 import { getWatchlistLink } from '../../../ducks/Watchlists/utils'
 import { VisibilityIndicator } from '../../VisibilityIndicator'
 import { useUserWatchlists } from '../../../ducks/Watchlists/gql/hooks'
@@ -23,24 +23,21 @@ const NavbarAssetsDropdownWatchlist = ({
   const [watchlists, loading] = useUserWatchlists()
   const isLoading = loading || isLoggedInPending
 
-  return isLoading ? (
-    <Loader className={styles.loader} />
-  ) : isLoggedIn ? (
-    <>
-      {watchlists.length === 0 ? (
-        <EmptySection watchlists={watchlists} />
-      ) : (
-        <>
-          <WatchlistList watchlists={watchlists} activeLink={activeLink} />
-          <NewWatchlist
-            trigger={<NewBtn border className={styles.watchlistNew} />}
-            watchlists={watchlists}
-          />
-        </>
-      )}
-    </>
+  if (isLoading) {
+    return <Loader className={styles.loader} />
+  }
+
+  if (!isLoggedIn) {
+    return <WatchlistsAnon className={styles.anon} />
+  }
+
+  return watchlists.length === 0 ? (
+    <WatchlistsEmptySection watchlists={watchlists} />
   ) : (
-    <WatchlistsAnon className={styles.anon} />
+    <>
+      <WatchlistList watchlists={watchlists} activeLink={activeLink} />
+      <CreateWatchlistBtn watchlists={watchlists} />
+    </>
   )
 }
 
@@ -65,23 +62,6 @@ const WatchlistList = ({ watchlists, activeLink }) => (
         )
       })}
     </div>
-  </div>
-)
-
-const EmptySection = ({ watchlists }) => (
-  <div className={styles.emptyWrapper}>
-    <span>
-      <NewWatchlist
-        trigger={
-          <Button accent='positive' className={styles.createBtn}>
-            Create
-          </Button>
-        }
-        watchlists={watchlists}
-      />
-      your own watchlist to track
-    </span>
-    <span>assets you are interested in</span>
   </div>
 )
 

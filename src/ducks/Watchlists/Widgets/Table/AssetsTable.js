@@ -146,7 +146,10 @@ const AssetsTable = ({
 
   return (
     <div className={classes.container} id='table'>
-      <div className={styles.top} id='tableTop'>
+      <div
+        className={cx(styles.top, isFilterOpened && styles.top__filterView)}
+        id='tableTop'
+      >
         {filterType ? (
           <span>Showed based on {filterType} anomalies</span>
         ) : (

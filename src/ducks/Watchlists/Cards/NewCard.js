@@ -1,13 +1,13 @@
 import React from 'react'
 import cx from 'classnames'
 import { NavLink as Link } from 'react-router-dom'
-import { connect } from 'react-redux'
 import NewWatchlist from '../Actions/New'
 import { ProLabel } from '../../../components/ProLabel'
 import LoginDialogWrapper from '../../../components/LoginDialog/LoginDialogWrapper'
 import { useUserWatchlists, useUserScreeners } from '../gql/hooks'
+import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
+import NewScreener from '../Actions/New/NewScreener'
 import { Plus } from '../../../components/Illustrations/Plus'
-import { checkHasPremium } from '../../../pages/UserSelectors'
 import styles from './WatchlistCard.module.scss'
 
 const Trigger = ({ type, showProBanner, ...props }) => {
@@ -29,7 +29,8 @@ const Trigger = ({ type, showProBanner, ...props }) => {
   )
 }
 
-const NewCard = ({ type = 'watchlist', hasPremium }) => {
+const NewCard = ({ type = 'watchlist' }) => {
+  const { isPro } = useUserSubscriptionStatus()
   let lists = []
 
   if (type === 'watchlist') {
@@ -40,7 +41,7 @@ const NewCard = ({ type = 'watchlist', hasPremium }) => {
     lists = screeners
   }
 
-  const showProBanner = type === 'screener' && !hasPremium
+  const showProBanner = type === 'screener' && !isPro
 
   return (
     <LoginDialogWrapper
@@ -59,6 +60,8 @@ const NewCard = ({ type = 'watchlist', hasPremium }) => {
         <Link to='/pricing'>
           <Trigger showProBanner type={type} />
         </Link>
+      ) : type === 'screener' ? (
+        <NewScreener trigger={<Trigger type={type} />} />
       ) : (
         <NewWatchlist
           watchlists={lists}
@@ -70,8 +73,4 @@ const NewCard = ({ type = 'watchlist', hasPremium }) => {
   )
 }
 
-const mapStateToProps = state => ({
-  hasPremium: checkHasPremium(state)
-})
-
-export default connect(mapStateToProps)(NewCard)
+export default NewCard

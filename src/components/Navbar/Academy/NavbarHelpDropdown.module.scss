@@ -1,7 +1,7 @@
 @import '~@santiment-network/ui/mixins.scss';
 
 .wrapper {
-  width: 360px;
+  width: 320px;
   color: var(--fiord);
 }
 
@@ -9,7 +9,17 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 24px 14px 16px;
+  padding: 18px 24px 16px;
+  color: var(--rhino);
+  border-bottom: 1px solid var(--porcelain);
+}
+
+.list {
+  padding: 12px 14px;
+}
+
+.item {
+  padding: 6px 10px;
 }
 
 .link {
@@ -31,12 +41,20 @@
 .contact {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  padding: 16px 24px 24px;
+  align-items: flex-start;
+  padding: 24px 24px 20px;
+  background-color: var(--athens);
+  background-image: url(./boxes.svg);
+  background-repeat: no-repeat;
+  background-position: 100% 100%;
 
   &__title {
-    margin-bottom: 16px;
-    color: var(--waterloo);
+    margin-bottom: 12px;
+    color: var(--fiord);
   }
+}
+
+.btn {
+  padding: 6px 16px;
 }

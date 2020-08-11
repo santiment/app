@@ -16,13 +16,23 @@ const createWatchlistEpic = (action$, store, { client }) =>
     .ofType(actions.USER_ADD_NEW_ASSET_LIST)
     .debounceTime(200)
     .mergeMap(action => {
-      const { name, isPublic = false, type, listItems = [] } = action.payload
-      const watchlistFunction = JSON.stringify(DEFAULT_SCREENER_FUNCTION)
+      const {
+        name,
+        isPublic = false,
+        type,
+        listItems = [],
+        function: payloadFunction,
+        description = ''
+      } = action.payload
+      const watchlistFunction = JSON.stringify(
+        payloadFunction || DEFAULT_SCREENER_FUNCTION
+      )
       const mutationPromise = client.mutate({
         mutation: CREATE_WATCHLIST_MUTATION,
         variables: {
           name,
           isPublic,
+          description,
           function: type === 'screener' ? watchlistFunction : undefined
         },
         optimisticResponse: {
