@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import React, { useEffect, useMemo, useCallback } from 'react'
 import cx from 'classnames'
 import queryString from 'query-string'
 import { withRouter } from 'react-router-dom'
@@ -16,7 +16,6 @@ const Widgets = ({
   location
 }) => {
   const { priceToggle, togglePriceTreeMap } = togglers
-  const [isOpen, setOpen] = useState(false)
   const parsedUrl = useMemo(() => queryString.parse(location.search), [
     location.search
   ])
@@ -60,18 +59,8 @@ const Widgets = ({
     [parsedUrl]
   )
 
-  useEffect(
-    () => {
-      setTimeout(() => setOpen(false), 300)
-    },
-    [togglers]
-  )
-
   return (
     <ContextMenu
-      open={isOpen}
-      onOpen={() => setOpen(true)}
-      onClose={() => setOpen(false)}
       trigger={
         <Button variant='flat' className={styles.triggerButton}>
           <Icon type='view-option' />

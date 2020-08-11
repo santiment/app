@@ -1,8 +1,7 @@
 import React from 'react'
-import { compose } from 'recompose'
-import { graphql } from 'react-apollo'
 import { Redirect } from 'react-router-dom'
 import cx from 'classnames'
+import { useQuery } from '@apollo/react-hooks'
 import ProfileInfo, { ShareProfile } from './info/ProfileInfo'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import PageLoader from '../../components/Loader/PageLoader'
@@ -14,8 +13,16 @@ import { updateCurrentUserQueryCache } from './follow/FollowBtn'
 import { useUser } from '../../stores/user'
 import styles from './ProfilePage.module.scss'
 
+export const usePublicUserData = variables => {
+  const { data, loading, error } = useQuery(PUBLIC_USER_DATA_QUERY, {
+    variables: variables
+  })
+
+  return { data: data ? data.getUser : undefined, loading, error }
+}
+
 const getQueryVariables = ({
-  currentUser,
+  currentUserId,
   location,
   match: { params: { id } = {} } = {}
 }) => {
@@ -29,16 +36,25 @@ const getQueryVariables = ({
     }
   }
 
-  if (!variables.userId && !variables.username && currentUser.id) {
-    variables = { userId: currentUser.id }
+  if (!variables.userId && !variables.username && currentUserId) {
+    variables = { userId: currentUserId }
   }
 
   return variables
 }
 
 const ProfilePage = props => {
-  const { user } = useUser()
-  const { profile, isLoading, isLoggedIn, isUserLoading, history } = props
+  const { user = {}, loading: isUserLoading, isLoggedIn } = useUser()
+  const { history } = props
+
+  const newProps = {
+    ...props,
+    currentUserId: user ? user.id : undefined
+  }
+
+  const { loading: isLoading, data: profile } = usePublicUserData(
+    getQueryVariables(newProps)
+  )
 
   if (isUserLoading || isLoading) {
     return <PageLoader />
@@ -57,7 +73,7 @@ const ProfilePage = props => {
   }
 
   function updateCache (cache, queryData) {
-    const queryVariables = getQueryVariables(props)
+    const queryVariables = getQueryVariables(newProps)
     updateCurrentUserQueryCache(
       cache,
       queryData,
@@ -86,21 +102,8 @@ const ProfilePage = props => {
   )
 }
 
-const enhance = compose(
-  graphql(PUBLIC_USER_DATA_QUERY, {
-    options: props => ({
-      variables: getQueryVariables(props)
-    }),
-    props: ({ data: { getUser, loading, error } }) => ({
-      profile: getUser,
-      isLoading: loading,
-      isError: error
-    })
-  })
-)
-
 const NoProfileData = () => {
   return "User does't exist"
 }
 
-export default enhance(ProfilePage)
+export default ProfilePage
