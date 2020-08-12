@@ -81,8 +81,14 @@ const ProjectsTreeMap = ({
               content={<CustomizedContent dataKey={key} />}
             >
               <Tooltip
+                offset={5}
+                allowEscapeViewBox={{
+                  x: false,
+                  y: true
+                }}
                 content={
                   <ProjectsChartTooltip
+                    className={styles.treemapTooltip}
                     labelFormatter={(value, payload) => {
                       const data = payload[0]
                       if (data.payload) {
