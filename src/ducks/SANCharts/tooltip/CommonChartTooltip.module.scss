@@ -21,10 +21,10 @@
 }
 
 .title {
-  color: var(--waterloo);
-  background: var(--athens);
+  color: var(--rhino);
   padding: 8px 14px;
   border-bottom: 1px solid var(--porcelain);
+  background: var(--bgcolor, var(--athens));
 
   @include text('caption');
 
