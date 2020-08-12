@@ -1,79 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { ResponsiveContainer, Tooltip, Treemap } from 'recharts'
 import Range from '../WatchlistOverview/Range'
-import { getSorter, useProjectRanges } from './ProjectsChart'
-import { formatNumber } from '../../../../utils/formatting'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
-import ChartTooltip from '../../../SANCharts/tooltip/CommonChartTooltip'
-import ColorsExplanation, {
-  COLOR_MAPS,
-  getTreeMapColor
-} from './ColorsExplanation'
+import { ProjectsChartTooltip } from '../../../SANCharts/tooltip/CommonChartTooltip'
+import ColorsExplanation, { COLOR_MAPS } from './ColorsExplanation'
 import NoDataCharts from './NoDataCharts'
 import ScreenerChartTitle from './ScreenerChartTitle'
+import { useProjectRanges, useWithColors } from './hooks'
+import {
+  formatProjectTreeMapValue,
+  getFontSize,
+  getSorter,
+  getTooltipLabels,
+  getWordLength,
+  RANGES
+} from './utils'
 import styles from './ProjectsChart.module.scss'
-
-const RANGES = [
-  {
-    label: '1h',
-    key: 'percentChange1h'
-  },
-  {
-    label: '24h',
-    key: 'percentChange24h'
-  },
-  {
-    label: '7d',
-    key: 'percentChange7d'
-  }
-]
-
-const getWordLength = (fontSize, word) => (fontSize - 3) * word.length + 8
-
-export const formatProjectTreeMapValue = val =>
-  val
-    ? formatNumber(val, {
-      maximumFractionDigits: 2,
-      directionSymbol: true
-    }) + '%'
-    : null
-
-const getFontSize = (index, length) => {
-  if (index < length * 0.05) {
-    return 16
-  } else if (index < length * 0.1) {
-    return 12
-  } else if (index < length * 0.2) {
-    return 10
-  } else {
-    return 8
-  }
-}
-
-const mapToColors = (data, key) => {
-  return data.map(item => {
-    const value = +item[key]
-    const color = getTreeMapColor(value)
-    return {
-      ...item,
-      color
-    }
-  })
-}
-
-const useWithColors = (data, key) => {
-  const [result, setResult] = useState([])
-
-  useEffect(
-    () => {
-      const sorted = data.sort(getSorter(key))
-      setResult(mapToColors(sorted, key))
-    },
-    [data.length, key]
-  )
-
-  return result
-}
 
 const MARKETCAP_USD_SORTER = getSorter('marketcapUsd')
 
@@ -140,20 +82,15 @@ const ProjectsTreeMap = ({
             >
               <Tooltip
                 content={
-                  <ChartTooltip
+                  <ProjectsChartTooltip
+                    classes={styles}
                     labelFormatter={(value, payload) => {
                       const data = payload[0]
                       if (data.payload) {
-                        return data.payload.ticker
+                        return `${data.payload.name} ${data.payload.ticker}`
                       }
                     }}
-                    showValueLabel={false}
-                    valueFormatter={({ payload }) => {
-                      const data = payload[0]
-                      if (data.payload) {
-                        return data.payload[key] + '%'
-                      }
-                    }}
+                    payloadLabels={getTooltipLabels(key)}
                   />
                 }
               />
