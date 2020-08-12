@@ -140,10 +140,12 @@ export const ALL_PROJECTS_PRICE_CHANGES_QUERY = gql`
     allProjects {
       slug
       ticker
+      name
       percentChange1h
       percentChange24h
       percentChange7d
       marketcapUsd
+      priceUsd
     }
   }
 `

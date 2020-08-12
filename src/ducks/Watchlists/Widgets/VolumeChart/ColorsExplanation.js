@@ -4,11 +4,11 @@ import styles from './ColorsExplanation.module.scss'
 
 const TREEMAP_COLORS = [
   'var(--jungle-green)',
-  '#89E1C9',
-  '#DCF6EF',
+  'var(--jungle-green-light-3)',
+  'var(--jungle-green-light-2)',
   'var(--mystic)',
-  '#FFE6E6',
-  '#EFA7A7',
+  'var(--persimmon-light)',
+  'var(--persimmon-light-2)',
   'var(--persimmon)'
 ]
 

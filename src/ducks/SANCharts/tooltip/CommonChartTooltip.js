@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import cx from 'classnames'
 import { tooltipLabelFormatter, tooltipValueFormatter } from '../utils'
 import { TooltipSetting } from '../../dataHub/tooltipSettings'
@@ -14,7 +14,8 @@ const ChartTooltip = ({
   hideItem,
   withLabel = true,
   showValueLabel = true,
-  events
+  events,
+  classes = {}
 }) => {
   const payload = hideItem
     ? initialPayload.filter(({ dataKey }) => !hideItem(dataKey))
@@ -30,7 +31,9 @@ const ChartTooltip = ({
     payload.length > 0 && (
       <div className={cx(styles.details, className)}>
         {withLabel && (
-          <div className={styles.title}>{labelFormatter(label, payload)}</div>
+          <div className={cx(styles.title, classes.tooltipHeader)}>
+            {labelFormatter(label, payload)}
+          </div>
         )}
         <div className={styles.content}>
           {payload.map((p, index) => {
@@ -70,6 +73,48 @@ const ChartTooltip = ({
                   </span>
                 )}
               </div>
+            )
+          })}
+        </div>
+      </div>
+    )
+  )
+}
+
+export const ProjectsChartTooltip = ({
+  labelFormatter = tooltipLabelFormatter,
+  payloadLabels = [],
+  className,
+  active,
+  payload = [],
+  label,
+  classes = {}
+}) => {
+  return (
+    active &&
+    payload &&
+    payload.length > 0 && (
+      <div className={cx(styles.details, styles.strict, className)}>
+        <div className={cx(styles.title, classes.tooltipHeader)}>
+          {labelFormatter(label, payload)}
+        </div>
+        <div className={styles.content}>
+          {payload.map((p, index) => {
+            const { key, dataKey = key, payload: original } = p
+
+            return (
+              <Fragment key={dataKey || index}>
+                {payloadLabels.map(({ key: labelKey, label, formatter }) => {
+                  return (
+                    <div key={labelKey} className={styles.row}>
+                      <span className={styles.key}>{label}</span>
+                      <span className={styles.value}>
+                        {formatter(original[labelKey])}
+                      </span>
+                    </div>
+                  )
+                })}
+              </Fragment>
             )
           })}
         </div>

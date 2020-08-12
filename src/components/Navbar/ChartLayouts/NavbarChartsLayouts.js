@@ -37,28 +37,26 @@ const NavbarChartsLayouts = () => {
 
 const LayoutsList = ({ templates, activeLink }) => (
   <div className={styles.wrapper}>
-    <div className={styles.list}>
-      {templates.map(template => {
-        const link = prepareTemplateLink(template)
+    {templates.map(template => {
+      const link = prepareTemplateLink(template)
 
-        const { title, id, isPublic } = template
+      const { title, id, isPublic } = template
 
-        return (
-          <Button
-            fluid
-            variant='ghost'
-            key={id}
-            as={Link}
-            className={styles.item}
-            to={link}
-            isActive={activeLink === link}
-          >
-            <span>{title}</span>
-            <VisibilityIndicator isPublic={isPublic} />
-          </Button>
-        )
-      })}
-    </div>
+      return (
+        <Button
+          fluid
+          variant='ghost'
+          key={id}
+          as={Link}
+          className={styles.item}
+          to={link}
+          isActive={activeLink === link}
+        >
+          <span>{title}</span>
+          <VisibilityIndicator isPublic={isPublic} />
+        </Button>
+      )
+    })}
   </div>
 )
 

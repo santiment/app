@@ -9,9 +9,8 @@ import GetAssets from '../../ducks/Watchlists/Widgets/Table/GetAssets'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table/AssetsTable'
 import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/asset-columns'
 import ProjectsTreeMap from '../../ducks/Watchlists/Widgets/VolumeChart/ProjectsTreeMap'
-import ProjectsChart, {
-  RANGES
-} from '../../ducks/Watchlists/Widgets/VolumeChart/ProjectsChart'
+import ProjectsChart from '../../ducks/Watchlists/Widgets/VolumeChart/ProjectsChart'
+import { RANGES } from '../../ducks/Watchlists/Widgets/VolumeChart/utils'
 import styles from './Screener.module.scss'
 
 const Screener = props => {
