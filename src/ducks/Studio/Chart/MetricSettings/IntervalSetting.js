@@ -32,15 +32,16 @@ const IntervalSetting = ({
   const interval = useMemo(
     () => {
       const settings = widget.MetricSettingMap.get(metric)
-      return settings ? settings.interval : chartInterval
+      const interval = settings && settings.interval
+      return interval || chartInterval
     },
     [widget.MetricSettingMap]
   )
 
   useEffect(
     () => {
-      if (isOpened) {
-        const btn = activeRef.current
+      const btn = activeRef.current
+      if (isOpened && btn) {
         const { parentNode } = btn
 
         // NOTE: .scrollIntoView also scrolls the window viewport [@vanguard | Aug 12, 2020]
@@ -59,16 +60,22 @@ const IntervalSetting = ({
   }
 
   function onChange (newInterval) {
-    const newMap = new Map()
+    if (newInterval === chartInterval) {
+      const newMap = new Map(widget.MetricSettingMap)
+      delete newMap.get(metric).interval
+      widget.MetricSettingMap = newMap
+    } else {
+      const newMap = new Map()
 
-    newMap.set(metric, {
-      interval: newInterval
-    })
+      newMap.set(metric, {
+        interval: newInterval
+      })
 
-    widget.MetricSettingMap = mergeMetricSettingMap(
-      widget.MetricSettingMap,
-      newMap
-    )
+      widget.MetricSettingMap = mergeMetricSettingMap(
+        widget.MetricSettingMap,
+        newMap
+      )
+    }
 
     closeMenu()
     rerenderWidgets()
