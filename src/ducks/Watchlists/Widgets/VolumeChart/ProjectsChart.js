@@ -17,10 +17,15 @@ import { ProjectsChartTooltip } from '../../../SANCharts/tooltip/CommonChartTool
 import Range from '../WatchlistOverview/Range'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
 import NoDataCharts from './NoDataCharts'
-import { formatNumber } from '../../../../utils/formatting'
 import ScreenerChartTitle from './ScreenerChartTitle'
 import { useProjectRanges } from './hooks'
-import { getBarColor, getTooltipLabels, RANGES, SORT_RANGES } from './utils'
+import {
+  getBarColor,
+  getBarValue,
+  getTooltipLabels,
+  RANGES,
+  SORT_RANGES
+} from './utils'
 import styles from './ProjectsChart.module.scss'
 
 const renderCustomizedLabel = props => {
@@ -39,9 +44,7 @@ const renderCustomizedLabel = props => {
         fontSize={fontSize}
         fontWeight={500}
       >
-        {formatNumber(value, {
-          maximumFractionDigits: 2
-        })}
+        {getBarValue(+value)}
       </text>
     </g>
   )
@@ -140,6 +143,7 @@ const ProjectsChart = ({ assets, redirect, loading: assetsLoading }) => {
                     fontWeight={500}
                     stroke={'var(--casper)'}
                     tickCount={8}
+                    tickFormatter={val => `${val} %`}
                   />
 
                   <Bar dataKey={key}>
