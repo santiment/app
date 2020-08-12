@@ -161,17 +161,19 @@ const Canvas = ({
 
           <ContextMenu
             {...options}
-            setOptions={setOptions}
-            onDeleteChartClick={isSingleWidget ? undefined : onDeleteChartClick}
             classes={styles}
             chartRef={chartRef}
             title={settings.title}
             activeMetrics={metrics}
             data={data}
             shareLink={shareLink}
+            MetricNode={MetricNode}
+            setOptions={setOptions}
+            onDeleteChartClick={isSingleWidget ? undefined : onDeleteChartClick}
           />
 
           <ChartFullscreenBtn
+            widget={widget}
             categories={categories}
             options={options}
             settings={settings}

@@ -65,7 +65,14 @@ function drawLegend (pngChart, metrics, isNightMode) {
   })
 }
 
-function downloadChart ({ current: chart }, title, metrics, data, isNightMode) {
+function downloadChart (
+  { current: chart },
+  title,
+  metrics,
+  data,
+  MetricNode,
+  isNightMode
+) {
   const { scale, colors, domainModifier, domainGroups } = chart
   const { hideWatermark, isWatermarkLighter, isCartesianGridActive } = chart
   const { brushPaintConfig, ...rest } = paintConfigs[+isNightMode]
@@ -76,7 +83,7 @@ function downloadChart ({ current: chart }, title, metrics, data, isNightMode) {
     bars,
     filledLines,
     joinedCategories
-  } = metricsToPlotCategories(metrics)
+  } = metricsToPlotCategories(metrics, MetricNode)
 
   const dpr = window.devicePixelRatio || 1
   window.devicePixelRatio = 2
@@ -132,7 +139,14 @@ function downloadChart ({ current: chart }, title, metrics, data, isNightMode) {
   pngCanvas.remove()
 }
 
-const ChartDownloadBtn = ({ chartRef, metrics, title, data, ...props }) => {
+const ChartDownloadBtn = ({
+  chartRef,
+  metrics,
+  title,
+  data,
+  MetricNode,
+  ...props
+}) => {
   const { isNightMode } = useTheme()
 
   return (
@@ -140,7 +154,7 @@ const ChartDownloadBtn = ({ chartRef, metrics, title, data, ...props }) => {
       {...props}
       onClick={() => {
         try {
-          downloadChart(chartRef, title, metrics, data, isNightMode)
+          downloadChart(chartRef, title, metrics, data, MetricNode, isNightMode)
         } catch (e) {
           alert("Can't download this chart")
         }
