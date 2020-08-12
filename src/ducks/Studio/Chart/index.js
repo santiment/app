@@ -39,6 +39,7 @@ const Canvas = ({
   activeEvents,
   shareLink,
   ErrorMsg,
+  MetricNode,
   toggleMetric,
   syncedTooltipDate,
   isICOPriceActive,
@@ -57,7 +58,7 @@ const Canvas = ({
   syncTooltips
 }) => {
   const { isLoggedIn } = useUser()
-  const categories = useMetricCategories(metrics)
+  const categories = useMetricCategories(metrics, MetricNode)
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
   const [focusedMetricKey, setFocusedMetricKey] = useState()
   const [focusTimer, setFocusTimer] = useState()

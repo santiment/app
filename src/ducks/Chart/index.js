@@ -35,7 +35,7 @@ const Chart = ({
   lines,
   filledLines,
   bars,
-  daybars,
+  autoWidthBars,
   chartHeight,
   chartPadding = CHART_PADDING,
   joinedCategories,
@@ -286,7 +286,7 @@ const Chart = ({
   }
 
   function plotBrushData () {
-    plotAutoWidthBars(brush, brushData, daybars, scale, MetricColor)
+    plotAutoWidthBars(brush, brushData, autoWidthBars, scale, MetricColor)
     plotBars(brush, brushData, bars, scale, MetricColor)
     plotLines(brush, brushData, lines, scale, MetricColor)
     plotFilledLines(brush, brushData, filledLines, scale, MetricColor)
@@ -297,7 +297,7 @@ const Chart = ({
       drawWatermark(chart, isNightMode, isWatermarkLighter)
     }
 
-    plotAutoWidthBars(chart, data, daybars, scale, MetricColor)
+    plotAutoWidthBars(chart, data, autoWidthBars, scale, MetricColor)
     plotBars(chart, data, bars, scale, MetricColor)
 
     chart.ctx.lineWidth = 1.5

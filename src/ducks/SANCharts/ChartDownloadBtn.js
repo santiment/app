@@ -2,7 +2,7 @@ import React from 'react'
 import Button from '@santiment-network/ui/Button'
 import { initChart, updateChartState } from '@santiment-network/chart'
 import { plotLines, plotFilledLines } from '@santiment-network/chart/lines'
-import { plotDayBars, plotBars } from '@santiment-network/chart/bars'
+import { plotAutoWidthBars, plotBars } from '@santiment-network/chart/bars'
 import { drawCartesianGrid } from '@santiment-network/chart/cartesianGrid'
 import { plotAxes } from '../Chart/axes'
 import { drawWatermark } from '../Chart/watermark'
@@ -72,7 +72,7 @@ function downloadChart ({ current: chart }, title, metrics, data, isNightMode) {
 
   const {
     lines,
-    daybars,
+    autoWidthBars,
     bars,
     filledLines,
     joinedCategories
@@ -109,7 +109,7 @@ function downloadChart ({ current: chart }, title, metrics, data, isNightMode) {
     drawCartesianGrid(pngChart, pngChart.axesColor, 10, 8)
   }
 
-  plotDayBars(pngChart, data, daybars, scale, colors)
+  plotAutoWidthBars(pngChart, data, autoWidthBars, scale, colors)
   plotBars(pngChart, data, bars, scale, colors)
   pngChart.ctx.lineWidth = 1.5
   plotLines(pngChart, data, lines, scale, colors)

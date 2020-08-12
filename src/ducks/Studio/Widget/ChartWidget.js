@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Widget from './Widget'
 import ColorProvider from './ChartWidgetColorProvider'
-import { newWidget } from './utils'
+import { newWidget, useMetricNodeOverwrite } from './utils'
 import StudioChart from '../Chart'
 import { dispatchWidgetMessage } from '../widgetMessage'
 import { DEFAULT_OPTIONS } from '../defaults'
@@ -38,6 +38,7 @@ export const Chart = ({
     MetricTransformer
   )
   const [eventsData] = useTimeseries(activeEvents, settings)
+  const MetricNode = useMetricNodeOverwrite(MetricSettingMap)
   const data = useEdgeGaps(
     useClosestValueData(rawData, metrics, options.isClosestDataActive)
   )
@@ -150,6 +151,7 @@ export const Chart = ({
         eventsData={eventsData}
         activeEvents={activeEvents}
         ErrorMsg={ErrorMsg}
+        MetricNode={MetricNode}
         settings={settings}
         loadings={loadings}
         options={options}
