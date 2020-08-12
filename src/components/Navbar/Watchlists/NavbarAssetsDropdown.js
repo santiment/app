@@ -5,7 +5,7 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import Button from '@santiment-network/ui/Button'
 import { useFeaturedWatchlists } from '../../../ducks/Watchlists/gql/hooks'
 import NavbarAssetsDropdownWatchlist from './NavbarAssetsDropdownWatchlist'
-import ScreenerDropdown from '../ScreenerDropdown'
+import ScreenerDropdown from '../Screeners/ScreenerDropdown'
 import {
   BASIC_CATEGORIES,
   getWatchlistLink

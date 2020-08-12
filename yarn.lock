@@ -1572,10 +1572,15 @@
   resolved "https://registry.yarnpkg.com/@santiment-network/chart/-/chart-0.6.0.tgz#35301600aab2769d8402da7f7b7b73326b882009"
   integrity sha512-EmGjhD9/M1yvtj7fhS+GTf3tB3QsMH9mINF4iHrNwO9FsFKtExkPV0fgqs2xtkFym4GJUmBAjSNjQ2K+s3Y7xQ==
 
-"@santiment-network/ui@^0.5.177", "@santiment-network/ui@^0.5.189":
+"@santiment-network/ui@^0.5.177":
   version "0.5.189"
   resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.189.tgz#86b29f1ee79d732128998c80c4ec8d83837bb953"
   integrity sha512-G+K7+JiwcgKUSuSK47hxXC3ZQQeRYlpCE5r8zmcPw+Eqm4BjhXQ7+bQmeudK9WfO7eVselt5//ZPT/C+52eMbQ==
+
+"@santiment-network/ui@^0.5.195":
+  version "0.5.195"
+  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.195.tgz#ad679606ef233b9172ae2274b4f2513a5c35c131"
+  integrity sha512-fwFM8ghPwHp71xnoGbbsPHWBFgysBuNGir2WaIQyzqHpVPPzXM/ibGwgqgcXC663KclVLQANR/dU13NChn1hAg==
 
 "@sheerun/eslint-config-standard@^10.2.1":
   version "10.2.1"

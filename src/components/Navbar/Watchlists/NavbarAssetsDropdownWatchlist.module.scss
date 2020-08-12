@@ -17,7 +17,7 @@
 }
 
 .item {
-  padding: 6px 8px;
+  padding: 6px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -48,10 +48,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.createBtn {
-  padding: 12px 5px;
 }
 
 .loader {

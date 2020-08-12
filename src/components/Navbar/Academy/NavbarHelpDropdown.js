@@ -1,8 +1,8 @@
 import React from 'react'
+import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
-import DropdownDevider from './DropdownDevider'
-import commonStyles from './NavbarDropdown.module.scss'
+import commonStyles from '../NavbarDropdown.module.scss'
 import styles from './NavbarHelpDropdown.module.scss'
 
 const Links = [
@@ -47,19 +47,17 @@ const NavbarHelpDropdown = ({ activeLink }) => (
         <Icon type='pointer-right' className={styles.icon} />
       </a>
     </div>
-    <DropdownDevider />
-    <div className={commonStyles.list}>
+    <div className={styles.list}>
       {Links.map((props, index) => (
         <Button
           variant='ghost'
           key={index}
           fluid
-          className={commonStyles.item}
+          className={cx(commonStyles.item, styles.item)}
           {...props}
         />
       ))}
     </div>
-    <DropdownDevider />
     <div className={styles.contact}>
       <span className={styles.contact__title}>
         Can’t find what you’re looking for?
@@ -69,6 +67,7 @@ const NavbarHelpDropdown = ({ activeLink }) => (
         variant='fill'
         accent='positive'
         onClick={() => window.Intercom('show')}
+        className={styles.btn}
       >
         Contact us
       </Button>

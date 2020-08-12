@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import memoize from 'lodash.memoize'
+import React, { useState, useCallback } from 'react'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import cx from 'classnames'
@@ -14,98 +13,20 @@ import {
   YAxis,
   LabelList
 } from 'recharts'
-import ChartTooltip from '../../../SANCharts/tooltip/CommonChartTooltip'
+import { ProjectsChartTooltip } from '../../../SANCharts/tooltip/CommonChartTooltip'
 import Range from '../WatchlistOverview/Range'
-import { useProjectPriceChanges } from '../../../../hooks/project'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
 import NoDataCharts from './NoDataCharts'
-import { formatNumber } from '../../../../utils/formatting'
 import ScreenerChartTitle from './ScreenerChartTitle'
+import { useProjectRanges } from './hooks'
+import {
+  getBarColor,
+  getBarValue,
+  getTooltipLabels,
+  RANGES,
+  SORT_RANGES
+} from './utils'
 import styles from './ProjectsChart.module.scss'
-
-export const getSorter = memoize(({ sortKey, desc }) => (a, b) => {
-  if (desc) {
-    return +b[sortKey] - +a[sortKey]
-  } else {
-    return +a[sortKey] - +b[sortKey]
-  }
-})
-
-export const useProjectRanges = ({
-  assets,
-  ranges,
-  limit,
-  sortByKey = 'marketcapUsd',
-  desc = true
-}) => {
-  const [mapAssets, setMapAssets] = useState({})
-  const [intervalIndex, setIntervalIndex] = useState(
-    Math.min(ranges.length - 1, 1)
-  )
-
-  useEffect(
-    () => {
-      const newMap = {}
-
-      assets.forEach(({ slug }) => {
-        newMap[slug] = true
-      })
-
-      setMapAssets(newMap)
-    },
-    [assets]
-  )
-
-  const { label, key } = ranges[intervalIndex]
-
-  const sortKey = sortByKey || key
-  const sorter = getSorter({ sortKey, desc })
-
-  const [data, loading] = useProjectPriceChanges({
-    mapAssets,
-    key,
-    limit,
-    sorter
-  })
-
-  return [data, loading, { intervalIndex, setIntervalIndex, label, key }]
-}
-
-export const RANGES = [
-  {
-    label: '1h',
-    key: 'percentChange1h'
-  },
-  {
-    label: '24h',
-    key: 'percentChange24h'
-  },
-  {
-    label: '7d',
-    key: 'percentChange7d'
-  }
-]
-
-export const SORT_RANGES = [
-  {
-    label: 'Marketcap  ⬆️',
-    key: 'marketcapUsd'
-  },
-  {
-    label: 'Marketcap  ⬇️',
-    key: 'marketcapUsd',
-    desc: false
-  },
-  {
-    label: `Price changes  ⬆️`,
-    key: ''
-  },
-  {
-    label: 'Price changes  ⬇️',
-    key: '',
-    desc: false
-  }
-]
 
 const renderCustomizedLabel = props => {
   const { x, y, width, value, fill } = props
@@ -123,16 +44,10 @@ const renderCustomizedLabel = props => {
         fontSize={fontSize}
         fontWeight={500}
       >
-        {formatNumber(value, {
-          maximumFractionDigits: 2
-        })}
+        {getBarValue(+value)}
       </text>
     </g>
   )
-}
-
-function getColor (val) {
-  return +val > 0 ? 'var(--jungle-green)' : 'var(--persimmon)'
 }
 
 const ProjectsChart = ({ assets, redirect, loading: assetsLoading }) => {
@@ -150,6 +65,10 @@ const ProjectsChart = ({ assets, redirect, loading: assetsLoading }) => {
     ranges: RANGES,
     sortByKey,
     desc
+  })
+
+  data.forEach(item => {
+    item.color = getBarColor(item[key])
   })
 
   const onProjectClick = useCallback(
@@ -224,16 +143,16 @@ const ProjectsChart = ({ assets, redirect, loading: assetsLoading }) => {
                     fontWeight={500}
                     stroke={'var(--casper)'}
                     tickCount={8}
+                    tickFormatter={val => `${val} %`}
                   />
 
                   <Bar dataKey={key}>
                     <LabelList dataKey={key} content={renderCustomizedLabel} />
                     {data.map((entry, index) => {
-                      const color = getColor(entry[key])
                       return (
                         <Cell
                           key={`cell-${index}`}
-                          fill={color}
+                          fill={entry.color}
                           onClick={() =>
                             onProjectClick({ value: entry[datakey] })
                           }
@@ -261,14 +180,14 @@ const ProjectsChart = ({ assets, redirect, loading: assetsLoading }) => {
 
                   <Tooltip
                     content={
-                      <ChartTooltip
-                        labelFormatter={data => {
-                          return data
+                      <ProjectsChartTooltip
+                        labelFormatter={(value, payload) => {
+                          const data = payload[0]
+                          if (data.payload) {
+                            return `${data.payload.name} ${data.payload.ticker}`
+                          }
                         }}
-                        valueFormatter={({ value }) => {
-                          return value + ' %'
-                        }}
-                        showValueLabel={false}
+                        payloadLabels={getTooltipLabels(key)}
                       />
                     }
                   />
