@@ -5,12 +5,13 @@ import { setupColorGenerator } from '../SANCharts/utils'
 import { Metric } from '../dataHub/metrics'
 
 const cache = new Map()
+const METRIC_NODE = {}
 
-export function metricsToPlotCategories (metrics) {
+export function metricsToPlotCategories (metrics, MetricNode = METRIC_NODE) {
   const requestedData = {
     lines: [],
     filledLines: [],
-    daybars: [],
+    autoWidthBars: [],
     bars: [],
     joinedCategories: [],
     areas: [],
@@ -20,7 +21,7 @@ export function metricsToPlotCategories (metrics) {
 
   metrics.forEach(metric => {
     const { key, dataKey = key, node } = metric
-    requestedData[node + 's'].push(dataKey)
+    requestedData[(MetricNode[key] || node) + 's'].push(dataKey)
     joinedCategories.push(dataKey)
   })
 
@@ -85,8 +86,11 @@ export function prepareEvents (events) {
   })
 }
 
-export const useMetricCategories = metrics =>
-  useMemo(() => metricsToPlotCategories(metrics), [metrics])
+export const useMetricCategories = (metrics, MetricNode) =>
+  useMemo(() => metricsToPlotCategories(metrics, MetricNode), [
+    metrics,
+    MetricNode
+  ])
 
 const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
   const [syncedTooltipDate, syncTooltips] = useState()

@@ -4,7 +4,7 @@ import COLOR from '@santiment-network/ui/variables.scss'
 import { initChart, updateChartState } from '@santiment-network/chart'
 import { initTooltip } from '@santiment-network/chart/tooltip'
 import { plotLines, plotFilledLines } from '@santiment-network/chart/lines'
-import { plotDayBars, plotBars } from '@santiment-network/chart/bars'
+import { plotAutoWidthBars, plotBars } from '@santiment-network/chart/bars'
 import { linearScale } from '@santiment-network/chart/scales'
 import { drawReferenceDot } from '@santiment-network/chart/references'
 import { drawCartesianGrid } from '@santiment-network/chart/cartesianGrid'
@@ -35,7 +35,7 @@ const Chart = ({
   lines,
   filledLines,
   bars,
-  daybars,
+  autoWidthBars,
   chartHeight,
   chartPadding = CHART_PADDING,
   joinedCategories,
@@ -286,7 +286,7 @@ const Chart = ({
   }
 
   function plotBrushData () {
-    plotDayBars(brush, brushData, daybars, scale, MetricColor)
+    plotAutoWidthBars(brush, brushData, autoWidthBars, scale, MetricColor)
     plotBars(brush, brushData, bars, scale, MetricColor)
     plotLines(brush, brushData, lines, scale, MetricColor)
     plotFilledLines(brush, brushData, filledLines, scale, MetricColor)
@@ -297,7 +297,7 @@ const Chart = ({
       drawWatermark(chart, isNightMode, isWatermarkLighter)
     }
 
-    plotDayBars(chart, data, daybars, scale, MetricColor)
+    plotAutoWidthBars(chart, data, autoWidthBars, scale, MetricColor)
     plotBars(chart, data, bars, scale, MetricColor)
 
     chart.ctx.lineWidth = 1.5

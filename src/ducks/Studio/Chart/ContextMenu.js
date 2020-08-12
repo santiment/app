@@ -3,10 +3,12 @@ import Button from '@santiment-network/ui/Button'
 import ChartSettingsContextMenu, {
   Icon
 } from '../../SANCharts/ChartSettingsContextMenu'
+import ChartDownloadBtn from '../../SANCharts/ChartDownloadBtn'
 import { saveToggle } from '../../../utils/localStorage'
 import styles from './ContextMenu.module.scss'
 
-export default ({ setOptions, onDeleteChartClick, ...props }) => {
+export default ({ MetricNode, setOptions, onDeleteChartClick, ...props }) => {
+  const { activeMetrics, data, title, chartRef } = props
   function toggleScale () {
     setOptions(state => ({
       ...state,
@@ -47,7 +49,6 @@ export default ({ setOptions, onDeleteChartClick, ...props }) => {
   return (
     <ChartSettingsContextMenu
       {...props}
-      showDownloadPNG
       showNightModeToggle={false}
       showMulti={false}
       onScaleChange={toggleScale}
@@ -55,6 +56,19 @@ export default ({ setOptions, onDeleteChartClick, ...props }) => {
       onClosestDataChange={toggleClosestData}
       onWatermarkLighterChange={toggleWatermarkLighter}
     >
+      <ChartDownloadBtn
+        fluid
+        variant='ghost'
+        metrics={activeMetrics}
+        data={data}
+        title={title}
+        chartRef={chartRef}
+        MetricNode={MetricNode}
+      >
+        <Icon type='save' />
+        Download as PNG
+      </ChartDownloadBtn>
+
       {onDeleteChartClick && (
         <Button
           fluid
