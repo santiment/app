@@ -12,7 +12,7 @@ const RechartComponent = {
   filledLine: Line,
   area: Area,
   bar: Bar,
-  daybar: Bar
+  autoWidthBar: Bar
 }
 
 export const mapDatetimeToNumber = timeseries =>

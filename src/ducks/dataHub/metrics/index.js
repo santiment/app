@@ -101,7 +101,7 @@ export const Metric = {
   },
   daily_active_addresses: {
     category: 'On-chain',
-    node: 'daybar',
+    node: 'autoWidthBar',
     group: 'Network Activity',
     label: 'Daily Active Addresses',
     shortLabel: 'Daily A.A.',

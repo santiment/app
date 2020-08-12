@@ -22,6 +22,7 @@ import styles from './index.module.scss'
 const RESIZE_DEPENDENCIES = []
 
 const FullscreenChart = ({
+  widget,
   settings: studioSettings,
   options: studioOptions,
   categories,
@@ -39,7 +40,7 @@ const FullscreenChart = ({
   const [rawData] = useTimeseries(
     metrics,
     settings,
-    undefined,
+    widget.MetricSettingMap,
     MetricTransformer
   )
   const [events] = useTimeseries(activeEvents, settings)

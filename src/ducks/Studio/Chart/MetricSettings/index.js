@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import TopHoldersSetting from './TopHoldersSetting'
 import ColorSetting from './ColorSetting'
+import IntervalSetting from './IntervalSetting'
 import { MetricSettings } from '../../../dataHub/metrics/settings'
 import styles from './index.module.scss'
 
@@ -16,6 +17,7 @@ const Settings = ({ className, metric, ...props }) => {
     <div className={cx(styles.wrapper, className)}>
       {metric.label}:
       <ColorSetting metric={metric} />
+      {metric.node === 'bar' && <IntervalSetting metric={metric} {...props} />}
       {settings &&
         settings.map(({ key }) => {
           const Setting = SettingToComponent[key]

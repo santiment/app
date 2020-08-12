@@ -185,11 +185,11 @@ function adjustGapLengthByDataSize (size) {
 
   if (size < 130) return 2
 
-  if (size < 200) return 3
+  if (size < 200) return 4
 
-  if (size < 300) return 4
+  if (size < 300) return 6
 
-  return 6
+  return 10
 }
 
 export function useEdgeGaps (data) {

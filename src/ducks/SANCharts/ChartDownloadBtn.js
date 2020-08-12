@@ -2,7 +2,7 @@ import React from 'react'
 import Button from '@santiment-network/ui/Button'
 import { initChart, updateChartState } from '@santiment-network/chart'
 import { plotLines, plotFilledLines } from '@santiment-network/chart/lines'
-import { plotDayBars, plotBars } from '@santiment-network/chart/bars'
+import { plotAutoWidthBars, plotBars } from '@santiment-network/chart/bars'
 import { drawCartesianGrid } from '@santiment-network/chart/cartesianGrid'
 import { plotAxes } from '../Chart/axes'
 import { drawWatermark } from '../Chart/watermark'
@@ -65,18 +65,25 @@ function drawLegend (pngChart, metrics, isNightMode) {
   })
 }
 
-function downloadChart ({ current: chart }, title, metrics, data, isNightMode) {
+function downloadChart (
+  { current: chart },
+  title,
+  metrics,
+  data,
+  MetricNode,
+  isNightMode
+) {
   const { scale, colors, domainModifier, domainGroups } = chart
   const { hideWatermark, isWatermarkLighter, isCartesianGridActive } = chart
   const { brushPaintConfig, ...rest } = paintConfigs[+isNightMode]
 
   const {
     lines,
-    daybars,
+    autoWidthBars,
     bars,
     filledLines,
     joinedCategories
-  } = metricsToPlotCategories(metrics)
+  } = metricsToPlotCategories(metrics, MetricNode)
 
   const dpr = window.devicePixelRatio || 1
   window.devicePixelRatio = 2
@@ -109,7 +116,7 @@ function downloadChart ({ current: chart }, title, metrics, data, isNightMode) {
     drawCartesianGrid(pngChart, pngChart.axesColor, 10, 8)
   }
 
-  plotDayBars(pngChart, data, daybars, scale, colors)
+  plotAutoWidthBars(pngChart, data, autoWidthBars, scale, colors)
   plotBars(pngChart, data, bars, scale, colors)
   pngChart.ctx.lineWidth = 1.5
   plotLines(pngChart, data, lines, scale, colors)
@@ -132,7 +139,14 @@ function downloadChart ({ current: chart }, title, metrics, data, isNightMode) {
   pngCanvas.remove()
 }
 
-const ChartDownloadBtn = ({ chartRef, metrics, title, data, ...props }) => {
+const ChartDownloadBtn = ({
+  chartRef,
+  metrics,
+  title,
+  data,
+  MetricNode,
+  ...props
+}) => {
   const { isNightMode } = useTheme()
 
   return (
@@ -140,7 +154,7 @@ const ChartDownloadBtn = ({ chartRef, metrics, title, data, ...props }) => {
       {...props}
       onClick={() => {
         try {
-          downloadChart(chartRef, title, metrics, data, isNightMode)
+          downloadChart(chartRef, title, metrics, data, MetricNode, isNightMode)
         } catch (e) {
           alert("Can't download this chart")
         }
