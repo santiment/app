@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useRef } from 'react'
+import React, { useEffect, useMemo, useState, useRef } from 'react'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
@@ -27,6 +27,7 @@ const IntervalSetting = ({
   interval: chartInterval,
   rerenderWidgets
 }) => {
+  const activeRef = useRef()
   const [isOpened, setIsOpened] = useState(false)
   const interval = useMemo(
     () => {
@@ -34,6 +35,19 @@ const IntervalSetting = ({
       return settings ? settings.interval : chartInterval
     },
     [widget.MetricSettingMap]
+  )
+
+  useEffect(
+    () => {
+      if (isOpened) {
+        const btn = activeRef.current
+        const { parentNode } = btn
+
+        // NOTE: .scrollIntoView also scrolls the window viewport [@vanguard | Aug 12, 2020]
+        parentNode.scrollTop = btn.offsetTop - parentNode.clientHeight / 2
+      }
+    },
+    [isOpened]
   )
 
   function openMenu () {
@@ -80,6 +94,7 @@ const IntervalSetting = ({
           variant='ghost'
           isActive={interval === key}
           onClick={() => onChange(key)}
+          forwardedRef={interval === key ? activeRef : undefined}
         >
           {label}
         </Button>
