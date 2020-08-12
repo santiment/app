@@ -54,7 +54,7 @@ const Canvas = ({
   onDeleteChartClick,
   onRangeSelect,
   onRangeSelectStart,
-  syncTooltips,
+  syncTooltips
 }) => {
   const { isLoggedIn } = useUser()
   const categories = useMetricCategories(metrics)
@@ -65,21 +65,21 @@ const Canvas = ({
   const MetricColor = useMetricColor()
   const HighlightedMetricColor = useHighlightMetricColor(
     MetricColor,
-    focusedMetricKey,
+    focusedMetricKey
   )
   const domainGroups = useDomainGroups(metrics)
   const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
   const allTimeData = useAllTimeData(metrics, settings)
   const mirrorDomainGroups = useMemo(
     () => extractMirrorMetricsDomainGroups(domainGroups),
-    [domainGroups],
+    [domainGroups]
   )
   const isBlurred = !isLoggedIn && index > 1
   const scale = options.isLogScale ? logScale : linearScale
 
   useEffect(onMetricHoverEnd, [metrics])
 
-  function onMetricHover(metric, { currentTarget }) {
+  function onMetricHover (metric, { currentTarget }) {
     const { parentNode } = currentTarget
     // HACK: For some reason, fast pointer movement can trigger 'mouseenter' but not 'mouseleave'
     // Hence, a metric might be stucked in the highlighted state [@vanguard | Jun 14, 2020]
@@ -88,16 +88,16 @@ const Canvas = ({
         if (parentNode.querySelector(':hover')) {
           setFocusedMetricKey(metric.key)
         }
-      }, 60),
+      }, 60)
     )
   }
 
-  function onMetricHoverEnd() {
+  function onMetricHoverEnd () {
     clearTimeout(focusTimer)
     setFocusedMetricKey()
   }
 
-  function onBrushChangeEnd(startIndex, endIndex) {
+  function onBrushChangeEnd (startIndex, endIndex) {
     const start = allTimeData[startIndex]
     const end = allTimeData[endIndex]
     if (start && end) {
@@ -105,11 +105,11 @@ const Canvas = ({
     }
   }
 
-  function onMetricSettingsClick(metric) {
+  function onMetricSettingsClick (metric) {
     setMetricSettings(metric === metricSettings ? undefined : metric)
   }
 
-  function onMetricRemove(metric) {
+  function onMetricRemove (metric) {
     if (metric === metricSettings) {
       setMetricSettings()
     }
@@ -224,7 +224,7 @@ const Canvas = ({
           isICOPriceActive={isICOPriceActive}
           metrics={metrics}
           className={styles.ico}
-          onResult={(price) => setIsICOPriceDisabled(!price)}
+          onResult={price => setIsICOPriceDisabled(!price)}
         />
         <LastDayPrice settings={settings} metrics={metrics} />
         {isSelectingRange || <Signals {...settings} metrics={metrics} />}
