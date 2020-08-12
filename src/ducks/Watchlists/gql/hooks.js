@@ -5,12 +5,14 @@ import {
   CREATE_WATCHLIST_MUTATION,
   UPDATE_WATCHLIST_MUTATION,
   AVAILABLE_METRICS_QUERY,
+  AVAILABLE_SEGMENTS_QUERY,
   PROJECTS_BY_FUNCTION_QUERY
 } from './index'
 import { WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
 import { store } from '../../../index'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import {
+  countAssetsSort,
   isStaticWatchlist,
   isDynamicWatchlist,
   DEFAULT_SCREENER,
@@ -163,6 +165,12 @@ export function useAvailableMetrics () {
   const { data, loading } = useQuery(AVAILABLE_METRICS_QUERY)
 
   return [data ? data.getAvailableMetrics : [], loading]
+}
+
+export function useAvailableSegments () {
+  const { data, loading } = useQuery(AVAILABLE_SEGMENTS_QUERY)
+
+  return [data ? data.allMarketSegments.sort(countAssetsSort) : [], loading]
 }
 
 export function getProjectsByFunction (func) {

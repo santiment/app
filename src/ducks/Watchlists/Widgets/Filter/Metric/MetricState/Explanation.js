@@ -3,7 +3,17 @@ import { Filter } from '../../dataHub/types'
 import { millify } from '../../../../../../utils/formatting'
 import styles from './index.module.scss'
 
-const Explanation = ({ firstThreshold, timeRange, type, metric }) => {
+const Explanation = ({
+  firstThreshold,
+  timeRange,
+  type,
+  metric,
+  customStateText
+}) => {
+  if (customStateText) {
+    return <span className={styles.explanation}>{customStateText}</span>
+  }
+
   if (!firstThreshold) {
     return null
   }

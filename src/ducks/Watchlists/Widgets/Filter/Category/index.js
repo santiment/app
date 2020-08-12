@@ -32,7 +32,11 @@ const Category = ({ title, groups, counter, ...rest }) => {
               )}
               {groups[group].map(({ item: metric }) =>
                 metric.Widget ? (
-                  <metric.Widget {...rest} />
+                  <metric.Widget
+                    {...rest}
+                    key={metric.label}
+                    baseMetric={metric}
+                  />
                 ) : (
                   <FilterMetric
                     key={metric.label}

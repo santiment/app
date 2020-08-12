@@ -134,3 +134,7 @@ export const BASIC_CATEGORIES = [
     assetType: 'erc20'
   }
 ]
+
+export function countAssetsSort ({ count: countA }, { count: countB }) {
+  return countA > countB ? -1 : 1
+}
