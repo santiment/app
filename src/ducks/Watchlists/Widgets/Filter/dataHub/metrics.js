@@ -52,7 +52,8 @@ export const Metric = {
     group: 'Network Value',
     label: 'MVRV',
     aggregation: 'avg',
-    showTimeRange: true
+    showTimeRange: true,
+    isDeprecated: true
   },
   mvrv_usd_30d: {
     category: 'On-chain',

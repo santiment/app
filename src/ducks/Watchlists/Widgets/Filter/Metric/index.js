@@ -20,6 +20,10 @@ const FilterMetric = ({
   toggleMetricInFilter,
   isPro
 }) => {
+  if (!defaultSettings.isActive && baseMetric.isDeprecated) {
+    return null
+  }
+
   const [settings, setSettings] = useState(defaultSettings)
   const [percentTimeRanges, setPercentTimeRanges] = useState(
     getTimeRangesByMetric(baseMetric, availableMetrics)
