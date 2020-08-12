@@ -83,7 +83,6 @@ const ProjectsTreeMap = ({
               <Tooltip
                 content={
                   <ProjectsChartTooltip
-                    classes={styles}
                     labelFormatter={(value, payload) => {
                       const data = payload[0]
                       if (data.payload) {

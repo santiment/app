@@ -64,6 +64,10 @@ const ProjectsChart = ({ assets, redirect, loading: assetsLoading }) => {
     desc
   })
 
+  data.forEach(item => {
+    item.color = getBarColor(item[key])
+  })
+
   const onProjectClick = useCallback(
     data => {
       const { value } = data
@@ -141,11 +145,10 @@ const ProjectsChart = ({ assets, redirect, loading: assetsLoading }) => {
                   <Bar dataKey={key}>
                     <LabelList dataKey={key} content={renderCustomizedLabel} />
                     {data.map((entry, index) => {
-                      const color = getBarColor(entry[key])
                       return (
                         <Cell
                           key={`cell-${index}`}
-                          fill={color}
+                          fill={entry.color}
                           onClick={() =>
                             onProjectClick({ value: entry[datakey] })
                           }
@@ -174,7 +177,6 @@ const ProjectsChart = ({ assets, redirect, loading: assetsLoading }) => {
                   <Tooltip
                     content={
                       <ProjectsChartTooltip
-                        classes={styles}
                         labelFormatter={(value, payload) => {
                           const data = payload[0]
                           if (data.payload) {

@@ -87,17 +87,17 @@ export const ProjectsChartTooltip = ({
   className,
   active,
   payload = [],
-  label,
-  classes = {}
+  label
 }) => {
   return (
     active &&
     payload &&
     payload.length > 0 && (
-      <div className={cx(styles.details, styles.strict, className)}>
-        <div className={cx(styles.title, classes.tooltipHeader)}>
-          {labelFormatter(label, payload)}
-        </div>
+      <div
+        className={cx(styles.details, styles.strict, className)}
+        style={{ '--bgcolor': payload[0].payload.color }}
+      >
+        <div className={styles.title}>{labelFormatter(label, payload)}</div>
         <div className={styles.content}>
           {payload.map((p, index) => {
             const { key, dataKey = key, payload: original } = p
