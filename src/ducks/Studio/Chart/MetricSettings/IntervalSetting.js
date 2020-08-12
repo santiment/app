@@ -32,8 +32,8 @@ const IntervalSetting = ({
   const interval = useMemo(
     () => {
       const settings = widget.MetricSettingMap.get(metric)
-      const interval = settings && settings.interval
-      return interval || chartInterval
+      const metricInterval = settings && settings.interval
+      return metricInterval || chartInterval
     },
     [widget.MetricSettingMap]
   )

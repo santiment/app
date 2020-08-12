@@ -25,7 +25,6 @@ const FullscreenChart = ({
   widget,
   settings: studioSettings,
   options: studioOptions,
-  MetricSettingMap,
   categories,
   metrics,
   activeEvents,
