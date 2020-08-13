@@ -1,9 +1,7 @@
 @import '~@santiment-network/ui/mixins.scss';
 
 .refresh {
-  @include text-normal;
-
-  color: var(--grey-dark);
+  color: var(--waterloo);
   fill: var(--mirage);
   display: flex;
   align-items: center;

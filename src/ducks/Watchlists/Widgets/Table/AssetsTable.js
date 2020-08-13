@@ -1,9 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import ReactTable from 'react-table'
 import cx from 'classnames'
+import Button from '@santiment-network/ui/Button'
+import Icon from '@santiment-network/ui/Icon'
 import Sticky from 'react-stickynode'
 import { connect } from 'react-redux'
-// import PageLoader from '../../../../components/Loader/PageLoader'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
 import 'react-table/react-table.css'
 import {
@@ -12,9 +13,12 @@ import {
 } from '../../../../actions/types'
 import Refresh from '../../../../components/Refresh/Refresh'
 import ServerErrorMessage from './../../../../components/ServerErrorMessage'
+import { ProLabel } from '../../../../components/ProLabel'
 import NoDataTemplate from '../../../../components/NoDataTemplate/index'
 import AssetsToggleColumns from './AssetsToggleColumns'
 import Filter from '../Filter'
+import SaveAs from '../../Actions/SaveAs'
+import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import { COLUMNS, COMMON_SETTINGS, COLUMNS_SETTINGS } from './asset-columns'
 import ScreenerSignalDialog from '../../../Signals/ScreenerSignal/ScreenerSignalDialog'
 import { markedAsShowed } from '../../../SANCharts/SidecarExplanationTooltip'
@@ -75,8 +79,10 @@ const AssetsTable = ({
   showCollumnsToggle = true,
   className,
   columnProps,
+  screenerFunction,
   ...props
 }) => {
+  const { isPro } = useUserSubscriptionStatus()
   const [markedAsNew, setAsNewMarked] = useState()
   const [isFilterOpened, setIsFilterOpened] = useState(false)
 
@@ -159,6 +165,20 @@ const AssetsTable = ({
             onRefreshClick={() => refetchAssets({ ...typeInfo, minVolume })}
           />
         )}
+        {type === 'screener' && screenerFunction.name !== 'top_all_projects' && (
+          <div className={styles.saveAs}>
+            <SaveAs
+              watchlist={watchlist}
+              trigger={
+                <Button disabled={!isPro} border className={styles.saveAs__btn}>
+                  <Icon type='disk' className={styles.saveAs__icon} />
+                  Save as
+                </Button>
+              }
+            />
+            {!isPro && <ProLabel className={styles.saveAs__proLabel} />}
+          </div>
+        )}
         <div className={styles.actions}>
           {showCollumnsToggle && (
             <AssetsToggleColumns
@@ -180,6 +200,7 @@ const AssetsTable = ({
                 isAuthor={isAuthor}
                 isOpen={isFilterOpened}
                 setIsOpen={setIsFilterOpened}
+                screenerFunction={screenerFunction}
                 {...props}
               />
             </>
