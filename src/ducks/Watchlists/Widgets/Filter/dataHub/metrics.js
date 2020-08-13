@@ -50,7 +50,7 @@ export const Metric = {
   transaction_volume_usd: {
     category: 'On-chain',
     group: 'Network Activity',
-    label: 'Transaction Volume in USD',
+    label: 'Transaction Volume USD',
     aggregation: 'sum',
     showTimeRange: true
   },
