@@ -45,7 +45,8 @@ export const PATHS = {
   PRO_METRICS: '/pro-sheets-templates',
   INDEX: '/',
   STUDIO: '/studio',
-  CHARTS: '/charts'
+  CHARTS: '/charts',
+  STABLECOINS: '/stablecoins'
 }
 
 const FOOTER_DISABLED_FOR = [
@@ -53,7 +54,8 @@ const FOOTER_DISABLED_FOR = [
   PATHS.FEED,
   PATHS.PRO_METRICS,
   PATHS.SOCIAL_TOOl,
-  PATHS.INDEX
+  PATHS.INDEX,
+  PATHS.STABLECOINS
 ]
 const FOOTER_ABSOLUTE_FOR = [
   PATHS.LOGIN,
@@ -139,6 +141,11 @@ const LoadableSearchMobilePage = Loadable({
 
 const LoadableChartPage = Loadable({
   loader: () => import('./pages/Studio'),
+  loading: () => <PageLoader />
+})
+
+const LoadableStablecoinsPage = Loadable({
+  loader: () => import('./pages/StablecoinsPage/StablecoinsPage'),
   loading: () => <PageLoader />
 })
 
@@ -421,6 +428,12 @@ export const App = ({
               isLoggedIn={isLoggedIn}
               {...props}
             />
+          )}
+        />
+        <Route
+          path={PATHS.STABLECOINS}
+          render={props => (
+            <LoadableStablecoinsPage isLoggedIn={isLoggedIn} {...props} />
           )}
         />
         <Route

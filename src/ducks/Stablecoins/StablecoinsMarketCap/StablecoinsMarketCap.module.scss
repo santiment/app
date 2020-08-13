@@ -1,0 +1,6 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  border-radius: $border-radius;
+  border: 1px solid var(--porcelain);
+}

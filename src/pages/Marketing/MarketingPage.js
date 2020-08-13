@@ -23,9 +23,7 @@ import styles from './MarketingPage.module.scss'
 const isCharts = ({ search }) =>
   search.indexOf('from') !== -1 && search.indexOf('to') !== -1
 
-const MarketingPage = props => {
-  const { history, userId, location } = props
-
+const MarketingPage = ({ history, userId, location }) => {
   if (isCharts(location)) {
     return <Redirect to={PATHS.STUDIO} />
   }

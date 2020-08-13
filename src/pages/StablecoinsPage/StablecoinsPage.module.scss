@@ -1,0 +1,40 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  padding: 0 !important;
+  max-width: 100% !important;
+  position: relative;
+  margin: 0 auto !important;
+  background: var(--athens);
+}
+
+.inner {
+  max-width: 1152px;
+  margin: auto;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    padding: 0 16px;
+  }
+}
+
+.header {
+  background: var(--white);
+  padding: 32px 0 40px 0;
+}
+
+.title {
+  color: var(--rhino);
+  margin: 0;
+
+  @include text('h3'); }
+
+.description {
+  color: var(--waterloo);
+  margin-top: 16px;
+  max-width: 600px;
+
+  @include text('body-2'); }
+
+.footer {
+  margin-top: 80px !important;
+}
