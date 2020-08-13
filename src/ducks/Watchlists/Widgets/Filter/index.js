@@ -50,7 +50,8 @@ const Filter = ({
   const [availableMetrics] = useAvailableMetrics()
   const { isPro } = useUserSubscriptionStatus()
 
-  const isNoFilters = filters.length === 0
+  const isNoFilters =
+    filters.length === 0 || screenerFunction.name === 'top_all_projects'
 
   useEffect(() => {
     const sidebar = filterRef.current
