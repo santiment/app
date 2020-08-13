@@ -215,7 +215,7 @@ const MarketSegments = ({
 
 export default ({ filters, baseMetric, ...props }) => {
   const filter = extractFilterByMetricType(filters, baseMetric)
-  const settings = filter.length === 0 ? {} : filter[0]
+  const settings = filter.length === 0 ? {} : { ...filter[0], isActive: true }
 
   return (
     <MarketSegments
