@@ -66,6 +66,15 @@ export const AVAILABLE_METRICS_QUERY = gql`
   }
 `
 
+export const AVAILABLE_SEGMENTS_QUERY = gql`
+  query allMarketSegments {
+    allMarketSegments {
+      count
+      name
+    }
+  }
+`
+
 export const CREATE_WATCHLIST_MUTATION = gql`
   mutation createWatchlist(
     $isPublic: Boolean

@@ -4,7 +4,7 @@ import { NavLink as Link } from 'react-router-dom'
 import NewWatchlist from '../Actions/New'
 import { ProLabel } from '../../../components/ProLabel'
 import LoginDialogWrapper from '../../../components/LoginDialog/LoginDialogWrapper'
-import { useUserWatchlists, useUserScreeners } from '../gql/hooks'
+import { useUserWatchlists } from '../gql/hooks'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import NewScreener from '../Actions/New/NewScreener'
 import { Plus } from '../../../components/Illustrations/Plus'
@@ -30,46 +30,40 @@ const Trigger = ({ type, showProBanner, ...props }) => {
 }
 
 const NewCard = ({ type = 'watchlist' }) => {
-  const { isPro } = useUserSubscriptionStatus()
-  let lists = []
-
   if (type === 'watchlist') {
-    const [watchlists = []] = useUserWatchlists()
-    lists = watchlists
+    return <NewWatchlistCard />
   } else {
-    const [screeners = []] = useUserScreeners()
-    lists = screeners
+    return <NewScreenerCard />
   }
+}
 
-  const showProBanner = type === 'screener' && !isPro
+const NewWatchlistCard = () => {
+  const [watchlists = []] = useUserWatchlists()
+  let lists = watchlists
 
   return (
     <LoginDialogWrapper
-      title={`Create ${type}`}
-      trigger={props =>
-        showProBanner ? (
-          <Link to='/pricing'>
-            <Trigger showProBanner type={type} {...props} />
-          </Link>
-        ) : (
-          <Trigger type={type} {...props} />
-        )
-      }
+      title={`Create watchlist`}
+      trigger={props => <Trigger type='watchlist' {...props} />}
     >
-      {showProBanner ? (
-        <Link to='/pricing'>
-          <Trigger showProBanner type={type} />
-        </Link>
-      ) : type === 'screener' ? (
-        <NewScreener trigger={<Trigger type={type} />} />
-      ) : (
-        <NewWatchlist
-          watchlists={lists}
-          trigger={<Trigger type={type} />}
-          type={type}
-        />
-      )}
+      <NewWatchlist
+        watchlists={lists}
+        trigger={<Trigger type='watchlist' />}
+        type='watchlist'
+      />
     </LoginDialogWrapper>
+  )
+}
+
+const NewScreenerCard = () => {
+  const { isPro } = useUserSubscriptionStatus()
+
+  return !isPro ? (
+    <Link to='/pricing'>
+      <Trigger showProBanner type='screener' />
+    </Link>
+  ) : (
+    <NewScreener trigger={<Trigger type='screener' />} />
   )
 }
 

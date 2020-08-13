@@ -12,7 +12,8 @@ const FilterMetricState = ({
   onCheckboxClicked,
   isViewMode,
   metric,
-  settings
+  settings,
+  customStateText = ''
 }) => {
   const metricForDescription = Metric[metric.descriptionKey || metric.key] || {}
 
@@ -37,6 +38,7 @@ const FilterMetricState = ({
             <Explanation
               {...settings}
               metric={metric}
+              customStateText={customStateText}
               className={styles.explanation}
             />
           )}

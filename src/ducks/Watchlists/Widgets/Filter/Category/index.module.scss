@@ -17,6 +17,7 @@
   fill: var(--fiord);
   transform: rotate(-90deg);
   width: 12px;
+  transition: transform 0.25s ease-in-out;
 }
 
 .counter {

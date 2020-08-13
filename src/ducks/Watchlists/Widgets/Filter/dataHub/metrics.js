@@ -47,12 +47,20 @@ export const Metric = {
     aggregation: 'sum',
     showTimeRange: true
   },
+  transaction_volume_usd: {
+    category: 'On-chain',
+    group: 'Network Activity',
+    label: 'Transaction Volume USD',
+    aggregation: 'sum',
+    showTimeRange: true
+  },
   mvrv_usd: {
     category: 'On-chain',
     group: 'Network Value',
     label: 'MVRV',
     aggregation: 'avg',
-    showTimeRange: true
+    showTimeRange: true,
+    isDeprecated: true
   },
   mvrv_usd_30d: {
     category: 'On-chain',
@@ -122,6 +130,11 @@ export const Metric = {
     group: 'Network Activity',
     label: 'Circulation'
   },
+  circulation_180d: {
+    category: 'On-chain',
+    group: 'Network Activity',
+    label: 'Circulation (180d)'
+  },
   network_growth: {
     category: 'On-chain',
     group: 'Network Activity',
@@ -152,6 +165,7 @@ export const Metric = {
   },
   market_segments: {
     category: 'Financial',
+    label: 'Market Segments',
     Widget: props => <MarketSegments {...props} />
   }
 }
@@ -168,16 +182,18 @@ export const metrics = [
   Metric.dev_activity_1d,
   Metric.daily_active_addresses,
   Metric.transaction_volume,
-  Metric.mvrv_usd,
+  Metric.transaction_volume_usd,
   Metric.circulation,
+  Metric.circulation_180d,
   Metric.network_growth,
   Metric.exchange_inflow,
   Metric.exchange_outflow,
   Metric.exchange_balance,
+  Metric.mvrv_usd,
   Metric.mvrv_usd_30d,
   Metric.mvrv_usd_180d,
-  Metric.mvrv_usd_365d
-  // Metric.market_segments
+  Metric.mvrv_usd_365d,
+  Metric.market_segments
 ]
 
 export const MetricAlias = {
