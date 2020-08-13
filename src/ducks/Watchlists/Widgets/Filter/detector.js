@@ -3,17 +3,16 @@ import { DEFAULT_TIMERANGES } from './defaults'
 import { isContainMetric } from './utils'
 
 export function extractFilterByMetricType (filters = [], metric) {
-  return filters.filter(item => {
-    const filterMetric = item.name
-      ? item.name === 'metric'
-        ? item.args.metric
-        : item.name
-      : item.metric
-    return (
-      isContainMetric(filterMetric, metric.percentMetricKey) ||
-      isContainMetric(filterMetric, metric.key)
-    )
-  })
+  return filters
+    .filter(item => {
+      const filterMetric = item.name === 'metric' ? item.args.metric : item.name
+
+      return (
+        isContainMetric(filterMetric, metric.percentMetricKey) ||
+        isContainMetric(filterMetric, metric.key)
+      )
+    })
+    .map(({ args }) => ({ ...args }))
 }
 
 export function getFilterType (filter = []) {

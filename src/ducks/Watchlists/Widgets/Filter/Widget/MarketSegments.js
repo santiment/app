@@ -50,19 +50,22 @@ const MarketSegments = ({
         } = settings
         const { isActive: previousIsActive } = defaultSettings
 
-        const newFilter = { market_segments_combinator, market_segments }
+        const newFilter = {
+          args: { market_segments_combinator, market_segments },
+          name: 'market_segments'
+        }
 
-        //         if (hasActiveSegments) {
-        //           if (previousIsActive !== isActive) {
-        //             toggleMetricInFilter(newFilter, baseMetric.key)
-        //           } else {
-        //             updMetricInFilter(newFilter, baseMetric.key)
-        //           }
-        //         }
-        //
-        //         if (!hasActiveSegments && isActive && defaultSettings.isActive) {
-        //           toggleMetricInFilter(newFilter, baseMetric.key)
-        //         }
+        if (hasActiveSegments) {
+          if (previousIsActive !== isActive) {
+            toggleMetricInFilter(newFilter, baseMetric.key)
+          } else {
+            updMetricInFilter(newFilter, baseMetric.key)
+          }
+        }
+
+        if (!hasActiveSegments && isActive && defaultSettings.isActive) {
+          toggleMetricInFilter(newFilter, baseMetric.key)
+        }
       }
     },
     [settings]
@@ -212,13 +215,15 @@ const MarketSegments = ({
 
 export default ({ filters, baseMetric, ...props }) => {
   const filter = extractFilterByMetricType(filters, baseMetric)
+  const settings = filter.length === 0 ? {} : filter[0]
 
   return (
     <MarketSegments
       {...props}
       baseMetric={baseMetric}
       defaultSettings={{
-        ...DEFAULT_SETTINGS
+        ...DEFAULT_SETTINGS,
+        ...settings
       }}
     />
   )

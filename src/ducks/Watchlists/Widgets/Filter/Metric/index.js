@@ -76,12 +76,15 @@ const FilterMetric = ({
         const formatter = Filter[type].serverValueFormatter
 
         const newFilter = {
-          aggregation,
-          dynamicFrom,
-          dynamicTo: 'now',
-          metric,
-          operator,
-          threshold: formatter ? formatter(firstThreshold) : firstThreshold
+          args: {
+            aggregation,
+            dynamicFrom,
+            dynamicTo: 'now',
+            metric,
+            operator,
+            threshold: formatter ? formatter(firstThreshold) : firstThreshold
+          },
+          name: 'metric'
         }
 
         if (firstThreshold) {
