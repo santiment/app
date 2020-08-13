@@ -37,7 +37,8 @@ const Filter = ({
 
   const isViewMode = !isAuthor && (isLoggedIn || !isDefaultScreener)
   const { filters = [] } = screenerFunction.args
-  const isNoFilters = screenerFunction.name === 'top_all_projects'
+  const isNoFilters =
+    screenerFunction.name === 'top_all_projects' || filters.length === 0
   const filterRef = useRef(null)
   const filterContentRef = useRef(null)
   const [filter, updateFilter] = useState(filters)

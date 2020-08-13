@@ -8,14 +8,65 @@ import Skeleton from '../../../../../components/Skeleton/Skeleton'
 import ExplanationTooltip from '../../../../../components/ExplanationTooltip/ExplanationTooltip'
 import MetricState from '../Metric/MetricState'
 import { useAvailableSegments } from '../../../gql/hooks'
-import { DEFAULT_SETTINGS } from '../defaults'
+import { extractFilterByMetricType } from '../detector'
 import styles from './MarketSegments.module.scss'
 
-const MarketSegments = ({ isViewMode, baseMetric, defaultSettings }) => {
+const DEFAULT_SETTINGS = {
+  market_segments: [],
+  market_segments_combinator: 'and',
+  isActive: false
+}
+
+const MarketSegments = ({
+  isViewMode,
+  baseMetric,
+  defaultSettings,
+  isNoFilters,
+  updMetricInFilter,
+  toggleMetricInFilter
+}) => {
   const [segments = [], loading] = useAvailableSegments()
   const [settings, setSettings] = useState(defaultSettings)
 
-  const hasActiveSegments = settings.segments.length > 0
+  const hasActiveSegments = settings.market_segments.length > 0
+  const isANDCombinator = settings.market_segments_combinator === 'and'
+
+  useEffect(
+    () => {
+      if (isNoFilters) {
+        setSettings(DEFAULT_SETTINGS)
+      }
+    },
+    [isNoFilters]
+  )
+
+  useEffect(
+    () => {
+      if (settings !== defaultSettings) {
+        const {
+          market_segments,
+          market_segments_combinator,
+          isActive
+        } = settings
+        const { isActive: previousIsActive } = defaultSettings
+
+        const newFilter = { market_segments_combinator, market_segments }
+
+        //         if (hasActiveSegments) {
+        //           if (previousIsActive !== isActive) {
+        //             toggleMetricInFilter(newFilter, baseMetric.key)
+        //           } else {
+        //             updMetricInFilter(newFilter, baseMetric.key)
+        //           }
+        //         }
+        //
+        //         if (!hasActiveSegments && isActive && defaultSettings.isActive) {
+        //           toggleMetricInFilter(newFilter, baseMetric.key)
+        //         }
+      }
+    },
+    [settings]
+  )
 
   function onCheckboxClicked () {
     setSettings(state => ({ ...state, isActive: !settings.isActive }))
@@ -24,18 +75,21 @@ const MarketSegments = ({ isViewMode, baseMetric, defaultSettings }) => {
   function onToggleMode () {
     setSettings(state => ({
       ...state,
-      combinator: settings.combinator === 'and' ? 'or' : 'and'
+      market_segments_combinator: isANDCombinator ? 'or' : 'and'
     }))
   }
 
   function onToggleSegment (segment) {
-    const selectedSegmentsSet = new Set(settings.segments)
+    const selectedSegmentsSet = new Set(settings.market_segments)
 
     if (!selectedSegmentsSet.delete(segment)) {
       selectedSegmentsSet.add(segment)
     }
 
-    setSettings(state => ({ ...state, segments: [...selectedSegmentsSet] }))
+    setSettings(state => ({
+      ...state,
+      market_segments: [...selectedSegmentsSet]
+    }))
   }
 
   return (
@@ -48,15 +102,13 @@ const MarketSegments = ({ isViewMode, baseMetric, defaultSettings }) => {
         onCheckboxClicked={onCheckboxClicked}
         customStateText={
           settings.isActive && hasActiveSegments
-            ? `shows ${
-              settings.combinator === 'and' ? 'all' : 'at least one'
-            } of`
+            ? `shows ${isANDCombinator ? 'all' : 'at least one'} of`
             : ''
         }
       />
-      {hasActiveSegments > 0 && (
+      {settings.isActive && hasActiveSegments > 0 && (
         <div className={styles.labels}>
-          {settings.segments.map((item, idx) => (
+          {settings.market_segments.map((item, idx) => (
             <span key={idx} className={styles.label}>
               {item}
             </span>
@@ -80,7 +132,7 @@ const MarketSegments = ({ isViewMode, baseMetric, defaultSettings }) => {
             <Panel className={styles.panel}>
               {hasActiveSegments > 0 && (
                 <div className={styles.list}>
-                  {settings.segments.map((name, idx) => (
+                  {settings.market_segments.map((name, idx) => (
                     <Button
                       className={styles.item}
                       fluid
@@ -101,7 +153,7 @@ const MarketSegments = ({ isViewMode, baseMetric, defaultSettings }) => {
               <div className={styles.list}>
                 <Skeleton repeat={3} show={loading} className={styles.loader} />
                 {segments.map(({ name, count }, idx) => {
-                  const isSelected = settings.segments.includes(name)
+                  const isSelected = settings.market_segments.includes(name)
 
                   return (
                     <Button
@@ -134,7 +186,7 @@ const MarketSegments = ({ isViewMode, baseMetric, defaultSettings }) => {
           </ContextMenu>
           <ExplanationTooltip
             text={
-              settings.combinator === 'and'
+              isANDCombinator
                 ? 'Show assets that matches all of selected segments'
                 : 'Show assets that matches at least one of selected segments'
             }
@@ -149,7 +201,7 @@ const MarketSegments = ({ isViewMode, baseMetric, defaultSettings }) => {
               isActive
               onClick={onToggleMode}
             >
-              {settings.combinator === 'and' ? 'All' : 'Any'}
+              {isANDCombinator ? 'All' : 'Any'}
             </Button>
           </ExplanationTooltip>
         </div>
@@ -159,13 +211,14 @@ const MarketSegments = ({ isViewMode, baseMetric, defaultSettings }) => {
 }
 
 export default ({ filters, baseMetric, ...props }) => {
+  const filter = extractFilterByMetricType(filters, baseMetric)
+
   return (
     <MarketSegments
       {...props}
       baseMetric={baseMetric}
       defaultSettings={{
-        ...DEFAULT_SETTINGS,
-        segments: []
+        ...DEFAULT_SETTINGS
       }}
     />
   )
