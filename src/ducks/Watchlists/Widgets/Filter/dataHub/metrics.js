@@ -1,6 +1,7 @@
 import React from 'react'
 import { Filter } from './types'
 import MarketSegments from '../Widget/MarketSegments'
+import { percentValueFormatter, percentServerValueFormatter } from '../utils'
 
 export const Metric = {
   price_usd: {
@@ -169,6 +170,13 @@ export const Metric = {
     label: 'Dormant Circulation (1y)',
     descriptionKey: 'dormant_circulation'
   },
+  bitmex_perpetual_funding_rate: {
+    label: 'BitMEX Perpetual Contract Funding Rate',
+    category: 'Derivatives',
+    badge: '%',
+    valueFormatter: percentValueFormatter,
+    serverValueFormatter: percentServerValueFormatter
+  },
   market_segments: {
     category: 'Financial',
     label: 'Market Segments',
@@ -200,6 +208,8 @@ export const metrics = [
   Metric.mvrv_usd_180d,
   Metric.mvrv_usd_365d,
   Metric.dormant_circulation_365d,
+  Metric.bitmex_perpetual_funding_rate,
+
   Metric.market_segments
 ]
 

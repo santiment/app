@@ -73,7 +73,8 @@ const FilterMetric = ({
               baseMetric.key}_change_${timeRange}`
           : baseMetric.key
         const operator = Filter[type].operator
-        const formatter = Filter[type].serverValueFormatter
+        const formatter =
+          Filter[type].serverValueFormatter || baseMetric.serverValueFormatter
 
         const newFilter = {
           args: {
