@@ -67,6 +67,9 @@ export const Description = {
   [Metric.transaction_volume.key]:
     'Shows the aggregate amount of [Project Ticker]  tokens across all transactions that happened on the network daily.',
 
+  [Metric.transaction_volume_usd.key]:
+    'Represents the value of transacted asset expressed in USD. It is computed using formula: `transaction_volume` * `daily_average_price`',
+
   [Metric.network_growth.key]:
     'Shows the number of new addresses being created on the network each day. This metric illustrates user adoption over time, and can be used to identify when the project is gaining or losing traction.',
 
