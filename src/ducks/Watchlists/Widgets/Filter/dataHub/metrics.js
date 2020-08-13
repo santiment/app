@@ -163,6 +163,12 @@ export const Metric = {
     aggregation: 'sum',
     showTimeRange: true
   },
+  dormant_circulation_365d: {
+    category: 'On-chain',
+    group: 'Network Activity',
+    label: 'Dormant Circulation (1y)',
+    descriptionKey: 'dormant_circulation'
+  },
   market_segments: {
     category: 'Financial',
     label: 'Market Segments',
@@ -193,6 +199,7 @@ export const metrics = [
   Metric.mvrv_usd_30d,
   Metric.mvrv_usd_180d,
   Metric.mvrv_usd_365d,
+  Metric.dormant_circulation_365d,
   Metric.market_segments
 ]
 
