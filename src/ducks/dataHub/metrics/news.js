@@ -5,7 +5,8 @@ const NEW_METRICS = [
   Metric.price_btc,
   Metric.price_eth,
   Metric.bitmex_perpetual_basis_ratio,
-  TopTransactionsTableMetric
+  TopTransactionsTableMetric,
+  Metric.transaction_volume_usd
 ]
 export const NEW_METRIC_KEY_SET = new Set(NEW_METRICS.map(({ key }) => key))
 

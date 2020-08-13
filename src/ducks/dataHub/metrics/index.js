@@ -180,6 +180,14 @@ export const Metric = {
     abbreviation: 'trv',
     shortLabel: 'Trans. Vol.'
   },
+  transaction_volume_usd: {
+    category: 'On-chain',
+    node: 'bar',
+    group: 'Network Activity',
+    label: 'Transaction Volume USD',
+    abbreviation: 'trvust',
+    shortLabel: 'Trans. Vol. USD'
+  },
   network_growth: {
     category: 'On-chain',
     node: 'line',
