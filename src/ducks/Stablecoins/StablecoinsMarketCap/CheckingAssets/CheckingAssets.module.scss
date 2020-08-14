@@ -1,0 +1,32 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  display: flex;
+  margin: 16px;
+}
+
+.assetBtn {
+  margin-right: 8px;
+  display: flex;
+  padding: 0;
+
+  &:hover {
+    border: 1px solid var(--jungle-green);
+  }
+}
+
+.btnInner {
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  padding: 12px 10px;
+}
+
+.divider {
+  height: 100%;
+  border-right: 1px solid var(--porcelain);
+}

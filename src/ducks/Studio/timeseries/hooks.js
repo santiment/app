@@ -25,6 +25,10 @@ const noop = v => v
 
 const hashMetrics = metrics => metrics.reduce((acc, { key }) => acc + key, '')
 
+export const getTransformerKey = ({ key, slug }) => {
+  return slug ? `${key}_${slug}` : key
+}
+
 const cancelQuery = ([controller, id]) => {
   const { queryManager } = client
   controller.abort()
@@ -110,6 +114,7 @@ export function useTimeseries (
       metrics.forEach(metric => {
         const { key, reqMeta } = metric
         const metricSettings = MetricSettingMap.get(metric)
+        console.log(metricSettings, metric)
         const queryId = client.queryManager.idCounter
         const abortController = new AbortController()
 
@@ -142,7 +147,7 @@ export function useTimeseries (
               interval: getAvailableInterval(metric, interval),
               to,
               from,
-              slug,
+              slug: slug,
               ...reqMeta,
               ...metricSettings
             },
@@ -153,12 +158,14 @@ export function useTimeseries (
             }
           })
           .then(getPreTransform(metric))
-          .then(MetricTransformer[metric.key] || noop)
+          .then(MetricTransformer[getTransformerKey(metric)] || noop)
           .then(data => {
             if (raceCondition) return
             if (!data.length) {
               throw new Error(NO_DATA_MSG)
             }
+
+            console.log('data', data)
 
             setErrorMsg(state => {
               if (!state[key]) return state
