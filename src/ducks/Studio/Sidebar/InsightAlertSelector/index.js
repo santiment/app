@@ -96,7 +96,14 @@ function buildGroups (ticker) {
   return { groups, toggle: item }
 }
 
-const InsightAlertSelector = ({ widgets, categories = {}, slug, project }) => {
+const InsightAlertSelector = ({
+  widgets,
+  categories = {},
+  slug,
+  project,
+  settings
+}) => {
+  const { from, to } = settings
   const { ticker } = project
   const toggleInsight = useToggleInsight()
   const activeToggle = useActiveToggleInsight()
@@ -108,15 +115,21 @@ const InsightAlertSelector = ({ widgets, categories = {}, slug, project }) => {
   useEffect(
     () => {
       if (activeToggle && activeToggle.type === 'project') {
-        toggleInsight(toggle)
+        toggleInsight(toggle, from, to)
       }
     },
     [ticker]
   )
 
+  useEffect(
+    () => (activeToggle ? toggleInsight(activeToggle, from, to) : undefined),
+    [from, to]
+  )
+
   useEffect(() => {
     const widget = widgets[0]
-    toggleInsight(toggle)
+    toggleInsight(toggle, from, to)
+
     if (widget) {
       widget.chartRef.current.canvas.scrollIntoView({ block: 'center' })
     }
@@ -127,13 +140,17 @@ const InsightAlertSelector = ({ widgets, categories = {}, slug, project }) => {
     return toggleInsight
   }, [])
 
+  function onToggleClick (toggle) {
+    toggleInsight(toggle, from, to)
+  }
+
   return (
     <Category
       title='Santiment Insights'
       slug={slug}
       groups={groups}
       project={project}
-      toggleMetric={toggleInsight}
+      toggleMetric={onToggleClick}
       activeMetrics={[activeToggle]}
       ErrorMsg={ErrorMsg}
       OpenedGroup={OPENED_GROUP}

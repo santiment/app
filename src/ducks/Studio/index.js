@@ -257,6 +257,7 @@ export const Studio = ({
       <Sidebar
         slug={settings.slug}
         project={settings}
+        settings={settings}
         activeMetrics={selectedMetrics}
         sidepanel={sidepanel}
         widgets={widgets}
