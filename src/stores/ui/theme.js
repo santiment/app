@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { USER_SETTINGS_QUERY } from '../user/settings'
 import { loadKeyState } from '../../utils/localStorage'
-import { client } from '../../index'
+import { client } from '../../apollo'
 
 const NIGHTMODE = 'nightmode'
 export const THEMES = ['default', NIGHTMODE]

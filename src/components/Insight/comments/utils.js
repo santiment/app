@@ -1,4 +1,4 @@
-import { client } from '../../../index'
+import { client } from '../../../apollo'
 import {
   COMMENTS_TIMELINE_EVENTS_QUERY,
   CREATE_TIMELINE_EVENT_COMMENT_MUTATION

@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import { buildRefetcher, update } from './utils'
-import { client } from '../../index'
+import { client } from '../../apollo'
 
 export const DEFAULT_SETTINGS = {
   isBetaMode: false,

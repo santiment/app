@@ -4,8 +4,8 @@ import Icon from '@santiment-network/ui/Icon'
 import Group from './Group'
 import Button from './Button'
 import { WIDGET } from './Button/types'
-import styles from './MetricSelector/index.module.scss'
 import { useIsBetaMode } from '../../../stores/ui'
+import styles from './MetricSelector/index.module.scss'
 
 const DEFAULT_OPENED_CATEGORY = {
   Financial: true,
@@ -16,7 +16,8 @@ const DEFAULT_OPENED_CATEGORY = {
 export const HOLDER_DISTRIBUTION_NODE = {
   key: 'holder_distribution',
   type: WIDGET,
-  label: 'Holder Distribution'
+  label: 'Holder Distribution',
+  abbreviation: 'hd'
 }
 
 const Category = ({

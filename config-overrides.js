@@ -1,11 +1,12 @@
 const path = require('path')
+const CircularDependencyPlugin = require('circular-dependency-plugin')
 
 module.exports = function override(config, env) {
   config.resolve.extensions.push('.svelte')
 
   config.module.rules
-    .find(rule => !!rule.oneOf)
-    .oneOf.find(rule => rule.loader && rule.loader.includes('file-loader'))
+    .find((rule) => !!rule.oneOf)
+    .oneOf.find((rule) => rule.loader && rule.loader.includes('file-loader'))
     .exclude.push(/\.svelte$/)
 
   config.resolve.alias.svelte = path.resolve('node_modules', 'svelte')
@@ -24,5 +25,19 @@ module.exports = function override(config, env) {
     },
   })
 
+  console.log(config)
+  config.plugins.push(
+    new CircularDependencyPlugin({
+      // exclude detection of files based on a RegExp
+      exclude: /node_modules/,
+      // include specific files based on a RegExp
+      //include: /dir/,
+      // add errors to webpack instead of warnings
+      failOnError: true,
+      allowAsyncCycles: false,
+      // set the current working directory for displaying module paths
+      cwd: process.cwd(),
+    }),
+  )
   return config
 }

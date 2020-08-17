@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import Tabs from '@santiment-network/ui/Tabs'
 import { projectSorter } from './utils'
 import { ALL_PROJECTS_QUERY, projectSearchData } from './withProjects'
-import { client } from '../../../index'
+import { client } from '../../../apollo'
 
 const Category = {
   All: 'All',

@@ -16,7 +16,8 @@ import {
   getTemplateIdFromURL,
   saveLastTemplate
 } from '../utils'
-import { store, client } from '../../../../index'
+import { store } from '../../../../redux'
+import { client } from '../../../../apollo'
 import { getSavedMulticharts } from '../../../../utils/localStorage'
 import { showNotification } from '../../../../actions/rootActions'
 

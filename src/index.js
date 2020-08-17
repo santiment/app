@@ -2,39 +2,26 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
-import { createEpicMiddleware } from 'redux-observable'
-import { composeWithDevTools } from 'redux-devtools-extension'
-import createRavenMiddleware from 'raven-for-redux'
 import { StripeProvider } from 'react-stripe-elements'
 import throttle from 'lodash.throttle'
-import ApolloClient from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
 import { from } from 'apollo-link'
-import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloProvider } from 'react-apollo'
-import createHistory from 'history/createBrowserHistory'
-import { ConnectedRouter, routerMiddleware } from 'react-router-redux'
+import { ConnectedRouter } from 'react-router-redux'
 import App from './App'
+import { client } from './apollo'
+import { store } from './redux'
 import reducers from './reducers/rootReducers.js'
 import epics from './epics/rootEpics.js'
 import { saveState } from './utils/localStorage'
 import { getAPIUrl, isNotSafari } from './utils/utils'
 import detectNetwork from './utils/detectNetwork'
-import getRaven from './utils/getRaven'
 import { changeNetworkStatus, launchApp } from './actions/rootActions'
-import uploadLink from './apollo/upload-link'
-import errorLink from './apollo/error-link'
-import authLink from './apollo/auth-link'
-import retryLink from './apollo/retry-link'
 import ChartPage from './pages/Chart'
 import { register, unregister } from './serviceWorker'
 import { markAsLatestApp, newAppAvailable } from './ducks/Updates/actions'
 import { ThemeProvider } from './stores/ui/theme'
 import './index.scss'
-
-export let client
-export let store
 
 const stripeKey =
   process.env.NODE_ENV === 'development' ||
@@ -86,33 +73,10 @@ const main = () => {
     uri: `${getAPIUrl()}/graphql`,
     credentials: 'include'
   })
-  client = new ApolloClient({
-    link: from([authLink, errorLink, retryLink, uploadLink, httpLink]),
-    shouldBatch: true,
-    cache: new InMemoryCache()
-  })
 
   calculateHeight()
 
   window.addEventListener('resize', throttle(calculateHeight, 200))
-
-  const history = createHistory()
-
-  const middleware = [
-    createEpicMiddleware(epics, {
-      dependencies: {
-        client
-      }
-    }),
-    routerMiddleware(history),
-    createRavenMiddleware(getRaven())
-  ]
-
-  store = createStore(
-    reducers,
-    {},
-    composeWithDevTools(applyMiddleware(...middleware))
-  )
 
   store.subscribe(
     throttle(() => {

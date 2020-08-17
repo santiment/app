@@ -1,5 +1,5 @@
 import qs from 'query-string'
-import { store } from '../../index'
+import { store } from '../../redux'
 
 export function getWatchlistLink ({ name, id }) {
   return `/assets/list?name=${encodeURIComponent(name)}@${id}`

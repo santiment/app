@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { client } from '../../../index'
+import { client } from '../../../apollo'
 import { publishDateSorter } from '../../../components/Insight/utils'
 
 export const INSIGHT_COMMON_FRAGMENT = gql`

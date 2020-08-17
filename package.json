@@ -99,6 +99,7 @@
     "@storybook/addons": "^3.4.12",
     "@storybook/react": "^4.0.12",
     "babel-loader": "^8.0.5",
+    "circular-dependency-plugin": "^5.2.0",
     "core-js": "2",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",
