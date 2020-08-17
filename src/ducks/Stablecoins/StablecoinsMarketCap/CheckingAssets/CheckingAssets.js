@@ -47,7 +47,7 @@ const CheckingAssets = ({ loadings, disabledAssets, toggleDisabled }) => {
               >
                 <path
                   d='M11 5C11 7.20914 9.20914 9 7 9C4.79086 9 3 7.20914 3 5M11 5C11 2.79086 9.20914 1 7 1C4.79086 1 3 2.79086 3 5M11 5H13M3 5H1'
-                  stroke={color}
+                  stroke={disabledAssets[slug] ? 'var(--casper)' : color}
                   strokeWidth='1.2'
                   strokeLinecap='round'
                   strokeLinejoin='round'

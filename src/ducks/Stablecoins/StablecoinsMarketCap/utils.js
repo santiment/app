@@ -28,9 +28,11 @@ export const CHECKING_STABLECOINS = [
     color: '#1BAD44'
   },
   {
-    slug: undefined,
     label: 'Others',
-    color: '#7A859E'
+    color: '#7A859E',
+    reqMeta: {
+      market_segments: ['Stablecoin']
+    }
   }
 ]
 
@@ -48,7 +50,6 @@ export const METRIC_SETTINGS_MAP = new Map(
       metric,
       {
         slug: metric.slug,
-        market_segments: ['Stablecoin'],
         ignored_slugs: ['dai', 'sai']
       }
     ]
