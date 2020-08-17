@@ -15,6 +15,10 @@
   }
 }
 
+.disabled {
+  color: var(--casper);
+}
+
 .btnInner {
   padding: 6px 8px;
   display: flex;

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Metric } from '../../dataHub/metrics'
+import { getTransformerKey } from '../../Studio/timeseries/hooks'
 
 const ALPHA_CHANNEL = '40'
 
@@ -40,14 +41,15 @@ export function useChartColors (metrics, focusedMetric) {
 
       for (let i = 0; i < length; i++) {
         const metric = metrics[i]
-        const { key, queryKey = key } = metric
+        const { key } = metric
 
-        if (!MetricColor[key] && freeColorIndex[queryKey] === undefined) {
-          freeColorIndex[queryKey] = 0
+        const index = getTransformerKey(metric)
+
+        if (!MetricColor[key] && freeColorIndex[index] === undefined) {
+          freeColorIndex[index] = 0
         }
 
-        let color =
-          MetricColor[key] || COLORS[queryKey][freeColorIndex[queryKey]++]
+        let color = MetricColor[key] || COLORS[index][freeColorIndex[index]++]
         if (focusedMetric && metric !== focusedMetric) {
           color += ALPHA_CHANNEL
         }

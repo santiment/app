@@ -29,9 +29,9 @@ const MarketCapHeader = ({ interval, setInterval }) => {
           options={TABS}
           defaultSelectedIndex={interval.label}
           onSelect={tab => {
-            const foundTab = TABS.find(({ label }) => label === tab)
+            const foundTab = INTERVALS.find(({ label }) => label === tab)
             if (foundTab) {
-              setInterval(foundTab.value)
+              setInterval(foundTab)
             }
           }}
           className={styles.tabs}

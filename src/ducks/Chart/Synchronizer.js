@@ -1,13 +1,28 @@
 import React, { useMemo, useState, useEffect } from 'react'
-import COLOR from '@santiment-network/ui/variables.scss'
 import { getValidTooltipKey, findTooltipMetric } from './utils'
 import { setupColorGenerator } from '../SANCharts/utils'
 import { Metric } from '../dataHub/metrics'
+import COLOR from '@santiment-network/ui/variables.scss'
 
 const cache = new Map()
 const METRIC_NODE = {}
+const metricsIterator = (
+  metric,
+  MetricNode,
+  requestedData,
+  joinedCategories
+) => {
+  const { key, dataKey = key, node } = metric
 
-export function metricsToPlotCategories (metrics, MetricNode = METRIC_NODE) {
+  requestedData[(MetricNode[key] || node) + 's'].push(dataKey)
+  joinedCategories.push(dataKey)
+}
+
+export function metricsToPlotCategories (
+  metrics,
+  MetricNode = METRIC_NODE,
+  iterator = metricsIterator
+) {
   const requestedData = {
     lines: [],
     filledLines: [],
@@ -19,11 +34,9 @@ export function metricsToPlotCategories (metrics, MetricNode = METRIC_NODE) {
   }
   const joinedCategories = requestedData.joinedCategories
 
-  metrics.forEach(metric => {
-    const { key, dataKey = key, node } = metric
-    requestedData[(MetricNode[key] || node) + 's'].push(dataKey)
-    joinedCategories.push(dataKey)
-  })
+  metrics.forEach(item =>
+    iterator(item, MetricNode, requestedData, joinedCategories)
+  )
 
   return requestedData
 }

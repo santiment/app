@@ -27,7 +27,7 @@ const StablecoinsPage = ({ history }) => {
         </div>
       </div>
 
-      <div className={styles.inner}>
+      <div className={cx(styles.inner, styles.block)}>
         <StablecoinsMarketCap />
       </div>
 

@@ -1,25 +1,31 @@
-import { useQuery } from '@apollo/react-hooks'
+import { useMemo } from 'react'
+import { getTransformerKey } from '../../Studio/timeseries/hooks'
+import { updateTooltipSettings } from '../../dataHub/tooltipSettings'
 
-const MARKET_CAP_QUERY = `
-  query getMetric(
-    $slug: String
-    $from: DateTime!
-    $to: DateTime!
-  ) {
-    getMetric(metric: "marketcap_usd") {
-      timeseriesData(selector: {slug: $slug, market_segments: ["Stablecoin"], ignored_slugs: ["dai", "sai"]}, from: $from, to: $to, interval: "12h") {
-        datetime
-        value
-      }
-    }
-  }
-`
+export const useMetricColors = metrics => {
+  return useMemo(
+    () => {
+      return metrics.reduce((acc, metric) => {
+        acc[getTransformerKey(metric)] = metric.color
+        return acc
+      }, {})
+    },
+    [metrics]
+  )
+}
 
-export const useMarketcapData = ({ slug = '', from, to }) => {
-  const { data, loading, error } = useQuery(MARKET_CAP_QUERY, {
-    skip: !from || !to,
-    variables: { slug, from, to }
-  })
+export const useChartMetrics = metrics => {
+  return useMemo(
+    () => {
+      const newListMetrics = metrics.map(metric => ({
+        ...metric,
+        key: getTransformerKey(metric)
+      }))
 
-  return { data: data ? data.getMetric : [], loading, error }
+      updateTooltipSettings(newListMetrics)
+
+      return newListMetrics
+    },
+    [metrics]
+  )
 }

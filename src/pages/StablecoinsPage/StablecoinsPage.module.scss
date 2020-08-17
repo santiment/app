@@ -11,6 +11,9 @@
 .inner {
   max-width: 1152px;
   margin: auto;
+}
+
+.block {
   padding: 80px 0;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
