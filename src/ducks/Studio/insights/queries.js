@@ -16,11 +16,19 @@ export const INSIGHT_COMMON_FRAGMENT = gql`
 `
 
 export const INSIGHTS_QUERY = gql`
-  query allInsights($tags: [String!], $isPulse: Boolean, $isOnlyPro: Boolean) {
+  query allInsights(
+    $tags: [String!]
+    $isPulse: Boolean
+    $isOnlyPro: Boolean
+    $from: DateTime
+    $to: DateTime
+  ) {
     insights: allInsights(
       tags: $tags
       isPulse: $isPulse
       isPaywallRequired: $isOnlyPro
+      from: $from
+      to: $to
       pageSize: 100
     ) {
       ...studioInsightCommon
@@ -30,7 +38,7 @@ export const INSIGHTS_QUERY = gql`
 `
 
 export const SANFAM_INSIGHTS_QUERY = gql`
-  query allInsights {
+  query allInsightsForUser {
     insights: allInsightsForUser(userId: 7) {
       ...studioInsightCommon
     }
@@ -86,26 +94,32 @@ const buildInsightsGetter = (query, variables) =>
 
 const allInsightsExtractor = ({ data: { insights } }) => insights
 
-export function getAllInsights () {
-  return buildInsightsGetter(INSIGHTS_QUERY, { isOnlyPro: false }).then(
-    allInsightsExtractor
-  )
-}
-
-export function getProInsights () {
-  return buildInsightsGetter(INSIGHTS_QUERY, { isOnlyPro: true }).then(
-    allInsightsExtractor
-  )
-}
-
-export function getPulseInsights () {
-  return buildInsightsGetter(INSIGHTS_QUERY, { isPulse: true }).then(
-    allInsightsExtractor
-  )
-}
-
-export function getTagInsights (tag) {
+export function getAllInsights (from, to) {
   return buildInsightsGetter(INSIGHTS_QUERY, {
+    from,
+    to,
+    isOnlyPro: false
+  }).then(allInsightsExtractor)
+}
+
+export function getProInsights (from, to) {
+  return buildInsightsGetter(INSIGHTS_QUERY, {
+    from,
+    to,
+    isOnlyPro: true
+  }).then(allInsightsExtractor)
+}
+
+export function getPulseInsights (from, to) {
+  return buildInsightsGetter(INSIGHTS_QUERY, { from, to, isPulse: true }).then(
+    allInsightsExtractor
+  )
+}
+
+export function getTagInsights (from, to, tag) {
+  return buildInsightsGetter(INSIGHTS_QUERY, {
+    from,
+    to,
     tags: [tag.toUpperCase()]
   }).then(allInsightsExtractor)
 }
