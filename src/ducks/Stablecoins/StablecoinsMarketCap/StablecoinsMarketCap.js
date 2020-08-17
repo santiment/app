@@ -44,6 +44,7 @@ const StablecoinsMarketCap = () => {
     },
     [interval]
   )
+
   const chartMetrics = useChartMetrics(STABLE_COINS_METRICS)
 
   const [data, loadings] = useTimeseries(
@@ -61,6 +62,8 @@ const StablecoinsMarketCap = () => {
   )
 
   const categories = metricsToPlotCategories(filteredMetrics, {})
+
+  const xAxisKey = (filteredMetrics[0] || {}).key
 
   return (
     <div className={styles.container}>
@@ -83,8 +86,8 @@ const StablecoinsMarketCap = () => {
         chartPadding={CHART_PADDING}
         resizeDependencies={[]}
         MetricColor={MetricColor}
-        tooltipKey={'marketcap_usd'}
-        axesMetricKeys={['marketcap_usd']}
+        tooltipKey={xAxisKey}
+        axesMetricKeys={[xAxisKey]}
       />
     </div>
   )

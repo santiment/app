@@ -5,32 +5,32 @@ export const CHECKING_STABLECOINS = [
   {
     slug: 'tether',
     label: 'USDT',
-    color: 'var(--jungle-green)'
+    color: '#14C393'
   },
   {
     slug: 'binance-usd',
     label: 'BUSD',
-    color: 'var(--persimmon)'
+    color: '#FF5B5B'
   },
   {
     slug: 'usd-coin',
     label: 'USDC',
-    color: 'var(--texas-rose)'
+    color: '#FFAD4D'
   },
   {
     slug: 'trueusd',
     label: 'TUSD',
-    color: 'var(--dodger-blue)'
+    color: '#5275FF'
   },
   {
     slug: 'gemini-dollar',
     label: 'GUSD',
-    color: 'var(--lima-hover)'
+    color: '#1BAD44'
   },
   {
     slug: undefined,
     label: 'Others',
-    color: 'var(--waterloo)'
+    color: '#7A859E'
   }
 ]
 

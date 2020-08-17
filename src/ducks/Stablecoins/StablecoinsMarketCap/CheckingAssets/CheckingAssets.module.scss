@@ -20,7 +20,7 @@
 }
 
 .btnInner {
-  padding: 6px 8px;
+  padding: 6px 8px 6px 5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,4 +33,8 @@
 .divider {
   height: 100%;
   border-right: 1px solid var(--porcelain);
+}
+
+.projectIcon {
+  margin-left: 11px;
 }
