@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import { CHECKING_STABLECOINS } from '../utils'
-import { ProjectIcon } from '../../../../components/ProjectIcon/ProjectIcon'
+import ProjectIcon from '../../../../components/ProjectIcon/ProjectIcon'
 import styles from './CheckingAssets.module.scss'
 
 const AssetButton = ({ children, loading, isDisabled, ...rest }) => {
@@ -57,7 +57,7 @@ const CheckingAssets = ({ loadings, disabledAssets, toggleDisabled }) => {
 
             <div className={styles.divider} />
 
-            <ProjectIcon slug={slug} className={styles.projectIcon} />
+            <ProjectIcon size={18} slug={slug} className={styles.projectIcon} />
 
             <div className={styles.btnInner}>{label}</div>
           </AssetButton>
