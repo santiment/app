@@ -29,12 +29,22 @@ export const CHECKING_STABLECOINS = [
   },
   {
     label: 'Others',
-    color: '#7A859E',
-    reqMeta: {
-      market_segments: ['Stablecoin']
-    }
+    color: '#7A859E'
   }
 ]
+
+const REQ_META = {
+  Others: {
+    ignored_slugs: [
+      'gemini-dollar',
+      'trueusd',
+      'usd-coin',
+      'binance-usd',
+      'tether'
+    ],
+    market_segments: ['Stablecoin']
+  }
+}
 
 export const STABLE_COINS_METRICS = CHECKING_STABLECOINS.map(item => {
   return {
@@ -50,7 +60,7 @@ export const METRIC_SETTINGS_MAP = new Map(
       metric,
       {
         slug: metric.slug,
-        ignored_slugs: ['dai', 'sai']
+        ...REQ_META[metric.label]
       }
     ]
   })
