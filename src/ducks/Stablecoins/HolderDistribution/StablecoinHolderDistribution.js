@@ -1,26 +1,23 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
+import {
+  createSkeletonElement,
+  createSkeletonProvider
+} from '@trainline/react-skeletor'
 import { ProjectIcon } from '../../../components/ProjectIcon/ProjectIcon'
 import { TopHolderMetric } from '../../Studio/Chart/Sidepanel/HolderDistribution/metrics'
 import TopHolders from '../../Studio/Chart/Sidepanel/HolderDistribution'
-import { useTimeseries } from '../../Studio/timeseries/hooks'
-import { getIntervalDates } from '../StablecoinsMarketCap/StablecoinsMarketCap'
+import { useAllTimeData, useTimeseries } from '../../Studio/timeseries/hooks'
 import { useChartColors } from '../../Chart/colors'
 import Chart from '../../Chart'
 import { useAxesMetricsKey } from '../../Chart/hooks'
 import { metricsToPlotCategories } from '../../Chart/Synchronizer'
 import ProjectSelectDialog from '../../Studio/Compare/ProjectSelectDialog'
-import {
-  createSkeletonElement,
-  createSkeletonProvider
-} from '@trainline/react-skeletor'
-import styles from './StablecoinHolderDistribution.module.scss'
 import { Metric } from '../../dataHub/metrics'
 import ActiveMetrics from '../../Studio/Chart/ActiveMetrics'
-
-const METRIC_SETTINGS_MAP = new Map()
-const METRIC_TRANSFORMER = {}
+import { getIntervalByTimeRange } from '../../../utils/dates'
+import styles from './StablecoinHolderDistribution.module.scss'
 
 const CHART_HEIGHT = 500
 
@@ -75,6 +72,10 @@ const ProjectInfo = createSkeletonProvider(
   </div>
 ))
 
+const DEFAULT_SETTINGS = {
+  ...getIntervalByTimeRange('1y')
+}
+
 const StablecoinHolderDistribution = ({ className }) => {
   const [asset, setAsset] = useState(DEFAULT_ASSET)
   const [metrics, setMetrics] = useState([
@@ -99,9 +100,8 @@ const StablecoinHolderDistribution = ({ className }) => {
   const MetricColor = useChartColors(metrics)
 
   const [settings, setSettings] = useState({
-    ...getIntervalDates({
-      value: '63d'
-    })
+    ...DEFAULT_SETTINGS,
+    slug: asset.slug
   })
 
   useEffect(
@@ -114,25 +114,21 @@ const StablecoinHolderDistribution = ({ className }) => {
     [asset]
   )
 
-  const [data, loadings, errors] = useTimeseries(
-    metrics,
-    settings,
-    METRIC_SETTINGS_MAP,
-    METRIC_TRANSFORMER
-  )
-  const [brushBorder, setBrushBorder] = useState()
-  const [brushData, setBrushData] = useState([])
+  const [data, loadings, errors] = useTimeseries(metrics, settings)
 
-  useEffect(
-    () => {
-      if (brushBorder) {
-        const { from, to } = brushBorder
-        setBrushData(data.slice(from, to))
-      } else {
-        setBrushData(data)
-      }
+  const allTimeData = useAllTimeData(metrics, {
+    slug: asset.slug,
+    interval: undefined
+  })
+
+  const onBrushChangeEnd = useCallback(
+    (startIndex, endIndex) => {
+      const from = new Date(allTimeData[startIndex].datetime)
+      const to = new Date(allTimeData[endIndex].datetime)
+
+      setSettings({ ...settings, from, to })
     },
-    [data, brushBorder]
+    [data, setSettings, settings, allTimeData]
   )
 
   const axesMetricKeys = useAxesMetricsKey(metrics)
@@ -152,7 +148,6 @@ const StablecoinHolderDistribution = ({ className }) => {
             onOpen={openDialog}
             onClose={closeDialog}
             onSelect={asset => {
-              console.log(asset)
               setAsset(asset)
               closeDialog()
             }}
@@ -178,7 +173,7 @@ const StablecoinHolderDistribution = ({ className }) => {
           {...settings}
           {...categories}
           data={data}
-          brushData={brushData}
+          brushData={allTimeData}
           chartHeight={CHART_HEIGHT}
           metrics={metrics}
           chartPadding={CHART_PADDING}
@@ -188,12 +183,7 @@ const StablecoinHolderDistribution = ({ className }) => {
           tooltipKey={axesMetricKeys[0]}
           axesMetricKeys={axesMetricKeys}
           className={styles.chart}
-          onBrushChangeEnd={(from, to) => {
-            setBrushBorder({
-              from,
-              to
-            })
-          }}
+          onBrushChangeEnd={onBrushChangeEnd}
         />
       </div>
 
