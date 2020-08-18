@@ -1,14 +1,10 @@
 import React from 'react'
-import cx from 'classnames'
-import UserAvatar from '../../pages/Account/avatar/UserAvatar'
-import {
-  AWAITING_APPROVAL_STATE,
-  AwaitingApproval
-} from './InsightCardWithMarketcap'
-import styles from './ProfileInfo.module.scss'
-import { getDateFormats } from '../../utils/dates'
-import { DesktopOnly } from '../Responsive'
 import { Link } from 'react-router-dom'
+import cx from 'classnames'
+import { DesktopOnly } from '../Responsive'
+import { getDateFormats } from '../../utils/dates'
+import UserAvatar from '../../pages/Account/avatar/UserAvatar'
+import styles from './ProfileInfo.module.scss'
 
 const ProfileInfo = ({
   authorName,
@@ -55,11 +51,7 @@ export const InsightDate = ({ date, state, className }) => {
   const { DD, MMM, YYYY } = getDateFormats(new Date(date))
   return (
     <div className={cx(styles.info__item, styles.status, className)}>
-      {state === AWAITING_APPROVAL_STATE ? (
-        <AwaitingApproval />
-      ) : (
-        `${MMM} ${DD}, ${YYYY}`
-      )}
+      {MMM} {DD}, {YYYY}
     </div>
   )
 }

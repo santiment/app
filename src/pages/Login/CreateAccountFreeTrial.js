@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, Redirect } from 'react-router-dom'
-import { PATHS } from '../../App'
+import { PATHS } from '../../paths'
 import withSizes from 'react-sizes'
 import LoginEmailForm, { EmailForm } from './LoginEmailForm'
 import cx from 'classnames'

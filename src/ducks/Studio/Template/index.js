@@ -29,7 +29,7 @@ import { normalizeWidgets } from '../url/generate'
 import ChartWidget from '../Widget/ChartWidget'
 import { useUser } from '../../../stores/user'
 import { useProjectById } from '../../../hooks/project'
-import { PATHS } from '../../../App'
+import { PATHS } from '../../../paths'
 import { useCtrlSPress } from '../../../hooks/eventListeners'
 import styles from './index.module.scss'
 

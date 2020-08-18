@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
+import { HOLDER_DISTRIBUTION_NODE } from './nodes'
 import Group from './Group'
 import Button from './Button'
-import { WIDGET } from './Button/types'
 import { useIsBetaMode } from '../../../stores/ui'
 import styles from './MetricSelector/index.module.scss'
 
@@ -11,13 +11,6 @@ const DEFAULT_OPENED_CATEGORY = {
   Financial: true,
   'Santiment Insights': true,
   'Santiment Alerts': true
-}
-
-export const HOLDER_DISTRIBUTION_NODE = {
-  key: 'holder_distribution',
-  type: WIDGET,
-  label: 'Holder Distribution',
-  abbreviation: 'hd'
 }
 
 const Category = ({

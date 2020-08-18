@@ -1,6 +1,6 @@
 import { Metric } from './metrics'
 import { updateTooltipSettings } from './tooltipSettings'
-import TopTransactionsTable from '../Studio/Widget/TopTransactionsTable'
+// import TopTransactionsTable from '../Studio/Widget/TopTransactionsTable'
 import {
   CONNECTED_WIDGET,
   SIDEPANEL,
@@ -13,17 +13,11 @@ import {
 
 export const SOCIAL_TWITTER_INTERVALS = ['24h', '7d']
 
-export const AVAILABLE_TIMEBOUNDS = {
-  dormant_circulation_: {
-    base: Metric.dormant_circulation
-  }
-}
-
 export const TopTransactionsTableMetric = {
   key: 'TopTransactionsTable',
   type: CONNECTED_WIDGET,
   label: 'Top Transactions Table',
-  widget: TopTransactionsTable,
+  // widget: TopTransactionsTable,
   requiredMetric: Metric.transaction_volume,
   parentMetric: Metric.transaction_volume,
   abbreviation: 'ttt'

@@ -5,7 +5,7 @@ import {
   ethFormatter,
   percentageFormatter,
   tooltipValueFormatter
-} from '../../SANCharts/utils'
+} from './formatters'
 import { millify } from '../../../utils/formatting'
 
 function normalizeAxisPercent (value) {

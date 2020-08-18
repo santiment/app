@@ -1,27 +1,11 @@
 import React from 'react'
 import { Query } from '@apollo/react-components'
-import Loader from '@santiment-network/ui/Loader/Loader'
+import { getAvailableCooldown } from './utils'
+import SignalPreviewChart from './SignalPreviewChart'
+import PreviewLoader from './Loader'
 import { getTimeRangeForChart, skipHistoricalPreview } from '../../utils/utils'
 import { HISTORICAL_TRIGGER_POINTS_QUERY } from '../../epics'
-import SignalPreviewChart from './SignalPreviewChart'
 import styles from './SignalPreview.module.scss'
-
-export const PreviewLoader = (
-  <div className={styles.loaderWrapper}>
-    <Loader className={styles.loader} />
-  </div>
-)
-
-export const getAvailableCooldown = baseCooldown => {
-  if (
-    baseCooldown &&
-    (baseCooldown.indexOf('d') !== -1 || baseCooldown.indexOf('w') !== -1)
-  ) {
-    return '1d'
-  }
-
-  return baseCooldown && baseCooldown.indexOf('m') !== -1 ? '1h' : baseCooldown
-}
 
 const filterPoints = (points, { settings: { metric } = {} }) => {
   switch (metric) {

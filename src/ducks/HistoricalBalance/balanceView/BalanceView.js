@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
+import { getPriceMetricWithSlug } from './utils'
 import GetHistoricalBalance from '../GetHistoricalBalance'
 import HistoricalBalanceChart from '../chart/HistoricalBalanceChart'
 import BalanceChartHeader from './BalanceChartHeader'
 import Loadable from 'react-loadable'
 import { getIntervalByTimeRange } from '../../../utils/dates'
-import {
-  initPriceMetrics,
-  mapAssetsToFlatArray
-} from '../page/HistoricalBalancePage'
+import { initPriceMetrics, mapAssetsToFlatArray } from '../page/utils'
 import { mapStateToQS } from '../../../utils/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import { Metric } from '../../dataHub/metrics'
@@ -31,10 +29,6 @@ const CHART_PRICE_METRIC = {
   node: 'area',
   Component: Area,
   opacity: 0.25
-}
-
-export const getPriceMetricWithSlug = slug => {
-  return 'priceUsd@' + slug
 }
 
 const BalanceView = ({

@@ -1,5 +1,5 @@
 import React from 'react'
-import { tooltipValueFormatter } from '../utils'
+import { tooltipValueFormatter } from '../../dataHub/metrics/formatters'
 import styles from './MobilePriceTooltip.module.scss'
 
 const MobilePriceTooltip = ({

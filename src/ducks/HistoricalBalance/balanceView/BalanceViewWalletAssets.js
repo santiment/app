@@ -4,7 +4,7 @@ import Input from '@santiment-network/ui/Input'
 import { isPossibleEthAddress } from '../../Signals/utils/utils'
 import AssetsField from '../AssetsField'
 import styles from './BalanceView.module.scss'
-import { Address } from '../../../components/WalletLink/WalletLink'
+import Address from '../../../components/WalletLink/Address'
 
 const BalanceViewWalletAssets = ({
   address,

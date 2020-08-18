@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'
 import Tabs from '@santiment-network/ui/Tabs'
 import Icon from '@santiment-network/ui/Icon'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
-import Search from './../../components/Search/SearchContainer'
+import Search from '../../components/Search/SearchContainer'
+import { TABS } from '../../components/Search/tabs'
 import {
   getRecentAssets,
   getRecentTrends,
@@ -13,17 +14,6 @@ import {
 } from '../../utils/recent'
 import { safeDecode } from '../../utils/utils'
 import styles from './SearchMobilePage.module.scss'
-
-export const TABS = [
-  {
-    index: 'Assets',
-    content: 'Assets'
-  },
-  {
-    index: 'Trends',
-    content: 'Trends'
-  }
-]
 
 const SearchMobilePage = ({ history }) => {
   const [selectedTab, selectTab] = useState(TABS[0].index)

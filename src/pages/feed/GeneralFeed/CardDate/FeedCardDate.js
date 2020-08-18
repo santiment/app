@@ -7,7 +7,7 @@ import {
   getTimeFormats,
   make12Hours
 } from '../../../../utils/dates'
-import { TODAY, YESTERDAY } from '../FeedList/FeedList'
+import { TODAY, YESTERDAY } from '../FeedList/dates'
 import styles from './FeedCardDate.module.scss'
 
 const makeDateLabel = date => {

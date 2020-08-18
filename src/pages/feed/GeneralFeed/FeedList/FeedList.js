@@ -1,17 +1,15 @@
 import React, { Fragment } from 'react'
 import cx from 'classnames'
+import { TODAY, YESTERDAY } from './dates'
 import FeedItemRenderer from '../FeedItemRenderer/FeedItemRenderer'
 import SonarFeedRecommendations from '../../../SonarFeed/SonarFeedRecommendations'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import MakeProSubscriptionCard from '../MakeProSubscriptionCard/MakeProSubscriptionCard'
 import { addDays, getDateFormats } from '../../../../utils/dates'
-import externalStyles from '../GeneralFeed.module.scss'
-import styles from './FeedList.module.scss'
 import StoriesList from '../../../../components/Stories/StoriesList'
 import PageLoader from '../../../../components/Loader/PageLoader'
-
-export const TODAY = new Date().toLocaleDateString()
-export const YESTERDAY = addDays(new Date(), -1).toLocaleDateString()
+import styles from './FeedList.module.scss'
+import externalStyles from '../GeneralFeed.module.scss'
 
 const getEventDate = ({ insertedAt, publishedAt }) =>
   insertedAt ? new Date(insertedAt) : new Date(publishedAt)

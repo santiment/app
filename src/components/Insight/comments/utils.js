@@ -3,7 +3,7 @@ import {
   COMMENTS_TIMELINE_EVENTS_QUERY,
   CREATE_TIMELINE_EVENT_COMMENT_MUTATION
 } from '../../../queries/timelineEventComments'
-import { CommentTypes } from '../../TimelineEventComments/TimelineEventComments'
+import { CommentTypes } from '../../TimelineEventComments/types'
 import {
   DELETE_COMMENT_MUTATION,
   UPDATE_COMMENT_MUTATION
