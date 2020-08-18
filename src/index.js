@@ -4,15 +4,13 @@ import { Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { StripeProvider } from 'react-stripe-elements'
 import throttle from 'lodash.throttle'
-import { createHttpLink } from 'apollo-link-http'
-import { from } from 'apollo-link'
 import { ApolloProvider } from 'react-apollo'
 import { ConnectedRouter } from 'react-router-redux'
 import App from './App'
 import { client } from './apollo'
 import { store, history } from './redux'
 import { saveState } from './utils/localStorage'
-import { getAPIUrl, isNotSafari } from './utils/utils'
+import { isNotSafari } from './utils/utils'
 import detectNetwork from './utils/detectNetwork'
 import { changeNetworkStatus, launchApp } from './actions/rootActions'
 import ChartPage from './pages/Chart'
@@ -67,11 +65,6 @@ if (typeof Node === 'function' && Node.prototype) {
 }
 
 const main = () => {
-  const httpLink = createHttpLink({
-    uri: `${getAPIUrl()}/graphql`,
-    credentials: 'include'
-  })
-
   calculateHeight()
 
   window.addEventListener('resize', throttle(calculateHeight, 200))

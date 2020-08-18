@@ -1,5 +1,5 @@
-import { formatNumber, millify } from '../../utils/formatting'
-import { getDateFormats, getTimeFormats } from '../../utils/dates'
+import { formatNumber, millify } from '../../../utils/formatting'
+import { getDateFormats, getTimeFormats } from '../../../utils/dates'
 
 const currencyFormatter = (val, currency) =>
   val || val === 0 ? formatNumber(val, { currency }) : 'No data'

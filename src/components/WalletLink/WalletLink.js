@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import SmoothDropdownItem from './../SmoothDropdown/SmoothDropdownItem'
 import ViewBalanceDialog from './ViewBalanceDialog'
-import Address from './Address'
+import Address, { EtherscanLink } from './Address'
 import styles from './WalletLink.module.scss'
 
 const WalletLink = ({

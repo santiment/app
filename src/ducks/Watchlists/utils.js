@@ -1,5 +1,4 @@
 import qs from 'query-string'
-import { store } from '../../redux'
 
 export function getWatchlistLink ({ name, id }) {
   return `/assets/list?name=${encodeURIComponent(name)}@${id}`
@@ -19,25 +18,6 @@ export function isDynamicWatchlist (watchlist = {}) {
   return (
     name !== 'empty' && (name === 'selector' || name === 'top_all_projects')
   )
-}
-
-export function isUserDynamicWatchlist (watchlist) {
-  const storeState = store.getState()
-  let userId
-  let watchlistUserId
-  if (storeState) {
-    userId = storeState.user.data.id
-  }
-
-  if (!watchlist) {
-    return
-  }
-
-  if (watchlist && watchlist.user) {
-    watchlistUserId = watchlist.user.id
-  }
-  const { name } = watchlist && watchlist.function ? watchlist.function : {}
-  return name !== 'empty' && userId === watchlistUserId
 }
 
 export function getWatchlistId (search) {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/react-hooks'
+import { SIGNAL_SUPPORTED_METRICS } from './metrics'
 import Search from '../../../../../Studio/Sidebar/Search'
 import MetricsList from './MetricsList'
 import { DEFAULT_METRICS } from '../../../../../Studio/withMetrics'

@@ -1,4 +1,6 @@
 import { DATETIME_SORT } from '../sorters/FeedSorters'
+import { AUTHOR_TYPES } from '../filters/AlertsAndInsightsFilter'
+import { baseLocation, pulseLocation, personalLocation } from './locations'
 
 export const MAX_LIMIT = 10
 export const PULSE_MAX_LIMIT = 100
@@ -7,6 +9,9 @@ export const CURSOR_TYPES = {
   before: 'BEFORE',
   after: 'AFTER'
 }
+
+export const isBaseLocation = tab =>
+  tab === baseLocation || tab === pulseLocation
 
 export const makeFeedVariables = ({
   date,

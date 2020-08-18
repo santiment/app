@@ -3,7 +3,7 @@ import cx from 'classnames'
 import TransactionTableLabels from './TransactionTableLabels'
 import styles from './WalletLink.module.scss'
 
-const EtherscanLink = ({
+export const EtherscanLink = ({
   address = '',
   isTx,
   isExchange,

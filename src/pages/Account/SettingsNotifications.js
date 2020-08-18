@@ -2,10 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
 import Link from 'react-router-dom/Link'
 import Label from '@santiment-network/ui/Label'
 import Selector from '@santiment-network/ui/Selector/Selector'
+import { NEWSLETTER_SUBSCRIPTION_MUTATION } from './gql'
 import Settings from './Settings'
 import * as actions from '../../actions/types'
 import { store } from '../../redux'
@@ -22,15 +22,6 @@ import { CHANNEL_TYPES } from '../../ducks/Signals/utils/constants'
 import { DEFAULT_SETTINGS, useUserSettings } from '../../stores/user/settings'
 import styles from './AccountPage.module.scss'
 
-export const NEWSLETTER_SUBSCRIPTION_MUTATION = gql`
-  mutation changeNewsletterSubscription(
-    $subscription: NewsletterSubscriptionType
-  ) {
-    changeNewsletterSubscription(newsletterSubscription: $subscription) {
-      newsletterSubscription
-    }
-  }
-`
 const onDigestChangeSuccess = () =>
   store.dispatch(showNotification('Digest type has been successfully changed'))
 

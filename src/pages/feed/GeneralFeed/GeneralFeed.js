@@ -7,7 +7,8 @@ import {
   extractEventsFromData,
   makeFeedVariables,
   getFeedAuthorType,
-  getDefaultFilters
+  getDefaultFilters,
+  isBaseLocation
 } from './utils'
 import EmptyFeed from './EmptyFeed'
 import { FEED_QUERY } from '../../../queries/FeedGQL'
@@ -18,7 +19,6 @@ import FeedSorters, { DATETIME_SORT } from '../sorters/FeedSorters'
 import FeedHelpPopup from './HelpPopup/FeedHelpPopup'
 import Tabs from '@santiment-network/ui/Tabs'
 import FeedFilters from '../filters/FeedFilters'
-import { AUTHOR_TYPES } from '../filters/AlertsAndInsightsFilter'
 import PulseInsights from './PulseInsights/PulseInsights'
 import styles from './GeneralFeed.module.scss'
 
@@ -83,8 +83,6 @@ const Header = ({
 )
 
 const START_DATE = new Date()
-
-const isBaseLocation = tab => tab === baseLocation || tab === pulseLocation
 
 const GeneralFeed = ({ isLoggedIn, isUserLoading, location }) => {
   const { pathname } = location
