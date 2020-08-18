@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
-import { PATHS } from '../../App'
+import { PATHS } from '../../paths'
 import styles from './FreeTrialBlock.module.scss'
 
 const FreeTrialBlock = () => {

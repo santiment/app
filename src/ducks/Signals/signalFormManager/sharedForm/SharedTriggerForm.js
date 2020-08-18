@@ -3,11 +3,10 @@ import { connect } from 'react-redux'
 import Button from '@santiment-network/ui/Button'
 import { couldShowChart } from '../../utils/utils'
 import SignalPreview from '../../chart/preview/SignalPreview'
-import SignalCard from '../../../../components/SignalCard/card/SignalCard'
 import NoSignalPreview from '../../chart/preview/NoSignalPreview'
 import { DesktopOnly, MobileOnly } from '../../../../components/Responsive'
 import CopySignal from '../../../../components/SignalCard/controls/CopySignal'
-import { isStrictTrendingWords } from '../../../../components/SignalCard/card/TrendingWordsSignalCard'
+import { isStrictTrendingWords } from '../../../../components/SignalCard/card/utils'
 import styles from './ShareTriggerForm.module.scss'
 
 const SharedTriggerForm = ({
@@ -17,7 +16,8 @@ const SharedTriggerForm = ({
   onCreate,
   settings,
   originalTrigger,
-  isAuthor
+  isAuthor,
+  SignalCard
 }) => {
   const { metric } = settings
 

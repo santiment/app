@@ -6,7 +6,7 @@ import { compose } from 'recompose'
 import * as actions from '../../../actions/types'
 import UserAvatar from './UserAvatar'
 import ImageEditor from './editor/ImageEditor'
-import { store } from '../../../index'
+import { store } from '../../../redux'
 import { showNotification } from '../../../actions/rootActions'
 import {
   extractUploadedImageUrl,

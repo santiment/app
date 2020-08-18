@@ -1,6 +1,8 @@
 import { Operator, Filter } from './dataHub/types'
 import { DEFAULT_TIMERANGES } from './defaults'
-import { isContainMetric } from './utils'
+
+export const isContainMetric = (item, key) =>
+  item.includes(`${key}_change_`) || item === key
 
 export function extractFilterByMetricType (filters = [], metric) {
   return filters

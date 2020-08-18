@@ -4,7 +4,7 @@ import { Metric } from '../../dataHub/metrics'
 import { tryMapToTimeboundMetric } from '../../dataHub/timebounds'
 import { getSavedMulticharts } from '../../../utils/localStorage'
 import { capitalizeStr } from '../../../utils/utils'
-import { PATHS } from '../../../App'
+import { PATHS } from '../../../paths'
 import { getSEOLinkFromIdAndTitle } from '../../../components/Insight/utils'
 
 const LAST_USED_TEMPLATE = 'LAST_USED_TEMPLATE'

@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { client } from '../../../../index'
+import { client } from '../../../../apollo'
 
 export const INSIGHT_TEXT_QUERY = gql`
   query insight($id: Int!) {

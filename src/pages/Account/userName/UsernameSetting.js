@@ -1,7 +1,7 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
-import { store } from '../../../index'
+import { store } from '../../../redux'
 import { showNotification } from '../../../actions/rootActions'
 import EditableInputSetting from './../EditableInputSetting'
 import styles from './UsernameSettings.module.scss'

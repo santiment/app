@@ -6,6 +6,7 @@ import { useSignal } from '../common/getSignal'
 import { SIGNAL_ROUTES } from '../common/constants'
 import ConfirmSignalModalClose from './confirmClose/ConfirmSignalModalClose'
 import SignalDialog from './SignalDialog'
+import SignalMaster from '../signalFormManager/signalMaster/SignalMaster'
 
 const SignalMasterModalForm = ({
   label = 'New alert',
@@ -128,6 +129,7 @@ const SignalMasterModalForm = ({
         canRedirect={canRedirect}
         metaFormSettings={metaFormSettings}
         buttonParams={buttonParams}
+        SignalMaster={SignalMaster}
       />
     </>
   )

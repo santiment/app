@@ -2,22 +2,25 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Query } from 'react-apollo'
+import { baseLocation, pulseLocation, personalLocation } from './locations'
+import {
+  extractEventsFromData,
+  makeFeedVariables,
+  getFeedAuthorType,
+  getDefaultFilters,
+  isBaseLocation
+} from './utils'
+import EmptyFeed from './EmptyFeed'
 import { FEED_QUERY } from '../../../queries/FeedGQL'
 import PageLoader from '../../../components/Loader/PageLoader'
 import FeedListLoading from './FeedList/FeedListLoading'
 import { checkIsLoggedIn, checkIsLoggedInPending } from '../../UserSelectors'
-import { extractEventsFromData, makeFeedVariables } from './utils'
 import FeedSorters, { DATETIME_SORT } from '../sorters/FeedSorters'
 import FeedHelpPopup from './HelpPopup/FeedHelpPopup'
 import Tabs from '@santiment-network/ui/Tabs'
 import FeedFilters from '../filters/FeedFilters'
-import { AUTHOR_TYPES } from '../filters/AlertsAndInsightsFilter'
 import PulseInsights from './PulseInsights/PulseInsights'
 import styles from './GeneralFeed.module.scss'
-
-const baseLocation = '/feed'
-export const pulseLocation = `${baseLocation}/pulse`
-export const personalLocation = `${baseLocation}/personal`
 
 const tabs = [
   {
@@ -79,29 +82,7 @@ const Header = ({
   </div>
 )
 
-export const EmptyFeed = () => (
-  <div className={styles.scrollable}>
-    <PageLoader />
-  </div>
-)
-
 const START_DATE = new Date()
-
-const isBaseLocation = tab => tab === baseLocation || tab === pulseLocation
-
-const getFeedAuthorType = tab => {
-  if (isBaseLocation(tab) || !tab) {
-    return AUTHOR_TYPES.ALL
-  } else {
-    return AUTHOR_TYPES.OWN
-  }
-}
-
-export const getDefaultFilters = tab => ({
-  author: getFeedAuthorType(tab),
-  watchlists: [],
-  assets: []
-})
 
 const GeneralFeed = ({ isLoggedIn, isUserLoading, location }) => {
   const { pathname } = location

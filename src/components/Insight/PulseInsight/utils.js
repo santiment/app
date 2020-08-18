@@ -1,8 +1,8 @@
-import { client } from '../../../index'
 import {
   LIKE_INSIGHT_MUTATION,
   UNLIKE_INSIGHT_MUTATION
 } from '../../Like/likesGQL'
+import { client } from '../../../apollo'
 import { getAPIUrl } from '../../../utils/utils'
 
 const insightsBaseLink = getAPIUrl().includes('stage')

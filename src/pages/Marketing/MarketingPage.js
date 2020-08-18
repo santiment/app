@@ -16,7 +16,7 @@ import WatchlistCards from '../../ducks/Watchlists/Cards'
 import { BASIC_CATEGORIES } from '../../ducks/Watchlists/utils'
 import MyWatchlist from '../../ducks/Watchlists/Cards/MyWatchlist'
 import MyScreeners from '../../ducks/Watchlists/Cards/MyScreeners'
-import { PATHS } from '../../App'
+import { PATHS } from '../../paths'
 import AlphaBlock from './AlphaBlock/AlphaBlock'
 import styles from './MarketingPage.module.scss'
 

@@ -1,15 +1,11 @@
 import React from 'react'
+import { CommentTypes } from './types'
 import Comments from '../Insight/comments/Comments'
-import { client } from '../../index'
+import { client } from '../../apollo'
 import {
   COMMENTS_TIMELINE_EVENTS_QUERY,
   CREATE_TIMELINE_EVENT_COMMENT_MUTATION
 } from '../../queries/timelineEventComments'
-
-export const CommentTypes = {
-  TIMELINE_EVENT: 'TIMELINE_EVENT',
-  INSIGHT: 'INSIGHT'
-}
 
 function getTimelineComments (
   id,

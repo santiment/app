@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import cx from 'classnames'
-import { useUpdateTemplate } from '../../gql/hooks'
 import {
   getTemplateAssets,
   getTemplateMetrics,
@@ -14,30 +13,7 @@ import TemplateDetailsDialog, {
 import TemplateStatus from '../../TemplateStatus/TemplateStatus'
 import { updateHistory } from '../../../../../utils/utils'
 import styles from './Template.module.scss'
-
-export const isUserAuthorOfTemplate = (user, template) => {
-  if (!template) {
-    return false
-  }
-  const { user: { id } = {} } = template
-  return user && (user.data ? +user.data.id : +user.id) === +id
-}
-
-export const usePublicTemplates = template => {
-  const [updateTemplate] = useUpdateTemplate()
-  const [isPublic, setIsPublic] = useState(template.isPublic)
-  function toggleIsPublic (e) {
-    e.stopPropagation()
-
-    setIsPublic(state => {
-      const newState = !state
-      updateTemplate(template, { isPublic: newState })
-      return newState
-    })
-  }
-
-  return { isPublic, toggleIsPublic }
-}
+import { isUserAuthorOfTemplate, usePublicTemplates } from './utils'
 
 export const openTemplate = ({ redirect, template, asProject }) => {
   const link = prepareTemplateLink(template, asProject)

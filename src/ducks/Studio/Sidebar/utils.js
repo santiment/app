@@ -1,7 +1,12 @@
 import { Metric } from '../../dataHub/metrics'
-import { AVAILABLE_TIMEBOUNDS } from '../../dataHub/submetrics'
 
 export const NO_GROUP = '_'
+
+export const AVAILABLE_TIMEBOUNDS = {
+  dormant_circulation_: {
+    base: Metric.dormant_circulation
+  }
+}
 
 const addItemToGraph = (graph, node, item) => {
   const items = graph[node]

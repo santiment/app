@@ -1,7 +1,10 @@
 import React from 'react'
 import { Filter } from './types'
 import MarketSegments from '../Widget/MarketSegments'
-import { percentValueFormatter, percentServerValueFormatter } from '../utils'
+import {
+  percentValueFormatter,
+  percentServerValueFormatter
+} from '../formatters'
 
 export const Metric = {
   price_usd: {

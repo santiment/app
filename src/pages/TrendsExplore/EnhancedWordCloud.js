@@ -3,9 +3,9 @@ import cx from 'classnames'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
+import { getTimePeriod } from './utils'
 import Calendar from '../../ducks/Studio/AdvancedView/Calendar'
 import WordCloud from '../../components/WordCloud/WordCloud'
-import { getTimePeriod } from './Sidebar'
 import styles from './EnhancedWordCloud.module.scss'
 
 const MAX_DATE = new Date()

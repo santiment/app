@@ -6,7 +6,7 @@ import ProjectIcon from '../ProjectIcon/ProjectIcon'
 import PercentChanges from '../PercentChanges'
 import WatchlistCard from '../../ducks/Watchlists/Cards/WatchlistCard'
 import Skeleton from '../Skeleton/Skeleton'
-import { store } from '../../index'
+import { store } from '../../redux'
 import {
   RECENT_ASSETS_FETCH,
   RECENT_WATCHLISTS_FETCH

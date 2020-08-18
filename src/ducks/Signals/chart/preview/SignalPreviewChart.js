@@ -12,12 +12,13 @@ import {
   makeSameRange,
   mapToRequestedMetrics,
   mapWithTimeseries,
-  mapWithTimeseriesAndYCoord
+  mapWithTimeseriesAndYCoord,
+  getAvailableCooldown
 } from './utils'
+import PreviewLoader from './Loader'
 import GetTimeSeries from '../../../GetTimeSeries/GetTimeSeries'
 import VisualBacktestChart, { GetReferenceDots } from '../VisualBacktestChart'
 import { getMetricYAxisId } from '../../../SANCharts/utils'
-import { getAvailableCooldown, PreviewLoader } from './SignalPreview'
 
 const SignalPreviewChart = ({
   target,

@@ -3,7 +3,6 @@ import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
 import { connect } from 'react-redux'
 import { Mutation } from 'react-apollo'
-import PLANS from './list'
 import { showNotification } from '../../actions/rootActions'
 import { UPDATE_SUBSCRIPTION_MUTATION } from '../../queries/plans'
 import { formatPrice } from '../../utils/plans'
@@ -12,6 +11,13 @@ import { formatError, contactAction } from '../../utils/notifications'
 import { USER_SUBSCRIPTION_CHANGE } from '../../actions/types'
 import planStyles from './Plans.module.scss'
 import dialogStyles from './Dialog.module.scss'
+
+const PlanToTitle = {
+  FREE: 'Free',
+  BASIC: 'Basic',
+  PRO: 'Pro',
+  ENTERPRISE: 'Custom'
+}
 
 const ChangePlanDialog = ({
   subscription: {
@@ -63,7 +69,7 @@ const ChangePlanDialog = ({
           title='Plan change'
         >
           <Dialog.ScrollContent withPadding>
-            Your current plan ({PLANS[name].title} {oldPrice}/{interval}) is
+            Your current plan ({PlanToTitle[name]} {oldPrice}/{interval}) is
             active until {date}.
             <br />
             Are you sure you want to change to the {title} plan ({newPrice}/

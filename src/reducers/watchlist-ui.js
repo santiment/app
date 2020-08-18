@@ -1,6 +1,6 @@
 import * as actions from './../actions/types'
 import { loadKeyState } from '../utils/localStorage'
-import { CATEGORIES_SETTINGS } from '../ducks/Watchlists/Widgets/Table/asset-columns.js'
+import { CATEGORIES_SETTINGS } from '../ducks/Watchlists/Widgets/Table/columns.js'
 
 const settings = loadKeyState('watchlistsSettings') || {}
 

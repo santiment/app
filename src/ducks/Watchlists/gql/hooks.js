@@ -9,7 +9,7 @@ import {
   PROJECTS_BY_FUNCTION_QUERY
 } from './index'
 import { WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
-import { store } from '../../../index'
+import { store } from '../../../redux'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import {
   countAssetsSort,
