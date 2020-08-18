@@ -5,6 +5,7 @@ import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import styles from './StablecoinsPage.module.scss'
 import StablecoinsMarketCap from '../../ducks/Stablecoins/StablecoinsMarketCap/StablecoinsMarketCap'
+import StablecoinHolderDistribution from '../../ducks/Stablecoins/HolderDistribution/StablecoinHolderDistribution'
 
 const StablecoinsPage = ({ history }) => {
   return (
@@ -27,8 +28,10 @@ const StablecoinsPage = ({ history }) => {
         </div>
       </div>
 
-      <div className={cx(styles.inner, styles.block)}>
-        <StablecoinsMarketCap />
+      <div className={styles.inner}>
+        <StablecoinsMarketCap className={styles.block} />
+
+        <StablecoinHolderDistribution className={styles.block} />
       </div>
 
       <CommonFooter className={styles.footer} />

@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import cx from 'classnames'
 import MarketCapHeader, {
   MARKET_CAP_MONTH_INTERVAL
 } from './MarketCapHeader/MarketCapHeader'
@@ -15,7 +16,7 @@ import { useTimeseries } from '../../Studio/timeseries/hooks'
 import { useChartMetrics, useMetricColors } from './hooks'
 import styles from './StablecoinsMarketCap.module.scss'
 
-const getDates = interval => {
+export const getIntervalDates = interval => {
   return {
     from: new Date(
       new Date().getTime() + -1 * convertToSeconds(interval.value)
@@ -32,15 +33,15 @@ const CHART_PADDING = {
   left: 24
 }
 
-const StablecoinsMarketCap = () => {
+const StablecoinsMarketCap = ({ className }) => {
   const [interval, setInterval] = useState(MARKET_CAP_MONTH_INTERVAL)
   const [disabledAssets, setDisabledAsset] = useState({})
 
-  const [settings, setSettings] = useState({ ...getDates(interval) })
+  const [settings, setSettings] = useState({ ...getIntervalDates(interval) })
 
   useEffect(
     () => {
-      setSettings({ ...getDates(interval) })
+      setSettings({ ...getIntervalDates(interval) })
     },
     [interval]
   )
@@ -66,7 +67,7 @@ const StablecoinsMarketCap = () => {
   const xAxisKey = (filteredMetrics[0] || {}).key
 
   return (
-    <div className={styles.container}>
+    <div className={cx(styles.container, className)}>
       <MarketCapHeader interval={interval} setInterval={setInterval} />
 
       <CheckingAssets
@@ -81,6 +82,7 @@ const StablecoinsMarketCap = () => {
         data={data}
         chartHeight={CHART_HEIGHT}
         metrics={filteredMetrics}
+        isCartesianGridActive={true}
         hideWatermark
         hideBrush
         chartPadding={CHART_PADDING}

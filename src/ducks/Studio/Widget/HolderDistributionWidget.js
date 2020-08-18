@@ -26,6 +26,8 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
     setIsOpened(!isOpened)
   }
 
+  console.log(widget)
+
   return (
     <Widget className={cx(styles.holders, isOpened && styles.holders_opened)}>
       <Chart {...props} widget={widget} TopLeftComponent={Title} />
