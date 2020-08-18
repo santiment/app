@@ -5,3 +5,15 @@ export const detectWordWithAllTickersSlugs = ({ word, allAssets }) => {
     ({ slug, ticker }) => matchWords(word, slug) || matchWords(word, ticker)
   )
 }
+
+export function getTimePeriod (date) {
+  const from = new Date(date)
+  const to = new Date(date)
+
+  from.setDate(to.getDate() - 1)
+
+  return {
+    from: from.toISOString(),
+    to: to.toISOString()
+  }
+}

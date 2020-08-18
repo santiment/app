@@ -1,15 +1,13 @@
 import React from 'react'
 import cx from 'classnames'
 import Panel from '@santiment-network/ui/Panel/Panel'
+import { canOpenTrigger } from './utils'
 import { DesktopOnly } from '../../Responsive'
 import MultilineText from '../../MultilineText/MultilineText'
 import SignalCardHeader from './SignalCardHeader'
 import SignalCardBottom from './SignalCardBottom'
 import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
 import styles from './SignalCard.module.scss'
-
-export const canOpenTrigger = ({ type, target }) =>
-  type === 'trending_words' ? target !== 'default' : true
 
 const SignalCard = ({
   id,

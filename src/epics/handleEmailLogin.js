@@ -11,7 +11,7 @@ import { savePrevAuthProvider } from './../utils/localStorage'
 import GA from './../utils/tracking'
 import { setCoupon } from '../utils/coupon'
 import { USER_GQL_FRAGMENT } from './handleLaunch'
-import { NEWSLETTER_SUBSCRIPTION_MUTATION } from '../pages/Account/SettingsNotifications'
+import { NEWSLETTER_SUBSCRIPTION_MUTATION } from '../pages/Account/gql'
 
 const EMAIL_LOGIN_VERIFY_MUTATION = gql`
   mutation emailLoginVerify($email: String!, $token: String!) {

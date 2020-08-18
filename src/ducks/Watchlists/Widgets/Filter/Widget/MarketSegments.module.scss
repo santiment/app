@@ -1,0 +1,138 @@
+@import '~@santiment-network/ui/mixins';
+
+.panel {
+  max-height: 201px;
+  overflow-y: auto;
+  width: 252px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 6px 8px;
+}
+
+.list {
+  padding: 10px 8px;
+}
+
+.list + .list {
+  border-top: 1px solid var(--porcelain);
+}
+
+.action {
+  margin-left: auto;
+}
+
+.count {
+  color: var(--waterloo);
+  margin-left: 4px;
+}
+
+.name {
+  color: var(--rhino);
+}
+
+.delete {
+  color: var(--waterloo);
+}
+
+.selected {
+  color: var(--casper);
+}
+
+.item__selected {
+  cursor: default;
+
+  &:hover {
+    background: none;
+  }
+
+  & .selected {
+    color: var(--casper);
+  }
+}
+
+.item:hover {
+  & .delete {
+    color: var(--persimmon);
+  }
+}
+
+.trigger__btn {
+  min-width: 252px;
+
+  &:hover {
+    border-color: var(--mystic);
+    color: var(--rhino);
+  }
+}
+
+.trigger__arrow {
+  margin-left: auto;
+  fill: var(--waterloo);
+  transition: transform 0.25s ease-in-out;
+}
+
+.active {
+  border-color: var(--jungle-green);
+
+  .trigger__arrow {
+    transform: rotate(180deg);
+    fill: var(--jungle-green);
+  }
+}
+
+.dropdown {
+  z-index: 1000;
+}
+
+.loader {
+  height: 32px;
+}
+
+.loader + .loader {
+  margin-top: 2px;
+}
+
+.labels {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 4px 0 6px;
+}
+
+.label {
+  padding: 2px 8px;
+  margin-right: 4px;
+  margin-bottom: 4px;
+  background-color: var(--porcelain);
+  border-radius: 4px;
+
+  @include text('caption');
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.settings {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.toggleModeBtn {
+  padding-left: 6px;
+  padding-right: 6px;
+  width: 50px;
+  justify-content: center;
+  margin-left: 8px;
+}
+
+.explanation {
+  z-index: 1000;
+  max-width: 190px;
+  padding: 6px 12px;
+}

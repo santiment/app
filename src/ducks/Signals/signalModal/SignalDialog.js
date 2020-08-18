@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import GA from '../../../utils/tracking'
 import PageLoader from '../../../components/Loader/PageLoader'
-import SignalMaster from '../signalFormManager/signalMaster/SignalMaster'
 import AnonBanner from '../../../components/AnonBanner/AnonBanner'
 import {
   NoSignal,
@@ -28,7 +27,8 @@ const SignalDialog = ({
   formChangedCallback,
   canRedirect,
   metaFormSettings,
-  buttonParams
+  buttonParams,
+  SignalMaster
 }) => {
   const [dialogTitle, onSetDialogTitle] = useState('')
   const [isAnonWarning, setAnonWarning] = useState(false)

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
+import { getTimePeriod } from './utils'
 import Calendar from '../../ducks/Studio/AdvancedView/Calendar'
 import TrendsTable from '../../components/Trends/TrendsTable/TrendsTable'
 import GetHypedTrends from '../../components/Trends/GetHypedTrends'
@@ -10,18 +11,6 @@ import styles from './Sidebar.module.scss'
 import stylesTooltip from '../../components/HelpPopup/HelpPopup.module.scss'
 
 const MAX_DATE = new Date()
-
-export function getTimePeriod (date) {
-  const from = new Date(date)
-  const to = new Date(date)
-
-  from.setDate(to.getDate() - 1)
-
-  return {
-    from: from.toISOString(),
-    to: to.toISOString()
-  }
-}
 
 const Sidebar = ({
   topics,

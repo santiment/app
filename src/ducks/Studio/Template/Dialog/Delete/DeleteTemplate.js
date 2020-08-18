@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import ConfirmDialog from '../../../../../components/ConfirmDialog/ConfirmDialog'
-import { Option } from '../../TemplateContextMenu/TemplateContextMenu'
+import Option from '../../TemplateContextMenu/Option'
 import { useDeleteTemplate } from '../../gql/hooks'
 import styles from './DeleteTemplate.module.scss'
 

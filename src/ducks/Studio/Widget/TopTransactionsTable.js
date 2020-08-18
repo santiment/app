@@ -6,10 +6,8 @@ import { newWidget } from './utils'
 import Calendar from '../AdvancedView/Calendar'
 import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
 import HelpPopup from '../../../components/HelpPopup/HelpPopup'
-import {
-  TransactionTable,
-  normalizeTransactionData
-} from '../../../pages/Detailed/transactionsInfo/DetailedTransactionsTable'
+import TransactionTable from '../../../pages/Detailed/transactionsInfo/TransactionTable'
+import { normalizeTransactionData } from '../../../pages/Detailed/transactionsInfo/utils'
 import styles from './TopTransactionsTable.module.scss'
 import widgetStyles from './Widget.module.scss'
 

@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { withRouter } from 'react-router-dom'
 import Icon from '@santiment-network/ui/Icon'
 import SearchProjects from './SearchProjects'
-import { TABS } from '../../pages/SearchMobilePage/SearchMobilePage'
+import { TABS } from './tabs'
 import TrendsSearchForm from '../Trends/Search'
 import {
   getRecentAssets,

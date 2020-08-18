@@ -1,4 +1,4 @@
-import { client } from '../../index'
+import { client } from '../../apollo'
 
 export const buildRefetcher = query => () =>
   client.query({

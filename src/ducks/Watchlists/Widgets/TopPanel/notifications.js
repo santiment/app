@@ -1,4 +1,4 @@
-import { store } from '../../../../index'
+import { store } from '../../../../redux'
 import { showNotification } from '../../../../actions/rootActions'
 
 const dispatchNotification = payload =>

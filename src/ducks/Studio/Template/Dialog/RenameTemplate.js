@@ -7,7 +7,7 @@ import { TemplateStatusToggle } from '../TemplateStatus/TemplateStatus'
 import {
   isUserAuthorOfTemplate,
   usePublicTemplates
-} from './LoadTemplate/Template'
+} from './LoadTemplate/utils'
 import styles from '../TemplateDetailsDialog/TemplateDetailsDialog.module.scss'
 
 const RenameTemplate = ({ template, onRename, isAuthor, ...props }) => {

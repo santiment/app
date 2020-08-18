@@ -28,12 +28,16 @@ const InsightsErrorContext = React.createContext()
 
 export const InsightsProvider = ({ children }) => {
   const [state, setState] = useState(DEFAULT_STATE)
-  const [toggle, setToggle] = useState()
+  const [[toggle, from, to], setToggle] = useState(DEFAULT_STATE)
   const [ErrorMsg, setErrorMsg] = useState(DEFAULT_ERROR_MSG)
 
-  function toggleInsight (newToggle) {
-    setToggle(toggle === newToggle ? undefined : newToggle)
-  }
+  useEffect(
+    () => {
+      const { my, followings, sanfam } = ErrorMsg
+      setErrorMsg({ my, followings, sanfam })
+    },
+    [from, to]
+  )
 
   useEffect(
     () => {
@@ -45,7 +49,7 @@ export const InsightsProvider = ({ children }) => {
       const { key } = toggle
       const loadInsights = LoadInsights[key] || getTagInsights
 
-      loadInsights(key)
+      loadInsights(from, to, key)
         .then(insights => {
           if (!insights.length) {
             throw new Error('No data')
@@ -63,8 +67,16 @@ export const InsightsProvider = ({ children }) => {
 
       return () => (race = true)
     },
-    [toggle]
+    [toggle, from, to]
   )
+
+  function toggleInsight (newToggle, newFrom, newTo) {
+    if (newFrom !== from || newTo !== to) {
+      setToggle([newToggle, newFrom, newTo])
+    } else {
+      setToggle([newToggle === toggle ? undefined : newToggle, newFrom, newTo])
+    }
+  }
 
   return (
     <InsightsContext.Provider value={state}>

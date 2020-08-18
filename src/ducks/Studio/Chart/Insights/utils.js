@@ -1,5 +1,5 @@
 import { push } from 'react-router-redux'
-import { store } from '../../../../index'
+import { store } from '../../../../redux'
 import { showNotification } from '../../../../actions/rootActions'
 
 const SCHEDULED_COMMENT = 'SCHEDULED_COMMENT'

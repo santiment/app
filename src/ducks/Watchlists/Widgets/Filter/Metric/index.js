@@ -20,6 +20,10 @@ const FilterMetric = ({
   toggleMetricInFilter,
   isPro
 }) => {
+  if (!defaultSettings.isActive && baseMetric.isDeprecated) {
+    return null
+  }
+
   const [settings, setSettings] = useState(defaultSettings)
   const [percentTimeRanges, setPercentTimeRanges] = useState(
     getTimeRangesByMetric(baseMetric, availableMetrics)
@@ -69,15 +73,19 @@ const FilterMetric = ({
               baseMetric.key}_change_${timeRange}`
           : baseMetric.key
         const operator = Filter[type].operator
-        const formatter = Filter[type].serverValueFormatter
+        const formatter =
+          Filter[type].serverValueFormatter || baseMetric.serverValueFormatter
 
         const newFilter = {
-          aggregation,
-          dynamicFrom,
-          dynamicTo: 'now',
-          metric,
-          operator,
-          threshold: formatter ? formatter(firstThreshold) : firstThreshold
+          args: {
+            aggregation,
+            dynamicFrom,
+            dynamicTo: 'now',
+            metric,
+            operator,
+            threshold: formatter ? formatter(firstThreshold) : firstThreshold
+          },
+          name: 'metric'
         }
 
         if (firstThreshold) {

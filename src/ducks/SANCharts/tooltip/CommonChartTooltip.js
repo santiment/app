@@ -1,7 +1,10 @@
 import React, { Fragment } from 'react'
 import cx from 'classnames'
-import { tooltipLabelFormatter, tooltipValueFormatter } from '../utils'
 import { TooltipSetting } from '../../dataHub/tooltipSettings'
+import {
+  tooltipLabelFormatter,
+  tooltipValueFormatter
+} from '../../dataHub/metrics/formatters'
 import styles from './CommonChartTooltip.module.scss'
 
 const ChartTooltip = ({

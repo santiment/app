@@ -4,21 +4,13 @@ import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
-import DialogFormRenameTemplate from '../Dialog/RenameTemplate'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
+import Option from './Option'
+import DialogFormRenameTemplate from '../Dialog/RenameTemplate'
 import DeleteTemplate from '../Dialog/Delete/DeleteTemplate'
 import ShareTemplate from '../Share/ShareTemplate'
-import { isUserAuthorOfTemplate } from '../Dialog/LoadTemplate/Template'
+import { isUserAuthorOfTemplate } from '../Dialog/LoadTemplate/utils'
 import styles from '../Dialog/LoadTemplate/Template.module.scss'
-
-export const Option = props => (
-  <Button
-    {...props}
-    fluid
-    variant='ghost'
-    className={cx(styles.option, props.className)}
-  />
-)
 
 const useMenuEffects = () => {
   const [isMenuOpened, setIsMenuOpened] = useState(false)

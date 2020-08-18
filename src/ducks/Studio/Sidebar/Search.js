@@ -1,8 +1,7 @@
 import React from 'react'
 import { SearchWithSuggestions } from '@santiment-network/ui/Search'
-import { HOLDER_DISTRIBUTION_NODE } from './Category'
 
-const HOLDER_DISTRIBUTION_ITEM = { item: HOLDER_DISTRIBUTION_NODE }
+const ON_CHAIN_DEFAULT = []
 
 const predicate = searchTerm => {
   const upperCaseSearchTerm = searchTerm.toUpperCase()
@@ -17,11 +16,14 @@ const predicate = searchTerm => {
 
 const suggestionContent = ({ item: { label } }) => label
 
-export const getMetricSuggestions = categories => {
+export const getMetricSuggestions = (
+  categories,
+  onChainDefault = ON_CHAIN_DEFAULT
+) => {
   const suggestions = []
   for (const categoryKey in categories) {
     const category = categories[categoryKey]
-    const items = categoryKey === 'On-chain' ? [HOLDER_DISTRIBUTION_ITEM] : []
+    const items = categoryKey === 'On-chain' ? onChainDefault : []
     for (const group in category) {
       items.push(...category[group])
     }
@@ -35,11 +37,11 @@ export const getMetricSuggestions = categories => {
   return suggestions
 }
 
-const Search = ({ categories, toggleMetric, ...rest }) => (
+const Search = ({ categories, toggleMetric, onChainDefault, ...rest }) => (
   <SearchWithSuggestions
     {...rest}
     withMoreSuggestions={false}
-    data={getMetricSuggestions(categories)}
+    data={getMetricSuggestions(categories, onChainDefault)}
     onSuggestionSelect={({ item: { item } }) => toggleMetric(item)}
     dontResetStateAfterSelection
   />

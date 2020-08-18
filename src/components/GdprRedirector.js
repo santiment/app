@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { push } from 'react-router-redux'
 import { useUser } from '../stores/user'
-import { store } from '../index'
+import { store } from '../redux'
 
 const ignoredPages = ['/privacy-policy', '/roadmap']
 

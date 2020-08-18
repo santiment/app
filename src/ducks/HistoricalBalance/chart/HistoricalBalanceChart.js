@@ -17,10 +17,10 @@ import ChartTooltip, {
 } from '../../SANCharts/tooltip/CommonChartTooltip'
 import {
   generateMetricsMarkup,
-  mapDatetimeToNumber,
-  usdFormatter
+  mapDatetimeToNumber
 } from '../../SANCharts/utils'
-import { getPriceMetricWithSlug } from '../balanceView/BalanceView'
+import { usdFormatter } from '../../dataHub/metrics/formatters'
+import { getPriceMetricWithSlug } from '../balanceView/utils'
 import { getSyncedColors } from '../../Chart/Synchronizer'
 import styles from './HistoricalBalanceChart.module.scss'
 

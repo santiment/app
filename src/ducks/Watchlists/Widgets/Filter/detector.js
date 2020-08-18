@@ -1,13 +1,20 @@
 import { Operator, Filter } from './dataHub/types'
 import { DEFAULT_TIMERANGES } from './defaults'
-import { isContainMetric } from './utils'
+
+export const isContainMetric = (item, key) =>
+  item.includes(`${key}_change_`) || item === key
 
 export function extractFilterByMetricType (filters = [], metric) {
-  return filters.filter(
-    item =>
-      isContainMetric(item.metric, metric.percentMetricKey) ||
-      isContainMetric(item.metric, metric.key)
-  )
+  return filters
+    .filter(item => {
+      const filterMetric = item.name === 'metric' ? item.args.metric : item.name
+
+      return (
+        isContainMetric(filterMetric, metric.percentMetricKey) ||
+        isContainMetric(filterMetric, metric.key)
+      )
+    })
+    .map(({ args }) => ({ ...args }))
 }
 
 export function getFilterType (filter = []) {
@@ -66,7 +73,7 @@ export function extractParams (filter = [], filterType, baseMetric) {
     : {
       isActive: true,
       type: filterType.key,
-      firstThreshold: extractThreshold(filter, filterType),
+      firstThreshold: extractThreshold(filter, filterType, baseMetric),
       timeRange: extractTimeRange(filter)
     }
 }
@@ -75,7 +82,7 @@ function extractTimeRange (filter = []) {
   return filter[0].dynamicFrom
 }
 
-function extractThreshold (filter = [], filterType) {
+function extractThreshold (filter = [], filterType, metric) {
   const thresholds = filter.map(({ threshold }) => threshold)
 
   if (isNaN(thresholds[0])) {
@@ -86,7 +93,7 @@ function extractThreshold (filter = [], filterType) {
     )
   }
 
-  const formatter = filterType.valueFormatter
+  const formatter = filterType.valueFormatter || metric.valueFormatter
 
   return formatter ? formatter(thresholds[0]) : thresholds[0]
 }

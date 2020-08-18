@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
 import Panel from '@santiment-network/ui/Panel'
-import { PATHS } from '../../App'
+import { PATHS } from '../../paths'
 import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import styles from './CtaJoinPopup.module.scss'
 

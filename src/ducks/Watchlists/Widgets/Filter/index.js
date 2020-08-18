@@ -3,7 +3,7 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import { store } from '../../../../index'
+import { store } from '../../../../redux'
 import { showNotification } from '../../../../actions/rootActions'
 import { useUpdateWatchlist } from '../../gql/hooks'
 import Trigger from './Trigger'
@@ -12,7 +12,8 @@ import Category from './Category'
 import { DEFAULT_SCREENER_FUNCTION } from '../../utils'
 import { getCategoryGraph } from '../../../Studio/Sidebar/utils'
 import { countCategoryActiveMetrics } from '../../../SANCharts/ChartMetricSelector'
-import { getActiveBaseMetrics, getNewFunction, isContainMetric } from './utils'
+import { getActiveBaseMetrics, getNewFunction, extractFilters } from './utils'
+import { isContainMetric } from './detector'
 import { useAvailableMetrics } from '../../gql/hooks'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import styles from './index.module.scss'
@@ -36,14 +37,17 @@ const Filter = ({
   }
 
   const isViewMode = !isAuthor && (isLoggedIn || !isDefaultScreener)
-  const { filters = [] } = screenerFunction.args
-  const isNoFilters = screenerFunction.name === 'top_all_projects'
+  const filters = extractFilters(screenerFunction.args)
+
   const filterRef = useRef(null)
   const filterContentRef = useRef(null)
   const [filter, updateFilter] = useState(filters)
   const [updateWatchlist, { loading }] = useUpdateWatchlist()
   const [availableMetrics] = useAvailableMetrics()
   const { isPro } = useUserSubscriptionStatus()
+
+  const isNoFilters =
+    filters.length === 0 || screenerFunction.name === 'top_all_projects'
 
   useEffect(() => {
     const sidebar = filterRef.current
@@ -94,8 +98,8 @@ const Filter = ({
       ? []
       : filter.filter(
         item =>
-          !isContainMetric(item.metric, key) &&
-            !isContainMetric(item.metric, alternativeKey)
+          !isContainMetric(item.args.metric || item.name, key) &&
+            !isContainMetric(item.args.metric || item.name, alternativeKey)
       )
     const newFilter = [...filters, metric]
 
@@ -111,15 +115,15 @@ const Filter = ({
   function toggleMetricInFilter (metric, key, alternativeKey = key) {
     const isMetricInList = filter.some(
       item =>
-        isContainMetric(item.metric, key) ||
-        isContainMetric(item.metric, alternativeKey)
+        isContainMetric(item.args.metric || item.name, key) ||
+        isContainMetric(item.args.metric || item.name, alternativeKey)
     )
     let newFilter = []
     if (isMetricInList) {
       newFilter = filter.filter(
         item =>
-          !isContainMetric(item.metric, key) &&
-          !isContainMetric(item.metric, alternativeKey)
+          !isContainMetric(item.args.metric || item.name, key) &&
+          !isContainMetric(item.args.metric || item.name, alternativeKey)
       )
     } else {
       newFilter = [...filter, metric]

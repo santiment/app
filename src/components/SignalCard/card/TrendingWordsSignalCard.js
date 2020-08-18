@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import { DesktopOnly } from '../../Responsive'
 import Panel from '@santiment-network/ui/Panel/Panel'
+import { isStrictTrendingWords } from './utils'
 import SignalCardHeader from './SignalCardHeader'
 import LikeBtnWrapper from '../../Like/LikeBtnWrapper'
 import TrendingCardInsights from './trendingInsights/TrendingCardInsights'
@@ -13,9 +14,6 @@ import SignalCreator from './creator/SignalCreator'
 import TimelineEventComments from '../../TimelineEventComments/TimelineEventComments'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
-
-export const isStrictTrendingWords = ({ operation, type }) =>
-  type === 'trending_words' && operation && operation.trigger_time
 
 export const isTrendingWordsSignal = trigger => {
   if (!trigger.settings) {

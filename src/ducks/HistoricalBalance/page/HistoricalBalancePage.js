@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import cx from 'classnames'
+import { mapAssetsToFlatArray } from './utils'
 import BalanceView from '../balanceView/BalanceView'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
 import HelpPopup from '../../../components/HelpPopup/HelpPopup'
@@ -28,11 +29,6 @@ export const mapToState = props => {
     }
   }
 }
-
-export const initPriceMetrics = (assets, isEnabled) =>
-  assets && assets.length > 0
-    ? assets.map(item => ({ asset: item, enabled: isEnabled }))
-    : []
 
 const isInAssets = (assets, asset) => {
   return assets.some(item => item === asset || (item && item.slug === asset))
@@ -112,12 +108,6 @@ export default class HistoricalBalancePage extends Component {
     this.updateSearchQuery(newState)
   }
 }
-
-export const mapAssetsToFlatArray = assetsSlugs =>
-  assetsSlugs.map(item => {
-    const { slug, asset } = item
-    return slug || asset || item
-  })
 
 const BalancePageExplanation = () => (
   <>

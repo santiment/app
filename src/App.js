@@ -10,6 +10,7 @@ import withSizes from 'react-sizes'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import nprogress from 'nprogress'
+import { PATHS } from './paths'
 import NotificationStack from './components/NotificationStack'
 import UrlModals from './components/Modal/UrlModals'
 import Roadmap from './pages/Roadmap'
@@ -34,20 +35,6 @@ import CreateAccountFreeTrial from './pages/Login/CreateAccountFreeTrial'
 import { withSavedCommentLookup } from './withSavedCommentLookup'
 import styles from './App.module.scss'
 import './App.scss'
-
-export const PATHS = {
-  FEED: '/feed',
-  SOCIAL_TOOl: '/labs/trends/explore/',
-  LOGIN: '/login',
-  LOGIN_VIA_EMAIL: '/login/email',
-  CREATE_ACCOUNT: '/sign-up',
-  GDPR: '/gdpr',
-  PRO_METRICS: '/pro-sheets-templates',
-  INDEX: '/',
-  STUDIO: '/studio',
-  CHARTS: '/charts',
-  STABLECOINS: '/stablecoins'
-}
 
 const FOOTER_DISABLED_FOR = [
   PATHS.STUDIO,

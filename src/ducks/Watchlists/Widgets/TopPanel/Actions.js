@@ -4,11 +4,9 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import UIButton from '@santiment-network/ui/Button'
 import UIIcon from '@santiment-network/ui/Icon'
-import Delete from '../../Actions/Delete'
 import Copy from '../../Actions/Copy'
 import DownloadCSV from '../../Actions/DownloadCSV'
 import { ProLabel } from '../../../../components/ProLabel'
-import { useUserScreeners } from '../../gql/hooks'
 import styles from './Actions.module.scss'
 
 export const Icon = ({ className, ...props }) => (
@@ -28,8 +26,6 @@ const Actions = ({ isAuthor, id, name, assets, isPro }) => {
   if (!id) {
     return null
   }
-
-  const [screeners = []] = useUserScreeners()
 
   return (
     <ContextMenu
@@ -64,19 +60,6 @@ const Actions = ({ isAuthor, id, name, assets, isPro }) => {
           Download .csv
           {!isPro && <ProLabel className={styles.proLabel} />}
         </DownloadCSV>
-        {isAuthor && screeners.length > 1 && (
-          <Delete
-            title='Do you want to delete this screener?'
-            id={id}
-            name={name}
-            trigger={
-              <Button variant='negative' className={styles.delete}>
-                <Icon type='remove' />
-                Delete
-              </Button>
-            }
-          />
-        )}
       </Panel>
     </ContextMenu>
   )
