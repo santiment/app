@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import cx from 'classnames'
-import { initPriceMetrics, mapAssetsToFlatArray } from './utils'
+import { mapAssetsToFlatArray } from './utils'
 import BalanceView from '../balanceView/BalanceView'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
 import HelpPopup from '../../../components/HelpPopup/HelpPopup'

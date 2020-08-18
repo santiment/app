@@ -1,5 +1,4 @@
 import React from 'react'
-import cx from 'classnames'
 import SmoothDropdownItem from './../SmoothDropdown/SmoothDropdownItem'
 import ViewBalanceDialog from './ViewBalanceDialog'
 import Address, { EtherscanLink } from './Address'

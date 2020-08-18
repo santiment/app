@@ -1,6 +1,6 @@
 import { DATETIME_SORT } from '../sorters/FeedSorters'
 import { AUTHOR_TYPES } from '../filters/AlertsAndInsightsFilter'
-import { baseLocation, pulseLocation, personalLocation } from './locations'
+import { baseLocation, pulseLocation } from './locations'
 
 export const MAX_LIMIT = 10
 export const PULSE_MAX_LIMIT = 100
