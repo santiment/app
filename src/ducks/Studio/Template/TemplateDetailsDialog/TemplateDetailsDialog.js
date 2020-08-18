@@ -8,7 +8,7 @@ import UseTemplateBtn from '../UseTemplateBtn/UseTemplateBtn'
 import {
   isUserAuthorOfTemplate,
   usePublicTemplates
-} from '../Dialog/LoadTemplate/Template'
+} from '../Dialog/LoadTemplate/utils'
 import TemplateStatus, {
   TemplateStatusToggle
 } from '../TemplateStatus/TemplateStatus'

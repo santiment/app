@@ -29,7 +29,7 @@ module.exports = function override(config, env) {
   config.plugins.push(
     new CircularDependencyPlugin({
       // exclude detection of files based on a RegExp
-      exclude: /SignalCard|WalletLink|ViewBalanceDialog|node_modules/,
+      exclude: /SignalCard|WalletLink|OpenSignalLink|SharedTriggerForm|SignalMaster|SignalDialog|ViewBalanceDialog|MetricState|node_modules/,
       // include specific files based on a RegExp
       //include: /dir/,
       // add errors to webpack instead of warnings

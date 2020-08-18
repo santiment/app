@@ -32,13 +32,6 @@ export function getNewFunction (filter) {
     : DEFAULT_SCREENER_FUNCTION
 }
 
-export const percentServerValueFormatter = value => value / 100
-export const percentValueFormatter = value => value * 100
-
-export function isContainMetric (item, key) {
-  return item.includes(`${key}_change_`) || item === key
-}
-
 // for screeners that created with old way
 function reconstructFilters (filters) {
   return filters.map(filter => ({ args: filter, name: 'metric' }))

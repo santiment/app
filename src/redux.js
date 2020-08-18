@@ -6,8 +6,10 @@ import { createEpicMiddleware } from 'redux-observable'
 import createRavenMiddleware from 'raven-for-redux'
 import { client } from './apollo'
 import getRaven from './utils/getRaven'
+import epics from './epics/rootEpics.js'
+import reducers from './reducers/rootReducers.js'
 
-const history = createHistory()
+export const history = createHistory()
 
 const middleware = [
   createEpicMiddleware(epics, {

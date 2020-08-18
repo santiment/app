@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import UserAvatar from '../../../../pages/Account/avatar/UserAvatar'
-import { personalLocation } from '../../../../pages/feed/GeneralFeed/GeneralFeed'
+import { personalLocation } from '../../../../pages/feed/GeneralFeed/locations'
 import styles from './SignalCreator.module.scss'
 
 export const showUserActions = () =>

@@ -7,7 +7,7 @@ import AlertsAndInsightsFilter, {
 } from './AlertsAndInsightsFilter'
 import FeedWatchlistsFilter from './FeedWatchlistsFilter'
 import FeedAssetsFilter from './FeedAssetsFilter'
-import { getDefaultFilters } from '../GeneralFeed/GeneralFeed'
+import { getDefaultFilters } from '../GeneralFeed/utils'
 import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import styles from './FeedFilters.module.scss'

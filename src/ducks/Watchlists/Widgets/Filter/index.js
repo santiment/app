@@ -12,12 +12,8 @@ import Category from './Category'
 import { DEFAULT_SCREENER_FUNCTION } from '../../utils'
 import { getCategoryGraph } from '../../../Studio/Sidebar/utils'
 import { countCategoryActiveMetrics } from '../../../SANCharts/ChartMetricSelector'
-import {
-  getActiveBaseMetrics,
-  getNewFunction,
-  isContainMetric,
-  extractFilters
-} from './utils'
+import { getActiveBaseMetrics, getNewFunction, extractFilters } from './utils'
+import { isContainMetric } from './detector'
 import { useAvailableMetrics } from '../../gql/hooks'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import styles from './index.module.scss'

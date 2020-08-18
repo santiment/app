@@ -36,3 +36,17 @@ export const extractEventsFromData = data => {
 
 export const isBottom = el =>
   el.getBoundingClientRect().bottom <= 3 * window.innerHeight
+
+export const getFeedAuthorType = tab => {
+  if (isBaseLocation(tab) || !tab) {
+    return AUTHOR_TYPES.ALL
+  } else {
+    return AUTHOR_TYPES.OWN
+  }
+}
+
+export const getDefaultFilters = tab => ({
+  author: getFeedAuthorType(tab),
+  watchlists: [],
+  assets: []
+})
