@@ -33,6 +33,18 @@
   @include text('h3');
 }
 
+.subHeader {
+  display: flex;
+  align-items: center;
+  margin: 0 0 16px 0;
+}
+
+.subTitle {
+  color: var(--rhino);
+
+  @include text('body-1', 'm');
+}
+
 .description {
   color: var(--waterloo);
   margin-top: 16px;
@@ -43,4 +55,18 @@
 
 .footer {
   margin-top: 80px !important;
+}
+
+.upgrade {
+  margin-left: 8px;
+  width: 52px;
+  height: 24px;
+  background: var(--texas-rose-light-2);
+  padding: 6px;
+  color: var(--texas-rose);
+}
+
+.crown {
+  fill: var(--texas-rose);
+  margin-right: 8px;
 }

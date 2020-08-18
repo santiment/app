@@ -6,6 +6,7 @@ import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import styles from './StablecoinsPage.module.scss'
 import StablecoinsMarketCap from '../../ducks/Stablecoins/StablecoinsMarketCap/StablecoinsMarketCap'
 import StablecoinHolderDistribution from '../../ducks/Stablecoins/HolderDistribution/StablecoinHolderDistribution'
+import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
 
 const StablecoinsPage = ({ history }) => {
   return (
@@ -31,7 +32,20 @@ const StablecoinsPage = ({ history }) => {
       <div className={styles.inner}>
         <StablecoinsMarketCap className={styles.block} />
 
-        <StablecoinHolderDistribution className={styles.block} />
+        <div className={styles.block}>
+          <div className={styles.subHeader}>
+            <div className={styles.subTitle}>
+              Stablecoin Holder Distribution
+            </div>
+            <UpgradeBtn
+              className={styles.upgrade}
+              iconClassName={styles.crown}
+              variant='fill'
+              children='Pro'
+            />
+          </div>
+          <StablecoinHolderDistribution />
+        </div>
       </div>
 
       <CommonFooter className={styles.footer} />

@@ -80,12 +80,9 @@ const ProjectsSelectTabs = ({
   customTabs,
   CustomCategory,
   CategoryModifier,
-  onSelect
+  onSelect,
+  showTabs = false
 }) => {
-  useEffect(() => {
-    onTabSelect('All')
-  }, [])
-
   function onTabSelect (category) {
     getProjectsByCategory(
       category,
@@ -96,13 +93,19 @@ const ProjectsSelectTabs = ({
     onSelect(null, true) // projects, isLoading
   }
 
+  useEffect(() => {
+    onTabSelect(customTabs[0])
+  }, [])
+
   return (
-    <Tabs
-      options={customTabs}
-      defaultSelectedIndex='All'
-      onSelect={onTabSelect}
-      className={className}
-    />
+    showTabs && (
+      <Tabs
+        options={customTabs}
+        defaultSelectedIndex='All'
+        onSelect={onTabSelect}
+        className={className}
+      />
+    )
   )
 }
 
