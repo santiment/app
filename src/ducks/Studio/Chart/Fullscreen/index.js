@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import Header from './Header'
 import { useTimeseries } from '../../timeseries/hooks'
-import { extractMirrorMetricsDomainGroups } from '../../utils'
 import Chart from '../../../Chart'
+import { extractMirrorMetricsDomainGroups } from '../../../Chart/utils'
 import { MirroredMetric } from '../../../dataHub/metrics/mirrored'
 import {
   useEdgeGaps,

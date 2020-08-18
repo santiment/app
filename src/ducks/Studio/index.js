@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import Sidebar from './Sidebar'
 import Main from './Main'
-import {
-  mergeMetricSettingMap,
-  mergeConnectedWidgetsWithSelected
-} from './utils'
+import { mergeMetricSettingMap } from './utils'
 import { DEFAULT_SETTINGS } from './defaults'
 import { Phase, usePhase } from './phases'
 import { useKeyboardCmdShortcut } from './hooks'
 import { withInsightsProvider } from './insights/context'
 import ChartWidget from './Widget/ChartWidget'
 import HolderDistributionWidget from './Widget/HolderDistributionWidget'
+import { mergeConnectedWidgetsWithSelected } from './Widget/helpers'
 import SelectionOverview from './Overview/SelectionOverview'
 import * as Type from './Sidebar/Button/types'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'

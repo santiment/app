@@ -19,6 +19,7 @@ import {
   PRICE_PERCENT_CHANGE
 } from '../../utils/constants'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
+import SignalCard from '../../../../components/SignalCard/card/SignalCard'
 import styles from '../signalCrudForm/signal/TriggerForm.module.scss'
 
 const mapFormSettings = (baseSettings, meta) => {
@@ -151,6 +152,7 @@ const SignalMaster = ({
           settings={settings}
           originalTrigger={propsTrigger}
           userId={userId}
+          SignalCard={SignalCard}
         />
       )}
     </div>

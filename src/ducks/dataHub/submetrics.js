@@ -1,6 +1,5 @@
 import { Metric } from './metrics'
 import { updateTooltipSettings } from './tooltipSettings'
-// import TopTransactionsTable from '../Studio/Widget/TopTransactionsTable'
 import {
   CONNECTED_WIDGET,
   SIDEPANEL,
@@ -17,7 +16,6 @@ export const TopTransactionsTableMetric = {
   key: 'TopTransactionsTable',
   type: CONNECTED_WIDGET,
   label: 'Top Transactions Table',
-  // widget: TopTransactionsTable,
   requiredMetric: Metric.transaction_volume,
   parentMetric: Metric.transaction_volume,
   abbreviation: 'ttt'

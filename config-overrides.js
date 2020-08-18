@@ -25,17 +25,11 @@ module.exports = function override(config, env) {
     },
   })
 
-  console.log(config)
   config.plugins.push(
     new CircularDependencyPlugin({
-      // exclude detection of files based on a RegExp
-      exclude: /SignalCard|WalletLink|OpenSignalLink|SharedTriggerForm|SignalMaster|SignalDialog|ViewBalanceDialog|MetricState|node_modules/,
-      // include specific files based on a RegExp
-      //include: /dir/,
-      // add errors to webpack instead of warnings
+      exclude: /SignalMaster|OpenSignalLink|SignalCard|node_modules/,
       failOnError: true,
       allowAsyncCycles: false,
-      // set the current working directory for displaying module paths
       cwd: process.cwd(),
     }),
   )
