@@ -1,7 +1,5 @@
 import React from 'react'
 import cx from 'classnames'
-import { MobileOnly } from '../../components/Responsive'
-import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import StablecoinsMarketCap, {
   getIntervalDates
