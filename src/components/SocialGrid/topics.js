@@ -44,31 +44,31 @@ export const INDEX_PAGE_GROUPS = [
       'The most popular topics in crypto social media. Ranges from worldwide economic and health topics to the prices discussions',
     topics: [
       {
+        title: 'Ethereum fees ATH',
+        slug: 'gas OR fees'
+      },
+      {
         title: 'Yield farming',
         slug: 'yield OR farming',
         query: 'yield%20OR%20farming?asset=ethereum&ticker=ETH',
         createdAt: '2020-07-01T15:18:20.922Z'
       },
       {
-        title: 'Coronavirus',
-        slug: 'virus OR corona OR coronavirus OR covid OR covid19 OR "covid-19"'
+        title: 'DogeCoin TikTok Challenge',
+        slug: 'doge OR dogecoin OR tiktok'
       },
       {
-        title: 'Satoshi coins moved',
-        slug: 'satoshi AND coins'
+        title: '"Bart" Pattern',
+        slug: 'bart',
+        createdAt: '2020-06-10T07:18:20.922Z'
       },
       {
         title: 'Riots in United States',
         slug: 'riot OR riots'
       },
       {
-        title: 'Twitter "Send me your crypto to double" hack',
-        slug: 'twitter OR hack'
-      },
-      {
-        title: '"Bart" Pattern',
-        slug: 'bart',
-        createdAt: '2020-06-10T07:18:20.922Z'
+        title: 'Coronavirus',
+        slug: 'virus OR corona OR coronavirus OR covid OR covid19 OR "covid-19"'
       }
     ]
   }
