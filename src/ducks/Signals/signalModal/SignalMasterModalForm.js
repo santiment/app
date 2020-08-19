@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
@@ -44,63 +44,83 @@ const SignalMasterModalForm = ({
   const [isChanged, setIsChanged] = useState(false)
 
   useEffect(
-    data => {
+    () => {
       defaultOpen && setDialogOpenState(hasTrigger)
     },
     [triggerId]
   )
 
-  const onCancelClose = () => {
-    setIsAppoving(false)
-  }
+  const onCancelClose = useCallback(
+    () => {
+      setIsAppoving(false)
+    },
+    [setIsAppoving]
+  )
 
-  const goBack = () => {
-    if (hasTrigger) {
-      canRedirect && redirect && redirect(previousPage)
-    }
-  }
+  const goBack = useCallback(
+    () => {
+      if (hasTrigger) {
+        canRedirect && redirect && redirect(previousPage)
+      }
+    },
+    [canRedirect, redirect, hasTrigger]
+  )
 
-  const onApprove = () => {
-    setIsAppoving(false)
-    closeDialog()
+  const closeDialog = useCallback(
+    () => {
+      setDialogOpenState(false)
 
-    goBack()
-  }
+      if (onClose) {
+        onClose()
+      }
+    },
+    [setDialogOpenState, onClose]
+  )
 
-  const onCloseMainModal = () => {
-    if (isChanged && isLoggedIn) {
-      setIsAppoving(true)
-    } else {
+  const onApprove = useCallback(
+    () => {
+      setIsAppoving(false)
       closeDialog()
+
       goBack()
-    }
-  }
+    },
+    [goBack, setIsAppoving, closeDialog]
+  )
 
-  const formChangedCallback = isChanged => {
-    setIsChanged(isChanged)
-  }
+  const onCloseMainModal = useCallback(
+    () => {
+      if (isChanged && isLoggedIn) {
+        setIsAppoving(true)
+      } else {
+        closeDialog()
+        goBack()
+      }
+    },
+    [isChanged, setIsAppoving, closeDialog, goBack]
+  )
 
-  function closeDialog () {
-    setDialogOpenState(false)
-
-    if (onClose) {
-      onClose()
-    }
-  }
+  const formChangedCallback = useCallback(
+    isChanged => {
+      setIsChanged(isChanged)
+    },
+    [setIsChanged]
+  )
 
   const { data = {}, loading: isLoading, error: isError } = useSignal({
     triggerId,
     skip: !dialogOpenState
   })
-  const { trigger = {}, userId: triggerUserId } = data
 
-  let isShared = isOldShared || (!!triggerUserId && +userId !== triggerUserId)
+  const { trigger = {} } = data
+  const { authorId } = trigger
+
+  const isShared = isOldShared || (!!authorId && +userId !== authorId)
 
   if (isShared && trigger && trigger.trigger) {
     trigger.trigger = { ...trigger.trigger, ...shareParams }
   }
 
-  trigger.userId = triggerUserId
+  trigger.userId = authorId
 
   return (
     <>

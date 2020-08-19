@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import GA from '../../../utils/tracking'
 import PageLoader from '../../../components/Loader/PageLoader'
@@ -36,9 +36,12 @@ const SignalDialog = ({
 
   const { variant, border } = buttonParams
 
-  const toggleAnon = (warn = true) => {
-    setAnonWarning(warn)
-  }
+  const toggleAnon = useCallback(
+    (warn = true) => {
+      setAnonWarning(warn)
+    },
+    [setAnonWarning]
+  )
 
   useEffect(() => toggleAnon(!isLoggedIn), [isLoggedIn])
 

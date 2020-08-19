@@ -1,6 +1,5 @@
 import * as qs from 'query-string'
 import { TRIGGER_BY_ID_QUERY } from './queries'
-import { mapGQLTriggerToProps } from '../utils/utils'
 import { useQuery } from '@apollo/react-hooks'
 
 export const getShareSignalParams = () => {
@@ -26,8 +25,7 @@ export const getShareSignalParams = () => {
 export const useSignal = ({ triggerId, skip }) => {
   const { data, loading, error } = useQuery(TRIGGER_BY_ID_QUERY, {
     skip: skip || !triggerId,
-    variables: { id: +triggerId },
-    props: mapGQLTriggerToProps
+    variables: { id: +triggerId }
   })
 
   return { data, loading, error }
