@@ -1,0 +1,40 @@
+import gql from 'graphql-tag'
+
+const TRANSACTION_FRAGMENT = gql`
+  fragment transactionFragment on Transaction {
+    datetime
+    trxValue
+    trxHash
+    fromAddress {
+      address
+      isExchange
+      labels {
+        name
+        metadata
+      }
+    }
+    toAddress {
+      address
+      isExchange
+      labels {
+        name
+        metadata
+      }
+    }
+  }
+`
+
+export const TRANSACTIONS_QUERY = gql`
+  query projectBySlug($slug: String!, $from: DateTime!, $to: DateTime!) {
+    projectBySlug(slug: $slug) {
+      id
+      tokenTopTransactions(from: $from, to: $to, limit: 50) {
+        ...transactionFragment
+      }
+      ethTopTransactions(from: $from, to: $to, limit: 50) {
+        ...transactionFragment
+      }
+    }
+  }
+  ${TRANSACTION_FRAGMENT}
+`

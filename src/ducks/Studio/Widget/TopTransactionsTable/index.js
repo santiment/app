@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import Icon from '@santiment-network/ui/Icon'
-import { newWidget } from './utils'
-import Calendar from '../AdvancedView/Calendar'
-import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
-import HelpPopup from '../../../components/HelpPopup/HelpPopup'
-import TransactionTable from '../../../pages/Detailed/transactionsInfo/TransactionTable'
-import { normalizeTransactionData } from '../../../pages/Detailed/transactionsInfo/utils'
-import styles from './TopTransactionsTable.module.scss'
-import widgetStyles from './Widget.module.scss'
+import { TRANSACTIONS_QUERY } from './gql'
+import { newWidget } from '../utils'
+import Calendar from '../../AdvancedView/Calendar'
+import { DAY, getTimeIntervalFromToday } from '../../../../utils/dates'
+import HelpPopup from '../../../../components/HelpPopup/HelpPopup'
+import TransactionTable from '../../../../pages/Detailed/transactionsInfo/TransactionTable'
+import { normalizeTransactionData } from '../../../../pages/Detailed/transactionsInfo/utils'
+import styles from './index.module.scss'
+import widgetStyles from '../Widget.module.scss'
 
 const { from, to } = getTimeIntervalFromToday(-30, DAY)
 const DEFAULT_DATES = [from, to]
@@ -20,35 +20,6 @@ const DEFAULT_SORTED = [
   }
 ]
 
-export const TRANSACTIONS_QUERY = gql`
-  query projectBySlug($slug: String!, $from: DateTime!, $to: DateTime!) {
-    projectBySlug(slug: $slug) {
-      id
-      tokenTopTransactions(from: $from, to: $to, limit: 50) {
-        datetime
-        trxValue
-        trxHash
-        fromAddress {
-          address
-          isExchange
-          labels {
-            name
-            metadata
-          }
-        }
-        toAddress {
-          address
-          isExchange
-          labels {
-            name
-            metadata
-          }
-        }
-      }
-    }
-  }
-`
-
 function useProjectTopTransactions (slug, from, to) {
   const { data, loading } = useQuery(TRANSACTIONS_QUERY, {
     variables: {
@@ -58,7 +29,13 @@ function useProjectTopTransactions (slug, from, to) {
     }
   })
 
-  return [data ? data.projectBySlug.tokenTopTransactions : [], loading]
+  let result
+  if (data) {
+    const { tokenTopTransactions, ethTopTransactions } = data.projectBySlug
+    result = slug === 'ethereum' ? ethTopTransactions : tokenTopTransactions
+  }
+
+  return [result || [], loading]
 }
 
 const Header = ({ dates, onCalendarChange, onCloseClick }) => (
