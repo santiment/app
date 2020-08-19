@@ -8,20 +8,12 @@ import StablecoinsMarketCap, {
 } from '../../ducks/Stablecoins/StablecoinsMarketCap/StablecoinsMarketCap'
 import StablecoinHolderDistribution from '../../ducks/Stablecoins/HolderDistribution/StablecoinHolderDistribution'
 import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
-import styles from './StablecoinsPage.module.scss'
 import StablecoinsTransactions from '../../ducks/Stablecoins/StablecoinsTransactions/StablecoinsTransactions'
+import styles from './StablecoinsPage.module.scss'
 
-const StablecoinsPage = ({ history }) => {
+const StablecoinsPage = () => {
   return (
     <div className={cx('page', styles.container)}>
-      <MobileOnly>
-        <MobileHeader
-          showBack={true}
-          goBack={history.goBack}
-          classes={styles}
-        />
-      </MobileOnly>
-
       <div className={styles.header}>
         <div className={styles.inner}>
           <h3 className={styles.title}>Stablecoins</h3>

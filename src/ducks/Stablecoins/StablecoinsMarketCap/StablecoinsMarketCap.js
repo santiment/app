@@ -82,7 +82,7 @@ const StablecoinsMarketCap = ({ className }) => {
         data={data}
         chartHeight={CHART_HEIGHT}
         metrics={filteredMetrics}
-        isCartesianGridActive={true}
+        isCartesianGridActive={false}
         hideWatermark
         hideBrush
         chartPadding={CHART_PADDING}
