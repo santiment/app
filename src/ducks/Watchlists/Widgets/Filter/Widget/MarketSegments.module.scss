@@ -24,6 +24,7 @@
 
 .action {
   margin-left: auto;
+  color: var(--waterloo);
 }
 
 .count {
@@ -43,19 +44,30 @@
   color: var(--casper);
 }
 
+.operator {
+  margin: 4px;
+  color: var(--waterloo);
+
+  @include text('caption', 'm');
+}
+
 .item__selected {
   cursor: default;
 
   &:hover {
     background: none;
   }
+}
+
+.item:hover {
+  & .action {
+    color: var(--jungle-green);
+  }
 
   & .selected {
     color: var(--casper);
   }
-}
 
-.item:hover {
   & .delete {
     color: var(--persimmon);
   }
@@ -104,11 +116,23 @@
 }
 
 .label {
-  padding: 2px 8px;
-  margin-right: 4px;
+  padding: 0 2px 0 10px;
+  display: flex;
+  align-items: center;
   margin-bottom: 4px;
-  background-color: var(--porcelain);
+  border: 1px solid var(--porcelain);
   border-radius: 4px;
+  fill: var(--waterloo);
+  cursor: pointer;
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+
+  &__close {
+    padding: 8px;
+    box-sizing: content-box;
+  }
 
   @include text('caption');
 

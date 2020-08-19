@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import cx from 'classnames'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Button from '@santiment-network/ui/Button'
@@ -105,16 +105,29 @@ const MarketSegments = ({
         onCheckboxClicked={onCheckboxClicked}
         customStateText={
           settings.isActive && hasActiveSegments
-            ? `shows ${isANDCombinator ? 'all' : 'at least one'} of`
+            ? `shows ${
+              isANDCombinator ? 'all' : 'at least one'
+            } of selected groups`
             : ''
         }
       />
       {settings.isActive && hasActiveSegments > 0 && (
         <div className={styles.labels}>
-          {settings.market_segments.map((item, idx) => (
-            <span key={idx} className={styles.label}>
-              {item}
-            </span>
+          {settings.market_segments.map((name, idx) => (
+            <Fragment key={idx}>
+              <div
+                className={styles.label}
+                onClick={() => onToggleSegment(name)}
+              >
+                {name}
+                <Icon type='close-small' className={styles.label__close} />
+              </div>
+              {settings.market_segments.length !== idx + 1 && (
+                <span className={styles.operator}>
+                  {isANDCombinator ? 'and' : 'or'}
+                </span>
+              )}
+            </Fragment>
           ))}
         </div>
       )}
