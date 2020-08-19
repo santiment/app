@@ -44,6 +44,13 @@
   color: var(--casper);
 }
 
+.operator {
+  margin: 3px 4px;
+  color: var(--waterloo);
+
+  @include text('caption', 'm');
+}
+
 .item__selected {
   cursor: default;
 
@@ -110,9 +117,8 @@
 
 .label {
   padding: 2px 8px;
-  margin-right: 4px;
   margin-bottom: 4px;
-  background-color: var(--porcelain);
+  border: 1px solid var(--porcelain);
   border-radius: 4px;
 
   @include text('caption');
