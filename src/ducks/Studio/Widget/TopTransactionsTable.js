@@ -49,7 +49,7 @@ export const TRANSACTIONS_QUERY = gql`
   }
 `
 
-function useProjectTopTransactions (slug, from, to) {
+export function useProjectTopTransactions (slug, from, to) {
   const { data, loading } = useQuery(TRANSACTIONS_QUERY, {
     variables: {
       slug,

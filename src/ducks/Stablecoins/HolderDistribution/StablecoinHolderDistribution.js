@@ -1,11 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import cx from 'classnames'
-import Icon from '@santiment-network/ui/Icon'
-import {
-  createSkeletonElement,
-  createSkeletonProvider
-} from '@trainline/react-skeletor'
-import { ProjectIcon } from '../../../components/ProjectIcon/ProjectIcon'
 import { TopHolderMetric } from '../../Studio/Chart/Sidepanel/HolderDistribution/metrics'
 import TopHolders from '../../Studio/Chart/Sidepanel/HolderDistribution'
 import { useAllTimeData, useTimeseries } from '../../Studio/timeseries/hooks'
@@ -13,16 +7,15 @@ import { useChartColors } from '../../Chart/colors'
 import Chart from '../../Chart'
 import { useAxesMetricsKey } from '../../Chart/hooks'
 import { metricsToPlotCategories } from '../../Chart/Synchronizer'
-import ProjectSelectDialog from '../../Studio/Compare/ProjectSelectDialog'
 import { Metric } from '../../dataHub/metrics'
 import ActiveMetrics from '../../Studio/Chart/ActiveMetrics'
 import { getIntervalByTimeRange } from '../../../utils/dates'
-import { useDialogState } from '../../../hooks/dialog'
+import StablecoinSelector from '../StablecoinSelector/StablecoinSelector'
 import styles from './StablecoinHolderDistribution.module.scss'
 
 const CHART_HEIGHT = 524
 
-const DEFAULT_ASSET = {
+export const DEFAULT_STABLECOIN = {
   id: '1552',
   name: 'Tether',
   slug: 'tether',
@@ -32,46 +25,12 @@ const DEFAULT_ASSET = {
   __typename: 'Project'
 }
 
-const H1 = createSkeletonElement('h1')
-
-const ProjectInfo = createSkeletonProvider(
-  {
-    name: '_______'
-  },
-  ({ name }) => name === undefined,
-  () => ({
-    color: 'var(--mystic)',
-    backgroundColor: 'var(--mystic)'
-  })
-)(({ name, ticker, slug, logoUrl, darkLogoUrl, onClick }) => (
-  <div className={styles.selector} onClick={onClick}>
-    <div className={styles.projectIcon}>
-      <ProjectIcon
-        size={20}
-        slug={slug}
-        logoUrl={logoUrl}
-        darkLogoUrl={darkLogoUrl}
-      />
-    </div>
-    <div className={styles.project}>
-      <div className={styles.project__top}>
-        <H1 className={styles.project__name}>
-          {name} ({ticker})
-        </H1>
-        <div className={styles.project__arrows}>
-          <Icon type='arrow-down' className={styles.project__arrow} />
-        </div>
-      </div>
-    </div>
-  </div>
-))
-
 const DEFAULT_SETTINGS = {
   ...getIntervalByTimeRange('1y')
 }
 
 const StablecoinHolderDistribution = ({ className }) => {
-  const [asset, setAsset] = useState(DEFAULT_ASSET)
+  const [asset, setAsset] = useState(DEFAULT_STABLECOIN)
   const [metrics, setMetrics] = useState([
     Metric.price_usd,
     TopHolderMetric.holders_distribution_100_to_1k,
@@ -111,7 +70,6 @@ const StablecoinHolderDistribution = ({ className }) => {
 
   const axesMetricKeys = useAxesMetricsKey([...metrics].reverse())
   const categories = metricsToPlotCategories(metrics, {})
-  const { closeDialog, openDialog, isOpened } = useDialogState()
 
   const toggleMetric = useCallback(
     metric => {
@@ -132,19 +90,7 @@ const StablecoinHolderDistribution = ({ className }) => {
     <div className={cx(styles.container, className)}>
       <div className={styles.chartContainer}>
         <div className={styles.header}>
-          <ProjectSelectDialog
-            open={isOpened}
-            activeSlug={asset.slug}
-            onOpen={openDialog}
-            onClose={closeDialog}
-            onSelect={asset => {
-              setAsset(asset)
-              closeDialog()
-            }}
-            customTabs={['Stablecoins']}
-            showTabs={false}
-            trigger={<ProjectInfo {...asset} onClick={openDialog} />}
-          />
+          <StablecoinSelector asset={asset} setAsset={setAsset} />
         </div>
 
         <div className={styles.metricBtns}>

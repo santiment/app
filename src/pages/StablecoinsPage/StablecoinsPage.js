@@ -3,10 +3,13 @@ import cx from 'classnames'
 import { MobileOnly } from '../../components/Responsive'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
-import StablecoinsMarketCap from '../../ducks/Stablecoins/StablecoinsMarketCap/StablecoinsMarketCap'
+import StablecoinsMarketCap, {
+  getIntervalDates
+} from '../../ducks/Stablecoins/StablecoinsMarketCap/StablecoinsMarketCap'
 import StablecoinHolderDistribution from '../../ducks/Stablecoins/HolderDistribution/StablecoinHolderDistribution'
 import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
 import styles from './StablecoinsPage.module.scss'
+import StablecoinsTransactions from '../../ducks/Stablecoins/StablecoinsTransactions/StablecoinsTransactions'
 
 const StablecoinsPage = ({ history }) => {
   return (
@@ -35,6 +38,16 @@ const StablecoinsPage = ({ history }) => {
         <div className={styles.block}>
           <div className={styles.subHeader}>
             <div className={styles.subTitle}>
+              Largest Transfers to Exchanges (last 24h)
+            </div>
+          </div>
+
+          <StablecoinsTransactions {...getIntervalDates({ value: '24h' })} />
+        </div>
+
+        <div className={styles.block}>
+          <div className={styles.subHeader}>
+            <div className={styles.subTitle}>
               Stablecoin Holder Distribution
             </div>
             <UpgradeBtn
@@ -44,6 +57,7 @@ const StablecoinsPage = ({ history }) => {
               children='Pro'
             />
           </div>
+
           <StablecoinHolderDistribution />
         </div>
       </div>
