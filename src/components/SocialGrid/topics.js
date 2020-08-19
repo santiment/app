@@ -45,7 +45,8 @@ export const INDEX_PAGE_GROUPS = [
     topics: [
       {
         title: 'Ethereum fees ATH',
-        slug: 'gas OR fees'
+        slug: 'gas OR fees',
+        createdAt: '2020-08-19T07:18:20.922Z'
       },
       {
         title: 'Yield farming',
@@ -55,7 +56,8 @@ export const INDEX_PAGE_GROUPS = [
       },
       {
         title: 'DogeCoin TikTok Challenge',
-        slug: 'doge OR dogecoin OR tiktok'
+        slug: 'doge OR dogecoin OR tiktok',
+        createdAt: '2020-08-19T07:07:20.922Z'
       },
       {
         title: '"Bart" Pattern',
