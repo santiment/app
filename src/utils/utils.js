@@ -20,7 +20,7 @@ const getAPIUrl = () => {
     (window.env || {}).BACKEND_URL ||
     process.env.REACT_APP_BACKEND_URL ||
     window.location.origin
-  )
+  ).replace('app', 'api')
 }
 
 const getConsentUrl = () => {
