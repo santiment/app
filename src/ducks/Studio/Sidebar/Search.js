@@ -23,7 +23,7 @@ export const getMetricSuggestions = (
   const suggestions = []
   for (const categoryKey in categories) {
     const category = categories[categoryKey]
-    const items = categoryKey === 'On-chain' ? onChainDefault : []
+    const items = categoryKey === 'On-chain' ? onChainDefault.slice() : []
     for (const group in category) {
       items.push(...category[group])
     }
