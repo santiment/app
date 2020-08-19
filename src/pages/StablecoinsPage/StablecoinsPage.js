@@ -3,10 +3,10 @@ import cx from 'classnames'
 import { MobileOnly } from '../../components/Responsive'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
-import styles from './StablecoinsPage.module.scss'
 import StablecoinsMarketCap from '../../ducks/Stablecoins/StablecoinsMarketCap/StablecoinsMarketCap'
 import StablecoinHolderDistribution from '../../ducks/Stablecoins/HolderDistribution/StablecoinHolderDistribution'
 import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
+import styles from './StablecoinsPage.module.scss'
 
 const StablecoinsPage = ({ history }) => {
   return (

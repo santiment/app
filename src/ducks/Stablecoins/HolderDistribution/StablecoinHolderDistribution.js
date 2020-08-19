@@ -17,16 +17,10 @@ import ProjectSelectDialog from '../../Studio/Compare/ProjectSelectDialog'
 import { Metric } from '../../dataHub/metrics'
 import ActiveMetrics from '../../Studio/Chart/ActiveMetrics'
 import { getIntervalByTimeRange } from '../../../utils/dates'
+import { useDialogState } from '../../../hooks/dialog'
 import styles from './StablecoinHolderDistribution.module.scss'
 
-const CHART_HEIGHT = 500
-
-const CHART_PADDING = {
-  top: 0,
-  right: 0,
-  bottom: 0,
-  left: 0
-}
+const CHART_HEIGHT = 524
 
 const DEFAULT_ASSET = {
   id: '1552',
@@ -84,21 +78,6 @@ const StablecoinHolderDistribution = ({ className }) => {
     TopHolderMetric.holders_distribution_1k_to_10k
   ])
 
-  const toggleMetric = useCallback(
-    metric => {
-      const found = metrics.find(x => x === metric)
-
-      if (found) {
-        setMetrics(metrics.filter(x => x !== metric))
-      } else {
-        setMetrics([...metrics, metric])
-      }
-    },
-    [metrics, setMetrics]
-  )
-
-  const MetricColor = useChartColors(metrics)
-
   const [settings, setSettings] = useState({
     ...DEFAULT_SETTINGS,
     slug: asset.slug
@@ -115,7 +94,6 @@ const StablecoinHolderDistribution = ({ className }) => {
   )
 
   const [data, loadings, errors] = useTimeseries(metrics, settings)
-
   const allTimeData = useAllTimeData(metrics, {
     slug: asset.slug,
     interval: undefined
@@ -131,12 +109,24 @@ const StablecoinHolderDistribution = ({ className }) => {
     [data, setSettings, settings, allTimeData]
   )
 
-  const axesMetricKeys = useAxesMetricsKey(metrics)
+  const axesMetricKeys = useAxesMetricsKey([...metrics].reverse())
   const categories = metricsToPlotCategories(metrics, {})
+  const { closeDialog, openDialog, isOpened } = useDialogState()
 
-  const [isOpened, setOpen] = useState(false)
-  const openDialog = () => setOpen(true)
-  const closeDialog = () => setOpen(false)
+  const toggleMetric = useCallback(
+    metric => {
+      const found = metrics.find(x => x === metric)
+
+      if (found) {
+        setMetrics(metrics.filter(x => x !== metric))
+      } else {
+        setMetrics([...metrics, metric])
+      }
+    },
+    [metrics, setMetrics]
+  )
+
+  const MetricColor = useChartColors(metrics)
 
   return (
     <div className={cx(styles.container, className)}>
@@ -176,12 +166,11 @@ const StablecoinHolderDistribution = ({ className }) => {
           brushData={allTimeData}
           chartHeight={CHART_HEIGHT}
           metrics={metrics}
-          chartPadding={CHART_PADDING}
-          resizeDependencies={[]}
           isCartesianGridActive={true}
           MetricColor={MetricColor}
           tooltipKey={axesMetricKeys[0]}
           axesMetricKeys={axesMetricKeys}
+          resizeDependencies={[axesMetricKeys]}
           className={styles.chart}
           onBrushChangeEnd={onBrushChangeEnd}
         />
