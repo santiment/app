@@ -96,7 +96,7 @@ const SignalMasterModalForm = ({
         goBack()
       }
     },
-    [isChanged, setIsAppoving, closeDialog, goBack]
+    [isChanged, setIsAppoving, closeDialog, goBack, isLoggedIn]
   )
 
   const formChangedCallback = useCallback(
