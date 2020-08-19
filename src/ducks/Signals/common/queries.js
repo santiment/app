@@ -38,12 +38,12 @@ export const FEATURED_USER_TRIGGERS_QUERY = gql`
 `
 
 export const TRIGGER_BY_ID_QUERY = gql`
-  query getTriggerById($id: Int) {
+  query getTriggerById($id: Int!) {
     trigger: getTriggerById(id: $id) {
+      authorId: userId
       trigger {
         ...triggersCommon
       }
-      userId
     }
   }
   ${TRIGGERS_COMMON_FRAGMENT}

@@ -115,11 +115,14 @@ export const TriggerForm = ({
     [setInitialValues]
   )
 
-  const validateAndSetStep = newStep => {
-    if (isNew) {
-      newStep > step && setStep(newStep)
-    }
-  }
+  const validateAndSetStep = useCallback(
+    newStep => {
+      if (isNew) {
+        newStep > step && setStep(newStep)
+      }
+    },
+    [isNew, step, setStep]
+  )
 
   return (
     <Formik

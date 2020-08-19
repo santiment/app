@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import cx from 'classnames'
 import { push } from 'react-router-redux'
 import { compose } from 'recompose'
@@ -110,20 +110,32 @@ const SignalMaster = ({
     [stateTrigger, metaFormSettings]
   )
 
-  const handleSettingsChange = formProps => {
-    const data = mapFormPropsToTrigger(formProps, stateTrigger)
-    const { id } = data
+  const handleSettingsChange = useCallback(
+    formProps => {
+      const data = mapFormPropsToTrigger(formProps, stateTrigger)
+      const { id } = data
 
-    if (id > 0 && !isShared) {
-      updateTrigger(data)
-    } else {
-      delete data.id
-      createTrigger(data)
-    }
+      if (id > 0 && !isShared) {
+        updateTrigger(data)
+      } else {
+        delete data.id
+        createTrigger(data)
+      }
 
-    onClose && onClose()
-    canRedirect && redirect && redirect()
-  }
+      onClose && onClose()
+      canRedirect && redirect && redirect()
+    },
+    [
+      stateTrigger,
+      updateTrigger,
+      isShared,
+      createTrigger,
+      onClose,
+      canRedirect,
+      redirect,
+      mapFormPropsToTrigger
+    ]
+  )
 
   const [settings, metaForm] = formData
 

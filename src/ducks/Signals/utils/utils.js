@@ -1012,31 +1012,6 @@ export const getNearestTypeByMetric = metric => {
   }
 }
 
-export const mapGQLTriggerToProps = ({ data: { trigger, loading, error } }) => {
-  if (!trigger) {
-    return {
-      trigger: {
-        isError: !!error,
-        isEmpty: true,
-        trigger: null,
-        isLoading: !!loading
-      }
-    }
-  }
-
-  const checkingTrigger = trigger ? trigger.trigger : undefined
-  const { userId } = trigger || {}
-
-  return {
-    trigger: {
-      trigger: checkingTrigger,
-      isLoading: !!loading,
-      isError: !!error
-    },
-    userId: +userId
-  }
-}
-
 export function getFrequencyTimeType (frequencyType) {
   if (frequencyType && frequencyType.availableTypes) {
     return FREQUENCY_VALUES.filter(item => {
