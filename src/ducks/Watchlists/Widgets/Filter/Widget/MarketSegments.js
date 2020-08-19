@@ -113,9 +113,15 @@ const MarketSegments = ({
       />
       {settings.isActive && hasActiveSegments > 0 && (
         <div className={styles.labels}>
-          {settings.market_segments.map((item, idx) => (
+          {settings.market_segments.map((name, idx) => (
             <Fragment key={idx}>
-              <span className={styles.label}>{item}</span>
+              <div
+                className={styles.label}
+                onClick={() => onToggleSegment(name)}
+              >
+                {name}
+                <Icon type='close-small' className={styles.label__close} />
+              </div>
               {settings.market_segments.length !== idx + 1 && (
                 <span className={styles.operator}>
                   {isANDCombinator ? 'and' : 'or'}
