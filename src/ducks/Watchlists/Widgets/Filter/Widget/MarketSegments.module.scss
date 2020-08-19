@@ -24,6 +24,7 @@
 
 .action {
   margin-left: auto;
+  color: var(--waterloo);
 }
 
 .count {
@@ -49,13 +50,17 @@
   &:hover {
     background: none;
   }
+}
+
+.item:hover {
+  & .action {
+    color: var(--jungle-green);
+  }
 
   & .selected {
     color: var(--casper);
   }
-}
 
-.item:hover {
   & .delete {
     color: var(--persimmon);
   }
