@@ -81,7 +81,7 @@ const ProjectsSelectTabs = ({
   CustomCategory,
   CategoryModifier,
   onSelect,
-  showTabs = false
+  showTabs = true
 }) => {
   function onTabSelect (category) {
     getProjectsByCategory(

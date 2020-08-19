@@ -22,7 +22,15 @@ export function useAvailableMetrics (slug) {
     }
   })
 
-  return [data ? data.project : DEFAULT_METRICS, loading, error]
+  return [
+    data
+      ? data.project
+      : {
+        availableMetrics: DEFAULT_METRICS
+      },
+    loading,
+    error
+  ]
 }
 
 const SupportedMetricsList = ({ onSelectMetric, availableMetrics, slug }) => {

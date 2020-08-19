@@ -6,23 +6,8 @@ import COLOR from '@santiment-network/ui/variables.scss'
 
 const cache = new Map()
 const METRIC_NODE = {}
-const metricsIterator = (
-  metric,
-  MetricNode,
-  requestedData,
-  joinedCategories
-) => {
-  const { key, dataKey = key, node } = metric
 
-  requestedData[(MetricNode[key] || node) + 's'].push(dataKey)
-  joinedCategories.push(dataKey)
-}
-
-export function metricsToPlotCategories (
-  metrics,
-  MetricNode = METRIC_NODE,
-  iterator = metricsIterator
-) {
+export function metricsToPlotCategories (metrics, MetricNode = METRIC_NODE) {
   const requestedData = {
     lines: [],
     filledLines: [],
@@ -34,9 +19,12 @@ export function metricsToPlotCategories (
   }
   const joinedCategories = requestedData.joinedCategories
 
-  metrics.forEach(item =>
-    iterator(item, MetricNode, requestedData, joinedCategories)
-  )
+  metrics.forEach(item => {
+    const { key, dataKey = key, node } = item
+
+    requestedData[(MetricNode[key] || node) + 's'].push(dataKey)
+    joinedCategories.push(dataKey)
+  })
 
   return requestedData
 }
