@@ -1,11 +1,11 @@
 import React from 'react'
-import { WhaleAssets } from './utils'
-import WhalesTrend from './WhalesTrend'
-import styles from './WhaleTrendsList.module.scss'
+import { ExchangesAssets } from './utils'
+import FlowToExchanges from './FlowToExchanges'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import MakeProSubscriptionCard from '../../../pages/feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
+import styles from './FlowToExchangesList.module.scss'
 
-const WhaleTrendsList = () => {
+const FlowToExchangesList = () => {
   const { isPro } = useUserSubscriptionStatus()
 
   if (!isPro) {
@@ -14,11 +14,11 @@ const WhaleTrendsList = () => {
 
   return (
     <div className={styles.container}>
-      {WhaleAssets.map(item => (
-        <WhalesTrend item={item} />
+      {ExchangesAssets.map(item => (
+        <FlowToExchanges item={item} />
       ))}
     </div>
   )
 }
 
-export default WhaleTrendsList
+export default FlowToExchangesList

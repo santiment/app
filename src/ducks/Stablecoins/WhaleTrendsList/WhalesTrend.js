@@ -7,8 +7,8 @@ import ProjectIcon from '../../../components/ProjectIcon/ProjectIcon'
 import Gradients from '../../Watchlists/Widgets/WatchlistOverview/Gradients'
 import { calcPercentageChange } from '../../../utils/utils'
 import PercentChanges from '../../../components/PercentChanges'
-import styles from './WhalesTrend.module.scss'
 import Skeleton from '../../../components/Skeleton/Skeleton'
+import styles from './WhalesTrend.module.scss'
 
 const useAreaData = stats => {
   const { value: latestValue } = stats.slice(-1)[0] || {}

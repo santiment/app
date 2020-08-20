@@ -2,31 +2,44 @@ import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 
-export const WhaleAssets = [
+export const EXCHANGE_INTERESTS = {
+  high: 'Very High',
+  normal: 'Normal',
+  low: 'Low'
+}
+
+export const ExchangesAssets = [
   {
-    slug: 'tether'
+    slug: 'tether',
+    status: EXCHANGE_INTERESTS.high
   },
   {
-    slug: 'usd-coin'
+    slug: 'trueusd',
+    status: EXCHANGE_INTERESTS.normal
   },
   {
-    slug: 'binance-usd'
+    slug: 'usd-coin',
+    status: EXCHANGE_INTERESTS.normal
+  },
+  {
+    slug: 'gemini-dollar',
+    status: EXCHANGE_INTERESTS.low
   }
 ]
 
-export const WHALES_DEFAULT_SETTINGS = {
-  ...getIntervalByTimeRange('30d'),
-  interval: '1d'
+export const EXCHANGES_DEFAULT_SETTINGS = {
+  ...getIntervalByTimeRange('1d'),
+  interval: '1h'
 }
 
-const WHALE_TRENDS_QUERY = gql`
+const EXCHANGE_INFLOW_QUERY = gql`
   query getMetric(
     $from: DateTime!
     $to: DateTime!
     $slug: String!
     $interval: interval!
   ) {
-    getMetric(metric: "amount_in_non_exchange_top_holders") {
+    getMetric(metric: "exchange_inflow") {
       timeseriesData(
         slug: $slug
         from: $from
@@ -41,9 +54,9 @@ const WHALE_TRENDS_QUERY = gql`
   }
 `
 
-export const useWhaleTrends = ({ slug, from, to, interval }) => {
+export const useFlowToExchanges = ({ slug, from, to, interval }) => {
   const { data: { getMetric } = {}, loading, error } = useQuery(
-    WHALE_TRENDS_QUERY,
+    EXCHANGE_INFLOW_QUERY,
     {
       variables: { slug, from, to, interval }
     }
