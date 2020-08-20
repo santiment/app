@@ -23,7 +23,11 @@ export function useAvailableMetrics (slug) {
   })
 
   return [
-    data ? data.project.availableMetrics : DEFAULT_METRICS,
+    data
+      ? data.project
+      : {
+        availableMetrics: DEFAULT_METRICS
+      },
     loading,
     error
   ]

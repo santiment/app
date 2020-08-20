@@ -7,6 +7,7 @@ import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from '../../GetTimeSeries/queries
 import { ETH_SPENT_OVER_TIME_QUERY } from '../../GetTimeSeries/queries/eth_spent_over_time_query'
 import { MINERS_BALANCE_QUERY } from './queries/minersBalance'
 import { aliasTransform, extractTimeseries } from './utils'
+import { MARKETCAP_USD_QUERY } from './queries/marketcapUsd'
 
 const preTransform = ({
   data: {
@@ -56,6 +57,10 @@ Object.assign(Fetcher, {
   minersBalance: {
     query: MINERS_BALANCE_QUERY,
     preTransform: extractTimeseries('minersBalance')
+  },
+  marketcap_usd: {
+    query: MARKETCAP_USD_QUERY,
+    preTransform
   }
 })
 

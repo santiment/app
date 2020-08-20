@@ -8,5 +8,6 @@ export const PATHS = {
   PRO_METRICS: '/pro-sheets-templates',
   INDEX: '/',
   STUDIO: '/studio',
-  CHARTS: '/charts'
+  CHARTS: '/charts',
+  STABLECOINS: '/stablecoins'
 }

@@ -41,7 +41,8 @@ const FOOTER_DISABLED_FOR = [
   PATHS.FEED,
   PATHS.PRO_METRICS,
   PATHS.SOCIAL_TOOl,
-  PATHS.INDEX
+  PATHS.INDEX,
+  PATHS.STABLECOINS
 ]
 const FOOTER_ABSOLUTE_FOR = [
   PATHS.LOGIN,
@@ -127,6 +128,11 @@ const LoadableSearchMobilePage = Loadable({
 
 const LoadableChartPage = Loadable({
   loader: () => import('./pages/Studio'),
+  loading: () => <PageLoader />
+})
+
+const LoadableStablecoinsPage = Loadable({
+  loader: () => import('./pages/StablecoinsPage/StablecoinsPage'),
   loading: () => <PageLoader />
 })
 
@@ -411,6 +417,14 @@ export const App = ({
             />
           )}
         />
+        {isDesktop && (
+          <Route
+            path={PATHS.STABLECOINS}
+            render={props => (
+              <LoadableStablecoinsPage isLoggedIn={isLoggedIn} {...props} />
+            )}
+          />
+        )}
         <Route
           path={PATHS.CHARTS}
           render={props => (

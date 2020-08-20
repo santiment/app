@@ -25,6 +25,14 @@ const noop = v => v
 
 const hashMetrics = metrics => metrics.reduce((acc, { key }) => acc + key, '')
 
+export const getTransformerKey = ({ key, slug }) => {
+  if (slug) {
+    return `${key}_${slug}`
+  }
+
+  return key
+}
+
 const cancelQuery = ([controller, id]) => {
   const { queryManager } = client
   controller.abort()
@@ -153,7 +161,7 @@ export function useTimeseries (
             }
           })
           .then(getPreTransform(metric))
-          .then(MetricTransformer[metric.key] || noop)
+          .then(MetricTransformer[getTransformerKey(metric)] || noop)
           .then(data => {
             if (raceCondition) return
             if (!data.length) {
@@ -210,7 +218,11 @@ const DEFAULT_BRUSH_SETTINGS = {
 }
 
 export function useAllTimeData (metrics, settings, MetricSettingMap) {
-  const [brushSettings, setBrushSettings] = useState(DEFAULT_BRUSH_SETTINGS)
+  const [brushSettings, setBrushSettings] = useState({
+    ...DEFAULT_BRUSH_SETTINGS,
+    ...settings
+  })
+
   const [allTimeData] = useTimeseries(metrics, brushSettings, MetricSettingMap)
 
   useEffect(

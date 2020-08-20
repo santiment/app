@@ -1,8 +1,8 @@
 import React, { useMemo, useState, useEffect } from 'react'
-import COLOR from '@santiment-network/ui/variables.scss'
 import { getValidTooltipKey, findTooltipMetric } from './utils'
 import { setupColorGenerator } from '../SANCharts/utils'
 import { Metric } from '../dataHub/metrics'
+import COLOR from '@santiment-network/ui/variables.scss'
 
 const cache = new Map()
 const METRIC_NODE = {}
@@ -19,8 +19,9 @@ export function metricsToPlotCategories (metrics, MetricNode = METRIC_NODE) {
   }
   const joinedCategories = requestedData.joinedCategories
 
-  metrics.forEach(metric => {
-    const { key, dataKey = key, node } = metric
+  metrics.forEach(item => {
+    const { key, dataKey = key, node } = item
+
     requestedData[(MetricNode[key] || node) + 's'].push(dataKey)
     joinedCategories.push(dataKey)
   })

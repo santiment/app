@@ -400,5 +400,9 @@ export const PREDEFINED_ICONS = {
       'https://stage-sanbase-images.s3.amazonaws.com/uploads/9aa129b81afd692e10bb8342ef2f4b41967d04219bfed3a384d08faaabd84636_1584094057940_san.png',
     logoUrl:
       'https://stage-sanbase-images.s3.amazonaws.com/uploads/logo64_santiment.png'
+  },
+  'gemini-dollar': {
+    logoUrl:
+      'https://stage-sanbase-images.s3.amazonaws.com/uploads/logo64_gemini-dollar.png'
   }
 }

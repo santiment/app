@@ -64,7 +64,7 @@ const TriggerFormMetricTypes = ({
 
   const slug = getSlugFromSignalTarget(trigger)
 
-  const [availableMetrics, loading] = useAvailableMetrics(slug)
+  const [{ availableMetrics }, loading] = useAvailableMetrics(slug)
 
   useEffect(
     () => {

@@ -12,6 +12,7 @@ import styles from './UpgradeBtn.module.scss'
 const Trigger = ({
   variant,
   className,
+  iconClassName,
   children = 'Upgrade',
   showCrownIcon = true,
   ...props
@@ -22,7 +23,9 @@ const Trigger = ({
     accent='orange'
     {...props}
   >
-    {showCrownIcon && <Icon type='crown' className={styles.icon} />}
+    {showCrownIcon && (
+      <Icon type='crown' className={cx(styles.icon, iconClassName)} />
+    )}
     {children}
   </Button>
 )

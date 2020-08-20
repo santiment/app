@@ -80,9 +80,9 @@ const BOTTOM_LINKS = [
   }
 ]
 
-const CommonFooter = () => {
+const CommonFooter = ({ className }) => {
   return (
-    <div className={styles.container}>
+    <div className={cx(styles.container, className)}>
       <div className={styles.wrapper}>
         <div className={styles.top}>
           <div className={styles.leftLinks}>
