@@ -4,6 +4,7 @@ import Icon from '@santiment-network/ui/Icon'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import MetricExplanation from '../../../../../SANCharts/MetricExplanation'
 import Explanation from './Explanation'
+import DeprecatedLabel from './DeprecatedLabel'
 import { Metric } from '../../../../../dataHub/metrics'
 import styles from './index.module.scss'
 
@@ -34,6 +35,7 @@ const FilterMetricState = ({
           className={cx(styles.title, isViewMode && styles.title__notActive)}
         >
           <span className={styles.label}>{metric.label}</span>
+          {metric.isDeprecated && <DeprecatedLabel isAuthor={!isViewMode} />}
           {isActive && (
             <Explanation
               {...settings}

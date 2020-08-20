@@ -48,3 +48,25 @@
   color: var(--waterloo);
   margin-left: 6px;
 }
+
+.deprecated {
+  &__tooltip {
+    max-width: 199px;
+    min-width: auto;
+    width: auto;
+  }
+
+  &__label {
+    border-radius: 4px;
+    margin: 0 2px 0 6px;
+    background-color: var(--mystic);
+    color: var(--white);
+    padding: 2px 4px;
+
+    @include text('caption', 'm');
+
+    &:hover {
+      background-color: var(--casper);
+    }
+  }
+}
