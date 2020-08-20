@@ -1,7 +1,7 @@
 @import '~@santiment-network/ui/mixins';
 
 .container {
-  padding: 33px 0 36px 0;
+  padding: 33px 24px 36px 24px;
   border-radius: $border-radius;
   background: var(--white);
   border: 1px solid var(--porcelain);
@@ -27,7 +27,8 @@
   margin-top: 4px;
   color: var(--rhino);
 
-  @include text('body-1', 'l'); }
+  @include text('body-1', 'l');
+}
 
 .skeleton {
   height: 141px;

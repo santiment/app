@@ -7,9 +7,9 @@ import StablecoinsMarketCap, {
 import StablecoinHolderDistribution from '../../ducks/Stablecoins/HolderDistribution/StablecoinHolderDistribution'
 import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
 import StablecoinsTransactions from '../../ducks/Stablecoins/StablecoinsTransactions/StablecoinsTransactions'
-import styles from './StablecoinsPage.module.scss'
 import WhaleTrendsList from '../../ducks/Stablecoins/WhaleTrendsList/WhaleTrendsList'
 import FlowToExchangesList from '../../ducks/Stablecoins/FlowToExchanges/FlowToExchangesList'
+import styles from './StablecoinsPage.module.scss'
 
 const StablecoinsPage = () => {
   return (
@@ -29,15 +29,7 @@ const StablecoinsPage = () => {
 
         <div className={styles.block}>
           <div className={styles.subHeader}>
-            <div className={styles.subTitle}>
-              Whale Trends (last 30 days)
-              <UpgradeBtn
-                className={styles.upgrade}
-                iconClassName={styles.crown}
-                variant='fill'
-                children='Pro'
-              />
-            </div>
+            <div className={styles.subTitle}>Whale Trends (last 30 days)</div>
             <div className={styles.subDescr}>Top 100 non-exchange holders</div>
           </div>
 
@@ -46,15 +38,7 @@ const StablecoinsPage = () => {
 
         <div className={styles.block}>
           <div className={styles.subHeader}>
-            <div className={styles.subTitle}>
-              Flow to Exchanges (last 24h)
-              <UpgradeBtn
-                className={styles.upgrade}
-                iconClassName={styles.crown}
-                variant='fill'
-                children='Pro'
-              />
-            </div>
+            <div className={styles.subTitle}>Flow to Exchanges (last 24h)</div>
             <div className={styles.subDescr}>
               May indicate level of interest to exchange stablecoins for other
               cryptocurrencies
