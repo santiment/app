@@ -94,6 +94,10 @@ const Filter = ({
   }
 
   function updMetricInFilter (metric, key, alternativeKey = key) {
+    if (isViewMode) {
+      return
+    }
+
     const filters = isNoFilters
       ? []
       : filter.filter(
@@ -113,6 +117,10 @@ const Filter = ({
   }
 
   function toggleMetricInFilter (metric, key, alternativeKey = key) {
+    if (isViewMode) {
+      return
+    }
+
     const isMetricInList = filter.some(
       item =>
         isContainMetric(item.args.metric || item.name, key) ||
