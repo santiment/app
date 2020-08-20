@@ -11,32 +11,3 @@
   align-items: center;
   justify-content: space-between;
 }
-
-.suggestions {
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-
-  @include text('caption');
-
-  color: var(--waterloo);
-}
-
-.hint {
-  padding: 1px 8px;
-  border-radius: 2px;
-  border: 1px solid var(--porcelain);
-  margin: 0 0 0 8px;
-  cursor: pointer;
-  color: var(--rhino);
-
-  &:first-child {
-    margin-left: 12px;
-  }
-
-  @include text('caption', 'm');
-}
-
-.tooltip {
-  max-width: 250px;
-}

@@ -3,8 +3,8 @@ import TypeDropdown from './TypeDropdown'
 import TimeRangeDropdown from './TimeRangeDropdown'
 import ValueInput from './ValueInput'
 import { Filter } from '../../dataHub/types'
-import DarkTooltip from '../../../../../../components/Tooltip/DarkTooltip'
 import { DEFAULT_TIMERANGES } from '../../defaults'
+import Suggestions from '../Suggestions'
 import styles from './index.module.scss'
 
 const FilterMetricSettings = ({
@@ -54,30 +54,7 @@ const FilterMetricSettings = ({
           />
         )}
       </div>
-      {metric.hints && (
-        <div className={styles.suggestions}>
-          For example:
-          {metric.hints.map(({ label, description, ...props }, idx) => (
-            <DarkTooltip
-              key={idx}
-              position='bottom'
-              align='center'
-              on='hover'
-              className={styles.tooltip}
-              trigger={
-                <span
-                  className={styles.hint}
-                  onClick={() => onSuggestionClick(props)}
-                >
-                  {label}
-                </span>
-              }
-            >
-              {description}
-            </DarkTooltip>
-          ))}
-        </div>
-      )}
+      <Suggestions hints={metric.hints} onSuggestionClick={onSuggestionClick} />
     </div>
   )
 }
