@@ -19,3 +19,11 @@ export function notifyUpdate () {
     description: 'Your screener has been updated successfully.'
   })
 }
+
+export function notifyErrorUpdate () {
+  return dispatchNotification({
+    variant: 'error',
+    title: 'Error during the saving screener process',
+    dismissAfter: 5000
+  })
+}

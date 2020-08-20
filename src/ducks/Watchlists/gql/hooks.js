@@ -18,6 +18,7 @@ import {
   DEFAULT_SCREENER,
   DEFAULT_SCREENER_FUNCTION
 } from '../utils'
+import { notifyErrorUpdate } from '../Widgets/TopPanel/notifications'
 
 const DEFAULT_WATCHLISTS = []
 const DEFAULT_SCREENERS = [DEFAULT_SCREENER]
@@ -152,10 +153,12 @@ export function useUpdateWatchlist () {
         function:
           JSON.stringify(newParams.function) || JSON.stringify(oldFunction)
       }
-    }).then(({ data: { updateWatchlist: watchlist } }) => ({
-      ...oldWatchlist,
-      ...watchlist
-    }))
+    })
+      .then(({ data: { updateWatchlist: watchlist } }) => ({
+        ...oldWatchlist,
+        ...watchlist
+      }))
+      .catch(notifyErrorUpdate)
   }
 
   return [updateWatchlist, data]
