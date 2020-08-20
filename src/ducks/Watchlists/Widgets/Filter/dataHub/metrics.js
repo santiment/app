@@ -1,6 +1,6 @@
 import React from 'react'
 import { Filter } from './types'
-import MarketSegments from '../Widget/MarketSegments'
+import MarketSegments from '../Metric/MarketSegments'
 import {
   percentValueFormatter,
   percentServerValueFormatter
@@ -183,6 +183,14 @@ export const Metric = {
   market_segments: {
     category: 'Financial',
     label: 'Market Segments',
+    hints: [
+      {
+        label: 'DeFi',
+        market_segments: ['DeFi'],
+        market_segments_combinator: 'and',
+        description: 'Tokens related to Decentralized Finance solutions'
+      }
+    ],
     Widget: props => <MarketSegments {...props} />
   }
 }
