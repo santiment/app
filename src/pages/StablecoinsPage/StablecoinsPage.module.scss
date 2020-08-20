@@ -35,7 +35,7 @@
 
 .subHeader {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   margin: 0 0 16px 0;
 }
 
@@ -43,6 +43,13 @@
   color: var(--rhino);
 
   @include text('body-1', 'm');
+}
+
+.subDescr {
+  @include text('body-2');
+
+  margin-top: 4px;
+  color: var(--waterloo);
 }
 
 .description {
