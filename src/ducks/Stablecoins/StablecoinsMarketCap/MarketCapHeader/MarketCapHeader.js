@@ -7,12 +7,10 @@ const makeInterval = (val, label) => ({
   label: label
 })
 
-export const MARKET_CAP_HOUR_INTERVAL = makeInterval('1h', '1H')
 export const MARKET_CAP_MONTH_INTERVAL = makeInterval('31d', '1M')
 
 const INTERVALS = [
-  MARKET_CAP_HOUR_INTERVAL,
-  makeInterval('1d', '1D'),
+  makeInterval('2d', '1D'),
   makeInterval('1w', '1W'),
   MARKET_CAP_MONTH_INTERVAL,
   makeInterval('365d', '1Y')
