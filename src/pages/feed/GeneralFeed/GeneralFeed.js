@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Query } from 'react-apollo'
-import { pulseLocation, personalLocation } from './locations'
+import { baseLocation, pulseLocation, personalLocation } from './locations'
 import {
   extractEventsFromData,
   makeFeedVariables,
@@ -23,6 +23,10 @@ import PulseInsights from './PulseInsights/PulseInsights'
 import styles from './GeneralFeed.module.scss'
 
 const tabs = [
+  {
+    index: `${baseLocation}`,
+    content: 'General'
+  },
   {
     index: pulseLocation,
     content: 'Pulse'
@@ -81,7 +85,8 @@ const Header = ({
 const START_DATE = new Date()
 
 const GeneralFeed = ({ isLoggedIn, isUserLoading, location }) => {
-  const [tab, setTab] = useState(pulseLocation)
+  const { pathname } = location
+  const [tab, setTab] = useState(isLoggedIn ? pathname : baseLocation)
   const [isPulse, setPulse] = useState(tab === pulseLocation)
   const [sortType, setSortType] = useState(DATETIME_SORT)
   const [filters, setFilters] = useState(getDefaultFilters(tab))
