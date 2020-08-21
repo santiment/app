@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import ProjectsBarChart from '../ProjectsBarChart/ProjectsBarChart'
 import PageLoader from '../../../components/Loader/PageLoader'
-import { useAggregatedProjects } from '../utils'
+import { sortByValue, useAggregatedProjects } from '../utils'
 import styles from './TransactionsDominance.module.scss'
 
 const DEFAULT_SETTINGS = {
@@ -10,14 +10,12 @@ const DEFAULT_SETTINGS = {
   ...getIntervalByTimeRange('1d')
 }
 
-export const sortByVolume = (a, b) => b.value - a.value
-
 const TransactionsDominance = () => {
   const { data, loading } = useAggregatedProjects(DEFAULT_SETTINGS)
 
   const prepared = useMemo(
     () => {
-      return data.filter(({ value }) => value > 0).sort(sortByVolume)
+      return data.filter(({ value }) => value > 0).sort(sortByValue)
     },
     [data]
   )

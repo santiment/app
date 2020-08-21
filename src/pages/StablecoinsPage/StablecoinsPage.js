@@ -12,6 +12,7 @@ import FlowToExchangesList from '../../ducks/Stablecoins/FlowToExchanges/FlowToE
 import TransactionsDominance from '../../ducks/Stablecoins/TransactionsDominance/TransactionsDominance'
 import CheckProPaywall from '../../ducks/Stablecoins/CheckProPaywall'
 import styles from './StablecoinsPage.module.scss'
+import NetworkActivity from '../../ducks/Stablecoins/NetworkActivity/NetworkActivity'
 
 const StablecoinsPage = () => {
   return (
@@ -54,7 +55,11 @@ const StablecoinsPage = () => {
         </Block>
 
         <Block title='Transaction Dominance (last 24h)' isPaywalActive>
-          <TransactionsDominance title='Transaction Dominance (last 24h)' />
+          <TransactionsDominance />
+        </Block>
+
+        <Block title='Network Activity' showPro>
+          <NetworkActivity />
         </Block>
       </div>
 

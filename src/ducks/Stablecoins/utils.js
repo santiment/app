@@ -41,3 +41,5 @@ export const useAggregatedProjects = ({ metric, from, to }) => {
     error
   }
 }
+
+export const sortByValue = (a, b) => b.value - a.value
