@@ -10,6 +10,7 @@ import StoriesList from '../../../../components/Stories/StoriesList'
 import PageLoader from '../../../../components/Loader/PageLoader'
 import styles from './FeedList.module.scss'
 import externalStyles from '../GeneralFeed.module.scss'
+import feedItemStyles from './../FeedItemRenderer/FeedItemRenderer.module.scss'
 
 const getEventDate = ({ insertedAt, publishedAt }) =>
   insertedAt ? new Date(insertedAt) : new Date(publishedAt)
@@ -139,7 +140,9 @@ export const RenderFeedGroupItems = ({
               index={groupIndex}
               showProfileExplanation={showProfileExplanation}
             />
-            {item.addProCard && <MakeProSubscriptionCard />}
+            {item.addProCard && (
+              <MakeProSubscriptionCard classes={feedItemStyles} />
+            )}
           </div>
 
           {item.addStories && <StoriesList classes={styles} showScrollBtns />}

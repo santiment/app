@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
 import MarketCapHeader, {
-  MARKET_CAP_MONTH_INTERVAL
+  MARKET_CAP_DAY_INTERVAL
 } from './MarketCapHeader/MarketCapHeader'
 import CheckingAssets from './CheckingAssets/CheckingAssets'
 import { convertToSeconds } from '../../dataHub/metrics/intervals'
@@ -21,7 +21,8 @@ export const getIntervalDates = interval => {
     from: new Date(
       new Date().getTime() + -1 * convertToSeconds(interval.value)
     ),
-    to: new Date()
+    to: new Date(),
+    interval: '1h'
   }
 }
 
@@ -34,7 +35,7 @@ const CHART_PADDING = {
 }
 
 const StablecoinsMarketCap = ({ className }) => {
-  const [interval, setInterval] = useState(MARKET_CAP_MONTH_INTERVAL)
+  const [interval, setInterval] = useState(MARKET_CAP_DAY_INTERVAL)
   const [disabledAssets, setDisabledAsset] = useState({})
 
   const [settings, setSettings] = useState({ ...getIntervalDates(interval) })

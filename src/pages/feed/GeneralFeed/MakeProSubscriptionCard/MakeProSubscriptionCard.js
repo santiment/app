@@ -1,12 +1,12 @@
 import React from 'react'
+import cx from 'classnames'
 import UpgradeBtn from '../../../../components/UpgradeBtn/UpgradeBtn'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import proIcon from './../../../../assets/feed/pro-icon.svg'
-import externalStyles from './../FeedItemRenderer/FeedItemRenderer.module.scss'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import styles from './MakeProSubscriptionCard.module.scss'
 
-const MakeProSubscriptionCard = () => {
+const MakeProSubscriptionCard = ({ classes = {} }) => {
   const { loading, isPro } = useUserSubscriptionStatus
   if (loading) {
     return 'Loading...'
@@ -16,7 +16,7 @@ const MakeProSubscriptionCard = () => {
   }
 
   return (
-    <Panel padding className={externalStyles.card}>
+    <Panel padding className={cx(styles.card, classes.card)}>
       <div className={styles.center}>
         <img src={proIcon} alt='pro-icon' className={styles.icon} />
 
