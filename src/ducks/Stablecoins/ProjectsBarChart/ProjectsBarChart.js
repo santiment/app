@@ -16,9 +16,7 @@ import { millify } from '../../../utils/formatting'
 import { useChartColors } from '../../Chart/colors'
 import styles from './ProjectsBarChart.module.scss'
 
-const renderCustomizedLabel = props => {
-  const { x, y, width, value, fill } = props
-
+const renderCustomizedLabel = ({ x, y, width, value }) => {
   const fontSize = width < 20 ? 7 : 14
   const position = +value >= 0 ? -1 * (fontSize / 2) : fontSize
 
@@ -27,7 +25,7 @@ const renderCustomizedLabel = props => {
       <text
         x={x + width / 2}
         y={y + position}
-        fill={fill}
+        fill={'var(--rhino)'}
         textAnchor='middle'
         fontSize={fontSize}
         fontWeight={500}
