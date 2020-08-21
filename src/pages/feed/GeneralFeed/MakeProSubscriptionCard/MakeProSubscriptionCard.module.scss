@@ -2,7 +2,16 @@
 
 .upgrade {
   margin-left: auto;
-  height: 32px;
+  height: 40px;
+  min-width: 180px;
+  align-items: center;
+  justify-content: center;
+
+  @include text('body-3');
+
+  svg {
+    display: none;
+  }
 }
 
 .center {
@@ -10,7 +19,7 @@
 }
 
 .content {
-  margin-left: 16px;
+  margin-left: 12px;
 }
 
 .right {
@@ -29,16 +38,31 @@
 }
 
 .title {
-  @include text('body-3');
+  @include text('body-2');
 
   color: var(--rhino);
 }
 
 .description {
-  @include text('caption');
+  @include text('body-3');
 
   display: flex;
   align-items: center;
   color: var(--waterloo);
-  margin: 0;
+  margin-top: 4px;
+}
+
+.card {
+  width: 100%;
+  display: flex;
+  padding: 23px 56px 16px 56px !important;
+  box-sizing: border-box;
+  background-image: url('../../../../assets/lines.svg');
+  background-size: 75% 100%;
+  background-position: center right;
+  background-repeat: no-repeat;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
+  }
 }

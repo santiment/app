@@ -97,7 +97,7 @@
   padding: 16px 24px;
   display: flex;
   background: var(--athens);
-  background-image: url('./lines.svg');
+  background-image: url('../../assets/lines.svg');
 
   &__title {
     @include text('body-2');
