@@ -11,8 +11,8 @@ import WhaleTrendsList from '../../ducks/Stablecoins/WhaleTrendsList/WhaleTrends
 import FlowToExchangesList from '../../ducks/Stablecoins/FlowToExchanges/FlowToExchangesList'
 import TransactionsDominance from '../../ducks/Stablecoins/TransactionsDominance/TransactionsDominance'
 import CheckProPaywall from '../../ducks/Stablecoins/CheckProPaywall'
-import styles from './StablecoinsPage.module.scss'
 import NetworkActivity from '../../ducks/Stablecoins/NetworkActivity/NetworkActivity'
+import styles from './StablecoinsPage.module.scss'
 
 const StablecoinsPage = () => {
   return (
@@ -58,7 +58,7 @@ const StablecoinsPage = () => {
           <TransactionsDominance />
         </Block>
 
-        <Block title='Network Activity' showPro>
+        <Block title='Network Activity' showPro isPaywalActive>
           <NetworkActivity />
         </Block>
       </div>
