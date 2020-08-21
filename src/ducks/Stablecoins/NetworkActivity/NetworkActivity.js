@@ -3,15 +3,8 @@ import { getIntervalByTimeRange } from '../../../utils/dates'
 import ProjectsBarChart from '../ProjectsBarChart/ProjectsBarChart'
 import PageLoader from '../../../components/Loader/PageLoader'
 import { useAggregatedProjects } from '../utils'
-import styles from './NetworkActivity.module.scss'
 import Tabs from '@santiment-network/ui/Tabs'
-import cx from 'classnames'
-import Panel from '@santiment-network/ui/Panel/Panel'
-
-const DEFAULT_SETTINGS = {
-  metric: 'transaction_volume',
-  ...getIntervalByTimeRange('1d')
-}
+import styles from './NetworkActivity.module.scss'
 
 const TABS = {
   'Daily Addresses': {
