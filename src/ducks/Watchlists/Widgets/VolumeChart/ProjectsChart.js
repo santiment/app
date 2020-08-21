@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import cx from 'classnames'
@@ -67,9 +67,15 @@ const ProjectsChart = ({ assets, redirect, loading: assetsLoading }) => {
     desc
   })
 
-  data.forEach(item => {
-    item.color = getBarColor(item[key])
-  })
+  const colored = useMemo(
+    () => {
+      return data.map(item => ({
+        ...item,
+        color: getBarColor(item[key])
+      }))
+    },
+    [data]
+  )
 
   const onProjectClick = useCallback(
     data => {
@@ -130,7 +136,7 @@ const ProjectsChart = ({ assets, redirect, loading: assetsLoading }) => {
               <ResponsiveContainer width='100%' height='100%'>
                 <ComposedChart
                   cursor='pointer'
-                  data={data}
+                  data={colored}
                   margin={{ top: 20, right: 0, left: -20, bottom: 0 }}
                 >
                   <CartesianGrid vertical={false} stroke='var(--athens)' />

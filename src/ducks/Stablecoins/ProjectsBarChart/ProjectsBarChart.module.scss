@@ -1,0 +1,11 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  background: var(--white);
+}
+
+.chart {
+  height: 440px;
+  background: url('./../../../../src/assets/watermark.svg') no-repeat;
+  background-position: center;
+}

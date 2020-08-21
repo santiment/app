@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment, useMemo } from 'react'
 import cx from 'classnames'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import StablecoinsMarketCap, {
@@ -9,6 +9,9 @@ import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
 import StablecoinsTransactions from '../../ducks/Stablecoins/StablecoinsTransactions/StablecoinsTransactions'
 import WhaleTrendsList from '../../ducks/Stablecoins/WhaleTrendsList/WhaleTrendsList'
 import FlowToExchangesList from '../../ducks/Stablecoins/FlowToExchanges/FlowToExchangesList'
+import TransactionsDominance from '../../ducks/Stablecoins/TransactionsDominance/TransactionsDominance'
+import CheckProPaywall from '../../ducks/Stablecoins/CheckProPaywall'
+import NetworkActivity from '../../ducks/Stablecoins/NetworkActivity/NetworkActivity'
 import styles from './StablecoinsPage.module.scss'
 
 const StablecoinsPage = () => {
@@ -27,55 +30,76 @@ const StablecoinsPage = () => {
       <div className={styles.inner}>
         <StablecoinsMarketCap className={styles.block} />
 
-        <div className={styles.block}>
-          <div className={styles.subHeader}>
-            <div className={styles.subTitle}>Whale Trends (last 30 days)</div>
-            <div className={styles.subDescr}>Top 100 non-exchange holders</div>
-          </div>
-
+        <Block
+          title='Whale Trends (last 30 days)'
+          description='Top 100 non-exchange holders'
+          isPaywalActive
+        >
           <WhaleTrendsList />
-        </div>
+        </Block>
 
-        <div className={styles.block}>
-          <div className={styles.subHeader}>
-            <div className={styles.subTitle}>Flow to Exchanges (last 24h)</div>
-            <div className={styles.subDescr}>
-              May indicate level of interest to exchange stablecoins for other
-              cryptocurrencies
-            </div>
-          </div>
-
+        <Block
+          title='Flow to Exchanges (last 24h)'
+          description='May indicate level of interest to exchange stablecoins for other cryptocurrencies'
+          isPaywalActive
+        >
           <FlowToExchangesList />
-        </div>
+        </Block>
 
-        <div className={styles.block}>
-          <div className={styles.subHeader}>
-            <div className={styles.subTitle}>
-              Largest Transfers to Exchanges (last 24h)
-            </div>
-          </div>
-
+        <Block title='Largest Transfers to Exchanges (last 24h)'>
           <StablecoinsTransactions {...getIntervalDates({ value: '24h' })} />
-        </div>
+        </Block>
 
-        <div className={styles.block}>
-          <div className={styles.subHeader}>
-            <div className={styles.subTitle}>
-              Stablecoin Holder Distribution
-              <UpgradeBtn
-                className={styles.upgrade}
-                iconClassName={styles.crown}
-                variant='fill'
-                children='Pro'
-              />
-            </div>
-          </div>
-
+        <Block title='Stablecoin Holder Distribution' showPro>
           <StablecoinHolderDistribution />
-        </div>
+        </Block>
+
+        <Block title='Transaction Dominance (last 24h)' isPaywalActive>
+          <TransactionsDominance />
+        </Block>
+
+        <Block title='Network Activity' showPro isPaywalActive>
+          <NetworkActivity />
+        </Block>
       </div>
 
       <CommonFooter className={styles.footer} />
+    </div>
+  )
+}
+
+const Block = ({
+  title,
+  description,
+  showPro,
+  children,
+  isPaywalActive = false
+}) => {
+  const El = useMemo(
+    () => {
+      return isPaywalActive ? CheckProPaywall : Fragment
+    },
+    [isPaywalActive]
+  )
+
+  return (
+    <div className={styles.block}>
+      <div className={styles.subHeader}>
+        <div className={styles.subTitle}>
+          {title}
+          {showPro && (
+            <UpgradeBtn
+              className={styles.upgrade}
+              iconClassName={styles.crown}
+              variant='fill'
+              children='Pro'
+            />
+          )}
+        </div>
+        {description && <div className={styles.subDescr}>{description}</div>}
+      </div>
+
+      <El>{children}</El>
     </div>
   )
 }

@@ -1,0 +1,25 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  box-sizing: border-box;
+  border-radius: $border-radius;
+}
+
+.chart {
+  padding: 40px 55px 10px 24px;
+}
+
+.tabs {
+  width: 100%;
+  border-bottom: 1px solid var(--porcelain);
+  display: flex;
+  justify-content: center;
+  padding-top: 18px;
+
+  @include text('body-3'); }
+
+.loader {
+  height: 440px;
+}

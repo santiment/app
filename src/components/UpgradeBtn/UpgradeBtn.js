@@ -33,6 +33,7 @@ const Trigger = ({
 const UpgradeBtn = ({
   loginRequired = true,
   className,
+  iconClassName,
   variant = 'fill',
   ...props
 }) => {
@@ -51,7 +52,7 @@ const UpgradeBtn = ({
       <PlanPaymentDialog
         label={
           <>
-            <Icon type='crown' className={styles.icon} />
+            <Icon type='crown' className={cx(styles.icon, iconClassName)} />
             Upgrade
           </>
         }
@@ -75,6 +76,7 @@ const UpgradeBtn = ({
       as={Link}
       to='/pricing'
       className={className}
+      iconClassName={iconClassName}
       variant={variant}
       {...props}
     />
