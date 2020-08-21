@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment, useMemo } from 'react'
 import cx from 'classnames'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import StablecoinsMarketCap, {
@@ -10,6 +10,7 @@ import StablecoinsTransactions from '../../ducks/Stablecoins/StablecoinsTransact
 import WhaleTrendsList from '../../ducks/Stablecoins/WhaleTrendsList/WhaleTrendsList'
 import FlowToExchangesList from '../../ducks/Stablecoins/FlowToExchanges/FlowToExchangesList'
 import TransactionsDominance from '../../ducks/Stablecoins/TransactionsDominance/TransactionsDominance'
+import CheckProPaywall from '../../ducks/Stablecoins/CheckProPaywall'
 import styles from './StablecoinsPage.module.scss'
 
 const StablecoinsPage = () => {
@@ -31,6 +32,7 @@ const StablecoinsPage = () => {
         <Block
           title='Whale Trends (last 30 days)'
           description='Top 100 non-exchange holders'
+          isPaywalActive
         >
           <WhaleTrendsList />
         </Block>
@@ -38,6 +40,7 @@ const StablecoinsPage = () => {
         <Block
           title='Flow to Exchanges (last 24h)'
           description='May indicate level of interest to exchange stablecoins for other cryptocurrencies'
+          isPaywalActive
         >
           <FlowToExchangesList />
         </Block>
@@ -50,7 +53,7 @@ const StablecoinsPage = () => {
           <StablecoinHolderDistribution />
         </Block>
 
-        <Block title='Transaction Dominance (last 24h)'>
+        <Block title='Transaction Dominance (last 24h)' isPaywalActive>
           <TransactionsDominance title='Transaction Dominance (last 24h)' />
         </Block>
       </div>
@@ -60,7 +63,20 @@ const StablecoinsPage = () => {
   )
 }
 
-const Block = ({ title, description, showPro, children }) => {
+const Block = ({
+  title,
+  description,
+  showPro,
+  children,
+  isPaywalActive = false
+}) => {
+  const El = useMemo(
+    () => {
+      return isPaywalActive ? CheckProPaywall : Fragment
+    },
+    [isPaywalActive]
+  )
+
   return (
     <div className={styles.block}>
       <div className={styles.subHeader}>
@@ -78,7 +94,7 @@ const Block = ({ title, description, showPro, children }) => {
         {description && <div className={styles.subDescr}>{description}</div>}
       </div>
 
-      {children}
+      <El>{children}</El>
     </div>
   )
 }

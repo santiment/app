@@ -44,7 +44,7 @@ const PREDEFINED_COLORS = {
   'binance-usd': '#F0B90B'
 }
 
-const ProjectsBarChart = ({ data, dataKey, redirect }) => {
+const ProjectsBarChart = ({ data, dataKey = 'value', redirect }) => {
   const onProjectClick = useCallback(
     data => {
       const { value } = data
