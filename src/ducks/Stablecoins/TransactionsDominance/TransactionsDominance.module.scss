@@ -1,0 +1,9 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  box-sizing: border-box;
+  border-radius: $border-radius;
+  padding: 24px 55px 10px 24px;
+}

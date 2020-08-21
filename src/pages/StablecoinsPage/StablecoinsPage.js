@@ -9,6 +9,7 @@ import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
 import StablecoinsTransactions from '../../ducks/Stablecoins/StablecoinsTransactions/StablecoinsTransactions'
 import WhaleTrendsList from '../../ducks/Stablecoins/WhaleTrendsList/WhaleTrendsList'
 import FlowToExchangesList from '../../ducks/Stablecoins/FlowToExchanges/FlowToExchangesList'
+import TransactionsDominance from '../../ducks/Stablecoins/TransactionsDominance/TransactionsDominance'
 import styles from './StablecoinsPage.module.scss'
 
 const StablecoinsPage = () => {
@@ -27,55 +28,57 @@ const StablecoinsPage = () => {
       <div className={styles.inner}>
         <StablecoinsMarketCap className={styles.block} />
 
-        <div className={styles.block}>
-          <div className={styles.subHeader}>
-            <div className={styles.subTitle}>Whale Trends (last 30 days)</div>
-            <div className={styles.subDescr}>Top 100 non-exchange holders</div>
-          </div>
-
+        <Block
+          title='Whale Trends (last 30 days)'
+          description='Top 100 non-exchange holders'
+        >
           <WhaleTrendsList />
-        </div>
+        </Block>
 
-        <div className={styles.block}>
-          <div className={styles.subHeader}>
-            <div className={styles.subTitle}>Flow to Exchanges (last 24h)</div>
-            <div className={styles.subDescr}>
-              May indicate level of interest to exchange stablecoins for other
-              cryptocurrencies
-            </div>
-          </div>
-
+        <Block
+          title='Flow to Exchanges (last 24h)'
+          description='May indicate level of interest to exchange stablecoins for other cryptocurrencies'
+        >
           <FlowToExchangesList />
-        </div>
+        </Block>
 
-        <div className={styles.block}>
-          <div className={styles.subHeader}>
-            <div className={styles.subTitle}>
-              Largest Transfers to Exchanges (last 24h)
-            </div>
-          </div>
-
+        <Block title='Largest Transfers to Exchanges (last 24h)'>
           <StablecoinsTransactions {...getIntervalDates({ value: '24h' })} />
-        </div>
+        </Block>
 
-        <div className={styles.block}>
-          <div className={styles.subHeader}>
-            <div className={styles.subTitle}>
-              Stablecoin Holder Distribution
-              <UpgradeBtn
-                className={styles.upgrade}
-                iconClassName={styles.crown}
-                variant='fill'
-                children='Pro'
-              />
-            </div>
-          </div>
-
+        <Block title='Stablecoin Holder Distribution' showPro>
           <StablecoinHolderDistribution />
-        </div>
+        </Block>
+
+        <Block title='Transaction Dominance (last 24h)'>
+          <TransactionsDominance title='Transaction Dominance (last 24h)' />
+        </Block>
       </div>
 
       <CommonFooter className={styles.footer} />
+    </div>
+  )
+}
+
+const Block = ({ title, description, showPro, children }) => {
+  return (
+    <div className={styles.block}>
+      <div className={styles.subHeader}>
+        <div className={styles.subTitle}>
+          {title}
+          {showPro && (
+            <UpgradeBtn
+              className={styles.upgrade}
+              iconClassName={styles.crown}
+              variant='fill'
+              children='Pro'
+            />
+          )}
+        </div>
+        {description && <div className={styles.subDescr}>{description}</div>}
+      </div>
+
+      {children}
     </div>
   )
 }
