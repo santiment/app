@@ -154,7 +154,7 @@ const ProjectsChart = ({ assets, redirect, loading: assetsLoading }) => {
 
                   <Bar dataKey={key}>
                     <LabelList dataKey={key} content={renderCustomizedLabel} />
-                    {data.map((entry, index) => {
+                    {colored.map((entry, index) => {
                       return (
                         <Cell
                           key={`cell-${index}`}
