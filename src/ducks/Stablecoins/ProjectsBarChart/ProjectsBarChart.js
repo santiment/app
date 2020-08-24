@@ -1,6 +1,8 @@
 import React, { useCallback, useMemo } from 'react'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
+import { compose } from 'recompose'
+import withSizes from 'react-sizes'
 import {
   Bar,
   CartesianGrid,
@@ -14,10 +16,8 @@ import {
 import ProjectIcon from '../../../components/ProjectIcon/ProjectIcon'
 import { millify } from '../../../utils/formatting'
 import { useChartColors } from '../../Chart/colors'
-import styles from './ProjectsBarChart.module.scss'
-import { compose } from 'recompose'
-import withSizes from 'react-sizes'
 import { mapSizesToProps } from '../../../utils/withSizes'
+import styles from './ProjectsBarChart.module.scss'
 
 const renderCustomizedLabel = ({ x, y, width, value }) => {
   const fontSize = width < 20 ? 7 : 14

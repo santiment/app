@@ -1,6 +1,5 @@
 import React, { Fragment, useMemo } from 'react'
 import cx from 'classnames'
-import withSizes from 'react-sizes'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import StablecoinsMarketCap, {
   getIntervalDates
