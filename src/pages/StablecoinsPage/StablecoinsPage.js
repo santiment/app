@@ -12,11 +12,21 @@ import FlowToExchangesList from '../../ducks/Stablecoins/FlowToExchanges/FlowToE
 import TransactionsDominance from '../../ducks/Stablecoins/TransactionsDominance/TransactionsDominance'
 import CheckProPaywall from '../../ducks/Stablecoins/CheckProPaywall'
 import NetworkActivity from '../../ducks/Stablecoins/NetworkActivity/NetworkActivity'
+import MobileHeader from '../../components/MobileHeader/MobileHeader'
+import { MobileOnly } from '../../components/Responsive'
 import styles from './StablecoinsPage.module.scss'
 
-const StablecoinsPage = () => {
+const StablecoinsPage = ({ history, isDesktop }) => {
   return (
     <div className={cx('page', styles.container)}>
+      <MobileOnly>
+        <MobileHeader
+          showBack={true}
+          goBack={history.goBack}
+          classes={styles}
+        />
+      </MobileOnly>
+
       <div className={styles.header}>
         <div className={styles.inner}>
           <h3 className={styles.title}>Stablecoins</h3>
@@ -50,7 +60,10 @@ const StablecoinsPage = () => {
           <StablecoinsTransactions {...getIntervalDates({ value: '24h' })} />
         </Block>
 
-        <Block title='Stablecoin Holder Distribution' showPro>
+        <Block
+          title={isDesktop ? 'Stablecoin Holder Distribution' : null}
+          showPro
+        >
           <StablecoinHolderDistribution />
         </Block>
 
@@ -84,20 +97,22 @@ const Block = ({
 
   return (
     <div className={styles.block}>
-      <div className={styles.subHeader}>
-        <div className={styles.subTitle}>
-          {title}
-          {showPro && (
-            <UpgradeBtn
-              className={styles.upgrade}
-              iconClassName={styles.crown}
-              variant='fill'
-              children='Pro'
-            />
-          )}
+      {title && (
+        <div className={styles.subHeader}>
+          <div className={styles.subTitle}>
+            {title}
+            {showPro && (
+              <UpgradeBtn
+                className={styles.upgrade}
+                iconClassName={styles.crown}
+                variant='fill'
+                children='Pro'
+              />
+            )}
+          </div>
+          {description && <div className={styles.subDescr}>{description}</div>}
         </div>
-        {description && <div className={styles.subDescr}>{description}</div>}
-      </div>
+      )}
 
       <El>{children}</El>
     </div>

@@ -7,14 +7,29 @@
   border-bottom: 1px solid var(--porcelain);
   color: var(--rhino);
 
-  @include text('body-2'); }
+  @include text('body-2');
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    padding-bottom: 9px;
+  }
+}
 
 .tabs {
   margin-left: auto;
   margin-right: 3px;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    margin: 16px 0 0 0;
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 .tab {
   padding: 0 13px 9px 13px;
   margin: 0;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    padding: 0 8px 9px 8px;
+  }
 }

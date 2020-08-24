@@ -6,4 +6,9 @@
   box-sizing: border-box;
   border-radius: $border-radius;
   padding: 24px 55px 10px 24px;
+  overflow: auto;
+
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    padding: 24px 24px 10px 24px;
+  }
 }

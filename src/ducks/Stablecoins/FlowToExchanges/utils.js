@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import { getIntervalByTimeRange } from '../../../utils/dates'
+import { getIntervalDates } from '../StablecoinsMarketCap/StablecoinsMarketCap'
 
 export const EXCHANGE_INTERESTS = {
   high: 'Very High',
@@ -10,25 +10,21 @@ export const EXCHANGE_INTERESTS = {
 
 export const ExchangesAssets = [
   {
-    slug: 'tether',
-    status: EXCHANGE_INTERESTS.high
+    slug: 'tether'
   },
   {
-    slug: 'trueusd',
-    status: EXCHANGE_INTERESTS.normal
+    slug: 'trueusd'
   },
   {
-    slug: 'usd-coin',
-    status: EXCHANGE_INTERESTS.normal
+    slug: 'usd-coin'
   },
   {
-    slug: 'gemini-dollar',
-    status: EXCHANGE_INTERESTS.low
+    slug: 'gemini-dollar'
   }
 ]
 
 export const EXCHANGES_DEFAULT_SETTINGS = {
-  ...getIntervalByTimeRange('1d'),
+  ...getIntervalDates({ value: '1d' }),
   interval: '1h'
 }
 

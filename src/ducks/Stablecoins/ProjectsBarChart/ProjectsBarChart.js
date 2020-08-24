@@ -1,6 +1,8 @@
 import React, { useCallback, useMemo } from 'react'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
+import { compose } from 'recompose'
+import withSizes from 'react-sizes'
 import {
   Bar,
   CartesianGrid,
@@ -14,6 +16,7 @@ import {
 import ProjectIcon from '../../../components/ProjectIcon/ProjectIcon'
 import { millify } from '../../../utils/formatting'
 import { useChartColors } from '../../Chart/colors'
+import { mapSizesToProps } from '../../../utils/withSizes'
 import styles from './ProjectsBarChart.module.scss'
 
 const renderCustomizedLabel = ({ x, y, width, value }) => {
@@ -42,7 +45,10 @@ const PREDEFINED_COLORS = {
   'binance-usd': '#F0B90B'
 }
 
-const ProjectsBarChart = ({ data, dataKey = 'value', redirect }) => {
+const DESKTOP_MARGIN = { top: 20, right: 0, left: -20, bottom: 0 }
+const MOBILE_MARGIN = { top: 0, right: 16, left: 0, bottom: 0 }
+
+const ProjectsBarChart = ({ isDesktop, data, dataKey = 'value', redirect }) => {
   const onProjectClick = useCallback(
     data => {
       const { value } = data
@@ -68,9 +74,11 @@ const ProjectsBarChart = ({ data, dataKey = 'value', redirect }) => {
         <ComposedChart
           cursor='pointer'
           data={data}
-          margin={{ top: 20, right: 0, left: -20, bottom: 0 }}
+          margin={isDesktop ? DESKTOP_MARGIN : MOBILE_MARGIN}
         >
-          <CartesianGrid vertical={false} stroke='var(--porcelain)' />
+          {isDesktop && (
+            <CartesianGrid vertical={false} stroke='var(--porcelain)' />
+          )}
 
           <YAxis
             dataKey={dataKey}
@@ -79,9 +87,10 @@ const ProjectsBarChart = ({ data, dataKey = 'value', redirect }) => {
             stroke={'var(--casper)'}
             tickCount={6}
             tickFormatter={val => `${millify(val)} %`}
+            hide={!isDesktop}
           />
 
-          <Bar dataKey={dataKey} radius={[8, 8, 0, 0]}>
+          <Bar dataKey={dataKey} radius={[8, 8, 0, 0]} maxBarSize={32}>
             <LabelList dataKey={dataKey} content={renderCustomizedLabel} />
             {data.map((entry, index) => {
               return (
@@ -97,10 +106,11 @@ const ProjectsBarChart = ({ data, dataKey = 'value', redirect }) => {
           <XAxis
             dataKey={'slug'}
             tick={CategoryTick}
-            minTickGap={0}
+            minTickGap={8}
             interval={0}
             domain={['auto', 'auto']}
             tickLine={false}
+            axisLine={isDesktop}
             height={40}
             textAnchor='end'
             verticalAnchor='end'
@@ -131,7 +141,10 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
+export default compose(
+  connect(
+    null,
+    mapDispatchToProps
+  ),
+  withSizes(mapSizesToProps)
 )(ProjectsBarChart)

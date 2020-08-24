@@ -11,7 +11,9 @@ import Skeleton from '../../../components/Skeleton/Skeleton'
 import { formatNumber } from '../../../utils/formatting'
 import styles from './FlowToExchanges.module.scss'
 
-const FlowToExchanges = ({ item: { slug, status } }) => {
+const getFirstNotNull = data => data.find(({ value }) => value !== 0) || {}
+
+const FlowToExchanges = ({ item: { slug } }) => {
   const { data, loading } = useFlowToExchanges({
     slug,
     ...EXCHANGES_DEFAULT_SETTINGS
@@ -24,6 +26,32 @@ const FlowToExchanges = ({ item: { slug, status } }) => {
       return data.reduce((acc, val) => {
         return acc + val.value
       }, 0)
+    },
+    [data]
+  )
+
+  const status = useMemo(
+    () => {
+      if (data.length > 2) {
+        const { value: first = 0 } = getFirstNotNull(data)
+        const { value: second } = getFirstNotNull([...data].reverse())
+
+        if (first === 0 || second === 0) {
+          return EXCHANGE_INTERESTS.low
+        }
+
+        const relation = second / first
+
+        if (relation < 1) {
+          return EXCHANGE_INTERESTS.low
+        } else if (relation >= 1 && relation <= 2) {
+          return EXCHANGE_INTERESTS.normal
+        } else {
+          return EXCHANGE_INTERESTS.high
+        }
+      } else {
+        return EXCHANGE_INTERESTS.normal
+      }
     },
     [data]
   )

@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import cx from 'classnames'
+import withSizes from 'react-sizes'
+import { mapSizesToProps } from '../../../utils/withSizes'
 import { TopHolderMetric } from '../../Studio/Chart/Sidepanel/HolderDistribution/metrics'
 import TopHolders from '../../Studio/Chart/Sidepanel/HolderDistribution'
 import { useAllTimeData, useTimeseries } from '../../Studio/timeseries/hooks'
@@ -11,9 +13,18 @@ import { Metric } from '../../dataHub/metrics'
 import ActiveMetrics from '../../Studio/Chart/ActiveMetrics'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import StablecoinSelector from '../StablecoinSelector/StablecoinSelector'
+import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
+import MarketCapHeader from '../StablecoinsMarketCap/MarketCapHeader/MarketCapHeader'
 import styles from './StablecoinHolderDistribution.module.scss'
 
 const CHART_HEIGHT = 524
+
+const CHART_PADDING_MOBILE = {
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0
+}
 
 export const DEFAULT_STABLECOIN = {
   id: '1552',
@@ -29,7 +40,7 @@ const DEFAULT_SETTINGS = {
   ...getIntervalByTimeRange('1y')
 }
 
-const StablecoinHolderDistribution = ({ className }) => {
+const StablecoinHolderDistribution = ({ isDesktop, className }) => {
   const [asset, setAsset] = useState(DEFAULT_STABLECOIN)
   const [metrics, setMetrics] = useState([
     Metric.price_usd,
@@ -88,22 +99,28 @@ const StablecoinHolderDistribution = ({ className }) => {
 
   return (
     <div className={cx(styles.container, className)}>
+      <MobileOnly>
+        <MarketCapHeader title='Holder Distribution' />
+      </MobileOnly>
+
       <div className={styles.chartContainer}>
         <div className={styles.header}>
           <StablecoinSelector asset={asset} setAsset={setAsset} />
         </div>
 
-        <div className={styles.metricBtns}>
-          <ActiveMetrics
-            className={styles.metricBtn}
-            MetricColor={MetricColor}
-            toggleMetric={toggleMetric}
-            loadings={loadings}
-            activeMetrics={metrics}
-            ErrorMsg={errors}
-            project={asset}
-          />
-        </div>
+        <DesktopOnly>
+          <div className={styles.metricBtns}>
+            <ActiveMetrics
+              className={styles.metricBtn}
+              MetricColor={MetricColor}
+              toggleMetric={toggleMetric}
+              loadings={loadings}
+              activeMetrics={metrics}
+              ErrorMsg={errors}
+              project={asset}
+            />
+          </div>
+        </DesktopOnly>
 
         <Chart
           {...settings}
@@ -112,18 +129,23 @@ const StablecoinHolderDistribution = ({ className }) => {
           brushData={allTimeData}
           chartHeight={CHART_HEIGHT}
           metrics={metrics}
-          isCartesianGridActive={true}
+          isCartesianGridActive={isDesktop}
           MetricColor={MetricColor}
           tooltipKey={axesMetricKeys[0]}
-          axesMetricKeys={axesMetricKeys}
-          resizeDependencies={[axesMetricKeys]}
+          hideWatermark={!isDesktop}
+          axesMetricKeys={isDesktop ? axesMetricKeys : []}
+          resizeDependencies={isDesktop ? [axesMetricKeys] : []}
           className={styles.chart}
+          hideBrush={!isDesktop}
           onBrushChangeEnd={onBrushChangeEnd}
+          chartPadding={isDesktop ? undefined : CHART_PADDING_MOBILE}
         />
       </div>
 
       <div className={styles.metrics}>
-        <div className={styles.holdersTitle}>Holders Distribution</div>
+        <DesktopOnly>
+          <div className={styles.holdersTitle}>Holders Distribution</div>
+        </DesktopOnly>
 
         <TopHolders
           toggleMetric={toggleMetric}
@@ -141,4 +163,4 @@ const StablecoinHolderDistribution = ({ className }) => {
   )
 }
 
-export default StablecoinHolderDistribution
+export default withSizes(mapSizesToProps)(StablecoinHolderDistribution)

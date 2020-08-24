@@ -7,10 +7,20 @@
   border-radius: $border-radius;
   display: flex;
   min-height: 715px;
+
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    flex-direction: column;
+  }
 }
 
 .header {
   display: flex;
+
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    justify-content: center;
+    padding: 0 16px;
+    margin-top: 24px;
+  }
 }
 
 .chartContainer {
@@ -18,6 +28,10 @@
   flex-direction: column;
   flex: 1;
   padding: 32px 24px 24px 24px;
+
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    padding: 0;
+  }
 }
 
 .chart {
@@ -30,6 +44,10 @@
   border-left: 1px solid var(--porcelain);
   display: flex;
   flex-direction: column;
+
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    padding: 24px 16px 24px 16px;
+  }
 }
 
 .holdersTitle {

@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
+import withSizes from 'react-sizes'
 import MarketCapHeader, {
-  MARKET_CAP_DAY_INTERVAL
+  MARKET_CAP_DAY_INTERVAL,
+  MarketcapIntervals
 } from './MarketCapHeader/MarketCapHeader'
 import CheckingAssets from './CheckingAssets/CheckingAssets'
 import { convertToSeconds } from '../../dataHub/metrics/intervals'
@@ -14,6 +16,8 @@ import {
 } from './utils'
 import { useTimeseries } from '../../Studio/timeseries/hooks'
 import { useChartMetrics, useMetricColors } from './hooks'
+import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
+import { mapSizesToProps } from '../../../utils/withSizes'
 import styles from './StablecoinsMarketCap.module.scss'
 
 export const getIntervalDates = interval => {
@@ -27,14 +31,20 @@ export const getIntervalDates = interval => {
 }
 
 const CHART_HEIGHT = 400
-const CHART_PADDING = {
+const CHART_PADDING_DESKTOP = {
   top: 32,
   right: 74,
   bottom: 58,
   left: 24
 }
+const CHART_PADDING_MOBILE = {
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0
+}
 
-const StablecoinsMarketCap = ({ className }) => {
+const StablecoinsMarketCap = ({ isDesktop, className }) => {
   const [interval, setInterval] = useState(MARKET_CAP_DAY_INTERVAL)
   const [disabledAssets, setDisabledAsset] = useState({})
 
@@ -69,13 +79,19 @@ const StablecoinsMarketCap = ({ className }) => {
 
   return (
     <div className={cx(styles.container, className)}>
-      <MarketCapHeader interval={interval} setInterval={setInterval} />
+      <MarketCapHeader title='Stablecoins Market Cap'>
+        <DesktopOnly>
+          <MarketcapIntervals interval={interval} setInterval={setInterval} />
+        </DesktopOnly>
+      </MarketCapHeader>
 
-      <CheckingAssets
-        loadings={loadings}
-        toggleDisabled={setDisabledAsset}
-        disabledAssets={disabledAssets}
-      />
+      <DesktopOnly>
+        <CheckingAssets
+          loadings={loadings}
+          toggleDisabled={setDisabledAsset}
+          disabledAssets={disabledAssets}
+        />
+      </DesktopOnly>
 
       <Chart
         {...settings}
@@ -86,14 +102,23 @@ const StablecoinsMarketCap = ({ className }) => {
         isCartesianGridActive={false}
         hideWatermark
         hideBrush
-        chartPadding={CHART_PADDING}
+        chartPadding={isDesktop ? CHART_PADDING_DESKTOP : CHART_PADDING_MOBILE}
         resizeDependencies={[]}
         MetricColor={MetricColor}
         tooltipKey={xAxisKey}
-        axesMetricKeys={[xAxisKey]}
+        axesMetricKeys={isDesktop ? [xAxisKey] : []}
       />
+
+      <MobileOnly>
+        <MarketcapIntervals interval={interval} setInterval={setInterval} />
+        <CheckingAssets
+          loadings={loadings}
+          toggleDisabled={setDisabledAsset}
+          disabledAssets={disabledAssets}
+        />
+      </MobileOnly>
     </div>
   )
 }
 
-export default StablecoinsMarketCap
+export default withSizes(mapSizesToProps)(StablecoinsMarketCap)

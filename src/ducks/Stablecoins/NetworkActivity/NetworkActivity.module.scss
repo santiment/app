@@ -9,6 +9,11 @@
 
 .chart {
   padding: 40px 55px 10px 24px;
+  overflow: auto;
+
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    padding: 24px 24px 10px 24px;
+  }
 }
 
 .tabs {
@@ -18,7 +23,15 @@
   justify-content: center;
   padding-top: 18px;
 
-  @include text('body-3'); }
+  @include text('body-3');
+}
+
+.tab {
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    padding: 0 12px 8px 12px;
+    text-align: center;
+  }
+}
 
 .loader {
   height: 440px;

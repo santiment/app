@@ -19,24 +19,30 @@ const INTERVALS = [
 
 const TABS = INTERVALS.map(({ label }) => label)
 
-const MarketCapHeader = ({ interval, setInterval }) => {
+const MarketCapHeader = ({ title, children }) => {
   return (
     <div className={styles.container}>
-      Stablecoins Market Cap
-      <div>
-        <Tabs
-          options={TABS}
-          defaultSelectedIndex={interval.label}
-          onSelect={tab => {
-            const foundTab = INTERVALS.find(({ label }) => label === tab)
-            if (foundTab) {
-              setInterval(foundTab)
-            }
-          }}
-          className={styles.tabs}
-          classes={styles}
-        />
-      </div>
+      {title}
+      {children}
+    </div>
+  )
+}
+
+export const MarketcapIntervals = ({ interval, setInterval }) => {
+  return (
+    <div>
+      <Tabs
+        options={TABS}
+        defaultSelectedIndex={interval.label}
+        onSelect={tab => {
+          const foundTab = INTERVALS.find(({ label }) => label === tab)
+          if (foundTab) {
+            setInterval(foundTab)
+          }
+        }}
+        className={styles.tabs}
+        classes={styles}
+      />
     </div>
   )
 }
