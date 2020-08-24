@@ -420,7 +420,11 @@ export const App = ({
         <Route
           path={PATHS.STABLECOINS}
           render={props => (
-            <LoadableStablecoinsPage isLoggedIn={isLoggedIn} {...props} />
+            <LoadableStablecoinsPage
+              isLoggedIn={isLoggedIn}
+              isDesktop={isDesktop}
+              {...props}
+            />
           )}
         />
         <Route

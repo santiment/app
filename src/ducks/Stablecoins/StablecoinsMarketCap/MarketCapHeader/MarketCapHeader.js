@@ -19,10 +19,10 @@ const INTERVALS = [
 
 const TABS = INTERVALS.map(({ label }) => label)
 
-const MarketCapHeader = ({ children }) => {
+const MarketCapHeader = ({ title, children }) => {
   return (
     <div className={styles.container}>
-      Stablecoins Market Cap
+      {title}
       {children}
     </div>
   )

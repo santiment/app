@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
+import withSizes from 'react-sizes'
 import MarketCapHeader, {
   MARKET_CAP_DAY_INTERVAL,
   MarketcapIntervals
@@ -15,10 +16,9 @@ import {
 } from './utils'
 import { useTimeseries } from '../../Studio/timeseries/hooks'
 import { useChartMetrics, useMetricColors } from './hooks'
-import styles from './StablecoinsMarketCap.module.scss'
 import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
-import withSizes from 'react-sizes'
 import { mapSizesToProps } from '../../../utils/withSizes'
+import styles from './StablecoinsMarketCap.module.scss'
 
 export const getIntervalDates = interval => {
   return {
@@ -79,7 +79,7 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
 
   return (
     <div className={cx(styles.container, className)}>
-      <MarketCapHeader>
+      <MarketCapHeader title='Stablecoins Market Cap'>
         <DesktopOnly>
           <MarketcapIntervals interval={interval} setInterval={setInterval} />
         </DesktopOnly>

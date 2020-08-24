@@ -1,5 +1,6 @@
 import React, { Fragment, useMemo } from 'react'
 import cx from 'classnames'
+import withSizes from 'react-sizes'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import StablecoinsMarketCap, {
   getIntervalDates
@@ -12,11 +13,11 @@ import FlowToExchangesList from '../../ducks/Stablecoins/FlowToExchanges/FlowToE
 import TransactionsDominance from '../../ducks/Stablecoins/TransactionsDominance/TransactionsDominance'
 import CheckProPaywall from '../../ducks/Stablecoins/CheckProPaywall'
 import NetworkActivity from '../../ducks/Stablecoins/NetworkActivity/NetworkActivity'
-import styles from './StablecoinsPage.module.scss'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { MobileOnly } from '../../components/Responsive'
+import styles from './StablecoinsPage.module.scss'
 
-const StablecoinsPage = ({ history }) => {
+const StablecoinsPage = ({ history, isDesktop }) => {
   return (
     <div className={cx('page', styles.container)}>
       <MobileOnly>
@@ -60,7 +61,10 @@ const StablecoinsPage = ({ history }) => {
           <StablecoinsTransactions {...getIntervalDates({ value: '24h' })} />
         </Block>
 
-        <Block title='Stablecoin Holder Distribution' showPro>
+        <Block
+          title={isDesktop ? 'Stablecoin Holder Distribution' : null}
+          showPro
+        >
           <StablecoinHolderDistribution />
         </Block>
 
@@ -94,20 +98,22 @@ const Block = ({
 
   return (
     <div className={styles.block}>
-      <div className={styles.subHeader}>
-        <div className={styles.subTitle}>
-          {title}
-          {showPro && (
-            <UpgradeBtn
-              className={styles.upgrade}
-              iconClassName={styles.crown}
-              variant='fill'
-              children='Pro'
-            />
-          )}
+      {title && (
+        <div className={styles.subHeader}>
+          <div className={styles.subTitle}>
+            {title}
+            {showPro && (
+              <UpgradeBtn
+                className={styles.upgrade}
+                iconClassName={styles.crown}
+                variant='fill'
+                children='Pro'
+              />
+            )}
+          </div>
+          {description && <div className={styles.subDescr}>{description}</div>}
         </div>
-        {description && <div className={styles.subDescr}>{description}</div>}
-      </div>
+      )}
 
       <El>{children}</El>
     </div>
