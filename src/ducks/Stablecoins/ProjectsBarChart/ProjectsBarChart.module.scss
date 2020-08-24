@@ -8,4 +8,10 @@
   height: 440px;
   background: url('./../../../../src/assets/watermark.svg') no-repeat;
   background-position: center;
+  min-width: 600px;
+
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    background: none;
+    overflow: auto;
+  }
 }

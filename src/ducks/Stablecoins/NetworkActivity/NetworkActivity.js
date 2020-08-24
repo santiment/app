@@ -39,6 +39,7 @@ const NetworkActivity = () => {
         options={Object.keys(TABS)}
         defaultSelectedIndex={tab}
         onSelect={setTab}
+        classes={styles}
       />
       <div className={styles.chart}>
         {loading ? (
