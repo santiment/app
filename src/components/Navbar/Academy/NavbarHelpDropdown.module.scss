@@ -2,7 +2,6 @@
 
 .wrapper {
   width: 320px;
-  color: var(--fiord);
 }
 
 .top {
@@ -12,6 +11,8 @@
   padding: 18px 24px 16px;
   color: var(--rhino);
   border-bottom: 1px solid var(--porcelain);
+
+  @include text('body-3', 'm');
 }
 
 .list {
@@ -27,6 +28,8 @@
   fill: var(--jungle-green);
   display: flex;
   align-items: center;
+
+  @include text('body-3');
 
   &:hover {
     color: var(--jungle-green-hover);
@@ -44,6 +47,8 @@
   justify-content: center;
   align-items: flex-start;
   padding: 24px 24px 20px;
+  border-radius: 0 0 4px 4px;
+  margin: 0 1px 1px 1px;
   background-color: var(--athens);
   background-image: url(./boxes.svg);
   background-repeat: no-repeat;
@@ -51,7 +56,7 @@
 
   &__title {
     margin-bottom: 12px;
-    color: var(--fiord);
+    color: var(--rhino);
   }
 }
 
