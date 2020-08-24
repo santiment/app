@@ -88,7 +88,7 @@ const Filter = ({
     const func = DEFAULT_SCREENER_FUNCTION
     updateFilter([])
 
-    if (watchlist.id) {
+    if (watchlist.id && !isNoFilters) {
       updateWatchlist(watchlist, { function: func })
     }
     setScreenerFunction(func)
@@ -205,11 +205,8 @@ const Filter = ({
         />
         <div className={cx(styles.top, isViewMode && styles.top__column)}>
           <span className={styles.count}>{projectsCount} assets</span>
-          {!isNoFilters && !isViewMode && (
-            <Button
-              className={styles.button}
-              onClick={() => (isNoFilters ? null : resetAll())}
-            >
+          {!isReset && !isViewMode && (
+            <Button className={styles.button} onClick={resetAll}>
               Reset all
             </Button>
           )}
