@@ -3,6 +3,14 @@
 .container {
   display: flex;
   margin: 16px;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    margin-top: 24px;
+    display: grid;
+    grid-row-gap: 8px;
+    grid-template-columns: 1fr;
+    grid-column-gap: 8px;
+  }
 }
 
 .assetBtn {
@@ -12,6 +20,11 @@
 
   &:hover {
     border: 1px solid var(--jungle-green);
+  }
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    margin: 0;
+    justify-content: initial;
   }
 }
 

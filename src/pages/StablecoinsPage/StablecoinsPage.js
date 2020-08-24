@@ -13,10 +13,20 @@ import TransactionsDominance from '../../ducks/Stablecoins/TransactionsDominance
 import CheckProPaywall from '../../ducks/Stablecoins/CheckProPaywall'
 import NetworkActivity from '../../ducks/Stablecoins/NetworkActivity/NetworkActivity'
 import styles from './StablecoinsPage.module.scss'
+import MobileHeader from '../../components/MobileHeader/MobileHeader'
+import { MobileOnly } from '../../components/Responsive'
 
-const StablecoinsPage = () => {
+const StablecoinsPage = ({ history }) => {
   return (
     <div className={cx('page', styles.container)}>
+      <MobileOnly>
+        <MobileHeader
+          showBack={true}
+          goBack={history.goBack}
+          classes={styles}
+        />
+      </MobileOnly>
+
       <div className={styles.header}>
         <div className={styles.inner}>
           <h3 className={styles.title}>Stablecoins</h3>

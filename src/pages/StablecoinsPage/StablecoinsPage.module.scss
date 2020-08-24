@@ -11,19 +11,27 @@
 .inner {
   max-width: 1152px;
   margin: auto;
-}
-
-.block {
-  margin: 80px 0;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     padding: 0 16px;
   }
 }
 
+.block {
+  margin: 80px 0;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    margin: 40px 0;
+  }
+}
+
 .header {
   background: var(--white);
   padding: 32px 0 40px 0;
+
+  @include responsive( 'tablet','phone', 'phone-xs') {
+    padding: 16px 16px 24px 16px;
+  }
 }
 
 .title {
@@ -31,6 +39,10 @@
   margin: 0;
 
   @include text('h3');
+
+  @include responsive( 'tablet','phone', 'phone-xs') {
+    @include text('h4');
+  }
 }
 
 .subHeader {
@@ -58,6 +70,10 @@
   max-width: 600px;
 
   @include text('body-2');
+
+  @include responsive( 'tablet','phone', 'phone-xs') {
+    margin-top: 8px;
+  }
 }
 
 .footer {
