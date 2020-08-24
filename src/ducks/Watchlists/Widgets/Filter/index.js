@@ -44,6 +44,7 @@ const Filter = ({
   const [filter, updateFilter] = useState(filters)
   const [updateWatchlist, { loading }] = useUpdateWatchlist()
   const [availableMetrics] = useAvailableMetrics()
+  const [isReset, setIsReset] = useState(false)
   const { isPro } = useUserSubscriptionStatus()
 
   const isNoFilters =
@@ -87,10 +88,11 @@ const Filter = ({
     const func = DEFAULT_SCREENER_FUNCTION
     updateFilter([])
 
-    if (watchlist.id) {
+    if (watchlist.id && !isNoFilters) {
       updateWatchlist(watchlist, { function: func })
     }
     setScreenerFunction(func)
+    setIsReset(true)
   }
 
   function updMetricInFilter (metric, key, alternativeKey = key) {
@@ -114,6 +116,10 @@ const Filter = ({
       updateWatchlist(watchlist, { function: newFunction })
     }
     setScreenerFunction(newFunction)
+
+    if (newFilter.length > 0 && isReset) {
+      setIsReset(false)
+    }
   }
 
   function toggleMetricInFilter (metric, key, alternativeKey = key) {
@@ -145,6 +151,10 @@ const Filter = ({
       updateWatchlist(watchlist, { function: newFunction })
     }
     setScreenerFunction(newFunction)
+
+    if (newFilter.length > 0 && isReset) {
+      setIsReset(false)
+    }
   }
 
   const categories = getCategoryGraph(metrics)
@@ -195,11 +205,8 @@ const Filter = ({
         />
         <div className={cx(styles.top, isViewMode && styles.top__column)}>
           <span className={styles.count}>{projectsCount} assets</span>
-          {!isNoFilters && !isViewMode && (
-            <Button
-              className={styles.button}
-              onClick={() => (isNoFilters ? null : resetAll())}
-            >
+          {!isReset && !isViewMode && (
+            <Button className={styles.button} onClick={resetAll}>
               Reset all
             </Button>
           )}
@@ -221,7 +228,7 @@ const Filter = ({
                 toggleMetricInFilter={toggleMetricInFilter}
                 availableMetrics={availableMetrics}
                 isViewMode={isViewMode}
-                isNoFilters={isNoFilters}
+                isNoFilters={isReset}
                 filters={filter}
                 updMetricInFilter={updMetricInFilter}
                 isPro={isPro}
