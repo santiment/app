@@ -121,11 +121,16 @@ const MarketSegments = ({
           {settings.market_segments.map((name, idx) => (
             <Fragment key={idx}>
               <div
-                className={styles.label}
+                className={cx(
+                  styles.label,
+                  isViewMode && styles.label__viewMode
+                )}
                 onClick={() => onToggleSegment(name)}
               >
                 {name}
-                <Icon type='close-small' className={styles.label__close} />
+                {!isViewMode && (
+                  <Icon type='close-small' className={styles.label__close} />
+                )}
               </div>
               {settings.market_segments.length !== idx + 1 && (
                 <span className={styles.operator}>
