@@ -14,11 +14,10 @@ import {
   YAxis
 } from 'recharts'
 import ProjectIcon from '../../../components/ProjectIcon/ProjectIcon'
-import { millify } from '../../../utils/formatting'
 import { useChartColors } from '../../Chart/colors'
 import { mapSizesToProps } from '../../../utils/withSizes'
-import styles from './ProjectsBarChart.module.scss'
 import { tooltipValueFormatter } from '../../dataHub/metrics/formatters'
+import styles from './ProjectsBarChart.module.scss'
 
 const renderCustomizedLabel = ({ x, y, width, value }) => {
   const fontSize = width < 20 ? 7 : 14

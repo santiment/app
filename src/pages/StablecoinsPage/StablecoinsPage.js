@@ -12,8 +12,8 @@ import CheckProPaywall from '../../ducks/Stablecoins/CheckProPaywall'
 import NetworkActivity from '../../ducks/Stablecoins/NetworkActivity/NetworkActivity'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { MobileOnly } from '../../components/Responsive'
-import styles from './StablecoinsPage.module.scss'
 import { getIntervalDates } from '../../ducks/Stablecoins/StablecoinsMarketCap/utils'
+import styles from './StablecoinsPage.module.scss'
 
 const StablecoinsPage = ({ history, isDesktop }) => {
   return (
