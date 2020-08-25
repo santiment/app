@@ -112,6 +112,8 @@ export function setupTooltip (chart, marker, useCustomTooltip, onPlotTooltip) {
   }
 }
 
+const metricValueAccessor = ({ value }) => value
+
 export function plotTooltip (chart, marker, point, options) {
   const {
     tooltip: { ctx },
@@ -125,10 +127,8 @@ export function plotTooltip (chart, marker, point, options) {
 
   clearCtx(chart, ctx)
 
-  const { x, value: datetime } = point
+  const { x, value: datetime, ...metrics } = point
   const { y, value } = metricPoint
-
-  const isInsideData = datetime <= Date.now()
 
   const xBubbleFormatter = isDayInterval(chart)
     ? getDateHoursMinutes
@@ -144,21 +144,23 @@ export function plotTooltip (chart, marker, point, options) {
       drawAlertPlus(chart, y)
     }
   } else {
+    const drawnMetrics = Object.values(metrics).filter(metricValueAccessor)
+
     drawHoverLineX(chart, x, hoverLineColor, 5)
     drawHoverLineY(chart, y, hoverLineColor, 0, 20)
 
     drawAlertPlus(chart, y)
 
-    if (isInsideData) {
+    if (drawnMetrics.length) {
       drawTooltip(ctx, point, TooltipSetting, marker, tooltipPaintConfig)
+      drawValueBubbleY(
+        chart,
+        yBubbleFormatter(value, tooltipKey),
+        y,
+        bubblesPaintConfig,
+        chart.isAlertsActive ? 5 : 0
+      )
     }
-    drawValueBubbleY(
-      chart,
-      yBubbleFormatter(value, tooltipKey),
-      y,
-      bubblesPaintConfig,
-      chart.isAlertsActive ? 5 : 0
-    )
     drawValueBubbleX(chart, xBubbleFormatter(datetime), x, bubblesPaintConfig)
   }
 }
