@@ -15,10 +15,13 @@ import {
   STABLE_COINS_MARKETCAP_INTERVALS,
   STABLE_COINS_METRICS
 } from './utils'
-import { useTimeseries } from '../../Studio/timeseries/hooks'
+import { useAllTimeData, useTimeseries } from '../../Studio/timeseries/hooks'
 import { useChartMetrics, useMetricColors } from './hooks'
 import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
 import { mapSizesToProps } from '../../../utils/withSizes'
+import SharedAxisToggle from '../../Studio/Chart/SharedAxisToggle'
+import { useDomainGroups } from '../../Chart/hooks'
+import { extractMirrorMetricsDomainGroups } from '../../Chart/utils'
 import styles from './StablecoinsMarketCap.module.scss'
 
 const CHART_HEIGHT = 400
@@ -38,6 +41,7 @@ const CHART_PADDING_MOBILE = {
 const StablecoinsMarketCap = ({ isDesktop, className }) => {
   const [interval, setInterval] = useState(MARKET_CAP_DAY_INTERVAL)
   const [disabledAssets, setDisabledAsset] = useState({})
+  const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
 
   const [settings, setSettings] = useState({ ...getIntervalDates(interval) })
 
@@ -68,9 +72,22 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
 
   const xAxisKey = (filteredMetrics[0] || {}).key
 
+  const domainGroups = useDomainGroups(filteredMetrics)
+  const mirrorDomainGroups = useMemo(
+    () => extractMirrorMetricsDomainGroups(domainGroups),
+    [domainGroups]
+  )
+
   return (
     <div className={cx(styles.container, className)}>
       <StablecoinsHeader title='Stablecoins Market Cap'>
+        {domainGroups && domainGroups.length > mirrorDomainGroups.length && (
+          <SharedAxisToggle
+            isDomainGroupingActive={isDomainGroupingActive}
+            setIsDomainGroupingActive={setIsDomainGroupingActive}
+            className={styles.sharedAxisToggle}
+          />
+        )}
         <DesktopOnly>
           <StablecoinsIntervals
             interval={interval}
@@ -102,6 +119,9 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
         MetricColor={MetricColor}
         tooltipKey={xAxisKey}
         axesMetricKeys={isDesktop ? [xAxisKey] : []}
+        domainGroups={
+          isDomainGroupingActive ? domainGroups : mirrorDomainGroups
+        }
       />
 
       <MobileOnly>

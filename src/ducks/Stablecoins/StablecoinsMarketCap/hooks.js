@@ -19,7 +19,8 @@ export const useChartMetrics = metrics => {
     () => {
       const newListMetrics = metrics.map(metric => ({
         ...metric,
-        key: getTransformerKey(metric)
+        key: getTransformerKey(metric),
+        domainGroup: 'stablecoins'
       }))
 
       updateTooltipSettings(newListMetrics)
