@@ -41,30 +41,43 @@ const calculateMatchIndex = (str, value) => {
   return index === -1 ? Infinity : index
 }
 
+const fullMatch = (str, value) => {
+  return str === value.toUpperCase()
+}
 export const assetsSorter = searchTerm => {
   const upperCaseSearchTerm = searchTerm.toUpperCase()
 
   return (a, b) => {
-    const matchIndexNameA = calculateMatchIndex(upperCaseSearchTerm, a.name)
-    const matchIndexNameB = calculateMatchIndex(upperCaseSearchTerm, b.name)
-
-    if (matchIndexNameA === matchIndexNameB) {
-      const matchIndexTickerA = calculateMatchIndex(
-        upperCaseSearchTerm,
-        a.ticker
-      )
-      const matchIndexTickerB = calculateMatchIndex(
-        upperCaseSearchTerm,
-        b.ticker
-      )
-
-      if (matchIndexTickerA === matchIndexTickerB) {
-        return b.marketcapUsd - a.marketcapUsd
-      } else {
-        return matchIndexTickerA - matchIndexTickerB
-      }
+    if (fullMatch(upperCaseSearchTerm, a.name)) {
+      return -1
+    } else if (fullMatch(upperCaseSearchTerm, b.name)) {
+      return 1
+    } else if (fullMatch(upperCaseSearchTerm, a.ticker)) {
+      return -1
+    } else if (fullMatch(upperCaseSearchTerm, b.ticker)) {
+      return 1
     } else {
-      return matchIndexNameA - matchIndexNameB
+      const matchIndexNameA = calculateMatchIndex(upperCaseSearchTerm, a.name)
+      const matchIndexNameB = calculateMatchIndex(upperCaseSearchTerm, b.name)
+
+      if (matchIndexNameA === matchIndexNameB) {
+        const matchIndexTickerA = calculateMatchIndex(
+          upperCaseSearchTerm,
+          a.ticker
+        )
+        const matchIndexTickerB = calculateMatchIndex(
+          upperCaseSearchTerm,
+          b.ticker
+        )
+
+        if (matchIndexTickerA === matchIndexTickerB) {
+          return b.marketcapUsd - a.marketcapUsd
+        } else {
+          return matchIndexTickerA - matchIndexTickerB
+        }
+      } else {
+        return matchIndexNameA - matchIndexNameB
+      }
     }
   }
 }
