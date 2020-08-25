@@ -128,6 +128,8 @@ export function plotTooltip (chart, marker, point, options) {
   const { x, value: datetime } = point
   const { y, value } = metricPoint
 
+  const isInsideData = datetime <= Date.now()
+
   const xBubbleFormatter = isDayInterval(chart)
     ? getDateHoursMinutes
     : getDateDayMonthYear
@@ -147,7 +149,9 @@ export function plotTooltip (chart, marker, point, options) {
 
     drawAlertPlus(chart, y)
 
-    drawTooltip(ctx, point, TooltipSetting, marker, tooltipPaintConfig)
+    if (isInsideData) {
+      drawTooltip(ctx, point, TooltipSetting, marker, tooltipPaintConfig)
+    }
     drawValueBubbleY(
       chart,
       yBubbleFormatter(value, tooltipKey),

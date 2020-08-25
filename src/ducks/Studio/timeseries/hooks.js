@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { getQuery, getPreTransform } from './fetcher'
 import { client } from '../../../apollo'
 import { normalizeDatetimes, mergeTimeseries } from './utils'
@@ -212,25 +212,20 @@ export function useTimeseries (
 }
 
 const DEFAULT_BRUSH_SETTINGS = {
-  slug: 'bitcoin',
   interval: '4d',
   ...getIntervalByTimeRange('all')
 }
 
 export function useAllTimeData (metrics, settings, MetricSettingMap) {
-  const [brushSettings, setBrushSettings] = useState(DEFAULT_BRUSH_SETTINGS)
-
-  const [allTimeData] = useTimeseries(metrics, brushSettings, MetricSettingMap)
-
-  useEffect(
-    () => {
-      setBrushSettings({
-        ...brushSettings,
-        slug: settings.slug
-      })
-    },
-    [settings.slug]
+  const { slug } = settings
+  const brushSettings = useMemo(
+    () => ({
+      ...DEFAULT_BRUSH_SETTINGS,
+      slug
+    }),
+    [slug]
   )
+  const [allTimeData] = useTimeseries(metrics, brushSettings, MetricSettingMap)
 
   return allTimeData
 }
