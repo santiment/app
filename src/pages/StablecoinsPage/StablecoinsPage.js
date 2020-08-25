@@ -1,9 +1,7 @@
 import React, { Fragment, useMemo } from 'react'
 import cx from 'classnames'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
-import StablecoinsMarketCap, {
-  getIntervalDates
-} from '../../ducks/Stablecoins/StablecoinsMarketCap/StablecoinsMarketCap'
+import StablecoinsMarketCap from '../../ducks/Stablecoins/StablecoinsMarketCap/StablecoinsMarketCap'
 import StablecoinHolderDistribution from '../../ducks/Stablecoins/HolderDistribution/StablecoinHolderDistribution'
 import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
 import StablecoinsTransactions from '../../ducks/Stablecoins/StablecoinsTransactions/StablecoinsTransactions'
@@ -15,6 +13,7 @@ import NetworkActivity from '../../ducks/Stablecoins/NetworkActivity/NetworkActi
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { MobileOnly } from '../../components/Responsive'
 import styles from './StablecoinsPage.module.scss'
+import { getIntervalDates } from '../../ducks/Stablecoins/StablecoinsMarketCap/utils'
 
 const StablecoinsPage = ({ history, isDesktop }) => {
   return (

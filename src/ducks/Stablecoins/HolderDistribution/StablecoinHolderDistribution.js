@@ -14,7 +14,7 @@ import ActiveMetrics from '../../Studio/Chart/ActiveMetrics'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import StablecoinSelector from '../StablecoinSelector/StablecoinSelector'
 import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
-import MarketCapHeader from '../StablecoinsMarketCap/MarketCapHeader/MarketCapHeader'
+import StablecoinsHeader from '../StablecoinsMarketCap/MarketCapHeader/StablecoinsHeader'
 import styles from './StablecoinHolderDistribution.module.scss'
 
 const CHART_HEIGHT = 524
@@ -100,7 +100,7 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
   return (
     <div className={cx(styles.container, className)}>
       <MobileOnly>
-        <MarketCapHeader title='Holder Distribution' />
+        <StablecoinsHeader title='Holder Distribution' />
       </MobileOnly>
 
       <div className={styles.chartContainer}>

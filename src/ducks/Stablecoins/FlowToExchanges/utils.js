@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import { getIntervalDates } from '../StablecoinsMarketCap/StablecoinsMarketCap'
+import { getIntervalDates } from '../StablecoinsMarketCap/utils'
 
 export const EXCHANGE_INTERESTS = {
   high: 'Very High',

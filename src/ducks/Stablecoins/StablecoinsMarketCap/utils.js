@@ -1,5 +1,21 @@
 import { Metric } from '../../dataHub/metrics'
 import { getTransformerKey } from '../../Studio/timeseries/hooks'
+import { convertToSeconds } from '../../dataHub/metrics/intervals'
+
+const makeInterval = (val, label) => ({
+  value: val,
+  label: label
+})
+
+export const MARKET_CAP_MONTH_INTERVAL = makeInterval('31d', '1M')
+export const MARKET_CAP_DAY_INTERVAL = makeInterval('2d', '1D')
+
+export const STABLE_COINS_MARKETCAP_INTERVALS = [
+  MARKET_CAP_DAY_INTERVAL,
+  makeInterval('1w', '1W'),
+  MARKET_CAP_MONTH_INTERVAL,
+  makeInterval('365d', '1Y')
+]
 
 export const CHECKING_STABLECOINS = [
   {
@@ -78,3 +94,13 @@ STABLE_COINS_METRICS.forEach(metric => {
 })
 
 export const METRIC_TRANSFORMER = { ...METRIC_TRANSFORMER_TMP }
+
+export const getIntervalDates = interval => {
+  return {
+    from: new Date(
+      new Date().getTime() + -1 * convertToSeconds(interval.value)
+    ),
+    to: new Date(),
+    interval: '1h'
+  }
+}
