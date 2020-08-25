@@ -78,8 +78,6 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
     [domainGroups]
   )
 
-  console.log(domainGroups, mirrorDomainGroups)
-
   return (
     <div className={cx(styles.container, className)}>
       <StablecoinsHeader title='Stablecoins Market Cap'>
