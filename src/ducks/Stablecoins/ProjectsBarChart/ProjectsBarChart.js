@@ -18,6 +18,7 @@ import { millify } from '../../../utils/formatting'
 import { useChartColors } from '../../Chart/colors'
 import { mapSizesToProps } from '../../../utils/withSizes'
 import styles from './ProjectsBarChart.module.scss'
+import { tooltipValueFormatter } from '../../dataHub/metrics/formatters'
 
 const renderCustomizedLabel = ({ x, y, width, value }) => {
   const fontSize = width < 20 ? 7 : 14
@@ -33,7 +34,9 @@ const renderCustomizedLabel = ({ x, y, width, value }) => {
         fontSize={fontSize}
         fontWeight={500}
       >
-        {millify(+value)}
+        {tooltipValueFormatter({
+          value
+        })}
       </text>
     </g>
   )

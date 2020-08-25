@@ -15,7 +15,16 @@ const TransactionsDominance = () => {
 
   const prepared = useMemo(
     () => {
-      return data.filter(({ value }) => value > 0).sort(sortByValue)
+      const filtered = data.filter(({ value }) => value > 0).sort(sortByValue)
+
+      const sum = filtered.reduce((acc, { value }) => {
+        return acc + value
+      }, 0)
+
+      return filtered.map(item => ({
+        ...item,
+        value: item.value / sum
+      }))
     },
     [data]
   )
