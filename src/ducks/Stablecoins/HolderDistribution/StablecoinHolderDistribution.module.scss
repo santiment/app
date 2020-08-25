@@ -36,6 +36,10 @@
 
 .chart {
   margin-top: auto;
+
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    margin-bottom: 16px;
+  }
 }
 
 .metrics {
@@ -47,6 +51,7 @@
 
   @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
     padding: 24px 16px 24px 16px;
+    border: none;
   }
 }
 

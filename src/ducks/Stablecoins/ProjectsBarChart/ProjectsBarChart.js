@@ -14,9 +14,9 @@ import {
   YAxis
 } from 'recharts'
 import ProjectIcon from '../../../components/ProjectIcon/ProjectIcon'
-import { millify } from '../../../utils/formatting'
 import { useChartColors } from '../../Chart/colors'
 import { mapSizesToProps } from '../../../utils/withSizes'
+import { tooltipValueFormatter } from '../../dataHub/metrics/formatters'
 import styles from './ProjectsBarChart.module.scss'
 
 const renderCustomizedLabel = ({ x, y, width, value }) => {
@@ -33,7 +33,9 @@ const renderCustomizedLabel = ({ x, y, width, value }) => {
         fontSize={fontSize}
         fontWeight={500}
       >
-        {millify(+value)}
+        {tooltipValueFormatter({
+          value
+        })}
       </text>
     </g>
   )
@@ -48,7 +50,13 @@ const PREDEFINED_COLORS = {
 const DESKTOP_MARGIN = { top: 20, right: 0, left: -20, bottom: 0 }
 const MOBILE_MARGIN = { top: 0, right: 16, left: 0, bottom: 0 }
 
-const ProjectsBarChart = ({ isDesktop, data, dataKey = 'value', redirect }) => {
+const ProjectsBarChart = ({
+  isDesktop,
+  data,
+  dataKey = 'value',
+  redirect,
+  settings: { yTickFormatter = v => v } = {}
+}) => {
   const onProjectClick = useCallback(
     data => {
       const { value } = data
@@ -86,7 +94,7 @@ const ProjectsBarChart = ({ isDesktop, data, dataKey = 'value', redirect }) => {
             fontWeight={500}
             stroke={'var(--casper)'}
             tickCount={6}
-            tickFormatter={val => `${millify(val)} %`}
+            tickFormatter={yTickFormatter}
             hide={!isDesktop}
           />
 

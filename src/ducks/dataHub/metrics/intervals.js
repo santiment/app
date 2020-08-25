@@ -5,7 +5,8 @@ import {
   ONE_HOUR_IN_MS,
   ONE_MINUTE_IN_MS,
   ONE_SECOND_IN_MS,
-  ONE_WEEK_IN_MS
+  ONE_WEEK_IN_MS,
+  ONE_YEAR_IN_MS
 } from '../../../utils/dates'
 
 export const convertToSeconds = memoize(timebound => {
@@ -37,6 +38,10 @@ export const convertToSeconds = memoize(timebound => {
     }
     case 'w': {
       msValue = ONE_WEEK_IN_MS
+      break
+    }
+    case 'y': {
+      msValue = ONE_YEAR_IN_MS
       break
     }
     default: {
