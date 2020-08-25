@@ -90,7 +90,8 @@ export const ProjectsChartTooltip = ({
   className,
   active,
   payload = [],
-  label
+  label,
+  classes = {}
 }) => {
   return (
     active &&
@@ -100,7 +101,9 @@ export const ProjectsChartTooltip = ({
         className={cx(styles.details, styles.strict, className)}
         style={{ '--bgcolor': payload[0].payload.color }}
       >
-        <div className={styles.title}>{labelFormatter(label, payload)}</div>
+        <div className={cx(styles.title, classes.tooltipTitle)}>
+          {labelFormatter(label, payload)}
+        </div>
         <div className={styles.content}>
           {payload.map((p, index) => {
             const { key, dataKey = key, payload: original } = p
