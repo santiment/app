@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import cx from 'classnames'
 import { getPriceMetricWithSlug } from './utils'
 import GetHistoricalBalance from '../GetHistoricalBalance'
@@ -72,10 +72,13 @@ const BalanceView = ({
     [queryAssets]
   )
 
-  const setWalletsAndAssetsWrapper = data => {
-    setQueryState(data)
-    onChangeQuery(data)
-  }
+  const setWalletsAndAssetsWrapper = useCallback(
+    data => {
+      setQueryState(data)
+      onChangeQuery(data)
+    },
+    [setQueryState, onChangeQuery]
+  )
 
   const [chartSettings, setChartSettings] = useState({
     timeRange: DEFAULT_TIME_RANGE,
@@ -89,59 +92,77 @@ const BalanceView = ({
     [chartSettings, queryState]
   )
 
-  const handleWalletChange = event => {
-    setWalletsAndAssetsWrapper({
-      ...queryState,
-      [event.target.name]: event.target.value
-    })
-  }
+  const handleWalletChange = useCallback(
+    event => {
+      setWalletsAndAssetsWrapper({
+        ...queryState,
+        [event.target.name]: event.target.value
+      })
+    },
+    [setWalletsAndAssetsWrapper, queryState]
+  )
 
-  const handleAssetsChange = assets => {
-    const newState = {
-      ...queryState,
-      assets
-    }
-    setWalletsAndAssetsWrapper(newState)
-  }
+  const handleAssetsChange = useCallback(
+    assets => {
+      const newState = {
+        ...queryState,
+        assets
+      }
+      setWalletsAndAssetsWrapper(newState)
+    },
+    [queryState, setWalletsAndAssetsWrapper]
+  )
 
   const { address: stateAddress, assets: stateAssets } = queryState
 
-  const onTimerangeChange = timeRange => {
-    const { from, to } = getIntervalByTimeRange(timeRange)
+  const onTimerangeChange = useCallback(
+    timeRange => {
+      const { from, to } = getIntervalByTimeRange(timeRange)
 
-    setChartSettings({
-      ...chartSettings,
-      timeRange,
-      from: from.toISOString(),
-      to: to.toISOString()
-    })
-  }
+      setChartSettings({
+        ...chartSettings,
+        timeRange,
+        from: from.toISOString(),
+        to: to.toISOString()
+      })
+    },
+    [getIntervalByTimeRange, setChartSettings, chartSettings]
+  )
 
-  const onCalendarChange = ([from, to]) => {
-    setChartSettings({
-      ...chartSettings,
-      from: from.toISOString(),
-      to: to.toISOString()
-    })
-  }
+  const onCalendarChange = useCallback(
+    ([from, to]) => {
+      setChartSettings({
+        ...chartSettings,
+        from: from.toISOString(),
+        to: to.toISOString()
+      })
+    },
+    [setChartSettings, setChartSettings]
+  )
 
-  const togglePriceMetric = ({ asset: toggleAsset }) => {
-    const selected = priceMetrics.find(({ asset }) => toggleAsset === asset)
-    selected.enabled = !selected.enabled
+  const togglePriceMetric = useCallback(
+    ({ asset: toggleAsset }) => {
+      const selected = priceMetrics.find(({ asset }) => toggleAsset === asset)
+      selected.enabled = !selected.enabled
 
-    setWalletsAndAssetsWrapper({
-      ...queryState,
-      priceMetrics: priceMetrics.filter(({ enabled }) => enabled)
-    })
-  }
+      setWalletsAndAssetsWrapper({
+        ...queryState,
+        priceMetrics: priceMetrics.filter(({ enabled }) => enabled)
+      })
+    },
+    [priceMetrics, setWalletsAndAssetsWrapper, queryState]
+  )
 
   const { timeRange, from, to } = chartSettings
 
   const [scale, setScale] = useState('auto')
 
-  const onScaleChange = () => {
-    setScale(scale === 'auto' ? 'log' : 'auto')
-  }
+  const onScaleChange = useCallback(
+    () => {
+      setScale(scale === 'auto' ? 'log' : 'auto')
+    },
+    [setScale, scale]
+  )
 
   return (
     <div className={cx(styles.container, classes.balanceViewContainer)}>

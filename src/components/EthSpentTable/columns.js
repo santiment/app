@@ -10,6 +10,8 @@ const TrxAddressCell = ({ wallet, assets }) => (
   <WalletLink {...wallet} assets={assets} />
 )
 
+const ETHEREUM = 'ethereum'
+
 export const columns = [
   {
     Header: '',
@@ -111,7 +113,11 @@ export const columns = [
             <TrxAddressCell
               key={index}
               wallet={wallet}
-              assets={[original.slug, 'ethereum']}
+              assets={
+                original.slug === ETHEREUM
+                  ? [original.slug]
+                  : [original.slug, ETHEREUM]
+              }
             />
           ))
           : 'No data'}

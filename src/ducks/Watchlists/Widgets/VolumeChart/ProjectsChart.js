@@ -194,6 +194,7 @@ const ProjectsChart = ({ assets, redirect, loading: assetsLoading }) => {
                           }
                         }}
                         payloadLabels={getTooltipLabels(key)}
+                        classes={styles}
                       />
                     }
                   />
