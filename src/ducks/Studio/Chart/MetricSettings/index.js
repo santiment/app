@@ -17,7 +17,9 @@ const Settings = ({ className, metric, ...props }) => {
     <div className={cx(styles.wrapper, className)}>
       {metric.label}:
       <ColorSetting metric={metric} />
-      {metric.node === 'bar' && <IntervalSetting metric={metric} {...props} />}
+      {metric.node !== 'autoWidthBar' && (
+        <IntervalSetting metric={metric} {...props} />
+      )}
       {settings &&
         settings.map(({ key }) => {
           const Setting = SettingToComponent[key]

@@ -218,11 +218,7 @@ const DEFAULT_BRUSH_SETTINGS = {
 }
 
 export function useAllTimeData (metrics, settings, MetricSettingMap) {
-  const [brushSettings, setBrushSettings] = useState({
-    ...DEFAULT_BRUSH_SETTINGS,
-    ...settings
-  })
-
+  const [brushSettings, setBrushSettings] = useState(DEFAULT_BRUSH_SETTINGS)
   const [allTimeData] = useTimeseries(metrics, brushSettings, MetricSettingMap)
 
   useEffect(
