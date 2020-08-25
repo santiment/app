@@ -3,6 +3,7 @@ import { getIntervalByTimeRange } from '../../../utils/dates'
 import ProjectsBarChart from '../ProjectsBarChart/ProjectsBarChart'
 import PageLoader from '../../../components/Loader/PageLoader'
 import { sortByValue, useAggregatedProjects } from '../utils'
+import { millify } from '../../../utils/formatting'
 import styles from './TransactionsDominance.module.scss'
 
 const DEFAULT_SETTINGS = {
@@ -23,7 +24,7 @@ const TransactionsDominance = () => {
 
       return filtered.map(item => ({
         ...item,
-        value: item.value / sum
+        value: (100 * item.value) / sum
       }))
     },
     [data]
@@ -35,7 +36,12 @@ const TransactionsDominance = () => {
 
   return (
     <div className={styles.container}>
-      <ProjectsBarChart data={prepared} />
+      <ProjectsBarChart
+        data={prepared}
+        settings={{
+          yTickFormatter: val => `${millify(val)} %`
+        }}
+      />
     </div>
   )
 }

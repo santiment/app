@@ -5,6 +5,7 @@ import PageLoader from '../../../components/Loader/PageLoader'
 import { sortByValue, useAggregatedProjects } from '../utils'
 import Tabs from '@santiment-network/ui/Tabs'
 import styles from './NetworkActivity.module.scss'
+import { millify } from '../../../utils/formatting'
 
 const TABS = {
   'Daily Addresses': {
@@ -45,7 +46,12 @@ const NetworkActivity = () => {
         {loading ? (
           <PageLoader className={styles.loader} />
         ) : (
-          <ProjectsBarChart data={prepared} />
+          <ProjectsBarChart
+            data={prepared}
+            settings={{
+              yTickFormatter: val => `${millify(val)}`
+            }}
+          />
         )}
       </div>
     </div>
