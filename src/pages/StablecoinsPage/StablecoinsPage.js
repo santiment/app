@@ -55,7 +55,7 @@ const StablecoinsPage = ({ history, isDesktop }) => {
           <FlowToExchangesList />
         </Block>
 
-        <Block title='Largest Transfers to Exchanges (last 24h)'>
+        <Block title='Largest Transfers (last 24h)'>
           <StablecoinsTransactions {...getIntervalDates({ value: '24h' })} />
         </Block>
 
