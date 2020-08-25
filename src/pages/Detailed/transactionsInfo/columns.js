@@ -2,10 +2,7 @@ import React from 'react'
 import { formatNumber } from '../../../utils/formatting'
 import WalletLink from '../../../components/WalletLink/WalletLink'
 
-const TrxAddressCell = ({ value }) => {
-  console.log(value)
-  return <WalletLink {...value} />
-}
+const TrxAddressCell = ({ value }) => <WalletLink {...value} />
 
 const TrxHashAddressCell = ({ value }) => (
   <TrxAddressCell value={{ address: value, isTx: true }} />
