@@ -11,10 +11,16 @@ import { useAxesMetricsKey } from '../../Chart/hooks'
 import { metricsToPlotCategories } from '../../Chart/Synchronizer'
 import { Metric } from '../../dataHub/metrics'
 import ActiveMetrics from '../../Studio/Chart/ActiveMetrics'
-import { getIntervalByTimeRange } from '../../../utils/dates'
 import StablecoinSelector from '../StablecoinSelector/StablecoinSelector'
 import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
-import StablecoinsHeader from '../StablecoinsMarketCap/MarketCapHeader/StablecoinsHeader'
+import StablecoinsHeader, {
+  StablecoinsIntervals
+} from '../StablecoinsMarketCap/MarketCapHeader/StablecoinsHeader'
+import {
+  getIntervalDates,
+  HOLDERS_DISTRIBUTION_6M,
+  HOLDERS_DISTRIBUTION_MOBILE_INTERVALS
+} from '../StablecoinsMarketCap/utils'
 import styles from './StablecoinHolderDistribution.module.scss'
 
 const CHART_HEIGHT = 524
@@ -37,10 +43,12 @@ export const DEFAULT_STABLECOIN = {
 }
 
 const DEFAULT_SETTINGS = {
-  ...getIntervalByTimeRange('1y')
+  ...getIntervalDates({ value: '183d' }),
+  interval: '1d'
 }
 
 const StablecoinHolderDistribution = ({ isDesktop, className }) => {
+  const [interval, setInterval] = useState(HOLDERS_DISTRIBUTION_6M)
   const [asset, setAsset] = useState(DEFAULT_STABLECOIN)
   const [metrics, setMetrics] = useState([
     Metric.price_usd,
@@ -77,6 +85,17 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
       setSettings({ ...settings, from, to })
     },
     [data, setSettings, settings, allTimeData]
+  )
+
+  const onChangeInterval = useCallback(
+    interval => {
+      setInterval(interval)
+      setSettings({
+        ...settings,
+        ...getIntervalDates(interval)
+      })
+    },
+    [getIntervalDates, settings, setSettings, setInterval]
   )
 
   const axesMetricKeys = useAxesMetricsKey([...metrics].reverse())
@@ -141,6 +160,14 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
           chartPadding={isDesktop ? undefined : CHART_PADDING_MOBILE}
         />
       </div>
+
+      <MobileOnly>
+        <StablecoinsIntervals
+          setInterval={onChangeInterval}
+          interval={interval}
+          intervals={HOLDERS_DISTRIBUTION_MOBILE_INTERVALS}
+        />
+      </MobileOnly>
 
       <div className={styles.metrics}>
         <DesktopOnly>

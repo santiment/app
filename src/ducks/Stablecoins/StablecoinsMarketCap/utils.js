@@ -2,7 +2,7 @@ import { Metric } from '../../dataHub/metrics'
 import { getTransformerKey } from '../../Studio/timeseries/hooks'
 import { convertToSeconds } from '../../dataHub/metrics/intervals'
 
-const makeInterval = (val, label) => ({
+export const makeInterval = (val, label) => ({
   value: val,
   label: label
 })
@@ -15,6 +15,15 @@ export const STABLE_COINS_MARKETCAP_INTERVALS = [
   makeInterval('1w', '1W'),
   MARKET_CAP_MONTH_INTERVAL,
   makeInterval('365d', '1Y')
+]
+
+export const HOLDERS_DISTRIBUTION_6M = makeInterval('183d', '6m')
+
+export const HOLDERS_DISTRIBUTION_MOBILE_INTERVALS = [
+  makeInterval('1w', '1w'),
+  makeInterval('31d', '1m'),
+  makeInterval('93d', '3m'),
+  HOLDERS_DISTRIBUTION_6M
 ]
 
 export const CHECKING_STABLECOINS = [

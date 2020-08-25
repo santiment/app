@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import ProjectsBarChart from '../ProjectsBarChart/ProjectsBarChart'
 import PageLoader from '../../../components/Loader/PageLoader'
-import { useAggregatedProjects } from '../utils'
+import { sortByValue, useAggregatedProjects } from '../utils'
 import Tabs from '@santiment-network/ui/Tabs'
 import styles from './NetworkActivity.module.scss'
 
@@ -11,7 +11,7 @@ const TABS = {
     metric: 'daily_active_addresses',
     ...getIntervalByTimeRange('1d')
   },
-  'Trx Volume': {
+  'Tx Volume': {
     metric: 'transaction_volume',
     ...getIntervalByTimeRange('1d')
   },
@@ -27,7 +27,7 @@ const NetworkActivity = () => {
 
   const prepared = useMemo(
     () => {
-      return data.filter(({ value }) => value > 0)
+      return data.filter(({ value }) => value > 0).sort(sortByValue)
     },
     [data]
   )
@@ -38,7 +38,7 @@ const NetworkActivity = () => {
         className={styles.tabs}
         options={Object.keys(TABS)}
         defaultSelectedIndex={tab}
-        onSelect={setTab}
+        onSelect={tab => setTab(tab)}
         classes={styles}
       />
       <div className={styles.chart}>
