@@ -96,6 +96,7 @@ const ProjectsTreeMap = ({
                       }
                     }}
                     payloadLabels={getTooltipLabels(key)}
+                    classes={styles}
                   />
                 }
               />
