@@ -36,22 +36,48 @@ const trendWordsPredicate = searchTerm => {
   return word => word.toUpperCase().includes(upperCaseSearchTerm)
 }
 
-const calculateMatchIndex = (str, { name }) => {
-  const index = name.toUpperCase().indexOf(str)
+const calculateMatchIndex = (str, value) => {
+  const index = value.toUpperCase().indexOf(str)
   return index === -1 ? Infinity : index
 }
 
+const fullMatch = (str, value) => {
+  return str === value.toUpperCase()
+}
 export const assetsSorter = searchTerm => {
   const upperCaseSearchTerm = searchTerm.toUpperCase()
 
   return (a, b) => {
-    if (a.marketcapUsd === b.marketcapUsd) {
-      return (
-        calculateMatchIndex(upperCaseSearchTerm, a) -
-        calculateMatchIndex(upperCaseSearchTerm, b)
-      )
+    if (fullMatch(upperCaseSearchTerm, a.name)) {
+      return -1
+    } else if (fullMatch(upperCaseSearchTerm, b.name)) {
+      return 1
+    } else if (fullMatch(upperCaseSearchTerm, a.ticker)) {
+      return -1
+    } else if (fullMatch(upperCaseSearchTerm, b.ticker)) {
+      return 1
     } else {
-      return b.marketcapUsd - a.marketcapUsd
+      const matchIndexNameA = calculateMatchIndex(upperCaseSearchTerm, a.name)
+      const matchIndexNameB = calculateMatchIndex(upperCaseSearchTerm, b.name)
+
+      if (matchIndexNameA === matchIndexNameB) {
+        const matchIndexTickerA = calculateMatchIndex(
+          upperCaseSearchTerm,
+          a.ticker
+        )
+        const matchIndexTickerB = calculateMatchIndex(
+          upperCaseSearchTerm,
+          b.ticker
+        )
+
+        if (matchIndexTickerA === matchIndexTickerB) {
+          return b.marketcapUsd - a.marketcapUsd
+        } else {
+          return matchIndexTickerA - matchIndexTickerB
+        }
+      } else {
+        return matchIndexNameA - matchIndexNameB
+      }
     }
   }
 }

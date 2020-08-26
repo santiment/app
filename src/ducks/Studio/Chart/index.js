@@ -21,6 +21,7 @@ import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
 import { useHighlightMetricColor } from '../../Chart/colors'
 import { extractMirrorMetricsDomainGroups } from '../../Chart/utils'
 import { useUser } from '../../../stores/user'
+import { getTimeIntervalFromToday, DAY } from '../../../utils/dates'
 import styles from './index.module.scss'
 
 const Canvas = ({
@@ -102,7 +103,12 @@ const Canvas = ({
     const start = allTimeData[startIndex]
     const end = allTimeData[endIndex]
     if (start && end) {
-      changeTimePeriod(new Date(start.datetime), new Date(end.datetime))
+      const endDate =
+        endIndex === allTimeData.length - 1
+          ? getTimeIntervalFromToday(0, DAY).to
+          : new Date(end.datetime)
+
+      changeTimePeriod(new Date(start.datetime), endDate)
     }
   }
 

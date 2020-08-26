@@ -3,23 +3,12 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Setting from './Setting'
+import { useMetricIntervals } from './hooks'
 import { mergeMetricSettingMap } from '../../utils'
 import styles from './index.module.scss'
 
-const makeInterval = (key, label) => ({ key, label })
-
-const INTERVALS = [
-  makeInterval('5m', '5 minutes'),
-  makeInterval('15m', '15 minutes'),
-  makeInterval('30m', '30 minutes'),
-  makeInterval('1h', '1 hour'),
-  makeInterval('2h', '2 hours'),
-  makeInterval('3h', '3 hours'),
-  makeInterval('4h', '4 hours'),
-  makeInterval('8h', '8 hours'),
-  makeInterval('12h', '12 hours'),
-  makeInterval('1d', '1 day')
-]
+const isAvailableInterval = (interval, intervals) =>
+  intervals.some(({ key }) => key === interval)
 
 const IntervalSetting = ({
   metric,
@@ -29,13 +18,17 @@ const IntervalSetting = ({
 }) => {
   const activeRef = useRef()
   const [isOpened, setIsOpened] = useState(false)
+  const intervals = useMetricIntervals(metric)
   const interval = useMemo(
     () => {
       const settings = widget.MetricSettingMap.get(metric)
       const metricInterval = settings && settings.interval
-      return metricInterval || chartInterval
+      const interval = metricInterval || chartInterval
+      return isAvailableInterval(interval, intervals)
+        ? interval
+        : intervals[0].key
     },
-    [widget.MetricSettingMap]
+    [widget.MetricSettingMap, intervals]
   )
 
   useEffect(
@@ -95,7 +88,7 @@ const IntervalSetting = ({
         </Setting>
       }
     >
-      {INTERVALS.map(({ key, label }) => (
+      {intervals.map(({ key, label }) => (
         <Button
           key={key}
           variant='ghost'

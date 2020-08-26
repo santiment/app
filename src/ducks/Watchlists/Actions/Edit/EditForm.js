@@ -37,7 +37,15 @@ const EditForm = ({
       return
     }
 
-    onFormSubmit({ name, description, isPublic })
+    if (
+      name === defaultSettings.name &&
+      description === defaultSettings.description &&
+      isPublic === defaultSettings.isPublic
+    ) {
+      toggleOpen(false)
+    } else {
+      onFormSubmit({ name, description, isPublic })
+    }
   }
 
   function onInputChange ({ currentTarget: { value: name } }) {
@@ -117,7 +125,12 @@ const EditForm = ({
             className={styles.btn}
             accent='positive'
             isLoading={isLoading}
-            disabled={isLoading || formState.error}
+            disabled={
+              isLoading ||
+              formState.error ||
+              !formState.name ||
+              formState.name.length < MIN_LENGTH
+            }
           >
             {buttonLabel}
           </Dialog.Approve>

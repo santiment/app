@@ -8,6 +8,7 @@ import SocialToolChart from './Chart'
 import { buildMetrics } from './utils'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
+import { useEdgeGaps } from '../Chart/hooks'
 import styles from './index.module.scss'
 
 function useSocialTimeseries (activeMetrics, settings, MetricSettingMap) {
@@ -47,11 +48,12 @@ const SocialTool = ({
   const [activeMetrics, setActiveMetrics] = useState(defaultActiveMetrics)
   const [MetricSettingMap, setMetricSettingMap] = useState()
   const [priceAsset, setPriceAsset] = useState()
-  const [data, loadings] = useSocialTimeseries(
+  const [rawData, loadings] = useSocialTimeseries(
     activeMetrics,
     settings,
     MetricSettingMap
   )
+  const data = useEdgeGaps(rawData)
   const allTimeData = useAllTimeData(activeMetrics, settings, MetricSettingMap)
   const [shareLink, setShareLink] = useState('')
   const chartRef = useRef(null)

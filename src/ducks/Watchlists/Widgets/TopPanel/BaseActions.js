@@ -138,7 +138,6 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, isPro }) => {
               </Button>
             }
           />
-          <div className={styles.divider} />
           <New
             onSubmit={() => setIsMenuOpened(false)}
             trigger={

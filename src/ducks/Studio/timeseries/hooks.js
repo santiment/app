@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { getQuery, getPreTransform } from './fetcher'
+import { client } from '../../../apollo'
 import { normalizeDatetimes, mergeTimeseries } from './utils'
 import { substituteErrorMsg } from './errors'
 import { getAvailableInterval } from '../../dataHub/metrics/intervals'
 import { getIntervalByTimeRange } from '../../../utils/dates'
-import { client } from '../../../apollo'
 
 // NOTE: Polyfill for a PingdomBot 0.8.5 browser (/sentry/sanbase-frontend/issues/29459/) [@vanguard | Feb 6, 2020]
 window.AbortController =
@@ -212,28 +212,20 @@ export function useTimeseries (
 }
 
 const DEFAULT_BRUSH_SETTINGS = {
-  slug: 'bitcoin',
   interval: '4d',
   ...getIntervalByTimeRange('all')
 }
 
 export function useAllTimeData (metrics, settings, MetricSettingMap) {
-  const [brushSettings, setBrushSettings] = useState({
-    ...DEFAULT_BRUSH_SETTINGS,
-    ...settings
-  })
-
-  const [allTimeData] = useTimeseries(metrics, brushSettings, MetricSettingMap)
-
-  useEffect(
-    () => {
-      setBrushSettings({
-        ...brushSettings,
-        slug: settings.slug
-      })
-    },
-    [settings.slug]
+  const { slug } = settings
+  const brushSettings = useMemo(
+    () => ({
+      ...DEFAULT_BRUSH_SETTINGS,
+      slug
+    }),
+    [slug]
   )
+  const [allTimeData] = useTimeseries(metrics, brushSettings, MetricSettingMap)
 
   return allTimeData
 }

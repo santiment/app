@@ -219,7 +219,7 @@ export const Metric = {
   },
   active_deposits: {
     category: 'On-chain',
-    node: 'bar',
+    node: 'autoWidthBar',
     label: 'Daily Active Deposits',
     shortLabel: 'Daily A.D.',
     group: 'Exchanges'
