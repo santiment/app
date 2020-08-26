@@ -30,6 +30,7 @@ export const CloseButton = ({ className, ...props }) => (
 
 export default ({
   className,
+  contentClassName,
   chartSidepane,
   toggleChartSidepane,
   ...props
@@ -44,7 +45,7 @@ export default ({
   return (
     <div className={cx(styles.wrapper, className)}>
       <CloseButton onClick={() => toggleChartSidepane()} />
-      <div className={styles.content}>
+      <div className={cx(styles.content, contentClassName)}>
         {El.Title && (
           <div className={styles.title}>
             <El.Title {...props} />

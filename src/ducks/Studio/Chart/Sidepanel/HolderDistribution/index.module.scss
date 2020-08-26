@@ -1,7 +1,16 @@
+@import '~@santiment-network/ui/mixins';
+
+@mixin btn($color) {
+  border-color: var(--#{$color});
+  color: var(--#{$color});
+
+  &:hover {
+    border-color: var(--#{$color}-hover);
+    color: var(--#{$color}-hover);
+  }
+}
+
 .btn {
-  color: var(--casper);
-  fill: var(--casper);
-  stroke: var(--casper);
   margin-bottom: 8px;
   border: 1px solid transparent;
 
@@ -14,13 +23,47 @@
   }
 }
 
-.active {
-  border: 1px solid var(--porcelain);
-  color: var(--rhino);
-  box-shadow: 0 2px 8px rgba(59, 84, 106, 0.03),
-    0 1px 2px rgba(59, 84, 106, 0.03);
+.toggle {
+  color: var(--casper);
+  fill: var(--casper);
+  stroke: var(--casper);
+
+  &.active {
+    border: 1px solid var(--porcelain);
+    color: var(--rhino);
+    box-shadow: 0 2px 8px rgba(59, 84, 106, 0.03),
+      0 1px 2px rgba(59, 84, 106, 0.03);
+  }
+}
+
+.check {
+  &:hover {
+    background: var(--athens);
+    //color: var(--rhino);
+  }
 }
 
 .icon {
   margin-right: 8px;
+}
+
+.top {
+  @include text('body-2', 'm');
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 8px 16px;
+}
+
+.checkbox {
+  margin: 0 8px 0 -2px;
+}
+
+.confirm {
+  @include btn(jungle-green);
+}
+
+.cancel {
+  @include btn(persimmon);
 }
