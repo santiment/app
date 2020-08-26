@@ -70,7 +70,7 @@ const StablecoinsPage = ({ history, isDesktop }) => {
           <TransactionsDominance />
         </Block>
 
-        <Block title='Network Activity' showPro isPaywalActive>
+        <Block title='Network Activity (last 24h)' showPro isPaywalActive>
           <NetworkActivity />
         </Block>
       </div>
