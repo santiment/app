@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import cx from 'classnames'
+import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
@@ -16,6 +17,7 @@ import { getActiveBaseMetrics, getNewFunction, extractFilters } from './utils'
 import { isContainMetric } from './detector'
 import { useAvailableMetrics } from '../../gql/hooks'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
+import { APP_STATES } from '../../../Updates/reducers'
 import styles from './index.module.scss'
 
 const VIEWPORT_HEIGHT = window.innerHeight
@@ -30,7 +32,8 @@ const Filter = ({
   setScreenerFunction,
   isLoggedIn,
   isDefaultScreener,
-  history
+  history,
+  appVersionState
 }) => {
   if (!screenerFunction) {
     return null
@@ -240,4 +243,8 @@ const Filter = ({
   )
 }
 
-export default Filter
+const mapStateToProps = ({ app }) => ({
+  appVersionState: app.appVersionState
+})
+
+export default connect(mapStateToProps)(Filter)

@@ -69,7 +69,7 @@ export const Metric = {
   mvrv_usd_30d: {
     category: 'On-chain',
     group: 'Network Value',
-    label: 'MVRV (30d)',
+    label: 'MVRV 30d',
     hints: [
       {
         label: '< 1',
@@ -90,7 +90,7 @@ export const Metric = {
   mvrv_usd_180d: {
     category: 'On-chain',
     group: 'Network Value',
-    label: 'MVRV (180d)',
+    label: 'MVRV 180d',
     hints: [
       {
         label: '< 1',
@@ -111,7 +111,7 @@ export const Metric = {
   mvrv_usd_365d: {
     category: 'On-chain',
     group: 'Network Value',
-    label: 'MVRV (1y)',
+    label: 'MVRV 1y',
     hints: [
       {
         label: '< 1',
@@ -137,15 +137,15 @@ export const Metric = {
   circulation_180d: {
     category: 'On-chain',
     group: 'Network Activity',
-    label: 'Circulation (180d)'
+    label: 'Circulation 180d'
   },
-  network_growth: {
-    category: 'On-chain',
-    group: 'Network Activity',
-    label: 'Network Growth',
-    aggregation: 'sum',
-    showTimeRange: true
-  },
+  // network_growth: {
+  //   category: 'On-chain',
+  //   group: 'Network Activity',
+  //   label: 'Network Growth',
+  //   aggregation: 'sum',
+  //   showTimeRange: true
+  // },
   exchange_inflow: {
     label: 'Exchange Inflow',
     category: 'On-chain',
@@ -170,7 +170,7 @@ export const Metric = {
   dormant_circulation_365d: {
     category: 'On-chain',
     group: 'Network Activity',
-    label: 'Dormant Circulation (1y)',
+    label: 'Dormant Circulation 1y',
     descriptionKey: 'dormant_circulation'
   },
   bitmex_perpetual_funding_rate: {
@@ -210,7 +210,7 @@ export const metrics = [
   Metric.transaction_volume_usd,
   Metric.circulation,
   Metric.circulation_180d,
-  Metric.network_growth,
+  // Metric.network_growth,
   Metric.exchange_inflow,
   Metric.exchange_outflow,
   Metric.exchange_balance,
