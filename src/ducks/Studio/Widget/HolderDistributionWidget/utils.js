@@ -6,7 +6,7 @@ import { client } from '../../../../apollo'
 export const MERGED_DIVIDER = '__MM__'
 
 const immutate = v => Object.assign({}, v)
-export const keyGetter = ({ key }) => key
+const keyGetter = ({ key }) => key
 const labelGetter = ({ label }) => label.replace(' coins', '')
 
 export const checkIfWasNotMerged = (newKey, mergedMetrics) =>
