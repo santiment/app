@@ -23,7 +23,7 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
   const PressedModifier = usePressedModifier()
   const { currentPhase, setPhase } = usePhase()
   const [checkedMetrics, setSelectedMetrics] = useState(DEFAULT_CHECKED_METRICS)
-  const [mergedMetrics, setMergedMetrics] = useState([])
+  const [mergedMetrics, setMergedMetrics] = useState(widget.mergedMetrics)
 
   function toggleWidgetMetric (metric) {
     if (currentPhase !== Phase.IDLE) {
@@ -104,6 +104,7 @@ const newHolderDistributionWidget = props =>
   ChartWidget.new(
     {
       metrics: TOP_HOLDER_METRICS,
+      mergedMetrics: [],
       ...props
     },
     HolderDistributionWidget
