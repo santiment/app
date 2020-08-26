@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import { buildMergedMetric } from './utils'
+import { checkIfWasNotMerged, buildMergedMetric } from './utils'
 import Widget from '../Widget'
 import ChartWidget, { Chart } from '../ChartWidget'
 import { usePhase, Phase } from '../../phases'
@@ -57,8 +57,11 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
   function onMergeConfirmClick () {
     if (checkedMetrics.size > 1) {
       const metric = buildMergedMetric([...checkedMetrics])
-      widget.metrics = [...widget.metrics, metric]
-      setMergedMetrics([...mergedMetrics, metric])
+
+      if (checkIfWasNotMerged(metric.key, mergedMetrics)) {
+        widget.metrics = [...widget.metrics, metric]
+        setMergedMetrics([...mergedMetrics, metric])
+      }
     }
     setPhase(Phase.IDLE)
     setSelectedMetrics(DEFAULT_CHECKED_METRICS)
@@ -77,6 +80,7 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
         <Sidepanel
           className={styles.sidepanel}
           contentClassName={styles.sidepanel__content}
+          ticker={props.settings.ticker}
           chartSidepane={TOP_HOLDERS_PANE}
           currentPhase={currentPhase}
           metrics={widget.metrics}

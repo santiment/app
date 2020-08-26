@@ -13,6 +13,8 @@
 .btn {
   margin-bottom: 8px;
   border: 1px solid transparent;
+  height: auto;
+  min-height: 32px;
 
   &:last-child {
     margin: 0;
@@ -36,15 +38,17 @@
   }
 }
 
-.check {
-  &:hover {
-    background: var(--athens);
-    //color: var(--rhino);
-  }
+.check:hover {
+  background: var(--athens);
+}
+
+.label {
+  text-align: left;
 }
 
 .icon {
   margin-right: 8px;
+  min-width: 14px;
 }
 
 .top {

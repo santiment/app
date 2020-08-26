@@ -9,16 +9,19 @@ const immutate = v => Object.assign({}, v)
 const keyGetter = ({ key }) => key
 const labelGetter = ({ label }) => label.replace(' coins', '')
 
-export function buildMergedMetric (mergedMetrics) {
+export const checkIfWasNotMerged = (newKey, mergedMetrics) =>
+  mergedMetrics.every(({ key }) => key !== newKey)
+
+export function buildMergedMetric (baseMetrics) {
   const metric = {
     fetch,
-    mergedMetrics,
+    baseMetrics,
     node: 'line',
-    key: mergedMetrics
+    key: baseMetrics
       .map(keyGetter)
       .sort()
       .join(MERGED_DIVIDER),
-    label: mergedMetrics.map(labelGetter).join(', ') + ' coins'
+    label: baseMetrics.map(labelGetter).join(', ') + ' coins'
   }
 
   updateTooltipSetting(metric)
@@ -27,10 +30,10 @@ export function buildMergedMetric (mergedMetrics) {
 }
 
 export function fetch (metric, { slug, interval, from, to }) {
-  const { key, mergedMetrics } = metric
+  const { key, baseMetrics } = metric
 
-  const queries = mergedMetrics.map(
-    ({ key: metricKey, queryKey = metricKey }) => GET_METRIC({ key, queryKey })
+  const queries = baseMetrics.map(({ key: metricKey, queryKey = metricKey }) =>
+    GET_METRIC({ key, queryKey })
   )
 
   return Promise.all(

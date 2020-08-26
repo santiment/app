@@ -43,21 +43,23 @@ const ToggleButton = ({
   <Button
     className={cx(styles.toggle, isActive && styles.active)}
     onClick={() => onClick(metric)}
-    // {...props}
+    {...props}
   >
     <MetricIcon node='line' color={color} className={styles.icon} />
-    {metric.label}
-    {onUnmerge && (
-      <span
-        className={styles.unmerge}
-        onClick={e => {
-          e.stopPropagation()
-          onUnmerge(metric)
-        }}
-      >
-        Unmerge
-      </span>
-    )}
+    <span className={styles.label}>
+      {metric.label}
+      {onUnmerge && (
+        <span
+          className={styles.unmerge}
+          onClick={e => {
+            e.stopPropagation()
+            onUnmerge(metric)
+          }}
+        >
+          Unmerge
+        </span>
+      )}
+    </span>
   </Button>
 )
 
@@ -89,6 +91,7 @@ const Confirm = ({ checkedMetrics, onClick }) => {
 }
 
 const HolderDistribution = ({
+  ticker,
   metrics,
   mergedMetrics,
   checkedMetrics,
@@ -106,7 +109,7 @@ const HolderDistribution = ({
   return (
     <>
       <div className={styles.top}>
-        Holder Distribution
+        {ticker} Holder Distribution
         {isIdlePhase ? (
           <Merge onClick={onMergeClick} />
         ) : (
@@ -122,10 +125,10 @@ const HolderDistribution = ({
           const { key } = metric
           return (
             <MetricButton
-              isActive
               key={key}
               metric={metric}
               color={MetricColor[key]}
+              isActive={metrics.includes(metric)}
               onClick={toggleMetric}
               onUnmerge={onUnmergeClick}
             />
