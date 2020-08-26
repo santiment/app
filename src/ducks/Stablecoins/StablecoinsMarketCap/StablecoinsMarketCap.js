@@ -8,14 +8,14 @@ import CheckingAssets from './CheckingAssets/CheckingAssets'
 import Chart from '../../Chart'
 import { metricsToPlotCategories } from '../../Chart/Synchronizer'
 import {
-  getIntervalDates,
-  MARKET_CAP_DAY_INTERVAL,
+  formStablecoinsSettings,
+  MARKET_CAP_MONTH_INTERVAL,
   METRIC_SETTINGS_MAP,
   METRIC_TRANSFORMER,
   STABLE_COINS_MARKETCAP_INTERVALS,
   STABLE_COINS_METRICS
 } from './utils'
-import { useAllTimeData, useTimeseries } from '../../Studio/timeseries/hooks'
+import { useTimeseries } from '../../Studio/timeseries/hooks'
 import { useChartMetrics, useMetricColors } from './hooks'
 import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
 import { mapSizesToProps } from '../../../utils/withSizes'
@@ -39,15 +39,15 @@ const CHART_PADDING_MOBILE = {
 }
 
 const StablecoinsMarketCap = ({ isDesktop, className }) => {
-  const [interval, setInterval] = useState(MARKET_CAP_DAY_INTERVAL)
+  const [interval, setInterval] = useState(MARKET_CAP_MONTH_INTERVAL)
   const [disabledAssets, setDisabledAsset] = useState({})
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
 
-  const [settings, setSettings] = useState({ ...getIntervalDates(interval) })
+  const [settings, setSettings] = useState(formStablecoinsSettings(interval))
 
   useEffect(
     () => {
-      setSettings({ ...getIntervalDates(interval) })
+      setSettings(formStablecoinsSettings(interval))
     },
     [interval]
   )
@@ -122,6 +122,7 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
         domainGroups={
           isDomainGroupingActive ? domainGroups : mirrorDomainGroups
         }
+        isLoading={loadings.length > 0}
       />
 
       <MobileOnly>

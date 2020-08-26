@@ -2,7 +2,7 @@
   position: relative;
 
   &_opened {
-    padding-right: 340px !important;
+    padding-right: 360px !important;
   }
 }
 
@@ -16,4 +16,12 @@
   font-weight: 700;
   display: flex;
   align-items: center;
+}
+
+.sidepanel {
+  width: 340px;
+
+  &__content {
+    padding: 20px 16px;
+  }
 }

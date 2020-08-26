@@ -1,5 +1,9 @@
 import { parse } from 'query-string'
 import ChartWidget from '../Widget/ChartWidget'
+import {
+  buildMergedMetric,
+  MERGED_DIVIDER
+} from '../Widget/HolderDistributionWidget/utils'
 import { TypeToWidget } from '../Widget/types'
 import { buildCompareKey } from '../Compare/utils'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS } from '../defaults'
@@ -104,11 +108,37 @@ function parseMetricSetting (MetricSetting = {}) {
   return MetricSettingMap
 }
 
+function extractMergedMetrics (metrics) {
+  const mergedMetrics = []
+  const cleanedMetrics = []
+
+  for (let i = 0; i < metrics.length; i++) {
+    const metric = metrics[i]
+    const mergedMetricKeys = metric.split(MERGED_DIVIDER)
+    if (mergedMetricKeys.length < 2) {
+      cleanedMetrics.push(metric)
+      continue
+    }
+
+    mergedMetrics.push(
+      buildMergedMetric(mergedMetricKeys.map(key => TopHolderMetric[key]))
+    )
+  }
+
+  return [mergedMetrics, cleanedMetrics]
+}
+
 export function parseSharedWidgets (sharedWidgets) {
   return sharedWidgets.map(
-    ({ widget, metrics, comparables, connectedWidgets, colors, settings }) =>
-      TypeToWidget[widget].new({
-        metrics: metrics.map(key => convertKeyToMetric(key)).filter(Boolean),
+    ({ widget, metrics, comparables, connectedWidgets, colors, settings }) => {
+      const [mergedMetrics, cleanedMetrics] = extractMergedMetrics(metrics)
+
+      return TypeToWidget[widget].new({
+        mergedMetrics,
+        metrics: cleanedMetrics
+          .map(key => convertKeyToMetric(key))
+          .filter(Boolean)
+          .concat(mergedMetrics),
         comparables: comparables.map(parseComparable),
         connectedWidgets: connectedWidgets
           ? connectedWidgets.map(parseConnectedWidget)
@@ -116,6 +146,7 @@ export function parseSharedWidgets (sharedWidgets) {
         MetricColor: colors,
         MetricSettingMap: parseMetricSetting(settings)
       })
+    }
   )
 }
 

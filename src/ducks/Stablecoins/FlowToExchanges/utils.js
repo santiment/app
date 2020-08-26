@@ -19,7 +19,7 @@ export const ExchangesAssets = [
     slug: 'usd-coin'
   },
   {
-    slug: 'gemini-dollar'
+    slug: 'multi-collateral-dai'
   }
 ]
 

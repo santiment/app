@@ -34,17 +34,20 @@ export function FORMATTER (value) {
   return Number.isInteger(value) ? value : value.toFixed(2)
 }
 
+export function updateTooltipSetting (metric) {
+  const { key, dataKey = key, formatter = FORMATTER, label } = metric
+
+  metric.formatter = formatter
+  TooltipSetting[dataKey] = {
+    label,
+    formatter
+  }
+}
+
 export function updateTooltipSettings (metrics) {
   const { length } = metrics
 
   for (let i = 0; i < length; i++) {
-    const metric = metrics[i]
-    const { key, dataKey = key, formatter = FORMATTER, label } = metric
-
-    metric.formatter = formatter
-    TooltipSetting[dataKey] = {
-      label,
-      formatter
-    }
+    updateTooltipSetting(metrics[i])
   }
 }
