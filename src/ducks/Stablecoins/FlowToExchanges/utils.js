@@ -10,6 +10,9 @@ export const EXCHANGE_INTERESTS = {
 
 export const ExchangesAssets = [
   {
+    slug: 'multi-collateral-dai'
+  },
+  {
     slug: 'tether'
   },
   {
