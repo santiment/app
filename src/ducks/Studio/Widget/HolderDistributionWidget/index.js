@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import Widget from './Widget'
-import ChartWidget, { Chart } from './ChartWidget'
-import { usePhase, Phase } from '../phases'
-import Sidepanel, { CloseButton } from '../Chart/Sidepanel'
-import { TOP_HOLDERS_PANE } from '../Chart/Sidepanel/panes'
-import { TOP_HOLDER_METRICS } from '../Chart/Sidepanel/HolderDistribution/metrics'
-import { useChartColors } from '../../Chart/colors'
-import { usePressedModifier } from '../../../hooks/keyboard'
-import styles from './HolderDistributionWidget.module.scss'
-import { fetch, MERGED_DIVIDER } from './test'
-import { updateTooltipSetting } from '../../dataHub/tooltipSettings'
+import { buildMergedMetric } from './utils'
+import Widget from '../Widget'
+import ChartWidget, { Chart } from '../ChartWidget'
+import { usePhase, Phase } from '../../phases'
+import Sidepanel, { CloseButton } from '../../Chart/Sidepanel'
+import { TOP_HOLDERS_PANE } from '../../Chart/Sidepanel/panes'
+import { TOP_HOLDER_METRICS } from '../../Chart/Sidepanel/HolderDistribution/metrics'
+import { useChartColors } from '../../../Chart/colors'
+import { usePressedModifier } from '../../../../hooks/keyboard'
+import styles from './index.module.scss'
 
 const DEFAULT_CHECKED_METRICS = new Set()
 
@@ -57,26 +56,18 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
 
   function onMergeConfirmClick () {
     if (checkedMetrics.size > 1) {
-      const metric = {
-        fetch,
-        key: [...checkedMetrics]
-          .map(({ key }) => key)
-          .sort()
-          .join(MERGED_DIVIDER),
-        label:
-          [...checkedMetrics]
-            .map(({ label }) => label.replace(' coins', ''))
-            .join(', ') + ' coins',
-        mergedMetrics: [...checkedMetrics],
-        node: 'line'
-      }
-
-      updateTooltipSetting(metric)
+      const metric = buildMergedMetric([...checkedMetrics])
       widget.metrics = [...widget.metrics, metric]
       setMergedMetrics([...mergedMetrics, metric])
     }
     setPhase(Phase.IDLE)
     setSelectedMetrics(DEFAULT_CHECKED_METRICS)
+  }
+
+  function onUnmergeClick (metric) {
+    const metricFilter = m => m !== metric
+    widget.metrics = widget.metrics.filter(metricFilter)
+    setMergedMetrics(mergedMetrics.filter(metricFilter))
   }
 
   return (
@@ -96,6 +87,7 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
           toggleChartSidepane={toggleSidepane}
           onMergeClick={onMergeClick}
           onMergeConfirmClick={onMergeConfirmClick}
+          onUnmergeClick={onUnmergeClick}
         />
       ) : (
         <CloseButton onClick={toggleSidepane} className={styles.toggle} />

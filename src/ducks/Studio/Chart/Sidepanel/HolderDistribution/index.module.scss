@@ -67,3 +67,13 @@
 .cancel {
   @include btn(persimmon);
 }
+
+.unmerge {
+  color: var(--persimmon);
+  margin-left: 8px;
+
+  &:hover {
+    color: var(--persimmon-hover);
+    text-decoration: underline;
+  }
+}

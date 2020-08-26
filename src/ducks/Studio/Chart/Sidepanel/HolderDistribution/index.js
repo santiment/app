@@ -32,14 +32,32 @@ const Button = ({ className, isChecked, ...props }) => (
   <UIButton {...props} fluid className={cx(styles.btn, className)} />
 )
 
-const ToggleButton = ({ metric, color, isActive, onClick, ...props }) => (
+const ToggleButton = ({
+  metric,
+  color,
+  isActive,
+  onClick,
+  onUnmerge,
+  ...props
+}) => (
   <Button
     className={cx(styles.toggle, isActive && styles.active)}
     onClick={() => onClick(metric)}
-    {...props}
+    // {...props}
   >
     <MetricIcon node='line' color={color} className={styles.icon} />
     {metric.label}
+    {onUnmerge && (
+      <span
+        className={styles.unmerge}
+        onClick={e => {
+          e.stopPropagation()
+          onUnmerge(metric)
+        }}
+      >
+        Unmerge
+      </span>
+    )}
   </Button>
 )
 
@@ -79,6 +97,7 @@ const HolderDistribution = ({
   currentPhase,
   onMergeClick,
   onMergeConfirmClick,
+  onUnmergeClick,
   btnProps = {}
 }) => {
   const isIdlePhase = currentPhase === 'idle'
@@ -108,6 +127,7 @@ const HolderDistribution = ({
               metric={metric}
               color={MetricColor[key]}
               onClick={toggleMetric}
+              onUnmerge={onUnmergeClick}
             />
           )
         })}
