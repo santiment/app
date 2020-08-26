@@ -12,7 +12,7 @@ const DEFAULT_SETTINGS = {
   ...getIntervalByTimeRange('1d')
 }
 
-const calculateAbsoluteValues = data => {
+const calculatePercentValues = data => {
   const sum = data.reduce((acc, { value }) => {
     return acc + value
   }, 0)
@@ -31,7 +31,7 @@ const TransactionsDominance = () => {
     () => {
       const filtered = data.filter(({ value }) => value > 0)
 
-      const newData = isAbsolute ? calculateAbsoluteValues(filtered) : filtered
+      const newData = isAbsolute ? filtered : calculatePercentValues(filtered)
 
       return newData.sort(sortByValue)
     },
@@ -46,15 +46,13 @@ const TransactionsDominance = () => {
     <div className={styles.container}>
       <div className={styles.toggle} onClick={() => setIsAbsolute(!isAbsolute)}>
         <Toggle isActive={isAbsolute} />
-        <div className={styles.toggleText}>
-          {isAbsolute ? 'Absolute' : 'Relative'} view
-        </div>
+        <div className={styles.toggleText}>Absolute view</div>
       </div>
       <ProjectsBarChart
         data={prepared}
         settings={{
           yTickFormatter: val =>
-            isAbsolute ? `${millify(val)} %` : `${millify(val)}`
+            isAbsolute ? `${millify(val)}` : `${millify(val)} %`
         }}
       />
     </div>
