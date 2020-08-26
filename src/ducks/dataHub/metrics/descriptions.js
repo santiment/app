@@ -86,7 +86,7 @@ export const Description = {
     'Shows the share (or %) of the coin’s mentions on crypto-related social media, compared to a pool of 50+ of the most talked-about projects online.',
 
   [Metric.realized_value_usd.key]:
-    'Shows the total amount that all [Project Ticker] holders spent to purchase their tokens (i.e. the total acquisition cost). Realized cap is calculated by dividing the [Project Ticker] supply by the price of each [Project Ticker] token when it last moved on-chain',
+    'Shows the total amount that all [Project Ticker] holders spent to purchase their tokens (i.e. the total acquisition cost). Realized cap is calculated by multiplying the [Project Ticker] supply by the price of each [Project Ticker] token when it last moved on-chain',
 
   [Metric.gasUsed.key]:
     'How much ETH has moved out of team wallets over time. While not tracked all the way to exchanges, this metric may suggest potential selling activity',
@@ -274,7 +274,7 @@ export const rebuildDescriptions = Submetrics => {
             metric.key
           ] = `Shows the total amount spent on [Project Ticker] tokens that moved in the last ${convertToReadableInterval(
             metric.replacements.timebound
-          )}. Realized cap is calculated by dividing the [Project Ticker] supply by the price of each [Project Ticker] token when it last moved on-chain`
+          )}. Realized cap is calculated by multiplying the [Project Ticker] supply by the price of each [Project Ticker] token when it last moved on-chain`
         })
         break
       }
