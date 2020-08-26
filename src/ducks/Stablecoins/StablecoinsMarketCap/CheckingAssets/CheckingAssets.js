@@ -22,10 +22,13 @@ const CheckingAssets = ({ loadings, disabledAssets, toggleDisabled }) => {
   return (
     <div className={styles.container}>
       {CHECKING_STABLECOINS.map(({ label, slug, color }) => {
+        const loading = loadings.some(
+          ({ slug: loadingSlug }) => loadingSlug === slug
+        )
         return (
           <AssetButton
             key={label}
-            loading={loadings}
+            loading={loading}
             onClick={() => {
               if (disabledAssets[slug]) {
                 delete disabledAssets[slug]

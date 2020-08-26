@@ -64,7 +64,7 @@ const mapStateToProps = ({ rootUi: { isNightModeEnabled: isNightMode } }) => ({
 
 ProjectIcon.propTypes = {
   size: PropTypes.number,
-  slug: PropTypes.string.isRequired,
+  slug: PropTypes.string,
   className: PropTypes.string
 }
 

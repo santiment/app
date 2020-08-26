@@ -122,6 +122,7 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
         domainGroups={
           isDomainGroupingActive ? domainGroups : mirrorDomainGroups
         }
+        isLoading={loadings.length > 0}
       />
 
       <MobileOnly>
