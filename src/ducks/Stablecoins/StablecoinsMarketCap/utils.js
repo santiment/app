@@ -28,6 +28,11 @@ export const HOLDERS_DISTRIBUTION_MOBILE_INTERVALS = [
 
 export const CHECKING_STABLECOINS = [
   {
+    slug: 'multi-collateral-dai',
+    label: 'DAI',
+    color: '#FFCB47'
+  },
+  {
     slug: 'tether',
     label: 'USDT',
     color: '#14C393'
@@ -65,7 +70,8 @@ const REQ_META = {
       'trueusd',
       'usd-coin',
       'binance-usd',
-      'tether'
+      'tether',
+      'multi-collateral-dai'
     ],
     market_segments: ['Stablecoin']
   }
