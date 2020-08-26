@@ -43,7 +43,7 @@ export const DEFAULT_STABLECOIN = {
 }
 
 const DEFAULT_SETTINGS = {
-  ...getIntervalDates({ value: '183d' }),
+  ...getIntervalDates('183d'),
   interval: '1d'
 }
 
@@ -92,7 +92,7 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
       setInterval(interval)
       setSettings({
         ...settings,
-        ...getIntervalDates(interval)
+        ...getIntervalDates(interval.value)
       })
     },
     [getIntervalDates, settings, setSettings, setInterval]

@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import Tabs from '@santiment-network/ui/Tabs'
-import { getIntervalByTimeRange } from '../../../utils/dates'
+import { getIntervalDates } from '../StablecoinsMarketCap/utils'
 import ProjectsBarChart from '../ProjectsBarChart/ProjectsBarChart'
 import PageLoader from '../../../components/Loader/PageLoader'
 import { sortByValue, useAggregatedProjects } from '../utils'
@@ -9,18 +9,19 @@ import styles from './NetworkActivity.module.scss'
 
 const TABS = {
   'Daily Addresses': {
-    metric: 'daily_active_addresses',
-    ...getIntervalByTimeRange('1d')
+    metric: 'daily_active_addresses'
   },
   'Token Velocity': {
-    metric: 'velocity',
-    ...getIntervalByTimeRange('1d')
+    metric: 'velocity'
   }
 }
 
-const NetworkActivity = () => {
+const NetworkActivity = ({ interval }) => {
   const [tab, setTab] = useState('Daily Addresses')
-  const { data, loading } = useAggregatedProjects(TABS[tab])
+  const { data, loading } = useAggregatedProjects({
+    ...TABS[tab],
+    ...getIntervalDates(interval)
+  })
 
   const prepared = useMemo(
     () => {

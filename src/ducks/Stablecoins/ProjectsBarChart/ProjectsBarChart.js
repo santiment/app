@@ -20,7 +20,7 @@ import { tooltipValueFormatter } from '../../dataHub/metrics/formatters'
 import styles from './ProjectsBarChart.module.scss'
 
 const renderCustomizedLabel = ({ x, y, width, value }) => {
-  const fontSize = width < 20 ? 7 : 14
+  const fontSize = width < 20 ? 7 : 12
   const position = +value >= 0 ? -1 * (fontSize / 2) : fontSize
 
   return (
