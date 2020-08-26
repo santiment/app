@@ -1,21 +1,34 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import cx from 'classnames'
-import { checkIfWasNotMerged, buildMergedMetric } from './utils'
+import { keyGetter, checkIfWasNotMerged, buildMergedMetric } from './utils'
 import Widget from '../Widget'
 import ChartWidget, { Chart } from '../ChartWidget'
 import { usePhase, Phase } from '../../phases'
 import Sidepanel, { CloseButton } from '../../Chart/Sidepanel'
+import ChartActiveMetrics from '../../Chart/ActiveMetrics'
 import { TOP_HOLDERS_PANE } from '../../Chart/Sidepanel/panes'
-import { TOP_HOLDER_METRICS } from '../../Chart/Sidepanel/HolderDistribution/metrics'
+import {
+  TopHolderMetric,
+  TOP_HOLDER_METRICS
+} from '../../Chart/Sidepanel/HolderDistribution/metrics'
 import { useChartColors } from '../../../Chart/colors'
 import { usePressedModifier } from '../../../../hooks/keyboard'
 import styles from './index.module.scss'
 
 const DEFAULT_CHECKED_METRICS = new Set()
 
-const Title = ({ settings }) => (
-  <div className={styles.title}>{settings.ticker} Holder Distribution</div>
-)
+const createTitle = mergedMetrics => {
+  const mergedSet = new Set(mergedMetrics.map(keyGetter))
+
+  return ({ activeMetrics, ...props }) => (
+    <ChartActiveMetrics
+      activeMetrics={activeMetrics.filter(
+        ({ key }) => !(TopHolderMetric[key] || mergedSet.has(key))
+      )}
+      {...props}
+    />
+  )
+}
 
 const HolderDistributionWidget = ({ widget, ...props }) => {
   const [isOpened, setIsOpened] = useState(true)
@@ -24,6 +37,7 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
   const { currentPhase, setPhase } = usePhase()
   const [checkedMetrics, setSelectedMetrics] = useState(DEFAULT_CHECKED_METRICS)
   const [mergedMetrics, setMergedMetrics] = useState(widget.mergedMetrics)
+  const Title = useMemo(() => createTitle(mergedMetrics), [mergedMetrics])
 
   function toggleWidgetMetric (metric) {
     if (currentPhase !== Phase.IDLE) {
