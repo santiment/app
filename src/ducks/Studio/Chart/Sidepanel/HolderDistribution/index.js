@@ -57,18 +57,18 @@ const Merge = ({ onClick }) => (
   </UIButton>
 )
 
-const Confirm = ({ checkedMetrics, onClick }) => (
-  <UIButton
-    border
-    className={cx(
-      styles.merge,
-      checkedMetrics.size ? styles.confirm : styles.cancel
-    )}
-    onClick={onClick}
-  >
-    {checkedMetrics.size ? 'Confirm' : 'Cancel'}
-  </UIButton>
-)
+const Confirm = ({ checkedMetrics, onClick }) => {
+  const isMergeable = checkedMetrics.size > 1
+  return (
+    <UIButton
+      border
+      className={cx(styles.merge, isMergeable ? styles.confirm : styles.cancel)}
+      onClick={onClick}
+    >
+      {isMergeable ? 'Confirm' : 'Cancel'}
+    </UIButton>
+  )
+}
 
 const HolderDistribution = ({
   metrics,
@@ -98,13 +98,22 @@ const HolderDistribution = ({
         )}
       </div>
 
-      {mergedMetrics.map(metric => {
-        const { key, label } = metric
-        return label
-      })}
+      {isIdlePhase &&
+        mergedMetrics.map(metric => {
+          const { key } = metric
+          return (
+            <MetricButton
+              isActive
+              key={key}
+              metric={metric}
+              color={MetricColor[key]}
+              onClick={toggleMetric}
+            />
+          )
+        })}
 
       {TOP_HOLDER_METRICS.map(metric => {
-        const { key, label } = metric
+        const { key } = metric
         return (
           <MetricButton
             key={key}

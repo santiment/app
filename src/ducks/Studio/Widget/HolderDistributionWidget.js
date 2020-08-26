@@ -9,6 +9,8 @@ import { TOP_HOLDER_METRICS } from '../Chart/Sidepanel/HolderDistribution/metric
 import { useChartColors } from '../../Chart/colors'
 import { usePressedModifier } from '../../../hooks/keyboard'
 import styles from './HolderDistributionWidget.module.scss'
+import { fetch, MERGED_DIVIDER } from './test'
+import { updateTooltipSetting } from '../../dataHub/tooltipSettings'
 
 const DEFAULT_CHECKED_METRICS = new Set()
 
@@ -20,7 +22,7 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
   const [isOpened, setIsOpened] = useState(true)
   const MetricColor = useChartColors(widget.metrics, widget.MetricColor)
   const PressedModifier = usePressedModifier()
-  const { currentPhase, previousPhase, setPhase } = usePhase()
+  const { currentPhase, setPhase } = usePhase()
   const [checkedMetrics, setSelectedMetrics] = useState(DEFAULT_CHECKED_METRICS)
   const [mergedMetrics, setMergedMetrics] = useState([])
 
@@ -54,6 +56,25 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
   }
 
   function onMergeConfirmClick () {
+    if (checkedMetrics.size > 1) {
+      const metric = {
+        fetch,
+        key: [...checkedMetrics]
+          .map(({ key }) => key)
+          .sort()
+          .join(MERGED_DIVIDER),
+        label:
+          [...checkedMetrics]
+            .map(({ label }) => label.replace(' coins', ''))
+            .join(', ') + ' coins',
+        mergedMetrics: [...checkedMetrics],
+        node: 'line'
+      }
+
+      updateTooltipSetting(metric)
+      widget.metrics = [...widget.metrics, metric]
+      setMergedMetrics([...mergedMetrics, metric])
+    }
     setPhase(Phase.IDLE)
     setSelectedMetrics(DEFAULT_CHECKED_METRICS)
   }
