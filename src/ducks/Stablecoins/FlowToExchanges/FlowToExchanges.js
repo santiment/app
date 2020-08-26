@@ -1,17 +1,10 @@
 import React, { useMemo } from 'react'
-import cx from 'classnames'
-import {
-  EXCHANGE_INTERESTS,
-  EXCHANGES_DEFAULT_SETTINGS,
-  useFlowToExchanges
-} from './utils'
+import { EXCHANGES_DEFAULT_SETTINGS, useFlowToExchanges } from './utils'
 import { useProject } from '../../../hooks/project'
 import ProjectIcon from '../../../components/ProjectIcon/ProjectIcon'
 import Skeleton from '../../../components/Skeleton/Skeleton'
-import { formatNumber } from '../../../utils/formatting'
+import { millify } from '../../../utils/formatting'
 import styles from './FlowToExchanges.module.scss'
-
-const getFirstNotNull = data => data.find(({ value }) => value !== 0) || {}
 
 const FlowToExchanges = ({ item: { slug } }) => {
   const { data, loading } = useFlowToExchanges({
@@ -30,32 +23,6 @@ const FlowToExchanges = ({ item: { slug } }) => {
     [data]
   )
 
-  const status = useMemo(
-    () => {
-      if (data.length > 2) {
-        const { value: first = 0 } = getFirstNotNull(data)
-        const { value: second } = getFirstNotNull([...data].reverse())
-
-        if (first === 0 || second === 0) {
-          return EXCHANGE_INTERESTS.low
-        }
-
-        const relation = second / first
-
-        if (relation < 1) {
-          return EXCHANGE_INTERESTS.low
-        } else if (relation >= 1 && relation <= 2) {
-          return EXCHANGE_INTERESTS.normal
-        } else {
-          return EXCHANGE_INTERESTS.high
-        }
-      } else {
-        return EXCHANGE_INTERESTS.normal
-      }
-    },
-    [data]
-  )
-
   return (
     <div className={styles.container}>
       {!loading && (
@@ -63,17 +30,7 @@ const FlowToExchanges = ({ item: { slug } }) => {
           <ProjectIcon size={36} slug={slug} />
           <div className={styles.name}>{project.name}</div>
           <div className={styles.value}>
-            {formatNumber(sum)} {project.ticker}
-          </div>
-          <div
-            className={cx(
-              styles.status,
-              status === EXCHANGE_INTERESTS.high && styles.high,
-              status === EXCHANGE_INTERESTS.normal && styles.normal,
-              status === EXCHANGE_INTERESTS.low && styles.low
-            )}
-          >
-            {status}
+            {millify(sum)} {project.ticker}
           </div>
         </div>
       )}
