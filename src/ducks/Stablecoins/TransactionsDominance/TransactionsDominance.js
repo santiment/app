@@ -1,33 +1,41 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import ProjectsBarChart from '../ProjectsBarChart/ProjectsBarChart'
 import PageLoader from '../../../components/Loader/PageLoader'
 import { sortByValue, useAggregatedProjects } from '../utils'
 import { millify } from '../../../utils/formatting'
 import styles from './TransactionsDominance.module.scss'
+import { Toggle } from '@santiment-network/ui'
 
 const DEFAULT_SETTINGS = {
   metric: 'transaction_volume',
   ...getIntervalByTimeRange('1d')
 }
 
+const calculateAbsoluteValues = data => {
+  const sum = data.reduce((acc, { value }) => {
+    return acc + value
+  }, 0)
+
+  return data.map(item => ({
+    ...item,
+    value: (100 * item.value) / sum
+  }))
+}
+
 const TransactionsDominance = () => {
   const { data, loading } = useAggregatedProjects(DEFAULT_SETTINGS)
+  const [isAbsolute, setIsAbsolute] = useState(true)
 
   const prepared = useMemo(
     () => {
-      const filtered = data.filter(({ value }) => value > 0).sort(sortByValue)
+      const filtered = data.filter(({ value }) => value > 0)
 
-      const sum = filtered.reduce((acc, { value }) => {
-        return acc + value
-      }, 0)
+      const newData = isAbsolute ? calculateAbsoluteValues(filtered) : filtered
 
-      return filtered.map(item => ({
-        ...item,
-        value: (100 * item.value) / sum
-      }))
+      return newData.sort(sortByValue)
     },
-    [data]
+    [data, isAbsolute]
   )
 
   if (loading) {
@@ -36,10 +44,17 @@ const TransactionsDominance = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.toggle} onClick={() => setIsAbsolute(!isAbsolute)}>
+        <Toggle isActive={isAbsolute} />
+        <div className={styles.toggleText}>
+          {isAbsolute ? 'Absolute' : 'Relative'} view
+        </div>
+      </div>
       <ProjectsBarChart
         data={prepared}
         settings={{
-          yTickFormatter: val => `${millify(val)} %`
+          yTickFormatter: val =>
+            isAbsolute ? `${millify(val)} %` : `${millify(val)}`
         }}
       />
     </div>

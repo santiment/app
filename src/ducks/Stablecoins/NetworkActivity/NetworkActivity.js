@@ -12,10 +12,6 @@ const TABS = {
     metric: 'daily_active_addresses',
     ...getIntervalByTimeRange('1d')
   },
-  'Tx Volume': {
-    metric: 'transaction_volume',
-    ...getIntervalByTimeRange('1d')
-  },
   'Token Velocity': {
     metric: 'velocity',
     ...getIntervalByTimeRange('1d')
