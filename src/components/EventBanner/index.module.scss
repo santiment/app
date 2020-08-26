@@ -8,9 +8,9 @@
   justify-content: center;
   background-color: var(--athens);
   transform-origin: top center;
-  animation-name: grow;
+  animation-name: growPartially;
   animation-timing-function: ease-out;
-  animation-duration: 0.5s;
+  animation-duration: 0.6s;
   animation-fill-mode: both;
 }
 
@@ -48,15 +48,6 @@
   background-repeat: no-repeat;
 }
 
-.info,
-.media {
-  animation-name: shiftDown, appear;
-  animation-delay: 0.4s;
-  animation-timing-function: ease-in-out;
-  animation-duration: 1s, 0.5s;
-  animation-fill-mode: both;
-}
-
 .closeContainer {
   display: flex;
   align-items: center;
@@ -64,6 +55,11 @@
   max-width: 1152px;
   margin: auto;
   width: 100%;
+  animation-name: shiftDown, appear;
+  animation-delay: 0.4s;
+  animation-timing-function: ease-in-out;
+  animation-duration: 0.6s, 0.5s;
+  animation-fill-mode: both;
 }
 
 .close {
@@ -75,5 +71,15 @@
 
   &:hover {
     fill: var(--rhino);
+  }
+}
+
+@keyframes growPartially {
+  0% {
+    transform: scaleY(0.6);
+  }
+
+  100% {
+    transform: scaleY(1);
   }
 }
