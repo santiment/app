@@ -1,6 +1,10 @@
 import { Metric } from '../../dataHub/metrics'
 import { getTransformerKey } from '../../Studio/timeseries/hooks'
 import { convertToSeconds } from '../../dataHub/metrics/intervals'
+import {
+  getNewInterval,
+  INTERVAL_ALIAS
+} from '../../SANCharts/IntervalSelector'
 
 export const makeInterval = (val, label) => ({
   value: val,
@@ -11,6 +15,7 @@ export const MARKET_CAP_MONTH_INTERVAL = makeInterval('31d', '1M')
 export const MARKET_CAP_DAY_INTERVAL = makeInterval('2d', '1D')
 
 export const STABLE_COINS_MARKETCAP_INTERVALS = [
+  makeInterval('1h', '1H'),
   MARKET_CAP_DAY_INTERVAL,
   makeInterval('1w', '1W'),
   MARKET_CAP_MONTH_INTERVAL,
@@ -116,7 +121,18 @@ export const getIntervalDates = interval => {
     from: new Date(
       new Date().getTime() + -1 * convertToSeconds(interval.value)
     ),
-    to: new Date(),
-    interval: '1h'
+    to: new Date()
+  }
+}
+
+export const formStablecoinsSettings = customInterval => {
+  const { from, to } = getIntervalDates(customInterval)
+
+  const interval = getNewInterval(from, to)
+
+  return {
+    from,
+    to,
+    interval: INTERVAL_ALIAS[interval] || interval
   }
 }

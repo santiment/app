@@ -8,7 +8,7 @@ import CheckingAssets from './CheckingAssets/CheckingAssets'
 import Chart from '../../Chart'
 import { metricsToPlotCategories } from '../../Chart/Synchronizer'
 import {
-  getIntervalDates,
+  formStablecoinsSettings,
   MARKET_CAP_DAY_INTERVAL,
   METRIC_SETTINGS_MAP,
   METRIC_TRANSFORMER,
@@ -43,11 +43,11 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
   const [disabledAssets, setDisabledAsset] = useState({})
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
 
-  const [settings, setSettings] = useState({ ...getIntervalDates(interval) })
+  const [settings, setSettings] = useState(formStablecoinsSettings(interval))
 
   useEffect(
     () => {
-      setSettings({ ...getIntervalDates(interval) })
+      setSettings(formStablecoinsSettings(interval))
     },
     [interval]
   )
