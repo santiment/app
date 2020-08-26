@@ -94,8 +94,7 @@
 }
 
 .ReactTable .rt-tbody .rt-td {
-  border-right: 1px solid rgba(0, 0, 0, 0.05);
-  padding: 6px;
+  padding: 6px 0;
 }
 
 .percent-changes--negative,
@@ -144,6 +143,7 @@
   border: none;
   letter-spacing: normal;
   background: inherit;
+  padding: 5px 0;
 }
 
 .ReactTable .rt-thead.-header {

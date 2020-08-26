@@ -41,11 +41,11 @@
       outline: none;
 
       &:nth-child(4) {
-        padding-left: 7px;
+        padding-left: 8px;
       }
 
       &:nth-child(5) {
-        padding-left: 13px;
+        padding-left: 16px;
       }
 
       @include text('caption');
