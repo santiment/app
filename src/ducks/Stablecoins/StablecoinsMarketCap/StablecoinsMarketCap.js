@@ -15,7 +15,7 @@ import {
   STABLE_COINS_MARKETCAP_INTERVALS,
   STABLE_COINS_METRICS
 } from './utils'
-import { useAllTimeData, useTimeseries } from '../../Studio/timeseries/hooks'
+import { useTimeseries } from '../../Studio/timeseries/hooks'
 import { useChartMetrics, useMetricColors } from './hooks'
 import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
 import { mapSizesToProps } from '../../../utils/withSizes'
