@@ -1,18 +1,17 @@
-import React, { Fragment, useMemo } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import StablecoinsMarketCap from '../../ducks/Stablecoins/StablecoinsMarketCap/StablecoinsMarketCap'
 import StablecoinHolderDistribution from '../../ducks/Stablecoins/HolderDistribution/StablecoinHolderDistribution'
-import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
 import StablecoinsTransactions from '../../ducks/Stablecoins/StablecoinsTransactions/StablecoinsTransactions'
 import WhaleTrendsList from '../../ducks/Stablecoins/WhaleTrendsList/WhaleTrendsList'
 import FlowToExchangesList from '../../ducks/Stablecoins/FlowToExchanges/FlowToExchangesList'
 import TransactionsDominance from '../../ducks/Stablecoins/TransactionsDominance/TransactionsDominance'
-import CheckProPaywall from '../../ducks/Stablecoins/CheckProPaywall'
 import NetworkActivity from '../../ducks/Stablecoins/NetworkActivity/NetworkActivity'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { MobileOnly } from '../../components/Responsive'
 import { getIntervalDates } from '../../ducks/Stablecoins/StablecoinsMarketCap/utils'
+import { Block, BlockWithRanges } from './StablecoinsPageStructure'
 import styles from './StablecoinsPage.module.scss'
 
 const StablecoinsPage = ({ history, isDesktop }) => {
@@ -56,7 +55,7 @@ const StablecoinsPage = ({ history, isDesktop }) => {
         </Block>
 
         <Block title='Largest Transactions (last 24h)'>
-          <StablecoinsTransactions {...getIntervalDates({ value: '24h' })} />
+          <StablecoinsTransactions {...getIntervalDates('24h')} />
         </Block>
 
         <Block
@@ -66,54 +65,19 @@ const StablecoinsPage = ({ history, isDesktop }) => {
           <StablecoinHolderDistribution />
         </Block>
 
-        <Block title='Transaction Dominance (last 24h)' isPaywalActive>
-          <TransactionsDominance />
-        </Block>
+        <BlockWithRanges
+          title='Transaction Dominance'
+          el={TransactionsDominance}
+        />
 
-        <Block title='Network Activity (last 24h)' showPro isPaywalActive>
-          <NetworkActivity />
-        </Block>
+        <BlockWithRanges
+          title='Network Activity'
+          showPro
+          el={NetworkActivity}
+        />
       </div>
 
       <CommonFooter className={styles.footer} />
-    </div>
-  )
-}
-
-const Block = ({
-  title,
-  description,
-  showPro,
-  children,
-  isPaywalActive = false
-}) => {
-  const El = useMemo(
-    () => {
-      return isPaywalActive ? CheckProPaywall : Fragment
-    },
-    [isPaywalActive]
-  )
-
-  return (
-    <div className={styles.block}>
-      {title && (
-        <div className={styles.subHeader}>
-          <div className={styles.subTitle}>
-            {title}
-            {showPro && (
-              <UpgradeBtn
-                className={styles.upgrade}
-                iconClassName={styles.crown}
-                variant='fill'
-                children='Pro'
-              />
-            )}
-          </div>
-          {description && <div className={styles.subDescr}>{description}</div>}
-        </div>
-      )}
-
-      <El>{children}</El>
     </div>
   )
 }

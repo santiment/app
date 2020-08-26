@@ -1,15 +1,14 @@
 import React, { useMemo, useState } from 'react'
-import { getIntervalByTimeRange } from '../../../utils/dates'
+import { Toggle } from '@santiment-network/ui'
+import { getIntervalDates } from '../StablecoinsMarketCap/utils'
 import ProjectsBarChart from '../ProjectsBarChart/ProjectsBarChart'
 import PageLoader from '../../../components/Loader/PageLoader'
 import { sortByValue, useAggregatedProjects } from '../utils'
 import { millify } from '../../../utils/formatting'
 import styles from './TransactionsDominance.module.scss'
-import { Toggle } from '@santiment-network/ui'
 
 const DEFAULT_SETTINGS = {
-  metric: 'transaction_volume',
-  ...getIntervalByTimeRange('1d')
+  metric: 'transaction_volume'
 }
 
 const calculatePercentValues = data => {
@@ -23,8 +22,11 @@ const calculatePercentValues = data => {
   }))
 }
 
-const TransactionsDominance = () => {
-  const { data, loading } = useAggregatedProjects(DEFAULT_SETTINGS)
+const TransactionsDominance = ({ interval }) => {
+  const { data, loading } = useAggregatedProjects({
+    ...DEFAULT_SETTINGS,
+    ...getIntervalDates(interval)
+  })
   const [isAbsolute, setIsAbsolute] = useState(true)
 
   const prepared = useMemo(
@@ -38,23 +40,27 @@ const TransactionsDominance = () => {
     [data, isAbsolute]
   )
 
-  if (loading) {
-    return <PageLoader />
-  }
-
   return (
     <div className={styles.container}>
-      <div className={styles.toggle} onClick={() => setIsAbsolute(!isAbsolute)}>
-        <Toggle isActive={isAbsolute} />
-        <div className={styles.toggleText}>Absolute view</div>
-      </div>
-      <ProjectsBarChart
-        data={prepared}
-        settings={{
-          yTickFormatter: val =>
-            isAbsolute ? `${millify(val)}` : `${millify(val)} %`
-        }}
-      />
+      {loading && <PageLoader />}
+      {!loading && (
+        <>
+          <div
+            className={styles.toggle}
+            onClick={() => setIsAbsolute(!isAbsolute)}
+          >
+            <Toggle isActive={isAbsolute} />
+            <div className={styles.toggleText}>Absolute view</div>
+          </div>
+          <ProjectsBarChart
+            data={prepared}
+            settings={{
+              yTickFormatter: val =>
+                isAbsolute ? `${millify(val)}` : `${millify(val)} %`
+            }}
+          />
+        </>
+      )}
     </div>
   )
 }

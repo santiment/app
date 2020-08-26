@@ -1,3 +1,4 @@
+import memoize from 'lodash.memoize'
 import { Metric } from '../../dataHub/metrics'
 import { getTransformerKey } from '../../Studio/timeseries/hooks'
 import { convertToSeconds } from '../../dataHub/metrics/intervals'
@@ -76,8 +77,7 @@ const REQ_META = {
       'usd-coin',
       'binance-usd',
       'tether',
-      'multi-collateral-dai',
-      'terra-krw'
+      'multi-collateral-dai'
     ],
     market_segments: ['Stablecoin']
   }
@@ -116,17 +116,15 @@ STABLE_COINS_METRICS.forEach(metric => {
 
 export const METRIC_TRANSFORMER = { ...METRIC_TRANSFORMER_TMP }
 
-export const getIntervalDates = interval => {
+export const getIntervalDates = memoize(interval => {
   return {
-    from: new Date(
-      new Date().getTime() + -1 * convertToSeconds(interval.value)
-    ),
+    from: new Date(new Date().getTime() + -1 * convertToSeconds(interval)),
     to: new Date()
   }
-}
+})
 
-export const formStablecoinsSettings = customInterval => {
-  const { from, to } = getIntervalDates(customInterval)
+export const formStablecoinsSettings = intervalWrapper => {
+  const { from, to } = getIntervalDates(intervalWrapper.value)
 
   const interval = getNewInterval(from, to)
 

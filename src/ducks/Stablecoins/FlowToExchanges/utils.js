@@ -24,7 +24,7 @@ export const ExchangesAssets = [
 ]
 
 export const EXCHANGES_DEFAULT_SETTINGS = {
-  ...getIntervalDates({ value: '1d' }),
+  ...getIntervalDates('1d'),
   interval: '1h'
 }
 
