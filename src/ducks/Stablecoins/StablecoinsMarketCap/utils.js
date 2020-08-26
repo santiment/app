@@ -71,7 +71,8 @@ const REQ_META = {
       'usd-coin',
       'binance-usd',
       'tether',
-      'multi-collateral-dai'
+      'multi-collateral-dai',
+      'terra-krw'
     ],
     market_segments: ['Stablecoin']
   }
