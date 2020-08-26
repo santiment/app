@@ -170,19 +170,16 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
       </MobileOnly>
 
       <div className={styles.metrics}>
-        <DesktopOnly>
-          <div className={styles.holdersTitle}>Holders Distribution</div>
-        </DesktopOnly>
-
         <TopHolders
+          ticker={asset.ticker}
           toggleMetric={toggleMetric}
           MetricColor={MetricColor}
           metrics={metrics}
-          className={styles.holderMetricBtn}
           btnProps={{
             fluid: false,
             variant: 'ghost',
-            loading: loadings
+            loading: loadings,
+            className: styles.holderMetricBtn
           }}
         />
       </div>

@@ -63,8 +63,8 @@
 }
 
 .holderMetricBtn {
-  border: none;
-  box-shadow: none;
+  box-shadow: none !important;
+  border: none !important;
 
   &:hover {
     color: var(--rhino);

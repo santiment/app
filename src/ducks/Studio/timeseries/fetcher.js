@@ -1,15 +1,16 @@
 import { METRICS, GET_METRIC } from './metrics'
 import { AnomalyFetcher, OldAnomalyFetcher } from './anomalies'
 import { MarketSegmentFetcher } from './marketSegments'
+import { aliasTransform, extractTimeseries } from './utils'
+import { MINERS_BALANCE_QUERY } from './queries/minersBalance'
+import { MARKETCAP_USD_QUERY } from './queries/marketcapUsd'
 import { GAS_USED_QUERY } from '../../GetTimeSeries/queries/gas_used'
 import { HISTORICAL_BALANCE_QUERY } from '../../HistoricalBalance/common/queries'
 import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from '../../GetTimeSeries/queries/top_holders_percent_of_total_supply'
 import { ETH_SPENT_OVER_TIME_QUERY } from '../../GetTimeSeries/queries/eth_spent_over_time_query'
-import { MINERS_BALANCE_QUERY } from './queries/minersBalance'
-import { aliasTransform, extractTimeseries } from './utils'
-import { MARKETCAP_USD_QUERY } from './queries/marketcapUsd'
+import { client } from '../../../apollo'
 
-const preTransform = ({
+export const preTransform = ({
   data: {
     getMetric: { timeseriesData }
   }
@@ -101,3 +102,14 @@ export const getPreTransform = ({ key, queryKey = key, metricAnomaly }) => {
 
   return preTransform
 }
+
+export const getData = (query, variables, signal) =>
+  client.query({
+    query,
+    variables,
+    context: {
+      fetchOptions: {
+        signal
+      }
+    }
+  })

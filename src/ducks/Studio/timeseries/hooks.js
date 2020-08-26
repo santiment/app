@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { getQuery, getPreTransform } from './fetcher'
+import { getData, getQuery, getPreTransform } from './fetcher'
 import { client } from '../../../apollo'
 import { normalizeDatetimes, mergeTimeseries } from './utils'
 import { substituteErrorMsg } from './errors'
@@ -116,25 +116,27 @@ export function useTimeseries (
       let mergedData = []
 
       metrics.forEach(metric => {
-        const { key, reqMeta } = metric
+        const { key, reqMeta, fetch } = metric
         const metricSettings = MetricSettingMap.get(metric)
         const queryId = client.queryManager.idCounter
         const abortController = new AbortController()
 
         const query = getQuery(metric, metricSettings)
 
-        if (!query) {
-          return setErrorMsg(state => {
-            state[key] = NO_DATA_MSG
-            return { ...state }
+        if (!fetch) {
+          if (!query) {
+            return setErrorMsg(state => {
+              state[key] = NO_DATA_MSG
+              return { ...state }
+            })
+          }
+
+          setAbortables(state => {
+            const newState = new Map(state)
+            newState.set(metric, [abortController, queryId, metricSettings])
+            return newState
           })
         }
-
-        setAbortables(state => {
-          const newState = new Map(state)
-          newState.set(metric, [abortController, queryId, metricSettings])
-          return newState
-        })
 
         setLoadings(state => {
           const loadingsSet = new Set(state)
@@ -142,26 +144,23 @@ export function useTimeseries (
           return [...loadingsSet]
         })
 
-        client
-          .query({
-            query,
-            variables: {
-              metric: key,
-              interval: getAvailableInterval(metric, interval),
-              to,
-              from,
-              slug,
-              ...reqMeta,
-              ...metricSettings
-            },
-            context: {
-              fetchOptions: {
-                signal: abortController.signal
-              }
-            }
-          })
-          .then(getPreTransform(metric))
-          .then(MetricTransformer[getTransformerKey(metric)] || noop)
+        const variables = {
+          metric: key,
+          interval: getAvailableInterval(metric, interval),
+          to,
+          from,
+          slug,
+          ...reqMeta,
+          ...metricSettings
+        }
+
+        const request = fetch
+          ? fetch(metric, variables)
+          : getData(query, variables, abortController.signal)
+            .then(getPreTransform(metric))
+            .then(MetricTransformer[getTransformerKey(metric)] || noop)
+
+        request
           .then(data => {
             if (raceCondition) return
             if (!data.length) {
