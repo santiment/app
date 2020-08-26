@@ -29,10 +29,11 @@ const Icon = props => (
 )
 
 const Button = ({ className, isChecked, ...props }) => (
-  <UIButton {...props} fluid className={cx(styles.btn, className)} />
+  <UIButton fluid className={cx(styles.btn, className)} {...props} />
 )
 
 const ToggleButton = ({
+  className,
   metric,
   color,
   isActive,
@@ -41,7 +42,7 @@ const ToggleButton = ({
   ...props
 }) => (
   <Button
-    className={cx(styles.toggle, isActive && styles.active)}
+    className={cx(styles.toggle, className, isActive && styles.active)}
     onClick={() => onClick(metric)}
     {...props}
   >
@@ -110,14 +111,16 @@ const HolderDistribution = ({
     <>
       <div className={styles.top}>
         {ticker} Holder Distribution
-        {isIdlePhase ? (
-          <Merge onClick={onMergeClick} />
-        ) : (
-          <Confirm
-            checkedMetrics={checkedMetrics}
-            onClick={onMergeConfirmClick}
-          />
-        )}
+        {checkedMetrics ? (
+          isIdlePhase ? (
+            <Merge onClick={onMergeClick} />
+          ) : (
+            <Confirm
+              checkedMetrics={checkedMetrics}
+              onClick={onMergeConfirmClick}
+            />
+          )
+        ) : null}
       </div>
 
       {isIdlePhase &&
@@ -139,17 +142,23 @@ const HolderDistribution = ({
         const { key } = metric
         return (
           <MetricButton
+            {...btnProps}
             key={key}
             metric={metric}
             color={MetricColor[key]}
             isActive={metrics.includes(metric)}
-            isChecked={checkedMetrics.has(metric)}
+            isChecked={checkedMetrics && checkedMetrics.has(metric)}
             onClick={toggleMetric}
           />
         )
       })}
     </>
   )
+}
+
+HolderDistribution.defaultProps = {
+  mergedMetrics: [],
+  currentPhase: 'idle'
 }
 
 export default HolderDistribution
