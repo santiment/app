@@ -30,11 +30,10 @@ const StablecoinsPage = ({ history, isDesktop }) => {
       <div className={styles.header}>
         <div className={cx(styles.inner, styles.content)}>
           <div className={styles.pageDescription}>
-            <h3 className={styles.title}>Stablecoins</h3>
+            <h3 className={styles.title}>the Stablecoin Docket</h3>
             <div className={styles.description}>
-              Cryptocurrencies designed to minimize the volatility of the price
-              of the stablecoin, relative to some "stable" asset or basket of
-              assets.
+              Real-time information on the biggest stablecoins’ market size,
+              whale behavior, speculative demand and more.
             </div>
           </div>
 
@@ -48,39 +47,45 @@ const StablecoinsPage = ({ history, isDesktop }) => {
         </Block>
 
         <Block
-          title='Whale Trends (last 30 days)'
-          description='Top 100 non-exchange holders'
+          title='Stablecoin Whale Trends (last 30 days)'
+          description='Recent activity of each stablecoins’ top 100 non-exchange addresses'
           isPaywalActive
         >
           <WhaleTrendsList />
         </Block>
 
         <Block
-          title='Flow to Exchanges (last 24h)'
-          description='May indicate level of interest to exchange stablecoins for other cryptocurrencies'
+          title='Stablecoins to Exchanges (last 24h)'
+          description='Estimated level of interest to swap stablecoins for more volatile cryptocurrencies'
           isPaywalActive
         >
           <FlowToExchangesList />
         </Block>
 
-        <Block title='Largest Transactions (last 24h)'>
+        <Block
+          title='Largest Stablecoin Transactions (last 24h)'
+          description='Select an asset to view their largest transactions in the last 24 hours'
+        >
           <StablecoinsTransactions {...getIntervalDates('24h')} />
         </Block>
 
         <Block
           title={isDesktop ? 'Stablecoin Holder Distribution' : null}
+          description='Number of addresses sorted by their stablecoin balance'
           showPro
         >
           <StablecoinHolderDistribution />
         </Block>
 
         <BlockWithRanges
-          title='Transaction Dominance'
+          title='Transaction Activity'
           el={TransactionsDominance}
+          description='Total amount of stablecoins moving between network addresses'
         />
 
         <BlockWithRanges
-          title='Network Activity'
+          title='Stablecoin Network Activity'
+          description='On-chain indicators of stablecoin utility and adoption'
           showPro
           el={NetworkActivity}
         />
