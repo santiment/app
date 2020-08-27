@@ -139,13 +139,13 @@ export const Metric = {
     group: 'Network Activity',
     label: 'Circulation 180d'
   },
-  // network_growth: {
-  //   category: 'On-chain',
-  //   group: 'Network Activity',
-  //   label: 'Network Growth',
-  //   aggregation: 'sum',
-  //   showTimeRange: true
-  // },
+  network_growth: {
+    category: 'On-chain',
+    group: 'Network Activity',
+    label: 'Network Growth',
+    aggregation: 'sum',
+    showTimeRange: true
+  },
   exchange_inflow: {
     label: 'Exchange Inflow',
     category: 'On-chain',
@@ -210,7 +210,7 @@ export const metrics = [
   Metric.transaction_volume_usd,
   Metric.circulation,
   Metric.circulation_180d,
-  // Metric.network_growth,
+  Metric.network_growth,
   Metric.exchange_inflow,
   Metric.exchange_outflow,
   Metric.exchange_balance,
@@ -220,7 +220,6 @@ export const metrics = [
   Metric.mvrv_usd_365d,
   Metric.dormant_circulation_365d,
   Metric.bitmex_perpetual_funding_rate,
-
   Metric.market_segments
 ]
 
