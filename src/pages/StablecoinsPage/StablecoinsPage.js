@@ -13,6 +13,7 @@ import { MobileOnly } from '../../components/Responsive'
 import { getIntervalDates } from '../../ducks/Stablecoins/StablecoinsMarketCap/utils'
 import { Block, BlockWithRanges } from './StablecoinsPageStructure'
 import styles from './StablecoinsPage.module.scss'
+import StablecoinsReport from '../../ducks/Stablecoins/StablecoinsReport/StablecoinsReport'
 
 const StablecoinsPage = ({ history, isDesktop }) => {
   return (
@@ -26,12 +27,17 @@ const StablecoinsPage = ({ history, isDesktop }) => {
       </MobileOnly>
 
       <div className={styles.header}>
-        <div className={styles.inner}>
-          <h3 className={styles.title}>Stablecoins</h3>
-          <div className={styles.description}>
-            Cryptocurrencies designed to minimize the volatility of the price of
-            the stablecoin, relative to some "stable" asset or basket of assets.
+        <div className={cx(styles.inner, styles.content)}>
+          <div className={styles.pageDescription}>
+            <h3 className={styles.title}>Stablecoins</h3>
+            <div className={styles.description}>
+              Cryptocurrencies designed to minimize the volatility of the price
+              of the stablecoin, relative to some "stable" asset or basket of
+              assets.
+            </div>
           </div>
+
+          <StablecoinsReport />
         </div>
       </div>
 
