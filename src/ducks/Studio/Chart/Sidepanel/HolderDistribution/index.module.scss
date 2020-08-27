@@ -57,7 +57,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 8px 16px;
+  margin: 0 8px 20px;
 }
 
 .checkbox {
@@ -80,4 +80,10 @@
     color: var(--persimmon-hover);
     text-decoration: underline;
   }
+}
+
+.metrics {
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
 }

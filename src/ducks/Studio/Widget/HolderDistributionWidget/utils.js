@@ -30,7 +30,8 @@ export function buildMergedMetric (baseMetrics) {
 }
 
 export function fetch (metric, { slug, interval, from, to }) {
-  const { key, baseMetrics } = metric
+  const { key, baseMetrics, type } = metric
+  const isPercentMerge = type === 'percent'
 
   const queries = baseMetrics.map(({ key: metricKey, queryKey = metricKey }) =>
     GET_METRIC({ key, queryKey })
@@ -52,12 +53,19 @@ export function fetch (metric, { slug, interval, from, to }) {
     )
   ).then(allData => {
     const result = allData[0].map(immutate)
+    const mergedAmount = allData.length
 
-    for (let i = 1; i < allData.length; i++) {
+    for (let i = 1; i < mergedAmount; i++) {
       const array = allData[i]
       const { length } = array
       for (let y = 0; y < length; y++) {
         result[y][key] += array[y][key]
+      }
+
+      if (isPercentMerge) {
+        for (let y = 0; y < length; y++) {
+          result[y][key] /= mergedAmount
+        }
       }
     }
 

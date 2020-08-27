@@ -8,8 +8,8 @@ import Sidepanel, { CloseButton } from '../../Chart/Sidepanel'
 import ChartActiveMetrics from '../../Chart/ActiveMetrics'
 import { TOP_HOLDERS_PANE } from '../../Chart/Sidepanel/panes'
 import {
-  TopHolderMetric,
-  TOP_HOLDER_METRICS
+  HolderDistributionMetric,
+  HOLDER_DISTRIBUTION_PERCENT_METRICS
 } from '../../Chart/Sidepanel/HolderDistribution/metrics'
 import { useChartColors } from '../../../Chart/colors'
 import { usePressedModifier } from '../../../../hooks/keyboard'
@@ -20,7 +20,7 @@ const DEFAULT_CHECKED_METRICS = new Set()
 const Title = ({ activeMetrics, ...props }) => (
   <ChartActiveMetrics
     activeMetrics={activeMetrics.filter(
-      ({ key, baseMetrics }) => !(TopHolderMetric[key] || baseMetrics)
+      ({ key, baseMetrics }) => !(HolderDistributionMetric[key] || baseMetrics)
     )}
     {...props}
   />
@@ -112,7 +112,7 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
 const newHolderDistributionWidget = props =>
   ChartWidget.new(
     {
-      metrics: TOP_HOLDER_METRICS,
+      metrics: HOLDER_DISTRIBUTION_PERCENT_METRICS,
       mergedMetrics: [],
       ...props
     },

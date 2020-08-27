@@ -7,11 +7,11 @@ import {
 import { TypeToWidget } from '../Widget/types'
 import { buildCompareKey } from '../Compare/utils'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS } from '../defaults'
+import { HolderDistributionMetric } from '../Chart/Sidepanel/HolderDistribution/metrics'
 import { Metric } from '../../dataHub/metrics'
 import { Submetrics } from '../../dataHub/submetrics'
 import { tryMapToTimeboundMetric } from '../../dataHub/timebounds'
 import { CompatibleMetric } from '../../dataHub/metrics/compatibility'
-import { TopHolderMetric } from '../Chart/Sidepanel/HolderDistribution/metrics'
 
 export const COMPARE_CONNECTOR = '-CC-'
 
@@ -62,7 +62,7 @@ export const convertKeyToMetric = (key, dict = Metric) =>
   CompatibleMetric[key] ||
   searchFromSubmetrics(key) ||
   tryMapToTimeboundMetric(key) ||
-  TopHolderMetric[key]
+  HolderDistributionMetric[key]
 
 export function parseComparable (comparable) {
   const [slug, ticker, metricKey] = comparable.split(COMPARE_CONNECTOR)
@@ -121,7 +121,9 @@ function extractMergedMetrics (metrics) {
     }
 
     mergedMetrics.push(
-      buildMergedMetric(mergedMetricKeys.map(key => TopHolderMetric[key]))
+      buildMergedMetric(
+        mergedMetricKeys.map(key => HolderDistributionMetric[key])
+      )
     )
   }
 

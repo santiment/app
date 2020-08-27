@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import cx from 'classnames'
 import withSizes from 'react-sizes'
 import { mapSizesToProps } from '../../../utils/withSizes'
-import { TopHolderMetric } from '../../Studio/Chart/Sidepanel/HolderDistribution/metrics'
+import { HolderDistributionMetric } from '../../Studio/Chart/Sidepanel/HolderDistribution/metrics'
 import TopHolders from '../../Studio/Chart/Sidepanel/HolderDistribution'
 import { useAllTimeData, useTimeseries } from '../../Studio/timeseries/hooks'
 import { useChartColors } from '../../Chart/colors'
@@ -52,8 +52,8 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
   const [asset, setAsset] = useState(DEFAULT_STABLECOIN)
   const [metrics, setMetrics] = useState([
     Metric.price_usd,
-    TopHolderMetric.holders_distribution_100_to_1k,
-    TopHolderMetric.holders_distribution_1k_to_10k
+    HolderDistributionMetric.percent_of_holders_distribution_combined_balance_100_to_1k,
+    HolderDistributionMetric.percent_of_holders_distribution_combined_balance_1k_to_10k
   ])
 
   const [settings, setSettings] = useState({
