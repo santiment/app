@@ -12,7 +12,13 @@ const ValueInput = ({ onChange, defaultValue, type, metric, autoFocus }) => {
     badge = ''
   }
 
-  const onChangeDebounced = useDebounce(value => onChange(value), 500)
+  const onChangeDebounced = useDebounce(value => {
+    let transformedValue = value
+    if (Filter[type].onlyPositiveNumbers) {
+      transformedValue = Math.abs(value)
+    }
+    onChange(transformedValue)
+  }, 500)
 
   return (
     <div className={styles.wrapper}>

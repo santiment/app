@@ -31,6 +31,7 @@ export const Filter = {
     badge: '%',
     isPro: true,
     showTimeRange: true,
+    onlyPositiveNumbers: true,
     operator: Operator.more,
     valueFormatter: percentValueFormatter,
     serverValueFormatter: percentServerValueFormatter
@@ -43,6 +44,7 @@ export const Filter = {
     badge: '%',
     isPro: true,
     showTimeRange: true,
+    onlyPositiveNumbers: true,
     operator: Operator.less,
     valueFormatter: value => percentValueFormatter(-value),
     serverValueFormatter: value => percentServerValueFormatter(-value)
