@@ -13,6 +13,9 @@ const TABS = {
   },
   'Token Velocity': {
     metric: 'velocity'
+  },
+  'Network Growth': {
+    metric: 'network_growth'
   }
 }
 
