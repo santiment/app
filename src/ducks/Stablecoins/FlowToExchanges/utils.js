@@ -27,7 +27,7 @@ const EXCHANGES_INFLOW_AGGREGATED_QUERY = gql`
       ticker
       name
       exchange_inflow_centralized: aggregatedTimeseriesData(
-        label: "centralized_exchange"
+        selector: { label: "centralized_exchange" }
         from: $from
         to: $to
         metric: "exchange_inflow_per_exchange"
@@ -35,7 +35,7 @@ const EXCHANGES_INFLOW_AGGREGATED_QUERY = gql`
       )
 
       exchange_inflow_decentralized: aggregatedTimeseriesData(
-        label: "decentralized_exchange"
+        selector: { label: "decentralized_exchange" }
         from: $from
         to: $to
         metric: "exchange_inflow_per_exchange"
