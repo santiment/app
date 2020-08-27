@@ -8,55 +8,50 @@ export const EXCHANGE_INTERESTS = {
   low: 'Low'
 }
 
-export const ExchangesAssets = [
-  {
-    slug: 'tether'
-  },
-  {
-    slug: 'trueusd'
-  },
-  {
-    slug: 'usd-coin'
-  },
-  {
-    slug: 'multi-collateral-dai'
-  }
-]
-
 export const EXCHANGES_DEFAULT_SETTINGS = {
   ...getIntervalDates('1d'),
   interval: '1h'
 }
 
-const EXCHANGE_INFLOW_QUERY = gql`
-  query getMetric(
-    $from: DateTime!
-    $to: DateTime!
-    $slug: String!
-    $interval: interval!
-  ) {
-    getMetric(metric: "exchange_inflow") {
-      timeseriesData(
-        slug: $slug
+const EXCHANGES_INFLOW_AGGREGATED_QUERY = gql`
+  query allProjects($from: DateTime!, $to: DateTime!) {
+    allProjects(
+      selector: {
+        filters: {
+          name: "market_segments"
+          args: "{\\"market_segments\\": [\\"Stablecoin\\"]}"
+        }
+      }
+    ) {
+      slug
+      ticker
+      name
+      exchange_inflow_centralized: aggregatedTimeseriesData(
+        label: "centralized_exchange"
         from: $from
         to: $to
-        includeIncompleteData: true
-        interval: $interval
-      ) {
-        datetime
-        value
-      }
+        metric: "exchange_inflow_per_exchange"
+        aggregation: SUM
+      )
+
+      exchange_inflow_decentralized: aggregatedTimeseriesData(
+        label: "decentralized_exchange"
+        from: $from
+        to: $to
+        metric: "exchange_inflow_per_exchange"
+        aggregation: SUM
+      )
     }
   }
 `
 
-export const useFlowToExchanges = ({ slug, from, to, interval }) => {
-  const { data: { getMetric } = {}, loading, error } = useQuery(
-    EXCHANGE_INFLOW_QUERY,
+export const useFlowToExchanges = ({ from, to }) => {
+  const { data: { allProjects } = {}, loading, error } = useQuery(
+    EXCHANGES_INFLOW_AGGREGATED_QUERY,
     {
-      variables: { slug, from, to, interval }
+      variables: { from, to }
     }
   )
 
-  return { data: getMetric ? getMetric.timeseriesData : [], loading, error }
+  return { data: allProjects || [], loading, error }
 }

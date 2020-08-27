@@ -38,7 +38,7 @@ const ERC20_PROJECTS_QUERY = gql`
   ${projectSearchData}
 `
 
-const CategoryQuery = {
+export const CategoryQuery = {
   [Category.All]: ALL_PROJECTS_QUERY,
   [Category.ERC20]: ERC20_PROJECTS_QUERY,
   [Category.Stablecoins]: GET_WATCHLIST_QUERY('stablecoins'),
@@ -51,7 +51,7 @@ const projectsExtracter = ({ data: { projects } }) => projects
 const watchlistProjectsExtracter = ({ data: { watchlist } }) =>
   watchlist.listItems.map(({ project }) => project)
 
-const CategoryDataExtracter = {
+export const CategoryDataExtracter = {
   [Category.All]: projectsExtracter,
   [Category.ERC20]: projectsExtracter,
   [Category.Stablecoins]: watchlistProjectsExtracter,
