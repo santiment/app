@@ -12,8 +12,9 @@ import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { MobileOnly } from '../../components/Responsive'
 import { getIntervalDates } from '../../ducks/Stablecoins/StablecoinsMarketCap/utils'
 import { Block, BlockWithRanges } from './StablecoinsPageStructure'
-import styles from './StablecoinsPage.module.scss'
 import StablecoinsReport from '../../ducks/Stablecoins/StablecoinsReport/StablecoinsReport'
+import ResearchesBlock from '../../components/ResearchesBlock'
+import styles from './StablecoinsPage.module.scss'
 
 const StablecoinsPage = ({ history, isDesktop }) => {
   return (
@@ -85,7 +86,9 @@ const StablecoinsPage = ({ history, isDesktop }) => {
         />
       </div>
 
-      <CommonFooter className={styles.footer} />
+      <ResearchesBlock />
+
+      <CommonFooter />
     </div>
   )
 }

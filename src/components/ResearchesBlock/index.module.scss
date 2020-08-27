@@ -8,10 +8,18 @@
   background-image: url('./cubes.svg');
   background-position: 50% 50%;
   padding: 72px 40px;
+
+  @include responsive( 'tablet','phone', 'phone-xs') {
+    flex-direction: column;
+  }
 }
 
 .block + .block {
   margin-left: 144px;
+
+  @include responsive( 'tablet','phone', 'phone-xs') {
+    margin: 40px 0 0 0;
+  }
 }
 
 .heading {
