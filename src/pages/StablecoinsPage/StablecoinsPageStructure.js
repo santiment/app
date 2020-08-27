@@ -1,4 +1,5 @@
 import React, { Fragment, useMemo, useState } from 'react'
+import cx from 'classnames'
 import StablecoinsIntervals from '../../ducks/Stablecoins/StablecoinsIntervals/StablecoinsIntervals'
 import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
 import CheckProPaywall from '../../ducks/Stablecoins/CheckProPaywall'
@@ -33,7 +34,8 @@ export const Block = ({
   description,
   showPro,
   children,
-  isPaywalActive = false
+  isPaywalActive = false,
+  className
 }) => {
   const El = useMemo(
     () => {
@@ -43,7 +45,7 @@ export const Block = ({
   )
 
   return (
-    <div className={styles.block}>
+    <div className={cx(styles.block, className)}>
       <BlockHeader title={title} description={description} showPro={showPro} />
 
       <El>{children}</El>

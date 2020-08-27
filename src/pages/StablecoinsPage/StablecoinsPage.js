@@ -42,7 +42,7 @@ const StablecoinsPage = ({ history, isDesktop }) => {
       </div>
 
       <div className={styles.inner}>
-        <Block title='Stablecoins Market Cap'>
+        <Block title='Stablecoins Market Cap' className={styles.firstBlock}>
           <StablecoinsMarketCap />
         </Block>
 

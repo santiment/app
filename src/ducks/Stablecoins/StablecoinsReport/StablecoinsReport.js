@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react'
+import Icon from '@santiment-network/ui/Icon'
 import { useAlphaReports } from '../../../pages/Marketing/AlphaBlock/AlphaBlock'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import styles from './StablecoinsReport.module.scss'
 
-const Icon = (
+const IconDw = (
   <svg
     width='40'
     height='40'
@@ -56,7 +57,11 @@ const StablecoinsReport = () => {
       target={isPro ? '_blank' : '_self'}
       className={styles.container}
     >
-      <div>{Icon}</div>
+      <div className={styles.hovered}>
+        <Icon type='save' className={styles.dwIcon} />
+        Download Report
+      </div>
+      <div>{IconDw}</div>
       <div className={styles.content}>
         <div className={styles.title}>{name}</div>
         <div className={styles.description}>{description}</div>
