@@ -6,12 +6,20 @@
   color: var(--rhino);
 }
 
-.dwIcon {
+.dwBtn {
   margin-top: 12px;
 
   &:focus {
     fill: var(--jungle-green);
   }
+}
+
+.disabled {
+  fill: var(--mystic) !important;
+}
+
+.proLabel {
+  margin-left: 12px;
 }
 
 .container {
