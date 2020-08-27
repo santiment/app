@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { useAlphaReports } from '../../../pages/Marketing/AlphaBlock/AlphaBlock'
-import styles from './StablecoinsReport.module.scss'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
+import styles from './StablecoinsReport.module.scss'
 
 const Icon = (
   <svg
