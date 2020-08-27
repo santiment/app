@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import Icon from '@santiment-network/ui/Icon'
+import Button from '@santiment-network/ui/Button'
 import { useAlphaReports } from '../../../pages/Marketing/AlphaBlock/AlphaBlock'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import styles from './StablecoinsReport.module.scss'
@@ -51,22 +51,25 @@ const StablecoinsReport = () => {
   const { name, description, url } = stablecoinsReport
 
   return (
-    <a
-      href={isPro ? url : '/pricing'}
-      rel='noopener noreferrer'
-      target={isPro ? '_blank' : '_self'}
-      className={styles.container}
-    >
-      <div className={styles.hovered}>
-        <Icon type='save' className={styles.dwIcon} />
-        Download Report
-      </div>
+    <div className={styles.container}>
       <div>{IconDw}</div>
       <div className={styles.content}>
         <div className={styles.title}>{name}</div>
         <div className={styles.description}>{description}</div>
+
+        <Button
+          icon='save'
+          href={isPro ? url : '/pricing'}
+          rel='noopener noreferrer'
+          target={isPro ? '_blank' : '_self'}
+          as={'a'}
+          className={styles.dwIcon}
+          border
+        >
+          Download Report
+        </Button>
       </div>
-    </a>
+    </div>
   )
 }
 
