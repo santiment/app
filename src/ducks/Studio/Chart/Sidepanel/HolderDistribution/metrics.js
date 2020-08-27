@@ -47,7 +47,7 @@ const PERCENT_HOLDER_DISTRIBUTION_KEY =
   'percent_of_holders_distribution_combined_balance'
 const KEYS = Object.keys(HOLDER_DISTRIBUTION_TEMPLATE)
 
-function buildMetrics (templateKey) {
+function buildMetrics (templateKey, type) {
   const Metric = {}
   KEYS.forEach(range => {
     const key = templateKey + range
@@ -55,6 +55,7 @@ function buildMetrics (templateKey) {
 
     Metric[key] = {
       key,
+      type,
       label,
       node: 'line',
       queryKey: queryKey && templateKey + queryKey
@@ -74,7 +75,8 @@ export const HolderDistributionAbsoluteMetric = buildMetrics(
 )
 
 export const HolderDistributionPercentMetric = buildMetrics(
-  PERCENT_HOLDER_DISTRIBUTION_KEY
+  PERCENT_HOLDER_DISTRIBUTION_KEY,
+  'percent'
 )
 
 export const HolderDistributionMetric = {

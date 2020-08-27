@@ -113,7 +113,7 @@ const HolderDistribution = ({
     <>
       <div className={styles.top}>
         {ticker} Holder Distribution
-        {activeTab === Tab.ABSOLUTE && checkedMetrics ? (
+        {checkedMetrics ? (
           isIdlePhase ? (
             <Merge onClick={onMergeClick} />
           ) : (
