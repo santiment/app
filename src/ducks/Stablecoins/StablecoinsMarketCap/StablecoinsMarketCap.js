@@ -80,7 +80,7 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
 
   return (
     <div className={cx(styles.container, className)}>
-      <StablecoinsHeader title='Stablecoins Market Cap'>
+      <StablecoinsHeader>
         {domainGroups && domainGroups.length > mirrorDomainGroups.length && (
           <SharedAxisToggle
             isDomainGroupingActive={isDomainGroupingActive}
