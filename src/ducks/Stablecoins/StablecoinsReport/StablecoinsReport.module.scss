@@ -21,6 +21,11 @@
       color: var(--jungle-green);
     }
   }
+
+  @include responsive( 'tablet','phone', 'phone-xs') {
+    margin-top: 24px;
+    padding: 16px;
+  }
 }
 
 .description {

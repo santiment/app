@@ -19,6 +19,10 @@
 
 .content {
   display: flex;
+
+  @include responsive( 'tablet','phone', 'phone-xs') {
+    flex-direction: column;
+  }
 }
 
 .pageDescription {
@@ -66,6 +70,10 @@
   text-align: center;
 
   @include text('h4', 'm');
+
+  @include responsive( 'tablet','phone', 'phone-xs') {
+    @include text('body-2','m');
+  }
 }
 
 .subDescr {
