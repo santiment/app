@@ -79,7 +79,7 @@
 .subDescr {
   @include text('body-2');
 
-  margin-top: 4px;
+  margin-top: 8px;
   color: var(--waterloo);
 }
 
@@ -100,7 +100,7 @@
 }
 
 .upgrade {
-  margin-left: 24px;
+  margin: auto 0 auto 24px;
   min-width: 52px;
   height: 24px;
   background: var(--texas-rose-light-2);
