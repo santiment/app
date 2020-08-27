@@ -125,7 +125,11 @@ const HolderDistribution = ({
         ) : null}
       </div>
 
-      <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Tabs
+        activeTab={activeTab}
+        isIdlePhase={isIdlePhase}
+        setActiveTab={setActiveTab}
+      />
 
       <div className={styles.metrics}>
         {isIdlePhase &&
