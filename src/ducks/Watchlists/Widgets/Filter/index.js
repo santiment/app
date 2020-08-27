@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import cx from 'classnames'
+import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
@@ -16,6 +17,7 @@ import { getActiveBaseMetrics, getNewFunction, extractFilters } from './utils'
 import { isContainMetric } from './detector'
 import { useAvailableMetrics } from '../../gql/hooks'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
+import { APP_STATES } from '../../../Updates/reducers'
 import styles from './index.module.scss'
 
 const VIEWPORT_HEIGHT = window.innerHeight
@@ -30,7 +32,8 @@ const Filter = ({
   setScreenerFunction,
   isLoggedIn,
   isDefaultScreener,
-  history
+  history,
+  appVersionState
 }) => {
   if (!screenerFunction) {
     return null
@@ -42,6 +45,7 @@ const Filter = ({
   const filterRef = useRef(null)
   const filterContentRef = useRef(null)
   const [filter, updateFilter] = useState(filters)
+  const [isOutdatedVersion, setIsOutdatedVersion] = useState(false)
   const [updateWatchlist, { loading }] = useUpdateWatchlist()
   const [availableMetrics] = useAvailableMetrics()
   const [isReset, setIsReset] = useState(false)
@@ -83,6 +87,28 @@ const Filter = ({
     window.addEventListener('scroll', changeFilterHeight)
     return () => window.removeEventListener('scroll', changeFilterHeight)
   }, [])
+
+  useEffect(
+    () => {
+      if (isOutdatedVersion && appVersionState !== APP_STATES.LATEST) {
+        store.dispatch(
+          showNotification({
+            variant: 'warning',
+            title: `Some filters don't present in your app version`,
+            description: "Please, update version by 'CTRL/CMD + SHIFT+ R'",
+            dismissAfter: 8000000,
+            actions: [
+              {
+                label: 'Update now',
+                onClick: () => window.location.reload(true)
+              }
+            ]
+          })
+        )
+      }
+    },
+    [isOutdatedVersion]
+  )
 
   function resetAll () {
     const func = DEFAULT_SCREENER_FUNCTION
@@ -159,6 +185,11 @@ const Filter = ({
 
   const categories = getCategoryGraph(metrics)
   const activeBaseMetrics = getActiveBaseMetrics(filter)
+  activeBaseMetrics.forEach(metric => {
+    if (metric === undefined && !isOutdatedVersion) {
+      setIsOutdatedVersion(true)
+    }
+  })
   const categoryActiveMetricsCounter = countCategoryActiveMetrics(
     activeBaseMetrics
   )
@@ -240,4 +271,8 @@ const Filter = ({
   )
 }
 
-export default Filter
+const mapStateToProps = ({ app }) => ({
+  appVersionState: app.appVersionState
+})
+
+export default connect(mapStateToProps)(Filter)

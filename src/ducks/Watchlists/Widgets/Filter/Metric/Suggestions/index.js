@@ -5,7 +5,7 @@ import styles from './index.module.scss'
 const Suggestions = ({ hints, onSuggestionClick }) => {
   return hints ? (
     <div className={styles.suggestions}>
-      Examples:
+      Suggestions:
       {hints.map(({ label, description, ...props }, idx) => (
         <DarkTooltip
           key={idx}
