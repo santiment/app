@@ -112,7 +112,7 @@ const HolderDistribution = ({
   return (
     <>
       <div className={styles.top}>
-        {ticker} Holder Distribution
+        {ticker} Holders Distribution
         {checkedMetrics ? (
           isIdlePhase ? (
             <Merge onClick={onMergeClick} />

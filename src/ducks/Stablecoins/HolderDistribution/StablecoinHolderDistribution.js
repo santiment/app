@@ -52,8 +52,8 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
   const [asset, setAsset] = useState(DEFAULT_STABLECOIN)
   const [metrics, setMetrics] = useState([
     Metric.price_usd,
-    HolderDistributionMetric.holders_distribution_100_to_1k,
-    HolderDistributionMetric.holders_distribution_1k_to_10k
+    HolderDistributionMetric.percent_of_holders_distribution_combined_balance_100_to_1k,
+    HolderDistributionMetric.percent_of_holders_distribution_combined_balance_1k_to_10k
   ])
 
   const [settings, setSettings] = useState({

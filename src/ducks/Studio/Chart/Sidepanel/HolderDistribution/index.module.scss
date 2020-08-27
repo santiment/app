@@ -84,4 +84,6 @@
 
 .metrics {
   overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
