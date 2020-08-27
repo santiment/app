@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import Button from '@santiment-network/ui/Button'
 import { useAlphaReports } from '../../../pages/Marketing/AlphaBlock/AlphaBlock'
+import { ProLabel } from '../../../components/ProLabel'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import styles from './StablecoinsReport.module.scss'
 
@@ -59,14 +60,19 @@ const StablecoinsReport = () => {
 
         <Button
           icon='save'
-          href={isPro ? url : '/pricing'}
+          disabled={!isPro}
+          href={url}
           rel='noopener noreferrer'
           target={isPro ? '_blank' : '_self'}
           as={'a'}
-          className={styles.dwIcon}
+          className={styles.dwBtn}
+          classes={{
+            btnIcon: !isPro && styles.disabled
+          }}
           border
         >
           Download Report
+          {!isPro && <ProLabel className={styles.proLabel} />}
         </Button>
       </div>
     </div>
