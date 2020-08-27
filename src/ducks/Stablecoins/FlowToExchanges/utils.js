@@ -8,21 +8,6 @@ export const EXCHANGE_INTERESTS = {
   low: 'Low'
 }
 
-export const ExchangesAssets = [
-  {
-    slug: 'tether'
-  },
-  {
-    slug: 'trueusd'
-  },
-  {
-    slug: 'usd-coin'
-  },
-  {
-    slug: 'multi-collateral-dai'
-  }
-]
-
 export const EXCHANGES_DEFAULT_SETTINGS = {
   ...getIntervalDates('1d'),
   interval: '1h'

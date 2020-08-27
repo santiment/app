@@ -26,7 +26,6 @@ const FlowToExchangesList = () => {
 
   const prepared = useMemo(
     () => {
-      console.log('calculate prepared', key)
       return data
         .filter(item => item[key] !== null)
         .map(item => ({
@@ -36,8 +35,6 @@ const FlowToExchangesList = () => {
     },
     [data, key]
   )
-
-  console.log('prepared', prepared)
 
   return (
     <div className={styles.container}>
