@@ -17,6 +17,19 @@
   }
 }
 
+.content {
+  display: flex;
+
+  @include responsive( 'tablet','phone', 'phone-xs') {
+    flex-direction: column;
+  }
+}
+
+.pageDescription {
+  display: flex;
+  flex-direction: column;
+}
+
 .block {
   margin: 80px 0;
 
@@ -56,7 +69,11 @@
   display: flex;
   text-align: center;
 
-  @include text('body-1', 'm');
+  @include text('h4', 'm');
+
+  @include responsive( 'tablet','phone', 'phone-xs') {
+    @include text('body-2','m');
+  }
 }
 
 .subDescr {
