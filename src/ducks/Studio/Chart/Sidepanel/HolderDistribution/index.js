@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState, useMemo } from 'react'
 import cx from 'classnames'
 import UIButton from '@santiment-network/ui/Button'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
-import { TOP_HOLDER_METRICS } from './metrics'
+import Tabs, { Tab, TabMetrics } from './Tabs'
 import MetricIcon from '../../../../SANCharts/MetricIcon'
 import styles from './index.module.scss'
 
@@ -104,6 +104,8 @@ const HolderDistribution = ({
   onUnmergeClick,
   btnProps = {}
 }) => {
+  const [activeTab, setActiveTab] = useState(Tab.PERCENTS)
+  const distributionMetrics = useMemo(() => TabMetrics[activeTab], [activeTab])
   const isIdlePhase = currentPhase === 'idle'
   const MetricButton = isIdlePhase ? ToggleButton : CheckboxButton
 
@@ -111,7 +113,7 @@ const HolderDistribution = ({
     <>
       <div className={styles.top}>
         {ticker} Holder Distribution
-        {checkedMetrics ? (
+        {activeTab === Tab.ABSOLUTE && checkedMetrics ? (
           isIdlePhase ? (
             <Merge onClick={onMergeClick} />
           ) : (
@@ -123,35 +125,39 @@ const HolderDistribution = ({
         ) : null}
       </div>
 
-      {isIdlePhase &&
-        mergedMetrics.map(metric => {
+      <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+
+      <div className={styles.metrics}>
+        {isIdlePhase &&
+          mergedMetrics.map(metric => {
+            const { key } = metric
+            return (
+              <MetricButton
+                key={key}
+                metric={metric}
+                color={MetricColor[key]}
+                isActive={metrics.includes(metric)}
+                onClick={toggleMetric}
+                onUnmerge={onUnmergeClick}
+              />
+            )
+          })}
+
+        {distributionMetrics.map(metric => {
           const { key } = metric
           return (
             <MetricButton
+              {...btnProps}
               key={key}
               metric={metric}
               color={MetricColor[key]}
               isActive={metrics.includes(metric)}
+              isChecked={checkedMetrics && checkedMetrics.has(metric)}
               onClick={toggleMetric}
-              onUnmerge={onUnmergeClick}
             />
           )
         })}
-
-      {TOP_HOLDER_METRICS.map(metric => {
-        const { key } = metric
-        return (
-          <MetricButton
-            {...btnProps}
-            key={key}
-            metric={metric}
-            color={MetricColor[key]}
-            isActive={metrics.includes(metric)}
-            isChecked={checkedMetrics && checkedMetrics.has(metric)}
-            onClick={toggleMetric}
-          />
-        )
-      })}
+      </div>
     </>
   )
 }

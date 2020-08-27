@@ -210,5 +210,17 @@ export const METRICS = [
   'bitmex_perpetual_basis_ratio',
   'balance',
   'defi_total_value_locked_usd',
-  'transaction_volume_usd'
+  'transaction_volume_usd',
+  'percent_of_holders_distribution_combined_balance_0_to_0.001',
+  'percent_of_holders_distribution_combined_balance_0.001_to_0.01',
+  'percent_of_holders_distribution_combined_balance_0.01_to_0.1',
+  'percent_of_holders_distribution_combined_balance_0.1_to_1',
+  'percent_of_holders_distribution_combined_balance_1_to_10',
+  'percent_of_holders_distribution_combined_balance_10_to_100',
+  'percent_of_holders_distribution_combined_balance_100_to_1k',
+  'percent_of_holders_distribution_combined_balance_1k_to_10k',
+  'percent_of_holders_distribution_combined_balance_10k_to_100k',
+  'percent_of_holders_distribution_combined_balance_100k_to_1M',
+  'percent_of_holders_distribution_combined_balance_1M_to_10M',
+  'percent_of_holders_distribution_combined_balance_10M_to_inf'
 ]

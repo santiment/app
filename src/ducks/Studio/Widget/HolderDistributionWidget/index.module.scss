@@ -23,5 +23,7 @@
 
   &__content {
     padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
   }
 }
