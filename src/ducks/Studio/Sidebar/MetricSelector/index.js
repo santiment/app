@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react'
 import Category from '../Category'
-import { TopHolderMetric } from '../../Chart/Sidepanel/HolderDistribution/metrics'
+import { HolderDistributionMetric } from '../../Chart/Sidepanel/HolderDistribution/metrics'
 
 const MetricSelector = ({ categories = {}, availableMetrics, ...rest }) => {
   const hasTopHolders = useMemo(
     () =>
       availableMetrics.includes(
-        TopHolderMetric.holders_distribution_1_to_10.key
+        HolderDistributionMetric.holders_distribution_1_to_10.key
       ),
     [availableMetrics]
   )
