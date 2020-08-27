@@ -4,6 +4,24 @@ import StablecoinsIntervals from '../../ducks/Stablecoins/StablecoinsIntervals/S
 import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
 import CheckProPaywall from '../../ducks/Stablecoins/CheckProPaywall'
 import styles from './StablecoinsPage.module.scss'
+import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
+
+const UpgradeLabel = () => {
+  const { isPro } = useUserSubscriptionStatus()
+
+  if (isPro) {
+    return null
+  }
+
+  return (
+    <UpgradeBtn
+      className={styles.upgrade}
+      iconClassName={styles.crown}
+      variant='fill'
+      children='Pro'
+    />
+  )
+}
 
 const BlockHeader = ({ title, description, showPro, setInterval }) => {
   if (!title) {
@@ -15,14 +33,7 @@ const BlockHeader = ({ title, description, showPro, setInterval }) => {
       <div className={styles.subTitle}>
         {title}
         {setInterval && <StablecoinsIntervals onChange={setInterval} />}
-        {showPro && (
-          <UpgradeBtn
-            className={styles.upgrade}
-            iconClassName={styles.crown}
-            variant='fill'
-            children='Pro'
-          />
-        )}
+        {showPro && <UpgradeLabel />}
       </div>
       {description && <div className={styles.subDescr}>{description}</div>}
     </div>
