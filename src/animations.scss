@@ -28,6 +28,16 @@
   }
 }
 
+@keyframes disappear {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
 @keyframes grow {
   0% {
     transform: scaleY(0);
@@ -35,5 +45,15 @@
 
   100% {
     transform: scaleY(1);
+  }
+}
+
+@keyframes shrink {
+  0% {
+    transform: scaleY(1);
+  }
+
+  100% {
+    transform: scaleY(0);
   }
 }
