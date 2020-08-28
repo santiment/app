@@ -20,6 +20,7 @@ import {
   HOLDERS_DISTRIBUTION_MOBILE_INTERVALS
 } from '../StablecoinsMarketCap/utils'
 import { getIntervalByTimeRange } from '../../../utils/dates'
+import PaywallInfo from '../../Studio/Chart/PaywallInfo'
 import styles from './StablecoinHolderDistribution.module.scss'
 
 const CHART_HEIGHT = 524
@@ -123,6 +124,10 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
       <div className={styles.chartContainer}>
         <div className={styles.header}>
           <StablecoinSelector asset={asset} setAsset={setAsset} />
+
+          <div className={styles.gaps}>
+            <PaywallInfo metrics={metrics} />
+          </div>
         </div>
 
         <DesktopOnly>

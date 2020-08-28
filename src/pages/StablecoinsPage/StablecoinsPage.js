@@ -88,7 +88,6 @@ const StablecoinsPage = ({ history, isDesktop }) => {
         <Block
           title={isDesktop ? 'Stablecoin Holder Distribution' : null}
           description='Number of addresses sorted by their stablecoin balance'
-          showPro
         >
           <StablecoinHolderDistribution />
         </Block>
