@@ -41,7 +41,7 @@ const CHART_PADDING_MOBILE = {
 const StablecoinsMarketCap = ({ isDesktop, className }) => {
   const [interval, setInterval] = useState(MARKET_CAP_MONTH_INTERVAL)
   const [disabledAssets, setDisabledAsset] = useState({})
-  const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
+  const [isDomainGroupingActive, setIsDomainGroupingActive] = useState(true)
 
   const [settings, setSettings] = useState(formStablecoinsSettings(interval))
 

@@ -17,10 +17,10 @@ import StablecoinsHeader, {
   StablecoinsIntervals
 } from '../StablecoinsMarketCap/MarketCapHeader/StablecoinsHeader'
 import {
-  getIntervalDates,
   HOLDERS_DISTRIBUTION_6M,
   HOLDERS_DISTRIBUTION_MOBILE_INTERVALS
 } from '../StablecoinsMarketCap/utils'
+import { getIntervalByTimeRange } from '../../../utils/dates'
 import styles from './StablecoinHolderDistribution.module.scss'
 
 const CHART_HEIGHT = 524
@@ -43,7 +43,7 @@ export const DEFAULT_STABLECOIN = {
 }
 
 const DEFAULT_SETTINGS = {
-  ...getIntervalDates('183d'),
+  ...getIntervalByTimeRange('183d'),
   interval: '1d'
 }
 
@@ -92,10 +92,10 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
       setInterval(interval)
       setSettings({
         ...settings,
-        ...getIntervalDates(interval.value)
+        ...getIntervalByTimeRange(interval.value)
       })
     },
-    [getIntervalDates, settings, setSettings, setInterval]
+    [settings, setSettings, setInterval]
   )
 
   const axesMetricKeys = useAxesMetricsKey([...metrics].reverse())
