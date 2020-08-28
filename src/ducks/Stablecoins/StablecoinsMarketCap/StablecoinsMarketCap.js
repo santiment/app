@@ -91,7 +91,7 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
               <Button
                 className={styles.metricBtn}
                 key={key}
-                variant={isActive ? 'flat' : ''}
+                variant={isActive ? 'flat' : 'ghost'}
                 isActive={isActive}
                 onClick={() => setMetric(metric)}
               >
