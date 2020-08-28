@@ -8,15 +8,17 @@ export const GET_METRIC = (
   { selector = DEFAULT_SELECTOR } = DEFAULT_SETTINGS
 ) => gql`
   query getMetric(
-    $slug: String!
     $from: DateTime!
     $to: DateTime!
+    $slug: String
     $interval: interval
     $transform: TimeseriesMetricTransformInputObject
     $holdersCount: Int
+    $market_segments: [String]
+    $ignored_slugs: [String]
   ) {
     getMetric(metric: "${queryKey}") {
-      timeseriesData(selector: { ${selector}: $slug, holdersCount: $holdersCount}, from: $from, to: $to, interval: $interval, transform: $transform) {
+      timeseriesData(selector: { ${selector}: $slug, holdersCount: $holdersCount, market_segments: $market_segments, ignored_slugs: $ignored_slugs}, from: $from, to: $to, interval: $interval, transform: $transform) {
         datetime
         ${key}: value
       }

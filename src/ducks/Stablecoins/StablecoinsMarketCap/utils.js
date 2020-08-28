@@ -1,12 +1,17 @@
 import memoize from 'lodash.memoize'
 import { Metric } from '../../dataHub/metrics'
-import { getTransformerKey } from '../../Studio/timeseries/hooks'
 import { convertToSeconds } from '../../dataHub/metrics/intervals'
 import {
   getNewInterval,
   INTERVAL_ALIAS
 } from '../../SANCharts/IntervalSelector'
 import { getIntervalByTimeRange } from '../../../utils/dates'
+
+export const StablecoinsMetrics = [
+  Metric.marketcap_usd,
+  Metric.price_usd,
+  Metric.volume_usd
+]
 
 export const makeInterval = (val, label) => ({
   value: val,
@@ -71,7 +76,7 @@ export const CHECKING_STABLECOINS = [
   }
 ]
 
-const REQ_META = {
+export const REQ_META = {
   Others: {
     ignored_slugs: [
       'gemini-dollar',
@@ -84,39 +89,6 @@ const REQ_META = {
     market_segments: ['Stablecoin']
   }
 }
-
-export const STABLE_COINS_METRICS = CHECKING_STABLECOINS.map(item => {
-  return {
-    ...Metric.marketcap_usd,
-    ...item,
-    node: 'filledLine'
-  }
-})
-
-export const METRIC_SETTINGS_MAP = new Map(
-  STABLE_COINS_METRICS.map(metric => {
-    return [
-      metric,
-      {
-        slug: metric.slug,
-        ...REQ_META[metric.label]
-      }
-    ]
-  })
-)
-
-const METRIC_TRANSFORMER_TMP = {}
-
-STABLE_COINS_METRICS.forEach(metric => {
-  METRIC_TRANSFORMER_TMP[getTransformerKey(metric)] = v => {
-    return v.map(item => ({
-      datetime: item.datetime,
-      [getTransformerKey(metric)]: item.marketcap_usd
-    }))
-  }
-})
-
-export const METRIC_TRANSFORMER = { ...METRIC_TRANSFORMER_TMP }
 
 export const getIntervalDates = memoize(interval => {
   return {

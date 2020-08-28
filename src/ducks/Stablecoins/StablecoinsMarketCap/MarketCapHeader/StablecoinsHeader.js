@@ -28,13 +28,11 @@ export const StablecoinsIntervals = ({ interval, setInterval, intervals }) => {
   )
 }
 
-const StablecoinsHeader = ({ title, children }) => {
-  return (
-    <div className={styles.container}>
-      {title}
-      {children}
-    </div>
-  )
-}
+const StablecoinsHeader = ({ title, children }) => (
+  <div className={styles.container}>
+    {title}
+    {children}
+  </div>
+)
 
 export default StablecoinsHeader

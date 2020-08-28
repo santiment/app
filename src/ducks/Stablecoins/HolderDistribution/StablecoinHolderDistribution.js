@@ -9,7 +9,6 @@ import { useChartColors } from '../../Chart/colors'
 import Chart from '../../Chart'
 import { useAxesMetricsKey } from '../../Chart/hooks'
 import { metricsToPlotCategories } from '../../Chart/Synchronizer'
-import { Metric } from '../../dataHub/metrics'
 import ActiveMetrics from '../../Studio/Chart/ActiveMetrics'
 import StablecoinSelector from '../StablecoinSelector/StablecoinSelector'
 import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
@@ -51,7 +50,6 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
   const [interval, setInterval] = useState(HOLDERS_DISTRIBUTION_6M)
   const [asset, setAsset] = useState(DEFAULT_STABLECOIN)
   const [metrics, setMetrics] = useState([
-    Metric.price_usd,
     HolderDistributionMetric.percent_of_holders_distribution_combined_balance_100_to_1k,
     HolderDistributionMetric.percent_of_holders_distribution_combined_balance_1k_to_10k
   ])

@@ -9,4 +9,21 @@
 .sharedAxisToggle {
   margin: 0 19px 9px auto;
 
-  @include text('body-3', 'm'); }
+  @include text('body-3', 'm');
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    margin: 8px 0 8px auto;
+  }
+}
+
+.metrics {
+  padding-bottom: 9px;
+}
+
+.metricBtn {
+  padding: 6px 8px;
+  color: var(--waterloo);
+  margin-right: 8px;
+
+  @include text('body-3');
+}
