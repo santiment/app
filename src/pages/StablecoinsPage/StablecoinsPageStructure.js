@@ -1,29 +1,10 @@
 import React, { Fragment, useMemo, useState } from 'react'
 import cx from 'classnames'
 import StablecoinsIntervals from '../../ducks/Stablecoins/StablecoinsIntervals/StablecoinsIntervals'
-import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
 import CheckProPaywall from '../../ducks/Stablecoins/CheckProPaywall'
 import styles from './StablecoinsPage.module.scss'
-import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 
-const UpgradeLabel = () => {
-  const { isPro } = useUserSubscriptionStatus()
-
-  if (isPro) {
-    return null
-  }
-
-  return (
-    <UpgradeBtn
-      className={styles.upgrade}
-      iconClassName={styles.crown}
-      variant='fill'
-      children='Pro'
-    />
-  )
-}
-
-const BlockHeader = ({ title, description, showPro, setInterval }) => {
+const BlockHeader = ({ title, description, setInterval }) => {
   if (!title) {
     return null
   }
@@ -33,7 +14,6 @@ const BlockHeader = ({ title, description, showPro, setInterval }) => {
       <div className={styles.subTitle}>
         {title}
         {setInterval && <StablecoinsIntervals onChange={setInterval} />}
-        {showPro && <UpgradeLabel />}
       </div>
       {description && <div className={styles.subDescr}>{description}</div>}
     </div>
@@ -43,7 +23,6 @@ const BlockHeader = ({ title, description, showPro, setInterval }) => {
 export const Block = ({
   title,
   description,
-  showPro,
   children,
   isPaywalActive = false,
   className
@@ -57,14 +36,14 @@ export const Block = ({
 
   return (
     <div className={cx(styles.block, className)}>
-      <BlockHeader title={title} description={description} showPro={showPro} />
+      <BlockHeader title={title} description={description} />
 
       <El>{children}</El>
     </div>
   )
 }
 
-export const BlockWithRanges = ({ title, description, showPro, el: El }) => {
+export const BlockWithRanges = ({ title, description, el: El }) => {
   const [interval, setInterval] = useState('24h')
 
   return (
@@ -72,7 +51,6 @@ export const BlockWithRanges = ({ title, description, showPro, el: El }) => {
       <BlockHeader
         title={title}
         description={description}
-        showPro={showPro}
         setInterval={setInterval}
       />
 

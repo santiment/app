@@ -15,12 +15,17 @@
 
 .header {
   display: flex;
+  align-items: center;
 
   @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
     justify-content: center;
     padding: 0 16px;
     margin-top: 24px;
   }
+}
+
+.gaps {
+  margin-left: auto;
 }
 
 .chartContainer {
