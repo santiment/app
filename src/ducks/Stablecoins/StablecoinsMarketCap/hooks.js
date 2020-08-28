@@ -45,8 +45,7 @@ export const useStablecoinsTimeseries = settings => {
       const newMetrics = CHECKING_STABLECOINS.map(item => {
         return {
           ...currentMetric,
-          ...item,
-          node: 'filledLine'
+          ...item
         }
       })
 

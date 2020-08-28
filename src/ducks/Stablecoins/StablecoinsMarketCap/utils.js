@@ -8,7 +8,10 @@ import {
 import { getIntervalByTimeRange } from '../../../utils/dates'
 
 export const StablecoinsMetrics = [
-  Metric.marketcap_usd,
+  {
+    ...Metric.marketcap_usd,
+    node: 'filledLine'
+  },
   Metric.price_usd,
   Metric.volume_usd
 ]
