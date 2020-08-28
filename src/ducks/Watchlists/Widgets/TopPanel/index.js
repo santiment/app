@@ -1,13 +1,22 @@
 import React from 'react'
-// import MarketcapHistory from './MarketcapHistory'
-import Actions from './Actions'
 import BaseActions from './BaseActions'
 import Widgets from './Widgets'
 import Share from '../../Actions/Share'
+import Filter from '../Filter'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
+import ScreenerSignalDialog from '../../../Signals/ScreenerSignal/ScreenerSignalDialog'
 import styles from './index.module.scss'
 
-const TopPanel = ({ name, id, watchlist, isAuthor, assets, ...props }) => {
+const TopPanel = ({
+  name,
+  id,
+  watchlist,
+  isAuthor,
+  isLoggedIn,
+  assets,
+  isDefaultScreener,
+  ...props
+}) => {
   const { isPro } = useUserSubscriptionStatus()
 
   return (
@@ -24,17 +33,23 @@ const TopPanel = ({ name, id, watchlist, isAuthor, assets, ...props }) => {
           />
         )}
       </div>
-      {/* <MarketcapHistory /> */}
       <div className={styles.right}>
         <Share watchlist={watchlist} isAuthor={isAuthor} />
-        <Actions
-          isAuthor={isAuthor}
-          name={name}
-          id={id}
-          assets={assets}
-          isPro={isPro}
-        />
+        {!isDefaultScreener && <div className={styles.divider} />}
+        {isAuthor && (
+          <>
+            <ScreenerSignalDialog watchlistId={watchlist.id} />}
+            <div className={styles.divider} />
+          </>
+        )}
         <Widgets {...props} />
+        <Filter
+          watchlist={watchlist}
+          projectsCount={assets.length}
+          isAuthor={isAuthor}
+          isLoggedIn={isLoggedIn}
+          {...props}
+        />
       </div>
     </section>
   )

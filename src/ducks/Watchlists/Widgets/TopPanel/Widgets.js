@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Toggle from '@santiment-network/ui/Toggle'
 import Button from '@santiment-network/ui/Button'
-import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import styles from './Widgets.module.scss'
 

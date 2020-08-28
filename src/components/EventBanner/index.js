@@ -47,7 +47,7 @@ const EventBanner = ({ className }) => {
     setTimeout(() => {
       setShow(false)
       setShowCloseAnimation(false)
-    }, 2000)
+    }, 1000)
   }
 
   if (!show || !activeWidget) {

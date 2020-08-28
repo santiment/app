@@ -2,7 +2,8 @@
 
 .btn {
   color: var(--rhino);
-  margin-left: 20px;
+  margin-left: 8px;
+  background: transparent;
 
   @include text('body-3');
 
@@ -15,7 +16,7 @@
 
 .iconAlert {
   margin-right: 8px;
-  fill: var(--casper);
+  fill: var(--waterloo);
 }
 
 .dialog {

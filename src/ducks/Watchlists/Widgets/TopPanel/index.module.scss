@@ -32,3 +32,9 @@
   display: flex;
   align-items: center;
 }
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background: var(--porcelain);
+}

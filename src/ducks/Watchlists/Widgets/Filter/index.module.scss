@@ -1,19 +1,23 @@
 @import '~@santiment-network/ui/mixins';
 
+:root {
+  --filter-panel-header-height: 148px;
+  --screener-top-panel-height: 64px;
+}
+
 .wrapper {
   background-color: var(--white);
   border-top: 1px solid var(--porcelain);
   border-left: 1px solid var(--porcelain);
-  margin-left: 28px;
-  border-radius: 4px 0 0 0;
   width: 480px;
   z-index: 10;
-  position: absolute;
+  position: fixed;
+  top: var(--screener-top-panel-height);
+  bottom: 0;
   right: 0;
   display: none;
   transform-origin: top right;
   user-select: none;
-  min-height: calc(100vh - 200px);
 }
 
 .active {
@@ -22,21 +26,11 @@
 
 .content {
   overflow: hidden;
+  height: calc(100vh - var(--screener-top-panel-height) - var(--filter-panel-header-height)) !important;
 
   &:hover {
     overflow-y: auto;
     overflow-y: overlay;
-  }
-}
-
-.fixed {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-
-  & .content {
-    height: calc(100vh - 64px) !important;
   }
 }
 

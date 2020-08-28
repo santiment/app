@@ -27,3 +27,38 @@ export function notifyErrorUpdate () {
     dismissAfter: 5000
   })
 }
+
+export function notifyLoginForSave (history) {
+  return dispatchNotification({
+    variant: 'warning',
+    title: `Log in to save your filter settings`,
+    description:
+      "Your settings will be lost after refresh if you're not logged in to Sanbase",
+    dismissAfter: 8000,
+    actions: [
+      {
+        label: 'Log in',
+        onClick: () => history.push('/login')
+      },
+      {
+        label: 'Create an account',
+        onClick: () => history.push('/sign-up')
+      }
+    ]
+  })
+}
+
+export function notifyOutdatedVersion () {
+  return dispatchNotification({
+    variant: 'warning',
+    title: `Some filters don't present in your app version`,
+    description: "Please, update version by 'CTRL/CMD + SHIFT+ R'",
+    dismissAfter: 8000000,
+    actions: [
+      {
+        label: 'Update now',
+        onClick: () => window.location.reload(true)
+      }
+    ]
+  })
+}

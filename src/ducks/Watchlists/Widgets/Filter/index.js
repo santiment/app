@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
@@ -6,8 +6,6 @@ import Button from '@santiment-network/ui/Button'
 import Search from '@santiment-network/ui/Search'
 import Message from '@santiment-network/ui/Message'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import { store } from '../../../../redux'
-import { showNotification } from '../../../../actions/rootActions'
 import { useUpdateWatchlist } from '../../gql/hooks'
 import Trigger from './Trigger'
 import { metrics } from './dataHub/metrics'
@@ -21,9 +19,11 @@ import { isContainMetric } from './detector'
 import { useAvailableMetrics } from '../../gql/hooks'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import { APP_STATES } from '../../../Updates/reducers'
+import {
+  notifyLoginForSave,
+  notifyOutdatedVersion
+} from '../../Widgets/TopPanel/notifications'
 import styles from './index.module.scss'
-
-const VIEWPORT_HEIGHT = window.innerHeight
 
 const Filter = ({
   watchlist = {},
@@ -42,9 +42,6 @@ const Filter = ({
 
   const isViewMode = !isAuthor && (isLoggedIn || !isDefaultScreener)
   const filters = extractFilters(screenerFunction.args)
-
-  const filterRef = useRef(null)
-  const filterContentRef = useRef(null)
   const [isOpen, setIsOpen] = useState(false)
   const [filter, updateFilter] = useState(filters)
   const [isOutdatedVersion, setIsOutdatedVersion] = useState(false)
@@ -58,60 +55,22 @@ const Filter = ({
   const isNoFilters =
     filters.length === 0 || screenerFunction.name === 'top_all_projects'
 
-  useEffect(() => {
-    const sidebar = filterRef.current
-    const sidebarContent = filterContentRef.current
-    const tableHeader = document.querySelector('#tableTop')
-    const table = document.querySelector('#table')
-
-    if (!tableHeader) {
-      return
-    }
-
-    function changeFilterHeight () {
-      requestAnimationFrame(() => {
-        const { bottom, top } = tableHeader.getBoundingClientRect()
-        const { bottom: bottomTable } = table.getBoundingClientRect()
-
-        if (!sidebar) {
-          return
-        }
-
-        if (top > 0) {
-          sidebarContent.style.height = `${VIEWPORT_HEIGHT - bottom - 34}px`
-          sidebar.classList.remove(styles.fixed)
-        } else if (bottomTable > VIEWPORT_HEIGHT) {
-          sidebar.classList.add(styles.fixed)
-        }
-      })
-    }
-
-    changeFilterHeight()
-
-    window.addEventListener('scroll', changeFilterHeight)
-    return () => window.removeEventListener('scroll', changeFilterHeight)
-  }, [])
-
   useEffect(
     () => {
       if (isOutdatedVersion && appVersionState !== APP_STATES.LATEST) {
-        store.dispatch(
-          showNotification({
-            variant: 'warning',
-            title: `Some filters don't present in your app version`,
-            description: "Please, update version by 'CTRL/CMD + SHIFT+ R'",
-            dismissAfter: 8000000,
-            actions: [
-              {
-                label: 'Update now',
-                onClick: () => window.location.reload(true)
-              }
-            ]
-          })
-        )
+        notifyOutdatedVersion()
       }
     },
     [isOutdatedVersion]
+  )
+
+  useEffect(
+    () => {
+      if (!isLoggedIn && !isViewMode && isWereChanges && isOpen) {
+        notifyLoginForSave(history)
+      }
+    },
+    [isWereChanges]
   )
 
   function resetAll () {
@@ -210,37 +169,10 @@ const Filter = ({
     <>
       <Trigger
         isOpen={isOpen}
-        onClick={newIsOpenState => {
-          setIsOpen(newIsOpenState)
-
-          if (!isLoggedIn && newIsOpenState && !isViewMode) {
-            store.dispatch(
-              showNotification({
-                variant: 'warning',
-                title: `Log in to save your filter settings`,
-                description:
-                  "Your settings will be lost after refresh if you're not logged in to Sanbase",
-                dismissAfter: 8000,
-                actions: [
-                  {
-                    label: 'Log in',
-                    onClick: () => history.push('/login')
-                  },
-                  {
-                    label: 'Create an account',
-                    onClick: () => history.push('/sign-up')
-                  }
-                ]
-              })
-            )
-          }
-        }}
+        onClick={setIsOpen}
         activeMetricsCount={activeBaseMetrics.length}
       />
-      <section
-        className={cx(styles.wrapper, isOpen && styles.active)}
-        ref={filterRef}
-      >
+      <section className={cx(styles.wrapper, isOpen && styles.active)}>
         <Icon
           type='close-medium'
           className={styles.closeIcon}
@@ -286,7 +218,7 @@ const Filter = ({
             </Message>
           )}
         </div>
-        <div className={styles.content} ref={filterContentRef}>
+        <div className={styles.content}>
           {isOpen &&
             Object.keys(categories).map(key => (
               <Category

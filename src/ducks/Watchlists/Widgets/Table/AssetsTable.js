@@ -1,8 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import ReactTable from 'react-table'
 import cx from 'classnames'
-import Button from '@santiment-network/ui/Button'
-import Icon from '@santiment-network/ui/Icon'
 import Sticky from 'react-stickynode'
 import { connect } from 'react-redux'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
@@ -12,15 +10,10 @@ import {
   WATCHLIST_TOGGLE_COLUMNS
 } from '../../../../actions/types'
 import Refresh from '../../../../components/Refresh/Refresh'
-import { ProLabel } from '../../../../components/ProLabel'
 import NoDataTemplate from '../../../../components/NoDataTemplate/index'
 import AssetsToggleColumns from './AssetsToggleColumns'
-import Filter from '../Filter'
-import SaveAs from '../../Actions/SaveAs'
-import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import { COLUMNS } from './asset-columns'
 import { COMMON_SETTINGS, COLUMNS_SETTINGS } from './columns'
-import ScreenerSignalDialog from '../../../Signals/ScreenerSignal/ScreenerSignalDialog'
 import { markedAsShowed } from '../../../SANCharts/SidecarExplanationTooltip'
 import { EXPLANATION_TOOLTIP_MARK } from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
 import './ProjectsTable.scss'
@@ -71,7 +64,6 @@ const AssetsTable = ({
   listName,
   type,
   watchlist,
-  projectsCount,
   settings,
   allColumns,
   isAuthor,
@@ -79,10 +71,8 @@ const AssetsTable = ({
   showCollumnsToggle = true,
   className,
   columnProps,
-  screenerFunction,
   ...props
 }) => {
-  const { isPro } = useUserSubscriptionStatus()
   const [markedAsNew, setAsNewMarked] = useState()
 
   const hideMarkedAsNew = useCallback(() => {
@@ -158,20 +148,6 @@ const AssetsTable = ({
             onRefreshClick={() => refetchAssets({ ...typeInfo, minVolume })}
           />
         )}
-        {type === 'screener' && screenerFunction.name !== 'top_all_projects' && (
-          <div className={styles.saveAs}>
-            <SaveAs
-              watchlist={watchlist}
-              trigger={
-                <Button disabled={!isPro} border className={styles.saveAs__btn}>
-                  <Icon type='disk' className={styles.saveAs__icon} />
-                  Save as
-                </Button>
-              }
-            />
-            {!isPro && <ProLabel className={styles.saveAs__proLabel} />}
-          </div>
-        )}
         <div className={styles.actions}>
           {showCollumnsToggle && (
             <AssetsToggleColumns
@@ -179,22 +155,6 @@ const AssetsTable = ({
               onChange={toggleColumn}
               isScreener={type === 'screener'}
             />
-          )}
-          {type === 'screener' && (
-            <>
-              <ScreenerSignalDialog
-                watchlistId={watchlist.id}
-                classes={styles}
-              />
-              <Filter
-                watchlist={watchlist}
-                // projectsCount={projectsCount}
-                projectsCount={items.length}
-                isAuthor={isAuthor}
-                screenerFunction={screenerFunction}
-                {...props}
-              />
-            </>
           )}
         </div>
       </div>
