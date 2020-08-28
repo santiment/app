@@ -47,6 +47,10 @@ const PERCENT_HOLDER_DISTRIBUTION_KEY =
   'percent_of_holders_distribution_combined_balance'
 const KEYS = Object.keys(HOLDER_DISTRIBUTION_TEMPLATE)
 
+const activeMetricBtnFormatters = {
+  [PERCENT_HOLDER_DISTRIBUTION_KEY]: label => `${label} %`
+}
+
 function buildMetrics (templateKey, type) {
   const Metric = {}
   KEYS.forEach(range => {
@@ -58,7 +62,8 @@ function buildMetrics (templateKey, type) {
       type,
       label,
       node: 'line',
-      queryKey: queryKey && templateKey + queryKey
+      queryKey: queryKey && templateKey + queryKey,
+      activeMetricBtnFormatter: activeMetricBtnFormatters[templateKey]
     }
 
     TooltipSetting[key] = {

@@ -6,6 +6,7 @@ import {
   getNewInterval,
   INTERVAL_ALIAS
 } from '../../SANCharts/IntervalSelector'
+import { getIntervalByTimeRange } from '../../../utils/dates'
 
 export const makeInterval = (val, label) => ({
   value: val,
@@ -16,11 +17,12 @@ export const MARKET_CAP_MONTH_INTERVAL = makeInterval('31d', '1M')
 export const MARKET_CAP_DAY_INTERVAL = makeInterval('2d', '1D')
 
 export const STABLE_COINS_MARKETCAP_INTERVALS = [
-  makeInterval('1h', '1H'),
   MARKET_CAP_DAY_INTERVAL,
   makeInterval('1w', '1W'),
   MARKET_CAP_MONTH_INTERVAL,
-  makeInterval('365d', '1Y')
+  makeInterval('90d', '3M'),
+  makeInterval('183d', '6M'),
+  makeInterval('all', 'All')
 ]
 
 export const HOLDERS_DISTRIBUTION_6M = makeInterval('183d', '6m')
@@ -124,7 +126,7 @@ export const getIntervalDates = memoize(interval => {
 })
 
 export const formStablecoinsSettings = intervalWrapper => {
-  const { from, to } = getIntervalDates(intervalWrapper.value)
+  const { from, to } = getIntervalByTimeRange(intervalWrapper.value)
 
   const interval = getNewInterval(from, to)
 
