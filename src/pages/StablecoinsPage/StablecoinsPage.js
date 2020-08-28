@@ -30,7 +30,7 @@ const StablecoinsPage = ({ history, isDesktop }) => {
       <div className={styles.header}>
         <div className={cx(styles.inner, styles.content)}>
           <div className={styles.pageDescription}>
-            <h3 className={styles.title}>the Stablecoin Docket</h3>
+            <h3 className={styles.title}>the Stablecoin Hub v. 1.0</h3>
             <div className={styles.description}>
               Real-time information on the biggest stablecoins’ market size,
               whale behavior, speculative demand and more.

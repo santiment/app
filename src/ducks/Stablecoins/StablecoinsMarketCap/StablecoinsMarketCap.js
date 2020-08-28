@@ -9,7 +9,7 @@ import Chart from '../../Chart'
 import { metricsToPlotCategories } from '../../Chart/Synchronizer'
 import {
   formStablecoinsSettings,
-  MARKET_CAP_MONTH_INTERVAL,
+  MARKET_CAP_YEAR_INTERVAL,
   METRIC_SETTINGS_MAP,
   METRIC_TRANSFORMER,
   STABLE_COINS_MARKETCAP_INTERVALS,
@@ -39,7 +39,7 @@ const CHART_PADDING_MOBILE = {
 }
 
 const StablecoinsMarketCap = ({ isDesktop, className }) => {
-  const [interval, setInterval] = useState(MARKET_CAP_MONTH_INTERVAL)
+  const [interval, setInterval] = useState(MARKET_CAP_YEAR_INTERVAL)
   const [disabledAssets, setDisabledAsset] = useState({})
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState(true)
 

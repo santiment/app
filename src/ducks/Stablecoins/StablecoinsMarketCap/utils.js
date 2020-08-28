@@ -15,14 +15,14 @@ export const makeInterval = (val, label) => ({
 
 export const MARKET_CAP_MONTH_INTERVAL = makeInterval('31d', '1M')
 export const MARKET_CAP_DAY_INTERVAL = makeInterval('2d', '1D')
+export const MARKET_CAP_YEAR_INTERVAL = makeInterval('1y', '1Y')
 
 export const STABLE_COINS_MARKETCAP_INTERVALS = [
   MARKET_CAP_DAY_INTERVAL,
   makeInterval('1w', '1W'),
   MARKET_CAP_MONTH_INTERVAL,
   makeInterval('90d', '3M'),
-  makeInterval('183d', '6M'),
-  makeInterval('all', 'All')
+  MARKET_CAP_YEAR_INTERVAL
 ]
 
 export const HOLDERS_DISTRIBUTION_6M = makeInterval('183d', '6m')

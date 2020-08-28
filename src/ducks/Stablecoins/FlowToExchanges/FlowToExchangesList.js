@@ -3,6 +3,7 @@ import Tabs from '@santiment-network/ui/Tabs'
 import { EXCHANGES_DEFAULT_SETTINGS, useFlowToExchanges } from './utils'
 import FlowToExchanges from './FlowToExchanges'
 import PageLoader from '../../../components/Loader/PageLoader'
+import { sortByValue } from '../utils'
 import styles from './FlowToExchangesList.module.scss'
 
 const GROUPS = {
@@ -32,6 +33,7 @@ const FlowToExchangesList = () => {
           ...item,
           value: item[key]
         }))
+        .sort(sortByValue)
     },
     [data, key]
   )
