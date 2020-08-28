@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
@@ -38,7 +38,12 @@ const MetricButton = ({
 }) => {
   const { key, dataKey = key, node, comparedTicker } = metric
 
-  const label = getMetricLabel(metric)
+  const label = useMemo(
+    () => {
+      return getMetricLabel(metric)
+    },
+    [metric]
+  )
 
   return (
     <Button
