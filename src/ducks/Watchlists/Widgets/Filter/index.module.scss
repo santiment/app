@@ -10,15 +10,14 @@
   z-index: 10;
   position: absolute;
   right: 0;
-  transition: transform 0.3s ease-in-out;
-  transform: scaleX(0);
+  display: none;
   transform-origin: top right;
   user-select: none;
   min-height: calc(100vh - 200px);
 }
 
 .active {
-  transform: scaleX(1);
+  display: block;
 }
 
 .content {

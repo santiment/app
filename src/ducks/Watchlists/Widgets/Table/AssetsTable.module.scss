@@ -1,19 +1,11 @@
 @import '~@santiment-network/ui/mixins';
 
-:root {
-  --screener-filter-width: 480px;
-}
-
 .top {
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   width: 100%;
   transition: width 0.2s ease-in-out;
-
-  &__filterView {
-    width: calc(100% - var(--screener-filter-width));
-  }
 }
 
 .actions {
@@ -38,10 +30,6 @@
 .assetsTable {
   width: 100%;
   transition: width 0.2s ease-in-out;
-
-  &__filterView {
-    width: calc(100% - var(--screener-filter-width));
-  }
 }
 
 .assetsTable:global(.ReactTable) {

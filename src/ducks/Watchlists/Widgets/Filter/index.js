@@ -29,8 +29,6 @@ const Filter = ({
   watchlist = {},
   projectsCount,
   isAuthor,
-  setIsOpen,
-  isOpen,
   screenerFunction,
   setScreenerFunction,
   isLoggedIn,
@@ -47,6 +45,7 @@ const Filter = ({
 
   const filterRef = useRef(null)
   const filterContentRef = useRef(null)
+  const [isOpen, setIsOpen] = useState(false)
   const [filter, updateFilter] = useState(filters)
   const [isOutdatedVersion, setIsOutdatedVersion] = useState(false)
   const [isActiveFiltersOnly, setIsActiveFiltersOnly] = useState(false)

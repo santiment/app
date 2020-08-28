@@ -84,7 +84,6 @@ const AssetsTable = ({
 }) => {
   const { isPro } = useUserSubscriptionStatus()
   const [markedAsNew, setAsNewMarked] = useState()
-  const [isFilterOpened, setIsFilterOpened] = useState(false)
 
   const hideMarkedAsNew = useCallback(() => {
     setAsNewMarked(undefined)
@@ -149,10 +148,7 @@ const AssetsTable = ({
 
   return (
     <div className={classes.container} id='table'>
-      <div
-        className={cx(styles.top, isFilterOpened && styles.top__filterView)}
-        id='tableTop'
-      >
+      <div className={styles.top} id='tableTop'>
         {filterType ? (
           <span>Showed based on {filterType} anomalies</span>
         ) : (
@@ -195,8 +191,6 @@ const AssetsTable = ({
                 // projectsCount={projectsCount}
                 projectsCount={items.length}
                 isAuthor={isAuthor}
-                isOpen={isFilterOpened}
-                setIsOpen={setIsFilterOpened}
                 screenerFunction={screenerFunction}
                 {...props}
               />
@@ -216,12 +210,7 @@ const AssetsTable = ({
         sortable={false}
         resizable={false}
         defaultSorted={[sortingColumn]}
-        className={cx(
-          '-highlight',
-          styles.assetsTable,
-          isFilterOpened && styles.assetsTable__filterView,
-          className
-        )}
+        className={cx('-highlight', styles.assetsTable, className)}
         data={items}
         columns={shownColumns}
         loadingText=''

@@ -1,16 +1,25 @@
 @import '~@santiment-network/ui/mixins';
 
 .triggerButton {
-  width: 32px;
-  padding: 0 !important;
   align-items: center;
   margin-left: 8px;
   justify-content: center;
   background: transparent;
+  position: relative;
   fill: var(--waterloo);
 
-  &:hover {
-    fill: var(--jungle-green);
+  &__active {
+    &::after {
+      content: '';
+      position: absolute;
+      display: block;
+      top: 8px;
+      left: 21px;
+      border-radius: 1px;
+      width: 7px;
+      height: 7px;
+      background-color: var(--persimmon);
+    }
   }
 }
 

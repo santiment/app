@@ -62,8 +62,15 @@ const Widgets = ({
   return (
     <ContextMenu
       trigger={
-        <Button variant='flat' className={styles.triggerButton}>
-          <Icon type='view-option' />
+        <Button
+          variant='flat'
+          className={cx(
+            styles.triggerButton,
+            (isPriceChart || isPriceTreeMap) && styles.triggerButton__active
+          )}
+          icon='view-option'
+        >
+          Infographics
         </Button>
       }
       passOpenStateAs='isActive'
