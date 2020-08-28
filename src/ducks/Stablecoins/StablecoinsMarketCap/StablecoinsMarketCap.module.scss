@@ -9,4 +9,15 @@
 .sharedAxisToggle {
   margin: 0 19px 9px auto;
 
-  @include text('body-3', 'm'); }
+  @include text('body-3', 'm');
+}
+
+.metrics {
+  padding-bottom: 9px;
+}
+
+.metricBtn {
+  padding: 6px 8px;
+  color: var(--waterloo);
+
+  @include text('body-3'); }

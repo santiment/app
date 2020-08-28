@@ -1,5 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
+import { Helmet } from 'react-helmet'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import StablecoinsMarketCap from '../../ducks/Stablecoins/StablecoinsMarketCap/StablecoinsMarketCap'
 import StablecoinHolderDistribution from '../../ducks/Stablecoins/HolderDistribution/StablecoinHolderDistribution'
@@ -19,6 +20,21 @@ import styles from './StablecoinsPage.module.scss'
 const StablecoinsPage = ({ history, isDesktop }) => {
   return (
     <div className={cx('page', styles.container)}>
+      <Helmet
+        title={'Stablecoin Hub | Sanbase'}
+        meta={[
+          {
+            property: 'og:title',
+            content: 'Stablecoin Hub | Sanbase'
+          },
+          {
+            property: 'og:description',
+            content:
+              'Real-time information on the biggest stablecoins’ market size, whale behavior, speculative demand and more.'
+          }
+        ]}
+      />
+
       <MobileOnly>
         <MobileHeader
           showBack={true}
@@ -86,7 +102,6 @@ const StablecoinsPage = ({ history, isDesktop }) => {
         <BlockWithRanges
           title='Stablecoin Network Activity'
           description='On-chain indicators of stablecoin utility and adoption'
-          showPro
           el={NetworkActivity}
         />
       </div>

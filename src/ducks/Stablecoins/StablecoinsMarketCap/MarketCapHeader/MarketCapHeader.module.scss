@@ -3,7 +3,7 @@
 .container {
   display: flex;
   justify-content: space-between;
-  padding: 16px 11px 0 16px;
+  padding: 9px 11px 0 16px;
   border-bottom: 1px solid var(--porcelain);
   color: var(--rhino);
 
@@ -27,7 +27,7 @@
 }
 
 .tab {
-  padding: 0 13px 9px 13px;
+  padding: 5px 13px 13px 13px;
   margin: 0;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
