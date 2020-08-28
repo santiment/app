@@ -6,7 +6,7 @@
   border-left: 1px solid var(--porcelain);
   margin-left: 28px;
   border-radius: 4px 0 0 0;
-  width: 376px;
+  width: 480px;
   z-index: 10;
   position: absolute;
   right: 0;
@@ -43,8 +43,10 @@
 
 .closeIcon {
   position: absolute;
-  top: 24px;
-  right: 32px;
+  top: 20px;
+  right: 26px;
+  padding: 5px;
+  box-sizing: content-box;
   fill: var(--waterloo);
   cursor: pointer;
 
@@ -54,8 +56,8 @@
 }
 
 .button {
+  padding: 0 4px;
   color: var(--jungle-green);
-  margin-left: -12px;
 
   &:hover {
     color: var(--jungle-green-hover);
@@ -71,17 +73,34 @@
 .top {
   margin: 19px 32px 13px;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   min-height: 32px;
-
-  &__column {
-    flex-direction: column;
-    align-items: baseline;
-  }
+  flex-direction: column;
 }
 
-.count {
+.count__assets {
   @include text('body-2');
 
-  margin-right: 16px;
+  margin-right: 12px;
+}
+
+.count__filters {
+  @include text('body-3');
+
+  color: var(--waterloo);
+}
+
+.search {
+  margin-top: 16px;
+}
+
+.togglers {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.message {
+  margin-top: 12px;
 }

@@ -12,7 +12,6 @@ import {
   WATCHLIST_TOGGLE_COLUMNS
 } from '../../../../actions/types'
 import Refresh from '../../../../components/Refresh/Refresh'
-import ServerErrorMessage from './../../../../components/ServerErrorMessage'
 import { ProLabel } from '../../../../components/ProLabel'
 import NoDataTemplate from '../../../../components/NoDataTemplate/index'
 import AssetsToggleColumns from './AssetsToggleColumns'
@@ -97,12 +96,9 @@ const AssetsTable = ({
     }
   }, [])
 
-  const { isLoading, error, timestamp, typeInfo } = Assets
+  const { isLoading, timestamp, typeInfo } = Assets
   const key = typeInfo.listId || listName
   const { sorting, pageSize, hiddenColumns } = settings[key] || {}
-  if (error && error.message !== 'Network error: Failed to fetch') {
-    return <ServerErrorMessage />
-  }
 
   const changeShowing = (columns, hiddenColumns) => {
     const modifiedColumns = JSON.parse(JSON.stringify(columns))

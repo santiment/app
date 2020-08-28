@@ -3,6 +3,8 @@ import cx from 'classnames'
 import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
+import Search from '@santiment-network/ui/Search'
+import Message from '@santiment-network/ui/Message'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { store } from '../../../../redux'
 import { showNotification } from '../../../../actions/rootActions'
@@ -10,6 +12,7 @@ import { useUpdateWatchlist } from '../../gql/hooks'
 import Trigger from './Trigger'
 import { metrics } from './dataHub/metrics'
 import Category from './Category'
+import ToggleActiveFilters from './ToggleActiveFilters'
 import { DEFAULT_SCREENER_FUNCTION } from '../../utils'
 import { getCategoryGraph } from '../../../Studio/Sidebar/utils'
 import { countCategoryActiveMetrics } from '../../../SANCharts/ChartMetricSelector'
@@ -46,6 +49,8 @@ const Filter = ({
   const filterContentRef = useRef(null)
   const [filter, updateFilter] = useState(filters)
   const [isOutdatedVersion, setIsOutdatedVersion] = useState(false)
+  const [isActiveFiltersOnly, setIsActiveFiltersOnly] = useState(false)
+  const [isWereChanges, setIsWereChanges] = useState(false)
   const [updateWatchlist, { loading }] = useUpdateWatchlist()
   const [availableMetrics] = useAvailableMetrics()
   const [isReset, setIsReset] = useState(false)
@@ -146,6 +151,10 @@ const Filter = ({
     if (newFilter.length > 0 && isReset) {
       setIsReset(false)
     }
+
+    if (!isWereChanges) {
+      setIsWereChanges(true)
+    }
   }
 
   function toggleMetricInFilter (metric, key, alternativeKey = key) {
@@ -180,6 +189,10 @@ const Filter = ({
 
     if (newFilter.length > 0 && isReset) {
       setIsReset(false)
+    }
+
+    if (!isWereChanges) {
+      setIsWereChanges(true)
     }
   }
 
@@ -234,19 +247,45 @@ const Filter = ({
           className={styles.closeIcon}
           onClick={() => setIsOpen(false)}
         />
-        <div className={cx(styles.top, isViewMode && styles.top__column)}>
-          <span className={styles.count}>{projectsCount} assets</span>
-          {!isReset && !isViewMode && (
-            <Button className={styles.button} onClick={resetAll}>
-              Reset all
-            </Button>
+        <div className={styles.top}>
+          <div>
+            <span className={styles.count__assets}>{projectsCount} assets</span>
+            {!loading && (
+              <span className={styles.count__filters}>{`${
+                activeBaseMetrics.length
+              } filter${
+                activeBaseMetrics.length !== 1 ? 's' : ''
+              } activated`}</span>
+            )}
+            {loading && <Loader className={styles.loader} />}
+          </div>
+          {!isViewMode && (
+            <Search className={styles.search} placeholder='Search metrics' />
           )}
+          <div className={styles.togglers}>
+            <ToggleActiveFilters
+              isActive={isActiveFiltersOnly}
+              onClick={() => setIsActiveFiltersOnly(!isActiveFiltersOnly)}
+            />
+            {!isViewMode && (
+              <Button
+                className={styles.button}
+                onClick={resetAll}
+                disabled={isReset || (!isWereChanges && isNoFilters)}
+              >
+                Reset all
+              </Button>
+            )}
+          </div>
           {isViewMode && (
-            <Button className={styles.button} disabled>
-              View only. You aren't the author of this list
-            </Button>
+            <Message
+              variant='warn'
+              icon='info-round'
+              className={styles.message}
+            >
+              View only. You aren't the author of this screener
+            </Message>
           )}
-          {loading && <Loader className={styles.loader} />}
         </div>
         <div className={styles.content} ref={filterContentRef}>
           {isOpen &&
