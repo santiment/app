@@ -7,5 +7,6 @@
 }
 
 .sharedAxisToggle {
-  margin: 0 16px 9px auto;
-}
+  margin: 0 19px 9px auto;
+
+  @include text('body-3', 'm'); }
