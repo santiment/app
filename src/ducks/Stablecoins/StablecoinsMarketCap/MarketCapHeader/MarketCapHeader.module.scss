@@ -11,6 +11,7 @@
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     padding-bottom: 9px;
+    flex-direction: column;
   }
 }
 
