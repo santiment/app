@@ -48,6 +48,7 @@ const TopPanel = ({
           projectsCount={assets.length}
           isAuthor={isAuthor}
           isLoggedIn={isLoggedIn}
+          isDefaultScreener={isDefaultScreener}
           {...props}
         />
       </div>

@@ -1,7 +1,7 @@
 @import '~@santiment-network/ui/mixins';
 
 :root {
-  --filter-panel-header-height: 148px;
+  --filter-panel-header-height: 154px;
   --screener-top-panel-height: 64px;
 }
 
@@ -18,6 +18,17 @@
   display: none;
   transform-origin: top right;
   user-select: none;
+}
+
+.background {
+  position: fixed;
+  z-index: 9;
+  background-color: var(--rhino);
+  opacity: 0.3;
+  top: var(--screener-top-panel-height);
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .active {
@@ -64,7 +75,7 @@
 }
 
 .top {
-  margin: 19px 32px 13px;
+  margin: 19px 32px 19px;
   display: flex;
   align-items: stretch;
   min-height: 32px;

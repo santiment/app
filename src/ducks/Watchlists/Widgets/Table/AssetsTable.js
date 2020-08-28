@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import ReactTable from 'react-table'
 import cx from 'classnames'
-import Sticky from 'react-stickynode'
 import { connect } from 'react-redux'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
 import 'react-table/react-table.css'
@@ -18,14 +17,6 @@ import { markedAsShowed } from '../../../SANCharts/SidecarExplanationTooltip'
 import { EXPLANATION_TOOLTIP_MARK } from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
 import './ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
-
-export const CustomHeadComponent = ({ children, className, ...rest }) => (
-  <Sticky enabled innerZ={1}>
-    <div className={cx('rt-thead', className)} {...rest}>
-      {children}
-    </div>
-  </Sticky>
-)
 
 const CustomNoDataComponent = ({ isLoading }) => {
   if (isLoading) {
@@ -181,7 +172,7 @@ const AssetsTable = ({
           />
         )}
         NoDataComponent={() => <CustomNoDataComponent isLoading={isLoading} />}
-        TheadComponent={CustomHeadComponent}
+        // TheadComponent={CustomHeadComponent}
         getTdProps={() => ({
           onClick: (e, handleOriginal) => {
             if (handleOriginal) handleOriginal()

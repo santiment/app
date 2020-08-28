@@ -237,6 +237,7 @@ const Filter = ({
             ))}
         </div>
       </section>
+      {isOpen && <div className={styles.background} />}
     </>
   )
 }
