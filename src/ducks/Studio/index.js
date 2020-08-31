@@ -16,6 +16,18 @@ import { NEW_METRIC_KEY_SET, seeMetric } from '../dataHub/metrics/news'
 import { usePressedModifier } from '../../hooks/keyboard'
 import styles from './index.module.scss'
 
+export function deduceItems (items, item) {
+  const newItems = new Set(items)
+
+  if (newItems.has(item)) {
+    newItems.delete(item)
+  } else {
+    newItems.add(item)
+  }
+
+  return [...newItems]
+}
+
 export const Studio = ({
   defaultWidgets,
   defaultSidepanel,
@@ -129,18 +141,6 @@ export const Studio = ({
 
     setSelectedWidgets(newSelectedWidgets)
     return newSelectedWidgets
-  }
-
-  function deduceItems (items, item) {
-    const newItems = new Set(items)
-
-    if (newItems.has(item)) {
-      newItems.delete(item)
-    } else {
-      newItems.add(item)
-    }
-
-    return [...newItems]
   }
 
   function changeTimePeriod (from, to, timeRange) {

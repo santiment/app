@@ -21,7 +21,9 @@ import {
 } from '../StablecoinsMarketCap/utils'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import PaywallInfo from '../../Studio/Chart/PaywallInfo'
+import { useMetricsMerge } from '../../Studio/Widget/HolderDistributionWidget'
 import styles from './StablecoinHolderDistribution.module.scss'
+import { deduceItems } from '../../Studio'
 
 const CHART_HEIGHT = 524
 
@@ -103,19 +105,38 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
   const categories = metricsToPlotCategories(metrics, {})
 
   const toggleMetric = useCallback(
-    metric => {
-      const found = metrics.find(x => x === metric)
+    (widget, metric) => {
+      const metricsList = Array.isArray(metric)
+        ? metric
+        : deduceItems(metrics, metric)
 
-      if (found) {
-        setMetrics(metrics.filter(x => x !== metric))
-      } else {
-        setMetrics([...metrics, metric])
-      }
+      setMetrics(metricsList)
     },
     [metrics, setMetrics]
   )
 
   const MetricColor = useChartColors(metrics)
+
+  const updateWidget = useCallback(({ metrics }) => setMetrics(metrics), [
+    setMetrics
+  ])
+
+  const {
+    onMergeConfirmClick,
+    onMergeClick,
+    onUnmergeClick,
+    currentPhase,
+    mergedMetrics,
+    checkedMetrics,
+    toggleWidgetMetricWrapper
+  } = useMetricsMerge({
+    toggleWidgetMetric: toggleMetric,
+    widget: {
+      mergedMetrics: [],
+      metrics: [...metrics]
+    },
+    updateWidget
+  })
 
   return (
     <div className={cx(styles.container, className)}>
@@ -137,7 +158,7 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
             <ActiveMetrics
               className={styles.metricBtn}
               MetricColor={MetricColor}
-              toggleMetric={toggleMetric}
+              toggleMetric={metric => toggleMetric(undefined, metric)}
               loadings={loadings}
               activeMetrics={metrics}
               ErrorMsg={errors}
@@ -152,7 +173,7 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
           data={data}
           brushData={allTimeData}
           chartHeight={CHART_HEIGHT}
-          metrics={metrics}
+          metrics={[...metrics, ...mergedMetrics]}
           isCartesianGridActive={isDesktop}
           MetricColor={MetricColor}
           tooltipKey={axesMetricKeys[0]}
@@ -177,9 +198,15 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
       <div className={styles.metrics}>
         <TopHolders
           classes={styles}
-          toggleMetric={toggleMetric}
           MetricColor={MetricColor}
           metrics={metrics}
+          currentPhase={currentPhase}
+          mergedMetrics={mergedMetrics}
+          checkedMetrics={checkedMetrics}
+          toggleMetric={toggleWidgetMetricWrapper}
+          onMergeClick={onMergeClick}
+          onMergeConfirmClick={onMergeConfirmClick}
+          onUnmergeClick={onUnmergeClick}
           btnProps={{
             fluid: false,
             variant: 'ghost',

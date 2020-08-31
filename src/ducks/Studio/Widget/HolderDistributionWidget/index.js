@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import cx from 'classnames'
 import { checkIfWasNotMerged, buildMergedMetric } from './utils'
 import Widget from '../Widget'
@@ -26,61 +26,142 @@ const Title = ({ activeMetrics, ...props }) => (
   />
 )
 
-const HolderDistributionWidget = ({ widget, ...props }) => {
-  const [isOpened, setIsOpened] = useState(true)
-  const MetricColor = useChartColors(widget.metrics, widget.MetricColor)
+export const useMetricsMerge = ({
+  isOpened,
+  setIsOpened,
+  widget,
+  updateWidget,
+  toggleWidgetMetric
+}) => {
+  const { mergedMetrics: widgetMergedMetrics, metrics } = widget
   const PressedModifier = usePressedModifier()
   const { currentPhase, setPhase } = usePhase()
   const [checkedMetrics, setSelectedMetrics] = useState(DEFAULT_CHECKED_METRICS)
-  const [mergedMetrics, setMergedMetrics] = useState(widget.mergedMetrics)
+  const [mergedMetrics, setMergedMetrics] = useState(widgetMergedMetrics)
 
-  function toggleWidgetMetric (metric) {
-    if (currentPhase !== Phase.IDLE) {
-      return checkMetric(metric)
-    }
+  const checkMetric = useCallback(
+    metric => {
+      const newCheckedMetrics = new Set(checkedMetrics)
 
-    props.toggleWidgetMetric(widget, PressedModifier.cmdKey ? [metric] : metric)
-  }
-
-  function checkMetric (metric) {
-    const newCheckedMetrics = new Set(checkedMetrics)
-
-    if (checkedMetrics.has(metric)) {
-      newCheckedMetrics.delete(metric)
-    } else {
-      newCheckedMetrics.add(metric)
-    }
-
-    setSelectedMetrics(newCheckedMetrics)
-  }
-
-  function toggleSidepane () {
-    setIsOpened(!isOpened)
-    setPhase(Phase.IDLE)
-  }
-
-  function onMergeClick () {
-    setPhase(Phase.MAPVIEW)
-  }
-
-  function onMergeConfirmClick () {
-    if (checkedMetrics.size > 1) {
-      const metric = buildMergedMetric([...checkedMetrics])
-
-      if (checkIfWasNotMerged(metric.key, mergedMetrics)) {
-        widget.metrics = [...widget.metrics, metric]
-        setMergedMetrics([...mergedMetrics, metric])
+      if (checkedMetrics.has(metric)) {
+        newCheckedMetrics.delete(metric)
+      } else {
+        newCheckedMetrics.add(metric)
       }
-    }
-    setPhase(Phase.IDLE)
-    setSelectedMetrics(DEFAULT_CHECKED_METRICS)
-  }
 
-  function onUnmergeClick (metric) {
-    const metricFilter = m => m !== metric
-    widget.metrics = widget.metrics.filter(metricFilter)
-    setMergedMetrics(mergedMetrics.filter(metricFilter))
+      setSelectedMetrics(newCheckedMetrics)
+    },
+    [checkedMetrics, setSelectedMetrics]
+  )
+
+  const toggleWidgetMetricWrapper = useCallback(
+    metric => {
+      if (currentPhase !== Phase.IDLE) {
+        return checkMetric(metric)
+      }
+
+      toggleWidgetMetric(
+        widget,
+        updateWidget,
+        PressedModifier.cmdKey ? [metric] : metric
+      )
+    },
+    [currentPhase, checkMetric, widget, toggleWidgetMetric, PressedModifier]
+  )
+
+  const toggleSidepane = useCallback(
+    () => {
+      setIsOpened(!isOpened)
+      setPhase(Phase.IDLE)
+    },
+    [setIsOpened, isOpened, setPhase]
+  )
+
+  const onMergeClick = useCallback(
+    () => {
+      setPhase(Phase.MAPVIEW)
+    },
+    [setPhase]
+  )
+
+  const onMergeConfirmClick = useCallback(
+    () => {
+      if (checkedMetrics.size > 1) {
+        const metric = buildMergedMetric([...checkedMetrics])
+
+        if (checkIfWasNotMerged(metric.key, mergedMetrics)) {
+          updateWidget &&
+            updateWidget({
+              metrics: [...metrics, metric]
+            })
+          setMergedMetrics([...mergedMetrics, metric])
+        }
+      }
+      setPhase(Phase.IDLE)
+      setSelectedMetrics(DEFAULT_CHECKED_METRICS)
+    },
+    [
+      checkedMetrics,
+      updateWidget,
+      setMergedMetrics,
+      setPhase,
+      setSelectedMetrics
+    ]
+  )
+
+  const onUnmergeClick = useCallback(
+    metric => {
+      const metricFilter = m => m !== metric
+      updateWidget &&
+        updateWidget({
+          metrics: metrics.filter(metricFilter)
+        })
+      setMergedMetrics(mergedMetrics.filter(metricFilter))
+    },
+    [updateWidget, setMergedMetrics, mergedMetrics]
+  )
+
+  return {
+    onMergeConfirmClick,
+    onMergeClick,
+    toggleSidepane,
+    onUnmergeClick,
+    currentPhase,
+    mergedMetrics,
+    checkedMetrics,
+    toggleWidgetMetricWrapper
   }
+}
+
+const HolderDistributionWidget = ({ widget, ...props }) => {
+  const [isOpened, setIsOpened] = useState(true)
+  const MetricColor = useChartColors(widget.metrics, widget.MetricColor)
+
+  const { toggleWidgetMetric } = props
+
+  const updateWidget = useCallback(
+    ({ metrics }) => {
+      widget.metrics = metrics
+    },
+    [widget]
+  )
+
+  const {
+    onMergeConfirmClick,
+    onMergeClick,
+    toggleSidepane,
+    onUnmergeClick,
+    currentPhase,
+    mergedMetrics,
+    checkedMetrics,
+    toggleWidgetMetricWrapper
+  } = useMetricsMerge({
+    isOpened,
+    setIsOpened,
+    toggleWidgetMetric,
+    updateWidget,
+    widget
+  })
 
   return (
     <Widget className={cx(styles.holders, isOpened && styles.holders_opened)}>
@@ -96,7 +177,7 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
           mergedMetrics={mergedMetrics}
           checkedMetrics={checkedMetrics}
           MetricColor={MetricColor}
-          toggleMetric={toggleWidgetMetric}
+          toggleMetric={toggleWidgetMetricWrapper}
           toggleChartSidepane={toggleSidepane}
           onMergeClick={onMergeClick}
           onMergeConfirmClick={onMergeConfirmClick}
