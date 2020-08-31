@@ -60,13 +60,6 @@
   }
 }
 
-.holdersTitle {
-  color: var(--rhino);
-  margin-bottom: 22px;
-
-  @include text('body-2', 'm');
-}
-
 .holderMetricBtn {
   box-shadow: none !important;
   border: none !important;
@@ -84,4 +77,8 @@
   display: flex;
   margin: 24px 0;
   flex-wrap: wrap;
+}
+
+.holdersTitle {
+  margin-left: 0;
 }
