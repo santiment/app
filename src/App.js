@@ -42,7 +42,8 @@ const FOOTER_DISABLED_FOR = [
   PATHS.PRO_METRICS,
   PATHS.SOCIAL_TOOl,
   PATHS.INDEX,
-  PATHS.STABLECOINS
+  PATHS.STABLECOINS,
+  PATHS.SHEETS_TEMPLATES
 ]
 const FOOTER_ABSOLUTE_FOR = [
   PATHS.LOGIN,
@@ -133,6 +134,11 @@ const LoadableChartPage = Loadable({
 
 const LoadableStablecoinsPage = Loadable({
   loader: () => import('./pages/StablecoinsPage/StablecoinsPage'),
+  loading: () => <PageLoader />
+})
+
+const LoadableSheetsTemplatePage = Loadable({
+  loader: () => import('./pages/SheetsTemplatePage/SheetsTemplatePage'),
   loading: () => <PageLoader />
 })
 
@@ -368,6 +374,7 @@ export const App = ({
             <Route
               key={name}
               path={`/${name}`}
+              exact
               render={() => <ExternalRedirect to={links.to} />}
             />
           ))
@@ -421,6 +428,16 @@ export const App = ({
           path={PATHS.STABLECOINS}
           render={props => (
             <LoadableStablecoinsPage
+              isLoggedIn={isLoggedIn}
+              isDesktop={isDesktop}
+              {...props}
+            />
+          )}
+        />
+        <Route
+          path={PATHS.SHEETS_TEMPLATES}
+          render={props => (
+            <LoadableSheetsTemplatePage
               isLoggedIn={isLoggedIn}
               isDesktop={isDesktop}
               {...props}
