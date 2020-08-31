@@ -3,7 +3,7 @@ import cx from 'classnames'
 import withSizes from 'react-sizes'
 import { mapSizesToProps } from '../../../utils/withSizes'
 import { HolderDistributionMetric } from '../../Studio/Chart/Sidepanel/HolderDistribution/metrics'
-import TopHolders from '../../Studio/Chart/Sidepanel/HolderDistribution'
+import HolderDistribution from '../../Studio/Chart/Sidepanel/HolderDistribution'
 import { useAllTimeData, useTimeseries } from '../../Studio/timeseries/hooks'
 import { useChartColors } from '../../Chart/colors'
 import Chart from '../../Chart'
@@ -22,8 +22,8 @@ import {
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import PaywallInfo from '../../Studio/Chart/PaywallInfo'
 import { useMetricsMerge } from '../../Studio/Widget/HolderDistributionWidget'
-import styles from './StablecoinHolderDistribution.module.scss'
 import { deduceItems } from '../../Studio'
+import styles from './StablecoinHolderDistribution.module.scss'
 
 const CHART_HEIGHT = 524
 
@@ -196,7 +196,7 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
       </MobileOnly>
 
       <div className={styles.metrics}>
-        <TopHolders
+        <HolderDistribution
           classes={styles}
           MetricColor={MetricColor}
           metrics={metrics}

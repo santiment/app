@@ -60,11 +60,7 @@ export const useMetricsMerge = ({
         return checkMetric(metric)
       }
 
-      toggleWidgetMetric(
-        widget,
-        updateWidget,
-        PressedModifier.cmdKey ? [metric] : metric
-      )
+      toggleWidgetMetric(widget, PressedModifier.cmdKey ? [metric] : metric)
     },
     [currentPhase, checkMetric, widget, toggleWidgetMetric, PressedModifier]
   )

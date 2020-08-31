@@ -138,6 +138,7 @@ const HolderDistribution = ({
             const { key } = metric
             return (
               <MetricButton
+                {...btnProps}
                 key={key}
                 metric={metric}
                 color={MetricColor[key]}
