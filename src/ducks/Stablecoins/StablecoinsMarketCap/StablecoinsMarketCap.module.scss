@@ -18,6 +18,12 @@
 
 .metrics {
   padding-bottom: 9px;
+  display: flex;
+  align-items: center;
+
+  @include responsive('laptop', 'tablet') {
+    padding-bottom: 0;
+  }
 }
 
 .metricBtn {

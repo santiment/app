@@ -7,11 +7,15 @@
   border-bottom: 1px solid var(--porcelain);
   color: var(--rhino);
 
-  @include text('body-2');
+  @include text('body-2', 'm');
 
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+  @include responsive('phone', 'phone-xs') {
     padding-bottom: 9px;
     flex-direction: column;
+  }
+
+  @include responsive('laptop', 'tablet') {
+    padding-bottom: 9px;
   }
 }
 

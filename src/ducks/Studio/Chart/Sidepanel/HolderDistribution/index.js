@@ -102,7 +102,8 @@ const HolderDistribution = ({
   onMergeClick,
   onMergeConfirmClick,
   onUnmergeClick,
-  btnProps = {}
+  btnProps = {},
+  classes = {}
 }) => {
   const [activeTab, setActiveTab] = useState(Tab.PERCENTS)
   const distributionMetrics = useMemo(() => TabMetrics[activeTab], [activeTab])
@@ -111,7 +112,7 @@ const HolderDistribution = ({
 
   return (
     <>
-      <div className={styles.top}>
+      <div className={cx(styles.top, classes.holdersTitle)}>
         {ticker} Holders Distribution
         {checkedMetrics ? (
           isIdlePhase ? (
