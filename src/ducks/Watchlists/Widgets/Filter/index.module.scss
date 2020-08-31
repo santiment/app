@@ -1,4 +1,5 @@
 @import '~@santiment-network/ui/mixins';
+@import '../../../../animations.scss';
 
 :root {
   --filter-panel-header-height: 154px;
@@ -15,7 +16,8 @@
   top: var(--screener-top-panel-height);
   bottom: 0;
   right: 0;
-  display: none;
+  transition: transform 0.3s ease-out;
+  transform: scaleX(0);
   transform-origin: top right;
   user-select: none;
 }
@@ -29,10 +31,26 @@
   left: 0;
   right: 0;
   bottom: 0;
+  animation: appearPartially 0.35s ease-in-out;
 }
 
 .active {
-  display: block;
+  transform: scaleX(1);
+  animation: growPartially 0.35s ease-out;
+}
+
+.inner {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: transform, opacity 0.2s ease-out;
+}
+
+.active .inner {
+  opacity: 1;
+  transform: translateX(0);
+  animation-name: shiftLeft, appear;
+  animation-duration: 0.6s, 0.3s;
+  animation-timing-function: ease-out, ease-in-out;
 }
 
 .content {
@@ -46,9 +64,7 @@
 }
 
 .closeIcon {
-  position: absolute;
-  top: 20px;
-  right: 26px;
+  margin-left: auto;
   padding: 5px;
   box-sizing: content-box;
   fill: var(--waterloo);
@@ -57,6 +73,11 @@
   &:hover {
     fill: var(--rhino);
   }
+}
+
+.row {
+  display: flex;
+  align-items: flex-end;
 }
 
 .button {
@@ -107,4 +128,34 @@
 
 .message {
   margin-top: 12px;
+}
+
+@keyframes appearPartially {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes growPartially {
+  0% {
+    transform: scaleX(0.6);
+  }
+
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes shiftLeft {
+  0% {
+    transform: translateX(20px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }

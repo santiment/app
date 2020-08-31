@@ -40,6 +40,7 @@ const Screener = props => {
                 name={(props.watchlist || {}).name || props.name}
                 id={listId}
                 assets={assets}
+                loading={loading}
                 watchlist={props.watchlist}
                 isAuthor={isCurrentUserTheAuthor}
                 isLoggedIn={props.isLoggedIn}

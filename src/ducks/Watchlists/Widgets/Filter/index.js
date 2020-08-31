@@ -34,6 +34,7 @@ const Filter = ({
   setScreenerFunction,
   isLoggedIn,
   isDefaultScreener,
+  loading,
   history,
   appVersionState
 }) => {
@@ -48,7 +49,7 @@ const Filter = ({
   const [isOutdatedVersion, setIsOutdatedVersion] = useState(false)
   const [isActiveFiltersOnly, setIsActiveFiltersOnly] = useState(false)
   const [isWereChanges, setIsWereChanges] = useState(false)
-  const [updateWatchlist, { loading }] = useUpdateWatchlist()
+  const [updateWatchlist] = useUpdateWatchlist()
   const [availableMetrics] = useAvailableMetrics()
   const [isReset, setIsReset] = useState(false)
   const { isPro } = useUserSubscriptionStatus()
@@ -188,68 +189,72 @@ const Filter = ({
         activeMetricsCount={activeBaseMetrics.length}
       />
       <section className={cx(styles.wrapper, isOpen && styles.active)}>
-        <Icon
-          type='close-medium'
-          className={styles.closeIcon}
-          onClick={() => setIsOpen(false)}
-        />
-        <div className={styles.top}>
-          <div>
-            <span className={styles.count__assets}>{projectsCount} assets</span>
-            {!loading && (
-              <span className={styles.count__filters}>{`${
-                activeBaseMetrics.length
-              } filter${
-                activeBaseMetrics.length !== 1 ? 's' : ''
-              } activated`}</span>
-            )}
-            {loading && <Loader className={styles.loader} />}
-          </div>
-          {!isViewMode && (
-            <Search className={styles.search} placeholder='Search metrics' />
-          )}
-          <div className={styles.togglers}>
-            <ToggleActiveFilters
-              isActive={isActiveFiltersOnly}
-              onClick={() => setIsActiveFiltersOnly(!isActiveFiltersOnly)}
-            />
-            {!isViewMode && (
-              <Button
-                className={styles.button}
-                onClick={resetAll}
-                disabled={isReset || (!isWereChanges && isNoFilters)}
-              >
-                Reset all
-              </Button>
-            )}
-          </div>
-          {isViewMode && (
-            <Message
-              variant='warn'
-              icon='info-round'
-              className={styles.message}
-            >
-              View only. You aren't the author of this screener
-            </Message>
-          )}
-        </div>
-        <div className={styles.content}>
-          {isOpen &&
-            Object.keys(categories).map(key => (
-              <Category
-                key={key}
-                title={key}
-                counter={categoryActiveMetricsCounter[key]}
-                groups={categories[key]}
-                toggleMetricInFilter={toggleMetricInFilter}
-                availableMetrics={availableMetrics}
-                isViewMode={isViewMode}
-                isNoFilters={isReset}
-                filters={filter}
-                updMetricInFilter={updMetricInFilter}
-                isPro={isPro}
+        <div className={styles.inner}>
+          <div className={styles.top}>
+            <div className={styles.row}>
+              <span className={styles.count__assets}>
+                {projectsCount} assets
+              </span>
+              {!loading && (
+                <span className={styles.count__filters}>{`${
+                  activeBaseMetrics.length
+                } filter${
+                  activeBaseMetrics.length !== 1 ? 's' : ''
+                } activated`}</span>
+              )}
+              {loading && <Loader className={styles.loader} />}
+              <Icon
+                type='close-medium'
+                className={styles.closeIcon}
+                onClick={() => setIsOpen(false)}
               />
-            ))}
+            </div>
+            {!isViewMode && (
+              <Search className={styles.search} placeholder='Search metrics' />
+            )}
+            <div className={styles.togglers}>
+              <ToggleActiveFilters
+                isActive={isActiveFiltersOnly}
+                onClick={() => setIsActiveFiltersOnly(!isActiveFiltersOnly)}
+              />
+              {!isViewMode && (
+                <Button
+                  className={styles.button}
+                  onClick={resetAll}
+                  disabled={isReset || (!isWereChanges && isNoFilters)}
+                >
+                  Reset all
+                </Button>
+              )}
+            </div>
+            {isViewMode && (
+              <Message
+                variant='warn'
+                icon='info-round'
+                className={styles.message}
+              >
+                View only. You aren't the author of this screener
+              </Message>
+            )}
+          </div>
+          <div className={styles.content}>
+            {isOpen &&
+              Object.keys(categories).map(key => (
+                <Category
+                  key={key}
+                  title={key}
+                  counter={categoryActiveMetricsCounter[key]}
+                  groups={categories[key]}
+                  toggleMetricInFilter={toggleMetricInFilter}
+                  availableMetrics={availableMetrics}
+                  isViewMode={isViewMode}
+                  isNoFilters={isReset}
+                  filters={filter}
+                  updMetricInFilter={updMetricInFilter}
+                  isPro={isPro}
+                />
+              ))}
+          </div>
         </div>
       </section>
       {isOpen && <div className={styles.background} />}
