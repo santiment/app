@@ -2,7 +2,10 @@
 
 .screener {
   background: var(--white);
-  min-height: calc(100vh - 150px);
+  min-height: calc(
+    100vh - 70
+    px
+  );
 }
 
 .tableWrapper {

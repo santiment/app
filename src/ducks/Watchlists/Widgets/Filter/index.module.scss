@@ -25,8 +25,8 @@
 .background {
   position: fixed;
   z-index: 9;
-  background-color: var(--rhino);
-  opacity: 0.3;
+  background-color: $rhino;
+  opacity: 0.6;
   top: var(--screener-top-panel-height);
   left: 0;
   right: 0;
@@ -91,6 +91,7 @@
 
 .loader {
   margin-left: 16px;
+  margin-bottom: 9px;
   font-size: 5px;
   color: var(--fiord);
 }
@@ -136,7 +137,7 @@
   }
 
   100% {
-    opacity: 0.3;
+    opacity: 0.6;
   }
 }
 
