@@ -281,7 +281,7 @@ export const Metric = {
   nvt_transaction_volume: {
     node: 'bar',
     group: 'Network Value',
-    label: 'NVT Ratio (Using Transaction Volume) ',
+    label: 'NVT Ratio (using Transaction Volume) ',
     shortLabel: 'NVT R. T.V.',
     category: 'On-chain'
   },
