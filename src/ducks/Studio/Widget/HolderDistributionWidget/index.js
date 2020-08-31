@@ -27,8 +27,6 @@ const Title = ({ activeMetrics, ...props }) => (
 )
 
 export const useMetricsMerge = ({
-  isOpened,
-  setIsOpened,
   widget,
   updateWidget,
   toggleWidgetMetric
@@ -65,14 +63,6 @@ export const useMetricsMerge = ({
     [currentPhase, checkMetric, widget, toggleWidgetMetric, PressedModifier]
   )
 
-  const toggleSidepane = useCallback(
-    () => {
-      setIsOpened(!isOpened)
-      setPhase(Phase.IDLE)
-    },
-    [setIsOpened, isOpened, setPhase]
-  )
-
   const onMergeClick = useCallback(
     () => {
       setPhase(Phase.MAPVIEW)
@@ -86,10 +76,9 @@ export const useMetricsMerge = ({
         const metric = buildMergedMetric([...checkedMetrics])
 
         if (checkIfWasNotMerged(metric.key, mergedMetrics)) {
-          updateWidget &&
-            updateWidget({
-              metrics: [...metrics, metric]
-            })
+          updateWidget({
+            metrics: [...metrics, metric]
+          })
           setMergedMetrics([...mergedMetrics, metric])
         }
       }
@@ -108,10 +97,9 @@ export const useMetricsMerge = ({
   const onUnmergeClick = useCallback(
     metric => {
       const metricFilter = m => m !== metric
-      updateWidget &&
-        updateWidget({
-          metrics: metrics.filter(metricFilter)
-        })
+      updateWidget({
+        metrics: metrics.filter(metricFilter)
+      })
       setMergedMetrics(mergedMetrics.filter(metricFilter))
     },
     [updateWidget, setMergedMetrics, mergedMetrics]
@@ -120,11 +108,11 @@ export const useMetricsMerge = ({
   return {
     onMergeConfirmClick,
     onMergeClick,
-    toggleSidepane,
     onUnmergeClick,
     currentPhase,
     mergedMetrics,
     checkedMetrics,
+    setPhase,
     toggleWidgetMetricWrapper
   }
 }
@@ -145,19 +133,25 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
   const {
     onMergeConfirmClick,
     onMergeClick,
-    toggleSidepane,
     onUnmergeClick,
     currentPhase,
     mergedMetrics,
     checkedMetrics,
-    toggleWidgetMetricWrapper
+    toggleWidgetMetricWrapper,
+    setPhase
   } = useMetricsMerge({
-    isOpened,
-    setIsOpened,
     toggleWidgetMetric,
     updateWidget,
     widget
   })
+
+  const toggleSidepane = useCallback(
+    () => {
+      setIsOpened(!isOpened)
+      setPhase(Phase.IDLE)
+    },
+    [setIsOpened, isOpened, setPhase]
+  )
 
   return (
     <Widget className={cx(styles.holders, isOpened && styles.holders_opened)}>
