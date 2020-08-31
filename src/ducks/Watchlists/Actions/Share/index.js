@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import Button from '@santiment-network/ui/Button'
-import Icon from '@santiment-network/ui/Icon'
 import PublicityToggle from '../ChangeVisibility'
 import ShareModalTrigger from '../../../../components/Share/ShareModalTrigger'
 import { isDynamicWatchlist } from '../../utils'
