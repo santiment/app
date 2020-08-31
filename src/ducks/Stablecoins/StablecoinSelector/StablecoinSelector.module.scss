@@ -4,8 +4,8 @@
   border: 1px solid var(--porcelain);
   box-sizing: border-box;
   box-shadow: 0 4px 8px rgba(24, 27, 43, 0.03);
-  width: 40px;
-  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;

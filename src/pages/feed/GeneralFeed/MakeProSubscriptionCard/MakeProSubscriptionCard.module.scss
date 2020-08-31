@@ -64,5 +64,7 @@
 
   @include responsive('phone', 'phone-xs') {
     flex-direction: column;
+    background: var(--white);
+    padding: 16px !important;
   }
 }

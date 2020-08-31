@@ -176,7 +176,6 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
 
       <div className={styles.metrics}>
         <TopHolders
-          ticker={asset.ticker}
           toggleMetric={toggleMetric}
           MetricColor={MetricColor}
           metrics={metrics}
