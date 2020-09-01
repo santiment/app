@@ -19,9 +19,8 @@ const RowTooltipWrapper = ({ onHide }) => ({ children }) => {
         mark={EXPLANATION_TOOLTIP_MARK}
         onHide={onHide}
         img={layoutsTooltipImg}
-        description={
-          'Choose from a list of existing chart layouts that you can apply for the selected asset. Use one of our community-made templates or create your own!'
-        }
+        className={styles.explanation}
+        description='Choose from a list of existing chart layouts that you can apply for the selected asset. Use one of our community-made templates or create your own!'
       >
         <div />
       </TooltipWithImg>

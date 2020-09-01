@@ -5,23 +5,20 @@ import SidecarExplanationTooltip from '../../ducks/SANCharts/SidecarExplanationT
 import styles from './TooltipWithImg.module.scss'
 import tooltipStyles from './../../ducks/SANCharts/SidecarExplanationTooltip.module.scss'
 
-const CloseTrigger = ({ onClick }) => {
-  return (
-    <div
-      onClick={onClick}
-      className={cx(tooltipStyles.btn, styles.tooltipClose)}
-    >
-      <Icon type='close-medium' />
-    </div>
-  )
-}
+const CloseTrigger = ({ onClick }) => (
+  <div onClick={onClick} className={cx(tooltipStyles.btn, styles.tooltipClose)}>
+    <Icon type='close-medium' />
+  </div>
+)
 
 const TooltipWithImg = ({
   mark,
   onHide,
   children,
   img: tooltipImage,
-  description
+  description,
+  className,
+  ...rest
 }) => {
   return (
     <SidecarExplanationTooltip
@@ -30,10 +27,10 @@ const TooltipWithImg = ({
       position='top'
       onHide={onHide}
       classes={styles}
-      className={styles.tooltip}
+      className={cx(styles.tooltip, className)}
       closeEl={CloseTrigger}
       arrowOffset={30}
-      title={
+      content={
         <div className={styles.content}>
           <img src={tooltipImage} alt='Tooltip' className={styles.img} />
           <div className={styles.description}>{description}</div>
@@ -42,6 +39,7 @@ const TooltipWithImg = ({
       description=''
       withArrow
       delay={0}
+      {...rest}
     >
       {children}
     </SidecarExplanationTooltip>

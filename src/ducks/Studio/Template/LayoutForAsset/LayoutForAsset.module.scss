@@ -72,6 +72,11 @@
   display: flex;
   justify-content: center;
   width: 180px;
+  position: relative;
+}
+
+.explanation {
+  transform: translateX(-24px);
 }
 
 .new {

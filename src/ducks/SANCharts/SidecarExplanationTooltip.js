@@ -100,11 +100,8 @@ export const ExplanationTooltipWrapper = props => {
     position = 'left',
     withArrow = false,
     align = 'start',
-    title = 'Explore assets',
-    description = 'Quick navigation through your assets',
     closable = true,
     classes = {},
-    isNew,
     closeEl: CloseIcon = CloseTrigger
   } = props
 
@@ -121,17 +118,7 @@ export const ExplanationTooltipWrapper = props => {
       text={
         <div className={styles.content}>
           <div>
-            <div className={styles.title}>
-              {[
-                isNew && (
-                  <span className={styles.new} key='new'>
-                    New!
-                  </span>
-                ),
-                <span key='title'>{title}</span>
-              ]}
-            </div>
-            {description && <div className={styles.text}>{description}</div>}
+            <Content {...props} />
           </div>
           {shown && !dismissOnTouch && closable && (
             <CloseIcon onClick={hideTooltip} classes={classes} />
@@ -139,6 +126,33 @@ export const ExplanationTooltipWrapper = props => {
         </div>
       }
     />
+  )
+}
+
+const Content = ({
+  title = 'Explore assets',
+  description = 'Quick navigation through your assets',
+  isNew,
+  content
+}) => {
+  if (content) {
+    return content
+  }
+
+  return (
+    <>
+      <div className={styles.title}>
+        {[
+          isNew && (
+            <span className={styles.new} key='new'>
+              New!
+            </span>
+          ),
+          <span key='title'>{title}</span>
+        ]}
+      </div>
+      {description && <div className={styles.text}>{description}</div>}
+    </>
   )
 }
 
