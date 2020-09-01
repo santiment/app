@@ -21,7 +21,14 @@ import {
 } from '../StablecoinsMarketCap/utils'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import PaywallInfo from '../../Studio/Chart/PaywallInfo'
+import { usePhase, Phase } from '../../Studio/phases'
+import {
+  checkIfWasNotMerged,
+  buildMergedMetric
+} from '../../Studio/Widget/HolderDistributionWidget/utils'
 import styles from './StablecoinHolderDistribution.module.scss'
+
+const DEFAULT_CHECKED_METRICS = new Set()
 
 const CHART_HEIGHT = 524
 
@@ -50,17 +57,20 @@ const DEFAULT_SETTINGS = {
 const StablecoinHolderDistribution = ({ isDesktop, className }) => {
   const [interval, setInterval] = useState(HOLDERS_DISTRIBUTION_6M)
   const [asset, setAsset] = useState(DEFAULT_STABLECOIN)
+  const [checkedMetrics, setSelectedMetrics] = useState(DEFAULT_CHECKED_METRICS)
   const [metrics, setMetrics] = useState([
     HolderDistributionMetric.holders_distribution_100_to_1k,
     HolderDistributionMetric.holders_distribution_1k_to_10k,
     HolderDistributionMetric.percent_of_holders_distribution_combined_balance_100_to_1k,
     HolderDistributionMetric.percent_of_holders_distribution_combined_balance_1k_to_10k
   ])
-
+  const [mergedMetrics, setMergedMetrics] = useState([])
+  const { currentPhase, setPhase } = usePhase()
   const [settings, setSettings] = useState({
     ...DEFAULT_SETTINGS,
     slug: asset.slug
   })
+  const MetricColor = useChartColors(metrics)
 
   useEffect(
     () => {
@@ -104,6 +114,10 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
 
   const toggleMetric = useCallback(
     metric => {
+      if (currentPhase !== Phase.IDLE) {
+        return checkMetric(metric)
+      }
+
       const found = metrics.find(x => x === metric)
 
       if (found) {
@@ -112,10 +126,43 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
         setMetrics([...metrics, metric])
       }
     },
-    [metrics, setMetrics]
+    [metrics, setMetrics, currentPhase, checkMetric]
   )
 
-  const MetricColor = useChartColors(metrics)
+  function checkMetric (metric) {
+    const newCheckedMetrics = new Set(checkedMetrics)
+
+    if (checkedMetrics.has(metric)) {
+      newCheckedMetrics.delete(metric)
+    } else {
+      newCheckedMetrics.add(metric)
+    }
+
+    setSelectedMetrics(newCheckedMetrics)
+  }
+
+  function onMergeClick () {
+    setPhase(Phase.MAPVIEW)
+  }
+
+  function onMergeConfirmClick () {
+    if (checkedMetrics.size > 1) {
+      const metric = buildMergedMetric([...checkedMetrics])
+
+      if (checkIfWasNotMerged(metric.key, mergedMetrics)) {
+        setMetrics([...metrics, metric])
+        setMergedMetrics([...mergedMetrics, metric])
+      }
+    }
+    setPhase(Phase.IDLE)
+    setSelectedMetrics(DEFAULT_CHECKED_METRICS)
+  }
+
+  function onUnmergeClick (metric) {
+    const metricFilter = m => m !== metric
+    setMetrics(metrics.filter(metricFilter))
+    setMergedMetrics(mergedMetrics.filter(metricFilter))
+  }
 
   return (
     <div className={cx(styles.container, className)}>
@@ -180,12 +227,12 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
           toggleMetric={toggleMetric}
           MetricColor={MetricColor}
           metrics={metrics}
-          btnProps={{
-            fluid: false,
-            variant: 'ghost',
-            loading: loadings,
-            className: styles.holderMetricBtn
-          }}
+          currentPhase={currentPhase}
+          checkedMetrics={checkedMetrics}
+          mergedMetrics={mergedMetrics}
+          onMergeClick={onMergeClick}
+          onMergeConfirmClick={onMergeConfirmClick}
+          onUnmergeClick={onUnmergeClick}
         />
       </div>
     </div>
