@@ -11,6 +11,7 @@ import {
   HolderDistributionMetric,
   HOLDER_DISTRIBUTION_PERCENT_METRICS
 } from '../../Chart/Sidepanel/HolderDistribution/metrics'
+import { TabMetrics } from '../../Chart/Sidepanel/HolderDistribution/Tabs'
 import { useChartColors } from '../../../Chart/colors'
 import { usePressedModifier } from '../../../../hooks/keyboard'
 import styles from './index.module.scss'
@@ -26,7 +27,12 @@ const Title = ({ activeMetrics, ...props }) => (
   />
 )
 
-const HolderDistributionWidget = ({ widget, ...props }) => {
+const HolderDistributionWidget = ({
+  widget,
+  sidepanelHeader,
+  TabMetrics,
+  ...props
+}) => {
   const [isOpened, setIsOpened] = useState(true)
   const MetricColor = useChartColors(widget.metrics, widget.MetricColor)
   const PressedModifier = usePressedModifier()
@@ -89,13 +95,16 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
         <Sidepanel
           className={styles.sidepanel}
           contentClassName={styles.sidepanel__content}
-          ticker={props.settings.ticker}
+          header={
+            sidepanelHeader || `${props.settings.ticker} Holder Distribution`
+          }
           chartSidepane={TOP_HOLDERS_PANE}
           currentPhase={currentPhase}
           metrics={widget.metrics}
           mergedMetrics={mergedMetrics}
           checkedMetrics={checkedMetrics}
           MetricColor={MetricColor}
+          TabMetrics={TabMetrics}
           toggleMetric={toggleWidgetMetric}
           toggleChartSidepane={toggleSidepane}
           onMergeClick={onMergeClick}
@@ -120,5 +129,9 @@ const newHolderDistributionWidget = props =>
   )
 
 HolderDistributionWidget.new = newHolderDistributionWidget
+
+HolderDistributionWidget.defaultProps = {
+  TabMetrics
+}
 
 export default HolderDistributionWidget

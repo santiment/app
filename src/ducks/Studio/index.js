@@ -10,6 +10,7 @@ import ChartWidget from './Widget/ChartWidget'
 import HolderDistributionWidget from './Widget/HolderDistributionWidget'
 import { mergeConnectedWidgetsWithSelected } from './Widget/helpers'
 import SelectionOverview from './Overview/SelectionOverview'
+import HolderDistributionCombinedBalanceWidget from './Widget/HolderDistributionWidget/CombinedBalance'
 import * as Type from './Sidebar/Button/types'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
 import { NEW_METRIC_KEY_SET, seeMetric } from '../dataHub/metrics/news'
@@ -175,6 +176,13 @@ export const Studio = ({
         setWidgets([
           ...widgets,
           HolderDistributionWidget.new({
+            scrollIntoViewOnMount: true
+          })
+        ])
+      } else if (key === 'holder_distribution_combined_balance') {
+        setWidgets([
+          ...widgets,
+          HolderDistributionCombinedBalanceWidget.new({
             scrollIntoViewOnMount: true
           })
         ])

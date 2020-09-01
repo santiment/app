@@ -6,3 +6,10 @@ export const HOLDER_DISTRIBUTION_NODE = {
   label: 'Holder Distribution',
   abbreviation: 'hd'
 }
+
+export const HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE = {
+  key: 'holder_distribution_combined_balance',
+  type: WIDGET,
+  label: 'Holder Distribution Combined Balance',
+  abbreviation: 'hdcb'
+}

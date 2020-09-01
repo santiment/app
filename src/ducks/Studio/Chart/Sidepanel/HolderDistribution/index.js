@@ -1,8 +1,8 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import UIButton from '@santiment-network/ui/Button'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
-import Tabs, { Tab, TabMetrics } from './Tabs'
+import Tabs, { Tab } from './Tabs'
 import { removeLabelPostfix } from './utils'
 import MetricIcon from '../../../../SANCharts/MetricIcon'
 import styles from './index.module.scss'
@@ -98,28 +98,26 @@ const Confirm = ({ checkedMetrics, onClick }) => {
 }
 
 const HolderDistribution = ({
-  ticker,
+  header,
   metrics,
   mergedMetrics,
   checkedMetrics,
   MetricColor,
+  TabMetrics,
   toggleMetric,
   currentPhase,
   onMergeClick,
   onMergeConfirmClick,
-  onUnmergeClick,
-  btnProps = {},
-  classes = {}
+  onUnmergeClick
 }) => {
   const [activeTab, setActiveTab] = useState(Tab.PERCENTS)
-  const distributionMetrics = useMemo(() => TabMetrics[activeTab], [activeTab])
   const isIdlePhase = currentPhase === 'idle'
   const MetricButton = isIdlePhase ? ToggleButton : CheckboxButton
 
   return (
     <>
       <div className={styles.top}>
-        {ticker} Holders Distribution
+        {header}
         {checkedMetrics ? (
           isIdlePhase ? (
             <Merge onClick={onMergeClick} />
@@ -155,7 +153,7 @@ const HolderDistribution = ({
             )
           })}
 
-        {distributionMetrics.map(metric => {
+        {TabMetrics[activeTab].map(metric => {
           const { key, label } = metric
           return (
             <MetricButton

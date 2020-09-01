@@ -7,6 +7,8 @@ export const removeLabelPostfix = str => str.replace(LABEL_PERCENT_POSTFIX, '')
 export const percentFormatter = value => FORMATTER(value) + '%'
 
 function normalizeAxisPercent (value) {
+  if (!Number.isFinite(value)) return
+
   if (value >= 10) {
     return value.toFixed(2)
   }
