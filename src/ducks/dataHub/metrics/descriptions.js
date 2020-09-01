@@ -114,6 +114,9 @@ export const Description = {
 
   holder_distribution:
     'Breaks down the number of addresses based on the amount of [Project Ticker] they hold',
+  holder_distribution_combined_balance:
+    'Represents the sum of all the tokens of all the addresses which hold the amount of tokens from an interval',
+
   [Metric.ethSpentOverTime.key]:
     'Shows the amount of ETH moved out of the project’s ICO wallets over time',
   [Metric.minersBalance.key]:
