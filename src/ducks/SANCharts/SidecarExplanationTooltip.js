@@ -104,7 +104,8 @@ export const ExplanationTooltipWrapper = props => {
     description = 'Quick navigation through your assets',
     closable = true,
     classes = {},
-    isNew
+    isNew,
+    closeEl: CloseIcon = CloseTrigger
   } = props
 
   return (
@@ -118,7 +119,7 @@ export const ExplanationTooltipWrapper = props => {
       as='div'
       onOpen={shown ? undefined : disableHelp}
       text={
-        <>
+        <div className={styles.content}>
           <div>
             <div className={styles.title}>
               {[
@@ -133,16 +134,20 @@ export const ExplanationTooltipWrapper = props => {
             {description && <div className={styles.text}>{description}</div>}
           </div>
           {shown && !dismissOnTouch && closable && (
-            <Icon
-              type='close-small'
-              className={cx(styles.btn, classes.tooltipClose)}
-              onClick={hideTooltip}
-            />
+            <CloseIcon onClick={hideTooltip} classes={classes} />
           )}
-        </>
+        </div>
       }
     />
   )
 }
+
+const CloseTrigger = ({ classes = {}, onClick }) => (
+  <Icon
+    type='close-small'
+    className={cx(styles.btn, classes.tooltipClose)}
+    onClick={onClick}
+  />
+)
 
 export default SidecarExplanationTooltip

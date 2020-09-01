@@ -42,3 +42,14 @@
   margin: 0;
   word-break: break-word;
 }
+
+.content {
+  position: relative;
+  display: flex;
+
+  &:hover {
+    .btn {
+      display: flex;
+    }
+  }
+}

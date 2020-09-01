@@ -5,40 +5,26 @@ import Icon from '@santiment-network/ui/Icon'
 import LoadTemplate from '../Dialog/LoadTemplate'
 import { useUserTemplates } from '../gql/hooks'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
-import SidecarExplanationTooltip from '../../../SANCharts/SidecarExplanationTooltip'
+import layoutsTooltipImg from './../../../../assets/tooltips/screener-layouts-tooltip.svg'
 import DarkTooltip from '../../../../components/Tooltip/DarkTooltip'
 import styles from './LayoutForAsset.module.scss'
+import TooltipWithImg from '../../../../components/TooltipWithImg/TooltipWithImg'
 
 export const EXPLANATION_TOOLTIP_MARK = '_ASSET_CHART_LAYOUTS_ROW'
 
 const RowTooltipWrapper = ({ onHide }) => ({ children }) => {
   return (
     <div className={styles.tooltipWrapper}>
-      <SidecarExplanationTooltip
-        closeTimeout={500}
-        localStorageSuffix={EXPLANATION_TOOLTIP_MARK}
-        position='top'
+      <TooltipWithImg
+        mark={EXPLANATION_TOOLTIP_MARK}
         onHide={onHide}
-        title={
-          <div className={styles.tooltip}>
-            <div className={styles.titleLine}>
-              {[
-                <div className={styles.new} key='new'>
-                  New!
-                </div>,
-                'Apply chart layout'
-              ]}
-            </div>
-            <div>on the asset</div>
-          </div>
+        img={layoutsTooltipImg}
+        description={
+          'Choose from a list of existing chart layouts that you can apply for the selected asset. Use one of our community-made templates or create your own!'
         }
-        description=''
-        withArrow
-        delay={0}
-        className={styles.tooltipContainer}
       >
         <div />
-      </SidecarExplanationTooltip>
+      </TooltipWithImg>
       {children}
     </div>
   )

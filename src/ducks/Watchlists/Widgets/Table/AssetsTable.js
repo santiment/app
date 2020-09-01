@@ -87,15 +87,20 @@ const AssetsTable = ({
   const [markedAsNew, setAsNewMarked] = useState()
   const [isFilterOpened, setIsFilterOpened] = useState(false)
 
+  console.log('markedAsNew', markedAsNew)
+
   const hideMarkedAsNew = useCallback(() => {
     setAsNewMarked(undefined)
   }, [])
 
-  useEffect(() => {
-    if (!markedAsShowed(EXPLANATION_TOOLTIP_MARK)) {
-      setTimeout(() => setAsNewMarked(items[0]), 5000)
-    }
-  }, [])
+  useEffect(
+    () => {
+      if (!markedAsShowed(EXPLANATION_TOOLTIP_MARK) && items.length > 0) {
+        setTimeout(() => setAsNewMarked(items[0]), 5)
+      }
+    },
+    [items]
+  )
 
   const { isLoading, error, timestamp, typeInfo } = Assets
   const key = typeInfo.listId || listName
