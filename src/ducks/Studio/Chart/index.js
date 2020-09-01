@@ -42,7 +42,6 @@ const Canvas = ({
   ErrorMsg,
   MetricNode,
   toggleMetric,
-  syncedTooltipDate,
   isICOPriceActive,
   isSingleWidget,
   isSelectingRange,
@@ -220,7 +219,6 @@ const Canvas = ({
         }
         tooltipKey={axesMetricKeys[0]}
         axesMetricKeys={axesMetricKeys}
-        syncedTooltipDate={isBlurred || syncedTooltipDate}
         onPointClick={onPointClick}
         onBrushChangeEnd={onBrushChangeEnd}
         onRangeSelect={onRangeSelect}
