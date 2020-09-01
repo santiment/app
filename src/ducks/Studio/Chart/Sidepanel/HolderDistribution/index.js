@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import UIButton from '@santiment-network/ui/Button'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
-import Tabs, { Tab } from './Tabs'
+import Tabs, { Tab, TabMetrics } from './Tabs'
 import { removeLabelPostfix } from './utils'
 import MetricIcon from '../../../../SANCharts/MetricIcon'
 import styles from './index.module.scss'
@@ -173,8 +173,10 @@ const HolderDistribution = ({
 }
 
 HolderDistribution.defaultProps = {
+  TabMetrics,
   mergedMetrics: [],
-  currentPhase: 'idle'
+  currentPhase: 'idle',
+  header: 'Holders Distribution'
 }
 
 export default HolderDistribution

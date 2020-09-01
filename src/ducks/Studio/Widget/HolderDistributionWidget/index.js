@@ -11,7 +11,6 @@ import {
   HolderDistributionMetric,
   HOLDER_DISTRIBUTION_PERCENT_METRICS
 } from '../../Chart/Sidepanel/HolderDistribution/metrics'
-import { TabMetrics } from '../../Chart/Sidepanel/HolderDistribution/Tabs'
 import { useChartColors } from '../../../Chart/colors'
 import { usePressedModifier } from '../../../../hooks/keyboard'
 import styles from './index.module.scss'
@@ -96,7 +95,7 @@ const HolderDistributionWidget = ({
           className={styles.sidepanel}
           contentClassName={styles.sidepanel__content}
           header={
-            sidepanelHeader || `${props.settings.ticker} Holder Distribution`
+            sidepanelHeader || `${props.settings.ticker} Holders Distribution`
           }
           chartSidepane={TOP_HOLDERS_PANE}
           currentPhase={currentPhase}
@@ -129,9 +128,5 @@ const newHolderDistributionWidget = props =>
   )
 
 HolderDistributionWidget.new = newHolderDistributionWidget
-
-HolderDistributionWidget.defaultProps = {
-  TabMetrics
-}
 
 export default HolderDistributionWidget
