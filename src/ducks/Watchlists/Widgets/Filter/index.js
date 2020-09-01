@@ -170,8 +170,10 @@ const Filter = ({
     }
   }
 
-  const categories = getCategoryGraph(metrics)
   const activeBaseMetrics = getActiveBaseMetrics(filter)
+  const categories = getCategoryGraph(
+    isActiveFiltersOnly ? activeBaseMetrics : metrics
+  )
   activeBaseMetrics.forEach(metric => {
     if (metric === undefined && !isOutdatedVersion) {
       setIsOutdatedVersion(true)
@@ -238,22 +240,22 @@ const Filter = ({
             )}
           </div>
           <div className={styles.content}>
-            {isOpen &&
-              Object.keys(categories).map(key => (
-                <Category
-                  key={key}
-                  title={key}
-                  counter={categoryActiveMetricsCounter[key]}
-                  groups={categories[key]}
-                  toggleMetricInFilter={toggleMetricInFilter}
-                  availableMetrics={availableMetrics}
-                  isViewMode={isViewMode}
-                  isNoFilters={isReset}
-                  filters={filter}
-                  updMetricInFilter={updMetricInFilter}
-                  isPro={isPro}
-                />
-              ))}
+            {Object.keys(categories).map(key => (
+              <Category
+                key={key}
+                title={key}
+                counter={categoryActiveMetricsCounter[key]}
+                groups={categories[key]}
+                toggleMetricInFilter={toggleMetricInFilter}
+                availableMetrics={availableMetrics}
+                isViewMode={isViewMode}
+                isNoFilters={isReset}
+                filters={filter}
+                updMetricInFilter={updMetricInFilter}
+                isActiveFiltersOnly={isActiveFiltersOnly}
+                isPro={isPro}
+              />
+            ))}
           </div>
         </div>
       </section>

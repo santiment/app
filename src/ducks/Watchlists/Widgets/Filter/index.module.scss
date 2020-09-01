@@ -31,7 +31,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  animation: appearPartially 0.45s ease-in-out;
+  animation: appearPartially 0.4s ease-in-out;
 }
 
 .active {
@@ -49,7 +49,7 @@
   opacity: 1;
   transform: translateX(0);
   animation-name: shiftLeft, appear;
-  animation-duration: 0.6s, 0.3s;
+  animation-duration: 0.52s, 0.3s;
   animation-timing-function: ease-out, ease-in-out;
 }
 
@@ -113,6 +113,7 @@
 .count__filters {
   @include text('body-3');
 
+  line-height: 22px;
   color: var(--waterloo);
 }
 
