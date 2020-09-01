@@ -1,4 +1,8 @@
-import { percentFormatter, LABEL_PERCENT_POSTFIX } from './utils'
+import {
+  percentFormatter,
+  axisPercentFormatter,
+  LABEL_PERCENT_POSTFIX
+} from './utils'
 import { updateTooltipSetting } from '../../../../dataHub/tooltipSettings'
 
 const HOLDER_DISTRIBUTION_TEMPLATE = {
@@ -48,7 +52,13 @@ const PERCENT_HOLDER_DISTRIBUTION_KEY =
   'percent_of_holders_distribution_combined_balance'
 const KEYS = Object.keys(HOLDER_DISTRIBUTION_TEMPLATE)
 
-function buildMetrics (templateKey, type, labelPostfix = '', formatter) {
+function buildMetrics (
+  templateKey,
+  type,
+  labelPostfix = '',
+  formatter,
+  axisFormatter
+) {
   const Metric = {}
   KEYS.forEach(range => {
     const key = templateKey + range
@@ -60,6 +70,7 @@ function buildMetrics (templateKey, type, labelPostfix = '', formatter) {
       type,
       label,
       formatter,
+      axisFormatter,
       node: 'line',
       queryKey: queryKey && templateKey + queryKey
     }
@@ -79,7 +90,8 @@ export const HolderDistributionPercentMetric = buildMetrics(
   PERCENT_HOLDER_DISTRIBUTION_KEY,
   'percent',
   LABEL_PERCENT_POSTFIX,
-  percentFormatter
+  percentFormatter,
+  axisPercentFormatter
 )
 
 export const HolderDistributionMetric = {

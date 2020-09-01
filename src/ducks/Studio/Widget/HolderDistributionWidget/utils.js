@@ -2,12 +2,17 @@ import { GET_METRIC } from '../../timeseries/metrics'
 import { preTransform } from '../../timeseries/fetcher'
 import {
   removeLabelPostfix,
-  percentFormatter
+  percentFormatter,
+  axisPercentFormatter
 } from '../../Chart/Sidepanel/HolderDistribution/utils'
 import { updateTooltipSetting } from '../../../dataHub/tooltipSettings'
 import { client } from '../../../../apollo'
 
 export const MERGED_DIVIDER = '__MM__'
+const MergedTypePropsTuple = [
+  [' coins'], // 0 === false
+  [' coins %', percentFormatter, axisPercentFormatter] // 1 === true
+]
 
 const immutate = v => Object.assign({}, v)
 const keyGetter = ({ key }) => key
@@ -19,13 +24,15 @@ export const checkIfWasNotMerged = (newKey, mergedMetrics) =>
 
 export function buildMergedMetric (baseMetrics) {
   const isPercentMerge = baseMetrics[0].type === 'percent'
-  const labelPostfix = isPercentMerge ? ' coins %' : ' coins'
-  const formatter = isPercentMerge ? percentFormatter : undefined
+  const [labelPostfix, formatter, axisFormatter] = MergedTypePropsTuple[
+    +isPercentMerge
+  ]
 
   const metric = {
     fetch,
     baseMetrics,
     formatter,
+    axisFormatter,
     node: 'line',
     key: baseMetrics
       .map(keyGetter)

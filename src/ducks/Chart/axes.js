@@ -10,7 +10,7 @@ import {
   getDateHoursMinutes
 } from './utils'
 import { dayTicksPaintConfig, dayAxesColor } from './paintConfigs'
-import { Metric } from '../dataHub/metrics'
+import { TooltipSetting } from '../dataHub/tooltipSettings'
 import { mirroredMetrics } from '../dataHub/metrics/mirrored'
 import { millify } from '../../utils/formatting'
 
@@ -47,7 +47,8 @@ function yFormatter (value) {
 const selectYFormatter = metricKey =>
   mirroredMetrics.includes(metricKey)
     ? value => yFormatter(Math.abs(value))
-    : (Metric[metricKey] && Metric[metricKey].axisFormatter) || yFormatter
+    : (TooltipSetting[metricKey] && TooltipSetting[metricKey].axisFormatter) ||
+      yFormatter
 
 export function plotAxes (chart, scale) {
   const {
