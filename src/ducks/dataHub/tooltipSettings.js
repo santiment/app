@@ -35,12 +35,13 @@ export function FORMATTER (value) {
 }
 
 export function updateTooltipSetting (metric) {
-  const { key, dataKey = key, formatter = FORMATTER, label } = metric
+  const { key, dataKey, formatter = FORMATTER, label, axisFormatter } = metric
 
   metric.formatter = formatter
-  TooltipSetting[dataKey] = {
+  TooltipSetting[dataKey || key] = {
     label,
-    formatter
+    formatter,
+    axisFormatter
   }
 }
 
