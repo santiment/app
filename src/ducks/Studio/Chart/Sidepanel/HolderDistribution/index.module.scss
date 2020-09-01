@@ -29,6 +29,8 @@
   color: var(--casper);
   fill: var(--casper);
   stroke: var(--casper);
+  min-height: auto;
+  padding: 7px 12px;
 
   &.active {
     border: 1px solid var(--porcelain);
