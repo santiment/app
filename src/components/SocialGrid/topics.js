@@ -60,13 +60,15 @@ export const INDEX_PAGE_GROUPS = [
         createdAt: '2020-08-19T07:07:20.922Z'
       },
       {
-        title: '"Bart" Pattern',
-        slug: 'bart',
-        createdAt: '2020-06-10T07:18:20.922Z'
+        title: 'YAM rise and fall',
+        slug: 'yam OR yams',
+        createdAt: '2020-09-01T07:18:20.922Z'
       },
       {
-        title: 'Riots in United States',
-        slug: 'riot OR riots'
+        title: 'DeFi craze',
+        slug: 'defi',
+        query: 'defi?asset=ethereum&ticker=ETH',
+        createdAt: '2020-09-01T07:19:20.922Z'
       },
       {
         title: 'Coronavirus',
