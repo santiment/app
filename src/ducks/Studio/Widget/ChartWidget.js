@@ -54,10 +54,9 @@ export const Chart = ({
     const chart = chartRef.current
     return observeSyncDate(syncedDate => {
       if (chart.points.length === 0) return
-
-      const point = findPointByDate(chart.points, syncedDate)
-      if (point) {
-        chart.drawTooltip(point)
+      if (syncedDate) {
+        const point = findPointByDate(chart.points, syncedDate)
+        if (point) chart.drawTooltip(point)
       } else {
         clearCtx(chart, chart.tooltip.ctx)
       }
