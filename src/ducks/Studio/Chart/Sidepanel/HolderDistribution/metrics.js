@@ -1,3 +1,4 @@
+import { LABEL_PERCENT_POSTFIX } from './utils'
 import { TooltipSetting, FORMATTER } from '../../../../dataHub/tooltipSettings'
 
 const HOLDER_DISTRIBUTION_TEMPLATE = {
@@ -47,23 +48,19 @@ const PERCENT_HOLDER_DISTRIBUTION_KEY =
   'percent_of_holders_distribution_combined_balance'
 const KEYS = Object.keys(HOLDER_DISTRIBUTION_TEMPLATE)
 
-const activeMetricBtnFormatters = {
-  [PERCENT_HOLDER_DISTRIBUTION_KEY]: label => `${label} %`
-}
-
-function buildMetrics (templateKey, type) {
+function buildMetrics (templateKey, type, labelPostfix = '') {
   const Metric = {}
   KEYS.forEach(range => {
     const key = templateKey + range
-    const { label, queryKey } = HOLDER_DISTRIBUTION_TEMPLATE[range]
+    const { label: tmpLabel, queryKey } = HOLDER_DISTRIBUTION_TEMPLATE[range]
+    const label = tmpLabel + labelPostfix
 
     Metric[key] = {
       key,
       type,
       label,
       node: 'line',
-      queryKey: queryKey && templateKey + queryKey,
-      activeMetricBtnFormatter: activeMetricBtnFormatters[templateKey]
+      queryKey: queryKey && templateKey + queryKey
     }
 
     TooltipSetting[key] = {
@@ -81,7 +78,8 @@ export const HolderDistributionAbsoluteMetric = buildMetrics(
 
 export const HolderDistributionPercentMetric = buildMetrics(
   PERCENT_HOLDER_DISTRIBUTION_KEY,
-  'percent'
+  'percent',
+  LABEL_PERCENT_POSTFIX
 )
 
 export const HolderDistributionMetric = {

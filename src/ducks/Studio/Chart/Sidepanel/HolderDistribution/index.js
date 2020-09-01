@@ -3,6 +3,7 @@ import cx from 'classnames'
 import UIButton from '@santiment-network/ui/Button'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import Tabs, { Tab, TabMetrics } from './Tabs'
+import { removeLabelPostfix } from './utils'
 import MetricIcon from '../../../../SANCharts/MetricIcon'
 import styles from './index.module.scss'
 
@@ -35,6 +36,7 @@ const Button = ({ className, isChecked, ...props }) => (
 const ToggleButton = ({
   className,
   metric,
+  label,
   color,
   isActive,
   onClick,
@@ -48,7 +50,7 @@ const ToggleButton = ({
   >
     <MetricIcon node='line' color={color} className={styles.icon} />
     <span className={styles.label}>
-      {metric.label}
+      {label}
       {onUnmerge && (
         <span
           className={styles.unmerge}
@@ -64,10 +66,14 @@ const ToggleButton = ({
   </Button>
 )
 
-const CheckboxButton = ({ metric, isChecked, onClick, ...props }) => (
-  <Button className={styles.check} onClick={() => onClick(metric)} {...props}>
+const CheckboxButton = ({ metric, label, isChecked, onClick, ...props }) => (
+  <Button
+    className={isChecked && styles.active}
+    onClick={() => onClick(metric)}
+    {...props}
+  >
     <Checkbox className={styles.checkbox} isActive={isChecked} />
-    {metric.label}
+    {label}
   </Button>
 )
 
@@ -135,11 +141,12 @@ const HolderDistribution = ({
       <div className={styles.metrics}>
         {isIdlePhase &&
           mergedMetrics.map(metric => {
-            const { key } = metric
+            const { key, label } = metric
             return (
               <MetricButton
                 key={key}
                 metric={metric}
+                label={label}
                 color={MetricColor[key]}
                 isActive={metrics.includes(metric)}
                 onClick={toggleMetric}
@@ -149,11 +156,12 @@ const HolderDistribution = ({
           })}
 
         {distributionMetrics.map(metric => {
-          const { key } = metric
+          const { key, label } = metric
           return (
             <MetricButton
               key={key}
               metric={metric}
+              label={removeLabelPostfix(label)}
               color={MetricColor[key]}
               isActive={metrics.includes(metric)}
               isChecked={checkedMetrics && checkedMetrics.has(metric)}

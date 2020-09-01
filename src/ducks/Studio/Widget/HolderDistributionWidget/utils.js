@@ -1,5 +1,6 @@
 import { GET_METRIC } from '../../timeseries/metrics'
 import { preTransform } from '../../timeseries/fetcher'
+import { removeLabelPostfix } from '../../Chart/Sidepanel/HolderDistribution/utils'
 import { updateTooltipSetting } from '../../../dataHub/tooltipSettings'
 import { client } from '../../../../apollo'
 
@@ -7,12 +8,15 @@ export const MERGED_DIVIDER = '__MM__'
 
 const immutate = v => Object.assign({}, v)
 const keyGetter = ({ key }) => key
-const labelGetter = ({ label }) => label.replace(' coins', '')
+const labelGetter = ({ label }) =>
+  removeLabelPostfix(label.replace(' coins', ''))
 
 export const checkIfWasNotMerged = (newKey, mergedMetrics) =>
   mergedMetrics.every(({ key }) => key !== newKey)
 
 export function buildMergedMetric (baseMetrics) {
+  const labelPostfix = baseMetrics[0].type === 'percent' ? ' coins %' : ' coins'
+
   const metric = {
     fetch,
     baseMetrics,
@@ -21,7 +25,7 @@ export function buildMergedMetric (baseMetrics) {
       .map(keyGetter)
       .sort()
       .join(MERGED_DIVIDER),
-    label: baseMetrics.map(labelGetter).join(', ') + ' coins'
+    label: baseMetrics.map(labelGetter).join(', ') + labelPostfix
   }
 
   updateTooltipSetting(metric)
