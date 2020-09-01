@@ -42,7 +42,7 @@
 .inner {
   opacity: 0;
   transform: translateX(20px);
-  transition: transform, opacity 0.2s ease-out;
+  transition: transform, opacity 0.12s ease-out;
 }
 
 .active .inner {
