@@ -118,16 +118,14 @@ const HolderDistribution = ({
     <>
       <div className={styles.top}>
         {header}
-        {checkedMetrics ? (
-          isIdlePhase ? (
-            <Merge onClick={onMergeClick} />
-          ) : (
-            <Confirm
-              checkedMetrics={checkedMetrics}
-              onClick={onMergeConfirmClick}
-            />
-          )
-        ) : null}
+        {isIdlePhase ? (
+          <Merge onClick={onMergeClick} />
+        ) : (
+          <Confirm
+            checkedMetrics={checkedMetrics}
+            onClick={onMergeConfirmClick}
+          />
+        )}
       </div>
 
       <Tabs
