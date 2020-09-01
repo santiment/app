@@ -36,9 +36,9 @@ const TopPanel = ({
       <div className={styles.right}>
         <Share watchlist={watchlist} isAuthor={isAuthor} />
         {!isDefaultScreener && <div className={styles.divider} />}
-        {isAuthor && (
+        {(isAuthor || isDefaultScreener) && (
           <>
-            <ScreenerSignalDialog watchlistId={watchlist.id} />}
+            <ScreenerSignalDialog watchlistId={watchlist.id} />
             <div className={styles.divider} />
           </>
         )}
