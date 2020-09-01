@@ -12,6 +12,7 @@ import {
 import { useTimeseries } from '../timeseries/hooks'
 import { buildComparedMetric } from '../Compare/utils'
 import { useEdgeGaps, useClosestValueData } from '../../Chart/hooks'
+import { clearCtx, findPointByDate } from '../../Chart/utils'
 import { Metric } from '../../dataHub/metrics'
 import { MirroredMetric } from '../../dataHub/metrics/mirrored'
 
@@ -24,6 +25,7 @@ export const Chart = ({
   toggleWidgetMetric,
   deleteWidget,
   rerenderWidgets,
+  observeSyncDate,
   ...props
 }) => {
   const { metrics, chartRef, MetricSettingMap } = widget
@@ -47,6 +49,20 @@ export const Chart = ({
   // () => buildChartShareLink({ settings, widgets: [widget] }),
   // [settings, metrics, comparables],
   // )
+
+  useEffect(() => {
+    const chart = chartRef.current
+    return observeSyncDate(syncedDate => {
+      if (chart.points.length === 0) return
+
+      const point = findPointByDate(chart.points, syncedDate)
+      if (point) {
+        chart.drawTooltip(point)
+      } else {
+        clearCtx(chart, chart.tooltip.ctx)
+      }
+    })
+  }, [])
 
   useEffect(
     () => {
