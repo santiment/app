@@ -57,7 +57,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 8px 20px;
+  margin: 0 0 20px;
 }
 
 .checkbox {
@@ -70,6 +70,10 @@
 
 .cancel {
   @include btn(persimmon);
+}
+
+.merge {
+  width: auto;
 }
 
 .unmerge {

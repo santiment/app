@@ -49,6 +49,7 @@
 
 .metrics {
   min-width: 332px;
+  max-width: 332px;
   padding: 24px;
   border-left: 1px solid var(--porcelain);
   display: flex;
@@ -57,6 +58,7 @@
   @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
     padding: 24px 16px 24px 16px;
     border: none;
+    max-width: initial;
   }
 }
 
@@ -77,8 +79,4 @@
   display: flex;
   margin: 24px 0;
   flex-wrap: wrap;
-}
-
-.holdersTitle {
-  margin-left: 0;
 }

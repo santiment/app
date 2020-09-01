@@ -112,7 +112,7 @@ const HolderDistribution = ({
 
   return (
     <>
-      <div className={cx(styles.top, classes.holdersTitle)}>
+      <div className={styles.top}>
         {ticker} Holders Distribution
         {checkedMetrics ? (
           isIdlePhase ? (
@@ -152,7 +152,6 @@ const HolderDistribution = ({
           const { key } = metric
           return (
             <MetricButton
-              {...btnProps}
               key={key}
               metric={metric}
               color={MetricColor[key]}
