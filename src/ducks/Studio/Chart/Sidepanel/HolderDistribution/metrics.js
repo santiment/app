@@ -48,7 +48,8 @@ const HOLDER_DISTRIBUTION_TEMPLATE = {
   }
 }
 const ABSOLUTE_HOLDER_DISTRIBUTION_KEY = 'holders_distribution'
-const ABSOLUTE_HD_COMBINED_BALANCE_KEY = 'holders_distribution_combined_balance'
+const ABSOLUTE_HOLDER_DISTRIBUTION_COMBINED_BALANCE_KEY =
+  'holders_distribution_combined_balance'
 const PERCENT_HOLDER_DISTRIBUTION_KEY =
   'percent_of_holders_distribution_combined_balance'
 
@@ -97,7 +98,7 @@ export const HolderDistributionPercentMetric = buildMetrics(
 )
 
 export const HolderDistributionCombinedBalanceAbsoluteMetric = buildMetrics(
-  ABSOLUTE_HD_COMBINED_BALANCE_KEY
+  ABSOLUTE_HOLDER_DISTRIBUTION_COMBINED_BALANCE_KEY
 )
 
 export const HolderDistributionMetric = {
