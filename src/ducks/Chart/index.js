@@ -40,12 +40,11 @@ const Chart = ({
   chartPadding = CHART_PADDING,
   joinedCategories,
   domainGroups,
-  events = [],
+  events,
   scale = linearScale,
   tooltipKey,
-  axesMetricKeys = [],
+  axesMetricKeys,
   MetricColor,
-  // syncedTooltipDate,
   from,
   to,
   hideBrush,
@@ -56,11 +55,11 @@ const Chart = ({
   isLoading,
   isCartesianGridActive,
   isWatermarkLighter,
-  syncTooltips = () => {},
+  syncTooltips,
   syncDate,
   onRangeSelect,
   onRangeSelectStart,
-  onPointClick = () => {},
+  onPointClick,
   resizeDependencies,
   onBrushChangeEnd,
   children
@@ -329,6 +328,13 @@ const Chart = ({
         )}
     </div>
   )
+}
+
+Chart.defaultProps = {
+  events: [],
+  axesMetricKeys: [],
+  syncTooltips: () => {},
+  onPointClick: () => {}
 }
 
 export default Chart

@@ -34,7 +34,6 @@ const Chart = ({
   onProjectSelect,
   ...props
 }) => {
-  /* const [syncedTooltipDate, setSyncedTooltipDate] = useState() */
   const [isSelectingRange, setIsSelectingRange] = useState(false)
   const [selectedDate, setSelectedDate] = useState()
   const [selectedDatesRange, setSelectedDatesRange] = useState()
@@ -46,14 +45,6 @@ const Chart = ({
     [widgets]
   )
   const { syncDate, observeSyncDate } = useSyncDateObserver()
-
-  /*
-  function syncTooltips(datetime) {
-    if (isSingleWidget) return
-
-    setSyncedTooltipDate(datetime)
-  }
-  */
 
   function changeDatesRange (from, to) {
     setSelectedDate()
@@ -114,10 +105,7 @@ const Chart = ({
               isSingleWidget={isSingleWidget}
               isSelectingRange={isSelectingRange}
               changeTimePeriod={changeTimePeriod}
-              // syncedTooltipDate={syncedTooltipDate}
-              // syncTooltips={syncTooltips}
               syncTooltips={syncDate}
-              // syncDate={syncDate}
               observeSyncDate={observeSyncDate}
               onPointClick={onWidgetPointClick}
               onRangeSelect={onRangeSelect}
