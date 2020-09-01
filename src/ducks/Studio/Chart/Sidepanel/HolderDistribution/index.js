@@ -67,7 +67,11 @@ const ToggleButton = ({
 )
 
 const CheckboxButton = ({ metric, label, isChecked, onClick, ...props }) => (
-  <Button className={styles.check} onClick={() => onClick(metric)} {...props}>
+  <Button
+    className={isChecked && styles.active}
+    onClick={() => onClick(metric)}
+    {...props}
+  >
     <Checkbox className={styles.checkbox} isActive={isChecked} />
     {label}
   </Button>

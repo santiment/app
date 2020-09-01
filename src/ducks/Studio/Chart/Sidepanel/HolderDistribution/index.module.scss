@@ -21,6 +21,7 @@
   height: auto;
   min-height: auto;
   padding: 7px 12px;
+  color: var(--casper);
 
   &:last-child {
     margin: 0;
@@ -28,17 +29,13 @@
 
   &:hover {
     fill: var(--casper);
-    color: var(--casper);
+    color: var(--rhino);
     background: var(--athens);
   }
 
   &.active {
     color: var(--rhino);
   }
-}
-
-.check:hover {
-  color: var(--rhino);
 }
 
 .label {
