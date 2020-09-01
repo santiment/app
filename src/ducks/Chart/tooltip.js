@@ -108,7 +108,9 @@ export function setupTooltip (chart, marker, useCustomTooltip, onPlotTooltip) {
   canvas.onmouseleave = () => {
     clearCtx(chart, ctx)
     chart.syncTooltips()
-    onPlotTooltip && onPlotTooltip(null)
+    if (onPlotTooltip) {
+      onPlotTooltip(null)
+    }
   }
 }
 

@@ -22,6 +22,4 @@ function createSyncDateObserver () {
   }
 }
 
-export function useSyncDateObserver () {
-  return useMemo(createSyncDateObserver, [])
-}
+export const useSyncDateObserver = () => useMemo(createSyncDateObserver, [])
