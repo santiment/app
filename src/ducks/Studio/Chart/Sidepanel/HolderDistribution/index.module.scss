@@ -72,6 +72,10 @@
   @include btn(persimmon);
 }
 
+.merge {
+  width: auto;
+}
+
 .unmerge {
   color: var(--persimmon);
   margin-left: 8px;
