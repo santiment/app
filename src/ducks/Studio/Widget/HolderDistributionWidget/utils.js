@@ -15,7 +15,8 @@ export const checkIfWasNotMerged = (newKey, mergedMetrics) =>
   mergedMetrics.every(({ key }) => key !== newKey)
 
 export function buildMergedMetric (baseMetrics) {
-  const isPercentMerge = baseMetrics[0].type === 'percent'
+  const labelPostfix = baseMetrics[0].type === 'percent' ? ' coins %' : ' coins'
+
   const metric = {
     fetch,
     baseMetrics,
@@ -24,9 +25,7 @@ export function buildMergedMetric (baseMetrics) {
       .map(keyGetter)
       .sort()
       .join(MERGED_DIVIDER),
-    label:
-      baseMetrics.map(labelGetter).join(', ') +
-      (isPercentMerge ? ' coins %' : ' coins')
+    label: baseMetrics.map(labelGetter).join(', ') + labelPostfix
   }
 
   updateTooltipSetting(metric)
