@@ -13,7 +13,9 @@ export const Tab = {
 }
 export const TABS = [Tab.PERCENTS, Tab.ABSOLUTE]
 export const TabMetrics = {
-  [Tab.PERCENTS]: HOLDER_DISTRIBUTION_PERCENT_METRICS,
+  // TODO: Change to the PERCENTS metrics when the API will be available [@vanguard | Sep  2, 2020]
+  /* [Tab.PERCENTS]: HOLDER_DISTRIBUTION_PERCENT_METRICS, */
+  [Tab.PERCENTS]: HOLDER_DISTRIBUTION_ABSOLUTE_METRICS,
   [Tab.ABSOLUTE]: HOLDER_DISTRIBUTION_ABSOLUTE_METRICS
 }
 export const TabCombinedBalanceMetrics = {
