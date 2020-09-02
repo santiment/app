@@ -17,7 +17,7 @@
   min-height: 34px;
   border-radius: 50%;
   background: var(--porcelain);
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   fill: var(--fiord);
@@ -32,6 +32,7 @@
 .img {
   width: 100%;
   border-bottom: 1px solid var(--porcelain);
+  min-height: 260px;
 }
 
 .tooltip {
@@ -51,12 +52,6 @@
   @include responsive('phone-xs', 'phone') {
     width: 300px;
   }
-
-  &:hover {
-    .tooltipClose {
-      display: flex;
-    }
-  }
 }
 
 .tooltipArrow {
@@ -65,4 +60,10 @@
   width: 14px;
   height: 14px;
   z-index: 1;
+}
+
+.tooltipContent {
+  border-radius: $border-radius;
+  background: var(--white);
+  z-index: 10;
 }

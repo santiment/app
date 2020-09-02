@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import SidecarExplanationTooltip from '../../ducks/SANCharts/SidecarExplanationTooltip'
-import styles from './TooltipWithImg.module.scss'
 import tooltipStyles from './../../ducks/SANCharts/SidecarExplanationTooltip.module.scss'
+import styles from './TooltipWithImg.module.scss'
 
 const CloseTrigger = ({ onClick }) => (
   <div onClick={onClick} className={cx(tooltipStyles.btn, styles.tooltipClose)}>
@@ -12,16 +12,19 @@ const CloseTrigger = ({ onClick }) => (
 )
 
 const TooltipWithImg = ({
+  tooltipEl: TooltipEl = SidecarExplanationTooltip,
   mark,
   onHide,
   children,
   img: tooltipImage,
   description,
   className,
+  as = Fragment,
   ...rest
 }) => {
   return (
-    <SidecarExplanationTooltip
+    <TooltipEl
+      as={as}
       closeTimeout={500}
       localStorageSuffix={mark}
       position='top'
@@ -42,7 +45,7 @@ const TooltipWithImg = ({
       {...rest}
     >
       {children}
-    </SidecarExplanationTooltip>
+    </TooltipEl>
   )
 }
 

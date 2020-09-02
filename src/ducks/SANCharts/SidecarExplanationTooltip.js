@@ -117,10 +117,8 @@ export const ExplanationTooltipWrapper = props => {
       as={as}
       onOpen={shown ? undefined : disableHelp}
       text={
-        <div className={styles.content}>
-          <div>
-            <Content {...props} />
-          </div>
+        <div className={cx(styles.content, classes.tooltipContent)}>
+          <Content {...props} />
           {shown && !dismissOnTouch && closable && (
             <CloseIcon onClick={hideTooltip} classes={classes} />
           )}
@@ -141,7 +139,7 @@ const Content = ({
   }
 
   return (
-    <>
+    <div>
       <div className={styles.title}>
         {[
           isNew && (
@@ -153,7 +151,7 @@ const Content = ({
         ]}
       </div>
       {description && <div className={styles.text}>{description}</div>}
-    </>
+    </div>
   )
 }
 
