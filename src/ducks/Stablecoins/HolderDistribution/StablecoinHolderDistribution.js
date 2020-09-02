@@ -60,9 +60,7 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
   const [checkedMetrics, setSelectedMetrics] = useState(DEFAULT_CHECKED_METRICS)
   const [metrics, setMetrics] = useState([
     HolderDistributionMetric.holders_distribution_100_to_1k,
-    HolderDistributionMetric.holders_distribution_1k_to_10k,
-    HolderDistributionMetric.percent_of_holders_distribution_combined_balance_100_to_1k,
-    HolderDistributionMetric.percent_of_holders_distribution_combined_balance_1k_to_10k
+    HolderDistributionMetric.holders_distribution_1k_to_10k
   ])
   const [mergedMetrics, setMergedMetrics] = useState([])
   const { currentPhase, setPhase } = usePhase()
