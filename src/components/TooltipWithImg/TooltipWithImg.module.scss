@@ -29,8 +29,8 @@
 
 .img {
   width: 100%;
-  border-bottom: 1px solid var(--porcelain);
   min-height: 240px;
+  border-radius: $border-radius;
 
   @include responsive('phone-xs', 'phone') {
     min-height: 100px;
@@ -39,7 +39,6 @@
 
 .tooltip {
   background: var(--white);
-  border: 1px solid var(--porcelain);
   border-radius: $border-radius;
   padding: 0;
 }
@@ -47,7 +46,7 @@
 .title {
   @include text('body-2', 'm');
 
-  color: var(--rhino);
+  color: var(--white);
   margin-bottom: 16px;
 }
 
@@ -57,7 +56,7 @@
   margin-top: 16px;
   word-break: break-word;
   white-space: normal;
-  color: var(--rhino);
+  color: var(--white);
 }
 
 .content {
@@ -67,7 +66,7 @@
   width: 480px;
   cursor: auto;
   padding: 16px;
-  background: var(--mystic);
+  background: var(--fiord);
   color: var(--rhino);
   border-radius: $border-radius;
 
@@ -77,8 +76,7 @@
 }
 
 .tooltipArrow {
-  background: var(--mystic);
-  border: 1px solid var(--porcelain);
+  background: var(--fiord);
   width: 14px;
   height: 14px;
   z-index: 1;
