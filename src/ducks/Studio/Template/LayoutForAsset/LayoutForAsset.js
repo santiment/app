@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import LoadTemplate from '../Dialog/LoadTemplate'
@@ -7,18 +7,28 @@ import layoutsTooltipImg from './../../../../assets/tooltips/screener-layouts-bg
 import DarkTooltip from '../../../../components/Tooltip/DarkTooltip'
 import TooltipWithImg from '../../../../components/TooltipWithImg/TooltipWithImg'
 import { useUser } from '../../../../stores/user'
+import { ForceClosableExplanationTooltip } from '../../../SANCharts/SidecarExplanationTooltip'
 import styles from './LayoutForAsset.module.scss'
 
 export const EXPLANATION_TOOLTIP_MARK = '_ASSET_CHART_LAYOUTS_ROW'
 
-const RowTooltipWrapper = ({ onHide }) => ({ children }) => {
+const RowTooltipWrapper = ({ onHide, children }) => {
+  const [shown, setShown] = useState(true)
+
   return (
-    <div className={styles.tooltipWrapper}>
+    <div
+      className={styles.tooltipWrapper}
+      onClick={e => {
+        setShown(false)
+      }}
+    >
       <TooltipWithImg
+        shown={shown}
         mark={EXPLANATION_TOOLTIP_MARK}
         onHide={onHide}
         img={layoutsTooltipImg}
         className={styles.explanation}
+        tooltipEl={ForceClosableExplanationTooltip}
         description='Choose from a list of existing chart layouts that you can apply for the selected asset. Use one of our community-made templates or create your own!'
       >
         <div />
@@ -55,15 +65,13 @@ const IconTooltipWrapper = ({ children }) => {
 const Trigger = ({ markedAsNew, hideMarkedAsNew, counter, ...rest }) => {
   let Wrapper = useMemo(
     () => {
-      return markedAsNew
-        ? RowTooltipWrapper({ onHide: () => hideMarkedAsNew(false) })
-        : IconTooltipWrapper
+      return markedAsNew ? RowTooltipWrapper : IconTooltipWrapper
     },
     [markedAsNew, hideMarkedAsNew]
   )
 
   return (
-    <Wrapper>
+    <Wrapper onHide={() => markedAsNew && hideMarkedAsNew(false)}>
       <div
         {...rest}
         className={cx(
