@@ -14,7 +14,12 @@ import ToggleActiveFilters from './ToggleActiveFilters'
 import { DEFAULT_SCREENER_FUNCTION } from '../../utils'
 import { getCategoryGraph } from '../../../Studio/Sidebar/utils'
 import { countCategoryActiveMetrics } from '../../../SANCharts/ChartMetricSelector'
-import { getActiveBaseMetrics, getNewFunction, extractFilters } from './utils'
+import {
+  getActiveBaseMetrics,
+  getNewFunction,
+  extractFilters,
+  filterMetricsBySearch
+} from './utils'
 import { isContainMetric } from './detector'
 import { useAvailableMetrics } from '../../gql/hooks'
 import { SAN_HEADER_HEIGHT } from '../../../Studio/Header/Settings'
@@ -45,6 +50,7 @@ const Filter = ({
   const isViewMode = !isAuthor && (isLoggedIn || !isDefaultScreener)
   const filters = extractFilters(screenerFunction.args)
   const [isOpen, setIsOpen] = useState(false)
+  const [currentSearch, setCurrentSearch] = useState('')
   const [filter, updateFilter] = useState(filters)
   const [isOutdatedVersion, setIsOutdatedVersion] = useState(false)
   const [isActiveFiltersOnly, setIsActiveFiltersOnly] = useState(false)
@@ -83,6 +89,7 @@ const Filter = ({
         }
         document.body.style.overflow = 'hidden'
       } else {
+        setCurrentSearch('')
         document.body.style.overflow = null
       }
     },
@@ -171,14 +178,17 @@ const Filter = ({
   }
 
   const activeBaseMetrics = getActiveBaseMetrics(filter)
-  const categories = getCategoryGraph(
-    isActiveFiltersOnly ? activeBaseMetrics : metrics
-  )
+
+  const metricsSet = isActiveFiltersOnly ? activeBaseMetrics : metrics
+  const filteredMetrics = filterMetricsBySearch(currentSearch, metricsSet)
+  const categories = getCategoryGraph(filteredMetrics)
+
   activeBaseMetrics.forEach(metric => {
     if (metric === undefined && !isOutdatedVersion) {
       setIsOutdatedVersion(true)
     }
   })
+
   const categoryActiveMetricsCounter = countCategoryActiveMetrics(
     activeBaseMetrics
   )
@@ -211,8 +221,13 @@ const Filter = ({
                 onClick={() => setIsOpen(false)}
               />
             </div>
-            {!isViewMode && (
-              <Search className={styles.search} placeholder='Search metrics' />
+            {!isViewMode && isOpen && (
+              <Search
+                autoFocus
+                onChange={value => setCurrentSearch(value)}
+                placeholder='Search metrics'
+                className={styles.search}
+              />
             )}
             <div className={styles.togglers}>
               <ToggleActiveFilters
