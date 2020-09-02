@@ -100,6 +100,7 @@ export const Studio = ({
 
     if (
       widget.Widget !== HolderDistributionWidget &&
+      widget.Widget !== HolderDistributionCombinedBalanceWidget &&
       metrics.length === 0 &&
       widget.comparables.length === 0
     ) {
