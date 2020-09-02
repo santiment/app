@@ -105,6 +105,7 @@ const Filter = ({
     }
     setScreenerFunction(func)
     setIsReset(true)
+    setCurrentSearch('')
   }
 
   function updMetricInFilter (metric, key, alternativeKey = key) {
