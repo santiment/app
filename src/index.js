@@ -81,7 +81,7 @@ const main = () => {
     store.dispatch(changeNetworkStatus(online))
   })
 
-  if (isNotSafari) {
+  if (isNotSafari()) {
     register({
       onUpdate: () => {
         store.dispatch(newAppAvailable())

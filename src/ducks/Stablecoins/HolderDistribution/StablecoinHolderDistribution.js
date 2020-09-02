@@ -9,9 +9,8 @@ import { useChartColors } from '../../Chart/colors'
 import Chart from '../../Chart'
 import { useAxesMetricsKey } from '../../Chart/hooks'
 import { metricsToPlotCategories } from '../../Chart/Synchronizer'
-import ActiveMetrics from '../../Studio/Chart/ActiveMetrics'
 import StablecoinSelector from '../StablecoinSelector/StablecoinSelector'
-import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
+import { MobileOnly } from '../../../components/Responsive'
 import StablecoinsHeader, {
   StablecoinsIntervals
 } from '../StablecoinsMarketCap/MarketCapHeader/StablecoinsHeader'
@@ -80,7 +79,7 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
     [asset]
   )
 
-  const [data, loadings, errors] = useTimeseries(metrics, settings)
+  const [data] = useTimeseries(metrics, settings)
   const allTimeData = useAllTimeData(metrics, {
     slug: asset.slug,
     interval: undefined
@@ -176,20 +175,6 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
             <PaywallInfo metrics={metrics} />
           </div>
         </div>
-
-        <DesktopOnly>
-          <div className={styles.metricBtns}>
-            <ActiveMetrics
-              className={styles.metricBtn}
-              MetricColor={MetricColor}
-              toggleMetric={toggleMetric}
-              loadings={loadings}
-              activeMetrics={metrics}
-              ErrorMsg={errors}
-              project={asset}
-            />
-          </div>
-        </DesktopOnly>
 
         <Chart
           {...settings}

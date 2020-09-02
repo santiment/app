@@ -7,7 +7,7 @@ import styles from './TooltipWithImg.module.scss'
 
 const CloseTrigger = ({ onClick }) => (
   <div onClick={onClick} className={cx(tooltipStyles.btn, styles.tooltipClose)}>
-    <Icon type='close-medium' />
+    <Icon type='close-medium' className={styles.closeIcon} />
   </div>
 )
 
@@ -19,6 +19,7 @@ const TooltipWithImg = ({
   img: tooltipImage,
   description,
   className,
+  title,
   as = Fragment,
   ...rest
 }) => {
@@ -35,6 +36,7 @@ const TooltipWithImg = ({
       arrowOffset={32}
       content={
         <div className={styles.content}>
+          {title && <div className={styles.title}>{title}</div>}
           <img src={tooltipImage} alt='Tooltip' className={styles.img} />
           <div className={styles.description}>{description}</div>
         </div>
