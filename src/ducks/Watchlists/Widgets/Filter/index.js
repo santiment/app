@@ -269,6 +269,7 @@ const Filter = ({
                 filters={filter}
                 updMetricInFilter={updMetricInFilter}
                 isActiveFiltersOnly={isActiveFiltersOnly}
+                totalCounter={activeBaseMetrics.length}
                 isPro={isPro}
                 isOpen={isOpen}
               />

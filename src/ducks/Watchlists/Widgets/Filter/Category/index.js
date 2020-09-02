@@ -12,9 +12,12 @@ const Category = ({
   isActiveFiltersOnly,
   isViewMode,
   isOpen,
+  totalCounter,
   ...rest
 }) => {
-  const [isCollapsed, setIsCollapsed] = useState(isViewMode && !counter)
+  const [isCollapsed, setIsCollapsed] = useState(
+    isViewMode && !counter && totalCounter > 0
+  )
 
   function onToggleClick () {
     setIsCollapsed(!isCollapsed)
