@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 import ReactTable from 'react-table'
 import cx from 'classnames'
 import { connect } from 'react-redux'
+import Icon from '@santiment-network/ui/Icon'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
 import 'react-table/react-table.css'
 import {
@@ -10,8 +11,11 @@ import {
 } from '../../../../actions/types'
 import Refresh from '../../../../components/Refresh/Refresh'
 import NoDataTemplate from '../../../../components/NoDataTemplate/index'
+import ProPopupWrapper from '../../../../components/ProPopup/Wrapper'
+import ExplanationTooltip from '../../../../components/ExplanationTooltip/ExplanationTooltip'
 import AssetsToggleColumns from './AssetsToggleColumns'
 import { COLUMNS } from './asset-columns'
+import DownloadCSV from '../../Actions/DownloadCSV'
 import { COMMON_SETTINGS, COLUMNS_SETTINGS } from './columns'
 import { markedAsShowed } from '../../../SANCharts/SidecarExplanationTooltip'
 import { EXPLANATION_TOOLTIP_MARK } from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
@@ -146,6 +150,29 @@ const AssetsTable = ({
               onChange={toggleColumn}
               isScreener={type === 'screener'}
             />
+          )}
+          {type === 'screener' && (
+            <ProPopupWrapper
+              type='screener'
+              trigger={props => (
+                <div {...props} className={styles.action__wrapper}>
+                  <ExplanationTooltip text='Download .csv' offsetY={7}>
+                    <Icon type='save' className={styles.action} />
+                  </ExplanationTooltip>
+                </div>
+              )}
+            >
+              <ExplanationTooltip text='Download .csv' offsetY={7}>
+                <DownloadCSV
+                  name={listName}
+                  variant='ghost'
+                  fluid
+                  items={items}
+                >
+                  <Icon type='save' className={styles.action} />
+                </DownloadCSV>
+              </ExplanationTooltip>
+            </ProPopupWrapper>
           )}
         </div>
       </div>

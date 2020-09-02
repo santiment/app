@@ -1,6 +1,5 @@
 import React from 'react'
 import cx from 'classnames'
-import { NavLink as Link } from 'react-router-dom'
 import NewWatchlist from '../Actions/New'
 import { ProLabel } from '../../../components/ProLabel'
 import ProPopupWrapper from '../../../components/ProPopup/Wrapper'
