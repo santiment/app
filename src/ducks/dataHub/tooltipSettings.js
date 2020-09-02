@@ -23,6 +23,10 @@ export function FORMATTER (value) {
     return 'No data'
   }
 
+  if (value === 0) {
+    return 0
+  }
+
   if (value > LARGE_NUMBER_THRESHOLD) {
     return millify(value, 2)
   }

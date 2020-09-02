@@ -9,7 +9,7 @@ import ChartActiveMetrics from '../../Chart/ActiveMetrics'
 import { TOP_HOLDERS_PANE } from '../../Chart/Sidepanel/panes'
 import {
   HolderDistributionMetric,
-  HOLDER_DISTRIBUTION_PERCENT_METRICS
+  HOLDER_DISTRIBUTION_ABSOLUTE_METRICS
 } from '../../Chart/Sidepanel/HolderDistribution/metrics'
 import { useChartColors } from '../../../Chart/colors'
 import { usePressedModifier } from '../../../../hooks/keyboard'
@@ -30,6 +30,7 @@ const HolderDistributionWidget = ({
   widget,
   sidepanelHeader,
   TabMetrics,
+  isWithTabs,
   ...props
 }) => {
   const [isOpened, setIsOpened] = useState(true)
@@ -104,6 +105,7 @@ const HolderDistributionWidget = ({
           checkedMetrics={checkedMetrics}
           MetricColor={MetricColor}
           TabMetrics={TabMetrics}
+          isWithTabs={isWithTabs}
           toggleMetric={toggleWidgetMetric}
           toggleChartSidepane={toggleSidepane}
           onMergeClick={onMergeClick}
@@ -117,16 +119,19 @@ const HolderDistributionWidget = ({
   )
 }
 
-const newHolderDistributionWidget = props =>
+export const holderDistributionBuilder = (widget, metrics) => props =>
   ChartWidget.new(
     {
-      metrics: HOLDER_DISTRIBUTION_PERCENT_METRICS,
       mergedMetrics: [],
+      metrics,
       ...props
     },
-    HolderDistributionWidget
+    widget
   )
 
-HolderDistributionWidget.new = newHolderDistributionWidget
+HolderDistributionWidget.new = holderDistributionBuilder(
+  HolderDistributionWidget,
+  HOLDER_DISTRIBUTION_ABSOLUTE_METRICS
+)
 
 export default HolderDistributionWidget

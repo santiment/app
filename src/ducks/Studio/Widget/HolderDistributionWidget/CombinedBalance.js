@@ -1,11 +1,11 @@
 import React from 'react'
-import HolderDistributionWidget from './index'
-import ChartWidget from '../ChartWidget'
+import HolderDistributionWidget, { holderDistributionBuilder } from './index'
 import { HOLDER_DISTRIBUTION_PERCENT_METRICS } from '../../Chart/Sidepanel/HolderDistribution/metrics'
 import { TabCombinedBalanceMetrics } from '../../Chart/Sidepanel/HolderDistribution/Tabs'
 
 const HolderDistributionCombinedBalanceWidget = ({ ...props }) => (
   <HolderDistributionWidget
+    isWithTabs
     TabMetrics={TabCombinedBalanceMetrics}
     sidepanelHeader={`${
       props.settings.ticker
@@ -14,14 +14,9 @@ const HolderDistributionCombinedBalanceWidget = ({ ...props }) => (
   />
 )
 
-HolderDistributionCombinedBalanceWidget.new = props =>
-  ChartWidget.new(
-    {
-      metrics: HOLDER_DISTRIBUTION_PERCENT_METRICS,
-      mergedMetrics: [],
-      ...props
-    },
-    HolderDistributionCombinedBalanceWidget
-  )
+HolderDistributionCombinedBalanceWidget.new = holderDistributionBuilder(
+  HolderDistributionCombinedBalanceWidget,
+  HOLDER_DISTRIBUTION_PERCENT_METRICS
+)
 
 export default HolderDistributionCombinedBalanceWidget
