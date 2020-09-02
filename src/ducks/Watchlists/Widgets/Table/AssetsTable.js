@@ -156,13 +156,13 @@ const AssetsTable = ({
               type='screener'
               trigger={props => (
                 <div {...props} className={styles.action__wrapper}>
-                  <ExplanationTooltip text='Download .csv' offsetY={7}>
+                  <ExplanationTooltip text='Download .csv' offsetY={10}>
                     <Icon type='save' className={styles.action} />
                   </ExplanationTooltip>
                 </div>
               )}
             >
-              <ExplanationTooltip text='Download .csv' offsetY={7}>
+              <ExplanationTooltip text='Download .csv' offsetY={10}>
                 <DownloadCSV
                   name={listName}
                   variant='ghost'

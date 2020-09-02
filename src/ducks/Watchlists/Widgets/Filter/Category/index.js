@@ -11,6 +11,7 @@ const Category = ({
   counter,
   isActiveFiltersOnly,
   isViewMode,
+  isOpen,
   ...rest
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(isViewMode && !counter)
@@ -40,6 +41,7 @@ const Category = ({
       </h3>
       <div className={styles.metrics}>
         {groups &&
+          isOpen &&
           Object.keys(groups).map(group => (
             <div key={group} className={styles.group}>
               {group !== NO_GROUP && (

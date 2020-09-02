@@ -270,6 +270,7 @@ const Filter = ({
                 updMetricInFilter={updMetricInFilter}
                 isActiveFiltersOnly={isActiveFiltersOnly}
                 isPro={isPro}
+                isOpen={isOpen}
               />
             ))}
           </div>
