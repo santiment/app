@@ -275,7 +275,9 @@ const Filter = ({
           </div>
         </div>
       </section>
-      {isOpen && <div className={styles.background} />}
+      {isOpen && (
+        <div className={styles.background} onClick={() => setIsOpen(false)} />
+      )}
     </>
   )
 }
