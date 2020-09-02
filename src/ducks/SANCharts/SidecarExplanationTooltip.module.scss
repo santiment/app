@@ -46,6 +46,8 @@
 .content {
   position: relative;
   display: flex;
+  z-index: 10;
+  background: var(--white);
 
   &:hover {
     .btn {

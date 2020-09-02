@@ -100,7 +100,6 @@ const AssetsTable = ({
         !markedAsNew
       ) {
         timer = setTimeout(() => {
-          console.log('set new', 'previous', markedAsNew)
           !markedAsNew && setAsNewMarked(items[0])
         }, 5000)
       }

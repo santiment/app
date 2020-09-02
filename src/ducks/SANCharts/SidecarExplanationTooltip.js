@@ -102,7 +102,8 @@ export const ExplanationTooltipWrapper = props => {
     align = 'start',
     closable = true,
     classes = {},
-    closeEl: CloseIcon = CloseTrigger
+    closeEl: CloseIcon = CloseTrigger,
+    as = 'div'
   } = props
 
   return (
@@ -113,7 +114,7 @@ export const ExplanationTooltipWrapper = props => {
       position={position}
       withArrow={withArrow}
       align={align}
-      as='div'
+      as={as}
       onOpen={shown ? undefined : disableHelp}
       text={
         <div className={styles.content}>

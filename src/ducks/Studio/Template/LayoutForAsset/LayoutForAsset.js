@@ -5,7 +5,7 @@ import Icon from '@santiment-network/ui/Icon'
 import LoadTemplate from '../Dialog/LoadTemplate'
 import { useUserTemplates } from '../gql/hooks'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
-import layoutsTooltipImg from './../../../../assets/tooltips/screener-layouts-tooltip.svg'
+import layoutsTooltipImg from './../../../../assets/tooltips/screener-layouts-bg.svg'
 import DarkTooltip from '../../../../components/Tooltip/DarkTooltip'
 import styles from './LayoutForAsset.module.scss'
 import TooltipWithImg from '../../../../components/TooltipWithImg/TooltipWithImg'
@@ -18,6 +18,7 @@ const RowTooltipWrapper = ({ onHide }) => ({ children }) => {
       <TooltipWithImg
         mark={EXPLANATION_TOOLTIP_MARK}
         onHide={onHide}
+        as={Fragment}
         img={layoutsTooltipImg}
         className={styles.explanation}
         description='Choose from a list of existing chart layouts that you can apply for the selected asset. Use one of our community-made templates or create your own!'
