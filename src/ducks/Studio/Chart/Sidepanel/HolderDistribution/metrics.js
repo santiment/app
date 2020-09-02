@@ -1,4 +1,9 @@
-import { TooltipSetting, FORMATTER } from '../../../../dataHub/tooltipSettings'
+import {
+  percentFormatter,
+  axisPercentFormatter,
+  LABEL_PERCENT_POSTFIX
+} from './utils'
+import { updateTooltipSetting } from '../../../../dataHub/tooltipSettings'
 
 const HOLDER_DISTRIBUTION_TEMPLATE = {
   _0_to_0001: {
@@ -43,33 +48,38 @@ const HOLDER_DISTRIBUTION_TEMPLATE = {
   }
 }
 const ABSOLUTE_HOLDER_DISTRIBUTION_KEY = 'holders_distribution'
+const ABSOLUTE_HOLDER_DISTRIBUTION_COMBINED_BALANCE_KEY =
+  'holders_distribution_combined_balance'
 const PERCENT_HOLDER_DISTRIBUTION_KEY =
   'percent_of_holders_distribution_combined_balance'
+
 const KEYS = Object.keys(HOLDER_DISTRIBUTION_TEMPLATE)
 
-const activeMetricBtnFormatters = {
-  [PERCENT_HOLDER_DISTRIBUTION_KEY]: label => `${label} %`
-}
-
-function buildMetrics (templateKey, type) {
+function buildMetrics (
+  templateKey,
+  type,
+  labelPostfix = '',
+  formatter,
+  axisFormatter
+) {
   const Metric = {}
   KEYS.forEach(range => {
     const key = templateKey + range
-    const { label, queryKey } = HOLDER_DISTRIBUTION_TEMPLATE[range]
+    const { label: tmpLabel, queryKey } = HOLDER_DISTRIBUTION_TEMPLATE[range]
+    const label = tmpLabel + labelPostfix
 
-    Metric[key] = {
+    const metric = {
       key,
       type,
       label,
+      formatter,
+      axisFormatter,
       node: 'line',
-      queryKey: queryKey && templateKey + queryKey,
-      activeMetricBtnFormatter: activeMetricBtnFormatters[templateKey]
+      queryKey: queryKey && templateKey + queryKey
     }
 
-    TooltipSetting[key] = {
-      label,
-      formatter: FORMATTER
-    }
+    updateTooltipSetting(metric)
+    Metric[key] = metric
   })
 
   return Metric
@@ -81,12 +91,20 @@ export const HolderDistributionAbsoluteMetric = buildMetrics(
 
 export const HolderDistributionPercentMetric = buildMetrics(
   PERCENT_HOLDER_DISTRIBUTION_KEY,
-  'percent'
+  'percent',
+  LABEL_PERCENT_POSTFIX,
+  percentFormatter,
+  axisPercentFormatter
+)
+
+export const HolderDistributionCombinedBalanceAbsoluteMetric = buildMetrics(
+  ABSOLUTE_HOLDER_DISTRIBUTION_COMBINED_BALANCE_KEY
 )
 
 export const HolderDistributionMetric = {
   ...HolderDistributionAbsoluteMetric,
-  ...HolderDistributionPercentMetric
+  ...HolderDistributionPercentMetric,
+  ...HolderDistributionCombinedBalanceAbsoluteMetric
 }
 
 export const HOLDER_DISTRIBUTION_ABSOLUTE_METRICS = Object.values(
@@ -95,4 +113,8 @@ export const HOLDER_DISTRIBUTION_ABSOLUTE_METRICS = Object.values(
 
 export const HOLDER_DISTRIBUTION_PERCENT_METRICS = Object.values(
   HolderDistributionPercentMetric
+)
+
+export const HOLDER_DISTRIBUTION_COMBINED_BALANCE_ABSOLUTE_METRICS = Object.values(
+  HolderDistributionCombinedBalanceAbsoluteMetric
 )

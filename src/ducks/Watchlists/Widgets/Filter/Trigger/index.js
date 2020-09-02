@@ -9,7 +9,23 @@ import styles from './index.module.scss'
 export const EXPLANATION_TOOLTIP_MARK = '_FILTER_EXPLANATION'
 
 const Trigger = ({ activeMetricsCount, isOpen, onClick }) =>
-  activeMetricsCount > 0 ? (
+  isOpen ? (
+    <Button
+      className={cx(styles.button, isOpen && styles.active)}
+      onClick={() => onClick(!isOpen)}
+      border
+    >
+      <Icon className={styles.icon} type='filter-filled' />
+      <span
+        className={cx(
+          styles.text,
+          activeMetricsCount > 0 && styles.text__active
+        )}
+      >
+        Filter
+      </span>
+    </Button>
+  ) : activeMetricsCount > 0 ? (
     <Tooltip
       className={styles.tooltip}
       withArrow={false}

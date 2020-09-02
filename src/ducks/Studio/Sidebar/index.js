@@ -6,7 +6,10 @@ import Icon from '@santiment-network/ui/Icon'
 import MetricSelector from './MetricSelector'
 import InsightAlertSelector from './InsightAlertSelector'
 import Search from './Search'
-import { HOLDER_DISTRIBUTION_NODE } from './nodes'
+import {
+  HOLDER_DISTRIBUTION_NODE,
+  HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE
+} from './nodes'
 import withMetrics from '../withMetrics'
 import { TopTransactionsTableMetric } from '../../dataHub/submetrics'
 import { rebuildDescriptions } from '../../dataHub/metrics/descriptions'
@@ -14,7 +17,14 @@ import styles from './index.module.scss'
 
 const HOLDER_DISTRIBUTION_ITEM = { item: HOLDER_DISTRIBUTION_NODE }
 const TOP_TRANSACTIONS_TABLE_ITEM = { item: TopTransactionsTableMetric }
-const ON_CHAIN_DEFAULT = [HOLDER_DISTRIBUTION_ITEM, TOP_TRANSACTIONS_TABLE_ITEM]
+const HOLDER_DISTRIBUTION_COMBINED_BALANCE_ITEM = {
+  item: HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE
+}
+const ON_CHAIN_DEFAULT = [
+  HOLDER_DISTRIBUTION_ITEM,
+  HOLDER_DISTRIBUTION_COMBINED_BALANCE_ITEM,
+  TOP_TRANSACTIONS_TABLE_ITEM
+]
 
 const TABS = ['Metrics', 'Insights']
 const DEFAULT_TAB = TABS[0]

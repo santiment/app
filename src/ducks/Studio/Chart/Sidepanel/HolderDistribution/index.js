@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import UIButton from '@santiment-network/ui/Button'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
@@ -65,7 +65,11 @@ const ToggleButton = ({
 )
 
 const CheckboxButton = ({ metric, isChecked, onClick, ...props }) => (
-  <Button className={styles.check} onClick={() => onClick(metric)} {...props}>
+  <Button
+    className={isChecked && styles.active}
+    onClick={() => onClick(metric)}
+    {...props}
+  >
     <Checkbox className={styles.checkbox} isActive={isChecked} />
     {metric.label}
   </Button>
@@ -92,45 +96,44 @@ const Confirm = ({ checkedMetrics, onClick }) => {
 }
 
 const HolderDistribution = ({
-  ticker,
+  header,
   metrics,
   mergedMetrics,
   checkedMetrics,
   MetricColor,
+  TabMetrics,
   toggleMetric,
   currentPhase,
+  isWithTabs,
   onMergeClick,
   onMergeConfirmClick,
-  onUnmergeClick,
-  btnProps = {},
-  classes = {}
+  onUnmergeClick
 }) => {
   const [activeTab, setActiveTab] = useState(Tab.PERCENTS)
-  const distributionMetrics = useMemo(() => TabMetrics[activeTab], [activeTab])
   const isIdlePhase = currentPhase === 'idle'
   const MetricButton = isIdlePhase ? ToggleButton : CheckboxButton
 
   return (
     <>
-      <div className={cx(styles.top, classes.holdersTitle)}>
-        {ticker} Holders Distribution
-        {checkedMetrics ? (
-          isIdlePhase ? (
-            <Merge onClick={onMergeClick} />
-          ) : (
-            <Confirm
-              checkedMetrics={checkedMetrics}
-              onClick={onMergeConfirmClick}
-            />
-          )
-        ) : null}
+      <div className={styles.top}>
+        {header}
+        {isIdlePhase ? (
+          <Merge onClick={onMergeClick} />
+        ) : (
+          <Confirm
+            checkedMetrics={checkedMetrics}
+            onClick={onMergeConfirmClick}
+          />
+        )}
       </div>
 
-      <Tabs
-        activeTab={activeTab}
-        isIdlePhase={isIdlePhase}
-        setActiveTab={setActiveTab}
-      />
+      {isWithTabs && (
+        <Tabs
+          activeTab={activeTab}
+          isIdlePhase={isIdlePhase}
+          setActiveTab={setActiveTab}
+        />
+      )}
 
       <div className={styles.metrics}>
         {isIdlePhase &&
@@ -148,11 +151,10 @@ const HolderDistribution = ({
             )
           })}
 
-        {distributionMetrics.map(metric => {
+        {TabMetrics[activeTab].map(metric => {
           const { key } = metric
           return (
             <MetricButton
-              {...btnProps}
               key={key}
               metric={metric}
               color={MetricColor[key]}
@@ -168,8 +170,10 @@ const HolderDistribution = ({
 }
 
 HolderDistribution.defaultProps = {
+  TabMetrics,
   mergedMetrics: [],
-  currentPhase: 'idle'
+  currentPhase: 'idle',
+  header: 'Holders Distribution'
 }
 
 export default HolderDistribution

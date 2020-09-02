@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
-import { HOLDER_DISTRIBUTION_NODE } from './nodes'
+import {
+  HOLDER_DISTRIBUTION_NODE,
+  HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE
+} from './nodes'
 import Group from './Group'
 import Button from './Button'
 import { useIsBetaMode } from '../../../stores/ui'
@@ -40,12 +43,22 @@ const Category = ({
       <div className={styles.metrics}>
         {/* TODO: Find a better way to extend metrics categories with custom metrics [@vanguard | April 3, 2020] */}
         {hasTopHolders && (
-          <Button
-            metric={HOLDER_DISTRIBUTION_NODE}
-            project={project}
-            label='Holder Distribution'
-            onClick={() => rest.toggleMetric(HOLDER_DISTRIBUTION_NODE)}
-          />
+          <>
+            <Button
+              project={project}
+              metric={HOLDER_DISTRIBUTION_NODE}
+              label={HOLDER_DISTRIBUTION_NODE.label}
+              onClick={() => rest.toggleMetric(HOLDER_DISTRIBUTION_NODE)}
+            />
+            <Button
+              project={project}
+              metric={HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE}
+              label={HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE.label}
+              onClick={() =>
+                rest.toggleMetric(HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE)
+              }
+            />
+          </>
         )}
         {Object.keys(groups).map(group => (
           <Group

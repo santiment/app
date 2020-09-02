@@ -5,8 +5,19 @@ import FilterMetric from '../Metric'
 import { NO_GROUP } from '../../../../Studio/Sidebar/utils'
 import styles from './index.module.scss'
 
-const Category = ({ title, groups, counter, ...rest }) => {
-  const [isCollapsed, setIsCollapsed] = useState(false)
+const Category = ({
+  title,
+  groups,
+  counter,
+  isActiveFiltersOnly,
+  isViewMode,
+  isOpen,
+  totalCounter,
+  ...rest
+}) => {
+  const [isCollapsed, setIsCollapsed] = useState(
+    isViewMode && !counter && totalCounter > 0
+  )
 
   function onToggleClick () {
     setIsCollapsed(!isCollapsed)
@@ -14,17 +25,26 @@ const Category = ({ title, groups, counter, ...rest }) => {
 
   return (
     <div
-      className={cx(styles.category, isCollapsed && styles.category__collapsed)}
+      className={cx(
+        styles.category,
+        isCollapsed && styles.category__collapsed,
+        isActiveFiltersOnly && styles.category__onlyActive
+      )}
     >
       <h3 className={styles.title} onClick={onToggleClick}>
         <div>
           {title}
-          {counter > 0 && <span className={styles.counter}>({counter})</span>}
+          {!isActiveFiltersOnly && counter > 0 && (
+            <span className={styles.counter}>({counter})</span>
+          )}
         </div>
-        <Icon type='arrow-right' className={styles.toggle} />
+        {!isActiveFiltersOnly && (
+          <Icon type='arrow-right' className={styles.toggle} />
+        )}
       </h3>
       <div className={styles.metrics}>
         {groups &&
+          isOpen &&
           Object.keys(groups).map(group => (
             <div key={group} className={styles.group}>
               {group !== NO_GROUP && (
@@ -36,12 +56,14 @@ const Category = ({ title, groups, counter, ...rest }) => {
                     {...rest}
                     key={metric.label}
                     baseMetric={metric}
+                    isViewMode={isViewMode}
                   />
                 ) : (
                   <FilterMetric
+                    {...rest}
                     key={metric.label}
                     baseMetric={metric}
-                    {...rest}
+                    isViewMode={isViewMode}
                   />
                 )
               )}

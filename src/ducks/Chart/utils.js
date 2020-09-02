@@ -1,4 +1,5 @@
 import { Metric } from '../dataHub/metrics'
+import { TooltipSetting } from '../dataHub/tooltipSettings'
 import { MirroredMetric } from '../dataHub/metrics/mirrored'
 import {
   getDateFormats,
@@ -40,7 +41,7 @@ export function getDateHoursMinutes (date) {
 }
 
 export function yBubbleFormatter (value, metricKey) {
-  const metric = Metric[metricKey]
+  const metric = TooltipSetting[metricKey]
   if (metric && metric.axisFormatter) {
     return metric.axisFormatter(value)
   }

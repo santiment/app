@@ -10,11 +10,18 @@
   }
 }
 
+.toggle {
+  color: var(--casper);
+  fill: var(--casper);
+  stroke: var(--casper);
+}
+
 .btn {
   margin-bottom: 8px;
-  border: 1px solid transparent;
   height: auto;
-  min-height: 32px;
+  min-height: auto;
+  padding: 7px 12px;
+  color: var(--casper);
 
   &:last-child {
     margin: 0;
@@ -22,24 +29,13 @@
 
   &:hover {
     fill: var(--casper);
+    color: var(--rhino);
+    background: var(--athens);
   }
-}
-
-.toggle {
-  color: var(--casper);
-  fill: var(--casper);
-  stroke: var(--casper);
 
   &.active {
-    border: 1px solid var(--porcelain);
     color: var(--rhino);
-    box-shadow: 0 2px 8px rgba(59, 84, 106, 0.03),
-      0 1px 2px rgba(59, 84, 106, 0.03);
   }
-}
-
-.check:hover {
-  background: var(--athens);
 }
 
 .label {
@@ -57,7 +53,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 8px 20px;
+  margin: 0 0 20px;
 }
 
 .checkbox {
@@ -70,6 +66,10 @@
 
 .cancel {
   @include btn(persimmon);
+}
+
+.merge {
+  width: auto;
 }
 
 .unmerge {

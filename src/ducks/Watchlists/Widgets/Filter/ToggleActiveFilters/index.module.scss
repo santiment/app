@@ -1,0 +1,17 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  min-height: 32px;
+
+  &:hover {
+    color: var(--mirage);
+  }
+}
+
+.text {
+  margin-left: 8px;
+}
