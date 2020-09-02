@@ -162,16 +162,15 @@ const AssetsTable = ({
                 </div>
               )}
             >
-              <ExplanationTooltip text='Download .csv' offsetY={10}>
-                <DownloadCSV
-                  name={listName}
-                  variant='ghost'
-                  fluid
-                  items={items}
-                >
-                  <Icon type='save' className={styles.action} />
-                </DownloadCSV>
-              </ExplanationTooltip>
+              <DownloadCSV
+                name={listName}
+                items={items}
+                className={styles.action}
+              >
+                <ExplanationTooltip text='Download .csv' offsetY={10}>
+                  <Icon type='save' />
+                </ExplanationTooltip>
+              </DownloadCSV>
             </ProPopupWrapper>
           )}
         </div>
