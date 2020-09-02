@@ -41,9 +41,12 @@ const ExchangeSetting = ({ metric, widget, rerenderWidgets, slug }) => {
 
   function onChange (newOwner) {
     const newMap = new Map()
+    const isExchangeRemoved = newOwner === DEFAULT_EXCHANGE
 
+    // NOTE: Inflow/Outflow requires queryKey change [@vanguard | Sep  2, 2020]
     newMap.set(metric, {
-      owner: newOwner === DEFAULT_EXCHANGE ? undefined : newOwner
+      queryKey: isExchangeRemoved ? undefined : metric.key + '_per_exchange',
+      owner: isExchangeRemoved ? undefined : newOwner
     })
 
     widget.MetricSettingMap = mergeMetricSettingMap(
