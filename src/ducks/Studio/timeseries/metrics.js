@@ -16,9 +16,10 @@ export const GET_METRIC = (
     $holdersCount: Int
     $market_segments: [String]
     $ignored_slugs: [String]
+    $owner: String
   ) {
     getMetric(metric: "${queryKey}") {
-      timeseriesData(selector: { ${selector}: $slug, holdersCount: $holdersCount, market_segments: $market_segments, ignored_slugs: $ignored_slugs}, from: $from, to: $to, interval: $interval, transform: $transform) {
+      timeseriesData(selector: { ${selector}: $slug, holdersCount: $holdersCount, market_segments: $market_segments, ignored_slugs: $ignored_slugs, owner: $owner}, from: $from, to: $to, interval: $interval, transform: $transform) {
         datetime
         ${key}: value
       }

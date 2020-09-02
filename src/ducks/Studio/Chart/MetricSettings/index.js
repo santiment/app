@@ -3,11 +3,13 @@ import cx from 'classnames'
 import TopHoldersSetting from './TopHoldersSetting'
 import ColorSetting from './ColorSetting'
 import IntervalSetting from './IntervalSetting'
+import ExchangeSetting from './ExchangeSetting'
 import { MetricSettings } from '../../../dataHub/metrics/settings'
 import styles from './index.module.scss'
 
 const SettingToComponent = {
-  holdersCount: TopHoldersSetting
+  holdersCount: TopHoldersSetting,
+  exchange: ExchangeSetting
 }
 
 const Settings = ({ className, metric, ...props }) => {
@@ -20,6 +22,7 @@ const Settings = ({ className, metric, ...props }) => {
       {metric.node !== 'autoWidthBar' && (
         <IntervalSetting metric={metric} {...props} />
       )}
+      <ExchangeSetting metric={metric} {...props} />
       {settings &&
         settings.map(({ key }) => {
           const Setting = SettingToComponent[key]

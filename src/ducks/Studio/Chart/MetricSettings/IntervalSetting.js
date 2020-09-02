@@ -28,7 +28,7 @@ const IntervalSetting = ({
         ? interval
         : intervals[0].key
     },
-    [widget.MetricSettingMap, intervals]
+    [widget.MetricSettingMap, intervals, metric]
   )
 
   useEffect(

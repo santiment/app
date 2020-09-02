@@ -197,6 +197,7 @@ const Canvas = ({
           className={styles.settings}
           metric={metricSettings}
           interval={settings.interval}
+          slug={settings.slug}
           widget={widget}
           rerenderWidgets={rerenderWidgets}
         />
