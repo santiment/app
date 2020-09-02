@@ -6,14 +6,21 @@
 }
 
 .title {
-  cursor: pointer;
   display: inline-block;
   vertical-align: middle;
   margin-right: 18px;
   padding-left: 28px;
+}
+
+.toggle {
+  cursor: pointer;
 
   &__notActive {
     cursor: default;
+  }
+
+  &__disabled {
+    color: var(--mystic);
   }
 }
 
@@ -34,14 +41,6 @@
   position: absolute;
   top: 2px;
   left: 0;
-}
-
-.toggle:hover .checkbox div {
-  border-color: var(--jungle-green);
-}
-
-.toggle__disabled:hover .checkbox div {
-  border-color: var(--porcelain);
 }
 
 .explanation {

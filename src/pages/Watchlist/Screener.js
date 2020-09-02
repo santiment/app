@@ -31,8 +31,7 @@ const Screener = props => {
           const title = getWatchlistName(props)
           const {
             typeInfo: { listId },
-            isCurrentUserTheAuthor,
-            projectsCount
+            isCurrentUserTheAuthor
           } = Assets
 
           return (
@@ -41,8 +40,14 @@ const Screener = props => {
                 name={(props.watchlist || {}).name || props.name}
                 id={listId}
                 assets={assets}
+                loading={loading}
                 watchlist={props.watchlist}
                 isAuthor={isCurrentUserTheAuthor}
+                isLoggedIn={props.isLoggedIn}
+                screenerFunction={screenerFunction}
+                setScreenerFunction={setScreenerFunction}
+                isDefaultScreener={props.isDefaultScreener}
+                history={props.history}
                 widgets={{
                   isPriceChart: isPriceChartActive,
                   isPriceTreeMap: isPriceTreeMap,
@@ -72,12 +77,7 @@ const Screener = props => {
                 Assets={{ ...Assets, isLoading: loading }}
                 items={assets}
                 type='screener'
-                isDefaultScreener={props.isDefaultScreener}
-                isLoggedIn={props.isLoggedIn}
-                screenerFunction={screenerFunction}
-                setScreenerFunction={setScreenerFunction}
                 isAuthor={isCurrentUserTheAuthor}
-                projectsCount={projectsCount}
                 watchlist={props.watchlist}
                 classes={{ container: styles.tableWrapper }}
                 className={styles.table}

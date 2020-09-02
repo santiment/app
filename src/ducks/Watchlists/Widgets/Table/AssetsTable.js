@@ -1,10 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import ReactTable from 'react-table'
 import cx from 'classnames'
-import Button from '@santiment-network/ui/Button'
-import Icon from '@santiment-network/ui/Icon'
-import Sticky from 'react-stickynode'
 import { connect } from 'react-redux'
+import Icon from '@santiment-network/ui/Icon'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
 import 'react-table/react-table.css'
 import {
@@ -12,28 +10,17 @@ import {
   WATCHLIST_TOGGLE_COLUMNS
 } from '../../../../actions/types'
 import Refresh from '../../../../components/Refresh/Refresh'
-import ServerErrorMessage from './../../../../components/ServerErrorMessage'
-import { ProLabel } from '../../../../components/ProLabel'
 import NoDataTemplate from '../../../../components/NoDataTemplate/index'
+import ProPopupWrapper from '../../../../components/ProPopup/Wrapper'
+import ExplanationTooltip from '../../../../components/ExplanationTooltip/ExplanationTooltip'
 import AssetsToggleColumns from './AssetsToggleColumns'
-import Filter from '../Filter'
-import SaveAs from '../../Actions/SaveAs'
-import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import { COLUMNS } from './asset-columns'
+import DownloadCSV from '../../Actions/DownloadCSV'
 import { COMMON_SETTINGS, COLUMNS_SETTINGS } from './columns'
-import ScreenerSignalDialog from '../../../Signals/ScreenerSignal/ScreenerSignalDialog'
 import { markedAsShowed } from '../../../SANCharts/SidecarExplanationTooltip'
 import { EXPLANATION_TOOLTIP_MARK } from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
 import './ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
-
-export const CustomHeadComponent = ({ children, className, ...rest }) => (
-  <Sticky enabled innerZ={1}>
-    <div className={cx('rt-thead', className)} {...rest}>
-      {children}
-    </div>
-  </Sticky>
-)
 
 const CustomNoDataComponent = ({ isLoading }) => {
   if (isLoading) {
@@ -72,7 +59,6 @@ const AssetsTable = ({
   listName,
   type,
   watchlist,
-  projectsCount,
   settings,
   allColumns,
   isAuthor,
@@ -80,12 +66,9 @@ const AssetsTable = ({
   showCollumnsToggle = true,
   className,
   columnProps,
-  screenerFunction,
   ...props
 }) => {
-  const { isPro } = useUserSubscriptionStatus()
   const [markedAsNew, setAsNewMarked] = useState()
-  const [isFilterOpened, setIsFilterOpened] = useState(false)
 
   const hideMarkedAsNew = useCallback(() => {
     setAsNewMarked(undefined)
@@ -97,12 +80,9 @@ const AssetsTable = ({
     }
   }, [])
 
-  const { isLoading, error, timestamp, typeInfo } = Assets
+  const { isLoading, timestamp, typeInfo } = Assets
   const key = typeInfo.listId || listName
   const { sorting, pageSize, hiddenColumns } = settings[key] || {}
-  if (error && error.message !== 'Network error: Failed to fetch') {
-    return <ServerErrorMessage />
-  }
 
   const changeShowing = (columns, hiddenColumns) => {
     const modifiedColumns = JSON.parse(JSON.stringify(columns))
@@ -153,10 +133,7 @@ const AssetsTable = ({
 
   return (
     <div className={classes.container} id='table'>
-      <div
-        className={cx(styles.top, isFilterOpened && styles.top__filterView)}
-        id='tableTop'
-      >
+      <div className={styles.top} id='tableTop'>
         {filterType ? (
           <span>Showed based on {filterType} anomalies</span>
         ) : (
@@ -165,20 +142,6 @@ const AssetsTable = ({
             isLoading={isLoading}
             onRefreshClick={() => refetchAssets({ ...typeInfo, minVolume })}
           />
-        )}
-        {type === 'screener' && screenerFunction.name !== 'top_all_projects' && (
-          <div className={styles.saveAs}>
-            <SaveAs
-              watchlist={watchlist}
-              trigger={
-                <Button disabled={!isPro} border className={styles.saveAs__btn}>
-                  <Icon type='disk' className={styles.saveAs__icon} />
-                  Save as
-                </Button>
-              }
-            />
-            {!isPro && <ProLabel className={styles.saveAs__proLabel} />}
-          </div>
         )}
         <div className={styles.actions}>
           {showCollumnsToggle && (
@@ -189,22 +152,27 @@ const AssetsTable = ({
             />
           )}
           {type === 'screener' && (
-            <>
-              <ScreenerSignalDialog
-                watchlistId={watchlist.id}
-                classes={styles}
-              />
-              <Filter
-                watchlist={watchlist}
-                // projectsCount={projectsCount}
-                projectsCount={items.length}
-                isAuthor={isAuthor}
-                isOpen={isFilterOpened}
-                setIsOpen={setIsFilterOpened}
-                screenerFunction={screenerFunction}
-                {...props}
-              />
-            </>
+            <ProPopupWrapper
+              type='screener'
+              trigger={props => (
+                <div {...props} className={styles.action__wrapper}>
+                  <ExplanationTooltip text='Download .csv' offsetY={10}>
+                    <Icon type='save' className={styles.action} />
+                  </ExplanationTooltip>
+                </div>
+              )}
+            >
+              <ExplanationTooltip text='Download .csv' offsetY={10}>
+                <DownloadCSV
+                  name={listName}
+                  variant='ghost'
+                  fluid
+                  items={items}
+                >
+                  <Icon type='save' className={styles.action} />
+                </DownloadCSV>
+              </ExplanationTooltip>
+            </ProPopupWrapper>
           )}
         </div>
       </div>
@@ -220,12 +188,7 @@ const AssetsTable = ({
         sortable={false}
         resizable={false}
         defaultSorted={[sortingColumn]}
-        className={cx(
-          '-highlight',
-          styles.assetsTable,
-          isFilterOpened && styles.assetsTable__filterView,
-          className
-        )}
+        className={cx('-highlight', styles.assetsTable, className)}
         data={items}
         columns={shownColumns}
         loadingText=''
@@ -236,7 +199,7 @@ const AssetsTable = ({
           />
         )}
         NoDataComponent={() => <CustomNoDataComponent isLoading={isLoading} />}
-        TheadComponent={CustomHeadComponent}
+        // TheadComponent={CustomHeadComponent}
         getTdProps={() => ({
           onClick: (e, handleOriginal) => {
             if (handleOriginal) handleOriginal()

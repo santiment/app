@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
-import UIButton from '@santiment-network/ui/Button'
-import { Button, Icon } from '../../Widgets/TopPanel/Actions'
+import Button from '@santiment-network/ui/Button'
 import PublicityToggle from '../ChangeVisibility'
 import ShareModalTrigger from '../../../../components/Share/ShareModalTrigger'
 import { isDynamicWatchlist } from '../../utils'
@@ -27,8 +26,7 @@ const Share = ({ watchlist, isAuthor }) => {
     <ShareModalTrigger
       shareLink={shareLink}
       trigger={props => (
-        <Button {...props} className={styles.trigger}>
-          <Icon type='share' />
+        <Button {...props} className={styles.trigger} icon='share'>
           Share
         </Button>
       )}
@@ -43,8 +41,7 @@ const Share = ({ watchlist, isAuthor }) => {
       }}
       onOpen={() => setOpen(true)}
       trigger={
-        <Button className={styles.trigger}>
-          <Icon type='share' />
+        <Button className={styles.trigger} icon='share'>
           Share
         </Button>
       }
@@ -58,14 +55,14 @@ const Share = ({ watchlist, isAuthor }) => {
           <ShareModalTrigger
             shareLink={shareLink}
             trigger={props => (
-              <UIButton
+              <Button
                 {...props}
                 variant='fill'
                 accent='positive'
                 disabled={!watchlist.isPublic}
               >
                 {`Share ${type}`}
-              </UIButton>
+              </Button>
             )}
           />
           <PublicityToggle

@@ -1,28 +1,61 @@
 @import '~@santiment-network/ui/mixins';
+@import '../../../../animations.scss';
+
+:root {
+  --filter-panel-header-height: 154px;
+  --screener-top-panel-height: 64px;
+}
 
 .wrapper {
   background-color: var(--white);
   border-top: 1px solid var(--porcelain);
   border-left: 1px solid var(--porcelain);
-  margin-left: 28px;
-  border-radius: 4px 0 0 0;
-  width: 376px;
+  width: 480px;
   z-index: 10;
-  position: absolute;
+  position: fixed;
+  top: var(--screener-top-panel-height);
+  bottom: 0;
   right: 0;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-out;
   transform: scaleX(0);
   transform-origin: top right;
   user-select: none;
-  min-height: calc(100vh - 200px);
+}
+
+.background {
+  position: fixed;
+  z-index: 9;
+  background-color: $rhino;
+  opacity: 0.6;
+  top: var(--screener-top-panel-height);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  animation: appearPartially 0.4s ease-in-out;
 }
 
 .active {
   transform: scaleX(1);
+  animation: growPartially 0.35s ease-out;
+}
+
+.inner {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: transform, opacity 0.12s ease-out;
+}
+
+.active .inner {
+  opacity: 1;
+  transform: translateX(0);
+  animation-name: shiftLeft, appear;
+  animation-duration: 0.52s, 0.3s;
+  animation-timing-function: ease-out, ease-in-out;
 }
 
 .content {
   overflow: hidden;
+  height: calc(100vh - var(--screener-top-panel-height) - var(--filter-panel-header-height)) !important;
 
   &:hover {
     overflow-y: auto;
@@ -30,21 +63,10 @@
   }
 }
 
-.fixed {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-
-  & .content {
-    height: calc(100vh - 64px) !important;
-  }
-}
-
 .closeIcon {
-  position: absolute;
-  top: 24px;
-  right: 32px;
+  margin-left: auto;
+  padding: 5px;
+  box-sizing: content-box;
   fill: var(--waterloo);
   cursor: pointer;
 
@@ -53,9 +75,14 @@
   }
 }
 
+.row {
+  display: flex;
+  align-items: flex-end;
+}
+
 .button {
+  padding: 0 4px;
   color: var(--jungle-green);
-  margin-left: -12px;
 
   &:hover {
     color: var(--jungle-green-hover);
@@ -64,24 +91,73 @@
 
 .loader {
   margin-left: 16px;
+  margin-bottom: 9px;
   font-size: 5px;
   color: var(--fiord);
 }
 
 .top {
-  margin: 19px 32px 13px;
+  margin: 19px 32px 19px;
+  display: flex;
+  align-items: stretch;
+  min-height: 32px;
+  flex-direction: column;
+}
+
+.count__assets {
+  @include text('body-2');
+
+  margin-right: 12px;
+}
+
+.count__filters {
+  @include text('body-3');
+
+  line-height: 22px;
+  color: var(--waterloo);
+}
+
+.search {
+  margin-top: 16px;
+}
+
+.togglers {
   display: flex;
   align-items: center;
-  min-height: 32px;
+  justify-content: space-between;
+  margin-top: 12px;
+}
 
-  &__column {
-    flex-direction: column;
-    align-items: baseline;
+.message {
+  margin-top: 12px;
+}
+
+@keyframes appearPartially {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0.6;
   }
 }
 
-.count {
-  @include text('body-2');
+@keyframes growPartially {
+  0% {
+    transform: scaleX(0.6);
+  }
 
-  margin-right: 16px;
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes shiftLeft {
+  0% {
+    transform: translateX(20px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }

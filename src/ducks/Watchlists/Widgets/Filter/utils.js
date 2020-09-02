@@ -48,3 +48,23 @@ export function extractFilters ({ filters = [] }) {
     return filters
   }
 }
+
+export function filterMetricsBySearch (value = '', metrics) {
+  if (!value) {
+    return metrics
+  }
+
+  const chars = value.toLowerCase().split('')
+  const passedMetrics = []
+
+  metrics.forEach(metric => {
+    const str = metric.label.toLowerCase()
+
+    const foundChars = chars.filter(char => str.includes(char))
+    if (foundChars.length === chars.length) {
+      passedMetrics.push(metric)
+    }
+  })
+
+  return passedMetrics
+}

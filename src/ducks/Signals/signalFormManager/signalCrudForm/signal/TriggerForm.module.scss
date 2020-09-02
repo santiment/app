@@ -81,10 +81,6 @@ $trigger-shared-form-width: 496px;
   margin-top: 10px;
 }
 
-.messagesText {
-  @include text('caption');
-}
-
 .openSettings {
   cursor: pointer;
 }

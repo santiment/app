@@ -27,14 +27,7 @@
   margin-left: 20px;
 
   &.active {
-    background: var(--jungle-green-light);
-    border: 1px solid var(--jungle-green-light-2);
-    color: var(--jungle-green);
-    fill: var(--jungle-green-light-3);
-
-    & .text__active::after {
-      background: var(--jungle-green-hover);
-    }
+    border: 1px solid var(--jungle-green);
   }
 
   &:hover {

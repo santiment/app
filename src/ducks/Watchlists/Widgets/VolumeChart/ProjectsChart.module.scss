@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: column;
   margin: 0 32px 0 32px;
-  position: relative;
 }
 
 .chartWrapper {
@@ -92,8 +91,8 @@
 }
 
 .treemapTooltip {
-  position: relative;
   top: -120px;
+  z-index: 20;
 }
 
 .tooltipTitle {
