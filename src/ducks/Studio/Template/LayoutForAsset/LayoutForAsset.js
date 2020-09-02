@@ -21,6 +21,7 @@ const RowTooltipWrapper = ({ onHide }) => ({ children }) => {
         img={layoutsTooltipImg}
         className={styles.explanation}
         description='Choose from a list of existing chart layouts that you can apply for the selected asset. Use one of our community-made templates or create your own!'
+        viewportOffset={10}
       >
         <div />
       </TooltipWithImg>

@@ -29,7 +29,7 @@ const TooltipWithImg = ({
       classes={styles}
       className={cx(styles.tooltip, className)}
       closeEl={CloseTrigger}
-      arrowOffset={30}
+      arrowOffset={32}
       content={
         <div className={styles.content}>
           <img src={tooltipImage} alt='Tooltip' className={styles.img} />
