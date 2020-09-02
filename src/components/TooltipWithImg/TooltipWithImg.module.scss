@@ -1,0 +1,69 @@
+@import '~@santiment-network/ui/mixins';
+
+.description {
+  @include text('body-3');
+
+  color: var(--rhino);
+  padding: 16px 24px;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.tooltipClose {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  min-width: 34px;
+  min-height: 34px;
+  border-radius: 50%;
+  background: var(--porcelain);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  fill: var(--fiord);
+  margin: 0;
+  cursor: pointer;
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+}
+
+.img {
+  width: 100%;
+  border-bottom: 1px solid var(--porcelain);
+  min-height: 260px;
+}
+
+.tooltip {
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  border-radius: $border-radius;
+  padding: 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 480px;
+  cursor: auto;
+
+  @include responsive('phone-xs', 'phone') {
+    width: 300px;
+  }
+}
+
+.tooltipArrow {
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  width: 14px;
+  height: 14px;
+  z-index: 1;
+}
+
+.tooltipContent {
+  border-radius: $border-radius;
+  background: var(--white);
+  z-index: 10;
+}

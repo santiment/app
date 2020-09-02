@@ -172,15 +172,14 @@
       }
     }
 
+    // [GarageInc:01.09.2020] overflow: visible; for showing tooltips on rows
     .rt-table {
       flex: 0 0;
-      overflow-x: hidden;
       padding-top: 8px;
-      overflow-y: hidden;
+      overflow: visible;
 
       &:hover {
-        overflow-x: auto;
-        overflow-x: overlay;
+        overflow: visible;
       }
     }
 

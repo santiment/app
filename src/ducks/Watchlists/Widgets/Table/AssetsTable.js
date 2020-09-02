@@ -74,11 +74,23 @@ const AssetsTable = ({
     setAsNewMarked(undefined)
   }, [])
 
-  useEffect(() => {
-    if (!markedAsShowed(EXPLANATION_TOOLTIP_MARK)) {
-      setTimeout(() => setAsNewMarked(items[0]), 5000)
-    }
-  }, [])
+  useEffect(
+    () => {
+      let timer
+      if (
+        !markedAsShowed(EXPLANATION_TOOLTIP_MARK) &&
+        items.length > 0 &&
+        !markedAsNew
+      ) {
+        timer = setTimeout(() => {
+          !markedAsNew && setAsNewMarked(items[0])
+        }, 5000)
+      }
+
+      return () => clearTimeout(timer)
+    },
+    [items[0]]
+  )
 
   const { isLoading, timestamp, typeInfo } = Assets
   const key = typeInfo.listId || listName

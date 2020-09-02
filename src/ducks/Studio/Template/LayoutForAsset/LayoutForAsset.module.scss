@@ -72,6 +72,13 @@
   display: flex;
   justify-content: center;
   width: 180px;
+  position: relative;
+}
+
+.explanation {
+  transform: translateX(-27px);
+  animation: none;
+  z-index: 30;
 }
 
 .new {
@@ -82,4 +89,8 @@
 .tooltipContainer {
   margin-bottom: 0 !important;
   z-index: 1;
+}
+
+.tooltipArrow {
+  display: flex;
 }
