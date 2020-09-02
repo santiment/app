@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { NavLink as Link } from 'react-router-dom'
 import NewWatchlist from '../Actions/New'
 import { ProLabel } from '../../../components/ProLabel'
+import ProPopupWrapper from '../../../components/ProPopup/Wrapper'
 import LoginDialogWrapper from '../../../components/LoginDialog/LoginDialogWrapper'
 import { useUserWatchlists } from '../gql/hooks'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
@@ -59,9 +60,9 @@ const NewScreenerCard = () => {
   const { isPro } = useUserSubscriptionStatus()
 
   return !isPro ? (
-    <Link to='/pricing'>
+    <ProPopupWrapper type='screener'>
       <Trigger showProBanner type='screener' />
-    </Link>
+    </ProPopupWrapper>
   ) : (
     <NewScreener trigger={<Trigger type='screener' />} />
   )
