@@ -9,6 +9,7 @@ import EditForm from '../../Actions/Edit/EditForm'
 import SaveAs from '../../Actions/SaveAs'
 import New from '../../Actions/New/NewScreener'
 import { ProLabel } from '../../../../components/ProLabel'
+import ProPopupWrapper from '../../../../components/ProPopup/Wrapper'
 import { useUserScreeners, useUpdateWatchlist } from '../../gql/hooks'
 import { notifyUpdate } from './notifications'
 import styles from './BaseActions.module.scss'
@@ -127,27 +128,49 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, isPro }) => {
               </Button>
             }
           />
-          <SaveAs
-            onSubmit={() => setIsMenuOpened(false)}
-            watchlist={watchlist}
-            trigger={
-              <Button disabled={!isPro}>
+          <ProPopupWrapper
+            type='screener'
+            trigger={props => (
+              <Button {...props}>
                 <Icon type='disk' />
                 Save as
                 {!isPro && <ProLabel className={styles.proLabel} />}
               </Button>
-            }
-          />
-          <New
-            onSubmit={() => setIsMenuOpened(false)}
-            trigger={
-              <Button disabled={!isPro}>
+            )}
+          >
+            <SaveAs
+              onSubmit={() => setIsMenuOpened(false)}
+              watchlist={watchlist}
+              trigger={
+                <Button>
+                  <Icon type='disk' />
+                  Save as
+                  {!isPro && <ProLabel className={styles.proLabel} />}
+                </Button>
+              }
+            />
+          </ProPopupWrapper>
+          <ProPopupWrapper
+            type='screener'
+            trigger={props => (
+              <Button {...props}>
                 <Icon type='plus-round' />
                 New
                 {!isPro && <ProLabel className={styles.proLabel} />}
               </Button>
-            }
-          />
+            )}
+          >
+            <New
+              onSubmit={() => setIsMenuOpened(false)}
+              trigger={
+                <Button>
+                  <Icon type='plus-round' />
+                  New
+                  {!isPro && <ProLabel className={styles.proLabel} />}
+                </Button>
+              }
+            />
+          </ProPopupWrapper>
           {isAuthor && screeners.length > 1 && (
             <Delete
               title='Do you want to delete this screener?'
