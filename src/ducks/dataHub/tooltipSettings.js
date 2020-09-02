@@ -23,6 +23,7 @@ export function FORMATTER (value) {
     return 'No data'
   }
 
+  // NOTE: Handling float type 0's (e.g. "0.0000") [@vanguard | Sep  2, 2020]
   if (value === 0) {
     return 0
   }
