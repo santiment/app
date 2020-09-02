@@ -1,38 +1,40 @@
 @import '~@santiment-network/ui/mixins';
 
-.description {
-  @include text('body-3');
-
-  color: var(--rhino);
-  padding: 16px 24px;
-  word-break: break-word;
-  white-space: normal;
+.closeIcon {
+  width: 10px;
+  height: 10px;
+  fill: var(--white);
 }
 
 .tooltipClose {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  min-width: 34px;
-  min-height: 34px;
+  background: var(--waterloo);
+  top: 11px;
+  right: 13px;
   border-radius: 50%;
-  background: var(--porcelain);
+  min-width: 32px;
+  min-height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  fill: var(--fiord);
   margin: 0;
   cursor: pointer;
 
   &:hover {
-    fill: var(--jungle-green);
+    .closeIcon {
+      fill: var(--jungle-green);
+    }
   }
 }
 
 .img {
   width: 100%;
   border-bottom: 1px solid var(--porcelain);
-  min-height: 260px;
+  min-height: 240px;
+
+  @include responsive('phone-xs', 'phone') {
+    min-height: 100px;
+  }
 }
 
 .tooltip {
@@ -42,12 +44,32 @@
   padding: 0;
 }
 
+.title {
+  @include text('body-2', 'm');
+
+  color: var(--rhino);
+  margin-bottom: 16px;
+}
+
+.description {
+  @include text('body-3');
+
+  margin-top: 16px;
+  word-break: break-word;
+  white-space: normal;
+  color: var(--rhino);
+}
+
 .content {
   display: flex;
   flex-direction: column;
   position: relative;
   width: 480px;
   cursor: auto;
+  padding: 16px;
+  background: var(--mystic);
+  color: var(--rhino);
+  border-radius: $border-radius;
 
   @include responsive('phone-xs', 'phone') {
     width: 300px;
@@ -55,7 +77,7 @@
 }
 
 .tooltipArrow {
-  background: var(--white);
+  background: var(--mystic);
   border: 1px solid var(--porcelain);
   width: 14px;
   height: 14px;

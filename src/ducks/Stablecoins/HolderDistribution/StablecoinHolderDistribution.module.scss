@@ -6,7 +6,6 @@
   box-sizing: border-box;
   border-radius: $border-radius;
   display: flex;
-  min-height: 715px;
 
   @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
     flex-direction: column;
@@ -40,10 +39,11 @@
 }
 
 .chart {
-  margin-top: auto;
+  margin-top: 32px;
 
   @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
     margin-bottom: 16px;
+    margin-top: 0;
   }
 }
 
@@ -69,14 +69,4 @@
   &:hover {
     color: var(--rhino);
   }
-}
-
-.metricBtn {
-  margin-top: 8px;
-}
-
-.metricBtns {
-  display: flex;
-  margin: 24px 0;
-  flex-wrap: wrap;
 }
