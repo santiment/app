@@ -1,4 +1,4 @@
-@import '~@santiment-network/ui/mixins.scss';
+@import '~@santiment-network/ui/mixins';
 
 .wrapper {
   width: 100%;
@@ -414,4 +414,8 @@
 
 .logoutBtn {
   margin-bottom: 25px;
+}
+
+.tooltip {
+  min-width: 200px;
 }

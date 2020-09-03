@@ -1,0 +1,24 @@
+@import '~@santiment-network/ui/mixins.scss';
+
+.panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  color: var(--mirage);
+
+  @include text('body-2'); }
+
+.count {
+  color: var(--mirage);
+  margin-left: 4px;
+}
+
+.info {
+  color: var(--waterloo);
+
+  @include text('body-3');
+
+  margin-top: 6px;
+}
