@@ -7,6 +7,7 @@ import Button from '@santiment-network/ui/Button'
 import copy from 'copy-to-clipboard'
 import Settings from './Settings'
 import * as actions from '../../actions/types'
+import ApiCallsStatistic from './ApiCallsStatistic'
 import styles from './SettingsAPIKeys.module.scss'
 
 let genTimer
@@ -94,6 +95,8 @@ const SettingsAPIKeys = ({ apikeys = [], generateAPIKey, revokeAPIKey }) => {
           </div>
         </div>
       </Settings.Row>
+
+      <ApiCallsStatistic />
     </Settings>
   )
 }

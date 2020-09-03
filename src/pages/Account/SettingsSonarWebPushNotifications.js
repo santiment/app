@@ -173,6 +173,7 @@ const SettingsSonarWebPushNotifications = ({
           title='Push Notifications'
           withArrow
           description='Get fast notifications through Push Notifications'
+          className={styles.tooltip}
         >
           <div className={styles.toggleWrapper}>
             {description}
