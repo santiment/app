@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import cx from 'classnames'
 import BaseActions from './BaseActions'
 import Widgets from './Widgets'
 import Share from '../../Actions/Share'
@@ -18,9 +19,10 @@ const TopPanel = ({
   ...props
 }) => {
   const { isPro } = useUserSubscriptionStatus()
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <section className={styles.wrapper}>
+    <section className={cx(styles.wrapper, isOpen && styles.open)}>
       <div className={styles.left}>
         <h1 className={styles.name}>{name}</h1>
         {isAuthor && (
@@ -49,6 +51,8 @@ const TopPanel = ({
           isAuthor={isAuthor}
           isLoggedIn={isLoggedIn}
           isDefaultScreener={isDefaultScreener}
+          setIsOpen={setIsOpen}
+          isOpen={isOpen}
           {...props}
         />
       </div>

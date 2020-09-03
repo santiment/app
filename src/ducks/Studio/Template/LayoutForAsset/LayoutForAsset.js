@@ -12,16 +12,11 @@ import styles from './LayoutForAsset.module.scss'
 
 export const EXPLANATION_TOOLTIP_MARK = '_ASSET_CHART_LAYOUTS_ROW'
 
-const RowTooltipWrapper = ({ onHide, children }) => {
+const RowTooltipBuilder = ({ onHide }) => ({ children }) => {
   const [shown, setShown] = useState(true)
 
   return (
-    <div
-      className={styles.tooltipWrapper}
-      onClick={e => {
-        setShown(false)
-      }}
-    >
+    <div className={styles.tooltipWrapper}>
       <TooltipWithImg
         shown={shown}
         mark={EXPLANATION_TOOLTIP_MARK}
@@ -33,7 +28,7 @@ const RowTooltipWrapper = ({ onHide, children }) => {
       >
         <div />
       </TooltipWithImg>
-      {children}
+      <div onClick={() => setShown(false)}>{children}</div>
     </div>
   )
 }
@@ -65,13 +60,17 @@ const IconTooltipWrapper = ({ children }) => {
 const Trigger = ({ markedAsNew, hideMarkedAsNew, counter, ...rest }) => {
   let Wrapper = useMemo(
     () => {
-      return markedAsNew ? RowTooltipWrapper : IconTooltipWrapper
+      return markedAsNew
+        ? RowTooltipBuilder({
+          onHide: () => markedAsNew && hideMarkedAsNew(false)
+        })
+        : IconTooltipWrapper
     },
     [markedAsNew, hideMarkedAsNew]
   )
 
   return (
-    <Wrapper onHide={() => markedAsNew && hideMarkedAsNew(false)}>
+    <Wrapper>
       <div
         {...rest}
         className={cx(
