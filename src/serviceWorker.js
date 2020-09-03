@@ -81,15 +81,11 @@ function registerValidSW (
     .register(swUrl)
     .then(registration => {
       if (!hideRegistrationChecking) {
-        const activeWorker = registration.active
-
         registration.onupdatefound = () => {
           const installingWorker = registration.installing
-
           if (installingWorker == null) {
             return
           }
-
           installingWorker.onstatechange = () => {
             if (installingWorker.state === 'installed') {
               if (navigator.serviceWorker.controller) {
