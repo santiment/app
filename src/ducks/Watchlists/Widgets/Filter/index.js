@@ -41,7 +41,9 @@ const Filter = ({
   isDefaultScreener,
   loading,
   history,
-  appVersionState
+  appVersionState,
+  isOpen,
+  setIsOpen
 }) => {
   if (!screenerFunction) {
     return null
@@ -49,7 +51,6 @@ const Filter = ({
 
   const isViewMode = !isAuthor && (isLoggedIn || !isDefaultScreener)
   const filters = extractFilters(screenerFunction.args)
-  const [isOpen, setIsOpen] = useState(false)
   const [currentSearch, setCurrentSearch] = useState('')
   const [filter, updateFilter] = useState(filters)
   const [isOutdatedVersion, setIsOutdatedVersion] = useState(false)
