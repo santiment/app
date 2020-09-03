@@ -86,7 +86,7 @@ const main = () => {
       onUpdate: () => {
         store.dispatch(newAppAvailable())
       },
-      onSuccess: () => {
+      markAsLatestApp: () => {
         store.dispatch(markAsLatestApp())
       }
     })
