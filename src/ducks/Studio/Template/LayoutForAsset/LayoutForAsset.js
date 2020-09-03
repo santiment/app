@@ -16,12 +16,7 @@ const RowTooltipBuilder = ({ onHide }) => ({ children }) => {
   const [shown, setShown] = useState(true)
 
   return (
-    <div
-      className={styles.tooltipWrapper}
-      onClick={e => {
-        setShown(false)
-      }}
-    >
+    <div className={styles.tooltipWrapper}>
       <TooltipWithImg
         shown={shown}
         mark={EXPLANATION_TOOLTIP_MARK}
@@ -33,7 +28,7 @@ const RowTooltipBuilder = ({ onHide }) => ({ children }) => {
       >
         <div />
       </TooltipWithImg>
-      {children}
+      <div onClick={() => setShown(false)}>{children}</div>
     </div>
   )
 }
