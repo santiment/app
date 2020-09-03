@@ -35,7 +35,7 @@ const canExecuteSw = () => {
 
 export function register (config) {
   if (
-    process.env.NODE_ENV === 'production' &&
+    (process.env.NODE_ENV === 'production' || isLocalhost) &&
     'serviceWorker' in navigator &&
     canExecuteSw()
   ) {
@@ -69,17 +69,27 @@ export const requestNotificationPermission = (success, reject) => {
 
 function registerValidSW (
   swUrl,
-  { callback, hideRegistrationChecking, onUpdate, onSuccess } = {}
+  {
+    callback,
+    hideRegistrationChecking,
+    markAsLatestApp,
+    onUpdate,
+    onSuccess
+  } = {}
 ) {
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
       if (!hideRegistrationChecking) {
+        const activeWorker = registration.active
+
         registration.onupdatefound = () => {
           const installingWorker = registration.installing
+
           if (installingWorker == null) {
             return
           }
+
           installingWorker.onstatechange = () => {
             if (installingWorker.state === 'installed') {
               if (navigator.serviceWorker.controller) {
@@ -90,6 +100,8 @@ function registerValidSW (
                   'New content is available and will be used when all ' +
                     'tabs for this page are closed. See https://bit.ly/CRA-PWA.'
                 )
+
+                registration.needUpdates = true
 
                 // Execute callback
                 if (onUpdate) {
@@ -109,6 +121,12 @@ function registerValidSW (
             }
           }
         }
+
+        setTimeout(() => {
+          if (!registration.needUpdates && markAsLatestApp) {
+            markAsLatestApp()
+          }
+        }, 5000)
       } else {
         registration.update()
         callback && callback()
