@@ -19,11 +19,9 @@ export const API_CALLS_QUERY = gql`
 `
 
 const useApiCalls = ({ from, to }) => {
-  const props = useQuery(API_CALLS_QUERY, {
+  const { data, loading, error } = useQuery(API_CALLS_QUERY, {
     variables: { from, to }
   })
-  const { data, loading, error } = props
-  console.log(props)
   return { data: data ? data.currentUser : {}, loading, error }
 }
 

@@ -8,11 +8,11 @@
 .title {
   color: var(--mirage);
 
-  @include text('body-2'); }
+  @include text('body-2');
+}
 
 .count {
   color: var(--mirage);
-  margin-left: 4px;
 }
 
 .info {
