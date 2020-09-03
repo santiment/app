@@ -116,7 +116,7 @@
     "postcss-modules": "1.4.1",
     "prettier-standard": "^8.0.1",
     "pug": "^2.0.4",
-    "puppeteer": "^1.11.0",
+    "puppeteer": "^1.13.0",
     "react-app-rewired": "^2.1.5",
     "react-hot-loader": "^4.6.3",
     "redux-devtools-extension": "^2.13.2",
