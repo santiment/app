@@ -475,6 +475,16 @@ export const Metric = {
     shortLabel: 'Defi Locked',
     fill: true,
     isBeta: true
+  },
+  social_active_users: {
+    queryKey: 'social_active_users',
+    category: 'Social',
+    label: 'Social Active Users',
+    shortLabel: 'Soc. Act. Us.',
+    node: 'bar',
+    isBeta: true,
+    group: 'Social Active Users',
+    showRoot: false
   }
 }
 
