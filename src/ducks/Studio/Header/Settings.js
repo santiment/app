@@ -73,6 +73,7 @@ export default ({
         <MetricsExplanation.Button
           onClick={() => toggleSidepanel(METRICS_EXPLANATION_PANE)}
           className={cx(
+            styles.explain,
             sidepanel === METRICS_EXPLANATION_PANE && styles.explain_active
           )}
         />
