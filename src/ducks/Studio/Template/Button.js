@@ -17,7 +17,10 @@ const SaveAction = ({
 
   const onActionClick = template && isLoggedIn ? saveTemplate : openDialog
   const actionComponent = (
-    <span className={btnStyles.action} onClick={onActionClick}>
+    <span
+      className={cx(btnStyles.action, btnStyles.save)}
+      onClick={onActionClick}
+    >
       Save{template ? '' : ' as'}
     </span>
   )

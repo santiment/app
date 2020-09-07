@@ -11,9 +11,14 @@ export const DEFAULT_EXCHANGE = 'All'
 const DEFAULT_EXCHANGES = [DEFAULT_EXCHANGE]
 
 export function useMetricExchanges (slug) {
-  const { data } = useQuery(METRIC_EXCHANGES_QUERY, {
+  const { data, loading } = useQuery(METRIC_EXCHANGES_QUERY, {
     variables: { slug }
   })
 
-  return data ? DEFAULT_EXCHANGES.concat(data.allExchanges) : DEFAULT_EXCHANGES
+  return {
+    exchanges: data
+      ? DEFAULT_EXCHANGES.concat(data.allExchanges)
+      : DEFAULT_EXCHANGES,
+    loading
+  }
 }

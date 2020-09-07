@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState, useRef } from 'react'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Button from '@santiment-network/ui/Button'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import Setting from '../Setting'
 import { useMetricExchanges, DEFAULT_EXCHANGE } from './hooks'
 import { mergeMetricSettingMap } from '../../../utils'
@@ -9,7 +10,7 @@ import styles from '../index.module.scss'
 const ExchangeSetting = ({ metric, widget, rerenderWidgets, slug }) => {
   const activeRef = useRef()
   const [isOpened, setIsOpened] = useState(false)
-  const exchanges = useMetricExchanges(slug)
+  const { exchanges, loading } = useMetricExchanges(slug)
   const owner = useMemo(
     () => {
       const settings = widget.MetricSettingMap.get(metric)
@@ -80,6 +81,7 @@ const ExchangeSetting = ({ metric, widget, rerenderWidgets, slug }) => {
             {exchange}
           </Button>
         ))}
+      {loading && <Loader className={styles.loader} />}
     </ContextMenu>
   )
 }
