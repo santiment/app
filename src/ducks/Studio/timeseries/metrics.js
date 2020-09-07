@@ -15,7 +15,7 @@ export const GET_METRIC = (
     $transform: TimeseriesMetricTransformInputObject
     $holdersCount: Int
     $market_segments: [String]
-    $ignored_slugs: [String] 
+    $ignored_slugs: [String]
     $source: String
     $owner: String
   ) {

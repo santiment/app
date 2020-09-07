@@ -1,15 +1,14 @@
-import React, { useEffect, useMemo, useState, useRef } from 'react'
-import ContextMenu from '@santiment-network/ui/ContextMenu'
+import React, { useMemo } from 'react'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import Setting from '../Setting'
 import { useMetricExchanges, DEFAULT_EXCHANGE } from './hooks'
+import { useDropdown } from '../Dropdown'
+import Setting from '../Setting'
 import { mergeMetricSettingMap } from '../../../utils'
 import styles from '../index.module.scss'
 
 const ExchangeSetting = ({ metric, widget, rerenderWidgets, slug }) => {
-  const activeRef = useRef()
-  const [isOpened, setIsOpened] = useState(false)
+  const { activeRef, close, Dropdown } = useDropdown()
   const { exchanges, loading } = useMetricExchanges(slug)
   const owner = useMemo(
     () => {
@@ -18,27 +17,6 @@ const ExchangeSetting = ({ metric, widget, rerenderWidgets, slug }) => {
     },
     [widget.MetricSettingMap, metric]
   )
-
-  useEffect(
-    () => {
-      const btn = activeRef.current
-      if (isOpened && btn) {
-        const { parentNode } = btn
-
-        // NOTE: .scrollIntoView also scrolls the window viewport [@vanguard | Aug 12, 2020]
-        parentNode.scrollTop = btn.offsetTop - parentNode.clientHeight / 2
-      }
-    },
-    [isOpened]
-  )
-
-  function openMenu () {
-    setIsOpened(true)
-  }
-
-  function closeMenu () {
-    setIsOpened(false)
-  }
 
   function onChange (newOwner) {
     const newMap = new Map()
@@ -55,20 +33,12 @@ const ExchangeSetting = ({ metric, widget, rerenderWidgets, slug }) => {
       newMap
     )
 
-    closeMenu()
+    close()
     rerenderWidgets()
   }
 
   return (
-    <ContextMenu
-      open={isOpened}
-      className={styles.tooltip}
-      position='bottom'
-      on='click'
-      onOpen={openMenu}
-      onClose={closeMenu}
-      trigger={<Setting>Exchange {owner}</Setting>}
-    >
+    <Dropdown trigger={<Setting>Exchange {owner}</Setting>}>
       {exchanges &&
         exchanges.map(exchange => (
           <Button
@@ -82,7 +52,7 @@ const ExchangeSetting = ({ metric, widget, rerenderWidgets, slug }) => {
           </Button>
         ))}
       {loading && <Loader className={styles.loader} />}
-    </ContextMenu>
+    </Dropdown>
   )
 }
 
