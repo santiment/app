@@ -11,20 +11,12 @@ const BlockHeader = ({ title, description, setInterval, tag }) => {
 
   return (
     <div className={styles.subHeader}>
-      <div className={styles.subTitle}>
-        <Anchor tag={tag}>{title}</Anchor>
+      <div className={styles.subTitle} id={tag}>
+        {title}
         {setInterval && <StablecoinsIntervals onChange={setInterval} />}
       </div>
       {description && <div className={styles.subDescr}>{description}</div>}
     </div>
-  )
-}
-
-export const Anchor = ({ children, tag }) => {
-  return (
-    <a className={styles.anchor} href={`#${tag}`}>
-      {children}
-    </a>
   )
 }
 
@@ -44,8 +36,8 @@ export const Block = ({
   )
 
   return (
-    <div className={cx(styles.block, className)}>
-      <BlockHeader title={title} description={description} tag={tag} />
+    <div className={cx(styles.block, className)} id={tag}>
+      <BlockHeader title={title} description={description} />
 
       <El>{children}</El>
     </div>
@@ -56,12 +48,11 @@ export const BlockWithRanges = ({ title, description, el: El, tag }) => {
   const [interval, setInterval] = useState('24h')
 
   return (
-    <div className={styles.block}>
+    <div className={styles.block} id={tag}>
       <BlockHeader
         title={title}
         description={description}
         setInterval={setInterval}
-        tag={tag}
       />
 
       <CheckProPaywall>

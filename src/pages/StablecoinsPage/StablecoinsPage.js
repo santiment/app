@@ -12,11 +12,11 @@ import NetworkActivity from '../../ducks/Stablecoins/NetworkActivity/NetworkActi
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import { getIntervalDates } from '../../ducks/Stablecoins/StablecoinsMarketCap/utils'
-import { Anchor, Block, BlockWithRanges } from './StablecoinsPageStructure'
+import { Block, BlockWithRanges } from './StablecoinsPageStructure'
 import StablecoinsReport from '../../ducks/Stablecoins/StablecoinsReport/StablecoinsReport'
 import ResearchesBlock from '../../components/ResearchesBlock'
-import styles from './StablecoinsPage.module.scss'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
+import styles from './StablecoinsPage.module.scss'
 
 const ANCHORS = {
   Overview: {
@@ -153,7 +153,7 @@ const StablecoinsPage = ({ history, isDesktop }) => {
         </div>
       </div>
 
-      <ResearchesBlock />
+      <ResearchesBlock className={styles.researchers} />
 
       <CommonFooter />
     </div>

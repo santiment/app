@@ -1,10 +1,5 @@
 @import '~@santiment-network/ui/mixins';
 
-.navigation {
-  display: flex;
-  padding-top: 104px;
-}
-
 .container {
   padding: 0 !important;
   max-width: 100% !important;
@@ -15,6 +10,7 @@
 
 .inner {
   max-width: 1152px;
+  flex: 1;
   margin: auto;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
@@ -41,7 +37,8 @@
 }
 
 .block {
-  margin: 80px 0;
+  margin: 0;
+  padding: 40px 0;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     margin: 40px 0;
@@ -125,7 +122,15 @@
 }
 
 .firstBlock {
-  margin-top: -48px;
+  margin-top: -356px;
+
+  @include responsive( 'tablet','phone', 'phone-xs') {
+    margin-top: 0;
+  }
+}
+
+.researchers {
+  margin-top: 40px;
 }
 
 .anchor {
