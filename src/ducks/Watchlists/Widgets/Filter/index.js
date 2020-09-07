@@ -1,39 +1,49 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
+import Search from '@santiment-network/ui/Search'
+import Message from '@santiment-network/ui/Message'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import { store } from '../../../../redux'
-import { showNotification } from '../../../../actions/rootActions'
 import { useUpdateWatchlist } from '../../gql/hooks'
 import Trigger from './Trigger'
 import { metrics } from './dataHub/metrics'
 import Category from './Category'
+import ToggleActiveFilters from './ToggleActiveFilters'
 import { DEFAULT_SCREENER_FUNCTION } from '../../utils'
 import { getCategoryGraph } from '../../../Studio/Sidebar/utils'
 import { countCategoryActiveMetrics } from '../../../SANCharts/ChartMetricSelector'
-import { getActiveBaseMetrics, getNewFunction, extractFilters } from './utils'
+import {
+  getActiveBaseMetrics,
+  getNewFunction,
+  extractFilters,
+  filterMetricsBySearch
+} from './utils'
 import { isContainMetric } from './detector'
 import { useAvailableMetrics } from '../../gql/hooks'
+import { SAN_HEADER_HEIGHT } from '../../../Studio/Header/Settings'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import { APP_STATES } from '../../../Updates/reducers'
+import {
+  notifyLoginForSave,
+  notifyOutdatedVersion
+} from '../../Widgets/TopPanel/notifications'
 import styles from './index.module.scss'
-
-const VIEWPORT_HEIGHT = window.innerHeight
 
 const Filter = ({
   watchlist = {},
   projectsCount,
   isAuthor,
-  setIsOpen,
-  isOpen,
   screenerFunction,
   setScreenerFunction,
   isLoggedIn,
   isDefaultScreener,
+  loading,
   history,
-  appVersionState
+  appVersionState,
+  isOpen,
+  setIsOpen
 }) => {
   if (!screenerFunction) {
     return null
@@ -41,12 +51,12 @@ const Filter = ({
 
   const isViewMode = !isAuthor && (isLoggedIn || !isDefaultScreener)
   const filters = extractFilters(screenerFunction.args)
-
-  const filterRef = useRef(null)
-  const filterContentRef = useRef(null)
+  const [currentSearch, setCurrentSearch] = useState('')
   const [filter, updateFilter] = useState(filters)
   const [isOutdatedVersion, setIsOutdatedVersion] = useState(false)
-  const [updateWatchlist, { loading }] = useUpdateWatchlist()
+  const [isActiveFiltersOnly, setIsActiveFiltersOnly] = useState(false)
+  const [isWereChanges, setIsWereChanges] = useState(false)
+  const [updateWatchlist] = useUpdateWatchlist()
   const [availableMetrics] = useAvailableMetrics()
   const [isReset, setIsReset] = useState(false)
   const { isPro } = useUserSubscriptionStatus()
@@ -54,60 +64,37 @@ const Filter = ({
   const isNoFilters =
     filters.length === 0 || screenerFunction.name === 'top_all_projects'
 
-  useEffect(() => {
-    const sidebar = filterRef.current
-    const sidebarContent = filterContentRef.current
-    const tableHeader = document.querySelector('#tableTop')
-    const table = document.querySelector('#table')
-
-    if (!tableHeader) {
-      return
-    }
-
-    function changeFilterHeight () {
-      requestAnimationFrame(() => {
-        const { bottom, top } = tableHeader.getBoundingClientRect()
-        const { bottom: bottomTable } = table.getBoundingClientRect()
-
-        if (!sidebar) {
-          return
-        }
-
-        if (top > 0) {
-          sidebarContent.style.height = `${VIEWPORT_HEIGHT - bottom - 34}px`
-          sidebar.classList.remove(styles.fixed)
-        } else if (bottomTable > VIEWPORT_HEIGHT) {
-          sidebar.classList.add(styles.fixed)
-        }
-      })
-    }
-
-    changeFilterHeight()
-
-    window.addEventListener('scroll', changeFilterHeight)
-    return () => window.removeEventListener('scroll', changeFilterHeight)
-  }, [])
-
   useEffect(
     () => {
       if (isOutdatedVersion && appVersionState !== APP_STATES.LATEST) {
-        store.dispatch(
-          showNotification({
-            variant: 'warning',
-            title: `Some filters don't present in your app version`,
-            description: "Please, update version by 'CTRL/CMD + SHIFT+ R'",
-            dismissAfter: 8000000,
-            actions: [
-              {
-                label: 'Update now',
-                onClick: () => window.location.reload(true)
-              }
-            ]
-          })
-        )
+        notifyOutdatedVersion()
       }
     },
     [isOutdatedVersion]
+  )
+
+  useEffect(
+    () => {
+      if (!isLoggedIn && !isViewMode && isWereChanges && isOpen) {
+        notifyLoginForSave(history)
+      }
+    },
+    [isWereChanges]
+  )
+
+  useEffect(
+    () => {
+      if (isOpen) {
+        if (window.scrollY < SAN_HEADER_HEIGHT) {
+          window.scroll({ top: 70, behavior: 'smooth' })
+        }
+        document.body.style.overflow = 'hidden'
+      } else {
+        setCurrentSearch('')
+        document.body.style.overflow = null
+      }
+    },
+    [isOpen]
   )
 
   function resetAll () {
@@ -119,6 +106,7 @@ const Filter = ({
     }
     setScreenerFunction(func)
     setIsReset(true)
+    setCurrentSearch('')
   }
 
   function updMetricInFilter (metric, key, alternativeKey = key) {
@@ -145,6 +133,10 @@ const Filter = ({
 
     if (newFilter.length > 0 && isReset) {
       setIsReset(false)
+    }
+
+    if (!isWereChanges) {
+      setIsWereChanges(true)
     }
   }
 
@@ -181,15 +173,24 @@ const Filter = ({
     if (newFilter.length > 0 && isReset) {
       setIsReset(false)
     }
+
+    if (!isWereChanges) {
+      setIsWereChanges(true)
+    }
   }
 
-  const categories = getCategoryGraph(metrics)
   const activeBaseMetrics = getActiveBaseMetrics(filter)
+
+  const metricsSet = isActiveFiltersOnly ? activeBaseMetrics : metrics
+  const filteredMetrics = filterMetricsBySearch(currentSearch, metricsSet)
+  const categories = getCategoryGraph(filteredMetrics)
+
   activeBaseMetrics.forEach(metric => {
     if (metric === undefined && !isOutdatedVersion) {
       setIsOutdatedVersion(true)
     }
   })
+
   const categoryActiveMetricsCounter = countCategoryActiveMetrics(
     activeBaseMetrics
   )
@@ -198,59 +199,65 @@ const Filter = ({
     <>
       <Trigger
         isOpen={isOpen}
-        onClick={newIsOpenState => {
-          setIsOpen(newIsOpenState)
-
-          if (!isLoggedIn && newIsOpenState && !isViewMode) {
-            store.dispatch(
-              showNotification({
-                variant: 'warning',
-                title: `Log in to save your filter settings`,
-                description:
-                  "Your settings will be lost after refresh if you're not logged in to Sanbase",
-                dismissAfter: 8000,
-                actions: [
-                  {
-                    label: 'Log in',
-                    onClick: () => history.push('/login')
-                  },
-                  {
-                    label: 'Create an account',
-                    onClick: () => history.push('/sign-up')
-                  }
-                ]
-              })
-            )
-          }
-        }}
+        onClick={setIsOpen}
         activeMetricsCount={activeBaseMetrics.length}
       />
-      <section
-        className={cx(styles.wrapper, isOpen && styles.active)}
-        ref={filterRef}
-      >
-        <Icon
-          type='close-medium'
-          className={styles.closeIcon}
-          onClick={() => setIsOpen(false)}
-        />
-        <div className={cx(styles.top, isViewMode && styles.top__column)}>
-          <span className={styles.count}>{projectsCount} assets</span>
-          {!isReset && !isViewMode && (
-            <Button className={styles.button} onClick={resetAll}>
-              Reset all
-            </Button>
-          )}
-          {isViewMode && (
-            <Button className={styles.button} disabled>
-              View only. You aren't the author of this list
-            </Button>
-          )}
-          {loading && <Loader className={styles.loader} />}
-        </div>
-        <div className={styles.content} ref={filterContentRef}>
-          {isOpen &&
-            Object.keys(categories).map(key => (
+      <section className={cx(styles.wrapper, isOpen && styles.active)}>
+        <div className={styles.inner}>
+          <div className={styles.top}>
+            <div className={styles.row}>
+              <span className={styles.count__assets}>
+                {projectsCount} assets
+              </span>
+              {!loading && (
+                <span className={styles.count__filters}>{`${
+                  activeBaseMetrics.length
+                } filter${
+                  activeBaseMetrics.length !== 1 ? 's' : ''
+                } activated`}</span>
+              )}
+              {loading && <Loader className={styles.loader} />}
+              <Icon
+                type='close-medium'
+                className={styles.closeIcon}
+                onClick={() => setIsOpen(false)}
+              />
+            </div>
+            {!isViewMode && isOpen && (
+              <Search
+                autoFocus
+                onChange={value => setCurrentSearch(value)}
+                placeholder='Search metrics'
+                className={styles.search}
+              />
+            )}
+            <div className={styles.togglers}>
+              <ToggleActiveFilters
+                isActive={isActiveFiltersOnly}
+                onClick={() => setIsActiveFiltersOnly(!isActiveFiltersOnly)}
+              />
+              {!isViewMode && (
+                <Button
+                  className={styles.button}
+                  onClick={resetAll}
+                  disabled={isReset || (!isWereChanges && isNoFilters)}
+                >
+                  Reset all
+                </Button>
+              )}
+            </div>
+            {isViewMode && (
+              <Message
+                variant='warn'
+                icon='info-round'
+                className={styles.message}
+              >
+                View only. You aren't the author of this screener
+              </Message>
+            )}
+          </div>
+          <div className={styles.content}>
+            {Object.keys(categories).map(key => (
               <Category
                 key={key}
                 title={key}
@@ -262,11 +269,18 @@ const Filter = ({
                 isNoFilters={isReset}
                 filters={filter}
                 updMetricInFilter={updMetricInFilter}
+                isActiveFiltersOnly={isActiveFiltersOnly}
+                totalCounter={activeBaseMetrics.length}
                 isPro={isPro}
+                isOpen={isOpen}
               />
             ))}
+          </div>
         </div>
       </section>
+      {isOpen && (
+        <div className={styles.background} onClick={() => setIsOpen(false)} />
+      )}
     </>
   )
 }

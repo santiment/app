@@ -100,11 +100,10 @@ export const ExplanationTooltipWrapper = props => {
     position = 'left',
     withArrow = false,
     align = 'start',
-    title = 'Explore assets',
-    description = 'Quick navigation through your assets',
     closable = true,
     classes = {},
-    isNew
+    closeEl: CloseIcon = CloseTrigger,
+    as = 'div'
   } = props
 
   return (
@@ -115,34 +114,53 @@ export const ExplanationTooltipWrapper = props => {
       position={position}
       withArrow={withArrow}
       align={align}
-      as='div'
+      as={as}
       onOpen={shown ? undefined : disableHelp}
       text={
-        <>
-          <div>
-            <div className={styles.title}>
-              {[
-                isNew && (
-                  <span className={styles.new} key='new'>
-                    New!
-                  </span>
-                ),
-                <span key='title'>{title}</span>
-              ]}
-            </div>
-            {description && <div className={styles.text}>{description}</div>}
-          </div>
+        <div className={cx(styles.content, classes.tooltipContent)}>
+          <Content {...props} />
           {shown && !dismissOnTouch && closable && (
-            <Icon
-              type='close-small'
-              className={cx(styles.btn, classes.tooltipClose)}
-              onClick={hideTooltip}
-            />
+            <CloseIcon onClick={hideTooltip} classes={classes} />
           )}
-        </>
+        </div>
       }
     />
   )
 }
+
+const Content = ({
+  title = 'Explore assets',
+  description = 'Quick navigation through your assets',
+  isNew,
+  content
+}) => {
+  if (content) {
+    return content
+  }
+
+  return (
+    <div>
+      <div className={styles.title}>
+        {[
+          isNew && (
+            <span className={styles.new} key='new'>
+              New!
+            </span>
+          ),
+          <span key='title'>{title}</span>
+        ]}
+      </div>
+      {description && <div className={styles.text}>{description}</div>}
+    </div>
+  )
+}
+
+const CloseTrigger = ({ classes = {}, onClick }) => (
+  <Icon
+    type='close-small'
+    className={cx(styles.btn, classes.tooltipClose)}
+    onClick={onClick}
+  />
+)
 
 export default SidecarExplanationTooltip

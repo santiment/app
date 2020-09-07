@@ -1,0 +1,59 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  padding: 23px 40px 28px 32px;
+  max-width: 500px;
+
+  @include text('body-2');
+
+  color: var(--fiord);
+}
+
+.title {
+  padding: 24px 32px !important;
+  background-color: var(--athens);
+  background-repeat: no-repeat;
+  background-image: url('./cubes.png');
+  background-position: 100% 100%;
+
+  @include text('body-1');
+
+  font-weight: 500;
+}
+
+.description {
+  margin-bottom: 14px;
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.feature {
+  margin-bottom: 12px;
+  padding-left: 18px;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    display: block;
+    top: 8px;
+    left: 1px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--mystic);
+  }
+}
+
+.btn {
+  width: 112px;
+  justify-content: center;
+}
+
+.btn + .btn {
+  margin-left: 8px;
+}

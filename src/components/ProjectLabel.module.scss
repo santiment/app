@@ -17,3 +17,7 @@
   color: var(--casper);
   font-size: 14px;
 }
+
+.label:hover .name {
+  color: var(--jungle-green);
+}

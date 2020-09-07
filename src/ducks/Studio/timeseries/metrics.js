@@ -15,11 +15,12 @@ export const GET_METRIC = (
     $transform: TimeseriesMetricTransformInputObject
     $holdersCount: Int
     $market_segments: [String]
-    $ignored_slugs: [String]
+    $ignored_slugs: [String] 
+    $source: String
     $owner: String
   ) {
     getMetric(metric: "${customKey || queryKey}") {
-      timeseriesData(selector: { ${selector}: $slug, holdersCount: $holdersCount, market_segments: $market_segments, ignored_slugs: $ignored_slugs, owner: $owner}, from: $from, to: $to, interval: $interval, transform: $transform) {
+      timeseriesData(selector: { ${selector}: $slug, holdersCount: $holdersCount, market_segments: $market_segments, ignored_slugs: $ignored_slugs, source: $source, owner: $owner}, from: $from, to: $to, interval: $interval, transform: $transform) {
         datetime
         ${key}: value
       }
@@ -225,5 +226,6 @@ export const METRICS = [
   'percent_of_holders_distribution_combined_balance_10k_to_100k',
   'percent_of_holders_distribution_combined_balance_100k_to_1M',
   'percent_of_holders_distribution_combined_balance_1M_to_10M',
-  'percent_of_holders_distribution_combined_balance_10M_to_inf'
+  'percent_of_holders_distribution_combined_balance_10M_to_inf',
+  'social_active_users'
 ]

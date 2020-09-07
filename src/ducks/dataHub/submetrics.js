@@ -63,7 +63,27 @@ export const Submetrics = {
     replacements: {
       timebound: interval
     }
-  }))
+  })),
+  [Metric.social_active_users.key]: [
+    {
+      ...Metric.social_active_users,
+      key: 'social_active_users_telegram',
+      label: 'Social Active Users (Telegram)',
+      shortLabel: 'Soc. Act. Us. Tg.',
+      reqMeta: {
+        source: 'telegram'
+      }
+    },
+    {
+      ...Metric.social_active_users,
+      key: 'social_active_users_twitter',
+      label: 'Social Active Users (Twitter)',
+      shortLabel: 'Soc. Act. Us. Tw.',
+      reqMeta: {
+        source: 'twitter_crypto'
+      }
+    }
+  ]
 }
 
 Object.values(Submetrics).forEach(submetrics =>

@@ -43,6 +43,20 @@
       fill: var(--waterloo);
     }
   }
+
+  &__onlyActive {
+    .metrics {
+      display: block;
+    }
+
+    .toggle {
+      display: none;
+    }
+
+    .title {
+      cursor: default;
+    }
+  }
 }
 
 .category + .category {

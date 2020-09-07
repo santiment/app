@@ -11,7 +11,7 @@ import { METRICS_EXPLANATION_PANE } from '../Chart/Sidepanel/panes'
 import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
 import styles from './Settings.module.scss'
 
-const SAN_HEADER_HEIGHT = 70
+export const SAN_HEADER_HEIGHT = 70
 
 function buildStudioShareLink () {
   const { origin, search } = window.location

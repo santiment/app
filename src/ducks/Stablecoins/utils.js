@@ -15,6 +15,7 @@ const DOMINANCE_QUERY = gql`
       }
       projects {
         slug
+        ticker
         value: aggregatedTimeseriesData(
           metric: $metric
           from: $from

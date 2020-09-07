@@ -15,3 +15,6 @@
     overflow: auto;
   }
 }
+
+.ticker {
+  @include text('caption'); }

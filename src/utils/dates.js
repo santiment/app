@@ -382,3 +382,7 @@ export const convertToReadableInterval = memoize(timebound => {
   const plural = amount > 1 ? 's' : ''
   return `${amount} ${FormatToString[format]}${plural}`
 })
+
+export function startOfMonth (date) {
+  return new Date(date.getFullYear(), date.getMonth(), 1)
+}
