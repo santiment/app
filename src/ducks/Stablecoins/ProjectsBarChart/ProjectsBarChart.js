@@ -17,6 +17,7 @@ import ProjectIcon from '../../../components/ProjectIcon/ProjectIcon'
 import { useChartColors } from '../../Chart/colors'
 import { mapSizesToProps } from '../../../utils/withSizes'
 import { tooltipValueFormatter } from '../../dataHub/metrics/formatters'
+import { SanWatermark } from './resources'
 import styles from './ProjectsBarChart.module.scss'
 
 const renderCustomizedLabel = ({ x, y, width, value }) => {
@@ -78,6 +79,7 @@ const ProjectsBarChart = ({
 
   return (
     <div className={styles.chart}>
+      <div className={styles.watermark}>{SanWatermark}</div>
       <ResponsiveContainer width='100%' height='100%'>
         <ComposedChart
           cursor='pointer'

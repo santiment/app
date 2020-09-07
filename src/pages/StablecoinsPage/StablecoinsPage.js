@@ -10,12 +10,44 @@ import FlowToExchangesList from '../../ducks/Stablecoins/FlowToExchanges/FlowToE
 import TransactionsDominance from '../../ducks/Stablecoins/TransactionsDominance/TransactionsDominance'
 import NetworkActivity from '../../ducks/Stablecoins/NetworkActivity/NetworkActivity'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
-import { MobileOnly } from '../../components/Responsive'
+import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import { getIntervalDates } from '../../ducks/Stablecoins/StablecoinsMarketCap/utils'
 import { Block, BlockWithRanges } from './StablecoinsPageStructure'
 import StablecoinsReport from '../../ducks/Stablecoins/StablecoinsReport/StablecoinsReport'
 import ResearchesBlock from '../../components/ResearchesBlock'
+import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import styles from './StablecoinsPage.module.scss'
+
+const ANCHORS = {
+  Overview: {
+    label: 'Stablecoins Overview',
+    key: 'overview'
+  },
+  WhaleTrends: {
+    label: 'Whale Trends',
+    key: 'whale-trends'
+  },
+  FlowToExchanges: {
+    label: 'Flow to Exchanges',
+    key: 'flow-to-exchanges'
+  },
+  LargestTransactions: {
+    label: 'Largest Transactions to Exchanges',
+    key: 'largest-transactions'
+  },
+  HolderDistribution: {
+    label: 'Holder Distribution',
+    key: 'holder-distribution'
+  },
+  TransactionDominance: {
+    label: 'Transaction Activity',
+    key: 'transaction-activity'
+  },
+  NetworkActivity: {
+    label: 'Network Activity',
+    key: 'network-activity'
+  }
+}
 
 const StablecoinsPage = ({ history, isDesktop }) => {
   return (
@@ -57,55 +89,71 @@ const StablecoinsPage = ({ history, isDesktop }) => {
         </div>
       </div>
 
-      <div className={styles.inner}>
-        <Block title='Stablecoins Market Cap' className={styles.firstBlock}>
-          <StablecoinsMarketCap />
-        </Block>
+      <div className={styles.body}>
+        <DesktopOnly>
+          <LeftPageNavigation anchors={ANCHORS} className={styles.navigation} />
+        </DesktopOnly>
 
-        <Block
-          title='Stablecoin Whale Trends (last 30 days)'
-          description='Recent activity of each stablecoins’ top 100 non-exchange addresses'
-          isPaywalActive
-        >
-          <WhaleTrendsList />
-        </Block>
+        <div className={styles.inner}>
+          <Block
+            title='Stablecoins Market Cap'
+            className={styles.firstBlock}
+            tag={ANCHORS.Overview.key}
+          >
+            <StablecoinsMarketCap />
+          </Block>
 
-        <Block
-          title='Stablecoins to Exchanges (last 24h)'
-          description='Estimated level of interest to swap stablecoins for more volatile cryptocurrencies'
-          isPaywalActive
-        >
-          <FlowToExchangesList />
-        </Block>
+          <Block
+            title='Stablecoin Whale Trends (last 30 days)'
+            tag={ANCHORS.WhaleTrends.key}
+            description='Recent activity of each stablecoins’ top 100 non-exchange addresses'
+            isPaywalActive
+          >
+            <WhaleTrendsList />
+          </Block>
 
-        <Block
-          title='Largest Stablecoin Transactions (last 24h)'
-          description='Select an asset to view their largest transactions in the last 24 hours'
-        >
-          <StablecoinsTransactions {...getIntervalDates('24h')} />
-        </Block>
+          <Block
+            tag={ANCHORS.FlowToExchanges.key}
+            title='Stablecoins to Exchanges (last 24h)'
+            description='Estimated level of interest to swap stablecoins for more volatile cryptocurrencies'
+            isPaywalActive
+          >
+            <FlowToExchangesList />
+          </Block>
 
-        <Block
-          title={isDesktop ? 'Stablecoin Holder Distribution' : null}
-          description='Number of addresses sorted by their stablecoin balance'
-        >
-          <StablecoinHolderDistribution />
-        </Block>
+          <Block
+            tag={ANCHORS.LargestTransactions.key}
+            title='Largest Stablecoin Transactions (last 24h)'
+            description='Select an asset to view their largest transactions in the last 24 hours'
+          >
+            <StablecoinsTransactions {...getIntervalDates('24h')} />
+          </Block>
 
-        <BlockWithRanges
-          title='Transaction Activity'
-          el={TransactionsDominance}
-          description='Total amount of stablecoins moving between network addresses'
-        />
+          <Block
+            tag={ANCHORS.HolderDistribution.key}
+            title={isDesktop ? 'Stablecoin Holder Distribution' : null}
+            description='Number of addresses sorted by their stablecoin balance'
+          >
+            <StablecoinHolderDistribution />
+          </Block>
 
-        <BlockWithRanges
-          title='Stablecoin Network Activity'
-          description='On-chain indicators of stablecoin utility and adoption'
-          el={NetworkActivity}
-        />
+          <BlockWithRanges
+            tag={ANCHORS.TransactionDominance.key}
+            title='Transaction Activity'
+            el={TransactionsDominance}
+            description='Total amount of stablecoins moving between network addresses'
+          />
+
+          <BlockWithRanges
+            tag={ANCHORS.NetworkActivity.key}
+            title='Stablecoin Network Activity'
+            description='On-chain indicators of stablecoin utility and adoption'
+            el={NetworkActivity}
+          />
+        </div>
       </div>
 
-      <ResearchesBlock />
+      <ResearchesBlock className={styles.researchers} />
 
       <CommonFooter />
     </div>

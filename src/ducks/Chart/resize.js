@@ -20,7 +20,9 @@ export const ResizeListener = ({ onResize }) => {
   useEffect(onResize, [])
 
   if (iframe) {
-    iframe.contentWindow.onresize = onResize
+    if (iframe.contentWindow) {
+      iframe.contentWindow.onresize = onResize
+    }
   }
 
   return (

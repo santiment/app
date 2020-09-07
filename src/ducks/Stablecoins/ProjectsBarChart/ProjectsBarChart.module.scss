@@ -6,15 +6,26 @@
 
 .chart {
   height: 440px;
-  background: url('./../../../../src/assets/watermark.svg') no-repeat;
   background-position: center;
   min-width: 600px;
+  position: relative;
+}
+
+.watermark {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 67%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
-    background: none;
-    overflow: auto;
+    display: none;
   }
 }
 
 .ticker {
-  @include text('caption'); }
+  @include text('caption');
+}
