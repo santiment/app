@@ -57,7 +57,6 @@ export const TriggerProjectsSelector = ({
   }
 
   const { isOpened, openDialog, closeDialog } = useDialogState()
-
   const [listItems, setListItems] = useState([])
 
   const checkedAssetsAsSet = useMemo(
@@ -269,11 +268,11 @@ const AssetsListDescription = ({
   return (
     <div className={styles.assetGroup}>
       {assets.map(asset => {
-        const { id, name } = asset
+        const { id, name, value } = asset
 
         return (
           <span className={styles.asset} key={id || name}>
-            <span className={styles.name}>{name}</span>
+            <span className={styles.name}>{name || value}</span>
             <Button
               type='button'
               className={styles.close}

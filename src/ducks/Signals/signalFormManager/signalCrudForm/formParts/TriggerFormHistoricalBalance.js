@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react'
+import React, { useEffect, useCallback, useMemo } from 'react'
 import { compose } from 'redux'
 import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
@@ -16,7 +16,7 @@ import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSe
 import { NOT_VALID_ETH_ADDRESS } from '../../../utils/constants'
 import styles from '../signal/TriggerForm.module.scss'
 
-const isInHeldAssets = (heldAssets, target) => {
+const isInAssetsList = (heldAssets, target) => {
   let checking = Array.isArray(target) ? target : [target]
 
   return checking.every(({ value: chValue, slug: chSlug }) =>
@@ -35,7 +35,7 @@ const ETHEREUM = {
 const isErc20Assets = (target, allErc20Projects) =>
   target.value === ETHEREUM.slug ||
   target.slug === ETHEREUM.slug ||
-  isInHeldAssets(allErc20Projects, target)
+  isInAssetsList(allErc20Projects, target)
 
 const mapAssetsToAllProjects = (all, heldAssets) =>
   heldAssets.reduce((acc, { slug: itemSlug, value: itemValue, balance }) => {
@@ -72,17 +72,14 @@ const isEthAddress = data => {
 }
 
 const TriggerFormHistoricalBalance = ({
-  data: { allErc20Projects = [] } = {},
+  data: { allErc20Projects: erc20List } = {},
   metaFormSettings: { ethAddress: metaEthAddress, target: metaTarget },
-  assets = [],
+  assets: heldAssets,
   setFieldValue,
   values: { target, ethAddress },
   isLoading = false,
   isNewSignal
 }) => {
-  const [erc20List, setErc20] = useState(allErc20Projects)
-  const [heldAssets, setHeldAssets] = useState(assets)
-
   const metaMappedToAll = useMemo(
     () => {
       return erc20List.length
@@ -97,17 +94,29 @@ const TriggerFormHistoricalBalance = ({
     [erc20List, metaTarget]
   )
 
+  const setTarget = useCallback(
+    newTarget => {
+      setFieldValue('target', newTarget)
+    },
+    [setFieldValue]
+  )
+
   const validateTarget = useCallback(
     newTarget => {
       let asset
-      if (newTarget.length === 1 && !newTarget[0].slug) {
-        asset = getFromAll(erc20List, newTarget[0])
-      } else if (newTarget && newTarget.slug) {
-        asset = getFromAll(erc20List, newTarget)
+
+      if (newTarget) {
+        if (Array.isArray(newTarget)) {
+          if (newTarget.length > 0) {
+            asset = getFromAll(erc20List, newTarget[0])
+          }
+        } else {
+          asset = getFromAll(erc20List, newTarget)
+        }
       }
 
       if (asset) {
-        setFieldValue('target', hasEthAddress(ethAddress) ? asset : [asset])
+        setTarget(hasEthAddress(ethAddress) ? asset : [asset])
       }
     },
     [erc20List, setFieldValue, ethAddress]
@@ -120,7 +129,7 @@ const TriggerFormHistoricalBalance = ({
 
   const disabledWalletField =
     (!hasEthAddress(ethAddress) && target.length > 1) ||
-    (erc20List.length && !isErc20Assets(target, erc20List))
+    (erc20List.length > 0 && !isErc20Assets(target, erc20List))
 
   const validateAddressField = useCallback(
     inputAssets => {
@@ -137,8 +146,8 @@ const TriggerFormHistoricalBalance = ({
       if (metaEthAddress && !hasEthAddress(ethAddress)) {
         if (inputAssets.length === 1) {
           if (
-            isInHeldAssets(metaMappedToAll, inputAssets) ||
-            isInHeldAssets(heldAssets, inputAssets)
+            isInAssetsList(metaMappedToAll, inputAssets) ||
+            isInAssetsList(heldAssets, inputAssets)
           ) {
             setAddress(metaEthAddress)
           } else {
@@ -161,45 +170,51 @@ const TriggerFormHistoricalBalance = ({
 
   useEffect(
     () => {
-      if (allErc20Projects && allErc20Projects.length && !erc20List.length) {
-        setErc20(allErc20Projects)
+      if (heldAssets && heldAssets.length > 0) {
+        if (!isInAssetsList(heldAssets, target) && isNewSignal) {
+          validateTarget(heldAssets[0])
+        }
       }
     },
-    [allErc20Projects]
+    [heldAssets]
   )
 
   useEffect(
     () => {
-      if (assets && assets.length > 0) {
-        setHeldAssets(assets)
-        if (!isInHeldAssets(assets, target) && isNewSignal) {
-          validateTarget(assets[0])
-        }
-      }
+      validateTarget(target)
     },
-    [assets]
-  )
-
-  useEffect(() => validateTarget(target), [target, ethAddress])
-
-  useEffect(
-    () =>
-      setFieldValue(
-        'isEthOrErc20Error',
-        isErc20Assets(target, erc20List) ? !hasEthAddress(ethAddress) : false
-      ),
     [target, ethAddress, erc20List]
   )
 
-  useEffect(() => validateAddressField(target), [target])
+  useEffect(
+    () => {
+      setFieldValue(
+        'isEthOrErc20Error',
+        isErc20Assets(target, erc20List) ? !hasEthAddress(ethAddress) : false
+      )
+    },
+    [target, ethAddress, erc20List.length]
+  )
 
-  useEffect(() => setFieldValue('isLoading', isLoading), [isLoading])
+  useEffect(
+    () => {
+      validateAddressField(target)
+    },
+    [target]
+  )
+
+  useEffect(
+    () => {
+      setFieldValue('isLoading', isLoading)
+    },
+    [isLoading]
+  )
 
   useEffect(
     () => {
       if (!hasEthAddress(ethAddress)) {
         if (!Array.isArray(target)) {
-          setFieldValue('target', [target])
+          setTarget([target])
         }
       }
     },
@@ -210,6 +225,7 @@ const TriggerFormHistoricalBalance = ({
     () => {
       return hasEthAddress(ethAddress) &&
         !disabledWalletField &&
+        heldAssets &&
         heldAssets.length > 0
         ? mapAssetsToAllProjects(erc20List, heldAssets)
         : erc20List

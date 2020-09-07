@@ -94,6 +94,10 @@ const SubscriptionsList = () => {
     [subscriptions]
   )
 
+  if (activeSubscriptions && activeSubscriptions.length === 0) {
+    return null
+  }
+
   return (
     <div className={styles.plan}>
       {loading
@@ -118,9 +122,11 @@ export const NavbarProfileDropdown = ({
     <div className={cx(styles.wrapper, !user && styles.login)}>
       {user && (
         <div className={styles.profile}>
-          <Link className={styles.name} to={`/profile/${user.id}`}>
-            {user.username || user.email}
-          </Link>
+          <div className={styles.nameWrapper}>
+            <Link className={styles.name} to={`/profile/${user.id}`}>
+              {user.username || user.email}
+            </Link>
+          </div>
           <SubscriptionsList />
           {isPro || (
             <UpgradeBtn
