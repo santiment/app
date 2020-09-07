@@ -40,8 +40,8 @@ const ANCHORS = {
     key: 'holder-distribution'
   },
   TransactionDominance: {
-    label: 'Transaction Dominance',
-    key: 'transaction-dominance'
+    label: 'Transaction Activity',
+    key: 'transaction-activity'
   },
   NetworkActivity: {
     label: 'Network Activity',
