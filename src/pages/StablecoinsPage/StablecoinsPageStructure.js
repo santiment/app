@@ -4,7 +4,7 @@ import StablecoinsIntervals from '../../ducks/Stablecoins/StablecoinsIntervals/S
 import CheckProPaywall from '../../ducks/Stablecoins/CheckProPaywall'
 import styles from './StablecoinsPage.module.scss'
 
-const BlockHeader = ({ title, description, setInterval }) => {
+const BlockHeader = ({ title, description, setInterval, tag }) => {
   if (!title) {
     return null
   }
@@ -12,11 +12,19 @@ const BlockHeader = ({ title, description, setInterval }) => {
   return (
     <div className={styles.subHeader}>
       <div className={styles.subTitle}>
-        {title}
+        <Anchor tag={tag}>{title}</Anchor>
         {setInterval && <StablecoinsIntervals onChange={setInterval} />}
       </div>
       {description && <div className={styles.subDescr}>{description}</div>}
     </div>
+  )
+}
+
+export const Anchor = ({ children, tag }) => {
+  return (
+    <a className={styles.anchor} href={`#${tag}`}>
+      {children}
+    </a>
   )
 }
 
@@ -25,6 +33,7 @@ export const Block = ({
   description,
   children,
   isPaywalActive = false,
+  tag,
   className
 }) => {
   const El = useMemo(
@@ -36,14 +45,14 @@ export const Block = ({
 
   return (
     <div className={cx(styles.block, className)}>
-      <BlockHeader title={title} description={description} />
+      <BlockHeader title={title} description={description} tag={tag} />
 
       <El>{children}</El>
     </div>
   )
 }
 
-export const BlockWithRanges = ({ title, description, el: El }) => {
+export const BlockWithRanges = ({ title, description, el: El, tag }) => {
   const [interval, setInterval] = useState('24h')
 
   return (
@@ -52,6 +61,7 @@ export const BlockWithRanges = ({ title, description, el: El }) => {
         title={title}
         description={description}
         setInterval={setInterval}
+        tag={tag}
       />
 
       <CheckProPaywall>

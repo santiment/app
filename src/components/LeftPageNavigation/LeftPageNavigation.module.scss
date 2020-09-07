@@ -1,0 +1,30 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 160px;
+  position: sticky;
+  top: 0;
+  margin-left: 24px;
+  height: 0;
+}
+
+.item {
+  padding: 4px 0 4px 16px;
+  color: var(--rhino);
+  border-left: 1px solid var(--porcelain);
+  cursor: pointer;
+  word-break: break-word;
+
+  @include text('body-3');
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+.active {
+  border-left: 1px solid var(--jungle-green);
+  color: var(--jungle-green);
+}

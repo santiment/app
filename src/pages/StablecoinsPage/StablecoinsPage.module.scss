@@ -1,5 +1,10 @@
 @import '~@santiment-network/ui/mixins';
 
+.navigation {
+  display: flex;
+  padding-top: 104px;
+}
+
 .container {
   padding: 0 !important;
   max-width: 100% !important;
@@ -15,6 +20,11 @@
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     padding: 0 16px;
   }
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
 }
 
 .content {
@@ -115,5 +125,9 @@
 }
 
 .firstBlock {
-  margin-top: 40px;
+  margin-top: -48px;
+}
+
+.anchor {
+  color: inherit;
 }
