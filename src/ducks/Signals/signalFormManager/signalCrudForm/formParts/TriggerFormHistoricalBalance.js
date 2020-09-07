@@ -17,6 +17,10 @@ import { NOT_VALID_ETH_ADDRESS } from '../../../utils/constants'
 import styles from '../signal/TriggerForm.module.scss'
 
 const isInAssetsList = (heldAssets, target) => {
+  if (!heldAssets) {
+    return false
+  }
+
   let checking = Array.isArray(target) ? target : [target]
 
   return checking.every(({ value: chValue, slug: chSlug }) =>
@@ -96,9 +100,11 @@ const TriggerFormHistoricalBalance = ({
 
   const setTarget = useCallback(
     newTarget => {
-      setFieldValue('target', newTarget)
+      if (newTarget !== target) {
+        setFieldValue('target', newTarget)
+      }
     },
-    [setFieldValue]
+    [setFieldValue, target]
   )
 
   const validateTarget = useCallback(
@@ -116,14 +122,16 @@ const TriggerFormHistoricalBalance = ({
       }
 
       if (asset) {
-        setTarget(hasEthAddress(ethAddress) ? asset : [asset])
+        setTarget(asset)
       }
     },
     [erc20List, setFieldValue, ethAddress]
   )
 
   const setAddress = useCallback(
-    address => setFieldValue('ethAddress', address),
+    address => {
+      setFieldValue('ethAddress', address)
+    },
     [setFieldValue]
   )
 
@@ -188,9 +196,12 @@ const TriggerFormHistoricalBalance = ({
 
   useEffect(
     () => {
+      const showError =
+        erc20List && erc20List.length > 0 && isErc20Assets(target, erc20List)
+
       setFieldValue(
         'isEthOrErc20Error',
-        isErc20Assets(target, erc20List) ? !hasEthAddress(ethAddress) : false
+        showError ? !hasEthAddress(ethAddress) : false
       )
     },
     [target, ethAddress, erc20List.length]
