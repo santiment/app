@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useCallback, useMemo } from 'react'
 import { compose } from 'redux'
 import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
@@ -16,7 +16,9 @@ import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSe
 import { NOT_VALID_ETH_ADDRESS } from '../../../utils/constants'
 import styles from '../signal/TriggerForm.module.scss'
 
-const isInHeldAssets = (heldAssets, checking) => {
+const isInAssetsList = (heldAssets, target) => {
+  let checking = Array.isArray(target) ? target : [target]
+
   return checking.every(({ value: chValue, slug: chSlug }) =>
     heldAssets.some(({ slug }) => slug === chSlug || slug === chValue)
   )
@@ -33,9 +35,7 @@ const ETHEREUM = {
 const isErc20Assets = (target, allErc20Projects) =>
   target.value === ETHEREUM.slug ||
   target.slug === ETHEREUM.slug ||
-  (Array.isArray(target)
-    ? isInHeldAssets(allErc20Projects, target)
-    : isInHeldAssets(allErc20Projects, [target]))
+  isInAssetsList(allErc20Projects, target)
 
 const mapAssetsToAllProjects = (all, heldAssets) =>
   heldAssets.reduce((acc, { slug: itemSlug, value: itemValue, balance }) => {
@@ -72,109 +72,166 @@ const isEthAddress = data => {
 }
 
 const TriggerFormHistoricalBalance = ({
-  data: { allErc20Projects = [] } = {},
+  data: { allErc20Projects: erc20List } = {},
   metaFormSettings: { ethAddress: metaEthAddress, target: metaTarget },
-  assets = [],
+  assets: heldAssets,
   setFieldValue,
   values: { target, ethAddress },
-  isLoading = false
+  isLoading = false,
+  isNewSignal
 }) => {
-  const [erc20List, setErc20] = useState(allErc20Projects)
-  const [heldAssets, setHeldAssets] = useState(assets)
+  const metaMappedToAll = useMemo(
+    () => {
+      return erc20List.length
+        ? mapAssetsToAllProjects(
+          erc20List,
+          Array.isArray(metaTarget.value)
+            ? metaTarget.value
+            : [metaTarget.value]
+        )
+        : []
+    },
+    [erc20List, metaTarget]
+  )
 
-  const metaMappedToAll = erc20List.length
-    ? mapAssetsToAllProjects(
-      erc20List,
-      Array.isArray(metaTarget.value) ? metaTarget.value : [metaTarget.value]
-    )
-    : []
+  const setTarget = useCallback(
+    newTarget => {
+      setFieldValue('target', newTarget)
+    },
+    [setFieldValue]
+  )
 
-  const validateTarget = () => {
-    let asset
-    if (target.length === 1 && !target[0].slug) {
-      asset = getFromAll(erc20List, target[0])
-    } else if (target && !target.slug) {
-      asset = getFromAll(erc20List, target)
-    }
+  const validateTarget = useCallback(
+    newTarget => {
+      let asset
 
-    asset &&
-      setFieldValue('target', hasEthAddress(ethAddress) ? asset : [asset])
-  }
-
-  const setAddress = address => setFieldValue('ethAddress', address)
-
-  const validateAddressField = assets => {
-    if (erc20List.length && !isErc20Assets(assets, erc20List)) {
-      setAddress('')
-      return
-    }
-
-    if (assets.length > 1) {
-      setAddress('')
-      return
-    }
-
-    if (metaEthAddress && !hasEthAddress(ethAddress)) {
-      if (assets.length === 1) {
-        if (
-          isInHeldAssets(metaMappedToAll, assets) ||
-          isInHeldAssets(heldAssets, assets)
-        ) {
-          setAddress(metaEthAddress)
+      if (newTarget) {
+        if (Array.isArray(newTarget)) {
+          if (newTarget.length > 0) {
+            asset = getFromAll(erc20List, newTarget[0])
+          }
         } else {
-          setAddress('')
+          asset = getFromAll(erc20List, newTarget)
         }
       }
-    } else if (disabledWalletField) {
-      setAddress('')
-    }
-  }
+
+      if (asset) {
+        setTarget(hasEthAddress(ethAddress) ? asset : [asset])
+      }
+    },
+    [erc20List, setFieldValue, ethAddress]
+  )
+
+  const setAddress = useCallback(
+    address => setFieldValue('ethAddress', address),
+    [setFieldValue]
+  )
+
+  const disabledWalletField =
+    (!hasEthAddress(ethAddress) && target.length > 1) ||
+    (erc20List.length > 0 && !isErc20Assets(target, erc20List))
+
+  const validateAddressField = useCallback(
+    inputAssets => {
+      if (erc20List.length && !isErc20Assets(inputAssets, erc20List)) {
+        setAddress('')
+        return
+      }
+
+      if (inputAssets.length > 1) {
+        setAddress('')
+        return
+      }
+
+      if (metaEthAddress && !hasEthAddress(ethAddress)) {
+        if (inputAssets.length === 1) {
+          if (
+            isInAssetsList(metaMappedToAll, inputAssets) ||
+            isInAssetsList(heldAssets, inputAssets)
+          ) {
+            setAddress(metaEthAddress)
+          } else {
+            setAddress('')
+          }
+        }
+      } else if (disabledWalletField) {
+        setAddress('')
+      }
+    },
+    [
+      setAddress,
+      erc20List,
+      setAddress,
+      disabledWalletField,
+      metaEthAddress,
+      ethAddress
+    ]
+  )
 
   useEffect(
     () => {
-      allErc20Projects &&
-        allErc20Projects.length &&
-        !erc20List.length &&
-        setErc20(allErc20Projects)
-      assets && assets.length && setHeldAssets(assets)
+      if (heldAssets && heldAssets.length > 0) {
+        if (!isInAssetsList(heldAssets, target) && isNewSignal) {
+          validateTarget(heldAssets[0])
+        }
+      }
     },
-    [allErc20Projects, assets]
+    [heldAssets]
   )
 
-  useEffect(() => validateTarget(), [target, ethAddress])
-
   useEffect(
-    () =>
-      setFieldValue(
-        'isEthOrErc20Error',
-        isErc20Assets(target, erc20List) ? !hasEthAddress(ethAddress) : false
-      ),
+    () => {
+      validateTarget(target)
+    },
     [target, ethAddress, erc20List]
   )
 
-  useEffect(() => validateAddressField(target), [target])
+  useEffect(
+    () => {
+      setFieldValue(
+        'isEthOrErc20Error',
+        isErc20Assets(target, erc20List) ? !hasEthAddress(ethAddress) : false
+      )
+    },
+    [target, ethAddress, erc20List.length]
+  )
 
-  useEffect(() => setFieldValue('isLoading', isLoading), [isLoading])
+  useEffect(
+    () => {
+      validateAddressField(target)
+    },
+    [target]
+  )
+
+  useEffect(
+    () => {
+      setFieldValue('isLoading', isLoading)
+    },
+    [isLoading]
+  )
 
   useEffect(
     () => {
       if (!hasEthAddress(ethAddress)) {
         if (!Array.isArray(target)) {
-          setFieldValue('target', [target])
+          setTarget([target])
         }
       }
     },
     [ethAddress]
   )
 
-  const disabledWalletField =
-    (!hasEthAddress(ethAddress) && target.length > 1) ||
-    (erc20List.length && !isErc20Assets(target, erc20List))
-
-  const selectableProjects =
-    hasEthAddress(ethAddress) && !disabledWalletField && heldAssets.length > 0
-      ? mapAssetsToAllProjects(erc20List, heldAssets)
-      : erc20List
+  const selectableProjects = useMemo(
+    () => {
+      return hasEthAddress(ethAddress) &&
+        !disabledWalletField &&
+        heldAssets &&
+        heldAssets.length > 0
+        ? mapAssetsToAllProjects(erc20List, heldAssets)
+        : erc20List
+    },
+    [hasEthAddress, disabledWalletField, heldAssets, erc20List]
+  )
 
   return (
     <>

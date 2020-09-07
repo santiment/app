@@ -21,6 +21,8 @@
 
 .value {
   margin-top: 8px;
+  display: flex;
+  align-items: center;
 
   @include text('h2');
 }
