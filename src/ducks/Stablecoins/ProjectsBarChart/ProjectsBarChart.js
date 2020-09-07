@@ -17,8 +17,8 @@ import ProjectIcon from '../../../components/ProjectIcon/ProjectIcon'
 import { useChartColors } from '../../Chart/colors'
 import { mapSizesToProps } from '../../../utils/withSizes'
 import { tooltipValueFormatter } from '../../dataHub/metrics/formatters'
-import styles from './ProjectsBarChart.module.scss'
 import { SanWatermark } from './resources'
+import styles from './ProjectsBarChart.module.scss'
 
 const renderCustomizedLabel = ({ x, y, width, value }) => {
   const fontSize = width < 20 ? 7 : 12
