@@ -1,16 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import Input from '@santiment-network/ui/Input'
-import Tooltip from '@santiment-network/ui/Tooltip'
+import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { useDebounce } from '../../../../../../hooks'
 import styles from './TimeRangeDropdown.module.scss'
 
 const TimeRangeDropdown = ({ timeRange, timeRanges, withInput, onChange }) => {
+  const [open, setOpen] = useState(false)
   const onChangeDebounced = useDebounce(value => onChange(value), 500)
 
   return (
-    <Tooltip
+    <ContextMenu
       on='click'
       trigger={
         <Button className={styles.trigger} border variant='flat'>
@@ -19,6 +20,9 @@ const TimeRangeDropdown = ({ timeRange, timeRanges, withInput, onChange }) => {
       }
       position='bottom'
       align='end'
+      open={open}
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
       className={styles.tooltip}
     >
       <Panel className={styles.panel}>
@@ -28,7 +32,10 @@ const TimeRangeDropdown = ({ timeRange, timeRanges, withInput, onChange }) => {
             variant='ghost'
             fluid
             className={styles.button}
-            onClick={() => onChange(item.type)}
+            onClick={() => {
+              onChange(item.type)
+              setOpen(false)
+            }}
           >
             {item.label}
           </Button>
@@ -48,7 +55,7 @@ const TimeRangeDropdown = ({ timeRange, timeRanges, withInput, onChange }) => {
           </div>
         )}
       </Panel>
-    </Tooltip>
+    </ContextMenu>
   )
 }
 

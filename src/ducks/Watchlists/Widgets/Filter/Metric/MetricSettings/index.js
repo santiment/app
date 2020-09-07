@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import TypeDropdown from './TypeDropdown'
 import TimeRangeDropdown from './TimeRangeDropdown'
 import ValueInput from './ValueInput'
@@ -14,10 +14,12 @@ const FilterMetricSettings = ({
   onFilterTypeChange,
   onTimeRangeChange,
   onFirstThresholdChange,
+  onSecondThresholdChange,
   onSuggestionClick,
   autoFocus,
-  settings: { firstThreshold, timeRange, type }
+  settings: { firstThreshold, secondThreshold, timeRange, type }
 }) => {
+  const inputRef = useRef(null)
   const isShowTimeRange = Filter[type].showTimeRange || metric.showTimeRange
   let timeRanges = null
 
@@ -35,16 +37,34 @@ const FilterMetricSettings = ({
         <TypeDropdown
           isPro={isPro}
           type={type}
-          onChange={onFilterTypeChange}
+          isDefaultOpen={autoFocus}
+          onChange={props => {
+            onFilterTypeChange(props)
+
+            if (inputRef.current) {
+              inputRef.current.focus()
+            }
+          }}
           showPercentFilters={percentTimeRanges && percentTimeRanges.length > 0}
         />
         <ValueInput
           type={type}
           metric={metric}
-          autoFocus={autoFocus}
           defaultValue={firstThreshold}
           onChange={onFirstThresholdChange}
+          forwardedRef={inputRef}
         />
+        {Filter[type].showSecondInput && (
+          <>
+            <span className={styles.connector}>and</span>
+            <ValueInput
+              type={type}
+              metric={metric}
+              defaultValue={secondThreshold}
+              onChange={onSecondThresholdChange}
+            />
+          </>
+        )}
         {timeRanges && (
           <TimeRangeDropdown
             timeRange={timeRange}
