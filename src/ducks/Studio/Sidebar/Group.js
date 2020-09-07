@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useMemo, useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from './Button'
@@ -24,6 +24,17 @@ const Group = ({
 
   function onToggleClick () {
     setHidden(!hidden)
+  }
+
+  const isAllNodesBeta = useMemo(
+    () => {
+      return nodes.every(({ isBeta }) => isBeta)
+    },
+    [nodes]
+  )
+
+  if (isAllNodesBeta && !isBeta) {
+    return null
   }
 
   return (
