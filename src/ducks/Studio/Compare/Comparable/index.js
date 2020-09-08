@@ -45,7 +45,6 @@ export default ({
 
         return setComparables(state => state.slice())
       }
-
       return (
         selectedMetric &&
         setComparables(state => [
