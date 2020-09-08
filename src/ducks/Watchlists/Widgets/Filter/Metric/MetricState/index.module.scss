@@ -15,12 +15,24 @@
 .toggle {
   cursor: pointer;
 
+  &:hover {
+    color: var(--mirage);
+  }
+
   &__notActive {
     cursor: default;
+
+    &:hover {
+      color: var(--rhino);
+    }
   }
 
   &__disabled {
     color: var(--mystic);
+
+    &:hover {
+      color: var(--mystic);
+    }
   }
 }
 

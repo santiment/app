@@ -56,7 +56,7 @@ const FilterMetricState = ({
         position='bottom'
         align='end'
       >
-        <Icon type='info-round-small' className={styles.info} />
+        <Icon type='info-round' className={styles.info} />
       </MetricExplanation>
     </div>
   )

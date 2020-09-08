@@ -47,7 +47,7 @@ export const Filter = {
     shortLabel: 'up',
     aggregation: 'last',
     badge: '%',
-    // isPro: true,
+    isPro: true,
     showTimeRange: true,
     onlyPositiveNumbers: true,
     operator: Operator.more,
@@ -60,7 +60,7 @@ export const Filter = {
     shortLabel: 'down',
     aggregation: 'last',
     badge: '%',
-    // isPro: true,
+    isPro: true,
     showTimeRange: true,
     onlyPositiveNumbers: true,
     operator: Operator.less,
@@ -72,25 +72,24 @@ export const Filter = {
     label: 'Between',
     aggregation: 'last',
     badge: '%',
-    // isPro: true,
+    isPro: true,
     showTimeRange: true,
-    // onlyPositiveNumbers: true,
     showSecondInput: true,
     operator: Operator.inside,
     valueFormatter: percentValueFormatter,
     serverValueFormatter: percentServerValueFormatter
-  },
-  percent_up_or_down: {
-    icon: PercentOutside,
-    label: 'Up or down',
-    badge: '%',
-    // isPro: true,
-    showTimeRange: true,
-    onlyPositiveNumbers: true,
-    operator: Operator.outside,
-    valueFormatter: percentValueFormatter,
-    serverValueFormatter: percentServerValueFormatter
   }
+  // percent_up_or_down: {
+  //   icon: PercentOutside,
+  //   label: 'Up or down',
+  //   badge: '%',
+  //   isPro: true,
+  //   showTimeRange: true,
+  //   onlyPositiveNumbers: true,
+  //   operator: Operator.outside,
+  //   valueFormatter: percentValueFormatter,
+  //   serverValueFormatter: percentServerValueFormatter
+  // }
 }
 
 Object.keys(Filter).forEach(key => {

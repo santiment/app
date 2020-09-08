@@ -5,7 +5,7 @@
   padding: 8px 32px;
   margin: 0;
   cursor: pointer;
-  color: var(--waterloo);
+  color: var(--fiord);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -41,6 +41,10 @@
     .toggle {
       transform: rotate(90deg);
       fill: var(--waterloo);
+    }
+
+    .title {
+      color: var(--waterloo);
     }
   }
 
