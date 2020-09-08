@@ -10,6 +10,7 @@ import SmoothDropdownItem from '../SmoothDropdown/SmoothDropdownItem'
 import NavbarHelpDropdown from './Academy/NavbarHelpDropdown'
 import NavbarProfileDropdown from './NavbarProfileDropdown'
 import NavbarAssetsDropdown from './Watchlists/NavbarAssetsDropdown'
+import ScreenerDropdown from './Screeners/ScreenerDropdown'
 import NavbarChartsDropdown from './ChartLayouts/NavbarChartsDropdown'
 import InsightsDropdown from './InsightsDropdown'
 import PlanEngage from './PlanEngage'
@@ -53,6 +54,15 @@ const leftLinks = [
     children: 'Market',
     as: Link,
     Dropdown: NavbarAssetsDropdown,
+    ddParams: {
+      position: 'start'
+    }
+  },
+  {
+    to: '/assets/screener',
+    children: 'Screener',
+    as: Link,
+    Dropdown: ScreenerDropdown,
     ddParams: {
       position: 'start'
     }
@@ -109,14 +119,21 @@ const Navbar = ({ activeLink = '/', isBetaModeEnabled }) => {
             </Link>
           </SantimentProductsTooltip>
           {leftLinks.map(({ Dropdown, ddParams, ...rest }, index) => {
-            const isActive = activeLink.includes(rest.to)
-            const isHome = rest.to === '/'
+            let isActive = activeLink.includes(rest.to)
+
+            if (rest.to === '/') {
+              isActive = activeLink === '/'
+            }
+
+            if (rest.to === '/assets') {
+              isActive = activeLink !== '/assets/screener'
+            }
 
             const button = (
               <Button
                 key={index}
                 variant='flat'
-                isActive={isHome ? activeLink === '/' : isActive}
+                isActive={isActive}
                 className={cx(Dropdown || styles.leftLink, styles.btn)}
                 {...rest}
               />

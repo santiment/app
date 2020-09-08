@@ -19,11 +19,17 @@ const TopPanel = ({
   ...props
 }) => {
   const { isPro } = useUserSubscriptionStatus()
-  const [isOpen, setIsOpen] = useState(false)
+  const [isFilterOpen, setIsFilterOpen] = useState(false)
+
+  function closeFilter () {
+    if (isFilterOpen) {
+      setIsFilterOpen(false)
+    }
+  }
 
   return (
-    <section className={cx(styles.wrapper, isOpen && styles.open)}>
-      <div className={styles.left}>
+    <section className={cx(styles.wrapper, isFilterOpen && styles.open)}>
+      <div className={styles.row}>
         <h1 className={styles.name}>{name}</h1>
         {isAuthor && (
           <BaseActions
@@ -32,27 +38,30 @@ const TopPanel = ({
             name={name}
             id={id}
             watchlist={watchlist}
+            onClick={closeFilter}
           />
         )}
       </div>
-      <div className={styles.right}>
-        <Share watchlist={watchlist} isAuthor={isAuthor} />
-        {!isDefaultScreener && <div className={styles.divider} />}
-        {(isAuthor || isDefaultScreener) && (
-          <>
-            <ScreenerSignalDialog watchlistId={watchlist.id} />
-            <div className={styles.divider} />
-          </>
-        )}
-        <Widgets {...props} />
+      <div className={styles.row}>
+        <div onClick={closeFilter} className={styles.row}>
+          <Share watchlist={watchlist} isAuthor={isAuthor} />
+          {!isDefaultScreener && <div className={styles.divider} />}
+          {(isAuthor || isDefaultScreener) && (
+            <>
+              <ScreenerSignalDialog watchlistId={watchlist.id} />
+              <div className={styles.divider} />
+            </>
+          )}
+          <Widgets {...props} />
+        </div>
         <Filter
           watchlist={watchlist}
           projectsCount={assets.length}
           isAuthor={isAuthor}
           isLoggedIn={isLoggedIn}
           isDefaultScreener={isDefaultScreener}
-          setIsOpen={setIsOpen}
-          isOpen={isOpen}
+          setIsOpen={setIsFilterOpen}
+          isOpen={isFilterOpen}
           {...props}
         />
       </div>

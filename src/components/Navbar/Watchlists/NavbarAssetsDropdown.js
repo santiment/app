@@ -5,7 +5,6 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import Button from '@santiment-network/ui/Button'
 import { useFeaturedWatchlists } from '../../../ducks/Watchlists/gql/hooks'
 import NavbarAssetsDropdownWatchlist from './NavbarAssetsDropdownWatchlist'
-import ScreenerDropdown from '../Screeners/ScreenerDropdown'
 import {
   BASIC_CATEGORIES,
   getWatchlistLink
@@ -42,10 +41,6 @@ const NavbarAssetsDropdown = ({ activeLink }) => {
         <div className={cx(styles.block, styles.list)}>
           <h3 className={styles.title}>My Watchlists</h3>
           <NavbarAssetsDropdownWatchlist activeLink={activeLink} />
-        </div>
-        <div className={cx(styles.block, styles.list)}>
-          <h3 className={styles.title}>My Screeners</h3>
-          <ScreenerDropdown activeLink={activeLink} />
         </div>
       </div>
     </Panel>

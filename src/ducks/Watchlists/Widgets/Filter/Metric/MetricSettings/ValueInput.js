@@ -5,7 +5,7 @@ import { useDebounce } from '../../../../../../hooks'
 import { Filter } from '../../dataHub/types'
 import styles from './ValueInput.module.scss'
 
-const ValueInput = ({ onChange, defaultValue, type, metric, autoFocus }) => {
+const ValueInput = ({ onChange, type, metric, ...props }) => {
   let badge = Filter[type].badge || metric.badge || ''
 
   if (badge.length > 1) {
@@ -24,10 +24,9 @@ const ValueInput = ({ onChange, defaultValue, type, metric, autoFocus }) => {
     <div className={styles.wrapper}>
       <span className={styles.badge}>{badge}</span>
       <Input
-        autoFocus={autoFocus}
         onChange={({ currentTarget: { value } }) => onChangeDebounced(value)}
-        defaultValue={defaultValue}
         className={cx(styles.input, badge && styles.input__withBadge)}
+        {...props}
       />
     </div>
   )

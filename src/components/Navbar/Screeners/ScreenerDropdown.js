@@ -1,7 +1,9 @@
 import React from 'react'
+import cx from 'classnames'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
+import Panel from '@santiment-network/ui/Panel/Panel'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import CreateScreenerBtn from './NewScreenerBtn'
 import { getWatchlistLink } from '../../../ducks/Watchlists/utils'
@@ -12,6 +14,7 @@ import {
   checkIsLoggedInPending
 } from '../../../pages/UserSelectors'
 import styles from '../Watchlists/NavbarAssetsDropdownWatchlist.module.scss'
+import wrapperStyles from '../Watchlists/NavbarAssetsDropdown.module.scss'
 
 const ScreenerDropdown = ({ activeLink, isLoggedIn, isLoggedInPending }) => {
   const [screeners = [], loading] = useUserScreeners()
@@ -22,10 +25,15 @@ const ScreenerDropdown = ({ activeLink, isLoggedIn, isLoggedInPending }) => {
   }
 
   return (
-    <>
-      <List screeners={screeners} activeLink={activeLink} />
-      <CreateScreenerBtn />
-    </>
+    <Panel>
+      <div className={wrapperStyles.wrapper}>
+        <div className={cx(wrapperStyles.block, wrapperStyles.list)}>
+          <h3 className={wrapperStyles.title}>My Screeners</h3>
+          <List screeners={screeners} activeLink={activeLink} />
+          <CreateScreenerBtn />
+        </div>
+      </div>
+    </Panel>
   )
 }
 

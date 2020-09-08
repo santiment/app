@@ -102,14 +102,13 @@ const Widgets = ({
 
 const ToggleWidget = ({ index, isActive, toggle, title }) => {
   return (
-    <div className={styles.widgetInfo}>
+    <div className={styles.widgetInfo} onClick={toggle}>
       {SVGs[index]}
 
       <div className={styles.label}>{title}</div>
 
       <Toggle
         isActive={isActive}
-        onClick={toggle}
         className={cx(styles.toggle, isActive && styles.toggle__active)}
       />
     </div>

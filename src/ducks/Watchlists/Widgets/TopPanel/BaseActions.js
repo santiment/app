@@ -74,7 +74,15 @@ const Trigger = ({
   )
 }
 
-const BaseActions = ({ isAuthor, id, name, assets, watchlist, isPro }) => {
+const BaseActions = ({
+  isAuthor,
+  id,
+  name,
+  assets,
+  watchlist,
+  isPro,
+  onClick
+}) => {
   if (!id) {
     return null
   }
@@ -85,7 +93,7 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, isPro }) => {
   const [updateWatchlist, { loading }] = useUpdateWatchlist()
 
   return (
-    <>
+    <div onClick={onClick}>
       <ContextMenu
         trigger={
           <Trigger
@@ -186,7 +194,7 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, isPro }) => {
           )}
         </Panel>
       </ContextMenu>
-    </>
+    </div>
   )
 }
 
