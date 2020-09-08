@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react'
 import cx from 'classnames'
 import { HashLink as Link } from 'react-router-hash-link'
 import { withRouter } from 'react-router-dom'
+import { useEventListener } from '../../hooks/eventListeners'
 import styles from './LeftPageNavigation.module.scss'
 
 const extractFirst = (list, hash) => {
@@ -18,6 +19,26 @@ const LeftPageNavigation = ({ anchors, className, location: { hash } }) => {
   )
 
   const [active, setActive] = useState(extractFirst(list, hash))
+
+  useEventListener('scroll', () => {
+    const offsets = list.map(({ key }) => {
+      const el = document.getElementById(key)
+      const rect = el.getBoundingClientRect()
+      return {
+        key,
+        info: rect,
+        top: rect.top + window.scrollY + rect.height / 2
+      }
+    })
+
+    const border = window.scrollY
+    const findCurrentTab = offsets.findIndex(({ top }) => top > border)
+    const tab = list[findCurrentTab]
+
+    if (tab) {
+      setActive(tab)
+    }
+  })
 
   return (
     <div className={cx(styles.container, className)}>
