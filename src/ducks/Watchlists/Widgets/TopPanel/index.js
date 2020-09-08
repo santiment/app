@@ -21,6 +21,12 @@ const TopPanel = ({
   const { isPro } = useUserSubscriptionStatus()
   const [isFilterOpen, setIsFilterOpen] = useState(false)
 
+  function closeFilter () {
+    if (isFilterOpen) {
+      setIsFilterOpen(false)
+    }
+  }
+
   return (
     <section className={cx(styles.wrapper, isFilterOpen && styles.open)}>
       <div className={styles.row}>
@@ -32,11 +38,12 @@ const TopPanel = ({
             name={name}
             id={id}
             watchlist={watchlist}
+            onClick={closeFilter}
           />
         )}
       </div>
       <div className={styles.row}>
-        <div onClick={() => setIsFilterOpen(false)} className={styles.row}>
+        <div onClick={closeFilter} className={styles.row}>
           <Share watchlist={watchlist} isAuthor={isAuthor} />
           {!isDefaultScreener && <div className={styles.divider} />}
           {(isAuthor || isDefaultScreener) && (
