@@ -7,7 +7,7 @@ import StablecoinsHeader, {
 } from './MarketCapHeader/StablecoinsHeader'
 import CheckingAssets from './CheckingAssets/CheckingAssets'
 import Chart from '../../Chart'
-import { metricsToPlotCategories } from '../../Chart/Synchronizer'
+import { useMetricCategories } from '../../Chart/Synchronizer'
 import {
   formStablecoinsSettings,
   MARKET_CAP_YEAR_INTERVAL,
@@ -19,8 +19,7 @@ import { useStablecoinsTimeseries } from './hooks'
 import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
 import { mapSizesToProps } from '../../../utils/withSizes'
 import SharedAxisToggle from '../../Studio/Chart/SharedAxisToggle'
-import { useDomainGroups } from '../../Chart/hooks'
-import { extractMirrorMetricsDomainGroups } from '../../Chart/utils'
+import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
 import styles from './StablecoinsMarketCap.module.scss'
 
 const CHART_HEIGHT = 400
@@ -64,15 +63,14 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
     [metrics, disabledAssets]
   )
 
-  const categories = metricsToPlotCategories(filteredMetrics, {})
+  const categories = useMetricCategories(filteredMetrics)
 
-  const xAxisKey = (filteredMetrics[0] || {}).key
+  const axesMetricKeys = useAxesMetricsKey(
+    filteredMetrics,
+    isDomainGroupingActive
+  ).slice(0, 1)
 
   const domainGroups = useDomainGroups(filteredMetrics)
-  const mirrorDomainGroups = useMemo(
-    () => extractMirrorMetricsDomainGroups(domainGroups),
-    [domainGroups]
-  )
 
   return (
     <div className={cx(styles.container, className)}>
@@ -95,13 +93,11 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
           })}
         </div>
 
-        {domainGroups && domainGroups.length > mirrorDomainGroups.length && (
-          <SharedAxisToggle
-            isDomainGroupingActive={isDomainGroupingActive}
-            setIsDomainGroupingActive={setIsDomainGroupingActive}
-            className={styles.sharedAxisToggle}
-          />
-        )}
+        <SharedAxisToggle
+          isDomainGroupingActive={isDomainGroupingActive}
+          setIsDomainGroupingActive={setIsDomainGroupingActive}
+          className={styles.sharedAxisToggle}
+        />
         <DesktopOnly>
           <StablecoinsIntervals
             interval={interval}
@@ -113,6 +109,7 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
 
       <DesktopOnly>
         <CheckingAssets
+          metrics={metrics}
           loadings={loadings}
           toggleDisabled={setDisabledAsset}
           disabledAssets={disabledAssets}
@@ -131,11 +128,9 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
         chartPadding={isDesktop ? CHART_PADDING_DESKTOP : CHART_PADDING_MOBILE}
         resizeDependencies={[]}
         MetricColor={StablecoinColor}
-        tooltipKey={xAxisKey}
-        axesMetricKeys={isDesktop ? [xAxisKey] : []}
-        domainGroups={
-          isDomainGroupingActive ? domainGroups : mirrorDomainGroups
-        }
+        tooltipKey={axesMetricKeys[0]}
+        axesMetricKeys={axesMetricKeys}
+        domainGroups={isDomainGroupingActive ? domainGroups : undefined}
         isLoading={loadings.length > 0}
       />
 

@@ -1,15 +1,13 @@
 import React from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
-import { CHECKING_STABLECOINS } from '../utils'
 import ProjectIcon from '../../../../components/ProjectIcon/ProjectIcon'
 import styles from './CheckingAssets.module.scss'
 
-const AssetButton = ({ children, loading, isDisabled, ...rest }) => {
+const AssetButton = ({ children, isDisabled, ...rest }) => {
   return (
     <Button
       border
-      isLoading={loading}
       className={cx(styles.assetBtn, isDisabled && styles.disabled)}
       {...rest}
     >
@@ -18,17 +16,20 @@ const AssetButton = ({ children, loading, isDisabled, ...rest }) => {
   )
 }
 
-const CheckingAssets = ({ loadings, disabledAssets, toggleDisabled }) => {
+const CheckingAssets = ({
+  metrics,
+  loadings,
+  disabledAssets,
+  toggleDisabled
+}) => {
   return (
     <div className={styles.container}>
-      {CHECKING_STABLECOINS.map(({ label, slug, color }) => {
-        const loading = loadings.some(
-          ({ slug: loadingSlug }) => loadingSlug === slug
-        )
+      {metrics.map(metric => {
+        const { label, slug, color } = metric
         return (
           <AssetButton
             key={label}
-            loading={loading}
+            isLoading={loadings.includes(metric)}
             onClick={() => {
               if (disabledAssets[slug]) {
                 delete disabledAssets[slug]

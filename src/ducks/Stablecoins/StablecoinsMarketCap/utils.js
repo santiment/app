@@ -9,8 +9,6 @@ import {
 } from '../../SANCharts/IntervalSelector'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 
-export const buildStablecoinKey = (key, rootKey) => key + '_' + rootKey
-
 export const STABLECOIN_MARKETCAP_USD_METRIC = {
   ...Metric.marketcap_usd,
   node: 'filledLine'

@@ -5,13 +5,12 @@ import { useTimeseries } from '../../Studio/timeseries/hooks'
 function buildStablecoinMetrics (rootMetric) {
   const { key: queryKey, node } = rootMetric
 
-  return CHECKING_STABLECOINS.map(({ slug, ...metric }) =>
-    Object.assign(metric, {
-      node,
-      queryKey,
-      domainGroup: 'stablecoins'
-    })
-  )
+  return CHECKING_STABLECOINS.map(metric => ({
+    ...metric,
+    node,
+    queryKey,
+    domainGroup: 'stablecoins'
+  }))
 }
 
 export const useStablecoinsTimeseries = settings => {
