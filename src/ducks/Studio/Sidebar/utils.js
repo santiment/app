@@ -85,9 +85,9 @@ export const getCategoryGraph = (
     }
 
     if (!hiddenMetrics.includes(metric)) {
-      const { checkIsVisible } = metric
+      const { isBeta: isBetaMetric } = metric
 
-      if (!checkIsVisible || checkIsVisible({ isBeta })) {
+      if (!isBetaMetric || isBeta) {
         addItemToGraph(categories, metric.category, {
           item: metric,
           subitems: Submetrics[metric.key] || []
