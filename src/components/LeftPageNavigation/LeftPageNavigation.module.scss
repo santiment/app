@@ -19,11 +19,15 @@
   @include text('body-3');
 
   &:hover {
-    color: var(--jungle-green-hover);
+    color: var(--jungle-green-hover) !important;
+  }
+
+  &:focus {
+    color: inherit;
   }
 }
 
 .active {
   border-left: 1px solid var(--jungle-green);
-  color: var(--jungle-green);
+  color: var(--jungle-green) !important;
 }
