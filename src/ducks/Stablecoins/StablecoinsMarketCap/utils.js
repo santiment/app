@@ -81,13 +81,28 @@ export const CHECKING_STABLECOINS = [
   },
   {
     label: 'Others',
-    color: '#7A859E'
+    color: '#7A859E',
+    market_segments: ['Stablecoin'],
+    ignored_slugs: [
+      'gemini-dollar',
+      'trueusd',
+      'usd-coin',
+      'binance-usd',
+      'tether',
+      'multi-collateral-dai'
+    ]
   }
 ]
 
 CHECKING_STABLECOINS.forEach(metric => {
-  metric.key = metric.label
+  const { slug, label, market_segments, ignored_slugs } = metric
+  metric.key = label
   metric.formatter = usdFormatter
+  metric.reqMeta = {
+    slug,
+    market_segments,
+    ignored_slugs
+  }
 })
 
 updateTooltipSettings(CHECKING_STABLECOINS)
@@ -99,20 +114,6 @@ export const StablecoinColor = CHECKING_STABLECOINS.reduce(
   },
   {}
 )
-
-export const REQ_META = {
-  Others: {
-    ignored_slugs: [
-      'gemini-dollar',
-      'trueusd',
-      'usd-coin',
-      'binance-usd',
-      'tether',
-      'multi-collateral-dai'
-    ],
-    market_segments: ['Stablecoin']
-  }
-}
 
 export const getIntervalDates = memoize(interval => {
   return {
