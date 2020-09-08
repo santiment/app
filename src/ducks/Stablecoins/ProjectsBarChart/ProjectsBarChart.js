@@ -17,6 +17,7 @@ import ProjectIcon from '../../../components/ProjectIcon/ProjectIcon'
 import { useChartColors } from '../../Chart/colors'
 import { mapSizesToProps } from '../../../utils/withSizes'
 import { tooltipValueFormatter } from '../../dataHub/metrics/formatters'
+import { SanWatermark } from './resources'
 import styles from './ProjectsBarChart.module.scss'
 
 const renderCustomizedLabel = ({ x, y, width, value }) => {
@@ -47,8 +48,8 @@ const PREDEFINED_COLORS = {
   'binance-usd': '#F0B90B'
 }
 
-const DESKTOP_MARGIN = { top: 20, right: 0, left: -20, bottom: 0 }
-const MOBILE_MARGIN = { top: 0, right: 16, left: 0, bottom: 0 }
+const DESKTOP_MARGIN = { top: 20, right: 0, left: -20, bottom: 20 }
+const MOBILE_MARGIN = { top: 0, right: 16, left: 0, bottom: 20 }
 
 const ProjectsBarChart = ({
   isDesktop,
@@ -78,6 +79,7 @@ const ProjectsBarChart = ({
 
   return (
     <div className={styles.chart}>
+      <div className={styles.watermark}>{SanWatermark}</div>
       <ResponsiveContainer width='100%' height='100%'>
         <ComposedChart
           cursor='pointer'
@@ -113,7 +115,7 @@ const ProjectsBarChart = ({
 
           <XAxis
             dataKey={'slug'}
-            tick={CategoryTick}
+            tick={props => <CategoryTick {...props} data={data} />}
             minTickGap={8}
             interval={0}
             domain={['auto', 'auto']}
@@ -134,11 +136,17 @@ const CategoryTick = props => {
   const {
     x,
     y,
-    payload: { value }
+    payload: { value },
+    data,
+    index
   } = props
+
+  const { ticker } = data[index] || {}
+
   return (
-    <foreignObject x={x - 15} y={y} width={30} height={30}>
+    <foreignObject x={x - 15} y={y} width={40} height={60}>
       <ProjectIcon slug={value} size={30} />
+      <div className={styles.ticker}>{ticker}</div>
     </foreignObject>
   )
 }

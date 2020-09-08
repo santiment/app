@@ -5,18 +5,22 @@ const DEFAULT_SELECTOR = 'slug'
 
 export const GET_METRIC = (
   { key, queryKey = key },
-  { selector = DEFAULT_SELECTOR } = DEFAULT_SETTINGS
+  { selector = DEFAULT_SELECTOR, queryKey: customKey } = DEFAULT_SETTINGS
 ) => gql`
   query getMetric(
-    $slug: String!
     $from: DateTime!
     $to: DateTime!
+    $slug: String
     $interval: interval
     $transform: TimeseriesMetricTransformInputObject
     $holdersCount: Int
+    $market_segments: [String]
+    $ignored_slugs: [String]
+    $source: String
+    $owner: String
   ) {
-    getMetric(metric: "${queryKey}") {
-      timeseriesData(selector: { ${selector}: $slug, holdersCount: $holdersCount}, from: $from, to: $to, interval: $interval, transform: $transform) {
+    getMetric(metric: "${customKey || queryKey}") {
+      timeseriesData(selector: { ${selector}: $slug, holdersCount: $holdersCount, market_segments: $market_segments, ignored_slugs: $ignored_slugs, source: $source, owner: $owner}, from: $from, to: $to, interval: $interval, transform: $transform) {
         datetime
         ${key}: value
       }
@@ -210,5 +214,18 @@ export const METRICS = [
   'bitmex_perpetual_basis_ratio',
   'balance',
   'defi_total_value_locked_usd',
-  'transaction_volume_usd'
+  'transaction_volume_usd',
+  'percent_of_holders_distribution_combined_balance_0_to_0.001',
+  'percent_of_holders_distribution_combined_balance_0.001_to_0.01',
+  'percent_of_holders_distribution_combined_balance_0.01_to_0.1',
+  'percent_of_holders_distribution_combined_balance_0.1_to_1',
+  'percent_of_holders_distribution_combined_balance_1_to_10',
+  'percent_of_holders_distribution_combined_balance_10_to_100',
+  'percent_of_holders_distribution_combined_balance_100_to_1k',
+  'percent_of_holders_distribution_combined_balance_1k_to_10k',
+  'percent_of_holders_distribution_combined_balance_10k_to_100k',
+  'percent_of_holders_distribution_combined_balance_100k_to_1M',
+  'percent_of_holders_distribution_combined_balance_1M_to_10M',
+  'percent_of_holders_distribution_combined_balance_10M_to_inf',
+  'social_active_users'
 ]

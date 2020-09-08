@@ -69,7 +69,7 @@ export const Metric = {
   mvrv_usd_30d: {
     category: 'On-chain',
     group: 'Network Value',
-    label: 'MVRV (30d)',
+    label: 'MVRV 30d',
     hints: [
       {
         label: '< 1',
@@ -90,7 +90,7 @@ export const Metric = {
   mvrv_usd_180d: {
     category: 'On-chain',
     group: 'Network Value',
-    label: 'MVRV (180d)',
+    label: 'MVRV 180d',
     hints: [
       {
         label: '< 1',
@@ -111,7 +111,7 @@ export const Metric = {
   mvrv_usd_365d: {
     category: 'On-chain',
     group: 'Network Value',
-    label: 'MVRV (1y)',
+    label: 'MVRV 1y',
     hints: [
       {
         label: '< 1',
@@ -137,7 +137,7 @@ export const Metric = {
   circulation_180d: {
     category: 'On-chain',
     group: 'Network Activity',
-    label: 'Circulation (180d)'
+    label: 'Circulation 180d'
   },
   network_growth: {
     category: 'On-chain',
@@ -170,7 +170,7 @@ export const Metric = {
   dormant_circulation_365d: {
     category: 'On-chain',
     group: 'Network Activity',
-    label: 'Dormant Circulation (1y)',
+    label: 'Dormant Circulation 1y',
     descriptionKey: 'dormant_circulation'
   },
   bitmex_perpetual_funding_rate: {
@@ -220,7 +220,6 @@ export const metrics = [
   Metric.mvrv_usd_365d,
   Metric.dormant_circulation_365d,
   Metric.bitmex_perpetual_funding_rate,
-
   Metric.market_segments
 ]
 

@@ -27,17 +27,17 @@ const TransactionsDominance = ({ interval }) => {
     ...DEFAULT_SETTINGS,
     ...getIntervalDates(interval)
   })
-  const [isAbsolute, setIsAbsolute] = useState(true)
+  const [isDominance, setIsDominance] = useState(false)
 
   const prepared = useMemo(
     () => {
       const filtered = data.filter(({ value }) => value > 0)
 
-      const newData = isAbsolute ? filtered : calculatePercentValues(filtered)
+      const newData = isDominance ? calculatePercentValues(filtered) : filtered
 
       return newData.sort(sortByValue)
     },
-    [data, isAbsolute]
+    [data, isDominance]
   )
 
   return (
@@ -47,16 +47,18 @@ const TransactionsDominance = ({ interval }) => {
         <>
           <div
             className={styles.toggle}
-            onClick={() => setIsAbsolute(!isAbsolute)}
+            onClick={() => setIsDominance(!isDominance)}
           >
-            <Toggle isActive={isAbsolute} />
-            <div className={styles.toggleText}>Absolute view</div>
+            <Toggle isActive={isDominance} />
+            <div className={styles.toggleText}>
+              Switch to transaction dominance
+            </div>
           </div>
           <ProjectsBarChart
             data={prepared}
             settings={{
               yTickFormatter: val =>
-                isAbsolute ? `${millify(val)}` : `${millify(val)} %`
+                isDominance ? `${millify(val)} %` : `${millify(val)}`
             }}
           />
         </>

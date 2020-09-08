@@ -17,7 +17,7 @@ const REPORTS_QUERY = gql`
   }
 `
 
-const useAlphaReports = () => {
+export const useAlphaReports = () => {
   const { data, loading, error } = useQuery(REPORTS_QUERY)
   return [data ? data.getReports : [], loading, error]
 }

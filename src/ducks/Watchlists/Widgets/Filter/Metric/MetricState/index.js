@@ -24,16 +24,18 @@ const FilterMetricState = ({
     <div className={styles.wrapper}>
       <div
         onClick={() => (!isViewMode ? onCheckboxClicked() : null)}
-        className={cx(styles.toggle, isDisabled && styles.toggle__disabled)}
+        className={cx(
+          styles.toggle,
+          isDisabled && styles.toggle__disabled,
+          isViewMode && styles.toggle__notActive
+        )}
       >
         <Checkbox
           isActive={isActive}
           disabled={isDisabled}
           className={styles.checkbox}
         />
-        <div
-          className={cx(styles.title, isViewMode && styles.title__notActive)}
-        >
+        <div className={styles.title}>
           <span className={styles.label}>{metric.label}</span>
           {metric.isDeprecated && <DeprecatedLabel isAuthor={!isViewMode} />}
           {isActive && (

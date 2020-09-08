@@ -9,5 +9,6 @@ export const PATHS = {
   INDEX: '/',
   STUDIO: '/studio',
   CHARTS: '/charts',
-  STABLECOINS: '/stablecoins'
+  STABLECOINS: '/stablecoins',
+  SHEETS_TEMPLATES: '/sheets/daa-vs-price'
 }

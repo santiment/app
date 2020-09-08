@@ -33,6 +33,7 @@
 .wrapper {
   padding: 12px 0 10px 20px;
   width: 360px;
+  min-height: 200px;
   overflow-y: hidden;
 
   @include responsive('phone-xs', 'phone') {
@@ -77,12 +78,11 @@
 }
 
 .assetGroup {
-  display: inline-block;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .asset {
-  display: inline-block;
-
   @include border-box();
 
   background: var(--athens);
@@ -94,6 +94,8 @@
   @include text('body-3');
 
   height: 24px;
+  display: flex;
+  align-items: center;
 }
 
 .closeIcon {
@@ -111,6 +113,7 @@
   padding: 0;
   height: auto;
   background: var(--athens);
+  cursor: pointer !important;
 }
 
 .label {

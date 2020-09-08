@@ -8,10 +8,18 @@
   background-image: url('./cubes.svg');
   background-position: 50% 50%;
   padding: 72px 40px;
+
+  @include responsive( 'tablet','phone', 'phone-xs') {
+    flex-direction: column;
+  }
 }
 
 .block + .block {
   margin-left: 144px;
+
+  @include responsive( 'tablet','phone', 'phone-xs') {
+    margin: 40px 0 0 0;
+  }
 }
 
 .heading {
@@ -47,35 +55,17 @@
 .link {
   color: var(--jungle-green);
   position: relative;
-  transition: color 0.4s ease;
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    width: 100%;
-    display: block;
-    height: 1px;
-    background-color: $jungle-green-light-3;
-    left: 0;
-    border-radius: 2px;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.4s ease, background-color 0.35s ease;
-
-    @include responsive('phone-xs', 'phone', 'tablet') {
-      display: none;
-    }
-  }
+  transition: color 0.4s ease, background-size 0.4s ease;
+  background-position: 100% 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  background-image: linear-gradient($jungle-green-light-3, $jungle-green-light-3);
 
   &:hover,
   &:focus,
   &:active {
     color: var(--jungle-green-hover);
-
-    &::after {
-      transform-origin: left;
-      transform: scaleX(1);
-    }
+    background-size: 100% 1px;
+    background-position: 0% 100%;
   }
 }

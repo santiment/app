@@ -1,27 +1,19 @@
 import React, { Fragment, useMemo, useState } from 'react'
+import cx from 'classnames'
 import StablecoinsIntervals from '../../ducks/Stablecoins/StablecoinsIntervals/StablecoinsIntervals'
-import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
 import CheckProPaywall from '../../ducks/Stablecoins/CheckProPaywall'
 import styles from './StablecoinsPage.module.scss'
 
-const BlockHeader = ({ title, description, showPro, setInterval }) => {
+const BlockHeader = ({ title, description, setInterval, tag }) => {
   if (!title) {
     return null
   }
 
   return (
     <div className={styles.subHeader}>
-      <div className={styles.subTitle}>
+      <div className={styles.subTitle} id={tag}>
         {title}
         {setInterval && <StablecoinsIntervals onChange={setInterval} />}
-        {showPro && (
-          <UpgradeBtn
-            className={styles.upgrade}
-            iconClassName={styles.crown}
-            variant='fill'
-            children='Pro'
-          />
-        )}
       </div>
       {description && <div className={styles.subDescr}>{description}</div>}
     </div>
@@ -31,9 +23,10 @@ const BlockHeader = ({ title, description, showPro, setInterval }) => {
 export const Block = ({
   title,
   description,
-  showPro,
   children,
-  isPaywalActive = false
+  isPaywalActive = false,
+  tag,
+  className
 }) => {
   const El = useMemo(
     () => {
@@ -43,23 +36,22 @@ export const Block = ({
   )
 
   return (
-    <div className={styles.block}>
-      <BlockHeader title={title} description={description} showPro={showPro} />
+    <div className={cx(styles.block, className)} id={tag}>
+      <BlockHeader title={title} description={description} />
 
       <El>{children}</El>
     </div>
   )
 }
 
-export const BlockWithRanges = ({ title, description, showPro, el: El }) => {
+export const BlockWithRanges = ({ title, description, el: El, tag }) => {
   const [interval, setInterval] = useState('24h')
 
   return (
-    <div className={styles.block}>
+    <div className={styles.block} id={tag}>
       <BlockHeader
         title={title}
         description={description}
-        showPro={showPro}
         setInterval={setInterval}
       />
 

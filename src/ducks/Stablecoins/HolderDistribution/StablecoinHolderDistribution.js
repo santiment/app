@@ -2,26 +2,32 @@ import React, { useCallback, useEffect, useState } from 'react'
 import cx from 'classnames'
 import withSizes from 'react-sizes'
 import { mapSizesToProps } from '../../../utils/withSizes'
-import { TopHolderMetric } from '../../Studio/Chart/Sidepanel/HolderDistribution/metrics'
+import { HolderDistributionMetric } from '../../Studio/Chart/Sidepanel/HolderDistribution/metrics'
 import TopHolders from '../../Studio/Chart/Sidepanel/HolderDistribution'
 import { useAllTimeData, useTimeseries } from '../../Studio/timeseries/hooks'
 import { useChartColors } from '../../Chart/colors'
 import Chart from '../../Chart'
 import { useAxesMetricsKey } from '../../Chart/hooks'
 import { metricsToPlotCategories } from '../../Chart/Synchronizer'
-import { Metric } from '../../dataHub/metrics'
-import ActiveMetrics from '../../Studio/Chart/ActiveMetrics'
 import StablecoinSelector from '../StablecoinSelector/StablecoinSelector'
-import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
+import { MobileOnly } from '../../../components/Responsive'
 import StablecoinsHeader, {
   StablecoinsIntervals
 } from '../StablecoinsMarketCap/MarketCapHeader/StablecoinsHeader'
 import {
-  getIntervalDates,
   HOLDERS_DISTRIBUTION_6M,
   HOLDERS_DISTRIBUTION_MOBILE_INTERVALS
 } from '../StablecoinsMarketCap/utils'
+import { getIntervalByTimeRange } from '../../../utils/dates'
+import PaywallInfo from '../../Studio/Chart/PaywallInfo'
+import { usePhase, Phase } from '../../Studio/phases'
+import {
+  checkIfWasNotMerged,
+  buildMergedMetric
+} from '../../Studio/Widget/HolderDistributionWidget/utils'
 import styles from './StablecoinHolderDistribution.module.scss'
+
+const DEFAULT_CHECKED_METRICS = new Set()
 
 const CHART_HEIGHT = 524
 
@@ -43,23 +49,25 @@ export const DEFAULT_STABLECOIN = {
 }
 
 const DEFAULT_SETTINGS = {
-  ...getIntervalDates('183d'),
+  ...getIntervalByTimeRange('183d'),
   interval: '1d'
 }
 
 const StablecoinHolderDistribution = ({ isDesktop, className }) => {
   const [interval, setInterval] = useState(HOLDERS_DISTRIBUTION_6M)
   const [asset, setAsset] = useState(DEFAULT_STABLECOIN)
+  const [checkedMetrics, setSelectedMetrics] = useState(DEFAULT_CHECKED_METRICS)
   const [metrics, setMetrics] = useState([
-    Metric.price_usd,
-    TopHolderMetric.holders_distribution_100_to_1k,
-    TopHolderMetric.holders_distribution_1k_to_10k
+    HolderDistributionMetric.holders_distribution_100_to_1k,
+    HolderDistributionMetric.holders_distribution_1k_to_10k
   ])
-
+  const [mergedMetrics, setMergedMetrics] = useState([])
+  const { currentPhase, setPhase } = usePhase()
   const [settings, setSettings] = useState({
     ...DEFAULT_SETTINGS,
     slug: asset.slug
   })
+  const MetricColor = useChartColors(metrics)
 
   useEffect(
     () => {
@@ -71,7 +79,7 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
     [asset]
   )
 
-  const [data, loadings, errors] = useTimeseries(metrics, settings)
+  const [data] = useTimeseries(metrics, settings)
   const allTimeData = useAllTimeData(metrics, {
     slug: asset.slug,
     interval: undefined
@@ -92,10 +100,10 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
       setInterval(interval)
       setSettings({
         ...settings,
-        ...getIntervalDates(interval.value)
+        ...getIntervalByTimeRange(interval.value)
       })
     },
-    [getIntervalDates, settings, setSettings, setInterval]
+    [settings, setSettings, setInterval]
   )
 
   const axesMetricKeys = useAxesMetricsKey([...metrics].reverse())
@@ -103,6 +111,10 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
 
   const toggleMetric = useCallback(
     metric => {
+      if (currentPhase !== Phase.IDLE) {
+        return checkMetric(metric)
+      }
+
       const found = metrics.find(x => x === metric)
 
       if (found) {
@@ -111,10 +123,43 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
         setMetrics([...metrics, metric])
       }
     },
-    [metrics, setMetrics]
+    [metrics, setMetrics, currentPhase, checkMetric]
   )
 
-  const MetricColor = useChartColors(metrics)
+  function checkMetric (metric) {
+    const newCheckedMetrics = new Set(checkedMetrics)
+
+    if (checkedMetrics.has(metric)) {
+      newCheckedMetrics.delete(metric)
+    } else {
+      newCheckedMetrics.add(metric)
+    }
+
+    setSelectedMetrics(newCheckedMetrics)
+  }
+
+  function onMergeClick () {
+    setPhase(Phase.MAPVIEW)
+  }
+
+  function onMergeConfirmClick () {
+    if (checkedMetrics.size > 1) {
+      const metric = buildMergedMetric([...checkedMetrics])
+
+      if (checkIfWasNotMerged(metric.key, mergedMetrics)) {
+        setMetrics([...metrics, metric])
+        setMergedMetrics([...mergedMetrics, metric])
+      }
+    }
+    setPhase(Phase.IDLE)
+    setSelectedMetrics(DEFAULT_CHECKED_METRICS)
+  }
+
+  function onUnmergeClick (metric) {
+    const metricFilter = m => m !== metric
+    setMetrics(metrics.filter(metricFilter))
+    setMergedMetrics(mergedMetrics.filter(metricFilter))
+  }
 
   return (
     <div className={cx(styles.container, className)}>
@@ -125,21 +170,11 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
       <div className={styles.chartContainer}>
         <div className={styles.header}>
           <StablecoinSelector asset={asset} setAsset={setAsset} />
-        </div>
 
-        <DesktopOnly>
-          <div className={styles.metricBtns}>
-            <ActiveMetrics
-              className={styles.metricBtn}
-              MetricColor={MetricColor}
-              toggleMetric={toggleMetric}
-              loadings={loadings}
-              activeMetrics={metrics}
-              ErrorMsg={errors}
-              project={asset}
-            />
+          <div className={styles.gaps}>
+            <PaywallInfo metrics={metrics} />
           </div>
-        </DesktopOnly>
+        </div>
 
         <Chart
           {...settings}
@@ -171,16 +206,15 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
 
       <div className={styles.metrics}>
         <TopHolders
-          ticker={asset.ticker}
           toggleMetric={toggleMetric}
           MetricColor={MetricColor}
           metrics={metrics}
-          btnProps={{
-            fluid: false,
-            variant: 'ghost',
-            loading: loadings,
-            className: styles.holderMetricBtn
-          }}
+          currentPhase={currentPhase}
+          checkedMetrics={checkedMetrics}
+          mergedMetrics={mergedMetrics}
+          onMergeClick={onMergeClick}
+          onMergeConfirmClick={onMergeConfirmClick}
+          onUnmergeClick={onUnmergeClick}
         />
       </div>
     </div>

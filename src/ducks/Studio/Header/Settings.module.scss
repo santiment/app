@@ -20,9 +20,14 @@
   }
 }
 
-.explain_active {
-  border-color: var(--jungle-green);
-  --btn-accent-color-hover: var(--jungle-green-hover);
+.explain {
+  white-space: nowrap;
+
+  &_active {
+    border-color: var(--jungle-green);
+
+    --btn-accent-color-hover: var(--jungle-green-hover);
+  }
 }
 
 .share {
@@ -33,6 +38,7 @@
   border-color: var(--jungle-green);
   color: var(--jungle-green);
   margin: 0 8px;
+  white-space: nowrap;
 
   &:hover {
     border-color: var(--jungle-green-hover);

@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Toggle from '@santiment-network/ui/Toggle'
 import Button from '@santiment-network/ui/Button'
-import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import styles from './Widgets.module.scss'
 
@@ -62,8 +61,15 @@ const Widgets = ({
   return (
     <ContextMenu
       trigger={
-        <Button variant='flat' className={styles.triggerButton}>
-          <Icon type='view-option' />
+        <Button
+          variant='flat'
+          className={cx(
+            styles.triggerButton,
+            (isPriceChart || isPriceTreeMap) && styles.triggerButton__active
+          )}
+          icon='view-option'
+        >
+          Infographics
         </Button>
       }
       passOpenStateAs='isActive'

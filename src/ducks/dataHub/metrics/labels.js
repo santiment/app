@@ -4,6 +4,4 @@ const Labels = {
   [Metric.dormant_circulation.key]: 'Dormant Circulation (365d)'
 }
 
-export const getMetricLabel = ({ key, label }) => {
-  return Labels[key] || label
-}
+export const getMetricLabel = ({ key, label }) => Labels[key] || label

@@ -16,7 +16,8 @@ const TriggerMetricTypesResolver = ({
   values,
   values: { metric },
   metaFormSettings,
-  setFieldValue
+  setFieldValue,
+  isNewSignal
 }) => {
   const TypeComponent = mapToComponents[metric.value] || TriggerFormAssetWallet
 
@@ -28,6 +29,7 @@ const TriggerMetricTypesResolver = ({
         metaFormSettings={metaFormSettings}
         setFieldValue={setFieldValue}
         metric={metric}
+        isNewSignal={isNewSignal}
       />
     </TriggerFormBlock>
   )

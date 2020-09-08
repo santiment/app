@@ -1,0 +1,41 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  padding: 0 !important;
+  max-width: 100% !important;
+  position: relative;
+  margin: 0 auto !important;
+  background: var(--athens);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart {
+  margin-top: 60px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  max-width: 1152px;
+  width: 100%;
+}
+
+.inner {
+  max-width: 1152px;
+  margin: auto;
+  width: 100%;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    padding: 0 16px;
+  }
+}
+
+.footer {
+  margin-top: auto;
+}

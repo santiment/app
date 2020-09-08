@@ -235,6 +235,7 @@ export const TriggerForm = ({
                   values={values}
                   metaFormSettings={metaFormSettings}
                   setFieldValue={setFieldValue}
+                  isNewSignal={isNew}
                 />
               )}
 

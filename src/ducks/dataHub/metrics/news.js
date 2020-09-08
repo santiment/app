@@ -1,16 +1,20 @@
 import { Metric } from './index'
-import { TopTransactionsTableMetric } from '../submetrics'
+import { Submetrics, TopTransactionsTableMetric } from '../submetrics'
 
 const NEW_METRICS = [
   Metric.price_btc,
   Metric.price_eth,
   Metric.bitmex_perpetual_basis_ratio,
   TopTransactionsTableMetric,
-  Metric.transaction_volume_usd
+  Metric.transaction_volume_usd,
+  Metric.social_active_users.key
 ]
 export const NEW_METRIC_KEY_SET = new Set(NEW_METRICS.map(({ key }) => key))
 
-const NewSubmetricsByMetric = {}
+const NewSubmetricsByMetric = {
+  [Metric.social_active_users.key]: Submetrics[Metric.social_active_users.key]
+}
+
 NEW_METRICS.forEach(metric => {
   const { parentMetric } = metric
   if (parentMetric) {

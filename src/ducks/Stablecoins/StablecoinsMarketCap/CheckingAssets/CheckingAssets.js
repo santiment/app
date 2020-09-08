@@ -9,7 +9,7 @@ const AssetButton = ({ children, loading, isDisabled, ...rest }) => {
   return (
     <Button
       border
-      loading={loading}
+      isLoading={loading}
       className={cx(styles.assetBtn, isDisabled && styles.disabled)}
       {...rest}
     >

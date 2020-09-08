@@ -1,41 +1,18 @@
-import React, { useMemo } from 'react'
-import { EXCHANGES_DEFAULT_SETTINGS, useFlowToExchanges } from './utils'
-import { useProject } from '../../../hooks/project'
+import React from 'react'
 import ProjectIcon from '../../../components/ProjectIcon/ProjectIcon'
-import Skeleton from '../../../components/Skeleton/Skeleton'
-import { millify } from '../../../utils/formatting'
+import { formatNumber } from '../../../utils/formatting'
 import styles from './FlowToExchanges.module.scss'
 
-const FlowToExchanges = ({ item: { slug } }) => {
-  const { data, loading } = useFlowToExchanges({
-    slug,
-    ...EXCHANGES_DEFAULT_SETTINGS
-  })
-
-  const [project = {}] = useProject(slug)
-
-  const sum = useMemo(
-    () => {
-      return data.reduce((acc, val) => {
-        return acc + val.value
-      }, 0)
-    },
-    [data]
-  )
-
+const FlowToExchanges = ({ item: { slug, ticker, name, value } }) => {
   return (
     <div className={styles.container}>
-      {!loading && (
-        <div className={styles.title}>
-          <ProjectIcon size={36} slug={slug} />
-          <div className={styles.name}>{project.name}</div>
-          <div className={styles.value}>
-            {millify(sum)} {project.ticker}
-          </div>
+      <div className={styles.title}>
+        <ProjectIcon size={36} slug={slug} />
+        <div className={styles.name}>{name}</div>
+        <div className={styles.value}>
+          {formatNumber(value)} {ticker}
         </div>
-      )}
-
-      <Skeleton className={styles.skeleton} show={loading} repeat={1} />
+      </div>
     </div>
   )
 }

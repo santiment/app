@@ -1,23 +1,31 @@
 @import '~@santiment-network/ui/mixins';
 
-:root {
-  --screener-filter-width: 376px;
-}
-
 .top {
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   width: 100%;
   transition: width 0.2s ease-in-out;
-
-  &__filterView {
-    width: calc(100% - var(--screener-filter-width));
-  }
 }
 
 .actions {
   display: flex;
+  align-items: center;
+  fill: var(--waterloo);
+}
+
+.action {
+  fill: var(--waterloo);
+  margin: 0 0 0 22px;
+  padding: 0;
+
+  &__wrapper {
+    display: flex;
+  }
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
 }
 
 .loading {
@@ -38,10 +46,6 @@
 .assetsTable {
   width: 100%;
   transition: width 0.2s ease-in-out;
-
-  &__filterView {
-    width: calc(100% - var(--screener-filter-width));
-  }
 }
 
 .assetsTable:global(.ReactTable) {
@@ -169,15 +173,14 @@
       }
     }
 
+    // [GarageInc:01.09.2020] overflow: visible; for showing tooltips on rows
     .rt-table {
       flex: 0 0;
-      overflow-x: hidden;
       padding-top: 8px;
-      overflow-y: hidden;
+      overflow: visible;
 
       &:hover {
-        overflow-x: auto;
-        overflow-x: overlay;
+        overflow: visible;
       }
     }
 

@@ -32,6 +32,7 @@ const EventBanner = ({ className }) => {
   const activeWidget = activeWidgets.length > 0 ? activeWidgets[0] : null
 
   const [show, setShow] = useState(false)
+  const [showCloseAnimation, setShowCloseAnimation] = useState(false)
 
   useEffect(
     () => {
@@ -42,7 +43,11 @@ const EventBanner = ({ className }) => {
 
   const hideTooltip = () => {
     localStorage.setItem(HIDDEN_WIDGET_KEY, JSON.stringify(activeWidget))
-    setShow(false)
+    setShowCloseAnimation(true)
+    setTimeout(() => {
+      setShow(false)
+      setShowCloseAnimation(false)
+    }, 1000)
   }
 
   if (!show || !activeWidget) {
@@ -55,8 +60,19 @@ const EventBanner = ({ className }) => {
     `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`
 
   return (
-    <section className={cx(styles.wrapper, className)}>
-      <div className={styles.closeContainer}>
+    <section
+      className={cx(
+        styles.wrapper,
+        className,
+        showCloseAnimation && styles.wrapper__hide
+      )}
+    >
+      <div
+        className={cx(
+          styles.closeContainer,
+          showCloseAnimation && styles.closeContainer__hide
+        )}
+      >
         <a
           href={activeWidget.videoLink}
           target='_blank'

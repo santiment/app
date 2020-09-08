@@ -1,0 +1,89 @@
+@import '~@santiment-network/ui/mixins';
+
+.closeIcon {
+  width: 10px;
+  height: 10px;
+  fill: white;
+}
+
+.tooltipClose {
+  position: absolute;
+  background: var(--waterloo);
+  top: 10px;
+  right: 10px;
+  border-radius: 50%;
+  min-width: 32px;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  cursor: pointer;
+
+  &:hover {
+    .closeIcon {
+      fill: var(--jungle-green);
+    }
+  }
+}
+
+.img {
+  width: 100%;
+  min-height: 240px;
+  border-radius: $border-radius;
+
+  @include responsive('phone-xs', 'phone') {
+    min-height: 100px;
+  }
+}
+
+.tooltip {
+  background: var(--white);
+  border-radius: $border-radius;
+  padding: 0;
+}
+
+.title {
+  @include text('body-2', 'm');
+
+  color: var(--white);
+  margin-bottom: 16px;
+}
+
+.description {
+  @include text('body-3');
+
+  margin-top: 16px;
+  word-break: break-word;
+  white-space: normal;
+  color: white;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 480px;
+  cursor: auto;
+  padding: 16px;
+  background: var(--fiord);
+  color: var(--rhino);
+  border-radius: $border-radius;
+
+  @include responsive('phone-xs', 'phone') {
+    width: 300px;
+  }
+}
+
+.tooltipArrow {
+  background: var(--fiord);
+  width: 14px;
+  height: 14px;
+  z-index: 1;
+}
+
+.tooltipContent {
+  border-radius: $border-radius;
+  background: var(--white);
+  z-index: 10;
+}

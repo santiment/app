@@ -1,11 +1,20 @@
 import memoize from 'lodash.memoize'
 import { Metric } from '../../dataHub/metrics'
-import { getTransformerKey } from '../../Studio/timeseries/hooks'
 import { convertToSeconds } from '../../dataHub/metrics/intervals'
 import {
   getNewInterval,
   INTERVAL_ALIAS
 } from '../../SANCharts/IntervalSelector'
+import { getIntervalByTimeRange } from '../../../utils/dates'
+
+export const StablecoinsMetrics = [
+  {
+    ...Metric.marketcap_usd,
+    node: 'filledLine'
+  },
+  Metric.price_usd,
+  Metric.volume_usd
+]
 
 export const makeInterval = (val, label) => ({
   value: val,
@@ -14,13 +23,14 @@ export const makeInterval = (val, label) => ({
 
 export const MARKET_CAP_MONTH_INTERVAL = makeInterval('31d', '1M')
 export const MARKET_CAP_DAY_INTERVAL = makeInterval('2d', '1D')
+export const MARKET_CAP_YEAR_INTERVAL = makeInterval('1y', '1Y')
 
 export const STABLE_COINS_MARKETCAP_INTERVALS = [
-  makeInterval('1h', '1H'),
   MARKET_CAP_DAY_INTERVAL,
   makeInterval('1w', '1W'),
   MARKET_CAP_MONTH_INTERVAL,
-  makeInterval('365d', '1Y')
+  makeInterval('90d', '3M'),
+  MARKET_CAP_YEAR_INTERVAL
 ]
 
 export const HOLDERS_DISTRIBUTION_6M = makeInterval('183d', '6m')
@@ -69,7 +79,7 @@ export const CHECKING_STABLECOINS = [
   }
 ]
 
-const REQ_META = {
+export const REQ_META = {
   Others: {
     ignored_slugs: [
       'gemini-dollar',
@@ -83,39 +93,6 @@ const REQ_META = {
   }
 }
 
-export const STABLE_COINS_METRICS = CHECKING_STABLECOINS.map(item => {
-  return {
-    ...Metric.marketcap_usd,
-    ...item,
-    node: 'filledLine'
-  }
-})
-
-export const METRIC_SETTINGS_MAP = new Map(
-  STABLE_COINS_METRICS.map(metric => {
-    return [
-      metric,
-      {
-        slug: metric.slug,
-        ...REQ_META[metric.label]
-      }
-    ]
-  })
-)
-
-const METRIC_TRANSFORMER_TMP = {}
-
-STABLE_COINS_METRICS.forEach(metric => {
-  METRIC_TRANSFORMER_TMP[getTransformerKey(metric)] = v => {
-    return v.map(item => ({
-      datetime: item.datetime,
-      [getTransformerKey(metric)]: item.marketcap_usd
-    }))
-  }
-})
-
-export const METRIC_TRANSFORMER = { ...METRIC_TRANSFORMER_TMP }
-
 export const getIntervalDates = memoize(interval => {
   return {
     from: new Date(new Date().getTime() + -1 * convertToSeconds(interval)),
@@ -124,7 +101,7 @@ export const getIntervalDates = memoize(interval => {
 })
 
 export const formStablecoinsSettings = intervalWrapper => {
-  const { from, to } = getIntervalDates(intervalWrapper.value)
+  const { from, to } = getIntervalByTimeRange(intervalWrapper.value)
 
   const interval = getNewInterval(from, to)
 

@@ -10,6 +10,7 @@
 
 .inner {
   max-width: 1152px;
+  flex: 1;
   margin: auto;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
@@ -17,8 +18,27 @@
   }
 }
 
+.body {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  display: flex;
+
+  @include responsive( 'tablet','phone', 'phone-xs') {
+    flex-direction: column;
+  }
+}
+
+.pageDescription {
+  display: flex;
+  flex-direction: column;
+}
+
 .block {
-  margin: 80px 0;
+  margin: 0;
+  padding: 40px 0;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     margin: 40px 0;
@@ -56,13 +76,17 @@
   display: flex;
   text-align: center;
 
-  @include text('body-1', 'm');
+  @include text('h4', 'm');
+
+  @include responsive( 'tablet','phone', 'phone-xs') {
+    @include text('body-2','m');
+  }
 }
 
 .subDescr {
   @include text('body-2');
 
-  margin-top: 4px;
+  margin-top: 8px;
   color: var(--waterloo);
 }
 
@@ -83,7 +107,7 @@
 }
 
 .upgrade {
-  margin-left: 24px;
+  margin: auto 0 auto 24px;
   min-width: 52px;
   height: 24px;
   background: var(--texas-rose-light-2);
@@ -95,4 +119,20 @@
 .crown {
   fill: var(--texas-rose);
   margin-right: 8px;
+}
+
+.firstBlock {
+  margin-top: -336px;
+
+  @include responsive( 'tablet','phone', 'phone-xs') {
+    margin-top: 0;
+  }
+}
+
+.researchers {
+  margin-top: 40px;
+}
+
+.anchor {
+  color: inherit;
 }

@@ -1,5 +1,12 @@
+@import '~@santiment-network/ui/mixins';
+
 .wrapper {
   padding: 8px 16px;
+  min-width: 400px;
+
+  @include responsive('phone', 'phone-xs') {
+    min-width: initial;
+  }
 }
 
 .search {

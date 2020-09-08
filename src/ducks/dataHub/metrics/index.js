@@ -281,7 +281,7 @@ export const Metric = {
   nvt_transaction_volume: {
     node: 'bar',
     group: 'Network Value',
-    label: 'NVT Ratio (Using Transaction Volume) ',
+    label: 'NVT Ratio (using Transaction Volume) ',
     shortLabel: 'NVT R. T.V.',
     category: 'On-chain'
   },
@@ -475,6 +475,16 @@ export const Metric = {
     shortLabel: 'Defi Locked',
     fill: true,
     isBeta: true
+  },
+  social_active_users: {
+    queryKey: 'social_active_users',
+    category: 'Social',
+    label: 'Social Active Users',
+    shortLabel: 'Soc. Act. Us.',
+    node: 'bar',
+    isBeta: true,
+    group: 'Social Active Users',
+    showRoot: false
   }
 }
 

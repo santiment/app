@@ -8,8 +8,8 @@ import Sidepanel, { CloseButton } from '../../Chart/Sidepanel'
 import ChartActiveMetrics from '../../Chart/ActiveMetrics'
 import { TOP_HOLDERS_PANE } from '../../Chart/Sidepanel/panes'
 import {
-  TopHolderMetric,
-  TOP_HOLDER_METRICS
+  HolderDistributionMetric,
+  HOLDER_DISTRIBUTION_ABSOLUTE_METRICS
 } from '../../Chart/Sidepanel/HolderDistribution/metrics'
 import { useChartColors } from '../../../Chart/colors'
 import { usePressedModifier } from '../../../../hooks/keyboard'
@@ -20,13 +20,19 @@ const DEFAULT_CHECKED_METRICS = new Set()
 const Title = ({ activeMetrics, ...props }) => (
   <ChartActiveMetrics
     activeMetrics={activeMetrics.filter(
-      ({ key, baseMetrics }) => !(TopHolderMetric[key] || baseMetrics)
+      ({ key, baseMetrics }) => !(HolderDistributionMetric[key] || baseMetrics)
     )}
     {...props}
   />
 )
 
-const HolderDistributionWidget = ({ widget, ...props }) => {
+const HolderDistributionWidget = ({
+  widget,
+  sidepanelHeader,
+  TabMetrics,
+  isWithTabs,
+  ...props
+}) => {
   const [isOpened, setIsOpened] = useState(true)
   const MetricColor = useChartColors(widget.metrics, widget.MetricColor)
   const PressedModifier = usePressedModifier()
@@ -89,13 +95,17 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
         <Sidepanel
           className={styles.sidepanel}
           contentClassName={styles.sidepanel__content}
-          ticker={props.settings.ticker}
+          header={
+            sidepanelHeader || `${props.settings.ticker} Holders Distribution`
+          }
           chartSidepane={TOP_HOLDERS_PANE}
           currentPhase={currentPhase}
           metrics={widget.metrics}
           mergedMetrics={mergedMetrics}
           checkedMetrics={checkedMetrics}
           MetricColor={MetricColor}
+          TabMetrics={TabMetrics}
+          isWithTabs={isWithTabs}
           toggleMetric={toggleWidgetMetric}
           toggleChartSidepane={toggleSidepane}
           onMergeClick={onMergeClick}
@@ -109,16 +119,19 @@ const HolderDistributionWidget = ({ widget, ...props }) => {
   )
 }
 
-const newHolderDistributionWidget = props =>
+export const holderDistributionBuilder = (widget, metrics) => props =>
   ChartWidget.new(
     {
-      metrics: TOP_HOLDER_METRICS,
       mergedMetrics: [],
+      metrics,
       ...props
     },
-    HolderDistributionWidget
+    widget
   )
 
-HolderDistributionWidget.new = newHolderDistributionWidget
+HolderDistributionWidget.new = holderDistributionBuilder(
+  HolderDistributionWidget,
+  HOLDER_DISTRIBUTION_ABSOLUTE_METRICS
+)
 
 export default HolderDistributionWidget

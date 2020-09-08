@@ -1089,7 +1089,10 @@ export const metricTypesBlockErrors = values => {
         }
       }
     } else {
-      if (isEthOrErc20Error && (!target || target.length === 1)) {
+      if (
+        isEthOrErc20Error &&
+        (Array.isArray(target) ? target.length === 1 : !!target)
+      ) {
         errors.ethAddress = NOT_VALID_ETH_ADDRESS
       }
     }

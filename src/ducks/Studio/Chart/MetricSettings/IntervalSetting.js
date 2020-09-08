@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo, useState, useRef } from 'react'
-import ContextMenu from '@santiment-network/ui/ContextMenu'
+import React, { useMemo } from 'react'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Setting from './Setting'
+import { useDropdown } from './Dropdown'
 import { useMetricIntervals } from './hooks'
 import { mergeMetricSettingMap } from '../../utils'
 import styles from './index.module.scss'
@@ -16,8 +16,7 @@ const IntervalSetting = ({
   interval: chartInterval,
   rerenderWidgets
 }) => {
-  const activeRef = useRef()
-  const [isOpened, setIsOpened] = useState(false)
+  const { activeRef, close, Dropdown } = useDropdown()
   const intervals = useMetricIntervals(metric)
   const interval = useMemo(
     () => {
@@ -28,29 +27,8 @@ const IntervalSetting = ({
         ? interval
         : intervals[0].key
     },
-    [widget.MetricSettingMap, intervals]
+    [widget.MetricSettingMap, intervals, metric]
   )
-
-  useEffect(
-    () => {
-      const btn = activeRef.current
-      if (isOpened && btn) {
-        const { parentNode } = btn
-
-        // NOTE: .scrollIntoView also scrolls the window viewport [@vanguard | Aug 12, 2020]
-        parentNode.scrollTop = btn.offsetTop - parentNode.clientHeight / 2
-      }
-    },
-    [isOpened]
-  )
-
-  function openMenu () {
-    setIsOpened(true)
-  }
-
-  function closeMenu () {
-    setIsOpened(false)
-  }
 
   function onChange (newInterval) {
     if (newInterval === chartInterval) {
@@ -70,17 +48,11 @@ const IntervalSetting = ({
       )
     }
 
-    closeMenu()
+    close()
     rerenderWidgets()
   }
   return (
-    <ContextMenu
-      open={isOpened}
-      className={styles.tooltip}
-      position='bottom'
-      on='click'
-      onOpen={openMenu}
-      onClose={closeMenu}
+    <Dropdown
       trigger={
         <Setting>
           <Icon className={styles.icon} type='interval' />
@@ -99,7 +71,7 @@ const IntervalSetting = ({
           {label}
         </Button>
       ))}
-    </ContextMenu>
+    </Dropdown>
   )
 }
 

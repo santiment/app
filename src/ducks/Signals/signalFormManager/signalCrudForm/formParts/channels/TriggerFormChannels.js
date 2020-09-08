@@ -342,7 +342,7 @@ const ChannelCheckbox = ({
 
 const ErrorMessage = ({ message, recheckBrowserNotifications, channel }) => (
   <div className={styles.messages}>
-    <Message variant='warn' className={styles.messagesText}>
+    <Message variant='warn'>
       {message || (
         <TriggerChannelSettings
           trigger={

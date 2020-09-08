@@ -37,7 +37,6 @@ const MetricButton = ({
   ...rest
 }) => {
   const { key, dataKey = key, node, comparedTicker } = metric
-
   const label = getMetricLabel(metric)
 
   return (

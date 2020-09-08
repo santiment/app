@@ -1,10 +1,8 @@
 import React from 'react'
 import Loadable from 'react-loadable'
-import { connect } from 'react-redux'
 import IndexTab from '../../Marketing/IndexTabs/IndexTab'
 import PageLoader from '../../../components/Loader/PageLoader'
 import { RecommendedSignals } from '../../SonarFeed/SonarFeedRecommendations'
-import { checkIsLoggedIn } from '../../UserSelectors'
 import styles from './FeedAlerts.module.scss'
 
 const LoadableAlertsList = Loadable({
@@ -12,7 +10,7 @@ const LoadableAlertsList = Loadable({
   loading: () => <PageLoader />
 })
 
-const FeedAlerts = ({ isLoggedIn }) => {
+const FeedAlerts = () => {
   return (
     <div className={styles.container}>
       <IndexTab
@@ -23,9 +21,7 @@ const FeedAlerts = ({ isLoggedIn }) => {
           },
           {
             title: 'My Alerts',
-            content: (
-              <LoadableAlertsList showRecommendations={!isLoggedIn} showNew />
-            )
+            content: <LoadableAlertsList showNew />
           }
         ]}
       />
@@ -33,8 +29,4 @@ const FeedAlerts = ({ isLoggedIn }) => {
   )
 }
 
-const mapStateToProps = state => ({
-  isLoggedIn: checkIsLoggedIn(state)
-})
-
-export default connect(mapStateToProps)(FeedAlerts)
+export default FeedAlerts

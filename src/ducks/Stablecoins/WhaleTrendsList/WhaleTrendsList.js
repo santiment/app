@@ -7,7 +7,7 @@ const WhaleTrendsList = () => {
   return (
     <div className={styles.container}>
       {WhaleAssets.map(item => (
-        <WhalesTrend item={item} />
+        <WhalesTrend key={item.slug} item={item} />
       ))}
     </div>
   )

@@ -50,8 +50,10 @@ export const getTimeboundMetrics = ({ metricKeys }) => {
       if (!timeboundMetric) {
         const timebound = timeboundKey.slice(timeRangeIndex + 1)
         const label = metric.label + ` (${timebound})`
+        const { withoutRoot, queryKey } = metric
         timeboundMetric = {
           ...metric,
+          queryKey: withoutRoot ? timeboundKey : queryKey,
           label,
           key: timeboundKey,
           replacements: {

@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import UIButton from '@santiment-network/ui/Button'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
-import { TOP_HOLDER_METRICS } from './metrics'
+import Tabs, { Tab, TabMetrics } from './Tabs'
 import MetricIcon from '../../../../SANCharts/MetricIcon'
 import styles from './index.module.scss'
 
@@ -65,7 +65,11 @@ const ToggleButton = ({
 )
 
 const CheckboxButton = ({ metric, isChecked, onClick, ...props }) => (
-  <Button className={styles.check} onClick={() => onClick(metric)} {...props}>
+  <Button
+    className={isChecked && styles.active}
+    onClick={() => onClick(metric)}
+    {...props}
+  >
     <Checkbox className={styles.checkbox} isActive={isChecked} />
     {metric.label}
   </Button>
@@ -92,39 +96,62 @@ const Confirm = ({ checkedMetrics, onClick }) => {
 }
 
 const HolderDistribution = ({
-  ticker,
+  header,
   metrics,
   mergedMetrics,
   checkedMetrics,
   MetricColor,
+  TabMetrics,
   toggleMetric,
   currentPhase,
+  isWithTabs,
   onMergeClick,
   onMergeConfirmClick,
-  onUnmergeClick,
-  btnProps = {}
+  onUnmergeClick
 }) => {
+  const [activeTab, setActiveTab] = useState(Tab.PERCENTS)
   const isIdlePhase = currentPhase === 'idle'
   const MetricButton = isIdlePhase ? ToggleButton : CheckboxButton
 
   return (
     <>
       <div className={styles.top}>
-        {ticker} Holder Distribution
-        {checkedMetrics ? (
-          isIdlePhase ? (
-            <Merge onClick={onMergeClick} />
-          ) : (
-            <Confirm
-              checkedMetrics={checkedMetrics}
-              onClick={onMergeConfirmClick}
-            />
-          )
-        ) : null}
+        {header}
+        {isIdlePhase ? (
+          <Merge onClick={onMergeClick} />
+        ) : (
+          <Confirm
+            checkedMetrics={checkedMetrics}
+            onClick={onMergeConfirmClick}
+          />
+        )}
       </div>
 
-      {isIdlePhase &&
-        mergedMetrics.map(metric => {
+      {isWithTabs && (
+        <Tabs
+          activeTab={activeTab}
+          isIdlePhase={isIdlePhase}
+          setActiveTab={setActiveTab}
+        />
+      )}
+
+      <div className={styles.metrics}>
+        {isIdlePhase &&
+          mergedMetrics.map(metric => {
+            const { key } = metric
+            return (
+              <MetricButton
+                key={key}
+                metric={metric}
+                color={MetricColor[key]}
+                isActive={metrics.includes(metric)}
+                onClick={toggleMetric}
+                onUnmerge={onUnmergeClick}
+              />
+            )
+          })}
+
+        {TabMetrics[activeTab].map(metric => {
           const { key } = metric
           return (
             <MetricButton
@@ -132,33 +159,21 @@ const HolderDistribution = ({
               metric={metric}
               color={MetricColor[key]}
               isActive={metrics.includes(metric)}
+              isChecked={checkedMetrics && checkedMetrics.has(metric)}
               onClick={toggleMetric}
-              onUnmerge={onUnmergeClick}
             />
           )
         })}
-
-      {TOP_HOLDER_METRICS.map(metric => {
-        const { key } = metric
-        return (
-          <MetricButton
-            {...btnProps}
-            key={key}
-            metric={metric}
-            color={MetricColor[key]}
-            isActive={metrics.includes(metric)}
-            isChecked={checkedMetrics && checkedMetrics.has(metric)}
-            onClick={toggleMetric}
-          />
-        )
-      })}
+      </div>
     </>
   )
 }
 
 HolderDistribution.defaultProps = {
+  TabMetrics,
   mergedMetrics: [],
-  currentPhase: 'idle'
+  currentPhase: 'idle',
+  header: 'Holders Distribution'
 }
 
 export default HolderDistribution

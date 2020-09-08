@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useMemo, useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from './Button'
@@ -26,6 +26,17 @@ const Group = ({
     setHidden(!hidden)
   }
 
+  const isAllNodesBeta = useMemo(
+    () => {
+      return nodes.every(({ isBeta }) => isBeta)
+    },
+    [nodes]
+  )
+
+  if (isAllNodesBeta && !isBeta) {
+    return null
+  }
+
   return (
     <>
       {hasGroup && (
@@ -47,7 +58,7 @@ const Group = ({
           const {
             hidden,
             isBeta: isBetaMetric,
-            selectable = true,
+            showRoot = true,
             label,
             rootLabel = label,
             checkIsVisible
@@ -67,17 +78,18 @@ const Group = ({
 
           return (
             <Fragment key={item.key}>
-              <Button
-                metric={item}
-                label={rootLabel}
-                onClick={() => toggleMetric(item)}
-                setMetricSettingMap={setMetricSettingMap}
-                project={project}
-                isActive={activeMetrics.includes(item)}
-                isDisabled={!selectable}
-                isNew={NewMetric[item.key]}
-                isError={ErrorMsg && ErrorMsg[item.key]}
-              />
+              {showRoot && (
+                <Button
+                  metric={item}
+                  label={rootLabel}
+                  onClick={() => toggleMetric(item)}
+                  setMetricSettingMap={setMetricSettingMap}
+                  project={project}
+                  isActive={activeMetrics.includes(item)}
+                  isNew={NewMetric[item.key]}
+                  isError={ErrorMsg && ErrorMsg[item.key]}
+                />
+              )}
               {subitems &&
                 subitems.map(subitem => {
                   const { checkIsVisible, checkIsActive } = subitem
@@ -91,7 +103,7 @@ const Group = ({
                     <Button
                       metric={subitem}
                       key={subitem.key}
-                      className={styles.advanced}
+                      className={showRoot && styles.advanced}
                       label={subitem.label}
                       onClick={() => toggleMetric(subitem)}
                       project={project}

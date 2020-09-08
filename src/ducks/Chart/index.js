@@ -21,7 +21,7 @@ import {
 } from './settings'
 import { drawWatermark } from './watermark'
 import { ResizeListener, onResize } from './resize'
-import { clearCtx, findPointByDate } from './utils'
+import { clearCtx } from './utils'
 import { domainModifier } from './domain'
 import { paintConfigs, dayBrushPaintConfig } from './paintConfigs'
 import { useTheme } from '../../stores/ui/theme'
@@ -40,12 +40,11 @@ const Chart = ({
   chartPadding = CHART_PADDING,
   joinedCategories,
   domainGroups,
-  events = [],
+  events,
   scale = linearScale,
   tooltipKey,
-  axesMetricKeys = [],
+  axesMetricKeys,
   MetricColor,
-  syncedTooltipDate,
   from,
   to,
   hideBrush,
@@ -56,10 +55,11 @@ const Chart = ({
   isLoading,
   isCartesianGridActive,
   isWatermarkLighter,
-  syncTooltips = () => {},
+  syncTooltips,
+  syncDate,
   onRangeSelect,
   onRangeSelectStart,
-  onPointClick = () => {},
+  onPointClick,
   resizeDependencies,
   onBrushChangeEnd,
   children
@@ -145,6 +145,7 @@ const Chart = ({
     chart.isWatermarkLighter = isWatermarkLighter
     chart.hideWatermark = hideWatermark
     chart.syncTooltips = syncTooltips
+    chart.drawTooltip = point => plotTooltip(chart, marker, point)
   }
 
   useEffect(
@@ -234,26 +235,6 @@ const Chart = ({
       }
     },
     [brushData, scale, domainGroups, isNightMode]
-  )
-
-  useEffect(
-    () => {
-      if (data.length === 0) return
-
-      if (syncedTooltipDate) {
-        const point = findPointByDate(chart.points, syncedTooltipDate)
-        if (point) {
-          if (useCustomTooltip) {
-            onPlotTooltip(point)
-          } else {
-            plotTooltip(chart, marker, point)
-          }
-        }
-      } else {
-        clearCtx(chart, chart.tooltip.ctx)
-      }
-    },
-    [syncedTooltipDate]
   )
 
   useEffect(handleResize, [...resizeDependencies, data])
@@ -347,6 +328,13 @@ const Chart = ({
         )}
     </div>
   )
+}
+
+Chart.defaultProps = {
+  events: [],
+  axesMetricKeys: [],
+  syncTooltips: () => {},
+  onPointClick: () => {}
 }
 
 export default Chart
