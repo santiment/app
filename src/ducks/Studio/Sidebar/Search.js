@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { SearchWithSuggestions } from '@santiment-network/ui/Search'
 import { useIsBetaMode } from '../../../stores/ui'
 
@@ -66,23 +66,16 @@ const Search = ({
 }) => {
   const isBeta = useIsBetaMode()
 
-  const data = useMemo(
-    () => {
-      return getMetricSuggestions({
-        categories,
-        onChainDefault,
-        isBeta,
-        predicate: searchPredicate || predicateFunction
-      })
-    },
-    [categories, isBeta, onChainDefault, searchPredicate]
-  )
-
   return (
     <SearchWithSuggestions
       {...rest}
       withMoreSuggestions={false}
-      data={data}
+      data={getMetricSuggestions({
+        categories,
+        onChainDefault,
+        isBeta,
+        predicate: searchPredicate || predicateFunction
+      })}
       onSuggestionSelect={({ item }) => toggleMetric(item)}
       dontResetStateAfterSelection
     />
