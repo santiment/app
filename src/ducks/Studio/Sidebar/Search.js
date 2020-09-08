@@ -4,7 +4,7 @@ import { useIsBetaMode } from '../../../stores/ui'
 
 const ON_CHAIN_DEFAULT = []
 
-const predicate = searchTerm => {
+const predicateFunction = searchTerm => {
   const upperCaseSearchTerm = searchTerm.toUpperCase()
   return ({ label, abbreviation }) => {
     return (
@@ -20,7 +20,8 @@ const suggestionContent = ({ label }) => label
 export const getMetricSuggestions = ({
   categories,
   onChainDefault = ON_CHAIN_DEFAULT,
-  isBeta = false
+  isBeta = false,
+  predicate = predicateFunction
 }) => {
   const suggestions = []
   for (const categoryKey in categories) {
@@ -56,14 +57,25 @@ export const getMetricSuggestions = ({
   return suggestions
 }
 
-const Search = ({ categories, toggleMetric, onChainDefault, ...rest }) => {
+const Search = ({
+  categories,
+  toggleMetric,
+  onChainDefault,
+  searchPredicate,
+  ...rest
+}) => {
   const isBeta = useIsBetaMode()
 
   const data = useMemo(
     () => {
-      return getMetricSuggestions({ categories, onChainDefault, isBeta })
+      return getMetricSuggestions({
+        categories,
+        onChainDefault,
+        isBeta,
+        predicate: searchPredicate || predicateFunction
+      })
     },
-    [categories, onChainDefault]
+    [categories, onChainDefault, searchPredicate]
   )
 
   return (

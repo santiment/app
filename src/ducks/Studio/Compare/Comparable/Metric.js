@@ -6,6 +6,7 @@ import { getCategoryGraph } from '../../Sidebar/utils'
 import Search, { getMetricSuggestions } from '../../Sidebar/Search'
 import MetricIcon from '../../../SANCharts/MetricIcon'
 import { useIsBetaMode } from '../../../../stores/ui'
+import { METRIC } from '../../Sidebar/Button/types'
 import styles from './Metric.module.scss'
 
 const DEFAULT_COLOR = '#9faac4'
@@ -16,15 +17,30 @@ const CustomProjectCategories = {
   'crude-oil': getCategoryGraph(['price_usd'])
 }
 
+const predicateFunction = searchTerm => {
+  const upperCaseSearchTerm = searchTerm.toUpperCase()
+  return ({ label, abbreviation, type }) => {
+    if (type && type !== METRIC) {
+      return false
+    }
+
+    return (
+      (abbreviation &&
+        abbreviation.toUpperCase().includes(upperCaseSearchTerm)) ||
+      (label && label.toUpperCase().includes(upperCaseSearchTerm))
+    )
+  }
+}
+
 const MetricSearch = withMetrics(
   ({ slug, categories, loading, className, ...rest }) => (
     <Search
       {...rest}
+      searchPredicate={predicateFunction}
       className={cx(className, loading && styles.loading)}
       categories={CustomProjectCategories[slug] || categories}
       emptySuggestions={getMetricSuggestions({
-        categories: CustomProjectCategories[slug] || categories,
-        isBeta: rest.isBeta
+        categories: CustomProjectCategories[slug] || categories
       })}
       inputProps={{
         placeholder: 'Type to search metrics...'

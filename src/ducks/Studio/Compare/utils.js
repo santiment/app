@@ -20,18 +20,25 @@ export function buildComparedMetric (Comparable) {
 
   const { metric, project } = Comparable
   const { ticker, slug } = project
-  const { key: metricKey, label, formatter } = metric
+  const {
+    key: metricKey,
+    queryKey = metricKey,
+    label,
+    formatter,
+    reqMeta
+  } = metric
 
   const key = buildCompareKey(metric, project)
 
   const comparedMetric = {
     ...metric,
     key,
-    queryKey: metricKey,
+    queryKey,
     comparedTicker: ticker,
     domainGroup: metricKey,
     reqMeta: {
-      slug
+      slug,
+      ...reqMeta
     }
   }
 
