@@ -12,13 +12,10 @@ import {
   formStablecoinsSettings,
   MARKET_CAP_YEAR_INTERVAL,
   STABLE_COINS_MARKETCAP_INTERVALS,
-  StablecoinsMetrics
+  StablecoinsMetrics,
+  StablecoinColor
 } from './utils'
-import {
-  useChartMetrics,
-  useMetricColors,
-  useStablecoinsTimeseries
-} from './hooks'
+import { useStablecoinsTimeseries } from './hooks'
 import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
 import { mapSizesToProps } from '../../../utils/withSizes'
 import SharedAxisToggle from '../../Studio/Chart/SharedAxisToggle'
@@ -51,8 +48,8 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
     data,
     loadings,
     metrics,
-    setMetric,
-    currentMetric
+    setRootMetric,
+    rootMetric
   } = useStablecoinsTimeseries(settings)
 
   useEffect(
@@ -62,12 +59,9 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
     [interval]
   )
 
-  const MetricColor = useMetricColors(metrics)
-  const chartMetrics = useChartMetrics(metrics)
-
   const filteredMetrics = useMemo(
-    () => chartMetrics.filter(({ slug }) => !disabledAssets[slug]),
-    [chartMetrics, disabledAssets]
+    () => metrics.filter(({ slug }) => !disabledAssets[slug]),
+    [metrics, disabledAssets]
   )
 
   const categories = metricsToPlotCategories(filteredMetrics, {})
@@ -86,14 +80,14 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
         <div className={styles.metrics}>
           {StablecoinsMetrics.map(metric => {
             const { label, key } = metric
-            const isActive = currentMetric.key === key
+            const isActive = rootMetric.key === key
             return (
               <Button
                 className={styles.metricBtn}
                 key={key}
                 variant={isActive ? 'flat' : 'ghost'}
                 isActive={isActive}
-                onClick={() => setMetric(metric)}
+                onClick={() => setRootMetric(metric)}
               >
                 {label}
               </Button>
@@ -136,7 +130,7 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
         hideBrush
         chartPadding={isDesktop ? CHART_PADDING_DESKTOP : CHART_PADDING_MOBILE}
         resizeDependencies={[]}
-        MetricColor={MetricColor}
+        MetricColor={StablecoinColor}
         tooltipKey={xAxisKey}
         axesMetricKeys={isDesktop ? [xAxisKey] : []}
         domainGroups={

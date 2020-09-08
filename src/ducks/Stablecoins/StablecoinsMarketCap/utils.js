@@ -1,17 +1,23 @@
 import memoize from 'lodash.memoize'
 import { Metric } from '../../dataHub/metrics'
 import { convertToSeconds } from '../../dataHub/metrics/intervals'
+import { updateTooltipSettings } from '../../dataHub/tooltipSettings'
+import { usdFormatter } from '../../dataHub/metrics/formatters'
 import {
   getNewInterval,
   INTERVAL_ALIAS
 } from '../../SANCharts/IntervalSelector'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 
+export const buildStablecoinKey = (key, rootKey) => key + '_' + rootKey
+
+export const STABLECOIN_MARKETCAP_USD_METRIC = {
+  ...Metric.marketcap_usd,
+  node: 'filledLine'
+}
+
 export const StablecoinsMetrics = [
-  {
-    ...Metric.marketcap_usd,
-    node: 'filledLine'
-  },
+  STABLECOIN_MARKETCAP_USD_METRIC,
   Metric.price_usd,
   Metric.volume_usd
 ]
@@ -78,6 +84,21 @@ export const CHECKING_STABLECOINS = [
     color: '#7A859E'
   }
 ]
+
+CHECKING_STABLECOINS.forEach(metric => {
+  metric.key = metric.label
+  metric.formatter = usdFormatter
+})
+
+updateTooltipSettings(CHECKING_STABLECOINS)
+
+export const StablecoinColor = CHECKING_STABLECOINS.reduce(
+  (acc, { key, color }) => {
+    acc[key] = color
+    return acc
+  },
+  {}
+)
 
 export const REQ_META = {
   Others: {
