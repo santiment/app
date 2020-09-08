@@ -1,6 +1,5 @@
 import React from 'react'
 import { SearchWithSuggestions } from '@santiment-network/ui/Search'
-import { useIsBetaMode } from '../../../stores/ui'
 
 const ON_CHAIN_DEFAULT = []
 
@@ -20,7 +19,6 @@ const suggestionContent = ({ label }) => label
 export const getMetricSuggestions = ({
   categories,
   onChainDefault = ON_CHAIN_DEFAULT,
-  isBeta = false,
   predicate = predicateFunction
 }) => {
   const suggestions = []
@@ -33,16 +31,10 @@ export const getMetricSuggestions = ({
       groupItems.forEach(groupItems => {
         const { item, subitems } = groupItems
 
-        if (!item.isBeta || isBeta) {
-          items.push(item)
-        }
+        items.push(item)
 
         if (subitems && subitems.length > 0) {
-          subitems.forEach(subItem => {
-            if (!subItem.isBeta || isBeta) {
-              items.push(subItem)
-            }
-          })
+          items.push(...subitems)
         }
       })
     }
@@ -64,8 +56,6 @@ const Search = ({
   searchPredicate,
   ...rest
 }) => {
-  const isBeta = useIsBetaMode()
-
   return (
     <SearchWithSuggestions
       {...rest}
@@ -73,7 +63,6 @@ const Search = ({
       data={getMetricSuggestions({
         categories,
         onChainDefault,
-        isBeta,
         predicate: searchPredicate || predicateFunction
       })}
       onSuggestionSelect={({ item }) => toggleMetric(item)}

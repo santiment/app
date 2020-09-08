@@ -4,6 +4,7 @@ import { getCategoryGraph } from './Sidebar/utils'
 import { getMarketSegment } from './timeseries/marketSegments'
 import { useMergedTimeboundSubmetrics } from '../dataHub/timebounds'
 import { getAssetNewMetrics } from '../dataHub/metrics/news'
+import { useIsBetaMode } from '../../stores/ui'
 
 const PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY = gql`
   query projectBySlug($slug: String!) {
@@ -54,7 +55,6 @@ export const DEFAULT_METRICS = [
 export default graphql(PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY, {
   props: ({
     data: {
-      loading,
       project: {
         availableMetrics = DEFAULT_METRICS,
         availableQueries = [],
@@ -65,19 +65,22 @@ export default graphql(PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY, {
   }) => {
     const Submetrics = useMergedTimeboundSubmetrics(availableMetrics)
 
+    const isBeta = useIsBetaMode()
+
     const categories = getCategoryGraph(
       availableQueries
         .concat(availableMetrics)
         .concat(noMarketSegments ? [] : marketSegments.map(getMarketSegment)),
       hiddenMetrics,
-      Submetrics
+      Submetrics,
+      isBeta
     )
 
     return {
       categories,
       Submetrics,
       availableMetrics,
-      ...getAssetNewMetrics(availableMetrics, { slug })
+      ...getAssetNewMetrics(availableMetrics, { slug, isBeta })
     }
   },
   skip: ({ slug }) => !slug,

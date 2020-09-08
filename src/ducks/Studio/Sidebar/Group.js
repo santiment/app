@@ -1,8 +1,9 @@
-import React, { Fragment, useMemo, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from './Button'
 import { NO_GROUP } from './utils'
+import { useIsBetaMode } from '../../../stores/ui'
 import styles from './MetricSelector/index.module.scss'
 
 const Group = ({
@@ -15,26 +16,15 @@ const Group = ({
   NewMetricsGroup,
   OpenedGroup,
   toggleMetric,
-  isBeta,
   setMetricSettingMap,
   ...rest
 }) => {
   const hasGroup = title !== NO_GROUP
   const [hidden, setHidden] = useState(hasGroup && !OpenedGroup[title])
+  const isBeta = useIsBetaMode()
 
   function onToggleClick () {
     setHidden(!hidden)
-  }
-
-  const isAllNodesBeta = useMemo(
-    () => {
-      return nodes.every(({ isBeta }) => isBeta)
-    },
-    [nodes]
-  )
-
-  if (isAllNodesBeta && !isBeta) {
-    return null
   }
 
   return (
@@ -57,7 +47,6 @@ const Group = ({
         {nodes.map(({ item, subitems }) => {
           const {
             hidden,
-            isBeta: isBetaMetric,
             showRoot = true,
             label,
             rootLabel = label,
@@ -68,11 +57,7 @@ const Group = ({
             return null
           }
 
-          if (isBetaMetric && !isBeta) {
-            return null
-          }
-
-          if (checkIsVisible && !checkIsVisible(rest)) {
+          if (checkIsVisible && !checkIsVisible({ ...rest, isBeta })) {
             return null
           }
 
@@ -93,7 +78,7 @@ const Group = ({
               {subitems &&
                 subitems.map(subitem => {
                   const { checkIsVisible, checkIsActive } = subitem
-                  if (checkIsVisible && !checkIsVisible(rest)) {
+                  if (checkIsVisible && !checkIsVisible({ ...rest, isBeta })) {
                     return null
                   }
 

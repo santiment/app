@@ -25,6 +25,8 @@ function normalizeAxisPercent (value) {
 
 const axisPercentFormatter = value => `${normalizeAxisPercent(value)}%`
 
+const betaModeChecker = ({ isBeta: isBetaApp }) => isBetaApp
+
 export const Metric = {
   price_usd: {
     node: 'line',
@@ -140,7 +142,7 @@ export const Metric = {
     rootLabel: 'Dormant Circulation (365d)',
     shortLabel: 'Dorm. Circ.',
     queryKey: 'dormant_circulation_365d',
-    isBeta: true,
+    checkIsVisible: betaModeChecker,
     withoutRoot: true
   },
   stock_to_flow: {
@@ -149,7 +151,7 @@ export const Metric = {
     group: 'Network Activity',
     label: 'Stock To Flow',
     shortLabel: 'St. to Fl.',
-    isBeta: true
+    checkIsVisible: betaModeChecker
   },
   mvrv_usd: {
     category: 'On-chain',
@@ -170,7 +172,7 @@ export const Metric = {
     shortLabel: 'MVRV L/S Diff',
     formatter: v => (v ? `${(v * 100).toFixed(2)}%` : 'No data'),
     axisFormatter: axisPercentFormatter,
-    isBeta: true
+    checkIsVisible: betaModeChecker
   },
   transaction_volume: {
     category: 'On-chain',
@@ -268,7 +270,7 @@ export const Metric = {
     label: 'Mean Coin Age',
     shortLabel: 'Mean C.A.',
     abbreviation: 'mca',
-    isBeta: true,
+    checkIsVisible: betaModeChecker,
     group: 'Network Value'
   },
   nvt: {
@@ -474,7 +476,7 @@ export const Metric = {
     label: 'Defi Total Value Locked in USD',
     shortLabel: 'Defi Locked',
     fill: true,
-    isBeta: true
+    checkIsVisible: betaModeChecker
   },
   social_active_users: {
     queryKey: 'social_active_users',
@@ -482,8 +484,8 @@ export const Metric = {
     group: 'Social Active Users',
     shortLabel: 'Soc. Act. Us.',
     node: 'bar',
-    isBeta: true,
-    showRoot: false
+    showRoot: false,
+    checkIsVisible: betaModeChecker
   }
 }
 

@@ -7,7 +7,6 @@ import {
 } from './nodes'
 import Group from './Group'
 import Button from './Button'
-import { useIsBetaMode } from '../../../stores/ui'
 import styles from './MetricSelector/index.module.scss'
 
 const DEFAULT_OPENED_CATEGORY = {
@@ -25,7 +24,6 @@ const Category = ({
   ...rest
 }) => {
   const [hidden, setHidden] = useState(!DEFAULT_OPENED_CATEGORY[title])
-  const isBeta = useIsBetaMode()
 
   function onToggleClick () {
     setHidden(!hidden)
@@ -66,7 +64,6 @@ const Category = ({
             title={group}
             nodes={groups[group]}
             project={project}
-            isBeta={isBeta}
             {...rest}
           />
         ))}

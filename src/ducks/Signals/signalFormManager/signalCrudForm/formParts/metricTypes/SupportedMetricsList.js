@@ -7,6 +7,7 @@ import { DEFAULT_METRICS } from '../../../../../Studio/withMetrics'
 import { getCategoryGraph } from '../../../../../Studio/Sidebar/utils'
 import { PROJECT_METRICS_BY_SLUG_QUERY } from '../../../../../SANCharts/gql'
 import { useProject } from '../../../../../../hooks/project'
+import { useIsBetaMode } from '../../../../../../stores/ui'
 import metricStyles from './TriggerFormMetricTypes.module.scss'
 
 const getByAvailable = (availableMetrics = DEFAULT_METRICS) =>
@@ -36,10 +37,12 @@ export function useAvailableMetrics (slug) {
 const SupportedMetricsList = ({ onSelectMetric, availableMetrics, slug }) => {
   const [categories, setCategories] = useState({})
 
+  const isBeta = useIsBetaMode()
+
   useEffect(
     () => {
       const metrics = getByAvailable(availableMetrics)
-      const newCategories = getCategoryGraph(metrics, [])
+      const newCategories = getCategoryGraph(metrics, [], {}, isBeta)
       setCategories(newCategories)
     },
     [slug, availableMetrics]
