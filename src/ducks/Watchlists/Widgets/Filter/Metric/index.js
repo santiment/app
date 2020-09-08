@@ -10,6 +10,10 @@ import MetricState from './MetricState'
 import MetricSettings from './MetricSettings'
 import { DEFAULT_SETTINGS } from '../defaults'
 
+function fakeFormatter (value) {
+  return value
+}
+
 const FilterMetric = ({
   baseMetric,
   isNoFilters,
@@ -28,6 +32,11 @@ const FilterMetric = ({
   const [percentTimeRanges, setPercentTimeRanges] = useState(
     getTimeRangesByMetric(baseMetric, availableMetrics)
   )
+
+  const shouldIncludeSecondInput = Filter[settings.type].showSecondInput
+  const isFinishedState = shouldIncludeSecondInput
+    ? settings.firstThreshold !== '' && settings.secondThreshold !== ''
+    : settings.firstThreshold !== ''
 
   useEffect(
     () => {
@@ -59,22 +68,44 @@ const FilterMetric = ({
   useEffect(
     () => {
       if (settings !== defaultSettings) {
-        const { firstThreshold, type, timeRange, isActive } = settings
+        const {
+          firstThreshold,
+          secondThreshold,
+          type,
+          timeRange,
+          isActive
+        } = settings
         const { isActive: previousIsActive } = defaultSettings
 
+        // dynamicFrom
         const dynamicFrom =
           Filter[type].showTimeRange || baseMetric.showTimeRange
             ? timeRange
             : '1d'
+
+        // aggregation
         const aggregation =
           Filter[type].aggregation || baseMetric.aggregation || 'last'
+
+        // metric
         const metric = Filter[type].showTimeRange
           ? `${baseMetric.percentMetricKey ||
               baseMetric.key}_change_${timeRange}`
           : baseMetric.key
+
+        // operator
         const operator = Filter[type].operator
+
+        // formatter
         const formatter =
-          Filter[type].serverValueFormatter || baseMetric.serverValueFormatter
+          Filter[type].serverValueFormatter ||
+          baseMetric.serverValueFormatter ||
+          fakeFormatter
+
+        // threshold
+        const threshold = shouldIncludeSecondInput
+          ? [formatter(firstThreshold), formatter(secondThreshold)]
+          : formatter(firstThreshold)
 
         const newFilter = {
           args: {
@@ -83,12 +114,12 @@ const FilterMetric = ({
             dynamicTo: 'now',
             metric,
             operator,
-            threshold: formatter ? formatter(firstThreshold) : firstThreshold
+            threshold
           },
           name: 'metric'
         }
 
-        if (firstThreshold) {
+        if (isFinishedState) {
           if (previousIsActive !== isActive) {
             toggleMetricInFilter(
               newFilter,
@@ -104,7 +135,7 @@ const FilterMetric = ({
           }
         }
 
-        if (!firstThreshold && isActive && defaultSettings.isActive) {
+        if (!isFinishedState && isActive && defaultSettings.isActive) {
           toggleMetricInFilter(
             newFilter,
             baseMetric.key,
@@ -141,6 +172,11 @@ const FilterMetric = ({
     setSettings(state => ({ ...state, firstThreshold: newValue }))
   }
 
+  function onSecondThresholdChange (value) {
+    const newValue = isNaN(parseFloat(value)) ? '' : parseFloat(value)
+    setSettings(state => ({ ...state, secondThreshold: newValue }))
+  }
+
   function onTimeRangeChange (timeRange) {
     setSettings(state => ({ ...state, timeRange }))
   }
@@ -157,6 +193,7 @@ const FilterMetric = ({
         settings={settings}
         isActive={settings.isActive}
         onCheckboxClicked={onCheckboxClicked}
+        isFinishedState={isFinishedState}
       />
       {settings.isActive && !isViewMode && (
         <MetricSettings
@@ -168,6 +205,7 @@ const FilterMetric = ({
           onFilterTypeChange={onFilterTypeChange}
           onTimeRangeChange={onTimeRangeChange}
           onFirstThresholdChange={onFirstThresholdChange}
+          onSecondThresholdChange={onSecondThresholdChange}
           onSuggestionClick={onSuggestionClick}
         />
       )}

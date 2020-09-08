@@ -56,7 +56,7 @@ const FilterMetricSettings = ({
         />
         {Filter[type].showSecondInput && (
           <>
-            <span className={styles.connector}>and</span>
+            <span className={styles.connector}>to</span>
             <ValueInput
               type={type}
               metric={metric}

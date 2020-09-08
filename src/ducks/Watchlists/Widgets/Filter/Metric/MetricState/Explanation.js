@@ -4,7 +4,9 @@ import { millify } from '../../../../../../utils/formatting'
 import styles from './index.module.scss'
 
 const Explanation = ({
+  isFinishedState,
   firstThreshold,
+  secondThreshold,
   timeRange,
   type,
   metric,
@@ -14,7 +16,7 @@ const Explanation = ({
     return <span className={styles.explanation}>{customStateText}</span>
   }
 
-  if (!firstThreshold) {
+  if (!isFinishedState) {
     return null
   }
 
@@ -29,12 +31,16 @@ const Explanation = ({
       ? ` in last ${timeRange}`
       : ''
 
+  const secondInput = Filter[type].showSecondInput
+    ? ` and ${millify(secondThreshold, 10)}${badge}`
+    : ''
+
   return (
     <span className={styles.explanation}>
       {`${aggregation}${label} ${millify(
         firstThreshold,
         10
-      )}${badge}${timeText}`}
+      )}${badge}${secondInput}${timeText}`}
     </span>
   )
 }

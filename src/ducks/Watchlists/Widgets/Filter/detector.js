@@ -35,6 +35,16 @@ export function getFilterType (filter = []) {
     return Filter.below
   }
 
+  // 5 < x < 30
+  if (!isPercent && operators[0] === Operator.inside) {
+    return Filter.between
+  }
+
+  // x < 5 || x > 30
+  if (!isPercent && operators[0] === Operator.outside) {
+    return Filter.outside
+  }
+
   // x +30%
   if (isPercent && operators[0] === Operator.more) {
     return Filter.percent_up
@@ -43,6 +53,16 @@ export function getFilterType (filter = []) {
   // x -30%
   if (isPercent && operators[0] === Operator.less) {
     return Filter.percent_down
+  }
+
+  // +5% < x < +30%
+  if (isPercent && operators[0] === Operator.inside) {
+    return Filter.percent_between
+  }
+
+  // x +-5%
+  if (isPercent && operators[0] === Operator.outside) {
+    return Filter.percent_up_or_down
   }
 }
 
@@ -73,7 +93,8 @@ export function extractParams (filter = [], filterType, baseMetric) {
     : {
       isActive: true,
       type: filterType.key,
-      firstThreshold: extractThreshold(filter, filterType, baseMetric),
+      firstThreshold: extractThreshold(filter, filterType, baseMetric, 1),
+      secondThreshold: extractThreshold(filter, filterType, baseMetric, 2),
       timeRange: extractTimeRange(filter)
     }
 }
@@ -82,10 +103,14 @@ function extractTimeRange (filter = []) {
   return filter[0].dynamicFrom
 }
 
-function extractThreshold (filter = [], filterType, metric) {
+function extractThreshold (filter = [], filterType, metric, position) {
   const thresholds = filter.map(({ threshold }) => threshold)
+  const withSecondInput = filterType.showSecondInput
+  const threshold = withSecondInput
+    ? thresholds[0][position - 1]
+    : thresholds[0]
 
-  if (isNaN(thresholds[0])) {
+  if (isNaN(threshold)) {
     console.error(
       `Error in metric threshold: for ${
         filter[0].metric
@@ -95,7 +120,7 @@ function extractThreshold (filter = [], filterType, metric) {
 
   const formatter = filterType.valueFormatter || metric.valueFormatter
 
-  return formatter ? formatter(thresholds[0]) : thresholds[0]
+  return formatter ? formatter(threshold) : threshold
 }
 
 export function getTimeRangesByMetric (baseMetric, availableMetrics = []) {

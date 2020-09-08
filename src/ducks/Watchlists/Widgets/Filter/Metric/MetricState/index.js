@@ -14,7 +14,8 @@ const FilterMetricState = ({
   isViewMode,
   metric,
   settings,
-  customStateText = ''
+  customStateText = '',
+  isFinishedState
 }) => {
   const metricForDescription = Metric[metric.descriptionKey || metric.key] || {}
 
@@ -43,6 +44,7 @@ const FilterMetricState = ({
               {...settings}
               metric={metric}
               customStateText={customStateText}
+              isFinishedState={isFinishedState}
               className={styles.explanation}
             />
           )}

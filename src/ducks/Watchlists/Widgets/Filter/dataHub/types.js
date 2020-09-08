@@ -47,7 +47,7 @@ export const Filter = {
     shortLabel: 'up',
     aggregation: 'last',
     badge: '%',
-    isPro: true,
+    // isPro: true,
     showTimeRange: true,
     onlyPositiveNumbers: true,
     operator: Operator.more,
@@ -60,7 +60,7 @@ export const Filter = {
     shortLabel: 'down',
     aggregation: 'last',
     badge: '%',
-    isPro: true,
+    // isPro: true,
     showTimeRange: true,
     onlyPositiveNumbers: true,
     operator: Operator.less,
@@ -74,11 +74,11 @@ export const Filter = {
     badge: '%',
     // isPro: true,
     showTimeRange: true,
-    onlyPositiveNumbers: true,
+    // onlyPositiveNumbers: true,
     showSecondInput: true,
     operator: Operator.inside,
-    valueFormatter: value => percentValueFormatter(-value),
-    serverValueFormatter: value => percentServerValueFormatter(-value)
+    valueFormatter: percentValueFormatter,
+    serverValueFormatter: percentServerValueFormatter
   },
   percent_up_or_down: {
     icon: PercentOutside,
@@ -88,8 +88,8 @@ export const Filter = {
     showTimeRange: true,
     onlyPositiveNumbers: true,
     operator: Operator.outside,
-    valueFormatter: value => percentValueFormatter(-value),
-    serverValueFormatter: value => percentServerValueFormatter(-value)
+    valueFormatter: percentValueFormatter,
+    serverValueFormatter: percentServerValueFormatter
   }
 }
 
