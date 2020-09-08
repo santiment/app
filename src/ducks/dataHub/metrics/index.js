@@ -227,7 +227,7 @@ export const Metric = {
   twitter_followers: {
     category: 'Social',
     node: 'line',
-    label: 'Twitter followers'
+    label: 'Twitter Followers'
   },
   social_dominance_total: {
     category: 'Social',
@@ -479,11 +479,10 @@ export const Metric = {
   social_active_users: {
     queryKey: 'social_active_users',
     category: 'Social',
-    label: 'Social Active Users',
+    group: 'Social Active Users',
     shortLabel: 'Soc. Act. Us.',
     node: 'bar',
     isBeta: true,
-    group: 'Social Active Users',
     showRoot: false
   }
 }

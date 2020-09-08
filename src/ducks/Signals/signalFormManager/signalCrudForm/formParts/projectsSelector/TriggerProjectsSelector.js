@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Dialog from '@santiment-network/ui/Dialog'
 import Icon from '@santiment-network/ui/Icon'
@@ -6,7 +6,40 @@ import Button from '@santiment-network/ui/Button'
 import SearchProjects from '../../../../../../components/Search/SearchProjects'
 import { hasAssetById } from '../../../../../Watchlists/utils'
 import ProjectsList from './ProjectsList'
+import { useDialogState } from '../../../../../../hooks/dialog'
 import styles from './TriggerProjectsSelector.module.scss'
+
+const validateTarget = ({
+  force,
+  listItems,
+  projects,
+  setSelectedAssets,
+  target
+}) => {
+  const hasSelectedItems = listItems.length > 0
+  if (force || !hasSelectedItems) {
+    const targetAssets = Array.isArray(target) ? target : [target]
+
+    if (targetAssets.length > 0 && projects.length > 0) {
+      const preSelected = projects.filter(({ slug: projectSlug }) => {
+        return targetAssets.some(
+          ({ value, slug } = {}) =>
+            value === projectSlug || slug === projectSlug
+        )
+      })
+      setSelectedAssets(preSelected)
+    } else if (force) {
+      setSelectedAssets([])
+    }
+  }
+
+  if (!force) {
+    const emptyTarget = Array.isArray(target) && target.length === 0
+    if (emptyTarget && hasSelectedItems) {
+      setSelectedAssets([])
+    }
+  }
+}
 
 export const TriggerProjectsSelector = ({
   projects = [],
@@ -23,17 +56,22 @@ export const TriggerProjectsSelector = ({
     return <Loader className={styles.loader} />
   }
 
+  const { isOpened, openDialog, closeDialog } = useDialogState()
   const [listItems, setListItems] = useState([])
-  const [opened, setOpened] = useState(false)
-  const checkedAssetsAsSet = new Set(listItems)
 
-  const closeDialog = () => {
-    setOpened(false)
-  }
+  const checkedAssetsAsSet = useMemo(
+    () => {
+      return new Set(listItems)
+    },
+    [listItems]
+  )
 
-  const openDialog = () => {
-    setOpened(true)
-  }
+  useEffect(
+    () => {
+      setListItems(Array.isArray(target) ? target : [target])
+    },
+    [target]
+  )
 
   useEffect(() => {
     function listenHotkey ({ target, ctrlKey, code }) {
@@ -46,31 +84,46 @@ export const TriggerProjectsSelector = ({
     return () => window.removeEventListener('keypress', listenHotkey)
   }, [])
 
-  const validate = force => {
-    const hasSelectedItems = listItems.length > 0
-    if (force || !hasSelectedItems) {
-      const targetAssets = Array.isArray(target) ? target : [target]
+  const approve = useCallback(
+    (selected, shouldClose = true) => {
+      setFieldValue && setFieldValue(name, selected)
+      onChange && onChange(selected, closeDialog)
 
-      if (targetAssets.length > 0 && projects.length > 0) {
-        const preSelected = projects.filter(({ slug: projectSlug }) => {
-          return targetAssets.some(
-            ({ value, slug } = {}) =>
-              value === projectSlug || slug === projectSlug
-          )
-        })
-        setSelectedAssets(preSelected)
-      } else if (force) {
-        setSelectedAssets([])
+      if (shouldClose) {
+        closeDialog()
       }
-    }
+    },
+    [setFieldValue, onChange, closeDialog]
+  )
 
-    if (!force) {
-      const emptyTarget = Array.isArray(target) && target.length === 0
-      if (emptyTarget && hasSelectedItems) {
-        setSelectedAssets([])
+  const setSelectedAssets = useCallback(
+    selected => {
+      const newItems =
+        isSingle && selected.length > 0
+          ? [selected[selected.length - 1]]
+          : selected
+
+      if (isSingle || listItems.length !== newItems.length) {
+        setListItems(newItems)
       }
-    }
-  }
+
+      approve(newItems, isSingle)
+    },
+    [isSingle, setListItems, listItems, approve]
+  )
+
+  const validate = useCallback(
+    force => {
+      return validateTarget({
+        force,
+        listItems,
+        projects,
+        setSelectedAssets,
+        target
+      })
+    },
+    [listItems, projects, setSelectedAssets, target]
+  )
 
   useEffect(
     () => {
@@ -79,70 +132,64 @@ export const TriggerProjectsSelector = ({
     [target, projects]
   )
 
-  const setSelectedAssets = selectedAssets => {
-    const newItems =
-      isSingle && selectedAssets.length > 0
-        ? [selectedAssets[selectedAssets.length - 1]]
-        : selectedAssets
+  const toggleAsset = useCallback(
+    ({ project, listItems: items, isAssetInList }) => {
+      if (isAssetInList) {
+        setSelectedAssets(items.filter(({ id }) => id !== project.id))
+      } else {
+        setSelectedAssets([...items, project])
+      }
+    },
+    [setSelectedAssets]
+  )
 
-    if (isSingle) {
-      setListItems(newItems)
-    } else if (listItems.length !== newItems.length) {
-      setListItems(newItems)
-    }
-
-    approve(newItems, isSingle)
-  }
-
-  const toggleAsset = ({ project, listItems: items, isAssetInList }) => {
-    setSelectedAssets(
-      isAssetInList
-        ? items.filter(({ id }) => id !== project.id)
-        : [...items, project]
-    )
-  }
-
-  const cancel = () => {
-    validate(true)
-    closeDialog()
-  }
-
-  const approve = (selected, shouldClose = true) => {
-    setFieldValue && setFieldValue(name, selected)
-    onChange && onChange(selected, closeDialog)
-
-    if (shouldClose) {
+  const cancel = useCallback(
+    () => {
+      validate(true)
       closeDialog()
-    }
-  }
+    },
+    [validate, closeDialog]
+  )
 
-  const onSuggestionSelect = project => {
-    if (project) {
-      const target = project.item ? project.item : project
-      toggleAsset({
-        project: target,
-        listItems,
-        isAssetInList: hasAssetById({ listItems, id: target.id })
-      })
-    }
-  }
+  const onSuggestionSelect = useCallback(
+    project => {
+      if (project) {
+        const target = project.item ? project.item : project
+        toggleAsset({
+          project: target,
+          listItems,
+          isAssetInList: hasAssetById({ listItems, id: target.id })
+        })
+      }
+    },
+    [toggleAsset, listItems]
+  )
 
-  const sortedProjects = projects
-    .slice()
-    .sort(({ rank: a }, { rank: b }) => (a || Infinity) - (b || Infinity))
+  const onRemove = useCallback(
+    project => {
+      toggleAsset({ project, listItems, isAssetInList: true })
+    },
+    [toggleAsset, listItems]
+  )
+
+  const sortedProjects = useMemo(
+    () => {
+      return projects
+        .slice()
+        .sort(({ rank: a }, { rank: b }) => (a || Infinity) - (b || Infinity))
+    },
+    [projects]
+  )
 
   return (
     <Dialog
       title={title}
-      open={opened}
+      open={isOpened}
       onClose={cancel}
       autoFocus
       trigger={
         <div onClick={openDialog}>
-          <Trigger
-            listItems={listItems}
-            onSuggestionSelect={onSuggestionSelect}
-          />
+          <Trigger listItems={listItems} onRemove={onRemove} />
         </div>
       }
     >
@@ -198,10 +245,10 @@ export const TriggerProjectsSelector = ({
   )
 }
 
-export const ProjectsSelectorTrigger = ({ listItems, onSuggestionSelect }) => (
+export const ProjectsSelectorTrigger = ({ listItems, onRemove }) => (
   <div>
     <div className={styles.assetsSelect}>
-      <AssetsListDescription assets={listItems} onRemove={onSuggestionSelect} />
+      <AssetsListDescription assets={listItems} onRemove={onRemove} />
     </div>
     {listItems.length === 0 && (
       <div className='error error-message'>Please, pick an asset(s)</div>
@@ -221,11 +268,11 @@ const AssetsListDescription = ({
   return (
     <div className={styles.assetGroup}>
       {assets.map(asset => {
-        const { id, name } = asset
+        const { id, name, slug } = asset
 
         return (
           <span className={styles.asset} key={id || name}>
-            <span className={styles.name}>{name}</span>
+            <span className={styles.name}>{name || slug}</span>
             <Button
               type='button'
               className={styles.close}

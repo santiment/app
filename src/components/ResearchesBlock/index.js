@@ -1,10 +1,11 @@
 import React from 'react'
+import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import styles from './index.module.scss'
 
-const ResearchesBlock = () => (
-  <section className={styles.wrapper}>
+const ResearchesBlock = ({ className }) => (
+  <section className={cx(styles.wrapper, className)}>
     <div className={styles.block}>
       <h4 className={styles.heading}>Researchers</h4>
       <p className={styles.desc}>

@@ -86,7 +86,8 @@ export const getCategoryGraph = (
     if (!hiddenMetrics.includes(metric)) {
       addItemToGraph(categories, metric.category, {
         item: metric,
-        subitems: Submetrics[metric.key] || []
+        subitems: Submetrics[metric.key] || [],
+        isBeta: metric.isBeta
       })
     }
   }

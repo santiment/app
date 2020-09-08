@@ -5,6 +5,7 @@ import withMetrics from '../../withMetrics'
 import { getCategoryGraph } from '../../Sidebar/utils'
 import Search, { getMetricSuggestions } from '../../Sidebar/Search'
 import MetricIcon from '../../../SANCharts/MetricIcon'
+import { useIsBetaMode } from '../../../../stores/ui'
 import styles from './Metric.module.scss'
 
 const DEFAULT_COLOR = '#9faac4'
@@ -21,9 +22,10 @@ const MetricSearch = withMetrics(
       {...rest}
       className={cx(className, loading && styles.loading)}
       categories={CustomProjectCategories[slug] || categories}
-      emptySuggestions={getMetricSuggestions(
-        CustomProjectCategories[slug] || categories
-      )}
+      emptySuggestions={getMetricSuggestions({
+        categories: CustomProjectCategories[slug] || categories,
+        isBeta: rest.isBeta
+      })}
       inputProps={{
         placeholder: 'Type to search metrics...'
       }}
@@ -59,6 +61,8 @@ export default ({
   const [isEditing, setEditing] = useState()
   const metricSelectorRef = useRef(null)
 
+  const isBeta = useIsBetaMode()
+
   function onMetricSelect (metric) {
     if (comparable) {
       stopEditing()
@@ -84,6 +88,7 @@ export default ({
         hiddenMetrics={hiddenMetrics}
         toggleMetric={onMetricSelect}
         onBlur={stopEditing}
+        isBeta={isBeta}
       />
       {isEditing ||
         (comparable && (
