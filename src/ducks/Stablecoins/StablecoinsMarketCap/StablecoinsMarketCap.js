@@ -7,23 +7,19 @@ import StablecoinsHeader, {
 } from './MarketCapHeader/StablecoinsHeader'
 import CheckingAssets from './CheckingAssets/CheckingAssets'
 import Chart from '../../Chart'
-import { metricsToPlotCategories } from '../../Chart/Synchronizer'
+import { useMetricCategories } from '../../Chart/Synchronizer'
 import {
   formStablecoinsSettings,
   MARKET_CAP_YEAR_INTERVAL,
   STABLE_COINS_MARKETCAP_INTERVALS,
-  StablecoinsMetrics
+  StablecoinsMetrics,
+  StablecoinColor
 } from './utils'
-import {
-  useChartMetrics,
-  useMetricColors,
-  useStablecoinsTimeseries
-} from './hooks'
+import { useStablecoinsTimeseries } from './hooks'
 import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
 import { mapSizesToProps } from '../../../utils/withSizes'
 import SharedAxisToggle from '../../Studio/Chart/SharedAxisToggle'
-import { useDomainGroups } from '../../Chart/hooks'
-import { extractMirrorMetricsDomainGroups } from '../../Chart/utils'
+import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
 import styles from './StablecoinsMarketCap.module.scss'
 
 const CHART_HEIGHT = 400
@@ -51,8 +47,8 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
     data,
     loadings,
     metrics,
-    setMetric,
-    currentMetric
+    setRootMetric,
+    rootMetric
   } = useStablecoinsTimeseries(settings)
 
   useEffect(
@@ -62,23 +58,19 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
     [interval]
   )
 
-  const MetricColor = useMetricColors(metrics)
-  const chartMetrics = useChartMetrics(metrics)
-
   const filteredMetrics = useMemo(
-    () => chartMetrics.filter(({ slug }) => !disabledAssets[slug]),
-    [chartMetrics, disabledAssets]
+    () => metrics.filter(({ slug }) => !disabledAssets[slug]),
+    [metrics, disabledAssets]
   )
 
-  const categories = metricsToPlotCategories(filteredMetrics, {})
+  const categories = useMetricCategories(filteredMetrics)
 
-  const xAxisKey = (filteredMetrics[0] || {}).key
+  const axesMetricKeys = useAxesMetricsKey(
+    filteredMetrics,
+    isDomainGroupingActive
+  ).slice(0, 1)
 
   const domainGroups = useDomainGroups(filteredMetrics)
-  const mirrorDomainGroups = useMemo(
-    () => extractMirrorMetricsDomainGroups(domainGroups),
-    [domainGroups]
-  )
 
   return (
     <div className={cx(styles.container, className)}>
@@ -86,14 +78,14 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
         <div className={styles.metrics}>
           {StablecoinsMetrics.map(metric => {
             const { label, key } = metric
-            const isActive = currentMetric.key === key
+            const isActive = rootMetric.key === key
             return (
               <Button
                 className={styles.metricBtn}
                 key={key}
                 variant={isActive ? 'flat' : 'ghost'}
                 isActive={isActive}
-                onClick={() => setMetric(metric)}
+                onClick={() => setRootMetric(metric)}
               >
                 {label}
               </Button>
@@ -101,13 +93,11 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
           })}
         </div>
 
-        {domainGroups && domainGroups.length > mirrorDomainGroups.length && (
-          <SharedAxisToggle
-            isDomainGroupingActive={isDomainGroupingActive}
-            setIsDomainGroupingActive={setIsDomainGroupingActive}
-            className={styles.sharedAxisToggle}
-          />
-        )}
+        <SharedAxisToggle
+          isDomainGroupingActive={isDomainGroupingActive}
+          setIsDomainGroupingActive={setIsDomainGroupingActive}
+          className={styles.sharedAxisToggle}
+        />
         <DesktopOnly>
           <StablecoinsIntervals
             interval={interval}
@@ -119,6 +109,7 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
 
       <DesktopOnly>
         <CheckingAssets
+          metrics={metrics}
           loadings={loadings}
           toggleDisabled={setDisabledAsset}
           disabledAssets={disabledAssets}
@@ -136,12 +127,10 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
         hideBrush
         chartPadding={isDesktop ? CHART_PADDING_DESKTOP : CHART_PADDING_MOBILE}
         resizeDependencies={[]}
-        MetricColor={MetricColor}
-        tooltipKey={xAxisKey}
-        axesMetricKeys={isDesktop ? [xAxisKey] : []}
-        domainGroups={
-          isDomainGroupingActive ? domainGroups : mirrorDomainGroups
-        }
+        MetricColor={StablecoinColor}
+        tooltipKey={axesMetricKeys[0]}
+        axesMetricKeys={axesMetricKeys}
+        domainGroups={isDomainGroupingActive ? domainGroups : undefined}
         isLoading={loadings.length > 0}
       />
 

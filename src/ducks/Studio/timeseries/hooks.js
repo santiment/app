@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo } from 'react'
 import { getData, getQuery, getPreTransform } from './fetcher'
-import { client } from '../../../apollo'
 import { normalizeDatetimes, mergeTimeseries } from './utils'
 import { substituteErrorMsg } from './errors'
 import { getAvailableInterval } from '../../dataHub/metrics/intervals'
+import { client } from '../../../apollo'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 
 // NOTE: Polyfill for a PingdomBot 0.8.5 browser (/sentry/sanbase-frontend/issues/29459/) [@vanguard | Feb 6, 2020]
@@ -24,14 +24,6 @@ const ABORTABLE_METRIC_SETTINGS_INDEX = 2
 const noop = v => v
 
 const hashMetrics = metrics => metrics.reduce((acc, { key }) => acc + key, '')
-
-export const getTransformerKey = ({ key, slug }) => {
-  if (slug) {
-    return `${key}_${slug}`
-  }
-
-  return key
-}
 
 const cancelQuery = ([controller, id]) => {
   const { queryManager } = client
@@ -158,7 +150,7 @@ export function useTimeseries (
           ? fetch(metric, variables)
           : getData(query, variables, abortController.signal)
             .then(getPreTransform(metric))
-            .then(MetricTransformer[getTransformerKey(metric)] || noop)
+            .then(MetricTransformer[metric.key] || noop)
 
         request
           .then(data => {

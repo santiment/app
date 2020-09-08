@@ -1,93 +1,35 @@
 import { useMemo, useState } from 'react'
-import { getTransformerKey, useTimeseries } from '../../Studio/timeseries/hooks'
-import { updateTooltipSettings } from '../../dataHub/tooltipSettings'
-import { CHECKING_STABLECOINS, REQ_META, StablecoinsMetrics } from './utils'
+import { CHECKING_STABLECOINS, STABLECOIN_MARKETCAP_USD_METRIC } from './utils'
+import { useTimeseries } from '../../Studio/timeseries/hooks'
 
-export const useMetricColors = metrics => {
-  return useMemo(
-    () => {
-      return metrics.reduce((acc, metric) => {
-        acc[getTransformerKey(metric)] = metric.color
-        return acc
-      }, {})
-    },
-    [metrics]
-  )
-}
+function buildStablecoinMetrics (rootMetric) {
+  const { key: queryKey, node } = rootMetric
 
-export const useChartMetrics = metrics => {
-  return useMemo(
-    () => {
-      const newListMetrics = metrics.map(metric => ({
-        ...metric,
-        key: getTransformerKey(metric),
-        domainGroup: 'stablecoins'
-      }))
-
-      updateTooltipSettings(newListMetrics)
-
-      return newListMetrics
-    },
-    [metrics]
-  )
+  return CHECKING_STABLECOINS.map(metric => ({
+    ...metric,
+    node,
+    queryKey,
+    domainGroup: 'stablecoins'
+  }))
 }
 
 export const useStablecoinsTimeseries = settings => {
-  const [currentMetric, setMetric] = useState(StablecoinsMetrics[0])
-
-  const {
-    metrics,
-    settings: currentSettings,
-    map: metricsMap,
-    transformer: metricsTransformer
-  } = useMemo(
-    () => {
-      const newMetrics = CHECKING_STABLECOINS.map(item => {
-        return {
-          ...currentMetric,
-          ...item
-        }
-      })
-
-      const map = new Map(
-        newMetrics.map(metric => {
-          return [
-            metric,
-            {
-              slug: metric.slug,
-              ...REQ_META[metric.label]
-            }
-          ]
-        })
-      )
-
-      const transformer = newMetrics.reduce((acc, metric) => {
-        acc[getTransformerKey(metric)] = v => {
-          return v.map(item => ({
-            datetime: item.datetime,
-            [getTransformerKey(metric)]: item[currentMetric.key]
-          }))
-        }
-        return acc
-      }, {})
-
-      return { map, transformer, metrics: newMetrics, settings }
-    },
-    [CHECKING_STABLECOINS, currentMetric, settings]
-  )
-
+  const [rootMetric, setRootMetric] = useState(STABLECOIN_MARKETCAP_USD_METRIC)
+  const metrics = useMemo(() => buildStablecoinMetrics(rootMetric), [
+    rootMetric
+  ])
   const [data, loadings] = useTimeseries(
     metrics,
-    currentSettings,
-    metricsMap,
-    metricsTransformer
+    // HACK: Since the metric's hash doesn't change (done on purpose), forcing useTimseries to refetch data with new queryKey
+    // This allows us to compute chart colors and tooltip info only at the app start. [@vanguard | Sep 8, 2020]
+    useMemo(() => ({ ...settings }), [settings, rootMetric])
   )
 
   return {
     data,
     loadings,
     metrics,
-    setMetric,
-    currentMetric
+    rootMetric,
+    setRootMetric
   }
 }

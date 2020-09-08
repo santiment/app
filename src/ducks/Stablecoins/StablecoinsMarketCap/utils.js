@@ -1,17 +1,21 @@
 import memoize from 'lodash.memoize'
 import { Metric } from '../../dataHub/metrics'
 import { convertToSeconds } from '../../dataHub/metrics/intervals'
+import { updateTooltipSettings } from '../../dataHub/tooltipSettings'
+import { usdFormatter } from '../../dataHub/metrics/formatters'
 import {
   getNewInterval,
   INTERVAL_ALIAS
 } from '../../SANCharts/IntervalSelector'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 
+export const STABLECOIN_MARKETCAP_USD_METRIC = {
+  ...Metric.marketcap_usd,
+  node: 'filledLine'
+}
+
 export const StablecoinsMetrics = [
-  {
-    ...Metric.marketcap_usd,
-    node: 'filledLine'
-  },
+  STABLECOIN_MARKETCAP_USD_METRIC,
   Metric.price_usd,
   Metric.volume_usd
 ]
@@ -75,12 +79,8 @@ export const CHECKING_STABLECOINS = [
   },
   {
     label: 'Others',
-    color: '#7A859E'
-  }
-]
-
-export const REQ_META = {
-  Others: {
+    color: '#7A859E',
+    market_segments: ['Stablecoin'],
     ignored_slugs: [
       'gemini-dollar',
       'trueusd',
@@ -88,10 +88,30 @@ export const REQ_META = {
       'binance-usd',
       'tether',
       'multi-collateral-dai'
-    ],
-    market_segments: ['Stablecoin']
+    ]
   }
-}
+]
+
+CHECKING_STABLECOINS.forEach(metric => {
+  const { slug, label, market_segments, ignored_slugs } = metric
+  metric.key = label
+  metric.formatter = usdFormatter
+  metric.reqMeta = {
+    slug,
+    market_segments,
+    ignored_slugs
+  }
+})
+
+updateTooltipSettings(CHECKING_STABLECOINS)
+
+export const StablecoinColor = CHECKING_STABLECOINS.reduce(
+  (acc, { key, color }) => {
+    acc[key] = color
+    return acc
+  },
+  {}
+)
 
 export const getIntervalDates = memoize(interval => {
   return {
