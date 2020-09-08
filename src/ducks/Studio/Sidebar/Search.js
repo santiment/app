@@ -75,7 +75,7 @@ const Search = ({
         predicate: searchPredicate || predicateFunction
       })
     },
-    [categories, onChainDefault, searchPredicate]
+    [categories, isBeta, onChainDefault, searchPredicate]
   )
 
   return (
