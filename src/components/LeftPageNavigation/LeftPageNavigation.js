@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
 import { HashLink as Link } from 'react-router-hash-link'
 import { withRouter } from 'react-router-dom'
@@ -10,7 +10,12 @@ const extractFirst = (list, hash) => {
   return list.find(({ key }) => key === matchAnchor) || list[0]
 }
 
-const LeftPageNavigation = ({ anchors, className, location: { hash } }) => {
+const LeftPageNavigation = ({
+  anchors,
+  className,
+  location: { hash },
+  history
+}) => {
   const list = useMemo(
     () => {
       return Object.values(anchors)
@@ -19,6 +24,13 @@ const LeftPageNavigation = ({ anchors, className, location: { hash } }) => {
   )
 
   const [active, setActive] = useState(extractFirst(list, hash))
+
+  useEffect(
+    () => {
+      history.replace(`${window.location.pathname}#${active.key}`)
+    },
+    [active]
+  )
 
   useEventListener('scroll', () => {
     const offsets = list.map(({ key }) => {
