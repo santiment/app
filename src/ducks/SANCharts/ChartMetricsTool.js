@@ -5,6 +5,7 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import ChartMetricSelector from './ChartMetricSelector'
 import ChartActiveMetrics from './ChartActiveMetrics'
+import { useIsBetaMode } from '../../stores/ui'
 import styles from './ChartMetricsTool.module.scss'
 
 const ChartMetricsTool = ({
@@ -25,6 +26,8 @@ const ChartMetricsTool = ({
   ...rest
 }) => {
   const [isOpen, setIsOpen] = useState(false)
+
+  const isBeta = useIsBetaMode()
 
   return (
     <div className={styles.container}>
@@ -70,6 +73,7 @@ const ChartMetricsTool = ({
               isMobile={isMobile}
               showLimitMessage={showLimitMessage}
               onSave={() => setIsOpen(false)}
+              isBeta={isBeta}
             />
           </ContextMenu>
         )}

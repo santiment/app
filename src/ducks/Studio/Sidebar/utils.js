@@ -42,7 +42,8 @@ function sortCategoryGroups (category, Submetrics) {
 export const getCategoryGraph = (
   availableMetrics,
   hiddenMetrics = [],
-  Submetrics = {}
+  Submetrics = {},
+  isBeta
 ) => {
   if (availableMetrics.length === 0) {
     return {}
@@ -84,11 +85,14 @@ export const getCategoryGraph = (
     }
 
     if (!hiddenMetrics.includes(metric)) {
-      addItemToGraph(categories, metric.category, {
-        item: metric,
-        subitems: Submetrics[metric.key] || [],
-        isBeta: metric.isBeta
-      })
+      const { isBeta: isBetaMetric } = metric
+
+      if (!isBetaMetric || isBeta) {
+        addItemToGraph(categories, metric.category, {
+          item: metric,
+          subitems: Submetrics[metric.key] || []
+        })
+      }
     }
   }
 

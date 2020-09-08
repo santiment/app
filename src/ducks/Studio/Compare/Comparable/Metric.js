@@ -5,7 +5,6 @@ import withMetrics from '../../withMetrics'
 import { getCategoryGraph } from '../../Sidebar/utils'
 import Search, { getMetricSuggestions } from '../../Sidebar/Search'
 import MetricIcon from '../../../SANCharts/MetricIcon'
-import { useIsBetaMode } from '../../../../stores/ui'
 import { METRIC } from '../../Sidebar/Button/types'
 import styles from './Metric.module.scss'
 
@@ -77,8 +76,6 @@ export default ({
   const [isEditing, setEditing] = useState()
   const metricSelectorRef = useRef(null)
 
-  const isBeta = useIsBetaMode()
-
   function onMetricSelect (metric) {
     if (comparable) {
       stopEditing()
@@ -104,7 +101,6 @@ export default ({
         hiddenMetrics={hiddenMetrics}
         toggleMetric={onMetricSelect}
         onBlur={stopEditing}
-        isBeta={isBeta}
       />
       {isEditing ||
         (comparable && (

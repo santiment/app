@@ -29,6 +29,7 @@ import {
   notifyLoginForSave,
   notifyOutdatedVersion
 } from '../../Widgets/TopPanel/notifications'
+import { useIsBetaMode } from '../../../../stores/ui'
 import styles from './index.module.scss'
 
 const Filter = ({
@@ -60,6 +61,7 @@ const Filter = ({
   const [availableMetrics] = useAvailableMetrics()
   const [isReset, setIsReset] = useState(false)
   const { isPro } = useUserSubscriptionStatus()
+  const isBeta = useIsBetaMode()
 
   const isNoFilters =
     filters.length === 0 || screenerFunction.name === 'top_all_projects'
@@ -183,7 +185,7 @@ const Filter = ({
 
   const metricsSet = isActiveFiltersOnly ? activeBaseMetrics : metrics
   const filteredMetrics = filterMetricsBySearch(currentSearch, metricsSet)
-  const categories = getCategoryGraph(filteredMetrics)
+  const categories = getCategoryGraph(filteredMetrics, [], {}, isBeta)
 
   activeBaseMetrics.forEach(metric => {
     if (metric === undefined && !isOutdatedVersion) {
