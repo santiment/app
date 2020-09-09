@@ -30,7 +30,14 @@ const LabelWrapper = ({ metadata }) => {
     return null
   }
 
-  const decoded = JSON.parse(metadata)
+  let decoded = {}
+
+  try {
+    decoded = JSON.parse(metadata.replace(/\bNaN\b/g, 'null'))
+  } catch (e) {
+    return null
+  }
+
   const { owner } = decoded
 
   const linkRef = HARDCODED_LINKS[owner]
