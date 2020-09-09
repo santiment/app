@@ -11,6 +11,8 @@
 
 .etherscanLink {
   @include text('body-3');
+
+  display: inline-block;
 }
 
 .link {
