@@ -124,7 +124,7 @@
 .firstBlock {
   margin-top: -336px;
 
-  @include responsive( 'tablet','phone', 'phone-xs') {
+  @media only screen and (max-width: 1395px) {
     margin-top: 0;
   }
 }
