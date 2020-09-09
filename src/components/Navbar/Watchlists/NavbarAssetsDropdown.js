@@ -15,7 +15,7 @@ import styles from './NavbarAssetsDropdown.module.scss'
 const DASHBOARDS = [
   {
     name: 'Stablecoins',
-    to: 'Stablecoins',
+    to: '/stablecoins',
     isNew: true
   }
 ]
