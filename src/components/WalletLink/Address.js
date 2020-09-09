@@ -16,8 +16,11 @@ export const EtherscanLink = ({
   const addressShort = isFull
     ? link
     : link.slice(0, isExchange ? 7 : 16) + '...'
+
+  const El = asLink ? 'a' : 'div'
+
   return (
-    <a
+    <El
       href={
         asLink
           ? `https://etherscan.io/${isTx ? 'tx' : 'address'}/${address}`
@@ -26,7 +29,7 @@ export const EtherscanLink = ({
       className={cx(styles.etherscanLink, styles.link)}
     >
       {label || children || addressShort}
-    </a>
+    </El>
   )
 }
 
