@@ -33,8 +33,8 @@ export const InsightsProvider = ({ children }) => {
 
   useEffect(
     () => {
-      const { my, followings, sanfam } = ErrorMsg
-      setErrorMsg({ my, followings, sanfam })
+      const { my, followings } = ErrorMsg
+      setErrorMsg({ my, followings })
     },
     [from, to]
   )
