@@ -38,8 +38,23 @@ export const INSIGHTS_QUERY = gql`
 `
 
 export const SANFAM_INSIGHTS_QUERY = gql`
-  query allInsightsForUser {
-    insights: allInsightsForUser(userId: 7) {
+  query allInsightsForUser($from: DateTime, $to: DateTime) {
+    sanfam_1: allInsightsForUser(userId: 6, from: $from, to: $to) {
+      ...studioInsightCommon
+    }
+    sanfam_2: allInsightsForUser(userId: 7, from: $from, to: $to) {
+      ...studioInsightCommon
+    }
+    sanfam_3: allInsightsForUser(userId: 836, from: $from, to: $to) {
+      ...studioInsightCommon
+    }
+    sanfam_4: allInsightsForUser(userId: 1269, from: $from, to: $to) {
+      ...studioInsightCommon
+    }
+    sanfam_5: allInsightsForUser(userId: 2640, from: $from, to: $to) {
+      ...studioInsightCommon
+    }
+    sanfam_6: allInsightsForUser(userId: 4522, from: $from, to: $to) {
       ...studioInsightCommon
     }
   }
@@ -124,9 +139,14 @@ export function getTagInsights (from, to, tag) {
   }).then(allInsightsExtractor)
 }
 
-export function getSANFAMInsights () {
-  return buildInsightsGetter(SANFAM_INSIGHTS_QUERY).then(
-    ({ data: { insights } }) => insights.slice().sort(publishDateSorter)
+export function getSANFAMInsights (from, to) {
+  return buildInsightsGetter(SANFAM_INSIGHTS_QUERY, { from, to }).then(
+    ({
+      data: { sanfam_1, sanfam_2, sanfam_3, sanfam_4, sanfam_5, sanfam_6 }
+    }) =>
+      sanfam_1
+        .concat(sanfam_2, sanfam_3, sanfam_4, sanfam_5, sanfam_6)
+        .sort(publishDateSorter)
   )
 }
 
