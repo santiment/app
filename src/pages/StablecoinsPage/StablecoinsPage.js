@@ -91,7 +91,7 @@ const StablecoinsPage = ({ history, isDesktop }) => {
 
       <div className={styles.body}>
         <DesktopOnly>
-          <LeftPageNavigation anchors={ANCHORS} className={styles.navigation} />
+          <LeftPageNavigation anchors={ANCHORS} />
         </DesktopOnly>
 
         <div className={styles.inner}>
