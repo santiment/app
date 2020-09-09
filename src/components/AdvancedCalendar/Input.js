@@ -41,7 +41,7 @@ const Input = ({ value, onCalendarChange }) => {
   }
 
   function onBlur ({ target }) {
-    if (!isFocused) return
+    if (!isFocused || value === target.value) return
 
     changeCalendar()
     setIsFocused(false)

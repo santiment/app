@@ -51,19 +51,20 @@ export const InsightsProvider = ({ children }) => {
 
       loadInsights(from, to, key)
         .then(insights => {
+          if (race) return
+
           if (!insights.length) {
             throw new Error('No data')
           }
 
-          if (race) return
-
           setState(insights)
         })
-        .catch(
-          ({ message }) =>
-            setErrorMsg(state => ({ ...state, [key]: message })) &&
-            setState(DEFAULT_STATE)
-        )
+        .catch(({ message }) => {
+          if (race) return
+
+          setErrorMsg(state => ({ ...state, [key]: message }))
+          setState(DEFAULT_STATE)
+        })
 
       return () => (race = true)
     },

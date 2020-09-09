@@ -148,6 +148,8 @@ export const Studio = ({
   function changeTimePeriod (from, to, timeRange) {
     const interval = getNewInterval(from, to)
 
+    console.log(from, to, timeRange)
+
     setSettings(state => ({
       ...state,
       timeRange,
