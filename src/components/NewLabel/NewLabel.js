@@ -11,6 +11,17 @@ const NOW = new Date()
 
 window.dateDifferenceInWords = dateDifferenceInWords
 
+export const NewLabelTemplate = ({ className, rest }) => (
+  <Label
+    {...rest}
+    className={cx(styles.label, className)}
+    accent='jungle-green'
+    variant='fill'
+  >
+    NEW
+  </Label>
+)
+
 const showNewLabel = ({ date, limitDays = 7, checkingTime }) => {
   if (!date) {
     return false
@@ -32,13 +43,9 @@ const NewLabel = ({ date, className, withOffset = true }) => {
       on='hover'
       className={styles.tooltip}
       trigger={
-        <Label
-          className={cx(styles.label, className)}
-          accent='jungle-green'
-          variant='fill'
-        >
-          NEW
-        </Label>
+        <span className={className}>
+          <NewLabelTemplate />
+        </span>
       }
     >
       Created{' '}

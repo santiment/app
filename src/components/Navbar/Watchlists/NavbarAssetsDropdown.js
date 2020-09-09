@@ -9,12 +9,14 @@ import {
   BASIC_CATEGORIES,
   getWatchlistLink
 } from '../../../ducks/Watchlists/utils'
+import { NewLabelTemplate } from '../../NewLabel/NewLabel'
 import styles from './NavbarAssetsDropdown.module.scss'
 
 const DASHBOARDS = [
   {
     name: 'Stablecoins',
-    to: 'Stablecoins'
+    to: 'Stablecoins',
+    isNew: true
   }
 ]
 
@@ -28,7 +30,7 @@ const NavbarAssetsDropdown = ({ activeLink }) => {
           <h3 className={styles.title}>Dashboards</h3>
 
           <div>
-            {DASHBOARDS.map(({ to, name, id }) => {
+            {DASHBOARDS.map(({ to, name, isNew }) => {
               const link = to
 
               return (
@@ -40,6 +42,7 @@ const NavbarAssetsDropdown = ({ activeLink }) => {
                   to={link}
                   isActive={link === activeLink}
                 >
+                  {isNew && <NewLabelTemplate className={styles.new} />}
                   {name}
                 </Button>
               )
