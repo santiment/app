@@ -11,12 +11,41 @@ import {
 } from '../../../ducks/Watchlists/utils'
 import styles from './NavbarAssetsDropdown.module.scss'
 
+const DASHBOARDS = [
+  {
+    name: 'Stablecoins',
+    to: 'Stablecoins'
+  }
+]
+
 const NavbarAssetsDropdown = ({ activeLink }) => {
   const [watchlists = []] = useFeaturedWatchlists()
   const categories = [...BASIC_CATEGORIES, ...watchlists]
   return (
     <Panel>
       <div className={styles.wrapper}>
+        <div className={cx(styles.block, styles.list)}>
+          <h3 className={styles.title}>Dashboards</h3>
+
+          <div>
+            {DASHBOARDS.map(({ to, name, id }) => {
+              const link = to
+
+              return (
+                <Button
+                  fluid
+                  variant='ghost'
+                  key={name}
+                  as={Link}
+                  to={link}
+                  isActive={link === activeLink}
+                >
+                  {name}
+                </Button>
+              )
+            })}
+          </div>
+        </div>
         <div className={styles.block}>
           <h3 className={styles.title}>Explore Watchlists</h3>
           <div>
