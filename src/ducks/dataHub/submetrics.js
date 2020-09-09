@@ -71,6 +71,7 @@ export const Submetrics = {
       key: 'social_active_users_telegram',
       label: 'Social Active Users (Telegram)',
       shortLabel: 'Soc. Act. Us. Tg.',
+      channel: 'telegram',
       reqMeta: {
         source: 'telegram'
       }
@@ -81,6 +82,7 @@ export const Submetrics = {
       key: 'social_active_users_twitter',
       label: 'Social Active Users (Twitter)',
       shortLabel: 'Soc. Act. Us. Tw.',
+      channel: 'twitter',
       reqMeta: {
         source: 'twitter_crypto'
       }

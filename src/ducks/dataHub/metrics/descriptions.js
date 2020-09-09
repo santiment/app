@@ -225,7 +225,7 @@ export const Description = {
     </>
   ),
   [Metric.defi_total_value_locked_usd.key]:
-    ' Shows total value locked in DeFi projects, available in USD.'
+    'Shows total value locked in DeFi projects, available in USD.'
 }
 
 export const rebuildDescriptions = Submetrics => {
@@ -233,6 +233,16 @@ export const rebuildDescriptions = Submetrics => {
     const list = Submetrics[key]
 
     switch (key) {
+      case Metric.social_active_users.key: {
+        list.forEach(metric => {
+          Description[
+            metric.key
+          ] = `Shows the amount of daily active users on crypto-related ${
+            metric.channel
+          }. An active user has sent at least one message during the day.`
+        })
+        break
+      }
       case Metric.dormant_circulation.key: {
         list.forEach(metric => {
           Description[
