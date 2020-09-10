@@ -198,6 +198,12 @@ export const Metric = {
     category: 'Social',
     label: 'Social Volume',
     isOnlyPercentFilters: true
+  },
+  mean_dollar_invested_age: {
+    category: 'On-chain',
+    label: 'Mean Dollar Invested Age',
+    group: 'Network Value',
+    isOnlyPercentFilters: true
   }
 }
 
@@ -227,7 +233,8 @@ export const metrics = [
   Metric.dormant_circulation_365d,
   Metric.bitmex_perpetual_funding_rate,
   Metric.market_segments,
-  Metric.social_volume_total
+  Metric.social_volume_total,
+  Metric.mean_dollar_invested_age
 ]
 
 export const MetricAlias = {
