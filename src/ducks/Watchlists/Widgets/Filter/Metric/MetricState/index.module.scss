@@ -29,6 +29,7 @@
 
   &__disabled {
     color: var(--mystic);
+    cursor: default;
 
     &:hover {
       color: var(--mystic);
@@ -80,4 +81,9 @@
       background-color: var(--casper);
     }
   }
+}
+
+.proLabel {
+  display: inline-flex;
+  margin-left: 8px;
 }
