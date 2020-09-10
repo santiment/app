@@ -139,6 +139,11 @@ export const Metric = {
     group: 'Network Activity',
     label: 'Circulation 180d'
   },
+  circulation_180d_usd: {
+    category: 'On-chain',
+    group: 'Network Activity',
+    label: 'Circulation 180d USD'
+  },
   network_growth: {
     category: 'On-chain',
     group: 'Network Activity',
@@ -153,8 +158,22 @@ export const Metric = {
     aggregation: 'sum',
     showTimeRange: true
   },
+  exchange_inflow_usd: {
+    label: 'Exchange Inflow USD',
+    category: 'On-chain',
+    group: 'Exchanges',
+    aggregation: 'sum',
+    showTimeRange: true
+  },
   exchange_outflow: {
     label: 'Exchange Outflow',
+    category: 'On-chain',
+    group: 'Exchanges',
+    aggregation: 'sum',
+    showTimeRange: true
+  },
+  exchange_outflow_usd: {
+    label: 'Exchange Outflow USD',
     category: 'On-chain',
     group: 'Exchanges',
     aggregation: 'sum',
@@ -222,9 +241,12 @@ export const metrics = [
   Metric.transaction_volume_usd,
   Metric.circulation,
   Metric.circulation_180d,
+  Metric.circulation_180d_usd,
   Metric.network_growth,
   Metric.exchange_inflow,
+  Metric.exchange_inflow_usd,
   Metric.exchange_outflow,
+  Metric.exchange_outflow_usd,
   Metric.exchange_balance,
   Metric.mvrv_usd,
   Metric.mvrv_usd_30d,
