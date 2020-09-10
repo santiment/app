@@ -1,0 +1,9 @@
+.tooltip {
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  box-shadow: 0 4px 8px rgba(24, 27, 43, 0.03);
+  border-radius: 4px;
+  padding: 8px;
+  display: flex;
+  //max-height: 190px;
+}
