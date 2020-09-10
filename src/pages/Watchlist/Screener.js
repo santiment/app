@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import {
   getWatchlistName,
   DEFAULT_SCREENER_FUNCTION
@@ -22,6 +22,33 @@ const Screener = props => {
   )
   const [assets = [], loading] = getProjectsByFunction(screenerFunction)
 
+  const {
+    watchlist,
+    name,
+    isLoggedIn,
+    isDefaultScreener,
+    history,
+    preload
+  } = props
+
+  const [comparingAssets, setComparingAssets] = useState([])
+  const addAsset = useCallback(
+    item => {
+      const index = comparingAssets.findIndex(({ id }) => id === item.id)
+
+      let newList = comparingAssets
+
+      if (index >= 0) {
+        newList.splice(index, 1)
+      } else {
+        newList.push(item)
+      }
+
+      setComparingAssets([...newList])
+    },
+    [comparingAssets, setComparingAssets]
+  )
+
   return (
     <div className={('page', styles.screener)}>
       <GetAssets
@@ -31,23 +58,35 @@ const Screener = props => {
           const title = getWatchlistName(props)
           const {
             typeInfo: { listId },
-            isCurrentUserTheAuthor
+            isCurrentUserTheAuthor,
+            items
           } = Assets
+
+          const toggledAll =
+            items.length > 0 && comparingAssets.length === items.length
+
+          const toggleAll = () => {
+            if (toggledAll) {
+              setComparingAssets([])
+            } else {
+              setComparingAssets([...items])
+            }
+          }
 
           return (
             <>
               <TopPanel
-                name={(props.watchlist || {}).name || props.name}
+                name={(watchlist || {}).name || name}
                 id={listId}
                 assets={assets}
                 loading={loading}
-                watchlist={props.watchlist}
+                watchlist={watchlist}
                 isAuthor={isCurrentUserTheAuthor}
-                isLoggedIn={props.isLoggedIn}
+                isLoggedIn={isLoggedIn}
                 screenerFunction={screenerFunction}
                 setScreenerFunction={setScreenerFunction}
-                isDefaultScreener={props.isDefaultScreener}
-                history={props.history}
+                isDefaultScreener={isDefaultScreener}
+                history={history}
                 widgets={{
                   isPriceChart: isPriceChartActive,
                   isPriceTreeMap: isPriceTreeMap,
@@ -78,14 +117,20 @@ const Screener = props => {
                 items={assets}
                 type='screener'
                 isAuthor={isCurrentUserTheAuthor}
-                watchlist={props.watchlist}
+                watchlist={watchlist}
                 classes={{ container: styles.tableWrapper }}
                 className={styles.table}
-                goto={props.history.push}
-                history={props.history}
-                preload={props.preload}
+                goto={history.push}
+                history={history}
+                preload={preload}
                 listName={title}
                 allColumns={ASSETS_TABLE_COLUMNS}
+                compareSettings={{
+                  toggleAll,
+                  toggledAll,
+                  comparingAssets,
+                  addAsset
+                }}
               />
             </>
           )

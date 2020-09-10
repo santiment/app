@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import ReactTable from 'react-table'
 import cx from 'classnames'
 import { connect } from 'react-redux'
@@ -21,6 +21,8 @@ import { markedAsShowed } from '../../../SANCharts/SidecarExplanationTooltip'
 import { EXPLANATION_TOOLTIP_MARK } from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
 import './ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
+import CompareInfo from './CompareInfo/CompareInfo'
+import CompareAction from './CompareInfo/CompareAction'
 
 const CustomNoDataComponent = ({ isLoading }) => {
   if (isLoading) {
@@ -58,15 +60,13 @@ const AssetsTable = ({
   minVolume = 0,
   listName,
   type,
-  watchlist,
   settings,
   allColumns,
-  isAuthor,
   setHiddenColumns,
   showCollumnsToggle = true,
   className,
   columnProps,
-  ...props
+  compareSettings: { toggleAll, toggledAll, comparingAssets, addAsset } = {}
 }) => {
   const [markedAsNew, setAsNewMarked] = useState()
 
@@ -139,9 +139,18 @@ const AssetsTable = ({
     return changeColumns(toggledColumns)
   }
 
-  const shownColumns = COLUMNS(preload, columnProps).filter(
-    ({ id }) => columns[id].show && allColumns.includes(id)
+  const shownColumns = useMemo(
+    () => {
+      return COLUMNS(preload, {
+        ...columnProps,
+        toggleAll,
+        toggledAll: toggledAll
+      }).filter(({ id }) => columns[id].show && allColumns.includes(id))
+    },
+    [COLUMNS, preload, columnProps, toggleAll, toggledAll, allColumns, columns]
   )
+
+  const disabledComparision = comparingAssets.length < 2
 
   return (
     <div className={classes.container} id='table'>
@@ -155,6 +164,15 @@ const AssetsTable = ({
             onRefreshClick={() => refetchAssets({ ...typeInfo, minVolume })}
           />
         )}
+        <div className={styles.leftActions}>
+          {type === 'screener' && (
+            <>
+              {comparingAssets && (
+                <CompareAction disabledComparision={disabledComparision} />
+              )}
+            </>
+          )}
+        </div>
         <div className={styles.actions}>
           {showCollumnsToggle && (
             <AssetsToggleColumns
@@ -164,29 +182,38 @@ const AssetsTable = ({
             />
           )}
           {type === 'screener' && (
-            <ProPopupWrapper
-              type='screener'
-              trigger={props => (
-                <div {...props} className={styles.action__wrapper}>
-                  <ExplanationTooltip text='Download .csv' offsetY={10}>
-                    <Icon type='save' className={styles.action} />
-                  </ExplanationTooltip>
-                </div>
-              )}
-            >
-              <DownloadCSV
-                name={listName}
-                items={items}
-                className={styles.action}
+            <>
+              <ProPopupWrapper
+                type='screener'
+                trigger={props => (
+                  <div {...props} className={styles.action__wrapper}>
+                    <ExplanationTooltip text='Download .csv' offsetY={10}>
+                      <Icon type='save' className={styles.action} />
+                    </ExplanationTooltip>
+                  </div>
+                )}
               >
-                <ExplanationTooltip text='Download .csv' offsetY={10}>
-                  <Icon type='save' />
-                </ExplanationTooltip>
-              </DownloadCSV>
-            </ProPopupWrapper>
+                <DownloadCSV
+                  name={listName}
+                  items={items}
+                  className={styles.action}
+                >
+                  <ExplanationTooltip text='Download .csv' offsetY={10}>
+                    <Icon type='save' />
+                  </ExplanationTooltip>
+                </DownloadCSV>
+              </ProPopupWrapper>
+            </>
           )}
         </div>
       </div>
+      {comparingAssets.length > 0 && (
+        <CompareInfo
+          selected={comparingAssets}
+          all={items}
+          toggleAll={toggleAll}
+        />
+      )}
       <ReactTable
         loading={isLoading}
         showPagination={!showAll}
@@ -210,14 +237,15 @@ const AssetsTable = ({
           />
         )}
         NoDataComponent={() => <CustomNoDataComponent isLoading={isLoading} />}
-        // TheadComponent={CustomHeadComponent}
         getTdProps={() => ({
           onClick: (e, handleOriginal) => {
             if (handleOriginal) handleOriginal()
           },
           style: { border: 'none' },
           markedasnew: markedAsNew,
-          hide: hideMarkedAsNew
+          hide: hideMarkedAsNew,
+          assets: comparingAssets,
+          addasset: addAsset
         })}
       />
     </div>

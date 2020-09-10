@@ -8,6 +8,7 @@ import ProjectLabel from '../../../../components/ProjectLabel'
 import PercentChanges from '../../../../components/PercentChanges'
 import { Description } from '../../../dataHub/metrics/descriptions'
 import LayoutForAsset from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
+import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import styles from './AssetsToggleColumns.module.scss'
 
 const simpleSort = (a, b) => b - a
@@ -17,17 +18,19 @@ const isValidValue = value => !isNaN(parseFloat(value))
 const NO_DATA = 'No data'
 
 const constructColumn = ({
-  heading,
-  id = heading,
+  heading: Heading,
+  id = Heading,
   description,
   className,
   sortMethod,
   filterMethod,
   ...rest
 }) => {
+  const El = typeof Heading === 'string' ? Heading : <Heading />
+
   return {
     id,
-    Header: () => <div className={cx('heading', className)}>{heading}</div>,
+    Header: () => <div className={cx('heading', className)}>{El}</div>,
     sortable: Boolean(sortMethod),
     sortMethod,
     filterable: Boolean(filterMethod),
@@ -37,6 +40,32 @@ const constructColumn = ({
 }
 
 export const COLUMNS = (preload, props = {}) => [
+  constructColumn({
+    id: COLUMNS_NAMES.checkboxes,
+    heading: () => {
+      const { toggleAll, toggledAll } = props
+
+      return (
+        <Checkbox
+          isActive={toggledAll}
+          onClick={() => toggleAll && toggleAll()}
+          className={styles.assetCheckbox}
+        />
+      )
+    },
+    maxWidth: 45,
+    Cell: row => {
+      const { original, tdProps = {} } = row
+      const { rest: { assets, addasset } = {} } = tdProps
+      return (
+        <Checkbox
+          className={styles.assetCheckbox}
+          onClick={() => addasset(original)}
+          isActive={assets.find(({ id }) => id === original.id)}
+        />
+      )
+    }
+  }),
   constructColumn({
     id: COLUMNS_NAMES.index,
     heading: '#',
