@@ -99,112 +99,102 @@ const Navbar = ({ activeLink = '/', isBetaModeEnabled }) => {
         className={cx(styles.wrapper, 'container')}
         screenEdgeXOffset={5}
       >
-        <div className={styles.left}>
-          <SantimentProductsTooltip
-            className={styles.products}
-            position='start'
-          >
-            <Link className={styles.logo} to='/'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                width='32'
-                height='32'
-                fill='none'
-              >
-                <circle cx='16' cy='16' r='15.5' fill='#fff' stroke='#E7EAF3' />
-                <path
-                  fill='#2F354D'
-                  d='M6 15.6c0-.5.1-1 .4-1.2.3-.3.6-.4 1.1-.4.5 0 .8.1 1.1.4.3.3.4.7.4 1.2 0 .6-.1 1-.4 1.3-.3.3-.6.4-1 .4-.6 0-1-.1-1.2-.4-.3-.3-.4-.7-.4-1.3zm6.5 5.1l1.5.6a5.9 5.9 0 001.7.3c.7 0 1.2-.2 1.7-.5.4-.3.7-.9.7-1.6 0-.6-.2-1.1-.5-1.5a4.7 4.7 0 00-1-1.1l-1.4-.9a7.5 7.5 0 01-1.4-1 4.8 4.8 0 01-1.1-1.3 4 4 0 01-.4-1.9c0-1.3.3-2.2 1-2.8.7-.7 1.7-1 3-1a9 9 0 012.1.2 6 6 0 011.6.6l-.6 1.8a6.3 6.3 0 00-1.3-.5 6.2 6.2 0 00-1.6-.2c-.7 0-1.2.2-1.6.5-.3.3-.5.7-.5 1.4 0 .4.2.9.5 1.2l1 1 1.4.8 1.4 1c.5.5.8 1 1.1 1.5.3.6.4 1.3.4 2.1A4.5 4.5 0 0120 21c-.2.5-.5 1-.9 1.3a4 4 0 01-1.3.9 9.2 9.2 0 01-4.2 0c-.7-.1-1.3-.3-1.7-.6l.6-1.9zm10.5-5c0-.6.1-1 .4-1.3.3-.3.6-.4 1-.4.6 0 1 .1 1.2.4.3.3.4.7.4 1.2 0 .6-.1 1-.4 1.3-.3.3-.6.4-1.1.4-.5 0-.8-.1-1.1-.4-.3-.3-.4-.7-.4-1.3z'
-                />
-              </svg>
-            </Link>
-          </SantimentProductsTooltip>
-          {leftLinks.map(({ Dropdown, ddParams, ...rest }, index) => {
-            let isActive = activeLink.includes(rest.to)
-
-            if (rest.to === '/') {
-              isActive = activeLink === '/'
-            }
-
-            if (rest.to === '/assets') {
-              isActive = activeLink !== '/assets/screener'
-            }
-
-            const button = (
-              <Button
-                key={index}
-                variant='flat'
-                isActive={isActive}
-                className={cx(Dropdown || styles.leftLink, styles.btn)}
-                {...rest}
-              />
-            )
-
-            if (Dropdown) {
-              return (
-                <SmoothDropdownItem
-                  key={index}
-                  trigger={button}
-                  ddParams={ddParams}
-                >
-                  <Dropdown activeLink={activeLink} />
-                </SmoothDropdownItem>
-              )
-            }
-
-            return button
-          })}
-        </div>
-
-        <div className={styles.right}>
-          <Search
-            inputProps={{
-              placeholder: 'Search for assets...',
-              icon: 'search-small'
-            }}
-          />
-          {rightLinks.map(({ Dropdown, ...rest }, index) => {
-            const isActive = activeLink.includes(rest.to)
-
-            const button = (
-              <Button
-                key={index}
-                variant='flat'
-                isActive={isActive}
-                className={cx(Dropdown || styles.rightLink, styles.btn)}
-                {...rest}
-              />
-            )
-
-            if (Dropdown) {
-              return (
-                <SmoothDropdownItem key={index} trigger={button}>
-                  <Dropdown activeLink={activeLink} />
-                </SmoothDropdownItem>
-              )
-            }
-
-            return button
-          })}
-          <div className={cx(styles.divider, styles.center)}>
-            <PlanEngage />
-            <SmoothDropdownItem
-              trigger={
-                <Button
-                  variant='flat'
-                  className={cx(
-                    styles.btn,
-                    styles.rightBtns,
-                    styles.accountBtn
-                  )}
-                >
-                  <UserAvatar to='/account' classes={styles} />
-                </Button>
-              }
+        <SantimentProductsTooltip className={styles.products} position='start'>
+          <Link className={styles.logo} to='/'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              width='32'
+              height='32'
+              fill='none'
             >
-              <NavbarProfileDropdown activeLink={activeLink} />
-            </SmoothDropdownItem>
-          </div>
+              <circle cx='16' cy='16' r='15.5' fill='#fff' stroke='#E7EAF3' />
+              <path
+                fill='#2F354D'
+                d='M6 15.6c0-.5.1-1 .4-1.2.3-.3.6-.4 1.1-.4.5 0 .8.1 1.1.4.3.3.4.7.4 1.2 0 .6-.1 1-.4 1.3-.3.3-.6.4-1 .4-.6 0-1-.1-1.2-.4-.3-.3-.4-.7-.4-1.3zm6.5 5.1l1.5.6a5.9 5.9 0 001.7.3c.7 0 1.2-.2 1.7-.5.4-.3.7-.9.7-1.6 0-.6-.2-1.1-.5-1.5a4.7 4.7 0 00-1-1.1l-1.4-.9a7.5 7.5 0 01-1.4-1 4.8 4.8 0 01-1.1-1.3 4 4 0 01-.4-1.9c0-1.3.3-2.2 1-2.8.7-.7 1.7-1 3-1a9 9 0 012.1.2 6 6 0 011.6.6l-.6 1.8a6.3 6.3 0 00-1.3-.5 6.2 6.2 0 00-1.6-.2c-.7 0-1.2.2-1.6.5-.3.3-.5.7-.5 1.4 0 .4.2.9.5 1.2l1 1 1.4.8 1.4 1c.5.5.8 1 1.1 1.5.3.6.4 1.3.4 2.1A4.5 4.5 0 0120 21c-.2.5-.5 1-.9 1.3a4 4 0 01-1.3.9 9.2 9.2 0 01-4.2 0c-.7-.1-1.3-.3-1.7-.6l.6-1.9zm10.5-5c0-.6.1-1 .4-1.3.3-.3.6-.4 1-.4.6 0 1 .1 1.2.4.3.3.4.7.4 1.2 0 .6-.1 1-.4 1.3-.3.3-.6.4-1.1.4-.5 0-.8-.1-1.1-.4-.3-.3-.4-.7-.4-1.3z'
+              />
+            </svg>
+          </Link>
+        </SantimentProductsTooltip>
+        {leftLinks.map(({ Dropdown, ddParams, ...rest }, index) => {
+          let isActive = activeLink.includes(rest.to)
+
+          if (rest.to === '/') {
+            isActive = activeLink === '/'
+          }
+
+          if (rest.to === '/assets') {
+            isActive = activeLink !== '/assets/screener'
+          }
+
+          const button = (
+            <Button
+              key={index}
+              variant='flat'
+              isActive={isActive}
+              className={cx(Dropdown || styles.leftLink, styles.btn)}
+              {...rest}
+            />
+          )
+
+          if (Dropdown) {
+            return (
+              <SmoothDropdownItem
+                key={index}
+                trigger={button}
+                ddParams={ddParams}
+              >
+                <Dropdown activeLink={activeLink} />
+              </SmoothDropdownItem>
+            )
+          }
+
+          return button
+        })}
+
+        <Search
+          inputProps={{
+            placeholder: 'Search for assets...',
+            icon: 'search-small'
+          }}
+        />
+
+        {rightLinks.map(({ Dropdown, ...rest }, index) => {
+          const isActive = activeLink.includes(rest.to)
+
+          const button = (
+            <Button
+              key={index}
+              variant='flat'
+              isActive={isActive}
+              className={cx(Dropdown || styles.rightLink, styles.btn)}
+              {...rest}
+            />
+          )
+
+          if (Dropdown) {
+            return (
+              <SmoothDropdownItem key={index} trigger={button}>
+                <Dropdown activeLink={activeLink} />
+              </SmoothDropdownItem>
+            )
+          }
+
+          return button
+        })}
+        <div className={cx(styles.divider, styles.center)}>
+          <PlanEngage />
+          <SmoothDropdownItem
+            trigger={
+              <Button
+                variant='flat'
+                className={cx(styles.btn, styles.rightBtns, styles.accountBtn)}
+              >
+                <UserAvatar to='/account' classes={styles} />
+              </Button>
+            }
+          >
+            <NavbarProfileDropdown activeLink={activeLink} />
+          </SmoothDropdownItem>
         </div>
       </SmoothDropdown>
     </header>

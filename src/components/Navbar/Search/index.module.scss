@@ -3,7 +3,15 @@
   border: 1px solid var(--porcelain);
   box-shadow: 0 4px 8px rgba(24, 27, 43, 0.03);
   border-radius: 4px;
-  padding: 8px;
+  padding: 16px;
   display: flex;
-  //max-height: 190px;
+  min-width: 100%;
+  z-index: 10;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+}
+
+.search {
+  width: 100%;
 }

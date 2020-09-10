@@ -4,6 +4,17 @@ import { filterSearchableItems } from './utils'
 import withProjects from '../../../ducks/Studio/Compare/withProjects'
 import styles from './Suggestions.module.scss'
 
+function assetsFilterPredicate (value) {
+  const searchTerm = value.toLowerCase()
+  return ({ name, ticker }) =>
+    name.includes(searchTerm) || ticker.includes(searchTerm)
+}
+
+function assetsMatchPredicate (value) {
+  const searchTerm = value.toLowerCase()
+  return ({ ticker }) => ticker === searchTerm
+}
+
 const useSearchableAssets = allProjects =>
   useMemo(
     () => {
@@ -21,26 +32,17 @@ const useSearchableAssets = allProjects =>
     [allProjects]
   )
 
-function assetsFilterPredicate (value) {
-  const searchTerm = value.toLowerCase()
-  return ({ name, ticker }) =>
-    name.includes(searchTerm) || ticker.includes(searchTerm)
-}
-
-function assetsMatchPredicate (value) {
-  const searchTerm = value.toLowerCase()
-  return ({ ticker }) => ticker === searchTerm
-}
-
 const Asset = ({ name, ticker }) => (
   <>
     {name} <span className={styles.ticker}>{ticker}</span>
   </>
 )
 
+const keyAccessor = ({ id }) => id
+
 const AssetsCategory = ({ searchTerm, allProjects }) => {
   const searchableAssets = useSearchableAssets(allProjects)
-  const items = useMemo(
+  const suggestions = useMemo(
     () => {
       if (!searchTerm) {
         return allProjects.slice(0, 5)
@@ -72,8 +74,13 @@ const AssetsCategory = ({ searchTerm, allProjects }) => {
     [searchTerm, searchableAssets]
   )
 
-  return items.length ? (
-    <Category title='Assets' items={items} Item={Asset} />
+  return suggestions.length ? (
+    <Category
+      title='Assets'
+      items={suggestions}
+      Item={Asset}
+      keyAccessor={keyAccessor}
+    />
   ) : null
 }
 

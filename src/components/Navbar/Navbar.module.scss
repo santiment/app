@@ -48,17 +48,6 @@
   height: 32px;
 }
 
-.right,
-.left {
-  display: flex;
-  align-items: center;
-  flex-grow: 1;
-}
-
-.right {
-  justify-content: flex-end;
-}
-
 .divider {
   display: flex;
   justify-content: flex-end;
