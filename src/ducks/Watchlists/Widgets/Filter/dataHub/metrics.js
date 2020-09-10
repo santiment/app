@@ -192,6 +192,12 @@ export const Metric = {
       }
     ],
     Widget: props => <MarketSegments {...props} />
+  },
+  social_volume_total: {
+    percentMetricKey: 'social_volume',
+    category: 'Social',
+    label: 'Social Volume',
+    isOnlyPercentFilters: true
   }
 }
 
@@ -220,10 +226,12 @@ export const metrics = [
   Metric.mvrv_usd_365d,
   Metric.dormant_circulation_365d,
   Metric.bitmex_perpetual_funding_rate,
-  Metric.market_segments
+  Metric.market_segments,
+  Metric.social_volume_total
 ]
 
 export const MetricAlias = {
   active_addresses_24h: Metric.daily_active_addresses,
-  dev_activity: Metric.dev_activity
+  dev_activity: Metric.dev_activity_1d,
+  social_volume: Metric.social_volume_total
 }

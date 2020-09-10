@@ -189,6 +189,7 @@ const FilterMetric = ({
     <>
       <MetricState
         isViewMode={isViewMode}
+        isPro={isPro}
         metric={baseMetric}
         settings={settings}
         isActive={settings.isActive}
@@ -215,7 +216,7 @@ const FilterMetric = ({
 
 export default ({ filters, baseMetric, ...props }) => {
   const filter = extractFilterByMetricType(filters, baseMetric)
-  const filterType = getFilterType(filter)
+  const filterType = getFilterType(filter, baseMetric)
   const settings = extractParams(filter, filterType, baseMetric)
 
   return (

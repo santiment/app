@@ -57,4 +57,10 @@
   justify-content: space-between;
 
   @include text('caption', 'm');
+
+  &__first {
+    border-top: none;
+    margin-top: 0;
+    padding-top: 6px;
+  }
 }

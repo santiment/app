@@ -46,6 +46,7 @@ const FilterMetricSettings = ({
             }
           }}
           showPercentFilters={percentTimeRanges && percentTimeRanges.length > 0}
+          isOnlyPercentFilters={metric.isOnlyPercentFilters}
         />
         <ValueInput
           type={type}

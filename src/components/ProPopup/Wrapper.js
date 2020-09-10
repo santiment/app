@@ -17,7 +17,7 @@ const TYPES = {
   }
 }
 
-const ProPopupWrapper = ({ type, trigger: Trigger, children }) => {
+const ProPopupWrapper = ({ type, trigger: Trigger, children, className }) => {
   const { isPro } = useUserSubscriptionStatus()
 
   if (isPro) {
@@ -26,7 +26,9 @@ const ProPopupWrapper = ({ type, trigger: Trigger, children }) => {
 
   return (
     <ProPopup
-      trigger={Trigger ? <Trigger /> : <div>{children}</div>}
+      trigger={
+        Trigger ? <Trigger /> : <div className={className}>{children}</div>
+      }
       {...TYPES[type]}
     />
   )

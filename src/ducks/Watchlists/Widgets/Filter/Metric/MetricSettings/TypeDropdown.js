@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react'
+import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
@@ -14,6 +15,7 @@ const TypeDropdown = ({
   type,
   onChange,
   showPercentFilters,
+  isOnlyPercentFilters,
   isDefaultOpen
 }) => {
   const [open, setOpen] = useState(!!isDefaultOpen)
@@ -43,14 +45,22 @@ const TypeDropdown = ({
           const badge = Filter[key].badge
           let isShow = true
 
-          if (!showPercentFilters && showTimeRange) {
+          if (
+            (!showPercentFilters && showTimeRange) ||
+            (isOnlyPercentFilters && badge !== '%')
+          ) {
             isShow = false
           }
 
           return isShow ? (
             <Fragment key={key}>
               {key === METRIC_SEPARATOR && (
-                <div className={styles.separator}>
+                <div
+                  className={cx(
+                    styles.separator,
+                    isOnlyPercentFilters && styles.separator__first
+                  )}
+                >
                   <span className={styles.label}>Percentage change</span>
                   <ProPopupWrapper type='screener'>
                     {!isPro && <ProLabel />}

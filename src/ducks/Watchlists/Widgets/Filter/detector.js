@@ -17,9 +17,9 @@ export function extractFilterByMetricType (filters = [], metric) {
     .map(({ args }) => ({ ...args }))
 }
 
-export function getFilterType (filter = []) {
+export function getFilterType (filter = [], metric) {
   if (filter.length === 0) {
-    return Filter.above
+    return metric.isOnlyPercentFilters ? Filter.percent_up : Filter.above
   }
 
   const isPercent = checkIsPercentMetric(filter)
