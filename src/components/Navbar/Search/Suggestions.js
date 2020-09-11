@@ -1,17 +1,13 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect } from 'react'
 import AssetsCategory from './AssetsCategory'
+import TrendingWordsCategory from './TrendingWordsCategory'
 import styles from './index.module.scss'
 
 const Suggestions = ({ inputRef, ...props }) => {
-  useEffect(() => {
-    console.log(inputRef)
-  }, [])
-
   return (
     <div className={styles.tooltip}>
       <AssetsCategory {...props} />
-      <AssetsCategory {...props} />
-      <AssetsCategory {...props} />
+      <TrendingWordsCategory {...props} />
       <AssetsCategory {...props} />
     </div>
   )

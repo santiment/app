@@ -4,6 +4,8 @@ import UISearch from '@santiment-network/ui/Search'
 import Suggestions from './Suggestions'
 import styles from './index.module.scss'
 
+const EDITABLE_TAGS = new Set(['INPUT', 'TEXTAREA'])
+
 const Search = () => {
   const [isOpened, setIsOpened] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
@@ -14,7 +16,8 @@ const Search = () => {
     if (!input) return
 
     function onKeyPress (e) {
-      if (e.code === 'Slash') {
+      const { code, target } = e
+      if (code === 'Slash' && !EDITABLE_TAGS.has(target.tagName)) {
         e.preventDefault()
         openSuggestions()
         input.focus()
@@ -41,7 +44,7 @@ const Search = () => {
         placeholder='Search for asset, trend, etc'
         onChange={v => setSearchTerm(v)}
         onClick={openSuggestions}
-        onBlur={closeSuggestions}
+        // onBlur={closeSuggestions}
       >
         {isOpened && (
           <Suggestions inputRef={inputRef} searchTerm={searchTerm} />

@@ -38,7 +38,10 @@ const Asset = ({ name, ticker }) => (
   </>
 )
 
-const keyAccessor = ({ id }) => id
+const propsAccessor = ({ id }) => ({
+  key: id,
+  to: id
+})
 
 const AssetsCategory = ({ searchTerm, allProjects }) => {
   const searchableAssets = useSearchableAssets(allProjects)
@@ -79,7 +82,7 @@ const AssetsCategory = ({ searchTerm, allProjects }) => {
       title='Assets'
       items={suggestions}
       Item={Asset}
-      keyAccessor={keyAccessor}
+      propsAccessor={propsAccessor}
     />
   ) : null
 }
