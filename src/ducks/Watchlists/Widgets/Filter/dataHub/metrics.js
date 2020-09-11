@@ -213,10 +213,19 @@ export const Metric = {
     Widget: props => <MarketSegments {...props} />
   },
   social_volume_total: {
-    percentMetricKey: 'social_volume',
     category: 'Social',
     label: 'Social Volume',
     isOnlyPercentFilters: true
+  },
+  // social_dominance_total: {
+  //   category: 'Social',
+  //   label: 'Social Dominance',
+  //   valueFormatter: percentValueFormatter,
+  //   serverValueFormatter: percentServerValueFormatter
+  // },
+  sentiment_balance_total: {
+    label: 'Sentiment Balance Total',
+    category: 'Social'
   },
   mean_dollar_invested_age: {
     category: 'On-chain',
@@ -256,11 +265,12 @@ export const metrics = [
   Metric.bitmex_perpetual_funding_rate,
   Metric.market_segments,
   Metric.social_volume_total,
+  // Metric.social_dominance_total,
+  // Metric.sentiment_balance_total,
   Metric.mean_dollar_invested_age
 ]
 
 export const MetricAlias = {
   active_addresses_24h: Metric.daily_active_addresses,
-  dev_activity: Metric.dev_activity_1d,
-  social_volume: Metric.social_volume_total
+  dev_activity: Metric.dev_activity_1d
 }
