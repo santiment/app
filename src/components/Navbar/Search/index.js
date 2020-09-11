@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react'
-import ContextMenu from '@santiment-network/ui/ContextMenu'
 import UISearch from '@santiment-network/ui/Search'
 import Suggestions from './Suggestions'
 import styles from './index.module.scss'
@@ -44,7 +43,7 @@ const Search = () => {
         placeholder='Search for asset, trend, etc'
         onChange={v => setSearchTerm(v)}
         onClick={openSuggestions}
-        // onBlur={closeSuggestions}
+        onBlur={closeSuggestions}
       >
         {isOpened && (
           <Suggestions inputRef={inputRef} searchTerm={searchTerm} />

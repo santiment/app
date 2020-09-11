@@ -1,14 +1,16 @@
 import React, { useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import Category from './Category'
+import Icon from '@santiment-network/ui/Icon'
+import Category, { Button } from './Category'
+import styles from './Suggestions.module.scss'
 
 const DEFAULT_SUGGESTIONS = []
 
 const fromDate = new Date()
 const toDate = new Date()
-toDate.setHours(toDate.getHours() + 1, 0, 0, 0)
 fromDate.setHours(0, 0, 0, 0)
+toDate.setHours(toDate.getHours() + 1, 0, 0, 0)
 
 const TRENDING_WORDS_QUERY = gql`
   query {
@@ -20,11 +22,12 @@ const TRENDING_WORDS_QUERY = gql`
   }
 `
 
+const TREND_LINK = '/labs/trends/explore/'
+
 const propsAccessor = ({ word }) => ({
   key: word,
-  to: '/labs/trends/explore/' + word
+  to: TREND_LINK + word
 })
-const TrendingWord = ({ word }) => word
 
 function trendingWordsPredicate (value) {
   const searchTerm = value.toLowerCase()
@@ -35,6 +38,15 @@ function useTrendingWords () {
   const { data } = useQuery(TRENDING_WORDS_QUERY)
   return data ? data.getTrendingWords[0].topWords : DEFAULT_SUGGESTIONS
 }
+
+const TrendingWord = ({ word }) => word
+
+const Lookup = ({ searchTerm }) => (
+  <Button to={TREND_LINK + searchTerm}>
+    <Icon type='fire' className={styles.icon} />
+    Lookup as trend
+  </Button>
+)
 
 const TrendingWordsCategory = ({ searchTerm }) => {
   const trendingWords = useTrendingWords()
@@ -49,7 +61,9 @@ const TrendingWordsCategory = ({ searchTerm }) => {
       items={suggestions}
       Item={TrendingWord}
       propsAccessor={propsAccessor}
-    />
+    >
+      {suggestions.length < 5 && <Lookup searchTerm={searchTerm} />}
+    </Category>
   )
 }
 
