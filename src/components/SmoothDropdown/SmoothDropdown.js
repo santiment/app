@@ -38,7 +38,10 @@ class SmoothDropdown extends Component {
   }
 
   static propTypes = {
-    children: PropTypes.any,
+    children: PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.arrayOf(PropTypes.element)
+    ]).isRequired,
     showArrow: PropTypes.bool,
     verticalMotion: PropTypes.bool,
     verticalOffset: PropTypes.number,
