@@ -37,18 +37,16 @@ const Search = () => {
   }
 
   return (
-    <>
-      <UISearch
-        className={cx(styles.search, isOpened && styles.search_focused)}
-        forwardedRef={inputRef}
-        placeholder='Search for asset, trend, etc'
-        onChange={v => setSearchTerm(v)}
-        onClick={openSuggestions}
-        onBlur={closeSuggestions}
-      >
-        <Suggestions isOpened={isOpened} searchTerm={searchTerm} />
-      </UISearch>
-    </>
+    <UISearch
+      className={cx(styles.search, isOpened && styles.search_focused)}
+      forwardedRef={inputRef}
+      placeholder='Search for asset, trend, etc'
+      onChange={v => setSearchTerm(v)}
+      onClick={openSuggestions}
+      onBlur={closeSuggestions}
+    >
+      <Suggestions isOpened={isOpened} searchTerm={searchTerm} />
+    </UISearch>
   )
 }
 
