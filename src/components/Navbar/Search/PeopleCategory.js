@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import Category from './Category'
-import styles from './Suggestions.module.scss'
+import styles from './Category.module.scss'
 
 const DEFAULT_SUGGESTIONS = []
 
@@ -26,7 +26,7 @@ const Person = ({ avatarUrl, username }) => (
     {avatarUrl ? (
       <img className={styles.avatar} src={avatarUrl} alt='Avatar' />
     ) : (
-      <div className={styles.fallback}>{username[0].toUpperCase()}</div>
+      <div className={styles.fallback}>{username[0]}</div>
     )}
     {username}
   </>

@@ -46,11 +46,7 @@ const Search = () => {
         onClick={openSuggestions}
         onBlur={closeSuggestions}
       >
-        <Suggestions
-          isOpened={isOpened}
-          inputRef={inputRef}
-          searchTerm={searchTerm}
-        />
+        <Suggestions isOpened={isOpened} searchTerm={searchTerm} />
       </UISearch>
     </>
   )

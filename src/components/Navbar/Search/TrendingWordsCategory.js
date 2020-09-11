@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import Icon from '@santiment-network/ui/Icon'
 import Category, { Button } from './Category'
-import styles from './Suggestions.module.scss'
+import styles from './Category.module.scss'
 
 const DEFAULT_SUGGESTIONS = []
 

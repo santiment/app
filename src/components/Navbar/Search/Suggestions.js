@@ -31,7 +31,7 @@ const Suggestions = ({ isOpened, ...props }) => {
       classNames={styles}
       unmountOnExit
     >
-      <div ref={ref} className={styles.tooltip}>
+      <div ref={ref} className={styles.dropdown}>
         <AssetsCategory {...props} />
         <TrendingWordsCategory {...props} />
         <InsightsCategory {...props} />

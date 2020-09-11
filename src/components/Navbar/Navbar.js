@@ -4,7 +4,6 @@ import { NavLink as Link } from 'react-router-dom'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
-/* import Search from './../Search/SearchContainer' */
 import Search from './Search'
 import SmoothDropdown from '../SmoothDropdown/SmoothDropdown'
 import SmoothDropdownItem from '../SmoothDropdown/SmoothDropdownItem'
@@ -151,12 +150,7 @@ const Navbar = ({ activeLink = '/', isBetaModeEnabled }) => {
           return button
         })}
 
-        <Search
-          inputProps={{
-            placeholder: 'Search for assets...',
-            icon: 'search-small'
-          }}
-        />
+        <Search />
 
         {rightLinks.map(({ Dropdown, ...rest }, index) => {
           const isActive = activeLink.includes(rest.to)

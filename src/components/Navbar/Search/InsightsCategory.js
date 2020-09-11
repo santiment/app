@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import gql from 'graphql-tag'
 import Category from './Category'
 import { client } from '../../../apollo'
-import styles from './Suggestions.module.scss'
+import styles from './Category.module.scss'
 
 const DEFAULT_SUGGESTIONS = []
 

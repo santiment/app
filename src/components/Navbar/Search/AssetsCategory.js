@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import Category from './Category'
 import { filterSearchableItems } from './utils'
 import withProjects from '../../../ducks/Studio/Compare/withProjects'
-import styles from './Suggestions.module.scss'
+import styles from './Category.module.scss'
 
 function assetsFilterPredicate (value) {
   const searchTerm = value.toLowerCase()
