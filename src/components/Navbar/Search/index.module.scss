@@ -8,10 +8,41 @@
   min-width: 100%;
   z-index: 10;
   position: absolute;
-  left: 0;
+  right: 0;
   top: calc(100% + 8px);
+  transform-origin: top center;
 }
 
 .search {
-  width: 100%;
+  margin-left: auto;
+  transition: width 0.6s;
+  width: 222px;
+
+  &_focused {
+    width: 100%;
+  }
+}
+
+$duration: 250;
+$delay: 80;
+
+.enter {
+  opacity: 0;
+  animation: open #{$duration}ms #{$delay}ms forwards;
+}
+
+.exit {
+  animation: open #{$duration}ms reverse forwards;
+}
+
+@keyframes open {
+  0% {
+    transform: rotateX(40deg);
+    opacity: 0;
+  }
+
+  100% {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
 }

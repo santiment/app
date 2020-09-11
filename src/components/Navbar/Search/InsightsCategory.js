@@ -54,6 +54,11 @@ const InsightsCategory = ({ searchTerm }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [suggestions, setSuggestions] = useState(DEFAULT_SUGGESTIONS)
 
+  useEffect(() => {
+    const query = searchTerm ? getInsightsBySearchTerm : getInsights
+    query(searchTerm).then(setSuggestions)
+  }, [])
+
   useEffect(
     () => {
       if (!searchTerm) {

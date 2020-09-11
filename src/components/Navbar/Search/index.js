@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
+import cx from 'classnames'
 import UISearch from '@santiment-network/ui/Search'
 import Suggestions from './Suggestions'
 import styles from './index.module.scss'
@@ -38,16 +39,18 @@ const Search = () => {
   return (
     <>
       <UISearch
-        className={styles.search}
+        className={cx(styles.search, isOpened && styles.search_focused)}
         forwardedRef={inputRef}
         placeholder='Search for asset, trend, etc'
         onChange={v => setSearchTerm(v)}
         onClick={openSuggestions}
         onBlur={closeSuggestions}
       >
-        {isOpened && (
-          <Suggestions inputRef={inputRef} searchTerm={searchTerm} />
-        )}
+        <Suggestions
+          isOpened={isOpened}
+          inputRef={inputRef}
+          searchTerm={searchTerm}
+        />
       </UISearch>
     </>
   )
