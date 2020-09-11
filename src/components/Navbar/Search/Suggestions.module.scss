@@ -1,0 +1,38 @@
+$duration: 250;
+$delay: 80;
+
+.dropdown {
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  box-shadow: 0 4px 8px rgba(24, 27, 43, 0.03);
+  border-radius: 4px;
+  padding: 16px;
+  display: flex;
+  min-width: 100%;
+  z-index: 30;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  transform-origin: top center;
+}
+
+.enter {
+  opacity: 0;
+  animation: open #{$duration}ms #{$delay}ms forwards;
+}
+
+.exit {
+  animation: open #{$duration}ms reverse forwards;
+}
+
+@keyframes open {
+  0% {
+    transform: rotateX(40deg);
+    opacity: 0;
+  }
+
+  100% {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
+}
