@@ -223,15 +223,20 @@ export const Metric = {
   //   valueFormatter: percentValueFormatter,
   //   serverValueFormatter: percentServerValueFormatter
   // },
-  sentiment_balance_total: {
-    label: 'Sentiment Balance Total',
-    category: 'Social'
-  },
+  // sentiment_balance_total: {
+  //  label: 'Sentiment Balance Total',
+  //  category: 'Social'
+  // },
   mean_dollar_invested_age: {
     category: 'On-chain',
     label: 'Mean Dollar Invested Age',
     group: 'Network Value',
     isOnlyPercentFilters: true
+  },
+  percent_of_total_supply_on_exchanges: {
+    category: 'On-chain',
+    group: 'Exchanges',
+    label: 'Coin Supply on Exchanges (as % of total supply)'
   }
 }
 
@@ -267,7 +272,8 @@ export const metrics = [
   Metric.social_volume_total,
   // Metric.social_dominance_total,
   // Metric.sentiment_balance_total,
-  Metric.mean_dollar_invested_age
+  Metric.mean_dollar_invested_age,
+  Metric.percent_of_total_supply_on_exchanges
 ]
 
 export const MetricAlias = {
