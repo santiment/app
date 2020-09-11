@@ -21,6 +21,16 @@ const propsAccessor = ({ id }) => ({
   to: '/profile/' + id
 })
 
+function peoplePredicate (value) {
+  const searchTerm = value.toLowerCase()
+  return ({ username }) => username.toLowerCase().includes(searchTerm)
+}
+
+function usePeople () {
+  const { data } = useQuery(POPULAR_AUTHORS_QUERY)
+  return data ? data.popularInsightAuthors : DEFAULT_SUGGESTIONS
+}
+
 const Person = ({ avatarUrl, username }) => (
   <>
     {avatarUrl ? (
@@ -31,16 +41,6 @@ const Person = ({ avatarUrl, username }) => (
     {username}
   </>
 )
-
-function peoplePredicate (value) {
-  const searchTerm = value.toLowerCase()
-  return ({ username }) => username.toLowerCase().includes(searchTerm)
-}
-
-function usePeople () {
-  const { data } = useQuery(POPULAR_AUTHORS_QUERY)
-  return data ? data.popularInsightAuthors : DEFAULT_SUGGESTIONS
-}
 
 const PeopleCategory = ({ searchTerm }) => {
   const people = usePeople()

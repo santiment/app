@@ -32,16 +32,16 @@ const useSearchableAssets = allProjects =>
     [allProjects]
   )
 
+const propsAccessor = ({ slug }) => ({
+  key: slug,
+  to: '/studio?slug=' + slug
+})
+
 const Asset = ({ name, ticker }) => (
   <>
     {name} <span className={styles.ticker}>{ticker}</span>
   </>
 )
-
-const propsAccessor = ({ slug }) => ({
-  key: slug,
-  to: '/studio?slug=' + slug
-})
 
 const AssetsCategory = ({ searchTerm, allProjects }) => {
   const searchableAssets = useSearchableAssets(allProjects)
