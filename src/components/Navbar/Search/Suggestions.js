@@ -4,7 +4,7 @@ import AssetsCategory from './AssetsCategory'
 import TrendingWordsCategory from './TrendingWordsCategory'
 import InsightsCategory from './InsightsCategory'
 import PeopleCategory from './PeopleCategory'
-import styles from './index.module.scss'
+import styles from './Suggestions.module.scss'
 
 const Suggestions = ({ isOpened, ...props }) => {
   const ref = useRef(null)

@@ -1,8 +1,9 @@
 import React from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
-import styles from './Suggestions.module.scss'
+import styles from './Category.module.scss'
 
+// eslint-disable-next-line
 const Title = props => <h3 className={styles.title} {...props} />
 
 export const Button = props => <Link {...props} className={styles.button} />
