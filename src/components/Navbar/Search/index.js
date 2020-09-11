@@ -11,6 +11,11 @@ const Search = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const inputRef = useRef()
 
+  const [ColumnItems, setColumnItems] = useState({})
+  const [cursoredColumn, setCursoredColumn] = useState()
+  const [cursoredItem, setCursoredItem] = useState()
+  const [cursorIndex, setCursorIndex] = useState()
+
   useEffect(() => {
     const input = inputRef.current
     if (!input) return
@@ -36,6 +41,29 @@ const Search = () => {
     setIsOpened(false)
   }
 
+  function registerCursorColumn (column, items) {
+    const newColumnItems = { ...ColumnItems }
+    newColumnItems[column] = items
+
+    if (column === cursoredColumn) {
+      const { length } = items
+
+      if (length) {
+        const newCursorIndex = cursorIndex < length ? cursorIndex : length - 1
+        setCursoredItem(items[newCursorIndex])
+        setCursorIndex(newCursorIndex)
+      } else {
+        const newCursorColumn = Object.keys(test)[0]
+        setCursoredColumn(newCursorColumn)
+        setCursoredItem(newColumnItems[newCursorColumn][0])
+        setCursorIndex(0)
+      }
+    }
+
+    console.log(newColumnItems)
+    setColumnItems(newColumnItems)
+  }
+
   return (
     <UISearch
       className={cx(styles.search, isOpened && styles.search_focused)}
@@ -45,7 +73,11 @@ const Search = () => {
       onClick={openSuggestions}
       onBlur={closeSuggestions}
     >
-      <Suggestions isOpened={isOpened} searchTerm={searchTerm} />
+      <Suggestions
+        isOpened={isOpened}
+        searchTerm={searchTerm}
+        registerCursorColumn={registerCursorColumn}
+      />
     </UISearch>
   )
 }

@@ -43,7 +43,13 @@ const Asset = ({ name, ticker }) => (
   </>
 )
 
-const AssetsCategory = ({ searchTerm, allProjects }) => {
+const AssetsCategory = ({
+  searchTerm,
+  allProjects,
+  loading,
+  error,
+  ...props
+}) => {
   const searchableAssets = useSearchableAssets(allProjects)
   const suggestions = useMemo(
     () => {
@@ -79,6 +85,7 @@ const AssetsCategory = ({ searchTerm, allProjects }) => {
 
   return suggestions.length ? (
     <Category
+      {...props}
       title='Assets'
       items={suggestions}
       Item={Asset}

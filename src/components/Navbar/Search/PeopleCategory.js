@@ -42,7 +42,7 @@ const Person = ({ avatarUrl, username }) => (
   </>
 )
 
-const PeopleCategory = ({ searchTerm }) => {
+const PeopleCategory = ({ searchTerm, ...props }) => {
   const people = usePeople()
   const suggestions = useMemo(
     () => people.filter(peoplePredicate(searchTerm)).slice(0, 5),
@@ -51,6 +51,7 @@ const PeopleCategory = ({ searchTerm }) => {
 
   return suggestions.length ? (
     <Category
+      {...props}
       title='People'
       items={suggestions}
       Item={Person}

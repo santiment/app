@@ -48,7 +48,7 @@ const Lookup = ({ searchTerm }) => (
   </Button>
 )
 
-const TrendingWordsCategory = ({ searchTerm }) => {
+const TrendingWordsCategory = ({ searchTerm, ...props }) => {
   const trendingWords = useTrendingWords()
   const suggestions = useMemo(
     () => trendingWords.filter(trendingWordsPredicate(searchTerm)).slice(0, 5),
@@ -57,6 +57,7 @@ const TrendingWordsCategory = ({ searchTerm }) => {
 
   return (
     <Category
+      {...props}
       title='Trending words'
       items={suggestions}
       Item={TrendingWord}
