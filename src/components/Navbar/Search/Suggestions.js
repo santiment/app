@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import AssetsCategory from './AssetsCategory'
 import TrendingWordsCategory from './TrendingWordsCategory'
+import PeopleCategory from './PeopleCategory'
 import styles from './index.module.scss'
 
 const Suggestions = ({ inputRef, ...props }) => {
@@ -8,7 +9,7 @@ const Suggestions = ({ inputRef, ...props }) => {
     <div className={styles.tooltip}>
       <AssetsCategory {...props} />
       <TrendingWordsCategory {...props} />
-      <AssetsCategory {...props} />
+      <PeopleCategory {...props} />
     </div>
   )
 }

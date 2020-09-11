@@ -11,10 +11,7 @@ const Category = ({ title, items, Item, propsAccessor, children }) => {
     <div className={styles.category}>
       <Title>{title}</Title>
       {items.map(item => (
-        <Button
-          // key={keyAccessor(item)} to={hrefAccessor(item)}
-          {...propsAccessor(item)}
-        >
+        <Button {...propsAccessor(item)}>
           <Item {...item} />
         </Button>
       ))}
