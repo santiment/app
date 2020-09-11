@@ -5,7 +5,9 @@ import styles from './Category.module.scss'
 
 // eslint-disable-next-line
 const Title = props => <h3 className={styles.title} {...props} />
-export const Button = props => <Link {...props} className={styles.button} />
+export const Button = ({ As = Link, ...props }) => (
+  <As {...props} className={styles.button} />
+)
 
 const Category = ({
   className,

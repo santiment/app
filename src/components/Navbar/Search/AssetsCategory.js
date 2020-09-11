@@ -38,9 +38,9 @@ const Asset = ({ name, ticker }) => (
   </>
 )
 
-const propsAccessor = ({ id }) => ({
-  key: id,
-  to: id
+const propsAccessor = ({ slug }) => ({
+  key: slug,
+  to: '/studio?slug=' + slug
 })
 
 const AssetsCategory = ({ searchTerm, allProjects }) => {
