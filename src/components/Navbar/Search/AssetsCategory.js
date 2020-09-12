@@ -43,13 +43,7 @@ const Asset = ({ name, ticker }) => (
   </>
 )
 
-const AssetsCategory = ({
-  searchTerm,
-  allProjects,
-  loading,
-  error,
-  ...props
-}) => {
+const AssetsCategory = ({ searchTerm, allProjects, ...props }) => {
   const searchableAssets = useSearchableAssets(allProjects)
   const suggestions = useMemo(
     () => {

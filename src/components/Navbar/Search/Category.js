@@ -33,7 +33,7 @@ const Category = ({
   useEffect(() => () => registerCursorColumn(title, []), [])
 
   return (
-    <div data-column={title} className={cx(styles.category, className)}>
+    <div className={cx(styles.category, className)}>
       <Title>
         {title}
         {isLoading && <div className={styles.loader} />}

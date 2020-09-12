@@ -3,7 +3,15 @@ import { push } from 'react-router-redux'
 import { store } from '../../../redux'
 import styles from './Category.module.scss'
 
+const NAV_KEYS = new Set([
+  'ArrowUp',
+  'ArrowDown',
+  'ArrowLeft',
+  'ArrowRight',
+  'Enter'
+])
 const COLUMNS = ['Assets', 'Trending words', 'Insights', 'People']
+const DEFAULT_COLUMNS = []
 const DEFAULT_COLUMN_ITEMS = COLUMNS.reduce((acc, column) => {
   acc[column] = []
   return acc
@@ -21,17 +29,13 @@ const getCursoredNode = ({ current }) =>
 export function useCursorNavigation (isOpened) {
   const [ColumnItems, setColumnItems] = useState(DEFAULT_COLUMN_ITEMS)
   const [cursor, setCursor] = useState(DEFAULT_CURSOR)
-  const [availableColumns, setAvailableColumns] = useState([])
+  const [availableColumns, setAvailableColumns] = useState(DEFAULT_COLUMNS)
   const suggestionsRef = useRef()
 
-  useEffect(
-    () => {
-      if (isOpened) {
-        setCursorRowColumn(0, 0)
-      }
-    },
-    [isOpened, availableColumns]
-  )
+  useEffect(() => (isOpened ? setCursorRowColumn(0, 0) : undefined), [
+    isOpened,
+    availableColumns
+  ])
 
   function setCursorRowColumn (row, column = cursor.column) {
     setCursor({
@@ -56,41 +60,33 @@ export function useCursorNavigation (isOpened) {
   }
 
   function onKeyDown (e) {
+    const { key } = e
+    if (!NAV_KEYS.has(key)) return
+
     let newColumnIndex = cursor.column
     let newRowIndex = cursor.row
 
-    switch (e.key) {
-      case 'ArrowUp':
-        e.preventDefault()
-        newRowIndex -= 1
-        break
-      case 'ArrowDown':
-        e.preventDefault()
-        newRowIndex += 1
-        break
-      case 'ArrowLeft':
-        e.preventDefault()
-        newColumnIndex -= newColumnIndex > 0 ? 1 : 0
-        break
-      case 'ArrowRight':
-        e.preventDefault()
-        newColumnIndex += newColumnIndex < availableColumns.length - 1 ? 1 : 0
-        break
-      case 'Enter':
-        e.target.blur()
-        const href = getCursoredNode(
-          suggestionsRef,
-          cursor.columnName
-        ).getAttribute('href')
+    e.preventDefault()
 
-        if (href.startsWith('http')) {
-          window.location.href = href
-        } else {
-          store.dispatch(push(href))
-        }
-        return
-      default:
-        return
+    if (key === 'ArrowUp') {
+      newRowIndex -= 1
+    } else if (key === 'ArrowDown') {
+      newRowIndex += 1
+    } else if (key === 'ArrowLeft') {
+      newColumnIndex -= newColumnIndex > 0 ? 1 : 0
+    } else if (key === 'ArrowRight') {
+      newColumnIndex += newColumnIndex < availableColumns.length - 1 ? 1 : 0
+    } else if (key === 'Enter') {
+      e.target.blur()
+      const href = getCursoredNode(suggestionsRef).getAttribute('href')
+
+      if (href.startsWith('http')) {
+        window.location.href = href
+      } else {
+        store.dispatch(push(href))
+      }
+
+      return
     }
 
     const maxCursorIndex = ColumnItems[availableColumns[newColumnIndex]].length
