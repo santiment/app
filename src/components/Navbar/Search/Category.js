@@ -5,8 +5,16 @@ import styles from './Category.module.scss'
 
 // eslint-disable-next-line
 const Title = props => <h3 className={styles.title} {...props} />
-export const Button = ({ As = Link, ...props }) => (
-  <As {...props} className={styles.button} />
+
+export const Button = ({ className, As = Link, isCursored, ...props }) => (
+  <As
+    {...props}
+    className={cx(
+      styles.button,
+      className,
+      isCursored && styles.button_cursored
+    )}
+  />
 )
 
 const Category = ({
@@ -15,20 +23,28 @@ const Category = ({
   title,
   items,
   Item,
+  cursor: { row: cursorRow, columnName },
+  // cursorIndex,
+  // cursoredColumn,
   propsAccessor,
   isLoading,
   registerCursorColumn
 }) => {
+  const isCursoredColumn = columnName === title
+
   useEffect(() => registerCursorColumn(title, items), [items])
 
   return (
-    <div className={cx(styles.category, className)}>
+    <div data-column={title} className={cx(styles.category, className)}>
       <Title>
         {title}
         {isLoading && <div className={styles.loader} />}
       </Title>
-      {items.map(item => (
-        <Button {...propsAccessor(item)}>
+      {items.map((item, i) => (
+        <Button
+          {...propsAccessor(item)}
+          isCursored={isCursoredColumn && i === cursorRow}
+        >
           <Item {...item} />
         </Button>
       ))}

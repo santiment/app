@@ -25,6 +25,10 @@ $delay: 80;
   animation: open #{$duration}ms reverse forwards;
 }
 
+.exitDone {
+  display: none;
+}
+
 @keyframes open {
   0% {
     transform: rotateX(40deg);

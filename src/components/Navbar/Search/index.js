@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import cx from 'classnames'
 import UISearch from '@santiment-network/ui/Search'
 import Suggestions from './Suggestions'
+import { useCursorNavigation } from './navigation'
 import styles from './index.module.scss'
 
 const EDITABLE_TAGS = new Set(['INPUT', 'TEXTAREA'])
@@ -9,12 +10,15 @@ const EDITABLE_TAGS = new Set(['INPUT', 'TEXTAREA'])
 const Search = () => {
   const [isOpened, setIsOpened] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
+  const {
+    suggestionsRef,
+    cursor,
+    // cursoredColumn,
+    // cursorIndex,
+    registerCursorColumn,
+    onKeyDown
+  } = useCursorNavigation(isOpened)
   const inputRef = useRef()
-
-  const [ColumnItems, setColumnItems] = useState({})
-  const [cursoredColumn, setCursoredColumn] = useState()
-  const [cursoredItem, setCursoredItem] = useState()
-  const [cursorIndex, setCursorIndex] = useState()
 
   useEffect(() => {
     const input = inputRef.current
@@ -41,29 +45,6 @@ const Search = () => {
     setIsOpened(false)
   }
 
-  function registerCursorColumn (column, items) {
-    const newColumnItems = { ...ColumnItems }
-    newColumnItems[column] = items
-
-    if (column === cursoredColumn) {
-      const { length } = items
-
-      if (length) {
-        const newCursorIndex = cursorIndex < length ? cursorIndex : length - 1
-        setCursoredItem(items[newCursorIndex])
-        setCursorIndex(newCursorIndex)
-      } else {
-        const newCursorColumn = Object.keys(test)[0]
-        setCursoredColumn(newCursorColumn)
-        setCursoredItem(newColumnItems[newCursorColumn][0])
-        setCursorIndex(0)
-      }
-    }
-
-    console.log(newColumnItems)
-    setColumnItems(newColumnItems)
-  }
-
   return (
     <UISearch
       className={cx(styles.search, isOpened && styles.search_focused)}
@@ -72,10 +53,15 @@ const Search = () => {
       onChange={v => setSearchTerm(v)}
       onClick={openSuggestions}
       onBlur={closeSuggestions}
+      onKeyDown={onKeyDown}
     >
       <Suggestions
-        isOpened={isOpened}
+        suggestionsRef={suggestionsRef}
         searchTerm={searchTerm}
+        cursor={cursor}
+        // cursoredColumn={cursoredColumn}
+        // cursorIndex={cursorIndex}
+        isOpened={isOpened}
         registerCursorColumn={registerCursorColumn}
       />
     </UISearch>

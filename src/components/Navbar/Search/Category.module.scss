@@ -40,6 +40,7 @@
 .title {
   @include text('body-3', 'm');
 
+  white-space: nowrap;
   color: var(--waterloo);
   border-bottom: 1px solid var(--porcelain);
   margin: 0 8px 10px;
@@ -68,6 +69,10 @@
     & * {
       color: var(--jungle-green);
     }
+  }
+
+  &_cursored {
+    background: var(--porcelain);
   }
 }
 
