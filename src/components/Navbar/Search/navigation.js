@@ -2,9 +2,6 @@ import { useRef, useState, useEffect } from 'react'
 import styles from './Category.module.scss'
 
 const COLUMNS = ['Assets', 'Trending words', 'Insights', 'People']
-const COLUMNS_LENGTH = COLUMNS.length
-const COLUMNS_MAX_INDEX = COLUMNS_LENGTH - 1
-const DEFAULT_CURSORED_COLUMN = COLUMNS[0]
 const DEFAULT_COLUMN_ITEMS = COLUMNS.reduce((acc, column) => {
   acc[column] = []
   return acc
@@ -19,22 +16,6 @@ const cursoredClassSelector = '.' + styles.button_cursored
 const getCursoredNode = ({ current }) =>
   current.querySelector(cursoredClassSelector)
 
-function findColumnIndex (ColumnItems) {
-  for (let i = 0; i < COLUMNS_LENGTH; i++) {
-    const column = COLUMNS[i]
-
-    if (ColumnItems[column].length) {
-      return i
-    }
-  }
-}
-
-function getAvailableColumns (ColumnItems) {
-  const result = []
-
-  return result
-}
-
 export function useCursorNavigation (isOpened) {
   const [ColumnItems, setColumnItems] = useState(DEFAULT_COLUMN_ITEMS)
   const [cursor, setCursor] = useState(DEFAULT_CURSOR)
@@ -47,7 +28,7 @@ export function useCursorNavigation (isOpened) {
         setCursorRowColumn(0, 0)
       }
     },
-    [isOpened]
+    [isOpened, availableColumns]
   )
 
   function setCursorRowColumn (row, column = cursor.column) {
@@ -66,17 +47,6 @@ export function useCursorNavigation (isOpened) {
       const newAvailableColumns = Object.keys(ColumnItems).filter(
         column => newColumnItems[column].length
       )
-
-      if (column === cursor.columnName) {
-        const { length } = items
-
-        if (length) {
-          const newRowIndex = cursor.row < length ? cursor.row : length - 1
-          setCursorRowColumn(newRowIndex)
-        } else {
-          // setCursorRowColumn(0, findColumnIndex(newColumnItems))
-        }
-      }
 
       setAvailableColumns(newAvailableColumns)
       return newColumnItems
