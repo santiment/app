@@ -18,14 +18,11 @@ export const Button = ({ className, As = Link, isCursored, ...props }) => (
 )
 
 const Category = ({
-  children,
   className,
   title,
   items,
   Item,
   cursor: { row: cursorRow, columnName },
-  // cursorIndex,
-  // cursoredColumn,
   propsAccessor,
   isLoading,
   registerCursorColumn
@@ -49,7 +46,6 @@ const Category = ({
           <Item {...item} />
         </Button>
       ))}
-      {children}
     </div>
   )
 }
