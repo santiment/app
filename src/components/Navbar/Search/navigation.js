@@ -1,4 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
+import { push } from 'react-router-redux'
+import { store } from '../../../redux'
 import styles from './Category.module.scss'
 
 const COLUMNS = ['Assets', 'Trending words', 'Insights', 'People']
@@ -76,7 +78,16 @@ export function useCursorNavigation (isOpened) {
         break
       case 'Enter':
         e.target.blur()
-        console.log(getCursoredNode(suggestionsRef, cursor.columnName))
+        const href = getCursoredNode(
+          suggestionsRef,
+          cursor.columnName
+        ).getAttribute('href')
+
+        if (href.startsWith('http')) {
+          window.location.href = href
+        } else {
+          store.dispatch(push(href))
+        }
         return
       default:
         return
