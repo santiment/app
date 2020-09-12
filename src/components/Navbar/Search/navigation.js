@@ -2,27 +2,43 @@ import { useRef, useState, useEffect } from 'react'
 import styles from './Category.module.scss'
 
 const COLUMNS = ['Assets', 'Trending words', 'Insights', 'People']
-const COLUMNS_MAX_INDEX = COLUMNS.length - 1
+const COLUMNS_LENGTH = COLUMNS.length
+const COLUMNS_MAX_INDEX = COLUMNS_LENGTH - 1
 const DEFAULT_CURSORED_COLUMN = COLUMNS[0]
-const DEFAULT_COLUMN_ITEMS = {}
+const DEFAULT_COLUMN_ITEMS = COLUMNS.reduce((acc, column) => {
+  acc[column] = []
+  return acc
+}, {})
 const DEFAULT_CURSOR = {
   row: 0,
   column: 0,
-  columnName: DEFAULT_CURSORED_COLUMN
+  columnName: undefined
 }
-
-const ColumnToIndex = {}
-COLUMNS.forEach((column, index) => {
-  ColumnToIndex[column] = index
-})
 
 const cursoredClassSelector = '.' + styles.button_cursored
 const getCursoredNode = ({ current }) =>
   current.querySelector(cursoredClassSelector)
 
+function findColumnIndex (ColumnItems) {
+  for (let i = 0; i < COLUMNS_LENGTH; i++) {
+    const column = COLUMNS[i]
+
+    if (ColumnItems[column].length) {
+      return i
+    }
+  }
+}
+
+function getAvailableColumns (ColumnItems) {
+  const result = []
+
+  return result
+}
+
 export function useCursorNavigation (isOpened) {
   const [ColumnItems, setColumnItems] = useState(DEFAULT_COLUMN_ITEMS)
   const [cursor, setCursor] = useState(DEFAULT_CURSOR)
+  const [availableColumns, setAvailableColumns] = useState([])
   const suggestionsRef = useRef()
 
   useEffect(
@@ -38,29 +54,33 @@ export function useCursorNavigation (isOpened) {
     setCursor({
       row,
       column,
-      columnName: COLUMNS[column]
+      columnName: availableColumns[column]
     })
   }
 
   function registerCursorColumn (column, items) {
-    const newColumnItems = { ...ColumnItems }
-    newColumnItems[column] = items
+    setColumnItems(ColumnItems => {
+      const newColumnItems = { ...ColumnItems }
+      newColumnItems[column] = items
 
-    if (column === cursor.columnName) {
-      const { length } = items
+      const newAvailableColumns = Object.keys(ColumnItems).filter(
+        column => newColumnItems[column].length
+      )
 
-      if (length) {
-        /* const newRowIndex = rowIndex < length ? rowIndex : length - 1 */
-        const newRowIndex = cursor.row < length ? cursor.row : length - 1
-        // setCursorIndex(newRowIndex)
-      } else {
-        const newCursorColumn = Object.keys(ColumnItems)[0]
-        // setCursoredColumn(newCursorColumn)
-        // setCursorIndex(0)
+      if (column === cursor.columnName) {
+        const { length } = items
+
+        if (length) {
+          const newRowIndex = cursor.row < length ? cursor.row : length - 1
+          setCursorRowColumn(newRowIndex)
+        } else {
+          // setCursorRowColumn(0, findColumnIndex(newColumnItems))
+        }
       }
-    }
 
-    setColumnItems(newColumnItems)
+      setAvailableColumns(newAvailableColumns)
+      return newColumnItems
+    })
   }
 
   function onKeyDown (e) {
@@ -82,7 +102,7 @@ export function useCursorNavigation (isOpened) {
         break
       case 'ArrowRight':
         e.preventDefault()
-        newColumnIndex += newColumnIndex < COLUMNS_MAX_INDEX ? 1 : 0
+        newColumnIndex += newColumnIndex < availableColumns.length - 1 ? 1 : 0
         break
       case 'Enter':
         e.target.blur()
@@ -92,7 +112,7 @@ export function useCursorNavigation (isOpened) {
         return
     }
 
-    const maxCursorIndex = ColumnItems[cursor.columnName].length
+    const maxCursorIndex = ColumnItems[availableColumns[newColumnIndex]].length
     newRowIndex = newRowIndex % maxCursorIndex
     const nextCursor = newRowIndex < 0 ? maxCursorIndex - 1 : newRowIndex
 

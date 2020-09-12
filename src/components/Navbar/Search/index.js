@@ -10,14 +10,7 @@ const EDITABLE_TAGS = new Set(['INPUT', 'TEXTAREA'])
 const Search = () => {
   const [isOpened, setIsOpened] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
-  const {
-    suggestionsRef,
-    cursor,
-    // cursoredColumn,
-    // cursorIndex,
-    registerCursorColumn,
-    onKeyDown
-  } = useCursorNavigation(isOpened)
+  const { onKeyDown, ...props } = useCursorNavigation(isOpened)
   const inputRef = useRef()
 
   useEffect(() => {
@@ -55,15 +48,7 @@ const Search = () => {
       onBlur={closeSuggestions}
       onKeyDown={onKeyDown}
     >
-      <Suggestions
-        suggestionsRef={suggestionsRef}
-        searchTerm={searchTerm}
-        cursor={cursor}
-        // cursoredColumn={cursoredColumn}
-        // cursorIndex={cursorIndex}
-        isOpened={isOpened}
-        registerCursorColumn={registerCursorColumn}
-      />
+      <Suggestions {...props} searchTerm={searchTerm} isOpened={isOpened} />
     </UISearch>
   )
 }

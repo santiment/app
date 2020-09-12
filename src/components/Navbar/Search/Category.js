@@ -33,6 +33,7 @@ const Category = ({
   const isCursoredColumn = columnName === title
 
   useEffect(() => registerCursorColumn(title, items), [items])
+  useEffect(() => () => registerCursorColumn(title, []), [])
 
   return (
     <div data-column={title} className={cx(styles.category, className)}>
