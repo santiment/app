@@ -39,7 +39,7 @@ const NetworkActivity = ({ interval }) => {
         {loading ? (
           <PageLoader className={styles.loader} />
         ) : (
-          <ProjectsPreparedChart data={data} />
+          <ProjectsPreparedChart data={data} logScale={true} />
         )}
       </div>
     </div>
@@ -49,12 +49,15 @@ const NetworkActivity = ({ interval }) => {
 export const ProjectsPreparedChart = ({ data, logScale = false }) => {
   const prepared = useMemo(
     () => {
-      return data.sort(sortByValue).map(item => {
-        return {
-          ...item,
-          logValue: logScale ? Math.log(+item.value) : item.value
-        }
-      })
+      return data
+        .sort(sortByValue)
+        .filter(({ value }) => +value !== 0)
+        .map(item => {
+          return {
+            ...item,
+            logValue: logScale ? Math.log(+item.value) : item.value
+          }
+        })
     },
     [data]
   )
