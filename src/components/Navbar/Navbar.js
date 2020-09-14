@@ -121,7 +121,7 @@ const Navbar = ({ activeLink = '/', isBetaModeEnabled }) => {
             isActive = activeLink === '/'
           }
 
-          if (rest.to === '/assets') {
+          if (rest.to === '/assets' && activeLink.includes(rest.to)) {
             isActive = activeLink !== '/assets/screener'
           }
 
