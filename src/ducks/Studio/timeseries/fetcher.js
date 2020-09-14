@@ -7,6 +7,11 @@ import { GAS_USED_QUERY } from '../../GetTimeSeries/queries/gas_used'
 import { HISTORICAL_BALANCE_QUERY } from '../../HistoricalBalance/common/queries'
 import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from '../../GetTimeSeries/queries/top_holders_percent_of_total_supply'
 import { ETH_SPENT_OVER_TIME_QUERY } from '../../GetTimeSeries/queries/eth_spent_over_time_query'
+import { GET_SOURCE_METRIC } from '../../GetTimeSeries/queries/GET_SOURCE_METRIC'
+import {
+  SOCIAL_ACTIVE_USERS_TELEGRAM,
+  SOCIAL_ACTIVE_USERS_TWITTER
+} from '../../dataHub/submetrics'
 import { client } from '../../../apollo'
 
 export const preTransform = ({
@@ -57,6 +62,14 @@ Object.assign(Fetcher, {
   minersBalance: {
     query: MINERS_BALANCE_QUERY,
     preTransform: extractTimeseries('minersBalance')
+  },
+  social_active_users_telegram: {
+    query: GET_SOURCE_METRIC(SOCIAL_ACTIVE_USERS_TELEGRAM),
+    preTransform
+  },
+  social_active_users_twitter: {
+    query: GET_SOURCE_METRIC(SOCIAL_ACTIVE_USERS_TWITTER),
+    preTransform
   }
 })
 

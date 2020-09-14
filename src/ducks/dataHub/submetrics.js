@@ -21,6 +21,31 @@ export const TopTransactionsTableMetric = {
   abbreviation: 'ttt'
 }
 
+export const SOCIAL_ACTIVE_USERS_TELEGRAM = {
+  ...Metric.social_active_users,
+  showRoot: true,
+  key: 'social_active_users_telegram',
+  label: 'Social Active Users (Telegram)',
+  shortLabel: 'Soc. Act. Us. Tg.',
+  channel: 'telegram',
+  reqMeta: {
+    source: 'telegram',
+    slug: undefined
+  }
+}
+
+export const SOCIAL_ACTIVE_USERS_TWITTER = {
+  ...Metric.social_active_users,
+  showRoot: true,
+  key: 'social_active_users_twitter',
+  label: 'Social Active Users (Twitter)',
+  shortLabel: 'Soc. Act. Us. Tw.',
+  channel: 'twitter',
+  reqMeta: {
+    source: 'twitter_crypto'
+  }
+}
+
 export const Submetrics = {
   [Metric.price_usd.key]: [
     {
@@ -65,28 +90,8 @@ export const Submetrics = {
     }
   })),
   [Metric.social_active_users.key]: [
-    {
-      ...Metric.social_active_users,
-      showRoot: true,
-      key: 'social_active_users_telegram',
-      label: 'Social Active Users (Telegram)',
-      shortLabel: 'Soc. Act. Us. Tg.',
-      channel: 'telegram',
-      reqMeta: {
-        source: 'telegram'
-      }
-    },
-    {
-      ...Metric.social_active_users,
-      showRoot: true,
-      key: 'social_active_users_twitter',
-      label: 'Social Active Users (Twitter)',
-      shortLabel: 'Soc. Act. Us. Tw.',
-      channel: 'twitter',
-      reqMeta: {
-        source: 'twitter_crypto'
-      }
-    }
+    SOCIAL_ACTIVE_USERS_TELEGRAM,
+    SOCIAL_ACTIVE_USERS_TWITTER
   ]
 }
 

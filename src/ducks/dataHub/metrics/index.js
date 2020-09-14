@@ -482,6 +482,7 @@ export const Metric = {
     group: 'Social Active Users',
     shortLabel: 'Soc. Act. Us.',
     node: 'bar',
+    withoutRoot: true,
     showRoot: false,
     isBeta: true,
     checkIsVisible: ({ isBeta: isBetaApp }) => isBetaApp
