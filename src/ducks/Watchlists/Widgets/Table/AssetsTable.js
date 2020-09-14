@@ -168,7 +168,12 @@ const AssetsTable = ({
           {type === 'screener' && (
             <>
               {comparingAssets && (
-                <CompareAction disabledComparision={disabledComparision} />
+                <div className={styles.compareAction}>
+                  <CompareAction
+                    assets={comparingAssets}
+                    disabledComparision={disabledComparision}
+                  />
+                </div>
               )}
             </>
           )}
@@ -207,13 +212,7 @@ const AssetsTable = ({
           )}
         </div>
       </div>
-      {comparingAssets.length > 0 && (
-        <CompareInfo
-          selected={comparingAssets}
-          all={items}
-          toggleAll={toggleAll}
-        />
-      )}
+      {comparingAssets.length > 0 && <CompareInfo selected={comparingAssets} />}
       <ReactTable
         loading={isLoading}
         showPagination={!showAll}

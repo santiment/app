@@ -26,13 +26,6 @@ const NetworkActivity = ({ interval }) => {
     ...getIntervalDates(interval)
   })
 
-  const prepared = useMemo(
-    () => {
-      return data.filter(({ value }) => value > 0).sort(sortByValue)
-    },
-    [data]
-  )
-
   return (
     <div className={styles.container}>
       <Tabs
@@ -46,15 +39,34 @@ const NetworkActivity = ({ interval }) => {
         {loading ? (
           <PageLoader className={styles.loader} />
         ) : (
-          <ProjectsBarChart
-            data={prepared}
-            settings={{
-              yTickFormatter: val => `${millify(val)}`
-            }}
-          />
+          <ProjectsPreparedChart data={data} />
         )}
       </div>
     </div>
+  )
+}
+
+export const ProjectsPreparedChart = ({ data, logScale = false }) => {
+  const prepared = useMemo(
+    () => {
+      return data.sort(sortByValue).map(item => {
+        return {
+          ...item,
+          logValue: logScale ? Math.log(+item.value) : item.value
+        }
+      })
+    },
+    [data]
+  )
+
+  return (
+    <ProjectsBarChart
+      data={prepared}
+      dataKey={'logValue'}
+      settings={{
+        yTickFormatter: val => `${millify(val)}`
+      }}
+    />
   )
 }
 

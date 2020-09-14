@@ -1,0 +1,57 @@
+@import '~@santiment-network/ui/mixins';
+
+.dialog {
+  width: 600px;
+  height: 560px;
+}
+
+.panel {
+  padding: 21px 25px;
+}
+
+.info {
+  @include text('body-3');
+}
+
+.search {
+  margin-top: 20px;
+  height: 40px;
+
+  input {
+    height: 40px;
+  }
+}
+
+.metrics {
+  margin-top: 8px;
+}
+
+.metricBtns {
+  margin-top: 16px;
+}
+
+.actions {
+  margin-top: auto;
+  justify-content: flex-start;
+}
+
+.compare {
+  min-width: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cancel {
+  margin-left: 24px;
+  min-width: 130px;
+}
+
+.name {
+  margin: 0 4px 0 0;
+}
+
+.ticker {
+  color: var(--waterloo);
+  margin: 0;
+}

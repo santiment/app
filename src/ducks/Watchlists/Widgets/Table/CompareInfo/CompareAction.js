@@ -1,9 +1,10 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
 import DarkTooltip from '../../../../../components/Tooltip/DarkTooltip'
+import CompareDialog from '../CompareDialog/CompareDialog'
 import styles from '../AssetsTable.module.scss'
 
-const CompareAction = ({ disabledComparision }) => {
+const CompareTooltip = ({ disabledComparision }) => {
   return (
     <DarkTooltip
       align='center'
@@ -11,7 +12,7 @@ const CompareAction = ({ disabledComparision }) => {
       on='hover'
       className={styles.tooltip}
       trigger={
-        <div className={styles.compareBtn}>
+        <div>
           <Button
             classes={{
               btnIcon: !disabledComparision && styles.compareIcon
@@ -27,6 +28,23 @@ const CompareAction = ({ disabledComparision }) => {
     >
       Select at least 2 assets to able to compare
     </DarkTooltip>
+  )
+}
+
+const CompareAction = ({ assets, disabledComparision }) => {
+  if (disabledComparision) {
+    return <CompareTooltip disabledComparision={disabledComparision} />
+  }
+
+  return (
+    <CompareDialog
+      assets={assets}
+      trigger={
+        <div>
+          <CompareTooltip disabledComparision={disabledComparision} />
+        </div>
+      }
+    />
   )
 }
 

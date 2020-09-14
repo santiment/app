@@ -12,6 +12,7 @@ import ProjectsTreeMap from '../../ducks/Watchlists/Widgets/VolumeChart/Projects
 import ProjectsChart from '../../ducks/Watchlists/Widgets/VolumeChart/ProjectsChart'
 import { RANGES } from '../../ducks/Watchlists/Widgets/VolumeChart/utils'
 import styles from './Screener.module.scss'
+import { addOrRemove } from '../../ducks/Watchlists/Widgets/Table/CompareDialog/CompareDialog'
 
 const Screener = props => {
   const [isPriceChartActive, setPriceChart] = useState(false)
@@ -34,17 +35,9 @@ const Screener = props => {
   const [comparingAssets, setComparingAssets] = useState([])
   const addAsset = useCallback(
     item => {
-      const index = comparingAssets.findIndex(({ id }) => id === item.id)
-
-      let newList = comparingAssets
-
-      if (index >= 0) {
-        newList.splice(index, 1)
-      } else {
-        newList.push(item)
-      }
-
-      setComparingAssets([...newList])
+      setComparingAssets(
+        addOrRemove(comparingAssets, item, ({ id }) => id === item.id)
+      )
     },
     [comparingAssets, setComparingAssets]
   )

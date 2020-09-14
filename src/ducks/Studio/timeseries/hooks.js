@@ -25,7 +25,7 @@ const noop = v => v
 
 const hashMetrics = metrics => metrics.reduce((acc, { key }) => acc + key, '')
 
-const cancelQuery = ([controller, id]) => {
+export const cancelQuery = ([controller, id]) => {
   const { queryManager } = client
   controller.abort()
   const query = queryManager.queries.get(id.toString())

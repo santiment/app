@@ -22,9 +22,11 @@
 .trigger {
   fill: var(--waterloo);
   cursor: pointer;
+  width: 16px;
+  height: 16px;
 
   &:hover {
-    fill: var(--fiord);
+    fill: var(--rhino);
   }
 }
 
