@@ -25,12 +25,20 @@ const Category = ({
   cursor: { row: cursorRow, columnName },
   propsAccessor,
   isLoading,
-  registerCursorColumn
+  registerCursorColumn,
+  onSuggestionSelect
 }) => {
   const isCursoredColumn = columnName === title
 
   useEffect(() => registerCursorColumn(title, items), [items])
   useEffect(() => () => registerCursorColumn(title, []), [])
+
+  function buildItemMouseDownHandler (item) {
+    return e => {
+      e.preventDefault()
+      onSuggestionSelect(e.currentTarget, item)
+    }
+  }
 
   return (
     <div className={cx(styles.category, className)}>
@@ -42,6 +50,7 @@ const Category = ({
         <Button
           {...propsAccessor(item)}
           isCursored={isCursoredColumn && i === cursorRow}
+          onClick={buildItemMouseDownHandler(item)}
         >
           <Item {...item} />
         </Button>

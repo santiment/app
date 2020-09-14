@@ -56,7 +56,7 @@ const propsAccessor = ({ slug }) => ({
   to: '/studio?slug=' + slug
 })
 
-const Asset = ({ name, ticker }) => (
+export const Asset = ({ name, ticker }) => (
   <span>
     {name} <span className={styles.ticker}>{ticker}</span>
   </span>
