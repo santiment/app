@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import cx from 'classnames'
 import UISearch from '@santiment-network/ui/Search'
 import Suggestions from './Suggestions'
+import { useCursorNavigation } from './navigation'
 import styles from './index.module.scss'
 
 const EDITABLE_TAGS = new Set(['INPUT', 'TEXTAREA'])
@@ -9,6 +10,7 @@ const EDITABLE_TAGS = new Set(['INPUT', 'TEXTAREA'])
 const Search = () => {
   const [isOpened, setIsOpened] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
+  const { onKeyDown, ...props } = useCursorNavigation(isOpened)
   const inputRef = useRef()
 
   useEffect(() => {
@@ -44,8 +46,9 @@ const Search = () => {
       onChange={v => setSearchTerm(v)}
       onClick={openSuggestions}
       onBlur={closeSuggestions}
+      onKeyDown={onKeyDown}
     >
-      <Suggestions isOpened={isOpened} searchTerm={searchTerm} />
+      <Suggestions {...props} searchTerm={searchTerm} isOpened={isOpened} />
     </UISearch>
   )
 }

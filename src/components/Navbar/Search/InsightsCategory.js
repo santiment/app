@@ -24,7 +24,7 @@ const INSIGHTS_BY_SEARCH_TERM_QUERY = gql`
   }
 `
 
-const insightsAccessor = ({ data: { insights } }) => insights
+const insightsAccessor = ({ data: { insights } }) => insights.slice(0, 5)
 
 function getInsights () {
   return client
@@ -51,7 +51,7 @@ const propsAccessor = ({ id }) => ({
 
 const Insight = ({ title }) => title
 
-const InsightsCategory = ({ searchTerm }) => {
+const InsightsCategory = ({ searchTerm, ...props }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [suggestions, setSuggestions] = useState(DEFAULT_SUGGESTIONS)
 
@@ -64,8 +64,7 @@ const InsightsCategory = ({ searchTerm }) => {
     () => {
       if (!searchTerm) {
         getInsights().then(setSuggestions)
-        setIsLoading(false)
-        return
+        return setIsLoading(false)
       }
 
       setIsLoading(true)
@@ -85,9 +84,10 @@ const InsightsCategory = ({ searchTerm }) => {
 
   return suggestions.length ? (
     <Category
+      {...props}
       className={styles.category_insights}
       title='Insights'
-      items={suggestions.slice(0, 5)}
+      items={suggestions}
       Item={Insight}
       propsAccessor={propsAccessor}
       isLoading={isLoading}

@@ -24,8 +24,9 @@ const TRENDING_WORDS_QUERY = gql`
 
 const TREND_LINK = '/labs/trends/explore/'
 
-const propsAccessor = ({ word }) => ({
-  key: word,
+const propsAccessor = ({ word, key = word, As }) => ({
+  key,
+  As,
   to: TREND_LINK + word
 })
 
@@ -41,29 +42,37 @@ function useTrendingWords () {
 
 const TrendingWord = ({ word }) => word
 
-const Lookup = ({ searchTerm }) => (
-  <Button to={TREND_LINK + searchTerm}>
+const Lookup = ({ trend, className }) => (
+  <Button to={TREND_LINK + trend} className={className}>
     <Icon type='fire' className={styles.icon} />
     Lookup as trend
   </Button>
 )
 
-const TrendingWordsCategory = ({ searchTerm }) => {
+const buildLookupSuggestion = searchTerm => ({
+  key: '__lookup__',
+  As: ({ className }) => <Lookup trend={searchTerm} className={className} />
+})
+
+const TrendingWordsCategory = ({ searchTerm, ...props }) => {
   const trendingWords = useTrendingWords()
   const suggestions = useMemo(
-    () => trendingWords.filter(trendingWordsPredicate(searchTerm)).slice(0, 5),
+    () =>
+      trendingWords
+        .filter(trendingWordsPredicate(searchTerm))
+        .concat(buildLookupSuggestion(searchTerm))
+        .slice(0, 5),
     [searchTerm, trendingWords]
   )
 
   return (
     <Category
+      {...props}
       title='Trending words'
       items={suggestions}
       Item={TrendingWord}
       propsAccessor={propsAccessor}
-    >
-      {suggestions.length < 5 && <Lookup searchTerm={searchTerm} />}
-    </Category>
+    />
   )
 }
 
