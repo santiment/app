@@ -1,8 +1,27 @@
 import React, { useMemo } from 'react'
+import gql from 'graphql-tag'
+import { useQuery } from '@apollo/react-hooks'
 import Category from './Category'
 import { filterSearchableItems } from './utils'
-import withProjects from '../../../ducks/Studio/Compare/withProjects'
 import styles from './Category.module.scss'
+
+const DEFAULT_SUGGESTIONS = []
+
+const ALL_ASSETS_QUERY = gql`
+  query {
+    assets: allProjects(minVolume: 0) {
+      id
+      slug
+      name
+      ticker
+    }
+  }
+`
+
+function useAssets () {
+  const { data } = useQuery(ALL_ASSETS_QUERY)
+  return data ? data.assets : DEFAULT_SUGGESTIONS
+}
 
 function assetsFilterPredicate (value) {
   const searchTerm = value.toLowerCase()
@@ -15,21 +34,21 @@ function assetsMatchPredicate (value) {
   return ({ ticker }) => ticker === searchTerm
 }
 
-const useSearchableAssets = allProjects =>
+const useSearchableAssets = assets =>
   useMemo(
     () => {
-      const { length } = allProjects
-      const projects = new Array(length)
+      const { length } = assets
+      const searchableAssets = new Array(length)
       for (let i = 0; i < length; i++) {
-        const { name, ticker } = allProjects[i]
-        projects[i] = {
+        const { name, ticker } = assets[i]
+        searchableAssets[i] = {
           name: name.toLowerCase(),
           ticker: ticker.toLowerCase()
         }
       }
-      return projects
+      return searchableAssets
     },
-    [allProjects]
+    [assets]
   )
 
 const propsAccessor = ({ slug }) => ({
@@ -38,23 +57,24 @@ const propsAccessor = ({ slug }) => ({
 })
 
 const Asset = ({ name, ticker }) => (
-  <>
+  <span>
     {name} <span className={styles.ticker}>{ticker}</span>
-  </>
+  </span>
 )
 
-const AssetsCategory = ({ searchTerm, allProjects, ...props }) => {
-  const searchableAssets = useSearchableAssets(allProjects)
+const AssetsCategory = ({ searchTerm, ...props }) => {
+  const assets = useAssets()
+  const searchableAssets = useSearchableAssets(assets)
   const suggestions = useMemo(
     () => {
       if (!searchTerm) {
-        return allProjects.slice(0, 5)
+        return assets.slice(0, 5)
       }
 
       const { filteredItems, filteredSearchables } = filterSearchableItems(
         assetsFilterPredicate(searchTerm),
         searchableAssets,
-        allProjects
+        assets
       )
       const displayedItems = filteredItems.slice(0, 5)
       const matchedIndex = filteredSearchables.findIndex(
@@ -80,6 +100,7 @@ const AssetsCategory = ({ searchTerm, allProjects, ...props }) => {
   return suggestions.length ? (
     <Category
       {...props}
+      className={styles.category_assets}
       title='Assets'
       items={suggestions}
       Item={Asset}
@@ -88,4 +109,4 @@ const AssetsCategory = ({ searchTerm, allProjects, ...props }) => {
   ) : null
 }
 
-export default withProjects(AssetsCategory)
+export default AssetsCategory

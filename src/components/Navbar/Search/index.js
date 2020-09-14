@@ -35,7 +35,7 @@ const Search = () => {
   }
 
   function closeSuggestions () {
-    setIsOpened(false)
+    // setIsOpened(false)
   }
 
   return (
@@ -43,6 +43,7 @@ const Search = () => {
       className={cx(styles.search, isOpened && styles.search_focused)}
       forwardedRef={inputRef}
       placeholder='Search for asset, trend, etc'
+      autoComplete='off'
       onChange={v => setSearchTerm(v)}
       onClick={openSuggestions}
       onBlur={closeSuggestions}
