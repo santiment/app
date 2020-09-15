@@ -20,6 +20,7 @@ export const Button = ({ className, As = Link, isCursored, ...props }) => (
 const Category = ({
   className,
   title,
+  titleKey = title,
   items,
   Item,
   cursor: { row: cursorRow, columnName },
@@ -28,15 +29,15 @@ const Category = ({
   registerCursorColumn,
   onSuggestionSelect
 }) => {
-  const isCursoredColumn = columnName === title
+  const isCursoredColumn = columnName === titleKey
 
-  useEffect(() => registerCursorColumn(title, items), [items])
-  useEffect(() => () => registerCursorColumn(title, []), [])
+  useEffect(() => registerCursorColumn(titleKey, items), [items])
+  useEffect(() => () => registerCursorColumn(titleKey, []), [])
 
-  function buildItemMouseDownHandler (item, title) {
+  function buildItemMouseDownHandler (item) {
     return e => {
       e.preventDefault()
-      onSuggestionSelect(e.currentTarget, item, title)
+      onSuggestionSelect(e.currentTarget, item, titleKey)
     }
   }
 

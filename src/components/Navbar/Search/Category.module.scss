@@ -128,3 +128,20 @@
 .lookup {
   white-space: nowrap;
 }
+
+// Recents
+.recent {
+  display: flex;
+  justify-content: space-between;
+}
+
+.clear {
+  fill: var(--waterloo);
+  margin: 3px 0 0 16px;
+  width: 14px;
+  cursor: pointer;
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+}

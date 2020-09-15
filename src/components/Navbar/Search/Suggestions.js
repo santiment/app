@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import { CSSTransition } from 'react-transition-group'
-import RecentsCategory, { getRecents } from './RecentsCategory'
+import RecentsCategory, { getRecents, clearRecents } from './RecentsCategory'
 import AssetsCategory from './AssetsCategory'
 import TrendingWordsCategory from './TrendingWordsCategory'
 import InsightsCategory from './InsightsCategory'
@@ -13,8 +13,18 @@ const DEFAULT_RECENTS = []
 const Suggestions = ({ suggestionsRef, isOpened, ...props }) => {
   const { searchTerm } = props
   const isNotSearched = !searchTerm
-  const recents = useMemo(
-    () => (isNotSearched ? getRecents() : DEFAULT_RECENTS),
+  const [recents, setRecents] = useState(DEFAULT_RECENTS)
+
+  useEffect(
+    () => {
+      if (isNotSearched) {
+        if (isOpened) {
+          setRecents(getRecents())
+        }
+      } else {
+        setRecents(DEFAULT_RECENTS)
+      }
+    },
     [isOpened, isNotSearched]
   )
 
@@ -35,13 +45,18 @@ const Suggestions = ({ suggestionsRef, isOpened, ...props }) => {
     [isOpened]
   )
 
+  function onRecentsClear () {
+    clearRecents()
+    setRecents(DEFAULT_RECENTS)
+  }
+
   return (
     <CSSTransition in={isOpened} timeout={500} classNames={styles}>
       <div
         ref={suggestionsRef}
         className={cx(styles.dropdown, styles.exitDone)}
       >
-        <RecentsCategory {...props} items={recents} />
+        <RecentsCategory {...props} items={recents} onClear={onRecentsClear} />
         <AssetsCategory {...props} />
         <TrendingWordsCategory {...props} />
         <InsightsCategory {...props} />

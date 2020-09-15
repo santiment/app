@@ -1,6 +1,8 @@
 import React from 'react'
+import Icon from '@santiment-network/ui/Icon'
 import Category from './Category'
 import { Asset, propsAccessor as assetAccessor } from './AssetsCategory'
+import styles from './Category.module.scss'
 
 const SEARCH_RECENTS = 'SEARCH_RECENTS'
 
@@ -20,6 +22,8 @@ const removeRecent = ({ key, type }) =>
     ({ type: itemType, key: itemKey }) => type !== itemType || key !== itemKey
   )
 
+export const clearRecents = () => saveRecents([])
+
 export function addRecent (type, item) {
   if (type !== 'Assets') return
 
@@ -28,11 +32,20 @@ export function addRecent (type, item) {
   return saveRecents([newRecent, ...removeRecent(newRecent)].filter(Boolean))
 }
 
-const RecentsCategory = props =>
-  props.items.length ? (
+const Title = ({ onClear }) => (
+  <div className={styles.recent}>
+    Recently searched
+    <Icon type='history-clear' className={styles.clear} onClick={onClear} />
+  </div>
+)
+
+const RecentsCategory = ({ items, onClear, ...props }) =>
+  items.length ? (
     <Category
       {...props}
-      title='Recently searched'
+      title={<Title onClear={onClear} />}
+      titleKey='Recently searched'
+      items={items}
       Item={Asset}
       propsAccessor={assetAccessor}
     />
