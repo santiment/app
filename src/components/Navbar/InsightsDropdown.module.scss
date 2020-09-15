@@ -18,21 +18,6 @@
   margin: 0 0 28px;
 }
 
-.all {
-  color: var(--jungle-green);
-  fill: var(--jungle-green);
-
-  &:hover {
-    color: var(--jungle-green-hover);
-    fill: var(--jungle-green-hover);
-  }
-}
-
-.pointer {
-  vertical-align: middle;
-  margin-left: 4px;
-}
-
 .category {
   padding: 24px;
   display: flex;

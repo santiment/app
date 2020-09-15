@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import { MAIN_PRODUCTS } from './Products'
+import LinkWithArrow from '../Link'
 import SmoothDropdownItem from '../../SmoothDropdown/SmoothDropdownItem'
 import styles from './SantimentProductsTooltip.module.scss'
 
@@ -11,7 +12,12 @@ const ProductItem = ({
   imgClassName
 }) => {
   return (
-    <a className={cx(styles.wrapper, className)} href={to}>
+    <a
+      className={cx(styles.wrapper, className)}
+      href={to}
+      target='_blank'
+      rel='noopener noreferrer'
+    >
       <div className={cx(styles.product, styles.wrapper__product)}>
         {img && (
           <img
@@ -26,10 +32,10 @@ const ProductItem = ({
           <div className={styles.product__description}>{description}</div>
 
           {showLink && (
-            <MakeLink
+            <LinkWithArrow
               className={cx(styles.wrapper__link)}
               to={to}
-              as={'div'}
+              as='div'
               title={'Go to ' + title}
             />
           )}
@@ -38,12 +44,6 @@ const ProductItem = ({
     </a>
   )
 }
-
-const MakeLink = ({ to, title, className, as: El = 'a' }) => (
-  <El href={to} className={cx(styles.link, className)}>
-    {title} <Icon className={styles.linkArrow} type='pointer-right' />
-  </El>
-)
 
 const OpenTrigger = () => (
   <Icon type='arrow-down' className={styles.arrowIcon} />
@@ -104,7 +104,10 @@ const SantimentProductsTooltip = ({
         {showHeader && (
           <div className={styles.header}>
             <div className={styles.title}>Santiment products</div>
-            <MakeLink to='https://santiment.net' title='Go to Santiment.net' />
+            <LinkWithArrow
+              to='https://santiment.net'
+              title='Go to Santiment.net'
+            />
           </div>
         )}
         <div className={styles.products}>

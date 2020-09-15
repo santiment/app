@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
-import Icon from '@santiment-network/ui/Icon'
+import LinkWithArrow from '../Link'
 import commonStyles from '../NavbarDropdown.module.scss'
 import styles from './NavbarHelpDropdown.module.scss'
 
@@ -37,15 +37,10 @@ const NavbarHelpDropdown = ({ activeLink }) => (
   <div className={styles.wrapper}>
     <div className={styles.top}>
       <span>Help center</span>
-      <a
-        href='https://academy.santiment.net/'
-        target='_blank'
-        rel='noopener noreferrer'
-        className={styles.link}
-      >
-        Go to Academy
-        <Icon type='pointer-right' className={styles.icon} />
-      </a>
+      <LinkWithArrow
+        to='https://academy.santiment.net/'
+        title='Go to Academy'
+      />
     </div>
     <div className={styles.list}>
       {Links.map((props, index) => (
