@@ -47,13 +47,31 @@
 .cancel {
   margin-left: 24px;
   min-width: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .name {
   margin: 0 4px 0 0;
+
+  &:last-child {
+    margin-right: 0;
+  }
 }
 
 .ticker {
   color: var(--waterloo);
   margin: 0;
+}
+
+.loader {
+  min-height: 260px;
+  height: auto;
+}
+
+.title {
+  @include text('body-2');
+
+  padding: 14px 24px !important;
 }

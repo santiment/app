@@ -66,7 +66,7 @@ const AssetsTable = ({
   showCollumnsToggle = true,
   className,
   columnProps,
-  compareSettings: { toggleAll, toggledAll, comparingAssets, addAsset } = {}
+  compareSettings: { comparingAssets, addAsset } = {}
 }) => {
   const [markedAsNew, setAsNewMarked] = useState()
 
@@ -141,13 +141,11 @@ const AssetsTable = ({
 
   const shownColumns = useMemo(
     () => {
-      return COLUMNS(preload, {
-        ...columnProps,
-        toggleAll,
-        toggledAll: toggledAll
-      }).filter(({ id }) => columns[id].show && allColumns.includes(id))
+      return COLUMNS(preload, columnProps).filter(
+        ({ id }) => columns[id].show && allColumns.includes(id)
+      )
     },
-    [COLUMNS, preload, columnProps, toggleAll, toggledAll, allColumns, columns]
+    [COLUMNS, preload, columnProps, allColumns, columns]
   )
 
   const disabledComparision = comparingAssets.length < 2

@@ -51,20 +51,8 @@ const Screener = props => {
           const title = getWatchlistName(props)
           const {
             typeInfo: { listId },
-            isCurrentUserTheAuthor,
-            items
+            isCurrentUserTheAuthor
           } = Assets
-
-          const toggledAll =
-            items.length > 0 && comparingAssets.length === items.length
-
-          const toggleAll = () => {
-            if (toggledAll) {
-              setComparingAssets([])
-            } else {
-              setComparingAssets([...items])
-            }
-          }
 
           return (
             <>
@@ -119,8 +107,6 @@ const Screener = props => {
                 listName={title}
                 allColumns={ASSETS_TABLE_COLUMNS}
                 compareSettings={{
-                  toggleAll,
-                  toggledAll,
                   comparingAssets,
                   addAsset
                 }}

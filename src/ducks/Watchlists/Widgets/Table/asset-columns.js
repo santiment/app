@@ -10,6 +10,7 @@ import { Description } from '../../../dataHub/metrics/descriptions'
 import LayoutForAsset from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import styles from './AssetsToggleColumns.module.scss'
+import DarkTooltip from '../../../../components/Tooltip/DarkTooltip'
 
 const simpleSort = (a, b) => b - a
 
@@ -42,33 +43,35 @@ const constructColumn = ({
 export const COLUMNS = (preload, props = {}) => [
   constructColumn({
     id: COLUMNS_NAMES.checkboxes,
-    heading: () => {
-      const { toggleAll, toggledAll } = props
-
-      return (
-        <Checkbox
-          isActive={toggledAll}
-          onClick={() => toggleAll && toggleAll()}
-          className={styles.assetCheckbox}
-        />
-      )
-    },
+    heading: ' ',
     maxWidth: 45,
     Cell: row => {
       const { original, tdProps = {} } = row
       const { rest: { assets, addasset } = {} } = tdProps
       return (
-        <Checkbox
-          className={styles.assetCheckbox}
-          onClick={() => addasset(original)}
-          isActive={assets.find(({ id }) => id === original.id)}
-        />
+        <DarkTooltip
+          align='end'
+          position='top'
+          on='hover'
+          className={styles.tooltip}
+          trigger={
+            <div className={styles.assetCheckbox}>
+              <Checkbox
+                onClick={() => addasset(original)}
+                isActive={assets.find(({ id }) => id === original.id)}
+              />
+            </div>
+          }
+        >
+          Select an asset
+        </DarkTooltip>
       )
     }
   }),
   constructColumn({
     id: COLUMNS_NAMES.index,
     heading: '#',
+    className: styles.columnId,
     maxWidth: 45,
     Cell: row => {
       const { original, page, pageSize, viewIndex, tdProps = {} } = row
