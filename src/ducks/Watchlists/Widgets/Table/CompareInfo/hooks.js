@@ -26,16 +26,14 @@ function abortRemovedAssets (abortables, newAssets) {
   return reducedAbortables
 }
 
-const DEFAULT_TS = []
-const DEFAULT_LOADINGS = []
 const DEFAULT_ABORTABLES = new Map()
 
 const getIntersection = (source, target) =>
   source.length > 0 ? source.filter(value => target.includes(value)) : target
 
 export function useAvailableMetrics (assets) {
-  const [availableMetrics, setAvailableMetrics] = useState(DEFAULT_TS)
-  const [loadings, setLoadings] = useState(DEFAULT_LOADINGS)
+  const [availableMetrics, setAvailableMetrics] = useState([])
+  const [loadings, setLoadings] = useState([])
   const [abortables, setAbortables] = useState(DEFAULT_ABORTABLES)
 
   const assetsHash = hashAssets(assets)

@@ -11,8 +11,8 @@ import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/colum
 import ProjectsTreeMap from '../../ducks/Watchlists/Widgets/VolumeChart/ProjectsTreeMap'
 import ProjectsChart from '../../ducks/Watchlists/Widgets/VolumeChart/ProjectsChart'
 import { RANGES } from '../../ducks/Watchlists/Widgets/VolumeChart/utils'
-import styles from './Screener.module.scss'
 import { addOrRemove } from '../../ducks/Watchlists/Widgets/Table/CompareDialog/CompareDialog'
+import styles from './Screener.module.scss'
 
 const Screener = props => {
   const [isPriceChartActive, setPriceChart] = useState(false)

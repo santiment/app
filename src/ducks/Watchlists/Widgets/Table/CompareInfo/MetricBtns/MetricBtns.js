@@ -7,9 +7,9 @@ const MetricBtns = ({ metrics, onClear, removeMetric }) => {
   return (
     <div className={styles.container}>
       {metrics.map(metric => {
-        const { label, key } = metric
+        const { label } = metric
         return (
-          <Button border key={key} className={styles.btn}>
+          <Button border key={label} className={styles.btn}>
             {label}
 
             <Icon

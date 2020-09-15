@@ -8,6 +8,13 @@ import { useIsBetaMode } from '../../../../../stores/ui'
 import { getCategoryGraph } from '../../../../Studio/Sidebar/utils'
 import MetricBtns from '../CompareInfo/MetricBtns/MetricBtns'
 import { SEARCH_PREDICATE_ONLY_METRICS } from '../../../../Studio/Compare/Comparable/Metric'
+import {
+  buildComparedMetric,
+  makeComparableObject
+} from '../../../../Studio/Compare/utils'
+import { PATHS } from '../../../../../paths'
+import { generateUrlV2 } from '../../../../Studio/url/generate'
+import ChartWidget from '../../../../Studio/Widget/ChartWidget'
 import styles from './CompareDialog.module.scss'
 
 const FIND_PREDICATE = target => item => item === target
@@ -33,7 +40,33 @@ const CompareDialog = ({ trigger, assets }) => {
 
   const [metrics, setMetrics] = useState([])
 
-  const onCompare = useCallback(() => {}, [])
+  const onCompare = useCallback(
+    () => {
+      const widgets = metrics.map((metric, index) => {
+        const comparables = assets.map(project => {
+          return makeComparableObject({ metric, project })
+        })
+
+        return {
+          id: index + 1,
+          metrics: [],
+          comparables,
+          Widget: ChartWidget,
+          MetricSettingMap: new Map(),
+          comparedMetrics: comparables.map(buildComparedMetric),
+          connectedWidgets: []
+        }
+      })
+
+      const url = `${PATHS.STUDIO}?${generateUrlV2({
+        widgets,
+        settings: {}
+      })}`
+
+      window.open(url, '_blank')
+    },
+    [metrics, assets]
+  )
 
   const onSelectMetric = useCallback(
     metric => {

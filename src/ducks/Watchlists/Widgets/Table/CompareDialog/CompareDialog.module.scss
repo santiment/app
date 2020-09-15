@@ -6,7 +6,7 @@
 }
 
 .panel {
-  padding: 21px 25px;
+  padding: 21px 24px;
 }
 
 .info {
@@ -32,7 +32,9 @@
 
 .actions {
   margin-top: auto;
+  padding: 20px 24px;
   justify-content: flex-start;
+  border-top: 1px solid var(--porcelain);
 }
 
 .compare {

@@ -76,8 +76,3 @@ export function generateShareLink (
 }
 
 export const generateUrlV2 = config => stringify(buildShareConfig(config))
-
-export function buildChartShareLink (config) {
-  const { origin } = window.location
-  return `${origin}/studio?${generateUrlV2(config)}`
-}

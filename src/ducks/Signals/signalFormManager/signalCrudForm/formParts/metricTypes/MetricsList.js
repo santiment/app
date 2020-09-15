@@ -4,18 +4,18 @@ import Icon from '@santiment-network/ui/Icon'
 import { Description } from '../../../../../dataHub/metrics/descriptions'
 import HelpPopup from '../../../../../../components/HelpPopup/HelpPopup'
 import MetricDescription from '../../../../../SANCharts/MetricDescription/MetricDescription'
-import styles from './MetricsList.module.scss'
 import { useDialogState } from '../../../../../../hooks/dialog'
+import styles from './MetricsList.module.scss'
 
 export const NO_GROUP = '_'
 
-const calculateWithSubitems = (groupItems, selected) =>
+const getSelectedCount = (groupItems, selected) =>
   groupItems.reduce((acc, data) => {
     const { item, subitems } = data
 
     let calculated = selected.indexOf(item) !== -1 ? 1 : 0
     if (subitems.length > 0) {
-      calculated += calculateWithSubitems(subitems, selected)
+      calculated += getSelectedCount(subitems, selected)
     }
 
     return acc + calculated
@@ -42,7 +42,7 @@ const MetricsList = ({
 
       return keys.reduce((acc, key) => {
         const groupItems = list[key]
-        return acc + calculateWithSubitems(groupItems, selected)
+        return acc + getSelectedCount(groupItems, selected)
       }, 0)
     },
     [keys, selected]

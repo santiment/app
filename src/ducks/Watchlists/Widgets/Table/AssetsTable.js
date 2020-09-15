@@ -19,10 +19,10 @@ import DownloadCSV from '../../Actions/DownloadCSV'
 import { COMMON_SETTINGS, COLUMNS_SETTINGS } from './columns'
 import { markedAsShowed } from '../../../SANCharts/SidecarExplanationTooltip'
 import { EXPLANATION_TOOLTIP_MARK } from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
-import './ProjectsTable.scss'
-import styles from './AssetsTable.module.scss'
 import CompareInfo from './CompareInfo/CompareInfo'
 import CompareAction from './CompareInfo/CompareAction'
+import './ProjectsTable.scss'
+import styles from './AssetsTable.module.scss'
 
 const CustomNoDataComponent = ({ isLoading }) => {
   if (isLoading) {

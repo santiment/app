@@ -10,6 +10,12 @@ export const hashComparable = ({ project, metric }) => project.slug + metric.key
 export const buildCompareKey = (metric, project) =>
   `${metric.key}_${project.slug.replace(/-/g, '')}`
 
+export const makeComparableObject = ({ metric, project }) => ({
+  key: buildCompareKey(metric, project),
+  metric: metric,
+  project: project
+})
+
 export function buildComparedMetric (Comparable) {
   const hash = hashComparable(Comparable)
   const cached = comparedMetricsCache.get(hash)
