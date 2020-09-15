@@ -108,7 +108,7 @@ const Screener = props => {
                 type='screener'
                 isAuthor={isCurrentUserTheAuthor}
                 watchlist={watchlist}
-                classes={{ container: styles.tableWrapper }}
+                classes={{ container: styles.tableWrapper, top: styles.top }}
                 className={styles.table}
                 goto={history.push}
                 history={history}
