@@ -82,3 +82,10 @@
   font-size: 4px;
   margin: 5px auto 2px;
 }
+
+.exchanges {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  min-width: 165px;
+}

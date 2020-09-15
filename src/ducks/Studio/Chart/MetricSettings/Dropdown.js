@@ -3,8 +3,21 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import styles from './index.module.scss'
 
 export const useDropdown = () => {
-  const activeRef = useRef()
+  const activeRef = useRef(null)
   const [isOpened, setIsOpened] = useState(false)
+  const stateRef = useRef(isOpened)
+  stateRef.current = isOpened
+  const Dropdown = useRef(props => (
+    <ContextMenu
+      {...props}
+      open={stateRef.current}
+      className={styles.tooltip}
+      position='bottom'
+      on='click'
+      onOpen={open}
+      onClose={close}
+    />
+  )).current
 
   useEffect(
     () => {
@@ -30,16 +43,6 @@ export const useDropdown = () => {
   return {
     activeRef,
     close,
-    Dropdown: props => (
-      <ContextMenu
-        {...props}
-        open={isOpened}
-        className={styles.tooltip}
-        position='bottom'
-        on='click'
-        onOpen={open}
-        onClose={close}
-      />
-    )
+    Dropdown
   }
 }
