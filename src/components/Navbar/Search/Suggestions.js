@@ -34,11 +34,14 @@ const Suggestions = ({ suggestionsRef, isOpened, ...props }) => {
       if (isOpened && dropdown) {
         const { parentNode } = dropdown
 
+        const dropdownWidth = dropdown.offsetWidth
         const availableWidth =
           parentNode.clientWidth +
           parseFloat(getComputedStyle(parentNode).marginLeft)
 
-        dropdown.style.minWidth = availableWidth + 'px'
+        dropdown.style.minWidth =
+          (dropdownWidth > availableWidth ? dropdownWidth : availableWidth) +
+          'px'
         dropdown.style.right = availableWidth / 2 + 'px'
       }
     },
