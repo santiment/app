@@ -1,15 +1,19 @@
-import React, { useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { useMetricExchanges, DEFAULT_EXCHANGE } from './hooks'
+import Tabs, { Tab } from './Tabs'
 import { useDropdown } from '../Dropdown'
 import Setting from '../Setting'
 import { mergeMetricSettingMap } from '../../../utils'
 import styles from '../index.module.scss'
 
+const { CEX, DEX } = Tab
+
 const ExchangeSetting = ({ metric, widget, rerenderWidgets, slug }) => {
   const { activeRef, close, Dropdown } = useDropdown()
-  const { exchanges, loading } = useMetricExchanges(slug)
+  const [activeTab, setActiveTab] = useState(CEX)
+  const { exchanges, loading } = useMetricExchanges(slug, activeTab === DEX)
   const owner = useMemo(
     () => {
       const settings = widget.MetricSettingMap.get(metric)
@@ -39,18 +43,21 @@ const ExchangeSetting = ({ metric, widget, rerenderWidgets, slug }) => {
 
   return (
     <Dropdown trigger={<Setting>Exchange {owner}</Setting>}>
-      {exchanges &&
-        exchanges.map(exchange => (
-          <Button
-            key={exchange}
-            variant='ghost'
-            isActive={owner === exchange}
-            onClick={() => onChange(exchange)}
-            forwardedRef={owner === exchange ? activeRef : undefined}
-          >
-            {exchange}
-          </Button>
-        ))}
+      <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+      <div className={styles.exchanges}>
+        {exchanges &&
+          exchanges.map(exchange => (
+            <Button
+              key={exchange}
+              variant='ghost'
+              isActive={owner === exchange}
+              onClick={() => onChange(exchange)}
+              forwardedRef={owner === exchange ? activeRef : undefined}
+            >
+              {exchange}
+            </Button>
+          ))}
+      </div>
       {loading && <Loader className={styles.loader} />}
     </Dropdown>
   )
