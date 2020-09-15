@@ -65,7 +65,7 @@ const PlanText = ({ subscription }) => {
       <div className={styles.title}>Free Plan</div>
       <div className={styles.desc}>
         You can see data{' '}
-        <Button accent='blue' className={styles.btn}>
+        <Button accent='positive' className={styles.btn}>
           generated 24h ago.
         </Button>
       </div>

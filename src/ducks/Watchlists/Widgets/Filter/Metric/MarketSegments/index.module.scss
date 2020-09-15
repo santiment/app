@@ -83,18 +83,22 @@
 }
 
 .trigger__arrow {
-  margin-left: auto;
-  fill: var(--waterloo);
+  width: 8px;
+  fill: var(--waterloo) !important;
   transition: transform 0.25s ease-in-out;
 }
 
-.active {
-  border-color: var(--jungle-green);
+.trigger__input {
+  color: var(--waterloo);
+}
 
-  .trigger__arrow {
-    transform: rotate(180deg);
-    fill: var(--jungle-green);
-  }
+.trigger__btn input[data-isactive=true] + .trigger__arrow {
+  fill: var(--rhino) !important;
+  transform: rotate(180deg);
+}
+
+.trigger__btn input::placeholder {
+  color: var(--waterloo) !important;
 }
 
 .dropdown {

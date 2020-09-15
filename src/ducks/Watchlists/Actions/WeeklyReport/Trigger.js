@@ -16,7 +16,7 @@ const WeeklyReportTrigger = ({ isMonitored, ...props }) => {
           accent='positive'
           className={styles.trigger}
         >
-          <Icon type='report' className={styles.icon} />
+          <Icon type='report-with-circle' className={styles.icon} />
           {isMonitored && <span className={styles.active} />}
           {!isMonitored && <span className={styles.text}>Enable report</span>}
         </Button>
