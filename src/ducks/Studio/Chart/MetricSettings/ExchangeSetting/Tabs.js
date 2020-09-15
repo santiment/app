@@ -3,8 +3,8 @@ import UITabs from '@santiment-network/ui/Tabs'
 import styles from './Tabs.module.scss'
 
 export const Tab = {
-  CEX: 'Cex',
-  DEX: 'Dex'
+  CEX: 'CEX',
+  DEX: 'DEX'
 }
 const TABS = Object.values(Tab)
 

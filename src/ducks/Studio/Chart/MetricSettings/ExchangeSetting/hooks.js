@@ -7,7 +7,7 @@ const METRIC_EXCHANGES_QUERY = gql`
   }
 `
 
-export const DEFAULT_EXCHANGE = 'All'
+export const DEFAULT_EXCHANGE = 'All (CEX+DEX)'
 const DEFAULT_EXCHANGES = [DEFAULT_EXCHANGE]
 
 export function useMetricExchanges (slug, isDex) {
