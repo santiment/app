@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import ComparableMetric from './Metric'
-import { buildCompareKey, getProjectHiddenMetrics } from '../utils'
+import {
+  buildCompareKey,
+  getProjectHiddenMetrics,
+  makeComparableObject
+} from '../utils'
 import ProjectSelectDialog from '../ProjectSelectDialog'
 import { DEFAULT_TABS } from '../ProjectSelectTabs'
 import { FIAT_MARKET_ASSETS } from '../../../dataHub/fiat'
@@ -49,11 +53,10 @@ export default ({
         selectedMetric &&
         setComparables(state => [
           ...state,
-          {
-            key: buildCompareKey(selectedMetric, selectedProject),
+          makeComparableObject({
             metric: selectedMetric,
             project: selectedProject
-          }
+          })
         ])
       )
     },

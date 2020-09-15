@@ -1,4 +1,5 @@
 export const COLUMNS_NAMES = {
+  checkboxes: 'Checkboxes',
   index: 'Index',
   project: 'Project',
   marketcapUsd: 'Market capitalization',
@@ -20,6 +21,7 @@ export const COLUMNS_NAMES = {
 }
 
 export const COLUMNS_SETTINGS = {
+  [COLUMNS_NAMES.checkboxes]: { show: true, selectable: false },
   [COLUMNS_NAMES.index]: { show: true, selectable: false },
   [COLUMNS_NAMES.project]: { show: true, selectable: false },
   [COLUMNS_NAMES.price]: { show: true, selectable: true },
@@ -78,6 +80,7 @@ export const CATEGORIES_SETTINGS = {
 }
 
 export const ASSETS_TABLE_COLUMNS = [
+  COLUMNS_NAMES.checkboxes,
   COLUMNS_NAMES.index,
   COLUMNS_NAMES.project,
   COLUMNS_NAMES.price,

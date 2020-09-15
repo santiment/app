@@ -20,7 +20,9 @@ import { tooltipValueFormatter } from '../../dataHub/metrics/formatters'
 import { SanWatermark } from './resources'
 import styles from './ProjectsBarChart.module.scss'
 
-const renderCustomizedLabel = ({ x, y, width, value }) => {
+const renderCustomizedLabel = props => {
+  const { x, y, width, data, index } = props
+  const { value } = data[index]
   const fontSize = width < 20 ? 7 : 12
   const position = +value >= 0 ? -1 * (fontSize / 2) : fontSize
 
@@ -48,8 +50,8 @@ const PREDEFINED_COLORS = {
   'binance-usd': '#F0B90B'
 }
 
-const DESKTOP_MARGIN = { top: 20, right: 0, left: -20, bottom: 20 }
-const MOBILE_MARGIN = { top: 0, right: 16, left: 0, bottom: 20 }
+const DESKTOP_MARGIN = { top: 20, right: 0, left: -20, bottom: 30 }
+const MOBILE_MARGIN = { top: 0, right: 16, left: 0, bottom: 30 }
 
 const ProjectsBarChart = ({
   isDesktop,
@@ -101,7 +103,10 @@ const ProjectsBarChart = ({
           />
 
           <Bar dataKey={dataKey} radius={[8, 8, 0, 0]} maxBarSize={32}>
-            <LabelList dataKey={dataKey} content={renderCustomizedLabel} />
+            <LabelList
+              dataKey={dataKey}
+              content={props => renderCustomizedLabel({ ...props, data })}
+            />
             {data.map((entry, index) => {
               return (
                 <Cell
@@ -140,13 +145,13 @@ const CategoryTick = props => {
     data,
     index
   } = props
-
   const { ticker } = data[index] || {}
-
   return (
-    <foreignObject x={x - 15} y={y} width={40} height={60}>
-      <ProjectIcon slug={value} size={30} />
-      <div className={styles.ticker}>{ticker}</div>
+    <foreignObject x={x - 50} y={y} width={100} height={80}>
+      <div className={styles.name}>
+        <ProjectIcon slug={value} size={30} />
+        <div className={styles.ticker}>{ticker}</div>
+      </div>
     </foreignObject>
   )
 }

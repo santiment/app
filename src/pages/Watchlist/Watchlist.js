@@ -15,6 +15,7 @@ import WatchlistAnomalies from '../../ducks/Watchlists/Widgets/WatchlistOverview
 import WatchlistActions from '../../ducks/Watchlists/Widgets/TopPanel/WatchlistActions'
 import EditAssets from '../../ducks/Watchlists/Actions/Edit/Trigger'
 import styles from './Watchlist.module.scss'
+import { useComparingAssets } from './Screener'
 
 const WatchlistPage = props => {
   const [pointer, setPointer] = useState(1)
@@ -41,6 +42,8 @@ const WatchlistPage = props => {
       setFilteredItems(assets)
     }
   }
+
+  const { comparingAssets, addAsset } = useComparingAssets()
 
   return (
     <div className='page projects-table'>
@@ -123,6 +126,10 @@ const WatchlistPage = props => {
                     preload={props.preload}
                     listName={title}
                     allColumns={ASSETS_TABLE_COLUMNS}
+                    compareSettings={{
+                      comparingAssets,
+                      addAsset
+                    }}
                   />
                 </>
               )}

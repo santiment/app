@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import ReactTable from 'react-table'
 import cx from 'classnames'
 import { connect } from 'react-redux'
@@ -19,6 +19,8 @@ import DownloadCSV from '../../Actions/DownloadCSV'
 import { COMMON_SETTINGS, COLUMNS_SETTINGS } from './columns'
 import { markedAsShowed } from '../../../SANCharts/SidecarExplanationTooltip'
 import { EXPLANATION_TOOLTIP_MARK } from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
+import CompareInfo from './CompareInfo/CompareInfo'
+import CompareAction from './CompareInfo/CompareAction'
 import './ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
 
@@ -58,15 +60,13 @@ const AssetsTable = ({
   minVolume = 0,
   listName,
   type,
-  watchlist,
   settings,
   allColumns,
-  isAuthor,
   setHiddenColumns,
   showCollumnsToggle = true,
   className,
   columnProps,
-  ...props
+  compareSettings: { comparingAssets = [], addAsset } = {}
 }) => {
   const [markedAsNew, setAsNewMarked] = useState()
 
@@ -139,13 +139,20 @@ const AssetsTable = ({
     return changeColumns(toggledColumns)
   }
 
-  const shownColumns = COLUMNS(preload, columnProps).filter(
-    ({ id }) => columns[id].show && allColumns.includes(id)
+  const shownColumns = useMemo(
+    () => {
+      return COLUMNS(preload, columnProps).filter(
+        ({ id }) => columns[id].show && allColumns.includes(id)
+      )
+    },
+    [COLUMNS, preload, columnProps, allColumns, columns]
   )
+
+  const disabledComparision = comparingAssets.length < 2
 
   return (
     <div className={classes.container} id='table'>
-      <div className={styles.top} id='tableTop'>
+      <div className={cx(styles.top, classes.top)} id='tableTop'>
         {filterType ? (
           <span>Showed based on {filterType} anomalies</span>
         ) : (
@@ -154,6 +161,16 @@ const AssetsTable = ({
             isLoading={isLoading}
             onRefreshClick={() => refetchAssets({ ...typeInfo, minVolume })}
           />
+        )}
+        {comparingAssets && (
+          <div className={styles.leftActions}>
+            <div className={styles.compareAction}>
+              <CompareAction
+                assets={comparingAssets}
+                disabledComparision={disabledComparision}
+              />
+            </div>
+          </div>
         )}
         <div className={styles.actions}>
           {showCollumnsToggle && (
@@ -164,29 +181,32 @@ const AssetsTable = ({
             />
           )}
           {type === 'screener' && (
-            <ProPopupWrapper
-              type='screener'
-              trigger={props => (
-                <div {...props} className={styles.action__wrapper}>
-                  <ExplanationTooltip text='Download .csv' offsetY={10}>
-                    <Icon type='save' className={styles.action} />
-                  </ExplanationTooltip>
-                </div>
-              )}
-            >
-              <DownloadCSV
-                name={listName}
-                items={items}
-                className={styles.action}
+            <>
+              <ProPopupWrapper
+                type='screener'
+                trigger={props => (
+                  <div {...props} className={styles.action__wrapper}>
+                    <ExplanationTooltip text='Download .csv' offsetY={10}>
+                      <Icon type='save' className={styles.action} />
+                    </ExplanationTooltip>
+                  </div>
+                )}
               >
-                <ExplanationTooltip text='Download .csv' offsetY={10}>
-                  <Icon type='save' />
-                </ExplanationTooltip>
-              </DownloadCSV>
-            </ProPopupWrapper>
+                <DownloadCSV
+                  name={listName}
+                  items={items}
+                  className={styles.action}
+                >
+                  <ExplanationTooltip text='Download .csv' offsetY={10}>
+                    <Icon type='save' />
+                  </ExplanationTooltip>
+                </DownloadCSV>
+              </ProPopupWrapper>
+            </>
           )}
         </div>
       </div>
+      {comparingAssets.length > 0 && <CompareInfo selected={comparingAssets} />}
       <ReactTable
         loading={isLoading}
         showPagination={!showAll}
@@ -210,14 +230,15 @@ const AssetsTable = ({
           />
         )}
         NoDataComponent={() => <CustomNoDataComponent isLoading={isLoading} />}
-        // TheadComponent={CustomHeadComponent}
         getTdProps={() => ({
           onClick: (e, handleOriginal) => {
             if (handleOriginal) handleOriginal()
           },
           style: { border: 'none' },
           markedasnew: markedAsNew,
-          hide: hideMarkedAsNew
+          hide: hideMarkedAsNew,
+          assets: comparingAssets,
+          addasset: addAsset
         })}
       />
     </div>

@@ -1,0 +1,46 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  width: 100%;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  background: var(--texas-rose-light);
+
+  @include text('body-3');
+
+  animation-name: growPartially;
+  animation-timing-function: ease-out;
+  animation-duration: 0.2s;
+  animation-fill-mode: both;
+}
+
+.info {
+  display: flex;
+}
+
+.text {
+  color: var(--rhino);
+}
+
+.selectAll {
+  margin-left: 4px;
+  color: var(--jungle-green);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+@keyframes growPartially {
+  0% {
+    transform: scaleY(0.6);
+  }
+
+  100% {
+    transform: scaleY(1);
+  }
+}

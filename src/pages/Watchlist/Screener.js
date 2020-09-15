@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import {
   getWatchlistName,
   DEFAULT_SCREENER_FUNCTION
@@ -11,7 +11,25 @@ import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/colum
 import ProjectsTreeMap from '../../ducks/Watchlists/Widgets/VolumeChart/ProjectsTreeMap'
 import ProjectsChart from '../../ducks/Watchlists/Widgets/VolumeChart/ProjectsChart'
 import { RANGES } from '../../ducks/Watchlists/Widgets/VolumeChart/utils'
+import { addOrRemove } from '../../ducks/Watchlists/Widgets/Table/CompareDialog/CompareDialog'
 import styles from './Screener.module.scss'
+
+export const useComparingAssets = () => {
+  const [comparingAssets, setComparingAssets] = useState([])
+  const addAsset = useCallback(
+    item => {
+      setComparingAssets(
+        addOrRemove(comparingAssets, item, ({ id }) => id === item.id)
+      )
+    },
+    [comparingAssets, setComparingAssets]
+  )
+
+  return {
+    comparingAssets,
+    addAsset
+  }
+}
 
 const Screener = props => {
   const [isPriceChartActive, setPriceChart] = useState(false)
@@ -21,6 +39,17 @@ const Screener = props => {
     props.watchlist.function || DEFAULT_SCREENER_FUNCTION
   )
   const [assets = [], loading] = getProjectsByFunction(screenerFunction)
+
+  const {
+    watchlist,
+    name,
+    isLoggedIn,
+    isDefaultScreener,
+    history,
+    preload
+  } = props
+
+  const { comparingAssets, addAsset } = useComparingAssets()
 
   return (
     <div className={('page', styles.screener)}>
@@ -37,17 +66,17 @@ const Screener = props => {
           return (
             <>
               <TopPanel
-                name={(props.watchlist || {}).name || props.name}
+                name={(watchlist || {}).name || name}
                 id={listId}
                 assets={assets}
                 loading={loading}
-                watchlist={props.watchlist}
+                watchlist={watchlist}
                 isAuthor={isCurrentUserTheAuthor}
-                isLoggedIn={props.isLoggedIn}
+                isLoggedIn={isLoggedIn}
                 screenerFunction={screenerFunction}
                 setScreenerFunction={setScreenerFunction}
-                isDefaultScreener={props.isDefaultScreener}
-                history={props.history}
+                isDefaultScreener={isDefaultScreener}
+                history={history}
                 widgets={{
                   isPriceChart: isPriceChartActive,
                   isPriceTreeMap: isPriceTreeMap,
@@ -78,14 +107,18 @@ const Screener = props => {
                 items={assets}
                 type='screener'
                 isAuthor={isCurrentUserTheAuthor}
-                watchlist={props.watchlist}
-                classes={{ container: styles.tableWrapper }}
+                watchlist={watchlist}
+                classes={{ container: styles.tableWrapper, top: styles.top }}
                 className={styles.table}
-                goto={props.history.push}
-                history={props.history}
-                preload={props.preload}
+                goto={history.push}
+                history={history}
+                preload={preload}
                 listName={title}
                 allColumns={ASSETS_TABLE_COLUMNS}
+                compareSettings={{
+                  comparingAssets,
+                  addAsset
+                }}
               />
             </>
           )

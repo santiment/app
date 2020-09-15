@@ -1,17 +1,39 @@
 @import '~@santiment-network/ui/mixins';
 
 .top {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   display: flex;
   justify-content: space-between;
   width: 100%;
   transition: width 0.2s ease-in-out;
 }
 
+.tooltip {
+  max-width: 160px;
+  padding: 6px 12px;
+
+  @include text('caption');
+}
+
 .actions {
   display: flex;
   align-items: center;
   fill: var(--waterloo);
+}
+
+.leftActions {
+  display: flex;
+  align-items: center;
+  fill: var(--waterloo);
+  margin-right: auto;
+}
+
+.compareIcon {
+  fill: var(--waterloo);
+}
+
+.compareAction {
+  margin-left: 24px;
 }
 
 .action {

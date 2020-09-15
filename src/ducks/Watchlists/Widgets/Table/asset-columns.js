@@ -8,7 +8,9 @@ import ProjectLabel from '../../../../components/ProjectLabel'
 import PercentChanges from '../../../../components/PercentChanges'
 import { Description } from '../../../dataHub/metrics/descriptions'
 import LayoutForAsset from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
+import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import styles from './AssetsToggleColumns.module.scss'
+import DarkTooltip from '../../../../components/Tooltip/DarkTooltip'
 
 const simpleSort = (a, b) => b - a
 
@@ -17,17 +19,19 @@ const isValidValue = value => !isNaN(parseFloat(value))
 const NO_DATA = 'No data'
 
 const constructColumn = ({
-  heading,
-  id = heading,
+  heading: Heading,
+  id = Heading,
   description,
   className,
   sortMethod,
   filterMethod,
   ...rest
 }) => {
+  const El = typeof Heading === 'string' ? Heading : <Heading />
+
   return {
     id,
-    Header: () => <div className={cx('heading', className)}>{heading}</div>,
+    Header: () => <div className={cx('heading', className)}>{El}</div>,
     sortable: Boolean(sortMethod),
     sortMethod,
     filterable: Boolean(filterMethod),
@@ -38,8 +42,36 @@ const constructColumn = ({
 
 export const COLUMNS = (preload, props = {}) => [
   constructColumn({
+    id: COLUMNS_NAMES.checkboxes,
+    heading: ' ',
+    maxWidth: 45,
+    Cell: row => {
+      const { original, tdProps = {} } = row
+      const { rest: { assets, addasset } = {} } = tdProps
+      return (
+        <DarkTooltip
+          align='end'
+          position='top'
+          on='hover'
+          className={styles.tooltip}
+          trigger={
+            <div className={styles.assetCheckbox}>
+              <Checkbox
+                onClick={() => addasset(original)}
+                isActive={assets.find(({ id }) => id === original.id)}
+              />
+            </div>
+          }
+        >
+          Select an asset
+        </DarkTooltip>
+      )
+    }
+  }),
+  constructColumn({
     id: COLUMNS_NAMES.index,
     heading: '#',
+    className: styles.columnId,
     maxWidth: 45,
     Cell: row => {
       const { original, page, pageSize, viewIndex, tdProps = {} } = row

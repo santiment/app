@@ -16,7 +16,7 @@ const CustomProjectCategories = {
   'crude-oil': getCategoryGraph(['price_usd'])
 }
 
-const predicateFunction = searchTerm => {
+export const SEARCH_PREDICATE_ONLY_METRICS = searchTerm => {
   const upperCaseSearchTerm = searchTerm.toUpperCase()
   return ({ label, abbreviation, type }) => {
     if (type && type !== METRIC) {
@@ -35,7 +35,7 @@ const MetricSearch = withMetrics(
   ({ slug, categories, loading, className, ...rest }) => (
     <Search
       {...rest}
-      searchPredicate={predicateFunction}
+      searchPredicate={SEARCH_PREDICATE_ONLY_METRICS}
       className={cx(className, loading && styles.loading)}
       categories={CustomProjectCategories[slug] || categories}
       emptySuggestions={getMetricSuggestions({

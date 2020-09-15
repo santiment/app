@@ -8,6 +8,7 @@ import { getCategoryGraph } from '../../../../../Studio/Sidebar/utils'
 import { PROJECT_METRICS_BY_SLUG_QUERY } from '../../../../../SANCharts/gql'
 import { useProject } from '../../../../../../hooks/project'
 import { useIsBetaMode } from '../../../../../../stores/ui'
+import { SEARCH_PREDICATE_ONLY_METRICS } from '../../../../../Studio/Compare/Comparable/Metric'
 import metricStyles from './TriggerFormMetricTypes.module.scss'
 
 const getByAvailable = (availableMetrics = DEFAULT_METRICS) =>
@@ -64,11 +65,12 @@ const SupportedMetricsList = ({ onSelectMetric, availableMetrics, slug }) => {
         <Search
           iconPosition='left'
           inputProps={{
-            placeholder: 'Search for a Metric'
+            placeholder: 'Search for a metric'
           }}
           toggleMetric={onSelectMetric}
           className={metricStyles.search}
           categories={categories}
+          searchPredicate={SEARCH_PREDICATE_ONLY_METRICS}
         />
 
         <div className={metricStyles.metrics}>
