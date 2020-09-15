@@ -66,7 +66,7 @@ const AssetsTable = ({
   showCollumnsToggle = true,
   className,
   columnProps,
-  compareSettings: { comparingAssets, addAsset } = {}
+  compareSettings: { comparingAssets = [], addAsset } = {}
 }) => {
   const [markedAsNew, setAsNewMarked] = useState()
 
@@ -162,20 +162,16 @@ const AssetsTable = ({
             onRefreshClick={() => refetchAssets({ ...typeInfo, minVolume })}
           />
         )}
-        <div className={styles.leftActions}>
-          {type === 'screener' && (
-            <>
-              {comparingAssets && (
-                <div className={styles.compareAction}>
-                  <CompareAction
-                    assets={comparingAssets}
-                    disabledComparision={disabledComparision}
-                  />
-                </div>
-              )}
-            </>
-          )}
-        </div>
+        {comparingAssets && (
+          <div className={styles.leftActions}>
+            <div className={styles.compareAction}>
+              <CompareAction
+                assets={comparingAssets}
+                disabledComparision={disabledComparision}
+              />
+            </div>
+          </div>
+        )}
         <div className={styles.actions}>
           {showCollumnsToggle && (
             <AssetsToggleColumns

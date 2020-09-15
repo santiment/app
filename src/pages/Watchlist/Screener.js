@@ -14,6 +14,23 @@ import { RANGES } from '../../ducks/Watchlists/Widgets/VolumeChart/utils'
 import { addOrRemove } from '../../ducks/Watchlists/Widgets/Table/CompareDialog/CompareDialog'
 import styles from './Screener.module.scss'
 
+export const useComparingAssets = () => {
+  const [comparingAssets, setComparingAssets] = useState([])
+  const addAsset = useCallback(
+    item => {
+      setComparingAssets(
+        addOrRemove(comparingAssets, item, ({ id }) => id === item.id)
+      )
+    },
+    [comparingAssets, setComparingAssets]
+  )
+
+  return {
+    comparingAssets,
+    addAsset
+  }
+}
+
 const Screener = props => {
   const [isPriceChartActive, setPriceChart] = useState(false)
   const [isPriceTreeMap, setPriceTreeMap] = useState(false)
@@ -32,15 +49,7 @@ const Screener = props => {
     preload
   } = props
 
-  const [comparingAssets, setComparingAssets] = useState([])
-  const addAsset = useCallback(
-    item => {
-      setComparingAssets(
-        addOrRemove(comparingAssets, item, ({ id }) => id === item.id)
-      )
-    },
-    [comparingAssets, setComparingAssets]
-  )
+  const { comparingAssets, addAsset } = useComparingAssets()
 
   return (
     <div className={('page', styles.screener)}>
