@@ -38,7 +38,7 @@ const Person = ({ avatarUrl, username }) => (
     ) : (
       <div className={styles.fallback}>{username[0]}</div>
     )}
-    {username}
+    <span className={styles.username}>{username}</span>
   </>
 )
 
@@ -52,6 +52,7 @@ const PeopleCategory = ({ searchTerm, ...props }) => {
   return suggestions.length ? (
     <Category
       {...props}
+      className={styles.category_people}
       title='People'
       items={suggestions}
       Item={Person}

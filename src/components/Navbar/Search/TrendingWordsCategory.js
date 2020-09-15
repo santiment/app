@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import cx from 'classnames'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import Icon from '@santiment-network/ui/Icon'
@@ -43,9 +44,9 @@ function useTrendingWords () {
 const TrendingWord = ({ word }) => word
 
 const Lookup = ({ trend, className }) => (
-  <Button to={TREND_LINK + trend} className={className}>
+  <Button to={TREND_LINK + trend} className={cx(className, styles.lookup)}>
     <Icon type='fire' className={styles.icon} />
-    Lookup as trend
+    Lookup as a trend
   </Button>
 )
 

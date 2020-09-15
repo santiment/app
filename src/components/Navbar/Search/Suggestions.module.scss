@@ -11,9 +11,10 @@ $delay: 80;
   min-width: 100%;
   z-index: 30;
   position: absolute;
-  right: 0;
   top: calc(100% + 8px);
+  right: 0;
   transform-origin: top center;
+  transform: translateX(50%);
 }
 
 .enter {
@@ -31,12 +32,12 @@ $delay: 80;
 
 @keyframes open {
   0% {
-    transform: rotateX(40deg);
+    transform: rotateX(40deg) translateX(50%);
     opacity: 0;
   }
 
   100% {
-    transform: rotateX(0deg);
+    transform: rotateX(0deg) translateX(50%);
     opacity: 1;
   }
 }

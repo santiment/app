@@ -82,10 +82,15 @@
   margin-left: 4px;
 }
 
+.category_assets {
+  min-width: 170px;
+}
+
 // People
 .avatar,
 .fallback {
   width: 20px;
+  min-width: 20px;
   height: 20px;
   border-radius: 50%;
   margin-right: 10px;
@@ -100,6 +105,16 @@
   text-transform: uppercase;
 }
 
+.username {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.category_people {
+  max-width: 235px;
+}
+
 // Insights
 .category_insights {
   min-width: 280px;
@@ -107,4 +122,26 @@
 
 .icon {
   margin-right: 6px;
+}
+
+// Trending words
+.lookup {
+  white-space: nowrap;
+}
+
+// Recents
+.recent {
+  display: flex;
+  justify-content: space-between;
+}
+
+.clear {
+  fill: var(--waterloo);
+  margin: 3px 0 0 16px;
+  width: 14px;
+  cursor: pointer;
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
 }

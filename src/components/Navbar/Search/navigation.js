@@ -1,6 +1,4 @@
 import { useRef, useState, useEffect } from 'react'
-import { push } from 'react-router-redux'
-import { store } from '../../../redux'
 import styles from './Category.module.scss'
 
 const NAV_KEYS = new Set([
@@ -10,7 +8,13 @@ const NAV_KEYS = new Set([
   'ArrowRight',
   'Enter'
 ])
-const COLUMNS = ['Assets', 'Trending words', 'Insights', 'People']
+const COLUMNS = [
+  'Recently searched',
+  'Assets',
+  'Trending words',
+  'Insights',
+  'People'
+]
 const DEFAULT_COLUMNS = []
 const DEFAULT_COLUMN_ITEMS = COLUMNS.reduce((acc, column) => {
   acc[column] = []
@@ -26,7 +30,7 @@ const cursoredClassSelector = '.' + styles.button_cursored
 const getCursoredNode = ({ current }) =>
   current.querySelector(cursoredClassSelector)
 
-export function useCursorNavigation (isOpened) {
+export function useCursorNavigation (isOpened, onSuggestionSelect) {
   const [ColumnItems, setColumnItems] = useState(DEFAULT_COLUMN_ITEMS)
   const [cursor, setCursor] = useState(DEFAULT_CURSOR)
   const [availableColumns, setAvailableColumns] = useState(DEFAULT_COLUMNS)
@@ -78,15 +82,13 @@ export function useCursorNavigation (isOpened) {
       newColumnIndex += newColumnIndex < availableColumns.length - 1 ? 1 : 0
     } else if (key === 'Enter') {
       e.target.blur()
-      const href = getCursoredNode(suggestionsRef).getAttribute('href')
+      const { columnName, row } = cursor
 
-      if (href.startsWith('http')) {
-        window.location.href = href
-      } else {
-        store.dispatch(push(href))
-      }
-
-      return
+      return onSuggestionSelect(
+        getCursoredNode(suggestionsRef),
+        ColumnItems[columnName][row],
+        columnName
+      )
     }
 
     const maxCursorIndex = ColumnItems[availableColumns[newColumnIndex]].length
