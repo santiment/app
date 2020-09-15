@@ -11,8 +11,7 @@ import styles from './Suggestions.module.scss'
 const DEFAULT_RECENTS = []
 
 const Suggestions = ({ suggestionsRef, isOpened, ...props }) => {
-  const { searchTerm } = props
-  const isNotSearched = !searchTerm
+  const isNotSearched = !props.searchTerm
   const [recents, setRecents] = useState(DEFAULT_RECENTS)
 
   useEffect(
