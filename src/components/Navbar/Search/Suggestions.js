@@ -1,13 +1,23 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import cx from 'classnames'
 import { CSSTransition } from 'react-transition-group'
+import RecentsCategory, { getRecents } from './RecentsCategory'
 import AssetsCategory from './AssetsCategory'
 import TrendingWordsCategory from './TrendingWordsCategory'
 import InsightsCategory from './InsightsCategory'
 import PeopleCategory from './PeopleCategory'
 import styles from './Suggestions.module.scss'
 
+const DEFAULT_RECENTS = []
+
 const Suggestions = ({ suggestionsRef, isOpened, ...props }) => {
+  const { searchTerm } = props
+  const isNotSearched = !searchTerm
+  const recents = useMemo(
+    () => (isNotSearched ? getRecents() : DEFAULT_RECENTS),
+    [isOpened, isNotSearched]
+  )
+
   useEffect(
     () => {
       const dropdown = suggestionsRef.current
@@ -31,10 +41,11 @@ const Suggestions = ({ suggestionsRef, isOpened, ...props }) => {
         ref={suggestionsRef}
         className={cx(styles.dropdown, styles.exitDone)}
       >
+        <RecentsCategory {...props} items={recents} />
         <AssetsCategory {...props} />
         <TrendingWordsCategory {...props} />
         <InsightsCategory {...props} />
-        <PeopleCategory {...props} />
+        {recents.length === 0 && <PeopleCategory {...props} />}
       </div>
     </CSSTransition>
   )

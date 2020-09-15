@@ -1,38 +1,41 @@
 import React from 'react'
-import { Asset } from './AssetsCategory'
+import Category from './Category'
+import { Asset, propsAccessor as assetAccessor } from './AssetsCategory'
 
-const getRecent = type => {
-  const res = localStorage.getItem(type)
-  return res ? res.split(',') : []
+const SEARCH_RECENTS = 'SEARCH_RECENTS'
+
+export function getRecents () {
+  const savedRecents = localStorage.getItem(SEARCH_RECENTS)
+  return savedRecents ? JSON.parse(savedRecents) : []
 }
 
-const removeRecent = (type, item) => {
-  const items = new Set(getRecent(type))
-  items.delete(item)
-  return [...items]
-}
-
-const saveRecent = (type, items) => {
+function saveRecents (items) {
   const recents = items.slice(0, 5)
-  localStorage.setItem(type, recents.toString())
+  localStorage.setItem(SEARCH_RECENTS, JSON.stringify(items))
   return recents
 }
 
-const addRecent = (type, item) =>
-  saveRecent(type, [item, ...removeRecent(type, item)].filter(Boolean))
+const removeRecent = ({ key, type }) =>
+  getRecents().filter(
+    ({ type: itemType, key: itemKey }) => type !== itemType || key !== itemKey
+  )
 
-const RecentsCategory = ({ ...props }) => {
-  /* const trendingWords = useTrendingWords() */
+export function addRecent (type, item) {
+  if (type !== 'Assets') return
 
-  return (
+  const { key } = assetAccessor(item)
+  const newRecent = { ...item, key, type }
+  return saveRecents([newRecent, ...removeRecent(newRecent)].filter(Boolean))
+}
+
+const RecentsCategory = props =>
+  props.items.length ? (
     <Category
       {...props}
       title='Recently searched'
-      items={[]}
       Item={Asset}
-      propsAccessor={propsAccessor}
+      propsAccessor={assetAccessor}
     />
-  )
-}
+  ) : null
 
 export default RecentsCategory

@@ -8,7 +8,13 @@ const NAV_KEYS = new Set([
   'ArrowRight',
   'Enter'
 ])
-const COLUMNS = ['Assets', 'Trending words', 'Insights', 'People']
+const COLUMNS = [
+  'Recently searched',
+  'Assets',
+  'Trending words',
+  'Insights',
+  'People'
+]
 const DEFAULT_COLUMNS = []
 const DEFAULT_COLUMN_ITEMS = COLUMNS.reduce((acc, column) => {
   acc[column] = []
@@ -80,7 +86,8 @@ export function useCursorNavigation (isOpened, onSuggestionSelect) {
 
       return onSuggestionSelect(
         getCursoredNode(suggestionsRef),
-        ColumnItems[columnName][row]
+        ColumnItems[columnName][row],
+        columnName
       )
     }
 

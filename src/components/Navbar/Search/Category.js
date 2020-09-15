@@ -33,10 +33,10 @@ const Category = ({
   useEffect(() => registerCursorColumn(title, items), [items])
   useEffect(() => () => registerCursorColumn(title, []), [])
 
-  function buildItemMouseDownHandler (item) {
+  function buildItemMouseDownHandler (item, title) {
     return e => {
       e.preventDefault()
-      onSuggestionSelect(e.currentTarget, item)
+      onSuggestionSelect(e.currentTarget, item, title)
     }
   }
 

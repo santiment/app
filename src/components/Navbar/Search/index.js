@@ -4,6 +4,7 @@ import { push } from 'react-router-redux'
 import UISearch from '@santiment-network/ui/Search'
 import Suggestions from './Suggestions'
 import { useCursorNavigation } from './navigation'
+import { addRecent } from './RecentsCategory'
 import { store } from '../../../redux'
 import styles from './index.module.scss'
 
@@ -40,19 +41,20 @@ const Search = () => {
   }
 
   function closeSuggestions () {
-    // setIsOpened(false)
+    setIsOpened(false)
   }
 
-  function onSuggestionSelect (node, item) {
+  function onSuggestionSelect (node, item, category) {
     const href = node.getAttribute('href')
+
+    addRecent(category, item)
+    closeSuggestions()
 
     if (href.startsWith('http')) {
       window.location.href = href
     } else {
       store.dispatch(push(href))
     }
-
-    closeSuggestions()
   }
 
   return (
