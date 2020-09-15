@@ -127,7 +127,7 @@ const CompareContent = ({
           Compare
         </Dialog.Approve>
         <Dialog.Cancel
-          loading={loading}
+          isLoading={loading}
           onClick={closeDialog}
           className={styles.cancel}
         >
