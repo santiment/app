@@ -2,6 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react'
 import cx from 'classnames'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Button from '@santiment-network/ui/Button'
+import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import Panel from '@santiment-network/ui/Panel'
 import Icon from '@santiment-network/ui/Icon'
 import Skeleton from '../../../../../../components/Skeleton/Skeleton'
@@ -10,6 +11,7 @@ import MetricState from '../MetricState'
 import { useAvailableSegments } from '../../../../gql/hooks'
 import { extractFilterByMetricType } from '../../detector'
 import Suggestions from '../Suggestions'
+import { filterSegmentsBySearch } from './utils'
 import styles from './index.module.scss'
 
 const DEFAULT_SETTINGS = {
@@ -28,9 +30,12 @@ const MarketSegments = ({
 }) => {
   const [segments = [], loading] = useAvailableSegments()
   const [settings, setSettings] = useState(defaultSettings)
+  const [currentSearch, setCurrentSearch] = useState('')
 
   const hasActiveSegments = settings.market_segments.length > 0
   const isANDCombinator = settings.market_segments_combinator === 'and'
+
+  const filteredSegments = filterSegmentsBySearch(currentSearch, segments)
 
   useEffect(
     () => {
@@ -145,15 +150,22 @@ const MarketSegments = ({
         <>
           <div className={styles.settings}>
             <ContextMenu
-              passOpenStateAs='isActive'
+              passOpenStateAs='data-isactive'
               position='bottom'
               align='start'
               className={styles.dropdown}
               trigger={
-                <Button border classes={styles} className={styles.trigger__btn}>
-                  Choose market segments
-                  <Icon type='arrow-down' className={styles.trigger__arrow} />
-                </Button>
+                <Input
+                  className={styles.trigger__btn}
+                  iconClassName={styles.trigger__arrow}
+                  icon='arrow-down'
+                  iconPosition='right'
+                  placeholder='Choose market segments'
+                  onChange={evt => {
+                    const { value } = evt.currentTarget
+                    setCurrentSearch(value)
+                  }}
+                />
               }
             >
               <Panel className={styles.panel}>
@@ -183,7 +195,7 @@ const MarketSegments = ({
                     show={loading}
                     className={styles.loader}
                   />
-                  {segments.map(({ name, count }, idx) => {
+                  {filteredSegments.map(({ name, count }, idx) => {
                     const isSelected = settings.market_segments.includes(name)
 
                     return (
