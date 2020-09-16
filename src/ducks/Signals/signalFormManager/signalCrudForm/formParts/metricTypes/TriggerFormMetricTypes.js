@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
 import Dialog from '@santiment-network/ui/Dialog'
 import {
   getNearestTypeByMetric,
@@ -13,11 +14,10 @@ import MetricTypeRenderer from '../metricTypeRenderer/MetricTypeRenderer'
 import SupportedMetricsList, {
   useAvailableMetrics
 } from './SupportedMetricsList'
+import { showNotification } from '../../../../../../actions/rootActions'
+import { capitalizeStr } from '../../../../../../utils/utils'
 import styles from '../../signal/TriggerForm.module.scss'
 import metricStyles from './TriggerFormMetricTypes.module.scss'
-import { showNotification } from '../../../../../../actions/rootActions'
-import { connect } from 'react-redux'
-import { capitalizeStr } from '../../../../../../utils/utils'
 
 const checkPossibleTarget = ({ metaFormSettings, setFieldValue, target }) => {
   if (!target || (Array.isArray(target) && target.length === 0)) {

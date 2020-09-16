@@ -10,6 +10,18 @@ import { useProject } from '../../../../../../hooks/project'
 import { useIsBetaMode } from '../../../../../../stores/ui'
 import { SEARCH_PREDICATE_ONLY_METRICS } from '../../../../../Studio/Compare/Comparable/Metric'
 import metricStyles from './TriggerFormMetricTypes.module.scss'
+import { METRIC } from '../../../../../Studio/Sidebar/Button/types'
+import { useMergedTimeboundSubmetrics } from '../../../../../dataHub/timebounds'
+
+export function filterOnlyMetrics (submetrics) {
+  const result = {}
+
+  Object.keys(submetrics).forEach(key => {
+    result[key] = submetrics[key].filter(({ type }) => !type || type === METRIC)
+  })
+
+  return result
+}
 
 const getByAvailable = (availableMetrics = DEFAULT_METRICS) =>
   SIGNAL_SUPPORTED_METRICS.filter(({ key }) => {
@@ -40,13 +52,16 @@ const SupportedMetricsList = ({ onSelectMetric, availableMetrics, slug }) => {
 
   const isBeta = useIsBetaMode()
 
+  const AllSubmetrics = useMergedTimeboundSubmetrics(availableMetrics)
+
   useEffect(
     () => {
+      const submetrics = filterOnlyMetrics(AllSubmetrics)
       const metrics = getByAvailable(availableMetrics)
-      const newCategories = getCategoryGraph(metrics, [], {}, isBeta)
+      const newCategories = getCategoryGraph(metrics, [], submetrics, isBeta)
       setCategories(newCategories)
     },
-    [slug, availableMetrics]
+    [availableMetrics]
   )
 
   const [project] = useProject(slug)

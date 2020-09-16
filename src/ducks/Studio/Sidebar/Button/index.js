@@ -19,10 +19,13 @@ const MetricButton = ({
   project,
   showBetaLabel = true,
   onClick,
-  setMetricSettingMap
+  setMetricSettingMap,
+  btnProps = {}
 }) => {
   const settings = isActive && metric && MetricSettings[metric.key]
   const isPro = metric && metric.isPro
+
+  const { btnClassName, infoClassName, tooltipPosition = 'right' } = btnProps
 
   return (
     <Button
@@ -30,12 +33,14 @@ const MetricButton = ({
       className={cx(
         styles.btn,
         className,
+        btnClassName,
         isPro && styles.pro,
         (isError || isDisabled) && styles.disabled,
         settings && settingsStyles.adjustable
       )}
       isActive={isActive}
       onClick={onClick}
+      {...btnProps}
     >
       <div className={styles.top}>
         {isError ? (
@@ -55,8 +60,15 @@ const MetricButton = ({
         )}
 
         {metric && (
-          <MetricExplanation metric={metric} project={project} position='right'>
-            <Icon type='info-round' className={styles.info} />
+          <MetricExplanation
+            metric={metric}
+            project={project}
+            position={tooltipPosition}
+          >
+            <Icon
+              type='info-round'
+              className={cx(styles.info, infoClassName)}
+            />
           </MetricExplanation>
         )}
       </div>

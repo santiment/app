@@ -1,10 +1,8 @@
 import React, { useMemo } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
-import { Description } from '../../../../../dataHub/metrics/descriptions'
-import HelpPopup from '../../../../../../components/HelpPopup/HelpPopup'
-import MetricDescription from '../../../../../SANCharts/MetricDescription/MetricDescription'
 import { useDialogState } from '../../../../../../hooks/dialog'
+import { GroupNodes } from '../../../../../Studio/Sidebar/Group'
 import styles from './MetricsList.module.scss'
 
 export const NO_GROUP = '_'
@@ -14,7 +12,7 @@ const getSelectedCount = (groupItems, selected) =>
     const { item, subitems } = data
 
     let calculated = selected.indexOf(item) !== -1 ? 1 : 0
-    if (subitems.length > 0) {
+    if (subitems && subitems.length > 0) {
       calculated += getSelectedCount(subitems, selected)
     }
 
@@ -27,8 +25,7 @@ const MetricsList = ({
   list,
   onSelect,
   project,
-  selected = [],
-  showIcons = false
+  selected = []
 }) => {
   const { openDialog, isOpened, closeDialog } = useDialogState(index === 0)
 
@@ -79,7 +76,6 @@ const MetricsList = ({
                 group={items}
                 onSelect={onSelect}
                 project={project}
-                showIcons={showIcons}
                 selected={selected}
               />
             )
@@ -90,14 +86,9 @@ const MetricsList = ({
   )
 }
 
-const Group = ({
-  groupLabel,
-  onSelect,
-  group,
-  project,
-  selected,
-  showIcons
-}) => {
+const noop = () => {}
+
+const Group = ({ groupLabel, onSelect, group, project, selected, ...rest }) => {
   if (group.length === 0) {
     return null
   }
@@ -107,31 +98,20 @@ const Group = ({
       {groupLabel !== NO_GROUP && (
         <div className={styles.group}>{groupLabel}</div>
       )}
-      {group.map(({ item: metric }) => {
-        const isActive = showIcons && selected.some(m => m === metric)
-        return (
-          <div
-            key={metric.key}
-            className={cx(styles.item, isActive && styles.itemActive)}
-            onClick={() => onSelect(metric)}
-          >
-            <div className={styles.left}>
-              {showIcons && (
-                <Icon
-                  type='plus-small'
-                  className={cx(styles.plus, isActive && styles.active)}
-                />
-              )}
-              <span className={styles.name}>{metric.label}</span>
-            </div>
-            {Description[metric.key] && (
-              <HelpPopup on='hover'>
-                <MetricDescription metric={metric} project={project} />
-              </HelpPopup>
-            )}
-          </div>
-        )
-      })}
+      <GroupNodes
+        nodes={group}
+        activeMetrics={selected}
+        setMetricSettingMap={noop}
+        toggleMetric={onSelect}
+        project={project}
+        btnProps={{
+          variant: undefined,
+          btnClassName: styles.metricBtn,
+          infoClassName: styles.info,
+          tooltipPosition: 'top'
+        }}
+        {...rest}
+      />
     </>
   )
 }
