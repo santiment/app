@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import styles from './CompareInfo.module.scss'
 
 const CompareInfo = ({ selected, cleanAll }) => {
@@ -6,7 +7,8 @@ const CompareInfo = ({ selected, cleanAll }) => {
     <div className={styles.container}>
       <div className={styles.info}>
         <div className={styles.text}>
-          {selected.length} assets on this page are selected.
+          {selected.length} asset{selected.length !== 1 ? 's' : ''} are
+          selected.
         </div>
 
         {selected.length > 0 && (
