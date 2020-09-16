@@ -29,23 +29,6 @@
   margin-bottom: 13px;
 }
 
-.link {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  color: var(--jungle-green);
-  fill: var(--jungle-green);
-
-  &:hover {
-    color: var(--jungle-green-hover);
-    fill: var(--jungle-green-hover);
-  }
-}
-
-.linkArrow {
-  margin: 0 0 2px 8px;
-}
-
 .title {
   color: var(--waterloo);
   display: flex;

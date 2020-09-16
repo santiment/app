@@ -3,7 +3,6 @@ import Raven from 'raven-js'
 import { Mutation, Query } from 'react-apollo'
 import { connect } from 'react-redux'
 import cx from 'classnames'
-import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import { store } from '../../redux'
@@ -11,6 +10,7 @@ import { showNotification } from '../../actions/rootActions'
 import GA from './../../utils/tracking'
 import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import { dateDifferenceInWords } from '../../utils/dates'
+import LinkWithArrow from './Link'
 import {
   ALL_INSIGHTS_BY_PAGE_QUERY,
   FEATURED_INSIGHTS_QUERY
@@ -142,9 +142,7 @@ const InsightsDropdown = ({ isLoggedIn }) => (
       <div className={styles.category}>
         <h3 className={styles.title}>
           Explore insights
-          <a href='https://insights.santiment.net/' className={styles.all}>
-            See all <Icon type='pointer-right' className={styles.pointer} />
-          </a>
+          <LinkWithArrow to='https://insights.santiment.net/' title='See all' />
         </h3>
         <Insights
           query={ALL_INSIGHTS_BY_PAGE_QUERY}

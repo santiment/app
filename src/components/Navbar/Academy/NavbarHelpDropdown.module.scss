@@ -23,24 +23,6 @@
   padding: 6px 10px;
 }
 
-.link {
-  color: var(--jungle-green);
-  fill: var(--jungle-green);
-  display: flex;
-  align-items: center;
-
-  @include text('body-3');
-
-  &:hover {
-    color: var(--jungle-green-hover);
-    fill: var(--jungle-green-hover);
-  }
-}
-
-.icon {
-  margin-left: 6px;
-}
-
 .contact {
   display: flex;
   flex-direction: column;

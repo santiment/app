@@ -1,0 +1,24 @@
+@import '~@santiment-network/ui/mixins';
+
+.linkArrow {
+  margin: 0 0 0 8px;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(0) scaleX(1);
+}
+
+.link {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  color: var(--jungle-green);
+  fill: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+    fill: var(--jungle-green-hover);
+
+    & .linkArrow {
+      transform: translateX(2px) scaleX(1.15);
+    }
+  }
+}
