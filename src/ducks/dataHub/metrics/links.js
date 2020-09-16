@@ -49,5 +49,7 @@ export const AcademyLinks = {
   [Metric.percent_of_total_supply_on_exchanges.key]:
     'https://academy.santiment.net/metrics/supply-on-or-outside-exchanges/',
   [Metric.social_volume_total.key]:
-    'https://academy.santiment.net/metrics/social-volume/'
+    'https://academy.santiment.net/metrics/social-volume/',
+  [Metric.price_daa_divergence.key]:
+    'https://academy.santiment.net/sansheets/pro-templates/#price-daa-divergence-template'
 }
