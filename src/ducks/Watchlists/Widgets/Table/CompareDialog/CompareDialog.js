@@ -41,7 +41,6 @@ const CompareDialog = ({ trigger, assets }) => {
 
   const removeMetric = useCallback(
     metric => {
-      debugger
       setMetrics(metrics.filter(m => m !== metric))
     },
     [metrics, setMetrics]

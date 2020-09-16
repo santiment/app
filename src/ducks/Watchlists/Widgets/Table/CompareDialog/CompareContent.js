@@ -7,6 +7,7 @@ import Search from '../../../../Studio/Sidebar/Search'
 import { SEARCH_PREDICATE_ONLY_METRICS } from '../../../../Studio/Compare/Comparable/Metric'
 import MetricBtns from '../CompareInfo/MetricBtns/MetricBtns'
 import MetricsList from '../../../../Signals/signalFormManager/signalCrudForm/formParts/metricTypes/MetricsList'
+import { filterOnlyMetrics } from '../../../../Signals/signalFormManager/signalCrudForm/formParts/metricTypes/SupportedMetricsList'
 import {
   buildComparedMetric,
   makeComparableObject
@@ -15,6 +16,7 @@ import ChartWidget from '../../../../Studio/Widget/ChartWidget'
 import { PATHS } from '../../../../../paths'
 import { generateUrlV2 } from '../../../../Studio/url/generate'
 import PageLoader from '../../../../../components/Loader/PageLoader'
+import { useMergedTimeboundSubmetrics } from '../../../../dataHub/timebounds'
 import styles from './CompareDialog.module.scss'
 
 const CompareContent = ({
@@ -31,9 +33,17 @@ const CompareContent = ({
   const [categories, setCategories] = useState({})
   const categoriesKeys = Object.keys(categories)
 
+  const AllSubmetrics = useMergedTimeboundSubmetrics(availableMetrics)
+
   useEffect(
     () => {
-      const newCategories = getCategoryGraph(availableMetrics, [], {}, isBeta)
+      const submetrics = filterOnlyMetrics(AllSubmetrics)
+      const newCategories = getCategoryGraph(
+        availableMetrics,
+        [],
+        submetrics,
+        isBeta
+      )
       setCategories(newCategories)
     },
     [availableMetrics]
@@ -110,7 +120,8 @@ const CompareContent = ({
                 onSelect={onSelectMetric}
                 project={project}
                 selected={metrics}
-                showIcons
+                availableMetrics={availableMetrics}
+                isBeta={isBeta}
               />
             ))
           )}
@@ -126,11 +137,7 @@ const CompareContent = ({
         >
           Compare
         </Dialog.Approve>
-        <Dialog.Cancel
-          isLoading={loading}
-          onClick={closeDialog}
-          className={styles.cancel}
-        >
+        <Dialog.Cancel onClick={closeDialog} className={styles.cancel}>
           Cancel
         </Dialog.Cancel>
       </Dialog.Actions>

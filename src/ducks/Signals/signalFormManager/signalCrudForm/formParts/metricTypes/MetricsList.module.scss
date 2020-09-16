@@ -35,40 +35,6 @@
   background: var(--white);
 }
 
-.plus {
-  box-sizing: content-box;
-  border-radius: 50%;
-  padding: 3px;
-  fill: var(--waterloo);
-  background: var(--porcelain);
-  margin-right: 13px;
-  min-width: 8px;
-}
-
-.item {
-  display: flex;
-  align-items: center;
-  color: var(--rhino);
-  padding: 4px 16px;
-  cursor: pointer;
-  justify-content: space-between;
-
-  @include text('body-3');
-
-  &:hover {
-    color: var(--jungle-green-hover);
-
-    .plus {
-      fill: var(--white);
-      background: var(--jungle-green);
-    }
-  }
-}
-
-.itemActive {
-  color: var(--jungle-green);
-}
-
 .group {
   color: var(--waterloo);
   padding: 9px 16px;
@@ -81,27 +47,25 @@
   color: var(--jungle-green);
 }
 
-.left {
+.metricBtn {
+  display: flex;
+
+  .info {
+    visibility: visible !important;
+  }
+}
+
+.news {
   display: flex;
   align-items: center;
-}
 
-.active {
-  transform: rotate(45deg);
-}
-
-.open {
-  background-color: var(--jungle-green-light);
-}
-
-.helpTrigger {
-  margin-left: 10px !important;
-}
-
-.tooltip {
-  z-index: 10000;
-}
-
-.name {
-  margin-right: 4px;
+  &::after {
+    display: inline-block;
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--texas-rose-hover);
+    border-radius: 50%;
+    margin-left: 8px;
+  }
 }
