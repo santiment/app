@@ -34,7 +34,9 @@ const CompareContent = ({
   const categoriesKeys = Object.keys(categories)
 
   const AllSubmetrics = useMergedTimeboundSubmetrics(availableMetrics)
-
+  const [selectedMetricSettingsMap, setSelectedMetricSettingsMap] = useState(
+    new Map()
+  )
   useEffect(
     () => {
       const submetrics = filterOnlyMetrics(AllSubmetrics)
@@ -61,7 +63,7 @@ const CompareContent = ({
           metrics: [],
           comparables,
           Widget: ChartWidget,
-          MetricSettingMap: new Map(),
+          MetricSettingMap: selectedMetricSettingsMap,
           comparedMetrics: comparables.map(buildComparedMetric),
           connectedWidgets: []
         }
@@ -74,7 +76,7 @@ const CompareContent = ({
 
       window.open(url, '_blank')
     },
-    [metrics, assets]
+    [metrics, assets, selectedMetricSettingsMap]
   )
 
   const project = assets[0]
@@ -122,6 +124,8 @@ const CompareContent = ({
                 selected={metrics}
                 availableMetrics={availableMetrics}
                 isBeta={isBeta}
+                selectedMetricSettingsMap={selectedMetricSettingsMap}
+                setSelectedMetricSettingsMap={setSelectedMetricSettingsMap}
               />
             ))
           )}

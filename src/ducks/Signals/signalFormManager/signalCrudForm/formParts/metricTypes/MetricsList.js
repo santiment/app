@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import { useDialogState } from '../../../../../../hooks/dialog'
@@ -20,6 +20,8 @@ const getSelectedCount = (groupItems, selected) =>
     return acc + calculated
   }, 0)
 
+const noop = () => {}
+
 const MetricsList = ({
   index,
   metrikKey,
@@ -28,14 +30,13 @@ const MetricsList = ({
   project,
   selected = [],
   availableMetrics = [],
-  isBeta
+  isBeta,
+  selectedMetricSettingsMap,
+  setSelectedMetricSettingsMap = noop
 }) => {
   const { openDialog, isOpened, closeDialog } = useDialogState(index === 0)
 
   const keys = useMemo(() => Object.keys(list), [list])
-  const [selectedMetricSettingsMap, setSelectedMetricSettingsMap] = useState(
-    new Map()
-  )
 
   const selectedCount = useMemo(
     () => {
