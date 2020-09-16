@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { SIGNAL_SUPPORTED_METRICS } from './metrics'
 import Search from '../../../../../Studio/Sidebar/Search'
@@ -52,12 +52,17 @@ const SupportedMetricsList = ({ onSelectMetric, availableMetrics, slug }) => {
 
   const isBeta = useIsBetaMode()
 
+  const metrics = useMemo(
+    () => {
+      return getByAvailable(availableMetrics)
+    },
+    [availableMetrics]
+  )
   const AllSubmetrics = useMergedTimeboundSubmetrics(availableMetrics)
 
   useEffect(
     () => {
       const submetrics = filterOnlyMetrics(AllSubmetrics)
-      const metrics = getByAvailable(availableMetrics)
       const newCategories = getCategoryGraph(metrics, [], submetrics, isBeta)
       setCategories(newCategories)
     },
@@ -96,6 +101,8 @@ const SupportedMetricsList = ({ onSelectMetric, availableMetrics, slug }) => {
               list={categories[key]}
               onSelect={onSelectMetric}
               project={project}
+              availableMetrics={metrics}
+              isBeta={isBeta}
             />
           ))}
         </div>

@@ -120,6 +120,8 @@ const CompareContent = ({
                 onSelect={onSelectMetric}
                 project={project}
                 selected={metrics}
+                availableMetrics={availableMetrics}
+                isBeta={isBeta}
               />
             ))
           )}

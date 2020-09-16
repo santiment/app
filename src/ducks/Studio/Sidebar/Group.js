@@ -113,7 +113,9 @@ export const GroupNodes = ({
                   return null
                 }
 
-                const isActive = checkIsActive && checkIsActive(rest)
+                const isActive =
+                  (checkIsActive && checkIsActive(rest)) ||
+                  activeMetrics.includes(subitem)
 
                 return (
                   <Button
@@ -123,7 +125,7 @@ export const GroupNodes = ({
                     label={subitem.label}
                     onClick={() => toggleMetric(subitem)}
                     project={project}
-                    showBetaLabel={false}
+                    showBetaLabel={!showRoot}
                     isActive={isActive}
                     isNew={NewMetric && NewMetric[subitem.key]}
                     btnProps={btnProps}

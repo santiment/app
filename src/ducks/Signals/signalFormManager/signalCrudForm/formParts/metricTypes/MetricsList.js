@@ -4,6 +4,7 @@ import Icon from '@santiment-network/ui/Icon'
 import { useDialogState } from '../../../../../../hooks/dialog'
 import { GroupNodes } from '../../../../../Studio/Sidebar/Group'
 import styles from './MetricsList.module.scss'
+import { getAssetNewMetrics } from '../../../../../dataHub/metrics/news'
 
 export const NO_GROUP = '_'
 
@@ -25,7 +26,9 @@ const MetricsList = ({
   list,
   onSelect,
   project,
-  selected = []
+  selected = [],
+  availableMetrics = [],
+  isBeta
 }) => {
   const { openDialog, isOpened, closeDialog } = useDialogState(index === 0)
 
@@ -45,13 +48,19 @@ const MetricsList = ({
     [keys, selected]
   )
 
+  const newMetricsProps = getAssetNewMetrics(availableMetrics, {
+    slug: project.slug,
+    isBeta
+  })
+  const { NewMetricsCategory } = newMetricsProps
+
   return (
     <div className={styles.container}>
       <div
         className={styles.title}
         onClick={isOpened ? closeDialog : openDialog}
       >
-        <div>
+        <div className={NewMetricsCategory[metrikKey] && styles.news}>
           {metrikKey}
 
           {selectedCount > 0 && (
@@ -77,6 +86,7 @@ const MetricsList = ({
                 onSelect={onSelect}
                 project={project}
                 selected={selected}
+                {...newMetricsProps}
               />
             )
           })}
@@ -86,22 +96,28 @@ const MetricsList = ({
   )
 }
 
-const noop = () => {}
-
 const Group = ({ groupLabel, onSelect, group, project, selected, ...rest }) => {
   if (group.length === 0) {
     return null
   }
 
+  const { NewMetricsGroup } = rest
+
   return (
     <>
       {groupLabel !== NO_GROUP && (
-        <div className={styles.group}>{groupLabel}</div>
+        <div
+          className={cx(
+            styles.group,
+            NewMetricsGroup[groupLabel] && styles.news
+          )}
+        >
+          {groupLabel}
+        </div>
       )}
       <GroupNodes
         nodes={group}
         activeMetrics={selected}
-        setMetricSettingMap={noop}
         toggleMetric={onSelect}
         project={project}
         btnProps={{
