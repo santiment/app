@@ -40,7 +40,6 @@ const MetricButton = ({
       )}
       isActive={isActive}
       onClick={onClick}
-      {...btnProps}
     >
       <div className={styles.top}>
         {isError ? (

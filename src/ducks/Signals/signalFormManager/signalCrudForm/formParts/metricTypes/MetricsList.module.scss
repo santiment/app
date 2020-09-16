@@ -53,6 +53,10 @@
   .info {
     visibility: visible !important;
   }
+
+  &:hover {
+    background: var(--white);
+  }
 }
 
 .news {
