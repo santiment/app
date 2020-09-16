@@ -66,7 +66,7 @@ const AssetsTable = ({
   showCollumnsToggle = true,
   className,
   columnProps,
-  compareSettings: { comparingAssets = [], addAsset } = {}
+  compareSettings: { comparingAssets = [], addAsset, cleanAll } = {}
 }) => {
   const [markedAsNew, setAsNewMarked] = useState()
 
@@ -206,7 +206,9 @@ const AssetsTable = ({
           )}
         </div>
       </div>
-      {comparingAssets.length > 0 && <CompareInfo selected={comparingAssets} />}
+      {comparingAssets.length > 0 && (
+        <CompareInfo selected={comparingAssets} cleanAll={cleanAll} />
+      )}
       <ReactTable
         loading={isLoading}
         showPagination={!showAll}

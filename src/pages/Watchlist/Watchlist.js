@@ -43,7 +43,7 @@ const WatchlistPage = props => {
     }
   }
 
-  const { comparingAssets, addAsset } = useComparingAssets()
+  const { comparingAssets, addAsset, cleanAll } = useComparingAssets()
 
   return (
     <div className='page projects-table'>
@@ -128,7 +128,8 @@ const WatchlistPage = props => {
                     allColumns={ASSETS_TABLE_COLUMNS}
                     compareSettings={{
                       comparingAssets,
-                      addAsset
+                      addAsset,
+                      cleanAll
                     }}
                   />
                 </>
