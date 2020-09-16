@@ -2,11 +2,13 @@
 
 .tooltip {
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 6px 12px;
   border-radius: $border-radius;
   background-color: $fiord;
   color: $white;
   z-index: 10000;
+
+  @include text('caption');
 }
 
 .arrow {
