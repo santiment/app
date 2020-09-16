@@ -84,8 +84,8 @@ const CompareContent = ({
     <>
       <Dialog.ScrollContent className={styles.panel}>
         <div className={styles.info}>
-          Compare <SelectedAssets assets={assets} /> on one chart widget. Each
-          row contain one choosed metric and N choosed assets.
+          Compare <SelectedAssets assets={assets} /> on a single chart. Each row
+          contains one selected metric and N selected assets
         </div>
 
         <Search
@@ -151,7 +151,7 @@ const SelectedAssets = ({ assets }) => {
       {assets.map(({ name, ticker }, index) => {
         return (
           <span key={ticker} className={styles.name}>
-            {name} <span className={styles.ticker}>{ticker}</span>
+            {name}
             {assets.length > 1 && index !== assets.length - 1 && <span>,</span>}
           </span>
         )
