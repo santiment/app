@@ -11,7 +11,7 @@ const CompareInfo = ({ selected, cleanAll }) => {
 
         {selected.length > 0 && (
           <div className={styles.clean} onClick={cleanAll}>
-            Clean all
+            Clear all
           </div>
         )}
       </div>
