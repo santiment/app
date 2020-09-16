@@ -25,9 +25,17 @@ export const useComparingAssets = () => {
     [comparingAssets, setComparingAssets]
   )
 
+  const cleanAll = useCallback(
+    () => {
+      setComparingAssets([])
+    },
+    [setComparingAssets]
+  )
+
   return {
     comparingAssets,
-    addAsset
+    addAsset,
+    cleanAll
   }
 }
 
@@ -49,7 +57,7 @@ const Screener = props => {
     preload
   } = props
 
-  const { comparingAssets, addAsset } = useComparingAssets()
+  const { comparingAssets, addAsset, cleanAll } = useComparingAssets()
 
   return (
     <div className={('page', styles.screener)}>
@@ -117,7 +125,8 @@ const Screener = props => {
                 allColumns={ASSETS_TABLE_COLUMNS}
                 compareSettings={{
                   comparingAssets,
-                  addAsset
+                  addAsset,
+                  cleanAll
                 }}
               />
             </>
