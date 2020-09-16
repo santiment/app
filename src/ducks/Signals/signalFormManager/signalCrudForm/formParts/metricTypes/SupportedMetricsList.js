@@ -9,9 +9,9 @@ import { PROJECT_METRICS_BY_SLUG_QUERY } from '../../../../../SANCharts/gql'
 import { useProject } from '../../../../../../hooks/project'
 import { useIsBetaMode } from '../../../../../../stores/ui'
 import { SEARCH_PREDICATE_ONLY_METRICS } from '../../../../../Studio/Compare/Comparable/Metric'
-import metricStyles from './TriggerFormMetricTypes.module.scss'
 import { METRIC } from '../../../../../Studio/Sidebar/Button/types'
 import { useMergedTimeboundSubmetrics } from '../../../../../dataHub/timebounds'
+import metricStyles from './TriggerFormMetricTypes.module.scss'
 
 export function filterOnlyMetrics (submetrics) {
   const result = {}

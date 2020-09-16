@@ -3,8 +3,8 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import { useDialogState } from '../../../../../../hooks/dialog'
 import { GroupNodes } from '../../../../../Studio/Sidebar/Group'
-import styles from './MetricsList.module.scss'
 import { getAssetNewMetrics } from '../../../../../dataHub/metrics/news'
+import styles from './MetricsList.module.scss'
 
 export const NO_GROUP = '_'
 
