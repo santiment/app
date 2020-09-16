@@ -37,8 +37,12 @@ function trendingWordsPredicate (value) {
 }
 
 function useTrendingWords () {
-  const { data } = useQuery(TRENDING_WORDS_QUERY)
-  return data ? data.getTrendingWords[0].topWords : DEFAULT_SUGGESTIONS
+  const { data: { getTrendingWords = [] } = {} } = useQuery(
+    TRENDING_WORDS_QUERY
+  )
+  return getTrendingWords[0]
+    ? getTrendingWords[0].topWords
+    : DEFAULT_SUGGESTIONS
 }
 
 const TrendingWord = ({ word }) => word
