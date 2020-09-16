@@ -10,7 +10,6 @@ import { Description } from '../../../dataHub/metrics/descriptions'
 import LayoutForAsset from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import styles from './AssetsToggleColumns.module.scss'
-import DarkTooltip from '../../../../components/Tooltip/DarkTooltip'
 
 const simpleSort = (a, b) => b - a
 
@@ -49,22 +48,12 @@ export const COLUMNS = (preload, props = {}) => [
       const { original, tdProps = {} } = row
       const { rest: { assets, addasset } = {} } = tdProps
       return (
-        <DarkTooltip
-          align='end'
-          position='top'
-          on='hover'
-          className={styles.tooltip}
-          trigger={
-            <div className={styles.assetCheckbox}>
-              <Checkbox
-                onClick={() => addasset(original)}
-                isActive={assets.find(({ id }) => id === original.id)}
-              />
-            </div>
-          }
+        <div
+          className={styles.assetCheckbox}
+          onClick={() => addasset(original)}
         >
-          Select an asset
-        </DarkTooltip>
+          <Checkbox isActive={assets.find(({ id }) => id === original.id)} />
+        </div>
       )
     }
   }),
