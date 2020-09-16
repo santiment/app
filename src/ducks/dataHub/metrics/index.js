@@ -490,14 +490,14 @@ export const Metric = {
   },
   price_daa_divergence: {
     category: 'Indicators',
-    label: 'Price Daa Divergence',
+    label: 'Price DAA Divergence',
     node: 'autoWidthBar',
     isBeta: true,
     formatter: absoluteToPercentsFormatter
   },
   adjusted_price_daa_divergence: {
     category: 'Indicators',
-    label: 'Adjusted Price Daa Divergence',
+    label: 'Adjusted Price DAA Divergence',
     node: 'autoWidthBar',
     isBeta: true,
     formatter: absoluteToPercentsFormatter
