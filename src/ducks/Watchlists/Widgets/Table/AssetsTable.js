@@ -170,6 +170,10 @@ const AssetsTable = ({
                 disabledComparision={disabledComparision}
               />
             </div>
+
+            {comparingAssets.length > 0 && (
+              <CompareInfo selected={comparingAssets} cleanAll={cleanAll} />
+            )}
           </div>
         )}
         <div className={styles.actions}>
@@ -206,9 +210,7 @@ const AssetsTable = ({
           )}
         </div>
       </div>
-      {comparingAssets.length > 0 && (
-        <CompareInfo selected={comparingAssets} cleanAll={cleanAll} />
-      )}
+
       <ReactTable
         loading={isLoading}
         showPagination={!showAll}
