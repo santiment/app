@@ -13,6 +13,11 @@ export const ethFormatter = val => currencyFormatter(val, 'ETH')
 export const percentageFormatter = val =>
   val || val === 0 ? `${val}%` : 'No data'
 
+export const absoluteToPercentsFormatter = val => {
+  const percents = 100 * val
+  return percentageFormatter(percents.toFixed(2))
+}
+
 export const tooltipValueFormatter = ({
   value,
   formatter,

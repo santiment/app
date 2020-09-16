@@ -4,6 +4,7 @@ import {
   btcFormatter,
   ethFormatter,
   percentageFormatter,
+  absoluteToPercentsFormatter,
   tooltipValueFormatter
 } from './formatters'
 import { millify } from '../../../utils/formatting'
@@ -486,6 +487,20 @@ export const Metric = {
     showRoot: false,
     isBeta: true,
     checkIsVisible: ({ isBeta: isBetaApp }) => isBetaApp
+  },
+  price_daa_divergence: {
+    category: 'Indicators',
+    label: 'Price Daa Divergence',
+    node: 'autoWidthBar',
+    isBeta: true,
+    formatter: absoluteToPercentsFormatter
+  },
+  adjusted_price_daa_divergence: {
+    category: 'Indicators',
+    label: 'Adjusted Price Daa Divergence',
+    node: 'autoWidthBar',
+    isBeta: true,
+    formatter: absoluteToPercentsFormatter
   }
 }
 
