@@ -7,7 +7,9 @@ const NEW_METRICS = [
   Metric.bitmex_perpetual_basis_ratio,
   TopTransactionsTableMetric,
   Metric.transaction_volume_usd,
-  Metric.social_active_users.key
+  Metric.social_active_users.key,
+  Metric.price_daa_divergence,
+  Metric.adjusted_price_daa_divergence
 ]
 export const NEW_METRIC_KEY_SET = new Set(NEW_METRICS.map(({ key }) => key))
 

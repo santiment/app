@@ -486,6 +486,18 @@ export const Metric = {
     showRoot: false,
     isBeta: true,
     checkIsVisible: ({ isBeta: isBetaApp }) => isBetaApp
+  },
+  price_daa_divergence: {
+    category: 'Indicators',
+    label: 'Price Daa Divergence',
+    node: 'autoWidthBar',
+    isBeta: true
+  },
+  adjusted_price_daa_divergence: {
+    category: 'Indicators',
+    label: 'Adjusted Price Daa Divergence',
+    node: 'autoWidthBar',
+    isBeta: true
   }
 }
 
