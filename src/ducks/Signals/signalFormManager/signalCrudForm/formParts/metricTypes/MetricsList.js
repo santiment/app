@@ -121,7 +121,6 @@ const Group = ({ groupLabel, onSelect, group, project, selected, ...rest }) => {
         toggleMetric={onSelect}
         project={project}
         btnProps={{
-          variant: 'ghost',
           btnClassName: styles.metricBtn,
           infoClassName: styles.info,
           tooltipPosition: 'top'
