@@ -35,7 +35,13 @@ const BalanceView = ({
   queryData,
   queryData: { priceMetrics: queryPriceMetrics, assets: queryAssets },
   onChangeQuery,
-  classes = {}
+  classes = {},
+  settings: {
+    showHeader = true,
+    showIntervals = true,
+    showAlertBtn = true
+  } = {},
+  chartSettings: defaultChartSettings
 }) => {
   const [showYAxes, toggleYAxes] = useState(false)
   const [priceMetricTimeseries, setPriceMetricTimeseries] = useState({})
@@ -82,7 +88,8 @@ const BalanceView = ({
 
   const [chartSettings, setChartSettings] = useState({
     timeRange: DEFAULT_TIME_RANGE,
-    ...getIntervalByTimeRange(DEFAULT_TIME_RANGE)
+    ...getIntervalByTimeRange(DEFAULT_TIME_RANGE),
+    ...defaultChartSettings
   })
 
   useEffect(
@@ -166,17 +173,24 @@ const BalanceView = ({
 
   return (
     <div className={cx(styles.container, classes.balanceViewContainer)}>
-      <BalanceViewWalletAssets
-        address={stateAddress}
-        assets={stateAssets}
-        handleAssetsChange={handleAssetsChange}
-        handleWalletChange={handleWalletChange}
-        classes={classes}
-      />
+      {showHeader && (
+        <BalanceViewWalletAssets
+          address={stateAddress}
+          assets={stateAssets}
+          handleAssetsChange={handleAssetsChange}
+          handleWalletChange={handleWalletChange}
+          classes={classes}
+        />
+      )}
 
       <div className={cx(styles.chart, classes.balanceViewChart)}>
-        <BalanceChartHeader assets={stateAssets} address={stateAddress}>
+        <BalanceChartHeader
+          assets={stateAssets}
+          address={stateAddress}
+          showAlertBtn={showAlertBtn}
+        >
           <LoadableChartSettings
+            showIntervals={showIntervals}
             defaultTimerange={timeRange}
             onTimerangeChange={onTimerangeChange}
             onCalendarChange={onCalendarChange}
@@ -281,7 +295,7 @@ const BalanceView = ({
               }).length > 0
 
             if (loading) {
-              return <PageLoader />
+              return <PageLoader className={classes.chart} />
             }
 
             return (
@@ -291,6 +305,7 @@ const BalanceView = ({
                 priceMetricsData={priceMetricTimeseries}
                 priceMetric={CHART_PRICE_METRIC}
                 scale={scale}
+                classes={classes}
               />
             )
           }}

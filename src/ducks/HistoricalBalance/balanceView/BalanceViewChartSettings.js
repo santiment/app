@@ -21,17 +21,20 @@ const BalanceViewChartSettings = ({
   priceMetrics = [],
   toggleAsset,
   onScaleChange,
-  scale
+  scale,
+  showIntervals = true
 }) => {
   return (
     <div className={cx(styles.settings, classes.chartSettings)}>
-      <Selector
-        className={classes.datesSelector}
-        options={['1d', '1w', '1m', '3m', '6m', 'all']}
-        nameOptions={['1D', '1W', '1M', '3M', '6M', 'All']}
-        onSelectOption={onTimerangeChange}
-        defaultSelected={defaultTimerange}
-      />
+      {showIntervals && (
+        <Selector
+          className={classes.datesSelector}
+          options={['1d', '1w', '1m', '3m', '6m', 'all']}
+          nameOptions={['1D', '1W', '1M', '3M', '6M', 'All']}
+          onSelectOption={onTimerangeChange}
+          defaultSelected={defaultTimerange}
+        />
+      )}
 
       <div className={balanceViewStyles.dateAndSettings}>
         <CalendarBtn
@@ -48,7 +51,7 @@ const BalanceViewChartSettings = ({
           showWatermarkSettings={false}
           classes={balanceViewStyles}
           onScaleChange={onScaleChange}
-          scale={scale}
+          isLogScale={scale === 'log'}
         >
           <Button
             fluid

@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import {
   ComposedChart,
   Line,
@@ -98,7 +99,8 @@ const HistoricalBalanceChart = ({
   showYAxes = true,
   priceMetricsData = {},
   priceMetric,
-  scale
+  scale,
+  classes = {}
 }) => {
   const priceMetricTimeseries = Object.values(priceMetricsData)
   const priceMetricKeys = Object.keys(priceMetricsData)
@@ -143,7 +145,7 @@ const HistoricalBalanceChart = ({
   )
 
   return (
-    <div className={styles.chartContainer}>
+    <div className={cx(styles.chartContainer, classes.chart)}>
       <ResponsiveContainer width='100%' height='100%'>
         <ComposedChart
           data={chartData}
