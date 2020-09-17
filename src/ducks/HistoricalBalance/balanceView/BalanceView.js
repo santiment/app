@@ -6,7 +6,7 @@ import HistoricalBalanceChart from '../chart/HistoricalBalanceChart'
 import BalanceChartHeader from './BalanceChartHeader'
 import Loadable from 'react-loadable'
 import { getIntervalByTimeRange } from '../../../utils/dates'
-import { initPriceMetrics, mapAssetsToFlatArray } from '../page/utils'
+import { mapAssetsToFlatArray } from '../page/utils'
 import { mapStateToQS } from '../../../utils/utils'
 import { Metric } from '../../dataHub/metrics'
 import PageLoader from '../../../components/Loader/PageLoader'
@@ -49,41 +49,56 @@ const BalanceView = ({
   const [queryState, setQueryState] = useState(queryData)
 
   const [priceMetrics, setPriceMetrics] = useState([])
+  const [assets, setAssets] = useState(queryAssets)
 
   useEffect(
     () => {
-      const currentAndNewPriceMetrics = initPriceMetrics(
-        queryPriceMetrics,
-        true
-      )
-
-      queryAssets.forEach(asset => {
-        if (
-          !currentAndNewPriceMetrics.some(
-            ({ asset: savedAsset }) => savedAsset === asset
-          )
-        ) {
-          currentAndNewPriceMetrics.push({ asset: asset, enabled: false })
-        }
-      })
-
-      currentAndNewPriceMetrics.sort(
-        ({ asset: assetFirst }, { asset: assetSecond }) => {
-          return simpleSortStrings(assetFirst, assetSecond)
-        }
-      )
-
-      setPriceMetrics(currentAndNewPriceMetrics)
+      setAssets(queryAssets)
     },
     [queryAssets]
+  )
+
+  useEffect(
+    () => {
+      const newPriceMetrics = assets.map(asset => {
+        return (
+          priceMetrics.find(
+            ({ asset: savedAsset }) => savedAsset === asset
+          ) || { asset: asset, enabled: false }
+        )
+      })
+
+      newPriceMetrics.sort(({ asset: assetFirst }, { asset: assetSecond }) => {
+        return simpleSortStrings(assetFirst, assetSecond)
+      })
+
+      setPriceMetrics(newPriceMetrics)
+    },
+    [assets]
   )
 
   const setWalletsAndAssetsWrapper = useCallback(
     data => {
       setQueryState(data)
       onChangeQuery(data)
+      if (data.priceMetrics) {
+        const newMetrics = priceMetrics.map(current => {
+          return (
+            data.priceMetrics.find(({ asset }) => asset === current.asset) ||
+            current
+          )
+        })
+        setPriceMetrics(newMetrics)
+      }
+      if (data.assets) {
+        setAssets(
+          data.assets.map(item => {
+            return typeof item === 'object' ? item.slug : item
+          })
+        )
+      }
     },
-    [setQueryState, onChangeQuery]
+    [setQueryState, setPriceMetrics, priceMetrics, setAssets, onChangeQuery]
   )
 
   const [chartSettings, setChartSettings] = useState({
@@ -167,11 +182,8 @@ const BalanceView = ({
   const priceRequestedMetrics = useMemo(
     () => {
       return priceMetrics
-        .map(({ asset: slug, enabled }) => {
-          if (!enabled) {
-            return null
-          }
-
+        .filter(({ enabled }) => enabled)
+        .map(({ asset: slug }) => {
           return {
             key: getPriceMetricWithSlug(slug),
             queryKey: CHART_PRICE_METRIC.key,
@@ -186,7 +198,6 @@ const BalanceView = ({
             }
           }
         })
-        .filter(item => item !== null)
     },
     [priceMetrics, timeRange, from, to]
   )

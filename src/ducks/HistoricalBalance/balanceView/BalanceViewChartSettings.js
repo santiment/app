@@ -1,13 +1,12 @@
 import React from 'react'
 import cx from 'classnames'
 import Selector from '@santiment-network/ui/Selector/Selector'
-import CalendarBtn from '../../../components/Calendar/CalendarBtn'
 import ChartSettingsContextMenu from '../../SANCharts/ChartSettingsContextMenu'
 import Toggle from '@santiment-network/ui/Toggle'
 import Button from '@santiment-network/ui/Button'
+import AdvancedCalendar from '../../../components/AdvancedCalendar'
 import styles from './../../SANCharts/ChartPage.module.scss'
 import balanceViewStyles from './BalanceView.module.scss'
-import AdvancedCalendar from '../../../components/AdvancedCalendar'
 
 const BalanceViewChartSettings = ({
   defaultTimerange,

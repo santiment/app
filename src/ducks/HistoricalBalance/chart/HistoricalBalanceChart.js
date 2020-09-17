@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import cx from 'classnames'
 import {
   ComposedChart,
@@ -86,8 +86,8 @@ const getWalletsLines = (wallets, showYAxes, scale) => {
 const COLORS = ['#14C393', '#8358FF', '#5275FF', '#FF5B5B', '#68DBF4']
 
 const labelFormatter = item => {
-  if (item.indexOf('@') !== -1) {
-    const parsed = item.split('@')
+  if (item.indexOf('_') !== -1) {
+    const parsed = item.split('_')
     return 'Price of ' + parsed[1]
   }
 
@@ -144,13 +144,6 @@ const HistoricalBalanceChart = ({
     [metrics, syncedColors, priceMetric]
   )
 
-  const hideTooltipItem = useCallback(
-    key => {
-      return wallets.indexOf(key) === -1
-    },
-    [wallets]
-  )
-
   const chartData = useMemo(
     () => {
       const newTimeseries = [...timeseries, priceMetricTimeseries]
@@ -200,7 +193,6 @@ const HistoricalBalanceChart = ({
                 labelFormatter={formatTooltipDatetime}
                 valueFormatter={tooltipValueFormatter}
                 className={styles.tooltip}
-                hideItem={hideTooltipItem}
               />
             }
           />
