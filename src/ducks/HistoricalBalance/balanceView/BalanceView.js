@@ -15,6 +15,10 @@ import { Area } from 'recharts'
 import { simpleSortStrings } from '../../../utils/sortMethods'
 import { useTimeseries } from '../../Studio/timeseries/hooks'
 import styles from './BalanceView.module.scss'
+import {
+  getNewInterval,
+  INTERVAL_ALIAS
+} from '../../SANCharts/IntervalSelector'
 
 const LoadableChartSettings = Loadable({
   loader: () => import('./BalanceViewChartSettings'),
@@ -22,13 +26,18 @@ const LoadableChartSettings = Loadable({
 })
 
 const DEFAULT_TIME_RANGE = '6m'
-const INTERVAL = '1d'
+
 const CHART_PRICE_METRIC = {
   ...Metric.price_usd,
   type: 'price_usd',
   node: 'area',
   Component: Area,
   opacity: 0.25
+}
+
+const getInterval = (strictInterval, from, to) => {
+  const interval = strictInterval || getNewInterval(from, to)
+  return INTERVAL_ALIAS[interval] || interval
 }
 
 const BalanceView = ({
@@ -43,8 +52,9 @@ const BalanceView = ({
     showLegend = true,
     showYAxes: settingsShowYAxes = false
   } = {},
-  chartSettings: defaultChartSettings
+  chartSettings: defaultChartSettings = {}
 }) => {
+  const { strictInterval } = defaultChartSettings
   const [showYAxes, toggleYAxes] = useState(settingsShowYAxes)
   const [queryState, setQueryState] = useState(queryData)
 
@@ -169,6 +179,7 @@ const BalanceView = ({
   )
 
   const { timeRange, from, to } = chartSettings
+  const interval = getInterval(strictInterval, from, to)
 
   const [scale, setScale] = useState('auto')
 
@@ -192,14 +203,14 @@ const BalanceView = ({
             from: from,
             to: to,
             slug,
-            interval: INTERVAL,
+            interval,
             reqMeta: {
               slug
             }
           }
         })
     },
-    [priceMetrics, timeRange, from, to]
+    [priceMetrics, timeRange, from, to, interval]
   )
 
   const MetricSettingsMap = useMemo(
@@ -225,6 +236,8 @@ const BalanceView = ({
     },
     [priceRequestedMetrics]
   )
+
+  console.log(priceMetricTimeseries)
 
   return (
     <div className={cx(styles.container, classes.balanceViewContainer)}>
@@ -273,7 +286,7 @@ const BalanceView = ({
           wallet={stateAddress}
           from={from}
           to={to}
-          interval={INTERVAL}
+          interval={interval}
           render={({ data, error }) => {
             if (error) {
               throw new Error(
