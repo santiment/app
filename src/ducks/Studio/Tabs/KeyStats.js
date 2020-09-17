@@ -1,5 +1,6 @@
 import React from 'react'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
+import Panel from '@santiment-network/ui/Panel'
 import EthSpentTable from '../../../components/EthSpentTable/EthSpentTable'
 import withProject from '../../../pages/Detailed/withProject'
 import GeneralInfoBlock from '../../../pages/Detailed/generalInfo/GeneralInfoBlock'
@@ -29,12 +30,12 @@ const KeyStats = ({ slug, project, isERC20, loading }) => {
         )}
 
         {slug === 'uniswap' && (
-          <PanelWithHeader
+          <Panel
             header='Uniswap: Token Distributor 0x090d4613473dee047c3f2706764f49e0821d256e'
             className={styles.info__card}
           >
             <UniswapHistoricalBalance />
-          </PanelWithHeader>
+          </Panel>
         )}
       </div>
 

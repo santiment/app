@@ -299,7 +299,12 @@ const BalanceView = ({
               }).length > 0
 
             if (loading) {
-              return <PageLoader className={classes.chart} />
+              return (
+                <PageLoader
+                  className={classes.chart}
+                  containerClass={styles.loaderContainer}
+                />
+              )
             }
 
             return (
