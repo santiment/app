@@ -30,7 +30,7 @@ const KeyStats = ({ slug, project, isERC20, loading }) => {
 
         {slug === 'uniswap' && (
           <PanelWithHeader
-            header='Uniswap: Token Distributor 0x41653c7d61609d856f29355e404f310ec4142cfb'
+            header='Uniswap: Token Distributor 0x090d4613473dee047c3f2706764f49e0821d256e'
             className={styles.info__card}
           >
             <UniswapHistoricalBalance />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import cx from 'classnames'
 import { getPriceMetricWithSlug } from './utils'
 import GetHistoricalBalance from '../GetHistoricalBalance'
@@ -8,12 +8,12 @@ import Loadable from 'react-loadable'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import { initPriceMetrics, mapAssetsToFlatArray } from '../page/utils'
 import { mapStateToQS } from '../../../utils/utils'
-import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import { Metric } from '../../dataHub/metrics'
 import PageLoader from '../../../components/Loader/PageLoader'
 import BalanceViewWalletAssets from './BalanceViewWalletAssets'
 import { Area } from 'recharts'
 import { simpleSortStrings } from '../../../utils/sortMethods'
+import { useTimeseries } from '../../Studio/timeseries/hooks'
 import styles from './BalanceView.module.scss'
 
 const LoadableChartSettings = Loadable({
@@ -39,13 +39,13 @@ const BalanceView = ({
   settings: {
     showHeader = true,
     showIntervals = true,
-    showAlertBtn = true
+    showAlertBtn = true,
+    showLegend = true,
+    showYAxes: settingsShowYAxes = false
   } = {},
   chartSettings: defaultChartSettings
 }) => {
-  const [showYAxes, toggleYAxes] = useState(false)
-  const [priceMetricTimeseries, setPriceMetricTimeseries] = useState({})
-
+  const [showYAxes, toggleYAxes] = useState(settingsShowYAxes)
   const [queryState, setQueryState] = useState(queryData)
 
   const [priceMetrics, setPriceMetrics] = useState([])
@@ -91,13 +91,6 @@ const BalanceView = ({
     ...getIntervalByTimeRange(DEFAULT_TIME_RANGE),
     ...defaultChartSettings
   })
-
-  useEffect(
-    () => {
-      setPriceMetricTimeseries({})
-    },
-    [chartSettings, queryState]
-  )
 
   const handleWalletChange = useCallback(
     event => {
@@ -171,6 +164,57 @@ const BalanceView = ({
     [setScale, scale]
   )
 
+  const priceRequestedMetrics = useMemo(
+    () => {
+      return priceMetrics
+        .map(({ asset: slug, enabled }) => {
+          if (!enabled) {
+            return null
+          }
+
+          return {
+            key: getPriceMetricWithSlug(slug),
+            queryKey: CHART_PRICE_METRIC.key,
+            name: CHART_PRICE_METRIC.type,
+            timeRange,
+            from: from,
+            to: to,
+            slug,
+            interval: INTERVAL,
+            reqMeta: {
+              slug
+            }
+          }
+        })
+        .filter(item => item !== null)
+    },
+    [priceMetrics, timeRange, from, to]
+  )
+
+  const MetricSettingsMap = useMemo(
+    () => {
+      const map = new Map()
+      priceRequestedMetrics.forEach(item => {
+        map.set(item, item)
+      })
+      return map
+    },
+    [priceRequestedMetrics]
+  )
+
+  const [priceMetricTimeseries] = useTimeseries(
+    priceRequestedMetrics,
+    chartSettings,
+    MetricSettingsMap
+  )
+
+  const priceMetricKeys = useMemo(
+    () => {
+      return priceRequestedMetrics.map(({ key }) => key)
+    },
+    [priceRequestedMetrics]
+  )
+
   return (
     <div className={cx(styles.container, classes.balanceViewContainer)}>
       {showHeader && (
@@ -213,57 +257,6 @@ const BalanceView = ({
           />
         </BalanceChartHeader>
 
-        {priceMetrics.map(({ asset: slug, enabled }) => {
-          if (!enabled) {
-            return null
-          }
-
-          const requestedMetrics = [
-            {
-              name: CHART_PRICE_METRIC.type,
-              timeRange,
-              from: from,
-              to: to,
-              slug,
-              interval: INTERVAL,
-              ...CHART_PRICE_METRIC.reqMeta
-            }
-          ]
-
-          return (
-            <GetTimeSeries
-              key={slug}
-              metrics={requestedMetrics}
-              render={({ timeseries, isLoading }) => {
-                if (!timeseries || isLoading) {
-                  return null
-                } else {
-                  const metricSlug = getPriceMetricWithSlug(slug)
-
-                  if (
-                    !priceMetricTimeseries ||
-                    !priceMetricTimeseries[metricSlug]
-                  ) {
-                    const mapped = timeseries.map(
-                      ({ price_usd, datetime }) => ({
-                        datetime,
-                        [metricSlug]: price_usd
-                      })
-                    )
-
-                    setPriceMetricTimeseries({
-                      ...priceMetricTimeseries,
-                      [metricSlug]: mapped
-                    })
-                  }
-
-                  return null
-                }
-              }}
-            />
-          )
-        })}
-
         <GetHistoricalBalance
           assets={mapAssetsToFlatArray(stateAssets)}
           wallet={stateAddress}
@@ -302,10 +295,12 @@ const BalanceView = ({
               <HistoricalBalanceChart
                 showYAxes={showYAxes}
                 walletsData={data}
-                priceMetricsData={priceMetricTimeseries}
+                priceMetricTimeseries={priceMetricTimeseries}
+                priceMetricKeys={priceMetricKeys}
                 priceMetric={CHART_PRICE_METRIC}
                 scale={scale}
                 classes={classes}
+                showLegend={showLegend}
               />
             )
           }}

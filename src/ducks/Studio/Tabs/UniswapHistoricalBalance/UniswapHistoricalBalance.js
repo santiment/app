@@ -3,7 +3,7 @@ import BalanceView from '../../../HistoricalBalance/balanceView/BalanceView'
 import styles from './UniswapHistoricalBalance.module.scss'
 
 const queryData = {
-  address: '0x41653c7d61609d856f29355e404f310ec4142cfb',
+  address: '0x090d4613473dee047c3f2706764f49e0821d256e',
   assets: ['uniswap'],
   priceMetrics: []
 }
@@ -19,19 +19,19 @@ const DEFAULT_SETTINGS = {
 
 const UniswapHistoricalBalance = () => {
   return (
-    <div>
-      <BalanceView
-        queryData={queryData}
-        classes={styles}
-        onChangeQuery={noop}
-        settings={{
-          showHeader: false,
-          showIntervals: false,
-          showAlertBtn: false
-        }}
-        chartSettings={DEFAULT_SETTINGS}
-      />
-    </div>
+    <BalanceView
+      queryData={queryData}
+      classes={styles}
+      onChangeQuery={noop}
+      settings={{
+        showHeader: false,
+        showIntervals: false,
+        showAlertBtn: false,
+        showLegend: false,
+        showYAxes: true
+      }}
+      chartSettings={DEFAULT_SETTINGS}
+    />
   )
 }
 

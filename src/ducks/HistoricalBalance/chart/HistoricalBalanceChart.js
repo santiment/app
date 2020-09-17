@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import cx from 'classnames'
 import {
   ComposedChart,
@@ -97,51 +97,70 @@ const labelFormatter = item => {
 const HistoricalBalanceChart = ({
   walletsData,
   showYAxes = true,
-  priceMetricsData = {},
+  priceMetricTimeseries = [],
+  priceMetricKeys = [],
   priceMetric,
   scale,
-  classes = {}
+  classes = {},
+  showLegend = true
 }) => {
-  const priceMetricTimeseries = Object.values(priceMetricsData)
-  const priceMetricKeys = Object.keys(priceMetricsData)
-
-  const timeseries = Object.keys(walletsData).map(name => {
-    if (!walletsData[name]) return []
-    return walletsData[name].items.map(({ datetime, balance }) => ({
-      datetime,
-      [name]: balance
-    }))
-  })
-
-  if (priceMetricTimeseries && priceMetricTimeseries.length > 0) {
-    priceMetricTimeseries.forEach(item => timeseries.push(item))
-  }
+  const timeseries = useMemo(
+    () => {
+      return Object.keys(walletsData).map(name => {
+        if (!walletsData[name]) return []
+        return walletsData[name].items.map(({ datetime, balance }) => ({
+          datetime,
+          [name]: balance
+        }))
+      })
+    },
+    [walletsData]
+  )
 
   const wallets = Object.keys(walletsData)
   const walletsLines = getWalletsLines(wallets, showYAxes, scale)
 
-  const metrics = priceMetricKeys.map((metricDataKey, index) => {
-    return {
-      ...priceMetric,
-      type: priceMetric.type,
-      dataKey: metricDataKey,
-      color: COLORS[index]
-    }
-  })
+  const metrics = useMemo(
+    () => {
+      return priceMetricKeys.map((metricDataKey, index) => {
+        return {
+          ...priceMetric,
+          type: priceMetric.type,
+          dataKey: metricDataKey,
+          color: COLORS[index]
+        }
+      })
+    },
+    [priceMetricKeys, priceMetric, COLORS]
+  )
 
   const syncedColors = getSyncedColors(metrics)
-  const priceMetricsLines = priceMetric
-    ? generateMetricsMarkup(metrics, { hideYAxis: true, syncedColors })
-    : null
+  const priceMetricsLines = useMemo(
+    () => {
+      return priceMetric
+        ? generateMetricsMarkup(metrics, { hideYAxis: true, syncedColors })
+        : null
+    },
+    [metrics, syncedColors, priceMetric]
+  )
 
-  const hideTooltipItem = key => {
-    return wallets.indexOf(key) === -1
-  }
+  const hideTooltipItem = useCallback(
+    key => {
+      return wallets.indexOf(key) === -1
+    },
+    [wallets]
+  )
 
-  const chartData = mapDatetimeToNumber(
-    mergeTimeseriesByKey({
-      timeseries
-    })
+  const chartData = useMemo(
+    () => {
+      const newTimeseries = [...timeseries, priceMetricTimeseries]
+      return mapDatetimeToNumber(
+        mergeTimeseriesByKey({
+          timeseries: newTimeseries
+        })
+      )
+    },
+    [timeseries, priceMetricTimeseries]
   )
 
   return (
@@ -163,12 +182,14 @@ const HistoricalBalanceChart = ({
             strokeDasharray='4 10'
             stroke='#ebeef5'
           />
-          <Legend
-            verticalAlign='bottom'
-            height={36}
-            content={renderLegend}
-            labelFormatter={labelFormatter}
-          />
+          {showLegend && (
+            <Legend
+              verticalAlign='bottom'
+              height={36}
+              content={renderLegend}
+              labelFormatter={labelFormatter}
+            />
+          )}
 
           {walletsLines}
           {priceMetricsLines}

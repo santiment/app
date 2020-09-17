@@ -7,6 +7,7 @@ import Toggle from '@santiment-network/ui/Toggle'
 import Button from '@santiment-network/ui/Button'
 import styles from './../../SANCharts/ChartPage.module.scss'
 import balanceViewStyles from './BalanceView.module.scss'
+import AdvancedCalendar from '../../../components/AdvancedCalendar'
 
 const BalanceViewChartSettings = ({
   defaultTimerange,
@@ -37,10 +38,13 @@ const BalanceViewChartSettings = ({
       )}
 
       <div className={balanceViewStyles.dateAndSettings}>
-        <CalendarBtn
+        <AdvancedCalendar
           className={classes.calendarButton}
-          onChange={onCalendarChange}
-          value={[new Date(from), new Date(to)]}
+          from={new Date(from)}
+          to={new Date(to)}
+          timeRange={defaultTimerange}
+          onCalendarChange={onCalendarChange}
+          onTimerangeChange={onTimerangeChange}
         />
 
         <ChartSettingsContextMenu
