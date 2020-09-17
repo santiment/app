@@ -14,11 +14,11 @@ import BalanceViewWalletAssets from './BalanceViewWalletAssets'
 import { Area } from 'recharts'
 import { simpleSortStrings } from '../../../utils/sortMethods'
 import { useTimeseries } from '../../Studio/timeseries/hooks'
-import styles from './BalanceView.module.scss'
 import {
   getNewInterval,
   INTERVAL_ALIAS
 } from '../../SANCharts/IntervalSelector'
+import styles from './BalanceView.module.scss'
 
 const LoadableChartSettings = Loadable({
   loader: () => import('./BalanceViewChartSettings'),
@@ -236,8 +236,6 @@ const BalanceView = ({
     },
     [priceRequestedMetrics]
   )
-
-  console.log(priceMetricTimeseries)
 
   return (
     <div className={cx(styles.container, classes.balanceViewContainer)}>
