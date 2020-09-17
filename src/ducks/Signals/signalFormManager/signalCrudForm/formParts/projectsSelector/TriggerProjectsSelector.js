@@ -268,11 +268,11 @@ const AssetsListDescription = ({
   return (
     <div className={styles.assetGroup}>
       {assets.map(asset => {
-        const { id, name, slug } = asset
+        const { id, name, slug, label } = asset
 
         return (
           <span className={styles.asset} key={id || name}>
-            <span className={styles.name}>{name || slug}</span>
+            <span className={styles.name}>{name || slug || label}</span>
             <Button
               type='button'
               className={styles.close}

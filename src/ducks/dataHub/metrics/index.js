@@ -501,6 +501,14 @@ export const Metric = {
     node: 'autoWidthBar',
     isBeta: true,
     formatter: absoluteToPercentsFormatter
+  },
+  active_addresses_24h: {
+    category: 'On-chain',
+    node: 'autoWidthBar',
+    group: 'Network Activity',
+    label: 'Active Addresses 24h',
+    shortLabel: 'A.A. 24h',
+    abbreviation: 'aa24h'
   }
 }
 

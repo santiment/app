@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import styles from './TransactionTableLabels.module.scss'
@@ -22,7 +22,11 @@ const HARDCODED_LINKS = {
   nuonetwork: 'https://www.nuo.network/',
   synthetix: 'https://www.synthetix.io/',
   instadapp: 'https://instadapp.io/',
-  wbtc: 'https://wbtc.network/'
+  wbtc: 'https://wbtc.network/',
+  kyber: 'https://kyber.network/',
+  oneinch: 'https://1inch.exchange/',
+  bitfinex: 'https://www.bitfinex.com/',
+  binance: 'https://www.binance.com/'
 }
 
 const LabelWrapper = ({ metadata }) => {
@@ -40,7 +44,7 @@ const LabelWrapper = ({ metadata }) => {
 
   const { owner } = decoded
 
-  const linkRef = HARDCODED_LINKS[owner]
+  const linkRef = owner ? HARDCODED_LINKS[owner.toLowerCase()] : undefined
 
   if (linkRef) {
     return (
@@ -62,7 +66,11 @@ const LabelWrapper = ({ metadata }) => {
 }
 
 const LabelRenderer = ({ name, metadata }) => {
-  switch (name) {
+  if (!name) {
+    return null
+  }
+
+  switch (name.toLowerCase()) {
     case 'decentralized_exchange': {
       return <LabelWrapper metadata={metadata} />
     }
@@ -72,13 +80,32 @@ const LabelRenderer = ({ name, metadata }) => {
     case 'defi': {
       return <LabelWrapper metadata={metadata} />
     }
+    case 'miner':
+    case 'whale':
+    case 'proxy':
+    case 'genesis': {
+      return <Label className={styles.label}>{name}</Label>
+    }
     default: {
       return null
     }
   }
 }
 
-const TransactionTableLabels = ({ labels }) =>
-  labels.map((item, index) => <LabelRenderer key={index} {...item} />)
+const TransactionTableLabels = ({ labels }) => {
+  const distinct = useMemo(
+    () => {
+      return labels.reduce((acc, item) => {
+        acc[item.name] = item
+        return acc
+      }, {})
+    },
+    [labels]
+  )
+
+  return Object.values(distinct).map((item, index) => (
+    <LabelRenderer key={index} {...item} />
+  ))
+}
 
 export default TransactionTableLabels

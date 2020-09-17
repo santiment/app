@@ -1,4 +1,5 @@
 import gql from 'graphql-tag'
+import { TRANSACTION_FRAGMENT } from '../../../ducks/Studio/Widget/TopTransactionsTable/gql'
 
 export const projectBySlugGQL = gql`
   query projectBySlugGQL(
@@ -48,47 +49,11 @@ export const projectBySlugGQL = gql`
       }
 
       ethTopTransactions(from: $from, to: $to) {
-        datetime
-        trxValue
-        trxHash
-        fromAddress {
-          address
-          isExchange
-          labels {
-            name
-            metadata
-          }
-        }
-        toAddress {
-          address
-          isExchange
-          labels {
-            name
-            metadata
-          }
-        }
+        ...transactionFragment
       }
 
       tokenTopTransactions(from: $from, to: $to) {
-        datetime
-        trxValue
-        trxHash
-        fromAddress {
-          address
-          isExchange
-          labels {
-            name
-            metadata
-          }
-        }
-        toAddress {
-          address
-          isExchange
-          labels {
-            name
-            metadata
-          }
-        }
+        ...transactionFragment
       }
 
       ethSpentOverTime(from: $fromOverTime, to: $to, interval: $interval) {
@@ -105,6 +70,8 @@ export const projectBySlugGQL = gql`
       devActivity60: averageDevActivity(days: 60)
     }
   }
+
+  ${TRANSACTION_FRAGMENT}
 `
 
 export const HistoryPriceByTickerGQL = gql`
