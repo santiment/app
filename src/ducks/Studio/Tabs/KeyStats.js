@@ -5,6 +5,7 @@ import withProject from '../../../pages/Detailed/withProject'
 import GeneralInfoBlock from '../../../pages/Detailed/generalInfo/GeneralInfoBlock'
 import FinancialsBlock from '../../../pages/Detailed/financialInfo/FinancialsBlock'
 import DetailedTransactionsTable from '../../../pages/Detailed/transactionsInfo/DetailedTransactionsTable'
+import UniswapHistoricalBalance from './UniswapHistoricalBalance/UniswapHistoricalBalance'
 import styles from '../../../pages/Detailed/Detailed.module.scss'
 
 const KeyStats = ({ slug, project, isERC20, loading }) => {
@@ -24,6 +25,16 @@ const KeyStats = ({ slug, project, isERC20, loading }) => {
         {project.fundsRaisedIcos && project.fundsRaisedIcos.length > 0 && (
           <PanelWithHeader header='Financials' className={styles.info__card}>
             <FinancialsBlock {...project} />
+          </PanelWithHeader>
+        )}
+
+        {slug === 'uniswap' && (
+          <PanelWithHeader
+            header='Uniswap: Token Distributor 0x090d4613473dee047c3f2706764f49e0821d256e'
+            className={styles.info__card}
+            contentClassName={styles.noPadding}
+          >
+            <UniswapHistoricalBalance />
           </PanelWithHeader>
         )}
       </div>

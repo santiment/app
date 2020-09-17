@@ -8,6 +8,10 @@
   @include border-box();
 }
 
+.loaderContainer {
+  margin-top: 0;
+}
+
 .filters {
   width: 100%;
   background: var(--athens);
@@ -34,7 +38,7 @@
 }
 
 .chartHeader {
-  padding: 20px 24px;
+  padding: 16px 24px 0 24px;
   display: flex;
 
   @include responsive('phone', 'phone-xs') {
@@ -155,6 +159,7 @@
 
 .calendarButton {
   margin-right: 16px;
+  min-width: 180px;
 
   @include responsive('tablet', 'phone', 'phone-xs') {
     margin: 0 0 3px auto;

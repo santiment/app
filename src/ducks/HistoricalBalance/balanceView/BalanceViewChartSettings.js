@@ -1,10 +1,10 @@
 import React from 'react'
 import cx from 'classnames'
 import Selector from '@santiment-network/ui/Selector/Selector'
-import CalendarBtn from '../../../components/Calendar/CalendarBtn'
 import ChartSettingsContextMenu from '../../SANCharts/ChartSettingsContextMenu'
 import Toggle from '@santiment-network/ui/Toggle'
 import Button from '@santiment-network/ui/Button'
+import AdvancedCalendar from '../../../components/AdvancedCalendar'
 import styles from './../../SANCharts/ChartPage.module.scss'
 import balanceViewStyles from './BalanceView.module.scss'
 
@@ -21,23 +21,29 @@ const BalanceViewChartSettings = ({
   priceMetrics = [],
   toggleAsset,
   onScaleChange,
-  scale
+  scale,
+  showIntervals = true
 }) => {
   return (
     <div className={cx(styles.settings, classes.chartSettings)}>
-      <Selector
-        className={classes.datesSelector}
-        options={['1d', '1w', '1m', '3m', '6m', 'all']}
-        nameOptions={['1D', '1W', '1M', '3M', '6M', 'All']}
-        onSelectOption={onTimerangeChange}
-        defaultSelected={defaultTimerange}
-      />
+      {showIntervals && (
+        <Selector
+          className={classes.datesSelector}
+          options={['1d', '1w', '1m', '3m', '6m', 'all']}
+          nameOptions={['1D', '1W', '1M', '3M', '6M', 'All']}
+          onSelectOption={onTimerangeChange}
+          defaultSelected={defaultTimerange}
+        />
+      )}
 
       <div className={balanceViewStyles.dateAndSettings}>
-        <CalendarBtn
+        <AdvancedCalendar
           className={classes.calendarButton}
-          onChange={onCalendarChange}
-          value={[new Date(from), new Date(to)]}
+          from={new Date(from)}
+          to={new Date(to)}
+          timeRange={defaultTimerange}
+          onCalendarChange={onCalendarChange}
+          onTimerangeChange={onTimerangeChange}
         />
 
         <ChartSettingsContextMenu
@@ -48,7 +54,7 @@ const BalanceViewChartSettings = ({
           showWatermarkSettings={false}
           classes={balanceViewStyles}
           onScaleChange={onScaleChange}
-          scale={scale}
+          isLogScale={scale === 'log'}
         >
           <Button
             fluid

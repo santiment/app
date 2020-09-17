@@ -18,6 +18,7 @@ export const useStablecoinsTimeseries = settings => {
   const metrics = useMemo(() => buildStablecoinMetrics(rootMetric), [
     rootMetric
   ])
+  console.log(metrics)
   const [data, loadings] = useTimeseries(
     metrics,
     // HACK: Since the metric's hash doesn't change (done on purpose), forcing useTimseries to refetch data with new queryKey

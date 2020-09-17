@@ -1,3 +1,3 @@
 export const getPriceMetricWithSlug = slug => {
-  return 'priceUsd@' + slug
+  return 'priceUsd_' + slug.replace(/-/g, '')
 }
