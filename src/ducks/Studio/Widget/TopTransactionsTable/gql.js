@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-const TRANSACTION_FRAGMENT = gql`
+export const TRANSACTION_FRAGMENT = gql`
   fragment transactionFragment on Transaction {
     datetime
     trxValue

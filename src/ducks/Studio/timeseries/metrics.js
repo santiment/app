@@ -229,5 +229,6 @@ export const METRICS = [
   'percent_of_holders_distribution_combined_balance_10M_to_inf',
   'social_active_users',
   'price_daa_divergence',
-  'adjusted_price_daa_divergence'
+  'adjusted_price_daa_divergence',
+  'active_addresses_24h'
 ]
