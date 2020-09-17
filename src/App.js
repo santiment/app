@@ -227,17 +227,17 @@ export const App = ({
   location: { pathname }
 }) => (
   <div className='App'>
-    {isOffline && (
-      <div className={styles.offline}>
-        It looks like you are offline. Some actions might not work.
-      </div>
-    )}
-    {isDesktop ? (
-      <Navbar activeLink={pathname} />
-    ) : (
-      <MobileNavbar activeLink={pathname} />
-    )}
     <ErrorBoundary>
+      {isOffline && (
+        <div className={styles.offline}>
+          It looks like you are offline. Some actions might not work.
+        </div>
+      )}
+      {isDesktop ? (
+        <Navbar activeLink={pathname} />
+      ) : (
+        <MobileNavbar activeLink={pathname} />
+      )}
       <GdprRedirector pathname={pathname} />
       {isDesktop && <UrlModals />}
       <Switch>
@@ -462,18 +462,18 @@ export const App = ({
           )}
         />
       </Switch>
+      <NotificationStack />
+      <CookiePopup />
+      {isDesktop && showFooter && (
+        <Footer
+          classes={{
+            footer:
+              isPathnameInPages(pathname, FOOTER_ABSOLUTE_FOR) &&
+              styles.footerAbsolute
+          }}
+        />
+      )}
     </ErrorBoundary>
-    <NotificationStack />
-    <CookiePopup />
-    {isDesktop && showFooter && (
-      <Footer
-        classes={{
-          footer:
-            isPathnameInPages(pathname, FOOTER_ABSOLUTE_FOR) &&
-            styles.footerAbsolute
-        }}
-      />
-    )}
   </div>
 )
 
