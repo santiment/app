@@ -12,14 +12,14 @@ const settings = {
   slug: 'uniswap',
   interval: '15m',
   from: '2020-09-16T00:00:00Z',
-  to: '2020-09-20T00:00:00Z',
+  to: '2020-09-20T00:00:00Z'
 }
 
 const chartPadding = {
   top: 16,
   right: 45,
   bottom: 20,
-  left: 8,
+  left: 8
 }
 
 const UniswapChart = ({ className, metric }) => {
