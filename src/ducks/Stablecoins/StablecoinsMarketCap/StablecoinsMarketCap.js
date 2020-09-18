@@ -20,6 +20,7 @@ import { mapSizesToProps } from '../../../utils/withSizes'
 import SharedAxisToggle from '../../Studio/Chart/SharedAxisToggle'
 import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
 import { formIntervalSettings } from '../../SANCharts/IntervalSelector'
+
 import styles from './StablecoinsMarketCap.module.scss'
 
 const CHART_HEIGHT = 400

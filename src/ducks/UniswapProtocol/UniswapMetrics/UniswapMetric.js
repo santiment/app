@@ -31,12 +31,15 @@ const UniswapMetric = ({ metric }) => {
     [data, key]
   )
 
+  const isLoading = loadings.length > 0
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setSettings({
-        ...settings,
-        ...formIntervalSettings(INTERVAL)
-      })
+      !isLoading &&
+        setSettings({
+          ...settings,
+          ...formIntervalSettings(INTERVAL)
+        })
     }, 15000)
 
     return () => {
@@ -44,18 +47,11 @@ const UniswapMetric = ({ metric }) => {
     }
   }, [])
 
-  const isLoading = loadings.length > 0
-
   return (
     <div className={styles.card}>
-      <Skeleton className={styles.skeleton} show={isLoading} repeat={1} />
-      {!isLoading && (
-        <>
-          <div className={styles.title}>{human_readable_name}</div>
+      <div className={styles.title}>{human_readable_name}</div>
 
-          <div className={styles.value}>{formatNumber(sum)}</div>
-        </>
-      )}
+      <div className={styles.value}>{formatNumber(sum)}</div>
     </div>
   )
 }

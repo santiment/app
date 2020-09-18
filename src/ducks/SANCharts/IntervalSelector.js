@@ -61,7 +61,9 @@ const getAvailableIntervals = (from, to) => {
 }
 
 export const formIntervalSettings = value => {
-  const { from, to } = getIntervalByTimeRange(value)
+  const { from, to } = getIntervalByTimeRange(value, {
+    resetToBorders: false
+  })
 
   const interval = getNewInterval(from, to)
 
