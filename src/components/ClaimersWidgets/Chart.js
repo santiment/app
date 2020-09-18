@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import cx from 'classnames'
 import { linearScale } from '@santiment-network/chart/scales'
+import { toEndOfDay } from '../../utils/dates'
 import Chart from '../../ducks/Chart'
 import { useMetricCategories } from '../../ducks/Chart/Synchronizer'
 import { useAxesMetricsKey } from '../../ducks/Chart/hooks'
@@ -11,7 +12,7 @@ const settings = {
   slug: 'uniswap',
   interval: '15m',
   from: '2020-09-16T00:00:00Z',
-  to: '2020-09-20T00:00:00Z'
+  to: toEndOfDay(new Date()).toISOString()
 }
 
 const chartPadding = {
@@ -31,10 +32,10 @@ const UniswapChart = ({ className, metric }) => {
   return (
     <div className={cx(styles.widget, styles.chart)}>
       <Chart
-        hideBrush
-        hideWatermark
         {...categories}
         {...settings}
+        hideBrush
+        hideWatermark
         isCartesianGridActive
         data={data}
         MetricColor={MetricColor}
