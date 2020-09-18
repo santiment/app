@@ -107,7 +107,7 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
           </Block>
 
           <Block
-            title='How much went to exchanges? How much on CEXes vs DEXes'
+            title='Post-claim activity of UNI tokens'
             description='From addresses that claimed UNI token'
             tag={ANCHORS.Exchanges.key}
           >

@@ -81,14 +81,13 @@ const UniswapPieChart = () => {
       {!loading && (
         <div className={styles.wrapper}>
           <div className={styles.chart}>
-            <PieChart width={300} height={300}>
+            <PieChart width={400} height={300}>
               <Pie
                 data={chartData}
-                cx={150}
-                cy={130}
+                cx={200}
+                cy={140}
                 labelLine={false}
-                outerRadius={80}
-                fill='#8884d8'
+                outerRadius={140}
               >
                 {chartData.map((entry, index) => (
                   <Cell fill={COLORS[index % COLORS.length]} />
@@ -103,11 +102,11 @@ const UniswapPieChart = () => {
           </div>
           <div className={styles.text}>
             <div className={styles.row}>
-              <h4 className={styles.title}>Total minted:</h4>
+              <h4 className={styles.title}>Total claimed:</h4>
               <span className={styles.value}>{formatNumber(total)}</span>
             </div>
             <div className={styles.row}>
-              <h4 className={styles.title}>Moved after claiming to:</h4>
+              <h4 className={styles.title}>Moved after claimed:</h4>
               <span className={styles.value}>{formatNumber(movedSum)}</span>
             </div>
             <div className={styles.row}>
