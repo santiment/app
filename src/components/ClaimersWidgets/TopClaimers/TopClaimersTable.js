@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import ReactTable from 'react-table'
 import { columns } from './columns'
 import { useTopClaimers } from './gql'
@@ -20,7 +21,7 @@ const TopClaimersTable = ({ className }) => {
   })
 
   return (
-    <div className={className}>
+    <div className={cx(className, styles.table)}>
       <ReactTable
         minRows={1}
         className={styles.claimersTable}
@@ -29,6 +30,10 @@ const TopClaimersTable = ({ className }) => {
         resizable={false}
         data={items}
         columns={columns}
+        showPaginationBottom
+        defaultPageSize={5}
+        pageSize={items.length}
+        minRows={5}
       />
     </div>
   )
