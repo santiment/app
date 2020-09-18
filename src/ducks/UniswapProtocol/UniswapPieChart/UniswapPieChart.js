@@ -1,6 +1,7 @@
 import React from 'react'
 import { PieChart, Pie, Cell } from 'recharts'
 import { useUniswapValueDistribution } from './gql'
+import { formatNumber } from '../../../utils/formatting'
 import Skeleton from '../../../components/Skeleton/Skeleton'
 import {
   getDateFormats,
@@ -29,7 +30,7 @@ const obj = {
   },
   notMoved: {
     label: 'Not moved',
-    color: 'AC948C'
+    color: '#AC948C'
   }
 }
 
@@ -61,7 +62,7 @@ function transformData (data) {
     const name = obj[item].label
     const value = (fullData[item] * 100) / total
 
-    return { name, value, rawValue: fullData[item], color: obj[item].color}
+    return { name, value, rawValue: fullData[item], color: obj[item].color }
   })
 
   return { total, movedSum, notMoved, chartData }
@@ -103,24 +104,29 @@ const UniswapPieChart = () => {
           <div className={styles.text}>
             <div className={styles.row}>
               <h4 className={styles.title}>Total minted:</h4>
-              <span className={styles.value}>{total}</span>
+              <span className={styles.value}>{formatNumber(total)}</span>
             </div>
             <div className={styles.row}>
               <h4 className={styles.title}>Moved after claiming to:</h4>
-              <span className={styles.value}>{movedSum}</span>
+              <span className={styles.value}>{formatNumber(movedSum)}</span>
             </div>
-            {/* <ul className={styles.list}> */}
-            {/*   {chartData.map(({name, value}) => ( */}
-            {/*      <li className={styles.item}> */}
-            {/*       <span className={styles.item__name}>{name}</span> */}
-            {/*       <span className={styles.item__value}>{value} ({value})</span> */}
-            {/*     </li> */}
-            {/*   ))} */}
-            {/* </ul> */}
             <div className={styles.row}>
               <h4 className={styles.title}>Not moved:</h4>
-              <span className={styles.value}>{notMoved}</span>
+              <span className={styles.value}>{formatNumber(notMoved)}</span>
             </div>
+            <ul className={styles.list}>
+              {chartData.map(({ name, value, rawValue, color }) => (
+                <li
+                  className={styles.item}
+                  style={{ '--pie-chart-item-color': color }}
+                >
+                  <span className={styles.item__name}>{name}: </span>
+                  <span className={styles.item__value}>
+                    {formatNumber(rawValue)} ({value.toFixed(2)}%)
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       )}

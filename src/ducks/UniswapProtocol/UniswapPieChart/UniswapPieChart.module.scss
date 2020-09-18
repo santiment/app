@@ -44,3 +44,33 @@
 .skeleton {
   min-height: 378px;
 }
+
+.list {
+  display: flex;
+  flex-direction: column;
+  margin: 8px 0 10px;
+  padding: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  padding-left: 14px;
+  margin: 0 0 6px;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--pie-chart-item-color);
+    left: 0;
+  }
+}
+
+.item__name {
+  margin: 0 6px 0 0;
+}
