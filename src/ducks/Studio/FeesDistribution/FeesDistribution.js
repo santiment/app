@@ -51,7 +51,7 @@ const FeeChart = () => {
       return data.map(item => {
         return {
           ...item,
-          slug: item.asset,
+          slug: item.asset || item.slug,
           value: item.fees
         }
       })
