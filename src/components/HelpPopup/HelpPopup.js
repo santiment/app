@@ -8,8 +8,12 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { mapSizesToProps } from '../../utils/withSizes'
 import styles from './HelpPopup.module.scss'
 
-export const HelpPopupTrigger = (
-  <Icon className={styles.trigger} type='info-round' />
+export const HelpPopupTrigger = ({ className, ...props }) => (
+  <Icon
+    {...props}
+    className={cx(styles.trigger, className)}
+    type='info-round'
+  />
 )
 
 const HelpPopup = ({
@@ -19,18 +23,19 @@ const HelpPopup = ({
   position = 'bottom',
   align = 'center',
   on = 'click',
-  trigger = HelpPopupTrigger,
-  isPhone
+  trigger: Trigger = HelpPopupTrigger,
+  isPhone,
+  triggerClassName
 }) => {
   const render = content || children
 
   return isPhone ? (
-    <ContextMenu trigger={trigger}>
+    <ContextMenu trigger={<Trigger className={triggerClassName} />}>
       <Panel className={styles.panel}>{render}</Panel>
     </ContextMenu>
   ) : (
     <Tooltip
-      trigger={trigger}
+      trigger={<Trigger className={triggerClassName} />}
       position={position}
       align={align}
       on={on}

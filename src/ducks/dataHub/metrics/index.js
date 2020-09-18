@@ -511,9 +511,49 @@ export const Metric = {
     abbreviation: 'aa24h'
   },
 
+  // uniswap
   uniswap_total_claims_amount: {
     label: 'Total Claimed Amount',
-    node: 'line'
+    node: 'line',
+    description:
+      'Total amount claimed by all uniswap users (both users and Liquidity providers)'
+  },
+  uniswap_total_user_claims_amount: {
+    node: 'line',
+    label: 'Total Claimed Amount for Users',
+    description:
+      'Total amount claimed by all uniswap users (excluding Liquidity providers)'
+  },
+  uniswap_total_lp_claims_amount: {
+    node: 'line',
+    label: 'Total Claimed Amount for Liquidity Providers',
+    description: 'Total amount claimed by all uniswap Liquidity providers'
+  },
+  uniswap_total_claims_percent: {
+    node: 'line',
+    label: 'Percent Claimed',
+    description: 'Percent of total uniswap tokens claimed'
+  },
+  uniswap_claims_count: {
+    node: 'line',
+    label: 'Claims Count',
+    description: 'The number of uniq addresses and claimed UNI per timeframe'
+  },
+  uniswap_lp_claims_delta: {
+    node: 'line',
+    label: 'Claims Count for Liquidity Providers',
+    description:
+      'The number of uniq addresses that  provided liquidity and claimed  UNI per timeframe'
+  },
+  uniswap_claims_amount: {
+    node: 'line',
+    label: 'Amount Claimed',
+    description: 'Intraday metric of uniswap_amount_claimed'
+  },
+  uniswap_lp_claims_amount: {
+    node: 'line',
+    label: 'Amount Claimed for Liquidity Providers',
+    description: 'Intraday metric of uniswap_amount_lp_claimed'
   }
 }
 
