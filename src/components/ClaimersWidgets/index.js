@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
-import TopClaimersTable from './TopClaimersTable'
-import AmountClaimedChart from './AmountClaimedChart'
+import TopClaimersTable from './TopClaimers/TopClaimersTable'
+import AmountClaimedChart from './AmountClaimed/AmountClaimedChart'
 import styles from './index.module.scss'
 
 const ClaimersWidgets = ({ className }) => {
