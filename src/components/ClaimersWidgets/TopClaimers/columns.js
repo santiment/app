@@ -2,19 +2,20 @@ import React from 'react'
 import { formatNumber } from '../../../utils/formatting'
 import WalletLink from '../../WalletLink/WalletLink'
 
-const TrxAddressCell = ({ value }) => <WalletLink {...value} />
+const TrxAddressCell = ({ value }) => <WalletLink address={value} />
 
 export const columns = [
   {
-    Header: 'address',
-    accessor: 'Address',
+    id: 'address',
+    Header: 'Address',
+    accessor: 'address',
     Cell: TrxAddressCell,
     sortable: false
   },
   {
     id: 'value',
     Header: 'Value',
-    accessor: 'trxValue',
+    accessor: 'value',
     minWidth: 100,
     maxWidth: 150,
     sortable: true,

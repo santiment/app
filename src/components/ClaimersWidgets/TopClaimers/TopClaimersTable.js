@@ -17,6 +17,8 @@ const TopClaimersTable = ({ className }) => {
 
   // console.log(data)
 
+  // const harcoded = [{address: "0xdb08817d917a0ce2c4fd7370f4b9b44c937b4ef1", value: 1944444.455}, {address: "0xebabde62e507feca42dbd3e9ce2d2598b1a589cb", value: 4584329.4443}]
+
   return (
     <div className={className}>
       <ReactTable
