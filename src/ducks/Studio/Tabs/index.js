@@ -22,7 +22,7 @@ const TABS = [
     labelFormatter: () => {
       return (
         <>
-          Fees Distribution 7d
+          Fees Distribution
           <NewLabelTemplate className={styles.new} />
         </>
       )

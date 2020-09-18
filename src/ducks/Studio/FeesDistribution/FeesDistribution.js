@@ -40,7 +40,7 @@ const useFeeDistributions = ({ from, to }) => {
 export const FeesDistributionTitle = () => {
   return (
     <div className={styles.title}>
-      <div className={styles.text}>Fees Distribution</div>{' '}
+      <div className={styles.text}>Fees Distribution (last 7 days)</div>{' '}
       <HelpPopup on='hover' position='top'>
         This represents the amount of Ether spent on fees broken down by
         projects
@@ -83,7 +83,11 @@ export const FeesDistributionChart = ({ className }) => {
   const { isPro } = useUserSubscriptionStatus()
 
   if (!isPro) {
-    return <MakeProSubscriptionCard />
+    return (
+      <div className={cx(styles.container, className)}>
+        <MakeProSubscriptionCard />
+      </div>
+    )
   }
 
   return (
