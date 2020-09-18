@@ -11,6 +11,7 @@ import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavi
 import UniswapHistoricalBalance from '../../ducks/Studio/Tabs/UniswapHistoricalBalance/UniswapHistoricalBalance'
 import UniswapTopTransactions from '../../ducks/UniswapProtocol/UniswapTopTransactions/UniswapTopTransactions'
 import UniswapMetrics from '../../ducks/UniswapProtocol/UniswapMetrics/UniswapMetrics'
+import UniswapPieChart from '../../ducks/UniswapProtocol/UniswapPieChart/UniswapPieChart'
 import SharePage from '../../components/SharePage/SharePage'
 import styles from './UniswapProtocolPage.module.scss'
 
@@ -18,6 +19,10 @@ const ANCHORS = {
   Overview: {
     label: 'Uniswap Protocol',
     key: 'overview'
+  },
+  Exchanges: {
+    label: 'How much went to exchanges?',
+    key: 'how-much-on-exchanges'
   },
   TopTransactions: {
     label: 'Top Token Transactions',
@@ -88,6 +93,14 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
                 showAlertBtn: true
               }}
             />
+          </Block>
+
+          <Block
+            title='How much went to exchanges? How much on CEXes vs DEXes'
+            description='From addresses that claimed UNI token'
+            tag={ANCHORS.Exchanges.key}
+          >
+            <UniswapPieChart />
           </Block>
 
           <Block

@@ -3,8 +3,7 @@ import ReactTable from 'react-table'
 import { columns } from './columns'
 import { useTopClaimers } from './gql'
 import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
-import styles from '../index.module.scss'
-import tableStyles from './table.module.scss'
+import styles from './table.module.scss'
 
 const DEFAULT_SORTED = [
   {
@@ -19,13 +18,12 @@ const TopClaimersTable = ({ className }) => {
     from: from.toISOString(),
     to: to.toISOString()
   })
-  console.log(items)
 
   return (
     <div className={className}>
       <ReactTable
         minRows={1}
-        className={tableStyles.claimersTable}
+        className={styles.claimersTable}
         defaultSorted={DEFAULT_SORTED}
         showPagination={false}
         resizable={false}
