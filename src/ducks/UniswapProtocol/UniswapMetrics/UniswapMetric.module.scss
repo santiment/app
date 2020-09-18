@@ -4,13 +4,14 @@
   padding: 24px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: center;
   background: var(--white);
   border-radius: $border-radius;
 }
 
-.loader {
-  font-size: 12px;
+.skeleton {
+  height: 160px;
 }
 
 .title {

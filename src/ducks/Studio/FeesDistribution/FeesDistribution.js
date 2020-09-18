@@ -5,6 +5,7 @@ import { millify } from '../../../utils/formatting'
 import ProjectsBarChart from '../../Stablecoins/ProjectsBarChart/ProjectsBarChart'
 import { formIntervalSettings } from '../../SANCharts/IntervalSelector'
 import PageLoader from '../../../components/Loader/PageLoader'
+import HelpPopup from '../../../components/HelpPopup/HelpPopup'
 import styles from './FeesDistribution.module.scss'
 
 const FEES_DISTRIBUTION = gql`
@@ -34,7 +35,13 @@ const useFeeDistributions = ({ from, to }) => {
 const FeesDistribution = () => {
   return (
     <div className={styles.container}>
-      <div className={styles.title}>Fees Distribution</div>
+      <div className={styles.title}>
+        <div className={styles.text}>Fees Distribution</div>{' '}
+        <HelpPopup on='hover' position='top'>
+          This represents the amount of Ether spent on fees broken down by
+          projects
+        </HelpPopup>
+      </div>
 
       <FeeChart />
     </div>

@@ -55,7 +55,13 @@ export default class HistoricalBalancePage extends Component {
   }
 
   render () {
-    const { isDesktop, showTitle, classes } = this.props
+    const {
+      isDesktop,
+      showTitle,
+      classes,
+      chartSettings,
+      settings
+    } = this.props
 
     return (
       <div
@@ -72,6 +78,8 @@ export default class HistoricalBalancePage extends Component {
           classes={classes}
           onChangeQuery={this.handleChangeQuery}
           queryData={this.state}
+          chartSettings={chartSettings}
+          settings={settings}
         />
       </div>
     )

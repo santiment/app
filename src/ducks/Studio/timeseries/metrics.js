@@ -231,12 +231,14 @@ export const METRICS = [
   'price_daa_divergence',
   'adjusted_price_daa_divergence',
   'active_addresses_24h',
-  'uniswap_amount_claimed_by_lps',
-  'uniswap_amount_claimed',
-  'uniswap_claimed_for_lps',
-  'uniswap_cliamed_for_users',
-  'uniswap_number_of_claims_by_lps',
-  'uniswap_number_of_claims',
-  'uniswap_percent_claimed',
-  'uniswap_total_claimed'
+  'uniswap_total_claims_amount',
+  'uniswap_total_user_claims_amount',
+  'uniswap_total_lp_claims_amount',
+  'uniswap_total_claims_percent',
+  'uniswap_claims_count',
+  'uniswap_lp_claims_count',
+  'uniswap_user_claims_count',
+  'uniswap_claims_amount',
+  'uniswap_lp_claims_amount',
+  'uniswap_user_claims_amount'
 ]

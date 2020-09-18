@@ -25,10 +25,6 @@ const ANCHORS = {
   Claimers: {
     label: 'UNI Token Claims',
     key: 'claimers'
-  },
-  Metrics: {
-    label: 'Metrics',
-    key: 'metrics'
   }
 }
 
@@ -103,11 +99,8 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
             title='UNI Token Claims'
             description=''
           >
-            <ClaimersWidgets />
-          </Block>
-
-          <Block title='Metrics, 24h' tag={ANCHORS.Metrics.key}>
             <UniswapMetrics />
+            <ClaimersWidgets />
           </Block>
         </div>
       </div>

@@ -4,8 +4,16 @@ import Dialog from '@santiment-network/ui/Dialog'
 import HistoricalBalancePage, {
   BalancePageTitle
 } from '../../ducks/HistoricalBalance/page/HistoricalBalancePage'
+import { formIntervalSettings } from '../../ducks/SANCharts/IntervalSelector'
 import styles from './WalletLink.module.scss'
 import dialogStyles from './ViewBalanceDialog.module.scss'
+
+const CHART_SETTINGS = {
+  ...formIntervalSettings('1w'),
+  timeRange: '7d'
+}
+
+const SETTINGS = {}
 
 const ViewBalanceDialog = ({ isDesktop, address, assets, trigger }) => {
   return (
@@ -21,6 +29,8 @@ const ViewBalanceDialog = ({ isDesktop, address, assets, trigger }) => {
           address={address}
           assets={assets}
           showTitle={false}
+          chartSettings={CHART_SETTINGS}
+          settings={SETTINGS}
         />
       </Dialog.ScrollContent>
     </Dialog>
