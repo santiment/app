@@ -11,7 +11,7 @@ const queryData = {
 const noop = () => {}
 
 const DEFAULT_SETTINGS = {
-  from: '2020-09-16T00:00:00Z',
+  from: '2020-09-16T19:00:00Z',
   to: new Date(),
   selector: { slug: 'uniswap', infrastructure: 'ETH' }
 }
