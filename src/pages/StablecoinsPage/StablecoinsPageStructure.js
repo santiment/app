@@ -4,13 +4,19 @@ import StablecoinsIntervals from '../../ducks/Stablecoins/StablecoinsIntervals/S
 import CheckProPaywall from '../../ducks/Stablecoins/CheckProPaywall'
 import styles from './StablecoinsPage.module.scss'
 
-export const BlockHeader = ({ title, description, setInterval, tag }) => {
+export const BlockHeader = ({
+  title,
+  description,
+  setInterval,
+  tag,
+  className
+}) => {
   if (!title) {
     return null
   }
 
   return (
-    <div className={styles.subHeader}>
+    <div className={cx(styles.subHeader, className)}>
       <div className={styles.subTitle} id={tag}>
         {title}
         {setInterval && <StablecoinsIntervals onChange={setInterval} />}
