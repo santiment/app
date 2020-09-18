@@ -11,7 +11,7 @@ import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavi
 import UniswapHistoricalBalance from '../../ducks/Studio/Tabs/UniswapHistoricalBalance/UniswapHistoricalBalance'
 import UniswapTopTransactions from '../../ducks/UniswapProtocol/UniswapTopTransactions/UniswapTopTransactions'
 import UniswapMetrics from '../../ducks/UniswapProtocol/UniswapMetrics/UniswapMetrics'
-import UniswapPieChart from '../../ducks/UniswapProtocol/UniswapPieChart/index'
+import UniswapPieChart from '../../ducks/UniswapProtocol/UniswapPieChart/UniswapPieChart'
 import styles from './UniswapProtocolPage.module.scss'
 
 const ANCHORS = {

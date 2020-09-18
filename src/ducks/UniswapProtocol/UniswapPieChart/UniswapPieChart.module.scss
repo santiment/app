@@ -6,3 +6,10 @@
   padding: 20px;
   background: var(--white);
 }
+
+.time {
+  @include text('body-2', 'm');
+
+  color: var(--waterloo);
+  margin: 12px 0 0 0;
+}
