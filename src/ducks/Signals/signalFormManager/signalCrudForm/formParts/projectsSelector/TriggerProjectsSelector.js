@@ -66,13 +66,6 @@ export const TriggerProjectsSelector = ({
     [listItems]
   )
 
-  useEffect(
-    () => {
-      setListItems(Array.isArray(target) ? target : [target])
-    },
-    [target]
-  )
-
   useEffect(() => {
     function listenHotkey ({ target, ctrlKey, code }) {
       if (target === document.body && ctrlKey && code === 'KeyK') {
