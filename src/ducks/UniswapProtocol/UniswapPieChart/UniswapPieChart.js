@@ -1,6 +1,7 @@
 import React from 'react'
 import { PieChart, Pie, Cell } from 'recharts'
 import { useUniswapValueDistribution } from './gql'
+import Skeleton from '../../../components/Skeleton/Skeleton'
 import {
   getDateFormats,
   getTimeFormats,
@@ -73,50 +74,56 @@ const UniswapPieChart = () => {
   const { H, mm } = getTimeFormats(currDate)
   const { total, movedSum, notMoved, chartData } = transformData(rawData)
 
-  console.log(chartData)
-
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.chart}>
-        <PieChart width={300} height={300}>
-          <Pie
-            data={chartData}
-            cx={150}
-            cy={130}
-            labelLine={false}
-            outerRadius={80}
-            fill='#8884d8'
-          >
-            {chartData.map((entry, index) => (
-              <Cell fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Pie>
-        </PieChart>
-      </div>
-      <div className={styles.text}>
-        <div>
-          <h4 className={styles.title}>Total minted</h4>
-          <span className={styles.value}>{total}</span>
+    <>
+      <Skeleton repeat={1} className={styles.skeleton} show={loading} />
+      {!loading && (
+        <div className={styles.wrapper}>
+          <div className={styles.chart}>
+            <PieChart width={300} height={300}>
+              <Pie
+                data={chartData}
+                cx={150}
+                cy={130}
+                labelLine={false}
+                outerRadius={80}
+                fill='#8884d8'
+              >
+                {chartData.map((entry, index) => (
+                  <Cell fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+            </PieChart>
+            <p
+              className={styles.time}
+            >{`Last update: ${D} ${MMM}, ${make12Hours(H)}:${mm}${getAmPm(
+                H
+              )}`}</p>
+          </div>
+          <div className={styles.text}>
+            <div className={styles.row}>
+              <h4 className={styles.title}>Total minted:</h4>
+              <span className={styles.value}>{total}</span>
+            </div>
+            <div className={styles.row}>
+              <h4 className={styles.title}>Moved after claiming to:</h4>
+              <span className={styles.value}>{movedSum}</span>
+            </div>
+            {/*         <ul className={styles.list}> */}
+            {/*  */}
+            {/*           <li className={styles.item}> */}
+            {/*             <span className={styles.item__name} /> */}
+            {/*             <span className={styles.item__value} /> */}
+            {/*           </li> */}
+            {/*         </ul> */}
+            <div className={styles.row}>
+              <h4 className={styles.title}>Not moved:</h4>
+              <span className={styles.value}>{notMoved}</span>
+            </div>
+          </div>
         </div>
-        <div>
-          <h4 className={styles.title}>Moved after claiming to</h4>
-          <span className={styles.value}>{movedSum}</span>
-        </div>
-        <ul className={styles.list}>
-          <li className={styles.item}>
-            <span className={styles.item__name} />
-            <span className={styles.item__value} />
-          </li>
-        </ul>
-        <div>
-          <h4 className={styles.title}>Not moved</h4>
-          <span className={styles.value}>{notMoved}</span>
-        </div>
-      </div>
-      <p className={styles.time}>{`Last update: ${D} ${MMM}, ${make12Hours(
-        H
-      )}:${mm}${getAmPm(H)}`}</p>
-    </div>
+      )}
+    </>
   )
 }
 

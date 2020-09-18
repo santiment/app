@@ -5,6 +5,9 @@
   border-radius: 4px;
   padding: 20px;
   background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .time {
@@ -12,4 +15,32 @@
 
   color: var(--waterloo);
   margin: 12px 0 0 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  margin: 0 0 12px;
+}
+
+.title {
+  margin: 0 12px 0 0;
+
+  @include text('body-1', 'l');
+}
+
+.value {
+  @include text('body-2', 'm');
+
+  color: var(--waterloo);
+}
+
+.text {
+  min-width: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+.skeleton {
+  min-height: 378px;
 }
