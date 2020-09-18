@@ -27,26 +27,29 @@ const ChartWidget = ({ metric }) => (
 const ClaimersWidgets = ({ className }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
-      <div className={styles.item}>
-        <h3 className={styles.subheading}>Top Claimers, 24h</h3>
-        <TopClaimersTable className={cx(styles.widget, styles.chart)} />
-      </div>
-
-      <ChartWidget metric={Metric.uniswap_total_claims_amount} />
-
-      <ChartWidget metric={Metric.uniswap_total_user_claims_amount} />
-
-      <ChartWidget metric={Metric.uniswap_total_lp_claims_amount} />
+      <Widget title='Top Claimers, 24h'>
+        <TopClaimersTable className={styles.widget} />
+      </Widget>
 
       <ChartWidget metric={Metric.uniswap_total_claims_percent} />
 
+      <ChartWidget metric={Metric.uniswap_claims_amount} />
+      <ChartWidget metric={Metric.uniswap_total_claims_amount} />
+
       <ChartWidget metric={Metric.uniswap_claims_count} />
+      <ChartWidget metric={Metric.uniswap_total_claims_count} />
+
+      <ChartWidget metric={Metric.uniswap_user_claims_count} />
+      <ChartWidget metric={Metric.uniswap_total_user_claims_count} />
+
+      <ChartWidget metric={Metric.uniswap_user_claims_amount} />
+      <ChartWidget metric={Metric.uniswap_total_user_claims_amount} />
 
       <ChartWidget metric={Metric.uniswap_lp_claims_count} />
-
-      <ChartWidget metric={Metric.uniswap_claims_amount} />
+      <ChartWidget metric={Metric.uniswap_total_lp_claims_count} />
 
       <ChartWidget metric={Metric.uniswap_lp_claims_amount} />
+      <ChartWidget metric={Metric.uniswap_total_lp_claims_amount} />
     </div>
   )
 }

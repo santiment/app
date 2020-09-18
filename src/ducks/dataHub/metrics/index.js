@@ -542,6 +542,25 @@ export const Metric = {
     description: 'Percent of total uniswap tokens claimed',
     color: '#5275ff'
   },
+  uniswap_total_claims_count: {
+    category: 'On-chain',
+    node: 'line',
+    label: 'Total Claims Count',
+    color: '#5275ff'
+  },
+  uniswap_total_user_claims_count: {
+    category: 'On-chain',
+    node: 'line',
+    label: 'Total Claims Count for Users',
+    color: '#5275ff'
+  },
+  uniswap_total_lp_claims_count: {
+    category: 'On-chain',
+    node: 'line',
+    label: 'Total Claims Count for Liquidity Providers',
+    color: '#5275ff'
+  },
+
   uniswap_claims_count: {
     category: 'On-chain',
     node: 'line',
@@ -569,6 +588,18 @@ export const Metric = {
     node: 'line',
     label: 'Amount Claimed for Liquidity Providers',
     description: 'Intraday metric of uniswap_amount_lp_claimed',
+    color: '#ffad4d'
+  },
+  uniswap_user_claims_count: {
+    category: 'On-chain',
+    node: 'line',
+    label: 'Claims Count for Users',
+    color: '#ffad4d'
+  },
+  uniswap_user_claims_amount: {
+    category: 'On-chain',
+    node: 'line',
+    label: 'Amount Claimed for Users',
     color: '#ffad4d'
   }
 }

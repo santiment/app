@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
+import { useRestrictedInfo } from './hooks'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import ClaimersWidgets from '../../components/ClaimersWidgets'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
@@ -43,6 +44,8 @@ const ANCHORS = {
 }
 
 const UniswapProtocolPage = ({ history, isDesktop }) => {
+  const areClaimsRestricted = useRestrictedInfo()
+
   return (
     <div className={cx('page', styles.container)}>
       <Helmet
@@ -122,6 +125,7 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
             tag={ANCHORS.Claimers.key}
             title='UNI Token Claims'
             description=''
+            isPaywalActive={areClaimsRestricted}
           >
             <UniswapMetrics />
             <ClaimersWidgets />

@@ -10,8 +10,8 @@
 }
 
 .table {
-  padding: 0 10px 0 0;
   height: 340px;
+  overflow-x: hidden;
   overflow-y: auto;
   overflow-y: overlay;
 }
@@ -71,7 +71,7 @@
         & > div {
           &::before,
           &::after {
-            content: "";
+            content: '';
             position: absolute;
             right: 0;
             border: 4px solid transparent;
