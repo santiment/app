@@ -1,3 +1,6 @@
+import gql from 'graphql-tag'
+import { useQuery } from '@apollo/react-hooks'
+
 const TOP_CLAIMERS_QUERY = gql`
   query topClaimers($selector: String) {
     topClaimers(selector: $selector) {
@@ -8,7 +11,7 @@ const TOP_CLAIMERS_QUERY = gql`
 `
 
 export function useTopClaimers (selector) {
-  const { data = ({ topClaimers = [] } = {}), loading } = useQuery(
+  const { data: { topClaimers = [] } = {}, loading } = useQuery(
     TOP_CLAIMERS_QUERY,
     {
       variables: {
@@ -17,5 +20,5 @@ export function useTopClaimers (selector) {
     }
   )
 
-  return [topClaimers, loading]
+  return [topClaimers || [], loading]
 }
