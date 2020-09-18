@@ -44,8 +44,16 @@ export const Block = ({
   )
 }
 
-export const BlockWithRanges = ({ title, description, el: El, tag }) => {
+export const BlockWithRanges = ({
+  title,
+  description,
+  el: El,
+  tag,
+  checkPro = true
+}) => {
   const [interval, setInterval] = useState('24h')
+
+  const Wrapper = checkPro ? CheckProPaywall : Fragment
 
   return (
     <div className={styles.block} id={tag}>
@@ -55,9 +63,9 @@ export const BlockWithRanges = ({ title, description, el: El, tag }) => {
         setInterval={setInterval}
       />
 
-      <CheckProPaywall>
+      <Wrapper>
         <El interval={interval} />
-      </CheckProPaywall>
+      </Wrapper>
     </div>
   )
 }

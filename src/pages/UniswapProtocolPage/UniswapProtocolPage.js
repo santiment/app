@@ -19,7 +19,7 @@ const ANCHORS = {
   },
   TopTransactions: {
     label: 'Top Token Transactions',
-    key: 'top-transaction'
+    key: 'top-transactions'
   },
   Claimers: {
     label: 'Claimers Widgets',
