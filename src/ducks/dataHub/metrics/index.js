@@ -539,7 +539,7 @@ export const Metric = {
     label: 'Claims Count',
     description: 'The number of uniq addresses and claimed UNI per timeframe'
   },
-  uniswap_lp_claims_delta: {
+  uniswap_lp_claims_count: {
     node: 'line',
     label: 'Claims Count for Liquidity Providers',
     description:
