@@ -8,7 +8,7 @@ const TOP_CLAIMERS_QUERY = gql`
         selector: { slug: "uniswap" }
         from: $from
         to: $to
-        limit: 5
+        limit: 50
       ) {
         values {
           ... on StringAddressFloatValueList {
