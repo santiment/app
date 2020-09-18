@@ -17,13 +17,13 @@ const ANCHORS = {
     label: 'Uniswap Protocol',
     key: 'overview'
   },
+  TopTransactions: {
+    label: 'Top Token Transactions',
+    key: 'top-transaction'
+  },
   Claimers: {
     label: 'Claimers Widgets',
     key: 'claimers'
-  },
-  TopTransactions: {
-    label: 'Top Token Transaction',
-    key: 'top-transaction'
   }
 }
 
