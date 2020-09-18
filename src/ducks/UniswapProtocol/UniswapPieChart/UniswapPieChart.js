@@ -61,7 +61,7 @@ function transformData (data) {
     const name = obj[item].label
     const value = (fullData[item] * 100) / total
 
-    return { name, value }
+    return { name, value, rawValue: fullData[item], color: obj[item].color}
   })
 
   return { total, movedSum, notMoved, chartData }
@@ -109,13 +109,14 @@ const UniswapPieChart = () => {
               <h4 className={styles.title}>Moved after claiming to:</h4>
               <span className={styles.value}>{movedSum}</span>
             </div>
-            {/*         <ul className={styles.list}> */}
-            {/*  */}
-            {/*           <li className={styles.item}> */}
-            {/*             <span className={styles.item__name} /> */}
-            {/*             <span className={styles.item__value} /> */}
-            {/*           </li> */}
-            {/*         </ul> */}
+            {/* <ul className={styles.list}> */}
+            {/*   {chartData.map(({name, value}) => ( */}
+            {/*      <li className={styles.item}> */}
+            {/*       <span className={styles.item__name}>{name}</span> */}
+            {/*       <span className={styles.item__value}>{value} ({value})</span> */}
+            {/*     </li> */}
+            {/*   ))} */}
+            {/* </ul> */}
             <div className={styles.row}>
               <h4 className={styles.title}>Not moved:</h4>
               <span className={styles.value}>{notMoved}</span>
