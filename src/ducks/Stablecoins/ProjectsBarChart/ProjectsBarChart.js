@@ -108,11 +108,14 @@ const ProjectsBarChart = ({
               content={props => renderCustomizedLabel({ ...props, data })}
             />
             {data.map((entry, index) => {
+              const { clickable = true } = entry
               return (
                 <Cell
                   key={`cell-${index}`}
                   fill={MetricColor[entry.slug]}
-                  onClick={() => onProjectClick({ value: entry.slug })}
+                  onClick={() =>
+                    clickable && onProjectClick({ value: entry.slug })
+                  }
                 />
               )
             })}

@@ -11,6 +11,7 @@ import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavi
 import UniswapHistoricalBalance from '../../ducks/Studio/Tabs/UniswapHistoricalBalance/UniswapHistoricalBalance'
 import UniswapTopTransactions from '../../ducks/UniswapProtocol/UniswapTopTransactions/UniswapTopTransactions'
 import UniswapMetrics from '../../ducks/UniswapProtocol/UniswapMetrics/UniswapMetrics'
+import SharePage from '../../components/SharePage/SharePage'
 import styles from './UniswapProtocolPage.module.scss'
 
 const ANCHORS = {
@@ -57,6 +58,8 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
         <div className={cx(styles.inner, styles.content)}>
           <div className={styles.pageDescription}>
             <h3 className={styles.title}>Uniswap Protocol Dashboard</h3>
+
+            <SharePage />
           </div>
         </div>
       </div>

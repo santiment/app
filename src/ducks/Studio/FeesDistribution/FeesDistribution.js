@@ -11,7 +11,9 @@ import styles from './FeesDistribution.module.scss'
 const FEES_DISTRIBUTION = gql`
   query ethFeesDistribution($from: DateTime!, $to: DateTime!) {
     ethFeesDistribution(from: $from, to: $to, limit: 10) {
-      asset
+      slug
+      ticker
+      address
       fees
     }
   }
@@ -58,8 +60,10 @@ const FeeChart = () => {
       return data.map(item => {
         return {
           ...item,
-          slug: item.asset || item.slug,
-          value: item.fees
+          ticker: item.ticker || item.address,
+          slug: item.slug || item.address,
+          value: item.fees,
+          clickable: !!item.slug
         }
       })
     },
