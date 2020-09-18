@@ -12,6 +12,10 @@ import UniswapHistoricalBalance from '../../ducks/Studio/Tabs/UniswapHistoricalB
 import UniswapTopTransactions from '../../ducks/UniswapProtocol/UniswapTopTransactions/UniswapTopTransactions'
 import UniswapMetrics from '../../ducks/UniswapProtocol/UniswapMetrics/UniswapMetrics'
 import SharePage from '../../components/SharePage/SharePage'
+import {
+  FeesDistributionChart,
+  FeesDistributionTitle
+} from '../../ducks/Studio/FeesDistribution/FeesDistribution'
 import styles from './UniswapProtocolPage.module.scss'
 
 const ANCHORS = {
@@ -26,6 +30,10 @@ const ANCHORS = {
   Claimers: {
     label: 'UNI Token Claims',
     key: 'claimers'
+  },
+  FeesDistribution: {
+    label: 'Fees Distribution',
+    key: 'fees-distribution'
   }
 }
 
@@ -104,6 +112,13 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
           >
             <UniswapMetrics />
             <ClaimersWidgets />
+          </Block>
+
+          <Block
+            tag={ANCHORS.FeesDistribution.key}
+            title={<FeesDistributionTitle />}
+          >
+            <FeesDistributionChart />
           </Block>
         </div>
       </div>

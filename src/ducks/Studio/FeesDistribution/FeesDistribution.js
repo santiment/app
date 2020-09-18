@@ -34,25 +34,30 @@ const useFeeDistributions = ({ from, to }) => {
   }
 }
 
+export const FeesDistributionTitle = () => {
+  return (
+    <div className={styles.title}>
+      <div className={styles.text}>Fees Distribution</div>{' '}
+      <HelpPopup on='hover' position='top'>
+        This represents the amount of Ether spent on fees broken down by
+        projects
+      </HelpPopup>
+    </div>
+  )
+}
+
 const FeesDistribution = () => {
   return (
-    <div className={styles.container}>
-      <div className={styles.title}>
-        <div className={styles.text}>Fees Distribution</div>{' '}
-        <HelpPopup on='hover' position='top'>
-          This represents the amount of Ether spent on fees broken down by
-          projects
-        </HelpPopup>
-      </div>
-
-      <FeeChart />
-    </div>
+    <>
+      <FeesDistributionTitle />
+      <FeesDistributionChart />
+    </>
   )
 }
 
 const DEFAULT_SETTINGS = formIntervalSettings('7d')
 
-const FeeChart = () => {
+export const FeesDistributionChart = () => {
   const [settings] = useState(DEFAULT_SETTINGS)
 
   const { data, loading } = useFeeDistributions(settings)
@@ -72,17 +77,19 @@ const FeeChart = () => {
     [data]
   )
 
-  if (loading) {
-    return <PageLoader />
-  }
-
   return (
-    <ProjectsBarChart
-      data={prepared}
-      settings={{
-        yTickFormatter: val => `${millify(val)}`
-      }}
-    />
+    <div className={styles.container}>
+      {loading ? (
+        <PageLoader />
+      ) : (
+        <ProjectsBarChart
+          data={prepared}
+          settings={{
+            yTickFormatter: val => `${millify(val)}`
+          }}
+        />
+      )}
+    </div>
   )
 }
 
