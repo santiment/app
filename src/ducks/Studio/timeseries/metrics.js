@@ -231,6 +231,8 @@ export const METRICS = [
   'price_daa_divergence',
   'adjusted_price_daa_divergence',
   'active_addresses_24h',
+
+  // uniswap
   'uniswap_total_claims_amount',
   'uniswap_total_user_claims_amount',
   'uniswap_total_lp_claims_amount',
