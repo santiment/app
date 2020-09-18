@@ -10,7 +10,7 @@ import styles from './FeesDistribution.module.scss'
 
 const FEES_DISTRIBUTION = gql`
   query ethFeesDistribution($from: DateTime!, $to: DateTime!) {
-    ethFeesDistribution(from: $from, to: $to, limit: 10) {
+    ethFeesDistribution(from: $from, to: $to) {
       slug
       ticker
       address
@@ -50,8 +50,10 @@ const FeesDistribution = () => {
   )
 }
 
+const DEFAULT_SETTINGS = formIntervalSettings('7d')
+
 const FeeChart = () => {
-  const [settings] = useState(formIntervalSettings('7d'))
+  const [settings] = useState(DEFAULT_SETTINGS)
 
   const { data, loading } = useFeeDistributions(settings)
 
