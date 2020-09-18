@@ -6,12 +6,12 @@ export const HISTORICAL_BALANCE_QUERY = gql`
     $to: DateTime!
     $address: String!
     $interval: interval!
-    $slug: String
+    $selector: HistoricalBalanceSelector
   ) {
     historicalBalance(
       address: $address
       interval: $interval
-      slug: $slug
+      selector: $selector
       from: $from
       to: $to
     ) {

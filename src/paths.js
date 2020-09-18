@@ -10,5 +10,6 @@ export const PATHS = {
   STUDIO: '/studio',
   CHARTS: '/charts',
   STABLECOINS: '/stablecoins',
+  UNISWAP_PROTOCOL: '/uniswap-protocol',
   SHEETS_TEMPLATES: '/sheets/daa-vs-price'
 }

@@ -39,7 +39,7 @@
 
 .block {
   margin: 0;
-  padding: 40px 0;
+  padding: 40px 24px;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     margin: 40px 0;
@@ -127,7 +127,7 @@
 }
 
 .firstBlock {
-  margin-top: -336px;
+  margin-top: -213px;
 
   @media only screen and (max-width: 1535px) {
     margin-top: 0;
@@ -140,4 +140,15 @@
 
 .anchor {
   color: inherit;
+}
+
+.balanceChart {
+  min-height: 400px;
+  background: var(--white);
+  padding: 24px;
+  border-radius: $border-radius;
+}
+
+.balanceChartHeader {
+  padding: 0;
 }

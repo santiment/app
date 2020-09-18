@@ -170,7 +170,7 @@ const BalanceView = ({
     [priceMetrics, setWalletsAndAssetsWrapper, queryState]
   )
 
-  const { timeRange, from, to } = chartSettings
+  const { timeRange, from, to, selector } = chartSettings
   const interval = getInterval(from, to)
 
   const [scale, setScale] = useState('auto')
@@ -243,6 +243,7 @@ const BalanceView = ({
 
       <div className={cx(styles.chart, classes.balanceViewChart)}>
         <BalanceChartHeader
+          className={classes.balanceChartHeader}
           assets={stateAssets}
           address={stateAddress}
           showAlertBtn={showAlertBtn}
@@ -272,6 +273,7 @@ const BalanceView = ({
         </BalanceChartHeader>
 
         <GetHistoricalBalance
+          selector={selector}
           assets={mapAssetsToFlatArray(stateAssets)}
           wallet={stateAddress}
           from={from}
