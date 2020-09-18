@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import Loadable from 'react-loadable'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import StudioTabs from './Tabs'
 import StudioTabsKeyStats from './Tabs/KeyStats'
 import TabsWidgets from './Tabs/Widgets'
@@ -57,13 +57,11 @@ const Main = ({
           <Route path='/:base/stats'>
             <StudioTabsKeyStats slug={slug} />
           </Route>
-          <Route path='/:base/fees-distribution'>
-            {isEth ? (
+          {isEth && (
+            <Route path='/:base/fees-distribution'>
               <LoadableFeesDistribution settings={settings} />
-            ) : (
-              <Redirect to={'/studio'} />
-            )}
-          </Route>
+            </Route>
+          )}
           <Route>
             <TabsWidgets
               {...props}
