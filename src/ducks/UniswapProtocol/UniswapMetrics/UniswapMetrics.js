@@ -1,6 +1,7 @@
 import React from 'react'
 import UniswapMetric from './UniswapMetric'
 import styles from './UniswapMetrics.module.scss'
+import { percentageFormatter } from '../../dataHub/metrics/formatters'
 
 const UniswapMetricsList = [
   {
@@ -69,7 +70,8 @@ const UniswapMetricsList = [
     min_interval: '5m',
     table: 'intraday_metrics',
     has_incomplete_data: false,
-    data_type: 'timeseries'
+    data_type: 'timeseries',
+    formatter: percentageFormatter
   }
 ]
 

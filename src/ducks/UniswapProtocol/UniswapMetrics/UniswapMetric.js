@@ -8,7 +8,7 @@ import styles from './UniswapMetric.module.scss'
 const INTERVAL = '1d'
 
 const UniswapMetric = ({ metric }) => {
-  const { human_readable_name, key } = metric
+  const { human_readable_name, key, formatter = formatNumber } = metric
   const [settings, setSettings] = useState({
     slug: 'uniswap',
     ...formIntervalSettings(INTERVAL)
@@ -24,9 +24,9 @@ const UniswapMetric = ({ metric }) => {
 
   const sum = useMemo(
     () => {
-      return data.reduce((acc, item) => {
-        return acc + item[key]
-      }, 0)
+      const last = data && data.length > 0 ? data[data.length - 1] : {}
+
+      return last[key] || 0
     },
     [data, key]
   )
@@ -51,7 +51,7 @@ const UniswapMetric = ({ metric }) => {
     <div className={styles.card}>
       <div className={styles.title}>{human_readable_name}</div>
 
-      <div className={styles.value}>{formatNumber(sum)}</div>
+      <div className={styles.value}>{formatter(sum.toFixed(2))}</div>
     </div>
   )
 }
