@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import cx from 'classnames'
 import { linearScale } from '@santiment-network/chart/scales'
-import { useTimeseries } from '../../ducks/Studio/timeseries/hooks'
+import Chart from '../../ducks/Chart'
 import { useMetricCategories } from '../../ducks/Chart/Synchronizer'
 import { useChartColors } from '../../ducks/Chart/colors'
 import { useAxesMetricsKey } from '../../ducks/Chart/hooks'
-import Chart from '../../ducks/Chart'
+import { useTimeseries } from '../../ducks/Studio/timeseries/hooks'
 import styles from './index.module.scss'
 
 const settings = {
@@ -22,7 +22,8 @@ const chartPadding = {
   left: 8
 }
 
-const AmountClaimedChart = ({ className, metrics }) => {
+const UniswapChart = ({ className, metric }) => {
+  const metrics = useMemo(() => [metric], [metric])
   const [data] = useTimeseries(metrics, settings)
   const categories = useMetricCategories(metrics)
   const axesMetricKeys = useAxesMetricsKey(metrics)
@@ -51,4 +52,4 @@ const AmountClaimedChart = ({ className, metrics }) => {
   )
 }
 
-export default AmountClaimedChart
+export default UniswapChart
