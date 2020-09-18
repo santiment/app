@@ -42,7 +42,7 @@ const getInterval = (from, to) => {
 
 const BalanceView = ({
   queryData,
-  queryData: { assets: queryAssets },
+  queryData: { assets: queryAssets, priceMetrics: queryPriceMetrics = [] },
   onChangeQuery,
   classes = {},
   settings: {
@@ -58,7 +58,7 @@ const BalanceView = ({
   const [showYAxes, toggleYAxes] = useState(settingsShowYAxes)
   const [queryState, setQueryState] = useState(queryData)
 
-  const [priceMetrics, setPriceMetrics] = useState([])
+  const [priceMetrics, setPriceMetrics] = useState(queryPriceMetrics)
   const [assets, setAssets] = useState(queryAssets)
 
   useEffect(
