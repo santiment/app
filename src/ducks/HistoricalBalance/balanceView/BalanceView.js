@@ -35,14 +35,14 @@ const CHART_PRICE_METRIC = {
   opacity: 0.25
 }
 
-const getInterval = (strictInterval, from, to) => {
-  const interval = strictInterval || getNewInterval(from, to)
+const getInterval = (from, to) => {
+  const interval = getNewInterval(from, to)
   return INTERVAL_ALIAS[interval] || interval
 }
 
 const BalanceView = ({
   queryData,
-  queryData: { priceMetrics: queryPriceMetrics, assets: queryAssets },
+  queryData: { assets: queryAssets },
   onChangeQuery,
   classes = {},
   settings: {
@@ -54,19 +54,11 @@ const BalanceView = ({
   } = {},
   chartSettings: defaultChartSettings = {}
 }) => {
-  const { strictInterval } = defaultChartSettings
   const [showYAxes, toggleYAxes] = useState(settingsShowYAxes)
   const [queryState, setQueryState] = useState(queryData)
 
   const [priceMetrics, setPriceMetrics] = useState([])
   const [assets, setAssets] = useState(queryAssets)
-
-  useEffect(
-    () => {
-      setAssets(queryAssets)
-    },
-    [queryAssets]
-  )
 
   useEffect(
     () => {
@@ -179,7 +171,7 @@ const BalanceView = ({
   )
 
   const { timeRange, from, to } = chartSettings
-  const interval = getInterval(strictInterval, from, to)
+  const interval = getInterval(from, to)
 
   const [scale, setScale] = useState('auto')
 

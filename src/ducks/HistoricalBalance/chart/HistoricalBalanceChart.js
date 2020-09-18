@@ -11,7 +11,7 @@ import {
   ResponsiveContainer
 } from 'recharts'
 import { capitalizeStr, mergeTimeseriesByKey } from '../../../utils/utils'
-import { getDateFormats } from '../../../utils/dates'
+import { getDateFormats, getTimeFormats } from '../../../utils/dates'
 import { formatTokensCount } from '../../../utils/formatting'
 import ChartTooltip, {
   renderLegend
@@ -31,11 +31,13 @@ const formatDatetime = datetime => {
 }
 
 const formatTooltipDatetime = datetime => {
-  const { DD, MMM, YY } = getDateFormats(new Date(datetime))
-  return `${MMM} ${DD}, ${YY}`
+  const { DD, MMMM, YY } = getDateFormats(new Date(datetime))
+  const { HH, mm } = getTimeFormats(new Date(datetime))
+
+  return `${HH}:${mm}, ${MMMM} ${DD}, ${YY}`
 }
 
-const tooltipValueFormatter = ({ value, key, formatter, payload }) => {
+const tooltipValueFormatter = ({ value, key, payload }) => {
   const priceKeyToken = getPriceMetricWithSlug(key)
 
   const payloadMappedPrice = payload.find(

@@ -13,7 +13,6 @@ const noop = () => {}
 const DEFAULT_SETTINGS = {
   from: '2020-09-16T00:00:00Z',
   to: new Date(),
-  strictInterval: '5m',
   selector: { slug: 'uniswap', infrastructure: 'ETH' }
 }
 
