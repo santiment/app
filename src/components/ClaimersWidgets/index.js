@@ -9,11 +9,21 @@ const ClaimersWidgets = ({ className }) => {
     <div className={cx(styles.wrapper, className)}>
       <div className={styles.item}>
         <h3 className={styles.subheading}>Amount Claimed</h3>
-        <AmountClaimedChart className={styles.widget} />
+        <AmountClaimedChart />
       </div>
       <div className={styles.item}>
         <h3 className={styles.subheading}>Top Claimers</h3>
         <TopClaimersTable className={styles.widget} />
+      </div>
+
+      <div className={styles.item}>
+        <h3 className={styles.subheading}>Amount Claimed</h3>
+        <AmountClaimedChart />
+      </div>
+
+      <div className={styles.item}>
+        <h3 className={styles.subheading}>Amount Claimed</h3>
+        <AmountClaimedChart />
       </div>
     </div>
   )

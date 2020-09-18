@@ -1,9 +1,6 @@
 import React from 'react'
 import { DATA } from './data'
-import { linearScale, logScale } from '@santiment-network/chart/scales'
-import { useTimeseries } from '../../../ducks/Studio/timeseries/hooks'
-import { useMetricCategories } from '../../../ducks/Chart/Synchronizer'
-import Chart from '../../../ducks/Chart'
+import Chart from '../Chart'
 import styles from '../index.module.scss'
 
 const TOTAL_CLAIMED_METRIC = {
@@ -29,33 +26,12 @@ const MetricColor = {
 }
 
 const AmountClaimedChart = ({ className }) => {
-  /* const [data] = useTimeseries(metrics, settings) */
-  const categories = useMetricCategories(metrics)
-
-  /* const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive) */
-  /* const MetricColor = useChartColors(metrics) */
-
   return (
-    <div className={className}>
-      <Chart
-        hideBrush
-        hideAxes
-        hideWatermark
-        {...categories}
-        // {...options}
-        {...settings}
-        // data={data}
-        data={DATA}
-        // events={eventsData}
-        // className={cx(styles.chart, isBlurred && styles.blur)}
-        MetricColor={MetricColor}
-        metrics={metrics}
-        scale={linearScale}
-        tooltipKey={axesMetricKeys[0]}
-        axesMetricKeys={axesMetricKeys}
-        resizeDependencies={[]}
-      />
-    </div>
+    <Chart
+      metrics={metrics}
+      MetricColor={MetricColor}
+      axesMetricKeys={axesMetricKeys}
+    />
   )
 }
 
