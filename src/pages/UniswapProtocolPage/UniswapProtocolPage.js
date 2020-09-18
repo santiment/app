@@ -122,6 +122,7 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
             tag={ANCHORS.Claimers.key}
             title='UNI Token Claims'
             description=''
+            isPaywalActive={true}
           >
             <UniswapMetrics />
             <ClaimersWidgets />

@@ -237,10 +237,15 @@ export const METRICS = [
   'uniswap_total_user_claims_amount',
   'uniswap_total_lp_claims_amount',
   'uniswap_total_claims_percent',
+  'uniswap_total_claims_count',
+  'uniswap_total_user_claims_count',
+  'uniswap_total_lp_claims_count',
+
   'uniswap_claims_count',
   'uniswap_lp_claims_count',
   'uniswap_user_claims_count',
   'uniswap_claims_amount',
   'uniswap_lp_claims_amount',
-  'uniswap_user_claims_amount'
+  'uniswap_user_claims_amount',
+  'uniswap_user_claims_count'
 ]
