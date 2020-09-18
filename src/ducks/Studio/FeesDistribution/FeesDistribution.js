@@ -4,8 +4,6 @@ import gql from 'graphql-tag'
 import { millify } from '../../../utils/formatting'
 import ProjectsBarChart from '../../Stablecoins/ProjectsBarChart/ProjectsBarChart'
 import { formIntervalSettings } from '../../SANCharts/IntervalSelector'
-import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
-import MakeProSubscriptionCard from '../../../pages/feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
 import PageLoader from '../../../components/Loader/PageLoader'
 import styles from './FeesDistribution.module.scss'
 
@@ -34,13 +32,11 @@ const useFeeDistributions = ({ from, to }) => {
 }
 
 const FeesDistribution = () => {
-  const { isPro } = useUserSubscriptionStatus()
-
   return (
     <div className={styles.container}>
       <div className={styles.title}>Fees Distribution</div>
 
-      {isPro ? <FeeChart /> : <MakeProSubscriptionCard />}
+      <FeeChart />
     </div>
   )
 }
@@ -54,6 +50,7 @@ const FeeChart = () => {
     () => {
       return data.map(item => {
         return {
+          ...item,
           slug: item.asset,
           value: item.fees
         }
