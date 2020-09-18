@@ -16,7 +16,7 @@ const DEFAULT_SETTINGS = {
   selector: { slug: 'uniswap', infrastructure: 'ETH' }
 }
 
-const UniswapHistoricalBalance = ({ classes, title }) => {
+const UniswapHistoricalBalance = ({ classes, title, settings }) => {
   return (
     <BalanceView
       title={title}
@@ -28,7 +28,8 @@ const UniswapHistoricalBalance = ({ classes, title }) => {
         showIntervals: false,
         showAlertBtn: false,
         showLegend: false,
-        showYAxes: true
+        showYAxes: true,
+        ...settings
       }}
       chartSettings={DEFAULT_SETTINGS}
     />

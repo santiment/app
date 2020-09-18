@@ -72,7 +72,15 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
                 chart: styles.balanceChart,
                 balanceChartHeader: styles.balanceChartHeader
               }}
-              title={<BlockHeader title={'Historical Balance'} />}
+              title={
+                <BlockHeader
+                  title={'Historical Balance'}
+                  className={styles.balanceTitle}
+                />
+              }
+              settings={{
+                showAlertBtn: true
+              }}
             />
           </Block>
 
