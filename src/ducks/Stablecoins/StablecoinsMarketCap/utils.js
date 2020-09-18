@@ -3,11 +3,6 @@ import { Metric } from '../../dataHub/metrics'
 import { convertToSeconds } from '../../dataHub/metrics/intervals'
 import { updateTooltipSettings } from '../../dataHub/tooltipSettings'
 import { usdFormatter } from '../../dataHub/metrics/formatters'
-import {
-  getNewInterval,
-  INTERVAL_ALIAS
-} from '../../SANCharts/IntervalSelector'
-import { getIntervalByTimeRange } from '../../../utils/dates'
 
 export const STABLECOIN_MARKETCAP_USD_METRIC = {
   ...Metric.marketcap_usd,
@@ -119,15 +114,3 @@ export const getIntervalDates = memoize(interval => {
     to: new Date()
   }
 })
-
-export const formStablecoinsSettings = intervalWrapper => {
-  const { from, to } = getIntervalByTimeRange(intervalWrapper.value)
-
-  const interval = getNewInterval(from, to)
-
-  return {
-    from,
-    to,
-    interval: INTERVAL_ALIAS[interval] || interval
-  }
-}

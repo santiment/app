@@ -9,7 +9,6 @@ import CheckingAssets from './CheckingAssets/CheckingAssets'
 import Chart from '../../Chart'
 import { useMetricCategories } from '../../Chart/Synchronizer'
 import {
-  formStablecoinsSettings,
   MARKET_CAP_YEAR_INTERVAL,
   STABLE_COINS_MARKETCAP_INTERVALS,
   StablecoinsMetrics,
@@ -20,6 +19,7 @@ import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
 import { mapSizesToProps } from '../../../utils/withSizes'
 import SharedAxisToggle from '../../Studio/Chart/SharedAxisToggle'
 import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
+import { formIntervalSettings } from '../../SANCharts/IntervalSelector'
 import styles from './StablecoinsMarketCap.module.scss'
 
 const CHART_HEIGHT = 400
@@ -41,7 +41,7 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
   const [disabledAssets, setDisabledAsset] = useState({})
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState(true)
 
-  const [settings, setSettings] = useState(formStablecoinsSettings(interval))
+  const [settings, setSettings] = useState(formIntervalSettings(interval.value))
 
   const {
     data,
@@ -53,7 +53,7 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
 
   useEffect(
     () => {
-      setSettings(formStablecoinsSettings(interval))
+      setSettings(formIntervalSettings(interval.value))
     },
     [interval]
   )

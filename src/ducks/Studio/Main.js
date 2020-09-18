@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import Loadable from 'react-loadable'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import StudioTabs from './Tabs'
 import StudioTabsKeyStats from './Tabs/KeyStats'
 import TabsWidgets from './Tabs/Widgets'
@@ -12,6 +12,10 @@ import styles from './Main.module.scss'
 
 const LoadableRelatedInsights = Loadable({
   loader: () => import('./RelatedInsights/RelatedInsights'),
+  loading: () => <PageLoader />
+})
+const LoadableFeesDistribution = Loadable({
+  loader: () => import('./FeesDistribution/FeesDistribution'),
   loading: () => <PageLoader />
 })
 
@@ -35,6 +39,8 @@ const Main = ({
     setIsICOPriceDisabled(true)
   }
 
+  const isEth = slug === 'ethereum'
+
   return (
     <>
       <SanbaseBanner />
@@ -50,6 +56,13 @@ const Main = ({
           </Route>
           <Route path='/:base/stats'>
             <StudioTabsKeyStats slug={slug} />
+          </Route>
+          <Route path='/:base/fees-distribution'>
+            {isEth ? (
+              <LoadableFeesDistribution settings={settings} />
+            ) : (
+              <Redirect to={'/studio'} />
+            )}
           </Route>
           <Route>
             <TabsWidgets

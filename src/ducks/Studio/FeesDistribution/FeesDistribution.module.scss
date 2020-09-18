@@ -1,0 +1,12 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  background: var(--white);
+  padding: 24px;
+}
+
+.title {
+  margin-bottom: 32px;
+
+  @include text('body-1', 'm');
+}

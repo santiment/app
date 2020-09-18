@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink, withRouter } from 'react-router-dom'
+import { NewLabelTemplate } from '../../../components/NewLabel/NewLabel'
 import styles from './index.module.scss'
 
 const TABS = [
@@ -15,6 +16,18 @@ const TABS = [
     path: '/related-insights',
     labelFormatter: name =>
       name ? `Related ${name} Insights` : 'Related Insights'
+  },
+  {
+    path: '/fees-distribution',
+    labelFormatter: () => {
+      return (
+        <>
+          Fees Distribution
+          <NewLabelTemplate className={styles.new} />
+        </>
+      )
+    },
+    checkVisibility: ({ slug }) => slug === 'ethereum'
   }
 ]
 
@@ -29,24 +42,30 @@ function getSubpath (path) {
 const Tabs = ({
   location: { pathname },
   match: { path: base },
-  settings: { name }
+  settings: { name, slug }
 }) => {
   const subpath = getSubpath(pathname.slice(base.length))
   const search = window.location.search
 
   return (
     <div className={styles.tabs}>
-      {TABS.map(({ path, label, labelFormatter }) => (
-        <NavLink
-          exact
-          key={path}
-          to={{ pathname: base + path + subpath, search }}
-          className={styles.tab}
-          activeClassName={styles.active}
-        >
-          {label || labelFormatter(name)}
-        </NavLink>
-      ))}
+      {TABS.map(({ path, label, labelFormatter, checkVisibility }) => {
+        if (checkVisibility && !checkVisibility({ slug })) {
+          return null
+        }
+
+        return (
+          <NavLink
+            exact
+            key={path}
+            to={{ pathname: base + path + subpath, search }}
+            className={styles.tab}
+            activeClassName={styles.active}
+          >
+            {label || labelFormatter(name)}
+          </NavLink>
+        )
+      })}
     </div>
   )
 }
