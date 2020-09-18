@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import SignalMasterModalForm from '../../Signals/signalModal/SignalMasterModalForm'
 import {
   ETH_WALLET_AMOUNT_UP,
@@ -11,10 +12,11 @@ const BalanceChartHeader = ({
   address,
   assets,
   showAlertBtn = true,
-  children
+  children,
+  className
 }) => {
   return (
-    <div className={styles.chartHeader}>
+    <div className={cx(styles.chartHeader, className)}>
       {showAlertBtn && (
         <SignalMasterModalForm
           label='Generate an alert'

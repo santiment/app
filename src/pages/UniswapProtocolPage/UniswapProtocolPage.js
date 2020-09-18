@@ -66,7 +66,12 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
             className={styles.firstBlock}
             tag={ANCHORS.Overview.key}
           >
-            <UniswapHistoricalBalance />
+            <UniswapHistoricalBalance
+              classes={{
+                chart: styles.balanceChart,
+                balanceChartHeader: styles.balanceChartHeader
+              }}
+            />
           </Block>
 
           <Block

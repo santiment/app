@@ -243,6 +243,7 @@ const BalanceView = ({
 
       <div className={cx(styles.chart, classes.balanceViewChart)}>
         <BalanceChartHeader
+          className={classes.balanceChartHeader}
           assets={stateAssets}
           address={stateAddress}
           showAlertBtn={showAlertBtn}
