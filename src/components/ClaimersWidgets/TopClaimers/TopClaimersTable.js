@@ -15,7 +15,7 @@ const DEFAULT_SORTED = [
 
 const TopClaimersTable = ({ className }) => {
   const { from, to } = getTimeIntervalFromToday(-1, DAY)
-  const [items, loading] = useTopClaimers({
+  const [items] = useTopClaimers({
     from: from.toISOString(),
     to: to.toISOString()
   })

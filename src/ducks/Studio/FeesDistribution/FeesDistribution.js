@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react'
+import cx from 'classnames'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { millify } from '../../../utils/formatting'
@@ -50,14 +51,14 @@ const FeesDistribution = () => {
   return (
     <>
       <FeesDistributionTitle />
-      <FeesDistributionChart />
+      <FeesDistributionChart className={styles.chart} />
     </>
   )
 }
 
 const DEFAULT_SETTINGS = formIntervalSettings('7d')
 
-export const FeesDistributionChart = () => {
+export const FeesDistributionChart = ({ className }) => {
   const [settings] = useState(DEFAULT_SETTINGS)
 
   const { data, loading } = useFeeDistributions(settings)
@@ -78,7 +79,7 @@ export const FeesDistributionChart = () => {
   )
 
   return (
-    <div className={styles.container}>
+    <div className={cx(styles.container, className)}>
       {loading ? (
         <PageLoader />
       ) : (
