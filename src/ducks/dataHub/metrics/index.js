@@ -511,9 +511,57 @@ export const Metric = {
     abbreviation: 'aa24h'
   },
 
+  // uniswap
   uniswap_total_claims_amount: {
     label: 'Total Claimed Amount',
-    node: 'line'
+    node: 'line',
+    description:
+      'Total amount claimed by all uniswap users (both users and Liquidity providers)',
+    color: '#5275ff'
+  },
+  uniswap_total_user_claims_amount: {
+    node: 'line',
+    label: 'Total Claimed Amount for Users',
+    description:
+      'Total amount claimed by all uniswap users (excluding Liquidity providers)',
+    color: '#5275ff'
+  },
+  uniswap_total_lp_claims_amount: {
+    node: 'line',
+    label: 'Total Claimed Amount for Liquidity Providers',
+    description: 'Total amount claimed by all uniswap Liquidity providers',
+    color: '#5275ff'
+  },
+  uniswap_total_claims_percent: {
+    node: 'line',
+    label: 'Total Percent Claimed',
+    description: 'Percent of total uniswap tokens claimed',
+    color: '#5275ff'
+  },
+  uniswap_claims_count: {
+    node: 'line',
+    label: 'Claims Count',
+    description: 'The number of uniq addresses and claimed UNI per timeframe',
+    color: '#ffad4d'
+  },
+  uniswap_lp_claims_count: {
+    node: 'line',
+    label: 'Claims Count for Liquidity Providers',
+    description:
+      'The number of uniq addresses that  provided liquidity and claimed  UNI per timeframe',
+    color: '#ffad4d'
+  },
+  uniswap_claims_amount: {
+    node: 'line',
+    label: 'Amount Claimed',
+    description: 'Intraday metric of uniswap_amount_claimed',
+    color: '#ffad4d'
+  },
+  uniswap_lp_claims_amount: {
+    node: 'line',
+    label: 'Amount Claimed for Liquidity Providers',
+    description: 'Intraday metric of uniswap_amount_lp_claimed',
+    color: '#ffad4d'
   }
 }
 

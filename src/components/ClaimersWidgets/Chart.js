@@ -10,16 +10,16 @@ import styles from './index.module.scss'
 
 const settings = {
   slug: 'uniswap',
-  interval: '1h',
-  from: '2020-09-15T00:00:00Z',
-  to: '2020-09-20T00:00:00Z'
+  interval: '15m',
+  from: '2020-09-16T00:00:00Z',
+  to: '2020-09-20T00:00:00Z',
 }
 
 const chartPadding = {
   top: 16,
   right: 45,
   bottom: 20,
-  left: 8
+  left: 8,
 }
 
 const UniswapChart = ({ className, metric }) => {
@@ -27,7 +27,7 @@ const UniswapChart = ({ className, metric }) => {
   const [data] = useTimeseries(metrics, settings)
   const categories = useMetricCategories(metrics)
   const axesMetricKeys = useAxesMetricsKey(metrics)
-  const MetricColor = useChartColors(metrics)
+  const MetricColor = useMemo(() => ({ [metric.key]: metric.color }), [metric])
 
   return (
     <div className={cx(styles.widget, styles.chart)}>
@@ -36,6 +36,7 @@ const UniswapChart = ({ className, metric }) => {
         hideWatermark
         {...categories}
         {...settings}
+        isCartesianGridActive
         data={data}
         MetricColor={MetricColor}
         metrics={metrics}
@@ -43,7 +44,7 @@ const UniswapChart = ({ className, metric }) => {
         tooltipKey={axesMetricKeys[0]}
         axesMetricKeys={axesMetricKeys}
         chartPadding={chartPadding}
-        chartHeight={250}
+        chartHeight={330}
         xAxesTicks={5}
         yAxesTicks={6}
         resizeDependencies={[]}

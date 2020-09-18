@@ -58,7 +58,6 @@ export function plotAxes (chart, scale) {
     xAxesTicks = 10,
     yAxesTicks = 8
   } = chart
-  console.log(xAxesTicks)
 
   const [mainAxisMetric, secondaryAxisMetric] = axesMetricKeys
 
