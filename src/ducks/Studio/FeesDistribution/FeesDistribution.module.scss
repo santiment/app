@@ -10,7 +10,7 @@
   display: flex;
   align-items: center;
 
-  @include text('body-1', 'm');
+  @include text('h4', 'm');
 }
 
 .text {

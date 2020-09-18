@@ -26,7 +26,8 @@ const HARDCODED_LINKS = {
   kyber: 'https://kyber.network/',
   oneinch: 'https://1inch.exchange/',
   bitfinex: 'https://www.bitfinex.com/',
-  binance: 'https://www.binance.com/'
+  binance: 'https://www.binance.com/',
+  uniswap: 'https://uniswap.org/'
 }
 
 const LabelWrapper = ({ metadata }) => {
