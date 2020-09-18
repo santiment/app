@@ -8,6 +8,8 @@ import { formIntervalSettings } from '../../SANCharts/IntervalSelector'
 import PageLoader from '../../../components/Loader/PageLoader'
 import HelpPopup from '../../../components/HelpPopup/HelpPopup'
 import styles from './FeesDistribution.module.scss'
+import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
+import MakeProSubscriptionCard from '../../../pages/feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
 
 const FEES_DISTRIBUTION = gql`
   query ethFeesDistribution($from: DateTime!, $to: DateTime!) {
@@ -77,6 +79,12 @@ export const FeesDistributionChart = ({ className }) => {
     },
     [data]
   )
+
+  const { isPro } = useUserSubscriptionStatus()
+
+  if (!isPro) {
+    return <MakeProSubscriptionCard />
+  }
 
   return (
     <div className={cx(styles.container, className)}>
