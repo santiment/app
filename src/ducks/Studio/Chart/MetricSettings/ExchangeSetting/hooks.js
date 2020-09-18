@@ -21,11 +21,12 @@ const METRIC_EXCHANGES_QUERY = gql`
 export const DEFAULT_EXCHANGE = 'All (CEX+DEX)'
 const DEFAULT_EXCHANGES = [DEFAULT_EXCHANGE]
 
-function useIsERC20 (slug) {
+function useIsERC20 (slug, skip) {
   const { data } = useQuery(PROJECT_QUERY, {
     variables: {
       slug
-    }
+    },
+    skip
   })
 
   if (!data) return false
@@ -35,8 +36,8 @@ function useIsERC20 (slug) {
 }
 
 export function useMetricExchanges (slug, isDex) {
-  const isERC20 = useIsERC20(slug)
   const isSupported = SUPPORTED_BLOCKCHAIN_SLUGS.has(slug)
+  const isERC20 = useIsERC20(slug, isSupported)
 
   const { data, loading } = useQuery(METRIC_EXCHANGES_QUERY, {
     variables: {
