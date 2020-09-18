@@ -16,9 +16,10 @@ const DEFAULT_SETTINGS = {
   selector: { slug: 'uniswap', infrastructure: 'ETH' }
 }
 
-const UniswapHistoricalBalance = ({ classes }) => {
+const UniswapHistoricalBalance = ({ classes, title }) => {
   return (
     <BalanceView
+      title={title}
       queryData={queryData}
       classes={{ ...styles, ...classes }}
       onChangeQuery={noop}

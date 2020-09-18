@@ -52,7 +52,8 @@ const BalanceView = ({
     showLegend = true,
     showYAxes: settingsShowYAxes = false
   } = {},
-  chartSettings: defaultChartSettings = {}
+  chartSettings: defaultChartSettings = {},
+  title
 }) => {
   const [showYAxes, toggleYAxes] = useState(settingsShowYAxes)
   const [queryState, setQueryState] = useState(queryData)
@@ -247,6 +248,7 @@ const BalanceView = ({
           assets={stateAssets}
           address={stateAddress}
           showAlertBtn={showAlertBtn}
+          title={title}
         >
           <LoadableChartSettings
             showIntervals={showIntervals}

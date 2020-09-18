@@ -9,6 +9,7 @@ import { mapToOption, mapToOptions } from '../../Signals/utils/utils'
 import styles from './BalanceView.module.scss'
 
 const BalanceChartHeader = ({
+  title,
   address,
   assets,
   showAlertBtn = true,
@@ -17,6 +18,7 @@ const BalanceChartHeader = ({
 }) => {
   return (
     <div className={cx(styles.chartHeader, className)}>
+      {title}
       {showAlertBtn && (
         <SignalMasterModalForm
           label='Generate an alert'
