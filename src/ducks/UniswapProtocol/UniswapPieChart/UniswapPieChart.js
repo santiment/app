@@ -30,11 +30,11 @@ const obj = {
   },
   notMoved: {
     label: 'Not moved',
-    color: 'transparent'
+    color: '#F47BF7'
   }
 }
 
-const COLORS = ['#68DBF4', '#FF5B5B', '#5275FF', '#D4E763', 'transparent']
+const COLORS = ['#68DBF4', '#FF5B5B', '#5275FF', '#D4E763', '#F47BF7']
 
 function transformData (data) {
   if (!data) {
@@ -136,6 +136,24 @@ const UniswapPieChart = () => {
               </h4>
               <span className={styles.value}>{formatNumber(notMoved)}</span>
             </div>
+            <ul className={styles.list}>
+              {chartData.map(({ name, value, rawValue, color }) => {
+                if (name !== obj.notMoved.label) return null
+                return (
+                  <li
+                    className={styles.item}
+                    style={{ '--pie-chart-item-color': color }}
+                  >
+                    <span className={styles.item__name}>
+                      {name} ({value.toFixed(0)}%):
+                    </span>
+                    <span className={styles.item__value}>
+                      {formatNumber(rawValue)}
+                    </span>
+                  </li>
+                )
+              })}
+            </ul>
           </div>
         </div>
       )}

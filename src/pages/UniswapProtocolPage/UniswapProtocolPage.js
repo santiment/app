@@ -95,8 +95,9 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
               title={
                 <BlockHeader
                   title={
-                    'Uniswap: Token Distributor 0x090d4613473dee047c3f2706764f49e0821d256e'
+                    'Uniswap: Token Distributor'
                   }
+                  description='0x090d4613473dee047c3f2706764f49e0821d256e'
                   className={styles.balanceTitle}
                 />
               }
