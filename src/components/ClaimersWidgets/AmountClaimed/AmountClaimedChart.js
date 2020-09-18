@@ -3,7 +3,7 @@ import Chart from '../Chart'
 import styles from '../index.module.scss'
 
 const TOTAL_CLAIMED_METRIC = {
-  key: 'uniswap_claims_count',
+  key: 'uniswap_total_claims_amount',
   label: 'Uniswap Total Claimed',
   node: 'line'
 }

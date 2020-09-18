@@ -17,7 +17,7 @@ const settings = {
 
 const chartPadding = {
   top: 16,
-  right: 40,
+  right: 45,
   bottom: 20,
   left: 8
 }
@@ -32,11 +32,9 @@ const AmountClaimedChart = ({ className, metrics }) => {
     <div className={cx(styles.widget, styles.chart)}>
       <Chart
         hideBrush
-        // hideAxes
         hideWatermark
         {...categories}
         {...settings}
-        // useCustomTooltip
         data={data}
         MetricColor={MetricColor}
         metrics={metrics}
@@ -45,11 +43,9 @@ const AmountClaimedChart = ({ className, metrics }) => {
         axesMetricKeys={axesMetricKeys}
         chartPadding={chartPadding}
         chartHeight={250}
-        resizeDependencies={[]}
-        // onPlotTooltip={onHover}
-
         xAxesTicks={5}
         yAxesTicks={6}
+        resizeDependencies={[]}
       />
     </div>
   )

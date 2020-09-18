@@ -511,7 +511,7 @@ export const Metric = {
     abbreviation: 'aa24h'
   },
 
-  uniswap_claims_count: {
+  uniswap_total_claims_amount: {
     label: 'Uniswap Total Claimed',
     node: 'line'
   }
