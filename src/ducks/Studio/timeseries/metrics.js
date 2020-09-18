@@ -230,5 +230,13 @@ export const METRICS = [
   'social_active_users',
   'price_daa_divergence',
   'adjusted_price_daa_divergence',
-  'active_addresses_24h'
+  'active_addresses_24h',
+  'uniswap_amount_claimed_by_lps',
+  'uniswap_amount_claimed',
+  'uniswap_claimed_for_lps',
+  'uniswap_cliamed_for_users',
+  'uniswap_number_of_claims_by_lps',
+  'uniswap_number_of_claims',
+  'uniswap_percent_claimed',
+  'uniswap_total_claimed'
 ]

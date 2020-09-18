@@ -20,27 +20,29 @@ const BalanceChartHeader = ({
     <div className={cx(styles.chartHeader, className)}>
       {title}
       {showAlertBtn && (
-        <SignalMasterModalForm
-          label='Generate an alert'
-          enabled={!!address && (assets && assets.length > 0)}
-          canRedirect={false}
-          metaFormSettings={{
-            target: {
-              value: assets.length > 0 ? mapToOption(assets[0]) : undefined
-            },
-            metric: {
-              value: { ...ETH_WALLET_METRIC }
-            },
-            type: {
-              value: { ...ETH_WALLET_AMOUNT_UP }
-            },
-            ethAddress: mapToOptions(address)
-          }}
-          buttonParams={{
-            variant: 'ghost',
-            border: true
-          }}
-        />
+        <div className={styles.alert}>
+          <SignalMasterModalForm
+            label='Create an alert'
+            enabled={!!address && (assets && assets.length > 0)}
+            canRedirect={false}
+            metaFormSettings={{
+              target: {
+                value: assets.length > 0 ? mapToOption(assets[0]) : undefined
+              },
+              metric: {
+                value: { ...ETH_WALLET_METRIC }
+              },
+              type: {
+                value: { ...ETH_WALLET_AMOUNT_UP }
+              },
+              ethAddress: mapToOptions(address)
+            }}
+            buttonParams={{
+              variant: 'ghost',
+              border: true
+            }}
+          />
+        </div>
       )}
 
       <div className={styles.chartParams}>{children}</div>

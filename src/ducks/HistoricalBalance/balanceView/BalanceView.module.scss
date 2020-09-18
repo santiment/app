@@ -1,5 +1,10 @@
 @import "~@santiment-network/ui/mixins.scss";
 
+.alert {
+  margin-right: 16px;
+  min-width: 145px;
+}
+
 .container {
   width: 100%;
   border-radius: $border-radius;
@@ -206,6 +211,8 @@
 }
 
 .chartSettings {
+  margin-bottom: 0;
+
   @include responsive('phone', 'phone-xs') {
     display: flex;
     flex-direction: column-reverse;
