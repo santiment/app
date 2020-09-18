@@ -5,12 +5,12 @@ import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import ClaimersWidgets from '../../components/ClaimersWidgets'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
-import { Block } from '../StablecoinsPage/StablecoinsPageStructure'
+import { Block, BlockHeader } from '../StablecoinsPage/StablecoinsPageStructure'
 import ResearchesBlock from '../../components/ResearchesBlock'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import UniswapHistoricalBalance from '../../ducks/Studio/Tabs/UniswapHistoricalBalance/UniswapHistoricalBalance'
-import styles from './UniswapProtocolPage.module.scss'
 import UniswapTopTransactions from '../../ducks/UniswapProtocol/UniswapTopTransactions/UniswapTopTransactions'
+import styles from './UniswapProtocolPage.module.scss'
 
 const ANCHORS = {
   Overview: {
@@ -66,16 +66,13 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
         </DesktopOnly>
 
         <div className={styles.inner}>
-          <Block
-            title='Historical Balance'
-            className={styles.firstBlock}
-            tag={ANCHORS.Overview.key}
-          >
+          <Block className={styles.firstBlock} tag={ANCHORS.Overview.key}>
             <UniswapHistoricalBalance
               classes={{
                 chart: styles.balanceChart,
                 balanceChartHeader: styles.balanceChartHeader
               }}
+              title={<BlockHeader title={'Historical Balance'} />}
             />
           </Block>
 

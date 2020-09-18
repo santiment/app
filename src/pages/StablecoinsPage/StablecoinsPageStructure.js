@@ -4,7 +4,7 @@ import StablecoinsIntervals from '../../ducks/Stablecoins/StablecoinsIntervals/S
 import CheckProPaywall from '../../ducks/Stablecoins/CheckProPaywall'
 import styles from './StablecoinsPage.module.scss'
 
-const BlockHeader = ({ title, description, setInterval, tag }) => {
+export const BlockHeader = ({ title, description, setInterval, tag }) => {
   if (!title) {
     return null
   }
