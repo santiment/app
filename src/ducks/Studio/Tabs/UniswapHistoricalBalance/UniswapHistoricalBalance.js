@@ -5,7 +5,12 @@ import styles from './UniswapHistoricalBalance.module.scss'
 const queryData = {
   address: '0x090d4613473dee047c3f2706764f49e0821d256e',
   assets: ['uniswap'],
-  priceMetrics: []
+  priceMetrics: [
+    {
+      asset: 'uniswap',
+      enabled: true
+    }
+  ]
 }
 
 const noop = () => {}
