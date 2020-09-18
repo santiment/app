@@ -100,13 +100,20 @@ const CRYPTO_ERA_START_DATE = new Date('2009-01-01T01:00:00.000Z')
  *  getTimeIntervalFromToday(-9, 'd')
  */
 export const getTimeIntervalFromToday = (amount, dateFormat, options = {}) => {
-  const { from = new Date(), to = new Date(), isUTC } = options
+  const {
+    from = new Date(),
+    to = new Date(),
+    isUTC,
+    resetToBorders = true
+  } = options
   const [get, set] = DateFormat[dateFormat]
 
-  const setHours = isUTC ? 'setUTCHours' : 'setHours'
+  if (resetToBorders) {
+    const setHours = isUTC ? 'setUTCHours' : 'setHours'
 
-  to[setHours](23, 59, 59, 999)
-  from[setHours](0, 0, 0, 0)
+    to[setHours](23, 59, 59, 999)
+    from[setHours](0, 0, 0, 0)
+  }
 
   const target = amount <= 0 ? from : to
 
@@ -307,8 +314,12 @@ export const getIntervalByTimeRange = (timeRange, options = {}) => {
     const to = new Date()
 
     const currentHour = from.getHours()
-    from.setHours(currentHour - 24, 0, 0, 0)
-    to.setHours(currentHour + 1, 0, 0, 0)
+    from.setHours(currentHour - 24)
+
+    if (options.resetToBorders) {
+      from.setHours(currentHour - 24, 0, 0, 0)
+      to.setHours(currentHour + 1, 0, 0, 0)
+    }
 
     return { from, to }
   }
