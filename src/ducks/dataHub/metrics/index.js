@@ -509,6 +509,11 @@ export const Metric = {
     label: 'Active Addresses 24h',
     shortLabel: 'A.A. 24h',
     abbreviation: 'aa24h'
+  },
+
+  uniswap_total_claimed: {
+    label: 'Uniswap Total Claimed',
+    node: 'line'
   }
 }
 

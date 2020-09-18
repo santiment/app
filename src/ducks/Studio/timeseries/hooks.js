@@ -115,6 +115,8 @@ export function useTimeseries (
 
         const query = getQuery(metric, metricSettings)
 
+        console.log(query)
+
         if (!fetch) {
           if (!query) {
             return setErrorMsg(state => {
