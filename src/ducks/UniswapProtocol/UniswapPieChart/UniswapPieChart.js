@@ -106,11 +106,10 @@ const UniswapPieChart = () => {
               <span className={styles.value}>{formatNumber(total)}</span>
             </div>
             <div className={styles.row}>
-              <h4 className={styles.title}>Moved after claimed:</h4>
-              <span className={styles.value}>
-                {formatNumber(movedSum)} (
-                {((movedSum * 100) / total).toFixed(2)}%)
-              </span>
+              <h4 className={styles.title}>
+                Moved after claimed ({((movedSum * 100) / total).toFixed(0)}%):
+              </h4>
+              <span className={styles.value}>{formatNumber(movedSum)}</span>
             </div>
             <ul className={styles.list}>
               {chartData.map(({ name, value, rawValue, color }) => {
@@ -120,20 +119,22 @@ const UniswapPieChart = () => {
                     className={styles.item}
                     style={{ '--pie-chart-item-color': color }}
                   >
-                    <span className={styles.item__name}>{name}: </span>
+                    <span className={styles.item__name}>
+                      {name} ({value.toFixed(2)}%):
+                    </span>
                     <span className={styles.item__value}>
-                      {formatNumber(rawValue)} ({value.toFixed(2)}%)
+                      {formatNumber(rawValue)}
                     </span>
                   </li>
                 )
               })}
             </ul>
             <div className={styles.row}>
-              <h4 className={styles.title}>Dormant after claimed:</h4>
-              <span className={styles.value}>
-                {formatNumber(notMoved)} (
-                {((notMoved * 100) / total).toFixed(2)}%)
-              </span>
+              <h4 className={styles.title}>
+                Dormant after claimed ({((notMoved * 100) / total).toFixed(0)}
+                %):
+              </h4>
+              <span className={styles.value}>{formatNumber(notMoved)}</span>
             </div>
           </div>
         </div>
