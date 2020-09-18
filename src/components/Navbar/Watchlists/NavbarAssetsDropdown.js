@@ -17,6 +17,11 @@ const DASHBOARDS = [
     name: 'Stablecoins',
     to: '/stablecoins',
     isNew: true
+  },
+  {
+    name: 'Uniswap Protocol',
+    to: '/uniswap-protocol',
+    isNew: true
   }
 ]
 

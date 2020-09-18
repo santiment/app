@@ -9,8 +9,6 @@ import UniswapHistoricalBalance from './UniswapHistoricalBalance/UniswapHistoric
 import styles from '../../../pages/Detailed/Detailed.module.scss'
 
 const KeyStats = ({ slug, project, isERC20, loading }) => {
-  console.log(project)
-
   return (
     <>
       {slug === 'ethereum' && (
