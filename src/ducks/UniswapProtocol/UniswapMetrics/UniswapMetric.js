@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTimeseries } from '../../Studio/timeseries/hooks'
 import { formIntervalSettings } from '../../SANCharts/IntervalSelector'
 import { formatNumber } from '../../../utils/formatting'
-import Skeleton from '../../../components/Skeleton/Skeleton'
 import styles from './UniswapMetric.module.scss'
 
 const INTERVAL = '1d'
