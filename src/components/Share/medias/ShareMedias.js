@@ -36,14 +36,20 @@ const mediasToShare = [
   }
 ]
 
-const ShareMedias = ({ shareLink, shareTitle = '', shareText = '' }) => {
+const ShareMedias = ({
+  shareLink,
+  shareTitle = '',
+  shareText = '',
+  showTitle = true,
+  classes = {}
+}) => {
   const encodedTitle = encodeURIComponent(shareTitle)
   const encodedText = encodeURIComponent(shareText)
   const encodedLink = encodeURIComponent(shareLink)
 
   return (
-    <div className={styles.block}>
-      <div className={styles.title}>Share on social media</div>
+    <div className={cx(styles.block, classes.medias)}>
+      {showTitle && <div className={styles.title}>Share on social media</div>}
       <div className={styles.share}>
         {mediasToShare.map(({ icon, href, className }) => {
           return (
@@ -51,7 +57,7 @@ const ShareMedias = ({ shareLink, shareTitle = '', shareText = '' }) => {
               key={icon}
               variant='flat'
               as='a'
-              className={styles.btn}
+              className={cx(styles.btn, classes.mediaBtn)}
               target='_blank'
               rel='noopener noreferrer'
               href={href
@@ -59,7 +65,10 @@ const ShareMedias = ({ shareLink, shareTitle = '', shareText = '' }) => {
                 .replace(SECRET_TEXT_TAG, encodedText)
                 .replace(SECRET_TITLE_TAG, encodedTitle)}
             >
-              <Icon type={icon} className={cx(styles.icon, className)} />
+              <Icon
+                type={icon}
+                className={cx(styles.icon, className, classes.mediaIcon)}
+              />
             </Button>
           )
         })}

@@ -2,26 +2,39 @@ import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 
 const TOP_CLAIMERS_QUERY = gql`
-  query topClaimers(from: DateTime!, to: DateTime!){
-    getMetric(metric: uniswap_top_claimers") {
-      histogramData(selector: {slug: "uniswap"}, from: $from, to: $to, limit: 10) {
+  query getMetric($from: DateTime!, $to: DateTime!) {
+    getMetric(metric: "uniswap_top_claimers") {
+      histogramData(
+        selector: { slug: "uniswap" }
+        from: $from
+        to: $to
+        limit: 5
+      ) {
         values {
-          ... on StringAddressFloatValueList{
-          data {
-            address
-            value
+          ... on StringAddressFloatValueList {
+            data {
+              address
+              value
+            }
           }
         }
       }
     }
   }
-}
 `
 
-export function useTopClaimers ({ from, to }) {
+export function useTopClaimers ({ from, to, slug }) {
   const { data = {}, loading } = useQuery(TOP_CLAIMERS_QUERY, {
     variables: { from, to }
   })
 
-  return [data, loading]
+  if (
+    data.getMetric &&
+    data.getMetric.histogramData &&
+    data.getMetric.histogramData.values
+  ) {
+    return [data.getMetric.histogramData.values.data || [], loading]
+  }
+
+  return [[], loading]
 }

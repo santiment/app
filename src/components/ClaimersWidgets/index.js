@@ -13,7 +13,7 @@ const ClaimersWidgets = ({ className }) => {
         <UniswapChart metric={Metric.uniswap_total_claims_amount} />
       </div>
       <div className={styles.item}>
-        <h3 className={styles.subheading}>Top Claimers</h3>
+        <h3 className={styles.subheading}>Top Claimers, 24h</h3>
         <TopClaimersTable className={styles.widget} />
       </div>
     </div>

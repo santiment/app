@@ -1,0 +1,35 @@
+@import '~@santiment-network/ui/mixins';
+
+.card {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  background: var(--white);
+  border-radius: $border-radius;
+}
+
+.skeleton {
+  height: 160px;
+}
+
+.title {
+  @include text('body-2', 'l');
+
+  color: var(--waterloo);
+}
+
+.value {
+  @include text(h4);
+
+  margin-top: 8px;
+}
+
+.percents {
+  margin-top: 4px;
+}
+
+.change {
+  display: flex;
+}

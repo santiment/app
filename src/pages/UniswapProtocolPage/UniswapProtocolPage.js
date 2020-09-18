@@ -10,6 +10,8 @@ import ResearchesBlock from '../../components/ResearchesBlock'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import UniswapHistoricalBalance from '../../ducks/Studio/Tabs/UniswapHistoricalBalance/UniswapHistoricalBalance'
 import UniswapTopTransactions from '../../ducks/UniswapProtocol/UniswapTopTransactions/UniswapTopTransactions'
+import UniswapMetrics from '../../ducks/UniswapProtocol/UniswapMetrics/UniswapMetrics'
+import SharePage from '../../components/SharePage/SharePage'
 import styles from './UniswapProtocolPage.module.scss'
 
 const ANCHORS = {
@@ -22,7 +24,7 @@ const ANCHORS = {
     key: 'top-transactions'
   },
   Claimers: {
-    label: 'Claimers Widgets',
+    label: 'UNI Token Claims',
     key: 'claimers'
   }
 }
@@ -56,6 +58,8 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
         <div className={cx(styles.inner, styles.content)}>
           <div className={styles.pageDescription}>
             <h3 className={styles.title}>Uniswap Protocol Dashboard</h3>
+
+            <SharePage />
           </div>
         </div>
       </div>
@@ -74,7 +78,9 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
               }}
               title={
                 <BlockHeader
-                  title={'Historical Balance'}
+                  title={
+                    'Uniswap: Token Distributor 0x090d4613473dee047c3f2706764f49e0821d256e'
+                  }
                   className={styles.balanceTitle}
                 />
               }
@@ -93,9 +99,10 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
 
           <Block
             tag={ANCHORS.Claimers.key}
-            title='Claimers Widgets'
+            title='UNI Token Claims'
             description=''
           >
+            <UniswapMetrics />
             <ClaimersWidgets />
           </Block>
         </div>

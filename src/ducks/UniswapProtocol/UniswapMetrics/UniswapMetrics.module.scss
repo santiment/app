@@ -1,0 +1,19 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-column-gap: 24px;
+  grid-row-gap: 24px;
+  margin-bottom: 32px;
+
+  @include responsive('laptop', 'tablet') {
+    grid-template-columns: 1fr 1fr;
+    grid-row-gap: 16px;
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    grid-template-columns: 1fr;
+    grid-row-gap: 16px;
+  }
+}

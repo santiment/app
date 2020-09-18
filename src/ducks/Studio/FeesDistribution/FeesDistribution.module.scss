@@ -7,6 +7,12 @@
 
 .title {
   margin-bottom: 32px;
+  display: flex;
+  align-items: center;
 
   @include text('body-1', 'm');
+}
+
+.text {
+  margin-right: 8px;
 }

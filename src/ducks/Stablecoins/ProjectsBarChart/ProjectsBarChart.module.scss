@@ -27,6 +27,9 @@
 }
 
 .ticker {
+  word-break: break-all;
+  padding: 0 4px;
+
   @include text('caption');
 }
 

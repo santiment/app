@@ -52,7 +52,7 @@
 
 .header {
   background: var(--white);
-  padding: 32px 0 40px 0;
+  padding: 32px 0 32px 0;
 
   @include responsive( 'tablet','phone', 'phone-xs') {
     padding: 16px 16px 24px 16px;
@@ -156,4 +156,6 @@
 
 .balanceChartHeader {
   padding: 0;
+  display: flex;
+  align-items: center;
 }

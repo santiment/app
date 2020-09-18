@@ -2,7 +2,11 @@ import React from 'react'
 import { formatNumber } from '../../../utils/formatting'
 import WalletLink from '../../WalletLink/WalletLink'
 
-const TrxAddressCell = ({ value }) => <WalletLink address={value} />
+const assets = ['uniswap', 'ethereum']
+
+const TrxAddressCell = ({ value }) => (
+  <WalletLink address={value} assets={assets} />
+)
 
 export const columns = [
   {
