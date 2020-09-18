@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
+import ClaimersWidgets from '../../components/ClaimersWidgets'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import { Block } from '../StablecoinsPage/StablecoinsPageStructure'
@@ -15,6 +16,10 @@ const ANCHORS = {
   Overview: {
     label: 'Uniswap Protocol',
     key: 'overview'
+  },
+  Claimers: {
+    label: 'Claimers Widgets',
+    key: 'claimers'
   },
   TopTransactions: {
     label: 'Top Token Transaction',
@@ -79,6 +84,14 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
             tag={ANCHORS.TopTransactions.key}
           >
             <UniswapTopTransactions />
+          </Block>
+
+          <Block
+            tag={ANCHORS.Claimers.key}
+            title='Claimers Widgets'
+            description=''
+          >
+            <ClaimersWidgets />
           </Block>
         </div>
       </div>
