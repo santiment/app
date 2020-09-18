@@ -16,6 +16,7 @@ import { Block, BlockWithRanges } from './StablecoinsPageStructure'
 import StablecoinsReport from '../../ducks/Stablecoins/StablecoinsReport/StablecoinsReport'
 import ResearchesBlock from '../../components/ResearchesBlock'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
+import SharePage from '../../components/SharePage/SharePage'
 import styles from './StablecoinsPage.module.scss'
 
 const ANCHORS = {
@@ -83,6 +84,8 @@ const StablecoinsPage = ({ history, isDesktop }) => {
               Real-time information on the biggest stablecoins’ market size,
               whale behavior, speculative demand and more.
             </div>
+
+            <SharePage />
           </div>
 
           <StablecoinsReport />
