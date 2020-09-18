@@ -12,7 +12,7 @@ const ClaimersWidgets = ({ className }) => {
         <AmountClaimedChart className={styles.widget} />
       </div>
       <div className={styles.item}>
-        <h3 className={styles.subheading}>Top Claimers</h3>
+        <h3 className={styles.subheading}>Top Claimers, 24h</h3>
         <TopClaimersTable className={styles.widget} />
       </div>
     </div>
