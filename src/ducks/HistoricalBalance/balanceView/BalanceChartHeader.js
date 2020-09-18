@@ -22,7 +22,7 @@ const BalanceChartHeader = ({
       {showAlertBtn && (
         <div className={styles.alert}>
           <SignalMasterModalForm
-            label='Create an alert'
+            label='Create alert'
             enabled={!!address && (assets && assets.length > 0)}
             canRedirect={false}
             metaFormSettings={{

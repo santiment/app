@@ -50,8 +50,8 @@ const PREDEFINED_COLORS = {
   'binance-usd': '#F0B90B'
 }
 
-const DESKTOP_MARGIN = { top: 20, right: 0, left: -20, bottom: 30 }
-const MOBILE_MARGIN = { top: 0, right: 16, left: 0, bottom: 30 }
+const DESKTOP_MARGIN = { top: 20, right: 0, left: -20, bottom: 50 }
+const MOBILE_MARGIN = { top: 0, right: 16, left: 0, bottom: 50 }
 
 const ProjectsBarChart = ({
   isDesktop,
@@ -61,11 +61,18 @@ const ProjectsBarChart = ({
   settings: { yTickFormatter = v => v } = {}
 }) => {
   const onProjectClick = useCallback(
-    data => {
-      const { value } = data
+    e => {
+      const { value, index } = e
+
+      const { clickable = true } = data[index] || {}
+
+      if (!clickable) {
+        return
+      }
+
       return redirect(`/projects/${value}`)
     },
-    [redirect]
+    [redirect, data]
   )
 
   const fakeMetrics = useMemo(
@@ -112,7 +119,9 @@ const ProjectsBarChart = ({
                 <Cell
                   key={`cell-${index}`}
                   fill={MetricColor[entry.slug]}
-                  onClick={() => onProjectClick({ value: entry.slug })}
+                  onClick={() =>
+                    onProjectClick({ ...entry, value: entry.slug })
+                  }
                 />
               )
             })}
@@ -147,7 +156,7 @@ const CategoryTick = props => {
   } = props
   const { ticker } = data[index] || {}
   return (
-    <foreignObject x={x - 50} y={y} width={100} height={80}>
+    <foreignObject x={x - 35} y={y} width={70} height={80}>
       <div className={styles.name}>
         <ProjectIcon slug={value} size={30} />
         <div className={styles.ticker}>{ticker}</div>

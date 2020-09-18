@@ -12,6 +12,7 @@ import UniswapHistoricalBalance from '../../ducks/Studio/Tabs/UniswapHistoricalB
 import UniswapTopTransactions from '../../ducks/UniswapProtocol/UniswapTopTransactions/UniswapTopTransactions'
 import UniswapMetrics from '../../ducks/UniswapProtocol/UniswapMetrics/UniswapMetrics'
 import UniswapPieChart from '../../ducks/UniswapProtocol/UniswapPieChart/UniswapPieChart'
+import SharePage from '../../components/SharePage/SharePage'
 import styles from './UniswapProtocolPage.module.scss'
 
 const ANCHORS = {
@@ -30,10 +31,6 @@ const ANCHORS = {
   Claimers: {
     label: 'UNI Token Claims',
     key: 'claimers'
-  },
-  Metrics: {
-    label: 'Metrics',
-    key: 'metrics'
   }
 }
 
@@ -66,6 +63,8 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
         <div className={cx(styles.inner, styles.content)}>
           <div className={styles.pageDescription}>
             <h3 className={styles.title}>Uniswap Protocol Dashboard</h3>
+
+            <SharePage />
           </div>
         </div>
       </div>
@@ -116,11 +115,8 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
             title='UNI Token Claims'
             description=''
           >
-            <ClaimersWidgets />
-          </Block>
-
-          <Block title='Metrics, 24h' tag={ANCHORS.Metrics.key}>
             <UniswapMetrics />
+            <ClaimersWidgets />
           </Block>
         </div>
       </div>
