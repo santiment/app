@@ -512,7 +512,7 @@ export const Metric = {
   },
 
   uniswap_total_claims_amount: {
-    label: 'Uniswap Total Claimed',
+    label: 'Total Claimed Amount',
     node: 'line'
   }
 }
