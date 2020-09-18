@@ -9,11 +9,16 @@ import ResearchesBlock from '../../components/ResearchesBlock'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import UniswapHistoricalBalance from '../../ducks/Studio/Tabs/UniswapHistoricalBalance/UniswapHistoricalBalance'
 import styles from './UniswapProtocolPage.module.scss'
+import UniswapTopTransactions from '../../ducks/UniswapProtocol/UniswapTopTransactions/UniswapTopTransactions'
 
 const ANCHORS = {
   Overview: {
-    label: ' Uniswap Protocol',
+    label: 'Uniswap Protocol',
     key: 'overview'
+  },
+  TopTransactions: {
+    label: 'Top Token Transaction',
+    key: 'top-transaction'
   }
 }
 
@@ -42,6 +47,14 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
         />
       </MobileOnly>
 
+      <div className={styles.header}>
+        <div className={cx(styles.inner, styles.content)}>
+          <div className={styles.pageDescription}>
+            <h3 className={styles.title}>Uniswap Protocol Dashboard</h3>
+          </div>
+        </div>
+      </div>
+
       <div className={styles.body}>
         <DesktopOnly>
           <LeftPageNavigation anchors={ANCHORS} />
@@ -49,11 +62,18 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
 
         <div className={styles.inner}>
           <Block
-            title='Uniswap Protocol'
+            title='Historical Balance'
             className={styles.firstBlock}
             tag={ANCHORS.Overview.key}
           >
-            Protocol Balance
+            <UniswapHistoricalBalance />
+          </Block>
+
+          <Block
+            title='Top Token Transactions, 30d'
+            tag={ANCHORS.TopTransactions.key}
+          >
+            <UniswapTopTransactions />
           </Block>
         </div>
       </div>
@@ -64,7 +84,5 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
     </div>
   )
 }
-
-// <UniswapHistoricalBalance/>
 
 export default UniswapProtocolPage
