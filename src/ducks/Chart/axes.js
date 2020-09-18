@@ -52,10 +52,13 @@ const selectYFormatter = metricKey =>
 
 export function plotAxes (chart, scale) {
   const {
-    axesMetricKeys,
+    axesMetricKeys = [],
     ticksPaintConfig = dayTicksPaintConfig,
-    axesColor = dayAxesColor
+    axesColor = dayAxesColor,
+    xAxesTicks = 10,
+    yAxesTicks = 8
   } = chart
+  console.log(xAxesTicks)
 
   const [mainAxisMetric, secondaryAxisMetric] = axesMetricKeys
 
@@ -69,8 +72,8 @@ export function plotAxes (chart, scale) {
       selectYFormatter(mainAxisMetric),
       ticksPaintConfig,
       scale,
-      10,
-      8
+      xAxesTicks,
+      yAxesTicks
     )
   }
 

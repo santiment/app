@@ -62,7 +62,9 @@ const Chart = ({
   onPointClick,
   resizeDependencies,
   onBrushChangeEnd,
-  children
+  children,
+  xAxesTicks,
+  yAxesTicks
 }) => {
   const { isNightMode } = useTheme()
   let [chart, setChart] = useState()
@@ -146,6 +148,8 @@ const Chart = ({
     chart.hideWatermark = hideWatermark
     chart.syncTooltips = syncTooltips
     chart.drawTooltip = point => plotTooltip(chart, marker, point)
+    chart.xAxesTicks = xAxesTicks
+    chart.yAxesTicks = yAxesTicks
   }
 
   useEffect(
