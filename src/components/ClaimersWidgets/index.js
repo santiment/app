@@ -27,10 +27,9 @@ const ChartWidget = ({ metric }) => (
 const ClaimersWidgets = ({ className }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
-      <div className={styles.claimers}>
-        <h3 className={styles.subheading}>Top Claimers, 24h</h3>
-        <TopClaimersTable className={cx(styles.widget, styles.chart)} />
-      </div>
+      <Widget title='Top Claimers, 24h'>
+        <TopClaimersTable className={styles.widget} />
+      </Widget>
 
       <ChartWidget metric={Metric.uniswap_total_claims_percent} />
 
