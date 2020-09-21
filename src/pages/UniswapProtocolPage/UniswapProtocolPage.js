@@ -32,6 +32,10 @@ const ANCHORS = {
     label: 'Top Claimers 24h',
     key: 'top-claimers'
   },
+  ClaimersWidgets: {
+    label: 'UNI Token Claims Widgets',
+    key: 'claimers-widgets'
+  },
   Exchanges: {
     label: 'How much went to exchanges?',
     key: 'how-much-on-exchanges'
@@ -43,10 +47,6 @@ const ANCHORS = {
   TopTransactions: {
     label: 'Top Token Transactions',
     key: 'top-transactions'
-  },
-  ClaimersWidgets: {
-    label: 'UNI Token Claims Widgets',
-    key: 'claimers-widgets'
   },
   FeesDistribution: {
     label: 'Fees Distribution',
@@ -132,7 +132,13 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
           >
             <TopClaimersTable />
           </Block>
-
+          <Block
+            tag={ANCHORS.ClaimersWidgets.key}
+            title='UNI Token Claims Widgets'
+            isPaywalActive={areClaimsRestricted}
+          >
+            <ClaimersWidgets />
+          </Block>
           <Block
             title='Post-claim activity of UNI tokens'
             description='From addresses that claimed UNI token'
@@ -151,15 +157,6 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
           >
             <UniswapTopTransactions />
           </Block>
-
-          <Block
-            tag={ANCHORS.ClaimersWidgets.key}
-            title='UNI Token Claims Widgets'
-            isPaywalActive={areClaimsRestricted}
-          >
-            <ClaimersWidgets />
-          </Block>
-
           <Block tag={ANCHORS.FeesDistribution.key}>
             <FeesDistribution />
           </Block>
