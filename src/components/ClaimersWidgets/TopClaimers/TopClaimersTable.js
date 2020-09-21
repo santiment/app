@@ -4,6 +4,8 @@ import ReactTable from 'react-table'
 import { columns } from './columns'
 import { useTopClaimers } from './gql'
 import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
+import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
+import MakeProSubscriptionCard from '../../../pages/feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
 import styles from './table.module.scss'
 
 const DEFAULT_SORTED = [
@@ -14,16 +16,21 @@ const DEFAULT_SORTED = [
 ]
 
 const TopClaimersTable = ({ className }) => {
+  const { isPro } = useUserSubscriptionStatus()
+
   const { from, to } = getTimeIntervalFromToday(-1, DAY)
   const [items] = useTopClaimers({
     from: from.toISOString(),
     to: to.toISOString()
   })
 
+  if (!isPro) {
+    return <MakeProSubscriptionCard />
+  }
+
   return (
     <div className={cx(className, styles.table)}>
       <ReactTable
-        minRows={1}
         className={styles.claimersTable}
         defaultSorted={DEFAULT_SORTED}
         showPagination={false}

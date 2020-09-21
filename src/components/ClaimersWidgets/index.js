@@ -4,15 +4,18 @@ import UniswapChart from './Chart'
 import TopClaimersTable from './TopClaimers/TopClaimersTable'
 import { Metric } from '../../ducks/dataHub/metrics'
 import HelpPopup from '../../components/HelpPopup/HelpPopup'
+import { ProLabel } from '../ProLabel'
 import styles from './index.module.scss'
 
-const Widget = ({ title, description, children }) => (
+const Widget = ({ title, description, children, showPro = false }) => (
   <div className={styles.item}>
     <h3 className={styles.subheading}>
       {title}
       {description && (
         <HelpPopup triggerClassName={styles.help} content={description} />
       )}
+
+      {showPro && <ProLabel className={styles.pro} />}
     </h3>
     {children}
   </div>
@@ -27,7 +30,7 @@ const ChartWidget = ({ metric }) => (
 const ClaimersWidgets = ({ className }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
-      <Widget title='Top Claimers, 24h'>
+      <Widget title='Top Claimers, 24h' showPro>
         <TopClaimersTable className={styles.widget} />
       </Widget>
 

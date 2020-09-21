@@ -15,6 +15,7 @@
 
   color: var(--waterloo);
   margin: 8px 0 12px 0;
+  display: flex;
 }
 
 .chart {
@@ -23,4 +24,8 @@
 
 .help {
   margin: 0 6px -2px;
+}
+
+.pro {
+  margin-left: 8px;
 }
