@@ -24,7 +24,7 @@ import CompareAction from './CompareInfo/CompareAction'
 import './ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
 
-const CustomNoDataComponent = ({ isLoading }) => {
+export const CustomNoDataComponent = ({ isLoading }) => {
   if (isLoading) {
     return null
   }
@@ -37,10 +37,14 @@ const CustomNoDataComponent = ({ isLoading }) => {
   )
 }
 
-const CustomLoadingComponent = ({ repeat, isLoading }) => {
+export const CustomLoadingComponent = ({ repeat, isLoading, classes = {} }) => {
   return (
-    <div className={styles.loader}>
-      <Skeleton className={styles.skeleton} show={isLoading} repeat={repeat} />
+    <div className={cx(styles.loader, classes.wrapper)}>
+      <Skeleton
+        className={cx(styles.skeleton, classes.row)}
+        show={isLoading}
+        repeat={repeat}
+      />
     </div>
   )
 }
