@@ -103,11 +103,7 @@ export const FeesDistributionChart = ({ className, interval }) => {
   const { isPro } = useUserSubscriptionStatus()
 
   if (!isPro) {
-    return (
-      <div className={cx(styles.container, className)}>
-        <MakeProSubscriptionCard />
-      </div>
-    )
+    return <MakeProSubscriptionCard classes={{ card: className }} />
   }
 
   return (

@@ -19,6 +19,15 @@
   background: var(--white);
 }
 
+.loadingWrapper {
+  top: 37px;
+  padding: 0 10px;
+}
+
+.loadingRow {
+  height: 40px;
+}
+
 .claimersTable:global(.ReactTable) {
   border: none;
 
