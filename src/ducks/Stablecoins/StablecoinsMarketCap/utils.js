@@ -1,6 +1,4 @@
-import memoize from 'lodash.memoize'
 import { Metric } from '../../dataHub/metrics'
-import { convertToSeconds } from '../../dataHub/metrics/intervals'
 import { updateTooltipSettings } from '../../dataHub/tooltipSettings'
 import { usdFormatter } from '../../dataHub/metrics/formatters'
 
@@ -107,10 +105,3 @@ export const StablecoinColor = CHECKING_STABLECOINS.reduce(
   },
   {}
 )
-
-export const getIntervalDates = memoize(interval => {
-  return {
-    from: new Date(new Date().getTime() + -1 * convertToSeconds(interval)),
-    to: new Date()
-  }
-})

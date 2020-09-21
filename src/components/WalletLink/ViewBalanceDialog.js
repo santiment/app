@@ -9,7 +9,7 @@ import styles from './WalletLink.module.scss'
 import dialogStyles from './ViewBalanceDialog.module.scss'
 
 const CHART_SETTINGS = {
-  ...formIntervalSettings('1w'),
+  ...formIntervalSettings('7d'),
   timeRange: '7d'
 }
 

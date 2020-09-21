@@ -13,9 +13,10 @@ import IntervalsComponent from '../../../components/IntervalsComponent/Intervals
 import styles from './FeesDistribution.module.scss'
 
 export const FEE_RANGES = [
+  { value: '1h', label: '1h' },
   { value: '1d', label: '24h' },
   { value: '7d', label: '7d' },
-  { value: '30d', label: '1M' }
+  { value: '30d', label: '30d' }
 ]
 
 const FEES_DISTRIBUTION = gql`
@@ -44,7 +45,7 @@ const useFeeDistributions = ({ from, to }) => {
   }
 }
 
-export const FeesDistributionTitle = ({ interval, setInterval }) => {
+export const FeesDistributionTitle = ({ setInterval }) => {
   return (
     <div className={styles.title}>
       <div className={styles.text}>Fees Distribution</div>{' '}
@@ -66,7 +67,7 @@ const FeesDistribution = () => {
   const [interval, setInterval] = useState('7d')
   return (
     <>
-      <FeesDistributionTitle interval={interval} setInterval={setInterval} />
+      <FeesDistributionTitle setInterval={setInterval} />
       <FeesDistributionChart className={styles.chart} interval={interval} />
     </>
   )

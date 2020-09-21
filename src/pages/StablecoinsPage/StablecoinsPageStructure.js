@@ -1,7 +1,8 @@
-import React, { Fragment, useMemo, useState } from 'react'
+import React, { Fragment, useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
 import IntervalsComponent from '../../components/IntervalsComponent/IntervalsComponent'
 import CheckProPaywall from '../../ducks/Stablecoins/CheckProPaywall'
+import { getIntervalDates } from '../../ducks/SANCharts/IntervalSelector'
 import styles from './StablecoinsPage.module.scss'
 
 export const BlockHeader = ({
@@ -58,6 +59,17 @@ export const BlockWithRanges = ({
   checkPro = true
 }) => {
   const [interval, setInterval] = useState('24h')
+  const [settings, setSettings] = useState({ ...getIntervalDates(interval) })
+
+  useEffect(
+    () => {
+      setSettings({
+        ...settings,
+        ...getIntervalDates(interval)
+      })
+    },
+    [interval]
+  )
 
   const Wrapper = checkPro ? CheckProPaywall : Fragment
 
@@ -70,7 +82,7 @@ export const BlockWithRanges = ({
       />
 
       <Wrapper>
-        <El interval={interval} />
+        <El settings={settings} />
       </Wrapper>
     </div>
   )
