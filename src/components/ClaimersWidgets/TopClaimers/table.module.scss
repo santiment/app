@@ -10,7 +10,7 @@
 }
 
 .table {
-  height: 870px;
+  height: 700px;
   overflow-x: hidden;
   overflow-y: auto;
   overflow-y: overlay;
@@ -26,8 +26,7 @@
     .rt-td {
       border: none !important;
       padding: 8px 0;
-      height: 39px;
-      align-self: baseline;
+      align-self: center;
       text-overflow: clip;
 
       @include text('body-3');
@@ -43,19 +42,15 @@
 
     .rt-th {
       text-align: left;
-      padding: 7px 0;
+      padding: 7px 0 7px 20px;
       position: relative;
       width: 100%;
       overflow: visible;
       border: none;
       outline: none;
 
-      &:nth-child(4) {
-        padding-left: 8px;
-      }
-
-      &:nth-child(5) {
-        padding-left: 16px;
+      &:first-child {
+        padding-left: 0;
       }
 
       @include text('caption');
@@ -109,6 +104,7 @@
 
     .rt-tbody .rt-tr-group {
       padding-right: 0;
+      min-height: 48px;
     }
   }
 }
