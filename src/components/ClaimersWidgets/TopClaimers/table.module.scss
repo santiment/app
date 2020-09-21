@@ -10,10 +10,13 @@
 }
 
 .table {
-  height: 340px;
+  height: 870px;
   overflow-x: hidden;
   overflow-y: auto;
   overflow-y: overlay;
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  background: var(--white);
 }
 
 .claimersTable:global(.ReactTable) {

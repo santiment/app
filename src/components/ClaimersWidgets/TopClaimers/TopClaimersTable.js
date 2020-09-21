@@ -25,7 +25,7 @@ const TopClaimersTable = ({ className }) => {
   })
 
   if (!isPro) {
-    return <MakeProSubscriptionCard />
+    return <MakeProSubscriptionCard classes={{ card: className }} />
   }
 
   return (
