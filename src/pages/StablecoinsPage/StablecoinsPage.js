@@ -11,12 +11,12 @@ import TransactionsDominance from '../../ducks/Stablecoins/TransactionsDominance
 import NetworkActivity from '../../ducks/Stablecoins/NetworkActivity/NetworkActivity'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
-import { getIntervalDates } from '../../ducks/Stablecoins/StablecoinsMarketCap/utils'
 import { Block, BlockWithRanges } from './StablecoinsPageStructure'
 import StablecoinsReport from '../../ducks/Stablecoins/StablecoinsReport/StablecoinsReport'
 import ResearchesBlock from '../../components/ResearchesBlock'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import SharePage from '../../components/SharePage/SharePage'
+import { getIntervalDates } from '../../ducks/SANCharts/IntervalSelector'
 import styles from './StablecoinsPage.module.scss'
 
 const ANCHORS = {

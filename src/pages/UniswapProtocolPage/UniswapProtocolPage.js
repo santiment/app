@@ -14,10 +14,7 @@ import UniswapTopTransactions from '../../ducks/UniswapProtocol/UniswapTopTransa
 import UniswapMetrics from '../../ducks/UniswapProtocol/UniswapMetrics/UniswapMetrics'
 import UniswapPieChart from '../../ducks/UniswapProtocol/UniswapPieChart/UniswapPieChart'
 import SharePage from '../../components/SharePage/SharePage'
-import {
-  FeesDistributionChart,
-  FeesDistributionTitle
-} from '../../ducks/Studio/FeesDistribution/FeesDistribution'
+import FeesDistribution from '../../ducks/Studio/FeesDistribution/FeesDistribution'
 import styles from './UniswapProtocolPage.module.scss'
 
 const ANCHORS = {
@@ -94,9 +91,7 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
               }}
               title={
                 <BlockHeader
-                  title={
-                    'Uniswap: Token Distributor'
-                  }
+                  title={'Uniswap: Token Distributor'}
                   description='0x090d4613473dee047c3f2706764f49e0821d256e'
                   className={styles.balanceTitle}
                 />
@@ -132,11 +127,8 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
             <ClaimersWidgets />
           </Block>
 
-          <Block
-            tag={ANCHORS.FeesDistribution.key}
-            title={<FeesDistributionTitle />}
-          >
-            <FeesDistributionChart />
+          <Block tag={ANCHORS.FeesDistribution.key}>
+            <FeesDistribution />
           </Block>
         </div>
       </div>

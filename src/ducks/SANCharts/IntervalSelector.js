@@ -1,6 +1,7 @@
 import React from 'react'
 import Dropdown from '@santiment-network/ui/Dropdown'
-import { dateDifference, DAY, getIntervalByTimeRange } from '../../utils/dates'
+import { dateDifference, DAY } from '../../utils/dates'
+import { convertToSeconds } from '../dataHub/metrics/intervals'
 import styles from './IntervalSelector.module.scss'
 
 export const INTERVAL_ALIAS = {
@@ -60,10 +61,15 @@ const getAvailableIntervals = (from, to) => {
   return ['7d', '10d', '14d']
 }
 
+export const getIntervalDates = interval => {
+  return {
+    from: new Date(new Date().getTime() + -1 * convertToSeconds(interval)),
+    to: new Date()
+  }
+}
+
 export const formIntervalSettings = value => {
-  const { from, to } = getIntervalByTimeRange(value, {
-    resetToBorders: false
-  })
+  const { from, to } = getIntervalDates(value)
 
   const interval = getNewInterval(from, to)
 

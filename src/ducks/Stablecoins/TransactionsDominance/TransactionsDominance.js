@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react'
 import { Toggle } from '@santiment-network/ui'
-import { getIntervalDates } from '../StablecoinsMarketCap/utils'
 import ProjectsBarChart from '../ProjectsBarChart/ProjectsBarChart'
 import PageLoader from '../../../components/Loader/PageLoader'
 import { sortByValue, useAggregatedProjects } from '../utils'
@@ -22,10 +21,10 @@ const calculatePercentValues = data => {
   }))
 }
 
-const TransactionsDominance = ({ interval }) => {
+const TransactionsDominance = ({ settings }) => {
   const { data, loading } = useAggregatedProjects({
     ...DEFAULT_SETTINGS,
-    ...getIntervalDates(interval)
+    ...settings
   })
   const [isDominance, setIsDominance] = useState(false)
 
