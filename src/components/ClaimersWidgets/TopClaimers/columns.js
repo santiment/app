@@ -4,9 +4,18 @@ import WalletLink from '../../WalletLink/WalletLink'
 
 const assets = ['uniswap', 'ethereum']
 
-const TrxAddressCell = ({ value }) => (
-  <WalletLink address={value} assets={assets} />
-)
+const TrxAddressCell = ({ value, original: { labels } }) => {
+  const transformedLabels = labels.map(label => ({ name: label }))
+  return (
+    <WalletLink
+      address={value}
+      assets={assets}
+      isFull={true}
+      labels={transformedLabels}
+      showAllLabels
+    />
+  )
+}
 
 export const columns = [
   {

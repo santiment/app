@@ -15,6 +15,7 @@ const TOP_CLAIMERS_QUERY = gql`
             data {
               address
               value
+              labels
             }
           }
         }
