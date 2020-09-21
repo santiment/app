@@ -1,8 +1,8 @@
 import React from 'react'
 import Dropdown from '@santiment-network/ui/Dropdown'
 import { dateDifference, DAY } from '../../utils/dates'
-import styles from './IntervalSelector.module.scss'
 import { convertToSeconds } from '../dataHub/metrics/intervals'
+import styles from './IntervalSelector.module.scss'
 
 export const INTERVAL_ALIAS = {
   '5min': '5m',
