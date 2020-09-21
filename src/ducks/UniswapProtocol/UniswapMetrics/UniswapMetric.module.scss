@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: space-between;
   background: var(--white);
   border-radius: $border-radius;
 }
@@ -23,6 +23,10 @@
 .value {
   @include text(h4);
 
+  min-height: 32px;
+  width: 100%;
+  display: flex;
+  align-items: center;
   margin-top: 8px;
 }
 
@@ -32,4 +36,9 @@
 
 .change {
   display: flex;
+}
+
+.loading {
+  font-size: 5px;
+  margin: 0 auto;
 }

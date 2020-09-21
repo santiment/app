@@ -37,11 +37,11 @@ const ANCHORS = {
     key: 'claimers-widgets'
   },
   Exchanges: {
-    label: 'How much went to exchanges?',
+    label: 'Post claim activity of UNI tokens',
     key: 'how-much-on-exchanges'
   },
   WhoClaimed: {
-    label: 'Who did claim UNI?',
+    label: 'Who claimed UNI?',
     key: 'who-claimed'
   },
   TopTransactions: {
@@ -147,7 +147,7 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
             <UniswapPieChart />
           </Block>
 
-          <Block title='Who did claim UNI?' tag={ANCHORS.WhoClaimed.key}>
+          <Block title='Who claimed UNI?' tag={ANCHORS.WhoClaimed.key}>
             <UniswapWhoClaimed />
           </Block>
 
