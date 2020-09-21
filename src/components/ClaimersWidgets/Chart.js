@@ -45,7 +45,7 @@ const UniswapChart = ({ className, metrics }) => {
         tooltipKey={axesMetricKeys[0]}
         axesMetricKeys={axesMetricKeys}
         chartPadding={chartPadding}
-        chartHeight={340}
+        chartHeight={270}
         xAxesTicks={5}
         yAxesTicks={6}
         resizeDependencies={[]}
