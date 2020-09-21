@@ -30,11 +30,11 @@ const obj = {
   },
   notMoved: {
     label: 'Not moved',
-    color: '#AC948C'
+    color: '#F47BF7'
   }
 }
 
-const COLORS = ['#68DBF4', '#FF5B5B', '#5275FF', '#D4E763', '#AC948C']
+const COLORS = ['#68DBF4', '#FF5B5B', '#5275FF', '#D4E763', '#F47BF7']
 
 function transformData (data) {
   if (!data) {
@@ -81,14 +81,13 @@ const UniswapPieChart = () => {
       {!loading && (
         <div className={styles.wrapper}>
           <div className={styles.chart}>
-            <PieChart width={300} height={300}>
+            <PieChart width={400} height={300}>
               <Pie
                 data={chartData}
-                cx={150}
-                cy={130}
+                cx={200}
+                cy={140}
                 labelLine={false}
-                outerRadius={80}
-                fill='#8884d8'
+                outerRadius={140}
               >
                 {chartData.map((entry, index) => (
                   <Cell fill={COLORS[index % COLORS.length]} />
@@ -103,29 +102,57 @@ const UniswapPieChart = () => {
           </div>
           <div className={styles.text}>
             <div className={styles.row}>
-              <h4 className={styles.title}>Total minted:</h4>
+              <h4 className={styles.title}>Total claimed:</h4>
               <span className={styles.value}>{formatNumber(total)}</span>
             </div>
             <div className={styles.row}>
-              <h4 className={styles.title}>Moved after claiming to:</h4>
+              <h4 className={styles.title}>
+                Moved after claimed ({((movedSum * 100) / total).toFixed(0)}%):
+              </h4>
               <span className={styles.value}>{formatNumber(movedSum)}</span>
             </div>
+            <ul className={styles.list}>
+              {chartData.map(({ name, value, rawValue, color }) => {
+                if (name === obj.notMoved.label) return null
+                return (
+                  <li
+                    className={styles.item}
+                    style={{ '--pie-chart-item-color': color }}
+                  >
+                    <span className={styles.item__name}>
+                      {name} ({value.toFixed(2)}%):
+                    </span>
+                    <span className={styles.item__value}>
+                      {formatNumber(rawValue)}
+                    </span>
+                  </li>
+                )
+              })}
+            </ul>
             <div className={styles.row}>
-              <h4 className={styles.title}>Not moved:</h4>
+              <h4 className={styles.title}>
+                Dormant after claimed ({((notMoved * 100) / total).toFixed(0)}
+                %):
+              </h4>
               <span className={styles.value}>{formatNumber(notMoved)}</span>
             </div>
             <ul className={styles.list}>
-              {chartData.map(({ name, value, rawValue, color }) => (
-                <li
-                  className={styles.item}
-                  style={{ '--pie-chart-item-color': color }}
-                >
-                  <span className={styles.item__name}>{name}: </span>
-                  <span className={styles.item__value}>
-                    {formatNumber(rawValue)} ({value.toFixed(2)}%)
-                  </span>
-                </li>
-              ))}
+              {chartData.map(({ name, value, rawValue, color }) => {
+                if (name !== obj.notMoved.label) return null
+                return (
+                  <li
+                    className={styles.item}
+                    style={{ '--pie-chart-item-color': color }}
+                  >
+                    <span className={styles.item__name}>
+                      {name} ({value.toFixed(0)}%):
+                    </span>
+                    <span className={styles.item__value}>
+                      {formatNumber(rawValue)}
+                    </span>
+                  </li>
+                )
+              })}
             </ul>
           </div>
         </div>

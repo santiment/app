@@ -95,8 +95,9 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
               title={
                 <BlockHeader
                   title={
-                    'Uniswap: Token Distributor 0x090d4613473dee047c3f2706764f49e0821d256e'
+                    'Uniswap: Token Distributor'
                   }
+                  description='0x090d4613473dee047c3f2706764f49e0821d256e'
                   className={styles.balanceTitle}
                 />
               }
@@ -107,7 +108,7 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
           </Block>
 
           <Block
-            title='How much went to exchanges? How much on CEXes vs DEXes'
+            title='Post-claim activity of UNI tokens'
             description='From addresses that claimed UNI token'
             tag={ANCHORS.Exchanges.key}
           >

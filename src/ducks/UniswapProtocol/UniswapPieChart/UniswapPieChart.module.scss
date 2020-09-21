@@ -17,9 +17,16 @@
   margin: 12px 0 0 0;
 }
 
+.chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .row {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   margin: 0 0 12px;
 }
 
@@ -36,7 +43,7 @@
 }
 
 .text {
-  min-width: 500px;
+  min-width: 550px;
   display: flex;
   flex-direction: column;
 }
@@ -48,23 +55,26 @@
 .list {
   display: flex;
   flex-direction: column;
-  margin: 8px 0 10px;
+  margin: 4px 0 10px;
   padding: 0;
 }
 
 .item {
   display: flex;
   align-items: center;
-  padding-left: 14px;
+  padding-left: 18px;
   margin: 0 0 6px;
   position: relative;
+  color: var(--waterloo);
+
+  @include text('body-2');
 
   &::before {
     content: '';
     position: absolute;
     display: block;
-    width: 6px;
-    height: 6px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: var(--pie-chart-item-color);
     left: 0;
@@ -73,4 +83,8 @@
 
 .item__name {
   margin: 0 6px 0 0;
+
+  @include text('body-2', 'm');
+
+  color: var(--rhino);
 }
