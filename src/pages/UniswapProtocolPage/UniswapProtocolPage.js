@@ -13,6 +13,7 @@ import UniswapHistoricalBalance from '../../ducks/Studio/Tabs/UniswapHistoricalB
 import UniswapTopTransactions from '../../ducks/UniswapProtocol/UniswapTopTransactions/UniswapTopTransactions'
 import UniswapMetrics from '../../ducks/UniswapProtocol/UniswapMetrics/UniswapMetrics'
 import UniswapPieChart from '../../ducks/UniswapProtocol/UniswapPieChart/UniswapPieChart'
+import UniswapWhoClaimed from '../../ducks/UniswapProtocol/UniswapPieChart/WhoClaimedPieChart'
 import SharePage from '../../components/SharePage/SharePage'
 import FeesDistribution from '../../ducks/Studio/FeesDistribution/FeesDistribution'
 import styles from './UniswapProtocolPage.module.scss'
@@ -25,6 +26,10 @@ const ANCHORS = {
   Exchanges: {
     label: 'How much went to exchanges?',
     key: 'how-much-on-exchanges'
+  },
+  WhoClaimed: {
+    label: 'Who did claim UNI?',
+    key: 'who-claimed'
   },
   TopTransactions: {
     label: 'Top Token Transactions',
@@ -108,6 +113,10 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
             tag={ANCHORS.Exchanges.key}
           >
             <UniswapPieChart />
+          </Block>
+
+          <Block title='Who did claim UNI?' tag={ANCHORS.WhoClaimed.key}>
+            <UniswapWhoClaimed />
           </Block>
 
           <Block
