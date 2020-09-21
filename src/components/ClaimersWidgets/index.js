@@ -20,34 +20,37 @@ const Widget = ({ title, description, children, showPro = false }) => (
   </div>
 )
 
-const ChartWidget = ({ metric }) => (
-  <Widget title={metric.label} description={metric.description}>
-    <UniswapChart metric={metric} />
+const ChartWidget = ({ metrics }) => (
+  <Widget title={metrics[0].label} description={metrics[0].description}>
+    <UniswapChart metrics={metrics} />
   </Widget>
 )
 
 const ClaimersWidgets = ({ className }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
-      {/* <ChartWidget metric={Metric.uniswap_total_claims_percent} /> */}
+      <ChartWidget metrics={[Metric.uniswap_claims_amount]} />
+      <ChartWidget
+        metrics={[
+          Metric.uniswap_total_claims_amount,
+          Metric.uniswap_total_claims_percent
+        ]}
+      />
 
-      <ChartWidget metric={Metric.uniswap_claims_amount} />
-      <ChartWidget metric={Metric.uniswap_total_claims_amount} />
+      <ChartWidget metrics={[Metric.uniswap_claims_count]} />
+      <ChartWidget metrics={[Metric.uniswap_total_claims_count]} />
 
-      <ChartWidget metric={Metric.uniswap_claims_count} />
-      <ChartWidget metric={Metric.uniswap_total_claims_count} />
+      <ChartWidget metrics={[Metric.uniswap_user_claims_count]} />
+      <ChartWidget metrics={[Metric.uniswap_total_user_claims_count]} />
 
-      <ChartWidget metric={Metric.uniswap_user_claims_count} />
-      <ChartWidget metric={Metric.uniswap_total_user_claims_count} />
+      <ChartWidget metrics={[Metric.uniswap_user_claims_amount]} />
+      <ChartWidget metrics={[Metric.uniswap_total_user_claims_amount]} />
 
-      <ChartWidget metric={Metric.uniswap_user_claims_amount} />
-      <ChartWidget metric={Metric.uniswap_total_user_claims_amount} />
+      <ChartWidget metrics={[Metric.uniswap_lp_claims_count]} />
+      <ChartWidget metrics={[Metric.uniswap_total_lp_claims_count]} />
 
-      <ChartWidget metric={Metric.uniswap_lp_claims_count} />
-      <ChartWidget metric={Metric.uniswap_total_lp_claims_count} />
-
-      <ChartWidget metric={Metric.uniswap_lp_claims_amount} />
-      <ChartWidget metric={Metric.uniswap_total_lp_claims_amount} />
+      <ChartWidget metrics={[Metric.uniswap_lp_claims_amount]} />
+      <ChartWidget metrics={[Metric.uniswap_total_lp_claims_amount]} />
     </div>
   )
 }

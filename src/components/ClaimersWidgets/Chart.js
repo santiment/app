@@ -22,11 +22,12 @@ const chartPadding = {
   left: 8
 }
 
-const UniswapChart = ({ className, metric }) => {
-  const metrics = useMemo(() => [metric], [metric])
-  const [data] = useTimeseries(metrics, settings)
-  const categories = useMetricCategories(metrics)
-  const axesMetricKeys = useAxesMetricsKey(metrics)
+const UniswapChart = ({ className, metrics }) => {
+  const metric = metrics[0]
+  const chartMetrics = useMemo(() => metrics, metrics)
+  const [data] = useTimeseries(chartMetrics, settings)
+  const categories = useMetricCategories(chartMetrics)
+  const axesMetricKeys = useAxesMetricsKey(chartMetrics)
   const MetricColor = useMemo(() => ({ [metric.key]: metric.color }), [metric])
 
   return (
@@ -39,7 +40,7 @@ const UniswapChart = ({ className, metric }) => {
         isCartesianGridActive
         data={data}
         MetricColor={MetricColor}
-        metrics={metrics}
+        metrics={chartMetrics}
         scale={linearScale}
         tooltipKey={axesMetricKeys[0]}
         axesMetricKeys={axesMetricKeys}
