@@ -20,9 +20,17 @@ import FeesDistribution from '../../ducks/Studio/FeesDistribution/FeesDistributi
 import styles from './UniswapProtocolPage.module.scss'
 
 const ANCHORS = {
+  Claimers: {
+    label: 'UNI Token Claims',
+    key: 'claimers'
+  },
   Overview: {
     label: 'Uniswap Protocol',
     key: 'overview'
+  },
+  TopClaimers: {
+    label: 'Top Claimers 24h',
+    key: 'top-claimers'
   },
   Exchanges: {
     label: 'How much went to exchanges?',
@@ -36,9 +44,9 @@ const ANCHORS = {
     label: 'Top Token Transactions',
     key: 'top-transactions'
   },
-  Claimers: {
-    label: 'UNI Token Claims',
-    key: 'claimers'
+  ClaimersWidgets: {
+    label: 'UNI Token Claims Widgets',
+    key: 'claimers-widgets'
   },
   FeesDistribution: {
     label: 'Fees Distribution',
@@ -89,7 +97,16 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
         </DesktopOnly>
 
         <div className={styles.inner}>
-          <Block className={styles.firstBlock} tag={ANCHORS.Overview.key}>
+          <Block
+            className={styles.firstBlock}
+            tag={ANCHORS.Claimers.key}
+            title='UNI Token Claims'
+            isPaywalActive={areClaimsRestricted}
+          >
+            <UniswapMetrics />
+          </Block>
+
+          <Block tag={ANCHORS.Overview.key}>
             <UniswapHistoricalBalance
               classes={{
                 chart: styles.balanceChart,
@@ -106,6 +123,14 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
                 showAlertBtn: true
               }}
             />
+          </Block>
+
+          <Block
+            tag={ANCHORS.TopClaimers.key}
+            title='Top Claimers, 24h'
+            isPaywalActive={areClaimsRestricted}
+          >
+            <TopClaimersTable />
           </Block>
 
           <Block
@@ -128,13 +153,10 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
           </Block>
 
           <Block
-            tag={ANCHORS.Claimers.key}
-            title='UNI Token Claims'
-            description=''
+            tag={ANCHORS.ClaimersWidgets.key}
+            title='UNI Token Claims Widgets'
             isPaywalActive={areClaimsRestricted}
           >
-            <UniswapMetrics />
-            <TopClaimersTable className={styles.claimersTable} />
             <ClaimersWidgets />
           </Block>
 
