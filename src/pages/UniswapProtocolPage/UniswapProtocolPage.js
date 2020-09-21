@@ -37,7 +37,7 @@ const ANCHORS = {
     key: 'claimers-widgets'
   },
   Exchanges: {
-    label: 'How much went to exchanges?',
+    label: 'Post claim activity of UNI tokens',
     key: 'how-much-on-exchanges'
   },
   WhoClaimed: {
