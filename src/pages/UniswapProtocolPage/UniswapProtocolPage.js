@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet'
 import { useRestrictedInfo } from './hooks'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import ClaimersWidgets from '../../components/ClaimersWidgets'
+import TopClaimersTable from '../../components/ClaimersWidgets/TopClaimers/TopClaimersTable'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import { Block, BlockHeader } from '../StablecoinsPage/StablecoinsPageStructure'
@@ -133,6 +134,7 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
             isPaywalActive={areClaimsRestricted}
           >
             <UniswapMetrics />
+            <TopClaimersTable className={styles.claimersTable} />
             <ClaimersWidgets />
           </Block>
 

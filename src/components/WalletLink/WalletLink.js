@@ -10,7 +10,9 @@ const WalletLink = ({
   isTx = false,
   isExchange = false,
   labels,
-  isDesktop
+  isDesktop,
+  isFull,
+  showAllLabels
 }) => {
   const trigger = (
     <Address
@@ -19,6 +21,8 @@ const WalletLink = ({
       isExchange={isExchange}
       asLink={isTx}
       labels={labels}
+      isFull={isFull}
+      showAllLabels={showAllLabels}
     />
   )
 

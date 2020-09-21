@@ -1,7 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
 import UniswapChart from './Chart'
-import TopClaimersTable from './TopClaimers/TopClaimersTable'
 import { Metric } from '../../ducks/dataHub/metrics'
 import HelpPopup from '../../components/HelpPopup/HelpPopup'
 import { ProLabel } from '../ProLabel'
@@ -30,11 +29,7 @@ const ChartWidget = ({ metric }) => (
 const ClaimersWidgets = ({ className }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
-      <Widget title='Top Claimers, 24h' showPro>
-        <TopClaimersTable className={styles.widget} />
-      </Widget>
-
-      <ChartWidget metric={Metric.uniswap_total_claims_percent} />
+      {/* <ChartWidget metric={Metric.uniswap_total_claims_percent} /> */}
 
       <ChartWidget metric={Metric.uniswap_claims_amount} />
       <ChartWidget metric={Metric.uniswap_total_claims_amount} />
