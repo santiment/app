@@ -90,6 +90,7 @@ const WhoClaimedChart = () => {
             <ul className={styles.list}>
               {chartData.map(({ name, value, rawValue, color }) => (
                 <li
+                  key={name}
                   className={styles.item}
                   style={{ '--pie-chart-item-color': color }}
                 >

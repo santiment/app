@@ -20,9 +20,21 @@ import FeesDistribution from '../../ducks/Studio/FeesDistribution/FeesDistributi
 import styles from './UniswapProtocolPage.module.scss'
 
 const ANCHORS = {
+  Claimers: {
+    label: 'UNI Token Claims',
+    key: 'claimers'
+  },
   Overview: {
     label: 'Uniswap Protocol',
     key: 'overview'
+  },
+  TopClaimers: {
+    label: 'Top Claimers 24h',
+    key: 'top-claimers'
+  },
+  ClaimersWidgets: {
+    label: 'UNI Token Claims Widgets',
+    key: 'claimers-widgets'
   },
   Exchanges: {
     label: 'How much went to exchanges?',
@@ -35,10 +47,6 @@ const ANCHORS = {
   TopTransactions: {
     label: 'Top Token Transactions',
     key: 'top-transactions'
-  },
-  Claimers: {
-    label: 'UNI Token Claims',
-    key: 'claimers'
   },
   FeesDistribution: {
     label: 'Fees Distribution',
@@ -89,7 +97,16 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
         </DesktopOnly>
 
         <div className={styles.inner}>
-          <Block className={styles.firstBlock} tag={ANCHORS.Overview.key}>
+          <Block
+            className={styles.firstBlock}
+            tag={ANCHORS.Claimers.key}
+            title='UNI Token Claims'
+            isPaywalActive={areClaimsRestricted}
+          >
+            <UniswapMetrics />
+          </Block>
+
+          <Block tag={ANCHORS.Overview.key}>
             <UniswapHistoricalBalance
               classes={{
                 chart: styles.balanceChart,
@@ -109,6 +126,20 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
           </Block>
 
           <Block
+            tag={ANCHORS.TopClaimers.key}
+            title='Top Claimers, 24h'
+            isPaywalActive={areClaimsRestricted}
+          >
+            <TopClaimersTable />
+          </Block>
+          <Block
+            tag={ANCHORS.ClaimersWidgets.key}
+            title='UNI Token Claims Widgets'
+            isPaywalActive={areClaimsRestricted}
+          >
+            <ClaimersWidgets />
+          </Block>
+          <Block
             title='Post-claim activity of UNI tokens'
             description='From addresses that claimed UNI token'
             tag={ANCHORS.Exchanges.key}
@@ -126,18 +157,6 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
           >
             <UniswapTopTransactions />
           </Block>
-
-          <Block
-            tag={ANCHORS.Claimers.key}
-            title='UNI Token Claims'
-            description=''
-            isPaywalActive={areClaimsRestricted}
-          >
-            <UniswapMetrics />
-            <TopClaimersTable className={styles.claimersTable} />
-            <ClaimersWidgets />
-          </Block>
-
           <Block tag={ANCHORS.FeesDistribution.key}>
             <FeesDistribution />
           </Block>

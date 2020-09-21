@@ -116,6 +116,7 @@ const UniswapPieChart = () => {
                 if (name === obj.notMoved.label) return null
                 return (
                   <li
+                    key={name}
                     className={styles.item}
                     style={{ '--pie-chart-item-color': color }}
                   >
