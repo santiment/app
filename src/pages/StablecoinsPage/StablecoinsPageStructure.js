@@ -1,6 +1,6 @@
 import React, { Fragment, useMemo, useState } from 'react'
 import cx from 'classnames'
-import StablecoinsIntervals from '../../ducks/Stablecoins/StablecoinsIntervals/StablecoinsIntervals'
+import IntervalsComponent from '../../components/IntervalsComponent/IntervalsComponent'
 import CheckProPaywall from '../../ducks/Stablecoins/CheckProPaywall'
 import styles from './StablecoinsPage.module.scss'
 
@@ -19,7 +19,7 @@ export const BlockHeader = ({
     <div className={cx(styles.subHeader, className)}>
       <div className={styles.subTitle} id={tag}>
         {title}
-        {setInterval && <StablecoinsIntervals onChange={setInterval} />}
+        {setInterval && <IntervalsComponent onChange={setInterval} />}
       </div>
       {description && <div className={styles.subDescr}>{description}</div>}
     </div>

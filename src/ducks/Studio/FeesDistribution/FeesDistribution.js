@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
@@ -7,9 +7,16 @@ import ProjectsBarChart from '../../Stablecoins/ProjectsBarChart/ProjectsBarChar
 import { formIntervalSettings } from '../../SANCharts/IntervalSelector'
 import PageLoader from '../../../components/Loader/PageLoader'
 import HelpPopup from '../../../components/HelpPopup/HelpPopup'
-import styles from './FeesDistribution.module.scss'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import MakeProSubscriptionCard from '../../../pages/feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
+import IntervalsComponent from '../../../components/IntervalsComponent/IntervalsComponent'
+import styles from './FeesDistribution.module.scss'
+
+export const FEE_RANGES = [
+  { value: '1d', label: '24h' },
+  { value: '7d', label: '7d' },
+  { value: '30d', label: '1M' }
+]
 
 const FEES_DISTRIBUTION = gql`
   query ethFeesDistribution($from: DateTime!, $to: DateTime!) {
@@ -37,31 +44,43 @@ const useFeeDistributions = ({ from, to }) => {
   }
 }
 
-export const FeesDistributionTitle = () => {
+export const FeesDistributionTitle = ({ interval, setInterval }) => {
   return (
     <div className={styles.title}>
-      <div className={styles.text}>Fees Distribution (last 7 days)</div>{' '}
+      <div className={styles.text}>Fees Distribution</div>{' '}
       <HelpPopup on='hover' position='top'>
         This represents the amount of Ether spent on fees broken down by
         projects
       </HelpPopup>
+      <IntervalsComponent
+        onChange={setInterval}
+        className={styles.interval}
+        defaultIndex={1}
+        ranges={FEE_RANGES}
+      />
     </div>
   )
 }
 
 const FeesDistribution = () => {
+  const [interval, setInterval] = useState('7d')
   return (
     <>
-      <FeesDistributionTitle />
-      <FeesDistributionChart className={styles.chart} />
+      <FeesDistributionTitle interval={interval} setInterval={setInterval} />
+      <FeesDistributionChart className={styles.chart} interval={interval} />
     </>
   )
 }
 
-const DEFAULT_SETTINGS = formIntervalSettings('7d')
+export const FeesDistributionChart = ({ className, interval }) => {
+  const [settings, setSettings] = useState(formIntervalSettings(interval))
 
-export const FeesDistributionChart = ({ className }) => {
-  const [settings] = useState(DEFAULT_SETTINGS)
+  useEffect(
+    () => {
+      setSettings({ ...interval, ...formIntervalSettings(interval) })
+    },
+    [interval]
+  )
 
   const { data, loading } = useFeeDistributions(settings)
 
