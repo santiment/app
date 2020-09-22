@@ -29,7 +29,7 @@ const obj = {
 const COLORS = ['#37D7BA', '#785549', '#FFDAC5']
 
 function transformData (data) {
-  if (!data) {
+  if (!data && !data.otherAddresses) {
     return
   }
 
@@ -64,7 +64,7 @@ const WhoClaimedChart = () => {
   return (
     <>
       <Skeleton repeat={1} className={styles.skeleton} show={loading} />
-      {!loading && (
+      {!loading && rawData.otherAddresses !== 'undefined' && (
         <div className={styles.wrapper}>
           <div className={styles.chart}>
             <PieChart width={400} height={300}>
