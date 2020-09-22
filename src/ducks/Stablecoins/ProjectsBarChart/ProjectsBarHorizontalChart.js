@@ -10,8 +10,8 @@ import { SanWatermark } from './resources'
 import { HorizontalCategoryTick, getProjectsMarkup } from './utils'
 import styles from './ProjectsBarChart.module.scss'
 
-export const DESKTOP_MARGIN = { top: 20, right: 0, left: -20, bottom: 50 }
-export const MOBILE_MARGIN = { top: 0, right: 16, left: 0, bottom: 50 }
+const DESKTOP_MARGIN = { top: 20, right: 0, left: -20, bottom: 50 }
+const MOBILE_MARGIN = { top: 0, right: 16, left: 0, bottom: 50 }
 
 const ProjectsBarHorizontalChart = ({
   isDesktop,
@@ -25,7 +25,9 @@ const ProjectsBarHorizontalChart = ({
     MetricColor,
     data: data,
     dataKey,
-    onProjectClick
+    onProjectClick,
+    barSize: 40,
+    maxBarSize: 40
   })
 
   return (

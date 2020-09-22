@@ -3,6 +3,10 @@
 .container {
   background: var(--white);
   padding: 24px;
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    padding: 12px;
+  }
 }
 
 .title {

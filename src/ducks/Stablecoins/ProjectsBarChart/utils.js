@@ -33,18 +33,20 @@ export const renderHorizontalLabel = props => {
 }
 
 export const renderVerticalLabel = props => {
-  const { x, y, width, data, index, dataKey } = props
+  const { x, y, width, data, index, dataKey, isDesktop } = props
   const item = data[index]
   const value = item[dataKey]
+
+  const xOffset = isDesktop ? 40 : 26
 
   return (
     <g>
       <text
-        x={x + width + 40}
+        x={x + width + xOffset}
         y={y + 30}
         fill={'var(--rhino)'}
         textAnchor='middle'
-        fontSize={20}
+        fontSize={isDesktop ? 20 : 14}
         fontWeight={500}
       >
         {tooltipValueFormatter({
@@ -107,7 +109,8 @@ export function getProjectsMarkup ({
   radius = [8, 8, 0, 0],
   barSize,
   maxBarSize = 32,
-  labelRenderer = renderHorizontalLabel
+  labelRenderer = renderHorizontalLabel,
+  isDesktop
 }) {
   return (
     <Bar
@@ -118,7 +121,7 @@ export function getProjectsMarkup ({
     >
       <LabelList
         dataKey={dataKey}
-        content={props => labelRenderer({ ...props, data, dataKey })}
+        content={props => labelRenderer({ ...props, data, dataKey, isDesktop })}
       />
       {data.map((entry, index) => {
         return (

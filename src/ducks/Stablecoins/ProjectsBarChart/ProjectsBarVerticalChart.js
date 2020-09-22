@@ -1,5 +1,5 @@
 import React from 'react'
-
+import cx from 'classnames'
 import {
   CartesianGrid,
   ComposedChart,
@@ -15,8 +15,8 @@ import {
 } from './utils'
 import styles from './ProjectsBarChart.module.scss'
 
-export const DESKTOP_MARGIN = { top: 20, right: 44, left: 44, bottom: 0 }
-export const MOBILE_MARGIN = { top: 0, right: 44, left: 44, bottom: 0 }
+const DESKTOP_MARGIN = { top: 20, right: 44, left: 44, bottom: 0 }
+const MOBILE_MARGIN = { top: 0, right: 56, left: 44, bottom: 0 }
 
 const ProjectsBarVerticalChart = ({
   isDesktop,
@@ -34,12 +34,13 @@ const ProjectsBarVerticalChart = ({
     radius: [0, 8, 8, 0],
     labelRenderer: renderVerticalLabel,
     barSize: 56,
-    maxBarSize: 56
+    maxBarSize: 56,
+    isDesktop
   })
 
   return (
     <div
-      className={styles.chart}
+      className={cx(styles.chart, styles.verticalChart)}
       style={{
         height: `${data.length * 56}px`
       }}
