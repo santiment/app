@@ -1,5 +1,6 @@
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
+import { ASSETS_BY_WALLET_QUERY } from '../../../ducks/HistoricalBalance/common/queries'
 
 const TOP_CLAIMERS_QUERY = gql`
   query getMetric($from: DateTime!, $to: DateTime!) {
@@ -38,4 +39,12 @@ export function useTopClaimers ({ from, to, slug }) {
   }
 
   return [[], loading]
+}
+
+export function useAssetsBalance (address) {
+  const { data = {}, loading } = useQuery(ASSETS_BY_WALLET_QUERY, {
+    variables: { address }
+  })
+
+  return [data, loading]
 }

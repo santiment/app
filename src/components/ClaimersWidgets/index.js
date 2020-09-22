@@ -21,7 +21,7 @@ const Widget = ({ title, description, children, showPro = false }) => (
   </div>
 )
 
-export const ChartWidget = ({ metrics, syncDate, observeSyncDate }) => {
+export const ChartWidget = ({ metrics, syncDate, observeSyncDate, height }) => {
   const chartRef = useRef(null)
 
   useSyncDateEffect(chartRef, observeSyncDate)
@@ -32,6 +32,7 @@ export const ChartWidget = ({ metrics, syncDate, observeSyncDate }) => {
         chartRef={chartRef}
         metrics={metrics}
         syncTooltips={syncDate}
+        height={height}
       />
     </Widget>
   )

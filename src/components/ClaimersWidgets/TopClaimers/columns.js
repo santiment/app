@@ -1,6 +1,7 @@
 import React from 'react'
 import { formatNumber } from '../../../utils/formatting'
 import WalletLink from '../../WalletLink/WalletLink'
+import UniswapLastBalance from './UniswapLastBalance'
 
 const settings = {
   assets: ['uniswap'],
@@ -42,4 +43,18 @@ export const columns = [
     sortable: true,
     Cell: ({ value }) => formatNumber(value)
   }
+  // {
+  //   Cell: ({ original: { address }, ...rest}) => {
+  //     console.log(rest)
+  //     return (
+  //       <UniswapLastBalance address={address} />
+  //     )
+  //   },
+  //   id: 'price',
+  //   Header: 'Uniswap current balance',
+  //   accessor: 'price',
+  //   minWidth: 100,
+  //   maxWidth: 150,
+  //   sortable: true,
+  // }
 ]

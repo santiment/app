@@ -28,6 +28,10 @@
   height: 40px;
 }
 
+.loader {
+  font-size: 3px !important;
+}
+
 .claimersTable:global(.ReactTable) {
   border: none;
 
