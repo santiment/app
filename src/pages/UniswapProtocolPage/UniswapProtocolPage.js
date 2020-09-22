@@ -4,11 +4,13 @@ import { Helmet } from 'react-helmet'
 import { useRestrictedInfo } from './hooks'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import ClaimersWidgets from '../../components/ClaimersWidgets'
+import { ChartWidget } from '../../components/ClaimersWidgets'
 import TopClaimersTable from '../../components/ClaimersWidgets/TopClaimers/TopClaimersTable'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import { Block, BlockHeader } from '../StablecoinsPage/StablecoinsPageStructure'
 import ResearchesBlock from '../../components/ResearchesBlock'
+import { Metric } from '../../ducks/dataHub/metrics'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import UniswapHistoricalBalance from '../../ducks/Studio/Tabs/UniswapHistoricalBalance/UniswapHistoricalBalance'
 import UniswapTopTransactions from '../../ducks/UniswapProtocol/UniswapTopTransactions/UniswapTopTransactions'
@@ -106,23 +108,30 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
             <UniswapMetrics />
           </Block>
 
-          <Block tag={ANCHORS.Overview.key}>
-            <UniswapHistoricalBalance
-              classes={{
-                chart: styles.balanceChart,
-                balanceChartHeader: styles.balanceChartHeader
-              }}
-              title={
-                <BlockHeader
-                  title={'Uniswap: Token Distributor'}
-                  description='0x090d4613473dee047c3f2706764f49e0821d256e'
-                  className={styles.balanceTitle}
-                />
-              }
-              settings={{
-                showAlertBtn: true
-              }}
-            />
+          <Block
+            tag={ANCHORS.Overview.key}
+            title={'Uniswap: Token Distributor'}
+            description='0x090d4613473dee047c3f2706764f49e0821d256e'
+          >
+            <div className={styles.overviewWrapper}>
+              <UniswapHistoricalBalance
+                classes={{
+                  chart: styles.balanceChart,
+                  balanceChartHeader: styles.balanceChartHeader
+                }}
+                title={<BlockHeader className={styles.balanceTitle} />}
+                settings={{
+                  showAlertBtn: true
+                }}
+              />
+              <ChartWidget
+                height={448}
+                metrics={[
+                  Metric.uniswap_total_claims_amount,
+                  Metric.uniswap_total_claims_percent
+                ]}
+              />
+            </div>
           </Block>
 
           <Block

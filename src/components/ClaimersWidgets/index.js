@@ -20,28 +20,15 @@ const Widget = ({ title, description, children, showPro = false }) => (
   </div>
 )
 
-const ChartWidget = ({ metrics }) => (
+export const ChartWidget = ({ metrics, ...props }) => (
   <Widget title={metrics[0].label} description={metrics[0].description}>
-    <UniswapChart metrics={metrics} />
+    <UniswapChart metrics={metrics} {...props} />
   </Widget>
 )
 
 const ClaimersWidgets = ({ className }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
-      <ChartWidget
-        metrics={[
-          Metric.uniswap_total_claims_amount,
-          Metric.uniswap_total_claims_percent
-        ]}
-      />
-      <ChartWidget metrics={[Metric.uniswap_total_claims_count]} />
-      <ChartWidget metrics={[Metric.uniswap_total_user_claims_count]} />
-
-      <ChartWidget metrics={[Metric.uniswap_total_user_claims_amount]} />
-      <ChartWidget metrics={[Metric.uniswap_total_lp_claims_count]} />
-      <ChartWidget metrics={[Metric.uniswap_total_lp_claims_amount]} />
-
       <ChartWidget metrics={[Metric.uniswap_claims_amount]} />
       <ChartWidget metrics={[Metric.uniswap_user_claims_amount]} />
       <ChartWidget metrics={[Metric.uniswap_lp_claims_amount]} />
