@@ -44,10 +44,9 @@ export const columns = [
     Cell: ({ value }) => formatNumber(value)
   },
   {
-    Cell: ({ original: { address }, ...rest }) => {
-      console.log(rest)
-      return <UniswapLastBalance address={address} />
-    },
+    Cell: ({ original: { address } }) => (
+      <UniswapLastBalance address={address} />
+    ),
     id: 'price',
     Header: 'Uniswap current balance',
     accessor: 'price',

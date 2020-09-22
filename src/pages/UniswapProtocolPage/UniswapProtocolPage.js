@@ -34,26 +34,26 @@ const ANCHORS = {
     label: 'Top Claimers 24h',
     key: 'top-claimers'
   },
-  ClaimersWidgets: {
-    label: 'UNI Token Claims Widgets',
-    key: 'claimers-widgets'
-  },
-  Exchanges: {
-    label: 'Post claim activity of UNI tokens',
-    key: 'how-much-on-exchanges'
-  },
-  WhoClaimed: {
-    label: 'Who claimed UNI?',
-    key: 'who-claimed'
-  },
-  TopTransactions: {
-    label: 'Top Token Transactions',
-    key: 'top-transactions'
-  },
-  FeesDistribution: {
-    label: 'Fees Distribution',
-    key: 'fees-distribution'
-  }
+  // ClaimersWidgets: {
+  //   label: 'UNI Token Claims Widgets',
+  //   key: 'claimers-widgets'
+  // },
+  // Exchanges: {
+  //   label: 'Post claim activity of UNI tokens',
+  //   key: 'how-much-on-exchanges'
+  // },
+  // WhoClaimed: {
+  //   label: 'Who claimed UNI?',
+  //   key: 'who-claimed'
+  // },
+  // TopTransactions: {
+  //   label: 'Top Token Transactions',
+  //   key: 'top-transactions'
+  // },
+  // FeesDistribution: {
+  //   label: 'Fees Distribution',
+  //   key: 'fees-distribution'
+  // }
 }
 
 const UniswapProtocolPage = ({ history, isDesktop }) => {
@@ -142,34 +142,34 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
           >
             <TopClaimersTable />
           </Block>
-          <Block
-            tag={ANCHORS.ClaimersWidgets.key}
-            title='UNI Token Claims Widgets'
-            isPaywalActive={areClaimsRestricted}
-          >
-            <ClaimersWidgets />
-          </Block>
-          <Block
-            title='Post-claim activity of UNI tokens'
-            description='From addresses that claimed UNI token'
-            tag={ANCHORS.Exchanges.key}
-          >
-            <UniswapPieChart />
-          </Block>
-
-          <Block title='Who claimed UNI?' tag={ANCHORS.WhoClaimed.key}>
-            <UniswapWhoClaimed />
-          </Block>
-
-          <Block
-            title='Top Token Transactions, 30d'
-            tag={ANCHORS.TopTransactions.key}
-          >
-            <UniswapTopTransactions />
-          </Block>
-          <Block tag={ANCHORS.FeesDistribution.key}>
-            <FeesDistribution />
-          </Block>
+{/*           <Block */}
+{/*             tag={ANCHORS.ClaimersWidgets.key} */}
+{/*             title='UNI Token Claims Widgets' */}
+{/*             isPaywalActive={areClaimsRestricted} */}
+{/*           > */}
+{/*             <ClaimersWidgets /> */}
+{/*           </Block> */}
+{/*           <Block */}
+{/*             title='Post-claim activity of UNI tokens' */}
+{/*             description='From addresses that claimed UNI token' */}
+{/*             tag={ANCHORS.Exchanges.key} */}
+{/*           > */}
+{/*             <UniswapPieChart /> */}
+{/*           </Block> */}
+{/*  */}
+{/*           <Block title='Who claimed UNI?' tag={ANCHORS.WhoClaimed.key}> */}
+{/*             <UniswapWhoClaimed /> */}
+{/*           </Block> */}
+{/*  */}
+{/*           <Block */}
+{/*             title='Top Token Transactions, 30d' */}
+{/*             tag={ANCHORS.TopTransactions.key} */}
+{/*           > */}
+{/*             <UniswapTopTransactions /> */}
+{/*           </Block> */}
+{/*           <Block tag={ANCHORS.FeesDistribution.key}> */}
+{/*             <FeesDistribution /> */}
+{/*           </Block> */}
         </div>
       </div>
 

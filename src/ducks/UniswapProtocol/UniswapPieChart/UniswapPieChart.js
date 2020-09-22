@@ -73,7 +73,7 @@ const UniswapPieChart = () => {
   const [rawData = {}, loading] = useUniswapValueDistribution()
   const { MMM, D } = getDateFormats(currDate)
   const { H, mm } = getTimeFormats(currDate)
-  const { total, movedSum, notMoved, chartData } = transformData(rawData)
+  const { total = 0, movedSum, notMoved, chartData } = transformData(rawData)
 
   return (
     <>
@@ -90,7 +90,7 @@ const UniswapPieChart = () => {
                 outerRadius={140}
               >
                 {chartData.map((entry, index) => (
-                  <Cell fill={COLORS[index % COLORS.length]} />
+                  <Cell fill={COLORS[index % COLORS.length]} key={index} />
                 ))}
               </Pie>
             </PieChart>
@@ -103,20 +103,20 @@ const UniswapPieChart = () => {
           <div className={styles.text}>
             <div className={styles.row}>
               <h4 className={styles.title}>Total claimed:</h4>
-              <span className={styles.value}>{formatNumber(total)}</span>
+              <span className={styles.value}>{formatNumber(total || 0)}</span>
             </div>
             <div className={styles.row}>
               <h4 className={styles.title}>
                 Moved after claimed ({((movedSum * 100) / total).toFixed(0)}%):
               </h4>
-              <span className={styles.value}>{formatNumber(movedSum)}</span>
+              <span className={styles.value}>{formatNumber(movedSum || 0)}</span>
             </div>
             <ul className={styles.list}>
-              {chartData.map(({ name, value, rawValue, color }) => {
+              {chartData.map(({ name, value, rawValue, color }, idx) => {
                 if (name === obj.notMoved.label) return null
                 return (
                   <li
-                    key={name}
+                    key={idx}
                     className={styles.item}
                     style={{ '--pie-chart-item-color': color }}
                   >
@@ -124,7 +124,7 @@ const UniswapPieChart = () => {
                       {name} ({value.toFixed(2)}%):
                     </span>
                     <span className={styles.item__value}>
-                      {formatNumber(rawValue)}
+                      {formatNumber(rawValue || 0)}
                     </span>
                   </li>
                 )
@@ -135,13 +135,14 @@ const UniswapPieChart = () => {
                 Dormant after claimed ({((notMoved * 100) / total).toFixed(0)}
                 %):
               </h4>
-              <span className={styles.value}>{formatNumber(notMoved)}</span>
+              <span className={styles.value}>{formatNumber(notMoved || 0)}</span>
             </div>
             <ul className={styles.list}>
-              {chartData.map(({ name, value, rawValue, color }) => {
+              {chartData.map(({ name, value, rawValue, color }, idx) => {
                 if (name !== obj.notMoved.label) return null
                 return (
                   <li
+                    key={idx}
                     className={styles.item}
                     style={{ '--pie-chart-item-color': color }}
                   >
@@ -149,7 +150,7 @@ const UniswapPieChart = () => {
                       {name} ({value.toFixed(0)}%):
                     </span>
                     <span className={styles.item__value}>
-                      {formatNumber(rawValue)}
+                      {formatNumber(rawValue || 0)}
                     </span>
                   </li>
                 )
