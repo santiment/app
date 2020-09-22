@@ -51,7 +51,7 @@ const UniswapMetric = ({ metric }) => {
     <div className={styles.card}>
       <div className={styles.title}>{human_readable_name}</div>
       <div className={styles.value}>
-        {isLoading ? (
+        {data.length === 0 ? (
           <Loader className={styles.loading} />
         ) : (
           formatter(sum.toFixed(2))
