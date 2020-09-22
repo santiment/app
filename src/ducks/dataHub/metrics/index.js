@@ -510,6 +510,14 @@ export const Metric = {
     shortLabel: 'A.A. 24h',
     abbreviation: 'aa24h'
   },
+  active_addresses_1h: {
+    category: 'On-chain',
+    node: 'autoWidthBar',
+    group: 'Network Activity',
+    label: 'Active Addresses 1h',
+    shortLabel: 'A.A. 1h',
+    abbreviation: 'aa1h'
+  },
 
   // uniswap
   uniswap_total_claims_amount: {
