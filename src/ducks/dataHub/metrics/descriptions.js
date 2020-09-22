@@ -47,7 +47,7 @@ export const Description = {
     'Shows the difference in the amount of [Project Ticker] tokens moving to and out of exchange wallets. If the value is positive, more [Project Ticker] entered the exchange than have left. If the value is negative, more [Project Ticker] flowed out of exchanges than flowed in.',
 
   [Metric.daily_active_addresses.key]:
-    'Shows the number of unique addresses involved in [Project Ticker] transactions daily. This metric indicates the daily level of crowd interaction (or speculation) with a token.',
+    'Shows the number of unique addresses involved in [Project Ticker] transactions daily. This metric indicates the daily level of crowd interaction (or speculation) with a token',
 
   [Metric.supply_on_exchanges.key]:
     'What amount of coins/tokens are stored in known exchange wallets.',
@@ -228,7 +228,8 @@ export const Description = {
     'Shows total value locked in DeFi projects, available in USD.',
   [Metric.price_daa_divergence.key]:
     'Price-Daily Addresses Divergence model tracks the relationship between the coin’s price and the amount of daily addresses interacting with the coin. When the price increases while the amount of active addresses declines, the model triggers a ‘Sell’ signal, and vice versa. Historically, strong divergences in these two metrics earmarked interesting entry/exit levels',
-  [Metric.active_addresses_1h.key]: 'Unique addresses in 1 hour'
+  [Metric.active_addresses_1h.key]:
+    'Shows the number of unique addresses involved in [Project Ticker] transactions hourly. This metric indicates the hourly level of crowd interaction (or speculation) with a token'
 }
 
 export const rebuildDescriptions = Submetrics => {
