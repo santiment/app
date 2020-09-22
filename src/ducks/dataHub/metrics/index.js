@@ -601,7 +601,7 @@ export const Metric = {
   uniswap_user_claims_count: {
     category: 'On-chain',
     node: 'line',
-    label: 'Total Claims Count for Users',
+    label: 'Claims Count for Users',
     color: '#ffad4d'
   },
   uniswap_user_claims_amount: {
