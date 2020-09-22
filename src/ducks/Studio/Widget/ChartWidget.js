@@ -12,7 +12,7 @@ import {
 import { useTimeseries } from '../timeseries/hooks'
 import { buildComparedMetric } from '../Compare/utils'
 import { useEdgeGaps, useClosestValueData } from '../../Chart/hooks'
-import { clearCtx, findPointByDate } from '../../Chart/utils'
+import { useSyncDateEffect } from '../../Chart/sync'
 import { Metric } from '../../dataHub/metrics'
 import { MirroredMetric } from '../../dataHub/metrics/mirrored'
 
@@ -50,18 +50,7 @@ export const Chart = ({
   // [settings, metrics, comparables],
   // )
 
-  useEffect(() => {
-    const chart = chartRef.current
-    return observeSyncDate(syncedDate => {
-      if (chart.points.length === 0) return
-      if (syncedDate) {
-        const point = findPointByDate(chart.points, syncedDate)
-        if (point) chart.drawTooltip(point)
-      } else {
-        clearCtx(chart, chart.tooltip.ctx)
-      }
-    })
-  }, [])
+  useSyncDateEffect(chartRef, observeSyncDate)
 
   useEffect(
     () => {

@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import cx from 'classnames'
 import UniswapChart from './Chart'
-import { Metric } from '../../ducks/dataHub/metrics'
-import HelpPopup from '../../components/HelpPopup/HelpPopup'
 import { ProLabel } from '../ProLabel'
+import HelpPopup from '../../components/HelpPopup/HelpPopup'
+import { Metric } from '../../ducks/dataHub/metrics'
+import { useSyncDateObserver, useSyncDateEffect } from '../../ducks/Chart/sync'
 import styles from './index.module.scss'
 
 const Widget = ({ title, description, children, showPro = false }) => (
@@ -20,22 +21,34 @@ const Widget = ({ title, description, children, showPro = false }) => (
   </div>
 )
 
-export const ChartWidget = ({ metrics, ...props }) => (
-  <Widget title={metrics[0].label} description={metrics[0].description}>
-    <UniswapChart metrics={metrics} {...props} />
-  </Widget>
-)
+export const ChartWidget = ({ metrics, syncDate, observeSyncDate }) => {
+  const chartRef = useRef(null)
+
+  useSyncDateEffect(chartRef, observeSyncDate)
+
+  return (
+    <Widget title={metrics[0].label} description={metrics[0].description}>
+      <UniswapChart
+        chartRef={chartRef}
+        metrics={metrics}
+        syncTooltips={syncDate}
+      />
+    </Widget>
+  )
+}
 
 const ClaimersWidgets = ({ className }) => {
+  const props = useSyncDateObserver()
+
   return (
     <div className={cx(styles.wrapper, className)}>
-      <ChartWidget metrics={[Metric.uniswap_claims_amount]} />
-      <ChartWidget metrics={[Metric.uniswap_user_claims_amount]} />
-      <ChartWidget metrics={[Metric.uniswap_lp_claims_amount]} />
+      <ChartWidget {...props} metrics={[Metric.uniswap_claims_amount]} />
+      <ChartWidget {...props} metrics={[Metric.uniswap_user_claims_amount]} />
+      <ChartWidget {...props} metrics={[Metric.uniswap_lp_claims_amount]} />
 
-      <ChartWidget metrics={[Metric.uniswap_claims_count]} />
-      <ChartWidget metrics={[Metric.uniswap_user_claims_count]} />
-      <ChartWidget metrics={[Metric.uniswap_lp_claims_count]} />
+      <ChartWidget {...props} metrics={[Metric.uniswap_claims_count]} />
+      <ChartWidget {...props} metrics={[Metric.uniswap_user_claims_count]} />
+      <ChartWidget {...props} metrics={[Metric.uniswap_lp_claims_count]} />
     </div>
   )
 }
