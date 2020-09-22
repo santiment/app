@@ -22,7 +22,7 @@ const chartPadding = {
   left: 8
 }
 
-const UniswapChart = ({ className, metrics }) => {
+const UniswapChart = ({ className, metrics, height = 270 }) => {
   const metric = metrics[0]
   const chartMetrics = useMemo(() => metrics, metrics)
   const [data] = useTimeseries(chartMetrics, settings)
@@ -45,7 +45,7 @@ const UniswapChart = ({ className, metrics }) => {
         tooltipKey={axesMetricKeys[0]}
         axesMetricKeys={axesMetricKeys}
         chartPadding={chartPadding}
-        chartHeight={270}
+        chartHeight={height}
         xAxesTicks={5}
         yAxesTicks={6}
         resizeDependencies={[]}

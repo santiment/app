@@ -16,6 +16,9 @@
   color: var(--waterloo);
   margin: 8px 0 12px 0;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  fill: var(--casper);
 }
 
 .chart {
