@@ -15,7 +15,13 @@ const CHART_SETTINGS = {
 
 const SETTINGS = {}
 
-const ViewBalanceDialog = ({ isDesktop, address, assets, trigger }) => {
+const ViewBalanceDialog = ({
+  isDesktop,
+  address,
+  assets,
+  trigger,
+  priceMetrics
+}) => {
   return (
     <Dialog
       title={<BalancePageTitle classes={dialogStyles} />}
@@ -24,6 +30,7 @@ const ViewBalanceDialog = ({ isDesktop, address, assets, trigger }) => {
     >
       <Dialog.ScrollContent>
         <HistoricalBalancePage
+          priceMetrics={priceMetrics}
           classes={dialogStyles}
           isDesktop={isDesktop}
           address={address}

@@ -2,14 +2,22 @@ import React from 'react'
 import { formatNumber } from '../../../utils/formatting'
 import WalletLink from '../../WalletLink/WalletLink'
 
-const assets = ['uniswap']
+const settings = {
+  assets: ['uniswap'],
+  priceMetrics: [
+    {
+      asset: 'uniswap',
+      enabled: true
+    }
+  ]
+}
 
 const TrxAddressCell = ({ value, original: { labels } }) => {
   const transformedLabels = labels.map(label => ({ name: label }))
   return (
     <WalletLink
       address={value}
-      assets={assets}
+      {...settings}
       isFull={true}
       labels={transformedLabels}
       showAllLabels

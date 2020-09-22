@@ -12,7 +12,8 @@ const WalletLink = ({
   labels,
   isDesktop,
   isFull,
-  showAllLabels
+  showAllLabels,
+  priceMetrics
 }) => {
   const trigger = (
     <Address
@@ -45,6 +46,7 @@ const WalletLink = ({
   } else {
     return (
       <ViewBalanceDialog
+        priceMetrics={priceMetrics}
         assets={assets}
         address={address}
         isDesktop={isDesktop}
