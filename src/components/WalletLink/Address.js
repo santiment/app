@@ -40,11 +40,13 @@ export const EtherscanLink = ({
   )
 }
 
-const Address = ({ isExchange, labels, ...rest }) => {
+const Address = ({ isExchange, labels, showAllLabels, ...rest }) => {
   return (
     <>
       <EtherscanLink {...rest} isExchange={isExchange} />
-      {labels && <TransactionTableLabels labels={labels} />}
+      {labels && (
+        <TransactionTableLabels labels={labels} showAll={showAllLabels} />
+      )}
     </>
   )
 }

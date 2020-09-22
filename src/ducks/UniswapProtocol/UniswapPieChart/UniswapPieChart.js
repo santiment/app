@@ -21,11 +21,11 @@ const obj = {
     color: '#FF5B5B'
   },
   dexTrader: {
-    label: 'DEX Trader',
+    label: 'DEX Traders only',
     color: '#5275FF'
   },
   otherTransfers: {
-    label: 'Other Transfers',
+    label: 'Other Addresses',
     color: '#D4E763'
   },
   notMoved: {
@@ -116,6 +116,7 @@ const UniswapPieChart = () => {
                 if (name === obj.notMoved.label) return null
                 return (
                   <li
+                    key={name}
                     className={styles.item}
                     style={{ '--pie-chart-item-color': color }}
                   >

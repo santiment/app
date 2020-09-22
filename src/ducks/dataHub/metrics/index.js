@@ -510,6 +510,14 @@ export const Metric = {
     shortLabel: 'A.A. 24h',
     abbreviation: 'aa24h'
   },
+  active_addresses_1h: {
+    category: 'On-chain',
+    node: 'autoWidthBar',
+    group: 'Network Activity',
+    label: 'Active Addresses 1h',
+    shortLabel: 'A.A. 1h',
+    abbreviation: 'aa1h'
+  },
 
   // uniswap
   uniswap_total_claims_amount: {
@@ -579,7 +587,7 @@ export const Metric = {
   uniswap_claims_amount: {
     category: 'On-chain',
     node: 'line',
-    label: 'Amount Claimed',
+    label: 'Total Amount Claimed',
     description: 'Intraday metric of uniswap_amount_claimed',
     color: '#ffad4d'
   },
@@ -593,7 +601,7 @@ export const Metric = {
   uniswap_user_claims_count: {
     category: 'On-chain',
     node: 'line',
-    label: 'Claims Count for Users',
+    label: 'Total Claims Count for Users',
     color: '#ffad4d'
   },
   uniswap_user_claims_amount: {

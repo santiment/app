@@ -22,16 +22,17 @@ const chartPadding = {
   left: 8
 }
 
-const UniswapChart = ({ className, metric }) => {
-  const metrics = useMemo(() => [metric], [metric])
+const UniswapChart = ({ className, metrics, height, ...props }) => {
+  const metric = metrics[0]
   const [data] = useTimeseries(metrics, settings)
   const categories = useMetricCategories(metrics)
   const axesMetricKeys = useAxesMetricsKey(metrics)
-  const MetricColor = useMemo(() => ({ [metric.key]: metric.color }), [metric])
+  const MetricColor = useMemo(() => ({ [metric.key]: metric.color }), metrics)
 
   return (
     <div className={cx(styles.widget, styles.chart)}>
       <Chart
+        {...props}
         {...categories}
         {...settings}
         hideBrush
@@ -44,13 +45,17 @@ const UniswapChart = ({ className, metric }) => {
         tooltipKey={axesMetricKeys[0]}
         axesMetricKeys={axesMetricKeys}
         chartPadding={chartPadding}
-        chartHeight={340}
+        chartHeight={height}
         xAxesTicks={5}
         yAxesTicks={6}
         resizeDependencies={[]}
       />
     </div>
   )
+}
+
+UniswapChart.defaultProps = {
+  height: 270
 }
 
 export default UniswapChart

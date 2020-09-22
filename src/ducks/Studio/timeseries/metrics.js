@@ -88,7 +88,6 @@ export const METRICS = [
   'mcd_stability_fee',
   'holders_distribution_combined_balance_0.01_to_0.1',
   'holders_distribution_combined_balance_0.1_to_1',
-  'active_addresses_24h',
   'realized_value_usd_30d',
   'exchange_balance',
   'mvrv_usd_3y',
@@ -231,8 +230,7 @@ export const METRICS = [
   'price_daa_divergence',
   'adjusted_price_daa_divergence',
   'active_addresses_24h',
-
-  // uniswap
+  'active_addresses_1h',
   'uniswap_total_claims_amount',
   'uniswap_total_user_claims_amount',
   'uniswap_total_lp_claims_amount',
@@ -240,7 +238,6 @@ export const METRICS = [
   'uniswap_total_claims_count',
   'uniswap_total_user_claims_count',
   'uniswap_total_lp_claims_count',
-
   'uniswap_claims_count',
   'uniswap_lp_claims_count',
   'uniswap_user_claims_count',

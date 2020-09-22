@@ -39,8 +39,6 @@ const ProjectsBarChartWrapper = ({
   )
   const MetricColor = useChartColors(metrics, PREDEFINED_COLORS)
 
-  console.log(MetricColor, metrics)
-
   return layout === 'horizontal' ? (
     <ProjectsBarHorizontalChart
       onProjectClick={onProjectClick}

@@ -12,7 +12,9 @@ const WalletLink = ({
   labels,
   isDesktop,
   trigger: inputTrigger,
-  settings
+  settings,
+  isFull,
+  showAllLabels
 }) => {
   const trigger = inputTrigger || (
     <Address
@@ -22,6 +24,8 @@ const WalletLink = ({
       asLink={isTx}
       labels={labels}
       settings={settings}
+      isFull={isFull}
+      showAllLabels={showAllLabels}
     />
   )
 

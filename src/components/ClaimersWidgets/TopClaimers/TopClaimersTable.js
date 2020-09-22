@@ -5,6 +5,10 @@ import { columns } from './columns'
 import { useTopClaimers } from './gql'
 import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
+import {
+  CustomLoadingComponent,
+  CustomNoDataComponent
+} from '../../../ducks/Watchlists/Widgets/Table/AssetsTable'
 import MakeProSubscriptionCard from '../../../pages/feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
 import styles from './table.module.scss'
 
@@ -19,13 +23,13 @@ const TopClaimersTable = ({ className }) => {
   const { isPro } = useUserSubscriptionStatus()
 
   const { from, to } = getTimeIntervalFromToday(-1, DAY)
-  const [items] = useTopClaimers({
+  const [items, loading] = useTopClaimers({
     from: from.toISOString(),
     to: to.toISOString()
   })
 
   if (!isPro) {
-    return <MakeProSubscriptionCard />
+    return <MakeProSubscriptionCard classes={{ card: className }} />
   }
 
   return (
@@ -40,7 +44,18 @@ const TopClaimersTable = ({ className }) => {
         showPaginationBottom
         defaultPageSize={5}
         pageSize={items.length}
-        minRows={5}
+        minRows={0}
+        loadingText=''
+        LoadingComponent={() => (
+          <CustomLoadingComponent
+            isLoading={loading && items.length === 0}
+            repeat={15}
+            classes={{ wrapper: styles.loadingWrapper, row: styles.loadingRow }}
+          />
+        )}
+        NoDataComponent={() => (
+          <CustomNoDataComponent isLoading={loading && items.length === 0} />
+        )}
       />
     </div>
   )
