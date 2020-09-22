@@ -9,7 +9,7 @@ const TOP_CLAIMERS_QUERY = gql`
         selector: { slug: "uniswap" }
         from: $from
         to: $to
-        limit: 50
+        limit: 3
       ) {
         values {
           ... on StringAddressFloatValueList {
@@ -42,9 +42,12 @@ export function useTopClaimers ({ from, to, slug }) {
 }
 
 export function useAssetsBalance (address) {
-  const { data = {}, loading } = useQuery(ASSETS_BY_WALLET_QUERY, {
-    variables: { address }
-  })
+  const { data: { assetsHeldByAddress = [] } = {}, loading } = useQuery(
+    ASSETS_BY_WALLET_QUERY,
+    {
+      variables: { address }
+    }
+  )
 
-  return [data, loading]
+  return [assetsHeldByAddress, loading]
 }
