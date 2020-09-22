@@ -8,6 +8,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
+  }
 }
 
 .time {
@@ -43,9 +47,14 @@
 }
 
 .text {
-  min-width: 550px;
+  width: 50%;
   display: flex;
   flex-direction: column;
+
+  @include responsive('phone', 'phone-xs') {
+    width: initial;
+    margin-top: 24px;
+  }
 }
 
 .skeleton {

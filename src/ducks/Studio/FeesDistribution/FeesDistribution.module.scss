@@ -5,6 +5,10 @@
   padding: 24px;
   border-radius: 4px;
   border: 1px solid var(--porcelain);
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    padding: 12px;
+  }
 }
 
 .title {

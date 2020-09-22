@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { Toggle } from '@santiment-network/ui'
-import ProjectsBarChart from '../ProjectsBarChart/ProjectsBarChart'
+import ProjectsBarChartWrapper from '../ProjectsBarChart/ProjectsBarChartWrapper'
 import PageLoader from '../../../components/Loader/PageLoader'
 import { sortByValue, useAggregatedProjects } from '../utils'
 import { millify } from '../../../utils/formatting'
@@ -53,10 +53,10 @@ const TransactionsDominance = ({ settings }) => {
               Switch to transaction dominance
             </div>
           </div>
-          <ProjectsBarChart
+          <ProjectsBarChartWrapper
             data={prepared}
             settings={{
-              yTickFormatter: val =>
+              valueFormatter: val =>
                 isDominance ? `${millify(val)} %` : `${millify(val)}`
             }}
           />

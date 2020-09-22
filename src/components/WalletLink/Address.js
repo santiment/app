@@ -3,6 +3,12 @@ import cx from 'classnames'
 import TransactionTableLabels from './TransactionTableLabels'
 import styles from './WalletLink.module.scss'
 
+export const makeShortEthLink = ({
+  link,
+  isExchange,
+  settings: { linkSymbolsCount = 16 } = {}
+}) => link.slice(0, isExchange ? 7 : linkSymbolsCount) + '...'
+
 export const EtherscanLink = ({
   address = '',
   isTx,
@@ -10,12 +16,13 @@ export const EtherscanLink = ({
   label,
   isFull,
   asLink = true,
+  settings,
   children
 }) => {
   const link = children || address
   const addressShort = isFull
     ? link
-    : link.slice(0, isExchange ? 7 : 16) + '...'
+    : makeShortEthLink({ link, isExchange, settings })
 
   const El = asLink ? 'a' : 'div'
 
