@@ -2,7 +2,7 @@ import React from 'react'
 import { formatNumber } from '../../../utils/formatting'
 import WalletLink from '../../WalletLink/WalletLink'
 
-const assets = ['uniswap', 'ethereum']
+const assets = ['uniswap']
 
 const TrxAddressCell = ({ value, original: { labels } }) => {
   const transformedLabels = labels.map(label => ({ name: label }))
