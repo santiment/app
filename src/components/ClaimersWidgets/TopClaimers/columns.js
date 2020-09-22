@@ -40,7 +40,7 @@ export const columns = [
     accessor: 'value',
     minWidth: 100,
     maxWidth: 150,
-    sortable: true,
+    sortable: false,
     Cell: ({ value }) => formatNumber(value)
   },
   {
@@ -52,6 +52,6 @@ export const columns = [
     accessor: 'price',
     minWidth: 100,
     maxWidth: 150,
-    sortable: true
+    sortable: false
   }
 ]
