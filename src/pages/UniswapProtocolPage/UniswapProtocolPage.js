@@ -62,15 +62,16 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
   return (
     <div className={cx('page', styles.container)}>
       <Helmet
-        title={'Uniswap Protocol | Sanbase'}
+        title={'Uniswap (UNI) Token Dashboard | Sanbase'}
         meta={[
           {
             property: 'og:title',
-            content: ' Uniswap Protocol | Sanbase'
+            content: 'Uniswap (UNI) Token Dashboard | Sanbase'
           },
           {
             property: 'og:description',
-            content: 'Real-time information of Uniswap Protocol'
+            content:
+              'Real-time data on Uniswap (UNI) token distribution, amount claimed, post-claim activity, top UNI transactions and more.'
           }
         ]}
       />
