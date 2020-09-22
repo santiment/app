@@ -39,7 +39,6 @@ const IconTooltipWrapper = ({ children }) => {
       <DarkTooltip
         closeTimeout={0}
         align='start'
-        localStorageSuffix='_ASSET_CHART_LAYOUTS_ICON'
         position='top'
         description=''
         closable={false}

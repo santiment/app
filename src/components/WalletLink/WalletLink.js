@@ -10,15 +10,18 @@ const WalletLink = ({
   isTx = false,
   isExchange = false,
   labels,
-  isDesktop
+  isDesktop,
+  trigger: inputTrigger,
+  settings
 }) => {
-  const trigger = (
+  const trigger = inputTrigger || (
     <Address
       address={address}
       isTx={isTx}
       isExchange={isExchange}
       asLink={isTx}
       labels={labels}
+      settings={settings}
     />
   )
 
@@ -31,6 +34,7 @@ const WalletLink = ({
               address={address}
               isTx={isTx}
               className={styles.link}
+              settings={settings}
             >
               Open Etherscan
             </EtherscanLink>

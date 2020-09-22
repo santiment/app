@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import Tabs from '@santiment-network/ui/Tabs'
-import ProjectsBarChart from '../ProjectsBarChart/ProjectsBarChart'
+import ProjectsBarChartWrapper from '../ProjectsBarChart/ProjectsBarChartWrapper'
 import PageLoader from '../../../components/Loader/PageLoader'
 import { sortByValue, useAggregatedProjects } from '../utils'
 import { millify } from '../../../utils/formatting'
@@ -62,11 +62,11 @@ export const ProjectsPreparedChart = ({ data, logScale = false }) => {
   )
 
   return (
-    <ProjectsBarChart
+    <ProjectsBarChartWrapper
       data={prepared}
       dataKey={'logValue'}
       settings={{
-        yTickFormatter: val => `${millify(val)}`
+        valueFormatter: val => `${millify(val)}`
       }}
     />
   )

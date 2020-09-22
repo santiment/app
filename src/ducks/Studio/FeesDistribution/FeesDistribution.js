@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { millify } from '../../../utils/formatting'
-import ProjectsBarChart from '../../Stablecoins/ProjectsBarChart/ProjectsBarChart'
+import ProjectsBarChartWrapper from '../../Stablecoins/ProjectsBarChart/ProjectsBarChartWrapper'
 import { formIntervalSettings } from '../../SANCharts/IntervalSelector'
 import PageLoader from '../../../components/Loader/PageLoader'
 import HelpPopup from '../../../components/HelpPopup/HelpPopup'
@@ -56,7 +56,7 @@ export const FeesDistributionTitle = ({ setInterval }) => {
       <IntervalsComponent
         onChange={setInterval}
         className={styles.interval}
-        defaultIndex={1}
+        defaultIndex={2}
         ranges={FEE_RANGES}
       />
     </div>
@@ -90,9 +90,6 @@ export const FeesDistributionChart = ({ className, interval }) => {
       return data.map(item => {
         return {
           ...item,
-          ticker: item.ticker || item.address,
-          slug: item.slug || item.address,
-          value: item.fees,
           clickable: !!item.slug
         }
       })
@@ -115,11 +112,13 @@ export const FeesDistributionChart = ({ className, interval }) => {
       {loading ? (
         <PageLoader />
       ) : (
-        <ProjectsBarChart
+        <ProjectsBarChartWrapper
           data={prepared}
           settings={{
-            yTickFormatter: val => `${millify(val)}`
+            valueFormatter: val => `${millify(val)}`
           }}
+          dataKey='fees'
+          layout='vertical'
         />
       )}
     </div>
