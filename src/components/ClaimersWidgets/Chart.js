@@ -22,17 +22,17 @@ const chartPadding = {
   left: 8
 }
 
-const UniswapChart = ({ className, metrics, height = 270 }) => {
+const UniswapChart = ({ className, metrics, height, ...props }) => {
   const metric = metrics[0]
-  const chartMetrics = useMemo(() => metrics, metrics)
-  const [data] = useTimeseries(chartMetrics, settings)
-  const categories = useMetricCategories(chartMetrics)
-  const axesMetricKeys = useAxesMetricsKey(chartMetrics)
-  const MetricColor = useMemo(() => ({ [metric.key]: metric.color }), [metric])
+  const [data] = useTimeseries(metrics, settings)
+  const categories = useMetricCategories(metrics)
+  const axesMetricKeys = useAxesMetricsKey(metrics)
+  const MetricColor = useMemo(() => ({ [metric.key]: metric.color }), metrics)
 
   return (
     <div className={cx(styles.widget, styles.chart)}>
       <Chart
+        {...props}
         {...categories}
         {...settings}
         hideBrush
@@ -40,7 +40,7 @@ const UniswapChart = ({ className, metrics, height = 270 }) => {
         isCartesianGridActive
         data={data}
         MetricColor={MetricColor}
-        metrics={chartMetrics}
+        metrics={metrics}
         scale={linearScale}
         tooltipKey={axesMetricKeys[0]}
         axesMetricKeys={axesMetricKeys}
@@ -52,6 +52,10 @@ const UniswapChart = ({ className, metrics, height = 270 }) => {
       />
     </div>
   )
+}
+
+UniswapChart.defaultProps = {
+  height: 270
 }
 
 export default UniswapChart
