@@ -94,12 +94,4 @@ const ProjectsBarVerticalChart = ({
   )
 }
 
-/*
-
-          <XAxis
-            dataKey={dataKey}
-            onClick={onProjectClick}
-          />
-* */
-
 export default ProjectsBarVerticalChart
