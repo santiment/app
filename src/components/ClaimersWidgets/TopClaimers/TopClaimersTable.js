@@ -48,12 +48,14 @@ const TopClaimersTable = ({ className }) => {
         loadingText=''
         LoadingComponent={() => (
           <CustomLoadingComponent
-            isLoading={loading}
+            isLoading={loading && items.length === 0}
             repeat={15}
             classes={{ wrapper: styles.loadingWrapper, row: styles.loadingRow }}
           />
         )}
-        NoDataComponent={() => <CustomNoDataComponent isLoading={loading} />}
+        NoDataComponent={() => (
+          <CustomNoDataComponent isLoading={loading && items.length === 0} />
+        )}
       />
     </div>
   )
