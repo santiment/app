@@ -227,7 +227,8 @@ export const Description = {
   [Metric.defi_total_value_locked_usd.key]:
     'Shows total value locked in DeFi projects, available in USD.',
   [Metric.price_daa_divergence.key]:
-    'Price-Daily Addresses Divergence model tracks the relationship between the coin’s price and the amount of daily addresses interacting with the coin. When the price increases while the amount of active addresses declines, the model triggers a ‘Sell’ signal, and vice versa. Historically, strong divergences in these two metrics earmarked interesting entry/exit levels'
+    'Price-Daily Addresses Divergence model tracks the relationship between the coin’s price and the amount of daily addresses interacting with the coin. When the price increases while the amount of active addresses declines, the model triggers a ‘Sell’ signal, and vice versa. Historically, strong divergences in these two metrics earmarked interesting entry/exit levels',
+  [Metric.active_addresses_1h.key]: 'Unique addresses in 1 hour'
 }
 
 export const rebuildDescriptions = Submetrics => {

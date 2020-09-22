@@ -104,7 +104,8 @@ const Frequences = {
   [SPENT_COINT_COST]: FiveMinute,
   [Metric.dormant_circulation.key]: Daily,
   [Metric.stock_to_flow.key]: Daily,
-  [Metric.defi_total_value_locked_usd.key]: Hourly
+  [Metric.defi_total_value_locked_usd.key]: Hourly,
+  [Metric.active_addresses_1h.key]: Hourly
 }
 
 export default Frequences
