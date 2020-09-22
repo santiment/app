@@ -42,9 +42,13 @@ export function useTopClaimers ({ from, to, slug }) {
 }
 
 export function useAssetsBalance (address) {
-  const { data = {}, loading } = useQuery(ASSETS_BY_WALLET_QUERY, {
-    variables: { address }
-  })
+  const { data: { assetsHeldByAddress } = {}, loading } = useQuery(
+    ASSETS_BY_WALLET_QUERY,
+    {
+      skip: !address,
+      variables: { address }
+    }
+  )
 
-  return [data, loading]
+  return [assetsHeldByAddress, loading]
 }

@@ -76,7 +76,7 @@ const WhoClaimedChart = () => {
                 outerRadius={140}
               >
                 {chartData.map((entry, index) => (
-                  <Cell fill={COLORS[index % COLORS.length]} />
+                  <Cell fill={COLORS[index % COLORS.length]} key={index} />
                 ))}
               </Pie>
             </PieChart>
@@ -88,9 +88,9 @@ const WhoClaimedChart = () => {
           </div>
           <div className={styles.text}>
             <ul className={styles.list}>
-              {chartData.map(({ name, value, rawValue, color }) => (
+              {chartData.map(({ name, value, rawValue, color }, idx) => (
                 <li
-                  key={name}
+                  key={idx}
                   className={styles.item}
                   style={{ '--pie-chart-item-color': color }}
                 >

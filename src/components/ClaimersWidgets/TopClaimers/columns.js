@@ -40,21 +40,18 @@ export const columns = [
     accessor: 'value',
     minWidth: 100,
     maxWidth: 150,
-    sortable: true,
+    sortable: false,
     Cell: ({ value }) => formatNumber(value)
+  },
+  {
+    Cell: ({ original: { address } }) => (
+      <UniswapLastBalance address={address} />
+    ),
+    id: 'price',
+    Header: 'Uniswap current balance',
+    accessor: 'price',
+    minWidth: 100,
+    maxWidth: 150,
+    sortable: false
   }
-  // {
-  //   Cell: ({ original: { address }, ...rest}) => {
-  //     console.log(rest)
-  //     return (
-  //       <UniswapLastBalance address={address} />
-  //     )
-  //   },
-  //   id: 'price',
-  //   Header: 'Uniswap current balance',
-  //   accessor: 'price',
-  //   minWidth: 100,
-  //   maxWidth: 150,
-  //   sortable: true,
-  // }
 ]
