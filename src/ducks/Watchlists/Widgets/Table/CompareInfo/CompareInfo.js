@@ -6,7 +6,7 @@ const CompareInfo = ({ selected, cleanAll }) => {
     <div className={styles.container}>
       <div className={styles.info}>
         <div className={styles.text}>
-          {selected.length} asset{selected.length !== 1 ? 's' : ''} are
+          {selected.length} asset{selected.length !== 1 ? 's are ' : ' is '}
           selected.
         </div>
 

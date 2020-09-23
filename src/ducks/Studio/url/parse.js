@@ -5,7 +5,7 @@ import {
   MERGED_DIVIDER
 } from '../Widget/HolderDistributionWidget/utils'
 import { TypeToWidget } from '../Widget/types'
-import { buildCompareKey } from '../Compare/utils'
+import { buildComparedMetric, buildCompareKey } from '../Compare/utils'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS } from '../defaults'
 import { HolderDistributionMetric } from '../Chart/Sidepanel/HolderDistribution/metrics'
 import { Metric } from '../../dataHub/metrics'
@@ -95,11 +95,16 @@ function parseSharedComparables (comparables) {
   return arr.map(parseComparable)
 }
 
-function parseMetricSetting (MetricSetting = {}) {
+function parseMetricSetting (MetricSetting = {}, comparingMetrics = []) {
   const MetricSettingMap = new Map()
 
+  const comparingMetricsMap = comparingMetrics.reduce((acc, item) => {
+    acc[item.key] = item
+    return acc
+  }, {})
+
   Object.keys(MetricSetting).forEach(key => {
-    const metric = Metric[key]
+    const metric = Metric[key] || comparingMetricsMap[key]
     if (!metric) return
 
     MetricSettingMap.set(metric, MetricSetting[key])
@@ -135,18 +140,22 @@ export function parseSharedWidgets (sharedWidgets) {
     ({ widget, metrics, comparables, connectedWidgets, colors, settings }) => {
       const [mergedMetrics, cleanedMetrics] = extractMergedMetrics(metrics)
 
+      const parsedComparables = comparables.map(parseComparable)
+      const comparedMetrics = parsedComparables.map(buildComparedMetric)
+      const parsedSettings = parseMetricSetting(settings, comparedMetrics)
+
       return TypeToWidget[widget].new({
         mergedMetrics,
         metrics: cleanedMetrics
           .map(key => convertKeyToMetric(key))
           .filter(Boolean)
           .concat(mergedMetrics),
-        comparables: comparables.map(parseComparable),
+        comparables: parsedComparables,
         connectedWidgets: connectedWidgets
           ? connectedWidgets.map(parseConnectedWidget)
           : [],
         MetricColor: colors,
-        MetricSettingMap: parseMetricSetting(settings)
+        MetricSettingMap: parsedSettings
       })
     }
   )

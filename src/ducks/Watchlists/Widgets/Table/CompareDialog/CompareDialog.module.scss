@@ -54,15 +54,13 @@
 
 .name {
   margin: 0 4px 0 0;
+  color: var(--mirage);
+
+  @include text('body-3', 'm');
 
   &:last-child {
     margin-right: 0;
   }
-}
-
-.ticker {
-  color: var(--waterloo);
-  margin: 0;
 }
 
 .loader {

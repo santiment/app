@@ -15,8 +15,12 @@ const SettingToComponent = {
 const isExchangeModifiable = metric =>
   metric === Metric.exchange_outflow || metric === Metric.exchange_inflow
 
+const getSettings = ({ key, domainGroup }) => {
+  return MetricSettings[key] || MetricSettings[domainGroup]
+}
+
 const Settings = ({ className, metric, ...props }) => {
-  const settings = MetricSettings[metric.key]
+  const settings = getSettings(metric)
 
   return (
     <div className={cx(styles.wrapper, className)}>

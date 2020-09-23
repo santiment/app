@@ -37,6 +37,7 @@ const CompareContent = ({
   const [selectedMetricSettingsMap, setSelectedMetricSettingsMap] = useState(
     new Map()
   )
+
   useEffect(
     () => {
       const submetrics = filterOnlyMetrics(AllSubmetrics)
@@ -46,6 +47,7 @@ const CompareContent = ({
         submetrics,
         isBeta
       )
+
       setCategories(newCategories)
     },
     [availableMetrics]
@@ -58,13 +60,24 @@ const CompareContent = ({
           return makeComparableObject({ metric, project })
         })
 
+        const comparedMetrics = comparables.map(buildComparedMetric)
+
+        const newSettings = new Map(selectedMetricSettingsMap)
+        const baseMetricSettings = newSettings.get(metric)
+
+        if (baseMetricSettings) {
+          comparedMetrics.forEach(m => {
+            newSettings.set(m, baseMetricSettings)
+          })
+        }
+
         return {
           id: index + 1,
           metrics: [],
-          comparables,
+          comparables: comparables,
           Widget: ChartWidget,
-          MetricSettingMap: selectedMetricSettingsMap,
-          comparedMetrics: comparables.map(buildComparedMetric),
+          MetricSettingMap: newSettings,
+          comparedMetrics: comparedMetrics,
           connectedWidgets: []
         }
       })
