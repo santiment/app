@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { PieChart, Pie, Cell } from 'recharts'
 import { useUniswapWhoMoved } from './gql'
 import { formatNumber } from '../../../utils/formatting'
@@ -14,19 +14,21 @@ import styles from './UniswapPieChart.module.scss'
 const obj = {
   centralizedExchanges: {
     label: 'Centralized Exchanges',
-    color: '#37D7BA'
+    color: '#68DBF4'
   },
   decentralizedExchanges: {
     label: 'Decentralized Exchanges',
     color: '#785549'
   },
+  cexTrader: {
+    label: 'CEX Traders only',
+    color: '#37D7BA'
+  },
   otherAddresses: {
     label: 'Other Addresses',
-    color: '#FFDAC5'
+    color: '#D4E763'
   }
 }
-
-const COLORS = ['#37D7BA', '#785549', '#FFDAC5']
 
 function transformData (data) {
   if (!data && !data.otherAddresses) {
@@ -41,6 +43,7 @@ function transformData (data) {
   const items = [
     'centralizedExchanges',
     'decentralizedExchanges',
+    // 'cexTrader',
     'otherAddresses'
   ]
 
@@ -61,8 +64,26 @@ const WhoClaimedChart = () => {
   const { H, mm } = getTimeFormats(currDate)
   const { chartData } = transformData(rawData)
 
+  const [isMissedData, setIsMissedData] = useState(false)
 
-  if (!loading && rawData.otherAddresses === undefined) return null
+  useEffect(
+    () => {
+      if (!loading) {
+        const noData = chartData.filter(
+          ({ rawValue }) => rawValue === undefined
+        )
+        const isTotallyEpmty = chartData.filter(
+          ({ rawValue }) => rawValue === null
+        )
+        if (noData.length > 0 || isTotallyEpmty.length === chartData.length) {
+          setIsMissedData(true)
+        }
+      }
+    },
+    [loading]
+  )
+
+  if (!loading && isMissedData) return null
 
   return (
     <>
@@ -78,8 +99,8 @@ const WhoClaimedChart = () => {
                 labelLine={false}
                 outerRadius={140}
               >
-                {chartData.map((entry, index) => (
-                  <Cell fill={COLORS[index % COLORS.length]} key={index} />
+                {chartData.map(({ color }, idx) => (
+                  <Cell fill={color} key={idx} />
                 ))}
               </Pie>
             </PieChart>

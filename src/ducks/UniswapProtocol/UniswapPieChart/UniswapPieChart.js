@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { PieChart, Pie, Cell } from 'recharts'
 import { useUniswapValueDistribution } from './gql'
 import { formatNumber } from '../../../utils/formatting'
@@ -18,11 +18,19 @@ const obj = {
   },
   decentralizedExchanges: {
     label: 'Decentralized Exchanges',
-    color: '#FF5B5B'
+    color: '#785549'
   },
   dexTrader: {
     label: 'DEX Traders only',
     color: '#5275FF'
+  },
+  cexTrader: {
+    label: 'CEX Traders only',
+    color: '#FFDAC5'
+  },
+  cexDexTrader: {
+    label: 'CEX + DEX Traders',
+    color: '#FF5B5B'
   },
   otherTransfers: {
     label: 'Other Addresses',
@@ -34,8 +42,6 @@ const obj = {
   }
 }
 
-const COLORS = ['#68DBF4', '#FF5B5B', '#5275FF', '#D4E763', '#F47BF7']
-
 function transformData (data) {
   if (!data && !data.totalMinted) {
     return
@@ -46,6 +52,8 @@ function transformData (data) {
     data.centralizedExchanges +
     data.decentralizedExchanges +
     data.dexTrader +
+    data.cexTrader +
+    data.cexDexTrader +
     data.otherTransfers
   const notMoved = total - movedSum
   const fullData = { ...data, notMoved }
@@ -54,6 +62,8 @@ function transformData (data) {
     'centralizedExchanges',
     'decentralizedExchanges',
     'dexTrader',
+    'cexTrader',
+    'cexDexTrader',
     'otherTransfers',
     'notMoved'
   ]
@@ -75,8 +85,26 @@ const UniswapPieChart = () => {
   const { H, mm } = getTimeFormats(currDate)
   const { total = 0, movedSum, notMoved, chartData } = transformData(rawData)
 
-  if (!loading && rawData.totalMinted === undefined) return null
+  const [isMissedData, setIsMissedData] = useState(false)
 
+  useEffect(
+    () => {
+      if (!loading) {
+        const noData = chartData.filter(
+          ({ rawValue }) => rawValue === undefined
+        )
+        const isTotallyEpmty = chartData.filter(
+          ({ rawValue }) => rawValue === null
+        )
+        if (noData.length > 0 || isTotallyEpmty.length === chartData.length) {
+          setIsMissedData(true)
+        }
+      }
+    },
+    [loading]
+  )
+
+  if (!loading && isMissedData) return null
 
   return (
     <>
@@ -92,8 +120,8 @@ const UniswapPieChart = () => {
                 labelLine={false}
                 outerRadius={140}
               >
-                {chartData.map((entry, index) => (
-                  <Cell fill={COLORS[index % COLORS.length]} key={index} />
+                {chartData.map(({ color }, idx) => (
+                  <Cell fill={color} key={idx} />
                 ))}
               </Pie>
             </PieChart>
