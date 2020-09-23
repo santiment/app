@@ -25,15 +25,6 @@ const TABS = [
       </>
     ),
     checkVisibility: ({ slug }) => slug === 'ethereum'
-  },
-  {
-    path: '/flow-balances',
-    label: (
-      <>
-        Flow Balances Visualisation
-        <NewLabelTemplate className={styles.new} />
-      </>
-    )
   }
 ]
 

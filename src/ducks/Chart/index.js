@@ -3,7 +3,11 @@ import cx from 'classnames'
 import COLOR from '@santiment-network/ui/variables.scss'
 import { initChart, updateChartState } from '@santiment-network/chart'
 import { initTooltip } from '@santiment-network/chart/tooltip'
-import { plotLines, plotFilledLines } from '@santiment-network/chart/lines'
+import {
+  plotLines,
+  plotFilledLines,
+  plotGradientLine
+} from '@santiment-network/chart/lines'
 import { plotAutoWidthBars, plotBars } from '@santiment-network/chart/bars'
 import { linearScale } from '@santiment-network/chart/scales'
 import { drawReferenceDot } from '@santiment-network/chart/references'
@@ -34,6 +38,7 @@ const Chart = ({
   brushData = data,
   lines,
   filledLines,
+  gradientLines,
   bars,
   autoWidthBars,
   chartHeight,
@@ -275,6 +280,7 @@ const Chart = ({
     plotBars(brush, brushData, bars, scale, MetricColor)
     plotLines(brush, brushData, lines, scale, MetricColor)
     plotFilledLines(brush, brushData, filledLines, scale, MetricColor)
+    plotGradientLine(brush, brushData, gradientLines, scale, MetricColor)
   }
 
   function plotChart (data) {
@@ -288,6 +294,7 @@ const Chart = ({
     chart.ctx.lineWidth = 1.5
     plotLines(chart, data, lines, scale, MetricColor)
     plotFilledLines(chart, data, filledLines, scale, MetricColor)
+    plotGradientLine(chart, data, gradientLines, scale, MetricColor)
 
     if (isCartesianGridActive) {
       drawCartesianGrid(

@@ -154,7 +154,7 @@ export const Metric = {
   },
   mvrv_usd: {
     category: 'On-chain',
-    node: 'line',
+    node: 'gradientLine',
     group: 'Network Value',
     label: 'MVRV',
     fullTitle: 'Market Value To Realized Value',

@@ -32,7 +32,8 @@ const MetricColor = {
   [Metric.volume_usd.key]: GRAY,
   [Metric.social_volume_total.key]: CYAN,
   [Metric.daily_active_addresses.key]: ORANGE,
-  [Metric.dev_activity.key]: VIOLET
+  [Metric.dev_activity.key]: VIOLET,
+  [Metric.mvrv_usd.key]: ORANGE
 }
 
 function getUnusedColors (usedColorsSet) {
