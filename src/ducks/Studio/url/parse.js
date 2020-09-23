@@ -98,6 +98,8 @@ function parseSharedComparables (comparables) {
 function parseMetricSetting (MetricSetting = {}) {
   const MetricSettingMap = new Map()
 
+  debugger
+
   Object.keys(MetricSetting).forEach(key => {
     const metric = Metric[key]
     if (!metric) return
@@ -135,6 +137,7 @@ export function parseSharedWidgets (sharedWidgets) {
     ({ widget, metrics, comparables, connectedWidgets, colors, settings }) => {
       const [mergedMetrics, cleanedMetrics] = extractMergedMetrics(metrics)
 
+      debugger
       return TypeToWidget[widget].new({
         mergedMetrics,
         metrics: cleanedMetrics
@@ -239,6 +242,8 @@ export function parseUrlV2 (url) {
     return translateV1ToV2(parsedV1Config)
   }
 
+  console.log(settings, widgets)
+  debugger
   return {
     settings: settings && JSON.parse(settings),
     widgets: widgets && parseWidgets(widgets),

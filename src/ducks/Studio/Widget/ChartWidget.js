@@ -77,6 +77,7 @@ export const Chart = ({
       const comparedMetrics = comparables.map(buildComparedMetric)
       widget.comparables = comparables
       widget.comparedMetrics = comparedMetrics
+      debugger
       setActiveMetrics(metrics.concat(comparedMetrics))
       rerenderWidgets()
     },
@@ -121,6 +122,7 @@ export const Chart = ({
           }
         })
 
+        debugger
         widget.MetricSettingMap = mergeMetricSettingMap(
           MetricSettingMap,
           newMap

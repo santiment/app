@@ -9,6 +9,7 @@ const TopHoldersSetting = ({ metric, widget, rerenderWidgets }) => {
     () => {
       const { MetricSettingMap } = widget
       const MetricSetting = MetricSettingMap.get(metric)
+      console.log(MetricSettingMap, metric)
       return MetricSetting && MetricSetting.holdersCount
     },
     [metric]
@@ -24,6 +25,7 @@ const TopHoldersSetting = ({ metric, widget, rerenderWidgets }) => {
       holdersCount
     })
 
+    debugger
     widget.MetricSettingMap = mergeMetricSettingMap(
       widget.MetricSettingMap,
       newMap

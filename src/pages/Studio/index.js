@@ -44,6 +44,9 @@ const TopSlot = compose(withProject)(({ slug, project, loading }) =>
 export default ({ history }) => {
   const url = window.location.search
   const parsedUrl = useMemo(() => parseUrlV2(url), [url])
+
+  debugger
+
   const { settings = {} } = parsedUrl
 
   return (

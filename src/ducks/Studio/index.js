@@ -223,6 +223,7 @@ export const Studio = ({
       widget.connectedWidgets,
       appliedWidgets
     )
+    debugger
     widget.MetricSettingMap = mergeMetricSettingMap(
       widget.MetricSettingMap,
       selectedMetricSettingsMap
