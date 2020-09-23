@@ -18,10 +18,6 @@ const LoadableFeesDistribution = Loadable({
   loader: () => import('./FeesDistribution/FeesDistribution'),
   loading: () => <PageLoader />
 })
-const LoadableStudioFlow = Loadable({
-  loader: () => import('./Tabs/Flow'),
-  loading: () => <PageLoader />
-})
 
 const Main = ({
   widgets,
@@ -32,7 +28,7 @@ const Main = ({
   setIsICOPriceDisabled,
   ...props
 }) => {
-  const { slug, ticker } = settings
+  const { slug } = settings
   const isEth = slug === 'ethereum'
 
   function onProjectSelect (project) {
@@ -65,9 +61,6 @@ const Main = ({
               <LoadableFeesDistribution settings={settings} />
             </Route>
           )}
-          <Route path='/:base/flow-balances'>
-            <LoadableStudioFlow slug={slug} ticker={ticker} />
-          </Route>
           <Route>
             <TabsWidgets
               {...props}

@@ -11,6 +11,7 @@ export function metricsToPlotCategories (metrics, MetricNode = METRIC_NODE) {
   const requestedData = {
     lines: [],
     filledLines: [],
+    gradientLines: [],
     autoWidthBars: [],
     bars: [],
     joinedCategories: [],
