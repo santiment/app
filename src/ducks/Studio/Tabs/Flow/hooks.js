@@ -69,9 +69,16 @@ export function usePeriodMatrix (slug, [from, to], daysAmount) {
 
 export const useDayMatrix = (periodMatrix, dayIndex = 0) =>
   useMemo(
-    () =>
-      periodMatrix.length
-        ? periodMatrix.map(periods => periods.map(values => values[dayIndex]))
-        : DEFAULT_DAY_MATRIX,
+    () => {
+      const matrix = periodMatrix.map(periods =>
+        periods.map(values => values[dayIndex])
+      )
+      const isEmpty = matrix.flat().filter(Boolean).length === 0
+
+      return {
+        matrix: isEmpty ? DEFAULT_DAY_MATRIX : matrix,
+        isEmpty
+      }
+    },
     [periodMatrix, dayIndex]
   )

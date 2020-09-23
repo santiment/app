@@ -23,18 +23,17 @@
 }
 
 .chord {
-  text-align: center;
   position: relative;
 }
 
 .loader {
   position: absolute;
-  top: 40px;
+  top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   background: var(--athens);
-  opacity: 0.7;
+  opacity: 0.8;
   display: flex;
   align-items: center;
   justify-content: center;
