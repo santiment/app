@@ -25,7 +25,6 @@ const TopHoldersSetting = ({ metric, widget, rerenderWidgets }) => {
       holdersCount
     })
 
-    debugger
     widget.MetricSettingMap = mergeMetricSettingMap(
       widget.MetricSettingMap,
       newMap

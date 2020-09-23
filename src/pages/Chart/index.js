@@ -11,8 +11,6 @@ export default withBoundaries(({ parsedUrl, ...props }) => {
   const { widgets, settings, sidepanel } =
     parsedUrl || parseUrlV2(window.location.search)
 
-  debugger
-
   return (
     <Studio
       {...props}

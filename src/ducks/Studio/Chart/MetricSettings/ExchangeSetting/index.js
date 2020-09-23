@@ -32,7 +32,6 @@ const ExchangeSetting = ({ metric, widget, rerenderWidgets, slug }) => {
       owner: isExchangeRemoved ? undefined : newOwner
     })
 
-    debugger
     widget.MetricSettingMap = mergeMetricSettingMap(
       widget.MetricSettingMap,
       newMap

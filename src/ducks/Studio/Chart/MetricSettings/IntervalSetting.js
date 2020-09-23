@@ -34,7 +34,6 @@ const IntervalSetting = ({
     if (newInterval === chartInterval) {
       const newMap = new Map(widget.MetricSettingMap)
       delete newMap.get(metric).interval
-      debugger
       widget.MetricSettingMap = newMap
     } else {
       const newMap = new Map()
@@ -43,7 +42,6 @@ const IntervalSetting = ({
         interval: newInterval
       })
 
-      debugger
       widget.MetricSettingMap = mergeMetricSettingMap(
         widget.MetricSettingMap,
         newMap
