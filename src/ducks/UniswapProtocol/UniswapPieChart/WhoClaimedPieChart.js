@@ -61,10 +61,13 @@ const WhoClaimedChart = () => {
   const { H, mm } = getTimeFormats(currDate)
   const { chartData } = transformData(rawData)
 
+
+  if (!loading && rawData.otherAddresses === undefined) return null
+
   return (
     <>
       <Skeleton repeat={1} className={styles.skeleton} show={loading} />
-      {!loading && rawData.otherAddresses !== 'undefined' && (
+      {!loading && rawData.otherAddresses !== undefined && (
         <div className={styles.wrapper}>
           <div className={styles.chart}>
             <PieChart width={400} height={300}>

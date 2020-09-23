@@ -75,10 +75,13 @@ const UniswapPieChart = () => {
   const { H, mm } = getTimeFormats(currDate)
   const { total = 0, movedSum, notMoved, chartData } = transformData(rawData)
 
+  if (!loading && rawData.totalMinted === undefined) return null
+
+
   return (
     <>
       <Skeleton repeat={1} className={styles.skeleton} show={loading} />
-      {!loading && rawData.totalMinted !== 'undefined' && (
+      {!loading && rawData.totalMinted !== undefined && (
         <div className={styles.wrapper}>
           <div className={styles.chart}>
             <PieChart width={400} height={300}>
