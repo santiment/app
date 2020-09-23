@@ -1,0 +1,75 @@
+import React from 'react'
+import cx from 'classnames'
+import TransactionTableLabels from './TransactionTableLabels'
+import styles from './WalletLink.module.scss'
+
+export const makeShortAddresLink = ({
+  link,
+  isExchange,
+  settings: { linkSymbolsCount = 16 } = {}
+}) => link.slice(0, isExchange ? 7 : linkSymbolsCount) + '...'
+
+export const EtherscanLink = ({
+  address = '',
+  isTx,
+  isExchange,
+  label,
+  isFull,
+  asLink = true,
+  settings,
+  children
+}) => {
+  const link = children || address
+
+  const addressShort =
+    isFull || typeof link !== 'string'
+      ? link
+      : makeShortAddresLink({ link, isExchange, settings })
+  const showLabel = label || children || addressShort
+
+  const El = asLink ? 'a' : 'div'
+
+  const props = asLink
+    ? {
+      href: `https://etherscan.io/${isTx ? 'tx' : 'address'}/${address}`,
+      target: '_blank',
+      rel: 'noopener noreferrer'
+    }
+    : {}
+
+  return (
+    <El {...props} className={cx(styles.etherscanLink, styles.link)}>
+      {showLabel}
+    </El>
+  )
+}
+
+const EthLinkWithLabels = ({ isExchange, labels, showAllLabels, ...rest }) => {
+  return (
+    <>
+      <EtherscanLink {...rest} isExchange={isExchange} />
+      {labels && (
+        <TransactionTableLabels labels={labels} showAll={showAllLabels} />
+      )}
+    </>
+  )
+}
+
+export const DefaultAssetLinkWithLabels = ({
+  address,
+  labels,
+  showAllLabels
+}) => {
+  return (
+    <div>
+      <span className={styles.link}>
+        {makeShortAddresLink({ link: address })}
+      </span>
+      {labels && (
+        <TransactionTableLabels labels={labels} showAll={showAllLabels} />
+      )}
+    </div>
+  )
+}
+
+export default EthLinkWithLabels

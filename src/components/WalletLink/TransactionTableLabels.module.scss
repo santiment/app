@@ -6,6 +6,9 @@
   border-radius: 2px;
   padding: 3px 6px;
   margin-left: 6px;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
 
   @include text('caption');
 }

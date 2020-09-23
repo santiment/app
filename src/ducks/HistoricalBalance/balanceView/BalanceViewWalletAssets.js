@@ -3,8 +3,8 @@ import cx from 'classnames'
 import Input from '@santiment-network/ui/Input'
 import { isPossibleEthAddress } from '../../Signals/utils/utils'
 import AssetsField from '../AssetsField'
+import EthLinkWithLabels from '../../../components/WalletLink/EthLinkWithLabels'
 import styles from './BalanceView.module.scss'
-import Address from '../../../components/WalletLink/Address'
 
 const BalanceViewWalletAssets = ({
   address,
@@ -31,7 +31,7 @@ const BalanceViewWalletAssets = ({
         />
         {address && (
           <div className={styles.etherscan}>
-            <Address
+            <EthLinkWithLabels
               address={address}
               isTx={false}
               isFull

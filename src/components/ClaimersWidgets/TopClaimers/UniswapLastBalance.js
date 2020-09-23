@@ -6,25 +6,25 @@ import { getLoadingStatus, finishLoading } from './utils'
 import styles from './table.module.scss'
 
 const UniswapLastBalance = ({ address }) => {
-	const [status, setStatus] = useState('')
+  const [status, setStatus] = useState('')
 
   if (!status) {
-  	checkStatus()
+    checkStatus()
   }
 
-  function checkStatus() {
-  	setTimeout(() => {
-  		const newStatus = getLoadingStatus(address)
-  		if (newStatus !== status) setStatus(newStatus)
-  		if (!newStatus) checkStatus()
-  	}, 1000)
+  function checkStatus () {
+    setTimeout(() => {
+      const newStatus = getLoadingStatus(address)
+      if (newStatus !== status) setStatus(newStatus)
+      if (!newStatus) checkStatus()
+    }, 1000)
   }
 
   const [assetsBalances, loading] = useAssetsBalance(status ? address : null)
 
   if (status === 'loading' && loading === false && assetsBalances) {
-  	finishLoading(address)
-  	setStatus('finished')
+    finishLoading(address)
+    setStatus('finished')
   }
 
   const isLoading = status !== 'finished' || (loading && !assetsBalances)
@@ -40,7 +40,6 @@ const UniswapLastBalance = ({ address }) => {
   const uniswapBalance = (assetsBalances || []).find(
     ({ slug }) => slug === 'uniswap'
   ) || { balance: 0 }
-
 
   return <div>{formatNumber(uniswapBalance.balance)}</div>
 }

@@ -9,6 +9,8 @@ import UniswapHistoricalBalance from './UniswapHistoricalBalance/UniswapHistoric
 import styles from '../../../pages/Detailed/Detailed.module.scss'
 
 const KeyStats = ({ slug, project, isERC20, loading }) => {
+  const { ticker } = project
+
   return (
     <>
       {slug === 'ethereum' && (
@@ -39,21 +41,21 @@ const KeyStats = ({ slug, project, isERC20, loading }) => {
         )}
       </div>
 
-      {isERC20 &&
-        project.tokenTopTransactions &&
-        project.tokenTopTransactions.length > 0 && (
-          <>
-            <div className={styles.info}>
-              <DetailedTransactionsTable
-                project={project}
-                title='Top token transactions, 30d'
-                show='tokenTopTransactions'
-              />
-            </div>
+      {project.tokenTopTransactions && project.tokenTopTransactions.length > 0 && (
+        <>
+          <div className={styles.info}>
+            <DetailedTransactionsTable
+              project={project}
+              title={`Top ${ticker} transactions, 30d`}
+              show='tokenTopTransactions'
+            />
+          </div>
+          {isERC20 && (
             <div className={styles.info}>
               <DetailedTransactionsTable project={project} />
             </div>
-          </>
+          )}
+        </>
       )}
     </>
   )

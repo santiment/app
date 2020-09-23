@@ -2,7 +2,7 @@ import React from 'react'
 import { Bar, Cell, LabelList } from 'recharts'
 import { tooltipValueFormatter } from '../../dataHub/metrics/formatters'
 import ProjectIcon from '../../../components/ProjectIcon/ProjectIcon'
-import { makeShortEthLink } from '../../../components/WalletLink/Address'
+import { makeShortAddresLink } from '../../../components/WalletLink/EthLinkWithLabels'
 import { isEthStrictAddress } from '../../../utils/utils'
 import WalletLink from '../../../components/WalletLink/WalletLink'
 import styles from './ProjectsBarChart.module.scss'
@@ -151,7 +151,7 @@ const ProjectTicker = ({ item }) => {
     <WalletLink
       trigger={
         <div className={styles.ticker}>
-          {makeShortEthLink({ link: address, settings: LINK_SETTINGS })}
+          {makeShortAddresLink({ link: address, settings: LINK_SETTINGS })}
         </div>
       }
       assets={[]}

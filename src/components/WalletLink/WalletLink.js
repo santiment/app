@@ -1,24 +1,69 @@
 import React from 'react'
 import SmoothDropdownItem from './../SmoothDropdown/SmoothDropdownItem'
 import ViewBalanceDialog from './ViewBalanceDialog'
-import Address, { EtherscanLink } from './Address'
+import EthLinkWithLabels, {
+  DefaultAssetLinkWithLabels
+} from './EthLinkWithLabels'
+import { isEthStrictAddress, isEthStrictHashTx } from '../../utils/utils'
 import styles from './WalletLink.module.scss'
 
 const WalletLink = ({
   address,
-  assets = [],
-  isTx = false,
-  isExchange = false,
   labels,
-  isDesktop,
+  isTx = false,
+  showAllLabels,
+  ...rest
+}) => {
+  if (!address && !labels) {
+    return null
+  }
+
+  const isEth =
+    address && (isTx ? isEthStrictHashTx(address) : isEthStrictAddress(address))
+
+  if (!isEth) {
+    return (
+      <SmoothDropdownItem
+        trigger={
+          <DefaultAssetLinkWithLabels
+            address={address}
+            labels={labels}
+            showAllLabels={showAllLabels}
+          />
+        }
+      >
+        <ul className={styles.wrapper}>
+          <li>{address}</li>
+        </ul>
+      </SmoothDropdownItem>
+    )
+  }
+
+  return (
+    <EthWalletLink
+      address={address}
+      labels={labels}
+      showAllLabels={showAllLabels}
+      isTx={isTx}
+      {...rest}
+    />
+  )
+}
+
+const EthWalletLink = ({
+  assets = [],
+  isExchange = false,
   trigger: inputTrigger,
   settings,
   isFull,
-  showAllLabels,
-  priceMetrics
+  priceMetrics,
+  labels,
+  isTx,
+  address,
+  showAllLabels
 }) => {
   const trigger = inputTrigger || (
-    <Address
+    <EthLinkWithLabels
       address={address}
       isTx={isTx}
       isExchange={isExchange}
@@ -35,14 +80,13 @@ const WalletLink = ({
       <SmoothDropdownItem trigger={trigger}>
         <ul className={styles.wrapper}>
           <li>
-            <EtherscanLink
+            <EthLinkWithLabels
               address={address}
               isTx={isTx}
-              className={styles.link}
               settings={settings}
             >
               Open Etherscan
-            </EtherscanLink>
+            </EthLinkWithLabels>
           </li>
         </ul>
       </SmoothDropdownItem>
@@ -53,7 +97,6 @@ const WalletLink = ({
         priceMetrics={priceMetrics}
         assets={assets}
         address={address}
-        isDesktop={isDesktop}
         trigger={trigger}
       />
     )
