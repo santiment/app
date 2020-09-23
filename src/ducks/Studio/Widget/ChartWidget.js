@@ -77,7 +77,6 @@ export const Chart = ({
       const comparedMetrics = comparables.map(buildComparedMetric)
       widget.comparables = comparables
       widget.comparedMetrics = comparedMetrics
-
       setActiveMetrics(metrics.concat(comparedMetrics))
       rerenderWidgets()
     },

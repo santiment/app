@@ -248,8 +248,6 @@ export function parseUrlV2 (url) {
     return translateV1ToV2(parsedV1Config)
   }
 
-  console.log(settings, widgets)
-
   return {
     settings: settings && JSON.parse(settings),
     widgets: widgets && parseWidgets(widgets),

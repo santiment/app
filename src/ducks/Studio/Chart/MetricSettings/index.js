@@ -22,8 +22,6 @@ const getSettings = ({ key, domainGroup }) => {
 const Settings = ({ className, metric, ...props }) => {
   const settings = getSettings(metric)
 
-  console.log(metric, props)
-
   return (
     <div className={cx(styles.wrapper, className)}>
       {metric.label}:
