@@ -3,8 +3,8 @@ import cx from 'classnames'
 import Input from '@santiment-network/ui/Input'
 import { isPossibleEthAddress } from '../../Signals/utils/utils'
 import AssetsField from '../AssetsField'
-import styles from './BalanceView.module.scss'
 import EthLinkWithLabels from '../../../components/WalletLink/EthLinkWithLabels'
+import styles from './BalanceView.module.scss'
 
 const BalanceViewWalletAssets = ({
   address,

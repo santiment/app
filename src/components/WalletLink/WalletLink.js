@@ -4,8 +4,8 @@ import ViewBalanceDialog from './ViewBalanceDialog'
 import EthLinkWithLabels, {
   DefaultAssetLinkWithLabels
 } from './EthLinkWithLabels'
-import styles from './WalletLink.module.scss'
 import { isEthStrictAddress, isEthStrictHashTx } from '../../utils/utils'
+import styles from './WalletLink.module.scss'
 
 const WalletLink = ({
   address,
