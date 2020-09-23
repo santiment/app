@@ -40,7 +40,7 @@ const UniswapMetric = ({ metric }) => {
           ...settings,
           ...formIntervalSettings(INTERVAL)
         })
-    }, 15000)
+    }, 120000)
 
     return () => {
       clearInterval(interval)
