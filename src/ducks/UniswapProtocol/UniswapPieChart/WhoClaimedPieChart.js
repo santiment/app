@@ -22,7 +22,7 @@ const obj = {
   },
   cexTrader: {
     label: 'CEX Traders only',
-    color: '#37D7BA'
+    color: '#FFDAC5'
   },
   otherAddresses: {
     label: 'Other Addresses',
@@ -49,7 +49,7 @@ function transformData (data) {
 
   const chartData = items.map(item => {
     const name = obj[item].label
-    const value = (data[item] * 100) / total
+    const value = (data[item] * 100) / total || 0
 
     return { name, value, rawValue: data[item], color: obj[item].color }
   })
@@ -122,7 +122,7 @@ const WhoClaimedChart = () => {
                     {name} ({value.toFixed(2)}%):
                   </span>
                   <span className={styles.item__value}>
-                    {formatNumber(rawValue)}
+                    {formatNumber(rawValue || 0)}
                   </span>
                 </li>
               ))}
