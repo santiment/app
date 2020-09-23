@@ -44,30 +44,22 @@ export const EtherscanLink = ({
   )
 }
 
-const EthLinkWithLabels = ({ isExchange, labels, showAllLabels, ...rest }) => {
+const EthLinkWithLabels = ({ isExchange, labels, ...rest }) => {
   return (
     <>
       <EtherscanLink {...rest} isExchange={isExchange} />
-      {labels && (
-        <TransactionTableLabels labels={labels} showAll={showAllLabels} />
-      )}
+      {labels && <TransactionTableLabels labels={labels} />}
     </>
   )
 }
 
-export const DefaultAssetLinkWithLabels = ({
-  address,
-  labels,
-  showAllLabels
-}) => {
+export const DefaultAssetLinkWithLabels = ({ address, labels }) => {
   return (
     <div>
       <span className={styles.link}>
         {makeShortAddresLink({ link: address })}
       </span>
-      {labels && (
-        <TransactionTableLabels labels={labels} showAll={showAllLabels} />
-      )}
+      {labels && <TransactionTableLabels labels={labels} />}
     </div>
   )
 }

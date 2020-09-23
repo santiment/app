@@ -7,13 +7,7 @@ import EthLinkWithLabels, {
 import { isEthStrictAddress, isEthStrictHashTx } from '../../utils/utils'
 import styles from './WalletLink.module.scss'
 
-const WalletLink = ({
-  address,
-  labels,
-  isTx = false,
-  showAllLabels,
-  ...rest
-}) => {
+const WalletLink = ({ address, labels, isTx = false, ...rest }) => {
   if (!address && !labels) {
     return null
   }
@@ -25,11 +19,7 @@ const WalletLink = ({
     return (
       <SmoothDropdownItem
         trigger={
-          <DefaultAssetLinkWithLabels
-            address={address}
-            labels={labels}
-            showAllLabels={showAllLabels}
-          />
+          <DefaultAssetLinkWithLabels address={address} labels={labels} />
         }
       >
         <ul className={styles.wrapper}>
@@ -40,13 +30,7 @@ const WalletLink = ({
   }
 
   return (
-    <EthWalletLink
-      address={address}
-      labels={labels}
-      showAllLabels={showAllLabels}
-      isTx={isTx}
-      {...rest}
-    />
+    <EthWalletLink address={address} labels={labels} isTx={isTx} {...rest} />
   )
 }
 
@@ -59,8 +43,7 @@ const EthWalletLink = ({
   priceMetrics,
   labels,
   isTx,
-  address,
-  showAllLabels
+  address
 }) => {
   const trigger = inputTrigger || (
     <EthLinkWithLabels
@@ -71,7 +54,6 @@ const EthWalletLink = ({
       labels={labels}
       settings={settings}
       isFull={isFull}
-      showAllLabels={showAllLabels}
     />
   )
 
