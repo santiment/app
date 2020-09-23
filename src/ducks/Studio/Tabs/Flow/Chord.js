@@ -14,9 +14,9 @@ const Chord = ({ matrix, isLoading, isEmpty }) => {
 
   return (
     <div className={styles.chord}>
-      {isLoading && <Loader className={styles.loader} />}
+      {isLoading && <Loader className={styles.overlay} />}
       {isLoaded && isEmpty && (
-        <div className={styles.loader}>No data for this date</div>
+        <div className={styles.overlay}>No data for this date</div>
       )}
 
       <NivoChord

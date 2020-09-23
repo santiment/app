@@ -3,7 +3,7 @@ export const MATRIX = [
   {
     label: 'Dex Traders',
     relations: [
-      null, /// 'dex_traders_to_dexes_flow',
+      null, /// 'dex_traders_to_dex_traders_flow',
       'dex_traders_to_dexes_flow',
       'dex_traders_to_cexes_flow',
       'dex_traders_to_defi_flow',
@@ -78,8 +78,6 @@ export const MATRIX = [
   }
 ]
 export const MATRIX_SIZE = MATRIX.length
-
 export const LABELS = MATRIX.map(({ label }) => label)
-
 export const METRICS = MATRIX.flatMap(({ relations }) => relations)
 export const METRICS_AMOUNT = METRICS.length
