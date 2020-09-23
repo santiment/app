@@ -66,7 +66,7 @@ const LabelWrapper = ({ metadata }) => {
   }
 }
 
-const LabelRenderer = ({ name, metadata, showAll }) => {
+const LabelRenderer = ({ name, metadata }) => {
   if (!name) {
     return null
   }
@@ -81,19 +81,13 @@ const LabelRenderer = ({ name, metadata, showAll }) => {
     case 'defi': {
       return <LabelWrapper metadata={metadata} />
     }
-    case 'miner':
-    case 'whale':
-    case 'proxy':
-    case 'genesis': {
-      return <Label className={styles.label}>{name}</Label>
-    }
     default: {
-      return showAll ? <Label className={styles.label}>{name}</Label> : null
+      return <Label className={styles.label}>{name}</Label>
     }
   }
 }
 
-const TransactionTableLabels = ({ labels, showAll }) => {
+const TransactionTableLabels = ({ labels }) => {
   const distinct = useMemo(
     () => {
       return labels.reduce((acc, item) => {
@@ -105,7 +99,7 @@ const TransactionTableLabels = ({ labels, showAll }) => {
   )
 
   return Object.values(distinct).map((item, index) => (
-    <LabelRenderer key={index} {...item} showAll={showAll} />
+    <LabelRenderer key={index} {...item} />
   ))
 }
 
