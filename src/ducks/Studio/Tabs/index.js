@@ -14,8 +14,7 @@ const TABS = [
   },
   {
     path: '/related-insights',
-    labelFormatter: name =>
-      name ? `Related ${name} Insights` : 'Related Insights'
+    labelFormatter: name => (name ? `${name} Insights` : 'Insights')
   },
   {
     path: '/fees-distribution',
