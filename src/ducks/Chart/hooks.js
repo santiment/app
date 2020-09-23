@@ -3,7 +3,8 @@ import { Metric } from '../dataHub/metrics'
 import { MirroredMetric } from '../dataHub/metrics/mirrored'
 
 const splitByComma = str => str.split(',')
-const lineMetricsFilter = ({ node }) => node === 'line' || node === 'filledLine'
+const lineMetricsFilter = ({ node, ...rest }) =>
+  node === 'line' || node === 'filledLine' || node === 'gradientLine'
 const getDomainGroup = ({ key, domainGroup = key }) => domainGroup
 const checkIfAreMirrored = (metricA, metricB) =>
   MirroredMetric[metricA.key] === metricB ||
