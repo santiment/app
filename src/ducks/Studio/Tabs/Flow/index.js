@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Chord } from '@nivo/chord'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import { LABELS } from './matrix'
 import { getDateByDayIndex } from './utils'
 import { usePeriodMatrix, useDayMatrix } from './hooks'
@@ -11,7 +12,7 @@ import {
 } from '../../../../utils/dates'
 import styles from './index.module.scss'
 
-const MARGIN = { top: 60, right: 60, bottom: 90, left: 60 }
+const MARGIN = { top: 35, right: 35, bottom: 35, left: 35 }
 
 const DEFAULT_DAYS_AMOUNT = 30
 const { from, to } = getTimeIntervalFromToday(-DEFAULT_DAYS_AMOUNT + 1, DAY)
@@ -21,12 +22,12 @@ const FlowBalances = ({ slug, ticker }) => {
   const [dates, setDates] = useState(DEFAULT_DATES)
   const [daysAmount, setDaysAmount] = useState(DEFAULT_DAYS_AMOUNT)
   const [dayIndex, setDayIndex] = useState(0)
-  const periodMatrix = usePeriodMatrix(slug, dates, daysAmount)
+  const { periodMatrix, isLoading } = usePeriodMatrix(slug, dates, daysAmount)
   const matrix = useDayMatrix(periodMatrix, dayIndex)
 
   useEffect(
     () => {
-      if (daysAmount === 1) return
+      if (isLoading || daysAmount === 1) return
 
       const interval = setInterval(
         () => setDayIndex(index => ++index % daysAmount),
@@ -34,7 +35,7 @@ const FlowBalances = ({ slug, ticker }) => {
       )
       return () => clearInterval(interval)
     },
-    [daysAmount]
+    [daysAmount, isLoading]
   )
 
   function onCalendarChange (dates) {
@@ -49,41 +50,37 @@ const FlowBalances = ({ slug, ticker }) => {
         selectRange
         dates={dates}
         onChange={onCalendarChange}
-        className={styles.contextCalendar}
+        className={styles.calendar}
       />
-      <div className={styles.title}>
-        {ticker} Flow Balances on {getDateByDayIndex(dates, dayIndex)}
+
+      <div className={styles.chord}>
+        {isLoading && <Loader className={styles.loader} />}
+        <div className={styles.title}>
+          {ticker} Flow Balances on {getDateByDayIndex(dates, dayIndex)}
+        </div>
+        <Chord
+          enableLabel
+          isInteractive
+          animate={!isLoading}
+          width={600}
+          height={600}
+          matrix={matrix}
+          keys={LABELS}
+          margin={MARGIN}
+          valueFormat='.2f'
+          padAngle={0.02}
+          innerRadiusRatio={0.95}
+          arcBorderColor={{ from: 'color', modifiers: [['darker', 0.4]] }}
+          ribbonBorderColor={{ from: 'color', modifiers: [['darker', 0.4]] }}
+          labelTextColor={{ from: 'color', modifiers: [['darker', 1]] }}
+          colors={{ scheme: 'nivo' }}
+          arcHoverOthersOpacity={0.2}
+          ribbonHoverOpacity={1}
+          ribbonHoverOthersOpacity={0.2}
+          motionStiffness={300}
+          motionDamping={40}
+        />
       </div>
-      <Chord
-        enableLabel
-        isInteractive
-        animate
-        width={700}
-        height={700}
-        matrix={matrix}
-        keys={LABELS}
-        margin={MARGIN}
-        valueFormat='.2f'
-        padAngle={0.02}
-        innerRadiusRatio={0.95}
-        arcOpacity={1}
-        arcBorderWidth={1}
-        arcBorderColor={{ from: 'color', modifiers: [['darker', 0.4]] }}
-        ribbonOpacity={0.5}
-        ribbonBorderWidth={1}
-        ribbonBorderColor={{ from: 'color', modifiers: [['darker', 0.4]] }}
-        label='id'
-        labelOffset={25}
-        labelRotation={-180}
-        labelTextColor={{ from: 'color', modifiers: [['darker', 1]] }}
-        colors={{ scheme: 'nivo' }}
-        arcHoverOpacity={1}
-        arcHoverOthersOpacity={0.2}
-        ribbonHoverOpacity={1}
-        ribbonHoverOthersOpacity={0.2}
-        motionStiffness={300}
-        motionDamping={40}
-      />
     </div>
   )
 }

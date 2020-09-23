@@ -4,6 +4,14 @@ import { FLOW_QUERY } from './query'
 import { client } from '../../../../apollo'
 
 const DEFAULT_STATE = []
+const DEFAULT_DAY_MATRIX = [
+  [0, 1, 1, 1, 1, 1],
+  [1, 0, 1, 1, 1, 1],
+  [1, 1, 0, 1, 1, 1],
+  [1, 1, 1, 0, 1, 1],
+  [1, 1, 1, 1, 0, 1],
+  [1, 1, 1, 1, 1, 0]
+]
 
 const valueAccessor = ({ value }) => value
 const buildDataAccessor = emptyValues => ({ data }) => {
@@ -26,10 +34,12 @@ const getPeriodFlow = (variables, emptyValues) =>
     .then(buildDataAccessor(emptyValues))
 
 export function usePeriodMatrix (slug, [from, to], daysAmount) {
-  const [matrix, setMatrix] = useState(DEFAULT_STATE)
+  const [periodMatrix, setPeriodMatrix] = useState(DEFAULT_STATE)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(
     () => {
+      setIsLoading(true)
       const emptyValues = new Array(daysAmount).fill(0)
 
       getPeriodFlow(
@@ -45,16 +55,23 @@ export function usePeriodMatrix (slug, [from, to], daysAmount) {
 
           return result
         })
-        .then(setMatrix)
+        .then(setPeriodMatrix)
+        .then(() => setIsLoading(false))
     },
     [slug, from, to]
   )
 
-  return matrix
+  return {
+    periodMatrix,
+    isLoading
+  }
 }
 
 export const useDayMatrix = (periodMatrix, dayIndex = 0) =>
   useMemo(
-    () => periodMatrix.map(periods => periods.map(values => values[dayIndex])),
+    () =>
+      periodMatrix.length
+        ? periodMatrix.map(periods => periods.map(values => values[dayIndex]))
+        : DEFAULT_DAY_MATRIX,
     [periodMatrix, dayIndex]
   )
