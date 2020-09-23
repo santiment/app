@@ -19,7 +19,7 @@ const TABS = [
   },
   {
     path: '/fees-distribution',
-    labelFormatter: () => (
+    label: (
       <>
         Fees Distribution
         <NewLabelTemplate className={styles.new} />
@@ -28,8 +28,13 @@ const TABS = [
     checkVisibility: ({ slug }) => slug === 'ethereum'
   },
   {
-    path: '/flow',
-    label: 'Flow'
+    path: '/flow-balances',
+    label: (
+      <>
+        Flow Balances Visualisation
+        <NewLabelTemplate className={styles.new} />
+      </>
+    )
   }
 ]
 

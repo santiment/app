@@ -32,7 +32,7 @@ const Main = ({
   setIsICOPriceDisabled,
   ...props
 }) => {
-  const { slug } = settings
+  const { slug, ticker } = settings
   const isEth = slug === 'ethereum'
 
   function onProjectSelect (project) {
@@ -65,8 +65,8 @@ const Main = ({
               <LoadableFeesDistribution settings={settings} />
             </Route>
           )}
-          <Route path='/:base/flow'>
-            <LoadableStudioFlow slug={slug} />
+          <Route path='/:base/flow-balances'>
+            <LoadableStudioFlow slug={slug} ticker={ticker} />
           </Route>
           <Route>
             <TabsWidgets
