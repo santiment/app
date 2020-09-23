@@ -17,6 +17,10 @@
 .time {
   @include text('body-2', 'm');
 
+  @include responsive('phone') {
+    @include text('body-3', 'm');
+  }
+
   color: var(--waterloo);
   margin: 12px 0 0 0;
 }
@@ -38,10 +42,18 @@
   margin: 0 12px 0 0;
 
   @include text('body-1', 'l');
+
+  @include responsive('phone') {
+    @include text('body-2', 'l');
+  }
 }
 
 .value {
   @include text('body-2', 'm');
+
+  @include responsive('phone') {
+    @include text('body-3', 'm');
+  }
 
   color: var(--waterloo);
 }
@@ -64,7 +76,7 @@
 .list {
   display: flex;
   flex-direction: column;
-  margin: 4px 0 10px;
+  margin: 0 0 10px;
   padding: 0;
 }
 
@@ -72,7 +84,6 @@
   display: flex;
   align-items: center;
   padding-left: 18px;
-  margin: 0 0 6px;
   position: relative;
   color: var(--waterloo);
 
@@ -90,10 +101,18 @@
   }
 }
 
+.item + .item {
+  margin: 6px 0 0;
+}
+
 .item__name {
   margin: 0 6px 0 0;
 
   @include text('body-2', 'm');
+
+  @include responsive('phone') {
+    @include text('body-3', 'm');
+  }
 
   color: var(--rhino);
 }
