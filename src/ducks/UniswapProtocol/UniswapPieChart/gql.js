@@ -9,6 +9,8 @@ const UNISWAP_VALUE_DISTRIBUTION_QUERY = gql`
       decentralizedExchanges
       otherTransfers
       dexTrader
+      cexTrader
+      cexDexTrader
     }
   }
 `
