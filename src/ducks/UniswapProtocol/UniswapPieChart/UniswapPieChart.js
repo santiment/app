@@ -70,7 +70,7 @@ function transformData (data) {
 
   const chartData = items.map(item => {
     const name = obj[item].label
-    const value = (fullData[item] * 100) / total
+    const value = (fullData[item] * 100) / total || 0
 
     return { name, value, rawValue: fullData[item], color: obj[item].color }
   })
@@ -78,12 +78,23 @@ function transformData (data) {
   return { total, movedSum, notMoved, chartData }
 }
 
+function getPercentStr (value = 0, total = 0) {
+  if (total === 0) return ''
+
+  return `(${((value * 100) / total).toFixed(2)}%)`
+}
+
 const UniswapPieChart = () => {
   const currDate = new Date()
   const [rawData = {}, loading] = useUniswapValueDistribution()
   const { MMM, D } = getDateFormats(currDate)
   const { H, mm } = getTimeFormats(currDate)
-  const { total = 0, movedSum, notMoved, chartData } = transformData(rawData)
+  const {
+    total = 0,
+    movedSum = 0,
+    notMoved = 0,
+    chartData = []
+  } = transformData(rawData)
 
   const [isMissedData, setIsMissedData] = useState(false)
 
@@ -138,7 +149,7 @@ const UniswapPieChart = () => {
             </div>
             <div className={styles.row}>
               <h4 className={styles.title}>
-                Moved after claimed ({((movedSum * 100) / total).toFixed(0)}%):
+                Moved after claimed {getPercentStr(movedSum, total)}:
               </h4>
               <span className={styles.value}>{formatNumber(movedSum)}</span>
             </div>
@@ -155,7 +166,7 @@ const UniswapPieChart = () => {
                       {name} ({value.toFixed(2)}%):
                     </span>
                     <span className={styles.item__value}>
-                      {formatNumber(rawValue)}
+                      {formatNumber(rawValue || 0)}
                     </span>
                   </li>
                 )
@@ -163,8 +174,7 @@ const UniswapPieChart = () => {
             </ul>
             <div className={styles.row}>
               <h4 className={styles.title}>
-                Dormant after claimed ({((notMoved * 100) / total).toFixed(0)}
-                %):
+                Dormant after claimed {getPercentStr(notMoved, total)}:
               </h4>
               <span className={styles.value}>{formatNumber(notMoved)}</span>
             </div>
@@ -178,7 +188,7 @@ const UniswapPieChart = () => {
                     style={{ '--pie-chart-item-color': color }}
                   >
                     <span className={styles.item__name}>
-                      {name} ({value.toFixed(0)}%):
+                      {name} ({value.toFixed(2)}%):
                     </span>
                     <span className={styles.item__value}>
                       {formatNumber(rawValue)}
