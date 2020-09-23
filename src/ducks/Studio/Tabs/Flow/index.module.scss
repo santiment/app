@@ -1,0 +1,42 @@
+.wrapper {
+  background: var(--white);
+  padding: 20px;
+  border-radius: 4px;
+  border: 1px solid var(--porcelain);
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.calendar {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+
+.title {
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.chord {
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--athens);
+  opacity: 0.85;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: 8px;
+}

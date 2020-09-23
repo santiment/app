@@ -21,7 +21,6 @@ const TrxAddressCell = ({ value, original: { labels } }) => {
       {...settings}
       isFull={true}
       labels={transformedLabels}
-      showAllLabels
     />
   )
 }

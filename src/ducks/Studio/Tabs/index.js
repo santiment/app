@@ -14,20 +14,26 @@ const TABS = [
   },
   {
     path: '/related-insights',
-    labelFormatter: name =>
-      name ? `Related ${name} Insights` : 'Related Insights'
+    labelFormatter: name => (name ? `${name} Insights` : 'Insights')
   },
   {
     path: '/fees-distribution',
-    labelFormatter: () => {
-      return (
-        <>
-          Fees Distribution
-          <NewLabelTemplate className={styles.new} />
-        </>
-      )
-    },
+    label: (
+      <>
+        Fees Distribution
+        <NewLabelTemplate className={styles.new} />
+      </>
+    ),
     checkVisibility: ({ slug }) => slug === 'ethereum'
+  },
+  {
+    path: '/flow-balances',
+    label: (
+      <>
+        Flow Balances Visualisation
+        <NewLabelTemplate className={styles.new} />
+      </>
+    )
   }
 ]
 
