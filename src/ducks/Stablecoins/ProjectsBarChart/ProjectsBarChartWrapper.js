@@ -9,12 +9,7 @@ import ProjectsBarVerticalChart from './ProjectsBarVerticalChart'
 import { useChartColors } from '../../Chart/colors'
 import { PREDEFINED_COLORS } from './utils'
 
-const ProjectsBarChartWrapper = ({
-  data,
-  layout = 'horizontal',
-  redirect,
-  ...rest
-}) => {
+const ProjectsBarChartWrapper = ({ data, layout = 'horizontal', ...rest }) => {
   const onProjectClick = useCallback(
     e => {
       const { value, index } = e
@@ -24,9 +19,9 @@ const ProjectsBarChartWrapper = ({
         return
       }
 
-      return redirect(`/projects/${value}`)
+      window.open(`/projects/${value}`, '_blank')
     },
-    [redirect, data]
+    [data]
   )
 
   const metrics = useMemo(
@@ -56,16 +51,4 @@ const ProjectsBarChartWrapper = ({
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  redirect: route => {
-    dispatch(push(route))
-  }
-})
-
-export default compose(
-  connect(
-    null,
-    mapDispatchToProps
-  ),
-  withSizes(mapSizesToProps)
-)(ProjectsBarChartWrapper)
+export default withSizes(mapSizesToProps)(ProjectsBarChartWrapper)
