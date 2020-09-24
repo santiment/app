@@ -21,7 +21,7 @@ const obj = {
     color: '#785549'
   },
   cexTrader: {
-    label: 'CEX Traders only',
+    label: 'CEX Traders',
     color: '#FFDAC5'
   },
   otherAddresses: {

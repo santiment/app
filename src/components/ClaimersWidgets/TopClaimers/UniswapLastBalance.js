@@ -1,16 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { useAssetsBalance } from './gql'
 import { formatNumber } from '../../../utils/formatting'
 import { getLoadingStatus, finishLoading } from './utils'
 import styles from './table.module.scss'
 
-const UniswapLastBalance = ({ address }) => {
+const UniswapLastBalance = ({ address: defaultAddress }) => {
   const [status, setStatus] = useState('')
+  const [address, setAddress] = useState(defaultAddress)
 
   if (!status) {
     checkStatus()
   }
+
+  useEffect(
+    () => {
+      if (address !== defaultAddress) {
+        const newStatus = getLoadingStatus(defaultAddress)
+        setStatus(newStatus)
+        setAddress(defaultAddress)
+      }
+    },
+    [defaultAddress]
+  )
 
   function checkStatus () {
     setTimeout(() => {
