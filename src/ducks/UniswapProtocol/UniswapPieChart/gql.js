@@ -21,6 +21,7 @@ const UNISWAP_WHO_CLAIMED_QUERY = gql`
       centralizedExchanges
       decentralizedExchanges
       otherAddresses
+      cexTrader
     }
   }
 `

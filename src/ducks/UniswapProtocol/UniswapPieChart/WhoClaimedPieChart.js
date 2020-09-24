@@ -38,12 +38,13 @@ function transformData (data) {
   const total =
     data.centralizedExchanges +
     data.decentralizedExchanges +
-    data.otherAddresses
+    data.otherAddresses +
+    data.cexTrader
 
   const items = [
     'centralizedExchanges',
     'decentralizedExchanges',
-    // 'cexTrader',
+    'cexTrader',
     'otherAddresses'
   ]
 
