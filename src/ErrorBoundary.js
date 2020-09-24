@@ -50,13 +50,17 @@ class ErrorBoundary extends Component {
                 Our team has been notified, but you can send us more details. We
                 appreciate you.
               </p>
-              <Button
-                onClick={() => Raven.lastEventId() && Raven.showReportDialog()}
-                variant='fill'
-                accent='grey'
-              >
-                Send report
-              </Button>
+              {Raven.lastEventId() && (
+                <Button
+                  onClick={() => {
+                    Raven.showReportDialog()
+                  }}
+                  variant='fill'
+                  accent='grey'
+                >
+                  Send report
+                </Button>
+              )}
             </Panel.Content>
           </Panel>
         </div>
