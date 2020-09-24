@@ -1,4 +1,4 @@
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/react'
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
 import {
@@ -30,7 +30,7 @@ const apikeyRevokeEpic = (action$, store, { client }) =>
         })
       )
       .catch(error => {
-        Raven.captureException(error)
+        Sentry.captureException(error)
         return Observable.of({
           type: 'USER_APIKEY_REVOKE_FAIL',
           payload: error

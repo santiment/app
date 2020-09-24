@@ -1,4 +1,4 @@
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/react'
 import { ofType } from 'redux-observable'
 import { Observable } from 'rxjs'
 import { mergeMap } from 'rxjs/operators'
@@ -15,7 +15,7 @@ const handleLogout = (action$, store, { client }) =>
           }
         })
         .catch(error => {
-          Raven.captureException(error)
+          Sentry.captureException(error)
           client.cache.reset()
           return Observable.of({
             type: actions.APP_USER_HAS_INACTIVE_TOKEN,

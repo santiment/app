@@ -1,4 +1,4 @@
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/react'
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
 import * as actions from './actions'
@@ -14,7 +14,7 @@ const allTickersSlugsGQL = gql`
 `
 
 const handleError = error => {
-  Raven.captureException(error)
+  Sentry.captureException(error)
   return Observable.of({
     type: actions.TRENDS_HYPED_FETCH_TICKERS_SLUGS_FAILED,
     payload: error

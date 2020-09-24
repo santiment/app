@@ -3,7 +3,7 @@ import { Observable } from 'rxjs'
 import { showNotification } from './../actions/rootActions'
 import { handleErrorAndTriggerAction } from './utils'
 import { USER_EMAIL_LOGIN_QEURY } from './handleLaunch'
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/react'
 import * as actions from './../actions/types'
 
 const PRIVACY_QUERY = gql`
@@ -58,7 +58,7 @@ const privacyGQLHelper = (user, type) => {
           newData.data.updateTermsAndConditions.marketingAccepted
         proxy.writeQuery({ query: USER_EMAIL_LOGIN_QEURY, data })
       } catch (e) {
-        Raven.captureException(
+        Sentry.captureException(
           'Updating GDPR apollo cache error: ' + JSON.stringify(e)
         )
       }

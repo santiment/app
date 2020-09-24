@@ -1,12 +1,12 @@
 import React from 'react'
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/react'
 import { Observable } from 'rxjs'
 import { showNotification } from '../actions/rootActions'
 import { Link } from 'react-router-dom'
 import styles from './epic-items.module.scss'
 
 export const handleErrorAndTriggerAction = action => (error, data) => {
-  Raven.captureException(error)
+  Sentry.captureException(error)
 
   const isSubscriptionError = error.message.indexOf('subscription') !== -1
 

@@ -313,13 +313,6 @@ export const App = ({
           }}
         />
         <Route exact path='/roadmap' component={Roadmap} />
-        {/* <Route */}
-        {/*   exact */}
-        {/*   path='/labs/buidl-heroes' */}
-        {/*   render={props => ( */}
-        {/*     <LoadableMarketSegmentsPage isLoggedIn={isLoggedIn} {...props} /> */}
-        {/*   )} */}
-        {/* /> */}
         <Route
           exact
           path='/labs/balance'

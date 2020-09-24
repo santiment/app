@@ -1,4 +1,4 @@
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/react'
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
 import { replace } from 'react-router-redux'
@@ -147,7 +147,7 @@ const handleEmailLogin = (action$, store, { client }) =>
           })
         })
         .catch(error => {
-          Raven.captureException(error)
+          Sentry.captureException(error)
           GA.event({
             category: 'User',
             action: 'Failed login with email'

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/react'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 
@@ -10,7 +10,7 @@ class ErrorBoundary extends Component {
 
   componentDidCatch (error, errorInfo) {
     this.setState({ error })
-    Raven.captureException(error, { extra: errorInfo })
+    Sentry.captureException(error, { extra: errorInfo })
   }
 
   render () {
@@ -45,15 +45,15 @@ class ErrorBoundary extends Component {
                 margin: '-23px 0 12px'
               }}
             >
-              {Raven.lastEventId() && <p>Error ID: {Raven.lastEventId()}</p>}
+              {Sentry.lastEventId() && <p>Error ID: {Sentry.lastEventId()}</p>}
               <p>
                 Our team has been notified, but you can send us more details. We
                 appreciate you.
               </p>
-              {Raven.lastEventId() && (
+              {Sentry.lastEventId() && (
                 <Button
                   onClick={() => {
-                    Raven.showReportDialog()
+                    Sentry.showReportDialog()
                   }}
                   variant='fill'
                   accent='grey'

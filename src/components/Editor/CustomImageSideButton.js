@@ -1,7 +1,7 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/react'
 import { ImageSideButton, Block, addNewBlock } from 'medium-draft'
 import { Icon } from '@santiment-network/ui'
 import { store } from '../../index'
@@ -51,7 +51,7 @@ class CustomImageSideButton extends ImageSideButton {
         })
         .catch(error => {
           store.dispatch(showNotification('Upload image error'))
-          Raven.captureException(error)
+          Sentry.captureException(error)
         })
     }
     close()

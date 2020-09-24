@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import cx from 'classnames'
 import { graphql } from 'react-apollo'
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/react'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Label from '@santiment-network/ui/Label'
 import Button from '@santiment-network/ui/Button'
@@ -80,7 +80,7 @@ class SubscriptionForm extends PureComponent {
             dismissAfter: 8000
           })
         )
-        Raven.captureException(error)
+        Sentry.captureException(error)
       })
   }
 

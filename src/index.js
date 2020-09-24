@@ -17,6 +17,7 @@ import ChartPage from './pages/Chart'
 import { register, unregister } from './serviceWorker'
 import { markAsLatestApp, newAppAvailable } from './ducks/Updates/actions'
 import { ThemeProvider } from './stores/ui/theme'
+import initSentry from './utils/initSentry'
 import './index.scss'
 
 const stripeKey =
@@ -68,6 +69,8 @@ const main = () => {
   calculateHeight()
 
   window.addEventListener('resize', throttle(calculateHeight, 200))
+
+  initSentry()
 
   store.subscribe(
     throttle(() => {
