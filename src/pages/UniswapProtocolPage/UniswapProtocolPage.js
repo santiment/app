@@ -164,10 +164,7 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
             <UniswapWhoClaimed />
           </Block>
 
-          <Block
-            title='Top Token Transactions, 30d'
-            tag={ANCHORS.TopTransactions.key}
-          >
+          <Block tag={ANCHORS.TopTransactions.key}>
             <UniswapTopTransactions />
           </Block>
           <Block tag={ANCHORS.FeesDistribution.key}>

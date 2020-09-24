@@ -36,6 +36,7 @@ const TransactionTable = ({ header, data, className, ...props }) => {
           defaultSorted={DEFAULT_SORTED}
           showPagination={false}
           resizable={false}
+          loadingText='Loading...'
           {...props}
           data={data}
           columns={columns}
