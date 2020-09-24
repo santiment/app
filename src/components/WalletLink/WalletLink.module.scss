@@ -23,3 +23,9 @@
     color: var(--jungle-green-hover);
   }
 }
+
+.withLabels {
+  display: flex;
+  flex-wrap: wrap;
+  padding-right: 4px;
+}

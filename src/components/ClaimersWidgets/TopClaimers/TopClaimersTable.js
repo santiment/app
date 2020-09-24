@@ -32,7 +32,7 @@ export const TopClaimersTableTitle = ({ setInterval, loading, items }) => {
         defaultIndex={1}
         ranges={RANGES}
       />
-      {loading && items.lenght > 0 && (
+      {loading && items.length > 0 && (
         <Loader className={styles.headerLoader} />
       )}
     </div>
