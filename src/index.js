@@ -18,6 +18,7 @@ import { register, unregister } from './serviceWorker'
 import { markAsLatestApp, newAppAvailable } from './ducks/Updates/actions'
 import { ThemeProvider } from './stores/ui/theme'
 import './index.scss'
+import initSentry from './utils/initSentry'
 
 const stripeKey =
   process.env.NODE_ENV === 'development' ||
@@ -68,6 +69,8 @@ const main = () => {
   calculateHeight()
 
   window.addEventListener('resize', throttle(calculateHeight, 200))
+
+  initSentry()
 
   store.subscribe(
     throttle(() => {

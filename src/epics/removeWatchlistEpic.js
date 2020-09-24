@@ -1,4 +1,4 @@
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/react'
 import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
 import { showNotification } from './../actions/rootActions'
@@ -65,7 +65,7 @@ const removeWatchlistEpic = (action$, store, { client }) =>
           )
         })
         .catch(error => {
-          Raven.captureException(error)
+          Sentry.captureException(error)
           return Observable.of({
             type: actions.USER_REMOVE_ASSET_LIST_FAILED,
             payload: error

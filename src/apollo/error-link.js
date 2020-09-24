@@ -1,4 +1,4 @@
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/react'
 import { onError } from 'apollo-link-error'
 
 const ErrorLink = onError(({ graphQLErrors, networkError, operation }) => {
@@ -13,14 +13,14 @@ const ErrorLink = onError(({ graphQLErrors, networkError, operation }) => {
           console.log(errorMessage)
         }
         if (message !== 'unauthorized' && !/Can't fetch/.test(message)) {
-          Raven.captureException(errorMessage)
+          Sentry.captureException(errorMessage)
         }
       })
     } else {
       if (process.env.NODE_ENV === 'development') {
         console.log(`[GraphQL error]: ${JSON.stringify(graphQLErrors)}`)
       }
-      Raven.captureException(
+      Sentry.captureException(
         `[GraphQL error]: ${JSON.stringify(graphQLErrors)}`
       )
     }
@@ -30,7 +30,7 @@ const ErrorLink = onError(({ graphQLErrors, networkError, operation }) => {
     if (process.env.NODE_ENV === 'development') {
       console.log(networkError)
     }
-    Raven.captureException(`[Network error]: ${networkError}`)
+    Sentry.captureException(`[Network error]: ${networkError}`)
   }
 })
 

@@ -1,4 +1,4 @@
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/react'
 import { Observable } from 'rxjs'
 import {
   ERC20_PROJECTS_QUERY,
@@ -9,7 +9,7 @@ import { WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY } from '../queries/WatchlistGQ
 import * as actions from './../actions/types'
 
 const handleError = error => {
-  Raven.captureException(error)
+  Sentry.captureException(error)
   return Observable.of({ type: actions.ASSETS_FETCH_FAILED, payload: error })
 }
 

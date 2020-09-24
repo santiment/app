@@ -1645,6 +1645,70 @@
   resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.201.tgz#6f65c772157feddb5d36b1d8e5b4fd6a8eedefdd"
   integrity sha512-Ebmt34VX7H1YrJDxnK7ti8oh6CMICpoPAcpYMCDJEDbE8tAXZ7nMM6UC1K3G0aJXDkf+u3zABKA9uY/I0EOEsg==
 
+"@sentry/browser@5.24.2":
+  version "5.24.2"
+  resolved "https://registry.yarnpkg.com/@sentry/browser/-/browser-5.24.2.tgz#e2c2786dbf07699ee12f12babf0138d633abc494"
+  integrity sha512-P/uZC/VrLRpU7MVEJnlZK5+AkEmuHu+mns5gC91Z4gjn7GamjR/CaXVedHGw/15ZrsQiAiwoWwuxpv4Ypd/+SA==
+  dependencies:
+    "@sentry/core" "5.24.2"
+    "@sentry/types" "5.24.2"
+    "@sentry/utils" "5.24.2"
+    tslib "^1.9.3"
+
+"@sentry/core@5.24.2":
+  version "5.24.2"
+  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-5.24.2.tgz#1724652855c0887a690c3fc6acd2519d4072b511"
+  integrity sha512-nuAwCGU1l9hgMinl5P/8nIQGRXDP2FI9cJnq5h1qiP/XIOvJkJz2yzBR6nTyqr4vBth0tvxQJbIpDNGd7vHJLg==
+  dependencies:
+    "@sentry/hub" "5.24.2"
+    "@sentry/minimal" "5.24.2"
+    "@sentry/types" "5.24.2"
+    "@sentry/utils" "5.24.2"
+    tslib "^1.9.3"
+
+"@sentry/hub@5.24.2":
+  version "5.24.2"
+  resolved "https://registry.yarnpkg.com/@sentry/hub/-/hub-5.24.2.tgz#64a02fd487599945e488ae23aba4ce4df44ee79e"
+  integrity sha512-xmO1Ivvpb5Qr9WgekinuZZlpl9Iw7iPETUe84HQOhUrXf+2gKO+LaUYMMsYSVDwXQEmR6/tTMyOtS6iavldC6w==
+  dependencies:
+    "@sentry/types" "5.24.2"
+    "@sentry/utils" "5.24.2"
+    tslib "^1.9.3"
+
+"@sentry/minimal@5.24.2":
+  version "5.24.2"
+  resolved "https://registry.yarnpkg.com/@sentry/minimal/-/minimal-5.24.2.tgz#14e8b136842398a32987459f0574359b6dc57a1f"
+  integrity sha512-biFpux5bI3R8xiD/Zzvrk1kRE6bqPtfWXmZYAHRtaUMCAibprTKSY9Ta8QYHynOAEoJ5Akedy6HUsEkK5DoZfA==
+  dependencies:
+    "@sentry/hub" "5.24.2"
+    "@sentry/types" "5.24.2"
+    tslib "^1.9.3"
+
+"@sentry/react@^5.24.2":
+  version "5.24.2"
+  resolved "https://registry.yarnpkg.com/@sentry/react/-/react-5.24.2.tgz#781ae4274ad5c3148b8f80b613c1b0a73f763e47"
+  integrity sha512-iVti69qCMFztgP2E0LMx6V+3+ppKdylMJalWnwMt4LyL9idnnuiwFzMCA9g3QEvXRCTSuqEO39Dk4XYXyxi8pA==
+  dependencies:
+    "@sentry/browser" "5.24.2"
+    "@sentry/minimal" "5.24.2"
+    "@sentry/types" "5.24.2"
+    "@sentry/utils" "5.24.2"
+    hoist-non-react-statics "^3.3.2"
+    tslib "^1.9.3"
+
+"@sentry/types@5.24.2":
+  version "5.24.2"
+  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-5.24.2.tgz#e2c25d1e75d8dbec5dbbd9a309a321425b61c2ca"
+  integrity sha512-HcOK00R0tQG5vzrIrqQ0jC28+z76jWSgQCzXiessJ5SH/9uc6NzdO7sR7K8vqMP2+nweCHckFohC8G0T1DLzuQ==
+
+"@sentry/utils@5.24.2":
+  version "5.24.2"
+  resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-5.24.2.tgz#90b7dff939bbbf4bb8edcac6aac2d04a0552af80"
+  integrity sha512-oPGde4tNEDHKk0Cg9q2p0qX649jLDUOwzJXHKpd0X65w3A6eJByDevMr8CSzKV9sesjrUpxqAv6f9WWlz185tA==
+  dependencies:
+    "@sentry/types" "5.24.2"
+    tslib "^1.9.3"
+
 "@sheerun/eslint-config-standard@^10.2.1":
   version "10.2.1"
   resolved "https://registry.yarnpkg.com/@sheerun/eslint-config-standard/-/eslint-config-standard-10.2.1.tgz#7d73397369c396b3625cab6ec313f6d4208300ef"
@@ -8431,6 +8495,13 @@ hoist-non-react-statics@^3.3.0:
   dependencies:
     react-is "^16.7.0"
 
+hoist-non-react-statics@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
+  integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
+  dependencies:
+    react-is "^16.7.0"
+
 home-or-tmp@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/home-or-tmp/-/home-or-tmp-2.0.0.tgz#e36c3f2d2cae7d746a857e38d18d5f32a7882db8"
@@ -14271,11 +14342,6 @@ range-parser@^1.0.3, range-parser@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
   integrity sha1-9JvmtIeJTdxA3MlKMi9hEJLgDV4=
-
-raven-for-redux@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/raven-for-redux/-/raven-for-redux-1.4.0.tgz#37cf4fc7bdde227ce5cc8fa29942f21ea517b7fb"
-  integrity sha512-BYe+nvctbC+6YgaP6hxMJci96bE3782ldGsXmLbw6uhOBDVV80t4Q2kPG613dbe2ldyXdrbpxLf9O/vKqusgww==
 
 raven-js@^3.27.2:
   version "3.27.2"

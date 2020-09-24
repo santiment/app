@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/react'
 import { Observable } from 'rxjs'
 import { showNotification } from './../actions/rootActions'
 import * as actions from './../actions/types'
@@ -60,7 +60,7 @@ const getTrial$ = client => {
         showNotification('Your trial account will be valid for 14 days')
       )
     )
-    .catch(Raven.captureException)
+    .catch(Sentry.captureException)
 }
 
 export const trialSubscriptionEpic = (action$, store, { client }) =>

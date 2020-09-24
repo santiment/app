@@ -1,5 +1,5 @@
 import React from 'react'
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/react'
 import { Observable } from 'rxjs'
 import { showNotification } from './../actions/rootActions'
 import { ALL_WATCHLISTS_QUERY } from '../queries/WatchlistGQL'
@@ -87,7 +87,7 @@ const createWatchlistEpic = (action$, store, { client }) =>
           )
         })
         .catch(error => {
-          Raven.captureException(error)
+          Sentry.captureException(error)
           return Observable.merge(
             Observable.of({
               type: actions.USER_ADD_NEW_ASSET_LIST_FAILED,

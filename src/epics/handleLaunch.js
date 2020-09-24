@@ -1,9 +1,9 @@
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/react'
 import { ofType } from 'redux-observable'
 import { Observable } from 'rxjs'
 import { mergeMap } from 'rxjs/operators'
 import gql from 'graphql-tag'
-import { hasMetamask } from './../web3Helpers'
+import { hasMetamask } from '../web3Helpers'
 import * as actions from './../actions/types'
 
 export const USER_GQL_FRAGMENT = gql`
@@ -78,7 +78,7 @@ const handleLaunch = (action$, store, { client }) =>
           }
         })
         .catch(error => {
-          Raven.captureException(error)
+          Sentry.captureException(error)
           client.cache.reset()
           if (!/Network error/.test(error)) {
             return Observable.of({

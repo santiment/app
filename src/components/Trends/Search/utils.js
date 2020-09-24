@@ -1,5 +1,5 @@
 import { push } from 'react-router-redux'
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/react'
 import GA from './../../../utils/tracking'
 
 export const gotoExplore = dispatch => ({
@@ -30,7 +30,7 @@ export const trackTopicSearch = topic => {
         body: JSON.stringify({ topic })
       }
     ).catch(error =>
-      Raven.captureException(
+      Sentry.captureException(
         'tracking search trends queries ' + JSON.stringify(error)
       )
     )

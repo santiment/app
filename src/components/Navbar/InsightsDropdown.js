@@ -1,5 +1,5 @@
 import React from 'react'
-import Raven from 'raven-js'
+import * as Sentry from '@sentry/react'
 import { Mutation, Query } from 'react-apollo'
 import { connect } from 'react-redux'
 import cx from 'classnames'
@@ -41,7 +41,7 @@ const onError = error => {
       dismissAfter: 8000
     })
   )
-  Raven.captureException(error)
+  Sentry.captureException(error)
 }
 
 const SubscriptionForm = () => (
