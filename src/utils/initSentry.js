@@ -8,16 +8,19 @@ const initSentry = () => {
     }
   }
 
-  Sentry.init({
+  const configs = {
     dsn: window.env.RAVEN_DSN || '',
     release: `Ver. ${process.env.REACT_APP_VERSION}`
-  })
+  }
 
-  Sentry.setTag(
-    'git_commit',
-    (process.env.REACT_APP_VERSION || '').split('-')[1]
-  )
-  Sentry.setTag('environment', process.env.NODE_ENV)
+  console.log('Sentry: ', configs)
+
+  Sentry.init(configs)
+
+  Sentry.setTags({
+    git_commit: (process.env.REACT_APP_VERSION || '').split('-')[1],
+    environment: process.env.NODE_ENV
+  })
 }
 
 export default initSentry
