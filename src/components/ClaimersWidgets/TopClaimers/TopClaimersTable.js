@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import ReactTable from 'react-table'
 import { columns } from './columns'
@@ -9,6 +9,7 @@ import {
   CustomLoadingComponent,
   CustomNoDataComponent
 } from '../../../ducks/Watchlists/Widgets/Table/AssetsTable'
+import IntervalsComponent from '../../IntervalsComponent/IntervalsComponent'
 import MakeProSubscriptionCard from '../../../pages/feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
 import styles from './table.module.scss'
 
@@ -19,10 +20,36 @@ const DEFAULT_SORTED = [
   }
 ]
 
-const TopClaimersTable = ({ className }) => {
-  const { isPro } = useUserSubscriptionStatus()
+export const RANGES = [{ value: 1, label: '24h' }, { value: 7, label: '7d' }]
 
-  const { from, to } = getTimeIntervalFromToday(-1, DAY)
+export const TopClaimersTableTitle = ({ setInterval }) => {
+  return (
+    <div className={styles.title}>
+      <h3 className={styles.text}>Top Claimers</h3>
+      <IntervalsComponent
+        onChange={setInterval}
+        defaultIndex={1}
+        ranges={RANGES}
+      />
+    </div>
+  )
+}
+
+const TopClaimers = ({ className }) => {
+  const [interval, setInterval] = useState(1)
+
+  return (
+    <>
+      <TopClaimersTableTitle setInterval={setInterval} />
+      <TopClaimersTable className={className} interval={interval} />
+    </>
+  )
+}
+
+const TopClaimersTable = ({ className, interval }) => {
+  console.log(interval)
+  const { isPro } = useUserSubscriptionStatus()
+  const { from, to } = getTimeIntervalFromToday(-interval, DAY)
   const [items, loading] = useTopClaimers({
     from: from.toISOString(),
     to: to.toISOString()
@@ -61,4 +88,4 @@ const TopClaimersTable = ({ className }) => {
   )
 }
 
-export default TopClaimersTable
+export default TopClaimers

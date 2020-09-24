@@ -9,6 +9,18 @@
   box-shadow: none;
 }
 
+.title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.text {
+  @include text('h4', 'm');
+
+  margin: 0 4px 0 0;
+}
+
 .table {
   height: 700px;
   overflow-x: hidden;

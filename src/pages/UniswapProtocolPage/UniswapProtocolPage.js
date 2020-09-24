@@ -89,7 +89,9 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
           <div className={styles.pageDescription}>
             <h3 className={styles.title}>Uniswap Protocol Dashboard</h3>
             <div className={styles.description}>
-              Real-time data on UNI token distribution, total amount of UNI claimed, amount of UNI on centralized and decentralized exchange, top UNI transactions and more.
+              Real-time data on UNI token distribution, total amount of UNI
+              claimed, amount of UNI on centralized and decentralized exchange,
+              top UNI transactions and more.
             </div>
             <SharePage />
           </div>
@@ -139,7 +141,6 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
 
           <Block
             tag={ANCHORS.TopClaimers.key}
-            title='Top Claimers, 24h'
             isPaywalActive={areClaimsRestricted}
           >
             <TopClaimersTable />
