@@ -3,8 +3,7 @@ import * as Sentry from '@sentry/react'
 const initSentry = () => {
   if (!window.env) {
     window.env = {
-      RAVEN_DSN:
-        'https://0bde1b161a1043929cc3b8ab6686dd6a@sentry.stage.internal.santiment.net/3', // [GarageInc | 24.09.2020, added for testing] https://0bde1b161a1043929cc3b8ab6686dd6a@sentry.stage.internal.santiment.net/3,
+      RAVEN_DSN: '',
       WEBSITE_URL: process.env.REACT_APP_WEBSITE_URL || ''
     }
   }
