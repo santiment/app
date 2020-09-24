@@ -9,6 +9,8 @@ export const BlockHeader = ({
   title,
   description,
   setInterval,
+  ranges,
+  defaultIndex,
   tag,
   className
 }) => {
@@ -20,7 +22,13 @@ export const BlockHeader = ({
     <div className={cx(styles.subHeader, className)}>
       <div className={styles.subTitle} id={tag}>
         {title}
-        {setInterval && <IntervalsComponent onChange={setInterval} />}
+        {setInterval && (
+          <IntervalsComponent
+            onChange={setInterval}
+            defaultIndex={defaultIndex}
+            ranges={ranges}
+          />
+        )}
       </div>
       {description && <div className={styles.subDescr}>{description}</div>}
     </div>

@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { millify } from '../../../utils/formatting'
+import { BlockHeader } from '../../../pages/StablecoinsPage/StablecoinsPageStructure'
 import ProjectsBarChartWrapper from '../../Stablecoins/ProjectsBarChart/ProjectsBarChartWrapper'
 import { formIntervalSettings } from '../../SANCharts/IntervalSelector'
 import PageLoader from '../../../components/Loader/PageLoader'
@@ -47,19 +48,13 @@ const useFeeDistributions = ({ from, to }) => {
 
 export const FeesDistributionTitle = ({ setInterval }) => {
   return (
-    <div className={styles.title}>
-      <div className={styles.text}>Fees Distribution</div>{' '}
-      <HelpPopup on='hover' position='top'>
-        This represents the amount of Ether spent on fees broken down by
-        projects
-      </HelpPopup>
-      <IntervalsComponent
-        onChange={setInterval}
-        className={styles.interval}
-        defaultIndex={2}
-        ranges={FEE_RANGES}
-      />
-    </div>
+    <BlockHeader
+      setInterval={setInterval}
+      defaultIndex={2}
+      ranges={FEE_RANGES}
+      title='Fees Distribution'
+      description='The initial launch of $UNI clogged the Ethereum network and prompted record-high transaction fees. This dashboards tracks the recent share of UNI - and other tokens - in transaction fees paid.'
+    />
   )
 }
 

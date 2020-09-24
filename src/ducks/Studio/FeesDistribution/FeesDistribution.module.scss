@@ -11,23 +11,6 @@
   }
 }
 
-.title {
-  display: flex;
-  align-items: center;
-
-  @include text('h4', 'm');
-}
-
-.text {
-  margin-right: 8px;
-  display: flex;
-  align-items: center;
-}
-
 .chart {
   margin-top: 16px;
-}
-
-.interval {
-  margin-left: 8px;
 }
