@@ -17,8 +17,8 @@ import ChartPage from './pages/Chart'
 import { register, unregister } from './serviceWorker'
 import { markAsLatestApp, newAppAvailable } from './ducks/Updates/actions'
 import { ThemeProvider } from './stores/ui/theme'
-import './index.scss'
 import initSentry from './utils/initSentry'
+import './index.scss'
 
 const stripeKey =
   process.env.NODE_ENV === 'development' ||
