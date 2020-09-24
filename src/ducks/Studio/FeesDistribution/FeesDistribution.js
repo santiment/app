@@ -7,10 +7,8 @@ import { BlockHeader } from '../../../pages/StablecoinsPage/StablecoinsPageStruc
 import ProjectsBarChartWrapper from '../../Stablecoins/ProjectsBarChart/ProjectsBarChartWrapper'
 import { formIntervalSettings } from '../../SANCharts/IntervalSelector'
 import PageLoader from '../../../components/Loader/PageLoader'
-import HelpPopup from '../../../components/HelpPopup/HelpPopup'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import MakeProSubscriptionCard from '../../../pages/feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
-import IntervalsComponent from '../../../components/IntervalsComponent/IntervalsComponent'
 import styles from './FeesDistribution.module.scss'
 
 export const FEE_RANGES = [

@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import Toggle from '@santiment-network/ui/Toggle'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
 import { TOP_TOKEN_TRANSACTIONS_QUERY } from '../../Studio/Widget/TopTransactionsTable/gql'
 import TransactionsTable from '../../../pages/Detailed/transactionsInfo/TransactionTable'
@@ -59,6 +60,7 @@ const UniswapTopTransactions = () => {
     <>
       <div className={styles.title}>
         <h3 className={styles.text}>Top Token Transactions, 30d</h3>
+        {loading && <Loader className={styles.loader} />}
         <div
           className={styles.toggleWrapper}
           onClick={() => setIsExclude(!isExclude)}
