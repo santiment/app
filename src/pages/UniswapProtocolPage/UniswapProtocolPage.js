@@ -35,7 +35,7 @@ const ANCHORS = {
     key: 'top-claimers'
   },
   ClaimersWidgets: {
-    label: 'UNI Token Claims Widgets',
+    label: 'UNI Claims: Overview',
     key: 'claimers-widgets'
   },
   Exchanges: {
@@ -88,7 +88,9 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
         <div className={cx(styles.inner, styles.content)}>
           <div className={styles.pageDescription}>
             <h3 className={styles.title}>Uniswap Protocol Dashboard</h3>
-
+            <div className={styles.description}>
+              Real-time data on UNI token distribution, total amount of UNI claimed, amount of UNI on centralized and decentralized exchange, top UNI transactions and more.
+            </div>
             <SharePage />
           </div>
         </div>
@@ -144,7 +146,7 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
           </Block>
           <Block
             tag={ANCHORS.ClaimersWidgets.key}
-            title='UNI Token Claims Widgets'
+            title='UNI Claims: Overview'
             isPaywalActive={areClaimsRestricted}
           >
             <ClaimersWidgets />

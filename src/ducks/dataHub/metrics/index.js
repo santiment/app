@@ -522,7 +522,7 @@ export const Metric = {
   // uniswap
   uniswap_total_claims_amount: {
     category: 'On-chain',
-    label: 'Total Claimed Amount',
+    label: 'Total Amount Claimed',
     node: 'line',
     description:
       'Total amount claimed by all uniswap users (both users and Liquidity providers)',
@@ -572,14 +572,14 @@ export const Metric = {
   uniswap_claims_count: {
     category: 'On-chain',
     node: 'line',
-    label: 'Claims Count',
+    label: 'Number of claims',
     description: 'The number of uniq addresses and claimed UNI per timeframe',
     color: '#ffad4d'
   },
   uniswap_lp_claims_count: {
     category: 'On-chain',
     node: 'line',
-    label: 'Claims Count for Liquidity Providers',
+    label: 'Number of claims by liquidity providers',
     description:
       'The number of uniq addresses that  provided liquidity and claimed  UNI per timeframe',
     color: '#ffad4d'
@@ -594,20 +594,20 @@ export const Metric = {
   uniswap_lp_claims_amount: {
     category: 'On-chain',
     node: 'line',
-    label: 'Amount Claimed for Liquidity Providers',
+    label: 'Amount claimed by liquidity providers',
     description: 'Intraday metric of uniswap_amount_lp_claimed',
     color: '#ffad4d'
   },
   uniswap_user_claims_count: {
     category: 'On-chain',
     node: 'line',
-    label: 'Claims Count for Users',
+    label: 'Number of claims by historical user',
     color: '#ffad4d'
   },
   uniswap_user_claims_amount: {
     category: 'On-chain',
     node: 'line',
-    label: 'Amount Claimed for Users',
+    label: 'Amount claimed by historical users',
     color: '#ffad4d'
   }
 }
