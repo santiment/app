@@ -5,7 +5,7 @@ import { percentageFormatter } from '../../dataHub/metrics/formatters'
 
 const UniswapMetricsList = [
   {
-    human_readable_name: 'UNI Total  Claimed',
+    human_readable_name: 'Total UNI claimed',
     name: 'uniswap_total_claims_amount',
     metric: 'uniswap_amount_claimed',
     version: '2019-12-22',
@@ -22,7 +22,7 @@ const UniswapMetricsList = [
     data_type: 'timeseries'
   },
   {
-    human_readable_name: 'UNI Total  Claimed for Users',
+    human_readable_name: 'Total UNI claimed by historical users',
     name: 'uniswap_total_user_claims_amount',
     metric: 'uniswap_amount_user_claimed',
     version: '2019-12-22',
@@ -39,7 +39,7 @@ const UniswapMetricsList = [
     data_type: 'timeseries'
   },
   {
-    human_readable_name: 'UNI Total Claimed for Liquidity Providers',
+    human_readable_name: 'Total UNI claimed by liquidity providers',
     name: 'uniswap_total_lp_claims_amount',
     metric: 'uniswap_amount_lp_claimed',
     version: '2019-12-22',
@@ -56,7 +56,7 @@ const UniswapMetricsList = [
     data_type: 'timeseries'
   },
   {
-    human_readable_name: 'Uniswap Percent Claimed',
+    human_readable_name: 'Percent of UNI claimed',
     name: 'uniswap_total_claims_percent',
     metric: 'uniswap_percent_claimed',
     version: '2019-12-22',
