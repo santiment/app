@@ -1,0 +1,26 @@
+@import '~@santiment-network/ui/mixins';
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.text {
+  @include text('h4', 'm');
+
+  margin: 0 4px 0 0;
+}
+
+.toggleWrapper {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  @include text('body-2', 'm');
+}
+
+.toggle {
+  margin-left: 16px;
+}
