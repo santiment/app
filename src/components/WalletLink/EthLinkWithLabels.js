@@ -46,10 +46,10 @@ export const EtherscanLink = ({
 
 const EthLinkWithLabels = ({ isExchange, labels, ...rest }) => {
   return (
-    <>
+    <div className={styles.withLabels}>
       <EtherscanLink {...rest} isExchange={isExchange} />
       {labels && <TransactionTableLabels labels={labels} />}
-    </>
+    </div>
   )
 }
 

@@ -5,12 +5,20 @@
   background-color: var(--porcelain);
   border-radius: 2px;
   padding: 3px 6px;
-  margin-left: 6px;
+  margin-right: 6px;
   font-weight: normal;
   font-size: 12px;
   line-height: 16px;
 
   @include text('caption');
+
+  &:first-of-type {
+    margin-left: 6px;
+  }
+
+  &:last-of-type {
+    margin-right: 0;
+  }
 }
 
 .link {
