@@ -38,3 +38,26 @@ export const TRANSACTIONS_QUERY = gql`
   }
   ${TRANSACTION_FRAGMENT}
 `
+
+export const TOP_TOKEN_TRANSACTIONS_QUERY = gql`
+  query projectBySlug(
+    $slug: String!
+    $from: DateTime!
+    $to: DateTime!
+    $excludedAddresses: [String] = []
+    $limit: Int = 10
+  ) {
+    projectBySlug(slug: $slug) {
+      id
+      tokenTopTransactions(
+        from: $from
+        to: $to
+        limit: $limit
+        excludedAddresses: $excludedAddresses
+      ) {
+        ...transactionFragment
+      }
+    }
+  }
+  ${TRANSACTION_FRAGMENT}
+`

@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
+import { useQuery } from '@apollo/react-hooks'
 import Toggle from '@santiment-network/ui/Toggle'
-import DetailedTransactionsTable from '../../../pages/Detailed/transactionsInfo/DetailedTransactionsTable'
-import withProject from '../../../pages/Detailed/withProject'
+import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
+import { TOP_TOKEN_TRANSACTIONS_QUERY } from '../../Studio/Widget/TopTransactionsTable/gql'
+import TransactionsTable from '../../../pages/Detailed/transactionsInfo/TransactionTable'
+import { normalizeTransactionData } from '../../../pages/Detailed/transactionsInfo/utils'
 import styles from './UniswapTopTransactions.module.scss'
 
 const EXCLUDED_ADDRESSES = [
@@ -15,12 +18,47 @@ const EXCLUDED_ADDRESSES = [
   '0x8fdb3816fe10e16aaa9b12b3c4688c873efe2eca'
 ]
 
-const TransactionsWrapper = withProject(({ project }) => {
+const { from, to } = getTimeIntervalFromToday(-30, DAY)
+const slug = 'uniswap'
+
+function useProjectTopTransactions (slug, from, to, limit, excludedAddresses) {
+  const { data, loading } = useQuery(TOP_TOKEN_TRANSACTIONS_QUERY, {
+    variables: {
+      slug,
+      from,
+      to,
+      limit,
+      excludedAddresses
+    }
+  })
+
+  let result
+
+  if (data && data.projectBySlug) {
+    result = data.projectBySlug.tokenTopTransactions
+  }
+
+  return [result || [], loading]
+}
+
+const UniswapTopTransactions = () => {
   const [isExclude, setIsExclude] = useState(true)
+  const [transactions, loading] = useProjectTopTransactions(
+    slug,
+    from,
+    to,
+    10,
+    isExclude ? EXCLUDED_ADDRESSES : []
+  )
+  const normalizedData = useMemo(
+    () => transactions.map(trx => normalizeTransactionData(slug, trx)),
+    [transactions]
+  )
+
   return (
     <>
       <div className={styles.title}>
-        <h3 className={styles.text}>Top Token Transactions, 30</h3>
+        <h3 className={styles.text}>Top Token Transactions, 30d</h3>
         <div
           className={styles.toggleWrapper}
           onClick={() => setIsExclude(!isExclude)}
@@ -29,18 +67,9 @@ const TransactionsWrapper = withProject(({ project }) => {
           <Toggle className={styles.toggle} isActive={!isExclude} />
         </div>
       </div>
-      <DetailedTransactionsTable
-        project={project}
-        show='tokenTopTransactions'
-        title={null}
-        excludedAddresses={isExclude ? EXCLUDED_ADDRESSES : []}
-      />
+      <TransactionsTable header={null} data={normalizedData} />
     </>
   )
-})
-
-const UniswapTopTransactions = () => {
-  return <TransactionsWrapper slug={'uniswap'} />
 }
 
 export default UniswapTopTransactions
