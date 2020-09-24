@@ -81,6 +81,9 @@ const LabelRenderer = ({ name, metadata }) => {
     case 'defi': {
       return <LabelWrapper metadata={metadata} />
     }
+    case 'withdrawal': {
+      return <Label className={styles.label}>cex trader</Label>
+    }
     default: {
       return <Label className={styles.label}>{name}</Label>
     }
