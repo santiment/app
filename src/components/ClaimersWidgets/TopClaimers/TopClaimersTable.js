@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import ReactTable from 'react-table'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import { columns } from './columns'
 import { useTopClaimers } from './gql'
 import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
@@ -22,7 +23,7 @@ const DEFAULT_SORTED = [
 
 export const RANGES = [{ value: 1, label: '24h' }, { value: 7, label: '7d' }]
 
-export const TopClaimersTableTitle = ({ setInterval }) => {
+export const TopClaimersTableTitle = ({ setInterval, loading, items }) => {
   return (
     <div className={styles.title}>
       <h3 className={styles.text}>Top Claimers</h3>
@@ -31,28 +32,35 @@ export const TopClaimersTableTitle = ({ setInterval }) => {
         defaultIndex={1}
         ranges={RANGES}
       />
+      {loading && items.lenght > 0 && (
+        <Loader className={styles.headerLoader} />
+      )}
     </div>
   )
 }
 
 const TopClaimers = ({ className }) => {
   const [interval, setInterval] = useState(1)
-
-  return (
-    <>
-      <TopClaimersTableTitle setInterval={setInterval} />
-      <TopClaimersTable className={className} interval={interval} />
-    </>
-  )
-}
-
-const TopClaimersTable = ({ className, interval }) => {
-  const { isPro } = useUserSubscriptionStatus()
   const { from, to } = getTimeIntervalFromToday(-interval, DAY)
   const [items, loading] = useTopClaimers({
     from: from.toISOString(),
     to: to.toISOString()
   })
+
+  return (
+    <>
+      <TopClaimersTableTitle
+        setInterval={setInterval}
+        loading={loading}
+        items={items}
+      />
+      <TopClaimersTable className={className} items={items} loading={loading} />
+    </>
+  )
+}
+
+const TopClaimersTable = ({ className, items, loading }) => {
+  const { isPro } = useUserSubscriptionStatus()
 
   if (!isPro) {
     return <MakeProSubscriptionCard classes={{ card: className }} />
