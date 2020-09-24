@@ -47,7 +47,6 @@ const TopClaimers = ({ className }) => {
 }
 
 const TopClaimersTable = ({ className, interval }) => {
-  console.log(interval)
   const { isPro } = useUserSubscriptionStatus()
   const { from, to } = getTimeIntervalFromToday(-interval, DAY)
   const [items, loading] = useTopClaimers({
