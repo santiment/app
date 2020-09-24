@@ -11,7 +11,7 @@ const getRaven = () => {
   }
 
   const config = {
-    release: process.env.REACT_APP_VERSION,
+    release: `Ver. ${process.env.REACT_APP_VERSION}`,
     environment: process.env.NODE_ENV,
     tags: {
       git_commit: (process.env.REACT_APP_VERSION || '').split('-')[1]

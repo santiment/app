@@ -45,7 +45,7 @@
     "nprogress": "^0.2.0",
     "outliers": "^0.0.3",
     "query-string": "^6.5.0",
-    "raven-for-redux": "^1.1.1",
+    "raven-for-redux": "^1.4.0",
     "raven-js": "^3.27.2",
     "react": "^16.8.6",
     "react-apollo": "^3.1.3",

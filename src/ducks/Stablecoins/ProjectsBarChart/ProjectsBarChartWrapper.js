@@ -1,7 +1,4 @@
 import React, { useCallback, useMemo } from 'react'
-import { push } from 'react-router-redux'
-import { connect } from 'react-redux'
-import { compose } from 'recompose'
 import withSizes from 'react-sizes'
 import { mapSizesToProps } from '../../../utils/withSizes'
 import ProjectsBarHorizontalChart from './ProjectsBarHorizontalChart'
