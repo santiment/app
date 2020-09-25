@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import cx from 'classnames'
 import Chord from '../../Studio/Tabs/Flow/Chord'
 import {
   usePeriodMatrix,
@@ -10,8 +11,9 @@ import {
   sumCategory,
   format
 } from '../../Studio/Tabs/Flow/utils'
-import Skeleton from '../../../components/Skeleton/Skeleton'
 import { toEndOfDay, ONE_DAY_IN_MS } from '../../../utils/dates'
+import Skeleton from '../../../components/Skeleton/Skeleton'
+import HelpPopup from '../../../components/HelpPopup/HelpPopup'
 import { wrapper as wrapClassName } from '../UniswapPieChart/UniswapPieChart.module.scss'
 import styles from './index.module.scss'
 
@@ -50,21 +52,33 @@ const Info = ({ matrix }) => (
   </div>
 )
 
-const WhoClaimedChart = () => {
+const UniswapFlowBalances = () => {
+  const [isHovered, setIsHovered] = useState()
   const { periodMatrix, isLoading } = usePeriodMatrix(
     'uniswap',
     DATES,
     DAYS_AMOUNT
   )
-  const dayIndex = useAnimatedDayIndex(DAYS_AMOUNT, isLoading)
+  const dayIndex = useAnimatedDayIndex(DAYS_AMOUNT, isHovered || isLoading)
   const { matrix } = useDayMatrix(periodMatrix, dayIndex)
+
+  function onHover () {
+    setIsHovered(true)
+  }
+  function onBlur () {
+    setIsHovered(false)
+  }
 
   return (
     <>
       <Skeleton repeat={1} className={styles.skeleton} show={isLoading} />
       {!isLoading && (
         <div className={wrapClassName}>
-          <div className={styles.chord}>
+          <div
+            className={styles.chord}
+            onMouseEnter={onHover}
+            onMouseLeave={onBlur}
+          >
             <Chord
               ticker='UNI'
               matrix={matrix}
@@ -72,7 +86,18 @@ const WhoClaimedChart = () => {
               height={365}
               colors={COLORS}
             />
-            {getDateByDayIndex(DATES, dayIndex)}
+            <div className={styles.bottom}>
+              <span
+                className={cx(styles.pause, isHovered && styles.pause_active)}
+              >
+                ||
+              </span>
+              {getDateByDayIndex(DATES, dayIndex)}
+              <HelpPopup
+                triggerClassName={styles.help}
+                content='Hover over the diagram to pause animation'
+              />
+            </div>
           </div>
           <Info matrix={matrix} />
         </div>
@@ -81,4 +106,4 @@ const WhoClaimedChart = () => {
   )
 }
 
-export default WhoClaimedChart
+export default UniswapFlowBalances
