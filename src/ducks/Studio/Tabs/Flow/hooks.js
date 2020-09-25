@@ -83,20 +83,20 @@ export const useDayMatrix = (periodMatrix, dayIndex = 0) =>
     [periodMatrix, dayIndex]
   )
 
-export function useAnimatedDayIndex (daysAmount, isLoading) {
+export function useAnimatedDayIndex (daysAmount, shouldStop) {
   const [dayIndex, setDayIndex] = useState(0)
 
   useEffect(
     () => {
-      if (isLoading || daysAmount === 1) return
+      if (shouldStop || daysAmount === 1) return
 
       const interval = setInterval(
         () => setDayIndex(index => ++index % daysAmount),
-        2000
+        1500
       )
       return () => clearInterval(interval)
     },
-    [daysAmount, isLoading]
+    [daysAmount, shouldStop]
   )
 
   return dayIndex
