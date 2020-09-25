@@ -154,6 +154,12 @@ export const getTemplateAssets = ({ metrics, project: { slug, name } }) => {
 }
 
 export function getTemplateMetrics ({ metrics }) {
-  const { metrics: parsedMetrics } = parseTemplateMetrics(metrics)
-  return parsedMetrics.map(({ label }) => label)
+  const { metrics: parsedMetrics, comparables } = parseTemplateMetrics(metrics)
+
+  const outputMetrics = [
+    ...parsedMetrics,
+    ...comparables.map(({ metric }) => metric)
+  ]
+
+  return outputMetrics.map(({ label }) => label)
 }
