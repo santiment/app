@@ -13,8 +13,6 @@ const initSentry = () => {
     release: `Ver. ${process.env.REACT_APP_VERSION}`
   }
 
-  console.log('Sentry: ', configs)
-
   Sentry.init(configs)
 
   Sentry.setTags({
