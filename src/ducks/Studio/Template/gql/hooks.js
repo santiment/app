@@ -46,6 +46,12 @@ const updateTemplatesOnDelete = buildTemplatesCacheUpdater(
   }
 )
 
+const updateTemplatesOnUpdate = buildTemplatesCacheUpdater(
+  ({ template }, templates) => {
+    return templates.map(t => (t.id === template.id ? template : t))
+  }
+)
+
 const updateTemplatesOnCreation = buildTemplatesCacheUpdater(
   ({ template }, templates) => [template].concat(templates)
 )
@@ -206,7 +212,9 @@ export function useDeleteTemplate () {
 }
 
 export function useUpdateTemplate () {
-  const [mutate, data] = useMutation(UPDATE_TEMPLATE_MUTATION)
+  const [mutate, data] = useMutation(UPDATE_TEMPLATE_MUTATION, {
+    update: updateTemplatesOnUpdate
+  })
 
   function updateTemplate (oldTemplate, newConfig) {
     const { id, title, description, project, metrics, options } = oldTemplate
