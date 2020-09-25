@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import { useAssetsBalance } from './gql'
+import { useUniswapBalance } from './gql'
 import { formatNumber } from '../../../utils/formatting'
 import { getLoadingStatus, finishLoading } from './utils'
 import styles from './table.module.scss'
 
-const UniswapLastBalance = ({ address: defaultAddress }) => {
+const UniswapLastBalance = ({ address: defaultAddress, change }) => {
   const [status, setStatus] = useState('')
   const [address, setAddress] = useState(defaultAddress)
 
@@ -32,14 +32,21 @@ const UniswapLastBalance = ({ address: defaultAddress }) => {
     }, 5000)
   }
 
-  const [assetsBalances, loading] = useAssetsBalance(status ? address : null)
+  const [historicalBalance = [], loading] = useUniswapBalance(
+    status ? address : null
+  )
 
-  if (status === 'loading' && loading === false && assetsBalances) {
+  if (
+    status === 'loading' &&
+    loading === false &&
+    historicalBalance.length > 0
+  ) {
     finishLoading(address)
     setStatus('finished')
   }
 
-  const isLoading = status !== 'finished' || (loading && !assetsBalances)
+  const isLoading =
+    status !== 'finished' || (loading && historicalBalance.length === 0)
 
   if (!address) {
     return null
@@ -49,11 +56,31 @@ const UniswapLastBalance = ({ address: defaultAddress }) => {
     return <Loader className={styles.loader} />
   }
 
-  const uniswapBalance = (assetsBalances || []).find(
-    ({ slug }) => slug === 'uniswap'
-  ) || { balance: 0 }
+  if (historicalBalance.length < 28) {
+    return null
+  }
 
-  return <div>{formatNumber(uniswapBalance.balance)}</div>
+  let balance = 0
+  let balanceChange = 0
+  const currentBalance =
+    historicalBalance[historicalBalance.length - 1].balance || 0
+
+  if (!change) {
+    return <div>{formatNumber(currentBalance)}</div>
+  }
+
+  if ((change = '24h')) {
+    const lastDayBalance =
+      historicalBalance[historicalBalance.length - 2].balance || 0
+    return <div>{formatNumber(currentBalance - lastDayBalance)}</div>
+    // balanceChange = 0
+  }
+
+  if ((change = '30d')) {
+    const lastMonthBalance = historicalBalance[0].balance || 0
+    return <div>{formatNumber(currentBalance - lastMonthBalance)}</div>
+    // balanceChange = 0
+  }
 }
 
 export default UniswapLastBalance

@@ -31,5 +31,9 @@ export function getLoadingStatus (address) {
 export function finishLoading (address) {
   finishedLoadings.add(address)
   currentLoadings.delete(address)
-  currentLoadings.add(queue.shift())
+
+  const newAddress = queue.shift()
+  if (!finishedLoadings.has(newAddress)) {
+    currentLoadings.add(newAddress)
+  }
 }
