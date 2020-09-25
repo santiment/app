@@ -35,7 +35,7 @@ export const columns = [
   },
   {
     id: 'value',
-    Header: 'Value',
+    Header: 'Initially claimed',
     accessor: 'value',
     minWidth: 100,
     maxWidth: 150,
