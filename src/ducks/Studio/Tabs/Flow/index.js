@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import AnimatedChord from './AnimatedChord'
+import Chord from './Chord'
 import { getDateByDayIndex } from './utils'
-import { usePeriodMatrix } from './hooks'
+import { usePeriodMatrix, useDayMatrix, useAnimatedDayIndex } from './hooks'
 import Calendar from '../../AdvancedView/Calendar'
 import {
   getTimeIntervalFromToday,
@@ -17,8 +17,9 @@ const DEFAULT_DATES = [from, to]
 const FlowBalances = ({ slug, ticker, defaultDates, defaultDaysAmount }) => {
   const [dates, setDates] = useState(defaultDates)
   const [daysAmount, setDaysAmount] = useState(defaultDaysAmount)
-  const [dayIndex, setDayIndex] = useState(0)
   const { periodMatrix, isLoading } = usePeriodMatrix(slug, dates, daysAmount)
+  const dayIndex = useAnimatedDayIndex(daysAmount, isLoading)
+  const { matrix, isEmpty } = useDayMatrix(periodMatrix, dayIndex)
 
   function onCalendarChange (dates) {
     setDaysAmount(Math.floor((dates[1] - dates[0]) / ONE_DAY_IN_MS) + 1)
@@ -39,13 +40,7 @@ const FlowBalances = ({ slug, ticker, defaultDates, defaultDaysAmount }) => {
       <div className={styles.title}>
         {ticker} Flow Balances on {getDateByDayIndex(dates, dayIndex)}
       </div>
-      <AnimatedChord
-        periodMatrix={periodMatrix}
-        dayIndex={dayIndex}
-        daysAmount={daysAmount}
-        isLoading={isLoading}
-        setDayIndex={setDayIndex}
-      />
+      <Chord matrix={matrix} isLoading={isLoading} isEmpty={isEmpty} />
     </div>
   )
 }
