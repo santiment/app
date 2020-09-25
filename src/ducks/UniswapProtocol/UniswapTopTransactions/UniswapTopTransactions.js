@@ -21,6 +21,7 @@ const EXCLUDED_ADDRESSES = [
 
 const { from, to } = getTimeIntervalFromToday(-30, DAY)
 const slug = 'uniswap'
+const TRANSACTIONS_COUNT = 50
 
 function useProjectTopTransactions (slug, from, to, limit, excludedAddresses) {
   const { data, loading } = useQuery(TOP_TOKEN_TRANSACTIONS_QUERY, {
@@ -48,7 +49,7 @@ const UniswapTopTransactions = () => {
     slug,
     from,
     to,
-    10,
+    TRANSACTIONS_COUNT,
     isExclude ? EXCLUDED_ADDRESSES : []
   )
   const normalizedData = useMemo(
@@ -69,7 +70,12 @@ const UniswapTopTransactions = () => {
           <Toggle className={styles.toggle} isActive={!isExclude} />
         </div>
       </div>
-      <TransactionsTable header={null} data={normalizedData} />
+      <TransactionsTable
+        header={null}
+        data={normalizedData}
+        defaultPageSize={50}
+        className={styles.table}
+      />
     </>
   )
 }
