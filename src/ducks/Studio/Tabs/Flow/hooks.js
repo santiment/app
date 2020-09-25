@@ -82,3 +82,22 @@ export const useDayMatrix = (periodMatrix, dayIndex = 0) =>
     },
     [periodMatrix, dayIndex]
   )
+
+export function useAnimatedDayIndex (daysAmount, isLoading) {
+  const [dayIndex, setDayIndex] = useState(0)
+
+  useEffect(
+    () => {
+      if (isLoading || daysAmount === 1) return
+
+      const interval = setInterval(
+        () => setDayIndex(index => ++index % daysAmount),
+        2000
+      )
+      return () => clearInterval(interval)
+    },
+    [daysAmount, isLoading]
+  )
+
+  return dayIndex
+}

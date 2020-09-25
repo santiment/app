@@ -1,5 +1,4 @@
 export const MATRIX = [
-  // dex traders
   {
     label: 'Dex Traders',
     relations: [
@@ -15,7 +14,6 @@ export const MATRIX = [
   {
     label: 'Dexes',
     relations: [
-      // dexes
       'dexes_to_dex_traders_flow',
       null, /// 'dexes_to_dexes_flow',
       'dex_to_cexes_flow',
@@ -28,7 +26,6 @@ export const MATRIX = [
   {
     label: 'Cexes',
     relations: [
-      // cexes
       'cexes_to_dex_traders_flow',
       'cexes_to_dex_flow',
       null, /// 'cexes_to_cexes_flow',
@@ -41,7 +38,6 @@ export const MATRIX = [
   {
     label: 'DeFi',
     relations: [
-      // defi
       'defi_to_dex_traders_flow',
       'defi_to_dexes_flow',
       'defi_to_cexes_flow',
@@ -54,7 +50,6 @@ export const MATRIX = [
   {
     label: 'Whales',
     relations: [
-      // whales
       'whale_to_dex_traders_flow',
       'whale_to_dexes_flow',
       'whale_to_cexes_flow',
@@ -67,7 +62,6 @@ export const MATRIX = [
   {
     label: 'Others',
     relations: [
-      // others
       'other_to_dex_traders_flow',
       'other_to_dexes_flow',
       'other_to_cexes_flow',
