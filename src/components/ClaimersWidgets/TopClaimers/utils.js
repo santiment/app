@@ -1,4 +1,4 @@
-let currentLoading = ''
+let currentLoadings = new Set()
 const finishedLoadings = new Set()
 const queue = []
 
@@ -11,16 +11,15 @@ export function getLoadingStatus (address) {
     return 'finished'
   }
 
-  if (!currentLoading && queue.length !== 0) {
-    currentLoading = queue.shift()
+  if (currentLoadings.size < 4 && queue.length !== 0) {
+    currentLoadings.add(queue.shift())
   }
 
-  if (currentLoading === address) {
-    currentLoading = address
+  if (currentLoadings.has(address)) {
     return 'loading'
   }
 
-  if (currentLoading !== address) {
+  if (!currentLoadings.has(address)) {
     if (!queue.includes(address)) {
       queue.push(address)
     }
@@ -31,5 +30,10 @@ export function getLoadingStatus (address) {
 
 export function finishLoading (address) {
   finishedLoadings.add(address)
-  currentLoading = queue.shift()
+  currentLoadings.delete(address)
+
+  const newAddress = queue.shift()
+  if (!finishedLoadings.has(newAddress)) {
+    currentLoadings.add(newAddress)
+  }
 }

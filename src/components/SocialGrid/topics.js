@@ -8,32 +8,35 @@ export const TOPICS = [
       'oil OR negative OR barrel OR crude OR barrels OR contract OR futures OR wti',
     title: 'Negative rates on oil'
   },
-  { slug: 'kava OR usdx OR defi OR blockchain OR winners', title: 'KAVA AMA' },
+  { slug: 'neo', title: 'NEO 3.0 coming up' },
   { slug: 'bch OR halving OR bsv OR btc', title: 'Bitcoin Cash halving' },
   {
     slug: 'whales OR price OR market OR yesterday',
     title: 'Blaming whales in dumps'
   },
-  { slug: 'ctsi OR cartesi', title: 'Cartesi IEO in Binance' },
-  { slug: 'satoshi OR coins OR moved', title: 'Satoshi coins moved' },
+  { slug: 'bel OR bella OR protocol', title: 'Bella Protocol AMA' },
   {
-    slug: 'fed OR unlimited OR infinite OR money OR printing OR dollar',
-    title: 'Unlimited dollar printing'
+    slug: 'uni OR uniswap OR airdrop OR free OR tokens OR claim',
+    title: 'UNI tokens airdrop'
+  },
+  {
+    slug: 'eth OR gas OR fees',
+    title: 'Fees ATH'
   },
   { slug: 'twitter OR hack', title: 'Twitter hack' },
   { slug: 'bitmex OR mex', title: 'Bitmex faces a lawsuit' },
-  { slug: 'sngls OR singulardtv OR snglsdao OR content', title: 'Solana AMA' },
-  { slug: 'chromia OR chr OR project', title: 'Chromia AMA' },
-  { slug: 'halving OR dump', title: 'Bearish before halving' },
-  { slug: 'dow OR bitcoin', title: 'DOW and BTC are connected' },
-  { slug: 'halving OR see', title: '7 days prior to halving' },
+  { slug: 'iotex', title: 'IOTEX AMA' },
+  { slug: 'sushi', title: 'SUSHI is served' },
+  { slug: 'yfi', title: 'YFI tops' },
+  { slug: 'oxt', title: 'OXT listing on Binance' },
+  { slug: 'dot', title: 'Polkadot tops' },
   {
-    slug: 'vet OR coinbase OR vechain OR listing',
-    title: 'Vechain in Coinbase list'
+    slug: 'bank OR kraken OR banks OR fractional OR wyoming',
+    title: 'Kraken becomes a bank'
   },
   {
-    slug: 'moons OR vault OR reddit OR moon OR bricks',
-    title: 'Reddit launching ERC20 tokens'
+    slug: 'powell OR fed OR inflation',
+    title: 'Fed targeting inflation'
   }
 ]
 
@@ -55,9 +58,9 @@ export const INDEX_PAGE_GROUPS = [
         createdAt: '2020-07-01T15:18:20.922Z'
       },
       {
-        title: 'DogeCoin TikTok Challenge',
-        slug: 'doge OR dogecoin OR tiktok',
-        createdAt: '2020-08-19T07:07:20.922Z'
+        title: 'UNI tokens airdrop',
+        slug: 'uni OR uniswap',
+        createdAt: '2020-09-25T10:07:20.922Z'
       },
       {
         title: 'YAM rise and fall',
@@ -71,8 +74,9 @@ export const INDEX_PAGE_GROUPS = [
         createdAt: '2020-09-01T07:19:20.922Z'
       },
       {
-        title: 'Coronavirus',
-        slug: 'virus OR corona OR coronavirus OR covid OR covid19 OR "covid-19"'
+        title: 'SUSHI is served',
+        createdAt: '2020-09-25T10:07:20.922Z',
+        slug: 'sushi'
       }
     ]
   }
