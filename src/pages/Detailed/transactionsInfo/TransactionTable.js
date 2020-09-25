@@ -14,12 +14,23 @@ const DEFAULT_SORTED = [
   }
 ]
 
-const TransactionTable = ({ header, data, className, ...props }) => {
+const TransactionTable = ({ header, data, slug, className, ...props }) => {
   const El = useMemo(
     () => {
       return header ? PanelWithHeader : Panel
     },
     [header]
+  )
+
+  const availableColumns = useMemo(
+    () => {
+      if (slug === 'bitcoin') {
+        return columns.filter(({ accessor }) => accessor !== 'fromAddress')
+      }
+
+      return columns
+    },
+    [data, slug]
   )
 
   return (
@@ -39,7 +50,7 @@ const TransactionTable = ({ header, data, className, ...props }) => {
           loadingText='Loading...'
           {...props}
           data={data}
-          columns={columns}
+          columns={availableColumns}
         />
       </SmoothDropdown>
     </El>

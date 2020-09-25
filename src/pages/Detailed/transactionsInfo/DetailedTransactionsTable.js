@@ -12,7 +12,7 @@ const DetailedTopTransactions = ({
     ? project[show].slice(0, 10).map(trx => normalizeTransactionData(slug, trx))
     : []
 
-  return <TransactionTable header={title} data={data} />
+  return <TransactionTable header={title} data={data} slug={project.slug} />
 }
 
 export default DetailedTopTransactions

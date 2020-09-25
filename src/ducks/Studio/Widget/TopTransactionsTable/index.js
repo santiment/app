@@ -111,6 +111,7 @@ const TopTransactionsTable = ({
       }
       data={normalizedData}
       loading={loading}
+      slug={slug}
     />
   )
 }
