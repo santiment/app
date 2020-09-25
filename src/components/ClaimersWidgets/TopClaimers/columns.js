@@ -43,7 +43,7 @@ export const columns = [
     Header: 'UNI current balance',
     accessor: 'price',
     minWidth: 100,
-    maxWidth: 150,
+    maxWidth: 130,
     sortable: false
   },
   {
