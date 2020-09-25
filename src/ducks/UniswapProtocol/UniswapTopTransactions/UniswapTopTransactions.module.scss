@@ -29,3 +29,8 @@
   margin: 0 auto 0 16px;
   font-size: 5px;
 }
+
+.table {
+  max-height: 800px;
+  overflow-y: auto;
+}
