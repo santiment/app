@@ -2,11 +2,7 @@ import React from 'react'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import cx from 'classnames'
-import {
-  getTemplateAssets,
-  getTemplateMetrics,
-  prepareTemplateLink
-} from '../../utils'
+import { getTemplateInfo, prepareTemplateLink } from '../../utils'
 import TemplateDetailsDialog, {
   TemplateInfoTrigger
 } from '../../TemplateDetailsDialog/TemplateDetailsDialog'
@@ -44,8 +40,7 @@ const Template = ({
     }
   }
 
-  const usedAssets = getTemplateAssets(template)
-  const usedMetrics = getTemplateMetrics(template)
+  const { assets: usedAssets, metrics: usedMetrics } = getTemplateInfo(template)
 
   return (
     <div className={cx(styles.wrapper, className)}>
