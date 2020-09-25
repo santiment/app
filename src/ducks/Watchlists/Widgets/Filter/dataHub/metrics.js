@@ -237,6 +237,210 @@ export const Metric = {
     category: 'On-chain',
     group: 'Exchanges',
     label: 'Coin Supply on Exchanges (as % of total supply)'
+  },
+  dex_traders_to_cexes_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Dex Traders',
+    label: 'Dex Traders to Cexes'
+  },
+  dex_traders_to_dexes_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Dex Traders',
+    label: 'Dex Traders to Dexes'
+  },
+  dex_traders_to_defi_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Dex Traders',
+    label: 'Dex Traders to DeFi'
+  },
+  dex_traders_to_whale_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Dex Traders',
+    label: 'Dex Traders to Whales'
+  },
+  dex_traders_to_other_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Dex Traders',
+    label: 'Dex Traders to Others'
+  },
+  dex_to_cexes_flow: {
+    isOnlyPercentFilters: true,
+    group: 'Dexes',
+    category: 'Flow metrics',
+    label: 'Dexes to Cexes'
+  },
+  dexes_to_defi_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Dexes',
+    label: 'Dexes to DeFi'
+  },
+  dexes_to_whale_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Dexes',
+    label: 'Dexes to Whales'
+  },
+  dexes_to_dex_traders_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Dexes',
+    label: 'Dexes to Dex Traders'
+  },
+  dexes_to_other_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Dexes',
+    label: 'Dexes to Others'
+  },
+  cexes_to_dex_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Cexes',
+    label: 'Cexes to Dexes'
+  },
+  cexes_to_defi_flow: {
+    isOnlyPercentFilters: true,
+    group: 'Cexes',
+    category: 'Flow metrics',
+    label: 'Cexes to DeFi'
+  },
+  cexes_to_whale_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Cexes',
+    label: 'Cexes to Whale'
+  },
+  cexes_to_dex_traders_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Cexes',
+    label: 'Cexes to Dex Traders'
+  },
+  cexes_to_other_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Cexes',
+    label: 'Cexes to Others'
+  },
+  defi_to_cexes_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'DeFi',
+    label: 'DeFi to Cexes'
+  },
+  defi_to_dexes_flow: {
+    isOnlyPercentFilters: true,
+    group: 'DeFi',
+    category: 'Flow metrics',
+    label: 'DeFi to Dexes'
+  },
+  defi_to_whale_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'DeFi',
+    label: 'DeFi to Whales'
+  },
+  defi_to_dex_traders_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'DeFi',
+    label: 'DeFi to Dex Trades'
+  },
+  defi_to_other_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'DeFi',
+    label: 'DeFi to Others'
+  },
+  whale_to_cexes_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Whales',
+    label: 'Whales to Cexes'
+  },
+  whale_to_dexes_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Whales',
+    label: 'Whales to Dexes'
+  },
+  whale_to_defi_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Whales',
+    label: 'Whales to DeFi'
+  },
+  whale_to_dex_traders_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'DeFi',
+    label: 'DeFi to Dex Traders'
+  },
+  whale_to_other_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Whales',
+    label: 'Whales to Others'
+  },
+  other_to_dex_traders_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Whales',
+    label: 'Whales to Dex Traders'
+  },
+  other_to_dexes_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Others',
+    label: 'Others to Dexes'
+  },
+  other_to_cexes_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Others',
+    label: 'Others to Cexes'
+  },
+  other_to_defi_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Others',
+    label: 'Others to DeFi'
+  },
+  other_to_whale_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Others',
+    label: 'Others to Whales'
+  },
+  traders_to_other_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Traders',
+    label: 'Traders To Others'
+  },
+  other_to_traders_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Others',
+    label: 'Others to Traders'
+  },
+  whale_to_traders_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Whales',
+    label: 'Whales to Traders'
+  },
+  traders_to_whale_flow: {
+    isOnlyPercentFilters: true,
+    category: 'Flow metrics',
+    group: 'Traders',
+    label: 'Traders to Others'
   }
 }
 
@@ -273,7 +477,42 @@ export const metrics = [
   // Metric.social_dominance_total,
   // Metric.sentiment_balance_total,
   Metric.mean_dollar_invested_age,
-  Metric.percent_of_total_supply_on_exchanges
+  Metric.percent_of_total_supply_on_exchanges,
+  // flow metrics
+  Metric.dex_traders_to_cexes_flow,
+  Metric.dex_traders_to_dexes_flow,
+  Metric.dex_traders_to_defi_flow,
+  Metric.dex_traders_to_whale_flow,
+  Metric.dex_traders_to_other_flow,
+  Metric.dex_to_cexes_flow,
+  Metric.dexes_to_defi_flow,
+  Metric.dexes_to_whale_flow,
+  Metric.dexes_to_dex_traders_flow,
+  Metric.dexes_to_other_flow,
+  Metric.cexes_to_dex_flow,
+  Metric.cexes_to_defi_flow,
+  Metric.cexes_to_whale_flow,
+  Metric.cexes_to_dex_traders_flow,
+  Metric.cexes_to_other_flow,
+  Metric.defi_to_cexes_flow,
+  Metric.defi_to_dexes_flow,
+  Metric.defi_to_whale_flow,
+  Metric.defi_to_dex_traders_flow,
+  Metric.defi_to_other_flow,
+  Metric.whale_to_cexes_flow,
+  Metric.whale_to_dexes_flow,
+  Metric.whale_to_defi_flow,
+  Metric.whale_to_dex_traders_flow,
+  Metric.whale_to_traders_flow,
+  Metric.whale_to_other_flow,
+  Metric.other_to_cexes_flow,
+  Metric.other_to_dexes_flow,
+  Metric.other_to_defi_flow,
+  Metric.other_to_whale_flow,
+  Metric.other_to_dex_traders_flow,
+  Metric.other_to_traders_flow,
+  Metric.traders_to_whale_flow,
+  Metric.traders_to_other_flow
 ]
 
 export const MetricAlias = {
