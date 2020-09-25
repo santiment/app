@@ -1,0 +1,17 @@
+@import '~@santiment-network/ui/mixins';
+
+.skeleton {
+  min-height: 443px;
+}
+
+.left {
+  text-align: center;
+  margin-left: 15px;
+  color: var(--waterloo);
+
+  @include text('body-2', 'm');
+
+  @include responsive('phone') {
+    @include text('body-3', 'm');
+  }
+}

@@ -27,7 +27,7 @@
 .content {
   display: flex;
 
-  @include responsive( 'tablet','phone', 'phone-xs') {
+  @include responsive('tablet', 'phone', 'phone-xs') {
     flex-direction: column;
   }
 }
@@ -54,7 +54,7 @@
   background: var(--white);
   padding: 32px 0 32px 0;
 
-  @include responsive( 'tablet','phone', 'phone-xs') {
+  @include responsive('tablet', 'phone', 'phone-xs') {
     padding: 16px 16px 24px 16px;
   }
 }
@@ -65,7 +65,7 @@
 
   @include text('h3');
 
-  @include responsive( 'tablet','phone', 'phone-xs') {
+  @include responsive('tablet', 'phone', 'phone-xs') {
     @include text('h4');
   }
 }
@@ -83,8 +83,8 @@
 
   @include text('h4', 'm');
 
-  @include responsive( 'tablet','phone', 'phone-xs') {
-    @include text('body-2','m');
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    @include text('body-2', 'm');
   }
 }
 
@@ -102,7 +102,7 @@
 
   @include text('body-2');
 
-  @include responsive( 'tablet','phone', 'phone-xs') {
+  @include responsive('tablet', 'phone', 'phone-xs') {
     margin-top: 8px;
   }
 }

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import Chord from './Chord'
+import React, { useState } from 'react'
+import AnimatedChord from './AnimatedChord'
 import { getDateByDayIndex } from './utils'
-import { usePeriodMatrix, useDayMatrix } from './hooks'
+import { usePeriodMatrix } from './hooks'
 import Calendar from '../../AdvancedView/Calendar'
 import {
   getTimeIntervalFromToday,
@@ -14,25 +14,11 @@ const DEFAULT_DAYS_AMOUNT = 7
 const { from, to } = getTimeIntervalFromToday(-DEFAULT_DAYS_AMOUNT + 1, DAY)
 const DEFAULT_DATES = [from, to]
 
-const FlowBalances = ({ slug, ticker }) => {
-  const [dates, setDates] = useState(DEFAULT_DATES)
-  const [daysAmount, setDaysAmount] = useState(DEFAULT_DAYS_AMOUNT)
+const FlowBalances = ({ slug, ticker, defaultDates, defaultDaysAmount }) => {
+  const [dates, setDates] = useState(defaultDates)
+  const [daysAmount, setDaysAmount] = useState(defaultDaysAmount)
   const [dayIndex, setDayIndex] = useState(0)
   const { periodMatrix, isLoading } = usePeriodMatrix(slug, dates, daysAmount)
-  const { matrix, isEmpty } = useDayMatrix(periodMatrix, dayIndex)
-
-  useEffect(
-    () => {
-      if (isLoading || daysAmount === 1) return
-
-      const interval = setInterval(
-        () => setDayIndex(index => ++index % daysAmount),
-        1500
-      )
-      return () => clearInterval(interval)
-    },
-    [daysAmount, isLoading]
-  )
 
   function onCalendarChange (dates) {
     setDaysAmount(Math.floor((dates[1] - dates[0]) / ONE_DAY_IN_MS) + 1)
@@ -53,9 +39,20 @@ const FlowBalances = ({ slug, ticker }) => {
       <div className={styles.title}>
         {ticker} Flow Balances on {getDateByDayIndex(dates, dayIndex)}
       </div>
-      <Chord matrix={matrix} isLoading={isLoading} isEmpty={isEmpty} />
+      <AnimatedChord
+        periodMatrix={periodMatrix}
+        dayIndex={dayIndex}
+        daysAmount={daysAmount}
+        isLoading={isLoading}
+        setDayIndex={setDayIndex}
+      />
     </div>
   )
+}
+
+FlowBalances.defaultProps = {
+  defaultDates: DEFAULT_DATES,
+  defaultDaysAmount: DEFAULT_DAYS_AMOUNT
 }
 
 export default FlowBalances

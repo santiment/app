@@ -17,6 +17,7 @@ import UniswapTopTransactions from '../../ducks/UniswapProtocol/UniswapTopTransa
 import UniswapMetrics from '../../ducks/UniswapProtocol/UniswapMetrics/UniswapMetrics'
 import UniswapPieChart from '../../ducks/UniswapProtocol/UniswapPieChart/UniswapPieChart'
 import UniswapWhoClaimed from '../../ducks/UniswapProtocol/UniswapPieChart/WhoClaimedPieChart'
+import UniswapFlowBalances from '../../ducks/UniswapProtocol/UniswapFlowBalances'
 import SharePage from '../../components/SharePage/SharePage'
 import FeesDistribution from '../../ducks/Studio/FeesDistribution/FeesDistribution'
 import styles from './UniswapProtocolPage.module.scss'
@@ -49,6 +50,10 @@ const ANCHORS = {
   WhoClaimed: {
     label: 'Who claimed UNI?',
     key: 'who-claimed'
+  },
+  FlowBalances: {
+    label: 'UNI Flow Balances',
+    key: 'flow-balances'
   },
   TopTransactions: {
     label: 'Top Token Transactions',
@@ -177,6 +182,10 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
 
           <Block title='Who claimed UNI?' tag={anchors.WhoClaimed.key}>
             <UniswapWhoClaimed />
+          </Block>
+
+          <Block title='UNI Flow Balances' tag={anchors.FlowBalances.key}>
+            <UniswapFlowBalances />
           </Block>
 
           <Block tag={anchors.TopTransactions.key}>

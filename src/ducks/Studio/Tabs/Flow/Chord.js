@@ -9,7 +9,7 @@ const BORDER_COLOR = { from: 'color', modifiers: [['darker', 0.4]] }
 const TEXT_COLOR = { from: 'color', modifiers: [['darker', 1]] }
 const COLORS = { scheme: 'nivo' }
 
-const Chord = ({ matrix, isLoading, isEmpty }) => {
+const Chord = ({ matrix, width, height, isLoading, isEmpty }) => {
   const isLoaded = !isLoading
 
   return (
@@ -23,8 +23,8 @@ const Chord = ({ matrix, isLoading, isEmpty }) => {
         enableLabel
         isInteractive
         animate={isLoaded}
-        width={600}
-        height={600}
+        width={width}
+        height={height}
         matrix={matrix}
         keys={LABELS}
         margin={MARGIN}
@@ -43,6 +43,11 @@ const Chord = ({ matrix, isLoading, isEmpty }) => {
       />
     </div>
   )
+}
+
+Chord.defaultProps = {
+  width: 600,
+  height: 600
 }
 
 export default Chord
