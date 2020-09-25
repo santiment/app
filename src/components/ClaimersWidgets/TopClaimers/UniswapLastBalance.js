@@ -29,7 +29,7 @@ const UniswapLastBalance = ({ address: defaultAddress }) => {
       const newStatus = getLoadingStatus(address)
       if (newStatus !== status) setStatus(newStatus)
       if (!newStatus) checkStatus()
-    }, 1000)
+    }, 5000)
   }
 
   const [assetsBalances, loading] = useAssetsBalance(status ? address : null)

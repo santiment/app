@@ -11,7 +11,7 @@ export function getLoadingStatus (address) {
     return 'finished'
   }
 
-  if (currentLoadings.size < 3 && queue.length !== 0) {
+  if (currentLoadings.size < 4 && queue.length !== 0) {
     currentLoadings.add(queue.shift())
   }
 
