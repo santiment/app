@@ -56,17 +56,9 @@ export const FeesDistributionTitle = ({ setInterval }) => {
   )
 }
 
-const FeesDistribution = () => {
+const FeesDistribution = ({ onDisable }) => {
   const [interval, setInterval] = useState('7d')
-  return (
-    <>
-      <FeesDistributionTitle setInterval={setInterval} />
-      <FeesDistributionChart className={styles.chart} interval={interval} />
-    </>
-  )
-}
 
-export const FeesDistributionChart = ({ className, interval }) => {
   const [settings, setSettings] = useState(formIntervalSettings(interval))
 
   useEffect(
@@ -76,8 +68,26 @@ export const FeesDistributionChart = ({ className, interval }) => {
     [interval]
   )
 
-  const { data, loading } = useFeeDistributions(settings)
+  const { data, loading, error } = useFeeDistributions(settings)
 
+  if (!loading && error) {
+    onDisable && onDisable()
+    return null
+  }
+
+  return (
+    <>
+      <FeesDistributionTitle setInterval={setInterval} />
+      <FeesDistributionChart
+        className={styles.chart}
+        data={data}
+        loading={loading}
+      />
+    </>
+  )
+}
+
+export const FeesDistributionChart = ({ className, data, loading }) => {
   const prepared = useMemo(
     () => {
       return data.map(item => {

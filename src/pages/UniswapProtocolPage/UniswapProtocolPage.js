@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
 import { useRestrictedInfo } from './hooks'
@@ -20,6 +20,10 @@ import UniswapWhoClaimed from '../../ducks/UniswapProtocol/UniswapPieChart/WhoCl
 import SharePage from '../../components/SharePage/SharePage'
 import FeesDistribution from '../../ducks/Studio/FeesDistribution/FeesDistribution'
 import styles from './UniswapProtocolPage.module.scss'
+
+const ANCHOR_NAMES = {
+  FeesDistribution: 'FeesDistribution'
+}
 
 const ANCHORS = {
   Claimers: {
@@ -50,7 +54,7 @@ const ANCHORS = {
     label: 'Top Token Transactions',
     key: 'top-transactions'
   },
-  FeesDistribution: {
+  [ANCHOR_NAMES.FeesDistribution]: {
     label: 'Fees Distribution',
     key: 'fees-distribution'
   }
@@ -58,6 +62,17 @@ const ANCHORS = {
 
 const UniswapProtocolPage = ({ history, isDesktop }) => {
   const areClaimsRestricted = useRestrictedInfo()
+
+  const [anchors, setAnchors] = useState(ANCHORS)
+
+  const onDisableFeesDistribution = useCallback(
+    () => {
+      const newAnchors = { ...anchors }
+      delete newAnchors[ANCHOR_NAMES.FeesDistribution]
+      setAnchors(newAnchors)
+    },
+    [anchors, setAnchors]
+  )
 
   return (
     <div className={cx('page', styles.container)}>
@@ -100,13 +115,13 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
 
       <div className={styles.body}>
         <DesktopOnly>
-          <LeftPageNavigation anchors={ANCHORS} />
+          <LeftPageNavigation anchors={anchors} />
         </DesktopOnly>
 
         <div className={styles.inner}>
           <Block
             className={styles.firstBlock}
-            tag={ANCHORS.Claimers.key}
+            tag={anchors.Claimers.key}
             title='UNI Token Claims'
             isPaywalActive={areClaimsRestricted}
           >
@@ -114,7 +129,7 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
           </Block>
 
           <Block
-            tag={ANCHORS.Overview.key}
+            tag={anchors.Overview.key}
             title={'Uniswap: Token Distributor'}
             description='0x090d4613473dee047c3f2706764f49e0821d256e'
           >
@@ -140,13 +155,13 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
           </Block>
 
           <Block
-            tag={ANCHORS.TopClaimers.key}
+            tag={anchors.TopClaimers.key}
             isPaywalActive={areClaimsRestricted}
           >
             <TopClaimersTable />
           </Block>
           <Block
-            tag={ANCHORS.ClaimersWidgets.key}
+            tag={anchors.ClaimersWidgets.key}
             title='UNI Claims: Overview'
             isPaywalActive={areClaimsRestricted}
           >
@@ -155,21 +170,24 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
           <Block
             title='Post-claim activity of UNI tokens'
             description='From addresses that claimed UNI token'
-            tag={ANCHORS.Exchanges.key}
+            tag={anchors.Exchanges.key}
           >
             <UniswapPieChart />
           </Block>
 
-          <Block title='Who claimed UNI?' tag={ANCHORS.WhoClaimed.key}>
+          <Block title='Who claimed UNI?' tag={anchors.WhoClaimed.key}>
             <UniswapWhoClaimed />
           </Block>
 
-          <Block tag={ANCHORS.TopTransactions.key}>
+          <Block tag={anchors.TopTransactions.key}>
             <UniswapTopTransactions />
           </Block>
-          <Block tag={ANCHORS.FeesDistribution.key}>
-            <FeesDistribution />
-          </Block>
+
+          {anchors.FeesDistribution && (
+            <Block tag={anchors.FeesDistribution.key}>
+              <FeesDistribution onDisable={onDisableFeesDistribution} />
+            </Block>
+          )}
         </div>
       </div>
 

@@ -99,6 +99,8 @@ const WhoClaimedChart = () => {
                 cy={140}
                 labelLine={false}
                 outerRadius={140}
+                dataKey={'value'}
+                valueKey={'value'}
               >
                 {chartData.map(({ color }, idx) => (
                   <Cell fill={color} key={idx} />
