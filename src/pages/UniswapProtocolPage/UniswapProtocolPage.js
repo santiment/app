@@ -11,6 +11,7 @@ import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import { Block, BlockHeader } from '../StablecoinsPage/StablecoinsPageStructure'
 import ResearchesBlock from '../../components/ResearchesBlock'
 import { Metric } from '../../ducks/dataHub/metrics'
+import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import UniswapHistoricalBalance from '../../ducks/Studio/Tabs/UniswapHistoricalBalance/UniswapHistoricalBalance'
 import UniswapTopTransactions from '../../ducks/UniswapProtocol/UniswapTopTransactions/UniswapTopTransactions'
@@ -67,6 +68,7 @@ const ANCHORS = {
 
 const UniswapProtocolPage = ({ history, isDesktop }) => {
   const areClaimsRestricted = useRestrictedInfo()
+  const { isPro } = useUserSubscriptionStatus()
 
   const [anchors, setAnchors] = useState(ANCHORS)
 
@@ -184,7 +186,11 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
             <UniswapWhoClaimed />
           </Block>
 
-          <Block title='UNI Flow Balances' tag={anchors.FlowBalances.key}>
+          <Block
+            title='UNI Flow Balances'
+            tag={anchors.FlowBalances.key}
+            isPaywalActive={!isPro}
+          >
             <UniswapFlowBalances />
           </Block>
 
