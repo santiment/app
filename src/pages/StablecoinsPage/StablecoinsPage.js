@@ -12,7 +12,7 @@ import NetworkActivity from '../../ducks/Stablecoins/NetworkActivity/NetworkActi
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import { Block, BlockWithRanges } from './StablecoinsPageStructure'
-import StablecoinsReport from '../../ducks/Stablecoins/StablecoinsReport/StablecoinsReport'
+import CurrentPageReport from '../../ducks/Stablecoins/StablecoinsReport/CurrentPageReport'
 import ResearchesBlock from '../../components/ResearchesBlock'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import SharePage from '../../components/SharePage/SharePage'
@@ -88,7 +88,7 @@ const StablecoinsPage = ({ history, isDesktop }) => {
             <SharePage />
           </div>
 
-          <StablecoinsReport />
+          <CurrentPageReport />
         </div>
       </div>
 

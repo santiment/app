@@ -11,5 +11,6 @@ export const PATHS = {
   CHARTS: '/charts',
   STABLECOINS: '/stablecoins',
   UNISWAP_PROTOCOL: '/uniswap-protocol',
-  SHEETS_TEMPLATES: '/sheets/daa-vs-price'
+  SHEETS_TEMPLATES: '/sheets/daa-vs-price',
+  DEXS: '/decentralized-exchanges'
 }
