@@ -2,7 +2,6 @@ import { COMPARE_CONNECTOR, parseComparable } from '../url/parse'
 import { shareComparable } from '../url/generate'
 import { Metric } from '../../dataHub/metrics'
 import { tryMapToTimeboundMetric } from '../../dataHub/timebounds'
-import { getSavedMulticharts } from '../../../utils/localStorage'
 import { capitalizeStr } from '../../../utils/utils'
 import { PATHS } from '../../../paths'
 import { getSEOLinkFromIdAndTitle } from '../../../components/Insight/utils'
@@ -129,16 +128,22 @@ export function saveLastTemplate (template) {
   localStorage.setItem(LAST_USED_TEMPLATE, JSON.stringify(template))
 }
 
-export const getMultiChartsValue = ({ options }) => {
-  if (options && options.multi_chart !== undefined) {
-    return options.multi_chart
-  }
+export const getTemplateInfo = template => {
+  const assets = getTemplateAssets(template)
+  const metrics = getTemplateMetrics(template)
 
-  return getSavedMulticharts()
+  return {
+    assets: [...new Set(assets)],
+    metrics: [...new Set(metrics)]
+  }
 }
 
-export const getTemplateAssets = ({ metrics, project: { slug, name } }) => {
-  const assets = [name || slug]
+const getTemplateAssets = ({ metrics, project: { slug, name } }) => {
+  const hasRootAsset = metrics.some(
+    metric => metric.indexOf(COMPARE_CONNECTOR) === -1
+  )
+
+  const assets = hasRootAsset ? [name || slug] : []
 
   metrics.forEach(item => {
     if (item.indexOf(COMPARE_CONNECTOR) !== -1) {
@@ -153,7 +158,13 @@ export const getTemplateAssets = ({ metrics, project: { slug, name } }) => {
   return assets.map(slug => capitalizeStr(slug))
 }
 
-export function getTemplateMetrics ({ metrics }) {
-  const { metrics: parsedMetrics } = parseTemplateMetrics(metrics)
-  return parsedMetrics.map(({ label }) => label)
+function getTemplateMetrics ({ metrics }) {
+  const { metrics: parsedMetrics, comparables } = parseTemplateMetrics(metrics)
+
+  const outputMetrics = [
+    ...parsedMetrics,
+    ...comparables.map(({ metric }) => metric)
+  ]
+
+  return outputMetrics.map(({ label }) => label)
 }

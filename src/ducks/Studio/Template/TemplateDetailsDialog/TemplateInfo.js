@@ -2,13 +2,12 @@ import React from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel'
-import { getTemplateAssets, getTemplateMetrics } from '../utils'
+import { getTemplateInfo } from '../utils'
 import AvatarWithName from '../../../../components/AvatarWithName/AvatarWithName'
 import styles from './TemplateDetailsDialog.module.scss'
 
 const TemplateInfo = ({ template, as: El = Panel, classes = {} }) => {
-  const usedAssets = getTemplateAssets(template)
-  const usedMetrics = getTemplateMetrics(template)
+  const { assets: usedAssets, metrics: usedMetrics } = getTemplateInfo(template)
 
   const { description, user } = template
 

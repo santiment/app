@@ -53,7 +53,7 @@ const TemplateDetailsDialog = ({
       onClose={() => {
         setOpen(false)
       }}
-      title={isDialog && template.title}
+      title={isDialog ? template.title : null}
       classes={styles}
       trigger={<TemplateInfoTrigger />}
       className={styles.template}
