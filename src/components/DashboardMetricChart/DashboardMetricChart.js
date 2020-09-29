@@ -40,6 +40,13 @@ export const makeInterval = (val, label, interval = '1d') => ({
   }
 })
 
+export const makeMetric = (key, label) => {
+  return {
+    key,
+    label
+  }
+}
+
 export const INTERVAL_30_DAYS = makeInterval('30d', '1M', '3h')
 
 const allDays = Math.round(

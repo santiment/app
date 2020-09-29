@@ -1,19 +1,21 @@
 import React from 'react'
 import DashboardMetricChart, {
-  INTERVAL_30_DAYS
+  INTERVAL_30_DAYS,
+  makeMetric
 } from '../../../components/DashboardMetricChart/DashboardMetricChart'
 
 const METRICS = [
-  'total_trade_amount_by_dex',
-  'eth_based_trade_amount_by_dex',
-  'stablecoin_trade_amount_by_dex',
-  'other_trade_amount_by_dex'
+  makeMetric('total_trade_amount_by_dex', 'Total Trade Amount'),
+  makeMetric('eth_based_trade_amount_by_dex', 'ETH Based Tokens'),
+  makeMetric('stablecoin_trade_amount_by_dex', 'Stable coins'),
+  makeMetric('other_trade_amount_by_dex', 'Other')
 ]
 
-const DEX_METRICS = METRICS.map(metric => {
+const DEX_METRICS = METRICS.map(({ key, label }) => {
   return {
-    key: metric,
-    queryKey: metric,
+    key: key,
+    queryKey: key,
+    label,
     node: 'bar',
     fill: true,
     reqMeta: {

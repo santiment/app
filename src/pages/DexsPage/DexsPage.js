@@ -8,10 +8,11 @@ import { Block } from '../StablecoinsPage/StablecoinsPageStructure'
 import ResearchesBlock from '../../components/ResearchesBlock'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import SharePage from '../../components/SharePage/SharePage'
-import styles from './DexsPage.module.scss'
 import CurrentPageReport from '../../ducks/Stablecoins/StablecoinsReport/CurrentPageReport'
 import DexTradesTotalNumber from '../../ducks/Dexs/DexTradesTotalNumber/DexTradesTotalNumber'
 import DexTradesSegmentedByDEX from '../../ducks/Dexs/DexTradesSegmentedByDEX/DexTradesSegmentedByDEX'
+import NumberOfTradesPerDex from '../../ducks/Dexs/NumberOfTradesPerDex/NumberOfTradesPerDex'
+import styles from './DexsPage.module.scss'
 
 const ANCHORS = {
   TotalNumber: {
@@ -21,6 +22,10 @@ const ANCHORS = {
   TradesSegmented: {
     label: 'Trades segmented by DEX',
     key: 'segmented-trades'
+  },
+  DexByTrades: {
+    label: 'Share of DEX by Number of Trades',
+    key: 'dex-by-trades'
   }
 }
 
@@ -90,6 +95,13 @@ const DexsPage = ({ history }) => {
             title='Number of Trades Segmented by DEX'
           >
             <DexTradesSegmentedByDEX />
+          </Block>
+
+          <Block
+            tag={ANCHORS.DexByTrades.key}
+            title='Share of DEX by Number of Trades'
+          >
+            <NumberOfTradesPerDex />
           </Block>
         </div>
       </div>
