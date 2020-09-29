@@ -1,7 +1,5 @@
 import React from 'react'
-import DashboardMetricChart, {
-  INTERVAL_30_DAYS
-} from '../../../components/DashboardMetricChart/DashboardMetricChart'
+import DashboardMetricChart from '../../../components/DashboardMetricChart/DashboardMetricChart'
 
 const DEXs = [
   '0x',
@@ -23,28 +21,21 @@ const DEXs = [
 
 const DEX_METRICS = DEXs.map(dex => {
   return {
-    key: 'total_trade_amount_by_dex',
+    key: 'dex_' + dex.replace('.', '_'),
     queryKey: 'total_trade_amount_by_dex',
     node: 'bar',
     label: dex,
     fill: true,
+    domainGroup: 'decentralized_exchanges',
     reqMeta: {
-      selector: { slug: 'multi-collateral-dai', owner: dex }
+      owner: dex,
+      slug: 'multi-collateral-dai'
     }
   }
 })
 
-const DEFAULT_SETTINGS = {
-  ...INTERVAL_30_DAYS.requestParams
-}
-
 const NumberOfTradesPerDex = () => {
-  return (
-    <DashboardMetricChart
-      metrics={DEX_METRICS}
-      defaultSettings={DEFAULT_SETTINGS}
-    />
-  )
+  return <DashboardMetricChart metrics={DEX_METRICS} />
 }
 
 export default NumberOfTradesPerDex

@@ -30,11 +30,16 @@ const CHART_PADDING_MOBILE = {
   left: 0
 }
 
-export const makeInterval = (val, label, interval = '1d') => ({
+export const makeIntervalSelectors = ({
+  val,
+  label,
+  interval = '1d',
+  from
+}) => ({
   value: val,
   label: label,
   requestParams: {
-    from: `utc_now-${val}`,
+    from: from || `utc_now-${val}`,
     to: `utc_now`,
     interval
   }
@@ -47,27 +52,32 @@ export const makeMetric = (key, label) => {
   }
 }
 
-export const INTERVAL_30_DAYS = makeInterval('30d', '1M', '3h')
+export const INTERVAL_30_DAYS = makeIntervalSelectors({
+  val: '30d',
+  label: '1M',
+  interval: '3h'
+})
 
-const allDays = Math.round(
-  Math.abs(CRYPTO_ERA_START_DATE - new Date()) / (1000 * 60 * 60 * 24)
-)
-
-export const DEFAULT_INTERVALS = [
-  makeInterval('1d', '1D', '15m'),
-  makeInterval('1w', '1W', '1h'),
+export const DEFAULT_INTERVAL_SELECTORS = [
+  makeIntervalSelectors({ val: '1d', label: '1D', interval: '15m' }),
+  makeIntervalSelectors({ val: '1w', label: '1W', interval: '1h' }),
   INTERVAL_30_DAYS,
-  makeInterval('90d', '3M', '8h'),
-  makeInterval('183d', '6m', '1d'),
-  makeInterval(`${allDays}d`, 'All', '1d')
+  makeIntervalSelectors({ val: '90d', label: '3M', interval: '8h' }),
+  makeIntervalSelectors({ val: '183d', label: '6m', interval: '1d' }),
+  makeIntervalSelectors({
+    label: 'All',
+    interval: '1d',
+    from: CRYPTO_ERA_START_DATE
+  })
 ]
 
 const DashboardMetricChart = ({
   className,
   isDesktop,
   metrics,
-  defaultSettings = {},
-  intervals = DEFAULT_INTERVALS
+  metricSettingsMap,
+  defaultInterval = INTERVAL_30_DAYS,
+  intervals = DEFAULT_INTERVAL_SELECTORS
 }) => {
   useEffect(
     () => {
@@ -76,10 +86,12 @@ const DashboardMetricChart = ({
     [metrics]
   )
 
-  const [settings, setSettings] = useState(defaultSettings)
-  const { interval } = settings
+  const [settings, setSettings] = useState({
+    ...defaultInterval.requestParams
+  })
+  const [intervalSelector, setIntervalSelector] = useState(defaultInterval)
 
-  const [data, loadings] = useTimeseries(metrics, settings)
+  const [data, loadings] = useTimeseries(metrics, settings, metricSettingsMap)
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState(true)
 
   const categories = useMetricCategories(metrics)
@@ -92,13 +104,14 @@ const DashboardMetricChart = ({
   const MetricColor = useChartColors(metrics)
   const domainGroups = useDomainGroups(metrics)
 
-  const setInterval = useCallback(
+  const onChangeInterval = useCallback(
     value => {
       setSettings(data => {
         return { ...data, ...value.requestParams }
       })
+      setIntervalSelector(value)
     },
-    [setSettings]
+    [setSettings, setIntervalSelector]
   )
 
   return (
@@ -111,8 +124,8 @@ const DashboardMetricChart = ({
         />
         <DesktopOnly>
           <DashboardIntervals
-            interval={interval}
-            setInterval={setInterval}
+            interval={intervalSelector}
+            setInterval={onChangeInterval}
             intervals={intervals}
           />
         </DesktopOnly>

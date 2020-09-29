@@ -1,6 +1,5 @@
 import React from 'react'
 import DashboardMetricChart, {
-  INTERVAL_30_DAYS,
   makeMetric
 } from '../../../components/DashboardMetricChart/DashboardMetricChart'
 
@@ -18,23 +17,13 @@ const DEX_METRICS = METRICS.map(({ key, label }) => {
     label,
     node: 'bar',
     fill: true,
-    reqMeta: {
-      selector: { slug: 'multi-collateral-dai' }
-    }
+    domainGroup: 'decentralized_exchanges',
+    reqMeta: { slug: 'multi-collateral-dai' }
   }
 })
 
-const DEFAULT_SETTINGS = {
-  ...INTERVAL_30_DAYS.requestParams
-}
-
 const DexTradesTotalNumber = () => {
-  return (
-    <DashboardMetricChart
-      metrics={DEX_METRICS}
-      defaultSettings={DEFAULT_SETTINGS}
-    />
-  )
+  return <DashboardMetricChart metrics={DEX_METRICS} />
 }
 
 export default DexTradesTotalNumber
