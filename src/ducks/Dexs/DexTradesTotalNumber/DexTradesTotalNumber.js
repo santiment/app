@@ -2,6 +2,7 @@ import React from 'react'
 import DashboardMetricChart, {
   makeMetric
 } from '../../../components/DashboardMetricChart/DashboardMetricChart'
+import { Metric } from '../../dataHub/metrics'
 
 const METRICS = [
   makeMetric('total_trade_amount_by_dex', 'Total Trade Amount'),
@@ -10,7 +11,7 @@ const METRICS = [
   makeMetric('other_trade_amount_by_dex', 'Other')
 ]
 
-const DEX_METRICS = METRICS.map(({ key, label }) => {
+const DEX_METRICS = METRICS.map(({ key, label, ...rest }) => {
   return {
     key: key,
     queryKey: key,
@@ -21,6 +22,8 @@ const DEX_METRICS = METRICS.map(({ key, label }) => {
     reqMeta: { slug: 'multi-collateral-dai' }
   }
 })
+
+DEX_METRICS.push({ ...Metric.price_usd, reqMeta: { slug: 'ethereum' } })
 
 const DexTradesTotalNumber = () => {
   return <DashboardMetricChart metrics={DEX_METRICS} />
