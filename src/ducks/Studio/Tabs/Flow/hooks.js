@@ -99,5 +99,5 @@ export function useAnimatedDayIndex (daysAmount, shouldStop) {
     [daysAmount, shouldStop]
   )
 
-  return [dayIndex, setDayIndex]
+  return dayIndex
 }

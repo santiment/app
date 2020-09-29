@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Chord from './Chord'
-import { getDateByDayIndex, getDaysAmount } from './utils'
+import { getDateByDayIndex } from './utils'
 import { usePeriodMatrix, useDayMatrix, useAnimatedDayIndex } from './hooks'
 import Calendar from '../../AdvancedView/Calendar'
 import {
@@ -18,11 +18,11 @@ const FlowBalances = ({ slug, ticker, defaultDates, defaultDaysAmount }) => {
   const [dates, setDates] = useState(defaultDates)
   const [daysAmount, setDaysAmount] = useState(defaultDaysAmount)
   const { periodMatrix, isLoading } = usePeriodMatrix(slug, dates, daysAmount)
-  const [dayIndex] = useAnimatedDayIndex(daysAmount, isLoading)
+  const dayIndex = useAnimatedDayIndex(daysAmount, isLoading)
   const { matrix, isEmpty } = useDayMatrix(periodMatrix, dayIndex)
 
   function onCalendarChange (dates) {
-    setDaysAmount(getDaysAmount(dates[0], dates[1]) + 1)
+    setDaysAmount(Math.floor((dates[1] - dates[0]) / ONE_DAY_IN_MS) + 1)
     setDayIndex(0)
     setDates(dates)
   }

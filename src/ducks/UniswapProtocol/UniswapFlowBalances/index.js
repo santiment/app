@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Icon from '@santiment-network/ui/Icon'
+import cx from 'classnames'
 import Chord from '../../Studio/Tabs/Flow/Chord'
 import {
   usePeriodMatrix,
@@ -7,15 +7,14 @@ import {
   useAnimatedDayIndex
 } from '../../Studio/Tabs/Flow/hooks'
 import {
+  getDateByDayIndex,
   sumCategory,
-  format,
-  getDaysAmount
+  format
 } from '../../Studio/Tabs/Flow/utils'
-import { addDays } from '../../../utils/dates'
+import { toEndOfDay, ONE_DAY_IN_MS } from '../../../utils/dates'
 import Skeleton from '../../../components/Skeleton/Skeleton'
 import HelpPopup from '../../../components/HelpPopup/HelpPopup'
 import { wrapper as wrapClassName } from '../UniswapPieChart/UniswapPieChart.module.scss'
-import Calendar from '../../Studio/AdvancedView/Calendar'
 import styles from './index.module.scss'
 
 const LabelColor = {
@@ -31,12 +30,9 @@ const COLORS = Object.values(LabelColor)
 const LABELS = Object.keys(LabelColor)
 
 const FROM = new Date('2020-09-16T00:00:00.000Z')
-const TO = new Date()
-TO.setHours(23, 59, 59, 59)
-const DAYS_AMOUNT = getDaysAmount(FROM, TO)
+const TO = toEndOfDay(new Date())
+const DAYS_AMOUNT = Math.floor((TO - FROM) / ONE_DAY_IN_MS)
 const DATES = [FROM, TO]
-
-const getDayIndexDate = dayIndex => addDays(FROM, dayIndex)
 
 const Value = ({ flows }) => (
   <span className={styles.value}>{format('UNI', sumCategory(flows))}</span>
@@ -63,10 +59,7 @@ const UniswapFlowBalances = () => {
     DATES,
     DAYS_AMOUNT
   )
-  const [dayIndex, setDayIndex] = useAnimatedDayIndex(
-    DAYS_AMOUNT,
-    isHovered || isLoading
-  )
+  const dayIndex = useAnimatedDayIndex(DAYS_AMOUNT, isHovered || isLoading)
   const { matrix } = useDayMatrix(periodMatrix, dayIndex)
 
   function onHover () {
@@ -74,10 +67,6 @@ const UniswapFlowBalances = () => {
   }
   function onBlur () {
     setIsHovered(false)
-  }
-
-  function onCalendarChange (newFrom) {
-    setDayIndex(DAYS_AMOUNT - getDaysAmount(newFrom, TO))
   }
 
   return (
@@ -98,17 +87,12 @@ const UniswapFlowBalances = () => {
               colors={COLORS}
             />
             <div className={styles.bottom}>
-              <Icon
-                className={styles.playpause}
-                type={isHovered ? 'pause' : 'play'}
-              />
-              <Calendar
-                maxDate={TO}
-                minDate={FROM}
-                dates={[getDayIndexDate(dayIndex)]}
-                onChange={onCalendarChange}
-                className={styles.calendar}
-              />
+              <span
+                className={cx(styles.pause, isHovered && styles.pause_active)}
+              >
+                ||
+              </span>
+              {getDateByDayIndex(DATES, dayIndex)}
               <HelpPopup
                 triggerClassName={styles.help}
                 content='Hover over the diagram to pause animation'
