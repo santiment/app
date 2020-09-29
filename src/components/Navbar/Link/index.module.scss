@@ -3,7 +3,7 @@
 .linkArrow {
   margin: 0 0 0 8px;
   transition: transform 0.3s ease-in-out;
-  transform: translateX(0) scaleX(1);
+  transform: translateX(0);
 }
 
 .link {
@@ -18,7 +18,7 @@
     fill: var(--jungle-green-hover);
 
     & .linkArrow {
-      transform: translateX(2px) scaleX(1.15);
+      transform: translateX(4px);
     }
   }
 }

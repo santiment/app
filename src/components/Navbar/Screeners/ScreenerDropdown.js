@@ -20,16 +20,16 @@ const ScreenerDropdown = ({ activeLink, isLoggedIn, isLoggedInPending }) => {
   const [screeners = [], loading] = useUserScreeners()
   const isLoading = loading || isLoggedInPending
 
-  if (isLoading) {
-    return <Loader className={styles.loader} />
-  }
-
   return (
     <Panel>
       <div className={wrapperStyles.wrapper}>
         <div className={cx(wrapperStyles.block, wrapperStyles.list)}>
           <h3 className={wrapperStyles.title}>My Screeners</h3>
-          <List screeners={screeners} activeLink={activeLink} />
+          {isLoading ? (
+            <Loader className={styles.loader} />
+          ) : (
+            <List screeners={screeners} activeLink={activeLink} />
+          )}
           <CreateScreenerBtn />
         </div>
       </div>
