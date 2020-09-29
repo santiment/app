@@ -49,5 +49,19 @@ export const columns = [
     minWidth: 100,
     maxWidth: 110,
     sortable: false
+  },
+  {
+    Cell: ({ original: { volume = '' } }) =>
+      volume === '' ? (
+        <Loader className={styles.loader} />
+      ) : (
+        formatNumber(volume)
+      ),
+    id: 'volume',
+    Header: 'Transaction Volume',
+    accessor: 'volume',
+    minWidth: 100,
+    maxWidth: 130,
+    sortable: false
   }
 ]

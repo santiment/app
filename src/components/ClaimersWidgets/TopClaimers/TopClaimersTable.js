@@ -3,7 +3,7 @@ import cx from 'classnames'
 import ReactTable from 'react-table'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { columns } from './columns'
-import { useTopClaimers, useUNIBalances } from './gql'
+import { useTopClaimers, useUNIBalances, useUNITransactionVolume } from './gql'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import {
   CustomLoadingComponent,
@@ -20,6 +20,8 @@ const DEFAULT_SORTED = [
   }
 ]
 
+const to = 'utc_now'
+
 export const RANGES = [{ value: 7, label: '7d' }, { value: 1, label: '24h' }]
 
 function getBalance (balances = [], address) {
@@ -31,6 +33,17 @@ function getBalance (balances = [], address) {
     balances.find(item => item.address === address) || {}
 
   return balance
+}
+
+function getVolume (volumes = [], address) {
+  if (volumes.length === 0) {
+    return ''
+  }
+
+  const { transactionVolumeTotal: volume = '' } =
+    volumes.find(item => item.address === address) || {}
+
+  return volume
 }
 
 export const TopClaimersTableTitle = ({ setInterval, loading, items }) => {
@@ -51,21 +64,18 @@ export const TopClaimersTableTitle = ({ setInterval, loading, items }) => {
 
 const TopClaimers = ({ className }) => {
   const [interval, setInterval] = useState(RANGES[0].value)
-  const [items, loading] = useTopClaimers({
-    from: `utc_now-${interval}d`,
-    to: 'utc_now'
-  })
+  const from = `utc_now-${interval}d`
+  const [items, loading] = useTopClaimers({ from, to })
 
   const addresses = items.map(({ address }) => address)
-  const [balances, balancesLoading] = useUNIBalances({
-    addresses,
-    from: `utc_now-${interval}d`,
-    to: 'utc_now'
-  })
+  const [balances] = useUNIBalances({ addresses, from, to })
+  const [volumes] = useUNITransactionVolume({ addresses, from, to })
+
   const tableItems = items.map(({ address, ...rest }) => ({
     address,
     ...rest,
-    balance: getBalance(balances, address)
+    balance: getBalance(balances, address),
+    volume: getVolume(volumes, address)
   }))
 
   return (

@@ -23,6 +23,7 @@ const TOP_CLAIMERS_QUERY = gql`
     }
   }
 `
+
 const ADDRESS_BALANCE_CHANGE_QUERY = gql`
   query addressHistoricalBalanceChange(
     $from: DateTime!
@@ -38,6 +39,25 @@ const ADDRESS_BALANCE_CHANGE_QUERY = gql`
     ) {
       address
       balanceEnd
+    }
+  }
+`
+
+const TRANSACTION_VOLUME_PER_ADDRESS_QUERY = gql`
+  query transactionVolumePerAddress(
+    $from: DateTime!
+    $to: DateTime!
+    $addresses: [String]
+    $selector: HistoricalBalanceSelector
+  ) {
+    transactionVolumePerAddress(
+      addresses: $addresses
+      from: $from
+      to: $to
+      selector: $selector
+    ) {
+      address
+      transactionVolumeTotal
     }
   }
 `
@@ -76,4 +96,24 @@ export function useUNIBalances ({ from, to, addresses = [] }) {
   )
 
   return [addressHistoricalBalanceChange, loading]
+}
+
+export function useUNITransactionVolume ({ from, to, addresses = [] }) {
+  const { data: { transactionVolumePerAddress } = {}, loading } = useQuery(
+    TRANSACTION_VOLUME_PER_ADDRESS_QUERY,
+    {
+      skip: addresses.length === 0,
+      variables: {
+        addresses,
+        to,
+        from,
+        selector: {
+          slug: 'uniswap',
+          infrastructure: 'ETH'
+        }
+      }
+    }
+  )
+
+  return [transactionVolumePerAddress, loading]
 }
