@@ -1,19 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import withSizes from 'react-sizes'
+import cx from 'classnames'
 import { useTimeseries } from '../../ducks/Studio/timeseries/hooks'
 import { useMetricCategories } from '../../ducks/Chart/Synchronizer'
 import { useAxesMetricsKey, useDomainGroups } from '../../ducks/Chart/hooks'
-import cx from 'classnames'
 import DashboardChartHeader, {
   DashboardIntervals
 } from './DashboardChartHeader/DashboardChartHeader'
 import SharedAxisToggle from '../../ducks/Studio/Chart/SharedAxisToggle'
-import { DesktopOnly } from '../Responsive'
+import { DesktopOnly, MobileOnly } from '../Responsive'
 import Chart from '../../ducks/Chart'
 import { mapSizesToProps } from '../../utils/withSizes'
 import { updateTooltipSettings } from '../../ducks/dataHub/tooltipSettings'
 import { useChartColors } from '../../ducks/Chart/colors'
 import { DEFAULT_INTERVAL_SELECTORS, INTERVAL_30_DAYS } from './utils'
+import DashboardChartMetrics from './DashboardChartMetrics/DashboardChartMetrics'
 import styles from './DashboardMetricChart.module.scss'
 
 const CHART_HEIGHT = 400
@@ -49,19 +50,7 @@ const DashboardMetricChart = ({
     ...defaultInterval.requestParams
   })
   const [intervalSelector, setIntervalSelector] = useState(defaultInterval)
-
-  const [data, loadings] = useTimeseries(metrics, settings, metricSettingsMap)
-  const [isDomainGroupingActive, setIsDomainGroupingActive] = useState(true)
-
-  const categories = useMetricCategories(metrics)
-
-  const axesMetricKeys = useAxesMetricsKey(
-    metrics,
-    isDomainGroupingActive
-  ).slice(0, 1)
-
-  const MetricColor = useChartColors(metrics)
-  const domainGroups = useDomainGroups(metrics)
+  const [disabledMetrics, setDisabledMetrics] = useState({})
 
   const onChangeInterval = useCallback(
     value => {
@@ -72,6 +61,28 @@ const DashboardMetricChart = ({
     },
     [setSettings, setIntervalSelector]
   )
+
+  const filteredMetrics = useMemo(
+    () => metrics.filter(({ key }) => !disabledMetrics[key]),
+    [metrics, disabledMetrics]
+  )
+
+  const [data, loadings] = useTimeseries(
+    filteredMetrics,
+    settings,
+    metricSettingsMap
+  )
+  const [isDomainGroupingActive, setIsDomainGroupingActive] = useState(true)
+
+  const categories = useMetricCategories(filteredMetrics)
+
+  const axesMetricKeys = useAxesMetricsKey(
+    filteredMetrics,
+    isDomainGroupingActive
+  ).slice(0, 1)
+
+  const MetricColor = useChartColors(filteredMetrics)
+  const domainGroups = useDomainGroups(filteredMetrics)
 
   return (
     <div className={cx(styles.container, className)}>
@@ -90,6 +101,16 @@ const DashboardMetricChart = ({
         </DesktopOnly>
       </DashboardChartHeader>
 
+      <DesktopOnly>
+        <DashboardChartMetrics
+          metrics={metrics}
+          loadings={loadings}
+          toggleDisabled={setDisabledMetrics}
+          disabledMetrics={disabledMetrics}
+          colors={MetricColor}
+        />
+      </DesktopOnly>
+
       <Chart
         {...settings}
         {...categories}
@@ -107,6 +128,21 @@ const DashboardMetricChart = ({
         domainGroups={isDomainGroupingActive ? domainGroups : undefined}
         isLoading={loadings.length > 0}
       />
+
+      <MobileOnly>
+        <DashboardIntervals
+          interval={intervalSelector}
+          setInterval={onChangeInterval}
+          intervals={intervals}
+        />
+        <DashboardChartMetrics
+          metrics={metrics}
+          loadings={loadings}
+          toggleDisabled={setDisabledMetrics}
+          disabledMetrics={disabledMetrics}
+          colors={MetricColor}
+        />
+      </MobileOnly>
     </div>
   )
 }

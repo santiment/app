@@ -25,8 +25,6 @@ export const useStablecoinsTimeseries = settings => {
     useMemo(() => ({ ...settings }), [settings, rootMetric])
   )
 
-  console.log('data', data)
-
   return {
     data,
     loadings,

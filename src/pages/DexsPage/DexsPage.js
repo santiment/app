@@ -17,7 +17,7 @@ import styles from './DexsPage.module.scss'
 const ANCHORS = {
   TotalNumber: {
     label: 'Volume of DEXs trades',
-    key: 'total-number'
+    key: 'trades-volume'
   },
   TradesSegmented: {
     label: 'Number of Trades segmented by DEX',

@@ -5,7 +5,7 @@ import Button from '@santiment-network/ui/Button'
 import DashboardChartHeader, {
   DashboardIntervals
 } from '../../../components/DashboardMetricChart/DashboardChartHeader/DashboardChartHeader'
-import CheckingAssets from './CheckingAssets/CheckingAssets'
+import DashboardChartMetrics from '../../../components/DashboardMetricChart/DashboardChartMetrics/DashboardChartMetrics'
 import Chart from '../../Chart'
 import { useMetricCategories } from '../../Chart/Synchronizer'
 import {
@@ -108,11 +108,12 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
       </DashboardChartHeader>
 
       <DesktopOnly>
-        <CheckingAssets
+        <DashboardChartMetrics
           metrics={metrics}
           loadings={loadings}
           toggleDisabled={setDisabledAsset}
-          disabledAssets={disabledAssets}
+          disabledMetrics={disabledAssets}
+          colors={StablecoinColor}
         />
       </DesktopOnly>
 
@@ -140,10 +141,11 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
           setInterval={setInterval}
           intervals={STABLE_COINS_MARKETCAP_INTERVALS}
         />
-        <CheckingAssets
+        <DashboardChartMetrics
           loadings={loadings}
           toggleDisabled={setDisabledAsset}
-          disabledAssets={disabledAssets}
+          disabledMetrics={disabledAssets}
+          colors={StablecoinColor}
         />
       </MobileOnly>
     </div>
