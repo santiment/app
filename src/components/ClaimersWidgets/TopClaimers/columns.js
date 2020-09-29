@@ -1,7 +1,8 @@
 import React from 'react'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import { formatNumber } from '../../../utils/formatting'
 import WalletLink from '../../WalletLink/WalletLink'
-import UniswapLastBalance from './UniswapLastBalance'
+import styles from './table.module.scss'
 
 const settings = {
   assets: ['uniswap'],
@@ -28,44 +29,25 @@ export const columns = [
   },
   {
     id: 'value',
-    Header: 'Initially claimed',
+    Header: 'Claimed in interval',
     accessor: 'value',
     minWidth: 100,
-    maxWidth: 130,
+    maxWidth: 150,
     sortable: false,
     Cell: ({ value }) => formatNumber(value)
   },
   {
-    Cell: ({ original: { address } }) => (
-      <UniswapLastBalance address={address} />
-    ),
+    Cell: ({ original: { balance = '' } }) =>
+      balance === '' ? (
+        <Loader className={styles.loader} />
+      ) : (
+        formatNumber(balance)
+      ),
     id: 'price',
-    Header: 'UNI current balance',
+    Header: 'UNI balance',
     accessor: 'price',
     minWidth: 100,
-    maxWidth: 130,
-    sortable: false
-  },
-  {
-    Cell: ({ original: { address } }) => (
-      <UniswapLastBalance address={address} change='24h' />
-    ),
-    id: 'price-change24h',
-    Header: 'UNI balance change, 24h',
-    accessor: 'price24h',
-    minWidth: 130,
-    maxWidth: 160,
-    sortable: false
-  },
-  {
-    Cell: ({ original: { address } }) => (
-      <UniswapLastBalance address={address} change='30d' />
-    ),
-    id: 'price-change30d',
-    Header: 'UNI balance change, 30d',
-    accessor: 'price30d',
-    minWidth: 130,
-    maxWidth: 160,
+    maxWidth: 110,
     sortable: false
   }
 ]

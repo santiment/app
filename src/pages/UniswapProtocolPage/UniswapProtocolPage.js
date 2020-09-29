@@ -44,10 +44,6 @@ const ANCHORS = {
     label: 'UNI Claims: Overview',
     key: 'claimers-widgets'
   },
-  Exchanges: {
-    label: 'Post claim activity of UNI tokens',
-    key: 'how-much-on-exchanges'
-  },
   WhoClaimed: {
     label: 'Who claimed UNI?',
     key: 'who-claimed'
@@ -173,13 +169,6 @@ const UniswapProtocolPage = ({ history, isDesktop }) => {
             isPaywalActive={areClaimsRestricted}
           >
             <ClaimersWidgets />
-          </Block>
-          <Block
-            title='Post-claim activity of UNI tokens'
-            description='From addresses that claimed UNI token'
-            tag={anchors.Exchanges.key}
-          >
-            <UniswapPieChart />
           </Block>
 
           <Block title='Who claimed UNI?' tag={anchors.WhoClaimed.key}>

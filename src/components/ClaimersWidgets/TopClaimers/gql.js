@@ -1,10 +1,5 @@
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
-import { HISTORICAL_BALANCE_QUERY } from '../../../ducks/HistoricalBalance/common/queries'
-
-const { from } = getTimeIntervalFromToday(-30, DAY)
-const to = new Date()
 
 const TOP_CLAIMERS_QUERY = gql`
   query getMetric($from: DateTime!, $to: DateTime!) {
@@ -28,6 +23,24 @@ const TOP_CLAIMERS_QUERY = gql`
     }
   }
 `
+const ADDRESS_BALANCE_CHANGE_QUERY = gql`
+  query addressHistoricalBalanceChange(
+    $from: DateTime!
+    $to: DateTime!
+    $addresses: [String]
+    $selector: HistoricalBalanceSelector
+  ) {
+    addressHistoricalBalanceChange(
+      addresses: $addresses
+      from: $from
+      to: $to
+      selector: $selector
+    ) {
+      address
+      balanceEnd
+    }
+  }
+`
 
 export function useTopClaimers ({ from, to, slug }) {
   const { data = {}, loading } = useQuery(TOP_CLAIMERS_QUERY, {
@@ -45,23 +58,22 @@ export function useTopClaimers ({ from, to, slug }) {
   return [[], loading]
 }
 
-export function useUniswapBalance (address) {
-  const { data: { historicalBalance } = {}, loading } = useQuery(
-    HISTORICAL_BALANCE_QUERY,
+export function useUNIBalances ({ from, to, addresses = [] }) {
+  const { data: { addressHistoricalBalanceChange } = {}, loading } = useQuery(
+    ADDRESS_BALANCE_CHANGE_QUERY,
     {
-      skip: !address,
+      skip: addresses.length === 0,
       variables: {
+        addresses,
+        to,
+        from,
         selector: {
           slug: 'uniswap',
           infrastructure: 'ETH'
-        },
-        address,
-        interval: '1d',
-        to: to.toISOString(),
-        from
+        }
       }
     }
   )
 
-  return [historicalBalance, loading]
+  return [addressHistoricalBalanceChange, loading]
 }
