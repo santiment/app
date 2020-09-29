@@ -2,9 +2,9 @@ import React, { useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
 import withSizes from 'react-sizes'
 import Button from '@santiment-network/ui/Button'
-import StablecoinsHeader, {
-  StablecoinsIntervals
-} from './MarketCapHeader/StablecoinsHeader'
+import DashboardChartHeader, {
+  DashboardIntervals
+} from '../../../components/DashboardMetricChart/DashboardChartHeader/DashboardChartHeader'
 import CheckingAssets from './CheckingAssets/CheckingAssets'
 import Chart from '../../Chart'
 import { useMetricCategories } from '../../Chart/Synchronizer'
@@ -20,7 +20,6 @@ import { mapSizesToProps } from '../../../utils/withSizes'
 import SharedAxisToggle from '../../Studio/Chart/SharedAxisToggle'
 import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
 import { formIntervalSettings } from '../../SANCharts/IntervalSelector'
-
 import styles from './StablecoinsMarketCap.module.scss'
 
 const CHART_HEIGHT = 400
@@ -75,7 +74,7 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
 
   return (
     <div className={cx(styles.container, className)}>
-      <StablecoinsHeader>
+      <DashboardChartHeader>
         <div className={styles.metrics}>
           {StablecoinsMetrics.map(metric => {
             const { label, key } = metric
@@ -100,13 +99,13 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
           className={styles.sharedAxisToggle}
         />
         <DesktopOnly>
-          <StablecoinsIntervals
+          <DashboardIntervals
             interval={interval}
             setInterval={setInterval}
             intervals={STABLE_COINS_MARKETCAP_INTERVALS}
           />
         </DesktopOnly>
-      </StablecoinsHeader>
+      </DashboardChartHeader>
 
       <DesktopOnly>
         <CheckingAssets
@@ -136,7 +135,7 @@ const StablecoinsMarketCap = ({ isDesktop, className }) => {
       />
 
       <MobileOnly>
-        <StablecoinsIntervals
+        <DashboardIntervals
           interval={interval}
           setInterval={setInterval}
           intervals={STABLE_COINS_MARKETCAP_INTERVALS}

@@ -70,6 +70,48 @@ Object.assign(Fetcher, {
   social_active_users_twitter: {
     query: GET_SOURCE_METRIC(SOCIAL_ACTIVE_USERS_TWITTER),
     preTransform
+  },
+  eth_based_trade_amount_by_dex: {
+    query: GET_SOURCE_METRIC({
+      key: 'eth_based_trade_amount_by_dex'
+    }),
+    preTransform
+  },
+  total_trade_amount_by_dex: {
+    query: GET_SOURCE_METRIC({
+      key: 'total_trade_amount_by_dex'
+    }),
+    preTransform
+  },
+  stablecoin_trade_amount_by_dex: {
+    query: GET_SOURCE_METRIC({
+      key: 'stablecoin_trade_amount_by_dex'
+    }),
+    preTransform
+  },
+  total_trade_volume_by_dex: {
+    query: GET_SOURCE_METRIC({
+      key: 'total_trade_volume_by_dex'
+    }),
+    preTransform
+  },
+  eth_based_trade_volume_by_dex: {
+    query: GET_SOURCE_METRIC({
+      key: 'eth_based_trade_volume_by_dex'
+    }),
+    preTransform
+  },
+  stablecoin_trade_volume_by_dex: {
+    query: GET_SOURCE_METRIC({
+      key: 'stablecoin_trade_volume_by_dex'
+    }),
+    preTransform
+  },
+  other_trade_volume_by_dex: {
+    query: GET_SOURCE_METRIC({
+      key: 'other_trade_volume_by_dex'
+    }),
+    preTransform
   }
 })
 

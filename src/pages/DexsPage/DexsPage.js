@@ -10,17 +10,23 @@ import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavi
 import SharePage from '../../components/SharePage/SharePage'
 import styles from './DexsPage.module.scss'
 import CurrentPageReport from '../../ducks/Stablecoins/StablecoinsReport/CurrentPageReport'
+import DexTradesTotalNumber from '../../ducks/Dexs/DexTradesTotalNumber/DexTradesTotalNumber'
+import DexTradesSegmentedByDEX from '../../ducks/Dexs/DexTradesSegmentedByDEX/DexTradesSegmentedByDEX'
 
 const ANCHORS = {
-  Overview: {
-    label: 'Overview',
-    key: 'overview'
+  TotalNumber: {
+    label: 'Total Number of DEX Trades',
+    key: 'total-number'
+  },
+  TradesSegmented: {
+    label: 'Trades segmented by DEX',
+    key: 'segmented-trades'
   }
 }
 
 const DEX_PREDICATE = ({ name }) =>
   name.toLowerCase().indexOf('dex') >= 0 ||
-  name.toLowerCase().indexOf('decentralized')
+  name.toLowerCase().indexOf('decentralized') >= 0
 
 const DexsPage = ({ history }) => {
   return (
@@ -54,7 +60,9 @@ const DexsPage = ({ history }) => {
             <div className={styles.description}>
               Cryptocurrencies designed to minimize the volatility of the price
               of the stablecoin, relative to some "stable" asset or basket of
-              assets.
+              assets. This data is from the main decentralized exchanges namely
+              Balancer, Bancor, Curve, dYdX, Etherdelta, Gnosis, IDEX, Kyber,
+              Oasis, 0x, Tokenstore, Uniswap, AirSwap, DEX.Top and DDEX.
             </div>
             <SharePage />
           </div>
@@ -71,9 +79,18 @@ const DexsPage = ({ history }) => {
         <div className={styles.inner}>
           <Block
             className={styles.firstBlock}
-            tag={ANCHORS.Overview.key}
-            title='Overview'
-          />
+            tag={ANCHORS.TotalNumber.key}
+            title='Total Number of DEX Trades'
+          >
+            <DexTradesTotalNumber />
+          </Block>
+
+          <Block
+            tag={ANCHORS.TradesSegmented.key}
+            title='Number of Trades Segmented by DEX'
+          >
+            <DexTradesSegmentedByDEX />
+          </Block>
         </div>
       </div>
 

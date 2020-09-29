@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
 import Tabs from '@santiment-network/ui/Tabs'
-import styles from './MarketCapHeader.module.scss'
+import styles from './DashboardChartHeader.module.scss'
 
-export const StablecoinsIntervals = ({ interval, setInterval, intervals }) => {
+export const DashboardIntervals = ({ interval, setInterval, intervals }) => {
   const tabs = useMemo(
     () => {
       return intervals.map(({ label }) => label)
@@ -28,11 +28,11 @@ export const StablecoinsIntervals = ({ interval, setInterval, intervals }) => {
   )
 }
 
-const StablecoinsHeader = ({ title, children }) => (
+const DashboardChartHeader = ({ title, children }) => (
   <div className={styles.container}>
     {title}
     {children}
   </div>
 )
 
-export default StablecoinsHeader
+export default DashboardChartHeader

@@ -87,7 +87,7 @@ const FormatToTimestamp = {
   [DAY]: ONE_DAY_IN_MS
 }
 
-const CRYPTO_ERA_START_DATE = new Date('2009-01-01T01:00:00.000Z')
+export const CRYPTO_ERA_START_DATE = new Date('2009-01-01T01:00:00.000Z')
 
 /**
  * @param {number} amount - Amount of days/months to add or substract

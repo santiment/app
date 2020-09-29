@@ -244,5 +244,15 @@ export const METRICS = [
   'uniswap_claims_amount',
   'uniswap_lp_claims_amount',
   'uniswap_user_claims_amount',
-  'uniswap_user_claims_count'
+  'uniswap_user_claims_count',
+
+  'total_trade_amount_by_dex',
+  'eth_based_trade_amount_by_dex',
+  'stablecoin_trade_amount_by_dex',
+  'other_trade_amount_by_dex',
+
+  'total_trade_volume_by_dex',
+  'eth_based_trade_volume_by_dex',
+  'stablecoin_trade_volume_by_dex',
+  'other_trade_volume_by_dex'
 ]

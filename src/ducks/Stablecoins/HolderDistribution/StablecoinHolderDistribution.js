@@ -11,9 +11,9 @@ import { useAxesMetricsKey } from '../../Chart/hooks'
 import { metricsToPlotCategories } from '../../Chart/Synchronizer'
 import StablecoinSelector from '../StablecoinSelector/StablecoinSelector'
 import { MobileOnly } from '../../../components/Responsive'
-import StablecoinsHeader, {
-  StablecoinsIntervals
-} from '../StablecoinsMarketCap/MarketCapHeader/StablecoinsHeader'
+import DashboardChartHeader, {
+  DashboardIntervals
+} from '../../../components/DashboardMetricChart/DashboardChartHeader/DashboardChartHeader'
 import {
   HOLDERS_DISTRIBUTION_6M,
   HOLDERS_DISTRIBUTION_MOBILE_INTERVALS
@@ -164,7 +164,7 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
   return (
     <div className={cx(styles.container, className)}>
       <MobileOnly>
-        <StablecoinsHeader title='Holder Distribution' />
+        <DashboardChartHeader title='Holder Distribution' />
       </MobileOnly>
 
       <div className={styles.chartContainer}>
@@ -197,7 +197,7 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
       </div>
 
       <MobileOnly>
-        <StablecoinsIntervals
+        <DashboardIntervals
           setInterval={onChangeInterval}
           interval={interval}
           intervals={HOLDERS_DISTRIBUTION_MOBILE_INTERVALS}
