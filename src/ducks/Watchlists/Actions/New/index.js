@@ -107,15 +107,14 @@ class NewWatchlist extends PureComponent {
               onChange={this.onInputChange}
               defaultValue={name}
               isError={error}
+              errorText={error}
+              autocomplete='off'
             />
             <button
               // hack for submiting form
               type='submit'
               style={{ display: 'none' }}
             />
-            <Label accent='persimmon' className={styles.error}>
-              {error}
-            </Label>
             <div className={styles.toggleWrapper}>
               <Toggle
                 isActive={isPublic}

@@ -102,15 +102,14 @@ const EditForm = ({
           defaultValue={formState.name}
           onChange={onInputChange}
           isError={formState.error}
+          errorText={formState.error}
+          autocomplete='off'
         />
         <button
           // hack for submiting form
           type='submit'
           style={{ display: 'none' }}
         />
-        <Label accent='persimmon' className={styles.error}>
-          {formState.error ? formState.error : ''}
-        </Label>
         <Label accent='waterloo' className={styles.description__label}>
           Description (optional)
         </Label>

@@ -3,8 +3,7 @@ import cx from 'classnames'
 import ReactTable from 'react-table'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { columns } from './columns'
-import { useTopClaimers } from './gql'
-import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
+import { useTopClaimers, useUNIBalances, useUNITransactionVolume } from './gql'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import {
   CustomLoadingComponent,
@@ -21,7 +20,31 @@ const DEFAULT_SORTED = [
   }
 ]
 
-export const RANGES = [{ value: 1, label: '24h' }, { value: 7, label: '7d' }]
+const to = 'utc_now'
+
+export const RANGES = [{ value: 7, label: '7d' }, { value: 1, label: '24h' }]
+
+function getBalance (balances = [], address) {
+  if (balances.length === 0) {
+    return ''
+  }
+
+  const { balanceEnd: balance = '' } =
+    balances.find(item => item.address === address) || {}
+
+  return balance
+}
+
+function getVolume (volumes = [], address) {
+  if (volumes.length === 0) {
+    return ''
+  }
+
+  const { transactionVolumeTotal: volume = '' } =
+    volumes.find(item => item.address === address) || {}
+
+  return volume
+}
 
 export const TopClaimersTableTitle = ({ setInterval, loading, items }) => {
   return (
@@ -29,7 +52,7 @@ export const TopClaimersTableTitle = ({ setInterval, loading, items }) => {
       <h3 className={styles.text}>Top Claimers</h3>
       <IntervalsComponent
         onChange={setInterval}
-        defaultIndex={1}
+        defaultIndex={0}
         ranges={RANGES}
       />
       {loading && items.length > 0 && (
@@ -40,12 +63,20 @@ export const TopClaimersTableTitle = ({ setInterval, loading, items }) => {
 }
 
 const TopClaimers = ({ className }) => {
-  const [interval, setInterval] = useState(1)
-  const { from, to } = getTimeIntervalFromToday(-interval, DAY)
-  const [items, loading] = useTopClaimers({
-    from: from.toISOString(),
-    to: to.toISOString()
-  })
+  const [interval, setInterval] = useState(RANGES[0].value)
+  const from = `utc_now-${interval}d`
+  const [items, loading] = useTopClaimers({ from, to })
+
+  const addresses = items.map(({ address }) => address)
+  const [balances] = useUNIBalances({ addresses, from, to })
+  const [volumes] = useUNITransactionVolume({ addresses, from, to })
+
+  const tableItems = items.map(({ address, ...rest }) => ({
+    address,
+    ...rest,
+    balance: getBalance(balances, address),
+    volume: getVolume(volumes, address)
+  }))
 
   return (
     <>
@@ -54,7 +85,11 @@ const TopClaimers = ({ className }) => {
         loading={loading}
         items={items}
       />
-      <TopClaimersTable className={className} items={items} loading={loading} />
+      <TopClaimersTable
+        className={className}
+        items={tableItems}
+        loading={loading}
+      />
     </>
   )
 }
