@@ -1,7 +1,6 @@
 import React from 'react'
-import DashboardMetricChart, {
-  makeMetric
-} from '../../../components/DashboardMetricChart/DashboardMetricChart'
+import DashboardMetricChart from '../../../components/DashboardMetricChart/DashboardMetricChart'
+import { makeMetric } from '../../../components/DashboardMetricChart/utils'
 import { Metric } from '../../dataHub/metrics'
 
 const METRICS = [
