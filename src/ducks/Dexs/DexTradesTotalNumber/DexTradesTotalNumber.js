@@ -25,6 +25,7 @@ const DEX_METRICS = METRICS.map(({ key, label, ...rest }) => {
 DEX_METRICS.push({
   ...Metric.price_usd,
   key: 'price_usd',
+  label: 'Price ETH',
   reqMeta: { slug: 'ethereum' }
 })
 

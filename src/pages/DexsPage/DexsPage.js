@@ -16,11 +16,11 @@ import styles from './DexsPage.module.scss'
 
 const ANCHORS = {
   TotalNumber: {
-    label: 'Volume of DEXs trades',
+    label: 'Total Number of DEXs Trades',
     key: 'trades-volume'
   },
   TradesSegmented: {
-    label: 'Number of Trades segmented by DEX',
+    label: 'Number of Trades Segmented by DEXs',
     key: 'segmented-trades'
   },
   DexByTrades: {
@@ -85,14 +85,14 @@ const DexsPage = ({ history }) => {
           <Block
             className={styles.firstBlock}
             tag={ANCHORS.TotalNumber.key}
-            title='Volume of DEXs trades'
+            title='Total Number of DEX Trades'
           >
             <DexTradesTotalNumber />
           </Block>
 
           <Block
             tag={ANCHORS.TradesSegmented.key}
-            title='Number of Trades segmented by DEX'
+            title='Number of Trades Segmented by DEX'
           >
             <DexTradesSegmentedByDEX />
           </Block>
