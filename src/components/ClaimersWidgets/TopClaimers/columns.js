@@ -19,6 +19,14 @@ const TrxAddressCell = ({ value, original: { labels } }) => {
   return <WalletLink address={value} {...settings} labels={transformedLabels} />
 }
 
+function CellWithLoader (value = '') {
+  if (value === '') {
+    return <Loader className={styles.loader} />
+  } else {
+    return formatNumber(value)
+  }
+}
+
 export const columns = [
   {
     id: 'address',
@@ -32,36 +40,36 @@ export const columns = [
     Header: 'Claimed in interval',
     accessor: 'value',
     minWidth: 100,
-    maxWidth: 150,
+    maxWidth: 140,
     sortable: false,
     Cell: ({ value }) => formatNumber(value)
   },
   {
-    Cell: ({ original: { balance = '' } }) =>
-      balance === '' ? (
-        <Loader className={styles.loader} />
-      ) : (
-        formatNumber(balance)
-      ),
+    Cell: ({ original: { balance = '' } }) => CellWithLoader(balance),
     id: 'price',
     Header: 'UNI balance',
     accessor: 'price',
-    minWidth: 100,
+    minWidth: 90,
     maxWidth: 110,
     sortable: false
   },
   {
-    Cell: ({ original: { volume = '' } }) =>
-      volume === '' ? (
-        <Loader className={styles.loader} />
-      ) : (
-        formatNumber(volume)
-      ),
-    id: 'volume',
-    Header: 'Transaction Volume',
-    accessor: 'volume',
-    minWidth: 100,
-    maxWidth: 130,
+    Cell: ({ original: { volumeInflow = '' } }) => CellWithLoader(volumeInflow),
+    id: 'volume-in',
+    Header: 'Transaction Volume In',
+    accessor: 'volume-in',
+    minWidth: 130,
+    maxWidth: 160,
+    sortable: false
+  },
+  {
+    Cell: ({ original: { volumeOutflow = '' } }) =>
+      CellWithLoader(volumeOutflow),
+    id: 'volume-out',
+    Header: 'Transaction Volume Out',
+    accessor: 'volume-out',
+    minWidth: 130,
+    maxWidth: 160,
     sortable: false
   }
 ]

@@ -25,25 +25,19 @@ const to = 'utc_now'
 export const RANGES = [{ value: 7, label: '7d' }, { value: 1, label: '24h' }]
 
 function getBalance (balances = [], address) {
-  if (balances.length === 0) {
-    return ''
-  }
-
   const { balanceEnd: balance = '' } =
     balances.find(item => item.address === address) || {}
 
   return balance
 }
 
-function getVolume (volumes = [], address) {
-  if (volumes.length === 0) {
-    return ''
-  }
+function getVolumes (volumes = [], address) {
+  const {
+    transactionVolumeInflow: volumeInflow = '',
+    transactionVolumeOutflow: volumeOutflow = ''
+  } = volumes.find(item => item.address === address) || {}
 
-  const { transactionVolumeTotal: volume = '' } =
-    volumes.find(item => item.address === address) || {}
-
-  return volume
+  return { volumeInflow, volumeOutflow }
 }
 
 export const TopClaimersTableTitle = ({ setInterval, loading, items }) => {
@@ -75,7 +69,7 @@ const TopClaimers = ({ className }) => {
     address,
     ...rest,
     balance: getBalance(balances, address),
-    volume: getVolume(volumes, address)
+    ...getVolumes(volumes, address)
   }))
 
   return (
