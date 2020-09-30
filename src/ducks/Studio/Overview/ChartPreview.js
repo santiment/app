@@ -44,7 +44,7 @@ const ChartPreview = ({ widget, selectedMetrics, currentPhase, onClick }) => {
       className={cx(
         styles.item,
         styles[currentPhase],
-        isBlocked && styles.block
+        currentPhase === Phase.MAPVIEW_SELECTION && isBlocked && styles.block
       )}
       onClick={() => onClick(widget)}
     >
