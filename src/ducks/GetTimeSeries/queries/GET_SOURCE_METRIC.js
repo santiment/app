@@ -1,15 +1,15 @@
 import gql from 'graphql-tag'
 
-export const GET_SOURCE_METRIC = ({ key, queryKey }) => {
+export const GET_SOURCE_METRIC = ({ key, queryKey = key }) => {
   return gql`
     query getMetric(
       $from: DateTime!
       $to: DateTime!
       $interval: interval
-      $source: String
+      $selector: MetricTargetSelectorInputObject
     ) {
       getMetric(metric: "${queryKey}") {
-        timeseriesData(selector: { source: $source}, from: $from, to: $to, interval: $interval) {
+        timeseriesData(selector: $selector, from: $from, to: $to, interval: $interval) {
           datetime
           ${key}: value
         }

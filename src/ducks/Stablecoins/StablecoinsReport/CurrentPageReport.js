@@ -29,16 +29,16 @@ const IconDw = (
   </svg>
 )
 
-const StablecoinsReport = () => {
+const STABLECOINS_PREDICATE = ({ name }) =>
+  name.toLowerCase().indexOf('stablecoin') >= 0 &&
+  name.toLowerCase().indexOf('report')
+
+const CurrentPageReport = ({ searchPredicate = STABLECOINS_PREDICATE }) => {
   const [reports, loading] = useAlphaReports()
 
   const stablecoinsReport = useMemo(
     () => {
-      return reports.find(
-        ({ name }) =>
-          name.toLowerCase().indexOf('stablecoin') >= 0 &&
-          name.toLowerCase().indexOf('report')
-      )
+      return reports.find(searchPredicate)
     },
     [reports]
   )
@@ -79,4 +79,4 @@ const StablecoinsReport = () => {
   )
 }
 
-export default StablecoinsReport
+export default CurrentPageReport

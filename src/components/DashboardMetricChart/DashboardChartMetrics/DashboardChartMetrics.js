@@ -1,10 +1,10 @@
 import React from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
-import ProjectIcon from '../../../../components/ProjectIcon/ProjectIcon'
-import styles from './CheckingAssets.module.scss'
+import ProjectIcon from '../../ProjectIcon/ProjectIcon'
+import styles from './DashboardChartMetrics.module.scss'
 
-const AssetButton = ({ children, isDisabled, ...rest }) => {
+const DashboardMetricButton = ({ children, isDisabled, ...rest }) => {
   return (
     <Button
       border
@@ -16,31 +16,33 @@ const AssetButton = ({ children, isDisabled, ...rest }) => {
   )
 }
 
-const CheckingAssets = ({
+const DashboardChartMetrics = ({
   metrics,
   loadings,
-  disabledAssets,
-  toggleDisabled
+  disabledMetrics,
+  toggleDisabled,
+  colors
 }) => {
   return (
     <div className={styles.container}>
       {metrics &&
         metrics.map(metric => {
-          const { label, slug, color } = metric
+          const { label, key, slug = key } = metric
+          const color = colors[key]
           return (
-            <AssetButton
+            <DashboardMetricButton
               key={label}
               isLoading={loadings.includes(metric)}
               onClick={() => {
-                if (disabledAssets[slug]) {
-                  delete disabledAssets[slug]
+                if (disabledMetrics[slug]) {
+                  delete disabledMetrics[slug]
                 } else {
-                  disabledAssets[slug] = true
+                  disabledMetrics[slug] = true
                 }
 
-                toggleDisabled({ ...disabledAssets })
+                toggleDisabled({ ...disabledMetrics })
               }}
-              isDisabled={disabledAssets[slug]}
+              isDisabled={disabledMetrics[key]}
             >
               <div className={cx(styles.btnInner, styles.icon)}>
                 <svg
@@ -52,7 +54,7 @@ const CheckingAssets = ({
                 >
                   <path
                     d='M11 5C11 7.20914 9.20914 9 7 9C4.79086 9 3 7.20914 3 5M11 5C11 2.79086 9.20914 1 7 1C4.79086 1 3 2.79086 3 5M11 5H13M3 5H1'
-                    stroke={disabledAssets[slug] ? 'var(--casper)' : color}
+                    stroke={disabledMetrics[slug] ? 'var(--casper)' : color}
                     strokeWidth='1.2'
                     strokeLinecap='round'
                     strokeLinejoin='round'
@@ -62,18 +64,20 @@ const CheckingAssets = ({
 
               <div className={styles.divider} />
 
-              <ProjectIcon
-                size={18}
-                slug={slug}
-                className={styles.projectIcon}
-              />
+              {metric.slug && (
+                <ProjectIcon
+                  size={18}
+                  slug={slug}
+                  className={styles.projectIcon}
+                />
+              )}
 
               <div className={styles.btnInner}>{label}</div>
-            </AssetButton>
+            </DashboardMetricButton>
           )
         })}
     </div>
   )
 }
 
-export default CheckingAssets
+export default DashboardChartMetrics

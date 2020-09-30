@@ -1,8 +1,9 @@
-@import '~@santiment-network/ui/mixins';
+@import '../../../../node_modules/@santiment-network/ui/mixins';
 
 .container {
   display: flex;
   margin: 16px;
+  flex-wrap: wrap;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     margin-top: 24px;
@@ -15,6 +16,7 @@
 
 .assetBtn {
   margin-right: 8px;
+  margin-bottom: 8px;
   display: flex;
   padding: 0;
 

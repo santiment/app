@@ -142,6 +142,11 @@ const LoadableUniswapProtocolPage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableDexsPage = Loadable({
+  loader: () => import('./pages/DexsPage/DexsPage'),
+  loading: () => <PageLoader />
+})
+
 const LoadableSheetsTemplatePage = Loadable({
   loader: () => import('./pages/SheetsTemplatePage/SheetsTemplatePage'),
   loading: () => <PageLoader />
@@ -425,21 +430,19 @@ export const App = ({
         <Route
           path={PATHS.STABLECOINS}
           render={props => (
-            <LoadableStablecoinsPage
-              isLoggedIn={isLoggedIn}
-              isDesktop={isDesktop}
-              {...props}
-            />
+            <LoadableStablecoinsPage isDesktop={isDesktop} {...props} />
           )}
         />
         <Route
           path={PATHS.UNISWAP_PROTOCOL}
           render={props => (
-            <LoadableUniswapProtocolPage
-              isLoggedIn={isLoggedIn}
-              isDesktop={isDesktop}
-              {...props}
-            />
+            <LoadableUniswapProtocolPage isDesktop={isDesktop} {...props} />
+          )}
+        />
+        <Route
+          path={PATHS.DEXS}
+          render={props => (
+            <LoadableDexsPage isDesktop={isDesktop} {...props} />
           )}
         />
         <Route

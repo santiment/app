@@ -1,0 +1,149 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  padding: 0 !important;
+  max-width: 100% !important;
+  position: relative;
+  margin: 0 auto !important;
+  background: var(--athens);
+}
+
+.inner {
+  max-width: 1152px;
+  width: 100%;
+  flex: 1;
+  margin: auto;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    padding: 0 16px;
+  }
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  display: flex;
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    flex-direction: column;
+  }
+}
+
+.pageDescription {
+  display: flex;
+  flex-direction: column;
+}
+
+.block {
+  margin: 0;
+  padding: 40px 24px;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    margin: 40px 0;
+  }
+}
+
+.divider {
+  margin-top: 40px;
+}
+
+.header {
+  background: var(--white);
+  padding: 32px 0 32px 0;
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    padding: 16px 16px 24px 16px;
+  }
+}
+
+.title {
+  color: var(--rhino);
+  margin: 0;
+
+  @include text('h3');
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    @include text('h4');
+  }
+}
+
+.subHeader {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 16px 0;
+}
+
+.subTitle {
+  color: var(--rhino);
+  display: flex;
+  text-align: center;
+
+  @include text('h4', 'm');
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    @include text('body-2', 'm');
+  }
+}
+
+.subDescr {
+  @include text('body-2');
+
+  margin-top: 8px;
+  color: var(--waterloo);
+}
+
+.description {
+  color: var(--waterloo);
+  margin-top: 16px;
+  max-width: 600px;
+
+  @include text('body-2');
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    margin-top: 8px;
+  }
+}
+
+.footer {
+  margin-top: 80px !important;
+}
+
+.upgrade {
+  margin: auto 0 auto 24px;
+  min-width: 52px;
+  height: 24px;
+  background: var(--texas-rose-light-2);
+  padding: 6px;
+  color: var(--texas-rose);
+  width: initial;
+}
+
+.crown {
+  fill: var(--texas-rose);
+  margin-right: 8px;
+}
+
+.balanceTitle {
+  margin-right: 16px;
+}
+
+.firstBlock {
+  margin-top: -202px;
+  padding-top: 0;
+  padding-bottom: 0;
+
+  @media only screen and (max-width: 1535px) {
+    margin-top: 40px;
+  }
+}
+
+.researchers {
+  margin-top: 40px;
+}
+
+.anchor {
+  color: inherit;
+}
