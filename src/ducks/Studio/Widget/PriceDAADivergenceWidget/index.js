@@ -22,7 +22,7 @@ const Title = buildTitle('Price DAA Divergence')
 
 const PriceDAADivergenceWidget = props => (
   <Widget>
-    <Chart TopLeftComponent={Title} {...props} />
+    <Chart isWithCompare={false} TopLeftComponent={Title} {...props} />
   </Widget>
 )
 
