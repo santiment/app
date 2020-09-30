@@ -23,7 +23,11 @@ const ANCHORS = {
     label: 'Number of Trades Segmented by DEXs',
     key: 'segmented-trades'
   },
-  DexByTrades: {
+  DexByAmountTrades: {
+    label: 'Share of DEXs by Amount of Trades',
+    key: 'dex-by-amount'
+  },
+  DexByVolumeTrades: {
     label: 'Share of DEXs by Volume of Trades',
     key: 'dex-by-volume'
   }
@@ -98,10 +102,16 @@ const DexsPage = ({ history }) => {
           </Block>
 
           <Block
-            tag={ANCHORS.DexByTrades.key}
+            tag={ANCHORS.DexByAmountTrades.key}
+            title='Share of DEXs by Amount of Trades'
+          >
+            <NumberOfTradesPerDex metric='total_trade_amount_by_dex' />
+          </Block>
+          <Block
+            tag={ANCHORS.DexByVolumeTrades.key}
             title='Share of DEXs by Volume of Trades'
           >
-            <NumberOfTradesPerDex />
+            <NumberOfTradesPerDex metric='total_trade_volume_by_dex' />
           </Block>
         </div>
       </div>
