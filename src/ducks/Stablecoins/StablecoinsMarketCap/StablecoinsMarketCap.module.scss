@@ -15,21 +15,3 @@
     margin: 8px 0 8px auto;
   }
 }
-
-.metrics {
-  padding-bottom: 9px;
-  display: flex;
-  align-items: center;
-
-  @include responsive('laptop', 'tablet') {
-    padding-bottom: 0;
-  }
-}
-
-.metricBtn {
-  padding: 6px 8px;
-  color: var(--waterloo);
-  margin-right: 8px;
-
-  @include text('body-3');
-}

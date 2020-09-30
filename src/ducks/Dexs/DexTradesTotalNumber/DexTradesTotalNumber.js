@@ -3,14 +3,14 @@ import DashboardMetricChart from '../../../components/DashboardMetricChart/Dashb
 import { makeMetric } from '../../../components/DashboardMetricChart/utils'
 import { Metric } from '../../dataHub/metrics'
 
-const METRICS = [
+export const DEX_AMOUNT_METRICS = [
   makeMetric('total_trade_amount_by_dex', 'Total Trade Amount'),
   makeMetric('eth_based_trade_amount_by_dex', 'ETH Based Tokens'),
   makeMetric('stablecoin_trade_amount_by_dex', 'Stable coins'),
   makeMetric('other_trade_amount_by_dex', 'Other')
 ]
 
-const DEX_METRICS = METRICS.map(({ key, label, ...rest }) => {
+const DEX_METRICS = DEX_AMOUNT_METRICS.map(({ key, label, ...rest }) => {
   return {
     key: key,
     queryKey: key,
