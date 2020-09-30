@@ -16,7 +16,6 @@ import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavi
 import UniswapHistoricalBalance from '../../ducks/Studio/Tabs/UniswapHistoricalBalance/UniswapHistoricalBalance'
 import UniswapTopTransactions from '../../ducks/UniswapProtocol/UniswapTopTransactions/UniswapTopTransactions'
 import UniswapMetrics from '../../ducks/UniswapProtocol/UniswapMetrics/UniswapMetrics'
-import UniswapPieChart from '../../ducks/UniswapProtocol/UniswapPieChart/UniswapPieChart'
 import UniswapWhoClaimed from '../../ducks/UniswapProtocol/UniswapPieChart/WhoClaimedPieChart'
 import UniswapFlowBalances from '../../ducks/UniswapProtocol/UniswapFlowBalances'
 import SharePage from '../../components/SharePage/SharePage'

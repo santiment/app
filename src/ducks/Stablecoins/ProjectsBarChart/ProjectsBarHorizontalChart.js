@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import {
   CartesianGrid,
   ComposedChart,
@@ -31,7 +32,7 @@ const ProjectsBarHorizontalChart = ({
   })
 
   return (
-    <div className={styles.chart}>
+    <div className={cx(styles.chart, styles.horizontalChart)}>
       <div className={styles.watermark}>{SanWatermark}</div>
       <ResponsiveContainer width='100%' height='100%'>
         <ComposedChart
