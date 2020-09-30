@@ -12,7 +12,7 @@ const loadings = []
 const ChartPreview = ({ widget, selectedMetrics, currentPhase, onClick }) => {
   let [chart, setChart] = useState()
   const canvasRef = useRef(null)
-  const { metrics, comparedMetrics } = widget
+  const { metrics, comparedMetrics, isBlocked } = widget
 
   useEffect(() => {
     const { current: canvas } = canvasRef
@@ -41,23 +41,32 @@ const ChartPreview = ({ widget, selectedMetrics, currentPhase, onClick }) => {
 
   return (
     <div
-      className={cx(styles.item, styles[currentPhase])}
+      className={cx(
+        styles.item,
+        styles[currentPhase],
+        isBlocked && styles.block
+      )}
       onClick={() => onClick(widget)}
     >
       <canvas ref={canvasRef} />
       <div
         className={cx(
           styles.metrics,
-          currentPhase === Phase.MAPVIEW_SELECTION && styles.metrics_visible
+          currentPhase === Phase.MAPVIEW_SELECTION && styles.metrics_visible,
+          isBlocked && styles.metrics_blocked
         )}
       >
         <div className={styles.metrics__list}>
-          <ActiveMetrics
-            className={styles.metric}
-            activeMetrics={metrics.concat(comparedMetrics)}
-            loadings={loadings}
-            MetricColor={widget.MetricColor}
-          />
+          {isBlocked ? (
+            "New metrics can't be added to this widget"
+          ) : (
+            <ActiveMetrics
+              className={styles.metric}
+              activeMetrics={metrics.concat(comparedMetrics)}
+              loadings={loadings}
+              MetricColor={widget.MetricColor}
+            />
+          )}
         </div>
       </div>
     </div>

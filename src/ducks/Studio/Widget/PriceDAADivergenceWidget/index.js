@@ -29,6 +29,7 @@ const PriceDAADivergenceWidget = props => (
 export const priceDAADivergenceBuilder = (widget, metrics) => props =>
   ChartWidget.new(
     {
+      isBlocked: true,
       ...props,
       metrics
     },
