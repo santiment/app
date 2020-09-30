@@ -30,8 +30,7 @@ export const SOCIAL_ACTIVE_USERS_TELEGRAM = {
   channel: 'telegram',
   reqMeta: {
     selector: {
-      source: 'telegram',
-      slug: undefined
+      source: 'telegram'
     }
   }
 }
@@ -45,8 +44,7 @@ export const SOCIAL_ACTIVE_USERS_TWITTER = {
   channel: 'twitter',
   reqMeta: {
     selector: {
-      source: 'twitter_crypto',
-      slug: undefined
+      source: 'twitter_crypto'
     }
   }
 }
