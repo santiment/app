@@ -3,9 +3,7 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import {
   HOLDER_DISTRIBUTION_NODE,
-  HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE,
-  PRICE_DAA_DIVERGENCE_NODE,
-  ADJUSTED_PRICE_DAA_DIVERGENCE_NODE
+  HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE
 } from './nodes'
 import Group from './Group'
 import Button from './Button'
@@ -30,7 +28,6 @@ const Category = ({
   title,
   groups,
   hasTopHolders,
-  hasDivergence,
   project,
   NewMetricsCategory,
   ...rest
@@ -63,20 +60,6 @@ const Category = ({
             <WidgetButton
               project={project}
               widget={HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE}
-              toggleMetric={toggleMetric}
-            />
-          </>
-        )}
-        {hasDivergence && (
-          <>
-            <WidgetButton
-              project={project}
-              widget={PRICE_DAA_DIVERGENCE_NODE}
-              toggleMetric={toggleMetric}
-            />
-            <WidgetButton
-              project={project}
-              widget={ADJUSTED_PRICE_DAA_DIVERGENCE_NODE}
               toggleMetric={toggleMetric}
             />
           </>

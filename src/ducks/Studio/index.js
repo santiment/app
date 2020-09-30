@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Sidebar from './Sidebar'
 import Main from './Main'
-import { mergeMetricSettingMap } from './utils'
+import { mergeMetricSettingMap, checkIsMetricWidget } from './utils'
 import { DEFAULT_SETTINGS } from './defaults'
 import { Phase, usePhase } from './phases'
 import { useKeyboardCmdShortcut } from './hooks'
@@ -15,10 +15,10 @@ import SelectionOverview from './Overview/SelectionOverview'
 import HolderDistributionCombinedBalanceWidget from './Widget/HolderDistributionWidget/CombinedBalance'
 import * as Type from './Sidebar/Button/types'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
+import { Metric } from '../dataHub/metrics'
 import { NEW_METRIC_KEY_SET, seeMetric } from '../dataHub/metrics/news'
 import { usePressedModifier } from '../../hooks/keyboard'
 import styles from './index.module.scss'
-
 export const Studio = ({
   defaultWidgets,
   defaultSidepanel,
@@ -164,6 +164,8 @@ export const Studio = ({
     let appliedMetrics
     let appliedWidgets
 
+    const isWidget = checkIsMetricWidget(item)
+
     if (NEW_METRIC_KEY_SET.has(key)) {
       seeMetric(item)
     }
@@ -174,7 +176,7 @@ export const Studio = ({
       setIsICOPriceActive(!isICOPriceActive)
     } else if (type === Type.CONNECTED_WIDGET) {
       appliedWidgets = toggleSelectionWidget(item)
-    } else if (type === Type.WIDGET) {
+    } else if (isWidget || type === Type.WIDGET) {
       const scrollIntoView = {
         scrollIntoViewOnMount: true
       }
@@ -185,9 +187,9 @@ export const Studio = ({
           ...widgets,
           HolderDistributionCombinedBalanceWidget.new(scrollIntoView)
         ])
-      } else if (key === 'price_daa_divergence') {
+      } else if (item === Metric.price_daa_divergence) {
         setWidgets([...widgets, PriceDAADivergenceWidget.new(scrollIntoView)])
-      } else if (key === 'adjusted_price_daa_divergence') {
+      } else if (item === Metric.adjusted_price_daa_divergence) {
         setWidgets([
           ...widgets,
           AdjustedPriceDAADivergenceWidget.new(scrollIntoView)

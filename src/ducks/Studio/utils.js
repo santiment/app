@@ -1,9 +1,15 @@
 import { parseIntervalString } from '../../utils/dates'
+import { Metric } from '../dataHub/metrics'
 
 const IntervalFormatDividend = {
   h: 24,
   m: 60 * 24
 }
+
+const METRIC_WIDGET_SET = new Set([
+  Metric.price_daa_divergence,
+  Metric.adjusted_price_daa_divergence
+])
 
 export function mergeMetricSettingMap (oldMap, newMap) {
   const mergedMap = new Map(oldMap)
@@ -22,3 +28,5 @@ export function calculateMovingAverageFromInterval (interval) {
 
   return (dividend / amount) * 7
 }
+
+export const checkIsMetricWidget = metric => METRIC_WIDGET_SET.has(metric)

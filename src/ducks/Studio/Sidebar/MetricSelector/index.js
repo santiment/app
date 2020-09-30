@@ -17,7 +17,6 @@ const MetricSelector = ({ categories = {}, availableMetrics, ...rest }) => {
       title={key}
       groups={categories[key]}
       hasTopHolders={key === 'On-chain' && hasTopHolders}
-      hasDivergence={key === 'Indicators'}
       {...rest}
     />
   ))
