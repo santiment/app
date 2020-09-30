@@ -9,6 +9,7 @@ import { formIntervalSettings } from '../../SANCharts/IntervalSelector'
 import PageLoader from '../../../components/Loader/PageLoader'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import MakeProSubscriptionCard from '../../../pages/feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
+import { convertToReadableInterval } from '../../../utils/dates'
 import styles from './FeesDistribution.module.scss'
 
 export const FEE_RANGES = [
@@ -44,14 +45,16 @@ const useFeeDistributions = ({ from, to }) => {
   }
 }
 
-export const FeesDistributionTitle = ({ setInterval }) => {
+export const FeesDistributionTitle = ({ setInterval, interval }) => {
   return (
     <BlockHeader
       setInterval={setInterval}
       defaultIndex={2}
       ranges={FEE_RANGES}
       title='Fees Distribution'
-      description='The initial launch of $UNI clogged the Ethereum network and prompted record-high transaction fees. This dashboards tracks the recent share of UNI - and other tokens - in transaction fees paid.'
+      description={`The initial launch of $UNI clogged the Ethereum network and prompted record-high transaction fees. This dashboards tracks the amount of fees spent in Ether per project for last ${convertToReadableInterval(
+        interval
+      )}.`}
     />
   )
 }
@@ -77,7 +80,7 @@ const FeesDistribution = ({ onDisable }) => {
 
   return (
     <>
-      <FeesDistributionTitle setInterval={setInterval} />
+      <FeesDistributionTitle setInterval={setInterval} interval={interval} />
       <FeesDistributionChart
         className={styles.chart}
         data={data}
