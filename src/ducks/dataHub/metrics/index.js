@@ -1,4 +1,3 @@
-import { updateTooltipSettings } from '../tooltipSettings'
 import {
   usdFormatter,
   btcFormatter,
@@ -7,8 +6,9 @@ import {
   absoluteToPercentsFormatter,
   tooltipValueFormatter
 } from './formatters'
-import { millify } from '../../../utils/formatting'
+import { updateTooltipSettings } from '../tooltipSettings'
 import { Node } from '../../Chart/nodes'
+import { millify } from '../../../utils/formatting'
 
 function normalizeAxisPercent (value) {
   const percent = value * 100
