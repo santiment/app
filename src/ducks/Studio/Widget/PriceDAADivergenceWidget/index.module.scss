@@ -1,0 +1,16 @@
+.title {
+  display: flex;
+  align-items: center;
+}
+
+.delete {
+  fill: var(--rhino);
+  cursor: pointer;
+  margin-left: 8px;
+  padding: 4px;
+  box-sizing: content-box;
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+}

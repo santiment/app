@@ -1,4 +1,3 @@
-import { updateTooltipSettings } from '../tooltipSettings'
 import {
   usdFormatter,
   btcFormatter,
@@ -7,6 +6,8 @@ import {
   absoluteToPercentsFormatter,
   tooltipValueFormatter
 } from './formatters'
+import { updateTooltipSettings } from '../tooltipSettings'
+import { Node } from '../../Chart/nodes'
 import { millify } from '../../../utils/formatting'
 
 function normalizeAxisPercent (value) {
@@ -491,16 +492,18 @@ export const Metric = {
   price_daa_divergence: {
     category: 'Indicators',
     label: 'Price DAA Divergence',
-    node: 'autoWidthBar',
+    node: Node.GREEN_RED_BAR,
     isBeta: true,
-    formatter: absoluteToPercentsFormatter
+    formatter: absoluteToPercentsFormatter,
+    axisFormatter: axisPercentFormatter
   },
   adjusted_price_daa_divergence: {
     category: 'Indicators',
     label: 'Adjusted Price DAA Divergence',
-    node: 'autoWidthBar',
+    node: Node.GREEN_RED_BAR,
     isBeta: true,
-    formatter: absoluteToPercentsFormatter
+    formatter: absoluteToPercentsFormatter,
+    axisFormatter: axisPercentFormatter
   },
   active_addresses_24h: {
     category: 'On-chain',

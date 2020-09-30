@@ -45,6 +45,7 @@ const Canvas = ({
   isICOPriceActive,
   isSingleWidget,
   isSelectingRange,
+  isWithCompare,
   changeTimePeriod,
   rerenderWidgets,
   TopLeftComponent = ChartActiveMetrics,
@@ -142,6 +143,7 @@ const Canvas = ({
             onMetricHover={onMetricHover}
             onMetricHoverEnd={onMetricHoverEnd}
             onSettingsClick={onMetricSettingsClick}
+            onDeleteChartClick={isSingleWidget ? undefined : onDeleteChartClick}
           />
         </div>
 
@@ -155,14 +157,16 @@ const Canvas = ({
             />
           )}
 
-          <Compare
-            comparables={comparables}
-            setComparables={setComparables}
-            activeMetrics={metrics}
-            MetricColor={MetricColor}
-            slug={settings.slug}
-            className={styles.compare}
-          />
+          {isWithCompare && (
+            <Compare
+              comparables={comparables}
+              setComparables={setComparables}
+              activeMetrics={metrics}
+              MetricColor={MetricColor}
+              slug={settings.slug}
+              className={styles.compare}
+            />
+          )}
 
           <ContextMenu
             {...options}
@@ -249,6 +253,10 @@ const Canvas = ({
       )}
     </div>
   )
+}
+
+Canvas.defaultProps = {
+  isWithCompare: true
 }
 
 export default Canvas

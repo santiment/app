@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import { getValidTooltipKey, findTooltipMetric } from './utils'
+import { Node } from './nodes'
 import { setupColorGenerator } from '../SANCharts/utils'
 import { Metric } from '../dataHub/metrics'
 import COLOR from '@santiment-network/ui/variables.scss'
@@ -7,19 +8,20 @@ import COLOR from '@santiment-network/ui/variables.scss'
 const cache = new Map()
 const METRIC_NODE = {}
 
+const allNodes = Object.values(Node).map(node => node + 's')
+
 export function metricsToPlotCategories (metrics, MetricNode = METRIC_NODE) {
   const requestedData = {
-    lines: [],
-    filledLines: [],
-    gradientLines: [],
-    autoWidthBars: [],
-    bars: [],
     joinedCategories: [],
     areas: [],
     metrics
   }
-  const joinedCategories = requestedData.joinedCategories
 
+  allNodes.forEach(node => {
+    requestedData[node] = []
+  })
+
+  const { joinedCategories } = requestedData
   metrics.forEach(item => {
     const { key, dataKey = key, node } = item
 

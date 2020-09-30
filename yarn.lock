@@ -1630,10 +1630,10 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@santiment-network/chart@^0.7.1":
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/@santiment-network/chart/-/chart-0.7.1.tgz#b389fbfea63c11c9026b460d8835a654fef7abe9"
-  integrity sha512-YrbZaVWpgxBDRlvBbSoarlZZqYfi3asMXymuXx0BS8IfVPk57sRNmnMbuNewM5qKuPGO/n7cmJ63DZVhLjxgmQ==
+"@santiment-network/chart@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@santiment-network/chart/-/chart-0.8.0.tgz#0ab7b6ec90d5e80864a0716848de6a6119fa2714"
+  integrity sha512-tX+2sBY4Tiunl5acLOjH9LgFjR9ewKlksQqm0DbdMhme8bP7zbidzmWUlAjRZO62GLaT0IUC4VlUC8ZmjoOmjQ==
 
 "@santiment-network/ui@^0.5.177":
   version "0.5.189"

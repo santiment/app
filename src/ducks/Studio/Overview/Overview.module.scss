@@ -126,6 +126,11 @@ $preview-height: 250px;
     display: flex;
     justify-content: center;
   }
+
+  &_blocked {
+    background: rgba($mirage, 0.85);
+    color: $white;
+  }
 }
 
 .metric {
@@ -140,4 +145,8 @@ $preview-height: 250px;
   to {
     opacity: 1;
   }
+}
+
+.block {
+  pointer-events: none;
 }
