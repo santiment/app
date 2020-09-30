@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
+import { LINES } from './nodes'
 import { Metric } from '../dataHub/metrics'
 import { MirroredMetric } from '../dataHub/metrics/mirrored'
 
 const splitByComma = str => str.split(',')
-const lineMetricsFilter = ({ node }) =>
-  node === 'line' || node === 'filledLine' || node === 'gradientLine'
+const lineMetricsFilter = ({ node }) => LINES.has(node)
 const getDomainGroup = ({ key, domainGroup = key }) => domainGroup
 const checkIfAreMirrored = (metricA, metricB) =>
   MirroredMetric[metricA.key] === metricB ||

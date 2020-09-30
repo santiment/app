@@ -142,6 +142,7 @@ const Canvas = ({
             onMetricHover={onMetricHover}
             onMetricHoverEnd={onMetricHoverEnd}
             onSettingsClick={onMetricSettingsClick}
+            onDeleteChartClick={isSingleWidget ? undefined : onDeleteChartClick}
           />
         </div>
 

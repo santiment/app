@@ -13,3 +13,17 @@ export const HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE = {
   label: 'Holders Distribution Combined Balance',
   abbreviation: 'hdcb'
 }
+
+export const PRICE_DAA_DIVERGENCE_NODE = {
+  key: 'price_daa_divergence',
+  type: WIDGET,
+  label: 'Price DAA Divergence',
+  abbreviation: 'pdaad'
+}
+
+export const ADJUSTED_PRICE_DAA_DIVERGENCE_NODE = {
+  key: 'adjusted_price_daa_divergence',
+  type: WIDGET,
+  label: 'Adjusted Price DAA Divergence',
+  abbreviation: 'apdaad'
+}

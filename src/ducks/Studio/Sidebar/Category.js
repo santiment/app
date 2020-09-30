@@ -3,7 +3,9 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import {
   HOLDER_DISTRIBUTION_NODE,
-  HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE
+  HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE,
+  PRICE_DAA_DIVERGENCE_NODE,
+  ADJUSTED_PRICE_DAA_DIVERGENCE_NODE
 } from './nodes'
 import Group from './Group'
 import Button from './Button'
@@ -15,15 +17,26 @@ const DEFAULT_OPENED_CATEGORY = {
   'Santiment Alerts': true
 }
 
+const WidgetButton = ({ project, widget, toggleMetric }) => (
+  <Button
+    project={project}
+    metric={widget}
+    label={widget.label}
+    onClick={() => toggleMetric(widget)}
+  />
+)
+
 const Category = ({
   title,
   groups,
   hasTopHolders,
+  hasDivergence,
   project,
   NewMetricsCategory,
   ...rest
 }) => {
   const [hidden, setHidden] = useState(!DEFAULT_OPENED_CATEGORY[title])
+  const { toggleMetric } = rest
 
   function onToggleClick () {
     setHidden(!hidden)
@@ -42,19 +55,29 @@ const Category = ({
         {/* TODO: Find a better way to extend metrics categories with custom metrics [@vanguard | April 3, 2020] */}
         {hasTopHolders && (
           <>
-            <Button
+            <WidgetButton
               project={project}
-              metric={HOLDER_DISTRIBUTION_NODE}
-              label={HOLDER_DISTRIBUTION_NODE.label}
-              onClick={() => rest.toggleMetric(HOLDER_DISTRIBUTION_NODE)}
+              widget={HOLDER_DISTRIBUTION_NODE}
+              toggleMetric={toggleMetric}
             />
-            <Button
+            <WidgetButton
               project={project}
-              metric={HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE}
-              label={HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE.label}
-              onClick={() =>
-                rest.toggleMetric(HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE)
-              }
+              widget={HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE}
+              toggleMetric={toggleMetric}
+            />
+          </>
+        )}
+        {hasDivergence && (
+          <>
+            <WidgetButton
+              project={project}
+              widget={PRICE_DAA_DIVERGENCE_NODE}
+              toggleMetric={toggleMetric}
+            />
+            <WidgetButton
+              project={project}
+              widget={ADJUSTED_PRICE_DAA_DIVERGENCE_NODE}
+              toggleMetric={toggleMetric}
             />
           </>
         )}

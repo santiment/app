@@ -8,6 +8,8 @@ import { useKeyboardCmdShortcut } from './hooks'
 import { withInsightsProvider } from './insights/context'
 import ChartWidget from './Widget/ChartWidget'
 import HolderDistributionWidget from './Widget/HolderDistributionWidget'
+import PriceDAADivergenceWidget from './Widget/PriceDAADivergenceWidget'
+import AdjustedPriceDAADivergenceWidget from './Widget/PriceDAADivergenceWidget/Adjusted'
 import { mergeConnectedWidgetsWithSelected } from './Widget/helpers'
 import SelectionOverview from './Overview/SelectionOverview'
 import HolderDistributionCombinedBalanceWidget from './Widget/HolderDistributionWidget/CombinedBalance'
@@ -173,19 +175,22 @@ export const Studio = ({
     } else if (type === Type.CONNECTED_WIDGET) {
       appliedWidgets = toggleSelectionWidget(item)
     } else if (type === Type.WIDGET) {
+      const scrollIntoView = {
+        scrollIntoViewOnMount: true
+      }
       if (key === 'holder_distribution') {
-        setWidgets([
-          ...widgets,
-          HolderDistributionWidget.new({
-            scrollIntoViewOnMount: true
-          })
-        ])
+        setWidgets([...widgets, HolderDistributionWidget.new(scrollIntoView)])
       } else if (key === 'holder_distribution_combined_balance') {
         setWidgets([
           ...widgets,
-          HolderDistributionCombinedBalanceWidget.new({
-            scrollIntoViewOnMount: true
-          })
+          HolderDistributionCombinedBalanceWidget.new(scrollIntoView)
+        ])
+      } else if (key === 'price_daa_divergence') {
+        setWidgets([...widgets, PriceDAADivergenceWidget.new(scrollIntoView)])
+      } else if (key === 'adjusted_price_daa_divergence') {
+        setWidgets([
+          ...widgets,
+          AdjustedPriceDAADivergenceWidget.new(scrollIntoView)
         ])
       }
     } else {

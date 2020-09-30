@@ -8,6 +8,7 @@ import {
   tooltipValueFormatter
 } from './formatters'
 import { millify } from '../../../utils/formatting'
+import { Node } from '../../Chart/nodes'
 
 function normalizeAxisPercent (value) {
   const percent = value * 100
@@ -491,14 +492,14 @@ export const Metric = {
   price_daa_divergence: {
     category: 'Indicators',
     label: 'Price DAA Divergence',
-    node: 'autoWidthBar',
+    node: Node.GREEN_RED_BAR,
     isBeta: true,
     formatter: absoluteToPercentsFormatter
   },
   adjusted_price_daa_divergence: {
     category: 'Indicators',
     label: 'Adjusted Price DAA Divergence',
-    node: 'autoWidthBar',
+    node: Node.GREEN_RED_BAR,
     isBeta: true,
     formatter: absoluteToPercentsFormatter
   },
