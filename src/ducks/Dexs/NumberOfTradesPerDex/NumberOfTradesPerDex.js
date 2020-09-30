@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import DashboardMetricChart from '../../../components/DashboardMetricChart/DashboardMetricChart'
 
 export const DEXs = [
@@ -19,13 +19,15 @@ export const DEXs = [
   'dYdX'
 ]
 
-const NumberOfTradesPerDex = ({ metric }) => {
-  const DEX_METRICS = useMemo(
+const NumberOfTradesPerDex = ({ metrics }) => {
+  const [rootMetric, setRootMetric] = useState(metrics[0])
+
+  const dexMetrics = useMemo(
     () => {
       return DEXs.map(dex => {
         return {
-          key: 'dex_' + dex.replace('.', '_'),
-          queryKey: metric,
+          key: rootMetric.key + '_' + dex.replace('.', '_'),
+          queryKey: rootMetric.key,
           node: 'bar',
           label: dex,
           fill: true,
@@ -37,10 +39,17 @@ const NumberOfTradesPerDex = ({ metric }) => {
         }
       })
     },
-    [metric]
+    [rootMetric]
   )
 
-  return <DashboardMetricChart metrics={DEX_METRICS} />
+  return (
+    <DashboardMetricChart
+      metrics={dexMetrics}
+      metricSelectors={metrics}
+      setRootMetric={setRootMetric}
+      rootMetric={rootMetric}
+    />
+  )
 }
 
 export default NumberOfTradesPerDex

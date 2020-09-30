@@ -11,6 +11,7 @@ import { useChartColors } from '../../ducks/Chart/colors'
 import { DEFAULT_INTERVAL_SELECTORS, INTERVAL_30_DAYS } from './utils'
 import DashboardChartMetrics from './DashboardChartMetrics/DashboardChartMetrics'
 import DashboardMetricChartWrapper from './DashboardMetricChartWrapper'
+import DashboardMetricSelectors from './DashboardMetricSelectors/DashboardMetricSelectors'
 import styles from './DashboardMetricChart.module.scss'
 
 const DashboardMetricChart = ({
@@ -18,7 +19,10 @@ const DashboardMetricChart = ({
   metrics,
   metricSettingsMap,
   defaultInterval = INTERVAL_30_DAYS,
-  intervals = DEFAULT_INTERVAL_SELECTORS
+  intervals = DEFAULT_INTERVAL_SELECTORS,
+  metricSelectors,
+  setRootMetric,
+  rootMetric
 }) => {
   useEffect(
     () => {
@@ -60,6 +64,12 @@ const DashboardMetricChart = ({
   return (
     <div className={cx(styles.container, className)}>
       <DashboardChartHeader>
+        <DashboardMetricSelectors
+          metricSelectors={metricSelectors}
+          rootMetric={rootMetric}
+          setRootMetric={setRootMetric}
+        />
+
         <SharedAxisToggle
           isDomainGroupingActive={isDomainGroupingActive}
           setIsDomainGroupingActive={setIsDomainGroupingActive}

@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
-import Button from '@santiment-network/ui/Button'
 import DashboardChartHeader, {
   DashboardIntervals
 } from '../../../components/DashboardMetricChart/DashboardChartHeader/DashboardChartHeader'
@@ -16,6 +15,7 @@ import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
 import SharedAxisToggle from '../../Studio/Chart/SharedAxisToggle'
 import { formIntervalSettings } from '../../SANCharts/IntervalSelector'
 import DashboardMetricChartWrapper from '../../../components/DashboardMetricChart/DashboardMetricChartWrapper'
+import DashboardMetricSelectors from '../../../components/DashboardMetricChart/DashboardMetricSelectors/DashboardMetricSelectors'
 import styles from './StablecoinsMarketCap.module.scss'
 
 const StablecoinsMarketCap = ({ className }) => {
@@ -48,23 +48,11 @@ const StablecoinsMarketCap = ({ className }) => {
   return (
     <div className={cx(styles.container, className)}>
       <DashboardChartHeader>
-        <div className={styles.metrics}>
-          {StablecoinsMetrics.map(metric => {
-            const { label, key } = metric
-            const isActive = rootMetric.key === key
-            return (
-              <Button
-                className={styles.metricBtn}
-                key={key}
-                variant={isActive ? 'flat' : 'ghost'}
-                isActive={isActive}
-                onClick={() => setRootMetric(metric)}
-              >
-                {label}
-              </Button>
-            )
-          })}
-        </div>
+        <DashboardMetricSelectors
+          metricSelectors={StablecoinsMetrics}
+          rootMetric={rootMetric}
+          setRootMetric={setRootMetric}
+        />
 
         <SharedAxisToggle
           isDomainGroupingActive={isDomainGroupingActive}

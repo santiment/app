@@ -9,8 +9,12 @@ import ResearchesBlock from '../../components/ResearchesBlock'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import SharePage from '../../components/SharePage/SharePage'
 import CurrentPageReport from '../../ducks/Stablecoins/StablecoinsReport/CurrentPageReport'
-import DexTradesTotalNumber from '../../ducks/Dexs/DexTradesTotalNumber/DexTradesTotalNumber'
-import DexTradesSegmentedByDEX from '../../ducks/Dexs/DexTradesSegmentedByDEX/DexTradesSegmentedByDEX'
+import DexTradesTotalNumber, {
+  DEX_AMOUNT_METRICS
+} from '../../ducks/Dexs/DexTradesTotalNumber/DexTradesTotalNumber'
+import DexTradesSegmentedByDEX, {
+  DEX_VOLUME_METRICS
+} from '../../ducks/Dexs/DexTradesSegmentedByDEX/DexTradesSegmentedByDEX'
 import NumberOfTradesPerDex from '../../ducks/Dexs/NumberOfTradesPerDex/NumberOfTradesPerDex'
 import styles from './DexsPage.module.scss'
 
@@ -105,13 +109,13 @@ const DexsPage = ({ history }) => {
             tag={ANCHORS.DexByAmountTrades.key}
             title='Share of DEXs by Amount of Trades'
           >
-            <NumberOfTradesPerDex metric='total_trade_amount_by_dex' />
+            <NumberOfTradesPerDex metrics={DEX_AMOUNT_METRICS} />
           </Block>
           <Block
             tag={ANCHORS.DexByVolumeTrades.key}
             title='Share of DEXs by Volume of Trades'
           >
-            <NumberOfTradesPerDex metric='total_trade_volume_by_dex' />
+            <NumberOfTradesPerDex metrics={DEX_VOLUME_METRICS} />
           </Block>
         </div>
       </div>
