@@ -42,7 +42,7 @@ const DashboardChartMetrics = ({
 
                 toggleDisabled({ ...disabledMetrics })
               }}
-              isDisabled={disabledMetrics[slug]}
+              isDisabled={disabledMetrics[key]}
             >
               <div className={cx(styles.btnInner, styles.icon)}>
                 <svg

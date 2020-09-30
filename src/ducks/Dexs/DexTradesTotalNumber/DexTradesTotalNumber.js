@@ -22,7 +22,11 @@ const DEX_METRICS = METRICS.map(({ key, label, ...rest }) => {
   }
 })
 
-DEX_METRICS.push({ ...Metric.price_usd, reqMeta: { slug: 'ethereum' } })
+DEX_METRICS.push({
+  ...Metric.price_usd,
+  key: 'price_usd',
+  reqMeta: { slug: 'ethereum' }
+})
 
 const DexTradesTotalNumber = () => {
   return <DashboardMetricChart metrics={DEX_METRICS} />
