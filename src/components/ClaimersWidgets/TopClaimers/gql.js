@@ -58,6 +58,8 @@ const TRANSACTION_VOLUME_PER_ADDRESS_QUERY = gql`
     ) {
       address
       transactionVolumeTotal
+      transactionVolumeInflow
+      transactionVolumeOutflow
     }
   }
 `
