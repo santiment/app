@@ -1,14 +1,13 @@
-import React, { useState } from 'react'
-import cx from 'classnames'
+import React from 'react'
 import Icon from '@santiment-network/ui/Icon'
 import Widget from '../Widget'
 import ChartWidget, { Chart } from '../ChartWidget'
 import { Metric } from '../../../dataHub/metrics'
 import styles from './index.module.scss'
 
-const Title = ({ onDeleteChartClick }) => (
+export const buildTitle = title => ({ onDeleteChartClick }) => (
   <div className={styles.title}>
-    Price DAA Divergence
+    {title}
     {onDeleteChartClick && (
       <Icon
         type='close-small'
@@ -19,9 +18,11 @@ const Title = ({ onDeleteChartClick }) => (
   </div>
 )
 
-const PriceDAADivergenceWidget = ({ widget, ...props }) => (
-  <Widget className={cx(styles.holders)}>
-    <Chart {...props} widget={widget} TopLeftComponent={Title} />
+const Title = buildTitle('Price DAA Divergence')
+
+const PriceDAADivergenceWidget = props => (
+  <Widget>
+    <Chart TopLeftComponent={Title} {...props} />
   </Widget>
 )
 

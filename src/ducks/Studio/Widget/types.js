@@ -12,7 +12,8 @@ export const TypeToWidget = {
   HolderDistributionWidget,
   TopTransactionsTable,
   HolderDistributionCombinedBalanceWidget,
-  PriceDAADivergenceWidget
+  PriceDAADivergenceWidget,
+  AdjustedPriceDAADivergenceWidget
 }
 
 export const WidgetToTypeMap = new Map(

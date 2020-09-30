@@ -1,30 +1,19 @@
-import React, { useState } from 'react'
-import cx from 'classnames'
-import Widget from '../Widget'
-import ChartWidget, { Chart } from '../ChartWidget'
-// import styles from './index.module.scss'
+import React from 'react'
+import PriceDAADivergenceWidget, {
+  priceDAADivergenceBuilder,
+  buildTitle
+} from './index'
 import { Metric } from '../../../dataHub/metrics'
-const styles = {}
 
-const PriceDAADivergenceWidget = ({ widget, ...props }) => {
-  return (
-    <Widget className={cx(styles.holders)}>
-      <Chart {...props} widget={widget} />
-    </Widget>
-  )
-}
+const Title = buildTitle('Adjusted Price DAA Divergence')
 
-export const priceDAADivergenceBuilder = widget => props =>
-  ChartWidget.new(
-    {
-      metrics: [Metric.price_usd, Metric.adjusted_price_daa_divergence],
-      ...props
-    },
-    widget
-  )
-
-PriceDAADivergenceWidget.new = priceDAADivergenceBuilder(
-  PriceDAADivergenceWidget
+const AdjustedPriceDAADivergenceWidget = props => (
+  <PriceDAADivergenceWidget {...props} TopLeftComponent={Title} />
 )
 
-export default PriceDAADivergenceWidget
+AdjustedPriceDAADivergenceWidget.new = priceDAADivergenceBuilder(
+  AdjustedPriceDAADivergenceWidget,
+  [Metric.price_usd, Metric.adjusted_price_daa_divergence]
+)
+
+export default AdjustedPriceDAADivergenceWidget
