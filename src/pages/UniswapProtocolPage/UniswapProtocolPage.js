@@ -37,7 +37,7 @@ const ANCHORS = {
     key: 'overview'
   },
   TopClaimers: {
-    label: 'Top Claimers 24h',
+    label: 'Top Claimers',
     key: 'top-claimers'
   },
   ClaimersWidgets: {
