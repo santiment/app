@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import DashboardMetricChart from '../../../components/DashboardMetricChart/DashboardMetricChart'
 
-const DEXs = [
+export const DEXs = [
   '0x',
   'Airswap',
   'Etherdelta',
@@ -19,22 +19,27 @@ const DEXs = [
   'dYdX'
 ]
 
-const DEX_METRICS = DEXs.map(dex => {
-  return {
-    key: 'dex_' + dex.replace('.', '_'),
-    queryKey: 'total_trade_amount_by_dex',
-    node: 'bar',
-    label: dex,
-    fill: true,
-    domainGroup: 'decentralized_exchanges',
-    reqMeta: {
-      owner: dex,
-      slug: 'multi-collateral-dai'
-    }
-  }
-})
+const NumberOfTradesPerDex = ({ metric }) => {
+  const DEX_METRICS = useMemo(
+    () => {
+      return DEXs.map(dex => {
+        return {
+          key: 'dex_' + dex.replace('.', '_'),
+          queryKey: metric,
+          node: 'bar',
+          label: dex,
+          fill: true,
+          domainGroup: 'decentralized_exchanges',
+          reqMeta: {
+            owner: dex,
+            slug: 'multi-collateral-dai'
+          }
+        }
+      })
+    },
+    [metric]
+  )
 
-const NumberOfTradesPerDex = () => {
   return <DashboardMetricChart metrics={DEX_METRICS} />
 }
 
