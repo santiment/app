@@ -494,14 +494,16 @@ export const Metric = {
     label: 'Price DAA Divergence',
     node: Node.GREEN_RED_BAR,
     isBeta: true,
-    formatter: absoluteToPercentsFormatter
+    formatter: absoluteToPercentsFormatter,
+    axisFormatter: axisPercentFormatter
   },
   adjusted_price_daa_divergence: {
     category: 'Indicators',
     label: 'Adjusted Price DAA Divergence',
     node: Node.GREEN_RED_BAR,
     isBeta: true,
-    formatter: absoluteToPercentsFormatter
+    formatter: absoluteToPercentsFormatter,
+    axisFormatter: axisPercentFormatter
   },
   active_addresses_24h: {
     category: 'On-chain',
