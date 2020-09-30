@@ -279,6 +279,7 @@ const Chart = ({
 
   function plotBrushData () {
     plotAutoWidthBars(brush, brushData, autoWidthBars, scale, MetricColor)
+    plotGreenRedBars(brush, brushData, greenRedBars[0], scale)
     plotBars(brush, brushData, bars, scale, MetricColor)
     plotLines(brush, brushData, lines, scale, MetricColor)
     plotFilledLines(brush, brushData, filledLines, scale, MetricColor)
