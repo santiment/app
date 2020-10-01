@@ -17,6 +17,8 @@ import DexTradesSegmentedByDEX, {
 } from '../../ducks/Dexs/DexTradesSegmentedByDEX/DexTradesSegmentedByDEX'
 import NumberOfTradesPerDex from '../../ducks/Dexs/NumberOfTradesPerDex/NumberOfTradesPerDex'
 import styles from './DexsPage.module.scss'
+import gql from 'graphql-tag'
+import { useQuery } from '@apollo/react-hooks'
 
 const ANCHORS = {
   TradesSegmented: {
@@ -41,7 +43,24 @@ const DEX_PREDICATE = ({ name }) =>
   name.toLowerCase().indexOf('dex') >= 0 ||
   name.toLowerCase().indexOf('decentralized') >= 0
 
+const METRIC_BOUNDARIES_QUERY = gql`
+  query {
+    getMetric(metric: "total_trade_amount_by_dex") {
+      metadata {
+        isRestricted
+      }
+    }
+  }
+`
+
+export function useRestrictedInfo () {
+  const { data } = useQuery(METRIC_BOUNDARIES_QUERY)
+  return data ? data.getMetric.metadata.isRestricted : false
+}
+
 const DexsPage = ({ history }) => {
+  const isProChecking = useRestrictedInfo()
+
   return (
     <div className={cx('page', styles.container)}>
       <Helmet
@@ -94,6 +113,7 @@ const DexsPage = ({ history }) => {
             className={styles.firstBlock}
             tag={ANCHORS.TradesSegmented.key}
             title='Volume of Trades Segmented by DEX'
+            isPaywalActive={isProChecking}
           >
             <DexTradesSegmentedByDEX />
           </Block>
@@ -101,6 +121,7 @@ const DexsPage = ({ history }) => {
           <Block
             tag={ANCHORS.DexByVolumeTrades.key}
             title='Share of DEXs by Volume of Trades'
+            isPaywalActive={isProChecking}
           >
             <NumberOfTradesPerDex metrics={DEX_VOLUME_METRICS} />
           </Block>
@@ -108,6 +129,7 @@ const DexsPage = ({ history }) => {
           <Block
             tag={ANCHORS.TotalNumber.key}
             title='Total Amount of DEX Trades'
+            isPaywalActive={isProChecking}
           >
             <DexTradesTotalNumber />
           </Block>
@@ -115,6 +137,7 @@ const DexsPage = ({ history }) => {
           <Block
             tag={ANCHORS.DexByAmountTrades.key}
             title='Share of DEXs by Amount of Trades'
+            isPaywalActive={isProChecking}
           >
             <NumberOfTradesPerDex metrics={DEX_AMOUNT_METRICS} />
           </Block>

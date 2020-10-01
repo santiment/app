@@ -52,7 +52,7 @@ const DashboardMetricChart = ({
     [metrics, disabledMetrics]
   )
 
-  const [data, loadings] = useTimeseries(
+  const [data, loadings, errors] = useTimeseries(
     filteredMetrics,
     settings,
     metricSettingsMap
@@ -60,6 +60,8 @@ const DashboardMetricChart = ({
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState(true)
 
   const MetricColor = useChartColors(filteredMetrics)
+
+  console.log(errors)
 
   return (
     <div className={cx(styles.container, className)}>

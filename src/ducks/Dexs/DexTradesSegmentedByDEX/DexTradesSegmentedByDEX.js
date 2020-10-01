@@ -1,6 +1,7 @@
 import React from 'react'
 import DashboardMetricChart from '../../../components/DashboardMetricChart/DashboardMetricChart'
 import { makeMetric } from '../../../components/DashboardMetricChart/utils'
+import { Metric } from '../../dataHub/metrics'
 
 export const DEX_VOLUME_METRICS = [
   makeMetric('total_trade_volume_by_dex', 'Total Trade Volume'),
@@ -19,6 +20,13 @@ const DEX_METRICS = DEX_VOLUME_METRICS.map(({ key, label }) => {
     domainGroup: 'decentralized_exchanges',
     reqMeta: { slug: 'multi-collateral-dai' }
   }
+})
+
+DEX_METRICS.push({
+  ...Metric.price_usd,
+  key: 'price_usd',
+  label: 'Price ETH',
+  reqMeta: { slug: 'ethereum' }
 })
 
 const DexTradesSegmentedByDEX = () => {

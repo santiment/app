@@ -11,7 +11,7 @@ const METRIC_BOUNDARIES_QUERY = gql`
   }
 `
 
-export function useRestrictedInfo (metrics) {
+export function useRestrictedInfo () {
   const { data } = useQuery(METRIC_BOUNDARIES_QUERY)
   return data ? data.getMetric.metadata.isRestricted : false
 }
