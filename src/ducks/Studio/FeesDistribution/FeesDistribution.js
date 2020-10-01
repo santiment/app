@@ -96,6 +96,7 @@ export const FeesDistributionChart = ({ className, data, loading }) => {
       return data.map(item => {
         return {
           ...item,
+          key: item.slug || item.address,
           clickable: !!item.slug
         }
       })

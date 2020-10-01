@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
 import gql from 'graphql-tag'
-import { useQuery } from '@apollo/react-hooks'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
@@ -21,10 +20,11 @@ import NumberOfTradesPerDex from '../../ducks/Dexs/NumberOfTradesPerDex/NumberOf
 import DexPriceMeasurement, {
   DEX_BY_USD
 } from '../../ducks/Dexs/PriceMeasurement/DexPriceMeasurement'
+import { useRestrictedInfo } from '../UniswapProtocolPage/hooks'
 import styles from './DexsPage.module.scss'
 
 const ANCHORS = {
-  TradesSegmented: {
+  VolumeSegmented: {
     label: 'Volume of Trades Segmented by DEXs',
     key: 'trades-volume'
   },
@@ -32,7 +32,7 @@ const ANCHORS = {
     label: 'Share of DEXs by Volume of Trades',
     key: 'dex-by-volume'
   },
-  TotalNumber: {
+  AmountSegmented: {
     label: 'Total Amount of DEXs Trades',
     key: 'trades-amount'
   },
@@ -56,13 +56,8 @@ const METRIC_BOUNDARIES_QUERY = gql`
   }
 `
 
-export function useRestrictedInfo () {
-  const { data } = useQuery(METRIC_BOUNDARIES_QUERY)
-  return data ? data.getMetric.metadata.isRestricted : false
-}
-
 const DexsPage = ({ history }) => {
-  const isProChecking = useRestrictedInfo()
+  const isProChecking = useRestrictedInfo(METRIC_BOUNDARIES_QUERY)
 
   const [measurement, setMeasurement] = useState(DEX_BY_USD)
 
@@ -114,10 +109,7 @@ const DexsPage = ({ history }) => {
         </DesktopOnly>
 
         <div className={styles.inner}>
-          <Block
-            className={cx(styles.firstBlock, styles.measurements)}
-            tag={ANCHORS.TradesSegmented.key}
-          >
+          <Block className={cx(styles.firstBlock, styles.measurements)}>
             <DexPriceMeasurement
               onSelect={setMeasurement}
               defaultSelected={measurement}
@@ -127,6 +119,7 @@ const DexsPage = ({ history }) => {
           <Block
             title='Volume of Trades Segmented by DEX'
             isPaywalActive={isProChecking}
+            tag={ANCHORS.VolumeSegmented.key}
           >
             <DexTradesSegmentedByDEX measurement={measurement} />
           </Block>
@@ -143,7 +136,7 @@ const DexsPage = ({ history }) => {
           </Block>
 
           <Block
-            tag={ANCHORS.TotalNumber.key}
+            tag={ANCHORS.AmountSegmented.key}
             title='Total Amount of DEX Trades'
             isPaywalActive={isProChecking}
           >

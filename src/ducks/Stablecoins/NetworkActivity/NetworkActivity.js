@@ -54,6 +54,7 @@ export const ProjectsPreparedChart = ({ data, logScale = false }) => {
         .map(item => {
           return {
             ...item,
+            key: item.slug,
             logValue: logScale ? Math.log(+item.value) : item.value
           }
         })
