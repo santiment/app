@@ -88,6 +88,7 @@ const FormatToTimestamp = {
 }
 
 export const CRYPTO_ERA_START_DATE = new Date('2009-01-01T01:00:00.000Z')
+export const DEX_ERA_START_DATE = new Date('2017-02-01T00:00:00.000Z')
 
 /**
  * @param {number} amount - Amount of days/months to add or substract
