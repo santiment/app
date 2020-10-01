@@ -107,7 +107,7 @@ const DexsPage = ({ history }) => {
 
           <Block
             tag={ANCHORS.TotalNumber.key}
-            title='Total Number of DEX Trades'
+            title='Total Amount of DEX Trades'
           >
             <DexTradesTotalNumber />
           </Block>
