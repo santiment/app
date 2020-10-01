@@ -127,7 +127,7 @@ export function getProjectsMarkup ({
         return (
           <Cell
             key={`cell-${index}`}
-            fill={MetricColor[entry.slug]}
+            fill={MetricColor[entry.key]}
             onClick={() => onProjectClick({ ...entry, value: entry.slug })}
           />
         )

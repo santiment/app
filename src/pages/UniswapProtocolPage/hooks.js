@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
-const METRIC_BOUNDARIES_QUERY = gql`
+export const UNISWAP_METRIC_BOUNDARIES_QUERY = gql`
   query {
     getMetric(metric: "uniswap_total_claims_amount") {
       metadata {
@@ -11,7 +11,7 @@ const METRIC_BOUNDARIES_QUERY = gql`
   }
 `
 
-export function useRestrictedInfo () {
-  const { data } = useQuery(METRIC_BOUNDARIES_QUERY)
+export function useRestrictedInfo (metric) {
+  const { data } = useQuery(metric)
   return data ? data.getMetric.metadata.isRestricted : false
 }

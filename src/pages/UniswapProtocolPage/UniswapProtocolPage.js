@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
-import { useRestrictedInfo } from './hooks'
+import { UNISWAP_METRIC_BOUNDARIES_QUERY, useRestrictedInfo } from './hooks'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import ClaimersWidgets from '../../components/ClaimersWidgets'
 import { ChartWidget } from '../../components/ClaimersWidgets'
@@ -61,8 +61,8 @@ const ANCHORS = {
   }
 }
 
-const UniswapProtocolPage = ({ history, isDesktop }) => {
-  const areClaimsRestricted = useRestrictedInfo()
+const UniswapProtocolPage = ({ history }) => {
+  const areClaimsRestricted = useRestrictedInfo(UNISWAP_METRIC_BOUNDARIES_QUERY)
   const { isPro } = useUserSubscriptionStatus()
 
   const [anchors, setAnchors] = useState(ANCHORS)

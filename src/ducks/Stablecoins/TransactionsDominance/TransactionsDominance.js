@@ -34,7 +34,9 @@ const TransactionsDominance = ({ settings }) => {
 
       const newData = isDominance ? calculatePercentValues(filtered) : filtered
 
-      return newData.sort(sortByValue)
+      return newData
+        .sort(sortByValue)
+        .map(item => ({ ...item, key: item.slug }))
     },
     [data, isDominance]
   )
