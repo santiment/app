@@ -127,7 +127,7 @@
 }
 
 .firstBlock {
-  margin-top: -262px;
+  margin-top: -320px;
   padding-top: 0;
   padding-bottom: 0;
 
@@ -135,6 +135,15 @@
     margin-top: 40px;
     margin-bottom: 0;
   }
+}
+
+.measurements {
+  position: sticky;
+  background: var(--athens);
+  top: 0;
+  padding: 16px 0;
+  height: auto;
+  z-index: 10;
 }
 
 .researchers {

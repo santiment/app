@@ -115,8 +115,7 @@ const DexsPage = ({ history }) => {
 
         <div className={styles.inner}>
           <Block
-            className={styles.firstBlock}
-            title='Price Measurement'
+            className={cx(styles.firstBlock, styles.measurements)}
             tag={ANCHORS.TradesSegmented.key}
           >
             <DexPriceMeasurement
