@@ -1,20 +1,28 @@
 import { formatNumber } from '../../utils/formatting'
 import { CRYPTO_ERA_START_DATE, DEX_ERA_START_DATE } from '../../utils/dates'
+import { formIntervalSettings } from '../../ducks/SANCharts/IntervalSelector'
 
 export const makeIntervalSelectors = ({
   val,
   label,
   interval = '1d',
   from
-}) => ({
-  value: val,
-  label: label,
-  requestParams: {
-    from: from || `utc_now-${val}`,
-    to: `utc_now`,
+}) => {
+  const requestParams = {
+    ...formIntervalSettings(val),
     interval
   }
-})
+
+  if (from) {
+    requestParams.from = from
+  }
+
+  return {
+    value: val,
+    label: label,
+    requestParams
+  }
+}
 
 export const makeMetric = (key, label, formatter = formatNumber) => {
   return {

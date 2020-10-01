@@ -140,7 +140,7 @@ const DexsPage = ({ history }) => {
             title='Total Amount of DEX Trades'
             isPaywalActive={isProChecking}
           >
-            <DexTradesTotalNumber measurement={measurement} />
+            <DexTradesTotalNumber measurement={DEX_BY_USD} />
           </Block>
 
           <Block
@@ -150,7 +150,7 @@ const DexsPage = ({ history }) => {
           >
             <NumberOfTradesPerDex
               metrics={DEX_AMOUNT_METRICS}
-              measurement={measurement}
+              measurement={DEX_BY_USD}
             />
           </Block>
         </div>

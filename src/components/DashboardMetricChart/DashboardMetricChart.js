@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
-import { useTimeseries } from '../../ducks/Studio/timeseries/hooks'
+import {
+  useAllTimeData,
+  useTimeseries
+} from '../../ducks/Studio/timeseries/hooks'
 import DashboardChartHeader, {
   DashboardIntervals
 } from './DashboardChartHeader/DashboardChartHeader'
@@ -13,6 +16,27 @@ import DashboardChartMetrics from './DashboardChartMetrics/DashboardChartMetrics
 import DashboardMetricChartWrapper from './DashboardMetricChartWrapper'
 import DashboardMetricSelectors from './DashboardMetricSelectors/DashboardMetricSelectors'
 import styles from './DashboardMetricChart.module.scss'
+
+const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
+  const allTimeData = useAllTimeData(metrics, {
+    slug: slug
+  })
+
+  const onBrushChangeEnd = useCallback(
+    (startIndex, endIndex) => {
+      const from = new Date(allTimeData[startIndex].datetime)
+      const to = new Date(allTimeData[endIndex].datetime)
+
+      setSettings({ ...settings, from, to })
+    },
+    [data, setSettings, settings, allTimeData]
+  )
+
+  return {
+    allTimeData,
+    onBrushChangeEnd
+  }
+}
 
 const DashboardMetricChart = ({
   className,
@@ -57,6 +81,15 @@ const DashboardMetricChart = ({
     settings,
     metricSettingsMap
   )
+
+  const { allTimeData, onBrushChangeEnd } = useBrush({
+    settings,
+    setSettings,
+    data,
+    metrics,
+    slug: metrics[0].reqMeta.slug
+  })
+
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState(true)
 
   const MetricColor = useChartColors(activeMetrics)
@@ -97,6 +130,8 @@ const DashboardMetricChart = ({
       <DashboardMetricChartWrapper
         metrics={activeMetrics}
         data={data}
+        allTimeData={allTimeData}
+        onBrushChangeEnd={onBrushChangeEnd}
         settings={settings}
         MetricColor={MetricColor}
         isDomainGroupingActive={isDomainGroupingActive}
