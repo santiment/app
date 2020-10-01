@@ -131,12 +131,13 @@
 }
 
 .firstBlock {
-  margin-top: -202px;
+  margin-top: -272px;
   padding-top: 0;
-  padding-bottom: 0;
+  padding-bottom: 40px;
 
   @media only screen and (max-width: 1535px) {
     margin-top: 40px;
+    margin-bottom: 0;
   }
 }
 

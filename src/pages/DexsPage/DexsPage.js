@@ -19,21 +19,21 @@ import NumberOfTradesPerDex from '../../ducks/Dexs/NumberOfTradesPerDex/NumberOf
 import styles from './DexsPage.module.scss'
 
 const ANCHORS = {
-  TotalNumber: {
-    label: 'Total Number of DEXs Trades',
-    key: 'trades-volume'
-  },
   TradesSegmented: {
-    label: 'Number of Trades Segmented by DEXs',
-    key: 'segmented-trades'
-  },
-  DexByAmountTrades: {
-    label: 'Share of DEXs by Amount of Trades',
-    key: 'dex-by-amount'
+    label: 'Volume of Trades Segmented by DEXs',
+    key: 'trades-volume'
   },
   DexByVolumeTrades: {
     label: 'Share of DEXs by Volume of Trades',
     key: 'dex-by-volume'
+  },
+  TotalNumber: {
+    label: 'Total Amount of DEXs Trades',
+    key: 'trades-amount'
+  },
+  DexByAmountTrades: {
+    label: 'Share of DEXs by Amount of Trades',
+    key: 'dex-by-amount'
   }
 }
 
@@ -92,6 +92,20 @@ const DexsPage = ({ history }) => {
         <div className={styles.inner}>
           <Block
             className={styles.firstBlock}
+            tag={ANCHORS.TradesSegmented.key}
+            title='Volume of Trades Segmented by DEX'
+          >
+            <DexTradesSegmentedByDEX />
+          </Block>
+
+          <Block
+            tag={ANCHORS.DexByVolumeTrades.key}
+            title='Share of DEXs by Volume of Trades'
+          >
+            <NumberOfTradesPerDex metrics={DEX_VOLUME_METRICS} />
+          </Block>
+
+          <Block
             tag={ANCHORS.TotalNumber.key}
             title='Total Number of DEX Trades'
           >
@@ -99,23 +113,10 @@ const DexsPage = ({ history }) => {
           </Block>
 
           <Block
-            tag={ANCHORS.TradesSegmented.key}
-            title='Number of Trades Segmented by DEX'
-          >
-            <DexTradesSegmentedByDEX />
-          </Block>
-
-          <Block
             tag={ANCHORS.DexByAmountTrades.key}
             title='Share of DEXs by Amount of Trades'
           >
             <NumberOfTradesPerDex metrics={DEX_AMOUNT_METRICS} />
-          </Block>
-          <Block
-            tag={ANCHORS.DexByVolumeTrades.key}
-            title='Share of DEXs by Volume of Trades'
-          >
-            <NumberOfTradesPerDex metrics={DEX_VOLUME_METRICS} />
           </Block>
         </div>
       </div>
