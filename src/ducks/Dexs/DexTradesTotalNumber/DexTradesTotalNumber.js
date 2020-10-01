@@ -1,36 +1,32 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import DashboardMetricChart from '../../../components/DashboardMetricChart/DashboardMetricChart'
-import { makeMetric } from '../../../components/DashboardMetricChart/utils'
-import { Metric } from '../../dataHub/metrics'
+import {
+  DEX_INTERVAL_SELECTORS,
+  makeMetric
+} from '../../../components/DashboardMetricChart/utils'
+import { mapDEXMetrics } from '../DexTradesSegmentedByDEX/DexTradesSegmentedByDEX'
 
 export const DEX_AMOUNT_METRICS = [
   makeMetric('total_trade_amount_by_dex', 'Total Trade Amount'),
   makeMetric('eth_based_trade_amount_by_dex', 'ETH Based Tokens'),
-  makeMetric('stablecoin_trade_amount_by_dex', 'Stable coins'),
+  makeMetric('stablecoin_trade_amount_by_dex', 'Stablecoins'),
   makeMetric('other_trade_amount_by_dex', 'Other')
 ]
 
-const DEX_METRICS = DEX_AMOUNT_METRICS.map(({ key, label, ...rest }) => {
-  return {
-    key: key,
-    queryKey: key,
-    label,
-    node: 'bar',
-    fill: true,
-    domainGroup: 'decentralized_exchanges',
-    reqMeta: { slug: 'multi-collateral-dai' }
-  }
-})
+const DexTradesTotalNumber = ({ measurement }) => {
+  const metrics = useMemo(
+    () => {
+      return mapDEXMetrics(DEX_AMOUNT_METRICS, measurement)
+    },
+    [measurement]
+  )
 
-DEX_METRICS.push({
-  ...Metric.price_usd,
-  key: 'price_usd',
-  label: 'Price ETH',
-  reqMeta: { slug: 'ethereum' }
-})
-
-const DexTradesTotalNumber = () => {
-  return <DashboardMetricChart metrics={DEX_METRICS} />
+  return (
+    <DashboardMetricChart
+      metrics={metrics}
+      intervals={DEX_INTERVAL_SELECTORS}
+    />
+  )
 }
 
 export default DexTradesTotalNumber

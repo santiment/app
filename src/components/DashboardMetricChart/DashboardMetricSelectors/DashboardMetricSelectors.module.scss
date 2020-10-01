@@ -14,6 +14,8 @@
   padding: 6px 8px;
   color: var(--waterloo);
   margin-right: 8px;
+  height: auto;
+  min-height: 40px;
 
   @include text('body-3');
 }

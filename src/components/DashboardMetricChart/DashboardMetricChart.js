@@ -8,7 +8,7 @@ import SharedAxisToggle from '../../ducks/Studio/Chart/SharedAxisToggle'
 import { DesktopOnly, MobileOnly } from '../Responsive'
 import { updateTooltipSettings } from '../../ducks/dataHub/tooltipSettings'
 import { useChartColors } from '../../ducks/Chart/colors'
-import { DEFAULT_INTERVAL_SELECTORS, INTERVAL_30_DAYS } from './utils'
+import { INTERVAL_30_DAYS } from './utils'
 import DashboardChartMetrics from './DashboardChartMetrics/DashboardChartMetrics'
 import DashboardMetricChartWrapper from './DashboardMetricChartWrapper'
 import DashboardMetricSelectors from './DashboardMetricSelectors/DashboardMetricSelectors'
@@ -19,7 +19,7 @@ const DashboardMetricChart = ({
   metrics,
   metricSettingsMap,
   defaultInterval = INTERVAL_30_DAYS,
-  intervals = DEFAULT_INTERVAL_SELECTORS,
+  intervals,
   metricSelectors,
   setRootMetric,
   rootMetric
@@ -47,21 +47,19 @@ const DashboardMetricChart = ({
     [setSettings, setIntervalSelector]
   )
 
-  const filteredMetrics = useMemo(
+  const activeMetrics = useMemo(
     () => metrics.filter(({ key }) => !disabledMetrics[key]),
     [metrics, disabledMetrics]
   )
 
-  const [data, loadings, errors] = useTimeseries(
-    filteredMetrics,
+  const [data, loadings] = useTimeseries(
+    activeMetrics,
     settings,
     metricSettingsMap
   )
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState(true)
 
-  const MetricColor = useChartColors(filteredMetrics)
-
-  console.log(errors)
+  const MetricColor = useChartColors(activeMetrics)
 
   return (
     <div className={cx(styles.container, className)}>
@@ -97,7 +95,7 @@ const DashboardMetricChart = ({
       </DesktopOnly>
 
       <DashboardMetricChartWrapper
-        metrics={filteredMetrics}
+        metrics={activeMetrics}
         data={data}
         settings={settings}
         MetricColor={MetricColor}

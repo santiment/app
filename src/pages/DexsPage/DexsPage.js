@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
+import gql from 'graphql-tag'
+import { useQuery } from '@apollo/react-hooks'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
@@ -16,9 +18,10 @@ import DexTradesSegmentedByDEX, {
   DEX_VOLUME_METRICS
 } from '../../ducks/Dexs/DexTradesSegmentedByDEX/DexTradesSegmentedByDEX'
 import NumberOfTradesPerDex from '../../ducks/Dexs/NumberOfTradesPerDex/NumberOfTradesPerDex'
+import DexPriceMeasurement, {
+  DEX_BY_USD
+} from '../../ducks/Dexs/PriceMeasurement/DexPriceMeasurement'
 import styles from './DexsPage.module.scss'
-import gql from 'graphql-tag'
-import { useQuery } from '@apollo/react-hooks'
 
 const ANCHORS = {
   TradesSegmented: {
@@ -60,6 +63,8 @@ export function useRestrictedInfo () {
 
 const DexsPage = ({ history }) => {
   const isProChecking = useRestrictedInfo()
+
+  const [measurement, setMeasurement] = useState(DEX_BY_USD)
 
   return (
     <div className={cx('page', styles.container)}>
@@ -110,12 +115,20 @@ const DexsPage = ({ history }) => {
 
         <div className={styles.inner}>
           <Block
-            className={styles.firstBlock}
+            className={cx(styles.firstBlock, styles.measurements)}
             tag={ANCHORS.TradesSegmented.key}
+          >
+            <DexPriceMeasurement
+              onSelect={setMeasurement}
+              defaultSelected={measurement}
+            />
+          </Block>
+
+          <Block
             title='Volume of Trades Segmented by DEX'
             isPaywalActive={isProChecking}
           >
-            <DexTradesSegmentedByDEX />
+            <DexTradesSegmentedByDEX measurement={measurement} />
           </Block>
 
           <Block
@@ -123,7 +136,10 @@ const DexsPage = ({ history }) => {
             title='Share of DEXs by Volume of Trades'
             isPaywalActive={isProChecking}
           >
-            <NumberOfTradesPerDex metrics={DEX_VOLUME_METRICS} />
+            <NumberOfTradesPerDex
+              metrics={DEX_VOLUME_METRICS}
+              measurement={measurement}
+            />
           </Block>
 
           <Block
@@ -131,7 +147,7 @@ const DexsPage = ({ history }) => {
             title='Total Amount of DEX Trades'
             isPaywalActive={isProChecking}
           >
-            <DexTradesTotalNumber />
+            <DexTradesTotalNumber measurement={measurement} />
           </Block>
 
           <Block
@@ -139,7 +155,10 @@ const DexsPage = ({ history }) => {
             title='Share of DEXs by Amount of Trades'
             isPaywalActive={isProChecking}
           >
-            <NumberOfTradesPerDex metrics={DEX_AMOUNT_METRICS} />
+            <NumberOfTradesPerDex
+              metrics={DEX_AMOUNT_METRICS}
+              measurement={measurement}
+            />
           </Block>
         </div>
       </div>

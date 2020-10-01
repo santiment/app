@@ -1,32 +1,34 @@
 import React, { useMemo, useState } from 'react'
 import DashboardMetricChart from '../../../components/DashboardMetricChart/DashboardMetricChart'
+import { DEX_INTERVAL_SELECTORS } from '../../../components/DashboardMetricChart/utils'
 
 export const DEXs = [
-  '0x',
-  'Airswap',
-  'Etherdelta',
-  'Balancer',
-  'Bancor',
-  'Curve',
-  'DDEX',
-  'DEX.Top',
-  'Gnosis',
+  'Uniswap',
   'IDEX',
+  'Balancer',
+  '0x',
+  'Curve',
   'KyberNetwork',
   'OasisDEX',
+  'dYdX',
+  'Bancor',
+  'Airswap',
   'TokenStore',
-  'Uniswap',
-  'dYdX'
+  'Etherdelta',
+  'DDEX',
+  'Gnosis',
+  'DEX.Top'
 ]
 
-const NumberOfTradesPerDex = ({ metrics }) => {
+const NumberOfTradesPerDex = ({ metrics, measurement }) => {
   const [rootMetric, setRootMetric] = useState(metrics[0])
 
   const dexMetrics = useMemo(
     () => {
+      const measurementSlug = measurement.slug.replace(/-/g, '_')
       return DEXs.map(dex => {
         return {
-          key: rootMetric.key + '_' + dex.replace('.', '_'),
+          key: `${rootMetric.key}_${measurementSlug}_${dex.replace('.', '_')}`,
           queryKey: rootMetric.key,
           node: 'bar',
           label: dex,
@@ -34,12 +36,12 @@ const NumberOfTradesPerDex = ({ metrics }) => {
           domainGroup: 'decentralized_exchanges',
           reqMeta: {
             owner: dex,
-            slug: 'multi-collateral-dai'
+            slug: measurement.slug
           }
         }
       })
     },
-    [rootMetric]
+    [rootMetric, measurement]
   )
 
   return (
@@ -48,6 +50,7 @@ const NumberOfTradesPerDex = ({ metrics }) => {
       metricSelectors={metrics}
       setRootMetric={setRootMetric}
       rootMetric={rootMetric}
+      intervals={DEX_INTERVAL_SELECTORS}
     />
   )
 }
