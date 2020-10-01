@@ -81,8 +81,7 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
 
   const [data] = useTimeseries(metrics, settings)
   const allTimeData = useAllTimeData(metrics, {
-    slug: asset.slug,
-    interval: undefined
+    slug: asset.slug
   })
 
   const onBrushChangeEnd = useCallback(
@@ -181,6 +180,8 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
           {...categories}
           data={data}
           brushData={allTimeData}
+          hideBrush={!isDesktop}
+          onBrushChangeEnd={onBrushChangeEnd}
           chartHeight={CHART_HEIGHT}
           metrics={metrics}
           isCartesianGridActive={isDesktop}
@@ -190,8 +191,6 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
           axesMetricKeys={isDesktop ? axesMetricKeys : []}
           resizeDependencies={isDesktop ? [axesMetricKeys] : []}
           className={styles.chart}
-          hideBrush={!isDesktop}
-          onBrushChangeEnd={onBrushChangeEnd}
           chartPadding={isDesktop ? undefined : CHART_PADDING_MOBILE}
         />
       </div>

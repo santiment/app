@@ -13,7 +13,7 @@ export const DEX_VOLUME_METRICS = [
   makeMetric('other_trade_volume_by_dex', 'Other')
 ]
 
-export function mapDEXMetrics (metrics, measurement) {
+export function mapDEXMetrics (metrics, measurement, addPriceMetric = false) {
   const measurementSlug = measurement.slug.replace(/-/g, '_')
 
   const dexMetrics = metrics.map(({ key, label }) => {
@@ -28,12 +28,14 @@ export function mapDEXMetrics (metrics, measurement) {
     }
   })
 
-  dexMetrics.push({
-    ...Metric.price_usd,
-    key: 'price_usd',
-    label: `Price ${measurement.label}`,
-    reqMeta: { slug: measurement.slug }
-  })
+  if (addPriceMetric) {
+    dexMetrics.push({
+      ...Metric.price_usd,
+      key: 'price_usd',
+      label: `Price ${measurement.label}`,
+      reqMeta: { slug: measurement.slug }
+    })
+  }
 
   return dexMetrics
 }
@@ -41,7 +43,7 @@ export function mapDEXMetrics (metrics, measurement) {
 const DexTradesSegmentedByDEX = ({ measurement }) => {
   const metrics = useMemo(
     () => {
-      return mapDEXMetrics(DEX_VOLUME_METRICS, measurement)
+      return mapDEXMetrics(DEX_VOLUME_METRICS, measurement, true)
     },
     [measurement]
   )

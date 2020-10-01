@@ -4,13 +4,14 @@ import { useMetricCategories } from '../../ducks/Chart/Synchronizer'
 import { useAxesMetricsKey, useDomainGroups } from '../../ducks/Chart/hooks'
 import Chart from '../../ducks/Chart'
 import { mapSizesToProps } from '../../utils/withSizes'
+import styles from './DashboardMetricChartWrapper.module.scss'
 
 const CHART_HEIGHT = 400
 const CHART_PADDING_DESKTOP = {
-  top: 32,
-  right: 64,
-  bottom: 32,
-  left: 24
+  top: 16,
+  right: 40,
+  bottom: 16,
+  left: 0
 }
 const CHART_PADDING_MOBILE = {
   top: 0,
@@ -19,14 +20,16 @@ const CHART_PADDING_MOBILE = {
   left: 0
 }
 
-const DashboardChartWrapper = ({
+const DashboardMetricChartWrapper = ({
   settings,
   data,
   metrics,
   isDesktop,
   MetricColor,
   isDomainGroupingActive,
-  loadings
+  loadings,
+  onBrushChangeEnd,
+  allTimeData
 }) => {
   const categories = useMetricCategories(metrics)
 
@@ -41,12 +44,15 @@ const DashboardChartWrapper = ({
     <Chart
       {...settings}
       {...categories}
+      className={styles.chart}
       data={data}
+      brushData={allTimeData}
+      hideBrush={!isDesktop || !onBrushChangeEnd || !allTimeData}
+      onBrushChangeEnd={onBrushChangeEnd}
       chartHeight={CHART_HEIGHT}
       metrics={metrics}
       isCartesianGridActive={false}
       hideWatermark
-      hideBrush
       chartPadding={isDesktop ? CHART_PADDING_DESKTOP : CHART_PADDING_MOBILE}
       resizeDependencies={[]}
       MetricColor={MetricColor}
@@ -58,4 +64,4 @@ const DashboardChartWrapper = ({
   )
 }
 
-export default withSizes(mapSizesToProps)(DashboardChartWrapper)
+export default withSizes(mapSizesToProps)(DashboardMetricChartWrapper)
