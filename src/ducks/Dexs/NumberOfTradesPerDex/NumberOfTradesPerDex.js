@@ -3,23 +3,23 @@ import DashboardMetricChart from '../../../components/DashboardMetricChart/Dashb
 import { DEX_INTERVAL_SELECTORS } from '../../../components/DashboardMetricChart/utils'
 
 export const DEXs = [
-  'Uniswap',
   'UniswapV2',
-  'IDEX',
-  'Balancer',
-  '0x_v1',
   '0x_v2',
-  '0x_v3',
   'Curve',
+  'Balancer',
   'KyberNetwork',
-  'OasisDEX',
   'dYdX',
+  '0x_v3',
+  'Uniswap',
   'Bancor',
   'Airswap',
-  'TokenStore',
+  'IDEX',
+  'OasisDEX',
+  'Gnosis',
   'Etherdelta',
   'DDEX',
-  'Gnosis',
+  '0x_v1',
+  'TokenStore',
   'DEX.Top'
 ]
 
