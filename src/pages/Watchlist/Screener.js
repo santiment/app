@@ -15,9 +15,9 @@ import {
   SOCIAL_VOLUME_CHANGE_RANGES
 } from '../../ducks/Watchlists/Widgets/VolumeChart/utils'
 import { addOrRemove } from '../../ducks/Watchlists/Widgets/Table/CompareDialog/CompareDialog'
-import styles from './Screener.module.scss'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import MakeProSubscriptionCard from '../feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
+import styles from './Screener.module.scss'
 
 export const useComparingAssets = () => {
   const [comparingAssets, setComparingAssets] = useState([])
