@@ -196,7 +196,7 @@ const ProjectsChart = ({ assets, redirect, loading: assetsLoading }) => {
                             return `${data.payload.name} ${data.payload.ticker}`
                           }
                         }}
-                        payloadLabels={getTooltipLabels(key)}
+                        payloadLabels={getTooltipLabels({ key, label })}
                         classes={styles}
                       />
                     }

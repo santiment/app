@@ -14,11 +14,11 @@ export function getBarColor (val) {
   return +val > 0 ? 'var(--jungle-green)' : 'var(--persimmon)'
 }
 
-export const getTooltipLabels = memoize(key => {
+export const getTooltipLabels = memoize(({ key, label }) => {
   return [
     {
       key: key,
-      label: 'Price change',
+      label: label,
       formatter: val => `${formatNumber(val)} %`
     },
     {
@@ -128,4 +128,15 @@ export const getBarValue = value => {
       maximumFractionDigits: 0,
       minimumFractionDigits: 0
     })
+}
+
+export const tooltipLabelFormatter = (value, payload) => {
+  const data = payload[0]
+  if (data.payload) {
+    if (data.payload.name === data.payload.ticker) {
+      return data.payload.ticker
+    } else {
+      return `${data.payload.name} ${data.payload.ticker}`
+    }
+  }
 }

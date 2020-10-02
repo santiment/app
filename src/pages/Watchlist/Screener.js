@@ -8,10 +8,7 @@ import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
 import GetAssets from '../../ducks/Watchlists/Widgets/Table/GetAssets'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table/AssetsTable'
 import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/columns'
-import {
-  PriceTreeMapWrapper,
-  SocialVolumeTreeMapWrapper
-} from '../../ducks/Watchlists/Widgets/VolumeChart/ProjectsTreeMap'
+import { ProjectsMapWrapper } from '../../ducks/Watchlists/Widgets/VolumeChart/ProjectsTreeMap'
 import ProjectsChart from '../../ducks/Watchlists/Widgets/VolumeChart/ProjectsChart'
 import {
   PRICE_CHANGE_RANGES,
@@ -108,10 +105,10 @@ const Screener = props => {
               />
               {isPriceTreeMap && (
                 <div className={styles.treeMaps}>
-                  <PriceTreeMapWrapper
+                  <ProjectsMapWrapper
                     className={styles.containerTreeMap}
                     assets={assets}
-                    title='Price Changes, %'
+                    title='Price Changes'
                     ranges={PRICE_CHANGE_RANGES}
                     loading={loading}
                   />
@@ -120,12 +117,13 @@ const Screener = props => {
               {isVolumeTreeMap && (
                 <div className={styles.treeMaps}>
                   {isPro ? (
-                    <SocialVolumeTreeMapWrapper
+                    <ProjectsMapWrapper
                       className={styles.containerTreeMap}
                       assets={assets}
-                      title='Social Volume Changes, %'
+                      title='Social Volume Changes'
                       ranges={SOCIAL_VOLUME_CHANGE_RANGES}
                       loading={loading}
+                      isSocialVolume={true}
                     />
                   ) : (
                     <MakeProSubscriptionCard />

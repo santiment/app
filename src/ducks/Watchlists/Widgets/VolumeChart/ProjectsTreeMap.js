@@ -7,18 +7,24 @@ import ColorsExplanation, { COLOR_MAPS } from './ColorsExplanation'
 import NoDataCharts from './NoDataCharts'
 import ScreenerChartTitle from './ScreenerChartTitle'
 import { useProjectRanges, useWithColors } from './hooks'
-import { getPriceSorter, getTooltipLabels, PRICE_CHANGE_RANGES } from './utils'
-import styles from './ProjectsChart.module.scss'
+import {
+  getPriceSorter,
+  getTooltipLabels,
+  PRICE_CHANGE_RANGES,
+  tooltipLabelFormatter
+} from './utils'
 import CustomizedTreeMapContent from './CustomizedTreeMapContent'
+import styles from './ProjectsChart.module.scss'
 
 const noop = () => true
 
-export const PriceTreeMapWrapper = ({
+export const ProjectsMapWrapper = ({
   assets,
   loading: assetsLoading,
   ranges,
   className,
-  title
+  title,
+  isSocialVolume = false
 }) => {
   const {
     data,
@@ -31,55 +37,14 @@ export const PriceTreeMapWrapper = ({
     assets,
     ranges,
     limit: 100,
-    sortByKey: 'marketcapUsd'
+    sortByKey: 'marketcapUsd',
+    isSocialVolume
   })
 
   return (
     <ProjectsTreeMap
       assets={assets}
       ranges={ranges}
-      sortByKey={'marketcapUsd'}
-      className={className}
-      title={title}
-      data={data}
-      loading={loading}
-      assetsLoading={assetsLoading}
-      intervalIndex={intervalIndex}
-      setIntervalIndex={setIntervalIndex}
-      label={label}
-      dataKey={key}
-    />
-  )
-}
-
-export const SocialVolumeTreeMapWrapper = ({
-  assets,
-  loading: assetsLoading,
-  ranges,
-  className,
-  title
-}) => {
-  const {
-    data,
-    loading,
-    intervalIndex,
-    setIntervalIndex,
-    label,
-    key
-  } = useProjectRanges({
-    assets,
-    ranges,
-    limit: 100,
-    isSocialVolume: true,
-    sortByKey: 'marketcapUsd'
-  })
-
-  console.log(data)
-
-  return (
-    <ProjectsTreeMap
-      ranges={ranges}
-      assets={assets}
       sortByKey={'marketcapUsd'}
       className={className}
       title={title}
@@ -108,8 +73,6 @@ const ProjectsTreeMap = ({
   label,
   dataKey: key
 }) => {
-  console.log('key', key)
-
   const sorter = useMemo(
     () => {
       return sortByKey ? getPriceSorter(sortByKey) : noop
@@ -131,7 +94,7 @@ const ProjectsTreeMap = ({
   return (
     <div className={className}>
       <div className={styles.title}>
-        <ScreenerChartTitle type='Treemap' title={title} />
+        <ScreenerChartTitle type='Treemap' title={`${title}, %`} />
         <Range
           className={styles.selector}
           range={label}
@@ -177,13 +140,8 @@ const ProjectsTreeMap = ({
                 content={
                   <ProjectsChartTooltip
                     className={styles.treemapTooltip}
-                    labelFormatter={(value, payload) => {
-                      const data = payload[0]
-                      if (data.payload) {
-                        return `${data.payload.name} ${data.payload.ticker}`
-                      }
-                    }}
-                    payloadLabels={getTooltipLabels(key)}
+                    labelFormatter={tooltipLabelFormatter}
+                    payloadLabels={getTooltipLabels({ key, label: title })}
                   />
                 }
               />
