@@ -12,7 +12,7 @@ export const DEXs = [
   '0x_v3',
   'Uniswap',
   'Bancor',
-  'Airswap',,
+  'Airswap',
   'IDEX',
   'OasisDEX',
   'Gnosis',
