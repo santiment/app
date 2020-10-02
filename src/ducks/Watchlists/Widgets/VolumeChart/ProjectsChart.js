@@ -23,7 +23,7 @@ import {
   getBarColor,
   getBarValue,
   getTooltipLabels,
-  RANGES,
+  PRICE_CHANGE_RANGES,
   SORT_RANGES
 } from './utils'
 import styles from './ProjectsChart.module.scss'
@@ -55,14 +55,17 @@ const ProjectsChart = ({ assets, redirect, loading: assetsLoading }) => {
 
   const { key: sortByKey, label: sortLabel, desc } = SORT_RANGES[sortedByIndex]
 
-  const [
+  const {
     data,
     loading,
-    { intervalIndex, setIntervalIndex, label, key }
-  ] = useProjectRanges({
+    intervalIndex,
+    setIntervalIndex,
+    label,
+    key
+  } = useProjectRanges({
     assets,
     limit: 100,
-    ranges: RANGES,
+    ranges: PRICE_CHANGE_RANGES,
     sortByKey,
     desc
   })
@@ -99,7 +102,7 @@ const ProjectsChart = ({ assets, redirect, loading: assetsLoading }) => {
             className={styles.selector}
             range={label}
             changeRange={() => {
-              setIntervalIndex((intervalIndex + 1) % RANGES.length)
+              setIntervalIndex((intervalIndex + 1) % PRICE_CHANGE_RANGES.length)
             }}
           />
         </div>

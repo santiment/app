@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { ResponsiveContainer, Tooltip, Treemap } from 'recharts'
 import Range from '../WatchlistOverview/Range'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
@@ -7,37 +7,123 @@ import ColorsExplanation, { COLOR_MAPS } from './ColorsExplanation'
 import NoDataCharts from './NoDataCharts'
 import ScreenerChartTitle from './ScreenerChartTitle'
 import { useProjectRanges, useWithColors } from './hooks'
-import {
-  formatProjectTreeMapValue,
-  getFontSize,
-  getSorter,
-  getTooltipLabels,
-  getWordLength,
-  RANGES
-} from './utils'
+import { getPriceSorter, getTooltipLabels, PRICE_CHANGE_RANGES } from './utils'
 import styles from './ProjectsChart.module.scss'
+import CustomizedTreeMapContent from './CustomizedTreeMapContent'
 
-const MARKETCAP_USD_SORTER = getSorter('marketcapUsd')
+const noop = () => true
 
-const ProjectsTreeMap = ({
+export const PriceTreeMapWrapper = ({
   assets,
   loading: assetsLoading,
   ranges,
-  className
+  className,
+  title
 }) => {
-  const [
+  const {
     data,
     loading,
-    { intervalIndex, setIntervalIndex, label, key }
-  ] = useProjectRanges({
+    intervalIndex,
+    setIntervalIndex,
+    label,
+    key
+  } = useProjectRanges({
     assets,
     ranges,
     limit: 100,
     sortByKey: 'marketcapUsd'
   })
 
-  const sortedByChange = useWithColors(data, key)
-  const sortedByMarketcap = sortedByChange.sort(MARKETCAP_USD_SORTER)
+  return (
+    <ProjectsTreeMap
+      assets={assets}
+      ranges={ranges}
+      sortByKey={'marketcapUsd'}
+      className={className}
+      title={title}
+      data={data}
+      loading={loading}
+      assetsLoading={assetsLoading}
+      intervalIndex={intervalIndex}
+      setIntervalIndex={setIntervalIndex}
+      label={label}
+      dataKey={key}
+    />
+  )
+}
+
+export const SocialVolumeTreeMapWrapper = ({
+  assets,
+  loading: assetsLoading,
+  ranges,
+  className,
+  title
+}) => {
+  const {
+    data,
+    loading,
+    intervalIndex,
+    setIntervalIndex,
+    label,
+    key
+  } = useProjectRanges({
+    assets,
+    ranges,
+    limit: 100,
+    isSocialVolume: true,
+    sortByKey: 'marketcapUsd'
+  })
+
+  console.log(data)
+
+  return (
+    <ProjectsTreeMap
+      ranges={ranges}
+      assets={assets}
+      sortByKey={'marketcapUsd'}
+      className={className}
+      title={title}
+      data={data}
+      loading={loading}
+      assetsLoading={assetsLoading}
+      intervalIndex={intervalIndex}
+      setIntervalIndex={setIntervalIndex}
+      label={label}
+      dataKey={key}
+    />
+  )
+}
+
+const ProjectsTreeMap = ({
+  assets,
+  assetsLoading,
+  ranges,
+  className,
+  sortByKey,
+  title,
+  data,
+  loading,
+  intervalIndex,
+  setIntervalIndex,
+  label,
+  dataKey: key
+}) => {
+  console.log('key', key)
+
+  const sorter = useMemo(
+    () => {
+      return sortByKey ? getPriceSorter(sortByKey) : noop
+    },
+    [sortByKey]
+  )
+
+  const sortedByChange = useWithColors(data, key, sorter)
+  const sortedByMarketcap = useMemo(
+    () => {
+      return sortedByChange.sort(sorter)
+    },
+    [sortedByChange]
+  )
 
   const noData = !assetsLoading && assets.length === 0
   const isLoading = loading || assetsLoading
@@ -45,13 +131,15 @@ const ProjectsTreeMap = ({
   return (
     <div className={className}>
       <div className={styles.title}>
-        <ScreenerChartTitle type='Treemap' title='Price Changes, %' />
+        <ScreenerChartTitle type='Treemap' title={title} />
         <Range
           className={styles.selector}
           range={label}
           changeRange={() => {
             setIntervalIndex(
-              ranges.length === 1 ? 0 : (intervalIndex + 1) % RANGES.length
+              ranges.length === 1
+                ? 0
+                : (intervalIndex + 1) % PRICE_CHANGE_RANGES.length
             )
           }}
         />
@@ -78,7 +166,7 @@ const ProjectsTreeMap = ({
               dataKey={'marketcapUsd'}
               fill='var(--jungle-green)'
               isAnimationActive={false}
-              content={<CustomizedContent dataKey={key} />}
+              content={<CustomizedTreeMapContent dataKey={key} />}
             >
               <Tooltip
                 offset={5}
@@ -108,72 +196,3 @@ const ProjectsTreeMap = ({
     </div>
   )
 }
-
-const CustomizedContent = props => {
-  const {
-    x,
-    y,
-    width,
-    height,
-    index,
-    dataKey,
-    root: { children }
-  } = props
-
-  if (!children) {
-    return null
-  }
-
-  const item = children[index]
-  const { ticker = '', color } = item
-  const value = formatProjectTreeMapValue(item[dataKey])
-
-  const fontSize = getFontSize(index, children.length)
-
-  const tickerLength = getWordLength(fontSize, ticker)
-
-  const showTicker = tickerLength < width
-  const showChange = showTicker && fontSize * 2 + 5 < height
-
-  return (
-    <g>
-      <rect
-        x={x}
-        y={y}
-        width={width}
-        height={height}
-        style={{
-          fill: color,
-          stroke: 'var(--white)',
-          strokeWidth: 2
-        }}
-      />
-      {showTicker && (
-        <text
-          x={x + width / 2}
-          y={y + height / 2 - (showChange ? 2 : -2)}
-          textAnchor='middle'
-          fill='var(--fiord)'
-          fontSize={fontSize}
-          fontWeight={500}
-        >
-          {ticker}
-        </text>
-      )}
-      {showChange && (
-        <text
-          x={x + width / 2}
-          y={y + height / 2 + fontSize - 1}
-          textAnchor='middle'
-          fill='var(--fiord)'
-          fontSize={fontSize}
-          fontWeight={500}
-        >
-          {value}
-        </text>
-      )}
-    </g>
-  )
-}
-
-export default ProjectsTreeMap
