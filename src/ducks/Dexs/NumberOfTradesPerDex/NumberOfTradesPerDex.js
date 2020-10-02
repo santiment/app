@@ -4,9 +4,12 @@ import { DEX_INTERVAL_SELECTORS } from '../../../components/DashboardMetricChart
 
 export const DEXs = [
   'Uniswap',
+  'UniswapV2',
   'IDEX',
   'Balancer',
-  '0x',
+  '0x_v1',
+  '0x_v2',
+  '0x_v3',
   'Curve',
   'KyberNetwork',
   'OasisDEX',
