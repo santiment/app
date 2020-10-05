@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
+import { updateTooltipSetting } from '../dataHub/tooltipSettings'
 
 export const WALLET_ASSETS_QUERY = gql`
   query assetsHeldByAddress($address: String!) {
@@ -27,14 +28,20 @@ export function useWalletAssets(address) {
 export function useWalletMetrics(walletAssets) {
   return useMemo(
     () =>
-      walletAssets.map(({ slug }) => ({
-        key: slug,
-        queryKey: 'historicalBalance',
-        reqMeta: {
-          slug,
-          infrastructure: 'ETH',
-        },
-      })),
+      walletAssets.map(({ slug }) => {
+        const metric = {
+          key: slug,
+          label: slug,
+          node: 'line',
+          queryKey: 'historicalBalance',
+          reqMeta: {
+            slug,
+            infrastructure: 'ETH',
+          },
+        }
+        updateTooltipSetting(metric)
+        return metric
+      }),
     [walletAssets],
   )
 }

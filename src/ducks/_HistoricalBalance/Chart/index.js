@@ -5,12 +5,19 @@ import SettingsMenu from './SettingsMenu'
 import { useWalletMetrics } from '../hooks'
 import SANChart from '../../Chart'
 import { useChartColors } from '../../Chart/colors'
-import { useClosestValueData } from '../../Chart/hooks'
+import { useClosestValueData, useAxesMetricsKey } from '../../Chart/hooks'
+import { useMetricCategories } from '../../Chart/Synchronizer'
 import { useTimeseries } from '../../Studio/timeseries/hooks'
 import AdvancedCalendar from '../../../components/AdvancedCalendar'
 import styles from './index.module.scss'
 
 const TIMERANGES = ['1D', '1W', '1M', '3M', '6M', 'All']
+const chartPadding = {
+  top: 25,
+  bottom: 25,
+  right: 45,
+  left: 15,
+}
 
 const FROM = new Date()
 const TO = new Date()
@@ -23,12 +30,14 @@ const Timeranges = () => (
     // defaultSelected={defaultTimerange}
   />
 )
+
 const Chart = ({ chartAssets, settings }) => {
   const metrics = useWalletMetrics(chartAssets)
-  const MetricColor = useChartColors(metrics)
   const [rawData] = useTimeseries(metrics, settings)
   const data = useClosestValueData(rawData, metrics)
-  console.log(data)
+  const categories = useMetricCategories(metrics)
+  const MetricColor = useChartColors(metrics)
+  const axesMetricKeys = useAxesMetricsKey(metrics)
 
   return (
     <div className={styles.wrapper}>
@@ -47,21 +56,20 @@ const Chart = ({ chartAssets, settings }) => {
       </div>
       <div className={styles.chart}>
         <SANChart
+          {...categories}
           className={styles.canvas}
           hideBrush
           hideWatermark
           data={data}
-          lines={['ethereum', 'robonomics-network']}
-          joinedCategories={['ethereum', 'robonomics-network']}
           MetricColor={MetricColor}
+          chartPadding={chartPadding}
+          tooltipKey={axesMetricKeys[0]}
+          axesMetricKeys={axesMetricKeys}
+          isCartesianGridActive
         ></SANChart>
       </div>
     </div>
   )
-}
-
-Chart.defaultProps = {
-  walletAssets: [{ slug: 'ethereum' }],
 }
 
 export default Chart

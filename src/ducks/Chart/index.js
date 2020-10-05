@@ -63,7 +63,6 @@ const Chart = ({
   isCartesianGridActive,
   isWatermarkLighter,
   syncTooltips,
-  syncDate,
   onRangeSelect,
   onRangeSelectStart,
   onPointClick,
