@@ -8,10 +8,15 @@ import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
 import GetAssets from '../../ducks/Watchlists/Widgets/Table/GetAssets'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table/AssetsTable'
 import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/columns'
-import ProjectsTreeMap from '../../ducks/Watchlists/Widgets/VolumeChart/ProjectsTreeMap'
+import { ProjectsMapWrapper } from '../../ducks/Watchlists/Widgets/VolumeChart/ProjectsTreeMap'
 import ProjectsChart from '../../ducks/Watchlists/Widgets/VolumeChart/ProjectsChart'
-import { RANGES } from '../../ducks/Watchlists/Widgets/VolumeChart/utils'
+import {
+  PRICE_CHANGE_RANGES,
+  SOCIAL_VOLUME_CHANGE_RANGES
+} from '../../ducks/Watchlists/Widgets/VolumeChart/utils'
 import { addOrRemove } from '../../ducks/Watchlists/Widgets/Table/CompareDialog/CompareDialog'
+import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
+import MakeProSubscriptionCard from '../feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
 import styles from './Screener.module.scss'
 
 export const useComparingAssets = () => {
@@ -59,6 +64,8 @@ const Screener = props => {
 
   const { comparingAssets, addAsset, cleanAll } = useComparingAssets()
 
+  const { isPro } = useUserSubscriptionStatus()
+
   return (
     <div className={('page', styles.screener)}>
       <GetAssets
@@ -98,13 +105,29 @@ const Screener = props => {
               />
               {isPriceTreeMap && (
                 <div className={styles.treeMaps}>
-                  <ProjectsTreeMap
+                  <ProjectsMapWrapper
                     className={styles.containerTreeMap}
                     assets={assets}
-                    title='Price changes'
-                    ranges={RANGES}
+                    title='Price Changes'
+                    ranges={PRICE_CHANGE_RANGES}
                     loading={loading}
                   />
+                </div>
+              )}
+              {isVolumeTreeMap && (
+                <div className={styles.treeMaps}>
+                  {isPro ? (
+                    <ProjectsMapWrapper
+                      className={styles.containerTreeMap}
+                      assets={assets}
+                      title='Social Volume Changes'
+                      ranges={SOCIAL_VOLUME_CHANGE_RANGES}
+                      loading={loading}
+                      isSocialVolume={true}
+                    />
+                  ) : (
+                    <MakeProSubscriptionCard />
+                  )}
                 </div>
               )}
               {isPriceChartActive && (

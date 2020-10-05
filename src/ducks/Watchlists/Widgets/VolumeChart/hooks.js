@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react'
-import { useProjectPriceChanges } from '../../../../hooks/project'
-import { getSorter, mapToColors } from './utils'
+import {
+  useProjectPriceChanges,
+  useProjectsSocialVolumeChanges
+} from '../../../../hooks/project'
+import { getPriceSorter, mapToColors } from './utils'
 
-export const useWithColors = (data, key) => {
+export const useWithColors = (data, key, sorter) => {
   const [result, setResult] = useState([])
 
   useEffect(
     () => {
-      const sorted = data.sort(getSorter(key))
+      const sorted = data.sort(sorter)
       setResult(mapToColors(sorted, key))
     },
-    [data.length, key]
+    [data.length, key, sorter]
   )
 
   return result
@@ -20,8 +23,9 @@ export const useProjectRanges = ({
   assets,
   ranges,
   limit,
-  sortByKey = 'marketcapUsd',
-  desc = true
+  sortByKey: inputKey,
+  desc = true,
+  isSocialVolume = false
 }) => {
   const [mapAssets, setMapAssets] = useState({})
   const [intervalIndex, setIntervalIndex] = useState(
@@ -43,15 +47,19 @@ export const useProjectRanges = ({
 
   const { label, key } = ranges[intervalIndex]
 
-  const sortKey = sortByKey || key
-  const sorter = getSorter({ sortKey, desc })
+  const sortKey = inputKey || key
+  const sorter = getPriceSorter({ sortKey, desc })
 
-  const [data, loading] = useProjectPriceChanges({
+  const hookProps = {
     mapAssets,
     key,
     limit,
     sorter
-  })
+  }
 
-  return [data, loading, { intervalIndex, setIntervalIndex, label, key }]
+  const [data, loading] = isSocialVolume
+    ? useProjectsSocialVolumeChanges({ ...hookProps, interval: label })
+    : useProjectPriceChanges(hookProps)
+
+  return { data, loading, intervalIndex, setIntervalIndex, label, key }
 }

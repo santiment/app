@@ -9,12 +9,12 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import styles from './Widgets.module.scss'
 
 const Widgets = ({
-  widgets: { isPriceChart, isPriceTreeMap } = {},
+  widgets: { isPriceChart, isPriceTreeMap, isVolumeTreeMap } = {},
   togglers = {},
   history,
   location
 }) => {
-  const { priceToggle, togglePriceTreeMap } = togglers
+  const { priceToggle, togglePriceTreeMap, toggleVolumeTreeMap } = togglers
   const parsedUrl = useMemo(() => queryString.parse(location.search), [
     location.search
   ])
@@ -36,6 +36,10 @@ const Widgets = ({
 
         if (charts.isPriceTreeMap) {
           togglePriceTreeMap(true)
+        }
+
+        if (charts.isVolumeTreeMap) {
+          toggleVolumeTreeMap(true)
         }
       }
     },
@@ -65,7 +69,8 @@ const Widgets = ({
           variant='flat'
           className={cx(
             styles.triggerButton,
-            (isPriceChart || isPriceTreeMap) && styles.triggerButton__active
+            (isPriceChart || isPriceTreeMap || isVolumeTreeMap) &&
+              styles.triggerButton__active
           )}
           icon='view-option'
         >
@@ -79,7 +84,7 @@ const Widgets = ({
       <Panel variant='modal' className={styles.wrapper}>
         <ToggleWidget
           index={1}
-          title='Price treemap'
+          title='Price Treemap'
           isActive={isPriceTreeMap}
           toggle={() => {
             togglePriceTreeMap(!isPriceTreeMap)
@@ -87,8 +92,17 @@ const Widgets = ({
           }}
         />
         <ToggleWidget
+          index={1}
+          title='Social Volume Treemap'
+          isActive={isVolumeTreeMap}
+          toggle={() => {
+            toggleVolumeTreeMap(!isVolumeTreeMap)
+            urlChange({ isVolumeTreeMap: !isVolumeTreeMap })
+          }}
+        />
+        <ToggleWidget
           index={0}
-          title='Price bar chart'
+          title='Price Bar Chart'
           isActive={isPriceChart}
           toggle={() => {
             priceToggle(!isPriceChart)

@@ -2,7 +2,7 @@ import memoize from 'lodash.memoize'
 import { formatNumber, millify } from '../../../../utils/formatting'
 import { getTreeMapColor } from './ColorsExplanation'
 
-export const getSorter = memoize(({ sortKey, desc }) => (a, b) => {
+export const getPriceSorter = memoize(({ sortKey, desc }) => (a, b) => {
   if (desc) {
     return +b[sortKey] - +a[sortKey]
   } else {
@@ -14,11 +14,11 @@ export function getBarColor (val) {
   return +val > 0 ? 'var(--jungle-green)' : 'var(--persimmon)'
 }
 
-export const getTooltipLabels = memoize(key => {
+export const getTooltipLabels = memoize(({ key, label }) => {
   return [
     {
       key: key,
-      label: 'Price change',
+      label: label,
       formatter: val => `${formatNumber(val)} %`
     },
     {
@@ -42,7 +42,7 @@ export const formatProjectTreeMapValue = val =>
     }) + '%'
     : null
 
-export const RANGES = [
+export const PRICE_CHANGE_RANGES = [
   {
     label: '1h',
     key: 'percentChange1h'
@@ -54,6 +54,21 @@ export const RANGES = [
   {
     label: '7d',
     key: 'percentChange7d'
+  }
+]
+
+export const SOCIAL_VOLUME_CHANGE_RANGES = [
+  {
+    label: '1d',
+    key: 'change1d'
+  },
+  {
+    label: '7d',
+    key: 'change7d'
+  },
+  {
+    label: '30d',
+    key: 'change30d'
   }
 ]
 
@@ -113,4 +128,15 @@ export const getBarValue = value => {
       maximumFractionDigits: 0,
       minimumFractionDigits: 0
     })
+}
+
+export const tooltipLabelFormatter = (value, payload) => {
+  const data = payload[0]
+  if (data.payload) {
+    if (data.payload.name === data.payload.ticker) {
+      return data.payload.ticker
+    } else {
+      return `${data.payload.name} ${data.payload.ticker}`
+    }
+  }
 }
