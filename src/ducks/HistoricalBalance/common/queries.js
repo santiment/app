@@ -1,19 +1,21 @@
 import gql from 'graphql-tag'
 
+// TODO: Move to timeseries fetcher metrics [@vanguard | Oct  5, 2020]
 export const HISTORICAL_BALANCE_QUERY = gql`
   query historicalBalance(
     $from: DateTime!
     $to: DateTime!
     $address: String!
     $interval: interval!
-    $selector: HistoricalBalanceSelector
+    $slug: String!
+    $infrastructure: String!
   ) {
     historicalBalance(
       address: $address
       interval: $interval
-      selector: $selector
       from: $from
       to: $to
+      selector: { slug: $slug, infrastructure: $infrastructure }
     ) {
       datetime
       balance

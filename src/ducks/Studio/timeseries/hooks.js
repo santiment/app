@@ -9,8 +9,8 @@ import { getIntervalByTimeRange } from '../../../utils/dates'
 // NOTE: Polyfill for a PingdomBot 0.8.5 browser (/sentry/sanbase-frontend/issues/29459/) [@vanguard | Feb 6, 2020]
 window.AbortController =
   window.AbortController ||
-  function () {
-    return { abort () {} }
+  function() {
+    return { abort() {} }
   }
 
 const DEFAULT_TS = []
@@ -21,9 +21,9 @@ const DEFAULT_ABORTABLES = new Map()
 const DEFAULT_METRIC_SETTINGS_MAP = new Map()
 const ABORTABLE_METRIC_SETTINGS_INDEX = 2
 
-const noop = v => v
+const noop = (v) => v
 
-const hashMetrics = metrics => metrics.reduce((acc, { key }) => acc + key, '')
+const hashMetrics = (metrics) => metrics.reduce((acc, { key }) => acc + key, '')
 
 export const cancelQuery = ([controller, id]) => {
   const { queryManager } = client
@@ -35,9 +35,9 @@ export const cancelQuery = ([controller, id]) => {
   queryManager.stopQuery(id)
 }
 
-function abortRemovedMetrics (abortables, newMetrics, MetricSettingMap) {
+function abortRemovedMetrics(abortables, newMetrics, MetricSettingMap) {
   const toAbort = new Map(abortables)
-  newMetrics.forEach(metric => {
+  newMetrics.forEach((metric) => {
     const abortable = abortables.get(metric)
     if (
       abortable &&
@@ -59,17 +59,17 @@ function abortRemovedMetrics (abortables, newMetrics, MetricSettingMap) {
   return reducedAbortables
 }
 
-function abortAllMetrics (abortables) {
+function abortAllMetrics(abortables) {
   return [...abortables.values()].forEach(cancelQuery)
 }
 
 const NO_DATA_MSG = 'No data for the requested period'
 
-export function useTimeseries (
+export function useTimeseries(
   metrics,
   settings,
   MetricSettingMap = DEFAULT_METRIC_SETTINGS_MAP,
-  MetricTransformer = DEFAULT_METRIC_TRANSFORMER
+  MetricTransformer = DEFAULT_METRIC_TRANSFORMER,
 ) {
   const [timeseries, setTimeseries] = useState(DEFAULT_TS)
   const [loadings, setLoadings] = useState(DEFAULT_LOADINGS)
@@ -77,145 +77,137 @@ export function useTimeseries (
   const [abortables, setAbortables] = useState(DEFAULT_ABORTABLES)
 
   const metricsHash = hashMetrics(metrics)
-  const { slug, from, to, interval } = settings
+  const { slug, from, to, interval, address } = settings
 
-  useEffect(
-    () => {
-      if (!metricsHash) {
-        setTimeseries([])
-      }
+  useEffect(() => {
+    if (!metricsHash) {
+      setTimeseries([])
+    }
 
-      setAbortables(abortRemovedMetrics(abortables, metrics, MetricSettingMap))
-    },
-    [metricsHash, MetricSettingMap]
-  )
+    setAbortables(abortRemovedMetrics(abortables, metrics, MetricSettingMap))
+  }, [metricsHash, MetricSettingMap])
 
-  useEffect(
-    () => {
-      abortAllMetrics(abortables)
-      setAbortables(new Map())
-      setLoadings([...metrics])
-      setErrorMsg({})
-    },
-    [slug, from, to, interval]
-  )
+  useEffect(() => {
+    abortAllMetrics(abortables)
+    setAbortables(new Map())
+    setLoadings([...metrics])
+    setErrorMsg({})
+  }, [slug, from, to, interval, address])
 
-  useEffect(
-    () => {
-      const { slug, from, to, interval } = settings
+  useEffect(() => {
+    let raceCondition = false
+    let mergedData = []
 
-      let raceCondition = false
-      let mergedData = []
+    metrics.forEach((metric) => {
+      const { key, reqMeta, fetch } = metric
+      const metricSettings = MetricSettingMap.get(metric)
+      const queryId = client.queryManager.idCounter
+      const abortController = new AbortController()
 
-      metrics.forEach(metric => {
-        const { key, reqMeta, fetch } = metric
-        const metricSettings = MetricSettingMap.get(metric)
-        const queryId = client.queryManager.idCounter
-        const abortController = new AbortController()
+      const query = getQuery(metric, metricSettings)
 
-        const query = getQuery(metric, metricSettings)
-
-        if (!fetch) {
-          if (!query) {
-            return setErrorMsg(state => {
-              state[key] = NO_DATA_MSG
-              return { ...state }
-            })
-          }
-
-          setAbortables(state => {
-            const newState = new Map(state)
-            newState.set(metric, [abortController, queryId, metricSettings])
-            return newState
+      if (!fetch) {
+        if (!query) {
+          return setErrorMsg((state) => {
+            state[key] = NO_DATA_MSG
+            return { ...state }
           })
         }
 
-        setLoadings(state => {
-          const loadingsSet = new Set(state)
-          loadingsSet.add(metric)
-          return [...loadingsSet]
+        setAbortables((state) => {
+          const newState = new Map(state)
+          newState.set(metric, [abortController, queryId, metricSettings])
+          return newState
         })
+      }
 
-        const variables = {
-          metric: key,
-          interval: getAvailableInterval(metric, interval),
-          to,
-          from,
-          slug,
-          ...reqMeta,
-          ...metricSettings
-        }
+      setLoadings((state) => {
+        const loadingsSet = new Set(state)
+        loadingsSet.add(metric)
+        return [...loadingsSet]
+      })
 
-        const request = fetch
-          ? fetch(metric, variables)
-          : getData(query, variables, abortController.signal)
+      const variables = {
+        metric: key,
+        interval: getAvailableInterval(metric, interval),
+        to,
+        from,
+        slug,
+        address,
+        ...reqMeta,
+        ...metricSettings,
+      }
+
+      const request = fetch
+        ? fetch(metric, variables)
+        : getData(query, variables, abortController.signal)
             .then(getPreTransform(metric))
             .then(MetricTransformer[metric.key] || noop)
 
-        request
-          .then(data => {
-            if (raceCondition) return
+      request
+        .then((data) => {
+          if (raceCondition) return
 
-            if (!data.length) {
-              throw new Error(NO_DATA_MSG)
-            }
+          if (!data.length) {
+            throw new Error(NO_DATA_MSG)
+          }
 
-            setErrorMsg(state => {
-              if (!state[key]) return state
+          setErrorMsg((state) => {
+            if (!state[key]) return state
 
-              const newState = Object.assign({}, state)
-              delete newState[key]
-              return newState
-            })
-            setTimeseries(() => {
-              mergedData = mergeTimeseries([mergedData, data])
-
-              return mergedData.map(normalizeDatetimes)
-            })
+            const newState = Object.assign({}, state)
+            delete newState[key]
+            return newState
           })
-          .catch(({ message }) => {
-            if (raceCondition) return
-            setErrorMsg(state => {
-              state[key] = substituteErrorMsg(message)
-              return { ...state }
-            })
+          setTimeseries(() => {
+            mergedData = mergeTimeseries([mergedData, data])
+
+            return mergedData.map(normalizeDatetimes)
           })
-          .finally(() => {
-            if (raceCondition) return
-
-            setAbortables(state => {
-              const newState = new Map(state)
-              newState.delete(metric)
-              return newState
-            })
-
-            setLoadings(state => state.filter(loadable => loadable !== metric))
+        })
+        .catch(({ message }) => {
+          if (raceCondition) return
+          setErrorMsg((state) => {
+            state[key] = substituteErrorMsg(message)
+            return { ...state }
           })
-      })
+        })
+        .finally(() => {
+          if (raceCondition) return
 
-      return () => {
-        raceCondition = true
-      }
-    },
-    [metricsHash, settings, MetricSettingMap, MetricTransformer]
-  )
+          setAbortables((state) => {
+            const newState = new Map(state)
+            newState.delete(metric)
+            return newState
+          })
+
+          setLoadings((state) =>
+            state.filter((loadable) => loadable !== metric),
+          )
+        })
+    })
+
+    return () => {
+      raceCondition = true
+    }
+  }, [metricsHash, settings, MetricSettingMap, MetricTransformer])
 
   return [timeseries, loadings, ErrorMsg]
 }
 
 const DEFAULT_BRUSH_SETTINGS = {
   interval: '4d',
-  ...getIntervalByTimeRange('all')
+  ...getIntervalByTimeRange('all'),
 }
 
-export function useAllTimeData (metrics, settings, MetricSettingMap) {
+export function useAllTimeData(metrics, settings, MetricSettingMap) {
   const { slug } = settings
   const brushSettings = useMemo(
     () => ({
       ...DEFAULT_BRUSH_SETTINGS,
-      slug
+      slug,
     }),
-    [slug]
+    [slug],
   )
   const [allTimeData] = useTimeseries(metrics, brushSettings, MetricSettingMap)
 

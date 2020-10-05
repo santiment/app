@@ -12,20 +12,20 @@ const DEFAULT_TO_DATE = toEndOfDay(new Date()).toISOString()
 class GetHistoricalBalance extends Component {
   state = {
     assets: {},
-    error: undefined
+    error: undefined,
   }
 
   static propTypes = {
     assets: PropTypes.array.isRequired,
     wallet: PropTypes.string.isRequired,
-    render: PropTypes.func
+    render: PropTypes.func,
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.fetchHistoricalBalance()
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (!isEqual(prevProps, this.props)) {
       this.cleanupHistory().then(() => {
         this.fetchHistoricalBalance()
@@ -33,14 +33,14 @@ class GetHistoricalBalance extends Component {
     }
   }
 
-  cleanupHistory () {
-    return new Promise(resolve => {
+  cleanupHistory() {
+    return new Promise((resolve) => {
       const oldAssets = this.state.assets
       const newAssets = pick(oldAssets, this.props.assets)
       const assets = Object.keys(newAssets).reduce((acc, name) => {
         acc[name] = {
           loading: true,
-          items: []
+          items: [],
         }
         return acc
       }, {})
@@ -48,7 +48,7 @@ class GetHistoricalBalance extends Component {
     })
   }
 
-  fetchHistoricalBalance () {
+  fetchHistoricalBalance() {
     const {
       assets,
       wallet,
@@ -56,18 +56,18 @@ class GetHistoricalBalance extends Component {
       interval = '1d',
       to = DEFAULT_TO_DATE,
       from = DEFAULT_FROM_DATE,
-      selector: { infrastructure = 'ETH' } = {}
+      selector: { infrastructure = 'ETH' } = {},
     } = this.props
 
-    assets.forEach(slug => {
+    assets.forEach((slug) => {
       this.setState(({ assets }) => ({
         assets: {
           [slug]: {
             loading: true,
-            items: []
+            items: [],
           },
-          ...assets
-        }
+          ...assets,
+        },
       }))
 
       client
@@ -77,15 +77,13 @@ class GetHistoricalBalance extends Component {
             return !wallet
           },
           variables: {
-            selector: {
-              slug,
-              infrastructure
-            },
+            slug,
+            infrastructure,
             address: wallet,
             interval,
             to,
-            from
-          }
+            from,
+          },
         })
         .then(({ data, loading }) => {
           if (assets.includes(slug)) {
@@ -94,23 +92,23 @@ class GetHistoricalBalance extends Component {
                 ...assets,
                 [slug]: {
                   loading,
-                  items: data.historicalBalance
-                }
-              }
+                  items: data.historicalBalance,
+                },
+              },
             }))
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.setState({ error })
         })
     })
   }
 
-  render () {
+  render() {
     const { assets, error } = this.state
     return this.props.render({
       error,
-      data: assets
+      data: assets,
     })
   }
 }
