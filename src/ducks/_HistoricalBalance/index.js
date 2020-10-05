@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import cx from 'classnames'
 import { useWalletAssets } from './hooks'
 import Chart from './Chart'
 import AddressSetting from './Setting/Address'
+import AssetsSetting from './Setting/Assets'
 import { withSizes } from '../../components/Responsive'
 import styles from './index.module.scss'
 
@@ -13,10 +13,14 @@ const SETTINGS = {
   interval: '3h',
 }
 
+const DEFAULT_CHART_ASSETS = []
+
 const HistoricalBalance = ({ isDesktop }) => {
   const [settings, setSettings] = useState(SETTINGS)
   const { walletAssets, isLoading, isError } = useWalletAssets(settings.address)
-  const chartAssets = walletAssets.slice(0, 1)
+  const [chartAssets, setChartAssets] = useState(DEFAULT_CHART_ASSETS)
+
+  console.log(walletAssets)
 
   function onAddressChange(address) {
     setSettings({
@@ -30,11 +34,15 @@ const HistoricalBalance = ({ isDesktop }) => {
       <div className={styles.settings}>
         <AddressSetting
           address={settings.address}
-          isLoading={isLoading}
           isError={isError}
           onAddressChange={onAddressChange}
         ></AddressSetting>
-        <AddressSetting></AddressSetting>
+        <AssetsSetting
+          walletAssets={walletAssets}
+          chartAssets={chartAssets}
+          isLoading={isLoading}
+          setChartAssets={setChartAssets}
+        ></AssetsSetting>
       </div>
       <Chart
         isDesktop={isDesktop}

@@ -27,7 +27,7 @@ export const AddressSetting = ({ address, isError, onAddressChange }) => {
       ></LibInput>
       {address && (
         <a
-          href={`https://etherscan.io/address/{address}`}
+          href={`https://etherscan.io/address/${address}`}
           target='_blank'
           rel='noopener noreferrer'
           className={styles.etherscan}
