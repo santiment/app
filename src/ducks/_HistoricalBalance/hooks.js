@@ -15,14 +15,19 @@ export const WALLET_ASSETS_QUERY = gql`
 const DEFAULT_STATE = []
 
 export function useWalletAssets(address) {
-  const { data } = useQuery(WALLET_ASSETS_QUERY, {
+  const { data, loading, error } = useQuery(WALLET_ASSETS_QUERY, {
     skip: !address,
     variables: {
       address,
     },
   })
 
-  return data ? data.assetsHeldByAddress : DEFAULT_STATE
+  const walletAssets = data ? data.assetsHeldByAddress : DEFAULT_STATE
+  return {
+    walletAssets,
+    isLoading: loading,
+    isError: error,
+  }
 }
 
 export function useWalletMetrics(walletAssets) {

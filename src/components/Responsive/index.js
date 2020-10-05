@@ -1,21 +1,21 @@
-import withSizes from 'react-sizes'
+import withSizesLib from 'react-sizes'
 import PropTypes from 'prop-types'
 import { mapSizesToProps } from '../../utils/withSizes'
 
-const enhance = withSizes(mapSizesToProps)
+export const withSizes = withSizesLib(mapSizesToProps)
 
-export const DesktopOnly = enhance(({ children, isDesktop }) =>
-  isDesktop ? children : null
+export const DesktopOnly = withSizes(({ children, isDesktop }) =>
+  isDesktop ? children : null,
 )
 
 DesktopOnly.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 }
 
-export const MobileOnly = enhance(({ children, isDesktop }) =>
-  isDesktop ? null : children
+export const MobileOnly = withSizes(({ children, isDesktop }) =>
+  isDesktop ? null : children,
 )
 
 MobileOnly.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 }

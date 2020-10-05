@@ -31,7 +31,7 @@ const Timeranges = () => (
   />
 )
 
-const Chart = ({ chartAssets, settings }) => {
+const Chart = ({ isDesktop, chartAssets, settings }) => {
   const metrics = useWalletMetrics(chartAssets)
   const [rawData] = useTimeseries(metrics, settings)
   const data = useClosestValueData(rawData, metrics)
@@ -44,14 +44,16 @@ const Chart = ({ chartAssets, settings }) => {
       <div className={styles.header}>
         <CreateAlert></CreateAlert>
         <Timeranges></Timeranges>
-        <AdvancedCalendar
-          className={styles.calendar}
-          from={FROM}
-          to={TO}
-          // timeRange={defaultTimerange}
-          // onCalendarChange={onCalendarChange}
-          // onTimerangeChange={onTimerangeChange}
-        />
+        {isDesktop && (
+          <AdvancedCalendar
+            className={styles.calendar}
+            from={FROM}
+            to={TO}
+            // timeRange={defaultTimerange}
+            // onCalendarChange={onCalendarChange}
+            // onTimerangeChange={onTimerangeChange}
+          />
+        )}
         <SettingsMenu></SettingsMenu>
       </div>
       <div className={styles.chart}>
