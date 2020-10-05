@@ -20,6 +20,7 @@ import {
 } from '../../ducks/Signals/common/getSignals'
 import { CHANNEL_TYPES } from '../../ducks/Signals/utils/constants'
 import { DEFAULT_SETTINGS, useUserSettings } from '../../stores/user/settings'
+import SignalLimits from './limits/SignalLimits'
 import styles from './AccountPage.module.scss'
 
 const onDigestChangeSuccess = () =>
@@ -49,11 +50,13 @@ const SignalsDescription = (mappedCount, allCount, channel) => {
 
 const SettingsNotifications = ({ changeDigestType, mutateDigestType }) => {
   const { settings } = useUserSettings()
+
   const {
     newsletterSubscription: digestType,
     signalNotifyEmail,
     signalNotifyTelegram,
-    hasTelegramConnected
+    hasTelegramConnected,
+    signalsPerDayLimit
   } = settings || DEFAULT_SETTINGS
 
   const { data: signals } = useSignals()
@@ -102,6 +105,13 @@ const SettingsNotifications = ({ changeDigestType, mutateDigestType }) => {
           />
         </Settings.Row>
       </ShowIf>
+
+      <Settings.Row>
+        <SignalLimits
+          signalsPerDayLimit={signalsPerDayLimit}
+          classes={styles}
+        />
+      </Settings.Row>
 
       <Settings.Row>
         <div className={styles.digest}>

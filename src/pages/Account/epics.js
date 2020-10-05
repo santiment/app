@@ -4,7 +4,7 @@ import { USER_EMAIL_LOGIN_QEURY } from './../../epics/handleLaunch'
 import { handleErrorAndTriggerAction } from './../../epics/utils'
 import { showNotification } from './../../actions/rootActions'
 import * as actions from './../../actions/types'
-import { updateUserSettings } from '../../stores/user/settings'
+import { updateUserSettingsCache } from '../../stores/user/settings'
 
 const TELEGRAM_DEEP_LINK_QUERY = gql`
   {
@@ -118,7 +118,7 @@ function tryUpdateUserProxyData (proxy, query, action) {
   try {
     let data = proxy.readQuery({ query })
 
-    updateUserSettings(action.payload)
+    updateUserSettingsCache(action.payload)
     data.currentUser.settings = {
       ...data.currentUser.settings,
       ...action.payload

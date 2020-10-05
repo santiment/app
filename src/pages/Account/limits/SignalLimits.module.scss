@@ -1,0 +1,27 @@
+@import '~@santiment-network/ui/mixins';
+
+.limits {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.title {
+  @include text('body-3', 'l');
+
+  margin-bottom: 12px;
+}
+
+.limitBlock {
+  display: flex;
+  margin-bottom: 8px;
+  align-items: center;
+
+  &:first-child {
+    margin: 0;
+  }
+}
+
+.input {
+  text-align: center;
+}

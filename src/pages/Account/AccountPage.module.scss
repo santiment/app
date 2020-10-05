@@ -79,11 +79,9 @@
   }
 
   &__right {
-    &_notifications {
-      display: flex;
-      align-items: center;
-      margin-left: auto;
-    }
+    display: flex;
+    align-items: center;
+    margin-left: auto;
   }
 
   &_apikey {

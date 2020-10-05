@@ -165,7 +165,7 @@ const SettingsSonarWebPushNotifications = ({
           </Label>
         )}
       </div>
-      <div className={cx(styles.setting__right_notifications, classes.right)}>
+      <div className={cx(styles.setting__right, classes.right)}>
         <SidecarExplanationTooltip
           closeTimeout={500}
           localStorageSuffix='_TRIGGER_PUSH_NOTIFICATION_EXPLANATION'
