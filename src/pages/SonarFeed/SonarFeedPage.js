@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect, useMemo } from 'react'
 import { matchPath } from 'react-router'
 import { connect } from 'react-redux'
 import { Link, Route, Switch, Redirect } from 'react-router-dom'
@@ -17,9 +17,9 @@ import {
 } from '../../ducks/Signals/common/getSignal'
 import { sendParams } from '../Account/SettingsSonarWebPushNotifications'
 import { RecommendedSignals } from './SonarFeedRecommendations'
-import styles from './SonarFeedPage.module.scss'
 import { METRIC_TYPES } from '../../ducks/Signals/utils/constants'
 import ScreenerSignalDialog from '../../ducks/Signals/ScreenerSignal/ScreenerSignalDialog'
+import styles from './SonarFeedPage.module.scss'
 
 const baseLocation = '/sonar'
 
@@ -47,8 +47,8 @@ const MY_SIGNALS_MODAL_VIEW = {
 
 const tabs = [MY_SIGNALS_LIST, MY_SIGNALS_MODAL_VIEW]
 
-const SignalModal = ({ id: triggerId }) => {
-  const shareSignalParams = getShareSignalParams()
+const SignalModal = ({ id: triggerId, params }) => {
+  const shareSignalParams = getShareSignalParams(params)
 
   const { data = {}, loading } = useSignal({ triggerId, skip: !triggerId })
 
@@ -94,10 +94,17 @@ const SonarFeed = ({
   if (pathname === baseLocation) {
     return <Redirect to={tabs[0].index} />
   }
-  const pathParams = matchPath(pathname, SIGNAL_ROUTES.SIGNAL)
+  const pathParams = useMemo(
+    () => {
+      const parsed = matchPath(pathname, SIGNAL_ROUTES.SIGNAL)
+
+      return parsed ? parsed.params : undefined
+    },
+    [pathname]
+  )
 
   const [triggerId, setTriggerId] = useState(
-    pathParams ? pathParams.params.id : undefined
+    pathParams ? pathParams.id : undefined
   )
 
   useEffect(
@@ -117,8 +124,8 @@ const SonarFeed = ({
     () => {
       if (triggerId && !pathParams) {
         setTriggerId(undefined)
-      } else if (pathParams && pathParams.params) {
-        setTriggerId(pathParams.params.id)
+      } else if (pathParams) {
+        setTriggerId(pathParams.id)
       }
     },
     [pathname]
@@ -131,13 +138,15 @@ const SonarFeed = ({
       {isDesktop ? (
         <div className={styles.header}>
           <SonarFeedHeader />
-          {!isUserLoading && <SignalModal id={triggerId} />}
+          {!isUserLoading && <SignalModal id={triggerId} params={pathParams} />}
         </div>
       ) : (
         <div className={styles.header}>
           <MobileHeader title={<SonarFeedHeader />} />
           <div className={styles.addSignal}>
-            {!isUserLoading && <SignalModal id={triggerId} />}
+            {!isUserLoading && (
+              <SignalModal id={triggerId} params={pathParams} />
+            )}
           </div>
         </div>
       )}

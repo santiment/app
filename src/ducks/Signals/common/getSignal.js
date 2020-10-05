@@ -2,7 +2,7 @@ import * as qs from 'query-string'
 import { TRIGGER_BY_ID_QUERY } from './queries'
 import { useQuery } from '@apollo/react-hooks'
 
-export const getShareSignalParams = () => {
+export const getShareSignalParams = (params = {}) => {
   const { search, hash } = window.location || {}
 
   const parsedSignalParams = qs.parse(search, {
@@ -10,7 +10,8 @@ export const getShareSignalParams = () => {
   })
 
   const isShared =
-    hash === '#shared' || Object.keys(parsedSignalParams).length > 0
+    hash === '#shared' ||
+    (params.id && Object.keys(parsedSignalParams).length > 0)
 
   const triggerParams = { isShared, ...parsedSignalParams }
   Object.keys(triggerParams).forEach(key =>
