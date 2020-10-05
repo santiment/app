@@ -1,0 +1,22 @@
+@import '~@santiment-network/ui/mixins';
+
+.setting {
+  flex: 1;
+  @include text('caption');
+  color: var(--waterloo);
+
+  &:last-child {
+    margin-left: 24px;
+  }
+}
+
+.etherscan {
+  display: inline-block;
+  @include text('body-3');
+  color: var(--jungle-green);
+  margin-top: 4px;
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}

@@ -29,6 +29,42 @@ export const Button = ({ className, ...props }) => (
   />
 )
 
+export const ShareButton = ({ shareLink }) => (
+  <ShareChart
+    shareLink={shareLink}
+    trigger={props => (
+      <UIButton fluid variant='ghost' {...props}>
+        <Icon type='share' />
+        Share chart
+      </UIButton>
+    )}
+  />
+)
+
+export const Setting = ({ title, isActive, onClick }) => (
+  <Button className={styles.context__btn} onClick={onClick}>
+    {title}
+    <Toggle isActive={isActive} className={styles.context__toggle} />
+  </Button>
+)
+
+export const Menu = ({ children, className }) => (
+  <ContextMenu
+    trigger={
+      <UIButton variant='flat' className={cx(className, styles.settingsBtn)}>
+        <UIIcon type='settings' />
+      </UIButton>
+    }
+    passOpenStateAs='isActive'
+    position='bottom'
+    align='end'
+  >
+    <Panel variant='modal' className={styles.context}>
+      {children}
+    </Panel>
+  </ContextMenu>
+)
+
 const ChartSettingsContextMenu = ({
   chartRef,
   showNightModeToggle = true,
@@ -136,17 +172,8 @@ const ChartSettingsContextMenu = ({
             )}
           </Button>
         )}
-        {shareLink && (
-          <ShareChart
-            shareLink={shareLink}
-            trigger={props => (
-              <UIButton fluid variant='ghost' {...props}>
-                <Icon type='share' />
-                Share chart
-              </UIButton>
-            )}
-          />
-        )}
+
+        {shareLink && <ShareButton shareLink={shareLink}></ShareButton>}
 
         {showDownload && (
           <DownloadCSVBtn

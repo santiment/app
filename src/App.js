@@ -26,6 +26,7 @@ import Footer from './components/Footer'
 import GDPRPage from './pages/GDPRPage/GDPRPage'
 import WatchlistPage from './pages/Watchlist'
 import HistoricalBalancePage from './ducks/HistoricalBalance/page/HistoricalBalancePage'
+import _HistoricalBalancePage from './pages/HistoricalBalance'
 import { getConsentUrl } from './utils/utils'
 import CookiePopup from './components/CookiePopup/CookiePopup'
 import GdprRedirector from './components/GdprRedirector'
@@ -318,6 +319,11 @@ export const App = ({
           }}
         />
         <Route exact path='/roadmap' component={Roadmap} />
+        <Route
+          exact
+          path='/labs/_balance'
+          render={() => <_HistoricalBalancePage isDesktop={isDesktop} />}
+        />
         <Route
           exact
           path='/labs/balance'

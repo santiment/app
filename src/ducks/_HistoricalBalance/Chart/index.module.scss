@@ -1,0 +1,20 @@
+.wrapper {
+}
+
+.header {
+  display: flex;
+  padding: 16px 24px 4px;
+}
+
+.timeranges {
+  margin-left: auto;
+}
+
+.divider {
+  border-top-color: var(--porcelain);
+  margin: 15px 0;
+}
+
+.chart {
+  height: 450px;
+}
