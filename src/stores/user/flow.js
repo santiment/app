@@ -3,7 +3,7 @@ import {
   refetchUserSubscriptions,
   updateUserSubscriptions
 } from './subscriptions'
-import { refetchUserSettings, updateUserSettings } from './settings'
+import { refetchUserSettings, updateUserSettingsCache } from './settings'
 
 export function loginUser () {
   refetchUser()
@@ -13,6 +13,6 @@ export function loginUser () {
 
 export function logoutUser () {
   updateUser(null)
-  updateUserSettings(null)
+  updateUserSettingsCache(null)
   updateUserSubscriptions(null)
 }

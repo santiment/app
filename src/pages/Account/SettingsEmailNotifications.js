@@ -19,7 +19,7 @@ const SettingsEmailNotifications = ({
   return (
     <div className={cx(classes.container, styles.settingBlock)}>
       <Label className={classes.left}>Email notifications</Label>
-      <div className={cx(styles.setting__right_notifications, classes.right)}>
+      <div className={cx(styles.setting__right, classes.right)}>
         {description}
         {user && user.email ? (
           <Toggle

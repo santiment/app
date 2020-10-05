@@ -1,7 +1,7 @@
 import { stores } from '../svelte'
 import * as actions from '../actions/types'
 import { updateUser } from '../stores/user'
-import { updateUserSettings } from '../stores/user/settings'
+import { updateUserSettingsCache } from '../stores/user/settings'
 import { updateUserSubscriptions } from '../stores/user/subscriptions'
 import { loginUser, logoutUser } from '../stores/user/flow'
 
@@ -117,7 +117,7 @@ export default (state = initialState, action) => {
       }
     }
     case actions.USER_DIGEST_CHANGE:
-      updateUserSettings({
+      updateUserSettingsCache({
         newsletterSubscription: action.payload
       })
       return {
