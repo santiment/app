@@ -49,7 +49,7 @@ export const FeesDistributionTitle = ({ setInterval, interval }) => {
   return (
     <BlockHeader
       setInterval={setInterval}
-      defaultIndex={2}
+      defaultIndex={1}
       ranges={FEE_RANGES}
       title='Fees Distribution'
       description={`The initial launch of $UNI clogged the Ethereum network and prompted record-high transaction fees. This dashboards tracks the amount of fees spent in Ether per project for last ${convertToReadableInterval(
@@ -60,7 +60,7 @@ export const FeesDistributionTitle = ({ setInterval, interval }) => {
 }
 
 const FeesDistribution = ({ onDisable }) => {
-  const [interval, setInterval] = useState('7d')
+  const [interval, setInterval] = useState('1d')
 
   const [settings, setSettings] = useState(formIntervalSettings(interval))
 
