@@ -7,15 +7,12 @@
   margin-left: auto;
 }
 
+.calendar {
+  margin: 0 8px;
+  min-width: 167px;
+}
+
 .divider {
   border-top-color: var(--porcelain);
   margin: 15px 0;
-}
-
-.chart {
-  height: 450px;
-}
-
-.canvas {
-  height: 100%;
 }

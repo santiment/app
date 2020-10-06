@@ -84,6 +84,10 @@ export function useTimeseries(
       setTimeseries([])
     }
 
+    const metricsSet = new Set(metrics)
+    setLoadings((loadings) =>
+      loadings.filter((loading) => metricsSet.has(loading)),
+    )
     setAbortables(abortRemovedMetrics(abortables, metrics, MetricSettingMap))
   }, [metricsHash, MetricSettingMap])
 

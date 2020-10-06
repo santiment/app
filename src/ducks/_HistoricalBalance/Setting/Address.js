@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import LibInput from '@santiment-network/ui/Input'
 import Setting from './Setting'
+import { isEthStrictAddress } from '../../../utils/utils'
 import styles from './Setting.module.scss'
 
 export const AddressSetting = ({ address, isError, onAddressChange }) => {
   const [value, setValue] = useState(address)
 
   useEffect(() => {
-    if (value === address) return
+    if (value === address || !isEthStrictAddress(value)) return
 
     const timer = setTimeout(() => onAddressChange(value), 250)
     return () => clearTimeout(timer)
