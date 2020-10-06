@@ -25,11 +25,12 @@ export const useProjectRanges = ({
   limit,
   sortByKey: inputKey,
   desc = true,
-  isSocialVolume = false
+  isSocialVolume = false,
+  defaultSelectedIndex = 1
 }) => {
   const [mapAssets, setMapAssets] = useState({})
   const [intervalIndex, setIntervalIndex] = useState(
-    Math.min(ranges.length - 1, 1)
+    Math.min(ranges.length - 1, defaultSelectedIndex)
   )
 
   useEffect(

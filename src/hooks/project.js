@@ -32,7 +32,7 @@ const prepare = ({ items, mapAssets, limit, sorter, key }) =>
   items
     .filter(item => {
       const { slug } = item
-      return mapAssets[slug] && item[key]
+      return mapAssets[slug]
     })
     .sort(sorter)
     .slice(0, limit)

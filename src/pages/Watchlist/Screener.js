@@ -124,6 +124,7 @@ const Screener = props => {
                       ranges={SOCIAL_VOLUME_CHANGE_RANGES}
                       loading={loading}
                       isSocialVolume={true}
+                      defaultSelectedIndex={0}
                     />
                   ) : (
                     <MakeProSubscriptionCard />
