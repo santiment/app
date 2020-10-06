@@ -11,7 +11,9 @@ const SettingsMenu = ({
   settings,
   chartAssets,
   priceAssets,
+  isLog,
   togglePriceAsset,
+  setIsLog,
 }) => {
   const { address } = settings
   const shareLink = useMemo(() => generateUrl(address, chartAssets, []), [
@@ -23,14 +25,18 @@ const SettingsMenu = ({
     <Menu>
       <ShareButton shareLink={shareLink}></ShareButton>
       <hr className={styles.divider} />
-      <Setting title='Log scale'></Setting>
+      <Setting
+        title='Log scale'
+        isActive={isLog}
+        onClick={() => setIsLog(!isLog)}
+      ></Setting>
       {chartAssets.length > 0 && <hr className={styles.divider} />}
       {chartAssets.map(({ slug }) => (
         <Setting
           key={slug}
           title={`Price of ${slug}`}
-          onClick={() => togglePriceAsset(slug)}
           isActive={priceAssets.includes(slug)}
+          onClick={() => togglePriceAsset(slug)}
         ></Setting>
       ))}
     </Menu>

@@ -9,9 +9,11 @@ const Configurations = ({
   chartAssets,
   priceAssets,
   settings,
+  isLog,
   isDesktop,
   togglePriceAsset,
   changeTimePeriod,
+  setIsLog,
 }) => (
   <div className={styles.wrapper}>
     <div className={styles.header}>
@@ -25,10 +27,12 @@ const Configurations = ({
         changeTimePeriod={changeTimePeriod}
       ></DatePicker>
       <SettingsMenu
+        isLog={isLog}
         settings={settings}
         chartAssets={chartAssets}
         priceAssets={priceAssets}
         togglePriceAsset={togglePriceAsset}
+        setIsLog={setIsLog}
       ></SettingsMenu>
     </div>
     {children}

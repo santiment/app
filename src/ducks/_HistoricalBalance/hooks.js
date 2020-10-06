@@ -14,22 +14,6 @@ export const WALLET_ASSETS_QUERY = gql`
 
 const DEFAULT_STATE = []
 
-export function useWalletAssets(address) {
-  const { data, loading, error } = useQuery(WALLET_ASSETS_QUERY, {
-    skip: !address,
-    variables: {
-      address,
-    },
-  })
-
-  const walletAssets = data ? data.assetsHeldByAddress : DEFAULT_STATE
-  return {
-    walletAssets,
-    isLoading: loading,
-    isError: error,
-  }
-}
-
 const metricBuilder = (slugToMetric) => (asset) => {
   const metric = slugToMetric(asset)
   updateTooltipSetting(metric)
@@ -48,7 +32,7 @@ const walletMetricBuilder = metricBuilder(({ slug }) => ({
 }))
 
 const priceMetricBuilder = metricBuilder((slug) => ({
-  key: `price_usd_${slug}`,
+  key: `hb_price_usd_${slug}`,
   label: `Price of ${slug}`,
   node: 'line',
   queryKey: 'price_usd',
@@ -56,6 +40,22 @@ const priceMetricBuilder = metricBuilder((slug) => ({
     slug,
   },
 }))
+
+export function useWalletAssets(address) {
+  const { data, loading, error } = useQuery(WALLET_ASSETS_QUERY, {
+    skip: !address,
+    variables: {
+      address,
+    },
+  })
+
+  const walletAssets = data ? data.assetsHeldByAddress : DEFAULT_STATE
+  return {
+    walletAssets,
+    isLoading: loading,
+    isError: error,
+  }
+}
 
 export function useWalletMetrics(walletAssets, priceAssets) {
   return useMemo(() => {

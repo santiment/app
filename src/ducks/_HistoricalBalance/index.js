@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { logScale, linearScale } from '@santiment-network/chart/scales'
 import { withDefaults } from './defaults'
 import { useWalletAssets, useWalletMetrics } from './hooks'
 import Chart from './Chart'
@@ -20,6 +21,7 @@ const HistoricalBalance = ({
   const { walletAssets, isLoading, isError } = useWalletAssets(settings.address)
   const [chartAssets, setChartAssets] = useState(defaultChartAssets)
   const [priceAssets, setPriceAssets] = useState(defaultPriceAssets)
+  const [isLog, setIsLog] = useState(false)
   const metrics = useWalletMetrics(chartAssets, priceAssets)
 
   function onAddressChange(address) {
@@ -69,14 +71,17 @@ const HistoricalBalance = ({
         ></AssetsSetting>
       </div>
       <Configurations
+        isLog={isLog}
         settings={settings}
         chartAssets={chartAssets}
         priceAssets={priceAssets}
+        isDesktop={isDesktop}
         togglePriceAsset={togglePriceAsset}
         changeTimePeriod={changeTimePeriod}
-        isDesktop={isDesktop}
+        setIsLog={setIsLog}
       >
         <Chart
+          scale={isLog ? logScale : linearScale}
           settings={settings}
           metrics={metrics}
           isDesktop={isDesktop}
