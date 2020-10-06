@@ -22,6 +22,13 @@ import SharePage from '../../components/SharePage/SharePage'
 import FeesDistribution from '../../ducks/Studio/FeesDistribution/FeesDistribution'
 import styles from './UniswapProtocolPage.module.scss'
 
+const BALANCE_CHART_PADDING = {
+  top: 16,
+  right: 45,
+  bottom: 20,
+  left: 8,
+}
+
 const ANCHOR_NAMES = {
   FeesDistribution: 'FeesDistribution',
 }
@@ -138,6 +145,7 @@ const UniswapProtocolPage = ({ history }) => {
                 headerClassName={styles.balance__header}
                 yAxesTicks={6}
                 xAxesTicks={6}
+                chartPadding={BALANCE_CHART_PADDING}
               />
               <ChartWidget
                 height={448}
