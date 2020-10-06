@@ -15,10 +15,10 @@ const HistoricalBalance = ({
   defaultSettings,
   defaultChartAssets,
   defaultPriceAssets,
-  isPhone,
+  isPhone
 }) => {
   const { settings, changeTimePeriod, onAddressChange } = useSettings(
-    defaultSettings,
+    defaultSettings
   )
   const { walletAssets, isLoading, isError } = useWalletAssets(settings.address)
   const [chartAssets, setChartAssets] = useState(defaultChartAssets)
@@ -27,17 +27,20 @@ const HistoricalBalance = ({
   const metrics = useWalletMetrics(chartAssets, priceAssets)
   const axesTicks = useResponsiveTicks(isPhone)
 
-  useEffect(() => {
-    const priceAssetsSet = new Set(priceAssets)
-    const priceAssetsToDelete = new Set(priceAssetsSet)
+  useEffect(
+    () => {
+      const priceAssetsSet = new Set(priceAssets)
+      const priceAssetsToDelete = new Set(priceAssetsSet)
 
-    chartAssets.forEach(({ slug }) => priceAssetsToDelete.delete(slug))
-    priceAssetsToDelete.forEach((asset) => priceAssetsSet.delete(asset))
+      chartAssets.forEach(({ slug }) => priceAssetsToDelete.delete(slug))
+      priceAssetsToDelete.forEach(asset => priceAssetsSet.delete(asset))
 
-    setPriceAssets([...priceAssetsSet])
-  }, [chartAssets])
+      setPriceAssets([...priceAssetsSet])
+    },
+    [chartAssets]
+  )
 
-  function togglePriceAsset(asset) {
+  function togglePriceAsset (asset) {
     const priceAssetsSet = new Set(priceAssets)
 
     if (priceAssetsSet.has(asset)) {
@@ -56,7 +59,7 @@ const HistoricalBalance = ({
           address={settings.address}
           isError={isError}
           onAddressChange={onAddressChange}
-        ></AddressSetting>
+        />
         <AssetsSetting
           className={
             isPhone ? styles.settings__assets_phone : styles.settings__assets
@@ -65,7 +68,7 @@ const HistoricalBalance = ({
           chartAssets={chartAssets}
           isLoading={isLoading}
           setChartAssets={setChartAssets}
-        ></AssetsSetting>
+        />
       </div>
       <Configurations
         isLog={isLog}
@@ -83,14 +86,14 @@ const HistoricalBalance = ({
           scale={isLog ? logScale : linearScale}
           settings={settings}
           metrics={metrics}
-        ></Chart>
+        />
       </Configurations>
-      {React.Children.map(children, (child) =>
+      {React.Children.map(children, child =>
         React.cloneElement(child, {
           settings,
           chartAssets,
-          priceAssets,
-        }),
+          priceAssets
+        })
       )}
     </div>
   )
@@ -98,7 +101,7 @@ const HistoricalBalance = ({
 
 HistoricalBalance.defaultProps = {
   defaultChartAssets: [],
-  defaultPriceAssets: [],
+  defaultPriceAssets: []
 }
 
 export default withDefaults(withSizes(HistoricalBalance))

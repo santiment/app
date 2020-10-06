@@ -18,7 +18,7 @@ const TimeRanges = ({ timeRange, onTimerangeChange }) => (
 export const Calendar = ({ settings, changeTimePeriod, ...props }) => {
   const { from, to, timeRange } = settings
 
-  function onCalendarChange([from, to]) {
+  function onCalendarChange ([from, to]) {
     changeTimePeriod(from, to)
   }
 
@@ -34,7 +34,7 @@ export const Calendar = ({ settings, changeTimePeriod, ...props }) => {
 }
 
 const DatePicker = ({ settings, isPhone, changeTimePeriod }) => {
-  function onTimerangeChange(timeRange) {
+  function onTimerangeChange (timeRange) {
     const { from, to } = getIntervalByTimeRange(timeRange.toLowerCase())
     changeTimePeriod(from, to, timeRange)
   }
@@ -44,7 +44,7 @@ const DatePicker = ({ settings, isPhone, changeTimePeriod }) => {
       <TimeRanges
         timeRange={settings.timeRange}
         onTimerangeChange={onTimerangeChange}
-      ></TimeRanges>
+      />
 
       {!isPhone && (
         <Calendar

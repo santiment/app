@@ -1,6 +1,5 @@
 import gql from 'graphql-tag'
 
-// TODO: Move to timeseries fetcher metrics [@vanguard | Oct  5, 2020]
 export const HISTORICAL_BALANCE_QUERY = gql`
   query historicalBalance(
     $from: DateTime!
@@ -18,15 +17,6 @@ export const HISTORICAL_BALANCE_QUERY = gql`
       selector: { slug: $slug, infrastructure: $infrastructure }
     ) {
       datetime
-      balance
-    }
-  }
-`
-
-export const ASSETS_BY_WALLET_QUERY = gql`
-  query assetsHeldByAddress($address: String!) {
-    assetsHeldByAddress(address: $address) {
-      slug
       balance
     }
   }

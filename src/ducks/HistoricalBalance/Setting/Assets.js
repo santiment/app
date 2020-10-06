@@ -10,7 +10,7 @@ export const AddressSetting = ({
   walletAssets,
   chartAssets,
   isLoading,
-  setChartAssets,
+  setChartAssets
 }) => {
   return (
     <Setting className={className} title='Wallet address'>
@@ -24,7 +24,7 @@ export const AddressSetting = ({
           value={chartAssets}
           optionRenderer={WalletBalanceOptionRenderer}
           onChange={setChartAssets}
-        ></Select>
+        />
         {isLoading && <Loader className={styles.loader} />}
       </div>
     </Setting>

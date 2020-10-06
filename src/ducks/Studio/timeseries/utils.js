@@ -1,22 +1,22 @@
 const OLD_DATE = { datetime: 0 }
 
-const newDataMapper = (data) => Object.assign({}, data)
+const newDataMapper = data => Object.assign({}, data)
 
 // TODO: Remove this after moving to dynamic query aliasing instead of preTransform [@vanguard | March 4, 2020]
-export const aliasTransform = (key, dataKey = key) => (alias) => (data) =>
+export const aliasTransform = (key, dataKey = key) => alias => data =>
   extractTimeseries(key)(data).map(({ datetime, ...value }) => ({
     datetime,
-    [alias]: value[dataKey],
+    [alias]: value[dataKey]
   }))
 
-export const extractTimeseries = (name) => ({ data }) => data[name]
+export const extractTimeseries = name => ({ data }) => data[name]
 
-export const normalizeDatetimes = (data) => ({
+export const normalizeDatetimes = data => ({
   ...data,
-  datetime: +new Date(data.datetime),
+  datetime: +new Date(data.datetime)
 })
 
-function findDatetimeBorder(baseTs, cursor, targetDatetime) {
+function findDatetimeBorder (baseTs, cursor, targetDatetime) {
   const baseTsLength = baseTs.length
 
   do {
@@ -29,7 +29,7 @@ function findDatetimeBorder(baseTs, cursor, targetDatetime) {
   return cursor
 }
 
-export function mergeTimeseries(timeseries) {
+export function mergeTimeseries (timeseries) {
   const timeseriesAmount = timeseries.length
 
   if (timeseriesAmount === 1) {
@@ -75,13 +75,13 @@ export function mergeTimeseries(timeseries) {
         baseTsCursor = findDatetimeBorder(
           baseTs,
           baseTsCursor,
-          timeserieDatetime,
+          timeserieDatetime
         )
 
         if (baseTsCursor >= baseTs.length) {
           // Base doesn't have data after this datetime
           baseTs = baseTs.concat(
-            timeserie.slice(timeserieCursor).map(newDataMapper),
+            timeserie.slice(timeserieCursor).map(newDataMapper)
           )
           break
         } else {
@@ -102,7 +102,7 @@ export function mergeTimeseries(timeseries) {
         timeserieCursor = findDatetimeBorder(
           timeserie,
           timeserieCursor,
-          baseTsDatetime,
+          baseTsDatetime
         )
 
         if (timeserieCursor >= timeserie.length) {
@@ -110,7 +110,7 @@ export function mergeTimeseries(timeseries) {
           baseTs.splice(
             baseTsCursor,
             0,
-            ...timeserie.slice(timeserieLeftCursor).map(newDataMapper),
+            ...timeserie.slice(timeserieLeftCursor).map(newDataMapper)
           )
           break
         } else {
@@ -120,7 +120,7 @@ export function mergeTimeseries(timeseries) {
             0,
             ...timeserie
               .slice(timeserieLeftCursor, timeserieCursor)
-              .map(newDataMapper),
+              .map(newDataMapper)
           )
 
           const foundTimeserieData = timeserie[timeserieCursor]

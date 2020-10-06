@@ -6,7 +6,7 @@ import { initTooltip } from '@santiment-network/chart/tooltip'
 import {
   plotLines,
   plotFilledLines,
-  plotGradientLine,
+  plotGradientLine
 } from '@santiment-network/chart/lines'
 import { plotAreas } from '@santiment-network/chart/areas'
 import { plotAutoWidthBars, plotBars } from '@santiment-network/chart/bars'
@@ -23,7 +23,7 @@ import {
   CHART_PADDING,
   BRUSH_PADDING,
   DOUBLE_AXIS_PADDING,
-  buildPadding,
+  buildPadding
 } from './settings'
 import { drawWatermark } from './watermark'
 import { ResizeListener, onResize } from './resize'
@@ -72,7 +72,7 @@ const Chart = ({
   onBrushChangeEnd,
   children,
   xAxesTicks,
-  yAxesTicks,
+  yAxesTicks
 }) => {
   const { isNightMode } = useTheme()
   let [chart, setChart] = useState()
@@ -94,9 +94,9 @@ const Chart = ({
         buildPadding(
           chartPadding,
           isShowBrush && BRUSH_PADDING,
-          axesMetricKeys[1] && DOUBLE_AXIS_PADDING,
-        ),
-      ),
+          axesMetricKeys[1] && DOUBLE_AXIS_PADDING
+        )
+      )
     )
     chart.tooltipKey = tooltipKey
 
@@ -108,7 +108,7 @@ const Chart = ({
         dayBrushPaintConfig,
         plotBrushData,
         undefined,
-        onBrushChangeEnd,
+        onBrushChangeEnd
       )
       brush.canvas.classList.add(styles.brush)
       setBrush(brush)
@@ -128,15 +128,18 @@ const Chart = ({
     brush.onChangeEnd = onBrushChangeEnd
   }
 
-  useEffect(() => {
-    const { brushPaintConfig, ...rest } = paintConfigs[+isNightMode]
+  useEffect(
+    () => {
+      const { brushPaintConfig, ...rest } = paintConfigs[+isNightMode]
 
-    Object.assign(chart, rest)
+      Object.assign(chart, rest)
 
-    if (brush) {
-      brush.paintConfig = brushPaintConfig
-    }
-  }, [isNightMode])
+      if (brush) {
+        brush.paintConfig = brushPaintConfig
+      }
+    },
+    [isNightMode]
+  )
 
   if (chart) {
     chart.onRangeSelect = onRangeSelect
@@ -152,97 +155,107 @@ const Chart = ({
     chart.isWatermarkLighter = isWatermarkLighter
     chart.hideWatermark = hideWatermark
     chart.syncTooltips = syncTooltips
-    chart.drawTooltip = (point) => plotTooltip(chart, marker, point)
+    chart.drawTooltip = point => plotTooltip(chart, marker, point)
     chart.xAxesTicks = xAxesTicks
     chart.yAxesTicks = yAxesTicks
   }
 
-  useEffect(() => {
-    const { length } = brushData
-    if (brush && length) {
-      let { startIndex = 0, endIndex = length - 1 } = brush
-      const [{ datetime: startTimestamp }] = brushData
-      const { datetime: endTimestamp } = brushData[length - 1]
-      const fromTimestamp = +new Date(from)
-      const toTimestamp = +new Date(to)
+  useEffect(
+    () => {
+      const { length } = brushData
+      if (brush && length) {
+        let { startIndex = 0, endIndex = length - 1 } = brush
+        const [{ datetime: startTimestamp }] = brushData
+        const { datetime: endTimestamp } = brushData[length - 1]
+        const fromTimestamp = +new Date(from)
+        const toTimestamp = +new Date(to)
 
-      const scale = length / (endTimestamp - startTimestamp)
+        const scale = length / (endTimestamp - startTimestamp)
 
-      if (
-        !brushData[startIndex] ||
-        fromTimestamp !== brushData[startIndex].datetime
-      ) {
-        startIndex = Math.trunc(scale * (fromTimestamp - startTimestamp))
-      }
-
-      if (
-        !brushData[endIndex] ||
-        toTimestamp !== brushData[endIndex].datetime
-      ) {
-        endIndex = Math.trunc(scale * (toTimestamp - startTimestamp))
-      }
-
-      startIndex =
-        startIndex > 0 ? (startIndex < length ? startIndex : length - 1) : 0
-      endIndex = endIndex > 0 ? (endIndex < length ? endIndex : length - 1) : 0
-
-      if (endIndex - startIndex < 2) {
-        if (startIndex > 2) {
-          startIndex -= 2
-        } else {
-          endIndex += 2
+        if (
+          !brushData[startIndex] ||
+          fromTimestamp !== brushData[startIndex].datetime
+        ) {
+          startIndex = Math.trunc(scale * (fromTimestamp - startTimestamp))
         }
+
+        if (
+          !brushData[endIndex] ||
+          toTimestamp !== brushData[endIndex].datetime
+        ) {
+          endIndex = Math.trunc(scale * (toTimestamp - startTimestamp))
+        }
+
+        startIndex =
+          startIndex > 0 ? (startIndex < length ? startIndex : length - 1) : 0
+        endIndex =
+          endIndex > 0 ? (endIndex < length ? endIndex : length - 1) : 0
+
+        if (endIndex - startIndex < 2) {
+          if (startIndex > 2) {
+            startIndex -= 2
+          } else {
+            endIndex += 2
+          }
+        }
+
+        brush.startIndex = startIndex
+        brush.endIndex = endIndex
+
+        clearCtx(brush)
+        updateBrushState(brush, brushData, joinedCategories)
       }
+    },
+    [brushData, from, to]
+  )
 
-      brush.startIndex = startIndex
-      brush.endIndex = endIndex
+  useEffect(
+    () => {
+      if (joinedCategories.length === 0) {
+        clearCtx(chart)
+        return
+      }
+      if (data.length === 0) return
 
-      clearCtx(brush)
-      updateBrushState(brush, brushData, joinedCategories)
-    }
-  }, [brushData, from, to])
-
-  useEffect(() => {
-    if (joinedCategories.length === 0) {
       clearCtx(chart)
-      return
-    }
-    if (data.length === 0) return
+      updateChartState(
+        chart,
+        data,
+        joinedCategories,
+        domainModifier,
+        domainGroups
+      )
+      plotChart(data)
 
-    clearCtx(chart)
-    updateChartState(
-      chart,
+      if (!hideAxes) {
+        plotAxes(chart, scale)
+      }
+    },
+    [
       data,
-      joinedCategories,
-      domainModifier,
+      scale,
+      events,
       domainGroups,
-    )
-    plotChart(data)
+      MetricColor,
+      isNightMode,
+      isCartesianGridActive,
+      isWatermarkLighter
+    ]
+  )
 
-    if (!hideAxes) {
-      plotAxes(chart, scale)
-    }
-  }, [
-    data,
-    scale,
-    events,
-    domainGroups,
-    MetricColor,
-    isNightMode,
-    isCartesianGridActive,
-    isWatermarkLighter,
-  ])
-
-  useEffect(() => {
-    if (brush && brushData.length) {
-      clearCtx(brush)
-      updateBrushState(brush, brushData, joinedCategories)
-    }
-  }, [brushData, scale, domainGroups, isNightMode])
+  useEffect(
+    () => {
+      if (brush && brushData.length) {
+        clearCtx(brush)
+        updateBrushState(brush, brushData, joinedCategories)
+      }
+    },
+    [brushData, scale, domainGroups, isNightMode]
+  )
 
   useEffect(handleResize, [...resizeDependencies, data])
 
-  function handleResize() {
+  function handleResize () {
     if (data.length === 0 || !chart) {
       return
     }
@@ -250,7 +263,7 @@ const Chart = ({
     const padding = buildPadding(
       chartPadding,
       isShowBrush && BRUSH_PADDING,
-      axesMetricKeys[1] && DOUBLE_AXIS_PADDING,
+      axesMetricKeys[1] && DOUBLE_AXIS_PADDING
     )
 
     onResize(chart, padding, brush, brushData, joinedCategories)
@@ -260,7 +273,7 @@ const Chart = ({
       data,
       joinedCategories,
       domainModifier,
-      domainGroups,
+      domainGroups
     )
     plotChart(data)
 
@@ -269,7 +282,7 @@ const Chart = ({
     }
   }
 
-  function plotBrushData() {
+  function plotBrushData () {
     plotAutoWidthBars(brush, brushData, autoWidthBars, scale, MetricColor)
     plotGreenRedBars(brush, brushData, greenRedBars[0], scale)
     plotBars(brush, brushData, bars, scale, MetricColor)
@@ -278,7 +291,7 @@ const Chart = ({
     plotGradientLine(brush, brushData, gradientLines, scale, MetricColor)
   }
 
-  function plotChart(data) {
+  function plotChart (data) {
     if (!hideWatermark) {
       drawWatermark(chart, isNightMode, isWatermarkLighter)
     }
@@ -298,16 +311,16 @@ const Chart = ({
         chart,
         chart.axesColor,
         xAxesTicks || 10,
-        yAxesTicks || 8,
+        yAxesTicks || 8
       )
     }
 
     events.forEach(({ metric, key, datetime, value, color }) =>
-      drawReferenceDot(chart, metric, datetime, color, key, value),
+      drawReferenceDot(chart, metric, datetime, color, key, value)
     )
   }
 
-  function marker(ctx, key, value, x, y) {
+  function marker (ctx, key, value, x, y) {
     const { colors } = chart
     const RADIUS = 4
 
@@ -331,13 +344,13 @@ const Chart = ({
       {chart &&
         React.Children.map(
           children,
-          (child) =>
+          child =>
             child &&
             React.cloneElement(child, {
               chart,
               scale,
-              data,
-            }),
+              data
+            })
         )}
     </div>
   )
@@ -355,7 +368,7 @@ Chart.defaultProps = {
   autoWidthBars: [],
   greenRedBars: [],
   joinedCategories: [],
-  resizeDependencies: [],
+  resizeDependencies: []
 }
 
 export default Chart

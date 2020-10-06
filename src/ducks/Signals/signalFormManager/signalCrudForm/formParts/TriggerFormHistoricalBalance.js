@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import cx from 'classnames'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import { ALL_ERC20_PROJECTS_QUERY } from '../../../../Watchlists/gql/allProjectsGQL'
-import { ASSETS_BY_WALLET_QUERY } from '../../../../HistoricalBalance/common/queries'
+import { WALLET_ASSETS_QUERY } from '../../../../HistoricalBalance/hooks'
 import {
   isPossibleEthAddress,
   mapAssetsHeldByAddressToProps,
@@ -316,7 +316,7 @@ const enhance = compose(
       }
     }
   }),
-  graphql(ASSETS_BY_WALLET_QUERY, {
+  graphql(WALLET_ASSETS_QUERY, {
     name: 'assetsByWallet',
     props: mapAssetsHeldByAddressToProps,
     skip: ({ byAddress }) =>

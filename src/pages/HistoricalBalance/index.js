@@ -1,16 +1,16 @@
 import React, { useMemo } from 'react'
 import URLExtension from './URLExtension'
-import HistoricalBalance from '../../ducks/_HistoricalBalance'
-import { parseUrl } from '../../ducks/_HistoricalBalance/url'
+import HistoricalBalance from '../../ducks/HistoricalBalance'
+import { parseUrl } from '../../ducks/HistoricalBalance/url'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import HelpPopup from '../../components/HelpPopup/HelpPopup'
 import styles from './index.module.scss'
 
 const MOBILE_CLASSES = {
-  wrapper: styles.mobile__title,
+  wrapper: styles.mobile__title
 }
 
-const Title = () => (
+export const Title = () => (
   <>
     Historical Balance
     <HelpPopup triggerClassName={styles.help}>
@@ -23,7 +23,7 @@ const Title = () => (
 const ResponsiveTitle = ({ isDesktop = true }) =>
   isDesktop ? (
     <h1 className={styles.title}>
-      <Title></Title>
+      <Title />
     </h1>
   ) : (
     <MobileHeader title={<Title />} classes={MOBILE_CLASSES} />
@@ -32,7 +32,7 @@ const ResponsiveTitle = ({ isDesktop = true }) =>
 const HistoricalBalancePage = ({ history, isDesktop }) => {
   const { settings, chartAssets, priceAssets } = useMemo(
     () => parseUrl(window.location.search),
-    [],
+    []
   )
 
   return (
@@ -43,7 +43,7 @@ const HistoricalBalancePage = ({ history, isDesktop }) => {
         defaultChartAssets={chartAssets}
         defaultPriceAssets={priceAssets}
       >
-        <URLExtension history={history}></URLExtension>
+        <URLExtension history={history} />
       </HistoricalBalance>
     </div>
   )

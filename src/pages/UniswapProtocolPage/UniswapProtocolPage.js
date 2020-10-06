@@ -26,46 +26,46 @@ const BALANCE_CHART_PADDING = {
   top: 16,
   right: 45,
   bottom: 20,
-  left: 8,
+  left: 8
 }
 
 const ANCHOR_NAMES = {
-  FeesDistribution: 'FeesDistribution',
+  FeesDistribution: 'FeesDistribution'
 }
 
 const ANCHORS = {
   Claimers: {
     label: 'UNI Token Claims',
-    key: 'claimers',
+    key: 'claimers'
   },
   Overview: {
     label: 'Uniswap Protocol',
-    key: 'overview',
+    key: 'overview'
   },
   TopClaimers: {
     label: 'Top Claimers',
-    key: 'top-claimers',
+    key: 'top-claimers'
   },
   ClaimersWidgets: {
     label: 'UNI Claims: Overview',
-    key: 'claimers-widgets',
+    key: 'claimers-widgets'
   },
   WhoClaimed: {
     label: 'Who claimed UNI?',
-    key: 'who-claimed',
+    key: 'who-claimed'
   },
   FlowBalances: {
     label: 'UNI Flow Balances',
-    key: 'flow-balances',
+    key: 'flow-balances'
   },
   TopTransactions: {
     label: 'Top Token Transactions',
-    key: 'top-transactions',
+    key: 'top-transactions'
   },
   [ANCHOR_NAMES.FeesDistribution]: {
     label: 'Fees Distribution',
-    key: 'fees-distribution',
-  },
+    key: 'fees-distribution'
+  }
 }
 
 const UniswapProtocolPage = ({ history }) => {
@@ -74,11 +74,14 @@ const UniswapProtocolPage = ({ history }) => {
 
   const [anchors, setAnchors] = useState(ANCHORS)
 
-  const onDisableFeesDistribution = useCallback(() => {
-    const newAnchors = { ...anchors }
-    delete newAnchors[ANCHOR_NAMES.FeesDistribution]
-    setAnchors(newAnchors)
-  }, [anchors, setAnchors])
+  const onDisableFeesDistribution = useCallback(
+    () => {
+      const newAnchors = { ...anchors }
+      delete newAnchors[ANCHOR_NAMES.FeesDistribution]
+      setAnchors(newAnchors)
+    },
+    [anchors, setAnchors]
+  )
 
   return (
     <div className={cx('page', styles.container)}>
@@ -87,13 +90,13 @@ const UniswapProtocolPage = ({ history }) => {
         meta={[
           {
             property: 'og:title',
-            content: 'Uniswap (UNI) Token Dashboard | Sanbase',
+            content: 'Uniswap (UNI) Token Dashboard | Sanbase'
           },
           {
             property: 'og:description',
             content:
-              'Real-time data on Uniswap (UNI) token distribution, amount claimed, post-claim activity, top UNI transactions and more.',
-          },
+              'Real-time data on Uniswap (UNI) token distribution, amount claimed, post-claim activity, top UNI transactions and more.'
+          }
         ]}
       />
 
@@ -151,7 +154,7 @@ const UniswapProtocolPage = ({ history }) => {
                 height={448}
                 metrics={[
                   Metric.uniswap_total_claims_amount,
-                  Metric.uniswap_total_claims_percent,
+                  Metric.uniswap_total_claims_percent
                 ]}
               />
             </div>

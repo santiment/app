@@ -1,20 +1,20 @@
 import React from 'react'
 import cx from 'classnames'
-import HistoricalBalanceChart from '../../../_HistoricalBalance/Chart'
+import HistoricalBalanceChart from '../../../HistoricalBalance/Chart'
 import {
   useSettings,
   getValidInterval,
-  getWalletMetrics,
-} from '../../../_HistoricalBalance/hooks'
-import CreateAlert from '../../../_HistoricalBalance/Configurations/CreateAlert'
-import { Calendar } from '../../../_HistoricalBalance/Configurations/DatePicker'
+  getWalletMetrics
+} from '../../../HistoricalBalance/hooks'
+import CreateAlert from '../../../HistoricalBalance/Configurations/CreateAlert'
+import { Calendar } from '../../../HistoricalBalance/Configurations/DatePicker'
 import { toEndOfDay } from '../../../../utils/dates'
 import styles from './UniswapHistoricalBalance.module.scss'
 
 const WALLET_ASSETS = [
   {
-    slug: 'uniswap',
-  },
+    slug: 'uniswap'
+  }
 ]
 const PRICE_ASSETS = ['uniswap']
 const METRICS = getWalletMetrics(WALLET_ASSETS, PRICE_ASSETS)
@@ -26,7 +26,7 @@ const SETTINGS = {
   address: ADDRESS,
   interval: getValidInterval(FROM, TO),
   from: FROM.toISOString(),
-  to: TO.toISOString(),
+  to: TO.toISOString()
 }
 
 const UniswapHistoricalBalance = ({
@@ -34,14 +34,14 @@ const UniswapHistoricalBalance = ({
   headerClassName,
   xAxesTicks,
   yAxesTicks,
-  chartPadding,
+  chartPadding
 }) => {
   const { settings, changeTimePeriod } = useSettings(SETTINGS)
 
   return (
     <div className={styles.wrapper}>
       <div className={cx(styles.header, headerClassName)}>
-        <CreateAlert address={ADDRESS} assets={WALLET_ASSETS}></CreateAlert>
+        <CreateAlert address={ADDRESS} assets={WALLET_ASSETS} />
 
         <Calendar
           className={styles.calendar}
@@ -49,7 +49,7 @@ const UniswapHistoricalBalance = ({
           maxDate={TO}
           minDate={FROM}
           changeTimePeriod={changeTimePeriod}
-        ></Calendar>
+        />
       </div>
 
       <HistoricalBalanceChart
@@ -59,14 +59,14 @@ const UniswapHistoricalBalance = ({
         yAxesTicks={yAxesTicks}
         xAxesTicks={xAxesTicks}
         chartPadding={chartPadding}
-      ></HistoricalBalanceChart>
+      />
     </div>
   )
 }
 
 UniswapHistoricalBalance.defaultProps = {
   yAxesTicks: 4,
-  xAxesTicks: 6,
+  xAxesTicks: 6
 }
 
 export default UniswapHistoricalBalance

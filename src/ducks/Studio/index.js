@@ -43,20 +43,26 @@ export const Studio = ({
   useKeyboardCmdShortcut('m', toggleOverview)
   useKeyboardCmdShortcut('\\', toggleSidebar)
 
-  useEffect(() => {
-    const { slug } = defaultSettings
-    if (slug && slug !== settings.slug) {
-      setSettings({ ...settings, slug })
-    }
-  }, [defaultSettings.slug])
+  useEffect(
+    () => {
+      const { slug } = defaultSettings
+      if (slug && slug !== settings.slug) {
+        setSettings({ ...settings, slug })
+      }
+    },
+    [defaultSettings.slug]
+  )
 
-  useEffect(() => {
-    if (selectedMetrics.length) {
-      setPhase(Phase.MAPVIEW_SELECTION)
-    } else if (previousPhase === Phase.MAPVIEW_SELECTION) {
-      setPhase(Phase.MAPVIEW)
-    }
-  }, [selectedMetrics.length])
+  useEffect(
+    () => {
+      if (selectedMetrics.length) {
+        setPhase(Phase.MAPVIEW_SELECTION)
+      } else if (previousPhase === Phase.MAPVIEW_SELECTION) {
+        setPhase(Phase.MAPVIEW)
+      }
+    },
+    [selectedMetrics.length]
+  )
 
   function toggleOverview () {
     if (isOverviewOpened) {

@@ -14,20 +14,17 @@ const Configurations = ({
   isPhone,
   togglePriceAsset,
   changeTimePeriod,
-  setIsLog,
+  setIsLog
 }) => (
   <div className={styles.wrapper}>
     <div className={cx(styles.header, isPhone && styles.header_phone)}>
-      <CreateAlert
-        assets={chartAssets}
-        address={settings.address}
-      ></CreateAlert>
+      <CreateAlert assets={chartAssets} address={settings.address} />
       <div className={styles.left}>
         <DatePicker
           settings={settings}
           isPhone={isPhone}
           changeTimePeriod={changeTimePeriod}
-        ></DatePicker>
+        />
         <SettingsMenu
           isLog={isLog}
           settings={settings}
@@ -35,7 +32,7 @@ const Configurations = ({
           priceAssets={priceAssets}
           togglePriceAsset={togglePriceAsset}
           setIsLog={setIsLog}
-        ></SettingsMenu>
+        />
       </div>
     </div>
     {children}

@@ -59,7 +59,7 @@ const KeyStats = ({ slug, project, isERC20, loading }) => {
               </div>
             )}
           </>
-        )}
+      )}
     </>
   )
 }

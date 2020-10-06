@@ -173,7 +173,7 @@ const ChartSettingsContextMenu = ({
           </Button>
         )}
 
-        {shareLink && <ShareButton shareLink={shareLink}></ShareButton>}
+        {shareLink && <ShareButton shareLink={shareLink} />}
 
         {showDownload && (
           <DownloadCSVBtn

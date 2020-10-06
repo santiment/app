@@ -15,7 +15,7 @@ export const WALLET_ASSETS_QUERY = gql`
 
 const DEFAULT_STATE = []
 
-const metricBuilder = (slugToMetric) => (asset) => {
+const metricBuilder = slugToMetric => asset => {
   const metric = slugToMetric(asset)
   updateTooltipSetting(metric)
   return metric
@@ -28,37 +28,37 @@ const walletMetricBuilder = metricBuilder(({ slug }) => ({
   queryKey: 'historicalBalance',
   reqMeta: {
     slug,
-    infrastructure: 'ETH',
-  },
+    infrastructure: 'ETH'
+  }
 }))
 
-const priceMetricBuilder = metricBuilder((slug) => ({
+const priceMetricBuilder = metricBuilder(slug => ({
   key: `hb_price_usd_${slug}`,
   label: `Price of ${slug}`,
   node: 'area',
   queryKey: 'price_usd',
   reqMeta: {
-    slug,
-  },
+    slug
+  }
 }))
 
-export function useWalletAssets(address) {
+export function useWalletAssets (address) {
   const { data, loading, error } = useQuery(WALLET_ASSETS_QUERY, {
     skip: !address,
     variables: {
-      address,
-    },
+      address
+    }
   })
 
   const walletAssets = data ? data.assetsHeldByAddress : DEFAULT_STATE
   return {
     walletAssets,
     isLoading: loading,
-    isError: error,
+    isError: error
   }
 }
 
-export function getWalletMetrics(walletAssets, priceAssets) {
+export function getWalletMetrics (walletAssets, priceAssets) {
   const walletMetrics = walletAssets.map(walletMetricBuilder)
   const priceMetrics = priceAssets.map(priceMetricBuilder)
   return walletMetrics.concat(priceMetrics)
@@ -67,37 +67,37 @@ export function getWalletMetrics(walletAssets, priceAssets) {
 export const useWalletMetrics = (walletAssets, priceAssets) =>
   useMemo(() => getWalletMetrics(walletAssets, priceAssets), [
     walletAssets,
-    priceAssets,
+    priceAssets
   ])
 
-export function getValidInterval(from, to) {
+export function getValidInterval (from, to) {
   const interval = getNewInterval(from, to)
   return INTERVAL_ALIAS[interval] || interval
 }
 
-export function useSettings(defaultSettings) {
+export function useSettings (defaultSettings) {
   const [settings, setSettings] = useState(defaultSettings)
 
-  function onAddressChange(address) {
+  function onAddressChange (address) {
     setSettings({
       ...settings,
-      address,
+      address
     })
   }
 
-  function changeTimePeriod(from, to, timeRange) {
-    setSettings((state) => ({
+  function changeTimePeriod (from, to, timeRange) {
+    setSettings(state => ({
       ...state,
       timeRange,
       interval: getValidInterval(from, to),
       from: from.toISOString(),
-      to: to.toISOString(),
+      to: to.toISOString()
     }))
   }
 
   return {
     settings,
     changeTimePeriod,
-    onAddressChange,
+    onAddressChange
   }
 }

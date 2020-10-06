@@ -12,10 +12,10 @@ const chartPadding = {
   top: 25,
   bottom: 25,
   right: 50,
-  left: 15,
+  left: 15
 }
 
-function getResponsiveTicks(isPhone) {
+function getResponsiveTicks (isPhone) {
   let xAxesTicks
   let yAxesTicks
 
@@ -26,11 +26,11 @@ function getResponsiveTicks(isPhone) {
 
   return {
     xAxesTicks,
-    yAxesTicks,
+    yAxesTicks
   }
 }
 
-export const useResponsiveTicks = (isPhone) =>
+export const useResponsiveTicks = isPhone =>
   useMemo(() => getResponsiveTicks(isPhone), [isPhone])
 
 const Chart = ({ metrics, settings, className, ...props }) => {
@@ -54,7 +54,7 @@ const Chart = ({ metrics, settings, className, ...props }) => {
         MetricColor={MetricColor}
         tooltipKey={axesMetricKeys[0]}
         axesMetricKeys={axesMetricKeys}
-      ></SANChart>
+      />
 
       {loadings.length > 0 && <Loader className={styles.loader} />}
 

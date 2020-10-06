@@ -12,14 +12,14 @@ const settings = {
   slug: 'uniswap',
   interval: '15m',
   from: '2020-09-16T00:00:00Z',
-  to: toEndOfDay(new Date()).toISOString(),
+  to: toEndOfDay(new Date()).toISOString()
 }
 
 const chartPadding = {
   top: 16,
   right: 45,
   bottom: 20,
-  left: 8,
+  left: 8
 }
 
 const UniswapChart = ({ className, metrics, height, ...props }) => {
@@ -55,7 +55,7 @@ const UniswapChart = ({ className, metrics, height, ...props }) => {
 }
 
 UniswapChart.defaultProps = {
-  height: 270,
+  height: 270
 }
 
 export default UniswapChart

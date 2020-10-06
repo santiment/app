@@ -3,7 +3,7 @@ import { generateUrl } from '../url'
 import {
   Menu,
   Setting,
-  ShareButton,
+  ShareButton
 } from '../../SANCharts/ChartSettingsContextMenu'
 import styles from './index.module.scss'
 
@@ -13,23 +13,23 @@ const SettingsMenu = ({
   priceAssets,
   isLog,
   togglePriceAsset,
-  setIsLog,
+  setIsLog
 }) => {
   const { address } = settings
   const shareLink = useMemo(() => generateUrl(address, chartAssets, []), [
     address,
-    chartAssets,
+    chartAssets
   ])
 
   return (
     <Menu>
-      <ShareButton shareLink={shareLink}></ShareButton>
+      <ShareButton shareLink={shareLink} />
       <hr className={styles.divider} />
       <Setting
         title='Log scale'
         isActive={isLog}
         onClick={() => setIsLog(!isLog)}
-      ></Setting>
+      />
       {chartAssets.length > 0 && <hr className={styles.divider} />}
       {chartAssets.map(({ slug }) => (
         <Setting
@@ -37,7 +37,7 @@ const SettingsMenu = ({
           title={`Price of ${slug}`}
           isActive={priceAssets.includes(slug)}
           onClick={() => togglePriceAsset(slug)}
-        ></Setting>
+        />
       ))}
     </Menu>
   )

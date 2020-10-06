@@ -7,17 +7,20 @@ import styles from './Setting.module.scss'
 export const AddressSetting = ({ address, isError, onAddressChange }) => {
   const [value, setValue] = useState(address)
   const isInputWrong = useMemo(() => value && !isEthStrictAddress(value), [
-    value,
+    value
   ])
 
-  useEffect(() => {
-    if (value === address || isInputWrong) return
+  useEffect(
+    () => {
+      if (value === address || isInputWrong) return
 
-    const timer = setTimeout(() => onAddressChange(value), 250)
-    return () => clearTimeout(timer)
-  }, [value])
+      const timer = setTimeout(() => onAddressChange(value), 250)
+      return () => clearTimeout(timer)
+    },
+    [value]
+  )
 
-  function onChange({ target: { value } }) {
+  function onChange ({ target: { value } }) {
     setValue(value)
   }
 
@@ -28,7 +31,7 @@ export const AddressSetting = ({ address, isError, onAddressChange }) => {
         value={value}
         isError={isError || isInputWrong}
         onChange={onChange}
-      ></LibInput>
+      />
       {address && (
         <a
           href={`https://etherscan.io/address/${address}`}
