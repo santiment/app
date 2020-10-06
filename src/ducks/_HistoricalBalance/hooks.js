@@ -30,13 +30,13 @@ export function useWalletAssets(address) {
   }
 }
 
-const metricBuilder = (slugToMetric) => ({ slug }) => {
-  const metric = slugToMetric(slug)
+const metricBuilder = (slugToMetric) => (asset) => {
+  const metric = slugToMetric(asset)
   updateTooltipSetting(metric)
   return metric
 }
 
-const walletMetricBuilder = metricBuilder((slug) => ({
+const walletMetricBuilder = metricBuilder(({ slug }) => ({
   key: slug,
   label: slug,
   node: 'line',

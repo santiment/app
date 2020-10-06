@@ -25,12 +25,12 @@ const SettingsMenu = ({
       <hr className={styles.divider} />
       <Setting title='Log scale'></Setting>
       {chartAssets.length > 0 && <hr className={styles.divider} />}
-      {chartAssets.map((asset) => (
+      {chartAssets.map(({ slug }) => (
         <Setting
-          key={asset.slug}
-          title={`Price of ${asset.slug}`}
-          onClick={() => togglePriceAsset(asset)}
-          isActive={priceAssets.includes(asset)}
+          key={slug}
+          title={`Price of ${slug}`}
+          onClick={() => togglePriceAsset(slug)}
+          isActive={priceAssets.includes(slug)}
         ></Setting>
       ))}
     </Menu>
