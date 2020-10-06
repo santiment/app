@@ -9,32 +9,32 @@ import styles from './Popup.module.scss'
 const DEFAULT_OPTIONS = [
   {
     index: '1d',
-    label: 'Last day'
+    label: 'Last day',
   },
   {
     index: '1w',
-    label: 'Last week'
+    label: 'Last week',
   },
   {
     index: '1m',
-    label: 'Last month'
+    label: 'Last month',
   },
   {
     index: '3m',
-    label: 'Last 3 months'
+    label: 'Last 3 months',
   },
   {
     index: '6m',
-    label: 'Last 6 months'
+    label: 'Last 6 months',
   },
   {
     index: '1y',
-    label: 'Last year'
+    label: 'Last year',
   },
   {
     index: 'all',
-    label: 'All time'
-  }
+    label: 'All time',
+  },
 ]
 
 const Option = ({ className, ...props }) => (
@@ -70,17 +70,19 @@ const Popup = ({
           className={styles.calendar}
         />
 
-        <div className={styles.right}>
-          {options.map(({ index, label }) => (
-            <Option
-              key={index}
-              isActive={timeRange === index}
-              onClick={() => onTimerangeChange(index)}
-            >
-              {label}
-            </Option>
-          ))}
-        </div>
+        {onTimerangeChange && (
+          <div className={styles.right}>
+            {options.map(({ index, label }) => (
+              <Option
+                key={index}
+                isActive={timeRange === index}
+                onClick={() => onTimerangeChange(index)}
+              >
+                {label}
+              </Option>
+            ))}
+          </div>
+        )}
       </Panel>
     </ContextMenu>
   )

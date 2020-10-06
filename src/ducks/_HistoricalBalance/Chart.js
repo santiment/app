@@ -11,7 +11,7 @@ import styles from './Chart.module.scss'
 const chartPadding = {
   top: 25,
   bottom: 25,
-  right: 45,
+  right: 50,
   left: 15,
 }
 

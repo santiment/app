@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import { logScale, linearScale } from '@santiment-network/chart/scales'
 import { withDefaults } from './defaults'
-import { useWalletAssets, useWalletMetrics } from './hooks'
+import { useSettings, useWalletAssets, useWalletMetrics } from './hooks'
 import Chart, { useResponsiveTicks } from './Chart'
 import Configurations from './Configurations'
 import AddressSetting from './Setting/Address'
 import AssetsSetting from './Setting/Assets'
-import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
 import { withSizes } from '../../components/Responsive'
 import styles from './index.module.scss'
 
@@ -18,7 +17,9 @@ const HistoricalBalance = ({
   defaultPriceAssets,
   isPhone,
 }) => {
-  const [settings, setSettings] = useState(defaultSettings)
+  const { settings, changeTimePeriod, onAddressChange } = useSettings(
+    defaultSettings,
+  )
   const { walletAssets, isLoading, isError } = useWalletAssets(settings.address)
   const [chartAssets, setChartAssets] = useState(defaultChartAssets)
   const [priceAssets, setPriceAssets] = useState(defaultPriceAssets)
@@ -35,25 +36,6 @@ const HistoricalBalance = ({
 
     setPriceAssets([...priceAssetsSet])
   }, [chartAssets])
-
-  function onAddressChange(address) {
-    setSettings({
-      ...settings,
-      address,
-    })
-  }
-
-  function changeTimePeriod(from, to, timeRange) {
-    const interval = getNewInterval(from, to)
-
-    setSettings((state) => ({
-      ...state,
-      timeRange,
-      interval: INTERVAL_ALIAS[interval] || interval,
-      from: from.toISOString(),
-      to: to.toISOString(),
-    }))
-  }
 
   function togglePriceAsset(asset) {
     const priceAssetsSet = new Set(priceAssets)

@@ -1,7 +1,8 @@
-import { useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import { updateTooltipSetting } from '../dataHub/tooltipSettings'
+import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
 
 export const WALLET_ASSETS_QUERY = gql`
   query assetsHeldByAddress($address: String!) {
@@ -57,10 +58,46 @@ export function useWalletAssets(address) {
   }
 }
 
-export function useWalletMetrics(walletAssets, priceAssets) {
-  return useMemo(() => {
-    const walletMetrics = walletAssets.map(walletMetricBuilder)
-    const priceMetrics = priceAssets.map(priceMetricBuilder)
-    return walletMetrics.concat(priceMetrics)
-  }, [walletAssets, priceAssets])
+export function getWalletMetrics(walletAssets, priceAssets) {
+  const walletMetrics = walletAssets.map(walletMetricBuilder)
+  const priceMetrics = priceAssets.map(priceMetricBuilder)
+  return walletMetrics.concat(priceMetrics)
+}
+
+export const useWalletMetrics = (walletAssets, priceAssets) =>
+  useMemo(() => getWalletMetrics(walletAssets, priceAssets), [
+    walletAssets,
+    priceAssets,
+  ])
+
+export function getValidInterval(from, to) {
+  const interval = getNewInterval(from, to)
+  return INTERVAL_ALIAS[interval] || interval
+}
+
+export function useSettings(defaultSettings) {
+  const [settings, setSettings] = useState(defaultSettings)
+
+  function onAddressChange(address) {
+    setSettings({
+      ...settings,
+      address,
+    })
+  }
+
+  function changeTimePeriod(from, to, timeRange) {
+    setSettings((state) => ({
+      ...state,
+      timeRange,
+      interval: getValidInterval(from, to),
+      from: from.toISOString(),
+      to: to.toISOString(),
+    }))
+  }
+
+  return {
+    settings,
+    changeTimePeriod,
+    onAddressChange,
+  }
 }

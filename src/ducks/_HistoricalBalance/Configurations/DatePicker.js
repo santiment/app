@@ -15,12 +15,21 @@ const TimeRanges = ({ timeRange, onTimerangeChange }) => (
   />
 )
 
-const Calendar = ({ settings, onCalendarChange, onTimerangeChange }) => {
+export const Calendar = ({
+  className,
+  settings,
+  changeTimePeriod,
+  onTimerangeChange,
+}) => {
   const { from, to, timeRange } = settings
+
+  function onCalendarChange([from, to]) {
+    changeTimePeriod(from, to)
+  }
 
   return (
     <AdvancedCalendar
-      className={styles.calendar}
+      className={className}
       from={new Date(from)}
       to={new Date(to)}
       timeRange={timeRange}
@@ -36,10 +45,6 @@ const DatePicker = ({ settings, isPhone, changeTimePeriod }) => {
     changeTimePeriod(from, to, timeRange)
   }
 
-  function onCalendarChange([from, to]) {
-    changeTimePeriod(from, to)
-  }
-
   return (
     <>
       <TimeRanges
@@ -49,10 +54,10 @@ const DatePicker = ({ settings, isPhone, changeTimePeriod }) => {
 
       {!isPhone && (
         <Calendar
+          className={styles.calendar}
           settings={settings}
           changeTimePeriod={changeTimePeriod}
           onTimerangeChange={onTimerangeChange}
-          onCalendarChange={onCalendarChange}
         />
       )}
     </>
