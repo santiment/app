@@ -25,19 +25,19 @@ import styles from './DexsPage.module.scss'
 
 const ANCHORS = {
   VolumeSegmented: {
-    label: 'Volume of Trades Segmented by DEXs',
+    label: 'Volume of DEXs Trades',
     key: 'trades-volume'
   },
   DexByVolumeTrades: {
-    label: 'Share of DEXs by Volume of Trades',
+    label: 'Volume of Trades by DEXs',
     key: 'dex-by-volume'
   },
   AmountSegmented: {
-    label: 'Total Amount of DEXs Trades',
+    label: 'Total Number of DEX Trades',
     key: 'trades-amount'
   },
   DexByAmountTrades: {
-    label: 'Share of DEXs by Amount of Trades',
+    label: 'Number of Trades Segmented by DEX',
     key: 'dex-by-amount'
   }
 }
@@ -117,7 +117,7 @@ const DexsPage = ({ history }) => {
           </Block>
 
           <Block
-            title='Volume of Trades Segmented by DEX'
+            title='Volume of DEXs Trades'
             isPaywalActive={isProChecking}
             tag={ANCHORS.VolumeSegmented.key}
           >
@@ -126,7 +126,7 @@ const DexsPage = ({ history }) => {
 
           <Block
             tag={ANCHORS.DexByVolumeTrades.key}
-            title='Share of DEXs by Volume of Trades'
+            title='Volume of Trades by DEXs'
             isPaywalActive={isProChecking}
           >
             <NumberOfTradesPerDex
@@ -137,7 +137,7 @@ const DexsPage = ({ history }) => {
 
           <Block
             tag={ANCHORS.AmountSegmented.key}
-            title='Total Amount of DEX Trades'
+            title='Total Number of DEX Trades'
             isPaywalActive={isProChecking}
           >
             <DexTradesTotalNumber measurement={DEX_BY_USD} />
@@ -145,7 +145,7 @@ const DexsPage = ({ history }) => {
 
           <Block
             tag={ANCHORS.DexByAmountTrades.key}
-            title='Share of DEXs by Amount of Trades'
+            title='Number of Trades Segmented by DEX'
             isPaywalActive={isProChecking}
           >
             <NumberOfTradesPerDex
