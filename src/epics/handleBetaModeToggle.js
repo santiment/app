@@ -37,8 +37,14 @@ const handleBetaModeToggle = (action$, store, { client }) =>
         return Observable.from(mutation)
           .mergeMap(({ data: { updateUserSettings: { isBetaMode } } }) => {
             return value
-              ? Observable.of({ type: APP_USER_BETA_MODE_SAVE, payload: true })
-              : Observable.of({ type: APP_USER_BETA_MODE_SAVE, payload: false })
+              ? Observable.of({
+                type: APP_USER_BETA_MODE_SAVE,
+                payload: true
+              })
+              : Observable.of({
+                type: APP_USER_BETA_MODE_SAVE,
+                payload: false
+              })
           })
           .catch(handleErrorAndTriggerAction(APP_USER_BETA_MODE_SAVE_FAILED))
       }

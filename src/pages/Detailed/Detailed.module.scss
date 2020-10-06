@@ -26,6 +26,11 @@
     margin: 0;
   }
 
+  &_uniswap {
+    display: flex;
+    flex-direction: column;
+  }
+
   &__card {
     flex: 1;
     max-width: calc(50% - 16px);
@@ -46,4 +51,8 @@
       }
     }
   }
+}
+
+.uniswap {
+  flex: 1;
 }

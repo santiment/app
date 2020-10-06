@@ -14,7 +14,7 @@ import { PROJECT_TREND_HISTORY_QUERY } from './queries/project_trend_history_que
 import { METRIC_ANOMALIE_QUERY } from './queries/metric_anomaly_query'
 import { GET_METRIC } from './queries/get_metric'
 import { mergeTimeseriesByKey } from './../../utils/utils'
-import { HISTORICAL_BALANCE_QUERY } from '../HistoricalBalance/common/queries'
+import { HISTORICAL_BALANCE_QUERY } from '../Studio/timeseries/queries/historicaBalance'
 
 const getMetricPreTransform = ({ getMetric: { timeseriesData } }) =>
   timeseriesData

@@ -140,7 +140,10 @@ export function getTagInsights (from, to, tag) {
 }
 
 export function getSANFAMInsights (from, to) {
-  return buildInsightsGetter(SANFAM_INSIGHTS_QUERY, { from, to }).then(
+  return buildInsightsGetter(SANFAM_INSIGHTS_QUERY, {
+    from,
+    to
+  }).then(
     ({
       data: { sanfam_1, sanfam_2, sanfam_3, sanfam_4, sanfam_5, sanfam_6 }
     }) =>
