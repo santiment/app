@@ -35,7 +35,7 @@ const walletMetricBuilder = metricBuilder(({ slug }) => ({
 const priceMetricBuilder = metricBuilder((slug) => ({
   key: `hb_price_usd_${slug}`,
   label: `Price of ${slug}`,
-  node: 'line',
+  node: 'area',
   queryKey: 'price_usd',
   reqMeta: {
     slug,

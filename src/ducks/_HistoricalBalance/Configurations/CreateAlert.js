@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useMemo } from 'react'
+import { mapToOptions } from '../../Signals/utils/utils'
 import {
   ETH_WALLET_AMOUNT_UP,
   ETH_WALLET_METRIC,
@@ -10,23 +11,30 @@ const PARAMS = {
   border: true,
 }
 
+const METRIC = {
+  value: ETH_WALLET_METRIC,
+}
+const TYPE = {
+  value: ETH_WALLET_AMOUNT_UP,
+}
+
 const CreateAlert = ({ assets, address }) => {
+  const ethAddress = useMemo(() => mapToOptions(address), [address])
+  const target = useMemo(
+    () => ({ value: assets.length ? mapToOptions(assets[0]) : undefined }),
+    [assets],
+  )
+
   return (
     <SignalMasterModalForm
       label='Create alert'
       enabled={address && assets.length}
       canRedirect={false}
       metaFormSettings={{
-        target: {
-          /* value: assets.length > 0 ? mapToOption(assets[0]) : undefined, */
-        },
-        metric: {
-          value: ETH_WALLET_METRIC,
-        },
-        type: {
-          value: ETH_WALLET_AMOUNT_UP,
-        },
-        /* ethAddress: mapToOptions(address), */
+        ethAddress,
+        target,
+        metric: METRIC,
+        type: TYPE,
       }}
       buttonParams={PARAMS}
     />

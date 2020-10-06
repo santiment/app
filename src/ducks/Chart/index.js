@@ -8,6 +8,7 @@ import {
   plotFilledLines,
   plotGradientLine,
 } from '@santiment-network/chart/lines'
+import { plotAreas } from '@santiment-network/chart/areas'
 import { plotAutoWidthBars, plotBars } from '@santiment-network/chart/bars'
 import { plotGreenRedBars } from '@santiment-network/chart/bars/greenRedBars'
 import { linearScale } from '@santiment-network/chart/scales'
@@ -38,6 +39,7 @@ const Chart = ({
   data,
   brushData = data,
   lines,
+  areas,
   filledLines,
   gradientLines,
   bars,
@@ -286,9 +288,10 @@ const Chart = ({
     plotBars(chart, data, bars, scale, MetricColor)
 
     chart.ctx.lineWidth = 1.5
-    plotLines(chart, data, lines, scale, MetricColor)
+    plotAreas(chart, data, areas, scale, MetricColor, MetricColor)
     plotFilledLines(chart, data, filledLines, scale, MetricColor)
     plotGradientLine(chart, data, gradientLines, scale, MetricColor)
+    plotLines(chart, data, lines, scale, MetricColor)
 
     if (isCartesianGridActive) {
       drawCartesianGrid(
