@@ -5,6 +5,7 @@ import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import StablecoinsMarketCap from '../../ducks/Stablecoins/StablecoinsMarketCap/StablecoinsMarketCap'
 import StablecoinHolderDistribution from '../../ducks/Stablecoins/HolderDistribution/StablecoinHolderDistribution'
 import StablecoinsTransactions from '../../ducks/Stablecoins/StablecoinsTransactions/StablecoinsTransactions'
+import TopExchangesTable from '../../components/Tables/TopExchanges'
 import WhaleTrendsList from '../../ducks/Stablecoins/WhaleTrendsList/WhaleTrendsList'
 import FlowToExchangesList from '../../ducks/Stablecoins/FlowToExchanges/FlowToExchangesList'
 import TransactionsDominance from '../../ducks/Stablecoins/TransactionsDominance/TransactionsDominance'
@@ -31,6 +32,10 @@ const ANCHORS = {
   FlowToExchanges: {
     label: 'Flow to Exchanges',
     key: 'flow-to-exchanges'
+  },
+  TopExchanges: {
+    label: 'Top Exchanges',
+    key: 'top-exchanges'
   },
   LargestTransactions: {
     label: 'Largest Transactions to Exchanges',
@@ -122,6 +127,10 @@ const StablecoinsPage = ({ history, isDesktop }) => {
             isPaywalActive
           >
             <FlowToExchangesList />
+          </Block>
+
+          <Block tag={ANCHORS.TopExchanges.key}>
+            <TopExchangesTable selector={{ watchlistId: 3985 }} />
           </Block>
 
           <Block
