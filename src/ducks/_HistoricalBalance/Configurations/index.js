@@ -10,24 +10,25 @@ const Configurations = ({
   settings,
   isDesktop,
   changeTimePeriod,
-}) => {
-  return (
-    <div className={styles.wrapper}>
-      <div className={styles.header}>
-        <CreateAlert
-          assets={chartAssets}
-          address={settings.address}
-        ></CreateAlert>
-        <DatePicker
-          settings={settings}
-          isDesktop={isDesktop}
-          changeTimePeriod={changeTimePeriod}
-        ></DatePicker>
-        <SettingsMenu></SettingsMenu>
-      </div>
-      {children}
+}) => (
+  <div className={styles.wrapper}>
+    <div className={styles.header}>
+      <CreateAlert
+        assets={chartAssets}
+        address={settings.address}
+      ></CreateAlert>
+      <DatePicker
+        settings={settings}
+        isDesktop={isDesktop}
+        changeTimePeriod={changeTimePeriod}
+      ></DatePicker>
+      <SettingsMenu
+        settings={settings}
+        chartAssets={chartAssets}
+      ></SettingsMenu>
     </div>
-  )
-}
+    {children}
+  </div>
+)
 
 export default Configurations

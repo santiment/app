@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { withDefaults } from './defaults'
 import { useWalletAssets, useWalletMetrics } from './hooks'
 import Chart from './Chart'
 import Configurations from './Configurations'
@@ -6,28 +7,17 @@ import AddressSetting from './Setting/Address'
 import AssetsSetting from './Setting/Assets'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
 import { withSizes } from '../../components/Responsive'
-import { getIntervalByTimeRange } from '../../utils/dates'
 import styles from './index.module.scss'
 
-const DEFAULT_TIME_RANGE = '6M'
-const { from: FROM, to: TO } = getIntervalByTimeRange(
-  DEFAULT_TIME_RANGE.toLowerCase(),
-)
-
-const SETTINGS = {
-  address: '0x609ba2969E9A807C8f450e37909F10f88E5Fc931',
-  from: FROM,
-  to: TO,
-  interval: getNewInterval(FROM, TO),
-  timeRange: DEFAULT_TIME_RANGE,
-}
-
-const DEFAULT_CHART_ASSETS = []
-
-const HistoricalBalance = ({ isDesktop }) => {
-  const [settings, setSettings] = useState(SETTINGS)
+const HistoricalBalance = ({
+  children,
+  defaultSettings,
+  defaultChartAssets,
+  isDesktop,
+}) => {
+  const [settings, setSettings] = useState(defaultSettings)
   const { walletAssets, isLoading, isError } = useWalletAssets(settings.address)
-  const [chartAssets, setChartAssets] = useState(DEFAULT_CHART_ASSETS)
+  const [chartAssets, setChartAssets] = useState(defaultChartAssets)
   const metrics = useWalletMetrics(chartAssets)
 
   function onAddressChange(address) {
@@ -76,8 +66,19 @@ const HistoricalBalance = ({ isDesktop }) => {
           isDesktop={isDesktop}
         ></Chart>
       </Configurations>
+      {React.Children.map(children, (child) =>
+        React.cloneElement(child, {
+          settings,
+          chartAssets,
+          //priceAssets
+        }),
+      )}
     </div>
   )
 }
 
-export default withSizes(HistoricalBalance)
+HistoricalBalance.defaultProps = {
+  defaultChartAssets: [],
+}
+
+export default withDefaults(withSizes(HistoricalBalance))

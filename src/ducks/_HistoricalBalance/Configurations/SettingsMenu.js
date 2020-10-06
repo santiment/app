@@ -1,17 +1,24 @@
-import React from 'react'
+import React, { useMemo } from 'react'
+import { generateUrl } from '../url'
 import {
   Menu,
   Setting,
-  ShareButton
+  ShareButton,
 } from '../../SANCharts/ChartSettingsContextMenu'
 import styles from './index.module.scss'
 
-const SettingsMenu = ({ ...props }) => {
+const SettingsMenu = ({ settings, chartAssets }) => {
+  const { address } = settings
+  const shareLink = useMemo(() => generateUrl(address, chartAssets, []), [
+    address,
+    chartAssets,
+  ])
+
   return (
     <Menu>
-      <ShareButton></ShareButton>
+      <ShareButton shareLink={shareLink}></ShareButton>
+      <hr className={styles.divider} />
       <Setting title='Log scale'></Setting>
-      <Setting title='Show Y'></Setting>
       <hr className={styles.divider} />
       <Setting title='Price of ethereum'></Setting>
       <Setting title='Price of network'></Setting>

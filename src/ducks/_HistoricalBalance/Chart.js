@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import SANChart from '../Chart'
 import { useChartColors } from '../Chart/colors'
@@ -14,7 +15,7 @@ const chartPadding = {
   left: 15,
 }
 
-const Chart = ({ metrics, settings, isDesktop }) => {
+const Chart = ({ metrics, settings, className, ...props }) => {
   const [rawData, loadings] = useTimeseries(metrics, settings)
   const data = useClosestValueData(rawData, metrics)
   const categories = useMetricCategories(metrics)
@@ -22,18 +23,19 @@ const Chart = ({ metrics, settings, isDesktop }) => {
   const axesMetricKeys = useAxesMetricsKey(metrics)
 
   return (
-    <div className={styles.chart}>
+    <div className={cx(styles.chart, className)}>
       <SANChart
-        {...categories}
-        className={styles.canvas}
         hideBrush
         hideWatermark
+        isCartesianGridActive
+        {...props}
+        {...categories}
+        className={styles.canvas}
         data={data}
         MetricColor={MetricColor}
         chartPadding={chartPadding}
         tooltipKey={axesMetricKeys[0]}
         axesMetricKeys={axesMetricKeys}
-        isCartesianGridActive
       ></SANChart>
 
       {loadings.length > 0 && <Loader className={styles.loader} />}

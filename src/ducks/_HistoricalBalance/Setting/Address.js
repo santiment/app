@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import LibInput from '@santiment-network/ui/Input'
 import Setting from './Setting'
 import { isEthStrictAddress } from '../../../utils/utils'
@@ -6,9 +6,12 @@ import styles from './Setting.module.scss'
 
 export const AddressSetting = ({ address, isError, onAddressChange }) => {
   const [value, setValue] = useState(address)
+  const isInputWrong = useMemo(() => value && !isEthStrictAddress(value), [
+    value,
+  ])
 
   useEffect(() => {
-    if (value === address || !isEthStrictAddress(value)) return
+    if (value === address || isInputWrong) return
 
     const timer = setTimeout(() => onAddressChange(value), 250)
     return () => clearTimeout(timer)
@@ -23,7 +26,7 @@ export const AddressSetting = ({ address, isError, onAddressChange }) => {
       <LibInput
         autoComplete='off'
         value={value}
-        isError={isError}
+        isError={isError || isInputWrong}
         onChange={onChange}
       ></LibInput>
       {address && (
