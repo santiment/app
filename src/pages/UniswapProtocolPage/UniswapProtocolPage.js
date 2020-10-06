@@ -6,6 +6,7 @@ import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import ClaimersWidgets from '../../components/ClaimersWidgets'
 import { ChartWidget } from '../../components/ClaimersWidgets'
 import TopClaimersTable from '../../components/ClaimersWidgets/TopClaimers/TopClaimersTable'
+import TopExchangesTable from '../../components/Tables/TopExchanges'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import { Block, BlockHeader } from '../StablecoinsPage/StablecoinsPageStructure'
@@ -42,6 +43,10 @@ const ANCHORS = {
   ClaimersWidgets: {
     label: 'UNI Claims: Overview',
     key: 'claimers-widgets'
+  },
+  TopExchanges: {
+    label: 'Top Exchanges',
+    key: 'top-exchanges'
   },
   WhoClaimed: {
     label: 'Who claimed UNI?',
@@ -168,6 +173,10 @@ const UniswapProtocolPage = ({ history }) => {
             isPaywalActive={areClaimsRestricted}
           >
             <ClaimersWidgets />
+          </Block>
+
+          <Block tag={anchors.TopExchanges.key}>
+            <TopExchangesTable slug='uniswap' />
           </Block>
 
           <Block title='Who claimed UNI?' tag={anchors.WhoClaimed.key}>
