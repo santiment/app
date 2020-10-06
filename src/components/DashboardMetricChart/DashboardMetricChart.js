@@ -15,6 +15,10 @@ import { INTERVAL_30_DAYS } from './utils'
 import DashboardChartMetrics from './DashboardChartMetrics/DashboardChartMetrics'
 import DashboardMetricChartWrapper from './DashboardMetricChartWrapper'
 import DashboardMetricSelectors from './DashboardMetricSelectors/DashboardMetricSelectors'
+import {
+  getNewInterval,
+  INTERVAL_ALIAS
+} from '../../ducks/SANCharts/IntervalSelector'
 import styles from './DashboardMetricChart.module.scss'
 
 const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
@@ -27,7 +31,14 @@ const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
       const from = new Date(allTimeData[startIndex].datetime)
       const to = new Date(allTimeData[endIndex].datetime)
 
-      setSettings({ ...settings, from, to })
+      const interval = getNewInterval(from, to)
+
+      setSettings({
+        ...settings,
+        from,
+        to,
+        interval: INTERVAL_ALIAS[interval] || interval
+      })
     },
     [data, setSettings, settings, allTimeData]
   )
