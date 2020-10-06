@@ -1,4 +1,4 @@
-import { formatNumber } from '../../../utils/formatting'
+import { formatNumber, upperCaseFirstLetter } from '../../../utils/formatting'
 
 export const columns = [
   {
@@ -6,7 +6,8 @@ export const columns = [
     Header: 'Exchange',
     accessor: 'owner',
     maxWidth: 160,
-    sortable: false
+    sortable: false,
+    Cell: ({ value = '' }) => upperCaseFirstLetter(value)
   },
   {
     id: 'balance',
