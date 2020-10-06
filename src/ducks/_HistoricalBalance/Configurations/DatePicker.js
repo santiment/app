@@ -15,12 +15,7 @@ const TimeRanges = ({ timeRange, onTimerangeChange }) => (
   />
 )
 
-export const Calendar = ({
-  className,
-  settings,
-  changeTimePeriod,
-  onTimerangeChange,
-}) => {
+export const Calendar = ({ settings, changeTimePeriod, ...props }) => {
   const { from, to, timeRange } = settings
 
   function onCalendarChange([from, to]) {
@@ -29,12 +24,11 @@ export const Calendar = ({
 
   return (
     <AdvancedCalendar
-      className={className}
+      {...props}
       from={new Date(from)}
       to={new Date(to)}
       timeRange={timeRange}
       onCalendarChange={onCalendarChange}
-      onTimerangeChange={onTimerangeChange}
     />
   )
 }

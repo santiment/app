@@ -45,6 +45,8 @@ const UniswapHistoricalBalance = ({
         <Calendar
           className={styles.calendar}
           settings={settings}
+          maxDate={TO}
+          minDate={FROM}
           changeTimePeriod={changeTimePeriod}
         ></Calendar>
       </div>

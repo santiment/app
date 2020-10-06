@@ -151,11 +151,9 @@
 
 .balance {
   &__chart {
-    min-height: 400px;
-    max-height: 450px;
+    height: 448px;
     margin-top: 10px;
     background: var(--white);
-    padding: 10px 10px 0 0;
     border-radius: $border-radius;
     border: 1px solid var(--porcelain);
   }

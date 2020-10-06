@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import UniswapHistoricalBalance from './UniswapHistoricalBalance/UniswapHistoricalBalance'
 import EthSpentTable from '../../../components/EthSpentTable/EthSpentTable'

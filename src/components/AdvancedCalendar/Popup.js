@@ -53,6 +53,8 @@ const Popup = ({
   onCalendarChange,
   onTimerangeChange,
   options = DEFAULT_OPTIONS,
+  minDate,
+  maxDate,
   ...props
 }) => {
   return (
@@ -68,6 +70,8 @@ const Popup = ({
           value={[from, to]}
           selectRange
           className={styles.calendar}
+          maxDate={maxDate}
+          minDate={minDate}
         />
 
         {onTimerangeChange && (
