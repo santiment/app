@@ -4,10 +4,6 @@
   flex: 1;
   @include text('caption');
   color: var(--waterloo);
-
-  &:last-child {
-    margin-left: 24px;
-  }
 }
 
 .etherscan {

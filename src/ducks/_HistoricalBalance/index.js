@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import cx from 'classnames'
 import { logScale, linearScale } from '@santiment-network/chart/scales'
 import { withDefaults } from './defaults'
 import { useWalletAssets, useWalletMetrics } from './hooks'
-import Chart from './Chart'
+import Chart, { useResponsiveTicks } from './Chart'
 import Configurations from './Configurations'
 import AddressSetting from './Setting/Address'
 import AssetsSetting from './Setting/Assets'
@@ -15,7 +16,7 @@ const HistoricalBalance = ({
   defaultSettings,
   defaultChartAssets,
   defaultPriceAssets,
-  isDesktop,
+  isPhone,
 }) => {
   const [settings, setSettings] = useState(defaultSettings)
   const { walletAssets, isLoading, isError } = useWalletAssets(settings.address)
@@ -23,6 +24,7 @@ const HistoricalBalance = ({
   const [priceAssets, setPriceAssets] = useState(defaultPriceAssets)
   const [isLog, setIsLog] = useState(false)
   const metrics = useWalletMetrics(chartAssets, priceAssets)
+  const axesTicks = useResponsiveTicks(isPhone)
 
   useEffect(() => {
     const priceAssetsSet = new Set(priceAssets)
@@ -67,13 +69,16 @@ const HistoricalBalance = ({
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.settings}>
+      <div className={cx(styles.settings, isPhone && styles.settings_phone)}>
         <AddressSetting
           address={settings.address}
           isError={isError}
           onAddressChange={onAddressChange}
         ></AddressSetting>
         <AssetsSetting
+          className={
+            isPhone ? styles.settings__assets_phone : styles.settings__assets
+          }
           walletAssets={walletAssets}
           chartAssets={chartAssets}
           isLoading={isLoading}
@@ -85,16 +90,17 @@ const HistoricalBalance = ({
         settings={settings}
         chartAssets={chartAssets}
         priceAssets={priceAssets}
-        isDesktop={isDesktop}
+        isPhone={isPhone}
         togglePriceAsset={togglePriceAsset}
         changeTimePeriod={changeTimePeriod}
         setIsLog={setIsLog}
       >
         <Chart
+          {...axesTicks}
+          chartHeight={isPhone ? 340 : 450}
           scale={isLog ? logScale : linearScale}
           settings={settings}
           metrics={metrics}
-          isDesktop={isDesktop}
         ></Chart>
       </Configurations>
       {React.Children.map(children, (child) =>

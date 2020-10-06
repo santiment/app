@@ -26,7 +26,6 @@ import Footer from './components/Footer'
 import GDPRPage from './pages/GDPRPage/GDPRPage'
 import WatchlistPage from './pages/Watchlist'
 import HistoricalBalancePage from './ducks/HistoricalBalance/page/HistoricalBalancePage'
-import _HistoricalBalancePage from './pages/HistoricalBalance'
 import { getConsentUrl } from './utils/utils'
 import CookiePopup from './components/CookiePopup/CookiePopup'
 import GdprRedirector from './components/GdprRedirector'
@@ -55,6 +54,11 @@ const FOOTER_ABSOLUTE_FOR = [
 
 const LoadableProMetricsPage = Loadable({
   loader: () => import('./pages/ProMetrics/ProMetrics'),
+  loading: () => <PageLoader />,
+})
+
+const LoadableHistoricalBalancePage = Loadable({
+  loader: () => import('./pages/HistoricalBalance'),
   loading: () => <PageLoader />,
 })
 
@@ -323,7 +327,10 @@ export const App = ({
           exact
           path='/labs/_balance'
           render={({ history }) => (
-            <_HistoricalBalancePage history={history} isDesktop={isDesktop} />
+            <LoadableHistoricalBalancePage
+              history={history}
+              isDesktop={isDesktop}
+            />
           )}
         />
         <Route

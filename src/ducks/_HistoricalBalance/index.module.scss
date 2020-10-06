@@ -9,5 +9,16 @@
   display: flex;
   background: var(--athens);
   padding: 16px 24px;
-  // justify-content: space-between;
+
+  &_phone {
+    flex-direction: column;
+  }
+
+  &__assets {
+    margin-left: 24px;
+
+    &_phone {
+      margin-top: 16px;
+    }
+  }
 }

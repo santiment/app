@@ -1,10 +1,21 @@
 .header {
   display: flex;
   padding: 16px 24px 4px;
+
+  &_phone {
+    flex-direction: column;
+
+    & .left {
+      margin: 16px 0 0;
+    }
+  }
 }
 
-.timeranges {
+.left {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .calendar {

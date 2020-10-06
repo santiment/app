@@ -30,7 +30,7 @@ const Calendar = ({ settings, onCalendarChange, onTimerangeChange }) => {
   )
 }
 
-const DatePicker = ({ settings, isDesktop, changeTimePeriod }) => {
+const DatePicker = ({ settings, isPhone, changeTimePeriod }) => {
   function onTimerangeChange(timeRange) {
     const { from, to } = getIntervalByTimeRange(timeRange.toLowerCase())
     changeTimePeriod(from, to, timeRange)
@@ -47,7 +47,7 @@ const DatePicker = ({ settings, isDesktop, changeTimePeriod }) => {
         onTimerangeChange={onTimerangeChange}
       ></TimeRanges>
 
-      {isDesktop && (
+      {!isPhone && (
         <Calendar
           settings={settings}
           changeTimePeriod={changeTimePeriod}

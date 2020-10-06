@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import CreateAlert from './CreateAlert'
 import DatePicker from './DatePicker'
 import SettingsMenu from './SettingsMenu'
@@ -10,30 +11,32 @@ const Configurations = ({
   priceAssets,
   settings,
   isLog,
-  isDesktop,
+  isPhone,
   togglePriceAsset,
   changeTimePeriod,
   setIsLog,
 }) => (
   <div className={styles.wrapper}>
-    <div className={styles.header}>
+    <div className={cx(styles.header, isPhone && styles.header_phone)}>
       <CreateAlert
         assets={chartAssets}
         address={settings.address}
       ></CreateAlert>
-      <DatePicker
-        settings={settings}
-        isDesktop={isDesktop}
-        changeTimePeriod={changeTimePeriod}
-      ></DatePicker>
-      <SettingsMenu
-        isLog={isLog}
-        settings={settings}
-        chartAssets={chartAssets}
-        priceAssets={priceAssets}
-        togglePriceAsset={togglePriceAsset}
-        setIsLog={setIsLog}
-      ></SettingsMenu>
+      <div className={styles.left}>
+        <DatePicker
+          settings={settings}
+          isPhone={isPhone}
+          changeTimePeriod={changeTimePeriod}
+        ></DatePicker>
+        <SettingsMenu
+          isLog={isLog}
+          settings={settings}
+          chartAssets={chartAssets}
+          priceAssets={priceAssets}
+          togglePriceAsset={togglePriceAsset}
+          setIsLog={setIsLog}
+        ></SettingsMenu>
+      </div>
     </div>
     {children}
   </div>

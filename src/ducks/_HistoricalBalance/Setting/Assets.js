@@ -6,13 +6,14 @@ import { WalletBalanceOptionRenderer } from '../../Signals/signalFormManager/sig
 import styles from './Setting.module.scss'
 
 export const AddressSetting = ({
+  className,
   walletAssets,
   chartAssets,
   isLoading,
   setChartAssets,
 }) => {
   return (
-    <Setting title='Wallet address'>
+    <Setting className={className} title='Wallet address'>
       <div className={styles.assets}>
         <Select
           multi
