@@ -13,12 +13,14 @@ const HistoricalBalance = ({
   children,
   defaultSettings,
   defaultChartAssets,
+  defaultPriceAssets,
   isDesktop,
 }) => {
   const [settings, setSettings] = useState(defaultSettings)
   const { walletAssets, isLoading, isError } = useWalletAssets(settings.address)
   const [chartAssets, setChartAssets] = useState(defaultChartAssets)
-  const metrics = useWalletMetrics(chartAssets)
+  const [priceAssets, setPriceAssets] = useState(defaultPriceAssets)
+  const metrics = useWalletMetrics(chartAssets, priceAssets)
 
   function onAddressChange(address) {
     setSettings({
@@ -39,6 +41,18 @@ const HistoricalBalance = ({
     }))
   }
 
+  function togglePriceAsset(asset) {
+    const priceAssetsSet = new Set(priceAssets)
+
+    if (priceAssetsSet.has(asset)) {
+      priceAssetsSet.delete(asset)
+    } else {
+      priceAssetsSet.add(asset)
+    }
+
+    setPriceAssets([...priceAssetsSet])
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.settings}>
@@ -57,6 +71,8 @@ const HistoricalBalance = ({
       <Configurations
         settings={settings}
         chartAssets={chartAssets}
+        priceAssets={priceAssets}
+        togglePriceAsset={togglePriceAsset}
         changeTimePeriod={changeTimePeriod}
         isDesktop={isDesktop}
       >
@@ -70,7 +86,7 @@ const HistoricalBalance = ({
         React.cloneElement(child, {
           settings,
           chartAssets,
-          //priceAssets
+          priceAssets,
         }),
       )}
     </div>
@@ -79,6 +95,7 @@ const HistoricalBalance = ({
 
 HistoricalBalance.defaultProps = {
   defaultChartAssets: [],
+  defaultPriceAssets: [],
 }
 
 export default withDefaults(withSizes(HistoricalBalance))

@@ -4,6 +4,7 @@ const BASE = window.location.origin + '/labs/balance?'
 const URL_FORMAT = { arrayFormat: 'bracket' }
 
 const slugExtractor = ({ slug }) => slug
+const assetConvertor = (slug) => ({ slug })
 
 export function generateSearchQuery(address, chartAssets, priceAssets) {
   const assets = chartAssets.map(slugExtractor)
@@ -24,11 +25,14 @@ export function generateUrl(address, chartAssets, priceAssets) {
 }
 
 export function parseUrl(url) {
-  const { address = '', assets, priceMetrics } = parse(url, URL_FORMAT)
+  const { address = '', assets = [], priceMetrics = [] } = parse(
+    url,
+    URL_FORMAT,
+  )
 
   return {
     settings: { address },
-    chartAssets: [],
-    priceAssets: [],
+    chartAssets: assets.map(assetConvertor),
+    priceAssets: priceMetrics.map(assetConvertor),
   }
 }

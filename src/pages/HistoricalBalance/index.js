@@ -40,8 +40,8 @@ const HistoricalBalancePage = ({ history, isDesktop }) => {
       <ResponsiveTitle isDesktop={isDesktop} />
       <HistoricalBalance
         defaultSettings={settings}
-        //defaultChartAssets={chartAssets}
-        //priceAssets={priceAssets}
+        defaultChartAssets={chartAssets}
+        defaultPriceAssets={priceAssets}
       >
         <URLExtension history={history}></URLExtension>
       </HistoricalBalance>

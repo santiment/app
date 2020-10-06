@@ -30,23 +30,37 @@ export function useWalletAssets(address) {
   }
 }
 
-export function useWalletMetrics(walletAssets) {
-  return useMemo(
-    () =>
-      walletAssets.map(({ slug }) => {
-        const metric = {
-          key: slug,
-          label: slug,
-          node: 'line',
-          queryKey: 'historicalBalance',
-          reqMeta: {
-            slug,
-            infrastructure: 'ETH',
-          },
-        }
-        updateTooltipSetting(metric)
-        return metric
-      }),
-    [walletAssets],
-  )
+const metricBuilder = (slugToMetric) => ({ slug }) => {
+  const metric = slugToMetric(slug)
+  updateTooltipSetting(metric)
+  return metric
+}
+
+const walletMetricBuilder = metricBuilder((slug) => ({
+  key: slug,
+  label: slug,
+  node: 'line',
+  queryKey: 'historicalBalance',
+  reqMeta: {
+    slug,
+    infrastructure: 'ETH',
+  },
+}))
+
+const priceMetricBuilder = metricBuilder((slug) => ({
+  key: `price_usd_${slug}`,
+  label: `Price of ${slug}`,
+  node: 'line',
+  queryKey: 'price_usd',
+  reqMeta: {
+    slug,
+  },
+}))
+
+export function useWalletMetrics(walletAssets, priceAssets) {
+  return useMemo(() => {
+    const walletMetrics = walletAssets.map(walletMetricBuilder)
+    const priceMetrics = priceAssets.map(priceMetricBuilder)
+    return walletMetrics.concat(priceMetrics)
+  }, [walletAssets, priceAssets])
 }

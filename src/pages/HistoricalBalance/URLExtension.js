@@ -6,7 +6,7 @@ const URLExtension = ({ history, settings, chartAssets, priceAssets }) => {
 
   useEffect(() => {
     history.replace(
-      '?' + generateSearchQuery(address, chartAssets, priceAssets || []),
+      '?' + generateSearchQuery(address, chartAssets, priceAssets),
     )
   }, [address, chartAssets, priceAssets])
 

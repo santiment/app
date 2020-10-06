@@ -7,7 +7,12 @@ import {
 } from '../../SANCharts/ChartSettingsContextMenu'
 import styles from './index.module.scss'
 
-const SettingsMenu = ({ settings, chartAssets }) => {
+const SettingsMenu = ({
+  settings,
+  chartAssets,
+  priceAssets,
+  togglePriceAsset,
+}) => {
   const { address } = settings
   const shareLink = useMemo(() => generateUrl(address, chartAssets, []), [
     address,
@@ -19,9 +24,15 @@ const SettingsMenu = ({ settings, chartAssets }) => {
       <ShareButton shareLink={shareLink}></ShareButton>
       <hr className={styles.divider} />
       <Setting title='Log scale'></Setting>
-      <hr className={styles.divider} />
-      <Setting title='Price of ethereum'></Setting>
-      <Setting title='Price of network'></Setting>
+      {chartAssets.length > 0 && <hr className={styles.divider} />}
+      {chartAssets.map((asset) => (
+        <Setting
+          key={asset.slug}
+          title={`Price of ${asset.slug}`}
+          onClick={() => togglePriceAsset(asset)}
+          isActive={priceAssets.includes(asset)}
+        ></Setting>
+      ))}
     </Menu>
   )
 }

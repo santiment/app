@@ -7,8 +7,10 @@ import styles from './index.module.scss'
 const Configurations = ({
   children,
   chartAssets,
+  priceAssets,
   settings,
   isDesktop,
+  togglePriceAsset,
   changeTimePeriod,
 }) => (
   <div className={styles.wrapper}>
@@ -25,6 +27,8 @@ const Configurations = ({
       <SettingsMenu
         settings={settings}
         chartAssets={chartAssets}
+        priceAssets={priceAssets}
+        togglePriceAsset={togglePriceAsset}
       ></SettingsMenu>
     </div>
     {children}
