@@ -17,6 +17,7 @@ import ResearchesBlock from '../../components/ResearchesBlock'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import SharePage from '../../components/SharePage/SharePage'
 import { getIntervalDates } from '../../ducks/SANCharts/IntervalSelector'
+import NetExchangeFlow from '../../ducks/Stablecoins/NetExchangeFlow/NetExchangeFlow'
 import styles from './StablecoinsPage.module.scss'
 
 const ANCHORS = {
@@ -47,6 +48,10 @@ const ANCHORS = {
   NetworkActivity: {
     label: 'Network Activity',
     key: 'network-activity'
+  },
+  NetExchangeFlow: {
+    label: 'Stablecoin Net Exchange Flow',
+    key: 'net-exchange-flow'
   }
 }
 
@@ -153,6 +158,13 @@ const StablecoinsPage = ({ history, isDesktop }) => {
             description='On-chain indicators of stablecoin utility and adoption'
             el={NetworkActivity}
           />
+
+          <Block
+            tag={ANCHORS.NetExchangeFlow.key}
+            title='Stablecoin Net Exchange Flow'
+          >
+            <NetExchangeFlow />
+          </Block>
         </div>
       </div>
 
