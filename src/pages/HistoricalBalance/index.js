@@ -12,7 +12,7 @@ const MOBILE_CLASSES = {
 
 export const Title = () => (
   <>
-    Historical Balance
+    Historical balance
     <HelpPopup triggerClassName={styles.help}>
       Enter any ERC-20 wallet's address and choose up to 5 assets for a detailed
       breakdown of the wallet's balance over time.

@@ -1,8 +1,11 @@
 import { useState, useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import { updateTooltipSetting } from '../dataHub/tooltipSettings'
-import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
+import {
+  getValidInterval,
+  walletMetricBuilder,
+  priceMetricBuilder
+} from './utils'
 
 export const WALLET_ASSETS_QUERY = gql`
   query assetsHeldByAddress($address: String!) {
@@ -15,32 +18,17 @@ export const WALLET_ASSETS_QUERY = gql`
 
 const DEFAULT_STATE = []
 
-const metricBuilder = slugToMetric => asset => {
-  const metric = slugToMetric(asset)
-  updateTooltipSetting(metric)
-  return metric
+export function getWalletMetrics (walletAssets, priceAssets) {
+  const walletMetrics = walletAssets.map(walletMetricBuilder)
+  const priceMetrics = priceAssets.map(priceMetricBuilder)
+  return walletMetrics.concat(priceMetrics)
 }
 
-const walletMetricBuilder = metricBuilder(({ slug }) => ({
-  key: slug,
-  label: slug,
-  node: 'line',
-  queryKey: 'historicalBalance',
-  reqMeta: {
-    slug,
-    infrastructure: 'ETH'
-  }
-}))
-
-const priceMetricBuilder = metricBuilder(slug => ({
-  key: `hb_price_usd_${slug}`,
-  label: `Price of ${slug}`,
-  node: 'area',
-  queryKey: 'price_usd',
-  reqMeta: {
-    slug
-  }
-}))
+export const useWalletMetrics = (walletAssets, priceAssets) =>
+  useMemo(() => getWalletMetrics(walletAssets, priceAssets), [
+    walletAssets,
+    priceAssets
+  ])
 
 export function useWalletAssets (address) {
   const { data, loading, error } = useQuery(WALLET_ASSETS_QUERY, {
@@ -56,23 +44,6 @@ export function useWalletAssets (address) {
     isLoading: loading,
     isError: error
   }
-}
-
-export function getWalletMetrics (walletAssets, priceAssets) {
-  const walletMetrics = walletAssets.map(walletMetricBuilder)
-  const priceMetrics = priceAssets.map(priceMetricBuilder)
-  return walletMetrics.concat(priceMetrics)
-}
-
-export const useWalletMetrics = (walletAssets, priceAssets) =>
-  useMemo(() => getWalletMetrics(walletAssets, priceAssets), [
-    walletAssets,
-    priceAssets
-  ])
-
-export function getValidInterval (from, to) {
-  const interval = getNewInterval(from, to)
-  return INTERVAL_ALIAS[interval] || interval
 }
 
 export function useSettings (defaultSettings) {
