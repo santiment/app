@@ -7,12 +7,14 @@ const METRICS = [
   {
     ...Metric.exchange_inflow,
     reqMeta: { market_segments: 'Stablecoin USD' },
-    domainGroup: 'stablecoins'
+    domainGroup: 'stablecoins',
+    node: 'bar'
   },
   {
     ...Metric.exchange_outflow,
     reqMeta: { market_segments: 'Stablecoin USD' },
-    domainGroup: 'stablecoins'
+    domainGroup: 'stablecoins',
+    node: 'bar'
   }
 ]
 
