@@ -59,7 +59,7 @@ export const PRICE_CHANGE_RANGES = [
 
 export const SOCIAL_VOLUME_CHANGE_RANGES = [
   {
-    label: '1d',
+    label: '24h',
     key: 'change1d'
   },
   {

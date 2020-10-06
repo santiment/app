@@ -24,7 +24,8 @@ export const ProjectsMapWrapper = ({
   ranges,
   className,
   title,
-  isSocialVolume = false
+  isSocialVolume = false,
+  defaultSelectedIndex
 }) => {
   const {
     data,
@@ -38,7 +39,8 @@ export const ProjectsMapWrapper = ({
     ranges,
     limit: 100,
     sortByKey: 'marketcapUsd',
-    isSocialVolume
+    isSocialVolume,
+    defaultSelectedIndex
   })
 
   return (
