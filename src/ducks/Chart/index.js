@@ -201,6 +201,10 @@ const Chart = ({
   }, [brushData, from, to])
 
   useEffect(() => {
+    if (joinedCategories.length === 0) {
+      clearCtx(chart)
+      return
+    }
     if (data.length === 0) return
 
     clearCtx(chart)

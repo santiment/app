@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { logScale, linearScale } from '@santiment-network/chart/scales'
 import { withDefaults } from './defaults'
 import { useWalletAssets, useWalletMetrics } from './hooks'
@@ -23,6 +23,16 @@ const HistoricalBalance = ({
   const [priceAssets, setPriceAssets] = useState(defaultPriceAssets)
   const [isLog, setIsLog] = useState(false)
   const metrics = useWalletMetrics(chartAssets, priceAssets)
+
+  useEffect(() => {
+    const priceAssetsSet = new Set(priceAssets)
+    const priceAssetsToDelete = new Set(priceAssetsSet)
+
+    chartAssets.forEach(({ slug }) => priceAssetsToDelete.delete(slug))
+    priceAssetsToDelete.forEach((asset) => priceAssetsSet.delete(asset))
+
+    setPriceAssets([...priceAssetsSet])
+  }, [chartAssets])
 
   function onAddressChange(address) {
     setSettings({
