@@ -78,7 +78,8 @@ const CompareContent = ({
           Widget: ChartWidget,
           MetricSettingMap: newSettings,
           comparedMetrics: comparedMetrics,
-          connectedWidgets: []
+          connectedWidgets: [],
+          MetricIndicators: {}
         }
       })
 
