@@ -1,4 +1,5 @@
 import { parse } from 'query-string'
+import { DEFAULT_SETTINGS, DEFAULT_OPTIONS } from '../defaults'
 import ChartWidget from '../Widget/ChartWidget'
 import {
   buildMergedMetric,
@@ -6,7 +7,10 @@ import {
 } from '../Widget/HolderDistributionWidget/utils'
 import { TypeToWidget } from '../Widget/types'
 import { buildComparedMetric, buildCompareKey } from '../Compare/utils'
-import { DEFAULT_SETTINGS, DEFAULT_OPTIONS } from '../defaults'
+import {
+  Indicator,
+  cacheIndicator
+} from '../Chart/MetricSettings/IndicatorsSetting'
 import { HolderDistributionMetric } from '../Chart/Sidepanel/HolderDistribution/metrics'
 import { Metric } from '../../dataHub/metrics'
 import { Submetrics } from '../../dataHub/submetrics'
@@ -135,27 +139,61 @@ function extractMergedMetrics (metrics) {
   return [mergedMetrics, cleanedMetrics]
 }
 
+function parseMetricIndicators (indicators) {
+  const MetricIndicators = {}
+  const indicatorMetrics = []
+
+  Object.keys(indicators).forEach(metricKey => {
+    MetricIndicators[metricKey] = new Set(
+      indicators[metricKey].map(indicatorKey => {
+        const indicator = Indicator[indicatorKey]
+
+        indicatorMetrics.push(
+          cacheIndicator(convertKeyToMetric(metricKey), indicator)
+        )
+
+        return indicator
+      })
+    )
+  })
+
+  return [MetricIndicators, indicatorMetrics]
+}
+
 export function parseSharedWidgets (sharedWidgets) {
   return sharedWidgets.map(
-    ({ widget, metrics, comparables, connectedWidgets, colors, settings }) => {
+    ({
+      widget,
+      metrics,
+      comparables,
+      connectedWidgets,
+      colors,
+      settings,
+      indicators
+    }) => {
       const [mergedMetrics, cleanedMetrics] = extractMergedMetrics(metrics)
 
       const parsedComparables = comparables.map(parseComparable)
       const comparedMetrics = parsedComparables.map(buildComparedMetric)
       const parsedSettings = parseMetricSetting(settings, comparedMetrics)
+      const [parsedMetricIndicators, indicatorMetrics] = parseMetricIndicators(
+        indicators
+      )
 
       return TypeToWidget[widget].new({
         mergedMetrics,
         metrics: cleanedMetrics
           .map(key => convertKeyToMetric(key))
           .filter(Boolean)
-          .concat(mergedMetrics),
+          .concat(mergedMetrics)
+          .concat(indicatorMetrics),
         comparables: parsedComparables,
         connectedWidgets: connectedWidgets
           ? connectedWidgets.map(parseConnectedWidget)
           : [],
         MetricColor: colors,
-        MetricSettingMap: parsedSettings
+        MetricSettingMap: parsedSettings,
+        MetricIndicators: parsedMetricIndicators
       })
     }
   )

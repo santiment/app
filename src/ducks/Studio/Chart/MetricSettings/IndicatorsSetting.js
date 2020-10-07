@@ -11,7 +11,7 @@ const RAW_INDICATORS = {
   }
 }
 
-const Indicator = Object.keys(RAW_INDICATORS).reduce((acc, key) => {
+export const Indicator = Object.keys(RAW_INDICATORS).reduce((acc, key) => {
   const { type, bases } = RAW_INDICATORS[key]
 
   bases.forEach(base => {
@@ -31,7 +31,35 @@ const INDICATORS = Object.values(Indicator)
 
 const labelExtractor = ({ label }) => label
 
-export function buildIndicatorMetric (metric, indicator) {
+const IndicatorMetricCache = {}
+function getMetricCache ({ key }) {
+  let cache = IndicatorMetricCache[key]
+  if (!cache) {
+    cache = {}
+    IndicatorMetricCache[key] = cache
+  }
+  return cache
+}
+
+export function cacheIndicator (metric, indicator) {
+  const metricStore = getMetricCache(metric)
+  const indicatorMetric = buildIndicatorMetric(metric, indicator)
+  metricStore[indicator.key] = indicatorMetric
+  return indicatorMetric
+}
+
+function removeCachedIndicator (metric, indicator) {
+  const metricStore = getMetricCache(metric)
+  const indicatorMetric = metricStore[indicator.key]
+
+  delete metricStore[indicator.key]
+  return indicatorMetric
+}
+
+function buildIndicatorMetric (metric, indicator) {
+  const cached = getMetricCache(metric)[indicator.key]
+  if (cached) return cached
+
   const { key, queryKey = key, label } = metric
   const indicatorMetric = {
     ...metric,
@@ -49,27 +77,6 @@ export function buildIndicatorMetric (metric, indicator) {
   }
   updateTooltipSetting(indicatorMetric)
   return indicatorMetric
-}
-
-const IndicatorMetricCache = new Map()
-function cacheIndicator (metric, indicator) {
-  let metricStore = IndicatorMetricCache.get(metric)
-  if (!metricStore) {
-    metricStore = {}
-    IndicatorMetricCache.set(metric, metricStore)
-  }
-  const indicatorMetric = buildIndicatorMetric(metric, indicator)
-  metricStore[indicator.key] = indicatorMetric
-  return indicatorMetric
-}
-
-function removeCachedIndicator (metric, indicator) {
-  const metricStore = IndicatorMetricCache.get(metric)
-  if (metricStore) {
-    const indicatorMetric = metricStore[indicator.key]
-    delete metricStore[indicator.key]
-    return indicatorMetric
-  }
 }
 
 const IndicatorsSetting = ({ metric, widget, toggleMetric }) => {
