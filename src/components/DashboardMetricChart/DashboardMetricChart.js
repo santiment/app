@@ -20,9 +20,9 @@ import {
   INTERVAL_ALIAS
 } from '../../ducks/SANCharts/IntervalSelector'
 import { useMirroredTransformer } from '../../ducks/Studio/Widget/utils'
-import styles from './DashboardMetricChart.module.scss'
 import { useDomainGroups } from '../../ducks/Chart/hooks'
 import { extractMirrorMetricsDomainGroups } from '../../ducks/Chart/utils'
+import styles from './DashboardMetricChart.module.scss'
 
 const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
   const allTimeData = useAllTimeData(metrics, {

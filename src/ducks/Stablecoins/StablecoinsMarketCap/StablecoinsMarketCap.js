@@ -16,8 +16,8 @@ import SharedAxisToggle from '../../Studio/Chart/SharedAxisToggle'
 import { formIntervalSettings } from '../../SANCharts/IntervalSelector'
 import DashboardMetricChartWrapper from '../../../components/DashboardMetricChart/DashboardMetricChartWrapper'
 import DashboardMetricSelectors from '../../../components/DashboardMetricChart/DashboardMetricSelectors/DashboardMetricSelectors'
-import styles from './StablecoinsMarketCap.module.scss'
 import { useDomainGroups } from '../../Chart/hooks'
+import styles from './StablecoinsMarketCap.module.scss'
 
 const StablecoinsMarketCap = ({ className }) => {
   const [interval, setInterval] = useState(MARKET_CAP_YEAR_INTERVAL)
@@ -46,7 +46,7 @@ const StablecoinsMarketCap = ({ className }) => {
     [metrics, disabledAssets]
   )
 
-  const domainGroups = useDomainGroups(metrics)
+  const domainGroups = useDomainGroups(filteredMetrics)
 
   return (
     <div className={cx(styles.container, className)}>
