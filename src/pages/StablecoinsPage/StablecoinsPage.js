@@ -135,9 +135,7 @@ const StablecoinsPage = ({ history, isDesktop }) => {
           </Block>
 
           <Block tag={ANCHORS.TopExchanges.key}>
-            <TopExchangesTable
-              selector={{ watchlistSlug: 'stablecoins-usd' }}
-            />
+            <TopExchangesTable selector={{ watchlistId: 3985 }} />
           </Block>
 
           <Block
