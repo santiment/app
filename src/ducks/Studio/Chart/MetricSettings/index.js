@@ -34,7 +34,7 @@ const Settings = ({ className, metric, ...props }) => {
     <div className={cx(styles.wrapper, className)}>
       {metric.label}:
       <ColorSetting metric={metric} />
-      {metric.node !== Node.AUTO_WDTH_BAR && (
+      {metric.node !== Node.AUTO_WIDTH_BAR && (
         <IntervalSetting metric={metric} {...props} />
       )}
       {isExchangeModifiable(metric) && (
