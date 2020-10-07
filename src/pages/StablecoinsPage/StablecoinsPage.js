@@ -21,6 +21,8 @@ import { getIntervalDates } from '../../ducks/SANCharts/IntervalSelector'
 import NetExchangeFlow from '../../ducks/Stablecoins/NetExchangeFlow/NetExchangeFlow'
 import styles from './StablecoinsPage.module.scss'
 
+const isStage = window.location && window.location.href.indexOf('stage') !== -1
+
 const ANCHORS = {
   Overview: {
     label: 'Stablecoins Overview',
@@ -135,7 +137,9 @@ const StablecoinsPage = ({ history, isDesktop }) => {
           </Block>
 
           <Block tag={ANCHORS.TopExchanges.key}>
-            <TopExchangesTable selector={{ watchlistId: 3985 }} />
+            <TopExchangesTable
+              selector={{ watchlistId: isStage ? 1115 : 3985 }}
+            />
           </Block>
 
           <Block
