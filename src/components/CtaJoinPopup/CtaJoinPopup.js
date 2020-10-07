@@ -1,35 +1,27 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
 import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
 import Panel from '@santiment-network/ui/Panel'
+import { useUser } from '../../stores/user'
 import { PATHS } from '../../paths'
-import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import styles from './CtaJoinPopup.module.scss'
 
 const TIMEOUT = 2 * 60 * 1000
 
-let timeoutId = null
-
-const CtaJoinPopup = ({ isLoggedIn }) => {
-  if (isLoggedIn) {
-    return null
-  }
-
+const CtaJoinPopup = () => {
+  const { isLoggedIn } = useUser()
   const [isOpen, setOpen] = useState(false)
 
-  useEffect(() => {
-    timeoutId = setTimeout(() => {
-      if (!isLoggedIn) {
-        setOpen(true)
-      }
-    }, TIMEOUT)
+  useEffect(
+    () => {
+      if (isLoggedIn) return
 
-    return () => {
-      timeoutId && clearTimeout(timeoutId)
-    }
-  }, [])
+      const timeoutId = setTimeout(() => setOpen(true), TIMEOUT)
+      return () => clearTimeout(timeoutId)
+    },
+    [isLoggedIn]
+  )
 
   return (
     <Dialog
@@ -103,8 +95,4 @@ const CtaJoinPopup = ({ isLoggedIn }) => {
   )
 }
 
-const mapStateToProps = state => ({
-  isLoggedIn: checkIsLoggedIn(state)
-})
-
-export default connect(mapStateToProps)(CtaJoinPopup)
+export default CtaJoinPopup

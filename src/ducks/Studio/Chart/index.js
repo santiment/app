@@ -204,6 +204,7 @@ const Canvas = ({
           slug={settings.slug}
           widget={widget}
           rerenderWidgets={rerenderWidgets}
+          toggleMetric={onMetricRemove}
         />
       )}
 

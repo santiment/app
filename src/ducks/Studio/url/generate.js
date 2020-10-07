@@ -2,7 +2,8 @@ import { stringify } from 'query-string'
 import { COMPARE_CONNECTOR } from './parse'
 import { WidgetToTypeMap } from '../Widget/types'
 
-const getMetricsKeys = metrics => metrics.map(({ key }) => key)
+const keyExtractor = ({ key }) => key
+const getMetricsKeys = metrics => metrics.map(keyExtractor)
 
 export function shareComparable (Comparable) {
   const { project, metric } = Comparable
@@ -22,6 +23,18 @@ function shareMetricSettings (MetricSettingMap) {
   return sharedMetricSettings
 }
 
+function shareMetricIndicators (MetricIndicators) {
+  const sharedMetricIndicators = {}
+
+  Object.keys(MetricIndicators).forEach(metricKey => {
+    sharedMetricIndicators[metricKey] = getMetricsKeys([
+      ...MetricIndicators[metricKey]
+    ])
+  })
+
+  return sharedMetricIndicators
+}
+
 const normalizeConnectedWidget = ({ Widget, datesRange }) => ({
   widget: WidgetToTypeMap.get(Widget),
   from: datesRange[0].toISOString(),
@@ -34,7 +47,8 @@ export const normalizeWidget = ({
   comparables,
   connectedWidgets,
   MetricColor,
-  MetricSettingMap
+  MetricSettingMap,
+  MetricIndicators
 }) => ({
   widget: WidgetToTypeMap.get(Widget),
   metrics: metrics.map(({ key }) => key),
@@ -43,7 +57,8 @@ export const normalizeWidget = ({
     ? connectedWidgets.map(normalizeConnectedWidget)
     : undefined,
   colors: MetricColor,
-  settings: shareMetricSettings(MetricSettingMap)
+  settings: shareMetricSettings(MetricSettingMap),
+  indicators: shareMetricIndicators(MetricIndicators)
 })
 
 export const normalizeWidgets = widgets => widgets.map(normalizeWidget)
