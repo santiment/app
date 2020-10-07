@@ -7,7 +7,7 @@ import ExchangeSetting from './ExchangeSetting'
 import IndicatorsSetting from './IndicatorsSetting'
 import { Metric } from '../../../dataHub/metrics'
 import { MetricSettings } from '../../../dataHub/metrics/settings'
-import { Node } from '../../../Chart/nodes'
+import { Node, LINES } from '../../../Chart/nodes'
 import styles from './index.module.scss'
 
 const SettingToComponent = {
@@ -18,7 +18,7 @@ const isExchangeModifiable = metric =>
   metric === Metric.exchange_outflow || metric === Metric.exchange_inflow
 
 const isIndicatorAssignable = metric =>
-  metric.node === Node.LINE &&
+  LINES.has(metric.node) &&
   !metric.indicator &&
   !metric.comparedTicker &&
   metric !== Metric.dev_activity
