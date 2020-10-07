@@ -2,13 +2,17 @@
 
 .setting {
   flex: 1;
+
   @include text('caption');
+
   color: var(--waterloo);
 }
 
 .etherscan {
   display: inline-block;
+
   @include text('body-3');
+
   color: var(--jungle-green);
   margin-top: 4px;
 

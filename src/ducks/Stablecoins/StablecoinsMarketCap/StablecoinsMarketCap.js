@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
-import DashboardChartHeader, {
+import DashboardChartHeaderWrapper, {
   DashboardIntervals
-} from '../../../components/DashboardMetricChart/DashboardChartHeader/DashboardChartHeader'
+} from '../../../components/DashboardMetricChart/DashboardChartHeader/DashboardChartHeaderWrapper'
 import DashboardChartMetrics from '../../../components/DashboardMetricChart/DashboardChartMetrics/DashboardChartMetrics'
 import {
   MARKET_CAP_YEAR_INTERVAL,
@@ -16,6 +16,7 @@ import SharedAxisToggle from '../../Studio/Chart/SharedAxisToggle'
 import { formIntervalSettings } from '../../SANCharts/IntervalSelector'
 import DashboardMetricChartWrapper from '../../../components/DashboardMetricChart/DashboardMetricChartWrapper'
 import DashboardMetricSelectors from '../../../components/DashboardMetricChart/DashboardMetricSelectors/DashboardMetricSelectors'
+import { useDomainGroups } from '../../Chart/hooks'
 import styles from './StablecoinsMarketCap.module.scss'
 
 const StablecoinsMarketCap = ({ className }) => {
@@ -45,28 +46,32 @@ const StablecoinsMarketCap = ({ className }) => {
     [metrics, disabledAssets]
   )
 
+  const domainGroups = useDomainGroups(filteredMetrics)
+
   return (
     <div className={cx(styles.container, className)}>
-      <DashboardChartHeader>
+      <DashboardChartHeaderWrapper>
         <DashboardMetricSelectors
           metricSelectors={StablecoinsMetrics}
           rootMetric={rootMetric}
           setRootMetric={setRootMetric}
         />
 
-        <SharedAxisToggle
-          isDomainGroupingActive={isDomainGroupingActive}
-          setIsDomainGroupingActive={setIsDomainGroupingActive}
-          className={styles.sharedAxisToggle}
-        />
-        <DesktopOnly>
-          <DashboardIntervals
-            interval={interval}
-            setInterval={setInterval}
-            intervals={STABLE_COINS_MARKETCAP_INTERVALS}
+        <div className={styles.right}>
+          <SharedAxisToggle
+            isDomainGroupingActive={isDomainGroupingActive}
+            setIsDomainGroupingActive={setIsDomainGroupingActive}
+            className={styles.sharedAxisToggle}
           />
-        </DesktopOnly>
-      </DashboardChartHeader>
+          <DesktopOnly>
+            <DashboardIntervals
+              interval={interval}
+              setInterval={setInterval}
+              intervals={STABLE_COINS_MARKETCAP_INTERVALS}
+            />
+          </DesktopOnly>
+        </div>
+      </DashboardChartHeaderWrapper>
 
       <DesktopOnly>
         <DashboardChartMetrics
@@ -85,6 +90,7 @@ const StablecoinsMarketCap = ({ className }) => {
         MetricColor={StablecoinColor}
         isDomainGroupingActive={isDomainGroupingActive}
         loadings={loadings}
+        domainGroups={domainGroups}
       />
 
       <MobileOnly>

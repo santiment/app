@@ -70,12 +70,12 @@ const Canvas = ({
     focusedMetricKey
   )
   const domainGroups = useDomainGroups(metrics)
-  const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
-  const allTimeData = useAllTimeData(metrics, settings)
   const mirrorDomainGroups = useMemo(
     () => extractMirrorMetricsDomainGroups(domainGroups),
     [domainGroups]
   )
+  const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
+  const allTimeData = useAllTimeData(metrics, settings)
   const isBlurred = !isLoggedIn && index > 1
   const scale = options.isLogScale ? logScale : linearScale
 

@@ -18,6 +18,7 @@ import ResearchesBlock from '../../components/ResearchesBlock'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import SharePage from '../../components/SharePage/SharePage'
 import { getIntervalDates } from '../../ducks/SANCharts/IntervalSelector'
+import NetExchangeFlow from '../../ducks/Stablecoins/NetExchangeFlow/NetExchangeFlow'
 import styles from './StablecoinsPage.module.scss'
 
 const ANCHORS = {
@@ -36,6 +37,10 @@ const ANCHORS = {
   TopExchanges: {
     label: 'Top Exchanges',
     key: 'top-exchanges'
+  },
+  NetExchangeFlow: {
+    label: 'Stablecoin Net Exchange Flow',
+    key: 'net-exchange-flow'
   },
   LargestTransactions: {
     label: 'Largest Transactions to Exchanges',
@@ -133,6 +138,13 @@ const StablecoinsPage = ({ history, isDesktop }) => {
             <TopExchangesTable
               selector={{ watchlistSlug: 'stablecoins-usd' }}
             />
+          </Block>
+
+          <Block
+            tag={ANCHORS.NetExchangeFlow.key}
+            title='Stablecoin Net Exchange Flow'
+          >
+            <NetExchangeFlow />
           </Block>
 
           <Block
