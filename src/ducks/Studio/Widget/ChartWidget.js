@@ -136,9 +136,30 @@ export const Chart = ({
     setComparables(comparables.filter(comp => comp.key !== key))
   }
 
+  function toggleIndicatorMetric ({ indicator, metricKey }) {
+    const { MetricIndicators } = widget
+    let indicatorsSet = MetricIndicators[metricKey]
+
+    if (!indicatorsSet) {
+      indicatorsSet = new Set()
+      MetricIndicators[metricKey] = indicatorsSet
+    }
+
+    if (indicatorsSet.has(indicator)) {
+      indicatorsSet.delete(indicator)
+    } else {
+      indicatorsSet.add(indicator)
+    }
+    widget.MetricIndicators = Object.assign({}, MetricIndicators)
+  }
+
   function toggleMetric (metric) {
     if (metric.comparedTicker) {
       return removeComparedMetric(metric)
+    }
+
+    if (metric.indicator) {
+      toggleIndicatorMetric(metric)
     }
 
     toggleWidgetMetric(widget, metric)
@@ -183,6 +204,7 @@ const newChartWidget = (props, widget = ChartWidget) =>
     comparables: [],
     comparedMetrics: [],
     MetricSettingMap: new Map(),
+    MetricIndicators: {},
     MetricColor: {},
     connectedWidgets: [],
     ...props

@@ -34,7 +34,7 @@ const Settings = ({ className, metric, ...props }) => {
       {isExchangeModifiable(metric) && (
         <ExchangeSetting metric={metric} {...props} />
       )}
-      {metric.node === Node.LINE && (
+      {metric.node === Node.LINE && !metric.indicator && (
         <IndicatorsSetting metric={metric} {...props} />
       )}
       {settings &&

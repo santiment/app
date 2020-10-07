@@ -1,26 +1,48 @@
-import React, { useState, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import Setting from './Setting'
 import { useDropdown } from './Dropdown'
 import { Setting as Option } from '../../../SANCharts/ChartSettingsContextMenu'
 import { updateTooltipSetting } from '../../../dataHub/tooltipSettings'
 
-const OPTIONS = [30, 50, 200].map(base => ({
-  base,
-  key: `MA(${base})`
-}))
+const RAW_INDICATORS = {
+  MA: {
+    type: 'moving_average',
+    bases: [30, 50, 200]
+  }
+}
 
-const keyExtractor = ({ key }) => key
+const Indicator = Object.keys(RAW_INDICATORS).reduce((acc, key) => {
+  const { type, bases } = RAW_INDICATORS[key]
 
-function buildIndicatorMetric (metric, indicator) {
+  bases.forEach(base => {
+    const indicatorKey = key + base
+    acc[indicatorKey] = {
+      base,
+      type,
+      key: indicatorKey,
+      label: `${key}(${base})`
+    }
+  })
+
+  return acc
+}, {})
+
+const INDICATORS = Object.values(Indicator)
+
+const labelExtractor = ({ label }) => label
+
+export function buildIndicatorMetric (metric, indicator) {
   const { key, queryKey = key, label } = metric
   const indicatorMetric = {
     ...metric,
     queryKey,
-    key: `ma${indicator.base}_${key}`,
-    label: `${label} ${indicator.key}`,
+    indicator,
+    metricKey: key,
+    key: `${indicator.key}_${key}`,
+    label: `${label} ${indicator.label}`,
     reqMeta: {
       transform: {
-        type: 'moving_average',
+        type: indicator.type,
         movingAverageBase: indicator.base
       }
     }
@@ -50,54 +72,42 @@ function removeCachedIndicator (metric, indicator) {
   }
 }
 
-const IndicatorsSetting = ({
-  metric,
-  widget,
-  interval: chartInterval,
-  // rerenderWidgets,
-  toggleMetric
-}) => {
-  const { close, Dropdown } = useDropdown()
-  const [activeIndicators, setActiveIndicators] = useState(new Set())
+const IndicatorsSetting = ({ metric, widget, toggleMetric }) => {
+  const { MetricIndicators } = widget
+  const { Dropdown } = useDropdown()
+  const activeIndicators = useMemo(
+    () => new Set(MetricIndicators[metric.key]),
+    [metric, MetricIndicators]
+  )
+  const activeLabels = useMemo(
+    () =>
+      INDICATORS.filter(indicator => activeIndicators.has(indicator))
+        .map(labelExtractor)
+        .join(', '),
+    [activeIndicators]
+  )
 
   function onToggle (indicator) {
-    const newIndicators = new Set(activeIndicators)
-    let indicatorMetric
-
-    if (newIndicators.has(indicator)) {
-      newIndicators.delete(indicator)
-      indicatorMetric = removeCachedIndicator(metric, indicator)
-    } else {
-      newIndicators.add(indicator)
-      indicatorMetric = cacheIndicator(metric, indicator)
-    }
-    console.log(indicatorMetric)
+    const indicatorMetric = activeIndicators.has(indicator)
+      ? removeCachedIndicator(metric, indicator)
+      : cacheIndicator(metric, indicator)
 
     if (indicatorMetric) {
       toggleMetric(indicatorMetric)
     }
-
-    setActiveIndicators(newIndicators)
   }
 
   return (
     <Dropdown
       align='start'
-      trigger={
-        <Setting>
-          Indicators:{' '}
-          {OPTIONS.filter(option => activeIndicators.has(option))
-            .map(keyExtractor)
-            .join(', ')}
-        </Setting>
-      }
+      trigger={<Setting>Indicators: {activeLabels}</Setting>}
     >
-      {OPTIONS.map(option => (
+      {INDICATORS.map(indicator => (
         <Option
-          key={option.key}
-          title={`Moving Average ${option.base}`}
-          onClick={() => onToggle(option)}
-          isActive={activeIndicators.has(option)}
+          key={indicator.key}
+          title={`Moving Average ${indicator.base}`}
+          onClick={() => onToggle(indicator)}
+          isActive={activeIndicators.has(indicator)}
         />
       ))}
     </Dropdown>
