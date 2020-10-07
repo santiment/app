@@ -19,7 +19,7 @@ const DEFAULT_SORTED = [
 export const TopExchangesTableTitle = ({
   loading,
   items,
-  title = 'Top Exchanges'
+  title = 'Holdings on the top exchanges'
 }) => {
   return (
     <div className={styles.title}>
