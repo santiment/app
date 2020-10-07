@@ -143,20 +143,22 @@ function parseMetricIndicators (indicators) {
   const MetricIndicators = {}
   const indicatorMetrics = []
 
-  Object.keys(indicators).forEach(metricKey => {
-    MetricIndicators[metricKey] = new Set(
-      indicators[metricKey].map(indicatorKey => {
-        const indicator = Indicator[indicatorKey]
-        const metric = convertKeyToMetric(metricKey)
+  if (indicators) {
+    Object.keys(indicators).forEach(metricKey => {
+      MetricIndicators[metricKey] = new Set(
+        indicators[metricKey].map(indicatorKey => {
+          const indicator = Indicator[indicatorKey]
+          const metric = convertKeyToMetric(metricKey)
 
-        if (metric) {
-          indicatorMetrics.push(cacheIndicator(metric, indicator))
-        }
+          if (metric) {
+            indicatorMetrics.push(cacheIndicator(metric, indicator))
+          }
 
-        return indicator
-      })
-    )
-  })
+          return indicator
+        })
+      )
+    })
+  }
 
   return [MetricIndicators, indicatorMetrics]
 }
