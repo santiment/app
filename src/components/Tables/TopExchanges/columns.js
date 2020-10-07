@@ -1,4 +1,6 @@
+import React from 'react'
 import { formatNumber, upperCaseFirstLetter } from '../../../utils/formatting'
+import ValueChange from '../../ValueChange/ValueChange'
 
 export const columns = [
   {
@@ -25,7 +27,7 @@ export const columns = [
     minWidth: 110,
     maxWidth: 140,
     sortable: true,
-    Cell: ({ value }) => formatNumber(value)
+    Cell: ({ value }) => <ValueChange render={formatNumber} change={value} />
   },
   {
     id: 'balanceChange7d',
@@ -34,7 +36,7 @@ export const columns = [
     minWidth: 110,
     maxWidth: 140,
     sortable: true,
-    Cell: ({ value }) => formatNumber(value)
+    Cell: ({ value }) => <ValueChange render={formatNumber} change={value} />
   },
   {
     id: 'balanceChange30d',
@@ -43,15 +45,16 @@ export const columns = [
     minWidth: 110,
     maxWidth: 140,
     sortable: true,
-    Cell: ({ value }) => formatNumber(value)
+    Cell: ({ value }) => <ValueChange render={formatNumber} change={value} />
   },
   {
     id: 'daysSinceFirstTransfer',
-    Header: 'Days since 1st transfer',
+    Header: 'Since 1st transfer',
     accessor: 'daysSinceFirstTransfer',
     minWidth: 110,
     maxWidth: 140,
-    sortable: true
+    sortable: true,
+    Cell: ({ value = '' }) => `${value} day${value === 1 ? '' : 's'}`
   },
   {
     id: 'datetimeOfFirstTransfer',
