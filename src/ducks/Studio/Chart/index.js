@@ -12,6 +12,7 @@ import ContextMenu from './ContextMenu'
 import ChartFullscreenBtn from './Fullscreen'
 import Insights from './Insights'
 import Compare from '../Compare'
+import { extractIndicatorDomainGroups } from '../utils'
 import { useMetricColor } from '../Widget/ChartWidgetColorProvider'
 import { useAllTimeData } from '../timeseries/hooks'
 import Chart from '../../Chart'
@@ -71,7 +72,12 @@ const Canvas = ({
   )
   const domainGroups = useDomainGroups(metrics)
   const mirrorDomainGroups = useMemo(
-    () => extractMirrorMetricsDomainGroups(domainGroups),
+    () => {
+      const mirrorDomains = extractMirrorMetricsDomainGroups(domainGroups) || []
+      return mirrorDomains.concat(
+        extractIndicatorDomainGroups(widget.MetricIndicators)
+      )
+    },
     [domainGroups]
   )
   const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)

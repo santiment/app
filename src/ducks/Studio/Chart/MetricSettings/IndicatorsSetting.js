@@ -60,7 +60,7 @@ function buildIndicatorMetric (metric, indicator) {
   const cached = getMetricCache(metric)[indicator.key]
   if (cached) return cached
 
-  const { key, queryKey = key, label, reqMeta } = metric
+  const { key, queryKey = key, label, reqMeta, domainGroup = key } = metric
 
   let indicatorLabel = indicator.label
 
@@ -68,7 +68,7 @@ function buildIndicatorMetric (metric, indicator) {
     ...metric,
     queryKey,
     indicator,
-    comparedTicker: undefined,
+    domainGroup,
     metricKey: key,
     key: `${indicator.key}_${key}`,
     label: `${label} ${indicatorLabel}`,
