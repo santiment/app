@@ -30,3 +30,20 @@ export function calculateMovingAverageFromInterval (interval) {
 }
 
 export const checkIsMetricWidget = metric => METRIC_WIDGET_SET.has(metric)
+
+export function extractIndicatorDomainGroups (MetricIndicators) {
+  const domainGroups = []
+
+  Object.keys(MetricIndicators).forEach(rootDomain => {
+    const indicators = MetricIndicators[rootDomain]
+    if (indicators && indicators.size > 0) {
+      const indicatorKeys = [...indicators].map(
+        ({ key }) => key + '_' + rootDomain
+      )
+      indicatorKeys.unshift(rootDomain)
+      domainGroups.push(indicatorKeys)
+    }
+  })
+
+  return domainGroups
+}
