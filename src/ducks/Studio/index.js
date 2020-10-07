@@ -24,6 +24,7 @@ export const Studio = ({
   defaultWidgets,
   defaultSidepanel,
   defaultSettings = DEFAULT_SETTINGS,
+  topSlot,
   extensions
 }) => {
   const [widgets, setWidgets] = useState(defaultWidgets)
@@ -285,6 +286,7 @@ export const Studio = ({
       />
       <main className={styles.main}>
         <Main
+          topSlot={topSlot}
           widgets={widgets}
           settings={settings}
           sidepanel={sidepanel}

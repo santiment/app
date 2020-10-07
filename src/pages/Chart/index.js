@@ -1,6 +1,6 @@
-import React from 'react'
-import Studio from '../../ducks/Studio'
+import React, { useMemo } from 'react'
 import withBoundaries from '../Studio/withBoundaries'
+import Studio from '../../ducks/Studio'
 import { parseUrlV2 } from '../../ducks/Studio/url/parse'
 import { DEFAULT_SETTINGS } from '../../ducks/Studio/defaults'
 import ChartWidget from '../../ducks/Studio/Widget/ChartWidget'
@@ -8,8 +8,10 @@ import ChartWidget from '../../ducks/Studio/Widget/ChartWidget'
 const DEFAULT_WIDGETS = [ChartWidget.new()]
 
 export default withBoundaries(({ parsedUrl, ...props }) => {
-  const { widgets, settings, sidepanel } =
-    parsedUrl || parseUrlV2(window.location.search)
+  const { widgets, settings, sidepanel } = useMemo(
+    () => parsedUrl || parseUrlV2(window.location.search),
+    []
+  )
 
   return (
     <Studio
