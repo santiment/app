@@ -7,8 +7,10 @@ export const projectSorter = ({ rank: a }, { rank: b }) => a - b
 
 export const hashComparable = ({ project, metric }) => project.slug + metric.key
 
+export const normalizeQueryAlias = queryKey => queryKey.replace(/-/g, '')
+
 export const buildCompareKey = (metric, project) =>
-  `${metric.key}_${project.slug.replace(/-/g, '')}`
+  `${metric.key}_${normalizeQueryAlias(project.slug)}`
 
 export const makeComparableObject = ({ metric, project }) => ({
   key: buildCompareKey(metric, project),

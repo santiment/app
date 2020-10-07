@@ -1,44 +1,69 @@
 import React from 'react'
-import BalanceView from '../../../HistoricalBalance/balanceView/BalanceView'
+import cx from 'classnames'
+import HistoricalBalanceChart from '../../../HistoricalBalance/Chart'
+import { getValidInterval } from '../../../HistoricalBalance/utils'
+import { useSettings, getWalletMetrics } from '../../../HistoricalBalance/hooks'
+import CreateAlert from '../../../HistoricalBalance/Configurations/CreateAlert'
+import { Calendar } from '../../../HistoricalBalance/Configurations/DatePicker'
+import { toEndOfDay } from '../../../../utils/dates'
 import styles from './UniswapHistoricalBalance.module.scss'
 
-const queryData = {
-  address: '0x090d4613473dee047c3f2706764f49e0821d256e',
-  assets: ['uniswap'],
-  priceMetrics: [
-    {
-      asset: 'uniswap',
-      enabled: true
-    }
-  ]
+const WALLET_ASSETS = [
+  {
+    slug: 'uniswap'
+  }
+]
+const PRICE_ASSETS = ['uniswap']
+const METRICS = getWalletMetrics(WALLET_ASSETS, PRICE_ASSETS)
+
+const ADDRESS = '0x090d4613473dee047c3f2706764f49e0821d256e'
+const FROM = new Date('2020-09-16T00:00:00Z')
+const TO = toEndOfDay(new Date())
+const SETTINGS = {
+  address: ADDRESS,
+  interval: getValidInterval(FROM, TO),
+  from: FROM.toISOString(),
+  to: TO.toISOString()
 }
 
-const noop = () => {}
+const UniswapHistoricalBalance = ({
+  className,
+  headerClassName,
+  xAxesTicks,
+  yAxesTicks,
+  chartPadding
+}) => {
+  const { settings, changeTimePeriod } = useSettings(SETTINGS)
 
-const DEFAULT_SETTINGS = {
-  from: '2020-09-16T19:00:00Z',
-  to: new Date(),
-  selector: { slug: 'uniswap', infrastructure: 'ETH' }
-}
-
-const UniswapHistoricalBalance = ({ classes, title, settings }) => {
   return (
-    <BalanceView
-      title={title}
-      queryData={queryData}
-      classes={{ ...styles, ...classes }}
-      onChangeQuery={noop}
-      settings={{
-        showHeader: false,
-        showIntervals: false,
-        showAlertBtn: false,
-        showLegend: false,
-        showYAxes: true,
-        ...settings
-      }}
-      chartSettings={DEFAULT_SETTINGS}
-    />
+    <div className={styles.wrapper}>
+      <div className={cx(styles.header, headerClassName)}>
+        <CreateAlert address={ADDRESS} assets={WALLET_ASSETS} />
+
+        <Calendar
+          className={styles.calendar}
+          settings={settings}
+          maxDate={TO}
+          minDate={FROM}
+          changeTimePeriod={changeTimePeriod}
+        />
+      </div>
+
+      <HistoricalBalanceChart
+        className={cx(styles.chart, className)}
+        settings={settings}
+        metrics={METRICS}
+        yAxesTicks={yAxesTicks}
+        xAxesTicks={xAxesTicks}
+        chartPadding={chartPadding}
+      />
+    </div>
   )
+}
+
+UniswapHistoricalBalance.defaultProps = {
+  yAxesTicks: 4,
+  xAxesTicks: 6
 }
 
 export default UniswapHistoricalBalance

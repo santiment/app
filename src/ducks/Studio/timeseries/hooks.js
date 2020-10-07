@@ -77,7 +77,7 @@ export function useTimeseries (
   const [abortables, setAbortables] = useState(DEFAULT_ABORTABLES)
 
   const metricsHash = hashMetrics(metrics)
-  const { slug, from, to, interval } = settings
+  const { slug, from, to, interval, address } = settings
 
   useEffect(
     () => {
@@ -85,6 +85,10 @@ export function useTimeseries (
         setTimeseries([])
       }
 
+      const metricsSet = new Set(metrics)
+      setLoadings(loadings =>
+        loadings.filter(loading => metricsSet.has(loading))
+      )
       setAbortables(abortRemovedMetrics(abortables, metrics, MetricSettingMap))
     },
     [metricsHash, MetricSettingMap]
@@ -97,13 +101,11 @@ export function useTimeseries (
       setLoadings([...metrics])
       setErrorMsg({})
     },
-    [slug, from, to, interval]
+    [slug, from, to, interval, address]
   )
 
   useEffect(
     () => {
-      const { slug, from, to, interval } = settings
-
       let raceCondition = false
       let mergedData = []
 
@@ -142,6 +144,7 @@ export function useTimeseries (
           to,
           from,
           slug,
+          address,
           ...reqMeta,
           ...metricSettings
         }

@@ -46,6 +46,10 @@ export function yBubbleFormatter (value, metricKey) {
     return metric.axisFormatter(value)
   }
 
+  if (value === 0) {
+    return 0
+  }
+
   if (!value) {
     return '-'
   }

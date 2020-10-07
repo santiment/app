@@ -3,8 +3,8 @@ import { AnomalyFetcher, OldAnomalyFetcher } from './anomalies'
 import { MarketSegmentFetcher } from './marketSegments'
 import { aliasTransform, extractTimeseries } from './utils'
 import { MINERS_BALANCE_QUERY } from './queries/minersBalance'
+import { HISTORICAL_BALANCE_QUERY } from './queries/historicaBalance'
 import { GAS_USED_QUERY } from '../../GetTimeSeries/queries/gas_used'
-import { HISTORICAL_BALANCE_QUERY } from '../../HistoricalBalance/common/queries'
 import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from '../../GetTimeSeries/queries/top_holders_percent_of_total_supply'
 import { ETH_SPENT_OVER_TIME_QUERY } from '../../GetTimeSeries/queries/eth_spent_over_time_query'
 import { GET_SOURCE_METRIC } from '../../GetTimeSeries/queries/GET_SOURCE_METRIC'
@@ -38,7 +38,7 @@ Object.assign(Fetcher, {
   },
   historicalBalance: {
     query: HISTORICAL_BALANCE_QUERY,
-    preTransform: aliasTransform('historicalBalance')
+    preTransform: aliasTransform('historicalBalance', 'balance')
   },
   topHoldersPercentOfTotalSupply: {
     query: TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY,
@@ -76,6 +76,7 @@ Object.assign(Fetcher, {
 // TODO: Remove this after moving to dynamic query aliasing instead of preTransform [@vanguard | March 4, 2020]
 const transformAliases = [
   'gasUsed',
+  'historicalBalance',
   'topHoldersPercentOfTotalSupply',
   'ethSpentOverTime'
 ]

@@ -1,11 +1,12 @@
 import React from 'react'
+import cx from 'classnames'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
+import UniswapHistoricalBalance from './UniswapHistoricalBalance/UniswapHistoricalBalance'
 import EthSpentTable from '../../../components/EthSpentTable/EthSpentTable'
 import withProject from '../../../pages/Detailed/withProject'
 import GeneralInfoBlock from '../../../pages/Detailed/generalInfo/GeneralInfoBlock'
 import FinancialsBlock from '../../../pages/Detailed/financialInfo/FinancialsBlock'
 import DetailedTransactionsTable from '../../../pages/Detailed/transactionsInfo/DetailedTransactionsTable'
-import UniswapHistoricalBalance from './UniswapHistoricalBalance/UniswapHistoricalBalance'
 import styles from '../../../pages/Detailed/Detailed.module.scss'
 
 const KeyStats = ({ slug, project, isERC20, loading }) => {
@@ -33,8 +34,8 @@ const KeyStats = ({ slug, project, isERC20, loading }) => {
         {slug === 'uniswap' && (
           <PanelWithHeader
             header='Uniswap: Token Distributor 0x090d4613473dee047c3f2706764f49e0821d256e'
-            className={styles.info__card}
-            contentClassName={styles.noPadding}
+            className={cx(styles.info__card, styles.info_uniswap)}
+            contentClassName={cx(styles.noPadding, styles.uniswap)}
           >
             <UniswapHistoricalBalance />
           </PanelWithHeader>

@@ -5,6 +5,7 @@ import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import StablecoinsMarketCap from '../../ducks/Stablecoins/StablecoinsMarketCap/StablecoinsMarketCap'
 import StablecoinHolderDistribution from '../../ducks/Stablecoins/HolderDistribution/StablecoinHolderDistribution'
 import StablecoinsTransactions from '../../ducks/Stablecoins/StablecoinsTransactions/StablecoinsTransactions'
+import TopExchangesTable from '../../components/Tables/TopExchanges'
 import WhaleTrendsList from '../../ducks/Stablecoins/WhaleTrendsList/WhaleTrendsList'
 import FlowToExchangesList from '../../ducks/Stablecoins/FlowToExchanges/FlowToExchangesList'
 import TransactionsDominance from '../../ducks/Stablecoins/TransactionsDominance/TransactionsDominance'
@@ -33,6 +34,14 @@ const ANCHORS = {
     label: 'Flow to Exchanges',
     key: 'flow-to-exchanges'
   },
+  TopExchanges: {
+    label: 'Top Exchanges',
+    key: 'top-exchanges'
+  },
+  NetExchangeFlow: {
+    label: 'Stablecoin Net Exchange Flow',
+    key: 'net-exchange-flow'
+  },
   LargestTransactions: {
     label: 'Largest Transactions to Exchanges',
     key: 'largest-transactions'
@@ -48,10 +57,6 @@ const ANCHORS = {
   NetworkActivity: {
     label: 'Network Activity',
     key: 'network-activity'
-  },
-  NetExchangeFlow: {
-    label: 'Stablecoin Net Exchange Flow',
-    key: 'net-exchange-flow'
   }
 }
 
@@ -129,6 +134,19 @@ const StablecoinsPage = ({ history, isDesktop }) => {
             <FlowToExchangesList />
           </Block>
 
+          <Block tag={ANCHORS.TopExchanges.key}>
+            <TopExchangesTable
+              selector={{ watchlistSlug: 'stablecoins-usd' }}
+            />
+          </Block>
+
+          <Block
+            tag={ANCHORS.NetExchangeFlow.key}
+            title='Stablecoin Net Exchange Flow'
+          >
+            <NetExchangeFlow />
+          </Block>
+
           <Block
             tag={ANCHORS.LargestTransactions.key}
             title='Largest Stablecoin Transactions (last 24h)'
@@ -158,13 +176,6 @@ const StablecoinsPage = ({ history, isDesktop }) => {
             description='On-chain indicators of stablecoin utility and adoption'
             el={NetworkActivity}
           />
-
-          <Block
-            tag={ANCHORS.NetExchangeFlow.key}
-            title='Stablecoin Net Exchange Flow'
-          >
-            <NetExchangeFlow />
-          </Block>
         </div>
       </div>
 

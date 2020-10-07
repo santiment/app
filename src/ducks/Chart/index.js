@@ -8,6 +8,7 @@ import {
   plotFilledLines,
   plotGradientLine
 } from '@santiment-network/chart/lines'
+import { plotAreas } from '@santiment-network/chart/areas'
 import { plotAutoWidthBars, plotBars } from '@santiment-network/chart/bars'
 import { plotGreenRedBars } from '@santiment-network/chart/bars/greenRedBars'
 import { linearScale } from '@santiment-network/chart/scales'
@@ -38,6 +39,7 @@ const Chart = ({
   data,
   brushData = data,
   lines,
+  areas,
   filledLines,
   gradientLines,
   bars,
@@ -63,7 +65,6 @@ const Chart = ({
   isCartesianGridActive,
   isWatermarkLighter,
   syncTooltips,
-  syncDate,
   onRangeSelect,
   onRangeSelectStart,
   onPointClick,
@@ -210,6 +211,10 @@ const Chart = ({
 
   useEffect(
     () => {
+      if (joinedCategories.length === 0) {
+        clearCtx(chart)
+        return
+      }
       if (data.length === 0) return
 
       clearCtx(chart)
@@ -296,9 +301,10 @@ const Chart = ({
     plotBars(chart, data, bars, scale, MetricColor)
 
     chart.ctx.lineWidth = 1.5
-    plotLines(chart, data, lines, scale, MetricColor)
+    plotAreas(chart, data, areas, scale, MetricColor, MetricColor)
     plotFilledLines(chart, data, filledLines, scale, MetricColor)
     plotGradientLine(chart, data, gradientLines, scale, MetricColor)
+    plotLines(chart, data, lines, scale, MetricColor)
 
     if (isCartesianGridActive) {
       drawCartesianGrid(
@@ -354,7 +360,15 @@ Chart.defaultProps = {
   events: [],
   axesMetricKeys: [],
   syncTooltips: () => {},
-  onPointClick: () => {}
+  onPointClick: () => {},
+  lines: [],
+  filledLines: [],
+  gradientLines: [],
+  bars: [],
+  autoWidthBars: [],
+  greenRedBars: [],
+  joinedCategories: [],
+  resizeDependencies: []
 }
 
 export default Chart

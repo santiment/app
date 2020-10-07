@@ -1,0 +1,24 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+}
+
+.settings {
+  display: flex;
+  background: var(--athens);
+  padding: 16px 24px;
+
+  &_phone {
+    flex-direction: column;
+  }
+
+  &__assets {
+    margin-left: 24px;
+
+    &_phone {
+      margin-top: 16px;
+    }
+  }
+}

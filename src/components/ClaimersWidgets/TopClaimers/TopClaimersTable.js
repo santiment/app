@@ -22,7 +22,11 @@ const DEFAULT_SORTED = [
 
 const to = 'utc_now'
 
-export const RANGES = [{ value: 7, label: '7d' }, { value: 1, label: '24h' }]
+export const RANGES = [
+  { value: 7, label: '7d' },
+  { value: 30, label: '30d' },
+  { value: 1, label: '24h' }
+]
 
 function getBalance (balances = [], address) {
   const { balanceEnd: balance = '' } =

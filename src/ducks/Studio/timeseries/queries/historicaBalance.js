@@ -6,25 +6,17 @@ export const HISTORICAL_BALANCE_QUERY = gql`
     $to: DateTime!
     $address: String!
     $interval: interval!
-    $selector: HistoricalBalanceSelector
+    $slug: String!
+    $infrastructure: String!
   ) {
     historicalBalance(
       address: $address
       interval: $interval
-      selector: $selector
       from: $from
       to: $to
+      selector: { slug: $slug, infrastructure: $infrastructure }
     ) {
       datetime
-      balance
-    }
-  }
-`
-
-export const ASSETS_BY_WALLET_QUERY = gql`
-  query assetsHeldByAddress($address: String!) {
-    assetsHeldByAddress(address: $address) {
-      slug
       balance
     }
   }

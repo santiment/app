@@ -53,6 +53,8 @@ const Popup = ({
   onCalendarChange,
   onTimerangeChange,
   options = DEFAULT_OPTIONS,
+  minDate,
+  maxDate,
   ...props
 }) => {
   return (
@@ -68,19 +70,23 @@ const Popup = ({
           value={[from, to]}
           selectRange
           className={styles.calendar}
+          maxDate={maxDate}
+          minDate={minDate}
         />
 
-        <div className={styles.right}>
-          {options.map(({ index, label }) => (
-            <Option
-              key={index}
-              isActive={timeRange === index}
-              onClick={() => onTimerangeChange(index)}
-            >
-              {label}
-            </Option>
-          ))}
-        </div>
+        {onTimerangeChange && (
+          <div className={styles.right}>
+            {options.map(({ index, label }) => (
+              <Option
+                key={index}
+                isActive={timeRange === index}
+                onClick={() => onTimerangeChange(index)}
+              >
+                {label}
+              </Option>
+            ))}
+          </div>
+        )}
       </Panel>
     </ContextMenu>
   )

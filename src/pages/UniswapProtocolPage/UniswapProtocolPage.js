@@ -6,9 +6,10 @@ import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import ClaimersWidgets from '../../components/ClaimersWidgets'
 import { ChartWidget } from '../../components/ClaimersWidgets'
 import TopClaimersTable from '../../components/ClaimersWidgets/TopClaimers/TopClaimersTable'
+import TopExchangesTable from '../../components/Tables/TopExchanges'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
-import { Block, BlockHeader } from '../StablecoinsPage/StablecoinsPageStructure'
+import { Block } from '../StablecoinsPage/StablecoinsPageStructure'
 import ResearchesBlock from '../../components/ResearchesBlock'
 import { Metric } from '../../ducks/dataHub/metrics'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
@@ -21,6 +22,13 @@ import UniswapFlowBalances from '../../ducks/UniswapProtocol/UniswapFlowBalances
 import SharePage from '../../components/SharePage/SharePage'
 import FeesDistribution from '../../ducks/Studio/FeesDistribution/FeesDistribution'
 import styles from './UniswapProtocolPage.module.scss'
+
+const BALANCE_CHART_PADDING = {
+  top: 16,
+  right: 45,
+  bottom: 20,
+  left: 8
+}
 
 const ANCHOR_NAMES = {
   FeesDistribution: 'FeesDistribution'
@@ -42,6 +50,10 @@ const ANCHORS = {
   ClaimersWidgets: {
     label: 'UNI Claims: Overview',
     key: 'claimers-widgets'
+  },
+  TopExchanges: {
+    label: 'Top Exchanges',
+    key: 'top-exchanges'
   },
   WhoClaimed: {
     label: 'Who claimed UNI?',
@@ -137,14 +149,11 @@ const UniswapProtocolPage = ({ history }) => {
           >
             <div className={styles.overviewWrapper}>
               <UniswapHistoricalBalance
-                classes={{
-                  chart: styles.balanceChart,
-                  balanceChartHeader: styles.balanceChartHeader
-                }}
-                title={<BlockHeader className={styles.balanceTitle} />}
-                settings={{
-                  showAlertBtn: true
-                }}
+                className={styles.balance__chart}
+                headerClassName={styles.balance__header}
+                yAxesTicks={6}
+                xAxesTicks={6}
+                chartPadding={BALANCE_CHART_PADDING}
               />
               <ChartWidget
                 height={448}
@@ -168,6 +177,10 @@ const UniswapProtocolPage = ({ history }) => {
             isPaywalActive={areClaimsRestricted}
           >
             <ClaimersWidgets />
+          </Block>
+
+          <Block tag={anchors.TopExchanges.key}>
+            <TopExchangesTable slug='uniswap' />
           </Block>
 
           <Block title='Who claimed UNI?' tag={anchors.WhoClaimed.key}>

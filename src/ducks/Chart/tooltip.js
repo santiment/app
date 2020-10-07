@@ -114,7 +114,7 @@ export function setupTooltip (chart, marker, useCustomTooltip, onPlotTooltip) {
   }
 }
 
-const metricValueAccessor = ({ value }) => value
+const metricValueAccessor = ({ value }) => value || value === 0
 
 export function plotTooltip (chart, marker, point, options) {
   const {
