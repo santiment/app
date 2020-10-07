@@ -147,12 +147,11 @@ function parseMetricIndicators (indicators) {
     MetricIndicators[metricKey] = new Set(
       indicators[metricKey].map(indicatorKey => {
         const indicator = Indicator[indicatorKey]
+        const metric = convertKeyToMetric(metricKey)
 
-        console.log(metricKey, convertKeyToMetric(metricKey))
-
-        indicatorMetrics.push(
-          cacheIndicator(convertKeyToMetric(metricKey), indicator)
-        )
+        if (metric) {
+          indicatorMetrics.push(cacheIndicator(metric, indicator))
+        }
 
         return indicator
       })

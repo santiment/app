@@ -11,24 +11,22 @@ export const AddressSetting = ({
   chartAssets,
   isLoading,
   setChartAssets
-}) => {
-  return (
-    <Setting className={className} title='Wallet address'>
-      <div className={styles.assets}>
-        <Select
-          multi
-          placeholder='For example, Ethereum...'
-          options={walletAssets}
-          valueKey='slug'
-          labelKey='slug'
-          value={chartAssets}
-          optionRenderer={WalletBalanceOptionRenderer}
-          onChange={setChartAssets}
-        />
-        {isLoading && <Loader className={styles.loader} />}
-      </div>
-    </Setting>
-  )
-}
+}) => (
+  <Setting className={className} title='Asset (maximum 5)'>
+    <div className={styles.assets}>
+      <Select
+        multi
+        placeholder='For example, Ethereum...'
+        options={walletAssets}
+        valueKey='slug'
+        labelKey='slug'
+        value={chartAssets}
+        optionRenderer={WalletBalanceOptionRenderer}
+        onChange={setChartAssets}
+      />
+      {isLoading && <Loader className={styles.loader} />}
+    </div>
+  </Setting>
+)
 
 export default AddressSetting
