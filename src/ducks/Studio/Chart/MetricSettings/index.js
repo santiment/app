@@ -17,6 +17,12 @@ const SettingToComponent = {
 const isExchangeModifiable = metric =>
   metric === Metric.exchange_outflow || metric === Metric.exchange_inflow
 
+const isIndicatorAssignable = metric =>
+  metric.node === Node.LINE &&
+  !metric.indicator &&
+  !metric.comparedTicker &&
+  metric !== Metric.dev_activity
+
 const getSettings = ({ key, domainGroup }) => {
   return MetricSettings[key] || MetricSettings[domainGroup]
 }
@@ -34,7 +40,7 @@ const Settings = ({ className, metric, ...props }) => {
       {isExchangeModifiable(metric) && (
         <ExchangeSetting metric={metric} {...props} />
       )}
-      {metric.node === Node.LINE && !metric.indicator && (
+      {isIndicatorAssignable(metric) && (
         <IndicatorsSetting metric={metric} {...props} />
       )}
       {settings &&

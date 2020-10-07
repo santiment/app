@@ -154,12 +154,12 @@ export const Chart = ({
   }
 
   function toggleMetric (metric) {
-    if (metric.comparedTicker) {
-      return removeComparedMetric(metric)
-    }
-
     if (metric.indicator) {
       toggleIndicatorMetric(metric)
+    }
+
+    if (metric.comparedTicker) {
+      return removeComparedMetric(metric)
     }
 
     toggleWidgetMetric(widget, metric)

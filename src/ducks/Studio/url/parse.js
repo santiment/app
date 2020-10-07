@@ -148,6 +148,8 @@ function parseMetricIndicators (indicators) {
       indicators[metricKey].map(indicatorKey => {
         const indicator = Indicator[indicatorKey]
 
+        console.log(metricKey, convertKeyToMetric(metricKey))
+
         indicatorMetrics.push(
           cacheIndicator(convertKeyToMetric(metricKey), indicator)
         )

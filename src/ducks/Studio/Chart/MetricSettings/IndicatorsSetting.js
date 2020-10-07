@@ -60,15 +60,20 @@ function buildIndicatorMetric (metric, indicator) {
   const cached = getMetricCache(metric)[indicator.key]
   if (cached) return cached
 
-  const { key, queryKey = key, label } = metric
+  const { key, queryKey = key, label, reqMeta } = metric
+
+  let indicatorLabel = indicator.label
+
   const indicatorMetric = {
     ...metric,
     queryKey,
     indicator,
+    comparedTicker: undefined,
     metricKey: key,
     key: `${indicator.key}_${key}`,
-    label: `${label} ${indicator.label}`,
+    label: `${label} ${indicatorLabel}`,
     reqMeta: {
+      ...reqMeta,
       transform: {
         type: indicator.type,
         movingAverageBase: indicator.base
