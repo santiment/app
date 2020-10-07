@@ -24,7 +24,7 @@ import CompareAction from './CompareInfo/CompareAction'
 import './ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
 
-export const CustomNoDataComponent = ({ isLoading }) => {
+export const CustomNoDataComponent = ({ isLoading, description, title }) => {
   if (isLoading) {
     return null
   }
@@ -32,7 +32,8 @@ export const CustomNoDataComponent = ({ isLoading }) => {
   return (
     <NoDataTemplate
       className={styles.noData}
-      desc="The assets for the filter which you applying weren't found. Check if it's correct or try another filter settings."
+      desc={description}
+      title={title}
     />
   )
 }
@@ -237,7 +238,13 @@ const AssetsTable = ({
             repeat={columnsAmount}
           />
         )}
-        NoDataComponent={() => <CustomNoDataComponent isLoading={isLoading} />}
+        NoDataComponent={() => (
+          <CustomNoDataComponent
+            isLoading={isLoading}
+            title='No matches!'
+            description="The assets for the filter which you applying weren't found. Check if it's correct or try another filter settings."
+          />
+        )}
         getTdProps={() => ({
           onClick: (e, handleOriginal) => {
             if (handleOriginal) handleOriginal()

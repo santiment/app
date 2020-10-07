@@ -47,7 +47,7 @@ export const columns = [
   {
     Cell: ({ original: { balance = '' } }) => CellWithLoader(balance),
     id: 'price',
-    Header: 'UNI balance',
+    Header: 'Current balance',
     accessor: 'price',
     minWidth: 90,
     maxWidth: 110,

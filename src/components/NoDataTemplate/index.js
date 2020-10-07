@@ -14,9 +14,8 @@ const NoDataTemplate = ({ title, desc, className }) => (
 )
 
 NoDataTemplate.defaultProps = {
-  title: 'No matches!',
-  desc:
-    'The data for the word you searching for was not found. Check if it is correct or try another word/phrase.'
+  title: '',
+  desc: ''
 }
 
 export default NoDataTemplate
