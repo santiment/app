@@ -4,9 +4,9 @@ import {
   useAllTimeData,
   useTimeseries
 } from '../../ducks/Studio/timeseries/hooks'
-import DashboardChartHeader, {
+import DashboardChartHeaderWrapper, {
   DashboardIntervals
-} from './DashboardChartHeader/DashboardChartHeader'
+} from './DashboardChartHeader/DashboardChartHeaderWrapper'
 import SharedAxisToggle from '../../ducks/Studio/Chart/SharedAxisToggle'
 import { DesktopOnly, MobileOnly } from '../Responsive'
 import { updateTooltipSettings } from '../../ducks/dataHub/tooltipSettings'
@@ -19,7 +19,10 @@ import {
   getNewInterval,
   INTERVAL_ALIAS
 } from '../../ducks/SANCharts/IntervalSelector'
+import { useMirroredTransformer } from '../../ducks/Studio/Widget/utils'
 import styles from './DashboardMetricChart.module.scss'
+import { useDomainGroups } from '../../ducks/Chart/hooks'
+import { extractMirrorMetricsDomainGroups } from '../../ducks/Chart/utils'
 
 const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
   const allTimeData = useAllTimeData(metrics, {
@@ -57,8 +60,17 @@ const DashboardMetricChart = ({
   intervals,
   metricSelectors,
   setRootMetric,
-  rootMetric
+  rootMetric,
+  metricsColor
 }) => {
+  const MetricTransformer = useMirroredTransformer(metrics)
+
+  const domainGroups = useDomainGroups(metrics)
+  const mirrorDomainGroups = useMemo(
+    () => extractMirrorMetricsDomainGroups(domainGroups),
+    [domainGroups]
+  )
+
   useEffect(
     () => {
       updateTooltipSettings(metrics)
@@ -90,7 +102,8 @@ const DashboardMetricChart = ({
   const [data, loadings] = useTimeseries(
     activeMetrics,
     settings,
-    metricSettingsMap
+    metricSettingsMap,
+    MetricTransformer
   )
 
   const { allTimeData, onBrushChangeEnd } = useBrush({
@@ -101,32 +114,38 @@ const DashboardMetricChart = ({
     slug: metrics[0].reqMeta.slug
   })
 
-  const [isDomainGroupingActive, setIsDomainGroupingActive] = useState(true)
+  const [isDomainGroupingActive, setIsDomainGroupingActive] = useState(
+    domainGroups && domainGroups.length > mirrorDomainGroups.length
+  )
 
-  const MetricColor = useChartColors(activeMetrics)
+  const MetricColor = useChartColors(activeMetrics, metricsColor)
 
   return (
     <div className={cx(styles.container, className)}>
-      <DashboardChartHeader>
+      <DashboardChartHeaderWrapper>
         <DashboardMetricSelectors
           metricSelectors={metricSelectors}
           rootMetric={rootMetric}
           setRootMetric={setRootMetric}
         />
 
-        <SharedAxisToggle
-          isDomainGroupingActive={isDomainGroupingActive}
-          setIsDomainGroupingActive={setIsDomainGroupingActive}
-          className={styles.sharedAxisToggle}
-        />
-        <DesktopOnly>
-          <DashboardIntervals
-            interval={intervalSelector}
-            setInterval={onChangeInterval}
-            intervals={intervals}
-          />
-        </DesktopOnly>
-      </DashboardChartHeader>
+        <div className={styles.right}>
+          {domainGroups && domainGroups.length > mirrorDomainGroups.length && (
+            <SharedAxisToggle
+              isDomainGroupingActive={isDomainGroupingActive}
+              setIsDomainGroupingActive={setIsDomainGroupingActive}
+              className={styles.sharedAxisToggle}
+            />
+          )}
+          <DesktopOnly>
+            <DashboardIntervals
+              interval={intervalSelector}
+              setInterval={onChangeInterval}
+              intervals={intervals}
+            />
+          </DesktopOnly>
+        </div>
+      </DashboardChartHeaderWrapper>
 
       <DesktopOnly>
         <DashboardChartMetrics
@@ -147,6 +166,9 @@ const DashboardMetricChart = ({
         MetricColor={MetricColor}
         isDomainGroupingActive={isDomainGroupingActive}
         loadings={loadings}
+        domainGroups={domainGroups}
+        mirrorDomainGroups={mirrorDomainGroups}
+        isCartesianGridActive={true}
       />
 
       <MobileOnly>

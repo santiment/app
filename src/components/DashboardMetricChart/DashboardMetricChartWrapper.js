@@ -1,7 +1,7 @@
 import React from 'react'
 import withSizes from 'react-sizes'
 import { useMetricCategories } from '../../ducks/Chart/Synchronizer'
-import { useAxesMetricsKey, useDomainGroups } from '../../ducks/Chart/hooks'
+import { useAxesMetricsKey } from '../../ducks/Chart/hooks'
 import Chart from '../../ducks/Chart'
 import { mapSizesToProps } from '../../utils/withSizes'
 import styles from './DashboardMetricChartWrapper.module.scss'
@@ -29,7 +29,10 @@ const DashboardMetricChartWrapper = ({
   isDomainGroupingActive,
   loadings,
   onBrushChangeEnd,
-  allTimeData
+  allTimeData,
+  domainGroups,
+  mirrorDomainGroups,
+  isCartesianGridActive = false
 }) => {
   const categories = useMetricCategories(metrics)
 
@@ -37,8 +40,6 @@ const DashboardMetricChartWrapper = ({
     metrics,
     isDomainGroupingActive
   ).slice(0, 1)
-
-  const domainGroups = useDomainGroups(metrics)
 
   return (
     <Chart
@@ -51,14 +52,14 @@ const DashboardMetricChartWrapper = ({
       onBrushChangeEnd={onBrushChangeEnd}
       chartHeight={CHART_HEIGHT}
       metrics={metrics}
-      isCartesianGridActive={false}
+      isCartesianGridActive={isCartesianGridActive}
       hideWatermark
       chartPadding={isDesktop ? CHART_PADDING_DESKTOP : CHART_PADDING_MOBILE}
       resizeDependencies={[]}
       MetricColor={MetricColor}
       tooltipKey={axesMetricKeys[0]}
       axesMetricKeys={axesMetricKeys}
-      domainGroups={isDomainGroupingActive ? domainGroups : undefined}
+      domainGroups={isDomainGroupingActive ? domainGroups : mirrorDomainGroups}
       isLoading={loadings.length > 0}
     />
   )

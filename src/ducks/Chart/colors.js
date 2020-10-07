@@ -4,7 +4,8 @@ import { Metric } from '../dataHub/metrics'
 const ALPHA_CHANNEL = '29'
 
 // RESERVED COLORS
-const GREEN = '#26C953'
+export const GREEN = '#26C953'
+export const RED = '#FF5B5B'
 const CYAN = '#68DBF4'
 const VIOLET = '#8358FF'
 const ORANGE = '#FFAD4D'
@@ -13,7 +14,7 @@ const GRAY = '#D2D6E7'
 export const COLORS = [
   '#AC948C', // BROWN-GRAY
   '#F47BF7', // PURPLE
-  '#FF5B5B', // RED
+  RED, // RED
   '#FFCB47', // YELLOW
   '#785549', // BROWN
   '#5275FF', // BLUE

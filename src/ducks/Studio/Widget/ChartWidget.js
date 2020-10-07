@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Widget from './Widget'
 import ColorProvider from './ChartWidgetColorProvider'
-import { newWidget, useMetricNodeOverwrite } from './utils'
+import {
+  newWidget,
+  useMetricNodeOverwrite,
+  useMirroredTransformer
+} from './utils'
 import StudioChart from '../Chart'
 import { dispatchWidgetMessage } from '../widgetMessage'
 import { DEFAULT_OPTIONS } from '../defaults'
@@ -14,7 +18,6 @@ import { buildComparedMetric } from '../Compare/utils'
 import { useEdgeGaps, useClosestValueData } from '../../Chart/hooks'
 import { useSyncDateEffect } from '../../Chart/sync'
 import { Metric } from '../../dataHub/metrics'
-import { MirroredMetric } from '../../dataHub/metrics/mirrored'
 
 const activeEvents = []
 
@@ -32,13 +35,16 @@ export const Chart = ({
   const [options, setOptions] = useState(DEFAULT_OPTIONS)
   const [comparables, setComparables] = useState(widget.comparables)
   const [activeMetrics, setActiveMetrics] = useState(metrics)
-  const [MetricTransformer, setMetricTransformer] = useState({})
+
+  const MetricTransformer = useMirroredTransformer(metrics)
+
   const [rawData, loadings, ErrorMsg] = useTimeseries(
     activeMetrics,
     settings,
     MetricSettingMap,
     MetricTransformer
   )
+
   const [eventsData] = useTimeseries(activeEvents, settings)
   const MetricNode = useMetricNodeOverwrite(MetricSettingMap)
   const data = useEdgeGaps(
@@ -81,28 +87,6 @@ export const Chart = ({
       rerenderWidgets()
     },
     [metrics, comparables]
-  )
-
-  useEffect(
-    () => {
-      const metricTransformer = Object.assign({}, MetricTransformer)
-
-      metrics.forEach(metric => {
-        const mirrorOf = MirroredMetric[metric.key]
-        if (mirrorOf) {
-          const { key, preTransformer } = metric
-
-          if (metrics.includes(mirrorOf)) {
-            metricTransformer[key] = preTransformer
-          } else {
-            metricTransformer[key] = undefined
-          }
-        }
-      })
-
-      setMetricTransformer(metricTransformer)
-    },
-    [metrics]
   )
 
   useEffect(
