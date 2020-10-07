@@ -19,6 +19,7 @@ import { Metric } from '../dataHub/metrics'
 import { NEW_METRIC_KEY_SET, seeMetric } from '../dataHub/metrics/news'
 import { usePressedModifier } from '../../hooks/keyboard'
 import styles from './index.module.scss'
+
 export const Studio = ({
   defaultWidgets,
   defaultSidepanel,
