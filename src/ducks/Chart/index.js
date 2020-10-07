@@ -217,7 +217,6 @@ const Chart = ({
       }
       if (data.length === 0) return
 
-      console.log(domainGroups)
       clearCtx(chart)
       updateChartState(
         chart,
