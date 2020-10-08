@@ -22,6 +22,7 @@ import {
 import { useMirroredTransformer } from '../../ducks/Studio/Widget/utils'
 import { useDomainGroups } from '../../ducks/Chart/hooks'
 import { extractMirrorMetricsDomainGroups } from '../../ducks/Chart/utils'
+import PaywallInfo from '../../ducks/Studio/Chart/PaywallInfo'
 import styles from './DashboardMetricChart.module.scss'
 
 const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
@@ -137,6 +138,11 @@ const DashboardMetricChart = ({
               className={styles.sharedAxisToggle}
             />
           )}
+
+          <div className={styles.gaps}>
+            <PaywallInfo metrics={activeMetrics} />
+          </div>
+
           <DesktopOnly>
             <DashboardIntervals
               interval={intervalSelector}
