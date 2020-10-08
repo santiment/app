@@ -53,9 +53,9 @@ const Chart = ({ metrics, settings, axesTicks, className, ...props }) => {
   return (
     <div className={cx(styles.chart, className)}>
       <SANChart
-        className={styles.canvas}
         padding={axesMetricKeys[1] ? DOUBLE_AXIS_PADDING : CHART_PADDING}
         {...props}
+        className={styles.canvas}
         data={data}
         categories={categories}
         colors={MetricColor}
