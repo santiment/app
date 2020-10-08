@@ -2,26 +2,7 @@ import React, { useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import { withRouter } from 'react-router-dom'
 import { parse } from 'query-string'
-import withProject from '../Detailed/withProject'
 import { generateUrlV2 } from '../../ducks/Studio/url/generate'
-
-const Head = withProject(({ project, loading }) => (
-  <Helmet
-    title={loading ? 'Sanbase...' : `${project.ticker} project page`}
-    meta={[
-      {
-        property: 'og:title',
-        content: `Project overview: ${project.name} - Sanbase`
-      },
-      {
-        property: 'og:description',
-        content: `Financial, development, on-chain and social data for ${
-          project.name
-        }.`
-      }
-    ]}
-  />
-))
 
 const URLExtension = ({
   history,
@@ -30,7 +11,7 @@ const URLExtension = ({
   sidepanel,
   setSettings
 }) => {
-  const { slug } = settings
+  const { slug, name, ticker } = settings
 
   // NOTE: This version of withRouter does not trigger rerender on location change (it depends on the root component rerender [@vanguard | Oct 8, 2020]
   useEffect(
@@ -57,7 +38,21 @@ const URLExtension = ({
     [settings, widgets, sidepanel]
   )
 
-  return <Head slug={slug} />
+  return (
+    <Helmet
+      title={ticker ? `${ticker} project page` : 'Sanbase...'}
+      meta={[
+        {
+          property: 'og:title',
+          content: `Project overview: ${name} - Sanbase`
+        },
+        {
+          property: 'og:description',
+          content: `Financial, development, on-chain and social data for ${name}.`
+        }
+      ]}
+    />
+  )
 }
 
 export default withRouter(URLExtension)
