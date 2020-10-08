@@ -8,7 +8,7 @@ import {
 } from './context'
 import { useTheme } from '../../../stores/ui/theme'
 import { paintConfigs } from '../../Chart/paintConfigs'
-const styles = {}
+import styles from './index.module.scss'
 
 const cx = (...classes) => classes.filter(Boolean).join(' ')
 

@@ -29,6 +29,8 @@ export const ChartProvider = ({
     () => {
       if (data.length === 0) return
 
+      chart.colors = colors
+
       clearCtx(chart)
 
       updateChartState(

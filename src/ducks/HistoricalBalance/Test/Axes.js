@@ -2,10 +2,10 @@ import { useEffect } from 'react'
 import { buildPlotter } from './context'
 import { plotAxes } from '../../Chart/axes'
 
-const Axes = buildPlotter((plotter, { keys, xTicks, yTicks }) => {
+const Axes = buildPlotter((plotter, { metrics, xTicks, yTicks }) => {
   useEffect(
     () => {
-      /* const [mainAxisMetric, secondaryAxisMetric] = keys */
+      /* const [mainAxisMetric, secondaryAxisMetric] = metrics */
 
       plotter.register('axes', (chart, scale) => {
         const { ticksPaintConfig, axesColor } = chart
@@ -15,7 +15,7 @@ const Axes = buildPlotter((plotter, { keys, xTicks, yTicks }) => {
             ...chart,
             ticksPaintConfig,
             axesColor,
-            axesMetricKeys: keys,
+            axesMetricKeys: metrics,
             xAxesTicks: xTicks,
             yAxesTicks: yTicks
           },
@@ -23,7 +23,7 @@ const Axes = buildPlotter((plotter, { keys, xTicks, yTicks }) => {
         )
       })
     },
-    [keys, xTicks, yTicks]
+    [metrics, xTicks, yTicks]
   )
 })
 

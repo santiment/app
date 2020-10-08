@@ -12,6 +12,7 @@ import ChartTest from './Test'
 import Lines from './Test/Lines'
 import Axes from './Test/Axes'
 import CartesianGrid from './Test/CartesianGrid'
+import Tooltip from './Test/Tooltip'
 
 const chartPadding = {
   top: 25,
@@ -84,8 +85,9 @@ const Chart = ({ metrics, settings, className, ...props }) => {
         padding={axesMetricKeys[1] ? DOUBLE_AXIS_PADDING : chartPadding}
       >
         <Lines />
-        <Axes keys={axesMetricKeys} />
+        <Axes metrics={axesMetricKeys} />
         <CartesianGrid />
+        <Tooltip metric={axesMetricKeys[0]} />
       </ChartTest>
     </>
   )
