@@ -45,7 +45,7 @@ export const ChartProvider = ({
         clb(chart, scale, data, colors, categories)
       })
     },
-    [data, colors, domainGroups, isAwaitingRedraw]
+    [data, scale, colors, domainGroups, isAwaitingRedraw]
   )
 
   return (

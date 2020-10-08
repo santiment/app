@@ -1,5 +1,9 @@
-import React, { useRef, useState, useEffect } from 'react'
-import { initChart, updateChartDimensions } from '@santiment-network/chart'
+import React, { useRef, useEffect } from 'react'
+import {
+  initChart,
+  updateChartDimensions,
+  updateSize
+} from '@santiment-network/chart'
 import {
   withChartContext,
   useChart,
@@ -35,15 +39,21 @@ const Chart = ({ className, width, height, padding, chartRef, children }) => {
 
   useEffect(
     () => {
-      if (chart) {
-        Object.assign(chart, paintConfigs[+isNightMode])
+      if (!chart) return
 
-        const _width = width || chart.canvasWidth
-        const _height = width || chart.canvasHeight
+      Object.assign(chart, paintConfigs[+isNightMode])
+      const { tooltip, canvasWidth, canvasHeight } = chart
 
-        updateChartDimensions(chart, _width, _height, padding)
-        redrawChart()
+      const _width = width || canvasWidth
+      const _height = width || canvasHeight
+
+      updateChartDimensions(chart, _width, _height, padding)
+
+      if (tooltip) {
+        updateSize(tooltip.canvas, tooltip.ctx, chart.dpr, _width, _height)
       }
+
+      redrawChart()
     },
     [chart, isNightMode, width, height, padding]
   )

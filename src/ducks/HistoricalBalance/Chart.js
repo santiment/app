@@ -10,6 +10,7 @@ import styles from './Chart.module.scss'
 
 import ChartTest from './Test'
 import Lines from './Test/Lines'
+import Areas from './Test/Areas'
 import Axes from './Test/Axes'
 import CartesianGrid from './Test/CartesianGrid'
 import Tooltip from './Test/Tooltip'
@@ -44,7 +45,7 @@ function getResponsiveTicks (isPhone) {
 export const useResponsiveTicks = isPhone =>
   useMemo(() => getResponsiveTicks(isPhone), [isPhone])
 
-const Chart = ({ metrics, settings, className, ...props }) => {
+const Chart = ({ metrics, settings, className, scale, ...props }) => {
   const [rawData, loadings] = useTimeseries(metrics, settings)
   const data = useClosestValueData(rawData, metrics)
   const categories = useMetricCategories(metrics)
@@ -61,6 +62,7 @@ const Chart = ({ metrics, settings, className, ...props }) => {
           chartPadding={chartPadding}
           {...props}
           {...categories}
+          scale={scale}
           className={styles.canvas}
           data={data}
           MetricColor={MetricColor}
@@ -82,11 +84,13 @@ const Chart = ({ metrics, settings, className, ...props }) => {
         data={data}
         categories={categories}
         colors={MetricColor}
+        scale={scale}
         padding={axesMetricKeys[1] ? DOUBLE_AXIS_PADDING : chartPadding}
       >
         <Lines />
-        <Axes metrics={axesMetricKeys} />
+        <Areas />
         <CartesianGrid />
+        <Axes metrics={axesMetricKeys} />
         <Tooltip metric={axesMetricKeys[0]} />
       </ChartTest>
     </>

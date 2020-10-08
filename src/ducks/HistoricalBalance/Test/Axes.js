@@ -5,22 +5,12 @@ import { plotAxes } from '../../Chart/axes'
 const Axes = buildPlotter((plotter, { metrics, xTicks, yTicks }) => {
   useEffect(
     () => {
-      /* const [mainAxisMetric, secondaryAxisMetric] = metrics */
-
       plotter.register('axes', (chart, scale) => {
-        const { ticksPaintConfig, axesColor } = chart
+        chart.axesMetricKeys = metrics
+        chart.xAxesTicks = xTicks
+        chart.yAxesTicks = yTicks
 
-        plotAxes(
-          {
-            ...chart,
-            ticksPaintConfig,
-            axesColor,
-            axesMetricKeys: metrics,
-            xAxesTicks: xTicks,
-            yAxesTicks: yTicks
-          },
-          scale
-        )
+        plotAxes(chart, scale)
       })
     },
     [metrics, xTicks, yTicks]
