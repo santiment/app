@@ -1,15 +1,17 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useReducer } from 'react'
 import { updateChartState } from '@santiment-network/chart'
 import { linearScale } from '@santiment-network/chart/scales'
 import { usePlotter } from './plotter'
 import { clearCtx } from '../../Chart/utils'
 import { domainModifier } from '../../Chart/domain'
-import { paintConfigs } from '../../Chart/paintConfigs'
-import { useTheme } from '../../../stores/ui/theme'
+
+const REDUCER = () => ({})
+const DEFAULT = {}
 
 const ChartContext = React.createContext()
 const ChartSetterContext = React.createContext()
 const ChartPlotterContext = React.createContext()
+const ChartRedrawContext = React.createContext()
 
 export const ChartProvider = ({
   data,
@@ -21,16 +23,7 @@ export const ChartProvider = ({
 }) => {
   const [chart, setChart] = useState()
   const plotter = usePlotter()
-  const { isNightMode } = useTheme()
-
-  useEffect(
-    () => {
-      if (chart) {
-        Object.assign(chart, paintConfigs[+isNightMode])
-      }
-    },
-    [chart, isNightMode]
-  )
+  const [isAwaitingRedraw, redrawChart] = useReducer(REDUCER, DEFAULT)
 
   useEffect(
     () => {
@@ -50,14 +43,18 @@ export const ChartProvider = ({
         clb(chart, scale, data, colors, categories)
       })
     },
-    [data, colors, domainGroups, isNightMode]
+    [data, colors, domainGroups, isAwaitingRedraw]
   )
 
   return (
     <ChartPlotterContext.Provider value={plotter}>
-      <ChartSetterContext.Provider value={setChart}>
-        <ChartContext.Provider value={chart}>{children}</ChartContext.Provider>
-      </ChartSetterContext.Provider>
+      <ChartRedrawContext.Provider value={redrawChart}>
+        <ChartSetterContext.Provider value={setChart}>
+          <ChartContext.Provider value={chart}>
+            {children}
+          </ChartContext.Provider>
+        </ChartSetterContext.Provider>
+      </ChartRedrawContext.Provider>
     </ChartPlotterContext.Provider>
   )
 }
@@ -69,6 +66,7 @@ ChartProvider.defaultProps = {
 export const useChart = () => useContext(ChartContext)
 export const useChartSetter = () => useContext(ChartSetterContext)
 export const useChartPlotter = () => useContext(ChartPlotterContext)
+export const useChartRedraw = () => useContext(ChartRedrawContext)
 export const buildPlotter = plotter => props => {
   plotter(useChartPlotter(), props)
   return null

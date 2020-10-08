@@ -16,8 +16,13 @@ import CartesianGrid from './Test/CartesianGrid'
 const chartPadding = {
   top: 25,
   bottom: 25,
-  right: 50,
+  right: 48,
   left: 15
+}
+
+const DOUBLE_AXIS_PADDING = {
+  ...chartPadding,
+  left: 48
 }
 
 function getResponsiveTicks (isPhone) {
@@ -76,7 +81,7 @@ const Chart = ({ metrics, settings, className, ...props }) => {
         data={data}
         categories={categories}
         colors={MetricColor}
-        padding={chartPadding}
+        padding={axesMetricKeys[1] ? DOUBLE_AXIS_PADDING : chartPadding}
       >
         <Lines />
         <Axes keys={axesMetricKeys} />
