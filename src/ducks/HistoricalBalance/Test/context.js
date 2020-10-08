@@ -29,7 +29,7 @@ export const ChartProvider = ({
         Object.assign(chart, paintConfigs[+isNightMode])
       }
     },
-    [isNightMode]
+    [chart, isNightMode]
   )
 
   useEffect(

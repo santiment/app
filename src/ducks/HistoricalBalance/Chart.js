@@ -11,6 +11,7 @@ import styles from './Chart.module.scss'
 import ChartTest from './Test'
 import Lines from './Test/Lines'
 import Axes from './Test/Axes'
+import CartesianGrid from './Test/CartesianGrid'
 
 const chartPadding = {
   top: 25,
@@ -79,6 +80,7 @@ const Chart = ({ metrics, settings, className, ...props }) => {
       >
         <Lines />
         <Axes keys={axesMetricKeys} />
+        <CartesianGrid />
       </ChartTest>
     </>
   )
