@@ -8,14 +8,17 @@ import { useMetricCategories } from '../Chart/Synchronizer'
 import { useTimeseries } from '../Studio/timeseries/hooks'
 import styles from './Chart.module.scss'
 
+import ChartTest from './Test'
+import Lines from './Test/Lines'
+
 const chartPadding = {
   top: 25,
   bottom: 25,
   right: 50,
-  left: 15
+  left: 15,
 }
 
-function getResponsiveTicks (isPhone) {
+function getResponsiveTicks(isPhone) {
   let xAxesTicks
   let yAxesTicks
 
@@ -26,11 +29,11 @@ function getResponsiveTicks (isPhone) {
 
   return {
     xAxesTicks,
-    yAxesTicks
+    yAxesTicks,
   }
 }
 
-export const useResponsiveTicks = isPhone =>
+export const useResponsiveTicks = (isPhone) =>
   useMemo(() => getResponsiveTicks(isPhone), [isPhone])
 
 const Chart = ({ metrics, settings, className, ...props }) => {
@@ -41,30 +44,40 @@ const Chart = ({ metrics, settings, className, ...props }) => {
   const axesMetricKeys = useAxesMetricsKey(metrics)
 
   return (
-    <div className={cx(styles.chart, className)}>
-      <SANChart
-        hideBrush
-        hideWatermark
-        isCartesianGridActive
-        chartPadding={chartPadding}
-        {...props}
-        {...categories}
-        className={styles.canvas}
+    <>
+      <div className={cx(styles.chart, className)}>
+        <SANChart
+          hideBrush
+          hideWatermark
+          isCartesianGridActive
+          chartPadding={chartPadding}
+          {...props}
+          {...categories}
+          className={styles.canvas}
+          data={data}
+          MetricColor={MetricColor}
+          tooltipKey={axesMetricKeys[0]}
+          axesMetricKeys={axesMetricKeys}
+        />
+
+        {loadings.length > 0 && <Loader className={styles.loader} />}
+
+        {metrics.length === 0 && (
+          <div className={styles.description}>
+            Please paste the wallet address and choose supported assets in the
+            forms above to see the historical data
+          </div>
+        )}
+      </div>
+      <ChartTest
+        height={450}
         data={data}
-        MetricColor={MetricColor}
-        tooltipKey={axesMetricKeys[0]}
-        axesMetricKeys={axesMetricKeys}
-      />
-
-      {loadings.length > 0 && <Loader className={styles.loader} />}
-
-      {metrics.length === 0 && (
-        <div className={styles.description}>
-          Please paste the wallet address and choose supported assets in the
-          forms above to see the historical data
-        </div>
-      )}
-    </div>
+        categories={categories}
+        colors={MetricColor}
+      >
+        <Lines />
+      </ChartTest>
+    </>
   )
 }
 
