@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { initTooltip } from '@santiment-network/chart/tooltip'
-import { useChart } from './context'
-import { setupTooltip } from '../../Chart/tooltip'
+import { setupTooltip } from './helpers'
+import { useChart } from '../context'
 
 const Tooltip = ({ metric }) => {
   const chart = useChart()

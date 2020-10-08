@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { buildPlotter } from './context'
-import { plotAxes } from '../../Chart/axes'
+import { plotAxes } from './helpers'
+import { buildPlotter } from '../context'
 
 const Axes = buildPlotter((plotter, { metrics, xTicks, yTicks }) => {
   useEffect(

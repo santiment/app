@@ -1,18 +1,17 @@
 import React, { useMemo } from 'react'
 import cx from 'classnames'
 import Loader from '@santiment-network/ui/Loader/Loader'
+import SANChart from '../Chart/Modular'
+import Lines from '../Chart/Lines'
+import Areas from '../Chart/Areas'
+import Axes from '../Chart/Axes'
+import CartesianGrid from '../Chart/CartesianGrid'
+import Tooltip from '../Chart/Tooltip'
 import { useChartColors } from '../Chart/colors'
 import { useClosestValueData, useAxesMetricsKey } from '../Chart/hooks'
 import { useMetricCategories } from '../Chart/Synchronizer'
 import { useTimeseries } from '../Studio/timeseries/hooks'
 import styles from './Chart.module.scss'
-
-import SANChart from './Test'
-import Lines from './Test/Lines'
-import Areas from './Test/Areas'
-import Axes from './Test/Axes'
-import CartesianGrid from './Test/CartesianGrid'
-import Tooltip from './Test/Tooltip'
 
 const CHART_PADDING = {
   top: 25,

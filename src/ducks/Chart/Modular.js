@@ -10,8 +10,8 @@ import {
   useChartSetter,
   useChartRedraw
 } from './context'
-import { useTheme } from '../../../stores/ui/theme'
-import { paintConfigs } from '../../Chart/paintConfigs'
+import { paintConfigs } from './paintConfigs'
+import { useTheme } from '../../stores/ui/theme'
 import styles from './index.module.scss'
 
 const cx = (...classes) => classes.filter(Boolean).join(' ')

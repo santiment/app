@@ -2,8 +2,8 @@ import React, { useContext, useState, useEffect, useReducer } from 'react'
 import { updateChartState } from '@santiment-network/chart'
 import { linearScale } from '@santiment-network/chart/scales'
 import { usePlotter } from './plotter'
-import { clearCtx } from '../../Chart/utils'
-import { domainModifier } from '../../Chart/domain'
+import { clearCtx } from './utils'
+import { domainModifier } from './domain'
 
 const REDUCER = () => ({})
 const DEFAULT = {}
