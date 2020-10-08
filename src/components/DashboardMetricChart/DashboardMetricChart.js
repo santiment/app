@@ -23,6 +23,7 @@ import { useMirroredTransformer } from '../../ducks/Studio/Widget/utils'
 import { useDomainGroups } from '../../ducks/Chart/hooks'
 import { extractMirrorMetricsDomainGroups } from '../../ducks/Chart/utils'
 import PaywallInfo from '../../ducks/Studio/Chart/PaywallInfo'
+import DexPriceMeasurement from '../../ducks/Dexs/PriceMeasurement/DexPriceMeasurement'
 import styles from './DashboardMetricChart.module.scss'
 
 const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
@@ -62,7 +63,9 @@ const DashboardMetricChart = ({
   metricSelectors,
   setRootMetric,
   rootMetric,
-  metricsColor
+  metricsColor,
+  setMeasurement,
+  measurement
 }) => {
   const MetricTransformer = useMirroredTransformer(metrics)
 
@@ -129,6 +132,14 @@ const DashboardMetricChart = ({
           rootMetric={rootMetric}
           setRootMetric={setRootMetric}
         />
+
+        {setMeasurement && (
+          <DexPriceMeasurement
+            onSelect={setMeasurement}
+            defaultSelected={measurement}
+            className={styles.measurements}
+          />
+        )}
 
         <div className={styles.right}>
           {domainGroups && domainGroups.length > mirrorDomainGroups.length && (

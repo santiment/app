@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import DashboardMetricChart from '../../../components/DashboardMetricChart/DashboardMetricChart'
 import { DEX_INTERVAL_SELECTORS } from '../../../components/DashboardMetricChart/utils'
+import { useDexMeasurement } from '../PriceMeasurement/DexPriceMeasurement'
 
 export const DEXs = [
   'UniswapV2',
@@ -23,7 +24,8 @@ export const DEXs = [
   'DEX.Top'
 ]
 
-const NumberOfTradesPerDex = ({ metrics, measurement }) => {
+const NumberOfTradesPerDex = ({ metrics, measurement: strictMeasurement }) => {
+  const { measurement, setMeasurement } = useDexMeasurement(strictMeasurement)
   const [rootMetric, setRootMetric] = useState(metrics[0])
 
   const dexMetrics = useMemo(
@@ -54,6 +56,8 @@ const NumberOfTradesPerDex = ({ metrics, measurement }) => {
       setRootMetric={setRootMetric}
       rootMetric={rootMetric}
       intervals={DEX_INTERVAL_SELECTORS}
+      setMeasurement={strictMeasurement ? null : setMeasurement}
+      measurement={measurement}
     />
   )
 }

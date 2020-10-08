@@ -19,4 +19,8 @@
   height: 18px;
 
   @include text('caption');
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
 }

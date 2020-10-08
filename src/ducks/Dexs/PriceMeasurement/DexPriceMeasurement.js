@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import cx from 'classnames'
-import { Selector } from '@santiment-network/ui'
+import Range from '../../Watchlists/Widgets/WatchlistOverview/Range'
 import styles from './DexPriceMeasurement.module.scss'
 
 export const DEX_BY_USD = { slug: 'multi-collateral-dai', label: 'USD' }
@@ -10,29 +10,47 @@ export const DEX_PRICE_SELECTORS = [
   { slug: 'bitcoin', label: 'BTC' }
 ]
 
-const DexPriceMeasurement = ({ onSelect, defaultSelected, className }) => {
-  const options = useMemo(
-    () => {
-      return DEX_PRICE_SELECTORS.map(({ label }) => label)
-    },
-    [DEX_PRICE_SELECTORS]
+export const useDexMeasurement = defaultMeasurement => {
+  const [measurement, setMeasurement] = useState(
+    defaultMeasurement || DEX_BY_USD
   )
 
-  const { label } = defaultSelected || DEX_PRICE_SELECTORS[0]
+  return { measurement, setMeasurement }
+}
+
+const DexPriceMeasurement = ({
+  ranges = DEX_PRICE_SELECTORS,
+  onSelect,
+  defaultSelected,
+  className
+}) => {
+  const defaultIndex = useMemo(
+    () => {
+      return ranges.findIndex(({ slug }) => slug === defaultSelected.slug)
+    },
+    [ranges, defaultSelected]
+  )
+
+  const [sortedByIndex, setSortedByIndex] = useState(defaultIndex)
+
+  const { label } = DEX_PRICE_SELECTORS[sortedByIndex]
 
   return (
-    <Selector
-      className={cx(styles.selectors, className)}
-      options={options}
-      onSelectOption={value => {
-        const found = DEX_PRICE_SELECTORS.find(({ label }) => label === value)
+    <div className={cx(styles.container, className)}>
+      Price measurement:
+      <Range
+        className={styles.selectors}
+        btnClassName={styles.btn}
+        range={label}
+        changeRange={() => {
+          const index = (sortedByIndex + 1) % ranges.length
+          setSortedByIndex(index)
 
-        if (found) {
-          onSelect(found)
-        }
-      }}
-      defaultSelected={label}
-    />
+          onSelect(DEX_PRICE_SELECTORS[index])
+        }}
+        variant='ghost'
+      />
+    </div>
   )
 }
 
