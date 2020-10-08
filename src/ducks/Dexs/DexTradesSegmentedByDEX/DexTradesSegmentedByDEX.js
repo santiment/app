@@ -5,6 +5,7 @@ import {
   makeMetric
 } from '../../../components/DashboardMetricChart/utils'
 import { Metric } from '../../dataHub/metrics'
+import { DEX_BY_USD } from '../PriceMeasurement/DexPriceMeasurement'
 
 export const DEX_VOLUME_METRICS = [
   makeMetric('total_trade_volume_by_dex', 'Total Trade Volume'),
@@ -43,7 +44,11 @@ export function mapDEXMetrics (metrics, measurement, addPriceMetric = false) {
 const DexTradesSegmentedByDEX = ({ measurement }) => {
   const metrics = useMemo(
     () => {
-      return mapDEXMetrics(DEX_VOLUME_METRICS, measurement, true)
+      return mapDEXMetrics(
+        DEX_VOLUME_METRICS,
+        measurement,
+        measurement.slug !== DEX_BY_USD.slug
+      )
     },
     [measurement]
   )
