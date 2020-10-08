@@ -10,7 +10,7 @@ import styles from './CtaJoinPopup.module.scss'
 const TIMEOUT = 2 * 60 * 1000
 
 const CtaJoinPopup = () => {
-  const { isLoggedIn } = useUser()
+  const { isLoggedIn, loading } = useUser()
   const [isOpen, setOpen] = useState(false)
 
   useEffect(
@@ -22,6 +22,8 @@ const CtaJoinPopup = () => {
     },
     [isLoggedIn]
   )
+
+  if (loading || isLoggedIn) return null
 
   return (
     <Dialog
