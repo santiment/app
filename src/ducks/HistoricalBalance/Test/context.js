@@ -4,6 +4,8 @@ import { linearScale } from '@santiment-network/chart/scales'
 import { usePlotter } from './plotter'
 import { clearCtx } from '../../Chart/utils'
 import { domainModifier } from '../../Chart/domain'
+import { paintConfigs } from '../../Chart/paintConfigs'
+import { useTheme } from '../../../stores/ui/theme'
 
 const ChartContext = React.createContext()
 const ChartSetterContext = React.createContext()
@@ -14,11 +16,21 @@ export const ChartProvider = ({
   scale,
   colors,
   categories,
+  domainGroups,
   children
 }) => {
   const [chart, setChart] = useState()
   const plotter = usePlotter()
-  /* const plotter = useMemo(() => (chart ? new Map() : undefined), [chart]) */
+  const { isNightMode } = useTheme()
+
+  useEffect(
+    () => {
+      if (chart) {
+        Object.assign(chart, paintConfigs[+isNightMode])
+      }
+    },
+    [isNightMode]
+  )
 
   useEffect(
     () => {
@@ -31,15 +43,14 @@ export const ChartProvider = ({
         data,
         categories.joinedCategories,
         domainModifier,
-        /* domainGroups, */
-        []
+        domainGroups
       )
 
       plotter.items.forEach(clb => {
-        clb(chart, data, scale, colors, categories)
+        clb(chart, scale, data, colors, categories)
       })
     },
-    [data]
+    [data, colors, domainGroups, isNightMode]
   )
 
   return (
@@ -68,6 +79,7 @@ export const withChartContext = Component => ({
   scale,
   colors,
   categories,
+  domainGroups,
   ...props
 }) => (
   <ChartProvider
@@ -75,6 +87,7 @@ export const withChartContext = Component => ({
     scale={scale}
     colors={colors}
     categories={categories}
+    domainGroups={domainGroups}
   >
     <Component {...props} />
   </ChartProvider>

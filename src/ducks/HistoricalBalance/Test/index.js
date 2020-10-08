@@ -3,10 +3,7 @@ import { initChart, updateChartState } from '@santiment-network/chart'
 import { withChartContext, useChartSetter } from './context'
 const styles = {}
 
-/* const { Children, cloneElement } = React */
 const cx = (...classes) => classes.filter(Boolean).join(' ')
-
-/* const childMapper = (props) => (child) => child && cloneElement(child, props) */
 
 const Chart = ({ className, width, height, padding, chartRef, children }) => {
   const setChart = useChartSetter()
@@ -15,10 +12,10 @@ const Chart = ({ className, width, height, padding, chartRef, children }) => {
   useEffect(() => {
     const { current: canvas } = canvasRef
 
-    const width = width || canvas.parentNode.offsetWidth
-    const height = height || canvas.parentNode.offsetHeight
+    const _width = width || canvas.parentNode.offsetWidth
+    const _height = height || canvas.parentNode.offsetHeight
 
-    const chart = initChart(canvas, width, height, padding)
+    const chart = initChart(canvas, _width, _height, padding)
     setChart(chart)
 
     if (chartRef) {

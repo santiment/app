@@ -10,15 +10,16 @@ import styles from './Chart.module.scss'
 
 import ChartTest from './Test'
 import Lines from './Test/Lines'
+import Axes from './Test/Axes'
 
 const chartPadding = {
   top: 25,
   bottom: 25,
   right: 50,
-  left: 15,
+  left: 15
 }
 
-function getResponsiveTicks(isPhone) {
+function getResponsiveTicks (isPhone) {
   let xAxesTicks
   let yAxesTicks
 
@@ -29,11 +30,11 @@ function getResponsiveTicks(isPhone) {
 
   return {
     xAxesTicks,
-    yAxesTicks,
+    yAxesTicks
   }
 }
 
-export const useResponsiveTicks = (isPhone) =>
+export const useResponsiveTicks = isPhone =>
   useMemo(() => getResponsiveTicks(isPhone), [isPhone])
 
 const Chart = ({ metrics, settings, className, ...props }) => {
@@ -74,8 +75,10 @@ const Chart = ({ metrics, settings, className, ...props }) => {
         data={data}
         categories={categories}
         colors={MetricColor}
+        padding={chartPadding}
       >
         <Lines />
+        <Axes keys={axesMetricKeys} />
       </ChartTest>
     </>
   )
