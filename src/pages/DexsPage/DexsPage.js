@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
 import gql from 'graphql-tag'
@@ -17,9 +17,7 @@ import DexTradesSegmentedByDEX, {
   DEX_VOLUME_METRICS
 } from '../../ducks/Dexs/DexTradesSegmentedByDEX/DexTradesSegmentedByDEX'
 import NumberOfTradesPerDex from '../../ducks/Dexs/NumberOfTradesPerDex/NumberOfTradesPerDex'
-import DexPriceMeasurement, {
-  DEX_BY_USD
-} from '../../ducks/Dexs/PriceMeasurement/DexPriceMeasurement'
+import { DEX_BY_USD } from '../../ducks/Dexs/PriceMeasurement/DexPriceMeasurement'
 import { useRestrictedInfo } from '../UniswapProtocolPage/hooks'
 import styles from './DexsPage.module.scss'
 
@@ -58,8 +56,6 @@ const METRIC_BOUNDARIES_QUERY = gql`
 
 const DexsPage = ({ history }) => {
   const isProChecking = useRestrictedInfo(METRIC_BOUNDARIES_QUERY)
-
-  const [measurement, setMeasurement] = useState(DEX_BY_USD)
 
   return (
     <div className={cx('page', styles.container)}>
@@ -109,19 +105,13 @@ const DexsPage = ({ history }) => {
         </DesktopOnly>
 
         <div className={styles.inner}>
-          <Block className={cx(styles.firstBlock, styles.measurements)}>
-            <DexPriceMeasurement
-              onSelect={setMeasurement}
-              defaultSelected={measurement}
-            />
-          </Block>
-
           <Block
+            className={styles.firstBlock}
             title='Volume of DEXs Trades'
             isPaywalActive={isProChecking}
             tag={ANCHORS.VolumeSegmented.key}
           >
-            <DexTradesSegmentedByDEX measurement={measurement} />
+            <DexTradesSegmentedByDEX />
           </Block>
 
           <Block
@@ -129,10 +119,7 @@ const DexsPage = ({ history }) => {
             title='Volume of Trades by DEXs'
             isPaywalActive={isProChecking}
           >
-            <NumberOfTradesPerDex
-              metrics={DEX_VOLUME_METRICS}
-              measurement={measurement}
-            />
+            <NumberOfTradesPerDex metrics={DEX_VOLUME_METRICS} />
           </Block>
 
           <Block

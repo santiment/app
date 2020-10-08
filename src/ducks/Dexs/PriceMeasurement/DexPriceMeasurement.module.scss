@@ -1,4 +1,20 @@
+@import '~@santiment-network/ui/mixins';
+
 .selectors {
   padding-bottom: 0 !important;
-  background: white;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  color: var(--waterloo);
+
+  @include text('body-3'); }
+
+.btn {
+  @include text('body-3');
+
+  &:hover {
+    background: var(--white);
+  }
 }
