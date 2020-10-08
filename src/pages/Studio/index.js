@@ -11,13 +11,8 @@ const Extensions = props => (
   </>
 )
 
-export default ({ history }) => {
+export default () => {
   const parsedUrl = useMemo(() => parseUrlV2(window.location.search), [])
 
-  return (
-    <ChartPage
-      parsedUrl={parsedUrl}
-      extensions={<Extensions history={history} />}
-    />
-  )
+  return <ChartPage parsedUrl={parsedUrl} Extensions={Extensions} />
 }

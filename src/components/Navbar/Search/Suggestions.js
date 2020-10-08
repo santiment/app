@@ -18,7 +18,7 @@ const Suggestions = ({ suggestionsRef, isOpened, ...props }) => {
     () => {
       if (isNotSearched) {
         if (isOpened) {
-          setRecents(getRecents())
+          setRecents(getRecents().slice(0, 5))
         }
       } else {
         setRecents(DEFAULT_RECENTS)

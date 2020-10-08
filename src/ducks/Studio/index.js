@@ -24,7 +24,7 @@ export const Studio = ({
   defaultWidgets,
   defaultSidepanel,
   defaultSettings = DEFAULT_SETTINGS,
-  extensions
+  Extensions
 }) => {
   const [widgets, setWidgets] = useState(defaultWidgets)
   const [settings, setSettings] = useState(defaultSettings)
@@ -43,16 +43,6 @@ export const Studio = ({
 
   useKeyboardCmdShortcut('m', toggleOverview)
   useKeyboardCmdShortcut('\\', toggleSidebar)
-
-  useEffect(
-    () => {
-      const { slug } = defaultSettings
-      if (slug && slug !== settings.slug) {
-        setSettings({ ...settings, slug })
-      }
-    },
-    [defaultSettings.slug]
-  )
 
   useEffect(
     () => {
@@ -318,9 +308,12 @@ export const Studio = ({
           />
         )}
       </main>
-      {React.Children.map(extensions, extension =>
-        React.cloneElement(extension, { widgets, settings, sidepanel })
-      )}
+      <Extensions
+        widgets={widgets}
+        settings={settings}
+        sidepanel={sidepanel}
+        setSettings={setSettings}
+      />
     </div>
   )
 }
