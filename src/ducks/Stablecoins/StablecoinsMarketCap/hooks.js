@@ -16,7 +16,10 @@ function buildStablecoinMetrics (rootMetric) {
     ...metric,
     node,
     queryKey,
-    domainGroup: 'stablecoins'
+    domainGroup:
+      metric.key === 'TOTAL_MARKET' || metric.key === 'BTC'
+        ? 'total'
+        : 'stablecoins'
   }))
 }
 

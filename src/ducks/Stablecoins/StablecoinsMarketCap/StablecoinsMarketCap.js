@@ -16,7 +16,7 @@ import SharedAxisToggle from '../../Studio/Chart/SharedAxisToggle'
 import { formIntervalSettings } from '../../SANCharts/IntervalSelector'
 import DashboardMetricChartWrapper from '../../../components/DashboardMetricChart/DashboardMetricChartWrapper'
 import DashboardMetricSelectors from '../../../components/DashboardMetricChart/DashboardMetricSelectors/DashboardMetricSelectors'
-import { useDomainGroups } from '../../Chart/hooks'
+import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
 import styles from './StablecoinsMarketCap.module.scss'
 
 const StablecoinsMarketCap = ({ className }) => {
@@ -47,6 +47,11 @@ const StablecoinsMarketCap = ({ className }) => {
   )
 
   const domainGroups = useDomainGroups(filteredMetrics)
+
+  const axesMetricKeys = useAxesMetricsKey(
+    filteredMetrics,
+    isDomainGroupingActive
+  ).slice(0, 2)
 
   return (
     <div className={cx(styles.container, className)}>
@@ -88,6 +93,7 @@ const StablecoinsMarketCap = ({ className }) => {
         data={data}
         settings={settings}
         MetricColor={StablecoinColor}
+        axesMetricKeysDefault={axesMetricKeys}
         isDomainGroupingActive={isDomainGroupingActive}
         loadings={loadings}
         domainGroups={domainGroups}
