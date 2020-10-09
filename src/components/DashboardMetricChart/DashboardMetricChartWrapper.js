@@ -31,15 +31,15 @@ const DashboardMetricChartWrapper = ({
   onBrushChangeEnd,
   allTimeData,
   domainGroups,
+  axesMetricKeysDefault,
   mirrorDomainGroups,
   isCartesianGridActive = false
 }) => {
   const categories = useMetricCategories(metrics)
 
-  const axesMetricKeys = useAxesMetricsKey(
-    metrics,
-    isDomainGroupingActive
-  ).slice(0, 1)
+  const axesMetricKeys =
+    axesMetricKeysDefault ||
+    useAxesMetricsKey(metrics, isDomainGroupingActive).slice(0, 1)
 
   return (
     <Chart

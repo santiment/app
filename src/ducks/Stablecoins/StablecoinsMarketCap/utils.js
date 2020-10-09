@@ -71,17 +71,14 @@ export const CHECKING_STABLECOINS = [
     color: '#1BAD44'
   },
   {
-    label: 'Others',
-    color: '#7A859E',
-    market_segments: ['Stablecoin'],
-    ignored_slugs: [
-      'gemini-dollar',
-      'trueusd',
-      'usd-coin',
-      'binance-usd',
-      'tether',
-      'multi-collateral-dai'
-    ]
+    slug: 'TOTAL_MARKET',
+    label: 'TOTAL_MARKET',
+    color: '#7A859E'
+  },
+  {
+    slug: 'bitcoin',
+    label: 'BTC',
+    color: '#7A859E'
   }
 ]
 
