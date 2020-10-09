@@ -39,9 +39,18 @@ const Chart = ({ className, width, height, padding, chartRef, children }) => {
 
   useEffect(
     () => {
+      if (chart) {
+        Object.assign(chart, paintConfigs[+isNightMode])
+        redrawChart()
+      }
+    },
+    [chart, isNightMode]
+  )
+
+  useEffect(
+    () => {
       if (!chart) return
 
-      Object.assign(chart, paintConfigs[+isNightMode])
       const { tooltip, canvasWidth, canvasHeight } = chart
 
       const _width = width || canvasWidth
@@ -55,7 +64,7 @@ const Chart = ({ className, width, height, padding, chartRef, children }) => {
 
       redrawChart()
     },
-    [chart, isNightMode, width, height, padding]
+    [chart, width, height, padding]
   )
 
   return (

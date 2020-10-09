@@ -5,7 +5,7 @@ import { usePlotter } from './plotter'
 import { clearCtx } from './utils'
 import { domainModifier } from './domain'
 
-const REDUCER = () => ({})
+const REDUCER = () => []
 const DEFAULT = {}
 
 const ChartContext = React.createContext()
@@ -27,11 +27,13 @@ export const ChartProvider = ({
 
   useEffect(
     () => {
+      if (!chart) return
+
+      clearCtx(chart)
+
       if (data.length === 0) return
 
       chart.colors = colors
-
-      clearCtx(chart)
 
       updateChartState(
         chart,
