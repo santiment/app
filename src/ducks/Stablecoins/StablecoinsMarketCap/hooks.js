@@ -1,3 +1,4 @@
+import { Metric } from '../../dataHub/metrics'
 import { useMemo, useState } from 'react'
 import { CHECKING_STABLECOINS, STABLECOIN_MARKETCAP_USD_METRIC } from './utils'
 import { useTimeseries } from '../../Studio/timeseries/hooks'
@@ -5,7 +6,13 @@ import { useTimeseries } from '../../Studio/timeseries/hooks'
 function buildStablecoinMetrics (rootMetric) {
   const { key: queryKey, node } = rootMetric
 
-  return CHECKING_STABLECOINS.map(metric => ({
+  const metrics = CHECKING_STABLECOINS.filter(metric =>
+    queryKey === Metric.price_usd.key
+      ? metric.key !== 'TOTAL_MARKET'
+      : metric.key !== 'BTC'
+  )
+
+  return metrics.map(metric => ({
     ...metric,
     node,
     queryKey,
