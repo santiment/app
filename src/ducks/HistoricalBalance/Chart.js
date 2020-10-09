@@ -1,39 +1,49 @@
 import React, { useMemo } from 'react'
 import cx from 'classnames'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import SANChart from '../Chart'
+import SANChart from '../Chart/Modular'
+import Lines from '../Chart/Lines'
+import Areas from '../Chart/Areas'
+import Axes from '../Chart/Axes'
+import CartesianGrid from '../Chart/CartesianGrid'
+import Tooltip from '../Chart/Tooltip'
 import { useChartColors } from '../Chart/colors'
 import { useClosestValueData, useAxesMetricsKey } from '../Chart/hooks'
 import { useMetricCategories } from '../Chart/Synchronizer'
 import { useTimeseries } from '../Studio/timeseries/hooks'
 import styles from './Chart.module.scss'
 
-const chartPadding = {
+const CHART_PADDING = {
   top: 25,
   bottom: 25,
-  right: 50,
+  right: 48,
   left: 15
 }
 
+const DOUBLE_AXIS_PADDING = {
+  ...CHART_PADDING,
+  left: 48
+}
+
 function getResponsiveTicks (isPhone) {
-  let xAxesTicks
-  let yAxesTicks
+  let xTicks
+  let yTicks
 
   if (isPhone) {
-    xAxesTicks = 4
-    yAxesTicks = 6
+    xTicks = 4
+    yTicks = 6
   }
 
   return {
-    xAxesTicks,
-    yAxesTicks
+    xTicks,
+    yTicks
   }
 }
 
 export const useResponsiveTicks = isPhone =>
   useMemo(() => getResponsiveTicks(isPhone), [isPhone])
 
-const Chart = ({ metrics, settings, className, ...props }) => {
+const Chart = ({ metrics, settings, axesTicks, className, ...props }) => {
   const [rawData, loadings] = useTimeseries(metrics, settings)
   const data = useClosestValueData(rawData, metrics)
   const categories = useMetricCategories(metrics)
@@ -43,18 +53,19 @@ const Chart = ({ metrics, settings, className, ...props }) => {
   return (
     <div className={cx(styles.chart, className)}>
       <SANChart
-        hideBrush
-        hideWatermark
-        isCartesianGridActive
-        chartPadding={chartPadding}
+        padding={axesMetricKeys[1] ? DOUBLE_AXIS_PADDING : CHART_PADDING}
         {...props}
-        {...categories}
         className={styles.canvas}
         data={data}
-        MetricColor={MetricColor}
-        tooltipKey={axesMetricKeys[0]}
-        axesMetricKeys={axesMetricKeys}
-      />
+        categories={categories}
+        colors={MetricColor}
+      >
+        <Areas />
+        <Lines />
+        <CartesianGrid {...axesTicks} />
+        <Axes metrics={axesMetricKeys} {...axesTicks} />
+        <Tooltip metric={axesMetricKeys[0]} />
+      </SANChart>
 
       {loadings.length > 0 && <Loader className={styles.loader} />}
 

@@ -16,8 +16,6 @@ import { drawReferenceDot } from '@santiment-network/chart/references'
 import { drawCartesianGrid } from '@santiment-network/chart/cartesianGrid'
 import { initBrush, updateBrushState } from '@santiment-network/chart/brush'
 import Loader from './Loader/Loader'
-import { plotAxes } from './axes'
-import { setupTooltip, plotTooltip } from './tooltip'
 import {
   BRUSH_HEIGHT,
   CHART_PADDING,
@@ -30,6 +28,8 @@ import { ResizeListener, onResize } from './resize'
 import { clearCtx } from './utils'
 import { domainModifier } from './domain'
 import { paintConfigs, dayBrushPaintConfig } from './paintConfigs'
+import { plotAxes } from './Axes/helpers'
+import { setupTooltip, plotTooltip } from './Tooltip/helpers'
 import { useTheme } from '../../stores/ui/theme'
 import styles from './index.module.scss'
 

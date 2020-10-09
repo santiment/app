@@ -81,8 +81,8 @@ const HistoricalBalance = ({
         setIsLog={setIsLog}
       >
         <Chart
-          {...axesTicks}
-          chartHeight={isPhone ? 340 : 450}
+          axesTicks={axesTicks}
+          height={isPhone ? 340 : 450}
           scale={isLog ? logScale : linearScale}
           settings={settings}
           metrics={metrics}

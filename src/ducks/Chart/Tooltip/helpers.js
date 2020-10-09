@@ -13,8 +13,8 @@ import {
   getDateHoursMinutes,
   yBubbleFormatter,
   isDayInterval
-} from './utils'
-import { TooltipSetting } from '../dataHub/tooltipSettings'
+} from '../utils'
+import { TooltipSetting } from '../../dataHub/tooltipSettings'
 
 const ALERT_ADD_SIZE = 13
 const ALERT_ADD_HALF_SIZE = 7

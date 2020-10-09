@@ -29,9 +29,8 @@ const SETTINGS = {
 const UniswapHistoricalBalance = ({
   className,
   headerClassName,
-  xAxesTicks,
-  yAxesTicks,
-  chartPadding
+  axesTicks,
+  padding
 }) => {
   const { settings, changeTimePeriod } = useSettings(SETTINGS)
 
@@ -53,17 +52,24 @@ const UniswapHistoricalBalance = ({
         className={cx(styles.chart, className)}
         settings={settings}
         metrics={METRICS}
-        yAxesTicks={yAxesTicks}
-        xAxesTicks={xAxesTicks}
-        chartPadding={chartPadding}
+        axesTicks={axesTicks}
+        padding={padding}
       />
     </div>
   )
 }
 
 UniswapHistoricalBalance.defaultProps = {
-  yAxesTicks: 4,
-  xAxesTicks: 6
+  axesTicks: {
+    xTicks: 6,
+    yTicks: 4
+  },
+  padding: {
+    top: 10,
+    right: 45,
+    bottom: 23,
+    left: 45
+  }
 }
 
 export default UniswapHistoricalBalance

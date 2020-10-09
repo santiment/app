@@ -8,11 +8,11 @@ import {
   isDayInterval,
   getDateDayMonthYear,
   getDateHoursMinutes
-} from './utils'
-import { dayTicksPaintConfig, dayAxesColor } from './paintConfigs'
-import { TooltipSetting } from '../dataHub/tooltipSettings'
-import { mirroredMetrics } from '../dataHub/metrics/mirrored'
-import { millify } from '../../utils/formatting'
+} from '../utils'
+import { dayTicksPaintConfig, dayAxesColor } from '../paintConfigs'
+import { TooltipSetting } from '../../dataHub/tooltipSettings'
+import { mirroredMetrics } from '../../dataHub/metrics/mirrored'
+import { millify } from '../../../utils/formatting'
 
 function yFormatter (value) {
   const absValue = Math.abs(value)
