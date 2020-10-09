@@ -5,8 +5,8 @@ import { usePlotter } from './plotter'
 import { clearCtx } from './utils'
 import { domainModifier } from './domain'
 
+const DEFAULT = []
 const REDUCER = () => []
-const DEFAULT = {}
 
 const ChartContext = React.createContext()
 const ChartSetterContext = React.createContext()
