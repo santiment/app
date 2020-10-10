@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react'
-import cx from 'classnames'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import SANChart from '../Chart/Modular'
 import Lines from '../Chart/Lines'
@@ -43,7 +42,7 @@ function getResponsiveTicks (isPhone) {
 export const useResponsiveTicks = isPhone =>
   useMemo(() => getResponsiveTicks(isPhone), [isPhone])
 
-const Chart = ({ metrics, settings, axesTicks, className, ...props }) => {
+const Chart = ({ metrics, settings, axesTicks, ...props }) => {
   const [rawData, loadings] = useTimeseries(metrics, settings)
   const data = useClosestValueData(rawData, metrics)
   const categories = useMetricCategories(metrics)
@@ -51,21 +50,18 @@ const Chart = ({ metrics, settings, axesTicks, className, ...props }) => {
   const axesMetricKeys = useAxesMetricsKey(metrics)
 
   return (
-    <div className={cx(styles.chart, className)}>
-      <SANChart
-        padding={axesMetricKeys[1] ? DOUBLE_AXIS_PADDING : CHART_PADDING}
-        {...props}
-        className={styles.canvas}
-        data={data}
-        categories={categories}
-        colors={MetricColor}
-      >
-        <Areas />
-        <Lines />
-        <CartesianGrid {...axesTicks} />
-        <Axes metrics={axesMetricKeys} {...axesTicks} />
-        <Tooltip metric={axesMetricKeys[0]} />
-      </SANChart>
+    <SANChart
+      padding={axesMetricKeys[1] ? DOUBLE_AXIS_PADDING : CHART_PADDING}
+      {...props}
+      data={data}
+      categories={categories}
+      colors={MetricColor}
+    >
+      <Areas />
+      <Lines />
+      <CartesianGrid {...axesTicks} />
+      <Axes metrics={axesMetricKeys} {...axesTicks} />
+      <Tooltip metric={axesMetricKeys[0]} />
 
       {loadings.length > 0 && <Loader className={styles.loader} />}
 
@@ -75,7 +71,7 @@ const Chart = ({ metrics, settings, axesTicks, className, ...props }) => {
           forms above to see the historical data
         </div>
       )}
-    </div>
+    </SANChart>
   )
 }
 

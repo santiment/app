@@ -30,7 +30,8 @@ const UniswapHistoricalBalance = ({
   className,
   headerClassName,
   axesTicks,
-  padding
+  padding,
+  height
 }) => {
   const { settings, changeTimePeriod } = useSettings(SETTINGS)
 
@@ -54,6 +55,7 @@ const UniswapHistoricalBalance = ({
         metrics={METRICS}
         axesTicks={axesTicks}
         padding={padding}
+        height={height}
       />
     </div>
   )

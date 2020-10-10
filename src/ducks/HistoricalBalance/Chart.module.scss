@@ -1,11 +1,3 @@
-.chart {
-  position: relative;
-}
-
-.canvas {
-  height: 100%;
-}
-
 .description,
 .loader {
   position: absolute;
@@ -21,4 +13,5 @@
 .description {
   width: 260px;
   text-align: center;
+  line-height: initial;
 }
