@@ -3,10 +3,11 @@ import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Tooltip from '../../../../../components/Tooltip/DarkTooltip'
-import ExplanationTooltip from '../../../../SANCharts/SidecarExplanationTooltip'
+import filterTooltipImg from '../../../../../assets/tooltips/screener-filter-bg.jpg'
+import TooltipWithImg from '../../../../../components/TooltipWithImg/TooltipWithImg'
 import styles from './index.module.scss'
 
-export const EXPLANATION_TOOLTIP_MARK = '_FILTER_EXPLANATION'
+export const FILTERS_EXPLANATION_TOOLTIP_MARK = '_FILTER_EXPLANATION'
 
 const Trigger = ({ activeMetricsCount, isOpen, onClick }) => {
   if (activeMetricsCount > 0 && !isOpen) {
@@ -47,40 +48,31 @@ const Trigger = ({ activeMetricsCount, isOpen, onClick }) => {
 
   if (!activeMetricsCount) {
     return (
-      <div className={styles.tooltipWrapper}>
-        <ExplanationTooltip
-          closeTimeout={500}
-          localStorageSuffix={EXPLANATION_TOOLTIP_MARK}
-          position='top'
-          align='end'
-          forceClose={isOpen}
-          title={
-            <div className={styles.tooltip}>
-              Customize your screener with multiple asset filters
-            </div>
-          }
-          description=''
-          withArrow
-          delay={0}
-          className={styles.tooltipContainer}
+      <TooltipWithImg
+        closeTimeout={500}
+        mark={FILTERS_EXPLANATION_TOOLTIP_MARK}
+        img={filterTooltipImg}
+        forceClose={isOpen}
+        align='end'
+        position='bottom'
+        description='Use filters to narrow your watchlist based on specific on-chain, social or other criteria. You can set a unique time frame for each filter, from the last 24 hours up to 1 year.'
+      >
+        <Button
+          className={cx(styles.button, isOpen && styles.active)}
+          border
+          onClick={() => onClick(!isOpen)}
         >
-          <Button
-            className={cx(styles.button, isOpen && styles.active)}
-            border
-            onClick={() => onClick(!isOpen)}
+          <Icon className={styles.icon} type='filter-filled' />
+          <span
+            className={cx(
+              styles.text,
+              activeMetricsCount > 0 && styles.text__active
+            )}
           >
-            <Icon className={styles.icon} type='filter-filled' />
-            <span
-              className={cx(
-                styles.text,
-                activeMetricsCount > 0 && styles.text__active
-              )}
-            >
-              Filter
-            </span>
-          </Button>
-        </ExplanationTooltip>
-      </div>
+            Filter
+          </span>
+        </Button>
+      </TooltipWithImg>
     )
   }
 }

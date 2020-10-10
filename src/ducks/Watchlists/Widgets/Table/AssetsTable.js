@@ -21,6 +21,7 @@ import { markedAsShowed } from '../../../SANCharts/SidecarExplanationTooltip'
 import { EXPLANATION_TOOLTIP_MARK } from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
 import CompareInfo from './CompareInfo/CompareInfo'
 import CompareAction from './CompareInfo/CompareAction'
+import { FILTERS_EXPLANATION_TOOLTIP_MARK } from '../Filter/Trigger'
 import './ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
 
@@ -84,6 +85,7 @@ const AssetsTable = ({
       let timer
       if (
         !markedAsShowed(EXPLANATION_TOOLTIP_MARK) &&
+        markedAsShowed(FILTERS_EXPLANATION_TOOLTIP_MARK) &&
         items.length > 0 &&
         !markedAsNew
       ) {
