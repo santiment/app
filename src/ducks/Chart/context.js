@@ -75,6 +75,18 @@ export const buildPlotter = plotter => props => {
   plotter(useChartPlotter(), props)
   return null
 }
+export function usePlotterRemove (id) {
+  const plotter = useChartPlotter()
+  const redrawChart = useChartRedraw()
+
+  useEffect(() => {
+    redrawChart()
+    return () => {
+      plotter.delete(id)
+      redrawChart()
+    }
+  }, [])
+}
 
 export const withChartContext = Component => ({
   data,

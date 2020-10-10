@@ -15,7 +15,7 @@ import Compare from '../Compare'
 import { extractIndicatorDomainGroups } from '../utils'
 import { useMetricColor } from '../Widget/ChartWidgetColorProvider'
 import { useAllTimeData } from '../timeseries/hooks'
-import Chart from '../../Chart'
+import SANChart from '../../Chart'
 import Signals from '../../Chart/Signals'
 import { useMetricCategories } from '../../Chart/Synchronizer'
 import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
@@ -25,7 +25,9 @@ import { useUser } from '../../../stores/user'
 import { getTimeIntervalFromToday, DAY } from '../../../utils/dates'
 import styles from './index.module.scss'
 
-const Canvas = ({
+import Canvas from './Canvas'
+
+const Chart = ({
   index,
   widget,
   className,
@@ -214,41 +216,59 @@ const Canvas = ({
         />
       )}
 
-      <Chart
-        {...categories}
-        {...options}
-        {...settings}
+      <Canvas
+        categories={categories}
         data={data}
-        events={eventsData}
         brushData={allTimeData}
         chartRef={chartRef}
         className={cx(styles.chart, isBlurred && styles.blur)}
-        MetricColor={HighlightedMetricColor}
+        colors={HighlightedMetricColor}
         metrics={metrics}
         scale={scale}
+        isDomainGroupingActive={isDomainGroupingActive}
+        isCartesianGridActive={options.isCartesianGridActive}
         domainGroups={
           isDomainGroupingActive ? domainGroups : mirrorDomainGroups
         }
-        tooltipKey={axesMetricKeys[0]}
-        axesMetricKeys={axesMetricKeys}
-        onPointClick={onPointClick}
-        onBrushChangeEnd={onBrushChangeEnd}
-        onRangeSelect={onRangeSelect}
-        onRangeSelectStart={onRangeSelectStart}
-        syncTooltips={syncTooltips}
-        resizeDependencies={[axesMetricKeys]}
-      >
-        <IcoPrice
+      />
+
+      {false && (
+        <SANChart
+          {...categories}
+          {...options}
           {...settings}
-          isICOPriceActive={isICOPriceActive}
+          data={data}
+          events={eventsData}
+          brushData={allTimeData}
+          chartRef={chartRef}
+          className={cx(styles.chart, isBlurred && styles.blur)}
+          MetricColor={HighlightedMetricColor}
           metrics={metrics}
-          className={styles.ico}
-          onResult={price => setIsICOPriceDisabled(!price)}
-        />
-        <LastDayPrice settings={settings} metrics={metrics} />
-        {isSelectingRange || <Signals {...settings} metrics={metrics} />}
-        <Insights />
-      </Chart>
+          scale={scale}
+          domainGroups={
+            isDomainGroupingActive ? domainGroups : mirrorDomainGroups
+          }
+          // tooltipKey={axesMetricKeys[0]}
+          // axesMetricKeys={axesMetricKeys}
+          onPointClick={onPointClick}
+          onBrushChangeEnd={onBrushChangeEnd}
+          onRangeSelect={onRangeSelect}
+          onRangeSelectStart={onRangeSelectStart}
+          syncTooltips={syncTooltips}
+          resizeDependencies={[axesMetricKeys]}
+        >
+          <IcoPrice
+            {...settings}
+            isICOPriceActive={isICOPriceActive}
+            metrics={metrics}
+            className={styles.ico}
+            onResult={price => setIsICOPriceDisabled(!price)}
+          />
+          <LastDayPrice settings={settings} metrics={metrics} />
+          {isSelectingRange || <Signals {...settings} metrics={metrics} />}
+          <Insights />
+        </SANChart>
+      )}
 
       {isBlurred && (
         <div className={styles.restriction}>
@@ -262,8 +282,8 @@ const Canvas = ({
   )
 }
 
-Canvas.defaultProps = {
+Chart.defaultProps = {
   isWithCompare: true
 }
 
-export default Canvas
+export default Chart
