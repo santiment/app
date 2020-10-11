@@ -1,11 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Route, Switch } from 'react-router-dom'
+import { Router, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { StripeProvider } from 'react-stripe-elements'
 import throttle from 'lodash.throttle'
 import { ApolloProvider } from 'react-apollo'
-import { ConnectedRouter } from 'react-router-redux'
 import App from './App'
 import { client } from './apollo'
 import { store, history } from './redux'
@@ -102,12 +101,12 @@ const main = () => {
       <ApolloProvider client={client}>
         <ThemeProvider>
           <Provider store={store}>
-            <ConnectedRouter history={history}>
+            <Router history={history}>
               <Switch>
                 <Route exact path='/chart' component={ChartPage} />
                 <Route path='/' component={App} />
               </Switch>
-            </ConnectedRouter>
+            </Router>
           </Provider>
         </ThemeProvider>
       </ApolloProvider>
