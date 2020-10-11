@@ -1,7 +1,7 @@
 import React from 'react'
 import ResponsiveChart from '../../Chart/Responsive'
 import Lines from '../../Chart/Lines'
-/* import Bars from '../../Chart/Bars' */
+import Bars from '../../Chart/Bars'
 import Tooltip from '../../Chart/Tooltip'
 import Axes from '../../Chart/Axes'
 import CartesianGrid from '../../Chart/CartesianGrid'
@@ -24,19 +24,23 @@ const Canvas = ({
   isICOPriceActive,
   isCartesianGridActive,
 
+  categories,
+  brushData,
+
   ...props
 }) => {
   const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
 
   return (
-    <ResponsiveChart padding={PADDING} {...props}>
+    <ResponsiveChart padding={PADDING} categories={categories} {...props}>
       {/* <Watermark /> */}
+      <Bars />
       <Lines />
-      {/* <Bars /> */}
       <Axes metrics={axesMetricKeys} />
       <Tooltip metric={axesMetricKeys[0]} />
-      <Brush />
       {isCartesianGridActive && <CartesianGrid />}
+
+      <Brush categories={categories} data={brushData} />
 
       {/* <IcoPrice
           {...settings}
