@@ -1,4 +1,6 @@
 import qs from 'query-string'
+import { useCallback, useEffect, useMemo } from 'react'
+import queryString from 'query-string'
 
 export function getWatchlistLink ({ name, id }) {
   return `/assets/list?name=${encodeURIComponent(name)}@${id}`
@@ -117,4 +119,52 @@ export const BASIC_CATEGORIES = [
 
 export function countAssetsSort ({ count: countA }, { count: countB }) {
   return countA > countB ? -1 : 1
+}
+
+export const useScreenerUrl = ({
+  location,
+  history,
+  widgets,
+  setWidgetsState
+}) => {
+  const parsedUrl = useMemo(() => queryString.parse(location.search), [
+    location.search
+  ])
+
+  const getCharts = useCallback(
+    () => {
+      return parsedUrl && parsedUrl.charts ? JSON.parse(parsedUrl.charts) : {}
+    },
+    [parsedUrl]
+  )
+
+  useEffect(() => {
+    const charts = getCharts()
+    if (charts) {
+      setWidgetsState(charts)
+    }
+  }, [])
+
+  const urlChange = useCallback(
+    data => {
+      const oldCharts = getCharts()
+      history.replace(
+        `${window.location.pathname}?${queryString.stringify({
+          ...parsedUrl,
+          charts: JSON.stringify({
+            ...oldCharts,
+            ...data
+          })
+        })}`
+      )
+    },
+    [parsedUrl]
+  )
+
+  useEffect(
+    () => {
+      urlChange(widgets)
+    },
+    [widgets]
+  )
 }

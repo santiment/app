@@ -1,65 +1,31 @@
-import React, { useEffect, useMemo, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import cx from 'classnames'
-import queryString from 'query-string'
-import { withRouter } from 'react-router-dom'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Toggle from '@santiment-network/ui/Toggle'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import styles from './Widgets.module.scss'
 
-const Widgets = ({
-  widgets: { isPriceChart, isPriceTreeMap, isVolumeTreeMap } = {},
-  togglers = {},
-  history,
-  location
-}) => {
-  const { priceToggle, togglePriceTreeMap, toggleVolumeTreeMap } = togglers
-  const parsedUrl = useMemo(() => queryString.parse(location.search), [
-    location.search
-  ])
+const Widgets = ({ widgets, setWidgetsState }) => {
+  const { isPriceChartActive, isPriceTreeMap, isVolumeTreeMap } = widgets
 
-  const getCharts = useCallback(
-    () => {
-      return parsedUrl && parsedUrl.charts ? JSON.parse(parsedUrl.charts) : {}
+  const priceToggle = useCallback(
+    isPriceChartActive => {
+      setWidgetsState({ ...widgets, isPriceChartActive })
     },
-    [parsedUrl]
+    [widgets]
   )
-
-  useEffect(
-    () => {
-      const charts = getCharts()
-      if (charts) {
-        if (charts.isPriceChart) {
-          priceToggle(true)
-        }
-
-        if (charts.isPriceTreeMap) {
-          togglePriceTreeMap(true)
-        }
-
-        if (charts.isVolumeTreeMap) {
-          toggleVolumeTreeMap(true)
-        }
-      }
+  const togglePriceTreeMap = useCallback(
+    isPriceTreeMap => {
+      setWidgetsState({ ...widgets, isPriceTreeMap })
     },
-    [parsedUrl]
+    [widgets]
   )
-
-  const urlChange = useCallback(
-    data => {
-      const oldCharts = getCharts()
-      history.replace(
-        `${window.location.pathname}?${queryString.stringify({
-          ...parsedUrl,
-          charts: JSON.stringify({
-            ...oldCharts,
-            ...data
-          })
-        })}`
-      )
+  const toggleVolumeTreeMap = useCallback(
+    isVolumeTreeMap => {
+      setWidgetsState({ ...widgets, isVolumeTreeMap })
     },
-    [parsedUrl]
+    [widgets]
   )
 
   return (
@@ -69,7 +35,7 @@ const Widgets = ({
           variant='flat'
           className={cx(
             styles.triggerButton,
-            (isPriceChart || isPriceTreeMap || isVolumeTreeMap) &&
+            (isPriceChartActive || isPriceTreeMap || isVolumeTreeMap) &&
               styles.triggerButton__active
           )}
           icon='view-option'
@@ -88,7 +54,6 @@ const Widgets = ({
           isActive={isPriceTreeMap}
           toggle={() => {
             togglePriceTreeMap(!isPriceTreeMap)
-            urlChange({ isPriceTreeMap: !isPriceTreeMap })
           }}
         />
         <ToggleWidget
@@ -97,16 +62,14 @@ const Widgets = ({
           isActive={isVolumeTreeMap}
           toggle={() => {
             toggleVolumeTreeMap(!isVolumeTreeMap)
-            urlChange({ isVolumeTreeMap: !isVolumeTreeMap })
           }}
         />
         <ToggleWidget
           index={0}
           title='Price Bar Chart'
-          isActive={isPriceChart}
+          isActive={isPriceChartActive}
           toggle={() => {
-            priceToggle(!isPriceChart)
-            urlChange({ isPriceChart: !isPriceChart })
+            priceToggle(!isPriceChartActive)
           }}
         />
       </Panel>
@@ -165,4 +128,4 @@ const SVGs = [
   </svg>
 ]
 
-export default withRouter(Widgets)
+export default Widgets

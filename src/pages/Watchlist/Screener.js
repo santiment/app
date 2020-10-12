@@ -1,7 +1,8 @@
 import React, { useCallback, useState } from 'react'
 import {
   getWatchlistName,
-  DEFAULT_SCREENER_FUNCTION
+  DEFAULT_SCREENER_FUNCTION,
+  useScreenerUrl
 } from '../../ducks/Watchlists/utils'
 import { getProjectsByFunction } from '../../ducks/Watchlists/gql/hooks'
 import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
@@ -45,9 +46,14 @@ export const useComparingAssets = () => {
 }
 
 const Screener = props => {
-  const [isPriceChartActive, setPriceChart] = useState(false)
-  const [isPriceTreeMap, setPriceTreeMap] = useState(false)
-  const [isVolumeTreeMap, setVolumeTreeMap] = useState(false)
+  const [widgetsState, setWidgetsState] = useState({
+    isPriceChartActive: false,
+    isPriceTreeMap: false,
+    isVolumeTreeMap: false
+  })
+
+  const { isPriceChartActive, isPriceTreeMap, isVolumeTreeMap } = widgetsState
+
   const [screenerFunction, setScreenerFunction] = useState(
     props.watchlist.function || DEFAULT_SCREENER_FUNCTION
   )
@@ -58,9 +64,13 @@ const Screener = props => {
     name,
     isLoggedIn,
     isDefaultScreener,
+    location,
     history,
-    preload
+    preload,
+    type
   } = props
+
+  useScreenerUrl({ location, history, widgets: widgetsState, setWidgetsState })
 
   const { comparingAssets, addAsset, cleanAll } = useComparingAssets()
 
@@ -70,7 +80,7 @@ const Screener = props => {
     <div className={('page', styles.screener)}>
       <GetAssets
         {...props}
-        type={props.type}
+        type={type}
         render={Assets => {
           const title = getWatchlistName(props)
           const {
@@ -92,16 +102,8 @@ const Screener = props => {
                 setScreenerFunction={setScreenerFunction}
                 isDefaultScreener={isDefaultScreener}
                 history={history}
-                widgets={{
-                  isPriceChart: isPriceChartActive,
-                  isPriceTreeMap: isPriceTreeMap,
-                  isVolumeTreeMap: isVolumeTreeMap
-                }}
-                togglers={{
-                  priceToggle: setPriceChart,
-                  togglePriceTreeMap: setPriceTreeMap,
-                  toggleVolumeTreeMap: setVolumeTreeMap
-                }}
+                widgets={widgetsState}
+                updateWidgetsState={setWidgetsState}
               />
               {isPriceTreeMap && (
                 <div className={styles.treeMaps}>
