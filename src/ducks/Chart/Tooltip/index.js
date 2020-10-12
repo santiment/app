@@ -1,10 +1,23 @@
 import { useEffect } from 'react'
 import { initTooltip } from '@santiment-network/chart/tooltip'
-import { setupTooltip } from './helpers'
+import { setupTooltip, plotTooltip } from './helpers'
 import { useChart } from '../context'
 
-const Tooltip = ({ metric }) => {
+const Tooltip = ({
+  metric,
+  syncTooltips,
+  onPointClick,
+  onRangeSelect,
+  onRangeSelectStart
+}) => {
   const chart = useChart()
+
+  if (chart) {
+    chart.syncTooltips = syncTooltips
+    chart.onRangeSelect = onRangeSelect
+    chart.onRangeSelectStart = onRangeSelectStart
+    chart.onPointClick = onPointClick
+  }
 
   useEffect(
     () => {
@@ -16,8 +29,7 @@ const Tooltip = ({ metric }) => {
       }
 
       chart.tooltipKey = metric
-      chart.syncTooltips = () => {}
-      chart.onPointClick = () => {}
+      chart.drawTooltip = point => plotTooltip(chart, marker, point)
 
       initTooltip(chart)
       setupTooltip(chart, marker)

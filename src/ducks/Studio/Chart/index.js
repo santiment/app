@@ -232,6 +232,10 @@ const Chart = ({
         }
         isDomainGroupingActive={isDomainGroupingActive}
         onBrushChangeEnd={onBrushChangeEnd}
+        onPointClick={onPointClick}
+        onRangeSelect={onRangeSelect}
+        onRangeSelectStart={onRangeSelectStart}
+        syncTooltips={syncTooltips}
       />
 
       {false && (

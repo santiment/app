@@ -5,15 +5,14 @@ import Bars from '../../Chart/Bars'
 import Tooltip from '../../Chart/Tooltip'
 import Axes from '../../Chart/Axes'
 import CartesianGrid from '../../Chart/CartesianGrid'
-import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
+import { useAxesMetricsKey } from '../../Chart/hooks'
 import Watermark from '../../Chart/Watermark'
 import Brush from '../../Chart/Brush'
 
 const PADDING = {
   top: 10,
   right: 50,
-  /* bottom: 18, */
-  bottom: 40 + 33,
+  bottom: 73,
   left: 5
 }
 
@@ -24,7 +23,11 @@ const Canvas = ({
   settings,
   options,
   isDomainGroupingActive,
+  syncTooltips,
   onBrushChangeEnd,
+  onPointClick,
+  onRangeSelect,
+  onRangeSelectStart,
   ...props
 }) => {
   const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
@@ -38,12 +41,18 @@ const Canvas = ({
   return (
     <ResponsiveChart padding={PADDING} {...props} data={data}>
       <Watermark light={isWatermarkLighter} />
-
       <Bars />
       <Lines />
       <Axes metrics={axesMetricKeys} />
-      <Tooltip metric={axesMetricKeys[0]} />
       {isCartesianGridActive && <CartesianGrid />}
+
+      <Tooltip
+        metric={axesMetricKeys[0]}
+        syncTooltips={syncTooltips}
+        onPointClick={onPointClick}
+        onRangeSelect={onRangeSelect}
+        onRangeSelectStart={onRangeSelectStart}
+      />
 
       <Brush
         {...props}
