@@ -34,7 +34,6 @@ export const ChartProvider = ({
       if (data.length === 0) return
 
       chart.colors = colors
-      chart.scale = scale
 
       updateChartState(
         chart,
@@ -44,8 +43,8 @@ export const ChartProvider = ({
         domainGroups
       )
 
-      plotter.items.forEach(clb => {
-        clb(chart, scale, data, colors, categories)
+      plotter.items.forEach(plot => {
+        plot(chart, scale, data, colors, categories)
       })
     },
     [data, scale, colors, domainGroups, isAwaitingRedraw]

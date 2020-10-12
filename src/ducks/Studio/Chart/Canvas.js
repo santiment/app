@@ -24,7 +24,7 @@ const Canvas = ({
   isICOPriceActive,
   isCartesianGridActive,
 
-  categories,
+  data,
   brushData,
 
   ...props
@@ -32,7 +32,7 @@ const Canvas = ({
   const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
 
   return (
-    <ResponsiveChart padding={PADDING} categories={categories} {...props}>
+    <ResponsiveChart padding={PADDING} data={data} {...props}>
       {/* <Watermark /> */}
       <Bars />
       <Lines />
@@ -40,7 +40,7 @@ const Canvas = ({
       <Tooltip metric={axesMetricKeys[0]} />
       {isCartesianGridActive && <CartesianGrid />}
 
-      <Brush categories={categories} data={brushData} />
+      <Brush data={brushData} {...props} />
 
       {/* <IcoPrice
           {...settings}

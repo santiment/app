@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react'
-import { initBrush, updateBrushState } from '@santiment-network/chart/brush'
-import { useChart, useChartRedraw, useChartPlotter } from './context'
+import {
+  initBrush,
+  updateBrushState,
+  updateBrushDimensions
+} from '@santiment-network/chart/brush'
+import { useChart, useChartPlotter } from './context'
 import { dayBrushPaintConfig, nightBrushPaintConfig } from './paintConfigs'
 import { clearCtx } from './utils'
 import { useTheme } from '../../stores/ui/theme'
 import { brush as brushClassName } from './index.module.scss'
 
-export const BRUSH_HEIGHT = 40
+const BRUSH_HEIGHT = 40
+const noop = () => {}
 
 function getBrushPlotItems ({ items }) {
   const brushItems = new Map(items)
@@ -17,7 +22,7 @@ function getBrushPlotItems ({ items }) {
   return brushItems
 }
 
-const Brush = ({ data, categories }) => {
+const Brush = ({ data, categories, scale, colors, domainGroups }) => {
   const chart = useChart()
   const plotter = useChartPlotter()
   const { isNightMode } = useTheme()
@@ -29,15 +34,17 @@ const Brush = ({ data, categories }) => {
 
       const width = chart.canvasWidth
 
-      const brush = initBrush(
-        chart,
-        width,
-        BRUSH_HEIGHT,
-        dayBrushPaintConfig,
-        () => {}
-      )
+      const brush = initBrush(chart, width, BRUSH_HEIGHT, dayBrushPaintConfig)
       brush.canvas.classList.add(brushClassName)
 
+      brush.plotBrushData = noop
+      brush.redraw = noop
+      brush.updateWidth = width => {
+        updateBrushDimensions(brush, width, BRUSH_HEIGHT)
+        brush.redraw()
+      }
+
+      chart.brush = brush
       setBrush(brush)
     },
     [chart]
@@ -45,31 +52,25 @@ const Brush = ({ data, categories }) => {
 
   useEffect(
     () => {
-      if (brush) {
-        brush.paintConfig = isNightMode
-          ? nightBrushPaintConfig
-          : dayBrushPaintConfig
-      }
-    },
-    [brush, isNightMode]
-  )
-
-  useEffect(
-    () => {
       if (!brush) return
 
       clearCtx(brush)
-      const { scale, colors } = chart
+      brush.paintConfig = isNightMode
+        ? nightBrushPaintConfig
+        : dayBrushPaintConfig
 
-      if (!scale || data.length === 0) return
+      if (data.length === 0) return
 
-      updateBrushState(brush, data, categories.joinedCategories)
+      brush.plotBrushData = () =>
+        getBrushPlotItems(plotter).forEach(plot => {
+          plot(brush, scale, data, colors, categories)
+        })
+      brush.redraw = () =>
+        updateBrushState(brush, data, categories.joinedCategories)
 
-      getBrushPlotItems(plotter).forEach(plot => {
-        plot(brush, scale, data, colors, categories)
-      })
+      brush.redraw()
     },
-    [brush, data]
+    [brush, data, colors, domainGroups, isNightMode]
   )
 
   return null
