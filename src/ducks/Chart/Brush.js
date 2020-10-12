@@ -18,6 +18,7 @@ function getBrushPlotItems ({ items }) {
 
   brushItems.delete('cartesianGrid')
   brushItems.delete('axes')
+  brushItems.delete('watermark')
 
   return brushItems
 }

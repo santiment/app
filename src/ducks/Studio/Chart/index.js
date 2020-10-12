@@ -226,11 +226,11 @@ const Chart = ({
         metrics={metrics}
         scale={scale}
         settings={settings}
+        options={options}
         domainGroups={
           isDomainGroupingActive ? domainGroups : mirrorDomainGroups
         }
         isDomainGroupingActive={isDomainGroupingActive}
-        isCartesianGridActive={options.isCartesianGridActive}
         onBrushChangeEnd={onBrushChangeEnd}
       />
 

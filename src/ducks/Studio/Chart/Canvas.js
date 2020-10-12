@@ -6,7 +6,7 @@ import Tooltip from '../../Chart/Tooltip'
 import Axes from '../../Chart/Axes'
 import CartesianGrid from '../../Chart/CartesianGrid'
 import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
-/* import Watermark from '../../Chart/Watermark' */
+import Watermark from '../../Chart/Watermark'
 import Brush from '../../Chart/Brush'
 
 const PADDING = {
@@ -18,24 +18,27 @@ const PADDING = {
 }
 
 const Canvas = ({
-  metrics,
-  settings,
-
   data,
   brushData,
-
+  metrics,
+  settings,
+  options,
   isDomainGroupingActive,
-  isICOPriceActive,
-  isCartesianGridActive,
   onBrushChangeEnd,
   ...props
 }) => {
   const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
   const { from, to } = settings
+  const {
+    isCartesianGridActive,
+    isWatermarkLighter,
+    isICOPriceActive
+  } = options
 
   return (
     <ResponsiveChart padding={PADDING} {...props} data={data}>
-      {/* <Watermark /> */}
+      <Watermark light={isWatermarkLighter} />
+
       <Bars />
       <Lines />
       <Axes metrics={axesMetricKeys} />

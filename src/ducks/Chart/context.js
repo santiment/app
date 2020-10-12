@@ -5,6 +5,7 @@ import { usePlotter } from './plotter'
 import { clearCtx } from './utils'
 import { domainModifier } from './domain'
 
+const noop = () => {}
 const DEFAULT = []
 const REDUCER = () => []
 
@@ -82,7 +83,7 @@ export function usePlotterRemove (id) {
   useEffect(() => {
     redrawChart()
     return () => {
-      plotter.delete(id)
+      plotter.register(id, noop)
       redrawChart()
     }
   }, [])
