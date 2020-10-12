@@ -231,12 +231,14 @@ const Chart = ({
           isDomainGroupingActive ? domainGroups : mirrorDomainGroups
         }
         isDomainGroupingActive={isDomainGroupingActive}
+        isICOPriceActive={isICOPriceActive}
         isSelectingRange={isSelectingRange}
         onBrushChangeEnd={onBrushChangeEnd}
         onPointClick={onPointClick}
         onRangeSelect={onRangeSelect}
         onRangeSelectStart={onRangeSelectStart}
         syncTooltips={syncTooltips}
+        setIsICOPriceDisabled={setIsICOPriceDisabled}
       />
 
       {false && (

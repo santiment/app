@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
+import { useChart } from '../../Chart/context'
 import { Metric } from '../../dataHub/metrics'
 import styles from './IcoPrice.module.scss'
 
@@ -84,4 +85,7 @@ IcoPrice.defaultProps = {
   onResult: () => {}
 }
 
-export default IcoPrice
+export default props => {
+  const chart = useChart()
+  return chart ? <IcoPrice chart={chart} {...props} /> : null
+}

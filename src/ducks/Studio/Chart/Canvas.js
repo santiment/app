@@ -1,5 +1,6 @@
 import React from 'react'
 import Insights from './Insights'
+import IcoPrice from './IcoPrice'
 import ResponsiveChart from '../../Chart/Responsive'
 import Lines from '../../Chart/Lines'
 import Bars from '../../Chart/Bars'
@@ -11,6 +12,7 @@ import { useAxesMetricsKey } from '../../Chart/hooks'
 import Watermark from '../../Chart/Watermark'
 import Brush from '../../Chart/Brush'
 import Signals from '../../Chart/Signals'
+import styles from './index.module.scss'
 
 const PADDING = {
   top: 10,
@@ -26,21 +28,19 @@ const Canvas = ({
   settings,
   options,
   isDomainGroupingActive,
+  isICOPriceActive,
   isSelectingRange,
   syncTooltips,
   onBrushChangeEnd,
   onPointClick,
   onRangeSelect,
   onRangeSelectStart,
+  setIsICOPriceDisabled,
   ...props
 }) => {
   const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
   const { from, to } = settings
-  const {
-    isCartesianGridActive,
-    isWatermarkLighter,
-    isICOPriceActive
-  } = options
+  const { isCartesianGridActive, isWatermarkLighter } = options
 
   return (
     <ResponsiveChart padding={PADDING} {...props} data={data}>
@@ -67,13 +67,15 @@ const Canvas = ({
         onChangeEnd={onBrushChangeEnd}
       />
 
-      {/* <IcoPrice
-          {...settings}
-          isICOPriceActive={isICOPriceActive}
-          metrics={metrics}
-          className={styles.ico}
-          onResult={(price) => setIsICOPriceDisabled(!price)}
-          />
+      <IcoPrice
+        {...settings}
+        isICOPriceActive={isICOPriceActive}
+        metrics={metrics}
+        className={styles.ico}
+        onResult={price => setIsICOPriceDisabled(!price)}
+      />
+
+      {/*
           <LastDayPrice settings={settings} metrics={metrics} />
         */}
 
