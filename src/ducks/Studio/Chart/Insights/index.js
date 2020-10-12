@@ -2,8 +2,9 @@ import React, { useMemo, useState, useCallback } from 'react'
 import Point from './Point'
 import { withViewportFilter } from './withViewportFilter'
 import { useInsights, useActiveToggleInsight } from '../../insights/context'
-import { useUser } from '../../../../stores/user'
 import { findPointByDate } from '../../../Chart/utils'
+import { useChart } from '../../../Chart/context'
+import { useUser } from '../../../../stores/user'
 
 const POINT_MARGIN = 13
 
@@ -63,8 +64,11 @@ const Insights = ({ chart, insights }) => {
 }
 
 const withOnlyIfInsights = Component => props => {
+  const chart = useChart()
   const insights = useInsights()
-  return insights.length ? <Component {...props} insights={insights} /> : null
+  return chart && insights.length ? (
+    <Component {...props} chart={chart} insights={insights} />
+  ) : null
 }
 
 export default withOnlyIfInsights(withViewportFilter(Insights))

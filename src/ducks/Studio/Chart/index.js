@@ -231,6 +231,7 @@ const Chart = ({
           isDomainGroupingActive ? domainGroups : mirrorDomainGroups
         }
         isDomainGroupingActive={isDomainGroupingActive}
+        isSelectingRange={isSelectingRange}
         onBrushChangeEnd={onBrushChangeEnd}
         onPointClick={onPointClick}
         onRangeSelect={onRangeSelect}

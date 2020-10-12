@@ -1,4 +1,5 @@
 import React from 'react'
+import Insights from './Insights'
 import ResponsiveChart from '../../Chart/Responsive'
 import Lines from '../../Chart/Lines'
 import Bars from '../../Chart/Bars'
@@ -9,6 +10,7 @@ import CartesianGrid from '../../Chart/CartesianGrid'
 import { useAxesMetricsKey } from '../../Chart/hooks'
 import Watermark from '../../Chart/Watermark'
 import Brush from '../../Chart/Brush'
+import Signals from '../../Chart/Signals'
 
 const PADDING = {
   top: 10,
@@ -24,6 +26,7 @@ const Canvas = ({
   settings,
   options,
   isDomainGroupingActive,
+  isSelectingRange,
   syncTooltips,
   onBrushChangeEnd,
   onPointClick,
@@ -72,9 +75,12 @@ const Canvas = ({
           onResult={(price) => setIsICOPriceDisabled(!price)}
           />
           <LastDayPrice settings={settings} metrics={metrics} />
-          {isSelectingRange || <Signals {...settings} metrics={metrics} />}
-          <Insights />
         */}
+
+      {isSelectingRange || (
+        <Signals {...settings} metrics={metrics} data={data} />
+      )}
+      <Insights />
     </ResponsiveChart>
   )
 }

@@ -6,6 +6,7 @@
   cursor: pointer;
   position: absolute;
   transform: translate(-50%, -100%);
+  z-index: 2;
 
   &:hover {
     border-color: var(--jungle-green);

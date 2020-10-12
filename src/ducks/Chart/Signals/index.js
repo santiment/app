@@ -11,6 +11,7 @@ import {
   checkPriceMetric,
   AlertBuilder
 } from './helpers'
+import { useChart } from '../context'
 import { useAlertMetrics } from './hooks'
 import { clearCtx } from '../utils'
 import { getSlugPriceSignals } from '../../SANCharts/utils'
@@ -193,6 +194,7 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(({ metrics, ...props }) => {
+  const chart = useChart()
   const alertMetrics = useAlertMetrics(metrics)
 
   if (alertMetrics.length === 0) {
@@ -201,7 +203,7 @@ export default connect(
 
   return (
     <LoginDialogWrapper title='Create alert'>
-      <Signals {...props} metrics={alertMetrics} />
+      <Signals chart={chart} {...props} metrics={alertMetrics} />
     </LoginDialogWrapper>
   )
 })
