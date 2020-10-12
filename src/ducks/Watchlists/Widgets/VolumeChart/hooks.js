@@ -26,11 +26,25 @@ export const useProjectRanges = ({
   sortByKey: inputKey,
   desc = true,
   isSocialVolume = false,
-  defaultSelectedIndex = 1
+  settings,
+  onChangeInterval
 }) => {
   const [mapAssets, setMapAssets] = useState({})
+
+  const defaultSelectedIndex =
+    settings && settings.interval
+      ? ranges.findIndex(({ label }) => label === settings.interval)
+      : 1
+
   const [intervalIndex, setIntervalIndex] = useState(
     Math.min(ranges.length - 1, defaultSelectedIndex)
+  )
+
+  useEffect(
+    () => {
+      onChangeInterval(ranges[intervalIndex])
+    },
+    [intervalIndex]
   )
 
   useEffect(

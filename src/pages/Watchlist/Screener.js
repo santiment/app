@@ -46,14 +46,6 @@ export const useComparingAssets = () => {
 }
 
 const Screener = props => {
-  const [widgetsState, setWidgetsState] = useState({
-    isPriceChartActive: false,
-    isPriceTreeMap: false,
-    isVolumeTreeMap: false
-  })
-
-  const { isPriceChartActive, isPriceTreeMap, isVolumeTreeMap } = widgetsState
-
   const [screenerFunction, setScreenerFunction] = useState(
     props.watchlist.function || DEFAULT_SCREENER_FUNCTION
   )
@@ -70,7 +62,24 @@ const Screener = props => {
     type
   } = props
 
-  useScreenerUrl({ location, history, widgets: widgetsState, setWidgetsState })
+  const { widgets, setWidgets } = useScreenerUrl({ location, history })
+
+  const onChangeInterval = useCallback(
+    (key, { label: interval }) => {
+      setWidgets({
+        ...widgets,
+        [key]: {
+          ...widgets[key],
+          interval
+        }
+      })
+    },
+    [widgets, setWidgets]
+  )
+
+  console.log(widgets.socialVolumeTreeMap)
+
+  const { isPriceChartActive, isPriceTreeMap, isVolumeTreeMap } = widgets
 
   const { comparingAssets, addAsset, cleanAll } = useComparingAssets()
 
@@ -102,8 +111,8 @@ const Screener = props => {
                 setScreenerFunction={setScreenerFunction}
                 isDefaultScreener={isDefaultScreener}
                 history={history}
-                widgets={widgetsState}
-                updateWidgetsState={setWidgetsState}
+                widgets={widgets}
+                setWidgets={setWidgets}
               />
               {isPriceTreeMap && (
                 <div className={styles.treeMaps}>
@@ -113,6 +122,10 @@ const Screener = props => {
                     title='Price Changes'
                     ranges={PRICE_CHANGE_RANGES}
                     loading={loading}
+                    settings={widgets.priceTreeMap}
+                    onChangeInterval={value =>
+                      onChangeInterval('priceTreeMap', value)
+                    }
                   />
                 </div>
               )}
@@ -126,7 +139,10 @@ const Screener = props => {
                       ranges={SOCIAL_VOLUME_CHANGE_RANGES}
                       loading={loading}
                       isSocialVolume={true}
-                      defaultSelectedIndex={0}
+                      settings={widgets.socialVolumeTreeMap}
+                      onChangeInterval={value =>
+                        onChangeInterval('socialVolumeTreeMap', value)
+                      }
                     />
                   ) : (
                     <MakeProSubscriptionCard />
@@ -134,7 +150,14 @@ const Screener = props => {
                 </div>
               )}
               {isPriceChartActive && (
-                <ProjectsChart loading={loading} assets={assets} />
+                <ProjectsChart
+                  loading={loading}
+                  assets={assets}
+                  settings={widgets.priceBarChart}
+                  onChangeInterval={value =>
+                    onChangeInterval('priceBarChart', value)
+                  }
+                />
               )}
               <AssetsTable
                 Assets={{ ...Assets, isLoading: loading }}

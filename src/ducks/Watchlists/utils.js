@@ -1,5 +1,5 @@
 import qs from 'query-string'
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import queryString from 'query-string'
 
 export function getWatchlistLink ({ name, id }) {
@@ -121,28 +121,40 @@ export function countAssetsSort ({ count: countA }, { count: countB }) {
   return countA > countB ? -1 : 1
 }
 
-export const useScreenerUrl = ({
-  location,
-  history,
-  widgets,
-  setWidgetsState
-}) => {
+const DEFAULT_SCREENER_URL_PARAMS = {
+  isPriceChartActive: false,
+  isPriceTreeMap: false,
+  isVolumeTreeMap: false,
+  priceBarChart: {
+    interval: '24h'
+  },
+  socialVolumeTreeMap: {
+    interval: '24h'
+  },
+  priceTreeMap: {
+    interval: '24h'
+  }
+}
+
+export const useScreenerUrl = ({ location, history }) => {
+  const [widgets, setWidgets] = useState(DEFAULT_SCREENER_URL_PARAMS)
+
   const parsedUrl = useMemo(() => queryString.parse(location.search), [
     location.search
   ])
 
   const getCharts = useCallback(
     () => {
-      return parsedUrl && parsedUrl.charts ? JSON.parse(parsedUrl.charts) : {}
+      return parsedUrl && parsedUrl.charts
+        ? JSON.parse(parsedUrl.charts)
+        : DEFAULT_SCREENER_URL_PARAMS
     },
     [parsedUrl]
   )
 
   useEffect(() => {
     const charts = getCharts()
-    if (charts) {
-      setWidgetsState(charts)
-    }
+    if (charts) setWidgets(charts)
   }, [])
 
   const urlChange = useCallback(
@@ -167,4 +179,6 @@ export const useScreenerUrl = ({
     },
     [widgets]
   )
+
+  return { widgets, setWidgets }
 }

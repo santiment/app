@@ -6,24 +6,24 @@ import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import styles from './Widgets.module.scss'
 
-const Widgets = ({ widgets, setWidgetsState }) => {
+const Widgets = ({ widgets, setWidgets }) => {
   const { isPriceChartActive, isPriceTreeMap, isVolumeTreeMap } = widgets
 
   const priceToggle = useCallback(
     isPriceChartActive => {
-      setWidgetsState({ ...widgets, isPriceChartActive })
+      setWidgets({ ...widgets, isPriceChartActive })
     },
     [widgets]
   )
   const togglePriceTreeMap = useCallback(
     isPriceTreeMap => {
-      setWidgetsState({ ...widgets, isPriceTreeMap })
+      setWidgets({ ...widgets, isPriceTreeMap })
     },
     [widgets]
   )
   const toggleVolumeTreeMap = useCallback(
     isVolumeTreeMap => {
-      setWidgetsState({ ...widgets, isVolumeTreeMap })
+      setWidgets({ ...widgets, isVolumeTreeMap })
     },
     [widgets]
   )

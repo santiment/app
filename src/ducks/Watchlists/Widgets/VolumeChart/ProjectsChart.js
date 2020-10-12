@@ -50,7 +50,13 @@ const renderCustomizedLabel = props => {
   )
 }
 
-const ProjectsChart = ({ assets, redirect, loading: assetsLoading }) => {
+const ProjectsChart = ({
+  assets,
+  redirect,
+  loading: assetsLoading,
+  settings,
+  onChangeInterval
+}) => {
   const [sortedByIndex, setSortedByIndex] = useState(0)
 
   const { key: sortByKey, label: sortLabel, desc } = SORT_RANGES[sortedByIndex]
@@ -67,7 +73,9 @@ const ProjectsChart = ({ assets, redirect, loading: assetsLoading }) => {
     limit: 100,
     ranges: PRICE_CHANGE_RANGES,
     sortByKey,
-    desc
+    desc,
+    settings,
+    onChangeInterval
   })
 
   const colored = useMemo(
