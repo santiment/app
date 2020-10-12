@@ -40,7 +40,3 @@ export const removeTrigger = id => ({
   type: SIGNAL_REMOVE_BY_ID,
   payload: { id }
 })
-
-export const fetchSignals = () => ({
-  type: SIGNAL_FETCH_ALL
-})

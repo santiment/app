@@ -37,7 +37,6 @@ import {
 import fetchTimeseriesEpic from '../ducks/GetTimeSeries/epics'
 import {
   createSignalEpic,
-  fetchSignalsEpic,
   removeSignalEpic,
   toggleSignalEpic,
   updateSignalEpic
@@ -122,7 +121,6 @@ export default combineEpics(
   // Signals
   createSignalEpic,
   updateSignalEpic,
-  fetchSignalsEpic,
   toggleSignalEpic,
   removeSignalEpic,
   // likes

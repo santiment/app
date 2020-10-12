@@ -354,8 +354,8 @@ export const mapToRequestedMetrics = (
     ...reqMeta
   }))
 
-export const getSlugPriceSignals = (signals, slug, price = undefined) => {
-  const filtered = signals.filter(
+export const getSlugPriceSignals = (signals, slug, price = undefined) =>
+  signals.filter(
     ({
       settings: {
         target: { slug: signalSlug } = {},
@@ -371,9 +371,6 @@ export const getSlugPriceSignals = (signals, slug, price = undefined) => {
       return result
     }
   )
-
-  return filtered
-}
 
 const MIN_TICK_MILLIFY_VALUE = 1000000
 

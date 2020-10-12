@@ -15,14 +15,11 @@ import { useAlertMetrics } from './hooks'
 import { clearCtx } from '../utils'
 import { getSlugPriceSignals } from '../../SANCharts/utils'
 import { Metric } from '../../dataHub/metrics'
-import {
-  createTrigger,
-  fetchSignals,
-  removeTrigger
-} from '../../Signals/common/actions'
+import { createTrigger, removeTrigger } from '../../Signals/common/actions'
 import { buildValueChangeSuggester } from '../../Studio/Alerts/suggestions/helpers'
 import LoginDialogWrapper from '../../../components/LoginDialog/LoginDialogWrapper'
 import styles from './index.module.scss'
+import { useSignals } from '../../Signals/common/getSignals'
 
 const TEXT_SIGNAL = 'Alert '
 const TEXT_ACTION = 'Click to create an alert '
@@ -59,22 +56,23 @@ const Signals = ({
   selector = 'slug',
   chart,
   data,
-  signals,
-  fetchSignals,
   createSignal,
   removeSignal,
   metrics,
-  useShortRecord
+  useShortRecord,
+  scale
 }) => {
   const [isHovered, setIsHovered] = useState()
   const [hoverPoint, setHoverPoint] = useState()
 
-  useEffect(() => {
-    if (signals.length === 0) {
-      fetchSignals()
-    }
-    chart.isAlertsActive = true
+  const { data: userSignals } = useSignals()
 
+  const signals = getSlugPriceSignals(userSignals, slug)
+    .map(signal => makeSignalDrawable(signal, chart, scale))
+    .filter(Boolean)
+
+  useEffect(() => {
+    chart.isAlertsActive = true
     return () => (chart.isAlertsActive = false)
   }, [])
 
@@ -173,24 +171,13 @@ const Signals = ({
   )
 }
 
-const mapStateToProps = (state, { slug, chart, scale }) => {
-  return {
-    signals: chart
-      ? getSlugPriceSignals(state.signals.all || [], slug)
-        .map(signal => makeSignalDrawable(signal, chart, scale))
-        .filter(Boolean)
-      : []
-  }
-}
-
 const mapDispatchToProps = dispatch => ({
   createSignal: payload => dispatch(createTrigger(payload)),
-  fetchSignals: () => dispatch(fetchSignals()),
   removeSignal: id => dispatch(removeTrigger(id))
 })
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(({ metrics, ...props }) => {
   const alertMetrics = useAlertMetrics(metrics)
