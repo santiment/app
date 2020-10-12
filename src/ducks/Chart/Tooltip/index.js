@@ -3,6 +3,8 @@ import { initTooltip } from '@santiment-network/chart/tooltip'
 import { setupTooltip, plotTooltip } from './helpers'
 import { useChart } from '../context'
 
+const noop = () => {}
+
 const Tooltip = ({
   metric,
   syncTooltips,
@@ -38,6 +40,13 @@ const Tooltip = ({
   )
 
   return null
+}
+
+Tooltip.defaultProps = {
+  syncTooltips: noop,
+  onPointClick: noop,
+  onRangeSelect: noop,
+  onRangeSelectStart: noop
 }
 
 export default Tooltip

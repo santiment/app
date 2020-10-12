@@ -8,6 +8,7 @@ import { domainModifier } from './domain'
 const noop = () => {}
 const DEFAULT = []
 const REDUCER = () => []
+export const useRedrawer = () => useReducer(REDUCER, DEFAULT)
 
 const ChartContext = React.createContext()
 const ChartSetterContext = React.createContext()
@@ -24,7 +25,7 @@ export const ChartProvider = ({
 }) => {
   const [chart, setChart] = useState()
   const plotter = usePlotter()
-  const [isAwaitingRedraw, redrawChart] = useReducer(REDUCER, DEFAULT)
+  const [isAwaitingRedraw, redrawChart] = useRedrawer()
 
   useEffect(
     () => {
