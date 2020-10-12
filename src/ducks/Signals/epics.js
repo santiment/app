@@ -2,7 +2,6 @@ import React from 'react'
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
 import * as actions from './common/actions'
-import * as rootActions from './../../actions/types'
 import { showNotification } from './../../actions/rootActions'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import { TRIGGERS_QUERY } from './common/queries'
@@ -123,24 +122,6 @@ export const createSignalEpic = (action$, store, { client }) =>
           .catch(handleErrorAndTriggerAction(actions.SIGNAL_CREATE_FAILED))
       }
     )
-
-export const fetchSignalsEpic = (action$, store, { client }) =>
-  action$
-    .ofType(actions.SIGNAL_FETCH_ALL)
-    .takeUntil(action$.ofType(rootActions.USER_LOGIN_SUCCESS))
-    .switchMap(() => {
-      return Observable.fromPromise(client.query({ query: TRIGGERS_QUERY }))
-        .mergeMap(({ data: { currentUser } = {} }) => {
-          const { triggers = [] } = currentUser || {}
-          return Observable.of({
-            type: actions.SIGNAL_FETCH_ALL_SUCCESS,
-            payload: {
-              triggers
-            }
-          })
-        })
-        .catch(handleErrorAndTriggerAction(actions.SIGNAL_FETCH_ALL_ERROR))
-    })
 
 export const TRIGGER_TOGGLE_QUERY = gql`
   mutation updateTrigger($id: Int, $isActive: Boolean) {
