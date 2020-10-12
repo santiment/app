@@ -5,18 +5,14 @@ import { linearScale, logScale } from '@santiment-network/chart/scales'
 import ChartMetricSettings from './MetricSettings'
 import ChartPaywallInfo from './PaywallInfo'
 import ChartActiveMetrics from './ActiveMetrics'
-import IcoPrice from './IcoPrice'
-import LastDayPrice from './LastDayPrice'
+import ChartCanvas from './Canvas'
 import SharedAxisToggle from './SharedAxisToggle'
 import ContextMenu from './ContextMenu'
 import ChartFullscreenBtn from './Fullscreen'
-import Insights from './Insights'
 import Compare from '../Compare'
 import { extractIndicatorDomainGroups } from '../utils'
 import { useMetricColor } from '../Widget/ChartWidgetColorProvider'
 import { useAllTimeData } from '../timeseries/hooks'
-import SANChart from '../../Chart'
-import Signals from '../../Chart/Signals'
 import { useMetricCategories } from '../../Chart/Synchronizer'
 import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
 import { useHighlightMetricColor } from '../../Chart/colors'
@@ -24,8 +20,6 @@ import { extractMirrorMetricsDomainGroups } from '../../Chart/utils'
 import { useUser } from '../../../stores/user'
 import { getTimeIntervalFromToday, DAY } from '../../../utils/dates'
 import styles from './index.module.scss'
-
-import Canvas from './Canvas'
 
 const Chart = ({
   index,
@@ -216,7 +210,7 @@ const Chart = ({
         />
       )}
 
-      <Canvas
+      <ChartCanvas
         className={cx(styles.chart, isBlurred && styles.blur)}
         chartRef={chartRef}
         data={data}
@@ -240,44 +234,6 @@ const Chart = ({
         syncTooltips={syncTooltips}
         setIsICOPriceDisabled={setIsICOPriceDisabled}
       />
-
-      {false && (
-        <SANChart
-          {...categories}
-          {...options}
-          {...settings}
-          data={data}
-          events={eventsData}
-          brushData={allTimeData}
-          chartRef={chartRef}
-          className={cx(styles.chart, isBlurred && styles.blur)}
-          MetricColor={HighlightedMetricColor}
-          metrics={metrics}
-          scale={scale}
-          domainGroups={
-            isDomainGroupingActive ? domainGroups : mirrorDomainGroups
-          }
-          // tooltipKey={axesMetricKeys[0]}
-          // axesMetricKeys={axesMetricKeys}
-          onPointClick={onPointClick}
-          onBrushChangeEnd={onBrushChangeEnd}
-          onRangeSelect={onRangeSelect}
-          onRangeSelectStart={onRangeSelectStart}
-          syncTooltips={syncTooltips}
-          resizeDependencies={[axesMetricKeys]}
-        >
-          <IcoPrice
-            {...settings}
-            isICOPriceActive={isICOPriceActive}
-            metrics={metrics}
-            className={styles.ico}
-            onResult={price => setIsICOPriceDisabled(!price)}
-          />
-          <LastDayPrice settings={settings} metrics={metrics} />
-          {isSelectingRange || <Signals {...settings} metrics={metrics} />}
-          <Insights />
-        </SANChart>
-      )}
 
       {isBlurred && (
         <div className={styles.restriction}>
