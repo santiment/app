@@ -217,19 +217,21 @@ const Chart = ({
       )}
 
       <Canvas
-        categories={categories}
+        className={cx(styles.chart, isBlurred && styles.blur)}
+        chartRef={chartRef}
         data={data}
         brushData={allTimeData}
-        chartRef={chartRef}
-        className={cx(styles.chart, isBlurred && styles.blur)}
+        categories={categories}
         colors={HighlightedMetricColor}
         metrics={metrics}
         scale={scale}
-        isDomainGroupingActive={isDomainGroupingActive}
-        isCartesianGridActive={options.isCartesianGridActive}
+        settings={settings}
         domainGroups={
           isDomainGroupingActive ? domainGroups : mirrorDomainGroups
         }
+        isDomainGroupingActive={isDomainGroupingActive}
+        isCartesianGridActive={options.isCartesianGridActive}
+        onBrushChangeEnd={onBrushChangeEnd}
       />
 
       {false && (

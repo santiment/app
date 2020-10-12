@@ -22,11 +22,24 @@ function getBrushPlotItems ({ items }) {
   return brushItems
 }
 
-const Brush = ({ data, categories, scale, colors, domainGroups }) => {
+const Brush = ({
+  data,
+  categories,
+  scale,
+  colors,
+  domainGroups,
+  from,
+  to,
+  onChangeEnd
+}) => {
   const chart = useChart()
   const plotter = useChartPlotter()
   const { isNightMode } = useTheme()
   const [brush, setBrush] = useState()
+
+  if (brush) {
+    brush.onChangeEnd = onChangeEnd
+  }
 
   useEffect(
     () => {
@@ -48,6 +61,49 @@ const Brush = ({ data, categories, scale, colors, domainGroups }) => {
       setBrush(brush)
     },
     [chart]
+  )
+
+  useEffect(
+    () => {
+      const { length } = data
+      if (brush && length) {
+        const lastIndex = length - 1
+        let { startIndex = 0, endIndex = lastIndex } = brush
+        const { datetime: startTimestamp } = data[0]
+        const { datetime: endTimestamp } = data[lastIndex]
+        const fromTimestamp = +new Date(from)
+        const toTimestamp = +new Date(to)
+
+        const scale = length / (endTimestamp - startTimestamp)
+
+        if (!data[startIndex] || fromTimestamp !== data[startIndex].datetime) {
+          startIndex = Math.trunc(scale * (fromTimestamp - startTimestamp))
+        }
+
+        if (!data[endIndex] || toTimestamp !== data[endIndex].datetime) {
+          endIndex = Math.trunc(scale * (toTimestamp - startTimestamp))
+        }
+
+        startIndex =
+          startIndex > 0 ? (startIndex < length ? startIndex : lastIndex) : 0
+        endIndex = endIndex > 0 ? (endIndex < length ? endIndex : lastIndex) : 0
+
+        if (endIndex - startIndex < 2) {
+          if (startIndex > 2) {
+            startIndex -= 2
+          } else {
+            endIndex += 2
+          }
+        }
+
+        brush.startIndex = startIndex
+        brush.endIndex = endIndex
+
+        clearCtx(brush)
+        brush.redraw()
+      }
+    },
+    [data, from, to]
   )
 
   useEffect(

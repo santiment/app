@@ -19,20 +19,22 @@ const PADDING = {
 
 const Canvas = ({
   metrics,
-
-  isDomainGroupingActive,
-  isICOPriceActive,
-  isCartesianGridActive,
+  settings,
 
   data,
   brushData,
 
+  isDomainGroupingActive,
+  isICOPriceActive,
+  isCartesianGridActive,
+  onBrushChangeEnd,
   ...props
 }) => {
   const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
+  const { from, to } = settings
 
   return (
-    <ResponsiveChart padding={PADDING} data={data} {...props}>
+    <ResponsiveChart padding={PADDING} {...props} data={data}>
       {/* <Watermark /> */}
       <Bars />
       <Lines />
@@ -40,7 +42,13 @@ const Canvas = ({
       <Tooltip metric={axesMetricKeys[0]} />
       {isCartesianGridActive && <CartesianGrid />}
 
-      <Brush data={brushData} {...props} />
+      <Brush
+        {...props}
+        data={brushData}
+        from={from}
+        to={to}
+        onChangeEnd={onBrushChangeEnd}
+      />
 
       {/* <IcoPrice
           {...settings}
