@@ -1,6 +1,7 @@
 import React from 'react'
 import Insights from './Insights'
 import IcoPrice from './IcoPrice'
+import LastDayPrice from './LastDayPrice'
 import ResponsiveChart from '../../Chart/Responsive'
 import Lines from '../../Chart/Lines'
 import Bars from '../../Chart/Bars'
@@ -74,11 +75,7 @@ const Canvas = ({
         className={styles.ico}
         onResult={price => setIsICOPriceDisabled(!price)}
       />
-
-      {/*
-          <LastDayPrice settings={settings} metrics={metrics} />
-        */}
-
+      <LastDayPrice settings={settings} metrics={metrics} scale={props.scale} />
       {isSelectingRange || (
         <Signals {...settings} metrics={metrics} data={data} />
       )}

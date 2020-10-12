@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { getTextWidth } from '@santiment-network/chart/utils'
 import COLOR from '@santiment-network/ui/variables.scss'
+import { useChart } from '../../Chart/context'
 import { useTimeseries } from '../timeseries/hooks'
 import { Metric } from '../../dataHub/metrics'
 import { TooltipSetting } from '../../dataHub/tooltipSettings'
@@ -68,11 +69,11 @@ const LastDayPrice = ({ chart, scale, settings }) => {
 
 export default ({ metrics, settings, ...props }) => {
   const { from, to } = settings
+  const chart = useChart()
 
-  return (
+  return chart &&
     metrics.includes(price_usd) &&
-    new Date(to) - new Date(from) <= DAY_INTERVAL && (
-      <LastDayPrice {...props} settings={settings} />
-    )
-  )
+    new Date(to) - new Date(from) <= DAY_INTERVAL ? (
+      <LastDayPrice chart={chart} {...props} settings={settings} />
+    ) : null
 }
