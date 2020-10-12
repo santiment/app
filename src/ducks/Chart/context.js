@@ -35,7 +35,10 @@ export const ChartProvider = ({
 
       if (data.length === 0) return
 
+      chart.scale = scale
       chart.colors = colors
+      chart.plotter = plotter
+      chart.domainGroups = domainGroups
 
       updateChartState(
         chart,

@@ -14,7 +14,7 @@ import { extractIndicatorDomainGroups } from '../utils'
 import { useMetricColor } from '../Widget/ChartWidgetColorProvider'
 import { useAllTimeData } from '../timeseries/hooks'
 import { useMetricCategories } from '../../Chart/Synchronizer'
-import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
+import { useDomainGroups } from '../../Chart/hooks'
 import { useHighlightMetricColor } from '../../Chart/colors'
 import { extractMirrorMetricsDomainGroups } from '../../Chart/utils'
 import { useUser } from '../../../stores/user'
@@ -76,7 +76,6 @@ const Chart = ({
     },
     [domainGroups]
   )
-  const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
   const allTimeData = useAllTimeData(metrics, settings)
   const isBlurred = !isLoggedIn && index > 1
   const scale = options.isLogScale ? logScale : linearScale

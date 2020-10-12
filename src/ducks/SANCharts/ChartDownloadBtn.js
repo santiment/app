@@ -1,13 +1,9 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
 import { initChart, updateChartState } from '@santiment-network/chart'
-import { plotLines, plotFilledLines } from '@santiment-network/chart/lines'
-import { plotAutoWidthBars, plotBars } from '@santiment-network/chart/bars'
-import { drawCartesianGrid } from '@santiment-network/chart/cartesianGrid'
-import { drawWatermark } from '../Chart/Watermark/helpers'
 import { paintConfigs } from '../Chart/paintConfigs'
 import { metricsToPlotCategories } from '../Chart/Synchronizer'
-import { plotAxes } from '../Chart/Axes/helpers'
+import { domainModifier } from '../Chart/domain'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import { useTheme } from '../../stores/ui/theme'
 import { mirage } from '@santiment-network/ui/variables.scss'
@@ -73,17 +69,11 @@ function downloadChart (
   MetricNode,
   isNightMode
 ) {
-  const { scale, colors, domainModifier, domainGroups } = chart
-  const { hideWatermark, isWatermarkLighter, isCartesianGridActive } = chart
+  const { scale, colors, domainGroups, plotter } = chart
   const { brushPaintConfig, ...rest } = paintConfigs[+isNightMode]
 
-  const {
-    lines,
-    autoWidthBars,
-    bars,
-    filledLines,
-    joinedCategories
-  } = metricsToPlotCategories(metrics, MetricNode)
+  const categories = metricsToPlotCategories(metrics, MetricNode)
+  const { joinedCategories } = categories
 
   const dpr = window.devicePixelRatio || 1
   window.devicePixelRatio = 2
@@ -107,20 +97,10 @@ function downloadChart (
     domainGroups
   )
 
-  plotAxes(pngChart, scale)
+  plotter.items.forEach(plot => {
+    plot(pngChart, scale, data, colors, categories)
+  })
 
-  if (!hideWatermark) {
-    drawWatermark(pngChart, isNightMode, isWatermarkLighter)
-  }
-  if (isCartesianGridActive) {
-    drawCartesianGrid(pngChart, pngChart.axesColor, 10, 8)
-  }
-
-  plotAutoWidthBars(pngChart, data, autoWidthBars, scale, colors)
-  plotBars(pngChart, data, bars, scale, colors)
-  pngChart.ctx.lineWidth = 1.5
-  plotLines(pngChart, data, lines, scale, colors)
-  plotFilledLines(pngChart, data, filledLines, scale, colors)
   drawLegend(pngChart, metrics, isNightMode)
 
   pngChart.ctx.globalCompositeOperation = 'destination-over'
