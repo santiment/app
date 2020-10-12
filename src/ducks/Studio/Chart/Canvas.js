@@ -2,6 +2,7 @@ import React from 'react'
 import ResponsiveChart from '../../Chart/Responsive'
 import Lines from '../../Chart/Lines'
 import Bars from '../../Chart/Bars'
+import GreenRedBars from '../../Chart/GreenRedBars'
 import Tooltip from '../../Chart/Tooltip'
 import Axes from '../../Chart/Axes'
 import CartesianGrid from '../../Chart/CartesianGrid'
@@ -41,6 +42,7 @@ const Canvas = ({
   return (
     <ResponsiveChart padding={PADDING} {...props} data={data}>
       <Watermark light={isWatermarkLighter} />
+      <GreenRedBars />
       <Bars />
       <Lines />
       <Axes metrics={axesMetricKeys} />
