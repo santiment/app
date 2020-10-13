@@ -215,12 +215,12 @@
   display: inline-block;
 }
 
-.status {
-  //float: right;
-  //text-align: right;
-  //display: inline-block;
-  //padding-top: 6px;
-  //width: 30%;
+.status-container {
+  float: right;
+  text-align: right;
+  display: inline-block;
+  padding-top: 6px;
+  width: 30%;
 }
 
 @media (max-width: 767px) {

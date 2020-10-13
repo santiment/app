@@ -10,14 +10,12 @@ const Insight = ({ className, ...insight }) => {
   return <El insight={insight} className={styles.insightCard} />
 }
 
-const InsightsFeed = ({ insights, dateKey = 'publishedAt' }) => {
-  return (
-    <Feed
-      data={insights.sort(publishDateSorter)}
-      dateKey={dateKey}
-      component={Insight}
-    />
-  )
-}
+const InsightsFeed = ({ insights, dateKey = 'publishedAt' }) => (
+  <Feed
+    data={insights.sort(publishDateSorter)}
+    dateKey={dateKey}
+    component={Insight}
+  />
+)
 
 export default InsightsFeed
