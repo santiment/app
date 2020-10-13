@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import cx from 'classnames'
@@ -55,11 +55,34 @@ const ProjectsChart = ({
   redirect,
   loading: assetsLoading,
   settings,
-  onChangeInterval
+  onChangeInterval,
+  onChangeSorter
 }) => {
-  const [sortedByIndex, setSortedByIndex] = useState(0)
+  const { sorter: { sortBy = 'marketcapUsd', desc: sortDesc } = {} } = settings
+  const defaultIndex = useMemo(
+    () => {
+      return (
+        SORT_RANGES.findIndex(
+          ({ key, desc }) => key === sortBy && desc === sortDesc
+        ) || 0
+      )
+    },
+    [sortBy]
+  )
+
+  const [sortedByIndex, setSortedByIndex] = useState(defaultIndex)
 
   const { key: sortByKey, label: sortLabel, desc } = SORT_RANGES[sortedByIndex]
+
+  useEffect(
+    () => {
+      onChangeSorter({
+        sortBy: sortByKey,
+        desc
+      })
+    },
+    [sortByKey, desc]
+  )
 
   const {
     data,
