@@ -53,9 +53,10 @@ const MetricsList = ({
   )
 
   const newMetricsProps = getAssetNewMetrics(availableMetrics, {
-    slug: project.slug,
+    slug: project ? project.slug : undefined,
     isBeta
   })
+
   const { NewMetricsCategory } = newMetricsProps
 
   return (
