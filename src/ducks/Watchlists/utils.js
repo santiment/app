@@ -182,3 +182,33 @@ export const useScreenerUrl = ({ location, history }) => {
 
   return { widgets, setWidgets }
 }
+
+export const useScreenerUrlUpdaters = (widgets, setWidgets) => {
+  const onChangeInterval = useCallback(
+    (key, { label: interval }) => {
+      setWidgets({
+        ...widgets,
+        [key]: {
+          ...widgets[key],
+          interval
+        }
+      })
+    },
+    [widgets, setWidgets]
+  )
+
+  const onChangeSorter = useCallback(
+    (key, sorter) => {
+      setWidgets({
+        ...widgets,
+        [key]: {
+          ...widgets[key],
+          sorter
+        }
+      })
+    },
+    [widgets, setWidgets]
+  )
+
+  return { onChangeInterval, onChangeSorter }
+}

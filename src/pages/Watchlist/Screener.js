@@ -2,7 +2,8 @@ import React, { useCallback, useState } from 'react'
 import {
   getWatchlistName,
   DEFAULT_SCREENER_FUNCTION,
-  useScreenerUrl
+  useScreenerUrl,
+  useScreenerUrlUpdaters
 } from '../../ducks/Watchlists/utils'
 import { getProjectsByFunction } from '../../ducks/Watchlists/gql/hooks'
 import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
@@ -63,21 +64,10 @@ const Screener = props => {
   } = props
 
   const { widgets, setWidgets } = useScreenerUrl({ location, history })
-
-  const onChangeInterval = useCallback(
-    (key, { label: interval }) => {
-      setWidgets({
-        ...widgets,
-        [key]: {
-          ...widgets[key],
-          interval
-        }
-      })
-    },
-    [widgets, setWidgets]
+  const { onChangeSorter, onChangeInterval } = useScreenerUrlUpdaters(
+    widgets,
+    setWidgets
   )
-
-  console.log(widgets.socialVolumeTreeMap)
 
   const { isPriceChartActive, isPriceTreeMap, isVolumeTreeMap } = widgets
 
@@ -156,6 +146,9 @@ const Screener = props => {
                   settings={widgets.priceBarChart}
                   onChangeInterval={value =>
                     onChangeInterval('priceBarChart', value)
+                  }
+                  onChangeSorter={value =>
+                    onChangeSorter('priceBarChart', value)
                   }
                 />
               )}
