@@ -28,12 +28,8 @@ export function useProject (slug) {
   return [data ? data.projectBySlug : undefined, loading, error]
 }
 
-const prepare = ({ items, mapAssets, limit, sorter, key }) =>
+const prepare = ({ items, limit, sorter, key }) =>
   items
-    .filter(item => {
-      const { slug } = item
-      return mapAssets[slug]
-    })
     .sort(sorter)
     .slice(0, limit)
     .map(item => ({
@@ -41,36 +37,50 @@ const prepare = ({ items, mapAssets, limit, sorter, key }) =>
       [key]: +item[key]
     }))
 
-export function useProjectPriceChanges ({
-  key,
-  mapAssets,
-  sorter,
-  limit = 100
-}) {
-  const { data, loading, error } = useQuery(ALL_PROJECTS_PRICE_CHANGES_QUERY)
+export function useProjectPriceChanges ({ key, assets, sorter, limit = 100 }) {
+  const { data, loading, error } = useQuery(ALL_PROJECTS_PRICE_CHANGES_QUERY, {
+    variables: {
+      fn: JSON.stringify({
+        args: {
+          slugs: assets
+        },
+        name: 'slugs'
+      })
+    }
+  })
 
-  const items = data ? data.allProjects : []
+  const items = data ? data.allProjectsByFunction.projects : []
 
-  const mapped = prepare({ items, mapAssets, limit, sorter, key })
+  const mapped = prepare({ items, limit, sorter, key })
 
   return [mapped, loading, error]
 }
 
 export function useProjectsSocialVolumeChanges ({
   interval,
-  mapAssets,
+  assets,
   sorter,
   limit = 100
 }) {
   const { data, loading, error } = useQuery(
-    ALL_PROJECTS_SOCIAL_VOLUME_CHANGES_QUERY
+    ALL_PROJECTS_SOCIAL_VOLUME_CHANGES_QUERY,
+    {
+      variables: {
+        fn: JSON.stringify({
+          args: {
+            slugs: assets
+          },
+          name: 'slugs'
+        })
+      }
+    }
   )
 
-  const items = data ? data.allProjects : []
+  const items = data ? data.allProjectsByFunction.projects : []
 
   const key = `change${interval}`
 
-  const mapped = prepare({ items, mapAssets, limit, sorter, key })
+  const mapped = prepare({ items, limit, sorter, key })
 
   return [mapped, loading, error]
 }
