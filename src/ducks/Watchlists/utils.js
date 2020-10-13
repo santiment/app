@@ -1,4 +1,6 @@
 import qs from 'query-string'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import queryString from 'query-string'
 
 export function getWatchlistLink ({ name, id }) {
   return `/assets/list?name=${encodeURIComponent(name)}@${id}`
@@ -117,4 +119,96 @@ export const BASIC_CATEGORIES = [
 
 export function countAssetsSort ({ count: countA }, { count: countB }) {
   return countA > countB ? -1 : 1
+}
+
+const DEFAULT_SCREENER_URL_PARAMS = {
+  isPriceChartActive: false,
+  isPriceTreeMap: false,
+  isVolumeTreeMap: false,
+  priceBarChart: {
+    interval: '24h'
+  },
+  socialVolumeTreeMap: {
+    interval: '24h'
+  },
+  priceTreeMap: {
+    interval: '24h'
+  }
+}
+
+export const useScreenerUrl = ({ location, history }) => {
+  const [widgets, setWidgets] = useState(DEFAULT_SCREENER_URL_PARAMS)
+
+  const parsedUrl = useMemo(() => queryString.parse(location.search), [
+    location.search
+  ])
+
+  const getCharts = useCallback(
+    () => {
+      return parsedUrl && parsedUrl.charts
+        ? JSON.parse(parsedUrl.charts)
+        : DEFAULT_SCREENER_URL_PARAMS
+    },
+    [parsedUrl]
+  )
+
+  useEffect(() => {
+    const charts = getCharts()
+    if (charts) setWidgets(charts)
+  }, [])
+
+  const urlChange = useCallback(
+    data => {
+      const oldCharts = getCharts()
+      history.replace(
+        `${window.location.pathname}?${queryString.stringify({
+          ...parsedUrl,
+          charts: JSON.stringify({
+            ...oldCharts,
+            ...data
+          })
+        })}`
+      )
+    },
+    [parsedUrl]
+  )
+
+  useEffect(
+    () => {
+      urlChange(widgets)
+    },
+    [widgets]
+  )
+
+  return { widgets, setWidgets }
+}
+
+export const useScreenerUrlUpdaters = (widgets, setWidgets) => {
+  const onChangeInterval = useCallback(
+    (key, { label: interval }) => {
+      setWidgets({
+        ...widgets,
+        [key]: {
+          ...widgets[key],
+          interval
+        }
+      })
+    },
+    [widgets, setWidgets]
+  )
+
+  const onChangeSorter = useCallback(
+    (key, sorter) => {
+      setWidgets({
+        ...widgets,
+        [key]: {
+          ...widgets[key],
+          sorter
+        }
+      })
+    },
+    [widgets, setWidgets]
+  )
+
+  return { onChangeInterval, onChangeSorter }
 }

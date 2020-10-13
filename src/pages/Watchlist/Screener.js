@@ -1,7 +1,9 @@
 import React, { useCallback, useState } from 'react'
 import {
   getWatchlistName,
-  DEFAULT_SCREENER_FUNCTION
+  DEFAULT_SCREENER_FUNCTION,
+  useScreenerUrl,
+  useScreenerUrlUpdaters
 } from '../../ducks/Watchlists/utils'
 import { getProjectsByFunction } from '../../ducks/Watchlists/gql/hooks'
 import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
@@ -45,9 +47,6 @@ export const useComparingAssets = () => {
 }
 
 const Screener = props => {
-  const [isPriceChartActive, setPriceChart] = useState(false)
-  const [isPriceTreeMap, setPriceTreeMap] = useState(false)
-  const [isVolumeTreeMap, setVolumeTreeMap] = useState(false)
   const [screenerFunction, setScreenerFunction] = useState(
     props.watchlist.function || DEFAULT_SCREENER_FUNCTION
   )
@@ -58,9 +57,19 @@ const Screener = props => {
     name,
     isLoggedIn,
     isDefaultScreener,
+    location,
     history,
-    preload
+    preload,
+    type
   } = props
+
+  const { widgets, setWidgets } = useScreenerUrl({ location, history })
+  const { onChangeSorter, onChangeInterval } = useScreenerUrlUpdaters(
+    widgets,
+    setWidgets
+  )
+
+  const { isPriceChartActive, isPriceTreeMap, isVolumeTreeMap } = widgets
 
   const { comparingAssets, addAsset, cleanAll } = useComparingAssets()
 
@@ -70,7 +79,7 @@ const Screener = props => {
     <div className={('page', styles.screener)}>
       <GetAssets
         {...props}
-        type={props.type}
+        type={type}
         render={Assets => {
           const title = getWatchlistName(props)
           const {
@@ -92,16 +101,8 @@ const Screener = props => {
                 setScreenerFunction={setScreenerFunction}
                 isDefaultScreener={isDefaultScreener}
                 history={history}
-                widgets={{
-                  isPriceChart: isPriceChartActive,
-                  isPriceTreeMap: isPriceTreeMap,
-                  isVolumeTreeMap: isVolumeTreeMap
-                }}
-                togglers={{
-                  priceToggle: setPriceChart,
-                  togglePriceTreeMap: setPriceTreeMap,
-                  toggleVolumeTreeMap: setVolumeTreeMap
-                }}
+                widgets={widgets}
+                setWidgets={setWidgets}
               />
               {isPriceTreeMap && (
                 <div className={styles.treeMaps}>
@@ -111,6 +112,10 @@ const Screener = props => {
                     title='Price Changes'
                     ranges={PRICE_CHANGE_RANGES}
                     loading={loading}
+                    settings={widgets.priceTreeMap}
+                    onChangeInterval={value =>
+                      onChangeInterval('priceTreeMap', value)
+                    }
                   />
                 </div>
               )}
@@ -124,7 +129,10 @@ const Screener = props => {
                       ranges={SOCIAL_VOLUME_CHANGE_RANGES}
                       loading={loading}
                       isSocialVolume={true}
-                      defaultSelectedIndex={0}
+                      settings={widgets.socialVolumeTreeMap}
+                      onChangeInterval={value =>
+                        onChangeInterval('socialVolumeTreeMap', value)
+                      }
                     />
                   ) : (
                     <MakeProSubscriptionCard />
@@ -132,7 +140,17 @@ const Screener = props => {
                 </div>
               )}
               {isPriceChartActive && (
-                <ProjectsChart loading={loading} assets={assets} />
+                <ProjectsChart
+                  loading={loading}
+                  assets={assets}
+                  settings={widgets.priceBarChart}
+                  onChangeInterval={value =>
+                    onChangeInterval('priceBarChart', value)
+                  }
+                  onChangeSorter={value =>
+                    onChangeSorter('priceBarChart', value)
+                  }
+                />
               )}
               <AssetsTable
                 Assets={{ ...Assets, isLoading: loading }}
