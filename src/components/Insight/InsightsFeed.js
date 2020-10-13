@@ -1,35 +1,21 @@
 import React from 'react'
-import cx from 'classnames'
 import InsightCard from './InsightCardWithMarketcap'
-import Feed from '../Feed/Feed'
 import { publishDateSorter } from './utils'
 import PulseInsightCard from './PulseInsight'
+import Feed from '../Feed/Feed'
+import styles from '../../ducks/Studio/RelatedInsights/RelatedInsights.module.scss'
 
-const InsightsFeed = ({ insights, dateKey = 'createdAt', classes = {} }) => {
+const Insight = ({ className, ...insight }) => {
+  const El = insight.isPulse ? PulseInsightCard : InsightCard
+  return <El insight={insight} className={styles.insightCard} />
+}
+
+const InsightsFeed = ({ insights, dateKey = 'publishedAt' }) => {
   return (
     <Feed
       data={insights.sort(publishDateSorter)}
-      component={insight => {
-        const { isPulse } = insight
-        const { id, className, ...rest } = insight
-
-        return isPulse ? (
-          <PulseInsightCard
-            key={id}
-            insight={insight}
-            className={classes.insightCard}
-          />
-        ) : (
-          <InsightCard
-            id={id}
-            insight={insight}
-            // classes={{
-            // card: cx(className, classes.insightCard),
-            // }}
-          />
-        )
-      }}
       dateKey={dateKey}
+      component={Insight}
     />
   )
 }
