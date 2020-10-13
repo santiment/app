@@ -106,5 +106,19 @@ export const SIGNAL_SUPPORTED_METRICS = [
     'On-chain',
     'line',
     'Network Value'
+  ),
+  makeSignalMetric(
+    'mvrv_usd_intraday_180d',
+    'MVRV (180d)',
+    'On-chain',
+    'line',
+    'Network Value'
+  ),
+  makeSignalMetric(
+    'mvrv_usd_intraday_365d',
+    'MVRV (365d)',
+    'On-chain',
+    'line',
+    'Network Value'
   )
 ]
