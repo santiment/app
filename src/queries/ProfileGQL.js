@@ -35,6 +35,7 @@ export const PUBLIC_USER_DATA_QUERY = gql`
       }
       insights {
         ...insightCommon
+        text
       }
       triggers {
         ...triggersCommon

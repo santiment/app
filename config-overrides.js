@@ -15,6 +15,12 @@ module.exports = function override(config, env) {
     'src',
     'svelte.js',
   )
+  config.resolve.alias['@/apollo'] = path.resolve(
+    __dirname,
+    'src',
+    'apollo',
+    'index.js',
+  )
 
   config.resolve.mainFields = ['svelte', 'browser', 'module', 'main']
 

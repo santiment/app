@@ -215,7 +215,7 @@
   display: inline-block;
 }
 
-.status {
+.status-container {
   float: right;
   text-align: right;
   display: inline-block;

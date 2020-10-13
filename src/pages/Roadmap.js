@@ -11,7 +11,7 @@ const StatusItemWithProgress = ({
   <li style={{ marginLeft: child ? 20 : 0 }}>
     <div className='status-row embedded' id='crypto-projects-item'>
       <span className='status-item'>{text}</span>
-      <span className='status'>
+      <span className='status-container'>
         <div className='status-percent'>{progress}%</div>
         <div className='status-border'>
           <div style={{ width: `${progress}%` }} className='status-progress' />
