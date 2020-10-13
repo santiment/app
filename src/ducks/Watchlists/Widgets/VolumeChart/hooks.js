@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   useProjectPriceChanges,
   useProjectsSocialVolumeChanges
@@ -29,8 +29,6 @@ export const useProjectRanges = ({
   settings,
   onChangeInterval
 }) => {
-  const [mapAssets, setMapAssets] = useState({})
-
   const defaultSelectedIndex =
     settings && settings.interval
       ? ranges.findIndex(({ label }) => label === settings.interval)
@@ -47,30 +45,22 @@ export const useProjectRanges = ({
     [intervalIndex]
   )
 
-  useEffect(
-    () => {
-      const newMap = {}
-
-      assets.forEach(({ slug }) => {
-        newMap[slug] = true
-      })
-
-      setMapAssets(newMap)
-    },
-    [assets]
-  )
-
   const { label, key } = ranges[intervalIndex]
 
   const sortKey = inputKey || key
   const sorter = getPriceSorter({ sortKey, desc })
 
-  const hookProps = {
-    mapAssets,
-    key,
-    limit,
-    sorter
-  }
+  const hookProps = useMemo(
+    () => {
+      return {
+        assets: assets.map(({ slug }) => slug),
+        key,
+        limit,
+        sorter
+      }
+    },
+    [assets, key, limit, sorter]
+  )
 
   const [data, loading] = isSocialVolume
     ? useProjectsSocialVolumeChanges({ ...hookProps, interval: label })
