@@ -1,0 +1,18 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  :global {
+    .title,
+    .name {
+      color: var(--rhino);
+
+      &:hover {
+        color: var(--jungle-green);
+      }
+    }
+
+    .right > div {
+      line-height: 0;
+    }
+  }
+}

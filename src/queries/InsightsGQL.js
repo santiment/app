@@ -14,6 +14,7 @@ export const INSIGHT_COMMON_FRAGMENT = gql`
     votedAt
     votes {
       totalVotes
+      currentUserVotes
     }
     user {
       id
