@@ -2,7 +2,6 @@ import React from 'react'
 import cx from 'classnames'
 import InsightCard from '../../../../components/Insight/InsightCardWithMarketcap'
 import WithFeedEventLikesMutation from '../../../../components/Like/WithFeedEventLikesMutation'
-import WithInsightLikesMutation from '../../../../components/Like/WithInsightLikesMutation'
 import ActivityRenderer from '../../../SonarFeed/ActivityRenderer/ActivityRenderer'
 import TrendingWordsSignalCard, {
   isTrendingWordsSignal
