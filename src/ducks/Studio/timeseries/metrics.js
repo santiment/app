@@ -203,6 +203,8 @@ export const METRICS = [
   'mvrv_usd_intraday',
   'mvrv_usd_365d',
   'mvrv_usd_180d',
+  'mvrv_usd_intraday_180d',
+  'mvrv_usd_intraday_365d',
   'minersBalance',
   'dormant_circulation_180d',
   'dormant_circulation_2y',
