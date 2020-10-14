@@ -61,6 +61,7 @@
   background-size: 75% 100%;
   background-position: center right;
   background-repeat: no-repeat;
+  box-shadow: none;
 
   @include responsive('phone', 'phone-xs') {
     flex-direction: column;
