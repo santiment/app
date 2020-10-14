@@ -96,8 +96,8 @@ CHECKING_STABLECOINS.forEach(metric => {
 updateTooltipSettings(CHECKING_STABLECOINS)
 
 export const StablecoinColor = CHECKING_STABLECOINS.reduce(
-  (acc, { key, color }) => {
-    acc[key] = color
+  (acc, { slug, color }) => {
+    acc[slug] = color
     return acc
   },
   {}

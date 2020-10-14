@@ -1,6 +1,6 @@
 import { Metric } from '../../dataHub/metrics'
-import { useMemo, useState } from 'react'
-import { CHECKING_STABLECOINS, STABLECOIN_MARKETCAP_USD_METRIC } from './utils'
+import { useMemo } from 'react'
+import { CHECKING_STABLECOINS } from './utils'
 import { useTimeseries } from '../../Studio/timeseries/hooks'
 
 function buildStablecoinMetrics (rootMetric) {
@@ -23,11 +23,7 @@ function buildStablecoinMetrics (rootMetric) {
   }))
 }
 
-export const useStablecoinsTimeseries = settings => {
-  const [rootMetric, setRootMetric] = useState(STABLECOIN_MARKETCAP_USD_METRIC)
-  const metrics = useMemo(() => buildStablecoinMetrics(rootMetric), [
-    rootMetric
-  ])
+export const useStablecoinsTimeseries = (settings, metrics, rootMetric) => {
   const [data, loadings] = useTimeseries(
     metrics,
     // HACK: Since the metric's hash doesn't change (done on purpose), forcing useTimseries to refetch data with new queryKey
@@ -38,8 +34,14 @@ export const useStablecoinsTimeseries = settings => {
   return {
     data,
     loadings,
-    metrics,
-    rootMetric,
-    setRootMetric
+    rootMetric
   }
+}
+
+export const useStablecoinMetrics = rootMetric => {
+  const metrics = useMemo(() => buildStablecoinMetrics(rootMetric), [
+    rootMetric
+  ])
+
+  return metrics
 }
