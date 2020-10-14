@@ -1,8 +1,8 @@
 import { useState, useRef } from 'react'
-import { getShortUrl } from './utils'
+import { SHARE_PATH, getShortUrl } from './utils'
 
 const buildShortLink = shortUrlHash =>
-  `${window.location.origin}/shared/${shortUrlHash}`
+  `${window.location.origin}${SHARE_PATH}${shortUrlHash}`
 
 export function getCurrentPath () {
   const { pathname, search } = window.location

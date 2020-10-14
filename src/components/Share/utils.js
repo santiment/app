@@ -1,5 +1,6 @@
 import gql from 'graphql-tag'
 import { client } from '../../apollo'
+import { history } from '../../redux'
 
 const SHORT_URL_MUTATION = gql`
   mutation createShortUrl($fullUrl: String!) {
@@ -16,6 +17,8 @@ const FULL_URL_QUERY = gql`
     }
   }
 `
+
+export const SHARE_PATH = '/shared/'
 
 const urlExtractor = ({ data }) => data.ShortUrl.url
 
@@ -38,3 +41,27 @@ export const getFullUrl = shortUrl =>
       }
     })
     .then(urlExtractor)
+
+export function redirectSharedLink () {
+  const { pathname } = window.location
+
+  if (pathname.startsWith(SHARE_PATH)) {
+    const hashStartIndex = SHARE_PATH.length
+    let hashEndIndex = hashStartIndex + 1
+
+    loop: for (; hashEndIndex < pathname.length; hashEndIndex++) {
+      switch (pathname[hashEndIndex]) {
+        case '/':
+        case '?':
+          hashEndIndex--
+          break loop
+        default:
+          continue
+      }
+    }
+
+    getFullUrl(pathname.slice(hashStartIndex, hashEndIndex))
+      .then(fullPath => history.push(fullPath))
+      .catch(console.error)
+  }
+}
