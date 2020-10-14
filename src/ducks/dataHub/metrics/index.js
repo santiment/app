@@ -163,7 +163,8 @@ export const Metric = {
     shortLabel: 'MVRV',
     abbreviation: 'mvrv',
     video: 'https://www.youtube.com/watch?v=foMhhHbCgBE',
-    formatter: mvrvFormatter
+    formatter: mvrvFormatter,
+    axisFormatter: mvrvFormatter
   },
   mvrv_long_short_diff_usd: {
     category: 'On-chain',
