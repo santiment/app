@@ -2,8 +2,8 @@ import React, { useCallback } from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import ProjectIcon from '../../ProjectIcon/ProjectIcon'
-import styles from './DashboardChartMetrics.module.scss'
 import { usePressedModifier } from '../../../hooks/keyboard'
+import styles from './DashboardChartMetrics.module.scss'
 
 const DashboardMetricButton = ({ children, isDisabled, ...rest }) => {
   return (
