@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo } from 'react'
 import cx from 'classnames'
-import { withRouter } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Calendar from './Calendar'
@@ -9,26 +8,26 @@ import MetricsExplanation, {
 } from '../Chart/Sidepanel/MetricsExplanation'
 import { METRICS_EXPLANATION_PANE } from '../Chart/Sidepanel/panes'
 import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
+import { useShortLink } from '../../../components/Share/hooks'
 import styles from './Settings.module.scss'
 
 export const SAN_HEADER_HEIGHT = 70
 
-function buildStudioShareLink () {
-  const { origin, search } = window.location
-  return `${origin}/studio${search}`
-}
+const ShareButton = () => {
+  const { shortLink, getShortLink } = useShortLink()
 
-const ShareButton = withRouter(() => (
-  <ShareModalTrigger
-    trigger={props => (
-      <Button {...props} className={styles.share}>
-        <Icon type='share' />
-      </Button>
-    )}
-    classes={styles}
-    shareLink={buildStudioShareLink()}
-  />
-))
+  return (
+    <ShareModalTrigger
+      trigger={props => (
+        <Button {...props} onMouseDown={getShortLink} className={styles.share}>
+          <Icon type='share' />
+        </Button>
+      )}
+      classes={styles}
+      shareLink={shortLink}
+    />
+  )
+}
 
 export default ({
   className,
