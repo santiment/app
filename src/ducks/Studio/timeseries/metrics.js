@@ -202,7 +202,6 @@ export const METRICS = [
   'bitmex_perpetual_open_value',
   'mvrv_usd_intraday',
   'mvrv_usd_365d',
-  'mvrv_usd_180d',
   'mvrv_usd_intraday_180d',
   'mvrv_usd_intraday_365d',
   'minersBalance',

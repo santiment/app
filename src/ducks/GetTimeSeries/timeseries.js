@@ -188,10 +188,8 @@ const TIMESERIES = {
   social_volume_telegram: queryBuild('social_volume_telegram'),
   social_volume_twitter: queryBuild('social_volume_twitter'),
   mean_age: queryBuild('mean_age'),
-
-  mvrv_usd_intraday: queryBuild('mvrv_usd_intraday'),
-  mvrv_usd_180d: queryBuild('mvrv_usd_180d'),
   mvrv_usd_365d: queryBuild('mvrv_usd_365d'),
+  mvrv_usd_intraday: queryBuild('mvrv_usd_intraday'),
   mvrv_usd_intraday_180d: queryBuild('mvrv_usd_intraday_180d'),
   mvrv_usd_intraday_365d: queryBuild('mvrv_usd_intraday_365d'),
   stock_to_flow: queryBuild('stock_to_flow'),
