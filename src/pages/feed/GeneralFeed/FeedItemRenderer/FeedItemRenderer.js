@@ -2,12 +2,11 @@ import React from 'react'
 import cx from 'classnames'
 import InsightCard from '../../../../components/Insight/InsightCardWithMarketcap'
 import WithFeedEventLikesMutation from '../../../../components/Like/WithFeedEventLikesMutation'
-import WithInsightLikesMutation from '../../../../components/Like/WithInsightLikesMutation'
 import ActivityRenderer from '../../../SonarFeed/ActivityRenderer/ActivityRenderer'
 import TrendingWordsSignalCard, {
   isTrendingWordsSignal
 } from '../../../../components/SignalCard/card/TrendingWordsSignalCard'
-import PulseInsightWrapper from '../../../../components/Insight/PulseInsight'
+import PulseInsight from '../../../../components/Insight/PulseInsight'
 import styles from './FeedItemRenderer.module.scss'
 
 const FeedItemRenderer = ({ item, index, showProfileExplanation }) => {
@@ -43,31 +42,13 @@ const FeedItemRenderer = ({ item, index, showProfileExplanation }) => {
     const { post } = item
 
     if (post) {
-      const { id: insightId, isPulse, ...rest } = post
-
-      if (isPulse) {
-        return (
-          <PulseInsightWrapper
-            insight={post}
-            className={cx(styles.card, styles.pulseInsight)}
-          />
-        )
-      }
-
-      return (
-        <WithInsightLikesMutation>
-          {like => (
-            <div className={styles.activityItem}>
-              <InsightCard
-                id={insightId}
-                {...rest}
-                classes={styles}
-                onLike={like(insightId)}
-                showIcon={true}
-              />
-            </div>
-          )}
-        </WithInsightLikesMutation>
+      return post.isPulse ? (
+        <PulseInsight
+          insight={post}
+          className={cx(styles.card, styles.pulseInsight)}
+        />
+      ) : (
+        <InsightCard insight={post} classes={styles} />
       )
     }
   }

@@ -30,15 +30,7 @@ const FundamentalReports = ({ isDesktop }) => {
                 }
 
                 return (
-                  <InsightCard
-                    isDesktop={isDesktop}
-                    disabled
-                    withAuthorPic
-                    {...insight}
-                    key={insight.id}
-                    showDate={true}
-                    className={styles.insight}
-                  />
+                  <InsightCard insight={insight} className={styles.insight} />
                 )
               }}
             </Query>
