@@ -55,7 +55,7 @@ const Trigger = ({ activeMetricsCount, isOpen, onClick }) => {
         forceClose={isOpen}
         align='end'
         position='bottom'
-        description='Use filters to narrow your watchlist based on specific on-chain, social or other criteria. You can set a unique time frame for each filter, from the last 24 hours up to 1 year.'
+        description='Use filters to narrow down your watchlist based on specific on-chain, social or other criteria. You can set a unique time frame for each filter, from the last 24 hours up to 1 year.'
       >
         <Button
           className={cx(styles.button, isOpen && styles.active)}
