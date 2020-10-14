@@ -2,16 +2,17 @@ import React, { useState, useEffect } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import Button from '@santiment-network/ui/Button'
 import PublicityToggle from '../ChangeVisibility'
-import ShareModalTrigger from '../../../../components/Share/ShareModalTrigger'
 import { isDynamicWatchlist } from '../../utils'
+import ShareModalTrigger from '../../../../components/Share/ShareModalTrigger'
+import { useShortShareLink } from '../../../../components/Share/hooks'
 import styles from './index.module.scss'
 
 const Share = ({ watchlist, isAuthor }) => {
   const [isOpen, setOpen] = useState(false)
   const [isPublic, setIsPublic] = useState(watchlist.isPublic)
+  const { shortShareLink, getShortShareLink } = useShortShareLink()
 
   const type = isDynamicWatchlist(watchlist) ? 'screener' : 'watchlist'
-  const shareLink = window.location.href
 
   useEffect(
     () => {
@@ -24,9 +25,14 @@ const Share = ({ watchlist, isAuthor }) => {
 
   return isPublic ? (
     <ShareModalTrigger
-      shareLink={shareLink}
+      shareLink={shortShareLink}
       trigger={props => (
-        <Button {...props} className={styles.trigger} icon='share'>
+        <Button
+          {...props}
+          className={styles.trigger}
+          onMouseDown={getShortShareLink}
+          icon='share'
+        >
           Share
         </Button>
       )}
@@ -53,13 +59,14 @@ const Share = ({ watchlist, isAuthor }) => {
         </p>
         <div className={styles.actions}>
           <ShareModalTrigger
-            shareLink={shareLink}
+            shareLink={shortShareLink}
             trigger={props => (
               <Button
                 {...props}
                 variant='fill'
                 accent='positive'
                 disabled={!watchlist.isPublic}
+                onMouseDown={getShortShareLink}
               >
                 {`Share ${type}`}
               </Button>
