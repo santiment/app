@@ -15,12 +15,16 @@ import styles from './NavbarAssetsDropdown.module.scss'
 const DASHBOARDS = [
   {
     name: 'Stablecoins',
-    to: '/stablecoins',
-    isNew: true
+    to: '/stablecoins'
   },
   {
     name: 'Uniswap Protocol',
     to: '/uniswap-protocol',
+    isNew: true
+  },
+  {
+    name: 'Decentralized exchanges',
+    to: '/decentralized-exchanges',
     isNew: true
   }
 ]
