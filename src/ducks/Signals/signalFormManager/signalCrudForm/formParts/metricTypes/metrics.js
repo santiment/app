@@ -102,21 +102,21 @@ export const SIGNAL_SUPPORTED_METRICS = [
   makeSignalMetric('github_activity', 'Github Activity', 'Development'),
   makeSignalMetric(
     'mvrv_usd_intraday',
-    'MVRV (intraday)',
+    'MVRV intraday',
     'On-chain',
     'line',
     'Network Value'
   ),
   makeSignalMetric(
     'mvrv_usd_intraday_180d',
-    'MVRV (180d)',
+    'MVRV intraday (180d)',
     'On-chain',
     'line',
     'Network Value'
   ),
   makeSignalMetric(
     'mvrv_usd_intraday_365d',
-    'MVRV (365d)',
+    'MVRV intraday (365d)',
     'On-chain',
     'line',
     'Network Value'
