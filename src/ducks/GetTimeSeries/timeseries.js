@@ -190,8 +190,8 @@ const TIMESERIES = {
   mean_age: queryBuild('mean_age'),
 
   mvrv_usd_intraday: queryBuild('mvrv_usd_intraday'),
-  mvrv_usd_intraday_180d: queryBuild('mvrv_usd_intraday_180d'),
-  mvrv_usd_intraday_360d: queryBuild('mvrv_usd_intraday_360d'),
+  mvrv_usd_180d: queryBuild('mvrv_usd_180d'),
+  mvrv_usd_365d: queryBuild('mvrv_usd_365d'),
   stock_to_flow: queryBuild('stock_to_flow'),
   balance: {
     query: HISTORICAL_BALANCE_QUERY,
