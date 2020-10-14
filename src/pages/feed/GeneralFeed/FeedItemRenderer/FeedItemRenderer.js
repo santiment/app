@@ -48,7 +48,11 @@ const FeedItemRenderer = ({ item, index, showProfileExplanation }) => {
           className={cx(styles.card, styles.pulseInsight)}
         />
       ) : (
-        <InsightCard insight={post} classes={styles} />
+        <InsightCard
+          insight={post}
+          classes={styles}
+          className={styles.activityItem}
+        />
       )
     }
   }

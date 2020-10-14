@@ -9063,9 +9063,9 @@ inquirer@^6.2.0:
     strip-ansi "^5.0.0"
     through "^2.3.6"
 
-"insights-app@https://github.com/santiment/insights-app#2e122f1":
+"insights-app@https://github.com/santiment/insights-app#f039952":
   version "0.0.1"
-  resolved "https://github.com/santiment/insights-app#2e122f13d142287698d6e854a2120b5fdb5fa8ed"
+  resolved "https://github.com/santiment/insights-app#f03995221c82d4e2d4114d3a7d35ff8013f3eaaa"
   dependencies:
     "@santiment-network/ui" "^0.5.177"
     apollo-boost "^0.4.0"
