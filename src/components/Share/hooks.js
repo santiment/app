@@ -9,27 +9,27 @@ export function getCurrentPath () {
   return pathname + search
 }
 
-export function useShortLink () {
-  const [shortLink, setShortLink] = useState('')
+export function useShortShareLink () {
+  const [shortShareLink, setShortShareLink] = useState('')
   const cache = useRef({}).current
 
-  function getShortLink () {
+  function getShortShareLink () {
     const currentPath = getCurrentPath()
     const cachedLink = cache[currentPath]
 
     if (cachedLink) {
-      return setShortLink(cachedLink)
+      return setShortShareLink(cachedLink)
     }
 
     getShortUrl(currentPath).then(shortUrlHash => {
-      const shortLink = buildShortLink(shortUrlHash)
-      cache[currentPath] = shortLink
-      setShortLink(shortLink)
+      const shortShareLink = buildShortLink(shortUrlHash)
+      cache[currentPath] = shortShareLink
+      setShortShareLink(shortShareLink)
     })
   }
 
   return {
-    shortLink,
-    getShortLink
+    shortShareLink,
+    getShortShareLink
   }
 }

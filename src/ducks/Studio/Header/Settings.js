@@ -8,23 +8,27 @@ import MetricsExplanation, {
 } from '../Chart/Sidepanel/MetricsExplanation'
 import { METRICS_EXPLANATION_PANE } from '../Chart/Sidepanel/panes'
 import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
-import { useShortLink } from '../../../components/Share/hooks'
+import { useShortShareLink } from '../../../components/Share/hooks'
 import styles from './Settings.module.scss'
 
 export const SAN_HEADER_HEIGHT = 70
 
 const ShareButton = () => {
-  const { shortLink, getShortLink } = useShortLink()
+  const { shortShareLink, getShortShareLink } = useShortShareLink()
 
   return (
     <ShareModalTrigger
       trigger={props => (
-        <Button {...props} onMouseDown={getShortLink} className={styles.share}>
+        <Button
+          {...props}
+          onMouseDown={getShortShareLink}
+          className={styles.share}
+        >
           <Icon type='share' />
         </Button>
       )}
       classes={styles}
-      shareLink={shortLink}
+      shareLink={shortShareLink}
     />
   )
 }
