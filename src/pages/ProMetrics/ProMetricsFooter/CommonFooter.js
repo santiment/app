@@ -77,6 +77,11 @@ const BOTTOM_LINKS = [
   {
     label: 'Privacy',
     link: '/privacy-policy'
+  },
+  {
+    label: 'Media Kit',
+    link:
+      'https://www.notion.so/santiment/Santiment-Media-ff72838a16164db4b7e90478e18c3776'
   }
 ]
 
