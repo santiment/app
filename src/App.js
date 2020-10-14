@@ -28,6 +28,7 @@ import WatchlistPage from './pages/Watchlist'
 import { getConsentUrl } from './utils/utils'
 import CookiePopup from './components/CookiePopup/CookiePopup'
 import GdprRedirector from './components/GdprRedirector'
+import { SHARE_PATH } from './components/Share/utils'
 import LogoutPage from './pages/Logout/Logout'
 import { mapSizesToProps } from './utils/withSizes'
 import CreateAccountFreeTrial from './pages/Login/CreateAccountFreeTrial'
@@ -255,6 +256,7 @@ export const App = ({
       <GdprRedirector pathname={pathname} />
       {isDesktop && <UrlModals />}
       <Switch>
+        <Route path={SHARE_PATH} component={PageLoader} />
         {['erc20', 'all', 'list', 'screener'].map(name => (
           <Route
             exact

@@ -17,7 +17,10 @@ import { register, unregister } from './serviceWorker'
 import { markAsLatestApp, newAppAvailable } from './ducks/Updates/actions'
 import { ThemeProvider } from './stores/ui/theme'
 import initSentry from './utils/initSentry'
+import { redirectSharedLink } from './components/Share/utils'
 import './index.scss'
+
+redirectSharedLink()
 
 const stripeKey =
   process.env.NODE_ENV === 'development' ||

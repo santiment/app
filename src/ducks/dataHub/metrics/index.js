@@ -4,7 +4,8 @@ import {
   ethFormatter,
   percentageFormatter,
   absoluteToPercentsFormatter,
-  tooltipValueFormatter
+  tooltipValueFormatter,
+  mvrvFormatter
 } from './formatters'
 import { updateTooltipSettings } from '../tooltipSettings'
 import { Node } from '../../Chart/nodes'
@@ -161,7 +162,9 @@ export const Metric = {
     fullTitle: 'Market Value To Realized Value',
     shortLabel: 'MVRV',
     abbreviation: 'mvrv',
-    video: 'https://www.youtube.com/watch?v=foMhhHbCgBE'
+    video: 'https://www.youtube.com/watch?v=foMhhHbCgBE',
+    formatter: mvrvFormatter,
+    axisFormatter: mvrvFormatter
   },
   mvrv_long_short_diff_usd: {
     category: 'On-chain',
