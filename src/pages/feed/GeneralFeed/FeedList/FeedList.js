@@ -8,6 +8,7 @@ import MakeProSubscriptionCard from '../MakeProSubscriptionCard/MakeProSubscript
 import { getDateFormats } from '../../../../utils/dates'
 import StoriesList from '../../../../components/Stories/StoriesList'
 import PageLoader from '../../../../components/Loader/PageLoader'
+import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import styles from './FeedList.module.scss'
 import externalStyles from '../GeneralFeed.module.scss'
 import feedItemStyles from './../FeedItemRenderer/FeedItemRenderer.module.scss'
@@ -130,6 +131,8 @@ export const RenderFeedGroupItems = ({
   groupIndex,
   showProfileExplanation
 }) => {
+  const { isPro } = useUserSubscriptionStatus()
+
   return (
     <>
       {items.map((item, itemIndex) => (
@@ -140,7 +143,7 @@ export const RenderFeedGroupItems = ({
               index={groupIndex}
               showProfileExplanation={showProfileExplanation}
             />
-            {item.addProCard && (
+            {!isPro && item.addProCard && (
               <MakeProSubscriptionCard classes={feedItemStyles} />
             )}
           </div>
