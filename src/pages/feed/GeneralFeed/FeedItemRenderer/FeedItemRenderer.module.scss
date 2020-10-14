@@ -6,7 +6,6 @@
   display: flex;
   padding: 16px;
   box-sizing: border-box;
-  box-shadow: 0 2px 8px rgba(59, 84, 106, 0.03), 0 1px 2px rgba(59, 84, 106, 0.03);
 
   @include responsive('phone', 'phone-xs') {
     flex-direction: column;

@@ -57,13 +57,15 @@ const FeedItemRenderer = ({ item, index, showProfileExplanation }) => {
       return (
         <WithInsightLikesMutation>
           {like => (
-            <InsightCard
-              id={insightId}
-              {...rest}
-              classes={styles}
-              onLike={like(insightId)}
-              showIcon={true}
-            />
+            <div className={styles.activityItem}>
+              <InsightCard
+                id={insightId}
+                {...rest}
+                classes={styles}
+                onLike={like(insightId)}
+                showIcon={true}
+              />
+            </div>
           )}
         </WithInsightLikesMutation>
       )
