@@ -85,6 +85,7 @@ const StablecoinsMarketCap = ({ className }) => {
           toggleDisabled={setDisabledAsset}
           disabledMetrics={disabledAssets}
           colors={StablecoinColor}
+          dataKey={'slug'}
         />
       </DesktopOnly>
 
