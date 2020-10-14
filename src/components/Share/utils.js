@@ -53,7 +53,6 @@ export function redirectSharedLink () {
       switch (pathname[hashEndIndex]) {
         case '/':
         case '?':
-          hashEndIndex--
           break loop
         default:
           continue
