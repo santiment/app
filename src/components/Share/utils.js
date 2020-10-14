@@ -18,7 +18,7 @@ const FULL_URL_QUERY = gql`
   }
 `
 
-export const SHARE_PATH = '/shared/'
+export const SHARE_PATH = '/s/'
 
 const urlExtractor = ({ data }) => data.ShortUrl.url
 
