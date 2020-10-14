@@ -62,6 +62,9 @@ export function redirectSharedLink () {
 
     getFullUrl(pathname.slice(hashStartIndex, hashEndIndex))
       .then(fullPath => history.push(fullPath))
-      .catch(console.error)
+      .catch(e => {
+        console.error(e)
+        history.push('/')
+      })
   }
 }
