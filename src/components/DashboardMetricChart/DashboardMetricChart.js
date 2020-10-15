@@ -54,6 +54,23 @@ const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
   }
 }
 
+/*
+const useChartTimeseries = (settings, metrics, rootMetric) => {
+  const [data, loadings] = useTimeseries(
+    metrics,
+    // HACK: Since the metric's hash doesn't change (done on purpose), forcing useTimseries to refetch data with new queryKey
+    // This allows us to compute chart colors and tooltip info only at the app start. [@vanguard | Sep 8, 2020]
+    useMemo(() => ({ ...settings }), [settings, rootMetric])
+  )
+
+  return {
+    data,
+    loadings,
+    rootMetric
+  }
+}
+*/
+
 const DashboardMetricChart = ({
   className,
   metrics,
