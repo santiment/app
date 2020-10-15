@@ -1,14 +1,19 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
 import cx from 'classnames'
 import Message from '@santiment-network/ui/Message'
 import TriggerChannelSettings from './TriggerChannelSettings'
-import { getSanSonarSW } from '../../../../../../pages/Account/SettingsSonarWebPushNotifications'
 import FormikCheckbox from '../../../../../../components/formik-santiment-ui/FormikCheckbox'
 import { CHANNEL_NAMES } from '../../../../utils/constants'
 import InputLink from '../../../../../../components/InputLink/InputLink'
+import {
+  findWebHook,
+  isWebhookChannel,
+  useChannelTypes,
+  useDisabledChannels
+} from './hooks'
 import styles from '../../signal/TriggerForm.module.scss'
+import { useIsBetaMode } from '../../../../../../stores/ui'
 
 const CHANNELS = [
   CHANNEL_NAMES.Email,
@@ -17,87 +22,36 @@ const CHANNELS = [
   CHANNEL_NAMES.Webhook
 ]
 
-export const findWebHook = channels => {
-  return channels.find(item => {
-    return isWebhookChannel(item)
-  })
-}
-
-export const isWebhookChannel = channel => {
-  return (
-    typeof channel === 'object' &&
-    (channel.hasOwnProperty('webhook') || Object.keys(channel).length === 0)
-  )
-}
-
-export const getDisabled = ({
-  isEmailConnected,
-  isTelegramConnected,
-  isWebPushEnabled
-}) => {
-  const disabled = []
-
-  if (!isEmailConnected) {
-    disabled.push(CHANNEL_NAMES.Email)
-  }
-  if (!isTelegramConnected) {
-    disabled.push(CHANNEL_NAMES.Telegram)
-  }
-  if (!isWebPushEnabled) {
-    disabled.push(CHANNEL_NAMES.Browser)
-  }
-
-  return disabled
-}
-
 const TriggerFormChannels = ({
   channels,
   errors,
   isTelegramConnected,
   isEmailConnected,
-  isBeta,
   setFieldValue,
   isNew
 }) => {
-  const [isWebPushEnabled, setWebPushEnabled] = useState(true)
   const [webhook, setWebhook] = useState('')
-  const [disabledChannels, setDisabledChannels] = useState([])
+
+  const isBeta = useIsBetaMode()
 
   const [requiredChannels, setRequiredChannels] = useState([])
 
-  const isDisabled = useCallback(
-    channel => {
-      return disabledChannels.some(disabled => disabled === channel)
-    },
-    [disabledChannels]
-  )
-
-  const calculateDisabledChannels = useCallback(
-    () => {
-      const disabled = getDisabled({
-        isTelegramConnected,
-        isWebPushEnabled,
-        isEmailConnected
-      })
-      setDisabledChannels(disabled)
-    },
-    [isEmailConnected, isWebPushEnabled, isTelegramConnected]
-  )
-
-  const recheckBrowserNotifications = useCallback(
-    () => {
-      navigator.serviceWorker &&
-        navigator.serviceWorker.getRegistrations &&
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-          const sw = getSanSonarSW(registrations)
-          const hasServiceWorker = !!sw
-
-          setWebPushEnabled(hasServiceWorker)
-          calculateDisabledChannels()
-        })
-    },
-    [setWebPushEnabled, calculateDisabledChannels]
-  )
+  const {
+    disabledChannels,
+    calculateDisabledChannels,
+    recheckBrowserNotifications,
+    isWebPushEnabled
+  } = useDisabledChannels({
+    channels,
+    isBeta,
+    isTelegramConnected,
+    isEmailConnected
+  })
+  const { isActive, isDisabled, isRequired } = useChannelTypes({
+    channels,
+    disabledChannels,
+    requiredChannels
+  })
 
   useEffect(
     () => {
@@ -119,15 +73,6 @@ const TriggerFormChannels = ({
       setFieldValue('channels', active)
     },
     [isTelegramConnected, isEmailConnected]
-  )
-
-  useEffect(
-    () => {
-      if (isBeta) {
-        recheckBrowserNotifications()
-      }
-    },
-    [isWebPushEnabled, channels]
   )
 
   useEffect(
@@ -238,28 +183,18 @@ const TriggerFormChannels = ({
     [channels]
   )
 
-  const isActive = useCallback(
-    channel => {
-      switch (channel) {
-        case CHANNEL_NAMES.Webhook: {
-          return findWebHook(channels)
-        }
-        default: {
-          return channels.some(active => active === channel)
-        }
-      }
+  useEffect(
+    () => {
+      toggleChannel(CHANNEL_NAMES.Telegram)
     },
-    [channels]
+    [isTelegramConnected]
   )
 
-  const isRequired = useCallback(
-    channel => {
-      return (
-        requiredChannels.some(required => required === channel) ||
-        disabledChannels.some(disabled => disabled === channel)
-      )
+  useEffect(
+    () => {
+      toggleChannel(CHANNEL_NAMES.Email)
     },
-    [requiredChannels, disabledChannels]
+    [isEmailConnected]
   )
 
   return (
@@ -365,16 +300,4 @@ const ErrorMessage = ({ message, recheckBrowserNotifications, channel }) => (
   </div>
 )
 
-const mapStateToProps = ({
-  user: {
-    data: { email = '' }
-  },
-  rootUi: { isBetaModeEnabled }
-}) => ({
-  email,
-  isBeta: isBetaModeEnabled
-})
-
-const enhance = connect(mapStateToProps)
-
-export default enhance(TriggerFormChannels)
+export default TriggerFormChannels

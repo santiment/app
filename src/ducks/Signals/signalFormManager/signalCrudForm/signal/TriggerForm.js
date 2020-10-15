@@ -303,13 +303,7 @@ export const TriggerForm = ({
                       frequencyTimeType={frequencyTimeType}
                     />
 
-                    <div
-                      className={cx(
-                        styles.row,
-                        styles.rowTop,
-                        styles.isRepeatingRow
-                      )}
-                    >
+                    <div className={cx(styles.row, styles.rowTop)}>
                       <FormikCheckbox
                         className={styles.isRepeating}
                         name='isRepeating'
