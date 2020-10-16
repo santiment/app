@@ -14,11 +14,11 @@ const DEFAULT_STATE = {}
 
 const ResponsiveChart = ({ children, padding, chartRef, ...props }) => {
   const iframeRef = useRef(null)
+  const iframe = iframeRef.current
   const [dimensions, setDimensions] = useState(DEFAULT_STATE)
 
   useEffect(
     () => {
-      const iframe = iframeRef.current
       if (!iframe) return
 
       iframe.contentWindow.onresize = () =>
@@ -27,7 +27,7 @@ const ResponsiveChart = ({ children, padding, chartRef, ...props }) => {
           width: iframe.offsetWidth
         })
     },
-    [iframeRef]
+    [iframe]
   )
 
   return (
