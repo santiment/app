@@ -15,7 +15,7 @@ export const percentageFormatter = val =>
 
 export const absoluteToPercentsFormatter = val => {
   const percents = 100 * val
-  return percentageFormatter(percents.toFixed(2))
+  return percentageFormatter(+percents.toFixed(2))
 }
 
 export const mvrvFormatter = val => absoluteToPercentsFormatter(val - 1)

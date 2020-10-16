@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Metric } from './metrics'
 import { Submetrics } from './submetrics'
-import { TooltipSetting } from './tooltipSettings'
+import { updateTooltipSetting } from './tooltipSettings'
 import { parseIntervalString } from '../../utils/dates'
 
 const AvailableTimeboundMetric = {
@@ -61,10 +61,7 @@ export const getTimeboundMetrics = ({ metricKeys }) => {
           }
         }
 
-        TooltipSetting[timeboundKey] = {
-          label,
-          formatter: Metric[key].formatter
-        }
+        updateTooltipSetting(timeboundMetric)
 
         TimeboundMetricCache.set(timeboundKey, timeboundMetric)
       }
