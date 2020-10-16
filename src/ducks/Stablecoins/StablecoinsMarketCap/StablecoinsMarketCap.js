@@ -20,6 +20,7 @@ const StablecoinsMarketCap = () => {
       setRootMetric={setRootMetric}
       rootMetric={rootMetric}
       metricsColor={StablecoinColor}
+      sliceMetricsCount={2}
     />
   )
 }

@@ -82,7 +82,8 @@ const DashboardMetricChart = ({
   rootMetric,
   metricsColor,
   setMeasurement,
-  measurement
+  measurement,
+  sliceMetricsCount = 1
 }) => {
   const MetricTransformer = useMirroredTransformer(metrics)
 
@@ -203,6 +204,7 @@ const DashboardMetricChart = ({
         domainGroups={domainGroups}
         mirrorDomainGroups={mirrorDomainGroups}
         isCartesianGridActive={true}
+        sliceMetricsCount={sliceMetricsCount}
       />
 
       <MobileOnly>
