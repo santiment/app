@@ -6,7 +6,6 @@ import Loadable from 'react-loadable'
 import PageLoader from '../../components/Loader/PageLoader'
 import UnAuth from '../../components/UnAuth/UnAuth'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
-import { isTelegramConnected } from '../UserSelectors'
 import SonarFeedHeader from './SonarFeedActions/SonarFeedHeader'
 import { showNotification } from '../../actions/rootActions'
 import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
@@ -20,6 +19,7 @@ import { RecommendedSignals } from './SonarFeedRecommendations'
 import { METRIC_TYPES } from '../../ducks/Signals/utils/constants'
 import ScreenerSignalDialog from '../../ducks/Signals/ScreenerSignal/ScreenerSignalDialog'
 import styles from './SonarFeedPage.module.scss'
+import { useUserSettings } from '../../stores/user/settings'
 
 const baseLocation = '/sonar'
 
@@ -87,7 +87,6 @@ const SonarFeed = ({
   location: { pathname },
   isLoggedIn,
   isDesktop,
-  isTelegramConnected,
   isUserLoading,
   showTelegramAlert
 }) => {
@@ -107,13 +106,17 @@ const SonarFeed = ({
     pathParams ? pathParams.id : undefined
   )
 
+  const {
+    settings: { hasTelegramConnected }
+  } = useUserSettings()
+
   useEffect(
     () => {
-      if (!isTelegramConnected && isLoggedIn) {
+      if (!hasTelegramConnected && isLoggedIn) {
         showTelegramAlert()
       }
     },
-    [isTelegramConnected, isLoggedIn]
+    [hasTelegramConnected, isLoggedIn]
   )
 
   useEffect(() => {
@@ -167,8 +170,7 @@ const SonarFeed = ({
 
 const mapStateToProps = state => {
   return {
-    isUserLoading: state.user && !!state.user.isLoading,
-    isTelegramConnected: isTelegramConnected(state)
+    isUserLoading: state.user && !!state.user.isLoading
   }
 }
 

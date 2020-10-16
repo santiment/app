@@ -59,7 +59,7 @@ import { formatNumber } from '../../../utils/formatting'
 import { Metric } from '../../dataHub/metrics'
 import { useWatchlist } from '../../Watchlists/gql/hooks'
 import { SIGNAL_SUPPORTED_METRICS } from '../signalFormManager/signalCrudForm/formParts/metricTypes/metrics'
-import { findWebHook } from '../signalFormManager/signalCrudForm/formParts/channels/TriggerFormChannels'
+import { findWebHook } from '../signalFormManager/signalCrudForm/formParts/channels/hooks'
 
 export const mapToOptions = input => {
   if (!input) {

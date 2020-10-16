@@ -1,29 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TriggerForm EthWallet smoke 1`] = `
-<Formik
-  enableReinitialize={true}
-  initialValues={Object {}}
-  isInitialValid={false}
-  onSubmit={[Function]}
-  validate={[Function]}
-  validateOnBlur={true}
-  validateOnChange={true}
->
+<ContextConsumer>
   <Component />
-</Formik>
+</ContextConsumer>
 `;
 
 exports[`TriggerForm smoke 1`] = `
-<Formik
-  enableReinitialize={true}
-  initialValues={Object {}}
-  isInitialValid={false}
-  onSubmit={[Function]}
-  validate={[Function]}
-  validateOnBlur={true}
-  validateOnChange={true}
->
+<ContextConsumer>
   <Component />
-</Formik>
+</ContextConsumer>
 `;

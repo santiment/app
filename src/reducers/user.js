@@ -12,12 +12,9 @@ export const initialState = {
   error: false,
   data: {
     settings: {
-      hasTelegramConnected: false,
       isTelegarmDeepLinkLoading: true,
       isTelegarmDeepLinkError: false,
       telegramDeepLink: '',
-      signalNotifyEmail: false,
-      signalNotifyTelegram: false,
       isTelegramConnecting: false,
       newsletterSubscription: 'OFF'
     },
@@ -213,17 +210,6 @@ export default (state = initialState, action) => {
           settings: {
             ...state.data.settings,
             isTelegramConnecting: false
-          }
-        }
-      }
-    case actions.SETTINGS_TOGGLE_NOTIFICATION_CHANNEL_SUCCESS:
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          settings: {
-            ...state.data.settings,
-            ...action.payload
           }
         }
       }

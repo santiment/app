@@ -1,18 +1,20 @@
 import React from 'react'
 import cx from 'classnames'
-import { connect } from 'react-redux'
 import Label from '@santiment-network/ui/Label'
 import Toggle from '@santiment-network/ui/Toggle'
-import * as actions from '../../actions/types'
+import {
+  useUpdateUserSettings,
+  useUserSettings
+} from '../../stores/user/settings'
 import styles from './AccountPage.module.scss'
 
-const SettingsTelegramNotifications = ({
-  signalNotifyTelegram,
-  toggleTelegramNotification,
-  hasTelegramConnected,
-  classes = {},
-  description
-}) => {
+const SettingsTelegramNotifications = ({ classes = {}, description }) => {
+  const {
+    settings: { signalNotifyTelegram, hasTelegramConnected }
+  } = useUserSettings()
+
+  const [updateUserSettings] = useUpdateUserSettings()
+
   return (
     <div className={cx(classes.container, styles.settingBlock)}>
       <Label className={classes.left}>Telegram notifications</Label>
@@ -22,7 +24,11 @@ const SettingsTelegramNotifications = ({
         {hasTelegramConnected ? (
           <Toggle
             isActive={signalNotifyTelegram}
-            onClick={() => toggleTelegramNotification(!signalNotifyTelegram)}
+            onClick={() =>
+              updateUserSettings({
+                signalNotifyTelegram: !signalNotifyTelegram
+              })
+            }
           />
         ) : (
           'Please connect to telegram bot to enable notifications'
@@ -32,17 +38,4 @@ const SettingsTelegramNotifications = ({
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  toggleTelegramNotification: signalNotifyTelegram =>
-    dispatch({
-      type: actions.SETTINGS_TOGGLE_NOTIFICATION_CHANNEL,
-      payload: { signalNotifyTelegram }
-    })
-})
-
-const enhance = connect(
-  null,
-  mapDispatchToProps
-)
-
-export default enhance(SettingsTelegramNotifications)
+export default SettingsTelegramNotifications

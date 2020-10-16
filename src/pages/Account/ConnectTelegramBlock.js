@@ -5,6 +5,7 @@ import * as actions from '../../actions/types'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Button from '@santiment-network/ui/Button'
 import Label from '@santiment-network/ui/Label'
+import { useUserSettings } from '../../stores/user/settings'
 import styles from './AccountPage.module.scss'
 
 const getTelegramBtnText = (connected, connecting) => {
@@ -20,9 +21,12 @@ const ConnectTelegramBlock = ({
   connectTelegram,
   isTelegramConnecting,
   telegramDeepLink,
-  hasTelegramConnected,
   classes = {}
 }) => {
+  const {
+    settings: { hasTelegramConnected }
+  } = useUserSettings()
+
   useEffect(
     () => {
       !telegramDeepLink && generateTelegramDeepLink()
@@ -66,18 +70,11 @@ const ConnectTelegramBlock = ({
 
 const mapStateToProps = ({
   user: {
-    data: {
-      settings: {
-        telegramDeepLink,
-        isTelegramConnecting,
-        hasTelegramConnected
-      } = {}
-    }
+    data: { settings: { telegramDeepLink, isTelegramConnecting } = {} }
   }
 }) => ({
   telegramDeepLink,
-  isTelegramConnecting,
-  hasTelegramConnected
+  isTelegramConnecting
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -21,9 +21,6 @@ export const USER_GQL_FRAGMENT = gql`
       address
     }
     settings {
-      hasTelegramConnected
-      signalNotifyEmail
-      signalNotifyTelegram
       newsletterSubscription
       isBetaMode
       theme

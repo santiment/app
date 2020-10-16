@@ -19,13 +19,13 @@ export const DEFAULT_SETTINGS = {
 
 export const USER_SETTINGS_FRAGMENT = gql`
   fragment userSettigsFragment on UserSettings {
-    hasTelegramConnected
     hidePrivacyData
     isBetaMode
     newsletterSubscription
     pageSize
     signalNotifyEmail
     signalNotifyTelegram
+    hasTelegramConnected
     signalsPerDayLimit
     theme
   }
@@ -35,6 +35,7 @@ export const USER_SETTINGS_QUERY = gql`
   {
     currentUser {
       id
+      email
       settings {
         isPromoter
         ...userSettigsFragment
@@ -89,9 +90,21 @@ export function useUserSettings () {
   return useMemo(
     () => {
       const { loading, data } = query
+
       return {
         loading,
-        settings: data && data.currentUser && data.currentUser.settings
+        settings:
+          data && data.currentUser
+            ? {
+              ...data.currentUser.settings,
+              isTelegramConnectedAndEnabled:
+                  data.currentUser.settings.signalNotifyTelegram &&
+                  data.currentUser.settings.hasTelegramConnected,
+              isEmailConnected:
+                  data.currentUser.email &&
+                  data.currentUser.settings.signalNotifyEmail
+            }
+            : DEFAULT_SETTINGS
       }
     },
     [query]

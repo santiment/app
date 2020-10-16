@@ -5,10 +5,6 @@ import { compose } from 'recompose'
 import { Formik, Form } from 'formik'
 import { connect } from 'react-redux'
 import isEqual from 'lodash.isequal'
-import {
-  isTelegramConnectedAndEnabled,
-  selectIsEmailConnected
-} from '../../../../../pages/UserSelectors'
 import FormikEffect from '../../../../../components/formik-santiment-ui/FormikEffect'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import Button from '@santiment-network/ui/Button'
@@ -41,6 +37,7 @@ import FormikInput from '../../../../../components/formik-santiment-ui/FormikInp
 import TriggerFormChannels from '../formParts/channels/TriggerFormChannels'
 import FormikCheckbox from '../../../../../components/formik-santiment-ui/FormikCheckbox'
 import SignalFormDescription from '../formParts/description/SignalFormDescription'
+import { useUserSettings } from '../../../../../stores/user/settings'
 import styles from './TriggerForm.module.scss'
 
 const getTitle = (formData, id, isShared) => {
@@ -55,7 +52,6 @@ const getTitle = (formData, id, isShared) => {
 
 const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,
-  isTelegramConnected: PropTypes.bool.isRequired,
   lastPriceItem: PropTypes.any,
   settings: PropTypes.any,
   metaFormSettings: PropTypes.any,
@@ -65,8 +61,6 @@ const propTypes = {
 export const TriggerForm = ({
   id,
   onSettingsChange,
-  isTelegramConnected = false,
-  isEmailConnected = false,
   lastPriceItem,
   settings = {},
   metaFormSettings,
@@ -123,6 +117,13 @@ export const TriggerForm = ({
     },
     [isNew, step, setStep]
   )
+
+  const {
+    settings: {
+      isTelegramConnectedAndEnabled: isTelegramConnected,
+      isEmailConnected
+    }
+  } = useUserSettings()
 
   return (
     <Formik
@@ -287,8 +288,6 @@ export const TriggerForm = ({
                       isNew={isNew}
                       channels={channels}
                       errors={errors}
-                      isTelegramConnected={isTelegramConnected}
-                      isEmailConnected={isEmailConnected}
                       setFieldValue={setFieldValue}
                     />
 
@@ -303,13 +302,7 @@ export const TriggerForm = ({
                       frequencyTimeType={frequencyTimeType}
                     />
 
-                    <div
-                      className={cx(
-                        styles.row,
-                        styles.rowTop,
-                        styles.isRepeatingRow
-                      )}
-                    >
+                    <div className={cx(styles.row, styles.rowTop)}>
                       <FormikCheckbox
                         className={styles.isRepeating}
                         name='isRepeating'
@@ -386,15 +379,9 @@ export const TriggerForm = ({
 
 TriggerForm.propTypes = propTypes
 
-export const mapTriggerStateToProps = state => ({
-  isTelegramConnected: isTelegramConnectedAndEnabled(state),
-  isEmailConnected: selectIsEmailConnected(state)
-})
-
 const enhance = compose(
   connect(state => {
     return {
-      ...mapTriggerStateToProps(state),
       lastPriceItem: state.signals.points
         ? state.signals.points[state.signals.points.length - 1]
         : undefined
