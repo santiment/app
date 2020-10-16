@@ -5,8 +5,10 @@ import { usePlotter } from './plotter'
 import { clearCtx } from './utils'
 import { domainModifier } from './domain'
 
+const noop = () => {}
 const DEFAULT = []
 const REDUCER = () => []
+export const useRedrawer = () => useReducer(REDUCER, DEFAULT)
 
 const ChartContext = React.createContext()
 const ChartSetterContext = React.createContext()
@@ -23,7 +25,7 @@ export const ChartProvider = ({
 }) => {
   const [chart, setChart] = useState()
   const plotter = usePlotter()
-  const [isAwaitingRedraw, redrawChart] = useReducer(REDUCER, DEFAULT)
+  const [isAwaitingRedraw, redrawChart] = useRedrawer()
 
   useEffect(
     () => {
@@ -33,7 +35,10 @@ export const ChartProvider = ({
 
       if (data.length === 0) return
 
+      chart.scale = scale
       chart.colors = colors
+      chart.plotter = plotter
+      chart.domainGroups = domainGroups
 
       updateChartState(
         chart,
@@ -43,8 +48,8 @@ export const ChartProvider = ({
         domainGroups
       )
 
-      plotter.items.forEach(clb => {
-        clb(chart, scale, data, colors, categories)
+      plotter.items.forEach(plot => {
+        plot(chart, scale, data, colors, categories)
       })
     },
     [data, scale, colors, domainGroups, isAwaitingRedraw]
@@ -74,6 +79,18 @@ export const useChartRedraw = () => useContext(ChartRedrawContext)
 export const buildPlotter = plotter => props => {
   plotter(useChartPlotter(), props)
   return null
+}
+export function usePlotterRemove (id) {
+  const plotter = useChartPlotter()
+  const redrawChart = useChartRedraw()
+
+  useEffect(() => {
+    redrawChart()
+    return () => {
+      plotter.register(id, noop)
+      redrawChart()
+    }
+  }, [])
 }
 
 export const withChartContext = Component => ({

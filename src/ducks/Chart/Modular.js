@@ -16,7 +16,14 @@ import styles from './index.module.scss'
 
 const cx = (...classes) => classes.filter(Boolean).join(' ')
 
-const Chart = ({ className, width, height, padding, chartRef, children }) => {
+export const Chart = ({
+  className,
+  width,
+  height,
+  padding,
+  chartRef,
+  children
+}) => {
   const chart = useChart()
   const canvasRef = useRef(null)
   const { isNightMode } = useTheme()
@@ -51,15 +58,18 @@ const Chart = ({ className, width, height, padding, chartRef, children }) => {
     () => {
       if (!chart) return
 
-      const { tooltip, canvasWidth, canvasHeight } = chart
+      const { tooltip, brush, canvasWidth, canvasHeight } = chart
 
       const _width = width || canvasWidth
-      const _height = width || canvasHeight
+      const _height = height || canvasHeight
 
       updateChartDimensions(chart, _width, _height, padding)
 
       if (tooltip) {
         updateSize(tooltip.canvas, tooltip.ctx, chart.dpr, _width, _height)
+      }
+      if (brush) {
+        brush.updateWidth(_width)
       }
 
       redrawChart()
@@ -70,7 +80,7 @@ const Chart = ({ className, width, height, padding, chartRef, children }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
       <canvas ref={canvasRef} />
-      {children}
+      {chart && children}
     </div>
   )
 }

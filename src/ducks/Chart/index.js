@@ -23,13 +23,13 @@ import {
   DOUBLE_AXIS_PADDING,
   buildPadding
 } from './settings'
-import { drawWatermark } from './watermark'
 import { ResizeListener, onResize } from './resize'
 import { clearCtx } from './utils'
 import { domainModifier } from './domain'
 import { paintConfigs, dayBrushPaintConfig } from './paintConfigs'
 import { plotAxes } from './Axes/helpers'
 import { setupTooltip, plotTooltip } from './Tooltip/helpers'
+import { drawWatermark } from './Watermark/helpers'
 import { useTheme } from '../../stores/ui/theme'
 import styles from './index.module.scss'
 

@@ -5,27 +5,23 @@ import { linearScale, logScale } from '@santiment-network/chart/scales'
 import ChartMetricSettings from './MetricSettings'
 import ChartPaywallInfo from './PaywallInfo'
 import ChartActiveMetrics from './ActiveMetrics'
-import IcoPrice from './IcoPrice'
-import LastDayPrice from './LastDayPrice'
+import ChartCanvas from './Canvas'
 import SharedAxisToggle from './SharedAxisToggle'
 import ContextMenu from './ContextMenu'
 import ChartFullscreenBtn from './Fullscreen'
-import Insights from './Insights'
 import Compare from '../Compare'
 import { extractIndicatorDomainGroups } from '../utils'
 import { useMetricColor } from '../Widget/ChartWidgetColorProvider'
 import { useAllTimeData } from '../timeseries/hooks'
-import Chart from '../../Chart'
-import Signals from '../../Chart/Signals'
 import { useMetricCategories } from '../../Chart/Synchronizer'
-import { useDomainGroups, useAxesMetricsKey } from '../../Chart/hooks'
+import { useDomainGroups } from '../../Chart/hooks'
 import { useHighlightMetricColor } from '../../Chart/colors'
 import { extractMirrorMetricsDomainGroups } from '../../Chart/utils'
 import { useUser } from '../../../stores/user'
 import { getTimeIntervalFromToday, DAY } from '../../../utils/dates'
 import styles from './index.module.scss'
 
-const Canvas = ({
+const Chart = ({
   index,
   widget,
   className,
@@ -80,7 +76,6 @@ const Canvas = ({
     },
     [domainGroups]
   )
-  const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
   const allTimeData = useAllTimeData(metrics, settings)
   const isBlurred = !isLoggedIn && index > 1
   const scale = options.isLogScale ? logScale : linearScale
@@ -214,41 +209,30 @@ const Canvas = ({
         />
       )}
 
-      <Chart
-        {...categories}
-        {...options}
-        {...settings}
-        data={data}
-        events={eventsData}
-        brushData={allTimeData}
-        chartRef={chartRef}
+      <ChartCanvas
         className={cx(styles.chart, isBlurred && styles.blur)}
-        MetricColor={HighlightedMetricColor}
+        chartRef={chartRef}
+        data={data}
+        brushData={allTimeData}
+        categories={categories}
+        colors={HighlightedMetricColor}
         metrics={metrics}
         scale={scale}
+        settings={settings}
+        options={options}
         domainGroups={
           isDomainGroupingActive ? domainGroups : mirrorDomainGroups
         }
-        tooltipKey={axesMetricKeys[0]}
-        axesMetricKeys={axesMetricKeys}
-        onPointClick={onPointClick}
+        isDomainGroupingActive={isDomainGroupingActive}
+        isICOPriceActive={isICOPriceActive}
+        isSelectingRange={isSelectingRange}
         onBrushChangeEnd={onBrushChangeEnd}
+        onPointClick={onPointClick}
         onRangeSelect={onRangeSelect}
         onRangeSelectStart={onRangeSelectStart}
         syncTooltips={syncTooltips}
-        resizeDependencies={[axesMetricKeys]}
-      >
-        <IcoPrice
-          {...settings}
-          isICOPriceActive={isICOPriceActive}
-          metrics={metrics}
-          className={styles.ico}
-          onResult={price => setIsICOPriceDisabled(!price)}
-        />
-        <LastDayPrice settings={settings} metrics={metrics} />
-        {isSelectingRange || <Signals {...settings} metrics={metrics} />}
-        <Insights />
-      </Chart>
+        setIsICOPriceDisabled={setIsICOPriceDisabled}
+      />
 
       {isBlurred && (
         <div className={styles.restriction}>
@@ -262,8 +246,8 @@ const Canvas = ({
   )
 }
 
-Canvas.defaultProps = {
+Chart.defaultProps = {
   isWithCompare: true
 }
 
-export default Canvas
+export default Chart

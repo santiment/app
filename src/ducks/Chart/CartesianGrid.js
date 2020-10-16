@@ -1,16 +1,19 @@
 import { useEffect } from 'react'
-import { buildPlotter } from './context'
+import { buildPlotter, usePlotterRemove } from './context'
 import { drawCartesianGrid } from '@santiment-network/chart/cartesianGrid'
+
+const ID = 'cartesianGrid'
 
 const CartesianGrid = buildPlotter((plotter, { xTicks, yTicks }) => {
   useEffect(
-    () => {
-      plotter.register('cartesianGrid', (chart, scale) =>
+    () =>
+      plotter.register(ID, (chart, scale) =>
         drawCartesianGrid(chart, chart.axesColor, xTicks, yTicks)
-      )
-    },
+      ),
     [xTicks, yTicks]
   )
+
+  usePlotterRemove(ID)
 })
 
 CartesianGrid.defaultProps = {

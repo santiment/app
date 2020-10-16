@@ -26,7 +26,7 @@ import styles from './UniswapProtocolPage.module.scss'
 const BALANCE_CHART_PADDING = {
   top: 16,
   right: 45,
-  bottom: 16,
+  bottom: 18,
   left: 45
 }
 
@@ -158,6 +158,7 @@ const UniswapProtocolPage = ({ history }) => {
                 headerClassName={styles.balance__header}
                 axesTicks={BALANCE_CHART_TICKS}
                 padding={BALANCE_CHART_PADDING}
+                height={448}
               />
               <ChartWidget
                 height={448}
