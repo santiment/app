@@ -3,18 +3,21 @@ import { connect } from 'react-redux'
 import { WATCHLIST_TOGGLE_MONITORING } from '../../../../../../actions/types'
 import { showNotification } from '../../../../../../actions/rootActions'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
-import { selectIsEmailConnected } from '../../../../../../pages/UserSelectors'
 import TriggerChannelSettings from '../channels/TriggerChannelSettings'
+import { useUserSettings } from '../../../../../../stores/user/settings'
 import styles from './AlertWeeklyReports.module.scss'
 
 const AlertWeeklyReports = ({
   watchlist,
   dispatchIsMonitored,
-  showNotification,
-  isEmailConnected
+  showNotification
 }) => {
   const { isMonitored: initialMonitoring } = watchlist
   const [isMonitored, setMonitored] = useState(initialMonitoring)
+
+  const {
+    settings: { isEmailConnected }
+  } = useUserSettings()
 
   useEffect(
     () => {
@@ -82,11 +85,7 @@ const mapDispatchToProps = dispatch => ({
   showNotification: message => dispatch(showNotification(message))
 })
 
-const mapStateToProps = state => ({
-  isEmailConnected: selectIsEmailConnected(state)
-})
-
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(AlertWeeklyReports)

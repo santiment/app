@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Formik, Form } from 'formik'
-import { connect } from 'react-redux'
 import isEqual from 'lodash.isequal'
 import FormikEffect from '../../../components/formik-santiment-ui/FormikEffect'
 import FormikLabel from '../../../components/formik-santiment-ui/FormikLabel'
@@ -12,21 +11,13 @@ import {
 } from '../utils/utils'
 import TriggerFormChannels from '../signalFormManager/signalCrudForm/formParts/channels/TriggerFormChannels'
 import externalStyles from './../signalFormManager/signalCrudForm/signal/TriggerForm.module.scss'
-import { mapTriggerStateToProps } from '../signalFormManager/signalCrudForm/signal/TriggerForm'
 import SignalFormDescription from '../signalFormManager/signalCrudForm/formParts/description/SignalFormDescription'
 import { TriggerFormBlockDivider } from '../signalFormManager/signalCrudForm/formParts/block/TriggerFormBlock'
 import AlertWeeklyReports from '../signalFormManager/signalCrudForm/formParts/weeklyReports/AlertWeeklyReports'
 import { ToggleSignal } from '../../../components/SignalCard/card/SignalCardBottom'
 import styles from './ScreenerSignal.module.scss'
 
-export const SreenerSignal = ({
-  signal,
-  watchlist,
-  isTelegramConnected = false,
-  isEmailConnected = false,
-  onCancel,
-  onSubmit
-}) => {
+export const SreenerSignal = ({ signal, watchlist, onCancel, onSubmit }) => {
   const { id = 0 } = signal
   const isNew = !(id > 0)
   const [initialValues, setInitialValues] = useState(
@@ -89,8 +80,6 @@ export const SreenerSignal = ({
                 isNew={isNew}
                 channels={channels}
                 errors={errors}
-                isTelegramConnected={isTelegramConnected}
-                isEmailConnected={isEmailConnected}
                 setFieldValue={setFieldValue}
               />
             </div>
@@ -144,6 +133,4 @@ export const SreenerSignal = ({
   )
 }
 
-const mapStateToProps = state => mapTriggerStateToProps(state)
-
-export default connect(mapStateToProps)(SreenerSignal)
+export default SreenerSignal

@@ -7,15 +7,17 @@ import Toggle from '@santiment-network/ui/Toggle'
 import * as actions from '../../actions/types'
 import { useUser } from '../../stores/user'
 import styles from './AccountPage.module.scss'
+import { useUserSettings } from '../../stores/user/settings'
 
 const SettingsEmailNotifications = ({
-  isEmailNotificationEnabled,
   toggleEmailNotification,
   classes = {},
-  description,
-  email
+  description
 }) => {
   const { user } = useUser()
+  const {
+    settings: { signalNotifyEmail }
+  } = useUserSettings()
   return (
     <div className={cx(classes.container, styles.settingBlock)}>
       <Label className={classes.left}>Email notifications</Label>
@@ -23,8 +25,8 @@ const SettingsEmailNotifications = ({
         {description}
         {user && user.email ? (
           <Toggle
-            isActive={isEmailNotificationEnabled}
-            onClick={() => toggleEmailNotification(!isEmailNotificationEnabled)}
+            isActive={signalNotifyEmail}
+            onClick={() => toggleEmailNotification(!signalNotifyEmail)}
           />
         ) : (
           'Please add email to enable notifications'

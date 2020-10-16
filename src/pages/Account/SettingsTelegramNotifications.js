@@ -5,14 +5,17 @@ import Label from '@santiment-network/ui/Label'
 import Toggle from '@santiment-network/ui/Toggle'
 import * as actions from '../../actions/types'
 import styles from './AccountPage.module.scss'
+import { useUserSettings } from '../../stores/user/settings'
 
 const SettingsTelegramNotifications = ({
-  signalNotifyTelegram,
   toggleTelegramNotification,
-  hasTelegramConnected,
   classes = {},
   description
 }) => {
+  const {
+    settings: { signalNotifyTelegram, hasTelegramConnected }
+  } = useUserSettings()
+
   return (
     <div className={cx(classes.container, styles.settingBlock)}>
       <Label className={classes.left}>Telegram notifications</Label>

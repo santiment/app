@@ -19,7 +19,7 @@ import {
   useSignals
 } from '../../ducks/Signals/common/getSignals'
 import { CHANNEL_TYPES } from '../../ducks/Signals/utils/constants'
-import { DEFAULT_SETTINGS, useUserSettings } from '../../stores/user/settings'
+import { useUserSettings } from '../../stores/user/settings'
 import SignalLimits from './limits/SignalLimits'
 import styles from './AccountPage.module.scss'
 
@@ -51,13 +51,7 @@ const SignalsDescription = (mappedCount, allCount, channel) => {
 const SettingsNotifications = ({ changeDigestType, mutateDigestType }) => {
   const { settings } = useUserSettings()
 
-  const {
-    newsletterSubscription: digestType,
-    signalNotifyEmail,
-    signalNotifyTelegram,
-    hasTelegramConnected,
-    signalsPerDayLimit
-  } = settings || DEFAULT_SETTINGS
+  const { newsletterSubscription: digestType, signalsPerDayLimit } = settings
 
   const { data: signals } = useSignals()
 
@@ -73,7 +67,6 @@ const SettingsNotifications = ({ changeDigestType, mutateDigestType }) => {
     <Settings id='notifications' header='Notifications'>
       <Settings.Row>
         <SettingsEmailNotifications
-          isEmailNotificationEnabled={signalNotifyEmail}
           description={SignalsDescription(
             countWithEmail,
             allCount,
@@ -84,8 +77,6 @@ const SettingsNotifications = ({ changeDigestType, mutateDigestType }) => {
 
       <Settings.Row>
         <SettingsTelegramNotifications
-          signalNotifyTelegram={signalNotifyTelegram}
-          hasTelegramConnected={hasTelegramConnected}
           description={SignalsDescription(
             countWithTelegram,
             allCount,

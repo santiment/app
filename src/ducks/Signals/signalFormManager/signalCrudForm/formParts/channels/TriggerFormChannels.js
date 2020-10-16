@@ -12,8 +12,9 @@ import {
   useChannelTypes,
   useDisabledChannels
 } from './hooks'
-import styles from '../../signal/TriggerForm.module.scss'
 import { useIsBetaMode } from '../../../../../../stores/ui'
+import styles from '../../signal/TriggerForm.module.scss'
+import { useUserSettings } from '../../../../../../stores/user/settings'
 
 const CHANNELS = [
   CHANNEL_NAMES.Email,
@@ -22,14 +23,30 @@ const CHANNELS = [
   CHANNEL_NAMES.Webhook
 ]
 
-const TriggerFormChannels = ({
-  channels,
-  errors,
-  isTelegramConnected,
-  isEmailConnected,
-  setFieldValue,
-  isNew
-}) => {
+const checkAndAdd = (required, channels, flag, chType) => {
+  if (!flag && channels.some(type => type === chType)) {
+    required.push(chType)
+  }
+
+  return required
+}
+
+const checkIn = (channels, flag, chType) => {
+  if (!flag) {
+    return channels.filter(item => item !== chType)
+  }
+
+  return channels
+}
+
+const TriggerFormChannels = ({ channels, errors, setFieldValue, isNew }) => {
+  const {
+    settings: {
+      isTelegramConnectedAndEnabled: isTelegramConnected,
+      isEmailConnected
+    }
+  } = useUserSettings()
+
   const [webhook, setWebhook] = useState('')
 
   const isBeta = useIsBetaMode()
@@ -47,6 +64,7 @@ const TriggerFormChannels = ({
     isTelegramConnected,
     isEmailConnected
   })
+
   const { isActive, isDisabled, isRequired } = useChannelTypes({
     channels,
     disabledChannels,
@@ -57,15 +75,16 @@ const TriggerFormChannels = ({
     () => {
       let newChannels = channels
       if (isNew) {
-        if (!isTelegramConnected) {
-          newChannels = newChannels.filter(
-            item => item !== CHANNEL_NAMES.Telegram
-          )
-        }
-
-        if (!isEmailConnected) {
-          newChannels = newChannels.filter(item => item !== CHANNEL_NAMES.Email)
-        }
+        newChannels = checkIn(
+          newChannels,
+          isTelegramConnected,
+          CHANNEL_NAMES.Telegram
+        )
+        newChannels = checkIn(
+          newChannels,
+          isEmailConnected,
+          CHANNEL_NAMES.Email
+        )
       }
 
       const active = newChannels.filter(channel => !isDisabled(channel))
@@ -79,26 +98,25 @@ const TriggerFormChannels = ({
     () => {
       calculateDisabledChannels()
       let required = []
-      if (
-        !isTelegramConnected &&
-        channels.some(type => type === CHANNEL_NAMES.Telegram)
-      ) {
-        required.push(CHANNEL_NAMES.Telegram)
-      }
 
-      if (
-        !isEmailConnected &&
-        channels.some(type => type === CHANNEL_NAMES.Email)
-      ) {
-        required.push(CHANNEL_NAMES.Email)
-      }
-
-      if (
-        !isWebPushEnabled &&
-        channels.some(type => type === CHANNEL_NAMES.Browser)
-      ) {
-        required.push(CHANNEL_NAMES.Browser)
-      }
+      required = checkAndAdd(
+        required,
+        channels,
+        isTelegramConnected,
+        CHANNEL_NAMES.Telegram
+      )
+      required = checkAndAdd(
+        required,
+        channels,
+        isEmailConnected,
+        CHANNEL_NAMES.Email
+      )
+      required = checkAndAdd(
+        required,
+        channels,
+        isWebPushEnabled,
+        CHANNEL_NAMES.Browser
+      )
 
       setRequiredChannels(required)
     },
