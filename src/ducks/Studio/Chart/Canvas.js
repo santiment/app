@@ -22,6 +22,11 @@ const PADDING = {
   left: 5
 }
 
+const DOUBLE_AXIS_PADDING = {
+  ...PADDING,
+  left: 50
+}
+
 const Canvas = ({
   data,
   brushData,
@@ -44,7 +49,11 @@ const Canvas = ({
   const { isCartesianGridActive, isWatermarkLighter } = options
 
   return (
-    <ResponsiveChart padding={PADDING} {...props} data={data}>
+    <ResponsiveChart
+      padding={axesMetricKeys[1] ? DOUBLE_AXIS_PADDING : PADDING}
+      {...props}
+      data={data}
+    >
       <Watermark light={isWatermarkLighter} />
       <GreenRedBars />
       <Bars />
@@ -68,6 +77,7 @@ const Canvas = ({
         onChangeEnd={onBrushChangeEnd}
       />
 
+      <Insights />
       <IcoPrice
         {...settings}
         isICOPriceActive={isICOPriceActive}
@@ -79,7 +89,6 @@ const Canvas = ({
       {isSelectingRange || (
         <Signals {...settings} metrics={metrics} data={data} />
       )}
-      <Insights />
     </ResponsiveChart>
   )
 }

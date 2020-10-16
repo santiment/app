@@ -45,8 +45,6 @@ const Brush = ({
 
   useEffect(
     () => {
-      if (!chart) return
-
       const width = chart.canvasWidth
 
       const brush = initBrush(chart, width, BRUSH_HEIGHT, dayBrushPaintConfig)

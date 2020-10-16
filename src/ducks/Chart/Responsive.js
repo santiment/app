@@ -16,14 +16,19 @@ const ResponsiveChart = ({ children, padding, chartRef, ...props }) => {
   const iframeRef = useRef(null)
   const [dimensions, setDimensions] = useState(DEFAULT_STATE)
 
-  useEffect(() => {
-    const iframe = iframeRef.current
-    iframe.contentWindow.onresize = () =>
-      setDimensions({
-        height: iframe.offsetHeight,
-        width: iframe.offsetWidth
-      })
-  }, [])
+  useEffect(
+    () => {
+      const iframe = iframeRef.current
+      if (!iframe) return
+
+      iframe.contentWindow.onresize = () =>
+        setDimensions({
+          height: iframe.offsetHeight,
+          width: iframe.offsetWidth
+        })
+    },
+    [iframeRef]
+  )
 
   return (
     <Chart {...props} {...dimensions} padding={padding} chartRef={chartRef}>

@@ -80,7 +80,7 @@ export const Chart = ({
   return (
     <div className={cx(styles.wrapper, className)}>
       <canvas ref={canvasRef} />
-      {children}
+      {chart && children}
     </div>
   )
 }

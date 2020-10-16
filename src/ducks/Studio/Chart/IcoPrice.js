@@ -19,7 +19,7 @@ const { formatter } = Metric.price_usd
 
 const DEFAULT_VALUE = {}
 
-const IcoPrice = ({
+export const IcoPrice = ({
   chart,
   scale,
   slug,
@@ -87,5 +87,5 @@ IcoPrice.defaultProps = {
 
 export default props => {
   const chart = useChart()
-  return chart ? <IcoPrice chart={chart} {...props} /> : null
+  return <IcoPrice chart={chart} {...props} />
 }

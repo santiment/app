@@ -71,8 +71,7 @@ export default ({ metrics, settings, ...props }) => {
   const { from, to } = settings
   const chart = useChart()
 
-  return chart &&
-    metrics.includes(price_usd) &&
+  return metrics.includes(price_usd) &&
     new Date(to) - new Date(from) <= DAY_INTERVAL ? (
       <LastDayPrice chart={chart} {...props} settings={settings} />
     ) : null

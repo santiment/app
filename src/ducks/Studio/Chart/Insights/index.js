@@ -66,7 +66,7 @@ const Insights = ({ chart, insights }) => {
 const withOnlyIfInsights = Component => props => {
   const chart = useChart()
   const insights = useInsights()
-  return chart && insights.length ? (
+  return insights.length ? (
     <Component {...props} chart={chart} insights={insights} />
   ) : null
 }
