@@ -13,7 +13,7 @@ const VALIDATION_PROPS = {
 }
 
 const SignalLimits = ({ signalsPerDayLimit }) => {
-  const { email, telegram } = signalsPerDayLimit
+  const { email = 0, telegram = 0 } = signalsPerDayLimit
   const [updateUserSettings] = useUpdateUserSettings()
 
   const onChange = useCallback(

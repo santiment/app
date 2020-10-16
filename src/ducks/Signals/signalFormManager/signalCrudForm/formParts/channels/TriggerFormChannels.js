@@ -13,8 +13,11 @@ import {
   useDisabledChannels
 } from './hooks'
 import { useIsBetaMode } from '../../../../../../stores/ui'
+import {
+  refetchUserSettings,
+  useUserSettings
+} from '../../../../../../stores/user/settings'
 import styles from '../../signal/TriggerForm.module.scss'
-import { useUserSettings } from '../../../../../../stores/user/settings'
 
 const CHANNELS = [
   CHANNEL_NAMES.Email,
@@ -22,6 +25,8 @@ const CHANNELS = [
   CHANNEL_NAMES.Browser,
   CHANNEL_NAMES.Webhook
 ]
+
+const REFETCH_TELEGRAM_TIMEOUT = 2000
 
 const checkAndAdd = (required, channels, flag, chType) => {
   if (!flag && channels.some(type => type === chType)) {
@@ -43,7 +48,8 @@ const TriggerFormChannels = ({ channels, errors, setFieldValue, isNew }) => {
   const {
     settings: {
       isTelegramConnectedAndEnabled: isTelegramConnected,
-      isEmailConnected
+      isEmailConnected,
+      hasTelegramConnected
     }
   } = useUserSettings()
 
@@ -214,6 +220,22 @@ const TriggerFormChannels = ({ channels, errors, setFieldValue, isNew }) => {
     },
     [isEmailConnected]
   )
+
+  useEffect(() => {
+    let interval
+
+    if (!hasTelegramConnected) {
+      interval = setInterval(() => {
+        if (!hasTelegramConnected) {
+          refetchUserSettings()
+        }
+      }, REFETCH_TELEGRAM_TIMEOUT)
+    }
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
 
   return (
     <div className={cx(styles.row, styles.rowSingle)}>

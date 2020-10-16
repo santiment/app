@@ -12,12 +12,9 @@ export const initialState = {
   error: false,
   data: {
     settings: {
-      hasTelegramConnected: false,
       isTelegarmDeepLinkLoading: true,
       isTelegarmDeepLinkError: false,
       telegramDeepLink: '',
-      signalNotifyEmail: false,
-      signalNotifyTelegram: false,
       isTelegramConnecting: false,
       newsletterSubscription: 'OFF'
     },

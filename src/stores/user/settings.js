@@ -35,6 +35,7 @@ export const USER_SETTINGS_QUERY = gql`
   {
     currentUser {
       id
+      email
       settings {
         isPromoter
         ...userSettigsFragment
