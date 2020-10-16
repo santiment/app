@@ -216,17 +216,6 @@ export default (state = initialState, action) => {
           }
         }
       }
-    case actions.SETTINGS_TOGGLE_NOTIFICATION_CHANNEL_SUCCESS:
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          settings: {
-            ...state.data.settings,
-            ...action.payload
-          }
-        }
-      }
     case actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK:
       return {
         ...state,

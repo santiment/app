@@ -54,8 +54,7 @@ import fetchAllTickersSlugs from '../components/Trends/fetchAllTickersSlugs'
 import {
   connectTelegramEpic,
   generateTelegramDeepLinkEpic,
-  revokeTelegramDeepLinkEpic,
-  toggleNotificationChannelEpic
+  revokeTelegramDeepLinkEpic
 } from '../pages/Account/epics'
 import keyboardEpic from './keyboardEpic'
 import { insightslikesEpic } from '../components/Like/insightslikesEpic'
@@ -107,7 +106,6 @@ export default combineEpics(
   connectNewWallet,
   generateTelegramDeepLinkEpic,
   revokeTelegramDeepLinkEpic,
-  toggleNotificationChannelEpic,
   connectTelegramEpic,
   apikeyGenerateEpic,
   apikeyRevokeEpic,
