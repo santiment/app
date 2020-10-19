@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import ReactTable from 'react-table'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import { columns } from './columns'
 import { useTopExchanges } from './gql'
 import {
   CustomLoadingComponent,
   CustomNoDataComponent
 } from '../../../ducks/Watchlists/Widgets/Table/AssetsTable'
+import StablecoinSelector from '../../../ducks/Stablecoins/StablecoinSelector/StablecoinSelector'
 import styles from './index.module.scss'
 
 const DEFAULT_SORTED = [
@@ -16,6 +18,12 @@ const DEFAULT_SORTED = [
   }
 ]
 
+const DEFAULT_STABLECOIN = {
+  slug: 'stablecoins',
+  name: 'All stablecoins',
+  ticker: ''
+}
+
 export const TopExchangesTableTitle = ({
   loading,
   items,
@@ -24,16 +32,27 @@ export const TopExchangesTableTitle = ({
   return (
     <div className={styles.title}>
       <h3 className={styles.text}>{title}</h3>
+      {loading && <Loader className={styles.headerLoader} />}
     </div>
   )
 }
 
-const TopExchanges = ({ className, ...props }) => {
-  const [items, loading] = useTopExchanges(props)
+const TopExchanges = ({ className, isStablecoinPage, ...props }) => {
+  const [asset, setAsset] = useState(DEFAULT_STABLECOIN)
+  const additionalProps =
+    isStablecoinPage && asset.slug !== 'stablecoins'
+      ? { slug: asset.slug, selector: null }
+      : {}
+  const [items, loading] = useTopExchanges({ ...props, ...additionalProps })
 
   return (
     <>
       <TopExchangesTableTitle loading={loading} items={items} />
+      {isStablecoinPage && (
+        <div className={styles.header}>
+          <StablecoinSelector asset={asset} setAsset={setAsset} />
+        </div>
+      )}
       <TopExchangesTable
         className={className}
         items={items}

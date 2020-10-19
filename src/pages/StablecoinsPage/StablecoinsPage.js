@@ -138,6 +138,7 @@ const StablecoinsPage = ({ history, isDesktop }) => {
 
           <Block tag={ANCHORS.TopExchanges.key}>
             <TopExchangesTable
+              isStablecoinPage
               selector={{ watchlistId: isStage ? 1115 : 3985 }}
             />
           </Block>

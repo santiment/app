@@ -15,6 +15,12 @@
   margin-bottom: 16px;
 }
 
+.header {
+  margin-bottom: 24px;
+  padding: 16px;
+  background: var(--white);
+}
+
 .text {
   @include text('h4', 'm');
 
@@ -38,10 +44,6 @@
 
 .loadingRow {
   height: 40px;
-}
-
-.loader {
-  font-size: 3px !important;
 }
 
 .headerLoader {

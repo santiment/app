@@ -33,7 +33,8 @@ const ProjectInfo = createSkeletonProvider(
     <div className={styles.project}>
       <div className={styles.project__top}>
         <H1 className={styles.project__name}>
-          {name} ({ticker})
+          {name}
+          <span className={styles.ticker}>{ticker}</span>
         </H1>
         <div className={styles.project__arrows}>
           <Icon type='arrow-down' className={styles.project__arrow} />
