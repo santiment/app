@@ -1,4 +1,4 @@
-@import '~@santiment-network/ui/mixins';
+@import '../../../node_modules/@santiment-network/ui/mixins';
 
 .container {
   display: flex;
@@ -16,7 +16,8 @@
   @include text('h2', 'l');
 
   @include responsive('phone', 'phone-xs', 'tablet', 'laptop') {
-    @include text('h4', 'l'); }
+    @include text('h4', 'l');
+  }
 }
 
 .errorId {
@@ -25,7 +26,8 @@
   @include text('body-1', 'm');
 
   @include responsive('phone', 'phone-xs', 'tablet', 'laptop') {
-    @include text('body-2', 'm'); }
+    @include text('body-2', 'm');
+  }
 }
 
 .description {
@@ -34,7 +36,8 @@
   margin-top: 16px;
 
   @include responsive('phone', 'phone-xs', 'tablet', 'laptop') {
-    @include text('body-2', 'm'); }
+    @include text('body-2', 'm');
+  }
 }
 
 .btn {

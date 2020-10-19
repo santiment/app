@@ -2,9 +2,9 @@ import React from 'react'
 import * as Sentry from '@sentry/react'
 import Button from '@santiment-network/ui/Button'
 import { ErrorSvg } from './utils'
-import styles from './ErrorPage.module.scss'
+import styles from './ErrorContent.module.scss'
 
-const ErrorPage = () => {
+const ErrorContent = () => {
   return (
     <div className={styles.container}>
       <div className={styles.info}>
@@ -35,4 +35,4 @@ const ErrorPage = () => {
   )
 }
 
-export default ErrorPage
+export default ErrorContent

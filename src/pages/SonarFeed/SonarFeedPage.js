@@ -93,6 +93,7 @@ const SonarFeed = ({
   if (pathname === baseLocation) {
     return <Redirect to={tabs[0].index} />
   }
+
   const pathParams = useMemo(
     () => {
       const parsed = matchPath(pathname, SIGNAL_ROUTES.SIGNAL)
