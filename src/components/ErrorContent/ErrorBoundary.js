@@ -10,7 +10,6 @@ class ErrorBoundary extends Component {
   componentDidCatch (error, errorInfo) {
     this.setState({ error })
     Sentry.captureException(error, { extra: errorInfo })
-    console.log(Sentry.lastEventId())
   }
 
   render () {
