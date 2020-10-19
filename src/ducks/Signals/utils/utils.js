@@ -905,6 +905,12 @@ export const isNewTypeSignal = ({ settings: { type } }) => {
   return false
 }
 
+const HistoricalBalanceMetrics = {
+  ...Metric.balance,
+  key: 'historicalBalance',
+  queryKey: 'historicalBalance'
+}
+
 export const getNewMetricsByType = ({ settings: { type, metric } }) => {
   const defaultValue = {
     metrics: [Metric.price_usd],
@@ -915,8 +921,8 @@ export const getNewMetricsByType = ({ settings: { type, metric } }) => {
   switch (type) {
     case METRIC_TYPES.WALLET_MOVEMENT: {
       return {
-        metrics: [Metric.balance, Metric.price_usd],
-        triggersBy: Metric.balance,
+        metrics: [HistoricalBalanceMetrics, Metric.price_usd],
+        triggersBy: HistoricalBalanceMetrics,
         historicalTriggersDataKey: 'current'
       }
     }
@@ -970,8 +976,8 @@ export const getOldMetricsByType = type => {
       }
     case ETH_WALLET:
       return {
-        metrics: [Metric.balance, Metric.price_usd],
-        triggersBy: Metric.balance
+        metrics: [HistoricalBalanceMetrics, Metric.price_usd],
+        triggersBy: HistoricalBalanceMetrics
       }
     default:
       return {

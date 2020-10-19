@@ -48,18 +48,11 @@ export const makeSameRange = (points, base) => {
   return points.filter(({ datetime }) => +new Date(datetime) > date)
 }
 
-export const mapToRequestedMetrics = (
-  metrics,
-  { interval, slug, from, to, timeRange, address }
-) =>
+export const mapToRequestedMetrics = (metrics, settings) =>
   metrics.map(({ key, alias: name = key, reqMeta }) => ({
+    key,
     name,
-    slug,
-    from,
-    to,
-    timeRange,
-    interval,
-    address,
+    ...settings,
     ...reqMeta
   }))
 
