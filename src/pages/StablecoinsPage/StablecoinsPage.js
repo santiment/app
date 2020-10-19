@@ -19,9 +19,8 @@ import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavi
 import SharePage from '../../components/SharePage/SharePage'
 import { getIntervalDates } from '../../ducks/SANCharts/IntervalSelector'
 import NetExchangeFlow from '../../ducks/Stablecoins/NetExchangeFlow/NetExchangeFlow'
+import { isStage } from '../../utils/utils'
 import styles from './StablecoinsPage.module.scss'
-
-const isStage = window.location && window.location.href.indexOf('stage') !== -1
 
 const ANCHORS = {
   Overview: {
