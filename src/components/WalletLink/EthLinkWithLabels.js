@@ -7,7 +7,10 @@ export const makeShortAddresLink = ({
   link,
   isExchange,
   settings: { linkSymbolsCount = 16 } = {}
-}) => link.slice(0, isExchange ? 7 : linkSymbolsCount) + '...'
+}) =>
+  link.length > 7
+    ? link.slice(0, isExchange ? 7 : linkSymbolsCount) + '...'
+    : link
 
 export const EtherscanLink = ({
   address = '',
