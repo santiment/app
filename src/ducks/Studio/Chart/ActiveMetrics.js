@@ -5,10 +5,12 @@ import Button from '@santiment-network/ui/Button'
 import MetricErrorExplanation from './MetricErrorExplanation/MetricErrorExplanation'
 import MetricIcon from '../../SANCharts/MetricIcon'
 import { getMetricLabel } from '../../dataHub/metrics/labels'
+import { isStage } from '../../../utils/utils'
 import styles from './ActiveMetrics.module.scss'
 
-const API_TEST_URL =
-  'https://api-tests-json.s3.eu-central-1.amazonaws.com/latest_report_stable.json'
+const API_TEST_URL = isStage
+  ? 'http://api-tests-staging.s3.amazonaws.com/latest-report.json'
+  : 'http://api-tests-production.s3.amazonaws.com/latest-report.json'
 
 const Customization = ({ metric, isActive, onClick }) => (
   <div className={cx(styles.settings, isActive && styles.settings_active)}>
@@ -93,11 +95,9 @@ export default ({
   className,
   MetricColor,
   activeMetrics,
-  activeEvents = [],
   metricSettings,
   loadings,
   toggleMetric,
-  eventLoadings,
   ErrorMsg = {},
   isSingleWidget,
   isWithIcon = true,
