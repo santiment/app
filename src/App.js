@@ -67,6 +67,11 @@ const LoadableMarketingPage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableErrorPage = Loadable({
+  loader: () => import('./pages/ErrorPage/ErrorPage'),
+  loading: () => <PageLoader />
+})
+
 const LoadableLabsPage = Loadable({
   loader: () => import('./pages/Labs'),
   loading: () => <PageLoader />
@@ -473,6 +478,10 @@ export const App = ({
               {...props}
             />
           )}
+        />
+        <Route
+          path={PATHS.ERROR}
+          render={props => <LoadableErrorPage {...props} />}
         />
         {!isDesktop && <Redirect from={PATHS.INDEX} to='/assets' />}
         <Route
