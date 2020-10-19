@@ -7,7 +7,7 @@ export function normalizeTransactionData (
   { datetime, trxValue, trxHash, fromAddress, toAddress }
 ) {
   const targetDate = new Date(datetime)
-  const { YYYY, MM, DD } = getDateFormats(targetDate)
+  const { YYYY, MMM, DD } = getDateFormats(targetDate)
   const { HH, mm, ss } = getTimeFormats(targetDate)
 
   const listSlugs = slug === ETHEREUM ? [slug] : [slug, ETHEREUM]
@@ -23,6 +23,6 @@ export function normalizeTransactionData (
       ...toAddress,
       assets: listSlugs
     },
-    datetime: `${YYYY}-${MM}-${DD} ${HH}:${mm}:${ss}`
+    datetime: `${MMM} ${DD}, ${YYYY} ${HH}:${mm}:${ss}`
   }
 }
