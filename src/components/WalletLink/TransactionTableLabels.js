@@ -101,9 +101,13 @@ const TransactionTableLabels = ({ labels }) => {
     [labels]
   )
 
-  return Object.values(distinct).map((item, index) => (
-    <LabelRenderer key={index} {...item} />
-  ))
+  return (
+    <div className={styles.labels}>
+      {Object.values(distinct).map((item, index) => (
+        <LabelRenderer key={index} {...item} />
+      ))}
+    </div>
+  )
 }
 
 export default TransactionTableLabels

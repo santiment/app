@@ -1,5 +1,6 @@
 import React from 'react'
 import { formatNumber, upperCaseFirstLetter } from '../../../utils/formatting'
+import { getDateFormats } from '../../../utils/dates'
 import ValueChange from '../../ValueChange/ValueChange'
 
 export const columns = [
@@ -48,6 +49,23 @@ export const columns = [
     Cell: ({ value }) => <ValueChange render={formatNumber} change={value} />
   },
   {
+    id: 'datetimeOfFirstTransfer',
+    Header: '1st transfer at',
+    accessor: 'datetimeOfFirstTransfer',
+    minWidth: 110,
+    maxWidth: 160,
+    Cell: ({ value = '' }) => {
+      if (!value) {
+        return ''
+      }
+      const date = new Date(value)
+      const { YYYY, MMM, DD } = getDateFormats(date)
+
+      return `${MMM} ${DD}, ${YYYY}`
+    },
+    sortMethod: (a, b) => (new Date(a) > new Date(b) ? 1 : -1)
+  },
+  {
     id: 'daysSinceFirstTransfer',
     Header: 'Since 1st transfer',
     accessor: 'daysSinceFirstTransfer',
@@ -55,13 +73,5 @@ export const columns = [
     maxWidth: 140,
     sortable: true,
     Cell: ({ value = '' }) => `${value} day${value === 1 ? '' : 's'}`
-  },
-  {
-    id: 'datetimeOfFirstTransfer',
-    Header: '1st transfer at',
-    accessor: 'datetimeOfFirstTransfer',
-    minWidth: 110,
-    maxWidth: 160,
-    sortMethod: (a, b) => (new Date(a) > new Date(b) ? 1 : -1)
   }
 ]
