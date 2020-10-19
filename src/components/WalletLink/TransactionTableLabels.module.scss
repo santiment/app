@@ -12,10 +12,6 @@
 
   @include text('caption');
 
-  &:first-of-type {
-    margin-left: 6px;
-  }
-
   &:last-of-type {
     margin-right: 0;
   }
@@ -27,4 +23,11 @@
   &:hover {
     color: var(--jungle-green-hover);
   }
+}
+
+.labels {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  overflow-x: auto;
 }
