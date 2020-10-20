@@ -3,7 +3,7 @@ import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import Toggle from '@santiment-network/ui/Toggle'
 import {
-  useUpdateUserSettings,
+  useUpdateUserNotifications,
   useUserSettings
 } from '../../stores/user/settings'
 import styles from './AccountPage.module.scss'
@@ -13,7 +13,7 @@ const SettingsTelegramNotifications = ({ classes = {}, description }) => {
     settings: { signalNotifyTelegram, hasTelegramConnected }
   } = useUserSettings()
 
-  const [updateUserSettings] = useUpdateUserSettings()
+  const [update] = useUpdateUserNotifications()
 
   return (
     <div className={cx(classes.container, styles.settingBlock)}>
@@ -25,7 +25,7 @@ const SettingsTelegramNotifications = ({ classes = {}, description }) => {
           <Toggle
             isActive={signalNotifyTelegram}
             onClick={() =>
-              updateUserSettings({
+              update({
                 signalNotifyTelegram: !signalNotifyTelegram
               })
             }
