@@ -21,7 +21,8 @@ export const DEXs = [
   'DDEX',
   '0x_v1',
   'TokenStore',
-  'DEX.Top'
+  'DEX.Top',
+  'Sushiswap'
 ]
 
 const NumberOfTradesPerDex = ({ metrics, measurement: strictMeasurement }) => {
