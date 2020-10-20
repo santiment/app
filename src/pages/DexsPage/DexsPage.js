@@ -86,11 +86,12 @@ const DexsPage = ({ history }) => {
           <div className={styles.pageDescription}>
             <h3 className={styles.title}>Decentralized Exchanges</h3>
             <div className={styles.description}>
-              Cryptocurrencies designed to minimize the volatility of the price
-              of the stablecoin, relative to some "stable" asset or basket of
-              assets. This data is from the main decentralized exchanges namely
-              Balancer, Bancor, Curve, dYdX, Etherdelta, Gnosis, IDEX, Kyber,
-              Oasis, 0x, Tokenstore, Uniswap, AirSwap, DEX.Top and DDEX.
+              Track the on-chain activity on 18 decentralized exchanges, their
+              daily volumes, number of trades and the usage rate of individual
+              DEXes over time. This data is from the main decentralized
+              exchanges namely Balancer, Bancor, Curve, dYdX, Etherdelta,
+              Gnosis, IDEX, Kyber, Oasis, 0x, Tokenstore, Uniswap, AirSwap,
+              DEX.Top and DDEX.
             </div>
             <SharePage />
           </div>
