@@ -104,12 +104,8 @@ export function drawHoveredSignal (chart, y, texts) {
   ctx.restore()
 }
 
-export function makeSignalDrawable (
-  { id, settings: { operation } },
-  chart,
-  scale
-) {
-  const { minMaxes } = chart
+export function makeSignalDrawable ({ id, settings: { operation } }, chart) {
+  const { minMaxes, scale } = chart
   if (!minMaxes || !minMaxes.price_usd) {
     return
   }

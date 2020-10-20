@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { connect } from 'react-redux'
 import Signal from './Signal'
 import Add from './Add'
@@ -60,17 +60,28 @@ const Signals = ({
   createSignal,
   removeSignal,
   metrics,
-  useShortRecord,
-  scale
+  useShortRecord
 }) => {
   const [isHovered, setIsHovered] = useState()
   const [hoverPoint, setHoverPoint] = useState()
 
   const { data: userSignals } = useSignals()
 
-  const signals = getSlugPriceSignals(userSignals, slug)
-    .map(signal => makeSignalDrawable(signal, chart, scale))
-    .filter(Boolean)
+  const signals = useMemo(
+    () => {
+      return getSlugPriceSignals(userSignals, slug)
+        .map(signal => makeSignalDrawable(signal, chart))
+        .filter(Boolean)
+    },
+    [
+      userSignals,
+      slug,
+      chart,
+      chart.isAlertsActive,
+      chart.minMaxes,
+      chart.scale
+    ]
+  )
 
   useEffect(() => {
     chart.isAlertsActive = true
