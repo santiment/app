@@ -20,13 +20,20 @@
   }
 }
 
-.errorId {
+.error {
   margin-top: 32px;
 
   @include text('body-1', 'm');
 
   @include responsive('phone', 'phone-xs', 'tablet', 'laptop') {
     @include text('body-2', 'm');
+  }
+}
+
+.eventId {
+  &:hover {
+    color: var(--jungle-green);
+    cursor: pointer;
   }
 }
 

@@ -488,9 +488,10 @@ export const App = ({
             )}
           />
         </Switch>
-        <NotificationStack />
-        <CookiePopup />
       </ErrorBoundary>
+
+      <NotificationStack />
+      <CookiePopup />
 
       {isDesktop && showFooter && (
         <Footer
