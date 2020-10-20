@@ -43,7 +43,7 @@ export const DEFAULT_INTERVAL_SELECTORS = [
   makeIntervalSelectors({ val: '1w', label: '1W', interval: '1h' }),
   INTERVAL_30_DAYS,
   makeIntervalSelectors({ val: '90d', label: '3M', interval: '8h' }),
-  makeIntervalSelectors({ val: '183d', label: '6m', interval: '1d' }),
+  makeIntervalSelectors({ val: '183d', label: '6M', interval: '1d' }),
   makeIntervalSelectors({
     val: 'all',
     label: 'All',

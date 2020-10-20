@@ -7,8 +7,7 @@ import MetricIcon from '../../SANCharts/MetricIcon'
 import { getMetricLabel } from '../../dataHub/metrics/labels'
 import styles from './ActiveMetrics.module.scss'
 
-const API_TEST_URL =
-  'https://api-tests-json.s3.eu-central-1.amazonaws.com/latest_report_stable.json'
+const API_TEST_URL = ''
 
 const Customization = ({ metric, isActive, onClick }) => (
   <div className={cx(styles.settings, isActive && styles.settings_active)}>
@@ -113,14 +112,16 @@ export default ({
   useEffect(() => {
     let mounted = true
 
-    fetch(API_TEST_URL)
-      .then(response => {
-        if (!response.ok) {
-          return {}
-        }
-        return response.json()
-      })
-      .then(data => mounted && setErrorsForMetrics(data))
+    if (API_TEST_URL) {
+      fetch(API_TEST_URL)
+        .then(response => {
+          if (!response.ok) {
+            return {}
+          }
+          return response.json()
+        })
+        .then(data => mounted && setErrorsForMetrics(data))
+    }
 
     return () => {
       mounted = false
