@@ -239,7 +239,10 @@ const mapStateToProps = ({ rootUi, app }) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  toggleNightMode: () => dispatch({ type: actions.USER_TOGGLE_NIGHT_MODE })
+  toggleNightMode: evt => {
+    evt.stopPropagation()
+    dispatch({ type: actions.USER_TOGGLE_NIGHT_MODE })
+  }
 })
 
 export default connect(
