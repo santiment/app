@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import Signal from './Signal'
 import Add from './Add'
@@ -51,6 +51,7 @@ const getTextIf = (metric, index, useShortRecord) => {
 }
 
 const priceFormatter = Metric.price_usd.formatter
+const DEFAULT_SIGNALS = []
 
 const Signals = ({
   slug,
@@ -65,18 +66,28 @@ const Signals = ({
   const [isHovered, setIsHovered] = useState()
   const [hoverPoint, setHoverPoint] = useState()
   const { data: userSignals } = useSignals()
-  const signals = useMemo(
-    () =>
-      getSlugPriceSignals(userSignals, slug)
-        .map(signal => makeSignalDrawable(signal, chart, chart.scale))
-        .filter(Boolean),
-    [userSignals, slug, chart.minMaxes]
-  )
+  const [signals, setSignals] = useState(DEFAULT_SIGNALS)
 
   useEffect(() => {
     chart.isAlertsActive = true
     return () => (chart.isAlertsActive = false)
   }, [])
+
+  useEffect(
+    () => {
+      buildSignals()
+      return chart.observer.subscribe(buildSignals)
+    },
+    [userSignals, slug]
+  )
+
+  function buildSignals () {
+    setSignals(
+      getSlugPriceSignals(userSignals, slug)
+        .map(signal => makeSignalDrawable(signal, chart, chart.scale))
+        .filter(Boolean)
+    )
+  }
 
   function onMouseMove ({ target, currentTarget, nativeEvent: { offsetY: y } }) {
     if (isHovered || data.length === 0 || target !== currentTarget) {
