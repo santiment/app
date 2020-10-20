@@ -7,9 +7,9 @@ import React, {
 } from 'react'
 import { updateChartState } from '@santiment-network/chart'
 import { linearScale } from '@santiment-network/chart/scales'
-import { Plotter } from './plotter'
-import { clearCtx } from './utils'
+import { Plotter, Observer } from './managers'
 import { domainModifier } from './domain'
+import { clearCtx } from './utils'
 
 const noop = () => {}
 const DEFAULT = []
@@ -30,12 +30,10 @@ export const ChartProvider = ({
   const [chart, _setChart] = useState()
   const [isAwaitingRedraw, redrawChart] = useRedrawer()
   const setChart = useCallback(chart => {
-    chart.redraw = () => {
-      console.log('redraw call')
-      redrawChart()
-    }
-    chart.plotter = Plotter()
     chart.scale = scale
+    chart.redraw = redrawChart
+    chart.observer = Observer()
+    chart.plotter = Plotter()
     _setChart(chart)
   }, [])
 
@@ -62,7 +60,7 @@ export const ChartProvider = ({
       chart.plotter.items.forEach(plot => {
         plot(chart, scale, data, colors, categories)
       })
-      console.log('after redraw')
+      chart.observer.emit()
     },
     [data, scale, colors, domainGroups, isAwaitingRedraw]
   )
