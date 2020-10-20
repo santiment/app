@@ -4,16 +4,16 @@ import { drawCartesianGrid } from '@santiment-network/chart/cartesianGrid'
 
 const ID = 'cartesianGrid'
 
-const CartesianGrid = buildPlotter((plotter, { xTicks, yTicks }) => {
+const CartesianGrid = buildPlotter((chart, { xTicks, yTicks }) => {
   useEffect(
     () =>
-      plotter.register(ID, (chart, scale) =>
+      chart.plotter.register(ID, (_, scale) =>
         drawCartesianGrid(chart, chart.axesColor, xTicks, yTicks)
       ),
     [xTicks, yTicks]
   )
 
-  usePlotterRemove(ID)
+  usePlotterRemove(chart, ID)
 })
 
 CartesianGrid.defaultProps = {

@@ -7,8 +7,8 @@ import {
 import {
   withChartContext,
   useChart,
-  useChartSetter,
-  useChartRedraw
+  useChartSetter
+  /* useChartRedraw */
 } from './context'
 import { paintConfigs } from './paintConfigs'
 import { useTheme } from '../../stores/ui/theme'
@@ -25,10 +25,9 @@ export const Chart = ({
   children
 }) => {
   const chart = useChart()
+  const setChart = useChartSetter()
   const canvasRef = useRef(null)
   const { isNightMode } = useTheme()
-  const setChart = useChartSetter()
-  const redrawChart = useChartRedraw()
 
   useEffect(() => {
     const { current: canvas } = canvasRef
@@ -48,7 +47,7 @@ export const Chart = ({
     () => {
       if (chart) {
         Object.assign(chart, paintConfigs[+isNightMode])
-        redrawChart()
+        chart.redraw()
       }
     },
     [chart, isNightMode]
@@ -72,7 +71,7 @@ export const Chart = ({
         brush.updateWidth(_width)
       }
 
-      redrawChart()
+      chart.redraw()
     },
     [chart, width, height, padding]
   )

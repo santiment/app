@@ -1,18 +1,17 @@
 import { useEffect } from 'react'
 import { drawWatermark } from './helpers'
-import { buildPlotter, useChartRedraw } from '../context'
+import { buildPlotter } from '../context'
 import { useTheme } from '../../../stores/ui/theme'
 
-export default buildPlotter((plotter, { light }) => {
+export default buildPlotter((chart, { light }) => {
   const { isNightMode } = useTheme()
-  const redrawChart = useChartRedraw()
 
   useEffect(
     () => {
-      plotter.register('watermark', chart =>
+      chart.plotter.register('watermark', () =>
         drawWatermark(chart, isNightMode, light)
       )
-      redrawChart()
+      chart.redraw()
     },
     [isNightMode, light]
   )

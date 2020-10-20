@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { connect } from 'react-redux'
 import Signal from './Signal'
 import Add from './Add'
@@ -11,15 +11,15 @@ import {
   checkPriceMetric,
   AlertBuilder
 } from './helpers'
-import { useChart } from '../context'
 import { useAlertMetrics } from './hooks'
+import { useChart } from '../context'
 import { clearCtx } from '../utils'
 import { getSlugPriceSignals } from '../../SANCharts/utils'
 import { Metric } from '../../dataHub/metrics'
+import { useSignals } from '../../Signals/common/getSignals'
 import { createTrigger, removeTrigger } from '../../Signals/common/actions'
 import { buildValueChangeSuggester } from '../../Studio/Alerts/suggestions/helpers'
 import LoginDialogWrapper from '../../../components/LoginDialog/LoginDialogWrapper'
-import { useSignals } from '../../Signals/common/getSignals'
 import styles from './index.module.scss'
 
 const TEXT_SIGNAL = 'Alert '
@@ -60,17 +60,18 @@ const Signals = ({
   createSignal,
   removeSignal,
   metrics,
-  useShortRecord,
-  scale
+  useShortRecord
 }) => {
   const [isHovered, setIsHovered] = useState()
   const [hoverPoint, setHoverPoint] = useState()
-
   const { data: userSignals } = useSignals()
-
-  const signals = getSlugPriceSignals(userSignals, slug)
-    .map(signal => makeSignalDrawable(signal, chart, scale))
-    .filter(Boolean)
+  const signals = useMemo(
+    () =>
+      getSlugPriceSignals(userSignals, slug)
+        .map(signal => makeSignalDrawable(signal, chart, chart.scale))
+        .filter(Boolean),
+    [userSignals, slug, chart.minMaxes]
+  )
 
   useEffect(() => {
     chart.isAlertsActive = true
