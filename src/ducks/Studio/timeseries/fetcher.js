@@ -1,9 +1,10 @@
 import { METRICS, GET_METRIC } from './metrics'
 import { AnomalyFetcher, OldAnomalyFetcher } from './anomalies'
 import { MarketSegmentFetcher } from './marketSegments'
-import { aliasTransform, extractTimeseries } from './utils'
+import { aliasTransform, extractTimeseries, normalizeInterval } from './utils'
 import { MINERS_BALANCE_QUERY } from './queries/minersBalance'
 import { HISTORICAL_BALANCE_QUERY } from './queries/historicaBalance'
+import { getMinInterval } from './queries/minInterval'
 import { GAS_USED_QUERY } from '../../GetTimeSeries/queries/gas_used'
 import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from '../../GetTimeSeries/queries/top_holders_percent_of_total_supply'
 import { ETH_SPENT_OVER_TIME_QUERY } from '../../GetTimeSeries/queries/eth_spent_over_time_query'
@@ -112,7 +113,7 @@ export const getPreTransform = ({ key, queryKey = key, metricAnomaly }) => {
   return preTransform
 }
 
-export const getData = (query, variables, signal) =>
+export const fetchData = (query, variables, signal) =>
   client.query({
     query,
     variables,
@@ -122,3 +123,14 @@ export const getData = (query, variables, signal) =>
       }
     }
   })
+
+export function getData (query, variables, signal) {
+  const { metric, queryKey = metric, interval } = variables
+
+  return getMinInterval(queryKey)
+    .then(minInterval => {
+      variables.interval = normalizeInterval(interval, minInterval)
+      return fetchData(query, variables, signal)
+    })
+    .catch(() => fetchData(query, variables, signal))
+}

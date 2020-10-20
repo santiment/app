@@ -80,7 +80,7 @@ const FormatToString = {
   [YEAR]: 'year'
 }
 
-const FormatToTimestamp = {
+export const FormatToTimestamp = {
   [SECOND]: ONE_SECOND_IN_MS,
   [MINUTE]: ONE_MINUTE_IN_MS,
   [HOUR]: ONE_HOUR_IN_MS,
@@ -279,6 +279,12 @@ export const parseIntervalString = range => {
     amount,
     format: range.slice(amount.toString().length)
   }
+}
+
+export function getIntervalMilliseconds (interval) {
+  const { amount, format } = parseIntervalString(interval)
+  const formatMs = FormatToTimestamp[format === MONTH ? MINUTE : format]
+  return amount * formatMs
 }
 
 /**
