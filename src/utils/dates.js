@@ -81,7 +81,7 @@ const FormatToString = {
   [YEAR]: 'year'
 }
 
-export const FormatToTimestamp = {
+const FormatToTimestamp = {
   [SECOND]: ONE_SECOND_IN_MS,
   [MINUTE]: ONE_MINUTE_IN_MS,
   [HOUR]: ONE_HOUR_IN_MS,
@@ -300,7 +300,6 @@ export function getTimerangePeriod (timerange) {
     }
   }
 
-  const from = new Date(to)
   let { amount, format } = parseIntervalString(timerange)
 
   if (format === WEEK) {
@@ -311,6 +310,7 @@ export function getTimerangePeriod (timerange) {
     format = MONTH
   }
 
+  const from = new Date(to)
   const [get, set] = DateFormat[format]
   from[set](from[get]() - amount)
 
