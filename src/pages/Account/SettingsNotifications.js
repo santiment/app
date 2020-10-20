@@ -35,7 +35,12 @@ const channelByTypeLength = (signals, type) => {
   return filterByChannels(signals, type).length
 }
 
-const SignalsDescription = (mappedCount, allCount, channel) => {
+const SignalsDescription = (
+  mappedCount,
+  allCount,
+  channel,
+  channelName = channel
+) => {
   if (mappedCount === 0) {
     return null
   }
@@ -44,7 +49,7 @@ const SignalsDescription = (mappedCount, allCount, channel) => {
     <Link
       to={'/sonar/my-signals?channel=' + channel}
       className={styles.signalDescription}
-    >{`Manage followed signals (${mappedCount}/${allCount})`}</Link>
+    >{`Manage ${channelName} signals (${mappedCount}/${allCount})`}</Link>
   )
 }
 
@@ -91,7 +96,8 @@ const SettingsNotifications = ({ changeDigestType, mutateDigestType }) => {
             description={SignalsDescription(
               countWithBrowserPush,
               allCount,
-              CHANNEL_TYPES.Browser
+              CHANNEL_TYPES.Browser,
+              'web push'
             )}
           />
         </Settings.Row>
