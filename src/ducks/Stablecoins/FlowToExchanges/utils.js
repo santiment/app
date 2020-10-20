@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import { getIntervalDates } from '../../SANCharts/IntervalSelector'
+import { getTimerangePeriod } from '../../../utils/dates'
 
 export const EXCHANGE_INTERESTS = {
   high: 'Very High',
@@ -9,7 +9,7 @@ export const EXCHANGE_INTERESTS = {
 }
 
 export const EXCHANGES_DEFAULT_SETTINGS = {
-  ...getIntervalDates('1d'),
+  ...getTimerangePeriod('1d'),
   interval: '1h'
 }
 
