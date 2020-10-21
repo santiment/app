@@ -5,7 +5,10 @@ import {
   drawValueBubbleY,
   drawValueBubbleX
 } from '@santiment-network/chart/tooltip'
-import { handleMove, getHoveredIndex } from '@santiment-network/chart/events'
+import {
+  handleMove as handlePointEvent,
+  getHoveredIndex
+} from '@santiment-network/chart/events'
 import { waterloo } from '@santiment-network/ui/variables.scss'
 import {
   clearCtx,
@@ -18,29 +21,21 @@ import { TooltipSetting } from '../../dataHub/tooltipSettings'
 
 const ALERT_ADD_SIZE = 13
 const ALERT_ADD_HALF_SIZE = 7
+const metricValueAccessor = ({ value }) => value || value === 0
 
-export function setupTooltip (chart, marker, useCustomTooltip, onPlotTooltip) {
-  const {
-    tooltip: { canvas, ctx }
-  } = chart
+export function setupTooltip (chart, marker) {
+  const { canvas, ctx } = chart.tooltip
 
-  canvas.onmousemove = handleMove(chart, point => {
+  canvas.onmousemove = handlePointEvent(chart, point => {
     if (!point) return
+
     chart.syncTooltips(point.value)
-    if (useCustomTooltip) {
-      onPlotTooltip(point)
-      plotTooltip(chart, marker, point, {
-        showLines: true,
-        customTooltip: true,
-        showAlertPlus: true
-      })
-    } else {
-      plotTooltip(chart, marker, point)
-    }
+    plotTooltip(chart, marker, point)
   })
 
-  canvas.onmousedown = handleMove(chart, point => {
+  canvas.onmousedown = handlePointEvent(chart, point => {
     if (!point) return
+
     const { left, right, points, pointWidth } = chart
     const {
       left: canvasPageLeft,
@@ -50,19 +45,14 @@ export function setupTooltip (chart, marker, useCustomTooltip, onPlotTooltip) {
 
     let moved = false
 
-    if (chart.onRangeSelect) {
-      window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('mouseup', onMouseUp)
+    chart.onPointMouseDown(point)
 
-      if (chart.onRangeSelectStart) {
-        chart.onRangeSelectStart(point)
-      }
+    if (chart.onRangeSelected) {
+      window.addEventListener('mousemove', onMouseMove)
     }
 
-    window.addEventListener('mouseup', onMouseUp)
-
     function onMouseMove ({ pageX }) {
-      const { left, right, top, height } = chart
-
       const isOutOfLeft = pageX < canvasPageLeft
       const isOutOfRight = pageX > canvasPageRight
       const relativeX = isOutOfLeft
@@ -75,13 +65,13 @@ export function setupTooltip (chart, marker, useCustomTooltip, onPlotTooltip) {
 
       const index = getHoveredIndex(relativeX - left, pointWidth, points.length)
       const endPoint = points[index < 0 ? 0 : index]
-      const width = endPoint.x - x
 
       plotTooltip(chart, marker, endPoint)
-      ctx.save()
-      ctx.fillStyle = '#9faac435'
-      ctx.fillRect(x, top, width, height)
-      ctx.restore()
+      plotRangeSelection(chart, x, endPoint.x - x)
+
+      if (chart.onRangeSelecting) {
+        chart.onRangeSelecting(endPoint)
+      }
     }
 
     function onMouseUp ({ offsetX }) {
@@ -91,6 +81,8 @@ export function setupTooltip (chart, marker, useCustomTooltip, onPlotTooltip) {
       const index = getHoveredIndex(offsetX - left, pointWidth, points.length)
       const endPoint = points[index < 0 ? 0 : index]
 
+      chart.onPointMouseUp(endPoint)
+
       if (moved) {
         clearCtx(chart, ctx)
 
@@ -98,13 +90,7 @@ export function setupTooltip (chart, marker, useCustomTooltip, onPlotTooltip) {
           plotTooltip(chart, marker, endPoint)
         }
 
-        chart.onRangeSelect(point, endPoint)
-      } else {
-        chart.onPointClick(endPoint)
-      }
-
-      if (chart.onPointMouseUp) {
-        chart.onPointMouseUp(endPoint)
+        chart.onRangeSelected(point, endPoint)
       }
     }
   })
@@ -112,15 +98,10 @@ export function setupTooltip (chart, marker, useCustomTooltip, onPlotTooltip) {
   canvas.onmouseleave = () => {
     clearCtx(chart, ctx)
     chart.syncTooltips()
-    if (onPlotTooltip) {
-      onPlotTooltip(null)
-    }
   }
 }
 
-const metricValueAccessor = ({ value }) => value || value === 0
-
-export function plotTooltip (chart, marker, point, options) {
+export function plotTooltip (chart, marker, point) {
   const {
     tooltip: { ctx },
     tooltipKey,
@@ -140,35 +121,34 @@ export function plotTooltip (chart, marker, point, options) {
     ? getDateHoursMinutes
     : getDateDayMonthYear
 
-  if (options && options.customTooltip) {
-    if (options.showLines) {
-      drawHoverLineX(chart, x, hoverLineColor, 0)
-      drawHoverLineY(chart, y, hoverLineColor, -5)
-    }
+  const drawnMetrics = Object.values(metrics).filter(metricValueAccessor)
 
-    if (options.showAlertPlus) {
-      drawAlertPlus(chart, y)
-    }
-  } else {
-    const drawnMetrics = Object.values(metrics).filter(metricValueAccessor)
+  drawHoverLineX(chart, x, hoverLineColor, 5)
+  drawHoverLineY(chart, y, hoverLineColor, 0, 20)
 
-    drawHoverLineX(chart, x, hoverLineColor, 5)
-    drawHoverLineY(chart, y, hoverLineColor, 0, 20)
+  drawAlertPlus(chart, y)
 
-    drawAlertPlus(chart, y)
-
-    if (drawnMetrics.length) {
-      drawTooltip(ctx, point, TooltipSetting, marker, tooltipPaintConfig)
-      drawValueBubbleY(
-        chart,
-        yBubbleFormatter(value, tooltipKey),
-        y,
-        bubblesPaintConfig,
-        chart.isAlertsActive ? 5 : 0
-      )
-    }
-    drawValueBubbleX(chart, xBubbleFormatter(datetime), x, bubblesPaintConfig)
+  if (drawnMetrics.length) {
+    drawTooltip(ctx, point, TooltipSetting, marker, tooltipPaintConfig)
+    drawValueBubbleY(
+      chart,
+      yBubbleFormatter(value, tooltipKey),
+      y,
+      bubblesPaintConfig,
+      chart.isAlertsActive ? 5 : 0
+    )
   }
+  drawValueBubbleX(chart, xBubbleFormatter(datetime), x, bubblesPaintConfig)
+}
+
+function plotRangeSelection (chart, left, width) {
+  const { tooltip, top, height } = chart
+  const { ctx } = tooltip
+
+  ctx.save()
+  ctx.fillStyle = '#9faac435'
+  ctx.fillRect(left, top, width, height)
+  ctx.restore()
 }
 
 function drawAlertPlus (chart, y) {
