@@ -16,6 +16,12 @@ import InsightsDropdown from './InsightsDropdown'
 import PlanEngage from './PlanEngage'
 import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProductsTooltip'
 import UserAvatar from '../../pages/Account/avatar/UserAvatar'
+import {
+  isDefaultScreenerPath,
+  isDynamicWatchlist,
+  getWatchlistId
+} from '../../ducks/Watchlists/utils'
+import { useShortWatchlist } from '../../ducks/Watchlists/gql/hooks'
 import styles from './Navbar.module.scss'
 
 const ExternalLink = ({ children, className, ...rest }) => (
@@ -89,7 +95,14 @@ const rightLinks = [
   }
 ]
 
-const Navbar = ({ activeLink = '/', isBetaModeEnabled }) => {
+const Navbar = ({ activeLink = '/', isBetaModeEnabled, search }) => {
+  const id = getWatchlistId(search)
+  const [watchlist = {}] = useShortWatchlist({
+    id,
+    skip: !activeLink.includes('assets')
+  })
+  let isScreener = isDynamicWatchlist(watchlist)
+
   return (
     <header className={styles.header}>
       <SmoothDropdown
@@ -122,7 +135,14 @@ const Navbar = ({ activeLink = '/', isBetaModeEnabled }) => {
           }
 
           if (rest.to === '/assets' && activeLink.includes(rest.to)) {
-            isActive = activeLink !== '/assets/screener'
+            isActive = !isDefaultScreenerPath(activeLink) && !isScreener
+          }
+
+          if (
+            rest.to === '/assets/screener' &&
+            activeLink.includes('/assets')
+          ) {
+            isActive = isDefaultScreenerPath(activeLink) || isScreener
           }
 
           const button = (

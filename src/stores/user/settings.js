@@ -31,6 +31,21 @@ export const USER_SETTINGS_FRAGMENT = gql`
   }
 `
 
+const TOGGLE_CHANNEL_MUTATION = gql`
+  mutation settingsToggleChannel(
+    $signalNotifyEmail: Boolean
+    $signalNotifyTelegram: Boolean
+  ) {
+    settingsToggleChannel(
+      signalNotifyEmail: $signalNotifyEmail
+      signalNotifyTelegram: $signalNotifyTelegram
+    ) {
+      signalNotifyEmail
+      signalNotifyTelegram
+    }
+  }
+`
+
 export const USER_SETTINGS_QUERY = gql`
   {
     currentUser {
@@ -118,7 +133,7 @@ export function useUpdateUserSettings () {
     }
   })
 
-  function updateSettings (newSettings) {
+  function update (newSettings) {
     const currentUser = getCurrentUser()
 
     const merged = { ...currentUser.settings, ...newSettings }
@@ -137,5 +152,21 @@ export function useUpdateUserSettings () {
     })
   }
 
-  return [updateSettings, data]
+  return [update, data]
+}
+
+export function useUpdateUserNotifications () {
+  const [mutate, data] = useMutation(TOGGLE_CHANNEL_MUTATION, {
+    update: (proxy, { data: { settingsToggleChannel } }) => {
+      updateUserSettingsCache(settingsToggleChannel)
+    }
+  })
+
+  function update (variables) {
+    return mutate({
+      variables
+    })
+  }
+
+  return [update, data]
 }
