@@ -5,7 +5,6 @@ import Label from '@santiment-network/ui/Label'
 // import LoginDialogWrapper from '../../../../components/LoginDialog/LoginDialogWrapper'
 import PublicityToggle from '../ChangeVisibility/Toggle'
 import { useDebounce } from '../../../../hooks/index'
-import { useUserScreeners } from '../../gql/hooks'
 import styles from './EditForm.module.scss'
 
 const MIN_LENGTH = 3
@@ -22,11 +21,11 @@ const EditForm = ({
   open: isOpen,
   toggleOpen,
   id,
+  lists = [],
   ...props
 }) => {
   const [formState, setFormState] = useState(defaultSettings)
   const debouncedCheckName = useDebounce(checkName, 300)
-  const [screeners = []] = useUserScreeners()
 
   function onSubmit (evt) {
     evt.preventDefault()
@@ -68,7 +67,7 @@ const EditForm = ({
 
   function checkName (name = '') {
     let error = ''
-    const hasSameNameScreener = screeners.find(
+    const hasSameNameScreener = lists.find(
       screener => screener.name.toLowerCase() === name.toLowerCase()
     )
 

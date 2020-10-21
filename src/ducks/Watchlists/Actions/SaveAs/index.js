@@ -5,6 +5,7 @@ import { USER_ADD_NEW_ASSET_LIST } from '../../../../actions/types'
 
 const SaveAs = ({
   watchlist,
+  lists,
   onSubmit,
   trigger,
   isPending,
@@ -24,6 +25,7 @@ const SaveAs = ({
 
   return (
     <EditForm
+      lists={lists}
       title='Save as ...'
       id={watchlist.id}
       onFormSubmit={({ name, description, isPublic }) => {

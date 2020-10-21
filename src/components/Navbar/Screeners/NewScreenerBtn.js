@@ -7,7 +7,7 @@ import ProPopupWrapper from '../../ProPopup/Wrapper'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import styles from '../Watchlists/WatchlistsEmptySection.module.scss'
 
-const CreateScreenerBtn = ({ className }) => {
+const CreateScreenerBtn = ({ className, screeners }) => {
   const { isPro } = useUserSubscriptionStatus()
 
   return (
@@ -21,6 +21,7 @@ const CreateScreenerBtn = ({ className }) => {
       )}
     >
       <NewScreener
+        lists={screeners}
         trigger={
           <Button border className={cx(styles.createBtn, className)}>
             Create screener

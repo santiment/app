@@ -30,7 +30,7 @@ const ScreenerDropdown = ({ activeLink, isLoggedIn, isLoggedInPending }) => {
           ) : (
             <List screeners={screeners} activeLink={activeLink} />
           )}
-          <CreateScreenerBtn />
+          <CreateScreenerBtn screeners={screeners} />
         </div>
       </div>
     </Panel>
