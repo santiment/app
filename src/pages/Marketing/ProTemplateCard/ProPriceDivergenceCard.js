@@ -94,7 +94,7 @@ const ProPriceDivergenceCard = () => {
 
   const linkProps = {
     href: isPro
-      ? 'https://docs.google.com/spreadsheets/u/1/d/1Wu-d_uBuvLp3FoNqz3azzbNzFr8Zaw2n6bcLLsQxNGc/view'
+      ? 'https://docs.google.com/spreadsheets/d/1S0bADp_aCmpp7pGOkSF8e96XghQsLskZUa9efflZJak/edit?ts=5f1b0d67#gid=1584898956'
       : '/pricing',
     rel: 'noopener noreferrer',
     target: isPro ? '_blank' : '_self'

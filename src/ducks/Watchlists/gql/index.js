@@ -38,6 +38,15 @@ export const PROJECT_ITEM_FRAGMENT = gql`
   }
 `
 
+export const WATCHLIST_SHORT_QUERY = gql`
+  query watchlist($id: ID!) {
+    watchlist(id: $id) {
+      ...generalListData
+    }
+  }
+  ${WATCHLIST_GENERAL_FRAGMENT}
+`
+
 export const USER_WATCHLISTS_QUERY = gql`
   query fetchWatchlists {
     fetchWatchlists {

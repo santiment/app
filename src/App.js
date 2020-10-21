@@ -239,7 +239,7 @@ export const App = ({
   token,
   isOffline,
   showFooter,
-  location: { pathname }
+  location: { pathname, search }
 }) => (
   <div className='App'>
     <ErrorBoundary>
@@ -249,7 +249,7 @@ export const App = ({
         </div>
       )}
       {isDesktop ? (
-        <Navbar activeLink={pathname} />
+        <Navbar activeLink={pathname} search={search} />
       ) : (
         <MobileNavbar activeLink={pathname} />
       )}
