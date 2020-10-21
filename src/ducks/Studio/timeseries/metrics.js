@@ -269,5 +269,7 @@ export const METRICS = [
   'proxy_balance',
   'whale_balance',
   'makerdao_bite_keeper_balance',
-  'makerdao_cdp_owner_balance'
+  'makerdao_cdp_owner_balance',
+  'unlabeled_balance',
+  'all_known_balance'
 ]
