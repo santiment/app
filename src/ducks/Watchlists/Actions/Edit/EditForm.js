@@ -5,11 +5,13 @@ import Label from '@santiment-network/ui/Label'
 // import LoginDialogWrapper from '../../../../components/LoginDialog/LoginDialogWrapper'
 import PublicityToggle from '../ChangeVisibility/Toggle'
 import { useDebounce } from '../../../../hooks/index'
+import { useUserScreeners } from '../../gql/hooks'
 import styles from './EditForm.module.scss'
 
 const MIN_LENGTH = 3
 const SHORT_NAME_ERROR = `The name should be at least ${MIN_LENGTH} characters`
 const BAD_SYMBOLS_ERROR = "Use only letters, numbers, whitespace and _-.'/,"
+const NAME_EXISTS_ERROR = 'You has already use this name for another screener'
 const ALLOWED_SYMBOLS_REGEXP = /^([.\-/_' ,\w]*)$/
 
 const EditForm = ({
@@ -19,10 +21,12 @@ const EditForm = ({
   defaultSettings,
   open: isOpen,
   toggleOpen,
+  id,
   ...props
 }) => {
   const [formState, setFormState] = useState(defaultSettings)
   const debouncedCheckName = useDebounce(checkName, 300)
+  const [screeners = []] = useUserScreeners()
 
   function onSubmit (evt) {
     evt.preventDefault()
@@ -62,8 +66,11 @@ const EditForm = ({
     setFormState(state => ({ ...state, isPublic: !state.isPublic }))
   }
 
-  function checkName (name) {
+  function checkName (name = '') {
     let error = ''
+    const hasSameNameScreener = screeners.find(
+      screener => screener.name.toLowerCase() === name.toLowerCase()
+    )
 
     if (!name || name.length < MIN_LENGTH) {
       error = SHORT_NAME_ERROR
@@ -72,6 +79,11 @@ const EditForm = ({
     if (!ALLOWED_SYMBOLS_REGEXP.test(name)) {
       error = BAD_SYMBOLS_ERROR
     }
+
+    if (hasSameNameScreener) {
+      error = NAME_EXISTS_ERROR
+    }
+
     setFormState(state => ({ ...state, error }))
   }
 

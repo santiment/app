@@ -25,6 +25,7 @@ const SaveAs = ({
   return (
     <EditForm
       title='Save as ...'
+      id={watchlist.id}
       onFormSubmit={({ name, description, isPublic }) => {
         createWatchlist({
           name,

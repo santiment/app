@@ -42,6 +42,7 @@ const Trigger = ({
     <div className={styles.trigger} ref={forwardedRef}>
       <EditForm
         title='Edit screener'
+        id={watchlist.id}
         onFormSubmit={payload =>
           onPrimaryAction(payload).then(() => setIsEditPopupOpened(false))
         }
@@ -115,6 +116,7 @@ const BaseActions = ({
         <Panel variant='modal' className={styles.wrapper}>
           <EditForm
             title='Edit screener'
+            id={watchlist.id}
             isLoading={loading}
             open={isEditPopupOpened}
             toggleOpen={setIsEditPopupOpened}
