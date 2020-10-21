@@ -67,7 +67,7 @@ const EditForm = ({
 
   function checkName (name = '') {
     let error = ''
-    const hasSameNameScreener = lists.find(
+    const hasSameNameScreeners = lists.filter(
       screener => screener.name.toLowerCase() === name.toLowerCase()
     )
 
@@ -79,7 +79,10 @@ const EditForm = ({
       error = BAD_SYMBOLS_ERROR
     }
 
-    if (hasSameNameScreener) {
+    if (
+      hasSameNameScreeners.length > 0 &&
+      !(hasSameNameScreeners.length === 1 && hasSameNameScreeners[0].id === id)
+    ) {
       error = NAME_EXISTS_ERROR
     }
 
