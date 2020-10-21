@@ -29,6 +29,11 @@ export function domainModifier (metricKey, minMax) {
     }
   }
 
+  if (min === max) {
+    max *= 1.1
+    min *= 0.9
+  }
+
   minMax.max = max
   minMax.min = min
 }

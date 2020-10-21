@@ -59,7 +59,8 @@ const SHORT_WEEK_DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
 const DateFormat = {
   [MONTH]: ['getMonth', 'setMonth'],
-  [DAY]: ['getDate', 'setDate']
+  [DAY]: ['getDate', 'setDate'],
+  [HOUR]: ['getHours', 'setHours']
 }
 
 const FormatToIndex = {
@@ -273,11 +274,49 @@ export const getUTCTimeFormats = date => {
   }
 }
 
-export const parseIntervalString = range => {
+export function parseIntervalString (range) {
   const amount = parseInt(range, 10)
   return {
     amount,
     format: range.slice(amount.toString().length)
+  }
+}
+
+export function getIntervalMilliseconds (interval) {
+  const { amount, format } = parseIntervalString(interval)
+  const formatMs = FormatToTimestamp[format === MONTH ? MINUTE : format]
+  return amount * formatMs
+}
+
+// TODO: Replace 'getIntervalByTimeRange' with this function [@vanguard | Oct 20, 2020]
+export function getTimerangePeriod (timerange) {
+  const to = new Date()
+  to.setHours(to.getHours(), 59, 59, 999)
+
+  if (timerange === 'all') {
+    return {
+      to,
+      from: CRYPTO_ERA_START_DATE
+    }
+  }
+
+  let { amount, format } = parseIntervalString(timerange)
+
+  if (format === WEEK) {
+    amount *= 7
+    format = DAY
+  } else if (format === YEAR) {
+    amount *= 12
+    format = MONTH
+  }
+
+  const from = new Date(to)
+  const [get, set] = DateFormat[format]
+  from[set](from[get]() - amount)
+
+  return {
+    from,
+    to
   }
 }
 
