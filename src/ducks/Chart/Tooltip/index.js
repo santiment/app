@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { initTooltip } from '@santiment-network/chart/tooltip'
-import { setupTooltip, plotTooltip } from './utils'
+import { setupTooltip, plotTooltip } from './helpers'
 import { useChart } from '../context'
 
 const noop = () => {}
