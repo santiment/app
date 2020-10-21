@@ -256,5 +256,18 @@ export const METRICS = [
   'total_trade_volume_by_dex',
   'eth_based_trade_volume_by_dex',
   'stablecoin_trade_volume_by_dex',
-  'other_trade_volume_by_dex'
+  'other_trade_volume_by_dex',
+
+  'miners_balance',
+  'genesis_balance',
+  'dex_trader_balance',
+  'defi_balance',
+  'dex_balance',
+  'cex_balance',
+  'withdrawal_balance',
+  'deposit_balance',
+  'proxy_balance',
+  'whale_balance',
+  'makerdao_bite_keeper_balance',
+  'makerdao_cdp_owner_balance'
 ]
