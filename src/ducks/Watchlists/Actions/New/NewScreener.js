@@ -8,7 +8,8 @@ const NewScreener = ({
   trigger,
   createWatchlist,
   isPending,
-  isSuccess
+  isSuccess,
+  lists
 }) => {
   const [isOpened, setIsOpened] = useState(false)
 
@@ -30,6 +31,7 @@ const NewScreener = ({
       }}
       isLoading={isPending}
       open={isOpened}
+      lists={lists}
       toggleOpen={setIsOpened}
       trigger={trigger}
     />

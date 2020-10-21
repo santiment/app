@@ -34,6 +34,7 @@ const Trigger = ({
   isActive,
   onPrimaryAction,
   isLoading,
+  lists,
   openMenu
 }) => {
   const [isEditPopupOpened, setIsEditPopupOpened] = useState(false)
@@ -42,6 +43,8 @@ const Trigger = ({
     <div className={styles.trigger} ref={forwardedRef}>
       <EditForm
         title='Edit screener'
+        lists={lists}
+        id={watchlist.id}
         onFormSubmit={payload =>
           onPrimaryAction(payload).then(() => setIsEditPopupOpened(false))
         }
@@ -97,6 +100,7 @@ const BaseActions = ({
       <ContextMenu
         trigger={
           <Trigger
+            lists={screeners}
             watchlist={watchlist}
             name={name}
             openMenu={() => setIsMenuOpened(true)}
@@ -114,7 +118,9 @@ const BaseActions = ({
       >
         <Panel variant='modal' className={styles.wrapper}>
           <EditForm
+            lists={screeners}
             title='Edit screener'
+            id={watchlist.id}
             isLoading={loading}
             open={isEditPopupOpened}
             toggleOpen={setIsEditPopupOpened}
@@ -149,6 +155,7 @@ const BaseActions = ({
             <SaveAs
               onSubmit={() => setIsMenuOpened(false)}
               watchlist={watchlist}
+              lists={screeners}
               trigger={
                 <Button>
                   <Icon type='disk' />
@@ -169,6 +176,7 @@ const BaseActions = ({
             )}
           >
             <New
+              lists={screeners}
               onSubmit={() => setIsMenuOpened(false)}
               trigger={
                 <Button>

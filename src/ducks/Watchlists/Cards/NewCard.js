@@ -4,7 +4,7 @@ import NewWatchlist from '../Actions/New'
 import { ProLabel } from '../../../components/ProLabel'
 import ProPopupWrapper from '../../../components/ProPopup/Wrapper'
 import LoginDialogWrapper from '../../../components/LoginDialog/LoginDialogWrapper'
-import { useUserWatchlists } from '../gql/hooks'
+import { useUserWatchlists, useUserScreeners } from '../gql/hooks'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import NewScreener from '../Actions/New/NewScreener'
 import { Plus } from '../../../components/Illustrations/Plus'
@@ -56,6 +56,7 @@ const NewWatchlistCard = () => {
 }
 
 const NewScreenerCard = () => {
+  const [screeners = []] = useUserScreeners()
   const { isPro } = useUserSubscriptionStatus()
 
   return !isPro ? (
@@ -63,7 +64,7 @@ const NewScreenerCard = () => {
       <Trigger showProBanner type='screener' />
     </ProPopupWrapper>
   ) : (
-    <NewScreener trigger={<Trigger type='screener' />} />
+    <NewScreener lists={screeners} trigger={<Trigger type='screener' />} />
   )
 }
 
