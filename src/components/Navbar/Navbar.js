@@ -135,14 +135,14 @@ const Navbar = ({ activeLink = '/', isBetaModeEnabled, search }) => {
           }
 
           if (rest.to === '/assets' && activeLink.includes(rest.to)) {
-            isActive = activeLink !== '/assets/screener' && !isScreener
+            isActive = !isDefaultScreenerPath(activeLink) && !isScreener
           }
 
           if (
             rest.to === '/assets/screener' &&
             activeLink.includes('/assets')
           ) {
-            isActive = activeLink === '/assets/screener' || isScreener
+            isActive = isDefaultScreenerPath(activeLink) || isScreener
           }
 
           const button = (
