@@ -39,7 +39,7 @@ const Chart = ({
   const [selectedDatesRange, setSelectedDatesRange] = useState()
   const PressedModifier = usePressedModifier()
   const isSingleWidget = widgets.length === 1
-  const onWidgetPointClick = sidepanel ? onPointClick : undefined
+  const onWidgetPointClick = sidepanel ? onPointMouseUp : undefined
   const allMetrics = useMemo(
     () => widgets.map(({ metrics }) => metrics).flat(),
     [widgets]
@@ -51,7 +51,7 @@ const Chart = ({
     setSelectedDatesRange([from, to])
   }
 
-  function onRangeSelect ({ value: leftDate }, { value: rightDate }) {
+  function onRangeSelected ({ value: leftDate }, { value: rightDate }) {
     setIsSelectingRange(false)
     if (leftDate === rightDate) return
 
@@ -69,11 +69,13 @@ const Chart = ({
     }
   }
 
-  function onRangeSelectStart () {
+  function onRangeSelecting () {
     setIsSelectingRange(true)
   }
 
-  function onPointClick ({ value }) {
+  function onPointMouseUp ({ value }) {
+    if (isSelectingRange) return
+
     setSelectedDate(new Date(value))
     setSelectedDatesRange()
   }
@@ -107,9 +109,9 @@ const Chart = ({
               changeTimePeriod={changeTimePeriod}
               syncTooltips={syncDate}
               observeSyncDate={observeSyncDate}
-              onPointClick={onWidgetPointClick}
-              onRangeSelect={onRangeSelect}
-              onRangeSelectStart={onRangeSelectStart}
+              onPointMouseUp={onWidgetPointClick}
+              onRangeSelected={onRangeSelected}
+              onRangeSelecting={onRangeSelecting}
             />
           ))}
         </div>

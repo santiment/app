@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { TRIGGERS_QUERY } from './queries'
 
@@ -6,19 +7,24 @@ export const filterByChannels = (signals, type) =>
     Array.isArray(channel) ? channel.indexOf(type) !== -1 : channel === type
   )
 
-export const useSignals = ({ skip = false, filters, mapper } = {}) => {
-  const { data = {}, loading, error } = useQuery(TRIGGERS_QUERY, {
+const DEFAULT_STATE = []
+
+export function useSignals ({ skip = false, filters, mapper } = {}) {
+  const { data, loading, error } = useQuery(TRIGGERS_QUERY, {
     skip: skip
   })
 
-  const { currentUser } = data
-  let signals = (currentUser || {}).triggers || []
+  const signals = useMemo(
+    () => {
+      if (!data || !data.currentUser) return DEFAULT_STATE
+      const { triggers = DEFAULT_STATE } = data.currentUser
 
-  if (!loading) {
-    if (filters && filters.channel) {
-      signals = filterByChannels(signals, filters.channel)
-    }
-  }
+      return filters && filters.channel
+        ? filterByChannels(triggers, filters.channel)
+        : triggers
+    },
+    [data, filters]
+  )
 
   return {
     data: signals,

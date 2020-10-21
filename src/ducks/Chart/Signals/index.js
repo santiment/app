@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import Signal from './Signal'
 import Add from './Add'
@@ -11,15 +11,15 @@ import {
   checkPriceMetric,
   AlertBuilder
 } from './helpers'
-import { useChart } from '../context'
 import { useAlertMetrics } from './hooks'
+import { useChart } from '../context'
 import { clearCtx } from '../utils'
 import { getSlugPriceSignals } from '../../SANCharts/utils'
 import { Metric } from '../../dataHub/metrics'
+import { useSignals } from '../../Signals/common/getSignals'
 import { createTrigger, removeTrigger } from '../../Signals/common/actions'
 import { buildValueChangeSuggester } from '../../Studio/Alerts/suggestions/helpers'
 import LoginDialogWrapper from '../../../components/LoginDialog/LoginDialogWrapper'
-import { useSignals } from '../../Signals/common/getSignals'
 import styles from './index.module.scss'
 
 const TEXT_SIGNAL = 'Alert '
@@ -51,6 +51,7 @@ const getTextIf = (metric, index, useShortRecord) => {
 }
 
 const priceFormatter = Metric.price_usd.formatter
+const DEFAULT_SIGNALS = []
 
 const Signals = ({
   slug,
@@ -64,29 +65,30 @@ const Signals = ({
 }) => {
   const [isHovered, setIsHovered] = useState()
   const [hoverPoint, setHoverPoint] = useState()
-
   const { data: userSignals } = useSignals()
-
-  const signals = useMemo(
-    () => {
-      return getSlugPriceSignals(userSignals, slug)
-        .map(signal => makeSignalDrawable(signal, chart))
-        .filter(Boolean)
-    },
-    [
-      userSignals,
-      slug,
-      chart,
-      chart.isAlertsActive,
-      chart.minMaxes,
-      chart.scale
-    ]
-  )
+  const [signals, setSignals] = useState(DEFAULT_SIGNALS)
 
   useEffect(() => {
     chart.isAlertsActive = true
     return () => (chart.isAlertsActive = false)
   }, [])
+
+  useEffect(
+    () => {
+      buildSignals()
+      // TODO: remove observer gaurd check when all charts are migrated [@vanguard | Oct 20, 2020]
+      return chart.observer && chart.observer.subscribe(buildSignals)
+    },
+    [userSignals, slug]
+  )
+
+  function buildSignals () {
+    setSignals(
+      getSlugPriceSignals(userSignals, slug)
+        .map(signal => makeSignalDrawable(signal, chart))
+        .filter(Boolean)
+    )
+  }
 
   function onMouseMove ({ target, currentTarget, nativeEvent: { offsetY: y } }) {
     if (isHovered || data.length === 0 || target !== currentTarget) {

@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { plotAxes } from './helpers'
 import { buildPlotter } from '../context'
 
-const Axes = buildPlotter((plotter, { metrics, xTicks, yTicks }) => {
+const Axes = buildPlotter(({ plotter }, { metrics, xTicks, yTicks }) => {
   useEffect(
     () => {
       plotter.register('axes', (chart, scale) => {

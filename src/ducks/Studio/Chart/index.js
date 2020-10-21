@@ -49,10 +49,10 @@ const Chart = ({
   setIsICOPriceDisabled,
   setOptions,
   setComparables,
-  onPointClick,
+  onPointMouseUp,
+  onRangeSelected,
+  onRangeSelecting,
   onDeleteChartClick,
-  onRangeSelect,
-  onRangeSelectStart,
   syncTooltips
 }) => {
   const { isLoggedIn } = useUser()
@@ -227,9 +227,9 @@ const Chart = ({
         isICOPriceActive={isICOPriceActive}
         isSelectingRange={isSelectingRange}
         onBrushChangeEnd={onBrushChangeEnd}
-        onPointClick={onPointClick}
-        onRangeSelect={onRangeSelect}
-        onRangeSelectStart={onRangeSelectStart}
+        onPointMouseUp={onPointMouseUp}
+        onRangeSelecting={onRangeSelecting}
+        onRangeSelected={onRangeSelected}
         syncTooltips={syncTooltips}
         setIsICOPriceDisabled={setIsICOPriceDisabled}
       />

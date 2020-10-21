@@ -8,16 +8,18 @@ const noop = () => {}
 const Tooltip = ({
   metric,
   syncTooltips,
-  onPointClick,
-  onRangeSelect,
-  onRangeSelectStart
+  onPointMouseDown,
+  onPointMouseUp,
+  onRangeSelecting,
+  onRangeSelected
 }) => {
   const chart = useChart()
 
   chart.syncTooltips = syncTooltips
-  chart.onRangeSelect = onRangeSelect
-  chart.onRangeSelectStart = onRangeSelectStart
-  chart.onPointClick = onPointClick
+  chart.onPointMouseDown = onPointMouseDown
+  chart.onPointMouseUp = onPointMouseUp
+  chart.onRangeSelecting = onRangeSelecting
+  chart.onRangeSelected = onRangeSelected
 
   useEffect(
     () => {
@@ -40,9 +42,8 @@ const Tooltip = ({
 
 Tooltip.defaultProps = {
   syncTooltips: noop,
-  onPointClick: noop,
-  onRangeSelect: noop,
-  onRangeSelectStart: noop
+  onPointMouseDown: noop,
+  onPointMouseUp: noop
 }
 
 export default Tooltip
