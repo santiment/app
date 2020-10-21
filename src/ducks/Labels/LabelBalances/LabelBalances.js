@@ -32,7 +32,7 @@ const SUPPORTED_METRICS = [
 
 const METRICS = SUPPORTED_METRICS.map(m => ({
   ...m,
-  node: 'line',
+  node: 'area',
   reqMeta: {
     ...SELECTOR
   }
