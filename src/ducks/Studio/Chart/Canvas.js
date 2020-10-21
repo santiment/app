@@ -80,6 +80,7 @@ const Canvas = ({
       <Insights />
       <IcoPrice
         {...settings}
+        scale={props.scale}
         isICOPriceActive={isICOPriceActive}
         metrics={metrics}
         className={styles.ico}
