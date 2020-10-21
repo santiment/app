@@ -4,12 +4,7 @@ import {
   updateChartDimensions,
   updateSize
 } from '@santiment-network/chart'
-import {
-  withChartContext,
-  useChart,
-  useChartSetter
-  /* useChartRedraw */
-} from './context'
+import { withChartContext, useChart, useChartSetter } from './context'
 import { paintConfigs } from './paintConfigs'
 import { useTheme } from '../../stores/ui/theme'
 import styles from './index.module.scss'

@@ -102,10 +102,6 @@ export function setupTooltip (chart, marker, useCustomTooltip, onPlotTooltip) {
       } else {
         chart.onPointClick(endPoint)
       }
-
-      if (chart.onPointMouseUp) {
-        chart.onPointMouseUp(endPoint)
-      }
     }
   })
 

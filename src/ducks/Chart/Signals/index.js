@@ -85,7 +85,7 @@ const Signals = ({
   function buildSignals () {
     setSignals(
       getSlugPriceSignals(userSignals, slug)
-        .map(signal => makeSignalDrawable(signal, chart, chart.scale))
+        .map(signal => makeSignalDrawable(signal, chart))
         .filter(Boolean)
     )
   }
@@ -107,7 +107,6 @@ const Signals = ({
     ]
 
     if (value === undefined) return
-    /* console.log(value, metricValues) */
 
     setHoverPoint({ y, metricValues })
 
