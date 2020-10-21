@@ -17,7 +17,6 @@ const Unsubscribe = () => {
   const { user = {}, isLoggedIn, loading } = useUser()
   const {
     loading: settingsLoading,
-    email: emailFromSettings,
     settings: { signalNotifyEmail }
   } = useUserSettings()
 

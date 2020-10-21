@@ -1,5 +1,6 @@
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import {
+  WATCHLIST_SHORT_QUERY,
   USER_WATCHLISTS_QUERY,
   FEATURED_WATCHLISTS_QUERY,
   CREATE_WATCHLIST_MUTATION,
@@ -61,6 +62,17 @@ const updateWatchlistOnEdit = buildWatchlistCacheUpdater(
 
 export function useWatchlist ({ id, skip }) {
   const { data, loading, error } = useQuery(WATCHLIST_QUERY, {
+    skip: !id || skip,
+    variables: {
+      id: +id
+    }
+  })
+
+  return [data ? data.watchlist : undefined, loading, error]
+}
+
+export function useShortWatchlist ({ id, skip }) {
+  const { data, loading, error } = useQuery(WATCHLIST_SHORT_QUERY, {
     skip: !id || skip,
     variables: {
       id: +id
