@@ -107,6 +107,7 @@ const Signals = ({
     ]
 
     if (value === undefined) return
+    /* console.log(value, metricValues) */
 
     setHoverPoint({ y, metricValues })
 
