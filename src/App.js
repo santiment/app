@@ -157,6 +157,11 @@ const LoadableSheetsTemplatePage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableLabelsPage = Loadable({
+  loader: () => import('./pages/LabelsPage/LabelsPage'),
+  loading: () => <PageLoader />
+})
+
 // const LoadableMarketSegmentsPage = Loadable({
 //   loader: () => import('./pages/MarketSegments'),
 //   loading: () => <PageLoader />
@@ -469,6 +474,10 @@ export const App = ({
                 {...props}
               />
             )}
+          />
+          <Route
+            path={PATHS.LABELS}
+            render={props => <LoadableLabelsPage {...props} />}
           />
           <Route
             path={PATHS.CHARTS}
