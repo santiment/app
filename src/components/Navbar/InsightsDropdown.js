@@ -19,6 +19,10 @@ import { getSEOLinkFromIdAndTitle, publishDateSorter } from '../Insight/utils'
 import { EMAIL_LOGIN_MUTATION } from '../SubscriptionForm/loginGQL'
 import styles from './InsightsDropdown.module.scss'
 
+const onClick = evt => {
+  evt.stopPropagation()
+}
+
 const onSuccess = () => {
   GA.event({
     category: 'User',
@@ -48,6 +52,7 @@ const SubscriptionForm = () => (
   <Mutation mutation={EMAIL_LOGIN_MUTATION}>
     {(loginEmail, { loading, error, data: { emailLogin } = {} }) => {
       function onSubmit (e) {
+        e.stopPropagation()
         e.preventDefault()
 
         if (loading) {
@@ -159,7 +164,7 @@ const InsightsDropdown = ({ isLoggedIn }) => (
       </div>
     </div>
     {isLoggedIn || (
-      <div className={styles.bottom}>
+      <div className={styles.bottom} onClick={onClick}>
         <div className={styles.text}>
           <h2 className={styles.bottom__title}>Want more crypto insights?</h2>
           <h4 className={styles.bottom__desc}>
