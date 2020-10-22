@@ -71,26 +71,27 @@ const FeesDistribution = ({ onDisable }) => {
     [interval]
   )
 
-  const { data, loading, error } = useFeeDistributions(settings)
-
-  if (!loading && error) {
-    onDisable && onDisable()
-    return null
-  }
+  const { isPro } = useUserSubscriptionStatus()
 
   return (
     <>
       <FeesDistributionTitle setInterval={setInterval} interval={interval} />
-      <FeesDistributionChart
-        className={styles.chart}
-        data={data}
-        loading={loading}
-      />
+      {isPro ? (
+        <FeesDistributionChart
+          className={styles.chart}
+          settings={settings}
+          onDisable={onDisable}
+        />
+      ) : (
+        <MakeProSubscriptionCard />
+      )}
     </>
   )
 }
 
-export const FeesDistributionChart = ({ className, data, loading }) => {
+export const FeesDistributionChart = ({ className, settings, onDisable }) => {
+  const { data, loading, error } = useFeeDistributions(settings)
+
   const prepared = useMemo(
     () => {
       return data.map(item => {
@@ -104,10 +105,9 @@ export const FeesDistributionChart = ({ className, data, loading }) => {
     [data]
   )
 
-  const { isPro } = useUserSubscriptionStatus()
-
-  if (!isPro) {
-    return <MakeProSubscriptionCard classes={{ card: className }} />
+  if (!loading && error) {
+    onDisable && onDisable()
+    return null
   }
 
   return (
