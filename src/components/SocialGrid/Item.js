@@ -26,16 +26,16 @@ const Item = ({
   settings,
   createSignal
 }) => {
-  const MetricSettingsMap = useMemo(
+  const MetricSettingMap = useMemo(
     () => {
-      const MetricSettingsMap = new Map()
+      const MetricSettingMap = new Map()
 
-      MetricSettingsMap.set(metrics[0], {
+      MetricSettingMap.set(metrics[0], {
         selector: 'text',
         slug: topic
       })
 
-      return MetricSettingsMap
+      return MetricSettingMap
     },
     [metrics]
   )
@@ -107,7 +107,7 @@ const Item = ({
         metrics={metrics}
         settings={settings}
         onLoad={onLoad}
-        settingMap={MetricSettingsMap}
+        settingMap={MetricSettingMap}
         className={styles.chart}
       />
     </article>

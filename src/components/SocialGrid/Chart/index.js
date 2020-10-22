@@ -11,9 +11,7 @@ const Chart = ({ metrics, settingMap, settings, onLoad, ...props }) => {
 
   useEffect(
     () => {
-      if (loadings.length === 0) {
-        onLoad()
-      }
+      if (loadings.length === 0) onLoad()
     },
     [loadings]
   )

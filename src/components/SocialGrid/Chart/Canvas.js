@@ -21,31 +21,27 @@ const Canvas = ({
   settings,
   setCurrentPoint,
   ...props
-}) => {
-  const categories = useMetricCategories(metrics)
-
-  return (
-    <SANChart
-      {...props}
+}) => (
+  <SANChart
+    {...props}
+    data={data}
+    height={CHART_HEIGHT}
+    padding={CHART_PADDING}
+    colors={CHART_COLORS}
+    categories={useMetricCategories(metrics)}
+  >
+    <Bars />
+    <Tooltip setCurrentPoint={setCurrentPoint} />
+    <Signals
+      {...settings}
+      useShortRecord
+      selector='text'
+      width={13}
       data={data}
-      height={CHART_HEIGHT}
-      padding={CHART_PADDING}
-      colors={CHART_COLORS}
-      categories={categories}
-    >
-      <Bars />
-      <Tooltip setCurrentPoint={setCurrentPoint} />
-      <Signals
-        {...settings}
-        width={13}
-        data={data}
-        useShortRecord
-        metrics={metrics}
-        selector='text'
-        slug={topic}
-      />
-    </SANChart>
-  )
-}
+      metrics={metrics}
+      slug={topic}
+    />
+  </SANChart>
+)
 
 export default Canvas
