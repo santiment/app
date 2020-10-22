@@ -3,7 +3,7 @@ import { Query } from '@apollo/react-components'
 import { getAvailableCooldown } from './utils'
 import SignalPreviewChart from './SignalPreviewChart'
 import PreviewLoader from './Loader'
-import { getTimeRangeForChart, skipHistoricalPreview } from '../../utils/utils'
+import { skipHistoricalPreview } from '../../utils/utils'
 import { HISTORICAL_TRIGGER_POINTS_QUERY } from '../../epics'
 import styles from './SignalPreview.module.scss'
 
@@ -64,13 +64,9 @@ const SignalPreview = ({
           )
         }
 
-        const { label, value: timeRange } = getTimeRangeForChart(type)
-
         return (
           <SignalPreviewChart
             type={type}
-            label={label}
-            timeRange={timeRange}
             points={filterPoints(points, trigger)}
             showExpand={showExpand}
             showTitle={showTitle}

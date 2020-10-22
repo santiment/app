@@ -1,9 +1,13 @@
 .search {
   margin-left: auto;
-  transition: width 0.6s;
-  width: 222px;
+  transition: width 0.7s;
+  width: 320px;
 
   &_focused {
     width: 100%;
   }
+}
+
+.input {
+  text-overflow: ellipsis;
 }

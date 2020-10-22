@@ -38,9 +38,9 @@ const Canvas = ({
   isSelectingRange,
   syncTooltips,
   onBrushChangeEnd,
-  onPointClick,
-  onRangeSelect,
-  onRangeSelectStart,
+  onPointMouseUp,
+  onRangeSelected,
+  onRangeSelecting,
   setIsICOPriceDisabled,
   ...props
 }) => {
@@ -64,9 +64,9 @@ const Canvas = ({
       <Tooltip
         metric={axesMetricKeys[0]}
         syncTooltips={syncTooltips}
-        onPointClick={onPointClick}
-        onRangeSelect={onRangeSelect}
-        onRangeSelectStart={onRangeSelectStart}
+        onPointMouseUp={onPointMouseUp}
+        onRangeSelected={onRangeSelected}
+        onRangeSelecting={onRangeSelecting}
       />
 
       <Brush
@@ -80,6 +80,7 @@ const Canvas = ({
       <Insights />
       <IcoPrice
         {...settings}
+        scale={props.scale}
         isICOPriceActive={isICOPriceActive}
         metrics={metrics}
         className={styles.ico}

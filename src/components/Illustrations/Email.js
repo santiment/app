@@ -1,7 +1,13 @@
 import React from 'react'
 
-const UnsubscribeImage = () => (
-  <svg width='198' height='122' fill='none' xmlns='http://www.w3.org/2000/svg'>
+const Email = ({ className }) => (
+  <svg
+    width='198'
+    height='122'
+    className={className}
+    fill='none'
+    xmlns='http://www.w3.org/2000/svg'
+  >
     <path
       d='M19.51 50.742c1.056.1.576 0 .096-.899-.384-.599-.672-1.198-1.152-1.697-.96-.899-2.209-1.298-3.457-.999-.384.1-.672.2-1.056.4 0-.9-.096-1.898 0-2.796.096 0 .192-.1.192-.1.096-.1.192-.1.192-.2.288-.3.48-.898.288-1.198-.48-1.398-2.017-1.997-3.169-.699-.384.5-1.536 7.389-2.977 6.79-.288-.2-.48-.4-.768-.6-2.208-1.597-4.609 2.098-2.593 3.795 1.537 1.398 2.497 2.896 2.977 4.993.384 1.997 3.553 2.596 4.417.599a28.466 28.466 0 0 1 2.017-3.794l.96-1.199c.672 1.598 2.4 2.596 3.937 2.796 3.265.5 3.265-4.693.096-5.192z'
       fill='var(--jungle-green-accent)'
@@ -169,4 +175,4 @@ const UnsubscribeImage = () => (
   </svg>
 )
 
-export default UnsubscribeImage
+export default Email

@@ -1,16 +1,28 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import { useFeaturedTemplates } from '../../ducks/Studio/Template/gql/hooks'
 import { getTemplateIdFromURL } from '../../ducks/Studio/Template/utils'
 import { getYoutubeIdForLayout } from '../../pages/Marketing/PublicTemplates/PublicTemplateCard'
 import VideoModal from '../VideoModal/VideoModal'
 import SvgBgImg from './../../assets/banner/cubes.svg'
+import Icon from '@santiment-network/ui/Icon'
 import styles from './SanbaseBanner.module.scss'
 
 const SanbaseBanner = () => {
   const templateId = getTemplateIdFromURL()
   const [templates, loading] = useFeaturedTemplates()
 
-  if (loading || !templateId) {
+  const key = `CHART_LAYOUT_KEY_${templateId}`
+  const [show, setShow] = useState(localStorage.getItem(key) !== 'true')
+
+  const hideTooltip = useCallback(
+    () => {
+      setShow(false)
+      localStorage.setItem(key, true)
+    },
+    [key]
+  )
+
+  if (loading || !templateId || !show) {
     return null
   }
 
@@ -42,6 +54,12 @@ const SanbaseBanner = () => {
 
           <div className={styles.explanation}>{description}</div>
         </div>
+
+        <Icon
+          type='close-medium'
+          className={styles.close}
+          onClick={hideTooltip}
+        />
       </div>
     </div>
   )

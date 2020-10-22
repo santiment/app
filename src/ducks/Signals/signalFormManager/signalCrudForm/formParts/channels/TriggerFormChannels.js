@@ -152,11 +152,36 @@ const TriggerFormChannels = ({ channels, errors, setFieldValue, isNew }) => {
     [channels, setFieldValue]
   )
 
-  const toggleChannel = useCallback(
-    channel => {
+  const addOrRemove = useCallback(
+    (channel, flag) => {
+      const enabled = channels.indexOf(channel) !== -1
+
+      if (enabled && flag === true) {
+        return
+      }
+
+      if (!enabled && flag === false) {
+        return
+      }
+
       let newChannels = []
+
+      if (enabled) {
+        newChannels = channels.filter(item => item !== channel)
+      } else {
+        newChannels = [...channels, channel]
+      }
+
+      setFieldValue('channels', newChannels)
+    },
+    [channels, setFieldValue]
+  )
+
+  const toggleChannel = useCallback(
+    (channel, flag) => {
       switch (channel) {
         case CHANNEL_NAMES.Webhook: {
+          let newChannels = []
           const whChannel = findWebHook(channels)
           if (!whChannel) {
             newChannels = [
@@ -168,21 +193,16 @@ const TriggerFormChannels = ({ channels, errors, setFieldValue, isNew }) => {
           } else {
             newChannels = channels.filter(item => !isWebhookChannel(item))
           }
+          setFieldValue('channels', newChannels)
           break
         }
 
         default: {
-          if (channels.indexOf(channel) !== -1) {
-            newChannels = channels.filter(item => item !== channel)
-          } else {
-            newChannels = [...channels, channel]
-          }
+          addOrRemove(channel)
         }
       }
-
-      setFieldValue('channels', newChannels)
     },
-    [channels, setFieldValue]
+    [channels, setFieldValue, addOrRemove]
   )
 
   useEffect(
@@ -209,14 +229,14 @@ const TriggerFormChannels = ({ channels, errors, setFieldValue, isNew }) => {
 
   useEffect(
     () => {
-      toggleChannel(CHANNEL_NAMES.Telegram)
+      isNew && addOrRemove(CHANNEL_NAMES.Telegram, isTelegramConnected)
     },
     [isTelegramConnected]
   )
 
   useEffect(
     () => {
-      toggleChannel(CHANNEL_NAMES.Email)
+      isNew && addOrRemove(CHANNEL_NAMES.Email, isEmailConnected)
     },
     [isEmailConnected]
   )

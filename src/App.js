@@ -157,6 +157,11 @@ const LoadableSheetsTemplatePage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableLabelsPage = Loadable({
+  loader: () => import('./pages/LabelsPage/LabelsPage'),
+  loading: () => <PageLoader />
+})
+
 // const LoadableMarketSegmentsPage = Loadable({
 //   loader: () => import('./pages/MarketSegments'),
 //   loading: () => <PageLoader />
@@ -239,7 +244,7 @@ export const App = ({
   token,
   isOffline,
   showFooter,
-  location: { pathname }
+  location: { pathname, search }
 }) => (
   <div className='App'>
     <ErrorBoundary>
@@ -249,7 +254,7 @@ export const App = ({
         </div>
       )}
       {isDesktop ? (
-        <Navbar activeLink={pathname} />
+        <Navbar activeLink={pathname} search={search} />
       ) : (
         <MobileNavbar activeLink={pathname} />
       )}
@@ -471,6 +476,10 @@ export const App = ({
             )}
           />
           <Route
+            path={PATHS.LABELS}
+            render={props => <LoadableLabelsPage {...props} />}
+          />
+          <Route
             path={PATHS.CHARTS}
             render={props => (
               <LoadableChartPage
@@ -488,9 +497,10 @@ export const App = ({
             )}
           />
         </Switch>
-        <NotificationStack />
-        <CookiePopup />
       </ErrorBoundary>
+
+      <NotificationStack />
+      <CookiePopup />
 
       {isDesktop && showFooter && (
         <Footer

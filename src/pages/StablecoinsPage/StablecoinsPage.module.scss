@@ -40,6 +40,7 @@
 .block {
   margin: 0;
   padding: 40px 0;
+  width: 100%;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     margin: 40px 0;

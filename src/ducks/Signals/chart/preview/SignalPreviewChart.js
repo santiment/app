@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { clearCache } from '../../../Chart/Synchronizer'
 import {
   getNewMetricsByType,
   getOldMetricsByType,
   getSlugFromSignalTarget,
+  getTimeRangeForChart,
   isNewTypeSignal
 } from '../../utils/utils'
 import { DAILY_ACTIVE_ADDRESSES } from '../../utils/constants'
@@ -11,27 +12,27 @@ import {
   cleanByDatakeys,
   makeSameRange,
   mapToRequestedMetrics,
-  mapWithTimeseries,
   mapWithTimeseriesAndYCoord,
   getAvailableCooldown
 } from './utils'
 import PreviewLoader from './Loader'
-import GetTimeSeries from '../../../GetTimeSeries/GetTimeSeries'
 import VisualBacktestChart, { GetReferenceDots } from '../VisualBacktestChart'
 import { getMetricYAxisId } from '../../../SANCharts/utils'
+import { useTimeseries } from '../../../Studio/timeseries/hooks'
 
 const SignalPreviewChart = ({
   target,
   type: oldSignalType,
-  timeRange,
-  label,
   points,
   showTitle,
   trigger
 }) => {
-  useEffect(() => clearCache, [])
+  const { label, from, to } = useMemo(
+    () => getTimeRangeForChart(oldSignalType),
+    [oldSignalType]
+  )
 
-  let triggeredSignals = points.filter(point => point['triggered?'])
+  useEffect(() => clearCache, [])
 
   const isNew = isNewTypeSignal(trigger)
 
@@ -47,66 +48,88 @@ const SignalPreviewChart = ({
 
   const { eth_address, address = eth_address } = target || {}
 
-  const metricRest = {
-    address
-  }
-
   const slug = getSlugFromSignalTarget(trigger)
+
+  const { settings: { selector: { infrastructure } = {} } = {} } = trigger
+
+  const settings = useMemo(
+    () => {
+      return {
+        interval: metricsInterval,
+        slug,
+        address,
+        from,
+        to
+      }
+    },
+    [metricsInterval, slug, address, from, to]
+  )
+
+  const requestedMetrics = useMemo(
+    () => {
+      return mapToRequestedMetrics(metrics, {
+        reqMeta: {
+          infrastructure
+        }
+      })
+    },
+    [infrastructure, metrics]
+  )
+
+  const [data, loadings] = useTimeseries(requestedMetrics, settings)
+
+  const merged = useMemo(
+    () => cleanByDatakeys(data, triggersBy.dataKey || triggersBy.key),
+    [data, triggersBy]
+  )
+
+  let triggeredSignals = useMemo(
+    () => {
+      const filtered = points.filter(point => point['triggered?'])
+
+      return makeSameRange(filtered, merged)
+    },
+    [points, merged]
+  )
+
+  const signals = useMemo(
+    () => {
+      return mapWithTimeseriesAndYCoord(
+        triggeredSignals,
+        triggersBy,
+        merged,
+        isStrongDaily
+      )
+    },
+    [triggeredSignals, triggersBy, merged, isStrongDaily]
+  )
+
+  const referenceDots = useMemo(
+    () =>
+      triggeredSignals.length > 0 && triggersBy
+        ? GetReferenceDots(signals, getMetricYAxisId(triggersBy))
+        : null,
+    [signals, triggersBy, triggeredSignals]
+  )
 
   if (!slug) {
     return null
   }
 
-  const settings = {
-    timeRange,
-    interval: metricsInterval,
-    slug,
-    ...metricRest
+  if (loadings && loadings.length > 0) {
+    return PreviewLoader
   }
 
-  const requestedMetrics = mapToRequestedMetrics(metrics, settings)
-
   return (
-    <GetTimeSeries
-      metrics={requestedMetrics}
-      render={({ timeseries }) => {
-        if (!timeseries) {
-          return PreviewLoader
-        }
-
-        const data = mapWithTimeseries(timeseries)
-        const merged = cleanByDatakeys(
-          data,
-          triggersBy.dataKey || triggersBy.key
-        )
-
-        triggeredSignals = makeSameRange(triggeredSignals, merged)
-
-        const signals = mapWithTimeseriesAndYCoord(
-          triggeredSignals,
-          triggersBy,
-          merged,
-          isStrongDaily
-        )
-
-        const referenceDots =
-          triggeredSignals.length > 0 && triggersBy
-            ? GetReferenceDots(signals, getMetricYAxisId(triggersBy))
-            : null
-
-        return (
-          <VisualBacktestChart
-            data={merged}
-            dataKeys={triggersBy}
-            label={label}
-            triggeredSignals={triggeredSignals}
-            metrics={metrics}
-            signals={signals}
-            referenceDots={referenceDots}
-            showTitle={showTitle}
-          />
-        )
-      }}
+    <VisualBacktestChart
+      data={merged}
+      dataKeys={triggersBy}
+      label={label}
+      triggeredSignals={triggeredSignals}
+      metrics={metrics}
+      signals={signals}
+      referenceDots={referenceDots}
+      showTitle={showTitle}
     />
   )
 }

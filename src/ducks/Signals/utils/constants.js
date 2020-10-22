@@ -490,8 +490,9 @@ export const FREQUENCY_VALUES = [
 
 export const getDefaultTimeRangeValue = days => {
   return {
-    value: days + 'd',
-    label: Math.round(days / 30) + ' months'
+    label: Math.round(days / 30) + ' months',
+    to: 'utc_now',
+    from: `utc_now-${days}d`
   }
 }
 

@@ -1,5 +1,10 @@
 import COLOR from '@santiment-network/ui/variables.scss'
 import { getTextWidth } from '@santiment-network/chart/utils'
+import {
+  valueByY,
+  valueByLogY,
+  logScale
+} from '@santiment-network/chart/scales'
 import { clearCtx } from '../utils'
 import { Metric } from '../../dataHub/metrics'
 import { dailyActiveAddressesSuggesters } from '../../Studio/Alerts/suggestions/dailyActiveAddresses'
@@ -59,17 +64,13 @@ function drawLine (ctx, startX, endX, y) {
 }
 
 export function findMetricValueByY (chart, { key }, y) {
-  const { minMaxes, height, top } = chart
+  const { minMaxes, scale } = chart
 
-  if (!minMaxes) {
-    return
-  }
-
+  if (!minMaxes) return
   const { min, max } = minMaxes[key]
 
-  const factor = (max - min) / height
-
-  return factor * (height - (y - top)) + min
+  const calcValueByY = scale === logScale ? valueByLogY : valueByY
+  return calcValueByY(chart, y, min, max)
 }
 
 export function findMetricLastValue (data, { key }) {
@@ -104,12 +105,8 @@ export function drawHoveredSignal (chart, y, texts) {
   ctx.restore()
 }
 
-export function makeSignalDrawable (
-  { id, settings: { operation } },
-  chart,
-  scale
-) {
-  const { minMaxes } = chart
+export function makeSignalDrawable ({ id, settings: { operation } }, chart) {
+  const { minMaxes, scale } = chart
   if (!minMaxes || !minMaxes.price_usd) {
     return
   }

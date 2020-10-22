@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { plotGreenRedBars } from '@santiment-network/chart/bars/greenRedBars'
 import { buildPlotter } from './context'
 
-export default buildPlotter(plotter => {
+export default buildPlotter(({ plotter }) => {
   useEffect(() => {
     plotter.register(
       'greenRedBars',

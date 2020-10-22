@@ -6,7 +6,7 @@ import {
 } from '@santiment-network/chart/lines'
 import { buildPlotter } from './context'
 
-export default buildPlotter(plotter => {
+export default buildPlotter(({ plotter }) => {
   useEffect(() => {
     plotter.register('lines', (chart, scale, data, colors, categories) => {
       const { lines, filledLines, gradientLines } = categories

@@ -1,3 +1,5 @@
+import { getIntervalMilliseconds } from '../../../utils/dates'
+
 const OLD_DATE = { datetime: 0 }
 
 const newDataMapper = data => Object.assign({}, data)
@@ -15,6 +17,11 @@ export const normalizeDatetimes = data => ({
   ...data,
   datetime: +new Date(data.datetime)
 })
+
+export const normalizeInterval = (interval, minInterval) =>
+  getIntervalMilliseconds(interval) > getIntervalMilliseconds(minInterval)
+    ? interval
+    : minInterval
 
 function findDatetimeBorder (baseTs, cursor, targetDatetime) {
   const baseTsLength = baseTs.length

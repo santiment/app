@@ -1,9 +1,15 @@
-import React, { useContext, useState, useEffect, useReducer } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useState,
+  useEffect,
+  useReducer
+} from 'react'
 import { updateChartState } from '@santiment-network/chart'
 import { linearScale } from '@santiment-network/chart/scales'
-import { usePlotter } from './plotter'
-import { clearCtx } from './utils'
+import { Plotter, Observer } from './managers'
 import { domainModifier } from './domain'
+import { clearCtx } from './utils'
 
 const noop = () => {}
 const DEFAULT = []
@@ -12,8 +18,6 @@ export const useRedrawer = () => useReducer(REDUCER, DEFAULT)
 
 const ChartContext = React.createContext()
 const ChartSetterContext = React.createContext()
-const ChartPlotterContext = React.createContext()
-const ChartRedrawContext = React.createContext()
 
 export const ChartProvider = ({
   data,
@@ -23,9 +27,15 @@ export const ChartProvider = ({
   domainGroups,
   children
 }) => {
-  const [chart, setChart] = useState()
-  const plotter = usePlotter()
+  const [chart, _setChart] = useState()
   const [isAwaitingRedraw, redrawChart] = useRedrawer()
+  const setChart = useCallback(chart => {
+    chart.scale = scale
+    chart.redraw = redrawChart
+    chart.observer = Observer()
+    chart.plotter = Plotter()
+    _setChart(chart)
+  }, [])
 
   useEffect(
     () => {
@@ -37,7 +47,6 @@ export const ChartProvider = ({
 
       chart.scale = scale
       chart.colors = colors
-      chart.plotter = plotter
       chart.domainGroups = domainGroups
 
       updateChartState(
@@ -48,23 +57,18 @@ export const ChartProvider = ({
         domainGroups
       )
 
-      plotter.items.forEach(plot => {
+      chart.plotter.items.forEach(plot => {
         plot(chart, scale, data, colors, categories)
       })
+      chart.observer.emit()
     },
     [data, scale, colors, domainGroups, isAwaitingRedraw]
   )
 
   return (
-    <ChartPlotterContext.Provider value={plotter}>
-      <ChartRedrawContext.Provider value={redrawChart}>
-        <ChartSetterContext.Provider value={setChart}>
-          <ChartContext.Provider value={chart}>
-            {children}
-          </ChartContext.Provider>
-        </ChartSetterContext.Provider>
-      </ChartRedrawContext.Provider>
-    </ChartPlotterContext.Provider>
+    <ChartSetterContext.Provider value={setChart}>
+      <ChartContext.Provider value={chart}>{children}</ChartContext.Provider>
+    </ChartSetterContext.Provider>
   )
 }
 
@@ -74,21 +78,16 @@ ChartProvider.defaultProps = {
 
 export const useChart = () => useContext(ChartContext)
 export const useChartSetter = () => useContext(ChartSetterContext)
-export const useChartPlotter = () => useContext(ChartPlotterContext)
-export const useChartRedraw = () => useContext(ChartRedrawContext)
 export const buildPlotter = plotter => props => {
-  plotter(useChartPlotter(), props)
+  plotter(useChart(), props)
   return null
 }
-export function usePlotterRemove (id) {
-  const plotter = useChartPlotter()
-  const redrawChart = useChartRedraw()
-
+export function usePlotterRemove (chart, id) {
   useEffect(() => {
-    redrawChart()
+    chart.redraw()
     return () => {
-      plotter.register(id, noop)
-      redrawChart()
+      chart.plotter.register(id, noop)
+      chart.redraw()
     }
   }, [])
 }

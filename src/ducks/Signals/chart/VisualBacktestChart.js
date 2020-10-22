@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -79,11 +79,16 @@ const VisualBacktestChart = ({
   referenceDots,
   showTitle
 }) => {
-  const markup = generateMetricsMarkup(metrics, {
-    syncedColors: useChartColors(metrics),
-    activeDotEl: ActiveDot,
-    hideYAxis: true
-  })
+  const colors = useChartColors(metrics)
+  const markup = useMemo(
+    () =>
+      generateMetricsMarkup(metrics, {
+        syncedColors: colors,
+        activeDotEl: ActiveDot,
+        hideYAxis: true
+      }),
+    [metrics, colors, ActiveDot]
+  )
 
   const titleEnabled = showTitle && triggeredSignals.length > 0
 

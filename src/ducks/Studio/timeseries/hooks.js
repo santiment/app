@@ -2,7 +2,6 @@ import { useState, useEffect, useMemo } from 'react'
 import { getData, getQuery, getPreTransform } from './fetcher'
 import { normalizeDatetimes, mergeTimeseries } from './utils'
 import { substituteErrorMsg } from './errors'
-import { getAvailableInterval } from '../../dataHub/metrics/intervals'
 import { client } from '../../../apollo'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 
@@ -110,7 +109,7 @@ export function useTimeseries (
       let mergedData = []
 
       metrics.forEach(metric => {
-        const { key, reqMeta, fetch } = metric
+        const { key, queryKey = key, reqMeta, fetch } = metric
         const metricSettings = MetricSettingMap.get(metric)
         const queryId = client.queryManager.idCounter
         const abortController = new AbortController()
@@ -139,10 +138,10 @@ export function useTimeseries (
         })
 
         const variables = {
-          metric: key,
-          interval: getAvailableInterval(metric, interval),
-          to,
+          metric: queryKey,
+          interval,
           from,
+          to,
           slug,
           address,
           ...reqMeta,

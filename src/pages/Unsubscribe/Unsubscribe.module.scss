@@ -1,3 +1,5 @@
+@import '~@santiment-network/ui/mixins';
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -7,5 +9,22 @@
   padding: 0 20px;
   text-align: center;
   margin: 0 auto;
-  height: 100%;
+  height: calc(90vh - 70px);
+}
+
+.heading {
+  @include text('body-1', 'm');
+
+  margin: 16px 0 12px;
+}
+
+.desc {
+  @include text('body-2');
+
+  margin: 0 0 24px;
+}
+
+.btn {
+  min-width: 120px;
+  justify-content: center;
 }

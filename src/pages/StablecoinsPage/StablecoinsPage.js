@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
+import { getTimerangePeriod } from '../../utils/dates'
 import StablecoinsMarketCap from '../../ducks/Stablecoins/StablecoinsMarketCap/StablecoinsMarketCap'
 import StablecoinHolderDistribution from '../../ducks/Stablecoins/HolderDistribution/StablecoinHolderDistribution'
 import StablecoinsTransactions from '../../ducks/Stablecoins/StablecoinsTransactions/StablecoinsTransactions'
@@ -17,7 +18,6 @@ import CurrentPageReport from '../../ducks/Stablecoins/StablecoinsReport/Current
 import ResearchesBlock from '../../components/ResearchesBlock'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import SharePage from '../../components/SharePage/SharePage'
-import { getIntervalDates } from '../../ducks/SANCharts/IntervalSelector'
 import NetExchangeFlow from '../../ducks/Stablecoins/NetExchangeFlow/NetExchangeFlow'
 import { isStage } from '../../utils/utils'
 import styles from './StablecoinsPage.module.scss'
@@ -154,7 +154,7 @@ const StablecoinsPage = ({ history, isDesktop }) => {
             title='Largest Stablecoin Transactions (last 24h)'
             description='Select an asset to view their largest transactions in the last 24 hours'
           >
-            <StablecoinsTransactions {...getIntervalDates('24h')} />
+            <StablecoinsTransactions {...getTimerangePeriod('24h')} />
           </Block>
 
           <Block
