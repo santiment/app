@@ -10,7 +10,7 @@ import styles from './index.module.scss'
 
 const SHOW_STEP = 6
 
-const charts = [Metric.social_volume_total]
+const metrics = [Metric.social_volume_total]
 
 const SocialGrid = ({
   className,
@@ -54,7 +54,7 @@ const SocialGrid = ({
             title={topic.title || topic.slug}
             link={topic.query || topic.slug}
             createdAt={createdAt}
-            charts={charts}
+            metrics={metrics}
             onTopicClick={onTopicClick}
             settings={SETTINGS}
             onLoad={onLoad}
