@@ -34,7 +34,7 @@ const Canvas = ({
       categories={categories}
     >
       <Bars />
-      <Tooltip />
+      <Tooltip setCurrentPoint={setCurrentPoint} />
       <Signals
         {...settings}
         width={13}
