@@ -9,8 +9,8 @@ import { isStage } from '../../../utils/utils'
 import styles from './ActiveMetrics.module.scss'
 
 const API_TEST_URL = isStage
-  ? 'http://api-tests-staging.s3.amazonaws.com/latest-report.json'
-  : 'http://api-tests-production.s3.amazonaws.com/latest-report.json'
+  ? 'https://apitestsweb-stage.santiment.net/gql_test_suite/latest.json'
+  : 'https://apitestsweb-production.santiment.net/gql_test_suite/latest.json'
 
 const Customization = ({ metric, isActive, onClick }) => (
   <div className={cx(styles.settings, isActive && styles.settings_active)}>
