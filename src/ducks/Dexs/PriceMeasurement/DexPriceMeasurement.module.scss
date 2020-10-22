@@ -8,8 +8,10 @@
   display: flex;
   align-items: center;
   color: var(--waterloo);
+  justify-content: center;
 
-  @include text('body-3'); }
+  @include text('body-3');
+}
 
 .btn {
   @include text('body-3');
