@@ -19,8 +19,7 @@ function plotTooltip (chart, point) {
 
   drawHoverLineX(chart, x, hoverLineColor, 0)
   drawHoverLineY(chart, y, hoverLineColor, -5)
-
-  drawAlertPlus(chart, y)
+  drawAlertPlus(chart, y, -4)
 }
 
 const Tooltip = () => {

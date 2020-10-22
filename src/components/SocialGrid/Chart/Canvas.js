@@ -37,6 +37,7 @@ const Canvas = ({
       <Tooltip />
       <Signals
         {...settings}
+        width={13}
         data={data}
         useShortRecord
         metrics={metrics}
