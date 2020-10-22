@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo } from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -20,20 +20,25 @@ const Item = ({
   title,
   link,
   createdAt,
-  charts,
+  metrics,
   show,
   onLoad,
   settings,
   createSignal
 }) => {
-  const MetricSettingMap = new Map()
+  const MetricSettingMap = useMemo(
+    () => {
+      const MetricSettingMap = new Map()
 
-  MetricSettingMap.set(charts[0], {
-    selector: 'text',
-    slug: topic
-  })
+      MetricSettingMap.set(metrics[0], {
+        selector: 'text',
+        slug: topic
+      })
 
-  const [map] = useState(MetricSettingMap)
+      return MetricSettingMap
+    },
+    [metrics]
+  )
 
   return show ? (
     <article className={styles.wrapper}>
@@ -99,10 +104,10 @@ const Item = ({
       </div>
       <Chart
         topic={topic}
-        charts={charts}
+        metrics={metrics}
         settings={settings}
         onLoad={onLoad}
-        settingMap={map}
+        settingMap={MetricSettingMap}
         className={styles.chart}
       />
     </article>
