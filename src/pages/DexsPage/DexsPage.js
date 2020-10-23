@@ -4,8 +4,9 @@ import { Helmet } from 'react-helmet'
 import gql from 'graphql-tag'
 import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
+import { withRenderQueueProvider } from '../../components/DashboardMetricChart/renderQueue'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
-import { Block } from '../StablecoinsPage/StablecoinsPageStructure'
+import { ProOnlyBlock as Block } from '../StablecoinsPage/StablecoinsPageStructure'
 import ResearchesBlock from '../../components/ResearchesBlock'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import SharePage from '../../components/SharePage/SharePage'
@@ -151,4 +152,4 @@ const DexsPage = ({ history }) => {
   )
 }
 
-export default DexsPage
+export default withRenderQueueProvider(DexsPage)
