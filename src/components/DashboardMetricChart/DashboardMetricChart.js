@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useRef, useCallback, useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
 import {
   useAllTimeData,
   useTimeseries
 } from '../../ducks/Studio/timeseries/hooks'
+import { Skeleton } from '../../components/Skeleton'
 import DashboardChartHeaderWrapper, {
   DashboardIntervals
 } from './DashboardChartHeader/DashboardChartHeaderWrapper'
@@ -25,6 +26,8 @@ import { extractMirrorMetricsDomainGroups } from '../../ducks/Chart/utils'
 import PaywallInfo from '../../ducks/Studio/Chart/PaywallInfo'
 import DexPriceMeasurement from '../../ducks/Dexs/PriceMeasurement/DexPriceMeasurement'
 import styles from './DashboardMetricChart.module.scss'
+
+import { useRenderQueue } from './renderQueue'
 
 const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
   const allTimeData = useAllTimeData(metrics, {
@@ -54,23 +57,6 @@ const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
   }
 }
 
-/*
-const useChartTimeseries = (settings, metrics, rootMetric) => {
-  const [data, loadings] = useTimeseries(
-    metrics,
-    // HACK: Since the metric's hash doesn't change (done on purpose), forcing useTimseries to refetch data with new queryKey
-    // This allows us to compute chart colors and tooltip info only at the app start. [@vanguard | Sep 8, 2020]
-    useMemo(() => ({ ...settings }), [settings, rootMetric])
-  )
-
-  return {
-    data,
-    loadings,
-    rootMetric
-  }
-}
-*/
-
 const DashboardMetricChart = ({
   className,
   metrics,
@@ -83,7 +69,8 @@ const DashboardMetricChart = ({
   metricsColor,
   setMeasurement,
   measurement,
-  sliceMetricsCount = 1
+  sliceMetricsCount = 1,
+  onLoad
 }) => {
   const MetricTransformer = useMirroredTransformer(metrics)
 
@@ -142,8 +129,15 @@ const DashboardMetricChart = ({
 
   const MetricColor = useChartColors(activeMetrics, metricsColor)
 
+  useEffect(
+    () => {
+      if (onLoad && loadings.length === 0) onLoad()
+    },
+    [loadings]
+  )
+
   return (
-    <div className={cx(styles.container, className)}>
+    <>
       <DashboardChartHeaderWrapper>
         <DashboardMetricSelectors
           metricSelectors={metricSelectors}
@@ -221,8 +215,26 @@ const DashboardMetricChart = ({
           colors={MetricColor}
         />
       </MobileOnly>
+    </>
+  )
+}
+
+/* export const QueuedDashboardMetricChart = ({ className, ...props }) => { */
+export default ({ className, ...props }) => {
+  const { useRenderQueueItem } = useRenderQueue()
+  const containerRef = useRef()
+  const { isRendered, onLoad } = useRenderQueueItem(containerRef)
+
+  return (
+    <div ref={containerRef} className={cx(styles.container, className)}>
+      {isRendered && <DashboardMetricChart {...props} onLoad={onLoad} />}
+      <Skeleton show={!isRendered} className={styles.skeleton} />
     </div>
   )
 }
 
-export default DashboardMetricChart
+/* export default ({ className, ...props }) => (
+ *   <div className={cx(styles.container, className)}>
+ *     <DashboardMetricChart {...props} />
+ *   </div>
+ * ) */

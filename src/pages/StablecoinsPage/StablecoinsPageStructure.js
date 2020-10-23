@@ -59,6 +59,21 @@ export const Block = ({
   )
 }
 
+export const ProOnlyBlock = ({
+  title,
+  description,
+  children,
+  tag,
+  className
+}) => {
+  return (
+    <div className={cx(styles.block, className)} id={tag}>
+      <BlockHeader title={title} description={description} />
+      <CheckProPaywall>{children}</CheckProPaywall>
+    </div>
+  )
+}
+
 export const BlockWithRanges = ({
   title,
   description,
