@@ -54,6 +54,7 @@ const priceFormatter = Metric.price_usd.formatter
 const DEFAULT_SIGNALS = []
 
 const Signals = ({
+  width,
   slug,
   selector = 'slug',
   chart,
@@ -158,7 +159,7 @@ const Signals = ({
       onMouseLeave={onMouseLeave}
       className={styles.wrapper}
       style={{
-        width: chart.padding.right,
+        width: width || chart.padding.right,
         height: chart.height + chart.top
       }}
     >

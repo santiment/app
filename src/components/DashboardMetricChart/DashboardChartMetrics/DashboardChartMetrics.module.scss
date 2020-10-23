@@ -34,6 +34,11 @@
   color: var(--casper);
 }
 
+.loading {
+  display: flex;
+  justify-content: center;
+}
+
 .btnInner {
   padding: 6px 8px 6px 5px;
   display: flex;

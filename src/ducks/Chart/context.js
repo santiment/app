@@ -11,9 +11,9 @@ import { Plotter, Observer } from './managers'
 import { domainModifier } from './domain'
 import { clearCtx } from './utils'
 
-const noop = () => {}
 const DEFAULT = []
 const REDUCER = () => []
+export const noop = () => {}
 export const useRedrawer = () => useReducer(REDUCER, DEFAULT)
 
 const ChartContext = React.createContext()

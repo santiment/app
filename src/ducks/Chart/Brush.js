@@ -4,7 +4,7 @@ import {
   updateBrushState,
   updateBrushDimensions
 } from '@santiment-network/chart/brush'
-import { useChart, useRedrawer } from './context'
+import { useChart } from './context'
 import { dayBrushPaintConfig, nightBrushPaintConfig } from './paintConfigs'
 import { clearCtx } from './utils'
 import { useTheme } from '../../stores/ui/theme'
@@ -19,6 +19,7 @@ function getBrushPlotItems ({ items }) {
   brushItems.delete('cartesianGrid')
   brushItems.delete('axes')
   brushItems.delete('watermark')
+  brushItems.delete('lastDayPrice')
 
   return brushItems
 }
@@ -36,31 +37,27 @@ const Brush = ({
   const chart = useChart()
   const { isNightMode } = useTheme()
   const [brush, setBrush] = useState()
-  const [isAwaitingRedraw, requestRedraw] = useRedrawer()
 
   if (brush) {
     brush.onChangeEnd = onChangeEnd
   }
 
-  useEffect(
-    () => {
-      const width = chart.canvasWidth
+  useEffect(() => {
+    const width = chart.canvasWidth
 
-      const brush = initBrush(chart, width, BRUSH_HEIGHT, dayBrushPaintConfig)
-      brush.canvas.classList.add(brushClassName)
+    const brush = initBrush(chart, width, BRUSH_HEIGHT, dayBrushPaintConfig)
+    brush.canvas.classList.add(brushClassName)
 
-      brush.plotBrushData = noop
-      brush.redraw = noop
-      brush.updateWidth = width => {
-        updateBrushDimensions(brush, width, BRUSH_HEIGHT)
-        brush.redraw()
-      }
+    brush.plotBrushData = noop
+    brush.redraw = noop
+    brush.updateWidth = width => {
+      updateBrushDimensions(brush, width, BRUSH_HEIGHT)
+      brush.redraw()
+    }
 
-      chart.brush = brush
-      setBrush(brush)
-    },
-    [chart]
-  )
+    chart.brush = brush
+    setBrush(brush)
+  }, [])
 
   useEffect(
     () => {
@@ -98,7 +95,8 @@ const Brush = ({
         brush.startIndex = startIndex
         brush.endIndex = endIndex
 
-        requestRedraw()
+        clearCtx(brush)
+        brush.redraw()
       }
     },
     [brush, data, from, to]
@@ -124,7 +122,7 @@ const Brush = ({
 
       brush.redraw()
     },
-    [brush, data, colors, domainGroups, isNightMode, isAwaitingRedraw]
+    [brush, data, colors, domainGroups, isNightMode]
   )
 
   return null
