@@ -13,5 +13,6 @@ export const PATHS = {
   UNISWAP_PROTOCOL: '/uniswap-protocol',
   SHEETS_TEMPLATES: '/sheets/daa-vs-price',
   LABELS: '/labels',
-  DEXS: '/decentralized-exchanges'
+  DEXS: '/decentralized-exchanges',
+  BTC_LOCKED: '/bitcoin-locked-on-ethereum'
 }
