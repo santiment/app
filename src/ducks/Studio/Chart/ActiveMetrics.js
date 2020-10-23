@@ -34,7 +34,7 @@ const MetricButton = ({
   isWithSettings,
   toggleMetric,
   errorsForMetrics,
-  project,
+  settings,
   onSettingsClick,
   ...rest
 }) => {
@@ -69,7 +69,7 @@ const MetricButton = ({
       <MetricErrorExplanation
         errorsForMetrics={errorsForMetrics}
         metric={metric}
-        project={project}
+        settings={settings}
       />
 
       {isRemovable && (
@@ -105,7 +105,7 @@ export default ({
   onMetricHover,
   onMetricHoverEnd,
   onSettingsClick,
-  project
+  settings
 }) => {
   const isMoreThanOneMetric = activeMetrics.length > 1 || !isSingleWidget
   const [errorsForMetrics, setErrorsForMetrics] = useState()
@@ -128,7 +128,7 @@ export default ({
   }, [])
 
   const errors =
-    project && errorsForMetrics ? errorsForMetrics[project.slug] : {}
+    settings && errorsForMetrics ? errorsForMetrics[settings.slug] : {}
 
   return activeMetrics.map((metric, i) => (
     <MetricButton
@@ -147,7 +147,7 @@ export default ({
       onMouseLeave={onMetricHoverEnd && (() => onMetricHoverEnd(metric))}
       onSettingsClick={onSettingsClick}
       errorsForMetrics={errors}
-      project={project}
+      settings={settings}
     />
   ))
 }
