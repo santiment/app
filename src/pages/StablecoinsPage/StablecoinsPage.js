@@ -19,9 +19,8 @@ import ResearchesBlock from '../../components/ResearchesBlock'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import SharePage from '../../components/SharePage/SharePage'
 import NetExchangeFlow from '../../ducks/Stablecoins/NetExchangeFlow/NetExchangeFlow'
+import { isStage } from '../../utils/utils'
 import styles from './StablecoinsPage.module.scss'
-
-const isStage = window.location && window.location.href.indexOf('stage') !== -1
 
 const ANCHORS = {
   Overview: {
