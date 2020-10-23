@@ -9,9 +9,7 @@ const MetricErrorExplanation = ({ errorsForMetrics, metric, settings }) => {
     () => {
       const { errors_timeseries_metrics } = errorsForMetrics || {}
       return errors_timeseries_metrics
-        ? errors_timeseries_metrics.find(
-          ({ metric: metricType }) => metricType === metric.key
-        )
+        ? errors_timeseries_metrics.find(({ name }) => name === metric.key)
         : ''
     },
     [errorsForMetrics, metric]
@@ -21,7 +19,7 @@ const MetricErrorExplanation = ({ errorsForMetrics, metric, settings }) => {
     return null
   }
 
-  const text = `Hi, there is a problem with metric '${metric.label}' for ${
+  const text = `There is a problem with metric '${metric.label}' for ${
     settings.slug
   }.`
 
