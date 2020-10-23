@@ -4,7 +4,7 @@ import {
   updateBrushState,
   updateBrushDimensions
 } from '@santiment-network/chart/brush'
-import { useChart } from './context'
+import { useChart, useRedrawer } from './context'
 import { dayBrushPaintConfig, nightBrushPaintConfig } from './paintConfigs'
 import { clearCtx } from './utils'
 import { useTheme } from '../../stores/ui/theme'
@@ -37,6 +37,7 @@ const Brush = ({
   const chart = useChart()
   const { isNightMode } = useTheme()
   const [brush, setBrush] = useState()
+  const [isAwaitingRedraw, requestRedraw] = useRedrawer()
 
   if (brush) {
     brush.onChangeEnd = onChangeEnd
@@ -95,8 +96,7 @@ const Brush = ({
         brush.startIndex = startIndex
         brush.endIndex = endIndex
 
-        clearCtx(brush)
-        brush.redraw()
+        requestRedraw()
       }
     },
     [brush, data, from, to]
@@ -122,7 +122,7 @@ const Brush = ({
 
       brush.redraw()
     },
-    [brush, data, colors, domainGroups, isNightMode]
+    [brush, data, colors, domainGroups, isNightMode, isAwaitingRedraw]
   )
 
   return null
