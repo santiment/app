@@ -1,34 +1,59 @@
-import React, { useState, useContext, useCallback, useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 
-function checkIsInViewport (container) {
+function checkIsInViewport(container) {
   const { y, height } = container.getBoundingClientRect()
   const shouldBeInViewport = height * 0.3
 
   return y > -shouldBeInViewport && y + height < height + shouldBeInViewport
 }
 
-function RenderQueue () {
+function RenderQueue() {
   const queue = []
+  const ItemRenderMap = new Map()
   let isLookingForViewportItem = true
+  let timer
+
+  function render() {
+    const item = queue.shift()
+    ItemRenderMap.get(item)(true)
+  }
+
+  function scheduleRender() {
+    if (queue.length) {
+      timer = setTimeout(render, 50)
+    } else {
+      ItemRenderMap.clear()
+    }
+  }
+
+  function register(item, render) {
+    clearTimeout(timer)
+
+    ItemRenderMap.set(item, render)
+    scheduleRender()
+
+    return () => clearTimeout(timer)
+  }
 
   return {
-    useRenderQueueItem (ref) {
+    useRenderQueueItem(ref) {
       const [isRendered, setIsRendered] = useState(false)
-      const onLoad = useCallback(() => {}, [])
 
       useEffect(() => {
         const container = ref.current
 
         if (isLookingForViewportItem && checkIsInViewport(container)) {
           isLookingForViewportItem = false
-          return setIsRendered(true)
+          queue.unshift(container)
+        } else {
+          queue.push(container)
         }
 
-        queue.push(container)
+        return register(container, setIsRendered)
       }, [])
 
-      return { isRendered, onLoad }
-    }
+      return { isRendered, onLoad: scheduleRender }
+    },
   }
 }
 
@@ -40,7 +65,7 @@ export const RenderQueueProvider = ({ children }) => (
     {children}
   </RenderQueueContext.Provider>
 )
-export const withRenderQueueProvider = Component => props => (
+export const withRenderQueueProvider = (Component) => (props) => (
   <RenderQueueProvider>
     <Component {...props} />
   </RenderQueueProvider>
