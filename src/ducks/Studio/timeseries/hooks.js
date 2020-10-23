@@ -209,8 +209,7 @@ const DEFAULT_BRUSH_SETTINGS = {
   ...getIntervalByTimeRange('all')
 }
 
-export function useAllTimeData (metrics, settings, MetricSettingMap) {
-  const { slug } = settings
+export function useAllTimeData (metrics, { slug }, MetricSettingMap) {
   const brushSettings = useMemo(
     () => ({
       ...DEFAULT_BRUSH_SETTINGS,
@@ -218,7 +217,5 @@ export function useAllTimeData (metrics, settings, MetricSettingMap) {
     }),
     [slug]
   )
-  const [allTimeData] = useTimeseries(metrics, brushSettings, MetricSettingMap)
-
-  return allTimeData
+  return useTimeseries(metrics, brushSettings, MetricSettingMap)
 }

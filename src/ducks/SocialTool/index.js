@@ -54,7 +54,11 @@ const SocialTool = ({
     MetricSettingMap
   )
   const data = useEdgeGaps(rawData)
-  const allTimeData = useAllTimeData(activeMetrics, settings, MetricSettingMap)
+  const [allTimeData] = useAllTimeData(
+    activeMetrics,
+    settings,
+    MetricSettingMap
+  )
   const [shareLink, setShareLink] = useState('')
   const chartRef = useRef(null)
 

@@ -30,8 +30,8 @@ import styles from './DashboardMetricChart.module.scss'
 import { useRenderQueue } from './renderQueue'
 
 const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
-  const allTimeData = useAllTimeData(metrics, {
-    slug: slug
+  const [allTimeData, allTimeDataLoadings] = useAllTimeData(metrics, {
+    slug
   })
 
   const onBrushChangeEnd = useCallback(
@@ -53,6 +53,7 @@ const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
 
   return {
     allTimeData,
+    allTimeDataLoadings,
     onBrushChangeEnd
   }
 }
@@ -115,7 +116,7 @@ const DashboardMetricChart = ({
     MetricTransformer
   )
 
-  const { allTimeData, onBrushChangeEnd } = useBrush({
+  const { allTimeData, allTimeDataLoadings, onBrushChangeEnd } = useBrush({
     settings,
     setSettings,
     data,
@@ -131,9 +132,11 @@ const DashboardMetricChart = ({
 
   useEffect(
     () => {
-      if (onLoad && loadings.length === 0) onLoad()
+      if (onLoad && allTimeDataLoadings.length === 0 && loadings.length === 0) {
+        onLoad()
+      }
     },
-    [loadings]
+    [loadings, allTimeDataLoadings]
   )
 
   return (
@@ -219,10 +222,9 @@ const DashboardMetricChart = ({
   )
 }
 
-/* export const QueuedDashboardMetricChart = ({ className, ...props }) => { */
-export default ({ className, ...props }) => {
-  const { useRenderQueueItem } = useRenderQueue()
+export const QueuedDashboardMetricChart = ({ className, ...props }) => {
   const containerRef = useRef()
+  const { useRenderQueueItem } = useRenderQueue()
   const { isRendered, onLoad } = useRenderQueueItem(containerRef)
 
   return (
@@ -233,8 +235,8 @@ export default ({ className, ...props }) => {
   )
 }
 
-/* export default ({ className, ...props }) => (
- *   <div className={cx(styles.container, className)}>
- *     <DashboardMetricChart {...props} />
- *   </div>
- * ) */
+export default ({ className, ...props }) => (
+  <div className={cx(styles.container, className)}>
+    <DashboardMetricChart {...props} />
+  </div>
+)
