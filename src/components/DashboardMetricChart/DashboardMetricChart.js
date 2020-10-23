@@ -1,10 +1,11 @@
 import React, { useRef, useCallback, useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
+import { useRenderQueue } from './renderQueue'
+import { Skeleton } from '../../components/Skeleton'
 import {
   useAllTimeData,
   useTimeseries
 } from '../../ducks/Studio/timeseries/hooks'
-import { Skeleton } from '../../components/Skeleton'
 import DashboardChartHeaderWrapper, {
   DashboardIntervals
 } from './DashboardChartHeader/DashboardChartHeaderWrapper'
@@ -26,8 +27,6 @@ import { extractMirrorMetricsDomainGroups } from '../../ducks/Chart/utils'
 import PaywallInfo from '../../ducks/Studio/Chart/PaywallInfo'
 import DexPriceMeasurement from '../../ducks/Dexs/PriceMeasurement/DexPriceMeasurement'
 import styles from './DashboardMetricChart.module.scss'
-
-import { useRenderQueue } from './renderQueue'
 
 const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
   const [allTimeData, allTimeDataLoadings] = useAllTimeData(metrics, {

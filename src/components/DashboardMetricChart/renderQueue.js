@@ -4,7 +4,7 @@ function checkIsInViewport (container) {
   const { y, height } = container.getBoundingClientRect()
   const shouldBeInViewport = height * 0.3
 
-  return y > -shouldBeInViewport && y + height < height + shouldBeInViewport
+  return y > -shouldBeInViewport && y < shouldBeInViewport
 }
 
 function RenderQueue () {
