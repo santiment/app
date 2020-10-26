@@ -90,8 +90,6 @@ const DashboardMetricChart = ({
     ...defaultInterval.requestParams
   })
 
-  console.log('settings', settings, metrics)
-
   const [intervalSelector, setIntervalSelector] = useState(defaultInterval)
   const [disabledMetrics, setDisabledMetrics] = useState({})
 

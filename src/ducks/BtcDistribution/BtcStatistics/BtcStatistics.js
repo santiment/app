@@ -1,11 +1,13 @@
 import React from 'react'
 import TotalBtcCard from './TotalBtcCard'
+import BtcCirculationSupply from './BtcCirculationSupply'
 import styles from './BtcStatistics.module.scss'
 
 const BtcStatistics = ({ settings }) => {
   return (
     <div className={styles.container}>
       <TotalBtcCard settings={settings} />
+      <BtcCirculationSupply settings={settings} />
     </div>
   )
 
