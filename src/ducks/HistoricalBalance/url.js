@@ -6,7 +6,8 @@ const URL_FORMAT = { arrayFormat: 'bracket' }
 export const slugExtractor = ({ slug }) => slug
 export const assetConvertor = slug => ({ slug })
 
-export function generateSearchQuery (address, chartAssets, priceAssets) {
+export function generateSearchQuery (settings, chartAssets, priceAssets) {
+  const { address, from, to } = settings
   const assets = chartAssets.map(slugExtractor)
   const priceMetrics = priceAssets
 
@@ -14,24 +15,26 @@ export function generateSearchQuery (address, chartAssets, priceAssets) {
     {
       address,
       assets,
-      priceMetrics
+      priceMetrics,
+      from: from,
+      to: to
     },
     URL_FORMAT
   )
 }
 
-export function generateUrl (address, chartAssets, priceAssets) {
-  return BASE + generateSearchQuery(address, chartAssets, priceAssets)
+export function generateUrl (settings, chartAssets, priceAssets) {
+  return BASE + generateSearchQuery(settings, chartAssets, priceAssets)
 }
 
 export function parseUrl (url) {
-  const { address = '', assets = [], priceMetrics = [] } = parse(
+  const { address = '', assets = [], priceMetrics = [], from, to } = parse(
     url,
     URL_FORMAT
   )
 
   return {
-    settings: { address },
+    settings: { address, from, to },
     chartAssets: assets.map(assetConvertor),
     priceAssets: priceMetrics
   }
