@@ -271,5 +271,7 @@ export const METRICS = [
   'makerdao_bite_keeper_balance',
   'makerdao_cdp_owner_balance',
   'unlabeled_balance',
-  'all_known_balance'
+  'all_known_balance',
+
+  'total_supply'
 ]
