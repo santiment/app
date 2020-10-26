@@ -79,16 +79,21 @@ export const BlockWithRanges = ({
   description,
   el: El,
   tag,
-  checkPro = true
+  checkPro = true,
+  className
 }) => {
-  const [interval, setInterval] = useState('24h')
-  const [settings, setSettings] = useState(getTimerangePeriod(interval))
+  const [interval, setInterval] = useState('1d')
+  const [settings, setSettings] = useState({
+    ...getTimerangePeriod(interval),
+    interval
+  })
 
   useEffect(
     () => {
       setSettings({
         ...settings,
-        ...getTimerangePeriod(interval)
+        ...getTimerangePeriod(interval),
+        interval
       })
     },
     [interval]
@@ -97,7 +102,7 @@ export const BlockWithRanges = ({
   const Wrapper = checkPro ? CheckProPaywall : Fragment
 
   return (
-    <div className={styles.block} id={tag}>
+    <div className={cx(styles.block, className)} id={tag}>
       <BlockHeader
         title={title}
         description={description}

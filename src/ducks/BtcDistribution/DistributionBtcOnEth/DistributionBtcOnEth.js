@@ -16,7 +16,7 @@ function makeMetric (slug) {
   }
 }
 
-export const BTC_METRICS = [
+export const BTC_RELATED_ASSETS = [
   'wrapped-bitcoin',
   'renbtc',
   'imBTC',
@@ -27,7 +27,7 @@ export const BTC_METRICS = [
 ]
 
 export const BTC_SUPPORTED_METRICS = [
-  ...BTC_METRICS.map(makeMetric),
+  ...BTC_RELATED_ASSETS.map(makeMetric),
   {
     ...Metric.price_usd,
     label: 'Price ETH',

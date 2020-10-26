@@ -1,7 +1,7 @@
 import React from 'react'
 import { QueuedDashboardMetricChart as DashboardMetricChart } from '../../../components/DashboardMetricChart/DashboardMetricChart'
 import { DEFAULT_INTERVAL_SELECTORS } from '../../../components/DashboardMetricChart/utils'
-import { BTC_METRICS } from '../DistributionBtcOnEth/DistributionBtcOnEth'
+import { BTC_RELATED_ASSETS } from '../DistributionBtcOnEth/DistributionBtcOnEth'
 import { Metric } from '../../dataHub/metrics'
 
 const METRICS = [
@@ -11,7 +11,7 @@ const METRICS = [
     node: 'area',
     domainGroup: 'btc_locked',
     reqMeta: {
-      slugs: BTC_METRICS
+      slugs: BTC_RELATED_ASSETS
     }
   },
   {
