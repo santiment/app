@@ -52,6 +52,21 @@ const HistoricalBalance = ({
     setPriceAssets([...priceAssetsSet])
   }
 
+  function updateChartAssets (newChartAssets) {
+    const { length } = newChartAssets
+    if (length > 5) return
+
+    const lastAsset = newChartAssets[length - 1]
+    if (chartAssets.length < length && lastAsset) {
+      const { slug } = lastAsset
+      if (!priceAssets.includes(slug)) {
+        setPriceAssets([...priceAssets, slug])
+      }
+    }
+
+    setChartAssets(newChartAssets)
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={cx(styles.settings, isPhone && styles.settings_phone)}>
@@ -67,7 +82,7 @@ const HistoricalBalance = ({
           walletAssets={walletAssets}
           chartAssets={chartAssets}
           isLoading={isLoading}
-          setChartAssets={setChartAssets}
+          setChartAssets={updateChartAssets}
         />
       </div>
       <Configurations
