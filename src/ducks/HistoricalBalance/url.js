@@ -38,8 +38,16 @@ export function parseUrl (url) {
     isLog
   } = parse(url, URL_FORMAT)
 
+  const settings = { address }
+
+  if (from && to) {
+    settings.from = from
+    settings.to = to
+    settings.timeRange = undefined
+  }
+
   return {
-    settings: { address, from, to, timeRange: undefined },
+    settings,
     chartAssets: assets.map(assetConvertor),
     priceAssets: priceMetrics,
     isLog: isLog === 'true'
