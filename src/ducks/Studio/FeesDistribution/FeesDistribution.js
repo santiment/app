@@ -10,6 +10,8 @@ import PageLoader from '../../../components/Loader/PageLoader'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import MakeProSubscriptionCard from '../../../pages/feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
 import { convertToReadableInterval } from '../../../utils/dates'
+import { getTimePeriod } from '../../../pages/TrendsExplore/utils'
+import DaysSelector from './DaySelector'
 import styles from './FeesDistribution.module.scss'
 
 export const FEE_RANGES = [
@@ -80,6 +82,7 @@ const FeesDistribution = ({ onDisable }) => {
         <FeesDistributionChart
           className={styles.chart}
           settings={settings}
+          interval={interval}
           onDisable={onDisable}
         />
       ) : (
@@ -89,8 +92,16 @@ const FeesDistribution = ({ onDisable }) => {
   )
 }
 
-export const FeesDistributionChart = ({ className, settings, onDisable }) => {
-  const { data, loading, error } = useFeeDistributions(settings)
+export const FeesDistributionChart = ({
+  className,
+  settings,
+  onDisable,
+  interval
+}) => {
+  const [selectedPeriod, setSelectedPeriod] = useState(null)
+  const { data, loading, error } = useFeeDistributions(
+    selectedPeriod ? { ...settings, ...selectedPeriod } : { ...settings }
+  )
 
   const prepared = useMemo(
     () => {
@@ -112,6 +123,12 @@ export const FeesDistributionChart = ({ className, settings, onDisable }) => {
 
   return (
     <div className={cx(styles.container, className)}>
+      {interval === '1d' && (
+        <DaysSelector
+          className={styles.daysSelector}
+          onDayChange={date => setSelectedPeriod(getTimePeriod(date))}
+        />
+      )}
       {loading ? (
         <PageLoader />
       ) : (
