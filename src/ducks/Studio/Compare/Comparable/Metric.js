@@ -28,23 +28,21 @@ export const SEARCH_PREDICATE_ONLY_METRICS = searchTerm => {
 }
 
 const MetricSearch = withMetrics(
-  ({ slug, categories, loading, className, ...rest }) => {
-    return (
-      <Search
-        {...rest}
-        searchPredicate={SEARCH_PREDICATE_ONLY_METRICS}
-        className={cx(className, loading && styles.loading)}
-        categories={CustomProjectCategories[slug] || categories}
-        emptySuggestions={getMetricSuggestions({
-          categories: CustomProjectCategories[slug] || categories,
-          predicate: SEARCH_PREDICATE_ONLY_METRICS
-        })}
-        inputProps={{
-          placeholder: 'Type to search metrics...'
-        }}
-      />
-    )
-  }
+  ({ slug, categories, loading, className, ...rest }) => (
+    <Search
+      {...rest}
+      searchPredicate={SEARCH_PREDICATE_ONLY_METRICS}
+      className={cx(className, loading && styles.loading)}
+      categories={CustomProjectCategories[slug] || categories}
+      emptySuggestions={getMetricSuggestions({
+        categories: CustomProjectCategories[slug] || categories,
+        predicate: SEARCH_PREDICATE_ONLY_METRICS
+      })}
+      inputProps={{
+        placeholder: 'Type to search metrics...'
+      }}
+    />
+  )
 )
 
 const Label = ({ comparable, editMetric, colors }) => {

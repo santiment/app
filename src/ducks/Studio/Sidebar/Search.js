@@ -50,8 +50,7 @@ export const getMetricSuggestions = ({
         }
 
         if (subitems && subitems.length > 0) {
-          const filtered = subitems.filter(predicateChecker)
-          items.push(...filtered)
+          items.push(...subitems.filter(predicateChecker))
         }
       })
     }
@@ -73,17 +72,15 @@ const Search = ({
   searchPredicate,
   ...rest
 }) => {
-  const data = getMetricSuggestions({
-    categories,
-    onChainDefault,
-    predicate: searchPredicate || predicateFunction
-  })
-
   return (
     <SearchWithSuggestions
       {...rest}
       withMoreSuggestions={false}
-      data={data}
+      data={getMetricSuggestions({
+        categories,
+        onChainDefault,
+        predicate: searchPredicate || predicateFunction
+      })}
       onSuggestionSelect={({ item }) => toggleMetric(item)}
       dontResetStateAfterSelection
     />
