@@ -3,14 +3,22 @@ import { SearchWithSuggestions } from '@santiment-network/ui/Search'
 
 const ON_CHAIN_DEFAULT = []
 
+export const checkMatch = (upperCaseSearchTerm, abbreviation, label) => {
+  if (!upperCaseSearchTerm) {
+    return true
+  }
+
+  return (
+    (abbreviation &&
+      abbreviation.toUpperCase().includes(upperCaseSearchTerm)) ||
+    (label && label.toUpperCase().includes(upperCaseSearchTerm))
+  )
+}
+
 const predicateFunction = searchTerm => {
-  const upperCaseSearchTerm = searchTerm.toUpperCase()
+  const upperCaseSearchTerm = searchTerm ? searchTerm.toUpperCase() : ''
   return ({ label, abbreviation }) => {
-    return (
-      (abbreviation &&
-        abbreviation.toUpperCase().includes(upperCaseSearchTerm)) ||
-      (label && label.toUpperCase().includes(upperCaseSearchTerm))
-    )
+    return checkMatch(upperCaseSearchTerm, abbreviation, label)
   }
 }
 
@@ -22,19 +30,27 @@ export const getMetricSuggestions = ({
   predicate = predicateFunction
 }) => {
   const suggestions = []
+
+  const predicateChecker = predicate()
+
   for (const categoryKey in categories) {
     const category = categories[categoryKey]
-    const items = categoryKey === 'On-chain' ? onChainDefault.slice() : []
+    const items =
+      categoryKey === 'On-chain'
+        ? onChainDefault.slice().filter(predicateChecker)
+        : []
     for (const group in category) {
-      const groupItems = category[group]
+      const list = category[group]
 
-      groupItems.forEach(groupItems => {
+      list.forEach(groupItems => {
         const { item, subitems } = groupItems
 
-        items.push(item)
+        if (predicateChecker(item)) {
+          items.push(item)
+        }
 
         if (subitems && subitems.length > 0) {
-          items.push(...subitems)
+          items.push(...subitems.filter(predicateChecker))
         }
       })
     }
