@@ -15,6 +15,7 @@ const HistoricalBalance = ({
   defaultSettings,
   defaultChartAssets,
   defaultPriceAssets,
+  defaultIsLog,
   isPhone
 }) => {
   const { settings, changeTimePeriod, onAddressChange } = useSettings(
@@ -23,7 +24,7 @@ const HistoricalBalance = ({
   const { walletAssets, isLoading, isError } = useWalletAssets(settings.address)
   const [chartAssets, setChartAssets] = useState(defaultChartAssets)
   const [priceAssets, setPriceAssets] = useState(defaultPriceAssets)
-  const [isLog, setIsLog] = useState(false)
+  const [isLog, setIsLog] = useState(defaultIsLog)
   const metrics = useWalletMetrics(chartAssets, priceAssets)
   const axesTicks = useResponsiveTicks(isPhone)
 
@@ -107,7 +108,8 @@ const HistoricalBalance = ({
         React.cloneElement(child, {
           settings,
           chartAssets,
-          priceAssets
+          priceAssets,
+          isLog
         })
       )}
     </div>
@@ -116,7 +118,8 @@ const HistoricalBalance = ({
 
 HistoricalBalance.defaultProps = {
   defaultChartAssets: [],
-  defaultPriceAssets: []
+  defaultPriceAssets: [],
+  defaultIsLog: false
 }
 
 export default withDefaults(withSizes(HistoricalBalance))

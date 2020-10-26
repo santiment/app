@@ -7,8 +7,8 @@ const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
 
 const SETTINGS = {
   address: '',
-  from: FROM,
-  to: TO,
+  from: FROM.toISOString(),
+  to: TO.toISOString(),
   interval: getNewInterval(FROM, TO),
   timeRange: DEFAULT_TIME_RANGE.toUpperCase()
 }
