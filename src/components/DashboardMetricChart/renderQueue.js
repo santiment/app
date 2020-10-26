@@ -15,7 +15,11 @@ function RenderQueue () {
 
   function render () {
     const item = queue.shift()
-    ItemRenderMap.get(item)(true)
+    const renderItem = ItemRenderMap.get(item)
+
+    if (renderItem) {
+      renderItem(true)
+    }
   }
 
   function scheduleRender () {
