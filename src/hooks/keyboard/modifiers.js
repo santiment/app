@@ -10,7 +10,7 @@ const DEFAULT_PRESSED_MODIFIER = {
 }
 
 // NOTE: This pattern will guarantee to have only 0..N listeners during app lifetime [@vanguard | Aug  6, 2020]
-const observePressedModifier = (() => {
+export const observePressedModifier = (() => {
   let subscribers = new Set()
   let state = DEFAULT_PRESSED_MODIFIER
 
