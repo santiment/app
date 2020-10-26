@@ -6,12 +6,17 @@ import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { withRenderQueueProvider } from '../../components/DashboardMetricChart/renderQueue'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
-import { ProOnlyBlock as Block } from '../StablecoinsPage/StablecoinsPageStructure'
+import {
+  BlockWithRanges,
+  ProOnlyBlock as Block
+} from '../StablecoinsPage/StablecoinsPageStructure'
 import ResearchesBlock from '../../components/ResearchesBlock'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import SharePage from '../../components/SharePage/SharePage'
 import { useRestrictedInfo } from '../UniswapProtocolPage/hooks'
 import DistributionBtcOnEth from '../../ducks/BtcDistribution/DistributionBtcOnEth/DistributionBtcOnEth'
+import TotalBtcOnEth from '../../ducks/BtcDistribution/TotalBtcOnEth/TotalBtcOnEth'
+import BtcStatistics from '../../ducks/BtcDistribution/BtcStatistics/BtcStatistics'
 import externalStyles from './../StablecoinsPage/StablecoinsPage.module.scss'
 import styles from './BtcLockedPage.module.scss'
 
@@ -82,29 +87,27 @@ const BtcLockedPage = ({ history }) => {
         </DesktopOnly>
 
         <div className={externalStyles.inner}>
-          <Block
+          <BlockWithRanges
             className={cx(externalStyles.firstBlock, styles.firstBlock)}
             title='Total Supply'
             isPaywalActive={isProChecking}
             tag={ANCHORS.TotalSupply.key}
-          >
-            <DistributionBtcOnEth />
-          </Block>
+            el={BtcStatistics}
+          />
 
           <Block
-            title='Volume of DEXs Trades'
+            title='Distribution of Bitcoin on Ethereum'
             isPaywalActive={isProChecking}
             tag={ANCHORS.Distribution.key}
           >
             <DistributionBtcOnEth />
           </Block>
-
           <Block
             title='Total BTC on Ethereum'
             isPaywalActive={isProChecking}
             tag={ANCHORS.TotalBtcOnEth.key}
           >
-            <DistributionBtcOnEth />
+            <TotalBtcOnEth />
           </Block>
         </div>
       </div>

@@ -77,14 +77,12 @@ const UniswapMetricsList = [
 
 const metrics = UniswapMetricsList.map(item => ({ ...item, key: item.name }))
 
-const UniswapMetrics = () => {
-  return (
-    <div className={styles.container}>
-      {metrics.map(m => {
-        return <UniswapMetric key={m.key} metric={m} />
-      })}
-    </div>
-  )
-}
+const UniswapMetrics = () => (
+  <div className={styles.container}>
+    {metrics.map(m => {
+      return <UniswapMetric key={m.key} metric={m} slug='uniswap' />
+    })}
+  </div>
+)
 
 export default UniswapMetrics

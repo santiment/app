@@ -7,10 +7,10 @@ import styles from './UniswapMetric.module.scss'
 
 const INTERVAL = '1d'
 
-const UniswapMetric = ({ metric }) => {
+const UniswapMetric = ({ metric, slug }) => {
   const { human_readable_name, key, formatter = formatNumber } = metric
   const [settings, setSettings] = useState({
-    slug: 'uniswap',
+    slug,
     ...formIntervalSettings(INTERVAL)
   })
   const metrics = useMemo(
