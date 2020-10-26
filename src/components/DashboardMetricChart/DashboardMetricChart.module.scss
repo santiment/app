@@ -4,6 +4,7 @@
   border-radius: $border-radius;
   border: 1px solid var(--porcelain);
   background: var(--white);
+  position: relative;
 }
 
 .sharedAxisToggle {
@@ -24,4 +25,9 @@
 .measurements {
   padding-bottom: 9px;
   margin-left: 4px;
+}
+
+.skeleton {
+  min-height: 540px;
+  height: 100%;
 }

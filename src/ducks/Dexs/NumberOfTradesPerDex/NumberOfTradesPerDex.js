@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import DashboardMetricChart from '../../../components/DashboardMetricChart/DashboardMetricChart'
+import { QueuedDashboardMetricChart as DashboardMetricChart } from '../../../components/DashboardMetricChart/DashboardMetricChart'
 import { DEX_INTERVAL_SELECTORS } from '../../../components/DashboardMetricChart/utils'
 import { useDexMeasurement } from '../PriceMeasurement/DexPriceMeasurement'
 

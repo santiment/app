@@ -143,7 +143,6 @@ export const Metric = {
     rootLabel: 'Dormant Circulation (365d)',
     shortLabel: 'Dorm. Circ.',
     queryKey: 'dormant_circulation_365d',
-    isBeta: true,
     withoutRoot: true
   },
   stock_to_flow: {

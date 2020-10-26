@@ -80,7 +80,7 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
   )
 
   const [data] = useTimeseries(metrics, settings)
-  const allTimeData = useAllTimeData(metrics, {
+  const [allTimeData] = useAllTimeData(metrics, {
     slug: asset.slug
   })
 

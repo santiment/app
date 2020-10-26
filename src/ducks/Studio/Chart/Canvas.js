@@ -80,13 +80,12 @@ const Canvas = ({
       <Insights />
       <IcoPrice
         {...settings}
-        scale={props.scale}
         isICOPriceActive={isICOPriceActive}
         metrics={metrics}
         className={styles.ico}
         onResult={price => setIsICOPriceDisabled(!price)}
       />
-      <LastDayPrice settings={settings} metrics={metrics} scale={props.scale} />
+      <LastDayPrice data={data} from={from} to={to} />
       {isSelectingRange || (
         <Signals {...settings} metrics={metrics} data={data} />
       )}

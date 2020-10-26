@@ -1,9 +1,7 @@
 import { useEffect } from 'react'
 import { initTooltip } from '@santiment-network/chart/tooltip'
 import { setupTooltip, plotTooltip } from './helpers'
-import { useChart } from '../context'
-
-const noop = () => {}
+import { useChart, noop } from '../context'
 
 const Tooltip = ({
   metric,
@@ -21,6 +19,10 @@ const Tooltip = ({
   chart.onRangeSelecting = onRangeSelecting
   chart.onRangeSelected = onRangeSelected
 
+  useEffect(() => {
+    initTooltip(chart)
+  }, [])
+
   useEffect(
     () => {
       function marker (ctx, key, value, x, y) {
@@ -31,10 +33,9 @@ const Tooltip = ({
       chart.tooltipKey = metric
       chart.drawTooltip = point => plotTooltip(chart, marker, point)
 
-      initTooltip(chart)
       setupTooltip(chart, marker)
     },
-    [chart, metric]
+    [metric]
   )
 
   return null
