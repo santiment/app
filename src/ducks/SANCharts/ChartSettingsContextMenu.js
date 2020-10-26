@@ -29,11 +29,11 @@ export const Button = ({ className, ...props }) => (
   />
 )
 
-export const ShareButton = ({ shareLink }) => (
+export const ShareButton = ({ shareLink, onMouseDown }) => (
   <ShareChart
     shareLink={shareLink}
     trigger={props => (
-      <UIButton fluid variant='ghost' {...props}>
+      <UIButton fluid variant='ghost' {...props} onMouseDown={onMouseDown}>
         <Icon type='share' />
         Share chart
       </UIButton>

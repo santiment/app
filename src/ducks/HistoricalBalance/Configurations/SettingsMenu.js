@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react'
-import { generateUrl } from '../url'
+import React from 'react'
 import {
   Menu,
   Setting,
   ShareButton
 } from '../../SANCharts/ChartSettingsContextMenu'
+import { useShortShareLink } from '../../../components/Share/hooks'
 import styles from './index.module.scss'
 
 const SettingsMenu = ({
@@ -15,15 +15,11 @@ const SettingsMenu = ({
   togglePriceAsset,
   setIsLog
 }) => {
-  const { address } = settings
-  const shareLink = useMemo(() => generateUrl(address, chartAssets, []), [
-    address,
-    chartAssets
-  ])
+  const { shortShareLink, getShortShareLink } = useShortShareLink()
 
   return (
     <Menu>
-      <ShareButton shareLink={shareLink} />
+      <ShareButton shareLink={shortShareLink} onMouseDown={getShortShareLink} />
       <hr className={styles.divider} />
       <Setting
         title='Log scale'

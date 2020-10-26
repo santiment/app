@@ -15,6 +15,7 @@ const HistoricalBalance = ({
   defaultSettings,
   defaultChartAssets,
   defaultPriceAssets,
+  defaultIsLog,
   isPhone
 }) => {
   const { settings, changeTimePeriod, onAddressChange } = useSettings(
@@ -23,7 +24,7 @@ const HistoricalBalance = ({
   const { walletAssets, isLoading, isError } = useWalletAssets(settings.address)
   const [chartAssets, setChartAssets] = useState(defaultChartAssets)
   const [priceAssets, setPriceAssets] = useState(defaultPriceAssets)
-  const [isLog, setIsLog] = useState(false)
+  const [isLog, setIsLog] = useState(defaultIsLog)
   const metrics = useWalletMetrics(chartAssets, priceAssets)
   const axesTicks = useResponsiveTicks(isPhone)
 
@@ -52,6 +53,21 @@ const HistoricalBalance = ({
     setPriceAssets([...priceAssetsSet])
   }
 
+  function updateChartAssets (newChartAssets) {
+    const { length } = newChartAssets
+    if (length > 5) return
+
+    const lastAsset = newChartAssets[length - 1]
+    if (chartAssets.length < length && lastAsset) {
+      const { slug } = lastAsset
+      if (!priceAssets.includes(slug)) {
+        setPriceAssets([...priceAssets, slug])
+      }
+    }
+
+    setChartAssets(newChartAssets)
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={cx(styles.settings, isPhone && styles.settings_phone)}>
@@ -67,7 +83,7 @@ const HistoricalBalance = ({
           walletAssets={walletAssets}
           chartAssets={chartAssets}
           isLoading={isLoading}
-          setChartAssets={setChartAssets}
+          setChartAssets={updateChartAssets}
         />
       </div>
       <Configurations
@@ -92,7 +108,8 @@ const HistoricalBalance = ({
         React.cloneElement(child, {
           settings,
           chartAssets,
-          priceAssets
+          priceAssets,
+          isLog
         })
       )}
     </div>
@@ -101,7 +118,8 @@ const HistoricalBalance = ({
 
 HistoricalBalance.defaultProps = {
   defaultChartAssets: [],
-  defaultPriceAssets: []
+  defaultPriceAssets: [],
+  defaultIsLog: false
 }
 
 export default withDefaults(withSizes(HistoricalBalance))
