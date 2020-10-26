@@ -1,1 +1,1 @@
-export { usePressedModifier } from './modifiers'
+export { observePressedModifier, usePressedModifier } from './modifiers'

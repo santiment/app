@@ -9,6 +9,11 @@ import {
   handleMove as handlePointEvent,
   getHoveredIndex
 } from '@santiment-network/chart/events'
+import {
+  logScale,
+  valueByY,
+  valueByLogY
+} from '@santiment-network/chart/scales'
 import { drawAlertPlus } from './alert'
 import {
   clearCtx,
@@ -24,11 +29,11 @@ const metricValueAccessor = ({ value }) => value || value === 0
 export function setupTooltip (chart, marker) {
   const { canvas, ctx } = chart.tooltip
 
-  canvas.onmousemove = handlePointEvent(chart, point => {
+  canvas.onmousemove = handlePointEvent(chart, (point, e) => {
     if (!point) return
 
     chart.syncTooltips(point.value)
-    plotTooltip(chart, marker, point)
+    plotTooltip(chart, marker, point, e)
   })
 
   canvas.onmousedown = handlePointEvent(chart, point => {
@@ -99,7 +104,7 @@ export function setupTooltip (chart, marker) {
   }
 }
 
-export function plotTooltip (chart, marker, point) {
+export function plotTooltip (chart, marker, point, event) {
   const {
     tooltip: { ctx },
     tooltipKey,
@@ -113,13 +118,21 @@ export function plotTooltip (chart, marker, point) {
   clearCtx(chart, ctx)
 
   const { x, value: datetime, ...metrics } = point
-  const { y, value } = metricPoint
+  let { y, value } = metricPoint
 
+  if (event && Number.isFinite(y) && event.altKey) {
+    const { offsetY } = event
+    const { top, bottom, minMaxes, scale } = chart
+    const { min, max } = minMaxes[tooltipKey]
+
+    y = offsetY < top ? top : offsetY > bottom ? bottom : offsetY
+    value = (scale === logScale ? valueByLogY : valueByY)(chart, y, min, max)
+  }
+
+  const drawnMetrics = Object.values(metrics).filter(metricValueAccessor)
   const xBubbleFormatter = isDayInterval(chart)
     ? getDateHoursMinutes
     : getDateDayMonthYear
-
-  const drawnMetrics = Object.values(metrics).filter(metricValueAccessor)
 
   drawHoverLineX(chart, x, hoverLineColor, 5)
   drawHoverLineY(chart, y, hoverLineColor, 0, 20)
