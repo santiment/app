@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import copy from 'copy-to-clipboard'
 import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
 import Panel from '@santiment-network/ui/Panel'
@@ -9,6 +10,8 @@ import Congrats from '../Illustrations/Congrats'
 import Gift from '../Illustrations/Gift'
 import Rocket from '../Illustrations/Rocket'
 import styles from './index.module.scss'
+
+const DISCOUND_CODE = 'HALLOWEEN30'
 
 const STEPS = [
   {
@@ -27,15 +30,15 @@ const STEPS = [
   },
   {
     title: 'Congratulations!',
-    description:
-      "You've worked a lot and here your discount for Sanbase - HALLOWEEN30",
-    button: 'Copy discount to clipboard',
+    description: `You've worked a lot and here your discount for Sanbase - ${DISCOUND_CODE}`,
+    button: 'Copy code to clipboard',
     img: Gift
   }
 ]
 
 const HalloweenPopup = ({ activeNumber }) => {
   const [isOpen, setOpen] = useState(false)
+  const [isCopied, setIsCopied] = useState(false)
 
   useEffect(
     () => {
@@ -68,12 +71,22 @@ const HalloweenPopup = ({ activeNumber }) => {
           {STEPS[activeNumber - 1].description}
         </div>
         <Button
-          onClick={() => setOpen(false)}
+          onClick={() => {
+            if (activeNumber === 3) {
+              copy(DISCOUND_CODE)
+              setIsCopied(true)
+            } else {
+              setOpen(false)
+              setIsCopied(false)
+            }
+          }}
           variant='fill'
           accent='positive'
           className={styles.btn}
         >
-          {STEPS[activeNumber - 1].button}
+          {activeNumber === 3 && isCopied
+            ? 'Copied!'
+            : STEPS[activeNumber - 1].button}
         </Button>
       </Panel>
     </Dialog>
