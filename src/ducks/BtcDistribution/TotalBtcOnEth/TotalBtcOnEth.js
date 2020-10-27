@@ -9,7 +9,6 @@ const METRICS = [
     key: `total_supply`,
     label: 'Total supply',
     node: 'area',
-    domainGroup: 'btc_locked',
     reqMeta: {
       slugs: BTC_RELATED_ASSETS
     }

@@ -5,10 +5,10 @@ import DashboardCounter from '../../../components/DasboardCounter/DashboardCount
 
 const INTERVAL = '1d'
 
-const UniswapMetric = ({ metric, slug }) => {
+const UniswapMetric = ({ metric }) => {
   const { human_readable_name, key, formatter } = metric
   const [settings, setSettings] = useState({
-    slug,
+    slug: 'uniswap',
     ...formIntervalSettings(INTERVAL)
   })
   const metrics = useMemo(
