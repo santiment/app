@@ -1,5 +1,6 @@
 import sanitizeHtml from 'sanitize-html'
 import * as qs from 'query-string'
+import { loadKeyState } from './localStorage'
 
 const getOrigin = () => {
   if (process.env.NODE_ENV === 'development') {
@@ -268,6 +269,26 @@ const updateHistory = url => {
 
 const isStage = window.location && window.location.href.indexOf('stage') !== -1
 
+// true if Oct 25 - Nov 1 and user didn't toggle night mode
+function isShowHalloweenFeatures () {
+  const isDisabledByUser = loadKeyState('disabledHalloweenMode')
+  const isHalloween = isHalloweenDay()
+
+  return isHalloween && !isDisabledByUser
+}
+
+// true if Oct 25 - Nov 1
+function isHalloweenDay () {
+  const currentDate = new Date()
+  const currentMonth = currentDate.getMonth()
+  const currentDay = currentDate.getDate()
+
+  return (
+    (currentMonth === 9 && currentDay > 24) ||
+    (currentMonth === 10 && currentDay < 2)
+  )
+}
+
 export {
   getOrigin,
   getAPIUrl,
@@ -286,5 +307,7 @@ export {
   isNotSafari,
   safeDecode,
   updateHistory,
-  isStage
+  isStage,
+  isHalloweenDay,
+  isShowHalloweenFeatures
 }

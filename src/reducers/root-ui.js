@@ -2,6 +2,7 @@ import * as actions from './../actions/types'
 import { loadKeyState } from '../utils/localStorage'
 import { updateIsBetaMode } from '../stores/ui'
 import { updateTheme } from '../stores/ui/theme'
+import { isShowHalloweenFeatures } from '../utils/utils'
 
 const isNightMode = loadKeyState('isNightMode')
 const isNightModeDeprecated = loadKeyState('isNightModeEnabled')
@@ -10,7 +11,9 @@ const isBetaModeDeprecated = loadKeyState('isBetaModeEnabled')
 const isWideChartEnabled = loadKeyState('isWideChart')
 
 const isNightModeEnabled =
-  isNightMode !== undefined ? isNightMode : isNightModeDeprecated || false
+  isShowHalloweenFeatures() ||
+  (isNightMode !== undefined ? isNightMode : isNightModeDeprecated) ||
+  false
 const isBetaModeEnabled =
   isBetaMode !== undefined ? isBetaMode : isBetaModeDeprecated || false
 

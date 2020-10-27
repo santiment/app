@@ -20,6 +20,8 @@ import GetProjects from '../Signals/common/projects/getProjects'
 import { TriggerProjectsSelector } from '../Signals/signalFormManager/signalCrudForm/formParts/projectsSelector/TriggerProjectsSelector'
 import { formatNumber } from '../../utils/formatting'
 import { PROJECT_BY_SLUG_QUERY } from './gql'
+import { useTheme } from '../../stores/ui/theme'
+import { isShowHalloweenFeatures } from '../../utils/utils'
 import ALL_PROJECTS from '../../allProjects.json'
 import ProjectSelectDialog from '../Studio/Compare/ProjectSelectDialog'
 import styles from './Header.module.scss'
@@ -172,6 +174,7 @@ const Header = ({
   className
 }) => {
   const [isOpened, setIsOpened] = useState()
+  const { isNightMode } = useTheme()
   const dataProject = isLoading ? {} : project
 
   const {
@@ -209,16 +212,33 @@ const Header = ({
     <div className={styles.container}>
       <div className={cx(styles.wrapper, className)}>
         <div>
-          <ProjectSelectDialog
-            open={isOpened}
-            activeSlug={slug}
-            onOpen={openDialog}
-            onClose={closeDialog}
-            onSelect={onProjectSelect}
-            trigger={
-              <ProjectInfo {...project} slug={slug} onClick={openDialog} />
-            }
-          />
+          <div className={styles.headerProject}>
+            <ProjectSelectDialog
+              open={isOpened}
+              activeSlug={slug}
+              onOpen={openDialog}
+              onClose={closeDialog}
+              onSelect={onProjectSelect}
+              trigger={
+                <ProjectInfo {...project} slug={slug} onClick={openDialog} />
+              }
+            />
+
+            {isNightMode && isShowHalloweenFeatures() && (
+              <div className={styles.grave}>
+                <svg xmlns='http://www.w3.org/2000/svg' width='18' height='20'>
+                  <path
+                    className={styles.graveFill}
+                    d='M15.4 2.7a8.9 8.9 0 00-12.8 0A9 9 0 000 9V20h18V9a9 9 0 00-2.6-6.3z'
+                  />
+                  <path
+                    fill='#fff'
+                    d='M12.3 9.9H9.8v5.8H8.5V9.9H6V8.6h2.5V6.3h1.3v2.3h2.5v1.3z'
+                  />
+                </svg>
+              </div>
+            )}
+          </div>
 
           <div className={styles.actions}>
             <AddToWatchlist

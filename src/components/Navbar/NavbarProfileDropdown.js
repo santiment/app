@@ -22,6 +22,7 @@ import {
 import styles from './NavbarProfileDropdown.module.scss'
 import { VersionLabel } from '../Version/Version'
 import { APP_STATES } from '../../ducks/Updates/reducers'
+import { isHalloweenDay } from '../../utils/utils'
 import dropdownStyles from './NavbarDropdown.module.scss'
 
 const personalLinks = [
@@ -190,7 +191,8 @@ export const NavbarProfileDropdown = ({
           className={cx(styles.setting, dropdownStyles.item, styles.nightMode)}
           onClick={toggleNightMode}
         >
-          Night mode <Toggle isActive={isNightMode} />
+          {isHalloweenDay() ? 'Halloween ' : 'Night '} mode{' '}
+          <Toggle isActive={isNightMode} />
         </Button>
 
         <Button

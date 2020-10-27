@@ -8,6 +8,7 @@ import {
 } from './../actions/types'
 import { saveKeyState, loadKeyState } from '../utils/localStorage'
 import { handleErrorAndTriggerAction } from './utils'
+import { isHalloweenDay } from '../utils/utils'
 
 const NIGHT_MODE_MUTATION = gql`
   mutation updateUserSettings($theme: String!) {
@@ -30,6 +31,12 @@ const handleNightModeToggle = (action$, store, { client }) =>
     )
     .mergeMap(isNightModeEnabled => {
       saveKeyState('isNightMode', isNightModeEnabled)
+      console.log(isNightModeEnabled)
+
+      if (isHalloweenDay) {
+        saveKeyState('disabledHalloweenMode', !isNightModeEnabled)
+      }
+
       const { data } = store.getState().user
       if (data && data.id) {
         const mutation = client.mutate({
