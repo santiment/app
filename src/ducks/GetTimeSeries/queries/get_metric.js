@@ -50,3 +50,9 @@ export const useMetric = (settings, metric) => {
     [data, loading]
   )
 }
+
+export const AGGREGATION_TYPES = {
+  MAX: 'MAX',
+  LAST: 'LAST',
+  SUM: 'SUM'
+}

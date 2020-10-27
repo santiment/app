@@ -1,11 +1,18 @@
 import React from 'react'
-import { useMetric } from '../../GetTimeSeries/queries/get_metric'
+import {
+  AGGREGATION_TYPES,
+  useMetric
+} from '../../GetTimeSeries/queries/get_metric'
 import DashboardCounter from '../../../components/DasboardCounter/DashboardCounter'
 import { BTC_RELATED_SELECTOR } from './utils'
 
 const TotalBtcCard = ({ settings }) => {
   const { data, loading } = useMetric(
-    { ...settings, selector: BTC_RELATED_SELECTOR, aggregation: 'SUM' },
+    {
+      ...settings,
+      selector: BTC_RELATED_SELECTOR,
+      aggregation: AGGREGATION_TYPES.SUM
+    },
     'total_supply'
   )
 
@@ -13,7 +20,7 @@ const TotalBtcCard = ({ settings }) => {
     <DashboardCounter
       value={data}
       loadings={loading}
-      title='Bitcoin on Ethereum total supply'
+      title='Bitcoin on Ethereum Total Supply'
     />
   )
 }
