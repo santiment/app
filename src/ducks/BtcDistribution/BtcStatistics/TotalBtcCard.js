@@ -1,15 +1,11 @@
 import React from 'react'
 import { useAggregatedMetric } from '../hooks'
-import { BTC_RELATED_ASSETS } from '../DistributionBtcOnEth/DistributionBtcOnEth'
 import DashboardCounter from '../../../components/DasboardCounter/DashboardCounter'
-
-const SELECTOR = {
-  slugs: BTC_RELATED_ASSETS
-}
+import { BTC_RELATED_SELECTOR } from './utils'
 
 const TotalBtcCard = ({ settings }) => {
   const { data, loading } = useAggregatedMetric(
-    { ...settings, selector: SELECTOR },
+    { ...settings, selector: BTC_RELATED_SELECTOR },
     'total_supply'
   )
 

@@ -2,34 +2,28 @@ import React from 'react'
 import { useAggregatedMetric } from '../hooks'
 import DashboardCounter from '../../../components/DasboardCounter/DashboardCounter'
 import { percentageFormatter } from '../../dataHub/metrics/formatters'
-import { BTC_RELATED_ASSETS } from '../DistributionBtcOnEth/DistributionBtcOnEth'
-
-const SELECTOR = {
-  slug: 'bitcoin'
-}
-const ALL_SELECTOR = {
-  slugs: BTC_RELATED_ASSETS
-}
+import { Metric } from '../../dataHub/metrics'
+import { BTC_RELATED_SELECTOR, BTC_SELECTOR } from './utils'
 
 const BtcCirculationSupply = ({ settings }) => {
   const { data: totalData, loading: totalLoading } = useAggregatedMetric(
-    { ...settings, selector: ALL_SELECTOR },
+    { ...settings, selector: BTC_RELATED_SELECTOR },
     'total_supply'
   )
 
   const { data: btcData, loading: btcLoading } = useAggregatedMetric(
-    { ...settings, selector: SELECTOR },
-    'total_supply'
+    { ...settings, selector: BTC_SELECTOR, aggregation: 'MAX' },
+    Metric.circulation.key
   )
 
-  console.log(totalData, btcData, btcData / totalData)
+  const percent = (100 * btcData) / totalData
 
   return (
     <DashboardCounter
-      value={btcData / totalData}
+      value={percent}
       formatter={percentageFormatter}
       loadings={btcLoading || totalLoading}
-      title="Percent of Bitcoin\'s Circulating Supply"
+      title="Percent of Bitcoin's Circulating Supply"
     />
   )
 }

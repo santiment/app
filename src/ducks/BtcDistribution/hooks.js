@@ -9,6 +9,7 @@ export const GET_AGGREGATED_METRIC = gql`
     $to: DateTime!
     $selector: MetricTargetSelectorInputObject
     $slug: String
+    $aggregation: Aggregation = SUM
   ) {
     getMetric(metric: $metric) {
       aggregatedTimeseriesData(
@@ -16,17 +17,15 @@ export const GET_AGGREGATED_METRIC = gql`
         to: $to
         selector: $selector
         slug: $slug
-        aggregation: SUM
+        aggregation: $aggregation
       )
     }
   }
 `
 
 export const useAggregatedMetric = (settings, metric) => {
-  const { from, to, selector } = settings
-
   const { data = {}, loading } = useQuery(GET_AGGREGATED_METRIC, {
-    variables: { from, to, metric, selector }
+    variables: { ...settings, metric }
   })
 
   return useMemo(

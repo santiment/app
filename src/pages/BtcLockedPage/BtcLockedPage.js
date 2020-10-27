@@ -102,6 +102,7 @@ const BtcLockedPage = ({ history }) => {
           >
             <DistributionBtcOnEth />
           </Block>
+
           <Block
             title='Total BTC on Ethereum'
             isPaywalActive={isProChecking}
