@@ -21,15 +21,15 @@ import { TriggerProjectsSelector } from '../Signals/signalFormManager/signalCrud
 import { formatNumber } from '../../utils/formatting'
 import { PROJECT_BY_SLUG_QUERY } from './gql'
 import { useTheme } from '../../stores/ui/theme'
-import { isShowHalloweenFeatures } from '../../utils/utils'
+import {
+  isShowHalloweenFeatures,
+  addGrave,
+  getCheckedGraves
+} from '../../utils/halloween'
 import ALL_PROJECTS from '../../allProjects.json'
+import HalloweenPopup from '../../components/HalloweenPopup'
 import ProjectSelectDialog from '../Studio/Compare/ProjectSelectDialog'
 import styles from './Header.module.scss'
-
-function onGraveZoneClick (evt) {
-  evt.preventDefault()
-  evt.stopPropagation()
-}
 
 const H1 = createSkeletonElement('h1')
 
@@ -179,8 +179,10 @@ const Header = ({
   className
 }) => {
   const [isOpened, setIsOpened] = useState()
+  const [checkedGraves, setCheckedGraves] = useState(new Set())
   const { isNightMode } = useTheme()
   const dataProject = isLoading ? {} : project
+  const initialGraves = getCheckedGraves()
 
   const {
     id,
@@ -213,6 +215,11 @@ const Header = ({
     closeDialog()
   }
 
+  function onGraveZoneClick (evt) {
+    const graves = addGrave(slug)
+    setCheckedGraves(graves)
+  }
+
   return (
     <div className={styles.container}>
       <div className={cx(styles.wrapper, className)}>
@@ -228,9 +235,21 @@ const Header = ({
                 <ProjectInfo {...project} slug={slug} onClick={openDialog} />
               }
             />
-            {isNightMode && isShowHalloweenFeatures() && (
+            {isNightMode &&
+              isShowHalloweenFeatures() &&
+              (checkedGraves.size > 0 && checkedGraves.size <= 3) && (
+              <HalloweenPopup activeNumber={checkedGraves.size} />
+            )}
+            {isNightMode &&
+              isShowHalloweenFeatures() &&
+              !initialGraves.includes(slug) &&
+              initialGraves.length < 3 && (
               <div className={styles.grave} onClick={onGraveZoneClick}>
-                <svg xmlns='http://www.w3.org/2000/svg' width='18' height='20'>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  width='18'
+                  height='20'
+                >
                   <path
                     className={styles.graveFill}
                     d='M15.4 2.7a8.9 8.9 0 00-12.8 0A9 9 0 000 9V20h18V9a9 9 0 00-2.6-6.3z'

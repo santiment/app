@@ -8,7 +8,7 @@ import {
 } from './../actions/types'
 import { saveKeyState, loadKeyState } from '../utils/localStorage'
 import { handleErrorAndTriggerAction } from './utils'
-import { isHalloweenDay } from '../utils/utils'
+import { isHalloweenDay } from '../utils/halloween'
 
 const NIGHT_MODE_MUTATION = gql`
   mutation updateUserSettings($theme: String!) {

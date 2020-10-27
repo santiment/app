@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { USER_SETTINGS_QUERY } from '../user/settings'
 import { loadKeyState } from '../../utils/localStorage'
-import { isShowHalloweenFeatures } from '../../utils/utils'
+import { isShowHalloweenFeatures } from '../../utils/halloween'
 import { client } from '../../apollo'
 
 const NIGHTMODE = 'nightmode'

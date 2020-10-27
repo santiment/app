@@ -22,7 +22,7 @@ import {
 import styles from './NavbarProfileDropdown.module.scss'
 import { VersionLabel } from '../Version/Version'
 import { APP_STATES } from '../../ducks/Updates/reducers'
-import { isHalloweenDay } from '../../utils/utils'
+import { isHalloweenDay } from '../../utils/halloween'
 import dropdownStyles from './NavbarDropdown.module.scss'
 
 const personalLinks = [
