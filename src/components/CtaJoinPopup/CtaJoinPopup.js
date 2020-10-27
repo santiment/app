@@ -38,8 +38,9 @@ const CtaJoinPopup = () => {
         <Rocket />
         <div className={styles.join}>Join our community!</div>
         <div className={styles.description}>
-          Santiment provides custom metrics, insights metrics and data-driven
-          strategies on 900+ cryptocurrencies.
+          Santiment is a behavior analytics platform for cryptocurrencies,
+          sourcing on-chain, social and development information on 900+ coins.
+          Sign up now to get 14 days free for Sanbase PRO!
         </div>
         <Button
           as={Link}
