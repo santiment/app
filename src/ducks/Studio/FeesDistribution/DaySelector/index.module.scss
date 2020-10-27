@@ -4,6 +4,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @include responsive('phone') {
+    display: none;
+  }
 }
 
 .days {

@@ -8,7 +8,7 @@ export function getPreviousDays (count = 7, lastDay) {
 
     const { YYYY, MMM, DD } = getDateFormats(date)
 
-    const label = `${MMM} ${DD}, ${YYYY}`
+    const label = `${DD} ${MMM}, ${YYYY}`
     return { date, label }
   })
 
