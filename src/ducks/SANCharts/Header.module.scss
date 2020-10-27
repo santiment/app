@@ -36,8 +36,13 @@
   position: relative;
   top: 6px;
   margin-left: 28px;
+  height: 20px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
   cursor: url('assets/halloween/cursor/cirk-0.svg'), pointer;
   animation: cirkMoving 0.6s infinite;
+  background: linear-gradient(104.11deg, #fd9317 6.21%, #ff5b5b 92.73%);
+  background-size: 120% 120%;
 
   &::before {
     width: 70px;
@@ -52,7 +57,7 @@
 }
 
 .graveFill {
-  fill: var(--persimmon);
+  fill: none;
 }
 
 .project {
