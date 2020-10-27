@@ -53,8 +53,8 @@ export const FeesDistributionTitle = ({
   customDate
 }) => {
   const date = new Date(customDate)
-  const { MMMM, DD } = getDateFormats(date)
-  const dateLabel = `${DD} ${MMMM}`
+  const { MMMM, DD, YYYY } = getDateFormats(date)
+  const dateLabel = `${MMMM} ${DD}, ${YYYY}`
 
   return (
     <BlockHeader
