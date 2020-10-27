@@ -9,7 +9,9 @@ import { formIntervalSettings } from '../../SANCharts/IntervalSelector'
 import PageLoader from '../../../components/Loader/PageLoader'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import MakeProSubscriptionCard from '../../../pages/feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
-import { convertToReadableInterval } from '../../../utils/dates'
+import { convertToReadableInterval, getDateFormats } from '../../../utils/dates'
+import { getTimePeriod } from '../../../pages/TrendsExplore/utils'
+import DaysSelector from './DaySelector'
 import styles from './FeesDistribution.module.scss'
 
 export const FEE_RANGES = [
@@ -45,23 +47,31 @@ const useFeeDistributions = ({ from, to }) => {
   }
 }
 
-export const FeesDistributionTitle = ({ setInterval, interval }) => {
+export const FeesDistributionTitle = ({
+  setInterval,
+  interval,
+  customDate
+}) => {
+  const date = new Date(customDate)
+  const { MMMM, DD } = getDateFormats(date)
+  const dateLabel = `${DD} ${MMMM}`
+
   return (
     <BlockHeader
       setInterval={setInterval}
       defaultIndex={1}
       ranges={FEE_RANGES}
       title='Fees Distribution'
-      description={`The initial launch of $UNI clogged the Ethereum network and prompted record-high transaction fees. This dashboards tracks the amount of fees spent in Ether per project for last ${convertToReadableInterval(
-        interval
-      )}.`}
+      description={`The initial launch of $UNI clogged the Ethereum network and prompted record-high transaction fees. This dashboards tracks the amount of fees spent in Ether per project for ${
+        customDate ? dateLabel : `last ${convertToReadableInterval(interval)}`
+      }.`}
     />
   )
 }
 
 const FeesDistribution = ({ onDisable }) => {
   const [interval, setInterval] = useState('1d')
-
+  const [customDate, setCustomDate] = useState(null)
   const [settings, setSettings] = useState(formIntervalSettings(interval))
 
   useEffect(
@@ -75,12 +85,18 @@ const FeesDistribution = ({ onDisable }) => {
 
   return (
     <>
-      <FeesDistributionTitle setInterval={setInterval} interval={interval} />
+      <FeesDistributionTitle
+        setInterval={setInterval}
+        interval={interval}
+        customDate={customDate}
+      />
       {isPro ? (
         <FeesDistributionChart
           className={styles.chart}
           settings={settings}
+          interval={interval}
           onDisable={onDisable}
+          onChangePeriod={setCustomDate}
         />
       ) : (
         <MakeProSubscriptionCard />
@@ -89,8 +105,17 @@ const FeesDistribution = ({ onDisable }) => {
   )
 }
 
-export const FeesDistributionChart = ({ className, settings, onDisable }) => {
-  const { data, loading, error } = useFeeDistributions(settings)
+export const FeesDistributionChart = ({
+  className,
+  settings,
+  onDisable,
+  interval,
+  onChangePeriod
+}) => {
+  const [selectedPeriod, setSelectedPeriod] = useState(null)
+  const { data, loading, error } = useFeeDistributions(
+    selectedPeriod ? { ...settings, ...selectedPeriod } : { ...settings }
+  )
 
   const prepared = useMemo(
     () => {
@@ -105,13 +130,31 @@ export const FeesDistributionChart = ({ className, settings, onDisable }) => {
     [data]
   )
 
+  useEffect(
+    () => {
+      if (interval !== '1d' && selectedPeriod) {
+        setSelectedPeriod(null)
+        onChangePeriod(null)
+      }
+    },
+    [interval]
+  )
+
   if (!loading && error) {
     onDisable && onDisable()
     return null
   }
 
+  function changeDay (date) {
+    setSelectedPeriod(getTimePeriod(date))
+    onChangePeriod(date)
+  }
+
   return (
     <div className={cx(styles.container, className)}>
+      {interval === '1d' && (
+        <DaysSelector className={styles.daysSelector} onDayChange={changeDay} />
+      )}
       {loading ? (
         <PageLoader />
       ) : (

@@ -15,7 +15,7 @@ import {
 } from './utils'
 import styles from './ProjectsBarChart.module.scss'
 
-const DESKTOP_MARGIN = { top: 20, right: 44, left: 44, bottom: 0 }
+const DESKTOP_MARGIN = { top: 20, right: 34, left: 44, bottom: 0 }
 const MOBILE_MARGIN = { top: 0, right: 56, left: 44, bottom: 0 }
 
 const ProjectsBarVerticalChart = ({
@@ -33,8 +33,8 @@ const ProjectsBarVerticalChart = ({
     onProjectClick,
     radius: [0, 8, 8, 0],
     labelRenderer: renderVerticalLabel,
-    barSize: 56,
-    maxBarSize: 56,
+    barSize: 40,
+    maxBarSize: 40,
     isDesktop
   })
 
@@ -42,7 +42,7 @@ const ProjectsBarVerticalChart = ({
     <div
       className={cx(styles.chart, styles.verticalChart)}
       style={{
-        height: `${data.length * 56}px`
+        height: `${data.length * 40}px`
       }}
     >
       <div className={styles.watermark}>{SanWatermark}</div>

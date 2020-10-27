@@ -12,7 +12,7 @@
 
   @include text('caption');
 
-  &:last-of-type {
+  &:last-child {
     margin-right: 0;
   }
 }

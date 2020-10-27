@@ -1,5 +1,5 @@
 import React from 'react'
-import { formatNumber, upperCaseFirstLetter } from '../../../utils/formatting'
+import { millify, upperCaseFirstLetter } from '../../../utils/formatting'
 import { getDateFormats } from '../../../utils/dates'
 import ValueChange from '../../ValueChange/ValueChange'
 
@@ -19,7 +19,7 @@ export const columns = [
     minWidth: 120,
     maxWidth: 150,
     sortable: true,
-    Cell: ({ value }) => formatNumber(value)
+    Cell: ({ value }) => millify(value)
   },
   {
     id: 'balanceChange1d',
@@ -28,7 +28,7 @@ export const columns = [
     minWidth: 110,
     maxWidth: 140,
     sortable: true,
-    Cell: ({ value }) => <ValueChange render={formatNumber} change={value} />
+    Cell: ({ value }) => <ValueChange render={millify} change={value} />
   },
   {
     id: 'balanceChange7d',
@@ -37,7 +37,7 @@ export const columns = [
     minWidth: 110,
     maxWidth: 140,
     sortable: true,
-    Cell: ({ value }) => <ValueChange render={formatNumber} change={value} />
+    Cell: ({ value }) => <ValueChange render={millify} change={value} />
   },
   {
     id: 'balanceChange30d',
@@ -46,7 +46,7 @@ export const columns = [
     minWidth: 110,
     maxWidth: 140,
     sortable: true,
-    Cell: ({ value }) => <ValueChange render={formatNumber} change={value} />
+    Cell: ({ value }) => <ValueChange render={millify} change={value} />
   },
   {
     id: 'datetimeOfFirstTransfer',
@@ -72,6 +72,7 @@ export const columns = [
     minWidth: 110,
     maxWidth: 140,
     sortable: true,
-    Cell: ({ value = '' }) => `${value} day${value === 1 ? '' : 's'}`
+    Cell: ({ value = '' }) =>
+      value === null ? '' : `${value} day${value === 1 ? '' : 's'}`
   }
 ]

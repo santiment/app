@@ -24,8 +24,6 @@
 .table {
   height: 700px;
   overflow-x: hidden;
-  overflow-y: auto;
-  overflow-y: overlay;
   border: 1px solid var(--porcelain);
   border-radius: 4px;
   background: var(--white);
@@ -130,6 +128,16 @@
     .rt-tbody .rt-tr-group,
     .rt-thead.-header {
       padding: 0 23px;
+    }
+
+    .rt-thead.-header {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .rt-table {
+      overflow: visible;
     }
 
     .rt-tbody .rt-tr-group {
