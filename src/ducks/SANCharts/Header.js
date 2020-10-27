@@ -26,6 +26,11 @@ import ALL_PROJECTS from '../../allProjects.json'
 import ProjectSelectDialog from '../Studio/Compare/ProjectSelectDialog'
 import styles from './Header.module.scss'
 
+function onGraveZoneClick (evt) {
+  evt.preventDefault()
+  evt.stopPropagation()
+}
+
 const H1 = createSkeletonElement('h1')
 
 const ProjectInfo = createSkeletonProvider(
@@ -223,9 +228,8 @@ const Header = ({
                 <ProjectInfo {...project} slug={slug} onClick={openDialog} />
               }
             />
-
             {isNightMode && isShowHalloweenFeatures() && (
-              <div className={styles.grave}>
+              <div className={styles.grave} onClick={onGraveZoneClick}>
                 <svg xmlns='http://www.w3.org/2000/svg' width='18' height='20'>
                   <path
                     className={styles.graveFill}

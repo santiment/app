@@ -29,13 +29,15 @@
 
 .headerProject {
   position: relative;
+  display: flex;
 }
 
 .grave {
-  position: absolute;
+  position: relative;
   top: 6px;
-  right: -40px;
-  cursor: url('assets/halloween-cursor.svg'), pointer;
+  margin-left: 28px;
+  cursor: url('assets/halloween/cursor/cirk-0.svg'), pointer;
+  animation: cirkMoving 0.6s infinite;
 
   &::before {
     width: 70px;
@@ -100,7 +102,7 @@
 }
 
 .selector {
-  display: flex;
+  display: inline-flex;
   align-items: flex-start;
   cursor: pointer;
 
@@ -218,4 +220,20 @@
 
   max-width: 200px;
   min-width: 175px;
+}
+
+@keyframes cirkMoving {
+  0%,
+  100% {
+    cursor: url('assets/halloween/cursor/cirk-0.svg'), pointer;
+  }
+
+  25%,
+  75% {
+    cursor: url('assets/halloween/cursor/cirk-1.svg'), pointer;
+  }
+
+  50% {
+    cursor: url('assets/halloween/cursor/cirk-2.svg'), pointer;
+  }
 }
