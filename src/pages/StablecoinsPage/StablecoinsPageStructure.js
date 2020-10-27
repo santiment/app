@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
-import { getTimerangePeriod } from '../../utils/dates'
+import { getNewTimerangePeriod } from '../../utils/dates'
 import IntervalsComponent from '../../components/IntervalsComponent/IntervalsComponent'
 import CheckProPaywall from '../../ducks/Stablecoins/CheckProPaywall'
 import styles from './StablecoinsPage.module.scss'
@@ -84,7 +84,7 @@ export const BlockWithRanges = ({
 }) => {
   const [interval, setInterval] = useState('1d')
   const [settings, setSettings] = useState({
-    ...getTimerangePeriod(interval),
+    ...getNewTimerangePeriod(interval),
     interval
   })
 
@@ -92,7 +92,7 @@ export const BlockWithRanges = ({
     () => {
       setSettings({
         ...settings,
-        ...getTimerangePeriod(interval),
+        ...getNewTimerangePeriod(interval),
         interval
       })
     },

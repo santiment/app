@@ -6,10 +6,7 @@ import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { withRenderQueueProvider } from '../../components/DashboardMetricChart/renderQueue'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
-import {
-  BlockWithRanges,
-  ProOnlyBlock as Block
-} from '../StablecoinsPage/StablecoinsPageStructure'
+import { ProOnlyBlock as Block } from '../StablecoinsPage/StablecoinsPageStructure'
 import ResearchesBlock from '../../components/ResearchesBlock'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import SharePage from '../../components/SharePage/SharePage'
@@ -87,13 +84,14 @@ const BtcLockedPage = ({ history }) => {
         </DesktopOnly>
 
         <div className={externalStyles.inner}>
-          <BlockWithRanges
+          <Block
             className={cx(externalStyles.firstBlock, styles.firstBlock)}
             title='Total Supply'
             isPaywalActive={isProChecking}
             tag={ANCHORS.TotalSupply.key}
-            el={BtcStatistics}
-          />
+          >
+            <BtcStatistics />
+          </Block>
 
           <Block
             title='Distribution of Bitcoin on Ethereum'
