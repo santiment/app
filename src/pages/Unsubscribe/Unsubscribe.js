@@ -61,7 +61,7 @@ const Unsubscribe = () => {
     </div>
   ) : (
     <div className={styles.wrapper}>
-      <Success />
+      <Email />
       <h3 className={styles.heading}>You've been unsubscribed</h3>
       {target === 'signals' ? (
         <>

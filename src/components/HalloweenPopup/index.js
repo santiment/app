@@ -6,6 +6,8 @@ import Panel from '@santiment-network/ui/Panel'
 import { useUser } from '../../stores/user'
 import { PATHS } from '../../paths'
 import Congrats from '../Illustrations/Congrats'
+import Gift from '../Illustrations/Gift'
+import Rocket from '../Illustrations/Rocket'
 import styles from './index.module.scss'
 
 const STEPS = [
@@ -13,19 +15,22 @@ const STEPS = [
     title: 'You dug the first grave!',
     description:
       'Work with your hands more: find 2 more graves to get a gift from Santiment',
-    button: "Let's continue!"
+    button: "Let's continue!",
+    img: Rocket
   },
   {
     title: "You're rock!",
     description:
       'Dug the final grave and you win this small game. Your award is somewhere near...',
-    button: 'Go, go, go!'
+    button: 'Go, go, go!',
+    img: Congrats
   },
   {
     title: 'Congratulations!',
     description:
       "You've worked a lot and here your discount for Sanbase - HALLOWEEN30",
-    button: 'Copy discount to clipboard'
+    button: 'Copy discount to clipboard',
+    img: Gift
   }
 ]
 
@@ -46,6 +51,8 @@ const HalloweenPopup = ({ activeNumber }) => {
     [activeNumber]
   )
 
+  const Img = STEPS[activeNumber - 1].img
+
   return (
     <Dialog
       title=''
@@ -55,7 +62,7 @@ const HalloweenPopup = ({ activeNumber }) => {
       classes={styles}
     >
       <Panel padding className={styles.container}>
-        <Congrats />
+        <Img />
         <div className={styles.join}>{STEPS[activeNumber - 1].title}</div>
         <div className={styles.description}>
           {STEPS[activeNumber - 1].description}

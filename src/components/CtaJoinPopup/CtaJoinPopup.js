@@ -5,7 +5,7 @@ import Dialog from '@santiment-network/ui/Dialog'
 import Panel from '@santiment-network/ui/Panel'
 import { useUser } from '../../stores/user'
 import { PATHS } from '../../paths'
-import Congrats from '../Illustrations/Congrats'
+import Rocket from '../Illustrations/Rocket'
 import styles from './CtaJoinPopup.module.scss'
 
 const TIMEOUT = 2 * 60 * 1000
@@ -35,7 +35,7 @@ const CtaJoinPopup = () => {
       classes={styles}
     >
       <Panel padding className={styles.container}>
-        <Congrats />
+        <Rocket />
         <div className={styles.join}>Join our community!</div>
         <div className={styles.description}>
           Santiment provides custom metrics, insights metrics and data-driven
