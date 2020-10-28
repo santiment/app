@@ -44,8 +44,7 @@ export const INTERVAL_6_MONTHS = makeIntervalSelectors({
   interval: '1d'
 })
 
-export const DEFAULT_INTERVAL_SELECTORS = [
-  makeIntervalSelectors({ val: '1d', label: '1D', interval: '15m' }),
+export const NON_DAILY_INTERVAL_SELECTORS = [
   makeIntervalSelectors({ val: '1w', label: '1W', interval: '1h' }),
   INTERVAL_30_DAYS,
   makeIntervalSelectors({ val: '90d', label: '3M', interval: '8h' }),
@@ -57,6 +56,11 @@ export const DEFAULT_INTERVAL_SELECTORS = [
     interval: '1d',
     from: CRYPTO_ERA_START_DATE
   })
+]
+
+export const DEFAULT_INTERVAL_SELECTORS = [
+  makeIntervalSelectors({ val: '1d', label: '1D', interval: '15m' }),
+  ...NON_DAILY_INTERVAL_SELECTORS
 ]
 
 export const DEX_INTERVAL_SELECTORS = [
