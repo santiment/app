@@ -49,7 +49,7 @@ const UniswapMetric = ({ metric }) => {
     <DashboardCounter
       title={human_readable_name}
       value={sum}
-      loadings={loadings}
+      loadings={isLoading}
       formatter={formatter}
     />
   )
