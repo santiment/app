@@ -27,6 +27,11 @@
   }
 }
 
+.headerProject {
+  position: relative;
+  display: flex;
+}
+
 .project {
   margin-left: 16px;
 
@@ -74,7 +79,7 @@
 }
 
 .selector {
-  display: flex;
+  display: inline-flex;
   align-items: flex-start;
   cursor: pointer;
 
