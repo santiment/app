@@ -7,12 +7,11 @@ import {
   getCheckedGraves
 } from '../../utils/halloween'
 import HalloweenPopup from './Popup'
-import { useTrackEvents } from '../../hooks/tracking'
+import GA from '../../utils/tracking'
 import styles from './index.module.scss'
 
 const Grave = ({ knockNumber, setKnockNumber, slug }) => {
   const { isNightMode } = useTheme()
-  const [trackEvent] = useTrackEvents()
   const [checkedGraves, setCheckedGraves] = useState(new Set())
   const initialGraves = getCheckedGraves()
 
@@ -22,7 +21,11 @@ const Grave = ({ knockNumber, setKnockNumber, slug }) => {
 
     if (newNumber === 3) {
       const graves = addGrave(slug)
-      trackEvent('halloween_journey', { slug })
+      GA.event({
+        category: 'Halloween',
+        action: 'Halloween grave click',
+        slug
+      })
       setCheckedGraves(graves)
     }
   }

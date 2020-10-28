@@ -1,3 +1,5 @@
+import { useTrackEvents } from '../hooks/tracking'
+
 const TRACKER_IDs = ['UA-100571693-1', 'UA-100571693-2']
 const APP_NAME = 'Sanbase'
 
@@ -130,6 +132,13 @@ export const event =
       }
       if (type.includes('twitter')) {
         window.twq('track', action, {
+          content_type: category,
+          content_name: label,
+          ...values
+        })
+      }
+      if (type.includes('sanapi')) {
+        useTrackEvents(action, {
           content_type: category,
           content_name: label,
           ...values
