@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTimeseries } from '../../Studio/timeseries/hooks'
 import { formIntervalSettings } from '../../SANCharts/IntervalSelector'
 import DashboardCounter from '../../../components/DasboardCounter/DashboardCounter'
+import styles from './UniswapMetric.module.scss'
 
 const INTERVAL = '1d'
 
@@ -51,6 +52,7 @@ const UniswapMetric = ({ metric }) => {
       value={sum}
       loadings={isLoading}
       formatter={formatter}
+      classes={styles}
     />
   )
 }
