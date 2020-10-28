@@ -12,6 +12,8 @@ const DashboardCounter = ({
   title,
   classes = {}
 }) => {
+  const isValid = Number.isFinite(value)
+
   return (
     <>
       <Skeleton
@@ -24,8 +26,10 @@ const DashboardCounter = ({
           <div className={styles.value}>
             {loadings ? (
               <Loader className={styles.loading} />
-            ) : (
+            ) : isValid ? (
               formatter(value.toFixed(2))
+            ) : (
+              'No Data'
             )}
           </div>
         </div>
