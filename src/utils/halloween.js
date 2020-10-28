@@ -1,11 +1,10 @@
 import { loadKeyState } from './localStorage'
 
 // true if Oct 25 - Nov 1 and user didn't toggle night mode
-export function isShowHalloweenFeatures () {
+export function isShowHalloween () {
   const isDisabledByUser = loadKeyState('disabledHalloweenMode')
-  const isHalloween = isHalloweenDay()
 
-  return isHalloween && !isDisabledByUser
+  return isHalloweenDay() && !isDisabledByUser
 }
 
 // true if Oct 25 - Nov 1

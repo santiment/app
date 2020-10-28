@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import { useTheme } from '../../stores/ui/theme'
 import {
-  isShowHalloweenFeatures,
+  isShowHalloween,
   addGrave,
   getCheckedGraves
 } from '../../utils/halloween'
@@ -24,7 +24,7 @@ const Grave = ({ knockNumber, setKnockNumber, slug }) => {
     }
   }
 
-  if (!isNightMode && !isShowHalloweenFeatures()) {
+  if (!isNightMode && !isShowHalloween()) {
     return null
   }
 

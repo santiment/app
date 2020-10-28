@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { USER_SETTINGS_QUERY } from '../user/settings'
 import { loadKeyState } from '../../utils/localStorage'
-import { isShowHalloweenFeatures } from '../../utils/halloween'
+import { isShowHalloween } from '../../utils/halloween'
 import { client } from '../../apollo'
 
 const NIGHTMODE = 'nightmode'
 export const THEMES = ['default', NIGHTMODE]
 const DEFAULT_STATE = {
-  isNightMode: isShowHalloweenFeatures() || loadKeyState('isNightMode') || false
+  isNightMode: isShowHalloween() || loadKeyState('isNightMode') || false
 }
 const WATCH_QUERY = { query: USER_SETTINGS_QUERY }
 

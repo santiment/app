@@ -31,9 +31,8 @@ const handleNightModeToggle = (action$, store, { client }) =>
     )
     .mergeMap(isNightModeEnabled => {
       saveKeyState('isNightMode', isNightModeEnabled)
-      console.log(isNightModeEnabled)
 
-      if (isHalloweenDay) {
+      if (isHalloweenDay()) {
         saveKeyState('disabledHalloweenMode', !isNightModeEnabled)
       }
 
