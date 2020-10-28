@@ -1,13 +1,7 @@
 import { useMutation } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
-import { store } from '../../redux'
-import { checkIsLoggedIn } from '../../pages/UserSelectors'
-
-export const TRACK_EVENTS_MUTATION = gql`
-  mutation trackEvents($events: json) {
-    trackEvents(events: $events)
-  }
-`
+import { store } from '../redux'
+import { checkIsLoggedIn } from '../pages/UserSelectors'
+import { TRACK_EVENTS_MUTATION } from '../queries/TrackingGQL'
 
 export function useTrackEvents () {
   const isLoggedIn = checkIsLoggedIn(store.getState())

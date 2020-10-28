@@ -7,7 +7,7 @@ import {
   getCheckedGraves
 } from '../../utils/halloween'
 import HalloweenPopup from './Popup'
-import { useTrackEvents } from './gql'
+import { useTrackEvents } from '../../hooks/tracking'
 import styles from './index.module.scss'
 
 const Grave = ({ knockNumber, setKnockNumber, slug }) => {
