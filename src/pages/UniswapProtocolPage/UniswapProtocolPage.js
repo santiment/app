@@ -2,15 +2,12 @@ import React, { useCallback, useState } from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
 import { UNISWAP_METRIC_BOUNDARIES_QUERY, useRestrictedInfo } from './hooks'
-import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import ClaimersWidgets from '../../components/ClaimersWidgets'
 import { ChartWidget } from '../../components/ClaimersWidgets'
 import TopClaimersTable from '../../components/ClaimersWidgets/TopClaimers/TopClaimersTable'
 import TopExchangesTable from '../../components/Tables/TopExchanges'
-import MobileHeader from '../../components/MobileHeader/MobileHeader'
-import { DesktopOnly, MobileOnly } from '../../components/Responsive'
+import { DesktopOnly } from '../../components/Responsive'
 import { Block } from '../StablecoinsPage/StablecoinsPageStructure'
-import ResearchesBlock from '../../components/ResearchesBlock'
 import { Metric } from '../../ducks/dataHub/metrics'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
@@ -21,6 +18,8 @@ import UniswapWhoClaimed from '../../ducks/UniswapProtocol/UniswapPieChart/WhoCl
 import UniswapFlowBalances from '../../ducks/UniswapProtocol/UniswapFlowBalances'
 import SharePage from '../../components/SharePage/SharePage'
 import FeesDistribution from '../../ducks/Studio/FeesDistribution/FeesDistribution'
+import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
+import externalStyles from './../StablecoinsPage/StablecoinsPage.module.scss'
 import styles from './UniswapProtocolPage.module.scss'
 
 const BALANCE_CHART_PADDING = {
@@ -94,7 +93,7 @@ const UniswapProtocolPage = ({ history }) => {
   )
 
   return (
-    <div className={cx('page', styles.container)}>
+    <DashboardLayout>
       <Helmet
         title={'Uniswap (UNI) Token Dashboard | Sanbase'}
         meta={[
@@ -110,19 +109,11 @@ const UniswapProtocolPage = ({ history }) => {
         ]}
       />
 
-      <MobileOnly>
-        <MobileHeader
-          showBack={true}
-          goBack={history.goBack}
-          classes={styles}
-        />
-      </MobileOnly>
-
-      <div className={styles.header}>
-        <div className={cx(styles.inner, styles.content)}>
-          <div className={styles.pageDescription}>
-            <h3 className={styles.title}>Uniswap Protocol Dashboard</h3>
-            <div className={styles.description}>
+      <div className={externalStyles.header}>
+        <div className={cx(externalStyles.inner, externalStyles.content)}>
+          <div className={externalStyles.pageDescription}>
+            <h3 className={externalStyles.title}>Uniswap Protocol Dashboard</h3>
+            <div className={externalStyles.description}>
               Real-time data on UNI token distribution, total amount of UNI
               claimed, amount of UNI on centralized and decentralized exchange,
               top UNI transactions and more.
@@ -132,14 +123,14 @@ const UniswapProtocolPage = ({ history }) => {
         </div>
       </div>
 
-      <div className={styles.body}>
+      <div className={externalStyles.body}>
         <DesktopOnly>
           <LeftPageNavigation anchors={anchors} />
         </DesktopOnly>
 
-        <div className={styles.inner}>
+        <div className={externalStyles.inner}>
           <Block
-            className={styles.firstBlock}
+            className={cx(externalStyles.firstBlock, styles.firstBlock)}
             tag={anchors.Claimers.key}
             title='UNI Token Claims'
             isPaywalActive={areClaimsRestricted}
@@ -211,11 +202,7 @@ const UniswapProtocolPage = ({ history }) => {
           )}
         </div>
       </div>
-
-      <ResearchesBlock className={styles.researchers} />
-
-      <CommonFooter />
-    </div>
+    </DashboardLayout>
   )
 }
 
