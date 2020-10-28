@@ -2,15 +2,12 @@ import React, { useCallback, useState } from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
 import { UNISWAP_METRIC_BOUNDARIES_QUERY, useRestrictedInfo } from './hooks'
-import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import ClaimersWidgets from '../../components/ClaimersWidgets'
 import { ChartWidget } from '../../components/ClaimersWidgets'
 import TopClaimersTable from '../../components/ClaimersWidgets/TopClaimers/TopClaimersTable'
 import TopExchangesTable from '../../components/Tables/TopExchanges'
-import MobileHeader from '../../components/MobileHeader/MobileHeader'
-import { DesktopOnly, MobileOnly } from '../../components/Responsive'
+import { DesktopOnly } from '../../components/Responsive'
 import { Block } from '../StablecoinsPage/StablecoinsPageStructure'
-import ResearchesBlock from '../../components/ResearchesBlock'
 import { Metric } from '../../ducks/dataHub/metrics'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
@@ -21,6 +18,7 @@ import UniswapWhoClaimed from '../../ducks/UniswapProtocol/UniswapPieChart/WhoCl
 import UniswapFlowBalances from '../../ducks/UniswapProtocol/UniswapFlowBalances'
 import SharePage from '../../components/SharePage/SharePage'
 import FeesDistribution from '../../ducks/Studio/FeesDistribution/FeesDistribution'
+import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
 import externalStyles from './../StablecoinsPage/StablecoinsPage.module.scss'
 import styles from './UniswapProtocolPage.module.scss'
 
@@ -95,7 +93,7 @@ const UniswapProtocolPage = ({ history }) => {
   )
 
   return (
-    <div className={cx('page', externalStyles.container)}>
+    <DashboardLayout>
       <Helmet
         title={'Uniswap (UNI) Token Dashboard | Sanbase'}
         meta={[
@@ -110,14 +108,6 @@ const UniswapProtocolPage = ({ history }) => {
           }
         ]}
       />
-
-      <MobileOnly>
-        <MobileHeader
-          showBack={true}
-          goBack={history.goBack}
-          classes={externalStyles}
-        />
-      </MobileOnly>
 
       <div className={externalStyles.header}>
         <div className={cx(externalStyles.inner, externalStyles.content)}>
@@ -212,11 +202,7 @@ const UniswapProtocolPage = ({ history }) => {
           )}
         </div>
       </div>
-
-      <ResearchesBlock className={externalStyles.researchers} />
-
-      <CommonFooter />
-    </div>
+    </DashboardLayout>
   )
 }
 

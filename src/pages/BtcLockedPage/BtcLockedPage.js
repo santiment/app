@@ -2,12 +2,9 @@ import React from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
 import gql from 'graphql-tag'
-import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
-import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { withRenderQueueProvider } from '../../components/DashboardMetricChart/renderQueue'
-import { DesktopOnly, MobileOnly } from '../../components/Responsive'
+import { DesktopOnly } from '../../components/Responsive'
 import { ProOnlyBlock as Block } from '../StablecoinsPage/StablecoinsPageStructure'
-import ResearchesBlock from '../../components/ResearchesBlock'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import SharePage from '../../components/SharePage/SharePage'
 import { useRestrictedInfo } from '../UniswapProtocolPage/hooks'
@@ -16,6 +13,7 @@ import TotalBtcOnEth from '../../ducks/BtcDistribution/TotalBtcOnEth/TotalBtcOnE
 import BtcStatistics from '../../ducks/BtcDistribution/BtcStatistics/BtcStatistics'
 import externalStyles from './../StablecoinsPage/StablecoinsPage.module.scss'
 import styles from './BtcLockedPage.module.scss'
+import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
 
 const ANCHORS = {
   TotalSupply: {
@@ -42,11 +40,11 @@ const METRIC_BOUNDARIES_QUERY = gql`
   }
 `
 
-const BtcLockedPage = ({ history }) => {
+const BtcLockedPage = () => {
   const isProChecking = useRestrictedInfo(METRIC_BOUNDARIES_QUERY)
 
   return (
-    <div className={cx('page', externalStyles.container)}>
+    <DashboardLayout>
       <Helmet
         title={'BTC Dashboard | Sanbase'}
         meta={[
@@ -60,14 +58,6 @@ const BtcLockedPage = ({ history }) => {
           }
         ]}
       />
-
-      <MobileOnly>
-        <MobileHeader
-          showBack={true}
-          goBack={history.goBack}
-          classes={externalStyles}
-        />
-      </MobileOnly>
 
       <div className={externalStyles.header}>
         <div className={cx(externalStyles.inner, externalStyles.content)}>
@@ -110,11 +100,7 @@ const BtcLockedPage = ({ history }) => {
           </Block>
         </div>
       </div>
-
-      <ResearchesBlock className={externalStyles.researchers} />
-
-      <CommonFooter />
-    </div>
+    </DashboardLayout>
   )
 }
 

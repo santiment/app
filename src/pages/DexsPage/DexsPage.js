@@ -2,12 +2,9 @@ import React from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
 import gql from 'graphql-tag'
-import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
-import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { withRenderQueueProvider } from '../../components/DashboardMetricChart/renderQueue'
-import { DesktopOnly, MobileOnly } from '../../components/Responsive'
+import { DesktopOnly } from '../../components/Responsive'
 import { ProOnlyBlock as Block } from '../StablecoinsPage/StablecoinsPageStructure'
-import ResearchesBlock from '../../components/ResearchesBlock'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import SharePage from '../../components/SharePage/SharePage'
 import CurrentPageReport from '../../ducks/Stablecoins/StablecoinsReport/CurrentPageReport'
@@ -20,6 +17,7 @@ import DexTradesSegmentedByDEX, {
 import NumberOfTradesPerDex from '../../ducks/Dexs/NumberOfTradesPerDex/NumberOfTradesPerDex'
 import { DEX_BY_USD } from '../../ducks/Dexs/PriceMeasurement/DexPriceMeasurement'
 import { useRestrictedInfo } from '../UniswapProtocolPage/hooks'
+import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
 import externalStyles from './../StablecoinsPage/StablecoinsPage.module.scss'
 import styles from './DexsPage.module.scss'
 
@@ -56,11 +54,11 @@ const METRIC_BOUNDARIES_QUERY = gql`
   }
 `
 
-const DexsPage = ({ history }) => {
+const DexsPage = () => {
   const isProChecking = useRestrictedInfo(METRIC_BOUNDARIES_QUERY)
 
   return (
-    <div className={cx('page', externalStyles.container)}>
+    <DashboardLayout>
       <Helmet
         title={'DEX Dashboard | Sanbase'}
         meta={[
@@ -74,14 +72,6 @@ const DexsPage = ({ history }) => {
           }
         ]}
       />
-
-      <MobileOnly>
-        <MobileHeader
-          showBack={true}
-          goBack={history.goBack}
-          classes={externalStyles}
-        />
-      </MobileOnly>
 
       <div className={externalStyles.header}>
         <div className={cx(externalStyles.inner, externalStyles.content)}>
@@ -145,11 +135,7 @@ const DexsPage = ({ history }) => {
           </Block>
         </div>
       </div>
-
-      <ResearchesBlock className={externalStyles.researchers} />
-
-      <CommonFooter />
-    </div>
+    </DashboardLayout>
   )
 }
 
