@@ -39,7 +39,6 @@ const HalloweenPopup = ({ activeNumber }) => {
 
   useEffect(
     () => {
-      console.log(activeNumber)
       if (!activeNumber && isOpen) {
         setOpen(false)
       }
