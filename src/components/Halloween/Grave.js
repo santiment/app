@@ -10,7 +10,7 @@ import {
 import HalloweenPopup from './Popup'
 import styles from './index.module.scss'
 
-const Grave = ({ knockNumber, setKnockNumber, slug }) => {
+const Grave = ({ knockNumber, setKnockNumber, slug, name }) => {
   const { isNightMode } = useTheme()
   const [checkedGraves, setCheckedGraves] = useState(new Set())
   const initialGraves = getCheckedGraves()
@@ -36,7 +36,7 @@ const Grave = ({ knockNumber, setKnockNumber, slug }) => {
   return (
     <>
       {checkedGraves.size > 0 && checkedGraves.size <= 3 && (
-        <HalloweenPopup activeNumber={checkedGraves.size} />
+        <HalloweenPopup activeNumber={checkedGraves.size} name={name} />
       )}
       {!initialGraves.includes(slug) && initialGraves.length < 3 && (
         <div className={styles.grave} onClick={onGraveZoneClick}>
