@@ -285,9 +285,17 @@ export const Metric = {
   nvt_transaction_volume: {
     node: 'bar',
     group: 'Network Value',
-    label: 'NVT Ratio (using Transaction Volume) ',
+    label: 'NVT Ratio (using Transaction Volume)',
     shortLabel: 'NVT R. T.V.',
     category: 'On-chain'
+  },
+  network_profit_loss: {
+    node: 'bar',
+    label: 'Network Realized Profit or Loss (USD)',
+    shortLabel: 'NR P. or L.',
+    group: 'Network Value',
+    category: 'On-chain',
+    isBeta: true
   },
   minersBalance: {
     node: 'line',

@@ -1,8 +1,8 @@
 import React from 'react'
 import { QueuedDashboardMetricChart as DashboardMetricChart } from '../../../components/DashboardMetricChart/DashboardMetricChart'
 import {
-  DEFAULT_INTERVAL_SELECTORS,
-  INTERVAL_6_MONTHS
+  INTERVAL_6_MONTHS,
+  NON_DAILY_INTERVAL_SELECTORS
 } from '../../../components/DashboardMetricChart/utils'
 import { BTC_RELATED_ASSETS } from '../DistributionBtcOnEth/DistributionBtcOnEth'
 import { Metric } from '../../dataHub/metrics'
@@ -29,7 +29,7 @@ const METRICS = [
 const TotalBtcOnEth = () => (
   <DashboardMetricChart
     metrics={METRICS}
-    intervals={DEFAULT_INTERVAL_SELECTORS}
+    intervals={NON_DAILY_INTERVAL_SELECTORS}
     defaultInterval={INTERVAL_6_MONTHS}
   />
 )
