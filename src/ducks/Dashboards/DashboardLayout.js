@@ -7,7 +7,7 @@ import ResearchesBlock from '../../components/ResearchesBlock'
 import CommonFooter from '../../pages/ProMetrics/ProMetricsFooter/CommonFooter'
 import styles from './DashboardLayout.module.scss'
 
-const DashboardLayout = ({ history, children }) => {
+const DashboardLayout = ({ history, classes = {}, children }) => {
   return (
     <div className={cx('page', styles.container)}>
       <MobileOnly>
@@ -20,7 +20,9 @@ const DashboardLayout = ({ history, children }) => {
 
       {children}
 
-      <ResearchesBlock className={styles.researchers} />
+      <div className={cx(styles.researchers, classes.researchers)}>
+        <ResearchesBlock />
+      </div>
 
       <CommonFooter />
     </div>

@@ -3,14 +3,10 @@ import cx from 'classnames'
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 import Label from '@santiment-network/ui/Label'
-import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import PublicTemplates from './PublicTemplates/PublicTemplates'
 import SocialTrends from './SocialTrends/SocialTrends'
 import Trends from '../../components/Trends/Trends'
 import EventBanner from '../../components/EventBanner'
-import ResearchesBlock from '../../components/ResearchesBlock'
-import MobileHeader from '../../components/MobileHeader/MobileHeader'
-import { MobileOnly } from '../../components/Responsive'
 import IndexTab from './IndexTabs/IndexTab'
 import WatchlistCards from '../../ducks/Watchlists/Cards'
 import { BASIC_CATEGORIES } from '../../ducks/Watchlists/utils'
@@ -18,29 +14,29 @@ import MyWatchlist from '../../ducks/Watchlists/Cards/MyWatchlist'
 import MyScreeners from '../../ducks/Watchlists/Cards/MyScreeners'
 import { PATHS } from '../../paths'
 import AlphaBlock from './AlphaBlock/AlphaBlock'
+import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
+import externalStyles from '././../StablecoinsPage/StablecoinsPage.module.scss'
 import styles from './MarketingPage.module.scss'
 
 const isCharts = ({ search }) =>
   search.indexOf('from') !== -1 && search.indexOf('to') !== -1
 
-const MarketingPage = ({ history, userId, location }) => {
+const MarketingPage = ({ userId, location }) => {
   if (isCharts(location)) {
     return <Redirect to={PATHS.STUDIO} />
   }
 
   return (
-    <div className={cx('page', styles.container)}>
-      <MobileOnly>
-        <MobileHeader
-          showBack={true}
-          goBack={history.goBack}
-          classes={styles}
-        />
-      </MobileOnly>
-
+    <DashboardLayout classes={styles}>
       <EventBanner className={styles.banner} />
-      <div className={styles.inner}>
-        <div className={cx(styles.block, styles.firstBlock)}>
+      <div className={cx(externalStyles.inner, styles.inner)}>
+        <div
+          className={cx(
+            styles.block,
+            externalStyles.firstBlock,
+            styles.firstBlock
+          )}
+        >
           <IndexTab
             tabs={[
               {
@@ -84,7 +80,7 @@ const MarketingPage = ({ history, userId, location }) => {
         </div>
       </div>
 
-      <div className={styles.inner}>
+      <div className={externalStyles.inner}>
         <IndexTab
           tabs={[
             {
@@ -113,9 +109,11 @@ const MarketingPage = ({ history, userId, location }) => {
                   <div className={styles.description}>
                     This leaderboard allows you to track our leading analysts
                     and authors as they make{' '}
-                    <span className={styles.bold}>bold market calls.</span> They
-                    use the same Santiment on-chain and social metrics that are
-                    available to you.
+                    <span className={externalStyles.bold}>
+                      bold market calls.
+                    </span>{' '}
+                    They use the same Santiment on-chain and social metrics that
+                    are available to you.
                   </div>
                   <iframe
                     title='Insights table'
@@ -182,9 +180,7 @@ const MarketingPage = ({ history, userId, location }) => {
           />
         </div>
       </div>
-      <ResearchesBlock />
-      <CommonFooter />
-    </div>
+    </DashboardLayout>
   )
 }
 
