@@ -58,7 +58,6 @@ const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
 }
 
 const DashboardMetricChart = ({
-  className,
   metrics,
   metricSettingsMap,
   defaultInterval = INTERVAL_30_DAYS,
@@ -90,6 +89,7 @@ const DashboardMetricChart = ({
   const [settings, setSettings] = useState({
     ...defaultInterval.requestParams
   })
+
   const [intervalSelector, setIntervalSelector] = useState(defaultInterval)
   const [disabledMetrics, setDisabledMetrics] = useState({})
 

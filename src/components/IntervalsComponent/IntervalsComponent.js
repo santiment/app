@@ -4,7 +4,7 @@ import Range from '../../ducks/Watchlists/Widgets/WatchlistOverview/Range'
 import styles from './IntervalsComponent.module.scss'
 
 export const RANGES = [
-  { value: '24h', label: '24h' },
+  { value: '1d', label: '24h' },
   { value: '7d', label: '7d' },
   { value: '30d', label: '1m' },
   { value: '183d', label: '6m' },

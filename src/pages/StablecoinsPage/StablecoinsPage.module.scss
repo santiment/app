@@ -1,13 +1,5 @@
 @import '~@santiment-network/ui/mixins';
 
-.container {
-  padding: 0 !important;
-  max-width: 100% !important;
-  position: relative;
-  margin: 0 auto !important;
-  background: var(--athens);
-}
-
 .inner {
   max-width: 1152px;
   width: 100%;
@@ -22,6 +14,7 @@
 .body {
   display: flex;
   flex-direction: column;
+  background: var(--athens);
 }
 
 .content {
@@ -139,10 +132,6 @@
     margin-top: 40px;
     margin-bottom: 0;
   }
-}
-
-.researchers {
-  margin-top: 40px;
 }
 
 .anchor {
