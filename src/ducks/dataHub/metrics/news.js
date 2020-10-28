@@ -11,7 +11,8 @@ const NEW_METRICS = [
   Metric.price_daa_divergence,
   Metric.adjusted_price_daa_divergence,
   Metric.active_addresses_24h,
-  Metric.active_addresses_1h
+  Metric.active_addresses_1h,
+  Metric.network_profit_loss
 ]
 export const NEW_METRIC_KEY_SET = new Set(NEW_METRICS.map(({ key }) => key))
 
