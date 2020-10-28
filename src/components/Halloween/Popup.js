@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import copy from 'copy-to-clipboard'
 import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
 import Panel from '@santiment-network/ui/Panel'
-import { useUser } from '../../stores/user'
-import { PATHS } from '../../paths'
 import Congrats from '../Illustrations/Congrats'
 import Gift from '../Illustrations/Gift'
 import Rocket from '../Illustrations/Rocket'
 import styles from './index.module.scss'
 
-const DISCOUND_CODE = 'HALLOWEEN30'
+const DISCOUND_CODE = 'SAN_HALLOWEEN30'
 
 const STEPS = [
   {

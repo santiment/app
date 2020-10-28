@@ -62,3 +62,42 @@
     margin-bottom: 0;
   }
 }
+
+.grave {
+  position: relative;
+  top: 6px;
+  margin-left: 28px;
+  cursor: url('assets/halloween/cursor/cirk-0.svg'), pointer;
+  animation: cirkMoving 0.6s infinite;
+
+  &::before {
+    width: 70px;
+    height: 70px;
+    content: '';
+    z-index: 1;
+    display: block;
+    position: absolute;
+    top: -70px;
+    left: -35px;
+  }
+}
+
+.gravePart {
+  fill: var(--white);
+}
+
+@keyframes cirkMoving {
+  0%,
+  100% {
+    cursor: url('assets/halloween/cursor/cirk-0.svg'), pointer;
+  }
+
+  25%,
+  75% {
+    cursor: url('assets/halloween/cursor/cirk-1.svg'), pointer;
+  }
+
+  50% {
+    cursor: url('assets/halloween/cursor/cirk-2.svg'), pointer;
+  }
+}
