@@ -4,7 +4,6 @@ import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
-import { ALL_ERC20_PROJECTS_QUERY } from '../../../../Watchlists/gql/allProjectsGQL'
 import { WALLET_ASSETS_QUERY } from '../../../../HistoricalBalance/hooks'
 import {
   isPossibleEthAddress,
@@ -13,7 +12,8 @@ import {
 } from '../../../utils/utils'
 import { TriggerProjectsSelector } from './projectsSelector/TriggerProjectsSelector'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
-import { NOT_VALID_ETH_ADDRESS } from '../../../utils/constants'
+import { NOT_VALID_HB_ADDRESS } from '../../../utils/constants'
+import withProjects from '../../../../Studio/Compare/withProjects'
 import styles from '../signal/TriggerForm.module.scss'
 
 const isInAssetsList = (heldAssets, target) => {
@@ -62,8 +62,8 @@ const propTypes = {
   assets: PropTypes.array
 }
 
-const getFromAll = (erc20List, { value, slug }) =>
-  erc20List.find(
+const getFromAll = (all, { value, slug }) =>
+  all.find(
     ({ slug: currentSlug }) => currentSlug === value || currentSlug === slug
   )
 
@@ -76,26 +76,26 @@ const isEthAddress = data => {
 }
 
 const TriggerFormHistoricalBalance = ({
-  data: { allErc20Projects: erc20List } = {},
+  allProjects,
+  heldAssets,
   metaFormSettings: { ethAddress: metaEthAddress, target: metaTarget },
-  assets: heldAssets,
   setFieldValue,
   values: { target, ethAddress },
-  isLoading = false,
+  loading = false,
   isNewSignal
 }) => {
   const metaMappedToAll = useMemo(
     () => {
-      return erc20List.length
+      return allProjects.length
         ? mapAssetsToAllProjects(
-          erc20List,
+          allProjects,
           Array.isArray(metaTarget.value)
             ? metaTarget.value
             : [metaTarget.value]
         )
         : []
     },
-    [erc20List, metaTarget]
+    [allProjects, metaTarget]
   )
 
   const setTarget = useCallback(
@@ -114,10 +114,10 @@ const TriggerFormHistoricalBalance = ({
       if (newTarget) {
         if (Array.isArray(newTarget)) {
           if (newTarget.length > 0) {
-            asset = getFromAll(erc20List, newTarget[0])
+            asset = getFromAll(allProjects, newTarget[0])
           }
         } else {
-          asset = getFromAll(erc20List, newTarget)
+          asset = getFromAll(allProjects, newTarget)
         }
       }
 
@@ -125,7 +125,7 @@ const TriggerFormHistoricalBalance = ({
         setTarget(asset)
       }
     },
-    [erc20List, setFieldValue, ethAddress]
+    [allProjects, setFieldValue, ethAddress]
   )
 
   const setAddress = useCallback(
@@ -137,11 +137,11 @@ const TriggerFormHistoricalBalance = ({
 
   const disabledWalletField =
     (!hasEthAddress(ethAddress) && target.length > 1) ||
-    (erc20List.length > 0 && !isErc20Assets(target, erc20List))
+    (allProjects.length > 0 && !isErc20Assets(target, allProjects))
 
   const validateAddressField = useCallback(
     inputAssets => {
-      if (erc20List.length && !isErc20Assets(inputAssets, erc20List)) {
+      if (allProjects.length && !isErc20Assets(inputAssets, allProjects)) {
         setAddress('')
         return
       }
@@ -168,7 +168,7 @@ const TriggerFormHistoricalBalance = ({
     },
     [
       setAddress,
-      erc20List,
+      allProjects,
       setAddress,
       disabledWalletField,
       metaEthAddress,
@@ -191,20 +191,22 @@ const TriggerFormHistoricalBalance = ({
     () => {
       validateTarget(target)
     },
-    [target, ethAddress, erc20List]
+    [target, ethAddress, allProjects]
   )
 
   useEffect(
     () => {
       const showError =
-        erc20List && erc20List.length > 0 && isErc20Assets(target, erc20List)
+        allProjects &&
+        allProjects.length > 0 &&
+        isErc20Assets(target, allProjects)
 
       setFieldValue(
-        'isEthOrErc20Error',
+        'isHbAddressError',
         showError ? !hasEthAddress(ethAddress) : false
       )
     },
-    [target, ethAddress, erc20List.length]
+    [target, ethAddress, allProjects.length]
   )
 
   useEffect(
@@ -216,9 +218,9 @@ const TriggerFormHistoricalBalance = ({
 
   useEffect(
     () => {
-      setFieldValue('isLoading', isLoading)
+      setFieldValue('isLoading', loading)
     },
-    [isLoading]
+    [loading]
   )
 
   useEffect(
@@ -238,10 +240,10 @@ const TriggerFormHistoricalBalance = ({
         !disabledWalletField &&
         heldAssets &&
         heldAssets.length > 0
-        ? mapAssetsToAllProjects(erc20List, heldAssets)
-        : erc20List
+        ? mapAssetsToAllProjects(allProjects, heldAssets)
+        : allProjects
     },
-    [hasEthAddress, disabledWalletField, heldAssets, erc20List]
+    [hasEthAddress, disabledWalletField, heldAssets, allProjects]
   )
 
   return (
@@ -257,7 +259,7 @@ const TriggerFormHistoricalBalance = ({
             validator={value => {
               return disabledWalletField || isEthAddress(value)
             }}
-            notificationText={NOT_VALID_ETH_ADDRESS}
+            notificationText={NOT_VALID_HB_ADDRESS}
             placeholder={
               disabledWalletField
                 ? 'Only for single ETH and ERC20 asset'
@@ -269,7 +271,7 @@ const TriggerFormHistoricalBalance = ({
       <div className={styles.row}>
         <div className={cx(styles.Field, styles.fieldFilled)}>
           <TriggerProjectsSelector
-            isLoading={isLoading}
+            isLoading={loading}
             name='target'
             target={target}
             projects={selectableProjects}
@@ -282,40 +284,8 @@ const TriggerFormHistoricalBalance = ({
   )
 }
 
-const mapDataToProps = ({
-  Projects: { allErc20Projects = [], loading },
-  ownProps
-}) => {
-  if (
-    allErc20Projects &&
-    allErc20Projects.length > 0 &&
-    !allErc20Projects.find(({ slug }) => slug === ETHEREUM.slug)
-  ) {
-    allErc20Projects.push({
-      ...ETHEREUM
-    })
-  }
-
-  return {
-    ...ownProps,
-    data: {
-      allErc20Projects
-    },
-    isLoading: loading
-  }
-}
-
 const enhance = compose(
-  graphql(ALL_ERC20_PROJECTS_QUERY, {
-    name: 'Projects',
-    props: mapDataToProps,
-    options: () => {
-      return {
-        errorPolicy: 'all',
-        variables: { minVolume: 0 }
-      }
-    }
-  }),
+  withProjects,
   graphql(WALLET_ASSETS_QUERY, {
     name: 'assetsByWallet',
     props: mapAssetsHeldByAddressToProps,

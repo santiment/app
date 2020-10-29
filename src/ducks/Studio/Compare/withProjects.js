@@ -9,6 +9,7 @@ export const projectSearchData = gql`
     ticker
     rank
     marketcapUsd
+    infrastructure
   }
 `
 

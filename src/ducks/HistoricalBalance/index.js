@@ -86,6 +86,7 @@ const HistoricalBalance = ({
           setChartAssets={updateChartAssets}
         />
       </div>
+
       <Configurations
         isLog={isLog}
         settings={settings}
@@ -104,6 +105,7 @@ const HistoricalBalance = ({
           metrics={metrics}
         />
       </Configurations>
+
       {React.Children.map(children, child =>
         React.cloneElement(child, {
           settings,
