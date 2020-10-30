@@ -11,9 +11,9 @@ import { useRestrictedInfo } from '../UniswapProtocolPage/hooks'
 import DistributionBtcOnEth from '../../ducks/BtcDistribution/DistributionBtcOnEth/DistributionBtcOnEth'
 import TotalBtcOnEth from '../../ducks/BtcDistribution/TotalBtcOnEth/TotalBtcOnEth'
 import BtcStatistics from '../../ducks/BtcDistribution/BtcStatistics/BtcStatistics'
+import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
 import externalStyles from './../StablecoinsPage/StablecoinsPage.module.scss'
 import styles from './BtcLockedPage.module.scss'
-import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
 
 const ANCHORS = {
   TotalSupply: {

@@ -3,7 +3,6 @@ import { AnomalyFetcher, OldAnomalyFetcher } from './anomalies'
 import { MarketSegmentFetcher } from './marketSegments'
 import { aliasTransform, extractTimeseries, normalizeInterval } from './utils'
 import { MINERS_BALANCE_QUERY } from './queries/minersBalance'
-import { HISTORICAL_BALANCE_QUERY } from './queries/historicaBalance'
 import { getMinInterval } from './queries/minInterval'
 import { GAS_USED_QUERY } from '../../GetTimeSeries/queries/gas_used'
 import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from '../../GetTimeSeries/queries/top_holders_percent_of_total_supply'
@@ -36,10 +35,6 @@ Object.assign(Fetcher, {
   gasUsed: {
     query: GAS_USED_QUERY,
     preTransform: aliasTransform('gasUsed')
-  },
-  historicalBalance: {
-    query: HISTORICAL_BALANCE_QUERY,
-    preTransform: aliasTransform('historicalBalance', 'balance')
   },
   topHoldersPercentOfTotalSupply: {
     query: TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY,
