@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet'
 import gql from 'graphql-tag'
 import { withRenderQueueProvider } from '../../components/DashboardMetricChart/renderQueue'
 import { DesktopOnly } from '../../components/Responsive'
-import { ProOnlyBlock as Block } from '../StablecoinsPage/StablecoinsPageStructure'
+import { Block } from '../StablecoinsPage/StablecoinsPageStructure'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import SharePage from '../../components/SharePage/SharePage'
 import { useRestrictedInfo } from '../UniswapProtocolPage/hooks'
@@ -85,17 +85,12 @@ const BtcLockedPage = () => {
 
           <Block
             title='Distribution of Bitcoin on Ethereum'
-            isPaywalActive={isProChecking}
             tag={ANCHORS.Distribution.key}
           >
             <DistributionBtcOnEth />
           </Block>
 
-          <Block
-            title='Total BTC on Ethereum'
-            isPaywalActive={isProChecking}
-            tag={ANCHORS.TotalBtcOnEth.key}
-          >
+          <Block title='Total BTC on Ethereum' tag={ANCHORS.TotalBtcOnEth.key}>
             <TotalBtcOnEth />
           </Block>
         </div>
