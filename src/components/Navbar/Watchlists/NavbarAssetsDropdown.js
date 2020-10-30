@@ -23,8 +23,13 @@ const DASHBOARDS = [
     isNew: true
   },
   {
-    name: 'Decentralized exchanges',
+    name: 'Decentralized Exchanges',
     to: '/decentralized-exchanges',
+    isNew: true
+  },
+  {
+    name: 'Bitcoin Locked on Ethereum',
+    to: '/bitcoin-locked-on-ethereum',
     isNew: true
   }
 ]
