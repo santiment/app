@@ -5,10 +5,12 @@ import Outside from '../icons/outside.svg'
 import PercentUp from '../icons/percent-up.svg'
 import PercentDown from '../icons/percent-down.svg'
 import PercentBetween from '../icons/percent-between.svg'
-// import PercentOutside from '../icons/percent-outside.svg'
+import PercentOutside from '../icons/percent-outside.svg'
 import {
   percentValueFormatter,
-  percentServerValueFormatter
+  percentServerValueFormatter,
+  percentValueMirrorFormatter,
+  percentServerValueMirrorFormatter
 } from '../formatters'
 
 export const Operator = {
@@ -78,18 +80,18 @@ export const Filter = {
     operator: Operator.inside,
     valueFormatter: percentValueFormatter,
     serverValueFormatter: percentServerValueFormatter
+  },
+  percent_up_or_down: {
+    icon: PercentOutside,
+    label: 'Up or down',
+    badge: '%',
+    isPro: true,
+    showTimeRange: true,
+    onlyPositiveNumbers: true,
+    operator: Operator.outside,
+    valueFormatter: percentValueMirrorFormatter,
+    serverValueFormatter: percentServerValueMirrorFormatter
   }
-  // percent_up_or_down: {
-  //   icon: PercentOutside,
-  //   label: 'Up or down',
-  //   badge: '%',
-  //   isPro: true,
-  //   showTimeRange: true,
-  //   onlyPositiveNumbers: true,
-  //   operator: Operator.outside,
-  //   valueFormatter: percentValueFormatter,
-  //   serverValueFormatter: percentServerValueFormatter
-  // }
 }
 
 Object.keys(Filter).forEach(key => {
