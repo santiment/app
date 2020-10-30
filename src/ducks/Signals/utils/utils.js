@@ -60,6 +60,7 @@ import { Metric } from '../../dataHub/metrics'
 import { useWatchlist } from '../../Watchlists/gql/hooks'
 import { SIGNAL_SUPPORTED_METRICS } from '../signalFormManager/signalCrudForm/formParts/metricTypes/metrics'
 import { findWebHook } from '../signalFormManager/signalCrudForm/formParts/channels/hooks'
+import { fetchHb } from '../../HistoricalBalance/utils'
 
 export const mapToOptions = input => {
   if (!input) {
@@ -931,8 +932,8 @@ export const isNewTypeSignal = ({ settings: { type } }) => {
 
 const HistoricalBalanceMetrics = {
   ...Metric.balance,
-  key: 'historicalBalance',
-  queryKey: 'historicalBalance'
+  key: 'balance',
+  fetch: fetchHb
 }
 
 export const getNewMetricsByType = ({ settings: { type, metric } }) => {
@@ -1348,7 +1349,7 @@ export const couldShowChart = (
     case METRIC_TYPES.WALLET_MOVEMENT:
     case ETH_WALLET: {
       if (selector) {
-        return selector.currency && selector.infrastructure
+        return (selector.currency || selector.slug) && selector.infrastructure
       }
 
       return Array.isArray(ethAddress) ? ethAddress.length === 1 : !!ethAddress
