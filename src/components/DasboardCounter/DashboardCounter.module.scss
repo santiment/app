@@ -9,11 +9,11 @@
   background: var(--white);
   border: 1px solid var(--porcelain);
   border-radius: $border-radius;
+  width: 100%;
 }
 
 .skeleton {
   min-height: 114px;
-  height: 100%;
 }
 
 .title {
@@ -35,4 +35,10 @@
 .loading {
   font-size: 5px;
   margin: 0 auto;
+}
+
+.container {
+  position: relative;
+  flex: 1;
+  display: flex;
 }

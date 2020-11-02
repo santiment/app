@@ -15,7 +15,7 @@ const DashboardCounter = ({
   const isValid = Number.isFinite(value)
 
   return (
-    <>
+    <div className={styles.container}>
       <Skeleton
         show={loadings}
         className={cx(styles.skeleton, classes.skeleton)}
@@ -34,7 +34,7 @@ const DashboardCounter = ({
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 
