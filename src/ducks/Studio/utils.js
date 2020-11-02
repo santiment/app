@@ -47,3 +47,15 @@ export function extractIndicatorDomainGroups (MetricIndicators) {
 
   return domainGroups
 }
+
+export function deduceItems (items, item) {
+  const newItems = new Set(items)
+
+  if (newItems.has(item)) {
+    newItems.delete(item)
+  } else {
+    newItems.add(item)
+  }
+
+  return [...newItems]
+}
