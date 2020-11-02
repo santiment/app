@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import { useTheme } from '../../stores/ui/theme'
-import GA from '../../utils/tracking'
 import {
   isShowHalloween,
   addGrave,
