@@ -1,5 +1,4 @@
 import React, { useEffect, useCallback, useMemo } from 'react'
-import { compose } from 'redux'
 import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
@@ -13,7 +12,7 @@ import {
 import { TriggerProjectsSelector } from './projectsSelector/TriggerProjectsSelector'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import { NOT_VALID_HB_ADDRESS } from '../../../utils/constants'
-import withProjects from '../../../../Studio/Compare/withProjects'
+import { useProjects } from '../../../../Studio/Compare/withProjects'
 import styles from '../signal/TriggerForm.module.scss'
 
 const isInAssetsList = (heldAssets, target) => {
@@ -76,14 +75,14 @@ const isEthAddress = data => {
 }
 
 const TriggerFormHistoricalBalance = ({
-  allProjects,
   heldAssets,
   metaFormSettings: { ethAddress: metaEthAddress, target: metaTarget },
   setFieldValue,
   values: { target, ethAddress },
-  loading = false,
   isNewSignal
 }) => {
+  const [allProjects, loading] = useProjects()
+
   const metaMappedToAll = useMemo(
     () => {
       return allProjects.length
@@ -284,23 +283,20 @@ const TriggerFormHistoricalBalance = ({
   )
 }
 
-const enhance = compose(
-  withProjects,
-  graphql(WALLET_ASSETS_QUERY, {
-    name: 'assetsByWallet',
-    props: mapAssetsHeldByAddressToProps,
-    skip: ({ byAddress }) =>
-      !byAddress || (Array.isArray(byAddress) && byAddress.length !== 1),
-    options: ({ byAddress }) => {
-      return {
-        variables: {
-          address: Array.isArray(byAddress) ? byAddress[0].value : byAddress
-        },
-        errorPolicy: 'all'
-      }
+const enhance = graphql(WALLET_ASSETS_QUERY, {
+  name: 'assetsByWallet',
+  props: mapAssetsHeldByAddressToProps,
+  skip: ({ byAddress }) =>
+    !byAddress || (Array.isArray(byAddress) && byAddress.length !== 1),
+  options: ({ byAddress }) => {
+    return {
+      variables: {
+        address: Array.isArray(byAddress) ? byAddress[0].value : byAddress
+      },
+      errorPolicy: 'all'
     }
-  })
-)
+  }
+})
 
 TriggerFormHistoricalBalance.propTypes = propTypes
 

@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import LibInput from '@santiment-network/ui/Input'
 import Setting from './Setting'
 import styles from './Setting.module.scss'
 
 export const AddressSetting = ({ address, isError, onAddressChange }) => {
   const [value, setValue] = useState(address)
-  const isInputWrong = useMemo(() => !value, [value])
+  const isInputWrong = !value
 
   useEffect(
     () => {
