@@ -4,7 +4,7 @@ import Input from './Input'
 import { mergeMetricSettingMap } from '../../utils'
 import { useDebounce } from '../../../../hooks/index'
 
-const TopHoldersSetting = ({ metric, widget, rerenderWidget }) => {
+const TopHoldersSetting = ({ metric, widget, rerenderWidgets }) => {
   const defaultValue = useMemo(
     () => {
       const { MetricSettingMap } = widget
@@ -13,7 +13,7 @@ const TopHoldersSetting = ({ metric, widget, rerenderWidget }) => {
     },
     [metric]
   )
-  const debouncedRerender = useDebounce(rerenderWidget, 700)
+  const debouncedRerender = useDebounce(rerenderWidgets, 700)
 
   function onChange (holdersCount) {
     if (!holdersCount) return

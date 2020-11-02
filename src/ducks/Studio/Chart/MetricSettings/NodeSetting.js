@@ -5,7 +5,9 @@ import { useDropdown } from './Dropdown'
 import { getMetricSetting } from './utils'
 import { Node, BARS } from '../../../Chart/nodes'
 
-const NodeToLabel = {}
+const NodeToLabel = {
+  [Node.BAR]: 'Bar'
+}
 const buildNode = (key, label) => {
   NodeToLabel[key] = label
   return { key, label }
@@ -16,15 +18,16 @@ const NODES = [
   buildNode(Node.LINE, 'Line'),
   buildNode(Node.FILLED_LINE, 'Filled line'),
   buildNode(Node.GRADIENT_LINE, 'Gradient line'),
-  buildNode(Node.BAR, 'Bar')
+  buildNode(Node.AUTO_WIDTH_BAR, 'Bar')
 ]
 
-const NodeSetting = ({ metric, widget }) => {
+const NodeSetting = ({ metric, widget, rerenderWidgets }) => {
   const { activeRef, close, Dropdown } = useDropdown()
   const node = useMemo(
     () => {
       const settings = widget.MetricSettingMap.get(metric)
-      return (settings && settings.node) || metric.node
+      const node = (settings && settings.node) || metric.node
+      return BARS.has(node) ? Node.AUTO_WIDTH_BAR : node
     },
     [widget.MetricSettingMap, metric]
   )
@@ -35,7 +38,7 @@ const NodeSetting = ({ metric, widget }) => {
 
     if (
       newNode === metric.node ||
-      (newNode === Node.BAR && BARS.has(metric.node))
+      (newNode === Node.AUTO_WIDTH_BAR && BARS.has(metric.node))
     ) {
       delete metricSetting.node
     } else {
@@ -45,11 +48,11 @@ const NodeSetting = ({ metric, widget }) => {
     widget.MetricSettingMap = newMap
 
     close()
-    widget.rerender()
+    rerenderWidgets()
   }
 
   return (
-    <Dropdown trigger={<Setting>Node: {NodeToLabel[node]}</Setting>}>
+    <Dropdown trigger={<Setting>Style: {NodeToLabel[node]}</Setting>}>
       {NODES.map(({ key, label }) => (
         <Button
           key={key}

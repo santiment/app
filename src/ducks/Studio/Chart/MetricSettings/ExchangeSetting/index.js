@@ -10,7 +10,7 @@ import styles from '../index.module.scss'
 
 const { CEX, DEX } = Tab
 
-const ExchangeSetting = ({ metric, widget, slug }) => {
+const ExchangeSetting = ({ metric, widget, slug, rerenderWidgets }) => {
   const { activeRef, close, Dropdown } = useDropdown()
   const [activeTab, setActiveTab] = useState(CEX)
   const { exchanges, loading } = useMetricExchanges(slug, activeTab === DEX)
@@ -38,7 +38,7 @@ const ExchangeSetting = ({ metric, widget, slug }) => {
     )
 
     close()
-    widget.rerender()
+    rerenderWidgets()
   }
 
   return (

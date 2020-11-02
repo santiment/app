@@ -1,8 +1,10 @@
 import React, { useMemo } from 'react'
 import Setting from './Setting'
 import { useDropdown } from './Dropdown'
+import { getMetricSetting } from './utils'
 import { Setting as Option } from '../../../SANCharts/ChartSettingsContextMenu'
 import { updateTooltipSetting } from '../../../dataHub/tooltipSettings'
+import { Node } from '../../../Chart/nodes'
 
 const RAW_INDICATORS = {
   MA: {
@@ -70,6 +72,7 @@ function buildIndicatorMetric (metric, indicator) {
     indicator,
     domainGroup,
     metricKey: key,
+    node: Node.LINE,
     key: `${indicator.key}_${key}`,
     label: `${label} ${indicatorLabel}`,
     reqMeta: {
@@ -105,6 +108,8 @@ const IndicatorsSetting = ({ metric, widget, toggleMetric }) => {
       : cacheIndicator(metric, indicator)
 
     if (indicatorMetric) {
+      const { interval } = getMetricSetting(widget.MetricSettingMap, metric)
+      widget.MetricSettingMap.set(indicatorMetric, { interval })
       toggleMetric(indicatorMetric)
     }
   }
