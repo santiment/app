@@ -16,10 +16,10 @@ const NODES = [
   buildNode(Node.LINE, 'Line'),
   buildNode(Node.FILLED_LINE, 'Filled line'),
   buildNode(Node.GRADIENT_LINE, 'Gradient line'),
-  buildNode(Node.BAR, 'Bar')
+  buildNode(Node.AUTO_WIDTH_BAR, 'Bar')
 ]
 
-const NodeSetting = ({ metric, widget }) => {
+const NodeSetting = ({ metric, widget, rerenderWidgets }) => {
   const { activeRef, close, Dropdown } = useDropdown()
   const node = useMemo(
     () => {
@@ -35,7 +35,7 @@ const NodeSetting = ({ metric, widget }) => {
 
     if (
       newNode === metric.node ||
-      (newNode === Node.BAR && BARS.has(metric.node))
+      (newNode === Node.AUTO_WIDTH_BAR && BARS.has(metric.node))
     ) {
       delete metricSetting.node
     } else {
@@ -45,11 +45,11 @@ const NodeSetting = ({ metric, widget }) => {
     widget.MetricSettingMap = newMap
 
     close()
-    widget.rerender()
+    rerenderWidgets()
   }
 
   return (
-    <Dropdown trigger={<Setting>Node: {NodeToLabel[node]}</Setting>}>
+    <Dropdown trigger={<Setting>Style: {NodeToLabel[node]}</Setting>}>
       {NODES.map(({ key, label }) => (
         <Button
           key={key}

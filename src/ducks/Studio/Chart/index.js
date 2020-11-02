@@ -205,6 +205,7 @@ const Chart = ({
           slug={settings.slug}
           widget={widget}
           toggleMetric={onMetricRemove}
+          rerenderWidgets={rerenderWidgets}
         />
       )}
 
