@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useReducer } from 'react'
 
 export const useDebounceEffect = (fn, time, dependencies = []) => {
   const [timer, setTimer] = useState()
@@ -19,3 +19,7 @@ export const useDebounce = (fn, time) => {
     setTimer(setTimeout(() => fn(...args), time))
   }
 }
+
+const DEFAULT = []
+const REDUCER = () => []
+export const useRedrawer = () => useReducer(REDUCER, DEFAULT)

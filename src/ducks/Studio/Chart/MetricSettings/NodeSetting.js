@@ -19,13 +19,12 @@ const NODES = [
   buildNode(Node.BAR, 'Bar')
 ]
 
-const NodeSetting = ({ metric, widget, rerenderWidgets }) => {
+const NodeSetting = ({ metric, widget }) => {
   const { activeRef, close, Dropdown } = useDropdown()
   const node = useMemo(
     () => {
       const settings = widget.MetricSettingMap.get(metric)
-      const metricNode = settings && settings.node
-      return metricNode || metric.node
+      return (settings && settings.node) || metric.node
     },
     [widget.MetricSettingMap, metric]
   )
@@ -46,7 +45,7 @@ const NodeSetting = ({ metric, widget, rerenderWidgets }) => {
     widget.MetricSettingMap = newMap
 
     close()
-    rerenderWidgets()
+    widget.rerender()
   }
 
   return (

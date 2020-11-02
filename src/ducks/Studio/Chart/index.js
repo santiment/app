@@ -204,7 +204,6 @@ const Chart = ({
           interval={settings.interval}
           slug={settings.slug}
           widget={widget}
-          rerenderWidgets={rerenderWidgets}
           toggleMetric={onMetricRemove}
         />
       )}

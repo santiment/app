@@ -4,9 +4,10 @@ import {
   updateBrushState,
   updateBrushDimensions
 } from '@santiment-network/chart/brush'
-import { useChart, useRedrawer } from './context'
+import { useChart } from './context'
 import { dayBrushPaintConfig, nightBrushPaintConfig } from './paintConfigs'
 import { clearCtx } from './utils'
+import { useRedrawer } from '../../hooks'
 import { useTheme } from '../../stores/ui/theme'
 import { brush as brushClassName } from './index.module.scss'
 
