@@ -90,7 +90,7 @@ const TopTransactionsTable = ({
   function onCalendarChange (newDates) {
     widget.datesRange = newDates
     setDates(newDates)
-    rerenderWidgets()
+    rerenderWidgets() // NOTE: Used to sync search query [@vanguard | Nov 2, 2020]
   }
 
   function onCloseClick () {

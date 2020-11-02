@@ -18,6 +18,7 @@ import { buildComparedMetric } from '../Compare/utils'
 import { useEdgeGaps, useClosestValueData } from '../../Chart/hooks'
 import { useSyncDateEffect } from '../../Chart/sync'
 import { Metric } from '../../dataHub/metrics'
+import { useRedrawer } from '../../../hooks'
 
 const activeEvents = []
 
@@ -31,25 +32,24 @@ export const Chart = ({
   observeSyncDate,
   ...props
 }) => {
+  widget.rerender = useRedrawer()[1]
   const { metrics, chartRef, MetricSettingMap } = widget
   const [options, setOptions] = useState(DEFAULT_OPTIONS)
   const [comparables, setComparables] = useState(widget.comparables)
   const [activeMetrics, setActiveMetrics] = useState(metrics)
-
   const MetricTransformer = useMirroredTransformer(metrics)
-
   const [rawData, loadings, ErrorMsg] = useTimeseries(
     activeMetrics,
     settings,
     MetricSettingMap,
     MetricTransformer
   )
-
   const [eventsData] = useTimeseries(activeEvents, settings)
   const MetricNode = useMetricNodeOverwrite(MetricSettingMap)
   const data = useEdgeGaps(
     useClosestValueData(rawData, metrics, options.isClosestDataActive)
   )
+
   // TODO: Solve the webpack circular dependency issue to share singular chart [@vanguard | Jul 1, 2020]
   // const shareLink = useMemo(
   // () => buildChartShareLink({ settings, widgets: [widget] }),
@@ -150,7 +150,7 @@ export const Chart = ({
   }
 
   return (
-    <ColorProvider widget={widget} rerenderWidgets={rerenderWidgets}>
+    <ColorProvider widget={widget}>
       <StudioChart
         {...props}
         data={data}
