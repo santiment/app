@@ -1,13 +1,14 @@
 import React from 'react'
 import cx from 'classnames'
 import TopHoldersSetting from './TopHoldersSetting'
+import NodeSetting from './NodeSetting'
 import ColorSetting from './ColorSetting'
 import IntervalSetting from './IntervalSetting'
 import ExchangeSetting from './ExchangeSetting'
 import IndicatorsSetting from './IndicatorsSetting'
 import { Metric } from '../../../dataHub/metrics'
 import { MetricSettings } from '../../../dataHub/metrics/settings'
-import { Node, LINES } from '../../../Chart/nodes'
+import { Node } from '../../../Chart/nodes'
 import styles from './index.module.scss'
 
 const SettingToComponent = {
@@ -18,10 +19,7 @@ const isExchangeModifiable = metric =>
   metric === Metric.exchange_outflow || metric === Metric.exchange_inflow
 
 const isIndicatorAssignable = metric =>
-  LINES.has(metric.node) &&
-  !metric.indicator &&
-  !metric.comparedTicker &&
-  metric !== Metric.dev_activity
+  !metric.indicator && !metric.comparedTicker && metric !== Metric.dev_activity
 
 const getSettings = ({ key, domainGroup }) => {
   return MetricSettings[key] || MetricSettings[domainGroup]
@@ -33,6 +31,9 @@ const Settings = ({ className, metric, ...props }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
       {metric.label}:
+      {metric.node !== Node.GREEN_RED_BAR && (
+        <NodeSetting metric={metric} {...props} />
+      )}
       <ColorSetting metric={metric} />
       {metric.node !== Node.AUTO_WIDTH_BAR && (
         <IntervalSetting metric={metric} {...props} />

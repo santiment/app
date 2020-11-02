@@ -63,9 +63,9 @@ export const INDEX_PAGE_GROUPS = [
         createdAt: '2020-09-25T10:07:20.922Z'
       },
       {
-        title: 'YAM rise and fall',
-        slug: 'yam OR yams',
-        createdAt: '2020-09-01T07:18:20.922Z'
+        title: 'CME gap to be filled',
+        slug: 'gap',
+        createdAt: '2020-10-30T07:18:20.922Z'
       },
       {
         title: 'DeFi craze',

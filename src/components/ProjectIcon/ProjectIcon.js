@@ -76,6 +76,6 @@ ProjectIcon.defaultProps = {
 export default compose(
   connect(mapStateToProps),
   graphql(PROJECT_ICON_QUERY, {
-    skip: ({ logoUrl, slug }) => !!logoUrl || !!PREDEFINED_ICONS[slug]
+    skip: ({ logoUrl, slug }) => !!logoUrl || !!PREDEFINED_ICONS[slug] || !slug
   })
 )(ProjectIcon)

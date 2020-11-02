@@ -230,6 +230,7 @@ const Header = ({
               knockNumber={knockNumber}
               setKnockNumber={setKnockNumber}
               slug={slug}
+              name={project.name}
             />
           </div>
 

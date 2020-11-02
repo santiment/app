@@ -274,5 +274,6 @@ export const METRICS = [
   'unlabeled_balance',
   'all_known_balance',
 
-  'total_supply'
+  'total_supply',
+  'network_profit_loss'
 ]

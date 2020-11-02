@@ -8,32 +8,36 @@ import Gift from '../Illustrations/Gift'
 import Rocket from '../Illustrations/Rocket'
 import styles from './index.module.scss'
 
-const DISCOUND_CODE = 'SAN_HALLOWEEN30'
+const DISCOUND_CODE = 'pumpkin40'
+const PERCENT_DISCOUNT = '40'
 
 const STEPS = [
   {
-    title: 'You dug the first grave!',
-    description:
-      'Work with your hands more: find 2 more graves to get a gift from Santiment',
-    button: "Let's continue!",
+    title: 'You’ve dug your first grave!',
+    description: ({ name }) =>
+      `You just saved ${name} from early market death 💀
+Dig 2 more graves to get a gift from Santiment!`,
+    button: 'Keep digging  ⛏️',
     img: Rocket
   },
   {
-    title: "You're rock!",
-    description:
-      'Dug the final grave and you win this small game. Your award is somewhere near...',
+    title: 'One grave left!',
+    description: () => `You've resurrected 2 coins - one more and the prize is yours!
+The night is getting darker...👻`,
     button: 'Go, go, go!',
     img: Congrats
   },
   {
     title: 'Congratulations!',
-    description: `You've worked a lot and here your discount for Sanbase - ${DISCOUND_CODE}`,
+    description: () => `To celebrate Halloween, we’re gifting you a one-time discount code for Sanbase Pro - "${DISCOUND_CODE}".
+Use the code during checkout and get ${PERCENT_DISCOUNT}% off Sanbase Pro!🎁
+`,
     button: 'Copy code to clipboard',
     img: Gift
   }
 ]
 
-const HalloweenPopup = ({ activeNumber }) => {
+const HalloweenPopup = ({ activeNumber, name }) => {
   const [isOpen, setOpen] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
 
@@ -51,6 +55,7 @@ const HalloweenPopup = ({ activeNumber }) => {
   )
 
   const Img = STEPS[activeNumber - 1].img
+  const Description = STEPS[activeNumber - 1].description
 
   return (
     <Dialog
@@ -64,7 +69,7 @@ const HalloweenPopup = ({ activeNumber }) => {
         <Img />
         <div className={styles.join}>{STEPS[activeNumber - 1].title}</div>
         <div className={styles.description}>
-          {STEPS[activeNumber - 1].description}
+          <Description name={name} />
         </div>
         <Button
           onClick={() => {

@@ -1,14 +1,17 @@
 import { useMemo } from 'react'
 import { LINES } from './nodes'
 import { Metric } from '../dataHub/metrics'
-import { MirroredMetric } from '../dataHub/metrics/mirrored'
+import { checkIfAreMirrored } from '../dataHub/metrics/mirrored'
 
 const splitByComma = str => str.split(',')
 const lineMetricsFilter = ({ node }) => LINES.has(node)
 const getDomainGroup = ({ key, domainGroup = key }) => domainGroup
-const checkIfAreMirrored = (metricA, metricB) =>
-  MirroredMetric[metricA.key] === metricB ||
-  MirroredMetric[metricB.key] === metricA
+const checkIfIsIndicatorOf = ({ key }, { indicator, queryKey }) =>
+  indicator && key === queryKey
+const checkIndicators = (metricA, metricB) =>
+  metricB.indicator
+    ? checkIfIsIndicatorOf(metricA, metricB)
+    : checkIfIsIndicatorOf(metricB, metricA)
 
 export function useDomainGroups (metrics) {
   return useMemo(
@@ -156,10 +159,10 @@ export function useAxesMetricsKey (metrics, isDomainGroupingActive) {
       }
 
       const mainAxisDomain = getDomainGroup(mainAxisMetric)
-      let hasSameDomain =
-        (isDomainGroupingActive ||
-          checkIfAreMirrored(mainAxisMetric, secondaryAxisMetric)) &&
-        mainAxisDomain === getDomainGroup(secondaryAxisMetric)
+      let hasSameDomain = isDomainGroupingActive
+        ? mainAxisDomain === getDomainGroup(secondaryAxisMetric)
+        : checkIfAreMirrored(mainAxisMetric, secondaryAxisMetric) ||
+          checkIndicators(mainAxisMetric, secondaryAxisMetric)
 
       if (hasSameDomain) {
         for (let i = 1; i < length; i++) {

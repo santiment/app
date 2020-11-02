@@ -10,12 +10,7 @@ import styles from './index.module.scss'
 const isAvailableInterval = (interval, intervals) =>
   intervals.some(({ key }) => key === interval)
 
-const IntervalSetting = ({
-  metric,
-  widget,
-  interval: chartInterval,
-  rerenderWidgets
-}) => {
+const IntervalSetting = ({ metric, widget, interval: chartInterval }) => {
   const { activeRef, close, Dropdown } = useDropdown()
   const intervals = useMetricIntervals(metric)
   const interval = useMemo(
@@ -49,7 +44,7 @@ const IntervalSetting = ({
     }
 
     close()
-    rerenderWidgets()
+    widget.rerender()
   }
   return (
     <Dropdown

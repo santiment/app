@@ -60,6 +60,7 @@ import { Metric } from '../../dataHub/metrics'
 import { useWatchlist } from '../../Watchlists/gql/hooks'
 import { SIGNAL_SUPPORTED_METRICS } from '../signalFormManager/signalCrudForm/formParts/metricTypes/metrics'
 import { findWebHook } from '../signalFormManager/signalCrudForm/formParts/channels/hooks'
+import { fetchHb } from '../../HistoricalBalance/utils'
 
 export const mapToOptions = input => {
   if (!input) {
@@ -140,7 +141,7 @@ const getFormTriggerTarget = settings => {
       ethAddress: newEthAddress,
       target: selector
         ? {
-          slug: selector.currency
+          slug: selector.slug || selector.currency
         }
         : asset,
       signalType: METRIC_TARGET_ASSETS
@@ -423,7 +424,7 @@ export const mapTriggerToFormProps = currentTrigger => {
   const absolutePriceValues = getAbsolutePriceValues(currentTrigger)
 
   const {
-    target: newTarget,
+    target,
     signalType,
     ethAddress,
     targetWatchlist,
@@ -447,7 +448,7 @@ export const mapTriggerToFormProps = currentTrigger => {
     timeWindowUnit: time_window
       ? getTimeWindowUnit(time_window)
       : TIME_WINDOW_UNITS[0],
-    target: newTarget,
+    target,
     signalType: signalType,
 
     ...getPercentTreshold(settings, newType),
@@ -531,7 +532,7 @@ const getFrequencyFromCooldown = ({ cooldown }) => {
 export const getTargetFromArray = (target, mapper = targetMapper) =>
   target.length === 1 ? mapper(target[0]) : target.map(mapper)
 
-export const mapFomTargetToTriggerTarget = (
+export const mapFormTargetToTriggerTarget = (
   target,
   targetWatchlist,
   textSelector,
@@ -573,17 +574,41 @@ export const mapTargetObject = (target, mapper = targetMapper) => {
     : mapper(target)
 }
 
-export const mapAssetTarget = ({ target, ethAddress }) => {
-  if (!ethAddress) {
-    return {
-      selector: { currency: 'ethereum', infrastructure: 'ETH' }
+const getSelectorPartByInfrastructure = (infrastructure, target) => {
+  switch (infrastructure) {
+    case 'BTC':
+    case 'BCH':
+    case 'LTC': {
+      return {}
+    }
+
+    case 'ETH':
+    case 'EOS':
+    case 'BNB': {
+      return {
+        slug: mapTargetObject(target)
+      }
+    }
+    case 'XRP': {
+      return {
+        currency: mapTargetObject(target)
+      }
+    }
+    default: {
+      return {}
     }
   }
+}
+
+export const mapHBAssetTarget = ({ target }) => {
+  const infrastructure = mapTargetInfrastructure(target)
+
+  const additional = getSelectorPartByInfrastructure(infrastructure, target)
 
   return {
     selector: {
-      currency: mapTargetObject(target),
-      infrastructure: mapTargetInfrastructure(target)
+      infrastructure,
+      ...additional
     }
   }
 }
@@ -714,7 +739,7 @@ export const mapFormToPPCTriggerSettings = formProps => {
     textSelector,
     metric: { type, metric, key }
   } = formProps
-  const newTarget = mapFomTargetToTriggerTarget(
+  const newTarget = mapFormTargetToTriggerTarget(
     target,
     targetWatchlist,
     textSelector,
@@ -739,7 +764,7 @@ export const mapFormToPACTriggerSettings = formProps => {
     textSelector,
     metric: { key, type, metric }
   } = formProps
-  const newTarget = mapFomTargetToTriggerTarget(
+  const newTarget = mapFormTargetToTriggerTarget(
     target,
     targetWatchlist,
     textSelector,
@@ -762,7 +787,7 @@ export const mapFormToDAATriggerSettings = formProps => {
     textSelector,
     metric: { type, metric }
   } = formProps
-  const newTarget = mapFomTargetToTriggerTarget(
+  const newTarget = mapFormTargetToTriggerTarget(
     target,
     targetWatchlist,
     textSelector,
@@ -797,7 +822,7 @@ export const mapFormToPVDTriggerSettings = formProps => {
     textSelector,
     metric: { type, metric }
   } = formProps
-  const newTarget = mapFomTargetToTriggerTarget(
+  const newTarget = mapFormTargetToTriggerTarget(
     target,
     targetWatchlist,
     textSelector,
@@ -823,10 +848,10 @@ export const mapFormToHBTriggerSettings = formProps => {
   } = formProps
   const newAsset =
     signalType.value === METRIC_TARGET_ASSETS.value
-      ? mapAssetTarget({ target, ethAddress })
+      ? mapHBAssetTarget({ target })
       : undefined
 
-  const newTarget = mapFomTargetToTriggerTarget(
+  const newTarget = mapFormTargetToTriggerTarget(
     target,
     targetWatchlist,
     textSelector,
@@ -907,8 +932,8 @@ export const isNewTypeSignal = ({ settings: { type } }) => {
 
 const HistoricalBalanceMetrics = {
   ...Metric.balance,
-  key: 'historicalBalance',
-  queryKey: 'historicalBalance'
+  key: 'balance',
+  fetch: fetchHb
 }
 
 export const getNewMetricsByType = ({ settings: { type, metric } }) => {
@@ -1324,7 +1349,7 @@ export const couldShowChart = (
     case METRIC_TYPES.WALLET_MOVEMENT:
     case ETH_WALLET: {
       if (selector) {
-        return selector.currency && selector.infrastructure
+        return (selector.currency || selector.slug) && selector.infrastructure
       }
 
       return Array.isArray(ethAddress) ? ethAddress.length === 1 : !!ethAddress

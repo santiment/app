@@ -49,9 +49,10 @@ export const makeSameRange = (points, base) => {
 }
 
 export const mapToRequestedMetrics = (metrics, settings) =>
-  metrics.map(({ key, alias: name = key, reqMeta }) => ({
+  metrics.map(({ key, alias: name = key, reqMeta, fetch }) => ({
     key,
     name,
+    fetch,
     ...settings,
     ...reqMeta
   }))
