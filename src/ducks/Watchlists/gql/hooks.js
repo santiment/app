@@ -99,12 +99,10 @@ export function useUserWatchlists () {
 export function useUserScreeners () {
   const isLoggedIn = checkIsLoggedIn(store.getState())
 
-  if (!isLoggedIn) {
-    return [DEFAULT_SCREENERS]
-  }
   const { data, loading, error } = useQuery(USER_WATCHLISTS_QUERY, {
     skip: !isLoggedIn
   })
+
   const { fetchWatchlists: watchlists } = data || {}
   let screeners = []
   if (watchlists && watchlists.length) {
