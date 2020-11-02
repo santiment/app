@@ -5,7 +5,9 @@ import { useDropdown } from './Dropdown'
 import { getMetricSetting } from './utils'
 import { Node, BARS } from '../../../Chart/nodes'
 
-const NodeToLabel = {}
+const NodeToLabel = {
+  [Node.BAR]: 'Bar'
+}
 const buildNode = (key, label) => {
   NodeToLabel[key] = label
   return { key, label }
@@ -24,7 +26,8 @@ const NodeSetting = ({ metric, widget, rerenderWidgets }) => {
   const node = useMemo(
     () => {
       const settings = widget.MetricSettingMap.get(metric)
-      return (settings && settings.node) || metric.node
+      const node = (settings && settings.node) || metric.node
+      return BARS.has(node) ? Node.AUTO_WIDTH_BAR : node
     },
     [widget.MetricSettingMap, metric]
   )
