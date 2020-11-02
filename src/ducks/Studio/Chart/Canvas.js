@@ -3,6 +3,7 @@ import Insights from './Insights'
 import IcoPrice from './IcoPrice'
 import LastDayPrice from './LastDayPrice'
 import ResponsiveChart from '../../Chart/Responsive'
+import Areas from '../../Chart/Areas'
 import Lines from '../../Chart/Lines'
 import Bars from '../../Chart/Bars'
 import GreenRedBars from '../../Chart/GreenRedBars'
@@ -57,6 +58,7 @@ const Canvas = ({
       <Watermark light={isWatermarkLighter} />
       <GreenRedBars />
       <Bars />
+      <Areas />
       <Lines />
       <Axes metrics={axesMetricKeys} />
       {isCartesianGridActive && <CartesianGrid />}

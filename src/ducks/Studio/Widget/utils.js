@@ -19,9 +19,14 @@ export const useMetricNodeOverwrite = MetricSettingMap =>
   useMemo(
     () => {
       const metricNode = {}
-      MetricSettingMap.forEach(({ interval }, { key, node }) => {
+
+      MetricSettingMap.forEach(({ interval, node: nodeOverwrite }, metric) => {
+        const node = nodeOverwrite || metric.node
+
         if (interval && node === 'bar') {
-          metricNode[key] = 'autoWidthBar'
+          metricNode[metric.key] = 'autoWidthBar'
+        } else {
+          metricNode[metric.key] = node
         }
       })
       return metricNode

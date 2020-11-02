@@ -20,11 +20,17 @@ const Alert = ({ alert, render, createAlert }) => {
   )
 }
 
-export default ({ className, metricValues, onDialogClose, ...rest }) => {
+export default ({
+  className,
+  metricValues,
+  containerRef,
+  onDialogClose,
+  ...rest
+}) => {
   const suggestions = useSuggestions(metricValues)
 
   return (
-    <div className={cx(styles.wrapper, className)}>
+    <div ref={containerRef} className={cx(styles.wrapper, className)}>
       <div className={styles.header}>
         Create alert if:
         <SignalMasterModalForm

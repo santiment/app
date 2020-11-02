@@ -1,5 +1,9 @@
 @import '~@santiment-network/ui/mixins';
 
+.wrapper {
+  position: relative;
+}
+
 .card {
   padding: 24px;
   display: flex;
@@ -12,8 +16,7 @@
 }
 
 .skeleton {
-  min-height: 114px;
-  height: 100%;
+  height: 114px;
 }
 
 .title {
