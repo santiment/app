@@ -1,5 +1,7 @@
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import { useQuery } from '@apollo/react-hooks'
+import { useMemo } from 'react'
 
 export const projectSearchData = gql`
   fragment projectSearchData on Project {
@@ -35,3 +37,19 @@ export default graphql(ALL_PROJECTS_QUERY, {
     }
   }
 })
+
+export const useProjects = () => {
+  const query = useQuery(ALL_PROJECTS_QUERY)
+
+  return useMemo(
+    () => {
+      const { data, loading, error } = query
+      return [
+        data && data.projects ? data.projects : DEFAULT_PROJECTS,
+        loading,
+        error
+      ]
+    },
+    [query]
+  )
+}
