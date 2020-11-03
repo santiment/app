@@ -13,8 +13,8 @@ export function useShortShareLink () {
   const [shortShareLink, setShortShareLink] = useState('')
   const cache = useRef({}).current
 
-  function getShortShareLink () {
-    const currentPath = getCurrentPath()
+  function getShortShareLink (path) {
+    const currentPath = path || getCurrentPath()
     const cachedLink = cache[currentPath]
 
     if (cachedLink) {
