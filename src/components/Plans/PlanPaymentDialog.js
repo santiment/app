@@ -194,7 +194,7 @@ const PaymentDialog = ({
 
                       hidePayment()
 
-                      GA.event({
+                      trackEvent({
                         category: 'User',
                         action: 'Payment success'
                       })
