@@ -50,9 +50,9 @@ export function newProjectMetric (project, baseMetric, projectMetricKey) {
   return metric
 }
 
-export function getProjectMetricByKey (key) {
-  const [slug, ticker, metricKey] = key.split(METRIC_CONNECTOR)
+export function getProjectMetricByKey (key, connector = METRIC_CONNECTOR) {
+  const [slug, ticker, metricKey] = key.split(connector)
   const metric = getMetricByKey(metricKey)
 
-  newProjectMetric({ slug, ticker }, metric, key)
+  return newProjectMetric({ slug, ticker }, metric, key)
 }

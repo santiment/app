@@ -41,12 +41,13 @@ function useRestrictedInfo (metrics) {
         client
           .query({
             query: METRIC_BOUNDARIES_QUERY,
+            errorPolicy: 'all',
             variables: {
               metric: queryKey
             }
           })
           .then(({ data: { getMetric } }) => {
-            if (race) return
+            if (race || !getMetric) return
 
             const {
               metadata: { isRestricted, from, to }
