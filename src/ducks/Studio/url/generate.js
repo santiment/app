@@ -44,7 +44,7 @@ const normalizeConnectedWidget = ({ Widget, datesRange }) => ({
 export const normalizeWidget = ({
   Widget,
   metrics,
-  comparables,
+  // comparables,
   connectedWidgets,
   MetricColor,
   MetricSettingMap,
@@ -52,7 +52,7 @@ export const normalizeWidget = ({
 }) => ({
   widget: WidgetToTypeMap.get(Widget),
   metrics: metrics.map(({ key }) => key),
-  comparables: comparables.map(shareComparable),
+  // comparables: comparables.map(shareComparable),
   connectedWidgets: connectedWidgets
     ? connectedWidgets.map(normalizeConnectedWidget)
     : undefined,
@@ -75,14 +75,14 @@ export function generateShareLink (
   settings,
   options,
   metrics = [],
-  events = [],
-  comparables = []
+  events = []
+  // comparables = []
 ) {
   const Shareable = {
     ...settings,
     ...options,
-    metrics: getMetricsKeys(metrics),
-    comparables: comparables.map(shareComparable)
+    metrics: getMetricsKeys(metrics)
+    // comparables: comparables.map(shareComparable)
   }
 
   return stringify(Shareable, {

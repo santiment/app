@@ -62,7 +62,7 @@ const parseConnectedWidget = ({ widget, from, to }) =>
 export const parseComparable = key =>
   getProjectMetricByKey(key, COMPARE_CONNECTOR)
 const parseSharedComparables = keys =>
-  keys && toArray(keys).map(parseComparable)
+  keys ? toArray(keys).map(parseComparable) : []
 
 function parseMetricSetting (MetricSetting = {}, comparingMetrics = []) {
   const MetricSettingMap = new Map()

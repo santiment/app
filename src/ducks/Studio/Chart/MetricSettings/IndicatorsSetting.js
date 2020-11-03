@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import Setting from './Setting'
 import { useDropdown } from './Dropdown'
-import { getMetricSetting } from './utils'
+import { getMetricSetting } from '../../utils'
 import { Setting as Option } from '../../../SANCharts/ChartSettingsContextMenu'
 import { updateTooltipSetting } from '../../../dataHub/tooltipSettings'
 import { Node } from '../../../Chart/nodes'
