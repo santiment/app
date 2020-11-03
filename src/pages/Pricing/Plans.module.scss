@@ -2,12 +2,12 @@
 @import '~@santiment-network/ui/variables';
 
 .cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-column-gap: 24px;
+  grid-template-columns: 1fr 1fr 1fr;
 
-  @include responsive('tablet', 'phone', 'phone-xs') {
-    flex-direction: column;
+  &__two {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
@@ -69,8 +69,8 @@
 
 .billing {
   display: flex;
-  justify-content: center;
-  margin-bottom: 80px;
+  align-items: center;
+  margin-bottom: 50px;
 
   @include responsive('phone-xs') {
     flex-direction: column;
@@ -85,7 +85,7 @@
     @include text('body-2');
 
     color: var(--waterloo);
-    margin: 0 32px;
+    margin: 0 16px;
     cursor: pointer;
 
     @include responsive('phone-xs') {
@@ -93,8 +93,7 @@
     }
 
     &_active {
-      color: var(--mirage);
-      font-weight: 900;
+      color: var(--rhino);
     }
 
     &_year {
@@ -102,25 +101,16 @@
     }
   }
 
-  &__save {
-    position: absolute;
+  &__montly {
+    margin-left: 0;
+  }
 
+  &__save {
     @include text('body-3', 'l');
 
     color: var(--jungle-green);
-    top: calc(100% + 13px);
-    left: calc(100% + 12px);
     white-space: nowrap;
-
-    &::before {
-      content: '';
-      position: absolute;
-      background: url('./arrow.svg') no-repeat;
-      width: 27px;
-      height: 18px;
-      left: -27px;
-      top: -7px;
-    }
+    margin-left: 4px;
   }
 }
 

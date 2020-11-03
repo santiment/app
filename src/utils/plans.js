@@ -3,7 +3,8 @@ import { ONE_DAY_IN_MS } from './dates'
 export const PLANS = {
   FREE: 'FREE',
   BASIC: 'BASIC',
-  PRO: 'PRO'
+  PRO: 'PRO',
+  ENTERPRISE: 'ENTERPRISE'
 }
 
 export const sanbaseProductId = '2'
@@ -41,6 +42,7 @@ export const getYearMonthPrices = (amount, billing) => {
 export const findSanbasePlan = ({ id }) => id === sanbaseProductId
 
 export const noBasicPlan = ({ name }) => name !== PLANS.BASIC
+export const noEnterprisePlan = ({ name }) => name !== PLANS.ENTERPRISE
 
 const checkIsSanbaseSubscription = ({
   plan: {
