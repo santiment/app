@@ -17,7 +17,7 @@ import { formatError, contactAction } from '../../utils/notifications'
 import { getDateFormats } from '../../utils/dates'
 import { getAlternativeBillingPlan } from '../../utils/plans'
 import { usePlans } from '../../ducks/Plans/hooks'
-import GA from '../../utils/tracking'
+import { useTrackEvents } from '../../hooks/tracking'
 import { USER_SUBSCRIPTION_CHANGE } from '../../actions/types'
 import { updateUserSubscriptions } from '../../stores/user/subscriptions'
 import styles from './PlanPaymentDialog.module.scss'
@@ -90,6 +90,7 @@ const PaymentDialog = ({
   const [loading, toggleLoading] = useFormLoading()
   const [paymentVisible, setPaymentVisiblity] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState({})
+  const [trackEvent] = useTrackEvents()
 
   const {
     id: planId,
@@ -121,7 +122,7 @@ const PaymentDialog = ({
   }
 
   function showPayment () {
-    GA.event({
+    trackEvent({
       category: 'User',
       action: 'Payment form opened'
     })
@@ -158,7 +159,7 @@ const PaymentDialog = ({
                   if (loading) return
                   toggleLoading()
 
-                  GA.event({
+                  trackEvent({
                     category: 'User',
                     action: 'Payment form submitted'
                   })
@@ -193,7 +194,7 @@ const PaymentDialog = ({
 
                       hidePayment()
 
-                      GA.event({
+                      trackEvent({
                         category: 'User',
                         action: 'Payment success'
                       })

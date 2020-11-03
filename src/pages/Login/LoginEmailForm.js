@@ -4,7 +4,7 @@ import { Mutation } from 'react-apollo'
 import cx from 'classnames'
 import { Form, Formik } from 'formik'
 import isEqual from 'lodash.isequal'
-import GA from '../../utils/tracking'
+import { useTrackEvents } from '../../hooks/tracking'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import Button from '@santiment-network/ui/Button'
 import { PATHS } from '../../paths'
@@ -21,15 +21,17 @@ export const EmailForm = ({
   placeholder = 'Your email',
   label = 'Continue'
 }) => {
+  const [trackEvent] = useTrackEvents()
   return (
     <Formik
       onSubmit={({ email }) => {
         setEmail && setEmail(email)
 
-        GA.event({
+        trackEvent({
           category: 'User',
           action: 'Choose an email provider'
         })
+
         loginEmail({
           variables: {
             email: email,
