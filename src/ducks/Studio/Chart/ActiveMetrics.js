@@ -65,7 +65,7 @@ const MetricButton = ({
         )
       ) : null}
       {label}
-      {comparedTicker && ` (${comparedTicker})`}
+      {false && comparedTicker && ` (${comparedTicker})`}
       <MetricErrorExplanation
         errorsForMetrics={errorsForMetrics}
         metric={metric}

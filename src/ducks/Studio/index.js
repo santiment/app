@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Sidebar from './Sidebar'
 import Main from './Main'
+import { newProjectMetric } from './metrics'
 import {
   deduceItems,
   mergeMetricSettingMap,
@@ -97,6 +98,7 @@ export const Studio = ({
 
     if (metrics.length < widget.metrics.length) {
       widget.MetricSettingMap.delete(metric)
+      // TODO: delete color [@vanguard | Nov  3, 2020]
     }
 
     if (
@@ -113,7 +115,10 @@ export const Studio = ({
   }
 
   function toggleSelectionMetric (metric) {
-    const deducedMetric = deduceItems(selectedMetrics, metric)
+    const deducedMetric = deduceItems(
+      selectedMetrics,
+      newProjectMetric(settings, metric)
+    )
     setSelectedMetrics(deducedMetric)
     return deducedMetric
   }

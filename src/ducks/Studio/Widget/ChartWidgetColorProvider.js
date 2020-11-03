@@ -12,16 +12,16 @@ function ColorProvider ({ widget, children, rerenderWidgets }) {
 
   function updateMetricColor (metricKey, color) {
     const NewMetricColor = Object.assign({}, state, { [metricKey]: color })
-    setState(NewMetricColor)
     widget.MetricColor = NewMetricColor
+    setState(NewMetricColor)
     rerenderWidgets()
   }
 
   useEffect(
     () => {
       const NewMetricColor = getChartColors(metrics.concat(comparables), state)
-      setState(NewMetricColor)
       widget.MetricColor = NewMetricColor
+      setState(NewMetricColor)
     },
     [metrics, comparables]
   )

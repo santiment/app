@@ -9,6 +9,7 @@ import {
 import StudioChart from '../Chart'
 import { dispatchWidgetMessage } from '../widgetMessage'
 import { DEFAULT_OPTIONS } from '../defaults'
+import { newProjectMetric } from '../metrics'
 import {
   calculateMovingAverageFromInterval,
   mergeMetricSettingMap
@@ -138,9 +139,7 @@ export const Chart = ({
   function toggleMetric (metric) {
     if (metric.indicator) {
       toggleIndicatorMetric(metric)
-    }
-
-    if (metric.comparedTicker) {
+    } else if (metric.comparedTicker) {
       return removeComparedMetric(metric)
     }
 
@@ -182,7 +181,9 @@ const ChartWidget = props => (
 
 const newChartWidget = (props, widget = ChartWidget) =>
   newWidget(widget, {
-    metrics: [Metric.price_usd],
+    metrics: [
+      newProjectMetric({ slug: 'bitcoin', ticker: 'BTC' }, Metric.price_usd)
+    ],
     comparables: [],
     comparedMetrics: [],
     MetricSettingMap: new Map(),

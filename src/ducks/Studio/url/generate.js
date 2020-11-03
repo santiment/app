@@ -1,5 +1,5 @@
 import { stringify } from 'query-string'
-import { COMPARE_CONNECTOR } from './parse'
+import { COMPARE_CONNECTOR } from './utils'
 import { WidgetToTypeMap } from '../Widget/types'
 
 const keyExtractor = ({ key }) => key

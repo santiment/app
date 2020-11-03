@@ -1,6 +1,5 @@
-import { useMemo } from 'react'
-import { useQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
+import { useState, useEffect, useMemo } from 'react'
+import { getMinInterval } from '../../timeseries/queries/minInterval.js'
 
 function makeInterval (key, label) {
   intervalIndices.push(key)
@@ -23,22 +22,17 @@ const INTERVALS = [
   makeInterval('7d', '7 days')
 ]
 
-const METRIC_MIN_INTERVAL_QUERY = gql`
-  query($metric: String!) {
-    getMetric(metric: $metric) {
-      metadata {
-        minInterval
-      }
-    }
-  }
-`
+export function useMetricMinInterval ({ key, queryKey = key }) {
+  const [minInterval, setMinInterval] = useState()
 
-export function useMetricMinInterval ({ key }) {
-  const { data } = useQuery(METRIC_MIN_INTERVAL_QUERY, {
-    variables: { metric: key }
-  })
+  useEffect(
+    () => {
+      getMinInterval(queryKey).then(setMinInterval)
+    },
+    [queryKey]
+  )
 
-  return data && data.getMetric.metadata.minInterval
+  return minInterval
 }
 
 export function useMetricIntervals (metric) {

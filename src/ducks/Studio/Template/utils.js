@@ -1,5 +1,6 @@
-import { COMPARE_CONNECTOR, parseComparable } from '../url/parse'
+import { parseComparable } from '../url/parse'
 import { shareComparable } from '../url/generate'
+import { COMPARE_CONNECTOR } from '../url/utils'
 import { Metric } from '../../dataHub/metrics'
 import { tryMapToTimeboundMetric } from '../../dataHub/timebounds'
 import { capitalizeStr } from '../../../utils/utils'

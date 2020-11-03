@@ -19,7 +19,7 @@ const isExchangeModifiable = metric =>
   metric === Metric.exchange_outflow || metric === Metric.exchange_inflow
 
 const isIndicatorAssignable = metric =>
-  !metric.indicator && !metric.comparedTicker && metric !== Metric.dev_activity
+  !metric.indicator && metric !== Metric.dev_activity
 
 const getSettings = ({ key, domainGroup }) => {
   return MetricSettings[key] || MetricSettings[domainGroup]

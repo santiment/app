@@ -1,4 +1,5 @@
 import { parse } from 'query-string'
+import { COMPARE_CONNECTOR, toArray } from './utils'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS } from '../defaults'
 import ChartWidget from '../Widget/ChartWidget'
 import {
@@ -16,10 +17,6 @@ import { Metric } from '../../dataHub/metrics'
 import { Submetrics } from '../../dataHub/submetrics'
 import { tryMapToTimeboundMetric } from '../../dataHub/timebounds'
 import { CompatibleMetric } from '../../dataHub/metrics/compatibility'
-
-export const COMPARE_CONNECTOR = '-CC-'
-
-const toArray = keys => (typeof keys === 'string' ? [keys] : keys)
 
 function sanitize (array) {
   if (!array) return
@@ -140,25 +137,24 @@ function extractMergedMetrics (metrics) {
 }
 
 function parseMetricIndicators (indicators) {
+  console.log(indicators)
   const MetricIndicators = {}
   const indicatorMetrics = []
 
-  if (indicators) {
-    Object.keys(indicators).forEach(metricKey => {
-      MetricIndicators[metricKey] = new Set(
-        indicators[metricKey].map(indicatorKey => {
-          const indicator = Indicator[indicatorKey]
-          const metric = convertKeyToMetric(metricKey)
+  Object.keys(indicators || {}).forEach(metricKey => {
+    MetricIndicators[metricKey] = new Set(
+      indicators[metricKey].map(indicatorKey => {
+        const indicator = Indicator[indicatorKey]
+        const metric = convertKeyToMetric(metricKey)
 
-          if (metric) {
-            indicatorMetrics.push(cacheIndicator(metric, indicator))
-          }
+        if (metric) {
+          indicatorMetrics.push(cacheIndicator(metric, indicator))
+        }
 
-          return indicator
-        })
-      )
-    })
-  }
+        return indicator
+      })
+    )
+  })
 
   return [MetricIndicators, indicatorMetrics]
 }
