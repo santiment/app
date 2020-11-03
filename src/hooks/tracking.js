@@ -7,7 +7,6 @@ export function useTrackEvents () {
   const { isLoggedIn } = useUser()
 
   const [mutate] = useMutation(TRACK_EVENTS_MUTATION, { skip: !isLoggedIn })
-  const created_at = new Date()
 
   function trackEvent (
     { action, category, label, ...values },
@@ -16,6 +15,8 @@ export function useTrackEvents () {
     if (!isBrowser || !isProdApp || hasDoNotTrack()) {
       return null
     }
+
+    const created_at = new Date()
 
     if (service.includes('ga')) {
       window.gtag('event', action, {
