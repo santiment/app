@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import { logScale, linearScale } from '@santiment-network/chart/scales'
-import { MAX_ASSETS_NUMBER, withDefaults } from './defaults'
+import { ASSETS_LIMIT, withDefaults } from './defaults'
 import { useSettings, useWalletAssets, useWalletMetrics } from './hooks'
 import Chart, { useResponsiveTicks } from './Chart'
 import Configurations from './Configurations'
@@ -55,7 +55,7 @@ const HistoricalBalance = ({
 
   function updateChartAssets (newChartAssets) {
     const { length } = newChartAssets
-    if (length > MAX_ASSETS_NUMBER) return
+    if (length > ASSETS_LIMIT) return
 
     const lastAsset = newChartAssets[length - 1]
     if (chartAssets.length < length && lastAsset) {

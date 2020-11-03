@@ -2,7 +2,7 @@ import React from 'react'
 import { getNewInterval } from '../SANCharts/IntervalSelector'
 import { getIntervalByTimeRange } from '../../utils/dates'
 
-export const MAX_ASSETS_NUMBER = 5
+export const ASSETS_LIMIT = 5
 const DEFAULT_TIME_RANGE = '6m'
 const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
 
