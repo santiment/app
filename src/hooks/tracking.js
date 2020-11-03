@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/react-hooks'
 import { useUser } from '../stores/user'
 import { TRACK_EVENTS_MUTATION } from '../queries/TrackingGQL'
-import { isProdApp, isBrowser, hasDoNotTrack, event } from '../utils/tracking'
+import { isProdApp, isBrowser, hasDoNotTrack } from '../utils/tracking'
 
 export function useTrackEvents () {
   const { isLoggedIn } = useUser()
@@ -18,20 +18,28 @@ export function useTrackEvents () {
     }
 
     if (service.includes('ga')) {
-      console.log('here')
-      event({ action, category, label, ...values }, ['ga'])
+      window.gtag('event', action, {
+        event_category: category,
+        event_label: label,
+        ...values
+      })
     }
-
     if (service.includes('intercom')) {
-      event({ action, category, label, ...values }, ['intercom'])
+      window.Intercom('trackEvent', action, {
+        event_category: category,
+        event_label: label,
+        ...values
+      })
     }
-
     if (service.includes('twitter')) {
-      event({ action, category, label, ...values }, ['twitter'])
+      window.twq('track', action, {
+        content_type: category,
+        content_name: label,
+        ...values
+      })
     }
 
     if (service.includes('sanapi')) {
-      console.log('here2')
       mutate({
         variables: {
           events: JSON.stringify([

@@ -112,6 +112,9 @@ export const update =
  *     method: 'metamask',
  *   })
  */
+
+// Please, use useTrackEvents hook from /hooks/tracking if it's possible
+
 export const event =
   isBrowser && isProdApp && !hasDoNotTrack()
     ? ({ action, category, label, ...values }, type = ['ga']) => {
