@@ -1,4 +1,5 @@
 import React from 'react'
+import { generateSearchQuery } from '../url'
 import {
   Menu,
   Setting,
@@ -17,9 +18,16 @@ const SettingsMenu = ({
 }) => {
   const { shortShareLink, getShortShareLink } = useShortShareLink()
 
+  function onShareClick () {
+    getShortShareLink(
+      '/labs/balance?' +
+        generateSearchQuery(settings, chartAssets, priceAssets, isLog)
+    )
+  }
+
   return (
     <Menu>
-      <ShareButton shareLink={shortShareLink} onMouseDown={getShortShareLink} />
+      <ShareButton shareLink={shortShareLink} onMouseDown={onShareClick} />
       <hr className={styles.divider} />
       <Setting
         title='Log scale'
