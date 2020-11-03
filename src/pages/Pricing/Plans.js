@@ -6,7 +6,6 @@ import { noBasicPlan, noEnterprisePlan } from '../../utils/plans'
 import { usePlans } from '../../ducks/Plans/hooks'
 import { useUser } from '../../stores/user'
 import { useUserSubscription } from '../../stores/user/subscriptions'
-import Enterprise from './Enterprise'
 import styles from './Plans.module.scss'
 
 const Billing = ({ selected, onClick }) => {

@@ -17,8 +17,7 @@ const PayWithCrypto = () => (
         Burn SAN tokens or pay with DAI / ETH
       </a>
       <Button
-        variant='fill'
-        accent='positive'
+        variant='ghost'
         className={styles.contactBtn}
         onClick={() =>
           window.Intercom &&

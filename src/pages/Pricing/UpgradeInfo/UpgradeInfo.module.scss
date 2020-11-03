@@ -1,0 +1,129 @@
+@import '~@santiment-network/ui/mixins.scss';
+
+.ask {
+  position: relative;
+  margin: 84px 0 76px 0;
+  display: flex;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 24px 0 48px 0;
+  }
+}
+
+.askBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  margin: auto;
+  top: 32px;
+
+  @include responsive('phone', 'phone-xs') {
+    top: 42px;
+  }
+}
+
+.askAccount {
+  @include responsive('phone', 'phone-xs') {
+    top: 16px;
+  }
+}
+
+.askTitle {
+  @include text('h4', 'l');
+
+  color: var(--rhino);
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-1', 'l');
+
+    max-width: 320px;
+    text-align: center;
+  }
+}
+
+.askUpgradeBtn {
+  margin-top: 32px;
+
+  @include responsive('phone', 'phone-xs') {
+    max-width: 320px;
+    margin-top: 24px;
+  }
+}
+
+.sign {
+  color: var(--white);
+  margin-bottom: 22px;
+}
+
+.bgSvg {
+  display: flex;
+  height: 180px;
+}
+
+.signSvg {
+  height: 200px;
+  margin: 14px 0 0 0 !important;
+
+  @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
+    margin: 0;
+  }
+}
+
+.emailInput {
+  height: 40px;
+  padding: 0 !important;
+  border: none !important;
+
+  input {
+    height: 40px;
+    padding-right: 235px !important;
+    padding-left: 40px !important;
+  }
+}
+
+.getStartedBtn {
+  background-color: var(--rhino);
+}
+
+.form {
+  width: 450px !important;
+  align-items: flex-start !important;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100% !important;
+    padding: 0 16px;
+  }
+}
+
+.subscriptionCheckbox {
+  @include text('caption');
+
+  cursor: pointer;
+  margin-top: 17px !important;
+}
+
+.subscriptionLabel {
+  @include text('caption');
+
+  color: var(--white) !important;
+  margin-left: 8px;
+}
+
+.selectedCheckbox {
+  svg {
+    fill: var(--mystic) !important;
+  }
+
+  div {
+    background: var(--white);
+    border-color: var(--white);
+
+    &:hover {
+      background: var(--athens);
+      border-color: var(--athens);
+    }
+  }
+}

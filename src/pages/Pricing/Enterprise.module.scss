@@ -4,7 +4,7 @@
   border: 1px solid var(--porcelain);
   border-radius: 8px;
   padding: 40px 56px;
-  margin-top: 24px;
+  margin: 24px 0 40px 0;
   display: flex;
   position: relative;
   background: #222639 url("./payCryptoBg.svg") no-repeat 100%;
@@ -43,6 +43,16 @@
   align-items: center;
   width: 122px;
   justify-content: center;
+  background: transparent;
+  color: var(--white);
+  border: 1px solid var(--white);
+  height: 40px;
+
+  @include text('body-2');
+
+  &:hover {
+    color: var(--jungle-green);
+  }
 }
 
 .right {
