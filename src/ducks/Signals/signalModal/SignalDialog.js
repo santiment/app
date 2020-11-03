@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
-import GA from '../../../utils/tracking'
+import { useTrackEvents } from '../../../hooks/tracking'
 import PageLoader from '../../../components/Loader/PageLoader'
 import AnonBanner from '../../../components/AnonBanner/AnonBanner'
 import {
@@ -33,6 +33,7 @@ const SignalDialog = ({
   const [dialogTitle, onSetDialogTitle] = useState('')
   const [isAnonWarning, setAnonWarning] = useState(false)
   const [openSharedForm, setOpenForm] = useState(isShared)
+  const [trackEvent] = useTrackEvents()
 
   const { variant, border } = buttonParams
 
@@ -86,13 +87,13 @@ const SignalDialog = ({
       open={dialogOpenState}
       onOpen={() => {
         // Track opening New signal Dialog
-        GA.event(
+        trackEvent(
           {
             category: 'user',
             action: 'alerts',
             method: 'create_new_alert'
           },
-          ['ga', 'intercom']
+          ['ga', 'intercom', 'sanapi']
         )
         setDialogOpenState(true)
       }}

@@ -6,8 +6,8 @@ import { connect } from 'react-redux'
 import LoginMetamaskUndetected from './LoginMetamaskUndetected'
 import { hasMetamask as detectMetamask } from '../../web3Helpers'
 import { showNotification } from './../../actions/rootActions'
-import GA from '../../utils/tracking'
 import { USER_ETH_LOGIN } from './../../actions/types'
+import { useTrackEvents } from '../../hooks/tracking'
 import styles from './index.module.scss'
 
 const hasMetamask = detectMetamask()
@@ -17,6 +17,8 @@ const LoginMetamaskBtn = ({
   showErrorNotification,
   requestAuth
 }) => {
+  const [trackEvent] = useTrackEvents()
+
   if (!hasMetamask) {
     return <LoginMetamaskUndetected />
   }
@@ -25,11 +27,19 @@ const LoginMetamaskBtn = ({
     showErrorNotification()
   }
 
+  function askAuth (consent) {
+    requestAuth(consent)
+    trackEvent({
+      category: 'User',
+      action: 'Choose an metamask provider'
+    })
+  }
+
   return (
     <Button
       fluid
       className={cx(styles.btn, styles.btn_metamask)}
-      onClick={requestAuth}
+      onClick={askAuth}
     >
       <Icon type='metamask-monochrome' className={styles.btn__icon} />
       <span className={styles.metamask}>Log in with Metamask</span>
@@ -43,10 +53,6 @@ const mapStateToProps = ({ user }) => ({
 
 const mapDispatchToProps = dispatch => ({
   requestAuth: consent => {
-    GA.event({
-      category: 'User',
-      action: 'Choose an metamask provider'
-    })
     dispatch({ type: USER_ETH_LOGIN, payload: { consent: '' } })
   },
   showErrorNotification: () => {
