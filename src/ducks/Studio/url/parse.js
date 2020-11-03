@@ -13,7 +13,6 @@ import {
   MERGED_DIVIDER
 } from '../Widget/HolderDistributionWidget/utils'
 import { TypeToWidget } from '../Widget/types'
-import { buildComparedMetric, buildCompareKey } from '../Compare/utils'
 import {
   Indicator,
   cacheIndicator
@@ -192,7 +191,7 @@ function parseSharedSidepanel (sidepanel) {
   return parsed.type
 }
 
-export function translateMultiChartToWidgets (metrics, comparables) {
+export function translateMultiChartToWidgets (metrics, comparables = []) {
   if (metrics.length + comparables.length < 2) {
     return [
       ChartWidget.new({
@@ -202,19 +201,24 @@ export function translateMultiChartToWidgets (metrics, comparables) {
     ]
   }
 
-  const noPriceMetrics = metrics.filter(metric => metric !== Metric.price_usd)
-  const hasPrice = noPriceMetrics.length < metrics.length
+  let priceMetric
+  const noPriceMetrics = metrics.filter(metric => {
+    if (metric.queryKey !== Metric.price_usd.key) return true
+
+    priceMetric = metric
+    return false
+  })
 
   return noPriceMetrics
     .map(metric =>
       ChartWidget.new({
-        metrics: hasPrice ? [Metric.price_usd, metric] : [metric]
+        metrics: priceMetric ? [priceMetric, metric] : [metric]
       })
     )
     .concat(
       comparables.map(comparable =>
         ChartWidget.new({
-          metrics: hasPrice ? [Metric.price_usd] : [],
+          metrics: priceMetric ? [Metric.price_usd] : [],
           comparables: [comparable]
         })
       )
@@ -253,7 +257,6 @@ export function parseUrl (
     settings: reduceStateKeys(settings, data),
     options: reduceStateKeys(options, data),
     metrics: sanitize(convertKeysToMetrics(data.metrics)),
-    // events: sanitize(convertKeysToMetrics(data.events, Event)),
     comparables: sanitize(parseSharedComparables(data.comparables))
   }
 }

@@ -62,7 +62,7 @@ const Template = ({
     if (!template) return
 
     const { project, metrics: templateMetrics, options } = template
-    const { metrics, comparables } = parseTemplateMetrics(templateMetrics)
+    const metrics = parseTemplateMetrics(templateMetrics, project)
 
     if (onProjectSelect && !projectFromUrl && project) {
       onProjectSelect(project)
@@ -70,15 +70,14 @@ const Template = ({
 
     let widgets
     if (options && options.widgets) {
-      widgets = parseSharedWidgets(options.widgets)
+      widgets = parseSharedWidgets(options.widgets, project)
     } else {
       if (options && options.multi_chart) {
-        widgets = translateMultiChartToWidgets(metrics, comparables)
+        widgets = translateMultiChartToWidgets(metrics)
       } else {
         widgets = [
           ChartWidget.new({
-            metrics,
-            comparables
+            metrics
           })
         ]
       }

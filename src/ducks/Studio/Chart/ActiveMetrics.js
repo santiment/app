@@ -38,7 +38,7 @@ const MetricButton = ({
   onSettingsClick,
   ...rest
 }) => {
-  const { key, dataKey = key, node, comparedTicker } = metric
+  const { key, dataKey = key, node } = metric
   const label = getMetricLabel(metric)
 
   return (

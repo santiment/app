@@ -1,8 +1,11 @@
-import { parseComparable } from '../url/parse'
+import {
+  METRIC_CONNECTOR,
+  getMetricByKey,
+  getProjectMetricByKey,
+  newProjectMetric
+} from '../metrics'
 import { shareComparable } from '../url/generate'
 import { COMPARE_CONNECTOR } from '../url/utils'
-import { Metric } from '../../dataHub/metrics'
-import { tryMapToTimeboundMetric } from '../../dataHub/timebounds'
 import { capitalizeStr } from '../../../utils/utils'
 import { PATHS } from '../../../paths'
 import { getSEOLinkFromIdAndTitle } from '../../../components/Insight/utils'
@@ -58,35 +61,18 @@ export const getTemplateShareLink = template => {
   return window.location.origin + prepareTemplateLink(template)
 }
 
-export function parseTemplateMetrics (templateMetrics) {
-  const { length } = templateMetrics
-  const metrics = []
-  const comparables = []
-
-  for (let i = 0; i < length; i++) {
-    const metricKey = templateMetrics[i]
-
-    if (metricKey.includes(COMPARE_CONNECTOR)) {
-      comparables.push(parseComparable(metricKey))
-    } else {
-      const metric = Metric[metricKey]
-
-      if (metric) {
-        metrics.push(metric)
-      } else {
-        const timeBoundMetric = tryMapToTimeboundMetric(metricKey)
-
-        if (timeBoundMetric) {
-          metrics.push(timeBoundMetric)
-        }
-      }
+export function parseTemplateMetrics (templateMetrics, project) {
+  return templateMetrics.map(key => {
+    if (key.includes(COMPARE_CONNECTOR)) {
+      return getProjectMetricByKey(key, COMPARE_CONNECTOR)
     }
-  }
 
-  return {
-    metrics,
-    comparables
-  }
+    if (key.includes(METRIC_CONNECTOR)) {
+      return getProjectMetricByKey(key)
+    }
+
+    return newProjectMetric(project, getMetricByKey(key))
+  })
 }
 
 export function buildTemplateMetrics ({ metrics, comparables }) {
