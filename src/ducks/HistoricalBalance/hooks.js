@@ -6,6 +6,7 @@ import {
   walletMetricBuilder,
   priceMetricBuilder
 } from './utils'
+import { useProjects } from '../Studio/Compare/withProjects'
 
 export const WALLET_ASSETS_QUERY = gql`
   query assetsHeldByAddress($address: String!) {
@@ -18,17 +19,23 @@ export const WALLET_ASSETS_QUERY = gql`
 
 const DEFAULT_STATE = []
 
-export function getWalletMetrics (walletAssets, priceAssets) {
-  const walletMetrics = walletAssets.map(walletMetricBuilder)
+export function getWalletMetrics (allProjects, walletAssets, priceAssets) {
+  const walletMetrics =
+    allProjects.length > 0
+      ? walletAssets.map(item => walletMetricBuilder(item, allProjects))
+      : []
   const priceMetrics = priceAssets.map(priceMetricBuilder)
   return walletMetrics.concat(priceMetrics)
 }
 
-export const useWalletMetrics = (walletAssets, priceAssets) =>
-  useMemo(() => getWalletMetrics(walletAssets, priceAssets), [
-    walletAssets,
-    priceAssets
-  ])
+export const useWalletMetrics = (walletAssets, priceAssets) => {
+  const [allProjects] = useProjects()
+
+  return useMemo(
+    () => getWalletMetrics(allProjects, walletAssets, priceAssets),
+    [walletAssets, priceAssets, allProjects]
+  )
+}
 
 export function useWalletAssets (address) {
   const { data, loading, error } = useQuery(WALLET_ASSETS_QUERY, {

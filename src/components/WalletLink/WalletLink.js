@@ -1,10 +1,8 @@
 import React from 'react'
 import SmoothDropdownItem from './../SmoothDropdown/SmoothDropdownItem'
 import ViewBalanceDialog from './ViewBalanceDialog'
-import EthLinkWithLabels, {
-  DefaultAssetLinkWithLabels
-} from './EthLinkWithLabels'
-import { isEthStrictAddress, isEthStrictHashTx } from '../../utils/utils'
+import ActionLabels, { DefaultAssetLinkWithLabels } from './ActionLabels'
+import { isEthStrictHashTx } from '../../utils/utils'
 import styles from './WalletLink.module.scss'
 
 const WalletLink = ({ address, labels, isTx = false, ...rest }) => {
@@ -12,10 +10,9 @@ const WalletLink = ({ address, labels, isTx = false, ...rest }) => {
     return null
   }
 
-  const isEth =
-    address && (isTx ? isEthStrictHashTx(address) : isEthStrictAddress(address))
+  const showDialog = address && (isTx ? isEthStrictHashTx(address) : true)
 
-  if (!isEth) {
+  if (!showDialog) {
     return (
       <SmoothDropdownItem
         trigger={
@@ -46,7 +43,7 @@ const EthWalletLink = ({
   address
 }) => {
   const trigger = inputTrigger || (
-    <EthLinkWithLabels
+    <ActionLabels
       address={address}
       isTx={isTx}
       isExchange={isExchange}
@@ -62,13 +59,9 @@ const EthWalletLink = ({
       <SmoothDropdownItem trigger={trigger}>
         <ul className={styles.wrapper}>
           <li>
-            <EthLinkWithLabels
-              address={address}
-              isTx={isTx}
-              settings={settings}
-            >
+            <ActionLabels address={address} isTx={isTx} settings={settings}>
               Open Etherscan
-            </EthLinkWithLabels>
+            </ActionLabels>
           </li>
         </ul>
       </SmoothDropdownItem>

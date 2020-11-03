@@ -47,7 +47,7 @@ export const EtherscanLink = ({
   )
 }
 
-const EthLinkWithLabels = ({ isExchange, labels, ...rest }) => {
+const ActionLabels = ({ isExchange, labels, ...rest }) => {
   return (
     <div className={styles.withLabels}>
       <EtherscanLink {...rest} isExchange={isExchange} />
@@ -67,4 +67,4 @@ export const DefaultAssetLinkWithLabels = ({ address, labels }) => {
   )
 }
 
-export default EthLinkWithLabels
+export default ActionLabels

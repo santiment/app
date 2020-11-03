@@ -43,7 +43,7 @@ import {
   TRENDING_WORDS_WATCHLIST_MENTIONED,
   PRICE,
   METRIC_DEFAULT_VALUES,
-  NOT_VALID_ETH_ADDRESS,
+  NOT_VALID_HB_ADDRESS,
   MIN_TITLE_LENGTH,
   MAX_TITLE_LENGTH,
   MAX_DESCR_LENGTH,
@@ -1090,7 +1090,7 @@ export const metricTypesBlockErrors = values => {
   const {
     type,
     ethAddress,
-    isEthOrErc20Error,
+    isHbAddressError,
     metric,
     target,
     targetWatchlist,
@@ -1111,20 +1111,20 @@ export const metricTypesBlockErrors = values => {
       if (Array.isArray(ethAddress)) {
         ethAddress.forEach(({ value }) => {
           if (!isPossibleEthAddress(value)) {
-            errors.ethAddress = NOT_VALID_ETH_ADDRESS
+            errors.ethAddress = NOT_VALID_HB_ADDRESS
           }
         })
       } else {
         if (!isPossibleEthAddress(ethAddress)) {
-          errors.ethAddress = NOT_VALID_ETH_ADDRESS
+          errors.ethAddress = NOT_VALID_HB_ADDRESS
         }
       }
     } else {
       if (
-        isEthOrErc20Error &&
+        isHbAddressError &&
         (Array.isArray(target) ? target.length === 1 : !!target)
       ) {
-        errors.ethAddress = NOT_VALID_ETH_ADDRESS
+        errors.ethAddress = NOT_VALID_HB_ADDRESS
       }
     }
   } else if (metric && metric.value === TRENDING_WORDS) {
@@ -1392,7 +1392,7 @@ export const mapAssetsHeldByAddressToProps = ({
   assetsByWallet: { assetsHeldByAddress = [], loading }
 }) => {
   return {
-    assets: assetsHeldByAddress,
+    heldAssets: assetsHeldByAddress,
     isLoading: loading
   }
 }
