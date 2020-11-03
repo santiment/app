@@ -15,6 +15,7 @@ export const getMinInterval = metric =>
   client
     .query({
       query: MIN_INTERVAL_QUERY,
+      errorPolicy: 'all',
       variables: {
         metric
       }
