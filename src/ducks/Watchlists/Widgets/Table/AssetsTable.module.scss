@@ -45,6 +45,10 @@
     display: flex;
   }
 
+  &__tooltip {
+    white-space: nowrap;
+  }
+
   &:hover {
     fill: var(--jungle-green);
   }

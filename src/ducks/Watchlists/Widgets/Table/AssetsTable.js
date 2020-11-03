@@ -197,7 +197,11 @@ const AssetsTable = ({
                 type='screener'
                 trigger={props => (
                   <div {...props} className={styles.action__wrapper}>
-                    <ExplanationTooltip text='Download .csv' offsetY={10}>
+                    <ExplanationTooltip
+                      text='Download .csv'
+                      offsetY={10}
+                      className={styles.action__tooltip}
+                    >
                       <Icon type='save' className={styles.action} />
                     </ExplanationTooltip>
                   </div>
@@ -208,7 +212,11 @@ const AssetsTable = ({
                   items={items}
                   className={styles.action}
                 >
-                  <ExplanationTooltip text='Download .csv' offsetY={10}>
+                  <ExplanationTooltip
+                    text='Download .csv'
+                    offsetY={10}
+                    className={styles.action__tooltip}
+                  >
                     <Icon type='save' />
                   </ExplanationTooltip>
                 </DownloadCSV>
