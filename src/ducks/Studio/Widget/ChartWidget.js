@@ -18,7 +18,6 @@ import { buildComparedMetric } from '../Compare/utils'
 import { useEdgeGaps, useClosestValueData } from '../../Chart/hooks'
 import { useSyncDateEffect } from '../../Chart/sync'
 import { Metric } from '../../dataHub/metrics'
-import { useRedrawer } from '../../../hooks'
 
 const activeEvents = []
 
@@ -32,7 +31,6 @@ export const Chart = ({
   observeSyncDate,
   ...props
 }) => {
-  widget.rerender = useRedrawer()[1]
   const { metrics, chartRef, MetricSettingMap } = widget
   const [options, setOptions] = useState(DEFAULT_OPTIONS)
   const [comparables, setComparables] = useState(widget.comparables)
@@ -150,7 +148,7 @@ export const Chart = ({
   }
 
   return (
-    <ColorProvider widget={widget}>
+    <ColorProvider widget={widget} rerenderWidgets={rerenderWidgets}>
       <StudioChart
         {...props}
         data={data}
