@@ -74,7 +74,7 @@ export const Chart = ({
     () => {
       let modified = false
       metrics.forEach(metric => {
-        if (metric.queryKey !== Metric.dev_activity.key) return
+        if (metric.base !== Metric.dev_activity) return
 
         const newMap = new Map(widget.MetricSettingMap)
         const metricSetting = getMetricSetting(newMap, metric)

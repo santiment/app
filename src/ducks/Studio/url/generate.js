@@ -51,7 +51,9 @@ export const normalizeWidget = ({
   MetricIndicators
 }) => ({
   widget: WidgetToTypeMap.get(Widget),
-  metrics: metrics.map(({ key }) => key),
+  metrics: metrics
+    .map(({ key, indicator }) => !indicator && key)
+    .filter(Boolean),
   // comparables: comparables.map(shareComparable),
   connectedWidgets: connectedWidgets
     ? connectedWidgets.map(normalizeConnectedWidget)

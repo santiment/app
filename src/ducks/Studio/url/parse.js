@@ -2,7 +2,7 @@ import { parse } from 'query-string'
 import { COMPARE_CONNECTOR, toArray } from './utils'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS } from '../defaults'
 import {
-  METRIC_CONNECTOR,
+  checkIsProjectMetricKey,
   newProjectMetric,
   getProjectMetricByKey,
   getMetricByKey
@@ -103,15 +103,19 @@ function extractMergedMetrics (metrics) {
   return [mergedMetrics, cleanedMetricKeys]
 }
 
-function parseMetricIndicators (indicators) {
+function parseMetricIndicators (indicators, project) {
   const MetricIndicators = {}
   const indicatorMetrics = []
+
+  console.log(indicators)
 
   Object.keys(indicators || {}).forEach(metricKey => {
     MetricIndicators[metricKey] = new Set(
       indicators[metricKey].map(indicatorKey => {
         const indicator = Indicator[indicatorKey]
-        const metric = getMetricByKey(metricKey)
+        const metric = checkIsProjectMetricKey(metricKey)
+          ? getProjectMetricByKey(metricKey)
+          : newProjectMetric(project, getMetricByKey(metricKey))
 
         if (metric) {
           indicatorMetrics.push(cacheIndicator(metric, indicator))
@@ -126,7 +130,7 @@ function parseMetricIndicators (indicators) {
 }
 
 function parseMetric (key, project) {
-  if (key.includes(METRIC_CONNECTOR)) {
+  if (checkIsProjectMetricKey(key)) {
     return getProjectMetricByKey(key)
   }
 
@@ -156,7 +160,8 @@ export function parseSharedWidgets (sharedWidgets, project) {
 
       const parsedSettings = parseMetricSetting(settings, comparedMetrics)
       const [parsedMetricIndicators, indicatorMetrics] = parseMetricIndicators(
-        indicators
+        indicators,
+        project
       )
 
       return TypeToWidget[widget].new({

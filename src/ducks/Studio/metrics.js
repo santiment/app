@@ -7,6 +7,7 @@ import { CompatibleMetric } from '../dataHub/metrics/compatibility'
 
 const ProjectMetricCache = new Map()
 export const METRIC_CONNECTOR = '_MC_'
+export const checkIsProjectMetricKey = key => key.includes(METRIC_CONNECTOR)
 
 function searchFromSubmetrics (key) {
   for (let list of Object.values(Submetrics)) {
@@ -38,6 +39,8 @@ export function newProjectMetric (project, baseMetric, projectMetricKey) {
   const { ticker, slug } = project
   const metric = deriveMetric(baseMetric, {
     key,
+    project,
+    base: baseMetric,
     label: `${baseMetric.label} (${ticker})`,
     reqMeta: {
       slug

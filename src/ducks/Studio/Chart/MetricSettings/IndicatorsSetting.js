@@ -109,7 +109,11 @@ const IndicatorsSetting = ({ metric, widget, toggleMetric }) => {
 
     if (indicatorMetric) {
       const { interval } = getMetricSetting(widget.MetricSettingMap, metric)
-      widget.MetricSettingMap.set(indicatorMetric, { interval })
+
+      if (interval) {
+        widget.MetricSettingMap.set(indicatorMetric, { interval })
+      }
+
       toggleMetric(indicatorMetric)
     }
   }
