@@ -63,16 +63,16 @@ export const parseComparable = key =>
 const parseSharedComparables = keys =>
   keys ? toArray(keys).map(parseComparable) : []
 
-function parseMetricSetting (MetricSetting = {}, comparingMetrics = []) {
+function parseMetricSetting (MetricSetting = {}, metrics = []) {
   const MetricSettingMap = new Map()
 
-  const comparingMetricsMap = comparingMetrics.reduce((acc, item) => {
+  const KeyMetric = metrics.reduce((acc, item) => {
     acc[item.key] = item
     return acc
   }, {})
 
   Object.keys(MetricSetting).forEach(key => {
-    const metric = Metric[key] || comparingMetricsMap[key]
+    const metric = KeyMetric[key]
     if (!metric) return
 
     MetricSettingMap.set(metric, MetricSetting[key])
@@ -106,8 +106,6 @@ function extractMergedMetrics (metrics) {
 function parseMetricIndicators (indicators, project) {
   const MetricIndicators = {}
   const indicatorMetrics = []
-
-  console.log(indicators)
 
   Object.keys(indicators || {}).forEach(metricKey => {
     MetricIndicators[metricKey] = new Set(
@@ -154,23 +152,24 @@ export function parseSharedWidgets (sharedWidgets, project) {
       indicators
     }) => {
       const [holderMetrics, cleanedMetricKeys] = extractMergedMetrics(metrics)
-
-      const parsedMetrics = cleanedMetricKeys.map(parseProjectMetric)
+      const cleanedMetrics = cleanedMetricKeys.map(parseProjectMetric)
       const comparedMetrics = parseSharedComparables(comparables)
-
-      const parsedSettings = parseMetricSetting(settings, comparedMetrics)
       const [parsedMetricIndicators, indicatorMetrics] = parseMetricIndicators(
         indicators,
         project
       )
 
+      const parsedMetrics = cleanedMetrics
+        .filter(Boolean)
+        .concat(comparedMetrics)
+        .concat(holderMetrics)
+        .concat(indicatorMetrics)
+
+      const parsedSettings = parseMetricSetting(settings, parsedMetrics)
+
       return TypeToWidget[widget].new({
         mergedMetrics: holderMetrics,
-        metrics: parsedMetrics
-          .filter(Boolean)
-          .concat(comparedMetrics)
-          .concat(holderMetrics)
-          .concat(indicatorMetrics),
+        metrics: parsedMetrics,
         // comparables: parsedComparables,
         connectedWidgets: connectedWidgets
           ? connectedWidgets.map(parseConnectedWidget)
