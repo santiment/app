@@ -38,9 +38,28 @@
 
 .action {
   fill: var(--waterloo);
-  margin: 0 0 0 22px;
-  padding: 0;
+  box-sizing: content-box;
+  padding: 0 8px 0 22px;
   cursor: pointer;
+  display: flex;
+  position: relative;
+
+  &::before {
+    display: block;
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: -4px;
+    height: 24px;
+    width: 1px;
+    background: var(--porcelain);
+  }
+
+  &:last-child {
+    &::before {
+      display: none;
+    }
+  }
 
   &__wrapper {
     display: flex;

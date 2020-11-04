@@ -15,6 +15,7 @@ import ProPopupWrapper from '../../../../components/ProPopup/Wrapper'
 import ExplanationTooltip from '../../../../components/ExplanationTooltip/ExplanationTooltip'
 import AssetsToggleColumns from './AssetsToggleColumns'
 import { COLUMNS } from './asset-columns'
+import Copy from '../../Actions/Copy'
 import DownloadCSV from '../../Actions/DownloadCSV'
 import { COMMON_SETTINGS, COLUMNS_SETTINGS } from './columns'
 import { markedAsShowed } from '../../../SANCharts/SidecarExplanationTooltip'
@@ -187,6 +188,20 @@ const AssetsTable = ({
           {showCollumnsToggle && (
             <AssetsToggleColumns columns={columns} onChange={toggleColumn} />
           )}
+          <Copy
+            id={typeInfo.listId}
+            trigger={
+              <div className={styles.action}>
+                <ExplanationTooltip
+                  text='Copy assets to watchlist'
+                  offsetY={10}
+                  className={styles.action__tooltip}
+                >
+                  <Icon type='copy' />
+                </ExplanationTooltip>
+              </div>
+            }
+          />
           <ProPopupWrapper
             type={type}
             trigger={props => (
