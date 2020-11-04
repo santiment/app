@@ -8,8 +8,6 @@ import Delete from '../../Actions/Delete'
 import Edit from '../../Actions/Edit/EditAssets'
 import WeeklyReport from '../../Actions/WeeklyReport'
 import VisibilityToggle from '../../Actions/ChangeVisibility'
-import { ProLabel } from '../../../../components/ProLabel'
-import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import styles from './WatchlistContextMenu.module.scss'
 
 const WatchlistContextMenu = ({
@@ -21,8 +19,6 @@ const WatchlistContextMenu = ({
   isMonitored,
   watchlist
 }) => {
-  const { isPro } = useUserSubscriptionStatus()
-
   return (
     <ContextMenu
       trigger={
