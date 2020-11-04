@@ -23,10 +23,10 @@ export const BTC_RELATED_ASSETS = [
   'wrapped-bitcoin',
   'renbtc',
   'imBTC',
-  'sBTC',
-  'tBTC',
-  'hBTC',
-  'pBTC'
+  'sbtc',
+  'tbtc',
+  'huobi-btc',
+  'ptokens-btc'
 ]
 
 export const BTC_SUPPORTED_METRICS = [
