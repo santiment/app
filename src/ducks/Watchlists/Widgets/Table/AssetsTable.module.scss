@@ -73,6 +73,7 @@
 .assetsTable {
   width: 100%;
   transition: width 0.2s ease-in-out;
+  border: none;
 }
 
 .assetsTable:global(.ReactTable) {
