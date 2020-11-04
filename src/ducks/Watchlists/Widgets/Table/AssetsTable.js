@@ -191,7 +191,7 @@ const AssetsTable = ({
           <Copy
             id={typeInfo.listId}
             trigger={
-              <div className={styles.action}>
+              <div className={cx(styles.action, styles.action__withLine)}>
                 <ExplanationTooltip
                   text='Copy assets to watchlist'
                   offsetY={10}

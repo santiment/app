@@ -44,7 +44,7 @@
   display: flex;
   position: relative;
 
-  &::before {
+  &__withLine::before {
     display: block;
     content: '';
     position: absolute;
@@ -53,12 +53,6 @@
     height: 24px;
     width: 1px;
     background: var(--porcelain);
-  }
-
-  &:last-child {
-    &::before {
-      display: none;
-    }
   }
 
   &__wrapper {
