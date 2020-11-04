@@ -15,38 +15,6 @@
   padding: 0;
 }
 
-.datatables-filter {
-  margin-bottom: 16px;
-  min-width: 25%;
-}
-
-.datatables-filter label {
-  width: 100%;
-  margin-bottom: 0.5rem;
-  display: inline-block;
-}
-
-.datatables-filter input {
-  width: 100%;
-  margin-left: 0;
-  padding: 8px;
-  line-height: 1.25;
-  color: #464a4c;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  background-clip: padding-box;
-  outline-offset: -2px;
-  overflow: visible;
-  font-size: 0.875rem;
-  border-radius: 0.2rem;
-}
-
-.datatables-filter input:focus {
-  color: #464a4c;
-  background-color: #fff;
-  border-color: #5cb3fd;
-  outline: 0;
-}
-
 .ReactTable .rt-td > a,
 .ReactTable .rt-td > div {
   font-size: 16px;
@@ -71,17 +39,10 @@
   display: none;
 }
 
-.datatables-info label {
-  font-size: 12px;
-  margin-bottom: 16px;
-  display: inline-block;
-}
-
 .projects-table .ReactTable {
   border: none;
-  overflow-y: hidden;
   min-height: 350px;
-  color: var(--mirage);
+  color: var(--rhino);
 }
 
 .ReactTable .rt-tbody .rt-tr-group {
@@ -95,15 +56,6 @@
 
 .ReactTable .rt-tbody .rt-td {
   padding: 6px 0;
-}
-
-.percent-changes--negative,
-.percent-changes--positive {
-  font-size: 16px;
-}
-
-.ticker {
-  font-size: 13px;
 }
 
 .rt-td .overview-ticker {
@@ -141,9 +93,8 @@
 .ReactTable .rt-thead .rt-th {
   color: var(--casper);
   border: none;
-  letter-spacing: normal;
   background: inherit;
-  padding: 5px 0;
+  padding: 7px 0;
 }
 
 .ReactTable .rt-thead.-header {
@@ -233,66 +184,4 @@
   margin: 0 24px;
   white-space: nowrap;
   color: var(--waterloo);
-}
-
-.ReactTable .wallet {
-  display: flex;
-  flex-direction: column;
-}
-
-.ReactTable .wallet .usd {
-  flex: 1;
-}
-
-.ReactTable .wallet .eth {
-  font-size: 14px;
-}
-
-.ReactTable .wallet .eth i {
-  font-size: 15px;
-}
-
-.findwallet {
-  border-bottom: none;
-}
-
-.ReactTable .cell-signals {
-  width: 100%;
-  height: 100%;
-  padding: 15px 0 0 0;
-  text-align: center;
-}
-
-.eth-sent-item {
-  text-align: right;
-}
-
-@media all and (min-width: 768px) and (max-width: 1024px) {
-  .rt-td > div {
-    font-size: 16px;
-    padding: 0;
-  }
-
-  .rt-td .overview-ticker {
-    font-size: 12px;
-  }
-}
-
-.projects-table-tips {
-  text-align: center;
-}
-
-.page-head-projects {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.page-head-projects__left {
-  display: flex;
-  align-items: center;
-}
-
-.projects-search-row {
-  justify-content: initial;
 }

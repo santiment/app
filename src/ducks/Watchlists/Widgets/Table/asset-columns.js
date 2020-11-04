@@ -124,7 +124,7 @@ export const COLUMNS = (preload, props = {}) => [
   constructColumn({
     id: COLUMNS_NAMES.price_change,
     heading: 'Price 24h %',
-    maxWidth: 100,
+    maxWidth: 110,
     accessor: 'percentChange24h',
     Cell: ({ value }) => (
       <div className='overview-price-percent'>
@@ -148,7 +148,7 @@ export const COLUMNS = (preload, props = {}) => [
   constructColumn({
     id: COLUMNS_NAMES.volume_change,
     heading: 'Volume 24h %',
-    maxWidth: 100,
+    maxWidth: 110,
     accessor: 'volumeChange24h',
     Cell: ({ value }) => (
       <div className='overview-volume-percent'>
