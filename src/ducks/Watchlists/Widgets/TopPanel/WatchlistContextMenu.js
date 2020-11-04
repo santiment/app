@@ -6,7 +6,6 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import Copy from '../../Actions/Copy'
 import Delete from '../../Actions/Delete'
 import Edit from '../../Actions/Edit/EditAssets'
-import DownloadCSV from '../../Actions/DownloadCSV'
 import WeeklyReport from '../../Actions/WeeklyReport'
 import VisibilityToggle from '../../Actions/ChangeVisibility'
 import { ProLabel } from '../../../../components/ProLabel'
@@ -73,18 +72,6 @@ const WatchlistContextMenu = ({
                 </Button>
               }
             />
-          )}
-          {isDesktop && (
-            <DownloadCSV
-              name={name}
-              disabled={!isPro}
-              variant='ghost'
-              fluid
-              items={items}
-            >
-              Download .csv
-              {!isPro && <ProLabel className={styles.proLabel} />}
-            </DownloadCSV>
           )}
           {isAuthor && (
             <Delete
