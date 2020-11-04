@@ -18,13 +18,13 @@ const HIDDEN_COLUMNS = [
   ...MARKET_SEGMENT_COLUMNS
 ]
 
-const AssetsToggleColumns = ({ columns = [], onChange, isScreener }) => (
+const AssetsToggleColumns = ({ columns = [], onChange }) => (
   <ContextMenu
     trigger={
       <Button
         fluid
         variant='flat'
-        className={cx(styles.button, isScreener && styles.button__withLine)}
+        className={cx(styles.button, styles.button__withLine)}
       >
         <Icon type='columns' />
       </Button>

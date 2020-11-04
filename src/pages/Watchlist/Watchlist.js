@@ -123,6 +123,7 @@ const WatchlistPage = props => {
                     filterType={filterType}
                     items={filteredItems || items}
                     goto={props.history.push}
+                    type='watchlist'
                     classes={{
                       container: styles.tableWrapper,
                       top: styles.tableTop

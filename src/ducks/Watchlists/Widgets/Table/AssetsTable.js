@@ -185,44 +185,36 @@ const AssetsTable = ({
         )}
         <div className={styles.actions}>
           {showCollumnsToggle && (
-            <AssetsToggleColumns
-              columns={columns}
-              onChange={toggleColumn}
-              isScreener={type === 'screener'}
-            />
+            <AssetsToggleColumns columns={columns} onChange={toggleColumn} />
           )}
-          {type === 'screener' && (
-            <>
-              <ProPopupWrapper
-                type='screener'
-                trigger={props => (
-                  <div {...props} className={styles.action__wrapper}>
-                    <ExplanationTooltip
-                      text='Download .csv'
-                      offsetY={10}
-                      className={styles.action__tooltip}
-                    >
-                      <Icon type='save' className={styles.action} />
-                    </ExplanationTooltip>
-                  </div>
-                )}
-              >
-                <DownloadCSV
-                  name={listName}
-                  items={items}
-                  className={styles.action}
+          <ProPopupWrapper
+            type={type}
+            trigger={props => (
+              <div {...props} className={styles.action__wrapper}>
+                <ExplanationTooltip
+                  text='Download .csv'
+                  offsetY={10}
+                  className={styles.action__tooltip}
                 >
-                  <ExplanationTooltip
-                    text='Download .csv'
-                    offsetY={10}
-                    className={styles.action__tooltip}
-                  >
-                    <Icon type='save' />
-                  </ExplanationTooltip>
-                </DownloadCSV>
-              </ProPopupWrapper>
-            </>
-          )}
+                  <Icon type='save' className={styles.action} />
+                </ExplanationTooltip>
+              </div>
+            )}
+          >
+            <DownloadCSV
+              name={listName}
+              items={items}
+              className={styles.action}
+            >
+              <ExplanationTooltip
+                text='Download .csv'
+                offsetY={10}
+                className={styles.action__tooltip}
+              >
+                <Icon type='save' />
+              </ExplanationTooltip>
+            </DownloadCSV>
+          </ProPopupWrapper>
         </div>
       </div>
 
