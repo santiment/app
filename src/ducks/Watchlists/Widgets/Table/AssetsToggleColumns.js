@@ -14,6 +14,7 @@ import styles from './AssetsToggleColumns.module.scss'
 
 const HIDDEN_COLUMNS = [
   COLUMNS_NAMES.index,
+  COLUMNS_NAMES.checkboxes,
   COLUMNS_NAMES.project,
   ...MARKET_SEGMENT_COLUMNS
 ]

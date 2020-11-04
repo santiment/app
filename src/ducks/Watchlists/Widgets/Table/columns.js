@@ -46,12 +46,6 @@ export const COLUMNS_SETTINGS = {
     selectable: true,
     key: 'daily_active_addresses'
   },
-  [COLUMNS_NAMES.graph]: { show: false, selectable: false },
-  [COLUMNS_NAMES.token_circulation]: {
-    show: false,
-    selectable: false,
-    key: 'circulation'
-  },
   [COLUMNS_NAMES.infrastructure]: { show: true, selectable: false },
   [COLUMNS_NAMES.devActivity7]: { show: true, selectable: false },
   [COLUMNS_NAMES.devActivity30]: { show: true, selectable: false },
