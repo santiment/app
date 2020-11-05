@@ -5,6 +5,10 @@
   padding: 16px 24px 24px 24px;
   width: 600px;
   flex-direction: column;
+
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
+  }
 }
 
 .title {
@@ -53,12 +57,22 @@
 .actions {
   display: flex;
   align-items: center;
+
+  @include responsive('phone-xs', 'phone') {
+    flex-direction: column-reverse;
+  }
 }
 
 .toggle {
   width: auto;
   margin-left: auto;
   padding-right: 0;
+
+  @include responsive('phone-xs', 'phone') {
+    margin-left: 0;
+    margin-right: auto;
+    margin-bottom: 16px;
+  }
 }
 
 .error {
