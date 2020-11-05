@@ -135,7 +135,8 @@ function parseMetric (key, project) {
   const holderMetric = HolderDistributionMetric[key]
   if (holderMetric) return holderMetric
 
-  return newProjectMetric(project, getMetricByKey(key))
+  const metric = getMetricByKey(key)
+  return metric && newProjectMetric(project, metric)
 }
 
 export function parseSharedWidgets (sharedWidgets, project) {
@@ -172,7 +173,6 @@ export function parseSharedWidgets (sharedWidgets, project) {
         mergedMetrics: holderMetrics,
         metrics: parsedMetrics,
         project: widgetProject,
-        // comparables: parsedComparables,
         connectedWidgets: connectedWidgets
           ? connectedWidgets.map(parseConnectedWidget)
           : [],

@@ -75,12 +75,14 @@ export function parseTemplateMetrics (templateMetrics, project) {
   })
 }
 
-export function buildTemplateMetrics ({ metrics, comparables }) {
+export function buildTemplateMetrics ({ metrics, comparables = [] }) {
   if (!metrics && !comparables) {
     return
   }
 
-  return metrics.map(getMetricKey).concat(comparables.map(shareComparable))
+  return metrics
+    .map(getMetricKey)
+    .concat(comparables.filter(Boolean).map(shareComparable))
 }
 
 export function getAvailableTemplate (templates) {
@@ -115,6 +117,9 @@ export function saveLastTemplate (template) {
   localStorage.setItem(LAST_USED_TEMPLATE, JSON.stringify(template))
 }
 
+const getTemplateMetrics = ({ metrics }) =>
+  parseTemplateMetrics(metrics).map(({ label }) => label)
+
 export const getTemplateInfo = template => {
   const assets = getTemplateAssets(template)
   const metrics = getTemplateMetrics(template)
@@ -143,15 +148,4 @@ const getTemplateAssets = ({ metrics, project: { slug, name } }) => {
   })
 
   return assets.map(slug => capitalizeStr(slug))
-}
-
-function getTemplateMetrics ({ metrics }) {
-  const { metrics: parsedMetrics, comparables } = parseTemplateMetrics(metrics)
-
-  const outputMetrics = [
-    ...parsedMetrics,
-    ...comparables.map(({ metric }) => metric)
-  ]
-
-  return outputMetrics.map(({ label }) => label)
 }
