@@ -22,7 +22,7 @@ export function domainModifier (metricKey, minMax) {
       return prepareDomain(minMax)
     } else if (node === Node.BAR) {
       max *= 1.01
-      min = min < 0 ? min * 1.01 : 0
+      min = min < 0 ? min : 0
     } else {
       max *= 1.01
       min *= min > 0 ? 0.99 : 1.01
