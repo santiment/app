@@ -45,12 +45,22 @@
   &__title {
     @include text('h4', 'm');
 
+    margin: 0;
     display: flex;
     align-items: center;
+    padding: 5px 16px;
+    background: var(--texas-rose-light);
+    color: var(--texas-rose);
+    border-radius: $border-radius;
 
     @include responsive('tablet', 'phone', 'phone-xs') {
       font-size: 22px;
       line-height: 30px;
+    }
+
+    &__free {
+      color: var(--jungle-green);
+      background: var(--jungle-green-light);
     }
   }
 
@@ -58,29 +68,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
-
-  &__arrow {
-    min-width: 15px;
-
-    @include responsive('desktop', 'laptop') {
-      display: none;
-    }
-  }
-
-  &_opened {
-    .details {
-      display: block;
-
-      &_custom {
-        margin-top: 36px;
-      }
-    }
-
-    .card__arrow {
-      transform: rotate(180deg);
-      fill: var(--jungle-green);
-    }
   }
 }
 
@@ -95,19 +82,16 @@
 }
 
 .desc {
-  margin-top: 6px;
-  font-size: 14px;
-  line-height: 20px;
+  margin: 17px auto auto;
   color: var(--waterloo);
-  margin-right: -5px;
-}
+  max-width: 200px;
+
+  @include text('body-3'); }
 
 .details {
   @include responsive('tablet', 'phone', 'phone-xs') {
     display: none;
   }
-
-  margin-top: 36px;
 
   &_custom {
     margin-top: 67px;
@@ -115,28 +99,27 @@
 }
 
 .price {
-  font-weight: bold;
-  font-size: 38px;
-  line-height: 44px;
+  margin-top: 16px;
+
+  @include text('h2', 'l');
 
   &__type {
     color: var(--waterloo);
-    font-size: 16px;
+    margin-left: 4px;
     font-weight: 100;
-  }
+
+    @include text('h4'); }
 }
 
 .discount {
   color: var(--casper);
-  font-size: 14px;
-  line-height: 20px;
-  margin: -3px 0 20px;
-}
+  margin-top: 4px;
+
+  @include text('body-2'); }
 
 .feature {
   padding-left: 18px;
-  margin-bottom: 16px;
-  font-size: 14px;
+  margin-bottom: 24px;
 
   &:last-child {
     margin-bottom: 0;

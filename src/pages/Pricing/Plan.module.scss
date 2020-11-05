@@ -2,8 +2,8 @@
 
 .card {
   flex: initial;
-  border-radius: $border-radius;
-  padding: 28px 48px;
+  border-radius: 8px;
+  padding: 24px;
   z-index: 0;
   background: var(--white);
   border: 1px solid var(--porcelain);
@@ -16,14 +16,6 @@
     @include responsive('desktop', 'laptop') {
       margin-right: 24px;
     }
-  }
-
-  &:nth-of-type(2) {
-    --accent: var(--jungle-green);
-    --second-accent: #ccf2e7;
-
-    border-color: #ecfaf6;
-    background: #ecfaf6;
   }
 
   &:nth-of-type(3) {
@@ -61,19 +53,10 @@
 }
 
 .feature {
-  padding-left: 30px;
-  margin-bottom: 16px;
-  font-size: 14px;
+  margin-bottom: 24px;
   text-align: left;
 
   &__icon {
-    position: absolute;
-    padding: 9px 8px;
     box-sizing: content-box;
-    top: -3px;
-    left: -4px;
-    border-radius: 50%;
-    fill: var(--accent);
-    background: var(--second-accent);
   }
 }

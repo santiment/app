@@ -5,6 +5,7 @@
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 40px;
   margin-top: 40px;
+  margin-bottom: 40px;
 }
 
 .block {
@@ -17,7 +18,8 @@
 .title {
   color: var(--white);
 
-  @include text('h4', 'l'); }
+  @include text('h4', 'l');
+}
 
 .description {
   color: var(--white);
@@ -31,4 +33,5 @@
   padding: 8px 10px;
   height: 40px;
 
-  @include text('body-2'); }
+  @include text('body-2');
+}

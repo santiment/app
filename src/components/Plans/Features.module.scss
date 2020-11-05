@@ -1,18 +1,27 @@
+@import '~@santiment-network/ui/mixins';
+
 .features {
   padding: 0;
   margin: 0;
 }
 
 .feature {
-  font-size: 14px;
-  line-height: 20px;
   display: flex;
   position: relative;
+  align-items: center;
+  margin-left: 8px;
 
   &__icon {
-    position: absolute;
-    left: 0;
-    top: 6px;
-    fill: var(--jungle-green);
+    fill: var(--texas-rose);
+
+    &__green {
+      fill: var(--jungle-green);
+    }
+  }
+
+  &__text {
+    margin-left: 8px;
+
+    @include text('body-2');
   }
 }

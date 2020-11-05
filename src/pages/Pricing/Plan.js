@@ -17,7 +17,7 @@ const PricingPlan = ({ ...props }) => {
     <Plan
       {...props}
       classes={PLAN_CLASSES}
-      btnProps={{ border: undefined, variant: 'fill' }}
+      btnProps={{ border: undefined, variant: 'fill', accent: 'orange' }}
     />
   )
 }

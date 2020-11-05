@@ -29,7 +29,7 @@ export const formatPrice = (price, name, billing) => {
 
   const devider = 100 * (billing === 'year' ? 12 : 1)
 
-  return [`$${parseInt(price / devider, 10)}`, '/mo']
+  return [`$${parseInt(price / devider, 10)}`, '/ mo']
 }
 
 const YEAR_MULT_DIV = [1, 12]

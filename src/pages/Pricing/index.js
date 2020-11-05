@@ -5,6 +5,7 @@ import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
 import UpgradeInfo from './UpgradeInfo/UpgradeInfo'
 import SpeakBlocks from './SpeakBlocks/SpeakBlocks'
+import PlanDescriptions from './PlanDescriptions/PlanDescriptions'
 import styles from './index.module.scss'
 
 const Header = () => (
@@ -33,6 +34,8 @@ const Page = () => {
         )}
 
         <Plans id='plans' classes={styles} />
+
+        <PlanDescriptions />
 
         <PayWithCrypto />
 

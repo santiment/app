@@ -26,7 +26,7 @@ export default {
     title: 'Free',
     desc: 'For individuals just getting started with crypto',
     discount: 'Free forever',
-    link: 'Upgrade now',
+    link: 'Start free trial',
     Component: () => (
       <Button accent='blue' border fluid className={styles.link} disabled>
         Default plan
@@ -42,7 +42,7 @@ export default {
   BASIC: {
     title: 'Basic',
     desc: 'Great for short-term analysis and prototyping',
-    link: 'Upgrade now',
+    link: 'Start free trial',
     Component: PlanActionDialog,
     features: [
       'Access to all alert types',
@@ -54,10 +54,9 @@ export default {
   },
   PRO: {
     title: 'Pro',
-    // isPopular: true,
     desc: 'Advanced metrics & serious backtesting potential',
     Component: PlanActionDialog,
-    link: 'Upgrade now',
+    link: 'Start free trial',
     features: [
       'Access to all alert types',
       'Unlimited active alerts',
