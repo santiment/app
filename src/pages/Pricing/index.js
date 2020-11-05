@@ -4,6 +4,7 @@ import PayWithCrypto from './PayWithCrypto'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
 import UpgradeInfo from './UpgradeInfo/UpgradeInfo'
+import SpeakBlocks from './SpeakBlocks/SpeakBlocks'
 import styles from './index.module.scss'
 
 const Header = () => (
@@ -34,6 +35,8 @@ const Page = () => {
         <Plans id='plans' classes={styles} />
 
         <PayWithCrypto />
+
+        <SpeakBlocks />
       </div>
 
       <UpgradeInfo />
