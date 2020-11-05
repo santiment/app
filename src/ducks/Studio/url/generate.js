@@ -45,11 +45,13 @@ export const normalizeWidget = ({
   Widget,
   metrics,
   // comparables,
+  project,
   connectedWidgets,
   MetricColor,
   MetricSettingMap,
   MetricIndicators
 }) => ({
+  project,
   widget: WidgetToTypeMap.get(Widget),
   metrics: metrics
     .map(({ key, indicator }) => !indicator && key)

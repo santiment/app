@@ -144,6 +144,7 @@ export function parseSharedWidgets (sharedWidgets, project) {
   return sharedWidgets.map(
     ({
       widget,
+      project: widgetProject,
       metrics,
       comparables,
       connectedWidgets,
@@ -170,6 +171,7 @@ export function parseSharedWidgets (sharedWidgets, project) {
       return TypeToWidget[widget].new({
         mergedMetrics: holderMetrics,
         metrics: parsedMetrics,
+        project: widgetProject,
         // comparables: parsedComparables,
         connectedWidgets: connectedWidgets
           ? connectedWidgets.map(parseConnectedWidget)
