@@ -21,7 +21,7 @@ const Counter = ({ value }) => {
 }
 
 const ProfileActivities = ({ profile }) => {
-  const { id: profileId, insights, triggers, watchlists = [] } = profile
+  const { id: profileId, insightsCount, triggers, watchlists = [] } = profile
 
   const [step, setStep] = useState(window.location.hash || STEPS.INSIGHTS)
   const [templates] = useUserTemplates(profileId)
@@ -40,7 +40,7 @@ const ProfileActivities = ({ profile }) => {
           className={cx(styles.link, step === STEPS.INSIGHTS && styles.active)}
           onClick={() => goTo(STEPS.INSIGHTS)}
         >
-          Insights <Counter value={insights.length} />
+          Insights <Counter value={insightsCount.totalCount} />
         </div>
         <div
           className={cx(
@@ -74,9 +74,7 @@ const ProfileActivities = ({ profile }) => {
         </div>
       </div>
       <div className={styles.right}>
-        {step === STEPS.INSIGHTS && (
-          <PublicInsights userId={profileId} data={insights} />
-        )}
+        {step === STEPS.INSIGHTS && <PublicInsights userId={profileId} />}
         {step === STEPS.SIGNALS && (
           <PublicSignals userId={profileId} data={triggers} />
         )}
