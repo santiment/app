@@ -20,6 +20,7 @@ export const ScrollableInsightsList = ({
   settings
 }) => {
   const [insights, setInsights] = useState([])
+  const [canLoad, setCanLoad] = useState(true)
 
   const { data, loading: isLoading } = useInsightsBy(variables, query)
 
@@ -36,11 +37,16 @@ export const ScrollableInsightsList = ({
       if (data.length > 0) {
         setInsights([...insights, ...data])
       }
+
+      if (
+        !isLoading &&
+        (data.length === 0 || data.length < DEFAULT_INSIGHTS_PER_PAGE)
+      ) {
+        setCanLoad(false)
+      }
     },
     [data]
   )
-  const canLoad =
-    insights.length > 0 && insights.length % DEFAULT_INSIGHTS_PER_PAGE === 0
 
   const loadMore = useCallback(
     () => {
@@ -61,7 +67,9 @@ export const ScrollableInsightsList = ({
         pageStart={0}
         loadMore={loadMore}
         hasMore={!isLoading && canLoad}
-        loader={<Skeleton key='loader' className={styles.skeleton} />}
+        loader={
+          <Skeleton show={isLoading} key='loader' className={styles.skeleton} />
+        }
         threshold={0}
       >
         <InsightsFeed key='feed' insights={insights} classes={styles} />
