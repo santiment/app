@@ -71,6 +71,9 @@
   &__tooltip {
     white-space: nowrap;
     z-index: 11;
+    padding: 6px 12px;
+
+    @include text('caption');
   }
 
   &:hover {
@@ -205,6 +208,7 @@
     .rt-thead.-header {
       position: sticky;
       top: 114px;
+      z-index: 1;
     }
 
     .rt-td {
