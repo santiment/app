@@ -124,10 +124,6 @@ const WatchlistPage = props => {
                     items={filteredItems || items}
                     goto={props.history.push}
                     type='watchlist'
-                    classes={{
-                      container: styles.tableWrapper,
-                      top: styles.tableTop
-                    }}
                     preload={props.preload}
                     listName={title}
                     allColumns={ASSETS_TABLE_COLUMNS}

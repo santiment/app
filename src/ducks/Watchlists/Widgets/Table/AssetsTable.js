@@ -62,7 +62,6 @@ const AssetsTable = ({
   filterType,
   showAll = false,
   preload,
-  classes = {},
   refetchAssets,
   minVolume = 0,
   listName,
@@ -159,8 +158,8 @@ const AssetsTable = ({
   const disabledComparision = comparingAssets.length < 2
 
   return (
-    <div className={classes.container} id='table'>
-      <div className={cx(styles.top, classes.top)} id='tableTop'>
+    <div className={styles.container} id='table'>
+      <div className={styles.top} id='tableTop'>
         {filterType ? (
           <span>Showed based on {filterType} anomalies</span>
         ) : (

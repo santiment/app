@@ -1,11 +1,19 @@
 @import '~@santiment-network/ui/mixins';
 
+.container {
+  margin: 34px 0 40px 0;
+}
+
 .top {
-  margin-bottom: 8px;
+  padding: 8px 36px 10px 32px;
   display: flex;
   justify-content: space-between;
   width: 100%;
   transition: width 0.2s ease-in-out;
+  position: sticky;
+  top: 64px;
+  background-color: var(--white);
+  z-index: 1;
 }
 
 .tooltip {
@@ -195,7 +203,7 @@
 
     .rt-thead.-header {
       position: sticky;
-      top: 70px;
+      top: 114px;
     }
 
     .rt-td {
