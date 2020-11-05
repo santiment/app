@@ -6,6 +6,7 @@ import UIButton from '@santiment-network/ui/Button'
 import UIIcon from '@santiment-network/ui/Icon'
 import Delete from '../../Actions/Delete'
 import EditForm from '../../Actions/Edit/EditForm'
+import EditAssets from '../../Actions/Edit/EditAssets'
 import SaveAs from '../../Actions/SaveAs'
 import New from '../../Actions/New'
 // import EditAssets from '../../ducks/Watchlists/Actions/Edit/Trigger'
@@ -29,32 +30,18 @@ export const Button = ({ className, ...props }) => (
 const Trigger = ({
   watchlist,
   name,
-  forwardedRef,
   isActive,
-  onPrimaryAction,
-  isLoading,
   lists,
+  assets,
+  forwardedRef,
   openMenu
 }) => {
-  const [isEditPopupOpened, setIsEditPopupOpened] = useState(false)
-
   return (
     <div className={styles.trigger} ref={forwardedRef}>
-      <EditForm
-        title='Edit watchlist'
-        lists={lists}
+      <EditAssets
         id={watchlist.id}
-        onFormSubmit={payload =>
-          onPrimaryAction(payload).then(() => setIsEditPopupOpened(false))
-        }
-        isLoading={isLoading}
-        open={isEditPopupOpened}
-        toggleOpen={setIsEditPopupOpened}
-        settings={{
-          name,
-          description: watchlist.description,
-          isPublic: watchlist.isPublic
-        }}
+        assets={assets}
+        name={name}
         trigger={<UIButton className={styles.trigger__text}>Edit</UIButton>}
       />
       <div
@@ -94,11 +81,8 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, onClick }) => {
             lists={watchlists}
             watchlist={watchlist}
             name={name}
+            assets={assets}
             openMenu={() => setIsMenuOpened(true)}
-            isLoading={loading}
-            onPrimaryAction={payload =>
-              updateWatchlist(watchlist, { ...payload }).then(notifyUpdate)
-            }
           />
         }
         passOpenStateAs='isActive'
@@ -129,7 +113,7 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, onClick }) => {
             trigger={
               <Button>
                 <Icon type='edit' />
-                Edit
+                Rename
               </Button>
             }
           />

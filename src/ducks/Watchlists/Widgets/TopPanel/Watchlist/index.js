@@ -12,6 +12,7 @@ const TopPanel = ({
   isAuthor,
   className,
   isMonitored,
+  assets,
   ...props
 }) => {
   return (
@@ -24,6 +25,7 @@ const TopPanel = ({
             name={name}
             id={id}
             watchlist={watchlist}
+            assets={assets}
           />
         )}
       </div>
