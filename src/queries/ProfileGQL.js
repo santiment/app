@@ -1,5 +1,4 @@
 import gql from 'graphql-tag'
-import { INSIGHT_COMMON_FRAGMENT } from './InsightsGQL'
 import { TRIGGERS_COMMON_FRAGMENT } from '../ducks/Signals/common/queries'
 import {
   WATCHLIST_GENERAL_FRAGMENT,
@@ -33,16 +32,14 @@ export const PUBLIC_USER_DATA_QUERY = gql`
           username
         }
       }
-      insights {
-        ...insightCommon
-        text
-      }
       triggers {
         ...triggersCommon
       }
+      insightsCount {
+        totalCount
+      }
     }
   }
-  ${INSIGHT_COMMON_FRAGMENT}
   ${TRIGGERS_COMMON_FRAGMENT}
   ${WATCHLIST_GENERAL_FRAGMENT}
   ${PROJECT_ITEM_FRAGMENT}
