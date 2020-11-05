@@ -266,6 +266,8 @@ const updateHistory = url => {
   history.replaceState(history.state, null, url)
 }
 
+const isStage = window.location && window.location.href.indexOf('stage') !== -1
+
 export {
   getOrigin,
   getAPIUrl,
@@ -283,5 +285,6 @@ export {
   calcPercentageChange,
   isNotSafari,
   safeDecode,
-  updateHistory
+  updateHistory,
+  isStage
 }

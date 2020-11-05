@@ -11,6 +11,9 @@ export const MirroredMetric = {
 }
 
 export const mirroredMetrics = [] // populated below
+export const checkIfAreMirrored = (metricA, metricB) =>
+  MirroredMetric[metricA.key] === metricB ||
+  MirroredMetric[metricB.key] === metricA
 
 const mirrorTransformer = metricKey => data =>
   data.map(item => ({

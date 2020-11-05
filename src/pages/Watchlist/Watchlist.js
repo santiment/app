@@ -46,7 +46,7 @@ const WatchlistPage = props => {
   const { comparingAssets, addAsset, cleanAll } = useComparingAssets()
 
   return (
-    <div className='page projects-table'>
+    <div className={('page', styles.watchlist)}>
       <Helmet>
         <link rel='canonical' href={`${getOrigin()}/assets`} />
         <title>{title}</title>
@@ -123,6 +123,11 @@ const WatchlistPage = props => {
                     filterType={filterType}
                     items={filteredItems || items}
                     goto={props.history.push}
+                    type='watchlist'
+                    classes={{
+                      container: styles.tableWrapper,
+                      top: styles.tableTop
+                    }}
                     preload={props.preload}
                     listName={title}
                     allColumns={ASSETS_TABLE_COLUMNS}

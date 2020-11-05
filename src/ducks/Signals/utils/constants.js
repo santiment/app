@@ -33,7 +33,7 @@ export const MIN_TITLE_LENGTH = 2
 
 export const REQUIRED_MESSAGE = 'Required'
 export const MUST_BE_MORE_ZERO_MESSAGE = 'Must be more 0'
-export const NOT_VALID_ETH_ADDRESS = 'Not valid ETH address'
+export const NOT_VALID_HB_ADDRESS = 'Not valid address'
 
 export const PRICE = 'price'
 export const ETH_WALLET = 'eth_wallet'

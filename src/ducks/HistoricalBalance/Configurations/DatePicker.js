@@ -39,22 +39,18 @@ const DatePicker = ({ settings, isPhone, changeTimePeriod }) => {
     changeTimePeriod(from, to, timeRange)
   }
 
-  return (
-    <>
-      <TimeRanges
-        timeRange={settings.timeRange}
-        onTimerangeChange={onTimerangeChange}
-      />
-
-      {!isPhone && (
-        <Calendar
-          className={styles.calendar}
-          settings={settings}
-          changeTimePeriod={changeTimePeriod}
-          onTimerangeChange={onTimerangeChange}
-        />
-      )}
-    </>
+  return isPhone ? (
+    <TimeRanges
+      timeRange={settings.timeRange}
+      onTimerangeChange={onTimerangeChange}
+    />
+  ) : (
+    <Calendar
+      className={styles.calendar}
+      settings={settings}
+      changeTimePeriod={changeTimePeriod}
+      onTimerangeChange={onTimerangeChange}
+    />
   )
 }
 

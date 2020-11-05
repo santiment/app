@@ -8,7 +8,7 @@
   border: none;
   box-shadow: none;
   padding: 10px 24px 24px 24px !important;
-  width: 346px;
+  width: 600px;
 
   @include responsive('phone', 'phone-xs') {
     width: 100%;
@@ -24,20 +24,28 @@
 }
 
 .join {
-  @include text('h4');
+  @include text('h4', 'm');
 
   text-align: center;
   color: var(--rhino);
-  margin-top: 34px;
+  margin-top: 4px;
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('h4');
+  }
 }
 
 .description {
-  @include text('body-3');
+  @include text('body-2');
 
   text-align: center;
   color: var(--waterloo);
-  margin-top: 16px;
-  max-width: 256px;
+  margin-top: 24px;
+  max-width: 80%;
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-3');
+  }
 }
 
 .btn {

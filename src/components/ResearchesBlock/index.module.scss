@@ -2,21 +2,27 @@
 
 .wrapper {
   width: 100%;
-  display: flex;
-  justify-content: center;
   background-color: $fiord;
   background-image: url('./cubes.svg');
   background-position: 50% 50%;
-  padding: 72px 40px;
+  padding: 72px 0;
+  display: flex;
+}
+
+.content {
+  max-width: 1152px;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  width: 100%;
 
   @include responsive( 'tablet','phone', 'phone-xs') {
     flex-direction: column;
+    padding: 0 16px;
   }
 }
 
 .block + .block {
-  margin-left: 144px;
-
   @include responsive( 'tablet','phone', 'phone-xs') {
     margin: 40px 0 0 0;
   }

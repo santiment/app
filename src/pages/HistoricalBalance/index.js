@@ -30,7 +30,7 @@ const ResponsiveTitle = ({ isDesktop = true }) =>
   )
 
 const HistoricalBalancePage = ({ history, isDesktop }) => {
-  const { settings, chartAssets, priceAssets } = useMemo(
+  const { settings, chartAssets, priceAssets, isLog } = useMemo(
     () => parseUrl(window.location.search),
     []
   )
@@ -42,6 +42,7 @@ const HistoricalBalancePage = ({ history, isDesktop }) => {
         defaultSettings={settings}
         defaultChartAssets={chartAssets}
         defaultPriceAssets={priceAssets}
+        defaultIsLog={isLog}
       >
         <URLExtension history={history} />
       </HistoricalBalance>

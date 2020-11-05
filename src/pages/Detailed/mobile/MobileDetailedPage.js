@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
-import GA from '../../../utils/tracking'
+import { useTrackEvents } from '../../../hooks/tracking'
 import { PROJECT_BY_SLUG_MOBILE_QUERY } from '../../../ducks/SANCharts/gql'
 import Title from './MobileAssetTitle'
 import AssetChart from './MobileAssetChart'
@@ -35,6 +35,7 @@ const MobileDetailedPage = ({
   data: { project = {}, loading },
   ...props
 }) => {
+  const [trackEvent] = useTrackEvents()
   const slug = props.match.params.slug
 
   addRecentAssets(slug)
@@ -56,12 +57,12 @@ const MobileDetailedPage = ({
     if (!newMetrics.delete(metric)) {
       newMetrics.add(metric)
 
-      GA.event({
+      trackEvent({
         category: 'Chart',
         action: `Showing "${metric.label} on mobile"`
       })
     } else {
-      GA.event({
+      trackEvent({
         category: 'Chart',
         action: `Removing "${metric.label} on movile"`
       })

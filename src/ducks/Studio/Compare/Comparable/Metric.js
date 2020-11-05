@@ -3,7 +3,7 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import withMetrics from '../../withMetrics'
 import { getCategoryGraph } from '../../Sidebar/utils'
-import Search, { getMetricSuggestions } from '../../Sidebar/Search'
+import Search, { checkMatch, getMetricSuggestions } from '../../Sidebar/Search'
 import MetricIcon from '../../../SANCharts/MetricIcon'
 import { METRIC } from '../../Sidebar/Button/types'
 import styles from './Metric.module.scss'
@@ -17,17 +17,13 @@ const CustomProjectCategories = {
 }
 
 export const SEARCH_PREDICATE_ONLY_METRICS = searchTerm => {
-  const upperCaseSearchTerm = searchTerm.toUpperCase()
+  const upperCaseSearchTerm = searchTerm ? searchTerm.toUpperCase() : ''
   return ({ label, abbreviation, type }) => {
     if (type && type !== METRIC) {
       return false
     }
 
-    return (
-      (abbreviation &&
-        abbreviation.toUpperCase().includes(upperCaseSearchTerm)) ||
-      (label && label.toUpperCase().includes(upperCaseSearchTerm))
-    )
+    return checkMatch(upperCaseSearchTerm, abbreviation, label)
   }
 }
 
@@ -39,7 +35,8 @@ const MetricSearch = withMetrics(
       className={cx(className, loading && styles.loading)}
       categories={CustomProjectCategories[slug] || categories}
       emptySuggestions={getMetricSuggestions({
-        categories: CustomProjectCategories[slug] || categories
+        categories: CustomProjectCategories[slug] || categories,
+        predicate: SEARCH_PREDICATE_ONLY_METRICS
       })}
       inputProps={{
         placeholder: 'Type to search metrics...'

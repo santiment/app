@@ -31,7 +31,7 @@ const FeedHistoricalBalance = ({ user_trigger_data }) => {
         <span className={styles.address}>{spliceLink(address)}</span> has
         <span className={styles.balanceChange}>
           {balance_change < 0 ? 'decreased' : 'increased'} by{' '}
-          {formatNumber(balance_change)}
+          {balance_change && formatNumber(balance_change)}
         </span>
         since {formatDate(since)}
       </div>

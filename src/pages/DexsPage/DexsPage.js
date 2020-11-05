@@ -2,11 +2,9 @@ import React from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
 import gql from 'graphql-tag'
-import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
-import MobileHeader from '../../components/MobileHeader/MobileHeader'
-import { DesktopOnly, MobileOnly } from '../../components/Responsive'
+import { withRenderQueueProvider } from '../../components/DashboardMetricChart/renderQueue'
+import { DesktopOnly } from '../../components/Responsive'
 import { Block } from '../StablecoinsPage/StablecoinsPageStructure'
-import ResearchesBlock from '../../components/ResearchesBlock'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import SharePage from '../../components/SharePage/SharePage'
 import CurrentPageReport from '../../ducks/Stablecoins/StablecoinsReport/CurrentPageReport'
@@ -19,6 +17,8 @@ import DexTradesSegmentedByDEX, {
 import NumberOfTradesPerDex from '../../ducks/Dexs/NumberOfTradesPerDex/NumberOfTradesPerDex'
 import { DEX_BY_USD } from '../../ducks/Dexs/PriceMeasurement/DexPriceMeasurement'
 import { useRestrictedInfo } from '../UniswapProtocolPage/hooks'
+import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
+import externalStyles from './../StablecoinsPage/StablecoinsPage.module.scss'
 import styles from './DexsPage.module.scss'
 
 const ANCHORS = {
@@ -54,11 +54,11 @@ const METRIC_BOUNDARIES_QUERY = gql`
   }
 `
 
-const DexsPage = ({ history }) => {
+const DexsPage = () => {
   const isProChecking = useRestrictedInfo(METRIC_BOUNDARIES_QUERY)
 
   return (
-    <div className={cx('page', styles.container)}>
+    <DashboardLayout>
       <Helmet
         title={'DEX Dashboard | Sanbase'}
         meta={[
@@ -73,19 +73,11 @@ const DexsPage = ({ history }) => {
         ]}
       />
 
-      <MobileOnly>
-        <MobileHeader
-          showBack={true}
-          goBack={history.goBack}
-          classes={styles}
-        />
-      </MobileOnly>
-
-      <div className={styles.header}>
-        <div className={cx(styles.inner, styles.content)}>
-          <div className={styles.pageDescription}>
-            <h3 className={styles.title}>Decentralized Exchanges</h3>
-            <div className={styles.description}>
+      <div className={externalStyles.header}>
+        <div className={cx(externalStyles.inner, externalStyles.content)}>
+          <div className={externalStyles.pageDescription}>
+            <h3 className={externalStyles.title}>Decentralized Exchanges</h3>
+            <div className={externalStyles.description}>
               Track the on-chain activity on 18 decentralized exchanges, their
               daily volumes, number of trades and the usage rate of individual
               DEXes over time. This data is from the main decentralized
@@ -100,14 +92,14 @@ const DexsPage = ({ history }) => {
         </div>
       </div>
 
-      <div className={styles.body}>
+      <div className={externalStyles.body}>
         <DesktopOnly>
           <LeftPageNavigation anchors={ANCHORS} />
         </DesktopOnly>
 
-        <div className={styles.inner}>
+        <div className={externalStyles.inner}>
           <Block
-            className={styles.firstBlock}
+            className={cx(externalStyles.firstBlock, styles.firstBlock)}
             title='Volume of DEXs Trades'
             isPaywalActive={isProChecking}
             tag={ANCHORS.VolumeSegmented.key}
@@ -143,12 +135,8 @@ const DexsPage = ({ history }) => {
           </Block>
         </div>
       </div>
-
-      <ResearchesBlock className={styles.researchers} />
-
-      <CommonFooter />
-    </div>
+    </DashboardLayout>
   )
 }
 
-export default DexsPage
+export default withRenderQueueProvider(DexsPage)

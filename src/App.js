@@ -152,6 +152,11 @@ const LoadableDexsPage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableBtcLockedPage = Loadable({
+  loader: () => import('./pages/BtcLockedPage/BtcLockedPage'),
+  loading: () => <PageLoader />
+})
+
 const LoadableSheetsTemplatePage = Loadable({
   loader: () => import('./pages/SheetsTemplatePage/SheetsTemplatePage'),
   loading: () => <PageLoader />
@@ -464,6 +469,10 @@ export const App = ({
             render={props => (
               <LoadableDexsPage isDesktop={isDesktop} {...props} />
             )}
+          />
+          <Route
+            path={PATHS.BTC_LOCKED}
+            render={props => <LoadableBtcLockedPage {...props} />}
           />
           <Route
             path={PATHS.SHEETS_TEMPLATES}

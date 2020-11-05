@@ -21,7 +21,6 @@ const DEFAULT_VALUE = {}
 
 export const IcoPrice = ({
   chart,
-  scale,
   slug,
   className,
   isICOPriceActive,
@@ -60,7 +59,7 @@ export const IcoPrice = ({
 
       setValue({
         isOnChart,
-        top: isOnChart ? scale(chart, min, max)(icoPrice) : 0,
+        top: isOnChart ? chart.scale(chart, min, max)(icoPrice) : 0,
         price: formatter(icoPrice)
       })
       onResult(icoPrice)

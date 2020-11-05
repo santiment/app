@@ -14,6 +14,15 @@ const TYPES = {
       'Export the Screener as .csv',
       'Full access to all Santiment metrics and market insights'
     ]
+  },
+  watchlist: {
+    title: 'Go Pro for full watchlist access',
+    description:
+      'Sanbase Pro includes advanced watchlist features and access to the full Santiment platform!',
+    features: [
+      'Export the watchlist as .csv',
+      'Full access to all Santiment metrics and market insights'
+    ]
   }
 }
 

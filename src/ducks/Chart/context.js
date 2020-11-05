@@ -1,20 +1,12 @@
-import React, {
-  useCallback,
-  useContext,
-  useState,
-  useEffect,
-  useReducer
-} from 'react'
+import React, { useCallback, useContext, useState, useEffect } from 'react'
 import { updateChartState } from '@santiment-network/chart'
 import { linearScale } from '@santiment-network/chart/scales'
 import { Plotter, Observer } from './managers'
 import { domainModifier } from './domain'
 import { clearCtx } from './utils'
+import { useRedrawer } from '../../hooks'
 
-const noop = () => {}
-const DEFAULT = []
-const REDUCER = () => []
-export const useRedrawer = () => useReducer(REDUCER, DEFAULT)
+export const noop = () => {}
 
 const ChartContext = React.createContext()
 const ChartSetterContext = React.createContext()

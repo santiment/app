@@ -122,19 +122,6 @@ export const ERC20_PROJECTS_QUERY = gql`
   ${project}
 `
 
-export const ALL_ERC20_PROJECTS_QUERY = gql`
-  {
-    allErc20Projects {
-      id
-      name
-      ticker
-      slug
-      mainContractAddress
-      infrastructure
-    }
-  }
-`
-
 export const ALL_PROJECTS_PRICE_CHANGES_QUERY = gql`
   query allProjectsByFunction($fn: json) {
     allProjectsByFunction(function: $fn) {

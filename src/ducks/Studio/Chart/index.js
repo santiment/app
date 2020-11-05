@@ -76,7 +76,7 @@ const Chart = ({
     },
     [domainGroups]
   )
-  const allTimeData = useAllTimeData(metrics, settings)
+  const [allTimeData] = useAllTimeData(metrics, settings)
   const isBlurred = !isLoggedIn && index > 1
   const scale = options.isLogScale ? logScale : linearScale
 
@@ -204,8 +204,8 @@ const Chart = ({
           interval={settings.interval}
           slug={settings.slug}
           widget={widget}
-          rerenderWidgets={rerenderWidgets}
           toggleMetric={onMetricRemove}
+          rerenderWidgets={rerenderWidgets}
         />
       )}
 

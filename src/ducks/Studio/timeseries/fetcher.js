@@ -126,7 +126,6 @@ export const fetchData = (query, variables, signal) =>
 
 export function getData (query, variables, signal) {
   const { metric, queryKey = metric, interval } = variables
-
   return getMinInterval(queryKey)
     .then(minInterval => {
       variables.interval = normalizeInterval(interval, minInterval)

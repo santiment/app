@@ -288,6 +288,11 @@ export function getIntervalMilliseconds (interval) {
   return amount * formatMs
 }
 
+export const getNewTimerangePeriod = timerange => ({
+  from: `utc_now-${timerange}`,
+  to: 'utc_now'
+})
+
 // TODO: Replace 'getIntervalByTimeRange' with this function [@vanguard | Oct 20, 2020]
 export function getTimerangePeriod (timerange) {
   const to = new Date()

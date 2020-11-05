@@ -3,6 +3,7 @@ import Insights from './Insights'
 import IcoPrice from './IcoPrice'
 import LastDayPrice from './LastDayPrice'
 import ResponsiveChart from '../../Chart/Responsive'
+import Areas from '../../Chart/Areas'
 import Lines from '../../Chart/Lines'
 import Bars from '../../Chart/Bars'
 import GreenRedBars from '../../Chart/GreenRedBars'
@@ -57,6 +58,7 @@ const Canvas = ({
       <Watermark light={isWatermarkLighter} />
       <GreenRedBars />
       <Bars />
+      <Areas />
       <Lines />
       <Axes metrics={axesMetricKeys} />
       {isCartesianGridActive && <CartesianGrid />}
@@ -80,13 +82,12 @@ const Canvas = ({
       <Insights />
       <IcoPrice
         {...settings}
-        scale={props.scale}
         isICOPriceActive={isICOPriceActive}
         metrics={metrics}
         className={styles.ico}
         onResult={price => setIsICOPriceDisabled(!price)}
       />
-      <LastDayPrice settings={settings} metrics={metrics} scale={props.scale} />
+      <LastDayPrice data={data} from={from} to={to} />
       {isSelectingRange || (
         <Signals {...settings} metrics={metrics} data={data} />
       )}

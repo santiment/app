@@ -1,8 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import withSizes from 'react-sizes'
 import Dialog from '@santiment-network/ui/Dialog'
-import { mapSizesToProps } from '../../utils/withSizes'
 import { Title } from '../../pages/HistoricalBalance'
 import HistoricalBalance from '../../ducks/HistoricalBalance'
 import { assetConvertor } from '../../ducks/HistoricalBalance/url'
@@ -48,4 +46,4 @@ const BalancePageLink = ({ link }) => {
   )
 }
 
-export default withSizes(mapSizesToProps)(ViewBalanceDialog)
+export default ViewBalanceDialog

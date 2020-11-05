@@ -5,9 +5,12 @@ import Button from '@santiment-network/ui/Button'
 import MetricErrorExplanation from './MetricErrorExplanation/MetricErrorExplanation'
 import MetricIcon from '../../SANCharts/MetricIcon'
 import { getMetricLabel } from '../../dataHub/metrics/labels'
+import { isStage } from '../../../utils/utils'
 import styles from './ActiveMetrics.module.scss'
 
-const API_TEST_URL = ''
+const API_TEST_URL = isStage
+  ? 'https://apitestsweb-stage.santiment.net/gql_test_suite/latest.json'
+  : 'https://apitestsweb-production.santiment.net/gql_test_suite/latest.json'
 
 const Customization = ({ metric, isActive, onClick }) => (
   <div className={cx(styles.settings, isActive && styles.settings_active)}>
@@ -31,7 +34,7 @@ const MetricButton = ({
   isWithSettings,
   toggleMetric,
   errorsForMetrics,
-  project,
+  settings,
   onSettingsClick,
   ...rest
 }) => {
@@ -66,7 +69,7 @@ const MetricButton = ({
       <MetricErrorExplanation
         errorsForMetrics={errorsForMetrics}
         metric={metric}
-        project={project}
+        settings={settings}
       />
 
       {isRemovable && (
@@ -92,11 +95,9 @@ export default ({
   className,
   MetricColor,
   activeMetrics,
-  activeEvents = [],
   metricSettings,
   loadings,
   toggleMetric,
-  eventLoadings,
   ErrorMsg = {},
   isSingleWidget,
   isWithIcon = true,
@@ -104,7 +105,7 @@ export default ({
   onMetricHover,
   onMetricHoverEnd,
   onSettingsClick,
-  project
+  settings
 }) => {
   const isMoreThanOneMetric = activeMetrics.length > 1 || !isSingleWidget
   const [errorsForMetrics, setErrorsForMetrics] = useState()
@@ -112,16 +113,14 @@ export default ({
   useEffect(() => {
     let mounted = true
 
-    if (API_TEST_URL) {
-      fetch(API_TEST_URL)
-        .then(response => {
-          if (!response.ok) {
-            return {}
-          }
-          return response.json()
-        })
-        .then(data => mounted && setErrorsForMetrics(data))
-    }
+    fetch(API_TEST_URL)
+      .then(response => {
+        if (!response.ok) {
+          return {}
+        }
+        return response.json()
+      })
+      .then(data => mounted && setErrorsForMetrics(data))
 
     return () => {
       mounted = false
@@ -129,7 +128,7 @@ export default ({
   }, [])
 
   const errors =
-    project && errorsForMetrics ? errorsForMetrics[project.slug] : {}
+    settings && errorsForMetrics ? errorsForMetrics[settings.slug] : {}
 
   return activeMetrics.map((metric, i) => (
     <MetricButton
@@ -148,7 +147,7 @@ export default ({
       onMouseLeave={onMetricHoverEnd && (() => onMetricHoverEnd(metric))}
       onSettingsClick={onSettingsClick}
       errorsForMetrics={errors}
-      project={project}
+      settings={settings}
     />
   ))
 }

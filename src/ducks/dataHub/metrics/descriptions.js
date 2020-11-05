@@ -229,7 +229,18 @@ export const Description = {
   [Metric.price_daa_divergence.key]:
     'Price-Daily Addresses Divergence model tracks the relationship between the coin’s price and the amount of daily addresses interacting with the coin. When the price increases while the amount of active addresses declines, the model triggers a ‘Sell’ signal, and vice versa. Historically, strong divergences in these two metrics earmarked interesting entry/exit levels',
   [Metric.active_addresses_1h.key]:
-    'Shows the number of unique addresses involved in [Project Ticker] transactions hourly. This metric indicates the hourly level of crowd interaction (or speculation) with a token'
+    'Shows the number of unique addresses involved in [Project Ticker] transactions hourly. This metric indicates the hourly level of crowd interaction (or speculation) with a token',
+
+  [Metric.network_profit_loss.key]: (
+    <>
+      Network Profit/Loss (NPL for short) computes the average profit or loss of
+      all coins that change addresses daily.
+      <br />
+      For each coin that moves on-chain, NPL takes the price at which it was
+      last moved and assumes this to be its acquisition price. Once it changes
+      addresses again, NPL assumes the coin was sold.
+    </>
+  )
 }
 
 export const rebuildDescriptions = Submetrics => {

@@ -1,26 +1,27 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import styles from './MetricErrorExplanation.module.scss'
 
-const MetricErrorExplanation = ({ errorsForMetrics, metric, project }) => {
-  const { errors_timeseries_metrics } = errorsForMetrics || {}
-  const metricError = errors_timeseries_metrics
-    ? errors_timeseries_metrics.find(
-      ({ metric: metricType }) => metricType === metric.key
-    )
-    : ''
+const MetricErrorExplanation = ({ errorsForMetrics, metric, settings }) => {
+  const metricError = useMemo(
+    () => {
+      const { errors_timeseries_metrics } = errorsForMetrics || {}
+      return errors_timeseries_metrics
+        ? errors_timeseries_metrics.find(({ name }) => name === metric.key)
+        : ''
+    },
+    [errorsForMetrics, metric]
+  )
 
-  if (!metricError) {
+  if (!metricError || !metricError.details) {
     return null
   }
 
-  const text = `Hi, there is a problem with metric '${metric.label}' for ${
-    project.ticker
+  const text = `There is a problem with metric '${metric.label}' for ${
+    settings.slug
   }.`
-
-  const { details } = metricError
 
   return (
     <Tooltip
@@ -52,7 +53,10 @@ const MetricErrorExplanation = ({ errorsForMetrics, metric, project }) => {
           className={styles.reportBtn}
           onClick={() =>
             window.Intercom &&
-            window.Intercom('showNewMessage', text + ' Error: ' + details[0])
+            window.Intercom(
+              'showNewMessage',
+              text + ' Error: ' + metricError.details[0]
+            )
           }
         >
           Report a problem

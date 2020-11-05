@@ -15,6 +15,7 @@ import ProPopupWrapper from '../../../../components/ProPopup/Wrapper'
 import ExplanationTooltip from '../../../../components/ExplanationTooltip/ExplanationTooltip'
 import AssetsToggleColumns from './AssetsToggleColumns'
 import { COLUMNS } from './asset-columns'
+import Copy from '../../Actions/Copy'
 import DownloadCSV from '../../Actions/DownloadCSV'
 import { COMMON_SETTINGS, COLUMNS_SETTINGS } from './columns'
 import { markedAsShowed } from '../../../SANCharts/SidecarExplanationTooltip'
@@ -185,36 +186,51 @@ const AssetsTable = ({
         )}
         <div className={styles.actions}>
           {showCollumnsToggle && (
-            <AssetsToggleColumns
-              columns={columns}
-              onChange={toggleColumn}
-              isScreener={type === 'screener'}
-            />
+            <AssetsToggleColumns columns={columns} onChange={toggleColumn} />
           )}
-          {type === 'screener' && (
-            <>
-              <ProPopupWrapper
-                type='screener'
-                trigger={props => (
-                  <div {...props} className={styles.action__wrapper}>
-                    <ExplanationTooltip text='Download .csv' offsetY={10}>
-                      <Icon type='save' className={styles.action} />
-                    </ExplanationTooltip>
-                  </div>
-                )}
-              >
-                <DownloadCSV
-                  name={listName}
-                  items={items}
-                  className={styles.action}
+          <Copy
+            id={typeInfo.listId}
+            trigger={
+              <div className={cx(styles.action, styles.action__withLine)}>
+                <ExplanationTooltip
+                  text='Copy assets to watchlist'
+                  offsetY={10}
+                  className={styles.action__tooltip}
                 >
-                  <ExplanationTooltip text='Download .csv' offsetY={10}>
-                    <Icon type='save' />
-                  </ExplanationTooltip>
-                </DownloadCSV>
-              </ProPopupWrapper>
-            </>
-          )}
+                  <Icon type='copy' />
+                </ExplanationTooltip>
+              </div>
+            }
+          />
+          <ProPopupWrapper
+            type={type}
+            trigger={props => (
+              <div {...props} className={styles.action__wrapper}>
+                <ExplanationTooltip
+                  text='Download .csv'
+                  offsetY={10}
+                  className={styles.action__tooltip}
+                >
+                  <Icon type='save' className={styles.action} />
+                </ExplanationTooltip>
+              </div>
+            )}
+          >
+            <DownloadCSV
+              name={listName}
+              items={items}
+              className={styles.action}
+              isLoading={isLoading}
+            >
+              <ExplanationTooltip
+                text='Download .csv'
+                offsetY={10}
+                className={styles.action__tooltip}
+              >
+                <Icon type='save' />
+              </ExplanationTooltip>
+            </DownloadCSV>
+          </ProPopupWrapper>
         </div>
       </div>
 

@@ -1,14 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import Loader from '@santiment-network/ui/Loader/Loader'
 import { useTimeseries } from '../../Studio/timeseries/hooks'
 import { formIntervalSettings } from '../../SANCharts/IntervalSelector'
-import { formatNumber } from '../../../utils/formatting'
+import DashboardCounter from '../../../components/DasboardCounter/DashboardCounter'
 import styles from './UniswapMetric.module.scss'
 
 const INTERVAL = '1d'
 
 const UniswapMetric = ({ metric }) => {
-  const { human_readable_name, key, formatter = formatNumber } = metric
+  const { human_readable_name, key, formatter } = metric
   const [settings, setSettings] = useState({
     slug: 'uniswap',
     ...formIntervalSettings(INTERVAL)
@@ -48,16 +47,13 @@ const UniswapMetric = ({ metric }) => {
   }, [])
 
   return (
-    <div className={styles.card}>
-      <div className={styles.title}>{human_readable_name}</div>
-      <div className={styles.value}>
-        {data.length === 0 ? (
-          <Loader className={styles.loading} />
-        ) : (
-          formatter(sum.toFixed(2))
-        )}
-      </div>
-    </div>
+    <DashboardCounter
+      title={human_readable_name}
+      value={sum}
+      loadings={isLoading}
+      formatter={formatter}
+      classes={styles}
+    />
   )
 }
 

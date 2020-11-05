@@ -5,11 +5,21 @@ import ProjectIcon from '../../ProjectIcon/ProjectIcon'
 import { usePressedModifier } from '../../../hooks/keyboard'
 import styles from './DashboardChartMetrics.module.scss'
 
-const DashboardMetricButton = ({ children, isDisabled, ...rest }) => {
+const DashboardMetricButton = ({
+  children,
+  isLoading,
+  isDisabled,
+  ...rest
+}) => {
   return (
     <Button
       border
-      className={cx(styles.assetBtn, isDisabled && styles.disabled)}
+      isLoading={isLoading}
+      className={cx(
+        styles.assetBtn,
+        isDisabled && styles.disabled,
+        isLoading && styles.loading
+      )}
       {...rest}
     >
       {children}

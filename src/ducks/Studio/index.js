@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import Sidebar from './Sidebar'
 import Main from './Main'
-import { mergeMetricSettingMap, checkIsMetricWidget } from './utils'
+import {
+  deduceItems,
+  mergeMetricSettingMap,
+  checkIsMetricWidget
+} from './utils'
 import { DEFAULT_SETTINGS } from './defaults'
 import { Phase, usePhase } from './phases'
 import { useKeyboardCmdShortcut } from './hooks'
@@ -91,6 +95,10 @@ export const Studio = ({
       ? metric
       : deduceItems(widget.metrics, metric)
 
+    if (metrics.length < widget.metrics.length) {
+      widget.MetricSettingMap.delete(metric)
+    }
+
     if (
       widget.Widget !== HolderDistributionWidget &&
       widget.Widget !== HolderDistributionCombinedBalanceWidget &&
@@ -124,18 +132,6 @@ export const Studio = ({
 
     setSelectedWidgets(newSelectedWidgets)
     return newSelectedWidgets
-  }
-
-  function deduceItems (items, item) {
-    const newItems = new Set(items)
-
-    if (newItems.has(item)) {
-      newItems.delete(item)
-    } else {
-      newItems.add(item)
-    }
-
-    return [...newItems]
   }
 
   function changeTimePeriod (from, to, timeRange) {

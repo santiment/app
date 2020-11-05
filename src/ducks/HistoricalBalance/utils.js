@@ -8,22 +8,27 @@ export function getValidInterval (from, to) {
   return INTERVAL_ALIAS[interval] || interval
 }
 
-const metricBuilder = slugToMetric => asset => {
-  const metric = slugToMetric(asset)
+const metricBuilder = slugToMetric => (asset, all) => {
+  const metric = slugToMetric(asset, all)
   updateTooltipSetting(metric)
   return metric
 }
 
-export const walletMetricBuilder = metricBuilder(({ slug }) => ({
-  key: normalizeQueryAlias(slug),
-  label: slug,
-  node: 'line',
-  queryKey: 'historicalBalance',
-  reqMeta: {
-    slug,
-    infrastructure: 'ETH'
+export const walletMetricBuilder = metricBuilder(({ slug }, allProjects) => {
+  const found = allProjects.find(({ slug: targetSlug }) => targetSlug === slug)
+
+  return {
+    key: normalizeQueryAlias(slug),
+    label: slug,
+    node: 'line',
+    queryKey: 'historicalBalance',
+    reqMeta: {
+      slug,
+      infrastructure:
+        found && found.infrastructure ? found.infrastructure : 'ETH'
+    }
   }
-}))
+})
 
 export const priceMetricBuilder = metricBuilder(slug => ({
   key: `hb_price_usd_${normalizeQueryAlias(slug)}`,

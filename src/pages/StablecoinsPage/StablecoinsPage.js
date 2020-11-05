@@ -1,7 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
-import CommonFooter from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import { getTimerangePeriod } from '../../utils/dates'
 import StablecoinsMarketCap from '../../ducks/Stablecoins/StablecoinsMarketCap/StablecoinsMarketCap'
 import StablecoinHolderDistribution from '../../ducks/Stablecoins/HolderDistribution/StablecoinHolderDistribution'
@@ -11,17 +10,15 @@ import WhaleTrendsList from '../../ducks/Stablecoins/WhaleTrendsList/WhaleTrends
 import FlowToExchangesList from '../../ducks/Stablecoins/FlowToExchanges/FlowToExchangesList'
 import TransactionsDominance from '../../ducks/Stablecoins/TransactionsDominance/TransactionsDominance'
 import NetworkActivity from '../../ducks/Stablecoins/NetworkActivity/NetworkActivity'
-import MobileHeader from '../../components/MobileHeader/MobileHeader'
-import { DesktopOnly, MobileOnly } from '../../components/Responsive'
+import { DesktopOnly } from '../../components/Responsive'
 import { Block, BlockWithRanges } from './StablecoinsPageStructure'
 import CurrentPageReport from '../../ducks/Stablecoins/StablecoinsReport/CurrentPageReport'
-import ResearchesBlock from '../../components/ResearchesBlock'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import SharePage from '../../components/SharePage/SharePage'
 import NetExchangeFlow from '../../ducks/Stablecoins/NetExchangeFlow/NetExchangeFlow'
+import { isStage } from '../../utils/utils'
+import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
 import styles from './StablecoinsPage.module.scss'
-
-const isStage = window.location && window.location.href.indexOf('stage') !== -1
 
 const ANCHORS = {
   Overview: {
@@ -62,9 +59,9 @@ const ANCHORS = {
   }
 }
 
-const StablecoinsPage = ({ history, isDesktop }) => {
+const StablecoinsPage = ({ isDesktop }) => {
   return (
-    <div className={cx('page', styles.container)}>
+    <DashboardLayout>
       <Helmet
         title={'Stablecoin Hub | Sanbase'}
         meta={[
@@ -79,14 +76,6 @@ const StablecoinsPage = ({ history, isDesktop }) => {
           }
         ]}
       />
-
-      <MobileOnly>
-        <MobileHeader
-          showBack={true}
-          goBack={history.goBack}
-          classes={styles}
-        />
-      </MobileOnly>
 
       <div className={styles.header}>
         <div className={cx(styles.inner, styles.content)}>
@@ -181,11 +170,7 @@ const StablecoinsPage = ({ history, isDesktop }) => {
           />
         </div>
       </div>
-
-      <ResearchesBlock className={styles.researchers} />
-
-      <CommonFooter />
-    </div>
+    </DashboardLayout>
   )
 }
 

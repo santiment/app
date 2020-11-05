@@ -1,0 +1,104 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  box-shadow: none;
+  padding: 10px 24px 24px 24px !important;
+  width: 600px;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+  }
+}
+
+.title {
+  border: 0;
+  display: flex;
+  justify-content: flex-end;
+  background-color: var(--white);
+  padding: 24px 24px 0 24px !important;
+}
+
+.join {
+  @include text('h4', 'm');
+
+  text-align: center;
+  color: var(--rhino);
+  margin-top: 20px;
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('h4');
+  }
+}
+
+.description {
+  @include text('body-2');
+
+  text-align: center;
+  color: var(--waterloo);
+  margin-top: 24px;
+  max-width: 90%;
+  white-space: pre-wrap;
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-3');
+  }
+}
+
+.btn {
+  height: 40px;
+  width: 250px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 24px 0;
+  color: white !important;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-bottom: 0;
+  }
+}
+
+.grave {
+  position: relative;
+  top: 6px;
+  margin-left: 28px;
+  cursor: url('assets/halloween/cursor/cirk-0.svg'), pointer;
+  animation: cirkMoving 0.6s infinite;
+
+  &::before {
+    width: 70px;
+    height: 70px;
+    content: '';
+    z-index: 1;
+    display: block;
+    position: absolute;
+    top: -70px;
+    left: -35px;
+  }
+}
+
+.gravePart {
+  fill: var(--white);
+}
+
+@keyframes cirkMoving {
+  0%,
+  100% {
+    cursor: url('assets/halloween/cursor/cirk-0.svg'), pointer;
+  }
+
+  25%,
+  75% {
+    cursor: url('assets/halloween/cursor/cirk-1.svg'), pointer;
+  }
+
+  50% {
+    cursor: url('assets/halloween/cursor/cirk-2.svg'), pointer;
+  }
+}

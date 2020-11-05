@@ -56,4 +56,9 @@
   justify-content: center;
   flex-direction: column;
   text-align: center;
+
+  &__vertical {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
 }

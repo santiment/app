@@ -1,4 +1,5 @@
 import { getDateFormats, getTimeFormats } from '../../../utils/dates'
+import { isEthStrictAddress, isEthStrictHashTx } from '../../../utils/utils'
 
 const ETHEREUM = 'ethereum'
 
@@ -10,7 +11,9 @@ export function normalizeTransactionData (
   const { YYYY, MMM, DD } = getDateFormats(targetDate)
   const { HH, mm, ss } = getTimeFormats(targetDate)
 
-  const listSlugs = slug === ETHEREUM ? [slug] : [slug, ETHEREUM]
+  const isEth = isEthStrictAddress(fromAddress) || isEthStrictHashTx(trxHash)
+
+  const listSlugs = isEth && slug !== ETHEREUM ? [slug, ETHEREUM] : [slug]
 
   return {
     trxHash,

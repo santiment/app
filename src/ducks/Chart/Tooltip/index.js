@@ -1,9 +1,8 @@
 import { useEffect } from 'react'
 import { initTooltip } from '@santiment-network/chart/tooltip'
 import { setupTooltip, plotTooltip } from './helpers'
-import { useChart } from '../context'
-
-const noop = () => {}
+import { useChart, noop } from '../context'
+import { observePressedModifier } from '../../../hooks/keyboard'
 
 const Tooltip = ({
   metric,
@@ -21,6 +20,14 @@ const Tooltip = ({
   chart.onRangeSelecting = onRangeSelecting
   chart.onRangeSelected = onRangeSelected
 
+  useEffect(() => {
+    const { canvas } = initTooltip(chart).tooltip
+
+    return observePressedModifier(
+      ({ altKey }) => (canvas.style.cursor = altKey ? 'crosshair' : '')
+    )
+  }, [])
+
   useEffect(
     () => {
       function marker (ctx, key, value, x, y) {
@@ -31,10 +38,9 @@ const Tooltip = ({
       chart.tooltipKey = metric
       chart.drawTooltip = point => plotTooltip(chart, marker, point)
 
-      initTooltip(chart)
       setupTooltip(chart, marker)
     },
-    [chart, metric]
+    [metric]
   )
 
   return null

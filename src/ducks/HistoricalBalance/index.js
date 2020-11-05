@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import { logScale, linearScale } from '@santiment-network/chart/scales'
-import { withDefaults } from './defaults'
+import { ASSETS_LIMIT, withDefaults } from './defaults'
 import { useSettings, useWalletAssets, useWalletMetrics } from './hooks'
 import Chart, { useResponsiveTicks } from './Chart'
 import Configurations from './Configurations'
@@ -15,6 +15,7 @@ const HistoricalBalance = ({
   defaultSettings,
   defaultChartAssets,
   defaultPriceAssets,
+  defaultIsLog,
   isPhone
 }) => {
   const { settings, changeTimePeriod, onAddressChange } = useSettings(
@@ -23,7 +24,7 @@ const HistoricalBalance = ({
   const { walletAssets, isLoading, isError } = useWalletAssets(settings.address)
   const [chartAssets, setChartAssets] = useState(defaultChartAssets)
   const [priceAssets, setPriceAssets] = useState(defaultPriceAssets)
-  const [isLog, setIsLog] = useState(false)
+  const [isLog, setIsLog] = useState(defaultIsLog)
   const metrics = useWalletMetrics(chartAssets, priceAssets)
   const axesTicks = useResponsiveTicks(isPhone)
 
@@ -52,6 +53,21 @@ const HistoricalBalance = ({
     setPriceAssets([...priceAssetsSet])
   }
 
+  function updateChartAssets (newChartAssets) {
+    const { length } = newChartAssets
+    if (length > ASSETS_LIMIT) return
+
+    const lastAsset = newChartAssets[length - 1]
+    if (chartAssets.length < length && lastAsset) {
+      const { slug } = lastAsset
+      if (!priceAssets.includes(slug)) {
+        setPriceAssets([...priceAssets, slug])
+      }
+    }
+
+    setChartAssets(newChartAssets)
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={cx(styles.settings, isPhone && styles.settings_phone)}>
@@ -67,9 +83,10 @@ const HistoricalBalance = ({
           walletAssets={walletAssets}
           chartAssets={chartAssets}
           isLoading={isLoading}
-          setChartAssets={setChartAssets}
+          setChartAssets={updateChartAssets}
         />
       </div>
+
       <Configurations
         isLog={isLog}
         settings={settings}
@@ -88,11 +105,13 @@ const HistoricalBalance = ({
           metrics={metrics}
         />
       </Configurations>
+
       {React.Children.map(children, child =>
         React.cloneElement(child, {
           settings,
           chartAssets,
-          priceAssets
+          priceAssets,
+          isLog
         })
       )}
     </div>
@@ -101,7 +120,8 @@ const HistoricalBalance = ({
 
 HistoricalBalance.defaultProps = {
   defaultChartAssets: [],
-  defaultPriceAssets: []
+  defaultPriceAssets: [],
+  defaultIsLog: false
 }
 
 export default withDefaults(withSizes(HistoricalBalance))

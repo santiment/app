@@ -13,7 +13,6 @@ window.AbortController =
   }
 
 const DEFAULT_TS = []
-const DEFAULT_LOADINGS = []
 const DEFAULT_ERROR_MSG = Object.create(null)
 const DEFAULT_METRIC_TRANSFORMER = Object.create(null)
 const DEFAULT_ABORTABLES = new Map()
@@ -71,7 +70,7 @@ export function useTimeseries (
   MetricTransformer = DEFAULT_METRIC_TRANSFORMER
 ) {
   const [timeseries, setTimeseries] = useState(DEFAULT_TS)
-  const [loadings, setLoadings] = useState(DEFAULT_LOADINGS)
+  const [loadings, setLoadings] = useState(metrics)
   const [ErrorMsg, setErrorMsg] = useState(DEFAULT_ERROR_MSG)
   const [abortables, setAbortables] = useState(DEFAULT_ABORTABLES)
 
@@ -210,8 +209,7 @@ const DEFAULT_BRUSH_SETTINGS = {
   ...getIntervalByTimeRange('all')
 }
 
-export function useAllTimeData (metrics, settings, MetricSettingMap) {
-  const { slug } = settings
+export function useAllTimeData (metrics, { slug }, MetricSettingMap) {
   const brushSettings = useMemo(
     () => ({
       ...DEFAULT_BRUSH_SETTINGS,
@@ -219,7 +217,5 @@ export function useAllTimeData (metrics, settings, MetricSettingMap) {
     }),
     [slug]
   )
-  const [allTimeData] = useTimeseries(metrics, brushSettings, MetricSettingMap)
-
-  return allTimeData
+  return useTimeseries(metrics, brushSettings, MetricSettingMap)
 }

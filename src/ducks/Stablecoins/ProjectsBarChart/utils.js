@@ -1,8 +1,9 @@
 import React from 'react'
+import cx from 'classnames'
 import { Bar, Cell, LabelList } from 'recharts'
 import { tooltipValueFormatter } from '../../dataHub/metrics/formatters'
 import ProjectIcon from '../../../components/ProjectIcon/ProjectIcon'
-import { makeShortAddresLink } from '../../../components/WalletLink/EthLinkWithLabels'
+import { makeShortAddresLink } from '../../../components/WalletLink/ActionLabels'
 import { isEthStrictAddress } from '../../../utils/utils'
 import WalletLink from '../../../components/WalletLink/WalletLink'
 import styles from './ProjectsBarChart.module.scss'
@@ -37,16 +38,16 @@ export const renderVerticalLabel = props => {
   const item = data[index]
   const value = item[dataKey]
 
-  const xOffset = isDesktop ? 40 : 26
+  const xOffset = isDesktop ? 34 : 26
 
   return (
     <g>
       <text
         x={x + width + xOffset}
-        y={y + 30}
+        y={y + 24}
         fill={'var(--rhino)'}
         textAnchor='middle'
-        fontSize={isDesktop ? 20 : 14}
+        fontSize={isDesktop ? 16 : 14}
         fontWeight={500}
       >
         {tooltipValueFormatter({
@@ -92,8 +93,8 @@ export const VerticalCategoryTick = props => {
   } = props
   const item = data[index] || {}
   return (
-    <foreignObject x={x - 100} y={y - 20} width={100} height={56}>
-      <div className={styles.name}>
+    <foreignObject x={x - 94} y={y - 16} width={120} height={40}>
+      <div className={cx(styles.name, styles.name__vertical)}>
         <ProjectIcon slug={value} size={26} />
         <ProjectTicker item={item} />
       </div>
