@@ -7,7 +7,7 @@ import UIIcon from '@santiment-network/ui/Icon'
 import Delete from '../../Actions/Delete'
 import EditForm from '../../Actions/Edit/EditForm'
 import SaveAs from '../../Actions/SaveAs'
-import New from '../../Actions/New/NewScreener'
+import New from '../../Actions/New'
 import { ProLabel } from '../../../../components/ProLabel'
 import ProPopupWrapper from '../../../../components/ProPopup/Wrapper'
 import { useUserScreeners, useUpdateWatchlist } from '../../gql/hooks'
@@ -176,6 +176,7 @@ const BaseActions = ({
             )}
           >
             <New
+              type='screener'
               lists={screeners}
               onSubmit={() => setIsMenuOpened(false)}
               trigger={

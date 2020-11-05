@@ -21,6 +21,7 @@ const EditForm = ({
   open: isOpen,
   toggleOpen,
   id,
+  type,
   lists = [],
   ...props
 }) => {
@@ -111,7 +112,9 @@ const EditForm = ({
           autoFocus
           name='name'
           className={styles.input}
-          placeholder='For example, Most price performance'
+          placeholder={`For example, ${
+            type === 'watchlist' ? 'Favorites' : 'Most price performance'
+          }`}
           maxLength='25'
           defaultValue={formState.name}
           onChange={onInputChange}

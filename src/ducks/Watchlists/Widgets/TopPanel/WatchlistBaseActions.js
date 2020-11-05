@@ -7,7 +7,7 @@ import UIIcon from '@santiment-network/ui/Icon'
 import Delete from '../../Actions/Delete'
 import EditForm from '../../Actions/Edit/EditForm'
 import SaveAs from '../../Actions/SaveAs'
-import New from '../../Actions/New/NewScreener'
+import New from '../../Actions/New'
 // import EditAssets from '../../ducks/Watchlists/Actions/Edit/Trigger'
 import { useUserWatchlists, useUpdateWatchlist } from '../../gql/hooks'
 import { notifyUpdate } from './notifications'
@@ -146,6 +146,7 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, onClick }) => {
           />
           <New
             lists={watchlists}
+            type='watchlist'
             onSubmit={() => setIsMenuOpened(false)}
             trigger={
               <Button>

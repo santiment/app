@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
-import NewScreener from '../../../ducks/Watchlists/Actions/New/NewScreener'
+import NewScreener from '../../../ducks/Watchlists/Actions/New'
 import { ProLabel } from '../../ProLabel'
 import ProPopupWrapper from '../../ProPopup/Wrapper'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
@@ -22,6 +22,7 @@ const CreateScreenerBtn = ({ className, screeners }) => {
     >
       <NewScreener
         lists={screeners}
+        type='screener'
         trigger={
           <Button border className={cx(styles.createBtn, className)}>
             Create screener
