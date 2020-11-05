@@ -1,20 +1,21 @@
 import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import qs from 'query-string'
-import Panel from '@santiment-network/ui/Panel/Panel'
 import { getOrigin } from '../../utils/utils'
-import { getHelmetTags, getWatchlistName } from '../../ducks/Watchlists/utils'
+import { useComparingAssets } from './Screener'
+import Panel from '@santiment-network/ui/Panel/Panel'
 import PageLoader from '../../components/Loader/PageLoader'
+import { upperCaseFirstLetter } from '../../utils/formatting'
 import GetAssets from '../../ducks/Watchlists/Widgets/Table/GetAssets'
+import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel/Watchlist'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table/AssetsTable'
+import { getHelmetTags, getWatchlistName } from '../../ducks/Watchlists/utils'
 import AssetsTemplates from '../../ducks/Watchlists/Widgets/Table/AssetsTemplates'
 import { RANGES } from '../../ducks/Watchlists/Widgets/WatchlistOverview/constants'
 import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/columns'
 import GetWatchlistHistory from '../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistHistory/GetWatchlistHistory'
 import WatchlistAnomalies from '../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistAnomalies/WatchlistAnomalies'
-import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel/Watchlist'
 import styles from './Watchlist.module.scss'
-import { useComparingAssets } from './Screener'
 
 const WatchlistPage = props => {
   const [pointer, setPointer] = useState(1)
@@ -76,7 +77,7 @@ const WatchlistPage = props => {
           return (
             <>
               <TopPanel
-                name={title}
+                name={upperCaseFirstLetter(title)}
                 id={listId}
                 assets={items}
                 watchlist={props.watchlist}
