@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
 import { DEFAULT_INSIGHTS_PER_PAGE, useInsightsBy } from '../../hooks/insights'
 import NoInsights from '../Studio/RelatedInsights/NoInsights'
-import PageLoader from '../../components/Loader/PageLoader'
 import InsightsFeed from '../../components/Insight/InsightsFeed'
+import { Skeleton } from '../../components/Skeleton'
 import styles from '../Studio/RelatedInsights/RelatedInsights.module.scss'
 
 export const useScrollabelPages = () => {
@@ -44,11 +44,11 @@ export const ScrollableInsightsList = ({
 
   const loadMore = useCallback(
     () => {
-      if (!isLoading) {
+      if (!isLoading && canLoad) {
         setPage(page + 1)
       }
     },
-    [isLoading, setPage, page]
+    [isLoading, canLoad, setPage, page]
   )
 
   return (
@@ -61,7 +61,7 @@ export const ScrollableInsightsList = ({
         pageStart={0}
         loadMore={loadMore}
         hasMore={!isLoading && canLoad}
-        loader={<PageLoader key='loader' />}
+        loader={<Skeleton key='loader' className={styles.skeleton} />}
         threshold={0}
       >
         <InsightsFeed key='feed' insights={insights} classes={styles} />

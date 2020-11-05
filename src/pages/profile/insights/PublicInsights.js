@@ -1,10 +1,11 @@
 import React from 'react'
+import cx from 'classnames'
 import UserInsights from '../../../ducks/Insights/UserInsights'
-import styles from './../ProfilePage.module.scss'
+import externalStyles from './../ProfilePage.module.scss'
 
 const PublicInsights = ({ userId }) => {
   return (
-    <div className={styles.block}>
+    <div className={cx(externalStyles.block, externalStyles.insights)}>
       <UserInsights userId={userId} />
     </div>
   )

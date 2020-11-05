@@ -17,6 +17,10 @@
   }
 }
 
+.insights {
+  margin-top: -40px;
+}
+
 .page {
   @include responsive('phone', 'phone-xs') {
     margin: 0;
