@@ -6,14 +6,7 @@
 }
 
 .top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 24px 34px 18px 32px;
-  position: sticky;
-  top: 0;
   background: var(--white);
-  z-index: 1;
 }
 
 .left {

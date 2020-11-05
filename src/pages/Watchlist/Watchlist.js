@@ -12,8 +12,7 @@ import { RANGES } from '../../ducks/Watchlists/Widgets/WatchlistOverview/constan
 import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/columns'
 import GetWatchlistHistory from '../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistHistory/GetWatchlistHistory'
 import WatchlistAnomalies from '../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistAnomalies/WatchlistAnomalies'
-import WatchlistActions from '../../ducks/Watchlists/Widgets/TopPanel/WatchlistActions'
-import EditAssets from '../../ducks/Watchlists/Actions/Edit/Trigger'
+import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel/Watchlist'
 import styles from './Watchlist.module.scss'
 import { useComparingAssets } from './Screener'
 
@@ -76,25 +75,15 @@ const WatchlistPage = props => {
 
           return (
             <>
-              <div className={styles.top}>
-                <div className={styles.left}>
-                  <h2 className={styles.heading}>{title}</h2>
-                  {isCurrentUserTheAuthor && (
-                    <EditAssets name={title} id={listId} assets={items} />
-                  )}
-                </div>
-                <div className={styles.right}>
-                  <WatchlistActions
-                    isDesktop={true}
-                    isAuthor={isCurrentUserTheAuthor}
-                    id={listId}
-                    title={title}
-                    items={items}
-                    isMonitored={isMonitored}
-                    watchlist={props.watchlist}
-                  />
-                </div>
-              </div>
+              <TopPanel
+                name={title}
+                id={listId}
+                assets={items}
+                watchlist={props.watchlist}
+                isMonitored={isMonitored}
+                isAuthor={isCurrentUserTheAuthor}
+                className={styles.top}
+              />
               {isLoading && <PageLoader />}
 
               {!isLoading && items.length > 0 && (
