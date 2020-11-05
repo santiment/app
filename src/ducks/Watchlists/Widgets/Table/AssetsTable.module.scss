@@ -43,6 +43,7 @@
   cursor: pointer;
   display: flex;
   position: relative;
+  background-color: transparent !important;
 
   &__withLine::before {
     display: block;

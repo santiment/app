@@ -220,6 +220,7 @@ const AssetsTable = ({
               name={listName}
               items={items}
               className={styles.action}
+              isLoading={isLoading}
             >
               <ExplanationTooltip
                 text='Download .csv'
