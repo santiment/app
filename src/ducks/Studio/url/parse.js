@@ -64,7 +64,7 @@ export const parseComparable = key =>
 const parseSharedComparables = keys =>
   keys ? toArray(keys).map(parseComparable) : []
 
-function parseOldColors (colors = {}, SharedKeyIndicator, project) {
+function parseColors (colors = {}, SharedKeyIndicator, project) {
   const Colors = {}
 
   Object.keys(colors).forEach(key => {
@@ -194,7 +194,7 @@ export function parseSharedWidgets (sharedWidgets, project) {
         connectedWidgets: connectedWidgets
           ? connectedWidgets.map(parseConnectedWidget)
           : [],
-        MetricColor: parseOldColors(colors, SharedKeyIndicator, project),
+        MetricColor: parseColors(colors, SharedKeyIndicator, project),
         MetricSettingMap: parseMetricSetting(
           settings,
           SharedKeyIndicator,

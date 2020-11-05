@@ -62,17 +62,20 @@ export const getTemplateShareLink = template => {
 }
 
 export function parseTemplateMetrics (templateMetrics, project) {
-  return templateMetrics.map(key => {
-    if (key.includes(COMPARE_CONNECTOR)) {
-      return getProjectMetricByKey(key, COMPARE_CONNECTOR)
-    }
+  return templateMetrics
+    .map(key => {
+      if (key.includes(COMPARE_CONNECTOR)) {
+        return getProjectMetricByKey(key, COMPARE_CONNECTOR)
+      }
 
-    if (key.includes(METRIC_CONNECTOR)) {
-      return getProjectMetricByKey(key)
-    }
+      if (key.includes(METRIC_CONNECTOR)) {
+        return getProjectMetricByKey(key)
+      }
 
-    return newProjectMetric(project, getMetricByKey(key))
-  })
+      const metric = getMetricByKey(key)
+      return metric && newProjectMetric(project, metric)
+    })
+    .filter(Boolean)
 }
 
 export function buildTemplateMetrics ({ metrics, comparables = [] }) {
@@ -117,8 +120,8 @@ export function saveLastTemplate (template) {
   localStorage.setItem(LAST_USED_TEMPLATE, JSON.stringify(template))
 }
 
-const getTemplateMetrics = ({ metrics }) =>
-  parseTemplateMetrics(metrics).map(({ label }) => label)
+const getTemplateMetrics = ({ metrics, project }) =>
+  parseTemplateMetrics(metrics, project).map(({ label }) => label)
 
 export const getTemplateInfo = template => {
   const assets = getTemplateAssets(template)
