@@ -4,17 +4,15 @@ import ProjectSelectDialog from '../../Compare/ProjectSelectDialog'
 import ProjectIcon from '../../../../components/ProjectIcon/ProjectIcon'
 import styles from './index.module.scss'
 
-const Selector = ({ slug, name, onClick }) => {
-  return (
-    <div className={styles.selector} onClick={onClick}>
-      <ProjectIcon size={20} slug={slug} className={styles.icon} />
-      {name}
-      <Icon type='arrow-down' className={styles.arrow} />
-    </div>
-  )
-}
+const Selector = ({ slug, name, onClick }) => (
+  <div className={styles.selector} onClick={onClick}>
+    <ProjectIcon size={20} slug={slug} className={styles.icon} />
+    {name}
+    <Icon type='arrow-down' className={styles.arrow} />
+  </div>
+)
 
-const ProjectSelector = ({ settings: { slug, name } }) => {
+const ProjectSelector = ({ project: { slug, name }, onProjectSelect }) => {
   const [isOpened, setIsOpened] = useState()
 
   function closeDialog () {
@@ -25,8 +23,8 @@ const ProjectSelector = ({ settings: { slug, name } }) => {
     setIsOpened(true)
   }
 
-  function onProjectSelect (project) {
-    // onSlugSelect(project)
+  function onSelect (project) {
+    onProjectSelect(project)
     closeDialog()
   }
 
@@ -36,7 +34,7 @@ const ProjectSelector = ({ settings: { slug, name } }) => {
       activeSlug={slug}
       onOpen={openDialog}
       onClose={closeDialog}
-      onSelect={onProjectSelect}
+      onSelect={onSelect}
       trigger={<Selector slug={slug} name={name} onClick={openDialog} />}
     />
   )

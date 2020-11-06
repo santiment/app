@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useMemo } from 'react'
 import { Metric } from './metrics'
 import { Submetrics } from './submetrics'
 import { updateTooltipSetting } from './tooltipSettings'
@@ -18,11 +18,10 @@ const TimerangeCoeficient = {
 
 const TimeboundMetricCache = new Map()
 
-const EMPTY_OBJECT = Object.create(null)
 const EMPTY_ARRAY = []
 
 export const tryMapToTimeboundMetric = key => {
-  const metrics = getTimeboundMetrics({ metricKeys: [key] })
+  const metrics = getTimeboundMetrics([key])
 
   if (metrics) {
     const firstKey = Object.keys(metrics)[0]
@@ -33,7 +32,7 @@ export const tryMapToTimeboundMetric = key => {
   }
 }
 
-export const getTimeboundMetrics = ({ metricKeys }) => {
+function getTimeboundMetrics (metricKeys) {
   const NewTimebounds = Object.create(null)
   const { length } = metricKeys
 
@@ -79,46 +78,26 @@ export const getTimeboundMetrics = ({ metricKeys }) => {
   return NewTimebounds
 }
 
-export function useTimebounds (metricKeys) {
-  const [Timebounds, setTimebounds] = useState(EMPTY_OBJECT)
+export function getMergedTimeboundSubmetrics (metricKeys) {
+  const Timebounds = getTimeboundMetrics(metricKeys)
+  const NewMerged = Object.create(null)
 
-  useEffect(
-    () => {
-      const newTimebounds = getTimeboundMetrics({ metricKeys })
-      setTimebounds(newTimebounds)
-    },
-    [metricKeys]
+  const setOfKeys = new Set(
+    Object.keys(Timebounds).concat(Object.keys(Submetrics))
   )
 
-  return Timebounds
+  setOfKeys.forEach(key => {
+    const timebounds = Timebounds[key] || EMPTY_ARRAY
+    const submetrics = Submetrics[key] || EMPTY_ARRAY
+
+    NewMerged[key] = submetrics.concat(timebounds)
+  })
+
+  return NewMerged
 }
 
-export function useMergedTimeboundSubmetrics (metricKeys) {
-  const [Merged, setMerged] = useState(EMPTY_OBJECT)
-  const Timebounds = useTimebounds(metricKeys)
-
-  useEffect(
-    () => {
-      const NewMerged = Object.create(null)
-
-      const setOfKeys = new Set(
-        Object.keys(Timebounds).concat(Object.keys(Submetrics))
-      )
-
-      setOfKeys.forEach(key => {
-        const timebounds = Timebounds[key] || EMPTY_ARRAY
-        const submetrics = Submetrics[key] || EMPTY_ARRAY
-
-        NewMerged[key] = submetrics.concat(timebounds)
-      })
-
-      setMerged(NewMerged)
-    },
-    [Timebounds]
-  )
-
-  return Merged
-}
+export const useMergedTimeboundSubmetrics = metricKeys =>
+  useMemo(() => getMergedTimeboundSubmetrics(metricKeys), [metricKeys])
 
 function getTimerange (timeboundKey) {
   const timeRangeIndex = timeboundKey.lastIndexOf('_') + 1
