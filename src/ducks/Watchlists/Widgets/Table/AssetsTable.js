@@ -208,16 +208,16 @@ const AssetsTable = ({
           <ProPopupWrapper
             type={type}
             trigger={props => (
-              <div {...props} className={styles.action__wrapper}>
+              <div
+                {...props}
+                className={cx(styles.action__wrapper, styles.action__withLine)}
+              >
                 <ExplanationTooltip
                   text='Download .csv'
                   offsetY={10}
                   className={styles.action__tooltip}
                 >
-                  <Icon
-                    type='save'
-                    className={cx(styles.action, styles.action__withLine)}
-                  />
+                  <Icon type='save' className={styles.action} />
                 </ExplanationTooltip>
               </div>
             )}
