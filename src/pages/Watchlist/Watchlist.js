@@ -77,7 +77,9 @@ const WatchlistPage = props => {
           return (
             <>
               <TopPanel
-                name={upperCaseFirstLetter(title)}
+                name={upperCaseFirstLetter(
+                  (props.watchlist || {}).name || props.name
+                )}
                 id={listId}
                 assets={items}
                 watchlist={props.watchlist}
