@@ -97,7 +97,7 @@ export const GroupNodes = ({
               <Button
                 metric={item}
                 label={rootLabel}
-                onClick={() => toggleMetric(item)}
+                onClick={() => toggleMetric(item, project)}
                 setMetricSettingMap={setMetricSettingMap}
                 project={project}
                 isActive={activeMetrics.includes(item)}
@@ -123,7 +123,7 @@ export const GroupNodes = ({
                     key={subitem.key}
                     className={showRoot && styles.advanced}
                     label={subitem.label}
-                    onClick={() => toggleMetric(subitem)}
+                    onClick={() => toggleMetric(subitem, project)}
                     project={project}
                     showBetaLabel={!showRoot}
                     isActive={isActive}

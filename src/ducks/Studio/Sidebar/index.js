@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Tabs from '@santiment-network/ui/Tabs'
 import Icon from '@santiment-network/ui/Icon'
@@ -64,8 +64,9 @@ const CloseButton = ({ onClick, className }) => (
 )
 
 const Sidebar = ({ children, hiddenMetrics, noMarketSegments, ...props }) => {
+  const { settings } = props
   const [activeTab, setActiveTab] = useState(DEFAULT_TAB)
-  const [metricProject, setMetricProject] = useState(props.settings)
+  const [metricProject, setMetricProject] = useState(settings)
   const ProjectMetrics = useProjectMetrics(
     metricProject.slug,
     hiddenMetrics,
@@ -73,6 +74,8 @@ const Sidebar = ({ children, hiddenMetrics, noMarketSegments, ...props }) => {
   )
 
   const TabComponent = TabToComponent[activeTab]
+
+  useEffect(() => setMetricProject(settings), [settings.slug])
 
   return (
     <aside className={styles.wrapper}>
