@@ -3,7 +3,7 @@
 .table {
   width: 100%;
   border-spacing: 0;
-  margin-top: 65px;
+  margin-top: 40px;
   border: 1px solid var(--porcelain);
   border-radius: 4px;
 
@@ -68,11 +68,27 @@
   }
 }
 
-.link {
-  padding: 32px 10px 0;
+.th {
+  padding: 16px;
 
   button,
-  a {
-    margin: 0;
+ a {
+    margin-bottom: 0;
   }
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.name {
+  @include text('h4', 'l'); }
+
+.description {
+  color: var(--waterloo);
+
+  @include text('body-3');
 }

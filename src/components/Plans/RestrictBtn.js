@@ -10,7 +10,7 @@ const getProps = ({ sameAsUserPlan, isSubscriptionCanceled }) => {
 
   if (!isLoggedIn) {
     return {
-      children: 'Upgrade now',
+      children: 'Start free trial',
       as: Link,
       to: PATHS.CREATE_ACCOUNT,
       variant: 'fill'

@@ -7,6 +7,7 @@ import { useUserSubscription } from '../../../stores/user/subscriptions'
 import PlanDetails from '../PlanDetails/PlanDetails'
 import styles from './Plans.module.scss'
 import { getShowingPlans } from '../../../utils/plans'
+import { Skeleton } from '../../../components/Skeleton'
 
 const Billing = ({ selected, onClick }) => {
   const isYearSelected = selected === 'year'
@@ -45,11 +46,15 @@ const Billing = ({ selected, onClick }) => {
 const Plans = ({ id, classes = {} }) => {
   const { subscription } = useUserSubscription()
   const [billing, setBilling] = useState('month')
-  const [plans] = usePlans()
+  const [plans, loading] = usePlans()
 
   const isSubscriptionCanceled = subscription && subscription.cancelAtPeriodEnd
 
   const showingPlans = getShowingPlans(plans, billing)
+
+  if (loading) {
+    return <Skeleton show={loading} className={styles.skeleton} />
+  }
 
   return (
     <>

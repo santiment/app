@@ -60,7 +60,7 @@ const ChangePlanDialog = ({
               fluid
               className={planStyles.link}
               border
-              accent='positive'
+              accent='orange'
               {...btnProps}
             >
               Change to this plan

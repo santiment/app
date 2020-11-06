@@ -12,12 +12,6 @@
     text-align: center;
   }
 
-  &:nth-of-type(1) {
-    @include responsive('desktop', 'laptop') {
-      margin-right: 24px;
-    }
-  }
-
   &:nth-of-type(3) {
     --accent: var(--dodger-blue);
     --second-accent: #d9e2ff;
@@ -33,7 +27,7 @@
   }
 
   &_active {
-    border-color: var(--accent) !important;
+    border-color: var(--texas-rose) !important;
   }
 
   &__top {

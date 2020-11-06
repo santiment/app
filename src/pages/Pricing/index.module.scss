@@ -39,6 +39,7 @@
   font-size: 18px !important;
   line-height: 26px !important;
   margin: 10px 0 0 0;
+  display: flex;
 }
 
 .inner {
@@ -53,12 +54,11 @@
 }
 
 .trial {
-  @include text('body-1');
+  @include text('body-1', 'l');
 
-  font-weight: bold;
   color: var(--texas-rose);
   text-align: center;
-  margin: -60px 0 48px;
+  margin-left: 8px;
 }
 
 .subtitle {

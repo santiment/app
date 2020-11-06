@@ -7,7 +7,7 @@ import {
   PlanBtn
 } from '../../../components/Plans/Plan'
 import PLANS from './../../../components/Plans/list'
-import { getShowingPlans } from '../../../utils/plans'
+import { formatPrice, getShowingPlans } from '../../../utils/plans'
 import styles from './PlanDetails.module.scss'
 
 const MarkIcon = ({ className }) => (
@@ -40,21 +40,37 @@ const PlanDetails = ({ billing, plans, subscription }) => {
             {''}
           </th>
           {showingPlans.map(({ id, name, amount }) => {
-            const plan = PLANS[name]
+            const card = PLANS[name]
 
             const sameAsUserPlan = isSameAsUserPlan(subscription, id, userPlan)
             const { altPrice } = getAltPrice(plans, billing, name)
+            const [price, priceType] = formatPrice(amount, name, billing)
 
             return (
-              <th key={id} className={styles.link}>
+              <th key={id} className={cx(styles.th, styles.cell)}>
+                <div className={styles.title}>
+                  <div className={styles.name}>{card.title}</div>
+
+                  <div className={styles.description}>
+                    {card.discount || (
+                      <div>
+                        {price} {priceType}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 <PlanBtn
                   subscription={subscription}
                   sameAsUserPlan={sameAsUserPlan}
-                  card={plan}
+                  card={card}
                   altPrice={altPrice}
                   amount={amount}
                   billing={billing}
                   id={id}
+                  btnProps={{
+                    accent: 'orange'
+                  }}
                 />
               </th>
             )

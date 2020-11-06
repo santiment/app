@@ -3,7 +3,7 @@
 
 .cards {
   display: grid;
-  grid-column-gap: 24px;
+  grid-column-gap: 40px;
   grid-template-columns: 1fr 1fr 1fr;
 
   &__two {
@@ -70,7 +70,7 @@
 .billing {
   display: flex;
   align-items: center;
-  margin-bottom: 50px;
+  margin-bottom: 47px;
 
   @include responsive('phone-xs') {
     flex-direction: column;
@@ -121,4 +121,8 @@
   &:last-child {
     margin: 0;
   }
+}
+
+.skeleton {
+  height: 600px;
 }

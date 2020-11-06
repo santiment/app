@@ -19,6 +19,10 @@ export const getAltPrice = (plans, billing, name) => {
 export const isSameAsUserPlan = (subscription, id, userPlan) =>
   subscription && !subscription.trialEnd && id === userPlan
 
+export const PlanDiscontBlock = ({ card, altPrice, altInterval }) => {
+  return card.discount || `${altPrice} if billed ${altInterval}ly`
+}
+
 const Plan = ({
   plan,
   billing,
@@ -67,9 +71,15 @@ const Plan = ({
             <span className={styles.price__type}>{priceType}</span>
           </div>
         )}
+
         <div className={styles.discount}>
-          {card.discount || `${altPrice} if billed ${altInterval}ly`}
+          <PlanDiscontBlock
+            card={card}
+            altPrice={altPrice}
+            altInterval={altInterval}
+          />
         </div>
+
         <PlanBtn
           onDialogClose={onDialogClose}
           subscription={subscription}

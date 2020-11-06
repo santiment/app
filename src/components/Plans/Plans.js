@@ -21,7 +21,7 @@ const billingOptions = [
   { index: 'month', content: 'Bill monthly' }
 ]
 
-const Plans = ({ id, classes = {} }) => {
+const Plans = ({ id, onDialogClose, classes = {} }) => {
   const { user } = useUser()
   const { subscription } = useUserSubscription()
   const [billing, setBilling] = React.useState('year')
@@ -52,6 +52,7 @@ const Plans = ({ id, classes = {} }) => {
             plans={plans}
             subscription={subscription}
             isSubscriptionCanceled={isSubscriptionCanceled}
+            onDialogClose={onDialogClose}
           />
         ))}
       </div>
