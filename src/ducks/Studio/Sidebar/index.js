@@ -51,7 +51,12 @@ const Header = ({
       onSelect={tab => setActiveTab(tab)}
     />
     <ProjectSelector project={project} onProjectSelect={onProjectSelect} />
-    <Search onChainDefault={ON_CHAIN_DEFAULT} {...props} {...ProjectMetrics} />
+    <Search
+      onChainDefault={ON_CHAIN_DEFAULT}
+      {...props}
+      {...ProjectMetrics}
+      project={project}
+    />
   </div>
 )
 
