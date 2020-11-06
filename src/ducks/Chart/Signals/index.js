@@ -126,7 +126,6 @@ const Signals = ({
     }
 
     let metric = metrics.find(checkPriceMetric) || metrics[0]
-
     const value = findMetricValueByY(chart, metric, y)
     const lastValue = findMetricLastValue(data, metric)
 

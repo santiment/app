@@ -27,12 +27,7 @@ const PriceDAADivergenceWidget = props => {
 
   return (
     <Widget>
-      <Chart
-        isWithCompare={false}
-        TopLeftComponent={Title}
-        {...props}
-        settings={widgetSettings}
-      />
+      <Chart TopLeftComponent={Title} {...props} settings={widgetSettings} />
     </Widget>
   )
 }

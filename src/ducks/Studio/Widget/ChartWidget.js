@@ -151,11 +151,14 @@ const ChartWidget = props => (
   </Widget>
 )
 
+const BITCOIN_PRICE_METRIC = newProjectMetric(
+  { slug: 'bitcoin', ticker: 'BTC' },
+  Metric.price_usd
+)
+
 const newChartWidget = (props, widget = ChartWidget) =>
   newWidget(widget, {
-    metrics: [
-      newProjectMetric({ slug: 'bitcoin', ticker: 'BTC' }, Metric.price_usd)
-    ],
+    metrics: [BITCOIN_PRICE_METRIC],
     comparedMetrics: [],
     MetricSettingMap: new Map(),
     MetricIndicators: {},
