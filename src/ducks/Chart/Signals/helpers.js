@@ -128,7 +128,8 @@ export function makeSignalDrawable ({ id, settings: { operation } }, chart) {
   }
 }
 
-export const checkPriceMetric = metric => metric === Metric.price_usd
+export const checkPriceMetric = metric =>
+  metric === Metric.price_usd || metric.base === Metric.price_usd
 
 export const AlertBuilder = {
   daily_active_addresses: () => {

@@ -58,6 +58,7 @@ export const nightBrushPaintConfig = {
 
 export const paintConfigs = [
   {
+    bgColor: COLOR.white,
     axesColor: dayAxesColor,
     hoverLineColor: dayHoverLineColor,
     ticksPaintConfig: dayTicksPaintConfig,
@@ -66,6 +67,7 @@ export const paintConfigs = [
     brushPaintConfig: dayBrushPaintConfig
   },
   {
+    bgColor: COLOR.mirage,
     axesColor: nightAxesColor,
     hoverLineColor: nightHoverLineColor,
     ticksPaintConfig: nightTicksPaintConfig,

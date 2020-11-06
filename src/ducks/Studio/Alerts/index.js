@@ -20,6 +20,13 @@ const Alert = ({ alert, render, createAlert }) => {
   )
 }
 
+const Header = ({ title, project }) => (
+  <div className={styles.title}>
+    {title}
+    {project && ` (${project.ticker})`}
+  </div>
+)
+
 export default ({
   className,
   metricValues,
@@ -45,11 +52,15 @@ export default ({
         />
       </div>
       <div className={styles.suggestions}>
-        {suggestions.map(({ title, suggesters, ...values }) => (
+        {suggestions.map(({ title, project, suggesters, ...values }) => (
           <div key={title} className={styles.suggestion}>
-            <div className={styles.title}>{title}</div>
+            <Header title={title} project={project} />
             {suggesters.map((suggest, i) => (
-              <Alert key={i} {...rest} {...suggest({ ...rest, ...values })} />
+              <Alert
+                key={i}
+                {...rest}
+                {...suggest({ ...rest, ...values, ...project })}
+              />
             ))}
           </div>
         ))}

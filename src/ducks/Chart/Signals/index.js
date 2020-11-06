@@ -16,6 +16,7 @@ import { useChart } from '../context'
 import { clearCtx } from '../utils'
 import { getSlugPriceSignals } from '../../SANCharts/utils'
 import { Metric } from '../../dataHub/metrics'
+import { TooltipSetting } from '../../dataHub/tooltipSettings'
 import { useSignals } from '../../Signals/common/getSignals'
 import { createTrigger, removeTrigger } from '../../Signals/common/actions'
 import { buildValueChangeSuggester } from '../../Studio/Alerts/suggestions/helpers'
@@ -97,7 +98,8 @@ const Signals = ({
     }
 
     const metricValues = metrics.map(metric => ({
-      key: metric.key,
+      key: metric.base ? metric.base.key : metric.key,
+      project: metric.project,
       value: findMetricValueByY(chart, metric, y),
       lastValue: findMetricLastValue(data, metric)
     }))
@@ -114,7 +116,7 @@ const Signals = ({
     drawHoveredSignal(chart, y, [
       useShortRecord ? SHORT_TEXT_ACTION : TEXT_ACTION,
       getTextIf(Metric[key], +(value > lastValue), useShortRecord),
-      Metric[key].formatter(value)
+      TooltipSetting[key].formatter(value)
     ])
   }
 
@@ -122,14 +124,25 @@ const Signals = ({
     if (isHovered || data.length === 0 || target !== currentTarget) {
       return
     }
-    const metric = metrics.find(checkPriceMetric) || metrics[0]
+
+    let metric = metrics.find(checkPriceMetric) || metrics[0]
+
     const value = findMetricValueByY(chart, metric, y)
     const lastValue = findMetricLastValue(data, metric)
 
     if (value === undefined) return
 
+    // TODO: Refactor [@vanguard | Nov  6, 2020]
+    const alertSlug = metric.project ? metric.project.slug : slug
+    metric = metric.base ? metric.base : metric
+
     const suggester = AlertBuilder[metric.key] || buildValueChangeSuggester
-    const newSignal = suggester(metric)({ slug, value, lastValue, metric })
+    const newSignal = suggester(metric)({
+      value,
+      lastValue,
+      metric,
+      slug: alertSlug
+    })
 
     createSignal(newSignal.alert)
   }
