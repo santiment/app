@@ -26,12 +26,8 @@ const Blocks = [
     ),
     features: [
       <b>All in PRO+ and:</b>,
-      <a className={styles.feature__link} href='#'>
-        Essential API
-      </a>,
-      <a className={styles.feature__link} href='#'>
-        Custom Branding for Charts
-      </a>
+      <div className={styles.feature__link}>Essential API</div>,
+      <div className={styles.feature__link}>Custom Branding for Charts</div>
     ]
   },
   {
@@ -55,12 +51,8 @@ const Blocks = [
     ),
     features: [
       <b>All in PRO+ and:</b>,
-      <a className={styles.feature__link} href='#'>
-        Essential API
-      </a>,
-      <a className={styles.feature__link} href='#'>
-        Custom Branding for Charts
-      </a>
+      <div className={styles.feature__link}>Essential API</div>,
+      <div className={styles.feature__link}>Custom Branding for Charts</div>
     ]
   }
 ]

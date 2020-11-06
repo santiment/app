@@ -1,5 +1,5 @@
 import React from 'react'
-import Plans from './Plans'
+import Plans from './Plans/Plans'
 import PayWithCrypto from './PayWithCrypto'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'

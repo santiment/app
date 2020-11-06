@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import styles from './Features.module.scss'
 
-const MarkIcon = ({ className }) => (
+export const MarkIcon = ({ className }) => (
   <svg
     className={className}
     width='16'

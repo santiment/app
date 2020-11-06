@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
 import tokensSvg from './tokens.svg'
-import styles from './Enterprise.module.scss'
+import styles from './Enterprise/Enterprise.module.scss'
 
 const PayWithCrypto = () => (
   <div className={styles.wrapper}>

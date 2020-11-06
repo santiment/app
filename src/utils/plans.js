@@ -77,3 +77,10 @@ export const getAlternativeBillingPlan = (plans, oldPlan) => {
 }
 
 export const getTrialLabel = trialEnd => (trialEnd ? '(trial)' : '')
+
+export function getShowingPlans (plans, billing) {
+  return plans
+    .filter(noBasicPlan)
+    .filter(noEnterprisePlan)
+    .filter(({ name, interval }) => interval === billing || name === 'FREE')
+}

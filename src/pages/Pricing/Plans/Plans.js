@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Toggle from '@santiment-network/ui/Toggle'
-import Plan from './Plan'
-import { noBasicPlan, noEnterprisePlan } from '../../utils/plans'
-import { usePlans } from '../../ducks/Plans/hooks'
-import { useUser } from '../../stores/user'
-import { useUserSubscription } from '../../stores/user/subscriptions'
+import Plan from '../Plan/Plan'
+import { usePlans } from '../../../ducks/Plans/hooks'
+import { useUserSubscription } from '../../../stores/user/subscriptions'
+import PlanDetails from '../PlanDetails/PlanDetails'
 import styles from './Plans.module.scss'
+import { getShowingPlans } from '../../../utils/plans'
 
 const Billing = ({ selected, onClick }) => {
   const isYearSelected = selected === 'year'
@@ -43,18 +43,13 @@ const Billing = ({ selected, onClick }) => {
 }
 
 const Plans = ({ id, classes = {} }) => {
-  const { user } = useUser()
   const { subscription } = useUserSubscription()
   const [billing, setBilling] = useState('month')
   const [plans] = usePlans()
 
-  const userPlan = subscription && subscription.plan.id
   const isSubscriptionCanceled = subscription && subscription.cancelAtPeriodEnd
 
-  const filteredPlans = plans
-    .filter(noBasicPlan)
-    .filter(noEnterprisePlan)
-    .filter(({ name, interval }) => interval === billing || name === 'FREE')
+  const showingPlans = getShowingPlans(plans, billing)
 
   return (
     <>
@@ -64,22 +59,26 @@ const Plans = ({ id, classes = {} }) => {
       <div
         className={cx(
           styles.cards,
-          filteredPlans.length === 2 && styles.cards__two
+          showingPlans.length === 2 && styles.cards__two
         )}
       >
-        {filteredPlans.map(plan => (
+        {showingPlans.map(plan => (
           <Plan
             key={plan.id}
-            {...plan}
-            isLoggedIn={user}
+            plan={plan}
             billing={billing}
             plans={plans}
-            userPlan={userPlan}
             subscription={subscription}
             isSubscriptionCanceled={isSubscriptionCanceled}
           />
         ))}
       </div>
+
+      <PlanDetails
+        plans={plans}
+        billing={billing}
+        subscription={subscription}
+      />
     </>
   )
 }

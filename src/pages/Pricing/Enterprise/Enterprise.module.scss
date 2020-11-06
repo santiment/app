@@ -1,4 +1,4 @@
-@import '~@santiment-network/ui/mixins.scss';
+@import '../../../../node_modules/@santiment-network/ui/mixins';
 
 .wrapper {
   border: 1px solid var(--porcelain);
@@ -7,7 +7,7 @@
   margin: 24px 0 0 0;
   display: flex;
   position: relative;
-  background: #222639 url("./payCryptoBg.svg") no-repeat 100%;
+  background: #222639 url("../payCryptoBg.svg") no-repeat 100%;
 }
 
 .tokensImg {

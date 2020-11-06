@@ -1,6 +1,6 @@
 import React from 'react'
 import Icon from '@santiment-network/ui/Icon'
-import list from '../../components/Plans/list'
+import list from '../../../components/Plans/list'
 import styles from './Enterprise.module.scss'
 
 const features = [

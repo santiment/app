@@ -4,32 +4,39 @@ import RestrictBtn from './RestrictBtn'
 import Features from './Features'
 import PLANS from './list'
 import { formatPrice, getAlternativeBillingPlan } from '../../utils/plans'
+import { useUser } from '../../stores/user'
 import styles from './Plan.module.scss'
 
+export const getAltPrice = (plans, billing, name) => {
+  const { amount: altAmount, interval: altInterval } =
+    getAlternativeBillingPlan(plans, { name, interval: billing }) || {}
+
+  const [altPrice] = formatPrice(altAmount, null, altInterval)
+
+  return { altPrice, altInterval }
+}
+
+export const isSameAsUserPlan = (subscription, id, userPlan) =>
+  subscription && !subscription.trialEnd && id === userPlan
+
 const Plan = ({
-  id,
-  name,
-  amount,
-  userPlan,
+  plan,
   billing,
   plans,
-  isSubscriptionCanceled,
-  isLoggedIn,
   className,
   onDialogClose,
   subscription,
   classes = {},
   btnProps
 }) => {
+  const { id, name, amount } = plan
   const card = PLANS[name]
-  const sameAsUserPlan =
-    subscription && !subscription.trialEnd && id === userPlan
+  const userPlan = subscription && subscription.plan.id
+
   const [price, priceType] = formatPrice(amount, name, billing)
+  const sameAsUserPlan = isSameAsUserPlan(subscription, id, userPlan)
+  const { altPrice, altInterval } = getAltPrice(plans, billing, name)
 
-  const { amount: altAmount, interval: altInterval } =
-    getAlternativeBillingPlan(plans, { name, interval: billing }) || {}
-
-  const [altPrice] = formatPrice(altAmount, null, altInterval)
   const isCustom = price === 'Custom'
 
   const isFree = name === 'FREE'
@@ -63,24 +70,18 @@ const Plan = ({
         <div className={styles.discount}>
           {card.discount || `${altPrice} if billed ${altInterval}ly`}
         </div>
-        {!isLoggedIn || sameAsUserPlan || isSubscriptionCanceled ? (
-          <RestrictBtn
-            sameAsUserPlan={sameAsUserPlan}
-            isSubscriptionCanceled={isSubscriptionCanceled}
-          />
-        ) : (
-          <card.Component
-            title={card.title}
-            label={card.link}
-            price={amount}
-            billing={billing}
-            planId={+id}
-            subscription={subscription}
-            onDialogClose={onDialogClose}
-            btnProps={btnProps}
-            altPrice={altPrice}
-          />
-        )}
+        <PlanBtn
+          onDialogClose={onDialogClose}
+          subscription={subscription}
+          btnProps={btnProps}
+          sameAsUserPlan={sameAsUserPlan}
+          card={card}
+          altPrice={altPrice}
+          amount={amount}
+          billing={billing}
+          id={id}
+        />
+
         <Features
           isGreen={isFree}
           data={card.features}
@@ -88,6 +89,44 @@ const Plan = ({
         />
       </div>
     </div>
+  )
+}
+
+export const PlanBtn = ({
+  onDialogClose,
+  subscription,
+  btnProps,
+  sameAsUserPlan,
+  card,
+  altPrice,
+  amount,
+  billing,
+  id
+}) => {
+  const { isLoggedIn } = useUser()
+  const isSubscriptionCanceled = subscription && subscription.cancelAtPeriodEnd
+
+  return (
+    <>
+      {!isLoggedIn || sameAsUserPlan || isSubscriptionCanceled ? (
+        <RestrictBtn
+          sameAsUserPlan={sameAsUserPlan}
+          isSubscriptionCanceled={isSubscriptionCanceled}
+        />
+      ) : (
+        <card.Component
+          title={card.title}
+          label={card.link}
+          price={amount}
+          billing={billing}
+          planId={+id}
+          subscription={subscription}
+          onDialogClose={onDialogClose}
+          btnProps={btnProps}
+          altPrice={altPrice}
+        />
+      )}
+    </>
   )
 }
 
