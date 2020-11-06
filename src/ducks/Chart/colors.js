@@ -98,8 +98,14 @@ export function getChartColors (metrics, PreviousColor = {}) {
   for (let i = 0; i < length; i++) {
     const metric = uncoloredMetrics[i]
     const { key: metricKey, base } = metric
-    const baseColor = base ? UnusedBaseColor[base.key] : MetricColor[metricKey]
-    Color[metricKey] = baseColor || unusedColors[freeColorIndex++]
+    let color = MetricColor[metricKey]
+
+    if (base) {
+      color = UnusedBaseColor[base.key]
+      delete UnusedBaseColor[base.key]
+    }
+
+    Color[metricKey] = color || unusedColors[freeColorIndex++]
   }
 
   return Color
