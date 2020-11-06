@@ -3,6 +3,7 @@ import cx from 'classnames'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Tabs from '@santiment-network/ui/Tabs'
 import Icon from '@santiment-network/ui/Icon'
+import ProjectSelector from './ProjectSelector'
 import MetricSelector from './MetricSelector'
 import InsightAlertSelector from './InsightAlertSelector'
 import Search from './Search'
@@ -44,6 +45,7 @@ const Header = ({ activeTab, setActiveTab, ...props }) => (
       // NOTE: Not passed as a reference, since more than 1 argument is passed to a callback [@vanguard | Aug  4, 2020]
       onSelect={tab => setActiveTab(tab)}
     />
+    <ProjectSelector {...props} />
     <Search onChainDefault={ON_CHAIN_DEFAULT} {...props} />
   </div>
 )
