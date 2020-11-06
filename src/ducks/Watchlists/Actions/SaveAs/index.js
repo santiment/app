@@ -36,6 +36,7 @@ const SaveAs = ({
           description,
           isPublic,
           function: watchlist.function,
+          listItems: watchlist.listItems,
           type
         })
       }}
