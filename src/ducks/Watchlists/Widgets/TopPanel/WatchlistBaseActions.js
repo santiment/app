@@ -6,11 +6,10 @@ import UIButton from '@santiment-network/ui/Button'
 import UIIcon from '@santiment-network/ui/Icon'
 import Delete from '../../Actions/Delete'
 import EditForm from '../../Actions/Edit/EditForm'
+import EditAssets from '../../Actions/Edit/EditAssets'
 import SaveAs from '../../Actions/SaveAs'
 import New from '../../Actions/New'
-import { ProLabel } from '../../../../components/ProLabel'
-import ProPopupWrapper from '../../../../components/ProPopup/Wrapper'
-import { useUserScreeners, useUpdateWatchlist } from '../../gql/hooks'
+import { useUserWatchlists, useUpdateWatchlist } from '../../gql/hooks'
 import { notifyUpdate } from './notifications'
 import styles from './BaseActions.module.scss'
 
@@ -30,33 +29,18 @@ export const Button = ({ className, ...props }) => (
 const Trigger = ({
   watchlist,
   name,
-  forwardedRef,
   isActive,
-  onPrimaryAction,
-  isLoading,
   lists,
+  assets,
+  forwardedRef,
   openMenu
 }) => {
-  const [isEditPopupOpened, setIsEditPopupOpened] = useState(false)
-
   return (
     <div className={styles.trigger} ref={forwardedRef}>
-      <EditForm
-        title='Edit screener'
-        type='screener'
-        lists={lists}
+      <EditAssets
         id={watchlist.id}
-        onFormSubmit={payload =>
-          onPrimaryAction(payload).then(() => setIsEditPopupOpened(false))
-        }
-        isLoading={isLoading}
-        open={isEditPopupOpened}
-        toggleOpen={setIsEditPopupOpened}
-        settings={{
-          name,
-          description: watchlist.description,
-          isPublic: watchlist.isPublic
-        }}
+        assets={assets}
+        name={name}
         trigger={<UIButton className={styles.trigger__text}>Edit</UIButton>}
       />
       <div
@@ -78,22 +62,14 @@ const Trigger = ({
   )
 }
 
-const BaseActions = ({
-  isAuthor,
-  id,
-  name,
-  assets,
-  watchlist,
-  isPro,
-  onClick
-}) => {
+const BaseActions = ({ isAuthor, id, name, assets, watchlist, onClick }) => {
   if (!id) {
     return null
   }
 
   const [isMenuOpened, setIsMenuOpened] = useState(false)
   const [isEditPopupOpened, setIsEditPopupOpened] = useState(false)
-  const [screeners = []] = useUserScreeners()
+  const [watchlists = []] = useUserWatchlists()
   const [updateWatchlist, { loading }] = useUpdateWatchlist()
 
   return (
@@ -101,16 +77,11 @@ const BaseActions = ({
       <ContextMenu
         trigger={
           <Trigger
-            lists={screeners}
+            lists={watchlists}
             watchlist={watchlist}
             name={name}
+            assets={assets}
             openMenu={() => setIsMenuOpened(true)}
-            isLoading={loading}
-            onPrimaryAction={payload =>
-              updateWatchlist(watchlist, { ...payload }).then(() =>
-                notifyUpdate(payload.type)
-              )
-            }
           />
         }
         passOpenStateAs='isActive'
@@ -121,9 +92,9 @@ const BaseActions = ({
       >
         <Panel variant='modal' className={styles.wrapper}>
           <EditForm
-            type='screener'
-            lists={screeners}
-            title='Edit screener'
+            lists={watchlists}
+            title='Edit watchlist'
+            type='watchlist'
             id={watchlist.id}
             isLoading={loading}
             open={isEditPopupOpened}
@@ -142,60 +113,36 @@ const BaseActions = ({
             trigger={
               <Button>
                 <Icon type='edit' />
-                Edit
+                Rename
               </Button>
             }
           />
-          <ProPopupWrapper
-            type='screener'
-            trigger={props => (
-              <Button {...props}>
+          <SaveAs
+            onSubmit={() => setIsMenuOpened(false)}
+            watchlist={watchlist}
+            lists={watchlists}
+            type='watchlist'
+            trigger={
+              <Button>
                 <Icon type='disk' />
                 Save as
-                {!isPro && <ProLabel className={styles.proLabel} />}
               </Button>
-            )}
-          >
-            <SaveAs
-              type='screener'
-              onSubmit={() => setIsMenuOpened(false)}
-              watchlist={watchlist}
-              lists={screeners}
-              trigger={
-                <Button>
-                  <Icon type='disk' />
-                  Save as
-                  {!isPro && <ProLabel className={styles.proLabel} />}
-                </Button>
-              }
-            />
-          </ProPopupWrapper>
-          <ProPopupWrapper
-            type='screener'
-            trigger={props => (
-              <Button {...props}>
+            }
+          />
+          <New
+            lists={watchlists}
+            type='watchlist'
+            onSubmit={() => setIsMenuOpened(false)}
+            trigger={
+              <Button>
                 <Icon type='plus-round' />
                 New
-                {!isPro && <ProLabel className={styles.proLabel} />}
               </Button>
-            )}
-          >
-            <New
-              type='screener'
-              lists={screeners}
-              onSubmit={() => setIsMenuOpened(false)}
-              trigger={
-                <Button>
-                  <Icon type='plus-round' />
-                  New
-                  {!isPro && <ProLabel className={styles.proLabel} />}
-                </Button>
-              }
-            />
-          </ProPopupWrapper>
-          {isAuthor && screeners.length > 1 && (
+            }
+          />
+          {isAuthor && (
             <Delete
-              title='Do you want to delete this screener?'
+              title='Do you want to delete this watchlist?'
               id={id}
               name={name}
               trigger={

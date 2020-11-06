@@ -12,11 +12,10 @@ export function notifyCreation () {
   })
 }
 
-export function notifyUpdate () {
+export function notifyUpdate (type) {
   return dispatchNotification({
     variant: 'success',
-    title: 'Screener update',
-    description: 'Your screener has been updated successfully.'
+    title: `Your ${type} has been updated successfully`
   })
 }
 

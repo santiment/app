@@ -1,24 +1,31 @@
 import React from 'react'
-import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel/Panel'
+import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Copy from '../../Actions/Copy'
 import Delete from '../../Actions/Delete'
 import Edit from '../../Actions/Edit/EditAssets'
 import WeeklyReport from '../../Actions/WeeklyReport'
 import VisibilityToggle from '../../Actions/ChangeVisibility'
-import styles from './WatchlistContextMenu.module.scss'
+import { upperCaseFirstLetter } from '../../../../utils/formatting'
+import styles from './WatchlistMobileActions.module.scss'
 
-const WatchlistContextMenu = ({
+const WatchlistActions = ({
   isAuthor,
-  items,
   id,
-  isDesktop,
-  name,
+  title,
+  items,
+  type,
   isMonitored,
-  watchlist
+  watchlist = {}
 }) => {
+  if (!watchlist) {
+    return null
+  }
+
+  const name = upperCaseFirstLetter(title)
+
   return (
     <ContextMenu
       trigger={
@@ -37,14 +44,14 @@ const WatchlistContextMenu = ({
           </div>
         )}
         <div className={styles.block}>
-          {!isDesktop && isAuthor && (
+          {isAuthor && (
             <Edit
               id={id}
               assets={items}
               name={name}
               trigger={
                 <Button variant='ghost' fluid>
-                  Edit
+                  Edit assets
                 </Button>
               }
             />
@@ -57,7 +64,7 @@ const WatchlistContextMenu = ({
               </Button>
             }
           />
-          {!isDesktop && isAuthor && (
+          {isAuthor && (
             <WeeklyReport
               id={id}
               isMonitored={isMonitored}
@@ -86,4 +93,4 @@ const WatchlistContextMenu = ({
   )
 }
 
-export default WatchlistContextMenu
+export default WatchlistActions

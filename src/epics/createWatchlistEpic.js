@@ -8,6 +8,7 @@ import * as actions from './../actions/types'
 import WatchlistNotificationActions from '../ducks/Watchlists/Actions/notifications/WatchlistNotificationActions'
 import {
   getWatchlistLink,
+  getNormalizedListItems,
   DEFAULT_SCREENER_FUNCTION
 } from '../ducks/Watchlists/utils'
 
@@ -33,6 +34,10 @@ const createWatchlistEpic = (action$, store, { client }) =>
           name,
           isPublic,
           description,
+          listItems:
+            type === 'watchlist'
+              ? getNormalizedListItems(listItems)
+              : undefined,
           function: type === 'screener' ? watchlistFunction : undefined
         },
         optimisticResponse: {
@@ -43,7 +48,8 @@ const createWatchlistEpic = (action$, store, { client }) =>
             description: '',
             isPublic,
             name,
-            listItems,
+            listItems:
+              type === 'watchlist' ? getNormalizedListItems(listItems) : [],
             function:
               type === 'screener' ? watchlistFunction : { name: 'empty' },
             isMonitored: false,

@@ -1,21 +1,21 @@
 import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import qs from 'query-string'
-import Panel from '@santiment-network/ui/Panel/Panel'
 import { getOrigin } from '../../utils/utils'
-import { getHelmetTags, getWatchlistName } from '../../ducks/Watchlists/utils'
+import { useComparingAssets } from './Screener'
+import Panel from '@santiment-network/ui/Panel/Panel'
 import PageLoader from '../../components/Loader/PageLoader'
+import { upperCaseFirstLetter } from '../../utils/formatting'
 import GetAssets from '../../ducks/Watchlists/Widgets/Table/GetAssets'
+import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel/Watchlist'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table/AssetsTable'
+import { getHelmetTags, getWatchlistName } from '../../ducks/Watchlists/utils'
 import AssetsTemplates from '../../ducks/Watchlists/Widgets/Table/AssetsTemplates'
 import { RANGES } from '../../ducks/Watchlists/Widgets/WatchlistOverview/constants'
 import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/columns'
 import GetWatchlistHistory from '../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistHistory/GetWatchlistHistory'
 import WatchlistAnomalies from '../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistAnomalies/WatchlistAnomalies'
-import WatchlistActions from '../../ducks/Watchlists/Widgets/TopPanel/WatchlistActions'
-import EditAssets from '../../ducks/Watchlists/Actions/Edit/Trigger'
 import styles from './Watchlist.module.scss'
-import { useComparingAssets } from './Screener'
 
 const WatchlistPage = props => {
   const [pointer, setPointer] = useState(1)
@@ -76,25 +76,15 @@ const WatchlistPage = props => {
 
           return (
             <>
-              <div className={styles.top}>
-                <div className={styles.left}>
-                  <h2 className={styles.heading}>{title}</h2>
-                  {isCurrentUserTheAuthor && (
-                    <EditAssets name={title} id={listId} assets={items} />
-                  )}
-                </div>
-                <div className={styles.right}>
-                  <WatchlistActions
-                    isDesktop={true}
-                    isAuthor={isCurrentUserTheAuthor}
-                    id={listId}
-                    title={title}
-                    items={items}
-                    isMonitored={isMonitored}
-                    watchlist={props.watchlist}
-                  />
-                </div>
-              </div>
+              <TopPanel
+                name={upperCaseFirstLetter(title)}
+                id={listId}
+                assets={items}
+                watchlist={props.watchlist}
+                isMonitored={isMonitored}
+                isAuthor={isCurrentUserTheAuthor}
+                className={styles.top}
+              />
               {isLoading && <PageLoader />}
 
               {!isLoading && items.length > 0 && (
@@ -120,14 +110,11 @@ const WatchlistPage = props => {
 
                   <AssetsTable
                     Assets={Assets}
+                    watchlist={props.watchlist}
                     filterType={filterType}
                     items={filteredItems || items}
                     goto={props.history.push}
                     type='watchlist'
-                    classes={{
-                      container: styles.tableWrapper,
-                      top: styles.tableTop
-                    }}
                     preload={props.preload}
                     listName={title}
                     allColumns={ASSETS_TABLE_COLUMNS}

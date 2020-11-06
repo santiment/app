@@ -16,8 +16,10 @@ import ExplanationTooltip from '../../../../components/ExplanationTooltip/Explan
 import AssetsToggleColumns from './AssetsToggleColumns'
 import { COLUMNS } from './asset-columns'
 import Copy from '../../Actions/Copy'
+import SaveAs from '../../Actions/SaveAs'
 import DownloadCSV from '../../Actions/DownloadCSV'
 import { COMMON_SETTINGS, COLUMNS_SETTINGS } from './columns'
+import { useUserWatchlists } from '../../gql/hooks'
 import { markedAsShowed } from '../../../SANCharts/SidecarExplanationTooltip'
 import { EXPLANATION_TOOLTIP_MARK } from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
 import CompareInfo from './CompareInfo/CompareInfo'
@@ -62,7 +64,7 @@ const AssetsTable = ({
   filterType,
   showAll = false,
   preload,
-  classes = {},
+  watchlist,
   refetchAssets,
   minVolume = 0,
   listName,
@@ -76,6 +78,7 @@ const AssetsTable = ({
   compareSettings: { comparingAssets = [], addAsset, cleanAll } = {}
 }) => {
   const [markedAsNew, setAsNewMarked] = useState()
+  const [watchlists = []] = useUserWatchlists()
 
   const hideMarkedAsNew = useCallback(() => {
     setAsNewMarked(undefined)
@@ -159,8 +162,8 @@ const AssetsTable = ({
   const disabledComparision = comparingAssets.length < 2
 
   return (
-    <div className={classes.container} id='table'>
-      <div className={cx(styles.top, classes.top)} id='tableTop'>
+    <div className={styles.container} id='table'>
+      <div className={styles.top} id='tableTop'>
         {filterType ? (
           <span>Showed based on {filterType} anomalies</span>
         ) : (
@@ -211,7 +214,10 @@ const AssetsTable = ({
                   offsetY={10}
                   className={styles.action__tooltip}
                 >
-                  <Icon type='save' className={styles.action} />
+                  <Icon
+                    type='save'
+                    className={cx(styles.action, styles.action__withLine)}
+                  />
                 </ExplanationTooltip>
               </div>
             )}
@@ -219,7 +225,7 @@ const AssetsTable = ({
             <DownloadCSV
               name={listName}
               items={items}
-              className={styles.action}
+              className={cx(styles.action, styles.action__withLine)}
               isLoading={isLoading}
             >
               <ExplanationTooltip
@@ -231,6 +237,22 @@ const AssetsTable = ({
               </ExplanationTooltip>
             </DownloadCSV>
           </ProPopupWrapper>
+          <SaveAs
+            watchlist={watchlist}
+            lists={watchlists}
+            type='watchlist'
+            trigger={
+              <div className={cx(styles.action, styles.action__saveAs)}>
+                <ExplanationTooltip
+                  text='Save as watchlist'
+                  offsetY={10}
+                  className={styles.action__tooltip}
+                >
+                  <Icon type='add-watchlist' />
+                </ExplanationTooltip>
+              </div>
+            }
+          />
         </div>
       </div>
 

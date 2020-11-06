@@ -6,14 +6,7 @@
 }
 
 .top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 24px 34px 18px 32px;
-  position: sticky;
-  top: 0;
   background: var(--white);
-  z-index: 1;
 }
 
 .left {
@@ -40,12 +33,4 @@
   margin: 4px 32px 56px;
   border-right: none;
   box-shadow: none;
-}
-
-.tableWrapper {
-  margin: 42px 0 40px 0;
-}
-
-.tableTop {
-  padding: 0 40px 0 32px;
 }

@@ -10,7 +10,7 @@ import styles from './EditForm.module.scss'
 const MIN_LENGTH = 3
 const SHORT_NAME_ERROR = `The name should be at least ${MIN_LENGTH} characters`
 const BAD_SYMBOLS_ERROR = "Use only letters, numbers, whitespace and _-.'/,"
-const NAME_EXISTS_ERROR = 'You has already use this name for another screener'
+const NAME_EXISTS_ERROR = 'You has already use this name'
 const ALLOWED_SYMBOLS_REGEXP = /^([.\-/_' ,\w]*)$/
 
 const EditForm = ({
@@ -21,6 +21,7 @@ const EditForm = ({
   open: isOpen,
   toggleOpen,
   id,
+  type,
   lists = [],
   ...props
 }) => {
@@ -47,7 +48,7 @@ const EditForm = ({
     ) {
       toggleOpen(false)
     } else {
-      onFormSubmit({ name, description, isPublic })
+      onFormSubmit({ name, description, isPublic, type })
     }
   }
 
@@ -67,8 +68,8 @@ const EditForm = ({
 
   function checkName (name = '') {
     let error = ''
-    const hasSameNameScreeners = lists.filter(
-      screener => screener.name.toLowerCase() === name.toLowerCase()
+    const hasSameName = lists.filter(
+      list => list.name.toLowerCase() === name.toLowerCase()
     )
 
     if (!name || name.length < MIN_LENGTH) {
@@ -80,8 +81,8 @@ const EditForm = ({
     }
 
     if (
-      hasSameNameScreeners.length > 0 &&
-      !(hasSameNameScreeners.length === 1 && hasSameNameScreeners[0].id === id)
+      hasSameName.length > 0 &&
+      !(hasSameName.length === 1 && hasSameName[0].id === id)
     ) {
       error = NAME_EXISTS_ERROR
     }
@@ -111,7 +112,9 @@ const EditForm = ({
           autoFocus
           name='name'
           className={styles.input}
-          placeholder='For example, Most price performance'
+          placeholder={`For example, ${
+            type === 'watchlist' ? 'Favorites' : 'Most price performance'
+          }`}
           maxLength='25'
           defaultValue={formState.name}
           onChange={onInputChange}

@@ -212,3 +212,7 @@ export const useScreenerUrlUpdaters = (widgets, setWidgets) => {
 
   return { onChangeInterval, onChangeSorter }
 }
+
+export function getNormalizedListItems (listItems) {
+  return listItems.map(val => ({ project_id: +val.project.id }))
+}
