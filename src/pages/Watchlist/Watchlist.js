@@ -110,6 +110,7 @@ const WatchlistPage = props => {
 
                   <AssetsTable
                     Assets={Assets}
+                    watchlist={props.watchlist}
                     filterType={filterType}
                     items={filteredItems || items}
                     goto={props.history.push}

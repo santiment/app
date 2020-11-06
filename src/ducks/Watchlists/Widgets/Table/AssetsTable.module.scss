@@ -5,7 +5,7 @@
 }
 
 .top {
-  padding: 8px 36px 10px 32px;
+  padding: 8px 40px 10px 32px;
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -49,6 +49,7 @@
   box-sizing: content-box;
   padding: 0 8px 0 22px;
   cursor: pointer;
+  height: 16px;
   display: flex;
   position: relative;
   background-color: transparent !important;
@@ -74,6 +75,10 @@
     padding: 6px 12px;
 
     @include text('caption');
+  }
+
+  &__saveAs {
+    margin-top: 3px;
   }
 
   &:hover {
