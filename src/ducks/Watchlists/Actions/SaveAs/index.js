@@ -10,7 +10,8 @@ const SaveAs = ({
   trigger,
   isPending,
   createWatchlist,
-  isSuccess
+  isSuccess,
+  type
 }) => {
   const [isOpened, setIsOpened] = useState(false)
 
@@ -27,6 +28,7 @@ const SaveAs = ({
     <EditForm
       lists={lists}
       title='Save as ...'
+      type={type}
       id={watchlist.id}
       onFormSubmit={({ name, description, isPublic }) => {
         createWatchlist({
@@ -34,7 +36,7 @@ const SaveAs = ({
           description,
           isPublic,
           function: watchlist.function,
-          type: 'screener'
+          type
         })
       }}
       isLoading={isPending}

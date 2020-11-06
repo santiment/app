@@ -43,6 +43,7 @@ const Trigger = ({
     <div className={styles.trigger} ref={forwardedRef}>
       <EditForm
         title='Edit screener'
+        type='screener'
         lists={lists}
         id={watchlist.id}
         onFormSubmit={payload =>
@@ -106,7 +107,9 @@ const BaseActions = ({
             openMenu={() => setIsMenuOpened(true)}
             isLoading={loading}
             onPrimaryAction={payload =>
-              updateWatchlist(watchlist, { ...payload }).then(notifyUpdate)
+              updateWatchlist(watchlist, { ...payload }).then(() =>
+                notifyUpdate(payload.type)
+              )
             }
           />
         }
@@ -118,6 +121,7 @@ const BaseActions = ({
       >
         <Panel variant='modal' className={styles.wrapper}>
           <EditForm
+            type='screener'
             lists={screeners}
             title='Edit screener'
             id={watchlist.id}
@@ -128,7 +132,7 @@ const BaseActions = ({
               updateWatchlist(watchlist, { ...payload })
                 .then(() => setIsEditPopupOpened(false))
                 .then(() => setIsMenuOpened(false))
-                .then(notifyUpdate)
+                .then(() => notifyUpdate(payload.type))
             }
             settings={{
               name,
@@ -153,6 +157,7 @@ const BaseActions = ({
             )}
           >
             <SaveAs
+              type='screener'
               onSubmit={() => setIsMenuOpened(false)}
               watchlist={watchlist}
               lists={screeners}

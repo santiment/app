@@ -95,6 +95,7 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, onClick }) => {
           <EditForm
             lists={watchlists}
             title='Edit watchlist'
+            type='watchlist'
             id={watchlist.id}
             isLoading={loading}
             open={isEditPopupOpened}
@@ -103,7 +104,7 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, onClick }) => {
               updateWatchlist(watchlist, { ...payload })
                 .then(() => setIsEditPopupOpened(false))
                 .then(() => setIsMenuOpened(false))
-                .then(notifyUpdate)
+                .then(() => notifyUpdate(payload.type))
             }
             settings={{
               name,
@@ -121,6 +122,7 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, onClick }) => {
             onSubmit={() => setIsMenuOpened(false)}
             watchlist={watchlist}
             lists={watchlists}
+            type='watchlist'
             trigger={
               <Button>
                 <Icon type='disk' />

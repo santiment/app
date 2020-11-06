@@ -48,7 +48,7 @@ const EditForm = ({
     ) {
       toggleOpen(false)
     } else {
-      onFormSubmit({ name, description, isPublic })
+      onFormSubmit({ name, description, isPublic, type })
     }
   }
 
