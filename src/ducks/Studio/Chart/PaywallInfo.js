@@ -41,6 +41,7 @@ function useRestrictedInfo (metrics) {
         client
           .query({
             query: METRIC_BOUNDARIES_QUERY,
+            errorPolicy: 'all',
             variables: {
               metric: queryKey
             }
