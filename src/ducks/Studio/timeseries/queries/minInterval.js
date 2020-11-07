@@ -20,4 +20,6 @@ export const getMinInterval = metric =>
         metric
       }
     })
-    .then(({ data: { getMetric } }) => getMetric.metadata.minInterval)
+    .then(
+      ({ data: { getMetric } }) => getMetric && getMetric.metadata.minInterval
+    )
