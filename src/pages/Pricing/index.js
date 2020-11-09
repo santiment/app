@@ -7,6 +7,7 @@ import UpgradeInfo from './UpgradeInfo/UpgradeInfo'
 import SpeakBlocks from './SpeakBlocks/SpeakBlocks'
 import PlanDescriptions from './PlanDescriptions/PlanDescriptions'
 import { useUser } from '../../stores/user'
+import PricingFAQ from './PricingFAQ/PricingFAQ'
 import styles from './index.module.scss'
 
 const Header = () => {
@@ -46,6 +47,8 @@ const Page = () => {
         <PayWithCrypto />
 
         <SpeakBlocks />
+
+        <PricingFAQ />
       </div>
 
       {!isLoggedIn && <UpgradeInfo />}
