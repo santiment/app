@@ -17,7 +17,8 @@ export const ScrollableInsightsList = ({
   query,
   setPage,
   page,
-  settings
+  settings,
+  target
 }) => {
   const [insights, setInsights] = useState([])
   const [canLoad, setCanLoad] = useState(true)
@@ -60,7 +61,7 @@ export const ScrollableInsightsList = ({
   return (
     <>
       {!isLoading && insights.length === 0 && data.length === 0 && (
-        <NoInsights />
+        <NoInsights target={target} />
       )}
 
       <InfiniteScroll
