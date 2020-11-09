@@ -40,6 +40,7 @@ const RelatedInsights = ({ settings }) => {
             setPage={setPage}
             page={page}
             settings={settings}
+            target={'asset'}
           />
         </div>
       </div>

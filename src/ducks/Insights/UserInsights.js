@@ -39,6 +39,7 @@ const UserInsights = ({ userId }) => {
       setPage={setPage}
       page={page}
       settings={settings}
+      target={'user'}
     />
   )
 }
