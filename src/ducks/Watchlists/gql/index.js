@@ -90,12 +90,14 @@ export const CREATE_WATCHLIST_MUTATION = gql`
     $name: String!
     $description: String
     $function: json
+    $listItems: [InputListItem]
   ) {
     createWatchlist(
       isPublic: $isPublic
       name: $name
       description: $description
       function: $function
+      listItems: $listItems
     ) {
       ...generalListData
       ...listShortItems

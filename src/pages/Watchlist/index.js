@@ -45,7 +45,12 @@ const Watchlist = ({ isLoggedIn, ...props }) => {
       watchlist={watchlist}
     />
   ) : (
-    <WatchlistPage {...props} isLoggedIn={isLoggedIn} watchlist={watchlist} />
+    <WatchlistPage
+      {...props}
+      name={name}
+      isLoggedIn={isLoggedIn}
+      watchlist={watchlist}
+    />
   )
 }
 

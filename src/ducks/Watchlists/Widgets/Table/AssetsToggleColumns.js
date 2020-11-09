@@ -14,17 +14,18 @@ import styles from './AssetsToggleColumns.module.scss'
 
 const HIDDEN_COLUMNS = [
   COLUMNS_NAMES.index,
+  COLUMNS_NAMES.checkboxes,
   COLUMNS_NAMES.project,
   ...MARKET_SEGMENT_COLUMNS
 ]
 
-const AssetsToggleColumns = ({ columns = [], onChange, isScreener }) => (
+const AssetsToggleColumns = ({ columns = [], onChange }) => (
   <ContextMenu
     trigger={
       <Button
         fluid
         variant='flat'
-        className={cx(styles.button, isScreener && styles.button__withLine)}
+        className={cx(styles.button, styles.button__withLine)}
       >
         <Icon type='columns' />
       </Button>

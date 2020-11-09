@@ -1,9 +1,12 @@
 @import '~@santiment-network/ui/mixins.scss';
 
+.watchlist {
+  background: var(--white);
+  min-height: calc(100vh - 70px);
+}
+
 .top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  background: var(--white);
 }
 
 .left {
@@ -27,7 +30,7 @@
 }
 
 .overviewInfo {
-  margin: 22px 0 56px;
+  margin: 4px 32px 56px;
   border-right: none;
   box-shadow: none;
 }

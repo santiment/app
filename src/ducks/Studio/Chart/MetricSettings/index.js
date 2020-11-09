@@ -31,7 +31,7 @@ const Settings = ({ className, metric, ...props }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
       {metric.label}:
-      {metric.node !== Node.GREEN_RED_BAR && (
+      {metric.node !== Node.GREEN_RED_BAR && !metric.indicator && (
         <NodeSetting metric={metric} {...props} />
       )}
       <ColorSetting metric={metric} />

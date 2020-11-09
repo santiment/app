@@ -34,7 +34,8 @@ const WatchlistEmptySection = ({ watchlists, className }) => (
             Create watchlist
           </Button>
         }
-        watchlists={watchlists}
+        lists={watchlists}
+        type='watchlist'
       />
     </div>
   </EmptySection>

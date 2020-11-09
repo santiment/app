@@ -8,7 +8,7 @@ import { Metric } from '../../dataHub/metrics'
 
 function makeMetric (slug) {
   return {
-    key: `total_supply_${slug.replace('-', '_')}`,
+    key: `total_supply_${slug.replaceAll('-', '_')}`,
     queryKey: 'total_supply',
     label: slug,
     node: 'area',
@@ -22,11 +22,11 @@ function makeMetric (slug) {
 export const BTC_RELATED_ASSETS = [
   'wrapped-bitcoin',
   'renbtc',
-  'imBTC',
-  'sBTC',
-  'tBTC',
-  'hBTC',
-  'pBTC'
+  'the-tokenized-bitcoin',
+  'sbtc',
+  'tbtc',
+  'huobi-btc',
+  'ptokens-btc'
 ]
 
 export const BTC_SUPPORTED_METRICS = [

@@ -1,12 +1,11 @@
 import React from 'react'
 import cx from 'classnames'
-import NewWatchlist from '../Actions/New'
 import { ProLabel } from '../../../components/ProLabel'
 import ProPopupWrapper from '../../../components/ProPopup/Wrapper'
 import LoginDialogWrapper from '../../../components/LoginDialog/LoginDialogWrapper'
 import { useUserWatchlists, useUserScreeners } from '../gql/hooks'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
-import NewScreener from '../Actions/New/NewScreener'
+import NewList from '../Actions/New'
 import { Plus } from '../../../components/Illustrations/Plus'
 import styles from './WatchlistCard.module.scss'
 
@@ -46,8 +45,8 @@ const NewWatchlistCard = () => {
       title={`Create watchlist`}
       trigger={props => <Trigger type='watchlist' {...props} />}
     >
-      <NewWatchlist
-        watchlists={lists}
+      <NewList
+        lists={lists}
         trigger={<Trigger type='watchlist' />}
         type='watchlist'
       />
@@ -64,7 +63,11 @@ const NewScreenerCard = () => {
       <Trigger showProBanner type='screener' />
     </ProPopupWrapper>
   ) : (
-    <NewScreener lists={screeners} trigger={<Trigger type='screener' />} />
+    <NewList
+      lists={screeners}
+      trigger={<Trigger type='screener' />}
+      type='screener'
+    />
   )
 }
 

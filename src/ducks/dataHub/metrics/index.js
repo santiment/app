@@ -304,7 +304,7 @@ export const Metric = {
     category: 'On-chain'
   },
   network_profit_loss: {
-    node: 'bar',
+    node: 'line',
     label: 'Network Realized Profit or Loss (USD)',
     shortLabel: 'NR P. or L.',
     group: 'Network Value',

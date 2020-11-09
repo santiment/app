@@ -56,7 +56,7 @@ const NewWatchlistCard = () => {
 
   return (
     <LoginDialogWrapper title='Create watchlist' trigger={Trigger}>
-      <NewWatchlist watchlists={watchlists} trigger={<Trigger />} />
+      <NewWatchlist lists={watchlists} trigger={<Trigger />} type='watchlist' />
     </LoginDialogWrapper>
   )
 }

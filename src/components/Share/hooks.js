@@ -14,7 +14,7 @@ export function useShortShareLink () {
   const cache = useRef({}).current
 
   function getShortShareLink (path) {
-    const currentPath = path || getCurrentPath()
+    const currentPath = typeof path === 'string' ? path : getCurrentPath()
     const cachedLink = cache[currentPath]
 
     if (cachedLink) {

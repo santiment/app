@@ -27,7 +27,9 @@ export function useMetricMinInterval ({ key, queryKey = key }) {
 
   useEffect(
     () => {
-      getMinInterval(queryKey).then(setMinInterval)
+      getMinInterval(queryKey)
+        .then(setMinInterval)
+        .catch(console.warn)
     },
     [queryKey]
   )

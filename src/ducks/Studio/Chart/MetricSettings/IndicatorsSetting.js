@@ -9,7 +9,7 @@ import { Node } from '../../../Chart/nodes'
 const RAW_INDICATORS = {
   MA: {
     type: 'moving_average',
-    bases: [30, 50, 200]
+    bases: [7, 30, 50, 200]
   }
 }
 

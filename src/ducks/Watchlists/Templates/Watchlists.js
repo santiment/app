@@ -46,8 +46,9 @@ const Watchlists = ({
       </div>
     </div>
     <NewWatchlist
+      type='watchlist'
       trigger={<NewBtn border className={styles.watchlistNew} />}
-      watchlists={lists}
+      lists={lists}
     />
   </>
 )
