@@ -111,13 +111,14 @@ export const PlanBtn = ({
   altPrice,
   amount,
   billing,
-  id
+  id,
+  className
 }) => {
   const { isLoggedIn } = useUser()
   const isSubscriptionCanceled = subscription && subscription.cancelAtPeriodEnd
 
   return (
-    <>
+    <div className={className}>
       {!isLoggedIn || sameAsUserPlan || isSubscriptionCanceled ? (
         <RestrictBtn
           sameAsUserPlan={sameAsUserPlan}
@@ -136,7 +137,7 @@ export const PlanBtn = ({
           altPrice={altPrice}
         />
       )}
-    </>
+    </div>
   )
 }
 

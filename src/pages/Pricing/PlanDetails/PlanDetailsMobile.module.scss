@@ -1,0 +1,63 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  border: 1px solid var(--porcelain);
+  border-bottom: 0;
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
+}
+
+.swipeContainer {
+  margin: 0 auto;
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+}
+
+.dot {
+  fill: var(--porcelain) !important;
+  margin-left: 16px;
+
+  &:first-child {
+    margin: 0;
+  }
+}
+
+.active {
+  fill: var(--mirage) !important;
+}
+
+.cell {
+  border: none;
+  padding-bottom: 0;
+}
+
+.name {
+  @include text('body-1', 'l');
+}
+
+.description {
+  @include text('body-2'); }
+
+.planBtn {
+  a,
+ button {
+    margin-top: 4px;
+  }
+}
+
+.table {
+  margin-top: 0;
+  border: 1px solid var(--porcelain);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

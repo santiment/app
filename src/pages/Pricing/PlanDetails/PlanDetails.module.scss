@@ -30,8 +30,14 @@
 .cell {
   border-right: 1px solid var(--porcelain);
   border-bottom: 1px solid var(--porcelain);
+  word-break: break-word;
+  white-space: break-spaces;
 
   @include text('body-3');
+
+  &:last-child {
+    border-right: none;
+  }
 }
 
 .noRightBorder {
@@ -40,16 +46,29 @@
 
 .group {
   padding: 40px 0 16px 24px;
+  min-width: 350px;
 
   @include text('body-1', 'l');
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    padding: 16px 12px;
+    min-width: initial;
+  }
 }
 
 .feature {
   &__title {
     padding: 15px 24px;
-    white-space: nowrap;
 
     @include text('body-3');
+
+    word-break: break-word;
+    white-space: break-spaces;
+
+    @include responsive('tablet', 'phone', 'phone-xs') {
+      padding: 16px 12px;
+      max-width: 177px;
+    }
   }
 
   &__cell {
