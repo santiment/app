@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import Button from '@santiment-network/ui/Button'
 import Setting from './Setting'
 import { useDropdown } from './Dropdown'
-import { getMetricSetting } from './utils'
+import { getMetricSetting } from '../../utils'
 import { Node, BARS } from '../../../Chart/nodes'
 
 const NodeToLabel = {

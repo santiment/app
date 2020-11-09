@@ -64,3 +64,18 @@ export const useMirroredTransformer = metrics => {
 
   return MetricTransformer
 }
+
+export function useWidgetProjectSettings (widget, settings) {
+  const { from, to } = settings
+
+  return useMemo(
+    () => {
+      const { slug, ticker } = settings
+
+      widget.project = widget.project || { slug, ticker }
+
+      return Object.assign({}, settings, widget.project)
+    },
+    [from, to]
+  )
+}

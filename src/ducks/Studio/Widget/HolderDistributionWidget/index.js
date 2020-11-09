@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { checkIfWasNotMerged, buildMergedMetric } from './utils'
 import Widget from '../Widget'
 import ChartWidget, { Chart } from '../ChartWidget'
+import { useWidgetProjectSettings } from '../utils'
 import { usePhase, Phase } from '../../phases'
 import Sidepanel, { CloseButton } from '../../Chart/Sidepanel'
 import ChartActiveMetrics from '../../Chart/ActiveMetrics'
@@ -28,11 +29,13 @@ const Title = ({ activeMetrics, ...props }) => (
 
 const HolderDistributionWidget = ({
   widget,
+  settings,
   sidepanelHeader,
   TabMetrics,
   isWithTabs,
   ...props
 }) => {
+  const widgetSettings = useWidgetProjectSettings(widget, settings)
   const [isOpened, setIsOpened] = useState(true)
   const MetricColor = useChartColors(widget.metrics, widget.MetricColor)
   const PressedModifier = usePressedModifier()
@@ -90,13 +93,18 @@ const HolderDistributionWidget = ({
 
   return (
     <Widget className={cx(styles.holders, isOpened && styles.holders_opened)}>
-      <Chart {...props} widget={widget} TopLeftComponent={Title} />
+      <Chart
+        {...props}
+        widget={widget}
+        settings={widgetSettings}
+        TopLeftComponent={Title}
+      />
       {isOpened ? (
         <Sidepanel
           className={styles.sidepanel}
           contentClassName={styles.sidepanel__content}
           header={
-            sidepanelHeader || `${props.settings.ticker} Holders Distribution`
+            sidepanelHeader || `${widgetSettings.ticker} Holders Distribution`
           }
           chartSidepane={TOP_HOLDERS_PANE}
           currentPhase={currentPhase}

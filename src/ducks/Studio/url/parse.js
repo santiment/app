@@ -1,25 +1,25 @@
 import { parse } from 'query-string'
+import { COMPARE_CONNECTOR, toArray } from './utils'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS } from '../defaults'
+import {
+  checkIsProjectMetricKey,
+  newProjectMetric,
+  getProjectMetricByKey,
+  getMetricByKey,
+  buildProjectMetricKey
+} from '../metrics'
 import ChartWidget from '../Widget/ChartWidget'
 import {
   buildMergedMetric,
   MERGED_DIVIDER
 } from '../Widget/HolderDistributionWidget/utils'
 import { TypeToWidget } from '../Widget/types'
-import { buildComparedMetric, buildCompareKey } from '../Compare/utils'
 import {
   Indicator,
   cacheIndicator
 } from '../Chart/MetricSettings/IndicatorsSetting'
 import { HolderDistributionMetric } from '../Chart/Sidepanel/HolderDistribution/metrics'
 import { Metric } from '../../dataHub/metrics'
-import { Submetrics } from '../../dataHub/submetrics'
-import { tryMapToTimeboundMetric } from '../../dataHub/timebounds'
-import { CompatibleMetric } from '../../dataHub/metrics/compatibility'
-
-export const COMPARE_CONNECTOR = '-CC-'
-
-const toArray = keys => (typeof keys === 'string' ? [keys] : keys)
 
 function sanitize (array) {
   if (!array) return
@@ -43,7 +43,7 @@ const convertKeysToMetrics = (keys, dict) =>
   keys &&
   toArray(keys)
     .filter(Boolean)
-    .map(key => convertKeyToMetric(key, dict))
+    .map(getMetricByKey)
 
 export const reduceStateKeys = (State, Data) =>
   Object.keys(State).reduce((acc, key) => {
@@ -54,64 +54,43 @@ export const reduceStateKeys = (State, Data) =>
     return acc
   }, {})
 
-function searchFromSubmetrics (key) {
-  for (let list of Object.values(Submetrics)) {
-    const found = list.find(({ key: subMetricKey }) => subMetricKey === key)
-    if (found) return found
-  }
-}
-
-export const convertKeyToMetric = (key, dict = Metric) =>
-  dict[key] ||
-  CompatibleMetric[key] ||
-  searchFromSubmetrics(key) ||
-  tryMapToTimeboundMetric(key) ||
-  HolderDistributionMetric[key]
-
-export function parseComparable (comparable) {
-  const [slug, ticker, metricKey] = comparable.split(COMPARE_CONNECTOR)
-  const metric = convertKeyToMetric(metricKey, Metric)
-
-  if (!metric) return undefined
-
-  const project = {
-    slug,
-    ticker
-  }
-
-  return {
-    key: buildCompareKey(metric, project),
-    metric,
-    project
-  }
-}
-
 const parseConnectedWidget = ({ widget, from, to }) =>
   TypeToWidget[widget].new({
     datesRange: from && to ? [new Date(from), new Date(to)] : undefined
   })
 
-function parseSharedComparables (comparables) {
-  if (!comparables) return
+export const parseComparable = key =>
+  getProjectMetricByKey(key, COMPARE_CONNECTOR)
+const parseSharedComparables = keys =>
+  keys ? toArray(keys).map(parseComparable) : []
 
-  const arr = toArray(comparables)
+function parseColors (colors = {}, SharedKeyIndicator, project) {
+  const Colors = {}
 
-  return arr.map(parseComparable)
+  Object.keys(colors).forEach(key => {
+    let metricKey = checkIsProjectMetricKey(key) && key
+
+    if (!metricKey) {
+      const indicatorMetric = SharedKeyIndicator[key]
+      metricKey = indicatorMetric
+        ? indicatorMetric.key
+        : buildProjectMetricKey(project, { key })
+    }
+
+    Colors[metricKey] = colors[key]
+  })
+
+  return Colors
 }
 
-function parseMetricSetting (MetricSetting = {}, comparingMetrics = []) {
+function parseMetricSetting (MetricSetting = {}, SharedKeyIndicator, project) {
   const MetricSettingMap = new Map()
 
-  const comparingMetricsMap = comparingMetrics.reduce((acc, item) => {
-    acc[item.key] = item
-    return acc
-  }, {})
-
   Object.keys(MetricSetting).forEach(key => {
-    const metric = Metric[key] || comparingMetricsMap[key]
-    if (!metric) return
-
-    MetricSettingMap.set(metric, MetricSetting[key])
+    MetricSettingMap.set(
+      SharedKeyIndicator[key] || parseMetric(key, project),
+      MetricSetting[key]
+    )
   })
 
   return MetricSettingMap
@@ -119,13 +98,13 @@ function parseMetricSetting (MetricSetting = {}, comparingMetrics = []) {
 
 function extractMergedMetrics (metrics) {
   const mergedMetrics = []
-  const cleanedMetrics = []
+  const cleanedMetricKeys = []
 
   for (let i = 0; i < metrics.length; i++) {
     const metric = metrics[i]
     const mergedMetricKeys = metric.split(MERGED_DIVIDER)
     if (mergedMetricKeys.length < 2) {
-      cleanedMetrics.push(metric)
+      cleanedMetricKeys.push(metric)
       continue
     }
 
@@ -136,37 +115,56 @@ function extractMergedMetrics (metrics) {
     )
   }
 
-  return [mergedMetrics, cleanedMetrics]
+  return [mergedMetrics, cleanedMetricKeys]
 }
 
-function parseMetricIndicators (indicators) {
+function parseMetricIndicators (indicators, project) {
   const MetricIndicators = {}
   const indicatorMetrics = []
+  const SharedKeyIndicator = {}
 
-  if (indicators) {
-    Object.keys(indicators).forEach(metricKey => {
-      MetricIndicators[metricKey] = new Set(
-        indicators[metricKey].map(indicatorKey => {
-          const indicator = Indicator[indicatorKey]
-          const metric = convertKeyToMetric(metricKey)
+  Object.keys(indicators || {}).forEach(metricKey => {
+    const metric = checkIsProjectMetricKey(metricKey)
+      ? getProjectMetricByKey(metricKey)
+      : newProjectMetric(project, getMetricByKey(metricKey))
 
-          if (metric) {
-            indicatorMetrics.push(cacheIndicator(metric, indicator))
-          }
+    MetricIndicators[metric.key] = new Set(
+      indicators[metricKey].map(indicatorKey => {
+        const indicator = Indicator[indicatorKey]
 
-          return indicator
-        })
-      )
-    })
-  }
+        if (metric) {
+          const indicatorMetric = cacheIndicator(metric, indicator)
+          indicatorMetrics.push(indicatorMetric)
+          SharedKeyIndicator[`${indicatorKey}_${metricKey}`] = indicatorMetric
+        }
 
-  return [MetricIndicators, indicatorMetrics]
+        return indicator
+      })
+    )
+  })
+
+  return [MetricIndicators, indicatorMetrics, SharedKeyIndicator]
 }
 
-export function parseSharedWidgets (sharedWidgets) {
+function parseMetric (key, project) {
+  if (checkIsProjectMetricKey(key)) {
+    return getProjectMetricByKey(key)
+  }
+
+  const holderMetric = HolderDistributionMetric[key]
+  if (holderMetric) return holderMetric
+
+  const metric = getMetricByKey(key)
+  return metric && newProjectMetric(project, metric)
+}
+
+export function parseSharedWidgets (sharedWidgets, project) {
+  const parseProjectMetric = key => parseMetric(key, project)
+
   return sharedWidgets.map(
     ({
       widget,
+      project: widgetProject,
       metrics,
       comparables,
       connectedWidgets,
@@ -174,37 +172,43 @@ export function parseSharedWidgets (sharedWidgets) {
       settings,
       indicators
     }) => {
-      const [mergedMetrics, cleanedMetrics] = extractMergedMetrics(metrics)
+      const [holderMetrics, cleanedMetricKeys] = extractMergedMetrics(metrics)
+      const cleanedMetrics = cleanedMetricKeys.map(parseProjectMetric)
+      const comparedMetrics = parseSharedComparables(comparables)
+      const [
+        parsedMetricIndicators,
+        indicatorMetrics,
+        SharedKeyIndicator
+      ] = parseMetricIndicators(indicators, project)
 
-      const parsedComparables = comparables.map(parseComparable)
-      const comparedMetrics = parsedComparables.map(buildComparedMetric)
-      const parsedSettings = parseMetricSetting(settings, comparedMetrics)
-      const [parsedMetricIndicators, indicatorMetrics] = parseMetricIndicators(
-        indicators
-      )
+      const parsedMetrics = cleanedMetrics
+        .filter(Boolean)
+        .concat(comparedMetrics)
+        .concat(holderMetrics)
+        .concat(indicatorMetrics)
 
       return TypeToWidget[widget].new({
-        mergedMetrics,
-        metrics: cleanedMetrics
-          .map(key => convertKeyToMetric(key))
-          .filter(Boolean)
-          .concat(mergedMetrics)
-          .concat(indicatorMetrics),
-        comparables: parsedComparables,
+        mergedMetrics: holderMetrics,
+        metrics: parsedMetrics,
+        project: widgetProject,
         connectedWidgets: connectedWidgets
           ? connectedWidgets.map(parseConnectedWidget)
           : [],
-        MetricColor: colors,
-        MetricSettingMap: parsedSettings,
+        MetricColor: parseColors(colors, SharedKeyIndicator, project),
+        MetricSettingMap: parseMetricSetting(
+          settings,
+          SharedKeyIndicator,
+          project
+        ),
         MetricIndicators: parsedMetricIndicators
       })
     }
   )
 }
 
-export function parseWidgets (urlWidgets) {
+export function parseWidgets (urlWidgets, project) {
   try {
-    return parseSharedWidgets(JSON.parse(urlWidgets))
+    return parseSharedWidgets(JSON.parse(urlWidgets), project)
   } catch (e) {
     console.error(e)
   }
@@ -215,7 +219,7 @@ function parseSharedSidepanel (sidepanel) {
   return parsed.type
 }
 
-export function translateMultiChartToWidgets (metrics, comparables) {
+export function translateMultiChartToWidgets (metrics, comparables = []) {
   if (metrics.length + comparables.length < 2) {
     return [
       ChartWidget.new({
@@ -225,19 +229,24 @@ export function translateMultiChartToWidgets (metrics, comparables) {
     ]
   }
 
-  const noPriceMetrics = metrics.filter(metric => metric !== Metric.price_usd)
-  const hasPrice = noPriceMetrics.length < metrics.length
+  let priceMetric
+  const noPriceMetrics = metrics.filter(metric => {
+    if (metric.queryKey !== Metric.price_usd.key) return true
+
+    priceMetric = metric
+    return false
+  })
 
   return noPriceMetrics
     .map(metric =>
       ChartWidget.new({
-        metrics: hasPrice ? [Metric.price_usd, metric] : [metric]
+        metrics: priceMetric ? [priceMetric, metric] : [metric]
       })
     )
     .concat(
       comparables.map(comparable =>
         ChartWidget.new({
-          metrics: hasPrice ? [Metric.price_usd] : [],
+          metrics: priceMetric ? [Metric.price_usd] : [],
           comparables: [comparable]
         })
       )
@@ -275,8 +284,7 @@ export function parseUrl (
   return {
     settings: reduceStateKeys(settings, data),
     options: reduceStateKeys(options, data),
-    metrics: sanitize(convertKeysToMetrics(data.metrics, Metric)),
-    events: sanitize(convertKeysToMetrics(data.events, Event)),
+    metrics: sanitize(convertKeysToMetrics(data.metrics)),
     comparables: sanitize(parseSharedComparables(data.comparables))
   }
 }
@@ -289,9 +297,11 @@ export function parseUrlV2 (url) {
     return translateV1ToV2(parsedV1Config)
   }
 
+  const parsedSettings = settings && JSON.parse(settings)
+
   return {
-    settings: settings && JSON.parse(settings),
-    widgets: widgets && parseWidgets(widgets),
+    settings: parsedSettings,
+    widgets: widgets && parseWidgets(widgets, parsedSettings),
     sidepanel: sidepanel && parseSharedSidepanel(sidepanel)
   }
 }

@@ -1,0 +1,23 @@
+.icon {
+  margin-right: 6px;
+}
+
+.arrow {
+  margin-left: auto;
+  fill: var(--waterloo);
+}
+
+.selector {
+  border: 1px solid var(--porcelain);
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  height: 32px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 8px;
+
+  &:hover .arrow {
+    fill: var(--jungle-green);
+  }
+}

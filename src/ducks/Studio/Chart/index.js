@@ -9,7 +9,6 @@ import ChartCanvas from './Canvas'
 import SharedAxisToggle from './SharedAxisToggle'
 import ContextMenu from './ContextMenu'
 import ChartFullscreenBtn from './Fullscreen'
-import Compare from '../Compare'
 import { extractIndicatorDomainGroups } from '../utils'
 import { useMetricColor } from '../Widget/ChartWidgetColorProvider'
 import { useAllTimeData } from '../timeseries/hooks'
@@ -33,7 +32,6 @@ const Chart = ({
   loadings,
   eventLoadings,
   metrics,
-  comparables,
   activeEvents,
   shareLink,
   ErrorMsg,
@@ -42,13 +40,11 @@ const Chart = ({
   isICOPriceActive,
   isSingleWidget,
   isSelectingRange,
-  isWithCompare,
   changeTimePeriod,
   rerenderWidgets,
   TopLeftComponent = ChartActiveMetrics,
   setIsICOPriceDisabled,
   setOptions,
-  setComparables,
   onPointMouseUp,
   onRangeSelected,
   onRangeSelecting,
@@ -158,17 +154,6 @@ const Chart = ({
             />
           )}
 
-          {isWithCompare && (
-            <Compare
-              comparables={comparables}
-              setComparables={setComparables}
-              activeMetrics={metrics}
-              MetricColor={MetricColor}
-              slug={settings.slug}
-              className={styles.compare}
-            />
-          )}
-
           <ContextMenu
             {...options}
             classes={styles}
@@ -244,10 +229,6 @@ const Chart = ({
       )}
     </div>
   )
-}
-
-Chart.defaultProps = {
-  isWithCompare: true
 }
 
 export default Chart

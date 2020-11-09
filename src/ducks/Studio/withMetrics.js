@@ -1,8 +1,9 @@
+import React, { useMemo } from 'react'
 import gql from 'graphql-tag'
-import { graphql } from 'react-apollo'
+import { useQuery } from '@apollo/react-hooks'
 import { getCategoryGraph } from './Sidebar/utils'
 import { getMarketSegment } from './timeseries/marketSegments'
-import { useMergedTimeboundSubmetrics } from '../dataHub/timebounds'
+import { getMergedTimeboundSubmetrics } from '../dataHub/timebounds'
 import { getAssetNewMetrics } from '../dataHub/metrics/news'
 import { useIsBetaMode } from '../../stores/ui'
 
@@ -52,37 +53,55 @@ export const DEFAULT_METRICS = [
   'social_volume_total'
 ]
 
-export default graphql(PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY, {
-  props: ({
-    data: {
-      project: {
-        availableMetrics = DEFAULT_METRICS,
-        availableQueries = [],
-        marketSegments = []
-      } = {}
+const DEFAULT_STATE = {
+  Submetrics: [],
+  availableMetrics: [],
+  categories: getCategoryGraph(DEFAULT_METRICS)
+}
+
+export function useProjectMetrics (slug, hiddenMetrics, noMarketSegments) {
+  const isBeta = useIsBetaMode()
+  const { data } = useQuery(PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY, {
+    variables: { slug }
+  })
+
+  return useMemo(
+    () => {
+      if (!data) return DEFAULT_STATE
+
+      const {
+        availableMetrics,
+        availableQueries,
+        marketSegments
+      } = data.project
+
+      const Submetrics = getMergedTimeboundSubmetrics(availableMetrics)
+      const categories = getCategoryGraph(
+        availableQueries
+          .concat(availableMetrics)
+          .concat(noMarketSegments ? [] : marketSegments.map(getMarketSegment)),
+        hiddenMetrics,
+        Submetrics,
+        isBeta
+      )
+
+      return {
+        categories,
+        Submetrics,
+        availableMetrics,
+        ...getAssetNewMetrics(availableMetrics, { slug, isBeta })
+      }
     },
-    ownProps: { noMarketSegments, hiddenMetrics = [], slug }
-  }) => {
-    const Submetrics = useMergedTimeboundSubmetrics(availableMetrics)
+    [data, isBeta, hiddenMetrics, noMarketSegments]
+  )
+}
 
-    const isBeta = useIsBetaMode()
-
-    const categories = getCategoryGraph(
-      availableQueries
-        .concat(availableMetrics)
-        .concat(noMarketSegments ? [] : marketSegments.map(getMarketSegment)),
-      hiddenMetrics,
-      Submetrics,
-      isBeta
-    )
-
-    return {
-      categories,
-      Submetrics,
-      availableMetrics,
-      ...getAssetNewMetrics(availableMetrics, { slug, isBeta })
-    }
-  },
-  skip: ({ slug }) => !slug,
-  options: ({ slug }) => ({ variables: { slug } })
-})
+export default Component => props => {
+  const { slug, hiddenMetrics, noMarketSegments } = props
+  const projectMetrics = useProjectMetrics(
+    slug,
+    hiddenMetrics,
+    noMarketSegments
+  )
+  return <Component {...props} {...projectMetrics} />
+}

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import Setting from './Setting'
 import { useDropdown } from './Dropdown'
-import { getMetricSetting } from './utils'
+import { getMetricSetting } from '../../utils'
 import { Setting as Option } from '../../../SANCharts/ChartSettingsContextMenu'
 import { updateTooltipSetting } from '../../../dataHub/tooltipSettings'
 import { Node } from '../../../Chart/nodes'
@@ -109,9 +109,11 @@ const IndicatorsSetting = ({ metric, widget, toggleMetric }) => {
 
     if (indicatorMetric) {
       const { interval } = getMetricSetting(widget.MetricSettingMap, metric)
+
       if (interval) {
         widget.MetricSettingMap.set(indicatorMetric, { interval })
       }
+
       toggleMetric(indicatorMetric)
     }
   }

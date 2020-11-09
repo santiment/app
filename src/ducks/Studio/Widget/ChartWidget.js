@@ -9,17 +9,14 @@ import {
 import StudioChart from '../Chart'
 import { dispatchWidgetMessage } from '../widgetMessage'
 import { DEFAULT_OPTIONS } from '../defaults'
-import {
-  calculateMovingAverageFromInterval,
-  mergeMetricSettingMap
-} from '../utils'
+import { newProjectMetric } from '../metrics'
+import { getMetricSetting, calculateMovingAverageFromInterval } from '../utils'
 import { useTimeseries } from '../timeseries/hooks'
-import { buildComparedMetric } from '../Compare/utils'
 import { useEdgeGaps, useClosestValueData } from '../../Chart/hooks'
 import { useSyncDateEffect } from '../../Chart/sync'
 import { Metric } from '../../dataHub/metrics'
 
-const activeEvents = []
+const EMPTY_ARRAY = []
 
 export const Chart = ({
   settings,
@@ -33,16 +30,13 @@ export const Chart = ({
 }) => {
   const { metrics, chartRef, MetricSettingMap } = widget
   const [options, setOptions] = useState(DEFAULT_OPTIONS)
-  const [comparables, setComparables] = useState(widget.comparables)
-  const [activeMetrics, setActiveMetrics] = useState(metrics)
   const MetricTransformer = useMirroredTransformer(metrics)
   const [rawData, loadings, ErrorMsg] = useTimeseries(
-    activeMetrics,
+    metrics,
     settings,
     MetricSettingMap,
     MetricTransformer
   )
-  const [eventsData] = useTimeseries(activeEvents, settings)
   const MetricNode = useMetricNodeOverwrite(MetricSettingMap)
   const data = useEdgeGaps(
     useClosestValueData(rawData, metrics, options.isClosestDataActive)
@@ -78,45 +72,28 @@ export const Chart = ({
 
   useEffect(
     () => {
-      const comparedMetrics = comparables.map(buildComparedMetric)
-      widget.comparables = comparables
-      widget.comparedMetrics = comparedMetrics
-      setActiveMetrics(metrics.concat(comparedMetrics))
-      rerenderWidgets()
-    },
-    [metrics, comparables]
-  )
+      let modified = false
+      metrics.forEach(metric => {
+        if (metric.base !== Metric.dev_activity) return
 
-  useEffect(
-    () => {
-      const metricsSet = new Set(metrics)
+        const newMap = new Map(widget.MetricSettingMap)
+        const metricSetting = getMetricSetting(newMap, metric)
 
-      const metric = Metric.dev_activity
-      if (metricsSet.has(metric)) {
-        const newMap = new Map()
-        newMap.set(metric, {
-          transform: {
-            type: 'moving_average',
-            movingAverageBase: calculateMovingAverageFromInterval(
-              settings.interval
-            )
-          }
-        })
+        metricSetting.transform = {
+          type: 'moving_average',
+          movingAverageBase: calculateMovingAverageFromInterval(
+            settings.interval
+          )
+        }
 
-        widget.MetricSettingMap = mergeMetricSettingMap(
-          MetricSettingMap,
-          newMap
-        )
+        widget.MetricSettingMap = newMap
+        modified = true
+      })
 
-        rerenderWidgets()
-      }
+      if (modified) rerenderWidgets()
     },
     [metrics, settings.interval]
   )
-
-  function removeComparedMetric ({ key }) {
-    setComparables(comparables.filter(comp => comp.key !== key))
-  }
 
   function toggleIndicatorMetric ({ indicator, metricKey }) {
     const { MetricIndicators } = widget
@@ -140,10 +117,6 @@ export const Chart = ({
       toggleIndicatorMetric(metric)
     }
 
-    if (metric.comparedTicker) {
-      return removeComparedMetric(metric)
-    }
-
     toggleWidgetMetric(widget, metric)
   }
 
@@ -154,18 +127,16 @@ export const Chart = ({
         data={data}
         widget={widget}
         chartRef={chartRef}
-        metrics={activeMetrics}
-        eventsData={eventsData}
-        activeEvents={activeEvents}
+        metrics={metrics}
+        eventsData={EMPTY_ARRAY}
+        activeEvents={EMPTY_ARRAY}
         ErrorMsg={ErrorMsg}
         MetricNode={MetricNode}
         settings={settings}
         loadings={loadings}
         options={options}
-        comparables={comparables}
         isSingleWidget={isSingleWidget}
         setOptions={setOptions}
-        setComparables={setComparables}
         toggleMetric={toggleMetric}
         rerenderWidgets={rerenderWidgets}
         onDeleteChartClick={() => deleteWidget(widget)}
@@ -180,10 +151,14 @@ const ChartWidget = props => (
   </Widget>
 )
 
+const BITCOIN_PRICE_METRIC = newProjectMetric(
+  { slug: 'bitcoin', ticker: 'BTC' },
+  Metric.price_usd
+)
+
 const newChartWidget = (props, widget = ChartWidget) =>
   newWidget(widget, {
-    metrics: [Metric.price_usd],
-    comparables: [],
+    metrics: [BITCOIN_PRICE_METRIC],
     comparedMetrics: [],
     MetricSettingMap: new Map(),
     MetricIndicators: {},

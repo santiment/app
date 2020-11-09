@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Sidebar from './Sidebar'
 import Main from './Main'
+import { newProjectMetric } from './metrics'
 import {
   deduceItems,
   mergeMetricSettingMap,
@@ -97,13 +98,13 @@ export const Studio = ({
 
     if (metrics.length < widget.metrics.length) {
       widget.MetricSettingMap.delete(metric)
+      // TODO: delete color [@vanguard | Nov  3, 2020]
     }
 
     if (
       widget.Widget !== HolderDistributionWidget &&
       widget.Widget !== HolderDistributionCombinedBalanceWidget &&
-      metrics.length === 0 &&
-      widget.comparables.length === 0
+      metrics.length === 0
     ) {
       deleteWidget(widget)
     } else {
@@ -112,8 +113,11 @@ export const Studio = ({
     }
   }
 
-  function toggleSelectionMetric (metric) {
-    const deducedMetric = deduceItems(selectedMetrics, metric)
+  function toggleSelectionMetric (metric, project) {
+    const deducedMetric = deduceItems(
+      selectedMetrics,
+      metric.base ? metric : newProjectMetric(project, metric)
+    )
     setSelectedMetrics(deducedMetric)
     return deducedMetric
   }
@@ -146,7 +150,7 @@ export const Studio = ({
     }))
   }
 
-  function onSidebarItemClick (item) {
+  function onSidebarItemClick (item, project) {
     const { type, key } = item
     let appliedMetrics
     let appliedWidgets
@@ -183,7 +187,7 @@ export const Studio = ({
         ])
       }
     } else {
-      appliedMetrics = toggleSelectionMetric(item)
+      appliedMetrics = toggleSelectionMetric(item, project)
     }
 
     if (currentPhase === Phase.IDLE && PressedModifier.cmdKey) {

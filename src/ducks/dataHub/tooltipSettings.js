@@ -19,13 +19,13 @@ export const TooltipSetting = {
 }
 
 export function FORMATTER (value) {
-  if (!value && typeof value !== 'number') {
-    return 'No data'
-  }
-
   // NOTE: Handling float type 0's (e.g. "0.0000") [@vanguard | Sep  2, 2020]
   if (value === 0) {
     return 0
+  }
+
+  if (!value) {
+    return 'No data'
   }
 
   if (value > LARGE_NUMBER_THRESHOLD) {

@@ -47,7 +47,7 @@ function useRestrictedInfo (metrics) {
             }
           })
           .then(({ data: { getMetric } }) => {
-            if (race) return
+            if (race || !getMetric) return
 
             const {
               metadata: { isRestricted, from, to }
@@ -82,7 +82,6 @@ const PaywallInfo = ({ metrics }) => {
   const infos = useRestrictedInfo(metrics)
   const { isPro, isTrial } = useUserSubscriptionStatus()
 
-  /* if (subscription && new Date(subscription.trialEnd) > new Date()) { */
   if (isTrial) {
     return <UpgradeBtn variant='fill' fluid className={styles.upgrade_trial} />
   }
