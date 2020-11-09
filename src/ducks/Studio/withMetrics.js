@@ -54,9 +54,6 @@ export const DEFAULT_METRICS = [
 ]
 
 const DEFAULT_STATE = {
-  // NewMetric,
-  // NewMetricsCategory,
-  // NewMetricsGroup,
   Submetrics: [],
   availableMetrics: [],
   categories: getCategoryGraph(DEFAULT_METRICS)
