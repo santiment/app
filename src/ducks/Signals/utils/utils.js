@@ -60,7 +60,6 @@ import { Metric } from '../../dataHub/metrics'
 import { useWatchlist } from '../../Watchlists/gql/hooks'
 import { SIGNAL_SUPPORTED_METRICS } from '../signalFormManager/signalCrudForm/formParts/metricTypes/metrics'
 import { findWebHook } from '../signalFormManager/signalCrudForm/formParts/channels/hooks'
-import { fetchHb } from '../../HistoricalBalance/utils'
 
 export const mapToOptions = input => {
   if (!input) {
@@ -932,8 +931,8 @@ export const isNewTypeSignal = ({ settings: { type } }) => {
 
 const HistoricalBalanceMetrics = {
   ...Metric.balance,
-  key: 'balance',
-  fetch: fetchHb
+  key: 'historicalBalance',
+  queryKey: 'historicalBalance'
 }
 
 export const getNewMetricsByType = ({ settings: { type, metric } }) => {

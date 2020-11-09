@@ -1,19 +1,20 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import { useTheme } from '../../stores/ui/theme'
-import GA from '../../utils/tracking'
 import {
   isShowHalloween,
   addGrave,
   getCheckedGraves
 } from '../../utils/halloween'
 import HalloweenPopup from './Popup'
+import { useTrackEvents } from '../../hooks/tracking'
 import styles from './index.module.scss'
 
 const Grave = ({ knockNumber, setKnockNumber, slug, name }) => {
   const { isNightMode } = useTheme()
   const [checkedGraves, setCheckedGraves] = useState(new Set())
   const initialGraves = getCheckedGraves()
+  const [trackEvent] = useTrackEvents()
 
   function onGraveZoneClick () {
     const newNumber = knockNumber + 1
@@ -21,7 +22,7 @@ const Grave = ({ knockNumber, setKnockNumber, slug, name }) => {
 
     if (newNumber === 3) {
       const graves = addGrave(slug)
-      GA.event({
+      trackEvent({
         category: 'Halloween',
         action: `Halloween grave click on ${slug} page`
       })

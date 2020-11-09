@@ -1,11 +1,19 @@
 @import '~@santiment-network/ui/mixins';
 
+.container {
+  margin: 34px 0 40px 0;
+}
+
 .top {
-  margin-bottom: 8px;
+  padding: 8px 40px 10px 32px;
   display: flex;
   justify-content: space-between;
   width: 100%;
   transition: width 0.2s ease-in-out;
+  position: sticky;
+  top: 64px;
+  background-color: var(--white);
+  z-index: 1;
 }
 
 .tooltip {
@@ -38,11 +46,40 @@
 
 .action {
   fill: var(--waterloo);
-  margin: 0 0 0 22px;
-  padding: 0;
+  box-sizing: content-box;
+  padding: 0 8px 0 22px;
+  cursor: pointer;
+  height: 16px;
+  display: flex;
+  position: relative;
+  background-color: transparent !important;
+
+  &__withLine::before {
+    display: block;
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: -4px;
+    height: 24px;
+    width: 1px;
+    background: var(--porcelain);
+  }
 
   &__wrapper {
     display: flex;
+    position: relative;
+  }
+
+  &__tooltip {
+    white-space: nowrap;
+    z-index: 11;
+    padding: 6px 12px;
+
+    @include text('caption');
+  }
+
+  &__saveAs {
+    margin-top: 3px;
   }
 
   &:hover {
@@ -68,6 +105,7 @@
 .assetsTable {
   width: 100%;
   transition: width 0.2s ease-in-out;
+  border: none;
 }
 
 .assetsTable:global(.ReactTable) {
@@ -78,6 +116,10 @@
     .overview-name {
       text-align: left;
       margin-right: auto;
+
+      & div {
+        margin-left: auto;
+      }
     }
 
     .overview-ethspent,
@@ -101,21 +143,16 @@
       }
     }
 
-    .overview-price-percent,
-    .overview-volume-percent {
-      margin-left: -10px;
-    }
-
     .rt-th {
-      padding: 7px 0;
       box-sizing: content-box;
       position: relative;
       width: 100%;
       overflow: visible;
       border: none;
-      outline: none;
 
-      @include text('caption');
+      @include text('body-3', 'm');
+
+      line-height: 18px;
 
       & > div {
         width: 100%;
@@ -174,9 +211,15 @@
       overflow: visible;
     }
 
+    .rt-thead.-header {
+      position: sticky;
+      top: 114px;
+      z-index: 1;
+    }
+
     .rt-td {
       min-height: 60px;
-      padding: 10px;
+      padding: 10px !important;
       display: inline-flex;
       align-items: center;
       cursor: default;

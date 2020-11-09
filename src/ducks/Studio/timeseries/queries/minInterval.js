@@ -15,8 +15,11 @@ export const getMinInterval = metric =>
   client
     .query({
       query: MIN_INTERVAL_QUERY,
+      errorPolicy: 'all',
       variables: {
         metric
       }
     })
-    .then(({ data: { getMetric } }) => getMetric.metadata.minInterval)
+    .then(
+      ({ data: { getMetric } }) => getMetric && getMetric.metadata.minInterval
+    )

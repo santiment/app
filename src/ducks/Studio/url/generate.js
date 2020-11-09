@@ -1,5 +1,5 @@
 import { stringify } from 'query-string'
-import { COMPARE_CONNECTOR } from './parse'
+import { COMPARE_CONNECTOR } from './utils'
 import { WidgetToTypeMap } from '../Widget/types'
 
 const keyExtractor = ({ key }) => key
@@ -44,15 +44,17 @@ const normalizeConnectedWidget = ({ Widget, datesRange }) => ({
 export const normalizeWidget = ({
   Widget,
   metrics,
-  comparables,
+  project,
   connectedWidgets,
   MetricColor,
   MetricSettingMap,
   MetricIndicators
 }) => ({
+  project,
   widget: WidgetToTypeMap.get(Widget),
-  metrics: metrics.map(({ key }) => key),
-  comparables: comparables.map(shareComparable),
+  metrics: metrics
+    .map(({ key, indicator }) => !indicator && key)
+    .filter(Boolean),
   connectedWidgets: connectedWidgets
     ? connectedWidgets.map(normalizeConnectedWidget)
     : undefined,
@@ -75,14 +77,12 @@ export function generateShareLink (
   settings,
   options,
   metrics = [],
-  events = [],
-  comparables = []
+  events = []
 ) {
   const Shareable = {
     ...settings,
     ...options,
-    metrics: getMetricsKeys(metrics),
-    comparables: comparables.map(shareComparable)
+    metrics: getMetricsKeys(metrics)
   }
 
   return stringify(Shareable, {

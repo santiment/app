@@ -10,7 +10,7 @@ import ToggleMetricButton from './ToggleMetricButton'
 import { PROJECT_METRICS_BY_SLUG_QUERY } from './gql'
 import { getCategoryGraph } from '../Studio/Sidebar/utils'
 import { getMarketSegment } from './utils'
-import GA from './../../utils/tracking'
+import { useTrackEvents } from './../../hooks/tracking'
 import styles from './ChartMetricSelector.module.scss'
 
 export const NO_GROUP = '_'
@@ -67,12 +67,13 @@ const ChartMetricSelector = ({
   ...props
 }) => {
   const [activeCategory, setCategory] = useState('Financial')
+  const [trackEvent] = useTrackEvents()
 
   const changeCategory = category => {
     if (category === activeCategory) {
       setCategory(null)
     } else {
-      GA.event({
+      trackEvent({
         category: 'Chart',
         action: `Selecting category ${category}`
       })

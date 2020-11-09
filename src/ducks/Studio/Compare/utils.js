@@ -1,5 +1,5 @@
-import { Metric } from '../../dataHub/metrics'
-import { TooltipSetting } from '../../dataHub/tooltipSettings'
+import { Metric, deriveMetric } from '../../dataHub/metrics'
+import { updateTooltipSetting } from '../../dataHub/tooltipSettings'
 
 const comparedMetricsCache = new Map()
 
@@ -11,6 +11,7 @@ export const normalizeQueryAlias = queryKey => queryKey.replace(/-/g, '')
 
 export const buildCompareKey = (metric, project) =>
   `${metric.key}_${normalizeQueryAlias(project.slug)}`
+export const COMPARE_CONNECTOR = '-CC-'
 
 export const makeComparableObject = ({ metric, project }) => ({
   key: buildCompareKey(metric, project),
@@ -28,33 +29,19 @@ export function buildComparedMetric (Comparable) {
 
   const { metric, project } = Comparable
   const { ticker, slug } = project
-  const {
-    key: metricKey,
-    queryKey = metricKey,
-    label,
-    formatter,
-    reqMeta
-  } = metric
+  const { key: metricKey, label: baseLabel } = metric
 
-  const key = buildCompareKey(metric, project)
-
-  const comparedMetric = {
-    ...metric,
-    key,
-    queryKey,
+  const comparedMetric = deriveMetric(metric, {
+    key: buildCompareKey(metric, project),
+    label: `${baseLabel} (${ticker})`,
     comparedTicker: ticker,
     domainGroup: metricKey,
     reqMeta: {
-      slug,
-      ...reqMeta
+      slug
     }
-  }
+  })
 
-  TooltipSetting[key] = {
-    label: `${label} (${ticker})`,
-    formatter: formatter
-  }
-
+  updateTooltipSetting(comparedMetric)
   comparedMetricsCache.set(hash, comparedMetric)
 
   return comparedMetric

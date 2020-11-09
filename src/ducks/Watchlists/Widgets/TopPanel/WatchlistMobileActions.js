@@ -1,28 +1,30 @@
 import React from 'react'
-import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel/Panel'
+import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Copy from '../../Actions/Copy'
 import Delete from '../../Actions/Delete'
 import Edit from '../../Actions/Edit/EditAssets'
-import DownloadCSV from '../../Actions/DownloadCSV'
 import WeeklyReport from '../../Actions/WeeklyReport'
 import VisibilityToggle from '../../Actions/ChangeVisibility'
-import { ProLabel } from '../../../../components/ProLabel'
-import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
-import styles from './WatchlistContextMenu.module.scss'
+import { upperCaseFirstLetter } from '../../../../utils/formatting'
+import styles from './WatchlistMobileActions.module.scss'
 
-const WatchlistContextMenu = ({
+const WatchlistActions = ({
   isAuthor,
-  items,
   id,
-  isDesktop,
-  name,
+  title,
+  items,
+  type,
   isMonitored,
-  watchlist
+  watchlist = {}
 }) => {
-  const { isPro } = useUserSubscriptionStatus()
+  if (!watchlist) {
+    return null
+  }
+
+  const name = upperCaseFirstLetter(title)
 
   return (
     <ContextMenu
@@ -42,14 +44,14 @@ const WatchlistContextMenu = ({
           </div>
         )}
         <div className={styles.block}>
-          {!isDesktop && isAuthor && (
+          {isAuthor && (
             <Edit
               id={id}
               assets={items}
               name={name}
               trigger={
                 <Button variant='ghost' fluid>
-                  Edit
+                  Edit assets
                 </Button>
               }
             />
@@ -62,7 +64,7 @@ const WatchlistContextMenu = ({
               </Button>
             }
           />
-          {!isDesktop && isAuthor && (
+          {isAuthor && (
             <WeeklyReport
               id={id}
               isMonitored={isMonitored}
@@ -73,18 +75,6 @@ const WatchlistContextMenu = ({
                 </Button>
               }
             />
-          )}
-          {isDesktop && (
-            <DownloadCSV
-              name={name}
-              disabled={!isPro}
-              variant='ghost'
-              fluid
-              items={items}
-            >
-              Download .csv
-              {!isPro && <ProLabel className={styles.proLabel} />}
-            </DownloadCSV>
           )}
           {isAuthor && (
             <Delete
@@ -103,4 +93,4 @@ const WatchlistContextMenu = ({
   )
 }
 
-export default WatchlistContextMenu
+export default WatchlistActions

@@ -1,13 +1,14 @@
 const TRACKER_IDs = ['UA-100571693-1', 'UA-100571693-2']
 const APP_NAME = 'Sanbase'
 
-const isBrowser = typeof window !== 'undefined'
-const isProdApp = window.location.origin === 'https://app.santiment.net'
-const hasDoNotTrack = () => {
+export const isBrowser = typeof window !== 'undefined'
+export const isProdApp = window.location.origin === 'https://app.santiment.net'
+export const hasDoNotTrack = () => {
   const dnt =
     navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack
   return dnt === '1' || dnt === 'yes'
 }
+
 // GA strings need to have trailing whitespace trimmed,
 function trim (s) {
   return s.replace(/^\s+|\s+$/g, '')
@@ -111,6 +112,9 @@ export const update =
  *     method: 'metamask',
  *   })
  */
+
+// Please, use useTrackEvents hook from /hooks/tracking if it's possible
+
 export const event =
   isBrowser && isProdApp && !hasDoNotTrack()
     ? ({ action, category, label, ...values }, type = ['ga']) => {

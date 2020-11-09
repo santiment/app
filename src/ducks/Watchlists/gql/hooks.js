@@ -10,8 +10,6 @@ import {
   PROJECTS_BY_FUNCTION_QUERY
 } from './index'
 import { WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
-import { store } from '../../../redux'
-import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import {
   countAssetsSort,
   isStaticWatchlist,
@@ -20,6 +18,7 @@ import {
   DEFAULT_SCREENER_FUNCTION
 } from '../utils'
 import { notifyErrorUpdate } from '../Widgets/TopPanel/notifications'
+import { useUser } from '../../../stores/user'
 
 const DEFAULT_WATCHLISTS = []
 const DEFAULT_SCREENERS = [DEFAULT_SCREENER]
@@ -83,7 +82,7 @@ export function useShortWatchlist ({ id, skip }) {
 }
 
 export function useUserWatchlists () {
-  const isLoggedIn = checkIsLoggedIn(store.getState())
+  const { isLoggedIn } = useUser()
   const { data, loading, error } = useQuery(USER_WATCHLISTS_QUERY, {
     skip: !isLoggedIn
   })
@@ -97,7 +96,7 @@ export function useUserWatchlists () {
 }
 
 export function useUserScreeners () {
-  const isLoggedIn = checkIsLoggedIn(store.getState())
+  const { isLoggedIn } = useUser()
 
   const { data, loading, error } = useQuery(USER_WATCHLISTS_QUERY, {
     skip: !isLoggedIn

@@ -16,7 +16,8 @@ const WatchlistsEmptySection = ({ watchlists }) => (
             Create
           </Button>
         }
-        watchlists={watchlists}
+        lists={watchlists}
+        type='watchlist'
       />{' '}
       your own watchlist{' '}
     </span>

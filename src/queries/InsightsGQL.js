@@ -47,6 +47,20 @@ export const ALL_INSIGHTS_BY_TAG_QUERY = gql`
   ${INSIGHT_COMMON_FRAGMENT}
 `
 
+export const ALL_INSIGHTS_BY_USER = gql`
+  query allInsightsForUser($userId: Int, $page: Int, $pageSize: Int = 10) {
+    insights: allInsightsForUser(
+      userId: $userId
+      page: $page
+      pageSize: $pageSize
+    ) {
+      text
+      ...insightCommon
+    }
+  }
+  ${INSIGHT_COMMON_FRAGMENT}
+`
+
 export const ALL_TAGS_QUERY = gql`
   query allTags {
     tags: allTags {

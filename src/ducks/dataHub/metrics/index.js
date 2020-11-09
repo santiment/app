@@ -11,6 +11,20 @@ import { updateTooltipSettings } from '../tooltipSettings'
 import { Node } from '../../Chart/nodes'
 import { millify } from '../../../utils/formatting'
 
+export function deriveMetric (baseMetric, newMetric) {
+  const { key, queryKey = key } = baseMetric
+  const { reqMeta } = newMetric
+
+  newMetric.domainGroup = key
+  newMetric.queryKey = queryKey
+
+  if (reqMeta) {
+    newMetric.reqMeta = Object.assign({}, baseMetric.reqMeta, reqMeta)
+  }
+
+  return Object.assign({}, baseMetric, newMetric)
+}
+
 function normalizeAxisPercent (value) {
   const percent = value * 100
   const absPercent = Math.abs(percent)
@@ -290,7 +304,7 @@ export const Metric = {
     category: 'On-chain'
   },
   network_profit_loss: {
-    node: 'bar',
+    node: 'line',
     label: 'Network Realized Profit or Loss (USD)',
     shortLabel: 'NR P. or L.',
     group: 'Network Value',
@@ -489,7 +503,6 @@ export const Metric = {
     isBeta: true
   },
   social_active_users: {
-    queryKey: 'social_active_users',
     category: 'Social',
     group: 'Social Active Users',
     shortLabel: 'Soc. Act. Us.',

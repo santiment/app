@@ -114,14 +114,10 @@
     }
 
     .rt-th {
-      @include text('caption');
-
       background: var(--athens);
       text-align: left !important;
       text-transform: initial;
       color: var(--casper);
-      line-height: 16px;
-      font-weight: 600;
       padding: 7px 0 !important;
 
       @include responsive('phone', 'phone-xs') {

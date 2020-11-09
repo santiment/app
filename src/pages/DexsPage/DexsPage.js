@@ -1,10 +1,9 @@
 import React from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
-import gql from 'graphql-tag'
 import { withRenderQueueProvider } from '../../components/DashboardMetricChart/renderQueue'
 import { DesktopOnly } from '../../components/Responsive'
-import { Block } from '../StablecoinsPage/StablecoinsPageStructure'
+import { ProOnlyBlock as Block } from '../StablecoinsPage/StablecoinsPageStructure'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import SharePage from '../../components/SharePage/SharePage'
 import CurrentPageReport from '../../ducks/Stablecoins/StablecoinsReport/CurrentPageReport'
@@ -16,7 +15,6 @@ import DexTradesSegmentedByDEX, {
 } from '../../ducks/Dexs/DexTradesSegmentedByDEX/DexTradesSegmentedByDEX'
 import NumberOfTradesPerDex from '../../ducks/Dexs/NumberOfTradesPerDex/NumberOfTradesPerDex'
 import { DEX_BY_USD } from '../../ducks/Dexs/PriceMeasurement/DexPriceMeasurement'
-import { useRestrictedInfo } from '../UniswapProtocolPage/hooks'
 import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
 import externalStyles from './../StablecoinsPage/StablecoinsPage.module.scss'
 import styles from './DexsPage.module.scss'
@@ -44,19 +42,7 @@ const DEX_PREDICATE = ({ name }) =>
   name.toLowerCase().indexOf('dex') >= 0 ||
   name.toLowerCase().indexOf('decentralized') >= 0
 
-const METRIC_BOUNDARIES_QUERY = gql`
-  query {
-    getMetric(metric: "total_trade_amount_by_dex") {
-      metadata {
-        isRestricted
-      }
-    }
-  }
-`
-
 const DexsPage = () => {
-  const isProChecking = useRestrictedInfo(METRIC_BOUNDARIES_QUERY)
-
   return (
     <DashboardLayout>
       <Helmet
@@ -101,7 +87,6 @@ const DexsPage = () => {
           <Block
             className={cx(externalStyles.firstBlock, styles.firstBlock)}
             title='Volume of DEXs Trades'
-            isPaywalActive={isProChecking}
             tag={ANCHORS.VolumeSegmented.key}
           >
             <DexTradesSegmentedByDEX />
@@ -110,7 +95,6 @@ const DexsPage = () => {
           <Block
             tag={ANCHORS.DexByVolumeTrades.key}
             title='Volume of Trades by DEXs'
-            isPaywalActive={isProChecking}
           >
             <NumberOfTradesPerDex metrics={DEX_VOLUME_METRICS} />
           </Block>
@@ -118,7 +102,6 @@ const DexsPage = () => {
           <Block
             tag={ANCHORS.AmountSegmented.key}
             title='Total Number of DEX Trades'
-            isPaywalActive={isProChecking}
           >
             <DexTradesTotalNumber measurement={DEX_BY_USD} />
           </Block>
@@ -126,7 +109,6 @@ const DexsPage = () => {
           <Block
             tag={ANCHORS.DexByAmountTrades.key}
             title='Number of Trades Segmented by DEX'
-            isPaywalActive={isProChecking}
           >
             <NumberOfTradesPerDex
               metrics={DEX_AMOUNT_METRICS}

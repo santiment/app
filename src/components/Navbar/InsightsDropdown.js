@@ -7,7 +7,7 @@ import Button from '@santiment-network/ui/Button'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import { store } from '../../redux'
 import { showNotification } from '../../actions/rootActions'
-import GA from './../../utils/tracking'
+import { useTrackEvents } from './../../hooks/tracking'
 import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import { dateDifferenceInWords } from '../../utils/dates'
 import LinkWithArrow from './Link'
@@ -24,10 +24,6 @@ const onClick = evt => {
 }
 
 const onSuccess = () => {
-  GA.event({
-    category: 'User',
-    action: `User requested an email for verification`
-  })
   store.dispatch(
     showNotification({
       variant: 'success',
@@ -51,6 +47,7 @@ const onError = error => {
 const SubscriptionForm = () => (
   <Mutation mutation={EMAIL_LOGIN_MUTATION}>
     {(loginEmail, { loading, error, data: { emailLogin } = {} }) => {
+      const [trackEvent] = useTrackEvents()
       function onSubmit (e) {
         e.stopPropagation()
         e.preventDefault()
@@ -62,7 +59,13 @@ const SubscriptionForm = () => (
         const email = e.currentTarget.email.value
 
         loginEmail({ variables: { email, subscribeToWeeklyNewsletter: true } })
-          .then(onSuccess)
+          .then(() => {
+            trackEvent({
+              category: 'User',
+              action: `User requested an email for verification`
+            })
+            onSuccess()
+          })
           .catch(onError)
       }
 

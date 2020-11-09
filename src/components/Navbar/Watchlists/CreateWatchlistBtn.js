@@ -11,7 +11,8 @@ const CreateWatchlistBtn = ({ className, watchlists }) => (
         Create watchlist
       </Button>
     }
-    watchlists={watchlists}
+    lists={watchlists}
+    type='watchlist'
   />
 )
 

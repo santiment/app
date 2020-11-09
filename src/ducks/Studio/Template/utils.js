@@ -1,7 +1,11 @@
-import { COMPARE_CONNECTOR, parseComparable } from '../url/parse'
+import {
+  METRIC_CONNECTOR,
+  getMetricByKey,
+  getProjectMetricByKey,
+  newProjectMetric
+} from '../metrics'
 import { shareComparable } from '../url/generate'
-import { Metric } from '../../dataHub/metrics'
-import { tryMapToTimeboundMetric } from '../../dataHub/timebounds'
+import { COMPARE_CONNECTOR } from '../url/utils'
 import { capitalizeStr } from '../../../utils/utils'
 import { PATHS } from '../../../paths'
 import { getSEOLinkFromIdAndTitle } from '../../../components/Insight/utils'
@@ -57,43 +61,31 @@ export const getTemplateShareLink = template => {
   return window.location.origin + prepareTemplateLink(template)
 }
 
-export function parseTemplateMetrics (templateMetrics) {
-  const { length } = templateMetrics
-  const metrics = []
-  const comparables = []
-
-  for (let i = 0; i < length; i++) {
-    const metricKey = templateMetrics[i]
-
-    if (metricKey.includes(COMPARE_CONNECTOR)) {
-      comparables.push(parseComparable(metricKey))
-    } else {
-      const metric = Metric[metricKey]
-
-      if (metric) {
-        metrics.push(metric)
-      } else {
-        const timeBoundMetric = tryMapToTimeboundMetric(metricKey)
-
-        if (timeBoundMetric) {
-          metrics.push(timeBoundMetric)
-        }
+export function parseTemplateMetrics (templateMetrics, project) {
+  return templateMetrics
+    .map(key => {
+      if (key.includes(COMPARE_CONNECTOR)) {
+        return getProjectMetricByKey(key, COMPARE_CONNECTOR)
       }
-    }
-  }
 
-  return {
-    metrics,
-    comparables
-  }
+      if (key.includes(METRIC_CONNECTOR)) {
+        return getProjectMetricByKey(key)
+      }
+
+      const metric = getMetricByKey(key)
+      return metric && newProjectMetric(project, metric)
+    })
+    .filter(Boolean)
 }
 
-export function buildTemplateMetrics ({ metrics, comparables }) {
+export function buildTemplateMetrics ({ metrics, comparables = [] }) {
   if (!metrics && !comparables) {
     return
   }
 
-  return metrics.map(getMetricKey).concat(comparables.map(shareComparable))
+  return metrics
+    .map(getMetricKey)
+    .concat(comparables.filter(Boolean).map(shareComparable))
 }
 
 export function getAvailableTemplate (templates) {
@@ -128,6 +120,9 @@ export function saveLastTemplate (template) {
   localStorage.setItem(LAST_USED_TEMPLATE, JSON.stringify(template))
 }
 
+const getTemplateMetrics = ({ metrics, project }) =>
+  parseTemplateMetrics(metrics, project).map(({ label }) => label)
+
 export const getTemplateInfo = template => {
   const assets = getTemplateAssets(template)
   const metrics = getTemplateMetrics(template)
@@ -156,15 +151,4 @@ const getTemplateAssets = ({ metrics, project: { slug, name } }) => {
   })
 
   return assets.map(slug => capitalizeStr(slug))
-}
-
-function getTemplateMetrics ({ metrics }) {
-  const { metrics: parsedMetrics, comparables } = parseTemplateMetrics(metrics)
-
-  const outputMetrics = [
-    ...parsedMetrics,
-    ...comparables.map(({ metric }) => metric)
-  ]
-
-  return outputMetrics.map(({ label }) => label)
 }

@@ -2,26 +2,22 @@ import React, { useState } from 'react'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Button from '@santiment-network/ui/Button'
 import Cookie from './Cookie'
-import GA from './../../utils/tracking'
+import { useTrackEvents } from './../../hooks/tracking'
 import styles from './CookiePopup.module.scss'
 
 const COOKIE_POLICY_ACCEPTED = 'COOKIE_POLICY_ACCEPTED'
-
-const acceptCookiePolicy = () => {
-  GA.event({
-    category: 'User',
-    action: 'Cookie policy accepted'
-  })
-  localStorage.setItem(COOKIE_POLICY_ACCEPTED, true)
-}
 
 const CookiePopup = () => {
   const [shown, setShown] = useState(
     !localStorage.getItem(COOKIE_POLICY_ACCEPTED)
   )
 
+  const [trackEvent] = useTrackEvents()
+
   function accept () {
-    acceptCookiePolicy()
+    trackEvent({ category: 'User', action: 'Cookie policy accepted' })
+    localStorage.setItem(COOKIE_POLICY_ACCEPTED, true)
+
     setShown(false)
   }
 
