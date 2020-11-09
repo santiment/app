@@ -1,7 +1,7 @@
 import { METRICS, GET_METRIC } from './metrics'
 import { AnomalyFetcher, OldAnomalyFetcher } from './anomalies'
 import { MarketSegmentFetcher } from './marketSegments'
-import { aliasTransform, extractTimeseries, normalizeInterval } from './utils'
+import { aliasTransform, normalizeInterval } from './utils'
 import { MINERS_BALANCE_QUERY } from './queries/minersBalance'
 import { HISTORICAL_BALANCE_QUERY } from './queries/historicaBalance'
 import { getMinInterval } from './queries/minInterval'
@@ -62,7 +62,7 @@ Object.assign(Fetcher, {
   },
   minersBalance: {
     query: MINERS_BALANCE_QUERY,
-    preTransform: extractTimeseries('minersBalance')
+    preTransform: aliasTransform('minersBalance')
   },
   social_active_users_telegram: {
     query: GET_SOURCE_METRIC(SOCIAL_ACTIVE_USERS_TELEGRAM),
@@ -75,12 +75,13 @@ Object.assign(Fetcher, {
 })
 
 // TODO: Remove this after moving to dynamic query aliasing instead of preTransform [@vanguard | March 4, 2020]
-const transformAliases = [
+const transformAliases = new Set([
   'gasUsed',
   'historicalBalance',
   'topHoldersPercentOfTotalSupply',
-  'ethSpentOverTime'
-]
+  'ethSpentOverTime',
+  'minersBalance'
+])
 
 export const getQuery = (metric, metricSettings) => {
   const { key, queryKey = key, withoutRoot } = metric
@@ -106,7 +107,7 @@ export const getPreTransform = ({ key, queryKey = key, metricAnomaly }) => {
     return preTransform(key)
   } else if (queryKey === 'anomalies') {
     return preTransform(metricAnomaly)
-  } else if (transformAliases.includes(queryKey)) {
+  } else if (transformAliases.has(queryKey)) {
     return preTransform(key)
   }
 
