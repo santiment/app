@@ -80,7 +80,7 @@ const Sidebar = ({ children, hiddenMetrics, noMarketSegments, ...props }) => {
 
   const TabComponent = TabToComponent[activeTab]
 
-  useEffect(() => setMetricProject(settings), [settings.slug])
+  useEffect(() => setMetricProject(settings), [settings.slug, settings.name])
 
   return (
     <aside className={styles.wrapper}>

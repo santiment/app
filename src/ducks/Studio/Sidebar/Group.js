@@ -87,7 +87,10 @@ export const GroupNodes = ({
           return null
         }
 
-        if (checkIsVisible && !checkIsVisible({ ...rest, isBeta })) {
+        if (
+          checkIsVisible &&
+          !checkIsVisible({ ...rest, ...project, isBeta })
+        ) {
           return null
         }
 
@@ -109,7 +112,10 @@ export const GroupNodes = ({
             {subitems &&
               subitems.map(subitem => {
                 const { checkIsVisible, checkIsActive } = subitem
-                if (checkIsVisible && !checkIsVisible({ ...rest, isBeta })) {
+                if (
+                  checkIsVisible &&
+                  !checkIsVisible({ ...rest, ...project, isBeta })
+                ) {
                   return null
                 }
 
