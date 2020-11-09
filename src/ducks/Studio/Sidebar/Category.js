@@ -20,7 +20,7 @@ const WidgetButton = ({ project, widget, toggleMetric }) => (
     project={project}
     metric={widget}
     label={widget.label}
-    onClick={() => toggleMetric(widget)}
+    onClick={() => toggleMetric(widget, project)}
   />
 )
 

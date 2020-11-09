@@ -113,10 +113,10 @@ export const Studio = ({
     }
   }
 
-  function toggleSelectionMetric (metric) {
+  function toggleSelectionMetric (metric, project) {
     const deducedMetric = deduceItems(
       selectedMetrics,
-      newProjectMetric(settings, metric)
+      metric.base ? metric : newProjectMetric(project, metric)
     )
     setSelectedMetrics(deducedMetric)
     return deducedMetric
@@ -150,7 +150,7 @@ export const Studio = ({
     }))
   }
 
-  function onSidebarItemClick (item) {
+  function onSidebarItemClick (item, project) {
     const { type, key } = item
     let appliedMetrics
     let appliedWidgets
@@ -187,7 +187,7 @@ export const Studio = ({
         ])
       }
     } else {
-      appliedMetrics = toggleSelectionMetric(item)
+      appliedMetrics = toggleSelectionMetric(item, project)
     }
 
     if (currentPhase === Phase.IDLE && PressedModifier.cmdKey) {

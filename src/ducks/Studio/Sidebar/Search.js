@@ -70,21 +70,20 @@ const Search = ({
   toggleMetric,
   onChainDefault,
   searchPredicate,
-  ...rest
-}) => {
-  return (
-    <SearchWithSuggestions
-      {...rest}
-      withMoreSuggestions={false}
-      data={getMetricSuggestions({
-        categories,
-        onChainDefault,
-        predicate: searchPredicate || predicateFunction
-      })}
-      onSuggestionSelect={({ item }) => toggleMetric(item)}
-      dontResetStateAfterSelection
-    />
-  )
-}
+  project,
+  ...props
+}) => (
+  <SearchWithSuggestions
+    {...props}
+    withMoreSuggestions={false}
+    data={getMetricSuggestions({
+      categories,
+      onChainDefault,
+      predicate: searchPredicate || predicateFunction
+    })}
+    onSuggestionSelect={({ item }) => toggleMetric(item, project)}
+    dontResetStateAfterSelection
+  />
+)
 
 export default Search
