@@ -186,12 +186,6 @@
   }
 }
 
-.askAccount {
-  @include responsive('phone', 'phone-xs') {
-    top: 16px;
-  }
-}
-
 .askTitle {
   @include text('h4', 'l');
 

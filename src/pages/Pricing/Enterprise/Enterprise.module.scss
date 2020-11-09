@@ -8,12 +8,21 @@
   display: flex;
   position: relative;
   background: var(--rhino) url("../payCryptoBg.svg") no-repeat 100%;
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    padding: 32px 24px;
+    background: var(--rhino) url("../payCryptoBg.svg") no-repeat 228px;
+  }
 }
 
 .tokensImg {
   position: absolute;
   left: 56px;
   top: 51px;
+
+  @include responsive('phone', 'phone-xs') {
+    display: none;
+  }
 }
 
 .info {
@@ -28,6 +37,10 @@
   @include text('h3', 'l');
 
   color: var(--white);
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    @include text('h4', 'l');
+  }
 }
 
 .description {

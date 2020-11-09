@@ -65,6 +65,10 @@
     &__green {
       fill: var(--jungle-green);
     }
+
+    &__grey {
+      background: var(--athens);
+    }
   }
 }
 
@@ -72,7 +76,7 @@
   padding: 16px;
 
   button,
- a {
+  a {
     margin-bottom: 0;
   }
 }
@@ -85,7 +89,8 @@
 }
 
 .name {
-  @include text('h4', 'l'); }
+  @include text('h4', 'l');
+}
 
 .description {
   color: var(--waterloo);

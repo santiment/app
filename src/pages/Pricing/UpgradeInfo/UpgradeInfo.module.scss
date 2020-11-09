@@ -7,6 +7,7 @@
 
   @include responsive('phone', 'phone-xs') {
     margin: 24px 0 48px 0;
+    padding: 24px 16px 16px 16px;
   }
 }
 
@@ -15,20 +16,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: absolute;
   width: 100%;
-  margin: auto;
-  top: 32px;
-
-  @include responsive('phone', 'phone-xs') {
-    top: 42px;
-  }
-}
-
-.askAccount {
-  @include responsive('phone', 'phone-xs') {
-    top: 16px;
-  }
 }
 
 .askTitle {
@@ -56,11 +44,20 @@
 .sign {
   color: var(--white);
   margin-bottom: 22px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-bottom: 16px;
+  }
 }
 
 .bgSvg {
   display: flex;
   height: 180px;
+  background: url('../../../assets/pro-metrics/sign-bg.svg') repeat-x bottom;
+
+  @include responsive('phone', 'phone-xs') {
+    background: var(--jungle-green);
+  }
 }
 
 .signSvg {
@@ -69,6 +66,7 @@
 
   @include responsive('tablet', 'laptop', 'phone', 'phone-xs') {
     margin: 0;
+    height: initial;
   }
 }
 
@@ -80,7 +78,14 @@
   input {
     height: 40px;
     padding-right: 235px !important;
-    padding-left: 40px !important;
+
+    @include responsive('phone', 'phone-xs') {
+      height: 48px;
+    }
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    height: 48px;
   }
 }
 
@@ -94,15 +99,14 @@
 
   @include responsive('phone', 'phone-xs') {
     width: 100% !important;
-    padding: 0 16px;
   }
 }
 
 .subscriptionCheckbox {
-  @include text('caption');
+  @include text('caption', 'm');
 
   cursor: pointer;
-  margin-top: 17px !important;
+  margin-top: 16px !important;
 }
 
 .subscriptionLabel {

@@ -50,6 +50,8 @@ const Plans = ({ id, classes = {} }) => {
 
   const isSubscriptionCanceled = subscription && subscription.cancelAtPeriodEnd
 
+  console.log('plans', plans)
+
   const showingPlans = getShowingPlans(plans, billing)
 
   if (loading) {

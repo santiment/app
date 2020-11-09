@@ -23,6 +23,15 @@
       align-items: baseline;
       width: 100%;
     }
+
+    input {
+      padding-left: 40px;
+
+      @include responsive('phone-xs', 'phone') {
+        height: 48px !important;
+        padding-left: 44px;
+      }
+    }
   }
 
   &__input {
@@ -33,6 +42,10 @@
 
     svg {
       width: 16px;
+
+      @include responsive('phone-xs', 'phone') {
+        padding: 0 16px;
+      }
     }
   }
 
@@ -40,14 +53,12 @@
     position: absolute;
     right: 4px;
     top: 4px;
-    padding: 6px 23px;
+    padding: 8px 12px;
 
     @include responsive('phone-xs') {
-      margin-top: 8px;
-      width: 100%;
-      display: block;
-      position: relative;
-      right: 0;
+      width: initial;
+      height: 36px;
+      top: 6px;
     }
   }
 

@@ -4,6 +4,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 40px;
+  grid-row-gap: 24px;
   margin-top: 40px;
 
   @include responsive('tablet', 'phone', 'phone-xs') {
@@ -16,6 +17,10 @@
   padding: 40px;
   border: 1px solid var(--porcelain);
   position: relative;
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    padding: 32px 24px;
+  }
 }
 
 .title {
@@ -27,6 +32,12 @@
   margin: 16px 0 8px 0;
   max-width: 318px;
   word-break: break-word;
+
+  @include text('body-3');
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    margin-top: 8px;
+  }
 }
 
 .btn {
@@ -41,6 +52,10 @@
   position: absolute;
   right: 24px;
   top: 24px;
+
+  @include responsive('phone', 'phone-xs') {
+    display: none;
+  }
 }
 
 .feature {
@@ -50,6 +65,10 @@
   &__link {
     color: var(--rhino);
     border-bottom: 1px dashed var(--casper);
+  }
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    margin-top: 18px;
   }
 }
 

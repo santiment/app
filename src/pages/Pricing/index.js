@@ -6,6 +6,7 @@ import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
 import UpgradeInfo from './UpgradeInfo/UpgradeInfo'
 import SpeakBlocks from './SpeakBlocks/SpeakBlocks'
 import PlanDescriptions from './PlanDescriptions/PlanDescriptions'
+import { useUser } from '../../stores/user'
 import styles from './index.module.scss'
 
 const Header = () => {
@@ -31,6 +32,8 @@ const Header = () => {
 }
 
 const Page = () => {
+  const { isLoggedIn } = useUser()
+
   return (
     <DashboardLayout showResearchers={false}>
       <div className={styles.inner}>
@@ -45,7 +48,7 @@ const Page = () => {
         <SpeakBlocks />
       </div>
 
-      <UpgradeInfo />
+      {!isLoggedIn && <UpgradeInfo />}
     </DashboardLayout>
   )
 }

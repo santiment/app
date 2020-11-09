@@ -1,8 +1,8 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
-import styles from './PlanDescriptions.module.scss'
 import Features from '../../../components/Plans/Features'
 import { PlanDescriptionSvg } from '../../../components/Illustrations/PlanDescriptionSvg'
+import styles from './PlanDescriptions.module.scss'
 
 const Blocks = [
   {

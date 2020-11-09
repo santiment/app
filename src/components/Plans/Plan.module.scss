@@ -55,8 +55,7 @@
     border-radius: $border-radius;
 
     @include responsive('tablet', 'phone', 'phone-xs') {
-      font-size: 22px;
-      line-height: 30px;
+      @include text('body-1');
     }
 
     &__free {
@@ -68,7 +67,7 @@
   &__top {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
   }
 }
 
@@ -92,10 +91,6 @@
 }
 
 .details {
-  @include responsive('tablet', 'phone', 'phone-xs') {
-    display: none;
-  }
-
   &_custom {
     margin-top: 67px;
   }
@@ -103,6 +98,9 @@
 
 .price {
   margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 
   @include text('h2', 'l');
 
@@ -118,6 +116,7 @@
 .discount {
   color: var(--casper);
   margin-top: 4px;
+  text-align: center;
 
   @include text('body-2');
 }

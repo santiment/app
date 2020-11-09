@@ -101,7 +101,11 @@ const PlanDetails = ({ billing, plans, subscription }) => {
                     checkboxes.map((check, y) => (
                       <td
                         key={y}
-                        className={cx(styles.cell, styles.feature__cell)}
+                        className={cx(
+                          styles.cell,
+                          styles.feature__cell,
+                          !check && styles.feature__check__grey
+                        )}
                       >
                         {check && (
                           <MarkIcon

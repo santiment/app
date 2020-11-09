@@ -7,6 +7,10 @@
   line-height: 40px !important;
   font-weight: 600 !important;
   color: var(--rhino);
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    @include text('h4', 'l');
+  }
 }
 
 .top {
@@ -18,7 +22,7 @@
   padding: 78px 0 40px;
 
   @include responsive('phone-xs') {
-    padding: 50px 0 30px;
+    padding: 16px 0 24px;
   }
 }
 
@@ -30,6 +34,10 @@
   width: 290px;
   position: absolute;
   right: 0;
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    display: none;
+  }
 }
 
 .description {
@@ -40,6 +48,11 @@
   line-height: 26px !important;
   margin: 10px 0 0 0;
   display: flex;
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    margin-top: 8px;
+    flex-direction: column;
+  }
 }
 
 .inner {
@@ -58,7 +71,10 @@
 
   color: var(--texas-rose);
   text-align: center;
-  margin-left: 8px;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    margin-top: 8px;
+  }
 }
 
 .subtitle {
