@@ -5,7 +5,7 @@
   margin: 84px 0 76px 0;
   display: flex;
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive('laptop', 'tablet', 'phone', 'phone-xs') {
     margin: 24px 0 48px 0;
     padding: 24px 16px 16px 16px;
   }

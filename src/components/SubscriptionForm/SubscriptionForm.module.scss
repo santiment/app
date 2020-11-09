@@ -74,7 +74,7 @@
 .checkBlock {
   display: flex;
   align-items: center;
-  margin-top: 17px;
+  margin: 16px 0 0 0;
   cursor: pointer;
 
   @include text('caption');
