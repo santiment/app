@@ -217,16 +217,18 @@ export const Metric = {
     label: 'Social Volume',
     isOnlyPercentFilters: true
   },
-  // social_dominance_total: {
-  //   category: 'Social',
-  //   label: 'Social Dominance',
-  //   valueFormatter: percentValueFormatter,
-  //   serverValueFormatter: percentServerValueFormatter
-  // },
-  // sentiment_balance_total: {
-  //  label: 'Sentiment Balance Total',
-  //  category: 'Social'
-  // },
+  social_dominance_total: {
+    category: 'Social',
+    label: 'Social Dominance',
+    valueFormatter: percentValueFormatter,
+    serverValueFormatter: percentServerValueFormatter,
+    isOnlyPercentFilters: true
+  },
+  sentiment_balance_total: {
+    label: 'Sentiment Balance Total',
+    category: 'Social',
+    isOnlyPercentFilters: true
+  },
   mean_dollar_invested_age: {
     category: 'On-chain',
     label: 'Mean Dollar Invested Age',
@@ -474,8 +476,8 @@ export const metrics = [
   Metric.bitmex_perpetual_funding_rate,
   Metric.market_segments,
   Metric.social_volume_total,
-  // Metric.social_dominance_total,
-  // Metric.sentiment_balance_total,
+  Metric.social_dominance_total,
+  Metric.sentiment_balance_total,
   Metric.mean_dollar_invested_age,
   Metric.percent_of_total_supply_on_exchanges,
   // flow metrics
