@@ -42,7 +42,7 @@ const Plans = ({ id, onDialogClose, classes = {} }) => {
           className={styles.bill}
         />
       </div>
-      <div className={styles.cards}>
+      <div className={cx(styles.cards, classes.cards)}>
         {showingPlans.map(plan => (
           <Plan
             key={plan.id}
@@ -53,6 +53,9 @@ const Plans = ({ id, onDialogClose, classes = {} }) => {
             subscription={subscription}
             isSubscriptionCanceled={isSubscriptionCanceled}
             onDialogClose={onDialogClose}
+            btnProps={{
+              accent: 'orange'
+            }}
           />
         ))}
       </div>

@@ -97,16 +97,6 @@ const Confirmation = ({
 
   return (
     <div className={sharedStyles.confirmation}>
-      <div className={sharedStyles.top}>
-        Confirmation
-        <div className={styles.dai}>
-          Payment with DAI?
-          <a href='mailto:info@santiment.net' className={styles.contact}>
-            Contact us
-          </a>
-        </div>
-      </div>
-
       <div className={cx(sharedStyles.form, styles.form)}>
         <div className={styles.plan}>
           <PlansDropdown
@@ -135,10 +125,7 @@ const Confirmation = ({
               <>
                 <DiscountInput isValid={isValid} setCoupon={setCoupon} />
                 <div className={styles.hold}>
-                  <Icon
-                    className={styles.hold__icon}
-                    type='question-round-small'
-                  />
+                  <Icon className={styles.hold__icon} type='info-round' />
                   Holding 1000 SAN tokens will result in a 20% discount.
                   <a
                     href='https://santiment.net/about-santiment/how-to-buy-san/'

@@ -71,6 +71,7 @@
 .save {
   @include text('caption');
 
+  margin-top: 1px;
   color: var(--jungle-green);
 
   &_drop {
