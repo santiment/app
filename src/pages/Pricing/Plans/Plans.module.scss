@@ -10,7 +10,7 @@
     grid-template-columns: 1fr 1fr;
   }
 
-  @include responsive('phone-xs', 'phone', 'tablet') {
+  @include responsive('phone-xs', 'phone') {
     grid-template-columns: 1fr;
   }
 }

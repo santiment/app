@@ -67,7 +67,6 @@
 
     @include responsive('tablet', 'phone', 'phone-xs') {
       padding: 16px 12px;
-      max-width: 177px;
     }
   }
 
@@ -75,6 +74,10 @@
     text-align: center;
 
     @include text('body-3');
+
+    @include responsive('tablet', 'phone', 'phone-xs') {
+      min-width: 150px;
+    }
   }
 
   &__check {

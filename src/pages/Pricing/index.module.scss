@@ -21,7 +21,7 @@
   flex-direction: column;
   padding: 78px 0 40px;
 
-  @include responsive('phone-xs') {
+  @include responsive('phone-xs', 'phone', 'tablet') {
     padding: 16px 0 24px;
   }
 }
