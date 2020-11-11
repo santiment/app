@@ -44,10 +44,16 @@ export const INTERVAL_6_MONTHS = makeIntervalSelectors({
   interval: '1d'
 })
 
+export const INTERVAL_3_MONTHS = makeIntervalSelectors({
+  val: '90d',
+  label: '3M',
+  interval: '8h'
+})
+
 export const NON_DAILY_INTERVAL_SELECTORS = [
   makeIntervalSelectors({ val: '1w', label: '1W', interval: '1h' }),
   INTERVAL_30_DAYS,
-  makeIntervalSelectors({ val: '90d', label: '3M', interval: '8h' }),
+  INTERVAL_3_MONTHS,
   INTERVAL_6_MONTHS,
   makeIntervalSelectors({ val: '1y', label: '1Y', interval: '1d' }),
   makeIntervalSelectors({

@@ -19,6 +19,7 @@ import UniswapFlowBalances from '../../ducks/UniswapProtocol/UniswapFlowBalances
 import SharePage from '../../components/SharePage/SharePage'
 import FeesDistribution from '../../ducks/Studio/FeesDistribution/FeesDistribution'
 import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
+import UniMetricsChart from '../../ducks/UniswapProtocol/UniMetricsChart/UniMetricsChart'
 import externalStyles from './../StablecoinsPage/StablecoinsPage.module.scss'
 import styles from './UniswapProtocolPage.module.scss'
 
@@ -74,6 +75,10 @@ const ANCHORS = {
   [ANCHOR_NAMES.FeesDistribution]: {
     label: 'Fees Distribution',
     key: 'fees-distribution'
+  },
+  MetricsChart: {
+    label: 'UNI Price, Age Consumed, Active Addresses(24h)',
+    key: 'metrics'
   }
 }
 
@@ -200,6 +205,13 @@ const UniswapProtocolPage = ({ history }) => {
               <FeesDistribution onDisable={onDisableFeesDistribution} />
             </Block>
           )}
+
+          <Block
+            title={ANCHORS.MetricsChart.label}
+            tag={ANCHORS.MetricsChart.key}
+          >
+            <UniMetricsChart />
+          </Block>
         </div>
       </div>
     </DashboardLayout>
