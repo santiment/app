@@ -81,7 +81,7 @@ const AssetsTable = ({
 }) => {
   const [markedAsNew, setAsNewMarked] = useState()
   const [watchlists = []] = useUserWatchlists()
-  const [graphData, graphLoading] = usePriceGraph({ items })
+  const [graphData] = usePriceGraph({ items })
   const normalizedItems = normalizeGraphData(graphData, items)
 
   const hideMarkedAsNew = useCallback(() => {
