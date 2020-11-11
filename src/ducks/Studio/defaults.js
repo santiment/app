@@ -27,8 +27,6 @@ export const DEFAULT_OPTIONS = {
   isClosestDataActive: getSavedToggle('isClosestDataActive', true)
 }
 
-export const DEFAULT_METRICS = [Metric.price_usd]
-
 export const DEFAULT_METRIC_SETTINGS_MAP = new Map([
   [
     Metric.amount_in_top_holders,
