@@ -1,10 +1,11 @@
 import { useQuery } from '@apollo/react-hooks'
 import { PRICE_GRAPH_QUERY } from '../../../gql'
 
-export function usePriceGraph ({ watchlistId }) {
+export function usePriceGraph ({ items }) {
+  const slugs = items.map(item => item.slug)
   const { data = {}, loading } = useQuery(PRICE_GRAPH_QUERY, {
-    skip: !watchlistId,
-    variables: { selector: { watchlistId } }
+    skip: slugs.length === 0,
+    variables: { selector: { slugs } }
   })
 
   if (
