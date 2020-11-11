@@ -195,20 +195,6 @@ const AssetsTable = ({
           {showCollumnsToggle && (
             <AssetsToggleColumns columns={columns} onChange={toggleColumn} />
           )}
-          <Copy
-            id={typeInfo.listId}
-            trigger={
-              <div className={cx(styles.action, styles.action__withLine)}>
-                <ExplanationTooltip
-                  text='Copy assets to watchlist'
-                  offsetY={10}
-                  className={styles.action__tooltip}
-                >
-                  <Icon type='copy' />
-                </ExplanationTooltip>
-              </div>
-            }
-          />
           <ProPopupWrapper
             type={type}
             trigger={props => (
@@ -241,6 +227,20 @@ const AssetsTable = ({
               </ExplanationTooltip>
             </DownloadCSV>
           </ProPopupWrapper>
+          <Copy
+            id={typeInfo.listId}
+            trigger={
+              <div className={cx(styles.action, styles.action__withLine)}>
+                <ExplanationTooltip
+                  text='Copy assets to watchlist'
+                  offsetY={10}
+                  className={styles.action__tooltip}
+                >
+                  <Icon type='copy' />
+                </ExplanationTooltip>
+              </div>
+            }
+          />
           <SaveAs
             watchlist={watchlist}
             lists={watchlists}
