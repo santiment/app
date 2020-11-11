@@ -9,6 +9,7 @@ import PercentChanges from '../../../../components/PercentChanges'
 import { Description } from '../../../dataHub/metrics/descriptions'
 import LayoutForAsset from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
+import PriceGraph from './PriceGraph'
 import styles from './AssetsToggleColumns.module.scss'
 
 const simpleSort = (a, b) => b - a
@@ -132,6 +133,15 @@ export const COLUMNS = (preload, props = {}) => [
       </div>
     ),
     sortMethod: simpleSort
+  }),
+  constructColumn({
+    id: COLUMNS_NAMES.price_chart,
+    heading: 'Price chart, 7d',
+    maxWidth: 130,
+    minWidth: 110,
+    accessor: 'priceChart7d',
+    Cell: ({ value }) => <PriceGraph data={value} />,
+    sortable: false
   }),
   constructColumn({
     id: COLUMNS_NAMES.volume,

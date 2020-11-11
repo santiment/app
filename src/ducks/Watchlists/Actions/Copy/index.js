@@ -22,7 +22,6 @@ const WatchlistCopyPopup = ({
   setNotification
 }) => {
   const { isLoggedIn } = useUser()
-  if (!isLoggedIn) return <LoginDialogWrapper>{trigger}</LoginDialogWrapper>
 
   const [watchlists = []] = useUserWatchlists()
   const [isShown, setIsShown] = useState(false)
@@ -33,6 +32,8 @@ const WatchlistCopyPopup = ({
   const [editWatchlistState, setEditWatchlistState] = useState(
     editableWatchlists
   )
+
+  if (!isLoggedIn) return <LoginDialogWrapper>{trigger}</LoginDialogWrapper>
 
   const close = () => {
     setWatchlistsToCopy(new Set())

@@ -24,6 +24,8 @@ import { markedAsShowed } from '../../../SANCharts/SidecarExplanationTooltip'
 import { EXPLANATION_TOOLTIP_MARK } from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
 import CompareInfo from './CompareInfo/CompareInfo'
 import CompareAction from './CompareInfo/CompareAction'
+import { usePriceGraph } from '../Table/PriceGraph/hooks'
+import { normalizeGraphData } from '../Table/PriceGraph/utils'
 import { FILTERS_EXPLANATION_TOOLTIP_MARK } from '../Filter/Trigger'
 import './ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
@@ -79,6 +81,8 @@ const AssetsTable = ({
 }) => {
   const [markedAsNew, setAsNewMarked] = useState()
   const [watchlists = []] = useUserWatchlists()
+  const [graphData] = usePriceGraph({ items })
+  const normalizedItems = normalizeGraphData(graphData, items)
 
   const hideMarkedAsNew = useCallback(() => {
     setAsNewMarked(undefined)
@@ -191,20 +195,6 @@ const AssetsTable = ({
           {showCollumnsToggle && (
             <AssetsToggleColumns columns={columns} onChange={toggleColumn} />
           )}
-          <Copy
-            id={typeInfo.listId}
-            trigger={
-              <div className={cx(styles.action, styles.action__withLine)}>
-                <ExplanationTooltip
-                  text='Copy assets to watchlist'
-                  offsetY={10}
-                  className={styles.action__tooltip}
-                >
-                  <Icon type='copy' />
-                </ExplanationTooltip>
-              </div>
-            }
-          />
           <ProPopupWrapper
             type={type}
             trigger={props => (
@@ -237,6 +227,20 @@ const AssetsTable = ({
               </ExplanationTooltip>
             </DownloadCSV>
           </ProPopupWrapper>
+          <Copy
+            id={typeInfo.listId}
+            trigger={
+              <div className={cx(styles.action, styles.action__withLine)}>
+                <ExplanationTooltip
+                  text='Copy assets to watchlist'
+                  offsetY={10}
+                  className={styles.action__tooltip}
+                >
+                  <Icon type='copy' />
+                </ExplanationTooltip>
+              </div>
+            }
+          />
           <SaveAs
             watchlist={watchlist}
             lists={watchlists}
@@ -269,7 +273,7 @@ const AssetsTable = ({
         resizable={false}
         defaultSorted={[sortingColumn]}
         className={cx('-highlight', styles.assetsTable, className)}
-        data={items}
+        data={normalizedItems}
         columns={shownColumns}
         loadingText=''
         LoadingComponent={() => (
