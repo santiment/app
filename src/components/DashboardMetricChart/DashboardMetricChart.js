@@ -13,7 +13,7 @@ import SharedAxisToggle from '../../ducks/Studio/Chart/SharedAxisToggle'
 import { DesktopOnly, MobileOnly } from '../Responsive'
 import { updateTooltipSettings } from '../../ducks/dataHub/tooltipSettings'
 import { useChartColors } from '../../ducks/Chart/colors'
-import { INTERVAL_30_DAYS } from './utils'
+import { DEFAULT_INTERVAL_SELECTORS, INTERVAL_30_DAYS } from './utils'
 import DashboardChartMetrics from './DashboardChartMetrics/DashboardChartMetrics'
 import DashboardMetricChartWrapper from './DashboardMetricChartWrapper'
 import DashboardMetricSelectors from './DashboardMetricSelectors/DashboardMetricSelectors'
@@ -61,7 +61,7 @@ const DashboardMetricChart = ({
   metrics,
   metricSettingsMap,
   defaultInterval = INTERVAL_30_DAYS,
-  intervals,
+  intervals = DEFAULT_INTERVAL_SELECTORS,
   metricSelectors,
   setRootMetric,
   rootMetric,
