@@ -35,7 +35,7 @@ const Settings = ({ className, metric, ...props }) => {
         <NodeSetting metric={metric} {...props} />
       )}
       <ColorSetting metric={metric} />
-      {metric.node !== Node.AUTO_WIDTH_BAR && (
+      {metric.node !== Node.AUTO_WIDTH_BAR && !metric.indicator && (
         <IntervalSetting metric={metric} {...props} />
       )}
       {isExchangeModifiable(metric) && (
