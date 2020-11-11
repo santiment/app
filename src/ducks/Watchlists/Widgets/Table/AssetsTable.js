@@ -24,6 +24,8 @@ import { markedAsShowed } from '../../../SANCharts/SidecarExplanationTooltip'
 import { EXPLANATION_TOOLTIP_MARK } from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
 import CompareInfo from './CompareInfo/CompareInfo'
 import CompareAction from './CompareInfo/CompareAction'
+import { usePriceGraph } from '../Table/PriceGraph/hooks'
+import { normalizeGraphData } from '../Table/PriceGraph/utils'
 import { FILTERS_EXPLANATION_TOOLTIP_MARK } from '../Filter/Trigger'
 import './ProjectsTable.scss'
 import styles from './AssetsTable.module.scss'
@@ -79,6 +81,11 @@ const AssetsTable = ({
 }) => {
   const [markedAsNew, setAsNewMarked] = useState()
   const [watchlists = []] = useUserWatchlists()
+  const [graphData, graphLoading] = usePriceGraph({
+    watchlistId: +watchlist.id
+  })
+
+  const normalizedItems = normalizeGraphData(graphData, items)
 
   const hideMarkedAsNew = useCallback(() => {
     setAsNewMarked(undefined)
@@ -269,7 +276,7 @@ const AssetsTable = ({
         resizable={false}
         defaultSorted={[sortingColumn]}
         className={cx('-highlight', styles.assetsTable, className)}
-        data={items}
+        data={normalizedItems}
         columns={shownColumns}
         loadingText=''
         LoadingComponent={() => (

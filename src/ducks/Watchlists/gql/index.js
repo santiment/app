@@ -151,3 +151,22 @@ export const PROJECTS_BY_FUNCTION_QUERY = gql`
   ${generalData}
   ${project}
 `
+
+export const PRICE_GRAPH_QUERY = gql`
+  query getMetric($selector: MetricTargetSelectorInputObject) {
+    getMetric(metric: "price_usd") {
+      timeseriesDataPerSlug(
+        selector: $selector
+        from: "utc_now-7d"
+        to: "utc_now"
+        interval: "6h"
+      ) {
+        datetime
+        data {
+          slug
+          value
+        }
+      }
+    }
+  }
+`
