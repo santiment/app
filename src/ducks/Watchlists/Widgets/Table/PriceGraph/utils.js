@@ -14,11 +14,14 @@ export function normalizeGraphData (graph, items = []) {
         graphData.push({ value: tickData.value, datetime: tick.datetime })
       })
 
-      if (graphData.length > 0) {
-        PriceGraphCache.set(item.slug, graphData)
-      }
+      const realData = graphData.filter(({ value }) => value !== undefined)
 
-      return { ...item, priceChart7d: graphData }
+      if (realData.length > 0) {
+        PriceGraphCache.set(item.slug, graphData)
+        return { ...item, priceChart7d: graphData }
+      } else {
+        return { ...item, priceChart7d: null }
+      }
     }
   })
 

@@ -3,7 +3,7 @@ import { Area, AreaChart } from 'recharts'
 import Gradients from '../../WatchlistOverview/Gradients'
 
 const PriceGraph = ({ data = [] }) => {
-  if (data.length < 10) {
+  if (!data || data.length < 10) {
     return null
   }
 

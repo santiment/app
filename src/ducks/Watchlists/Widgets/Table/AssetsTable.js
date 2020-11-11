@@ -80,8 +80,9 @@ const AssetsTable = ({
   compareSettings: { comparingAssets = [], addAsset, cleanAll } = {}
 }) => {
   const [markedAsNew, setAsNewMarked] = useState()
+  const [visibleItems, setVisibleItems] = useState([])
   const [watchlists = []] = useUserWatchlists()
-  const [graphData] = usePriceGraph({ items })
+  const [graphData] = usePriceGraph({ slugs: visibleItems })
   const normalizedItems = normalizeGraphData(graphData, items)
 
   const hideMarkedAsNew = useCallback(() => {
@@ -299,7 +300,24 @@ const AssetsTable = ({
           assets: comparingAssets,
           addasset: addAsset
         })}
-      />
+      >
+        {(state, makeTable) => {
+          const startIndex = state.page * state.pageSize
+          const lastIndex = startIndex + state.pageSize
+          const visibleSlugs = state.resolvedData
+            .slice(startIndex, lastIndex)
+            .map(({ _original: { slug } }) => slug)
+
+          if (
+            visibleSlugs.length > 0 &&
+            JSON.stringify(visibleSlugs) !== JSON.stringify(visibleItems)
+          ) {
+            setVisibleItems(visibleSlugs)
+          }
+
+          return <>{makeTable()}</>
+        }}
+      </ReactTable>
     </div>
   )
 }
