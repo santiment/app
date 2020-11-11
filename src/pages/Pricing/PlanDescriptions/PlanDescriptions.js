@@ -6,8 +6,8 @@ import styles from './PlanDescriptions.module.scss'
 
 const Blocks = [
   {
-    title: 'Data Science as a Service',
-    description: 'Advanced metrics & serious backtesting potential',
+    title: 'Data Science as a Service (DSaaS)',
+    description: 'Tailored crypto analytics - from a veteran team',
     btn: (
       <Button
         variant='ghost'
@@ -25,14 +25,15 @@ const Blocks = [
       </Button>
     ),
     features: [
-      <b>All in PRO+ and:</b>,
-      <div className={styles.feature__link}>Essential API</div>,
-      <div className={styles.feature__link}>Custom Branding for Charts</div>
+      <div className={styles.feature__link}>Custom crypto dashboards</div>,
+      <div className={styles.feature__link}>Backtesting</div>,
+      <div className={styles.feature__link}>Trading models</div>,
+      <div className={styles.feature__link}>Full access to our quant lab</div>
     ]
   },
   {
     title: 'Education & Onboarding',
-    description: 'Advanced metrics & serious backtesting potential',
+    description: 'New to on-chain and fundamental data?',
     btn: (
       <Button
         variant='ghost'
@@ -50,9 +51,11 @@ const Blocks = [
       </Button>
     ),
     features: [
-      <b>All in PRO+ and:</b>,
-      <div className={styles.feature__link}>Essential API</div>,
-      <div className={styles.feature__link}>Custom Branding for Charts</div>
+      <div className={styles.feature__link}>Individual walkthroughs</div>,
+      <div className={styles.feature__link}>
+        Personalized tutorials, metric use cases and demos
+      </div>,
+      <div className={styles.feature__link}>Weekly educational calls</div>
     ]
   }
 ]
@@ -69,7 +72,7 @@ const PlanDescriptions = () => (
 
           <Features isGreen={true} data={features} classes={styles} />
 
-          {btn}
+          <div className={styles.action}>{btn}</div>
         </div>
       )
     })}

@@ -33,10 +33,41 @@ export default {
       </Button>
     ),
     features: [
-      'Access to basic alerts',
-      'Up to 10 active alerts at a time',
-      'Sanbase metrics - 2 years of historical data',
-      'Sanbase metrics - up to last 30 days of data'
+      'All Sanbase metrics - minus last 30 days',
+      'All Sanbase metrics - up to 2 years of historical data',
+      'Access to basic coin alerts',
+      'Up to 10 active coin alerts',
+      'Personalized asset watchlists',
+      'Access to Sanbase Screener (minus PRO filters)'
+    ]
+  },
+  PRO: {
+    title: 'Pro',
+    desc: 'Advanced metrics & serious backtesting potential',
+    Component: PlanActionDialog,
+    link: 'Start free trial',
+    features: [
+      <b>All in Free and:</b>,
+      'Sanbase metrics: full historical and present-day data',
+      'Access to all Sanbase alerts',
+      'Full access to Santiment Screener',
+      'Daily market insights',
+      'Exclusive weekly Pro reports',
+      'Market segment dashboards (stablecoins, defi, dexes and more)'
+    ]
+  },
+  PRO_PLUS: {
+    title: 'Pro+',
+    desc: 'Advanced metrics & serious backtesting potential',
+    Component: PlanActionDialog,
+    link: 'Start free trial',
+    features: [
+      <b>All in PRO and:</b>,
+      'Basic API',
+      'Dedicated account manager',
+      'Google Sheets / Excel plugin',
+      'Closed chat with Santiment market analysts',
+      'Tailored market reports and token analysis'
     ]
   },
   BASIC: {
@@ -50,30 +81,6 @@ export default {
       'Sanbase metrics - 2 years of historical data',
       'Sanbase metrics - up to last 7 days of data',
       'Exclusive market reports'
-    ]
-  },
-  PRO: {
-    title: 'Pro',
-    desc: 'Advanced metrics & serious backtesting potential',
-    Component: PlanActionDialog,
-    link: 'Start free trial',
-    features: [
-      'Access to all alert types',
-      'Unlimited active alerts',
-      'Sanbase metrics - 5 years of historical data',
-      'Sanbase metrics - including present-day data',
-      'Exclusive market reports',
-      <span>
-        Bonus: Full access in{' '}
-        <a
-          className={styles.featureLink}
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://sheets.santiment.net/'
-        >
-          Sansheets
-        </a>
-      </span>
     ]
   },
   ENTERPRISE: {

@@ -17,6 +17,8 @@
   padding: 40px;
   border: 1px solid var(--porcelain);
   position: relative;
+  display: flex;
+  flex-direction: column;
 
   @include responsive('tablet', 'phone', 'phone-xs') {
     padding: 32px 24px;
@@ -40,8 +42,11 @@
   }
 }
 
+.action {
+  margin-top: auto;
+}
+
 .btn {
-  margin-top: 30px;
   padding: 8px 10px;
   height: 40px;
 
@@ -74,4 +79,5 @@
 
 .features {
   padding-left: 0;
+  margin-bottom: 30px;
 }

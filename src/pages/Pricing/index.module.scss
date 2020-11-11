@@ -71,6 +71,7 @@
 
   color: var(--texas-rose);
   text-align: center;
+  margin-left: 8px;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     margin-top: 8px;
