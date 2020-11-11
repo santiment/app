@@ -77,7 +77,7 @@ const ANCHORS = {
     key: 'fees-distribution'
   },
   MetricsChart: {
-    label: 'UNI Price, Age Consumed, Active Addresses(24h)',
+    label: 'UNI Price, Age Consumed, Active Addresses (24h)',
     key: 'metrics'
   }
 }
