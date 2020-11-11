@@ -137,7 +137,8 @@ export const COLUMNS = (preload, props = {}) => [
   constructColumn({
     id: COLUMNS_NAMES.price_chart,
     heading: 'Price chart, 7d',
-    maxWidth: 120,
+    maxWidth: 130,
+    minWidth: 110,
     accessor: 'priceChart7d',
     Cell: ({ value }) => <PriceGraph data={value} />,
     sortable: false

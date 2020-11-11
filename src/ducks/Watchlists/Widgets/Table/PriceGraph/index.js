@@ -1,7 +1,6 @@
 import React from 'react'
-import { Area, AreaChart, ResponsiveContainer } from 'recharts'
+import { Area, AreaChart } from 'recharts'
 import Gradients from '../../WatchlistOverview/Gradients'
-import styles from './index.module.scss'
 
 const PriceGraph = ({ data = [] }) => {
   if (data.length < 10) {
@@ -20,21 +19,19 @@ const PriceGraph = ({ data = [] }) => {
   const color = `var(--${latestValue >= value ? 'lima' : 'persimmon'})`
 
   return (
-    <ResponsiveContainer height={35} className={styles.chart}>
-      <AreaChart data={normalizedData}>
-        <defs>
-          <Gradients />
-        </defs>
-        <Area
-          dataKey='value'
-          type='monotone'
-          strokeWidth={2}
-          stroke={color}
-          fill={`url(#total${latestValue >= value ? 'Up' : 'Down'})`}
-          isAnimationActive={false}
-        />
-      </AreaChart>
-    </ResponsiveContainer>
+    <AreaChart data={normalizedData} height={35} width={90}>
+      <defs>
+        <Gradients />
+      </defs>
+      <Area
+        dataKey='value'
+        type='monotone'
+        strokeWidth={2}
+        stroke={color}
+        fill={`url(#total${latestValue >= value ? 'Up' : 'Down'})`}
+        isAnimationActive={false}
+      />
+    </AreaChart>
   )
 }
 
