@@ -4,4 +4,12 @@ const Labels = {
   [Metric.dormant_circulation.key]: 'Dormant Circulation (365d)'
 }
 
-export const getMetricLabel = ({ key, label }) => Labels[key] || label
+export function getMetricLabel ({ key, label: metricLabel, base }, project) {
+  let label = Labels[key] || metricLabel
+
+  if (project && !base) {
+    label += ` (${project.ticker})`
+  }
+
+  return label
+}

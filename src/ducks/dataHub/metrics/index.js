@@ -12,10 +12,10 @@ import { Node } from '../../Chart/nodes'
 import { millify } from '../../../utils/formatting'
 
 export function deriveMetric (baseMetric, newMetric) {
-  const { key, queryKey = key } = baseMetric
+  const { key, queryKey = key, domainGroup = key } = baseMetric
   const { reqMeta } = newMetric
 
-  newMetric.domainGroup = key
+  newMetric.domainGroup = domainGroup
   newMetric.queryKey = queryKey
 
   if (reqMeta) {

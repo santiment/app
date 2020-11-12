@@ -74,38 +74,19 @@ function preserveExistingMetricColor (metrics, PreviousColor) {
   return [uncoloredMetrics, PreservedColor]
 }
 
-function getUnusedBaseColor (metrics, Color) {
-  const UnusedBaseColor = Object.assign({}, MetricColor)
-
-  metrics.forEach(
-    ({ key, base }) => base && Color[key] && delete UnusedBaseColor[base.key]
-  )
-
-  return UnusedBaseColor
-}
-
 export function getChartColors (metrics, PreviousColor = {}) {
   const [uncoloredMetrics, Color] = preserveExistingMetricColor(
     metrics,
     PreviousColor
   )
   const unusedColors = getUnusedColors(Object.values(Color))
-  const UnusedBaseColor = getUnusedBaseColor(metrics, Color)
 
   let freeColorIndex = 0
   const { length } = uncoloredMetrics
 
   for (let i = 0; i < length; i++) {
-    const metric = uncoloredMetrics[i]
-    const { key: metricKey, base } = metric
-    let color = MetricColor[metricKey]
-
-    if (base) {
-      color = UnusedBaseColor[base.key]
-      delete UnusedBaseColor[base.key]
-    }
-
-    Color[metricKey] = color || unusedColors[freeColorIndex++]
+    const { key: metricKey } = uncoloredMetrics[i]
+    Color[metricKey] = MetricColor[metricKey] || unusedColors[freeColorIndex++]
   }
 
   return Color

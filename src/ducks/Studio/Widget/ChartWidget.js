@@ -9,12 +9,15 @@ import {
 import StudioChart from '../Chart'
 import { dispatchWidgetMessage } from '../widgetMessage'
 import { DEFAULT_OPTIONS } from '../defaults'
-import { newProjectMetric } from '../metrics'
 import { getMetricSetting, calculateMovingAverageFromInterval } from '../utils'
+import { newProjectMetric, getMetricByKey } from '../metrics'
 import { useTimeseries } from '../timeseries/hooks'
+import { buildIndicatorMetric } from '../Chart/MetricSettings/IndicatorsSetting'
 import { useEdgeGaps, useClosestValueData } from '../../Chart/hooks'
 import { useSyncDateEffect } from '../../Chart/sync'
+import { TooltipSetting } from '../../dataHub/tooltipSettings'
 import { Metric } from '../../dataHub/metrics'
+import { getMetricLabel } from '../../dataHub/metrics/labels'
 
 const EMPTY_ARRAY = []
 
@@ -72,6 +75,25 @@ export const Chart = ({
 
   useEffect(
     () => {
+      const freeMetrics = metrics.filter(m => !m.base)
+      const oldLabels = new Array(freeMetrics.length)
+
+      freeMetrics.forEach((metric, i) => {
+        const { key, dataKey = key } = metric
+        const tooltipSetting = TooltipSetting[dataKey]
+
+        oldLabels[i] = [dataKey, tooltipSetting.label]
+        tooltipSetting.label = getMetricLabel(metric, settings)
+      })
+
+      return () =>
+        oldLabels.forEach(([key, label]) => (TooltipSetting[key].label = label))
+    },
+    [metrics, settings.ticker]
+  )
+
+  useEffect(
+    () => {
       let modified = false
       metrics.forEach(metric => {
         if (metric.base !== Metric.dev_activity) return
@@ -120,6 +142,41 @@ export const Chart = ({
     toggleWidgetMetric(widget, metric)
   }
 
+  function toggleMetricLock (metric) {
+    let newMetric
+
+    if (metric.base) {
+      newMetric = metric.indicator
+        ? buildIndicatorMetric(metric.base, metric.indicator)
+        : metric.base
+    } else if (metric.indicator) {
+      newMetric = buildIndicatorMetric(
+        newProjectMetric(settings, getMetricByKey(metric.metricKey)),
+        metric.indicator
+      )
+    } else {
+      newMetric = newProjectMetric(settings, metric)
+    }
+
+    if (metrics.includes(newMetric)) return
+
+    if (metric.indicator) {
+      toggleIndicatorMetric(metric)
+    }
+    if (newMetric.indicator) {
+      toggleIndicatorMetric(newMetric)
+    }
+
+    for (let i = 0; i < metrics.length; i++) {
+      if (metrics[i] !== metric) continue
+
+      metrics[i] = newMetric
+      widget.metrics = metrics.slice()
+
+      return rerenderWidgets()
+    }
+  }
+
   return (
     <ColorProvider widget={widget} rerenderWidgets={rerenderWidgets}>
       <StudioChart
@@ -138,6 +195,7 @@ export const Chart = ({
         isSingleWidget={isSingleWidget}
         setOptions={setOptions}
         toggleMetric={toggleMetric}
+        toggleMetricLock={toggleMetricLock}
         rerenderWidgets={rerenderWidgets}
         onDeleteChartClick={() => deleteWidget(widget)}
       />
@@ -151,14 +209,9 @@ const ChartWidget = props => (
   </Widget>
 )
 
-const BITCOIN_PRICE_METRIC = newProjectMetric(
-  { slug: 'bitcoin', ticker: 'BTC' },
-  Metric.price_usd
-)
-
 const newChartWidget = (props, widget = ChartWidget) =>
   newWidget(widget, {
-    metrics: [BITCOIN_PRICE_METRIC],
+    metrics: [Metric.price_usd],
     comparedMetrics: [],
     MetricSettingMap: new Map(),
     MetricIndicators: {},

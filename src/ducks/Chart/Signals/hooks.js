@@ -11,7 +11,8 @@ const ALERT_METRICS = new Set([
 ])
 
 const alertMetricsFilter = metric =>
-  ALERT_METRICS.has(metric) || ALERT_METRICS.has(metric.base)
+  !metric.indicator &&
+  (ALERT_METRICS.has(metric) || ALERT_METRICS.has(metric.base))
 
 export function useAlertMetrics (metrics) {
   return useMemo(() => metrics.filter(alertMetricsFilter), [metrics])

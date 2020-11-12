@@ -1,10 +1,8 @@
 import {
   METRIC_CONNECTOR,
   getMetricByKey,
-  getProjectMetricByKey,
-  newProjectMetric
+  getProjectMetricByKey
 } from '../metrics'
-import { shareComparable } from '../url/generate'
 import { COMPARE_CONNECTOR } from '../url/utils'
 import { capitalizeStr } from '../../../utils/utils'
 import { PATHS } from '../../../paths'
@@ -72,21 +70,13 @@ export function parseTemplateMetrics (templateMetrics, project) {
         return getProjectMetricByKey(key)
       }
 
-      const metric = getMetricByKey(key)
-      return metric && newProjectMetric(project, metric)
+      return getMetricByKey(key)
     })
     .filter(Boolean)
 }
 
-export function buildTemplateMetrics ({ metrics, comparables = [] }) {
-  if (!metrics && !comparables) {
-    return
-  }
-
-  return metrics
-    .map(getMetricKey)
-    .concat(comparables.filter(Boolean).map(shareComparable))
-}
+export const buildTemplateMetrics = ({ metrics }) =>
+  metrics && metrics.map(getMetricKey)
 
 export function getAvailableTemplate (templates) {
   if (!availableDefaultTemplate()) {

@@ -1,4 +1,19 @@
 @import '~@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/variables';
+
+.lock {
+  position: absolute;
+  left: -4px;
+  top: -4px;
+  width: 16px;
+  height: 16px;
+  background: $fiord;
+  border-radius: 50%;
+  fill: $white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .btn {
   @include text('body-3');
@@ -67,32 +82,11 @@
   will-change: width;
   margin: -7px -12px -6px 12px;
 
-  @include explanation('Metric Settings', 'top') {
-    margin-bottom: 8px;
-  }
-
-  &::after {
-    content: '';
-    display: none;
-    width: 0;
-    height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 6px solid $fiord;
-    position: absolute;
-    top: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  &:hover::after {
-    display: block;
-  }
-
   &__visible {
     white-space: nowrap;
     overflow: hidden;
     width: 100%;
+    display: flex;
   }
 
   &__btn {
@@ -111,9 +105,9 @@
   }
 
   &_active {
-    width: 32px;
+    width: calc(32px * var(--items, 1));
 
-    .settings__btn {
+    .settings__btn:first-child {
       fill: var(--jungle-green);
       background: var(--jungle-green-light);
 
@@ -126,7 +120,7 @@
 }
 
 .btn_settings:hover .settings {
-  width: 32px;
+  width: calc(32px * var(--items, 1));
 }
 
 @keyframes loading {

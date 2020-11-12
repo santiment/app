@@ -37,6 +37,7 @@ const Chart = ({
   ErrorMsg,
   MetricNode,
   toggleMetric,
+  toggleMetricLock,
   isICOPriceActive,
   isSingleWidget,
   isSelectingRange,
@@ -77,6 +78,15 @@ const Chart = ({
   const scale = options.isLogScale ? logScale : linearScale
 
   useEffect(onMetricHoverEnd, [metrics])
+
+  useEffect(
+    () => {
+      if (!metricSettings || metrics.includes(metricSettings)) return
+
+      setMetricSettings()
+    },
+    [metrics]
+  )
 
   function onMetricHover (metric, { currentTarget }) {
     const { parentNode } = currentTarget
@@ -137,6 +147,7 @@ const Chart = ({
             eventLoadings={eventLoadings}
             isSingleWidget={isSingleWidget}
             toggleMetric={onMetricRemove}
+            onLockClick={toggleMetricLock}
             onMetricHover={onMetricHover}
             onMetricHoverEnd={onMetricHoverEnd}
             onSettingsClick={onMetricSettingsClick}
