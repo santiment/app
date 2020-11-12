@@ -10,6 +10,7 @@ import StudioChart from '../Chart'
 import { dispatchWidgetMessage } from '../widgetMessage'
 import { DEFAULT_OPTIONS } from '../defaults'
 import { getMetricSetting, calculateMovingAverageFromInterval } from '../utils'
+import { newProjectMetric } from '../metrics'
 import { useTimeseries } from '../timeseries/hooks'
 import { useEdgeGaps, useClosestValueData } from '../../Chart/hooks'
 import { useSyncDateEffect } from '../../Chart/sync'
@@ -140,6 +141,21 @@ export const Chart = ({
     toggleWidgetMetric(widget, metric)
   }
 
+  function toggleMetricLock (metric) {
+    const newMetric = metric.base || newProjectMetric(settings, metric)
+
+    if (metrics.includes(newMetric)) return
+
+    for (let i = 0; i < metrics.length; i++) {
+      if (metrics[i] !== metric) continue
+
+      metrics[i] = newMetric
+      widget.metrics = metrics.slice()
+
+      return rerenderWidgets()
+    }
+  }
+
   return (
     <ColorProvider widget={widget} rerenderWidgets={rerenderWidgets}>
       <StudioChart
@@ -158,6 +174,7 @@ export const Chart = ({
         isSingleWidget={isSingleWidget}
         setOptions={setOptions}
         toggleMetric={toggleMetric}
+        toggleMetricLock={toggleMetricLock}
         rerenderWidgets={rerenderWidgets}
         onDeleteChartClick={() => deleteWidget(widget)}
       />

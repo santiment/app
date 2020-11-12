@@ -35,13 +35,11 @@ const normalizeConnectedWidget = ({ Widget, datesRange }) => ({
 export const normalizeWidget = ({
   Widget,
   metrics,
-  project,
   connectedWidgets,
   MetricColor,
   MetricSettingMap,
   MetricIndicators
 }) => ({
-  project,
   widget: WidgetToTypeMap.get(Widget),
   metrics: metrics.map(({ key }) => key),
   connectedWidgets: connectedWidgets

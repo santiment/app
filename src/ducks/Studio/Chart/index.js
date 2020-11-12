@@ -37,6 +37,7 @@ const Chart = ({
   ErrorMsg,
   MetricNode,
   toggleMetric,
+  toggleMetricLock,
   isICOPriceActive,
   isSingleWidget,
   isSelectingRange,
@@ -137,6 +138,7 @@ const Chart = ({
             eventLoadings={eventLoadings}
             isSingleWidget={isSingleWidget}
             toggleMetric={onMetricRemove}
+            onLockClick={toggleMetricLock}
             onMetricHover={onMetricHover}
             onMetricHoverEnd={onMetricHoverEnd}
             onSettingsClick={onMetricSettingsClick}
