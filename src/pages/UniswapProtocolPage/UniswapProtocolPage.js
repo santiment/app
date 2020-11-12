@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
 import { UNISWAP_METRIC_BOUNDARIES_QUERY, useRestrictedInfo } from './hooks'
@@ -35,29 +35,9 @@ const BALANCE_CHART_TICKS = {
 }
 
 const ANCHORS = {
-  Claimers: {
-    label: 'UNI Token Claims',
-    key: 'claimers'
-  },
-  Overview: {
-    label: 'Uniswap Protocol',
-    key: 'overview'
-  },
-  TopClaimers: {
-    label: 'Top Claimers',
-    key: 'top-claimers'
-  },
-  ClaimersWidgets: {
-    label: 'UNI Claims: Overview',
-    key: 'claimers-widgets'
-  },
   TopExchanges: {
     label: 'Top Exchanges',
     key: 'top-exchanges'
-  },
-  WhoClaimed: {
-    label: 'Who claimed UNI?',
-    key: 'who-claimed'
   },
   FlowBalances: {
     label: 'UNI Flow Balances',
@@ -70,14 +50,55 @@ const ANCHORS = {
   MetricsChart: {
     label: 'UNI Price, Age Consumed, Active Addresses (24h)',
     key: 'metrics'
+  },
+
+  TopClaimers: {
+    label: 'Top Claimers',
+    key: 'top-claimers'
+  },
+  Claimers: {
+    label: 'UNI Token Claims',
+    key: 'claimers'
+  },
+  Overview: {
+    label: 'Token Distributor',
+    key: 'token-distributor'
+  },
+  ClaimersWidgets: {
+    label: 'UNI Claims: Overview',
+    key: 'claimers-widgets'
+  },
+  WhoClaimed: {
+    label: 'Who claimed UNI?',
+    key: 'who-claimed'
   }
 }
 
-const UniswapProtocolPage = ({ history }) => {
+const ANCHORS_TREE = [
+  {
+    title: 'General',
+    list: [
+      ANCHORS.TopExchanges,
+      ANCHORS.FlowBalances,
+      ANCHORS.TopTransactions,
+      ANCHORS.MetricsChart
+    ]
+  },
+  {
+    title: 'Initial Distribution',
+    list: [
+      ANCHORS.Claimers,
+      ANCHORS.Overview,
+      ANCHORS.TopClaimers,
+      ANCHORS.ClaimersWidgets,
+      ANCHORS.WhoClaimed
+    ]
+  }
+]
+
+const UniswapProtocolPage = () => {
   const areClaimsRestricted = useRestrictedInfo(UNISWAP_METRIC_BOUNDARIES_QUERY)
   const { isPro } = useUserSubscriptionStatus()
-
-  const [anchors] = useState(ANCHORS)
 
   return (
     <DashboardLayout>
@@ -112,21 +133,42 @@ const UniswapProtocolPage = ({ history }) => {
 
       <div className={externalStyles.body}>
         <DesktopOnly>
-          <LeftPageNavigation anchors={anchors} />
+          <LeftPageNavigation anchors={ANCHORS_TREE} />
         </DesktopOnly>
 
         <div className={externalStyles.inner}>
           <Block
+            tag={ANCHORS.TopExchanges.key}
             className={cx(externalStyles.firstBlock, styles.firstBlock)}
-            tag={anchors.Claimers.key}
+          >
+            <TopExchangesTable slug='uniswap' />
+          </Block>
+          <Block
+            title='UNI Flow Balances'
+            tag={ANCHORS.FlowBalances.key}
+            isPaywalActive={!isPro}
+          >
+            <UniswapFlowBalances />
+          </Block>
+          <Block tag={ANCHORS.TopTransactions.key}>
+            <UniswapTopTransactions />
+          </Block>
+          <Block
+            title={ANCHORS.MetricsChart.label}
+            tag={ANCHORS.MetricsChart.key}
+          >
+            <UniMetricsChart />
+          </Block>
+
+          <Block
+            tag={ANCHORS.Claimers.key}
             title='UNI Token Claims'
             isPaywalActive={areClaimsRestricted}
           >
             <UniswapMetrics />
           </Block>
-
           <Block
-            tag={anchors.Overview.key}
+            tag={ANCHORS.Overview.key}
             title={'Uniswap: Token Distributor'}
             description='0x090d4613473dee047c3f2706764f49e0821d256e'
           >
@@ -147,46 +189,21 @@ const UniswapProtocolPage = ({ history }) => {
               />
             </div>
           </Block>
-
           <Block
-            tag={anchors.TopClaimers.key}
+            tag={ANCHORS.TopClaimers.key}
             isPaywalActive={areClaimsRestricted}
           >
             <TopClaimersTable />
           </Block>
           <Block
-            tag={anchors.ClaimersWidgets.key}
+            tag={ANCHORS.ClaimersWidgets.key}
             title='UNI Claims: Overview'
             isPaywalActive={areClaimsRestricted}
           >
             <ClaimersWidgets />
           </Block>
-
-          <Block tag={anchors.TopExchanges.key}>
-            <TopExchangesTable slug='uniswap' />
-          </Block>
-
-          <Block title='Who claimed UNI?' tag={anchors.WhoClaimed.key}>
+          <Block title='Who claimed UNI?' tag={ANCHORS.WhoClaimed.key}>
             <UniswapWhoClaimed />
-          </Block>
-
-          <Block
-            title='UNI Flow Balances'
-            tag={anchors.FlowBalances.key}
-            isPaywalActive={!isPro}
-          >
-            <UniswapFlowBalances />
-          </Block>
-
-          <Block tag={anchors.TopTransactions.key}>
-            <UniswapTopTransactions />
-          </Block>
-
-          <Block
-            title={ANCHORS.MetricsChart.label}
-            tag={ANCHORS.MetricsChart.key}
-          >
-            <UniMetricsChart />
           </Block>
         </div>
       </div>
