@@ -9,11 +9,11 @@ import {
   buildProjectMetricKey
 } from '../metrics'
 import ChartWidget from '../Widget/ChartWidget'
+import { TypeToWidget } from '../Widget/types'
 import {
   buildMergedMetric,
   MERGED_DIVIDER
 } from '../Widget/HolderDistributionWidget/utils'
-import { TypeToWidget } from '../Widget/types'
 import {
   Indicator,
   cacheIndicator
@@ -83,12 +83,12 @@ function parseColors (colors = {}, SharedKeyIndicator, project) {
   return Colors
 }
 
-function parseMetricSetting (MetricSetting = {}, SharedKeyIndicator, project) {
+function parseMetricSetting (MetricSetting = {}, SharedKeyIndicator) {
   const MetricSettingMap = new Map()
 
   Object.keys(MetricSetting).forEach(key => {
     MetricSettingMap.set(
-      SharedKeyIndicator[key] || parseMetric(key, project),
+      parseMetric(key, SharedKeyIndicator),
       MetricSetting[key]
     )
   })
@@ -118,15 +118,16 @@ function extractMergedMetrics (metrics) {
   return [mergedMetrics, cleanedMetricKeys]
 }
 
-function parseMetricIndicators (indicators, project) {
+function parseMetricIndicators (indicators) {
   const MetricIndicators = {}
-  const indicatorMetrics = []
   const SharedKeyIndicator = {}
 
   Object.keys(indicators || {}).forEach(metricKey => {
     const metric = checkIsProjectMetricKey(metricKey)
       ? getProjectMetricByKey(metricKey)
-      : newProjectMetric(project, getMetricByKey(metricKey))
+      : getMetricByKey(metricKey)
+
+    /* : newProjectMetric(project, getMetricByKey(metricKey)) */
 
     MetricIndicators[metric.key] = new Set(
       indicators[metricKey].map(indicatorKey => {
@@ -134,7 +135,6 @@ function parseMetricIndicators (indicators, project) {
 
         if (metric) {
           const indicatorMetric = cacheIndicator(metric, indicator)
-          indicatorMetrics.push(indicatorMetric)
           SharedKeyIndicator[`${indicatorKey}_${metricKey}`] = indicatorMetric
         }
 
@@ -143,24 +143,27 @@ function parseMetricIndicators (indicators, project) {
     )
   })
 
-  return [MetricIndicators, indicatorMetrics, SharedKeyIndicator]
+  return [MetricIndicators, SharedKeyIndicator]
 }
 
-function parseMetric (key, project) {
+function parseMetric (key, ParsedKeyMetric) {
+  const metric = ParsedKeyMetric[key]
+  if (metric) return metric
+
   if (checkIsProjectMetricKey(key)) {
     return getProjectMetricByKey(key)
   }
 
-  const holderMetric = HolderDistributionMetric[key]
-  if (holderMetric) return holderMetric
+  return getMetricByKey(key)
 
-  const metric = getMetricByKey(key)
-  return metric && newProjectMetric(project, metric)
+  /* const holderMetric = HolderDistributionMetric[key]
+   * if (holderMetric) return holderMetric
+
+   * const metric = getMetricByKey(key)
+   * return metric && newProjectMetric(project, metric) */
 }
 
 export function parseSharedWidgets (sharedWidgets, project) {
-  const parseProjectMetric = key => parseMetric(key, project)
-
   return sharedWidgets.map(
     ({
       widget,
@@ -172,20 +175,20 @@ export function parseSharedWidgets (sharedWidgets, project) {
       settings,
       indicators
     }) => {
-      const [holderMetrics, cleanedMetricKeys] = extractMergedMetrics(metrics)
-      const cleanedMetrics = cleanedMetricKeys.map(parseProjectMetric)
-      const comparedMetrics = parseSharedComparables(comparables)
       const [
         parsedMetricIndicators,
-        indicatorMetrics,
         SharedKeyIndicator
-      ] = parseMetricIndicators(indicators, project)
+      ] = parseMetricIndicators(indicators)
+      const [holderMetrics, cleanedMetricKeys] = extractMergedMetrics(metrics)
+      const cleanedMetrics = cleanedMetricKeys.map(key =>
+        parseMetric(key, SharedKeyIndicator)
+      )
+      const comparedMetrics = parseSharedComparables(comparables)
 
       const parsedMetrics = cleanedMetrics
         .filter(Boolean)
         .concat(comparedMetrics)
         .concat(holderMetrics)
-        .concat(indicatorMetrics)
 
       return TypeToWidget[widget].new({
         mergedMetrics: holderMetrics,
@@ -195,11 +198,7 @@ export function parseSharedWidgets (sharedWidgets, project) {
           ? connectedWidgets.map(parseConnectedWidget)
           : [],
         MetricColor: parseColors(colors, SharedKeyIndicator, project),
-        MetricSettingMap: parseMetricSetting(
-          settings,
-          SharedKeyIndicator,
-          project
-        ),
+        MetricSettingMap: parseMetricSetting(settings, SharedKeyIndicator),
         MetricIndicators: parsedMetricIndicators
       })
     }

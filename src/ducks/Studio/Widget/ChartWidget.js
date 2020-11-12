@@ -9,7 +9,6 @@ import {
 import StudioChart from '../Chart'
 import { dispatchWidgetMessage } from '../widgetMessage'
 import { DEFAULT_OPTIONS } from '../defaults'
-import { newProjectMetric } from '../metrics'
 import { getMetricSetting, calculateMovingAverageFromInterval } from '../utils'
 import { useTimeseries } from '../timeseries/hooks'
 import { useEdgeGaps, useClosestValueData } from '../../Chart/hooks'
@@ -68,6 +67,14 @@ export const Chart = ({
       }
     },
     [chartRef.current]
+  )
+
+  useEffect(
+    () => {
+      const freeMetrics = metrics.filter(m => !m.base)
+      console.log(freeMetrics, metrics)
+    },
+    [metrics]
   )
 
   useEffect(
@@ -151,14 +158,11 @@ const ChartWidget = props => (
   </Widget>
 )
 
-const BITCOIN_PRICE_METRIC = newProjectMetric(
-  { slug: 'bitcoin', ticker: 'BTC' },
-  Metric.price_usd
-)
+const DEFAULT_METRICS = [Metric.price_usd]
 
 const newChartWidget = (props, widget = ChartWidget) =>
   newWidget(widget, {
-    metrics: [BITCOIN_PRICE_METRIC],
+    metrics: DEFAULT_METRICS,
     comparedMetrics: [],
     MetricSettingMap: new Map(),
     MetricIndicators: {},

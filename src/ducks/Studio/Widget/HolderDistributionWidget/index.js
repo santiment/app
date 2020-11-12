@@ -35,7 +35,7 @@ const HolderDistributionWidget = ({
   isWithTabs,
   ...props
 }) => {
-  const widgetSettings = useWidgetProjectSettings(widget, settings)
+  /* const widgetSettings = useWidgetProjectSettings(widget, settings) */
   const [isOpened, setIsOpened] = useState(true)
   const MetricColor = useChartColors(widget.metrics, widget.MetricColor)
   const PressedModifier = usePressedModifier()
@@ -96,16 +96,14 @@ const HolderDistributionWidget = ({
       <Chart
         {...props}
         widget={widget}
-        settings={widgetSettings}
+        settings={settings}
         TopLeftComponent={Title}
       />
       {isOpened ? (
         <Sidepanel
           className={styles.sidepanel}
           contentClassName={styles.sidepanel__content}
-          header={
-            sidepanelHeader || `${widgetSettings.ticker} Holders Distribution`
-          }
+          header={sidepanelHeader || `${settings.ticker} Holders Distribution`}
           chartSidepane={TOP_HOLDERS_PANE}
           currentPhase={currentPhase}
           metrics={widget.metrics}

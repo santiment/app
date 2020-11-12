@@ -3,6 +3,7 @@ import Setting from './Setting'
 import { useDropdown } from './Dropdown'
 import { getMetricSetting } from '../../utils'
 import { Setting as Option } from '../../../SANCharts/ChartSettingsContextMenu'
+import { deriveMetric } from '../../../dataHub/metrics'
 import { updateTooltipSetting } from '../../../dataHub/tooltipSettings'
 import { Node } from '../../../Chart/nodes'
 
@@ -62,27 +63,21 @@ function buildIndicatorMetric (metric, indicator) {
   const cached = getMetricCache(metric)[indicator.key]
   if (cached) return cached
 
-  const { key, queryKey = key, label, reqMeta, domainGroup = key } = metric
-
-  let indicatorLabel = indicator.label
-
-  const indicatorMetric = {
-    ...metric,
-    queryKey,
+  const { key, label } = metric
+  const indicatorMetric = deriveMetric(metric, {
     indicator,
-    domainGroup,
     metricKey: key,
     node: Node.LINE,
     key: `${indicator.key}_${key}`,
-    label: `${label} ${indicatorLabel}`,
+    label: `${label} ${indicator.label}`,
     reqMeta: {
-      ...reqMeta,
       transform: {
         type: indicator.type,
         movingAverageBase: indicator.base
       }
     }
-  }
+  })
+
   updateTooltipSetting(indicatorMetric)
   return indicatorMetric
 }

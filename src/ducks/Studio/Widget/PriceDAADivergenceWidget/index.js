@@ -23,11 +23,11 @@ const Title = buildTitle('Price DAA Divergence')
 
 const PriceDAADivergenceWidget = props => {
   const { widget, settings } = props
-  const widgetSettings = useWidgetProjectSettings(widget, settings)
+  /* const widgetSettings = useWidgetProjectSettings(widget, settings) */
 
   return (
     <Widget>
-      <Chart TopLeftComponent={Title} {...props} settings={widgetSettings} />
+      <Chart TopLeftComponent={Title} {...props} settings={settings} />
     </Widget>
   )
 }

@@ -52,9 +52,7 @@ export const normalizeWidget = ({
 }) => ({
   project,
   widget: WidgetToTypeMap.get(Widget),
-  metrics: metrics
-    .map(({ key, indicator }) => !indicator && key)
-    .filter(Boolean),
+  metrics: metrics.map(({ key }) => key),
   connectedWidgets: connectedWidgets
     ? connectedWidgets.map(normalizeConnectedWidget)
     : undefined,

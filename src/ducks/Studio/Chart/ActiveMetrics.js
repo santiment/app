@@ -39,7 +39,7 @@ const MetricButton = ({
   ...rest
 }) => {
   const { key, dataKey = key, node } = metric
-  const label = getMetricLabel(metric)
+  const label = getMetricLabel(metric, settings)
 
   return (
     <Button

@@ -72,8 +72,7 @@ export function parseTemplateMetrics (templateMetrics, project) {
         return getProjectMetricByKey(key)
       }
 
-      const metric = getMetricByKey(key)
-      return metric && newProjectMetric(project, metric)
+      return getMetricByKey(key)
     })
     .filter(Boolean)
 }
