@@ -19,7 +19,7 @@ const TopPanel = ({
     <section className={cx(styles.wrapper, className)}>
       <div className={styles.row}>
         <h1 className={styles.name}>{name}</h1>
-        {isAuthor && (
+        {isAuthor && id && (
           <BaseActions
             isAuthor={isAuthor}
             name={name}

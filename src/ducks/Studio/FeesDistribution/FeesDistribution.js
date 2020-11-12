@@ -9,7 +9,6 @@ import { formIntervalSettings } from '../../SANCharts/IntervalSelector'
 import PageLoader from '../../../components/Loader/PageLoader'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import MakeProSubscriptionCard from '../../../pages/feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
-import { convertToReadableInterval, getDateFormats } from '../../../utils/dates'
 import { getTimePeriod } from '../../../pages/TrendsExplore/utils'
 import DaysSelector from './DaySelector'
 import styles from './FeesDistribution.module.scss'
@@ -47,24 +46,13 @@ const useFeeDistributions = ({ from, to }) => {
   }
 }
 
-export const FeesDistributionTitle = ({
-  setInterval,
-  interval,
-  customDate
-}) => {
-  const date = new Date(customDate)
-  const { MMMM, DD, YYYY } = getDateFormats(date)
-  const dateLabel = `${MMMM} ${DD}, ${YYYY}`
-
+export const FeesDistributionTitle = ({ setInterval }) => {
   return (
     <BlockHeader
       setInterval={setInterval}
       defaultIndex={1}
       ranges={FEE_RANGES}
       title='Fees Distribution'
-      description={`The initial launch of $UNI clogged the Ethereum network and prompted record-high transaction fees. This dashboards tracks the amount of fees spent in Ether per project for ${
-        customDate ? dateLabel : `last ${convertToReadableInterval(interval)}`
-      }.`}
     />
   )
 }
