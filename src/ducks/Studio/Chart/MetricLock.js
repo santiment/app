@@ -3,7 +3,7 @@ import ExplanationTooltip from '../../../components/ExplanationTooltip/Explanati
 import styles from './ActiveMetrics.module.scss'
 
 const LOCKED_TEXT = 'Unlock metric'
-const UNLOCKED_TEXT = 'Lock metric to project'
+const UNLOCKED_TEXT = 'Lock metric to '
 
 const LockIcon = props => (
   <svg width='16' height='17' xmlns='http://www.w3.org/2000/svg' {...props}>
@@ -25,9 +25,9 @@ const UnlockIcon = props => (
   </svg>
 )
 
-const MetricLock = ({ metric, onClick }) => {
+const MetricLock = ({ metric, project, onClick }) => {
   const isLocked = metric.base
-  const explanation = isLocked ? LOCKED_TEXT : UNLOCKED_TEXT
+  const explanation = isLocked ? LOCKED_TEXT : UNLOCKED_TEXT + project.ticker
   const Icon = isLocked ? UnlockIcon : LockIcon
 
   return (

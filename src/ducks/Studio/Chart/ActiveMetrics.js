@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
-import MetricLock from './MetircLock'
+import MetricLock from './MetricLock'
 import MetricErrorExplanation from './MetricErrorExplanation/MetricErrorExplanation'
 import MetricIcon from '../../SANCharts/MetricIcon'
 import { getMetricLabel } from '../../dataHub/metrics/labels'
@@ -107,7 +107,11 @@ const MetricButton = ({
       {isWithSettings && (
         <Actions isActive={metricSettings === metric}>
           <Customization metric={metric} onClick={onSettingsClick} />
-          <MetricLock metric={metric} onClick={onLockClick} />
+          <MetricLock
+            metric={metric}
+            project={settings}
+            onClick={onLockClick}
+          />
         </Actions>
       )}
     </Button>
