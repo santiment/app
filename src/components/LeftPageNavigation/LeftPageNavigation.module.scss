@@ -35,3 +35,22 @@
   border-left: 1px solid var(--jungle-green);
   color: var(--jungle-green) !important;
 }
+
+.title {
+  @include text('caption', 'l');
+
+  border-left: 1px solid var(--porcelain);
+  padding: 20px 0 8px 16px;
+  color: var(--waterloo);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+
+  &:first-child {
+    .title {
+      padding-top: 4px;
+    }
+  }
+}

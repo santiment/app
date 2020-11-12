@@ -10,14 +10,15 @@ const extractFirst = (list, hash) => {
   return list.find(({ key }) => key === matchAnchor) || list[0]
 }
 
-const LeftPageNavigation = ({
-  anchors,
-  className,
-  location: { hash },
-  history
-}) => {
+const LeftPageNavigation = ({ anchors, location: { hash }, history }) => {
   const list = useMemo(
     () => {
+      if (Array.isArray(anchors)) {
+        return anchors.reduce((acc, val) => {
+          return [...acc, ...val.list]
+        }, [])
+      }
+
       return Object.values(anchors)
     },
     [anchors]
@@ -53,22 +54,44 @@ const LeftPageNavigation = ({
   })
 
   return (
-    <div className={cx(styles.container, className)}>
-      {list.map(item => {
-        const { key, label } = item
+    <div className={styles.container}>
+      {Array.isArray(anchors) ? (
+        <>
+          {anchors.map(({ title, list }) => {
+            return (
+              <div key={title} className={styles.list}>
+                <div className={styles.title}>{title}</div>
 
-        return (
-          <Link
-            key={key}
-            to={`#${key}`}
-            onClick={() => setActive(item)}
-            className={cx(styles.item, key === active.key && styles.active)}
-          >
-            {label}
-          </Link>
-        )
-      })}
+                <RenderList list={list} setActive={setActive} active={active} />
+              </div>
+            )
+          })}
+        </>
+      ) : (
+        <RenderList list={list} setActive={setActive} active={active} />
+      )}
     </div>
+  )
+}
+
+const RenderList = ({ list, setActive, active }) => {
+  return list.map(item => (
+    <NavigationItem item={item} setActive={setActive} active={active} />
+  ))
+}
+
+const NavigationItem = ({ item, setActive, active }) => {
+  const { key, label } = item
+
+  return (
+    <Link
+      key={key}
+      to={`#${key}`}
+      onClick={() => setActive(item)}
+      className={cx(styles.item, key === active.key && styles.active)}
+    >
+      {label}
+    </Link>
   )
 }
 
