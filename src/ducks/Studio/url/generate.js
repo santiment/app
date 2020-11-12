@@ -1,17 +1,8 @@
 import { stringify } from 'query-string'
-import { COMPARE_CONNECTOR } from './utils'
 import { WidgetToTypeMap } from '../Widget/types'
 
 const keyExtractor = ({ key }) => key
 const getMetricsKeys = metrics => metrics.map(keyExtractor)
-
-export function shareComparable (Comparable) {
-  const { project, metric } = Comparable
-  const { slug, ticker } = project
-  const { key } = metric
-
-  return `${slug}${COMPARE_CONNECTOR}${ticker}${COMPARE_CONNECTOR}${key}`
-}
 
 function shareMetricSettings (MetricSettingMap) {
   const sharedMetricSettings = {}

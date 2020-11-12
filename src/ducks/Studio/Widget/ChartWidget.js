@@ -13,7 +13,9 @@ import { getMetricSetting, calculateMovingAverageFromInterval } from '../utils'
 import { useTimeseries } from '../timeseries/hooks'
 import { useEdgeGaps, useClosestValueData } from '../../Chart/hooks'
 import { useSyncDateEffect } from '../../Chart/sync'
+import { TooltipSetting } from '../../dataHub/tooltipSettings'
 import { Metric } from '../../dataHub/metrics'
+import { getMetricLabel } from '../../dataHub/metrics/labels'
 
 const EMPTY_ARRAY = []
 
@@ -72,9 +74,20 @@ export const Chart = ({
   useEffect(
     () => {
       const freeMetrics = metrics.filter(m => !m.base)
-      console.log(freeMetrics, metrics)
+      const oldLabels = new Array(freeMetrics.length)
+
+      freeMetrics.forEach((metric, i) => {
+        const { key, dataKey = key } = metric
+        const tooltipSetting = TooltipSetting[dataKey]
+
+        oldLabels[i] = [dataKey, tooltipSetting.label]
+        tooltipSetting.label = getMetricLabel(metric, settings)
+      })
+
+      return () =>
+        oldLabels.forEach(([key, label]) => (TooltipSetting[key].label = label))
     },
-    [metrics]
+    [metrics, settings.ticker]
   )
 
   useEffect(
