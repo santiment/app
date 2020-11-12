@@ -1,8 +1,7 @@
 import {
   METRIC_CONNECTOR,
   getMetricByKey,
-  getProjectMetricByKey,
-  newProjectMetric
+  getProjectMetricByKey
 } from '../metrics'
 import { COMPARE_CONNECTOR } from '../url/utils'
 import { capitalizeStr } from '../../../utils/utils'

@@ -3,7 +3,6 @@ import cx from 'classnames'
 import { checkIfWasNotMerged, buildMergedMetric } from './utils'
 import Widget from '../Widget'
 import ChartWidget, { Chart } from '../ChartWidget'
-import { useWidgetProjectSettings } from '../utils'
 import { usePhase, Phase } from '../../phases'
 import Sidepanel, { CloseButton } from '../../Chart/Sidepanel'
 import ChartActiveMetrics from '../../Chart/ActiveMetrics'
@@ -35,7 +34,6 @@ const HolderDistributionWidget = ({
   isWithTabs,
   ...props
 }) => {
-  /* const widgetSettings = useWidgetProjectSettings(widget, settings) */
   const [isOpened, setIsOpened] = useState(true)
   const MetricColor = useChartColors(widget.metrics, widget.MetricColor)
   const PressedModifier = usePressedModifier()

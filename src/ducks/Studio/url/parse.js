@@ -3,7 +3,6 @@ import { COMPARE_CONNECTOR, toArray } from './utils'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS } from '../defaults'
 import {
   checkIsProjectMetricKey,
-  newProjectMetric,
   getProjectMetricByKey,
   getMetricByKey,
   buildProjectMetricKey
