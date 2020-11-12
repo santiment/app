@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
 import { UNISWAP_METRIC_BOUNDARIES_QUERY, useRestrictedInfo } from './hooks'
@@ -17,7 +17,6 @@ import UniswapMetrics from '../../ducks/UniswapProtocol/UniswapMetrics/UniswapMe
 import UniswapWhoClaimed from '../../ducks/UniswapProtocol/UniswapPieChart/WhoClaimedPieChart'
 import UniswapFlowBalances from '../../ducks/UniswapProtocol/UniswapFlowBalances'
 import SharePage from '../../components/SharePage/SharePage'
-import FeesDistribution from '../../ducks/Studio/FeesDistribution/FeesDistribution'
 import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
 import UniMetricsChart from '../../ducks/UniswapProtocol/UniMetricsChart/UniMetricsChart'
 import externalStyles from './../StablecoinsPage/StablecoinsPage.module.scss'
@@ -33,10 +32,6 @@ const BALANCE_CHART_PADDING = {
 const BALANCE_CHART_TICKS = {
   xTicks: 6,
   yTicks: 6
-}
-
-const ANCHOR_NAMES = {
-  FeesDistribution: 'FeesDistribution'
 }
 
 const ANCHORS = {
@@ -72,10 +67,6 @@ const ANCHORS = {
     label: 'Top Token Transactions',
     key: 'top-transactions'
   },
-  [ANCHOR_NAMES.FeesDistribution]: {
-    label: 'Fees Distribution',
-    key: 'fees-distribution'
-  },
   MetricsChart: {
     label: 'UNI Price, Age Consumed, Active Addresses (24h)',
     key: 'metrics'
@@ -86,16 +77,7 @@ const UniswapProtocolPage = ({ history }) => {
   const areClaimsRestricted = useRestrictedInfo(UNISWAP_METRIC_BOUNDARIES_QUERY)
   const { isPro } = useUserSubscriptionStatus()
 
-  const [anchors, setAnchors] = useState(ANCHORS)
-
-  const onDisableFeesDistribution = useCallback(
-    () => {
-      const newAnchors = { ...anchors }
-      delete newAnchors[ANCHOR_NAMES.FeesDistribution]
-      setAnchors(newAnchors)
-    },
-    [anchors, setAnchors]
-  )
+  const [anchors] = useState(ANCHORS)
 
   return (
     <DashboardLayout>
@@ -199,12 +181,6 @@ const UniswapProtocolPage = ({ history }) => {
           <Block tag={anchors.TopTransactions.key}>
             <UniswapTopTransactions />
           </Block>
-
-          {anchors.FeesDistribution && (
-            <Block tag={anchors.FeesDistribution.key}>
-              <FeesDistribution onDisable={onDisableFeesDistribution} />
-            </Block>
-          )}
 
           <Block
             title={ANCHORS.MetricsChart.label}

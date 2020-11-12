@@ -63,14 +63,14 @@ const Trigger = ({
 }
 
 const BaseActions = ({ isAuthor, id, name, assets, watchlist, onClick }) => {
-  if (!id) {
-    return null
-  }
-
   const [isMenuOpened, setIsMenuOpened] = useState(false)
   const [isEditPopupOpened, setIsEditPopupOpened] = useState(false)
   const [watchlists = []] = useUserWatchlists()
   const [updateWatchlist, { loading }] = useUpdateWatchlist()
+
+  if (!id) {
+    return null
+  }
 
   return (
     <div onClick={onClick}>
