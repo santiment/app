@@ -88,8 +88,13 @@ export const mapToOption = item => {
   }
 }
 
-export const targetMapper = ({ value, slug, watchlist_id, currency } = {}) =>
-  slug || value || currency || watchlist_id
+export const targetMapper = ({
+  value,
+  slug,
+  address,
+  watchlist_id,
+  currency
+} = {}) => slug || value || currency || address || watchlist_id
 export const targetMapperWithName = ({ value, slug, name } = {}) =>
   name || slug || value
 
@@ -575,6 +580,12 @@ export const mapTargetObject = (target, mapper = targetMapper) => {
 
 const getSelectorPartByInfrastructure = (infrastructure, target) => {
   switch (infrastructure) {
+    case 'Own': {
+      return {
+        infrastructure: 'ETH',
+        slug: mapTargetObject(target)
+      }
+    }
     case 'BTC':
     case 'BCH':
     case 'LTC': {
@@ -845,10 +856,6 @@ export const mapFormToHBTriggerSettings = formProps => {
     signalType,
     metric: { type, metric }
   } = formProps
-  const newAsset =
-    signalType.value === METRIC_TARGET_ASSETS.value
-      ? mapHBAssetTarget({ target })
-      : undefined
 
   const newTarget = mapFormTargetToTriggerTarget(
     target,
@@ -857,6 +864,8 @@ export const mapFormToHBTriggerSettings = formProps => {
     signalType,
     ethAddress
   )
+
+  const newAsset = mapHBAssetTarget({ target })
 
   return {
     type,
@@ -1311,13 +1320,10 @@ export const getCheckingMetric = settings => {
   return metric ? metric.value : type
 }
 
-export const getPreviewTarget = ({
-  selector,
-  asset,
-  target,
-  targetWatchlist
-}) => {
-  const item = mapTargetObject(selector || asset || target || targetWatchlist)
+export const getPreviewTarget = settings => {
+  const { selector, asset, target, targetWatchlist } = settings
+
+  const item = mapTargetObject(selector || target || asset || targetWatchlist)
 
   if (Array.isArray(item)) {
     return item.length === 1 ? item[0] : false
@@ -1336,28 +1342,27 @@ export const couldShowChart = (
     selector
   } = settings
 
+  const checking = getCheckingMetric(settings)
+
   if (!getPreviewTarget(settings)) {
     return false
   }
 
-  const isArray = Array.isArray(target)
-
-  const checking = getCheckingMetric(settings)
-
   switch (checking) {
     case METRIC_TYPES.WALLET_MOVEMENT:
     case ETH_WALLET: {
-      if (selector) {
-        return (selector.currency || selector.slug) && selector.infrastructure
-      }
-
-      return Array.isArray(ethAddress) ? ethAddress.length === 1 : !!ethAddress
+      const checkedSelector = selector
+        ? (selector.currency || selector.slug) && selector.infrastructure
+        : true
+      return checkedSelector && Array.isArray(ethAddress)
+        ? ethAddress.length === 1
+        : !!ethAddress
     }
     case TRENDING_WORDS: {
       return true
     }
     default: {
-      if (!isArray && !targetMapper(target)) {
+      if (!Array.isArray(target) && !targetMapper(target)) {
         return false
       }
 

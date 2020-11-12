@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import {
@@ -7,10 +7,11 @@ import {
   priceMetricBuilder
 } from './utils'
 import { useProjects } from '../Studio/Compare/withProjects'
+import addressDetect from 'cryptocurrency-address-detector'
 
 export const WALLET_ASSETS_QUERY = gql`
-  query assetsHeldByAddress($address: String!) {
-    assetsHeldByAddress(address: $address) {
+  query assetsHeldByAddress($selector: AddressSelectorInputObject!) {
+    assetsHeldByAddress(selector: $selector) {
       slug
       balance
     }
@@ -19,29 +20,40 @@ export const WALLET_ASSETS_QUERY = gql`
 
 const DEFAULT_STATE = []
 
-export function getWalletMetrics (allProjects, walletAssets, priceAssets) {
+export function getWalletMetrics (
+  allProjects,
+  walletAssets,
+  priceAssets,
+  address
+) {
   const walletMetrics =
     allProjects.length > 0
-      ? walletAssets.map(item => walletMetricBuilder(item, allProjects))
+      ? walletAssets.map(item =>
+        walletMetricBuilder(item, allProjects, address)
+      )
       : []
   const priceMetrics = priceAssets.map(priceMetricBuilder)
   return walletMetrics.concat(priceMetrics)
 }
 
-export const useWalletMetrics = (walletAssets, priceAssets) => {
+export const useWalletMetrics = (walletAssets, priceAssets, infrastructure) => {
   const [allProjects] = useProjects()
 
   return useMemo(
-    () => getWalletMetrics(allProjects, walletAssets, priceAssets),
-    [walletAssets, priceAssets, allProjects]
+    () =>
+      getWalletMetrics(allProjects, walletAssets, priceAssets, infrastructure),
+    [walletAssets, priceAssets, allProjects, infrastructure]
   )
 }
 
-export function useWalletAssets (address) {
+export function useWalletAssets ({ address, infrastructure, skip }) {
   const { data, loading, error } = useQuery(WALLET_ASSETS_QUERY, {
-    skip: !address,
+    skip: skip || !address,
     variables: {
-      address
+      selector: {
+        address,
+        infrastructure
+      }
     }
   })
 
@@ -51,6 +63,32 @@ export function useWalletAssets (address) {
     isLoading: loading,
     isError: error
   }
+}
+
+export const useInfrastructureDetector = address => {
+  const [infrastructure, setInfrastructure] = useState()
+
+  useEffect(
+    () => {
+      const abort = new AbortController()
+      const detected = addressDetect(address, { signal: abort })
+
+      detected.then(result => {
+        if (result === 'BTC/BCH') {
+          return setInfrastructure('BTC')
+        }
+
+        setInfrastructure(result)
+      })
+
+      return () => {
+        abort.abort()
+      }
+    },
+    [address]
+  )
+
+  return infrastructure
 }
 
 export function useSettings (defaultSettings) {
