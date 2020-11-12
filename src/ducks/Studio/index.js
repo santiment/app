@@ -116,9 +116,11 @@ export const Studio = ({
   function toggleSelectionMetric (metric, project) {
     const deducedMetric = deduceItems(
       selectedMetrics,
-      project.slug === settings.slug || metric.base
+      !project || metric.base
         ? metric
-        : newProjectMetric(project, metric)
+        : project.slug === settings.slug
+          ? metric
+          : newProjectMetric(project, metric)
     )
     setSelectedMetrics(deducedMetric)
     return deducedMetric

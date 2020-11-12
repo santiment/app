@@ -126,8 +126,6 @@ function parseMetricIndicators (indicators) {
       ? getProjectMetricByKey(metricKey)
       : getMetricByKey(metricKey)
 
-    /* : newProjectMetric(project, getMetricByKey(metricKey)) */
-
     MetricIndicators[metric.key] = new Set(
       indicators[metricKey].map(indicatorKey => {
         const indicator = Indicator[indicatorKey]
@@ -154,12 +152,6 @@ function parseMetric (key, ParsedKeyMetric) {
   }
 
   return getMetricByKey(key)
-
-  /* const holderMetric = HolderDistributionMetric[key]
-   * if (holderMetric) return holderMetric
-
-   * const metric = getMetricByKey(key)
-   * return metric && newProjectMetric(project, metric) */
 }
 
 export function parseSharedWidgets (sharedWidgets, project) {

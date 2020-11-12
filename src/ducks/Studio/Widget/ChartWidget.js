@@ -202,11 +202,9 @@ const ChartWidget = props => (
   </Widget>
 )
 
-const DEFAULT_METRICS = [Metric.price_usd]
-
 const newChartWidget = (props, widget = ChartWidget) =>
   newWidget(widget, {
-    metrics: DEFAULT_METRICS,
+    metrics: [Metric.price_usd],
     comparedMetrics: [],
     MetricSettingMap: new Map(),
     MetricIndicators: {},
