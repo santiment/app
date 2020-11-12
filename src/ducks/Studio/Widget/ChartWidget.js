@@ -10,8 +10,9 @@ import StudioChart from '../Chart'
 import { dispatchWidgetMessage } from '../widgetMessage'
 import { DEFAULT_OPTIONS } from '../defaults'
 import { getMetricSetting, calculateMovingAverageFromInterval } from '../utils'
-import { newProjectMetric } from '../metrics'
+import { newProjectMetric, getMetricByKey } from '../metrics'
 import { useTimeseries } from '../timeseries/hooks'
+import { buildIndicatorMetric } from '../Chart/MetricSettings/IndicatorsSetting'
 import { useEdgeGaps, useClosestValueData } from '../../Chart/hooks'
 import { useSyncDateEffect } from '../../Chart/sync'
 import { TooltipSetting } from '../../dataHub/tooltipSettings'
@@ -142,7 +143,20 @@ export const Chart = ({
   }
 
   function toggleMetricLock (metric) {
-    const newMetric = metric.base || newProjectMetric(settings, metric)
+    let newMetric
+
+    if (metric.base) {
+      newMetric = metric.indicator
+        ? buildIndicatorMetric(metric.base, metric.indicator)
+        : metric.base
+    } else if (metric.indicator) {
+      newMetric = buildIndicatorMetric(
+        newProjectMetric(settings, getMetricByKey(metric.metricKey)),
+        metric.indicator
+      )
+    } else {
+      newMetric = newProjectMetric(settings, metric)
+    }
 
     if (metrics.includes(newMetric)) return
 

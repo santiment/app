@@ -59,7 +59,7 @@ function removeCachedIndicator (metric, indicator) {
   return indicatorMetric
 }
 
-function buildIndicatorMetric (metric, indicator) {
+export function buildIndicatorMetric (metric, indicator) {
   const cached = getMetricCache(metric)[indicator.key]
   if (cached) return cached
 
