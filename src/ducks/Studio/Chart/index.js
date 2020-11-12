@@ -79,6 +79,15 @@ const Chart = ({
 
   useEffect(onMetricHoverEnd, [metrics])
 
+  useEffect(
+    () => {
+      if (!metricSettings || metrics.includes(metricSettings)) return
+
+      setMetricSettings()
+    },
+    [metrics]
+  )
+
   function onMetricHover (metric, { currentTarget }) {
     const { parentNode } = currentTarget
     // HACK: For some reason, fast pointer movement can trigger 'mouseenter' but not 'mouseleave'
