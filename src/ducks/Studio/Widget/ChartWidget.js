@@ -160,6 +160,13 @@ export const Chart = ({
 
     if (metrics.includes(newMetric)) return
 
+    if (metric.indicator) {
+      toggleIndicatorMetric(metric)
+    }
+    if (newMetric.indicator) {
+      toggleIndicatorMetric(newMetric)
+    }
+
     for (let i = 0; i < metrics.length; i++) {
       if (metrics[i] !== metric) continue
 
