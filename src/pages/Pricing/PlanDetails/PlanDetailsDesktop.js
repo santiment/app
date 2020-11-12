@@ -65,8 +65,11 @@ const PlanDetailsDesktop = ({
                 {row.group.name}
               </td>
 
-              {all.map(() => (
-                <td className={cx(styles.cell, styles.noRightBorder)} />
+              {all.map((item, index) => (
+                <td
+                  key={index}
+                  className={cx(styles.cell, styles.noRightBorder)}
+                />
               ))}
             </tr>
             {row.data.map(({ name, checks, texts }) => {

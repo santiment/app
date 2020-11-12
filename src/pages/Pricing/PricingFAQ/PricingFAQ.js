@@ -5,19 +5,58 @@ import ExpansionItem from '../../../components/ExpansionItem/ExpansionItem'
 
 const QUESTIONS = [
   {
-    title: 'Viverra ornare adipiscing nibh amet augue',
+    title: 'Is there a free trial?',
     descr:
-      'Aliquam, scelerisque adipiscing posuere eu ultrices hendrerit pellentesque feugiat. Volutpat accumsan, in posuere venenatis tellus in. Nisl augue arcu, elementum gravida aliquet lacus blandit donec ullamcorper. Aliquam justo faucibus lorem massa arcu. Accumsan mattis pretium molestie nisi, sed. Ac et, enim, ultrices convallis non. In ultrices vulputate nunc, quis amet, nibh nunc cras sit. Viverra ornare adipiscing nibh amet augue odio felis. Ultrices interdum nunc ornare aenean euismod.'
+      'Yes! You can try all the paywalled features of our platform for a full week, right after your first login. There is no additional information needed for the trial and it will cancel automatically when it runs out.'
   },
   {
-    title: 'Viverra ornare adipiscing nibh amet augue',
+    title: 'Can I cancel my paid subscription at any time?',
     descr:
-      'Aliquam, scelerisque adipiscing posuere eu ultrices hendrerit pellentesque feugiat. Volutpat accumsan, in posuere venenatis tellus in. Nisl augue arcu, elementum gravida aliquet lacus blandit donec ullamcorper. Aliquam justo faucibus lorem massa arcu. Accumsan mattis pretium molestie nisi, sed. Ac et, enim, ultrices convallis non. In ultrices vulputate nunc, quis amet, nibh nunc cras sit. Viverra ornare adipiscing nibh amet augue odio felis. Ultrices interdum nunc ornare aenean euismod.'
+      'Yes! A subscription can either be paid for a month or a year in advance. During this time period, you can cancel your subscription at any point. This will let you use your Pro status for the rest of your billing period without any changes.'
   },
   {
-    title: 'Viverra ornare adipiscing nibh amet augue',
+    title: 'Is it possible to combine different discounts?',
     descr:
-      'Aliquam, scelerisque adipiscing posuere eu ultrices hendrerit pellentesque feugiat. Volutpat accumsan, in posuere venenatis tellus in. Nisl augue arcu, elementum gravida aliquet lacus blandit donec ullamcorper. Aliquam justo faucibus lorem massa arcu. Accumsan mattis pretium molestie nisi, sed. Ac et, enim, ultrices convallis non. In ultrices vulputate nunc, quis amet, nibh nunc cras sit. Viverra ornare adipiscing nibh amet augue odio felis. Ultrices interdum nunc ornare aenean euismod.'
+      'It is not possible to combine different discounts at this point in time. Please note that most discount codes we share are valid for a single billing cycle (one month or one year respectively), while the discount for holding over a thousand SAN token is valid for as long as the tokens are held.'
+  },
+  {
+    title: 'Can I pay in crypto?',
+    descr: (
+      <>
+        Yes! You can pay in ETH, BTC or any established Ethereum-based
+        stablecoin. There are other options too, involving our SAN token. You
+        can find more information here:{' '}
+        <a
+          href='https://academy.santiment.net/products-and-plans/how-to-pay-with-crypto/'
+          className={styles.link}
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          pay with crypto
+        </a>
+      </>
+    )
+  },
+  {
+    title: "My question wasn't listed here, help!",
+    descr: (
+      <>
+        Our Santiment Academy at https://academy.santiment.net/ is aimed to
+        answer many of your initial questions. But please do not hesitate to
+        contact us, either! You should see a chat icon in the lower right corner
+        of this screen. Click it and you'll have the chance to chat with one of
+        us right away. Both our team and our community are available on Discord,
+        too:{' '}
+        <a
+          href='https://santiment.net/discord'
+          className={styles.link}
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          https://santiment.net/discord
+        </a>
+      </>
+    )
   }
 ]
 
