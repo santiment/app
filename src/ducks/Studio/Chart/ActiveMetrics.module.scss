@@ -1,4 +1,19 @@
 @import '~@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/variables';
+
+.lock {
+  position: absolute;
+  left: -4px;
+  top: -4px;
+  width: 16px;
+  height: 16px;
+  background: $fiord;
+  border-radius: 50%;
+  fill: $white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .btn {
   @include text('body-3');
