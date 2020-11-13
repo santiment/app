@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet'
 import qs from 'query-string'
 import { getOrigin } from '../../utils/utils'
 import { useComparingAssets } from './Screener'
-import Panel from '@santiment-network/ui/Panel/Panel'
 import PageLoader from '../../components/Loader/PageLoader'
 import { upperCaseFirstLetter } from '../../utils/formatting'
 import GetAssets from '../../ducks/Watchlists/Widgets/Table/GetAssets'
@@ -11,29 +10,22 @@ import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel/Watchlist'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table/AssetsTable'
 import { getHelmetTags, getWatchlistName } from '../../ducks/Watchlists/utils'
 import AssetsTemplates from '../../ducks/Watchlists/Widgets/Table/AssetsTemplates'
-import { RANGES } from '../../ducks/Watchlists/Widgets/WatchlistOverview/constants'
 import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/columns'
-import GetWatchlistHistory from '../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistHistory/GetWatchlistHistory'
-import WatchlistAnomalies from '../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistAnomalies/WatchlistAnomalies'
+import WatchlistPriceWidget from './WatchlistPriceWidget/WatchlistPriceWidget'
 import styles from './Watchlist.module.scss'
 
 const WatchlistPage = props => {
-  const [pointer, setPointer] = useState(1)
-  const [range, setRange] = useState(RANGES[pointer])
   const [filteredItems, setFilteredItems] = useState(null)
   const [filterType, setFilterType] = useState(null)
   const [currentItems, setCurrentItems] = useState([])
   const { name } = qs.parse(props.location.search)
-  const isList = props.type === 'list'
+
+  const { type } = props
+
+  const isList = type === 'list'
   const { title, description } = getHelmetTags(isList, name)
 
-  const changeRange = () => {
-    const newPointer = pointer === RANGES.length - 1 ? 0 : pointer + 1
-    setPointer(newPointer)
-    setRange(RANGES[newPointer])
-  }
-
-  const toggleAssetsFiltering = (assets, type) => {
+  function toggleAssetsFiltering (assets, type) {
     if (type === filterType) {
       setFilterType(null)
       setFilteredItems(null)
@@ -55,7 +47,7 @@ const WatchlistPage = props => {
       </Helmet>
       <GetAssets
         {...props}
-        type={props.type}
+        type={type}
         render={Assets => {
           const title = getWatchlistName(props)
           const {
@@ -91,24 +83,14 @@ const WatchlistPage = props => {
 
               {!isLoading && items.length > 0 && (
                 <>
-                  <Panel className={styles.overviewInfo}>
-                    <GetWatchlistHistory
-                      type={props.type}
-                      range={range}
-                      changeRange={changeRange}
-                      assetsAmount={items.length}
-                      top3={items.slice(0, 3)}
-                      id={listId}
-                    />
-                    <WatchlistAnomalies
-                      trends={trendingAssets}
-                      range={range}
-                      type={filterType}
-                      assetsAmount={items.length}
-                      changeRange={changeRange}
-                      onFilterAssets={toggleAssetsFiltering}
-                    />
-                  </Panel>
+                  <WatchlistPriceWidget
+                    type={type}
+                    filterType={filterType}
+                    listId={listId}
+                    items={items}
+                    toggleAssetsFiltering={toggleAssetsFiltering}
+                    trendingAssets={trendingAssets}
+                  />
 
                   <AssetsTable
                     Assets={Assets}

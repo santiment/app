@@ -1,0 +1,21 @@
+@import '~@santiment-network/ui/mixins';
+
+.loading {
+  height: 70vh;
+}
+
+.treeMaps {
+  margin: 0 32px 0 32px;
+}
+
+.twoTrees {
+  display: flex;
+}
+
+.containerTreeMap {
+  display: flex;
+  height: 186px;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 24px;
+}

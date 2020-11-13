@@ -1,7 +1,6 @@
 import React from 'react'
-import { generateWidgetData, getRelativeMarketcapInPercents } from './utils'
+import { generateWidgetData } from './utils'
 import WatchlistHistoryTemplate from './WatchlistHistoryTemplate'
-import Stat from '../Stat'
 import styles from './WatchlistHistoryWidget.module.scss'
 
 const WatchlistHistoryWidget = ({
@@ -14,21 +13,12 @@ const WatchlistHistoryWidget = ({
   ...rest
 }) => {
   const {
-    latestMarketcap,
     marketcapFormatted,
     volumeFormatted,
     chartStats,
     volumeChanges,
     marketcapChanges
   } = generateWidgetData(historyPrice)
-
-  const top3Formatted = top3.map(
-    ({ marketcapUsd, ticker }) =>
-      `${ticker} ${getRelativeMarketcapInPercents(
-        latestMarketcap,
-        marketcapUsd
-      )}%`
-  )
 
   return (
     <>
@@ -50,8 +40,20 @@ const WatchlistHistoryWidget = ({
           {...rest}
         />
       </div>
-      {false && (
-        <div className={styles.bottom}>
+    </>
+  )
+}
+
+/*
+
+  const top3Formatted = top3.map(
+    ({ marketcapUsd, ticker }) =>
+      `${ticker} ${getRelativeMarketcapInPercents(
+        latestMarketcap,
+        marketcapUsd
+      )}%`
+  )
+* <div className={styles.bottom}>
           <Stat
             name='Assets:'
             values={[assetsAmount]}
@@ -71,9 +73,6 @@ const WatchlistHistoryWidget = ({
             className={styles.stat}
           />
         </div>
-      )}
-    </>
-  )
-}
+* */
 
 export default WatchlistHistoryWidget

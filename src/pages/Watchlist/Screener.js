@@ -2,23 +2,15 @@ import React, { useCallback, useState } from 'react'
 import {
   getWatchlistName,
   DEFAULT_SCREENER_FUNCTION,
-  useScreenerUrl,
-  useScreenerUrlUpdaters
+  useScreenerUrl
 } from '../../ducks/Watchlists/utils'
 import { getProjectsByFunction } from '../../ducks/Watchlists/gql/hooks'
 import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
 import GetAssets from '../../ducks/Watchlists/Widgets/Table/GetAssets'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table/AssetsTable'
 import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/columns'
-import { ProjectsMapWrapper } from '../../ducks/Watchlists/Widgets/VolumeChart/ProjectsTreeMap'
-import ProjectsChart from '../../ducks/Watchlists/Widgets/VolumeChart/ProjectsChart'
-import {
-  PRICE_CHANGE_RANGES,
-  SOCIAL_VOLUME_CHANGE_RANGES
-} from '../../ducks/Watchlists/Widgets/VolumeChart/utils'
 import { addOrRemove } from '../../ducks/Watchlists/Widgets/Table/CompareDialog/CompareDialog'
-import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
-import MakeProSubscriptionCard from '../feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
+import ScreenerWidgets from './Widgets/ScreenerWidgets'
 import styles from './Screener.module.scss'
 
 export const useComparingAssets = () => {
@@ -64,16 +56,8 @@ const Screener = props => {
   } = props
 
   const { widgets, setWidgets } = useScreenerUrl({ location, history })
-  const { onChangeSorter, onChangeInterval } = useScreenerUrlUpdaters(
-    widgets,
-    setWidgets
-  )
-
-  const { isPriceChartActive, isPriceTreeMap, isVolumeTreeMap } = widgets
 
   const { comparingAssets, addAsset, cleanAll } = useComparingAssets()
-
-  const { isPro } = useUserSubscriptionStatus()
 
   return (
     <div className={('page', styles.screener)}>
@@ -104,54 +88,14 @@ const Screener = props => {
                 widgets={widgets}
                 setWidgets={setWidgets}
               />
-              {isPriceTreeMap && (
-                <div className={styles.treeMaps}>
-                  <ProjectsMapWrapper
-                    className={styles.containerTreeMap}
-                    assets={assets}
-                    title='Price Changes'
-                    ranges={PRICE_CHANGE_RANGES}
-                    loading={loading}
-                    settings={widgets.priceTreeMap}
-                    onChangeInterval={value =>
-                      onChangeInterval('priceTreeMap', value)
-                    }
-                  />
-                </div>
-              )}
-              {isVolumeTreeMap && (
-                <div className={styles.treeMaps}>
-                  {isPro ? (
-                    <ProjectsMapWrapper
-                      className={styles.containerTreeMap}
-                      assets={assets}
-                      title='Social Volume Changes'
-                      ranges={SOCIAL_VOLUME_CHANGE_RANGES}
-                      loading={loading}
-                      isSocialVolume={true}
-                      settings={widgets.socialVolumeTreeMap}
-                      onChangeInterval={value =>
-                        onChangeInterval('socialVolumeTreeMap', value)
-                      }
-                    />
-                  ) : (
-                    <MakeProSubscriptionCard />
-                  )}
-                </div>
-              )}
-              {isPriceChartActive && (
-                <ProjectsChart
-                  loading={loading}
-                  assets={assets}
-                  settings={widgets.priceBarChart}
-                  onChangeInterval={value =>
-                    onChangeInterval('priceBarChart', value)
-                  }
-                  onChangeSorter={value =>
-                    onChangeSorter('priceBarChart', value)
-                  }
-                />
-              )}
+
+              <ScreenerWidgets
+                assets={assets}
+                loading={loading}
+                widgets={widgets}
+                setWidgets={setWidgets}
+              />
+
               <AssetsTable
                 Assets={{ ...Assets, isLoading: loading }}
                 items={assets}
