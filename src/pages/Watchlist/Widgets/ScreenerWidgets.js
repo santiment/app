@@ -9,9 +9,24 @@ import ProjectsChart from '../../../ducks/Watchlists/Widgets/VolumeChart/Project
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import { useScreenerUrlUpdaters } from '../../../ducks/Watchlists/utils'
 import styles from './ScreenerWidgets.module.scss'
+import WatchlistPriceWidget from '../WatchlistPriceWidget/WatchlistPriceWidget'
 
-const ScreenerWidgets = ({ widgets, loading, setWidgets, assets }) => {
-  const { isPriceChartActive, isPriceTreeMap, isVolumeTreeMap } = widgets
+const ScreenerWidgets = ({
+  widgets,
+  loading,
+  setWidgets,
+  assets,
+  trendingAssets,
+  filterType,
+  toggleAssetsFiltering,
+  listId
+}) => {
+  const {
+    isPriceChartActive,
+    isStatistic,
+    isPriceTreeMap,
+    isVolumeTreeMap
+  } = widgets
   const { priceTreeMap, socialVolumeTreeMap, priceBarChart } = widgets
 
   const { isPro } = useUserSubscriptionStatus()
@@ -63,6 +78,17 @@ const ScreenerWidgets = ({ widgets, loading, setWidgets, assets }) => {
           settings={priceBarChart}
           onChangeInterval={value => onChangeInterval('priceBarChart', value)}
           onChangeSorter={value => onChangeSorter('priceBarChart', value)}
+        />
+      )}
+
+      {isStatistic && (
+        <WatchlistPriceWidget
+          type={'Screener'}
+          listId={listId}
+          items={assets}
+          trendingAssets={trendingAssets}
+          filterType={filterType}
+          toggleAssetsFiltering={toggleAssetsFiltering}
         />
       )}
     </>

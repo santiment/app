@@ -12,11 +12,10 @@ import { getHelmetTags, getWatchlistName } from '../../ducks/Watchlists/utils'
 import AssetsTemplates from '../../ducks/Watchlists/Widgets/Table/AssetsTemplates'
 import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/columns'
 import WatchlistPriceWidget from './WatchlistPriceWidget/WatchlistPriceWidget'
+import { useAssetsAnomalyToggler } from './hooks/useAssetsAnomalyToggler'
 import styles from './Watchlist.module.scss'
 
 const WatchlistPage = props => {
-  const [filteredItems, setFilteredItems] = useState(null)
-  const [filterType, setFilterType] = useState(null)
   const [currentItems, setCurrentItems] = useState([])
   const { name } = qs.parse(props.location.search)
 
@@ -25,15 +24,12 @@ const WatchlistPage = props => {
   const isList = type === 'list'
   const { title, description } = getHelmetTags(isList, name)
 
-  function toggleAssetsFiltering (assets, type) {
-    if (type === filterType) {
-      setFilterType(null)
-      setFilteredItems(null)
-    } else {
-      setFilterType(type)
-      setFilteredItems(assets)
-    }
-  }
+  const {
+    toggleAssetsFiltering,
+    filteredItems,
+    clearFilters,
+    filterType
+  } = useAssetsAnomalyToggler()
 
   const { comparingAssets, addAsset, cleanAll } = useComparingAssets()
 
@@ -62,8 +58,7 @@ const WatchlistPage = props => {
 
           if (items !== currentItems) {
             setCurrentItems(items)
-            setFilteredItems(null)
-            setFilterType(null)
+            clearFilters()
           }
 
           return (

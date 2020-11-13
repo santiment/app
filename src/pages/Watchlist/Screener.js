@@ -11,6 +11,7 @@ import AssetsTable from '../../ducks/Watchlists/Widgets/Table/AssetsTable'
 import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/columns'
 import { addOrRemove } from '../../ducks/Watchlists/Widgets/Table/CompareDialog/CompareDialog'
 import ScreenerWidgets from './Widgets/ScreenerWidgets'
+import { useAssetsAnomalyToggler } from './hooks/useAssetsAnomalyToggler'
 import styles from './Screener.module.scss'
 
 export const useComparingAssets = () => {
@@ -43,6 +44,7 @@ const Screener = props => {
     props.watchlist.function || DEFAULT_SCREENER_FUNCTION
   )
   const [assets = [], loading] = getProjectsByFunction(screenerFunction)
+  const [currentItems, setCurrentItems] = useState([])
 
   const {
     watchlist,
@@ -52,12 +54,20 @@ const Screener = props => {
     location,
     history,
     preload,
-    type
+    type,
+    id
   } = props
 
   const { widgets, setWidgets } = useScreenerUrl({ location, history })
 
   const { comparingAssets, addAsset, cleanAll } = useComparingAssets()
+
+  const {
+    toggleAssetsFiltering,
+    filteredItems,
+    clearFilters,
+    filterType
+  } = useAssetsAnomalyToggler()
 
   return (
     <div className={('page', styles.screener)}>
@@ -67,9 +77,18 @@ const Screener = props => {
         render={Assets => {
           const title = getWatchlistName(props)
           const {
+            items,
             typeInfo: { listId },
-            isCurrentUserTheAuthor
+            isCurrentUserTheAuthor,
+            trendingAssets = []
           } = Assets
+
+          console.log('items', items)
+
+          if (items !== currentItems) {
+            setCurrentItems(items)
+            clearFilters()
+          }
 
           return (
             <>
@@ -94,11 +113,15 @@ const Screener = props => {
                 loading={loading}
                 widgets={widgets}
                 setWidgets={setWidgets}
+                trendingAssets={trendingAssets}
+                listId={id}
+                toggleAssetsFiltering={toggleAssetsFiltering}
+                filterType={filterType}
               />
 
               <AssetsTable
                 Assets={{ ...Assets, isLoading: loading }}
-                items={assets}
+                items={filteredItems || assets}
                 type='screener'
                 isAuthor={isCurrentUserTheAuthor}
                 watchlist={watchlist}
@@ -108,6 +131,7 @@ const Screener = props => {
                 preload={preload}
                 listName={title}
                 allColumns={ASSETS_TABLE_COLUMNS}
+                filterType={filterType}
                 compareSettings={{
                   comparingAssets,
                   addAsset,

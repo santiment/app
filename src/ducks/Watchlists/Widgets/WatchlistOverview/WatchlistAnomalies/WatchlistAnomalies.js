@@ -61,7 +61,9 @@ const WatchlistAnomalies = ({
               variant='flat'
               border
               className={cx(styles.button, isTrendsFilter && styles.active)}
-              onClick={() => onFilterAssets(trends, filteringTypes.TRENDS)}
+              onClick={() =>
+                onFilterAssets && onFilterAssets(trends, filteringTypes.TRENDS)
+              }
             >
               <Stat
                 name='Trending assets:'

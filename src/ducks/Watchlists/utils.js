@@ -125,6 +125,7 @@ const DEFAULT_SCREENER_URL_PARAMS = {
   isPriceChartActive: false,
   isPriceTreeMap: false,
   isVolumeTreeMap: false,
+  isStatistic: false,
   priceBarChart: {
     interval: '24h'
   },
