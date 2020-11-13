@@ -15,10 +15,11 @@ import {
   mapWithTimeseriesAndYCoord,
   getAvailableCooldown
 } from './utils'
-import PreviewLoader from './Loader'
 import VisualBacktestChart, { GetReferenceDots } from '../VisualBacktestChart'
 import { getMetricYAxisId } from '../../../SANCharts/utils'
 import { useTimeseries } from '../../../Studio/timeseries/hooks'
+import { Skeleton } from '../../../../components/Skeleton'
+import styles from './SignalPreviewChart.module.scss'
 
 const SignalPreviewChart = ({
   target,
@@ -117,7 +118,7 @@ const SignalPreviewChart = ({
   }
 
   if (loadings && loadings.length > 0) {
-    return PreviewLoader
+    return <Skeleton show={true} className={styles.skeleton} />
   }
 
   return (

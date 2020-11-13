@@ -1,14 +1,12 @@
 import React, { useEffect, useCallback, useMemo } from 'react'
-import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
-import { WALLET_ASSETS_QUERY } from '../../../../HistoricalBalance/hooks'
 import {
-  isPossibleEthAddress,
-  mapAssetsHeldByAddressToProps,
-  hasEthAddress
-} from '../../../utils/utils'
+  useInfrastructureDetector,
+  useWalletAssets
+} from '../../../../HistoricalBalance/hooks'
+import { isValidHBAddress, hasHBAddresses } from '../../../utils/utils'
 import { TriggerProjectsSelector } from './projectsSelector/TriggerProjectsSelector'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import { NOT_VALID_HB_ADDRESS } from '../../../utils/constants'
@@ -68,20 +66,44 @@ const getFromAll = (all, { value, slug }) =>
 
 const isEthAddress = data => {
   if (Array.isArray(data)) {
-    return data.every(({ value }) => isPossibleEthAddress(value))
+    return data.every(({ value }) => isValidHBAddress(value))
   } else {
-    return isPossibleEthAddress(data)
+    return isValidHBAddress(data)
   }
 }
 
+const useHeldAssets = byAddress => {
+  const address = Array.isArray(byAddress)
+    ? byAddress.length > 0
+      ? byAddress[0].value
+      : undefined
+    : byAddress
+
+  const infrastructure = useInfrastructureDetector(address)
+
+  const { walletAssets: heldAssets, isLoading } = useWalletAssets({
+    address,
+    infrastructure,
+    skip: !address
+  })
+
+  return { heldAssets, isLoading }
+}
+
 const TriggerFormHistoricalBalance = ({
-  heldAssets,
   metaFormSettings: { ethAddress: metaEthAddress, target: metaTarget },
   setFieldValue,
   values: { target, ethAddress },
-  isNewSignal
+  isNewSignal,
+  byAddress
 }) => {
+  const { heldAssets, isLoading: heldLoading } = useHeldAssets(byAddress)
   const [allProjects, loading] = useProjects()
+
+  const allLoading = useMemo(() => loading || heldLoading, [
+    loading,
+    heldLoading
+  ])
 
   const metaMappedToAll = useMemo(
     () => {
@@ -135,7 +157,7 @@ const TriggerFormHistoricalBalance = ({
   )
 
   const disabledWalletField =
-    (!hasEthAddress(ethAddress) && target.length > 1) ||
+    (!hasHBAddresses(ethAddress) && target.length > 1) ||
     (allProjects.length > 0 && !isErc20Assets(target, allProjects))
 
   const validateAddressField = useCallback(
@@ -150,7 +172,7 @@ const TriggerFormHistoricalBalance = ({
         return
       }
 
-      if (metaEthAddress && !hasEthAddress(ethAddress)) {
+      if (metaEthAddress && !hasHBAddresses(ethAddress)) {
         if (inputAssets.length === 1) {
           if (
             isInAssetsList(metaMappedToAll, inputAssets) ||
@@ -202,7 +224,7 @@ const TriggerFormHistoricalBalance = ({
 
       setFieldValue(
         'isHbAddressError',
-        showError ? !hasEthAddress(ethAddress) : false
+        showError ? !hasHBAddresses(ethAddress) : false
       )
     },
     [target, ethAddress, allProjects.length]
@@ -217,14 +239,14 @@ const TriggerFormHistoricalBalance = ({
 
   useEffect(
     () => {
-      setFieldValue('isLoading', loading)
+      setFieldValue('isLoading', allLoading)
     },
-    [loading]
+    [allLoading]
   )
 
   useEffect(
     () => {
-      if (!hasEthAddress(ethAddress)) {
+      if (!hasHBAddresses(ethAddress)) {
         if (!Array.isArray(target)) {
           setTarget([target])
         }
@@ -235,14 +257,14 @@ const TriggerFormHistoricalBalance = ({
 
   const selectableProjects = useMemo(
     () => {
-      return hasEthAddress(ethAddress) &&
+      return hasHBAddresses(ethAddress) &&
         !disabledWalletField &&
         heldAssets &&
         heldAssets.length > 0
         ? mapAssetsToAllProjects(allProjects, heldAssets)
         : allProjects
     },
-    [hasEthAddress, disabledWalletField, heldAssets, allProjects]
+    [hasHBAddresses, disabledWalletField, heldAssets, allProjects]
   )
 
   return (
@@ -270,7 +292,7 @@ const TriggerFormHistoricalBalance = ({
       <div className={styles.row}>
         <div className={cx(styles.Field, styles.fieldFilled)}>
           <TriggerProjectsSelector
-            isLoading={loading}
+            isLoading={allLoading}
             name='target'
             target={target}
             projects={selectableProjects}
@@ -283,21 +305,6 @@ const TriggerFormHistoricalBalance = ({
   )
 }
 
-const enhance = graphql(WALLET_ASSETS_QUERY, {
-  name: 'assetsByWallet',
-  props: mapAssetsHeldByAddressToProps,
-  skip: ({ byAddress }) =>
-    !byAddress || (Array.isArray(byAddress) && byAddress.length !== 1),
-  options: ({ byAddress }) => {
-    return {
-      variables: {
-        address: Array.isArray(byAddress) ? byAddress[0].value : byAddress
-      },
-      errorPolicy: 'all'
-    }
-  }
-})
-
 TriggerFormHistoricalBalance.propTypes = propTypes
 
-export default enhance(TriggerFormHistoricalBalance)
+export default TriggerFormHistoricalBalance

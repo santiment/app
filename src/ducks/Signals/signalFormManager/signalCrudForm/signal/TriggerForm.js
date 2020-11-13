@@ -160,6 +160,7 @@ export const TriggerForm = ({
         } = values
 
         const { price } = lastPriceItem || {}
+
         const mappedTrigger = mapFormPropsToTrigger(values)
 
         const showChart =
