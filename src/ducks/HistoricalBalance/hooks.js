@@ -48,7 +48,7 @@ export const useWalletMetrics = (walletAssets, priceAssets, infrastructure) => {
 
 export function useWalletAssets ({ address, infrastructure, skip }) {
   const { data, loading, error } = useQuery(WALLET_ASSETS_QUERY, {
-    skip: skip || !address,
+    skip: skip || !address || !infrastructure,
     variables: {
       selector: {
         address,
@@ -74,6 +74,10 @@ export const useInfrastructureDetector = address => {
       const detected = addressDetect(address, { signal: abort })
 
       detected.then(result => {
+        if (result === 'Cryptocurrency could not be detected') {
+          return
+        }
+
         if (result === 'BTC/BCH') {
           return setInfrastructure('BTC')
         }

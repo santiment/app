@@ -54,7 +54,7 @@ import {
   METRIC_TYPES,
   SCREENER_DEFAULT_SIGNAL
 } from './constants'
-import { capitalizeStr, isEthStrictAddress } from '../../../utils/utils'
+import { capitalizeStr } from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
 import { Metric } from '../../dataHub/metrics'
 import { useWatchlist } from '../../Watchlists/gql/hooks'
@@ -582,14 +582,16 @@ const getSelectorPartByInfrastructure = (infrastructure, target) => {
   switch (infrastructure) {
     case 'Own': {
       return {
-        infrastructure: 'ETH',
+        infrastructure: target.ticker || 'ETH',
         slug: mapTargetObject(target)
       }
     }
     case 'BTC':
     case 'BCH':
     case 'LTC': {
-      return {}
+      return {
+        slug: mapTargetObject(target)
+      }
     }
 
     case 'ETH':
@@ -1115,15 +1117,15 @@ export const metricTypesBlockErrors = values => {
   }
 
   if (metric && metric.value === ETH_WALLET) {
-    if (hasEthAddress(ethAddress)) {
+    if (hasHBAddresses(ethAddress)) {
       if (Array.isArray(ethAddress)) {
         ethAddress.forEach(({ value }) => {
-          if (!isPossibleEthAddress(value)) {
+          if (!isValidHBAddress(value)) {
             errors.ethAddress = NOT_VALID_HB_ADDRESS
           }
         })
       } else {
-        if (!isPossibleEthAddress(ethAddress)) {
+        if (!isValidHBAddress(ethAddress)) {
           errors.ethAddress = NOT_VALID_HB_ADDRESS
         }
       }
@@ -1401,8 +1403,8 @@ export const mapAssetsHeldByAddressToProps = ({
   }
 }
 
-export const isPossibleEthAddress = function (address) {
-  return !address || isEthStrictAddress(address)
+export const isValidHBAddress = address => {
+  return address === undefined || !!address
 }
 
 export const getDefaultFormValues = (newValues, { value: oldMetric }) => {
@@ -1432,7 +1434,7 @@ const NOTIFY_ME_WHEN = 'Notify me when'
 const targetsJoin = targets =>
   Array.isArray(targets) ? targets.join(', ') : targets
 
-export const hasEthAddress = ethAddress =>
+export const hasHBAddresses = ethAddress =>
   Array.isArray(ethAddress) ? ethAddress.length > 0 : !!ethAddress
 
 export const getTargetsHeader = values => {

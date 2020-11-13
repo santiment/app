@@ -6,7 +6,7 @@ import {
   useInfrastructureDetector,
   useWalletAssets
 } from '../../../../HistoricalBalance/hooks'
-import { isPossibleEthAddress, hasEthAddress } from '../../../utils/utils'
+import { isValidHBAddress, hasHBAddresses } from '../../../utils/utils'
 import { TriggerProjectsSelector } from './projectsSelector/TriggerProjectsSelector'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import { NOT_VALID_HB_ADDRESS } from '../../../utils/constants'
@@ -66,9 +66,9 @@ const getFromAll = (all, { value, slug }) =>
 
 const isEthAddress = data => {
   if (Array.isArray(data)) {
-    return data.every(({ value }) => isPossibleEthAddress(value))
+    return data.every(({ value }) => isValidHBAddress(value))
   } else {
-    return isPossibleEthAddress(data)
+    return isValidHBAddress(data)
   }
 }
 
@@ -78,14 +78,16 @@ const useHeldAssets = byAddress => {
       ? byAddress[0].value
       : undefined
     : byAddress
+
   const infrastructure = useInfrastructureDetector(address)
-  const { walletAssets: heldAssets } = useWalletAssets({
+
+  const { walletAssets: heldAssets, isLoading } = useWalletAssets({
     address,
     infrastructure,
     skip: !address
   })
 
-  return heldAssets
+  return { heldAssets, isLoading }
 }
 
 const TriggerFormHistoricalBalance = ({
@@ -95,9 +97,13 @@ const TriggerFormHistoricalBalance = ({
   isNewSignal,
   byAddress
 }) => {
-  const heldAssets = useHeldAssets(byAddress)
-
+  const { heldAssets, isLoading: heldLoading } = useHeldAssets(byAddress)
   const [allProjects, loading] = useProjects()
+
+  const allLoading = useMemo(() => loading || heldLoading, [
+    loading,
+    heldLoading
+  ])
 
   const metaMappedToAll = useMemo(
     () => {
@@ -151,7 +157,7 @@ const TriggerFormHistoricalBalance = ({
   )
 
   const disabledWalletField =
-    (!hasEthAddress(ethAddress) && target.length > 1) ||
+    (!hasHBAddresses(ethAddress) && target.length > 1) ||
     (allProjects.length > 0 && !isErc20Assets(target, allProjects))
 
   const validateAddressField = useCallback(
@@ -166,7 +172,7 @@ const TriggerFormHistoricalBalance = ({
         return
       }
 
-      if (metaEthAddress && !hasEthAddress(ethAddress)) {
+      if (metaEthAddress && !hasHBAddresses(ethAddress)) {
         if (inputAssets.length === 1) {
           if (
             isInAssetsList(metaMappedToAll, inputAssets) ||
@@ -218,7 +224,7 @@ const TriggerFormHistoricalBalance = ({
 
       setFieldValue(
         'isHbAddressError',
-        showError ? !hasEthAddress(ethAddress) : false
+        showError ? !hasHBAddresses(ethAddress) : false
       )
     },
     [target, ethAddress, allProjects.length]
@@ -233,14 +239,14 @@ const TriggerFormHistoricalBalance = ({
 
   useEffect(
     () => {
-      setFieldValue('isLoading', loading)
+      setFieldValue('isLoading', allLoading)
     },
-    [loading]
+    [allLoading]
   )
 
   useEffect(
     () => {
-      if (!hasEthAddress(ethAddress)) {
+      if (!hasHBAddresses(ethAddress)) {
         if (!Array.isArray(target)) {
           setTarget([target])
         }
@@ -251,14 +257,14 @@ const TriggerFormHistoricalBalance = ({
 
   const selectableProjects = useMemo(
     () => {
-      return hasEthAddress(ethAddress) &&
+      return hasHBAddresses(ethAddress) &&
         !disabledWalletField &&
         heldAssets &&
         heldAssets.length > 0
         ? mapAssetsToAllProjects(allProjects, heldAssets)
         : allProjects
     },
-    [hasEthAddress, disabledWalletField, heldAssets, allProjects]
+    [hasHBAddresses, disabledWalletField, heldAssets, allProjects]
   )
 
   return (
@@ -286,7 +292,7 @@ const TriggerFormHistoricalBalance = ({
       <div className={styles.row}>
         <div className={cx(styles.Field, styles.fieldFilled)}>
           <TriggerProjectsSelector
-            isLoading={loading}
+            isLoading={allLoading}
             name='target'
             target={target}
             projects={selectableProjects}
