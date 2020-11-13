@@ -20,6 +20,8 @@ export const walletMetricBuilder = metricBuilder(
       !infrastructure &&
       allProjects.find(({ slug: targetSlug }) => targetSlug === slug)
 
+    const foundInfr = found ? found.infrastructure : 'ETH'
+
     return {
       key: normalizeQueryAlias(slug),
       label: slug,
@@ -27,7 +29,7 @@ export const walletMetricBuilder = metricBuilder(
       queryKey: 'historicalBalance',
       reqMeta: {
         slug,
-        infrastructure: infrastructure || found.infrastructure || 'ETH'
+        infrastructure: infrastructure || foundInfr
       }
     }
   }
