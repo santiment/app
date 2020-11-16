@@ -5,6 +5,7 @@ import {
   PROJECT_BY_ID_QUERY,
   PROJECT_WITH_SLUG_QUERY
 } from '../ducks/Watchlists/gql/allProjectsGQL'
+import { useMemo } from 'react'
 
 export function useProjectById (id) {
   const { data, loading, error } = useQuery(PROJECT_BY_ID_QUERY, {
@@ -38,7 +39,7 @@ const prepare = ({ items, limit, sorter, key }) =>
     }))
 
 export function useProjectPriceChanges ({ key, assets, sorter, limit = 100 }) {
-  const { data, loading, error } = useQuery(ALL_PROJECTS_PRICE_CHANGES_QUERY, {
+  const query = useQuery(ALL_PROJECTS_PRICE_CHANGES_QUERY, {
     variables: {
       fn: JSON.stringify({
         args: {
@@ -49,11 +50,17 @@ export function useProjectPriceChanges ({ key, assets, sorter, limit = 100 }) {
     }
   })
 
-  const items = data ? data.allProjectsByFunction.projects : []
+  return useMemo(
+    () => {
+      const { data, loading, error } = query
+      const items = data ? data.allProjectsByFunction.projects : []
 
-  const mapped = prepare({ items, limit, sorter, key })
+      const mapped = prepare({ items, limit, sorter, key })
 
-  return [mapped, loading, error]
+      return [mapped, loading, error]
+    },
+    [query]
+  )
 }
 
 export function useProjectsSocialVolumeChanges ({
@@ -62,25 +69,25 @@ export function useProjectsSocialVolumeChanges ({
   sorter,
   limit = 100
 }) {
-  const { data, loading, error } = useQuery(
-    ALL_PROJECTS_SOCIAL_VOLUME_CHANGES_QUERY,
-    {
-      variables: {
-        fn: JSON.stringify({
-          args: {
-            slugs: assets
-          },
-          name: 'slugs'
-        })
-      }
+  const query = useQuery(ALL_PROJECTS_SOCIAL_VOLUME_CHANGES_QUERY, {
+    variables: {
+      fn: JSON.stringify({
+        args: {
+          slugs: assets
+        },
+        name: 'slugs'
+      })
     }
-  )
+  })
 
-  const items = data ? data.allProjectsByFunction.projects : []
+  return useMemo(() => {
+    const { data, loading, error } = query
+    const items = data ? data.allProjectsByFunction.projects : []
 
-  const key = `change${interval}`
+    const key = `change${interval}`
 
-  const mapped = prepare({ items, limit, sorter, key })
+    const mapped = prepare({ items, limit, sorter, key })
 
-  return [mapped, loading, error]
+    return [mapped, loading, error]
+  }, [])
 }

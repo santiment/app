@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
@@ -19,8 +19,12 @@ const WatchlistAnomalies = ({
   isDesktop = true
 }) => {
   const isTrendsFilter = type === filteringTypes.TRENDS
-  const trendsIds = trends.map(({ id }) => id)
-  const totalAnomalies = new Set(trendsIds)
+  const totalAnomalies = useMemo(
+    () => {
+      return new Set(trends.map(({ id }) => id))
+    },
+    [trends]
+  )
   return trends.length > 0 ? (
     <div className={styles.wrapper}>
       <div className={styles.layout}>

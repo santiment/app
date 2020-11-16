@@ -53,7 +53,6 @@ const renderCustomizedLabel = props => {
 const ProjectsChart = ({
   assets,
   redirect,
-  loading: assetsLoading,
   settings,
   onChangeInterval,
   onChangeSorter
@@ -121,8 +120,7 @@ const ProjectsChart = ({
 
   const datakey = 'slug'
 
-  const noData = !assetsLoading && assets.length === 0
-  const isLoading = loading || assetsLoading
+  const noData = assets.length === 0
 
   return (
     <div className={styles.container}>
@@ -157,15 +155,15 @@ const ProjectsChart = ({
         <div className={styles.chartWrapper}>
           <Skeleton
             className={styles.ProjectsChart__skeletonTop}
-            show={isLoading}
+            show={loading}
             repeat={1}
           />
           <Skeleton
             className={styles.ProjectsChart__skeletonBottom}
-            show={isLoading}
+            show={loading}
             repeat={1}
           />
-          {!isLoading && (
+          {!loading && (
             <div className={styles.chart}>
               <ResponsiveContainer width='100%' height='100%'>
                 <ComposedChart

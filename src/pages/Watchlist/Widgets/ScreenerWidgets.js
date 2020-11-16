@@ -13,7 +13,6 @@ import WatchlistPriceWidget from '../WatchlistPriceWidget/WatchlistPriceWidget'
 
 const ScreenerWidgets = ({
   widgets,
-  loading,
   setWidgets,
   assets,
   trendingAssets,
@@ -45,7 +44,6 @@ const ScreenerWidgets = ({
             assets={assets}
             title='Price Changes'
             ranges={PRICE_CHANGE_RANGES}
-            loading={loading}
             settings={priceTreeMap}
             onChangeInterval={value => onChangeInterval('priceTreeMap', value)}
           />
@@ -59,7 +57,6 @@ const ScreenerWidgets = ({
               assets={assets}
               title='Social Volume Changes'
               ranges={SOCIAL_VOLUME_CHANGE_RANGES}
-              loading={loading}
               isSocialVolume={true}
               settings={socialVolumeTreeMap}
               onChangeInterval={value =>
@@ -73,7 +70,6 @@ const ScreenerWidgets = ({
       )}
       {isPriceChartActive && (
         <ProjectsChart
-          loading={loading}
           assets={assets}
           settings={priceBarChart}
           onChangeInterval={value => onChangeInterval('priceBarChart', value)}

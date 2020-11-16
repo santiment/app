@@ -108,16 +108,17 @@ const Screener = props => {
                 setWidgets={setWidgets}
               />
 
-              <ScreenerWidgets
-                assets={showingAssets}
-                loading={loading}
-                widgets={widgets}
-                setWidgets={setWidgets}
-                trendingAssets={trendingAssets}
-                listId={id}
-                toggleAssetsFiltering={toggleAssetsFiltering}
-                filterType={filterType}
-              />
+              {!loading && (
+                <ScreenerWidgets
+                  assets={showingAssets}
+                  widgets={widgets}
+                  setWidgets={setWidgets}
+                  trendingAssets={trendingAssets}
+                  listId={id}
+                  toggleAssetsFiltering={toggleAssetsFiltering}
+                  filterType={filterType}
+                />
+              )}
 
               <AssetsTable
                 Assets={{ ...Assets, isLoading: loading }}
