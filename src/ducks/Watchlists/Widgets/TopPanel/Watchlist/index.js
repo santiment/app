@@ -4,6 +4,7 @@ import BaseActions from '../WatchlistBaseActions'
 import Share from '../../../Actions/Share'
 import WeeklyReportTrigger from '../../../Actions/WeeklyReport/Trigger'
 import styles from '../index.module.scss'
+import Widgets from '../Widgets'
 
 const TopPanel = ({
   name,
@@ -30,6 +31,7 @@ const TopPanel = ({
         )}
       </div>
       <div className={styles.row}>
+        <Widgets {...props} />
         <Share watchlist={watchlist} isAuthor={isAuthor} />
         {isAuthor && (
           <WeeklyReportTrigger id={id} name={name} isMonitored={isMonitored} />

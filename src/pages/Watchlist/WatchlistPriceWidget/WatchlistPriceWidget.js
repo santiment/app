@@ -15,7 +15,8 @@ const WatchlistPriceWidget = ({
 }) => {
   const [pointer, setPointer] = useState(1)
   const [range, setRange] = useState(RANGES[pointer])
-  const changeRange = () => {
+
+  function changeRange () {
     const newPointer = pointer === RANGES.length - 1 ? 0 : pointer + 1
     setPointer(newPointer)
     setRange(RANGES[newPointer])

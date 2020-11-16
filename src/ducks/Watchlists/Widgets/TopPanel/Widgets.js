@@ -9,7 +9,7 @@ import styles from './Widgets.module.scss'
 const Widgets = ({ widgets, setWidgets }) => {
   const {
     isPriceChartActive,
-    isStatistic,
+    isMovement,
     isPriceTreeMap,
     isVolumeTreeMap
   } = widgets
@@ -32,9 +32,9 @@ const Widgets = ({ widgets, setWidgets }) => {
     },
     [widgets]
   )
-  const statisticToggle = useCallback(
-    isStatistic => {
-      setWidgets({ ...widgets, isStatistic })
+  const movementToggle = useCallback(
+    isMovement => {
+      setWidgets({ ...widgets, isMovement })
     },
     [widgets]
   )
@@ -49,7 +49,7 @@ const Widgets = ({ widgets, setWidgets }) => {
             (isPriceChartActive ||
               isPriceTreeMap ||
               isVolumeTreeMap ||
-              isStatistic) &&
+              isMovement) &&
               styles.triggerButton__active
           )}
           icon='view-option'
@@ -88,10 +88,10 @@ const Widgets = ({ widgets, setWidgets }) => {
         />
         <ToggleWidget
           index={0}
-          title='Statistic'
-          isActive={isStatistic}
+          title='Marketcap & Volume'
+          isActive={isMovement}
           toggle={() => {
-            statisticToggle(!isStatistic)
+            movementToggle(!isMovement)
           }}
         />
       </Panel>

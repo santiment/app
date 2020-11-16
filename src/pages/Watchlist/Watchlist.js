@@ -8,18 +8,21 @@ import { upperCaseFirstLetter } from '../../utils/formatting'
 import GetAssets from '../../ducks/Watchlists/Widgets/Table/GetAssets'
 import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel/Watchlist'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table/AssetsTable'
-import { getHelmetTags, getWatchlistName } from '../../ducks/Watchlists/utils'
+import {
+  getHelmetTags,
+  getWatchlistName,
+  useScreenerUrl
+} from '../../ducks/Watchlists/utils'
 import AssetsTemplates from '../../ducks/Watchlists/Widgets/Table/AssetsTemplates'
 import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/columns'
-import WatchlistPriceWidget from './WatchlistPriceWidget/WatchlistPriceWidget'
 import { useAssetsAnomalyToggler } from './hooks/useAssetsAnomalyToggler'
+import ScreenerWidgets from './Widgets/ScreenerWidgets'
 import styles from './Watchlist.module.scss'
 
 const WatchlistPage = props => {
   const [currentItems, setCurrentItems] = useState([])
-  const { name } = qs.parse(props.location.search)
-
-  const { type } = props
+  const { type, location, history } = props
+  const { id, name } = qs.parse(location.search)
 
   const isList = type === 'list'
   const { title, description } = getHelmetTags(isList, name)
@@ -32,6 +35,13 @@ const WatchlistPage = props => {
   } = useAssetsAnomalyToggler()
 
   const { comparingAssets, addAsset, cleanAll } = useComparingAssets()
+  const { widgets, setWidgets } = useScreenerUrl({
+    location,
+    history,
+    defaultParams: {
+      isMovement: true
+    }
+  })
 
   return (
     <div className={('page', styles.watchlist)}>
@@ -61,6 +71,8 @@ const WatchlistPage = props => {
             clearFilters()
           }
 
+          const showingAssets = filteredItems || items
+
           return (
             <>
               <TopPanel
@@ -73,25 +85,29 @@ const WatchlistPage = props => {
                 isMonitored={isMonitored}
                 isAuthor={isCurrentUserTheAuthor}
                 className={styles.top}
+                widgets={widgets}
+                setWidgets={setWidgets}
               />
               {isLoading && <PageLoader />}
 
               {!isLoading && items.length > 0 && (
                 <>
-                  <WatchlistPriceWidget
-                    type={type}
-                    filterType={filterType}
-                    listId={listId}
-                    items={items}
-                    toggleAssetsFiltering={toggleAssetsFiltering}
+                  <ScreenerWidgets
+                    assets={showingAssets}
+                    loading={isLoading}
+                    listId={id}
+                    widgets={widgets}
+                    setWidgets={setWidgets}
                     trendingAssets={trendingAssets}
+                    toggleAssetsFiltering={toggleAssetsFiltering}
+                    filterType={filterType}
                   />
 
                   <AssetsTable
                     Assets={Assets}
                     watchlist={props.watchlist}
                     filterType={filterType}
-                    items={filteredItems || items}
+                    items={showingAssets}
                     goto={props.history.push}
                     type='watchlist'
                     preload={props.preload}

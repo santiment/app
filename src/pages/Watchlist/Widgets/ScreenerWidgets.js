@@ -23,7 +23,7 @@ const ScreenerWidgets = ({
 }) => {
   const {
     isPriceChartActive,
-    isStatistic,
+    isMovement,
     isPriceTreeMap,
     isVolumeTreeMap
   } = widgets
@@ -81,7 +81,7 @@ const ScreenerWidgets = ({
         />
       )}
 
-      {isStatistic && (
+      {isMovement && (
         <WatchlistPriceWidget
           type={'Screener'}
           listId={listId}

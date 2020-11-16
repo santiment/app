@@ -31,6 +31,7 @@ const WatchlistAnomalies = ({
           <Icon type='flash-filled' className={styles.icon} />
           {isDesktop || isOpen ? (
             <Range
+              className={styles.range}
               label='Anomalies'
               range={value}
               changeRange={event => {

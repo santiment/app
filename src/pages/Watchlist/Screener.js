@@ -83,12 +83,12 @@ const Screener = props => {
             trendingAssets = []
           } = Assets
 
-          console.log('items', items)
-
           if (items !== currentItems) {
             setCurrentItems(items)
             clearFilters()
           }
+
+          const showingAssets = filteredItems || assets
 
           return (
             <>
@@ -109,7 +109,7 @@ const Screener = props => {
               />
 
               <ScreenerWidgets
-                assets={assets}
+                assets={showingAssets}
                 loading={loading}
                 widgets={widgets}
                 setWidgets={setWidgets}
@@ -121,7 +121,7 @@ const Screener = props => {
 
               <AssetsTable
                 Assets={{ ...Assets, isLoading: loading }}
-                items={filteredItems || assets}
+                items={showingAssets}
                 type='screener'
                 isAuthor={isCurrentUserTheAuthor}
                 watchlist={watchlist}
