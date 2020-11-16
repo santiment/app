@@ -443,6 +443,11 @@ export const Metric = {
     category: 'Flow metrics',
     group: 'Traders',
     label: 'Traders to Others'
+  },
+  age_consumed: {
+    category: 'On-chain',
+    group: 'Network Activity',
+    label: 'Age Consumed'
   }
 }
 
@@ -514,7 +519,8 @@ export const metrics = [
   Metric.other_to_dex_traders_flow,
   Metric.other_to_traders_flow,
   Metric.traders_to_whale_flow,
-  Metric.traders_to_other_flow
+  Metric.traders_to_other_flow,
+  Metric.age_consumed
 ]
 
 export const MetricAlias = {
