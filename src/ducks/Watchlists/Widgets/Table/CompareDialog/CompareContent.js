@@ -8,10 +8,7 @@ import { SEARCH_PREDICATE_ONLY_METRICS } from '../../../../Studio/Compare/Compar
 import MetricBtns from '../CompareInfo/MetricBtns/MetricBtns'
 import MetricsList from '../../../../Signals/signalFormManager/signalCrudForm/formParts/metricTypes/MetricsList'
 import { filterOnlyMetrics } from '../../../../Signals/signalFormManager/signalCrudForm/formParts/metricTypes/SupportedMetricsList'
-import {
-  buildComparedMetric,
-  makeComparableObject
-} from '../../../../Studio/Compare/utils'
+import { newProjectMetric } from '../../../../Studio/metrics'
 import ChartWidget from '../../../../Studio/Widget/ChartWidget'
 import { PATHS } from '../../../../../paths'
 import { generateUrlV2 } from '../../../../Studio/url/generate'
@@ -55,33 +52,22 @@ const CompareContent = ({
 
   const onCompare = useCallback(
     () => {
-      const widgets = metrics.map((metric, index) => {
-        const comparables = assets.map(project => {
-          return makeComparableObject({ metric, project })
+      const MetricSettingMap = new Map()
+      const widgets = assets.map(asset =>
+        ChartWidget.new({
+          metrics: metrics.map(metric => {
+            const projectMetric = newProjectMetric(asset, metric)
+            const metricSettings = selectedMetricSettingsMap.get(metric)
+
+            if (metricSettings) {
+              MetricSettingMap.set(projectMetric, metricSettings)
+            }
+
+            return projectMetric
+          }),
+          MetricSettingMap
         })
-
-        const comparedMetrics = comparables.map(buildComparedMetric)
-
-        const newSettings = new Map(selectedMetricSettingsMap)
-        const baseMetricSettings = newSettings.get(metric)
-
-        if (baseMetricSettings) {
-          comparedMetrics.forEach(m => {
-            newSettings.set(m, baseMetricSettings)
-          })
-        }
-
-        return {
-          id: index + 1,
-          metrics: [],
-          comparables: comparables,
-          Widget: ChartWidget,
-          MetricSettingMap: newSettings,
-          comparedMetrics: comparedMetrics,
-          connectedWidgets: [],
-          MetricIndicators: {}
-        }
-      })
+      )
 
       const url = `${PATHS.STUDIO}?${generateUrlV2({
         widgets,
