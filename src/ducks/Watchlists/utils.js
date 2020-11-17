@@ -125,6 +125,7 @@ const DEFAULT_SCREENER_URL_PARAMS = {
   isPriceChartActive: false,
   isPriceTreeMap: false,
   isVolumeTreeMap: false,
+  isMovement: false,
   priceBarChart: {
     interval: '24h'
   },
@@ -136,20 +137,27 @@ const DEFAULT_SCREENER_URL_PARAMS = {
   }
 }
 
-export const useScreenerUrl = ({ location, history }) => {
-  const [widgets, setWidgets] = useState(DEFAULT_SCREENER_URL_PARAMS)
+export const useScreenerUrl = ({ location, history, defaultParams }) => {
+  const predefined = useMemo(
+    () => {
+      return {
+        ...DEFAULT_SCREENER_URL_PARAMS,
+        ...defaultParams
+      }
+    },
+    [defaultParams]
+  )
+
+  const [widgets, setWidgets] = useState(predefined)
 
   const parsedUrl = useMemo(() => queryString.parse(location.search), [
     location.search
   ])
 
   const getCharts = useCallback(
-    () => {
-      return parsedUrl && parsedUrl.charts
-        ? JSON.parse(parsedUrl.charts)
-        : DEFAULT_SCREENER_URL_PARAMS
-    },
-    [parsedUrl]
+    () =>
+      parsedUrl && parsedUrl.charts ? JSON.parse(parsedUrl.charts) : predefined,
+    [parsedUrl, predefined]
   )
 
   useEffect(() => {

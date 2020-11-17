@@ -1,4 +1,4 @@
-@import '~@santiment-network/ui/mixins.scss';
+@import '~@santiment-network/ui/mixins';
 
 .screener {
   background: var(--white);
@@ -7,28 +7,4 @@
 
 .table {
   border: none !important;
-}
-
-.loading {
-  height: 70vh;
-}
-
-.treeMaps {
-  margin: 0 32px 0 32px;
-}
-
-.twoTrees {
-  display: flex;
-}
-
-.containerTreeMap {
-  display: flex;
-  height: 186px;
-  flex-direction: column;
-  width: 100%;
-  margin-bottom: 24px;
-}
-
-.both {
-  width: calc(50% - 4px);
 }

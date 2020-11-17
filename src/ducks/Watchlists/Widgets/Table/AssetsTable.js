@@ -170,7 +170,9 @@ const AssetsTable = ({
     <div className={styles.container} id='table'>
       <div className={styles.top} id='tableTop'>
         {filterType ? (
-          <span>Showed based on {filterType} anomalies</span>
+          <span className={styles.based}>
+            Showed based on {filterType} anomalies
+          </span>
         ) : (
           <Refresh
             timestamp={timestamp}

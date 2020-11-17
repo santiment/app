@@ -3,47 +3,45 @@ import { Helmet } from 'react-helmet'
 import qs from 'query-string'
 import { getOrigin } from '../../utils/utils'
 import { useComparingAssets } from './Screener'
-import Panel from '@santiment-network/ui/Panel/Panel'
 import PageLoader from '../../components/Loader/PageLoader'
 import { upperCaseFirstLetter } from '../../utils/formatting'
 import GetAssets from '../../ducks/Watchlists/Widgets/Table/GetAssets'
 import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel/Watchlist'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table/AssetsTable'
-import { getHelmetTags, getWatchlistName } from '../../ducks/Watchlists/utils'
+import {
+  getHelmetTags,
+  getWatchlistName,
+  useScreenerUrl
+} from '../../ducks/Watchlists/utils'
 import AssetsTemplates from '../../ducks/Watchlists/Widgets/Table/AssetsTemplates'
-import { RANGES } from '../../ducks/Watchlists/Widgets/WatchlistOverview/constants'
 import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/columns'
-import GetWatchlistHistory from '../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistHistory/GetWatchlistHistory'
-import WatchlistAnomalies from '../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistAnomalies/WatchlistAnomalies'
+import { useAssetsAnomalyToggler } from './hooks/useAssetsAnomalyToggler'
+import ScreenerWidgets from './Widgets/ScreenerWidgets'
 import styles from './Watchlist.module.scss'
 
 const WatchlistPage = props => {
-  const [pointer, setPointer] = useState(1)
-  const [range, setRange] = useState(RANGES[pointer])
-  const [filteredItems, setFilteredItems] = useState(null)
-  const [filterType, setFilterType] = useState(null)
   const [currentItems, setCurrentItems] = useState([])
-  const { name } = qs.parse(props.location.search)
-  const isList = props.type === 'list'
+  const { type, location, history } = props
+  const { id, name } = qs.parse(location.search)
+
+  const isList = type === 'list'
   const { title, description } = getHelmetTags(isList, name)
 
-  const changeRange = () => {
-    const newPointer = pointer === RANGES.length - 1 ? 0 : pointer + 1
-    setPointer(newPointer)
-    setRange(RANGES[newPointer])
-  }
-
-  const toggleAssetsFiltering = (assets, type) => {
-    if (type === filterType) {
-      setFilterType(null)
-      setFilteredItems(null)
-    } else {
-      setFilterType(type)
-      setFilteredItems(assets)
-    }
-  }
+  const {
+    toggleAssetsFiltering,
+    filteredItems,
+    clearFilters,
+    filterType
+  } = useAssetsAnomalyToggler()
 
   const { comparingAssets, addAsset, cleanAll } = useComparingAssets()
+  const { widgets, setWidgets } = useScreenerUrl({
+    location,
+    history,
+    defaultParams: {
+      isMovement: true
+    }
+  })
 
   return (
     <div className={('page', styles.watchlist)}>
@@ -55,7 +53,7 @@ const WatchlistPage = props => {
       </Helmet>
       <GetAssets
         {...props}
-        type={props.type}
+        type={type}
         render={Assets => {
           const title = getWatchlistName(props)
           const {
@@ -70,9 +68,10 @@ const WatchlistPage = props => {
 
           if (items !== currentItems) {
             setCurrentItems(items)
-            setFilteredItems(null)
-            setFilterType(null)
+            clearFilters()
           }
+
+          const showingAssets = filteredItems || items
 
           return (
             <>
@@ -86,35 +85,29 @@ const WatchlistPage = props => {
                 isMonitored={isMonitored}
                 isAuthor={isCurrentUserTheAuthor}
                 className={styles.top}
+                widgets={widgets}
+                setWidgets={setWidgets}
               />
               {isLoading && <PageLoader />}
 
               {!isLoading && items.length > 0 && (
                 <>
-                  <Panel className={styles.overviewInfo}>
-                    <GetWatchlistHistory
-                      type={props.type}
-                      range={range}
-                      changeRange={changeRange}
-                      assetsAmount={items.length}
-                      top3={items.slice(0, 3)}
-                      id={listId}
-                    />
-                    <WatchlistAnomalies
-                      trends={trendingAssets}
-                      range={range}
-                      type={filterType}
-                      assetsAmount={items.length}
-                      changeRange={changeRange}
-                      onFilterAssets={toggleAssetsFiltering}
-                    />
-                  </Panel>
+                  <ScreenerWidgets
+                    type='Watchlist'
+                    assets={showingAssets}
+                    listId={id}
+                    widgets={widgets}
+                    setWidgets={setWidgets}
+                    trendingAssets={trendingAssets}
+                    toggleAssetsFiltering={toggleAssetsFiltering}
+                    filterType={filterType}
+                  />
 
                   <AssetsTable
                     Assets={Assets}
                     watchlist={props.watchlist}
                     filterType={filterType}
-                    items={filteredItems || items}
+                    items={showingAssets}
                     goto={props.history.push}
                     type='watchlist'
                     preload={props.preload}

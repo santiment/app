@@ -20,7 +20,6 @@ const noop = () => true
 
 export const ProjectsMapWrapper = ({
   assets,
-  loading: assetsLoading,
   ranges,
   className,
   title,
@@ -54,7 +53,6 @@ export const ProjectsMapWrapper = ({
       title={title}
       data={data}
       loading={loading}
-      assetsLoading={assetsLoading}
       intervalIndex={intervalIndex}
       setIntervalIndex={setIntervalIndex}
       label={label}
@@ -65,7 +63,6 @@ export const ProjectsMapWrapper = ({
 
 const ProjectsTreeMap = ({
   assets,
-  assetsLoading,
   ranges,
   className,
   sortByKey,
@@ -92,8 +89,7 @@ const ProjectsTreeMap = ({
     [sortedByChange]
   )
 
-  const noData = !assetsLoading && assets.length === 0
-  const isLoading = loading || assetsLoading
+  const noData = assets.length === 0
 
   return (
     <div className={className}>
@@ -113,19 +109,19 @@ const ProjectsTreeMap = ({
       </div>
       <Skeleton
         className={styles.treeMap__skeletonTop}
-        show={isLoading}
+        show={loading}
         repeat={1}
       />
       <Skeleton
         className={styles.treeMap__skeletonBottom}
-        show={isLoading}
+        show={loading}
         repeat={1}
       />
       {noData ? (
         <div className={styles.noDataTreeMap}>
           <NoDataCharts />
         </div>
-      ) : !isLoading ? (
+      ) : !loading ? (
         <div className={styles.treeMap}>
           <ResponsiveContainer width='100%' height='100%'>
             <Treemap

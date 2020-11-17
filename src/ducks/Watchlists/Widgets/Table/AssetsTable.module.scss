@@ -87,6 +87,11 @@
   }
 }
 
+.based {
+  display: flex;
+  align-items: center;
+}
+
 .loading {
   background-color: var(--athens);
 }

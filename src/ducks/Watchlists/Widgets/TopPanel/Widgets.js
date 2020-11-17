@@ -7,7 +7,12 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import styles from './Widgets.module.scss'
 
 const Widgets = ({ widgets, setWidgets }) => {
-  const { isPriceChartActive, isPriceTreeMap, isVolumeTreeMap } = widgets
+  const {
+    isPriceChartActive,
+    isMovement,
+    isPriceTreeMap,
+    isVolumeTreeMap
+  } = widgets
 
   const priceToggle = useCallback(
     isPriceChartActive => {
@@ -27,6 +32,12 @@ const Widgets = ({ widgets, setWidgets }) => {
     },
     [widgets]
   )
+  const movementToggle = useCallback(
+    isMovement => {
+      setWidgets({ ...widgets, isMovement })
+    },
+    [widgets]
+  )
 
   return (
     <ContextMenu
@@ -35,7 +46,10 @@ const Widgets = ({ widgets, setWidgets }) => {
           variant='flat'
           className={cx(
             styles.triggerButton,
-            (isPriceChartActive || isPriceTreeMap || isVolumeTreeMap) &&
+            (isPriceChartActive ||
+              isPriceTreeMap ||
+              isVolumeTreeMap ||
+              isMovement) &&
               styles.triggerButton__active
           )}
           icon='view-option'
@@ -70,6 +84,14 @@ const Widgets = ({ widgets, setWidgets }) => {
           isActive={isPriceChartActive}
           toggle={() => {
             priceToggle(!isPriceChartActive)
+          }}
+        />
+        <ToggleWidget
+          index={0}
+          title='Marketcap & Volume'
+          isActive={isMovement}
+          toggle={() => {
+            movementToggle(!isMovement)
           }}
         />
       </Panel>
