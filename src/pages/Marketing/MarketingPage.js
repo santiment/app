@@ -28,15 +28,9 @@ const MarketingPage = ({ userId, location }) => {
 
   return (
     <DashboardLayout classes={styles}>
-      <EventBanner className={styles.banner} />
+      <EventBanner />
       <div className={cx(externalStyles.inner, styles.inner)}>
-        <div
-          className={cx(
-            styles.block,
-            externalStyles.firstBlock,
-            styles.firstBlock
-          )}
-        >
+        <div className={cx(styles.block, styles.firstBlock)}>
           <IndexTab
             tabs={[
               {
@@ -80,7 +74,7 @@ const MarketingPage = ({ userId, location }) => {
         </div>
       </div>
 
-      <div className={externalStyles.inner}>
+      <div className={styles.inner}>
         <IndexTab
           tabs={[
             {
