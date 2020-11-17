@@ -48,10 +48,12 @@ export default {
     link: 'Start free trial',
     features: [
       <b>All in Free and:</b>,
+      'Closed chat',
       'Sanbase metrics: full historical and present-day data',
       'Access to all Sanbase alerts',
       'Full access to Santiment Screener',
       'Daily market insights',
+      'Google Sheets / Excel plugin',
       'Exclusive weekly Pro reports',
       'Market segment dashboards (stablecoins, defi, dexes and more)'
     ]
@@ -63,11 +65,12 @@ export default {
     link: 'Start free trial',
     features: [
       <b>All in PRO and:</b>,
-      'Basic API',
+      'Closed Webinars with Santiment Analytics',
       'Dedicated account manager',
+      'Basic API',
       'Google Sheets / Excel plugin',
       'Closed chat with Santiment market analysts',
-      'Tailored market reports and token analysis'
+      'Basic API 300k API calls'
     ]
   },
   BASIC: {
