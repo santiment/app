@@ -1,3 +1,4 @@
+import { buildIndicatorMetric } from './Chart/MetricSettings/IndicatorsSetting'
 import { HolderDistributionMetric } from './Chart/Sidepanel/HolderDistribution/metrics'
 import { tryMapToTimeboundMetric } from '../dataHub/timebounds'
 import { updateTooltipSetting } from '../dataHub/tooltipSettings'
@@ -76,4 +77,21 @@ export function getProjectMetricByKey (key, connector = METRIC_CONNECTOR) {
     metric,
     isProjectMetricConnector ? key : buildKey(slug, ticker, metricKey)
   )
+}
+
+export function convertBaseProjectMetric (metric, project) {
+  if (metric.base) {
+    return metric.indicator
+      ? buildIndicatorMetric(metric.base, metric.indicator)
+      : metric.base
+  }
+
+  if (metric.indicator) {
+    return buildIndicatorMetric(
+      newProjectMetric(project, getMetricByKey(metric.metricKey)),
+      metric.indicator
+    )
+  }
+
+  return newProjectMetric(project, metric)
 }

@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useMemo } from 'react'
+import cx from 'classnames'
+import { convertBaseProjectMetric } from '../metrics'
 import ExplanationTooltip from '../../../components/ExplanationTooltip/ExplanationTooltip'
 import styles from './ActiveMetrics.module.scss'
 
@@ -25,14 +27,21 @@ const UnlockIcon = props => (
   </svg>
 )
 
-const MetricLock = ({ metric, project, onClick }) => {
+const MetricLock = ({ metrics, metric, project, onClick }) => {
   const isLocked = metric.base
   const explanation = isLocked ? LOCKED_TEXT : UNLOCKED_TEXT + project.ticker
   const Icon = isLocked ? UnlockIcon : LockIcon
+  const isDisabled = useMemo(
+    () => metrics.includes(convertBaseProjectMetric(metric, project)),
+    [metrics, metric, project]
+  )
 
   return (
     <ExplanationTooltip text={explanation}>
-      <div className={styles.settings__btn} onClick={onClick}>
+      <div
+        className={cx(styles.settings__btn, isDisabled && styles.lock_disabled)}
+        onClick={isDisabled ? undefined : onClick}
+      >
         <Icon />
       </div>
     </ExplanationTooltip>

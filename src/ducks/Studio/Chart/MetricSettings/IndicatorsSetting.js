@@ -2,10 +2,10 @@ import React, { useMemo } from 'react'
 import Setting from './Setting'
 import { useDropdown } from './Dropdown'
 import { getMetricSetting } from '../../utils'
-import { Setting as Option } from '../../../SANCharts/ChartSettingsContextMenu'
 import { deriveMetric } from '../../../dataHub/metrics'
 import { updateTooltipSetting } from '../../../dataHub/tooltipSettings'
 import { Node } from '../../../Chart/nodes'
+import Option from '../../../../components/ToggleSetting'
 
 const RAW_INDICATORS = {
   MA: {
