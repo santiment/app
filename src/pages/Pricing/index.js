@@ -8,6 +8,8 @@ import SpeakBlocks from './SpeakBlocks/SpeakBlocks'
 import PlanDescriptions from './PlanDescriptions/PlanDescriptions'
 import { useUser } from '../../stores/user'
 import PricingFAQ from './PricingFAQ/PricingFAQ'
+import Testimonials from '../../components/Testimonials'
+import Companies from './Companies/Companies'
 import styles from './index.module.scss'
 
 const Header = () => {
@@ -47,6 +49,10 @@ const Page = () => {
         <PayWithCrypto />
 
         <SpeakBlocks />
+
+        <Companies />
+
+        <Testimonials />
 
         <PricingFAQ />
       </div>

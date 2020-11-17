@@ -36,7 +36,7 @@ const PlanDetailsMobile = ({
           }}
         >
           {showingPlans.map(plan => (
-            <div>
+            <div key={plan.id}>
               <PlanCard
                 plan={plan}
                 key={plan.id}

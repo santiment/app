@@ -1,0 +1,89 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  margin-top: 64px;
+  margin-bottom: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 24px 0;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  margin-bottom: 80px;
+
+  @include responsive('laptop', 'tablet') {
+    margin-bottom: 60px;
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    margin-bottom: 40px;
+  }
+}
+
+.title {
+  @include text('h4', 'l');
+
+  padding: 0 40px;
+  margin: 0 auto;
+  background-color: var(--white);
+  text-align: center;
+  z-index: 1;
+
+  @include responsive('laptop', 'tablet') {
+    padding: 0 16px;
+
+    @include text('h4', 'l'); }
+
+  @include responsive('phone', 'phone-xs') {
+    max-width: 160px;
+    padding: 0 16px;
+
+    @include text('body-1', 'l'); }
+}
+
+.line {
+  width: 100%;
+  border-top: 1px solid var(--casper);
+  position: absolute;
+  top: 46%;
+}
+
+.list {
+  display: grid;
+  grid-column-gap: 76px;
+  grid-row-gap: 58px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  align-items: center;
+  max-width: 780px;
+
+  img {
+    align-self: center;
+    justify-self: center;
+  }
+
+  @include responsive('laptop', 'tablet') {
+    img {
+      max-width: 170px;
+    }
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-column-gap: 48px;
+    grid-row-gap: 48px;
+
+    img {
+      max-width: 140px;
+    }
+  }
+}
