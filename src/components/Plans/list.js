@@ -94,7 +94,7 @@ export default {
     Component: props => (
       <PlanPipedriveDialog
         {...props}
-        title='Enterprise plan Pipedrive form'
+        title='EmergencyPlan plan Pipedrive form'
         src='https://pipedrivewebforms.com/form/0527db4d781f7c4c0760b7bc7a58549c4144829'
       />
     ),
@@ -105,5 +105,19 @@ export default {
       'Sanbase metrics - including present-day data',
       'Exclusive market reports'
     ]
+  },
+  EMERGENCY: {
+    title: 'Emergency Plan',
+    desc: 'Need access to Sanbase just for a few trades?',
+    discount: '9$ / 5 days',
+    link: 'Get access now',
+    Component: props => (
+      <PlanPipedriveDialog
+        {...props}
+        title='EmergencyPlan plan Pipedrive form'
+        src='https://pipedrivewebforms.com/form/0527db4d781f7c4c0760b7bc7a58549c4144829'
+      />
+    ),
+    features: ['No automatic renewal', 'Simple upgrade options']
   }
 }

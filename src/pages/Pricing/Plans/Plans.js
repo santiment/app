@@ -8,6 +8,7 @@ import PlanDetails from '../PlanDetails/PlanDetails'
 import styles from './Plans.module.scss'
 import { getShowingPlans } from '../../../utils/plans'
 import { Skeleton } from '../../../components/Skeleton'
+import EmergencyPlan from '../Enterprise/EmergencyPlan'
 
 const Billing = ({ selected, onClick }) => {
   const isYearSelected = selected === 'year'
@@ -78,6 +79,8 @@ const Plans = ({ id, classes = {} }) => {
           />
         ))}
       </div>
+
+      <EmergencyPlan />
 
       <PlanDetails
         plans={plans}
