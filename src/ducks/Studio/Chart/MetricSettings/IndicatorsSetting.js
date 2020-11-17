@@ -2,10 +2,10 @@ import React, { useMemo } from 'react'
 import Setting from './Setting'
 import { useDropdown } from './Dropdown'
 import { getMetricSetting } from '../../utils'
-import { Setting as Option } from '../../../SANCharts/ChartSettingsContextMenu'
 import { deriveMetric } from '../../../dataHub/metrics'
 import { updateTooltipSetting } from '../../../dataHub/tooltipSettings'
 import { Node } from '../../../Chart/nodes'
+import Option from '../../../../components/ToggleSetting'
 
 const RAW_INDICATORS = {
   MA: {
@@ -66,7 +66,7 @@ export function buildIndicatorMetric (metric, indicator) {
   const { key, label } = metric
   const indicatorMetric = deriveMetric(metric, {
     indicator,
-    metricKey: key,
+    base: metric,
     node: Node.LINE,
     key: `${indicator.key}_${key}`,
     label: `${label} ${indicator.label}`,

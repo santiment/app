@@ -33,20 +33,27 @@ const Customization = ({ metric, onClick }) => (
   </ExplanationTooltip>
 )
 
-const LockIcon = () => (
-  <div className={styles.lock}>
-    <svg width='8' height='8' xmlns='http://www.w3.org/2000/svg'>
-      <path
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M3 3h2v-.5c0-.4-.12-.63-.23-.75-.09-.1-.3-.25-.77-.25-.48 0-.68.15-.77.25-.11.12-.23.35-.23.75V3zM1.5 3h-.13C.9 3 .5 3.33.5 3.73v3.54c0 .4.4.73.88.73h5.25c.48 0 .87-.33.87-.73V3.73c0-.4-.4-.73-.88-.73H6.5v-.5C6.5 1.12 5.67 0 4 0S1.5 1.12 1.5 2.5V3z'
-      />
-    </svg>
-  </div>
+const LockInfo = ({ metric }) => (
+  <ExplanationTooltip
+    offsetY={6}
+    align='start'
+    text={`Metric is locked to ${metric.project.ticker}`}
+  >
+    <div className={styles.lock}>
+      <svg width='8' height='8' xmlns='http://www.w3.org/2000/svg'>
+        <path
+          fillRule='evenodd'
+          clipRule='evenodd'
+          d='M3 3h2v-.5c0-.4-.12-.63-.23-.75-.09-.1-.3-.25-.77-.25-.48 0-.68.15-.77.25-.11.12-.23.35-.23.75V3zM1.5 3h-.13C.9 3 .5 3.33.5 3.73v3.54c0 .4.4.73.88.73h5.25c.48 0 .87-.33.87-.73V3.73c0-.4-.4-.73-.88-.73H6.5v-.5C6.5 1.12 5.67 0 4 0S1.5 1.12 1.5 2.5V3z'
+        />
+      </svg>
+    </div>
+  </ExplanationTooltip>
 )
 
 const MetricButton = ({
   className,
+  metrics,
   metric,
   colors,
   error,
@@ -77,7 +84,8 @@ const MetricButton = ({
       )}
       aria-invalid={error}
     >
-      {metric.base && <LockIcon />}
+      {metric.project && <LockInfo metric={metric} />}
+
       {isWithIcon ? (
         isLoading ? (
           <div className={styles.loader} />
@@ -108,6 +116,7 @@ const MetricButton = ({
         <Actions isActive={metricSettings === metric}>
           <Customization metric={metric} onClick={onSettingsClick} />
           <MetricLock
+            metrics={metrics}
             metric={metric}
             project={settings}
             onClick={onLockClick}
@@ -162,6 +171,7 @@ export default ({
     <MetricButton
       key={metric.key}
       className={className}
+      metrics={activeMetrics}
       metric={metric}
       colors={MetricColor}
       error={ErrorMsg[metric.key]}

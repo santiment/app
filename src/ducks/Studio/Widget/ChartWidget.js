@@ -10,9 +10,8 @@ import StudioChart from '../Chart'
 import { dispatchWidgetMessage } from '../widgetMessage'
 import { DEFAULT_OPTIONS } from '../defaults'
 import { getMetricSetting, calculateMovingAverageFromInterval } from '../utils'
-import { newProjectMetric, getMetricByKey } from '../metrics'
+import { convertBaseProjectMetric } from '../metrics'
 import { useTimeseries } from '../timeseries/hooks'
-import { buildIndicatorMetric } from '../Chart/MetricSettings/IndicatorsSetting'
 import { useEdgeGaps, useClosestValueData } from '../../Chart/hooks'
 import { useSyncDateEffect } from '../../Chart/sync'
 import { TooltipSetting } from '../../dataHub/tooltipSettings'
@@ -75,19 +74,31 @@ export const Chart = ({
 
   useEffect(
     () => {
-      const freeMetrics = metrics.filter(m => !m.base)
+      const freeMetrics = metrics.filter(m => !m.project)
       const oldLabels = new Array(freeMetrics.length)
 
       freeMetrics.forEach((metric, i) => {
         const { key, dataKey = key } = metric
         const tooltipSetting = TooltipSetting[dataKey]
 
-        oldLabels[i] = [dataKey, tooltipSetting.label]
-        tooltipSetting.label = getMetricLabel(metric, settings)
+        oldLabels[i] = [tooltipSetting, tooltipSetting.label, metric]
+
+        if (metric.indicator) {
+          const { base, indicator } = metric
+          metric.label = `${base.label} (${settings.ticker}) ${indicator.label}`
+          tooltipSetting.label = metric.label
+        } else {
+          tooltipSetting.label = getMetricLabel(metric, settings)
+        }
       })
 
       return () =>
-        oldLabels.forEach(([key, label]) => (TooltipSetting[key].label = label))
+        oldLabels.forEach(([tooltipSetting, label, metric]) => {
+          tooltipSetting.label = label
+          if (metric.indicator) {
+            metric.label = label
+          }
+        })
     },
     [metrics, settings.ticker]
   )
@@ -117,13 +128,13 @@ export const Chart = ({
     [metrics, settings.interval]
   )
 
-  function toggleIndicatorMetric ({ indicator, metricKey }) {
+  function toggleIndicatorMetric ({ indicator, base }) {
     const { MetricIndicators } = widget
-    let indicatorsSet = MetricIndicators[metricKey]
+    let indicatorsSet = MetricIndicators[base.key]
 
     if (!indicatorsSet) {
       indicatorsSet = new Set()
-      MetricIndicators[metricKey] = indicatorsSet
+      MetricIndicators[base.key] = indicatorsSet
     }
 
     if (indicatorsSet.has(indicator)) {
@@ -143,20 +154,7 @@ export const Chart = ({
   }
 
   function toggleMetricLock (metric) {
-    let newMetric
-
-    if (metric.base) {
-      newMetric = metric.indicator
-        ? buildIndicatorMetric(metric.base, metric.indicator)
-        : metric.base
-    } else if (metric.indicator) {
-      newMetric = buildIndicatorMetric(
-        newProjectMetric(settings, getMetricByKey(metric.metricKey)),
-        metric.indicator
-      )
-    } else {
-      newMetric = newProjectMetric(settings, metric)
-    }
+    const newMetric = convertBaseProjectMetric(metric, settings)
 
     if (metrics.includes(newMetric)) return
 
@@ -166,6 +164,11 @@ export const Chart = ({
     if (newMetric.indicator) {
       toggleIndicatorMetric(newMetric)
     }
+
+    const newMap = new Map(widget.MetricSettingMap)
+    newMap.set(newMetric, getMetricSetting(newMap, metric))
+    newMap.delete(metric)
+    widget.MetricSettingMap = newMap
 
     for (let i = 0; i < metrics.length; i++) {
       if (metrics[i] !== metric) continue
