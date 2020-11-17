@@ -8,11 +8,13 @@
 .feature {
   display: flex;
   position: relative;
-  align-items: center;
+  align-items: flex-start;
   margin-left: 8px;
 
   &__icon {
     fill: var(--texas-rose);
+    margin-top: 3px;
+    min-width: 16px;
 
     &__green {
       fill: var(--jungle-green);

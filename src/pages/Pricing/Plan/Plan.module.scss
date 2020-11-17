@@ -12,16 +12,6 @@
     text-align: center;
   }
 
-  &:nth-of-type(3) {
-    --accent: var(--dodger-blue);
-    --second-accent: #d9e2ff;
-    --jungle-green: var(--dodger-blue);
-    --jungle-green-hover: var(--dodger-blue-hover);
-
-    border-color: var(--dodger-blue-light);
-    background: #f1f4ff;
-  }
-
   &:last-child {
     flex: 1;
   }
