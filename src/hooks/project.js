@@ -80,14 +80,17 @@ export function useProjectsSocialVolumeChanges ({
     }
   })
 
-  return useMemo(() => {
-    const { data, loading, error } = query
-    const items = data ? data.allProjectsByFunction.projects : []
+  return useMemo(
+    () => {
+      const { data, loading, error } = query
+      const items = data ? data.allProjectsByFunction.projects : []
 
-    const key = `change${interval}`
+      const key = `change${interval}`
 
-    const mapped = prepare({ items, limit, sorter, key })
+      const mapped = prepare({ items, limit, sorter, key })
 
-    return [mapped, loading, error]
-  }, [])
+      return [mapped, loading, error]
+    },
+    [query]
+  )
 }

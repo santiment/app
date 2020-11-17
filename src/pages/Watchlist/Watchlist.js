@@ -93,6 +93,7 @@ const WatchlistPage = props => {
               {!isLoading && items.length > 0 && (
                 <>
                   <ScreenerWidgets
+                    type='Watchlist'
                     assets={showingAssets}
                     listId={id}
                     widgets={widgets}

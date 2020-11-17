@@ -18,7 +18,8 @@ const ScreenerWidgets = ({
   trendingAssets,
   filterType,
   toggleAssetsFiltering,
-  listId
+  listId,
+  type = 'Screener'
 }) => {
   const {
     isPriceChartActive,
@@ -79,7 +80,7 @@ const ScreenerWidgets = ({
 
       {isMovement && (
         <WatchlistPriceWidget
-          type={'Screener'}
+          type={type}
           listId={listId}
           items={assets}
           trendingAssets={trendingAssets}

@@ -58,7 +58,7 @@ const GetWatchlistHistory = ({ type, from, projects, range, ...rest }) => {
     return (
       <HistoryQuery
         {...rest}
-        type={slug ? 'Total' : 'Watchlist'}
+        type={slug ? 'Total' : type}
         period={value}
         combinedInterval={interval}
       />
