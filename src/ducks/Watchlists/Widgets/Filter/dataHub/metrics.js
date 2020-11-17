@@ -447,7 +447,9 @@ export const Metric = {
   age_consumed: {
     category: 'On-chain',
     group: 'Network Activity',
-    label: 'Age Consumed'
+    label: 'Age Consumed',
+    isOnlyPercentFilters: true,
+    percentMetricKey: 'age_destroyed'
   }
 }
 
