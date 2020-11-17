@@ -165,6 +165,11 @@ export const Chart = ({
       toggleIndicatorMetric(newMetric)
     }
 
+    const newMap = new Map(widget.MetricSettingMap)
+    newMap.set(newMetric, getMetricSetting(newMap, metric))
+    newMap.delete(metric)
+    widget.MetricSettingMap = newMap
+
     for (let i = 0; i < metrics.length; i++) {
       if (metrics[i] !== metric) continue
 
