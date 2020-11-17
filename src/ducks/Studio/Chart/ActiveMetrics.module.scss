@@ -15,7 +15,7 @@
   justify-content: center;
 
   &_disabled {
-    fill: var(--mystic);
+    fill: var(--mystic) !important;
   }
 }
 

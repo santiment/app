@@ -66,7 +66,7 @@ export function buildIndicatorMetric (metric, indicator) {
   const { key, label } = metric
   const indicatorMetric = deriveMetric(metric, {
     indicator,
-    metricKey: key,
+    base: metric,
     node: Node.LINE,
     key: `${indicator.key}_${key}`,
     label: `${label} ${indicator.label}`,

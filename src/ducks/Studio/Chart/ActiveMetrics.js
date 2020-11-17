@@ -84,7 +84,7 @@ const MetricButton = ({
       )}
       aria-invalid={error}
     >
-      {metric.base && <LockInfo metric={metric} />}
+      {metric.project && <LockInfo metric={metric} />}
 
       {isWithIcon ? (
         isLoading ? (
