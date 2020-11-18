@@ -41,13 +41,14 @@ const Plan = ({
   const sameAsUserPlan = isSameAsUserPlan(subscription, id, userPlan)
   const { altPrice, altInterval } = getAltPrice(plans, billing, name)
 
-  const isCustom = price === 'Custom'
-
-  const isFree = name === 'FREE'
-
   if (!card) {
     return null
   }
+
+  const isCustom = price === 'Custom'
+  const isFree = name === 'FREE'
+
+  console.log(isFree, plan)
 
   return (
     <div
@@ -94,6 +95,7 @@ const Plan = ({
           amount={amount}
           billing={billing}
           id={id}
+          showCreditMsg={!isFree}
         />
 
         <Features
@@ -116,7 +118,8 @@ export const PlanBtn = ({
   amount,
   billing,
   id,
-  className
+  className,
+  showCreditMsg
 }) => {
   const { isLoggedIn } = useUser()
   const isSubscriptionCanceled = subscription && subscription.cancelAtPeriodEnd
@@ -124,11 +127,13 @@ export const PlanBtn = ({
   return (
     <div className={className}>
       {!isLoggedIn || sameAsUserPlan || isSubscriptionCanceled ? (
-        <RestrictBtn
-          sameAsUserPlan={sameAsUserPlan}
-          isSubscriptionCanceled={isSubscriptionCanceled}
-          label={card.link}
-        />
+        <>
+          <RestrictBtn
+            sameAsUserPlan={sameAsUserPlan}
+            isSubscriptionCanceled={isSubscriptionCanceled}
+            label={card.link}
+          />
+        </>
       ) : (
         <card.Component
           title={card.title}
@@ -142,6 +147,10 @@ export const PlanBtn = ({
           altPrice={altPrice}
         />
       )}
+      <div className={styles.noCredit}>
+        {!sameAsUserPlan && showCreditMsg ? 'No credit card required' : ' '}
+        &nbsp;
+      </div>
     </div>
   )
 }

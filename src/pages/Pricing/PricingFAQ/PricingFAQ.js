@@ -41,12 +41,20 @@ const QUESTIONS = [
     title: "My question wasn't listed here, help!",
     descr: (
       <>
-        Our Santiment Academy at https://academy.santiment.net/ is aimed to
-        answer many of your initial questions. But please do not hesitate to
-        contact us, either! You should see a chat icon in the lower right corner
-        of this screen. Click it and you'll have the chance to chat with one of
-        us right away. Both our team and our community are available on Discord,
-        too:{' '}
+        Our{' '}
+        <a
+          href='https://academy.santiment.net/'
+          className={styles.link}
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          Santiment Academy
+        </a>{' '}
+        is aimed to answer many of your initial questions. But please do not
+        hesitate to contact us, either! You should see a chat icon in the lower
+        right corner of this screen. Click it and you'll have the chance to chat
+        with one of us right away. Both our team and our community are available
+        on Discord, too:{' '}
         <a
           href='https://santiment.net/discord'
           className={styles.link}
