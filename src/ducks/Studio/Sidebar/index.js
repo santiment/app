@@ -23,7 +23,7 @@ const ON_CHAIN_DEFAULT = [
   HOLDER_DISTRIBUTION_ITEM,
   HOLDER_DISTRIBUTION_COMBINED_BALANCE_ITEM,
   TOP_TRANSACTIONS_TABLE_ITEM
-]
+].map(({ item }) => item)
 
 const TABS = ['Metrics', 'Insights']
 const DEFAULT_TAB = TABS[0]

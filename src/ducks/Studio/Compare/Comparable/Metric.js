@@ -34,10 +34,10 @@ const MetricSearch = withMetrics(
       searchPredicate={SEARCH_PREDICATE_ONLY_METRICS}
       className={cx(className, loading && styles.loading)}
       categories={CustomProjectCategories[slug] || categories}
-      emptySuggestions={getMetricSuggestions({
-        categories: CustomProjectCategories[slug] || categories,
-        predicate: SEARCH_PREDICATE_ONLY_METRICS
-      })}
+      emptySuggestions={getMetricSuggestions(
+        CustomProjectCategories[slug] || categories,
+        SEARCH_PREDICATE_ONLY_METRICS
+      )}
       inputProps={{
         placeholder: 'Type to search metrics...'
       }}
