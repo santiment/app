@@ -5,10 +5,9 @@ import Plan from '../Plan/Plan'
 import { usePlans } from '../../../ducks/Plans/hooks'
 import { useUserSubscription } from '../../../stores/user/subscriptions'
 import PlanDetails from '../PlanDetails/PlanDetails'
-import styles from './Plans.module.scss'
 import { getShowingPlans } from '../../../utils/plans'
 import { Skeleton } from '../../../components/Skeleton'
-import EmergencyPlan from '../Enterprise/EmergencyPlan'
+import styles from './Plans.module.scss'
 
 const Billing = ({ selected, onClick }) => {
   const isYearSelected = selected === 'year'
@@ -79,8 +78,6 @@ const Plans = ({ id, classes = {} }) => {
           />
         ))}
       </div>
-
-      <EmergencyPlan />
 
       <PlanDetails
         plans={plans}
