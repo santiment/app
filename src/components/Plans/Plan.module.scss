@@ -39,7 +39,7 @@
     border-radius: 4px !important;
     box-shadow: 0 14px 20px rgba(24, 27, 43, 0.06) !important;
     transform: scale(1.03) !important;
-    border-color: var(--jungle-green);
+    border-color: var(--texas-rose);
   }
 
   &__title {
@@ -128,4 +128,18 @@
   &:last-child {
     margin-bottom: 0;
   }
+}
+
+.features {
+  margin-top: 24px !important;
+}
+
+.noCredit {
+  color: var(--waterloo);
+  margin-top: 4px;
+  text-align: left;
+}
+
+.restrictBtn {
+  margin-bottom: 0;
 }

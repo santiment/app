@@ -20,6 +20,7 @@ export const PlanCard = ({
 }) => {
   const { id, name, amount } = plan
   const card = PLANS[name]
+  const isFree = name === 'FREE'
 
   const sameAsUserPlan = isSameAsUserPlan(subscription, id, userPlan)
   const { altPrice } = getAltPrice(plans, billing, name)
@@ -51,6 +52,7 @@ export const PlanCard = ({
           accent: 'orange'
         }}
         className={classes.planBtn}
+        showCreditMsg={!isFree}
       />
     </El>
   )

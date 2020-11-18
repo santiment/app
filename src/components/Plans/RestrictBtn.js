@@ -1,13 +1,18 @@
 import React from 'react'
+import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import { useUser } from '../../stores/user'
 import { PATHS } from '../../paths'
 import sharedStyles from './Plans.module.scss'
+import styles from './Plan.module.scss'
 
-const getProps = ({ label, sameAsUserPlan, isSubscriptionCanceled }) => {
-  const { isLoggedIn } = useUser()
-
+const getProps = ({
+  isLoggedIn,
+  label,
+  sameAsUserPlan,
+  isSubscriptionCanceled
+}) => {
   if (!isLoggedIn) {
     return {
       children: label || 'Start free trial',
@@ -28,17 +33,36 @@ const getProps = ({ label, sameAsUserPlan, isSubscriptionCanceled }) => {
       : { children: 'Upgrade now', as: Link, to: '/account', variant: 'fill' }
 }
 
-const RestrictBtn = ({ label, sameAsUserPlan, isSubscriptionCanceled }) => {
-  const props = getProps({ label, sameAsUserPlan, isSubscriptionCanceled })
+const RestrictBtn = ({
+  showCreditMsg,
+  label,
+  sameAsUserPlan,
+  isSubscriptionCanceled
+}) => {
+  const { isLoggedIn } = useUser()
+  const props = getProps({
+    isLoggedIn,
+    label,
+    sameAsUserPlan,
+    isSubscriptionCanceled
+  })
 
   return (
-    <Button
-      fluid
-      accent='orange'
-      border
-      className={sharedStyles.link}
-      {...props}
-    />
+    <>
+      <Button
+        fluid
+        accent='orange'
+        border
+        {...props}
+        className={cx(sharedStyles.link, styles.restrictBtn)}
+      />
+      <div className={styles.noCredit}>
+        {!isLoggedIn && !sameAsUserPlan && showCreditMsg
+          ? 'No credit card required'
+          : ' '}
+        &nbsp;
+      </div>
+    </>
   )
 }
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Toggle from '@santiment-network/ui/Toggle'
-import Plan from '../Plan/Plan'
+import PricingPlan from '../Plan/PricingPlan'
 import { usePlans } from '../../../ducks/Plans/hooks'
 import { useUserSubscription } from '../../../stores/user/subscriptions'
 import PlanDetails from '../PlanDetails/PlanDetails'
@@ -68,7 +68,7 @@ const Plans = ({ id, classes = {} }) => {
         )}
       >
         {showingPlans.map(plan => (
-          <Plan
+          <PricingPlan
             key={plan.id}
             plan={plan}
             billing={billing}
