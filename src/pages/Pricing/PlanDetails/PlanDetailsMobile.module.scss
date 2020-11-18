@@ -3,6 +3,7 @@
 .container {
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .header {
@@ -10,6 +11,9 @@
   border-bottom: 0;
   border-top-left-radius: $border-radius;
   border-top-right-radius: $border-radius;
+  position: sticky;
+  top: 0;
+  background: var(--white);
 }
 
 .swipeContainer {
@@ -46,11 +50,12 @@
 }
 
 .description {
-  @include text('body-2'); }
+  @include text('body-2');
+}
 
 .planBtn {
   a,
- button {
+  button {
     margin-top: 4px;
   }
 }

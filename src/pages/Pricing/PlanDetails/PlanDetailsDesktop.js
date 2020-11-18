@@ -36,7 +36,7 @@ const PlanDetailsDesktop = ({
     <table className={styles.table}>
       <thead>
         <tr className={styles.headers}>
-          <th className={styles.head} key='empty'>
+          <th className={cx(styles.head, styles.th)} key='empty'>
             {''}
           </th>
           {showingPlans.map(plan => {
