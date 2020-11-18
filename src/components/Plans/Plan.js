@@ -48,8 +48,6 @@ const Plan = ({
   const isCustom = price === 'Custom'
   const isFree = name === 'FREE'
 
-  console.log(isFree, plan)
-
   return (
     <div
       className={cx(
@@ -129,6 +127,7 @@ export const PlanBtn = ({
       {!isLoggedIn || sameAsUserPlan || isSubscriptionCanceled ? (
         <>
           <RestrictBtn
+            showCreditMsg={showCreditMsg}
             sameAsUserPlan={sameAsUserPlan}
             isSubscriptionCanceled={isSubscriptionCanceled}
             label={card.link}
@@ -147,10 +146,6 @@ export const PlanBtn = ({
           altPrice={altPrice}
         />
       )}
-      <div className={styles.noCredit}>
-        {!sameAsUserPlan && showCreditMsg ? 'No credit card required' : ' '}
-        &nbsp;
-      </div>
     </div>
   )
 }

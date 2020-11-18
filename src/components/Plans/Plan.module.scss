@@ -131,11 +131,15 @@
 }
 
 .features {
-  margin-top: 24px;
+  margin-top: 24px !important;
 }
 
 .noCredit {
   color: var(--waterloo);
   margin-top: 4px;
   text-align: left;
+}
+
+.restrictBtn {
+  margin-bottom: 0;
 }
