@@ -527,5 +527,6 @@ export const metrics = [
 
 export const MetricAlias = {
   active_addresses_24h: Metric.daily_active_addresses,
-  dev_activity: Metric.dev_activity_1d
+  dev_activity: Metric.dev_activity_1d,
+  age_destroyed: Metric.age_consumed
 }
