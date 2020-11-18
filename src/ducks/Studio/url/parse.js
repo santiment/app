@@ -7,6 +7,7 @@ import {
   getMetricByKey,
   buildProjectMetricKey
 } from '../metrics'
+import { buildCompareKey } from '../Compare/utils'
 import ChartWidget from '../Widget/ChartWidget'
 import { TypeToWidget } from '../Widget/types'
 import {
@@ -60,19 +61,36 @@ const parseConnectedWidget = ({ widget, from, to }) =>
 
 export const parseComparable = key =>
   getProjectMetricByKey(key, COMPARE_CONNECTOR)
-const parseSharedComparables = keys =>
-  keys ? toArray(keys).map(parseComparable) : []
 
-function parseColors (colors = {}, SharedKeyIndicator, project) {
+function parseSharedComparables (keys) {
+  const comparedKeys = keys ? toArray(keys) : []
+  const comparables = []
+  const SharedKeyComparable = {}
+
+  for (let i = 0; i < comparedKeys.length; i++) {
+    const metric = parseComparable(comparedKeys[i])
+    comparables.push(metric)
+    SharedKeyComparable[buildCompareKey(metric.base, metric.project)] = metric
+  }
+
+  return [comparables, SharedKeyComparable]
+}
+
+function parseColors (
+  colors = {},
+  project,
+  SharedKeyIndicator,
+  SharedKeyComparable
+) {
   const Colors = {}
 
   Object.keys(colors).forEach(key => {
     let metricKey = checkIsProjectMetricKey(key) && key
 
     if (!metricKey) {
-      const indicatorMetric = SharedKeyIndicator[key]
-      metricKey = indicatorMetric
-        ? indicatorMetric.key
+      const sharedMetric = SharedKeyIndicator[key] || SharedKeyComparable[key]
+      metricKey = sharedMetric
+        ? sharedMetric.key
         : buildProjectMetricKey(project, { key })
     }
 
@@ -82,14 +100,18 @@ function parseColors (colors = {}, SharedKeyIndicator, project) {
   return Colors
 }
 
-function parseMetricSetting (MetricSetting = {}, SharedKeyIndicator) {
+function parseMetricSetting (
+  MetricSetting = {},
+  SharedKeyIndicator,
+  SharedKeyComparable
+) {
   const MetricSettingMap = new Map()
 
   Object.keys(MetricSetting).forEach(key => {
-    MetricSettingMap.set(
-      parseMetric(key, SharedKeyIndicator),
-      MetricSetting[key]
-    )
+    const metric = parseMetric(key, SharedKeyIndicator, SharedKeyComparable)
+    if (!metric) return
+
+    MetricSettingMap.set(metric, MetricSetting[key])
   })
 
   return MetricSettingMap
@@ -143,8 +165,8 @@ function parseMetricIndicators (indicators) {
   return [MetricIndicators, SharedKeyIndicator]
 }
 
-function parseMetric (key, ParsedKeyMetric) {
-  const metric = ParsedKeyMetric[key]
+function parseMetric (key, ParsedKeyMetric, SharedKeyComparable) {
+  const metric = ParsedKeyMetric[key] || SharedKeyComparable[key]
   if (metric) return metric
 
   if (checkIsProjectMetricKey(key)) {
@@ -170,10 +192,12 @@ export function parseSharedWidgets (sharedWidgets, project) {
         SharedKeyIndicator
       ] = parseMetricIndicators(indicators)
       const [holderMetrics, cleanedMetricKeys] = extractMergedMetrics(metrics)
-      const cleanedMetrics = cleanedMetricKeys.map(key =>
-        parseMetric(key, SharedKeyIndicator)
+      const [comparedMetrics, SharedKeyComparable] = parseSharedComparables(
+        comparables
       )
-      const comparedMetrics = parseSharedComparables(comparables)
+      const cleanedMetrics = cleanedMetricKeys.map(key =>
+        parseMetric(key, SharedKeyIndicator, SharedKeyComparable)
+      )
 
       const parsedMetrics = cleanedMetrics
         .filter(Boolean)
@@ -186,8 +210,17 @@ export function parseSharedWidgets (sharedWidgets, project) {
         connectedWidgets: connectedWidgets
           ? connectedWidgets.map(parseConnectedWidget)
           : [],
-        MetricColor: parseColors(colors, SharedKeyIndicator, project),
-        MetricSettingMap: parseMetricSetting(settings, SharedKeyIndicator),
+        MetricColor: parseColors(
+          colors,
+          project,
+          SharedKeyIndicator,
+          SharedKeyComparable
+        ),
+        MetricSettingMap: parseMetricSetting(
+          settings,
+          SharedKeyIndicator,
+          SharedKeyComparable
+        ),
         MetricIndicators: parsedMetricIndicators
       })
     }
@@ -273,7 +306,7 @@ export function parseUrl (
     settings: reduceStateKeys(settings, data),
     options: reduceStateKeys(options, data),
     metrics: sanitize(convertKeysToMetrics(data.metrics)),
-    comparables: sanitize(parseSharedComparables(data.comparables))
+    comparables: sanitize(parseSharedComparables(data.comparables)[0])
   }
 }
 
