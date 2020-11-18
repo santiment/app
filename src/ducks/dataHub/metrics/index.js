@@ -227,6 +227,12 @@ export const Metric = {
       }
     }
   },
+  dev_activity_contributors_count: {
+    category: 'Development',
+    node: 'bar',
+    label: 'Dev. Activity Contributors Count',
+    shortLabel: 'Dev. Act. Contr. Count'
+  },
   velocity: {
     category: 'On-chain',
     node: 'line',
