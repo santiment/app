@@ -27,10 +27,10 @@ const testimonials = [
       'I’ve been trading/investing/hodling for 3 years next week, and your website/app is REAL. i wish i had this a long time ago'
   },
   {
-    author: 'Anonymous person',
+    author: 'Panama_TJ',
     pic: 'default',
     text:
-      'I’ve learned so much about market behavior and long and short-term coin trends by binging on Sanbase charts. Doesn’t matter if you’re a newbie or a veteran in the market, if you’re serious about crypto analysis Sanbase is a great place to validate your theories and test new data-driven approaches.'
+      'Santiment is definitely the data source I use for all of the on-chain analytics I need.'
   }
 ]
 
