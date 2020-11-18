@@ -35,10 +35,10 @@ export default {
     features: [
       'All Sanbase metrics - minus last 30 days',
       'All Sanbase metrics - up to 2 years of historical data',
-      'Access to basic coin alerts',
-      'Up to 10 active coin alerts',
       'Personalized asset watchlists',
-      'Access to Sanbase Screener (minus PRO filters)'
+      'Access to Sanbase Screener (minus PRO filters and saves)',
+      'Access to basic coin alerts',
+      'Up to 10 active coin alerts'
     ]
   },
   PRO: {
@@ -48,14 +48,13 @@ export default {
     link: 'Start free trial',
     features: [
       <b>All in Free and:</b>,
-      'Closed chat',
       'Sanbase metrics: full historical and present-day data',
-      'Access to all Sanbase alerts',
-      'Full access to Santiment Screener',
-      'Daily market insights',
-      'Google Sheets / Excel plugin',
+      'Get unlimited access to every daily market insight',
       'Exclusive weekly Pro reports',
-      'Market segment dashboards (stablecoins, defi, dexes and more)'
+      'Full access to Santiment Screener',
+      'Access to all Sanbase alerts',
+      'Closed chat',
+      'Google Sheets Plugin'
     ]
   },
   PRO_PLUS: {
@@ -65,12 +64,11 @@ export default {
     link: 'Start free trial',
     features: [
       <b>All in PRO and:</b>,
-      'Closed Webinars with Santiment Analytics',
       'Dedicated account manager',
-      'Basic API',
-      'Google Sheets / Excel plugin',
+      'Basic API 300k API calls',
+      'Closed Webinars with Santiment Analytics',
       'Closed chat with Santiment market analysts',
-      'Basic API 300k API calls'
+      'Custom education & onboarding'
     ]
   },
   BASIC: {

@@ -10,83 +10,149 @@ export default {
         {
           name: 'API calls / minute',
           texts: [
-            '20 API calls / min',
-            '60 API calls / min',
-            '120 API calls / min'
+            '100 API calls / min',
+            '100 API calls / min',
+            '300 API calls / min'
+          ]
+        },
+        {
+          name: 'API calls / hour',
+          texts: [
+            '500 API calls / hour',
+            '1000 API calls / hour',
+            '3000 API calls / hour'
           ]
         },
         {
           name: 'API calls / month',
           texts: [
+            '1K API calls / mo',
             '5K API calls / mo',
-            '10K API calls / mo',
             '300K API calls / mo'
           ]
+        }
+      ]
+    },
+    {
+      group: { name: 'Support' },
+      data: [
+        {
+          name: 'Priority support',
+          checks: [false, true, true]
         },
         {
-          name: 'Type of metrics',
-          texts: ['Standard', 'Standard', 'Advanced']
+          name: 'Dedicated account manager',
+          checks: [false, false, true]
         },
         {
-          name: 'Attribution',
-          texts: ['Attribution required', 'No attribution', 'No attribution']
+          name: 'Custom onboarding & education',
+          checks: [false, false, true]
+        }
+      ]
+    },
+    {
+      group: { name: 'Integrations' },
+      data: [
+        {
+          name: 'Google Sheets Plugin',
+          checks: [false, true, true]
+        },
+        {
+          name: 'CSV',
+          checks: [false, true, true]
+        },
+        {
+          name: 'Telegram',
+          checks: [true, true, true]
         }
       ]
     },
     {
       group: { name: 'Financial data' },
-      data: [
-        { name: 'Open/High/Low/Close' },
-        { name: 'Price-volume difference indicator' }
-      ]
+      data: [{ name: 'Price' }, { name: 'Marketcap' }, { name: 'Volume' }]
     },
     {
       group: { name: 'On-chain data' },
       data: [
         { name: 'Daily active addresses' },
+        { name: 'Rolling 24-hour active addresses ' },
+        { name: '1-hour active addresses' },
+        { name: 'Price-DAA Divergence model' },
         { name: 'Network growth' },
-        { name: 'Token age consumed' },
-        { name: 'Average token age consumed' },
-        { name: 'Exchange flow' },
-        { name: 'Total ERC20 exchange funds flow' },
         { name: 'Transaction volume' },
-        { name: 'Total circulation (beta)', checks: [false, true, true] },
-        { name: 'Velocity of tokens (beta)', checks: [false, true, true] },
-        { name: 'ETH gas used', checks: [false, true, true] },
+        { name: 'Top transactions dashboard' },
+        { name: 'Velocity' },
         {
-          name: 'Distribution between mining pools',
-          checks: [false, true, true]
+          name:
+            'Circulation (1d, 7d, 30d, 60d, 90d, 180d, 365d, 2y, 3y, 5y, 10y)'
         },
+        { name: 'Age consumed' },
         {
-          name: 'Top holders percent of total supply',
-          checks: [false, true, true]
+          name:
+            'Dormant circulation (1d, 7d, 30d, 60d, 90d, 180d, 365d, 2y, 3y, 5y, 10y)'
         },
+        { name: 'Mean Coin Age' },
+        { name: 'Mean Dollar Invested Age' },
         {
-          name: 'Percent of total supply on exchanges',
-          checks: [false, true, true]
+          name:
+            'MVRV ratio (intraday, 1d, 7d, 30d, 60d, 90d, 180d, 365d, 2y, 3y, 5y, 10y)'
         },
+        { name: 'MVRV Long/Short difference' },
         {
-          name: 'Realized value',
-          checks: [false, false, true]
+          name:
+            'Realized cap (1d, 7d, 30d, 60d, 90d, 180d, 365d, 2y, 3y, 5y, 10y)'
         },
-        {
-          name: 'MVRV ratio',
-          checks: [false, false, true]
-        },
-        { name: 'NVT', checks: [false, false, true] },
-        {
-          name: 'Daily active deposits',
-          checks: [false, false, true]
-        }
+        { name: 'Network realized profit/loss' },
+        { name: 'NVT ratio (using transaction volume)' },
+        { name: 'NVT ratio (using circulation)' },
+        { name: 'Stock to Flow ratio' },
+        { name: 'Daily active deposits' },
+        { name: 'Deposit transactions' },
+        { name: 'Exchange inflow' },
+        { name: 'Exchange outflow' },
+        { name: 'Exchange flow balance' },
+        { name: 'Coin supply on exchanges' },
+        { name: 'Coin supply on exchanges (as % of total supply)' },
+        { name: 'Coin supply outside of exchanges' },
+        { name: 'Withdrawal transactions' },
+        { name: 'Holder distribution' },
+        { name: 'Holder distribution combined balance' },
+        { name: 'Amount held by top addresses' },
+        { name: 'Amount held by top addresses (as % of total supply)' },
+        { name: 'Amount held by top non-exchange addresses' },
+        { name: 'Amount held by top exchange addresses' },
+        { name: 'Gas used' },
+        { name: 'Miner balance (ETH)' },
+        { name: 'Total value locked in DeFi' },
+        { name: 'Tokenized BTC on Ethereum' },
+        { name: 'Decentralized exchanges (total volume)' },
+        { name: 'Decentralized exchanges (dex-specific volume)' },
+        { name: 'Decentralized exchanges (total number of trades)' },
+        { name: 'Decentralized exchanges (dex-specific number of trades)' },
+        { name: 'ETH spent over time (ETH and ERC-20 projects)' }
       ]
     },
     {
-      group: { name: 'Social data' },
+      group: { name: 'Development metrics' },
       data: [
-        { name: 'Dev activity' },
-        { name: 'Topic search' },
-        { name: 'Relative social dominance', checks: [false, true, true] },
-        { name: 'Total social volume', checks: [false, true, true] }
+        { name: 'Development activity' },
+        { name: 'Development contributors count' }
+      ]
+    },
+    {
+      group: { name: 'Social metrics' },
+      data: [
+        { name: 'Social dominance' },
+        { name: 'Social volume' },
+        { name: 'Social sentiment (total)' },
+        { name: 'Social sentiment (twitter)' },
+        { name: 'Social sentiment (reddit)' },
+        { name: 'Social sentiment (telegram)' },
+        { name: 'Topic Search' },
+        {
+          name: 'Santrends (Top 10 hyped trends right now)',
+          checks: [false, true, true]
+        }
       ]
     }
   ]
