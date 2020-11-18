@@ -13,11 +13,9 @@ const Blocks = [
       <Button
         variant='ghost'
         accent='blue'
+        as={Link}
         className={styles.btn}
-        onClick={() =>
-          window.Intercom &&
-          window.Intercom('showNewMessage', 'Talk with expert.')
-        }
+        to={PATHS.CREATE_ACCOUNT}
       >
         Start your free trial
       </Button>
@@ -31,9 +29,11 @@ const Blocks = [
       <Button
         variant='ghost'
         accent='blue'
-        as={Link}
         className={styles.btn}
-        to={PATHS.CREATE_ACCOUNT}
+        onClick={() =>
+          window.Intercom &&
+          window.Intercom('showNewMessage', 'Talk with expert.')
+        }
       >
         Request a demo
       </Button>
