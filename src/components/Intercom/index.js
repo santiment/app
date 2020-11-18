@@ -1,8 +1,10 @@
 import React from 'react'
 import styles from './index.module.scss'
 
-const Intercom = ({ ...props }) => (
-  <div className={styles.wrapper} onClick={() => window.Intercom('show')}>
+const showIntercom = () => window.Intercom('show')
+
+const Intercom = () => (
+  <div className={styles.wrapper} onClick={showIntercom}>
     <svg
       className={styles.icon}
       width='14'
