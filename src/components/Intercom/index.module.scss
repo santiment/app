@@ -1,0 +1,27 @@
+@import '~@santiment-network/ui/variables';
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  user-select: none;
+  z-index: 23;
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: rotate(90deg);
+  transform-origin: top right;
+  padding: 7px 12px;
+  color: $white;
+  fill: $white;
+  background: var(--jungle-green);
+  border-radius: 0 0 4px 4px;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--jungle-green-hover);
+  }
+}
+
+.icon {
+  margin-right: 8px;
+}
