@@ -127,6 +127,7 @@ export const PlanBtn = ({
         <RestrictBtn
           sameAsUserPlan={sameAsUserPlan}
           isSubscriptionCanceled={isSubscriptionCanceled}
+          label={card.link}
         />
       ) : (
         <card.Component

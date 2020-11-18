@@ -26,7 +26,7 @@ export default {
     title: 'Free',
     desc: 'For individuals just getting started with crypto',
     discount: 'Free forever',
-    link: 'Start free trial',
+    link: "Sign up, It's Free",
     Component: () => (
       <Button accent='blue' border fluid className={styles.link} disabled>
         Default plan
@@ -45,7 +45,7 @@ export default {
     title: 'Pro',
     desc: 'Advanced metrics & serious backtesting potential',
     Component: PlanActionDialog,
-    link: 'Start free trial',
+    link: 'Start Free 14-Day Trial',
     features: [
       <b>All in Free and:</b>,
       'Closed chat',
@@ -62,7 +62,7 @@ export default {
     title: 'Pro+',
     desc: 'Advanced metrics & serious backtesting potential',
     Component: PlanActionDialog,
-    link: 'Start free trial',
+    link: 'Start Free 14-Day Trial',
     features: [
       <b>All in PRO and:</b>,
       'Closed Webinars with Santiment Analytics',
@@ -76,7 +76,7 @@ export default {
   BASIC: {
     title: 'Basic',
     desc: 'Great for short-term analysis and prototyping',
-    link: 'Start free trial',
+    link: 'Start Free 14-Day Trial',
     Component: PlanActionDialog,
     features: [
       'Access to all alert types',
