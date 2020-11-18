@@ -27,7 +27,7 @@ function predicate (searchTerm) {
 export const getMetricSuggestions = (
   categories,
   predicate,
-  props,
+  props = {},
   onChainDefault = ON_CHAIN_DEFAULT
 ) => {
   const suggestions = []
