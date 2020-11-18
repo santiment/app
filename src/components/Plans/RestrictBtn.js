@@ -56,12 +56,12 @@ const RestrictBtn = ({
         {...props}
         className={cx(sharedStyles.link, styles.restrictBtn)}
       />
-      <div className={styles.noCredit}>
-        {!isLoggedIn && !sameAsUserPlan && showCreditMsg
-          ? 'No credit card required'
-          : ' '}
-        &nbsp;
-      </div>
+      {!isLoggedIn && (
+        <div className={styles.noCredit}>
+          {!sameAsUserPlan && showCreditMsg ? 'No credit card required' : ' '}
+          &nbsp;
+        </div>
+      )}
     </>
   )
 }
