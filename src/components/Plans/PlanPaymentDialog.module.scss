@@ -2,12 +2,21 @@
 @import '~@santiment-network/ui/variables';
 
 .dialog {
-  width: 945px;
+  width: 857px;
   position: relative;
 }
 
+.title {
+  padding: 12px 24px !important;
+
+  @include text('body-2'); }
+
 .content {
-  padding: 32px;
+  padding: 40px;
+
+  @include responsive('phone', 'phone-xs', 'laptop') {
+    padding: 16px;
+  }
 }
 
 .bottom {
@@ -26,11 +35,11 @@
     align-items: center;
 
     &:first-child {
-      margin-right: 49px;
+      margin-right: 46px;
     }
 
     svg {
-      margin: 0 10px 0 0;
+      margin: 0 7px 0 0;
     }
   }
 }

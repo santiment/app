@@ -1,36 +1,5 @@
 @import '~@santiment-network/ui/mixins';
 
-.title {
-  background: var(--athens);
-  padding: 10px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  border-radius: $border-radius;
-  margin-bottom: 8px;
-  color: var(--waterloo);
-
-  @include text('body-3', 'l');
-
-  &:hover {
-    color: var(--fiord);
-    fill: var(--jungle-green-hover);
-  }
-}
-
-.arrow {
-  fill: var(--waterloo);
-}
-
-.arrowOpened {
-  fill: var(--rhino);
-}
-
-.container {
-  margin-top: 8px;
-}
-
 .list {
   background: var(--white);
 }

@@ -1,0 +1,98 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  border: 1px solid var(--porcelain);
+  border-radius: 8px;
+  padding: 40px 56px;
+  margin: 40px 0 0 0;
+  display: flex;
+  position: relative;
+  background: var(--rhino) url("./payCryptoBg.svg") no-repeat 100%;
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    padding: 32px 24px;
+    background: var(--rhino) url("./payCryptoBg.svg") no-repeat 228px;
+  }
+}
+
+.tokensImg {
+  position: absolute;
+  left: 56px;
+  top: 51px;
+
+  @include responsive('phone', 'phone-xs') {
+    display: none;
+  }
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.title {
+  @include text('h3', 'l');
+
+  color: var(--white);
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    @include text('h4', 'l');
+  }
+}
+
+.description {
+  @include text('body-2');
+
+  margin-top: 16px;
+  color: var(--white);
+}
+
+.contactBtn {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  width: 122px;
+  justify-content: center;
+  background: transparent;
+  color: var(--white);
+  border: 1px solid var(--white);
+  height: 40px;
+
+  @include text('body-2');
+
+  &:hover {
+    color: var(--jungle-green);
+  }
+}
+
+.right {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.feature {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+
+  &:last-child {
+    margin: 0;
+  }
+
+  @include responsive('phone-xs') {
+    width: 100%;
+  }
+}
+
+.check {
+  box-sizing: content-box;
+  padding: 9px 8px;
+  background: #dcf6ef;
+  border-radius: 50%;
+  margin-right: 12px;
+  fill: var(--jungle-green);
+}

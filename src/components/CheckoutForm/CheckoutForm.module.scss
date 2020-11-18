@@ -7,12 +7,14 @@
 
   @include responsive('laptop', 'desktop') {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 1fr;
     grid-column-gap: 32px;
-    grid-template-areas:
-      'card confirmation'
-      'address confirmation';
+    grid-template-areas: 'card confirmation';
   }
+}
+
+.address {
+  margin-top: 32px;
 }
 
 @include responsive('laptop', 'desktop') {
@@ -20,45 +22,39 @@
     grid-area: card;
   }
 
-  .address {
-    grid-area: address;
-  }
-
   .confirmation {
     grid-area: confirmation;
+    background: var(--athens);
+    border-radius: $border-radius;
+    padding: 28px 32px 32px 32px;
+    width: 419px;
   }
 }
 
 .top {
-  @include text('body-3');
+  @include text('body-3', 'm');
 
-  color: var(--waterloo);
+  color: var(--fiord);
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
   position: relative;
 
   &__cards {
     display: flex;
     align-items: center;
-    position: absolute;
-    right: 0;
-    bottom: 0;
   }
 
   &__visa {
-    margin-right: 16px;
+    margin-right: 11px;
+    width: 31px;
+    height: 9px;
   }
-}
 
-.form {
-  border-radius: 4px;
-  padding: 24px 32px;
-  border: 1px solid var(--porcelain);
-
-  &_filled {
-    background: var(--athens);
+  &__mastercard {
+    height: 12px;
+    width: 19px;
   }
 }
 
@@ -125,7 +121,6 @@
   color: var(--waterloo);
   flex: 1;
   margin-bottom: 3px;
-  position: relative;
 
   &_cvc {
     margin-left: 16px;

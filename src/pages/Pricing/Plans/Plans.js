@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Toggle from '@santiment-network/ui/Toggle'
-import Plan from './Plan'
-import { noBasicPlan } from '../../utils/plans'
-import { usePlans } from '../../ducks/Plans/hooks'
-import { useUser } from '../../stores/user'
-import { useUserSubscription } from '../../stores/user/subscriptions'
-import Enterprise from './Enterprise'
+import Plan from '../Plan/Plan'
+import { usePlans } from '../../../ducks/Plans/hooks'
+import { useUserSubscription } from '../../../stores/user/subscriptions'
+import PlanDetails from '../PlanDetails/PlanDetails'
+import { getShowingPlans } from '../../../utils/plans'
+import { Skeleton } from '../../../components/Skeleton'
 import styles from './Plans.module.scss'
 
 const Billing = ({ selected, onClick }) => {
@@ -17,10 +17,11 @@ const Billing = ({ selected, onClick }) => {
         onClick={() => onClick('month')}
         className={cx(
           styles.billing__option,
+          styles.billing__montly,
           !isYearSelected && styles.billing__option_active
         )}
       >
-        Bill monthly
+        Monthly
       </span>
       <Toggle
         className={styles.billing__toggle}
@@ -35,50 +36,54 @@ const Billing = ({ selected, onClick }) => {
         )}
         onClick={() => onClick('year')}
       >
-        Bill yearly
-        <span className={styles.billing__save}>save 10%!</span>
+        Yearly
+        <span className={styles.billing__save}>(Save 20%)</span>
       </span>
     </>
   )
 }
 
 const Plans = ({ id, classes = {} }) => {
-  const { user } = useUser()
   const { subscription } = useUserSubscription()
-  const [billing, setBilling] = useState('year')
-  const [plans] = usePlans()
+  const [billing, setBilling] = useState('month')
+  const [plans, loading] = usePlans()
 
-  const userPlan = subscription && subscription.plan.id
   const isSubscriptionCanceled = subscription && subscription.cancelAtPeriodEnd
+
+  const showingPlans = getShowingPlans(plans, billing)
+
+  if (loading) {
+    return <Skeleton show={loading} className={styles.skeleton} />
+  }
 
   return (
     <>
       <div id={id} className={cx(styles.billing, classes.billing)}>
         <Billing selected={billing} onClick={setBilling} />
       </div>
-      <div className={styles.cards}>
-        {plans
-          .filter(noBasicPlan)
-          .filter(
-            ({ name, interval }) => interval === billing || name === 'FREE'
-          )
-          .map(plan =>
-            plan.name === 'ENTERPRISE' ? (
-              <Enterprise key={plan.id} />
-            ) : (
-              <Plan
-                key={plan.id}
-                {...plan}
-                isLoggedIn={user}
-                billing={billing}
-                plans={plans}
-                userPlan={userPlan}
-                subscription={subscription}
-                isSubscriptionCanceled={isSubscriptionCanceled}
-              />
-            )
-          )}
+      <div
+        className={cx(
+          styles.cards,
+          showingPlans.length === 2 && styles.cards__two
+        )}
+      >
+        {showingPlans.map(plan => (
+          <Plan
+            key={plan.id}
+            plan={plan}
+            billing={billing}
+            plans={plans}
+            subscription={subscription}
+            isSubscriptionCanceled={isSubscriptionCanceled}
+          />
+        ))}
       </div>
+
+      <PlanDetails
+        plans={plans}
+        billing={billing}
+        subscription={subscription}
+      />
     </>
   )
 }

@@ -1,33 +1,30 @@
 import React from 'react'
-import styles from './Enterprise.module.scss'
 import Button from '@santiment-network/ui/Button'
+import tokensSvg from './tokens.svg'
+import styles from './PayWithCrypto.module.scss'
 
 const PayWithCrypto = () => (
   <div className={styles.wrapper}>
-    <div className={styles.left}>
+    <img src={tokensSvg} className={styles.tokensImg} alt='Tokens' />
+    <div className={styles.info}>
       <div className={styles.title}>Pay with crypto</div>
-      <div className={styles.description}>
-        You can burn SAN tokens or pay by DAI/ETH
-        <Button
-          variant='ghost'
-          accent='positive'
-          as='a'
-          rel='noopener noreferrer'
-          target='_blank'
-          href='https://academy.santiment.net/products-and-plans/how-to-pay-with-crypto/'
-        >
-          Learn more
-        </Button>
-      </div>
+      <a
+        className={styles.description}
+        rel='noopener noreferrer'
+        target='_blank'
+        href='https://academy.santiment.net/products-and-plans/how-to-pay-with-crypto/'
+      >
+        Burn SAN tokens or pay with DAI / ETH
+      </a>
       <Button
-        variant='fill'
-        accent='positive'
+        variant='ghost'
+        className={styles.contactBtn}
         onClick={() =>
           window.Intercom &&
           window.Intercom('showNewMessage', 'Hello, I want to pay by crypto.')
         }
       >
-        Contact us
+        Contact sales
       </Button>
     </div>
   </div>

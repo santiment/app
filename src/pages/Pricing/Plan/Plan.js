@@ -1,5 +1,5 @@
 import React from 'react'
-import Plan from '../../components/Plans/Plan'
+import Plan from '../../../components/Plans/Plan'
 import styles from './Plan.module.scss'
 
 const PLAN_CLASSES = {
@@ -12,14 +12,12 @@ const PLAN_CLASSES = {
   popular: styles.card__popular
 }
 
-const PricingPlan = ({ ...props }) => {
-  return (
-    <Plan
-      {...props}
-      classes={PLAN_CLASSES}
-      btnProps={{ border: undefined, variant: 'fill' }}
-    />
-  )
-}
+const PricingPlan = ({ ...props }) => (
+  <Plan
+    {...props}
+    classes={PLAN_CLASSES}
+    btnProps={{ border: undefined, variant: 'fill', accent: 'orange' }}
+  />
+)
 
 export default PricingPlan

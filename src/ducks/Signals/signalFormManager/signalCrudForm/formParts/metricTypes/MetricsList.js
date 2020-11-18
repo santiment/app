@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react'
 import cx from 'classnames'
-import Icon from '@santiment-network/ui/Icon'
-import { useDialogState } from '../../../../../../hooks/dialog'
 import { GroupNodes } from '../../../../../Studio/Sidebar/Group'
 import { getAssetNewMetrics } from '../../../../../dataHub/metrics/news'
+import ExpansionItem from '../../../../../../components/ExpansionItem/ExpansionItem'
 import styles from './MetricsList.module.scss'
 
 export const NO_GROUP = '_'
@@ -34,8 +33,6 @@ const MetricsList = ({
   selectedMetricSettingsMap,
   setSelectedMetricSettingsMap = noop
 }) => {
-  const { openDialog, isOpened, closeDialog } = useDialogState(index === 0)
-
   const keys = useMemo(() => Object.keys(list), [list])
 
   const selectedCount = useMemo(
@@ -60,11 +57,9 @@ const MetricsList = ({
   const { NewMetricsCategory } = newMetricsProps
 
   return (
-    <div className={styles.container}>
-      <div
-        className={styles.title}
-        onClick={isOpened ? closeDialog : openDialog}
-      >
+    <ExpansionItem
+      isOpen={index === 0}
+      title={
         <div className={NewMetricsCategory[metrikKey] && styles.news}>
           {metrikKey}
 
@@ -72,34 +67,27 @@ const MetricsList = ({
             <span className={styles.counter}>({selectedCount})</span>
           )}
         </div>
-
-        <Icon
-          className={cx(styles.arrow, isOpened && styles.arrowOpened)}
-          type={isOpened ? 'arrow-up-big' : 'arrow-down-big'}
-        />
+      }
+    >
+      <div className={styles.list}>
+        {keys.map(key => {
+          const items = list[key]
+          return (
+            <Group
+              key={key}
+              groupLabel={key}
+              group={items}
+              onSelect={onSelect}
+              project={project}
+              selected={selected}
+              selectedMetricSettingsMap={selectedMetricSettingsMap}
+              setMetricSettingMap={setSelectedMetricSettingsMap}
+              {...newMetricsProps}
+            />
+          )
+        })}
       </div>
-
-      {isOpened && (
-        <div className={styles.list}>
-          {keys.map(key => {
-            const items = list[key]
-            return (
-              <Group
-                key={key}
-                groupLabel={key}
-                group={items}
-                onSelect={onSelect}
-                project={project}
-                selected={selected}
-                selectedMetricSettingsMap={selectedMetricSettingsMap}
-                setMetricSettingMap={setSelectedMetricSettingsMap}
-                {...newMetricsProps}
-              />
-            )
-          })}
-        </div>
-      )}
-    </div>
+    </ExpansionItem>
   )
 }
 

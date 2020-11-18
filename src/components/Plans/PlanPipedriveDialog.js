@@ -13,7 +13,7 @@ function useFormLoading () {
   return [loading, toggleLoading]
 }
 
-const PipedriveBtn = ({ title, label, src }) => {
+const PipedriveBtn = ({ title, label, src, className }) => {
   const [loading, toggleLoading] = useFormLoading()
 
   const startLoading = () => toggleLoading(true)
@@ -24,7 +24,11 @@ const PipedriveBtn = ({ title, label, src }) => {
       title='Contact Information'
       classes={{ dialog: styles.dialog }}
       trigger={
-        <Button className={styles.link} fluid border accent='positive'>
+        <Button
+          className={cx(styles.link, className)}
+          accent='positive'
+          variant='fill'
+        >
           {label}
         </Button>
       }

@@ -77,7 +77,6 @@ const PaymentDialog = ({
   title: name,
   billing: interval,
   label,
-  src,
   price: amount,
   planId: id,
   stripe,

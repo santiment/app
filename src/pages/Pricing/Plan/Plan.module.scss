@@ -1,0 +1,46 @@
+@import '../../../../node_modules/@santiment-network/ui/mixins';
+
+.card {
+  flex: initial;
+  border-radius: 8px;
+  padding: 24px;
+  z-index: 0;
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+
+  @include responsive('desktop', 'laptop') {
+    text-align: center;
+  }
+
+  &:last-child {
+    flex: 1;
+  }
+
+  &_active {
+    border-color: var(--texas-rose) !important;
+  }
+
+  &__top {
+    @include responsive('desktop', 'laptop') {
+      justify-content: center;
+    }
+  }
+
+  &__price {
+    color: var(--accent, var(--mirage));
+  }
+
+  &__popular {
+    background: #d9e2ff;
+    color: var(--dodger-blue);
+  }
+}
+
+.feature {
+  margin-bottom: 24px;
+  text-align: left;
+
+  &__icon {
+    box-sizing: content-box;
+  }
+}

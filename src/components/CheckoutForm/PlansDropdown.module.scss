@@ -59,10 +59,6 @@
   padding: 8px 16px;
   white-space: nowrap;
 
-  &:last-child {
-    border-top: 1px solid var(--porcelain);
-  }
-
   &:hover {
     background: var(--athens);
   }
@@ -71,10 +67,11 @@
 .save {
   @include text('caption');
 
+  margin-top: 1px;
   color: var(--jungle-green);
 
   &_drop {
-    margin-left: 24px;
+    margin-left: 12px;
   }
 }
 

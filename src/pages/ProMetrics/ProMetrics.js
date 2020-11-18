@@ -1,7 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
-import { InputWithIcon } from '@santiment-network/ui/Input'
 import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
 import ProMetric from './ProMetric/ProMetric'
 import { SECOND_METRICS_GROUP, THIRD_METRICS_GROUP } from './utils'
@@ -9,10 +8,9 @@ import { MobileOnly } from '../../components/Responsive'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { FIRST_METRICS_GROUP } from './utils.js'
 import CommonFooter from './ProMetricsFooter/CommonFooter'
-import SubscriptionForm from '../../components/SubscriptionForm/SubscriptionForm'
 import upgradeSvg from './../../assets/pro-metrics/upgrade.svg'
-import signSvg from './../../assets/pro-metrics/sign-bg.svg'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
+import UpgradeInfo from '../Pricing/UpgradeInfo/UpgradeInfo'
 import styles from './ProMetrics.module.scss'
 
 const ProMetrics = ({ history, isLoggedIn }) => {
@@ -113,29 +111,7 @@ const ProMetrics = ({ history, isLoggedIn }) => {
         </div>
       </div>
 
-      {!isLoggedIn && (
-        <div
-          className={cx(styles.ask, styles.bgSvg, styles.signSvg)}
-          style={{
-            background: 'url(' + signSvg + ') repeat-x bottom'
-          }}
-        >
-          <div className={cx(styles.askBlock, styles.askAccount)}>
-            <div className={cx(styles.askTitle, styles.sign)}>
-              Don’t have an account? Sign up now!
-            </div>
-
-            <SubscriptionForm
-              classes={styles}
-              inputEl={InputWithIcon}
-              icon='mail'
-              iconPosition='left'
-              hasSubscribed={false}
-              subscriptionLabel='Send me weekly updates from crypto market'
-            />
-          </div>
-        </div>
-      )}
+      {!isLoggedIn && <UpgradeInfo />}
 
       <CommonFooter />
     </div>

@@ -26,23 +26,57 @@ export default {
     title: 'Free',
     desc: 'For individuals just getting started with crypto',
     discount: 'Free forever',
-    link: 'Upgrade now',
+    link: 'Start free trial',
     Component: () => (
       <Button accent='blue' border fluid className={styles.link} disabled>
         Default plan
       </Button>
     ),
     features: [
-      'Access to basic alerts',
-      'Up to 10 active alerts at a time',
-      'Sanbase metrics - 2 years of historical data',
-      'Sanbase metrics - up to last 30 days of data'
+      'All Sanbase metrics - minus last 30 days',
+      'All Sanbase metrics - up to 2 years of historical data',
+      'Access to basic coin alerts',
+      'Up to 10 active coin alerts',
+      'Personalized asset watchlists',
+      'Access to Sanbase Screener (minus PRO filters)'
+    ]
+  },
+  PRO: {
+    title: 'Pro',
+    desc: 'Advanced metrics & serious backtesting potential',
+    Component: PlanActionDialog,
+    link: 'Start free trial',
+    features: [
+      <b>All in Free and:</b>,
+      'Closed chat',
+      'Sanbase metrics: full historical and present-day data',
+      'Access to all Sanbase alerts',
+      'Full access to Santiment Screener',
+      'Daily market insights',
+      'Google Sheets / Excel plugin',
+      'Exclusive weekly Pro reports',
+      'Market segment dashboards (stablecoins, defi, dexes and more)'
+    ]
+  },
+  PRO_PLUS: {
+    title: 'Pro+',
+    desc: 'Advanced metrics & serious backtesting potential',
+    Component: PlanActionDialog,
+    link: 'Start free trial',
+    features: [
+      <b>All in PRO and:</b>,
+      'Closed Webinars with Santiment Analytics',
+      'Dedicated account manager',
+      'Basic API',
+      'Google Sheets / Excel plugin',
+      'Closed chat with Santiment market analysts',
+      'Basic API 300k API calls'
     ]
   },
   BASIC: {
     title: 'Basic',
     desc: 'Great for short-term analysis and prototyping',
-    link: 'Upgrade now',
+    link: 'Start free trial',
     Component: PlanActionDialog,
     features: [
       'Access to all alert types',
@@ -50,31 +84,6 @@ export default {
       'Sanbase metrics - 2 years of historical data',
       'Sanbase metrics - up to last 7 days of data',
       'Exclusive market reports'
-    ]
-  },
-  PRO: {
-    title: 'Pro',
-    // isPopular: true,
-    desc: 'Advanced metrics & serious backtesting potential',
-    Component: PlanActionDialog,
-    link: 'Upgrade now',
-    features: [
-      'Access to all alert types',
-      'Unlimited active alerts',
-      'Sanbase metrics - 5 years of historical data',
-      'Sanbase metrics - including present-day data',
-      'Exclusive market reports',
-      <span>
-        Bonus: Full access in{' '}
-        <a
-          className={styles.featureLink}
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://sheets.santiment.net/'
-        >
-          Sansheets
-        </a>
-      </span>
     ]
   },
   ENTERPRISE: {
@@ -85,7 +94,7 @@ export default {
     Component: props => (
       <PlanPipedriveDialog
         {...props}
-        title='Enterprise plan Pipedrive form'
+        title='EmergencyPlan plan Pipedrive form'
         src='https://pipedrivewebforms.com/form/0527db4d781f7c4c0760b7bc7a58549c4144829'
       />
     ),
@@ -96,5 +105,19 @@ export default {
       'Sanbase metrics - including present-day data',
       'Exclusive market reports'
     ]
+  },
+  EMERGENCY: {
+    title: 'Emergency Plan',
+    desc: 'Need access to Sanbase just for a few trades?',
+    discount: '9$ / 5 days',
+    link: 'Get access now',
+    Component: props => (
+      <PlanPipedriveDialog
+        {...props}
+        title='EmergencyPlan plan Pipedrive form'
+        src='https://pipedrivewebforms.com/form/0527db4d781f7c4c0760b7bc7a58549c4144829'
+      />
+    ),
+    features: ['No automatic renewal', 'Simple upgrade options']
   }
 }

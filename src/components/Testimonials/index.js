@@ -18,13 +18,13 @@ const testimonials = [
     pic: 'petersik',
     position: '@Petersik',
     text:
-      'I’ve yet to find another site that lets me chart full historical data and indicators from 3 or 4 completely different sources on a single graph, and make it simple to find new correlations that I couldn’t see otherwise. If you want to get the full picture of the market, you need to tap into all information sources available, and that’s what Sanbase lets me do.'
+      'I’ve yet to find another site that lets me chart full historical data and indicators from 3 or 4 completely different sources on a single graph, and make it simple to find new correlations that I couldn’t see otherwise. If you want to get the full picture of the market, you need to tap into all information sources available, and that’s what Sanbase lets me do'
   },
   {
-    author: 'Anonymous person',
+    author: 'John Morgan, FL',
     pic: 'default',
     text:
-      'The amount of data and deep metrics on Sanbase are an analyst’s dream. I love using their social media tools to backtest and develop new strategies. Meanwhile their custom signals help me react ASAP to trend shifts and market anomalies. If you want to understand crypto’s top movers and shakers, there’s few better tools out there.'
+      'I’ve been trading/investing/hodling for 3 years next week, and your website/app is REAL. i wish i had this a long time ago'
   },
   {
     author: 'Anonymous person',

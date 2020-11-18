@@ -1,49 +1,64 @@
 import React from 'react'
-import Button from '@santiment-network/ui/Button'
-import Plans from './Plans'
-import TokensTooltip from './TokensTooltip'
-import Testimonials from '../../components/Testimonials'
+import Plans from './Plans/Plans'
 import PayWithCrypto from './PayWithCrypto'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
+import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
+import UpgradeInfo from './UpgradeInfo/UpgradeInfo'
+import SpeakBlocks from './SpeakBlocks/SpeakBlocks'
+import PlanDescriptions from './PlanDescriptions/PlanDescriptions'
+import { useUser } from '../../stores/user'
+import PricingFAQ from './PricingFAQ/PricingFAQ'
+import Testimonials from '../../components/Testimonials'
+import Companies from './Companies/Companies'
 import styles from './index.module.scss'
 
-const Page = () => {
+const Header = () => {
   const { trialDaysLeft } = useUserSubscriptionStatus()
 
   return (
-    <div className={styles.wrapper + ' page'}>
-      <div className={styles.top}>
-        <h1 className={styles.title}>
-          Upgrade to Pro and get full possibilities
-        </h1>
+    <div className={styles.top}>
+      <div className={styles.headerContent}>
+        <h1 className={styles.title}>Be ahead of the game in crypto</h1>
+
+        <h2 className={styles.description}>
+          Choose the plan which fits your needs and enjoy our premium metrics
+          {trialDaysLeft && (
+            <div className={styles.trial}>
+              ({trialDaysLeft} in your free trial)
+            </div>
+          )}
+        </h2>
       </div>
-      {trialDaysLeft ? (
-        <div className={styles.trial}>{trialDaysLeft} in your free trial</div>
-      ) : (
-        <TokensTooltip />
-      )}
-      <Plans id='plans' />
-      <PayWithCrypto />
-      <Testimonials />
-      <section className={styles.ready}>
-        <div className={styles.ready__content}>
-          <h2 className={styles.ready__title}>Ready to upgrade?</h2>
-          <h4 className={styles.ready__text}>
-            Click below to access the SanAPI or join the Discord channel to
-            share your solutions with the world
-          </h4>
-          <Button
-            variant='fill'
-            accent='positive'
-            className={styles.ready__btn}
-            as='a'
-            href='#plans'
-          >
-            Choose plan
-          </Button>
-        </div>
-      </section>
+      <div className={styles.img} />
     </div>
+  )
+}
+
+const Page = () => {
+  const { isLoggedIn } = useUser()
+
+  return (
+    <DashboardLayout showResearchers={false}>
+      <div className={styles.inner}>
+        <Header />
+
+        <Plans id='plans' classes={styles} />
+
+        <PlanDescriptions />
+
+        <PayWithCrypto />
+
+        <SpeakBlocks />
+
+        <Companies />
+
+        <Testimonials />
+
+        <PricingFAQ />
+      </div>
+
+      {!isLoggedIn && <UpgradeInfo />}
+    </DashboardLayout>
   )
 }
 
