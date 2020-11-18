@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import LibInput from '@santiment-network/ui/Input'
 import Setting from './Setting'
 import styles from './Setting.module.scss'
+import { isEthStrictAddress } from '../../../utils/utils'
 
 export const AddressSetting = ({ address, isError, onAddressChange }) => {
   const [value, setValue] = useState(address)
@@ -29,7 +30,7 @@ export const AddressSetting = ({ address, isError, onAddressChange }) => {
         isError={isError || isInputWrong}
         onChange={onChange}
       />
-      {address && (
+      {address && isEthStrictAddress(address) && (
         <a
           href={`https://etherscan.io/address/${address}`}
           target='_blank'
