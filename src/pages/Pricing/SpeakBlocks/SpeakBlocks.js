@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import { PATHS } from '../../../paths'
 import styles from './SpeakBlocks.module.scss'
+import { useUser } from '../../../stores/user'
 
 const Blocks = [
   {
@@ -41,18 +42,26 @@ const Blocks = [
   }
 ]
 
-const SpeakBlocks = () => (
-  <div className={styles.container}>
-    {Blocks.map(({ title, description, btn }, index) => {
-      return (
-        <div className={styles.block} key={index}>
-          <div className={styles.title}>{title}</div>
-          <div className={styles.description}>{description}</div>
-          {btn}
-        </div>
-      )
-    })}
-  </div>
-)
+const SpeakBlocks = () => {
+  const { isLoggedIn } = useUser()
+
+  if (isLoggedIn) {
+    return null
+  }
+
+  return (
+    <div className={styles.container}>
+      {Blocks.map(({ title, description, btn }, index) => {
+        return (
+          <div className={styles.block} key={index}>
+            <div className={styles.title}>{title}</div>
+            <div className={styles.description}>{description}</div>
+            {btn}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
 
 export default SpeakBlocks
