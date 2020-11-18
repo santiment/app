@@ -45,6 +45,10 @@ const Plan = ({
 
   const isFree = name === 'FREE'
 
+  if (!card) {
+    return null
+  }
+
   return (
     <div
       className={cx(
