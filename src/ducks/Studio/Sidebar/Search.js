@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { SearchWithSuggestions } from '@santiment-network/ui/Search'
 
 const ON_CHAIN_DEFAULT = []
@@ -38,20 +38,17 @@ export const getMetricSuggestions = (
 
     for (const group in category) {
       category[group].forEach(({ item, subitems }) =>
-        items.push(
-          item,
-          ...subitems.filter(
-            ({ checkIsVisible }) => checkIsVisible && checkIsVisible(props)
-          )
-        )
+        items.push(item, ...subitems)
       )
     }
 
     suggestions.push({
       suggestionContent,
-      items,
       predicate,
-      title: categoryKey
+      title: categoryKey,
+      items: items.filter(({ checkIsVisible }) =>
+        checkIsVisible ? checkIsVisible(props) : true
+      )
     })
   }
 
@@ -69,11 +66,15 @@ const Search = ({
   <SearchWithSuggestions
     {...props}
     withMoreSuggestions={false}
-    data={getMetricSuggestions(
-      categories,
-      searchPredicate,
-      props,
-      onChainDefault
+    data={useMemo(
+      () =>
+        getMetricSuggestions(
+          categories,
+          searchPredicate,
+          project,
+          onChainDefault
+        ),
+      [categories, searchPredicate, project, onChainDefault]
     )}
     onSuggestionSelect={({ item }) => toggleMetric(item, project)}
     dontResetStateAfterSelection

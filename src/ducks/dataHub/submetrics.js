@@ -55,8 +55,9 @@ export const Submetrics = {
       key: 'ico_price',
       type: ICO_PRICE,
       label: 'ICO Price',
-      checkIsVisible: ({ isICOPriceDisabled }) => !isICOPriceDisabled,
-      checkIsActive: ({ isICOPriceActive }) => isICOPriceActive
+      checkIsActive: ({ isICOPriceActive }) => isICOPriceActive,
+      checkIsVisible: ({ isICOPriceDisabled }) =>
+        isICOPriceDisabled !== undefined && !isICOPriceDisabled
     },
     {
       key: SPENT_COIN_COST,
