@@ -4,10 +4,6 @@ export default {
       group: { name: 'General' },
       data: [
         {
-          name: 'Historical data access',
-          texts: ['Last 3 months', 'Last 6 months', '10K API calls / mo']
-        },
-        {
           name: 'API calls / minute',
           texts: [
             '100 API calls / min',
