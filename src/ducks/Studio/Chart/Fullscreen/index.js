@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import Header from './Header'
+import ChartCanvas from '../Canvas'
 import { useTimeseries } from '../../timeseries/hooks'
-import Chart from '../../../Chart'
 import { extractMirrorMetricsDomainGroups } from '../../../Chart/utils'
 import { MirroredMetric } from '../../../dataHub/metrics/mirrored'
 import {
   useEdgeGaps,
   useClosestValueData,
-  useDomainGroups,
-  useAxesMetricsKey
+  useDomainGroups
 } from '../../../Chart/hooks'
 import {
   getNewInterval,
@@ -19,7 +18,7 @@ import { ONE_HOUR_IN_MS } from '../../../../utils/dates'
 import FullscreenDialogBtn from '../../../../components/FullscreenDialogBtn'
 import styles from './index.module.scss'
 
-const RESIZE_DEPENDENCIES = []
+const EMPTY_ARRAY = []
 
 const FullscreenChart = ({
   widget,
@@ -27,15 +26,14 @@ const FullscreenChart = ({
   options: studioOptions,
   categories,
   metrics,
-  activeEvents,
   brushData,
   MetricColor,
-  shareLink
+  shareLink,
+  setIsICOPriceDisabled
 }) => {
   const [settings, setSettings] = useState(studioSettings)
   const [options, setOptions] = useState(studioOptions)
   const [isDomainGroupingActive] = useState()
-  const [chartHeight, setChartHeight] = useState()
   const [MetricTransformer, setMetricTransformer] = useState({})
   const [rawData] = useTimeseries(
     metrics,
@@ -43,21 +41,12 @@ const FullscreenChart = ({
     widget.MetricSettingMap,
     MetricTransformer
   )
-  const [events] = useTimeseries(activeEvents, settings)
   const data = useEdgeGaps(
     useClosestValueData(rawData, metrics, options.isClosestDataActive)
   )
   const domainGroups = useDomainGroups(metrics)
-  const axesMetricKeys = useAxesMetricsKey(metrics)
   const chartRef = useRef(null)
   const mirrorDomainGroups = extractMirrorMetricsDomainGroups(domainGroups)
-
-  useEffect(
-    () => {
-      setChartHeight(chartRef.current.canvas.parentNode.clientHeight)
-    },
-    [chartRef]
-  )
 
   useEffect(
     () => {
@@ -124,36 +113,31 @@ const FullscreenChart = ({
         shareLink={shareLink}
         showMulti={false}
         activeMetrics={metrics}
-        activeEvents={activeEvents}
+        activeEvents={EMPTY_ARRAY}
         data={data}
-        events={events}
         setSettings={setSettings}
         setOptions={setOptions}
         changeTimePeriod={changeTimePeriod}
       />
-      <Chart
-        {...categories}
-        {...options}
-        {...settings}
+      <ChartCanvas
         className={styles.chart}
+        options={options}
+        settings={settings}
+        categories={categories}
         chartRef={chartRef}
-        chartHeight={chartHeight}
+        scale={options.isLogScale ? logScale : linearScale}
+        colors={MetricColor}
+        metrics={metrics}
         data={data}
         brushData={brushData}
-        tooltipKey={axesMetricKeys[0]}
-        axesMetricKeys={axesMetricKeys}
-        onPointHover={undefined}
-        syncTooltips={undefined}
-        MetricColor={MetricColor}
-        metrics={metrics}
-        activeEvents={activeEvents}
         domainGroups={
           isDomainGroupingActive ? domainGroups : mirrorDomainGroups
         }
-        scale={options.isLogScale ? logScale : linearScale}
+        onPointHover={undefined}
         onBrushChangeEnd={onBrushChangeEnd}
         onRangeSelect={onRangeSelect}
-        resizeDependencies={RESIZE_DEPENDENCIES}
+        setIsICOPriceDisabled={setIsICOPriceDisabled}
+        syncTooltips={undefined}
       />
     </div>
   )

@@ -189,6 +189,7 @@ const Chart = ({
             brushData={allTimeData}
             MetricColor={MetricColor}
             shareLink={shareLink}
+            setIsICOPriceDisabled={setIsICOPriceDisabled}
           />
         </div>
       </div>
