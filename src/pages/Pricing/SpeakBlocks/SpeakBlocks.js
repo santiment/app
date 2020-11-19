@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import { PATHS } from '../../../paths'
 import styles from './SpeakBlocks.module.scss'
+import { useUser } from '../../../stores/user'
 
 const Blocks = [
   {
@@ -13,11 +14,9 @@ const Blocks = [
       <Button
         variant='ghost'
         accent='blue'
+        as={Link}
         className={styles.btn}
-        onClick={() =>
-          window.Intercom &&
-          window.Intercom('showNewMessage', 'Talk with expert.')
-        }
+        to={PATHS.CREATE_ACCOUNT}
       >
         Start your free trial
       </Button>
@@ -31,9 +30,11 @@ const Blocks = [
       <Button
         variant='ghost'
         accent='blue'
-        as={Link}
         className={styles.btn}
-        to={PATHS.CREATE_ACCOUNT}
+        onClick={() =>
+          window.Intercom &&
+          window.Intercom('showNewMessage', 'Talk with expert.')
+        }
       >
         Request a demo
       </Button>
@@ -41,18 +42,26 @@ const Blocks = [
   }
 ]
 
-const SpeakBlocks = () => (
-  <div className={styles.container}>
-    {Blocks.map(({ title, description, btn }, index) => {
-      return (
-        <div className={styles.block} key={index}>
-          <div className={styles.title}>{title}</div>
-          <div className={styles.description}>{description}</div>
-          {btn}
-        </div>
-      )
-    })}
-  </div>
-)
+const SpeakBlocks = () => {
+  const { isLoggedIn } = useUser()
+
+  if (isLoggedIn) {
+    return null
+  }
+
+  return (
+    <div className={styles.container}>
+      {Blocks.map(({ title, description, btn }, index) => {
+        return (
+          <div className={styles.block} key={index}>
+            <div className={styles.title}>{title}</div>
+            <div className={styles.description}>{description}</div>
+            {btn}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
 
 export default SpeakBlocks

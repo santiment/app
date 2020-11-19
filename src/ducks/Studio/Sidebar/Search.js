@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { SearchWithSuggestions } from '@santiment-network/ui/Search'
 
 const ON_CHAIN_DEFAULT = []
+const suggestionContent = ({ label }) => label
+const contains = (root, target) => root && root.toUpperCase().includes(target)
 
-export const checkMatch = (upperCaseSearchTerm, abbreviation, label) => {
+export function checkMatch (upperCaseSearchTerm, abbreviation, label) {
   if (!upperCaseSearchTerm) {
     return true
   }
@@ -15,50 +17,38 @@ export const checkMatch = (upperCaseSearchTerm, abbreviation, label) => {
   )
 }
 
-const predicateFunction = searchTerm => {
+function predicate (searchTerm) {
   const upperCaseSearchTerm = searchTerm ? searchTerm.toUpperCase() : ''
-  return ({ label, abbreviation }) => {
-    return checkMatch(upperCaseSearchTerm, abbreviation, label)
-  }
+  return ({ label, abbreviation }) =>
+    contains(abbreviation, upperCaseSearchTerm) ||
+    contains(label, upperCaseSearchTerm)
 }
 
-const suggestionContent = ({ label }) => label
-
-export const getMetricSuggestions = ({
+export const getMetricSuggestions = (
   categories,
-  onChainDefault = ON_CHAIN_DEFAULT,
-  predicate = predicateFunction
-}) => {
+  predicate,
+  props = {},
+  onChainDefault = ON_CHAIN_DEFAULT
+) => {
   const suggestions = []
-
-  const predicateChecker = predicate()
 
   for (const categoryKey in categories) {
     const category = categories[categoryKey]
-    const items =
-      categoryKey === 'On-chain'
-        ? onChainDefault.slice().filter(predicateChecker)
-        : []
+    const items = categoryKey === 'On-chain' ? onChainDefault.slice() : []
+
     for (const group in category) {
-      const list = category[group]
-
-      list.forEach(groupItems => {
-        const { item, subitems } = groupItems
-
-        if (predicateChecker(item)) {
-          items.push(item)
-        }
-
-        if (subitems && subitems.length > 0) {
-          items.push(...subitems.filter(predicateChecker))
-        }
-      })
+      category[group].forEach(({ item, subitems }) =>
+        items.push(item, ...subitems)
+      )
     }
+
     suggestions.push({
       suggestionContent,
-      items,
       predicate,
-      title: categoryKey
+      title: categoryKey,
+      items: items.filter(({ checkIsVisible }) =>
+        checkIsVisible ? checkIsVisible(props) : true
+      )
     })
   }
 
@@ -67,23 +57,32 @@ export const getMetricSuggestions = ({
 
 const Search = ({
   categories,
-  toggleMetric,
+  project,
   onChainDefault,
   searchPredicate,
-  project,
+  toggleMetric,
   ...props
 }) => (
   <SearchWithSuggestions
     {...props}
     withMoreSuggestions={false}
-    data={getMetricSuggestions({
-      categories,
-      onChainDefault,
-      predicate: searchPredicate || predicateFunction
-    })}
+    data={useMemo(
+      () =>
+        getMetricSuggestions(
+          categories,
+          searchPredicate,
+          project,
+          onChainDefault
+        ),
+      [categories, searchPredicate, project, onChainDefault]
+    )}
     onSuggestionSelect={({ item }) => toggleMetric(item, project)}
     dontResetStateAfterSelection
   />
 )
+
+Search.defaultProps = {
+  searchPredicate: predicate
+}
 
 export default Search

@@ -11,18 +11,11 @@ import {
   HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE
 } from './nodes'
 import { useProjectMetrics } from '../withMetrics'
-import { TopTransactionsTableMetric } from '../../dataHub/submetrics'
 import styles from './index.module.scss'
 
-const HOLDER_DISTRIBUTION_ITEM = { item: HOLDER_DISTRIBUTION_NODE }
-const TOP_TRANSACTIONS_TABLE_ITEM = { item: TopTransactionsTableMetric }
-const HOLDER_DISTRIBUTION_COMBINED_BALANCE_ITEM = {
-  item: HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE
-}
 const ON_CHAIN_DEFAULT = [
-  HOLDER_DISTRIBUTION_ITEM,
-  HOLDER_DISTRIBUTION_COMBINED_BALANCE_ITEM,
-  TOP_TRANSACTIONS_TABLE_ITEM
+  HOLDER_DISTRIBUTION_NODE,
+  HOLDER_DISTRIBUTION_COMBINED_BALANCE_NODE
 ]
 
 const TABS = ['Metrics', 'Insights']

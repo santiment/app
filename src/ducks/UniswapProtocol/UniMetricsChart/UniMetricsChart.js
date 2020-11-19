@@ -1,7 +1,7 @@
 import React from 'react'
 import { Metric } from '../../dataHub/metrics'
 import DashboardMetricChart from '../../../components/DashboardMetricChart/DashboardMetricChart'
-import { INTERVAL_3_MONTHS } from '../../../components/DashboardMetricChart/utils'
+import { INTERVAL_30_DAYS } from '../../../components/DashboardMetricChart/utils'
 
 const UNISWAP = 'uniswap'
 
@@ -29,7 +29,7 @@ export const SUPPORTED_METRICS = [
 const UniMetricsChart = () => (
   <DashboardMetricChart
     metrics={SUPPORTED_METRICS}
-    defaultInterval={INTERVAL_3_MONTHS}
+    defaultInterval={INTERVAL_30_DAYS}
   />
 )
 
