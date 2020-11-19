@@ -42,6 +42,14 @@
 .twitterEmbed {
   margin: 8px;
   max-width: 380px;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    padding: 0 8px 0 0;
+    display: flex !important;
+    justify-content: center;
+    width: 100%;
+    min-width: 100%;
+  }
 }
 
 .headerBg {
@@ -52,7 +60,7 @@
   width: 134px;
   height: 105px;
 
-  @include responsive('phone', 'phone-xs', 'tablet') {
+  @include responsive('phone', 'phone-xs') {
     height: initial;
     width: 70px;
     top: -20px;
@@ -67,8 +75,9 @@
 
   @include text('h4', 'l');
 
-  @include responsive('phone', 'phone-xs', 'tablet') {
-    @include text('body-3', 'l'); }
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-3', 'l');
+  }
 }
 
 .twitterBlue {
@@ -77,8 +86,26 @@
   width: 32px;
   height: 25px;
 
-  @include responsive('phone', 'phone-xs', 'tablet') {
+  @include responsive('phone', 'phone-xs') {
     width: 16px;
     height: 16px;
+  }
+}
+
+.swipeContainer {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.slider {
+  width: 100%;
+  margin-top: 40px;
+
+  div {
+    .slick-slide {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+    }
   }
 }

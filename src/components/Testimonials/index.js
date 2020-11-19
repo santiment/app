@@ -4,7 +4,7 @@ import Slider from 'react-slick'
 import Icon from '@santiment-network/ui/Icon'
 import styles from './index.module.scss'
 
-const settings = {
+export const SLIDER_SETTINGS = {
   infinite: true,
   speed: 500,
   slidesToShow: 1,
@@ -34,7 +34,7 @@ const testimonials = [
   }
 ]
 
-const Testimonials = () => {
+export const useSlider = () => {
   const slider = useRef(null)
   const slickNext = () => {
     slider.current.slickNext()
@@ -42,6 +42,12 @@ const Testimonials = () => {
   const slickPrev = () => {
     slider.current.slickPrev()
   }
+
+  return { slider, slickNext, slickPrev }
+}
+
+const Testimonials = () => {
+  const { slickPrev, slickNext, slider } = useSlider()
 
   return (
     <section className={styles.wrapper}>
@@ -67,7 +73,7 @@ const Testimonials = () => {
             />
           </svg>
         </div>
-        <Slider {...settings} ref={slider}>
+        <Slider {...SLIDER_SETTINGS} ref={slider}>
           {testimonials.map(({ author, text, position, pic }) => (
             <div key={author} className={styles.testimonial}>
               <div className={styles.slider__top}>

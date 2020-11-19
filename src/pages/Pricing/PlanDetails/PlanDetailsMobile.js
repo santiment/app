@@ -1,9 +1,10 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import cx from 'classnames'
 import ReactSwipe from 'react-swipe'
 import { PlanCard } from './PlanCard'
 import DETAILS from './details'
 import { MarkIcon } from './PlanDetailsDesktop'
+import { useSwipeState } from '../../../components/SwipablePages/SwipablePages'
 import externalStyles from './PlanDetails.module.scss'
 import styles from './PlanDetailsMobile.module.scss'
 
@@ -14,11 +15,7 @@ const PlanDetailsMobile = ({
   plans,
   billing
 }) => {
-  const [active, setActive] = useState(0)
-
-  function onChange (value) {
-    setActive(value)
-  }
+  const { active, onChange } = useSwipeState()
 
   const all = useMemo(() => new Array(showingPlans.length).fill(true), [
     showingPlans

@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
+import Slider from 'react-slick'
+import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
+import { SLIDER_SETTINGS, useSlider } from '../../../components/Testimonials'
 import styles from './TwitterFeedbacks.module.scss'
 
 const TweetsParsed = [
@@ -140,6 +143,8 @@ const TwitterFeedbacks = () => {
     document.getElementsByClassName('twitter-embed')[0].appendChild(script)
   }, [])
 
+  const { slider } = useSlider()
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -150,15 +155,35 @@ const TwitterFeedbacks = () => {
         </div>
       </div>
 
-      <div className={styles.list}>
-        {TweetsParsed.map((item, index) => (
-          <div key={index} className={cx('twitter-embed', styles.twitterEmbed)}>
-            {item}
-          </div>
-        ))}
+      <DesktopOnly>
+        <div className={styles.list}>
+          {TweetsParsed.map((item, index) => (
+            <div
+              key={index}
+              className={cx('twitter-embed', styles.twitterEmbed)}
+            >
+              {item}
+            </div>
+          ))}
 
-        <div className={styles.gradient} />
-      </div>
+          <div className={styles.gradient} />
+        </div>
+      </DesktopOnly>
+
+      <MobileOnly>
+        <div className={styles.slider}>
+          <Slider {...SLIDER_SETTINGS} ref={slider}>
+            {TweetsParsed.map((item, index) => (
+              <div
+                key={index}
+                className={cx('twitter-embed', styles.twitterEmbed)}
+              >
+                {item}
+              </div>
+            ))}
+          </Slider>
+        </div>
+      </MobileOnly>
     </div>
   )
 }
