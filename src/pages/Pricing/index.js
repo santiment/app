@@ -10,8 +10,8 @@ import { useUser } from '../../stores/user'
 import PricingFAQ from './PricingFAQ/PricingFAQ'
 import Testimonials from '../../components/Testimonials'
 import Companies from './Companies/Companies'
-import styles from './index.module.scss'
 import TwitterFeedbacks from './TwitterFeedbacks/TwitterFeedbacks'
+import styles from './index.module.scss'
 
 const Header = () => {
   const { trialDaysLeft } = useUserSubscriptionStatus()
