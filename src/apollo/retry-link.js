@@ -3,7 +3,7 @@ import { RetryLink } from 'apollo-link-retry'
 const retryLink = new RetryLink({
   attempts: (count, operation, error) => {
     const { isRetriable, maxAttempts } = operation.getContext()
-    const max = maxAttempts || 10
+    const max = maxAttempts || 15
     return !!error && count < max && isRetriable
   },
   delay: count => {

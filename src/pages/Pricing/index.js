@@ -11,6 +11,7 @@ import PricingFAQ from './PricingFAQ/PricingFAQ'
 import Testimonials from '../../components/Testimonials'
 import Companies from './Companies/Companies'
 import styles from './index.module.scss'
+import TwitterFeedbacks from './TwitterFeedbacks/TwitterFeedbacks'
 
 const Header = () => {
   const { trialDaysLeft } = useUserSubscriptionStatus()
@@ -53,7 +54,11 @@ const Page = () => {
         <Companies />
 
         <Testimonials />
+      </div>
 
+      <TwitterFeedbacks />
+
+      <div className={styles.inner}>
         <PricingFAQ />
       </div>
 
