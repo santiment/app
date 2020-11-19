@@ -3,12 +3,21 @@ import cx from 'classnames'
 import ReactSwipe from 'react-swipe'
 import styles from './SwipablePages.module.scss'
 
-const SwipablePages = ({ pages }) => {
+export const useSwipeState = () => {
   const [active, setActive] = useState(0)
 
-  const onChange = index => {
-    setActive(index)
+  function onChange (value) {
+    setActive(value)
   }
+
+  return {
+    onChange,
+    active
+  }
+}
+
+const SwipablePages = ({ pages }) => {
+  const { active, onChange } = useSwipeState()
 
   return (
     <>

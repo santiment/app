@@ -33,7 +33,6 @@ const makeProps = (name, chartjs = {}) => props => {
 const makeOptions = (name, options) => props => {
   return {
     skip: !props.chartVars.ticker,
-    errorPolicy: 'all',
     variables: options(props).variables
   }
 }

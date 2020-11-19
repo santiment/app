@@ -1,0 +1,111 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 80px;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    padding: 0 16px;
+  }
+}
+
+.header {
+  text-align: center;
+  position: relative;
+  display: flex;
+}
+
+.gradient {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, var(--white) 100%);
+  height: 170px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.list {
+  margin-top: 40px;
+  flex-wrap: wrap;
+  position: relative;
+  display: grid;
+  width: 100%;
+  grid-row-gap: 8px;
+  grid-column-gap: 8px;
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, 380px);
+}
+
+.twitterEmbed {
+  margin: 8px;
+  max-width: 380px;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    padding: 0 8px 0 0;
+    display: flex !important;
+    justify-content: center;
+    width: 100%;
+    min-width: 100%;
+  }
+}
+
+.headerBg {
+  position: absolute;
+  left: 30%;
+  top: -45px;
+  fill: var(--athens);
+  width: 134px;
+  height: 105px;
+
+  @include responsive('phone', 'phone-xs') {
+    height: initial;
+    width: 70px;
+    top: -20px;
+    left: 40%;
+  }
+}
+
+.title {
+  z-index: 1;
+  text-align: center;
+  display: flex;
+
+  @include text('h4', 'l');
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-3', 'l');
+  }
+}
+
+.twitterBlue {
+  fill: #4da0eb;
+  margin-right: 16px;
+  width: 32px;
+  height: 25px;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.swipeContainer {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.slider {
+  width: 100%;
+  margin-top: 40px;
+
+  div {
+    .slick-slide {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+    }
+  }
+}

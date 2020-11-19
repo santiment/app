@@ -10,6 +10,7 @@ import { useUser } from '../../stores/user'
 import PricingFAQ from './PricingFAQ/PricingFAQ'
 import Testimonials from '../../components/Testimonials'
 import Companies from './Companies/Companies'
+import TwitterFeedbacks from './TwitterFeedbacks/TwitterFeedbacks'
 import styles from './index.module.scss'
 
 const Header = () => {
@@ -53,7 +54,11 @@ const Page = () => {
         <Companies />
 
         <Testimonials />
+      </div>
 
+      <TwitterFeedbacks />
+
+      <div className={styles.inner}>
         <PricingFAQ />
       </div>
 
