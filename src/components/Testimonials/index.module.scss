@@ -1,223 +1,130 @@
-@import '~@santiment-network/ui/mixins.scss';
+@import '~@santiment-network/ui/mixins';
 
 .wrapper {
   position: relative;
-  background: url('https://api-stage.santiment.net/images/sanbase/Testimonials/bg.svg') no-repeat 50%;
-  margin: 100px auto 0;
+  margin: 0 0 50px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-bottom: 0;
+  }
 }
 
 .title {
   @include text('h3');
 
-  margin-bottom: 60px;
   text-align: center;
-}
-
-.slider {
-  text-align: center;
-  margin: 0 auto;
-  width: 600px;
-  position: relative;
+  margin: 40px 0 0 0;
 
   @include responsive('phone', 'phone-xs') {
-    width: 100%;
-  }
+    margin-top: 24px;
 
-  &__top {
-    margin-bottom: 40px;
-    flex: 1;
+    @include text('h4');
   }
 }
 
-.text {
-  @include text('body-1', 't');
-}
-
-.author {
-  @include text('body-2');
-
-  margin: 10px 0 0;
-}
-
-.position {
-  @include text('body-3');
-
-  margin: 0;
-  color: var(--waterloo);
-}
-
-.testimonial {
-  outline: none;
-  display: flex !important;
-  flex-direction: column;
-  height: 100%;
-}
-
-.arrow {
-  height: 36px;
-  width: 36px;
-  border: 1px solid var(--porcelain);
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
+.list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 48px;
+  margin-bottom: 50px;
+  align-items: flex-start;
   justify-content: center;
-  cursor: pointer;
-  position: absolute;
-  z-index: 10;
-  bottom: 35px;
-  stroke: var(--rhino);
-
-  &:hover {
-    stroke: var(--jungle-green) !important;
-  }
-
-  &_left {
-    left: 20%;
-  }
-
-  &_right {
-    right: 20%;
-  }
 
   @include responsive('phone', 'phone-xs') {
-    &_left {
-      left: 0;
-    }
-
-    &_right {
-      right: 0;
-    }
+    margin: 24px 0 0 0;
   }
 }
 
 .pic {
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  border: 2px solid #fff;
-  margin: 0 auto;
   background-size: cover;
+  margin-right: 12px;
 
   &_petersik {
     background-image: url('https://cdn.discordapp.com/attachments/552140868904288295/626055852360466442/peter_sikuda.jpg');
   }
 
-  &_default {
+  &_panama_crypto {
+    background-image: url("./panama_crypto.jpg");
+  }
+
+  &__default {
+    background: var(--jungle-green-light);
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--porcelain);
+    color: var(--jungle-green);
+
+    @include text('body-2', 'l');
   }
 }
 
-:global {
-  /* Slider */
-  .slick-slider {
-    position: relative;
-    display: block;
-    box-sizing: border-box;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -webkit-touch-callout: none;
-    -khtml-user-select: none;
-    -ms-touch-action: pan-y;
-    touch-action: pan-y;
-    -webkit-tap-highlight-color: transparent;
+.testimonial {
+  border-radius: $border-radius;
+  padding: 32px 32px 26px 32px;
+  border: 1px solid var(--porcelain);
+  width: 350px;
+  margin: 0 14px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  @include responsive('laptop', 'tablet', 'phone', 'phone-xs') {
+    margin-bottom: 16px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.bgImg {
+  position: absolute;
+  bottom: 32px;
+  right: 32px;
+  z-index: 1;
+}
+
+.text {
+  font-size: 20px;
+  line-height: 32px;
+  font-style: italic;
+  word-break: break-word;
+}
+
+.bottom {
+  margin-top: 40px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+}
+
+.author {
+  display: flex;
+  flex-direction: column;
+
+  &__name {
+    @include text('body-2', 'l');
   }
 
-  .slick-list {
-    position: relative;
-    display: flex;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-  }
+  &__description {
+    @include text('body-3');
 
-  .slick-list:focus {
-    outline: none;
+    color: var(--waterloo);
   }
+}
 
-  .slick-list.dragging {
-    cursor: pointer;
-    cursor: hand;
-  }
+.description {
+  @include text('body-1');
 
-  .slick-track {
-    position: relative;
-    top: 0;
-    left: 0;
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .slick-slider .slick-track,
-  .slick-slider .slick-list {
-    -webkit-transform: translate3d(0, 0, 0);
-    -moz-transform: translate3d(0, 0, 0);
-    -ms-transform: translate3d(0, 0, 0);
-    -o-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
-
-  .slick-track::before,
-  .slick-track::after {
-    display: table;
-    content: '';
-  }
-
-  .slick-track::after {
-    clear: both;
-  }
-
-  .slick-loading .slick-track {
-    visibility: hidden;
-  }
-
-  .slick-slide > div {
-    height: 100%;
-  }
-
-  .slick-slide {
-    display: none;
-    float: left;
-    height: 100%;
-    min-height: 1px;
-  }
-
-  [dir='rtl'] .slick-slide {
-    float: right;
-  }
-
-  .slick-slide img {
-    display: block;
-  }
-
-  .slick-slide.slick-loading img {
-    display: none;
-  }
-
-  .slick-slide.dragging img {
-    pointer-events: none;
-  }
-
-  .slick-initialized .slick-slide {
-    display: block;
-  }
-
-  .slick-loading .slick-slide {
-    visibility: hidden;
-  }
-
-  .slick-vertical .slick-slide {
-    display: block;
-    height: auto;
-    border: 1px solid transparent;
-  }
-
-  .slick-arrow.slick-hidden {
-    display: none;
-  }
+  color: var(--waterloo);
+  margin-top: 16px;
+  text-align: center;
 }
