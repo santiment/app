@@ -18,14 +18,6 @@
   display: flex;
 }
 
-.gradient {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, var(--white) 100%);
-  height: 170px;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-}
-
 .list {
   margin-top: 40px;
   flex-wrap: wrap;

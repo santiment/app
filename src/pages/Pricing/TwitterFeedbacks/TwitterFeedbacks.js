@@ -184,8 +184,6 @@ const TwitterFeedbacks = () => {
               {item}
             </div>
           ))}
-
-          <div className={styles.gradient} />
         </div>
       </DesktopOnly>
 
