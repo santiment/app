@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { graphql } from 'react-apollo'
 import Chart from './Chart'
 import { Metric } from '../../../dataHub/metrics'
@@ -32,11 +32,25 @@ const DetailedBlock = ({
   priceAsset,
   settings,
   type,
-  charts = DefaultCharts[type],
+  availableMetrics,
   children,
   ...props
 }) => {
   const [MetricSettingMap, setMetricSettingMap] = useState(new Map())
+
+  const charts = useMemo(
+    () => {
+      if (!availableMetrics) {
+        return DefaultCharts[type]
+      }
+
+      return COMMUNITY_CHARTS.filter(({ key }) =>
+        availableMetrics.includes(key)
+      )
+    },
+    [availableMetrics],
+    type
+  )
 
   const detectedAsset =
     type === 'community'
@@ -51,11 +65,17 @@ const DetailedBlock = ({
         slug: detectedAsset ? detectedAsset.slug : settings.slug
       }
 
-      charts.forEach(metric => newMetricSettingMap.set(metric, metricSetting))
-      setMetricSettingMap(newMetricSettingMap)
+      if (charts.length > 0) {
+        charts.forEach(metric => newMetricSettingMap.set(metric, metricSetting))
+        setMetricSettingMap(newMetricSettingMap)
+      }
     },
-    [linkedAssets, charts, settings.slug]
+    [charts, settings.slug]
   )
+
+  if (charts.length === 0) {
+    return null
+  }
 
   const shouldShowChart = type !== 'community' || Boolean(detectedAsset)
 
@@ -101,10 +121,6 @@ export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
     return { variables: { slug: detectedAsset.slug } }
   },
   props: ({ data: { project: { availableMetrics = [] } = {} } }) => {
-    const availableCommunityCharts = COMMUNITY_CHARTS.filter(({ key }) =>
-      availableMetrics.includes(key)
-    )
-
-    return { charts: availableCommunityCharts }
+    return { availableMetrics }
   }
 })(DetailedBlock)
