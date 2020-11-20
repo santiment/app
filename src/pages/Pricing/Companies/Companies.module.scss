@@ -8,7 +8,7 @@
   align-items: center;
 
   @include responsive('phone', 'phone-xs') {
-    margin: 24px 0;
+    margin: 24px 0 60px 0;
   }
 }
 
@@ -40,13 +40,15 @@
   @include responsive('laptop', 'tablet') {
     padding: 0 16px;
 
-    @include text('h4', 'l'); }
+    @include text('h4', 'l');
+  }
 
   @include responsive('phone', 'phone-xs') {
     max-width: 160px;
     padding: 0 16px;
 
-    @include text('body-1', 'l'); }
+    @include text('body-1', 'l');
+  }
 }
 
 .line {

@@ -1,10 +1,29 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Slider from 'react-slick'
 import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
-import { SLIDER_SETTINGS, useSlider } from '../../../components/Testimonials'
 import styles from './TwitterFeedbacks.module.scss'
+
+export const SLIDER_SETTINGS = {
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  arrows: false
+}
+
+export const useSlider = () => {
+  const slider = useRef(null)
+  const slickNext = () => {
+    slider.current.slickNext()
+  }
+  const slickPrev = () => {
+    slider.current.slickPrev()
+  }
+
+  return { slider, slickNext, slickPrev }
+}
 
 const TweetsParsed = [
   <blockquote className='twitter-tweet' data-conversation='none'>
