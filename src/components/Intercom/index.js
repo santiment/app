@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './index.module.scss'
 
 const showIntercom = () => window.Intercom('show')
 
-const Intercom = ({ isDesktop }) =>
-  isDesktop ? (
+const Intercom = ({ isDesktop }) => {
+  const [isShown, setIsShown] = useState(true)
+
+  useEffect(() => {
+    window.Intercom('onHide', () => setIsShown(true))
+    window.Intercom('onShow', () => setIsShown(false))
+  }, [])
+
+  return isDesktop && isShown ? (
     <div className={styles.wrapper} onClick={showIntercom}>
       <svg
         className={styles.icon}
@@ -17,5 +24,6 @@ const Intercom = ({ isDesktop }) =>
       Help & Feedback
     </div>
   ) : null
+}
 
 export default Intercom
