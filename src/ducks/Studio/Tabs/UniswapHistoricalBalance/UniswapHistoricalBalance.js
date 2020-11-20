@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import HistoricalBalanceChart from '../../../HistoricalBalance/Chart'
 import { getValidInterval } from '../../../HistoricalBalance/utils'
@@ -6,7 +6,6 @@ import { useSettings, getWalletMetrics } from '../../../HistoricalBalance/hooks'
 import CreateAlert from '../../../HistoricalBalance/Configurations/CreateAlert'
 import { Calendar } from '../../../HistoricalBalance/Configurations/DatePicker'
 import { toEndOfDay } from '../../../../utils/dates'
-import { useProjects } from '../../Compare/withProjects'
 import styles from './UniswapHistoricalBalance.module.scss'
 
 const WALLET_ASSETS = [
@@ -15,6 +14,7 @@ const WALLET_ASSETS = [
   }
 ]
 const PRICE_ASSETS = ['uniswap']
+const METRICS = getWalletMetrics(WALLET_ASSETS, PRICE_ASSETS)
 
 const ADDRESS = '0x090d4613473dee047c3f2706764f49e0821d256e'
 const FROM = new Date('2020-09-16T00:00:00Z')
@@ -35,13 +35,6 @@ const UniswapHistoricalBalance = ({
 }) => {
   const { settings, changeTimePeriod } = useSettings(SETTINGS)
 
-  const [allProjects] = useProjects()
-
-  const metrics = useMemo(
-    () => getWalletMetrics(allProjects, WALLET_ASSETS, PRICE_ASSETS),
-    [allProjects]
-  )
-
   return (
     <div className={styles.wrapper}>
       <div className={cx(styles.header, headerClassName)}>
@@ -59,7 +52,7 @@ const UniswapHistoricalBalance = ({
       <HistoricalBalanceChart
         className={cx(styles.chart, className)}
         settings={settings}
-        metrics={metrics}
+        metrics={METRICS}
         axesTicks={axesTicks}
         padding={padding}
         height={height}

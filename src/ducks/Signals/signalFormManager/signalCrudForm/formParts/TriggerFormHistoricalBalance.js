@@ -81,11 +81,10 @@ const useHeldAssets = byAddress => {
 
   const infrastructure = useInfrastructureDetector(address)
 
-  const { walletAssets: heldAssets, isLoading } = useWalletAssets({
+  const { walletAssets: heldAssets, isLoading } = useWalletAssets(
     address,
-    infrastructure,
-    skip: !address
-  })
+    infrastructure
+  )
 
   return { heldAssets, isLoading }
 }

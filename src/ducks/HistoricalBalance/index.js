@@ -27,14 +27,14 @@ const HistoricalBalance = ({
     defaultSettings
   )
   const infrastructure = useInfrastructureDetector(settings.address)
-  const { walletAssets, isLoading, isError } = useWalletAssets({
-    address: settings.address,
+  const { walletAssets, isLoading, isError } = useWalletAssets(
+    settings.address,
     infrastructure
-  })
+  )
   const [chartAssets, setChartAssets] = useState(defaultChartAssets)
   const [priceAssets, setPriceAssets] = useState(defaultPriceAssets)
   const [isLog, setIsLog] = useState(defaultIsLog)
-  const metrics = useWalletMetrics(chartAssets, priceAssets, infrastructure)
+  const metrics = useWalletMetrics(chartAssets, priceAssets)
   const axesTicks = useResponsiveTicks(isPhone)
 
   useEffect(

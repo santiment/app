@@ -1,71 +1,80 @@
 import { useState, useMemo, useEffect } from 'react'
-import gql from 'graphql-tag'
-import { useQuery } from '@apollo/react-hooks'
+import addressDetect from 'cryptocurrency-address-detector'
+import { getWalletAssets, getAssetInfrastructure } from './queries'
 import {
   getValidInterval,
   walletMetricBuilder,
   priceMetricBuilder
 } from './utils'
-import { useProjects } from '../Studio/Compare/withProjects'
-import addressDetect from 'cryptocurrency-address-detector'
-
-export const WALLET_ASSETS_QUERY = gql`
-  query assetsHeldByAddress($selector: AddressSelectorInputObject!) {
-    assetsHeldByAddress(selector: $selector) {
-      slug
-      balance
-    }
-  }
-`
 
 const DEFAULT_STATE = []
 
-export function getWalletMetrics (
-  allProjects,
-  walletAssets,
-  priceAssets,
-  address
-) {
-  const walletMetrics =
-    allProjects.length > 0
-      ? walletAssets.map(item =>
-        walletMetricBuilder(item, allProjects, address)
-      )
-      : []
+export function getWalletMetrics (walletAssets, priceAssets) {
+  const walletMetrics = walletAssets.map(walletMetricBuilder)
   const priceMetrics = priceAssets.map(priceMetricBuilder)
   return walletMetrics.concat(priceMetrics)
 }
 
-export const useWalletMetrics = (walletAssets, priceAssets, infrastructure) => {
-  const [allProjects] = useProjects()
+export const useWalletMetrics = (walletAssets, priceAssets) =>
+  useMemo(() => getWalletMetrics(walletAssets, priceAssets), [
+    walletAssets,
+    priceAssets
+  ])
 
-  return useMemo(
-    () =>
-      getWalletMetrics(allProjects, walletAssets, priceAssets, infrastructure),
-    [walletAssets, priceAssets, allProjects, infrastructure]
+export function useWalletAssets (address, infrastructure) {
+  const [walletAssets, setWalletAssets] = useState(DEFAULT_STATE)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isError, setIsError] = useState(false)
+
+  useEffect(
+    () => {
+      if (!address || !infrastructure) return
+
+      setIsLoading(true)
+      const walletAssets = []
+      let race = false
+
+      getWalletAssets(address, infrastructure)
+        .then(assets =>
+          Promise.all(
+            assets.map(({ slug, balance }, i) =>
+              getAssetInfrastructure(slug).then(infrastructure => {
+                walletAssets[i] = {
+                  slug,
+                  infrastructure,
+                  balance
+                }
+              })
+            )
+          )
+        )
+        .then(() => {
+          if (race) return
+
+          setWalletAssets(walletAssets)
+          setIsLoading(false)
+          setIsError(false)
+        })
+        .catch(e => {
+          if (race) return
+
+          setIsLoading(false)
+          setIsError(e)
+        })
+
+      return () => (race = true)
+    },
+    [address, infrastructure]
   )
-}
 
-export function useWalletAssets ({ address, infrastructure, skip }) {
-  const { data, loading, error } = useQuery(WALLET_ASSETS_QUERY, {
-    skip: skip || !address || !infrastructure,
-    variables: {
-      selector: {
-        address,
-        infrastructure
-      }
-    }
-  })
-
-  const walletAssets = data ? data.assetsHeldByAddress : DEFAULT_STATE
   return {
     walletAssets,
-    isLoading: loading,
-    isError: error
+    isLoading,
+    isError
   }
 }
 
-export const useInfrastructureDetector = address => {
+export function useInfrastructureDetector (address) {
   const [infrastructure, setInfrastructure] = useState()
 
   useEffect(
