@@ -32,6 +32,7 @@ export function useWalletAssets (address, infrastructure) {
 
       setIsLoading(true)
       const walletAssets = []
+      let race = false
 
       getWalletAssets(address, infrastructure)
         .then(assets =>
@@ -48,14 +49,20 @@ export function useWalletAssets (address, infrastructure) {
           )
         )
         .then(() => {
+          if (race) return
+
           setWalletAssets(walletAssets)
           setIsLoading(false)
           setIsError(false)
         })
         .catch(e => {
+          if (race) return
+
           setIsLoading(false)
           setIsError(e)
         })
+
+      return () => (race = true)
     },
     [address, infrastructure]
   )
