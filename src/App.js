@@ -508,7 +508,7 @@ export const App = ({
           />
         </Switch>
 
-        <Intercom />
+        <Intercom isDesktop={isDesktop} />
       </ErrorBoundary>
 
       <NotificationStack />
