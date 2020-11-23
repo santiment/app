@@ -641,6 +641,20 @@ export const Metric = {
     node: 'line',
     label: 'Amount claimed by historical users',
     color: '#ffad4d'
+  },
+  average_fees_usd: {
+    category: 'On-chain',
+    group: 'Unsorted',
+    node: 'area',
+    checkIsVisible: ({ slug }) => slug === 'ethereum',
+    label: 'Average Fees (USD)'
+  },
+  median_fees_usd: {
+    category: 'On-chain',
+    group: 'Unsorted',
+    node: 'area',
+    checkIsVisible: ({ slug }) => slug === 'ethereum',
+    label: 'Median Fees (USD)'
   }
 }
 

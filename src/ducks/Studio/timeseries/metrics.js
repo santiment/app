@@ -275,5 +275,7 @@ export const METRICS = [
   'all_known_balance',
 
   'total_supply',
-  'network_profit_loss'
+  'network_profit_loss',
+  'average_fees_usd',
+  'median_fees_usd'
 ]
