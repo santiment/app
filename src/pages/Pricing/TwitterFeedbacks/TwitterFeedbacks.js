@@ -28,15 +28,6 @@ export const useSlider = () => {
 const TweetsParsed = [
   <blockquote className='twitter-tweet' data-conversation='none'>
     <p lang='en' dir='ltr'>
-      great work!
-    </p>
-    &mdash; Dr. Julian Hosp (DFI = DeFi on Bitcoin!) (@julianhosp){' '}
-    <a href='https://twitter.com/julianhosp/status/1326767360733286405?ref_src=twsrc%5Etfw'>
-      November 12, 2020
-    </a>
-  </blockquote>,
-  <blockquote className='twitter-tweet' data-conversation='none'>
-    <p lang='en' dir='ltr'>
       That is some fantastic data.
     </p>
     &mdash; Menno Pietersen (@MennoPP){' '}
@@ -94,6 +85,15 @@ const TweetsParsed = [
     &mdash; Darius Dale (@HedgeyeDDale){' '}
     <a href='https://twitter.com/HedgeyeDDale/status/1329189430335328261?ref_src=twsrc%5Etfw'>
       November 18, 2020
+    </a>
+  </blockquote>,
+  <blockquote className='twitter-tweet' data-conversation='none'>
+    <p lang='en' dir='ltr'>
+      great work!
+    </p>
+    &mdash; Dr. Julian Hosp (DFI = DeFi on Bitcoin!) (@julianhosp){' '}
+    <a href='https://twitter.com/julianhosp/status/1326767360733286405?ref_src=twsrc%5Etfw'>
+      November 12, 2020
     </a>
   </blockquote>,
 

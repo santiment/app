@@ -1,7 +1,6 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
 import Features from '../../../components/Plans/Features'
-import { PlanDescriptionSvg } from '../../../components/Illustrations/PlanDescriptionSvg'
 import styles from './PlanDescriptions.module.scss'
 
 const Blocks = [
@@ -67,8 +66,6 @@ const PlanDescriptions = () => (
         <div className={styles.block} key={index}>
           <div className={styles.title}>{title}</div>
           <div className={styles.description}>{description}</div>
-
-          <div className={styles.img}>{PlanDescriptionSvg}</div>
 
           <Features isGreen={true} data={features} classes={styles} />
 
