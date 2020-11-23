@@ -156,6 +156,7 @@ const UniswapProtocolPage = () => {
           <Block
             title={ANCHORS.MetricsChart.label}
             tag={ANCHORS.MetricsChart.key}
+            description='Daily active addresses signal the overall level of speculative (and utilitarian) interest in a digital asset. As a result, sustained price rallies tend to necessitate a strong uptick in active addresses. Spikes in Age Consumed point to a substantial amount of previously idle coins moving addresses, suggesting a shift in the behavior of long-term investors. These shifts are often strong indicators of upcoming price volatility in either direction.'
           >
             <UniMetricsChart />
           </Block>
