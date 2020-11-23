@@ -32,7 +32,7 @@ const TopPanel = ({
       </div>
       <div className={styles.row}>
         <Widgets {...props} />
-        <Share watchlist={watchlist} isAuthor={isAuthor} />
+        {watchlist && <Share watchlist={watchlist} isAuthor={isAuthor} />}
         {isAuthor && (
           <WeeklyReportTrigger id={id} name={name} isMonitored={isMonitored} />
         )}

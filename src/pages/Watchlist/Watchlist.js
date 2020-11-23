@@ -73,12 +73,12 @@ const WatchlistPage = props => {
 
           const showingAssets = filteredItems || items
 
+          const changingName = (props.watchlist || {}).name || props.name
+
           return (
             <>
               <TopPanel
-                name={upperCaseFirstLetter(
-                  (props.watchlist || {}).name || props.name
-                )}
+                name={changingName && upperCaseFirstLetter(changingName)}
                 id={listId}
                 assets={items}
                 watchlist={props.watchlist}
