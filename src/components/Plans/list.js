@@ -24,7 +24,7 @@ const PlanActionDialog = ({ subscription, ...rest }) => {
 export default {
   FREE: {
     title: 'Free',
-    desc: 'For individuals just getting started with crypto',
+    desc: 'For those getting started in crypto',
     discount: 'Free forever',
     link: "Sign up, It's Free",
     Component: () => (
@@ -43,7 +43,7 @@ export default {
   },
   PRO: {
     title: 'Pro',
-    desc: 'Advanced metrics & serious backtesting potential',
+    desc: 'Advanced crypto metrics and market insights',
     Component: PlanActionDialog,
     link: 'Start Free 14-Day Trial',
     features: [
@@ -59,7 +59,7 @@ export default {
   },
   PRO_PLUS: {
     title: 'Pro+',
-    desc: 'Advanced metrics & serious backtesting potential',
+    desc: 'Complete analytics & backtesting framework',
     Component: PlanActionDialog,
     link: 'Start Free 14-Day Trial',
     features: [
