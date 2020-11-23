@@ -3,6 +3,12 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Slider from 'react-slick'
 import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
+import {
+  CellMeasurer,
+  CellMeasurerCache,
+  createMasonryCellPositioner,
+  Masonry
+} from 'react-virtualized'
 import styles from './TwitterFeedbacks.module.scss'
 
 export const SLIDER_SETTINGS = {
@@ -23,6 +29,33 @@ export const useSlider = () => {
   }
 
   return { slider, slickNext, slickPrev }
+}
+
+// Default sizes help Masonry decide how many images to batch-measure
+const cache = new CellMeasurerCache({
+  defaultHeight: 250,
+  defaultWidth: 380,
+  fixedWidth: true
+})
+
+// Our masonry layout will use 3 columns with a 10px gutter between
+const cellPositioner = createMasonryCellPositioner({
+  cellMeasurerCache: cache,
+  columnCount: 4,
+  columnWidth: 380,
+  spacer: 24
+})
+
+function cellRenderer ({ index, key, parent, style }) {
+  const item = TweetsParsed[index]
+
+  return (
+    <CellMeasurer cache={cache} index={index} key={key} parent={parent}>
+      <div style={style}>
+        <TweetCard item={item} key={index} />
+      </div>
+    </CellMeasurer>
+  )
 }
 
 const TweetsParsed = [
@@ -176,14 +209,14 @@ const TwitterFeedbacks = () => {
 
       <DesktopOnly>
         <div className={styles.list}>
-          {TweetsParsed.map((item, index) => (
-            <div
-              key={index}
-              className={cx('twitter-embed', styles.twitterEmbed)}
-            >
-              {item}
-            </div>
-          ))}
+          <Masonry
+            cellCount={TweetsParsed.length}
+            cellMeasurerCache={cache}
+            cellPositioner={cellPositioner}
+            cellRenderer={cellRenderer}
+            height={600}
+            width={800}
+          />
         </div>
       </DesktopOnly>
 
@@ -191,12 +224,7 @@ const TwitterFeedbacks = () => {
         <div className={styles.slider}>
           <Slider {...SLIDER_SETTINGS} ref={slider}>
             {TweetsParsed.map((item, index) => (
-              <div
-                key={index}
-                className={cx('twitter-embed', styles.twitterEmbed)}
-              >
-                {item}
-              </div>
+              <TweetCard item={item} key={index} />
             ))}
           </Slider>
         </div>
@@ -204,5 +232,9 @@ const TwitterFeedbacks = () => {
     </div>
   )
 }
+
+const TweetCard = ({ item }) => (
+  <div className={cx('twitter-embed', styles.twitterEmbed)}>{item}</div>
+)
 
 export default TwitterFeedbacks
