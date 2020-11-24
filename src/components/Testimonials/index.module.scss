@@ -2,7 +2,7 @@
 
 .wrapper {
   position: relative;
-  margin: 0 0 50px 0;
+  margin: 0 0 34px 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27,16 +27,14 @@
 }
 
 .list {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-top: 48px;
-  margin-bottom: 50px;
-  align-items: flex-start;
-  justify-content: center;
+  margin: 48px auto 50px auto;
 
   @include responsive('phone', 'phone-xs') {
     margin: 24px 0 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
   }
 }
 
@@ -49,6 +47,10 @@
 
   &_petersik {
     background-image: url('https://cdn.discordapp.com/attachments/552140868904288295/626055852360466442/peter_sikuda.jpg');
+  }
+
+  &_cryptobirb {
+    background-image: url("./cryptobirb.jpg");
   }
 
   &_panama_crypto {
@@ -71,10 +73,11 @@
   padding: 32px 32px 26px 32px;
   border: 1px solid var(--porcelain);
   width: 350px;
-  margin: 0 14px;
+  margin: 0 14px 16px 14px;
   position: relative;
   display: flex;
   flex-direction: column;
+  float: left;
 
   @include responsive('laptop', 'tablet', 'phone', 'phone-xs') {
     margin-bottom: 16px;
@@ -82,6 +85,10 @@
     &:last-child {
       margin-bottom: 0;
     }
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
   }
 }
 
