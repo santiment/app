@@ -14866,6 +14866,11 @@ react-resize-detector@^2.3.0:
     prop-types "^15.6.0"
     resize-observer-polyfill "^1.5.0"
 
+react-responsive-masonry@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-responsive-masonry/-/react-responsive-masonry-2.1.0.tgz#5ef1c38c0ac542776ab29ff97a0adfa7f8bc929c"
+  integrity sha512-sAMV04NcanmusNdCMRmLoT6YJU/kQ7s1PEG1Ycnx1aQU4iqZfmADlcletEhEBl5jT0EPatHrgW5/d3LNTy37oQ==
+
 react-router-dom@^5.0.1:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-5.1.2.tgz#06701b834352f44d37fbb6311f870f84c76b9c18"

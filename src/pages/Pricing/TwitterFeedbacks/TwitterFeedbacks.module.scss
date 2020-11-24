@@ -19,7 +19,8 @@
 }
 
 .list {
-  margin-top: 40px;
+  margin-top: 48px;
+  padding: 0 24px;
   flex-wrap: wrap;
   position: relative;
   display: flex;
@@ -29,9 +30,6 @@
 }
 
 .twitterEmbed {
-  margin: 8px;
-  max-width: 380px;
-
   @include responsive('phone', 'phone-xs', 'tablet') {
     padding: 0 8px 0 0;
     display: flex !important;
