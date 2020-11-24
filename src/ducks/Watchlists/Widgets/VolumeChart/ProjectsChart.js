@@ -154,11 +154,13 @@ const ProjectsChart = ({
       ) : (
         <div className={styles.chartWrapper}>
           <Skeleton
+            wrapperClassName={styles.skeleton}
             className={styles.ProjectsChart__skeletonTop}
             show={loading}
             repeat={1}
           />
           <Skeleton
+            wrapperClassName={styles.skeleton}
             className={styles.ProjectsChart__skeletonBottom}
             show={loading}
             repeat={1}

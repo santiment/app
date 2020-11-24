@@ -59,7 +59,7 @@ export function useProjectPriceChanges ({ key, assets, sorter, limit = 100 }) {
 
       return [mapped, loading, error]
     },
-    [query]
+    [query, limit, sorter, key]
   )
 }
 
@@ -91,6 +91,6 @@ export function useProjectsSocialVolumeChanges ({
 
       return [mapped, loading, error]
     },
-    [query]
+    [query, interval, sorter, limit]
   )
 }

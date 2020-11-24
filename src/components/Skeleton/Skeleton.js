@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 import { CSSTransition } from 'react-transition-group'
 import styles from './Skeleton.module.scss'
 
-const Skeleton = ({ className, show, repeat }) => {
+const Skeleton = ({ className, wrapperClassName, show, repeat }) => {
   const elem = new Array(repeat).fill(0)
   return (
-    <div className={styles.wrapper}>
+    <div className={cx(styles.wrapper, wrapperClassName)}>
       <CSSTransition
         in={show}
         timeout={1000}
