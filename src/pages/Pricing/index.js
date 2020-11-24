@@ -52,9 +52,9 @@ const Page = () => {
         <SpeakBlocks />
 
         <Companies />
-
-        <Testimonials />
       </div>
+
+      <Testimonials />
 
       <TwitterFeedbacks />
 

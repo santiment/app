@@ -26,6 +26,13 @@ const testimonials = [
     position: 'Trader',
     text:
       'Santiment is definitely the data source I use for all of the on-chain analytics I need.'
+  },
+  {
+    author: 'CRYPTO₿IRB',
+    pic: 'cryptobirb',
+    position: 'Certified Technical Analyst',
+    text:
+      "Santiment is by far my favorite go-to place when I want to enrich my market analysis with on-chain insights. The platform itself shows an insane variety of tools and indicators that actually let me decide when to lock in profits before potential trend reversals come. I love it with all my analyst's heart!"
   }
 ]
 
@@ -49,6 +56,7 @@ const Testimonials = () => {
   return (
     <section className={styles.wrapper}>
       {PlanDescriptionSvg}
+
       <h2 className={styles.title}>Testimonials</h2>
       <div className={styles.description}>
         Our users send us bunch of smiles with our services, just read some of
@@ -56,31 +64,39 @@ const Testimonials = () => {
       </div>
 
       <div className={styles.list}>
-        {testimonials.map(({ author, alias, text, position, pic }) => (
-          <div key={author} className={styles.testimonial}>
-            <div className={styles.text}>{text}</div>
-
-            <div className={styles.bottom}>
-              <div
-                className={cx(
-                  styles.pic,
-                  styles[`pic_${pic}`],
-                  pic === 'default' && styles.pic__default
-                )}
-              >
-                {pic === 'default' && alias}
-              </div>
-              <div className={styles.author}>
-                <div className={styles.author__name}>{author}</div>
-                <div className={styles.author__description}>{position}</div>
-              </div>
-            </div>
-
-            {BgImage}
-          </div>
+        {testimonials.map((item, index) => (
+          <Testimonial item={item} key={index} />
         ))}
       </div>
     </section>
+  )
+}
+
+const Testimonial = ({ item }) => {
+  const { author, alias, text, position, pic } = item
+
+  return (
+    <div key={author} className={styles.testimonial}>
+      <div className={styles.text}>{text}</div>
+
+      <div className={styles.bottom}>
+        <div
+          className={cx(
+            styles.pic,
+            styles[`pic_${pic}`],
+            pic === 'default' && styles.pic__default
+          )}
+        >
+          {pic === 'default' && alias}
+        </div>
+        <div className={styles.author}>
+          <div className={styles.author__name}>{author}</div>
+          <div className={styles.author__description}>{position}</div>
+        </div>
+      </div>
+
+      {BgImage}
+    </div>
   )
 }
 
