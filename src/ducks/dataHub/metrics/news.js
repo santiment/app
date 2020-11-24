@@ -13,7 +13,9 @@ const NEW_METRICS = [
   Metric.active_addresses_24h,
   Metric.active_addresses_1h,
   Metric.network_profit_loss,
-  Metric.dev_activity_contributors_count
+  Metric.dev_activity_contributors_count,
+  Metric.average_fees_usd,
+  Metric.median_fees_usd
 ]
 export const NEW_METRIC_KEY_SET = new Set(NEW_METRICS.map(({ key }) => key))
 
