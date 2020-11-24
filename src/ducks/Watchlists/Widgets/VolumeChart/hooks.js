@@ -34,7 +34,7 @@ export const useProjectRanges = ({
       ? ranges.findIndex(({ label }) => label === settings.interval)
       : 1
 
-  const [intervalIndex, setIntervalIndex] = useState(
+  const [intervalIndex, setIntervalIndex] = useState(() =>
     Math.min(ranges.length - 1, defaultSelectedIndex)
   )
 
