@@ -644,14 +644,12 @@ export const Metric = {
   },
   average_fees_usd: {
     category: 'On-chain',
-    group: 'Unsorted',
     node: 'area',
     checkIsVisible: ({ slug }) => slug === 'ethereum',
     label: 'Average Fees (USD)'
   },
   median_fees_usd: {
     category: 'On-chain',
-    group: 'Unsorted',
     node: 'area',
     checkIsVisible: ({ slug }) => slug === 'ethereum',
     label: 'Median Fees (USD)'
