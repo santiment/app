@@ -432,3 +432,12 @@ export const convertToReadableInterval = memoize(timebound => {
 export function startOfMonth (date) {
   return new Date(date.getFullYear(), date.getMonth(), 1)
 }
+
+export function checkIsToday (targetDate) {
+  const today = new Date()
+  return (
+    targetDate.getDate() === today.getDate() &&
+    targetDate.getMonth() === today.getMonth() &&
+    targetDate.getFullYear() === today.getFullYear()
+  )
+}
