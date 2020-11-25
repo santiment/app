@@ -82,10 +82,16 @@ const EventBanner = ({ className }) => {
         >
           <DarkVideoPlayBtn />
         </a>
-        <div className={styles.info}>
-          <h4 className={styles.title}>{activeWidget.title}</h4>
-          <p className={styles.desc}>{activeWidget.description}</p>
-        </div>
+        <a
+          href={activeWidget.videoLink}
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <div className={styles.info}>
+            <h4 className={styles.title}>{activeWidget.title}</h4>
+            <p className={styles.desc}>{activeWidget.description}</p>
+          </div>
+        </a>
 
         <Icon
           type='close-medium'
