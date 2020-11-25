@@ -31,7 +31,12 @@
 }
 
 .share {
-  fill: var(--casper);
+  margin-left: 8px;
+
+  &__icon {
+    fill: var(--casper);
+    margin-right: 8px;
+  }
 }
 
 .mapview {
