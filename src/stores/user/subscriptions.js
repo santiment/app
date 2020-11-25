@@ -9,7 +9,7 @@ import {
   calculateTrialDaysLeft
 } from '../../utils/plans'
 
-const { PRO } = PLANS
+const { PRO, PRO_PLUS } = PLANS
 
 export const USER_SUBSCRIPTIONS_QUERY = gql`
   {
@@ -98,7 +98,7 @@ export function useUserSubscriptionStatus () {
 
       if (subscription) {
         const { trialEnd, plan } = subscription
-        isPro = plan.name === PRO
+        isPro = plan.name === PRO || plan.name === PRO_PLUS
         trialDaysLeft = trialEnd && calculateTrialDaysLeft(trialEnd)
         isTrial = trialDaysLeft > 0
       }
