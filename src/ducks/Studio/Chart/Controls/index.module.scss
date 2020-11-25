@@ -10,10 +10,14 @@
   padding: 0;
   align-items: center;
   justify-content: center;
+  margin-right: 8px;
+  fill: var(--rhino);
+  stroke: var(--rhino);
 
   &:hover {
     background: var(--athens);
     fill: var(--rhino);
+    stroke: var(--rhino);
   }
 
   &_active {
@@ -21,6 +25,7 @@
     &:hover {
       background: var(--jungle-green-light);
       fill: var(--jungle-green);
+      stroke: var(--jungle-green);
     }
   }
 }

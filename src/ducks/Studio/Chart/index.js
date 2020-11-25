@@ -56,6 +56,7 @@ const Chart = ({
 }) => {
   const { isLoggedIn } = useUser()
   const chartCursor = useChartCursorType()
+  const isDrawingLineState = useState(false)
   const categories = useMetricCategories(metrics, MetricNode)
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
   const [focusedMetricKey, setFocusedMetricKey] = useState()
@@ -79,6 +80,7 @@ const Chart = ({
   const [allTimeData] = useAllTimeData(metrics, settings)
   const isBlurred = !isLoggedIn && index > 1
   const scale = options.isLogScale ? logScale : linearScale
+
   useEffect(onMetricHoverEnd, [metrics])
 
   useEffect(
@@ -135,7 +137,10 @@ const Chart = ({
   return (
     <div className={cx(styles.wrapper, className)}>
       <div className={cx(styles.top, isBlurred && styles.blur)}>
-        <Controls chartCursor={chartCursor} />
+        <Controls
+          chartCursor={chartCursor}
+          isDrawingLineState={isDrawingLineState}
+        />
 
         <div className={styles.meta}>
           <ChartPaywallInfo metrics={metrics} />
