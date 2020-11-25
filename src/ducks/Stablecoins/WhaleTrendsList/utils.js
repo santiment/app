@@ -7,9 +7,6 @@ export const WhaleAssets = [
     slug: 'tether'
   },
   {
-    slug: 'usd-coin'
-  },
-  {
     slug: 'binance-usd'
   }
 ]
