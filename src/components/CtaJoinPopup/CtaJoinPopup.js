@@ -8,17 +8,23 @@ import { PATHS } from '../../paths'
 import Rocket from '../Illustrations/Rocket'
 import styles from './CtaJoinPopup.module.scss'
 
+const CTA_JOIN_POPUP = 'CTA_JOIN_POPUP'
 const TIMEOUT = 2 * 60 * 1000
 
 const CtaJoinPopup = () => {
   const { isLoggedIn, loading } = useUser()
   const [isOpen, setOpen] = useState(false)
 
+  const isShown = localStorage.getItem(CTA_JOIN_POPUP)
+
   useEffect(
     () => {
-      if (isLoggedIn) return
+      if (isLoggedIn || isShown) return
 
-      const timeoutId = setTimeout(() => setOpen(true), TIMEOUT)
+      const timeoutId = setTimeout(() => {
+        setOpen(true)
+        localStorage.setItem(CTA_JOIN_POPUP, '+')
+      }, TIMEOUT)
       return () => clearTimeout(timeoutId)
     },
     [isLoggedIn]
@@ -30,6 +36,7 @@ const CtaJoinPopup = () => {
     <Dialog
       title=''
       open={isOpen}
+      preventCloseOnDimmedFromStart
       onOpen={() => setOpen(true)}
       onClose={() => setOpen(false)}
       classes={styles}
