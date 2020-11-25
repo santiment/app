@@ -22,6 +22,7 @@ import {
   yBubbleFormatter,
   isDayInterval
 } from '../utils'
+import { CursorType } from '../cursor'
 import { TooltipSetting } from '../../dataHub/tooltipSettings'
 
 const metricValueAccessor = ({ value }) => value || value === 0
@@ -107,6 +108,7 @@ export function setupTooltip (chart, marker) {
 export function plotTooltip (chart, marker, point, event) {
   const {
     tooltip: { ctx },
+    cursorType,
     tooltipKey,
     hoverLineColor,
     tooltipPaintConfig,
@@ -117,10 +119,11 @@ export function plotTooltip (chart, marker, point, event) {
 
   clearCtx(chart, ctx)
 
+  const resultCursorType = event && event.altKey ? +!cursorType : cursorType
   const { x, value: datetime, ...metrics } = point
   let { y, value } = metricPoint
 
-  if (event && Number.isFinite(y) && event.altKey) {
+  if (event && Number.isFinite(y) && resultCursorType === CursorType.FREE) {
     const { offsetY } = event
     const { top, bottom, minMaxes, scale } = chart
     const { min, max } = minMaxes[tooltipKey]

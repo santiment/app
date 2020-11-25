@@ -2,10 +2,22 @@ import { useEffect } from 'react'
 import { initTooltip } from '@santiment-network/chart/tooltip'
 import { setupTooltip, plotTooltip } from './helpers'
 import { useChart, noop } from '../context'
+import { CursorType } from '../cursor'
 import { observePressedModifier } from '../../../hooks/keyboard'
+
+const CursorTypeStyle = {
+  [CursorType.FREE]: 'crosshair',
+  [CursorType.LOCKED]: ''
+}
+
+const FlippedCursorTypeStyle = {
+  [CursorType.FREE]: '',
+  [CursorType.LOCKED]: 'crosshair'
+}
 
 const Tooltip = ({
   metric,
+  cursorType,
   syncTooltips,
   onPointMouseDown,
   onPointMouseUp,
@@ -14,6 +26,7 @@ const Tooltip = ({
 }) => {
   const chart = useChart()
 
+  chart.cursorType = cursorType
   chart.syncTooltips = syncTooltips
   chart.onPointMouseDown = onPointMouseDown
   chart.onPointMouseUp = onPointMouseUp
@@ -24,9 +37,19 @@ const Tooltip = ({
     const { canvas } = initTooltip(chart).tooltip
 
     return observePressedModifier(
-      ({ altKey }) => (canvas.style.cursor = altKey ? 'crosshair' : '')
+      ({ altKey }) =>
+        (canvas.style.cursor = (altKey
+          ? FlippedCursorTypeStyle
+          : CursorTypeStyle)[chart.cursorType])
     )
   }, [])
+
+  useEffect(
+    () => {
+      chart.tooltip.canvas.style.cursor = CursorTypeStyle[cursorType]
+    },
+    [cursorType]
+  )
 
   useEffect(
     () => {
@@ -47,6 +70,7 @@ const Tooltip = ({
 }
 
 Tooltip.defaultProps = {
+  cursorType: CursorType.LOCKED,
   syncTooltips: noop,
   onPointMouseDown: noop,
   onPointMouseUp: noop

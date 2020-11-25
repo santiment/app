@@ -26,18 +26,7 @@ const CopyLink = ({ getShareLink }) => {
 
   return (
     <Button border className={styles.share} onClick={onClick}>
-      <svg
-        className={styles.share__icon}
-        width='16'
-        height='16'
-        xmlns='http://www.w3.org/2000/svg'
-      >
-        <path
-          fillRule='evenodd'
-          clipRule='evenodd'
-          d='M7 9.7a.5.5 0 10.6-.8l-.4-.4a3.3 3.3 0 01.1-4.7l2.1-2a3.3 3.3 0 014.7.2 3.2 3.2 0 01-.1 4.7l-2.2 2a.5.5 0 10.7.7l2.1-2a4.3 4.3 0 00.2-6 4.3 4.3 0 00-6-.3l-2.2 2a4.3 4.3 0 00.5 6.6zm2-3.4a.5.5 0 00-.6.8l.4.4a3.3 3.3 0 01-.1 4.7l-2.1 2a3.3 3.3 0 01-4.7-.2A3.3 3.3 0 012 9.3l2.2-2a.5.5 0 00-.7-.7l-2.1 2a4.3 4.3 0 00-.2 6 4.3 4.3 0 006 .3l2.2-2a4.3 4.3 0 00-.5-6.6z'
-        />
-      </svg>
+      <Icon type='link' className={styles.share__icon} />
       {timer ? 'Copied!' : 'Copy link'}
     </Button>
   )

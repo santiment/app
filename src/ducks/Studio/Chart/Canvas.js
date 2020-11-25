@@ -34,6 +34,7 @@ const Canvas = ({
   metrics,
   settings,
   options,
+  cursorType,
   isDomainGroupingActive,
   isICOPriceActive,
   isSelectingRange,
@@ -66,6 +67,7 @@ const Canvas = ({
       <Tooltip
         metric={axesMetricKeys[0]}
         syncTooltips={syncTooltips}
+        cursorType={cursorType}
         onPointMouseUp={onPointMouseUp}
         onRangeSelected={onRangeSelected}
         onRangeSelecting={onRangeSelecting}
