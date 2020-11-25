@@ -77,22 +77,19 @@ const EventBanner = ({ className }) => {
           href={activeWidget.videoLink}
           target='_blank'
           rel='noopener noreferrer'
-          className={styles.media}
-          style={{ backgroundImage: `url('${coverImage}')` }}
+          className={styles.content}
         >
-          <DarkVideoPlayBtn />
-        </a>
-        <a
-          href={activeWidget.videoLink}
-          target='_blank'
-          rel='noopener noreferrer'
-        >
+          <div
+            className={styles.media}
+            style={{ backgroundImage: `url('${coverImage}')` }}
+          >
+            <DarkVideoPlayBtn />
+          </div>
           <div className={styles.info}>
             <h4 className={styles.title}>{activeWidget.title}</h4>
             <p className={styles.desc}>{activeWidget.description}</p>
           </div>
         </a>
-
         <Icon
           type='close-medium'
           className={styles.close}

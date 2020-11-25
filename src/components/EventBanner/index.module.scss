@@ -42,6 +42,21 @@
   color: var(--rhino);
 }
 
+.content {
+  display: flex;
+  width: 90%;
+
+  &:hover {
+    & .media svg {
+      transform: scale(1.2);
+    }
+
+    & .desc {
+      color: var(--mirage);
+    }
+  }
+}
+
 .media {
   height: 104px;
   width: 230px;
