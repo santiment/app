@@ -9,6 +9,7 @@
   animation-name: shiftDown;
   animation-timing-function: cubic-bezier(0, 0.96, 1, 1);
   animation-duration: 1s;
+  z-index: 2;
 
   a {
     text-decoration: none;

@@ -18,13 +18,15 @@ export function useShortShareLink () {
     const cachedLink = cache[currentPath]
 
     if (cachedLink) {
-      return setShortShareLink(cachedLink)
+      setShortShareLink(cachedLink)
+      return Promise.resolve(cachedLink)
     }
 
-    getShortUrl(currentPath).then(shortUrlHash => {
+    return getShortUrl(currentPath).then(shortUrlHash => {
       const shortShareLink = buildShortLink(shortUrlHash)
       cache[currentPath] = shortShareLink
       setShortShareLink(shortShareLink)
+      return shortShareLink
     })
   }
 
