@@ -4,6 +4,7 @@ export const PLANS = {
   FREE: 'FREE',
   BASIC: 'BASIC',
   PRO: 'PRO',
+  PRO_PLUS: 'PRO_PLUS',
   ENTERPRISE: 'ENTERPRISE'
 }
 
