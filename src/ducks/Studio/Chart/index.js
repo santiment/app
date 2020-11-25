@@ -9,6 +9,7 @@ import ChartCanvas from './Canvas'
 import SharedAxisToggle from './SharedAxisToggle'
 import ContextMenu from './ContextMenu'
 import ChartFullscreenBtn from './Fullscreen'
+import Controls from './Controls'
 import { extractIndicatorDomainGroups } from '../utils'
 import { useMetricColor } from '../Widget/ChartWidgetColorProvider'
 import { useAllTimeData } from '../timeseries/hooks'
@@ -16,6 +17,7 @@ import { useMetricCategories } from '../../Chart/Synchronizer'
 import { useDomainGroups } from '../../Chart/hooks'
 import { useHighlightMetricColor } from '../../Chart/colors'
 import { extractMirrorMetricsDomainGroups } from '../../Chart/utils'
+import { useChartCursorType } from '../../Chart/cursor'
 import { useUser } from '../../../stores/user'
 import { getTimeIntervalFromToday, DAY } from '../../../utils/dates'
 import styles from './index.module.scss'
@@ -53,6 +55,7 @@ const Chart = ({
   syncTooltips
 }) => {
   const { isLoggedIn } = useUser()
+  const chartCursor = useChartCursorType()
   const categories = useMetricCategories(metrics, MetricNode)
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
   const [focusedMetricKey, setFocusedMetricKey] = useState()
@@ -76,7 +79,6 @@ const Chart = ({
   const [allTimeData] = useAllTimeData(metrics, settings)
   const isBlurred = !isLoggedIn && index > 1
   const scale = options.isLogScale ? logScale : linearScale
-
   useEffect(onMetricHoverEnd, [metrics])
 
   useEffect(
@@ -133,27 +135,7 @@ const Chart = ({
   return (
     <div className={cx(styles.wrapper, className)}>
       <div className={cx(styles.top, isBlurred && styles.blur)}>
-        <div className={styles.metrics}>
-          <TopLeftComponent
-            isWithSettings
-            className={styles.metric}
-            settings={settings}
-            MetricColor={MetricColor}
-            activeMetrics={metrics}
-            activeEvents={activeEvents}
-            metricSettings={metricSettings}
-            loadings={loadings}
-            ErrorMsg={ErrorMsg}
-            eventLoadings={eventLoadings}
-            isSingleWidget={isSingleWidget}
-            toggleMetric={onMetricRemove}
-            onLockClick={toggleMetricLock}
-            onMetricHover={onMetricHover}
-            onMetricHoverEnd={onMetricHoverEnd}
-            onSettingsClick={onMetricSettingsClick}
-            onDeleteChartClick={isSingleWidget ? undefined : onDeleteChartClick}
-          />
-        </div>
+        <Controls chartCursor={chartCursor} />
 
         <div className={styles.meta}>
           <ChartPaywallInfo metrics={metrics} />
@@ -194,6 +176,28 @@ const Chart = ({
         </div>
       </div>
 
+      <div className={styles.metrics}>
+        <TopLeftComponent
+          isWithSettings
+          className={styles.metric}
+          settings={settings}
+          MetricColor={MetricColor}
+          activeMetrics={metrics}
+          activeEvents={activeEvents}
+          metricSettings={metricSettings}
+          loadings={loadings}
+          ErrorMsg={ErrorMsg}
+          eventLoadings={eventLoadings}
+          isSingleWidget={isSingleWidget}
+          toggleMetric={onMetricRemove}
+          onLockClick={toggleMetricLock}
+          onMetricHover={onMetricHover}
+          onMetricHoverEnd={onMetricHoverEnd}
+          onSettingsClick={onMetricSettingsClick}
+          onDeleteChartClick={isSingleWidget ? undefined : onDeleteChartClick}
+        />
+      </div>
+
       {metricSettings && (
         <ChartMetricSettings
           className={styles.settings}
@@ -217,6 +221,7 @@ const Chart = ({
         scale={scale}
         settings={settings}
         options={options}
+        cursorType={chartCursor.cursorType}
         domainGroups={
           isDomainGroupingActive ? domainGroups : mirrorDomainGroups
         }
