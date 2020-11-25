@@ -7,19 +7,11 @@ import EnhancedWordCloud from './EnhancedWordCloud'
 import AverageSocialVolume from '../../components/AverageSocialVolume'
 import HelpPopup from '../../components/HelpPopup/HelpPopup'
 import Footer from '../../components/Footer'
+import { checkIsToday } from '../../utils/dates'
 import styles from './Sidebar.module.scss'
 import stylesTooltip from '../../components/HelpPopup/HelpPopup.module.scss'
 
 const MAX_DATE = new Date()
-
-function checkIsToday (targetDate) {
-  const today = new Date()
-  return (
-    targetDate.getDate() === today.getDate() &&
-    targetDate.getMonth() === today.getMonth() &&
-    targetDate.getFullYear() === today.getFullYear()
-  )
-}
 
 const Sidebar = ({
   topics,
