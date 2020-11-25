@@ -12,6 +12,15 @@ import stylesTooltip from '../../components/HelpPopup/HelpPopup.module.scss'
 
 const MAX_DATE = new Date()
 
+function checkIsToday (targetDate) {
+  const today = new Date()
+  return (
+    targetDate.getDate() === today.getDate() &&
+    targetDate.getMonth() === today.getMonth() &&
+    targetDate.getFullYear() === today.getFullYear()
+  )
+}
+
 const Sidebar = ({
   topics,
   linkedAssets,
@@ -21,7 +30,7 @@ const Sidebar = ({
 }) => {
   const asideRef = useRef(null)
   const [trendDate, setTrendDate] = useState([MAX_DATE])
-  const [trendPeriod, setTrendPeriod] = useState(getTimePeriod(MAX_DATE))
+  const [trendPeriod, setTrendPeriod] = useState()
 
   useEffect(() => {
     const sidebar = asideRef.current
@@ -49,7 +58,7 @@ const Sidebar = ({
 
   function onTrendCalendarChange (date) {
     setTrendDate([date])
-    setTrendPeriod(getTimePeriod(date))
+    setTrendPeriod(checkIsToday(date) ? undefined : getTimePeriod(date))
   }
 
   return (
@@ -82,10 +91,10 @@ const Sidebar = ({
           )}
         </div>
         <GetHypedTrends
-          interval='1d'
+          interval={trendPeriod && '1d'}
           {...trendPeriod}
           render={({ isLoading, items }) => {
-            const trends = items[0]
+            const trends = items[items.length - 1]
             return (
               <TrendsTable
                 isCompactView
