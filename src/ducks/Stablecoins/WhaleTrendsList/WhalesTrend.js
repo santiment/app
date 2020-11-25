@@ -1,12 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import {
-  Area,
-  AreaChart,
-  ComposedChart,
-  ResponsiveContainer,
-  Tooltip
-} from 'recharts'
+import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { useWhaleTrends, WHALES_DEFAULT_SETTINGS } from './utils'
 import { useProject } from '../../../hooks/project'
 import ProjectIcon from '../../../components/ProjectIcon/ProjectIcon'
