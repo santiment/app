@@ -62,13 +62,7 @@ const PremiumBanner = () => {
             </Button>
           )}
 
-          {isTrial && (
-            <UpgradeBtn
-              variant={'fill'}
-              accent={'positive'}
-              showCrown={false}
-            />
-          )}
+          {isTrial && <UpgradeBtn variant={'fill'} showCrown={false} />}
         </div>
 
         <div onClick={hide}>
