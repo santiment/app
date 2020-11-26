@@ -1,8 +1,13 @@
 import { useEffect } from 'react'
 import { updateSize } from '@santiment-network/chart'
-import { useChart, noop } from '../context'
+import {
+  getPressedHandleType,
+  paintDrawings,
+  getAbsoluteY,
+  paintDrawingAxes
+} from './helpers'
+import { useChart } from '../context'
 import { clearCtx, linearDatetimeScale } from '../utils'
-import { getAbsoluteY, getLineHandle } from './helpers'
 
 const DRAWINGS = [
   {
@@ -10,41 +15,6 @@ const DRAWINGS = [
     absCoor: null
   }
 ]
-
-function paintDrawings (chart) {
-  const { ctx, drawings, mouseover, selected } = chart.drawer
-  clearCtx(chart, ctx)
-
-  for (let i = 0; i < drawings.length; i++) {
-    const drawing = drawings[i]
-    drawing.shape = new Path2D()
-
-    const [[x1, y1], [x2, y2]] = drawing.absCoor || [[], []]
-    const { shape, color, width = 10 } = drawing
-
-    ctx.save()
-
-    ctx.lineWidth = width
-    ctx.strokeStyle = color
-
-    shape.moveTo(x1, y1)
-    shape.lineTo(x2, y2)
-    ctx.stroke(shape)
-
-    const handle1 = getLineHandle(ctx, x1, y1)
-    const handle2 = getLineHandle(ctx, x2, y2)
-    drawing.handles = [handle1, handle2]
-
-    if (mouseover || selected) {
-      ctx.fill(handle1)
-      ctx.stroke(handle1)
-      ctx.fill(handle2)
-      ctx.stroke(handle2)
-    }
-
-    ctx.restore()
-  }
-}
 
 const Drawer = ({
   metricKey,
@@ -70,9 +40,14 @@ const Drawer = ({
     canvas.style.left = '0'
     canvas.style.top = '0'
 
-    parent.appendChild(canvas)
+    parent.insertBefore(canvas, chart.canvas.nextElementSibling || chart.canvas)
 
     chart.drawer = { canvas, ctx, drawings }
+
+    return () => {
+      canvas.remove()
+      delete chart.drawer
+    }
   }, [])
 
   useEffect(
@@ -115,6 +90,7 @@ const Drawer = ({
         }
 
         paintDrawings(chart)
+        paintDrawingAxes(chart)
       }
 
       function onMouseDown (e) {
@@ -125,17 +101,20 @@ const Drawer = ({
         const startDprX = startX * dpr
         const startDprY = startY * dpr
 
-        if (
-          drawer.selected &&
-          !ctx.isPointInStroke(drawer.selected.shape, startX, startY)
-        ) {
-          drawer.selected = null
-          return paintDrawings(chart)
+        if (drawer.selected) {
+          const { shape, handles } = drawer.selected
+
+          if (
+            !ctx.isPointInStroke(shape, startDprX, startDprY) &&
+            !ctx.isPointInPath(handles[0], startDprX, startDprY) &&
+            !ctx.isPointInPath(handles[1], startDprX, startDprY)
+          ) {
+            drawer.selected = null
+            return paintDrawings(chart)
+          }
         }
 
         if (!drawer.mouseover) return
-
-        console.log('click', drawer.selected)
 
         const drawing = drawer.mouseover
         drawer.selected = drawing
@@ -146,14 +125,14 @@ const Drawer = ({
         parent.addEventListener('mousemove', onDrag)
         parent.addEventListener('mouseup', onMouseUp)
 
-        let pressedHandle = 3
-        if (ctx.isPointInPath(drawing.handles[0], startDprX, startDprY)) {
-          pressedHandle = 1
-        } else if (
-          ctx.isPointInPath(drawing.handles[1], startDprX, startDprY)
-        ) {
-          pressedHandle = 2
-        }
+        const pressedHandle = getPressedHandleType(
+          ctx,
+          drawing.handles,
+          startDprX,
+          startDprY
+        )
+
+        paintDrawingAxes(chart)
 
         function onDrag (e) {
           // TODO: Disable range selection and alerts [@vanguard | Nov 26, 2020]
@@ -176,6 +155,7 @@ const Drawer = ({
           }
 
           paintDrawings(chart)
+          paintDrawingAxes(chart)
         }
 
         function onMouseUp () {
@@ -197,6 +177,8 @@ const Drawer = ({
   useEffect(
     () => {
       if (data.length === 0) return
+
+      chart.data = data
 
       const { height } = chart
 

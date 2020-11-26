@@ -31,6 +31,7 @@ const LineDrawControl = ({ isDrawingLineState }) => {
     <Button
       isActive={isDrawingLine}
       onClick={() => setIsDrawingLine(!isDrawingLine)}
+      className={styles.drawing}
     >
       <svg width='18' height='18' xmlns='http://www.w3.org/2000/svg'>
         <path stroke='none' d='M4.4 12.9l8.5-8.6.7.7-8.5 8.6z' />

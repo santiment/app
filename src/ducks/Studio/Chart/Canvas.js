@@ -15,6 +15,7 @@ import { useAxesMetricsKey } from '../../Chart/hooks'
 import Watermark from '../../Chart/Watermark'
 import Brush from '../../Chart/Brush'
 import Signals from '../../Chart/Signals'
+import { useIsBetaMode } from '../../../stores/ui'
 import styles from './index.module.scss'
 
 const PADDING = {
@@ -47,6 +48,7 @@ const Canvas = ({
   setIsICOPriceDisabled,
   ...props
 }) => {
+  const isBetaMode = useIsBetaMode()
   const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
   const { from, to } = settings
   const { isCartesianGridActive, isWatermarkLighter } = options
@@ -65,13 +67,15 @@ const Canvas = ({
       <Axes metrics={axesMetricKeys} />
       {isCartesianGridActive && <CartesianGrid />}
 
-      <Drawer
-        metricKey={axesMetricKeys[0]}
-        data={data}
-        from={from}
-        to={to}
-        isDrawing={true}
-      />
+      {isBetaMode && (
+        <Drawer
+          metricKey={axesMetricKeys[0]}
+          data={data}
+          from={from}
+          to={to}
+          isDrawing={true}
+        />
+      )}
 
       <Tooltip
         metric={axesMetricKeys[0]}

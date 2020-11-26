@@ -29,3 +29,19 @@
     }
   }
 }
+
+.drawing {
+  position: relative;
+
+  &::after {
+    content: 'BETA';
+    position: absolute;
+    top: -12px;
+    left: 0;
+    background: var(--waterloo);
+    color: #fff;
+    border-radius: 3px;
+    font-size: 8px;
+    padding: 2px 4px;
+  }
+}
