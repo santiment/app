@@ -143,6 +143,7 @@ const Chart = ({
           chartCursor={chartCursor}
           selectedLineState={selectedLineState}
           isDrawingLineState={isDrawingLineState}
+          rerenderWidgets={rerenderWidgets}
         />
 
         <div className={styles.meta}>
@@ -230,6 +231,7 @@ const Chart = ({
         settings={settings}
         options={options}
         cursorType={chartCursor.cursorType}
+        drawings={widget.drawings}
         domainGroups={
           isDomainGroupingActive ? domainGroups : mirrorDomainGroups
         }

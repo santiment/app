@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Button from './Button'
 import LineActions from './LineActions'
 import { CursorType } from '../../../Chart/cursor'
@@ -43,9 +43,13 @@ const Controls = ({
   chartRef,
   chartCursor,
   selectedLineState,
-  isDrawingLineState
+  isDrawingLineState,
+  rerenderWidgets
 }) => {
   const isBetaMode = useIsBetaMode()
+  const selectedLine = selectedLineState[0]
+
+  useEffect(() => rerenderWidgets(), [selectedLine])
 
   return (
     <div className={styles.wrapper}>

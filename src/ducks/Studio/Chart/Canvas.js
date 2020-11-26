@@ -37,6 +37,7 @@ const Canvas = ({
   settings,
   options,
   cursorType,
+  drawings,
   selectedLineState,
   isDrawingLineState,
   isDomainGroupingActive,
@@ -73,8 +74,7 @@ const Canvas = ({
         <Drawer
           metricKey={axesMetricKeys[0]}
           data={data}
-          from={from}
-          to={to}
+          drawings={drawings}
           selectedLineState={selectedLineState}
           isDrawingLineState={isDrawingLineState}
         />
