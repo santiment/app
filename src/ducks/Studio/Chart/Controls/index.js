@@ -43,13 +43,13 @@ const Controls = ({
   chartRef,
   chartCursor,
   selectedLineState,
+  isDrawingState,
   isNewDrawingState,
   rerenderWidgets
 }) => {
   const isBetaMode = useIsBetaMode()
-  const selectedLine = selectedLineState[0]
 
-  useEffect(() => rerenderWidgets(), [selectedLine])
+  useEffect(() => rerenderWidgets(), [isDrawingState[0]])
 
   return (
     <div className={styles.wrapper}>

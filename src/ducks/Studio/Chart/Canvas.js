@@ -85,7 +85,6 @@ const Canvas = ({
 
       <Tooltip
         metric={axesMetricKeys[0]}
-        isDrawing={isDrawing}
         syncTooltips={syncTooltips}
         cursorType={cursorType}
         onPointMouseUp={onPointMouseUp}

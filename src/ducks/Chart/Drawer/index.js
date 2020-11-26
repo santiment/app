@@ -1,14 +1,16 @@
 import { useEffect } from 'react'
 import { updateSize } from '@santiment-network/chart'
 import {
-  getPressedHandleType,
+  checkIsOnStrokeArea,
   paintDrawings,
   paintDrawingAxes,
+  getPressedHandleType,
   absoluteToRelativeCoordinates,
   relativeToAbsoluteCoordinates
 } from './helpers'
 import { useChart } from '../context'
 
+// TODO: refactor this and helpers module [@vanguard | Nov 26, 2020]
 const Drawer = ({
   metricKey,
   drawings,
@@ -19,8 +21,12 @@ const Drawer = ({
 }) => {
   const chart = useChart()
   const [isNewDrawing, setIsNewDrawing] = isNewDrawingState
-  const setIsDrawing = isDrawingState[1]
   const setSelectedLine = selectedLineState[1]
+
+  function setIsDrawing (state) {
+    chart.isDrawing = state
+    isDrawingState[1](state)
+  }
 
   useEffect(() => {
     const parent = chart.canvas.parentNode
@@ -113,6 +119,9 @@ const Drawer = ({
       const { ctx } = drawer
 
       function onMouseMove (e) {
+        // TODO: refactor [@vanguard | Nov 26, 2020]
+        if (chart.isDrawing) return
+
         const { drawings } = drawer
 
         const { offsetX, offsetY } = e
@@ -129,23 +138,23 @@ const Drawer = ({
           if (!shape || !handles) continue
 
           if (
-            ctx.isPointInStroke(shape, moveX, moveY) ||
-            ctx.isPointInStroke(shape, moveX - 2, moveY - 2) ||
-            ctx.isPointInStroke(shape, moveX + 2, moveY + 2) ||
+            checkIsOnStrokeArea(ctx, shape, moveX, moveY) ||
             ctx.isPointInPath(handles[0], moveX, moveY) ||
             ctx.isPointInPath(handles[1], moveX, moveY)
           ) {
             isMouseOver = true
             drawer.mouseover = drawing
+            document.body.style = 'cursor: pointer'
             break
           }
         }
 
         if (!isMouseOver) {
           drawer.mouseover = null
+          document.body.style = ''
         }
 
-        chart.drawer.redraw()
+        drawer.redraw()
       }
 
       function onMouseDown (e) {
@@ -156,29 +165,43 @@ const Drawer = ({
         const startDprX = startX * dpr
         const startDprY = startY * dpr
 
-        if (drawer.selected) {
+        const hasNoMouseover = !drawer.mouseover
+
+        if (drawer.selected && hasNoMouseover) {
           const { shape, handles } = drawer.selected
 
           if (
-            !ctx.isPointInStroke(shape, startDprX, startDprY) &&
+            !checkIsOnStrokeArea(ctx, shape, startDprX, startDprY) &&
             !ctx.isPointInPath(handles[0], startDprX, startDprY) &&
             !ctx.isPointInPath(handles[1], startDprX, startDprY)
           ) {
+            drawer.mouseover = null
             drawer.selected = null
             setSelectedLine()
             return paintDrawings(chart)
           }
         }
 
-        if (!drawer.mouseover) return
+        if (hasNoMouseover) return
 
         const drawing = drawer.mouseover
         drawer.selected = drawing
+        drawer.mouseover = drawing
         setSelectedLine(drawing)
         setIsDrawing(true)
-        drawer.mouseover = null
+        chart.drawer.redraw()
 
         const [x1, y1, x2, y2] = drawing.absCoor
+        const pressedHandle = getPressedHandleType(
+          ctx,
+          drawing.handles,
+          startDprX,
+          startDprY
+        )
+
+        window.addEventListener('keydown', onDelete)
+        parent.addEventListener('mousemove', onDrag)
+        parent.addEventListener('mouseup', onMouseUp)
 
         function onDelete (e) {
           const { selected } = drawer
@@ -197,19 +220,6 @@ const Drawer = ({
             chart.drawer.redraw()
           }
         }
-
-        window.addEventListener('keydown', onDelete)
-        parent.addEventListener('mousemove', onDrag)
-        parent.addEventListener('mouseup', onMouseUp)
-
-        const pressedHandle = getPressedHandleType(
-          ctx,
-          drawing.handles,
-          startDprX,
-          startDprY
-        )
-
-        paintDrawingAxes(chart)
 
         function onDrag (e) {
           // TODO: Disable range selection and alerts [@vanguard | Nov 26, 2020]

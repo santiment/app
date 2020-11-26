@@ -24,6 +24,23 @@ const getBubblePaintConfig = paintConfig =>
     bgColor: '#9faac4'
   })
 
+export function checkIsOnStrokeArea (ctx, shape, x, y) {
+  if (ctx.isPointInStroke(shape, x, y)) return true
+
+  for (let i = 1; i < 9; i++) {
+    if (
+      ctx.isPointInStroke(shape, x - i, y - i) ||
+      ctx.isPointInStroke(shape, x - i, y + i) ||
+      ctx.isPointInStroke(shape, x + i, y - i) ||
+      ctx.isPointInStroke(shape, x + i, y + i)
+    ) {
+      return true
+    }
+  }
+
+  return false
+}
+
 export function absoluteToRelativeCoordinates (chart, drawing) {
   const { width, data, tooltipKey, minMaxes } = chart
   const { min, max } = minMaxes[tooltipKey]
@@ -108,7 +125,7 @@ export function paintDrawings (chart) {
 }
 
 export function paintDrawingAxes (chart) {
-  const { drawer, bubblesPaintConfig, tooltipKey } = chart
+  const { width, height, drawer, bubblesPaintConfig, tooltipKey } = chart
   const { ctx, selected: drawing } = drawer
   if (!drawing || !drawing.absCoor) return
 
@@ -142,6 +159,8 @@ export function paintDrawingAxes (chart) {
     y2,
     paintConfig
   )
+
+  ctx.clearRect(width, height + 12, 200, 200)
 
   ctx.restore()
 }
