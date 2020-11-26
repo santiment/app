@@ -37,6 +37,7 @@ const Canvas = ({
   settings,
   options,
   cursorType,
+  selectedLineState,
   isDrawingLineState,
   isDomainGroupingActive,
   isICOPriceActive,
@@ -74,6 +75,7 @@ const Canvas = ({
           data={data}
           from={from}
           to={to}
+          selectedLineState={selectedLineState}
           isDrawingLineState={isDrawingLineState}
         />
       )}

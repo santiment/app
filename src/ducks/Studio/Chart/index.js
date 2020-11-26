@@ -57,6 +57,7 @@ const Chart = ({
   const { isLoggedIn } = useUser()
   const chartCursor = useChartCursorType()
   const isDrawingLineState = useState(false)
+  const selectedLineState = useState()
   const categories = useMetricCategories(metrics, MetricNode)
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
   const [focusedMetricKey, setFocusedMetricKey] = useState()
@@ -138,7 +139,9 @@ const Chart = ({
     <div className={cx(styles.wrapper, className)}>
       <div className={cx(styles.top, isBlurred && styles.blur)}>
         <Controls
+          chartRef={chartRef}
           chartCursor={chartCursor}
+          selectedLineState={selectedLineState}
           isDrawingLineState={isDrawingLineState}
         />
 
@@ -230,6 +233,7 @@ const Chart = ({
         domainGroups={
           isDomainGroupingActive ? domainGroups : mirrorDomainGroups
         }
+        selectedLineState={selectedLineState}
         isDrawingLineState={isDrawingLineState}
         isDomainGroupingActive={isDomainGroupingActive}
         isICOPriceActive={isICOPriceActive}

@@ -1,20 +1,16 @@
 import React from 'react'
-import cx from 'classnames'
-import UIButton from '@santiment-network/ui/Button'
+import Button from './Button'
+import LineActions from './LineActions'
 import { CursorType } from '../../../Chart/cursor'
 import { useIsBetaMode } from '../../../../stores/ui'
 import styles from './index.module.scss'
 
-const Button = ({ className, isActive, ...props }) => (
-  <UIButton
-    {...props}
-    variant='ghost'
-    className={cx(styles.btn, className, isActive && styles.btn_active)}
-  />
-)
-
 const CursorControl = ({ cursorType, toggleCursorType }) => (
-  <Button isActive={cursorType === CursorType.FREE} onClick={toggleCursorType}>
+  <Button
+    stroke
+    isActive={cursorType === CursorType.FREE}
+    onClick={toggleCursorType}
+  >
     <svg width='18' height='18' xmlns='http://www.w3.org/2000/svg'>
       <path
         stroke='none'
@@ -29,6 +25,7 @@ const LineDrawControl = ({ isDrawingLineState }) => {
 
   return (
     <Button
+      stroke
       isActive={isDrawingLine}
       onClick={() => setIsDrawingLine(!isDrawingLine)}
       className={styles.drawing}
@@ -42,7 +39,12 @@ const LineDrawControl = ({ isDrawingLineState }) => {
   )
 }
 
-const Controls = ({ chartCursor, isDrawingLineState }) => {
+const Controls = ({
+  chartRef,
+  chartCursor,
+  selectedLineState,
+  isDrawingLineState
+}) => {
   const isBetaMode = useIsBetaMode()
 
   return (
@@ -50,6 +52,13 @@ const Controls = ({ chartCursor, isDrawingLineState }) => {
       <CursorControl {...chartCursor} />
       {isBetaMode && (
         <LineDrawControl isDrawingLineState={isDrawingLineState} />
+      )}
+
+      {selectedLineState[0] && (
+        <LineActions
+          chartRef={chartRef}
+          selectedLineState={selectedLineState}
+        />
       )}
     </div>
   )

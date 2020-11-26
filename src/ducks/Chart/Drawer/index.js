@@ -23,10 +23,12 @@ const Drawer = ({
   data,
   from,
   to,
+  selectedLineState,
   isDrawingLineState
 }) => {
   const chart = useChart()
   const [isDrawing, setIsDrawing] = isDrawingLineState
+  const setSelectedLine = selectedLineState[1]
 
   useEffect(() => {
     const parent = chart.canvas.parentNode
@@ -43,7 +45,15 @@ const Drawer = ({
 
     parent.insertBefore(canvas, chart.canvas.nextElementSibling || chart.canvas)
 
-    chart.drawer = { canvas, ctx, drawings }
+    chart.drawer = {
+      canvas,
+      ctx,
+      drawings,
+      redraw () {
+        paintDrawings(chart)
+        paintDrawingAxes(chart)
+      }
+    }
 
     return () => {
       canvas.remove()
@@ -69,6 +79,7 @@ const Drawer = ({
           }
           chart.drawer.drawings.push(drawing)
           chart.drawer.selected = drawing
+          setSelectedLine(drawing)
 
           parent.removeEventListener('mousedown', onMouseDown)
           parent.addEventListener('mousemove', onMouseMove)
@@ -162,6 +173,7 @@ const Drawer = ({
             !ctx.isPointInPath(handles[1], startDprX, startDprY)
           ) {
             drawer.selected = null
+            setSelectedLine()
             return paintDrawings(chart)
           }
         }
@@ -170,6 +182,7 @@ const Drawer = ({
 
         const drawing = drawer.mouseover
         drawer.selected = drawing
+        setSelectedLine(drawing)
         drawer.mouseover = null
 
         const [[x1, y1], [x2, y2]] = drawing.absCoor
@@ -182,6 +195,7 @@ const Drawer = ({
 
           if (e.key === 'Backspace') {
             drawer.selected = null
+            setSelectedLine()
             drawer.drawings = drawer.drawings.filter(
               drawing => drawing !== selected
             )
