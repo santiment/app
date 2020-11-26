@@ -28,10 +28,14 @@ export function checkIsOnStrokeArea (ctx, shape, x, y) {
   if (ctx.isPointInStroke(shape, x, y)) return true
 
   for (let i = 1; i < 9; i++) {
-    if (ctx.isPointInStroke(shape, x - i, y - i)) return true
-    if (ctx.isPointInStroke(shape, x - i, y + i)) return true
-    if (ctx.isPointInStroke(shape, x + i, y - i)) return true
-    if (ctx.isPointInStroke(shape, x + i, y + i)) return true
+    if (
+      ctx.isPointInStroke(shape, x - i, y - i) ||
+      ctx.isPointInStroke(shape, x - i, y + i) ||
+      ctx.isPointInStroke(shape, x + i, y - i) ||
+      ctx.isPointInStroke(shape, x + i, y + i)
+    ) {
+      return true
+    }
   }
 
   return false
