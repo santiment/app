@@ -58,7 +58,7 @@ export const nightBrushPaintConfig = {
 
 export const paintConfigs = [
   {
-    bgColor: COLOR.white,
+    bgColor: '#fff',
     axesColor: dayAxesColor,
     hoverLineColor: dayHoverLineColor,
     ticksPaintConfig: dayTicksPaintConfig,

@@ -8,12 +8,14 @@ import Lines from '../../Chart/Lines'
 import Bars from '../../Chart/Bars'
 import GreenRedBars from '../../Chart/GreenRedBars'
 import Tooltip from '../../Chart/Tooltip'
+import Drawer from '../../Chart/Drawer'
 import Axes from '../../Chart/Axes'
 import CartesianGrid from '../../Chart/CartesianGrid'
 import { useAxesMetricsKey } from '../../Chart/hooks'
 import Watermark from '../../Chart/Watermark'
 import Brush from '../../Chart/Brush'
 import Signals from '../../Chart/Signals'
+import { useIsBetaMode } from '../../../stores/ui'
 import styles from './index.module.scss'
 
 const PADDING = {
@@ -35,6 +37,10 @@ const Canvas = ({
   settings,
   options,
   cursorType,
+  drawings,
+  selectedLineState,
+  isDrawingState,
+  isNewDrawingState,
   isDomainGroupingActive,
   isICOPriceActive,
   isSelectingRange,
@@ -46,7 +52,9 @@ const Canvas = ({
   setIsICOPriceDisabled,
   ...props
 }) => {
+  const isBetaMode = useIsBetaMode()
   const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
+  const isDrawing = isDrawingState[0]
   const { from, to } = settings
   const { isCartesianGridActive, isWatermarkLighter } = options
 
@@ -64,8 +72,20 @@ const Canvas = ({
       <Axes metrics={axesMetricKeys} />
       {isCartesianGridActive && <CartesianGrid />}
 
+      {isBetaMode && (
+        <Drawer
+          metricKey={axesMetricKeys[0]}
+          data={data}
+          drawings={drawings}
+          selectedLineState={selectedLineState}
+          isDrawingState={isDrawingState}
+          isNewDrawingState={isNewDrawingState}
+        />
+      )}
+
       <Tooltip
         metric={axesMetricKeys[0]}
+        isDrawing={isDrawing}
         syncTooltips={syncTooltips}
         cursorType={cursorType}
         onPointMouseUp={onPointMouseUp}
@@ -90,7 +110,7 @@ const Canvas = ({
         onResult={price => setIsICOPriceDisabled(!price)}
       />
       <LastDayPrice data={data} from={from} to={to} />
-      {isSelectingRange || (
+      {isNewDrawingState[0] || isDrawing || isSelectingRange || (
         <Signals {...settings} metrics={metrics} data={data} />
       )}
     </ResponsiveChart>

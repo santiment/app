@@ -10,10 +10,20 @@
   padding: 0;
   align-items: center;
   justify-content: center;
+  margin-right: 8px;
+  fill: var(--rhino);
+
+  &.stroke {
+    stroke: var(--rhino);
+  }
 
   &:hover {
     background: var(--athens);
     fill: var(--rhino);
+
+    &.stroke {
+      stroke: var(--rhino);
+    }
   }
 
   &_active {
@@ -21,6 +31,32 @@
     &:hover {
       background: var(--jungle-green-light);
       fill: var(--jungle-green);
+
+      &.stroke {
+        stroke: var(--jungle-green);
+      }
     }
   }
+}
+
+.drawing {
+  position: relative;
+
+  &::after {
+    content: 'BETA';
+    position: absolute;
+    top: -12px;
+    left: 0;
+    background: var(--waterloo);
+    color: #fff;
+    border-radius: 3px;
+    font-size: 8px;
+    padding: 2px 4px;
+  }
+}
+
+.divider {
+  height: 24px;
+  border: 1px solid var(--porcelain);
+  margin: 0 8px;
 }

@@ -18,6 +18,7 @@ const FlippedCursorTypeStyle = {
 const Tooltip = ({
   metric,
   cursorType,
+  isDrawing,
   syncTooltips,
   onPointMouseDown,
   onPointMouseUp,
@@ -26,6 +27,7 @@ const Tooltip = ({
 }) => {
   const chart = useChart()
 
+  chart.isDrawing = isDrawing
   chart.cursorType = cursorType
   chart.syncTooltips = syncTooltips
   chart.onPointMouseDown = onPointMouseDown

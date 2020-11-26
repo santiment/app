@@ -56,6 +56,9 @@ const Chart = ({
 }) => {
   const { isLoggedIn } = useUser()
   const chartCursor = useChartCursorType()
+  const isNewDrawingState = useState(false)
+  const isDrawingState = useState(false)
+  const selectedLineState = useState()
   const categories = useMetricCategories(metrics, MetricNode)
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
   const [focusedMetricKey, setFocusedMetricKey] = useState()
@@ -79,6 +82,7 @@ const Chart = ({
   const [allTimeData] = useAllTimeData(metrics, settings)
   const isBlurred = !isLoggedIn && index > 1
   const scale = options.isLogScale ? logScale : linearScale
+
   useEffect(onMetricHoverEnd, [metrics])
 
   useEffect(
@@ -135,7 +139,13 @@ const Chart = ({
   return (
     <div className={cx(styles.wrapper, className)}>
       <div className={cx(styles.top, isBlurred && styles.blur)}>
-        <Controls chartCursor={chartCursor} />
+        <Controls
+          chartRef={chartRef}
+          chartCursor={chartCursor}
+          selectedLineState={selectedLineState}
+          isNewDrawingState={isNewDrawingState}
+          rerenderWidgets={rerenderWidgets}
+        />
 
         <div className={styles.meta}>
           <ChartPaywallInfo metrics={metrics} />
@@ -222,9 +232,13 @@ const Chart = ({
         settings={settings}
         options={options}
         cursorType={chartCursor.cursorType}
+        drawings={widget.drawings}
         domainGroups={
           isDomainGroupingActive ? domainGroups : mirrorDomainGroups
         }
+        selectedLineState={selectedLineState}
+        isDrawingState={isDrawingState}
+        isNewDrawingState={isNewDrawingState}
         isDomainGroupingActive={isDomainGroupingActive}
         isICOPriceActive={isICOPriceActive}
         isSelectingRange={isSelectingRange}
