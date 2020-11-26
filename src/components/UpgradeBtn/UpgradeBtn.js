@@ -35,6 +35,8 @@ const UpgradeBtn = ({
   className,
   iconClassName,
   variant = 'fill',
+  showCrown = true,
+  accent,
   ...props
 }) => {
   const { loading, subscription } = useUserSubscription()
@@ -52,7 +54,9 @@ const UpgradeBtn = ({
       <PlanPaymentDialog
         label={
           <>
-            <Icon type='crown' className={cx(styles.icon, iconClassName)} />
+            {showCrown && (
+              <Icon type='crown' className={cx(styles.icon, iconClassName)} />
+            )}
             Upgrade
           </>
         }
@@ -64,7 +68,7 @@ const UpgradeBtn = ({
           fluid: false,
           border: false,
           variant: variant,
-          accent: 'orange',
+          accent: accent || 'orange',
           className: cx(styles.btn, styles.fill, className)
         }}
       />
@@ -78,6 +82,7 @@ const UpgradeBtn = ({
       className={className}
       iconClassName={iconClassName}
       variant={variant}
+      accent={accent}
       {...props}
     />
   )

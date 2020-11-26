@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import { Area, AreaChart, ResponsiveContainer } from 'recharts'
+import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { useWhaleTrends, WHALES_DEFAULT_SETTINGS } from './utils'
 import { useProject } from '../../../hooks/project'
 import ProjectIcon from '../../../components/ProjectIcon/ProjectIcon'
@@ -8,6 +8,8 @@ import Gradients from '../../Watchlists/Widgets/WatchlistOverview/Gradients'
 import { calcPercentageChange } from '../../../utils/utils'
 import PercentChanges from '../../../components/PercentChanges'
 import Skeleton from '../../../components/Skeleton/Skeleton'
+import ChartTooltip from '../../SANCharts/tooltip/CommonChartTooltip'
+import { tooltipLabelFormatter } from '../../dataHub/metrics/formatters'
 import styles from './WhalesTrend.module.scss'
 
 const useAreaData = stats => {
@@ -17,10 +19,19 @@ const useAreaData = stats => {
   const color = `var(--${change >= 0 ? 'lima' : 'persimmon'})`
   const minValue = Math.min(...stats.map(({ value }) => value))
   const chartStats = stats.map(stat => ({
+    ...stat,
     value: stat.value - minValue
   }))
 
   return { change, chartStats, color }
+}
+
+const labelFormatter = (label, payload) => {
+  if (!payload[0]) {
+    return
+  }
+
+  return tooltipLabelFormatter(payload[0].payload.datetime)
 }
 
 const WhalesTrend = ({ item: { slug } }) => {
@@ -59,6 +70,12 @@ const WhalesTrend = ({ item: { slug } }) => {
                     stroke={color}
                     isAnimationActive={false}
                     fill={`url(#total${change >= 0 ? 'Up' : 'Down'})`}
+                  />
+
+                  <Tooltip
+                    content={<ChartTooltip labelFormatter={labelFormatter} />}
+                    cursor={false}
+                    isAnimationActive={false}
                   />
                 </AreaChart>
               </ResponsiveContainer>

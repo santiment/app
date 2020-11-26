@@ -24,7 +24,7 @@
 .info {
   display: flex;
   flex-direction: column;
-  margin-left: 40px;
+  padding: 24px 40px;
 }
 
 .title {
@@ -39,6 +39,22 @@
 
   margin: 0;
   max-width: 332px;
+  color: var(--rhino);
+}
+
+.content {
+  display: flex;
+  width: 90%;
+
+  &:hover {
+    & .media svg {
+      transform: scale(1.2);
+    }
+
+    & .desc {
+      color: var(--mirage);
+    }
+  }
 }
 
 .media {

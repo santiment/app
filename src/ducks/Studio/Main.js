@@ -8,6 +8,7 @@ import TabsWidgets from './Tabs/Widgets'
 import StudioInfo from '../SANCharts/Header'
 import SanbaseBanner from '../../components/SanbaseBanner/SanbaseBanner'
 import PageLoader from '../../components/Loader/PageLoader'
+import PremiumBanner from './PremiumBanner/PremiumBanner'
 import styles from './Main.module.scss'
 
 const LoadableRelatedInsights = Loadable({
@@ -72,6 +73,7 @@ const Main = ({
           </Route>
         </Switch>
       </div>
+      <PremiumBanner />
       {bottomSlot}
     </>
   )
