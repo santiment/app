@@ -4,9 +4,15 @@
 .wrapper {
   box-sizing: border-box;
   flex: 1;
-  overflow-y: auto;
   overflow-x: hidden;
   position: relative;
+  min-height: 100px;
+  overflow-y: hidden;
+
+  &:hover {
+    overflow-y: auto;
+    overflow-y: overlay;
+  }
 }
 
 .list {

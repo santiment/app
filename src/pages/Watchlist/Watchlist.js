@@ -16,6 +16,7 @@ import {
 import AssetsTemplates from '../../ducks/Watchlists/Widgets/Table/AssetsTemplates'
 import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/columns'
 import { useAssetsAnomalyToggler } from './hooks/useAssetsAnomalyToggler'
+import { addRecentWatchlists } from '../../utils/recent'
 import ScreenerWidgets from './Widgets/ScreenerWidgets'
 import styles from './Watchlist.module.scss'
 
@@ -69,6 +70,10 @@ const WatchlistPage = props => {
           if (items !== currentItems) {
             setCurrentItems(items)
             clearFilters()
+          }
+
+          if (listId) {
+            addRecentWatchlists(listId)
           }
 
           const showingAssets = filteredItems || items

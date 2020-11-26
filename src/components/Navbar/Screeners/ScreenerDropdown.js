@@ -24,7 +24,7 @@ const ScreenerDropdown = ({ activeLink, isLoggedIn, isLoggedInPending }) => {
     <Panel>
       <div className={wrapperStyles.wrapper}>
         <div className={cx(wrapperStyles.block, wrapperStyles.list)}>
-          <h3 className={wrapperStyles.title}>My Screeners</h3>
+          <h3 className={wrapperStyles.title}>My screeners</h3>
           {isLoading ? (
             <Loader className={styles.loader} />
           ) : (

@@ -29,20 +29,29 @@
   margin: 0 0 8px 10px;
 }
 
+.listWrapper {
+  box-sizing: border-box;
+  flex: 1;
+  overflow-x: hidden;
+  position: relative;
+  max-height: 100px;
+  margin-bottom: 16px;
+  overflow-y: hidden;
+
+  &:hover {
+    overflow-y: auto;
+    overflow-y: overlay;
+  }
+}
+
+.recentList {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+
 .list {
   display: flex;
   flex-direction: column;
-
-  & :global(.create-new-watchlist-btn) {
-    padding: 0;
-
-    & > :global(.input) {
-      margin: 0;
-    }
-
-    & > :global(.button) {
-      padding: 10px;
-      margin: 0 0 0 4px;
-    }
-  }
 }
