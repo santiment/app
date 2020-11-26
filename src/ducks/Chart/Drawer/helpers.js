@@ -84,7 +84,7 @@ export function getLineHandle (ctx, x, y, bgColor, strokeColor) {
 }
 
 export function paintDrawings (chart) {
-  const { drawer, right, bottom, width, height } = chart
+  const { drawer, right, bottom, left } = chart
   const { ctx, drawings, mouseover, selected } = drawer
   clearCtx(chart, ctx)
 
@@ -120,12 +120,13 @@ export function paintDrawings (chart) {
     ctx.restore()
   }
 
-  ctx.clearRect(width + 5, 0, 1000, bottom)
-  ctx.clearRect(0, height + 10, right, 1000)
+  ctx.clearRect(left, 0, -200, bottom)
+  ctx.clearRect(right, 0, 1000, bottom)
+  ctx.clearRect(0, bottom, right, 1000)
 }
 
 export function paintDrawingAxes (chart) {
-  const { width, height, drawer, bubblesPaintConfig, tooltipKey } = chart
+  const { drawer, bubblesPaintConfig, tooltipKey, right, bottom } = chart
   const { ctx, selected: drawing } = drawer
   if (!drawing || !drawing.absCoor) return
 
@@ -160,7 +161,7 @@ export function paintDrawingAxes (chart) {
     paintConfig
   )
 
-  ctx.clearRect(width, height + 12, 200, 200)
+  ctx.clearRect(right, bottom, 200, 200)
 
   ctx.restore()
 }

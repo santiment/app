@@ -52,7 +52,7 @@ export const Chart = ({
     () => {
       if (!chart) return
 
-      const { tooltip, brush, canvasWidth, canvasHeight } = chart
+      const { tooltip, brush, drawer, canvasWidth, canvasHeight } = chart
 
       const _width = width || canvasWidth
       const _height = height || canvasHeight
@@ -64,6 +64,10 @@ export const Chart = ({
       }
       if (brush) {
         brush.updateWidth(_width)
+      }
+      if (drawer) {
+        updateSize(drawer.canvas, drawer.ctx, chart.dpr, _width, _height)
+        drawer.redraw()
       }
 
       chart.redraw()
