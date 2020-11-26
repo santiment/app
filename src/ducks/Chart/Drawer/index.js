@@ -14,10 +14,12 @@ const Drawer = ({
   drawings,
   data,
   selectedLineState,
-  isDrawingLineState
+  isDrawingState,
+  isNewDrawingState
 }) => {
   const chart = useChart()
-  const [isDrawing, setIsDrawing] = isDrawingLineState
+  const [isNewDrawing, setIsNewDrawing] = isNewDrawingState
+  const setIsDrawing = isDrawingState[1]
   const setSelectedLine = selectedLineState[1]
 
   useEffect(() => {
@@ -55,7 +57,7 @@ const Drawer = ({
     () => {
       const parent = chart.canvas.parentNode
 
-      if (isDrawing) {
+      if (isNewDrawing) {
         function onMouseDown (e) {
           const { offsetX, offsetY } = e
           const { offsetLeft, offsetTop } = e.target
@@ -70,6 +72,7 @@ const Drawer = ({
           chart.drawer.drawings.push(drawing)
           chart.drawer.selected = drawing
           setSelectedLine(drawing)
+          setIsDrawing(true)
 
           parent.removeEventListener('mousedown', onMouseDown)
           parent.addEventListener('mousemove', onMouseMove)
@@ -94,8 +97,8 @@ const Drawer = ({
           function finishLine () {
             parent.removeEventListener('mousemove', onMouseMove)
             parent.removeEventListener('mousedown', finishLine)
-            chart.isDrawing = false
             setIsDrawing(false)
+            setIsNewDrawing(false)
             drawing.relCoor = absoluteToRelativeCoordinates(chart, drawing)
           }
         }
@@ -172,6 +175,7 @@ const Drawer = ({
         const drawing = drawer.mouseover
         drawer.selected = drawing
         setSelectedLine(drawing)
+        setIsDrawing(true)
         drawer.mouseover = null
 
         const [x1, y1, x2, y2] = drawing.absCoor
@@ -185,6 +189,7 @@ const Drawer = ({
           if (e.key === 'Backspace') {
             drawer.selected = null
             setSelectedLine()
+            setIsDrawing(false)
             drawer.drawings = drawer.drawings.filter(
               drawing => drawing !== selected
             )
@@ -230,6 +235,7 @@ const Drawer = ({
         }
 
         function onMouseUp () {
+          setIsDrawing(false)
           drawing.relCoor = absoluteToRelativeCoordinates(chart, drawing)
           parent.removeEventListener('mousemove', onDrag)
         }
@@ -243,7 +249,7 @@ const Drawer = ({
         parent.removeEventListener('mousedown', onMouseDown)
       }
     },
-    [isDrawing]
+    [isNewDrawing]
   )
 
   useEffect(

@@ -56,7 +56,8 @@ const Chart = ({
 }) => {
   const { isLoggedIn } = useUser()
   const chartCursor = useChartCursorType()
-  const isDrawingLineState = useState(false)
+  const isNewDrawingState = useState(false)
+  const isDrawingState = useState(false)
   const selectedLineState = useState()
   const categories = useMetricCategories(metrics, MetricNode)
   const [isDomainGroupingActive, setIsDomainGroupingActive] = useState()
@@ -142,7 +143,7 @@ const Chart = ({
           chartRef={chartRef}
           chartCursor={chartCursor}
           selectedLineState={selectedLineState}
-          isDrawingLineState={isDrawingLineState}
+          isNewDrawingState={isNewDrawingState}
           rerenderWidgets={rerenderWidgets}
         />
 
@@ -236,7 +237,8 @@ const Chart = ({
           isDomainGroupingActive ? domainGroups : mirrorDomainGroups
         }
         selectedLineState={selectedLineState}
-        isDrawingLineState={isDrawingLineState}
+        isDrawingState={isDrawingState}
+        isNewDrawingState={isNewDrawingState}
         isDomainGroupingActive={isDomainGroupingActive}
         isICOPriceActive={isICOPriceActive}
         isSelectingRange={isSelectingRange}

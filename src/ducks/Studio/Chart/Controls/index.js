@@ -20,14 +20,14 @@ const CursorControl = ({ cursorType, toggleCursorType }) => (
   </Button>
 )
 
-const LineDrawControl = ({ isDrawingLineState }) => {
-  const [isDrawingLine, setIsDrawingLine] = isDrawingLineState
+const LineDrawControl = ({ isNewDrawingState }) => {
+  const [isNewDrawing, setIsNewDrawing] = isNewDrawingState
 
   return (
     <Button
       stroke
-      isActive={isDrawingLine}
-      onClick={() => setIsDrawingLine(!isDrawingLine)}
+      isActive={isNewDrawing}
+      onClick={() => setIsNewDrawing(!isNewDrawing)}
       className={styles.drawing}
     >
       <svg width='18' height='18' xmlns='http://www.w3.org/2000/svg'>
@@ -43,7 +43,7 @@ const Controls = ({
   chartRef,
   chartCursor,
   selectedLineState,
-  isDrawingLineState,
+  isNewDrawingState,
   rerenderWidgets
 }) => {
   const isBetaMode = useIsBetaMode()
@@ -54,9 +54,7 @@ const Controls = ({
   return (
     <div className={styles.wrapper}>
       <CursorControl {...chartCursor} />
-      {isBetaMode && (
-        <LineDrawControl isDrawingLineState={isDrawingLineState} />
-      )}
+      {isBetaMode && <LineDrawControl isNewDrawingState={isNewDrawingState} />}
 
       {selectedLineState[0] && (
         <LineActions
