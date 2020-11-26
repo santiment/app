@@ -1,13 +1,59 @@
+import { linearScale, valueByY } from '@santiment-network/chart/scales'
 import { drawBubble } from '@santiment-network/chart/tooltip/valueBubble'
-import { valueByY } from '@santiment-network/chart/scales'
 import { getTextWidth } from '@santiment-network/chart/utils'
 import {
   clearCtx,
   getDateDayMonthYear,
   getDateHoursMinutes,
   yBubbleFormatter,
-  isDayInterval
+  isDayInterval,
+  linearDatetimeScale
 } from '../utils'
+
+export const getAbsoluteY = (height, relY) => height * relY
+export const getRelativeY = (height, absY) => absY / height
+export const getPressedHandleType = (ctx, [handle1, handle2], x, y) =>
+  ctx.isPointInPath(handle1, x, y)
+    ? 1
+    : ctx.isPointInPath(handle2, x, y)
+      ? 2
+      : 3
+
+const getBubblePaintConfig = paintConfig =>
+  Object.assign({}, paintConfig, {
+    bgColor: '#9faac4'
+  })
+
+export function absoluteToRelativeCoordinates (chart, drawing) {
+  const { width, data, tooltipKey, minMaxes } = chart
+  const { min, max } = minMaxes[tooltipKey]
+
+  const [x1, y1, x2, y2] = drawing.absCoor
+
+  const firstDatetime = data[0].datetime
+  const lastDatetime = data[data.length - 1].datetime
+  const factor = (lastDatetime - firstDatetime) / width
+  const scaleDatetime = x => factor * x + firstDatetime
+
+  return [
+    Math.floor(scaleDatetime(x1)),
+    valueByY(chart, y1, min, max),
+    Math.floor(scaleDatetime(x2)),
+    valueByY(chart, y2, min, max)
+  ]
+}
+
+export function relativeToAbsoluteCoordinates (chart, drawing) {
+  const { data, tooltipKey, minMaxes } = chart
+  const { min, max } = minMaxes[tooltipKey]
+
+  const [x1, y1, x2, y2] = drawing.relCoor
+
+  const xScaler = linearDatetimeScale(chart, data)
+  const yScaler = linearScale(chart, min, max)
+
+  return [xScaler(x1), yScaler(y1), xScaler(x2), yScaler(y2)]
+}
 
 export function getLineHandle (ctx, x, y, bgColor, strokeColor) {
   const handle = new Path2D()
@@ -20,18 +66,18 @@ export function getLineHandle (ctx, x, y, bgColor, strokeColor) {
   return handle
 }
 
-export const getAbsoluteY = (height, relY) => height * relY
-export const getRelativeY = (height, absY) => absY / height
-
 export function paintDrawings (chart) {
-  const { ctx, drawings, mouseover, selected } = chart.drawer
+  const { drawer, right, bottom, width, height } = chart
+  const { ctx, drawings, mouseover, selected } = drawer
   clearCtx(chart, ctx)
 
   for (let i = 0; i < drawings.length; i++) {
     const drawing = drawings[i]
+    if (!drawing.absCoor) continue
+
     drawing.shape = new Path2D()
 
-    const [[x1, y1], [x2, y2]] = drawing.absCoor || [[], []]
+    const [x1, y1, x2, y2] = drawing.absCoor
     const { shape, color, width = 2 } = drawing
 
     ctx.save()
@@ -56,54 +102,28 @@ export function paintDrawings (chart) {
 
     ctx.restore()
   }
+
+  ctx.clearRect(width + 5, 0, 1000, bottom)
+  ctx.clearRect(0, height + 10, right, 1000)
 }
 
-export const getPressedHandleType = (ctx, [handle1, handle2], x, y) =>
-  ctx.isPointInPath(handle1, x, y)
-    ? 1
-    : ctx.isPointInPath(handle2, x, y)
-      ? 2
-      : 3
-
-const getBubblePaintConfig = paintConfig =>
-  Object.assign({}, paintConfig, {
-    bgColor: '#9faac4'
-  })
-
 export function paintDrawingAxes (chart) {
-  const {
-    drawer,
-    bubblesPaintConfig,
-    tooltipKey,
-    minMaxes,
-    data,
-    width,
-    right
-  } = chart
+  const { drawer, bubblesPaintConfig, tooltipKey } = chart
   const { ctx, selected: drawing } = drawer
-  if (!drawing) return
+  if (!drawing || !drawing.absCoor) return
 
-  const [[x1, y1], [x2, y2]] = drawing.absCoor || [[], []]
+  const [x1, y1, x2, y2] = drawing.absCoor
 
   const xBubbleFormatter = isDayInterval(chart)
     ? getDateHoursMinutes
     : getDateDayMonthYear
 
   const paintConfig = getBubblePaintConfig(bubblesPaintConfig)
-  /* ctx.fillStyle = '#cccccc66' */
-  /* ctx.fillRect(x1, bottom + 4, x2 - x1, 13) */
 
-  const firstDatetime = data[0].datetime
-  const lastDatetime = data[data.length - 1].datetime
-  const factor = (lastDatetime - firstDatetime) / width
-  const scaleDatetime = x => factor * x + firstDatetime
-
-  const x1Date = scaleDatetime(x1)
-  const x2Date = scaleDatetime(x2)
-
-  const { min, max } = minMaxes[tooltipKey]
-  const y1Value = valueByY(chart, y1, min, max)
-  const y2Value = valueByY(chart, y2, min, max)
+  const [x1Date, y1Value, x2Date, y2Value] = absoluteToRelativeCoordinates(
+    chart,
+    drawing
+  )
 
   ctx.save()
 

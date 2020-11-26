@@ -3,18 +3,18 @@ import { updateSize } from '@santiment-network/chart'
 import {
   getPressedHandleType,
   paintDrawings,
-  getAbsoluteY,
-  paintDrawingAxes
+  paintDrawingAxes,
+  absoluteToRelativeCoordinates,
+  relativeToAbsoluteCoordinates,
 } from './helpers'
 import { useChart } from '../context'
-import { clearCtx, linearDatetimeScale } from '../utils'
 
 const DRAWINGS = [
   {
     color: '#8b93b6',
-    relCoor: [[1604880000000, 0.5], [1606118400000, 0.2]],
-    absCoor: null
-  }
+    relCoor: [1604880000000, 18100, 1606118400000, 11400], // x1,y1 , x2,y2
+    absCoor: null,
+  },
 ]
 
 const Drawer = ({
@@ -24,7 +24,7 @@ const Drawer = ({
   from,
   to,
   selectedLineState,
-  isDrawingLineState
+  isDrawingLineState,
 }) => {
   const chart = useChart()
   const [isDrawing, setIsDrawing] = isDrawingLineState
@@ -49,10 +49,10 @@ const Drawer = ({
       canvas,
       ctx,
       drawings,
-      redraw () {
+      redraw() {
         paintDrawings(chart)
         paintDrawingAxes(chart)
-      }
+      },
     }
 
     return () => {
@@ -66,7 +66,7 @@ const Drawer = ({
       const parent = chart.canvas.parentNode
 
       if (isDrawing) {
-        function onMouseDown (e) {
+        function onMouseDown(e) {
           const { offsetX, offsetY } = e
           const { offsetLeft, offsetTop } = e.target
 
@@ -75,7 +75,7 @@ const Drawer = ({
 
           const drawing = {
             color: '#8b93b6',
-            absCoor: [[startX, startY], [startX, startY]]
+            absCoor: [startX, startY, startX, startY],
           }
           chart.drawer.drawings.push(drawing)
           chart.drawer.selected = drawing
@@ -85,7 +85,7 @@ const Drawer = ({
           parent.addEventListener('mousemove', onMouseMove)
           parent.addEventListener('mousedown', finishLine)
 
-          function onMouseMove (e) {
+          function onMouseMove(e) {
             const { offsetX, offsetY } = e
             const { offsetLeft, offsetTop } = e.target
 
@@ -95,18 +95,18 @@ const Drawer = ({
             const diffX = moveX - startX
             const diffY = moveY - startY
 
-            drawing.absCoor[1][0] = startX + diffX
-            drawing.absCoor[1][1] = startY + diffY
+            drawing.absCoor[2] = startX + diffX
+            drawing.absCoor[3] = startY + diffY
 
-            paintDrawings(chart)
-            paintDrawingAxes(chart)
+            chart.drawer.redraw()
           }
 
-          function finishLine () {
+          function finishLine() {
             parent.removeEventListener('mousemove', onMouseMove)
             parent.removeEventListener('mousedown', finishLine)
             chart.isDrawing = false
             setIsDrawing(false)
+            drawing.relCoor = absoluteToRelativeCoordinates(chart, drawing)
           }
         }
 
@@ -119,7 +119,7 @@ const Drawer = ({
       const { dpr, drawer } = chart
       const { ctx } = drawer
 
-      function onMouseMove (e) {
+      function onMouseMove(e) {
         const { drawings } = drawer
 
         const { offsetX, offsetY } = e
@@ -152,11 +152,10 @@ const Drawer = ({
           drawer.mouseover = null
         }
 
-        paintDrawings(chart)
-        paintDrawingAxes(chart)
+        chart.drawer.redraw()
       }
 
-      function onMouseDown (e) {
+      function onMouseDown(e) {
         const { offsetX, offsetY } = e
         const { offsetLeft, offsetTop } = e.target
         const startX = offsetX + offsetLeft
@@ -185,9 +184,9 @@ const Drawer = ({
         setSelectedLine(drawing)
         drawer.mouseover = null
 
-        const [[x1, y1], [x2, y2]] = drawing.absCoor
+        const [x1, y1, x2, y2] = drawing.absCoor
 
-        function onDelete (e) {
+        function onDelete(e) {
           const { selected } = drawer
           if (!selected) {
             return window.removeEventListener('keydown', onDelete)
@@ -197,10 +196,10 @@ const Drawer = ({
             drawer.selected = null
             setSelectedLine()
             drawer.drawings = drawer.drawings.filter(
-              drawing => drawing !== selected
+              (drawing) => drawing !== selected,
             )
-            paintDrawings(chart)
-            paintDrawingAxes(chart)
+
+            chart.drawer.redraw()
           }
         }
 
@@ -212,12 +211,12 @@ const Drawer = ({
           ctx,
           drawing.handles,
           startDprX,
-          startDprY
+          startDprY,
         )
 
         paintDrawingAxes(chart)
 
-        function onDrag (e) {
+        function onDrag(e) {
           // TODO: Disable range selection and alerts [@vanguard | Nov 26, 2020]
           const { offsetX, offsetY } = e
           const { offsetLeft, offsetTop } = e.target
@@ -229,19 +228,19 @@ const Drawer = ({
           const diffY = dragY - startY
 
           if (pressedHandle & 1) {
-            drawing.absCoor[0][0] = x1 + diffX
-            drawing.absCoor[0][1] = y1 + diffY
+            drawing.absCoor[0] = x1 + diffX
+            drawing.absCoor[1] = y1 + diffY
           }
           if (pressedHandle & 2) {
-            drawing.absCoor[1][0] = x2 + diffX
-            drawing.absCoor[1][1] = y2 + diffY
+            drawing.absCoor[2] = x2 + diffX
+            drawing.absCoor[3] = y2 + diffY
           }
 
-          paintDrawings(chart)
-          paintDrawingAxes(chart)
+          chart.drawer.redraw()
         }
 
-        function onMouseUp () {
+        function onMouseUp() {
+          drawing.relCoor = absoluteToRelativeCoordinates(chart, drawing)
           parent.removeEventListener('mousemove', onDrag)
         }
       }
@@ -254,32 +253,24 @@ const Drawer = ({
         parent.removeEventListener('mousedown', onMouseDown)
       }
     },
-    [isDrawing]
+    [isDrawing],
   )
 
   useEffect(
     () => {
-      if (data.length === 0) return
-
+      const { drawer, minMaxes } = chart
+      if (data.length === 0 || !minMaxes) return
       chart.data = data
 
-      const { height } = chart
-
-      drawings.forEach(drawing => {
-        const [[date1, relY1], [date2, relY2]] = drawing.relCoor
-
-        const scaler = linearDatetimeScale(chart, data)
-
-        const x1 = scaler(date1)
-        const y1 = getAbsoluteY(height, relY1)
-        const x2 = scaler(date2)
-        const y2 = getAbsoluteY(height, relY2)
-        drawing.absCoor = [[x1, y1], [x2, y2]]
+      drawer.drawings.forEach((drawing) => {
+        drawing.absCoor = relativeToAbsoluteCoordinates(chart, drawing)
       })
+
+      console.log(drawer.drawings)
 
       paintDrawings(chart)
     },
-    [data]
+    [data, chart.minMaxes],
   )
 
   return null
