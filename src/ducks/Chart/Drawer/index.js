@@ -165,7 +165,9 @@ const Drawer = ({
         const startDprX = startX * dpr
         const startDprY = startY * dpr
 
-        if (drawer.selected) {
+        const hasNoMouseover = !drawer.mouseover
+
+        if (drawer.selected && hasNoMouseover) {
           const { shape, handles } = drawer.selected
 
           if (
@@ -173,21 +175,33 @@ const Drawer = ({
             !ctx.isPointInPath(handles[0], startDprX, startDprY) &&
             !ctx.isPointInPath(handles[1], startDprX, startDprY)
           ) {
+            drawer.mouseover = null
             drawer.selected = null
             setSelectedLine()
             return paintDrawings(chart)
           }
         }
 
-        if (!drawer.mouseover) return
+        if (hasNoMouseover) return
 
         const drawing = drawer.mouseover
         drawer.selected = drawing
+        drawer.mouseover = drawing
         setSelectedLine(drawing)
         setIsDrawing(true)
-        drawer.mouseover = null
+        chart.drawer.redraw()
 
         const [x1, y1, x2, y2] = drawing.absCoor
+        const pressedHandle = getPressedHandleType(
+          ctx,
+          drawing.handles,
+          startDprX,
+          startDprY
+        )
+
+        window.addEventListener('keydown', onDelete)
+        parent.addEventListener('mousemove', onDrag)
+        parent.addEventListener('mouseup', onMouseUp)
 
         function onDelete (e) {
           const { selected } = drawer
@@ -206,19 +220,6 @@ const Drawer = ({
             chart.drawer.redraw()
           }
         }
-
-        window.addEventListener('keydown', onDelete)
-        parent.addEventListener('mousemove', onDrag)
-        parent.addEventListener('mouseup', onMouseUp)
-
-        const pressedHandle = getPressedHandleType(
-          ctx,
-          drawing.handles,
-          startDprX,
-          startDprY
-        )
-
-        paintDrawingAxes(chart)
 
         function onDrag (e) {
           // TODO: Disable range selection and alerts [@vanguard | Nov 26, 2020]
