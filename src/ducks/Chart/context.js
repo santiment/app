@@ -37,6 +37,7 @@ export const ChartProvider = ({
 
       if (data.length === 0) return
 
+      chart.data = data
       chart.scale = scale
       chart.colors = colors
       chart.domainGroups = domainGroups

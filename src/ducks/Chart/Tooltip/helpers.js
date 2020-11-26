@@ -40,6 +40,10 @@ export function setupTooltip (chart, marker) {
   canvas.onmousedown = handlePointEvent(chart, point => {
     if (!point) return
 
+    if (chart.isDrawing) {
+      return
+    }
+
     const { left, right, points, pointWidth } = chart
     const {
       left: canvasPageLeft,

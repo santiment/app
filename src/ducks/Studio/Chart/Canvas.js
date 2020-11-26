@@ -8,6 +8,7 @@ import Lines from '../../Chart/Lines'
 import Bars from '../../Chart/Bars'
 import GreenRedBars from '../../Chart/GreenRedBars'
 import Tooltip from '../../Chart/Tooltip'
+import Drawer from '../../Chart/Drawer'
 import Axes from '../../Chart/Axes'
 import CartesianGrid from '../../Chart/CartesianGrid'
 import { useAxesMetricsKey } from '../../Chart/hooks'
@@ -63,6 +64,14 @@ const Canvas = ({
       <Lines />
       <Axes metrics={axesMetricKeys} />
       {isCartesianGridActive && <CartesianGrid />}
+
+      <Drawer
+        metricKey={axesMetricKeys[0]}
+        data={data}
+        from={from}
+        to={to}
+        isDrawing={true}
+      />
 
       <Tooltip
         metric={axesMetricKeys[0]}

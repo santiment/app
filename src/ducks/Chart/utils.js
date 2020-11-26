@@ -129,3 +129,13 @@ export function extractMirrorMetricsDomainGroups (domainGroups) {
 
   return mirroredGroups
 }
+
+export function linearDatetimeScale (chart, data) {
+  const { width } = chart
+
+  const min = data[0].datetime
+  const max = data[data.length - 1].datetime
+  const xFactor = width / (max - min)
+
+  return value => (value - min) * xFactor
+}

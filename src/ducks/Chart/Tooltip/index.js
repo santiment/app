@@ -26,6 +26,7 @@ const Tooltip = ({
 }) => {
   const chart = useChart()
 
+  chart.isDrawing = true
   chart.cursorType = cursorType
   chart.syncTooltips = syncTooltips
   chart.onPointMouseDown = onPointMouseDown

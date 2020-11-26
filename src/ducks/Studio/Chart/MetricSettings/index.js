@@ -15,15 +15,16 @@ const SettingToComponent = {
   holdersCount: TopHoldersSetting
 }
 
-const isExchangeModifiable = metric =>
-  metric === Metric.exchange_outflow || metric === Metric.exchange_inflow
+function isExchangeModifiable (metric) {
+  const { base = metric } = metric
+  return base === Metric.exchange_outflow || base === Metric.exchange_inflow
+}
 
 const isIndicatorAssignable = metric =>
   !metric.indicator && metric !== Metric.dev_activity
 
-const getSettings = ({ key, domainGroup }) => {
-  return MetricSettings[key] || MetricSettings[domainGroup]
-}
+const getSettings = ({ key, domainGroup }) =>
+  MetricSettings[key] || MetricSettings[domainGroup]
 
 const Settings = ({ className, metric, ...props }) => {
   const settings = getSettings(metric)
