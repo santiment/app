@@ -11,6 +11,7 @@ import { clearCtx, linearDatetimeScale } from '../utils'
 
 const DRAWINGS = [
   {
+    color: '#8b93b6',
     relCoor: [[1604880000000, 0.5], [1606118400000, 0.2]],
     absCoor: null
   }
@@ -63,6 +64,7 @@ const Drawer = ({
           const startY = offsetY + offsetTop
 
           const drawing = {
+            color: '#8b93b6',
             absCoor: [[startX, startY], [startX, startY]]
           }
           chart.drawer.drawings.push(drawing)

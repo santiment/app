@@ -9,12 +9,12 @@ import {
   isDayInterval
 } from '../utils'
 
-export function getLineHandle (ctx, x, y) {
+export function getLineHandle (ctx, x, y, bgColor, strokeColor) {
   const handle = new Path2D()
 
-  ctx.strokeStyle = '#00c'
   ctx.lineWidth = 2
-  ctx.fillStyle = '#fff'
+  ctx.strokeStyle = strokeColor
+  ctx.fillStyle = bgColor
   handle.arc(x, y, 6, 0, 2 * Math.PI)
 
   return handle
@@ -43,8 +43,8 @@ export function paintDrawings (chart) {
     shape.lineTo(x2, y2)
     ctx.stroke(shape)
 
-    const handle1 = getLineHandle(ctx, x1, y1)
-    const handle2 = getLineHandle(ctx, x2, y2)
+    const handle1 = getLineHandle(ctx, x1, y1, chart.bgColor, color)
+    const handle2 = getLineHandle(ctx, x2, y2, chart.bgColor, color)
     drawing.handles = [handle1, handle2]
 
     if (drawing === mouseover || drawing === selected) {
