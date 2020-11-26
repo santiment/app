@@ -230,6 +230,7 @@ const Chart = ({
         domainGroups={
           isDomainGroupingActive ? domainGroups : mirrorDomainGroups
         }
+        isDrawingLineState={isDrawingLineState}
         isDomainGroupingActive={isDomainGroupingActive}
         isICOPriceActive={isICOPriceActive}
         isSelectingRange={isSelectingRange}

@@ -22,10 +22,10 @@ const Drawer = ({
   data,
   from,
   to,
-  isDrawing,
-  ...props
+  isDrawingLineState
 }) => {
   const chart = useChart()
+  const [isDrawing, setIsDrawing] = isDrawingLineState
 
   useEffect(() => {
     const parent = chart.canvas.parentNode
@@ -52,13 +52,63 @@ const Drawer = ({
 
   useEffect(
     () => {
-      if (!isDrawing) return
-
       const parent = chart.canvas.parentNode
+
+      if (isDrawing) {
+        function onMouseDown (e) {
+          const { offsetX, offsetY } = e
+          const { offsetLeft, offsetTop } = e.target
+
+          const startX = offsetX + offsetLeft
+          const startY = offsetY + offsetTop
+
+          const drawing = {
+            absCoor: [[startX, startY], [startX, startY]]
+          }
+          chart.drawer.drawings.push(drawing)
+          chart.drawer.selected = drawing
+
+          parent.removeEventListener('mousedown', onMouseDown)
+          parent.addEventListener('mousemove', onMouseMove)
+          parent.addEventListener('mousedown', finishLine)
+
+          function onMouseMove (e) {
+            const { offsetX, offsetY } = e
+            const { offsetLeft, offsetTop } = e.target
+
+            const moveX = offsetX + offsetLeft
+            const moveY = offsetY + offsetTop
+
+            const diffX = moveX - startX
+            const diffY = moveY - startY
+
+            drawing.absCoor[1][0] = startX + diffX
+            drawing.absCoor[1][1] = startY + diffY
+
+            paintDrawings(chart)
+            paintDrawingAxes(chart)
+          }
+
+          function finishLine () {
+            parent.removeEventListener('mousemove', onMouseMove)
+            parent.removeEventListener('mousedown', finishLine)
+            chart.isDrawing = false
+            setIsDrawing(false)
+          }
+        }
+
+        parent.addEventListener('mousedown', onMouseDown)
+        return () => {
+          parent.removeEventListener('mousedown', onMouseDown)
+        }
+      }
+
       const { dpr, drawer } = chart
       const { ctx } = drawer
 
       function onMouseMove (e) {
+        const { drawings } = drawer
+
         const { offsetX, offsetY } = e
         const { offsetLeft, offsetTop } = e.target
 
@@ -122,6 +172,23 @@ const Drawer = ({
 
         const [[x1, y1], [x2, y2]] = drawing.absCoor
 
+        function onDelete (e) {
+          const { selected } = drawer
+          if (!selected) {
+            return window.removeEventListener('keydown', onDelete)
+          }
+
+          if (e.key === 'Backspace') {
+            drawer.selected = null
+            drawer.drawings = drawer.drawings.filter(
+              drawing => drawing !== selected
+            )
+            paintDrawings(chart)
+            paintDrawingAxes(chart)
+          }
+        }
+
+        window.addEventListener('keydown', onDelete)
         parent.addEventListener('mousemove', onDrag)
         parent.addEventListener('mouseup', onMouseUp)
 
