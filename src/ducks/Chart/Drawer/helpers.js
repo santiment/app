@@ -59,3 +59,26 @@ function checkIsPointOnPlane (x, y, line) {
     checkIsBetweenLines(x, y, getLineFn(...plane[2]), getLineFn(...plane[3]))
   )
 }
+
+export function getLineHandle (ctx, x, y) {
+  const handle = new Path2D()
+
+  ctx.strokeStyle = '#00c'
+  ctx.lineWidth = 2
+  ctx.fillStyle = '#fff'
+  handle.arc(x, y, 6, 0, 2 * Math.PI)
+
+  return handle
+}
+
+function movePoints (drawing, diffX, diffY) {
+  const [[x1, y1], [x2, y2]] = drawing.absCoor
+
+  drawing.absCoor[0][0] = x1 + diffX
+  drawing.absCoor[0][1] = y1 + diffY
+  drawing.absCoor[1][0] = x2 + diffX
+  drawing.absCoor[1][1] = y2 + diffY
+}
+
+export const getAbsoluteY = (height, relY) => height * relY
+export const getRelativeY = (height, absY) => absY / height

@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { updateSize } from '@santiment-network/chart'
 import { useChart, noop } from '../context'
 import { clearCtx, linearDatetimeScale } from '../utils'
+import { getAbsoluteY, getLineHandle } from './helpers'
 
 const DRAWINGS = [
   {
@@ -10,24 +11,15 @@ const DRAWINGS = [
   }
 ]
 
-function movePoints (drawing, diffX, diffY) {
-  const [[x1, y1], [x2, y2]] = drawing.absCoor
-
-  drawing.absCoor[0][0] = x1 + diffX
-  drawing.absCoor[0][1] = y1 + diffY
-  drawing.absCoor[1][0] = x2 + diffX
-  drawing.absCoor[1][1] = y2 + diffY
-}
-
 function paintDrawings (chart) {
-  const { ctx, drawings } = chart.drawer
+  const { ctx, drawings, mouseover, selected } = chart.drawer
   clearCtx(chart, ctx)
 
   for (let i = 0; i < drawings.length; i++) {
     const drawing = drawings[i]
     drawing.shape = new Path2D()
 
-    const [[x1, y1], [x2, y2]] = drawing.absCoor
+    const [[x1, y1], [x2, y2]] = drawing.absCoor || [[], []]
     const { shape, color, width = 10 } = drawing
 
     ctx.save()
@@ -37,9 +29,18 @@ function paintDrawings (chart) {
 
     shape.moveTo(x1, y1)
     shape.lineTo(x2, y2)
+    ctx.stroke(shape)
 
-    /* drawing.shape.arc(x1, y1, 50, 0, 2 * Math.PI) */
-    ctx.stroke(drawing.shape)
+    const handle1 = getLineHandle(ctx, x1, y1)
+    const handle2 = getLineHandle(ctx, x2, y2)
+    drawing.handles = [handle1, handle2]
+
+    if (mouseover || selected) {
+      ctx.fill(handle1)
+      ctx.stroke(handle1)
+      ctx.fill(handle2)
+      ctx.stroke(handle2)
+    }
 
     ctx.restore()
   }
@@ -93,12 +94,15 @@ const Drawer = ({
 
         for (let i = 0; i < drawings.length; i++) {
           const drawing = drawings[i]
-          if (!drawing.shape) continue
+          const { shape, handles } = drawing
+          if (!shape || !handles) continue
 
           if (
-            ctx.isPointInStroke(drawing.shape, moveX, moveY) ||
-            ctx.isPointInStroke(drawing.shape, moveX - 2, moveY - 2) ||
-            ctx.isPointInStroke(drawing.shape, moveX + 2, moveY + 2)
+            ctx.isPointInStroke(shape, moveX, moveY) ||
+            ctx.isPointInStroke(shape, moveX - 2, moveY - 2) ||
+            ctx.isPointInStroke(shape, moveX + 2, moveY + 2) ||
+            ctx.isPointInPath(handles[0], moveX, moveY) ||
+            ctx.isPointInPath(handles[1], moveX, moveY)
           ) {
             isMouseOver = true
             drawer.mouseover = drawing
@@ -106,13 +110,29 @@ const Drawer = ({
           }
         }
 
-        /* console.log(drawer.mouseover) */
         if (!isMouseOver) {
           drawer.mouseover = null
         }
+
+        paintDrawings(chart)
       }
 
       function onMouseDown (e) {
+        const { offsetX, offsetY } = e
+        const { offsetLeft, offsetTop } = e.target
+        const startX = offsetX + offsetLeft
+        const startY = offsetY + offsetTop
+        const startDprX = startX * dpr
+        const startDprY = startY * dpr
+
+        if (
+          drawer.selected &&
+          !ctx.isPointInStroke(drawer.selected.shape, startX, startY)
+        ) {
+          drawer.selected = null
+          return paintDrawings(chart)
+        }
+
         if (!drawer.mouseover) return
 
         console.log('click', drawer.selected)
@@ -122,15 +142,21 @@ const Drawer = ({
         drawer.mouseover = null
 
         const [[x1, y1], [x2, y2]] = drawing.absCoor
-        const { offsetX, offsetY } = e
-        const { offsetLeft, offsetTop } = e.target
-        const startX = offsetX + offsetLeft
-        const startY = offsetY + offsetTop
 
         parent.addEventListener('mousemove', onDrag)
         parent.addEventListener('mouseup', onMouseUp)
 
+        let pressedHandle = 3
+        if (ctx.isPointInPath(drawing.handles[0], startDprX, startDprY)) {
+          pressedHandle = 1
+        } else if (
+          ctx.isPointInPath(drawing.handles[1], startDprX, startDprY)
+        ) {
+          pressedHandle = 2
+        }
+
         function onDrag (e) {
+          // TODO: Disable range selection and alerts [@vanguard | Nov 26, 2020]
           const { offsetX, offsetY } = e
           const { offsetLeft, offsetTop } = e.target
 
@@ -140,10 +166,14 @@ const Drawer = ({
           const diffX = dragX - startX
           const diffY = dragY - startY
 
-          drawing.absCoor[0][0] = x1 + diffX
-          drawing.absCoor[0][1] = y1 + diffY
-          drawing.absCoor[1][0] = x2 + diffX
-          drawing.absCoor[1][1] = y2 + diffY
+          if (pressedHandle & 1) {
+            drawing.absCoor[0][0] = x1 + diffX
+            drawing.absCoor[0][1] = y1 + diffY
+          }
+          if (pressedHandle & 2) {
+            drawing.absCoor[1][0] = x2 + diffX
+            drawing.absCoor[1][1] = y2 + diffY
+          }
 
           paintDrawings(chart)
         }
@@ -168,10 +198,7 @@ const Drawer = ({
     () => {
       if (data.length === 0) return
 
-      const { height, drawer } = chart
-
-      const getAbsoluteY = relY => height * relY
-      const getRelativeY = absY => absY / height
+      const { height } = chart
 
       drawings.forEach(drawing => {
         const [[date1, relY1], [date2, relY2]] = drawing.relCoor
@@ -179,9 +206,9 @@ const Drawer = ({
         const scaler = linearDatetimeScale(chart, data)
 
         const x1 = scaler(date1)
-        const y1 = getAbsoluteY(relY1)
+        const y1 = getAbsoluteY(height, relY1)
         const x2 = scaler(date2)
-        const y2 = getAbsoluteY(relY2)
+        const y2 = getAbsoluteY(height, relY2)
         drawing.absCoor = [[x1, y1], [x2, y2]]
       })
 
