@@ -143,6 +143,7 @@ const Chart = ({
           chartRef={chartRef}
           chartCursor={chartCursor}
           selectedLineState={selectedLineState}
+          isDrawingState={isDrawingState}
           isNewDrawingState={isNewDrawingState}
           rerenderWidgets={rerenderWidgets}
         />

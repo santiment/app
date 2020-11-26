@@ -1,14 +1,16 @@
 import { useEffect } from 'react'
 import { updateSize } from '@santiment-network/chart'
 import {
-  getPressedHandleType,
+  checkIsOnStrokeArea,
   paintDrawings,
   paintDrawingAxes,
+  getPressedHandleType,
   absoluteToRelativeCoordinates,
   relativeToAbsoluteCoordinates
 } from './helpers'
 import { useChart } from '../context'
 
+// TODO: refactor this and helpers module [@vanguard | Nov 26, 2020]
 const Drawer = ({
   metricKey,
   drawings,
@@ -19,8 +21,12 @@ const Drawer = ({
 }) => {
   const chart = useChart()
   const [isNewDrawing, setIsNewDrawing] = isNewDrawingState
-  const setIsDrawing = isDrawingState[1]
   const setSelectedLine = selectedLineState[1]
+
+  function setIsDrawing (state) {
+    chart.isDrawing = state
+    isDrawingState[1](state)
+  }
 
   useEffect(() => {
     const parent = chart.canvas.parentNode
@@ -113,6 +119,9 @@ const Drawer = ({
       const { ctx } = drawer
 
       function onMouseMove (e) {
+        // TODO: refactor [@vanguard | Nov 26, 2020]
+        if (chart.isDrawing) return
+
         const { drawings } = drawer
 
         const { offsetX, offsetY } = e
@@ -129,23 +138,23 @@ const Drawer = ({
           if (!shape || !handles) continue
 
           if (
-            ctx.isPointInStroke(shape, moveX, moveY) ||
-            ctx.isPointInStroke(shape, moveX - 2, moveY - 2) ||
-            ctx.isPointInStroke(shape, moveX + 2, moveY + 2) ||
+            checkIsOnStrokeArea(ctx, shape, moveX, moveY) ||
             ctx.isPointInPath(handles[0], moveX, moveY) ||
             ctx.isPointInPath(handles[1], moveX, moveY)
           ) {
             isMouseOver = true
             drawer.mouseover = drawing
+            document.body.style = 'cursor: pointer'
             break
           }
         }
 
         if (!isMouseOver) {
           drawer.mouseover = null
+          document.body.style = ''
         }
 
-        chart.drawer.redraw()
+        drawer.redraw()
       }
 
       function onMouseDown (e) {
@@ -160,7 +169,7 @@ const Drawer = ({
           const { shape, handles } = drawer.selected
 
           if (
-            !ctx.isPointInStroke(shape, startDprX, startDprY) &&
+            !checkIsOnStrokeArea(ctx, shape, startDprX, startDprY) &&
             !ctx.isPointInPath(handles[0], startDprX, startDprY) &&
             !ctx.isPointInPath(handles[1], startDprX, startDprY)
           ) {
