@@ -182,6 +182,10 @@ const Chart = ({
             brushData={allTimeData}
             MetricColor={MetricColor}
             shareLink={shareLink}
+            drawings={widget.drawings}
+            selectedLineState={selectedLineState}
+            isDrawingState={isDrawingState}
+            isNewDrawingState={isNewDrawingState}
             setIsICOPriceDisabled={setIsICOPriceDisabled}
           />
         </div>
