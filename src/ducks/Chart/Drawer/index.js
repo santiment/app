@@ -35,7 +35,7 @@ const Drawer = ({
     const drawer = newCanvas(chart)
 
     parentNode.insertBefore(drawer.canvas, nextElementSibling || canvas)
-    drawer.drawings = drawings
+    drawer.drawings = drawings || []
     drawer.onLineHover = handleLineHover(chart)
     drawer.onLineMouseDown = handleLineMouseDown(
       chart,
@@ -95,10 +95,6 @@ const Drawer = ({
   )
 
   return null
-}
-
-Drawer.defaultProps = {
-  drawings: []
 }
 
 export default Drawer
