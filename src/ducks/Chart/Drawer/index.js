@@ -55,6 +55,7 @@ const Drawer = ({
       const { drawings } = drawer
       for (let i = 0; i < drawings.length; i++) {
         const drawing = drawings[i]
+        if (!drawing.relCoor) continue
         drawing.absCoor = relativeToAbsoluteCoordinates(chart, drawing)
       }
 
