@@ -10,9 +10,8 @@ import {
   absoluteToRelativeCoordinates,
   relativeToAbsoluteCoordinates
 } from './helpers'
-import { useChart } from '../context'
+import { useChart, noop } from '../context'
 
-// TODO: refactor this and helpers module [@vanguard | Nov 26, 2020]
 const Drawer = ({
   metricKey,
   drawings,
@@ -43,7 +42,21 @@ const Drawer = ({
     }
 
     chart.drawer = drawer
+
+    chart.plotter.register('Drawer', () => {
+      if (!chart.minMaxes) return
+
+      const { drawings } = drawer
+      for (let i = 0; i < drawings.length; i++) {
+        const drawing = drawings[i]
+        drawing.absCoor = relativeToAbsoluteCoordinates(chart, drawing)
+      }
+
+      drawer.redraw()
+    })
+
     return () => {
+      chart.plotter.register('Drawer', noop)
       drawer.canvas.remove()
       delete chart.drawer
     }
@@ -248,21 +261,6 @@ const Drawer = ({
       }
     },
     [isNewDrawing]
-  )
-
-  useEffect(
-    () => {
-      const { drawer, minMaxes } = chart
-      if (data.length === 0 || !minMaxes) return
-      chart.data = data
-
-      drawer.drawings.forEach(drawing => {
-        drawing.absCoor = relativeToAbsoluteCoordinates(chart, drawing)
-      })
-
-      paintDrawings(chart)
-    },
-    [data, chart.minMaxes]
   )
 
   return null
