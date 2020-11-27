@@ -30,7 +30,7 @@ const Drawer = ({
   }
 
   useEffect(() => {
-    const { canvas } = chart
+    const { canvas, plotter } = chart
     const { parentNode, nextElementSibling } = canvas
     const drawer = newCanvas(chart)
 
@@ -49,7 +49,7 @@ const Drawer = ({
 
     chart.drawer = drawer
 
-    chart.plotter.register('Drawer', () => {
+    plotter.register('Drawer', () => {
       if (!chart.minMaxes) return
 
       const { drawings } = drawer
@@ -62,7 +62,7 @@ const Drawer = ({
     })
 
     return () => {
-      chart.plotter.register('Drawer', noop)
+      plotter.register('Drawer', noop)
       drawer.canvas.remove()
       delete chart.drawer
     }

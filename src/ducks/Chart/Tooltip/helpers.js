@@ -159,13 +159,8 @@ export function plotTooltip (chart, marker, point, event) {
       chart.isAlertsActive ? 5 : 0
     )
   }
-  drawValueBubbleX(
-    chart,
-    ctx,
-    xBubbleFormatter(datetime),
-    x,
-    bubblesPaintConfig
-  )
+  const xValueFormatted = xBubbleFormatter(datetime)
+  drawValueBubbleX(chart, ctx, xValueFormatted, x, bubblesPaintConfig)
 }
 
 function plotRangeSelection (chart, left, width) {
