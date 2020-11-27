@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { newCanvas } from '@santiment-network/chart'
 import {
   HandleType,
-  newLine,
   checkIsOnStrokeArea,
   paintDrawings,
   paintDrawingAxes,
@@ -10,6 +9,7 @@ import {
   absoluteToRelativeCoordinates,
   relativeToAbsoluteCoordinates
 } from './helpers'
+import { handleLineCreation } from './events'
 import { useChart, noop } from '../context'
 
 const Drawer = ({
@@ -67,53 +67,12 @@ const Drawer = ({
       const parent = chart.canvas.parentNode
 
       if (isNewDrawing) {
-        function onMouseDown (e) {
-          const { offsetX, offsetY } = e
-          const { offsetLeft, offsetTop } = e.target
-
-          const startX = offsetX + offsetLeft
-          const startY = offsetY + offsetTop
-
-          const drawing = newLine(startX, startY)
-
-          chart.drawer.drawings.push(drawing)
-          chart.drawer.selected = drawing
-          setSelectedLine(drawing)
-          setIsDrawing(true)
-
-          parent.removeEventListener('mousedown', onMouseDown)
-          parent.addEventListener('mousemove', onMouseMove)
-          parent.addEventListener('mousedown', finishLine)
-
-          function onMouseMove (e) {
-            const { offsetX, offsetY } = e
-            const { offsetLeft, offsetTop } = e.target
-
-            const moveX = offsetX + offsetLeft
-            const moveY = offsetY + offsetTop
-
-            const diffX = moveX - startX
-            const diffY = moveY - startY
-
-            drawing.absCoor[2] = startX + diffX
-            drawing.absCoor[3] = startY + diffY
-
-            chart.drawer.redraw()
-          }
-
-          function finishLine () {
-            parent.removeEventListener('mousemove', onMouseMove)
-            parent.removeEventListener('mousedown', finishLine)
-            setIsDrawing(false)
-            setIsNewDrawing(false)
-            drawing.relCoor = absoluteToRelativeCoordinates(chart, drawing)
-          }
-        }
-
-        parent.addEventListener('mousedown', onMouseDown)
-        return () => {
-          parent.removeEventListener('mousedown', onMouseDown)
-        }
+        return handleLineCreation(
+          chart,
+          setSelectedLine,
+          setIsDrawing,
+          setIsNewDrawing
+        )
       }
 
       const { dpr, drawer } = chart
