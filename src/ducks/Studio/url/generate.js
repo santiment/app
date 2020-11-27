@@ -34,7 +34,7 @@ const normalizeConnectedWidget = ({ Widget, datesRange }) => ({
 })
 
 function shareDrawings (drawings, chart) {
-  if (!chart.drawer || !chart.minMaxes) {
+  if (!chart || !chart.drawer || !chart.minMaxes) {
     return (
       drawings && drawings.map(({ color, relCoor }) => ({ color, relCoor }))
     )
