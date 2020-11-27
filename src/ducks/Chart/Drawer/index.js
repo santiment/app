@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { updateSize } from '@santiment-network/chart'
 import {
+  newLine,
   checkIsOnStrokeArea,
   paintDrawings,
   paintDrawingAxes,
@@ -71,10 +72,8 @@ const Drawer = ({
           const startX = offsetX + offsetLeft
           const startY = offsetY + offsetTop
 
-          const drawing = {
-            color: '#8b93b6',
-            absCoor: [startX, startY, startX, startY]
-          }
+          const drawing = newLine(startX, startY)
+
           chart.drawer.drawings.push(drawing)
           chart.drawer.selected = drawing
           setSelectedLine(drawing)

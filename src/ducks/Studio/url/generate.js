@@ -33,8 +33,12 @@ const normalizeConnectedWidget = ({ Widget, datesRange }) => ({
   to: datesRange[1].toISOString()
 })
 
-function shareDrawings (chart) {
-  if (!chart.drawer || !chart.minMaxes) return
+function shareDrawings (drawings, chart) {
+  if (!chart.drawer || !chart.minMaxes) {
+    return (
+      drawings && drawings.map(({ color, relCoor }) => ({ color, relCoor }))
+    )
+  }
 
   return chart.drawer.drawings.map(drawing => ({
     color: drawing.color,
@@ -49,6 +53,7 @@ export const normalizeWidget = ({
   MetricColor,
   MetricSettingMap,
   MetricIndicators,
+  drawings,
   chartRef
 }) => ({
   widget: WidgetToTypeMap.get(Widget),
@@ -59,7 +64,7 @@ export const normalizeWidget = ({
   colors: MetricColor,
   settings: shareMetricSettings(MetricSettingMap),
   indicators: shareMetricIndicators(MetricIndicators),
-  drawings: shareDrawings(chartRef.current)
+  drawings: shareDrawings(drawings, chartRef.current)
 })
 
 export const normalizeWidgets = widgets => widgets.map(normalizeWidget)

@@ -154,12 +154,19 @@ export function plotTooltip (chart, marker, point, options) {
       drawTooltip(ctx, point, TooltipSetting, marker, tooltipPaintConfig)
       drawValueBubbleY(
         chart,
+        ctx,
         yBubbleFormatter(value, tooltipKey),
         y,
         bubblesPaintConfig,
         chart.isAlertsActive ? 5 : 0
       )
     }
-    drawValueBubbleX(chart, xBubbleFormatter(datetime), x, bubblesPaintConfig)
+    drawValueBubbleX(
+      chart,
+      ctx,
+      xBubbleFormatter(datetime),
+      x,
+      bubblesPaintConfig
+    )
   }
 }
