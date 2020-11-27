@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { updateSize } from '@santiment-network/chart'
 import {
+  HandleType,
   newLine,
   checkIsOnStrokeArea,
   paintDrawings,
@@ -231,11 +232,11 @@ const Drawer = ({
           const diffX = dragX - startX
           const diffY = dragY - startY
 
-          if (pressedHandle & 1) {
+          if (pressedHandle & HandleType.LEFT) {
             drawing.absCoor[0] = x1 + diffX
             drawing.absCoor[1] = y1 + diffY
           }
-          if (pressedHandle & 2) {
+          if (pressedHandle & HandleType.RIGHT) {
             drawing.absCoor[2] = x2 + diffX
             drawing.absCoor[3] = y2 + diffY
           }

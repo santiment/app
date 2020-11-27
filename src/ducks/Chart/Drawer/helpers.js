@@ -20,13 +20,11 @@ import {
 import { dayBubblesPaintConfig, nightBubblesPaintConfig } from '../paintConfigs'
 
 const LINE_WIDTH = 2
-
-export const getPressedHandleType = (ctx, [handle1, handle2], x, y) =>
-  ctx.isPointInPath(handle1, x, y)
-    ? 1
-    : ctx.isPointInPath(handle2, x, y)
-      ? 2
-      : 3
+export const HandleType = {
+  LEFT: 1,
+  RIGHT: 2,
+  MOVE: 3
+}
 
 const DAY_PAINT_CONFIG = Object.assign({}, dayBubblesPaintConfig, {
   bgColor: COLOR.casper
@@ -39,6 +37,13 @@ export const newLine = (x, y) => ({
   color: COLOR['bali-hai'],
   absCoor: [x, y, x, y]
 })
+
+export const getPressedHandleType = (ctx, [handle1, handle2], x, y) =>
+  ctx.isPointInPath(handle1, x, y)
+    ? HandleType.LEFT
+    : ctx.isPointInPath(handle2, x, y)
+      ? HandleType.RIGHT
+      : HandleType.MOVE
 
 export function getLineHandle (ctx, x, y, bgColor, strokeColor) {
   const handle = new Path2D()
