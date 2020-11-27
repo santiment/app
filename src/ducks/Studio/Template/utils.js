@@ -63,7 +63,11 @@ export function parseTemplateMetrics (templateMetrics, project) {
   return templateMetrics
     .map(key => {
       if (key.includes(COMPARE_CONNECTOR)) {
-        return getProjectMetricByKey(key, COMPARE_CONNECTOR)
+        try {
+          return getProjectMetricByKey(key, COMPARE_CONNECTOR)
+        } catch (e) {
+          return
+        }
       }
 
       if (key.includes(METRIC_CONNECTOR)) {
