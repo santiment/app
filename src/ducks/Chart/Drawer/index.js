@@ -9,7 +9,7 @@ import {
   absoluteToRelativeCoordinates,
   relativeToAbsoluteCoordinates
 } from './helpers'
-import { handleLineCreation } from './events'
+import { handleLineCreation, handleLineHover } from './events'
 import { useChart, noop } from '../context'
 
 const Drawer = ({
@@ -36,6 +36,7 @@ const Drawer = ({
 
     parentNode.insertBefore(drawer.canvas, nextElementSibling || canvas)
     drawer.drawings = drawings
+    drawer.onLineHover = handleLineHover(chart)
     drawer.redraw = () => {
       paintDrawings(chart)
       paintDrawingAxes(chart)
@@ -76,46 +77,10 @@ const Drawer = ({
       }
 
       const { dpr, drawer } = chart
-      const { ctx } = drawer
+      const { ctx, onLineHover } = drawer
 
-      function onMouseMove (e) {
-        // TODO: refactor [@vanguard | Nov 26, 2020]
-        if (chart.isDrawing) return
-
-        const { drawings } = drawer
-
-        const { offsetX, offsetY } = e
-        const { offsetLeft, offsetTop } = e.target
-
-        const moveX = (offsetX + offsetLeft) * dpr
-        const moveY = (offsetY + offsetTop) * dpr
-
-        let isMouseOver = false
-
-        for (let i = 0; i < drawings.length; i++) {
-          const drawing = drawings[i]
-          const { shape, handles } = drawing
-          if (!shape || !handles) continue
-
-          if (
-            checkIsOnStrokeArea(ctx, shape, moveX, moveY) ||
-            ctx.isPointInPath(handles[0], moveX, moveY) ||
-            ctx.isPointInPath(handles[1], moveX, moveY)
-          ) {
-            isMouseOver = true
-            drawer.mouseover = drawing
-            document.body.style.cursor = 'pointer'
-            break
-          }
-        }
-
-        if (!isMouseOver) {
-          drawer.mouseover = null
-          document.body.style.cursor = ''
-        }
-
-        drawer.redraw()
-      }
+      parent.addEventListener('mousemove', onLineHover)
+      parent.addEventListener('mousedown', onMouseDown)
 
       function onMouseDown (e) {
         const { offsetX, offsetY } = e
@@ -211,11 +176,8 @@ const Drawer = ({
         }
       }
 
-      parent.addEventListener('mousemove', onMouseMove)
-      parent.addEventListener('mousedown', onMouseDown)
-
       return () => {
-        parent.removeEventListener('mousemove', onMouseMove)
+        parent.removeEventListener('mousemove', onLineHover)
         parent.removeEventListener('mousedown', onMouseDown)
       }
     },

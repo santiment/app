@@ -1,10 +1,15 @@
-import { newLine, absoluteToRelativeCoordinates } from './helpers'
+import {
+  newLine,
+  checkIsOnStrokeArea,
+  absoluteToRelativeCoordinates
+} from './helpers'
 
 function getEventCoordinates (e) {
   const { offsetX, offsetY, target } = e
   const { offsetLeft, offsetTop } = target
   return [offsetX + offsetLeft, offsetY + offsetTop]
 }
+const getDprCoordinates = ({ dpr }, [x, y]) => [x * dpr, y * dpr]
 
 export function handleLineCreation (
   chart,
@@ -47,5 +52,41 @@ export function handleLineCreation (
 
   return () => {
     parent.removeEventListener('mousedown', onMouseDown)
+  }
+}
+
+export function handleLineHover (chart) {
+  return e => {
+    const { isDrawing, drawer, ctx } = chart
+    if (isDrawing) return
+
+    const { drawings } = drawer
+    const [moveX, moveY] = getDprCoordinates(chart, getEventCoordinates(e))
+
+    let hoveredLine = null
+
+    for (let i = 0; i < drawings.length; i++) {
+      const drawing = drawings[i]
+      const { shape, handles } = drawing
+      if (!shape || !handles) continue
+
+      if (
+        checkIsOnStrokeArea(ctx, shape, moveX, moveY) ||
+        ctx.isPointInPath(handles[0], moveX, moveY) ||
+        ctx.isPointInPath(handles[1], moveX, moveY)
+      ) {
+        hoveredLine = drawing
+        break
+      }
+    }
+
+    drawer.mouseover = hoveredLine
+    if (hoveredLine) {
+      document.body.style.cursor = 'pointer'
+    } else {
+      document.body.style.cursor = ''
+    }
+
+    drawer.redraw()
   }
 }
