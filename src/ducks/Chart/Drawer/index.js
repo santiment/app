@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { updateSize } from '@santiment-network/chart'
+import { newCanvas } from '@santiment-network/chart'
 import {
   HandleType,
   newLine,
@@ -31,32 +31,20 @@ const Drawer = ({
   }
 
   useEffect(() => {
-    const parent = chart.canvas.parentNode
-    const { canvasWidth, canvasHeight, dpr } = chart
+    const { canvas } = chart
+    const { parentNode, nextElementSibling } = canvas
+    const drawer = newCanvas(chart)
 
-    const canvas = document.createElement('canvas')
-    const ctx = canvas.getContext('2d')
-
-    updateSize(canvas, ctx, dpr, canvasWidth, canvasHeight)
-
-    canvas.style.position = 'absolute'
-    canvas.style.left = '0'
-    canvas.style.top = '0'
-
-    parent.insertBefore(canvas, chart.canvas.nextElementSibling || chart.canvas)
-
-    chart.drawer = {
-      canvas,
-      ctx,
-      drawings,
-      redraw () {
-        paintDrawings(chart)
-        paintDrawingAxes(chart)
-      }
+    parentNode.insertBefore(drawer.canvas, nextElementSibling || canvas)
+    drawer.drawings = drawings
+    drawer.redraw = () => {
+      paintDrawings(chart)
+      paintDrawingAxes(chart)
     }
 
+    chart.drawer = drawer
     return () => {
-      canvas.remove()
+      drawer.canvas.remove()
       delete chart.drawer
     }
   }, [])
@@ -144,14 +132,14 @@ const Drawer = ({
           ) {
             isMouseOver = true
             drawer.mouseover = drawing
-            document.body.style = 'cursor: pointer'
+            document.body.style.cursor = 'pointer'
             break
           }
         }
 
         if (!isMouseOver) {
           drawer.mouseover = null
-          document.body.style = ''
+          document.body.style.cursor = ''
         }
 
         drawer.redraw()
