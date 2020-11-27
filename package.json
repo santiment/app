@@ -18,7 +18,7 @@
   "dependencies": {
     "@apollo/react-testing": "^3.1.3",
     "@nivo/chord": "^0.62.0",
-    "@santiment-network/chart": "^0.8.2",
+    "@santiment-network/chart": "^0.9.0",
     "@santiment-network/ui": "^0.5.207",
     "@sentry/react": "^5.24.2",
     "@trainline/react-skeletor": "^1.0.2",
