@@ -1,15 +1,15 @@
 import { useEffect } from 'react'
 import { newCanvas } from '@santiment-network/chart'
 import {
-  HandleType,
-  checkIsOnStrokeArea,
   paintDrawings,
   paintDrawingAxes,
-  getPressedHandleType,
-  absoluteToRelativeCoordinates,
   relativeToAbsoluteCoordinates
 } from './helpers'
-import { handleLineCreation, handleLineHover } from './events'
+import {
+  handleLineCreation,
+  handleLineHover,
+  handleLineMouseDown
+} from './events'
 import { useChart, noop } from '../context'
 
 const Drawer = ({
@@ -37,6 +37,11 @@ const Drawer = ({
     parentNode.insertBefore(drawer.canvas, nextElementSibling || canvas)
     drawer.drawings = drawings
     drawer.onLineHover = handleLineHover(chart)
+    drawer.onLineMouseDown = handleLineMouseDown(
+      chart,
+      setSelectedLine,
+      setIsDrawing
+    )
     drawer.redraw = () => {
       paintDrawings(chart)
       paintDrawingAxes(chart)
@@ -76,109 +81,14 @@ const Drawer = ({
         )
       }
 
-      const { dpr, drawer } = chart
-      const { ctx, onLineHover } = drawer
+      const { onLineHover, onLineMouseDown } = chart.drawer
 
       parent.addEventListener('mousemove', onLineHover)
-      parent.addEventListener('mousedown', onMouseDown)
-
-      function onMouseDown (e) {
-        const { offsetX, offsetY } = e
-        const { offsetLeft, offsetTop } = e.target
-        const startX = offsetX + offsetLeft
-        const startY = offsetY + offsetTop
-        const startDprX = startX * dpr
-        const startDprY = startY * dpr
-
-        const hasNoMouseover = !drawer.mouseover
-
-        if (drawer.selected && hasNoMouseover) {
-          const { shape, handles } = drawer.selected
-
-          if (
-            !checkIsOnStrokeArea(ctx, shape, startDprX, startDprY) &&
-            !ctx.isPointInPath(handles[0], startDprX, startDprY) &&
-            !ctx.isPointInPath(handles[1], startDprX, startDprY)
-          ) {
-            drawer.mouseover = null
-            drawer.selected = null
-            setSelectedLine()
-            return paintDrawings(chart)
-          }
-        }
-
-        if (hasNoMouseover) return
-
-        const drawing = drawer.mouseover
-        drawer.selected = drawing
-        drawer.mouseover = drawing
-        setSelectedLine(drawing)
-        setIsDrawing(true)
-        chart.drawer.redraw()
-
-        const [x1, y1, x2, y2] = drawing.absCoor
-        const pressedHandle = getPressedHandleType(
-          ctx,
-          drawing.handles,
-          startDprX,
-          startDprY
-        )
-
-        window.addEventListener('keydown', onDelete)
-        parent.addEventListener('mousemove', onDrag)
-        parent.addEventListener('mouseup', onMouseUp)
-
-        function onDelete (e) {
-          const { selected } = drawer
-          if (!selected) {
-            return window.removeEventListener('keydown', onDelete)
-          }
-
-          if (e.key === 'Backspace') {
-            drawer.selected = null
-            setSelectedLine()
-            setIsDrawing(false)
-            drawer.drawings = drawer.drawings.filter(
-              drawing => drawing !== selected
-            )
-
-            chart.drawer.redraw()
-          }
-        }
-
-        function onDrag (e) {
-          // TODO: Disable range selection and alerts [@vanguard | Nov 26, 2020]
-          const { offsetX, offsetY } = e
-          const { offsetLeft, offsetTop } = e.target
-
-          const dragX = offsetX + offsetLeft
-          const dragY = offsetY + offsetTop
-
-          const diffX = dragX - startX
-          const diffY = dragY - startY
-
-          if (pressedHandle & HandleType.LEFT) {
-            drawing.absCoor[0] = x1 + diffX
-            drawing.absCoor[1] = y1 + diffY
-          }
-          if (pressedHandle & HandleType.RIGHT) {
-            drawing.absCoor[2] = x2 + diffX
-            drawing.absCoor[3] = y2 + diffY
-          }
-
-          chart.drawer.redraw()
-        }
-
-        function onMouseUp () {
-          setIsDrawing(false)
-          drawing.relCoor = absoluteToRelativeCoordinates(chart, drawing)
-          parent.removeEventListener('mousemove', onDrag)
-        }
-      }
+      parent.addEventListener('mousedown', onLineMouseDown)
 
       return () => {
         parent.removeEventListener('mousemove', onLineHover)
-        parent.removeEventListener('mousedown', onMouseDown)
+        parent.removeEventListener('mousedown', onLineMouseDown)
       }
     },
     [isNewDrawing]

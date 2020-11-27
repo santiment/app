@@ -72,6 +72,10 @@ export function checkIsOnStrokeArea (ctx, shape, x, y) {
 
   return false
 }
+export const checkIsLineHovered = (ctx, { shape, handles }, x, y) =>
+  checkIsOnStrokeArea(ctx, shape, x, y) ||
+  ctx.isPointInPath(handles[0], x, y) ||
+  ctx.isPointInPath(handles[1], x, y)
 
 function datetimeRelativeScaler (data, width) {
   const firstDatetime = data[0].datetime
