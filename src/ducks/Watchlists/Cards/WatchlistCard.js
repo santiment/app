@@ -67,12 +67,7 @@ const WatchlistCard = ({
     >
       {isSimplifiedView ? (
         <div className={cx(styles.flexRow, styles.content)}>
-          <span className={styles.name}>
-            {[
-              <NewLabel date={insertedAt} className={styles.new} key='new' />,
-              name
-            ]}
-          </span>
+          <span className={styles.name}>{name}</span>
           <PercentChanges changes={change} className={styles.change__simple} />
         </div>
       ) : (

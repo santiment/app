@@ -57,7 +57,6 @@ const RecentlyWatched = ({
   assets,
   watchlists,
   onProjectClick,
-  onWatchlistClick,
   type,
   classes = {}
 }) => {
@@ -118,9 +117,7 @@ const RecentlyWatched = ({
                 <WatchlistCard
                   isSimplifiedView={true}
                   key={watchlist.name}
-                  watchlist={watchlist}
                   to={getWatchlistLink(watchlist)}
-                  onClick={onWatchlistClick}
                   {...watchlist}
                 />
               ))}

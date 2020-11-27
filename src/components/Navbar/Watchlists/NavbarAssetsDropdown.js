@@ -1,17 +1,18 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Button from '@santiment-network/ui/Button'
-import { useFeaturedWatchlists } from '../../../ducks/Watchlists/gql/hooks'
+import {
+  useFeaturedWatchlists,
+  useRecentWatchlists
+} from '../../../ducks/Watchlists/gql/hooks'
 import NavbarAssetsDropdownWatchlist from './NavbarAssetsDropdownWatchlist'
+import { getRecentWatchlists } from '../../../utils/recent'
 import {
   BASIC_CATEGORIES,
   getWatchlistLink
 } from '../../../ducks/Watchlists/utils'
-import { store } from '../../../redux'
-import { RECENT_WATCHLISTS_FETCH } from '../../../actions/types'
 import { NewLabelTemplate } from '../../NewLabel/NewLabel'
 import styles from './NavbarAssetsDropdown.module.scss'
 
@@ -37,13 +38,14 @@ const DASHBOARDS = [
   }
 ]
 
-const NavbarAssetsDropdown = ({ activeLink, recentWatchlists = [] }) => {
+const NavbarAssetsDropdown = ({ activeLink }) => {
   const [watchlists = []] = useFeaturedWatchlists()
   const categories = [...BASIC_CATEGORIES, ...watchlists]
 
-  useEffect(() => {
-    store.dispatch({ type: RECENT_WATCHLISTS_FETCH })
-  }, [])
+  const watchlistsIDs = getRecentWatchlists().filter(Boolean)
+  const [recentWatchlists, isLoading, isError] = useRecentWatchlists(
+    watchlistsIDs
+  )
 
   return (
     <Panel>
@@ -133,8 +135,4 @@ const NavbarAssetsDropdown = ({ activeLink, recentWatchlists = [] }) => {
   )
 }
 
-const mapStateToProps = ({ recents }) => ({
-  recentWatchlists: recents.watchlists
-})
-
-export default connect(mapStateToProps)(NavbarAssetsDropdown)
+export default NavbarAssetsDropdown

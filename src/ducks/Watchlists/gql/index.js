@@ -1,4 +1,5 @@
 import gql from 'graphql-tag'
+import { client } from '../../../apollo'
 import {
   generalData,
   project,
@@ -170,3 +171,13 @@ export const PRICE_GRAPH_QUERY = gql`
     }
   }
 `
+
+export const getRecentWatchlist = id =>
+  client
+    .query({
+      query: WATCHLIST_SHORT_QUERY,
+      variables: {
+        id
+      }
+    })
+    .then(({ data = {} }) => data.watchlist)

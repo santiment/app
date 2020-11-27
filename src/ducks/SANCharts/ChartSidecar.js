@@ -116,8 +116,8 @@ export const SidecarItems = ({
           <RecentlyWatched
             className={styles.section}
             onProjectClick={onSlugSelect}
-            onWatchlistClick={setOpenedList}
             classes={classes || styles}
+            type='assets'
           />
 
           <section className={cx(styles.section, styles.sectionOffset)}>
