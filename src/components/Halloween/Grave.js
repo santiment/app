@@ -30,7 +30,7 @@ const Grave = ({ knockNumber, setKnockNumber, slug, name }) => {
     }
   }
 
-  if (!isNightMode && !isShowHalloween()) {
+  if (!isNightMode || !isShowHalloween()) {
     return null
   }
 
