@@ -220,6 +220,7 @@ const newChartWidget = (props, widget = ChartWidget) =>
     MetricIndicators: {},
     MetricColor: {},
     connectedWidgets: [],
+    drawings: [],
     ...props
   })
 

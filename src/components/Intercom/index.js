@@ -12,7 +12,7 @@ const Intercom = ({ isDesktop }) => {
   }, [])
 
   return isDesktop && isShown ? (
-    <div className={styles.wrapper} onClick={showIntercom}>
+    <div className={styles.wrapper} onClick={showIntercom} draggable='false'>
       <svg
         className={styles.icon}
         width='14'
