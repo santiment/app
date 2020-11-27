@@ -66,7 +66,7 @@ export function parseTemplateMetrics (templateMetrics, project) {
         try {
           return getProjectMetricByKey(key, COMPARE_CONNECTOR)
         } catch (e) {
-          return
+          return undefined
         }
       }
 
