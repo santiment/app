@@ -7,13 +7,11 @@ import PercentChanges from '../PercentChanges'
 import WatchlistCard from '../../ducks/Watchlists/Cards/WatchlistCard'
 import Skeleton from '../Skeleton/Skeleton'
 import { store } from '../../redux'
-import {
-  RECENT_ASSETS_FETCH,
-  RECENT_WATCHLISTS_FETCH
-} from '../../actions/types'
+import { RECENT_ASSETS_FETCH } from '../../actions/types'
 import { getRecentAssets, getRecentWatchlists } from '../../utils/recent'
 import { formatNumber } from '../../utils/formatting'
 import { getWatchlistLink } from '../../ducks/Watchlists/utils'
+import { useRecentWatchlists } from './../../ducks/Watchlists/gql/hooks'
 import styles from './RecentlyWatched.module.scss'
 
 export const Asset = ({ project, classes = {}, onClick }) => {
@@ -55,7 +53,6 @@ export const Asset = ({ project, classes = {}, onClick }) => {
 const RecentlyWatched = ({
   className = '',
   assets,
-  watchlists,
   onProjectClick,
   type,
   classes = {}
@@ -65,15 +62,13 @@ const RecentlyWatched = ({
 
   const assetsNumber = getRecentAssets().filter(Boolean).length
   const watchlistsNumber = getRecentWatchlists().filter(Boolean).length
+  const watchlistsIDs = getRecentWatchlists().filter(Boolean)
+
+  const [watchlists] = useRecentWatchlists(watchlistsIDs)
 
   useEffect(() => {
-    if (!type) {
+    if (!type || isShowAssets) {
       store.dispatch({ type: RECENT_ASSETS_FETCH })
-      store.dispatch({ type: RECENT_WATCHLISTS_FETCH })
-    } else if (isShowAssets) {
-      store.dispatch({ type: RECENT_ASSETS_FETCH })
-    } else if (isShowWatchlists) {
-      store.dispatch({ type: RECENT_WATCHLISTS_FETCH })
     }
   }, [])
   const hasAssets = assets && assets.length > 0
@@ -129,8 +124,7 @@ const RecentlyWatched = ({
 }
 
 const mapStateToProps = ({ recents }) => ({
-  assets: recents.assets,
-  watchlists: recents.watchlists
+  assets: recents.assets
 })
 
 export default connect(mapStateToProps)(RecentlyWatched)

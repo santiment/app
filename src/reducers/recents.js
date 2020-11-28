@@ -1,9 +1,6 @@
 import * as actions from './../actions/types'
 
-export const initialState = {
-  assets: null,
-  watchlists: null
-}
+export const initialState = { assets: null }
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -12,13 +9,6 @@ export default (state = initialState, action) => {
         ...state,
         assets: action.payload
       }
-
-    case actions.RECENT_WATCHLISTS_FETCH_SUCCESS:
-      return {
-        ...state,
-        watchlists: action.payload
-      }
-
     default:
       return state
   }
