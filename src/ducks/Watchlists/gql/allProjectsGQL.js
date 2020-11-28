@@ -85,17 +85,6 @@ export const PROJECT_BY_ID_QUERY = gql`
   ${generalData}
 `
 
-export const RECENT_ASSET_QUERY = gql`
-  query projectBySlugGQL($slug: String!) {
-    projectBySlug(slug: $slug) {
-      ...generalData
-      ...recentProjectData
-    }
-  }
-  ${generalData}
-  ${PROJECT_RECENT_DATA_FRAGMENT}
-`
-
 export const ALL_PROJECTS_FOR_SEARCH_QUERY = gql`
   query allProjects($minVolume: Int!) {
     allProjects(minVolume: $minVolume) {
