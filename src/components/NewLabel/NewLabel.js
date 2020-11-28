@@ -29,10 +29,10 @@ const showNewLabel = ({ date, limitDays = 7, checkingTime }) => {
   return addDays(date, limitDays).getTime() > checkingTime.getTime()
 }
 
-const NewLabel = ({ date, className, withOffset = true }) => {
+const NewLabel = ({ date, className, withOffset = true, limitDays }) => {
   const checkingTime = withOffset ? NOW_WITH_OFFSET : NOW
 
-  if (!showNewLabel({ date, checkingTime })) {
+  if (!showNewLabel({ date, checkingTime, limitDays })) {
     return null
   }
 

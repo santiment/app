@@ -13,28 +13,29 @@ import {
   BASIC_CATEGORIES,
   getWatchlistLink
 } from '../../../ducks/Watchlists/utils'
-import { NewLabelTemplate } from '../../NewLabel/NewLabel'
+import NewLabel from '../../NewLabel/NewLabel'
 import styles from './MarketDropdown.module.scss'
 
 const DASHBOARDS = [
   {
     name: 'Stablecoins',
-    to: '/stablecoins'
+    to: '/stablecoins',
+    createdAt: '2020-10-01T00:00:00Z'
   },
   {
     name: 'Uniswap Protocol',
     to: '/uniswap-protocol',
-    isNew: true
+    createdAt: '2020-11-01T00:00:00Z'
   },
   {
     name: 'Decentralized Exchanges',
     to: '/decentralized-exchanges',
-    isNew: true
+    createdAt: '2020-11-03T00:00:00Z'
   },
   {
     name: 'Bitcoin Locked on Ethereum',
     to: '/bitcoin-locked-on-ethereum',
-    isNew: true
+    createdAt: '2020-11-04T00:00:00Z'
   }
 ]
 
@@ -52,7 +53,7 @@ const MarketDropdown = ({ activeLink }) => {
           <h3 className={styles.title}>Dashboards</h3>
 
           <div>
-            {DASHBOARDS.map(({ to, name, isNew }) => {
+            {DASHBOARDS.map(({ to, name, createdAt }) => {
               const link = to
 
               return (
@@ -64,8 +65,15 @@ const MarketDropdown = ({ activeLink }) => {
                   to={link}
                   isActive={link === activeLink}
                 >
-                  {isNew && <NewLabelTemplate className={styles.new} />}
-                  {name}
+                  {[
+                    <NewLabel
+                      className={styles.new}
+                      date={createdAt}
+                      limitDays={14}
+                      key='new'
+                    />,
+                    name
+                  ]}
                 </Button>
               )
             })}
