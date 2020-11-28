@@ -57,8 +57,10 @@ const RecentlyWatched = ({
   const isShowAssets = type === 'assets' || !type
   const isShowWatchlists = type === 'watchlists' || !type
 
-  const watchlistsIDs = getRecentWatchlists().filter(Boolean)
-  const assetsSlugs = getRecentAssets().filter(Boolean)
+  const watchlistsIDs = isShowWatchlists
+    ? getRecentWatchlists().filter(Boolean)
+    : []
+  const assetsSlugs = isShowAssets ? getRecentAssets().filter(Boolean) : []
 
   const assetsNumber = assetsSlugs.length
   const watchlistsNumber = watchlistsIDs.length
