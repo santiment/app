@@ -43,9 +43,7 @@ const NavbarAssetsDropdown = ({ activeLink }) => {
   const categories = [...BASIC_CATEGORIES, ...watchlists]
 
   const watchlistsIDs = getRecentWatchlists().filter(Boolean)
-  const [recentWatchlists, isLoading, isError] = useRecentWatchlists(
-    watchlistsIDs
-  )
+  const [recentWatchlists] = useRecentWatchlists(watchlistsIDs)
 
   return (
     <Panel>

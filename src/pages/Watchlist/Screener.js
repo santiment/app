@@ -12,6 +12,7 @@ import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/colum
 import { addOrRemove } from '../../ducks/Watchlists/Widgets/Table/CompareDialog/CompareDialog'
 import ScreenerWidgets from './Widgets/ScreenerWidgets'
 import { useAssetsAnomalyToggler } from './hooks/useAssetsAnomalyToggler'
+import { addRecentScreeners } from '../../utils/recent'
 import styles from './Screener.module.scss'
 
 export const useComparingAssets = () => {
@@ -86,6 +87,10 @@ const Screener = props => {
           if (items !== currentItems) {
             setCurrentItems(items)
             clearFilters()
+          }
+
+          if (listId) {
+            addRecentScreeners(listId)
           }
 
           const showingAssets = filteredItems || assets

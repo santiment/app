@@ -1,5 +1,6 @@
 const RECENT_ASSETS = 'RECENT_ASSETS'
 const RECENT_WATCHLISTS = 'RECENT_WATCHLISTS'
+const RECENT_SCREENERS = 'RECENT_SCREENERS'
 const RECENT_TRENDS = 'RECENT_TRENDS_SEARCH'
 
 const getRecent = type => {
@@ -26,14 +27,20 @@ const addRecent = (type, item) =>
 export const getRecentAssets = () => getRecent(RECENT_ASSETS)
 // Return array of watchlist ids
 export const getRecentWatchlists = () => getRecent(RECENT_WATCHLISTS)
+// Return array of screeners ids
+export const getRecentScreeners = () => getRecent(RECENT_SCREENERS)
 // Return array of trend words
 export const getRecentTrends = () => getRecent(RECENT_TRENDS)
 
 export const addRecentAssets = slug => addRecent(RECENT_ASSETS, slug)
 export const addRecentTrends = word => addRecent(RECENT_TRENDS, word)
 export const addRecentWatchlists = id => addRecent(RECENT_WATCHLISTS, id)
+export const addRecentScreeners = id => addRecent(RECENT_SCREENERS, id)
+
 export const removeRecentWatchlists = id =>
   saveRecent(RECENT_WATCHLISTS, removeRecent(RECENT_WATCHLISTS, id))
+export const removeRecentScreeners = id =>
+  saveRecent(RECENT_SCREENERS, removeRecent(RECENT_SCREENERS, id))
 export const removeRecentTrends = word =>
   saveRecent(RECENT_TRENDS, removeRecent(RECENT_TRENDS, word))
 export const removeRecentAssets = asset =>
