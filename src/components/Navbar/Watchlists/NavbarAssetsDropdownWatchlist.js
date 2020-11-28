@@ -42,7 +42,12 @@ const NavbarAssetsDropdownWatchlist = ({
 }
 
 const WatchlistList = ({ watchlists, activeLink }) => (
-  <div className={styles.wrapper}>
+  <div
+    className={styles.wrapper}
+    style={{
+      minHeight: watchlists.length > 3 ? '100px' : `${32 * watchlists.length}px`
+    }}
+  >
     <div className={styles.list}>
       {watchlists.map(({ name, id, isPublic }) => {
         const link = getWatchlistLink({ id, name })
