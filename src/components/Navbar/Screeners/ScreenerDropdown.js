@@ -1,6 +1,5 @@
 import React from 'react'
 import cx from 'classnames'
-import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel/Panel'
@@ -13,15 +12,13 @@ import {
   useRecentWatchlists
 } from '../../../ducks/Watchlists/gql/hooks'
 import { getRecentScreeners } from '../../../utils/recent'
-import {
-  checkIsLoggedIn,
-  checkIsLoggedInPending
-} from '../../../pages/UserSelectors'
-import styles from '../Watchlists/NavbarAssetsDropdownWatchlist.module.scss'
-import wrapperStyles from '../Watchlists/NavbarAssetsDropdown.module.scss'
+import { useUser } from '../../../stores/user'
+import styles from '../Watchlists/WatchlistsDropdown.module.scss'
+import wrapperStyles from '../Watchlists/MarketDropdown.module.scss'
 
-const ScreenerDropdown = ({ activeLink, isLoggedIn, isLoggedInPending }) => {
+const ScreenerDropdown = ({ activeLink }) => {
   const [screeners = [], loading] = useUserScreeners()
+  const { loading: isLoggedInPending } = useUser()
   const isLoading = loading || isLoggedInPending
 
   const screenersIDs = getRecentScreeners().filter(Boolean)
@@ -100,9 +97,4 @@ const List = ({ screeners, activeLink }) => (
   </div>
 )
 
-const mapStateToProps = state => ({
-  isLoggedIn: checkIsLoggedIn(state),
-  isLoggedInPending: checkIsLoggedInPending(state)
-})
-
-export default connect(mapStateToProps)(ScreenerDropdown)
+export default ScreenerDropdown

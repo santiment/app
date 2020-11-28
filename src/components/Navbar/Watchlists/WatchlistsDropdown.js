@@ -1,26 +1,19 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import WatchlistsAnon from '../../../ducks/Watchlists/Templates/Anon/WatchlistsAnon'
-import WatchlistsEmptySection from './WatchlistsEmptySection'
+import EmptySection from './EmptySection'
 import CreateWatchlistBtn from './CreateWatchlistBtn'
 import { getWatchlistLink } from '../../../ducks/Watchlists/utils'
 import { VisibilityIndicator } from '../../VisibilityIndicator'
+import { useUser } from '../../../stores/user'
 import { useUserWatchlists } from '../../../ducks/Watchlists/gql/hooks'
-import {
-  checkIsLoggedIn,
-  checkIsLoggedInPending
-} from '../../../pages/UserSelectors'
-import styles from './NavbarAssetsDropdownWatchlist.module.scss'
+import styles from './WatchlistsDropdown.module.scss'
 
-const NavbarAssetsDropdownWatchlist = ({
-  activeLink,
-  isLoggedIn,
-  isLoggedInPending
-}) => {
+const WatchlistsDropdown = ({ activeLink }) => {
   const [watchlists, loading] = useUserWatchlists()
+  const { loading: isLoggedInPending, isLoggedIn } = useUser()
   const isLoading = loading || isLoggedInPending
 
   if (isLoading) {
@@ -32,7 +25,7 @@ const NavbarAssetsDropdownWatchlist = ({
   }
 
   return watchlists.length === 0 ? (
-    <WatchlistsEmptySection watchlists={watchlists} />
+    <EmptySection watchlists={watchlists} />
   ) : (
     <>
       <WatchlistList watchlists={watchlists} activeLink={activeLink} />
@@ -70,9 +63,4 @@ const WatchlistList = ({ watchlists, activeLink }) => (
   </div>
 )
 
-const mapStateToProps = state => ({
-  isLoggedIn: checkIsLoggedIn(state),
-  isLoggedInPending: checkIsLoggedInPending(state)
-})
-
-export default connect(mapStateToProps)(NavbarAssetsDropdownWatchlist)
+export default WatchlistsDropdown

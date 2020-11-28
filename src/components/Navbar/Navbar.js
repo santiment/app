@@ -9,7 +9,7 @@ import SmoothDropdown from '../SmoothDropdown/SmoothDropdown'
 import SmoothDropdownItem from '../SmoothDropdown/SmoothDropdownItem'
 import NavbarHelpDropdown from './Academy/NavbarHelpDropdown'
 import NavbarProfileDropdown from './NavbarProfileDropdown'
-import NavbarAssetsDropdown from './Watchlists/NavbarAssetsDropdown'
+import MarketDropdown from './Watchlists/MarketDropdown'
 import ScreenerDropdown from './Screeners/ScreenerDropdown'
 import NavbarChartsDropdown from './ChartLayouts/NavbarChartsDropdown'
 import InsightsDropdown from './InsightsDropdown'
@@ -59,7 +59,7 @@ const leftLinks = [
     to: '/assets',
     children: 'Market',
     as: Link,
-    Dropdown: NavbarAssetsDropdown,
+    Dropdown: MarketDropdown,
     ddParams: {
       position: 'start'
     }

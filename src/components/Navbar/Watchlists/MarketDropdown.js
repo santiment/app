@@ -7,14 +7,14 @@ import {
   useFeaturedWatchlists,
   useRecentWatchlists
 } from '../../../ducks/Watchlists/gql/hooks'
-import NavbarAssetsDropdownWatchlist from './NavbarAssetsDropdownWatchlist'
+import WatchlistsDropdown from './WatchlistsDropdown'
 import { getRecentWatchlists } from '../../../utils/recent'
 import {
   BASIC_CATEGORIES,
   getWatchlistLink
 } from '../../../ducks/Watchlists/utils'
 import { NewLabelTemplate } from '../../NewLabel/NewLabel'
-import styles from './NavbarAssetsDropdown.module.scss'
+import styles from './MarketDropdown.module.scss'
 
 const DASHBOARDS = [
   {
@@ -38,7 +38,7 @@ const DASHBOARDS = [
   }
 ]
 
-const NavbarAssetsDropdown = ({ activeLink }) => {
+const MarketDropdown = ({ activeLink }) => {
   const [watchlists = []] = useFeaturedWatchlists()
   const categories = [...BASIC_CATEGORIES, ...watchlists]
 
@@ -126,11 +126,11 @@ const NavbarAssetsDropdown = ({ activeLink }) => {
             </>
           )}
           <h3 className={styles.title}>My watchlists</h3>
-          <NavbarAssetsDropdownWatchlist activeLink={activeLink} />
+          <WatchlistsDropdown activeLink={activeLink} />
         </div>
       </div>
     </Panel>
   )
 }
 
-export default NavbarAssetsDropdown
+export default MarketDropdown
