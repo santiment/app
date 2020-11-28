@@ -29,6 +29,10 @@ const FullscreenChart = ({
   brushData,
   MetricColor,
   shareLink,
+  drawings,
+  selectedLineState,
+  isDrawingState,
+  isNewDrawingState,
   setIsICOPriceDisabled
 }) => {
   const [settings, setSettings] = useState(studioSettings)
@@ -130,9 +134,13 @@ const FullscreenChart = ({
         metrics={metrics}
         data={data}
         brushData={brushData}
+        drawings={drawings}
         domainGroups={
           isDomainGroupingActive ? domainGroups : mirrorDomainGroups
         }
+        selectedLineState={selectedLineState}
+        isDrawingState={isDrawingState}
+        isNewDrawingState={isNewDrawingState}
         onPointHover={undefined}
         onBrushChangeEnd={onBrushChangeEnd}
         onRangeSelect={onRangeSelect}

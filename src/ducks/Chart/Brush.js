@@ -21,6 +21,7 @@ function getBrushPlotItems ({ items }) {
   brushItems.delete('axes')
   brushItems.delete('watermark')
   brushItems.delete('lastDayPrice')
+  brushItems.delete('Drawer')
 
   return brushItems
 }

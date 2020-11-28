@@ -22,6 +22,7 @@ export const ChartProvider = ({
   const [chart, _setChart] = useState()
   const [isAwaitingRedraw, redrawChart] = useRedrawer()
   const setChart = useCallback(chart => {
+    chart.data = data
     chart.scale = scale
     chart.redraw = redrawChart
     chart.observer = Observer()
@@ -37,6 +38,7 @@ export const ChartProvider = ({
 
       if (data.length === 0) return
 
+      chart.data = data
       chart.scale = scale
       chart.colors = colors
       chart.domainGroups = domainGroups
@@ -65,7 +67,8 @@ export const ChartProvider = ({
 }
 
 ChartProvider.defaultProps = {
-  scale: linearScale
+  scale: linearScale,
+  data: []
 }
 
 export const useChart = () => useContext(ChartContext)

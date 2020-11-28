@@ -185,7 +185,8 @@ export function parseSharedWidgets (sharedWidgets, project) {
       connectedWidgets,
       colors,
       settings,
-      indicators
+      indicators,
+      drawings
     }) => {
       const [
         parsedMetricIndicators,
@@ -205,6 +206,7 @@ export function parseSharedWidgets (sharedWidgets, project) {
         .concat(holderMetrics)
 
       return TypeToWidget[widget].new({
+        drawings,
         mergedMetrics: holderMetrics,
         metrics: parsedMetrics,
         connectedWidgets: connectedWidgets

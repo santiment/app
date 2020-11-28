@@ -6,6 +6,8 @@ import { ONE_HOUR_IN_MS } from '../../../utils/dates'
 import { usePressedModifier } from '../../../hooks/keyboard'
 import styles from './Widgets.module.scss'
 
+const RANGE_SELECT_SENSITIVITY = 7
+
 const Widget = ({ widget, index, datesRange, ...props }) => (
   <>
     <widget.Widget {...props} widget={widget} index={index} />
@@ -51,7 +53,10 @@ const Chart = ({
     setSelectedDatesRange([from, to])
   }
 
-  function onRangeSelected ({ value: leftDate }, { value: rightDate }) {
+  function onRangeSelected (
+    { x: x1, value: leftDate },
+    { x: x2, value: rightDate }
+  ) {
     setIsSelectingRange(false)
     if (leftDate === rightDate) return
 
@@ -64,7 +69,10 @@ const Chart = ({
       return changeDatesRange(from, to)
     }
 
-    if (to - from >= ONE_HOUR_IN_MS) {
+    if (
+      Math.abs(x2 - x1) > RANGE_SELECT_SENSITIVITY &&
+      to - from >= ONE_HOUR_IN_MS
+    ) {
       changeTimePeriod(from, to)
     }
   }

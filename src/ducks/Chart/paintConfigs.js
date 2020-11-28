@@ -22,7 +22,7 @@ export const dayBubblesPaintConfig = {
 }
 export const nightBubblesPaintConfig = {
   font: '10px sans-serif',
-  bgColor: COLOR['cloud-burst'],
+  bgColor: COLOR.rhino,
   textColor: COLOR['bali-hai']
 }
 
@@ -58,7 +58,7 @@ export const nightBrushPaintConfig = {
 
 export const paintConfigs = [
   {
-    bgColor: COLOR.white,
+    bgColor: '#fff',
     axesColor: dayAxesColor,
     hoverLineColor: dayHoverLineColor,
     ticksPaintConfig: dayTicksPaintConfig,

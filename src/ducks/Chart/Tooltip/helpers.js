@@ -40,6 +40,8 @@ export function setupTooltip (chart, marker) {
   canvas.onmousedown = handlePointEvent(chart, point => {
     if (!point) return
 
+    if (chart.isDrawing) return
+
     const { left, right, points, pointWidth } = chart
     const {
       left: canvasPageLeft,
@@ -57,6 +59,10 @@ export function setupTooltip (chart, marker) {
     }
 
     function onMouseMove ({ pageX }) {
+      if (chart.isDrawing) {
+        return window.removeEventListener('mousemove', onMouseMove)
+      }
+
       const isOutOfLeft = pageX < canvasPageLeft
       const isOutOfRight = pageX > canvasPageRight
       const relativeX = isOutOfLeft
@@ -146,13 +152,15 @@ export function plotTooltip (chart, marker, point, event) {
     drawTooltip(ctx, point, TooltipSetting, marker, tooltipPaintConfig)
     drawValueBubbleY(
       chart,
+      ctx,
       yBubbleFormatter(value, tooltipKey),
       y,
       bubblesPaintConfig,
       chart.isAlertsActive ? 5 : 0
     )
   }
-  drawValueBubbleX(chart, xBubbleFormatter(datetime), x, bubblesPaintConfig)
+  const xValueFormatted = xBubbleFormatter(datetime)
+  drawValueBubbleX(chart, ctx, xValueFormatted, x, bubblesPaintConfig)
 }
 
 function plotRangeSelection (chart, left, width) {
