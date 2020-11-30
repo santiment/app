@@ -45,7 +45,7 @@ const Billing = ({ selected, onClick }) => {
 
 const Plans = ({ id, classes = {} }) => {
   const { subscription } = useUserSubscription()
-  const [billing, setBilling] = useState('month')
+  const [billing, setBilling] = useState('year')
   const [plans, loading] = usePlans()
 
   const isSubscriptionCanceled = subscription && subscription.cancelAtPeriodEnd

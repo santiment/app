@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import { PlanDescriptionSvg } from '../Illustrations/PlanDescriptionSvg'
+import { PenAndPaper } from '../Illustrations/PenAndPaper'
 import styles from './index.module.scss'
 
 const testimonials = [
@@ -55,7 +55,7 @@ const BgImage = (
 const Testimonials = () => {
   return (
     <section className={styles.wrapper}>
-      {PlanDescriptionSvg}
+      {PenAndPaper}
 
       <h2 className={styles.title}>Testimonials</h2>
       <div className={styles.description}>
