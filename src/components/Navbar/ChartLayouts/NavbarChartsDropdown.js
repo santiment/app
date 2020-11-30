@@ -15,7 +15,7 @@ const NavbarChartsDropdown = ({ activeLink }) => {
     <Panel>
       <div className={styles.wrapper}>
         <div className={styles.block}>
-          <h3 className={styles.title}>Explore Chart Layouts</h3>
+          <h3 className={styles.title}>Explore chart layouts</h3>
           <div className={styles.scroll}>
             {layouts.map(template => {
               const link = prepareTemplateLink(template)
@@ -39,7 +39,7 @@ const NavbarChartsDropdown = ({ activeLink }) => {
           </div>
         </div>
         <div className={cx(styles.block, styles.list)}>
-          <h3 className={styles.title}>My Chart Layouts</h3>
+          <h3 className={styles.title}>My chart layouts</h3>
           <NavbarChartsLayouts />
         </div>
       </div>

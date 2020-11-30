@@ -34,7 +34,7 @@ const MarketingPage = ({ userId, location }) => {
           <IndexTab
             tabs={[
               {
-                title: 'Explore Watchlists',
+                title: 'Explore watchlists',
                 content: (
                   <WatchlistCards
                     watchlists={BASIC_CATEGORIES}
@@ -45,11 +45,11 @@ const MarketingPage = ({ userId, location }) => {
                 )
               },
               {
-                title: 'My Watchlists',
+                title: 'My watchlists',
                 content: <MyWatchlist showHeader={false} classes={styles} />
               },
               {
-                title: 'My Screeners',
+                title: 'My screeners',
                 content: <MyScreeners showHeader={false} classes={styles} />
               }
             ]}
@@ -62,11 +62,11 @@ const MarketingPage = ({ userId, location }) => {
           <IndexTab
             tabs={[
               {
-                title: 'Explore Chart Layouts',
+                title: 'Explore chart layouts',
                 content: <PublicTemplates isFeatured />
               },
               {
-                title: 'My Chart Layouts',
+                title: 'My chart layouts',
                 content: <PublicTemplates userId={userId} />
               }
             ]}
@@ -97,7 +97,7 @@ const MarketingPage = ({ userId, location }) => {
               )
             },
             {
-              title: 'Top Market Calls',
+              title: 'Top market calls',
               content: (
                 <div className={styles.block}>
                   <div className={styles.description}>
@@ -131,7 +131,7 @@ const MarketingPage = ({ userId, location }) => {
           <IndexTab
             tabs={[
               {
-                title: 'Search Trends',
+                title: 'Search trends',
                 content: (
                   <>
                     <div className={styles.description}>

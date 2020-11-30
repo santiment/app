@@ -5,7 +5,7 @@ import NewScreener from '../../../ducks/Watchlists/Actions/New'
 import { ProLabel } from '../../ProLabel'
 import ProPopupWrapper from '../../ProPopup/Wrapper'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
-import styles from '../Watchlists/WatchlistsEmptySection.module.scss'
+import styles from '../Watchlists/EmptySection.module.scss'
 
 const CreateScreenerBtn = ({ className, screeners }) => {
   const { isPro } = useUserSubscriptionStatus()

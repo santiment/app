@@ -68,7 +68,7 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, onClick }) => {
   const [watchlists = []] = useUserWatchlists()
   const [updateWatchlist, { loading }] = useUpdateWatchlist()
 
-  if (!id) {
+  if (!id || !watchlist.id) {
     return null
   }
 

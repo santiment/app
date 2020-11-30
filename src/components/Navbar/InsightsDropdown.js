@@ -1,14 +1,12 @@
 import React from 'react'
 import * as Sentry from '@sentry/react'
 import { Mutation, Query } from 'react-apollo'
-import { connect } from 'react-redux'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import { store } from '../../redux'
 import { showNotification } from '../../actions/rootActions'
 import { useTrackEvents } from './../../hooks/tracking'
-import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import { dateDifferenceInWords } from '../../utils/dates'
 import LinkWithArrow from './Link'
 import {
@@ -17,6 +15,7 @@ import {
 } from '../../queries/InsightsGQL'
 import { getSEOLinkFromIdAndTitle, publishDateSorter } from '../Insight/utils'
 import { EMAIL_LOGIN_MUTATION } from '../SubscriptionForm/loginGQL'
+import { useUser } from '../../stores/user'
 import styles from './InsightsDropdown.module.scss'
 
 const onClick = evt => {
@@ -144,44 +143,47 @@ const Insights = props => (
   </Query>
 )
 
-const InsightsDropdown = ({ isLoggedIn }) => (
-  <div className={styles.wrapper}>
-    <div className={styles.top}>
-      <div className={styles.category}>
-        <h3 className={styles.title}>
-          Explore insights
-          <LinkWithArrow to='https://insights.santiment.net/' title='See all' />
-        </h3>
-        <Insights
-          query={ALL_INSIGHTS_BY_PAGE_QUERY}
-          variables={{
-            page: 1,
-            pageSize: 3
-          }}
-        />
-      </div>
+const InsightsDropdown = () => {
+  const { isLoggedIn } = useUser()
 
-      <div className={cx(styles.category, styles.category_featured)}>
-        <h3 className={styles.title}>Featured insights</h3>
-        <Insights query={FEATURED_INSIGHTS_QUERY} />
-      </div>
-    </div>
-    {isLoggedIn || (
-      <div className={styles.bottom} onClick={onClick}>
-        <div className={styles.text}>
-          <h2 className={styles.bottom__title}>Want more crypto insights?</h2>
-          <h4 className={styles.bottom__desc}>
-            Subscribe to Santiment’s weekly market Digest!
-          </h4>
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.top}>
+        <div className={styles.category}>
+          <h3 className={styles.title}>
+            Explore insights
+            <LinkWithArrow
+              to='https://insights.santiment.net/'
+              title='See all'
+            />
+          </h3>
+          <Insights
+            query={ALL_INSIGHTS_BY_PAGE_QUERY}
+            variables={{
+              page: 1,
+              pageSize: 3
+            }}
+          />
         </div>
-        <SubscriptionForm />
+
+        <div className={cx(styles.category, styles.category_featured)}>
+          <h3 className={styles.title}>Featured insights</h3>
+          <Insights query={FEATURED_INSIGHTS_QUERY} />
+        </div>
       </div>
-    )}
-  </div>
-)
+      {isLoggedIn || (
+        <div className={styles.bottom} onClick={onClick}>
+          <div className={styles.text}>
+            <h2 className={styles.bottom__title}>Want more crypto insights?</h2>
+            <h4 className={styles.bottom__desc}>
+              Subscribe to Santiment’s weekly market Digest!
+            </h4>
+          </div>
+          <SubscriptionForm />
+        </div>
+      )}
+    </div>
+  )
+}
 
-const mapStateToProps = state => ({
-  isLoggedIn: checkIsLoggedIn(state)
-})
-
-export default connect(mapStateToProps)(InsightsDropdown)
+export default InsightsDropdown

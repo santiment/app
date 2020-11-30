@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import {
   WATCHLIST_SHORT_QUERY,
@@ -7,7 +8,8 @@ import {
   UPDATE_WATCHLIST_MUTATION,
   AVAILABLE_METRICS_QUERY,
   AVAILABLE_SEGMENTS_QUERY,
-  PROJECTS_BY_FUNCTION_QUERY
+  PROJECTS_BY_FUNCTION_QUERY,
+  getRecentWatchlist
 } from './index'
 import { WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
 import {
@@ -116,6 +118,51 @@ export function useFeaturedWatchlists () {
   const { featuredWatchlists: watchlists } = data || {}
 
   return [watchlists || DEFAULT_WATCHLISTS, loading, error]
+}
+
+export function useRecentWatchlists (watchlistsIDs) {
+  const [currIDs, setCurrIDs] = useState(watchlistsIDs)
+  const [recentWatchlists, setRecentWatchlists] = useState(DEFAULT_WATCHLISTS)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isError, setIsError] = useState(false)
+
+  if (JSON.stringify(watchlistsIDs) !== JSON.stringify(currIDs)) {
+    setCurrIDs(watchlistsIDs)
+  }
+
+  useEffect(
+    () => {
+      setIsLoading(true)
+      let watchlists = []
+      let race = false
+
+      Promise.all(
+        watchlistsIDs.map((id, i) =>
+          getRecentWatchlist(id).then(watchlist => (watchlists[i] = watchlist))
+        )
+      )
+        .then(data => {
+          if (race) return
+
+          watchlists = watchlists.filter(Boolean)
+
+          setRecentWatchlists(watchlists)
+          setIsLoading(false)
+          setIsError(false)
+        })
+        .catch(e => {
+          if (race) return
+
+          setIsLoading(false)
+          setIsError(e)
+        })
+
+      return () => (race = true)
+    },
+    [currIDs]
+  )
+
+  return [recentWatchlists, isLoading, isError]
 }
 
 export function useCreateScreener () {

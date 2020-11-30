@@ -38,6 +38,7 @@ const SearchMobilePage = ({ history }) => {
             isMobile
             className={styles.search}
             selectedTab={selectedTab}
+            autocomplete='off'
             inputProps={{ autoFocus: true }}
           />
         </MobileHeader>

@@ -64,7 +64,6 @@ import {
   connectedWordsEpic,
   connectedWordsOptimizationEpic
 } from '../pages/Trends/connectedWordsEpic.js'
-import { fetchRecentAssets, fetchRecentWatchlists } from './fetchRecentsEpic'
 import { fetchMarketSegments } from '../pages/MarketSegments/epics'
 import { trialSubscriptionEpic } from './trialSubscriptionEpic'
 import handleWideChartToggle from './handleWideChartToggle'
@@ -129,9 +128,6 @@ export default combineEpics(
   // connected trends
   connectedWordsOptimizationEpic,
   connectedWordsEpic,
-  // Recents
-  fetchRecentAssets,
-  fetchRecentWatchlists,
   // Market segments
   fetchMarketSegments,
   // trial subscription

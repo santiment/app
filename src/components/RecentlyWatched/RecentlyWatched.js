@@ -1,19 +1,15 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
 import ProjectIcon from '../ProjectIcon/ProjectIcon'
 import PercentChanges from '../PercentChanges'
 import WatchlistCard from '../../ducks/Watchlists/Cards/WatchlistCard'
 import Skeleton from '../Skeleton/Skeleton'
-import { store } from '../../redux'
-import {
-  RECENT_ASSETS_FETCH,
-  RECENT_WATCHLISTS_FETCH
-} from '../../actions/types'
 import { getRecentAssets, getRecentWatchlists } from '../../utils/recent'
 import { formatNumber } from '../../utils/formatting'
 import { getWatchlistLink } from '../../ducks/Watchlists/utils'
+import { useRecentWatchlists } from './../../ducks/Watchlists/gql/hooks'
+import { useRecentAssets } from '../../hooks/recents'
 import styles from './RecentlyWatched.module.scss'
 
 export const Asset = ({ project, classes = {}, onClick }) => {
@@ -54,31 +50,27 @@ export const Asset = ({ project, classes = {}, onClick }) => {
 
 const RecentlyWatched = ({
   className = '',
-  assets,
-  watchlists,
   onProjectClick,
-  onWatchlistClick,
   type,
   classes = {}
 }) => {
   const isShowAssets = type === 'assets' || !type
   const isShowWatchlists = type === 'watchlists' || !type
 
-  const assetsNumber = getRecentAssets().filter(Boolean).length
-  const watchlistsNumber = getRecentWatchlists().filter(Boolean).length
+  const watchlistsIDs = isShowWatchlists
+    ? getRecentWatchlists().filter(Boolean)
+    : []
+  const assetsSlugs = isShowAssets ? getRecentAssets().filter(Boolean) : []
 
-  useEffect(() => {
-    if (!type) {
-      store.dispatch({ type: RECENT_ASSETS_FETCH })
-      store.dispatch({ type: RECENT_WATCHLISTS_FETCH })
-    } else if (isShowAssets) {
-      store.dispatch({ type: RECENT_ASSETS_FETCH })
-    } else if (isShowWatchlists) {
-      store.dispatch({ type: RECENT_WATCHLISTS_FETCH })
-    }
-  }, [])
+  const assetsNumber = assetsSlugs.length
+  const watchlistsNumber = watchlistsIDs.length
+
+  const [watchlists] = useRecentWatchlists(watchlistsIDs)
+  const [assets] = useRecentAssets(assetsSlugs)
+
   const hasAssets = assets && assets.length > 0
   const hasWatchlists = watchlists && watchlists.length > 0
+
   return (
     <>
       {isShowAssets && (assets ? hasAssets : assetsNumber > 0) && (
@@ -118,9 +110,7 @@ const RecentlyWatched = ({
                 <WatchlistCard
                   isSimplifiedView={true}
                   key={watchlist.name}
-                  watchlist={watchlist}
                   to={getWatchlistLink(watchlist)}
-                  onClick={onWatchlistClick}
                   {...watchlist}
                 />
               ))}
@@ -131,9 +121,4 @@ const RecentlyWatched = ({
   )
 }
 
-const mapStateToProps = ({ recents }) => ({
-  assets: recents.assets,
-  watchlists: recents.watchlists
-})
-
-export default connect(mapStateToProps)(RecentlyWatched)
+export default RecentlyWatched
