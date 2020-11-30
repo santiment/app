@@ -2,18 +2,15 @@ import { getIntervalByTimeRange } from '../../utils/dates'
 
 export const TOPICS = [
   { slug: 'hold OR love OR btc OR bitcoin OR buy', title: 'Buy Bitcoin' },
-  { slug: 'btc OR halving', title: 'Bitcoin halving' },
-  {
-    slug:
-      'oil OR negative OR barrel OR crude OR barrels OR contract OR futures OR wti',
-    title: 'Negative rates on oil'
-  },
+  { slug: 'debate', title: 'U.S. Debates' },
+  { slug: 'vaccine', title: 'Vaccine' },
   { slug: 'neo', title: 'NEO 3.0 coming up' },
-  { slug: 'bch OR halving OR bsv OR btc', title: 'Bitcoin Cash halving' },
   {
-    slug: 'whales OR price OR market OR yesterday',
-    title: 'Blaming whales in dumps'
+    slug: 'infura',
+    title: 'Infura outage',
+    query: 'infura?asset=yearn-finance&ticker=YFI'
   },
+  { slug: 'lockdown', title: 'Lockdown' },
   { slug: 'bel OR bella OR protocol', title: 'Bella Protocol AMA' },
   {
     slug: 'uni OR uniswap OR airdrop OR free OR tokens OR claim',
@@ -23,21 +20,26 @@ export const TOPICS = [
     slug: 'eth OR gas OR fees',
     title: 'Fees ATH'
   },
-  { slug: 'twitter OR hack', title: 'Twitter hack' },
+  {
+    slug: 'fil OR filecoin',
+    title: 'Filecoin mainnet launch',
+    query: 'fil OR filecoin?asset=filecoin&ticker=FIL'
+  },
   { slug: 'bitmex OR mex', title: 'Bitmex faces a lawsuit' },
   { slug: 'iotex', title: 'IOTEX AMA' },
   { slug: 'sushi', title: 'SUSHI is served' },
-  { slug: 'yfi', title: 'YFI tops' },
+  { slug: 'alts', title: 'Alts' },
   { slug: 'oxt', title: 'OXT listing on Binance' },
-  { slug: 'dot', title: 'Polkadot tops' },
+  {
+    slug: 'xrp OR ripple',
+    title: 'Ripple pumps',
+    query: 'xrp OR ripple?asset=ripple&ticker=XRP&slug=ripple'
+  },
   {
     slug: 'bank OR kraken OR banks OR fractional OR wyoming',
     title: 'Kraken becomes a bank'
   },
-  {
-    slug: 'powell OR fed OR inflation',
-    title: 'Fed targeting inflation'
-  }
+  { slug: 'stimulus', title: 'Stimulus' }
 ]
 
 export const INDEX_PAGE_GROUPS = [
@@ -63,9 +65,10 @@ export const INDEX_PAGE_GROUPS = [
         createdAt: '2020-09-25T10:07:20.922Z'
       },
       {
-        title: 'CME gap to be filled',
-        slug: 'gap',
-        createdAt: '2020-10-30T07:18:20.922Z'
+        title: 'U.S. Election',
+        slug:
+          'trump OR biden OR election OR winning OR votes OR wins OR florida OR vote OR voting',
+        createdAt: '2020-11-30T08:18:20.922Z'
       },
       {
         title: 'DeFi craze',
@@ -74,9 +77,9 @@ export const INDEX_PAGE_GROUPS = [
         createdAt: '2020-09-01T07:19:20.922Z'
       },
       {
-        title: 'SUSHI is served',
-        createdAt: '2020-09-25T10:07:20.922Z',
-        slug: 'sushi'
+        title: 'Paypal adoption',
+        slug: 'paypal OR adoption',
+        createdAt: '2020-11-30T08:07:20.922Z'
       }
     ]
   }
