@@ -36,7 +36,7 @@ const UpgradeBtn = ({
   iconClassName,
   variant = 'fill',
   showCrown = true,
-  accent,
+  accent = 'orange',
   ...props
 }) => {
   const { loading, subscription } = useUserSubscription()
@@ -68,7 +68,7 @@ const UpgradeBtn = ({
           fluid: false,
           border: false,
           variant: variant,
-          accent: accent || 'orange',
+          accent: accent,
           className: cx(styles.btn, styles.fill, className)
         }}
       />
