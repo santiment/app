@@ -7,8 +7,10 @@ const PriceGraph = ({ data = [], className, width = 90 }) => {
     return null
   }
 
-  const minValue = Math.min(...data.map(({ value }) => value))
-  const normalizedData = data.map(item => ({
+  const clearData = data.filter(({ value }) => Boolean(value))
+
+  const minValue = Math.min(...clearData.map(({ value }) => value))
+  const normalizedData = clearData.map(item => ({
     ...item,
     value: item.value - minValue
   }))

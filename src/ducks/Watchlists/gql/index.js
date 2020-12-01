@@ -154,13 +154,17 @@ export const PROJECTS_BY_FUNCTION_QUERY = gql`
 `
 
 export const PRICE_GRAPH_QUERY = gql`
-  query getMetric($selector: MetricTargetSelectorInputObject) {
+  query getMetric(
+    $selector: MetricTargetSelectorInputObject
+    $from: DateTime
+    $interval: interval
+  ) {
     getMetric(metric: "price_usd") {
       timeseriesDataPerSlug(
         selector: $selector
-        from: "utc_now-7d"
+        from: $from
         to: "utc_now"
-        interval: "6h"
+        interval: $interval
       ) {
         datetime
         data {

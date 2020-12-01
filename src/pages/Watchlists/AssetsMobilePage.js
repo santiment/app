@@ -20,6 +20,7 @@ import PageLoader from '../../components/Loader/PageLoader'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import { usePriceGraph } from '../../ducks/Watchlists/Widgets/Table/PriceGraph/hooks'
 import { normalizeGraphData } from '../../ducks/Watchlists/Widgets/Table/PriceGraph/utils'
+import IntervalsComponent from '../../components/IntervalsComponent/IntervalsComponent'
 import styles from './AssetsMobilePage.module.scss'
 
 // NOTE(haritonasty): predefined heights needed for calculate react-virtualized height.
@@ -36,11 +37,17 @@ const INITIAL_REMAINING_HEIGHT =
 
 const ROW_HEIGHT = 60
 
+export const PRICE_RANGES = [
+  { value: '1d', label: '24h' },
+  { value: '7d', label: '7d' }
+]
+
 const AssetsMobilePage = props => {
   const id = getWatchlistId(props.location.search)
   const [watchlist = {}] = useWatchlist({ id })
   const [pointer, setPointer] = useState(1)
   const [range, setRange] = useState(RANGES[pointer])
+  const [priceRange, setPriceRange] = useState(PRICE_RANGES[1].value)
   const [filteredItems, setFilteredItems] = useState(null)
   const [filterType, setFilterType] = useState(null)
   const [currentItems, setCurrentItems] = useState([])
@@ -165,13 +172,22 @@ const AssetsMobilePage = props => {
                   />
                   <div className={styles.headings}>
                     <Label accent='casper'>Coin</Label>
-                    <Label accent='casper'>Price, 24h</Label>
+                    <div>
+                      <Label accent='casper'>Price</Label>
+                      <IntervalsComponent
+                        defaultIndex={1}
+                        ranges={PRICE_RANGES}
+                        onChange={setPriceRange}
+                        className={styles.intervalToggle}
+                      />
+                    </div>
                   </div>
                   <div
                     className={styles.assetsList}
                     style={{ '--remaining-height': `${remainingHeight}px` }}
                   >
                     <AssetsList
+                      priceRange={priceRange}
                       items={filteredItems || items}
                       saveScrollPosition={saveScrollPosition}
                       initialIndex={scrollToIndex}
@@ -200,6 +216,7 @@ const AssetsMobilePage = props => {
 
 export const AssetsList = ({
   items,
+  priceRange,
   renderer,
   rowHeight = ROW_HEIGHT,
   initialIndex,
@@ -208,11 +225,20 @@ export const AssetsList = ({
 }) => {
   const slugs = items.map(item => item.slug)
   const [savedLastIndex, setSavedLastIndex] = useState(30)
+  const [savedStartIndex, setSavedStartIndex] = useState(0)
   const [visibleItems, setVisibleItems] = useState(
     slugs.slice(0, savedLastIndex)
   )
-  const [graphData] = usePriceGraph({ slugs: visibleItems })
-  const normalizedItems = normalizeGraphData(graphData, items)
+  const [graphData, loading] = usePriceGraph({
+    slugs: visibleItems,
+    range: priceRange
+  })
+  const normalizedItems = normalizeGraphData(
+    graphData,
+    items,
+    priceRange,
+    loading
+  )
 
   const rowRenderer =
     renderer ||
@@ -220,7 +246,11 @@ export const AssetsList = ({
       const asset = normalizedItems[index]
       return (
         <div key={key} style={style}>
-          <AssetCard {...asset} onAssetClick={saveScrollPosition} />
+          <AssetCard
+            {...asset}
+            onAssetClick={saveScrollPosition}
+            priceRange={priceRange}
+          />
         </div>
       )
     }
@@ -244,10 +274,14 @@ export const AssetsList = ({
               overscanStopIndex,
               startIndex
             }) => {
-              if (savedLastIndex - startIndex < 5) {
-                const newLastIndex = overscanStopIndex + 30
+              if (
+                savedLastIndex - startIndex < 5 ||
+                startIndex - savedStartIndex < 0
+              ) {
+                const newLastIndex = overscanStopIndex + 25
                 setSavedLastIndex(newLastIndex)
-                setVisibleItems(slugs.slice(startIndex, newLastIndex))
+                setSavedStartIndex(overscanStartIndex)
+                setVisibleItems(slugs.slice(overscanStartIndex, newLastIndex))
               }
             }}
           />

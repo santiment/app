@@ -13,7 +13,7 @@ export const RANGES = [
 
 const IntervalsComponent = ({
   className,
-  onChange,
+  onChange = () => {},
   defaultIndex = 0,
   ranges = RANGES
 }) => {

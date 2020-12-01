@@ -3,24 +3,30 @@ import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import ProjectIcon from './../../../../components/ProjectIcon/ProjectIcon'
 import PercentChanges from './../../../../components/PercentChanges'
-import { capitalizeStr } from './../../../../utils/utils'
 import { formatNumber, millify } from '../../../../utils/formatting'
 import PriceGraph from './PriceGraph'
 import styles from './AssetCard.module.scss'
+
+const PRICE_RANGES = {
+  '1d': 'percentChange24h',
+  '7d': 'percentChange7d'
+}
 
 const AssetCard = ({
   slug,
   name,
   ticker,
   priceUsd = 0,
-  percentChange24h = 0,
+  priceRange,
   marketcapUsd = 0,
   onAssetClick,
-  priceChart7d,
-  className
+  className,
+  ...asset
 }) => {
   const minimumFractionDigits = priceUsd > 99999 ? 0 : 2
   const maximumFractionDigits = priceUsd > 99999 ? 0 : priceUsd > 2 ? 2 : 6
+
+  const graphKey = asset[`priceChart${priceRange}`]
 
   return (
     <Link
@@ -40,7 +46,7 @@ const AssetCard = ({
           </div>
         </div>
       </div>
-      <PriceGraph data={priceChart7d} className={styles.chart} width={70} />
+      <PriceGraph data={graphKey} className={styles.chart} width={70} />
       <div className={styles.right}>
         {priceUsd
           ? formatNumber(priceUsd, {
@@ -51,7 +57,7 @@ const AssetCard = ({
           : 'No data'}
         <PercentChanges
           className={styles.percentChanges}
-          changes={percentChange24h}
+          changes={asset[PRICE_RANGES[priceRange]] || 0}
         />
       </div>
     </Link>
