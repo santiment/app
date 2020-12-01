@@ -29,6 +29,7 @@ export const project = gql`
     marketSegments
     priceUsd
     percentChange24h
+    percentChange7d
     volumeUsd
     volumeChange24h
     ethSpent

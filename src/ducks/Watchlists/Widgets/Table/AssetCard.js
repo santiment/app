@@ -7,16 +7,22 @@ import { formatNumber, millify } from '../../../../utils/formatting'
 import PriceGraph from './PriceGraph'
 import styles from './AssetCard.module.scss'
 
+const PRICE_RANGES = {
+  '1d': 'percentChange24h',
+  '7d': 'percentChange7d'
+}
+
 const AssetCard = ({
   slug,
   name,
   ticker,
   priceUsd = 0,
-  percentChange24h = 0,
+  priceRange,
   marketcapUsd = 0,
   onAssetClick,
   priceChart7d,
-  className
+  className,
+  ...asset
 }) => {
   const minimumFractionDigits = priceUsd > 99999 ? 0 : 2
   const maximumFractionDigits = priceUsd > 99999 ? 0 : priceUsd > 2 ? 2 : 6
@@ -50,7 +56,7 @@ const AssetCard = ({
           : 'No data'}
         <PercentChanges
           className={styles.percentChanges}
-          changes={percentChange24h}
+          changes={asset[PRICE_RANGES[priceRange]] || 0}
         />
       </div>
     </Link>

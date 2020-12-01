@@ -47,6 +47,7 @@ const AssetsMobilePage = props => {
   const [watchlist = {}] = useWatchlist({ id })
   const [pointer, setPointer] = useState(1)
   const [range, setRange] = useState(RANGES[pointer])
+  const [priceRange, setPriceRange] = useState(PRICE_RANGES[0])
   const [filteredItems, setFilteredItems] = useState(null)
   const [filterType, setFilterType] = useState(null)
   const [currentItems, setCurrentItems] = useState([])
@@ -175,6 +176,7 @@ const AssetsMobilePage = props => {
                       <Label accent='casper'>Price</Label>
                       <IntervalsComponent
                         ranges={PRICE_RANGES}
+                        onChange={setPriceRange}
                         className={styles.intervalToggle}
                       />
                     </div>
@@ -184,6 +186,7 @@ const AssetsMobilePage = props => {
                     style={{ '--remaining-height': `${remainingHeight}px` }}
                   >
                     <AssetsList
+                      priceRange={priceRange}
                       items={filteredItems || items}
                       saveScrollPosition={saveScrollPosition}
                       initialIndex={scrollToIndex}
@@ -212,6 +215,7 @@ const AssetsMobilePage = props => {
 
 export const AssetsList = ({
   items,
+  priceRange,
   renderer,
   rowHeight = ROW_HEIGHT,
   initialIndex,
@@ -232,7 +236,11 @@ export const AssetsList = ({
       const asset = normalizedItems[index]
       return (
         <div key={key} style={style}>
-          <AssetCard {...asset} onAssetClick={saveScrollPosition} />
+          <AssetCard
+            {...asset}
+            onAssetClick={saveScrollPosition}
+            priceRange={priceRange}
+          />
         </div>
       )
     }
