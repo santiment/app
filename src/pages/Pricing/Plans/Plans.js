@@ -37,7 +37,7 @@ const Billing = ({ selected, onClick }) => {
         onClick={() => onClick('year')}
       >
         Yearly
-        <span className={styles.billing__save}>(Save 20%)</span>
+        <span className={styles.billing__save}>(Save 10%)</span>
       </span>
     </>
   )
