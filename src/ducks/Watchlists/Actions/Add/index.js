@@ -9,9 +9,10 @@ import {
 import { showNotification } from '../../../../actions/rootActions'
 import WatchlistsAnon from '../../Templates/Anon/WatchlistsAnon'
 import Watchlists from '../../Templates/Watchlists'
-import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
 import { hasAssetById } from '../../utils'
+import LoginPopup from '../../../../components/banners/feature/PopupBanner'
 import { useUserWatchlists } from '../../gql/hooks'
+import { useUser } from '../../../../stores/user'
 import styles from './index.module.scss'
 
 const AddToListBtn = (
@@ -21,7 +22,6 @@ const AddToListBtn = (
 )
 
 const WatchlistPopup = ({
-  isLoggedIn,
   trigger = AddToListBtn,
   applyChanges,
   setNotification,
@@ -34,6 +34,11 @@ const WatchlistPopup = ({
   const [isShown, setIsShown] = useState(false)
   const [editableAssets, setEditableAssets] = useState(editableAssetsInList)
   const [watchlists = []] = useUserWatchlists()
+  const { isLoggedIn } = useUser()
+
+  if (!isLoggedIn) {
+    return <LoginPopup>{trigger}</LoginPopup>
+  }
 
   const lists = watchlists.sort(sortWatchlists).map(list => ({
     ...list,
@@ -91,34 +96,28 @@ const WatchlistPopup = ({
       open={isShown}
       {...dialogProps}
     >
-      {isLoggedIn ? (
-        <>
-          <Dialog.ScrollContent withPadding className={styles.wrapper}>
-            <Watchlists
-              onWatchlistClick={watchlist => toggleAssetInList(watchlist)}
-              lists={lists}
-              projectId={projectId}
-              {...props}
-            />
-          </Dialog.ScrollContent>
-          <Dialog.Actions className={styles.actions}>
-            <Dialog.Cancel onClick={close} type='cancel'>
-              Cancel
-            </Dialog.Cancel>
-            <Dialog.Approve
-              disabled={editableAssetsInList.length > 0 || changes.length === 0}
-              isLoading={editableAssetsInList.length > 0}
-              type='submit'
-              onClick={add}
-              className={styles.approve}
-            >
-              Apply
-            </Dialog.Approve>
-          </Dialog.Actions>
-        </>
-      ) : (
-        <WatchlistsAnon />
-      )}
+      <Dialog.ScrollContent withPadding className={styles.wrapper}>
+        <Watchlists
+          onWatchlistClick={watchlist => toggleAssetInList(watchlist)}
+          lists={lists}
+          projectId={projectId}
+          {...props}
+        />
+      </Dialog.ScrollContent>
+      <Dialog.Actions className={styles.actions}>
+        <Dialog.Cancel onClick={close} type='cancel'>
+          Cancel
+        </Dialog.Cancel>
+        <Dialog.Approve
+          disabled={editableAssetsInList.length > 0 || changes.length === 0}
+          isLoading={editableAssetsInList.length > 0}
+          type='submit'
+          onClick={add}
+          className={styles.approve}
+        >
+          Apply
+        </Dialog.Approve>
+      </Dialog.Actions>
     </Dialog>
   )
 }
@@ -129,8 +128,7 @@ const sortWatchlists = (
 ) => new Date(insertedList1) - new Date(insertedList2)
 
 const mapStateToProps = state => ({
-  watchlistUi: state.watchlistUi,
-  isLoggedIn: checkIsLoggedIn(state)
+  watchlistUi: state.watchlistUi
 })
 
 const mapDispatchToProps = dispatch => ({

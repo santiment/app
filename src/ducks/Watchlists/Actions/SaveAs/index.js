@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import EditForm from '../Edit/EditForm'
+import { useUser } from '../../../../stores/user'
+import LoginPopup from '../../../../components/banners/feature/PopupBanner'
+
 import { USER_ADD_NEW_ASSET_LIST } from '../../../../actions/types'
 
 const SaveAs = ({
@@ -14,6 +17,7 @@ const SaveAs = ({
   type
 }) => {
   const [isOpened, setIsOpened] = useState(false)
+  const { isLoggedIn } = useUser()
 
   useEffect(
     () => {
@@ -23,6 +27,10 @@ const SaveAs = ({
     },
     [isSuccess]
   )
+
+  if (type === 'watchlist' && !isLoggedIn) {
+    return <LoginPopup>{trigger}</LoginPopup>
+  }
 
   return (
     <EditForm

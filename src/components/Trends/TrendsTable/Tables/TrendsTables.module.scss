@@ -31,6 +31,10 @@
   border-bottom: 1px solid var(--porcelain);
 }
 
+.mobileTabs {
+  flex-direction: row-reverse;
+}
+
 .tab {
   min-width: 100px;
   padding: 14px 16px;
