@@ -18,6 +18,8 @@ import WatchlistActions from '../../ducks/Watchlists/Widgets/TopPanel/WatchlistM
 import WatchlistAnomalies from '../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistAnomalies/WatchlistAnomalies'
 import PageLoader from '../../components/Loader/PageLoader'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
+import { usePriceGraph } from '../../ducks/Watchlists/Widgets/Table/PriceGraph/hooks'
+import { normalizeGraphData } from '../../ducks/Watchlists/Widgets/Table/PriceGraph/utils'
 import styles from './AssetsMobilePage.module.scss'
 
 // NOTE(haritonasty): predefined heights needed for calculate react-virtualized height.
@@ -204,10 +206,18 @@ export const AssetsList = ({
   saveScrollPosition,
   onAssetsListScroll = () => {}
 }) => {
+  const slugs = items.map(item => item.slug)
+  const [savedLastIndex, setSavedLastIndex] = useState(30)
+  const [visibleItems, setVisibleItems] = useState(
+    slugs.slice(0, savedLastIndex)
+  )
+  const [graphData] = usePriceGraph({ slugs: visibleItems })
+  const normalizedItems = normalizeGraphData(graphData, items)
+
   const rowRenderer =
     renderer ||
     function ({ key, index, style }) {
-      const asset = items[index]
+      const asset = normalizedItems[index]
       return (
         <div key={key} style={style}>
           <AssetCard {...asset} onAssetClick={saveScrollPosition} />
@@ -229,6 +239,17 @@ export const AssetsList = ({
             scrollToIndex={initialIndex}
             scrollToAlignment={'start'}
             rowRenderer={rowRenderer}
+            onRowsRendered={({
+              overscanStartIndex,
+              overscanStopIndex,
+              startIndex
+            }) => {
+              if (savedLastIndex - startIndex < 5) {
+                const newLastIndex = overscanStopIndex + 30
+                setSavedLastIndex(newLastIndex)
+                setVisibleItems(slugs.slice(startIndex, newLastIndex))
+              }
+            }}
           />
         )}
       </AutoSizer>

@@ -2,7 +2,7 @@ import React from 'react'
 import { Area, AreaChart } from 'recharts'
 import Gradients from '../../WatchlistOverview/Gradients'
 
-const PriceGraph = ({ data = [] }) => {
+const PriceGraph = ({ data = [], className, width = 90 }) => {
   if (!data || data.length < 10) {
     return null
   }
@@ -19,19 +19,21 @@ const PriceGraph = ({ data = [] }) => {
   const color = `var(--${latestValue >= value ? 'lima' : 'persimmon'})`
 
   return (
-    <AreaChart data={normalizedData} height={35} width={90}>
-      <defs>
-        <Gradients />
-      </defs>
-      <Area
-        dataKey='value'
-        type='monotone'
-        strokeWidth={2}
-        stroke={color}
-        fill={`url(#total${latestValue >= value ? 'Up' : 'Down'})`}
-        isAnimationActive={false}
-      />
-    </AreaChart>
+    <div className={className}>
+      <AreaChart data={normalizedData} height={35} width={width}>
+        <defs>
+          <Gradients />
+        </defs>
+        <Area
+          dataKey='value'
+          type='monotone'
+          strokeWidth={2}
+          stroke={color}
+          fill={`url(#total${latestValue >= value ? 'Up' : 'Down'})`}
+          isAnimationActive={false}
+        />
+      </AreaChart>
+    </div>
   )
 }
 

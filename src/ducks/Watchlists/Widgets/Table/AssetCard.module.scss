@@ -26,6 +26,8 @@
 
 .ticker {
   color: var(--casper);
+  margin-left: 6px;
+  position: relative;
 }
 
 .left,
@@ -47,4 +49,18 @@
 
 .percentChanges {
   margin-left: 0;
+}
+
+.chart {
+  margin-left: auto;
+  margin-right: 14px;
+}
+
+.left {
+  overflow-x: hidden;
+}
+
+.subRow {
+  display: flex;
+  flex-wrap: nowrap;
 }
