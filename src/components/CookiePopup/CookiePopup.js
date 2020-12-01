@@ -25,12 +25,13 @@ const CookiePopup = () => {
     shown && (
       <Panel className={styles.wrapper} variant='modal'>
         <Cookie className={styles.image} />
-        <div>
-          <h2 className={styles.title}>We are using cookies</h2>
+        <div className={styles.content}>
+          <h2 className={styles.title}>
+            We are using cookies to improve your experience
+          </h2>
           <p className={styles.text}>
-            This website uses the following types of cookies; strictly
-            necessary, functional, performance and marketing cookies. By using
-            this website, you accept our{' '}
+            By clicking “Allow all”, you agree to the storing of cookie and
+            accept our{' '}
             <a
               href='https://santiment.net/terms-conditions/'
               target='_blank'
@@ -41,15 +42,15 @@ const CookiePopup = () => {
             </a>
             .
           </p>
+          <Button
+            variant='fill'
+            accent='positive'
+            className={styles.btn}
+            onClick={accept}
+          >
+            Allow all
+          </Button>
         </div>
-        <Button
-          variant='fill'
-          accent='positive'
-          className={styles.btn}
-          onClick={accept}
-        >
-          Accept
-        </Button>
       </Panel>
     )
   )
