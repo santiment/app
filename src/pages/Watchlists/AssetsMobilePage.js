@@ -20,6 +20,7 @@ import PageLoader from '../../components/Loader/PageLoader'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import { usePriceGraph } from '../../ducks/Watchlists/Widgets/Table/PriceGraph/hooks'
 import { normalizeGraphData } from '../../ducks/Watchlists/Widgets/Table/PriceGraph/utils'
+import IntervalsComponent from '../../components/IntervalsComponent/IntervalsComponent'
 import styles from './AssetsMobilePage.module.scss'
 
 // NOTE(haritonasty): predefined heights needed for calculate react-virtualized height.
@@ -35,6 +36,11 @@ const INITIAL_REMAINING_HEIGHT =
   BOTTOM_HEIGHT + HEADER_HEIGHT + TABLE_LABELS_HEIGHT
 
 const ROW_HEIGHT = 60
+
+export const PRICE_RANGES = [
+  { value: '1d', label: '24h' },
+  { value: '7d', label: '7d' }
+]
 
 const AssetsMobilePage = props => {
   const id = getWatchlistId(props.location.search)
@@ -165,7 +171,13 @@ const AssetsMobilePage = props => {
                   />
                   <div className={styles.headings}>
                     <Label accent='casper'>Coin</Label>
-                    <Label accent='casper'>Price, 24h</Label>
+                    <div>
+                      <Label accent='casper'>Price</Label>
+                      <IntervalsComponent
+                        ranges={PRICE_RANGES}
+                        className={styles.intervalToggle}
+                      />
+                    </div>
                   </div>
                   <div
                     className={styles.assetsList}
