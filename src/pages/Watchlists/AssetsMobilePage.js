@@ -265,7 +265,7 @@ export const AssetsList = ({
               startIndex
             }) => {
               if (savedLastIndex - startIndex < 5) {
-                const newLastIndex = overscanStopIndex + 30
+                const newLastIndex = overscanStopIndex + 25
                 setSavedLastIndex(newLastIndex)
                 setVisibleItems(slugs.slice(startIndex, newLastIndex))
               }
