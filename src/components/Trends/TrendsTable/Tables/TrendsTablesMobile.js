@@ -37,7 +37,7 @@ const TrendsTablesMobile = ({
     return null
   }
 
-  const [index, setIndex] = useState(0)
+  const [index, setIndex] = useState(2)
 
   const { topWords } = trends[index]
 
