@@ -1,11 +1,7 @@
 import { Metric } from './index'
-import { Submetrics, TopTransactionsTableMetric } from '../submetrics'
+import { Submetrics } from '../submetrics'
 
 const NEW_METRICS = [
-  Metric.price_btc,
-  Metric.price_eth,
-  Metric.bitmex_perpetual_basis_ratio,
-  TopTransactionsTableMetric,
   Metric.transaction_volume_usd,
   Metric.social_active_users.key,
   Metric.price_daa_divergence,
