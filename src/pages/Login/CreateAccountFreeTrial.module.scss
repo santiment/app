@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url("./../../../src/assets/login/pattern.svg");
+  background-image: url('./../../../src/assets/login/pattern.svg');
   background-size: cover;
   margin-top: 0 !important;
   max-width: 100% !important;
@@ -102,4 +102,12 @@
   &:hover {
     color: var(--jungle-green-hover);
   }
+}
+
+.email {
+  margin: 0;
+}
+
+.google {
+  margin-top: 32px;
 }

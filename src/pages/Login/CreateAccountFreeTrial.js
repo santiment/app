@@ -1,12 +1,14 @@
 import React from 'react'
 import { Link, Redirect } from 'react-router-dom'
-import { PATHS } from '../../paths'
-import withSizes from 'react-sizes'
-import LoginEmailForm, { EmailForm } from './LoginEmailForm'
 import cx from 'classnames'
 import Panel from '@santiment-network/ui/Panel'
 import Icon from '@santiment-network/ui/Icon'
+import withSizes from 'react-sizes'
+import LoginEmailForm, { EmailForm } from './LoginEmailForm'
+import LoginGoogleBtn from './LoginGoogleBtn'
+import OrUseDivider from './OrUseDivider'
 import MobileWrapper from './Mobile/MobileWrapper'
+import { PATHS } from '../../paths'
 import { mapSizesToProps } from '../../utils/withSizes'
 import SwipablePages from '../../components/SwipablePages/SwipablePages'
 import { MobileOnly } from '../../components/Responsive'
@@ -84,10 +86,15 @@ const SignupDescription = ({ loading, loginEmail, setEmail }) => {
 
       <div className={styles.subtitle}>Get 14 days free of Sanbase Pro!</div>
 
+      <LoginGoogleBtn signUp className={styles.google} />
+
+      <OrUseDivider />
+
       <EmailForm
         loading={loading}
         loginEmail={loginEmail}
         setEmail={setEmail}
+        className={styles.email}
       />
 
       <div className={externalStyles.noCredit}>No credit card required</div>

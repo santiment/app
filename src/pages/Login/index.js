@@ -4,9 +4,11 @@ import withSizes from 'react-sizes'
 import { parse } from 'query-string'
 import { Switch, Route, Link, Redirect } from 'react-router-dom'
 import Panel from '@santiment-network/ui/Panel/Panel'
+import OrUseDivider from './OrUseDivider'
 import LoginMetamaskBtn from './LoginMetamaskBtn'
 import LoginEmailForm from './LoginEmailForm'
 import LoginEmailBtn from './LoginEmailBtn'
+import LoginGoogleBtn from './LoginGoogleBtn'
 import FreeTrialBlock from './FreeTrialBlock'
 import { PATHS } from '../../paths'
 import SwipablePages from '../../components/SwipablePages/SwipablePages'
@@ -29,10 +31,9 @@ export const LoginDescription = ({ className }) => (
     <h3 className={styles.title}>Welcome to Sanbase</h3>
     <div className={styles.options}>
       <LoginMetamaskBtn />
-      <div className={styles.divider}>
-        <span className={styles.use}>or use</span>
-      </div>
+      <OrUseDivider />
       <LoginEmailBtn />
+      <LoginGoogleBtn />
 
       <div className={styles.new}>
         New to Santiment?{' '}

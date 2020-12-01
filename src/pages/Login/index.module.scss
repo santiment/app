@@ -152,15 +152,19 @@
     display: flex;
     justify-content: center;
     background: var(--white);
-    color: var(--jungle-green);
-    fill: var(--jungle-green);
-    border: 1px solid var(--jungle-green);
+    color: var(--rhino);
+    fill: var(--casper);
+    border: 1px solid var(--porcelain);
     margin-bottom: 0;
 
     &:hover {
-      color: var(--jungle-green-hover);
-      fill: var(--jungle-green-hover);
+      color: var(--jungle-green);
+      fill: var(--jungle-green);
     }
+  }
+
+  &_google {
+    margin-top: 8px;
   }
 
   &_metamask {
@@ -207,6 +211,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-top: 24px;
 
     @include responsive('phone-xs', 'phone', 'tablet') {
       width: 100%;
@@ -311,7 +316,6 @@
 
 .emailInput {
   background: var(--white);
-  margin-top: 24px;
   width: 280px;
   height: 40px;
 
