@@ -1,10 +1,19 @@
 import { useQuery } from '@apollo/react-hooks'
 import { PRICE_GRAPH_QUERY } from '../../../gql'
 
-export function usePriceGraph ({ slugs }) {
+const PRICE_RANGES = {
+  '1d': '30m',
+  '7d': '6h'
+}
+
+export function usePriceGraph ({ slugs, range = '7d' }) {
   const { data = {}, loading } = useQuery(PRICE_GRAPH_QUERY, {
     skip: slugs.length === 0,
-    variables: { selector: { slugs } }
+    variables: {
+      selector: { slugs },
+      from: `utc_now-${range}`,
+      interval: PRICE_RANGES[range]
+    }
   })
 
   if (

@@ -1,11 +1,19 @@
 const PriceGraphCache = new Map()
 
-export function normalizeGraphData (graph, items = []) {
+export function normalizeGraphData (graph, items = [], range = '7d', loading) {
+  if (loading) {
+    return items
+  }
+
+  const key = `priceChart${range}`
+
   const normalizedItems = items.map(item => {
     const cached = PriceGraphCache.get(item.slug)
 
-    if (cached) {
-      return { ...item, priceChart7d: cached }
+    if (cached && cached[key]) {
+      const res = { ...item }
+      res[key] = cached[key]
+      return res
     } else {
       const graphData = []
 
@@ -16,11 +24,14 @@ export function normalizeGraphData (graph, items = []) {
 
       const realData = graphData.filter(({ value }) => value !== undefined)
 
+      const res = {}
+      res[key] = realData.length > 0 ? graphData : null
+
       if (realData.length > 0) {
-        PriceGraphCache.set(item.slug, graphData)
-        return { ...item, priceChart7d: graphData }
+        PriceGraphCache.set(item.slug, { ...cached, ...res })
+        return { ...item, ...res }
       } else {
-        return { ...item, priceChart7d: null }
+        return { ...item, ...res }
       }
     }
   })

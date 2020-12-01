@@ -20,12 +20,13 @@ const AssetCard = ({
   priceRange,
   marketcapUsd = 0,
   onAssetClick,
-  priceChart7d,
   className,
   ...asset
 }) => {
   const minimumFractionDigits = priceUsd > 99999 ? 0 : 2
   const maximumFractionDigits = priceUsd > 99999 ? 0 : priceUsd > 2 ? 2 : 6
+
+  const graphKey = asset[`priceChart${priceRange}`]
 
   return (
     <Link
@@ -45,7 +46,7 @@ const AssetCard = ({
           </div>
         </div>
       </div>
-      <PriceGraph data={priceChart7d} className={styles.chart} width={70} />
+      <PriceGraph data={graphKey} className={styles.chart} width={70} />
       <div className={styles.right}>
         {priceUsd
           ? formatNumber(priceUsd, {

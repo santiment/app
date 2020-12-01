@@ -47,7 +47,7 @@ const AssetsMobilePage = props => {
   const [watchlist = {}] = useWatchlist({ id })
   const [pointer, setPointer] = useState(1)
   const [range, setRange] = useState(RANGES[pointer])
-  const [priceRange, setPriceRange] = useState(PRICE_RANGES[0])
+  const [priceRange, setPriceRange] = useState(PRICE_RANGES[1].value)
   const [filteredItems, setFilteredItems] = useState(null)
   const [filterType, setFilterType] = useState(null)
   const [currentItems, setCurrentItems] = useState([])
@@ -175,6 +175,7 @@ const AssetsMobilePage = props => {
                     <div>
                       <Label accent='casper'>Price</Label>
                       <IntervalsComponent
+                        defaultIndex={1}
                         ranges={PRICE_RANGES}
                         onChange={setPriceRange}
                         className={styles.intervalToggle}
@@ -224,11 +225,20 @@ export const AssetsList = ({
 }) => {
   const slugs = items.map(item => item.slug)
   const [savedLastIndex, setSavedLastIndex] = useState(30)
+  const [savedStartIndex, setSavedStartIndex] = useState(0)
   const [visibleItems, setVisibleItems] = useState(
     slugs.slice(0, savedLastIndex)
   )
-  const [graphData] = usePriceGraph({ slugs: visibleItems })
-  const normalizedItems = normalizeGraphData(graphData, items)
+  const [graphData, loading] = usePriceGraph({
+    slugs: visibleItems,
+    range: priceRange
+  })
+  const normalizedItems = normalizeGraphData(
+    graphData,
+    items,
+    priceRange,
+    loading
+  )
 
   const rowRenderer =
     renderer ||
@@ -264,10 +274,14 @@ export const AssetsList = ({
               overscanStopIndex,
               startIndex
             }) => {
-              if (savedLastIndex - startIndex < 5) {
+              if (
+                savedLastIndex - startIndex < 5 ||
+                startIndex - savedStartIndex < 0
+              ) {
                 const newLastIndex = overscanStopIndex + 25
                 setSavedLastIndex(newLastIndex)
-                setVisibleItems(slugs.slice(startIndex, newLastIndex))
+                setSavedStartIndex(overscanStartIndex)
+                setVisibleItems(slugs.slice(overscanStartIndex, newLastIndex))
               }
             }}
           />
