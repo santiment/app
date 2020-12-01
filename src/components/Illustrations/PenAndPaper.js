@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const PlanDescriptionSvg = (
+export const PenAndPaper = (
   <svg
     width='90'
     height='74'

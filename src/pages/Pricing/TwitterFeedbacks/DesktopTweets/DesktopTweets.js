@@ -35,7 +35,7 @@ const DesktopTweets = () => {
   useEventListener('resize', _onResize)
 
   return (
-    <Masonry columnsCount={columnsCount} gutter={24}>
+    <Masonry columnsCount={columnsCount} gutter={'24px'}>
       {TweetsParsed.map((item, index) => (
         <TweetCard item={item} key={index} />
       ))}
