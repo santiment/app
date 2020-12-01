@@ -19,7 +19,8 @@ const AssetCard = ({
   priceChart7d,
   className
 }) => {
-  const includeFloatPart = priceUsd > 99999 ? 0 : 2
+  const minimumFractionDigits = priceUsd > 99999 ? 0 : 2
+  const maximumFractionDigits = priceUsd > 99999 ? 0 : priceUsd > 2 ? 2 : 6
 
   return (
     <Link
@@ -33,18 +34,19 @@ const AssetCard = ({
         </div>
         <div className={styles.row}>
           <div className={styles.name}>{name}</div>
-          <div>
+          <div className={styles.subRow}>
             ${millify(marketcapUsd, 0)}{' '}
             <span className={styles.ticker}>{ticker.toUpperCase()}</span>
           </div>
         </div>
       </div>
-      <PriceGraph data={priceChart7d} className={styles.chart} width={80} />
+      <PriceGraph data={priceChart7d} className={styles.chart} width={70} />
       <div className={styles.right}>
         {priceUsd
           ? formatNumber(priceUsd, {
             currency: 'USD',
-            minimumFractionDigits: includeFloatPart ? 2 : 0
+            minimumFractionDigits,
+            maximumFractionDigits
           })
           : 'No data'}
         <PercentChanges

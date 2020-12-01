@@ -26,6 +26,8 @@
 
 .ticker {
   color: var(--casper);
+  margin-left: 6px;
+  position: relative;
 }
 
 .left,
@@ -51,9 +53,14 @@
 
 .chart {
   margin-left: auto;
-  margin-right: 20px;
+  margin-right: 14px;
 }
 
 .left {
   overflow-x: hidden;
+}
+
+.subRow {
+  display: flex;
+  flex-wrap: nowrap;
 }
