@@ -8,7 +8,7 @@ const AUTH_LINK = (
   ? 'https://api-stage.santiment.net/auth/google'
   : 'https://api.santiment.net/auth/google'
 
-const GoogleIcon = (
+const GOOGLE_ICON = (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     width='18'
@@ -41,7 +41,7 @@ const LoginGoogleBtn = ({ signUp, className }) => (
     href={AUTH_LINK}
     className={cx(styles.btn, styles.btn_email, styles.btn_google, className)}
   >
-    {GoogleIcon} Sign {signUp ? 'up' : 'in'} with Google
+    {GOOGLE_ICON} Sign {signUp ? 'up' : 'in'} with Google
   </a>
 )
 
