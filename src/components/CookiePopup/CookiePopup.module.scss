@@ -3,59 +3,79 @@
 .wrapper {
   position: fixed;
   z-index: 9999;
-  bottom: 8px;
-  left: 0;
-  right: 0;
-  max-width: 1140px;
-  margin: 0 auto;
+  bottom: 20px;
+  left: 20px;
+  max-width: 586px;
   display: flex;
-  padding: 23px 24px 21px;
+  padding: 32px 40px 32px 24px;
   border-radius: 10px;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
 
-  @include responsive('phone', 'phone-xs', 'tablet') {
+  @include responsive('phone', 'phone-xs') {
     flex-direction: column;
     text-align: center;
+    align-items: center;
     bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 100%;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    padding: 16px 16px 24px 16px;
   }
 }
 
 .image {
-  margin-right: 15px;
-  width: 66px;
-  height: 67px;
+  margin-right: 24px;
+  min-width: 102px;
+  min-height: 128px;
+  max-width: 102px;
+  max-height: 128px;
 
-  @include responsive('phone', 'phone-xs',  'tablet') {
-    margin: 0 0 15px;
+  @include responsive('phone', 'phone-xs') {
+    transform: rotate(-90deg);
+    margin: 0 auto 15px;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+
+  @include responsive('phone', 'phone-xs') {
+    align-items: center;
+    max-width: 360px;
+    margin: 0 auto;
   }
 }
 
 .title {
-  @include text('body-1');
+  @include text('h4', 'm');
 
-  margin: 0 0 4px;
+  margin: 0 0 16px;
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-1', 'm');
+  }
 }
 
 .text {
   @include text('body-2');
 
-  margin: 0;
+  margin: 0 0 24px;
   color: var(--waterloo);
-  max-width: 710px;
 }
 
 .btn {
-  width: 100px;
-  margin-left: auto;
+  width: 140px;
+  height: 40px;
   justify-content: center;
 
-  @include responsive('phone', 'phone-xs', 'tablet') {
+  @include responsive('phone', 'phone-xs') {
     width: 100%;
-    max-width: 400px;
-    margin: 20px auto 0;
+    max-width: 360px;
+    margin: 0;
   }
 }
 

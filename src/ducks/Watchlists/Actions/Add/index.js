@@ -7,7 +7,6 @@ import {
   USER_REMOVE_ASSET_FROM_LIST
 } from './../../../../actions/types'
 import { showNotification } from '../../../../actions/rootActions'
-import WatchlistsAnon from '../../Templates/Anon/WatchlistsAnon'
 import Watchlists from '../../Templates/Watchlists'
 import { hasAssetById } from '../../utils'
 import LoginPopup from '../../../../components/banners/feature/PopupBanner'
