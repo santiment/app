@@ -49,7 +49,7 @@ const Controls = ({
 }) => {
   const isBetaMode = useIsBetaMode()
 
-  useEffect(() => rerenderWidgets, [isDrawingState[0]])
+  useEffect(rerenderWidgets, [isDrawingState[0]])
 
   return (
     <div className={styles.wrapper}>
