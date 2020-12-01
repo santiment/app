@@ -1,16 +1,18 @@
 import React from 'react'
-import { getTemplateShareLink } from '../utils'
 import ShareModalTrigger from '../../../../components/Share/ShareModalTrigger'
 
 const ShareTemplate = ({ template, ...rest }) => {
   if (!template.isPublic) {
     return null
   }
+  const {
+    location: { origin, pathname }
+  } = window
 
   return (
     <ShareModalTrigger
       dialogTitle='Share Chart Layout'
-      shareLink={getTemplateShareLink(template)}
+      shareLink={origin + pathname}
       border={false}
       {...rest}
     />
