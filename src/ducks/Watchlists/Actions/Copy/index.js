@@ -9,7 +9,7 @@ import { showNotification } from '../../../../actions/rootActions'
 import Watchlists from '../../Templates/Watchlists'
 import AssetsList from './AssetsList'
 import { useUser } from '../../../../stores/user/index'
-import LoginDialogWrapper from '../../../../components/LoginDialog/LoginDialogWrapper'
+import LoginPopup from '../../../../components/banners/feature/PopupBanner'
 import SearchProjects from '../../../../components/Search/SearchProjects'
 import styles from './index.module.scss'
 
@@ -33,7 +33,7 @@ const WatchlistCopyPopup = ({
     editableWatchlists
   )
 
-  if (!isLoggedIn) return <LoginDialogWrapper>{trigger}</LoginDialogWrapper>
+  if (!isLoggedIn) return <LoginPopup>{trigger}</LoginPopup>
 
   const close = () => {
     setWatchlistsToCopy(new Set())

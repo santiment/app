@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import { useTrackEvents } from '../../../hooks/tracking'
 import PageLoader from '../../../components/Loader/PageLoader'
-import LoginDialogWrapper from '../../../components/LoginDialog/LoginDialogWrapper'
+import LoginPopup from '../../../components/banners/feature/PopupBanner'
 import {
   NoSignal,
   signalModalTrigger,
@@ -75,9 +75,9 @@ const SignalDialog = ({
 
   if ((isAnonWarning || !canOpen) && !isLoggedIn) {
     return (
-      <LoginDialogWrapper>
+      <LoginPopup>
         {dialogTrigger || signalModalTrigger(enabled, label, variant, border)}
-      </LoginDialogWrapper>
+      </LoginPopup>
     )
   }
 

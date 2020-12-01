@@ -7,7 +7,7 @@ import Tooltip from '@santiment-network/ui/Tooltip'
 import Button from '@santiment-network/ui/Button'
 import { createTrigger } from '../../ducks/Signals/common/actions'
 import { buildInTrendingWordsSignal } from '../../ducks/Signals/utils/utils'
-import LoginDialogWrapper from '../LoginDialog/LoginDialogWrapper'
+import LoginPopup from '../banners/feature/PopupBanner'
 import WordCloud from '../WordCloud/WordCloud'
 import DarkTooltip from '../Tooltip/DarkTooltip'
 import { dividePhraseInWords } from './topics'
@@ -50,7 +50,7 @@ const Item = ({
           ]}
         </Link>
         <div className={styles.actions}>
-          <LoginDialogWrapper title='Create alert'>
+          <LoginPopup>
             <div
               className={styles.action}
               onClick={() => {
@@ -73,7 +73,7 @@ const Item = ({
                 appears in Santrends
               </DarkTooltip>
             </div>
-          </LoginDialogWrapper>
+          </LoginPopup>
           <div className={styles.action}>
             <Tooltip
               on='click'

@@ -12,7 +12,7 @@ import { useWatchlist } from '../../Watchlists/gql/hooks'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { useSignals } from '../common/getSignals'
 import { useUser } from '../../../stores/user'
-import LoginDialogWrapper from '../../../components/LoginDialog/LoginDialogWrapper'
+import LoginPopup from '../../../components/banners/feature/PopupBanner'
 import styles from './ScreenerSignalDialog.module.scss'
 
 export const EditSignalIcon = ({ className }) => (
@@ -136,13 +136,13 @@ const ScreenerSignalDialog = ({
 
   if (!isLoggedIn) {
     return (
-      <LoginDialogWrapper>
+      <LoginPopup>
         {ElTrigger || (
           <Button className={styles.btn} type='button'>
             <Icon type='signal' className={styles.iconAlert} /> {title}
           </Button>
         )}
-      </LoginDialogWrapper>
+      </LoginPopup>
     )
   }
 

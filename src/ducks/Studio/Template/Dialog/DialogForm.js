@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Dialog from '@santiment-network/ui/Dialog'
 import Input from '@santiment-network/ui/Input'
 import AutoresizeTextarea from '../../../../components/AutoresizeTextarea'
-import LoginDialogWrapper from '../../../../components/LoginDialog/LoginDialogWrapper'
+import LoginPopup from '../../../../components/banners/feature/PopupBanner'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
 import styles from './DialogForm.module.scss'
 
@@ -32,7 +32,7 @@ const DialogForm = ({
   }
 
   if (!isLoggedIn) {
-    return <LoginDialogWrapper>{props.trigger}</LoginDialogWrapper>
+    return <LoginPopup>{props.trigger}</LoginPopup>
   }
 
   return (
