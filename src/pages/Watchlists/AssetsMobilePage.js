@@ -207,7 +207,10 @@ export const AssetsList = ({
   onAssetsListScroll = () => {}
 }) => {
   const slugs = items.map(item => item.slug)
-  const [visibleItems, setVisibleItems] = useState(slugs.slice(0, 20))
+  const [savedLastIndex, setSavedLastIndex] = useState(30)
+  const [visibleItems, setVisibleItems] = useState(
+    slugs.slice(0, savedLastIndex)
+  )
   const [graphData] = usePriceGraph({ slugs: visibleItems })
   const normalizedItems = normalizeGraphData(graphData, items)
 
@@ -236,10 +239,16 @@ export const AssetsList = ({
             scrollToIndex={initialIndex}
             scrollToAlignment={'start'}
             rowRenderer={rowRenderer}
-            onRowsRendered={({ overscanStartIndex, overscanStopIndex }) => {
-              setVisibleItems(
-                slugs.slice(overscanStartIndex, overscanStopIndex)
-              )
+            onRowsRendered={({
+              overscanStartIndex,
+              overscanStopIndex,
+              startIndex
+            }) => {
+              if (savedLastIndex - startIndex < 5) {
+                const newLastIndex = overscanStopIndex + 30
+                setSavedLastIndex(newLastIndex)
+                setVisibleItems(slugs.slice(startIndex, newLastIndex))
+              }
             }}
           />
         )}
