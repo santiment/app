@@ -5,6 +5,7 @@ import ProjectIcon from './../../../../components/ProjectIcon/ProjectIcon'
 import PercentChanges from './../../../../components/PercentChanges'
 import { capitalizeStr } from './../../../../utils/utils'
 import { formatNumber, millify } from '../../../../utils/formatting'
+import PriceGraph from './PriceGraph'
 import styles from './AssetCard.module.scss'
 
 const AssetCard = ({
@@ -15,6 +16,7 @@ const AssetCard = ({
   percentChange24h = 0,
   marketcapUsd = 0,
   onAssetClick,
+  priceChart7d,
   className
 }) => (
   <Link
@@ -34,6 +36,7 @@ const AssetCard = ({
         <div>$ {millify(marketcapUsd, 2)}</div>
       </div>
     </div>
+    <PriceGraph data={priceChart7d} />
     <div className={styles.right}>
       {priceUsd ? formatNumber(priceUsd, { currency: 'USD' }) : 'No data'}
       <PercentChanges
