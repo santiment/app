@@ -52,6 +52,8 @@ const FullscreenChart = ({
   const chartRef = useRef(null)
   const mirrorDomainGroups = extractMirrorMetricsDomainGroups(domainGroups)
 
+  useEffect(() => () => widget.chartRef.current.drawer.recalc(), [])
+
   useEffect(
     () => {
       const metricTransformer = Object.assign({}, MetricTransformer)

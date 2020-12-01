@@ -77,21 +77,22 @@ export const checkIsLineHovered = (ctx, { shape, handles }, x, y) =>
   ctx.isPointInPath(handles[0], x, y) ||
   ctx.isPointInPath(handles[1], x, y)
 
-function datetimeRelativeScaler (data, width) {
+function datetimeRelativeScaler (chart, width) {
+  const { data, left } = chart
   const firstDatetime = data[0].datetime
   const lastDatetime = data[data.length - 1].datetime
   const factor = (lastDatetime - firstDatetime) / width
 
-  return x => factor * x + firstDatetime
+  return x => factor * (x - left) + firstDatetime
 }
 
 export function absoluteToRelativeCoordinates (chart, drawing) {
-  const { width, data, tooltipKey, minMaxes, scale } = chart
+  const { width, tooltipKey, minMaxes, scale } = chart
   const { min, max } = minMaxes[tooltipKey]
 
   const [x1, y1, x2, y2] = drawing.absCoor
 
-  const scaleDatetime = datetimeRelativeScaler(data, width)
+  const scaleDatetime = datetimeRelativeScaler(chart, width)
   const scaleValue = scale === logScale ? valueByLogY : valueByY
 
   return [
