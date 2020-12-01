@@ -46,10 +46,7 @@ const Drawer = ({
       paintDrawings(chart)
       paintDrawingAxes(chart)
     }
-
-    chart.drawer = drawer
-
-    plotter.register('Drawer', () => {
+    drawer.recalcAbsCoor = () => {
       if (!chart.minMaxes) return
 
       const { drawings } = drawer
@@ -61,7 +58,10 @@ const Drawer = ({
       }
 
       drawer.redraw()
-    })
+    }
+
+    chart.drawer = drawer
+    plotter.register('Drawer', drawer.recalcAbsCoor)
 
     return () => {
       plotter.register('Drawer', noop)

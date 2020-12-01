@@ -1,6 +1,5 @@
 import { stringify } from 'query-string'
 import { WidgetToTypeMap } from '../Widget/types'
-import { absoluteToRelativeCoordinates } from '../../Chart/Drawer/helpers'
 
 const keyExtractor = ({ key }) => key
 const getMetricsKeys = metrics => metrics.map(keyExtractor)
@@ -33,17 +32,17 @@ const normalizeConnectedWidget = ({ Widget, datesRange }) => ({
   to: datesRange[1].toISOString()
 })
 
+const normalizeDrawing = ({ color, relCoor }) => ({
+  color,
+  relCoor
+})
+
 function shareDrawings (drawings, chart) {
   if (!chart || !chart.drawer || !chart.minMaxes) {
-    return (
-      drawings && drawings.map(({ color, relCoor }) => ({ color, relCoor }))
-    )
+    return drawings && drawings.map(normalizeDrawing)
   }
 
-  return chart.drawer.drawings.map(drawing => ({
-    color: drawing.color,
-    relCoor: absoluteToRelativeCoordinates(chart, drawing)
-  }))
+  return chart.drawer.drawings.map(normalizeDrawing)
 }
 
 export const normalizeWidget = ({
