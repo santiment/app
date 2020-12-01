@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import { useTrackEvents } from '../../../hooks/tracking'
 import PageLoader from '../../../components/Loader/PageLoader'
-import AnonBanner from '../../../components/AnonBanner/AnonBanner'
+import LoginPopup from '../../../components/banners/feature/PopupBanner'
 import {
   NoSignal,
   signalModalTrigger,
@@ -57,15 +57,6 @@ const SignalDialog = ({
 
   useEffect(
     () => {
-      if (!isLoggedIn) {
-        onSetDialogTitle('Create alert')
-      }
-    },
-    [isLoggedIn]
-  )
-
-  useEffect(
-    () => {
       if (openSharedForm !== isShared) {
         setOpenForm(isShared)
       }
@@ -81,6 +72,14 @@ const SignalDialog = ({
   )
 
   const canOpen = (isLoggedIn || isShared) && !isAnonWarning
+
+  if ((isAnonWarning || !canOpen) && !isLoggedIn) {
+    return (
+      <LoginPopup>
+        {dialogTrigger || signalModalTrigger(enabled, label, variant, border)}
+      </LoginPopup>
+    )
+  }
 
   return (
     <Dialog
@@ -132,10 +131,6 @@ const SignalDialog = ({
                 formChangedCallback={formChangedCallback}
                 toggleAnon={toggleAnon}
               />
-            )}
-
-            {(isAnonWarning || !canOpen) && (
-              <AnonBanner className={styles.anon} />
             )}
           </>
         )}

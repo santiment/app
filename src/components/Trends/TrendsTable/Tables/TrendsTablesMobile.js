@@ -6,7 +6,7 @@ import styles from './TrendsTables.module.scss'
 const TABS = [
   {
     title: 'Latest trends',
-    showIndex: 2,
+    showIndex: 0,
     description: 'Trending words'
   },
   {
@@ -16,7 +16,7 @@ const TABS = [
   },
   {
     title: '3 h ago',
-    showIndex: 0,
+    showIndex: 2,
     description: 'Social volume'
   }
 ]
@@ -37,9 +37,9 @@ const TrendsTablesMobile = ({
     return null
   }
 
-  const [index, setIndex] = useState(2)
+  const [index, setIndex] = useState(0)
 
-  const { topWords } = trends[index]
+  const { topWords } = trends[index] || {}
 
   return (
     <>

@@ -11,8 +11,8 @@ import { SCREENER_DEFAULT_SIGNAL } from '../utils/constants'
 import { useWatchlist } from '../../Watchlists/gql/hooks'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { useSignals } from '../common/getSignals'
-import { checkIsLoggedIn } from '../../../pages/UserSelectors'
-import AnonBanner from '../../../components/AnonBanner/AnonBanner'
+import { useUser } from '../../../stores/user'
+import LoginPopup from '../../../components/banners/feature/PopupBanner'
 import styles from './ScreenerSignalDialog.module.scss'
 
 export const EditSignalIcon = ({ className }) => (
@@ -58,9 +58,9 @@ const ScreenerSignalDialog = ({
   updateTrigger,
   defaultOpen,
   redirect,
-  goBackTo,
-  isLoggedIn
+  goBackTo
 }) => {
+  const { isLoggedIn } = useUser()
   const [stateSignal, setSignal] = useState(signal || SCREENER_DEFAULT_SIGNAL)
   const [open, setOpen] = useState(defaultOpen)
 
@@ -134,6 +134,18 @@ const ScreenerSignalDialog = ({
     return <Loader className={styles.loader} />
   }
 
+  if (!isLoggedIn) {
+    return (
+      <LoginPopup>
+        {ElTrigger || (
+          <Button className={styles.btn} type='button'>
+            <Icon type='signal' className={styles.iconAlert} /> {title}
+          </Button>
+        )}
+      </LoginPopup>
+    )
+  }
+
   return (
     <Dialog
       open={open}
@@ -160,16 +172,12 @@ const ScreenerSignalDialog = ({
       }
     >
       <Dialog.ScrollContent>
-        {isLoggedIn ? (
-          <ScreenerSignal
-            watchlist={watchlist}
-            signal={stateSignal}
-            onCancel={close}
-            onSubmit={onSubmit}
-          />
-        ) : (
-          <AnonBanner className={styles.anon} />
-        )}
+        <ScreenerSignal
+          watchlist={watchlist}
+          signal={stateSignal}
+          onCancel={close}
+          onSubmit={onSubmit}
+        />
       </Dialog.ScrollContent>
     </Dialog>
   )
@@ -185,10 +193,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const mapStateToProps = state => ({
-  isLoggedIn: checkIsLoggedIn(state)
-})
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(ScreenerSignalDialog)

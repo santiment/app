@@ -20,7 +20,7 @@ import { TooltipSetting } from '../../dataHub/tooltipSettings'
 import { useSignals } from '../../Signals/common/getSignals'
 import { createTrigger, removeTrigger } from '../../Signals/common/actions'
 import { buildValueChangeSuggester } from '../../Studio/Alerts/suggestions/helpers'
-import LoginDialogWrapper from '../../../components/LoginDialog/LoginDialogWrapper'
+import LoginPopup from '../../../components/banners/feature/PopupBanner'
 import styles from './index.module.scss'
 
 const TEXT_SIGNAL = 'Alert '
@@ -215,8 +215,8 @@ export default connect(
   }
 
   return (
-    <LoginDialogWrapper title='Create alert'>
+    <LoginPopup>
       <Signals chart={chart} {...props} metrics={alertMetrics} />
-    </LoginDialogWrapper>
+    </LoginPopup>
   )
 })

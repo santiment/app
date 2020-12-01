@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
+import { useUser } from '../../../stores/user'
 import { PATHS } from '../../../paths'
 import UpgradeBtn from '../../../components/UpgradeBtn/UpgradeBtn'
 import styles from './PremiumBanner.module.scss'
@@ -11,9 +12,10 @@ const WIDGET_KEY = 'PRO_STUDIO_WIDGET_KEY'
 
 const PremiumBanner = () => {
   const { isPro, loading, isTrial } = useUserSubscriptionStatus()
+  const { isLoggedIn } = useUser()
   const [show, setShow] = useState(false)
 
-  const availableForUser = (isPro && isTrial) || !isPro
+  const availableForUser = (isPro && isTrial) || (!isPro && isLoggedIn)
 
   useEffect(
     () => {

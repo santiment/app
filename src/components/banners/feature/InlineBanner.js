@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
-import styles from './FeatureAnonBanner.module.scss'
+import styles from './InlineBanner.module.scss'
 
 const FeatureAnonBanner = ({ className, title, description }) => {
   return (

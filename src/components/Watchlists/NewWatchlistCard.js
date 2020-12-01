@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import LoginDialogWrapper from '../LoginDialog/LoginDialogWrapper'
+import LoginPopup from '../banners/feature/PopupBanner'
 import { useUserWatchlists } from '../../ducks/Watchlists/gql/hooks'
 import NewWatchlist from '../../ducks/Watchlists/Actions/New'
 import styles from './../../ducks/Watchlists/Cards/WatchlistCard.module.scss'
@@ -55,9 +55,9 @@ const NewWatchlistCard = () => {
   const [watchlists = []] = useUserWatchlists()
 
   return (
-    <LoginDialogWrapper title='Create watchlist' trigger={Trigger}>
+    <LoginPopup trigger={Trigger}>
       <NewWatchlist lists={watchlists} trigger={<Trigger />} type='watchlist' />
-    </LoginDialogWrapper>
+    </LoginPopup>
   )
 }
 

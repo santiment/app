@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { ProLabel } from '../../../components/ProLabel'
 import ProPopupWrapper from '../../../components/ProPopup/Wrapper'
-import LoginDialogWrapper from '../../../components/LoginDialog/LoginDialogWrapper'
+import LoginPopup from '../../../components/banners/feature/PopupBanner'
 import { useUserWatchlists, useUserScreeners } from '../gql/hooks'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import NewList from '../Actions/New'
@@ -41,16 +41,13 @@ const NewWatchlistCard = () => {
   let lists = watchlists
 
   return (
-    <LoginDialogWrapper
-      title={`Create watchlist`}
-      trigger={props => <Trigger type='watchlist' {...props} />}
-    >
+    <LoginPopup trigger={props => <Trigger type='watchlist' {...props} />}>
       <NewList
         lists={lists}
         trigger={<Trigger type='watchlist' />}
         type='watchlist'
       />
-    </LoginDialogWrapper>
+    </LoginPopup>
   )
 }
 

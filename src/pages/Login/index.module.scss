@@ -291,19 +291,19 @@
   @include text('body-2');
 }
 
-.noCredit {
-  @include text('caption');
-
-  color: var(--waterloo);
-  margin-top: 8px;
-}
-
 .createLink {
   color: var(--jungle-green);
 
   &:hover {
     color: var(--jungle-green-hover);
   }
+}
+
+.noCredit {
+  @include text('caption');
+
+  color: var(--waterloo);
+  margin-top: 8px;
 }
 
 .loginLink {
