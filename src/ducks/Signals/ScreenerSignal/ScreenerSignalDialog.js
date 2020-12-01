@@ -12,7 +12,7 @@ import { useWatchlist } from '../../Watchlists/gql/hooks'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { useSignals } from '../common/getSignals'
 import { useUser } from '../../../stores/user'
-import AnonBanner from '../../../components/AnonBanner/AnonBanner'
+import LoginDialogWrapper from '../../../components/LoginDialog/LoginDialogWrapper'
 import styles from './ScreenerSignalDialog.module.scss'
 
 export const EditSignalIcon = ({ className }) => (
@@ -134,6 +134,18 @@ const ScreenerSignalDialog = ({
     return <Loader className={styles.loader} />
   }
 
+  if (!isLoggedIn) {
+    return (
+      <LoginDialogWrapper>
+        {ElTrigger || (
+          <Button className={styles.btn} type='button'>
+            <Icon type='signal' className={styles.iconAlert} /> {title}
+          </Button>
+        )}
+      </LoginDialogWrapper>
+    )
+  }
+
   return (
     <Dialog
       open={open}
@@ -160,16 +172,12 @@ const ScreenerSignalDialog = ({
       }
     >
       <Dialog.ScrollContent>
-        {isLoggedIn ? (
-          <ScreenerSignal
-            watchlist={watchlist}
-            signal={stateSignal}
-            onCancel={close}
-            onSubmit={onSubmit}
-          />
-        ) : (
-          <AnonBanner className={styles.anon} />
-        )}
+        <ScreenerSignal
+          watchlist={watchlist}
+          signal={stateSignal}
+          onCancel={close}
+          onSubmit={onSubmit}
+        />
       </Dialog.ScrollContent>
     </Dialog>
   )
