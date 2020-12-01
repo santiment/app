@@ -19,7 +19,8 @@ export const EmailForm = ({
   loginEmail,
   setEmail,
   placeholder = 'Your email',
-  label = 'Continue'
+  label = 'Continue',
+  className
 }) => {
   const [trackEvent] = useTrackEvents()
   return (
@@ -42,7 +43,7 @@ export const EmailForm = ({
     >
       {({ validateForm }) => {
         return (
-          <Form className={styles.email__form}>
+          <Form className={cx(styles.email__form, className)}>
             <FormikEffect
               onChange={(current, prev) => {
                 let { values: newValues } = current
