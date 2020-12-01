@@ -6,14 +6,14 @@ import {
 } from '../../../ducks/Studio/Template/gql/hooks'
 import PageLoader from '../../../components/Loader/PageLoader'
 import NewTemplateCard from '../../../components/TemplatesGrid/NewTemplateCard'
-import FeatureAnonBanner from '../../../components/Banner/FeatureAnonBanner'
+import InlineBanner from '../../../components/banners/feature/InlineBanner'
 import PublicTemplateCard from './PublicTemplateCard'
 import styles from './PublicTemplates.module.scss'
 
 const PublicTemplates = ({ isFeatured, userId }) => {
   if (!(isFeatured || userId)) {
     return (
-      <FeatureAnonBanner
+      <InlineBanner
         title='Log in to make your own Chart Layouts'
         description='Create, load and save your personal chart views'
       />

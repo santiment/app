@@ -1,6 +1,5 @@
 import React from 'react'
 import cx from 'classnames'
-import { connect } from 'react-redux'
 import Button from '@santiment-network/ui/Button'
 import WatchlistCard from './WatchlistCard'
 import { getWatchlistLink } from '../utils'
@@ -9,13 +8,10 @@ import EmptySection from '../../../components/EmptySection/EmptySection'
 import Skeleton from '../../../components/Skeleton/Skeleton'
 import NewWatchlist from '../Actions/New'
 import WatchlistsAnon from '../Templates/Anon/WatchlistsAnon'
-import FeatureAnonBanner from '../../../components/Banner/FeatureAnonBanner'
-import {
-  checkIsLoggedIn,
-  checkIsLoggedInPending
-} from '../../../pages/UserSelectors'
+import InlineBanner from '../../../components/banners/feature/InlineBanner'
 import NewWatchlistCard from './NewCard'
 import { useUserWatchlists } from '../gql/hooks'
+import { useUser } from '../../../stores/user'
 import stylesGrid from './index.module.scss'
 import styles from './Watchlist.module.scss'
 
@@ -41,14 +37,10 @@ const WatchlistEmptySection = ({ watchlists, className }) => (
   </EmptySection>
 )
 
-const MyWatchlist = ({
-  isLoggedIn,
-  isLoggedInPending,
-  className,
-  showHeader = true,
-  classes = {}
-}) => {
+const MyWatchlist = ({ className, showHeader = true, classes = {} }) => {
   const [watchlists, loading] = useUserWatchlists()
+  const { isLoggedIn, loading: isLoggedInPending } = useUser()
+
   return (
     <div className={cx(styles.wrapper, className)}>
       {showHeader && (
@@ -102,7 +94,7 @@ const MyWatchlist = ({
       {!loading && !isLoggedInPending && !isLoggedIn && (
         <>
           <DesktopOnly>
-            <FeatureAnonBanner
+            <InlineBanner
               title='Get ability to create your own watchlist when you login'
               description="Track selected assets in one place and check it's status"
             />
@@ -116,9 +108,4 @@ const MyWatchlist = ({
   )
 }
 
-const mapStateToProps = state => ({
-  isLoggedIn: checkIsLoggedIn(state),
-  isLoggedInPending: checkIsLoggedInPending(state)
-})
-
-export default connect(mapStateToProps)(MyWatchlist)
+export default MyWatchlist

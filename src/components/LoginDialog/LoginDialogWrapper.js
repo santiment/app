@@ -1,6 +1,6 @@
 import React from 'react'
 import { useUser } from '../../stores/user'
-import LoginDialog from './index'
+import LoginDialog from '../AnonBanner/AnonBanner'
 
 const LoginDialogWrapper = ({ trigger: Trigger, children }) => {
   const { isLoggedIn } = useUser()

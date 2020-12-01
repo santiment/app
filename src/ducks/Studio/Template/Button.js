@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import FormDialogNewTemplate from './Dialog/NewTemplate'
-import LoginDialog from '../../../components/LoginDialog'
+import LoginDialog from '../../../components/AnonBanner/AnonBanner'
 import styles from './index.module.scss'
 import btnStyles from './Button.module.scss'
 

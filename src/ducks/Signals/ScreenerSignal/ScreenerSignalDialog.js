@@ -11,7 +11,7 @@ import { SCREENER_DEFAULT_SIGNAL } from '../utils/constants'
 import { useWatchlist } from '../../Watchlists/gql/hooks'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { useSignals } from '../common/getSignals'
-import { checkIsLoggedIn } from '../../../pages/UserSelectors'
+import { useUser } from '../../../stores/user'
 import AnonBanner from '../../../components/AnonBanner/AnonBanner'
 import styles from './ScreenerSignalDialog.module.scss'
 
@@ -58,9 +58,9 @@ const ScreenerSignalDialog = ({
   updateTrigger,
   defaultOpen,
   redirect,
-  goBackTo,
-  isLoggedIn
+  goBackTo
 }) => {
+  const { isLoggedIn } = useUser()
   const [stateSignal, setSignal] = useState(signal || SCREENER_DEFAULT_SIGNAL)
   const [open, setOpen] = useState(defaultOpen)
 
@@ -185,10 +185,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const mapStateToProps = state => ({
-  isLoggedIn: checkIsLoggedIn(state)
-})
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(ScreenerSignalDialog)

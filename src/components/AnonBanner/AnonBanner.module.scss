@@ -1,7 +1,7 @@
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
-  padding: 20px;
+  padding: 0 20px 20px;
   width: 600px;
   display: flex;
   flex-direction: column;
@@ -9,7 +9,7 @@
 
   @include responsive('phone-xs', 'phone') {
     width: 100%;
-    padding: 16px;
+    padding: 0 16px 16px;
   }
 }
 
@@ -17,6 +17,12 @@
   @include text('h4', 'm');
 
   margin: 0 0 24px;
+
+  @include responsive('phone-xs', 'phone') {
+    @include text('body-1', 'm');
+
+    margin: 0 0 16px;
+  }
 }
 
 .desc {
@@ -29,12 +35,21 @@
 
   @include responsive('phone-xs', 'phone') {
     max-width: 100%;
+    margin: 0 0 24px;
   }
 }
 
 .buttons {
   display: flex;
   align-items: center;
+  margin-bottom: 28px;
+
+  @include responsive('phone-xs', 'phone') {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 0;
+  }
 }
 
 .btn {
@@ -42,7 +57,50 @@
   width: 196px;
   height: 40px;
 
-  &:first-child {
-    margin-right: 16px;
+  @include responsive('phone-xs', 'phone') {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.createAccBtn {
+  margin-left: 16px;
+
+  @include responsive('phone-xs', 'phone') {
+    display: none;
+  }
+}
+
+.new {
+  color: var(--waterloo);
+  margin-top: 24px;
+  margin-bottom: 4px;
+
+  @include text('body-2');
+
+  @include responsive('desktop', 'laptop', 'tablet') {
+    display: none;
+  }
+}
+
+.createLink {
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+.header {
+  background: var(--white) !important;
+  border-bottom: none;
+
+  & svg {
+    margin-left: auto;
+  }
+
+  @include responsive('phone-xs', 'phone') {
+    padding: 20px 20px 8px 0 !important;
   }
 }
