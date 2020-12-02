@@ -5,6 +5,7 @@ export const HISTOGRAM_DATA_QUERY = gql`
     histogramQuery: getMetric(metric: "price_histogram") {
       histogramData(slug: $slug, from: $from, to: $to, limit: 10) {
         values {
+          __typename
           ... on FloatRangeFloatValueList {
             data {
               range
