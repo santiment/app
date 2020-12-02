@@ -452,7 +452,7 @@ export const Metric = {
     percentMetricKey: 'age_destroyed',
     hints: [
       {
-        label: '> than 400%',
+        label: '> 400%',
         firstThreshold: 400,
         timeRange: '7d',
         type: Filter.percent_up.key
