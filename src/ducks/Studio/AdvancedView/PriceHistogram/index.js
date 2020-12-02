@@ -108,8 +108,8 @@ const PriceHistogram = ({
       <div className={styles.static}>
         <div className={styles.scroller}>
           <div className={styles.scroll}>
-            {error ? (
-              error.message.includes(INTERVAL_ERROR_TEXT) ? (
+            {error || (data.length === 0 && !loading) ? (
+              error && error.message.includes(INTERVAL_ERROR_TEXT) ? (
                 <RestrictionMessage />
               ) : (
                 <ErrorMessage />
@@ -150,7 +150,7 @@ const PriceHistogram = ({
 PriceHistogram.Icon = 'H'
 
 PriceHistogram.defaultProps = {
-  project: { slug: 'bitcoin' },
+  project: {},
   date: new Date(Date.now() - ONE_MONTH_IN_MS * 3)
 }
 

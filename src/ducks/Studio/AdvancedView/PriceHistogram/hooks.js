@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useMemo } from 'react'
 import { logScale } from '@santiment-network/chart/scales'
 import { useQuery } from '@apollo/react-hooks'
 import { HISTOGRAM_DATA_QUERY } from './gql'
+
+const DEFAULT_STATE = []
 
 const Chart = {
   height: 50,
@@ -46,7 +48,6 @@ function formatHistogramData (data, price) {
 }
 
 export function usePriceHistogramData ({ slug, from, to }) {
-  const [histogramData, setHistogramData] = useState([])
   const { data, loading, error } = useQuery(HISTOGRAM_DATA_QUERY, {
     skip: !from || !to,
     variables: {
@@ -56,17 +57,14 @@ export function usePriceHistogramData ({ slug, from, to }) {
     }
   })
 
-  useEffect(
-    () => {
-      if (data) {
-        setHistogramData(
-          formatHistogramData(
-            data.histogramQuery.histogramData.values.data,
-            data.priceQuery.price
-          )
+  const histogramData = useMemo(
+    () =>
+      data
+        ? formatHistogramData(
+          data.histogramQuery.histogramData.values.data,
+          data.priceQuery.price
         )
-      }
-    },
+        : DEFAULT_STATE,
     [data]
   )
 
