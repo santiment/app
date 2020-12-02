@@ -449,7 +449,15 @@ export const Metric = {
     group: 'Network Activity',
     label: 'Age Consumed',
     isOnlyPercentFilters: true,
-    percentMetricKey: 'age_destroyed'
+    percentMetricKey: 'age_destroyed',
+    hints: [
+      {
+        label: '> than 400%',
+        firstThreshold: 400,
+        timeRange: '7d',
+        type: Filter.percent_up.key
+      }
+    ]
   }
 }
 
