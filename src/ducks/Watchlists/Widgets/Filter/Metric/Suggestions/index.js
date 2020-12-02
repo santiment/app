@@ -6,25 +6,35 @@ const Suggestions = ({ hints, onSuggestionClick }) => {
   return hints ? (
     <div className={styles.suggestions}>
       Suggestions:
-      {hints.map(({ label, description, ...props }, idx) => (
-        <DarkTooltip
-          key={idx}
-          position='bottom'
-          align='center'
-          on='hover'
-          className={styles.tooltip}
-          trigger={
-            <span
-              className={styles.hint}
-              onClick={() => onSuggestionClick(props)}
-            >
-              {label}
-            </span>
-          }
-        >
-          {description}
-        </DarkTooltip>
-      ))}
+      {hints.map(({ label, description, ...props }, idx) =>
+        description ? (
+          <DarkTooltip
+            key={idx}
+            position='bottom'
+            align='center'
+            on='hover'
+            className={styles.tooltip}
+            trigger={
+              <span
+                className={styles.hint}
+                onClick={() => onSuggestionClick(props)}
+              >
+                {label}
+              </span>
+            }
+          >
+            {description}
+          </DarkTooltip>
+        ) : (
+          <span
+            key={idx}
+            className={styles.hint}
+            onClick={() => onSuggestionClick(props)}
+          >
+            {label}
+          </span>
+        )
+      )}
     </div>
   ) : null
 }

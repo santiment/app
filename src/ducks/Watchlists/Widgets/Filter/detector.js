@@ -110,14 +110,6 @@ function extractThreshold (filter = [], filterType, metric, position) {
     ? thresholds[0][position - 1]
     : thresholds[0]
 
-  if (isNaN(threshold)) {
-    console.error(
-      `Error in metric threshold: for ${
-        filter[0].metric
-      } metric got invalid threshold`
-    )
-  }
-
   const formatter = filterType.valueFormatter || metric.valueFormatter
 
   return formatter ? formatter(threshold) : threshold

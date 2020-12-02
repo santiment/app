@@ -74,7 +74,7 @@ const Cookie = ({ className }) => (
       d='M76.6 16.1c-4.2-4.4-10.2 2-5.9 5.4 4.3 3.3 7.9-3.2 5.9-5.4z'
     />
     <path
-      stroke='var(--jungle-green-light)'
+      stroke='var(--jungle-green)'
       stroke-linecap='round'
       stroke-width='1.5'
       d='M76.3 40.5c-5.5-2.2-8 3.3-4.2 6.5 3.7 3.3 9.6-4.4 4.2-6.5z'
@@ -114,7 +114,7 @@ const Cookie = ({ className }) => (
       d='M25.7 81c-3.1.5-1 5.3 1.7 3.2 2.1-1.7.4-3.6-1.7-3.2z'
     />
     <path
-      stroke='var(--jungle-green-light)'
+      stroke='var(--jungle-green)'
       stroke-linecap='round'
       stroke-width='1.5'
       d='M14 78.2c-2.5 1.3.7 5 2.5 3 1.8-2.3 0-4.3-2.5-3z'
