@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import {
   getWatchlistName,
   DEFAULT_SCREENER_FUNCTION,
@@ -41,12 +41,6 @@ export const useComparingAssets = () => {
 }
 
 const Screener = props => {
-  const [screenerFunction, setScreenerFunction] = useState(
-    props.watchlist.function || DEFAULT_SCREENER_FUNCTION
-  )
-  const [assets = [], loading] = getProjectsByFunction(screenerFunction)
-  const [currentItems, setCurrentItems] = useState([])
-
   const {
     watchlist,
     name,
@@ -58,6 +52,21 @@ const Screener = props => {
     type,
     id
   } = props
+
+  const [screenerFunction, setScreenerFunction] = useState(
+    watchlist.function || DEFAULT_SCREENER_FUNCTION
+  )
+  const [assets = [], loading] = getProjectsByFunction(screenerFunction)
+  const [currentItems, setCurrentItems] = useState([])
+
+  useEffect(
+    () => {
+      if (watchlist.function !== screenerFunction) {
+        setScreenerFunction(watchlist.function)
+      }
+    },
+    [watchlist.function]
+  )
 
   const { widgets, setWidgets } = useScreenerUrl({ location, history })
 
