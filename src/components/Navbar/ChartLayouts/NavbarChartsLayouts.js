@@ -36,7 +36,12 @@ const NavbarChartsLayouts = () => {
 }
 
 const LayoutsList = ({ templates, activeLink }) => (
-  <div className={styles.wrapper}>
+  <div
+    style={{
+      minHeight: templates.length > 3 ? '100px' : `${32 * templates.length}px`
+    }}
+    className={styles.wrapper}
+  >
     {templates.map(template => {
       const link = prepareTemplateLink(template)
 

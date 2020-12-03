@@ -3,7 +3,7 @@
 .wrapper {
   display: flex;
   min-height: 292px;
-  max-height: 292px;
+  max-height: 380px;
 }
 
 .block {
@@ -50,4 +50,26 @@
   height: initial;
   min-height: 32px;
   white-space: normal;
+}
+
+.listWrapper {
+  box-sizing: border-box;
+  flex: 1;
+  overflow-x: hidden;
+  position: relative;
+  max-height: 100px;
+  margin: 8px 0 16px 0;
+  overflow-y: hidden;
+
+  &:hover {
+    overflow-y: auto;
+    overflow-y: overlay;
+  }
+}
+
+.recentList {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
 }
