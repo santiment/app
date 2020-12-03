@@ -32,7 +32,7 @@ const CopyLink = ({ getShareLink }) => {
   )
 }
 
-const ShareButton = () => {
+export const ShareButton = () => {
   const { shortShareLink, getShortShareLink } = useShortShareLink()
 
   return (

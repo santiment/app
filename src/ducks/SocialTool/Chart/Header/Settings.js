@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import AdvancedCalendar from '../../../../components/AdvancedCalendar'
 import ContextMenu from '../../../Studio/Chart/ContextMenu'
+import { ShareButton } from '../../../Studio/Header/Settings'
 import PricePairsDropdown from '../PricePairsDropdown'
 import { getIntervalByTimeRange } from '../../../../utils/dates'
 import styles from './Settings.module.scss'
@@ -40,6 +41,7 @@ export default ({
   setSettings,
   changeTimePeriod,
   className,
+  shareLink,
   ...rest
 }) => {
   const { timeRange = '', from, to, title } = settings
@@ -69,7 +71,9 @@ export default ({
         settings={settings}
         setSettings={setSettings}
       />
+      <ShareButton />
       <ContextMenu
+        classes={{ settingsBtn: styles.settings }}
         title={title}
         showMulti={false}
         showNightModeToggle={false}
