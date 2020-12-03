@@ -3,7 +3,6 @@
 .wrapper {
   display: flex;
   min-height: 292px;
-  max-height: 380px;
 }
 
 .block {
@@ -30,16 +29,25 @@
   flex-direction: column;
 }
 
-.scroll {
-  margin-top: 14px;
+.featuredWrapper {
+  margin: 14px 0 24px 0;
+  display: flex;
+  flex-direction: column;
   height: calc(100% - 24px - 14px);
   overflow-y: hidden;
   padding-right: 4px;
+  position: relative;
 
   &:hover {
     overflow-y: auto;
     overflow-y: overlay;
   }
+}
+
+.scroll {
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
 .btn {

@@ -18,26 +18,28 @@ const NavbarChartsDropdown = ({ activeLink }) => {
       <div className={styles.wrapper}>
         <div className={styles.block}>
           <h3 className={styles.title}>Explore chart layouts</h3>
-          <div className={styles.scroll}>
-            {layouts.map(template => {
-              const link = prepareTemplateLink(template)
+          <div className={styles.featuredWrapper}>
+            <div className={styles.scroll}>
+              {layouts.map(template => {
+                const link = prepareTemplateLink(template)
 
-              const { title, id } = template
+                const { title, id } = template
 
-              return (
-                <Button
-                  fluid
-                  variant='ghost'
-                  key={id}
-                  as={Link}
-                  to={link}
-                  isActive={link === activeLink}
-                  className={styles.btn}
-                >
-                  {title}
-                </Button>
-              )
-            })}
+                return (
+                  <Button
+                    fluid
+                    variant='ghost'
+                    key={id}
+                    as={Link}
+                    to={link}
+                    isActive={link === activeLink}
+                    className={styles.btn}
+                  >
+                    {title}
+                  </Button>
+                )
+              })}
+            </div>
           </div>
         </div>
         <div className={cx(styles.block, styles.list)}>
@@ -78,7 +80,7 @@ const NavbarChartsDropdown = ({ activeLink }) => {
             </>
           )}
           <h3 className={styles.title}>My chart layouts</h3>
-          <NavbarChartsLayouts />
+          <NavbarChartsLayouts recentTemplatesNumber={templateIDs.length} />
         </div>
       </div>
     </Panel>
