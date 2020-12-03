@@ -39,7 +39,8 @@ export const addRecentAssets = slug => addRecent(RECENT_ASSETS, slug)
 export const addRecentTrends = word => addRecent(RECENT_TRENDS, word)
 export const addRecentWatchlists = id => addRecent(RECENT_WATCHLISTS, id)
 export const addRecentScreeners = id => addRecent(RECENT_SCREENERS, id)
-export const addRecentTemplate = id => addRecent(RECENT_TEMPLATES, id)
+export const addRecentTemplate = id =>
+  addRecent(RECENT_TEMPLATES, id.toString())
 
 export const removeRecentWatchlists = id =>
   saveRecent(RECENT_WATCHLISTS, removeRecent(RECENT_WATCHLISTS, id))
@@ -50,7 +51,7 @@ export const removeRecentTrends = word =>
 export const removeRecentAssets = asset =>
   saveRecent(RECENT_ASSETS, removeRecent(RECENT_ASSETS, asset))
 export const removeRecentTemplate = id =>
-  saveRecent(RECENT_TEMPLATES, removeRecent(RECENT_TEMPLATES, id))
+  saveRecent(RECENT_TEMPLATES, removeRecent(RECENT_TEMPLATES, id.toString()))
 
 export const clearRecentTrends = () => saveRecent(RECENT_TRENDS, [])
 export const clearRecentAssets = () => saveRecent(RECENT_ASSETS, [])
