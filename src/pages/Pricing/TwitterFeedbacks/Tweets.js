@@ -5,6 +5,30 @@ import styles from './TwitterFeedbacks.module.scss'
 export const TweetsParsed = [
   <blockquote className='twitter-tweet' data-conversation='none'>
     <p lang='en' dir='ltr'>
+      Probed your platform, interesting metrics offering some very nuanced
+      insights. Between the on-chain analysis, development activity and macro
+      view - on the alt side, bullish on (@bancor)
+      <a href='https://twitter.com/search?q=%24bnt&src=cashtag_click'>
+        $bnt
+      </a>{' '}
+      <a href='https://twitter.com/hashtag/DeFi?src=hash&amp;ref_src=twsrc%5Etfw'>
+        #DeFi
+      </a>{' '}
+      <a href='https://twitter.com/hashtag/Analytics?src=hash&amp;ref_src=twsrc%5Etfw'>
+        #Analytics
+      </a>{' '}
+      Kudus (@santimentfeed)
+      <span role='img' aria-label='Thumbs up'>
+        👍
+      </span>
+    </p>
+    &mdash; Sheldon Stack (@SheldonStack){' '}
+    <a href='https://twitter.com/SheldonStack/status/1334329471491592197?ref_src=twsrc%5Etfw'>
+      Dec 3, 2020
+    </a>
+  </blockquote>,
+  <blockquote className='twitter-tweet' data-conversation='none'>
+    <p lang='en' dir='ltr'>
       That is some fantastic data.
     </p>
     &mdash; Menno Pietersen (@MennoPP){' '}
