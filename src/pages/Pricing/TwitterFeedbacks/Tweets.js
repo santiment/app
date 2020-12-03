@@ -11,8 +11,10 @@ export const TweetsParsed = [
       <a href='https://twitter.com/search?q=%24bnt&src=cashtag_click'>
         $bnt
       </a>{' '}
-      <a href='https://twitter.com/search?q=%24bnt&src=cashtag_click'>#DeFi</a>{' '}
-      <a href='https://twitter.com/search?q=%24bnt&src=cashtag_click'>
+      <a href='https://twitter.com/hashtag/DeFi?src=hash&amp;ref_src=twsrc%5Etfw'>
+        #DeFi
+      </a>{' '}
+      <a href='https://twitter.com/hashtag/Analytics?src=hash&amp;ref_src=twsrc%5Etfw'>
         #Analytics
       </a>{' '}
       Kudus (@santimentfeed)

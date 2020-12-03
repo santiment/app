@@ -11,7 +11,7 @@ import LayoutsEmptySection from './LayoutEmptySection'
 import CreateLayoutLink from './CreateLayoutLink'
 import styles from './NavbarChartsLayouts.module.scss'
 
-const NavbarChartsLayouts = () => {
+const NavbarChartsLayouts = ({ recentTemplatesNumber = 0 }) => {
   const { isLoggedIn, loading: isLoggedInPending, user = {} } = useUser()
 
   const [templates, loading] = useUserTemplates(user ? user.id : null)
@@ -25,7 +25,10 @@ const NavbarChartsLayouts = () => {
         <LayoutsEmptySection />
       ) : (
         <>
-          <LayoutsList templates={templates} />
+          <LayoutsList
+            templates={templates}
+            recentTemplatesNumber={recentTemplatesNumber}
+          />
           <CreateLayoutLink />
         </>
       )}
@@ -35,8 +38,14 @@ const NavbarChartsLayouts = () => {
   )
 }
 
-const LayoutsList = ({ templates, activeLink }) => (
-  <div className={styles.wrapper}>
+const LayoutsList = ({ templates, activeLink, recentTemplatesNumber }) => (
+  <div
+    style={{
+      minHeight: templates.length > 3 ? '100px' : `${32 * templates.length}px`,
+      maxHeight: recentTemplatesNumber > 0 ? '140px' : '100%'
+    }}
+    className={styles.wrapper}
+  >
     {templates.map(template => {
       const link = prepareTemplateLink(template)
 

@@ -33,6 +33,16 @@ export const TEMPLATE_QUERY = gql`
   ${TEMPLATE_COMMON_FRAGMENT}
 `
 
+export const RECENT_TEMPLATE_QUERY = gql`
+  query chartConfiguration($id: Int) {
+    template: chartConfiguration(id: $id) {
+      id
+      title
+      __typename
+    }
+  }
+`
+
 export const TEMPLATES_QUERY = gql`
   query chartConfigurations($userId: Int) {
     templates: chartConfigurations(userId: $userId) {

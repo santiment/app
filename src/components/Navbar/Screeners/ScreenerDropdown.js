@@ -74,7 +74,12 @@ const ScreenerDropdown = ({ activeLink }) => {
 }
 
 const List = ({ screeners, activeLink }) => (
-  <div className={styles.wrapper}>
+  <div
+    className={styles.wrapper}
+    style={{
+      minHeight: screeners.length > 3 ? '100px' : `${32 * screeners.length}px`
+    }}
+  >
     <div className={styles.list}>
       {screeners.map(({ name, id, isPublic, to }, idx) => {
         const link = getWatchlistLink({ id, name })

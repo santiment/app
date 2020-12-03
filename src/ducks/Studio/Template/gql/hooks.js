@@ -16,6 +16,7 @@ import {
   getTemplateIdFromURL,
   saveLastTemplate
 } from '../utils'
+import { addRecentTemplate } from '../../../../utils/recent'
 import { store } from '../../../../redux'
 import { client } from '../../../../apollo'
 import { getSavedMulticharts } from '../../../../utils/localStorage'
@@ -118,6 +119,10 @@ export function useSelectedTemplate (templates, selectTemplate) {
       })
       .then(({ data: { template } }) => {
         setSelectedTemplate(template)
+
+        if (template && template.id) {
+          addRecentTemplate(template.id)
+        }
 
         if (urlId) {
           selectTemplate(template)
