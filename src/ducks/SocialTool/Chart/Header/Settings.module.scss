@@ -4,7 +4,7 @@
 }
 
 .calendar {
-  margin: 0 16px;
+  margin: 0 8px;
   min-width: 167px;
 }
 
@@ -22,4 +22,8 @@
     left: 0 !important;
     bottom: 0;
   }
+}
+
+.settings {
+  margin-left: 8px;
 }
