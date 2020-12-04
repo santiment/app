@@ -1,5 +1,6 @@
 import React from 'react'
 import { Area, AreaChart } from 'recharts'
+import { sortByAsDates } from '../../../../../utils/sortMethods'
 import Gradients from '../../WatchlistOverview/Gradients'
 
 const PriceGraph = ({ data = [], className, width = 90 }) => {
@@ -7,7 +8,10 @@ const PriceGraph = ({ data = [], className, width = 90 }) => {
     return null
   }
 
-  const clearData = data.filter(({ value }) => Boolean(value))
+  const clearData = data
+    .filter(({ value }) => Boolean(value))
+    .sort(sortByAsDates('datetime'))
+    .reverse()
 
   const minValue = Math.min(...clearData.map(({ value }) => value))
   const normalizedData = clearData.map(item => ({
@@ -15,21 +19,20 @@ const PriceGraph = ({ data = [], className, width = 90 }) => {
     value: item.value - minValue
   }))
 
-  const { value: latestValue } = normalizedData[normalizedData.length - 1]
-  const { value } = normalizedData[0]
-
+  const { value: latestValue } = clearData[clearData.length - 1]
+  const { value } = clearData[0]
   const color = `var(--${latestValue >= value ? 'lima' : 'persimmon'})`
 
   return (
     <div className={className}>
-      <AreaChart data={normalizedData} height={35} width={width}>
+      <AreaChart data={normalizedData} height={45} width={width}>
         <defs>
           <Gradients />
         </defs>
         <Area
           dataKey='value'
           type='monotone'
-          strokeWidth={2}
+          strokeWidth={1.5}
           stroke={color}
           fill={`url(#total${latestValue >= value ? 'Up' : 'Down'})`}
           isAnimationActive={false}
