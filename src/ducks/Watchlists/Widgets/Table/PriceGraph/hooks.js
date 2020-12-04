@@ -2,8 +2,8 @@ import { useQuery } from '@apollo/react-hooks'
 import { PRICE_GRAPH_QUERY } from '../../../gql'
 
 const PRICE_RANGES = {
-  '1d': '30m',
-  '7d': '6h'
+  '1d': '40m',
+  '7d': '5h'
 }
 
 export function usePriceGraph ({ slugs, range = '7d' }) {

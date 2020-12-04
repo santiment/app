@@ -46,7 +46,7 @@ const AssetCard = ({
           </div>
         </div>
       </div>
-      <PriceGraph data={graphKey} className={styles.chart} width={70} />
+      <PriceGraph data={graphKey} className={styles.chart} width={78} />
       <div className={styles.right}>
         {priceUsd
           ? formatNumber(priceUsd, {
