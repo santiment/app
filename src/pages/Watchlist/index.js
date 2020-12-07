@@ -21,7 +21,8 @@ const Watchlist = ({ isLoggedIn, ...props }) => {
   }
 
   if (error) {
-    console.err(error)
+    console.error(error)
+    return null
   }
 
   if (loading) {
