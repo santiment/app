@@ -62,6 +62,13 @@ const Screener = props => {
   useEffect(
     () => {
       if (watchlist.function !== screenerFunction) {
+        if (
+          !watchlist.function &&
+          screenerFunction === DEFAULT_SCREENER_FUNCTION
+        ) {
+          return
+        }
+
         setScreenerFunction(watchlist.function)
       }
     },
