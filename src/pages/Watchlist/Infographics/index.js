@@ -8,10 +8,10 @@ import MakeProSubscriptionCard from '../../feed/GeneralFeed/MakeProSubscriptionC
 import ProjectsChart from '../../../ducks/Watchlists/Widgets/VolumeChart/ProjectsChart'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import { useScreenerUrlUpdaters } from '../../../ducks/Watchlists/utils'
-import styles from './ScreenerWidgets.module.scss'
 import WatchlistPriceWidget from '../WatchlistPriceWidget/WatchlistPriceWidget'
+import styles from './index.module.scss'
 
-const ScreenerWidgets = ({
+const Infographics = ({
   widgets,
   setWidgets,
   assets,
@@ -92,4 +92,4 @@ const ScreenerWidgets = ({
   )
 }
 
-export default ScreenerWidgets
+export default Infographics
