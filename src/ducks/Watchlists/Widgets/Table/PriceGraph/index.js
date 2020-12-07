@@ -13,6 +13,10 @@ const PriceGraph = ({ data = [], className, width = 90 }) => {
     .sort(sortByAsDates('datetime'))
     .reverse()
 
+  if (clearData.length < 10) {
+    return null
+  }
+
   const minValue = Math.min(...clearData.map(({ value }) => value))
   const normalizedData = clearData.map(item => ({
     ...item,
