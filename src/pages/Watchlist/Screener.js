@@ -10,7 +10,7 @@ import GetAssets from '../../ducks/Watchlists/Widgets/Table/GetAssets'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table/AssetsTable'
 import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/columns'
 import { addOrRemove } from '../../ducks/Watchlists/Widgets/Table/CompareDialog/CompareDialog'
-import ScreenerWidgets from './Widgets/ScreenerWidgets'
+import Infographics from './Infographics'
 import { useAssetsAnomalyToggler } from './hooks/useAssetsAnomalyToggler'
 import { addRecentScreeners } from '../../utils/recent'
 import styles from './Screener.module.scss'
@@ -123,7 +123,7 @@ const Screener = props => {
               />
 
               {!loading && (
-                <ScreenerWidgets
+                <Infographics
                   assets={showingAssets}
                   widgets={widgets}
                   setWidgets={setWidgets}

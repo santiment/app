@@ -17,7 +17,7 @@ import AssetsTemplates from '../../ducks/Watchlists/Widgets/Table/AssetsTemplate
 import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/columns'
 import { useAssetsAnomalyToggler } from './hooks/useAssetsAnomalyToggler'
 import { addRecentWatchlists } from '../../utils/recent'
-import ScreenerWidgets from './Widgets/ScreenerWidgets'
+import Infographics from './Infographics'
 import styles from './Watchlist.module.scss'
 
 const WatchlistPage = props => {
@@ -97,7 +97,7 @@ const WatchlistPage = props => {
 
               {!isLoading && items.length > 0 && (
                 <>
-                  <ScreenerWidgets
+                  <Infographics
                     type='Watchlist'
                     assets={showingAssets}
                     listId={id}
