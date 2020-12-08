@@ -9,10 +9,8 @@ export const initialState = {
   newItemPending: false,
   newItemFailed: false,
   newItemSuccess: false,
-  statusDeleteAssetList: null,
   editableAssetsInList: [],
   editableWatchlists: [],
-  firstWatchlistCreated: false,
   watchlistsSettings: { ...CATEGORIES_SETTINGS, ...settings }
 }
 
@@ -28,8 +26,7 @@ export default (state = initialState, action) => {
         ...state,
         newItemSuccess: true,
         newItemFailed: false,
-        newItemPending: false,
-        firstWatchlistCreated: true
+        newItemPending: false
       }
     case actions.USER_ADD_NEW_ASSET_LIST_FAILED:
       return {
@@ -41,21 +38,6 @@ export default (state = initialState, action) => {
     case actions.USER_ADD_NEW_ASSET_LIST_CANCEL:
       return {
         ...initialState
-      }
-    case actions.USER_REMOVE_ASSET_LIST:
-      return {
-        ...state,
-        statusDeleteAssetList: 'PENDING'
-      }
-    case actions.USER_REMOVE_ASSET_LIST_SUCCESS:
-      return {
-        ...state,
-        statusDeleteAssetList: 'SUCCESS'
-      }
-    case actions.USER_REMOVE_ASSET_LIST_FAILED:
-      return {
-        ...state,
-        statusDeleteAssetList: 'FAILED'
       }
     case actions.USER_REMOVE_ASSET_FROM_LIST:
       return {
