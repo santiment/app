@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react'
-import ReactTable from 'react-table'
+import ReactTable from 'react-table-6'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
-import 'react-table/react-table.css'
+import 'react-table-6/react-table.css'
 import {
   ASSETS_FETCH,
   WATCHLIST_TOGGLE_COLUMNS

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import cx from 'classnames'
-import ReactTable from 'react-table'
+import ReactTable from 'react-table-6'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import Panel from '@santiment-network/ui/Panel'
 import SmoothDropdown from '../../../components/SmoothDropdown/SmoothDropdown'

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import ReactTable from 'react-table'
+import ReactTable from 'react-table-6'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { columns } from './columns'
 import { useTopClaimers, useUNIBalances, useUNITransactionVolume } from './gql'

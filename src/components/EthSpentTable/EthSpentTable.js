@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactTable from 'react-table'
+import ReactTable from 'react-table-6'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import { columns } from './columns'
