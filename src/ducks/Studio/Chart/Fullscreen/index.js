@@ -52,7 +52,13 @@ const FullscreenChart = ({
   const chartRef = useRef(null)
   const mirrorDomainGroups = extractMirrorMetricsDomainGroups(domainGroups)
 
-  useEffect(() => () => widget.chartRef.current.drawer.recalcAbsCoor(), [])
+  useEffect(
+    () => () => {
+      const { drawer } = widget.chartRef.current
+      return drawer && drawer.recalcAbsCoor()
+    },
+    []
+  )
 
   useEffect(
     () => {
