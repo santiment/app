@@ -61,24 +61,12 @@ const TopExchanges = ({ className, isStablecoinPage, ...props }) => {
         }}
         data={data}
         columns={columns}
-        isLoading={loading && items.length === 0}
+        isLoading={loading && data.length === 0}
         repeatLoading={10}
+        isNoData={!loading && data.length === 0}
       />
     </>
   )
 }
-
-//     loadingText=''
-//     LoadingComponent={() => (
-//       <CustomLoadingComponent
-//         isLoading={loading && items.length === 0}
-//         repeat={10}
-//         classes={{ wrapper: styles.loadingWrapper, row: styles.loadingRow }}
-//       />
-//     )}
-//     NoDataComponent={() => (
-//       <CustomNoDataComponent isLoading={loading && items.length === 0} />
-//     )}
-//   />
 
 export default TopExchanges

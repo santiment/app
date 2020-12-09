@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { useTable, useSortBy } from 'react-table'
 import { sortDate } from '../../utils/sortMethods'
 import Loader from './Loader'
+import NoData from './NoData'
 import styles from './index.module.scss'
 
 const Table = ({
@@ -10,6 +11,7 @@ const Table = ({
   data,
   options = {},
   isLoading,
+  isNoData,
   repeatLoading = 0,
   className,
   classes = {}
@@ -89,6 +91,7 @@ const Table = ({
               classes={{ wrapper: classes.loader, row: classes.loaderRow }}
             />
           )}
+          {isNoData && <NoData />}
           {rows.map(row => {
             prepareRow(row)
             return (
