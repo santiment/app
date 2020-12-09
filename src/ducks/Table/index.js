@@ -5,7 +5,7 @@ import { sortDate } from '../../utils/sortMethods'
 import styles from './index.module.scss'
 
 const Table = ({ columns, data, options = {}, className, classes = {} }) => {
-  const { withSorting, ...rest } = options
+  const { withSorting, initialState = {}, ...rest } = options
 
   const {
     getTableProps,
@@ -23,6 +23,7 @@ const Table = ({ columns, data, options = {}, className, classes = {} }) => {
         datetime: (row1, row2, columnName) =>
           sortDate(row1.original[columnName], row2.original[columnName])
       },
+      initialState,
       ...rest
     },
     useSortBy

@@ -3,7 +3,14 @@ import { millify, upperCaseFirstLetter } from '../../../utils/formatting'
 import { getDateFormats } from '../../../utils/dates'
 import ValueChange from '../../ValueChange/ValueChange'
 
-export const columns = [
+export const DEFAULT_SORTING = [
+  {
+    id: 'balance',
+    desc: true
+  }
+]
+
+export const COLUMNS = [
   {
     Header: 'Exchange',
     accessor: 'owner',

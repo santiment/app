@@ -1,18 +1,11 @@
 import React, { useState, useMemo } from 'react'
 import cx from 'classnames'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import { columns as rawColumns } from './columns'
+import { COLUMNS, DEFAULT_SORTING } from './columns'
 import { useTopExchanges } from './gql'
 import StablecoinSelector from '../../../ducks/Stablecoins/StablecoinSelector/StablecoinSelector'
 import Table from '../../../ducks/Table'
 import styles from './index.module.scss'
-
-const DEFAULT_SORTED = [
-  {
-    id: 'balance',
-    desc: true
-  }
-]
 
 const DEFAULT_STABLECOIN = {
   slug: 'stablecoins',
@@ -42,7 +35,7 @@ const TopExchanges = ({ className, isStablecoinPage, ...props }) => {
   const [items, loading] = useTopExchanges({ ...props, ...additionalProps })
 
   const data = React.useMemo(() => items, [items])
-  const columns = React.useMemo(() => rawColumns, [])
+  const columns = React.useMemo(() => COLUMNS, [])
 
   return (
     <>
@@ -53,7 +46,10 @@ const TopExchanges = ({ className, isStablecoinPage, ...props }) => {
         </div>
       )}
       <Table
-        options={{ withSorting: true }}
+        options={{
+          withSorting: true,
+          initialState: { sortBy: DEFAULT_SORTING }
+        }}
         className={className}
         data={data}
         columns={columns}
