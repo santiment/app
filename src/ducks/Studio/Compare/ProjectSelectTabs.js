@@ -9,8 +9,7 @@ const Category = {
   All: 'All',
   ERC20: 'ERC20',
   Stablecoins: 'Stablecoins',
-  Centralized: 'Centralized',
-  Decentralized: 'Decentralized'
+  DeFi: 'DeFi'
 }
 
 export const DEFAULT_TABS = Object.keys(Category)
@@ -42,21 +41,19 @@ export const CategoryQuery = {
   [Category.All]: ALL_PROJECTS_QUERY,
   [Category.ERC20]: ERC20_PROJECTS_QUERY,
   [Category.Stablecoins]: GET_WATCHLIST_QUERY('stablecoins'),
-  [Category.Centralized]: GET_WATCHLIST_QUERY('centralized_exchanges'),
-  [Category.Decentralized]: GET_WATCHLIST_QUERY('decentralized_exchanges')
+  [Category.DeFi]: GET_WATCHLIST_QUERY('defi')
 }
 
 const projectsExtracter = ({ data: { projects } }) => projects
 
 const watchlistProjectsExtracter = ({ data: { watchlist } }) =>
-  watchlist.listItems.map(({ project }) => project)
+  watchlist ? watchlist.listItems.map(({ project }) => project) : []
 
 export const CategoryDataExtracter = {
   [Category.All]: projectsExtracter,
   [Category.ERC20]: projectsExtracter,
   [Category.Stablecoins]: watchlistProjectsExtracter,
-  [Category.Centralized]: watchlistProjectsExtracter,
-  [Category.Decentralized]: watchlistProjectsExtracter
+  [Category.DeFi]: watchlistProjectsExtracter
 }
 
 const normalizeData = data => data.slice().sort(projectSorter)
