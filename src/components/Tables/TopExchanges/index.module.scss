@@ -35,8 +35,10 @@
 .tableWrapper {
   border-radius: 4px;
   border: 1px solid var(--porcelain);
-  overflow-x: auto;
+  overflow: auto;
+  overflow: overlay;
   width: 100%;
+  height: 515px;
 }
 
 .table {
@@ -44,10 +46,10 @@
 }
 
 .loadingWrapper {
-  top: 44px;
+  top: 34px;
   padding: 0 10px;
 }
 
 .loadingRow {
-  height: 40px;
+  height: 44px;
 }

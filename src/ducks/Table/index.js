@@ -2,10 +2,19 @@ import React from 'react'
 import cx from 'classnames'
 import { useTable, useSortBy } from 'react-table'
 import { sortDate } from '../../utils/sortMethods'
+import Loader from './Loader'
 import styles from './index.module.scss'
 
-const Table = ({ columns, data, options = {}, className, classes = {} }) => {
-  const { withSorting, initialState = {}, ...rest } = options
+const Table = ({
+  columns,
+  data,
+  options = {},
+  isLoading,
+  repeatLoading = 0,
+  className,
+  classes = {}
+}) => {
+  const { withSorting, isStickyHeader, initialState = {}, ...rest } = options
 
   const {
     getTableProps,
@@ -20,8 +29,8 @@ const Table = ({ columns, data, options = {}, className, classes = {} }) => {
       disableSortRemove: true,
       disableSortBy: !withSorting,
       sortTypes: {
-        datetime: (row1, row2, columnName) =>
-          sortDate(row1.original[columnName], row2.original[columnName])
+        datetime: (row1, row2, id) =>
+          sortDate(row1.original[id], row2.original[id])
       },
       initialState,
       ...rest
@@ -46,6 +55,7 @@ const Table = ({ columns, data, options = {}, className, classes = {} }) => {
                   className={cx(
                     styles.headerColumn,
                     column.isSorted && styles.headerColumnActive,
+                    isStickyHeader && styles.headerColumnSticky,
                     classes.headerColumn
                   )}
                 >
@@ -65,6 +75,13 @@ const Table = ({ columns, data, options = {}, className, classes = {} }) => {
           {...getTableBodyProps()}
           className={cx(styles.body, classes.body)}
         >
+          {repeatLoading && (
+            <Loader
+              repeat={repeatLoading}
+              isLoading={isLoading}
+              classes={{ wrapper: classes.loader, row: classes.loaderRow }}
+            />
+          )}
           {rows.map(row => {
             prepareRow(row)
             return (

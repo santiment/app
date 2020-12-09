@@ -1,14 +1,19 @@
 @import '~@santiment-network/ui/mixins';
 
+.wrapper {
+  position: relative;
+}
+
 .table {
   border-spacing: 0;
-  border-collapse: collapse;
   width: 100%;
+  height: 100%;
 }
 
 .header {
   background: var(--athens);
   user-select: none;
+  border-bottom: 1px solid var(--porcelain);
 }
 
 .headerColumn {
@@ -21,6 +26,13 @@
   &:first-child {
     padding-left: 26px;
   }
+}
+
+.headerColumnSticky {
+  position: sticky;
+  top: 0;
+  background: var(--athens);
+  border-bottom: 1px solid var(--porcelain);
 }
 
 .sort {
@@ -69,7 +81,6 @@
 }
 
 .bodyRow {
-  border-top: 1px solid var(--porcelain);
   height: 48px;
 
   &:hover {
@@ -85,5 +96,11 @@
 
   &:first-child {
     padding-left: 26px;
+  }
+}
+
+.bodyRow + .bodyRow {
+  & .bodyColumn {
+    border-top: 1px solid var(--porcelain);
   }
 }

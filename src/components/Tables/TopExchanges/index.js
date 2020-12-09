@@ -48,13 +48,19 @@ const TopExchanges = ({ className, isStablecoinPage, ...props }) => {
       <Table
         options={{
           withSorting: true,
-          initialState: { sortBy: DEFAULT_SORTING }
+          initialState: { sortBy: DEFAULT_SORTING },
+          isStickyHeader: true
         }}
         className={cx(className, styles.tableWrapper)}
-        classes={{ table: styles.table }}
+        classes={{
+          table: styles.table,
+          loader: styles.loadingWrapper,
+          loaderRow: styles.loadingRow
+        }}
         data={data}
         columns={columns}
-        loading={loading}
+        isLoading={loading && items.length === 0}
+        repeatLoading={10}
       />
     </>
   )

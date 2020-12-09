@@ -1,0 +1,16 @@
+@import "~@santiment-network/ui/mixins";
+
+.loader {
+  position: absolute;
+  width: 100%;
+  top: 40px;
+  padding: 0 8px;
+}
+
+.skeleton {
+  height: 56px;
+}
+
+.skeleton + .skeleton {
+  margin-top: 4px;
+}
