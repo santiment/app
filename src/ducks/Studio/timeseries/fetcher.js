@@ -26,6 +26,20 @@ const Fetcher = METRICS.reduce((acc, metric) => {
     query: GET_METRIC,
     preTransform
   }
+
+  // TODO: Think how to do it better [@vanguard | Dec  9, 2020]
+  if (metric.includes('mvrv_usd')) {
+    acc[metric].preTransform = res => {
+      const data = preTransform(res)
+      const key = data[0] ? Object.keys(data[0])[1] : metric
+
+      return data.map(item => ({
+        datetime: item.datetime,
+        [key]: item[key] - 2
+      }))
+    }
+  }
+
   return acc
 }, Object.create(null))
 
