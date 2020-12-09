@@ -30,47 +30,64 @@ const Table = ({ columns, data, options = {}, className, classes = {} }) => {
   )
 
   return (
-    <table {...getTableProps()} className={cx(styles.table, className)}>
-      <thead className={cx(styles.header, classes.header)}>
-        {headerGroups.map(headerGroup => (
-          <tr
-            {...headerGroup.getHeaderGroupProps()}
-            className={cx(styles.headerRow, classes.headerRow)}
-          >
-            {headerGroup.headers.map(column => (
-              <th
-                {...column.getHeaderProps(column.getSortByToggleProps())}
-                className={cx(
-                  styles.headerColumn,
-                  column.isSorted && styles.headerColumnActive,
-                  classes.headerColumn
-                )}
-              >
-                <span>{column.render('Header')}</span>
-                <span
-                  className={cx(
-                    styles.sort,
-                    column.isSortedDesc ? styles.sortDesc : styles.sortAsc
+    <div className={cx(styles.wrapper, className)}>
+      <table {...getTableProps()} className={cx(styles.table, classes.table)}>
+        <thead className={cx(styles.header, classes.header)}>
+          {headerGroups.map(headerGroup => (
+            <tr
+              {...headerGroup.getHeaderGroupProps()}
+              className={cx(styles.headerRow, classes.headerRow)}
+            >
+              {headerGroup.headers.map(column => (
+                <th
+                  {...column.getHeaderProps(
+                    column.getSortByToggleProps({ title: '' })
                   )}
-                />
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody {...getTableBodyProps()} className={cx(styles.body, classes.body)}>
-        {rows.map(row => {
-          prepareRow(row)
-          return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map(cell => {
-                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-              })}
+                  className={cx(
+                    styles.headerColumn,
+                    column.isSorted && styles.headerColumnActive,
+                    classes.headerColumn
+                  )}
+                >
+                  <span>{column.render('Header')}</span>
+                  <span
+                    className={cx(
+                      styles.sort,
+                      column.isSortedDesc ? styles.sortDesc : styles.sortAsc
+                    )}
+                  />
+                </th>
+              ))}
             </tr>
-          )
-        })}
-      </tbody>
-    </table>
+          ))}
+        </thead>
+        <tbody
+          {...getTableBodyProps()}
+          className={cx(styles.body, classes.body)}
+        >
+          {rows.map(row => {
+            prepareRow(row)
+            return (
+              <tr
+                {...row.getRowProps()}
+                className={cx(styles.bodyRow, classes.bodyRow)}
+              >
+                {row.cells.map(cell => {
+                  return (
+                    <td
+                      {...cell.getCellProps()}
+                      className={cx(styles.bodyColumn, classes.bodyColumn)}
+                    >
+                      {cell.render('Cell')}
+                    </td>
+                  )
+                })}
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+    </div>
   )
 }
 

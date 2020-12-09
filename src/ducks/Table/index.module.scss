@@ -1,15 +1,14 @@
 @import '~@santiment-network/ui/mixins';
 
 .table {
-  overflow-y: visible;
-  overflow-x: auto;
-  width: 100%;
   border-spacing: 0;
   border-collapse: collapse;
+  width: 100%;
 }
 
 .header {
   background: var(--athens);
+  user-select: none;
 }
 
 .headerColumn {
@@ -18,6 +17,10 @@
   color: var(--casper);
   padding: 6px 10px;
   text-align: left;
+
+  &:first-child {
+    padding-left: 26px;
+  }
 }
 
 .sort {
@@ -62,6 +65,25 @@
 }
 
 .body {
-  border: 1px solid var(--porcelain);
-  background: var(--white);
+  background-color: var(--white);
+}
+
+.bodyRow {
+  border-top: 1px solid var(--porcelain);
+  height: 48px;
+
+  &:hover {
+    background-color: var(--athens);
+  }
+}
+
+.bodyColumn {
+  @include text('body-3');
+
+  padding: 6px 10px;
+  text-align: left;
+
+  &:first-child {
+    padding-left: 26px;
+  }
 }

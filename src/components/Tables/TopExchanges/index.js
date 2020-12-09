@@ -34,8 +34,8 @@ const TopExchanges = ({ className, isStablecoinPage, ...props }) => {
       : {}
   const [items, loading] = useTopExchanges({ ...props, ...additionalProps })
 
-  const data = React.useMemo(() => items, [items])
-  const columns = React.useMemo(() => COLUMNS, [])
+  const data = useMemo(() => items, [items])
+  const columns = useMemo(() => COLUMNS, [])
 
   return (
     <>
@@ -50,7 +50,8 @@ const TopExchanges = ({ className, isStablecoinPage, ...props }) => {
           withSorting: true,
           initialState: { sortBy: DEFAULT_SORTING }
         }}
-        className={className}
+        className={cx(className, styles.tableWrapper)}
+        classes={{ table: styles.table }}
         data={data}
         columns={columns}
         loading={loading}
@@ -59,14 +60,6 @@ const TopExchanges = ({ className, isStablecoinPage, ...props }) => {
   )
 }
 
-//   <ReactTable
-//     defaultSorted={DEFAULT_SORTED}
-//     showPagination={false}
-//     resizable={false}
-//     showPaginationBottom
-//     defaultPageSize={5}
-//     pageSize={items.length}
-//     minRows={0}
 //     loadingText=''
 //     LoadingComponent={() => (
 //       <CustomLoadingComponent
