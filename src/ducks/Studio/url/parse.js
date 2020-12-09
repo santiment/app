@@ -85,7 +85,9 @@ function parseColors (
   const Colors = {}
 
   Object.keys(colors).forEach(key => {
-    let metricKey = checkIsProjectMetricKey(key) && key
+    let metricKey = checkIsProjectMetricKey(key)
+      ? key
+      : getMetricByKey(key) && key
 
     if (!metricKey) {
       const sharedMetric = SharedKeyIndicator[key] || SharedKeyComparable[key]
