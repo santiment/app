@@ -1,14 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import cx from 'classnames'
-import ReactTable from 'react-table-6'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import { columns } from './columns'
+import { columns as rawColumns } from './columns'
 import { useTopExchanges } from './gql'
-import {
-  CustomLoadingComponent,
-  CustomNoDataComponent
-} from '../../../ducks/Watchlists/Widgets/Table/AssetsTable'
 import StablecoinSelector from '../../../ducks/Stablecoins/StablecoinSelector/StablecoinSelector'
+import Table from '../../../ducks/Table'
 import styles from './index.module.scss'
 
 const DEFAULT_SORTED = [
@@ -45,6 +41,9 @@ const TopExchanges = ({ className, isStablecoinPage, ...props }) => {
       : {}
   const [items, loading] = useTopExchanges({ ...props, ...additionalProps })
 
+  const data = React.useMemo(() => items, [items])
+  const columns = React.useMemo(() => rawColumns, [])
+
   return (
     <>
       <TopExchangesTableTitle loading={loading} items={items} />
@@ -53,43 +52,35 @@ const TopExchanges = ({ className, isStablecoinPage, ...props }) => {
           <StablecoinSelector asset={asset} setAsset={setAsset} />
         </div>
       )}
-      <TopExchangesTable
+      <Table
         className={className}
-        items={items}
+        data={data}
+        columns={columns}
         loading={loading}
       />
     </>
   )
 }
 
-const TopExchangesTable = ({ className, items, loading }) => {
-  return (
-    <div className={cx(className, styles.table)}>
-      <ReactTable
-        className={styles.topExchangesTable}
-        defaultSorted={DEFAULT_SORTED}
-        showPagination={false}
-        resizable={false}
-        data={items}
-        columns={columns}
-        showPaginationBottom
-        defaultPageSize={5}
-        pageSize={items.length}
-        minRows={0}
-        loadingText=''
-        LoadingComponent={() => (
-          <CustomLoadingComponent
-            isLoading={loading && items.length === 0}
-            repeat={10}
-            classes={{ wrapper: styles.loadingWrapper, row: styles.loadingRow }}
-          />
-        )}
-        NoDataComponent={() => (
-          <CustomNoDataComponent isLoading={loading && items.length === 0} />
-        )}
-      />
-    </div>
-  )
-}
+//   <ReactTable
+//     defaultSorted={DEFAULT_SORTED}
+//     showPagination={false}
+//     resizable={false}
+//     showPaginationBottom
+//     defaultPageSize={5}
+//     pageSize={items.length}
+//     minRows={0}
+//     loadingText=''
+//     LoadingComponent={() => (
+//       <CustomLoadingComponent
+//         isLoading={loading && items.length === 0}
+//         repeat={10}
+//         classes={{ wrapper: styles.loadingWrapper, row: styles.loadingRow }}
+//       />
+//     )}
+//     NoDataComponent={() => (
+//       <CustomNoDataComponent isLoading={loading && items.length === 0} />
+//     )}
+//   />
 
 export default TopExchanges

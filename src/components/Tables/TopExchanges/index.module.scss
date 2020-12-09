@@ -27,12 +27,13 @@
   margin: 0 4px 0 0;
 }
 
+.headerLoader {
+  margin-left: 16px;
+  font-size: 5px;
+}
+
 .table {
   height: 515px;
-  overflow: hidden;
-  border: 1px solid var(--porcelain);
-  border-radius: 4px;
-  background: var(--white);
 }
 
 .loadingWrapper {
@@ -42,11 +43,6 @@
 
 .loadingRow {
   height: 40px;
-}
-
-.headerLoader {
-  margin-left: 16px;
-  font-size: 5px;
 }
 
 .topExchangesTable:global(.ReactTable) {
