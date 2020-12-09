@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import { useTable } from 'react-table'
+import { useTable, useSortBy } from 'react-table'
 import styles from './index.module.scss'
 
 const Table = ({ columns, data, className, classes = {} }) => {
@@ -10,15 +10,33 @@ const Table = ({ columns, data, className, classes = {} }) => {
     headerGroups,
     rows,
     prepareRow
-  } = useTable({ columns, data })
+  } = useTable({ columns, data }, useSortBy)
 
   return (
     <table {...getTableProps()} className={cx(styles.table, className)}>
       <thead className={cx(styles.header, classes.header)}>
         {headerGroups.map(headerGroup => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
+          <tr
+            {...headerGroup.getHeaderGroupProps()}
+            className={cx(styles.headerRow, classes.headerRow)}
+          >
             {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+              <th
+                {...column.getHeaderProps(column.getSortByToggleProps())}
+                className={cx(
+                  styles.headerColumn,
+                  column.isSorted && styles.headerColumnActive,
+                  classes.headerColumn
+                )}
+              >
+                <span>{column.render('Header')}</span>
+                <span
+                  className={cx(
+                    styles.sort,
+                    column.isSortedDesc ? styles.sortDesc : styles.sortAsc
+                  )}
+                />
+              </th>
             ))}
           </tr>
         ))}

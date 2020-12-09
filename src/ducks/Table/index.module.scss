@@ -4,10 +4,61 @@
   overflow-y: visible;
   overflow-x: auto;
   width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
 }
 
 .header {
   background: var(--athens);
+}
+
+.headerColumn {
+  @include text('body-3', 'm');
+
+  color: var(--casper);
+  padding: 6px 10px;
+  text-align: left;
+}
+
+.sort {
+  position: relative;
+  margin-left: 6px;
+  width: 4px;
+  visibility: hidden;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    border: 4px solid transparent;
+    border-radius: 3px;
+  }
+
+  &::before {
+    border-top: 4px solid var(--mystic);
+    bottom: 0;
+  }
+
+  &::after {
+    border-bottom: 4px solid var(--mystic);
+    top: -1px;
+  }
+}
+
+.sortDesc::before {
+  border-top-color: var(--waterloo);
+}
+
+.sortAsc::after {
+  border-bottom-color: var(--waterloo);
+}
+
+.headerColumnActive {
+  color: var(--rhino);
+
+  & .sort {
+    visibility: visible;
+  }
 }
 
 .body {
