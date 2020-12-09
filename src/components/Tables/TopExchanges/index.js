@@ -53,6 +53,7 @@ const TopExchanges = ({ className, isStablecoinPage, ...props }) => {
         </div>
       )}
       <Table
+        options={{ withSorting: true }}
         className={className}
         data={data}
         columns={columns}

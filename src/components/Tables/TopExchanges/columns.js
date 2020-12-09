@@ -7,31 +7,27 @@ export const columns = [
   {
     Header: 'Exchange',
     accessor: 'owner',
-    // sortable: false,
+    disableSortBy: true,
     Cell: ({ value = '' }) => upperCaseFirstLetter(value)
   },
   {
     Header: 'Balance',
     accessor: 'balance',
-    // sortable: true,
     Cell: ({ value }) => millify(value)
   },
   {
     Header: 'Change, 1d',
     accessor: 'balanceChange1d',
-    // sortable: true,
     Cell: ({ value }) => <ValueChange render={millify} change={value} />
   },
   {
     Header: 'Change, 7d',
     accessor: 'balanceChange7d',
-    // sortable: true,
     Cell: ({ value }) => <ValueChange render={millify} change={value} />
   },
   {
     Header: 'Change, 30d',
     accessor: 'balanceChange30d',
-    // sortable: true,
     Cell: ({ value }) => <ValueChange render={millify} change={value} />
   },
   {
@@ -45,13 +41,12 @@ export const columns = [
       const { YYYY, MMM, DD } = getDateFormats(date)
 
       return `${MMM} ${DD}, ${YYYY}`
-    }
-    // sortMethod: (a, b) => (new Date(a) > new Date(b) ? 1 : -1)
+    },
+    sortType: 'datetime'
   },
   {
     Header: 'Since 1st transfer',
     accessor: 'daysSinceFirstTransfer',
-    // sortable: true,
     Cell: ({ value = '' }) =>
       value === null ? '' : `${value} day${value === 1 ? '' : 's'}`
   }

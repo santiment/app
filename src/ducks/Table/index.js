@@ -1,16 +1,32 @@
 import React from 'react'
 import cx from 'classnames'
 import { useTable, useSortBy } from 'react-table'
+import { sortDate } from '../../utils/sortMethods'
 import styles from './index.module.scss'
 
-const Table = ({ columns, data, className, classes = {} }) => {
+const Table = ({ columns, data, options = {}, className, classes = {} }) => {
+  const { withSorting, ...rest } = options
+
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow
-  } = useTable({ columns, data }, useSortBy)
+  } = useTable(
+    {
+      columns,
+      data,
+      disableSortRemove: true,
+      disableSortBy: !withSorting,
+      sortTypes: {
+        datetime: (row1, row2, columnName) =>
+          sortDate(row1.original[columnName], row2.original[columnName])
+      },
+      ...rest
+    },
+    useSortBy
+  )
 
   return (
     <table {...getTableProps()} className={cx(styles.table, className)}>
