@@ -28,11 +28,18 @@
   }
 }
 
-.headerColumnSticky {
+.headerColumnStickyTop {
   position: sticky;
   top: 0;
   background: var(--athens);
   border-bottom: 1px solid var(--porcelain);
+}
+
+.headerColumnStickyLeft {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--athens);
 }
 
 .sort {
@@ -80,14 +87,6 @@
   background-color: var(--white);
 }
 
-.bodyRow {
-  height: 48px;
-
-  &:hover {
-    background-color: var(--athens);
-  }
-}
-
 .bodyColumn {
   @include text('body-3');
 
@@ -96,6 +95,24 @@
 
   &:first-child {
     padding-left: 26px;
+  }
+}
+
+.bodyColumnSticky {
+  position: sticky;
+  left: 0;
+  background-color: var(--white);
+}
+
+.bodyRow {
+  height: 48px;
+
+  &:hover {
+    background-color: var(--athens);
+
+    & .bodyColumnSticky {
+      background-color: var(--athens);
+    }
   }
 }
 

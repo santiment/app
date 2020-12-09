@@ -49,7 +49,9 @@ const TopExchanges = ({ className, isStablecoinPage, ...props }) => {
         options={{
           withSorting: true,
           initialState: { sortBy: DEFAULT_SORTING },
-          isStickyHeader: true
+          isStickyHeader: true,
+          isStickyColumn: true,
+          stickyColumnIdx: 0
         }}
         className={cx(className, styles.tableWrapper)}
         classes={{

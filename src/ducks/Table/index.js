@@ -14,7 +14,13 @@ const Table = ({
   className,
   classes = {}
 }) => {
-  const { withSorting, isStickyHeader, initialState = {}, ...rest } = options
+  const {
+    withSorting,
+    isStickyHeader,
+    isStickyColumn,
+    stickyColumnIdx = null,
+    initialState = {}
+  } = options
 
   const {
     getTableProps,
@@ -29,11 +35,9 @@ const Table = ({
       disableSortRemove: true,
       disableSortBy: !withSorting,
       sortTypes: {
-        datetime: (row1, row2, id) =>
-          sortDate(row1.original[id], row2.original[id])
+        datetime: (a, b, id) => sortDate(a.original[id], b.original[id])
       },
-      initialState,
-      ...rest
+      initialState
     },
     useSortBy
   )
@@ -47,7 +51,7 @@ const Table = ({
               {...headerGroup.getHeaderGroupProps()}
               className={cx(styles.headerRow, classes.headerRow)}
             >
-              {headerGroup.headers.map(column => (
+              {headerGroup.headers.map((column, idx) => (
                 <th
                   {...column.getHeaderProps(
                     column.getSortByToggleProps({ title: '' })
@@ -55,7 +59,10 @@ const Table = ({
                   className={cx(
                     styles.headerColumn,
                     column.isSorted && styles.headerColumnActive,
-                    isStickyHeader && styles.headerColumnSticky,
+                    isStickyHeader && styles.headerColumnStickyTop,
+                    isStickyColumn &&
+                      stickyColumnIdx === idx &&
+                      styles.headerColumnStickyLeft,
                     classes.headerColumn
                   )}
                 >
@@ -89,16 +96,20 @@ const Table = ({
                 {...row.getRowProps()}
                 className={cx(styles.bodyRow, classes.bodyRow)}
               >
-                {row.cells.map(cell => {
-                  return (
-                    <td
-                      {...cell.getCellProps()}
-                      className={cx(styles.bodyColumn, classes.bodyColumn)}
-                    >
-                      {cell.render('Cell')}
-                    </td>
-                  )
-                })}
+                {row.cells.map((cell, idx) => (
+                  <td
+                    {...cell.getCellProps()}
+                    className={cx(
+                      styles.bodyColumn,
+                      isStickyColumn &&
+                        stickyColumnIdx === idx &&
+                        styles.bodyColumnSticky,
+                      classes.bodyColumn
+                    )}
+                  >
+                    {cell.render('Cell')}
+                  </td>
+                ))}
               </tr>
             )
           })}
