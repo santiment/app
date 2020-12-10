@@ -42,16 +42,16 @@ const TransactionTable = ({
     >
       <SmoothDropdown verticalMotion>
         <Table
-          className={cx(className, tableClassName)}
           data={data}
           columns={availableColumns}
-          isLoading={isLoading && data.length === 0}
-          isNoData={!isLoading && data.length === 0}
           options={{
-            withSorting: true,
-            initialState: { sortBy: DEFAULT_SORTING },
-            isStickyHeader: true
+            sortingSettings: {
+              defaultSorting: DEFAULT_SORTING,
+              allowSort: true
+            },
+            stickySettings: { isStickyHeader: true }
           }}
+          className={cx(className, tableClassName)}
         />
       </SmoothDropdown>
     </El>

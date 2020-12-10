@@ -80,19 +80,24 @@ const TopClaimers = ({ className }) => {
         <MakeProSubscriptionCard classes={{ card: className }} />
       ) : (
         <Table
-          className={cx(className, styles.tableWrapper)}
           data={data}
           columns={columns}
-          isLoading={loading && data.length === 0}
-          repeatLoading={10}
-          isNoData={!loading && data.length === 0}
           options={{
-            withSorting: true,
-            initialState: { sortBy: DEFAULT_SORTING },
-            isStickyHeader: true,
-            isStickyColumn: true,
-            stickyColumnIdx: 0
+            loadingSettings: {
+              repeatLoading: 10,
+              isLoading: loading && data.length === 0
+            },
+            sortingSettings: {
+              defaultSorting: DEFAULT_SORTING,
+              allowSort: true
+            },
+            stickySettings: {
+              isStickyHeader: true,
+              isStickyColumn: true,
+              stickyColumnIdx: 0
+            }
           }}
+          className={cx(className, styles.tableWrapper)}
           classes={{
             table: styles.table,
             loader: styles.loadingWrapper,

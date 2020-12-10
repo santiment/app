@@ -46,12 +46,19 @@ const TopExchanges = ({ className, isStablecoinPage, ...props }) => {
         </div>
       )}
       <Table
+        data={data}
+        columns={columns}
         options={{
-          withSorting: true,
-          initialState: { sortBy: DEFAULT_SORTING },
-          isStickyHeader: true,
-          isStickyColumn: true,
-          stickyColumnIdx: 0
+          loadingSettings: {
+            repeatLoading: 10,
+            isLoading: loading && data.length === 0
+          },
+          sortingSettings: { defaultSorting: DEFAULT_SORTING, allowSort: true },
+          stickySettings: {
+            isStickyHeader: true,
+            isStickyColumn: true,
+            stickyColumnIdx: 0
+          }
         }}
         className={cx(className, styles.tableWrapper)}
         classes={{
@@ -59,11 +66,6 @@ const TopExchanges = ({ className, isStablecoinPage, ...props }) => {
           loader: styles.loadingWrapper,
           loaderRow: styles.loadingRow
         }}
-        data={data}
-        columns={columns}
-        isLoading={loading && data.length === 0}
-        repeatLoading={10}
-        isNoData={!loading && data.length === 0}
       />
     </>
   )

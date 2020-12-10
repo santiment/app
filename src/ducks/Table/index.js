@@ -7,22 +7,22 @@ import NoData from './NoData'
 import styles from './index.module.scss'
 
 const Table = ({
-  columns,
   data,
-  options = {},
-  isLoading,
-  isNoData,
-  repeatLoading = 5,
+  columns,
+  options: { loadingSettings, sortingSettings, stickySettings } = {},
   className,
   classes = {}
 }) => {
-  const {
-    withSorting,
-    isStickyHeader,
-    isStickyColumn,
-    stickyColumnIdx = null,
-    initialState = {}
-  } = options
+  const { isLoading, repeatLoading } = loadingSettings || {}
+  const { allowSort, defaultSorting } = sortingSettings || {}
+  const { isStickyHeader, isStickyColumn, stickyColumnIdx = null } =
+    stickySettings || {}
+
+  const initialState = {}
+
+  if (defaultSorting) {
+    initialState.sortBy = defaultSorting
+  }
 
   const {
     getTableProps,
@@ -35,7 +35,7 @@ const Table = ({
       columns,
       data,
       disableSortRemove: true,
-      disableSortBy: !withSorting,
+      disableSortBy: !allowSort,
       sortTypes: {
         datetime: (a, b, id) => sortDate(a.original[id], b.original[id])
       },
@@ -110,14 +110,14 @@ const Table = ({
           })}
         </tbody>
       </table>
-      {repeatLoading > 0 && (
+      {!!loadingSettings && repeatLoading > 0 && (
         <Loader
           repeat={repeatLoading}
           isLoading={isLoading}
           classes={{ wrapper: classes.loader, row: classes.loaderRow }}
         />
       )}
-      {isNoData && <NoData />}
+      {!!loadingSettings && data.length === 0 && <NoData />}
     </div>
   )
 }
