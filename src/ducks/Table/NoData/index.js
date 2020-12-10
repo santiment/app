@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import NoDataTemplate from '../../../components/NoDataTemplate'
-import styles from 'classnames'
+import styles from './index.module.scss'
 
 const NoData = ({ description, title, className }) => (
   <NoDataTemplate

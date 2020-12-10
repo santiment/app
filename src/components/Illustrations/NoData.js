@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Image = ({ className }) => (
+const NoData = ({ className }) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     width='344'
@@ -112,4 +112,4 @@ const Image = ({ className }) => (
   </svg>
 )
 
-export default Image
+export default NoData

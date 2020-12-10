@@ -84,14 +84,6 @@ const Table = ({
           {...getTableBodyProps()}
           className={cx(styles.body, classes.body)}
         >
-          {repeatLoading > 0 && (
-            <Loader
-              repeat={repeatLoading}
-              isLoading={isLoading}
-              classes={{ wrapper: classes.loader, row: classes.loaderRow }}
-            />
-          )}
-          {isNoData && <NoData />}
           {rows.map(row => {
             prepareRow(row)
             return (
@@ -118,6 +110,14 @@ const Table = ({
           })}
         </tbody>
       </table>
+      {repeatLoading > 0 && (
+        <Loader
+          repeat={repeatLoading}
+          isLoading={isLoading}
+          classes={{ wrapper: classes.loader, row: classes.loaderRow }}
+        />
+      )}
+      {isNoData && <NoData />}
     </div>
   )
 }
