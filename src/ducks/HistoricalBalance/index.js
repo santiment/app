@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import cx from 'classnames'
 import { logScale, linearScale } from '@santiment-network/chart/scales'
 import { ASSETS_LIMIT, withDefaults } from './defaults'
@@ -27,14 +27,17 @@ const HistoricalBalance = ({
     defaultSettings
   )
   const infrastructure = useInfrastructureDetector(settings.address)
+
   const { walletAssets, isLoading, isError } = useWalletAssets(
     settings.address,
     infrastructure
   )
+
   const [chartAssets, setChartAssets] = useState(defaultChartAssets)
   const [priceAssets, setPriceAssets] = useState(defaultPriceAssets)
   const [isLog, setIsLog] = useState(defaultIsLog)
-  const metrics = useWalletMetrics(chartAssets, priceAssets)
+
+  const [metrics, MetricSettingMap] = useWalletMetrics(chartAssets, priceAssets)
   const axesTicks = useResponsiveTicks(isPhone)
 
   useEffect(
@@ -48,6 +51,23 @@ const HistoricalBalance = ({
       setPriceAssets([...priceAssetsSet])
     },
     [chartAssets]
+  )
+
+  useEffect(
+    () => {
+      if (walletAssets.length > 0) {
+        const mappedAssets = chartAssets
+          .map(({ slug }) => {
+            return walletAssets.find(
+              ({ slug: walletSlug }) => walletSlug === slug
+            )
+          })
+          .filter(item => !!item)
+
+        setChartAssets(mappedAssets)
+      }
+    },
+    [walletAssets]
   )
 
   function togglePriceAsset (asset) {
@@ -112,6 +132,7 @@ const HistoricalBalance = ({
           scale={isLog ? logScale : linearScale}
           settings={settings}
           metrics={metrics}
+          MetricSettingMap={MetricSettingMap}
         />
       </Configurations>
 

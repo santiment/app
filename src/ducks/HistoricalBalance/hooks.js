@@ -15,11 +15,29 @@ export function getWalletMetrics (walletAssets, priceAssets) {
   return walletMetrics.concat(priceMetrics)
 }
 
-export const useWalletMetrics = (walletAssets, priceAssets) =>
-  useMemo(() => getWalletMetrics(walletAssets, priceAssets), [
+export const useWalletMetrics = (walletAssets, priceAssets) => {
+  const metrics = useMemo(() => getWalletMetrics(walletAssets, priceAssets), [
     walletAssets,
     priceAssets
   ])
+
+  const MetricSettingMap = useMemo(
+    () => {
+      const MetricSettingMap = new Map()
+
+      walletAssets.forEach(metric => {
+        MetricSettingMap.set(metric, {
+          ...metric.reqMeta
+        })
+      })
+
+      return MetricSettingMap
+    },
+    [walletAssets]
+  )
+
+  return [metrics, MetricSettingMap]
+}
 
 export function useWalletAssets (address, infrastructure) {
   const [walletAssets, setWalletAssets] = useState(DEFAULT_STATE)
