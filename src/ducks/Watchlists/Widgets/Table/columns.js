@@ -13,11 +13,6 @@ export const COLUMNS_NAMES = {
   devact: 'Development activity',
   daily_active_addresses: 'Daily active addresses',
   graph: 'Graph',
-  token_circulation: 'Token Circulation',
-  infrastructure: 'Infrastructure',
-  devActivity7: 'Dev. activity (7d)',
-  devActivity30: 'Dev. activity (30d)',
-  devActivityChange30d: 'Dev. activity % change (30d)',
   marketSegments: 'Market Segments'
 }
 
@@ -47,11 +42,7 @@ export const COLUMNS_SETTINGS = {
     show: true,
     selectable: true,
     key: 'daily_active_addresses'
-  },
-  [COLUMNS_NAMES.infrastructure]: { show: true, selectable: false },
-  [COLUMNS_NAMES.devActivity7]: { show: true, selectable: false },
-  [COLUMNS_NAMES.devActivity30]: { show: true, selectable: false },
-  [COLUMNS_NAMES.devActivityChange30d]: { show: true, selectable: false }
+  }
 }
 
 export const COMMON_SETTINGS = {
@@ -68,10 +59,6 @@ export const CATEGORIES_SETTINGS = {
   'Top 50 ERC20': {
     hiddenColumns: [],
     pageSize: 50
-  },
-  'Market Segments': {
-    hiddenColumns: [],
-    sorting: { id: COLUMNS_NAMES.devActivity30, desc: false }
   }
 }
 
@@ -90,13 +77,4 @@ export const ASSETS_TABLE_COLUMNS = [
   COLUMNS_NAMES.marketSegments,
   COLUMNS_NAMES.devact,
   COLUMNS_NAMES.daily_active_addresses
-]
-
-export const MARKET_SEGMENT_COLUMNS = [
-  COLUMNS_NAMES.index,
-  COLUMNS_NAMES.project,
-  COLUMNS_NAMES.devActivityChange30d,
-  COLUMNS_NAMES.infrastructure,
-  COLUMNS_NAMES.devActivity30,
-  COLUMNS_NAMES.devActivity7
 ]
