@@ -56,9 +56,14 @@ const HistoricalBalance = ({
   useEffect(
     () => {
       if (walletAssets.length > 0) {
-        const mappedAssets = walletAssets.filter(({ slug: walletSlug }) =>
-          chartAssets.find(({ slug }) => slug === walletSlug)
-        )
+        const mappedAssets = chartAssets
+          .map(({ slug }) => {
+            return walletAssets.find(
+              ({ slug: walletSlug }) => walletSlug === slug
+            )
+          })
+          .filter(item => !!item)
+
         setChartAssets(mappedAssets)
       }
     },
