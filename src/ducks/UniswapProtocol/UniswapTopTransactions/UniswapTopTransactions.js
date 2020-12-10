@@ -73,6 +73,7 @@ const UniswapTopTransactions = () => {
       <TransactionsTable
         header={null}
         data={normalizedData}
+        isLoading={loading}
         defaultPageSize={50}
         tableClassName={styles.tableWrapper}
       />

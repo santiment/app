@@ -12,7 +12,7 @@ const Table = ({
   options = {},
   isLoading,
   isNoData,
-  repeatLoading = 0,
+  repeatLoading = 5,
   className,
   classes = {}
 }) => {

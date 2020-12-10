@@ -13,6 +13,7 @@ const TransactionTable = ({
   slug,
   className,
   tableClassName,
+  isLoading,
   ...props
 }) => {
   const El = useMemo(
@@ -44,6 +45,8 @@ const TransactionTable = ({
           className={cx(className, tableClassName)}
           data={data}
           columns={availableColumns}
+          isLoading={isLoading && data.length === 0}
+          isNoData={!isLoading && data.length === 0}
           options={{
             withSorting: true,
             initialState: { sortBy: DEFAULT_SORTING },
