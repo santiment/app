@@ -1,24 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import cx from 'classnames'
-import ReactTable from 'react-table-6'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import { columns } from './columns'
+import { COLUMNS, DEFAULT_SORTING } from './columns'
 import { useTopClaimers, useUNIBalances, useUNITransactionVolume } from './gql'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
-import {
-  CustomLoadingComponent,
-  CustomNoDataComponent
-} from '../../../ducks/Watchlists/Widgets/Table/AssetsTable'
 import IntervalsComponent from '../../IntervalsComponent/IntervalsComponent'
 import MakeProSubscriptionCard from '../../../pages/feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
+import Table from '../../../ducks/Table'
 import styles from './table.module.scss'
-
-const DEFAULT_SORTED = [
-  {
-    id: 'value',
-    desc: true
-  }
-]
 
 const to = 'utc_now'
 
@@ -64,6 +53,7 @@ const TopClaimers = ({ className }) => {
   const [interval, setInterval] = useState(RANGES[0].value)
   const from = `utc_now-${interval}d`
   const [items, loading] = useTopClaimers({ from, to })
+  const { isPro } = useUserSubscriptionStatus()
 
   const addresses = items.map(({ address }) => address)
   const [balances] = useUNIBalances({ addresses, from, to })
@@ -76,6 +66,9 @@ const TopClaimers = ({ className }) => {
     ...getVolumes(volumes, address)
   }))
 
+  const data = useMemo(() => tableItems, [tableItems, balances])
+  const columns = useMemo(() => COLUMNS, [])
+
   return (
     <>
       <TopClaimersTableTitle
@@ -83,48 +76,31 @@ const TopClaimers = ({ className }) => {
         loading={loading}
         items={items}
       />
-      <TopClaimersTable
-        className={className}
-        items={tableItems}
-        loading={loading}
-      />
+      {!isPro ? (
+        <MakeProSubscriptionCard classes={{ card: className }} />
+      ) : (
+        <Table
+          className={cx(className, styles.tableWrapper)}
+          data={data}
+          columns={columns}
+          isLoading={loading && data.length === 0}
+          repeatLoading={10}
+          isNoData={!loading && data.length === 0}
+          options={{
+            withSorting: true,
+            initialState: { sortBy: DEFAULT_SORTING },
+            isStickyHeader: true,
+            isStickyColumn: true,
+            stickyColumnIdx: 0
+          }}
+          classes={{
+            table: styles.table,
+            loader: styles.loadingWrapper,
+            loaderRow: styles.loadingRow
+          }}
+        />
+      )}
     </>
-  )
-}
-
-const TopClaimersTable = ({ className, items, loading }) => {
-  const { isPro } = useUserSubscriptionStatus()
-
-  if (!isPro) {
-    return <MakeProSubscriptionCard classes={{ card: className }} />
-  }
-
-  return (
-    <div className={cx(className, styles.table)}>
-      <ReactTable
-        className={styles.claimersTable}
-        defaultSorted={DEFAULT_SORTED}
-        showPagination={false}
-        resizable={false}
-        data={items}
-        columns={columns}
-        showPaginationBottom
-        defaultPageSize={5}
-        pageSize={items.length}
-        minRows={0}
-        loadingText=''
-        LoadingComponent={() => (
-          <CustomLoadingComponent
-            isLoading={loading && items.length === 0}
-            repeat={15}
-            classes={{ wrapper: styles.loadingWrapper, row: styles.loadingRow }}
-          />
-        )}
-        NoDataComponent={() => (
-          <CustomNoDataComponent isLoading={loading && items.length === 0} />
-        )}
-      />
-    </div>
   )
 }
 

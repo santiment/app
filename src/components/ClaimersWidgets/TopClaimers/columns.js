@@ -14,12 +14,17 @@ const settings = {
   ]
 }
 
-const TrxAddressCell = ({ value, original: { labels } }) => {
+const TrxAddressCell = ({
+  value,
+  row: {
+    original: { labels }
+  }
+}) => {
   const transformedLabels = labels.map(label => ({ name: label }))
   return <WalletLink address={value} {...settings} labels={transformedLabels} />
 }
 
-function CellWithLoader (value = '') {
+function CellWithLoader ({ value = '' }) {
   if (value === '') {
     return <Loader className={styles.loader} />
   } else {
@@ -27,49 +32,38 @@ function CellWithLoader (value = '') {
   }
 }
 
-export const columns = [
-  {
-    id: 'address',
-    Header: 'Address',
-    accessor: 'address',
-    Cell: TrxAddressCell,
-    sortable: false
-  },
+export const DEFAULT_SORTING = [
   {
     id: 'value',
+    desc: true
+  }
+]
+
+export const COLUMNS = [
+  {
+    Header: 'Address',
+    accessor: 'address',
+    disableSortBy: true,
+    Cell: TrxAddressCell
+  },
+  {
     Header: 'Claimed in interval',
     accessor: 'value',
-    minWidth: 100,
-    maxWidth: 140,
-    sortable: false,
     Cell: ({ value }) => formatNumber(value)
   },
   {
-    Cell: ({ original: { balance = '' } }) => CellWithLoader(balance),
-    id: 'price',
+    Cell: ({ value }) => CellWithLoader(value),
     Header: 'Current balance',
-    accessor: 'price',
-    minWidth: 90,
-    maxWidth: 110,
-    sortable: false
+    accessor: 'balance'
   },
   {
-    Cell: ({ original: { volumeInflow = '' } }) => CellWithLoader(volumeInflow),
-    id: 'volume-in',
+    Cell: ({ value }) => CellWithLoader(value),
     Header: 'Transaction Volume In',
-    accessor: 'volume-in',
-    minWidth: 130,
-    maxWidth: 160,
-    sortable: false
+    accessor: 'volumeInflow'
   },
   {
-    Cell: ({ original: { volumeOutflow = '' } }) =>
-      CellWithLoader(volumeOutflow),
-    id: 'volume-out',
+    Cell: ({ value }) => CellWithLoader(value),
     Header: 'Transaction Volume Out',
-    accessor: 'volume-out',
-    minWidth: 130,
-    maxWidth: 160,
-    sortable: false
+    accessor: 'volumeOutflow'
   }
 ]
