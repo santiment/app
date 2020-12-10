@@ -37,7 +37,7 @@ const HistoricalBalance = ({
   const [priceAssets, setPriceAssets] = useState(defaultPriceAssets)
   const [isLog, setIsLog] = useState(defaultIsLog)
 
-  const metrics = useWalletMetrics(chartAssets, priceAssets)
+  const [metrics, MetricSettingMap] = useWalletMetrics(chartAssets, priceAssets)
   const axesTicks = useResponsiveTicks(isPhone)
 
   useEffect(
@@ -63,21 +63,6 @@ const HistoricalBalance = ({
       }
     },
     [walletAssets]
-  )
-
-  const MetricSettingMap = useMemo(
-    () => {
-      const MetricSettingMap = new Map()
-
-      chartAssets.forEach(metric => {
-        MetricSettingMap.set(metric, {
-          ...metric.reqMeta
-        })
-      })
-
-      return MetricSettingMap
-    },
-    [chartAssets]
   )
 
   function togglePriceAsset (asset) {
