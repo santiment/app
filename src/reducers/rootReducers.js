@@ -21,9 +21,6 @@ import hypedTrends, {
 import accountUi, {
   initialState as initialAccountUiState
 } from '../pages/Account/reducers'
-import marketSegments, {
-  initialState as initialMarketSegments
-} from '../pages/MarketSegments/reducers'
 import app, {
   initialState as appUpdateState
 } from './../ducks/Updates/reducers'
@@ -39,7 +36,6 @@ export const intitialState = {
   notification: initialNotificationState,
   router: routerReducer,
   accountUi: initialAccountUiState,
-  marketSegments: initialMarketSegments,
   app: appUpdateState
 }
 
@@ -53,6 +49,5 @@ export default combineReducers({
   watchlistUi,
   notification,
   accountUi,
-  marketSegments,
   app
 })
