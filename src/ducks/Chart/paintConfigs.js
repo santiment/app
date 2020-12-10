@@ -11,7 +11,7 @@ export const dayTicksPaintConfig = {
   font: '10px sans-serif'
 }
 export const nightTicksPaintConfig = {
-  color: COLOR.fiord,
+  color: COLOR.waterloo,
   font: '10px sans-serif'
 }
 
