@@ -12,9 +12,11 @@ export function getValidInterval (from, to) {
 }
 
 const metricBuilder = (cache, slugToMetric) => asset => {
-  const key = asset.slug || asset
+  const key = asset.slug ? `${asset.slug}_${asset.infrastructure}` : asset
   const cached = cache[key]
-  if (cached) return cached
+  if (cached) {
+    return cached
+  }
 
   const metric = slugToMetric(asset)
   updateTooltipSetting(metric)
