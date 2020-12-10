@@ -84,7 +84,7 @@ const Table = ({
           {...getTableBodyProps()}
           className={cx(styles.body, classes.body)}
         >
-          {repeatLoading && (
+          {repeatLoading > 0 && (
             <Loader
               repeat={repeatLoading}
               isLoading={isLoading}

@@ -1,20 +1,20 @@
 import React, { useMemo } from 'react'
 import cx from 'classnames'
-import ReactTable from 'react-table-6'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import Panel from '@santiment-network/ui/Panel'
 import SmoothDropdown from '../../../components/SmoothDropdown/SmoothDropdown'
-import { columns } from './columns'
+import { COLUMNS, DEFAULT_SORTING } from './columns'
+import Table from '../../../ducks/Table'
 import styles from './DetailedTransactionsTable.module.scss'
 
-const DEFAULT_SORTED = [
-  {
-    id: 'time',
-    desc: true
-  }
-]
-
-const TransactionTable = ({ header, data, slug, className, ...props }) => {
+const TransactionTable = ({
+  header,
+  data,
+  slug,
+  className,
+  tableClassName,
+  ...props
+}) => {
   const El = useMemo(
     () => {
       return header ? PanelWithHeader : Panel
@@ -25,10 +25,10 @@ const TransactionTable = ({ header, data, slug, className, ...props }) => {
   const availableColumns = useMemo(
     () => {
       if (slug === 'bitcoin') {
-        return columns.filter(({ accessor }) => accessor !== 'fromAddress')
+        return COLUMNS.filter(({ accessor }) => accessor !== 'fromAddress')
       }
 
-      return columns
+      return COLUMNS
     },
     [data, slug]
   )
@@ -38,19 +38,17 @@ const TransactionTable = ({ header, data, slug, className, ...props }) => {
       header={header}
       className={cx(styles.wrapper, className)}
       contentClassName={styles.panel}
-      headerClassName={styles.header}
     >
       <SmoothDropdown verticalMotion>
-        <ReactTable
-          minRows={1}
-          className={styles.transactionsTable}
-          defaultSorted={DEFAULT_SORTED}
-          showPagination={false}
-          resizable={false}
-          loadingText='Loading...'
-          {...props}
+        <Table
+          className={cx(className, tableClassName)}
           data={data}
           columns={availableColumns}
+          options={{
+            withSorting: true,
+            initialState: { sortBy: DEFAULT_SORTING },
+            isStickyHeader: true
+          }}
         />
       </SmoothDropdown>
     </El>

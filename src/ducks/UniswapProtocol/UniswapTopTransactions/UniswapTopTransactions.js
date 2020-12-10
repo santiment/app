@@ -74,7 +74,7 @@ const UniswapTopTransactions = () => {
         header={null}
         data={normalizedData}
         defaultPageSize={50}
-        className={styles.table}
+        tableClassName={styles.tableWrapper}
       />
     </>
   )
