@@ -1,4 +1,3 @@
-@import '~@santiment-network/ui/variables';
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
@@ -54,4 +53,8 @@
 .list {
   display: flex;
   flex-direction: column;
+}
+
+.btn {
+  color: var(--rhino) !important;
 }
