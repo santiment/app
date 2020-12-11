@@ -16,6 +16,7 @@ import { PATHS } from '../../paths'
 import AlphaBlock from './AlphaBlock/AlphaBlock'
 import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
 import externalStyles from '././../StablecoinsPage/StablecoinsPage.module.scss'
+import CabinetPreview from '../../ducks/Presentation/CabinetPreview/CabinetPreview'
 import styles from './MarketingPage.module.scss'
 
 const isCharts = ({ search }) =>
@@ -31,6 +32,10 @@ const MarketingPage = ({ userId, location }) => {
       <EventBanner />
       <div className={cx(externalStyles.inner, styles.inner)}>
         <div className={cx(styles.block, styles.firstBlock)}>
+          <CabinetPreview />
+        </div>
+
+        <div className={styles.block}>
           <IndexTab
             tabs={[
               {
