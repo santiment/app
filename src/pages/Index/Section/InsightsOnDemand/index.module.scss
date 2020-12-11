@@ -1,0 +1,41 @@
+@import '~@santiment-network/ui/mixins';
+
+.toggle {
+  fill: var(--waterloo);
+}
+
+.body {
+  display: none;
+  height: 405px;
+  border-top: 1px solid var(--porcelain);
+  width: 100%;
+}
+
+.insight {
+  overflow: hidden;
+  padding: 0;
+  flex-direction: column;
+
+  &_opened {
+    .body {
+      display: block;
+    }
+
+    .toggle {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.header {
+  @include text('body-2', 'm');
+
+  cursor: pointer;
+  color: var(--rhino);
+  justify-content: space-between;
+  border: none;
+
+  &:hover .toggle {
+    fill: var(--jungle-green);
+  }
+}

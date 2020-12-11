@@ -11,7 +11,7 @@ const RECENT_SOCIAL_TRENDS = INDEX_PAGE_GROUPS[0]
 
 const TabType = {
   SOCIAL_TRENDS: 'Social Trends',
-  SANTRENDS: 'Santrends',
+  SANTRENDS: 'Santrends'
 }
 
 const TabTypeContent = {
@@ -28,7 +28,7 @@ const TabTypeContent = {
       </>
     ),
     description:
-      'Navigate visually through the noise. Similar to Google Trends, Santiment developed this search platform to explore how keywords and topics fluctuate over time. See the total social volume and social dominance among various crypto-related discussion forums, and compare directly to others. See what Google Trends is unable to see.',
+      'Navigate visually through the noise. Similar to Google Trends, Santiment developed this search platform to explore how keywords and topics fluctuate over time. See the total social volume and social dominance among various crypto-related discussion forums, and compare directly to others. See what Google Trends is unable to see.'
   },
 
   [TabType.SANTRENDS]: {
@@ -44,8 +44,8 @@ const TabTypeContent = {
           top might be near. Crowd is <b>“all in”</b>
         </i>
       </>
-    ),
-  },
+    )
+  }
 }
 
 const Tab = ({ tab, tabState }) => (

@@ -2,6 +2,7 @@
 
 .wrapper {
   margin: 0 0 48px;
+  user-select: none;
 
   &:last-child {
     margin: 0;
@@ -25,4 +26,10 @@
   align-items: center;
   padding: 0 24px;
   min-height: 56px;
+  border-bottom: 1px solid var(--porcelain);
+  width: 100%;
+
+  &:last-child {
+    border-bottom: none;
+  }
 }

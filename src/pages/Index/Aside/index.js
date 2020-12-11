@@ -1,7 +1,6 @@
 import React from 'react'
 import Table from './Table'
 import Categories from '../../../ducks/SANCharts/Categories'
-import GainersLosersTabs from '../../../components/GainersAndLosers/GainersLosersTabs'
 import styles from './index.module.scss'
 
 const Section = ({ title, children }) => (
@@ -39,16 +38,6 @@ const Aside = ({ className }) => {
       <Recents />
       <Section title='Indices'>
         <Categories onClick={console.log} classes={styles} />
-      </Section>
-      <Section title='Social Gainers & Losers'>
-        <GainersLosersTabs
-          // className={styles.section}
-          // titleClassName={classes.subTitle}
-          timeWindow='2d'
-          size={8}
-          onProjectClick={console.log}
-          classes={styles}
-        />
       </Section>
     </aside>
   )
