@@ -15,6 +15,7 @@ const TopPanel = ({
   id,
   watchlist,
   isAuthor,
+  isAuthorLoading,
   isLoggedIn,
   assets,
   isDefaultScreener,
@@ -39,10 +40,11 @@ const TopPanel = ({
             {description}
           </HelpPopup>
         )}
-        {isAuthor && id && (
+        {id && (
           <BaseActions
             isAuthor={isAuthor}
             isPro={isPro}
+            isAuthorLoading={isAuthorLoading}
             name={name}
             id={id}
             watchlist={watchlist}
