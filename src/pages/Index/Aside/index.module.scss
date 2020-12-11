@@ -30,3 +30,16 @@
     margin: 0;
   }
 }
+
+.column {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  margin-right: 8px;
+}
+
+.change {
+  margin-left: 8px;
+}
