@@ -3,8 +3,8 @@ import { useQuery } from '@apollo/react-hooks'
 import Toggle from '@santiment-network/ui/Toggle'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
-import { TOP_TOKEN_TRANSACTIONS_QUERY } from '../../Studio/Widget/TopTransactionsTable/gql'
-import TransactionsTable from '../../../pages/Detailed/transactionsInfo/TransactionTable'
+import { TOP_TOKEN_TRANSACTIONS_QUERY } from '../../../components/Tables/TopTokenTransactions/gql'
+import TransactionsTable from '../../../components/Tables/TopTokenTransactions'
 import { normalizeTransactionData } from '../../../pages/Detailed/transactionsInfo/utils'
 import styles from './UniswapTopTransactions.module.scss'
 
@@ -75,7 +75,6 @@ const UniswapTopTransactions = () => {
         data={normalizedData}
         isLoading={loading}
         defaultPageSize={50}
-        tableClassName={styles.tableWrapper}
       />
     </>
   )

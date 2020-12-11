@@ -1,6 +1,6 @@
 import React from 'react'
 import { formatNumber } from '../../../utils/formatting'
-import WalletLink from '../../../components/WalletLink/WalletLink'
+import WalletLink from '../../WalletLink/WalletLink'
 
 const TrxAddressCell = ({ value }) => <WalletLink {...value} />
 

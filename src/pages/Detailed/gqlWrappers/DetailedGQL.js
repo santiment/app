@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { TRANSACTION_FRAGMENT } from '../../../ducks/Studio/Widget/TopTransactionsTable/gql'
+import { TRANSACTION_FRAGMENT } from '../../../components/Tables/TopTokenTransactions/gql'
 
 export const projectBySlugGQL = gql`
   query projectBySlugGQL(

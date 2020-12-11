@@ -9,6 +9,7 @@
   font-weight: normal;
   font-size: 12px;
   line-height: 16px;
+  white-space: nowrap;
 
   @include text('caption');
 
@@ -30,4 +31,8 @@
   align-items: center;
   width: 100%;
   overflow-x: auto;
+
+  @include responsive('phone', 'phone-xs') {
+    max-width: 130px;
+  }
 }

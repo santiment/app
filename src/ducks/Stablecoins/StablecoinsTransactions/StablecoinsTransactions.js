@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { normalizeTransactionData } from '../../../pages/Detailed/transactionsInfo/utils'
-import TransactionTable from '../../../pages/Detailed/transactionsInfo/TransactionTable'
+import TransactionTable from '../../../components/Tables/TopTokenTransactions'
 import { DEFAULT_STABLECOIN } from '../HolderDistribution/StablecoinHolderDistribution'
 import StablecoinSelector from '../StablecoinSelector/StablecoinSelector'
 import { useProjectTopTransactions } from '../../Studio/Widget/TopTransactionsTable'

@@ -1,6 +1,6 @@
 import React from 'react'
-import TransactionTable from './TransactionTable'
 import { normalizeTransactionData } from './utils'
+import TransactionTable from '../../../components/Tables/TopTokenTransactions'
 
 const DetailedTopTransactions = ({
   project,
