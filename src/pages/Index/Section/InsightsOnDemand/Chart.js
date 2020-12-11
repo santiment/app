@@ -12,13 +12,13 @@ const PADDING = {
   left: 3,
   right: 3,
   top: 20,
-  bottom: 5
+  bottom: 3
 }
 
-const Chart = ({ metrics, settings, ...props }) => {
+const Chart = ({ metrics, settings, MetricColor }) => {
   const [data] = useTimeseries(metrics, settings)
   const categories = useMetricCategories(metrics)
-  const colors = useChartColors(metrics)
+  const colors = useChartColors(metrics, MetricColor)
 
   return (
     <Canvas

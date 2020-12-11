@@ -37,7 +37,7 @@ export const COLORS = [
 
 export const COLORS_SET = new Set(COLORS)
 
-const MetricColor = {
+export const MetricColor = {
   [Metric.price_usd.key]: GREEN,
   [Metric.volume_usd.key]: GRAY,
   [Metric.social_volume_total.key]: CYAN,

@@ -1,4 +1,5 @@
 @import '~@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/variables';
 
 .toggle {
   fill: var(--waterloo);
@@ -13,7 +14,6 @@
 }
 
 .body {
-  height: 405px;
   border-top: 1px solid var(--porcelain);
   width: 100%;
 }
@@ -31,4 +31,17 @@
   color: var(--rhino);
   justify-content: space-between;
   border: none;
+}
+
+.btn {
+  margin: 24px;
+
+  &:active,
+  &:focus {
+    color: $white;
+  }
+}
+
+.external {
+  margin-left: 8px;
 }
