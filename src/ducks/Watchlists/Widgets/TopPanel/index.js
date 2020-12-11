@@ -22,6 +22,7 @@ const TopPanel = ({
 }) => {
   const { isPro } = useUserSubscriptionStatus()
   const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const [isUpdatingWatchlist, setIsUpdatingWatchlist] = useState(false)
 
   function closeFilter () {
     if (isFilterOpen) {
@@ -48,6 +49,9 @@ const TopPanel = ({
             onClick={closeFilter}
           />
         )}
+        {isUpdatingWatchlist && (
+          <span className={styles.saving}>Saving...</span>
+        )}
       </div>
       <div className={styles.row}>
         <div onClick={closeFilter} className={styles.row}>
@@ -69,6 +73,7 @@ const TopPanel = ({
           isDefaultScreener={isDefaultScreener}
           setIsOpen={setIsFilterOpen}
           isOpen={isFilterOpen}
+          setIsUpdatingWatchlist={setIsUpdatingWatchlist}
           {...props}
         />
       </div>
