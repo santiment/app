@@ -12,11 +12,6 @@
 .block {
   width: 100%;
   padding: 40px 0 36px;
-
-  &_main {
-    background: var(--athens);
-    min-height: 100vh;
-  }
 }
 
 .content {
@@ -48,5 +43,6 @@
 
 .aside {
   width: 367px;
+  min-width: 367px;
   margin-left: 24px;
 }

@@ -14,12 +14,13 @@ const Block = ({ className, contentClassName, children }) => (
 const IndexPage = ({ ...props }) => {
   return (
     <div className={styles.wrapper}>
-      <Block>
+      {/* // TODO: Reenable this block after design changes [@vanguard | Dec 11, 2020] */}
+      {/* <Block>
         <h1 className={styles.title}>Welcome to Sanbase</h1>
         <h4 className={styles.subtitle}>
           You can search for this and that using form below
         </h4>
-      </Block>
+      </Block> */}
       <Block
         className={styles.block_main}
         contentClassName={styles.content_main}
