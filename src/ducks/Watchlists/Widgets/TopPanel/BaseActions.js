@@ -97,7 +97,7 @@ const BaseActions = ({
   const [updateWatchlist, { loading }] = useUpdateWatchlist()
 
   return (
-    <div onClick={onClick}>
+    <div onClick={onClick} className={styles.container}>
       <ContextMenu
         trigger={
           <Trigger

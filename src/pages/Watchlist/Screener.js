@@ -115,6 +115,7 @@ const Screener = props => {
             <>
               <TopPanel
                 name={(watchlist || {}).name || name}
+                description={(watchlist || {}).description}
                 id={listId}
                 assets={assets}
                 loading={loading}

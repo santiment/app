@@ -6,10 +6,12 @@ import Share from '../../Actions/Share'
 import Filter from '../Filter'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import ScreenerSignalDialog from '../../../Signals/ScreenerSignal/ScreenerSignalDialog'
+import HelpPopup from '../../../../components/HelpPopup/HelpPopup'
 import styles from './index.module.scss'
 
 const TopPanel = ({
   name,
+  description,
   id,
   watchlist,
   isAuthor,
@@ -31,6 +33,11 @@ const TopPanel = ({
     <section className={cx(styles.wrapper, isFilterOpen && styles.open)}>
       <div className={styles.row}>
         <h1 className={styles.name}>{name}</h1>
+        {description && (
+          <HelpPopup triggerClassName={styles.description}>
+            {description}
+          </HelpPopup>
+        )}
         {isAuthor && id && (
           <BaseActions
             isAuthor={isAuthor}
