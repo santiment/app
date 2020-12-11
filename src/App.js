@@ -53,6 +53,14 @@ const FOOTER_ABSOLUTE_FOR = [
   PATHS.GDPR
 ]
 
+const LoadablePage = loader =>
+  Loadable({
+    loader,
+    loading: () => <PageLoader />
+  })
+
+const LoadableIndexPage = LoadablePage(() => import('./pages/Index'))
+
 const LoadableProMetricsPage = Loadable({
   loader: () => import('./pages/ProMetrics/ProMetrics'),
   loading: () => <PageLoader />
@@ -495,12 +503,7 @@ export const App = ({
             )}
           />
           {!isDesktop && <Redirect from={PATHS.INDEX} to='/assets' />}
-          <Route
-            path={PATHS.INDEX}
-            render={props => (
-              <LoadableMarketingPage isLoggedIn={isLoggedIn} {...props} />
-            )}
-          />
+          <Route path={PATHS.INDEX} component={LoadableIndexPage} />
         </Switch>
 
         <Intercom isDesktop={isDesktop} />
