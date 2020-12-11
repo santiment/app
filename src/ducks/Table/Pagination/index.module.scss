@@ -7,6 +7,23 @@
   padding-top: 16px;
 }
 
+.options {
+  position: absolute;
+  z-index: 3;
+}
+
+.totalPages {
+  color: var(--waterloo);
+  display: flex;
+  align-items: center;
+  margin-left: 24px;
+}
+
+.input {
+  margin: 0 16px 0 8px;
+  width: calc(var(--width) + 40px);
+}
+
 .buttons {
   margin-left: auto;
 }

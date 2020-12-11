@@ -1,7 +1,9 @@
 import React from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
+import Input from '@santiment-network/ui/Input'
 import Button from '@santiment-network/ui/Button'
+import Dropdown from '@santiment-network/ui/Dropdown'
 import styles from './index.module.scss'
 
 const Pagination = ({
@@ -27,20 +29,21 @@ const Pagination = ({
           </option>
         ))}
       </select>
-      <span>
-        Page{' '}
-        <strong>
-          <input
-            type='number'
-            defaultValue={pageIndex + 1}
-            onChange={evt => {
-              const page = evt.target.value ? Number(evt.target.value) - 1 : 0
-              gotoPage(page)
-            }}
-          />
-          of {pageOptions.length}
-        </strong>{' '}
-      </span>
+      <div className={styles.totalPages}>
+        Page
+        <Input
+          type='number'
+          className={styles.input}
+          style={{ '--width': `${(pageIndex + 1).toString().length}ch` }}
+          defaultValue={pageIndex + 1}
+          value={pageIndex + 1}
+          onChange={evt => {
+            const newPage = evt.target.value ? Number(evt.target.value) - 1 : 0
+            gotoPage(newPage)
+          }}
+        />
+        of {pageOptions.length}
+      </div>
       <div className={styles.buttons}>
         <Button
           border
