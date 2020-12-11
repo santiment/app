@@ -32,6 +32,10 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    margin-right: 12px;
+  }
 }
 
 .logo {
@@ -53,6 +57,11 @@
   justify-content: flex-end;
   border-left: 1px solid var(--porcelain);
   padding-left: 24px;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    margin-left: 24px;
+    padding-left: 33px;
+  }
 }
 
 .btn {
@@ -60,7 +69,8 @@
   align-items: center;
   background: transparent;
   color: var(--waterloo);
-  margin-right: 8px;
+  margin-right: 20px;
+  padding: 6px 10px;
 }
 
 .leftLink {

@@ -131,6 +131,10 @@
   color: var(--waterloo);
   margin-left: 4px;
   fill: var(--waterloo);
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    display: none;
+  }
 }
 
 .opened {

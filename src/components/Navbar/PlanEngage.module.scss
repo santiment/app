@@ -1,7 +1,6 @@
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
-  min-width: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -71,6 +70,10 @@
   &:hover {
     color: var(--texas-rose-hover);
     fill: var(--texas-rose-hover);
+  }
+
+  @include responsive('laptop', 'tablet') {
+    padding: 4px 8px;
   }
 }
 
