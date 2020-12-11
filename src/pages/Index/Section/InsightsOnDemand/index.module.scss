@@ -2,10 +2,17 @@
 
 .toggle {
   fill: var(--waterloo);
+
+  .insight_opened & {
+    transform: rotate(180deg);
+  }
+
+  .header:hover & {
+    fill: var(--jungle-green);
+  }
 }
 
 .body {
-  display: none;
   height: 405px;
   border-top: 1px solid var(--porcelain);
   width: 100%;
@@ -15,16 +22,6 @@
   overflow: hidden;
   padding: 0;
   flex-direction: column;
-
-  &_opened {
-    .body {
-      display: block;
-    }
-
-    .toggle {
-      transform: rotate(180deg);
-    }
-  }
 }
 
 .header {
@@ -34,8 +31,4 @@
   color: var(--rhino);
   justify-content: space-between;
   border: none;
-
-  &:hover .toggle {
-    fill: var(--jungle-green);
-  }
 }
