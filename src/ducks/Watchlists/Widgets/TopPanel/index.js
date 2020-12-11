@@ -46,6 +46,7 @@ const TopPanel = ({
             isPro={isPro}
             isAuthorLoading={isAuthorLoading}
             name={name}
+            description={description}
             id={id}
             watchlist={watchlist}
             onClick={closeFilter}

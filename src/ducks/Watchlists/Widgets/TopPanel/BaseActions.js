@@ -82,6 +82,7 @@ const BaseActions = ({
   isAuthor,
   id,
   name,
+  description,
   assets,
   watchlist,
   isPro,
