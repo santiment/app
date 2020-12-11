@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import { logScale, linearScale } from '@santiment-network/chart/scales'
 import { ASSETS_LIMIT, withDefaults } from './defaults'

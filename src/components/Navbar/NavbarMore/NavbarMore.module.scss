@@ -1,0 +1,31 @@
+@import '~@santiment-network/ui/mixins';
+
+.product {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  color: var(--rhino);
+
+  @include text('body-2');
+
+  &:hover {
+    color: var(--jungle-green);
+  }
+}
+
+.productImg {
+  margin-right: 12px;
+}
+
+.products {
+  margin: 20px 0 40px 10px;
+}
+
+.link {
+  margin-left: 10px;
+
+  @include text('body-3'); }
+
+.leftBlock {
+  margin-top: -6px;
+}
