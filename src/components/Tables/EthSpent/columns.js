@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { millify } from '../../../utils/formatting'
-import { simpleSort } from '../../../utils/sortMethods'
 import WalletLink from '../../WalletLink/WalletLink'
 import ProjectLabel from '../../ProjectLabel'
 

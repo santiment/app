@@ -1,11 +1,8 @@
 import React, { useMemo } from 'react'
-import cx from 'classnames'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import { COLUMNS, DEFAULT_SORTING } from './columns'
-import GetAssets, {
-  FIRST_LOAD_SIZE
-} from '../../../ducks/Watchlists/Widgets/Table/GetAssets'
+import GetAssets from '../../../ducks/Watchlists/Widgets/Table/GetAssets'
 import Table from '../../../ducks/Table'
 import styles from './index.module.scss'
 
