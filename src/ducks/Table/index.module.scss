@@ -7,6 +7,8 @@
   max-height: 90vh;
   overflow: auto;
   overflow: overlay;
+  display: flex;
+  flex-direction: column;
 
   @include responsive('phone-xs', 'phone') {
     width: 100%;

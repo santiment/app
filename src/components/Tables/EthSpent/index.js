@@ -39,6 +39,10 @@ const EthSpentTable = () => {
                 },
                 stickySettings: {
                   isStickyHeader: true
+                },
+                paginationSettings: {
+                  pageSize: 10,
+                  pageIndex: 0
                 }
               }}
               className={styles.tableWrapper}
