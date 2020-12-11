@@ -17,7 +17,11 @@ const SettingToComponent = {
 
 function isExchangeModifiable (metric) {
   const { base = metric } = metric
-  return base === Metric.exchange_outflow || base === Metric.exchange_inflow
+  return (
+    base === Metric.exchange_outflow ||
+    base === Metric.exchange_inflow ||
+    base === Metric.exchange_balance
+  )
 }
 
 const isIndicatorAssignable = metric =>

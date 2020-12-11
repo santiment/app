@@ -35,7 +35,7 @@ const Fetcher = METRICS.reduce((acc, metric) => {
 
       return data.map(item => ({
         datetime: item.datetime,
-        [key]: item[key] - 2
+        [key]: item[key] - 1
       }))
     }
   }
