@@ -7,6 +7,10 @@
   color: var(--rhino);
 
   @include text('body-2');
+
+  &:hover {
+    color: var(--jungle-green);
+  }
 }
 
 .productImg {
@@ -19,4 +23,9 @@
 
 .link {
   margin-left: 10px;
+
+  @include text('body-3'); }
+
+.leftBlock {
+  margin-top: -6px;
 }
