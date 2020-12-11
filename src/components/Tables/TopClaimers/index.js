@@ -1,13 +1,13 @@
 import React, { useState, useMemo } from 'react'
 import cx from 'classnames'
 import Loader from '@santiment-network/ui/Loader/Loader'
+import Table from '../../../ducks/Table'
+import IntervalsComponent from '../../IntervalsComponent/IntervalsComponent'
+import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
+import MakeProSubscriptionCard from '../../../pages/feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
 import { COLUMNS, DEFAULT_SORTING } from './columns'
 import { useTopClaimers, useUNIBalances, useUNITransactionVolume } from './gql'
-import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
-import IntervalsComponent from '../../IntervalsComponent/IntervalsComponent'
-import MakeProSubscriptionCard from '../../../pages/feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
-import Table from '../../../ducks/Table'
-import styles from './table.module.scss'
+import styles from './index.module.scss'
 
 const to = 'utc_now'
 

@@ -1,8 +1,8 @@
 import React from 'react'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import { formatNumber } from '../../../utils/formatting'
 import WalletLink from '../../WalletLink/WalletLink'
-import styles from './table.module.scss'
+import { formatNumber } from '../../../utils/formatting'
+import styles from './index.module.scss'
 
 const settings = {
   assets: ['uniswap'],
