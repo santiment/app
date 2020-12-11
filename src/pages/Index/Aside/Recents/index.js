@@ -1,14 +1,12 @@
-import React, { useState, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import Assets from './Assets'
 import Watchlists from './Watchlists'
 import Section from '../Section'
-import Table from '../Table'
 import {
   getRecentAssets,
   getRecentWatchlists,
   getRecentScreeners
 } from '../../../../utils/recent'
-import styles from '../index.module.scss'
 
 const Recents = () => {
   const [assets, watchlists, screeners] = useMemo(
@@ -24,14 +22,7 @@ const Recents = () => {
     <Section title='Recents'>
       {!!assets.length && <Assets slugs={assets} />}
       {!!watchlists.length && <Watchlists ids={watchlists} />}
-
-      {false && !!screeners.length && (
-        <Table
-          className={styles.table}
-          title='Screeners'
-          rightHeader='Market Cap'
-        />
-      )}
+      {!!screeners.length && <Watchlists title='Screeners' ids={screeners} />}
     </Section>
   )
 }

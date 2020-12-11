@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
+import { FluidSkeleton as Skeleton } from '../../../components/Skeleton'
 import styles from './Table.module.scss'
 
 export const Row = props => <Link {...props} className={styles.row} />
@@ -11,6 +12,7 @@ const Table = ({
   leftHeader = 'Name',
   rightHeader,
   items,
+  isLoading,
   getLink,
   Item
 }) => (
@@ -26,6 +28,7 @@ const Table = ({
           {Item(item)}
         </Row>
       ))}
+      <Skeleton show={isLoading} className={styles.skeleton} />
     </div>
   </div>
 )

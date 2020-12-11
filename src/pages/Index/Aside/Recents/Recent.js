@@ -15,10 +15,14 @@ export const getItemBuilder = query => id =>
 
 const Recent = ({ title, rightHeader, ids, getItem, getLink, Item }) => {
   const [items, setItems] = useState(ids)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(
     () => {
-      Promise.all(ids.map(getItem)).then(setItems)
+      Promise.all(ids.map(getItem)).then(items => {
+        setItems(items)
+        setIsLoading(false)
+      })
     },
     [ids]
   )
@@ -29,6 +33,7 @@ const Recent = ({ title, rightHeader, ids, getItem, getLink, Item }) => {
       title={title}
       rightHeader={rightHeader}
       items={items}
+      isLoading={isLoading}
       getLink={getLink}
       Item={Item}
     />

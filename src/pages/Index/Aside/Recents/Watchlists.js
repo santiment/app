@@ -32,15 +32,18 @@ const Watchlist = ({ name, isPublic, historicalStats }) => {
   )
 }
 
-const Watchlists = ({ ids }) => (
+const RecentWatchlists = ({ title, ids }) => (
   <Recent
-    title='Watchlists'
     rightHeader='Market Cap'
+    title={title}
     ids={ids}
     getItem={getItem}
     getLink={getLink}
     Item={Watchlist}
   />
 )
+RecentWatchlists.defaultProps = {
+  title: 'Watchlists'
+}
 
-export default Watchlists
+export default RecentWatchlists
