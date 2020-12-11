@@ -17,6 +17,23 @@
   }
 }
 
+.tab {
+  margin-right: 32px;
+  cursor: pointer;
+
+  &_inactive {
+    color: var(--casper);
+
+    &:hover {
+      color: var(--waterloo);
+    }
+  }
+
+  &:last-child {
+    margin: 0;
+  }
+}
+
 .title {
   @include text('body-1', 'm');
 
