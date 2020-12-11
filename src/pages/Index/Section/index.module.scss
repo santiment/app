@@ -13,3 +13,16 @@
 
   margin: 0 0 24px;
 }
+
+.container {
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  min-height: 56px;
+}

@@ -1,6 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
 import Aside from './Aside'
+import PersonalSection from './Section/Personal'
+import InsightsOnDemandSection from './Section/InsightsOnDemand'
 import TrendsSection from './Section/Trends'
 import { SidecarItems } from '../../ducks/SANCharts/ChartSidecar'
 import styles from './index.module.scss'
@@ -26,6 +28,8 @@ const IndexPage = ({ ...props }) => {
         contentClassName={styles.content_main}
       >
         <main className={styles.main}>
+          <PersonalSection />
+          <InsightsOnDemandSection />
           <TrendsSection />
         </main>
 
