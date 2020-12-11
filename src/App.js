@@ -168,11 +168,6 @@ const LoadableLabelsPage = Loadable({
   loading: () => <PageLoader />
 })
 
-// const LoadableMarketSegmentsPage = Loadable({
-//   loader: () => import('./pages/MarketSegments'),
-//   loading: () => <PageLoader />
-// })
-
 const LoadableProfilePage = Loadable({
   loader: () => import('./pages/profile/ProfilePage'),
   loading: () => <PageLoader />

@@ -1,47 +1,44 @@
 import React from 'react'
 import { formatNumber } from '../../../utils/formatting'
-import WalletLink from '../../../components/WalletLink/WalletLink'
+import WalletLink from '../../WalletLink/WalletLink'
 
 const TrxAddressCell = ({ value }) => <WalletLink {...value} />
 
-const TrxHashAddressCell = ({ value }) => (
-  <TrxAddressCell value={{ address: value, isTx: true }} />
-)
-
-export const columns = [
+export const DEFAULT_SORTING = [
   {
-    id: 'time',
+    id: 'datetime',
+    desc: true
+  }
+]
+
+export const COLUMNS = [
+  {
     Header: 'Time',
     accessor: 'datetime',
-    minWidth: 100,
-    maxWidth: 200,
-    sortMethod: (a, b) => (new Date(a) > new Date(b) ? 1 : -1)
+    sortType: 'datetime'
   },
   {
-    id: 'value',
     Header: 'Value',
     accessor: 'trxValue',
-    minWidth: 100,
-    maxWidth: 150,
-    sortable: true,
     Cell: ({ value }) => formatNumber(value)
   },
   {
     Header: 'From',
     accessor: 'fromAddress',
     Cell: TrxAddressCell,
-    sortable: false
+    disableSortBy: true
   },
   {
     Header: 'To',
     accessor: 'toAddress',
     Cell: TrxAddressCell,
-    sortable: false
+    disableSortBy: true
   },
   {
     Header: 'TxHash',
     accessor: 'trxHash',
-    Cell: TrxHashAddressCell,
-    sortable: false
+    Cell: ({ value }) =>
+      TrxAddressCell({ value: { address: value, isTx: true } }),
+    disableSortBy: true
   }
 ]

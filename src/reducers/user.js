@@ -24,8 +24,7 @@ export const initialState = {
   account: null,
   token: null,
   hasMetamask: false,
-  consent: null,
-  insightDraft: {}
+  consent: null
 }
 
 export default (state = initialState, action) => {

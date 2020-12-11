@@ -6,7 +6,7 @@ import Panel from '@santiment-network/ui/Panel'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import Icon from '@santiment-network/ui/Icon'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
-import { COLUMNS_NAMES, MARKET_SEGMENT_COLUMNS } from './columns.js'
+import { COLUMNS_NAMES } from './columns.js'
 import { Description } from '../../../dataHub/metrics/descriptions'
 import MetricDescription from '../../../SANCharts/MetricDescription/MetricDescription'
 import { Metric } from '../../../dataHub/metrics'
@@ -15,8 +15,7 @@ import styles from './AssetsToggleColumns.module.scss'
 const HIDDEN_COLUMNS = [
   COLUMNS_NAMES.index,
   COLUMNS_NAMES.checkboxes,
-  COLUMNS_NAMES.project,
-  ...MARKET_SEGMENT_COLUMNS
+  COLUMNS_NAMES.project
 ]
 
 const AssetsToggleColumns = ({ columns = [], onChange }) => (

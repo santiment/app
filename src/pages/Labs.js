@@ -41,18 +41,6 @@ const cards = [
     className: styles.dashboard,
     bgClassName: styles.dashboardBg
   }
-  // {
-  //   title: 'Buidl heroes',
-  //   description: (
-  //     <div>
-  //       Compare the development activity of all Ethereum, EOS and DeFi projects
-  //       over time.
-  //     </div>
-  //   ),
-  //   link: '/labs/buidl-heroes',
-  //   className: styles.dashboard,
-  //   bgClassName: styles.buidlBg
-  // }
 ]
 
 const Labs = () => (

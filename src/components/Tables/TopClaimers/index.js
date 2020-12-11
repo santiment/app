@@ -1,24 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import cx from 'classnames'
-import ReactTable from 'react-table'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import { columns } from './columns'
-import { useTopClaimers, useUNIBalances, useUNITransactionVolume } from './gql'
-import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
-import {
-  CustomLoadingComponent,
-  CustomNoDataComponent
-} from '../../../ducks/Watchlists/Widgets/Table/AssetsTable'
+import Table from '../../../ducks/Table'
 import IntervalsComponent from '../../IntervalsComponent/IntervalsComponent'
+import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import MakeProSubscriptionCard from '../../../pages/feed/GeneralFeed/MakeProSubscriptionCard/MakeProSubscriptionCard'
-import styles from './table.module.scss'
-
-const DEFAULT_SORTED = [
-  {
-    id: 'value',
-    desc: true
-  }
-]
+import { COLUMNS, DEFAULT_SORTING } from './columns'
+import { useTopClaimers, useUNIBalances, useUNITransactionVolume } from './gql'
+import styles from './index.module.scss'
 
 const to = 'utc_now'
 
@@ -44,6 +33,15 @@ function getVolumes (volumes = [], address) {
   return { volumeInflow, volumeOutflow }
 }
 
+function makeData ({ items, balances, volumes }) {
+  return items.map(({ address, ...rest }) => ({
+    address,
+    ...rest,
+    balance: getBalance(balances, address),
+    ...getVolumes(volumes, address)
+  }))
+}
+
 export const TopClaimersTableTitle = ({ setInterval, loading, items }) => {
   return (
     <div className={styles.title}>
@@ -64,17 +62,18 @@ const TopClaimers = ({ className }) => {
   const [interval, setInterval] = useState(RANGES[0].value)
   const from = `utc_now-${interval}d`
   const [items, loading] = useTopClaimers({ from, to })
+  const { isPro } = useUserSubscriptionStatus()
 
   const addresses = items.map(({ address }) => address)
   const [balances] = useUNIBalances({ addresses, from, to })
   const [volumes] = useUNITransactionVolume({ addresses, from, to })
 
-  const tableItems = items.map(({ address, ...rest }) => ({
-    address,
-    ...rest,
-    balance: getBalance(balances, address),
-    ...getVolumes(volumes, address)
-  }))
+  const data = useMemo(() => makeData({ items, balances, volumes }), [
+    items,
+    balances,
+    volumes
+  ])
+  const columns = useMemo(() => COLUMNS, [])
 
   return (
     <>
@@ -83,48 +82,36 @@ const TopClaimers = ({ className }) => {
         loading={loading}
         items={items}
       />
-      <TopClaimersTable
-        className={className}
-        items={tableItems}
-        loading={loading}
-      />
+      {!isPro ? (
+        <MakeProSubscriptionCard classes={{ card: className }} />
+      ) : (
+        <Table
+          data={data}
+          columns={columns}
+          options={{
+            loadingSettings: {
+              repeatLoading: 10,
+              isLoading: loading && items.length === 0
+            },
+            sortingSettings: {
+              defaultSorting: DEFAULT_SORTING,
+              allowSort: true
+            },
+            stickySettings: {
+              isStickyHeader: true,
+              isStickyColumn: true,
+              stickyColumnIdx: 0
+            }
+          }}
+          className={cx(className, styles.tableWrapper)}
+          classes={{
+            table: styles.table,
+            loader: styles.loadingWrapper,
+            loaderRow: styles.loadingRow
+          }}
+        />
+      )}
     </>
-  )
-}
-
-const TopClaimersTable = ({ className, items, loading }) => {
-  const { isPro } = useUserSubscriptionStatus()
-
-  if (!isPro) {
-    return <MakeProSubscriptionCard classes={{ card: className }} />
-  }
-
-  return (
-    <div className={cx(className, styles.table)}>
-      <ReactTable
-        className={styles.claimersTable}
-        defaultSorted={DEFAULT_SORTED}
-        showPagination={false}
-        resizable={false}
-        data={items}
-        columns={columns}
-        showPaginationBottom
-        defaultPageSize={5}
-        pageSize={items.length}
-        minRows={0}
-        loadingText=''
-        LoadingComponent={() => (
-          <CustomLoadingComponent
-            isLoading={loading && items.length === 0}
-            repeat={15}
-            classes={{ wrapper: styles.loadingWrapper, row: styles.loadingRow }}
-          />
-        )}
-        NoDataComponent={() => (
-          <CustomNoDataComponent isLoading={loading && items.length === 0} />
-        )}
-      />
-    </div>
   )
 }
 

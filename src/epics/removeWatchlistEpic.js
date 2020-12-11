@@ -52,16 +52,11 @@ const removeWatchlistEpic = (action$, store, { client }) =>
       })
       return Observable.from(mutationPromise)
         .mergeMap(() => {
-          return Observable.merge(
-            Observable.of({
-              type: actions.USER_REMOVE_ASSET_LIST_SUCCESS
-            }),
-            Observable.of(
-              showNotification({
-                variant: 'success',
-                title: `“${name}” have been successfully deleted`
-              })
-            )
+          return Observable.of(
+            showNotification({
+              variant: 'success',
+              title: `“${name}” have been successfully deleted`
+            })
           )
         })
         .catch(error => {

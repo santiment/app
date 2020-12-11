@@ -1,22 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import cx from 'classnames'
-import ReactTable from 'react-table'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import { columns } from './columns'
+import { COLUMNS, DEFAULT_SORTING } from './columns'
 import { useTopExchanges } from './gql'
-import {
-  CustomLoadingComponent,
-  CustomNoDataComponent
-} from '../../../ducks/Watchlists/Widgets/Table/AssetsTable'
 import StablecoinSelector from '../../../ducks/Stablecoins/StablecoinSelector/StablecoinSelector'
+import Table from '../../../ducks/Table'
 import styles from './index.module.scss'
-
-const DEFAULT_SORTED = [
-  {
-    id: 'balance',
-    desc: true
-  }
-]
 
 const DEFAULT_STABLECOIN = {
   slug: 'stablecoins',
@@ -45,6 +34,9 @@ const TopExchanges = ({ className, isStablecoinPage, ...props }) => {
       : {}
   const [items, loading] = useTopExchanges({ ...props, ...additionalProps })
 
+  const data = useMemo(() => items, [items])
+  const columns = useMemo(() => COLUMNS, [])
+
   return (
     <>
       <TopExchangesTableTitle loading={loading} items={items} />
@@ -53,42 +45,29 @@ const TopExchanges = ({ className, isStablecoinPage, ...props }) => {
           <StablecoinSelector asset={asset} setAsset={setAsset} />
         </div>
       )}
-      <TopExchangesTable
-        className={className}
-        items={items}
-        loading={loading}
+      <Table
+        data={data}
+        columns={columns}
+        options={{
+          loadingSettings: {
+            repeatLoading: 10,
+            isLoading: loading && data.length === 0
+          },
+          sortingSettings: { defaultSorting: DEFAULT_SORTING, allowSort: true },
+          stickySettings: {
+            isStickyHeader: true,
+            isStickyColumn: true,
+            stickyColumnIdx: 0
+          }
+        }}
+        className={cx(className, styles.tableWrapper)}
+        classes={{
+          table: styles.table,
+          loader: styles.loadingWrapper,
+          loaderRow: styles.loadingRow
+        }}
       />
     </>
-  )
-}
-
-const TopExchangesTable = ({ className, items, loading }) => {
-  return (
-    <div className={cx(className, styles.table)}>
-      <ReactTable
-        className={styles.topExchangesTable}
-        defaultSorted={DEFAULT_SORTED}
-        showPagination={false}
-        resizable={false}
-        data={items}
-        columns={columns}
-        showPaginationBottom
-        defaultPageSize={5}
-        pageSize={items.length}
-        minRows={0}
-        loadingText=''
-        LoadingComponent={() => (
-          <CustomLoadingComponent
-            isLoading={loading && items.length === 0}
-            repeat={10}
-            classes={{ wrapper: styles.loadingWrapper, row: styles.loadingRow }}
-          />
-        )}
-        NoDataComponent={() => (
-          <CustomNoDataComponent isLoading={loading && items.length === 0} />
-        )}
-      />
-    </div>
   )
 }
 

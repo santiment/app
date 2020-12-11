@@ -37,7 +37,6 @@ const FilterMetricSettings = ({
         <TypeDropdown
           isPro={isPro}
           type={type}
-          isDefaultOpen={autoFocus}
           onChange={props => {
             onFilterTypeChange(props)
 

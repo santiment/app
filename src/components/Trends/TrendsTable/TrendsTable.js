@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { compose } from 'redux'
-import Table from 'react-table'
+import Table from 'react-table-6'
 import cx from 'classnames'
 import withSizes from 'react-sizes'
 import { connect } from 'react-redux'

@@ -1,25 +1,17 @@
 import React from 'react'
 import cx from 'classnames'
-import { connect } from 'react-redux'
 import WatchlistCard from './WatchlistCard'
 import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
 import { getWatchlistLink } from '../utils'
 import Skeleton from '../../../components/Skeleton/Skeleton'
-import {
-  checkIsLoggedIn,
-  checkIsLoggedInPending
-} from '../../../pages/UserSelectors'
 import NewWatchlistCard from './NewCard'
 import { useUserScreeners } from '../gql/hooks'
+import { useUser } from '../../../stores/user'
 import stylesGrid from './index.module.scss'
 import styles from './Watchlist.module.scss'
 
-const MyScreeners = ({
-  isLoggedIn,
-  isLoggedInPending,
-  className,
-  showHeader = true
-}) => {
+const MyScreeners = ({ className, showHeader = true }) => {
+  const { loading: isLoggedInPending } = useUser()
   const [screeners, loading] = useUserScreeners()
 
   return (
@@ -68,9 +60,4 @@ const MyScreeners = ({
   )
 }
 
-const mapStateToProps = state => ({
-  isLoggedIn: checkIsLoggedIn(state),
-  isLoggedInPending: checkIsLoggedInPending(state)
-})
-
-export default connect(mapStateToProps)(MyScreeners)
+export default MyScreeners

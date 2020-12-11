@@ -1,0 +1,138 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  position: relative;
+  background-color: var(--white);
+  min-height: 346px;
+  max-height: 90vh;
+  overflow: auto;
+  overflow: overlay;
+
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
+  }
+}
+
+.table {
+  border-spacing: 0;
+  width: 100%;
+  height: 100%;
+
+  @include responsive('phone-xs', 'phone') {
+    min-width: 800px;
+  }
+}
+
+.header {
+  background: var(--athens);
+  user-select: none;
+  border-bottom: 1px solid var(--porcelain);
+}
+
+.headerColumn {
+  @include text('body-3', 'm');
+
+  color: var(--casper);
+  padding: 6px 10px;
+  text-align: left;
+
+  &:first-child {
+    padding-left: 26px;
+  }
+}
+
+.headerColumnStickyTop {
+  z-index: 1;
+  position: sticky;
+  top: 0;
+  background: var(--athens);
+  border-bottom: 1px solid var(--porcelain);
+}
+
+.headerColumnStickyLeft {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: var(--athens);
+}
+
+.sort {
+  position: relative;
+  margin-left: 6px;
+  width: 4px;
+  visibility: hidden;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    border: 4px solid transparent;
+    border-radius: 3px;
+  }
+
+  &::before {
+    border-top: 4px solid var(--mystic);
+    bottom: 0;
+  }
+
+  &::after {
+    border-bottom: 4px solid var(--mystic);
+    top: -1px;
+  }
+}
+
+.sortDesc::before {
+  border-top-color: var(--waterloo);
+}
+
+.sortAsc::after {
+  border-bottom-color: var(--waterloo);
+}
+
+.headerColumnActive {
+  color: var(--rhino);
+
+  & .sort {
+    visibility: visible;
+  }
+}
+
+.body {
+  background-color: var(--white);
+}
+
+.bodyColumn {
+  @include text('body-3');
+
+  padding: 6px 10px;
+  text-align: left;
+
+  &:first-child {
+    padding-left: 26px;
+  }
+}
+
+.bodyColumnSticky {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background-color: var(--white);
+}
+
+.bodyRow {
+  height: 48px;
+
+  &:hover {
+    background-color: var(--athens);
+
+    & .bodyColumnSticky {
+      background-color: var(--athens);
+    }
+  }
+}
+
+.bodyRow + .bodyRow {
+  & .bodyColumn {
+    border-top: 1px solid var(--porcelain);
+  }
+}
