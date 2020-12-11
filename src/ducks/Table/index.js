@@ -117,7 +117,7 @@ const Table = ({
           classes={{ wrapper: classes.loader, row: classes.loaderRow }}
         />
       )}
-      {!!loadingSettings && data.length === 0 && <NoData />}
+      {!!loadingSettings && !isLoading && data.length === 0 && <NoData />}
     </div>
   )
 }

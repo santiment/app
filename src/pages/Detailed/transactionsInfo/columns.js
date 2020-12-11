@@ -4,10 +4,6 @@ import WalletLink from '../../../components/WalletLink/WalletLink'
 
 const TrxAddressCell = ({ value }) => <WalletLink {...value} />
 
-const TrxHashAddressCell = ({ value }) => (
-  <TrxAddressCell value={{ address: value, isTx: true }} />
-)
-
 export const DEFAULT_SORTING = [
   {
     id: 'datetime',
@@ -41,7 +37,8 @@ export const COLUMNS = [
   {
     Header: 'TxHash',
     accessor: 'trxHash',
-    Cell: TrxHashAddressCell,
+    Cell: ({ value }) =>
+      TrxAddressCell({ value: { address: value, isTx: true } }),
     disableSortBy: true
   }
 ]

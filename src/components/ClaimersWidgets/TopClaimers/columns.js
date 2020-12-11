@@ -43,8 +43,8 @@ export const COLUMNS = [
   {
     Header: 'Address',
     accessor: 'address',
-    disableSortBy: true,
-    Cell: TrxAddressCell
+    Cell: TrxAddressCell,
+    disableSortBy: true
   },
   {
     Header: 'Claimed in interval',
@@ -52,18 +52,18 @@ export const COLUMNS = [
     Cell: ({ value }) => formatNumber(value)
   },
   {
-    Cell: ({ value }) => CellWithLoader(value),
     Header: 'Current balance',
-    accessor: 'balance'
+    accessor: 'balance',
+    Cell: CellWithLoader
   },
   {
-    Cell: ({ value }) => CellWithLoader(value),
     Header: 'Transaction Volume In',
-    accessor: 'volumeInflow'
+    accessor: 'volumeInflow',
+    Cell: CellWithLoader
   },
   {
-    Cell: ({ value }) => CellWithLoader(value),
     Header: 'Transaction Volume Out',
-    accessor: 'volumeOutflow'
+    accessor: 'volumeOutflow',
+    Cell: CellWithLoader
   }
 ]

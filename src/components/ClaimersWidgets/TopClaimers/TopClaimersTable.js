@@ -33,6 +33,15 @@ function getVolumes (volumes = [], address) {
   return { volumeInflow, volumeOutflow }
 }
 
+function makeData ({ items, balances, volumes }) {
+  return items.map(({ address, ...rest }) => ({
+    address,
+    ...rest,
+    balance: getBalance(balances, address),
+    ...getVolumes(volumes, address)
+  }))
+}
+
 export const TopClaimersTableTitle = ({ setInterval, loading, items }) => {
   return (
     <div className={styles.title}>
@@ -59,14 +68,11 @@ const TopClaimers = ({ className }) => {
   const [balances] = useUNIBalances({ addresses, from, to })
   const [volumes] = useUNITransactionVolume({ addresses, from, to })
 
-  const tableItems = items.map(({ address, ...rest }) => ({
-    address,
-    ...rest,
-    balance: getBalance(balances, address),
-    ...getVolumes(volumes, address)
-  }))
-
-  const data = useMemo(() => tableItems, [tableItems, balances])
+  const data = useMemo(() => makeData({ items, balances, volumes }), [
+    items,
+    balances,
+    volumes
+  ])
   const columns = useMemo(() => COLUMNS, [])
 
   return (
@@ -85,7 +91,7 @@ const TopClaimers = ({ className }) => {
           options={{
             loadingSettings: {
               repeatLoading: 10,
-              isLoading: loading && data.length === 0
+              isLoading: loading && items.length === 0
             },
             sortingSettings: {
               defaultSorting: DEFAULT_SORTING,
