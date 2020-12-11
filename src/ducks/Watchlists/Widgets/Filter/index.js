@@ -29,7 +29,6 @@ import {
   notifyLoginForSave,
   notifyOutdatedVersion
 } from '../../Widgets/TopPanel/notifications'
-import { useIsBetaMode } from '../../../../stores/ui'
 import styles from './index.module.scss'
 
 const Filter = ({
@@ -38,6 +37,7 @@ const Filter = ({
   isAuthor,
   screenerFunction,
   setScreenerFunction,
+  setIsUpdatingWatchlist,
   isLoggedIn,
   isDefaultScreener,
   loading,
@@ -57,14 +57,23 @@ const Filter = ({
   const [isOutdatedVersion, setIsOutdatedVersion] = useState(false)
   const [isActiveFiltersOnly, setIsActiveFiltersOnly] = useState(false)
   const [isWereChanges, setIsWereChanges] = useState(false)
-  const [updateWatchlist] = useUpdateWatchlist()
+  const [
+    updateWatchlist,
+    { loading: isUpdatingWatchlist }
+  ] = useUpdateWatchlist()
   const [availableMetrics] = useAvailableMetrics()
   const [isReset, setIsReset] = useState(false)
   const { isPro } = useUserSubscriptionStatus()
-  const isBeta = useIsBetaMode()
 
   const isNoFilters =
     filters.length === 0 || screenerFunction.name === 'top_all_projects'
+
+  useEffect(
+    () => {
+      setIsUpdatingWatchlist(isUpdatingWatchlist)
+    },
+    [isUpdatingWatchlist]
+  )
 
   useEffect(
     () => {
@@ -185,7 +194,7 @@ const Filter = ({
 
   const metricsSet = isActiveFiltersOnly ? activeBaseMetrics : metrics
   const filteredMetrics = filterMetricsBySearch(currentSearch, metricsSet)
-  const categories = getCategoryGraph(filteredMetrics, [], {}, isBeta)
+  const categories = getCategoryGraph(filteredMetrics)
 
   activeBaseMetrics.forEach(metric => {
     if (metric === undefined && !isOutdatedVersion) {
