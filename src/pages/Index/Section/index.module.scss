@@ -1,0 +1,15 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  margin: 0 0 48px;
+
+  &:last-child {
+    margin: 0;
+  }
+}
+
+.title {
+  @include text('h4', 'm');
+
+  margin: 0 0 24px;
+}
