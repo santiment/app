@@ -36,7 +36,7 @@ const Trigger = ({
   openMenu
 }) => {
   return (
-    <div className={styles.trigger} ref={forwardedRef}>
+    <div className={cx(styles.trigger, styles.container)} ref={forwardedRef}>
       <EditAssets
         id={watchlist.id}
         assets={assets}

@@ -2,12 +2,14 @@ import React from 'react'
 import cx from 'classnames'
 import BaseActions from '../WatchlistBaseActions'
 import Share from '../../../Actions/Share'
-import WeeklyReportTrigger from '../../../Actions/WeeklyReport/Trigger'
-import styles from '../index.module.scss'
 import Widgets from '../Widgets'
+import WeeklyReportTrigger from '../../../Actions/WeeklyReport/Trigger'
+import HelpPopup from '../../../../../components/HelpPopup/HelpPopup'
+import styles from '../index.module.scss'
 
 const TopPanel = ({
   name,
+  description,
   id,
   watchlist,
   isAuthor,
@@ -20,6 +22,11 @@ const TopPanel = ({
     <section className={cx(styles.wrapper, className)}>
       <div className={styles.row}>
         <h1 className={styles.name}>{name}</h1>
+        {description && (
+          <HelpPopup triggerClassName={styles.description}>
+            {description}
+          </HelpPopup>
+        )}
         {isAuthor && id && (
           <BaseActions
             isAuthor={isAuthor}
