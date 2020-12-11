@@ -1,0 +1,27 @@
+@import '~@santiment-network/ui/mixins';
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.headerLoader {
+  font-size: 5px;
+  margin-left: 24px;
+}
+
+.panel {
+  padding: 0;
+}
+
+.wrapper {
+  width: 100%;
+}
+
+.tableWrapper {
+  max-height: 70vh;
+}
+
+.table {
+  min-width: 700px;
+}
