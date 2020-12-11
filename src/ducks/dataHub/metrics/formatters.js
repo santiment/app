@@ -17,7 +17,6 @@ export const percentageFormatter = val => {
 
 export const absoluteToPercentsFormatter = val => percentageFormatter(100 * val)
 
-/* export const mvrvFormatter = val => absoluteToPercentsFormatter(val - 1) */
 export const mvrvFormatter = val => absoluteToPercentsFormatter(val)
 
 export const tooltipValueFormatter = ({
