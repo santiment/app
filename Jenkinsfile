@@ -15,7 +15,7 @@ podTemplate(label: 'app-builder', containers: [
         } finally {
         }
 
-        if (env.BRANCH_NAME == "master") {
+        if (env.BRANCH_NAME == "production") {
           withCredentials([
             string(
               credentialsId: 'SECRET_KEY_BASE',
@@ -28,8 +28,8 @@ podTemplate(label: 'app-builder', containers: [
           ]) {
             def awsRegistry = "${env.aws_account_id}.dkr.ecr.eu-central-1.amazonaws.com"
             docker.withRegistry("https://${awsRegistry}", "ecr:eu-central-1:ecr-credentials") {
-              sh "docker build -t ${awsRegistry}/app:${env.BRANCH_NAME} -t ${awsRegistry}/app:${scmVars.GIT_COMMIT} --build-arg SECRET_KEY_BASE=${env.SECRET_KEY_BASE} --build-arg GIT_HEAD=${gitHead} ."
-              sh "docker push ${awsRegistry}/app:${env.BRANCH_NAME}"
+              sh "docker build -t ${awsRegistry}/app:${env.BRANCH_NAME}-build -t ${awsRegistry}/app:${scmVars.GIT_COMMIT} --build-arg SECRET_KEY_BASE=${env.SECRET_KEY_BASE} --build-arg GIT_HEAD=${gitHead} ."
+              sh "docker push ${awsRegistry}/app:${env.BRANCH_NAME}-build"
               sh "docker push ${awsRegistry}/app:${scmVars.GIT_COMMIT}"
             }
           }
