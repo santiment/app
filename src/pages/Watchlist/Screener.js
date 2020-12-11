@@ -95,6 +95,7 @@ const Screener = props => {
           const title = getWatchlistName(props)
           const {
             items,
+            isLoading: isAuthorLoading,
             typeInfo: { listId },
             isCurrentUserTheAuthor,
             trendingAssets = []
@@ -121,6 +122,7 @@ const Screener = props => {
                 loading={loading}
                 watchlist={watchlist}
                 isAuthor={isCurrentUserTheAuthor}
+                isAuthorLoading={isAuthorLoading}
                 isLoggedIn={isLoggedIn}
                 screenerFunction={screenerFunction}
                 setScreenerFunction={setScreenerFunction}
