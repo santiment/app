@@ -13,6 +13,9 @@ export const Container = ({ className, children }) => (
   <div className={cx(styles.container, className)}>{children}</div>
 )
 
-export const Row = ({ className, ...props }) => (
-  <div {...props} className={cx(styles.row, className)} />
+export const Row = ({ className, As, ...props }) => (
+  <As {...props} className={cx(styles.row, className)} />
 )
+Row.defaultProps = {
+  As: 'div'
+}

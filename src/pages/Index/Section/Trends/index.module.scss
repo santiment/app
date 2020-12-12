@@ -20,6 +20,7 @@
 .tab {
   margin-right: 32px;
   cursor: pointer;
+  user-select: none;
 
   &_inactive {
     color: var(--casper);
