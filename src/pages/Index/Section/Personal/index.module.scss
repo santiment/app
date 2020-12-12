@@ -7,18 +7,23 @@
 
 .toggle {
   margin-left: auto;
+  user-select: none;
 }
 
-.cabinet::after {
-  @include text('caption', 'm');
+.cabinet {
+  display: flex;
+  align-items: center;
 
-  content: 'PRO';
-  margin-left: 8px;
-  background: var(--texas-rose);
-  vertical-align: middle;
-  color: var(--white);
-  padding: 3px 7px;
-  border-radius: 4px;
+  &::after {
+    @include text('caption', 'm');
+
+    content: 'PRO';
+    margin-left: 8px;
+    background: var(--texas-rose);
+    color: var(--white);
+    padding: 3px 7px 1px;
+    border-radius: 4px;
+  }
 }
 
 .row {
@@ -28,6 +33,7 @@
   color: var(--rhino);
 
   &:hover {
+    color: var(--rhino);
     background: var(--athens);
   }
 }
