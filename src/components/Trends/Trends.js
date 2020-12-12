@@ -2,13 +2,13 @@ import React from 'react'
 import TrendsTablesWrapper from './TrendsTable/Tables/TrendsTablesWrapper'
 import GetHypedTrends from './GetHypedTrends'
 
-const Trends = ({ className, ...props }) => {
+const Trends = ({ className, slice, ...props }) => {
   return (
     <GetHypedTrends
       render={({ isLoading, items }) => (
         <div className={className}>
           <TrendsTablesWrapper
-            trends={items}
+            trends={slice(items)}
             isLoading={isLoading}
             {...props}
           />
@@ -16,6 +16,10 @@ const Trends = ({ className, ...props }) => {
       )}
     />
   )
+}
+
+Trends.defaultProps = {
+  slice: _ => _
 }
 
 export default Trends

@@ -1,11 +1,25 @@
 import React, { useCallback, useState } from 'react'
 import { useFeaturedTemplates } from '../../ducks/Studio/Template/gql/hooks'
 import { getTemplateIdFromURL } from '../../ducks/Studio/Template/utils'
-import { getYoutubeIdForLayout } from '../../pages/Marketing/PublicTemplates/PublicTemplateCard'
 import VideoModal from '../VideoModal/VideoModal'
 import SvgBgImg from './../../assets/banner/cubes.svg'
 import Icon from '@santiment-network/ui/Icon'
 import styles from './SanbaseBanner.module.scss'
+
+const PUBLIC_YOUTUBE_IDS = {
+  195: '0IT44B7DCso',
+  197: '4zoC64C0q-A',
+  200: 'ORqsG6AvNg8',
+  202: 'Ek_D_QVszKE',
+  203: '8sNUkR68nGA'
+}
+
+const getYoutubeIdForLayout = ({ id, options }) => {
+  const { youtube_id } = options || {}
+  const videoId = youtube_id || PUBLIC_YOUTUBE_IDS[id]
+
+  return videoId
+}
 
 const SanbaseBanner = () => {
   const templateId = getTemplateIdFromURL()

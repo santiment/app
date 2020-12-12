@@ -1,9 +1,25 @@
 import React, { useMemo } from 'react'
+import gql from 'graphql-tag'
+import { useQuery } from '@apollo/react-hooks'
 import Button from '@santiment-network/ui/Button'
-import { useAlphaReports } from '../../../pages/Marketing/AlphaBlock/AlphaBlock'
 import { ProLabel } from '../../../components/ProLabel'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import styles from './StablecoinsReport.module.scss'
+
+const REPORTS_QUERY = gql`
+  {
+    getReports {
+      name
+      description
+      url
+    }
+  }
+`
+
+export const useAlphaReports = () => {
+  const { data, loading, error } = useQuery(REPORTS_QUERY)
+  return [data ? data.getReports : [], loading, error]
+}
 
 const IconDw = (
   <svg

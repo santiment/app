@@ -1,0 +1,18 @@
+@import '~@santiment-network/ui/variables';
+
+.btn {
+  margin: 24px;
+
+  &:active,
+  &:focus {
+    color: $white;
+  }
+}
+
+.external {
+  margin-left: 8px;
+}
+
+.chart {
+  min-height: 405px;
+}
