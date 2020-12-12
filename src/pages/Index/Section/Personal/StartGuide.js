@@ -17,12 +17,12 @@ const Row = ({ title, isActive }) => (
 const StartGuide = () => (
   <>
     <Row
-      title='TODO Fill out your profile with personal information'
+      title='//TODO Fill out your profile with personal information'
       isActive
     />
-    <Row title='TODO Connect with Telegram' />
-    <Row title='TODO Create your first Chart Layout' />
-    <Row title='TODO Create your first Watchlist' />
+    <Row title='//TODO Connect with Telegram' />
+    <Row title='//TODO Create your first Chart Layout' />
+    <Row title='//TODO Create your first Watchlist' />
   </>
 )
 

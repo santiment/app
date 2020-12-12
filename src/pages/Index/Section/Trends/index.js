@@ -73,7 +73,7 @@ const Tabs = ({ tabState }) => (
   </>
 )
 
-const Trends = ({ ...props }) => {
+const Trends = () => {
   const tabState = useState(TabType.SOCIAL_TRENDS)
   const activeTab = tabState[0]
   const { href, description, widget } = TabTypeContent[activeTab]

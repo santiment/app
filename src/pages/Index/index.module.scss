@@ -3,10 +3,6 @@
 .wrapper {
   flex: 1;
   width: 100%;
-
-  @include responsive('phone', 'phone-xs') {
-    padding: 0 0 60px;
-  }
 }
 
 .block {

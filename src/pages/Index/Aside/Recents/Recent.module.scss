@@ -20,14 +20,13 @@
 }
 
 .headers {
+  @include text('body-3');
+
+  padding: 5px 15px;
   background: var(--athens);
   color: var(--waterloo);
   display: flex;
   justify-content: space-between;
-
-  @include text('body-3');
-
-  padding: 5px 15px;
   border-top: 1px solid var(--porcelain);
   border-bottom: 1px solid var(--porcelain);
 }

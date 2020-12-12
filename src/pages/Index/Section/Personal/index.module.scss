@@ -1,4 +1,5 @@
 @import '~@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/variables';
 
 .header {
   @include text('body-1', 'm');
@@ -9,12 +10,11 @@
 }
 
 .cabinet::after {
+  @include text('caption', 'm');
+
   content: 'PRO';
   margin-left: 8px;
   background: var(--texas-rose);
-
-  @include text('caption', 'm');
-
   vertical-align: middle;
   color: var(--white);
   padding: 3px 7px;
@@ -46,7 +46,7 @@
   &_active {
     background: var(--jungle-green);
     border-color: var(--jungle-green);
-    box-shadow: 0 2px 8px 0 rgba(20, 195, 147, 0.3);
+    box-shadow: 0 2px 8px 0 rgba($jungle-green, 0.3);
   }
 }
 

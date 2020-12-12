@@ -12,12 +12,11 @@ const cabinets = [
   }
 ]
 
-const Cabinet = () => {
-  return cabinets.map(({ title, content }) => (
+const Cabinet = () =>
+  cabinets.map(({ title, content }) => (
     <Accordion key={title} title={title}>
       {content}
     </Accordion>
   ))
-}
 
 export default Cabinet
