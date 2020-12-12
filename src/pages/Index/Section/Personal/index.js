@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Icon from '@santiment-network/ui/Icon'
 import { Section, Container, Row } from '../index'
 
 const Personal = ({ ...props }) => {

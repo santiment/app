@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import Table from '../Table'
+import { Link } from 'react-router-dom'
 import { client } from '../../../../apollo'
-import styles from '../index.module.scss'
+import { FluidSkeleton as Skeleton } from '../../../../components/Skeleton'
+import styles from './Recent.module.scss'
 
 export const getItemBuilder = query => id =>
   client
@@ -12,6 +13,9 @@ export const getItemBuilder = query => id =>
       }
     })
     .then(({ data }) => data.item)
+
+const Row = props => <Link {...props} className={styles.row} />
+export const Column = props => <div {...props} className={styles.column} />
 
 const Recent = ({ title, rightHeader, ids, getItem, getLink, Item }) => {
   const [items, setItems] = useState(ids)
@@ -28,15 +32,21 @@ const Recent = ({ title, rightHeader, ids, getItem, getLink, Item }) => {
   )
 
   return (
-    <Table
-      className={styles.table}
-      title={title}
-      rightHeader={rightHeader}
-      items={items}
-      isLoading={isLoading}
-      getLink={getLink}
-      Item={Item}
-    />
+    <div className={styles.wrapper}>
+      <div className={styles.title}>{title}</div>
+      <div className={styles.headers}>
+        <div>Name</div>
+        <div>{rightHeader}</div>
+      </div>
+      <div className={styles.rows}>
+        {items.map((item, i) => (
+          <Row key={i} to={getLink(item)}>
+            {Item(item)}
+          </Row>
+        ))}
+        <Skeleton show={isLoading} className={styles.skeleton} />
+      </div>
+    </div>
   )
 }
 

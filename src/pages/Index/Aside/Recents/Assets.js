@@ -1,6 +1,6 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import Recent, { getItemBuilder } from './Recent'
+import Recent, { getItemBuilder, Column } from './Recent'
 import PercentChanges from '../../../../components/PercentChanges'
 import ProjectIcon from '../../../../components/ProjectIcon/ProjectIcon'
 import { usdFormatter } from '../../../../ducks/dataHub/metrics/formatters'
@@ -25,20 +25,20 @@ const Asset = ({ ticker, logoUrl, priceUsd, percentChange24h }) => {
 
   return (
     <>
-      <div className={styles.column}>
+      <Column>
         <ProjectIcon className={styles.icon} logoUrl={logoUrl} />
         {ticker}
-      </div>
+      </Column>
 
-      <div className={styles.column}>
+      <Column>
         {usdFormatter(priceUsd)}
         <PercentChanges className={styles.change} changes={percentChange24h} />
-      </div>
+      </Column>
     </>
   )
 }
 
-const RecentAssets = ({ slugs }) => (
+const Assets = ({ slugs }) => (
   <Recent
     title='Assets'
     rightHeader='Price, 24h change'
@@ -49,4 +49,4 @@ const RecentAssets = ({ slugs }) => (
   />
 )
 
-export default RecentAssets
+export default Assets

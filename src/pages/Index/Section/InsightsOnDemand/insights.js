@@ -22,15 +22,6 @@ export const insights = [
       ticker: 'BTC',
       from: '2020-06-08T22:00:00.000Z',
       to: '2020-12-09T22:59:59.999Z'
-    },
-    body () {
-      return (
-        <Chart
-          metrics={this.metrics}
-          settings={this.settings}
-          MetricColor={this.MetricColor}
-        />
-      )
     }
   },
   {
@@ -42,15 +33,6 @@ export const insights = [
       ticker: 'ETH',
       from: '2020-06-08T22:00:00.000Z',
       to: '2020-12-09T22:59:59.999Z'
-    },
-    body () {
-      return (
-        <Chart
-          metrics={this.metrics}
-          settings={this.settings}
-          MetricColor={this.MetricColor}
-        />
-      )
     }
   },
 
@@ -63,15 +45,6 @@ export const insights = [
       ticker: 'YFI',
       from: '2020-10-22T16:00:00.000Z',
       to: '2020-12-12T04:00:00.000Z'
-    },
-    body () {
-      return (
-        <Chart
-          metrics={this.metrics}
-          settings={this.settings}
-          MetricColor={this.MetricColor}
-        />
-      )
     }
   },
 
@@ -85,15 +58,6 @@ export const insights = [
       ticker: 'LINK',
       from: '2020-06-08T22:00:00.000Z',
       to: '2020-12-09T22:59:59.999Z'
-    },
-    body () {
-      return (
-        <Chart
-          metrics={this.metrics}
-          settings={this.settings}
-          MetricColor={this.MetricColor}
-        />
-      )
     }
   },
 
@@ -106,15 +70,6 @@ export const insights = [
       ticker: 'UNI',
       from: '2020-10-22T16:00:00.000Z',
       to: '2020-12-12T04:00:00.000Z'
-    },
-    body () {
-      return (
-        <Chart
-          metrics={this.metrics}
-          settings={this.settings}
-          MetricColor={this.MetricColor}
-        />
-      )
     }
   }
 ]
@@ -133,7 +88,14 @@ function setupMetricColors (metrics) {
 }
 
 insights.forEach(insight => {
-  const { settings, metrics } = insight
+  let { settings, metrics } = insight
+
   insight.metrics = mapProjectMetrics(settings, metrics)
-  insight.MetricColor = setupMetricColors(insight.metrics)
+  metrics = insight.metrics
+
+  const MetricColor = setupMetricColors(metrics)
+
+  insight.widget = () => (
+    <Chart metrics={metrics} settings={settings} MetricColor={MetricColor} />
+  )
 })

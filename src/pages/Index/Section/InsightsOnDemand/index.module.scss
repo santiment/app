@@ -1,37 +1,4 @@
-@import '~@santiment-network/ui/mixins';
 @import '~@santiment-network/ui/variables';
-
-.toggle {
-  fill: var(--waterloo);
-
-  .insight_opened & {
-    transform: rotate(180deg);
-  }
-
-  .header:hover & {
-    fill: var(--jungle-green);
-  }
-}
-
-.body {
-  border-top: 1px solid var(--porcelain);
-  width: 100%;
-}
-
-.insight {
-  overflow: hidden;
-  padding: 0;
-  flex-direction: column;
-}
-
-.header {
-  @include text('body-2', 'm');
-
-  cursor: pointer;
-  color: var(--rhino);
-  justify-content: space-between;
-  border: none;
-}
 
 .btn {
   margin: 24px;

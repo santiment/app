@@ -6,6 +6,11 @@
   border-radius: 8px;
   color: var(--rhino);
   user-select: none;
+  margin: 0 0 16px;
+
+  &:last-child {
+    margin: 0;
+  }
 }
 
 .title {
@@ -44,6 +49,11 @@
     background: var(--athens);
     color: var(--jungle-green);
   }
+}
+
+.column {
+  display: flex;
+  align-items: center;
 }
 
 .skeleton {

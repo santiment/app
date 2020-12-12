@@ -1,6 +1,6 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import Recent, { getItemBuilder } from './Recent'
+import Recent, { getItemBuilder, Column } from './Recent'
 import { VisibilityIndicator } from '../../../../components/VisibilityIndicator'
 import { usdFormatter } from '../../../../ducks/dataHub/metrics/formatters'
 import styles from '../index.module.scss'
@@ -27,16 +27,16 @@ const Watchlist = ({ name, isPublic, historicalStats }) => {
 
   return (
     <>
-      <div className={styles.column}>
+      <Column>
         <VisibilityIndicator isPublic={isPublic} className={styles.icon} />
         {name}
-      </div>
+      </Column>
       {usdFormatter(marketcap)}
     </>
   )
 }
 
-const RecentWatchlists = ({ title, ids }) => (
+const Watchlists = ({ title, ids }) => (
   <Recent
     rightHeader='Market Cap'
     title={title}
@@ -46,8 +46,9 @@ const RecentWatchlists = ({ title, ids }) => (
     Item={Watchlist}
   />
 )
-RecentWatchlists.defaultProps = {
+
+Watchlists.defaultProps = {
   title: 'Watchlists'
 }
 
-export default RecentWatchlists
+export default Watchlists
