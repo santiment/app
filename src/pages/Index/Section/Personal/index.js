@@ -29,7 +29,7 @@ const Header = ({ tabState }) => (
   </Row>
 )
 
-const Personal = ({ ...props }) => {
+const Personal = () => {
   const tabState = useState(TabType.START_GUIDE)
   const Content = TabTypeComponent[tabState[0]]
 

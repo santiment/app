@@ -33,7 +33,12 @@ const TabTypeContent = {
 
   [TabType.SANTRENDS]: {
     href: '/labs/trends/',
-    widget: <Santrends className={styles.santrends} />,
+    widget: (
+      <Santrends
+        className={styles.santrends}
+        slice={trends => trends.slice(-2)}
+      />
+    ),
     description: (
       <>
         We removed the noise even more. Get top 10 emerging trends for recent
