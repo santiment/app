@@ -61,135 +61,91 @@ const LoadablePage = loader =>
 
 const LoadableIndexPage = LoadablePage(() => import('./pages/Index'))
 
-const LoadableProMetricsPage = Loadable({
-  loader: () => import('./pages/ProMetrics/ProMetrics'),
-  loading: () => <PageLoader />
-})
+const LoadableProMetricsPage = LoadablePage(() =>
+  import('./pages/ProMetrics/ProMetrics')
+)
 
-const LoadableHistoricalBalancePage = Loadable({
-  loader: () => import('./pages/HistoricalBalance'),
-  loading: () => <PageLoader />
-})
+const LoadableHistoricalBalancePage = LoadablePage(() =>
+  import('./pages/HistoricalBalance')
+)
 
-const LoadableMarketingPage = Loadable({
-  loader: () => import('./pages/Marketing/MarketingPage'),
-  loading: () => <PageLoader />
-})
+const LoadableLabsPage = LoadablePage(() => import('./pages/Labs'))
 
-const LoadableLabsPage = Loadable({
-  loader: () => import('./pages/Labs'),
-  loading: () => <PageLoader />
-})
+const LoadablePricingPage = LoadablePage(() => import('./pages/Pricing'))
 
-const LoadablePricingPage = Loadable({
-  loader: () => import('./pages/Pricing'),
-  loading: () => <PageLoader />
-})
+const LoadableLoginPage = LoadablePage(() => import('./pages/Login'))
 
-const LoadableLoginPage = Loadable({
-  loader: () => import('./pages/Login'),
-  loading: () => <PageLoader />
-})
+const LoadableAccountPage = LoadablePage(() =>
+  import('./pages/Account/AccountPage')
+)
 
-const LoadableAccountPage = Loadable({
-  loader: () => import('./pages/Account/AccountPage'),
-  loading: () => <PageLoader />
-})
+const LoadableDetailedPage = LoadablePage(() =>
+  import('./pages/Detailed/Detailed')
+)
 
-const LoadableDetailedPage = Loadable({
-  loader: () => import('./pages/Detailed/Detailed'),
-  loading: () => <PageLoader />
-})
+const LoadableMobileDetailedPage = LoadablePage(() =>
+  import('./pages/Detailed/mobile/MobileDetailedPage')
+)
 
-const LoadableMobileDetailedPage = Loadable({
-  loader: () => import('./pages/Detailed/mobile/MobileDetailedPage'),
-  loading: () => <PageLoader />
-})
+const LoadableTrendsLabsPage = LoadablePage(() =>
+  import('./pages/Trends/LabsTrendsPage')
+)
 
-const LoadableTrendsLabsPage = Loadable({
-  loader: () => import('./pages/Trends/LabsTrendsPage'),
-  loading: () => <PageLoader />
-})
+const LoadableTrendsExplorePage = LoadablePage(() =>
+  import('./pages/TrendsExplore')
+)
 
-const LoadableTrendsExplorePage = Loadable({
-  loader: () => import('./pages/TrendsExplore'),
-  loading: () => <PageLoader />
-})
+const LoadableSonarFeedPage = LoadablePage(() =>
+  import('./pages/SonarFeed/SonarFeedPage')
+)
 
-const LoadableSonarFeedPage = Loadable({
-  loader: () => import('./pages/SonarFeed/SonarFeedPage'),
-  loading: () => <PageLoader />
-})
+const LoadableWatchlistsPage = LoadablePage(() => import('./pages/Watchlists'))
 
-const LoadableWatchlistsPage = Loadable({
-  loader: () => import('./pages/Watchlists'),
-  loading: () => <PageLoader />
-})
+const LoadableWatchlistsMobilePage = LoadablePage(() =>
+  import('./pages/Watchlists/WatchlistsMobilePage')
+)
 
-const LoadableWatchlistsMobilePage = Loadable({
-  loader: () => import('./pages/Watchlists/WatchlistsMobilePage'),
-  loading: () => <PageLoader />
-})
+const LoadableAssetsMobilePage = LoadablePage(() =>
+  import('./pages/Watchlists/AssetsMobilePage')
+)
 
-const LoadableAssetsMobilePage = Loadable({
-  loader: () => import('./pages/Watchlists/AssetsMobilePage'),
-  loading: () => <PageLoader />
-})
+const LoadableSearchMobilePage = LoadablePage(() =>
+  import('./pages/SearchMobilePage/SearchMobilePage')
+)
 
-const LoadableSearchMobilePage = Loadable({
-  loader: () => import('./pages/SearchMobilePage/SearchMobilePage'),
-  loading: () => <PageLoader />
-})
+const LoadableChartPage = LoadablePage(() => import('./pages/Studio'))
 
-const LoadableChartPage = Loadable({
-  loader: () => import('./pages/Studio'),
-  loading: () => <PageLoader />
-})
+const LoadableStablecoinsPage = LoadablePage(() =>
+  import('./pages/StablecoinsPage/StablecoinsPage')
+)
 
-const LoadableStablecoinsPage = Loadable({
-  loader: () => import('./pages/StablecoinsPage/StablecoinsPage'),
-  loading: () => <PageLoader />
-})
+const LoadableUniswapProtocolPage = LoadablePage(() =>
+  import('./pages/UniswapProtocolPage/UniswapProtocolPage')
+)
 
-const LoadableUniswapProtocolPage = Loadable({
-  loader: () => import('./pages/UniswapProtocolPage/UniswapProtocolPage'),
-  loading: () => <PageLoader />
-})
+const LoadableDexsPage = LoadablePage(() => import('./pages/DexsPage/DexsPage'))
 
-const LoadableDexsPage = Loadable({
-  loader: () => import('./pages/DexsPage/DexsPage'),
-  loading: () => <PageLoader />
-})
+const LoadableBtcLockedPage = LoadablePage(() =>
+  import('./pages/BtcLockedPage/BtcLockedPage')
+)
 
-const LoadableBtcLockedPage = Loadable({
-  loader: () => import('./pages/BtcLockedPage/BtcLockedPage'),
-  loading: () => <PageLoader />
-})
+const LoadableSheetsTemplatePage = LoadablePage(() =>
+  import('./pages/SheetsTemplatePage/SheetsTemplatePage')
+)
 
-const LoadableSheetsTemplatePage = Loadable({
-  loader: () => import('./pages/SheetsTemplatePage/SheetsTemplatePage'),
-  loading: () => <PageLoader />
-})
+const LoadableLabelsPage = LoadablePage(() =>
+  import('./pages/LabelsPage/LabelsPage')
+)
 
-const LoadableLabelsPage = Loadable({
-  loader: () => import('./pages/LabelsPage/LabelsPage'),
-  loading: () => <PageLoader />
-})
+const LoadableProfilePage = LoadablePage(() =>
+  import('./pages/profile/ProfilePage')
+)
 
-const LoadableProfilePage = Loadable({
-  loader: () => import('./pages/profile/ProfilePage'),
-  loading: () => <PageLoader />
-})
+const LoadableUnsubscribePage = LoadablePage(() =>
+  import('./pages/Unsubscribe/Unsubscribe')
+)
 
-const LoadableUnsubscribePage = Loadable({
-  loader: () => import('./pages/Unsubscribe/Unsubscribe'),
-  loading: () => <PageLoader />
-})
-
-const LoadableFeedPage = Loadable({
-  loader: () => import('./pages/feed/Feed'),
-  loading: () => <PageLoader />
-})
+const LoadableFeedPage = LoadablePage(() => import('./pages/feed/Feed'))
 
 class Route extends React.Component {
   componentWillMount () {
