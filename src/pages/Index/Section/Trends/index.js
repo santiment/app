@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
-import { Section } from './index'
-import SocialGrid from '../../../components/SocialGrid'
-import { INDEX_PAGE_GROUPS } from '../../../components/SocialGrid/topics'
-import Santrends from '../../../components/Trends/Trends'
-import styles from './Trends.module.scss'
+import { Section } from '../index'
+import SocialGrid from '../../../../components/SocialGrid'
+import { INDEX_PAGE_GROUPS } from '../../../../components/SocialGrid/topics'
+import Santrends from '../../../../components/Trends/Trends'
+import styles from './index.module.scss'
 
 const RECENT_SOCIAL_TRENDS = INDEX_PAGE_GROUPS[0]
 
@@ -48,9 +48,13 @@ const TabTypeContent = {
   }
 }
 
-const Tab = ({ tab, tabState }) => (
+export const Tab = ({ tab, tabState, className }) => (
   <span
-    className={cx(styles.tab, tab !== tabState[0] && styles.tab_inactive)}
+    className={cx(
+      styles.tab,
+      tab !== tabState[0] && styles.tab_inactive,
+      className
+    )}
     onClick={() => tabState[1](tab)}
   >
     {tab}

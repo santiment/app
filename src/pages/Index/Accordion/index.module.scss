@@ -28,11 +28,7 @@
 .toggle {
   fill: var(--waterloo);
 
-  .insight_opened & {
+  .wrapper_opened & {
     transform: rotate(180deg);
-  }
-
-  .header:hover & {
-    fill: var(--jungle-green);
   }
 }

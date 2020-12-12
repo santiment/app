@@ -7,6 +7,7 @@ import Tooltip from '../../../../ducks/Chart/Tooltip'
 import { useMetricCategories } from '../../../../ducks/Chart/Synchronizer'
 import { useChartColors } from '../../../../ducks/Chart/colors'
 import { useTimeseries } from '../../../../ducks/Studio/timeseries/hooks'
+import styles from './index.module.scss'
 
 const PADDING = {
   left: 3,
@@ -22,6 +23,7 @@ const Chart = ({ metrics, settings, MetricColor }) => {
 
   return (
     <Canvas
+      className={styles.chart}
       padding={PADDING}
       height={405}
       data={data}
