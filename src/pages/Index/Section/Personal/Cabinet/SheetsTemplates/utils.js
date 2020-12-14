@@ -96,7 +96,8 @@ export const SheetsTemplatesList = [
         </div>
       </>
     ),
-    linkToTemplate: ''
+    linkToTemplate:
+      'https://docs.google.com/spreadsheets/u/1/d/1Wu-d_uBuvLp3FoNqz3azzbNzFr8Zaw2n6bcLLsQxNGc/view'
   },
   {
     title: 'Network Growth & Daily Active Addresses Template',
@@ -175,7 +176,8 @@ export const SheetsTemplatesList = [
         </div>
       </>
     ),
-    linkToTemplate: ''
+    linkToTemplate:
+      'https://docs.google.com/spreadsheets/d/1FMyF31TI-ak7qFvIWSXF4LXhsQ5gtHFiS4USTvtowOc/view'
   },
   {
     title: 'Thresholds Crossed Template',
@@ -242,7 +244,8 @@ export const SheetsTemplatesList = [
         </div>
       </>
     ),
-    linkToTemplate: ''
+    linkToTemplate:
+      'https://docs.google.com/spreadsheets/d/1yIkiTfyvEHfNiZ93JfqjPCOTUmnIrZco_se5r6O6mgc/view'
   },
   {
     title: 'Distribution Index',
@@ -257,7 +260,7 @@ export const SheetsTemplatesList = [
         </div>
       </>
     ),
-    linkToTemplate: ''
+    linkToTemplate: 'https://insights.santiment.net/read/314'
   },
   {
     title: 'ETH-ERC20 Correlation Index',
@@ -272,7 +275,8 @@ export const SheetsTemplatesList = [
         </div>
       </>
     ),
-    linkToTemplate: ''
+    linkToTemplate:
+      'https://santiment.net/blog/eth-vs-erc-20-market-cap-comparison/'
   },
   {
     title: 'Stablecoin Volatility Index',
@@ -287,7 +291,7 @@ export const SheetsTemplatesList = [
         </div>
       </>
     ),
-    linkToTemplate: ''
+    linkToTemplate: 'https://partners.santiment.net/blog/stablecoin-volatility/'
   },
   {
     title: 'Least Correlated Coins to BTC & ETH',
@@ -302,6 +306,7 @@ export const SheetsTemplatesList = [
         </div>
       </>
     ),
-    linkToTemplate: ''
+    linkToTemplate:
+      'https://partners.santiment.net/blog/is-diversification-worth-it-in-crypto/'
   }
 ]
