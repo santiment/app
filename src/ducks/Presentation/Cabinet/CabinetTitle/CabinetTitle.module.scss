@@ -1,0 +1,28 @@
+@import '~@santiment-network/ui/mixins';
+
+.headerContainer {
+  padding: 26px 24px 24px 24px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+
+  &__content {
+    margin-left: 16px;
+
+    &__title {
+      @include text('body-1', 'l');
+    }
+
+    &__description {
+      margin-top: 2px;
+      color: var(--waterloo);
+    }
+  }
+}
+
+.skeleton {
+  height: 107px;
+  margin: 0 24px 8px 24px;
+}
