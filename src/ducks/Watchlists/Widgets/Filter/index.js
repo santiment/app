@@ -10,6 +10,7 @@ import { useUpdateWatchlist } from '../../gql/hooks'
 import Trigger from './Trigger'
 import { metrics } from './dataHub/metrics'
 import Category from './Category'
+import EntryPoint from './EntryPoint'
 import ToggleActiveFilters from './ToggleActiveFilters'
 import { DEFAULT_SCREENER_FUNCTION } from '../../utils'
 import { getCategoryGraph } from '../../../Studio/Sidebar/utils'
@@ -268,6 +269,7 @@ const Filter = ({
                 View only. You aren't the author of this screener
               </Message>
             )}
+            <EntryPoint />
           </div>
           <div className={styles.content}>
             {Object.keys(categories).map(key => (

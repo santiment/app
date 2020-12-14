@@ -1,0 +1,47 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.panel {
+  max-height: 201px;
+  overflow-y: auto;
+  width: 320px;
+  min-height: 200px;
+}
+
+.trigger__btn {
+  min-width: 320px;
+
+  &:hover {
+    border-color: var(--mystic);
+    color: var(--rhino);
+  }
+}
+
+.trigger__arrow {
+  width: 8px;
+  fill: var(--waterloo) !important;
+  transition: transform 0.25s ease-in-out;
+}
+
+.trigger__input {
+  color: var(--waterloo);
+}
+
+.trigger__btn input[data-isactive=true] + .trigger__arrow {
+  fill: var(--rhino) !important;
+  transform: rotate(180deg);
+}
+
+.trigger__btn input::placeholder {
+  color: var(--waterloo) !important;
+}
+
+.dropdown {
+  z-index: 1000;
+}
