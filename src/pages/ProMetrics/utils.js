@@ -32,7 +32,7 @@ export const THIRD_METRICS_GROUP = [
   {
     title: 'Velocity Vs. Price Chart Layout',
     linkToTemplate:
-      'https://docs.google.com/spreadsheets/d/1FMyF31TI-ak7qFvIWSXF4LXhsQ5gtHFiS4USTvtowOc/view ',
+      'https://docs.google.com/spreadsheets/d/1FMyF31TI-ak7qFvIWSXF4LXhsQ5gtHFiS4USTvtowOc/view',
     description: (
       <>
         Velocity is an underutilized way to research how quickly money is
