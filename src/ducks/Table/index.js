@@ -23,8 +23,11 @@ const Table = ({
   const { allowSort, defaultSorting } = sortingSettings || {}
   const { isStickyHeader, isStickyColumn, stickyColumnIdx = null } =
     stickySettings || {}
-  const { pageSize: initialPageSize, pageIndex: initialPageIndex } =
-    paginationSettings || {}
+  const {
+    pageSize: initialPageSize,
+    pageIndex: initialPageIndex,
+    pageSizeOptions = [10, 25, 50]
+  } = paginationSettings || {}
 
   const initialState = {}
 
@@ -79,13 +82,21 @@ const Table = ({
     canNextPage,
     canPreviousPage,
     setPageSize,
+    pageCount,
     gotoPage,
     nextPage,
-    previousPage
+    previousPage,
+    pageSizeOptions
   }
 
   return (
-    <div className={cx(styles.wrapper, className)}>
+    <div
+      className={cx(
+        styles.wrapper,
+        !paginationSettings && styles.wrapperOverflow,
+        className
+      )}
+    >
       <table {...getTableProps()} className={cx(styles.table, classes.table)}>
         <thead className={cx(styles.header, classes.header)}>
           {headerGroups.map(headerGroup => (

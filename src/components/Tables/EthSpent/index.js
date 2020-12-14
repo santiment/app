@@ -30,7 +30,7 @@ const EthSpentTable = () => {
               columns={columns}
               options={{
                 loadingSettings: {
-                  repeatLoading: 10,
+                  repeatLoading: 6,
                   isLoading: loading && items.length === 0
                 },
                 sortingSettings: {
@@ -42,12 +42,14 @@ const EthSpentTable = () => {
                 },
                 paginationSettings: {
                   pageSize: 10,
-                  pageIndex: 0
+                  pageIndex: 0,
+                  pageSizeOptions: [10, 25, 50]
                 }
               }}
               className={styles.tableWrapper}
               classes={{
-                table: styles.table
+                table: styles.table,
+                bodyRow: styles.tableRow
               }}
             />
           </PanelWithHeader>

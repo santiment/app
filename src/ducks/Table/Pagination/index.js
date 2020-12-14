@@ -1,10 +1,16 @@
-import React from 'react'
-import cx from 'classnames'
+import React, { useMemo, useState } from 'react'
 import Icon from '@santiment-network/ui/Icon'
 import Input from '@santiment-network/ui/Input'
 import Button from '@santiment-network/ui/Button'
 import Dropdown from '@santiment-network/ui/Dropdown'
 import styles from './index.module.scss'
+
+function prepareOptions (options) {
+  return options.map(option => ({
+    content: `${option} rows`,
+    index: option
+  }))
+}
 
 const Pagination = ({
   pageSize,
@@ -15,20 +21,27 @@ const Pagination = ({
   setPageSize,
   gotoPage,
   previousPage,
-  nextPage
+  nextPage,
+  pageSizeOptions
 }) => {
+  const [selected, setSelected] = useState({
+    index: pageSizeOptions[0],
+    content: `${pageSizeOptions[0]} rows`
+  })
+  const preparedOptions = useMemo(() => prepareOptions(pageSizeOptions), [
+    pageSizeOptions
+  ])
   return (
     <div className={styles.wrapper}>
-      <select
-        value={pageSize}
-        onChange={evt => setPageSize(Number(evt.target.value))}
-      >
-        {[10, 25, 50].map(pageSize => (
-          <option key={pageSize} value={pageSize}>
-            Show {pageSize}
-          </option>
-        ))}
-      </select>
+      <Dropdown
+        options={preparedOptions}
+        selected={selected}
+        onSelect={option => {
+          setSelected(option)
+          setPageSize(option.index)
+        }}
+        classes={{ wrapper: styles.dropdown }}
+      />
       <div className={styles.totalPages}>
         Page
         <Input
