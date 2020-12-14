@@ -8,6 +8,9 @@ import { Row as BaseRow } from '../index'
 import NewWatchlist from '../../../../ducks/Watchlists/Actions/New'
 import styles from './index.module.scss'
 
+const FETCH_POLICY = {
+  fetchPolicy: 'cache-and-network'
+}
 export const USER_QUERY = gql`
   {
     currentUser {
@@ -27,10 +30,13 @@ export const USER_QUERY = gql`
   }
 `
 
-const DEFAULT_STATS = {}
+const DEFAULT_STATS = {
+  loginHref: '/login'
+}
 
 function useUserStats () {
-  const { data } = useQuery(USER_QUERY)
+  const { data } = useQuery(USER_QUERY, FETCH_POLICY)
+
   return useMemo(
     () => {
       if (!data || !data.currentUser) return DEFAULT_STATS
@@ -70,7 +76,13 @@ const Row = ({ title, href, isActive, onClick }) => (
 )
 
 const StartGuide = () => {
-  const { personalInfo, telegram, watchlists, charts } = useUserStats()
+  const {
+    personalInfo,
+    telegram,
+    watchlists,
+    charts,
+    loginHref
+  } = useUserStats()
 
   return (
     <>
@@ -82,13 +94,17 @@ const StartGuide = () => {
       <Row title='Connect with Telegram' href='/account' isActive={telegram} />
       <Row
         title='Create your first Chart Layout'
-        href='/studio'
+        href={loginHref || '/studio'}
         isActive={charts}
       />
       <NewWatchlist
         type='watchlist'
         trigger={
-          <Row title='Create your first Watchlist' isActive={watchlists} />
+          <Row
+            title='Create your first Watchlist'
+            href={loginHref}
+            isActive={watchlists}
+          />
         }
       />
     </>

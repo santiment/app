@@ -4,6 +4,7 @@ import Aside from './Aside'
 import PersonalSection from './Section/Personal'
 import InsightsOnDemandSection from './Section/InsightsOnDemand'
 import TrendsSection from './Section/Trends'
+import EventBanner from '../../components/EventBanner'
 import styles from './index.module.scss'
 
 const Block = ({ className, contentClassName, children }) => (
@@ -14,6 +15,7 @@ const Block = ({ className, contentClassName, children }) => (
 
 const IndexPage = () => (
   <div className={styles.wrapper}>
+    <EventBanner />
     {/* // TODO: Reenable this block after design changes in figma [@vanguard | Dec 11, 2020] */}
     {/* <Block>
         <h1 className={styles.title}>Welcome to Sanbase</h1>
