@@ -1,6 +1,6 @@
 import React from 'react'
 import Loadable from 'react-loadable'
-import IndexTab from '../../Marketing/IndexTabs/IndexTab'
+import IndexTab from '../../../components/IndexTabs/IndexTab'
 import PageLoader from '../../../components/Loader/PageLoader'
 import { RecommendedSignals } from '../../SonarFeed/SonarFeedRecommendations'
 import styles from './FeedAlerts.module.scss'

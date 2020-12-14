@@ -5,15 +5,19 @@ import styles from './Skeleton.module.scss'
 
 const transitionStyles = { exit: styles.animated, exitActive: styles.fadeOut }
 
-const BaseSkeleton = ({ children, show }) => (
+const BaseSkeleton = ({ className, children, show }) => (
   <CSSTransition
     unmountOnExit
     in={show}
     timeout={1000}
     classNames={transitionStyles}
   >
-    <div className={styles.wrapper}>{children}</div>
+    <div className={cx(styles.wrapper, className)}>{children}</div>
   </CSSTransition>
+)
+
+export const FluidSkeleton = ({ className, show }) => (
+  <BaseSkeleton show={show} className={cx(styles.skeleton, className)} />
 )
 
 export const Skeleton = ({ className, show }) => (

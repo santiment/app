@@ -50,6 +50,7 @@ const ExchangeSetting = ({ metric, widget, slug, rerenderWidgets }) => {
             <Button
               key={exchange}
               variant='ghost'
+              className={styles.exchange}
               isActive={owner === exchange}
               onClick={() => onChange(exchange)}
               forwardedRef={owner === exchange ? activeRef : undefined}
