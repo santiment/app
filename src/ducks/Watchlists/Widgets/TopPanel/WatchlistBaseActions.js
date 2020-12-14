@@ -62,7 +62,16 @@ const Trigger = ({
   )
 }
 
-const BaseActions = ({ isAuthor, id, name, assets, watchlist, onClick }) => {
+const BaseActions = ({
+  isAuthor,
+  isAuthorLoading,
+  id,
+  name,
+  description,
+  assets,
+  watchlist,
+  onClick
+}) => {
   const [isMenuOpened, setIsMenuOpened] = useState(false)
   const [isEditPopupOpened, setIsEditPopupOpened] = useState(false)
   const [watchlists = []] = useUserWatchlists()
@@ -73,88 +82,103 @@ const BaseActions = ({ isAuthor, id, name, assets, watchlist, onClick }) => {
   }
 
   return (
-    <div onClick={onClick}>
-      <ContextMenu
-        trigger={
-          <Trigger
-            lists={watchlists}
-            watchlist={watchlist}
-            name={name}
-            assets={assets}
-            openMenu={() => setIsMenuOpened(true)}
-          />
-        }
-        passOpenStateAs='isActive'
-        position='bottom'
-        align='start'
-        open={isMenuOpened}
-        onClose={() => setIsMenuOpened(false)}
-      >
-        <Panel variant='modal' className={styles.wrapper}>
-          <EditForm
-            lists={watchlists}
-            title='Edit watchlist'
-            type='watchlist'
-            id={watchlist.id}
-            isLoading={loading}
-            open={isEditPopupOpened}
-            toggleOpen={setIsEditPopupOpened}
-            onFormSubmit={payload =>
-              updateWatchlist(watchlist, { ...payload })
-                .then(() => setIsEditPopupOpened(false))
-                .then(() => setIsMenuOpened(false))
-                .then(() => notifyUpdate(payload.type))
-            }
-            settings={{
-              name,
-              description: watchlist.description,
-              isPublic: watchlist.isPublic
-            }}
-            trigger={
-              <Button>
-                <Icon type='edit' />
-                Rename
-              </Button>
-            }
-          />
-          <SaveAs
-            onSubmit={() => setIsMenuOpened(false)}
-            watchlist={watchlist}
-            lists={watchlists}
-            type='watchlist'
-            trigger={
-              <Button>
-                <Icon type='disk' />
-                Save as
-              </Button>
-            }
-          />
-          <New
-            lists={watchlists}
-            type='watchlist'
-            onSubmit={() => setIsMenuOpened(false)}
-            trigger={
-              <Button>
-                <Icon type='plus-round' />
-                New
-              </Button>
-            }
-          />
-          {isAuthor && (
-            <Delete
-              title='Do you want to delete this watchlist?'
-              id={id}
+    <div onClick={onClick} className={styles.container}>
+      {isAuthor && (
+        <ContextMenu
+          trigger={
+            <Trigger
+              lists={watchlists}
+              watchlist={watchlist}
               name={name}
+              assets={assets}
+              openMenu={() => setIsMenuOpened(true)}
+            />
+          }
+          passOpenStateAs='isActive'
+          position='bottom'
+          align='start'
+          open={isMenuOpened}
+          onClose={() => setIsMenuOpened(false)}
+        >
+          <Panel variant='modal' className={styles.wrapper}>
+            <EditForm
+              lists={watchlists}
+              title='Edit watchlist'
+              type='watchlist'
+              id={watchlist.id}
+              isLoading={loading}
+              open={isEditPopupOpened}
+              toggleOpen={setIsEditPopupOpened}
+              onFormSubmit={payload =>
+                updateWatchlist(watchlist, { ...payload })
+                  .then(() => setIsEditPopupOpened(false))
+                  .then(() => setIsMenuOpened(false))
+                  .then(() => notifyUpdate(payload.type))
+              }
+              settings={{
+                name,
+                description: watchlist.description,
+                isPublic: watchlist.isPublic
+              }}
               trigger={
-                <Button variant='negative' className={styles.delete}>
-                  <Icon type='remove' />
-                  Delete
+                <Button>
+                  <Icon type='edit' />
+                  Rename
                 </Button>
               }
             />
-          )}
-        </Panel>
-      </ContextMenu>
+            <SaveAs
+              onSubmit={() => setIsMenuOpened(false)}
+              watchlist={watchlist}
+              lists={watchlists}
+              type='watchlist'
+              trigger={
+                <Button>
+                  <Icon type='disk' />
+                  Save as
+                </Button>
+              }
+            />
+            <New
+              lists={watchlists}
+              type='watchlist'
+              onSubmit={() => setIsMenuOpened(false)}
+              trigger={
+                <Button>
+                  <Icon type='plus-round' />
+                  New
+                </Button>
+              }
+            />
+            {isAuthor && (
+              <Delete
+                title='Do you want to delete this watchlist?'
+                id={id}
+                name={name}
+                trigger={
+                  <Button variant='negative' className={styles.delete}>
+                    <Icon type='remove' />
+                    Delete
+                  </Button>
+                }
+              />
+            )}
+          </Panel>
+        </ContextMenu>
+      )}
+      {!isAuthor && !isAuthorLoading && (
+        <SaveAs
+          watchlist={watchlist}
+          lists={watchlists}
+          type='watchlist'
+          trigger={
+            <Button border className={styles.saveAsNonAuthor}>
+              <Icon type='disk' />
+              Save as
+            </Button>
+          }
+        />
+      )}
     </div>
   )
 }

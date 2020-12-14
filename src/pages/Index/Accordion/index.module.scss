@@ -1,0 +1,35 @@
+@import '~@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/variables';
+
+.wrapper {
+  overflow: hidden;
+  padding: 0;
+  flex-direction: column;
+}
+
+.header {
+  @include text('body-2', 'm');
+
+  cursor: pointer;
+  color: var(--rhino);
+  justify-content: space-between;
+  border: none;
+  user-select: none;
+
+  &:hover {
+    background: var(--athens);
+  }
+}
+
+.content {
+  border-top: 1px solid var(--porcelain);
+  width: 100%;
+}
+
+.toggle {
+  fill: var(--waterloo);
+
+  .wrapper_opened & {
+    transform: rotate(180deg);
+  }
+}

@@ -21,14 +21,11 @@
   @include text('h4');
 
   white-space: nowrap;
-  margin: 0 16px 0 0;
+  margin: 0;
 }
 
-.marketcap {
-  color: var(--waterloo);
-  margin: 0;
-
-  @include text('body-3');
+.description {
+  margin: 0 0 0 10px;
 }
 
 .row {
@@ -41,4 +38,9 @@
   height: 24px;
   margin: 0 4px;
   background: var(--porcelain);
+}
+
+.saving {
+  margin-left: 12px;
+  color: var(--waterloo);
 }

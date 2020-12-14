@@ -1,0 +1,32 @@
+@import '~@santiment-network/ui/mixins';
+
+.section {
+  margin: 0 0 32px;
+
+  &:last-child {
+    margin: 0;
+  }
+}
+
+.title {
+  @include text('body-1', 'm');
+
+  color: var(--rhino);
+  margin: 0 0 16px;
+}
+
+.watchlist {
+  margin-bottom: 8px;
+
+  &:last-child {
+    margin: 0;
+  }
+}
+
+.icon {
+  margin-right: 8px;
+}
+
+.change {
+  margin-left: 8px;
+}

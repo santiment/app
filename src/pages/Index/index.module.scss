@@ -1,0 +1,44 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  flex: 1;
+  width: 100%;
+}
+
+.block {
+  width: 100%;
+  padding: 40px 0 36px;
+}
+
+.content {
+  max-width: 1170px;
+  margin: 0 auto;
+
+  &_main {
+    display: flex;
+  }
+}
+
+.title {
+  @include text('h4');
+
+  color: var(--rhino);
+  margin: 0 0 8px;
+}
+
+.subtitle {
+  @include text('body-2');
+
+  color: var(--waterloo);
+  margin: 0 0 24px;
+}
+
+.main {
+  flex: 1;
+}
+
+.aside {
+  width: 367px;
+  min-width: 367px;
+  margin-left: 24px;
+}

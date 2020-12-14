@@ -84,11 +84,13 @@ const WatchlistPage = props => {
             <>
               <TopPanel
                 name={changingName && upperCaseFirstLetter(changingName)}
+                description={(props.watchlist || {}).description}
                 id={listId}
                 assets={items}
                 watchlist={props.watchlist}
                 isMonitored={isMonitored}
                 isAuthor={isCurrentUserTheAuthor}
+                isAuthorLoading={isLoading}
                 className={styles.top}
                 widgets={widgets}
                 setWidgets={setWidgets}

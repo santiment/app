@@ -1,0 +1,54 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  @include text('body-2');
+}
+
+.description {
+  color: var(--waterloo);
+  margin: 0 0 12px;
+}
+
+.link {
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+.tab {
+  margin-right: 32px;
+  cursor: pointer;
+  user-select: none;
+
+  &_inactive {
+    color: var(--casper);
+
+    &:hover {
+      color: var(--waterloo);
+    }
+  }
+
+  &:last-child {
+    margin: 0;
+  }
+}
+
+.title {
+  @include text('body-1', 'm');
+
+  margin: 40px 0 16px;
+}
+
+.text {
+  color: var(--fiord);
+}
+
+.socialgrid {
+  grid-template-columns: 1fr 1fr;
+}
+
+.santrends {
+  margin-top: 40px;
+}
