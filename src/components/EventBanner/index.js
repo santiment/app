@@ -27,8 +27,42 @@ function canShowWidget (activeWidget) {
   return !lastWidget || !isEqual(activeWidget, JSON.parse(lastWidget))
 }
 
+export const useActiveWebinars = () => {
+  const { data: { activeWidgets = [] } = {}, loading } = useQuery(
+    ACTIVE_WIDGETS_QUERY
+  )
+
+  return { activeWidgets, loading }
+}
+
+export const WebinarWidget = ({ webinar }) => {
+  const videoId = extractYoutubeId(webinar.videoLink)
+  const coverImage =
+    webinar.imageLink || `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`
+
+  return (
+    <a
+      href={webinar.videoLink}
+      target='_blank'
+      rel='noopener noreferrer'
+      className={styles.content}
+    >
+      <div
+        className={styles.media}
+        style={{ backgroundImage: `url('${coverImage}')` }}
+      >
+        <DarkVideoPlayBtn />
+      </div>
+      <div className={styles.info}>
+        <p className={styles.desc}>{webinar.description}</p>
+        <h4 className={styles.title}>{webinar.title}</h4>
+      </div>
+    </a>
+  )
+}
+
 const EventBanner = ({ className }) => {
-  const { data: { activeWidgets = [] } = {} } = useQuery(ACTIVE_WIDGETS_QUERY)
+  const { activeWidgets } = useActiveWebinars()
   const activeWidget = activeWidgets.length > 0 ? activeWidgets[0] : null
 
   const [show, setShow] = useState(false)
@@ -54,11 +88,6 @@ const EventBanner = ({ className }) => {
     return null
   }
 
-  const videoId = extractYoutubeId(activeWidget.videoLink)
-  const coverImage =
-    activeWidget.imageLink ||
-    `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`
-
   return (
     <section
       className={cx(
@@ -73,23 +102,7 @@ const EventBanner = ({ className }) => {
           showCloseAnimation && styles.closeContainer__hide
         )}
       >
-        <a
-          href={activeWidget.videoLink}
-          target='_blank'
-          rel='noopener noreferrer'
-          className={styles.content}
-        >
-          <div
-            className={styles.media}
-            style={{ backgroundImage: `url('${coverImage}')` }}
-          >
-            <DarkVideoPlayBtn />
-          </div>
-          <div className={styles.info}>
-            <h4 className={styles.title}>{activeWidget.title}</h4>
-            <p className={styles.desc}>{activeWidget.description}</p>
-          </div>
-        </a>
+        <WebinarWidget webinar={activeWidget} />
         <Icon
           type='close-medium'
           className={styles.close}

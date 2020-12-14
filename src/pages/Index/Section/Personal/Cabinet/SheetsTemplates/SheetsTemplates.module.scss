@@ -1,0 +1,42 @@
+@import '~@santiment-network/ui/mixins';
+
+.block {
+  margin-top: 24px;
+}
+
+.description {
+  margin: 8px 24px 40px 24px;
+
+  @include text('body-3');
+}
+
+.title {
+  padding: 16px 24px;
+  color: var(--rhino);
+  background: var(--white);
+  margin: 0;
+
+  @include text('body-2', 'm');
+
+  &:hover {
+    background: var(--athens);
+  }
+}
+
+.opened {
+  border: none;
+}
+
+.expansion {
+  margin: 0;
+  border-top: 1px solid var(--porcelain);
+}
+
+.btn {
+  margin-top: 24px;
+  padding: 6px 10px 6px 16px;
+}
+
+.external {
+  margin-left: 8px;
+}
