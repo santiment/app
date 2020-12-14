@@ -4,13 +4,18 @@
   position: relative;
   background-color: var(--white);
   min-height: 346px;
-  max-height: 90vh;
-  overflow: auto;
-  overflow: overlay;
+  display: flex;
+  flex-direction: column;
 
   @include responsive('phone-xs', 'phone') {
     width: 100%;
   }
+}
+
+.wrapperOverflow {
+  max-height: 90vh;
+  overflow: auto;
+  overflow: overlay;
 }
 
 .table {
