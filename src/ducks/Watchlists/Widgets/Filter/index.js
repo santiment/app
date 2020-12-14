@@ -35,6 +35,7 @@ const Filter = ({
   watchlist = {},
   projectsCount,
   isAuthor,
+  isAuthorLoading,
   screenerFunction,
   setScreenerFunction,
   setIsUpdatingWatchlist,
@@ -50,7 +51,8 @@ const Filter = ({
     return null
   }
 
-  const isViewMode = !isAuthor && (isLoggedIn || !isDefaultScreener)
+  const isViewMode =
+    !isAuthor && !isAuthorLoading && (isLoggedIn || !isDefaultScreener)
   const filters = extractFilters(screenerFunction.args)
   const [currentSearch, setCurrentSearch] = useState('')
   const [filter, updateFilter] = useState(filters)

@@ -72,6 +72,7 @@ const TopPanel = ({
           watchlist={watchlist}
           projectsCount={assets.length}
           isAuthor={isAuthor}
+          isAuthorLoading={isAuthorLoading}
           isLoggedIn={isLoggedIn}
           isDefaultScreener={isDefaultScreener}
           setIsOpen={setIsFilterOpen}
