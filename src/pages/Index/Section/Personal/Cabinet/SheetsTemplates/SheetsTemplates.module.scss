@@ -7,7 +7,8 @@
 .description {
   margin: 8px 24px 40px 24px;
 
-  @include text('body-3'); }
+  @include text('body-3');
+}
 
 .title {
   padding: 16px 24px;
@@ -28,11 +29,7 @@
 
 .expansion {
   margin: 0;
-  border-bottom: 1px solid var(--porcelain);
-
-  &:last-child {
-    border: none;
-  }
+  border-top: 1px solid var(--porcelain);
 }
 
 .btn {

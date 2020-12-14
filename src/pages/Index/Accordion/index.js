@@ -4,7 +4,7 @@ import Icon from '@santiment-network/ui/Icon'
 import { Row } from '../Section/index'
 import styles from './index.module.scss'
 
-const Accordion = ({ title, children, showArrow = true }) => {
+const Accordion = ({ title, children, classes = {}, showArrow = true }) => {
   const [isOpened, setIsOpened] = useState(false)
 
   return (
@@ -13,7 +13,11 @@ const Accordion = ({ title, children, showArrow = true }) => {
         {title}
         {showArrow && <Icon type='arrow-down-big' className={styles.toggle} />}
       </Row>
-      {isOpened && <div className={styles.content}>{children}</div>}
+      {isOpened && (
+        <div className={cx(styles.content, classes.accordionContent)}>
+          {children}
+        </div>
+      )}
     </Row>
   )
 }

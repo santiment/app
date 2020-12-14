@@ -51,7 +51,7 @@ const Cabinet = () => {
   }
 
   return cabinets.map(({ title, content }) => (
-    <Accordion key={title} title={title} showArrow={false}>
+    <Accordion key={title} title={title} showArrow={false} classes={styles}>
       {content}
     </Accordion>
   ))
