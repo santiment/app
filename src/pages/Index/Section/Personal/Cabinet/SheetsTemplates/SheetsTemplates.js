@@ -17,7 +17,7 @@ const SheetsTemplates = () => {
             classes={styles}
           >
             <div className={styles.description}>
-              {description}
+              <div>{description}</div>
 
               {linkToTemplate && (
                 <Button
