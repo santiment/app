@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './ReportCard.module.scss'
-import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
-import { ProLabel } from '../../../../components/ProLabel'
+import { useUserSubscriptionStatus } from '../../../../../../stores/user/subscriptions'
+import { ProLabel } from '../../../../../../components/ProLabel'
 import Button from '@santiment-network/ui/Button'
 
 const ReportCard = ({ report: { name, description, url } }) => {

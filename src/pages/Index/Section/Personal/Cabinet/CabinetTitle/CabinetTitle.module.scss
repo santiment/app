@@ -1,15 +1,18 @@
 @import '~@santiment-network/ui/mixins';
 
+.headerContainer {
+  padding: 24px 0;
+}
+
 .header {
-  padding: 16px 24px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 
   &__content {
     margin-left: 16px;
 
     &__title {
-      @include text('body-1');
+      @include text('body-1', 'l');
     }
 
     &__description {
@@ -17,4 +20,9 @@
       color: var(--waterloo);
     }
   }
+}
+
+.skeleton {
+  height: 107px;
+  margin: 0 24px 8px 24px;
 }

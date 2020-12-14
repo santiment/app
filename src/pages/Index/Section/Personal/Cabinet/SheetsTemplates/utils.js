@@ -23,7 +23,7 @@ export const SheetsTemplatesList = [
       'https://docs.google.com/spreadsheets/d/1b4POwppuzzcMmb7_Kjs0ZJ7u-G9rVEGzMQ_uNmIeTVo/view'
   },
   {
-    title: 'Top Holders Template',
+    title: 'Top Holders Supply',
     description: (
       <>
         Crypto is still a whale's playground. This template monitors the
@@ -36,7 +36,28 @@ export const SheetsTemplatesList = [
         </div>
       </>
     ),
-    linkToTemplate: ''
+    linkToTemplate:
+      'https://docs.google.com/spreadsheets/d/1JZ11YeGMmeLqaODp9puNTaV2BJNkncnk1gOPSHlZ-20/view'
+  },
+  {
+    title: 'Token Age Consumed',
+    linkToTemplate:
+      'https://docs.google.com/spreadsheets/d/1elZAnyR_0JPI7L3pQY2c9mG2TEvex-XQv8Lk_XYhVIk/view',
+    description: (
+      <>
+        Token age consumed shows the amount of tokens changing addresses on a
+        certain date, multiplied by the time since they last moved. Spikes in
+        this metric signal a large amount of tokens moving after being idle for
+        an extended period of time.
+        <div className={styles.block}>
+          The significance of this Sansheets model, as a compliment to the
+          metric that is freely available on Sanbase, is that it helps identify
+          many different assets and their notable age consumed spikes, all on
+          the same chart. This makes it much easier to catch major spikes
+          amongst many assets all in one place!
+        </div>
+      </>
+    )
   },
   {
     title: 'NVT Template',
@@ -78,8 +99,7 @@ export const SheetsTemplatesList = [
     linkToTemplate: ''
   },
   {
-    title:
-      'https://docs.google.com/spreadsheets/d/1wIYCGcweukXIv465R23ItVYSwwafhK8QcZnt0Q3w4M4/view',
+    title: 'Network Growth & Daily Active Addresses Template',
     description: (
       <>
         This template compares the amount of network growth and daily active
@@ -93,6 +113,32 @@ export const SheetsTemplatesList = [
     ),
     linkToTemplate:
       'https://docs.google.com/spreadsheets/d/1opTpz2lDBXd9o6izMoUHzTWEU-pw-UAD2CuI-s4BWoA/view'
+  },
+  {
+    title: 'Top Transactions',
+    linkToTemplate:
+      'https://docs.google.com/spreadsheets/d/1vvhzCUnmXv2n-XP5juUxizVtn6Xbj-OcS78wq0cT46s/view',
+    description: (
+      <>
+        Often times, major transactions happen days before a price change
+        actually occurs. Being informed of when one of the largest single
+        transactions are made between an exchange address and non-exchange
+        address, for example, can be one of the biggest advantages to getting a
+        head start on where market prices are likely to head.
+        <div className={styles.block}>
+          This model is designed to show 20+ assets and each of their top 5
+          largest transactions (measured by total USD value) all on the same
+          axis. Particularly, when many altcoins have some of their largest
+          single transactions on the same day, it's a great indication that an
+          altcoin season is about to start (or end). This ties in to the 'Top
+          Transactions Table' available to our PRO members on Sanbase PRO, but
+          goes the extra mile by calculating what the transaction was worth in
+          USD. This helps compare one asset's top transaction to another asset
+          of a different price, to directly discover just how big of a deal the
+          exchange of tokens was.
+        </div>
+      </>
+    )
   },
   {
     title: 'MVRV and MVRV Long/Short Difference Ratio Template',
@@ -113,7 +159,7 @@ export const SheetsTemplatesList = [
       </>
     ),
     linkToTemplate:
-      'https://docs.google.com/spreadsheets/d/1wYTvxKYNYry_pJ-RB4kzbpVF60c26RlTfkMla05jG34/edit?usp=sharing'
+      'https://docs.google.com/spreadsheets/d/1wYTvxKYNYry_pJ-RB4kzbpVF60c26RlTfkMla05jG34/view'
   },
   {
     title: 'Velocity Vs. Price Template',
@@ -149,7 +195,39 @@ export const SheetsTemplatesList = [
         </div>
       </>
     ),
-    linkToTemplate: ''
+    linkToTemplate:
+      'https://docs.google.com/spreadsheets/d/1irxlgPqMMq6x2kgCdo4K0tr8ec6tYauR2xY5NO4zIgY/view'
+  },
+  {
+    title: 'Exchange Percent of Supply',
+    linkToTemplate:
+      'https://docs.google.com/spreadsheets/d/19lwjC_odu3MnpkXCvMF2JrGrhC6YwZl6bVZiRxO4BXA/view',
+    description: (
+      <>
+        Knowing how much of a token's supply is sitting on exchanges at any
+        given time can be a tremendously useful hint to identify whether big
+        selloffs are being planned (or can even be possible) in the near future.
+        Generally, we have found that the lower an asset's total percent of
+        supply is on exchanges, the safer the asset is from seeing a sudden
+        selloff and price drop.
+        <div className={styles.block}>
+          Identify many assets and where they are sitting compared to their past
+          year of respective supply on exchanges. Usually, the longer an asset
+          has been available to publicly traded, the lower the overall portion
+          of its existing total supply is going to be sitting on exchanges. But
+          by comparing data for each asset against their respective most recent
+          years, you can get a pretty nice gauge of how bullish vs. bearish its
+          current supply ratio on exchanges is.
+        </div>
+        <div className={styles.block}>
+          You can even isolate what the top 10 on-exchange and off-exchange
+          addresses are looking like, in terms of what these whales' total
+          supply of tokens are on exchanges at any given time. Unraveling some
+          of the information available in this model can be extraordinarily
+          powerful for your trading strategies.
+        </div>
+      </>
+    )
   },
   {
     title: 'Most Profitable Days for Trading Cryptocurrency',

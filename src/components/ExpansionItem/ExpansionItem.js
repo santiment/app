@@ -8,7 +8,7 @@ const ExpansionItem = ({ title, children, isOpen, classes = {} }) => {
   const { openDialog, isOpened, closeDialog } = useDialogState(isOpen)
 
   return (
-    <div className={styles.container}>
+    <div className={cx(styles.container, classes.expansion)}>
       <div
         className={cx(styles.title, classes.title, isOpened && classes.opened)}
         onClick={isOpened ? closeDialog : openDialog}
