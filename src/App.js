@@ -44,7 +44,8 @@ const FOOTER_DISABLED_FOR = [
   PATHS.SOCIAL_TOOl,
   PATHS.INDEX,
   PATHS.STABLECOINS,
-  PATHS.SHEETS_TEMPLATES
+  PATHS.SHEETS_TEMPLATES,
+  PATHS.LIST
 ]
 const FOOTER_ABSOLUTE_FOR = [
   PATHS.LOGIN,
@@ -492,7 +493,8 @@ const mapStateToProps = ({ user, rootUi }, { location: { pathname } }) => ({
   isOffline: !rootUi.isOnline,
   showFooter:
     !isPathnameInPages(pathname, FOOTER_DISABLED_FOR) &&
-    !pathname.includes(PATHS.STUDIO)
+    !pathname.includes(PATHS.STUDIO) &&
+    !pathname.includes(PATHS.LIST)
 })
 
 const enhance = compose(

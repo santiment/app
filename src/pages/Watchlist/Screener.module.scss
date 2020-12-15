@@ -2,9 +2,7 @@
 
 .screener {
   background: var(--white);
-  min-height: calc(100vh - 70px);
-}
-
-.table {
-  border: none !important;
+  // flex: 1;
+  display: flex;
+  flex-direction: column;
 }

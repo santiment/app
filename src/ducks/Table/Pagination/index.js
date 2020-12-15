@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react'
+import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Input from '@santiment-network/ui/Input'
 import Button from '@santiment-network/ui/Button'
@@ -22,17 +23,18 @@ const Pagination = ({
   gotoPage,
   previousPage,
   nextPage,
-  pageSizeOptions
+  pageSizeOptions,
+  className
 }) => {
   const [selected, setSelected] = useState({
-    index: pageSizeOptions[0],
-    content: `${pageSizeOptions[0]} rows`
+    index: pageSize,
+    content: `${pageSize} rows`
   })
   const preparedOptions = useMemo(() => prepareOptions(pageSizeOptions), [
     pageSizeOptions
   ])
   return (
-    <div className={styles.wrapper}>
+    <div className={cx(styles.wrapper, className)}>
       <Dropdown
         options={preparedOptions}
         selected={selected}

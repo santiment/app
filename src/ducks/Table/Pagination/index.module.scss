@@ -3,8 +3,10 @@
 .wrapper {
   display: flex;
   align-items: center;
-  margin: auto 32px 16px 32px;
-  padding-top: 16px;
+  margin-top: auto;
+  padding: 16px 32px;
+  background-color: var(--white);
+  z-index: 10;
 }
 
 .options {

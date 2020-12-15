@@ -7,7 +7,7 @@ import {
 import { getProjectsByFunction } from '../../ducks/Watchlists/gql/hooks'
 import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
 import GetAssets from '../../ducks/Watchlists/Widgets/Table/GetAssets'
-import AssetsTable from '../../ducks/Watchlists/Widgets/Table/AssetsTable'
+import AssetsTable from '../../ducks/Watchlists/Widgets/Table'
 import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/columns'
 import { addOrRemove } from '../../ducks/Watchlists/Widgets/Table/CompareDialog/CompareDialog'
 import Infographics from './Infographics'
@@ -87,7 +87,7 @@ const Screener = props => {
   } = useAssetsAnomalyToggler()
 
   return (
-    <div className={('page', styles.screener)}>
+    <div className={styles.screener}>
       <GetAssets
         {...props}
         type={type}
@@ -145,23 +145,24 @@ const Screener = props => {
               )}
 
               <AssetsTable
-                Assets={{ ...Assets, isLoading: loading }}
+                // Assets={{ ...Assets, isLoading: loading }}
                 items={showingAssets}
-                type='screener'
-                isAuthor={isCurrentUserTheAuthor}
-                watchlist={watchlist}
-                className={styles.table}
-                goto={history.push}
-                history={history}
-                preload={preload}
-                listName={title}
-                allColumns={ASSETS_TABLE_COLUMNS}
-                filterType={filterType}
-                compareSettings={{
-                  comparingAssets,
-                  addAsset,
-                  cleanAll
-                }}
+                loading={loading}
+                // type='screener'
+                // isAuthor={isCurrentUserTheAuthor}
+                // watchlist={watchlist}
+                // className={styles.table}
+                // goto={history.push}
+                // history={history}
+                // preload={preload}
+                // listName={title}
+                // allColumns={ASSETS_TABLE_COLUMNS}
+                // filterType={filterType}
+                // compareSettings={{
+                //   comparingAssets,
+                //   addAsset,
+                //   cleanAll
+                // }}
               />
             </>
           )

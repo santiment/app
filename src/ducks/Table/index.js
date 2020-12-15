@@ -169,7 +169,9 @@ const Table = ({
         />
       )}
       {!!loadingSettings && !isLoading && data.length === 0 && <NoData />}
-      {!!paginationSettings && <Pagination {...paginationParams} />}
+      {!!paginationSettings && (
+        <Pagination {...paginationParams} className={classes.pagination} />
+      )}
     </div>
   )
 }
