@@ -10,12 +10,7 @@ const SheetsTemplates = () => {
     <>
       {SheetsTemplatesList.map(
         ({ title, description, linkToTemplate }, index) => (
-          <ExpansionItem
-            isOpen={index === 0}
-            title={title}
-            key={index}
-            classes={styles}
-          >
+          <ExpansionItem title={title} key={index} classes={styles}>
             <div className={styles.description}>
               <div>{description}</div>
 

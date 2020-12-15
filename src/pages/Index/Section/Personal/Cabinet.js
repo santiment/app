@@ -38,7 +38,8 @@ const cabinets = [
         }
       />
     ),
-    content: <SheetsTemplates />
+    content: <SheetsTemplates />,
+    isOpened: true
   }
 ]
 
