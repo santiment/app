@@ -11,6 +11,11 @@ const AssetsTable = ({ items, loading }) => {
       data={items}
       columns={columns}
       options={{
+        noDataSettings: {
+          title: 'No matches!',
+          description:
+            "The assets for the filter which you applying weren't found. Check if it's correct or try another filter settings."
+        },
         loadingSettings: {
           repeatLoading: 30,
           isLoading: loading && items.length === 0

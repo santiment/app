@@ -11,6 +11,7 @@ const Table = ({
   data,
   columns,
   options: {
+    noDataSettings = {},
     loadingSettings,
     sortingSettings,
     stickySettings,
@@ -168,7 +169,9 @@ const Table = ({
           classes={{ wrapper: classes.loader, row: classes.loaderRow }}
         />
       )}
-      {!!loadingSettings && !isLoading && data.length === 0 && <NoData />}
+      {!!loadingSettings && !isLoading && data.length === 0 && (
+        <NoData {...noDataSettings} />
+      )}
       {!!paginationSettings && (
         <Pagination {...paginationParams} className={classes.pagination} />
       )}
