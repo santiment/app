@@ -4,8 +4,14 @@ import Icon from '@santiment-network/ui/Icon'
 import { Row } from '../Section/index'
 import styles from './index.module.scss'
 
-const Accordion = ({ title, children, classes = {}, showArrow = true }) => {
-  const [isOpened, setIsOpened] = useState(false)
+const Accordion = ({
+  title,
+  children,
+  isOpenedDefault = false,
+  classes = {},
+  showArrow = true
+}) => {
+  const [isOpened, setIsOpened] = useState(isOpenedDefault)
 
   return (
     <Row className={cx(styles.wrapper, isOpened && styles.wrapper_opened)}>
