@@ -1,0 +1,73 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  padding: 8px 40px 10px 32px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  transition: width 0.2s ease-in-out;
+  position: sticky;
+  top: 64px;
+  background-color: var(--white);
+  z-index: 1;
+}
+
+.leftActions {
+  display: flex;
+  align-items: center;
+  fill: var(--waterloo);
+  margin-right: auto;
+}
+
+.compareAction {
+  margin-left: 24px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  fill: var(--waterloo);
+}
+
+.action {
+  fill: var(--waterloo);
+  box-sizing: content-box;
+  padding: 0 8px 0 22px;
+  cursor: pointer;
+  height: 16px;
+  display: flex;
+  position: relative;
+  background-color: transparent !important;
+
+  &__withLine::before {
+    display: block;
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: -4px;
+    height: 24px;
+    width: 1px;
+    background: var(--porcelain);
+  }
+
+  &__wrapper {
+    display: flex;
+    position: relative;
+  }
+
+  &__tooltip {
+    white-space: nowrap;
+    z-index: 11;
+    padding: 6px 12px;
+
+    @include text('caption');
+  }
+
+  &__saveAs {
+    margin-top: 3px;
+  }
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+}

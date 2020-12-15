@@ -1,5 +1,9 @@
 @import '~@santiment-network/ui/mixins';
 
+.tableWrapper {
+  min-height: auto;
+}
+
 .table {
   min-width: max-content;
   width: auto;

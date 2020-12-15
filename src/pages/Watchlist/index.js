@@ -41,6 +41,7 @@ const Watchlist = ({ isLoggedIn, ...props }) => {
       {...props}
       name={name}
       id={id}
+      isLoading={loading}
       isDefaultScreener={isDefaultScreener}
       isLoggedIn={isLoggedIn}
       watchlist={watchlist}

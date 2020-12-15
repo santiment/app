@@ -17,22 +17,24 @@ const NO_DATA = 'No data'
 export const DEFAULT_SORTING = [{ id: 'marketcapUsd', desc: false }]
 
 export const COLUMNS = [
-  // {
-  //   id: COLUMNS_NAMES.checkboxes,
-  //   Header: ' ',
-  //   Cell: row => {
-  //     const { original, tdProps = {} } = row
-  //     const { rest: { assets, addasset } = {} } = tdProps
-  //     return (
-  //       <div
-  //         className={styles.assetCheckbox}
-  //         onClick={() => addasset(original)}
-  //       >
-  //         <Checkbox isActive={assets.find(({ id }) => id === original.id)} />
-  //       </div>
-  //     )
-  //   }
-  // },
+  {
+    Header: ' ',
+    accessor: 'Checkboxes',
+    Cell: ({ row }) => {
+      const { original, ...rest } = row
+      // console.log(rest)
+      return null
+      // const { rest: { assets, addasset } = {} } = tdProps
+      // return (
+      //   <div
+      //     className={styles.assetCheckbox}
+      //     onClick={() => addasset(original)}
+      //   >
+      //     <Checkbox isActive={assets.find(({ id }) => id === original.id)} />
+      //   </div>
+      // )
+    }
+  },
   {
     Header: '#',
     accessor: 'name',
