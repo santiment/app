@@ -22,7 +22,7 @@ const AssetsTable = ({ items, loading }) => {
         stickySettings: {
           isStickyHeader: true,
           isStickyColumn: true,
-          stickyColumnIdx: 0
+          stickyColumnIdx: 1
         },
         paginationSettings: {
           pageSize: 25,

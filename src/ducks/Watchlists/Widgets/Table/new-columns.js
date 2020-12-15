@@ -39,10 +39,9 @@ export const COLUMNS = [
     Header: '#',
     accessor: 'name',
     // className: styles.columnId,
-    Cell: (props, idx) => {
-      console.log(props)
-      // return `${index}`
-      return props.row.index
+    Cell: ({ sortedRows, row }) => {
+      const index = sortedRows.findIndex(item => item === row)
+      return index + 1
       // const { original, page, pageSize, viewIndex, tdProps = {} } = row
       // const { rest: { markedasnew, hide } = {} } = tdProps
       // return (

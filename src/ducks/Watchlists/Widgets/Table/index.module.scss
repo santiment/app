@@ -3,6 +3,7 @@
 .table {
   min-width: max-content;
   width: auto;
+  border-bottom: 60px solid var(--white);
 }
 
 .pagination {
@@ -14,4 +15,8 @@
 
 .headerColumn {
   top: 64px;
+}
+
+.tableRow {
+  height: 60px;
 }
