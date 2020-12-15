@@ -66,7 +66,8 @@ const AssetsTable = ({ items, loading }) => {
         table: styles.table,
         bodyRow: styles.tableRow,
         pagination: styles.pagination,
-        headerColumn: styles.headerColumn
+        headerColumn: styles.headerColumn,
+        bodyColumn: styles.bodyColumn
       }}
     />
   )

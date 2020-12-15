@@ -15,6 +15,11 @@
 
 .headerColumn {
   top: 64px;
+  border-bottom: none;
+}
+
+.bodyColumn {
+  border-top: none !important;
 }
 
 .tableRow {
