@@ -35,24 +35,26 @@ export const COLUMNS = [
   //     )
   //   }
   // },
-  // {
-  //   id: COLUMNS_NAMES.index,
-  //   Header: '#',
-  //   className: styles.columnId,
-  //   maxWidth: 45,
-  //   Cell: row => {
-  //     const { original, page, pageSize, viewIndex, tdProps = {} } = row
-  //     const { rest: { markedasnew, hide } = {} } = tdProps
-  //     return (
-  //       <LayoutForAsset
-  //         item={original}
-  //         index={page * pageSize + viewIndex + 1}
-  //         hide={hide}
-  //         markedAsNew={markedasnew && markedasnew.id === original.id}
-  //       />
-  //     )
-  //   }
-  // },
+  {
+    Header: '#',
+    accessor: 'name',
+    // className: styles.columnId,
+    Cell: (props, idx) => {
+      console.log(props)
+      // return `${index}`
+      return props.row.index
+      // const { original, page, pageSize, viewIndex, tdProps = {} } = row
+      // const { rest: { markedasnew, hide } = {} } = tdProps
+      // return (
+      //   <LayoutForAsset
+      //     item={original}
+      //     index={page * pageSize + viewIndex + 1}
+      //     hide={hide}
+      //     markedAsNew={markedasnew && markedasnew.id === original.id}
+      //   />
+      // )
+    }
+  },
   {
     Header: 'Project',
     accessor: 'Project',

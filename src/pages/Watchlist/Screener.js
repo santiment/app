@@ -59,6 +59,9 @@ const Screener = props => {
   const [assets = [], loading] = getProjectsByFunction(screenerFunction)
   const [currentItems, setCurrentItems] = useState([])
 
+  const AppElem = document.getElementsByClassName('App')[0]
+  AppElem.classList.add('list-container')
+
   useEffect(
     () => {
       if (watchlist.function !== screenerFunction) {
@@ -87,88 +90,86 @@ const Screener = props => {
   } = useAssetsAnomalyToggler()
 
   return (
-    <div className={styles.screener}>
-      <GetAssets
-        {...props}
-        type={type}
-        render={Assets => {
-          const title = getWatchlistName(props)
-          const {
-            items,
-            isLoading: isAuthorLoading,
-            typeInfo: { listId },
-            isCurrentUserTheAuthor,
-            trendingAssets = []
-          } = Assets
+    <GetAssets
+      {...props}
+      type={type}
+      render={Assets => {
+        const title = getWatchlistName(props)
+        const {
+          items,
+          isLoading: isAuthorLoading,
+          typeInfo: { listId },
+          isCurrentUserTheAuthor,
+          trendingAssets = []
+        } = Assets
 
-          if (items !== currentItems) {
-            setCurrentItems(items)
-            clearFilters()
-          }
+        if (items !== currentItems) {
+          setCurrentItems(items)
+          clearFilters()
+        }
 
-          if (listId) {
-            addRecentScreeners(listId)
-          }
+        if (listId) {
+          addRecentScreeners(listId)
+        }
 
-          const showingAssets = filteredItems || assets
+        const showingAssets = filteredItems || assets
 
-          return (
-            <>
-              <TopPanel
-                name={(watchlist || {}).name || name}
-                description={(watchlist || {}).description}
-                id={listId}
-                assets={assets}
-                loading={loading}
-                watchlist={watchlist}
-                isAuthor={isCurrentUserTheAuthor}
-                isAuthorLoading={isAuthorLoading}
-                isLoggedIn={isLoggedIn}
-                screenerFunction={screenerFunction}
-                setScreenerFunction={setScreenerFunction}
-                isDefaultScreener={isDefaultScreener}
-                history={history}
+        return (
+          <>
+            <TopPanel
+              name={(watchlist || {}).name || name}
+              description={(watchlist || {}).description}
+              id={listId}
+              assets={assets}
+              loading={loading}
+              watchlist={watchlist}
+              isAuthor={isCurrentUserTheAuthor}
+              isAuthorLoading={isAuthorLoading}
+              isLoggedIn={isLoggedIn}
+              screenerFunction={screenerFunction}
+              setScreenerFunction={setScreenerFunction}
+              isDefaultScreener={isDefaultScreener}
+              history={history}
+              widgets={widgets}
+              setWidgets={setWidgets}
+            />
+
+            {!loading && (
+              <Infographics
+                assets={showingAssets}
                 widgets={widgets}
                 setWidgets={setWidgets}
+                trendingAssets={trendingAssets}
+                listId={id}
+                toggleAssetsFiltering={toggleAssetsFiltering}
+                filterType={filterType}
               />
+            )}
 
-              {!loading && (
-                <Infographics
-                  assets={showingAssets}
-                  widgets={widgets}
-                  setWidgets={setWidgets}
-                  trendingAssets={trendingAssets}
-                  listId={id}
-                  toggleAssetsFiltering={toggleAssetsFiltering}
-                  filterType={filterType}
-                />
-              )}
-
-              <AssetsTable
-                // Assets={{ ...Assets, isLoading: loading }}
-                items={showingAssets}
-                loading={loading}
-                // type='screener'
-                // isAuthor={isCurrentUserTheAuthor}
-                // watchlist={watchlist}
-                // className={styles.table}
-                // goto={history.push}
-                // history={history}
-                // preload={preload}
-                // listName={title}
-                // allColumns={ASSETS_TABLE_COLUMNS}
-                // filterType={filterType}
-                // compareSettings={{
-                //   comparingAssets,
-                //   addAsset,
-                //   cleanAll
-                // }}
-              />
-            </>
-          )
-        }}
-      />
-    </div>
+            <AssetsTable
+              // Assets={{ ...Assets, isLoading: loading }}
+              items={showingAssets}
+              loading={loading}
+              // type='screener'
+              // isAuthor={isCurrentUserTheAuthor}
+              // watchlist={watchlist}
+              // className={styles.table}
+              // goto={history.push}
+              // history={history}
+              // preload={preload}
+              // listName={title}
+              // allColumns={ASSETS_TABLE_COLUMNS}
+              // filterType={filterType}
+              // compareSettings={{
+              //   comparingAssets,
+              //   addAsset,
+              //   cleanAll
+              // }}
+            />
+          </>
+        )
+      }}
+    />
   )
 }
 

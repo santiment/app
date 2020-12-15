@@ -1,0 +1,17 @@
+@import '~@santiment-network/ui/mixins';
+
+.table {
+  min-width: max-content;
+  width: auto;
+}
+
+.pagination {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.headerColumn {
+  top: 64px;
+}

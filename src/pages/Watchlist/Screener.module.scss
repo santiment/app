@@ -1,8 +1,15 @@
 @import '~@santiment-network/ui/mixins';
 
-.screener {
+:global(.list-container) {
   background: var(--white);
-  // flex: 1;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: 100vh !important;
+  overflow: scroll;
+
+  & header {
+    position: sticky;
+    left: 0;
+  }
 }

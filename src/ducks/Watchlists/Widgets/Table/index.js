@@ -7,7 +7,6 @@ const AssetsTable = ({ items, loading }) => {
   const columns = useMemo(() => COLUMNS, [])
 
   return (
-    // <div className={styles.wrapper}>
     <Table
       data={items}
       columns={columns}
@@ -39,7 +38,6 @@ const AssetsTable = ({ items, loading }) => {
         headerColumn: styles.headerColumn
       }}
     />
-    // </div>
   )
 }
 
