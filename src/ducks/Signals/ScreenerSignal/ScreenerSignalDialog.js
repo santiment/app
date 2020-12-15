@@ -7,13 +7,13 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import ScreenerSignal from './ScreenerSignal'
 import { updateTrigger, createTrigger } from '../common/actions'
-import { SCREENER_DEFAULT_SIGNAL } from '../utils/constants'
 import { useWatchlist } from '../../Watchlists/gql/hooks'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { useSignals } from '../common/getSignals'
 import { useUser } from '../../../stores/user'
 import LoginPopup from '../../../components/banners/feature/PopupBanner'
 import styles from './ScreenerSignalDialog.module.scss'
+import { SCREENER_DEFAULT_SIGNAL } from './utils'
 
 export const EditSignalIcon = ({ className }) => (
   <svg
