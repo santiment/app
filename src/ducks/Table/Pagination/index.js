@@ -42,7 +42,7 @@ const Pagination = ({
           setSelected(option)
           setPageSize(option.index)
         }}
-        classes={{ wrapper: styles.dropdown }}
+        classes={{ wrapper: styles.dropdown, options: styles.options }}
       />
       <div className={styles.totalPages}>
         Page

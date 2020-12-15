@@ -9,11 +9,6 @@
   z-index: 10;
 }
 
-.options {
-  position: absolute;
-  z-index: 3;
-}
-
 .totalPages {
   color: var(--waterloo);
   display: flex;
@@ -56,4 +51,10 @@
 
 .dropdown {
   width: 123px;
+}
+
+.options {
+  top: auto;
+  bottom: 100%;
+  margin: 0 0 8px 0;
 }

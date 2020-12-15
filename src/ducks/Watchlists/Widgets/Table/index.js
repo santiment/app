@@ -12,7 +12,7 @@ const AssetsTable = ({ items, loading }) => {
       columns={columns}
       options={{
         loadingSettings: {
-          repeatLoading: 6,
+          repeatLoading: 30,
           isLoading: loading && items.length === 0
         },
         sortingSettings: {
