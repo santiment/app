@@ -1,21 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { Formik, Form } from 'formik'
-import isEqual from 'lodash.isequal'
-import FormikEffect from '../../../components/formik-santiment-ui/FormikEffect'
-import FormikLabel from '../../../components/formik-santiment-ui/FormikLabel'
-import Button from '@santiment-network/ui/Button'
+import { Formik } from 'formik'
 import {
   mapFormPropsToScreenerTrigger,
   mapTriggerToFormProps,
   validateChannels
 } from '../utils/utils'
-import TriggerFormChannels from '../signalFormManager/signalCrudForm/formParts/channels/TriggerFormChannels'
-import externalStyles from './../signalFormManager/signalCrudForm/signal/TriggerForm.module.scss'
-import SignalFormDescription from '../signalFormManager/signalCrudForm/formParts/description/SignalFormDescription'
-import { TriggerFormBlockDivider } from '../signalFormManager/signalCrudForm/formParts/block/TriggerFormBlock'
-import AlertWeeklyReports from '../signalFormManager/signalCrudForm/formParts/weeklyReports/AlertWeeklyReports'
-import { ToggleSignal } from '../../../components/SignalCard/card/SignalCardBottom'
-import styles from './ScreenerSignal.module.scss'
+import ScreenerAlertForm from './ScreenerAlertForm'
 
 export const SreenerSignal = ({ signal, watchlist, onCancel, onSubmit }) => {
   const { id = 0 } = signal
@@ -48,87 +38,16 @@ export const SreenerSignal = ({ signal, watchlist, onCancel, onSubmit }) => {
         onSubmit(mapFormPropsToScreenerTrigger({ formProps, signal }))
       }}
     >
-      {({
-        values,
-        errors,
-        isSubmitting,
-        setFieldValue,
-        isValid,
-        validateForm
-      }) => {
-        const { description, channels = [], isActive } = values
-
-        const isValidForm =
-          isValid || !errors || Object.keys(errors).length === 0
-
-        return (
-          <Form className={styles.form}>
-            <FormikEffect
-              onChange={(current, prev) => {
-                let { values: newValues } = current
-
-                if (!isEqual(newValues, prev.values)) {
-                  validateForm()
-                }
-              }}
-            />
-
-            <div className={styles.block}>
-              <FormikLabel text='Notify me via' />
-
-              <TriggerFormChannels
-                isNew={isNew}
-                channels={channels}
-                errors={errors}
-                setFieldValue={setFieldValue}
-              />
-            </div>
-
-            <TriggerFormBlockDivider className={styles.divider} />
-
-            <div className={styles.block}>
-              <div className={externalStyles.row}>
-                <SignalFormDescription
-                  description={description}
-                  setFieldValue={setFieldValue}
-                  className={styles.textarea}
-                />
-              </div>
-            </div>
-
-            <div className={styles.reports}>
-              <AlertWeeklyReports watchlist={watchlist} />
-            </div>
-
-            <div className={styles.actions}>
-              <Button
-                type='submit'
-                disabled={!isValidForm || isSubmitting}
-                variant='fill'
-                accent='positive'
-                className={styles.submit}
-              >
-                {id ? 'Save changes' : 'Create'}
-              </Button>
-              <Button
-                disabled={isSubmitting}
-                border
-                className={styles.cancel}
-                onClick={onCancel}
-              >
-                Cancel
-              </Button>
-
-              {!isNew && (
-                <ToggleSignal
-                  isActive={isActive}
-                  toggleSignal={() => toggleSignalActive(values)}
-                />
-              )}
-            </div>
-          </Form>
-        )
-      }}
+      {props => (
+        <ScreenerAlertForm
+          toggleSignalActive={toggleSignalActive}
+          watchlist={watchlist}
+          onCancel={onCancel}
+          isNew={isNew}
+          form={props}
+          setInitialValues={setInitialValues}
+        />
+      )}
     </Formik>
   )
 }
