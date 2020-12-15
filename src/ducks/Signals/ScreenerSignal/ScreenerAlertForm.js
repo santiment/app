@@ -11,9 +11,9 @@ import { TriggerFormBlockDivider } from '../signalFormManager/signalCrudForm/for
 import SignalFormDescription from '../signalFormManager/signalCrudForm/formParts/description/SignalFormDescription'
 import AlertWeeklyReports from '../signalFormManager/signalCrudForm/formParts/weeklyReports/AlertWeeklyReports'
 import { ToggleSignal } from '../../../components/SignalCard/card/SignalCardBottom'
+import { SCREENER_FREQUENCES } from './utils'
 import externalStyles from '../signalFormManager/signalCrudForm/signal/TriggerForm.module.scss'
 import styles from './ScreenerSignal.module.scss'
-import { SCREENER_FREQUENCES } from './utils'
 
 const FREQUENCE_TYPES = SCREENER_FREQUENCES.map(({ label }) => label)
 

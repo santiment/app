@@ -12,8 +12,8 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import { useSignals } from '../common/getSignals'
 import { useUser } from '../../../stores/user'
 import LoginPopup from '../../../components/banners/feature/PopupBanner'
-import styles from './ScreenerSignalDialog.module.scss'
 import { SCREENER_DEFAULT_SIGNAL } from './utils'
+import styles from './ScreenerSignalDialog.module.scss'
 
 export const EditSignalIcon = ({ className }) => (
   <svg
