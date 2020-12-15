@@ -33,6 +33,7 @@ const Pagination = ({
   const preparedOptions = useMemo(() => prepareOptions(pageSizeOptions), [
     pageSizeOptions
   ])
+
   return (
     <div className={cx(styles.wrapper, className)}>
       <Dropdown

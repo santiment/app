@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import cx from 'classnames'
 import { useTable, useSortBy, usePagination } from 'react-table'
 import { sortDate } from '../../utils/sortMethods'
@@ -27,7 +27,8 @@ const Table = ({
   const {
     pageSize: initialPageSize,
     pageIndex: initialPageIndex,
-    pageSizeOptions = [10, 25, 50]
+    pageSizeOptions = [10, 25, 50],
+    onChangeVisibleItems
   } = paginationSettings || {}
 
   const initialState = {}
@@ -69,6 +70,8 @@ const Table = ({
       sortTypes: {
         datetime: (a, b, id) => sortDate(a.original[id], b.original[id])
       },
+      autoResetPage: false,
+      autoResetSortBy: false,
       initialState
     },
     useSortBy,
@@ -89,6 +92,15 @@ const Table = ({
     previousPage,
     pageSizeOptions
   }
+
+  useEffect(
+    () => {
+      if (onChangeVisibleItems) {
+        onChangeVisibleItems({ pageIndex, pageSize, rows })
+      }
+    },
+    [pageIndex, pageSize, rows]
+  )
 
   return (
     <div
