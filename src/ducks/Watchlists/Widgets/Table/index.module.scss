@@ -20,10 +20,20 @@
 .headerColumn {
   top: 64px;
   border-bottom: none;
+
+  &:first-child {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 .bodyColumn {
   border-top: none !important;
+
+  &:first-child {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 .tableRow {

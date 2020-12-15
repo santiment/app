@@ -1,10 +1,9 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import { COLUMNS_NAMES } from './columns'
 import { formatNumber, millify } from '../../../../utils/formatting'
-import ProjectLabel from '../../../../components/ProjectLabel'
+import Project from '../../../../components/Tables/Cells/Project'
 import PercentChanges from '../../../../components/PercentChanges'
 import { Description } from '../../../dataHub/metrics/descriptions'
 import LayoutForAsset from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
@@ -86,17 +85,14 @@ export const COLUMNS = (preload, props = {}) => [
       const { slug, priceUsd } = original
       const { state } = props.projectLink || {}
       return (
-        <Link
-          onMouseOver={preload}
+        <Project
+          {...original}
           to={{
             state,
             pathname: `/projects/${slug}`,
             search: priceUsd === null ? 'metrics=devActivity' : ''
           }}
-          className='overview-name'
-        >
-          <ProjectLabel {...original} />
-        </Link>
+        />
       )
     },
     filterMethod: (filter, row) => {

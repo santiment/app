@@ -1,8 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { millify } from '../../../utils/formatting'
 import WalletLink from '../../WalletLink/WalletLink'
-import ProjectLabel from '../../ProjectLabel'
+import Project from '../Cells/Project'
 
 const ETHEREUM = 'ethereum'
 
@@ -26,9 +25,7 @@ export const COLUMNS = [
     accessor: 'project',
     disableSortBy: true,
     Cell: ({ row: { original } }) => (
-      <Link to={`/projects/${original.slug}`}>
-        <ProjectLabel {...original} />
-      </Link>
+      <Project {...original} to={`/projects/${original.slug}`} />
     )
   },
   {

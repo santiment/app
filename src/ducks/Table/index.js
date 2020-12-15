@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import cx from 'classnames'
-import { useTable, useSortBy, usePagination } from 'react-table'
+import { useTable, useSortBy, usePagination, useRowSelect } from 'react-table'
 import { sortDate } from '../../utils/sortMethods'
 import Loader from './Loader'
 import NoData from './NoData'
 import Pagination from './Pagination'
+import Checkbox from './Checkbox'
 import styles from './index.module.scss'
 
 const Table = ({
@@ -60,7 +61,8 @@ const Table = ({
     nextPage,
     previousPage,
     setPageSize,
-    state: { pageIndex, pageSize }
+    selectedFlatRows,
+    state: { pageIndex, pageSize, selectedRowIds }
   } = useTable(
     {
       columns,
@@ -75,7 +77,21 @@ const Table = ({
       initialState
     },
     useSortBy,
-    usePagination
+    usePagination,
+    useRowSelect,
+    hooks => {
+      hooks.visibleColumns.push(columns => [
+        {
+          id: 'checkboxes',
+          Header: ({ getToggleAllRowsSelectedProps }) => (
+            <Checkbox {...getToggleAllRowsSelectedProps()} />
+          ),
+          Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} />,
+          disableSortBy: true
+        },
+        ...columns
+      ])
+    }
   )
 
   const content = paginationSettings ? page : rows
@@ -133,12 +149,14 @@ const Table = ({
                   )}
                 >
                   <span>{column.render('Header')}</span>
-                  <span
-                    className={cx(
-                      styles.sort,
-                      column.isSortedDesc ? styles.sortDesc : styles.sortAsc
-                    )}
-                  />
+                  {column.canSort && (
+                    <span
+                      className={cx(
+                        styles.sort,
+                        column.isSortedDesc ? styles.sortDesc : styles.sortAsc
+                      )}
+                    />
+                  )}
                 </th>
               ))}
             </tr>

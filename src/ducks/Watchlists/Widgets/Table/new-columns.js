@@ -1,10 +1,8 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
-import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import { formatNumber, millify } from '../../../../utils/formatting'
-import ProjectLabel from '../../../../components/ProjectLabel'
+import Project from '../../../../components/Tables/Cells/Project'
 import PercentChanges from '../../../../components/PercentChanges'
 import LayoutForAsset from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
 import PriceGraph from './PriceGraph'
@@ -17,24 +15,6 @@ const NO_DATA = 'No data'
 export const DEFAULT_SORTING = [{ id: 'marketcapUsd', desc: false }]
 
 export const COLUMNS = [
-  {
-    Header: ' ',
-    accessor: 'Checkboxes',
-    Cell: ({ row }) => {
-      const { original, ...rest } = row
-      // console.log(rest)
-      return null
-      // const { rest: { assets, addasset } = {} } = tdProps
-      // return (
-      //   <div
-      //     className={styles.assetCheckbox}
-      //     onClick={() => addasset(original)}
-      //   >
-      //     <Checkbox isActive={assets.find(({ id }) => id === original.id)} />
-      //   </div>
-      // )
-    }
-  },
   {
     Header: '#',
     accessor: 'name',
@@ -56,15 +36,11 @@ export const COLUMNS = [
   {
     Header: 'Project',
     accessor: 'Project',
-    resizable: true,
+    disableSortBy: true,
     Cell: ({ row: { original } }) => {
       const { slug, priceUsd } = original
 
-      return (
-        <Link to={{ pathname: `/projects/${slug}` }}>
-          <ProjectLabel {...original} />
-        </Link>
-      )
+      return <Project {...original} to={`/projects/${slug}`} />
     }
   },
   {

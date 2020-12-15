@@ -50,7 +50,7 @@ const AssetsTable = ({ items, loading, type, listName, watchlist }) => {
           stickySettings: {
             isStickyHeader: true,
             isStickyColumn: true,
-            stickyColumnIdx: 1
+            stickyColumnIdx: 2
           },
           paginationSettings: {
             pageSize: 25,
