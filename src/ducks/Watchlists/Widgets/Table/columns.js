@@ -17,7 +17,7 @@ export const COLUMNS_NAMES = {
 }
 
 export const COLUMNS_SETTINGS = {
-  [COLUMNS_NAMES.checkboxes]: { show: false, selectable: false },
+  [COLUMNS_NAMES.checkboxes]: { show: true, selectable: false },
   [COLUMNS_NAMES.index]: { show: true, selectable: false },
   [COLUMNS_NAMES.project]: { show: true, selectable: false },
   [COLUMNS_NAMES.price]: { show: true, selectable: true },
