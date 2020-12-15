@@ -2,15 +2,13 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
-import { COLUMNS_NAMES } from './columns'
+import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import { formatNumber, millify } from '../../../../utils/formatting'
 import ProjectLabel from '../../../../components/ProjectLabel'
 import PercentChanges from '../../../../components/PercentChanges'
-import { Description } from '../../../dataHub/metrics/descriptions'
 import LayoutForAsset from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
-import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import PriceGraph from './PriceGraph'
-import styles from './AssetsToggleColumns.module.scss'
+import styles from './new-columns.module.scss'
 
 const isValidValue = value => !isNaN(parseFloat(value))
 
@@ -38,7 +36,6 @@ export const COLUMNS = [
   {
     Header: '#',
     accessor: 'name',
-    // className: styles.columnId,
     Cell: ({ sortedRows, row }) => {
       const index = sortedRows.findIndex(item => item === row)
       return index + 1
@@ -60,19 +57,11 @@ export const COLUMNS = [
     resizable: true,
     Cell: ({ row: { original } }) => {
       const { slug, priceUsd } = original
-      // const { state } = props.projectLink || {}
+
       return (
-        // <Link
-        //   onMouseOver={preload}
-        //   to={{
-        //     state,
-        //     pathname: `/projects/${slug}`,
-        //     search: priceUsd === null ? 'metrics=devActivity' : ''
-        //   }}
-        //   className='overview-name'
-        // >
-        <ProjectLabel {...original} />
-        // </Link>
+        <Link to={{ pathname: `/projects/${slug}` }}>
+          <ProjectLabel {...original} />
+        </Link>
       )
     }
   },

@@ -48,7 +48,6 @@ const Screener = props => {
     isDefaultScreener,
     location,
     history,
-    preload,
     type,
     id
   } = props
@@ -157,7 +156,6 @@ const Screener = props => {
               // className={styles.table}
               // goto={history.push}
               // history={history}
-              // preload={preload}
               // listName={title}
               // allColumns={ASSETS_TABLE_COLUMNS}
               // filterType={filterType}

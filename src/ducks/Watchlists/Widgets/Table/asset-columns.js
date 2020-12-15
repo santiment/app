@@ -10,7 +10,7 @@ import { Description } from '../../../dataHub/metrics/descriptions'
 import LayoutForAsset from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import PriceGraph from './PriceGraph'
-import styles from './AssetsToggleColumns.module.scss'
+import styles from './new-columns.module.scss'
 
 const simpleSort = (a, b) => b - a
 

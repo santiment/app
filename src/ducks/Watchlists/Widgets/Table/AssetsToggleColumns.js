@@ -65,9 +65,6 @@ const AssetsToggleColumns = ({ columns = [], onChange }) => (
                     </Panel>
                   </Tooltip>
                 )}
-                {!show && !selectable && (
-                  <span className={styles.soon}>soon</span>
-                )}
               </div>
             )}
           </Fragment>
