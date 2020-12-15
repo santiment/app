@@ -10,9 +10,8 @@ import MetricsExplanation, {
 import { METRICS_EXPLANATION_PANE } from '../Chart/Sidepanel/panes'
 import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
 import { useShortShareLink } from '../../../components/Share/hooks'
+import { SAN_HEADER_HEIGHT } from '../../../constants'
 import styles from './Settings.module.scss'
-
-export const SAN_HEADER_HEIGHT = 70
 
 const CopyLink = ({ getShareLink }) => {
   const [timer, setTimer] = useState()

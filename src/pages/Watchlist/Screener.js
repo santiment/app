@@ -132,6 +132,7 @@ const Screener = props => {
               history={history}
               widgets={widgets}
               setWidgets={setWidgets}
+              wrapperElem={AppElem}
             />
 
             {!loading && (
