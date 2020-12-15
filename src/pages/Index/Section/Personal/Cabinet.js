@@ -23,7 +23,8 @@ const cabinets = [
       <div className={styles.reports}>
         <Reports />
       </div>
-    )
+    ),
+    isOpened: true
   },
   {
     title: (
@@ -50,8 +51,14 @@ const Cabinet = () => {
     return <ProUpgradeBanner classes={styles} />
   }
 
-  return cabinets.map(({ title, content }) => (
-    <Accordion key={title} title={title} showArrow={false} classes={styles}>
+  return cabinets.map(({ title, content, isOpened }) => (
+    <Accordion
+      key={title}
+      title={title}
+      isOpenedDefault={isOpened}
+      showArrow={false}
+      classes={styles}
+    >
       {content}
     </Accordion>
   ))
