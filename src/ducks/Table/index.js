@@ -83,7 +83,9 @@ const Table = ({
     usePagination,
     useRowSelect,
     hooks => {
-      hooks.visibleColumns.push(columns => !!rowSelectSettings ? [CHECKBOX_COLUMN, ...columns] : columns)
+      hooks.visibleColumns.push(columns =>
+        rowSelectSettings ? [CHECKBOX_COLUMN, ...columns] : columns
+      )
     }
   )
 

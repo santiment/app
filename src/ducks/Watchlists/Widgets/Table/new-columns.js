@@ -20,17 +20,13 @@ export const COLUMNS = [
     accessor: 'name',
     Cell: ({ sortedRows, row }) => {
       const index = sortedRows.findIndex(item => item === row)
-      return index + 1
-      // const { original, page, pageSize, viewIndex, tdProps = {} } = row
-      // const { rest: { markedasnew, hide } = {} } = tdProps
-      // return (
-      //   <LayoutForAsset
-      //     item={original}
-      //     index={page * pageSize + viewIndex + 1}
-      //     hide={hide}
-      //     markedAsNew={markedasnew && markedasnew.id === original.id}
-      //   />
-      // )
+      return (
+        <LayoutForAsset
+          item={row.original}
+          className={styles.layout}
+          index={index + 1}
+        />
+      )
     }
   },
   {
