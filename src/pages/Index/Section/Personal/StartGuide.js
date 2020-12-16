@@ -10,7 +10,7 @@ import styles from './index.module.scss'
 
 const LS_ARTICLE_IS_READ = 'LS_ARTICLE_IS_READ'
 const FETCH_POLICY = {
-  fetchPolicy: 'cache-and-network',
+  fetchPolicy: 'cache-and-network'
 }
 export const USER_QUERY = gql`
   {
@@ -32,22 +32,22 @@ export const USER_QUERY = gql`
 `
 
 const DEFAULT_STATS = {
-  loginHref: '/login',
+  loginHref: '/login'
 }
 
-const setArticleIsRead = (tab) => localStorage.setItem(LS_ARTICLE_IS_READ, '+')
-const getArticleIsRead = (tab) => !!localStorage.getItem(LS_ARTICLE_IS_READ)
+const setArticleIsRead = tab => localStorage.setItem(LS_ARTICLE_IS_READ, '+')
+const getArticleIsRead = tab => !!localStorage.getItem(LS_ARTICLE_IS_READ)
 
-function useIsArticleRead() {
+function useIsArticleRead () {
   const [isArticleRead, setIsArticleRead] = useState(getArticleIsRead)
 
   return {
     isArticleRead,
-    readArticle: () => setIsArticleRead(true) || setArticleIsRead(),
+    readArticle: () => setIsArticleRead(true) || setArticleIsRead()
   }
 }
 
-function useUserStats() {
+function useUserStats () {
   const { data } = useQuery(USER_QUERY, FETCH_POLICY)
 
   return useMemo(
@@ -59,17 +59,17 @@ function useUserStats() {
         username,
         settings,
         watchlists,
-        chartConfigurations,
+        chartConfigurations
       } = data.currentUser
 
       return {
         personalInfo: !!(email && username),
         telegram: settings.hasTelegramConnected,
         watchlists: !!watchlists.length,
-        charts: !!chartConfigurations.length,
+        charts: !!chartConfigurations.length
       }
     },
-    [data],
+    [data]
   )
 }
 
@@ -93,7 +93,7 @@ const StartGuide = () => {
     telegram,
     watchlists,
     charts,
-    loginHref,
+    loginHref
   } = useUserStats()
   const { isArticleRead, readArticle } = useIsArticleRead()
 
