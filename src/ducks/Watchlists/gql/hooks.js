@@ -240,9 +240,9 @@ export function getProjectsByFunction (func) {
     }
   })
 
-  return [
-    data ? data.allProjectsByFunction.projects : undefined,
+  return {
+    assets: data ? data.allProjectsByFunction.projects : undefined,
     loading,
     error
-  ]
+  }
 }

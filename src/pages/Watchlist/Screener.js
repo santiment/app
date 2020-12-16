@@ -10,7 +10,7 @@ import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/colum
 import Infographics from './Infographics'
 import { addRecentScreeners } from '../../utils/recent'
 import { useUser } from '../../stores/user'
-import './Screener.module.scss'
+import styles from './Screener.module.scss'
 
 const Screener = props => {
   const {
@@ -27,7 +27,7 @@ const Screener = props => {
   const [screenerFunction, setScreenerFunction] = useState(
     watchlist.function || DEFAULT_SCREENER_FUNCTION
   )
-  const [assets = [], loading] = getProjectsByFunction(screenerFunction)
+  const { assets = [], loading } = getProjectsByFunction(screenerFunction)
   const { user = {}, loading: userLoading } = useUser()
 
   const AppElem = document.getElementsByClassName('App')[0]
@@ -48,6 +48,12 @@ const Screener = props => {
     },
     [watchlist.function]
   )
+
+  // useEffect(
+  //   () => {
+  //     console.log(screenerFunction)
+  //   }, [screenerFunction]
+  // )
 
   const { widgets, setWidgets } = useScreenerUrl({ location, history })
 

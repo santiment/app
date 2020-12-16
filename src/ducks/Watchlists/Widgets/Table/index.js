@@ -10,7 +10,7 @@ import styles from './index.module.scss'
 
 const AssetsTable = ({ items, loading, type, listName, watchlist }) => {
   const { visibleItems, changeVisibleItems } = useVisibleItems()
-  const { comparingAssets = [], addAsset, cleanAll } = useComparingAssets()
+  const { comparingAssets = [], updateAssets, cleanAll } = useComparingAssets()
   const [graphData] = usePriceGraph({ slugs: visibleItems })
 
   const columns = useMemo(() => COLUMNS, [])
@@ -57,6 +57,9 @@ const AssetsTable = ({ items, loading, type, listName, watchlist }) => {
             pageIndex: 0,
             pageSizeOptions: [10, 25, 50, 100],
             onChangeVisibleItems: changeVisibleItems
+          },
+          rowSelectSettings: {
+            onChangeSelectedRows: updateAssets
           }
         }}
         className={styles.tableWrapper}

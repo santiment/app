@@ -5,7 +5,7 @@ import { sortDate } from '../../utils/sortMethods'
 import Loader from './Loader'
 import NoData from './NoData'
 import Pagination from './Pagination'
-import Checkbox from './Checkbox'
+import { CHECKBOX_COLUMN } from './Checkbox/column'
 import styles from './index.module.scss'
 
 const Table = ({
@@ -16,7 +16,8 @@ const Table = ({
     loadingSettings,
     sortingSettings,
     stickySettings,
-    paginationSettings
+    paginationSettings,
+    rowSelectSettings
   } = {},
   className,
   classes = {}
@@ -31,6 +32,7 @@ const Table = ({
     pageSizeOptions = [10, 25, 50],
     onChangeVisibleItems
   } = paginationSettings || {}
+  const { onChangeSelectedRows } = rowSelectSettings || {}
 
   const initialState = {}
 
@@ -74,23 +76,16 @@ const Table = ({
       },
       autoResetPage: false,
       autoResetSortBy: false,
+      autoResetSelectedRows: false,
       initialState
     },
     useSortBy,
     usePagination,
     useRowSelect,
     hooks => {
-      hooks.visibleColumns.push(columns => [
-        {
-          id: 'checkboxes',
-          Header: ({ getToggleAllRowsSelectedProps }) => (
-            <Checkbox {...getToggleAllRowsSelectedProps()} />
-          ),
-          Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} />,
-          disableSortBy: true
-        },
-        ...columns
-      ])
+      hooks.visibleColumns.push(columns =>
+        rowSelectSettings ? [CHECKBOX_COLUMN, ...columns] : columns
+      )
     }
   )
 
@@ -116,6 +111,15 @@ const Table = ({
       }
     },
     [pageIndex, pageSize, rows]
+  )
+
+  useEffect(
+    () => {
+      if (onChangeSelectedRows) {
+        onChangeSelectedRows(selectedFlatRows)
+      }
+    },
+    [selectedFlatRows]
   )
 
   return (

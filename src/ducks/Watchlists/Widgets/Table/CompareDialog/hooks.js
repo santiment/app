@@ -12,6 +12,19 @@ export const useComparingAssets = () => {
     [comparingAssets, setComparingAssets]
   )
 
+  const updateAssets = useCallback(
+    items => {
+      const normalizedItems = items.map(item => {
+        const { name, ticker, id, slug, logoUrl, darkLogoUrl } = item.original
+        return { name, ticker, id, slug, logoUrl, darkLogoUrl }
+      })
+      if (JSON.stringify(normalizedItems) !== JSON.stringify(comparingAssets)) {
+        setComparingAssets(normalizedItems)
+      }
+    },
+    [comparingAssets, setComparingAssets]
+  )
+
   const cleanAll = useCallback(
     () => {
       setComparingAssets([])
@@ -22,6 +35,7 @@ export const useComparingAssets = () => {
   return {
     comparingAssets,
     addAsset,
+    updateAssets,
     cleanAll
   }
 }
