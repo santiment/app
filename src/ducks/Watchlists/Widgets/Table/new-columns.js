@@ -34,7 +34,7 @@ export const COLUMNS = [
     accessor: 'Project',
     disableSortBy: true,
     Cell: ({ row: { original } }) => {
-      const { slug, priceUsd } = original
+      const { slug } = original
 
       return <Project {...original} to={`/projects/${slug}`} />
     }

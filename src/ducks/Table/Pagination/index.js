@@ -51,7 +51,6 @@ const Pagination = ({
           type='number'
           className={styles.input}
           style={{ '--width': `${(pageIndex + 1).toString().length}ch` }}
-          defaultValue={pageIndex + 1}
           value={pageIndex + 1}
           onChange={evt => {
             const newPage = evt.target.value ? Number(evt.target.value) - 1 : 0
