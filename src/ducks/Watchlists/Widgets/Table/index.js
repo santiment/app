@@ -1,10 +1,10 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { COLUMNS, DEFAULT_SORTING } from './new-columns'
+import TableTop from './TableTop'
 import Table from '../../../Table'
+import { useVisibleItems } from './hooks'
 import { usePriceGraph } from './PriceGraph/hooks'
 import { normalizeGraphData as normalizeData } from './PriceGraph/utils'
-import { useVisibleItems } from './hooks'
-import TableTop from './TableTop'
 import { useComparingAssets } from '../../../../ducks/Watchlists/Widgets/Table/CompareDialog/hooks'
 import styles from './index.module.scss'
 

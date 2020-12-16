@@ -64,7 +64,7 @@ const Table = ({
     previousPage,
     setPageSize,
     selectedFlatRows,
-    state: { pageIndex, pageSize, selectedRowIds }
+    state: { pageIndex, pageSize }
   } = useTable(
     {
       columns,
@@ -83,9 +83,7 @@ const Table = ({
     usePagination,
     useRowSelect,
     hooks => {
-      hooks.visibleColumns.push(columns =>
-        rowSelectSettings ? [CHECKBOX_COLUMN, ...columns] : columns
-      )
+      hooks.visibleColumns.push(columns => !!rowSelectSettings ? [CHECKBOX_COLUMN, ...columns] : columns)
     }
   )
 
