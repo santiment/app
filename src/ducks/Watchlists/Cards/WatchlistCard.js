@@ -32,7 +32,8 @@ const WatchlistCard = ({
   className,
   isLoading,
   skipIndicator,
-  isSimplifiedView
+  isSimplifiedView,
+  isWithNewCheck
 }) => {
   const { marketcap: latestMarketcap } = stats.slice(-1)[0] || {}
   const { marketcap } = stats.slice(0, 1)[0] || {}
@@ -74,10 +75,10 @@ const WatchlistCard = ({
         <>
           <div className={cx(styles.flexRow, styles.content)}>
             <span className={styles.name}>
-              {[
-                <NewLabel date={insertedAt} className={styles.new} key='new' />,
-                name
-              ]}
+              {isWithNewCheck && (
+                <NewLabel date={insertedAt} className={styles.new} />
+              )}
+              {name}
             </span>
             {isPublic !== undefined && !skipIndicator && (
               <VisibilityIndicator isPublic={isPublic} />
@@ -141,7 +142,8 @@ WatchlistCard.propTypes = {
 
 WatchlistCard.defaultProps = {
   to: '#',
-  stats: []
+  stats: [],
+  isWithNewCheck: true
 }
 
 const enhance = compose(
