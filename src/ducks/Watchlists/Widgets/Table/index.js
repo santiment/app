@@ -20,7 +20,7 @@ const AssetsTable = ({
 }) => {
   const { visibleItems, changeVisibleItems } = useVisibleItems()
   const { comparingAssets = [], updateAssets } = useComparingAssets()
-  const { columns, toggleColumn, pageSize } = useColumns()
+  const { columns, toggleColumn, pageSize } = useColumns('Screener')
   const [graphData] = usePriceGraph({ slugs: visibleItems })
 
   const shownColumns = useMemo(

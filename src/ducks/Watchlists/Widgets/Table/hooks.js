@@ -1,5 +1,9 @@
 import { useCallback, useState } from 'react'
-import { COLUMNS_SETTINGS, COMMON_SETTINGS } from './columns'
+import {
+  COLUMNS_SETTINGS,
+  COMMON_SETTINGS,
+  CATEGORIES_SETTINGS
+} from './columns'
 
 export const useVisibleItems = () => {
   const [visibleItems, setVisibleItems] = useState([])
@@ -29,9 +33,9 @@ export const useVisibleItems = () => {
   }
 }
 
-export const useColumns = () => {
-  const hiddenColumns = COMMON_SETTINGS.hiddenColumns
-  const pageSize = COMMON_SETTINGS.pageSize
+export const useColumns = category => {
+  const { hiddenColumns } = CATEGORIES_SETTINGS[category] || COMMON_SETTINGS
+  const { pageSize } = COMMON_SETTINGS
 
   const [columns, setColumns] = useState(
     changeShowing(COLUMNS_SETTINGS, hiddenColumns)
