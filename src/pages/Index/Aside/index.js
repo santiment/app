@@ -12,7 +12,8 @@ WATCHLIST_IDS_ORDER.forEach((id, i) => {
 
 const sortWatchlists = ({ id: a }, { id: b }) =>
   WatchlistIdOrder[a] - WatchlistIdOrder[b]
-const sorter = watchlists => watchlists.slice().sort(sortWatchlists)
+export const sorter = watchlists => watchlists.slice().sort(sortWatchlists)
+// TODO: Move exported function to the hooks to remove dependency on the pages/ folder [@vanguard | Dec 16, 2020]
 
 const Aside = ({ className }) => (
   <aside className={className}>
