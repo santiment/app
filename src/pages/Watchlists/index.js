@@ -22,7 +22,6 @@ const Watchlists = ({ isPublicWatchlistsLoading, history }) => {
       <DesktopOnly>
         <h4 className={styles.heading}>Explore watchlists</h4>
         <WatchlistCards
-          watchlists={BASIC_CATEGORIES}
           showFeatured={true}
           classes={{ watchlists: styles.section }}
         />
