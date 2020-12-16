@@ -20,7 +20,7 @@ const InsightsOnDemand = () => (
             variant='fill'
             className={styles.btn}
           >
-            Open Template
+            Open Chart
             <Icon type='external-link' className={styles.external} />
           </Button>
         </Accordion>
