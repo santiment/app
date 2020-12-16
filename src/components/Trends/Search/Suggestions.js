@@ -1,16 +1,19 @@
 import React, { Fragment } from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
-import HelpPopupTrends from '../../../pages/Trends/HelpPopupTrends'
 import styles from './Suggestions.module.scss'
 
 const SUGGESTIONS = [
   {
-    trend: 'corona OR coronavirus OR "covid-19"',
+    trend: 'bitcoin',
     options: ''
   },
   {
-    trend: 'buy OR bought OR bottom OR bottomed',
+    trend: 'blockchain',
+    options: ''
+  },
+  {
+    trend: 'IEO OR IEOs or launchpad',
     options: ''
   }
 ]
@@ -29,7 +32,6 @@ const Suggestions = ({ samples = SUGGESTIONS, className }) => (
         {index !== arr.length - 1 && ','}
       </Fragment>
     ))}
-    <HelpPopupTrends />
   </div>
 )
 export default Suggestions

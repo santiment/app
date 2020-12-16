@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { compose } from 'redux'
 import Table from 'react-table-6'
 import cx from 'classnames'
@@ -99,27 +99,32 @@ const getTrGroupProps = (_, rowInfo) => {
   }
 }
 
-class TrendsTable extends PureComponent {
-  static defaultProps = {
-    trendWords: [],
-    selectable: true,
-    selectedTrends: new Set(),
-    trendConnections: [],
-    connectedTrends: {},
-    TrendToInsights: {},
-    header: ''
-  }
-
-  getActionButtons = () => {
+const TrendsTable = ({
+  trendWords = [],
+  TrendToInsights,
+  allTrends,
+  connectTrends,
+  clearConnectedTrends,
+  selectable = true,
+  selectedTrends = new Set(),
+  trendConnections = [],
+  connectedTrends = {},
+  header = '',
+  small,
+  hasActions,
+  volumeChange,
+  className,
+  isLoggedIn,
+  username,
+  selectTrend,
+  isDesktop,
+  isCompactView,
+  contentClassName
+}) => {
+  const getActionButtons = () => {
     return [
       {
         Cell: ({ original: { rawWord } }) => {
-          const {
-            connectedTrends,
-            connectTrends,
-            clearConnectedTrends,
-            allTrends
-          } = this.props
           const trendConnections = connectedTrends[rawWord.toUpperCase()]
           const visibleConnectionsLength = trendConnections
             ? trendConnections.filter(word => allTrends.has(word.toLowerCase()))
@@ -155,7 +160,7 @@ class TrendsTable extends PureComponent {
       },
       {
         Cell: ({ original: { rawWord } }) => {
-          const insights = this.props.TrendToInsights[rawWord.toUpperCase()]
+          const insights = TrendToInsights[rawWord.toUpperCase()]
 
           const insightsTrigger = (
             <Button variant='flat' className={styles.tooltip__trigger}>
@@ -230,145 +235,125 @@ class TrendsTable extends PureComponent {
     ]
   }
 
-  render () {
-    const {
-      small,
-      hasActions,
-      trendWords,
-      volumeChange,
-      header,
-      className,
-      selectable,
-      isLoggedIn,
-      username,
-      selectTrend,
-      selectedTrends,
-      trendConnections,
-      isDesktop,
-      isCompactView,
-      contentClassName
-    } = this.props
+  const tableData = trendWords.map(({ word, score }, index) => {
+    const volumeIsLoading = !volumeChange[word]
+    const [oldVolume = 0, newVolume = 0] = volumeChange[word] || []
+    const isWordSelected = selectedTrends.has(word)
+    const hasMaxWordsSelected = selectedTrends.size > 4 && !isWordSelected
+    const isSelectable =
+      selectable &&
+      !!username &&
+      !hasMaxWordsSelected &&
+      !isCompactView &&
+      isLoggedIn
+    return {
+      index: (
+        <>
+          {isSelectable && (
+            <Checkbox
+              isActive={isWordSelected}
+              className={cx(
+                styles.checkbox,
+                isWordSelected && styles.checkbox_active
+              )}
+              onClick={() => selectTrend(word)}
+            />
+          )}
+          <ConditionalWrapper isLimitReached={hasMaxWordsSelected}>
+            <Label accent='waterloo' className={styles.index}>
+              {index + 1}
+            </Label>
+          </ConditionalWrapper>
+        </>
+      ),
+      word: (
+        <Link
+          className={cx(
+            styles.word,
+            trendConnections.includes(word.toUpperCase()) && styles.connected
+          )}
+          to={`${EXPLORE_PAGE_URL}${word}`}
+          onClick={evt => {
+            if (evt.ctrlKey || evt.metaKey) {
+              const { pathname } = window.location
+              const topic = pathname.replace(EXPLORE_PAGE_URL, '')
 
-    const tableData = trendWords.map(({ word, score }, index) => {
-      const volumeIsLoading = !volumeChange[word]
-      const [oldVolume = 0, newVolume = 0] = volumeChange[word] || []
-      const isWordSelected = selectedTrends.has(word)
-      const hasMaxWordsSelected = selectedTrends.size > 4 && !isWordSelected
-      const isSelectable =
-        selectable &&
-        !!username &&
-        !hasMaxWordsSelected &&
-        !isCompactView &&
-        isLoggedIn
-      return {
-        index: (
-          <>
-            {isSelectable && (
-              <Checkbox
-                isActive={isWordSelected}
-                className={cx(
-                  styles.checkbox,
-                  isWordSelected && styles.checkbox_active
-                )}
-                onClick={() => selectTrend(word)}
-              />
-            )}
-            <ConditionalWrapper isLimitReached={hasMaxWordsSelected}>
-              <Label accent='waterloo' className={styles.index}>
-                {index + 1}
-              </Label>
-            </ConditionalWrapper>
-          </>
-        ),
-        word: (
-          <Link
-            className={cx(
-              styles.word,
-              trendConnections.includes(word.toUpperCase()) && styles.connected
-            )}
-            to={`${EXPLORE_PAGE_URL}${word}`}
-            onClick={evt => {
-              if (evt.ctrlKey || evt.metaKey) {
-                const { pathname } = window.location
-                const topic = pathname.replace(EXPLORE_PAGE_URL, '')
+              if (pathname.includes(EXPLORE_PAGE_URL)) {
+                evt.preventDefault()
+                evt.stopPropagation()
+                if (word !== topic) {
+                  const addedTopics = new Set(getTopicsFromUrl())
+                  addedTopics.add(word)
+                  const newTopics = updTopicsInUrl([...addedTopics])
+                  const url = topic ? `?${newTopics}` : `${word}`
 
-                if (pathname.includes(EXPLORE_PAGE_URL)) {
-                  evt.preventDefault()
-                  evt.stopPropagation()
-                  if (word !== topic) {
-                    const addedTopics = new Set(getTopicsFromUrl())
-                    addedTopics.add(word)
-                    const newTopics = updTopicsInUrl([...addedTopics])
-                    const url = topic ? `?${newTopics}` : `${word}`
-
-                    store.dispatch(push(pathname + url))
-                  }
+                  store.dispatch(push(pathname + url))
                 }
               }
-            }}
-          >
-            {word}{' '}
-          </Link>
-        ),
-        rawWord: word,
-        score: parseInt(score, 10),
-        volume: volumeIsLoading ? (
-          <Loader className={styles.loader} />
-        ) : (
-          <>
-            <div className={styles.volume}>{newVolume}</div>{' '}
-            <ValueChange
-              change={newVolume - oldVolume}
-              className={styles.valueChange}
-            />
-          </>
-        )
-      }
-    })
+            }
+          }}
+        >
+          {word}{' '}
+        </Link>
+      ),
+      rawWord: word,
+      score: parseInt(score, 10),
+      volume: volumeIsLoading ? (
+        <Loader className={styles.loader} />
+      ) : (
+        <>
+          <div className={styles.volume}>{newVolume}</div>{' '}
+          <ValueChange
+            change={newVolume - oldVolume}
+            className={styles.valueChange}
+          />
+        </>
+      )
+    }
+  })
 
-    const baseColumns = isDesktop ? DESKTOP_COLUMNS : MOBILE_COLUMNS
+  const baseColumns = isDesktop ? DESKTOP_COLUMNS : MOBILE_COLUMNS
 
-    return (
-      <PanelWithHeader
-        header={header}
-        className={cx(
-          styles.panel,
-          className,
-          isCompactView && styles.panel__compact
-        )}
-        contentClassName={cx(
-          styles.content,
-          isCompactView && styles.content__compact,
-          contentClassName
-        )}
-        headerClassName={cx(
-          styles.header,
-          !header && styles.header__empty,
-          isCompactView && styles.header__compact
-        )}
-      >
-        <Table
-          className={cx(styles.table, isCompactView && styles.compact)}
-          sortable={false}
-          resizable={false}
-          data={tableData}
-          columns={
-            isCompactView
-              ? COMPACT_VIEW_COLUMNS
-              : small
-                ? baseColumns.slice(0, 2)
-                : hasActions
-                  ? baseColumns.concat(this.getActionButtons())
-                  : baseColumns
-          }
-          showPagination={false}
-          defaultPageSize={10}
-          minRows={10}
-          getTrGroupProps={getTrGroupProps}
-        />
-      </PanelWithHeader>
-    )
-  }
+  return (
+    <PanelWithHeader
+      header={header}
+      className={cx(
+        styles.panel,
+        className,
+        isCompactView && styles.panel__compact
+      )}
+      contentClassName={cx(
+        styles.content,
+        isCompactView && styles.content__compact,
+        contentClassName
+      )}
+      headerClassName={cx(
+        styles.header,
+        !header && styles.header__empty,
+        isCompactView && styles.header__compact
+      )}
+    >
+      <Table
+        className={cx(styles.table, isCompactView && styles.compact)}
+        sortable={false}
+        resizable={false}
+        data={tableData}
+        columns={
+          isCompactView
+            ? COMPACT_VIEW_COLUMNS
+            : small
+              ? baseColumns.slice(0, 2)
+              : hasActions
+                ? baseColumns.concat(getActionButtons())
+                : baseColumns
+        }
+        showPagination={false}
+        defaultPageSize={10}
+        minRows={10}
+        getTrGroupProps={getTrGroupProps}
+      />
+    </PanelWithHeader>
+  )
 }
 
 const mapStateToProps = ({
