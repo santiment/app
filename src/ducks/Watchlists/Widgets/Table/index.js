@@ -9,9 +9,17 @@ import { normalizeGraphData as normalizeData } from './PriceGraph/utils'
 import { useComparingAssets } from '../../../../ducks/Watchlists/Widgets/Table/CompareDialog/hooks'
 import styles from './index.module.scss'
 
-const AssetsTable = ({ items, loading, type, listName, watchlist }) => {
+const AssetsTable = ({
+  items,
+  loading,
+  type,
+  listName,
+  watchlist,
+  refetchAssets,
+  timestamp
+}) => {
   const { visibleItems, changeVisibleItems } = useVisibleItems()
-  const { comparingAssets = [], updateAssets, cleanAll } = useComparingAssets()
+  const { comparingAssets = [], updateAssets } = useComparingAssets()
   const [graphData] = usePriceGraph({ slugs: visibleItems })
 
   const columns = useMemo(() => COLUMNS, [])
@@ -27,8 +35,9 @@ const AssetsTable = ({ items, loading, type, listName, watchlist }) => {
   return (
     <>
       <TableTop
+        refetchAssets={refetchAssets}
+        timestamp={timestamp}
         comparingAssets={comparingAssets}
-        cleanAll={cleanAll}
         type={type}
         listName={listName}
         items={items}

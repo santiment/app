@@ -1,24 +1,25 @@
 import React from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
-// import Refresh from '../../../../../components/Refresh/Refresh'
-import CompareInfo from '../CompareInfo/CompareInfo'
-import CompareAction from '../CompareInfo/CompareAction'
-import ProPopupWrapper from '../../../../../components/ProPopup/Wrapper'
-import ExplanationTooltip from '../../../../../components/ExplanationTooltip/ExplanationTooltip'
 import Copy from '../../../Actions/Copy'
 import SaveAs from '../../../Actions/SaveAs'
 import DownloadCSV from '../../../Actions/DownloadCSV'
 import { useUserWatchlists } from '../../../gql/hooks'
+import CompareInfo from '../CompareInfo/CompareInfo'
+import CompareAction from '../CompareInfo/CompareAction'
+import Refresh from '../../../../../components/Refresh/Refresh'
+import ProPopupWrapper from '../../../../../components/ProPopup/Wrapper'
+import ExplanationTooltip from '../../../../../components/ExplanationTooltip/ExplanationTooltip'
 import styles from './index.module.scss'
 
 const TableTop = ({
   comparingAssets,
-  cleanAll,
   isLoading,
   type,
   items,
   listName,
+  refetchAssets,
+  timestamp,
   watchlist = {}
 }) => {
   const [watchlists = []] = useUserWatchlists()
@@ -26,11 +27,11 @@ const TableTop = ({
 
   return (
     <div className={styles.wrapper}>
-      {/* <Refresh */}
-      {/*      timestamp={timestamp} */}
-      {/*      isLoading={isLoading} */}
-      {/*      onRefreshClick={() => refetchAssets({ ...typeInfo, minVolume })} */}
-      {/*    /> */}
+      <Refresh
+        timestamp={timestamp}
+        isLoading={isLoading}
+        onRefreshClick={refetchAssets}
+      />
       {comparingAssets && (
         <div className={styles.leftActions}>
           <div className={styles.compareAction}>

@@ -232,9 +232,10 @@ export function useAvailableSegments () {
   return [data ? data.allMarketSegments.sort(countAssetsSort) : [], loading]
 }
 
-export function getProjectsByFunction (func) {
+export function getProjectsByFunction (func, flag) {
   const { data, loading, error } = useQuery(PROJECTS_BY_FUNCTION_QUERY, {
     skip: !func,
+    fetchPolicy: 'network-only',
     variables: {
       fn: JSON.stringify(func)
     }
@@ -243,6 +244,7 @@ export function getProjectsByFunction (func) {
   return {
     assets: data ? data.allProjectsByFunction.projects : undefined,
     loading,
-    error
+    error,
+    timestamp: new Date()
   }
 }

@@ -27,7 +27,11 @@ const Screener = props => {
   const [screenerFunction, setScreenerFunction] = useState(
     watchlist.function || DEFAULT_SCREENER_FUNCTION
   )
-  const { assets = [], loading } = getProjectsByFunction(screenerFunction)
+  const [flag, setFlag] = useState(true)
+  const { assets = [], loading, timestamp } = getProjectsByFunction(
+    screenerFunction,
+    flag
+  )
   const { user = {}, loading: userLoading } = useUser()
 
   const AppElem = document.getElementsByClassName('App')[0]
@@ -48,12 +52,6 @@ const Screener = props => {
     },
     [watchlist.function]
   )
-
-  // useEffect(
-  //   () => {
-  //     console.log(screenerFunction)
-  //   }, [screenerFunction]
-  // )
 
   const { widgets, setWidgets } = useScreenerUrl({ location, history })
 
@@ -101,6 +99,8 @@ const Screener = props => {
         type='screener'
         listName={title}
         watchlist={watchlist}
+        timestamp={timestamp}
+        refetchAssets={() => setFlag(!flag)}
         // allColumns={ASSETS_TABLE_COLUMNS}
       />
     </>
