@@ -41,11 +41,12 @@ const TableTop = ({
           </div>
 
           {comparingAssets.length > 0 && (
-            <CompareInfo selected={comparingAssets} cleanAll={cleanAll} />
+            <CompareInfo selected={comparingAssets} />
           )}
         </div>
       )}
       <div className={styles.actions}>
+        {/* <AssetsToggleColumns columns={columns} onChange={toggleColumn} /> */}
         <ProPopupWrapper
           type={type}
           trigger={props => (

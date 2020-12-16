@@ -7,9 +7,10 @@
   width: 100%;
   transition: width 0.2s ease-in-out;
   position: sticky;
+  left: 0;
   top: 64px;
   background-color: var(--white);
-  z-index: 1;
+  z-index: 2;
 }
 
 .leftActions {

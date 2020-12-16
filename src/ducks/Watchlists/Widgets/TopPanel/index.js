@@ -19,7 +19,6 @@ const TopPanel = ({
   isLoggedIn,
   assets,
   isDefaultScreener,
-  wrapperElem,
   ...props
 }) => {
   const { isPro } = useUserSubscriptionStatus()
@@ -78,7 +77,6 @@ const TopPanel = ({
           setIsOpen={setIsFilterOpen}
           isOpen={isFilterOpen}
           setIsUpdatingWatchlist={setIsUpdatingWatchlist}
-          wrapperElem={wrapperElem}
           {...props}
         />
       </div>

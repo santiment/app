@@ -22,7 +22,6 @@ import {
 } from './utils'
 import { isContainMetric } from './detector'
 import { useAvailableMetrics } from '../../gql/hooks'
-import { SAN_HEADER_HEIGHT } from '../../../../constants'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import { APP_STATES } from '../../../Updates/reducers'
 import {
@@ -44,8 +43,7 @@ const Filter = ({
   history,
   appVersionState,
   isOpen,
-  setIsOpen,
-  wrapperElem
+  setIsOpen
 }) => {
   if (!screenerFunction) {
     return null
@@ -96,14 +94,8 @@ const Filter = ({
 
   useEffect(
     () => {
-      if (isOpen) {
-        if (wrapperElem.scrollTop < SAN_HEADER_HEIGHT) {
-          wrapperElem.scroll({ top: 70, behavior: 'smooth' })
-        }
-        wrapperElem.style.overflow = 'hidden'
-      } else {
+      if (!isOpen) {
         setCurrentSearch('')
-        wrapperElem.style.overflow = 'auto'
       }
     },
     [isOpen]

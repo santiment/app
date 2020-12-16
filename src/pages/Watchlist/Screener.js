@@ -83,7 +83,6 @@ const Screener = props => {
         history={history}
         widgets={widgets}
         setWidgets={setWidgets}
-        wrapperElem={AppElem}
       />
 
       {!loading && (
@@ -92,6 +91,7 @@ const Screener = props => {
           widgets={widgets}
           setWidgets={setWidgets}
           listId={id}
+          className={styles.infographics}
         />
       )}
 
