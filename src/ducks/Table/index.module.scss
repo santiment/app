@@ -44,6 +44,11 @@
   &:first-child {
     padding-left: 26px;
   }
+
+  &.collapse {
+    /* "collapsed" cells should be as small as possible */
+    width: 0.0000000001%;
+  }
 }
 
 .headerColumnStickyTop {
@@ -114,6 +119,11 @@
 
   &:first-child {
     padding-left: 26px;
+  }
+
+  &.collapse {
+    /* "collapsed" cells should be as small as possible */
+    width: 0.0000000001%;
   }
 }
 

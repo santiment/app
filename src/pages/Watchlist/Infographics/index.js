@@ -19,7 +19,8 @@ const Infographics = ({
   filterType,
   toggleAssetsFiltering,
   listId,
-  type = 'Screener'
+  type = 'Screener',
+  className
 }) => {
   const {
     isPriceChartActive,
@@ -37,7 +38,7 @@ const Infographics = ({
   )
 
   return (
-    <>
+    <div className={className}>
       {isPriceTreeMap && (
         <div className={styles.treeMaps}>
           <ProjectsMapWrapper
@@ -88,7 +89,7 @@ const Infographics = ({
           toggleAssetsFiltering={toggleAssetsFiltering}
         />
       )}
-    </>
+    </div>
   )
 }
 

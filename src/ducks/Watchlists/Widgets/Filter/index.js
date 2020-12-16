@@ -22,7 +22,6 @@ import {
 } from './utils'
 import { isContainMetric } from './detector'
 import { useAvailableMetrics } from '../../gql/hooks'
-import { SAN_HEADER_HEIGHT } from '../../../Studio/Header/Settings'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
 import { APP_STATES } from '../../../Updates/reducers'
 import {
@@ -95,14 +94,8 @@ const Filter = ({
 
   useEffect(
     () => {
-      if (isOpen) {
-        if (window.scrollY < SAN_HEADER_HEIGHT) {
-          window.scroll({ top: 70, behavior: 'smooth' })
-        }
-        document.body.style.overflow = 'hidden'
-      } else {
+      if (!isOpen) {
         setCurrentSearch('')
-        document.body.style.overflow = null
       }
     },
     [isOpen]

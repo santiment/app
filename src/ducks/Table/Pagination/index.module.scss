@@ -3,13 +3,10 @@
 .wrapper {
   display: flex;
   align-items: center;
-  margin: auto 32px 16px 32px;
-  padding-top: 16px;
-}
-
-.options {
-  position: absolute;
-  z-index: 3;
+  margin-top: auto;
+  padding: 16px 32px;
+  background-color: var(--white);
+  z-index: 10;
 }
 
 .totalPages {
@@ -54,4 +51,10 @@
 
 .dropdown {
   width: 123px;
+}
+
+.options {
+  top: auto;
+  bottom: 100%;
+  margin: 0 0 8px 0;
 }

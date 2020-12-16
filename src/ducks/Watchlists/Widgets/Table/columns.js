@@ -55,6 +55,9 @@ export const CATEGORIES_SETTINGS = {
   'All Assets': {
     hiddenColumns: [COLUMNS_NAMES.eth_spent, COLUMNS_NAMES.marketSegments]
   },
+  Screener: {
+    hiddenColumns: [COLUMNS_NAMES.eth_spent]
+  },
   'ERC20 Assets': { hiddenColumns: [] },
   'Top 50 ERC20': {
     hiddenColumns: [],

@@ -32,14 +32,16 @@ const WatchlistPriceWidget = ({
         top3={items.slice(0, 3)}
         id={listId}
       />
-      <WatchlistAnomalies
-        trends={trendingAssets}
-        range={range}
-        type={filterType}
-        assetsAmount={items.length}
-        changeRange={changeRange}
-        onFilterAssets={toggleAssetsFiltering}
-      />
+      {toggleAssetsFiltering && (
+        <WatchlistAnomalies
+          trends={trendingAssets}
+          range={range}
+          type={filterType}
+          assetsAmount={items.length}
+          changeRange={changeRange}
+          onFilterAssets={toggleAssetsFiltering}
+        />
+      )}
     </Panel>
   )
 }

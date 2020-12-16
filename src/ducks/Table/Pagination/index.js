@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react'
+import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Input from '@santiment-network/ui/Input'
 import Button from '@santiment-network/ui/Button'
@@ -22,17 +23,19 @@ const Pagination = ({
   gotoPage,
   previousPage,
   nextPage,
-  pageSizeOptions
+  pageSizeOptions,
+  className
 }) => {
   const [selected, setSelected] = useState({
-    index: pageSizeOptions[0],
-    content: `${pageSizeOptions[0]} rows`
+    index: pageSize,
+    content: `${pageSize} rows`
   })
   const preparedOptions = useMemo(() => prepareOptions(pageSizeOptions), [
     pageSizeOptions
   ])
+
   return (
-    <div className={styles.wrapper}>
+    <div className={cx(styles.wrapper, className)}>
       <Dropdown
         options={preparedOptions}
         selected={selected}
@@ -40,7 +43,7 @@ const Pagination = ({
           setSelected(option)
           setPageSize(option.index)
         }}
-        classes={{ wrapper: styles.dropdown }}
+        classes={{ wrapper: styles.dropdown, options: styles.options }}
       />
       <div className={styles.totalPages}>
         Page
@@ -48,7 +51,6 @@ const Pagination = ({
           type='number'
           className={styles.input}
           style={{ '--width': `${(pageIndex + 1).toString().length}ch` }}
-          defaultValue={pageIndex + 1}
           value={pageIndex + 1}
           onChange={evt => {
             const newPage = evt.target.value ? Number(evt.target.value) - 1 : 0

@@ -48,7 +48,7 @@ const ScreenerDropdown = ({ activeLink }) => {
                       <Button
                         fluid
                         variant='ghost'
-                        key={name}
+                        key={id}
                         as={Link}
                         to={link}
                       >

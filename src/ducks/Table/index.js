@@ -1,20 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import cx from 'classnames'
-import { useTable, useSortBy, usePagination } from 'react-table'
+import { useTable, useSortBy, usePagination, useRowSelect } from 'react-table'
 import { sortDate } from '../../utils/sortMethods'
 import Loader from './Loader'
 import NoData from './NoData'
 import Pagination from './Pagination'
+import { CHECKBOX_COLUMN } from './Checkbox/column'
 import styles from './index.module.scss'
 
 const Table = ({
   data,
   columns,
   options: {
+    noDataSettings = {},
     loadingSettings,
     sortingSettings,
     stickySettings,
-    paginationSettings
+    paginationSettings,
+    rowSelectSettings
   } = {},
   className,
   classes = {}
@@ -26,8 +29,10 @@ const Table = ({
   const {
     pageSize: initialPageSize,
     pageIndex: initialPageIndex,
-    pageSizeOptions = [10, 25, 50]
+    pageSizeOptions = [10, 25, 50],
+    onChangeVisibleItems
   } = paginationSettings || {}
+  const { onChangeSelectedRows } = rowSelectSettings || {}
 
   const initialState = {}
 
@@ -58,6 +63,7 @@ const Table = ({
     nextPage,
     previousPage,
     setPageSize,
+    selectedFlatRows,
     state: { pageIndex, pageSize }
   } = useTable(
     {
@@ -68,10 +74,19 @@ const Table = ({
       sortTypes: {
         datetime: (a, b, id) => sortDate(a.original[id], b.original[id])
       },
+      autoResetPage: false,
+      autoResetSortBy: false,
+      autoResetSelectedRows: false,
       initialState
     },
     useSortBy,
-    usePagination
+    usePagination,
+    useRowSelect,
+    hooks => {
+      hooks.visibleColumns.push(columns =>
+        rowSelectSettings ? [CHECKBOX_COLUMN, ...columns] : columns
+      )
+    }
   )
 
   const content = paginationSettings ? page : rows
@@ -88,6 +103,24 @@ const Table = ({
     previousPage,
     pageSizeOptions
   }
+
+  useEffect(
+    () => {
+      if (onChangeVisibleItems) {
+        onChangeVisibleItems({ pageIndex, pageSize, rows })
+      }
+    },
+    [pageIndex, pageSize, rows]
+  )
+
+  useEffect(
+    () => {
+      if (onChangeSelectedRows) {
+        onChangeSelectedRows(selectedFlatRows)
+      }
+    },
+    [selectedFlatRows]
+  )
 
   return (
     <div
@@ -111,6 +144,7 @@ const Table = ({
                   )}
                   className={cx(
                     styles.headerColumn,
+                    column.collapse && styles.collapse,
                     column.isSorted && styles.headerColumnActive,
                     isStickyHeader && styles.headerColumnStickyTop,
                     isStickyColumn &&
@@ -120,12 +154,14 @@ const Table = ({
                   )}
                 >
                   <span>{column.render('Header')}</span>
-                  <span
-                    className={cx(
-                      styles.sort,
-                      column.isSortedDesc ? styles.sortDesc : styles.sortAsc
-                    )}
-                  />
+                  {column.canSort && (
+                    <span
+                      className={cx(
+                        styles.sort,
+                        column.isSortedDesc ? styles.sortDesc : styles.sortAsc
+                      )}
+                    />
+                  )}
                 </th>
               ))}
             </tr>
@@ -147,6 +183,7 @@ const Table = ({
                     {...cell.getCellProps()}
                     className={cx(
                       styles.bodyColumn,
+                      cell.column.collapse && styles.collapse,
                       isStickyColumn &&
                         stickyColumnIdx === idx &&
                         styles.bodyColumnSticky,
@@ -168,8 +205,12 @@ const Table = ({
           classes={{ wrapper: classes.loader, row: classes.loaderRow }}
         />
       )}
-      {!!loadingSettings && !isLoading && data.length === 0 && <NoData />}
-      {!!paginationSettings && <Pagination {...paginationParams} />}
+      {!!loadingSettings && !isLoading && data.length === 0 && (
+        <NoData {...noDataSettings} />
+      )}
+      {!!paginationSettings && (
+        <Pagination {...paginationParams} className={classes.pagination} />
+      )}
     </div>
   )
 }

@@ -9,12 +9,14 @@
   justify-content: space-between;
   position: sticky;
   top: 0;
+  left: 0;
   z-index: 10;
   width: 100%;
 }
 
 .open {
   z-index: 24;
+  position: absolute;
 }
 
 .name {

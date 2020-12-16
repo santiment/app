@@ -76,7 +76,6 @@ const AssetsTable = ({
   setHiddenColumns,
   showCollumnsToggle = true,
   className,
-  columnProps,
   compareSettings: { comparingAssets = [], addAsset, cleanAll } = {}
 }) => {
   const [markedAsNew, setAsNewMarked] = useState()
@@ -84,7 +83,6 @@ const AssetsTable = ({
   const [watchlists = []] = useUserWatchlists()
   const [graphData] = usePriceGraph({ slugs: visibleItems })
   const normalizedItems = normalizeGraphData(graphData, items)
-
   const hideMarkedAsNew = useCallback(() => {
     setAsNewMarked(undefined)
   }, [])
@@ -157,11 +155,11 @@ const AssetsTable = ({
 
   const shownColumns = useMemo(
     () => {
-      return COLUMNS(preload, columnProps).filter(
+      return COLUMNS(preload).filter(
         ({ id }) => columns[id].show && allColumns.includes(id)
       )
     },
-    [COLUMNS, preload, columnProps, allColumns, columns]
+    [COLUMNS, preload, allColumns, columns]
   )
 
   const disabledComparision = comparingAssets.length < 2

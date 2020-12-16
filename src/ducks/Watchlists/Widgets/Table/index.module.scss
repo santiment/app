@@ -1,0 +1,41 @@
+@import '~@santiment-network/ui/mixins';
+
+.tableWrapper {
+  min-height: auto;
+}
+
+.table {
+  min-width: max-content;
+  width: auto;
+  border-bottom: 60px solid var(--white);
+}
+
+.pagination {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.headerColumn {
+  top: 114px;
+  border-bottom: none;
+
+  &:first-child {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.bodyColumn {
+  border-top: none !important;
+
+  &:first-child {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.tableRow {
+  height: 60px;
+}
