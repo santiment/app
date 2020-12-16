@@ -4,7 +4,9 @@ import Aside from './Aside'
 import PersonalSection from './Section/Personal'
 import InsightsOnDemandSection from './Section/InsightsOnDemand'
 import TrendsSection from './Section/Trends'
+import Footer from '../ProMetrics/ProMetricsFooter/CommonFooter'
 import EventBanner from '../../components/EventBanner'
+import ResearchesBlock from '../../components/ResearchesBlock'
 import styles from './index.module.scss'
 
 const Block = ({ className, contentClassName, children }) => (
@@ -32,6 +34,9 @@ const IndexPage = () => (
 
       <Aside className={styles.aside} />
     </Block>
+
+    <ResearchesBlock />
+    <Footer />
   </div>
 )
 

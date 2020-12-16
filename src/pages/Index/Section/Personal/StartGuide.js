@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import gql from 'graphql-tag'
 import cx from 'classnames'
 import { useQuery } from '@apollo/react-hooks'
@@ -8,8 +8,9 @@ import { Row as BaseRow } from '../index'
 import NewWatchlist from '../../../../ducks/Watchlists/Actions/New'
 import styles from './index.module.scss'
 
+const LS_ARTICLE_IS_READ = 'LS_ARTICLE_IS_READ'
 const FETCH_POLICY = {
-  fetchPolicy: 'cache-and-network'
+  fetchPolicy: 'cache-and-network',
 }
 export const USER_QUERY = gql`
   {
@@ -31,10 +32,22 @@ export const USER_QUERY = gql`
 `
 
 const DEFAULT_STATS = {
-  loginHref: '/login'
+  loginHref: '/login',
 }
 
-function useUserStats () {
+const setArticleIsRead = (tab) => localStorage.setItem(LS_ARTICLE_IS_READ, '+')
+const getArticleIsRead = (tab) => !!localStorage.getItem(LS_ARTICLE_IS_READ)
+
+function useIsArticleRead() {
+  const [isArticleRead, setIsArticleRead] = useState(getArticleIsRead)
+
+  return {
+    isArticleRead,
+    readArticle: () => setIsArticleRead(true) || setArticleIsRead(),
+  }
+}
+
+function useUserStats() {
   const { data } = useQuery(USER_QUERY, FETCH_POLICY)
 
   return useMemo(
@@ -46,25 +59,24 @@ function useUserStats () {
         username,
         settings,
         watchlists,
-        chartConfigurations
+        chartConfigurations,
       } = data.currentUser
 
       return {
         personalInfo: !!(email && username),
         telegram: settings.hasTelegramConnected,
         watchlists: !!watchlists.length,
-        charts: !!chartConfigurations.length
+        charts: !!chartConfigurations.length,
       }
     },
-    [data]
+    [data],
   )
 }
 
-const Row = ({ title, href, isActive, onClick }) => (
+const Row = ({ title, isActive, onClick, ...props }) => (
   <BaseRow
+    {...props}
     className={styles.row}
-    to={href}
-    As={href && Link}
     onClick={isActive ? undefined : onClick}
   >
     <div className={cx(styles.status, isActive && styles.status_active)}>
@@ -81,20 +93,37 @@ const StartGuide = () => {
     telegram,
     watchlists,
     charts,
-    loginHref
+    loginHref,
   } = useUserStats()
+  const { isArticleRead, readArticle } = useIsArticleRead()
 
   return (
     <>
       <Row
+        title='Getting started for traders'
+        href='https://academy.santiment.net/for-traders/'
+        target='_blank'
+        As='a'
+        isActive={isArticleRead}
+        onClick={readArticle}
+      />
+
+      <Row
         title='Fill out your profile with personal information'
-        href='/account'
+        to='/account'
+        As={Link}
         isActive={personalInfo}
       />
-      <Row title='Connect with Telegram' href='/account' isActive={telegram} />
+      <Row
+        title='Connect with Telegram'
+        to='/account'
+        As={Link}
+        isActive={telegram}
+      />
       <Row
         title='Create your first Chart Layout'
-        href={loginHref || '/studio'}
+        to={loginHref || '/studio'}
+        As={loginHref && Link}
         isActive={charts}
       />
       <NewWatchlist
@@ -102,7 +131,8 @@ const StartGuide = () => {
         trigger={
           <Row
             title='Create your first Watchlist'
-            href={loginHref}
+            to={loginHref}
+            As={loginHref && Link}
             isActive={watchlists}
           />
         }
