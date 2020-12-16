@@ -19,6 +19,7 @@ const Categories = ({ sorter, onClick, classes = {} }) => {
         className={classes.watchlist}
         to={onClick ? undefined : `/assets/list?name=${name}@${id}`}
         {...watchlist}
+        isWithNewCheck={false}
       />
     )
   })
