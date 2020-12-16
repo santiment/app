@@ -9,6 +9,7 @@ import CompareInfo from '../CompareInfo/CompareInfo'
 import CompareAction from '../CompareInfo/CompareAction'
 import Refresh from '../../../../../components/Refresh/Refresh'
 import ProPopupWrapper from '../../../../../components/ProPopup/Wrapper'
+import ToggleColumns from '../AssetsToggleColumns'
 import ExplanationTooltip from '../../../../../components/ExplanationTooltip/ExplanationTooltip'
 import styles from './index.module.scss'
 
@@ -20,6 +21,8 @@ const TableTop = ({
   listName,
   refetchAssets,
   timestamp,
+  columns,
+  toggleColumn,
   watchlist = {}
 }) => {
   const [watchlists = []] = useUserWatchlists()
@@ -47,7 +50,7 @@ const TableTop = ({
         </div>
       )}
       <div className={styles.actions}>
-        {/* <AssetsToggleColumns columns={columns} onChange={toggleColumn} /> */}
+        <ToggleColumns columns={columns} onChange={toggleColumn} />
         <ProPopupWrapper
           type={type}
           trigger={props => (

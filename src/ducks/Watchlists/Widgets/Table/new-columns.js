@@ -6,16 +6,18 @@ import Project from '../../../../components/Tables/Cells/Project'
 import PercentChanges from '../../../../components/PercentChanges'
 import LayoutForAsset from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
 import PriceGraph from './PriceGraph'
+import { COLUMNS_NAMES } from './columns'
 import styles from './new-columns.module.scss'
 
 const isValidValue = value => !isNaN(parseFloat(value))
 
 const NO_DATA = 'No data'
 
-export const DEFAULT_SORTING = [{ id: 'marketcapUsd', desc: false }]
+export const DEFAULT_SORTING = [{ id: COLUMNS_NAMES.marketcapUsd, desc: false }]
 
 export const COLUMNS = [
   {
+    id: COLUMNS_NAMES.index,
     Header: '#',
     accessor: 'name',
     disableSortBy: true,
@@ -31,6 +33,7 @@ export const COLUMNS = [
     }
   },
   {
+    id: COLUMNS_NAMES.project,
     Header: 'Project',
     accessor: 'Project',
     disableSortBy: true,
@@ -41,6 +44,7 @@ export const COLUMNS = [
     }
   },
   {
+    id: COLUMNS_NAMES.price,
     Header: 'Price',
     accessor: 'priceUsd',
     Cell: ({ value }) => (
@@ -52,6 +56,7 @@ export const COLUMNS = [
     )
   },
   {
+    id: COLUMNS_NAMES.price_change,
     Header: 'Price 24h %',
     accessor: 'percentChange24h',
     Cell: ({ value }) => (
@@ -61,12 +66,14 @@ export const COLUMNS = [
     )
   },
   {
+    id: COLUMNS_NAMES.price_chart,
     Header: 'Price chart, 7d',
     accessor: 'priceChart7d',
     Cell: ({ value }) => <PriceGraph data={value} />,
     disableSortBy: true
   },
   {
+    id: COLUMNS_NAMES.volume,
     Header: 'Volume',
     accessor: 'volumeUsd',
     Cell: ({ value }) => (
@@ -76,6 +83,7 @@ export const COLUMNS = [
     )
   },
   {
+    id: COLUMNS_NAMES.volume_change,
     Header: 'Volume 24h %',
     accessor: 'volumeChange24h',
     Cell: ({ value }) => (
@@ -85,6 +93,7 @@ export const COLUMNS = [
     )
   },
   {
+    id: COLUMNS_NAMES.marketcapUsd,
     Header: 'Market Cap',
     accessor: 'marketcapUsd',
     Cell: ({ value }) => (
@@ -94,6 +103,7 @@ export const COLUMNS = [
     )
   },
   {
+    id: COLUMNS_NAMES.rank,
     Header: 'Rank',
     accessor: 'rank',
     Cell: ({ value }) => {
@@ -107,6 +117,7 @@ export const COLUMNS = [
     }
   },
   {
+    id: COLUMNS_NAMES.eth_spent,
     Header: 'ETH spent, 30d',
     accessor: 'ethSpent',
     Cell: ({ value }) => (
@@ -114,6 +125,7 @@ export const COLUMNS = [
     )
   },
   {
+    id: COLUMNS_NAMES.devact,
     Header: 'Dev act., 30d',
     accessor: 'averageDevActivity',
     Cell: ({ value }) => (
@@ -123,6 +135,7 @@ export const COLUMNS = [
     )
   },
   {
+    id: COLUMNS_NAMES.daily_active_addresses,
     Header: 'DAA, 30d',
     accessor: 'averageDailyActiveAddresses',
     Cell: ({ value }) => (
@@ -132,6 +145,7 @@ export const COLUMNS = [
     )
   },
   {
+    id: COLUMNS_NAMES.marketSegments,
     Header: 'Market Segments',
     accessor: 'marketSegments',
     Cell: ({ value: values }) =>

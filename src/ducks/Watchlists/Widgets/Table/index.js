@@ -2,9 +2,9 @@ import React, { useMemo } from 'react'
 import { COLUMNS, DEFAULT_SORTING } from './new-columns'
 import TableTop from './TableTop'
 import Table from '../../../Table'
-import { useVisibleItems } from './hooks'
+import { useVisibleItems, useColumns } from './hooks'
 import { usePriceGraph } from './PriceGraph/hooks'
-import { COMMON_SETTINGS, COLUMNS_SETTINGS } from './columns'
+import { ASSETS_TABLE_COLUMNS } from './columns'
 import { normalizeGraphData as normalizeData } from './PriceGraph/utils'
 import { useComparingAssets } from '../../../../ducks/Watchlists/Widgets/Table/CompareDialog/hooks'
 import styles from './index.module.scss'
@@ -20,17 +20,21 @@ const AssetsTable = ({
 }) => {
   const { visibleItems, changeVisibleItems } = useVisibleItems()
   const { comparingAssets = [], updateAssets } = useComparingAssets()
+  const { columns, toggleColumn, pageSize } = useColumns()
   const [graphData] = usePriceGraph({ slugs: visibleItems })
 
-  const columns = useMemo(() => COLUMNS, [])
+  const shownColumns = useMemo(
+    () => {
+      return COLUMNS.filter(
+        ({ id }) => columns[id].show && ASSETS_TABLE_COLUMNS.includes(id)
+      )
+    },
+    [columns]
+  )
   const data = useMemo(() => normalizeData(graphData, items), [
     graphData,
     items
   ])
-
-  const savedHidden = COMMON_SETTINGS.hiddenColumns
-  const sortingColumn = COMMON_SETTINGS.sorting
-  const columnsAmount = COMMON_SETTINGS.pageSize
 
   return (
     <>
@@ -43,10 +47,12 @@ const AssetsTable = ({
         items={items}
         watchlist={watchlist}
         isLoading={loading}
+        columns={columns}
+        toggleColumn={toggleColumn}
       />
       <Table
         data={data}
-        columns={columns}
+        columns={shownColumns}
         options={{
           noDataSettings: {
             title: 'No matches!',
@@ -67,9 +73,9 @@ const AssetsTable = ({
             stickyColumnIdx: 2
           },
           paginationSettings: {
-            pageSize: 25,
+            pageSize,
             pageIndex: 0,
-            pageSizeOptions: [10, 25, 50, 100],
+            pageSizeOptions: [10, 20, 50, 100],
             onChangeVisibleItems: changeVisibleItems
           },
           rowSelectSettings: {

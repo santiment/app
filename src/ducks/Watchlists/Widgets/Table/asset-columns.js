@@ -39,7 +39,7 @@ const constructColumn = ({
   }
 }
 
-export const COLUMNS = (preload, props = {}) => [
+export const COLUMNS = preload => [
   constructColumn({
     id: COLUMNS_NAMES.checkboxes,
     heading: ' ',
@@ -83,12 +83,10 @@ export const COLUMNS = (preload, props = {}) => [
     resizable: true,
     Cell: ({ original }) => {
       const { slug, priceUsd } = original
-      const { state } = props.projectLink || {}
       return (
         <Project
           {...original}
           to={{
-            state,
             pathname: `/projects/${slug}`,
             search: priceUsd === null ? 'metrics=devActivity' : ''
           }}

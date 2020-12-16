@@ -6,7 +6,6 @@ import {
 import { getProjectsByFunction } from '../../ducks/Watchlists/gql/hooks'
 import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table'
-import { ASSETS_TABLE_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/columns'
 import Infographics from './Infographics'
 import { addRecentScreeners } from '../../utils/recent'
 import { useUser } from '../../stores/user'
@@ -101,7 +100,6 @@ const Screener = props => {
         watchlist={watchlist}
         timestamp={timestamp}
         refetchAssets={() => setFlag(!flag)}
-        // allColumns={ASSETS_TABLE_COLUMNS}
       />
     </>
   )
