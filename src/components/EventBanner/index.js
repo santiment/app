@@ -54,8 +54,8 @@ export const WebinarWidget = ({ webinar }) => {
         <DarkVideoPlayBtn />
       </div>
       <div className={styles.info}>
-        <p className={styles.desc}>{webinar.description}</p>
         <h4 className={styles.title}>{webinar.title}</h4>
+        <p className={styles.desc}>{webinar.description}</p>
       </div>
     </a>
   )
