@@ -20,6 +20,7 @@ export const COLUMNS = [
     id: COLUMNS_NAMES.index,
     Header: '#',
     accessor: 'name',
+    collapse: true,
     disableSortBy: true,
     Cell: ({ sortedRows, row }) => {
       const index = sortedRows.findIndex(item => item === row)

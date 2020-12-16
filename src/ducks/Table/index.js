@@ -144,6 +144,7 @@ const Table = ({
                   )}
                   className={cx(
                     styles.headerColumn,
+                    column.collapse && styles.collapse,
                     column.isSorted && styles.headerColumnActive,
                     isStickyHeader && styles.headerColumnStickyTop,
                     isStickyColumn &&
@@ -182,6 +183,7 @@ const Table = ({
                     {...cell.getCellProps()}
                     className={cx(
                       styles.bodyColumn,
+                      cell.column.collapse && styles.collapse,
                       isStickyColumn &&
                         stickyColumnIdx === idx &&
                         styles.bodyColumnSticky,

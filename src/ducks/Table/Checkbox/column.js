@@ -8,5 +8,6 @@ export const CHECKBOX_COLUMN = {
     <Checkbox {...getToggleAllRowsSelectedProps()} />
   ),
   Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} />,
-  disableSortBy: true
+  disableSortBy: true,
+  collapse: true
 }

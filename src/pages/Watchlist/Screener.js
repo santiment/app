@@ -34,7 +34,10 @@ const Screener = props => {
   const { user = {}, loading: userLoading } = useUser()
 
   const AppElem = document.getElementsByClassName('App')[0]
-  AppElem.classList.add('list-container')
+
+  if (AppElem) {
+    AppElem.classList.add('list-container')
+  }
 
   useEffect(
     () => {
@@ -54,7 +57,7 @@ const Screener = props => {
 
   const { widgets, setWidgets } = useScreenerUrl({ location, history })
 
-  const isAuthor = user && watchlist.user.id === user.id
+  const isAuthor = user && watchlist.user && watchlist.user.id === user.id
   const isAuthorLoading = userLoading || isLoading
   const title = (watchlist || {}).name || name
 
