@@ -30,11 +30,9 @@ const cabinets = [
     title: (
       <CabinetTitle
         img={<div className={styles.img}>{SheetsTemplatesImg}</div>}
-        title={
-          "Expand your comprehension of where markets are heading by using Santiment's PRO templates"
-        }
+        title={'Sanbase Pro Templates'}
         description={
-          'Sansheets uses Santiment data to provide context on cryptocurrency price fluctuations, compare which assets have the best upside or lowest risk, and automatically update with precise bullish and bearish signals based on the metrics you rely on most'
+          'A collection of trading and research models built with [Sansheets](link here), a plugin that lets you directly import Santiment’s data into Google Spreadsheets. Popular PRO templates include Price-DAA divergence, MVRV comparison model, NVT ratio and more.'
         }
       />
     ),
