@@ -14,5 +14,7 @@ export const PATHS = {
   SHEETS_TEMPLATES: '/sheets/daa-vs-price',
   LABELS: '/labels',
   DEXS: '/decentralized-exchanges',
-  BTC_LOCKED: '/bitcoin-locked-on-ethereum'
+  BTC_LOCKED: '/bitcoin-locked-on-ethereum',
+  LIST: '/assets/list',
+  SCREENER: '/assets/screener'
 }

@@ -33,13 +33,13 @@ const RowTooltipBuilder = ({ onHide }) => ({ children }) => {
   )
 }
 
-const IconTooltipWrapper = ({ children }) => {
+const IconTooltipWrapper = ({ children, className, index }) => {
   return (
-    <div className={styles.tooltipWrapper}>
+    <div className={cx(styles.tooltipWrapper, className)}>
       <DarkTooltip
         closeTimeout={0}
         align='start'
-        position='top'
+        position={index === 1 ? 'bottom' : 'top'}
         description=''
         closable={false}
         delay={500}
@@ -56,7 +56,13 @@ const IconTooltipWrapper = ({ children }) => {
   )
 }
 
-const Trigger = ({ markedAsNew, hideMarkedAsNew, counter, ...rest }) => {
+const Trigger = ({
+  markedAsNew,
+  hideMarkedAsNew,
+  counter,
+  className,
+  ...rest
+}) => {
   let Wrapper = useMemo(
     () => {
       return markedAsNew
@@ -69,7 +75,7 @@ const Trigger = ({ markedAsNew, hideMarkedAsNew, counter, ...rest }) => {
   )
 
   return (
-    <Wrapper>
+    <Wrapper className={className} index={counter}>
       <div
         {...rest}
         className={cx(
@@ -85,7 +91,13 @@ const Trigger = ({ markedAsNew, hideMarkedAsNew, counter, ...rest }) => {
   )
 }
 
-const LayoutForAsset = ({ item: { id }, hide, markedAsNew, index }) => {
+const LayoutForAsset = ({
+  item: { id },
+  hide,
+  markedAsNew,
+  index,
+  className
+}) => {
   const { user } = useUser()
   const [templates] = useUserTemplates(user ? user.id : undefined)
 
@@ -93,6 +105,7 @@ const LayoutForAsset = ({ item: { id }, hide, markedAsNew, index }) => {
     <LoadTemplate
       trigger={
         <Trigger
+          className={className}
           counter={index}
           markedAsNew={markedAsNew}
           hideMarkedAsNew={hide}

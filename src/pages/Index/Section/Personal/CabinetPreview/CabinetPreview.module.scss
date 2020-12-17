@@ -1,0 +1,36 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  background: var(--white);
+  border-radius: $border-radius;
+  border: 1px solid var(--porcelain);
+  width: 100%;
+}
+
+.header {
+  padding: 24px 32px;
+  width: 100%;
+  border-bottom: 1px solid var(--porcelain);
+  display: flex;
+  align-items: center;
+}
+
+.tab {
+  margin-right: 32px;
+  color: var(--waterloo);
+  display: flex;
+
+  @include text('body-1');
+}
+
+.active {
+  color: var(--rhino);
+}
+
+.toggle {
+  margin-left: auto;
+}
+
+.pro {
+  margin-left: 8px;
+}

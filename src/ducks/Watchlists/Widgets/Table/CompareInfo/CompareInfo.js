@@ -10,7 +10,7 @@ const CompareInfo = ({ selected, cleanAll }) => {
           selected.
         </div>
 
-        {selected.length > 0 && (
+        {selected.length > 0 && cleanAll && (
           <div className={styles.clean} onClick={cleanAll}>
             Clear all
           </div>

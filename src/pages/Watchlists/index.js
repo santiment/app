@@ -1,7 +1,6 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import cx from 'classnames'
-import { BASIC_CATEGORIES } from '../../ducks/Watchlists/utils'
 import WatchlistCards from '../../ducks/Watchlists/Cards'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from './../../components/Responsive'
@@ -22,7 +21,6 @@ const Watchlists = ({ isPublicWatchlistsLoading, history }) => {
       <DesktopOnly>
         <h4 className={styles.heading}>Explore watchlists</h4>
         <WatchlistCards
-          watchlists={BASIC_CATEGORIES}
           showFeatured={true}
           classes={{ watchlists: styles.section }}
         />
@@ -37,7 +35,7 @@ const Watchlists = ({ isPublicWatchlistsLoading, history }) => {
           <StoriesList classes={styles} />
           <RecentlyWatched className={styles.recents} type='assets' />
           <h2 className={styles.subtitle}>Indices</h2>
-          <WatchlistCards watchlists={BASIC_CATEGORIES} showFeatured={true} />
+          <WatchlistCards showFeatured={true} />
           <GainersLosersTabs
             className={styles.gainers}
             timeWindow='2d'

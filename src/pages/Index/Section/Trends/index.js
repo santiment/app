@@ -28,7 +28,7 @@ const TabTypeContent = {
       </>
     ),
     description:
-      'Navigate visually through the noise. Similar to Google Trends, Santiment developed this search platform to explore how keywords and topics fluctuate over time. See the total social volume and social dominance among various crypto-related discussion forums, and compare directly to others. See what Google Trends is unable to see.'
+      '‘Google Trends’ for crypto. Monitor the interest in any topic on dedicated cryptocurrency social channels, including 1000+ Telegram groups, Discord servers, crypto subreddits, Twitter accounts and more.'
   },
 
   [TabType.SANTRENDS]: {

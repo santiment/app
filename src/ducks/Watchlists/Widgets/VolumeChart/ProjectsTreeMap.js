@@ -107,16 +107,22 @@ const ProjectsTreeMap = ({
           }}
         />
       </div>
-      <Skeleton
-        className={styles.treeMap__skeletonTop}
-        show={loading}
-        repeat={1}
-      />
-      <Skeleton
-        className={styles.treeMap__skeletonBottom}
-        show={loading}
-        repeat={1}
-      />
+
+      {/* NOTE(@haritonasty) 14.12.2020: check on loading because of firefox bug with skeleton in block */}
+      {loading && (
+        <>
+          <Skeleton
+            className={styles.treeMap__skeletonTop}
+            show={loading}
+            repeat={1}
+          />
+          <Skeleton
+            className={styles.treeMap__skeletonBottom}
+            show={loading}
+            repeat={1}
+          />
+        </>
+      )}
       {noData ? (
         <div className={styles.noDataTreeMap}>
           <NoDataCharts />

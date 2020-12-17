@@ -36,6 +36,8 @@ export const CREATE_TRIGGER_QUERY = gql`
         settings
         title
         description
+        cooldown
+        isActive
         tags {
           name
         }
@@ -74,9 +76,7 @@ export const createSignalEpic = (action$, store, { client }) =>
             let data = proxy.readQuery({ query: TRIGGERS_QUERY })
             try {
               const newTrigger = {
-                ...newData.data.createTrigger.trigger,
-                cooldown: '1h',
-                isActive: true
+                ...newData.data.createTrigger.trigger
               }
 
               if (newTrigger.id > 0 && data.currentUser.triggers.length === 0) {

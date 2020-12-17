@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useFeaturedWatchlists } from '../Watchlists/gql/hooks'
 import WatchlistCard from '../Watchlists/Cards/WatchlistCard'
 
-const Categories = ({ onClick, classes = {} }) => {
-  const [watchlists = []] = useFeaturedWatchlists()
+const Categories = ({ sorter, onClick, classes = {} }) => {
+  const [rawWatchlists = []] = useFeaturedWatchlists()
+  const watchlists = useMemo(() => sorter(rawWatchlists), [rawWatchlists])
 
   return watchlists.map(watchlist => {
     const { id, name, listItems } = watchlist || {}
@@ -18,9 +19,14 @@ const Categories = ({ onClick, classes = {} }) => {
         className={classes.watchlist}
         to={onClick ? undefined : `/assets/list?name=${name}@${id}`}
         {...watchlist}
+        isWithNewCheck={false}
       />
     )
   })
+}
+
+Categories.defaultProps = {
+  sorter: _ => _
 }
 
 export default Categories

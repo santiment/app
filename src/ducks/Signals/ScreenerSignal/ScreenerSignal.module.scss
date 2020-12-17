@@ -5,7 +5,7 @@
 }
 
 .divider {
-  margin: 20px -24px;
+  margin: 20px 0;
 }
 
 .actions {
@@ -38,4 +38,17 @@
   &:focus {
     color: var(--rhino) !important;
   }
+}
+
+.frequency {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.checkboxLabel {
+  cursor: pointer;
+  margin: 2px 16px 0 12px !important;
+  color: var(--mirage);
+
+  @include text('body-3');
 }

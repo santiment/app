@@ -18,7 +18,8 @@ const REPORTS_QUERY = gql`
 
 export const useAlphaReports = () => {
   const { data, loading, error } = useQuery(REPORTS_QUERY)
-  return [data ? data.getReports : [], loading, error]
+
+  return [data ? data.getReports.reverse() : [], loading, error]
 }
 
 const IconDw = (

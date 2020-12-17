@@ -52,6 +52,11 @@
     @include text('h4');
   }
 
+  &__ticker {
+    margin-left: 2px;
+    color: var(--casper) !important;
+  }
+
   &__arrows {
     display: flex;
     flex-direction: column;

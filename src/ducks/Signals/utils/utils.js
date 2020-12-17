@@ -51,8 +51,7 @@ import {
   CHANNELS_MAP,
   POSSIBLE_METRICS_FOR_CHART,
   SIGNAL_METRIC_TYPES,
-  METRIC_TYPES,
-  SCREENER_DEFAULT_SIGNAL
+  METRIC_TYPES
 } from './constants'
 import { capitalizeStr } from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
@@ -60,6 +59,7 @@ import { Metric } from '../../dataHub/metrics'
 import { useWatchlist } from '../../Watchlists/gql/hooks'
 import { SIGNAL_SUPPORTED_METRICS } from '../signalFormManager/signalCrudForm/formParts/metricTypes/metrics'
 import { findWebHook } from '../signalFormManager/signalCrudForm/formParts/channels/hooks'
+import { SCREENER_DEFAULT_SIGNAL } from '../ScreenerSignal/utils'
 
 export const mapToOptions = input => {
   if (!input) {
@@ -396,13 +396,14 @@ const getFormTrendingWords = ({ settings: { operation, target } }) => {
 }
 
 export const mapFormPropsToScreenerTrigger = ({ formProps, signal }) => {
-  const { description, title, isActive } = formProps
+  const { description, title, isActive, cooldown } = formProps
   const trigger = {
     ...SCREENER_DEFAULT_SIGNAL,
     ...signal,
     description,
     title,
-    isActive
+    isActive,
+    cooldown
   }
 
   trigger.settings.channel = getChannels(formProps)
@@ -424,6 +425,7 @@ export const mapTriggerToFormProps = currentTrigger => {
     description,
     settings: { time_window, channel }
   } = currentTrigger
+
   const frequencyModels = getFrequencyFromCooldown(currentTrigger)
   const absolutePriceValues = getAbsolutePriceValues(currentTrigger)
 

@@ -3,6 +3,7 @@
 .watchlist {
   background: var(--white);
   min-height: calc(100vh - 70px);
+  overflow-x: hidden;
 }
 
 .top {
