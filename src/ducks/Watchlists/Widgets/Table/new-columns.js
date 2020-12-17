@@ -13,7 +13,7 @@ const isValidValue = value => !isNaN(parseFloat(value))
 
 const NO_DATA = 'No data'
 
-export const DEFAULT_SORTING = [{ id: COLUMNS_NAMES.marketcapUsd, desc: false }]
+export const DEFAULT_SORTING = [{ id: COLUMNS_NAMES.marketcapUsd, desc: true }]
 
 export const COLUMNS = [
   {
