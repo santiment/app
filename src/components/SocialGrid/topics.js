@@ -26,21 +26,21 @@ export const TOPICS = [
     query: 'fil OR filecoin?asset=filecoin&ticker=FIL'
   },
   { slug: 'thanksgiving', title: 'Thanksgiving Day' },
-  { slug: 'iotex', title: 'IOTEX AMA' },
-  { slug: 'xlm', title: 'Stellar Pump', query: 'xlm?asset=stellar&ticker=XLM' },
-  { slug: 'alts', title: 'Alts' },
-  { slug: 'oxt', title: 'OXT listing on Binance' },
   {
     slug: 'xrp OR ripple',
     title: 'Ripple pumps',
     query: 'xrp OR ripple?asset=ripple&ticker=XRP&slug=ripple'
   },
+  { slug: 'xlm', title: 'Stellar Pump', query: 'xlm?asset=stellar&ticker=XLM' },
+  { slug: 'alts', title: 'Alts' },
+  { slug: 'oxt', title: 'OXT listing on Binance' },
   {
     slug: 'bnt',
     title: 'Bancor Coinbase Listing Pump',
     query: 'bnt?asset=bancor&ticker=BNT'
   },
-  { slug: 'stimulus', title: 'Stimulus' }
+  { slug: 'stimulus', title: 'Stimulus' },
+  { slug: 'iotex', title: 'IOTEX AMA' },
 ]
 
 export const INDEX_PAGE_GROUPS = [
