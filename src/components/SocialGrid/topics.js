@@ -2,19 +2,19 @@ import { getIntervalByTimeRange } from '../../utils/dates'
 
 export const TOPICS = [
   { slug: 'hold OR love OR btc OR bitcoin OR buy', title: 'Buy Bitcoin' },
-  { slug: 'debate', title: 'Mt. Gox BTC dump fear' },
+  { slug: 'gox', title: 'Mt. Gox BTC dump fear' },
   { slug: 'vaccine', title: 'Vaccine' },
-  { slug: 'neo', title: 'NEO 3.0 coming up' },
+  { slug: 'ledger AND phishing', title: 'Ledger Phishing' },
   {
     slug: 'infura',
     title: 'Infura outage',
     query: 'infura?asset=yearn-finance&ticker=YFI'
   },
   { slug: 'lockdown', title: 'Lockdown' },
-  { slug: 'bel OR bella OR protocol', title: 'Bella Protocol AMA' },
+  { slug: 'usdc AND visa', title: 'Visa Partners with Circle' },
   {
-    slug: 'uni OR uniswap OR airdrop OR free OR tokens OR claim',
-    title: 'UNI tokens airdrop'
+    slug: 'correction',
+    title: 'BTC Correction'
   },
   {
     slug: 'eth OR gas OR fees',
@@ -25,9 +25,9 @@ export const TOPICS = [
     title: 'Filecoin mainnet launch',
     query: 'fil OR filecoin?asset=filecoin&ticker=FIL'
   },
-  { slug: 'bitmex OR mex', title: 'Bitmex faces a lawsuit' },
+  { slug: 'thanksgiving', title: 'Thanksgiving Day' },
   { slug: 'iotex', title: 'IOTEX AMA' },
-  { slug: 'sushi', title: 'SUSHI is served' },
+  { slug: 'xlm', title: 'Stellar Pump', query: 'xlm?asset=stellar&ticker=XLM' },
   { slug: 'alts', title: 'Alts' },
   { slug: 'oxt', title: 'OXT listing on Binance' },
   {
@@ -36,8 +36,9 @@ export const TOPICS = [
     query: 'xrp OR ripple?asset=ripple&ticker=XRP&slug=ripple'
   },
   {
-    slug: 'bank OR kraken OR banks OR fractional OR wyoming',
-    title: 'Kraken becomes a bank'
+    slug: 'bnt',
+    title: 'Bancor Coinbase Listing Pump',
+    query: 'bnt?asset=bancor&ticker=BNT'
   },
   { slug: 'stimulus', title: 'Stimulus' }
 ]
