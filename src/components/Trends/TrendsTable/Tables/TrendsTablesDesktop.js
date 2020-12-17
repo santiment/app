@@ -1,6 +1,6 @@
 import React from 'react'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import TrendsTable from '../TrendsTable'
+import TrendsTable from '../../../Tables/Trends/TrendsTable'
 import styles from './TrendsTables.module.scss'
 
 const TrendsTablesDesktop = ({
@@ -16,8 +16,6 @@ const TrendsTablesDesktop = ({
   selected,
   selectable
 }) => {
-  console.log('trends', trends)
-
   const { length } = trends
   return isLoading ? (
     <Loader className={styles.loader} />
@@ -36,7 +34,6 @@ const TrendsTablesDesktop = ({
         connectTrends={connectTrends}
         clearConnectedTrends={clearConnectedTrends}
         allTrends={allTrends}
-        hasActions
       />
     </div>
   )

@@ -1,4 +1,4 @@
-@import '~@santiment-network/ui/mixins';
+@import '../../../../node_modules/@santiment-network/ui/mixins';
 
 .checkbox {
   display: none;
@@ -29,12 +29,7 @@
 .word {
   color: var(--rhino);
 
-  @include text('body-3');
-
-  @include responsive('laptop', 'desktop', 'tablet') {
-    font-size: 14px !important;
-    line-height: 20px !important;
-  }
+  @include text('body-1', 'l');
 
   @include responsive('phone', 'phone-xs') {
     @include text('body-2');
@@ -141,7 +136,7 @@
 
     .rt-tr-group {
       padding: 0 10px 0 23px;
-      height: 60px;
+      min-height: 60px;
 
       &:hover {
         background: var(--athens);
@@ -217,8 +212,7 @@
 }
 
 .volume {
-  font-size: 14px !important;
-  line-height: 20px !important;
+  @include text('body-1');
 
   @include responsive('phone', 'phone-xs') {
     font-size: 16px !important;
@@ -228,7 +222,7 @@
 }
 
 .valueChange {
-  margin-left: 8px;
+  margin-left: 10px;
   font-size: 14px !important;
   line-height: 20px !important;
 
@@ -240,7 +234,7 @@
 }
 
 .wordCloud {
-  height: 320px;
+  height: 80px;
   width: 100%;
 }
 

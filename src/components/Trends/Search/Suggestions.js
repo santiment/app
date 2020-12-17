@@ -15,6 +15,10 @@ const SUGGESTIONS = [
   {
     trend: 'IEO OR IEOs or launchpad',
     options: ''
+  },
+  {
+    trend: 'corona OR coronavirus OR "covid-19"',
+    options: ''
   }
 ]
 

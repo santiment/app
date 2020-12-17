@@ -1,5 +1,5 @@
 import React from 'react'
-import TrendsTable from '../TrendsTable'
+import TrendsTable from '../../../Tables/Trends/TrendsTable'
 import styles from './TrendsTables.module.scss'
 
 const TrendsTablesMobile = ({
