@@ -3,26 +3,6 @@ import React from 'react'
 
 export const SheetsTemplatesList = [
   {
-    title: 'Maximal Mean Dollar Age Template',
-    description: (
-      <>
-        This template visualizes the Mean Dollar Age of Bitcoin, Ethereum and
-        various ERC20 coins in comparison to one another.
-        <div className={styles.block}>
-          Developed by Santiment, Mean Dollar Age calculates the average age of
-          all dollars invested in acquiring a particular coin.
-        </div>
-        <div className={styles.block}>
-          This metric identifies accumulation and sell cycles for any coin, and
-          identifying dips in Mean Dollar Age can serve as a novel bullish
-          indicator.
-        </div>
-      </>
-    ),
-    linkToTemplate:
-      'https://docs.google.com/spreadsheets/d/1b4POwppuzzcMmb7_Kjs0ZJ7u-G9rVEGzMQ_uNmIeTVo/view'
-  },
-  {
     title: 'Top Holders Supply',
     description: (
       <>
@@ -97,24 +77,9 @@ export const SheetsTemplatesList = [
       </>
     ),
     linkToTemplate:
-      'https://docs.google.com/spreadsheets/u/1/d/1Wu-d_uBuvLp3FoNqz3azzbNzFr8Zaw2n6bcLLsQxNGc/view'
-  },
-  {
-    title: 'Network Growth & Daily Active Addresses Template',
-    description: (
-      <>
-        This template compares the amount of network growth and daily active
-        address percentage changes of Bitcoin, Ethereum, and other projects over
-        time. In general, many projects create new addresses at similar
-        percentage rate to one another as markets ebb and flow. Identifying
-        which projects are creating new addresses and growing their network at a
-        faster rate than their price is generally an excellent strategy to find
-        buy low opportunities.
-      </>
-    ),
-    linkToTemplate:
       'https://docs.google.com/spreadsheets/d/1opTpz2lDBXd9o6izMoUHzTWEU-pw-UAD2CuI-s4BWoA/view'
   },
+
   {
     title: 'Top Transactions',
     linkToTemplate:
@@ -140,44 +105,6 @@ export const SheetsTemplatesList = [
         </div>
       </>
     )
-  },
-  {
-    title: 'MVRV and MVRV Long/Short Difference Ratio Template',
-    description: (
-      <>
-        The MVRV ratio is found by dividing the market cap (market value or MV)
-        by realized cap (total realized value or RV), and it provides us with a
-        solid estimate of just how overvalued or undervalued the current market
-        cap is.
-        <div className={styles.block}>
-          Additionally, we offer the MVRV Long/Short Difference comparison on
-          this template to visualize which projects are over or under their line
-          of average profitable traders. If the ratio is above 0%, then on
-          average. Ethereum holders will profit if they sell their coins now. If
-          it is below 0%, then the average holder will realize a loss if they
-          sell.
-        </div>
-      </>
-    ),
-    linkToTemplate:
-      'https://docs.google.com/spreadsheets/d/1wYTvxKYNYry_pJ-RB4kzbpVF60c26RlTfkMla05jG34/view'
-  },
-  {
-    title: 'Velocity Vs. Price Template',
-    description: (
-      <>
-        Velocity is an underutilized way to research how quickly money is
-        circulating in the crypto economy. It's calculated by dividing a token's
-        transaction volume (in USD) by its market cap (in USD).
-        <div className={styles.block}>
-          Similar to the Daily Active Addresses Template, this model visualizes
-          when tokens are being overbought or oversold based on the historical
-          ebbs and flows of its velocity metric.
-        </div>
-      </>
-    ),
-    linkToTemplate:
-      'https://docs.google.com/spreadsheets/d/1FMyF31TI-ak7qFvIWSXF4LXhsQ5gtHFiS4USTvtowOc/view'
   },
   {
     title: 'Thresholds Crossed Template',
