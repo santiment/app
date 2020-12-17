@@ -31,7 +31,6 @@ const Chart = ({
   const MetricColor = useChartColors(metrics, FocusedMetric)
   const categories = useMetricCategories(metrics)
   const scale = options.isLogScale ? logScale : linearScale
-
   const detectedAsset = allDetectedAssets.get(settings.slug) || {}
 
   function onMetricHover (metric) {
@@ -43,8 +42,7 @@ const Chart = ({
   }
 
   function onBrushChangeEnd (startIndex, endIndex) {
-    const { brushData, changeTimePeriod } = props
-    changeTimePeriod(
+    props.changeTimePeriod(
       new Date(brushData[startIndex].datetime),
       new Date(brushData[endIndex].datetime)
     )
