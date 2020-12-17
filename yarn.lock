@@ -1640,10 +1640,8 @@
   resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.189.tgz#86b29f1ee79d732128998c80c4ec8d83837bb953"
   integrity sha512-G+K7+JiwcgKUSuSK47hxXC3ZQQeRYlpCE5r8zmcPw+Eqm4BjhXQ7+bQmeudK9WfO7eVselt5//ZPT/C+52eMbQ==
 
-"@santiment-network/ui@^0.5.209":
-  version "0.5.209"
-  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.209.tgz#79960967f81f5e7b2804f97d6c73324c3ecc96cb"
-  integrity sha512-HVWkUQUuaPMe7epSKmFjcSXcb1a/lQfyOVy9DHAZKp8V8v5TJzCvzNqnVMpywuTOykgL1h3YdQeyAe/8edlSmQ==
+"@santiment-network/ui@file:../san-ui/lib-build":
+  version "0.5.210"
 
 "@sentry/browser@5.24.2":
   version "5.24.2"
