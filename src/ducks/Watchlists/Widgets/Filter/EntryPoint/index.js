@@ -4,10 +4,15 @@ import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import Panel from '@santiment-network/ui/Panel'
 import styles from './index.module.scss'
 
-const EntryPoint = () => {
+const EntryPoint = ({ baseProjects }) => {
+  const state = baseProjects || 'All assets'
+
   return (
     <div className={styles.wrapper}>
-      <span>Entry point: </span>
+      <div className={styles.overview}>
+        <span className={styles.title}>Entry point: </span>
+        <span className={styles.explanation}>{state}</span>
+      </div>
       <ContextMenu
         passOpenStateAs='data-isactive'
         position='bottom'
@@ -15,15 +20,12 @@ const EntryPoint = () => {
         className={styles.dropdown}
         trigger={
           <Input
+            readOnly
             className={styles.trigger__btn}
             iconClassName={styles.trigger__arrow}
             icon='arrow-down'
             iconPosition='right'
-            placeholder='All assets'
-            // onChange={evt => {
-            //   const { value } = evt.currentTarget
-            //   setCurrentSearch(value)
-            // }}
+            defaultValue={state}
           />
         }
       >

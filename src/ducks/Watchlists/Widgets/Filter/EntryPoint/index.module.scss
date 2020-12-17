@@ -2,20 +2,22 @@
 
 .wrapper {
   display: flex;
-  align-items: center;
+  align-items: baseline;
+  flex-direction: column;
   justify-content: space-between;
-  margin-top: 16px;
+  margin-top: 34px;
 }
 
 .panel {
   max-height: 201px;
   overflow-y: auto;
-  width: 320px;
+  width: 416px;
   min-height: 200px;
 }
 
 .trigger__btn {
-  min-width: 320px;
+  min-width: 416px;
+  margin-top: 14px;
 
   &:hover {
     border-color: var(--mystic);
@@ -44,4 +46,15 @@
 
 .dropdown {
   z-index: 1000;
+}
+
+.title {
+  @include text('body-3');
+
+  color: var(--rhino);
+}
+
+.explanation {
+  color: var(--waterloo);
+  margin-left: 6px;
 }
