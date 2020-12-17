@@ -2,7 +2,7 @@ import { getIntervalByTimeRange } from '../../utils/dates'
 
 export const TOPICS = [
   { slug: 'hold OR love OR btc OR bitcoin OR buy', title: 'Buy Bitcoin' },
-  { slug: 'debate', title: 'U.S. Debates' },
+  { slug: 'debate', title: 'Mt. Gox BTC dump fear' },
   { slug: 'vaccine', title: 'Vaccine' },
   { slug: 'neo', title: 'NEO 3.0 coming up' },
   {
@@ -49,37 +49,37 @@ export const INDEX_PAGE_GROUPS = [
       'The most popular topics in crypto social media. Ranges from worldwide economic and health topics to the prices discussions',
     topics: [
       {
-        title: 'Ethereum fees ATH',
-        slug: 'gas OR fees',
-        createdAt: '2020-08-19T07:18:20.922Z'
+        title: 'Pornhub Accepts Only Crypto',
+        slug: 'porn OR pornhub',
+        createdAt: '2020-12-17T07:18:20.922Z'
       },
       {
-        title: 'Yield farming',
-        slug: 'yield OR farming',
-        query: 'yield%20OR%20farming?asset=ethereum&ticker=ETH',
-        createdAt: '2020-07-01T15:18:20.922Z'
+        title: 'BTC All Time High',
+        slug: 'btc AND ath',
+        createdAt: '2020-12-17T15:18:20.922Z'
       },
       {
-        title: 'UNI tokens airdrop',
-        slug: 'uni OR uniswap',
-        createdAt: '2020-09-25T10:07:20.922Z'
+        title: 'ETH Beacon Chain Launch',
+        slug: 'eth AND launched',
+        query: 'eth%20AND%20launched?asset=ethereum&ticker=ETH',
+        createdAt: '2020-12-17T10:07:20.922Z'
       },
       {
-        title: 'U.S. Election',
-        slug:
-          'trump OR biden OR election OR winning OR votes OR wins OR florida OR vote OR voting',
-        createdAt: '2020-11-30T08:18:20.922Z'
+        title: 'Black Friday Sale',
+        slug: 'black AND friday',
+        createdAt: '2020-12-17T08:18:20.922Z'
       },
       {
-        title: 'DeFi craze',
-        slug: 'defi',
-        query: 'defi?asset=ethereum&ticker=ETH',
-        createdAt: '2020-09-01T07:19:20.922Z'
+        title: 'Ripple Snapshot for Spark Airdrop',
+        slug: '(ripple OR xrp) AND (airdrop OR snapshot)',
+        query:
+          '(ripple%20OR%20xrp)%20AND%20(airdrop%20OR%20snapshot)?asset=ripple&ticker=XRP',
+        createdAt: '2020-12-17T07:19:20.922Z'
       },
       {
-        title: 'Paypal adoption',
-        slug: 'paypal OR adoption',
-        createdAt: '2020-11-30T08:07:20.922Z'
+        title: 'Vaccine News',
+        slug: 'vaccine',
+        createdAt: '2020-12-17T08:07:20.922Z'
       }
     ]
   }
