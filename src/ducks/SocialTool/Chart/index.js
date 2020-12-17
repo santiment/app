@@ -1,22 +1,21 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
-import Chart from '../../Chart'
+import ChartHeader from './Header'
+import Canvas from './Canvas'
+import DetailedBlock from './Detailed'
+import SocialDominanceToggle from './SocialDominanceToggle'
 import { useChartColors } from './colors'
-import Signals from '../../Chart/Signals'
-import { metricsToPlotCategories } from '../../Chart/Synchronizer'
-import { useAxesMetricsKey } from '../../Chart/hooks'
+import { useMetricCategories } from '../../Chart/Synchronizer'
 import PaywallInfo from '../../Studio/Chart/PaywallInfo'
 import ChartActiveMetrics from '../../Studio/Chart/ActiveMetrics'
-import SocialDominanceToggle from './SocialDominanceToggle'
-import ChartHeader from './Header'
-import DetailedBlock from './Detailed'
 import styles from './index.module.scss'
 
-const CHART_HEIGHT = 420
-
-const Canvas = ({
+const Chart = ({
   className,
+  chartRef,
+  data,
+  brushData,
   settings,
   options,
   setOptions,
@@ -24,14 +23,13 @@ const Canvas = ({
   metrics,
   boundaries,
   setSettings,
-  categories,
   linkedAssets,
   allDetectedAssets,
   ...props
 }) => {
   const [FocusedMetric, setFocusedMetric] = useState()
   const MetricColor = useChartColors(metrics, FocusedMetric)
-  const axesMetricKeys = useAxesMetricsKey(metrics)
+  const categories = useMetricCategories(metrics)
   const scale = options.isLogScale ? logScale : linearScale
 
   const detectedAsset = allDetectedAssets.get(settings.slug) || {}
@@ -58,6 +56,8 @@ const Canvas = ({
     <div className={cx(styles.wrapper, className)}>
       <ChartHeader
         {...props}
+        chartRef={chartRef}
+        data={data}
         allDetectedAssets={allDetectedAssets}
         activeMetrics={metrics}
         options={options}
@@ -87,28 +87,24 @@ const Canvas = ({
           setOptions={setOptions}
         />
       </div>
-      <Chart
-        {...options}
-        {...settings}
-        {...categories}
-        {...props}
+      <Canvas
+        chartRef={chartRef}
         scale={scale}
-        chartHeight={CHART_HEIGHT}
-        className={styles.chart}
+        data={data}
+        brushData={brushData}
+        options={options}
+        settings={settings}
+        categories={categories}
         metrics={metrics}
-        axesMetricKeys={axesMetricKeys}
-        MetricColor={MetricColor}
-        setSettings={setSettings}
+        colors={MetricColor}
         onBrushChangeEnd={onBrushChangeEnd}
-        resizeDependencies={[]}
-      >
-        <Signals {...settings} metrics={metrics} selector='text' />
-      </Chart>
+      />
       {settings.addedTopics.length === 0 && (
         <>
           <DetailedBlock
             {...options}
             {...props}
+            options={options}
             scale={scale}
             type='general'
             MetricColor={MetricColor}
@@ -118,6 +114,8 @@ const Canvas = ({
           >
             <ChartHeader
               {...props}
+              chartRef={chartRef}
+              data={data}
               allDetectedAssets={allDetectedAssets}
               activeMetrics={metrics}
               options={options}
@@ -132,6 +130,7 @@ const Canvas = ({
           <DetailedBlock
             {...options}
             {...props}
+            options={options}
             scale={scale}
             type='community'
             MetricColor={MetricColor}
@@ -141,6 +140,8 @@ const Canvas = ({
           >
             <ChartHeader
               {...props}
+              chartRef={chartRef}
+              data={data}
               allDetectedAssets={allDetectedAssets}
               activeMetrics={metrics}
               options={options}
@@ -160,16 +161,4 @@ const Canvas = ({
   )
 }
 
-export default ({ options, activeMetrics, ...rest }) => {
-  const categories = metricsToPlotCategories(activeMetrics)
-
-  return (
-    <Canvas
-      tooltipKey={activeMetrics[0].key}
-      options={options}
-      metrics={activeMetrics}
-      categories={categories}
-      {...rest}
-    />
-  )
-}
+export default Chart

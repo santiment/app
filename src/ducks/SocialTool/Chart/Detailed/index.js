@@ -93,13 +93,12 @@ const DetailedBlock = ({
             <Chart
               {...props}
               settings={settings}
-              charts={[
+              colors={{ ...MetricColor, ...Colors }}
+              metrics={[
                 chart,
                 { ...Metric.price_usd, reqMeta: { slug: priceAsset.slug } }
               ]}
               MetricSettingMap={MetricSettingMap}
-              MetricColor={{ ...MetricColor, ...Colors }}
-              tooltipKey={chart.key}
             />
           </div>
         ))}
