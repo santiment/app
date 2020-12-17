@@ -1,5 +1,5 @@
 import React from 'react'
-import Chart from '../../Chart/Modular'
+import Chart from '../../Chart/Responsive'
 import Lines from '../../Chart/Lines'
 import Bars from '../../Chart/Bars'
 import Tooltip from '../../Chart/Tooltip'
