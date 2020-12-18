@@ -2,7 +2,7 @@ import qs from 'query-string'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import queryString from 'query-string'
 
-const ALL_PROJECT_WATCHLIST_SLUG = 'projects'
+export const ALL_PROJECTS_WATCHLIST_SLUG = 'projects'
 
 export function getWatchlistLink ({ name, id }) {
   return `/assets/list?name=${encodeURIComponent(name)}@${id}`
@@ -19,7 +19,7 @@ export function isDynamicWatchlist (watchlist = {}) {
   }
 
   const { name } = watchlist.function || {}
-  if (watchlist.slug === ALL_PROJECT_WATCHLIST_SLUG) {
+  if (watchlist.slug === ALL_PROJECTS_WATCHLIST_SLUG) {
     return false
   }
 

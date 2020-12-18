@@ -12,6 +12,7 @@ import {
   ALL_ASSETS_TEXT,
   MAX_VISIBLE_SYMBOLS
 } from './utils'
+import { ALL_PROJECTS_WATCHLIST_SLUG } from '../../../utils'
 import styles from './index.module.scss'
 
 const EntryPoint = ({ baseProjects = [] }) => {
@@ -43,9 +44,12 @@ const EntryPoint = ({ baseProjects = [] }) => {
 
   const filteredCategories = useMemo(
     () =>
-      categories.filter(({ name }) =>
-        Array.isArray(state) ? !state.includes(name) : true
-      ),
+      categories.filter(({ name, slug }) => {
+        const isAllAssetsList = slug === ALL_PROJECTS_WATCHLIST_SLUG
+        const isInState = Array.isArray(state) && state.includes(name)
+
+        return !isAllAssetsList && !isInState
+      }),
     [state, categories]
   )
 
@@ -96,8 +100,7 @@ const EntryPoint = ({ baseProjects = [] }) => {
                 <div className={styles.selected}>
                   {state === ALL_ASSETS_TEXT ? (
                     <Item
-                      key={'all'}
-                      onClick={() => setState(null)}
+                      onClick={() => setState('')}
                       isActive={true}
                       name={ALL_ASSETS_TEXT}
                     />
@@ -129,7 +132,7 @@ const EntryPoint = ({ baseProjects = [] }) => {
                 <h3 className={styles.heading}>Categories</h3>
                 {filteredCategories.map(({ name, id, slug }) => (
                   <Item
-                    key={id}
+                    key={name + slug + id}
                     onClick={() =>
                       setState(
                         state === ALL_ASSETS_TEXT ? [name] : [...state, name]
@@ -137,6 +140,8 @@ const EntryPoint = ({ baseProjects = [] }) => {
                     }
                     isActive={false}
                     name={name}
+                    id={id}
+                    slug={slug}
                   />
                 ))}
               </div>
@@ -144,7 +149,6 @@ const EntryPoint = ({ baseProjects = [] }) => {
                 <h3 className={styles.heading}>Assets</h3>
                 {state !== ALL_ASSETS_TEXT && (
                   <Item
-                    key={'all'}
                     onClick={() => setState(ALL_ASSETS_TEXT)}
                     isActive={false}
                     name={ALL_ASSETS_TEXT}

@@ -72,6 +72,10 @@
   margin-top: 20px;
 }
 
+.selected + .message {
+  margin-top: 2px;
+}
+
 .selected + .list {
   margin-top: 18px;
 }
