@@ -2,7 +2,6 @@ import React from 'react'
 import { push } from 'react-router-redux'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
-import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import Label from '@santiment-network/ui/Label'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Icon from '@santiment-network/ui/Icon'
@@ -10,7 +9,6 @@ import Tooltip from '@santiment-network/ui/Tooltip'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Button from '@santiment-network/ui/Button'
 import ValueChange from '../../ValueChange/ValueChange'
-import ConditionalWrapper from '../../Trends/TrendsTable/ConditionalWrapper'
 import {
   getTopicsFromUrl,
   updTopicsInUrl
@@ -19,86 +17,31 @@ import { store } from '../../../redux'
 import ExplanationTooltip from '../../ExplanationTooltip/ExplanationTooltip'
 import InsightCardSmall from '../../Insight/InsightCardSmall'
 import WordCloud from '../../WordCloud/WordCloud'
-import styles from './TrendsTable.module.scss'
-import PriceGraph from '../../../ducks/Watchlists/Widgets/Table/PriceGraph'
 import SocialVolumeGraph from '../../../ducks/SocialTool/SocialVolumeGraph/SocialVolumeGraph'
+import styles from './TrendsTable.module.scss'
 
 export const EXPLORE_PAGE_URL = '/labs/trends/explore/'
-
-const checkWorkInfo = ({
-  word,
-  selectable,
-  selectedTrends,
-  username,
-  isCompactView,
-  isLoggedIn
-}) => {
-  const isWordSelected = selectedTrends.has(word)
-  const hasMaxWordsSelected = selectedTrends.size > 4 && !isWordSelected
-  const isSelectable =
-    selectable &&
-    !!username &&
-    !hasMaxWordsSelected &&
-    !isCompactView &&
-    isLoggedIn
-
-  return { isSelectable, isWordSelected, hasMaxWordsSelected }
-}
 
 export const NumberCircle = ({ className, ...props }) => (
   <div {...props} className={cx(className, styles.insights__number)} />
 )
 
-const getIndexColumn = ({
-  selectable,
-  selectTrend,
-  selectedTrends,
-  username,
-  isCompactView,
-  isLoggedIn
-}) => {
-  return {
-    Header: '#',
-    accessor: 'index',
-    width: 20,
-    headerClassName: styles.headerIndex,
-    Cell: ({ value, ...props }) => {
-      const { original } = props
-      const word = original.rawWord
-      const {
-        hasMaxWordsSelected,
-        isWordSelected,
-        isSelectable
-      } = checkWorkInfo({
-        word,
-        selectable,
-        selectedTrends,
-        username,
-        isCompactView,
-        isLoggedIn
-      })
+const INDEX_COLUMN = {
+  Header: '#',
+  accessor: 'index',
+  width: 20,
+  headerClassName: styles.headerIndex,
+  Cell: ({ value }) => (
+    <Label accent='waterloo' className={styles.index}>
+      {value}
+    </Label>
+  )
+}
 
-      return (
-        <>
-          {isSelectable && (
-            <Checkbox
-              isActive={isWordSelected}
-              className={cx(
-                styles.checkbox,
-                isWordSelected && styles.checkbox_active
-              )}
-              onClick={() => selectTrend(word)}
-            />
-          )}
-          <ConditionalWrapper isLimitReached={hasMaxWordsSelected}>
-            <Label accent='waterloo' className={styles.index}>
-              {value}
-            </Label>
-          </ConditionalWrapper>
-        </>
-      )
-    }
-  }
+const CHART_COLUMN = {
+  Header: 'Trending chart, 7d',
+  accessor: 'rawWord',
+  Cell: ({ value }) => <SocialVolumeGraph word={value} />
 }
 
 export const COMMON_COLUMNS = ({ trendConnections, isDesktop }) => [
@@ -158,56 +101,21 @@ export const COMMON_COLUMNS = ({ trendConnections, isDesktop }) => [
   }
 ]
 
-export const TRENDS_COMPACT_VIEW_COLUMNS = ({
-  selectable,
-  selectTrend,
-  selectedTrends,
-  username,
-  isCompactView,
-  isLoggedIn,
-  trendConnections
-}) => {
-  return [
-    getIndexColumn({
-      selectable,
-      selectTrend,
-      selectedTrends,
-      username,
-      isCompactView,
-      isLoggedIn
-    }),
-    ...COMMON_COLUMNS({ trendConnections })
-  ]
+export const TRENDS_COMPACT_VIEW_COLUMNS = ({ trendConnections }) => {
+  return [INDEX_COLUMN, ...COMMON_COLUMNS({ trendConnections })]
 }
 
 export const TRENDS_MOBILE_COLUMNS = ({ trendConnections }) => [
   ...COMMON_COLUMNS({ trendConnections }),
-  {
-    Header: 'Trending chart, 7d',
-    accessor: 'rawWord',
-    Cell: ({ value }) => <SocialVolumeGraph word={value} />
-  }
+  CHART_COLUMN
 ]
 
 export const TRENDS_DESKTOP_COLUMNS = ({
-  selectable,
-  selectTrend,
-  selectedTrends,
-  username,
-  isCompactView,
-  isLoggedIn,
   trendConnections,
   TrendToInsights
 }) => {
   return [
-    getIndexColumn({
-      selectable,
-      selectTrend,
-      selectedTrends,
-      username,
-      isCompactView,
-      isLoggedIn
-    }),
+    INDEX_COLUMN,
     ...COMMON_COLUMNS({ trendConnections }),
     {
       Header: 'Insights',
@@ -256,11 +164,7 @@ export const TRENDS_DESKTOP_COLUMNS = ({
         )
       }
     },
-    {
-      Header: 'Trending chart, 7d',
-      accessor: 'rawWord',
-      Cell: ({ value }) => <SocialVolumeGraph word={value} />
-    },
+    CHART_COLUMN,
 
     {
       Header: 'Connected words',

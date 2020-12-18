@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
+import HelpPopupTrends from '../../../pages/Trends/HelpPopupTrends'
 import styles from './Suggestions.module.scss'
 
 const SUGGESTIONS = [
@@ -36,6 +37,7 @@ const Suggestions = ({ samples = SUGGESTIONS, className }) => (
         {index !== arr.length - 1 && ','}
       </Fragment>
     ))}
+    <HelpPopupTrends />
   </div>
 )
 export default Suggestions

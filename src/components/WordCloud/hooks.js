@@ -1,17 +1,29 @@
+import { useMemo } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { WORD_CLOUD_QUERY } from './wordCloudGQL'
 import { getTimeIntervalFromToday } from '../../utils/dates'
 
-export function useWordCloud ({ size = 25, word, from, to }) {
-  let fromIso = from
-  let toIso = to
-  if (!from) {
-    const { from, to } = getTimeIntervalFromToday(-1, 'd')
-    fromIso = from.toISOString()
-    toIso = to.toISOString()
-  }
+const useIsoTime = ({ from, to }) => {
+  return useMemo(
+    () => {
+      let fromIso = from
+      let toIso = to
+      if (!from) {
+        const { from, to } = getTimeIntervalFromToday(-1, 'd')
+        fromIso = from.toISOString()
+        toIso = to.toISOString()
+      }
 
-  const { data, loading, error } = useQuery(WORD_CLOUD_QUERY, {
+      return { fromIso, toIso }
+    },
+    [from, to]
+  )
+}
+
+export function useWordCloud ({ size = 25, word, from, to }) {
+  const { toIso, fromIso } = useIsoTime({ from, to })
+
+  const query = useQuery(WORD_CLOUD_QUERY, {
     variables: {
       from: fromIso,
       to: toIso,
@@ -19,9 +31,17 @@ export function useWordCloud ({ size = 25, word, from, to }) {
       word
     }
   })
-  return {
-    cloud: data && data.wordContext ? data.wordContext : [],
-    loading,
-    error
-  }
+
+  return useMemo(
+    () => {
+      const { data, loading, error } = query
+
+      return {
+        cloud: data && data.wordContext ? data.wordContext : [],
+        loading,
+        error
+      }
+    },
+    [query]
+  )
 }

@@ -45,17 +45,12 @@ const TrendsTable = ({
   allTrends,
   connectTrends,
   clearConnectedTrends,
-  selectable = true,
-  selectedTrends = new Set(),
   trendConnections = [],
   connectedTrends = {},
   header = '',
   small,
   volumeChange,
   className,
-  isLoggedIn,
-  username,
-  selectTrend,
   isDesktop,
   isCompactView,
   contentClassName
@@ -77,12 +72,6 @@ const TrendsTable = ({
 
   const commonProps = useMemo(
     () => ({
-      selectable,
-      selectTrend,
-      selectedTrends,
-      username,
-      isCompactView,
-      isLoggedIn,
       trendConnections,
       allTrends,
       connectTrends,
@@ -90,12 +79,6 @@ const TrendsTable = ({
       connectedTrends
     }),
     [
-      selectable,
-      selectTrend,
-      selectedTrends,
-      username,
-      isCompactView,
-      isLoggedIn,
       trendConnections,
       allTrends,
       connectTrends,
@@ -154,14 +137,10 @@ const TrendsTable = ({
 }
 
 const mapStateToProps = ({
-  hypedTrends: { volumeChange, TrendToInsights },
-  user: {
-    data: { username }
-  }
+  hypedTrends: { volumeChange, TrendToInsights }
 }) => ({
   volumeChange,
-  TrendToInsights,
-  username
+  TrendToInsights
 })
 
 export default compose(
