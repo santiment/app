@@ -13,6 +13,7 @@ export const getItemBuilder = query => id =>
       }
     })
     .then(({ data }) => data.item)
+    .catch(console.warn)
 
 const Row = props => <Link {...props} className={styles.row} />
 export const Column = props => <div {...props} className={styles.column} />
