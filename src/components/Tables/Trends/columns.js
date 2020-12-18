@@ -60,7 +60,7 @@ const getIndexColumn = ({
   return {
     Header: '#',
     accessor: 'index',
-    width: 35,
+    width: 20,
     headerClassName: styles.headerIndex,
     Cell: ({ value, ...props }) => {
       const { original } = props

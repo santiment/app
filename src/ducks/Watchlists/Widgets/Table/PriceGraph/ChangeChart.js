@@ -17,7 +17,7 @@ export const useAreaData = (stats, key = 'value') => {
   return { change, chartStats, color, value, latestValue }
 }
 
-const ChangeChart = ({ data, dataKey = 'value', width }) => {
+const ChangeChart = ({ data, dataKey = 'value', color: forceColor, width }) => {
   const { chartStats, latestValue, color, value } = useAreaData(data, dataKey)
 
   return (
@@ -29,7 +29,7 @@ const ChangeChart = ({ data, dataKey = 'value', width }) => {
         dataKey={dataKey}
         type='monotone'
         strokeWidth={1.5}
-        stroke={color}
+        stroke={forceColor || color}
         fill={`url(#total${latestValue >= value ? 'Up' : 'Down'})`}
         isAnimationActive={false}
       />

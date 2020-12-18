@@ -19,7 +19,7 @@ const TrendsHeader = () => {
 }
 
 const LabsTrendsPage = ({ history }) => (
-  <DashboardLayout>
+  <DashboardLayout showMobileHeader={false}>
     <Helmet>
       <title>Today’s Top Social Gainers in Crypto - Sanbase</title>
       <meta
@@ -32,23 +32,28 @@ const LabsTrendsPage = ({ history }) => (
       />
     </Helmet>
 
+    <MobileOnly>
+      <MobileHeader
+        showBack={true}
+        goBack={history.goBack}
+        classes={styles}
+        title={<TrendsHeader />}
+      />
+    </MobileOnly>
+
     <div className={externalStyles.header}>
-      <div className={cx(externalStyles.inner, externalStyles.content)}>
+      <div
+        className={cx(
+          externalStyles.inner,
+          externalStyles.content,
+          styles.headerContent
+        )}
+      >
         <div className={externalStyles.pageDescription}>
           <h3 className={externalStyles.title}>
             <DesktopOnly>
               <TrendsHeader />
             </DesktopOnly>
-
-            <MobileOnly>
-              <MobileHeader
-                showBack={true}
-                goBack={history.goBack}
-                classes={styles}
-              >
-                <TrendsHeader />
-              </MobileHeader>
-            </MobileOnly>
           </h3>
           <div className={externalStyles.description}>
             Cryptocurrencies designed to minimize the volatility of the price of

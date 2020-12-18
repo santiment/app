@@ -46,6 +46,7 @@
 
 .panel {
   box-shadow: none;
+  border: none;
 
   &__compact {
     border: none;
@@ -55,6 +56,7 @@
 .content {
   padding: 0;
   max-height: 100%;
+  border: none;
 
   &__compact {
     border: 1px solid var(--porcelain);
@@ -96,15 +98,14 @@
 
   :global {
     .rt-thead.-header {
-      box-shadow: initial;
-      border-bottom: 1px solid var(--porcelain);
-      padding: 0 23px;
+      box-shadow: none;
+      padding: 0 24px;
       background: var(--athens);
+      border: none;
 
       @include responsive('phone', 'phone-xs') {
         background: var(--white);
-        padding: 0 16px;
-        margin-top: 24px;
+        padding: 8px 16px;
       }
     }
 
@@ -112,8 +113,10 @@
       background: var(--athens);
       text-align: left !important;
       text-transform: initial;
-      color: var(--casper);
-      padding: 7px 0 !important;
+      color: var(--waterloo);
+      padding: 6px 0 !important;
+
+      @include text('body-3', 'l');
 
       @include responsive('phone', 'phone-xs') {
         background: var(--white);
@@ -171,6 +174,8 @@
     }
 
     .rt-tbody {
+      border: 1px solid var(--porcelain);
+
       @include responsive('phone', 'phone-xs') {
         padding: 0 16px;
       }

@@ -12,10 +12,6 @@
   display: flex;
   align-items: baseline;
   justify-content: center;
-
-  @include responsive('phone', 'phone-xs') {
-    margin: 12px auto 0 0;
-  }
 }
 
 .title {
@@ -38,7 +34,7 @@
 
   @include responsive('phone', 'phone-xs') {
     width: 100%;
-    padding: 0 16px;
+    padding-top: 16px;
     margin: 8px 0 16px 0;
   }
 }
@@ -71,15 +67,16 @@
 }
 
 .back {
-  @include responsive('phone', 'phone-xs') {
-    padding-top: 26px;
-  }
-}
-
-.right {
-  margin-top: 16px;
+  display: flex;
+  align-items: center;
 }
 
 .trends {
   margin-top: 46px;
+}
+
+.headerContent {
+  @include responsive('phone', 'phone-xs') {
+    padding: 0 !important;
+  }
 }

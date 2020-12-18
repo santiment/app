@@ -46,7 +46,12 @@ const SocialVolumeGraph = ({ word }) => {
         wrapperClassName={styles.skeleton}
       />
       <div className={styles.chart}>
-        <ChangeChart data={data} dataKey={DATAKEY} width={100} />
+        <ChangeChart
+          data={data}
+          dataKey={DATAKEY}
+          width={120}
+          color={'var(--malibu)'}
+        />
       </div>
     </>
   )
