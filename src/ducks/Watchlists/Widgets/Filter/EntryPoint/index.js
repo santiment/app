@@ -4,7 +4,8 @@ import Search from '@santiment-network/ui/Search'
 import Message from '@santiment-network/ui/Message'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
-import { useFeaturedWatchlists } from '../../../gql/hooks'
+import { useFeaturedWatchlists, useUserWatchlists } from '../../../gql/hooks'
+import { useMessage } from './hooks'
 import Item from './Item'
 import {
   makeHumanReadableState,
@@ -19,30 +20,25 @@ const EntryPoint = ({ baseProjects = [] }) => {
   const [state, setState] = useState(
     baseProjects.length > 0 ? baseProjects : ALL_ASSETS_TEXT
   )
-  const [categories, loading] = useFeaturedWatchlists()
+  const [categories] = useFeaturedWatchlists()
+  const [watchlists = []] = useUserWatchlists()
   const [currentSearch, setCurrentSearch] = useState('')
-  const [message, setMessage] = useState(
-    state === ALL_ASSETS_TEXT ? MESSAGES.allAssets : ''
-  )
+  const { message, updateMessage } = useMessage(state)
 
-  useEffect(
-    () => {
-      if (!state && message !== MESSAGES.empty) {
-        setMessage(MESSAGES.empty)
-      }
-
-      if (state === ALL_ASSETS_TEXT && message !== MESSAGES.allAssets) {
-        setMessage(MESSAGES.allAssets)
-      }
-
-      if (state && state !== ALL_ASSETS_TEXT && message !== '') {
-        setMessage('')
-      }
-    },
-    [state]
-  )
+  useEffect(() => updateMessage(state), [state])
 
   const filteredCategories = useMemo(
+    () =>
+      categories.filter(({ name, slug }) => {
+        const isAllAssetsList = slug === ALL_PROJECTS_WATCHLIST_SLUG
+        const isInState = Array.isArray(state) && state.includes(name)
+
+        return !isAllAssetsList && !isInState
+      }),
+    [state, categories]
+  )
+
+  const filteredWatchlists = useMemo(
     () =>
       categories.filter(({ name, slug }) => {
         const isAllAssetsList = slug === ALL_PROJECTS_WATCHLIST_SLUG
@@ -128,23 +124,44 @@ const EntryPoint = ({ baseProjects = [] }) => {
                   {message}
                 </Message>
               )}
-              <div className={styles.list}>
-                <h3 className={styles.heading}>Categories</h3>
-                {filteredCategories.map(({ name, id, slug }) => (
-                  <Item
-                    key={name + slug + id}
-                    onClick={() =>
-                      setState(
-                        state === ALL_ASSETS_TEXT ? [name] : [...state, name]
-                      )
-                    }
-                    isActive={false}
-                    name={name}
-                    id={id}
-                    slug={slug}
-                  />
-                ))}
-              </div>
+              {filteredCategories.length > 0 && (
+                <div className={styles.list}>
+                  <h3 className={styles.heading}>Categories</h3>
+                  {filteredCategories.map(({ name, id, slug }) => (
+                    <Item
+                      key={id}
+                      onClick={() =>
+                        setState(
+                          state === ALL_ASSETS_TEXT ? [name] : [...state, name]
+                        )
+                      }
+                      isActive={false}
+                      name={name}
+                      id={id}
+                      slug={slug}
+                    />
+                  ))}
+                </div>
+              )}
+              {watchlists.length > 0 && (
+                <div className={styles.list}>
+                  <h3 className={styles.heading}>My watchlists</h3>
+                  {watchlists.map(({ name, id, slug }) => (
+                    <Item
+                      key={id}
+                      onClick={() =>
+                        setState(
+                          state === ALL_ASSETS_TEXT ? [name] : [...state, name]
+                        )
+                      }
+                      isActive={false}
+                      name={name}
+                      id={id}
+                      slug={slug}
+                    />
+                  ))}
+                </div>
+              )}
               <div className={styles.list}>
                 <h3 className={styles.heading}>Assets</h3>
                 {state !== ALL_ASSETS_TEXT && (

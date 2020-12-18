@@ -39,7 +39,7 @@ const FeedWatchlistsFilter = ({ ids, onUpdate }) => {
               />
             ) : (
               <Link className={styles.link} to='/assets'>
-                Create watchlist(s)
+                Create watchlist
               </Link>
             )}
           </>
