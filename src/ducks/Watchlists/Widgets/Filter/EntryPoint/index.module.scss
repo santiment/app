@@ -9,11 +9,10 @@
 }
 
 .panel {
-  max-height: 201px;
-  overflow-y: auto;
+  max-height: 480px;
   width: 416px;
   min-height: 200px;
-  padding: 20px 24px 0 24px;
+  padding: 20px 0 0 0;
 }
 
 .trigger__btn {
@@ -61,21 +60,44 @@
 }
 
 .search {
-  margin-bottom: 6px;
+  margin: 0 24px 6px 24px;
 }
 
 .message {
   margin-top: 14px;
+  margin-bottom: 24px;
 }
 
 .selected {
   margin-top: 20px;
 }
 
-.selected + .message {
-  margin-bottom: 24px;
+.selected + .list {
+  margin-top: 30px;
 }
 
-.selected + .watchlists {
-  margin-top: 30px;
+.heading {
+  margin: 0 0 14px 0;
+
+  @include text('caption', 'l');
+
+  color: var(--waterloo);
+}
+
+.list + .list {
+  margin-top: 10px;
+}
+
+.content {
+  margin-left: 24px;
+  padding-right: 24px;
+  max-height: 407px;
+  overflow-y: auto;
+  overflow-y: overlay;
+}
+
+.scroller {
+  display: flex;
+  flex-direction: column;
+  width: 366px;
 }
