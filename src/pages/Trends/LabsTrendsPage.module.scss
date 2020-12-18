@@ -73,10 +73,27 @@
 
 .trends {
   margin-top: 46px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 0;
+  }
 }
 
 .headerContent {
   @include responsive('phone', 'phone-xs') {
     padding: 0 !important;
+  }
+}
+
+.inner {
+  @include responsive('phone', 'phone-xs') {
+    padding: 0 !important;
+    background: var(--white);
+  }
+}
+
+.researchers {
+  @include responsive('phone', 'phone-xs') {
+    background: var(--white);
   }
 }

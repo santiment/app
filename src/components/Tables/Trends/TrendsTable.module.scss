@@ -1,18 +1,5 @@
 @import '~@santiment-network/ui/mixins';
 
-.checkbox {
-  display: none;
-  vertical-align: middle;
-
-  &_active {
-    display: inline-flex;
-
-    & + .index {
-      display: none;
-    }
-  }
-}
-
 .header {
   padding: 13px 23px;
 
@@ -34,10 +21,6 @@
   @include responsive('phone', 'phone-xs') {
     @include text('body-2');
   }
-}
-
-.connected {
-  color: var(--jungle-green);
 }
 
 .headerIndex {
@@ -89,6 +72,10 @@
   }
 }
 
+.index {
+  @include text('body-2', 'l');
+}
+
 .table:global(.ReactTable) {
   /* stylelint-disable */
   & {
@@ -114,7 +101,7 @@
       text-align: left !important;
       text-transform: initial;
       color: var(--waterloo);
-      padding: 6px 0 !important;
+      padding: 0 0 6px 0 !important;
 
       @include text('body-3', 'l');
 
@@ -138,7 +125,7 @@
     }
 
     .rt-tr-group {
-      padding: 0 10px 0 23px;
+      padding: 0 0 0 24px;
       min-height: 60px;
 
       &:hover {

@@ -19,6 +19,7 @@ import InsightCardSmall from '../../Insight/InsightCardSmall'
 import WordCloud from '../../WordCloud/WordCloud'
 import SocialVolumeGraph from '../../../ducks/SocialTool/SocialVolumeGraph/SocialVolumeGraph'
 import styles from './TrendsTable.module.scss'
+import { formatNumber } from '../../../utils/formatting'
 
 export const EXPLORE_PAGE_URL = '/labs/trends/explore/'
 
@@ -29,7 +30,7 @@ export const NumberCircle = ({ className, ...props }) => (
 const INDEX_COLUMN = {
   Header: '#',
   accessor: 'index',
-  width: 20,
+  width: 35,
   headerClassName: styles.headerIndex,
   Cell: ({ value }) => (
     <Label accent='waterloo' className={styles.index}>
@@ -92,8 +93,10 @@ export const COMMON_COLUMNS = ({ trendConnections, isDesktop }) => [
         <>
           <div className={styles.volume}>{newVolume}</div>{' '}
           <ValueChange
-            change={newVolume - oldVolume}
+            change={(100 * (newVolume - oldVolume)) / oldVolume}
             className={styles.valueChange}
+            suffix={'%'}
+            render={formatNumber}
           />
         </>
       )

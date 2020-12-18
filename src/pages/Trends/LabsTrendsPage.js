@@ -19,7 +19,7 @@ const TrendsHeader = () => {
 }
 
 const LabsTrendsPage = ({ history }) => (
-  <DashboardLayout showMobileHeader={false}>
+  <DashboardLayout showMobileHeader={false} classes={styles}>
     <Helmet>
       <title>Today’s Top Social Gainers in Crypto - Sanbase</title>
       <meta
@@ -67,7 +67,7 @@ const LabsTrendsPage = ({ history }) => (
     </div>
 
     <div className={externalStyles.body}>
-      <div className={externalStyles.inner}>
+      <div className={cx(externalStyles.inner, styles.inner)}>
         <Trends className={styles.trends} />
       </div>
     </div>
