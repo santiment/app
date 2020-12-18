@@ -5,9 +5,9 @@
   z-index: 9999;
   bottom: 20px;
   left: 20px;
-  max-width: 586px;
+  max-width: 442px;
   display: flex;
-  padding: 32px 40px 32px 24px;
+  padding: 20px 20px 20px 24px;
   border-radius: 10px;
   align-items: flex-start;
   justify-content: flex-start;
@@ -27,13 +27,17 @@
 }
 
 .image {
-  margin-right: 24px;
-  min-width: 102px;
-  min-height: 128px;
-  max-width: 102px;
-  max-height: 128px;
+  margin-right: 16px;
+  min-width: 70px;
+  min-height: 88px;
+  max-width: 70px;
+  max-height: 88px;
 
   @include responsive('phone', 'phone-xs') {
+    min-width: 102px;
+    min-height: 121px;
+    max-width: 102px;
+    max-height: 121px;
     transform: rotate(-90deg);
     margin: 0 auto 15px;
   }
@@ -51,25 +55,33 @@
 }
 
 .title {
-  @include text('h4', 'm');
+  @include text('body-2', 'm');
 
-  margin: 0 0 16px;
+  margin: 0 0 8px;
+  max-width: 270px;
 
   @include responsive('phone', 'phone-xs') {
+    max-width: auto;
+
     @include text('body-1', 'm');
   }
 }
 
 .text {
-  @include text('body-2');
+  @include text('body-3');
 
-  margin: 0 0 24px;
+  margin: 0 0 16px;
   color: var(--waterloo);
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2');
+
+    margin: 0 0 24px;
+  }
 }
 
 .btn {
-  width: 140px;
-  height: 40px;
+  width: 92px;
   justify-content: center;
 
   @include responsive('phone', 'phone-xs') {

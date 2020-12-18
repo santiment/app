@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, Fragment } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import Panel from '@santiment-network/ui/Panel'
 import Search from '@santiment-network/ui/Search'
 import Message from '@santiment-network/ui/Message'
@@ -9,7 +9,6 @@ import { useMessage } from './hooks'
 import Item from './Item'
 import {
   makeHumanReadableState,
-  MESSAGES,
   ALL_ASSETS_TEXT,
   MAX_VISIBLE_SYMBOLS
 } from './utils'
@@ -40,13 +39,12 @@ const EntryPoint = ({ baseProjects = [] }) => {
 
   const filteredWatchlists = useMemo(
     () =>
-      categories.filter(({ name, slug }) => {
-        const isAllAssetsList = slug === ALL_PROJECTS_WATCHLIST_SLUG
+      watchlists.filter(({ name, slug }) => {
         const isInState = Array.isArray(state) && state.includes(name)
 
-        return !isAllAssetsList && !isInState
+        return !isInState
       }),
-    [state, categories]
+    [state, watchlists]
   )
 
   const shortInputState = useMemo(
@@ -143,10 +141,10 @@ const EntryPoint = ({ baseProjects = [] }) => {
                   ))}
                 </div>
               )}
-              {watchlists.length > 0 && (
+              {filteredWatchlists.length > 0 && (
                 <div className={styles.list}>
                   <h3 className={styles.heading}>My watchlists</h3>
-                  {watchlists.map(({ name, id, slug }) => (
+                  {filteredWatchlists.map(({ name, id, slug }) => (
                     <Item
                       key={id}
                       onClick={() =>
