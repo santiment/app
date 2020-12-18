@@ -120,5 +120,6 @@ export const SIGNAL_SUPPORTED_METRICS = [
     'On-chain',
     'line',
     'Network Value'
-  )
+  ),
+  Metric.network_profit_loss
 ]
