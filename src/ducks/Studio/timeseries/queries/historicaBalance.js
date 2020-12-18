@@ -7,7 +7,7 @@ export const HISTORICAL_BALANCE_QUERY = gql`
     $address: String!
     $interval: interval!
     $slug: String!
-    $infrastructure: String!
+    $infrastructure: String
   ) {
     historicalBalance(
       address: $address

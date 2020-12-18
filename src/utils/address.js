@@ -5,17 +5,17 @@ export const checkIsBtcAddress = addressChecker(
   /^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$/
 ) // NOTE: https://ihateregex.io/expr/bitcoin-address/ [@vanguard | Dec 18, 2020]
 
-export const Infratructure = {
+export const Infrastructure = {
   ETH: 'ETH',
   BTC: 'BTC'
 }
 
 export function getAddressInfrastructure (address) {
   if (checkIsEthAddress(address)) {
-    return Infratructure.ETH
+    return Infrastructure.ETH
   }
 
   if (checkIsBtcAddress(address)) {
-    return Infratructure.BTC
+    return Infrastructure.BTC
   }
 }

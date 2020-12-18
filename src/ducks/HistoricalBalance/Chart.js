@@ -42,14 +42,8 @@ function getResponsiveTicks (isPhone) {
 export const useResponsiveTicks = isPhone =>
   useMemo(() => getResponsiveTicks(isPhone), [isPhone])
 
-const Chart = ({
-  metrics,
-  settings,
-  MetricSettingMap,
-  axesTicks,
-  ...props
-}) => {
-  const [rawData, loadings] = useTimeseries(metrics, settings, MetricSettingMap)
+const Chart = ({ metrics, settings, axesTicks, ...props }) => {
+  const [rawData, loadings] = useTimeseries(metrics, settings)
   const data = useClosestValueData(rawData, metrics)
   const categories = useMetricCategories(metrics)
   const MetricColor = useChartColors(metrics)

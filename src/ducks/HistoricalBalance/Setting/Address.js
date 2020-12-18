@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import LibInput from '@santiment-network/ui/Input'
+import React, { useState, useEffect, useMemo } from 'react'
+import Input from '@santiment-network/ui/Input'
 import Setting from './Setting'
+import {
+  Infrastructure,
+  getAddressInfrastructure
+} from '../../../utils/address'
 import styles from './Setting.module.scss'
-import { isEthStrictAddress } from '../../../utils/utils'
 
 export const AddressSetting = ({ address, isError, onAddressChange }) => {
   const [value, setValue] = useState(address)
-  const isInputWrong = !value
+  const infrastructure = useMemo(() => getAddressInfrastructure(value), [value])
 
   useEffect(
     () => {
-      if (value === address || isInputWrong) return
+      if (value === address || !infrastructure) return
 
       const timer = setTimeout(() => onAddressChange(value), 250)
       return () => clearTimeout(timer)
@@ -24,13 +27,13 @@ export const AddressSetting = ({ address, isError, onAddressChange }) => {
 
   return (
     <Setting title='Wallet address'>
-      <LibInput
+      <Input
         autoComplete='off'
         value={value}
-        isError={isError || isInputWrong}
+        isError={isError || !infrastructure}
         onChange={onChange}
       />
-      {address && isEthStrictAddress(address) && (
+      {address && infrastructure === Infrastructure.ETH && (
         <a
           href={`https://etherscan.io/address/${address}`}
           target='_blank'

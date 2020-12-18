@@ -1,11 +1,23 @@
-import { useState, useMemo, useEffect } from 'react'
-import { getWalletAssets, getAssetInfrastructure } from './queries'
+import { useState, useMemo } from 'react'
+import gql from 'graphql-tag'
+import { useQuery } from '@apollo/react-hooks'
 import {
   getValidInterval,
   walletMetricBuilder,
   priceMetricBuilder
 } from './utils'
 import { getAddressInfrastructure } from '../../utils/address'
+
+const WALLET_ASSETS_QUERY = gql`
+  query assetsHeldByAddress($address: String!, $infrastructure: String!) {
+    assetsHeldByAddress(
+      selector: { address: $address, infrastructure: $infrastructure }
+    ) {
+      slug
+      balance
+    }
+  }
+`
 
 const DEFAULT_STATE = []
 
@@ -15,80 +27,25 @@ export function getWalletMetrics (walletAssets, priceAssets) {
   return walletMetrics.concat(priceMetrics)
 }
 
-export const useWalletMetrics = (walletAssets, priceAssets) => {
-  const metrics = useMemo(() => getWalletMetrics(walletAssets, priceAssets), [
+export const useWalletMetrics = (walletAssets, priceAssets) =>
+  useMemo(() => getWalletMetrics(walletAssets, priceAssets), [
     walletAssets,
     priceAssets
   ])
 
-  const MetricSettingMap = useMemo(
-    () => {
-      const MetricSettingMap = new Map()
-
-      walletAssets.forEach(metric => {
-        MetricSettingMap.set(metric, {
-          ...metric.reqMeta
-        })
-      })
-
-      return MetricSettingMap
-    },
-    [walletAssets]
-  )
-
-  return [metrics, MetricSettingMap]
-}
-
 export function useWalletAssets ({ address, infrastructure }) {
-  const [walletAssets, setWalletAssets] = useState(DEFAULT_STATE)
-  const [isLoading, setIsLoading] = useState(true)
-  const [isError, setIsError] = useState(false)
-
-  useEffect(
-    () => {
-      if (!address || !infrastructure) return
-
-      setIsLoading(true)
-      const walletAssets = []
-      let race = false
-
-      getWalletAssets(address, infrastructure)
-        .then(assets =>
-          Promise.all(
-            assets.map(({ slug, balance }, i) =>
-              getAssetInfrastructure(slug).then(infrastructure => {
-                walletAssets[i] = {
-                  slug,
-                  infrastructure,
-                  balance
-                }
-              })
-            )
-          )
-        )
-        .then(() => {
-          if (race) return
-
-          setWalletAssets(walletAssets)
-          setIsLoading(false)
-          setIsError(false)
-        })
-        .catch(e => {
-          if (race) return
-
-          setIsLoading(false)
-          setIsError(e)
-        })
-
-      return () => (race = true)
-    },
-    [address, infrastructure]
-  )
+  const { data, loading, error } = useQuery(WALLET_ASSETS_QUERY, {
+    skip: !(address && infrastructure),
+    variables: {
+      address,
+      infrastructure
+    }
+  })
 
   return {
-    walletAssets,
-    isLoading,
-    isError
+    walletAssets: data ? data.assetsHeldByAddress : DEFAULT_STATE,
+    isLoading: loading,
+    isError: error
   }
 }
 
