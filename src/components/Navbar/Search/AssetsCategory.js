@@ -25,8 +25,10 @@ function useAssets () {
 
 function assetsFilterPredicate (value) {
   const searchTerm = value.toLowerCase()
-  return ({ name, ticker }) =>
-    name.includes(searchTerm) || ticker.includes(searchTerm)
+  return ({ name, ticker, slug }) =>
+    name.includes(searchTerm) ||
+    ticker.includes(searchTerm) ||
+    slug.includes(searchTerm)
 }
 
 function assetsMatchPredicate (value) {
@@ -40,10 +42,11 @@ const useSearchableAssets = assets =>
       const { length } = assets
       const searchableAssets = new Array(length)
       for (let i = 0; i < length; i++) {
-        const { name, ticker } = assets[i]
+        const { name, ticker, slug } = assets[i]
         searchableAssets[i] = {
           name: name.toLowerCase(),
-          ticker: ticker.toLowerCase()
+          ticker: ticker.toLowerCase(),
+          slug: slug.toLowerCase()
         }
       }
       return searchableAssets
