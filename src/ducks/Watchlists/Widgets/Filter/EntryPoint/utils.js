@@ -5,6 +5,8 @@ export const MESSAGES = {
   empty: 'Please select at least one filter'
 }
 
+export const MAX_VISIBLE_SYMBOLS = 48
+
 export function makeHumanReadableState (state) {
   return Array.isArray(state) ? state.join(', ') : state
 }

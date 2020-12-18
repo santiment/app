@@ -6,7 +6,12 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import { useFeaturedWatchlists } from '../../../gql/hooks'
 import Item from './Item'
-import { makeHumanReadableState, MESSAGES, ALL_ASSETS_TEXT } from './utils'
+import {
+  makeHumanReadableState,
+  MESSAGES,
+  ALL_ASSETS_TEXT,
+  MAX_VISIBLE_SYMBOLS
+} from './utils'
 import styles from './index.module.scss'
 
 const EntryPoint = ({ baseProjects = [] }) => {
@@ -44,6 +49,16 @@ const EntryPoint = ({ baseProjects = [] }) => {
     [state, categories]
   )
 
+  const shortInputState = useMemo(
+    () => {
+      const text = makeHumanReadableState(state)
+      return text.length > MAX_VISIBLE_SYMBOLS
+        ? text.slice(0, MAX_VISIBLE_SYMBOLS) + '...'
+        : text
+    },
+    [state]
+  )
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.overview}>
@@ -64,7 +79,7 @@ const EntryPoint = ({ baseProjects = [] }) => {
             iconClassName={styles.trigger__arrow}
             icon='arrow-down'
             iconPosition='right'
-            defaultValue={state}
+            value={shortInputState}
           />
         }
       >
