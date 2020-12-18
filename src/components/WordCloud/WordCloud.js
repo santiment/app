@@ -12,7 +12,7 @@ export const WordCloud = ({ word, from, to, size, className }) => {
         className={className}
         bigLimit={1}
         mediumLimit={3}
-        padding={10}
+        padding={8}
         showBadge={false}
       />
     </div>

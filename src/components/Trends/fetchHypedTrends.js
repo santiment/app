@@ -52,8 +52,6 @@ const fetchTrends$ = ({ client, from, to, interval = '1h', onlyTrends }) => {
 
   return Observable.from(query)
     .mergeMap(({ data: { getTrendingWords } }) => {
-      console.log('getTrendingWords', getTrendingWords)
-
       return Observable.of({
         type: actions.TRENDS_HYPED_FETCH_SUCCESS,
         payload: {

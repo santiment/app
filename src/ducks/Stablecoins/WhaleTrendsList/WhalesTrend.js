@@ -5,26 +5,12 @@ import { useWhaleTrends, WHALES_DEFAULT_SETTINGS } from './utils'
 import { useProject } from '../../../hooks/project'
 import ProjectIcon from '../../../components/ProjectIcon/ProjectIcon'
 import Gradients from '../../Watchlists/Widgets/WatchlistOverview/Gradients'
-import { calcPercentageChange } from '../../../utils/utils'
 import PercentChanges from '../../../components/PercentChanges'
 import Skeleton from '../../../components/Skeleton/Skeleton'
 import ChartTooltip from '../../SANCharts/tooltip/CommonChartTooltip'
 import { tooltipLabelFormatter } from '../../dataHub/metrics/formatters'
+import { useAreaData } from '../../Watchlists/Widgets/Table/PriceGraph/ChangeChart'
 import styles from './WhalesTrend.module.scss'
-
-const useAreaData = stats => {
-  const { value: latestValue } = stats.slice(-1)[0] || {}
-  const { value } = stats.slice(0, 1)[0] || {}
-  const change = value ? calcPercentageChange(value, latestValue) : 0
-  const color = `var(--${change >= 0 ? 'lima' : 'persimmon'})`
-  const minValue = Math.min(...stats.map(({ value }) => value))
-  const chartStats = stats.map(stat => ({
-    ...stat,
-    value: stat.value - minValue
-  }))
-
-  return { change, chartStats, color }
-}
 
 const labelFormatter = (label, payload) => {
   if (!payload[0]) {
@@ -64,7 +50,7 @@ const WhalesTrend = ({ item: { slug } }) => {
                     <Gradients />
                   </defs>
                   <Area
-                    dataKey='value'
+                    dataKey='dataKey'
                     type='monotone'
                     strokeWidth={1.5}
                     stroke={color}

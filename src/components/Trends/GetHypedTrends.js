@@ -12,7 +12,6 @@ class GetHypedTrends extends React.Component {
       items: sortByHype(items)
     }
 
-    console.log(props)
     return render(props)
   }
 

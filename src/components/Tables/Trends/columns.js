@@ -20,6 +20,8 @@ import ExplanationTooltip from '../../ExplanationTooltip/ExplanationTooltip'
 import InsightCardSmall from '../../Insight/InsightCardSmall'
 import WordCloud from '../../WordCloud/WordCloud'
 import styles from './TrendsTable.module.scss'
+import PriceGraph from '../../../ducks/Watchlists/Widgets/Table/PriceGraph'
+import SocialVolumeGraph from '../../../ducks/SocialTool/SocialVolumeGraph/SocialVolumeGraph'
 
 export const EXPLORE_PAGE_URL = '/labs/trends/explore/'
 
@@ -99,7 +101,7 @@ const getIndexColumn = ({
   }
 }
 
-export const COMMON_COLUMNS = ({ trendConnections }) => [
+export const COMMON_COLUMNS = ({ trendConnections, isDesktop }) => [
   {
     Header: 'Trending words',
     accessor: 'word',
@@ -135,7 +137,7 @@ export const COMMON_COLUMNS = ({ trendConnections }) => [
     )
   },
   {
-    Header: 'Social volume, 24h',
+    Header: 'Soc. vol., 24h',
     accessor: 'volume',
     Cell: ({ value: volumeChange }) => {
       const volumeIsLoading = !volumeChange
@@ -178,71 +180,12 @@ export const TRENDS_COMPACT_VIEW_COLUMNS = ({
   ]
 }
 
-export const TRENDS_MOBILE_COLUMNS = ({
-  trendConnections,
-  TrendToInsights
-}) => [
+export const TRENDS_MOBILE_COLUMNS = ({ trendConnections }) => [
   ...COMMON_COLUMNS({ trendConnections }),
   {
-    Header: 'Insights',
+    Header: 'Trending chart, 7d',
     accessor: 'rawWord',
-    Cell: ({ value: rawWord }) => {
-      const insights = TrendToInsights[rawWord.toUpperCase()]
-
-      const insightsTrigger = (
-        <Button variant='flat' className={styles.tooltip__trigger}>
-          <ExplanationTooltip text='Connected insights' offsetY={5}>
-            <Icon
-              type='insight'
-              className={cx(!insights && styles.action__icon_disabled)}
-            />
-          </ExplanationTooltip>
-        </Button>
-      )
-
-      return insights && insights.length > 0 ? (
-        <div>
-          <Tooltip
-            closeTimeout={200}
-            position='bottom'
-            className={styles.tooltip}
-            on='click'
-            passOpenStateAs='isActive'
-            trigger={insightsTrigger}
-          >
-            <Panel>
-              {insights.map((insight, i) => (
-                <InsightCardSmall
-                  key={i}
-                  multilineTextId='TrendsTable__insights'
-                  {...insight}
-                  className={styles.insight}
-                />
-              ))}
-            </Panel>
-          </Tooltip>
-          <NumberCircle className={styles.insights__number_btn}>
-            {insights.length}
-          </NumberCircle>
-        </div>
-      ) : (
-        insightsTrigger
-      )
-    }
-  },
-
-  {
-    Header: 'Trending chart',
-    accessor: 'score',
-    Cell: ({ value }) => parseInt(value, 10)
-  },
-
-  {
-    Header: 'Connected words',
-    accessor: 'wordCloud',
-    Cell: ({ value: rawWord }) => (
-      <WordCloud className={styles.wordCloud} size={6} word={rawWord} />
-    )
+    Cell: ({ value }) => <SocialVolumeGraph word={value} />
   }
 ]
 
@@ -265,6 +208,66 @@ export const TRENDS_DESKTOP_COLUMNS = ({
       isCompactView,
       isLoggedIn
     }),
-    ...TRENDS_MOBILE_COLUMNS({ trendConnections, TrendToInsights })
+    ...COMMON_COLUMNS({ trendConnections }),
+    {
+      Header: 'Insights',
+      accessor: 'rawWord',
+      Cell: ({ value: rawWord }) => {
+        const insights = TrendToInsights[rawWord.toUpperCase()]
+
+        const insightsTrigger = (
+          <Button variant='flat' className={styles.tooltip__trigger}>
+            <ExplanationTooltip text='Connected insights' offsetY={5}>
+              <Icon
+                type='insight'
+                className={cx(!insights && styles.action__icon_disabled)}
+              />
+            </ExplanationTooltip>
+          </Button>
+        )
+
+        return insights && insights.length > 0 ? (
+          <div>
+            <Tooltip
+              closeTimeout={200}
+              position='bottom'
+              className={styles.tooltip}
+              on='click'
+              passOpenStateAs='isActive'
+              trigger={insightsTrigger}
+            >
+              <Panel>
+                {insights.map((insight, i) => (
+                  <InsightCardSmall
+                    key={i}
+                    multilineTextId='TrendsTable__insights'
+                    {...insight}
+                    className={styles.insight}
+                  />
+                ))}
+              </Panel>
+            </Tooltip>
+            <NumberCircle className={styles.insights__number_btn}>
+              {insights.length}
+            </NumberCircle>
+          </div>
+        ) : (
+          insightsTrigger
+        )
+      }
+    },
+    {
+      Header: 'Trending chart, 7d',
+      accessor: 'rawWord',
+      Cell: ({ value }) => <SocialVolumeGraph word={value} />
+    },
+
+    {
+      Header: 'Connected words',
+      accessor: 'wordCloud',
+      Cell: ({ value: rawWord }) => (
+        <WordCloud className={styles.wordCloud} size={6} word={rawWord} />
+      )
+    }
   ]
 }

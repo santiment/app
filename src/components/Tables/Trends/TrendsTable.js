@@ -75,29 +75,48 @@ const TrendsTable = ({
     [trendWords, volumeChange]
   )
 
-  const commonProps = {
-    selectable,
-    selectTrend,
-    selectedTrends,
-    username,
-    isCompactView,
-    isLoggedIn,
-    trendConnections
-  }
-
-  const baseColumns = isDesktop
-    ? TRENDS_DESKTOP_COLUMNS({ ...commonProps, TrendToInsights })
-    : TRENDS_MOBILE_COLUMNS({ trendConnections, TrendToInsights })
+  const commonProps = useMemo(
+    () => ({
+      selectable,
+      selectTrend,
+      selectedTrends,
+      username,
+      isCompactView,
+      isLoggedIn,
+      trendConnections,
+      allTrends,
+      connectTrends,
+      clearConnectedTrends,
+      connectedTrends
+    }),
+    [
+      selectable,
+      selectTrend,
+      selectedTrends,
+      username,
+      isCompactView,
+      isLoggedIn,
+      trendConnections,
+      allTrends,
+      connectTrends,
+      clearConnectedTrends,
+      connectedTrends
+    ]
+  )
 
   const columns = useMemo(
     () => {
+      const baseColumns = isDesktop
+        ? TRENDS_DESKTOP_COLUMNS({ ...commonProps, TrendToInsights })
+        : TRENDS_MOBILE_COLUMNS({ trendConnections })
+
       return isCompactView
         ? TRENDS_COMPACT_VIEW_COLUMNS({ ...commonProps })
         : small
           ? baseColumns.slice(0, 2)
           : baseColumns
     },
-    [isCompactView, small, baseColumns]
+    [commonProps, small, trendConnections, TrendToInsights, isCompactView]
   )
 
   return (
