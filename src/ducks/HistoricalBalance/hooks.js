@@ -1,11 +1,11 @@
 import { useState, useMemo, useEffect } from 'react'
-import addressDetect from 'cryptocurrency-address-detector'
 import { getWalletAssets, getAssetInfrastructure } from './queries'
 import {
   getValidInterval,
   walletMetricBuilder,
   priceMetricBuilder
 } from './utils'
+import { getAddressInfrastructure } from '../../utils/address'
 
 const DEFAULT_STATE = []
 
@@ -39,7 +39,7 @@ export const useWalletMetrics = (walletAssets, priceAssets) => {
   return [metrics, MetricSettingMap]
 }
 
-export function useWalletAssets (address, infrastructure) {
+export function useWalletAssets ({ address, infrastructure }) {
   const [walletAssets, setWalletAssets] = useState(DEFAULT_STATE)
   const [isLoading, setIsLoading] = useState(true)
   const [isError, setIsError] = useState(false)
@@ -92,38 +92,15 @@ export function useWalletAssets (address, infrastructure) {
   }
 }
 
-export function useInfrastructureDetector (address) {
-  const [infrastructure, setInfrastructure] = useState()
-
-  useEffect(
-    () => {
-      const abort = new AbortController()
-      const detected = addressDetect(address, { signal: abort })
-
-      detected.then(result => {
-        if (result === 'Cryptocurrency could not be detected') {
-          return
-        }
-
-        if (result === 'BTC/BCH') {
-          return setInfrastructure('BTC')
-        }
-
-        setInfrastructure(result)
-      })
-
-      return () => {
-        abort.abort()
-      }
-    },
-    [address]
-  )
-
-  return infrastructure
-}
+export function useInfrastructureDetector (address) {}
 
 export function useSettings (defaultSettings) {
   const [settings, setSettings] = useState(defaultSettings)
+  const { address } = settings
+
+  useMemo(() => (settings.infrastructure = getAddressInfrastructure(address)), [
+    address
+  ])
 
   function onAddressChange (address) {
     setSettings({

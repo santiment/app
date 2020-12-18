@@ -2,12 +2,7 @@ import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import { logScale, linearScale } from '@santiment-network/chart/scales'
 import { ASSETS_LIMIT, withDefaults } from './defaults'
-import {
-  useInfrastructureDetector,
-  useSettings,
-  useWalletAssets,
-  useWalletMetrics
-} from './hooks'
+import { useSettings, useWalletAssets, useWalletMetrics } from './hooks'
 import Chart, { useResponsiveTicks } from './Chart'
 import Configurations from './Configurations'
 import AddressSetting from './Setting/Address'
@@ -26,17 +21,10 @@ const HistoricalBalance = ({
   const { settings, changeTimePeriod, onAddressChange } = useSettings(
     defaultSettings
   )
-  const infrastructure = useInfrastructureDetector(settings.address)
-
-  const { walletAssets, isLoading, isError } = useWalletAssets(
-    settings.address,
-    infrastructure
-  )
-
+  const { walletAssets, isLoading, isError } = useWalletAssets(settings)
   const [chartAssets, setChartAssets] = useState(defaultChartAssets)
   const [priceAssets, setPriceAssets] = useState(defaultPriceAssets)
   const [isLog, setIsLog] = useState(defaultIsLog)
-
   const [metrics, MetricSettingMap] = useWalletMetrics(chartAssets, priceAssets)
   const axesTicks = useResponsiveTicks(isPhone)
 
