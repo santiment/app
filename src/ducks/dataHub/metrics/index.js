@@ -314,8 +314,7 @@ export const Metric = {
     label: 'Network Realized Profit or Loss (USD)',
     shortLabel: 'NR P. or L.',
     group: 'Network Value',
-    category: 'On-chain',
-    isBeta: true
+    category: 'On-chain'
   },
   minersBalance: {
     node: 'line',
