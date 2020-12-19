@@ -18,6 +18,7 @@
 
   color: var(--jungle-green);
   margin-left: auto;
+  white-space: nowrap;
 
   &:hover {
     color: var(--jungle-green-hover);
@@ -49,18 +50,4 @@
 .actions {
   display: flex;
   margin: 16px 0 0 16px;
-}
-
-// Assets.js
-
-.assets {
-  position: relative;
-}
-
-.loader {
-  position: absolute;
-  right: 30px;
-  top: 50%;
-  transform: translate(0, -50%);
-  font-size: 6px;
 }

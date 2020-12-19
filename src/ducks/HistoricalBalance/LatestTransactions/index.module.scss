@@ -4,6 +4,10 @@
   margin: 20px;
 }
 
+.container {
+  position: relative;
+}
+
 .table {
   width: 100%;
   border: 1px solid var(--porcelain);
@@ -11,6 +15,7 @@
   border-spacing: 0;
   overflow: hidden;
   text-align: left;
+  min-height: 664px;
 }
 
 .header {
@@ -38,10 +43,29 @@
   width: 35%;
 }
 
+.values {
+  max-width: 0;
+  width: 35%;
+}
+
+.link {
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
 .asset {
   display: flex;
   align-items: center;
   margin-bottom: 6px;
+}
+
+.actor {
+  color: var(--waterloo);
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .logo {
@@ -50,14 +74,16 @@
   margin-right: 5px;
 }
 
-.actor {
-  color: var(--waterloo);
-}
-
 .address {
   color: var(--rhino);
   background: var(--jungle-green-light-2);
   padding: 1px 8px;
   border-radius: 4px;
   margin-left: 4px;
+}
+
+.skeleton {
+  position: absolute;
+  width: 100%;
+  top: 0;
 }

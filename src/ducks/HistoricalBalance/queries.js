@@ -26,11 +26,8 @@ export const ADDRESS_LABELS_QUERY = gql`
 `
 
 export const RECENT_TRANSACTIONS_QUERY = gql`
-  query recentTransactions {
-    recentTransactions(
-      address: "0xf4b51b14b9ee30dc37ec970b50a486f37686e2a8"
-      type: ERC20
-    ) {
+  query recentTransactions($address: String!) {
+    recentTransactions(address: $address, type: ERC20) {
       datetime
       fromAddress {
         address

@@ -12,10 +12,8 @@ const Label = ({ name, origin }) => (
   </div>
 )
 
-const Labels = ({ settings }) => {
-  const labels = useAddressLabels(settings)
-
-  return <div className={styles.wrapper}>{labels.map(Label)}</div>
-}
+const Labels = ({ settings }) => (
+  <div className={styles.wrapper}>{useAddressLabels(settings).map(Label)}</div>
+)
 
 export default Labels

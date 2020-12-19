@@ -49,8 +49,11 @@ export function useWalletAssets (wallet) {
 }
 
 export function useRecentTransactions (wallet) {
-  const { data } = useWalletQuery(RECENT_TRANSACTIONS_QUERY, wallet)
-  return data ? data.recentTransactions : DEFAULT_STATE
+  const { data, loading } = useWalletQuery(RECENT_TRANSACTIONS_QUERY, wallet)
+  return {
+    recentTransactions: data ? data.recentTransactions : DEFAULT_STATE,
+    isLoading: loading
+  }
 }
 
 export function useTransactionProject (slug) {
