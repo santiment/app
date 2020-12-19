@@ -1,10 +1,10 @@
 import React from 'react'
 import Select from '@santiment-network/ui/Search/Select/Select'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import Setting from './Setting'
+import Setting from '../Setting'
 import { ASSETS_LIMIT } from '../defaults'
 import { WalletBalanceOptionRenderer } from '../../Signals/signalFormManager/signalCrudForm/formParts/metricOptions/MetricOptionsRenderer'
-import styles from './Setting.module.scss'
+import styles from './index.module.scss'
 
 export const AddressSetting = ({
   className,

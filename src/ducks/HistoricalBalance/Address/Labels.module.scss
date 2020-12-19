@@ -1,0 +1,17 @@
+.wrapper {
+  display: flex;
+  margin-top: 4px;
+}
+
+.label {
+  border-radius: 4px;
+  border: 1px solid var(--porcelain);
+  color: var(--rhino);
+  padding: 4px 8px;
+  margin-top: -4px;
+  margin-right: 4px;
+}
+
+.san {
+  background: var(--porcelain);
+}

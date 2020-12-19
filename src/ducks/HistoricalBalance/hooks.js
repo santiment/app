@@ -1,25 +1,20 @@
 import { useState, useMemo } from 'react'
-import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import {
   getValidInterval,
   walletMetricBuilder,
   priceMetricBuilder
 } from './utils'
+import { WALLET_ASSETS_QUERY, ADDRESS_LABELS_QUERY } from './queries'
 import { getAddressInfrastructure } from '../../utils/address'
 
-const WALLET_ASSETS_QUERY = gql`
-  query assetsHeldByAddress($address: String!, $infrastructure: String!) {
-    assetsHeldByAddress(
-      selector: { address: $address, infrastructure: $infrastructure }
-    ) {
-      slug
-      balance
-    }
-  }
-`
-
 const DEFAULT_STATE = []
+
+const useWalletQuery = (query, variables) =>
+  useQuery(query, {
+    skip: !variables.infrastructure,
+    variables
+  })
 
 export function getWalletMetrics (walletAssets, priceAssets) {
   const walletMetrics = walletAssets.map(walletMetricBuilder)
@@ -33,14 +28,13 @@ export const useWalletMetrics = (walletAssets, priceAssets) =>
     priceAssets
   ])
 
-export function useWalletAssets ({ address, infrastructure }) {
-  const { data, loading, error } = useQuery(WALLET_ASSETS_QUERY, {
-    skip: !(address && infrastructure),
-    variables: {
-      address,
-      infrastructure
-    }
-  })
+export function useAddressLabels (wallet) {
+  const { data } = useWalletQuery(ADDRESS_LABELS_QUERY, wallet)
+  return data ? data.blockchainAddress.labels : DEFAULT_STATE
+}
+
+export function useWalletAssets (wallet) {
+  const { data, loading, error } = useWalletQuery(WALLET_ASSETS_QUERY, wallet)
 
   return {
     walletAssets: data ? data.assetsHeldByAddress : DEFAULT_STATE,
