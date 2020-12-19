@@ -1,0 +1,63 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  margin: 20px;
+}
+
+.table {
+  width: 100%;
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  border-spacing: 0;
+  overflow: hidden;
+  text-align: left;
+}
+
+.header {
+  @include text('caption');
+
+  background: var(--athens);
+  color: var(--casper);
+
+  :global(th) {
+    padding: 8px 16px;
+    white-space: nowrap;
+  }
+}
+
+.table :global(td) {
+  padding: 8px 16px;
+  border-top: 1px solid var(--porcelain);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hash {
+  max-width: 0;
+  width: 35%;
+}
+
+.asset {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.logo {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.actor {
+  color: var(--waterloo);
+}
+
+.address {
+  color: var(--rhino);
+  background: var(--jungle-green-light-2);
+  padding: 1px 8px;
+  border-radius: 4px;
+  margin-left: 4px;
+}

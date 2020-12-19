@@ -24,3 +24,32 @@ export const ADDRESS_LABELS_QUERY = gql`
     }
   }
 `
+
+export const RECENT_TRANSACTIONS_QUERY = gql`
+  query recentTransactions {
+    recentTransactions(
+      address: "0xf4b51b14b9ee30dc37ec970b50a486f37686e2a8"
+      type: ERC20
+    ) {
+      datetime
+      fromAddress {
+        address
+      }
+      toAddress {
+        address
+      }
+      trxValue
+      trxHash
+      slug
+    }
+  }
+`
+export const TRANSACTION_PROJECT_QUERY = gql`
+  query projectBySlugGQL($slug: String!) {
+    projectBySlug(slug: $slug) {
+      id
+      ticker
+      logoUrl
+    }
+  }
+`

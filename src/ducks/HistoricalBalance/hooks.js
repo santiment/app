@@ -5,7 +5,12 @@ import {
   walletMetricBuilder,
   priceMetricBuilder
 } from './utils'
-import { WALLET_ASSETS_QUERY, ADDRESS_LABELS_QUERY } from './queries'
+import {
+  WALLET_ASSETS_QUERY,
+  ADDRESS_LABELS_QUERY,
+  RECENT_TRANSACTIONS_QUERY,
+  TRANSACTION_PROJECT_QUERY
+} from './queries'
 import { getAddressInfrastructure } from '../../utils/address'
 
 const DEFAULT_STATE = []
@@ -41,6 +46,19 @@ export function useWalletAssets (wallet) {
     isLoading: loading,
     isError: error
   }
+}
+
+export function useRecentTransactions (wallet) {
+  const { data } = useWalletQuery(RECENT_TRANSACTIONS_QUERY, wallet)
+  return data ? data.recentTransactions : DEFAULT_STATE
+}
+
+export function useTransactionProject (slug) {
+  const { data } = useQuery(TRANSACTION_PROJECT_QUERY, {
+    variables: { slug }
+  })
+
+  return data ? data.projectBySlug : DEFAULT_STATE
 }
 
 export function useInfrastructureDetector (address) {}

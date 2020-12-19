@@ -4,6 +4,8 @@ import { ASSETS_LIMIT, withDefaults } from './defaults'
 import { useSettings, useWalletAssets } from './hooks'
 import Chart from './Chart'
 import AddressSetting from './Address'
+import LatestTransactions from './LatestTransactions/index.js'
+
 import { withSizes } from '../../components/Responsive'
 import styles from './index.module.scss'
 
@@ -87,6 +89,7 @@ const HistoricalBalance = ({
         setChartAssets={updateChartAssets}
         setIsLog={setIsLog}
       />
+      <LatestTransactions settings={settings} />
 
       {React.Children.map(children, child =>
         React.cloneElement(child, {
