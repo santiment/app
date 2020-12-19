@@ -4,7 +4,7 @@ import styles from './index.module.scss'
 
 const Section = ({ title, children, className }) => (
   <div className={cx(styles.section, className)}>
-    <h3 className={styles.section}>{title}</h3>
+    <h3 className={styles.section__title}>{title}</h3>
     {children}
   </div>
 )

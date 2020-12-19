@@ -27,7 +27,7 @@ const Row = ({
   toAddress,
   fromAddress
 }) => {
-  const { logoUrl, ticker } = useTransactionProject(slug)
+  const { logoUrl, ticker = `"${slug}"` } = useTransactionProject(slug)
   const isSending = address === fromAddress.address
   const anotherAddress = isSending ? toAddress.address : fromAddress.address
 
@@ -37,7 +37,7 @@ const Row = ({
       <td>{isSending ? 'Send' : 'Receive'}</td>
       <td className={styles.values}>
         <div className={styles.asset}>
-          <img alt={ticker} src={logoUrl} className={styles.logo} />{' '}
+          <img alt='' src={logoUrl} className={styles.logo} />{' '}
           {formatValue(trxValue, ticker, isSending)}
         </div>
         <div className={styles.actor}>

@@ -7,7 +7,7 @@ import {
 } from './utils'
 import {
   WALLET_ASSETS_QUERY,
-  ADDRESS_LABELS_QUERY,
+  ADDRESS_QUERY,
   RECENT_TRANSACTIONS_QUERY,
   TRANSACTION_PROJECT_QUERY
 } from './queries'
@@ -33,10 +33,12 @@ export const useWalletMetrics = (walletAssets, priceAssets) =>
     priceAssets
   ])
 
-export function useAddressLabels (wallet) {
-  const { data } = useWalletQuery(ADDRESS_LABELS_QUERY, wallet)
-  return data ? data.blockchainAddress.labels : DEFAULT_STATE
+export function useBlockchainAddress (wallet) {
+  const { data } = useWalletQuery(ADDRESS_QUERY, wallet)
+  return data ? data.blockchainAddress : DEFAULT_STATE
 }
+export const useAddressLabels = wallet =>
+  useBlockchainAddress(wallet).labels || DEFAULT_STATE
 
 export function useWalletAssets (wallet) {
   const { data, loading, error } = useWalletQuery(WALLET_ASSETS_QUERY, wallet)

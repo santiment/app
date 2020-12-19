@@ -11,12 +11,13 @@ export const WALLET_ASSETS_QUERY = gql`
   }
 `
 
-export const ADDRESS_LABELS_QUERY = gql`
+export const ADDRESS_QUERY = gql`
   query blockchainAddress($address: String!, $infrastructure: String!) {
     blockchainAddress(
       selector: { address: $address, infrastructure: $infrastructure }
     ) {
       id
+      commentsCount
       labels {
         name
         origin

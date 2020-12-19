@@ -20,6 +20,25 @@
 .section {
   @include text('body');
 
-  color: var(--waterloo);
-  margin-bottom: 24px;
+  &__title {
+    margin: 0 0 24px;
+    color: var(--waterloo);
+  }
+}
+
+.bottom {
+  display: flex;
+}
+
+.left,
+.right {
+  width: 50%;
+}
+
+.left {
+  padding-right: 24px;
+}
+
+.right {
+  padding-left: 24px;
 }
