@@ -8,10 +8,90 @@
   border: 1px solid var(--porcelain);
   color: var(--rhino);
   padding: 4px 8px;
+  height: 24px;
   margin-top: 4px;
   margin-right: 4px;
+  background: var(--white);
 }
 
 .san {
   background: var(--porcelain);
+}
+
+.new {
+  cursor: pointer;
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+}
+
+.close {
+  width: 0;
+  fill: var(--waterloo);
+  cursor: pointer;
+  overflow: hidden;
+  transition: width 200ms;
+  margin-left: 5px;
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+}
+
+.write {
+  position: relative;
+  display: flex;
+  padding-right: 0;
+
+  &_focused {
+    border-color: var(--jungle-green);
+
+    & .close {
+      width: 12px;
+    }
+  }
+
+  &:hover .close {
+    width: 12px;
+  }
+}
+
+.input {
+  outline: none;
+  min-width: 65px;
+}
+
+.empty {
+  position: relative;
+
+  &::before {
+    content: 'Label name';
+    white-space: nowrap;
+    color: var(--waterloo);
+    position: absolute;
+    top: 4px;
+    left: 8px;
+    pointer-events: none;
+  }
+}
+
+.rest {
+  cursor: pointer;
+
+  &:hover {
+    color: var(--jungle-green);
+  }
+
+  &__tooltip {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 430px;
+    background: var(--white);
+    border: 1px solid var(--porcelain);
+    border-radius: 4px;
+    padding: 15px;
+    overflow: auto;
+    max-height: 300px;
+  }
 }

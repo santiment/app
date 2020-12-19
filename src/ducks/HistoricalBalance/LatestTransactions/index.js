@@ -82,7 +82,7 @@ const LatestTransactions = ({ settings }) => {
               <th>Tx hash</th>
             </tr>
             {recentTransactions.map(trx => (
-              <Row key={trx.trxHash} {...trx} address={address} />
+              <Row key={trx.trxHash + trx.slug} {...trx} address={address} />
             ))}
           </tbody>
         </table>

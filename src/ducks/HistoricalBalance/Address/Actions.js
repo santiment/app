@@ -23,12 +23,13 @@ const Actions = ({ address, assets }) => {
         }
       />
 
-      <div className={styles.divider} />
+      {/* <div className={styles.divider} />
 
       <Button className={styles.btn}>
         <Icon type='copy' className={styles.btn__icon} />
         Add to Watchlist
       </Button>
+        */}
 
       <div className={styles.divider} />
 
