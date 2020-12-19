@@ -1,4 +1,5 @@
 import React from 'react'
+import Section from '../Section'
 import { useRecentTransactions, useTransactionProject } from '../hooks'
 import { getDateFormats, getTimeFormats } from '../../../utils/dates'
 import { FluidSkeleton as Skeleton } from '../../../components/Skeleton'
@@ -70,7 +71,7 @@ const LatestTransactions = ({ settings }) => {
   const { recentTransactions, isLoading } = useRecentTransactions(settings)
 
   return (
-    <div className={styles.wrapper}>
+    <Section title='Latest transactions'>
       <div className={styles.container}>
         <table className={styles.table}>
           <tbody>
@@ -87,7 +88,7 @@ const LatestTransactions = ({ settings }) => {
         </table>
         <Skeleton show={isLoading} className={styles.skeleton} />
       </div>
-    </div>
+    </Section>
   )
 }
 

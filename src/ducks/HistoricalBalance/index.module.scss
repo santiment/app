@@ -1,10 +1,5 @@
 @import '~@santiment-network/ui/mixins';
 
-.wrapper {
-  border: 1px solid var(--porcelain);
-  border-radius: 4px;
-}
-
 .settings {
   display: flex;
   background: var(--athens);
@@ -20,4 +15,11 @@
 
   flex: 1;
   color: var(--waterloo);
+}
+
+.section {
+  @include text('body');
+
+  color: var(--waterloo);
+  margin-bottom: 24px;
 }

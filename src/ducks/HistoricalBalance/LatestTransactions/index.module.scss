@@ -1,11 +1,8 @@
 @import '~@santiment-network/ui/mixins';
 
-.wrapper {
-  margin: 20px;
-}
-
 .container {
   position: relative;
+  min-height: 664px;
 }
 
 .table {
@@ -15,7 +12,6 @@
   border-spacing: 0;
   overflow: hidden;
   text-align: left;
-  min-height: 664px;
 }
 
 .header {

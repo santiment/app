@@ -36,7 +36,7 @@ const HistoricalBalancePage = ({ history, isDesktop }) => {
   )
 
   return (
-    <div className={'page'}>
+    <div className={styles.wrapper}>
       <ResponsiveTitle isDesktop={isDesktop} />
       <HistoricalBalance
         defaultSettings={settings}

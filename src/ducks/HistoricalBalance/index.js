@@ -66,7 +66,7 @@ const HistoricalBalance = ({
   }
 
   return (
-    <div className={styles.wrapper}>
+    <>
       <div className={cx(styles.settings, isPhone && styles.settings_phone)}>
         <AddressSetting
           settings={settings}
@@ -99,7 +99,7 @@ const HistoricalBalance = ({
           isLog
         })
       )}
-    </div>
+    </>
   )
 }
 
