@@ -70,6 +70,7 @@ const HistoricalBalance = ({
       <div className={cx(styles.settings, isPhone && styles.settings_phone)}>
         <AddressSetting
           settings={settings}
+          chartAssets={chartAssets}
           isError={isError}
           onAddressChange={onAddressChange}
         />

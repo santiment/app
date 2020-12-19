@@ -9,8 +9,14 @@ import {
 } from '../../../utils/address'
 import styles from './index.module.scss'
 
-export const AddressSetting = ({ settings, isError, onAddressChange }) => {
-  const [value, setValue] = useState(settings.address)
+export const AddressSetting = ({
+  settings,
+  chartAssets,
+  isError,
+  onAddressChange
+}) => {
+  const { address } = settings
+  const [value, setValue] = useState(address)
   const infrastructure = useMemo(() => getAddressInfrastructure(value), [value])
 
   useEffect(
@@ -54,7 +60,7 @@ export const AddressSetting = ({ settings, isError, onAddressChange }) => {
         </div>
       </Setting>
 
-      <Actions />
+      <Actions address={address} assets={chartAssets} />
     </div>
   )
 }

@@ -18,16 +18,15 @@
 }
 
 .section {
-  @include text('body');
+  @include text('body-1');
 
-  &__title {
-    margin: 0 0 24px;
-    color: var(--waterloo);
-  }
+  margin: 0 0 24px;
+  color: var(--waterloo);
 }
 
 .bottom {
   display: flex;
+  margin-top: 32px;
 }
 
 .left,

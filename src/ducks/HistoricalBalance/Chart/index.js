@@ -5,7 +5,6 @@ import Canvas, { useResponsiveTicks } from './Canvas'
 import Assets from './Assets'
 import DatePicker from './DatePicker'
 import SettingsMenu from './SettingsMenu'
-
 import { useWalletMetrics } from '../hooks'
 import styles from './index.module.scss'
 
