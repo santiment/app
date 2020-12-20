@@ -1,3 +1,49 @@
+@import '~@santiment-network/ui/mixins';
+
 .share {
   margin-left: auto;
+}
+
+.table {
+  margin: 0 -32px;
+
+  :global {
+    th {
+      position: sticky;
+      top: 0;
+    }
+  }
+}
+
+.labels {
+  @include text('caption');
+
+  display: flex;
+  margin-top: -4px;
+}
+
+.index {
+  color: var(--waterloo);
+}
+
+.chart {
+  stroke-width: 2;
+  overflow: visible;
+  fill: none;
+
+  --stroke: var(--persimmon);
+  --fill: url(#negative-change);
+
+  &_positive {
+    --stroke: var(--lima);
+    --fill: url(#positive-change);
+  }
+}
+
+.line {
+  stroke: var(--stroke);
+}
+
+.area {
+  fill: var(--fill);
 }
