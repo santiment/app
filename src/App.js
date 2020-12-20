@@ -63,8 +63,8 @@ const LoadablePage = loader =>
 
 const LoadableIndexPage = LoadablePage(() => import('./pages/Index'))
 
-const LoadableWatchlistAddressPage = LoadablePage(() =>
-  import('./pages/WatchlistAddress')
+const LoadableWatchlistAddressesPage = LoadablePage(() =>
+  import('./pages/WatchlistAddresses')
 )
 
 const LoadableProMetricsPage = LoadablePage(() =>
@@ -277,8 +277,8 @@ export const App = ({
           <Route exact path='/assets' component={LoadableWatchlistsPage} />
           <Route
             exact
-            path='/watchlists/address'
-            component={LoadableWatchlistAddressPage}
+            path='/watchlist/addresses/:id'
+            component={LoadableWatchlistAddressesPage}
           />
           <Route
             exact

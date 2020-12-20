@@ -16,6 +16,8 @@ import {
 } from '../../ducks/HistoricalBalance/Address/Labels'
 import ValueChange from '../../components/ValueChange/ValueChange'
 import styles from './index.module.scss'
+import SaveAs from './SaveAs'
+import { parseUrl } from './url'
 
 const balanceValue = new Intl.NumberFormat('en', {
   maximumFractionDigits: 2
@@ -108,8 +110,8 @@ function useSelectedItemsSet (items) {
   }
 }
 
-const WatchlistAddress = ({ ...props }) => {
-  const { watchlist, isLoading } = useAddressWatchlist()
+const WatchlistAddress = ({ match }) => {
+  const { watchlist, isLoading } = useAddressWatchlist(parseUrl(match.params))
   const isAuthor = useIsWatchlistAuthor(watchlist)
   const items = useAddressWatchlistItems(watchlist)
   const obj = useSelectedItemsSet(items)
@@ -120,6 +122,9 @@ const WatchlistAddress = ({ ...props }) => {
       title={watchlist.name}
       actions={<Actions watchlist={watchlist} isAuthor={isAuthor} />}
     >
+      <div className='top'>
+        <SaveAs watchlist={watchlist} items={items} />
+      </div>
       <Table
         className={styles.table}
         columns={COLUMNS}

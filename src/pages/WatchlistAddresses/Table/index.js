@@ -3,10 +3,10 @@ import cx from 'classnames'
 import { FluidSkeleton as Skeleton } from '../../../components/Skeleton'
 import styles from './index.module.scss'
 
-const noop = (_) => _
+const noop = _ => _
 
-export function prepareColumns(columns) {
-  columns.forEach((column) => {
+export function prepareColumns (columns) {
+  columns.forEach(column => {
     column.id = column.id || column.title
   })
 
@@ -19,7 +19,7 @@ const Table = ({
   items,
   itemKeyProperty,
   itemProps,
-  isLoading,
+  isLoading
 }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
@@ -32,7 +32,7 @@ const Table = ({
           </tr>
         </thead>
         <tbody>
-          {items.map((item) => (
+          {items.map(item => (
             <tr key={item[itemKeyProperty]}>
               {columns.map(({ id, render, className }, i) => (
                 <td key={id} className={className}>
@@ -51,7 +51,7 @@ const Table = ({
 Table.defaultProps = {
   items: [],
   itemProps: {},
-  itemKeyProperty: 'address',
+  itemKeyProperty: 'address'
 }
 
 export default Table
