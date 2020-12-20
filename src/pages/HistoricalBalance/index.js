@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import cx from 'classnames'
 import URLExtension from './URLExtension'
 import HistoricalBalance from '../../ducks/HistoricalBalance'
 import { parseUrl } from '../../ducks/HistoricalBalance/url'
@@ -36,7 +37,7 @@ const HistoricalBalancePage = ({ history, isDesktop }) => {
   )
 
   return (
-    <div className={'page'}>
+    <div className={cx(styles.wrapper, isDesktop || styles.wrapper_phone)}>
       <ResponsiveTitle isDesktop={isDesktop} />
       <HistoricalBalance
         defaultSettings={settings}

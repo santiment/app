@@ -1,7 +1,6 @@
 import gql from 'graphql-tag'
-import { client } from '../../apollo'
 
-const WALLET_ASSETS_QUERY = gql`
+export const WALLET_ASSETS_QUERY = gql`
   query assetsHeldByAddress($address: String!, $infrastructure: String!) {
     assetsHeldByAddress(
       selector: { address: $address, infrastructure: $infrastructure }
@@ -12,32 +11,43 @@ const WALLET_ASSETS_QUERY = gql`
   }
 `
 
-const ASSET_INFRASTRUCTURE_QUERY = gql`
-  query projectBySlug($slug: String!) {
-    projectBySlug(slug: $slug) {
+export const ADDRESS_QUERY = gql`
+  query blockchainAddress($address: String!, $infrastructure: String!) {
+    blockchainAddress(
+      selector: { address: $address, infrastructure: $infrastructure }
+    ) {
       id
-      infrastructure
+      commentsCount
+      labels {
+        name
+        origin
+      }
     }
   }
 `
 
-export const getWalletAssets = (address, infrastructure) =>
-  client
-    .query({
-      query: WALLET_ASSETS_QUERY,
-      variables: {
-        address,
-        infrastructure
+export const RECENT_TRANSACTIONS_QUERY = gql`
+  query recentTransactions($address: String!) {
+    recentTransactions(address: $address, type: ERC20) {
+      datetime
+      fromAddress {
+        address
       }
-    })
-    .then(({ data }) => data.assetsHeldByAddress)
-
-export const getAssetInfrastructure = slug =>
-  client
-    .query({
-      query: ASSET_INFRASTRUCTURE_QUERY,
-      variables: {
-        slug
+      toAddress {
+        address
       }
-    })
-    .then(({ data }) => data.projectBySlug.infrastructure)
+      trxValue
+      trxHash
+      slug
+    }
+  }
+`
+export const TRANSACTION_PROJECT_QUERY = gql`
+  query projectBySlugGQL($slug: String!) {
+    projectBySlug(slug: $slug) {
+      id
+      ticker
+      logoUrl
+    }
+  }
+`

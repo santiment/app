@@ -1,13 +1,25 @@
-import { useState, useMemo, useEffect } from 'react'
-import addressDetect from 'cryptocurrency-address-detector'
-import { getWalletAssets, getAssetInfrastructure } from './queries'
+import { useState, useMemo } from 'react'
+import { useQuery } from '@apollo/react-hooks'
 import {
   getValidInterval,
   walletMetricBuilder,
   priceMetricBuilder
 } from './utils'
+import {
+  WALLET_ASSETS_QUERY,
+  ADDRESS_QUERY,
+  RECENT_TRANSACTIONS_QUERY,
+  TRANSACTION_PROJECT_QUERY
+} from './queries'
+import { getAddressInfrastructure } from '../../utils/address'
 
 const DEFAULT_STATE = []
+
+const useWalletQuery = (query, variables) =>
+  useQuery(query, {
+    skip: !variables.infrastructure,
+    variables
+  })
 
 export function getWalletMetrics (walletAssets, priceAssets) {
   const walletMetrics = walletAssets.map(walletMetricBuilder)
@@ -15,115 +27,52 @@ export function getWalletMetrics (walletAssets, priceAssets) {
   return walletMetrics.concat(priceMetrics)
 }
 
-export const useWalletMetrics = (walletAssets, priceAssets) => {
-  const metrics = useMemo(() => getWalletMetrics(walletAssets, priceAssets), [
+export const useWalletMetrics = (walletAssets, priceAssets) =>
+  useMemo(() => getWalletMetrics(walletAssets, priceAssets), [
     walletAssets,
     priceAssets
   ])
 
-  const MetricSettingMap = useMemo(
-    () => {
-      const MetricSettingMap = new Map()
-
-      walletAssets.forEach(metric => {
-        MetricSettingMap.set(metric, {
-          ...metric.reqMeta
-        })
-      })
-
-      return MetricSettingMap
-    },
-    [walletAssets]
-  )
-
-  return [metrics, MetricSettingMap]
+export function useBlockchainAddress (wallet) {
+  const { data } = useWalletQuery(ADDRESS_QUERY, wallet)
+  return data ? data.blockchainAddress : DEFAULT_STATE
 }
+export const useAddressLabels = wallet =>
+  useBlockchainAddress(wallet).labels || DEFAULT_STATE
 
-export function useWalletAssets (address, infrastructure) {
-  const [walletAssets, setWalletAssets] = useState(DEFAULT_STATE)
-  const [isLoading, setIsLoading] = useState(true)
-  const [isError, setIsError] = useState(false)
-
-  useEffect(
-    () => {
-      if (!address || !infrastructure) return
-
-      setIsLoading(true)
-      const walletAssets = []
-      let race = false
-
-      getWalletAssets(address, infrastructure)
-        .then(assets =>
-          Promise.all(
-            assets.map(({ slug, balance }, i) =>
-              getAssetInfrastructure(slug).then(infrastructure => {
-                walletAssets[i] = {
-                  slug,
-                  infrastructure,
-                  balance
-                }
-              })
-            )
-          )
-        )
-        .then(() => {
-          if (race) return
-
-          setWalletAssets(walletAssets)
-          setIsLoading(false)
-          setIsError(false)
-        })
-        .catch(e => {
-          if (race) return
-
-          setIsLoading(false)
-          setIsError(e)
-        })
-
-      return () => (race = true)
-    },
-    [address, infrastructure]
-  )
+export function useWalletAssets (wallet) {
+  const { data, loading, error } = useWalletQuery(WALLET_ASSETS_QUERY, wallet)
 
   return {
-    walletAssets,
-    isLoading,
-    isError
+    walletAssets: data ? data.assetsHeldByAddress : DEFAULT_STATE,
+    isLoading: loading,
+    isError: error
   }
 }
 
-export function useInfrastructureDetector (address) {
-  const [infrastructure, setInfrastructure] = useState()
+export function useRecentTransactions (wallet) {
+  const { data, loading } = useWalletQuery(RECENT_TRANSACTIONS_QUERY, wallet)
+  return {
+    recentTransactions: data ? data.recentTransactions : DEFAULT_STATE,
+    isLoading: loading
+  }
+}
 
-  useEffect(
-    () => {
-      const abort = new AbortController()
-      const detected = addressDetect(address, { signal: abort })
+export function useTransactionProject (slug) {
+  const { data } = useQuery(TRANSACTION_PROJECT_QUERY, {
+    variables: { slug }
+  })
 
-      detected.then(result => {
-        if (result === 'Cryptocurrency could not be detected') {
-          return
-        }
-
-        if (result === 'BTC/BCH') {
-          return setInfrastructure('BTC')
-        }
-
-        setInfrastructure(result)
-      })
-
-      return () => {
-        abort.abort()
-      }
-    },
-    [address]
-  )
-
-  return infrastructure
+  return data ? data.projectBySlug : DEFAULT_STATE
 }
 
 export function useSettings (defaultSettings) {
   const [settings, setSettings] = useState(defaultSettings)
+  const { address } = settings
+
+  useMemo(() => (settings.infrastructure = getAddressInfrastructure(address)), [
+    address
+  ])
 
   function onAddressChange (address) {
     setSettings({
