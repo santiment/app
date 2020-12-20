@@ -42,8 +42,8 @@ const Comments = ({ settings }) => {
     <div className={styles.wrapper}>
       <ReactComments
         className={styles.styles}
-        comments={comments}
         id={id}
+        comments={comments}
         commentsCount={commentsCount}
         getComments={getComments}
         createComment={createComment}

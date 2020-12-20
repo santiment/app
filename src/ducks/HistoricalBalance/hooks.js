@@ -66,8 +66,6 @@ export function useTransactionProject (slug) {
   return data ? data.projectBySlug : DEFAULT_STATE
 }
 
-export function useInfrastructureDetector (address) {}
-
 export function useSettings (defaultSettings) {
   const [settings, setSettings] = useState(defaultSettings)
   const { address } = settings

@@ -2,15 +2,13 @@ import React, { useEffect, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
-import {
-  useInfrastructureDetector,
-  useWalletAssets
-} from '../../../../HistoricalBalance/hooks'
+import { useWalletAssets } from '../../../../HistoricalBalance/hooks'
 import { isValidHBAddress, hasHBAddresses } from '../../../utils/utils'
 import { TriggerProjectsSelector } from './projectsSelector/TriggerProjectsSelector'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import { NOT_VALID_HB_ADDRESS } from '../../../utils/constants'
 import { useProjects } from '../../../../Studio/Compare/withProjects'
+import { getAddressInfrastructure } from '../../../../../utils/address'
 import styles from '../signal/TriggerForm.module.scss'
 
 const isInAssetsList = (heldAssets, target) => {
@@ -79,7 +77,9 @@ const useHeldAssets = byAddress => {
       : undefined
     : byAddress
 
-  const infrastructure = useInfrastructureDetector(address)
+  const infrastructure = useMemo(() => getAddressInfrastructure(address), [
+    address
+  ])
 
   const { walletAssets: heldAssets, isLoading } = useWalletAssets({
     address,
