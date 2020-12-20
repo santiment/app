@@ -67,14 +67,13 @@ const HistoricalBalance = ({
 
   return (
     <>
-      <div className={cx(styles.settings, isPhone && styles.settings_phone)}>
-        <AddressSetting
-          settings={settings}
-          chartAssets={chartAssets}
-          isError={isError}
-          onAddressChange={onAddressChange}
-        />
-      </div>
+      <AddressSetting
+        className={isPhone && styles.address_phone}
+        settings={settings}
+        chartAssets={chartAssets}
+        isError={isError}
+        onAddressChange={onAddressChange}
+      />
 
       <Chart
         height={isPhone ? 340 : 450}
@@ -91,7 +90,7 @@ const HistoricalBalance = ({
         setIsLog={setIsLog}
       />
 
-      <div className={styles.bottom}>
+      <div className={cx(styles.bottom, isPhone && styles.bottom_phone)}>
         <div className={styles.left}>
           <Comments settings={settings} />
         </div>

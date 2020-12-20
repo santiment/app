@@ -9,8 +9,7 @@
   color: var(--rhino);
   padding: 4px 8px;
   height: 24px;
-  margin-top: 4px;
-  margin-right: 4px;
+  margin: 4px 4px 0 0;
   background: var(--white);
 }
 
@@ -76,7 +75,7 @@
   }
 }
 
-.rest {
+.collapsed {
   cursor: pointer;
 
   &:hover {

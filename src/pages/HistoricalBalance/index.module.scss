@@ -1,7 +1,11 @@
 .wrapper {
   flex: 1;
   width: 100%;
-  padding: 0 20px 0 40px;
+  padding: 0 40px;
+
+  &_phone {
+    padding: 0 16px 60px;
+  }
 }
 
 .help {

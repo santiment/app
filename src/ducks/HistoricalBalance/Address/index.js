@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react'
+import cx from 'classnames'
 import Input from '@santiment-network/ui/Input'
-import Setting from '../Setting'
 import Labels from './Labels'
 import Actions from './Actions'
+import Setting from '../Setting'
 import {
   Infrastructure,
   getAddressInfrastructure
@@ -10,6 +11,7 @@ import {
 import styles from './index.module.scss'
 
 export const AddressSetting = ({
+  className,
   settings,
   chartAssets,
   isError,
@@ -34,7 +36,7 @@ export const AddressSetting = ({
   }
 
   return (
-    <div className={styles.address}>
+    <div className={cx(styles.wrapper, className)}>
       <Setting title='Wallet address'>
         <div className={styles.top}>
           <Input

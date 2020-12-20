@@ -1,5 +1,11 @@
 @import '~@santiment-network/ui/mixins';
 
+.wrapper {
+  display: flex;
+  background: var(--athens);
+  padding: 16px 24px;
+}
+
 .top,
 .bottom {
   display: flex;
@@ -40,11 +46,6 @@
   height: 32px;
   background: var(--porcelain);
   margin: 0 4px;
-}
-
-.address {
-  display: flex;
-  flex: 1;
 }
 
 .actions {

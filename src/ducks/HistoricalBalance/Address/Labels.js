@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import Tooltip from '@santiment-network/ui/Tooltip'
 import cx from 'classnames'
+import Tooltip from '@santiment-network/ui/Tooltip'
 import Icon from '@santiment-network/ui/Icon'
 import { useAddressLabels } from '../hooks'
 import styles from './Labels.module.scss'
@@ -10,8 +10,7 @@ const WriteLabel = ({ name = '' }) => {
   const [value, setValue] = useState(name)
   const [isFocused, setIsFocused] = useState()
 
-  function onInput (e) {
-    const { target } = e
+  function onInput ({ target }) {
     setValue(target.textContent)
   }
 
@@ -61,13 +60,13 @@ const Label = ({ name, origin, className, forwardedRef, ...props }) => (
   </div>
 )
 
-const RestLabels = ({ labels }) => (
+const CollapsedLabels = ({ labels }) => (
   <Tooltip
     on='click'
-    className={styles.rest__tooltip}
+    className={styles.collapsed__tooltip}
     trigger={
       <Label
-        className={styles.rest}
+        className={styles.collapsed}
         name={`+${labels.length}`}
         origin='santiment'
       />
@@ -84,7 +83,7 @@ const Labels = ({ settings }) => {
   return (
     <div className={styles.wrapper}>
       {visibleLabels.map(Label)}
-      {!!hiddenLabels.length && <RestLabels labels={hiddenLabels} />}
+      {!!hiddenLabels.length && <CollapsedLabels labels={hiddenLabels} />}
     </div>
   )
 }

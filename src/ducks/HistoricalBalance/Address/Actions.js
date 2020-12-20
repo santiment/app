@@ -23,6 +23,7 @@ const Actions = ({ address, assets }) => {
         }
       />
 
+      {/* TODO: Enable Watchlist action after adding address watchlist page [@vanguard | Dec 19, 2020] */}
       {/* <div className={styles.divider} />
 
       <Button className={styles.btn}>

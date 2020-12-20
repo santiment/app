@@ -28,8 +28,6 @@ const Configurations = ({
   return (
     <div className={styles.wrapper}>
       <div className={cx(styles.header, isPhone && styles.header_phone)}>
-        {/* <CreateAlert assets={chartAssets} address={settings.address} /> */}
-
         <Assets
           className={
             isPhone ? styles.settings__assets_phone : styles.settings__assets
