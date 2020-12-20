@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import { useUser } from '../../stores/user'
 
 const OBJECT = {}
 const ARRAY = []
@@ -11,6 +12,9 @@ export const WATCHLIST_QUERY = gql`
       id
       name
       isPublic
+      user {
+        id
+      }
       listItems {
         blockchainAddress {
           address
@@ -65,3 +69,14 @@ export function useAddressHistoricalBalance (address) {
 
   return data ? data.historicalBalance : ARRAY
 }
+
+export function useIsWatchlistAuthor (watchlist) {
+  const { user } = useUser()
+  const userId = user && user.id
+  const authorId = watchlist.user && watchlist.user.id
+  return userId === authorId
+}
+
+const itemAccessor = ({ blockchainAddress }) => blockchainAddress
+export const useAddressWatchlistItems = ({ listItems }) =>
+  useMemo(() => (listItems ? listItems.map(itemAccessor) : ARRAY), [listItems])

@@ -1,10 +1,15 @@
-import React, { useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import cx from 'classnames'
+import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import Chart from './Chart'
+import Actions from './Actions'
 import Page from '../../ducks/Page'
-import BaseActions from '../../ducks/Watchlists/Widgets/TopPanel/BaseActions'
 import Table, { prepareColumns } from './Table'
-import { useAddressWatchlist } from './hooks'
+import {
+  useAddressWatchlist,
+  useIsWatchlistAuthor,
+  useAddressWatchlistItems
+} from './hooks'
 import {
   Label,
   CollapsedLabels
@@ -30,12 +35,21 @@ const Labels = ({ labels }) => {
 
 const COLUMNS = prepareColumns([
   {
-    title: '',
-    render: () => {}
+    id: 'CHECKBOX',
+    Title: ({ selectAll, isAllItemSelected }) => (
+      <Checkbox onClick={selectAll} isActive={isAllItemSelected} />
+    ),
+    render: (item, { selectItem, selectedItemsSet }) => (
+      <Checkbox
+        onClick={() => selectItem(item)}
+        isActive={selectedItemsSet.has(item)}
+      />
+    ),
+    className: styles.checkbox
   },
   {
     title: '#',
-    render: (_, i) => i,
+    render: (_, __, i) => i,
     className: styles.index
   },
   {
@@ -49,10 +63,7 @@ const COLUMNS = prepareColumns([
   {
     title: 'Balance, 7d, %',
     render: ({ balanceChange }) => (
-      <ValueChange
-        change={balanceChange.balanceChangePercent}
-        // className={styles.valueChange}
-      />
+      <ValueChange change={balanceChange.balanceChangePercent} />
     )
   },
   {
@@ -67,28 +78,54 @@ const COLUMNS = prepareColumns([
   }
 ])
 
-const itemAccessor = ({ blockchainAddress }) => blockchainAddress
+const SET = new Set()
+function useSelectedItemsSet (items) {
+  const [selectedItemsSet, setSelectedItemsSet] = useState(SET)
+
+  function selectItem (item) {
+    const newState = new Set(selectedItemsSet)
+
+    if (newState.has(item)) {
+      newState.delete(item)
+    } else {
+      newState.add(item)
+    }
+
+    setSelectedItemsSet(newState)
+  }
+
+  function selectAll () {
+    setSelectedItemsSet(
+      selectedItemsSet.size === items.length ? SET : new Set(items)
+    )
+  }
+
+  return {
+    selectedItemsSet,
+    selectItem,
+    selectAll,
+    isAllItemSelected: selectedItemsSet.size === items.length
+  }
+}
 
 const WatchlistAddress = ({ ...props }) => {
   const { watchlist, isLoading } = useAddressWatchlist()
+  const isAuthor = useIsWatchlistAuthor(watchlist)
+  const items = useAddressWatchlistItems(watchlist)
+  const obj = useSelectedItemsSet(items)
   console.log(watchlist)
 
   return (
     <Page
-      title='My watchlist'
-      actions={
-        <>
-          <div className={styles.edit}>Edit</div>
-          <div className={styles.share}>Share</div>
-        </>
-      }
+      title={watchlist.name}
+      actions={<Actions watchlist={watchlist} isAuthor={isAuthor} />}
     >
       <Table
         className={styles.table}
         columns={COLUMNS}
-        items={watchlist.listItems}
+        items={items}
         itemKeyProperty='address'
-        itemAccessor={itemAccessor}
+        itemProps={obj}
         isLoading={isLoading}
       />
     </Page>

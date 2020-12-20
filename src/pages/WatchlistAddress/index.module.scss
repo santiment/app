@@ -1,6 +1,6 @@
 @import '~@santiment-network/ui/mixins';
 
-.share {
+.left {
   margin-left: auto;
 }
 
@@ -11,6 +11,15 @@
     th {
       position: sticky;
       top: 0;
+
+      &:first-child {
+        line-height: 0;
+      }
+    }
+
+    tbody tr:hover {
+      cursor: pointer;
+      background: var(--athens);
     }
   }
 }
@@ -20,6 +29,11 @@
 
   display: flex;
   margin-top: -4px;
+}
+
+.checkbox {
+  line-height: 0;
+  width: 1px;
 }
 
 .index {
@@ -46,4 +60,10 @@
 
 .area {
   fill: var(--fill);
+}
+
+.divider {
+  width: 1px;
+  height: 32px;
+  background: var(--porcelain);
 }
