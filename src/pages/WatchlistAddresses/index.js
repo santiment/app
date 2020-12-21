@@ -17,6 +17,7 @@ import {
 import ValueChange from '../../components/ValueChange/ValueChange'
 import styles from './index.module.scss'
 import SaveAs from './SaveAs'
+import Copy from './Copy'
 import { parseUrl } from './url'
 
 const balanceValue = new Intl.NumberFormat('en', {
@@ -124,6 +125,7 @@ const WatchlistAddress = ({ match }) => {
     >
       <div className='top'>
         <SaveAs watchlist={watchlist} items={items} />
+        <Copy watchlist={watchlist} />
       </div>
       <Table
         className={styles.table}

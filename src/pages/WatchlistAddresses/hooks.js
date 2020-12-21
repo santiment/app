@@ -1,41 +1,11 @@
 import { useState, useMemo } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import { WATCHLIST_QUERY } from './gql'
 import { useUser } from '../../stores/user'
 
 const OBJECT = {}
 const ARRAY = []
-
-export const WATCHLIST_QUERY = gql`
-  query watchlist($id: ID!) {
-    watchlist(id: $id) {
-      id
-      name
-      isPublic
-      user {
-        id
-      }
-      listItems {
-        blockchainAddress {
-          address
-          infrastructure
-          labels {
-            name
-            origin
-          }
-          balanceChange(
-            to: "utc_now"
-            from: "utc_now-7d"
-            selector: { slug: "ethereum" }
-          ) {
-            balanceChangePercent
-            balanceEnd
-          }
-        }
-      }
-    }
-  }
-`
 
 export const ADDRESS_HISTORICAL_BALANCE_QUERY = gql`
   query historicalBalance($address: String!) {
