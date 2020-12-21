@@ -6,7 +6,7 @@ import { useUser } from '../../stores/user'
 const OBJECT = {}
 const ARRAY = []
 
-export function useAddressWatchlist (id = 1188) {
+export function useAddressWatchlist (id) {
   const { data, loading } = useQuery(WATCHLIST_QUERY, {
     variables: { id }
   })

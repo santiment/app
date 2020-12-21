@@ -20,17 +20,15 @@ function normalizeCSVItem ({ address, balanceChange, labels }) {
 const refetchAddressWatchlist = id => getAddressWatchlist(id, 'network-only')
 const normalizeCSVData = items => items.map(normalizeCSVItem)
 
-const WatchlistAddressesTable = props => {
-  return (
-    <WatchlistTable
-      {...props}
-      createWatchlist={createAddressWatchlist}
-      columns={COLUMNS}
-      itemKeyProperty='address'
-      normalizeCSVData={normalizeCSVData}
-      onRefreshClick={refetchAddressWatchlist}
-    />
-  )
-}
+const WatchlistAddressesTable = props => (
+  <WatchlistTable
+    {...props}
+    createWatchlist={createAddressWatchlist}
+    columns={COLUMNS}
+    itemKeyProperty='address'
+    normalizeCSVData={normalizeCSVData}
+    onRefreshClick={refetchAddressWatchlist}
+  />
+)
 
 export default WatchlistAddressesTable

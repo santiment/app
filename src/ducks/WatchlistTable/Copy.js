@@ -5,7 +5,7 @@ import Copy from '../Watchlists/Actions/Copy'
 import ExplanationTooltip from '../../components/ExplanationTooltip/ExplanationTooltip'
 import styles from './index.module.scss'
 
-export const CopyButton = ({ ...props }) => (
+export const CopyButton = props => (
   <div {...props} className={cx(styles.action)}>
     <ExplanationTooltip
       text='Copy assets to watchlist'

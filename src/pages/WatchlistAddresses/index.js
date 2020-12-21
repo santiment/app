@@ -7,9 +7,9 @@ import {
   useAddressWatchlistItems
 } from './hooks'
 import Page from '../../ducks/Page'
+import { getIdFromSEOLink } from '../../utils/url'
 import WatchlistAddressesTable from '../../ducks/WatchlistAddressesTable'
 import PageLoader from '../../components/Loader/PageLoader'
-import { getIdFromSEOLink } from '../../utils/url'
 import styles from './index.module.scss'
 
 const WatchlistAddress = ({ match }) => {

@@ -5,7 +5,7 @@ import SaveAs from '../Watchlists/Actions/SaveAs'
 import ExplanationTooltip from '../../components/ExplanationTooltip/ExplanationTooltip'
 import styles from './index.module.scss'
 
-export const SaveAsButton = ({ ...props }) => (
+export const SaveAsButton = props => (
   <div {...props} className={cx(styles.action)}>
     <ExplanationTooltip
       text='Save as watchlist'
@@ -22,17 +22,15 @@ const SaveAsPopupTrigger = ({
   watchlist,
   userWatchlists,
   createWatchlist
-}) => {
-  return (
-    <SaveAs
-      watchlist={watchlist}
-      lists={userWatchlists}
-      type={type}
-      createWatchlist={createWatchlist}
-      trigger={<SaveAsButton />}
-    />
-  )
-}
+}) => (
+  <SaveAs
+    watchlist={watchlist}
+    lists={userWatchlists}
+    type={type}
+    createWatchlist={createWatchlist}
+    trigger={<SaveAsButton />}
+  />
+)
 
 SaveAsPopupTrigger.defaultProps = {
   type: 'watchlist',

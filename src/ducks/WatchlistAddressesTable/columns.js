@@ -26,19 +26,19 @@ export const COLUMNS = DEFAULT_COLUMNS.concat(
       )
     },
     {
-      title: 'Current balance',
+      title: 'Current ETH balance',
       render: ({ balanceChange }) =>
         balanceChange && balanceValue.format(balanceChange.balanceEnd)
     },
     {
-      title: 'Balance, 7d, %',
+      title: 'ETH balance, 7d, %',
       render: ({ balanceChange }) =>
         balanceChange && (
           <ValueChange change={balanceChange.balanceChangePercent} />
         )
     },
     {
-      title: 'Balance, 7d',
+      title: 'ETH balance, 7d',
       render: ({ address, balanceChange }) =>
         balanceChange && (
           <MiniChart
