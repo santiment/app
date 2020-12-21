@@ -5,8 +5,6 @@
   width: 100%;
   border-spacing: 0;
   text-align: left;
-  // border: 1px solid var(--porcelain);
-  // border-radius: 4px;
 }
 
 .wrapper :global(th) {
@@ -20,7 +18,6 @@
 
 .wrapper :global(td) {
   padding: 8px 16px;
-  // border-top: 1px solid var(--porcelain);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

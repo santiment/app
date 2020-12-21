@@ -34,10 +34,6 @@ const WatchlistTable = ({
         />
 
         <div className={styles.actions}>
-          {/* <Copy watchlist={watchlist} />
-
-          <Divider /> */}
-
           <SaveAs
             watchlist={watchlist}
             items={items}
