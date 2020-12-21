@@ -7,6 +7,8 @@ export const MESSAGES = {
 
 export const MAX_VISIBLE_SYMBOLS = 48
 
+export const ID_TO_NAME = {}
+
 export function makeHumanReadableState (state) {
   if (!Array.isArray(state)) {
     return state

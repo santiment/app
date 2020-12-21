@@ -5,12 +5,13 @@ import Message from '@santiment-network/ui/Message'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import { useFeaturedWatchlists, useUserWatchlists } from '../../../gql/hooks'
-import { useMessage } from './hooks'
+import { useMessage, useStateMetadata } from './hooks'
 import Item from './Item'
 import {
   makeHumanReadableState,
   ALL_ASSETS_TEXT,
-  MAX_VISIBLE_SYMBOLS
+  MAX_VISIBLE_SYMBOLS,
+  ID_TO_NAME
 } from './utils'
 import { ALL_PROJECTS_WATCHLIST_SLUG } from '../../../utils'
 import styles from './index.module.scss'
@@ -21,6 +22,7 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects }) => {
   )
   const [categories] = useFeaturedWatchlists()
   const [watchlists = []] = useUserWatchlists()
+  const [metadata] = useStateMetadata(state)
   const [currentSearch, setCurrentSearch] = useState('')
   const { message, updateMessage } = useMessage(state)
 
@@ -69,12 +71,15 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects }) => {
     [state, watchlists]
   )
 
-  const shortInputState = useMemo(
+  const [inputState, shortInputState] = useMemo(
     () => {
       const text = makeHumanReadableState(state)
-      return text.length > MAX_VISIBLE_SYMBOLS
-        ? text.slice(0, MAX_VISIBLE_SYMBOLS) + '...'
-        : text
+      return [
+        text,
+        text.length > MAX_VISIBLE_SYMBOLS
+          ? text.slice(0, MAX_VISIBLE_SYMBOLS) + '...'
+          : text
+      ]
     },
     [state]
   )
@@ -87,9 +92,7 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects }) => {
     <div className={styles.wrapper}>
       <div className={styles.overview}>
         <span className={styles.title}>Entry point: </span>
-        <span className={styles.explanation}>
-          {makeHumanReadableState(state)}
-        </span>
+        <span className={styles.explanation}>{inputState}</span>
       </div>
       <ContextMenu
         passOpenStateAs='data-isactive'
@@ -159,7 +162,10 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects }) => {
                   {filteredCategories.map(({ name, id, slug }) => (
                     <Item
                       key={id}
-                      onClick={() => addItemInState({ watchlistId: id })}
+                      onClick={() => {
+                        ID_TO_NAME.id = name
+                        addItemInState({ watchlistId: +id })
+                      }}
                       name={name}
                       id={id}
                       slug={slug}
@@ -173,7 +179,10 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects }) => {
                   {filteredWatchlists.map(({ name, id, slug }) => (
                     <Item
                       key={id}
-                      onClick={() => addItemInState({ watchlistId: id })}
+                      onClick={() => {
+                        ID_TO_NAME.id = name
+                        addItemInState({ watchlistId: +id })
+                      }}
                       name={name}
                       id={id}
                       slug={slug}

@@ -55,7 +55,9 @@ const Filter = ({
   const filters = extractFilters(screenerFunction.args)
   const [currentSearch, setCurrentSearch] = useState('')
   const [filter, updateFilter] = useState(filters)
-  const [baseProjects, setBaseProjects] = useState([])
+  const [baseProjects, setBaseProjects] = useState(
+    screenerFunction.args.baseProjects
+  )
   const [isOutdatedVersion, setIsOutdatedVersion] = useState(false)
   const [isActiveFiltersOnly, setIsActiveFiltersOnly] = useState(false)
   const [isWereChanges, setIsWereChanges] = useState(false)
@@ -95,15 +97,17 @@ const Filter = ({
 
   useEffect(
     () => {
-      const newFunction = getNewFunction(filter, baseProjects)
-      updateWatchlistFunction(newFunction)
-      setScreenerFunction(newFunction)
+      if (!isViewMode && baseProjects !== screenerFunction.args.baseProjects) {
+        const newFunction = getNewFunction(filter, baseProjects)
+        updateWatchlistFunction(newFunction)
+        setScreenerFunction(newFunction)
+      }
     },
     [baseProjects]
   )
 
   function resetAll () {
-    const func = DEFAULT_SCREENER_FUNCTION
+    const func = getNewFunction([], baseProjects)
     updateFilter([])
 
     if (!isNoFilters) {

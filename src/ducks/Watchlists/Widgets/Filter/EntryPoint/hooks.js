@@ -26,3 +26,11 @@ export const useMessage = state => {
     updateMessage
   }
 }
+
+export function useStateMetadata (state) {
+  const watchlistIDs = Array.isArray(state)
+    ? state.filter(item => !!item.watchlistId).map(item => item.watchlistId)
+    : []
+  console.log(watchlistIDs)
+  return [watchlistIDs]
+}
