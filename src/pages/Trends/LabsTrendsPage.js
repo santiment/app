@@ -55,13 +55,18 @@ const LabsTrendsPage = ({ history }) => (
               <TrendsHeader />
             </DesktopOnly>
           </h3>
-          <div className={externalStyles.description}>
-            Cryptocurrencies designed to minimize the volatility of the price of
-            the stablecoin, relative to some "stable" asset or basket of assets.
-          </div>
+          <DesktopOnly>
+            <div className={externalStyles.description}>
+              Cryptocurrencies designed to minimize the volatility of the price
+              of the stablecoin, relative to some "stable" asset or basket of
+              assets.
+            </div>
+          </DesktopOnly>
 
           <TrendsSearchForm classes={{ wrapper: styles.search }} withButton />
-          <Suggestions className={styles.suggestions} />
+          <DesktopOnly>
+            <Suggestions className={styles.suggestions} />
+          </DesktopOnly>
         </div>
       </div>
     </div>

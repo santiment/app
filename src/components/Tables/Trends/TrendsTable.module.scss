@@ -91,7 +91,7 @@
       border: none;
 
       @include responsive('phone', 'phone-xs') {
-        background: var(--white);
+        background: var(--athens);
         padding: 8px 16px;
       }
     }
@@ -101,7 +101,7 @@
       text-align: left !important;
       text-transform: initial;
       color: var(--waterloo);
-      padding: 0 0 6px 0 !important;
+      padding: 6px 0 !important;
 
       @include text('body-3', 'l');
 
@@ -207,8 +207,6 @@
   @include text('body-1');
 
   @include responsive('phone', 'phone-xs') {
-    font-size: 16px !important;
-    line-height: 22px !important;
     text-align: right;
   }
 }
@@ -221,7 +219,7 @@
   @include responsive('phone', 'phone-xs') {
     font-size: 16px !important;
     line-height: 22px !important;
-    margin-left: 7px;
+    margin: 0 8px;
   }
 }
 
@@ -236,7 +234,7 @@
 
   &__trigger {
     background: transparent;
-    padding: 6px 7px;
+    padding: 6px 7px  6px 0;
     fill: var(--rhino);
   }
 }
@@ -279,8 +277,9 @@
   vertical-align: middle;
 }
 
-.loader {
-  font-size: 3px !important;
+.skeleton {
+  width: 100px;
+  height: 40px;
 }
 
 .compact:global(.ReactTable) {

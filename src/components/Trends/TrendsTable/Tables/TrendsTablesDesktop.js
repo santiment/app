@@ -7,14 +7,7 @@ const TrendsTablesDesktop = ({
   trends,
   isLoggedIn,
   isLoading,
-  selectTrend,
-  connectedTrends,
-  allTrends,
-  trendConnections,
-  connectTrends,
-  clearConnectedTrends,
-  selected,
-  selectable
+  trendConnections
 }) => {
   const { length } = trends
   return isLoading ? (
@@ -25,15 +18,8 @@ const TrendsTablesDesktop = ({
         className={styles.table}
         isLoading={isLoading}
         trendWords={length > 0 ? trends[length - 1].topWords : undefined}
-        selectable={selectable}
         isLoggedIn={isLoggedIn || true}
-        selectTrend={selectTrend}
-        selectedTrends={selected}
-        connectedTrends={connectedTrends}
         trendConnections={trendConnections}
-        connectTrends={connectTrends}
-        clearConnectedTrends={clearConnectedTrends}
-        allTrends={allTrends}
       />
     </div>
   )

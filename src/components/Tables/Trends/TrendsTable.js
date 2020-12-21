@@ -42,11 +42,7 @@ const getTrGroupProps = (_, rowInfo) => {
 const TrendsTable = ({
   trendWords = [],
   TrendToInsights,
-  allTrends,
-  connectTrends,
-  clearConnectedTrends,
   trendConnections = [],
-  connectedTrends = {},
   header = '',
   small,
   volumeChange,
@@ -62,6 +58,7 @@ const TrendsTable = ({
           index: index + 1,
           word: word,
           rawWord: word,
+          rawWordChart: word,
           score: score,
           volume: volumeChange[word],
           wordCloud: word
@@ -72,19 +69,9 @@ const TrendsTable = ({
 
   const commonProps = useMemo(
     () => ({
-      trendConnections,
-      allTrends,
-      connectTrends,
-      clearConnectedTrends,
-      connectedTrends
+      trendConnections
     }),
-    [
-      trendConnections,
-      allTrends,
-      connectTrends,
-      clearConnectedTrends,
-      connectedTrends
-    ]
+    [trendConnections]
   )
 
   const columns = useMemo(

@@ -4,15 +4,10 @@ import styles from './TrendsTables.module.scss'
 
 const TrendsTablesMobile = ({
   trends,
-  clearConnectedTrends,
   isLoggedIn,
-  connectedTrends,
-  selectTrend,
-  connectTrends,
   trendConnections,
   oldSelected,
-  selectable,
-  allTrends
+  selectable
 }) => {
   if (!trends.length) {
     return null
@@ -26,13 +21,8 @@ const TrendsTablesMobile = ({
       className={styles.table}
       trendWords={topWords}
       isLoggedIn={isLoggedIn}
-      selectTrend={selectTrend}
       selectedTrends={oldSelected}
-      connectedTrends={connectedTrends}
       trendConnections={trendConnections}
-      connectTrends={connectTrends}
-      clearConnectedTrends={clearConnectedTrends}
-      allTrends={allTrends}
     />
   )
 }

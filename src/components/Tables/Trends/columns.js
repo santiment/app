@@ -3,7 +3,6 @@ import { push } from 'react-router-redux'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import Label from '@santiment-network/ui/Label'
-import Loader from '@santiment-network/ui/Loader/Loader'
 import Icon from '@santiment-network/ui/Icon'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import Panel from '@santiment-network/ui/Panel/Panel'
@@ -18,8 +17,9 @@ import ExplanationTooltip from '../../ExplanationTooltip/ExplanationTooltip'
 import InsightCardSmall from '../../Insight/InsightCardSmall'
 import WordCloud from '../../WordCloud/WordCloud'
 import SocialVolumeGraph from '../../../ducks/SocialTool/SocialVolumeGraph/SocialVolumeGraph'
-import styles from './TrendsTable.module.scss'
 import { formatNumber } from '../../../utils/formatting'
+import Skeleton from '../../Skeleton/Skeleton'
+import styles from './TrendsTable.module.scss'
 
 export const EXPLORE_PAGE_URL = '/labs/trends/explore/'
 
@@ -27,25 +27,25 @@ export const NumberCircle = ({ className, ...props }) => (
   <div {...props} className={cx(className, styles.insights__number)} />
 )
 
-const INDEX_COLUMN = {
+const INDEX_COLUMN = ({ isCompactView = false } = {}) => ({
   Header: '#',
   accessor: 'index',
-  width: 35,
+  width: isCompactView ? 20 : 40,
   headerClassName: styles.headerIndex,
   Cell: ({ value }) => (
     <Label accent='waterloo' className={styles.index}>
       {value}
     </Label>
   )
-}
+})
 
 const CHART_COLUMN = {
   Header: 'Trending chart, 7d',
-  accessor: 'rawWord',
+  accessor: 'rawWordChart',
   Cell: ({ value }) => <SocialVolumeGraph word={value} />
 }
 
-export const COMMON_COLUMNS = ({ trendConnections, isDesktop }) => [
+export const COMMON_COLUMNS = ({ trendConnections }) => [
   {
     Header: 'Trending words',
     accessor: 'word',
@@ -76,7 +76,7 @@ export const COMMON_COLUMNS = ({ trendConnections, isDesktop }) => [
           }
         }}
       >
-        {word}{' '}
+        {word}
       </Link>
     )
   },
@@ -88,12 +88,14 @@ export const COMMON_COLUMNS = ({ trendConnections, isDesktop }) => [
       const [oldVolume = 0, newVolume = 0] = volumeChange || []
 
       return volumeIsLoading ? (
-        <Loader className={styles.loader} />
+        <Skeleton className={styles.skeleton} show={true} repeat={1} />
       ) : (
         <>
           <div className={styles.volume}>{newVolume}</div>{' '}
           <ValueChange
-            change={(100 * (newVolume - oldVolume)) / oldVolume}
+            change={
+              oldVolume !== 0 ? (100 * (newVolume - oldVolume)) / oldVolume : 0
+            }
             className={styles.valueChange}
             suffix={'%'}
             render={formatNumber}
@@ -105,7 +107,10 @@ export const COMMON_COLUMNS = ({ trendConnections, isDesktop }) => [
 ]
 
 export const TRENDS_COMPACT_VIEW_COLUMNS = ({ trendConnections }) => {
-  return [INDEX_COLUMN, ...COMMON_COLUMNS({ trendConnections })]
+  return [
+    INDEX_COLUMN({ isCompactView: true }),
+    ...COMMON_COLUMNS({ trendConnections })
+  ]
 }
 
 export const TRENDS_MOBILE_COLUMNS = ({ trendConnections }) => [
@@ -118,7 +123,7 @@ export const TRENDS_DESKTOP_COLUMNS = ({
   TrendToInsights
 }) => {
   return [
-    INDEX_COLUMN,
+    INDEX_COLUMN(),
     ...COMMON_COLUMNS({ trendConnections }),
     {
       Header: 'Insights',

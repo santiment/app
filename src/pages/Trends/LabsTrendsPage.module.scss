@@ -34,8 +34,7 @@
 
   @include responsive('phone', 'phone-xs') {
     width: 100%;
-    padding-top: 16px;
-    margin: 8px 0 16px 0;
+    margin: 0 0 16px 0;
   }
 }
 
@@ -72,7 +71,7 @@
 }
 
 .trends {
-  margin-top: 46px;
+  margin-top: 40px;
 
   @include responsive('phone', 'phone-xs') {
     margin: 0;
