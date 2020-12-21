@@ -15,7 +15,7 @@ import {
 import { ALL_PROJECTS_WATCHLIST_SLUG } from '../../../utils'
 import styles from './index.module.scss'
 
-const EntryPoint = ({ baseProjects = [] }) => {
+const EntryPoint = ({ baseProjects = [], setBaseProjects }) => {
   const [state, setState] = useState(
     baseProjects.length > 0 ? baseProjects : ALL_ASSETS_TEXT
   )
@@ -24,13 +24,22 @@ const EntryPoint = ({ baseProjects = [] }) => {
   const [currentSearch, setCurrentSearch] = useState('')
   const { message, updateMessage } = useMessage(state)
 
-  useEffect(() => updateMessage(state), [state])
+  useEffect(
+    () => {
+      if (Array.isArray(state) && state.length === 0) {
+        setState('')
+      } else {
+        updateMessage(state)
+      }
+    },
+    [state]
+  )
 
   const filteredCategories = useMemo(
     () =>
-      categories.filter(({ name, slug }) => {
+      categories.filter(({ id, slug }) => {
         const isAllAssetsList = slug === ALL_PROJECTS_WATCHLIST_SLUG
-        const isInState = Array.isArray(state) && state.includes(name)
+        const isInState = Array.isArray(state) && state.includes(id)
 
         return !isAllAssetsList && !isInState
       }),
@@ -39,9 +48,8 @@ const EntryPoint = ({ baseProjects = [] }) => {
 
   const filteredWatchlists = useMemo(
     () =>
-      watchlists.filter(({ name, slug }) => {
-        const isInState = Array.isArray(state) && state.includes(name)
-
+      watchlists.filter(({ id }) => {
+        const isInState = Array.isArray(state) && state.includes(id)
         return !isInState
       }),
     [state, watchlists]
@@ -56,6 +64,10 @@ const EntryPoint = ({ baseProjects = [] }) => {
     },
     [state]
   )
+
+  function addItemInState (name) {
+    setState(state === ALL_ASSETS_TEXT ? [name] : [...state, name])
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -103,7 +115,7 @@ const EntryPoint = ({ baseProjects = [] }) => {
                       <Item
                         key={name}
                         onClick={() =>
-                          setState(state.filter(item => item === name))
+                          setState(state.filter(item => item !== name))
                         }
                         isActive={true}
                         name={name}
@@ -128,12 +140,7 @@ const EntryPoint = ({ baseProjects = [] }) => {
                   {filteredCategories.map(({ name, id, slug }) => (
                     <Item
                       key={id}
-                      onClick={() =>
-                        setState(
-                          state === ALL_ASSETS_TEXT ? [name] : [...state, name]
-                        )
-                      }
-                      isActive={false}
+                      onClick={() => addItemInState(id)}
                       name={name}
                       id={id}
                       slug={slug}
@@ -147,12 +154,7 @@ const EntryPoint = ({ baseProjects = [] }) => {
                   {filteredWatchlists.map(({ name, id, slug }) => (
                     <Item
                       key={id}
-                      onClick={() =>
-                        setState(
-                          state === ALL_ASSETS_TEXT ? [name] : [...state, name]
-                        )
-                      }
-                      isActive={false}
+                      onClick={() => addItemInState(id)}
                       name={name}
                       id={id}
                       slug={slug}

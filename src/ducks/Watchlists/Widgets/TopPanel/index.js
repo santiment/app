@@ -19,11 +19,12 @@ const TopPanel = ({
   isLoggedIn,
   assets,
   isDefaultScreener,
+  isUpdatingWatchlist,
+  updateWatchlistFunction,
   ...props
 }) => {
   const { isPro } = useUserSubscriptionStatus()
   const [isFilterOpen, setIsFilterOpen] = useState(false)
-  const [isUpdatingWatchlist, setIsUpdatingWatchlist] = useState(false)
 
   function closeFilter () {
     if (isFilterOpen) {
@@ -77,7 +78,7 @@ const TopPanel = ({
           isDefaultScreener={isDefaultScreener}
           setIsOpen={setIsFilterOpen}
           isOpen={isFilterOpen}
-          setIsUpdatingWatchlist={setIsUpdatingWatchlist}
+          updateWatchlistFunction={updateWatchlistFunction}
           {...props}
         />
       </div>

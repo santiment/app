@@ -6,7 +6,6 @@ import Button from '@santiment-network/ui/Button'
 import Search from '@santiment-network/ui/Search'
 import Message from '@santiment-network/ui/Message'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import { useUpdateWatchlist } from '../../gql/hooks'
 import Trigger from './Trigger'
 import { metrics } from './dataHub/metrics'
 import Category from './Category'
@@ -38,14 +37,14 @@ const Filter = ({
   isAuthorLoading,
   screenerFunction,
   setScreenerFunction,
-  setIsUpdatingWatchlist,
   isLoggedIn,
   isDefaultScreener,
   loading,
   history,
   appVersionState,
   isOpen,
-  setIsOpen
+  setIsOpen,
+  updateWatchlistFunction
 }) => {
   if (!screenerFunction) {
     return null
@@ -56,26 +55,16 @@ const Filter = ({
   const filters = extractFilters(screenerFunction.args)
   const [currentSearch, setCurrentSearch] = useState('')
   const [filter, updateFilter] = useState(filters)
+  const [baseProjects, setBaseProjects] = useState([])
   const [isOutdatedVersion, setIsOutdatedVersion] = useState(false)
   const [isActiveFiltersOnly, setIsActiveFiltersOnly] = useState(false)
   const [isWereChanges, setIsWereChanges] = useState(false)
-  const [
-    updateWatchlist,
-    { loading: isUpdatingWatchlist }
-  ] = useUpdateWatchlist()
   const [availableMetrics] = useAvailableMetrics()
   const [isReset, setIsReset] = useState(false)
   const { isPro } = useUserSubscriptionStatus()
 
   const isNoFilters =
     filters.length === 0 || screenerFunction.name === 'top_all_projects'
-
-  useEffect(
-    () => {
-      setIsUpdatingWatchlist(isUpdatingWatchlist)
-    },
-    [isUpdatingWatchlist]
-  )
 
   useEffect(
     () => {
@@ -108,8 +97,8 @@ const Filter = ({
     const func = DEFAULT_SCREENER_FUNCTION
     updateFilter([])
 
-    if (watchlist.id && !isNoFilters) {
-      updateWatchlist(watchlist, { function: func })
+    if (!isNoFilters) {
+      updateWatchlistFunction(func)
     }
     setScreenerFunction(func)
     setIsReset(true)
@@ -133,9 +122,7 @@ const Filter = ({
     const newFunction = getNewFunction(newFilter)
     updateFilter(newFilter)
 
-    if (watchlist.id) {
-      updateWatchlist(watchlist, { function: newFunction })
-    }
+    updateWatchlistFunction(newFunction)
     setScreenerFunction(newFunction)
 
     if (newFilter.length > 0 && isReset) {
@@ -169,12 +156,9 @@ const Filter = ({
     }
 
     const newFunction = getNewFunction(newFilter)
-
     updateFilter(newFilter)
 
-    if (watchlist.id) {
-      updateWatchlist(watchlist, { function: newFunction })
-    }
+    updateWatchlistFunction(newFunction)
     setScreenerFunction(newFunction)
 
     if (newFilter.length > 0 && isReset) {
@@ -262,7 +246,10 @@ const Filter = ({
                 View only. You aren't the author of this screener
               </Message>
             )}
-            <EntryPoint />
+            <EntryPoint
+              baseProjects={baseProjects}
+              setBaseProjects={setBaseProjects}
+            />
           </div>
           <div className={styles.content}>
             {Object.keys(categories).map(key => (
