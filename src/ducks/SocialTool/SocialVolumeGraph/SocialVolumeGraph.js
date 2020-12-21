@@ -40,7 +40,7 @@ const SocialVolumeGraph = ({ word }) => {
   return (
     <>
       {loadings.length > 0 && (
-        <Skeleton show={true} repeat={1} className={styles.chart} />
+        <Skeleton centered show={true} repeat={1} className={styles.chart} />
       )}
       <div className={styles.chart}>
         <ChangeChart

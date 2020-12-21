@@ -10,7 +10,12 @@ export const WordCloud = ({ word, from, to, size, className }) => {
   return (
     <div className={className}>
       {loading && (
-        <Skeleton className={styles.skeleton} show={loading} repeat={1} />
+        <Skeleton
+          centered
+          className={styles.skeleton}
+          show={loading}
+          repeat={1}
+        />
       )}
       <WordCloudContent
         cloud={cloud}

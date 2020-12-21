@@ -1,7 +1,17 @@
 import React from 'react'
-import { Area, AreaChart } from 'recharts'
+import { Area, AreaChart, Tooltip } from 'recharts'
 import Gradients from '../../WatchlistOverview/Gradients'
 import { calcPercentageChange } from '../../../../../utils/utils'
+import ChartTooltip from '../../../../SANCharts/tooltip/CommonChartTooltip'
+import { tooltipLabelFormatter } from '../../../../dataHub/metrics/formatters'
+
+const labelFormatter = (label, payload) => {
+  if (!payload[0]) {
+    return
+  }
+
+  return tooltipLabelFormatter(payload[0].payload.datetime)
+}
 
 export const useAreaData = (stats, key = 'value') => {
   const { [key]: latestValue } = stats.slice(-1)[0] || {}
@@ -18,23 +28,49 @@ export const useAreaData = (stats, key = 'value') => {
 }
 
 const ChangeChart = ({ data, dataKey = 'value', color: forceColor, width }) => {
-  const { chartStats, latestValue, color, value } = useAreaData(data, dataKey)
+  const area = useAreaData(data, dataKey)
 
   return (
-    <AreaChart data={chartStats} height={45} width={width}>
-      <defs>
-        <Gradients />
-      </defs>
-      <Area
-        dataKey={dataKey}
-        type='monotone'
-        strokeWidth={1.5}
-        stroke={forceColor || color}
-        fill={`url(#total${latestValue >= value ? 'Up' : 'Down'})`}
-        isAnimationActive={false}
-      />
-    </AreaChart>
+    <ChangeChartTemplate
+      {...area}
+      dataKey={dataKey}
+      forceColor={forceColor}
+      width={width}
+    />
   )
 }
+
+export const ChangeChartTemplate = ({
+  chartStats,
+  latestValue,
+  color,
+  value,
+  width,
+  showTooltip,
+  dataKey = 'value',
+  forceColor
+}) => (
+  <AreaChart data={chartStats} height={45} width={width}>
+    <defs>
+      <Gradients />
+    </defs>
+    <Area
+      dataKey={dataKey}
+      type='monotone'
+      strokeWidth={1.5}
+      stroke={forceColor || color}
+      fill={`url(#total${latestValue >= value ? 'Up' : 'Down'})`}
+      isAnimationActive={false}
+    />
+
+    {showTooltip && (
+      <Tooltip
+        content={<ChartTooltip labelFormatter={labelFormatter} />}
+        cursor={false}
+        isAnimationActive={false}
+      />
+    )}
+  </AreaChart>
+)
 
 export default ChangeChart

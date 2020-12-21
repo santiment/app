@@ -21,13 +21,37 @@ import { formatNumber } from '../../../utils/formatting'
 import Skeleton from '../../Skeleton/Skeleton'
 import styles from './TrendsTable.module.scss'
 
-export const EXPLORE_PAGE_URL = '/labs/trends/explore/'
+export const getTrGroupProps = (_, rowInfo) => {
+  return {
+    onClick: ({ target, currentTarget, ctrlKey, metaKey }) => {
+      if (ctrlKey || metaKey) {
+        return
+      }
 
-export const NumberCircle = ({ className, ...props }) => (
+      let node = target
+      while (node && node !== currentTarget) {
+        if (
+          node.classList &&
+          (node.classList.contains(styles.tooltip) ||
+            node.classList.contains(styles.action) ||
+            node.classList.contains(styles.checkbox))
+        ) {
+          return
+        }
+        node = node.parentNode
+      }
+      store.dispatch(push(`/labs/trends/explore/${rowInfo.original.rawWord}`))
+    }
+  }
+}
+
+const EXPLORE_PAGE_URL = '/labs/trends/explore/'
+
+const NumberCircle = ({ className, ...props }) => (
   <div {...props} className={cx(className, styles.insights__number)} />
 )
 
-const INDEX_COLUMN = ({ isCompactView = false } = {}) => ({
+const getIndexColumn = ({ isCompactView = false } = {}) => ({
   Header: '#',
   accessor: 'index',
   width: isCompactView ? 20 : 40,
@@ -45,7 +69,7 @@ const CHART_COLUMN = {
   Cell: ({ value }) => <SocialVolumeGraph word={value} />
 }
 
-export const COMMON_COLUMNS = ({ trendConnections }) => [
+export const getCommonColumns = ({ trendConnections }) => [
   {
     Header: 'Trending words',
     accessor: 'word',
@@ -88,7 +112,7 @@ export const COMMON_COLUMNS = ({ trendConnections }) => [
       const [oldVolume = 0, newVolume = 0] = volumeChange || []
 
       return volumeIsLoading ? (
-        <Skeleton className={styles.skeleton} show={true} repeat={1} />
+        <Skeleton centered className={styles.skeleton} show={true} repeat={1} />
       ) : (
         <>
           <div className={styles.volume}>{newVolume}</div>{' '}
@@ -106,25 +130,22 @@ export const COMMON_COLUMNS = ({ trendConnections }) => [
   }
 ]
 
-export const TRENDS_COMPACT_VIEW_COLUMNS = ({ trendConnections }) => {
+export const getTrendsCompatctViewCols = ({ trendConnections }) => {
   return [
-    INDEX_COLUMN({ isCompactView: true }),
-    ...COMMON_COLUMNS({ trendConnections })
+    getIndexColumn({ isCompactView: true }),
+    ...getCommonColumns({ trendConnections })
   ]
 }
 
-export const TRENDS_MOBILE_COLUMNS = ({ trendConnections }) => [
-  ...COMMON_COLUMNS({ trendConnections }),
+export const getTrendsMobileCols = ({ trendConnections }) => [
+  ...getCommonColumns({ trendConnections }),
   CHART_COLUMN
 ]
 
-export const TRENDS_DESKTOP_COLUMNS = ({
-  trendConnections,
-  TrendToInsights
-}) => {
+export const getTrendsDesktopCols = ({ trendConnections, TrendToInsights }) => {
   return [
-    INDEX_COLUMN(),
-    ...COMMON_COLUMNS({ trendConnections }),
+    getIndexColumn(),
+    ...getCommonColumns({ trendConnections }),
     {
       Header: 'Insights',
       accessor: 'rawWord',

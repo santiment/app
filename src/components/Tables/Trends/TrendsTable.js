@@ -4,40 +4,15 @@ import Table from 'react-table-6'
 import cx from 'classnames'
 import withSizes from 'react-sizes'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
-import { store } from '../../../redux'
 import { mapSizesToProps } from '../../../utils/withSizes'
 import {
-  TRENDS_COMPACT_VIEW_COLUMNS,
-  TRENDS_DESKTOP_COLUMNS,
-  TRENDS_MOBILE_COLUMNS
+  getTrGroupProps,
+  getTrendsCompatctViewCols,
+  getTrendsDesktopCols,
+  getTrendsMobileCols
 } from './columns'
 import styles from './TrendsTable.module.scss'
-
-const getTrGroupProps = (_, rowInfo) => {
-  return {
-    onClick: ({ target, currentTarget, ctrlKey, metaKey }) => {
-      if (ctrlKey || metaKey) {
-        return
-      }
-
-      let node = target
-      while (node && node !== currentTarget) {
-        if (
-          node.classList &&
-          (node.classList.contains(styles.tooltip) ||
-            node.classList.contains(styles.action) ||
-            node.classList.contains(styles.checkbox))
-        ) {
-          return
-        }
-        node = node.parentNode
-      }
-      store.dispatch(push(`/labs/trends/explore/${rowInfo.original.rawWord}`))
-    }
-  }
-}
 
 const TrendsTable = ({
   trendWords = [],
@@ -67,26 +42,19 @@ const TrendsTable = ({
     [trendWords, volumeChange]
   )
 
-  const commonProps = useMemo(
-    () => ({
-      trendConnections
-    }),
-    [trendConnections]
-  )
-
   const columns = useMemo(
     () => {
       const baseColumns = isDesktop
-        ? TRENDS_DESKTOP_COLUMNS({ ...commonProps, TrendToInsights })
-        : TRENDS_MOBILE_COLUMNS({ trendConnections })
+        ? getTrendsDesktopCols({ trendConnections, TrendToInsights })
+        : getTrendsMobileCols({ trendConnections })
 
       return isCompactView
-        ? TRENDS_COMPACT_VIEW_COLUMNS({ ...commonProps })
+        ? getTrendsCompatctViewCols({ trendConnections })
         : small
           ? baseColumns.slice(0, 2)
           : baseColumns
     },
-    [commonProps, small, trendConnections, TrendToInsights, isCompactView]
+    [small, trendConnections, TrendToInsights, isCompactView]
   )
 
   return (
