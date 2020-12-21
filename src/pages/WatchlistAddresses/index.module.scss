@@ -1,24 +1,14 @@
 @import '~@santiment-network/ui/mixins';
 
-.left {
-  margin-left: auto;
+.wrapper {
+  --table-header-sticky-offset: 64px;
 }
 
-.table {
-  :global {
-    th {
-      position: sticky;
-      top: 0;
-
-      &:first-child {
-        line-height: 0;
-      }
-    }
-
-    tbody tr:hover {
-      background: var(--athens);
-    }
-  }
+.header {
+  margin: 0;
+  z-index: 1;
+  position: sticky;
+  top: 0;
 }
 
 .labels {
@@ -26,15 +16,6 @@
 
   display: flex;
   margin-top: -4px;
-}
-
-.checkbox {
-  line-height: 0;
-  width: 1px;
-}
-
-.index {
-  color: var(--waterloo);
 }
 
 .chart {

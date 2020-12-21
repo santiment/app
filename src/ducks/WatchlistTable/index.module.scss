@@ -1,0 +1,60 @@
+.wrapper {
+  --offset: var(--table-header-sticky-offset, 0);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  color: var(--waterloo);
+  fill: var(--waterloo);
+  position: sticky;
+  padding: 10px 32px;
+  top: var(--offset);
+  background: var(--white);
+  z-index: 1;
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background: var(--porcelain);
+  margin: 0 16px;
+}
+
+.action {
+  cursor: pointer;
+
+  &__icon {
+    vertical-align: middle;
+  }
+
+  &:first-child {
+    margin-left: auto;
+  }
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+}
+
+.csv {
+  padding: 0;
+  height: auto;
+}
+
+.table {
+  :global {
+    th {
+      position: sticky;
+      top: calc(44px + var(--offset));
+
+      &:first-child {
+        line-height: 0;
+      }
+    }
+
+    tbody tr:hover {
+      background: var(--athens);
+    }
+  }
+}

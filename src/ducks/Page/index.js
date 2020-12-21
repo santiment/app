@@ -3,10 +3,18 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import styles from './index.module.scss'
 
-const Page = ({ children, title, actions, isPhone, isWithPadding }) => {
+const Page = ({
+  className,
+  headerClassName,
+  children,
+  title,
+  actions,
+  isPhone,
+  isWithPadding
+}) => {
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.header}>
+    <div className={cx(styles.wrapper, className)}>
+      <div className={cx(styles.header, headerClassName)}>
         <h1 className={styles.title}>{title}</h1>
         {actions}
         {isPhone && <Icon type='search' />}
