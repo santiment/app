@@ -40,8 +40,19 @@
   fill: var(--fill);
 }
 
-.divider {
-  width: 1px;
-  height: 32px;
-  background: var(--porcelain);
+.edit {
+  margin: 0;
+}
+
+.share {
+  margin-left: auto;
+  padding: 0;
+}
+
+.address {
+  color: var(--rhino);
+
+  &:hover {
+    color: var(--jungle-green);
+  }
 }

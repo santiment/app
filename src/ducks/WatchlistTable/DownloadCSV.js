@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { CSVLink } from 'react-csv'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
@@ -9,7 +10,7 @@ export const DownloadCSVButton = () => (
   <ExplanationTooltip
     text='Download .csv'
     offsetY={10}
-    className={styles.action}
+    className={styles.explanation}
   >
     <Icon type='save' />
   </ExplanationTooltip>
@@ -20,7 +21,7 @@ export const DownloadCSV = ({ data, name, isLoading, ...props }) => (
     filename={`${name}.csv`}
     target='_blank'
     data={data}
-    className={styles.csv}
+    className={cx(styles.action, styles.action_csv)}
     {...props}
     disabled={data.length === 0 && !isLoading}
     as={CSVLink}

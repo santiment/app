@@ -79,6 +79,7 @@ const Trigger = ({
 }
 
 const BaseActions = ({
+  className,
   isAuthor,
   id,
   name,
@@ -99,7 +100,7 @@ const BaseActions = ({
   const [updateWatchlist, { loading }] = useUpdateWatchlist()
 
   return (
-    <div onClick={onClick} className={styles.container}>
+    <div onClick={onClick} className={cx(styles.container, className)}>
       {isAuthor && (
         <ContextMenu
           trigger={

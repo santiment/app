@@ -2,16 +2,23 @@
   --offset: var(--table-header-sticky-offset, 0);
 }
 
+.top,
 .actions {
   display: flex;
   align-items: center;
+}
+
+.top {
   color: var(--waterloo);
-  fill: var(--waterloo);
   position: sticky;
   padding: 10px 32px;
   top: var(--offset);
   background: var(--white);
   z-index: 1;
+}
+
+.actions {
+  margin-left: auto;
 }
 
 .divider {
@@ -21,25 +28,26 @@
   margin: 0 16px;
 }
 
+.explanation {
+  z-index: 1;
+}
+
 .action {
   cursor: pointer;
+  fill: var(--waterloo);
+
+  &_csv {
+    padding: 0;
+    height: auto;
+  }
 
   &__icon {
     vertical-align: middle;
   }
 
-  &:first-child {
-    margin-left: auto;
-  }
-
   &:hover {
     fill: var(--jungle-green);
   }
-}
-
-.csv {
-  padding: 0;
-  height: auto;
 }
 
 .table {

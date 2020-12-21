@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React from 'react'
 import Table from './Table'
 import Actions from './Actions'
 import Page from '../../ducks/Page'
@@ -10,8 +10,6 @@ import {
 import PageLoader from '../../components/Loader/PageLoader'
 import styles from './index.module.scss'
 
-import SaveAs from './SaveAs'
-import Copy from './Copy'
 import { parseUrl } from './url'
 
 const WatchlistAddress = ({ match }) => {

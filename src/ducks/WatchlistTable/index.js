@@ -6,6 +6,7 @@ import DownloadCSV from './DownloadCSV'
 import PagedTable from '../_Table/Paged'
 import { CHECKBOX_COLUMN, INDEX_COLUMN } from '../_Table/columns'
 import styles from './index.module.scss'
+import Refresh from '../../components/Refresh/Refresh'
 
 export const DEFAULT_COLUMNS = [CHECKBOX_COLUMN, INDEX_COLUMN]
 export const Divider = () => <div className={styles.divider} />
@@ -15,16 +16,20 @@ const WatchlistTable = ({ watchlist, className, ...props }) => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.actions}>
-        <Copy watchlist={watchlist} />
+      <div className={styles.top}>
+        <Refresh timestamp={Date.now()} />
 
-        <Divider />
+        <div className={styles.actions}>
+          <Copy watchlist={watchlist} />
 
-        <SaveAs watchlist={watchlist} items={items} />
+          <Divider />
 
-        <Divider />
+          <SaveAs watchlist={watchlist} items={items} />
 
-        <DownloadCSV />
+          <Divider />
+
+          <DownloadCSV />
+        </div>
       </div>
 
       <PagedTable {...props} className={cx(styles.table)} />

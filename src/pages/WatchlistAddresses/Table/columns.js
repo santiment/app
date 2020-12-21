@@ -30,7 +30,16 @@ export const COLUMNS = DEFAULT_COLUMNS.concat(
   prepareColumns([
     {
       title: 'Transaction address',
-      render: ({ address }) => address
+      render: ({ address }) => (
+        <a
+          className={styles.address}
+          href={`/labs/balance?address=${address}`}
+          rel='noopener noreferrer'
+          target='_blank'
+        >
+          {address}
+        </a>
+      )
     },
     {
       title: 'Current balance',
