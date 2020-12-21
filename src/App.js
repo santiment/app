@@ -277,7 +277,7 @@ export const App = ({
           <Route exact path='/assets' component={LoadableWatchlistsPage} />
           <Route
             exact
-            path='/watchlist/addresses/:id'
+            path='/watchlist/addresses/:nameId'
             component={LoadableWatchlistAddressesPage}
           />
           <Route

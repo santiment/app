@@ -1,5 +1,3 @@
-@import '~@santiment-network/ui/mixins';
-
 .wrapper {
   --table-header-sticky-offset: 64px;
 }
@@ -11,35 +9,6 @@
   top: 0;
 }
 
-.labels {
-  @include text('caption');
-
-  display: flex;
-  margin-top: -4px;
-}
-
-.chart {
-  stroke-width: 2;
-  overflow: visible;
-  fill: none;
-
-  --stroke: var(--persimmon);
-  --fill: url(#negative-change);
-
-  &_positive {
-    --stroke: var(--lima);
-    --fill: url(#positive-change);
-  }
-}
-
-.line {
-  stroke: var(--stroke);
-}
-
-.area {
-  fill: var(--fill);
-}
-
 .edit {
   margin: 0;
 }
@@ -47,12 +16,4 @@
 .share {
   margin-left: auto;
   padding: 0;
-}
-
-.address {
-  color: var(--rhino);
-
-  &:hover {
-    color: var(--jungle-green);
-  }
 }

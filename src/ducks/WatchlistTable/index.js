@@ -1,17 +1,23 @@
 import React from 'react'
 import cx from 'classnames'
-import Copy from './Copy'
+/* import Copy from './Copy' */
 import SaveAs from './SaveAs'
 import DownloadCSV from './DownloadCSV'
 import PagedTable from '../_Table/Paged'
 import { CHECKBOX_COLUMN, INDEX_COLUMN } from '../_Table/columns'
-import styles from './index.module.scss'
+import { useSelectedItemsSet } from '../_Table/hooks'
 import Refresh from '../../components/Refresh/Refresh'
+import styles from './index.module.scss'
 
 export const DEFAULT_COLUMNS = [CHECKBOX_COLUMN, INDEX_COLUMN]
 export const Divider = () => <div className={styles.divider} />
 
-const WatchlistTable = ({ watchlist, className, ...props }) => {
+const WatchlistTable = ({
+  watchlist,
+  className,
+  createWatchlist,
+  ...props
+}) => {
   const { items } = props
 
   return (
@@ -20,11 +26,15 @@ const WatchlistTable = ({ watchlist, className, ...props }) => {
         <Refresh timestamp={Date.now()} />
 
         <div className={styles.actions}>
-          <Copy watchlist={watchlist} />
+          {/* <Copy watchlist={watchlist} />
 
-          <Divider />
+          <Divider /> */}
 
-          <SaveAs watchlist={watchlist} items={items} />
+          <SaveAs
+            watchlist={watchlist}
+            items={items}
+            createWatchlist={createWatchlist}
+          />
 
           <Divider />
 
@@ -32,7 +42,11 @@ const WatchlistTable = ({ watchlist, className, ...props }) => {
         </div>
       </div>
 
-      <PagedTable {...props} className={cx(styles.table)} />
+      <PagedTable
+        {...props}
+        itemProps={useSelectedItemsSet(items)}
+        className={cx(styles.table)}
+      />
     </div>
   )
 }

@@ -6,7 +6,7 @@ import styles from './index.module.scss'
 const WIDTH = 72
 const HEIGHT = 32
 
-const Chart = ({ address, change }) => {
+const MiniChart = ({ address, change }) => {
   const data = useAddressHistoricalBalance(address)
 
   const [linePoints, areaPoints] = useMemo(
@@ -67,4 +67,4 @@ const Chart = ({ address, change }) => {
   )
 }
 
-export default Chart
+export default MiniChart

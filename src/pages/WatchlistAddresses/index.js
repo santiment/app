@@ -1,19 +1,20 @@
 import React from 'react'
-import Table from './Table'
 import Actions from './Actions'
-import Page from '../../ducks/Page'
 import {
   useAddressWatchlist,
   useIsWatchlistAuthor,
   useAddressWatchlistItems
 } from './hooks'
+import Page from '../../ducks/Page'
+import WatchlistAddressesTable from '../../ducks/WatchlistAddressesTable'
 import PageLoader from '../../components/Loader/PageLoader'
+import { getIdFromSEOLink } from '../../utils/url'
 import styles from './index.module.scss'
 
-import { parseUrl } from './url'
-
 const WatchlistAddress = ({ match }) => {
-  const { watchlist, isLoading } = useAddressWatchlist(parseUrl(match.params))
+  const { watchlist, isLoading } = useAddressWatchlist(
+    getIdFromSEOLink(match.params.nameId)
+  )
   const isAuthor = useIsWatchlistAuthor(watchlist)
   const items = useAddressWatchlistItems(watchlist)
 
@@ -33,7 +34,11 @@ const WatchlistAddress = ({ match }) => {
           <SaveAs watchlist={watchlist} items={items} />
           <Copy watchlist={watchlist} />
           </div> */}
-      <Table items={items} watchlist={watchlist} isLoading={isLoading} />
+      <WatchlistAddressesTable
+        items={items}
+        watchlist={watchlist}
+        isLoading={isLoading}
+      />
     </Page>
   )
 }
