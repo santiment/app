@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import cx from 'classnames'
 /* import Copy from './Copy' */
 import SaveAs from './SaveAs'
@@ -16,9 +16,11 @@ const WatchlistTable = ({
   watchlist,
   className,
   createWatchlist,
+  normalizeCSVData,
   ...props
 }) => {
   const { items } = props
+  const csvData = useMemo(() => normalizeCSVData(items), [items])
 
   return (
     <div className={styles.wrapper}>
@@ -38,7 +40,7 @@ const WatchlistTable = ({
 
           <Divider />
 
-          <DownloadCSV />
+          <DownloadCSV watchlist={watchlist} data={csvData} />
         </div>
       </div>
 
@@ -49,6 +51,9 @@ const WatchlistTable = ({
       />
     </div>
   )
+}
+WatchlistTable.defaultProps = {
+  normalizeCSVData: _ => _
 }
 
 export default WatchlistTable

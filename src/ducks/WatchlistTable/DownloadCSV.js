@@ -16,14 +16,14 @@ export const DownloadCSVButton = () => (
   </ExplanationTooltip>
 )
 
-export const DownloadCSV = ({ data, name, isLoading, ...props }) => (
+export const DownloadCSV = ({ watchlist, data, ...props }) => (
   <Button
-    filename={`${name}.csv`}
+    filename={`${watchlist.name}.csv`}
     target='_blank'
     data={data}
     className={cx(styles.action, styles.action_csv)}
     {...props}
-    disabled={data.length === 0 && !isLoading}
+    disabled={data.length === 0}
     as={CSVLink}
   />
 )
