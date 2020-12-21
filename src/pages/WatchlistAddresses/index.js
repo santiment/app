@@ -1,4 +1,5 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom'
 import Actions from './Actions'
 import {
   useAddressWatchlist,
@@ -20,7 +21,7 @@ const WatchlistAddress = ({ match }) => {
 
   if (isLoading) return <PageLoader />
 
-  console.log(watchlist)
+  if (!watchlist.id) return <Redirect to='/' />
 
   return (
     <Page
@@ -30,10 +31,6 @@ const WatchlistAddress = ({ match }) => {
       title={watchlist.name}
       actions={<Actions watchlist={watchlist} isAuthor={isAuthor} />}
     >
-      {/* <div className='top'>
-          <SaveAs watchlist={watchlist} items={items} />
-          <Copy watchlist={watchlist} />
-          </div> */}
       <WatchlistAddressesTable
         items={items}
         watchlist={watchlist}

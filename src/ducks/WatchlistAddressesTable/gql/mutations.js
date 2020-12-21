@@ -38,7 +38,7 @@ export const createAddressWatchlist = ({
       name,
       description,
       isPublic,
-      listItems: normalizeItems(listItems),
+      listItems: listItems && normalizeItems(listItems),
       type: 'BLOCKCHAIN_ADDRESS'
     }
   })

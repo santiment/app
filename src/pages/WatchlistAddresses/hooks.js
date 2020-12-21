@@ -27,7 +27,7 @@ export function useAddressWatchlist (id = 1188) {
   })
 
   return {
-    watchlist: data ? data.watchlist : OBJECT,
+    watchlist: data ? data.watchlist || OBJECT : OBJECT,
     isLoading: loading
   }
 }

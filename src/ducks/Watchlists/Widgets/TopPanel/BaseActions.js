@@ -28,6 +28,7 @@ export const Button = ({ className, ...props }) => (
 )
 
 const Trigger = ({
+  type = 'screener',
   watchlist,
   name,
   forwardedRef,
@@ -42,7 +43,7 @@ const Trigger = ({
   return (
     <div className={styles.trigger} ref={forwardedRef}>
       <EditForm
-        title='Edit screener'
+        title={'Edit ' + type}
         type='screener'
         lists={lists}
         id={watchlist.id}
@@ -88,7 +89,10 @@ const BaseActions = ({
   watchlist,
   isPro,
   isAuthorLoading,
-  onClick
+  onClick,
+  type = 'screener',
+  createWatchlist,
+  noItemsCheck
 }) => {
   if (!id) {
     return null
@@ -127,7 +131,7 @@ const BaseActions = ({
             <EditForm
               type='screener'
               lists={screeners}
-              title='Edit screener'
+              title={'Edit ' + type}
               id={watchlist.id}
               isLoading={loading}
               open={isEditPopupOpened}
@@ -165,6 +169,7 @@ const BaseActions = ({
                 onSubmit={() => setIsMenuOpened(false)}
                 watchlist={watchlist}
                 lists={screeners}
+                createWatchlist={createWatchlist}
                 trigger={
                   <Button>
                     <Icon type='disk' />
@@ -185,9 +190,10 @@ const BaseActions = ({
               )}
             >
               <New
-                type='screener'
+                type={type}
                 lists={screeners}
                 onSubmit={() => setIsMenuOpened(false)}
+                createWatchlist={createWatchlist}
                 trigger={
                   <Button>
                     <Icon type='plus-round' />
@@ -197,9 +203,9 @@ const BaseActions = ({
                 }
               />
             </ProPopupWrapper>
-            {isAuthor && screeners.length > 1 && (
+            {isAuthor && (noItemsCheck || screeners.length > 1) && (
               <Delete
-                title='Do you want to delete this screener?'
+                title={`Do you want to delete this ${type}?`}
                 id={id}
                 name={name}
                 trigger={
@@ -227,6 +233,7 @@ const BaseActions = ({
             type='screener'
             watchlist={watchlist}
             lists={screeners}
+            createWatchlist={createWatchlist}
             trigger={
               <Button border className={styles.saveAsNonAuthor}>
                 <Icon type='disk' />
