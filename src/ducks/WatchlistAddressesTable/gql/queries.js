@@ -1,4 +1,5 @@
 import gql from 'graphql-tag'
+import { client } from '../../../apollo'
 
 export const WATCHLIST_GENERAL_FRAGMENT = gql`
   fragment generalFragment on UserList {
@@ -49,3 +50,9 @@ export const WATCHLIST_QUERY = gql`
   ${WATCHLIST_GENERAL_FRAGMENT}
   ${LIST_ITEMS_FRAGMENT}
 `
+
+const watchlistAccessor = ({ data }) => data.watchlist
+export const getAddressWatchlist = (id, fetchPolicy) =>
+  client
+    .query({ fetchPolicy, query: WATCHLIST_QUERY, variables: { id } })
+    .then(watchlistAccessor)

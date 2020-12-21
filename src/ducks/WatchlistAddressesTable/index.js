@@ -1,5 +1,6 @@
 import React from 'react'
 import { COLUMNS } from './columns'
+import { getAddressWatchlist } from './gql/queries'
 import { createAddressWatchlist } from './gql/mutations'
 import WatchlistTable from '../WatchlistTable'
 
@@ -16,6 +17,7 @@ function normalizeCSVItem ({ address, balanceChange, labels }) {
   }
 }
 
+const refetchAddressWatchlist = id => getAddressWatchlist(id, 'network-only')
 const normalizeCSVData = items => items.map(normalizeCSVItem)
 
 const WatchlistAddressesTable = props => {
@@ -26,6 +28,7 @@ const WatchlistAddressesTable = props => {
       columns={COLUMNS}
       itemKeyProperty='address'
       normalizeCSVData={normalizeCSVData}
+      onRefreshClick={refetchAddressWatchlist}
     />
   )
 }

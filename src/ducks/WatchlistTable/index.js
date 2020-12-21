@@ -1,6 +1,5 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import cx from 'classnames'
-/* import Copy from './Copy' */
 import SaveAs from './SaveAs'
 import DownloadCSV from './DownloadCSV'
 import PagedTable from '../_Table/Paged'
@@ -17,15 +16,22 @@ const WatchlistTable = ({
   className,
   createWatchlist,
   normalizeCSVData,
+  onRefreshClick,
   ...props
 }) => {
   const { items } = props
+  const [refreshTimestamp, setRefreshTimestamp] = useState(Date.now)
   const csvData = useMemo(() => normalizeCSVData(items), [items])
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.top}>
-        <Refresh timestamp={Date.now()} />
+        <Refresh
+          timestamp={refreshTimestamp}
+          onRefreshClick={() =>
+            setRefreshTimestamp(Date.now()) || onRefreshClick(watchlist.id)
+          }
+        />
 
         <div className={styles.actions}>
           {/* <Copy watchlist={watchlist} />
