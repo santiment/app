@@ -23,6 +23,11 @@
   padding: 0 32px;
 }
 
+.search {
+  display: flex;
+  margin-left: auto;
+}
+
 @include responsive('phone', 'phone-xs') {
   .header,
   .main {
