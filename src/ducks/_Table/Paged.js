@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 import Icon from '@santiment-network/ui/Icon'
 import Input from '@santiment-network/ui/Input'
 import Button from '@santiment-network/ui/Button'

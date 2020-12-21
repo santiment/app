@@ -1,7 +1,6 @@
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
-const OBJECT = {}
 const ARRAY = []
 
 const ADDRESS_HISTORICAL_BALANCE_QUERY = gql`

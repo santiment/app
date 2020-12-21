@@ -1,9 +1,7 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import { FluidSkeleton as Skeleton } from '../../components/Skeleton'
 import styles from './index.module.scss'
-
-const noop = _ => _
 
 export function prepareColumns (columns) {
   columns.forEach(column => {
