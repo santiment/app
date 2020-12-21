@@ -1,0 +1,41 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  width: 100%;
+}
+
+.header {
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  background: var(--white);
+}
+
+.title {
+  @include text('h4');
+
+  margin: 0 16px 0 0;
+  white-space: nowrap;
+}
+
+.main {
+  padding: 0 32px;
+}
+
+.search {
+  display: flex;
+  margin-left: auto;
+}
+
+@include responsive('phone', 'phone-xs') {
+  .header,
+  .main {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .title {
+    font-weight: 600;
+  }
+}

@@ -12,7 +12,8 @@ const SaveAs = ({
   onSubmit,
   trigger,
   isPending,
-  createWatchlist,
+  dispatchWatchlistCreation,
+  createWatchlist = dispatchWatchlistCreation,
   isSuccess,
   type
 }) => {
@@ -64,7 +65,7 @@ const mapStateToProps = ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  createWatchlist: payload =>
+  dispatchWatchlistCreation: payload =>
     dispatch({
       type: USER_ADD_NEW_ASSET_LIST,
       payload

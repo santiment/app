@@ -45,7 +45,7 @@ const NewLabel = () => (
   </div>
 )
 
-const Label = ({ name, origin, className, forwardedRef, ...props }) => (
+export const Label = ({ name, origin, className, forwardedRef, ...props }) => (
   <div
     {...props}
     key={name}
@@ -60,7 +60,7 @@ const Label = ({ name, origin, className, forwardedRef, ...props }) => (
   </div>
 )
 
-const CollapsedLabels = ({ labels }) => (
+export const CollapsedLabels = ({ labels }) => (
   <Tooltip
     on='click'
     className={styles.collapsed__tooltip}
