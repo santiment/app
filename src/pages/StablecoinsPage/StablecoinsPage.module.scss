@@ -28,6 +28,7 @@
 .pageDescription {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
 .block {
@@ -47,7 +48,7 @@
 
 .header {
   background: var(--white);
-  padding: 32px 0 32px 0;
+  padding: 40px 0 26px 0;
 
   @include responsive( 'tablet','phone', 'phone-xs') {
     padding: 16px 16px 24px 16px;

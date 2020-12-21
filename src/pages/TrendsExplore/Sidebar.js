@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { getTimePeriod } from './utils'
 import Calendar from '../../ducks/Studio/AdvancedView/Calendar'
-import TrendsTable from '../../components/Trends/TrendsTable/TrendsTable'
+import TrendsTable from '../../components/Tables/Trends/TrendsTable'
 import GetHypedTrends from '../../components/Trends/GetHypedTrends'
 import EnhancedWordCloud from './EnhancedWordCloud'
 import AverageSocialVolume from '../../components/AverageSocialVolume'

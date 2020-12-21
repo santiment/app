@@ -1,25 +1,25 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
-import InsightsTrends from '../../components/Insight/InsightsTrends'
+import cx from 'classnames'
 import TrendsSearchForm from '../../components/Trends/Search'
 import Suggestions from '../../components/Trends/Search/Suggestions'
-import HelpPopup from '../../components/Trends/HelpPopup/HelpPopup'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import Trends from '../../components/Trends/Trends'
+import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
 import styles from './LabsTrendsPage.module.scss'
+import externalStyles from '../StablecoinsPage/StablecoinsPage.module.scss'
 
 const TrendsHeader = () => {
   return (
     <div className={styles.titleWrapper}>
       <div className={styles.title}>Santrends</div>
-      <HelpPopup />
     </div>
   )
 }
 
 const LabsTrendsPage = ({ history }) => (
-  <div className={styles.trendsWrapper + ' page'}>
+  <DashboardLayout showMobileHeader={false} classes={styles}>
     <Helmet>
       <title>Today’s Top Social Gainers in Crypto - Sanbase</title>
       <meta
@@ -32,25 +32,51 @@ const LabsTrendsPage = ({ history }) => (
       />
     </Helmet>
 
-    <div className={styles.header}>
-      <DesktopOnly>
-        <TrendsHeader />
-      </DesktopOnly>
+    <MobileOnly>
+      <MobileHeader
+        showBack={true}
+        goBack={history.goBack}
+        classes={styles}
+        title={<TrendsHeader />}
+      />
+    </MobileOnly>
 
-      <MobileOnly>
-        <MobileHeader showBack={true} goBack={history.goBack} classes={styles}>
-          <TrendsHeader />
-        </MobileHeader>
-      </MobileOnly>
+    <div className={externalStyles.header}>
+      <div
+        className={cx(
+          externalStyles.inner,
+          externalStyles.content,
+          styles.headerContent
+        )}
+      >
+        <div className={externalStyles.pageDescription}>
+          <h3 className={externalStyles.title}>
+            <DesktopOnly>
+              <TrendsHeader />
+            </DesktopOnly>
+          </h3>
+          <DesktopOnly>
+            <div className={externalStyles.description}>
+              Cryptocurrencies designed to minimize the volatility of the price
+              of the stablecoin, relative to some "stable" asset or basket of
+              assets.
+            </div>
+          </DesktopOnly>
+
+          <TrendsSearchForm classes={{ wrapper: styles.search }} withButton />
+          <DesktopOnly>
+            <Suggestions className={styles.suggestions} />
+          </DesktopOnly>
+        </div>
+      </div>
     </div>
 
-    <TrendsSearchForm classes={{ wrapper: styles.search }} withButton />
-    <Suggestions className={styles.suggestions} />
-
-    <Trends />
-
-    <InsightsTrends className={styles.insights} />
-  </div>
+    <div className={externalStyles.body}>
+      <div className={cx(externalStyles.inner, styles.inner)}>
+        <Trends className={styles.trends} />
+      </div>
+    </div>
+  </DashboardLayout>
 )
 
 export default LabsTrendsPage
