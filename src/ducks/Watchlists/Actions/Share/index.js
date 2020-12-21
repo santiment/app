@@ -8,7 +8,7 @@ import ShareModalTrigger from '../../../../components/Share/ShareModalTrigger'
 import { useShortShareLink } from '../../../../components/Share/hooks'
 import styles from './index.module.scss'
 
-const Share = ({ watchlist, isAuthor, className }) => {
+const Share = ({ watchlist, isAuthor, className, customLink }) => {
   const [isOpen, setOpen] = useState(false)
   const [isPublic, setIsPublic] = useState(watchlist.isPublic)
   const { shortShareLink, getShortShareLink } = useShortShareLink()
@@ -26,12 +26,12 @@ const Share = ({ watchlist, isAuthor, className }) => {
 
   return isPublic ? (
     <ShareModalTrigger
-      shareLink={shortShareLink}
+      shareLink={customLink || shortShareLink}
       trigger={props => (
         <Button
           {...props}
           className={cx(styles.trigger, className)}
-          onMouseDown={getShortShareLink}
+          onMouseDown={customLink ? undefined : getShortShareLink}
           icon='share'
         >
           Share
@@ -60,7 +60,7 @@ const Share = ({ watchlist, isAuthor, className }) => {
         </p>
         <div className={styles.actions}>
           <ShareModalTrigger
-            shareLink={shortShareLink}
+            shareLink={customLink || shortShareLink}
             trigger={props => (
               <Button
                 {...props}
