@@ -14,22 +14,21 @@ const Page = ({
   actions,
   isPhone,
   isWithPadding
-}) => {
-  return (
-    <div className={cx(styles.wrapper, className)}>
-      <div className={cx(styles.header, headerClassName)}>
-        <h1 className={styles.title}>{title}</h1>
-        {actions}
-        {isPhone && (
-          <Link to='/search' className={styles.search}>
-            <Icon type='search' className={styles.search__icon} />
-          </Link>
-        )}
-      </div>
-      <main className={cx(isWithPadding && styles.main)}>{children}</main>
+}) => (
+  <div className={cx(styles.wrapper, className)}>
+    <div className={cx(styles.header, headerClassName)}>
+      <h1 className={styles.title}>{title}</h1>
+      {actions}
+      {isPhone && (
+        <Link to='/search' className={styles.search}>
+          <Icon type='search' className={styles.search__icon} />
+        </Link>
+      )}
     </div>
-  )
-}
+    <main className={cx(isWithPadding && styles.main)}>{children}</main>
+  </div>
+)
+
 Page.defaulProps = {
   isWithPadding: true
 }
