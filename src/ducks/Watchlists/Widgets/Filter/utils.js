@@ -25,7 +25,7 @@ export function getNewFunction (filter, baseProjects) {
   const args = { filters: filter }
 
   if (baseProjects.length > 0) {
-    args.base_projects = baseProjects
+    args.baseProjects = baseProjects
   }
 
   return filter.length > 0 || baseProjects.length > 0

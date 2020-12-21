@@ -8,5 +8,10 @@ export const MESSAGES = {
 export const MAX_VISIBLE_SYMBOLS = 48
 
 export function makeHumanReadableState (state) {
-  return Array.isArray(state) ? state.join(', ') : state
+  if (!Array.isArray(state)) {
+    return state
+  } else {
+    const stateNames = state.map(item => item['watchlistId'])
+    return stateNames.join(', ')
+  }
 }

@@ -93,6 +93,15 @@ const Filter = ({
     [isOpen]
   )
 
+  useEffect(
+    () => {
+      const newFunction = getNewFunction(filter, baseProjects)
+      updateWatchlistFunction(newFunction)
+      setScreenerFunction(newFunction)
+    },
+    [baseProjects]
+  )
+
   function resetAll () {
     const func = DEFAULT_SCREENER_FUNCTION
     updateFilter([])
@@ -119,7 +128,7 @@ const Filter = ({
       )
     const newFilter = [...filters, metric]
 
-    const newFunction = getNewFunction(newFilter)
+    const newFunction = getNewFunction(newFilter, baseProjects)
     updateFilter(newFilter)
 
     updateWatchlistFunction(newFunction)
@@ -155,7 +164,7 @@ const Filter = ({
       newFilter = [...filter, metric]
     }
 
-    const newFunction = getNewFunction(newFilter)
+    const newFunction = getNewFunction(newFilter, baseProjects)
     updateFilter(newFilter)
 
     updateWatchlistFunction(newFunction)
