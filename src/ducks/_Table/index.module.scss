@@ -2,10 +2,6 @@
 
 .wrapper {
   position: relative;
-  // min-height: 664px;
-}
-
-.table {
   width: 100%;
   border-spacing: 0;
   text-align: left;
@@ -13,7 +9,7 @@
   // border-radius: 4px;
 }
 
-.table :global(th) {
+.wrapper :global(th) {
   @include text('caption');
 
   color: var(--casper);
@@ -22,7 +18,7 @@
   background: var(--athens);
 }
 
-.table :global(td) {
+.wrapper :global(td) {
   padding: 8px 16px;
   // border-top: 1px solid var(--porcelain);
   white-space: nowrap;

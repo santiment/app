@@ -4,7 +4,8 @@ import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import Chart from './Chart'
 import Actions from './Actions'
 import Page from '../../ducks/Page'
-import Table, { prepareColumns } from './Table'
+import { prepareColumns } from '../../ducks/_Table'
+import PagedTable from '../../ducks/_Table/Paged'
 import {
   useAddressWatchlist,
   useIsWatchlistAuthor,
@@ -15,6 +16,7 @@ import {
   CollapsedLabels
 } from '../../ducks/HistoricalBalance/Address/Labels'
 import ValueChange from '../../components/ValueChange/ValueChange'
+import PageLoader from '../../components/Loader/PageLoader'
 import styles from './index.module.scss'
 import SaveAs from './SaveAs'
 import Copy from './Copy'
@@ -52,7 +54,7 @@ const COLUMNS = prepareColumns([
   },
   {
     title: '#',
-    render: (_, __, i) => i,
+    render: (_, __, i) => i + 1,
     className: styles.index
   },
   {
@@ -61,19 +63,22 @@ const COLUMNS = prepareColumns([
   },
   {
     title: 'Current balance',
-    render: ({ balanceChange }) => balanceValue.format(balanceChange.balanceEnd)
+    render: ({ balanceChange }) =>
+      balanceChange && balanceValue.format(balanceChange.balanceEnd)
   },
   {
     title: 'Balance, 7d, %',
-    render: ({ balanceChange }) => (
-      <ValueChange change={balanceChange.balanceChangePercent} />
-    )
+    render: ({ balanceChange }) =>
+      balanceChange && (
+        <ValueChange change={balanceChange.balanceChangePercent} />
+      )
   },
   {
     title: 'Balance, 7d',
-    render: ({ address, balanceChange }) => (
-      <Chart address={address} change={balanceChange.balanceChangePercent} />
-    )
+    render: ({ address, balanceChange }) =>
+      balanceChange && (
+        <Chart address={address} change={balanceChange.balanceChangePercent} />
+      )
   },
   {
     title: 'Labels',
@@ -116,10 +121,14 @@ const WatchlistAddress = ({ match }) => {
   const isAuthor = useIsWatchlistAuthor(watchlist)
   const items = useAddressWatchlistItems(watchlist)
   const obj = useSelectedItemsSet(items)
+
+  if (isLoading) return <PageLoader />
+
   console.log(watchlist)
 
   return (
     <Page
+      isWidthPadding={false}
       title={watchlist.name}
       actions={<Actions watchlist={watchlist} isAuthor={isAuthor} />}
     >
@@ -127,7 +136,7 @@ const WatchlistAddress = ({ match }) => {
         <SaveAs watchlist={watchlist} items={items} />
         <Copy watchlist={watchlist} />
       </div>
-      <Table
+      <PagedTable
         className={styles.table}
         columns={COLUMNS}
         items={items}

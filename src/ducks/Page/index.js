@@ -1,8 +1,9 @@
 import React from 'react'
+import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import styles from './index.module.scss'
 
-const Page = ({ children, title, actions, isPhone }) => {
+const Page = ({ children, title, actions, isPhone, isWithPadding }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
@@ -10,9 +11,12 @@ const Page = ({ children, title, actions, isPhone }) => {
         {actions}
         {isPhone && <Icon type='search' />}
       </div>
-      <main className={styles.main}>{children}</main>
+      <main className={cx(isWithPadding && styles.main)}>{children}</main>
     </div>
   )
+}
+Page.defaulProps = {
+  isWithPadding: true
 }
 
 export default Page
