@@ -88,6 +88,7 @@ const SocialContext = ({ interval, date, project: { slug } }) => {
                 className={styles.table}
                 contentClassName={styles.table__content}
                 isLoading={isLoading}
+                isCompactView
               />
             )
           }}
