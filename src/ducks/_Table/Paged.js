@@ -18,9 +18,10 @@ const PAGE_SIZES = [10, 20, 50, 100].map(index => ({
 }))
 
 const PagedTable = ({
+  stickyPageControls,
+  padding,
   defaultPage,
   defaultPageSize,
-  stickyPageControls,
   items,
   onPageChange,
   ...props
@@ -48,7 +49,8 @@ const PagedTable = ({
       <div
         className={cx(
           styles.controls,
-          stickyPageControls && styles.stickyPageControls
+          stickyPageControls && styles.stickyPageControls,
+          padding && styles.padding
         )}
       >
         <Dropdown

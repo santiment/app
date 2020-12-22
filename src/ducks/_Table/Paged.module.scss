@@ -1,11 +1,15 @@
 .controls {
   display: flex;
   align-items: center;
-  padding: 16px 32px;
+  padding: 16px 0;
   background-color: var(--white);
   color: var(--waterloo);
   bottom: 0;
   z-index: 1;
+}
+
+.padding {
+  padding: 16px 32px;
 }
 
 .stickyPageControls {
@@ -32,6 +36,7 @@
 .prev,
 .next {
   fill: var(--waterloo);
+  user-select: none;
 }
 
 .prev {

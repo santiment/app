@@ -5,6 +5,8 @@ import { useRecentTransactions } from '../hooks'
 import PagedTable from '../../_Table/Paged'
 import styles from './index.module.scss'
 
+const getItemKey = ({ trxHash, slug }) => trxHash + slug
+
 const LatestTransactions = ({ settings }) => {
   const pagesItems = useRef([]).current
   const [page, setPage] = useState(0)
@@ -32,12 +34,12 @@ const LatestTransactions = ({ settings }) => {
       <PagedTable
         className={styles.table}
         columns={COLUMNS}
-        itemKeyProperty='trxHash'
         items={items}
         isLoading={isLoading}
         minRows={10}
         itemProps={settings}
         onPageChange={setPage}
+        getItemKey={getItemKey}
       />
     </Section>
   )

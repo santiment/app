@@ -27,11 +27,12 @@ const Table = ({
   className,
   offset,
   columns,
+  minRows,
   items,
   itemKeyProperty,
   itemProps,
-  minRows,
-  isLoading
+  isLoading,
+  getItemKey
 }) => (
   <table className={cx(styles.wrapper, className)}>
     <thead>
@@ -45,7 +46,7 @@ const Table = ({
       {items.map((item, i) => {
         const itemIndex = offset + i
         return (
-          <tr key={item[itemKeyProperty]}>
+          <tr key={getItemKey ? getItemKey(item) : item[itemKeyProperty]}>
             {columns.map(({ id, render, className }) => (
               <td key={id} className={className}>
                 {render(item, itemProps, itemIndex)}

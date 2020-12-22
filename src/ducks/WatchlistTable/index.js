@@ -47,9 +47,10 @@ const WatchlistTable = ({
 
       <PagedTable
         {...props}
+        stickyPageControls
+        padding
         itemProps={useSelectedItemsSet(items)}
         className={styles.table}
-        stickyPageControls
       />
     </div>
   )
