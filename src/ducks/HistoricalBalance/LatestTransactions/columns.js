@@ -23,7 +23,7 @@ function getDatetime (datetime) {
 
 const checkIsSending = (address, fromAddress) => address === fromAddress.address
 
-const Values = ({ slug, toAddress, fromAddress, trxValue }, { address }) => {
+const Values = ({ address, slug, toAddress, fromAddress, trxValue }) => {
   const { logoUrl, ticker = `"${slug}"` } = useTransactionProject(slug)
   const isSending = checkIsSending(address, fromAddress)
   const anotherAddress = isSending ? toAddress.address : fromAddress.address

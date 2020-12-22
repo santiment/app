@@ -15,9 +15,9 @@ import { getAddressInfrastructure } from '../../utils/address'
 
 const DEFAULT_STATE = []
 
-const useWalletQuery = (query, variables) =>
+const useWalletQuery = (query, variables, skip) =>
   useQuery(query, {
-    skip: !variables.infrastructure,
+    skip: !variables.infrastructure || skip,
     variables
   })
 
@@ -50,8 +50,12 @@ export function useWalletAssets (wallet) {
   }
 }
 
-export function useRecentTransactions (wallet) {
-  const { data, loading } = useWalletQuery(RECENT_TRANSACTIONS_QUERY, wallet)
+export function useRecentTransactions (wallet, page, skip) {
+  const { data, loading } = useWalletQuery(
+    RECENT_TRANSACTIONS_QUERY,
+    Object.assign({ page }, wallet),
+    skip
+  )
   return {
     recentTransactions: data ? data.recentTransactions : DEFAULT_STATE,
     isLoading: loading

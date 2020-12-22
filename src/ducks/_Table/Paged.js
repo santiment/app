@@ -22,6 +22,7 @@ const PagedTable = ({
   defaultPageSize,
   stickyPageControls,
   items,
+  onPageChange,
   ...props
 }) => {
   const [page, setPage] = useState(defaultPage)
@@ -34,11 +35,10 @@ const PagedTable = ({
   const isPrevPageDisabled = page < 1
   const isNextPageDisabled = page >= maxPage - 1
 
-  function onPageInput (e) {
-    const newPage = e.target.value - 1
-
+  function changePage (newPage) {
     if (newPage > -1 && newPage < maxPage) {
       setPage(newPage)
+      if (onPageChange) onPageChange(newPage)
     }
   }
 
@@ -63,14 +63,14 @@ const PagedTable = ({
           type='number'
           style={{ '--width': `${(page + 1).toString().length}ch` }}
           value={page + 1}
-          onChange={onPageInput}
+          onChange={({ target }) => changePage(target.value - 1)}
         />
-        of {maxPage}
+        of {maxPage || 1}
         <Button
           className={styles.prev}
           border
           disabled={isPrevPageDisabled}
-          onClick={() => setPage(page - 1)}
+          onClick={() => changePage(page - 1)}
         >
           Prev
           <Icon className={styles.prev__icon} type='arrow-left' />
@@ -79,7 +79,7 @@ const PagedTable = ({
           className={styles.next}
           border
           disabled={isNextPageDisabled}
-          onClick={() => setPage(page + 1)}
+          onClick={() => changePage(page + 1)}
         >
           <Icon className={styles.next__icon} type='arrow-right' />
           Next

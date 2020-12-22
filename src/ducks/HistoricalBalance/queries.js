@@ -27,8 +27,13 @@ export const ADDRESS_QUERY = gql`
 `
 
 export const RECENT_TRANSACTIONS_QUERY = gql`
-  query recentTransactions($address: String!, $pageSize: Int = 20) {
-    recentTransactions(address: $address, pageSize: $pageSize, type: ERC20) {
+  query recentTransactions($address: String!, $page: Int, $pageSize: Int = 20) {
+    recentTransactions(
+      address: $address
+      page: $page
+      pageSize: $pageSize
+      type: ERC20
+    ) {
       datetime
       fromAddress {
         address
