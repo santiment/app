@@ -40,11 +40,12 @@ export const LIST_ITEMS_FRAGMENT = gql`
   }
 `
 
-export const SHORT_ITEMS_FRAGMENT = gql`
+export const SHORT_LIST_ITEMS_FRAGMENT = gql`
   fragment listItemsFragment on UserList {
     listItems {
       blockchainAddress {
         address
+        infrastructure
       }
     }
   }

@@ -14,7 +14,7 @@ const Help = () => (
 
 export const Title = () => (
   <>
-    Historical balance{' '} <Help />
+    Historical balance <Help />
   </>
 )
 

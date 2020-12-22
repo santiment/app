@@ -3,7 +3,9 @@ import Dialog from '@santiment-network/ui/Dialog'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import NewWatchlist from '../New'
 import NewBtn from '../New/NewBtn'
+import { store } from '../../../../redux'
 import { VisibilityIndicator } from '../../../../components/VisibilityIndicator'
+import { showNotification } from '../../../../actions/rootActions'
 import styles from './Add.module.scss'
 
 const Watchlist = ({ watchlist, isActive, onClick }) => {
@@ -68,6 +70,7 @@ const AddToWatchlistDialog = ({
   const [initialSelections, setInitialSelections] = useState(SET)
   const [selections, setSelections] = useState(SET)
   const [isWithoutChanges, setIsWithoutChanges] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
 
   function openDialog () {
     setIsOpened(true)
@@ -119,7 +122,20 @@ const AddToWatchlistDialog = ({
       }
     })
 
-    onChangesApply([...addedToSet], [...removedFromSet])
+    const amountModified = addedToSet.size + removedFromSet.size
+
+    setIsLoading(true)
+    onChangesApply([...addedToSet], [...removedFromSet]).then(() => {
+      setIsLoading(false)
+      setIsOpened(false)
+      store.dispatch(
+        showNotification(
+          `${amountModified} watchlist${
+            amountModified > 1 ? 's were' : ' was'
+          } modified`
+        )
+      )
+    })
   }
 
   return (
@@ -145,6 +161,7 @@ const AddToWatchlistDialog = ({
         <Dialog.Approve
           className={styles.approve}
           disabled={isWithoutChanges}
+          isLoading={isLoading}
           onClick={applyChanges}
         >
           Apply
