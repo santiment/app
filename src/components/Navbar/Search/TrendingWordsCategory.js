@@ -8,14 +8,9 @@ import styles from './Category.module.scss'
 
 const DEFAULT_SUGGESTIONS = []
 
-const fromDate = new Date()
-const toDate = new Date()
-fromDate.setHours(0, 0, 0, 0)
-toDate.setHours(toDate.getHours() + 1, 0, 0, 0)
-
 const TRENDING_WORDS_QUERY = gql`
   query {
-    getTrendingWords(size: 20, from: "${fromDate.toISOString()}", to: "${toDate.toISOString()}") {
+    getTrendingWords(size: 20, from: "utc_now-1h", to: "utc_now") {
       topWords {
         word
       }
