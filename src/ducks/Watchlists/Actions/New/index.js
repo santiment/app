@@ -30,7 +30,7 @@ const NewList = ({
       type={type}
       buttonLabel='Create'
       onFormSubmit={({ name, description, isPublic }) => {
-        createWatchlist({ name, description, isPublic, type })
+        createWatchlist({ name, description, isPublic, type }, setIsOpened)
       }}
       isLoading={isPending}
       open={isOpened}

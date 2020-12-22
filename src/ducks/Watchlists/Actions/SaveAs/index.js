@@ -40,14 +40,17 @@ const SaveAs = ({
       type={type}
       id={watchlist.id}
       onFormSubmit={({ name, description, isPublic }) => {
-        createWatchlist({
-          name,
-          description,
-          isPublic,
-          function: watchlist.function,
-          listItems: watchlist.listItems,
-          type
-        })
+        createWatchlist(
+          {
+            name,
+            description,
+            isPublic,
+            function: watchlist.function,
+            listItems: watchlist.listItems,
+            type
+          },
+          setIsOpened
+        )
       }}
       isLoading={isPending}
       open={isOpened}

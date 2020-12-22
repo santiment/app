@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import {
-  WATCHLIST_GENERAL_FRAGMENT,
+  SHORT_WATCHLIST_GENERAL_FRAGMENT,
   SHORT_LIST_ITEMS_FRAGMENT
 } from '../../WatchlistAddressesTable/gql/queries'
 
@@ -21,9 +21,9 @@ export const newWatchlistsQuery = (
   ${listItemsFragment}
 `
 
-const ADDRESS_WATCHLISTS_QUERY = newWatchlistsQuery(
+export const ADDRESS_WATCHLISTS_QUERY = newWatchlistsQuery(
   'BLOCKCHAIN_ADDRESS',
-  WATCHLIST_GENERAL_FRAGMENT,
+  SHORT_WATCHLIST_GENERAL_FRAGMENT,
   SHORT_LIST_ITEMS_FRAGMENT
 )
 

@@ -3,16 +3,19 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import AddToWatchlistDialog from '../../Watchlists/Actions/Add/Add'
 import { useAddressWatchlists } from '../../Watchlists/gql/queries'
-import { updateWatchlistShort } from '../../Watchlists/gql/mutations'
+import {
+  updateWatchlistShort,
+  createAddressesWatchlist
+} from '../../Watchlists/gql/mutations'
 import { Infrastructure } from '../../../utils/address'
 import styles from './index.module.scss'
 
+const createWatchlist = (watchlist, setDialog) =>
+  createAddressesWatchlist(watchlist).then(() => setDialog(false))
 const updateWatchlist = ({ id, listItems }) =>
   updateWatchlistShort({ id: +id, listItems })
 
-const AddToWatchlist = ({ settings }) => {
-  const { address, infrastructure } = settings
-
+const AddToWatchlist = ({ address, infrastructure }) => {
   const checkIsListItemTheAddress = useCallback(
     ({ blockchainAddress }) => blockchainAddress.address === address,
     [address]
@@ -59,7 +62,7 @@ const AddToWatchlist = ({ settings }) => {
         </Button>
       }
       getWatchlists={useAddressWatchlists}
-      createWatchlist={console.log}
+      createWatchlist={createWatchlist}
       checkIsWatchlistSelected={checkIsSelected}
       onChangesApply={onChangesApply}
     />

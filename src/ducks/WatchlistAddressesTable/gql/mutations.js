@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 import { WATCHLIST_GENERAL_FRAGMENT, LIST_ITEMS_FRAGMENT } from './queries'
-import { normalizeItems } from './helpers'
-import { client } from '../../../apollo'
+/* import { normalizeItems } from './helpers' */
+/* import { client } from '../../../apollo' */
 
 export const CREATE_WATCHLIST_MUTATION = gql`
   mutation createWatchlist(
@@ -26,19 +26,19 @@ export const CREATE_WATCHLIST_MUTATION = gql`
   ${LIST_ITEMS_FRAGMENT}
 `
 
-export const createAddressWatchlist = ({
-  name,
-  description,
-  isPublic,
-  listItems
-}) =>
-  client.mutate({
-    mutation: CREATE_WATCHLIST_MUTATION,
-    variables: {
-      name,
-      description,
-      isPublic,
-      listItems: listItems && normalizeItems(listItems),
-      type: 'BLOCKCHAIN_ADDRESS'
-    }
-  })
+/* export const createAddressWatchlist = ({
+ *   name,
+ *   description,
+ *   isPublic,
+ *   listItems
+ * }) =>
+ *   client.mutate({
+ *     mutation: CREATE_WATCHLIST_MUTATION,
+ *     variables: {
+ *       name,
+ *       description,
+ *       isPublic,
+ *       listItems: listItems && normalizeItems(listItems),
+ *       type: 'BLOCKCHAIN_ADDRESS'
+ *     }
+ *   }) */

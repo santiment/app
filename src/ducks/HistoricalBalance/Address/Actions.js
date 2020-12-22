@@ -5,9 +5,7 @@ import CreateAlert from './CreateAlert'
 import AddToWatchlist from './AddToWatchlist'
 import styles from './index.module.scss'
 
-const Actions = ({ settings, assets }) => {
-  const { address } = settings
-
+const Actions = ({ address, infrastructure, assets }) => {
   function onCommentClick () {
     const $comment = document.querySelector('textarea[name="comment"]')
     if ($comment) $comment.focus()
@@ -28,7 +26,7 @@ const Actions = ({ settings, assets }) => {
 
       <div className={styles.divider} />
 
-      <AddToWatchlist settings={settings} />
+      <AddToWatchlist address={address} infrastructure={infrastructure} />
 
       <div className={styles.divider} />
 

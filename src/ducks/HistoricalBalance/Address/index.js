@@ -62,7 +62,11 @@ export const AddressSetting = ({
         </div>
       </Setting>
 
-      <Actions settings={settings} assets={chartAssets} />
+      <Actions
+        address={address}
+        infrastructure={infrastructure}
+        assets={chartAssets}
+      />
     </div>
   )
 }

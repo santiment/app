@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import NewWatchlist from '../New'
 import NewBtn from '../New/NewBtn'
 import { store } from '../../../../redux'
@@ -38,18 +39,21 @@ const Watchlists = ({
   return (
     <>
       <div className={styles.watchlists}>
-        {watchlists.map(watchlist => (
-          <Watchlist
-            key={watchlist.id}
-            watchlist={watchlist}
-            isActive={selections.has(watchlist)}
-            onClick={onWatchlistClick}
-          />
-        ))}
+        {isLoading && <Loader className={styles.loader} />}
+        {isLoading || watchlists.length
+          ? watchlists.map(watchlist => (
+            <Watchlist
+              key={watchlist.id}
+              watchlist={watchlist}
+              isActive={selections.has(watchlist)}
+              onClick={onWatchlistClick}
+            />
+          ))
+          : "You don't have any watchlists yet."}
       </div>
 
       <NewWatchlist
-        trigger={<NewBtn border className={styles.new} />}
+        trigger={<NewBtn border disabled={isLoading} className={styles.new} />}
         lists={watchlists}
         createWatchlist={createWatchlist}
       />
@@ -145,7 +149,6 @@ const AddToWatchlistDialog = ({
       trigger={trigger}
       onOpen={openDialog}
       onClose={closeDialog}
-      // {...dialogProps}
     >
       <Dialog.ScrollContent withPadding className={styles.wrapper}>
         <Watchlists
@@ -160,7 +163,7 @@ const AddToWatchlistDialog = ({
         <Dialog.Cancel onClick={closeDialog}>Cancel</Dialog.Cancel>
         <Dialog.Approve
           className={styles.approve}
-          disabled={isWithoutChanges}
+          disabled={isLoading || isWithoutChanges}
           isLoading={isLoading}
           onClick={applyChanges}
         >

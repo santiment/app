@@ -1,7 +1,7 @@
 import React from 'react'
 import { COLUMNS } from './columns'
 import { getAddressWatchlist } from './gql/queries'
-import { createAddressWatchlist } from './gql/mutations'
+import { createAddressesWatchlist } from '../Watchlists/gql/mutations'
 import WatchlistTable from '../WatchlistTable'
 
 const OBJECT = {}
@@ -23,7 +23,7 @@ const normalizeCSVData = items => items.map(normalizeCSVItem)
 const WatchlistAddressesTable = props => (
   <WatchlistTable
     {...props}
-    createWatchlist={createAddressWatchlist}
+    createWatchlist={createAddressesWatchlist}
     columns={COLUMNS}
     itemKeyProperty='address'
     normalizeCSVData={normalizeCSVData}
