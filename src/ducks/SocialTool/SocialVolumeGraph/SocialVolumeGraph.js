@@ -1,54 +1,77 @@
 import React, { useMemo } from 'react'
-import { Metric } from '../../dataHub/metrics'
-import { useTimeseries } from '../../Studio/timeseries/hooks'
-import { formIntervalSettings } from '../../SANCharts/IntervalSelector'
+import gql from 'graphql-tag'
+import { useQuery } from '@apollo/react-hooks'
 import ChangeChart from '../../Watchlists/Widgets/Table/PriceGraph/ChangeChart'
 import Skeleton from '../../../components/Skeleton/Skeleton'
 import styles from './SocialVolumeGraph.module.scss'
 
-const METRICS = [Metric.social_volume_total]
+export const TRENDING_WORDS_QUERY = gql`
+  query getTrendingWords(
+    $from: DateTime!
+    $to: DateTime!
+    $interval: interval
+  ) {
+    getTrendingWords(size: 100, from: $from, to: $to, interval: $interval) {
+      datetime
+      topWords {
+        score
+        word
+      }
+    }
+  }
+`
 
-const DEFAULT_SETTINGS = {
-  ...formIntervalSettings('7d'),
-  interval: '1h',
-  selector: 'text'
-}
-const DATAKEY = Metric.social_volume_total.key
+const useTrendingWords = () => {
+  const query = useQuery(TRENDING_WORDS_QUERY, {
+    variables: {
+      from: 'utc_now-7d',
+      to: 'utc_now',
+      interval: '1h'
+    }
+  })
 
-const SocialVolumeGraph = ({ word }) => {
-  const MetricSettingMap = useMemo(() => {
-    const map = new Map()
-    map.set(Metric.social_volume_total, {
-      selector: 'text'
-    })
-
-    return map
-  }, [])
-
-  const settings = useMemo(
+  return useMemo(
     () => {
+      const { data, loading, error } = query
+
       return {
-        ...DEFAULT_SETTINGS,
-        slug: word
+        words: data ? data.getTrendingWords : [],
+        loading,
+        error
       }
     },
-    [word]
+    [query]
   )
+}
 
-  const [data, loadings] = useTimeseries(METRICS, settings, MetricSettingMap)
+const SocialVolumeGraph = ({ word }) => {
+  const { words, loading } = useTrendingWords()
+
+  const timeseries = useMemo(
+    () => {
+      return words.reduce((acc, { topWords, datetime }) => {
+        const found = topWords.find(({ word: target }) => target === word)
+
+        if (found) {
+          acc.push({
+            datetime,
+            value: found.score
+          })
+        }
+
+        return acc
+      }, [])
+    },
+    [word, words]
+  )
 
   return (
     <>
-      {loadings.length > 0 && (
+      {loading && (
         <Skeleton centered show={true} repeat={1} className={styles.chart} />
       )}
       <div className={styles.chart}>
-        <ChangeChart
-          data={data}
-          dataKey={DATAKEY}
-          width={120}
-          color={'var(--malibu)'}
-        />
+        <ChangeChart data={timeseries} width={120} color={'var(--malibu)'} />
       </div>
     </>
   )
