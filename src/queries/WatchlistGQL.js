@@ -10,6 +10,7 @@ export const WATCHLIST_GENERAL_FRAGMENT = gql`
     id
     isPublic
     name
+    slug
     description
     function
     insertedAt

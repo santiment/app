@@ -2,12 +2,11 @@ import React from 'react'
 import Card from './WatchlistCard'
 import { useFeaturedWatchlists } from '../gql/hooks'
 import { getWatchlistLink } from '../utils'
-import { sorter } from '../../../pages/Index/Aside'
 
 const Featured = () => {
   const [watchlists = [], loading] = useFeaturedWatchlists()
   return !loading
-    ? sorter(watchlists).map(watchlist => {
+    ? watchlists.map(watchlist => {
       return (
         <Card
           key={watchlist.id}

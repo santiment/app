@@ -3,9 +3,9 @@ import gql from 'graphql-tag'
 import Recent, { getItemBuilder, Column } from './Recent'
 import { VisibilityIndicator } from '../../../../components/VisibilityIndicator'
 import { usdFormatter } from '../../../../ducks/dataHub/metrics/formatters'
+import { getWatchlistLink } from '../../../../ducks/Watchlists/utils'
 import styles from '../index.module.scss'
 
-const getLink = ({ id, name }) => `/assets/list?name=${name}@${id}`
 const getItem = getItemBuilder(gql`
   query watchlist($id: ID!) {
     item: watchlist(id: $id) {
@@ -42,7 +42,7 @@ const Watchlists = ({ title, ids }) => (
     title={title}
     ids={ids}
     getItem={getItem}
-    getLink={getLink}
+    getLink={getWatchlistLink}
     Item={Watchlist}
   />
 )

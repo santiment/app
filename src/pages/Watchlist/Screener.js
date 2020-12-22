@@ -3,7 +3,10 @@ import {
   DEFAULT_SCREENER_FUNCTION,
   useScreenerUrl
 } from '../../ducks/Watchlists/utils'
-import { getProjectsByFunction } from '../../ducks/Watchlists/gql/hooks'
+import {
+  getProjectsByFunction,
+  useUpdateWatchlist
+} from '../../ducks/Watchlists/gql/hooks'
 import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table'
 import Infographics from './Infographics'
@@ -11,18 +14,20 @@ import { addRecentScreeners } from '../../utils/recent'
 import { useUser } from '../../stores/user'
 import styles from './Screener.module.scss'
 
-const Screener = props => {
-  const {
-    watchlist,
-    name,
-    isLoggedIn,
-    isDefaultScreener,
-    location,
-    history,
-    id,
-    isLoading
-  } = props
-
+const Screener = ({
+  watchlist,
+  name,
+  isLoggedIn,
+  isDefaultScreener,
+  location,
+  history,
+  id,
+  isLoading
+}) => {
+  const [
+    updateWatchlist,
+    { loading: isUpdatingWatchlist }
+  ] = useUpdateWatchlist()
   const [screenerFunction, setScreenerFunction] = useState(
     watchlist.function || DEFAULT_SCREENER_FUNCTION
   )
@@ -55,6 +60,12 @@ const Screener = props => {
     [watchlist.function]
   )
 
+  function updateWatchlistFunction (func) {
+    if (watchlist.id) {
+      updateWatchlist(watchlist, { function: func })
+    }
+  }
+
   const { widgets, setWidgets } = useScreenerUrl({ location, history })
 
   const isAuthor = user && watchlist.user && watchlist.user.id === user.id
@@ -79,6 +90,8 @@ const Screener = props => {
         isLoggedIn={isLoggedIn}
         screenerFunction={screenerFunction}
         setScreenerFunction={setScreenerFunction}
+        isUpdatingWatchlist={isUpdatingWatchlist}
+        updateWatchlistFunction={updateWatchlistFunction}
         isDefaultScreener={isDefaultScreener}
         history={history}
         widgets={widgets}

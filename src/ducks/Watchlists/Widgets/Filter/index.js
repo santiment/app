@@ -6,12 +6,11 @@ import Button from '@santiment-network/ui/Button'
 import Search from '@santiment-network/ui/Search'
 import Message from '@santiment-network/ui/Message'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import { useUpdateWatchlist } from '../../gql/hooks'
 import Trigger from './Trigger'
 import { metrics } from './dataHub/metrics'
 import Category from './Category'
+import EntryPoint from './EntryPoint'
 import ToggleActiveFilters from './ToggleActiveFilters'
-import { DEFAULT_SCREENER_FUNCTION } from '../../utils'
 import { getCategoryGraph } from '../../../Studio/Sidebar/utils'
 import { countCategoryActiveMetrics } from '../../../SANCharts/ChartMetricSelector'
 import {
@@ -34,45 +33,39 @@ const Filter = ({
   watchlist = {},
   projectsCount,
   isAuthor,
+  isAuthorLoading,
   screenerFunction,
   setScreenerFunction,
-  setIsUpdatingWatchlist,
   isLoggedIn,
   isDefaultScreener,
   loading,
   history,
   appVersionState,
   isOpen,
-  setIsOpen
+  setIsOpen,
+  updateWatchlistFunction
 }) => {
   if (!screenerFunction) {
     return null
   }
 
-  const isViewMode = !isAuthor && (isLoggedIn || !isDefaultScreener)
+  const isViewMode =
+    !isAuthor && !isAuthorLoading && (isLoggedIn || !isDefaultScreener)
   const filters = extractFilters(screenerFunction.args)
   const [currentSearch, setCurrentSearch] = useState('')
   const [filter, updateFilter] = useState(filters)
+  const [baseProjects, setBaseProjects] = useState(
+    screenerFunction.args.baseProjects
+  )
   const [isOutdatedVersion, setIsOutdatedVersion] = useState(false)
   const [isActiveFiltersOnly, setIsActiveFiltersOnly] = useState(false)
   const [isWereChanges, setIsWereChanges] = useState(false)
-  const [
-    updateWatchlist,
-    { loading: isUpdatingWatchlist }
-  ] = useUpdateWatchlist()
   const [availableMetrics] = useAvailableMetrics()
   const [isReset, setIsReset] = useState(false)
   const { isPro } = useUserSubscriptionStatus()
 
   const isNoFilters =
     filters.length === 0 || screenerFunction.name === 'top_all_projects'
-
-  useEffect(
-    () => {
-      setIsUpdatingWatchlist(isUpdatingWatchlist)
-    },
-    [isUpdatingWatchlist]
-  )
 
   useEffect(
     () => {
@@ -101,12 +94,23 @@ const Filter = ({
     [isOpen]
   )
 
+  useEffect(
+    () => {
+      if (!isViewMode && baseProjects !== screenerFunction.args.baseProjects) {
+        const newFunction = getNewFunction(filter, baseProjects)
+        updateWatchlistFunction(newFunction)
+        setScreenerFunction(newFunction)
+      }
+    },
+    [baseProjects]
+  )
+
   function resetAll () {
-    const func = DEFAULT_SCREENER_FUNCTION
+    const func = getNewFunction([], baseProjects)
     updateFilter([])
 
-    if (watchlist.id && !isNoFilters) {
-      updateWatchlist(watchlist, { function: func })
+    if (!isNoFilters) {
+      updateWatchlistFunction(func)
     }
     setScreenerFunction(func)
     setIsReset(true)
@@ -127,12 +131,10 @@ const Filter = ({
       )
     const newFilter = [...filters, metric]
 
-    const newFunction = getNewFunction(newFilter)
+    const newFunction = getNewFunction(newFilter, baseProjects)
     updateFilter(newFilter)
 
-    if (watchlist.id) {
-      updateWatchlist(watchlist, { function: newFunction })
-    }
+    updateWatchlistFunction(newFunction)
     setScreenerFunction(newFunction)
 
     if (newFilter.length > 0 && isReset) {
@@ -165,13 +167,10 @@ const Filter = ({
       newFilter = [...filter, metric]
     }
 
-    const newFunction = getNewFunction(newFilter)
-
+    const newFunction = getNewFunction(newFilter, baseProjects)
     updateFilter(newFilter)
 
-    if (watchlist.id) {
-      updateWatchlist(watchlist, { function: newFunction })
-    }
+    updateWatchlistFunction(newFunction)
     setScreenerFunction(newFunction)
 
     if (newFilter.length > 0 && isReset) {
@@ -259,6 +258,11 @@ const Filter = ({
                 View only. You aren't the author of this screener
               </Message>
             )}
+            <EntryPoint
+              baseProjects={baseProjects}
+              setBaseProjects={setBaseProjects}
+              isViewMode={isViewMode}
+            />
           </div>
           <div className={styles.content}>
             {Object.keys(categories).map(key => (
