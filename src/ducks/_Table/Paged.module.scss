@@ -4,9 +4,12 @@
   padding: 16px 32px;
   background-color: var(--white);
   color: var(--waterloo);
-  position: sticky;
   bottom: 0;
   z-index: 1;
+}
+
+.stickyPageControls {
+  position: sticky;
 }
 
 .dropdown {

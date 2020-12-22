@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Input from '@santiment-network/ui/Input'
 import Button from '@santiment-network/ui/Button'
@@ -11,22 +12,27 @@ const DROPDOWN_CLASSES = {
   options: styles.options
 }
 
-const DEFAULT_PAGE_SIZE = 20
 const PAGE_SIZES = [10, 20, 50, 100].map(index => ({
   index,
   content: `${index} rows`
 }))
 
-const PagedTable = ({ defaultPage, items, ...props }) => {
+const PagedTable = ({
+  defaultPage,
+  defaultPageSize,
+  stickyPageControls,
+  items,
+  ...props
+}) => {
   const [page, setPage] = useState(defaultPage)
-  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE)
+  const [pageSize, setPageSize] = useState(defaultPageSize)
 
   const offset = page * pageSize
   const pageItems = items.slice(offset, offset + pageSize)
 
   const maxPage = Math.ceil(items.length / pageSize)
-  const isPrevPageDisabled = page === 0
-  const isNextPageDisabled = page === maxPage - 1
+  const isPrevPageDisabled = page < 1
+  const isNextPageDisabled = page >= maxPage - 1
 
   function onPageInput (e) {
     const newPage = e.target.value - 1
@@ -39,7 +45,12 @@ const PagedTable = ({ defaultPage, items, ...props }) => {
   return (
     <>
       <Table {...props} items={pageItems} offset={offset} />
-      <div className={styles.controls}>
+      <div
+        className={cx(
+          styles.controls,
+          stickyPageControls && styles.stickyPageControls
+        )}
+      >
         <Dropdown
           options={PAGE_SIZES}
           selected={pageSize}
@@ -79,7 +90,9 @@ const PagedTable = ({ defaultPage, items, ...props }) => {
 }
 
 PagedTable.defaultProps = {
-  defaultPage: 0
+  defaultPage: 0,
+  defaultPageSize: 20,
+  items: []
 }
 
 export default PagedTable
