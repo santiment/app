@@ -40,7 +40,7 @@ export const TOPICS = [
     query: 'bnt?asset=bancor&ticker=BNT'
   },
   { slug: 'stimulus', title: 'Stimulus' },
-  { slug: 'iotex', title: 'IOTEX AMA' },
+  { slug: 'iotex', title: 'IOTEX AMA' }
 ]
 
 export const INDEX_PAGE_GROUPS = [

@@ -43,7 +43,7 @@ const FilterMetricState = ({
           className={styles.checkbox}
         />
         <div className={styles.title}>
-          <span className={styles.label}>{metric.label}</span>
+          <span>{metric.label}</span>
           {metric.isDeprecated && <DeprecatedLabel isAuthor={!isViewMode} />}
           {metric.isOnlyPercentFilters &&
             !isPro &&

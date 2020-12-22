@@ -1,0 +1,107 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  display: flex;
+  align-items: baseline;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 34px;
+}
+
+.panel {
+  max-height: 480px;
+  width: 416px;
+  min-height: 200px;
+  padding: 20px 0 0 0;
+}
+
+.trigger__btn {
+  min-width: 416px;
+  margin-top: 14px;
+
+  &:hover {
+    border-color: var(--mystic);
+    color: var(--rhino);
+  }
+}
+
+.trigger__arrow {
+  width: 8px;
+  fill: var(--waterloo) !important;
+  transition: transform 0.25s ease-in-out;
+}
+
+.trigger__input {
+  color: var(--waterloo);
+}
+
+.trigger__btn input[data-isactive=true] + .trigger__arrow {
+  fill: var(--rhino) !important;
+  transform: rotate(180deg);
+}
+
+.trigger__btn input::placeholder {
+  color: var(--waterloo) !important;
+}
+
+.dropdown {
+  z-index: 1000;
+}
+
+.title {
+  @include text('body-3');
+
+  color: var(--rhino);
+}
+
+.explanation {
+  color: var(--waterloo);
+  margin-left: 6px;
+}
+
+.search {
+  margin: 0 24px 6px 24px;
+}
+
+.message {
+  margin-top: 14px;
+  margin-bottom: 24px;
+}
+
+.selected {
+  margin-top: 20px;
+}
+
+.selected + .message {
+  margin-top: 2px;
+}
+
+.selected + .list {
+  margin-top: 18px;
+}
+
+.heading {
+  margin: 0 0 14px 0;
+
+  @include text('caption', 'l');
+
+  color: var(--waterloo);
+}
+
+.list + .list {
+  margin-top: 10px;
+}
+
+.content {
+  margin-left: 24px;
+  padding-right: 24px;
+  max-height: 407px;
+  overflow-y: auto;
+  overflow-y: overlay;
+}
+
+.scroller {
+  display: flex;
+  flex-direction: column;
+  width: 366px;
+}

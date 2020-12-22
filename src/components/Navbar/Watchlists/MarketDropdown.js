@@ -9,10 +9,7 @@ import {
 } from '../../../ducks/Watchlists/gql/hooks'
 import WatchlistsDropdown from './WatchlistsDropdown'
 import { getRecentWatchlists } from '../../../utils/recent'
-import {
-  BASIC_CATEGORIES,
-  getWatchlistLink
-} from '../../../ducks/Watchlists/utils'
+import { getWatchlistLink } from '../../../ducks/Watchlists/utils'
 import NewLabel from '../../NewLabel/NewLabel'
 import styles from './MarketDropdown.module.scss'
 
@@ -41,7 +38,6 @@ const DASHBOARDS = [
 
 const MarketDropdown = ({ activeLink }) => {
   const [watchlists = []] = useFeaturedWatchlists()
-  const categories = [...BASIC_CATEGORIES, ...watchlists]
 
   const watchlistsIDs = getRecentWatchlists().filter(Boolean)
   const [recentWatchlists] = useRecentWatchlists(watchlistsIDs)
@@ -82,7 +78,7 @@ const MarketDropdown = ({ activeLink }) => {
         <div className={styles.block}>
           <h3 className={styles.title}>Explore watchlists</h3>
           <div>
-            {categories.map(({ to, name, id }) => {
+            {watchlists.map(({ to, name, id }) => {
               const link = to || getWatchlistLink({ name, id })
 
               return (

@@ -14,7 +14,8 @@ const Help = () => (
 
 export const Title = () => (
   <>
-    Historical balance <Help />
+    <span style={{ 'margin-right': '6px' }}>Historical balance</span>
+    <Help />
   </>
 )
 

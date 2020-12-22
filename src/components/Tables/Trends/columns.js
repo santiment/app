@@ -143,12 +143,33 @@ export const getTrendsMobileCols = ({ trendConnections }) => [
 ]
 
 export const getTrendsDesktopCols = ({ trendConnections, TrendToInsights }) => {
-  return [
+  const hasInsights =
+    TrendToInsights &&
+    Object.values(TrendToInsights).some(item => item && item.length > 0)
+
+  const columns = [
     getIndexColumn(),
     ...getCommonColumns({ trendConnections }),
+    CHART_COLUMN,
+    {
+      Header: 'Connected words',
+      accessor: 'wordCloud',
+      Cell: ({ value: rawWord }) => (
+        <WordCloud className={styles.wordCloud} size={6} word={rawWord} />
+      )
+    }
+  ]
+
+  if (!hasInsights) {
+    return columns
+  }
+
+  return [
+    ...columns,
     {
       Header: 'Insights',
-      accessor: 'rawWord',
+      width: 60,
+      accessor: 'insightWord',
       Cell: ({ value: rawWord }) => {
         const insights = TrendToInsights[rawWord.toUpperCase()]
 
@@ -192,15 +213,6 @@ export const getTrendsDesktopCols = ({ trendConnections, TrendToInsights }) => {
           insightsTrigger
         )
       }
-    },
-    CHART_COLUMN,
-
-    {
-      Header: 'Connected words',
-      accessor: 'wordCloud',
-      Cell: ({ value: rawWord }) => (
-        <WordCloud className={styles.wordCloud} size={6} word={rawWord} />
-      )
     }
   ]
 }

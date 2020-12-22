@@ -119,7 +119,7 @@ const EditForm = ({
           onChange={onInputChange}
           isError={formState.error}
           errorText={formState.error}
-          autocomplete='off'
+          autoComplete='off'
         />
         <button
           // hack for submiting form
