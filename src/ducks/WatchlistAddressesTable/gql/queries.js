@@ -17,6 +17,15 @@ export const WATCHLIST_GENERAL_FRAGMENT = gql`
   }
 `
 
+export const SHORT_WATCHLIST_GENERAL_FRAGMENT = gql`
+  fragment generalFragment on UserList {
+    id
+    name
+    type
+    isPublic
+  }
+`
+
 export const LIST_ITEMS_FRAGMENT = gql`
   fragment listItemsFragment on UserList {
     listItems {
@@ -35,6 +44,17 @@ export const LIST_ITEMS_FRAGMENT = gql`
           balanceChangePercent
           balanceEnd
         }
+      }
+    }
+  }
+`
+
+export const SHORT_LIST_ITEMS_FRAGMENT = gql`
+  fragment listItemsFragment on UserList {
+    listItems {
+      blockchainAddress {
+        address
+        infrastructure
       }
     }
   }

@@ -9,10 +9,13 @@ import { getWatchlistLink } from '../../../ducks/Watchlists/utils'
 import { VisibilityIndicator } from '../../VisibilityIndicator'
 import { useUser } from '../../../stores/user'
 import { useUserWatchlists } from '../../../ducks/Watchlists/gql/hooks'
+import { useAddressWatchlists } from '../../../ducks/Watchlists/gql/queries'
+import { getAddressesWatchlistLink } from '../../../ducks/Watchlists/url'
 import styles from './WatchlistsDropdown.module.scss'
 
 const WatchlistsDropdown = ({ activeLink }) => {
-  const [watchlists, loading] = useUserWatchlists()
+  const [projectsWatchlists, loading] = useUserWatchlists()
+  const addressesWatchlists = useAddressWatchlists().watchlists
   const { loading: isLoggedInPending, isLoggedIn } = useUser()
   const isLoading = loading || isLoggedInPending
 
@@ -23,6 +26,8 @@ const WatchlistsDropdown = ({ activeLink }) => {
   if (!isLoggedIn) {
     return <WatchlistsAnon className={styles.anon} />
   }
+
+  const watchlists = addressesWatchlists.concat(projectsWatchlists)
 
   return watchlists.length === 0 ? (
     <EmptySection watchlists={watchlists} />
@@ -42,8 +47,12 @@ const WatchlistList = ({ watchlists, activeLink }) => (
     }}
   >
     <div className={styles.list}>
-      {watchlists.map(({ name, id, isPublic }) => {
-        const link = getWatchlistLink({ id, name })
+      {watchlists.map(watchlist => {
+        const { name, id, isPublic, type } = watchlist
+        const link =
+          type === 'BLOCKCHAIN_ADDRESS'
+            ? getAddressesWatchlistLink(watchlist)
+            : getWatchlistLink(watchlist)
         return (
           <Button
             fluid

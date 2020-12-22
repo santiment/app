@@ -21,7 +21,7 @@ const TYPE = {
 const CreateAlert = ({ assets, address, trigger }) => {
   const ethAddress = useMemo(() => mapToOptions(address), [address])
   const target = useMemo(
-    () => ({ value: assets.length ? mapToOptions(assets[0]) : undefined }),
+    () => ({ value: assets.length ? mapToOptions(assets[0]) : [] }),
     [assets]
   )
 

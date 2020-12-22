@@ -29,7 +29,7 @@ const Page = ({
   </div>
 )
 
-Page.defaulProps = {
+Page.defaultProps = {
   isWithPadding: true
 }
 

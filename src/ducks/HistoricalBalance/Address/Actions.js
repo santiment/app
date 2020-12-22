@@ -2,9 +2,10 @@ import React from 'react'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import CreateAlert from './CreateAlert'
+import AddToWatchlist from './AddToWatchlist'
 import styles from './index.module.scss'
 
-const Actions = ({ address, assets }) => {
+const Actions = ({ address, infrastructure, assets }) => {
   function onCommentClick () {
     const $comment = document.querySelector('textarea[name="comment"]')
     if ($comment) $comment.focus()
@@ -23,14 +24,9 @@ const Actions = ({ address, assets }) => {
         }
       />
 
-      {/* TODO: Enable Watchlist action after adding address watchlist page [@vanguard | Dec 19, 2020] */}
-      {/* <div className={styles.divider} />
+      <div className={styles.divider} />
 
-      <Button className={styles.btn}>
-        <Icon type='copy' className={styles.btn__icon} />
-        Add to Watchlist
-      </Button>
-        */}
+      <AddToWatchlist address={address} infrastructure={infrastructure} />
 
       <div className={styles.divider} />
 
