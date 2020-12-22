@@ -32,7 +32,7 @@ const Actions = ({ address, infrastructure, assets }) => {
 
       <Button className={styles.btn} onClick={onCommentClick}>
         <Icon type='comment' className={styles.btn__icon} />
-        Leave comment
+        Comment
       </Button>
     </div>
   )

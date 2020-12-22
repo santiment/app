@@ -15,7 +15,7 @@
 }
 
 .calendar {
-  margin: 0 8px;
+  margin-left: 8px;
   min-width: 167px;
 }
 
@@ -34,4 +34,8 @@
   top: 50%;
   transform: translate(0, -50%);
   font-size: 6px;
+}
+
+.menu {
+  margin-left: 8px;
 }
