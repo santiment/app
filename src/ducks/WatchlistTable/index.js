@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from 'react'
-import cx from 'classnames'
 import SaveAs from './SaveAs'
 import DownloadCSV from './DownloadCSV'
 import PagedTable from '../_Table/Paged'
@@ -48,8 +47,10 @@ const WatchlistTable = ({
 
       <PagedTable
         {...props}
+        stickyPageControls
+        padding
         itemProps={useSelectedItemsSet(items)}
-        className={cx(styles.table)}
+        className={styles.table}
       />
     </div>
   )

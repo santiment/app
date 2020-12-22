@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { FluidSkeleton as Skeleton } from '../../components/Skeleton'
+import NoDataImage from '../../components/Illustrations/NoData'
 import styles from './index.module.scss'
 
 export function prepareColumns (columns) {
@@ -11,14 +12,27 @@ export function prepareColumns (columns) {
   return columns
 }
 
+function minRowsPadding (minRows, { length }) {
+  if (length >= minRows) return null
+
+  const rowsToAdd = minRows - length
+  const rows = new Array(rowsToAdd)
+  for (let i = 0; i < rowsToAdd; i++) {
+    rows[i] = <tr key={i} />
+  }
+  return rows
+}
+
 const Table = ({
   className,
   offset,
   columns,
+  minRows,
   items,
   itemKeyProperty,
   itemProps,
-  isLoading
+  isLoading,
+  getItemKey
 }) => (
   <table className={cx(styles.wrapper, className)}>
     <thead>
@@ -32,7 +46,7 @@ const Table = ({
       {items.map((item, i) => {
         const itemIndex = offset + i
         return (
-          <tr key={item[itemKeyProperty]}>
+          <tr key={getItemKey ? getItemKey(item) : item[itemKeyProperty]}>
             {columns.map(({ id, render, className }) => (
               <td key={id} className={className}>
                 {render(item, itemProps, itemIndex)}
@@ -41,9 +55,13 @@ const Table = ({
           </tr>
         )
       })}
+      {minRowsPadding(minRows, items)}
     </tbody>
     <caption>
       <Skeleton show={isLoading} className={styles.skeleton} />
+      {!isLoading && items.length === 0 && (
+        <NoDataImage className={styles.nodata} />
+      )}
     </caption>
   </table>
 )
@@ -51,7 +69,8 @@ const Table = ({
 Table.defaultProps = {
   items: [],
   itemProps: {},
-  itemKeyProperty: 'id'
+  itemKeyProperty: 'id',
+  minRows: 0
 }
 
 export default Table

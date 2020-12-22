@@ -28,3 +28,10 @@
   width: 100%;
   top: 0;
 }
+
+.nodata {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

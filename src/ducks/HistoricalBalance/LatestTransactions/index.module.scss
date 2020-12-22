@@ -6,42 +6,28 @@
 }
 
 .table {
-  width: 100%;
   border: 1px solid var(--porcelain);
   border-radius: 4px;
-  border-spacing: 0;
-  overflow: hidden;
-  text-align: left;
-}
 
-.header {
-  @include text('caption');
+  :global {
+    td {
+      border-top: 1px solid var(--porcelain);
+    }
 
-  background: var(--athens);
-  color: var(--casper);
-
-  :global(th) {
-    padding: 8px 16px;
-    white-space: nowrap;
+    tbody tr {
+      height: 62px;
+    }
   }
-}
-
-.table :global(td) {
-  padding: 8px 16px;
-  border-top: 1px solid var(--porcelain);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .hash {
   max-width: 0;
-  width: 35%;
+  width: 30%;
 }
 
 .values {
   max-width: 0;
-  width: 35%;
+  width: 45%;
 }
 
 .link {
@@ -76,10 +62,4 @@
   padding: 1px 8px;
   border-radius: 4px;
   margin-left: 4px;
-}
-
-.skeleton {
-  position: absolute;
-  width: 100%;
-  top: 0;
 }

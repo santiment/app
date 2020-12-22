@@ -27,7 +27,7 @@ const WatchlistAddress = ({ match }) => {
     <Page
       className={styles.wrapper}
       headerClassName={styles.header}
-      isWidthPadding={false}
+      isWithPadding={false}
       title={watchlist.name}
       actions={<Actions watchlist={watchlist} isAuthor={isAuthor} />}
     >
