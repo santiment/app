@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import Panel from '@santiment-network/ui/Panel'
-import Search from '@santiment-network/ui/Search'
+// import Search from '@santiment-network/ui/Search'
 import Message from '@santiment-network/ui/Message'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
@@ -10,8 +10,7 @@ import Item from './Item'
 import {
   makeHumanReadableState,
   ALL_ASSETS_TEXT,
-  MAX_VISIBLE_SYMBOLS,
-  idNameMap
+  MAX_VISIBLE_SYMBOLS
 } from './utils'
 import { ALL_PROJECTS_WATCHLIST_SLUG } from '../../../utils'
 import styles from './index.module.scss'
@@ -22,8 +21,8 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects }) => {
   )
   const [categories] = useFeaturedWatchlists()
   const [watchlists = []] = useUserWatchlists()
-  const { metadata } = useStateMetadata(state)
-  const [currentSearch, setCurrentSearch] = useState('')
+  const { idNameMap, setIdNameMap } = useStateMetadata(state)
+  // const [currentSearch, setCurrentSearch] = useState('')
   const { message, updateMessage } = useMessage(state)
 
   useEffect(
@@ -46,7 +45,7 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects }) => {
         }
       }
     },
-    [state, metadata]
+    [state]
   )
 
   const filteredCategories = useMemo(
@@ -73,7 +72,7 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects }) => {
 
   const [inputState, shortInputState] = useMemo(
     () => {
-      const text = makeHumanReadableState(state)
+      const text = makeHumanReadableState(state, idNameMap)
       return [
         text,
         text.length > MAX_VISIBLE_SYMBOLS
@@ -81,7 +80,7 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects }) => {
           : text
       ]
     },
-    [state]
+    [state, idNameMap]
   )
 
   function addItemInState (item) {
@@ -111,12 +110,12 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects }) => {
         }
       >
         <Panel className={styles.panel}>
-          <Search
-            autoFocus
-            onChange={value => setCurrentSearch(value)}
-            placeholder='Type to search'
-            className={styles.search}
-          />
+          {/* <Search */}
+          {/*   autoFocus */}
+          {/*   onChange={value => setCurrentSearch(value)} */}
+          {/*   placeholder='Type to search' */}
+          {/*   className={styles.search} */}
+          {/* /> */}
           <div className={styles.content}>
             <div className={styles.scroller}>
               {state && (
@@ -130,7 +129,7 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects }) => {
                   ) : (
                     state.map(item => {
                       const name =
-                        idNameMap.get(item['watchlistId']) ||
+                        idNameMap[item['watchlistId']] ||
                         item['watchlistId'] ||
                         item
                       return (
@@ -166,7 +165,7 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects }) => {
                     <Item
                       key={id}
                       onClick={() => {
-                        idNameMap.set(+id, name)
+                        setIdNameMap({ ...idNameMap, [+id]: name })
                         addItemInState({ watchlistId: +id })
                       }}
                       name={name}
@@ -183,7 +182,7 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects }) => {
                     <Item
                       key={id}
                       onClick={() => {
-                        idNameMap.set(+id, name)
+                        setIdNameMap({ ...idNameMap, [+id]: name })
                         addItemInState({ watchlistId: +id })
                       }}
                       name={name}

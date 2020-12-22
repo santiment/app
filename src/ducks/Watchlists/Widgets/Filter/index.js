@@ -11,7 +11,6 @@ import { metrics } from './dataHub/metrics'
 import Category from './Category'
 import EntryPoint from './EntryPoint'
 import ToggleActiveFilters from './ToggleActiveFilters'
-import { DEFAULT_SCREENER_FUNCTION } from '../../utils'
 import { getCategoryGraph } from '../../../Studio/Sidebar/utils'
 import { countCategoryActiveMetrics } from '../../../SANCharts/ChartMetricSelector'
 import {
