@@ -11,7 +11,7 @@ import {
   makeHumanReadableState,
   ALL_ASSETS_TEXT,
   MAX_VISIBLE_SYMBOLS,
-  ID_TO_NAME
+  idNameMap
 } from './utils'
 import { ALL_PROJECTS_WATCHLIST_SLUG } from '../../../utils'
 import styles from './index.module.scss'
@@ -22,7 +22,7 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects }) => {
   )
   const [categories] = useFeaturedWatchlists()
   const [watchlists = []] = useUserWatchlists()
-  const [metadata] = useStateMetadata(state)
+  const { metadata } = useStateMetadata(state)
   const [currentSearch, setCurrentSearch] = useState('')
   const { message, updateMessage } = useMessage(state)
 
@@ -46,7 +46,7 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects }) => {
         }
       }
     },
-    [state]
+    [state, metadata]
   )
 
   const filteredCategories = useMemo(
@@ -54,7 +54,7 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects }) => {
       categories.filter(({ id, slug }) => {
         const isAllAssetsList = slug === ALL_PROJECTS_WATCHLIST_SLUG
         const isInState =
-          Array.isArray(state) && state.some(item => item.watchlistId === id)
+          Array.isArray(state) && state.some(item => item.watchlistId === +id)
 
         return !isAllAssetsList && !isInState
       }),
@@ -65,7 +65,7 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects }) => {
     () =>
       watchlists.filter(({ id }) => {
         const isInState =
-          Array.isArray(state) && state.some(item => item.watchlistId === id)
+          Array.isArray(state) && state.some(item => item.watchlistId === +id)
         return !isInState
       }),
     [state, watchlists]
@@ -129,7 +129,10 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects }) => {
                     />
                   ) : (
                     state.map(item => {
-                      const name = item['watchlistId'] || item
+                      const name =
+                        idNameMap.get(item['watchlistId']) ||
+                        item['watchlistId'] ||
+                        item
                       return (
                         <Item
                           key={name}
@@ -163,7 +166,7 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects }) => {
                     <Item
                       key={id}
                       onClick={() => {
-                        ID_TO_NAME.id = name
+                        idNameMap.set(+id, name)
                         addItemInState({ watchlistId: +id })
                       }}
                       name={name}
@@ -180,7 +183,7 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects }) => {
                     <Item
                       key={id}
                       onClick={() => {
-                        ID_TO_NAME.id = name
+                        idNameMap.set(+id, name)
                         addItemInState({ watchlistId: +id })
                       }}
                       name={name}

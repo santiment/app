@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { ALL_ASSETS_TEXT, MESSAGES } from './utils'
+import { ALL_ASSETS_TEXT, MESSAGES, idNameMap } from './utils'
 
 export const useMessage = state => {
   const [message, setMessage] = useState('')
@@ -31,6 +31,8 @@ export function useStateMetadata (state) {
   const watchlistIDs = Array.isArray(state)
     ? state.filter(item => !!item.watchlistId).map(item => item.watchlistId)
     : []
-  console.log(watchlistIDs)
-  return [watchlistIDs]
+  const listsWithoutData = watchlistIDs.filter(id => !idNameMap.has(id))
+  const names = watchlistIDs.map(id => idNameMap.get(id) || id)
+
+  return { metadata: names }
 }
