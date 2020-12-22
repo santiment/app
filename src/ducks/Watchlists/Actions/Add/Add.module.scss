@@ -1,0 +1,46 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+}
+
+.watchlists {
+  overflow: auto;
+}
+
+.watchlist {
+  display: flex;
+  align-items: center;
+  padding: 6px 8px 6px 0;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--jungle-green);
+  }
+}
+
+.checkbox {
+  margin-right: 6px;
+}
+
+.publicity {
+  margin-left: auto;
+}
+
+.new {
+  margin-top: 15px;
+  width: 100%;
+  justify-content: center;
+}
+
+@include responsive('laptop', 'desktop', 'tablet') {
+  .actions {
+    padding-top: 18px;
+  }
+
+  .approve {
+    margin-left: 16px;
+  }
+}
