@@ -13,6 +13,12 @@
   height: 100%;
 }
 
+.centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .skeleton {
   overflow: hidden;
   border-radius: 4px;

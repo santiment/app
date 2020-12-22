@@ -4,10 +4,16 @@ import PropTypes from 'prop-types'
 import { CSSTransition } from 'react-transition-group'
 import styles from './Skeleton.module.scss'
 
-const Skeleton = ({ className, wrapperClassName, show, repeat }) => {
+const Skeleton = ({ className, wrapperClassName, centered, show, repeat }) => {
   const elem = new Array(repeat).fill(0)
   return (
-    <div className={cx(styles.wrapper, wrapperClassName)}>
+    <div
+      className={cx(
+        styles.wrapper,
+        centered && styles.centered,
+        wrapperClassName
+      )}
+    >
       <CSSTransition
         in={show}
         timeout={1000}

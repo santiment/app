@@ -6,7 +6,8 @@ import { USER_ADD_NEW_ASSET_LIST } from '../../../../actions/types'
 const NewList = ({
   onSubmit,
   trigger,
-  createWatchlist,
+  dispatchWatchlistCreation,
+  createWatchlist = dispatchWatchlistCreation,
   isPending,
   isSuccess,
   lists,
@@ -48,7 +49,7 @@ const mapStateToProps = ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  createWatchlist: payload =>
+  dispatchWatchlistCreation: payload =>
     dispatch({
       type: USER_ADD_NEW_ASSET_LIST,
       payload

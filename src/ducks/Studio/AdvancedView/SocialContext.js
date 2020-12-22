@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Calendar from './Calendar'
-import WordCloud from '../../../components/WordCloud/WordCloud'
-import TrendsTable from '../../../components/Trends/TrendsTable/TrendsTable'
+import WordCloud from '../../../components/WordCloud/WordCloudWithHeader'
+import TrendsTable from '../../../components/Tables/Trends/TrendsTable'
 import GetHypedTrends from '../../../components/Trends/GetHypedTrends'
 import { INTERVAL_ALIAS } from '../../SANCharts/IntervalSelector'
 import { parseIntervalString, ONE_MONTH_IN_MS } from '../../../utils/dates'
@@ -88,6 +88,7 @@ const SocialContext = ({ interval, date, project: { slug } }) => {
                 className={styles.table}
                 contentClassName={styles.table__content}
                 isLoading={isLoading}
+                isCompactView
               />
             )
           }}

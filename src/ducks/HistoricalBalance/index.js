@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
-import { logScale, linearScale } from '@santiment-network/chart/scales'
 import { ASSETS_LIMIT, withDefaults } from './defaults'
-import {
-  useInfrastructureDetector,
-  useSettings,
-  useWalletAssets,
-  useWalletMetrics
-} from './hooks'
-import Chart, { useResponsiveTicks } from './Chart'
-import Configurations from './Configurations'
-import AddressSetting from './Setting/Address'
-import AssetsSetting from './Setting/Assets'
+import { useSettings, useWalletAssets } from './hooks'
+import Chart from './Chart'
+import AddressSetting from './Address'
+import Comments from './Comments'
+import LatestTransactions from './LatestTransactions/index.js'
 import { withSizes } from '../../components/Responsive'
 import styles from './index.module.scss'
 
@@ -26,19 +20,10 @@ const HistoricalBalance = ({
   const { settings, changeTimePeriod, onAddressChange } = useSettings(
     defaultSettings
   )
-  const infrastructure = useInfrastructureDetector(settings.address)
-
-  const { walletAssets, isLoading, isError } = useWalletAssets(
-    settings.address,
-    infrastructure
-  )
-
+  const { walletAssets, isLoading, isError } = useWalletAssets(settings)
   const [chartAssets, setChartAssets] = useState(defaultChartAssets)
   const [priceAssets, setPriceAssets] = useState(defaultPriceAssets)
   const [isLog, setIsLog] = useState(defaultIsLog)
-
-  const [metrics, MetricSettingMap] = useWalletMetrics(chartAssets, priceAssets)
-  const axesTicks = useResponsiveTicks(isPhone)
 
   useEffect(
     () => {
@@ -51,23 +36,6 @@ const HistoricalBalance = ({
       setPriceAssets([...priceAssetsSet])
     },
     [chartAssets]
-  )
-
-  useEffect(
-    () => {
-      if (walletAssets.length > 0) {
-        const mappedAssets = chartAssets
-          .map(({ slug }) => {
-            return walletAssets.find(
-              ({ slug: walletSlug }) => walletSlug === slug
-            )
-          })
-          .filter(item => !!item)
-
-        setChartAssets(mappedAssets)
-      }
-    },
-    [walletAssets]
   )
 
   function togglePriceAsset (asset) {
@@ -98,43 +66,38 @@ const HistoricalBalance = ({
   }
 
   return (
-    <div className={styles.wrapper}>
-      <div className={cx(styles.settings, isPhone && styles.settings_phone)}>
-        <AddressSetting
-          address={settings.address}
-          isError={isError}
-          onAddressChange={onAddressChange}
-        />
-        <AssetsSetting
-          className={
-            isPhone ? styles.settings__assets_phone : styles.settings__assets
-          }
-          walletAssets={walletAssets}
-          chartAssets={chartAssets}
-          isLoading={isLoading}
-          setChartAssets={updateChartAssets}
-        />
-      </div>
+    <>
+      <AddressSetting
+        className={isPhone && styles.address_phone}
+        settings={settings}
+        chartAssets={chartAssets}
+        isError={isError}
+        onAddressChange={onAddressChange}
+      />
 
-      <Configurations
-        isLog={isLog}
+      <Chart
+        height={isPhone ? 340 : 450}
         settings={settings}
         chartAssets={chartAssets}
         priceAssets={priceAssets}
+        walletAssets={walletAssets}
         isPhone={isPhone}
+        isLog={isLog}
+        isLoading={isLoading}
         togglePriceAsset={togglePriceAsset}
         changeTimePeriod={changeTimePeriod}
+        setChartAssets={updateChartAssets}
         setIsLog={setIsLog}
-      >
-        <Chart
-          axesTicks={axesTicks}
-          height={isPhone ? 340 : 450}
-          scale={isLog ? logScale : linearScale}
-          settings={settings}
-          metrics={metrics}
-          MetricSettingMap={MetricSettingMap}
-        />
-      </Configurations>
+      />
+
+      <div className={cx(styles.bottom, isPhone && styles.bottom_phone)}>
+        <div className={styles.left}>
+          <Comments settings={settings} />
+        </div>
+        <div className={styles.right}>
+          <LatestTransactions settings={settings} />
+        </div>
+      </div>
 
       {React.Children.map(children, child =>
         React.cloneElement(child, {
@@ -144,7 +107,7 @@ const HistoricalBalance = ({
           isLog
         })
       )}
-    </div>
+    </>
   )
 }
 

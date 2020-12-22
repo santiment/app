@@ -1,18 +1,5 @@
 @import '~@santiment-network/ui/mixins';
 
-.checkbox {
-  display: none;
-  vertical-align: middle;
-
-  &_active {
-    display: inline-flex;
-
-    & + .index {
-      display: none;
-    }
-  }
-}
-
 .header {
   padding: 13px 23px;
 
@@ -29,20 +16,11 @@
 .word {
   color: var(--rhino);
 
-  @include text('body-3');
-
-  @include responsive('laptop', 'desktop', 'tablet') {
-    font-size: 14px !important;
-    line-height: 20px !important;
-  }
+  @include text('body-1', 'l');
 
   @include responsive('phone', 'phone-xs') {
     @include text('body-2');
   }
-}
-
-.connected {
-  color: var(--jungle-green);
 }
 
 .headerIndex {
@@ -51,6 +29,7 @@
 
 .panel {
   box-shadow: none;
+  border: none;
 
   &__compact {
     border: none;
@@ -60,6 +39,7 @@
 .content {
   padding: 0;
   max-height: 100%;
+  border: none;
 
   &__compact {
     border: 1px solid var(--porcelain);
@@ -92,6 +72,10 @@
   }
 }
 
+.index {
+  @include text('body-2', 'l');
+}
+
 .table:global(.ReactTable) {
   /* stylelint-disable */
   & {
@@ -101,15 +85,14 @@
 
   :global {
     .rt-thead.-header {
-      box-shadow: initial;
-      border-bottom: 1px solid var(--porcelain);
-      padding: 0 23px;
+      box-shadow: none;
+      padding: 0 24px;
       background: var(--athens);
+      border: none;
 
       @include responsive('phone', 'phone-xs') {
-        background: var(--white);
-        padding: 0 16px;
-        margin-top: 24px;
+        background: var(--athens);
+        padding: 8px 16px;
       }
     }
 
@@ -117,8 +100,10 @@
       background: var(--athens);
       text-align: left !important;
       text-transform: initial;
-      color: var(--casper);
-      padding: 7px 0 !important;
+      color: var(--waterloo);
+      padding: 6px 0 !important;
+
+      @include text('body-3', 'l');
 
       @include responsive('phone', 'phone-xs') {
         background: var(--white);
@@ -140,8 +125,8 @@
     }
 
     .rt-tr-group {
-      padding: 0 10px 0 23px;
-      height: 60px;
+      padding: 0 0 0 24px;
+      min-height: 60px;
 
       &:hover {
         background: var(--athens);
@@ -176,13 +161,15 @@
     }
 
     .rt-tbody {
+      border: 1px solid var(--porcelain);
+
       @include responsive('phone', 'phone-xs') {
         padding: 0 16px;
       }
     }
 
     .rt-td {
-      padding: 0;
+      padding: 0 !important;
       border: none !important;
       display: flex;
       align-items: center;
@@ -217,30 +204,27 @@
 }
 
 .volume {
-  font-size: 14px !important;
-  line-height: 20px !important;
+  @include text('body-1');
 
   @include responsive('phone', 'phone-xs') {
-    font-size: 16px !important;
-    line-height: 22px !important;
     text-align: right;
   }
 }
 
 .valueChange {
-  margin-left: 8px;
+  margin-left: 10px;
   font-size: 14px !important;
   line-height: 20px !important;
 
   @include responsive('phone', 'phone-xs') {
     font-size: 16px !important;
     line-height: 22px !important;
-    margin-left: 7px;
+    margin: 0 8px;
   }
 }
 
 .wordCloud {
-  height: 320px;
+  height: 80px;
   width: 100%;
 }
 
@@ -250,7 +234,7 @@
 
   &__trigger {
     background: transparent;
-    padding: 6px 7px;
+    padding: 6px 7px  6px 0;
     fill: var(--rhino);
   }
 }
@@ -293,8 +277,9 @@
   vertical-align: middle;
 }
 
-.loader {
-  font-size: 3px !important;
+.skeleton {
+  width: 100px;
+  height: 40px;
 }
 
 .compact:global(.ReactTable) {

@@ -1,0 +1,19 @@
+.wrapper {
+  --table-header-sticky-offset: 64px;
+}
+
+.header {
+  margin: 0;
+  z-index: 1;
+  position: sticky;
+  top: 0;
+}
+
+.edit {
+  margin: 0;
+}
+
+.share {
+  margin-left: auto;
+  padding: 0;
+}

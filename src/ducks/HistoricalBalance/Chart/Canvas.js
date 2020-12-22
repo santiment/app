@@ -1,16 +1,16 @@
 import React, { useMemo } from 'react'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import SANChart from '../Chart/Modular'
-import Lines from '../Chart/Lines'
-import Areas from '../Chart/Areas'
-import Axes from '../Chart/Axes'
-import CartesianGrid from '../Chart/CartesianGrid'
-import Tooltip from '../Chart/Tooltip'
-import { useChartColors } from '../Chart/colors'
-import { useClosestValueData, useAxesMetricsKey } from '../Chart/hooks'
-import { useMetricCategories } from '../Chart/Synchronizer'
-import { useTimeseries } from '../Studio/timeseries/hooks'
-import styles from './Chart.module.scss'
+import SANChart from '../../Chart/Modular'
+import Lines from '../../Chart/Lines'
+import Areas from '../../Chart/Areas'
+import Axes from '../../Chart/Axes'
+import CartesianGrid from '../../Chart/CartesianGrid'
+import Tooltip from '../../Chart/Tooltip'
+import { useChartColors } from '../../Chart/colors'
+import { useClosestValueData, useAxesMetricsKey } from '../../Chart/hooks'
+import { useMetricCategories } from '../../Chart/Synchronizer'
+import { useTimeseries } from '../../Studio/timeseries/hooks'
+import styles from './Canvas.module.scss'
 
 const CHART_PADDING = {
   top: 25,
@@ -42,14 +42,8 @@ function getResponsiveTicks (isPhone) {
 export const useResponsiveTicks = isPhone =>
   useMemo(() => getResponsiveTicks(isPhone), [isPhone])
 
-const Chart = ({
-  metrics,
-  settings,
-  MetricSettingMap,
-  axesTicks,
-  ...props
-}) => {
-  const [rawData, loadings] = useTimeseries(metrics, settings, MetricSettingMap)
+const Canvas = ({ metrics, settings, axesTicks, ...props }) => {
+  const [rawData, loadings] = useTimeseries(metrics, settings)
   const data = useClosestValueData(rawData, metrics)
   const categories = useMetricCategories(metrics)
   const MetricColor = useChartColors(metrics)
@@ -81,4 +75,4 @@ const Chart = ({
   )
 }
 
-export default Chart
+export default Canvas

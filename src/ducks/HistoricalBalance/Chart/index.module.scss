@@ -4,15 +4,11 @@
 
   &_phone {
     flex-direction: column;
-
-    & .left {
-      margin: 16px 0 0;
-    }
   }
 }
 
-.left {
-  margin-left: auto;
+.right {
+  margin: 16px 0 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -26,4 +22,16 @@
 .divider {
   border-top-color: var(--porcelain);
   margin: 15px 0;
+}
+
+.assets {
+  position: relative;
+}
+
+.loader {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translate(0, -50%);
+  font-size: 6px;
 }

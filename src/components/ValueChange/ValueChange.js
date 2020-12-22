@@ -10,7 +10,7 @@ const Change = {
 
 const notChanged = ['texas-rose', 'lock-small']
 
-const ValueChange = ({ className, change, render }) => {
+const ValueChange = ({ className, suffix, change, render }) => {
   const changed = change !== 0
   const [accent, triangle] = changed ? Change[change > 0] : notChanged
 
@@ -28,6 +28,7 @@ const ValueChange = ({ className, change, render }) => {
         </div>
       )}
       {render(Math.abs(change))}
+      {suffix}
     </span>
   )
 }

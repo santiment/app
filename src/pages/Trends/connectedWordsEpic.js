@@ -124,7 +124,7 @@ export const connectedWordsEpic = (action$, store, { client }) =>
             data: { allInsightsByTag }
           } = result[i]
 
-          if (allInsightsByTag.length < 1) continue
+          if (!allInsightsByTag.length) continue
           allInsightsByTag.sort(creationDateSort)
           // [START] Looping over request's insights
           const { length: insightsLength } = allInsightsByTag

@@ -1,10 +1,10 @@
 import React from 'react'
 import cx from 'classnames'
-import HistoricalBalanceChart from '../../../HistoricalBalance/Chart'
+import HistoricalBalanceChart from '../../../HistoricalBalance/Chart/Canvas'
 import { getValidInterval } from '../../../HistoricalBalance/utils'
 import { useSettings, getWalletMetrics } from '../../../HistoricalBalance/hooks'
-import CreateAlert from '../../../HistoricalBalance/Configurations/CreateAlert'
-import { Calendar } from '../../../HistoricalBalance/Configurations/DatePicker'
+import CreateAlert from '../../../HistoricalBalance/Address/CreateAlert'
+import { Calendar } from '../../../HistoricalBalance/Chart/DatePicker'
 import { toEndOfDay } from '../../../../utils/dates'
 import styles from './UniswapHistoricalBalance.module.scss'
 
