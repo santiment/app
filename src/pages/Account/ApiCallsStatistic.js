@@ -2,7 +2,6 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import Settings from './Settings'
-import { startOfMonth } from '../../utils/dates'
 import Skeleton from '../../components/Skeleton/Skeleton'
 import styles from './ApiCallsStatistic.module.scss'
 
@@ -32,13 +31,10 @@ const useApiCalls = ({ from, to, type }) => {
   return { data: data ? data.currentUser : {}, loading, error }
 }
 
-const NOW = new Date()
-const MONTH_START = startOfMonth(NOW)
-
 const ApiCallsStatistic = ({ type }) => {
   const { data, loading } = useApiCalls({
-    from: MONTH_START,
-    to: NOW,
+    from: 'utc_now-30d',
+    to: 'utc_now',
     type
   })
 
