@@ -19,11 +19,13 @@ function normalizeCSVItem ({ address, balanceChange, labels }) {
 
 const refetchAddressWatchlist = id => getAddressWatchlist(id, 'network-only')
 const normalizeCSVData = items => items.map(normalizeCSVItem)
+const createWatchlist = (watchlist, setDialog) =>
+  createAddressesWatchlist(watchlist).then(() => setDialog(false))
 
 const WatchlistAddressesTable = props => (
   <WatchlistTable
     {...props}
-    createWatchlist={createAddressesWatchlist}
+    createWatchlist={createWatchlist}
     columns={COLUMNS}
     itemKeyProperty='address'
     normalizeCSVData={normalizeCSVData}

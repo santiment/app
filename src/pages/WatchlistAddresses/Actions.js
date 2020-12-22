@@ -8,6 +8,8 @@ import styles from './index.module.scss'
 
 const getShareLink = watchlist =>
   window.location.host + getAddressesWatchlistLink(watchlist)
+const createWatchlist = (watchlist, setDialog) =>
+  createAddressesWatchlist(watchlist).then(() => setDialog(false))
 
 const Actions = ({ watchlist, isAuthor }) => {
   const { isPro } = useUserSubscriptionStatus()
@@ -21,7 +23,7 @@ const Actions = ({ watchlist, isAuthor }) => {
         watchlist={watchlist}
         isAuthor={isAuthor}
         isPro={isPro}
-        createWatchlist={createAddressesWatchlist}
+        createWatchlist={createWatchlist}
         type='watchlist'
       />
 
