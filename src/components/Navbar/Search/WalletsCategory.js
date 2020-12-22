@@ -36,17 +36,15 @@ const TrendingWordsCategory = ({ searchTerm, ...props }) => {
     [searchTerm]
   )
 
-  return (
-    suggestions.length > 0 && (
-      <Category
-        {...props}
-        title='Wallets'
-        items={suggestions}
-        Item={Wallet}
-        propsAccessor={propsAccessor}
-      />
-    )
-  )
+  return suggestions.length ? (
+    <Category
+      {...props}
+      title='Wallets'
+      items={suggestions}
+      Item={Wallet}
+      propsAccessor={propsAccessor}
+    />
+  ) : null
 }
 
 export default TrendingWordsCategory
