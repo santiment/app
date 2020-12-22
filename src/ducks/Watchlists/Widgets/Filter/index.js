@@ -261,6 +261,7 @@ const Filter = ({
             <EntryPoint
               baseProjects={baseProjects}
               setBaseProjects={setBaseProjects}
+              isViewMode={isViewMode}
             />
           </div>
           <div className={styles.content}>
