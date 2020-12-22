@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import AddToWatchlistDialog from '../../Watchlists/Actions/Add/Add'
@@ -16,39 +16,34 @@ const updateWatchlist = ({ id, listItems }) =>
   updateWatchlistShort({ id: +id, listItems })
 
 const AddToWatchlist = ({ address, infrastructure }) => {
-  const checkIsListItemTheAddress = useCallback(
-    ({ blockchainAddress }) => blockchainAddress.address === address,
-    [address]
-  )
+  function checkIsListItemTheAddress ({ blockchainAddress }) {
+    return blockchainAddress.address === address
+  }
 
-  const checkIsSelected = useCallback(
-    ({ listItems }) => listItems.some(checkIsListItemTheAddress),
-    [address]
-  )
+  function checkIsSelected ({ listItems }) {
+    return listItems.some(checkIsListItemTheAddress)
+  }
 
-  const onChangesApply = useCallback(
-    (addToWatchlists, removeFromWatchlists) => {
-      const newListItem = {
-        blockchainAddress: {
-          address,
-          infrastructure,
-          __typename: 'BlockchainAddress'
-        },
-        __typename: 'ListItem'
-      }
+  function onChangesApply (addToWatchlists, removeFromWatchlists) {
+    const newListItem = {
+      blockchainAddress: {
+        address,
+        infrastructure,
+        __typename: 'BlockchainAddress'
+      },
+      __typename: 'ListItem'
+    }
 
-      removeFromWatchlists.forEach(({ listItems }) =>
-        listItems.splice(listItems.findIndex(checkIsListItemTheAddress), 1)
-      )
+    removeFromWatchlists.forEach(({ listItems }) =>
+      listItems.splice(listItems.findIndex(checkIsListItemTheAddress), 1)
+    )
 
-      addToWatchlists.forEach(({ listItems }) => listItems.push(newListItem))
+    addToWatchlists.forEach(({ listItems }) => listItems.push(newListItem))
 
-      return Promise.all(
-        addToWatchlists.concat(removeFromWatchlists).map(updateWatchlist)
-      )
-    },
-    [address]
-  )
+    return Promise.all(
+      addToWatchlists.concat(removeFromWatchlists).map(updateWatchlist)
+    )
+  }
 
   return (
     <AddToWatchlistDialog
