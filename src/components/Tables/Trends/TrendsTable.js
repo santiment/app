@@ -36,7 +36,8 @@ const TrendsTable = ({
           rawWordChart: word,
           score: score,
           volume: volumeChange[word],
-          wordCloud: word
+          wordCloud: word,
+          insightWord: word
         }
       }),
     [trendWords, volumeChange]

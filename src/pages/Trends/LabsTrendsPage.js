@@ -57,9 +57,7 @@ const LabsTrendsPage = ({ history }) => (
           </h3>
           <DesktopOnly>
             <div className={externalStyles.description}>
-              Cryptocurrencies designed to minimize the volatility of the price
-              of the stablecoin, relative to some "stable" asset or basket of
-              assets.
+              Explore the social volume of any word on crypto social media
             </div>
           </DesktopOnly>
 
