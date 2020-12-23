@@ -93,5 +93,8 @@
     overflow: auto;
     max-height: 300px;
     z-index: 2;
+    box-shadow: 0 4px 8px rgba(21, 24, 31, 0.02),
+      0 8px 14px rgba(21, 24, 31, 0.04),
+ 0 12px 32px rgba(21, 24, 31, 0.05);
   }
 }
