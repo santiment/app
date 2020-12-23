@@ -11,7 +11,7 @@ import InsightsIcon from './InsightsIcon'
 import WatchlistsIcon from './WatchlistsIcon'
 import MenuIcon from './MenuIcon'
 import { useUser } from '../../stores/user'
-import { useIntercomClick } from '../../hooks/intercome'
+import ContactUs from '../ContactUs/ContactUs'
 import styles from './MobileNavbar.module.scss'
 
 const NAVBAR_LINKS = [
@@ -69,8 +69,6 @@ const MobileNavbar = ({ history, activeLink }) => {
     })
   }
 
-  const intercomHandler = useIntercomClick()
-
   return (
     <div className={cx({ [styles.overlay]: isOpened })}>
       <Helmet>
@@ -112,12 +110,9 @@ const MobileNavbar = ({ history, activeLink }) => {
                   {label}
                 </Link>
               ))}
-              <button
-                className={styles.navigationList__link}
-                onClick={intercomHandler}
-              >
+              <ContactUs className={styles.navigationList__link}>
                 Support
-              </button>
+              </ContactUs>
             </div>
           </div>
           {!isLoggedIn && (
