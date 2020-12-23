@@ -69,17 +69,19 @@ export const updateWatchlistShort = variables =>
   })
 
 const watchlistCreator = type => ({ name, description, isPublic, listItems }) =>
-  client.mutate({
-    update: updateWatchlistsOnCreation,
-    mutation: CREATE_WATCHLIST_MUTATION,
-    variables: {
-      type,
-      name,
-      description,
-      isPublic,
-      listItems: listItems && normalizeItems(listItems)
-    }
-  })
+  client
+    .mutate({
+      update: updateWatchlistsOnCreation,
+      mutation: CREATE_WATCHLIST_MUTATION,
+      variables: {
+        type,
+        name,
+        description,
+        isPublic,
+        listItems: listItems && normalizeItems(listItems)
+      }
+    })
+    .then(({ data }) => data.createWatchlist)
 
 function updateWatchlistsOnCreation (cache, { data: { createWatchlist } }) {
   const { fetchWatchlists } = cache.readQuery({

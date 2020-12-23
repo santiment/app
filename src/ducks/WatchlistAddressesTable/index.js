@@ -1,8 +1,11 @@
 import React from 'react'
 import { COLUMNS } from './columns'
 import { getAddressWatchlist } from './gql/queries'
-import { createAddressesWatchlist } from '../Watchlists/gql/mutations'
+import { showNotification } from '../../actions/rootActions'
 import WatchlistTable from '../WatchlistTable'
+import { createAddressesWatchlist } from '../Watchlists/gql/mutations'
+import { store } from '../../redux'
+import WatchlistNotificationActions from '../Watchlists/Actions/notifications/WatchlistNotificationActions'
 
 const OBJECT = {}
 const normalizeLabel = ({ name }) => name
@@ -19,8 +22,23 @@ function normalizeCSVItem ({ address, balanceChange, labels }) {
 
 const refetchAddressWatchlist = id => getAddressWatchlist(id, 'network-only')
 const normalizeCSVData = items => items.map(normalizeCSVItem)
-const createWatchlist = (watchlist, setDialog) =>
-  createAddressesWatchlist(watchlist).then(() => setDialog(false))
+export const createWatchlist = (watchlist, setDialog) =>
+  createAddressesWatchlist(watchlist)
+    .then(watchlist => {
+      store.dispatch(
+        showNotification({
+          title: `Created the new watchlist`,
+          description: (
+            <WatchlistNotificationActions
+              id={watchlist.id}
+              name={watchlist.name}
+              toLink={'/'}
+            />
+          )
+        })
+      )
+    })
+    .then(() => setDialog(false))
 
 const WatchlistAddressesTable = props => (
   <WatchlistTable

@@ -35,7 +35,7 @@ function useComments (id) {
 
 const ReactComments = toReact(SvelteComments, {}, 'div')
 const Comments = ({ settings }) => {
-  const { id, commentsCount } = useBlockchainAddress(settings)
+  const { id, commentsCount = 0 } = useBlockchainAddress(settings)
   const comments = useComments(id)
 
   return (

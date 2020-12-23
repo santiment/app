@@ -61,8 +61,12 @@
       }
     }
 
-    tbody tr:hover {
-      background: var(--athens);
+    tbody tr {
+      height: 54px;
+
+      &:hover {
+        background: var(--athens);
+      }
     }
   }
 }

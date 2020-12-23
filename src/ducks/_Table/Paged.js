@@ -12,14 +12,16 @@ const DROPDOWN_CLASSES = {
   options: styles.options
 }
 
-const PAGE_SIZES = [10, 20, 50, 100].map(index => ({
-  index,
-  content: `${index} rows`
-}))
+export const buildPageSizes = sizes =>
+  sizes.map(index => ({
+    index,
+    content: `${index} rows`
+  }))
 
 const PagedTable = ({
   stickyPageControls,
   padding,
+  pageSizes,
   defaultPage,
   defaultPageSize,
   items,
@@ -54,7 +56,7 @@ const PagedTable = ({
         )}
       >
         <Dropdown
-          options={PAGE_SIZES}
+          options={pageSizes}
           selected={pageSize}
           onSelect={option => setPageSize(option.index)}
           classes={DROPDOWN_CLASSES}
@@ -94,6 +96,7 @@ const PagedTable = ({
 PagedTable.defaultProps = {
   defaultPage: 0,
   defaultPageSize: 20,
+  pageSizes: buildPageSizes([10, 20, 50, 100]),
   items: []
 }
 

@@ -26,6 +26,10 @@ const MiniChart = ({ address, change }) => {
         }
       })
 
+      if (min === max) {
+        min = 0
+      }
+
       const xAxisFactor = WIDTH / dataLength
       const yAxisFactor = HEIGHT / (max - min)
 
