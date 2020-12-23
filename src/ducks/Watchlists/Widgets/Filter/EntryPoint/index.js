@@ -158,9 +158,9 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
                     ))}
                   </div>
                 )}
-                <div className={styles.list}>
-                  <h3 className={styles.heading}>Assets</h3>
-                </div>
+                {/* <div className={styles.list}> */}
+                {/*   <h3 className={styles.heading}>Assets</h3> */}
+                {/* </div> */}
               </div>
             </div>
           </Panel>
