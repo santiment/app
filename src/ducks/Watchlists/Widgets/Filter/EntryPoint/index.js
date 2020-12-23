@@ -4,22 +4,21 @@ import Panel from '@santiment-network/ui/Panel'
 import Message from '@santiment-network/ui/Message'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
-import { useFeaturedWatchlists, useUserWatchlists } from '../../../gql/hooks'
+import { useUserWatchlists } from '../../../gql/hooks'
 import { useMessage, useStateMetadata } from './hooks'
 import Item from './Item'
+import ResetButton from './ResetButton'
 import {
   makeHumanReadableState,
   ALL_ASSETS_TEXT,
   MAX_VISIBLE_SYMBOLS
 } from './utils'
-import { ALL_PROJECTS_WATCHLIST_SLUG } from '../../../utils'
 import styles from './index.module.scss'
 
 const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
   const [state, setState] = useState(
     baseProjects.length > 0 ? baseProjects : ALL_ASSETS_TEXT
   )
-  const [categories] = useFeaturedWatchlists()
   const [watchlists = []] = useUserWatchlists()
   const { idNameMap, setIdNameMap } = useStateMetadata(state)
   // const [currentSearch, setCurrentSearch] = useState('')
@@ -28,7 +27,7 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
   useEffect(
     () => {
       if (Array.isArray(state) && state.length === 0) {
-        setState('')
+        setState(ALL_ASSETS_TEXT)
       } else {
         updateMessage(state)
 
@@ -38,7 +37,6 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
 
         if (
           state !== ALL_ASSETS_TEXT &&
-          state !== '' &&
           JSON.stringify(state) !== JSON.stringify(baseProjects)
         ) {
           setBaseProjects(state)
@@ -46,18 +44,6 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
       }
     },
     [state]
-  )
-
-  const filteredCategories = useMemo(
-    () =>
-      categories.filter(({ id, slug }) => {
-        const isAllAssetsList = slug === ALL_PROJECTS_WATCHLIST_SLUG
-        const isInState =
-          Array.isArray(state) && state.some(item => item.watchlistId === +id)
-
-        return !isAllAssetsList && !isInState
-      }),
-    [state, categories]
   )
 
   const filteredWatchlists = useMemo(
@@ -92,6 +78,9 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
       <div className={styles.overview}>
         <span className={styles.title}>Entry point: </span>
         <span className={styles.explanation}>{inputState}</span>
+        {!isViewMode && state !== ALL_ASSETS_TEXT && (
+          <ResetButton onClick={() => setState(ALL_ASSETS_TEXT)} />
+        )}
       </div>
       {!isViewMode && (
         <ContextMenu
@@ -119,66 +108,41 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
             {/* /> */}
             <div className={styles.content}>
               <div className={styles.scroller}>
-                {state && (
+                {state !== ALL_ASSETS_TEXT && (
                   <div className={styles.selected}>
-                    {state === ALL_ASSETS_TEXT ? (
-                      <Item
-                        onClick={() => setState('')}
-                        isActive={true}
-                        name={ALL_ASSETS_TEXT}
-                      />
-                    ) : (
-                      state.map(item => {
-                        const name =
-                          idNameMap[item['watchlistId']] ||
-                          item['watchlistId'] ||
-                          item
-                        return (
-                          <Item
-                            key={name}
-                            onClick={() =>
-                              setState(
-                                state.filter(currItem => currItem !== item)
-                              )
-                            }
-                            isActive={true}
-                            name={name}
-                          />
-                        )
-                      })
-                    )}
-                  </div>
-                )}
-                {message && (
-                  <Message
-                    variant='warn'
-                    icon='info-round'
-                    fill={false}
-                    className={styles.message}
-                  >
-                    {message}
-                  </Message>
-                )}
-                {filteredCategories.length > 0 && (
-                  <div className={styles.list}>
-                    <h3 className={styles.heading}>Categories</h3>
-                    {filteredCategories.map(({ name, id, slug }) => (
-                      <Item
-                        key={id}
-                        onClick={() => {
-                          setIdNameMap({ ...idNameMap, [+id]: name })
-                          addItemInState({ watchlistId: +id })
-                        }}
-                        name={name}
-                        id={id}
-                        slug={slug}
-                      />
-                    ))}
+                    {state.map(item => {
+                      const name =
+                        idNameMap[item['watchlistId']] ||
+                        item['watchlistId'] ||
+                        item
+                      return (
+                        <Item
+                          key={name}
+                          onClick={() =>
+                            setState(
+                              state.filter(currItem => currItem !== item)
+                            )
+                          }
+                          isActive={true}
+                          name={name}
+                        />
+                      )
+                    })}
                   </div>
                 )}
                 {filteredWatchlists.length > 0 && (
                   <div className={styles.list}>
                     <h3 className={styles.heading}>My watchlists</h3>
+                    {message && (
+                      <Message
+                        variant='warn'
+                        icon='info-round'
+                        fill={false}
+                        className={styles.message}
+                      >
+                        {message}
+                      </Message>
+                    )}
                     {filteredWatchlists.map(({ name, id, slug }) => (
                       <Item
                         key={id}
@@ -187,22 +151,16 @@ const EntryPoint = ({ baseProjects = [], setBaseProjects, isViewMode }) => {
                           addItemInState({ watchlistId: +id })
                         }}
                         name={name}
+                        isDisabled={message}
                         id={id}
                         slug={slug}
                       />
                     ))}
                   </div>
                 )}
-                <div className={styles.list}>
-                  <h3 className={styles.heading}>Assets</h3>
-                  {state !== ALL_ASSETS_TEXT && (
-                    <Item
-                      onClick={() => setState(ALL_ASSETS_TEXT)}
-                      isActive={false}
-                      name={ALL_ASSETS_TEXT}
-                    />
-                  )}
-                </div>
+                {/* <div className={styles.list}> */}
+                {/*   <h3 className={styles.heading}>Assets</h3> */}
+                {/* </div> */}
               </div>
             </div>
           </Panel>

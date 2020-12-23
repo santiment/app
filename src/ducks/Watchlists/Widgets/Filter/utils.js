@@ -21,7 +21,7 @@ export function getActiveBaseMetrics (filter) {
   return [...activeMetrics]
 }
 
-export function getNewFunction (filter, baseProjects) {
+export function getNewFunction (filter, baseProjects = []) {
   const args = { filters: filter }
 
   if (baseProjects.length > 0) {

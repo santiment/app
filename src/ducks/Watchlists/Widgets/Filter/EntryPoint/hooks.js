@@ -1,22 +1,20 @@
 import { useState, useCallback } from 'react'
 import gql from 'graphql-tag'
 import { client } from '../../../../../apollo'
-import { ALL_ASSETS_TEXT, MESSAGES } from './utils'
 
 export const useMessage = state => {
   const [message, setMessage] = useState('')
 
   const updateMessage = useCallback(
     () => {
-      if (!state && message !== MESSAGES.empty) {
-        setMessage(MESSAGES.empty)
-      }
-
-      if (state === ALL_ASSETS_TEXT && message !== MESSAGES.allAssets) {
-        setMessage(MESSAGES.allAssets)
-      }
-
-      if (state && state !== ALL_ASSETS_TEXT && message !== '') {
+      if (Array.isArray(state)) {
+        const watchlistIDs = state.filter(item => item['watchlistId'])
+        if (watchlistIDs.length >= 3 && !message) {
+          setMessage('You can select up to 3 watchlists only')
+        } else if (message) {
+          setMessage('')
+        }
+      } else if (message) {
         setMessage('')
       }
     },
