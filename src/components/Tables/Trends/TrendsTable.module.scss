@@ -16,7 +16,7 @@
 .word {
   color: var(--rhino);
 
-  @include text('body-1', 'l');
+  @include text('body-1');
 
   @include responsive('phone', 'phone-xs') {
     @include text('body-2');
@@ -73,7 +73,7 @@
 }
 
 .index {
-  @include text('body-2', 'l');
+  @include text('body-2');
 }
 
 .table:global(.ReactTable) {
@@ -86,7 +86,7 @@
   :global {
     .rt-thead.-header {
       box-shadow: none;
-      padding: 0 24px;
+      padding: 0 0 0 24px;
       background: var(--athens);
       border: none;
 
@@ -103,14 +103,11 @@
       color: var(--waterloo);
       padding: 6px 0 !important;
 
-      @include text('body-3', 'l');
+      @include text('body-3');
 
       @include responsive('phone', 'phone-xs') {
         background: var(--white);
         justify-content: flex-end;
-
-        @include text('body-3');
-
         padding: 0;
         display: flex;
 
