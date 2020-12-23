@@ -1,6 +1,6 @@
 import React from 'react'
-import Button from '@santiment-network/ui/Button'
 import tokensSvg from './tokens.svg'
+import ContactUs from '../../components/ContactUs/ContactUs'
 import styles from './PayWithCrypto.module.scss'
 
 const PayWithCrypto = () => (
@@ -16,16 +16,13 @@ const PayWithCrypto = () => (
       >
         Burn SAN tokens or pay with DAI / ETH
       </a>
-      <Button
+      <ContactUs
         variant='ghost'
         className={styles.contactBtn}
-        onClick={() =>
-          window.Intercom &&
-          window.Intercom('showNewMessage', 'Hello, I want to pay by crypto.')
-        }
+        message='Hello, I want to pay by crypto.'
       >
         Contact sales
-      </Button>
+      </ContactUs>
     </div>
   </div>
 )

@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react'
+import { useIntercomClick } from '../../hooks/intercome'
 import styles from './index.module.scss'
-
-const showIntercom = () => window.Intercom('show')
 
 const Intercom = ({ isDesktop }) => {
   const [isShown, setIsShown] = useState(true)
 
   useEffect(() => {
-    window.Intercom('onHide', () => setIsShown(true))
-    window.Intercom('onShow', () => setIsShown(false))
+    if (window.Intercom) {
+      window.Intercom('onHide', () => setIsShown(true))
+      window.Intercom('onShow', () => setIsShown(false))
+    }
   }, [])
 
+  const intercomHandler = useIntercomClick()
+
   return isDesktop && isShown ? (
-    <div className={styles.wrapper} onClick={showIntercom} draggable='false'>
+    <div className={styles.wrapper} onClick={intercomHandler} draggable='false'>
       <svg
         className={styles.icon}
         width='14'

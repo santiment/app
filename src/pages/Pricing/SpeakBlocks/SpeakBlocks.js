@@ -2,8 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import { PATHS } from '../../../paths'
-import styles from './SpeakBlocks.module.scss'
 import { useUser } from '../../../stores/user'
+import ContactUs from '../../../components/ContactUs/ContactUs'
+import styles from './SpeakBlocks.module.scss'
 
 const Blocks = [
   {
@@ -27,17 +28,14 @@ const Blocks = [
     description:
       'Request a demo to have one of our product specialists walk you through the platform',
     btn: (
-      <Button
+      <ContactUs
         variant='ghost'
         accent='blue'
         className={styles.btn}
-        onClick={() =>
-          window.Intercom &&
-          window.Intercom('showNewMessage', 'Talk with expert.')
-        }
+        message='Talk with expert.'
       >
         Request a demo
-      </Button>
+      </ContactUs>
     )
   }
 ]
