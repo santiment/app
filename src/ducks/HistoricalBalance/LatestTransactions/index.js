@@ -2,8 +2,10 @@ import React, { useRef, useMemo, useState } from 'react'
 import { COLUMNS } from './columns'
 import Section from '../Section'
 import { useRecentTransactions } from '../hooks'
-import PagedTable from '../../_Table/Paged'
+import PagedTable, { buildPageSizes } from '../../_Table/Paged'
 import styles from './index.module.scss'
+
+const PAGE_SIZES = buildPageSizes([20, 50])
 
 const getItemKey = ({ trxHash, slug }) => trxHash + slug
 
@@ -34,10 +36,11 @@ const LatestTransactions = ({ settings }) => {
       <PagedTable
         className={styles.table}
         columns={COLUMNS}
-        items={items}
-        isLoading={isLoading}
+        pageSizes={PAGE_SIZES}
         minRows={10}
+        items={items}
         itemProps={settings}
+        isLoading={isLoading}
         onPageChange={setPage}
         getItemKey={getItemKey}
       />
