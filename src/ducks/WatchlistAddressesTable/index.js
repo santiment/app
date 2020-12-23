@@ -1,11 +1,12 @@
 import React from 'react'
 import { COLUMNS } from './columns'
 import { getAddressWatchlist } from './gql/queries'
-import { showNotification } from '../../actions/rootActions'
 import WatchlistTable from '../WatchlistTable'
+import { getAddressesWatchlistLink } from '../Watchlists/url'
 import { createAddressesWatchlist } from '../Watchlists/gql/mutations'
-import { store } from '../../redux'
 import WatchlistNotificationActions from '../Watchlists/Actions/notifications/WatchlistNotificationActions'
+import { store } from '../../redux'
+import { showNotification } from '../../actions/rootActions'
 
 const OBJECT = {}
 const normalizeLabel = ({ name }) => name
@@ -32,7 +33,7 @@ export const createWatchlist = (watchlist, setDialog) =>
             <WatchlistNotificationActions
               id={watchlist.id}
               name={watchlist.name}
-              toLink={'/'}
+              toLink={getAddressesWatchlistLink(watchlist)}
             />
           )
         })
