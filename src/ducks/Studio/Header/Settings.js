@@ -13,18 +13,22 @@ import { useShortShareLink } from '../../../components/Share/hooks'
 import { SAN_HEADER_HEIGHT } from '../../../constants'
 import styles from './Settings.module.scss'
 
-const CopyLink = ({ getShareLink }) => {
+export const CopyLink = ({ shareLink, getShareLink, className }) => {
   const [timer, setTimer] = useState()
 
   useEffect(() => () => clearTimeout(timer), [timer])
 
   function onClick () {
-    getShareLink().then(copy)
+    if (shareLink) {
+      copy(shareLink)
+    } else {
+      getShareLink().then(copy)
+    }
     setTimer(setTimeout(() => setTimer(), 2000))
   }
 
   return (
-    <Button border className={styles.share} onClick={onClick}>
+    <Button border className={cx(styles.share, className)} onClick={onClick}>
       <Icon type='link' className={styles.share__icon} />
       {timer ? 'Copied!' : 'Copy link'}
     </Button>

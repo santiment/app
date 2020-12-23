@@ -17,3 +17,11 @@
   margin-left: auto;
   padding: 0;
 }
+
+.copy {
+  border: none;
+
+  &:hover svg {
+    fill: var(--jungle-green);
+  }
+}
