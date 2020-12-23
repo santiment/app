@@ -30,9 +30,22 @@ const cabinets = [
     title: (
       <CabinetTitle
         img={<div className={styles.img}>{SheetsTemplatesImg}</div>}
-        title={'Sanbase Pro Templates'}
+        title={'Sansheets Pro Templates'}
         description={
-          'A collection of trading and research models built with [Sansheets](link here), a plugin that lets you directly import Santiment’s data into Google Spreadsheets. Popular PRO templates include Price-DAA divergence, MVRV comparison model, NVT ratio and more.'
+          <>
+            A collection of trading and research models built with{' '}
+            <a
+              href='https://sheets.santiment.net/'
+              className={styles.link}
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              Sansheets
+            </a>
+            , a plugin that lets you directly import Santiment’s data into
+            Google Spreadsheets. Popular PRO templates include Price-DAA
+            divergence, MVRV comparison model, NVT ratio and more.
+          </>
         }
       />
     ),
