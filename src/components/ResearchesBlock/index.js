@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
+import ContactUs from '../ContactUs/ContactUs'
 import styles from './index.module.scss'
 
 const ResearchesBlock = ({ className }) => (
@@ -50,13 +51,7 @@ const ResearchesBlock = ({ className }) => (
           We help content creators big and small elevate their market coverage
           with hard data and explore new, untapped market storylines.
         </p>
-        <Button
-          border
-          className={styles.button}
-          onClick={() => window.Intercom('show')}
-        >
-          Contact us
-        </Button>
+        <ContactUs border className={styles.button} />
       </div>
     </div>
   </section>

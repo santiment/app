@@ -19,11 +19,12 @@ import {
   useUserSubscriptions,
   useUserSubscriptionStatus
 } from '../../stores/user/subscriptions'
-import styles from './NavbarProfileDropdown.module.scss'
 import { VersionLabel } from '../Version/Version'
 import { APP_STATES } from '../../ducks/Updates/reducers'
 import { isHalloweenDay } from '../../utils/halloween'
+import ContactUs from '../ContactUs/ContactUs'
 import dropdownStyles from './NavbarDropdown.module.scss'
+import styles from './NavbarProfileDropdown.module.scss'
 
 const personalLinks = [
   { as: Link, to: '/sonar/my-signals', children: 'My alerts' },
@@ -207,14 +208,7 @@ export const NavbarProfileDropdown = ({
 
         {user && LOGGED_IN_LINKS_1.map(LinkBuilder)}
 
-        <Button
-          variant='ghost'
-          fluid
-          className={dropdownStyles.item}
-          onClick={() => window.Intercom('show')}
-        >
-          Contact us
-        </Button>
+        <ContactUs variant='ghost' fluid className={dropdownStyles.item} />
 
         {user && LOGGED_IN_LINKS_2.map(LinkBuilder)}
 

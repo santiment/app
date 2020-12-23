@@ -1,6 +1,6 @@
 import React from 'react'
-import Button from '@santiment-network/ui/Button'
 import Features from '../../../components/Plans/Features'
+import ContactUs from '../../../components/ContactUs/ContactUs'
 import styles from './PlanDescriptions.module.scss'
 
 const Blocks = [
@@ -8,20 +8,14 @@ const Blocks = [
     title: 'Data Science as a Service (DSaaS)',
     description: 'Tailored crypto analytics - from a veteran team',
     btn: (
-      <Button
+      <ContactUs
         variant='ghost'
         className={styles.btn}
         border
-        onClick={() =>
-          window.Intercom &&
-          window.Intercom(
-            'showNewMessage',
-            'Talk with expert about Data Science as a Service.'
-          )
-        }
+        message='Talk with expert about Data Science as a Service.'
       >
         Contact sales
-      </Button>
+      </ContactUs>
     ),
     features: [
       <div className={styles.feature__link}>Custom crypto dashboards</div>,
@@ -34,20 +28,14 @@ const Blocks = [
     title: 'Education & Onboarding',
     description: 'New to on-chain and fundamental data?',
     btn: (
-      <Button
+      <ContactUs
         variant='ghost'
         className={styles.btn}
         border
-        onClick={() =>
-          window.Intercom &&
-          window.Intercom(
-            'showNewMessage',
-            'Talk with expert about Education & Onboarding.'
-          )
-        }
+        message='Talk with expert about Education & Onboarding.'
       >
         Contact sales
-      </Button>
+      </ContactUs>
     ),
     features: [
       <div className={styles.feature__link}>Individual walkthroughs</div>,

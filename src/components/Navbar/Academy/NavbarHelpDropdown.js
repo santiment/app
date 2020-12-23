@@ -3,6 +3,7 @@ import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import LinkWithArrow from '../Link'
 import commonStyles from '../NavbarDropdown.module.scss'
+import ContactUs from '../../ContactUs/ContactUs'
 import styles from './NavbarHelpDropdown.module.scss'
 
 const Links = [
@@ -57,15 +58,12 @@ const NavbarHelpDropdown = ({ activeLink }) => (
       <span className={styles.contact__title}>
         Can’t find what you’re looking for?
       </span>
-      <Button
+      <ContactUs
         as='a'
         variant='fill'
         accent='positive'
-        onClick={() => window.Intercom('show')}
         className={styles.btn}
-      >
-        Contact us
-      </Button>
+      />
     </div>
   </div>
 )

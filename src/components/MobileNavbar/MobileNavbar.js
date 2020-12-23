@@ -11,6 +11,7 @@ import InsightsIcon from './InsightsIcon'
 import WatchlistsIcon from './WatchlistsIcon'
 import MenuIcon from './MenuIcon'
 import { useUser } from '../../stores/user'
+import ContactUs from '../ContactUs/ContactUs'
 import styles from './MobileNavbar.module.scss'
 
 const NAVBAR_LINKS = [
@@ -53,20 +54,20 @@ const MobileNavbar = ({ history, activeLink }) => {
     history.push(linkTo)
   }
 
-  window.Intercom &&
+  if (window.Intercom) {
     window.Intercom('onShow', function () {
       const intercomContainer = window.document.querySelector(
         '#intercom-container'
       )
       if (intercomContainer) intercomContainer.style.display = 'block'
     })
-  window.Intercom &&
     window.Intercom('onHide', function () {
       const intercomContainer = window.document.querySelector(
         '#intercom-container'
       )
       if (intercomContainer) intercomContainer.style.display = 'none'
     })
+  }
 
   return (
     <div className={cx({ [styles.overlay]: isOpened })}>
@@ -109,14 +110,9 @@ const MobileNavbar = ({ history, activeLink }) => {
                   {label}
                 </Link>
               ))}
-              <button
-                className={styles.navigationList__link}
-                onClick={() =>
-                  window.Intercom && window.Intercom('showNewMessage')
-                }
-              >
+              <ContactUs className={styles.navigationList__link}>
                 Support
-              </button>
+              </ContactUs>
             </div>
           </div>
           {!isLoggedIn && (
