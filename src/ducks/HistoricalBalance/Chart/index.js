@@ -6,6 +6,7 @@ import Assets from './Assets'
 import DatePicker from './DatePicker'
 import SettingsMenu from './SettingsMenu'
 import { useWalletMetrics } from '../hooks'
+import { ShareButton } from '../../Studio/Header/Settings'
 import styles from './index.module.scss'
 
 const Configurations = ({
@@ -44,6 +45,7 @@ const Configurations = ({
             isPhone={isPhone}
             changeTimePeriod={changeTimePeriod}
           />
+          <ShareButton />
           <SettingsMenu
             isLog={isLog}
             settings={settings}

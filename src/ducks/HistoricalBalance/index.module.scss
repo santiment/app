@@ -18,17 +18,14 @@
   color: var(--waterloo);
 }
 
-.left,
-.right {
-  width: 50%;
-}
-
 .left {
   padding-right: 24px;
+  width: 65%;
 }
 
 .right {
   padding-left: 24px;
+  width: 35%;
 }
 
 .bottom {

@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { CSSTransition } from 'react-transition-group'
 import RecentsCategory, { getRecents, clearRecents } from './RecentsCategory'
 import AssetsCategory from './AssetsCategory'
+import WalletsCategory from './WalletsCategory'
 import TrendingWordsCategory from './TrendingWordsCategory'
 import InsightsCategory from './InsightsCategory'
 import PeopleCategory from './PeopleCategory'
@@ -62,6 +63,7 @@ const Suggestions = ({ suggestionsRef, isOpened, ...props }) => {
         <AssetsCategory {...props} />
         <TrendingWordsCategory {...props} />
         <InsightsCategory {...props} />
+        <WalletsCategory {...props} />
         {recents.length === 0 && <PeopleCategory {...props} />}
       </div>
     </CSSTransition>
