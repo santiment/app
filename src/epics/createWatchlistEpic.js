@@ -80,7 +80,7 @@ const createWatchlistEpic = (action$, store, { client }) =>
             }),
             Observable.of(
               showNotification({
-                title: `Created the new ${type}`,
+                title: `New ${type} was created`,
                 description: (
                   <WatchlistNotificationActions
                     id={id}
