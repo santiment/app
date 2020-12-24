@@ -6,6 +6,7 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import Label from '@santiment-network/ui/Label'
 import Button from '@santiment-network/ui/Button'
 import Input from '@santiment-network/ui/Input'
+import Icon from '@santiment-network/ui/Icon'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import { EMAIL_LOGIN_MUTATION } from './loginGQL'
 import { store } from '../../redux'
@@ -171,7 +172,13 @@ class SubscriptionForm extends PureComponent {
             {waiting ? 'Waiting...' : subscribeBtnLabel}
           </Button>
           <Panel padding className={styles.subscription__error}>
-            <Label accent='persimmon'>{error}</Label>
+            <Icon type='error' fill='var(--persimmon)' />
+            <Label
+              accent='persimmon'
+              className={styles.subscription__error__label}
+            >
+              {error}
+            </Label>
           </Panel>
         </form>
       </>
