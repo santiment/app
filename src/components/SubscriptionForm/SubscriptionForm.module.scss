@@ -3,8 +3,16 @@
 .subscription {
   &__error {
     display: none;
+    align-items: center;
     position: absolute;
-    bottom: 130%;
+    top: 44px;
+    left: 0;
+    background: var(--white);
+    border: 1px solid var(--porcelain);
+
+    &__label {
+      margin-left: 8px;
+    }
   }
 
   &__form {
@@ -15,15 +23,6 @@
     position: relative;
     width: 430px;
 
-    &_error:hover > .subscription__error {
-      display: block;
-    }
-
-    @include responsive('phone-xs', 'phone') {
-      align-items: baseline;
-      width: 100%;
-    }
-
     input {
       padding: 6px 10px;
 
@@ -33,10 +32,26 @@
       }
     }
 
+    &_error {
+      input {
+        border: 1px solid var(--persimmon) !important;
+      }
+    }
+
     &:hover {
       input {
         border: 1px solid var(--jungle-green);
       }
+    }
+
+    &_error:hover > .subscription__error {
+      display: flex;
+      padding: 6px 10px;
+    }
+
+    @include responsive('phone-xs', 'phone') {
+      align-items: baseline;
+      width: 100%;
     }
   }
 
