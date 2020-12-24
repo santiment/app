@@ -63,9 +63,9 @@ const Cabinet = () => {
     return <ProUpgradeBanner classes={styles} />
   }
 
-  return cabinets.map(({ title, content, isOpened }) => (
+  return cabinets.map(({ title, content, isOpened }, index) => (
     <Accordion
-      key={title}
+      key={index}
       title={title}
       isOpenedDefault={isOpened}
       showArrow={false}
