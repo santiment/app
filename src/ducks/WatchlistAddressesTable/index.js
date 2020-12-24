@@ -28,7 +28,7 @@ export const createWatchlist = (watchlist, setDialog) =>
     .then(watchlist => {
       store.dispatch(
         showNotification({
-          title: `Created the new watchlist`,
+          title: `New watchlist was created`,
           description: (
             <WatchlistNotificationActions
               id={watchlist.id}

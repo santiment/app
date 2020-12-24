@@ -1,13 +1,48 @@
 @import '~@santiment-network/ui/mixins.scss';
 
-.refresh {
+.wrapper {
   color: var(--waterloo);
-  fill: var(--mirage);
+  fill: var(--rhino);
   display: flex;
   align-items: center;
+  cursor: pointer;
 
-  &__icon {
-    cursor: pointer;
-    margin-right: 8px;
+  &:hover {
+    fill: var(--mirage);
   }
+}
+
+.icon {
+  margin-right: 8px;
+}
+
+.refresh {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  min-width: 197px;
+}
+
+.auto {
+  padding-left: 16px;
+  margin-left: 16px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 100%;
+    background-color: var(--porcelain);
+  }
+}
+
+.toggle {
+  margin-right: 8px;
 }

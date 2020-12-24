@@ -15,8 +15,7 @@ const AssetsTable = ({
   type,
   listName,
   watchlist,
-  refetchAssets,
-  timestamp
+  refetchAssets
 }) => {
   const { visibleItems, changeVisibleItems } = useVisibleItems()
   const { comparingAssets = [], updateAssets } = useComparingAssets()
@@ -40,7 +39,6 @@ const AssetsTable = ({
     <>
       <TableTop
         refetchAssets={refetchAssets}
-        timestamp={timestamp}
         comparingAssets={comparingAssets}
         type={type}
         listName={listName}

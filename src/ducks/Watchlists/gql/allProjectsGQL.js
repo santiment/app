@@ -6,7 +6,6 @@ export const generalData = gql`
     name
     description
     slug
-    description
     ticker
     rank
     logoUrl

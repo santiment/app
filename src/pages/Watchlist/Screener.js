@@ -5,6 +5,7 @@ import {
 } from '../../ducks/Watchlists/utils'
 import {
   getProjectsByFunction,
+  getAssetsByFunction,
   useUpdateWatchlist
 } from '../../ducks/Watchlists/gql/hooks'
 import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
@@ -31,18 +32,26 @@ const Screener = ({
   const [screenerFunction, setScreenerFunction] = useState(
     watchlist.function || DEFAULT_SCREENER_FUNCTION
   )
-  const [flag, setFlag] = useState(true)
-  const { assets = [], loading, timestamp } = getProjectsByFunction(
-    screenerFunction,
-    flag
+  const { assets = [], projectsCount, loading } = getProjectsByFunction(
+    screenerFunction
   )
   const { user = {}, loading: userLoading } = useUser()
+  const [tableLoading, setTableLoading] = useState(true)
 
   const AppElem = document.getElementsByClassName('App')[0]
 
   if (AppElem) {
     AppElem.classList.add('list-container')
   }
+
+  useEffect(
+    () => {
+      if (loading !== tableLoading) {
+        setTableLoading(loading)
+      }
+    },
+    [loading]
+  )
 
   useEffect(
     () => {
@@ -60,10 +69,26 @@ const Screener = ({
     [watchlist.function]
   )
 
+  useEffect(
+    () => {
+      if (id) {
+        addRecentScreeners(id)
+      }
+    },
+    [id]
+  )
+
   function updateWatchlistFunction (func) {
     if (watchlist.id) {
       updateWatchlist(watchlist, { function: func })
     }
+  }
+
+  const refetchAssets = () => {
+    setTableLoading(true)
+    getAssetsByFunction(screenerFunction, 'network-only').then(() =>
+      setTableLoading(false)
+    )
   }
 
   const { widgets, setWidgets } = useScreenerUrl({ location, history })
@@ -72,10 +97,6 @@ const Screener = ({
   const isAuthorLoading = userLoading || isLoading
   const title = (watchlist || {}).name || name
 
-  if (id) {
-    addRecentScreeners(id)
-  }
-
   return (
     <>
       <TopPanel
@@ -83,7 +104,8 @@ const Screener = ({
         description={(watchlist || {}).description}
         id={id}
         assets={assets}
-        loading={loading}
+        projectsCount={projectsCount}
+        loading={tableLoading}
         watchlist={watchlist}
         isAuthor={isAuthor}
         isAuthorLoading={isAuthorLoading}
@@ -110,12 +132,12 @@ const Screener = ({
 
       <AssetsTable
         items={assets}
-        loading={loading}
+        projectsCount={projectsCount}
+        loading={tableLoading}
         type='screener'
         listName={title}
         watchlist={watchlist}
-        timestamp={timestamp}
-        refetchAssets={() => setFlag(!flag)}
+        refetchAssets={refetchAssets}
       />
     </>
   )

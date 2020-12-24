@@ -249,7 +249,7 @@ const Filter = ({
                 </Button>
               )}
             </div>
-            {isViewMode && (
+            {isViewMode && !loading && (
               <Message
                 variant='warn'
                 icon='info-round'
