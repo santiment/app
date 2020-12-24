@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Copy from '../../../Actions/Copy'
@@ -25,15 +25,18 @@ const TableTop = ({
   toggleColumn,
   watchlist = {}
 }) => {
+  const [refreshTimestamp, setRefreshTimestamp] = useState(Date.now)
   const [watchlists = []] = useUserWatchlists()
   const disabledComparision = comparingAssets.length < 2
 
   return (
     <div className={styles.wrapper}>
       <Refresh
-        timestamp={timestamp}
+        timestamp={refreshTimestamp}
         isLoading={isLoading}
-        onRefreshClick={refetchAssets}
+        onRefreshClick={() =>
+          setRefreshTimestamp(Date.now()) || refetchAssets()
+        }
       />
       {comparingAssets && (
         <div className={styles.leftActions}>

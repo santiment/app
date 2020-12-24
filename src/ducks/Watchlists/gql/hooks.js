@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
+import { client } from '../../../apollo'
 import {
   WATCHLIST_SHORT_QUERY,
   USER_WATCHLISTS_QUERY,
@@ -242,7 +243,7 @@ export function useAvailableSegments () {
   return [data ? data.allMarketSegments.sort(countAssetsSort) : [], loading]
 }
 
-export function getProjectsByFunction (func, flag) {
+export function getProjectsByFunction (func) {
   const { data, loading, error } = useQuery(PROJECTS_BY_FUNCTION_QUERY, {
     skip: !func,
     fetchPolicy: 'network-only',
@@ -253,8 +254,28 @@ export function getProjectsByFunction (func, flag) {
 
   return {
     assets: data ? data.allProjectsByFunction.projects : undefined,
+    projectsCount: data
+      ? data.allProjectsByFunction.stats.projectsCount
+      : undefined,
     loading,
-    error,
-    timestamp: new Date()
+    error
   }
 }
+
+const extractData = ({ data }) => {
+  return data
+    ? {
+      assets: data.allProjectsByFunction.projects,
+      projectsCount: data.allProjectsByFunction.stats.projectsCount
+    }
+    : undefined
+}
+
+export const getAssetsByFunction = (func, fetchPolicy) =>
+  client
+    .query({
+      fetchPolicy,
+      query: PROJECTS_BY_FUNCTION_QUERY,
+      variables: { fn: JSON.stringify(func) }
+    })
+    .then(extractData)

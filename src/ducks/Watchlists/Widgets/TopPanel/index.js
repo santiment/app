@@ -18,6 +18,7 @@ const TopPanel = ({
   isAuthorLoading,
   isLoggedIn,
   assets,
+  projectsCount,
   isDefaultScreener,
   isUpdatingWatchlist,
   updateWatchlistFunction,
@@ -71,7 +72,7 @@ const TopPanel = ({
         </div>
         <Filter
           watchlist={watchlist}
-          projectsCount={assets.length}
+          projectsCount={projectsCount}
           isAuthor={isAuthor}
           isAuthorLoading={isAuthorLoading}
           isLoggedIn={isLoggedIn}
