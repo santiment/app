@@ -25,11 +25,17 @@
     }
 
     input {
-      padding-left: 40px;
+      padding: 6px 10px;
 
       @include responsive('phone-xs', 'phone') {
         height: 48px !important;
         padding-left: 44px;
+      }
+    }
+
+    &:hover {
+      input {
+        border: 1px solid var(--jungle-green);
       }
     }
   }
