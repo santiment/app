@@ -1,18 +1,70 @@
 import styles from './SheetsTemplates.module.scss'
 import React from 'react'
 
+const ExternalLink = ({ href, children }) => {
+  return (
+    <a
+      className={styles.link}
+      target='_blank'
+      rel='noopener noreferrer'
+      href={href}
+    >
+      {children}
+    </a>
+  )
+}
+
 export const SheetsTemplatesList = [
+  {
+    title: 'MVRV Danger & Opportunity Zones',
+    description: (
+      <>
+        It’s extremely helpful to have context when understanding where we are
+        in the markets, and how average traders are returning profits or
+        accumulating losses. The MVRV metric on Santiment allows us to see how
+        average traders are performing over various timeframes, with the
+        implication being that prime buy opportunities are when the crowd is at
+        a loss, and prime sell opportunities are when the crowd has seen major
+        profits.
+        <div className={styles.block}>
+          This template provides an up-to-date analysis of how high (or low)
+          average trader returns are by averaging several key timeframes
+          together, and tells us how close 20+ assets are to 'Opportunity Zones'
+          (historic good buy zones) or 'Danger Zones' (historic good sell
+          zones). The closer an asset is to the green dashed line, the less risk
+          there is in opening a current long investment. The closer an asset is
+          to the red dashed line, the more risk there is in opening a current
+          long investment.
+        </div>
+        <div className={styles.block}>
+          In a zero sum game like cryptocurrency trading, gauging exactly how a
+          current investment in real-time would do vs. the competition of
+          traders is a powerful measurement to have at your disposal.
+        </div>
+      </>
+    ),
+    linkToTemplate:
+      'https://docs.google.com/spreadsheets/d/1wYTvxKYNYry_pJ-RB4kzbpVF60c26RlTfkMla05jG34/edit?usp=sharing'
+  },
   {
     title: 'Top Holders Supply',
     description: (
       <>
-        Crypto is still a whale's playground. This template monitors the
-        behavior of the biggest addresses holding Ethereum as well as various
-        ERC-20 coins.
+        Crypto is still a whale's playground.{' '}
+        <ExternalLink href='https://insights.santiment.net/read/top-token-holders-and-their-role-as-leading-indicators-5618'>
+          This template
+        </ExternalLink>{' '}
+        monitors the behavior of the biggest addresses holding Ethereum as well
+        as various ERC-20 coins.
         <div className={styles.block}>
-          The template includes a dozen views of top whales' behavior, including
-          balance changes, big accumulation/sell-off events and week-to-week
-          adjustments to total supply held.
+          The charts included includes fluctuations in the top 1, 10, or 100
+          largest addresses, respectively. Discover these whales' changes in
+          total supply held, big accumulation/sell-off events, and week-to-week
+          adjustments. Seeing what percentage of the total supply a group of
+          whales owns also lets you know just how significant any decisions they
+          make will be. For example, Ethereum's top 10 exchange holders don't
+          hold nearly as high of a percent of the total supply that Fetch's top
+          10 holders do.
         </div>
       </>
     ),
@@ -39,13 +91,15 @@ export const SheetsTemplatesList = [
       </>
     )
   },
+
   {
-    title: 'NVT Template',
+    title: 'NVT Token Circulation',
     description: (
       <>
-        This template calculates the NVT for BTC, ETH and several ERC-20 coins,
-        and assigns a bullish/bearish value to its historical and present-day
-        performance.
+        This template calculates the NVT (Network Value to Transactions) for
+        Bitcoin, Ethereum, and several ERC-20 coins, and assigns a
+        bullish/bearish value to its historical and present-day performance.
+        This is more of a longer-term monthly indicator, and is set up as such.
         <div className={styles.block}>
           The idea behind the NVT is simple - if the value transferred on the
           network (token circulation) is too low relative to the network's
@@ -63,16 +117,24 @@ export const SheetsTemplatesList = [
       'https://docs.google.com/spreadsheets/d/1CpPBVgJJ-6T5EIKHkeMKBG954Rp5HlEHtevSzXOns1Y/view'
   },
   {
-    title: 'Price-DAA Divergence Template',
+    title: 'Daily Active Addresses Divergence',
     description: (
       <>
-        We have found that major differences in the coin's price and network
-        activity trends can present opportune times to buy OR sell, depending on
-        the trend's direction.
+        We{' '}
+        <ExternalLink href='https://insights.santiment.net/read/price---daily-addresses-divergence%3A-%0Aa-primer-on-on-chain-trading-strategies-2222'>
+          have found
+        </ExternalLink>{' '}
+        that major differences in an asset's price and address (network)
+        activity trends can present opportune times to buy OR sell. By looking
+        at years of historical context for how apart the price vs. daily active
+        address activity of a coin is, the green vs. red daily bars on this
+        chart provide an accurate analysis of how overvalued or undervalued an
+        asset currently sits based on one of the most accurately tied crypto
+        metrics to indicate future price.
         <div className={styles.block}>
-          This template triggers BUY and SELL signals for Bitcoin and Ethereum
-          based on major divergences in price and the amount of daily addresses
-          interacting with the coin.
+          Over 30 different assets are available to study deviations, and more
+          ERC-20's can be added via your own downloadable copy of this
+          spreadsheet at any time!
         </div>
       </>
     ),
@@ -107,20 +169,20 @@ export const SheetsTemplatesList = [
     )
   },
   {
-    title: 'Thresholds Crossed Template',
+    title: 'Thresholds Crossed',
     description: (
       <>
-        Understanding how many times a price of a project has moved above or
-        below a round number USD value, or a psychological barrier, can provide
-        great perspective in understanding just how cyclical the cryptocurrency
-        markets are. For those who believe that a cross above a certain level
-        likely means that "it will never fall back below again" can be shown
-        just how often prices have reset time and time again.
+        The next time you hear someone claim that 'Bitcoin will never fall below
+        $19,000 again', refer them to this model. More than anything, this model
+        provides context and clarity to just what kind of roller coaster the
+        crypto markets can be, and why you can't get too high or too low any
+        time BTC or ETH break a significant price barrier.
         <div className={styles.block}>
-          This template is great for understanding support levels, and where
-          prices most commonly see a great deal of push and pull, along with
-          psychological polarization among traders. It can be used well to your
-          advantage.
+          The next time you hear someone claim that 'Bitcoin will never fall
+          below $19,000 again', refer them to this model. More than anything,
+          this model provides context and clarity to just what kind of roller
+          coaster the crypto markets can be, and why you can't get too high or
+          too low any time BTC or ETH break a significant price barrier.
         </div>
       </>
     ),
