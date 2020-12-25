@@ -1,6 +1,6 @@
 const onOpenIntercome = message => {
   if (window.Intercom) {
-    if (message) {
+    if (message && typeof message === 'string') {
       window.Intercom('showNewMessage', message)
     } else {
       window.Intercom('show')
