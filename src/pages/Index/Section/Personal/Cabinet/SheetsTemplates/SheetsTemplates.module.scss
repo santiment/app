@@ -40,3 +40,11 @@
 .external {
   margin-left: 8px;
 }
+
+.link {
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
