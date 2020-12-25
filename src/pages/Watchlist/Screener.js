@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {
   DEFAULT_SCREENER_FUNCTION,
   useScreenerUrl
@@ -11,6 +11,7 @@ import {
 import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table'
 import Infographics from './Infographics'
+import { useColumns } from '../../ducks/Watchlists/Widgets/Table/hooks'
 import { addRecentScreeners } from '../../utils/recent'
 import { useUser } from '../../stores/user'
 import styles from './Screener.module.scss'
@@ -32,9 +33,12 @@ const Screener = ({
   const [screenerFunction, setScreenerFunction] = useState(
     watchlist.function || DEFAULT_SCREENER_FUNCTION
   )
-  const { assets = [], projectsCount, loading } = getProjectsByFunction(
-    screenerFunction
-  )
+  const { columns, toggleColumn, pageSize } = useColumns('Screener')
+  const [pagination, setPagination] = useState({ page: 1, pageSize: +pageSize })
+  const { assets = [], projectsCount, loading } = getProjectsByFunction({
+    ...screenerFunction,
+    args: { pagination: pagination, ...screenerFunction.args }
+  })
   const { user = {}, loading: userLoading } = useUser()
   const [tableLoading, setTableLoading] = useState(true)
 
@@ -86,10 +90,22 @@ const Screener = ({
 
   const refetchAssets = () => {
     setTableLoading(true)
-    getAssetsByFunction(screenerFunction, 'network-only').then(() =>
-      setTableLoading(false)
-    )
+    getAssetsByFunction(
+      {
+        ...screenerFunction,
+        args: { pagination: { ...pagination }, ...screenerFunction.args }
+      },
+      'network-only'
+    ).then(() => setTableLoading(false))
   }
+
+  const fetchData = useCallback(
+    ({ pageSize, pageIndex }) => {
+      setPagination({ pageSize: +pageSize, page: +pageIndex + 1 })
+      refetchAssets()
+    },
+    [screenerFunction]
+  )
 
   const { widgets, setWidgets } = useScreenerUrl({ location, history })
 
@@ -137,7 +153,11 @@ const Screener = ({
         type='screener'
         listName={title}
         watchlist={watchlist}
+        fetchData={fetchData}
         refetchAssets={refetchAssets}
+        pageSize={pageSize}
+        columns={columns}
+        toggleColumn={toggleColumn}
       />
     </>
   )

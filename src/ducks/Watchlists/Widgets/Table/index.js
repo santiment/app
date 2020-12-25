@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { COLUMNS, DEFAULT_SORTING } from './new-columns'
 import TableTop from './TableTop'
 import Table from '../../../Table'
-import { useVisibleItems, useColumns } from './hooks'
+import { useVisibleItems } from './hooks'
 import { usePriceGraph } from './PriceGraph/hooks'
 import { ASSETS_TABLE_COLUMNS } from './columns'
 import { normalizeGraphData as normalizeData } from './PriceGraph/utils'
@@ -15,11 +15,17 @@ const AssetsTable = ({
   type,
   listName,
   watchlist,
-  refetchAssets
+  refetchAssets,
+  fetchData,
+  projectsCount,
+  columns,
+  toggleColumn,
+  pageSize,
+  pageIndex
 }) => {
   const { visibleItems, changeVisibleItems } = useVisibleItems()
   const { comparingAssets = [], updateAssets } = useComparingAssets()
-  const { columns, toggleColumn, pageSize } = useColumns('Screener')
+
   const [graphData] = usePriceGraph({ slugs: visibleItems })
 
   const shownColumns = useMemo(
@@ -51,6 +57,7 @@ const AssetsTable = ({
       <Table
         data={data}
         columns={shownColumns}
+        fetchData={fetchData}
         options={{
           noDataSettings: {
             title: 'No matches!',
@@ -72,9 +79,11 @@ const AssetsTable = ({
           },
           paginationSettings: {
             pageSize,
-            pageIndex: 0,
+            pageIndex,
             pageSizeOptions: [10, 20, 50, 100],
-            onChangeVisibleItems: changeVisibleItems
+            onChangeVisibleItems: changeVisibleItems,
+            controlledPageCount: Math.ceil(projectsCount / pageSize),
+            manualPagination: true
           },
           rowSelectSettings: {
             onChangeSelectedRows: updateAssets

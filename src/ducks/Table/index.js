@@ -11,6 +11,7 @@ import styles from './index.module.scss'
 const Table = ({
   data,
   columns,
+  fetchData = () => {},
   options: {
     noDataSettings = {},
     loadingSettings,
@@ -30,11 +31,14 @@ const Table = ({
     pageSize: initialPageSize,
     pageIndex: initialPageIndex,
     pageSizeOptions = [10, 25, 50],
-    onChangeVisibleItems
+    onChangeVisibleItems,
+    controlledPageCount,
+    manualPagination
   } = paginationSettings || {}
   const { onChangeSelectedRows } = rowSelectSettings || {}
 
   const initialState = {}
+  const optionalOptions = {}
 
   if (defaultSorting) {
     initialState.sortBy = defaultSorting
@@ -46,6 +50,11 @@ const Table = ({
 
   if (initialPageIndex) {
     initialState.pageIndex = initialPageIndex
+  }
+
+  if (manualPagination) {
+    optionalOptions.manualPagination = true
+    optionalOptions.pageCount = controlledPageCount
   }
 
   const {
@@ -77,7 +86,8 @@ const Table = ({
       autoResetPage: false,
       autoResetSortBy: false,
       autoResetSelectedRows: false,
-      initialState
+      initialState,
+      ...optionalOptions
     },
     useSortBy,
     usePagination,
@@ -120,6 +130,13 @@ const Table = ({
       }
     },
     [selectedFlatRows]
+  )
+
+  useEffect(
+    () => {
+      fetchData({ pageIndex, pageSize })
+    },
+    [fetchData, pageIndex, pageSize]
   )
 
   return (
