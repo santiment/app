@@ -277,5 +277,10 @@ export const METRICS = [
   'total_supply',
   'network_profit_loss',
   'average_fees_usd',
-  'median_fees_usd'
+  'median_fees_usd',
+  'mvrv_usd_intraday_90d',
+  'mvrv_usd_intraday_60d',
+  'mvrv_usd_intraday_30d',
+  'active_deposits_5m',
+  'deposit_transactions_5m'
 ]
