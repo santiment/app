@@ -37,8 +37,12 @@ export const SortReducer = {
   Popular: popularitySortReducer
 }
 
-export const getSEOLinkFromIdAndTitle = (id, title) =>
-  encodeURIComponent(
+export const getSEOLinkFromIdAndTitle = (id, title) => {
+  if (!title) {
+    return id
+  }
+
+  return encodeURIComponent(
     encodeURIComponent(
       `${title
         .toLowerCase()
@@ -46,3 +50,4 @@ export const getSEOLinkFromIdAndTitle = (id, title) =>
         .join('-')}-${id}`
     )
   )
+}
