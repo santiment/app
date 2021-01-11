@@ -23,7 +23,7 @@ const MarketDropdown = ({ activeLink }) => {
       <div className={styles.wrapper}>
         <div className={styles.block}>
           <h3 className={styles.title}>Explore watchlists</h3>
-          <div>
+          <div className={styles.listWrapper}>
             {watchlists.map(({ to, name, id }) => {
               const link = to || getWatchlistLink({ name, id })
 
@@ -35,6 +35,7 @@ const MarketDropdown = ({ activeLink }) => {
                   as={Link}
                   to={link}
                   isActive={link === activeLink}
+                  className={styles.btn}
                 >
                   {name}
                 </Button>
@@ -66,6 +67,7 @@ const MarketDropdown = ({ activeLink }) => {
                         key={name}
                         as={Link}
                         to={link}
+                        className={styles.btn}
                       >
                         {name}
                       </Button>
@@ -76,7 +78,9 @@ const MarketDropdown = ({ activeLink }) => {
             </>
           )}
           <h3 className={styles.title}>My watchlists</h3>
-          <WatchlistsDropdown activeLink={activeLink} />
+          <div className={styles.listWrapper}>
+            <WatchlistsDropdown activeLink={activeLink} />
+          </div>
         </div>
       </div>
     </Panel>

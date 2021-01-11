@@ -7,7 +7,7 @@ import { useFeaturedTemplates } from '../../../ducks/Studio/Template/gql/hooks'
 import { prepareTemplateLink } from '../../../ducks/Studio/Template/utils'
 import { getRecentTemplates } from '../../../utils/recent'
 import { useRecentTemplates } from '../../../hooks/recents'
-import NavbarChartsLayouts from './NavbarChartsLayouts'
+import NavbarChartsLayouts, { getLayoutsStyles } from './NavbarChartsLayouts'
 import NewLabel from '../../NewLabel/NewLabel'
 import styles from './NavbarChartsDropdown.module.scss'
 
@@ -45,7 +45,7 @@ const NavbarChartsDropdown = ({ activeLink }) => {
         <div className={cx(styles.block, styles.list)}>
           <h3 className={styles.title}>Dashboards</h3>
 
-          <div className={styles.featuredWrapper}>
+          <div className={styles.listWrapper}>
             {DASHBOARDS.map(({ to, name, createdAt }) => {
               const link = to
 
@@ -75,7 +75,7 @@ const NavbarChartsDropdown = ({ activeLink }) => {
         </div>
         <div className={styles.block}>
           <h3 className={styles.title}>Explore chart layouts</h3>
-          <div className={styles.featuredWrapper}>
+          <div className={styles.listWrapper}>
             <div className={styles.scroll}>
               {layouts.map(template => {
                 const link = prepareTemplateLink(template)
@@ -105,12 +105,10 @@ const NavbarChartsDropdown = ({ activeLink }) => {
               <h3 className={styles.title}>Recent watched chart layouts</h3>
               <div
                 className={styles.listWrapper}
-                style={{
-                  minHeight:
-                    recentTemplates.length > 3
-                      ? '140px'
-                      : `${32 * recentTemplates.length}px`
-                }}
+                style={getLayoutsStyles(
+                  recentTemplates,
+                  recentTemplates.length
+                )}
               >
                 <div className={styles.recentList}>
                   {recentTemplates.map((template, idx) => {

@@ -16,6 +16,11 @@ const ExternalLink = ({ href, children }) => {
 
 export const SheetsTemplatesList = [
   {
+    title: 'Holders Distribution',
+    linkToTemplate:
+      'https://docs.google.com/spreadsheets/d/130DSq8KPXIEGBn25HQeI5-dCSeoDTwR6rR8UXC5b0gw/view'
+  },
+  {
     title: 'MVRV Danger & Opportunity Zones',
     description: (
       <>

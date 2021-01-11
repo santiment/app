@@ -25,17 +25,19 @@
   color: var(--waterloo);
   display: flex;
   justify-content: space-between;
-  margin: 0 0 8px 10px;
+  margin: 0 0 0 10px;
 }
 
 .listWrapper {
   box-sizing: border-box;
+  margin: 14px 0 16px 0;
   flex: 1;
-  overflow-x: hidden;
   position: relative;
   max-height: 100px;
-  margin-bottom: 16px;
+  overflow-x: hidden;
   overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
 
   &:hover {
     overflow-y: auto;
@@ -57,6 +59,5 @@
 
 .btn {
   color: var(--rhino) !important;
-  margin-bottom: 4px;
   padding: 6px 10px;
 }
