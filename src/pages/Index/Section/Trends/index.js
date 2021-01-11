@@ -68,13 +68,13 @@ export const Tab = ({ tab, tabState, className }) => (
 
 const Tabs = ({ tabState }) => (
   <>
-    <Tab tab={TabType.SOCIAL_TRENDS} tabState={tabState} />
     <Tab tab={TabType.SANTRENDS} tabState={tabState} />
+    <Tab tab={TabType.SOCIAL_TRENDS} tabState={tabState} />
   </>
 )
 
 const Trends = () => {
-  const tabState = useState(TabType.SOCIAL_TRENDS)
+  const tabState = useState(TabType.SANTRENDS)
   const activeTab = tabState[0]
   const { href, description, widget } = TabTypeContent[activeTab]
 
