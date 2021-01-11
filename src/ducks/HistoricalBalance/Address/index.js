@@ -23,6 +23,16 @@ export const AddressSetting = ({
 
   useEffect(
     () => {
+      if (address !== value) {
+        setValue(address)
+      }
+    },
+
+    [address]
+  )
+
+  useEffect(
+    () => {
       if (value === settings.address || !infrastructure) return
 
       const timer = setTimeout(() => onAddressChange(value), 250)

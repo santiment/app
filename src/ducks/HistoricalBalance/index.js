@@ -104,7 +104,8 @@ const HistoricalBalance = ({
           settings,
           chartAssets,
           priceAssets,
-          isLog
+          isLog,
+          onAddressChange
         })
       )}
     </>
