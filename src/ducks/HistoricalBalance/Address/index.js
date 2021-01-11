@@ -27,7 +27,6 @@ export const AddressSetting = ({
         setValue(address)
       }
     },
-
     [address]
   )
 
