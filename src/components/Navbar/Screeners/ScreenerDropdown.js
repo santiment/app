@@ -61,14 +61,17 @@ const ScreenerDropdown = ({ activeLink }) => {
               </div>
             </>
           )}
-          <h3 className={wrapperStyles.title}>My screeners</h3>
-          <div className={wrapperStyles.listWrapper}>
-            {isLoading ? (
-              <Loader className={styles.loader} />
-            ) : (
-              <List screeners={screeners} activeLink={activeLink} />
-            )}
-            <CreateScreenerBtn screeners={screeners} />
+
+          <div className={wrapperStyles.myWatchlists}>
+            <h3 className={wrapperStyles.title}>My screeners</h3>
+            <div className={wrapperStyles.listWrapper}>
+              {isLoading ? (
+                <Loader className={styles.loader} />
+              ) : (
+                <List screeners={screeners} activeLink={activeLink} />
+              )}
+              <CreateScreenerBtn screeners={screeners} />
+            </div>
           </div>
         </div>
       </div>
