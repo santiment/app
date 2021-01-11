@@ -10,31 +10,7 @@ import {
 import WatchlistsDropdown from './WatchlistsDropdown'
 import { getRecentWatchlists } from '../../../utils/recent'
 import { getWatchlistLink } from '../../../ducks/Watchlists/utils'
-import NewLabel from '../../NewLabel/NewLabel'
 import styles from './MarketDropdown.module.scss'
-
-const DASHBOARDS = [
-  {
-    name: 'Stablecoins',
-    to: '/stablecoins',
-    createdAt: '2020-10-01T00:00:00Z'
-  },
-  {
-    name: 'Uniswap Protocol',
-    to: '/uniswap-protocol',
-    createdAt: '2020-11-01T00:00:00Z'
-  },
-  {
-    name: 'Decentralized Exchanges',
-    to: '/decentralized-exchanges',
-    createdAt: '2020-11-03T00:00:00Z'
-  },
-  {
-    name: 'Bitcoin Locked on Ethereum',
-    to: '/bitcoin-locked-on-ethereum',
-    createdAt: '2020-11-04T00:00:00Z'
-  }
-]
 
 const MarketDropdown = ({ activeLink }) => {
   const [watchlists = []] = useFeaturedWatchlists()
@@ -45,36 +21,6 @@ const MarketDropdown = ({ activeLink }) => {
   return (
     <Panel>
       <div className={styles.wrapper}>
-        <div className={cx(styles.block, styles.list)}>
-          <h3 className={styles.title}>Dashboards</h3>
-
-          <div>
-            {DASHBOARDS.map(({ to, name, createdAt }) => {
-              const link = to
-
-              return (
-                <Button
-                  fluid
-                  variant='ghost'
-                  key={name}
-                  as={Link}
-                  to={link}
-                  isActive={link === activeLink}
-                >
-                  {[
-                    <NewLabel
-                      className={styles.new}
-                      date={createdAt}
-                      limitDays={14}
-                      key='new'
-                    />,
-                    name
-                  ]}
-                </Button>
-              )
-            })}
-          </div>
-        </div>
         <div className={styles.block}>
           <h3 className={styles.title}>Explore watchlists</h3>
           <div>
