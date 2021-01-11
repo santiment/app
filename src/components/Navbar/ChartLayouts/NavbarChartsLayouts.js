@@ -40,7 +40,7 @@ const NavbarChartsLayouts = ({ recentTemplatesNumber = 0 }) => {
 
 export const getLayoutsStyles = (templates, recentTemplatesNumber) => ({
   minHeight: templates.length > 3 ? '100px' : `${32 * templates.length}px`,
-  maxHeight: recentTemplatesNumber > 0 ? '140px' : '100%'
+  maxHeight: recentTemplatesNumber > 0 ? '136px' : '100%'
 })
 
 const LayoutsList = ({ templates, activeLink, recentTemplatesNumber }) => (

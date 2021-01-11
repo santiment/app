@@ -77,9 +77,12 @@ const MarketDropdown = ({ activeLink }) => {
               </div>
             </>
           )}
-          <h3 className={styles.title}>My watchlists</h3>
-          <div className={styles.listWrapper}>
-            <WatchlistsDropdown activeLink={activeLink} />
+
+          <div className={styles.myWatchlists}>
+            <h3 className={styles.title}>My watchlists</h3>
+            <div className={styles.listWrapper}>
+              <WatchlistsDropdown activeLink={activeLink} />
+            </div>
           </div>
         </div>
       </div>

@@ -30,12 +30,9 @@
 
 .listWrapper {
   box-sizing: border-box;
-  margin: 14px 0 16px 0;
+  margin: 14px 0 0 0;
   flex: 1;
   position: relative;
-  max-height: 100px;
-  overflow-x: hidden;
-  overflow-y: hidden;
   display: flex;
   flex-direction: column;
 
@@ -60,4 +57,8 @@
 .btn {
   color: var(--rhino) !important;
   padding: 6px 10px;
+}
+
+.myWatchlists {
+  margin-top: 16px;
 }
