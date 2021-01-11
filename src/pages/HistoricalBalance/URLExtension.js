@@ -1,13 +1,29 @@
 import { useEffect } from 'react'
-import { generateSearchQuery } from '../../ducks/HistoricalBalance/url'
+import {
+  parseUrl,
+  generateSearchQuery
+} from '../../ducks/HistoricalBalance/url'
 
 const URLExtension = ({
   history,
   settings,
   chartAssets,
   priceAssets,
-  isLog
+  isLog,
+  onAddressChange
 }) => {
+  const { search } = history.location
+
+  useEffect(
+    () => {
+      const { address } = parseUrl(search).settings
+      if (address !== settings.address) {
+        onAddressChange(address)
+      }
+    },
+    [search]
+  )
+
   useEffect(
     () => {
       history.replace(
