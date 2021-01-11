@@ -45,7 +45,7 @@ const MarketDropdown = ({ activeLink }) => {
         </div>
         <div className={cx(styles.block, styles.list)}>
           {recentWatchlists && recentWatchlists.length > 0 && (
-            <>
+            <div className={styles.row}>
               <h3 className={styles.title}>Recent watched watchlists</h3>
               <div
                 className={styles.listWrapper}
@@ -75,14 +75,12 @@ const MarketDropdown = ({ activeLink }) => {
                   })}
                 </div>
               </div>
-            </>
+            </div>
           )}
 
-          <div className={styles.myWatchlists}>
-            <h3 className={styles.title}>My watchlists</h3>
-            <div className={styles.listWrapper}>
-              <WatchlistsDropdown activeLink={activeLink} />
-            </div>
+          <h3 className={styles.title}>My watchlists</h3>
+          <div className={styles.listWrapper}>
+            <WatchlistsDropdown activeLink={activeLink} />
           </div>
         </div>
       </div>

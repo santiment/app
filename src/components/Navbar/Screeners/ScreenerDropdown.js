@@ -29,7 +29,7 @@ const ScreenerDropdown = ({ activeLink }) => {
       <div className={wrapperStyles.wrapper}>
         <div className={cx(wrapperStyles.block, wrapperStyles.list)}>
           {recentScreeners && recentScreeners.length > 0 && (
-            <>
+            <div className={wrapperStyles.row}>
               <h3 className={wrapperStyles.title}>Recent watched screeners</h3>
               <div
                 className={wrapperStyles.listWrapper}
@@ -59,19 +59,17 @@ const ScreenerDropdown = ({ activeLink }) => {
                   })}
                 </div>
               </div>
-            </>
+            </div>
           )}
 
-          <div className={wrapperStyles.myWatchlists}>
-            <h3 className={wrapperStyles.title}>My screeners</h3>
-            <div className={wrapperStyles.listWrapper}>
-              {isLoading ? (
-                <Loader className={styles.loader} />
-              ) : (
-                <List screeners={screeners} activeLink={activeLink} />
-              )}
-              <CreateScreenerBtn screeners={screeners} />
-            </div>
+          <h3 className={wrapperStyles.title}>My screeners</h3>
+          <div className={wrapperStyles.listWrapper}>
+            {isLoading ? (
+              <Loader className={styles.loader} />
+            ) : (
+              <List screeners={screeners} activeLink={activeLink} />
+            )}
+            <CreateScreenerBtn screeners={screeners} />
           </div>
         </div>
       </div>
