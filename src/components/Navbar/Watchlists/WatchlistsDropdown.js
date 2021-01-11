@@ -34,7 +34,10 @@ const WatchlistsDropdown = ({ activeLink }) => {
   ) : (
     <>
       <WatchlistList watchlists={watchlists} activeLink={activeLink} />
-      <CreateWatchlistBtn watchlists={watchlists} />
+      <CreateWatchlistBtn
+        watchlists={watchlists}
+        className={styles.watchlistBtn}
+      />
     </>
   )
 }
@@ -43,7 +46,9 @@ const WatchlistList = ({ watchlists, activeLink }) => (
   <div
     className={styles.wrapper}
     style={{
-      minHeight: watchlists.length > 3 ? '100px' : `${32 * watchlists.length}px`
+      minHeight:
+        watchlists.length > 3 ? '100px' : `${32 * watchlists.length}px`,
+      maxHeight: '100px'
     }}
   >
     <div className={styles.list}>
