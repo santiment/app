@@ -6,8 +6,6 @@ import { getSavedToggle } from '../../utils/localStorage'
 const DEFAULT_TIME_RANGE = '3m'
 const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
 
-TO.setUTCHours(0, 0, 0, 0)
-
 export const DEFAULT_SETTINGS = {
   addedTopics: [],
   asset: 'bitcoin',
