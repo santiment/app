@@ -1,12 +1,15 @@
 import React, { useMemo } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import styles from './Card.module.scss'
-import emptyChartSvg from '../../ducks/Watchlists/Cards/emptyChart.svg'
+import { getSEOLinkFromIdAndTitle } from '../../utils/url'
 import { calcPercentageChange } from '../../utils/utils'
 import { millify } from '../../utils/formatting'
-import PercentChanges from '../../components/PercentChanges'
 import MiniChart from '../../components/MiniChart'
+import PercentChanges from '../../components/PercentChanges'
+import NewLabel from '../../components/NewLabel/NewLabel'
+import { VisibilityIndicator } from '../../components/VisibilityIndicator'
+import emptyChartSvg from '../../ducks/Watchlists/Cards/emptyChart.svg'
+import styles from './Card.module.scss'
 
 export const WATCHLIST_MARKETCAP_HISTORY_QUERY = gql`
   query watchlist($id: ID!) {
@@ -54,14 +57,33 @@ const useMarketcap = id => {
   )
 }
 
-const WatchlistCard = ({ watchlist }) => {
-  const { name } = watchlist
+const WatchlistCard = ({
+  watchlist,
+  path,
+  isWithNewCheck,
+  isWithVisibility
+}) => {
+  const { id, name, insertedAt, isPublic } = watchlist
   const { data, marketcap, change } = useMarketcap(watchlist.id)
   const noMarketcap = marketcap === NULL_MARKETCAP
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.name}>{name}</div>
+    <a
+      href={path + getSEOLinkFromIdAndTitle(id, name)}
+      className={styles.wrapper}
+    >
+      <div className={styles.header}>
+        {isWithNewCheck && (
+          <NewLabel date={insertedAt} className={styles.new} />
+        )}
+        {name}
+        {isWithVisibility && (
+          <VisibilityIndicator
+            isPublic={isPublic}
+            className={styles.visibility}
+          />
+        )}
+      </div>
       <div className={styles.marketcap}>
         {marketcap}
         {noMarketcap ? (
@@ -80,8 +102,13 @@ const WatchlistCard = ({ watchlist }) => {
           </>
         )}
       </div>
-    </div>
+    </a>
   )
+}
+
+WatchlistCard.defaultProps = {
+  isWithNewCheck: true,
+  isWithVisibility: true
 }
 
 export default WatchlistCard

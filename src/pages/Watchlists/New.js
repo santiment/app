@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import cx from 'classnames'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
@@ -10,6 +10,7 @@ export const WATCHLIST_GENERAL_FRAGMENT = gql`
   fragment generalListData on UserList {
     id
     name
+    function
     insertedAt
     isPublic
   }
@@ -17,7 +18,7 @@ export const WATCHLIST_GENERAL_FRAGMENT = gql`
 
 export const FEATURED_WATCHLISTS_QUERY = gql`
   query featuredWatchlists {
-    featuredWatchlists {
+    watchlists: featuredWatchlists {
       ...generalListData
     }
   }
@@ -26,7 +27,7 @@ export const FEATURED_WATCHLISTS_QUERY = gql`
 
 export const USER_WATCHLISTS_QUERY = gql`
   query fetchWatchlists {
-    fetchWatchlists {
+    watchlists: fetchWatchlists {
       ...generalListData
     }
   }
@@ -34,25 +35,64 @@ export const USER_WATCHLISTS_QUERY = gql`
 `
 
 const ARRAY = []
-export function useFeaturedWatchlists () {
-  const { data } = useQuery(FEATURED_WATCHLISTS_QUERY)
-  return data ? data.featuredWatchlists : ARRAY
+function newWatchlistHook (query) {
+  const { data } = useQuery(query)
+  return data ? data.watchlists : ARRAY
+}
+function newUserWatchlistsHook (filter) {
+  const watchlists = newWatchlistHook(USER_WATCHLISTS_QUERY)
+  return useMemo(() => watchlists.filter(filter), [watchlists])
 }
 
-const Section = ({ children, title, isGrid }) => {
-  return (
-    <>
-      <h2 className={styles.title}>{title}</h2>
-      <div className={cx(styles.section, isGrid && styles.grid)}>
-        {children}
-      </div>
-    </>
-  )
+const checkIsScreener = ({ function: fn }) => fn.name !== 'empty'
+const checkIsNotScreener = ({ function: fn }) => fn.name === 'empty'
+
+const useFeaturedWatchlists = () => newWatchlistHook(FEATURED_WATCHLISTS_QUERY)
+const useUserWatchlists = () => newUserWatchlistsHook(checkIsNotScreener)
+const useUserScreeners = () => newUserWatchlistsHook(checkIsScreener)
+
+const Section = ({ children, title, isGrid }) => (
+  <>
+    <h2 className={styles.title}>{title}</h2>
+    <div className={cx(styles.section, isGrid && styles.grid)}>{children}</div>
+  </>
+)
+
+const FeaturedWatchlistCards = () => {
+  const watchlists = useFeaturedWatchlists()
+
+  return watchlists.map(watchlist => (
+    <WatchlistCard
+      key={watchlist.id}
+      path='/watchlist/projects/'
+      watchlist={watchlist}
+      isWithNewCheck={false}
+      isWithVisibility={false}
+    />
+  ))
+}
+
+const UserWatchlistCards = () => {
+  const watchlists = useUserWatchlists()
+
+  return watchlists.map(watchlist => (
+    <WatchlistCard
+      key={watchlist.id}
+      path='/watchlist/projects/'
+      watchlist={watchlist}
+    />
+  ))
+}
+
+const UserScreenerCards = () => {
+  const watchlists = useUserScreeners()
+
+  return watchlists.map(watchlist => (
+    <WatchlistCard key={watchlist.id} path='/screener/' watchlist={watchlist} />
+  ))
 }
 
 const Watchlists = ({ isDesktop }) => {
-  const featureWatchlists = useFeaturedWatchlists()
-  console.log(featureWatchlists)
   return (
     <Page
       title={isDesktop ? null : 'Watchlists'}
@@ -60,12 +100,14 @@ const Watchlists = ({ isDesktop }) => {
       isWithPadding={false}
     >
       <Section isGrid title='Explore watchlists'>
-        {featureWatchlists.map(watchlist => (
-          <WatchlistCard key={watchlist.id} watchlist={watchlist} />
-        ))}
+        <FeaturedWatchlistCards />
       </Section>
-      <Section title='My watchlists'>123</Section>
-      <Section title='My screeners'>123</Section>
+      <Section isGrid title='My watchlists'>
+        <UserWatchlistCards />
+      </Section>
+      <Section isGrid title='My screeners'>
+        <UserScreenerCards />
+      </Section>
     </Page>
   )
 }
