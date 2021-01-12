@@ -119,7 +119,7 @@ export const Description = {
 
   [Metric.ethSpentOverTime.key]:
     'Shows the amount of ETH moved out of the project’s ICO wallets over time',
-  [Metric.minersBalance.key]:
+  [Metric.miners_balance.key]:
     'Shows the combined ETH balance of addresses belonging to Ethereum mining pools',
   [Metric.gasUsed.key]:
     'Shows the amount of Gas accrued on the Ethereum network daily. Gas is a unit that measures the amount of computational effort it will take to successfully conduct a transaction or execute a contract on the Ethereum blockchain',

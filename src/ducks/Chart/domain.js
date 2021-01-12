@@ -9,7 +9,7 @@ import {
 
 const DEFAULT_DOMAIN_METRIC_KEYS = [
   Metric.twitter_followers.key,
-  Metric.minersBalance.key
+  Metric.miners_balance.key
 ]
 
 export function domainModifier (metricKey, minMax) {

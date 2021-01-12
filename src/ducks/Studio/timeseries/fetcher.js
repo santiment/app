@@ -2,7 +2,6 @@ import { METRICS, GET_METRIC } from './metrics'
 import { AnomalyFetcher, OldAnomalyFetcher } from './anomalies'
 import { MarketSegmentFetcher } from './marketSegments'
 import { aliasTransform, normalizeInterval } from './utils'
-import { MINERS_BALANCE_QUERY } from './queries/minersBalance'
 import { HISTORICAL_BALANCE_QUERY } from './queries/historicaBalance'
 import { getMinInterval } from './queries/minInterval'
 import { GAS_USED_QUERY } from '../../GetTimeSeries/queries/gas_used'
@@ -73,10 +72,6 @@ Object.assign(Fetcher, {
         datetime,
         [key]: ethSpent
       }))
-  },
-  minersBalance: {
-    query: MINERS_BALANCE_QUERY,
-    preTransform: aliasTransform('minersBalance')
   },
   social_active_users_telegram: {
     query: GET_SOURCE_METRIC(SOCIAL_ACTIVE_USERS_TELEGRAM),
