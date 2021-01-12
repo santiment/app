@@ -40,6 +40,7 @@ const WatchlistEmptySection = ({ watchlists, className }) => (
 const MyWatchlist = ({ className, showHeader = true, classes = {} }) => {
   const [watchlists, loading] = useUserWatchlists()
   const { isLoggedIn, loading: isLoggedInPending } = useUser()
+  console.log(watchlists)
 
   return (
     <div className={cx(styles.wrapper, className)}>

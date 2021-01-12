@@ -1,0 +1,21 @@
+.chart {
+  stroke-width: 2;
+  overflow: visible;
+  fill: none;
+
+  --stroke: var(--persimmon);
+  --fill: url(#negative-change);
+
+  &_positive {
+    --stroke: var(--lima);
+    --fill: url(#positive-change);
+  }
+}
+
+.line {
+  stroke: var(--stroke);
+}
+
+.area {
+  fill: var(--fill);
+}
