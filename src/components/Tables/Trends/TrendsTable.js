@@ -24,6 +24,7 @@ const TrendsTable = ({
   className,
   isDesktop,
   isCompactView,
+  showSocialVol,
   contentClassName
 }) => {
   const tableData = useMemo(
@@ -46,7 +47,11 @@ const TrendsTable = ({
   const columns = useMemo(
     () => {
       const baseColumns = isDesktop
-        ? getTrendsDesktopCols({ trendConnections, TrendToInsights })
+        ? getTrendsDesktopCols({
+          trendConnections,
+          TrendToInsights,
+          showSocialVol
+        })
         : getTrendsMobileCols({ trendConnections })
 
       return isCompactView

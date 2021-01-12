@@ -69,66 +69,83 @@ const CHART_COLUMN = {
   Cell: ({ value }) => <SocialVolumeGraph word={value} />
 }
 
-export const getCommonColumns = ({ trendConnections }) => [
-  {
-    Header: 'Trending words',
-    accessor: 'word',
-    Cell: ({ value: word }) => (
-      <Link
-        className={cx(
-          styles.word,
-          trendConnections.includes(word.toUpperCase()) && styles.connected
-        )}
-        to={`${EXPLORE_PAGE_URL}${word}`}
-        onClick={evt => {
-          if (evt.ctrlKey || evt.metaKey) {
-            const { pathname } = window.location
-            const topic = pathname.replace(EXPLORE_PAGE_URL, '')
+export const getCommonColumns = ({
+  trendConnections,
+  showSocialVol = true
+}) => {
+  const columns = [
+    {
+      Header: 'Trending words',
+      accessor: 'word',
+      Cell: ({ value: word }) => (
+        <Link
+          className={cx(
+            styles.word,
+            trendConnections.includes(word.toUpperCase()) && styles.connected
+          )}
+          to={`${EXPLORE_PAGE_URL}${word}`}
+          onClick={evt => {
+            if (evt.ctrlKey || evt.metaKey) {
+              const { pathname } = window.location
+              const topic = pathname.replace(EXPLORE_PAGE_URL, '')
 
-            if (pathname.includes(EXPLORE_PAGE_URL)) {
-              evt.preventDefault()
-              evt.stopPropagation()
-              if (word !== topic) {
-                const addedTopics = new Set(getTopicsFromUrl())
-                addedTopics.add(word)
-                const newTopics = updTopicsInUrl([...addedTopics])
-                const url = topic ? `?${newTopics}` : `${word}`
+              if (pathname.includes(EXPLORE_PAGE_URL)) {
+                evt.preventDefault()
+                evt.stopPropagation()
+                if (word !== topic) {
+                  const addedTopics = new Set(getTopicsFromUrl())
+                  addedTopics.add(word)
+                  const newTopics = updTopicsInUrl([...addedTopics])
+                  const url = topic ? `?${newTopics}` : `${word}`
 
-                store.dispatch(push(pathname + url))
+                  store.dispatch(push(pathname + url))
+                }
               }
             }
-          }
-        }}
-      >
-        {word}
-      </Link>
-    )
-  },
-  {
-    Header: 'Soc. vol., 24h',
-    accessor: 'volume',
-    Cell: ({ value: volumeChange }) => {
-      const volumeIsLoading = !volumeChange
-      const [oldVolume = 0, newVolume = 0] = volumeChange || []
-
-      return volumeIsLoading ? (
-        <Skeleton centered className={styles.skeleton} show={true} repeat={1} />
-      ) : (
-        <>
-          <div className={styles.volume}>{newVolume}</div>{' '}
-          <ValueChange
-            change={
-              oldVolume !== 0 ? (100 * (newVolume - oldVolume)) / oldVolume : 0
-            }
-            className={styles.valueChange}
-            suffix={'%'}
-            render={formatNumber}
-          />
-        </>
+          }}
+        >
+          {word}
+        </Link>
       )
     }
+  ]
+
+  if (showSocialVol) {
+    columns.push({
+      Header: 'Soc. vol., 24h',
+      accessor: 'volume',
+      Cell: ({ value: volumeChange }) => {
+        const volumeIsLoading = !volumeChange
+        const [oldVolume = 0, newVolume = 0] = volumeChange || []
+
+        return volumeIsLoading ? (
+          <Skeleton
+            centered
+            className={styles.skeleton}
+            show={true}
+            repeat={1}
+          />
+        ) : (
+          <>
+            <div className={styles.volume}>{newVolume}</div>{' '}
+            <ValueChange
+              change={
+                oldVolume !== 0
+                  ? (100 * (newVolume - oldVolume)) / oldVolume
+                  : 0
+              }
+              className={styles.valueChange}
+              suffix={'%'}
+              render={formatNumber}
+            />
+          </>
+        )
+      }
+    })
   }
-]
+
+  return columns
+}
 
 export const getTrendsCompatctViewCols = ({ trendConnections }) => {
   return [
@@ -142,14 +159,18 @@ export const getTrendsMobileCols = ({ trendConnections }) => [
   CHART_COLUMN
 ]
 
-export const getTrendsDesktopCols = ({ trendConnections, TrendToInsights }) => {
+export const getTrendsDesktopCols = ({
+  trendConnections,
+  TrendToInsights,
+  showSocialVol
+}) => {
   const hasInsights =
     TrendToInsights &&
     Object.values(TrendToInsights).some(item => item && item.length > 0)
 
   const columns = [
     getIndexColumn(),
-    ...getCommonColumns({ trendConnections }),
+    ...getCommonColumns({ trendConnections, showSocialVol }),
     CHART_COLUMN,
     {
       Header: 'Connected words',
