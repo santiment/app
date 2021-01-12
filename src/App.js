@@ -63,6 +63,8 @@ const LoadablePage = loader =>
 
 const LoadableIndexPage = LoadablePage(() => import('./pages/Index'))
 
+const LoadableAssetsPage = LoadablePage(() => import('./pages/Assets'))
+
 const LoadableWatchlistsPage = LoadablePage(() =>
   import('./pages/Watchlists/New')
 )
@@ -109,7 +111,9 @@ const LoadableSonarFeedPage = LoadablePage(() =>
   import('./pages/SonarFeed/SonarFeedPage')
 )
 
-/* const LoadableWatchlistsPage = LoadablePage(() => import('./pages/Watchlists')) */
+const LoadableWatchlistsPageOld = LoadablePage(() =>
+  import('./pages/Watchlists')
+)
 
 const LoadableWatchlistsMobilePage = LoadablePage(() =>
   import('./pages/Watchlists/WatchlistsMobilePage')
@@ -278,8 +282,7 @@ export const App = ({
               <CreateAccountFreeTrial {...props} isLoggedIn={isLoggedIn} />
             )}
           />
-          /* <Route exact path='/assets' component={LoadableWatchlistsPage} />{' '}
-          */
+          <Route exact path='/assets' component={LoadableAssetsPage} />
           <Route
             exact
             path='/watchlist/addresses/:nameId'

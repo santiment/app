@@ -10,9 +10,42 @@
   margin: 25px 0 50px;
 }
 
+.empty__img {
+  margin: 0;
+}
+
 .grid {
-  // width: 100%;
   display: grid;
   grid-gap: 24px;
   grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.stories {
+  margin-left: -16px;
+  margin-right: -16px;
+  width: auto;
+}
+
+@include responsive('phone-xs', 'phone') {
+  .wrapper {
+    margin-bottom: 60px;
+  }
+
+  .title {
+    @include text('body-1', 'l');
+  }
+
+  .empty {
+    padding: 30px 16px 16px;
+    border: 1px solid var(--porcelain);
+    border-radius: 4px;
+  }
+
+  .section {
+    margin: 16px 0 40px;
+  }
+
+  .card {
+    margin-bottom: 16px;
+  }
 }

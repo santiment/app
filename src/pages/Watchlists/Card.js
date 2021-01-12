@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import cx from 'classnames'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import { getSEOLinkFromIdAndTitle } from '../../utils/url'
@@ -30,9 +31,9 @@ const LOADING = {
 const DEFAULT = {
   marketcap: NULL_MARKETCAP
 }
-const useMarketcap = id => {
+const useMarketcap = variables => {
   const { data } = useQuery(WATCHLIST_MARKETCAP_HISTORY_QUERY, {
-    variables: { id }
+    variables
   })
 
   return useMemo(
@@ -58,19 +59,20 @@ const useMarketcap = id => {
 }
 
 const WatchlistCard = ({
+  className,
   watchlist,
   path,
   isWithNewCheck,
   isWithVisibility
 }) => {
-  const { id, name, insertedAt, isPublic } = watchlist
-  const { data, marketcap, change } = useMarketcap(watchlist.id)
+  const { id, name, insertedAt, isPublic, href } = watchlist
+  const { data, marketcap, change } = useMarketcap(watchlist)
   const noMarketcap = marketcap === NULL_MARKETCAP
 
   return (
     <a
-      href={path + getSEOLinkFromIdAndTitle(id, name)}
-      className={styles.wrapper}
+      href={href || path + getSEOLinkFromIdAndTitle(id, name)}
+      className={cx(styles.wrapper, className)}
     >
       <div className={styles.header}>
         {isWithNewCheck && (

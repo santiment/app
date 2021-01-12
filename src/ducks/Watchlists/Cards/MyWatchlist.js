@@ -15,9 +15,13 @@ import { useUser } from '../../../stores/user'
 import stylesGrid from './index.module.scss'
 import styles from './Watchlist.module.scss'
 
-const WatchlistEmptySection = ({ watchlists, className }) => (
+export const WatchlistEmptySection = ({
+  watchlists,
+  className,
+  wrapperClassName
+}) => (
   <EmptySection
-    className={styles.empty__row}
+    className={cx(styles.empty__row, wrapperClassName)}
     imgClassName={cx(styles.img, className)}
   >
     <div className={styles.empty__text}>
@@ -40,7 +44,6 @@ const WatchlistEmptySection = ({ watchlists, className }) => (
 const MyWatchlist = ({ className, showHeader = true, classes = {} }) => {
   const [watchlists, loading] = useUserWatchlists()
   const { isLoggedIn, loading: isLoggedInPending } = useUser()
-  console.log(watchlists)
 
   return (
     <div className={cx(styles.wrapper, className)}>

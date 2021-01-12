@@ -4,6 +4,13 @@ import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import WatchlistCard from './Card'
 import Page from '../../ducks/Page'
+import { useUser } from '../../stores/user'
+import { isStage } from '../../utils/utils'
+import { DesktopOnly, MobileOnly } from '../../components/Responsive'
+import InlineBanner from '../../components/banners/feature/InlineBanner'
+import { WatchlistEmptySection } from '../../ducks/Watchlists/Cards/MyWatchlist'
+import NewWatchlistCard from '../../ducks/Watchlists/Cards/NewCard'
+import StoriesList from '../../components/Stories/StoriesList'
 import styles from './New.module.scss'
 
 export const WATCHLIST_GENERAL_FRAGMENT = gql`
@@ -19,7 +26,8 @@ export const WATCHLIST_GENERAL_FRAGMENT = gql`
 export const FEATURED_WATCHLISTS_QUERY = gql`
   query featuredWatchlists {
     watchlists: featuredWatchlists {
-      ...generalListData
+      id
+      name
     }
   }
   ${WATCHLIST_GENERAL_FRAGMENT}
@@ -35,34 +43,55 @@ export const USER_WATCHLISTS_QUERY = gql`
 `
 
 const ARRAY = []
+const DEFAULT_SCREENERS = [
+  {
+    name: 'My screener',
+    href: '/screener/',
+    id:
+      process.env.REACT_APP_BACKEND_URL.indexOf('stage') > -1 || isStage
+        ? 1183
+        : 5496
+  }
+]
+const noop = _ => _
 function newWatchlistHook (query) {
-  const { data } = useQuery(query)
-  return data ? data.watchlists : ARRAY
+  const { data, loading } = useQuery(query)
+  return [data ? data.watchlists : ARRAY, loading]
 }
-function newUserWatchlistsHook (filter) {
-  const watchlists = newWatchlistHook(USER_WATCHLISTS_QUERY)
-  return useMemo(() => watchlists.filter(filter), [watchlists])
+function newUserWatchlistsHook (filter, reduce = noop) {
+  const data = newWatchlistHook(USER_WATCHLISTS_QUERY)
+  return useMemo(
+    () => {
+      data[0] = reduce(data[0].filter(filter))
+      return data
+    },
+    [data[0]]
+  )
 }
 
 const checkIsScreener = ({ function: fn }) => fn.name !== 'empty'
 const checkIsNotScreener = ({ function: fn }) => fn.name === 'empty'
 
 const useFeaturedWatchlists = () => newWatchlistHook(FEATURED_WATCHLISTS_QUERY)
-const useUserWatchlists = () => newUserWatchlistsHook(checkIsNotScreener)
-const useUserScreeners = () => newUserWatchlistsHook(checkIsScreener)
+export const useUserWatchlists = () => newUserWatchlistsHook(checkIsNotScreener)
+export const useUserScreeners = () =>
+  newUserWatchlistsHook(checkIsScreener, watchlists =>
+    watchlists.length > 0 ? watchlists : DEFAULT_SCREENERS
+  )
 
-const Section = ({ children, title, isGrid }) => (
+export const Section = ({ children, title, isGrid }) => (
   <>
     <h2 className={styles.title}>{title}</h2>
     <div className={cx(styles.section, isGrid && styles.grid)}>{children}</div>
   </>
 )
 
-const FeaturedWatchlistCards = () => {
-  const watchlists = useFeaturedWatchlists()
+export const FeaturedWatchlistCards = ({ className }) => {
+  const [watchlists] = useFeaturedWatchlists()
 
   return watchlists.map(watchlist => (
     <WatchlistCard
+      className={className}
       key={watchlist.id}
       path='/watchlist/projects/'
       watchlist={watchlist}
@@ -72,40 +101,95 @@ const FeaturedWatchlistCards = () => {
   ))
 }
 
-const UserWatchlistCards = () => {
-  const watchlists = useUserWatchlists()
+const UserWatchlistCards = ({ data }) => {
+  const [watchlists, isLoading] = data || useUserWatchlists() // NOTE: When component mounted, always should be one or another [@vanguard | Jan 12, 2021]
 
-  return watchlists.map(watchlist => (
-    <WatchlistCard
-      key={watchlist.id}
-      path='/watchlist/projects/'
-      watchlist={watchlist}
-    />
-  ))
+  if (isLoading) return null
+
+  if (watchlists.length === 0) {
+    return (
+      <WatchlistEmptySection
+        wrapperClassName={styles.empty}
+        className={styles.empty__img}
+      />
+    )
+  }
+
+  return (
+    <>
+      {watchlists.map(watchlist => (
+        <WatchlistCard
+          key={watchlist.id}
+          path='/watchlist/projects/'
+          watchlist={watchlist}
+        />
+      ))}
+
+      <NewWatchlistCard />
+    </>
+  )
 }
 
 const UserScreenerCards = () => {
-  const watchlists = useUserScreeners()
+  const [watchlists, isLoading] = useUserScreeners()
 
-  return watchlists.map(watchlist => (
-    <WatchlistCard key={watchlist.id} path='/screener/' watchlist={watchlist} />
-  ))
+  if (isLoading) return null
+
+  return (
+    <>
+      {watchlists.map(watchlist => (
+        <WatchlistCard
+          key={watchlist.id}
+          path='/screener/'
+          watchlist={watchlist}
+        />
+      ))}
+
+      <DesktopOnly>
+        <NewWatchlistCard type='screener' />
+      </DesktopOnly>
+    </>
+  )
 }
 
 const Watchlists = ({ isDesktop }) => {
+  const { isLoggedIn, loading } = useUser()
+  const userWatchlistsData = useUserWatchlists()
+
   return (
     <Page
       title={isDesktop ? null : 'Watchlists'}
       isContained
-      isWithPadding={false}
+      isWithPadding={!isDesktop}
+      className={styles.wrapper}
     >
-      <Section isGrid title='Explore watchlists'>
-        <FeaturedWatchlistCards />
+      <MobileOnly>
+        <StoriesList classes={styles} />
+      </MobileOnly>
+
+      <DesktopOnly>
+        <Section isGrid title='Explore watchlists'>
+          <FeaturedWatchlistCards />
+        </Section>
+      </DesktopOnly>
+
+      <Section
+        isGrid={isDesktop && isLoggedIn && userWatchlistsData[0].length > 0}
+        title='My watchlists'
+      >
+        {isLoggedIn ? (
+          <UserWatchlistCards data={userWatchlistsData} />
+        ) : (
+          loading || (
+            <InlineBanner
+              title='Get ability to create your own watchlist when you login'
+              description="Track selected assets in one place and check it's status"
+            />
+          )
+        )}
       </Section>
-      <Section isGrid title='My watchlists'>
-        <UserWatchlistCards />
-      </Section>
-      <Section isGrid title='My screeners'>
+
+      <Section isGrid={isDesktop} title='My screeners'>
         <UserScreenerCards />
       </Section>
     </Page>
