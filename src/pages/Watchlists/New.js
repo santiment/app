@@ -30,7 +30,6 @@ export const FEATURED_WATCHLISTS_QUERY = gql`
       name
     }
   }
-  ${WATCHLIST_GENERAL_FRAGMENT}
 `
 
 export const USER_WATCHLISTS_QUERY = gql`
@@ -86,19 +85,23 @@ export const Section = ({ children, title, isGrid }) => (
   </>
 )
 
+const Cards = ({ watchlists, ...props }) =>
+  watchlists.map(watchlist => (
+    <WatchlistCard {...props} key={watchlist.id} watchlist={watchlist} />
+  ))
+
 export const FeaturedWatchlistCards = ({ className }) => {
   const [watchlists] = useFeaturedWatchlists()
 
-  return watchlists.map(watchlist => (
-    <WatchlistCard
+  return (
+    <Cards
       className={className}
-      key={watchlist.id}
+      watchlists={watchlists}
       path='/watchlist/projects/'
-      watchlist={watchlist}
       isWithNewCheck={false}
       isWithVisibility={false}
     />
-  ))
+  )
 }
 
 const UserWatchlistCards = ({ data }) => {
@@ -117,15 +120,11 @@ const UserWatchlistCards = ({ data }) => {
 
   return (
     <>
-      {watchlists.map(watchlist => (
-        <WatchlistCard
-          key={watchlist.id}
-          path='/watchlist/projects/'
-          watchlist={watchlist}
-        />
-      ))}
+      <Cards watchlists={watchlists} path='/watchlist/projects/' />
 
-      <NewWatchlistCard />
+      <DesktopOnly>
+        <NewWatchlistCard />
+      </DesktopOnly>
     </>
   )
 }
@@ -137,13 +136,7 @@ const UserScreenerCards = () => {
 
   return (
     <>
-      {watchlists.map(watchlist => (
-        <WatchlistCard
-          key={watchlist.id}
-          path='/screener/'
-          watchlist={watchlist}
-        />
-      ))}
+      <Cards watchlists={watchlists} path='/screener/' />
 
       <DesktopOnly>
         <NewWatchlistCard type='screener' />
