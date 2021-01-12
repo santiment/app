@@ -282,7 +282,11 @@ export const App = ({
               <CreateAccountFreeTrial {...props} isLoggedIn={isLoggedIn} />
             )}
           />
-          <Route exact path='/assets' component={LoadableAssetsPage} />
+          <Route
+            exact
+            path='/assets'
+            render={() => <LoadableAssetsPage isDesktop={isDesktop} />}
+          />
           <Route
             exact
             path='/watchlist/addresses/:nameId'
