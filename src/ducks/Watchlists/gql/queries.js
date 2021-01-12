@@ -107,7 +107,7 @@ export const useUserWatchlists = () =>
 const DEFAULT_SCREENERS = [
   {
     name: 'My screener',
-    href: '/screener/',
+    href: '/screener',
     id:
       process.env.REACT_APP_BACKEND_URL.indexOf('stage') > -1 || isStage
         ? 1183

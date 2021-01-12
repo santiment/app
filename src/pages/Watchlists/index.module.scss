@@ -23,7 +23,7 @@
 .stories {
   margin-left: -16px;
   margin-right: -16px;
-  width: auto;
+  width: auto !important;
 }
 
 @include responsive('phone-xs', 'phone') {

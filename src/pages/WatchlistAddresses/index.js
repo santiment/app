@@ -20,7 +20,6 @@ const WatchlistAddress = ({ match }) => {
   const items = useAddressWatchlistItems(watchlist)
 
   if (isLoading) return <PageLoader />
-
   if (!watchlist.id) return <Redirect to='/' />
 
   return (
