@@ -28,8 +28,8 @@ import { useShortWatchlist } from '../../ducks/Watchlists/gql/hooks'
 import { mapSizesToProps } from '../../utils/withSizes'
 import NavbarMore from './NavbarMore/NavbarMore'
 import { NavbarItem } from './NavbarItem'
-import styles from './Navbar.module.scss'
 import { useDialogState } from '../../hooks/dialog'
+import styles from './Navbar.module.scss'
 
 const ExternalLink = ({ children, className, ...rest }) => (
   <a className={cx(className, styles.externalLink)} {...rest}>
