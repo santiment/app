@@ -63,6 +63,10 @@ const LoadablePage = loader =>
 
 const LoadableIndexPage = LoadablePage(() => import('./pages/Index'))
 
+const LoadableWatchlistsPage = LoadablePage(() =>
+  import('./pages/Watchlists/New')
+)
+
 const LoadableWatchlistAddressesPage = LoadablePage(() =>
   import('./pages/WatchlistAddresses')
 )
@@ -105,7 +109,7 @@ const LoadableSonarFeedPage = LoadablePage(() =>
   import('./pages/SonarFeed/SonarFeedPage')
 )
 
-const LoadableWatchlistsPage = LoadablePage(() => import('./pages/Watchlists'))
+/* const LoadableWatchlistsPage = LoadablePage(() => import('./pages/Watchlists')) */
 
 const LoadableWatchlistsMobilePage = LoadablePage(() =>
   import('./pages/Watchlists/WatchlistsMobilePage')
@@ -274,7 +278,8 @@ export const App = ({
               <CreateAccountFreeTrial {...props} isLoggedIn={isLoggedIn} />
             )}
           />
-          <Route exact path='/assets' component={LoadableWatchlistsPage} />
+          /* <Route exact path='/assets' component={LoadableWatchlistsPage} />{' '}
+          */
           <Route
             exact
             path='/watchlist/addresses/:nameId'
@@ -283,12 +288,13 @@ export const App = ({
           <Route
             exact
             path='/watchlists'
-            render={props =>
-              isDesktop ? (
-                <Redirect from='/watchlists' to='/assets' />
-              ) : (
-                <LoadableWatchlistsMobilePage {...props} />
-              )
+            render={
+              props => <LoadableWatchlistsPage isDesktop={isDesktop} />
+              // isDesktop ? (
+              //  <Redirect from='/watchlists' to='/assets' />
+              // ) : (
+              // <LoadableWatchlistsMobilePage {...props} /> )
+              //
             }
           />
           <Route

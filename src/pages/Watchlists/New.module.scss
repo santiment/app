@@ -1,0 +1,9 @@
+@import '~@santiment-network/ui/mixins';
+
+.title {
+  @include text('h4', 'm');
+}
+
+.section {
+  margin: 25px 0 50px;
+}

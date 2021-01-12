@@ -13,11 +13,14 @@ const Page = ({
   title,
   actions,
   isPhone,
+  isContained,
   isWithPadding
 }) => (
-  <div className={cx(styles.wrapper, className)}>
+  <div
+    className={cx(styles.wrapper, className, isContained && styles.contained)}
+  >
     <div className={cx(styles.header, headerClassName)}>
-      <h1 className={styles.title}>{title}</h1>
+      {title && <h1 className={styles.title}>{title}</h1>}
       {actions}
       {isPhone && (
         <Link to='/search' className={styles.search}>
