@@ -1,54 +1,101 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
-import cx from 'classnames'
-import WatchlistCards from '../../ducks/Watchlists/Cards'
-import MobileHeader from './../../components/MobileHeader/MobileHeader'
-import { DesktopOnly, MobileOnly } from './../../components/Responsive'
-import MyWatchlist from '../../ducks/Watchlists/Cards/MyWatchlist'
-import MyScreeners from '../../ducks/Watchlists/Cards/MyScreeners'
-import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
-import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
+import Section from './Section'
+import Page from '../../ducks/Page'
+import { useUser } from '../../stores/user'
+import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import StoriesList from '../../components/Stories/StoriesList'
-import Trends from '../../components/Trends/Trends'
+import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
+import WatchlistCards from '../../ducks/Watchlists/Cardss'
+import FeaturedWatchlistCards from '../../ducks/Watchlists/Featured'
+import { WatchlistEmptySection } from '../../ducks/Watchlists/Cards/MyWatchlist'
+import {
+  useUserWatchlists,
+  useUserScreeners
+} from '../../ducks/Watchlists/gql/queries'
+import NewWatchlistCard from '../../ducks/Watchlists/Cards/NewCard'
+import InlineBanner from '../../components/banners/feature/InlineBanner'
 import styles from './index.module.scss'
 
-const Watchlists = ({ isPublicWatchlistsLoading, history }) => {
+const Cards = ({ type, path, watchlists }) => (
+  <>
+    <WatchlistCards
+      className={styles.card}
+      watchlists={watchlists}
+      path={path}
+    />
+
+    <DesktopOnly>
+      <NewWatchlistCard type={type} />
+    </DesktopOnly>
+  </>
+)
+
+const MyWatchlists = ({ data }) => {
+  const [watchlists, isLoading] = data
+  if (isLoading) return null
+
+  if (watchlists.length === 0) {
+    return (
+      <WatchlistEmptySection
+        wrapperClassName={styles.empty}
+        className={styles.empty__img}
+      />
+    )
+  }
+
+  return <Cards watchlists={watchlists} path='/watchlist/projects/' />
+}
+
+const MyScreeners = () => {
+  const [watchlists, isLoading] = useUserScreeners()
+  if (isLoading) return null
+
+  return <Cards watchlists={watchlists} path='/screener/' type='screener' />
+}
+
+const Watchlists = ({ isDesktop }) => {
+  const { isLoggedIn, loading } = useUser()
+  const userWatchlistsData = useUserWatchlists()
+
   return (
-    <div className={cx(styles.overviewPage, 'page')}>
+    <Page
+      title={isDesktop ? null : 'Watchlists'}
+      isContained
+      isWithPadding={!isDesktop}
+      className={styles.wrapper}
+    >
       <MobileOnly>
-        <MobileHeader title='Explore assets' />
+        <StoriesList classes={styles} />
+        <RecentlyWatched type='watchlists' />
       </MobileOnly>
+
       <DesktopOnly>
-        <h4 className={styles.heading}>Explore watchlists</h4>
-        <WatchlistCards
-          showFeatured={true}
-          classes={{ watchlists: styles.section }}
-        />
-        <MyWatchlist
-          className={styles.section}
-          classes={{ emptyWatchlists: styles.emptyWatchlists }}
-        />
-        <MyScreeners className={styles.section} />
+        <Section isGrid title='Explore watchlists'>
+          <FeaturedWatchlistCards />
+        </Section>
       </DesktopOnly>
-      <MobileOnly>
-        <>
-          <StoriesList classes={styles} />
-          <RecentlyWatched className={styles.recents} type='assets' />
-          <h2 className={styles.subtitle}>Indices</h2>
-          <WatchlistCards showFeatured={true} />
-          <GainersLosersTabs
-            className={styles.gainers}
-            timeWindow='2d'
-            size={8}
-            onProjectClick={({ slug }) => {
-              history.push(`/projects/${slug}`)
-            }}
-          />
-          <Trends className={styles.trends} />
-        </>
-      </MobileOnly>
-    </div>
+
+      <Section
+        isGrid={isDesktop && isLoggedIn && userWatchlistsData[0].length > 0}
+        title='My watchlists'
+      >
+        {isLoggedIn ? (
+          <MyWatchlists data={userWatchlistsData} />
+        ) : (
+          loading || (
+            <InlineBanner
+              title='Get ability to create your own watchlist when you login'
+              description="Track selected assets in one place and check it's status"
+            />
+          )
+        )}
+      </Section>
+
+      <Section isGrid={isDesktop} title='My screeners'>
+        <MyScreeners />
+      </Section>
+    </Page>
   )
 }
 
-export default withRouter(Watchlists)
+export default Watchlists

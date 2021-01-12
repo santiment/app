@@ -1,82 +1,51 @@
-@import '~@santiment-network/ui/variables';
 @import '~@santiment-network/ui/mixins';
 
-.overviewPage {
-  color: var(--rhino);
+.title {
+  @include text('h4', 'm');
 
-  @include responsive('phone-xs', 'phone') {
-    height: 100vh;
-    overflow-x: hidden;
-    overflow-y: auto;
-    overflow-y: overlay;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 0 !important;
-    margin-bottom: 60px;
-  }
+  margin: 0;
 }
 
 .section {
   margin: 25px 0 50px;
 }
 
-.tabs {
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  padding: 4px 10px 0;
+.empty__img {
+  margin: 0;
 }
 
-.heading {
-  font-family: 'Proxima Nova', sans-serif;
-  color: var(--rhino);
-  font-size: 22px;
-  line-height: 30px;
-  font-weight: normal;
-  margin: 12px 0 26px;
-}
-
-.subtitle {
-  @include text('body-1', 'l');
-
-  margin: 0 16px 12px;
-
-  @include responsive('laptop', 'tablet') {
-    margin-left: 0;
-  }
-}
-
-.recents {
-  margin-bottom: 32px;
-  padding: 0 16px;
-
-  @include responsive('laptop', 'tablet') {
-    padding: 0;
-  }
-}
-
-.gainers {
-  padding: 0 16px;
-  margin-bottom: 16px;
-
-  @include responsive('laptop', 'tablet') {
-    margin-top: 24px;
-    padding: 0;
-  }
-}
-
-.watchlists {
-  margin-bottom: 32px;
+.grid {
+  display: grid;
+  grid-gap: 24px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
 .stories {
-  position: relative;
-  margin-top: 1px;
+  margin-left: -16px;
+  margin-right: -16px;
+  width: auto;
 }
 
-.trends {
-  margin-top: 11px;
-}
+@include responsive('phone-xs', 'phone') {
+  .wrapper {
+    margin-bottom: 60px;
+  }
 
-.emptyWatchlists {
-  margin-top: 10px;
+  .title {
+    @include text('body-1', 'l');
+  }
+
+  .empty {
+    padding: 30px 16px 16px;
+    border: 1px solid var(--porcelain);
+    border-radius: 4px;
+  }
+
+  .section {
+    margin: 16px 0 40px;
+  }
+
+  .card {
+    margin-bottom: 8px;
+  }
 }

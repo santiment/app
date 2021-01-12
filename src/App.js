@@ -65,9 +65,7 @@ const LoadableIndexPage = LoadablePage(() => import('./pages/Index'))
 
 const LoadableAssetsPage = LoadablePage(() => import('./pages/Assets'))
 
-const LoadableWatchlistsPage = LoadablePage(() =>
-  import('./pages/Watchlists/New')
-)
+const LoadableWatchlistsPage = LoadablePage(() => import('./pages/Watchlists'))
 
 const LoadableWatchlistAddressesPage = LoadablePage(() =>
   import('./pages/WatchlistAddresses')
@@ -109,14 +107,6 @@ const LoadableTrendsExplorePage = LoadablePage(() =>
 
 const LoadableSonarFeedPage = LoadablePage(() =>
   import('./pages/SonarFeed/SonarFeedPage')
-)
-
-const LoadableWatchlistsPageOld = LoadablePage(() =>
-  import('./pages/Watchlists')
-)
-
-const LoadableWatchlistsMobilePage = LoadablePage(() =>
-  import('./pages/Watchlists/WatchlistsMobilePage')
 )
 
 const LoadableAssetsMobilePage = LoadablePage(() =>
