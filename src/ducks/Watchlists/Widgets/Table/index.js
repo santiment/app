@@ -6,7 +6,7 @@ import { useVisibleItems } from './hooks'
 import { usePriceGraph } from './PriceGraph/hooks'
 import { ASSETS_TABLE_COLUMNS } from './columns'
 import { normalizeGraphData as normalizeData } from './PriceGraph/utils'
-import { useComparingAssets } from '../../../../ducks/Watchlists/Widgets/Table/CompareDialog/hooks'
+import { useComparingAssets } from './CompareDialog/hooks'
 import styles from './index.module.scss'
 
 const AssetsTable = ({

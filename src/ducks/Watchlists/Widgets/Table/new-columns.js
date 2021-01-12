@@ -22,13 +22,13 @@ export const COLUMNS = [
     accessor: 'name',
     collapse: true,
     disableSortBy: true,
-    Cell: ({ sortedRows, row }) => {
+    Cell: ({ sortedRows, row, state: { pageSize, pageIndex } }) => {
       const index = sortedRows.findIndex(item => item === row)
       return (
         <LayoutForAsset
           item={row.original}
           className={styles.layout}
-          index={index + 1}
+          index={pageIndex * pageSize + index + 1}
         />
       )
     }

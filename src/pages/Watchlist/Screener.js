@@ -34,10 +34,11 @@ const Screener = ({
     watchlist.function || DEFAULT_SCREENER_FUNCTION
   )
   const { columns, toggleColumn, pageSize } = useColumns('Screener')
-  const [pagination, setPagination] = useState({ page: 1, pageSize: +pageSize })
+  const defaultPagination = { page: 1, pageSize: +pageSize }
+  const [pagination, setPagination] = useState(defaultPagination)
   const { assets = [], projectsCount, loading } = getProjectsByFunction({
     ...screenerFunction,
-    args: { pagination: pagination, ...screenerFunction.args }
+    args: { pagination, ...screenerFunction.args }
   })
   const { user = {}, loading: userLoading } = useUser()
   const [tableLoading, setTableLoading] = useState(true)
@@ -99,13 +100,9 @@ const Screener = ({
     ).then(() => setTableLoading(false))
   }
 
-  const fetchData = useCallback(
-    ({ pageSize, pageIndex }) => {
-      setPagination({ pageSize: +pageSize, page: +pageIndex + 1 })
-      refetchAssets()
-    },
-    [screenerFunction]
-  )
+  const fetchData = useCallback(({ pageSize, pageIndex }) => {
+    setPagination({ pageSize: +pageSize, page: +pageIndex + 1 })
+  }, [])
 
   const { widgets, setWidgets } = useScreenerUrl({ location, history })
 
@@ -155,7 +152,8 @@ const Screener = ({
         watchlist={watchlist}
         fetchData={fetchData}
         refetchAssets={refetchAssets}
-        pageSize={pageSize}
+        pageSize={pagination.pageSize}
+        pageIndex={pagination.page - 1}
         columns={columns}
         toggleColumn={toggleColumn}
       />

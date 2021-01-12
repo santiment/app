@@ -54,6 +54,7 @@ const Table = ({
 
   if (manualPagination) {
     optionalOptions.manualPagination = true
+    optionalOptions.manualSortBy = true
     optionalOptions.pageCount = controlledPageCount
   }
 
@@ -102,8 +103,8 @@ const Table = ({
   const content = paginationSettings ? page : rows
   const paginationParams = {
     pageSize,
-    pageOptions,
     pageIndex,
+    pageOptions,
     canNextPage,
     canPreviousPage,
     setPageSize,
