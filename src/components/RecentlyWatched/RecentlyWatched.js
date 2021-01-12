@@ -3,11 +3,10 @@ import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import ProjectIcon from '../ProjectIcon/ProjectIcon'
 import PercentChanges from '../PercentChanges'
-import WatchlistCard from '../../ducks/Watchlists/Cards/WatchlistCard'
 import Skeleton from '../Skeleton/Skeleton'
 import { getRecentAssets, getRecentWatchlists } from '../../utils/recent'
 import { formatNumber } from '../../utils/formatting'
-import { getWatchlistLink } from '../../ducks/Watchlists/utils'
+import { WatchlistCards } from '../../ducks/Watchlists/Card'
 import { useRecentWatchlists } from './../../ducks/Watchlists/gql/hooks'
 import { useRecentAssets } from '../../hooks/recents'
 import styles from './RecentlyWatched.module.scss'
@@ -71,6 +70,8 @@ const RecentlyWatched = ({
   const hasAssets = assets && assets.length > 0
   const hasWatchlists = watchlists && watchlists.length > 0
 
+  console.log(watchlists)
+
   return (
     <>
       {isShowAssets && (assets ? hasAssets : assetsNumber > 0) && (
@@ -105,15 +106,9 @@ const RecentlyWatched = ({
               show={!hasWatchlists}
               repeat={watchlists ? watchlists.length : watchlistsNumber}
             />
-            {watchlists &&
-              watchlists.map(watchlist => (
-                <WatchlistCard
-                  isSimplifiedView={true}
-                  key={watchlist.name}
-                  to={getWatchlistLink(watchlist)}
-                  {...watchlist}
-                />
-              ))}
+            {watchlists && (
+              <WatchlistCards isSimplified watchlists={watchlists} />
+            )}
           </div>
         </div>
       )}

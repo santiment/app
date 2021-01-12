@@ -12,7 +12,16 @@
 
   &:hover {
     border-color: var(--mystic);
+    color: var(--jungle-green);
   }
+}
+
+.simple {
+  display: flex;
+  height: auto;
+  justify-content: space-between;
+  padding: 12px 20px 12px 16px;
+  margin-bottom: 8px;
 }
 
 .header {

@@ -62,18 +62,26 @@ const WatchlistCard = ({
   className,
   watchlist,
   path,
+  isSimplified,
   isWithNewCheck,
   isWithVisibility
 }) => {
   const { id, name, insertedAt, isPublic, href } = watchlist
   const { data, marketcap, change } = useMarketcap(watchlist)
   const noMarketcap = marketcap === NULL_MARKETCAP
+  const link = href || path + getSEOLinkFromIdAndTitle(id, name)
+
+  if (isSimplified) {
+    return (
+      <a href={link} className={cx(styles.wrapper, styles.simple, className)}>
+        {name}
+        <PercentChanges changes={change} />
+      </a>
+    )
+  }
 
   return (
-    <a
-      href={href || path + getSEOLinkFromIdAndTitle(id, name)}
-      className={cx(styles.wrapper, className)}
-    >
+    <a href={link} className={cx(styles.wrapper, className)}>
       <div className={styles.header}>
         {isWithNewCheck && (
           <NewLabel date={insertedAt} className={styles.new} />
