@@ -2,56 +2,74 @@ import React from 'react'
 import cx from 'classnames'
 import Input from '@santiment-network/ui/Input'
 import { CardElement } from 'react-stripe-elements'
-import vars from '@santiment-network/ui/variables.scss'
+import COLOR from '@santiment-network/ui/variables.scss'
 import Confirmation from './Confirmation'
 import visaSrc from './visa.svg'
 import mastercardSrc from './mastercard.svg'
+import { useTheme } from '../../stores/ui/theme'
 import styles from './CheckoutForm.module.scss'
 
 const style = {
   base: {
     fontSize: '14px',
-    color: vars.mirage,
+    color: COLOR.rhino,
     fontFamily: 'Proxima Nova, sans-serif',
     '::placeholder': {
-      color: vars.casper
+      color: COLOR.casper
     }
   },
   invalid: {
-    color: vars.persimmon
+    color: COLOR.persimmon
   }
 }
 
-const CardInformation = () => (
-  <div className={styles.card}>
-    <div className={styles.top}>
-      Credit or debit card
-      <div className={styles.top__cards}>
-        <img width='40' alt='visa' src={visaSrc} className={styles.top__visa} />
-        <img
-          width='40'
-          alt='mastercard'
-          src={mastercardSrc}
-          className={styles.top__mastercard}
-        />
-      </div>
-    </div>
-    <label className={cx(styles.label, styles.label_card)}>
-      Full name
-      <Input
-        className={styles.input}
-        placeholder='John Doe'
-        required
-        name='name'
-      />
-    </label>
+const nightStyle = {
+  ...style,
+  base: {
+    ...style.base,
+    color: COLOR.mystic
+  }
+}
 
-    <label className={cx(styles.label, styles.label_card)}>
-      Card number
-      <CardElement style={style} />
-    </label>
-  </div>
-)
+const CardInformation = () => {
+  const { isNightMode } = useTheme()
+
+  return (
+    <div className={styles.card}>
+      <div className={styles.top}>
+        Credit or debit card
+        <div className={styles.top__cards}>
+          <img
+            width='40'
+            alt='visa'
+            src={visaSrc}
+            className={styles.top__visa}
+          />
+          <img
+            width='40'
+            alt='mastercard'
+            src={mastercardSrc}
+            className={styles.top__mastercard}
+          />
+        </div>
+      </div>
+      <label className={cx(styles.label, styles.label_card)}>
+        Full name
+        <Input
+          className={styles.input}
+          placeholder='John Doe'
+          required
+          name='name'
+        />
+      </label>
+
+      <label className={cx(styles.label, styles.label_card)}>
+        Card number
+        <CardElement style={isNightMode ? nightStyle : style} />
+      </label>
+    </div>
+  )
+}
 
 const BillingAddress = () => (
   <div className={styles.address}>

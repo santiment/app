@@ -61,7 +61,7 @@ const leftLinks = [
   },
   {
     to: '/assets',
-    children: 'Market',
+    children: 'Watchlists',
     as: Link,
     Dropdown: MarketDropdown,
     ddParams: {

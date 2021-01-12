@@ -29,7 +29,7 @@ const ScreenerDropdown = ({ activeLink }) => {
       <div className={wrapperStyles.wrapper}>
         <div className={cx(wrapperStyles.block, wrapperStyles.list)}>
           {recentScreeners && recentScreeners.length > 0 && (
-            <>
+            <div className={wrapperStyles.row}>
               <h3 className={wrapperStyles.title}>Recent watched screeners</h3>
               <div
                 className={wrapperStyles.listWrapper}
@@ -51,6 +51,7 @@ const ScreenerDropdown = ({ activeLink }) => {
                         key={id}
                         as={Link}
                         to={link}
+                        className={wrapperStyles.btn}
                       >
                         {name}
                       </Button>
@@ -58,15 +59,18 @@ const ScreenerDropdown = ({ activeLink }) => {
                   })}
                 </div>
               </div>
-            </>
+            </div>
           )}
+
           <h3 className={wrapperStyles.title}>My screeners</h3>
-          {isLoading ? (
-            <Loader className={styles.loader} />
-          ) : (
-            <List screeners={screeners} activeLink={activeLink} />
-          )}
-          <CreateScreenerBtn screeners={screeners} />
+          <div className={wrapperStyles.listWrapper}>
+            {isLoading ? (
+              <Loader className={styles.loader} />
+            ) : (
+              <List screeners={screeners} activeLink={activeLink} />
+            )}
+            <CreateScreenerBtn screeners={screeners} />
+          </div>
         </div>
       </div>
     </Panel>
@@ -89,7 +93,7 @@ const List = ({ screeners, activeLink }) => (
             variant='ghost'
             key={idx}
             as={Link}
-            className={styles.item}
+            className={cx(styles.item, wrapperStyles.btn)}
             to={to || link}
             isActive={activeLink === link}
           >

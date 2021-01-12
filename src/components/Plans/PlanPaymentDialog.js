@@ -164,9 +164,9 @@ const PaymentDialog = ({
                   })
 
                   const form = e.currentTarget
-                  const {
-                    coupon: { value: coupon }
-                  } = form
+                  const formCoupon = form.coupon
+                  const coupon =
+                    formCoupon.dataset.isValid === 'true' && formCoupon.value
 
                   stripe
                     .createToken(getTokenDataByForm(form))

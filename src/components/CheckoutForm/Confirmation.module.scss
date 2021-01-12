@@ -23,6 +23,14 @@
   position: relative;
   margin-bottom: 16px;
   margin-top: 3px;
+
+  &__icon {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    fill: var(--persimmon);
+  }
 }
 
 .label {
@@ -53,7 +61,8 @@
     margin-top: 16px;
     align-items: flex-end;
 
-    @include text('body-2', 'm'); }
+    @include text('body-2', 'm');
+  }
 
   &__price {
     @include text('h4', 'l');
@@ -61,10 +70,6 @@
 }
 
 .valid {
-  position: absolute;
-  top: 50%;
-  right: 16px;
-  transform: translateY(-50%);
   fill: var(--jungle-green);
 }
 
@@ -134,8 +139,9 @@
   position: relative;
   border-radius: $border-radius;
   color: var(--mirage);
+  fill: var(--mirage);
   padding: 12px 16px 8px 40px;
-  background: #ecfaf6;
+  background: var(--jungle-green-light);
   margin-bottom: 32px;
 
   &__icon {

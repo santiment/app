@@ -62,6 +62,17 @@ const TotalPrice = connect(mapStateToProps)(
   }
 )
 
+const DiscountIcon = ({ isValid }) => {
+  if (isValid === undefined) return null
+
+  return (
+    <Icon
+      type={isValid ? 'success-round' : 'error'}
+      className={cx(styles.discount__icon, isValid && styles.valid)}
+    />
+  )
+}
+
 const DiscountInput = ({ setCoupon, isValid }) => {
   const setCouponDebounced = useDebounce(value => setCoupon(value), 500)
 
@@ -73,9 +84,10 @@ const DiscountInput = ({ setCoupon, isValid }) => {
           className={styles.input}
           placeholder='2H8vZG5P'
           name='coupon'
+          data-is-valid={isValid}
           onChange={({ currentTarget: { value } }) => setCouponDebounced(value)}
         />
-        {isValid && <Icon type='success-round' className={styles.valid} />}
+        <DiscountIcon isValid={isValid} />
       </div>
     </label>
   )
@@ -123,7 +135,10 @@ const Confirmation = ({
             const { isValid, percentOff } = error ? {} : getCoupon || {}
             return (
               <>
-                <DiscountInput isValid={isValid} setCoupon={setCoupon} />
+                <DiscountInput
+                  isValid={!error && isValid}
+                  setCoupon={setCoupon}
+                />
                 <div className={styles.hold}>
                   <Icon className={styles.hold__icon} type='info-round' />
                   Holding 1000 SAN tokens will result in a 20% discount.
@@ -138,7 +153,7 @@ const Confirmation = ({
                 </div>
                 <TotalPrice
                   error={error}
-                  percentOff={percentOff}
+                  percentOff={isValid && percentOff}
                   price={formatOnlyPrice(price)}
                   planWithBilling={planWithBilling}
                 />

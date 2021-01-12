@@ -28,8 +28,8 @@ const IndexPage = () => (
     <Block className={styles.block_main} contentClassName={styles.content_main}>
       <main className={styles.main}>
         <PersonalSection />
-        <InsightsOnDemandSection />
         <TrendsSection />
+        <InsightsOnDemandSection />
       </main>
 
       <Aside className={styles.aside} />
