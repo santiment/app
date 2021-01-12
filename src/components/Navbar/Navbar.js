@@ -16,7 +16,9 @@ import ScreenerDropdown from './Screeners/ScreenerDropdown'
 import NavbarChartsDropdown from './ChartLayouts/NavbarChartsDropdown'
 import InsightsDropdown from './InsightsDropdown'
 import PlanEngage from './PlanEngage'
-import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProductsTooltip'
+import SantimentProductsTooltip, {
+  MenuItemArrow
+} from './SantimentProductsTooltip/SantimentProductsTooltip'
 import UserAvatar from '../../pages/Account/avatar/UserAvatar'
 import {
   isDynamicWatchlist,
@@ -27,6 +29,7 @@ import { mapSizesToProps } from '../../utils/withSizes'
 import NavbarMore from './NavbarMore/NavbarMore'
 import { NavbarItem } from './NavbarItem'
 import styles from './Navbar.module.scss'
+import { useDialogState } from '../../hooks/dialog'
 
 const ExternalLink = ({ children, className, ...rest }) => (
   <a className={cx(className, styles.externalLink)} {...rest}>
@@ -102,19 +105,30 @@ const rightLinks = [
   }
 ]
 
-const NavbarMoreItem = ({ links, activeLink }) => (
-  <NavbarItem
-    item={{
-      children: 'More',
-      as: 'div',
-      Dropdown: () => <NavbarMore links={links} activeLink={activeLink} />,
-      ddParams: {
-        position: 'center'
-      }
-    }}
-    activeLink={activeLink}
-  />
-)
+const NavbarMoreItem = ({ links, activeLink }) => {
+  const { openDialog, closeDialog, isOpened } = useDialogState()
+
+  return (
+    <NavbarItem
+      item={{
+        children: (
+          <>
+            More
+            <MenuItemArrow isOpen={isOpened} className={styles.arrow} />
+          </>
+        ),
+        as: 'div',
+        Dropdown: () => <NavbarMore links={links} activeLink={activeLink} />,
+        ddParams: {
+          position: 'center'
+        },
+        onClose: closeDialog,
+        onOpen: openDialog
+      }}
+      activeLink={activeLink}
+    />
+  )
+}
 
 const Logo = (
   <Link className={styles.logo} to='/'>

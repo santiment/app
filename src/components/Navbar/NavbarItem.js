@@ -6,7 +6,7 @@ import SmoothDropdownItem from '../SmoothDropdown/SmoothDropdownItem'
 import styles from './Navbar.module.scss'
 
 export const NavbarItem = ({
-  item: { Dropdown, ddParams, ...rest },
+  item: { Dropdown, ddParams, onOpen, onClose, ...rest },
   activeLink,
   isScreener
 }) => {
@@ -35,7 +35,12 @@ export const NavbarItem = ({
 
   if (Dropdown) {
     return (
-      <SmoothDropdownItem trigger={button} ddParams={ddParams}>
+      <SmoothDropdownItem
+        trigger={button}
+        ddParams={ddParams}
+        onOpen={onOpen}
+        onClose={onClose}
+      >
         <Dropdown activeLink={activeLink} />
       </SmoothDropdownItem>
     )
