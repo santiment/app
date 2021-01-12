@@ -316,7 +316,7 @@ export const Metric = {
     group: 'Network Value',
     category: 'On-chain'
   },
-  minersBalance: {
+  miners_balance: {
     node: 'line',
     label: 'Miners Balance',
     category: 'On-chain'
