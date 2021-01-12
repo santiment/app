@@ -1,12 +1,12 @@
 import React from 'react'
-import Cards from './Cardss'
+import { WatchlistCards } from './Card'
 import { useFeaturedWatchlists } from './gql/queries'
 
 const FeaturedWatchlists = ({ className }) => {
   const [watchlists] = useFeaturedWatchlists()
 
   return (
-    <Cards
+    <WatchlistCards
       className={className}
       watchlists={watchlists}
       path='/watchlist/projects/'

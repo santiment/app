@@ -1,14 +1,14 @@
 import React from 'react'
 import Section from './Section'
 import Recents from './Recents'
-import Categories from '../../../ducks/SANCharts/Categories'
+import FeaturedWatchlists from '../../../ducks/Watchlists/Featured'
 import styles from './index.module.scss'
 
 const Aside = ({ className }) => (
   <aside className={className}>
     <Recents />
     <Section title='Indices'>
-      <Categories classes={styles} />
+      <FeaturedWatchlists className={styles.watchlist} />
     </Section>
   </aside>
 )

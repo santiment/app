@@ -5,7 +5,7 @@ import { useUser } from '../../stores/user'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import StoriesList from '../../components/Stories/StoriesList'
 import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
-import WatchlistCards from '../../ducks/Watchlists/Cardss'
+import { WatchlistCards } from '../../ducks/Watchlists/Card'
 import FeaturedWatchlistCards from '../../ducks/Watchlists/Featured'
 import { WatchlistEmptySection } from '../../ducks/Watchlists/Cards/MyWatchlist'
 import {
