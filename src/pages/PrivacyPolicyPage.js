@@ -195,8 +195,7 @@ const PrivacyPolicyPage = () => {
           If you have any questions in respect of the manner in which we process
           your personal data, let Us know by sending Us an email to{' '}
           {privacyEmail}
-          or by post at Ibex Services Ltd, via Balestra 6, 6830 Chiasso,
-          Switzerland.
+          or by post to Santiment GmbH, Dammstrasse 16, 6300 Zug, Switzerland.
         </p>
       </div>
       <br />
