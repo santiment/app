@@ -7,13 +7,14 @@ import { useUserWatchlists, useUserScreeners } from '../gql/hooks'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import NewList from '../Actions/New'
 import { Plus } from '../../../components/Illustrations/Plus'
-import styles from './WatchlistCard.module.scss'
+import styles from './NewCard.module.scss'
+import cardStyles from './Card.module.scss'
 
 const Trigger = ({ type, showProBanner, ...props }) => {
   return (
     <div
       className={cx(
-        styles.wrapper,
+        cardStyles.wrapper,
         styles.create,
         showProBanner && styles.create__disabled
       )}

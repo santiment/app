@@ -1,7 +1,7 @@
 import React from 'react'
 import Section from './Section'
 import Recents from './Recents'
-import FeaturedWatchlists from '../../../ducks/Watchlists/Featured'
+import FeaturedWatchlists from '../../../ducks/Watchlists/Cards/Featured'
 import styles from './index.module.scss'
 
 const Aside = ({ className }) => (

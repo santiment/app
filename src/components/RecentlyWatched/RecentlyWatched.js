@@ -6,7 +6,7 @@ import PercentChanges from '../PercentChanges'
 import Skeleton from '../Skeleton/Skeleton'
 import { getRecentAssets, getRecentWatchlists } from '../../utils/recent'
 import { formatNumber } from '../../utils/formatting'
-import { WatchlistCards } from '../../ducks/Watchlists/Card'
+import { WatchlistCards } from '../../ducks/Watchlists/Cards/Card'
 import { useRecentWatchlists } from './../../ducks/Watchlists/gql/hooks'
 import { useRecentAssets } from '../../hooks/recents'
 import styles from './RecentlyWatched.module.scss'
@@ -69,8 +69,6 @@ const RecentlyWatched = ({
 
   const hasAssets = assets && assets.length > 0
   const hasWatchlists = watchlists && watchlists.length > 0
-
-  console.log(watchlists)
 
   return (
     <>

@@ -5,7 +5,7 @@ import Page from '../../ducks/Page'
 import StoriesList from '../../components/Stories/StoriesList'
 import Trends from '../../components/Trends/Trends'
 import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
-import FeaturedWatchlistCards from '../../ducks/Watchlists/Featured'
+import FeaturedWatchlistCards from '../../ducks/Watchlists/Cards/Featured'
 import styles from '../Watchlists/index.module.scss'
 
 const Assets = ({ isDesktop }) => {
