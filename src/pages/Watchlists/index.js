@@ -13,8 +13,19 @@ import {
   useUserScreeners
 } from '../../ducks/Watchlists/gql/queries'
 import NewWatchlistCard from '../../ducks/Watchlists/Cards/NewCard'
+import MobileAnonBanner from '../../ducks/Watchlists/Templates/Anon/WatchlistsAnon'
 import InlineBanner from '../../components/banners/feature/InlineBanner'
 import styles from './index.module.scss'
+
+const LoginBanner = ({ isDesktop }) =>
+  isDesktop ? (
+    <InlineBanner
+      title='Get ability to create your own watchlist when you login'
+      description="Track selected assets in one place and check it's status"
+    />
+  ) : (
+    <MobileAnonBanner isFullScreen wrapperClassName={styles.login} />
+  )
 
 const Cards = ({ type, path, watchlists }) => (
   <>
@@ -82,12 +93,7 @@ const Watchlists = ({ isDesktop }) => {
         {isLoggedIn ? (
           <MyWatchlists data={userWatchlistsData} />
         ) : (
-          loading || (
-            <InlineBanner
-              title='Get ability to create your own watchlist when you login'
-              description="Track selected assets in one place and check it's status"
-            />
-          )
+          loading || <LoginBanner isDesktop={isDesktop} />
         )}
       </Section>
 

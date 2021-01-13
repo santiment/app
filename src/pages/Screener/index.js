@@ -1,25 +1,26 @@
 import React from 'react'
-import WatchlistProjectsPage from '../WatchlistProjects'
+import WatchlistProjectsPage, { WatchlistPage } from '../WatchlistProjects'
 import ScreenerPage from '../Watchlist/Screener'
 import NewScreener from '../Watchlist/NewScreenerFromDefault'
 
-const DEFAULT_SCREENER_PATH = '/screener'
-
+const DEFAULT = {}
 const Screener = props => {
-  const { location, isLoggedIn } = props
-  const isDefaultScreener = location.pathname === DEFAULT_SCREENER_PATH
+  const { match, isLoggedIn } = props
+  const isDefaultScreener = match.params.nameId === 'new'
 
-  if (isLoggedIn && isDefaultScreener) {
-    return <NewScreener {...props} />
+  if (isDefaultScreener) {
+    const Page = isLoggedIn ? NewScreener : WatchlistPage
+    return (
+      <Page
+        {...props}
+        isDefaultScreener
+        Page={ScreenerPage}
+        watchlist={DEFAULT}
+      />
+    )
   }
 
-  return (
-    <WatchlistProjectsPage
-      Page={ScreenerPage}
-      isDefaultScreener={isDefaultScreener}
-      {...props}
-    />
-  )
+  return <WatchlistProjectsPage Page={ScreenerPage} {...props} />
 }
 
 export default Screener

@@ -20,10 +20,40 @@
   grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
+.trends,
 .stories {
-  margin-left: -16px;
-  margin-right: -16px;
+  margin: 0 -16px;
   width: auto !important;
+}
+
+// NOTE: For some reason react-table styles are not applied [@vanguard | Jan 13, 2021]
+// TODO: Remove after migrating to san table [@vanguard | Jan 13, 2021]
+.trends :global {
+  .ReactTable {
+    .-loading {
+      display: none;
+    }
+
+    .rt-th {
+      background: var(--athens);
+    }
+
+    .rt-thead.-header {
+      display: flex;
+    }
+
+    .rt-tr-group {
+      flex: 1 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .rt-tr {
+      flex: 1 0 auto;
+      display: inline-flex;
+    }
+  }
 }
 
 @include responsive('phone-xs', 'phone') {
@@ -48,4 +78,8 @@
   .card {
     margin-bottom: 8px;
   }
+}
+
+.login {
+  margin: 0;
 }

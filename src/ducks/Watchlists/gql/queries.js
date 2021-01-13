@@ -5,6 +5,7 @@ import {
   SHORT_WATCHLIST_GENERAL_FRAGMENT,
   SHORT_LIST_ITEMS_FRAGMENT
 } from '../../WatchlistAddressesTable/gql/queries'
+import { useUser } from '../../../stores/user'
 import { isStage } from '../../../utils/utils'
 
 const noop = _ => _
@@ -63,9 +64,9 @@ function useWatchlists (query) {
 export const useAddressWatchlists = () =>
   useWatchlists(ADDRESS_WATCHLISTS_QUERY)
 
-function useShortWatchlists (query) {
-  const { data, loading } = useQuery(query)
-  return [data ? data.watchlists : ARRAY, loading]
+function useShortWatchlists (query, options) {
+  const { data, loading, error } = useQuery(query, options)
+  return [data ? data.watchlists : ARRAY, loading, error]
 }
 
 const WatchlistIdOrder = {}
@@ -91,7 +92,9 @@ export function useFeaturedWatchlists () {
 const checkIsScreener = ({ function: fn }) => fn.name !== 'empty'
 const checkIsNotScreener = ({ function: fn }) => fn.name === 'empty'
 function useUserShortWatchlists (filter, reduce = noop) {
-  const data = useShortWatchlists(USER_WATCHLISTS_QUERY)
+  const { isLoggedIn } = useUser()
+  const data = useShortWatchlists(USER_WATCHLISTS_QUERY, { skip: !isLoggedIn })
+
   return useMemo(
     () => {
       data[0] = reduce(data[0].filter(filter))
@@ -107,7 +110,7 @@ export const useUserWatchlists = () =>
 const DEFAULT_SCREENERS = [
   {
     name: 'My screener',
-    href: '/screener',
+    href: '/screener/new',
     id:
       process.env.REACT_APP_BACKEND_URL.indexOf('stage') > -1 || isStage
         ? 1183

@@ -5,31 +5,24 @@
 }
 
 .create {
-  border: 1px solid var(--porcelain);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--rhino);
-
   @include text('body-2');
 
-  &:hover {
-    border: 1px solid var(--jungle-green-light-3);
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 
-    .createLink {
-      color: var(--jungle-green);
-    }
+  &:hover {
+    border: 1px solid var(--jungle-green-light-3) !important;
+    color: var(--jungle-green) !important;
   }
 
   &__disabled {
-    color: var(--waterloo);
+    color: var(--waterloo) !important;
 
     &:hover {
-      border: 1px solid var(--porcelain);
-
-      .createLink {
-        color: var(--waterloo);
-      }
+      border: 1px solid var(--porcelain) !important;
+      color: var(--waterloo) !important;
     }
   }
 }

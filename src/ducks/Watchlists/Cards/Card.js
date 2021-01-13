@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import cx from 'classnames'
 import gql from 'graphql-tag'
+import { Link } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
 import emptyChartSvg from './emptyChart.svg'
 import { getSEOLinkFromIdAndTitle } from '../../../utils/url'
@@ -69,19 +70,19 @@ const WatchlistCard = ({
   const { id, name, insertedAt, isPublic, href } = watchlist
   const { data, marketcap, change } = useMarketcap(watchlist)
   const noMarketcap = marketcap === NULL_MARKETCAP
-  const link = href || path + getSEOLinkFromIdAndTitle(id, name)
+  const to = href || path + getSEOLinkFromIdAndTitle(id, name)
 
   if (isSimplified) {
     return (
-      <a href={link} className={cx(styles.wrapper, styles.simple, className)}>
+      <Link to={to} className={cx(styles.wrapper, styles.simple, className)}>
         {name}
         <PercentChanges changes={change} />
-      </a>
+      </Link>
     )
   }
 
   return (
-    <a href={link} className={cx(styles.wrapper, className)}>
+    <Link to={to} className={cx(styles.wrapper, className)}>
       <div className={styles.header}>
         {isWithNewCheck && (
           <NewLabel date={insertedAt} className={styles.new} />
@@ -112,7 +113,7 @@ const WatchlistCard = ({
           </>
         )}
       </div>
-    </a>
+    </Link>
   )
 }
 
