@@ -74,11 +74,11 @@ Object.assign(Fetcher, {
       }))
   },
   social_active_users_telegram: {
-    query: GET_SOURCE_METRIC(SOCIAL_ACTIVE_USERS_TELEGRAM),
+    query: GET_METRIC(SOCIAL_ACTIVE_USERS_TELEGRAM),
     preTransform
   },
   social_active_users_twitter: {
-    query: GET_SOURCE_METRIC(SOCIAL_ACTIVE_USERS_TWITTER),
+    query: GET_METRIC(SOCIAL_ACTIVE_USERS_TWITTER),
     preTransform
   }
 })
