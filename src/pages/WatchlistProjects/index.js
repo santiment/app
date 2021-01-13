@@ -20,11 +20,11 @@ const WatchlistProjects = ({ match, ...props }) => {
   if (isLoading) return <PageLoader />
   if (!watchlist) return <Redirect to='/' />
 
-  return <LegacyWatchlistPage {...props} watchlist={watchlist} />
+  return <WatchlistPage {...props} type='list' watchlist={watchlist} />
 }
 
 WatchlistProjects.defaultProps = {
-  Page: WatchlistPage
+  Page: LegacyWatchlistPage
 }
 
 export default WatchlistProjects

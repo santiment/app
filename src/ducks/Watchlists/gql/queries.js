@@ -89,8 +89,8 @@ export function useFeaturedWatchlists () {
   )
 }
 
-const checkIsScreener = ({ function: fn }) => fn.name !== 'empty'
-const checkIsNotScreener = ({ function: fn }) => fn.name === 'empty'
+export const checkIsScreener = ({ function: fn }) => fn.name !== 'empty'
+export const checkIsNotScreener = watchlist => !checkIsScreener(watchlist)
 function useUserShortWatchlists (filter, reduce = noop) {
   const { isLoggedIn } = useUser()
   const data = useShortWatchlists(USER_WATCHLISTS_QUERY, { skip: !isLoggedIn })

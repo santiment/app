@@ -6,8 +6,9 @@ import PercentChanges from '../PercentChanges'
 import Skeleton from '../Skeleton/Skeleton'
 import { getRecentAssets, getRecentWatchlists } from '../../utils/recent'
 import { formatNumber } from '../../utils/formatting'
-import { WatchlistCards } from '../../ducks/Watchlists/Cards/Card'
-import { useRecentWatchlists } from './../../ducks/Watchlists/gql/hooks'
+import WatchlistCard from '../../ducks/Watchlists/Cards/Card'
+import { useRecentWatchlists } from '../../ducks/Watchlists/gql/hooks'
+import { checkIsScreener } from '../../ducks/Watchlists/gql/queries'
 import { useRecentAssets } from '../../hooks/recents'
 import styles from './RecentlyWatched.module.scss'
 
@@ -104,9 +105,19 @@ const RecentlyWatched = ({
               show={!hasWatchlists}
               repeat={watchlists ? watchlists.length : watchlistsNumber}
             />
-            {watchlists && (
-              <WatchlistCards isSimplified watchlists={watchlists} />
-            )}
+            {watchlists &&
+              watchlists.map(watchlist => (
+                <WatchlistCard
+                  isSimplified
+                  key={watchlist.id}
+                  watchlist={watchlist}
+                  path={
+                    checkIsScreener(watchlist)
+                      ? '/screener/'
+                      : '/watchlist/projects/'
+                  }
+                />
+              ))}
           </div>
         </div>
       )}
