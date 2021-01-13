@@ -56,8 +56,12 @@
 }
 
 .btn {
-  color: var(--rhino) !important;
+  color: var(--rhino);
   padding: 6px 10px;
+
+  &:hover {
+    color: var(--jungle-green);
+  }
 }
 
 .row {

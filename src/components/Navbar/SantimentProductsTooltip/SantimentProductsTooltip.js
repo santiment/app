@@ -50,6 +50,12 @@ const OpenTrigger = () => (
 )
 const CloseTrigger = () => <Icon type='arrow-up' className={styles.arrowIcon} />
 
+export const MenuItemArrow = ({ isOpen, className }) => (
+  <div className={cx(styles.arrow, className, isOpen && styles.opened)}>
+    {isOpen ? <CloseTrigger /> : <OpenTrigger />}
+  </div>
+)
+
 let timeoutId
 
 const SantimentProductsTooltip = ({
@@ -81,11 +87,7 @@ const SantimentProductsTooltip = ({
       trigger={
         <div className={className}>
           {children}
-          {showArrows && (
-            <div className={cx(styles.arrow, isOpen && styles.opened)}>
-              {isOpen ? <CloseTrigger /> : <OpenTrigger />}
-            </div>
-          )}
+          {showArrows && <MenuItemArrow isOpen={isOpen} />}
         </div>
       }
       onOpen={() => setOpened()}
