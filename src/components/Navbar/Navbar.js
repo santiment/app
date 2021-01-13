@@ -50,7 +50,8 @@ const leftLinks = [
     as: Link,
     Dropdown: NavbarChartsDropdown,
     ddParams: {
-      position: 'start'
+      position: 'start',
+      offsetX: -104
     }
   },
   {
@@ -68,7 +69,8 @@ const leftLinks = [
     as: Link,
     Dropdown: MarketDropdown,
     ddParams: {
-      position: 'start'
+      position: 'start',
+      offsetX: -104
     }
   }
 ]
