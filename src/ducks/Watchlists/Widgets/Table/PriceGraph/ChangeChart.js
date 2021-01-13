@@ -52,7 +52,7 @@ export const ChangeChartTemplate = ({
 }) => (
   <AreaChart data={chartStats} height={45} width={width}>
     <defs>
-      <Gradients />
+      <Gradients downColor={forceColor} upColor={forceColor} />
     </defs>
     <Area
       dataKey={dataKey}
