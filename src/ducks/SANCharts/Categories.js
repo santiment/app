@@ -1,5 +1,5 @@
 import React from 'react'
-import { useFeaturedWatchlists } from '../Watchlists/gql/hooks'
+import { useFeaturedWatchlists } from '../Watchlists/gql/queries'
 import WatchlistCard from '../Watchlists/Cards/Card'
 
 const Categories = ({ onClick, classes = {} }) => {

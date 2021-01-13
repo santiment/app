@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import cx from 'classnames'
 import styles from './index.module.scss'
 
-const MiniChart = ({ data, name, change, width, height }) => {
+const MiniChart = ({ data, name, change, width, height, className }) => {
   const [linePoints, areaPoints] = useMemo(
     () => {
       const dataLength = data.length
@@ -48,7 +48,11 @@ const MiniChart = ({ data, name, change, width, height }) => {
     <svg
       viewBox={`0 0 ${width} ${height}`}
       height={height}
-      className={cx(styles.chart, change > 0 && styles.chart_positive)}
+      className={cx(
+        styles.chart,
+        change > 0 && styles.chart_positive,
+        className
+      )}
     >
       <defs>
         <linearGradient id='negative-change' x1='0' x2='0' y1='0' y2='2'>

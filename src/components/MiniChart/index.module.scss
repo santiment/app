@@ -3,8 +3,8 @@
   overflow: visible;
   fill: none;
 
-  --stroke: var(--persimmon);
-  --fill: url(#negative-change);
+  --stroke: var(--chart-stroke, var(--persimmon));
+  --fill: var(--chart-fill, url(#negative-change));
 
   &_positive {
     --stroke: var(--lima);

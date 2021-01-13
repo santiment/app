@@ -3,10 +3,8 @@ import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Button from '@santiment-network/ui/Button'
-import {
-  useFeaturedWatchlists,
-  useRecentWatchlists
-} from '../../../ducks/Watchlists/gql/hooks'
+import { useRecentWatchlists } from '../../../ducks/Watchlists/gql/hooks'
+import { useFeaturedWatchlists } from '../../../ducks/Watchlists/gql/queries'
 import WatchlistsDropdown from './WatchlistsDropdown'
 import { getRecentWatchlists } from '../../../utils/recent'
 import { getWatchlistLink } from '../../../ducks/Watchlists/utils'

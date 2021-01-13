@@ -4,7 +4,6 @@ import { client } from '../../../apollo'
 import {
   WATCHLIST_SHORT_QUERY,
   USER_WATCHLISTS_QUERY,
-  FEATURED_WATCHLISTS_QUERY,
   CREATE_WATCHLIST_MUTATION,
   UPDATE_WATCHLIST_MUTATION,
   AVAILABLE_METRICS_QUERY,
@@ -112,23 +111,6 @@ export function useUserScreeners () {
   }
 
   return [screeners.length > 0 ? screeners : DEFAULT_SCREENERS, loading, error]
-}
-
-export function useFeaturedWatchlists () {
-  const { data, loading, error } = useQuery(FEATURED_WATCHLISTS_QUERY)
-  const { featuredWatchlists: watchlists = [] } = data || {}
-
-  const WatchlistIdOrder = {}
-  const WATCHLIST_IDS_ORDER = [5496, 5497, 2046, 86, 749, 127, 272]
-  WATCHLIST_IDS_ORDER.forEach((id, i) => {
-    WatchlistIdOrder[id] = i
-  })
-
-  const sortWatchlists = ({ id: a }, { id: b }) =>
-    WatchlistIdOrder[a] - WatchlistIdOrder[b]
-  const sorter = watchlists => watchlists.sort(sortWatchlists)
-
-  return [sorter(watchlists), loading, error]
 }
 
 export function useRecentWatchlists (watchlistsIDs) {

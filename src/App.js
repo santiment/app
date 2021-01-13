@@ -305,14 +305,7 @@ export const App = ({
           <Route
             exact
             path='/watchlists'
-            render={
-              props => <LoadableWatchlistsPage isDesktop={isDesktop} />
-              // isDesktop ? (
-              //  <Redirect from='/watchlists' to='/assets' />
-              // ) : (
-              // <LoadableWatchlistsMobilePage {...props} /> )
-              //
-            }
+            render={props => <LoadableWatchlistsPage isDesktop={isDesktop} />}
           />
           <Route
             exact

@@ -3,8 +3,8 @@ import cx from 'classnames'
 import LoginPopup from '../banners/feature/PopupBanner'
 import { useUserWatchlists } from '../../ducks/Watchlists/gql/hooks'
 import NewWatchlist from '../../ducks/Watchlists/Actions/New'
-import styles from './../../ducks/Watchlists/Cards/NewCard.module.scss'
-import cardStyles from './../../ducks/Watchlists/Cards/Card.module.scss'
+import styles from '../../ducks/Watchlists/Cards/NewCard.module.scss'
+import cardStyles from '../../ducks/Watchlists/Cards/Card.module.scss'
 
 export const SvgNew = ({ className }) => (
   <svg
