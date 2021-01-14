@@ -70,7 +70,8 @@ Table.defaultProps = {
   items: [],
   itemProps: {},
   itemKeyProperty: 'id',
-  minRows: 0
+  minRows: 0,
+  offset: 0
 }
 
 export default Table
