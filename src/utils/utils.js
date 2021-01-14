@@ -266,7 +266,10 @@ const updateHistory = url => {
   history.replaceState(history.state, null, url)
 }
 
-const isStage = window.location && window.location.href.indexOf('stage') !== -1
+const isStage =
+  process.env.NODE_ENV === 'development'
+    ? process.env.REACT_APP_BACKEND_URL === 'https://api-stage.santiment.net'
+    : window.location && window.location.href.indexOf('stage') !== -1
 
 export {
   getOrigin,
