@@ -1,13 +1,11 @@
 import React from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
-import gql from 'graphql-tag'
 import { withRenderQueueProvider } from '../../components/DashboardMetricChart/renderQueue'
 import { DesktopOnly } from '../../components/Responsive'
 import { Block } from '../StablecoinsPage/StablecoinsPageStructure'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import SharePage from '../../components/SharePage/SharePage'
-import { useRestrictedInfo } from '../UniswapProtocolPage/hooks'
 import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
 import EthTotalStaked from '../../ducks/Eth2.0/TotalStaked/EthTotalStaked'
 import EthStakedAmountByLabel from '../../ducks/Eth2.0/EthStakedAmountByLabel/EthStakedAmountByLabel'
@@ -44,19 +42,7 @@ const ANCHORS = {
   }
 }
 
-const METRIC_BOUNDARIES_QUERY = gql`
-  query {
-    getMetric(metric: "balance_per_owner") {
-      metadata {
-        isRestricted
-      }
-    }
-  }
-`
-
 const ETH2Dashboard = () => {
-  const isProChecking = useRestrictedInfo(METRIC_BOUNDARIES_QUERY)
-
   return (
     <DashboardLayout>
       <Helmet
@@ -91,7 +77,6 @@ const ETH2Dashboard = () => {
           <Block
             className={cx(externalStyles.firstBlock, styles.firstBlock)}
             title={ANCHORS.TotalStacked.label}
-            isPaywalActive={isProChecking}
             tag={ANCHORS.TotalStacked.key}
           >
             <EthTotalStaked />

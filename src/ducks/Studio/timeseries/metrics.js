@@ -6,31 +6,29 @@ const DEFAULT_SELECTOR = 'slug'
 export const GET_METRIC = (
   { key, queryKey = key },
   { selector = DEFAULT_SELECTOR, queryKey: customKey } = DEFAULT_SETTINGS
-) => {
-  return gql`
-    query getMetric(
-      $from: DateTime!
-      $to: DateTime!
-      $slug: String,
-      $slugs: [String],
-      $interval: interval
-      $transform: TimeseriesMetricTransformInputObject
-      $holdersCount: Int
-      $market_segments: [String]
-      $ignored_slugs: [String]
-      $source: String
-      $owner: String,
-      $label: String,
-    ) {
-      getMetric(metric: "${customKey || queryKey}") {
-        timeseriesData(selector: { ${selector}: $slug, slugs: $slugs, holdersCount: $holdersCount, market_segments: $market_segments, ignored_slugs: $ignored_slugs, source: $source, owner: $owner, label: $label}, from: $from, to: $to, interval: $interval, transform: $transform) {
-          datetime
-          ${key}: value
-        }
+) => gql`
+  query getMetric(
+    $from: DateTime!
+    $to: DateTime!
+    $slug: String,
+    $slugs: [String],
+    $interval: interval
+    $transform: TimeseriesMetricTransformInputObject
+    $holdersCount: Int
+    $market_segments: [String]
+    $ignored_slugs: [String]
+    $source: String
+    $owner: String,
+    $label: String,
+  ) {
+    getMetric(metric: "${customKey || queryKey}") {
+      timeseriesData(selector: { ${selector}: $slug, slugs: $slugs, holdersCount: $holdersCount, market_segments: $market_segments, ignored_slugs: $ignored_slugs, source: $source, owner: $owner, label: $label}, from: $from, to: $to, interval: $interval, transform: $transform) {
+        datetime
+        ${key}: value
       }
     }
-  `
-}
+  }
+`
 
 // Available metrics could be fetched via "getAvailableMetrics" query
 export const METRICS = [

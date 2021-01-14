@@ -1,6 +1,9 @@
 import React from 'react'
 import DashboardMetricChart from '../../../components/DashboardMetricChart/DashboardMetricChart'
-import { DEFAULT_INTERVAL_SELECTORS } from '../../../components/DashboardMetricChart/utils'
+import {
+  DEFAULT_INTERVAL_SELECTORS,
+  INTERVAL_3_MONTHS
+} from '../../../components/DashboardMetricChart/utils'
 
 const METRICS = [
   {
@@ -27,6 +30,7 @@ const EthTotalStaked = () => {
     <DashboardMetricChart
       intervals={DEFAULT_INTERVAL_SELECTORS}
       metrics={METRICS}
+      defaultInterval={INTERVAL_3_MONTHS}
     />
   )
 }
