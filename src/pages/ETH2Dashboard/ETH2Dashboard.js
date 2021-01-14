@@ -8,18 +8,35 @@ import { Block } from '../StablecoinsPage/StablecoinsPageStructure'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
 import SharePage from '../../components/SharePage/SharePage'
 import { useRestrictedInfo } from '../UniswapProtocolPage/hooks'
-import DistributionBtcOnEth from '../../ducks/BtcDistribution/DistributionBtcOnEth/DistributionBtcOnEth'
-import TotalBtcOnEth from '../../ducks/BtcDistribution/TotalBtcOnEth/TotalBtcOnEth'
-import BtcStatistics from '../../ducks/BtcDistribution/BtcStatistics/BtcStatistics'
 import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
+import EthTotalStacked from '../../ducks/Eth2.0/TotalStacked/EthTotalStacked'
+import EthStakedAmountByLabel from '../../ducks/Eth2.0/EthStakedAmountByLabel/EthStakedAmountByLabel'
+import EthStakedAddressesByLabel from '../../ducks/Eth2.0/EthStakedAddressesByLabel/EthStakedAddressesByLabel'
+import EthUnlabeledStackerInflow from '../../ducks/Eth2.0/EthUnlabeledStackerInflow/EthUnlabeledStackerInflow'
+import EthTopStakers from '../../ducks/Eth2.0/EthTopStakers/EthTopStakers'
 import externalStyles from './../StablecoinsPage/StablecoinsPage.module.scss'
 import styles from './ETH2Dashboard.module.scss'
-import EthTotalStacked from '../../ducks/Eth2.0/TotalStacked/EthTotalStacked'
 
 const ANCHORS = {
   TotalStacked: {
     label: 'Total Stacked',
     key: 'total-stacked'
+  },
+  StakedAmount: {
+    label: 'Staked amount by Label',
+    key: 'staked-by-label'
+  },
+  StakedAddresses: {
+    label: 'Number of Staked Addresses by Label',
+    key: 'staked-addresses'
+  },
+  UnlabeledInflow: {
+    label: 'Unlabeled Staker Inflow Sources',
+    key: 'unlabeled-inflow'
+  },
+  TopStakers: {
+    label: 'Top Stakers',
+    key: 'top-stakers'
   }
 }
 
@@ -74,6 +91,31 @@ const ETH2Dashboard = () => {
             tag={ANCHORS.TotalStacked.key}
           >
             <EthTotalStacked />
+          </Block>
+
+          <Block
+            title={ANCHORS.StakedAmount.label}
+            tag={ANCHORS.StakedAmount.key}
+          >
+            <EthStakedAmountByLabel />
+          </Block>
+
+          <Block
+            title={ANCHORS.StakedAddresses.label}
+            tag={ANCHORS.StakedAddresses.key}
+          >
+            <EthStakedAddressesByLabel />
+          </Block>
+
+          <Block
+            title={ANCHORS.UnlabeledInflow.label}
+            tag={ANCHORS.UnlabeledInflow.key}
+          >
+            <EthUnlabeledStackerInflow />
+          </Block>
+
+          <Block title={ANCHORS.TopStakers.label} tag={ANCHORS.TopStakers.key}>
+            <EthTopStakers />
           </Block>
         </div>
       </div>
