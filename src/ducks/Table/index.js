@@ -6,6 +6,7 @@ import Loader from './Loader'
 import NoData from './NoData'
 import Pagination from './Pagination'
 import { CHECKBOX_COLUMN } from './Checkbox/column'
+import { sortFloatNumeric } from './utils'
 import styles from './index.module.scss'
 
 const Table = ({
@@ -82,7 +83,9 @@ const Table = ({
       disableSortRemove: true,
       disableSortBy: !allowSort,
       sortTypes: {
-        datetime: (a, b, id) => sortDate(a.original[id], b.original[id])
+        datetime: (a, b, id) => sortDate(a.original[id], b.original[id]),
+        floatNumeric: (a, b, id) =>
+          sortFloatNumeric(a.original[id], b.original[id])
       },
       autoResetPage: false,
       autoResetSortBy: false,

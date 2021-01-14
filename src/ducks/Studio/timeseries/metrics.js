@@ -205,7 +205,7 @@ export const METRICS = [
   'mvrv_usd_365d',
   'mvrv_usd_intraday_180d',
   'mvrv_usd_intraday_365d',
-  'minersBalance',
+  'miners_balance',
   'dormant_circulation_180d',
   'dormant_circulation_2y',
   'dormant_circulation_365d',

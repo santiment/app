@@ -1,8 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
-import WatchlistCard from './WatchlistCard'
+import { WatchlistCards } from './Card'
 import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
-import { getWatchlistLink } from '../utils'
 import Skeleton from '../../../components/Skeleton/Skeleton'
 import NewWatchlistCard from './NewCard'
 import { useUserScreeners } from '../gql/hooks'
@@ -42,16 +41,8 @@ const MyScreeners = ({ className, showHeader = true }) => {
         </>
       )}
       <div className={stylesGrid.wrapper}>
-        {screeners.map(watchlist => (
-          <WatchlistCard
-            key={watchlist.name + watchlist.id}
-            name={watchlist.name}
-            watchlist={watchlist}
-            to={getWatchlistLink(watchlist)}
-            isPublic={watchlist.isPublic}
-            {...watchlist}
-          />
-        ))}
+        <WatchlistCards watchlists={screeners} path='/screener/' />
+
         <DesktopOnly>
           <NewWatchlistCard type='screener' />
         </DesktopOnly>

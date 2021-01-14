@@ -16,7 +16,9 @@ import ScreenerDropdown from './Screeners/ScreenerDropdown'
 import NavbarChartsDropdown from './ChartLayouts/NavbarChartsDropdown'
 import InsightsDropdown from './InsightsDropdown'
 import PlanEngage from './PlanEngage'
-import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProductsTooltip'
+import SantimentProductsTooltip, {
+  MenuItemArrow
+} from './SantimentProductsTooltip/SantimentProductsTooltip'
 import UserAvatar from '../../pages/Account/avatar/UserAvatar'
 import {
   isDynamicWatchlist,
@@ -26,6 +28,7 @@ import { useShortWatchlist } from '../../ducks/Watchlists/gql/hooks'
 import { mapSizesToProps } from '../../utils/withSizes'
 import NavbarMore from './NavbarMore/NavbarMore'
 import { NavbarItem } from './NavbarItem'
+import { useDialogState } from '../../hooks/dialog'
 import styles from './Navbar.module.scss'
 
 const ExternalLink = ({ children, className, ...rest }) => (
@@ -47,7 +50,8 @@ const leftLinks = [
     as: Link,
     Dropdown: NavbarChartsDropdown,
     ddParams: {
-      position: 'start'
+      position: 'start',
+      offsetX: -104
     }
   },
   {
@@ -60,19 +64,20 @@ const leftLinks = [
     }
   },
   {
-    to: '/assets',
+    to: '/watchlists',
     children: 'Watchlists',
     as: Link,
     Dropdown: MarketDropdown,
     ddParams: {
-      position: 'start'
+      position: 'start',
+      offsetX: -104
     }
   }
 ]
 
 const leftLinksV2 = [
   {
-    to: '/assets/screener',
+    to: '/screener/new',
     children: 'Screener',
     as: Link,
     Dropdown: ScreenerDropdown,
@@ -102,19 +107,30 @@ const rightLinks = [
   }
 ]
 
-const NavbarMoreItem = ({ links, activeLink }) => (
-  <NavbarItem
-    item={{
-      children: 'More',
-      as: 'div',
-      Dropdown: () => <NavbarMore links={links} activeLink={activeLink} />,
-      ddParams: {
-        position: 'center'
-      }
-    }}
-    activeLink={activeLink}
-  />
-)
+const NavbarMoreItem = ({ links, activeLink }) => {
+  const { openDialog, closeDialog, isOpened } = useDialogState()
+
+  return (
+    <NavbarItem
+      item={{
+        children: (
+          <>
+            More
+            <MenuItemArrow isOpen={isOpened} className={styles.arrow} />
+          </>
+        ),
+        as: 'div',
+        Dropdown: () => <NavbarMore links={links} activeLink={activeLink} />,
+        ddParams: {
+          position: 'center'
+        },
+        onClose: closeDialog,
+        onOpen: openDialog
+      }}
+      activeLink={activeLink}
+    />
+  )
+}
 
 const Logo = (
   <Link className={styles.logo} to='/'>

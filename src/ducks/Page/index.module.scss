@@ -4,6 +4,19 @@
   width: 100%;
 }
 
+.centered {
+  max-width: 1170px;
+  margin: 0 auto;
+
+  @media only screen and (max-width: 1170px) {
+    .header,
+    .main {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+}
+
 .header {
   padding: 16px 32px;
   display: flex;
@@ -20,7 +33,9 @@
 }
 
 .main {
-  padding: 0 32px;
+  &_padding {
+    padding: 0 32px;
+  }
 }
 
 .search {

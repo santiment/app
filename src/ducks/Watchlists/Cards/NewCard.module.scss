@@ -1,0 +1,34 @@
+@import '~@santiment-network/ui/mixins';
+
+.createLink {
+  margin-left: 17px;
+}
+
+.create {
+  @include text('body-2');
+
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  &:hover {
+    border: 1px solid var(--jungle-green-light-3) !important;
+    color: var(--jungle-green) !important;
+  }
+
+  &__disabled {
+    color: var(--waterloo) !important;
+
+    &:hover {
+      border: 1px solid var(--porcelain) !important;
+      color: var(--waterloo) !important;
+    }
+  }
+}
+
+.proLabel {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}

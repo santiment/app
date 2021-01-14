@@ -37,6 +37,7 @@ const TabTypeContent = {
       <Santrends
         className={styles.santrends}
         slice={trends => trends.slice(-2)}
+        showSocialVol={false}
       />
     ),
     description: (

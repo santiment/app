@@ -7,6 +7,7 @@ import PercentChanges from '../../../../components/PercentChanges'
 import LayoutForAsset from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
 import PriceGraph from './PriceGraph'
 import { COLUMNS_NAMES } from './columns'
+import { sortFloatNumeric } from '../../../Table/utils'
 import styles from './new-columns.module.scss'
 
 const isValidValue = value => !isNaN(parseFloat(value))
@@ -64,7 +65,12 @@ export const COLUMNS = [
       <div className='overview-price-percent'>
         {isValidValue(value) ? <PercentChanges changes={value} /> : NO_DATA}
       </div>
-    )
+    ),
+    sortType: (a, b) =>
+      sortFloatNumeric(
+        a.original['percentChange24h'],
+        b.original['percentChange24h']
+      )
   },
   {
     id: COLUMNS_NAMES.price_chart,
@@ -91,7 +97,12 @@ export const COLUMNS = [
       <div className='overview-volume-percent'>
         {isValidValue(value) ? <PercentChanges changes={value} /> : NO_DATA}
       </div>
-    )
+    ),
+    sortType: (a, b) =>
+      sortFloatNumeric(
+        a.original['volumeChange24h'],
+        b.original['volumeChange24h']
+      )
   },
   {
     id: COLUMNS_NAMES.marketcapUsd,

@@ -316,7 +316,7 @@ export const Metric = {
     group: 'Network Value',
     category: 'On-chain'
   },
-  minersBalance: {
+  miners_balance: {
     node: 'line',
     label: 'Miners Balance',
     category: 'On-chain'
@@ -508,6 +508,7 @@ export const Metric = {
     isBeta: true
   },
   social_active_users: {
+    queryKey: 'social_active_users',
     category: 'Social',
     group: 'Social Active Users',
     shortLabel: 'Soc. Act. Us.',

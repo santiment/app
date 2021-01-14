@@ -7,7 +7,8 @@ const TrendsTablesDesktop = ({
   trends,
   isLoggedIn,
   isLoading,
-  trendConnections
+  trendConnections,
+  showSocialVol
 }) => {
   const { length } = trends
   return isLoading ? (
@@ -20,6 +21,7 @@ const TrendsTablesDesktop = ({
         trendWords={length > 0 ? trends[length - 1].topWords : undefined}
         isLoggedIn={isLoggedIn || true}
         trendConnections={trendConnections}
+        showSocialVol={showSocialVol}
       />
     </div>
   )

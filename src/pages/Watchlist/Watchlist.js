@@ -22,8 +22,8 @@ import styles from './Watchlist.module.scss'
 
 const WatchlistPage = props => {
   const [currentItems, setCurrentItems] = useState([])
-  const { type, location, history } = props
-  const { id, name } = qs.parse(location.search)
+  const { type, location, history, watchlist } = props
+  const { id, name } = watchlist || qs.parse(location.search)
 
   const isList = type === 'list'
   const { title, description } = getHelmetTags(isList, name)

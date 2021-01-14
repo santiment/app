@@ -84,7 +84,7 @@ export const getHelmetTags = (isList, listName) => {
   const isWatchlist = isList && listName
   return {
     title: isWatchlist
-      ? `Crypto Watchlist: ${listName.split('@')[0]} - Sanbase`
+      ? `Crypto Watchlist: ${listName} - Sanbase`
       : 'All Crypto Assets - Sanbase',
     description: isWatchlist
       ? 'Santiment Watchlists let you keep track of different crypto projects, and compare their performance, on-chain behavior and development activity.'

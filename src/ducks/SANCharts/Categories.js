@@ -1,6 +1,6 @@
 import React from 'react'
-import { useFeaturedWatchlists } from '../Watchlists/gql/hooks'
-import WatchlistCard from '../Watchlists/Cards/WatchlistCard'
+import { useFeaturedWatchlists } from '../Watchlists/gql/queries'
+import WatchlistCard from '../Watchlists/Cards/Card'
 
 const Categories = ({ onClick, classes = {} }) => {
   const [watchlists = []] = useFeaturedWatchlists()
@@ -13,11 +13,9 @@ const Categories = ({ onClick, classes = {} }) => {
       <WatchlistCard
         key={name}
         watchlist={watchlist}
-        name={name}
         onClick={onClick}
         className={classes.watchlist}
         to={onClick ? undefined : `/assets/list?name=${name}@${id}`}
-        {...watchlist}
         isWithNewCheck={false}
       />
     )
