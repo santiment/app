@@ -33,6 +33,8 @@ const Recent = ({ title, rightHeader, ids, getItem, getLink, Item }) => {
     [ids]
   )
 
+  if (!isLoading && items.length === 0) return null
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>{title}</div>

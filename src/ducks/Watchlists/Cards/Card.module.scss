@@ -1,0 +1,52 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  display: block;
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 16px 20px;
+  height: 120px;
+  user-select: none;
+  color: var(--rhino);
+
+  &:hover {
+    border-color: var(--mystic);
+    color: var(--jungle-green);
+  }
+}
+
+.simple {
+  display: flex;
+  height: auto;
+  justify-content: space-between;
+  padding: 12px 20px 12px 16px;
+  margin-bottom: 8px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.new {
+  margin-right: 8px;
+}
+
+.visibility {
+  margin-left: auto;
+}
+
+.marketcap {
+  @include text('h4');
+
+  display: flex;
+  justify-content: space-between;
+  color: var(--rhino);
+  margin: 12px 0 8px;
+}
+
+.change {
+  color: var(--casper);
+  display: flex;
+}

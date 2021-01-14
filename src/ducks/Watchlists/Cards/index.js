@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
-import Card from './WatchlistCard'
+import Card from './Card'
 import Featured from './Featured'
 import NewCard from './NewCard'
-import { getWatchlistLink } from '../utils'
 import styles from './index.module.scss'
 
 const Cards = ({
@@ -15,16 +14,12 @@ const Cards = ({
 }) => (
   <div className={cx(styles.wrapper, classes.watchlists)}>
     {watchlists.map(watchlist => {
-      const { name, ...rest } = watchlist
-
       return (
         <Card
-          key={name}
-          name={name}
+          key={watchlist.name}
           watchlist={watchlist}
           className={classes.watchlist}
-          to={getWatchlistLink(watchlist)}
-          {...rest}
+          path='/watchlist/projects/'
         />
       )
     })}

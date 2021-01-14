@@ -23,16 +23,17 @@ const LoginBlock = () => (
   </div>
 )
 
-const WrapperType = ({ isFullScreen, children }) => {
-  return isFullScreen ? (
-    <Panel className={cx(styles.fullScreen, styles.wrapper)}>{children}</Panel>
+const WrapperType = ({ children, className, isFullScreen }) =>
+  isFullScreen ? (
+    <Panel className={cx(styles.fullScreen, styles.wrapper, className)}>
+      {children}
+    </Panel>
   ) : (
-    <div className={styles.wrapper}>{children}</div>
+    <div className={cx(styles.wrapper, className)}>{children}</div>
   )
-}
 
-const WatchlistsAnon = ({ isFullScreen, className }) => (
-  <WrapperType isFullScreen={isFullScreen}>
+const WatchlistsAnon = ({ isFullScreen, className, wrapperClassName }) => (
+  <WrapperType isFullScreen={isFullScreen} className={wrapperClassName}>
     <EmptySection
       className={className}
       imgClassName={cx(styles.hide, className, isFullScreen && styles.img)}

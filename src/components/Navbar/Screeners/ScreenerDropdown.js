@@ -5,16 +5,19 @@ import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import CreateScreenerBtn from './NewScreenerBtn'
-import { getWatchlistLink } from '../../../ducks/Watchlists/utils'
 import { VisibilityIndicator } from '../../VisibilityIndicator'
 import {
   useUserScreeners,
   useRecentWatchlists
 } from '../../../ducks/Watchlists/gql/hooks'
 import { getRecentScreeners } from '../../../utils/recent'
+import { getSEOLinkFromIdAndTitle } from '../../../utils/url'
 import { useUser } from '../../../stores/user'
 import styles from '../Watchlists/WatchlistsDropdown.module.scss'
 import wrapperStyles from '../Watchlists/MarketDropdown.module.scss'
+
+const getScreenerSEOLink = (id, name) =>
+  '/screener/' + getSEOLinkFromIdAndTitle(id, name)
 
 const ScreenerDropdown = ({ activeLink }) => {
   const [screeners = [], loading] = useUserScreeners()
@@ -42,7 +45,7 @@ const ScreenerDropdown = ({ activeLink }) => {
               >
                 <div className={wrapperStyles.recentList}>
                   {recentScreeners.map(({ to, name, id }) => {
-                    const link = to || getWatchlistLink({ name, id })
+                    const link = to || getScreenerSEOLink(id, name)
 
                     return (
                       <Button
@@ -86,7 +89,7 @@ const List = ({ screeners, activeLink }) => (
   >
     <div className={styles.list}>
       {screeners.map(({ name, id, isPublic, to }, idx) => {
-        const link = getWatchlistLink({ id, name })
+        const link = getScreenerSEOLink(id, name)
         return (
           <Button
             fluid

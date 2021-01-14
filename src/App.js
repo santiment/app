@@ -24,7 +24,6 @@ import ErrorBoundary from './components/ErrorContent/ErrorBoundary'
 import PageLoader from './components/Loader/PageLoader'
 import Footer from './components/Footer'
 import GDPRPage from './pages/GDPRPage/GDPRPage'
-import WatchlistPage from './pages/Watchlist'
 import { getConsentUrl } from './utils/utils'
 import CookiePopup from './components/CookiePopup/CookiePopup'
 import GdprRedirector from './components/GdprRedirector'
@@ -63,6 +62,17 @@ const LoadablePage = loader =>
 
 const LoadableIndexPage = LoadablePage(() => import('./pages/Index'))
 
+const LoadableAssetsPage = LoadablePage(() => import('./pages/Assets'))
+
+const LoadableWatchlistPage = LoadablePage(() => import('./pages/Watchlist'))
+
+const LoadableWatchlistsPage = LoadablePage(() => import('./pages/Watchlists'))
+
+const LoadableScreenerPage = LoadablePage(() => import('./pages/Screener'))
+
+const LoadableWatchlistProjectsPage = LoadablePage(() =>
+  import('./pages/WatchlistProjects')
+)
 const LoadableWatchlistAddressesPage = LoadablePage(() =>
   import('./pages/WatchlistAddresses')
 )
@@ -103,12 +113,6 @@ const LoadableTrendsExplorePage = LoadablePage(() =>
 
 const LoadableSonarFeedPage = LoadablePage(() =>
   import('./pages/SonarFeed/SonarFeedPage')
-)
-
-const LoadableWatchlistsPage = LoadablePage(() => import('./pages/Watchlists'))
-
-const LoadableWatchlistsMobilePage = LoadablePage(() =>
-  import('./pages/Watchlists/WatchlistsMobilePage')
 )
 
 const LoadableAssetsMobilePage = LoadablePage(() =>
@@ -243,7 +247,7 @@ export const App = ({
               render={props => {
                 if (isDesktop) {
                   return (
-                    <WatchlistPage
+                    <LoadableWatchlistPage
                       type={name}
                       isLoggedIn={isLoggedIn}
                       preload={() => LoadableDetailedPage.preload()}
@@ -274,7 +278,29 @@ export const App = ({
               <CreateAccountFreeTrial {...props} isLoggedIn={isLoggedIn} />
             )}
           />
-          <Route exact path='/assets' component={LoadableWatchlistsPage} />
+          <Route
+            exact
+            path='/assets'
+            render={() => <LoadableAssetsPage isDesktop={isDesktop} />}
+          />
+          <Route
+            exact
+            path='/screener/:nameId'
+            render={props => (
+              <LoadableScreenerPage
+                {...props}
+                isDesktop={isDesktop}
+                isLoggedIn={isLoggedIn}
+              />
+            )}
+          />
+          <Route
+            exact
+            path='/watchlist/projects/:nameId'
+            render={props => (
+              <LoadableWatchlistProjectsPage {...props} isDesktop={isDesktop} />
+            )}
+          />
           <Route
             exact
             path='/watchlist/addresses/:nameId'
@@ -283,13 +309,7 @@ export const App = ({
           <Route
             exact
             path='/watchlists'
-            render={props =>
-              isDesktop ? (
-                <Redirect from='/watchlists' to='/assets' />
-              ) : (
-                <LoadableWatchlistsMobilePage {...props} />
-              )
-            }
+            render={props => <LoadableWatchlistsPage isDesktop={isDesktop} />}
           />
           <Route
             exact

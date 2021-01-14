@@ -64,7 +64,7 @@ const leftLinks = [
     }
   },
   {
-    to: '/assets',
+    to: '/watchlists',
     children: 'Watchlists',
     as: Link,
     Dropdown: MarketDropdown,
@@ -77,7 +77,7 @@ const leftLinks = [
 
 const leftLinksV2 = [
   {
-    to: '/assets/screener',
+    to: '/screener/new',
     children: 'Screener',
     as: Link,
     Dropdown: ScreenerDropdown,

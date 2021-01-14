@@ -13,11 +13,12 @@ const Page = ({
   title,
   actions,
   isPhone,
+  isCentered,
   isWithPadding
 }) => (
-  <div className={cx(styles.wrapper, className)}>
+  <div className={cx(styles.wrapper, className, isCentered && styles.centered)}>
     <div className={cx(styles.header, headerClassName)}>
-      <h1 className={styles.title}>{title}</h1>
+      {title && <h1 className={styles.title}>{title}</h1>}
       {actions}
       {isPhone && (
         <Link to='/search' className={styles.search}>
@@ -25,7 +26,14 @@ const Page = ({
         </Link>
       )}
     </div>
-    <main className={cx(isWithPadding && styles.main)}>{children}</main>
+    <main
+      className={cx(
+        styles.main,
+        isWithPadding && !isCentered && styles.main_padding
+      )}
+    >
+      {children}
+    </main>
   </div>
 )
 
