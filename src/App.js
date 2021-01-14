@@ -129,6 +129,10 @@ const LoadableStablecoinsPage = LoadablePage(() =>
   import('./pages/StablecoinsPage/StablecoinsPage')
 )
 
+const LoadableETH2Dashboard = LoadablePage(() =>
+  import('./pages/ETH2Dashboard/ETH2Dashboard')
+)
+
 const LoadableUniswapProtocolPage = LoadablePage(() =>
   import('./pages/UniswapProtocolPage/UniswapProtocolPage')
 )
@@ -447,6 +451,12 @@ export const App = ({
             path={PATHS.STABLECOINS}
             render={props => (
               <LoadableStablecoinsPage isDesktop={isDesktop} {...props} />
+            )}
+          />
+          <Route
+            path={PATHS.ETH2}
+            render={props => (
+              <LoadableETH2Dashboard isDesktop={isDesktop} {...props} />
             )}
           />
           <Route

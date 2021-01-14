@@ -7,7 +7,6 @@ import { getMinInterval } from './queries/minInterval'
 import { GAS_USED_QUERY } from '../../GetTimeSeries/queries/gas_used'
 import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from '../../GetTimeSeries/queries/top_holders_percent_of_total_supply'
 import { ETH_SPENT_OVER_TIME_QUERY } from '../../GetTimeSeries/queries/eth_spent_over_time_query'
-import { GET_SOURCE_METRIC } from '../../GetTimeSeries/queries/GET_SOURCE_METRIC'
 import {
   SOCIAL_ACTIVE_USERS_TELEGRAM,
   SOCIAL_ACTIVE_USERS_TWITTER
@@ -74,11 +73,11 @@ Object.assign(Fetcher, {
       }))
   },
   social_active_users_telegram: {
-    query: GET_SOURCE_METRIC(SOCIAL_ACTIVE_USERS_TELEGRAM),
+    query: GET_METRIC(SOCIAL_ACTIVE_USERS_TELEGRAM),
     preTransform
   },
   social_active_users_twitter: {
-    query: GET_SOURCE_METRIC(SOCIAL_ACTIVE_USERS_TWITTER),
+    query: GET_METRIC(SOCIAL_ACTIVE_USERS_TWITTER),
     preTransform
   }
 })
