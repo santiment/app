@@ -9,7 +9,7 @@ import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavi
 import SharePage from '../../components/SharePage/SharePage'
 import { useRestrictedInfo } from '../UniswapProtocolPage/hooks'
 import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
-import EthTotalStacked from '../../ducks/Eth2.0/TotalStacked/EthTotalStacked'
+import EthTotalStaked from '../../ducks/Eth2.0/TotalStaked/EthTotalStaked'
 import EthStakedAmountByLabel from '../../ducks/Eth2.0/EthStakedAmountByLabel/EthStakedAmountByLabel'
 import EthStakedAddressesByLabel from '../../ducks/Eth2.0/EthStakedAddressesByLabel/EthStakedAddressesByLabel'
 import EthUnlabeledStackerInflow from '../../ducks/Eth2.0/EthUnlabeledStackerInflow/EthUnlabeledStackerInflow'
@@ -22,6 +22,10 @@ const ANCHORS = {
     label: 'Total Stacked',
     key: 'total-stacked'
   },
+  /*  StakingRoi: {
+     label: 'Staking Roi',
+     key: 'Staking Roi'
+   }, */
   StakedAmount: {
     label: 'Staked amount by Label',
     key: 'staked-by-label'
@@ -90,7 +94,7 @@ const ETH2Dashboard = () => {
             isPaywalActive={isProChecking}
             tag={ANCHORS.TotalStacked.key}
           >
-            <EthTotalStacked />
+            <EthTotalStaked />
           </Block>
 
           <Block

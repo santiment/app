@@ -22,7 +22,7 @@ const METRICS = [
   }
 ]
 
-const EthTotalStacked = () => {
+const EthTotalStaked = () => {
   return (
     <DashboardMetricChart
       intervals={DEFAULT_INTERVAL_SELECTORS}
@@ -31,4 +31,4 @@ const EthTotalStacked = () => {
   )
 }
 
-export default EthTotalStacked
+export default EthTotalStaked

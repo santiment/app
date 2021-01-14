@@ -288,5 +288,6 @@ export const METRICS = [
   'deposit_transactions_5m',
 
   'balance_per_owner',
-  'eth2_stakers_count'
+  'eth2_stakers_count',
+  'labelled_exchange_balance_sum'
 ]
