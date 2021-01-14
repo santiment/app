@@ -70,10 +70,10 @@ const Watchlists = ({ isDesktop }) => {
 
   return (
     <Page
-      title={isDesktop ? null : 'Watchlists'}
-      isContained
-      isWithPadding={!isDesktop}
       className={styles.wrapper}
+      title={isDesktop ? null : 'Watchlists'}
+      isCentered
+      isWithPadding={!isDesktop}
     >
       <MobileOnly>
         <StoriesList classes={styles} />

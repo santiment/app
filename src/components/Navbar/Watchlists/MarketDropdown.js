@@ -7,8 +7,11 @@ import { useRecentWatchlists } from '../../../ducks/Watchlists/gql/hooks'
 import { useFeaturedWatchlists } from '../../../ducks/Watchlists/gql/queries'
 import WatchlistsDropdown from './WatchlistsDropdown'
 import { getRecentWatchlists } from '../../../utils/recent'
-import { getWatchlistLink } from '../../../ducks/Watchlists/utils'
+import { getSEOLinkFromIdAndTitle } from '../../../utils/url'
 import styles from './MarketDropdown.module.scss'
+
+const getWatchlistSEOLink = (id, name) =>
+  '/watchlist/projects/' + getSEOLinkFromIdAndTitle(id, name)
 
 const MarketDropdown = ({ activeLink }) => {
   const [watchlists = []] = useFeaturedWatchlists()
@@ -23,7 +26,7 @@ const MarketDropdown = ({ activeLink }) => {
           <h3 className={styles.title}>Explore watchlists</h3>
           <div className={styles.listWrapper}>
             {watchlists.map(({ to, name, id }) => {
-              const link = to || getWatchlistLink({ name, id })
+              const link = to || getWatchlistSEOLink(id, name)
 
               return (
                 <Button
@@ -56,7 +59,7 @@ const MarketDropdown = ({ activeLink }) => {
               >
                 <div className={styles.recentList}>
                   {recentWatchlists.map(({ to, name, id }) => {
-                    const link = to || getWatchlistLink({ name, id })
+                    const link = to || getWatchlistSEOLink(id, name)
 
                     return (
                       <Button

@@ -10,7 +10,6 @@ const FeaturedWatchlists = ({ className }) => {
       className={className}
       watchlists={watchlists}
       path='/watchlist/projects/'
-      isWithNewCheck={false}
       isWithVisibility={false}
     />
   )

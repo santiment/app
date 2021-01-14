@@ -287,7 +287,11 @@ export const App = ({
             exact
             path='/screener/:nameId'
             render={props => (
-              <LoadableScreenerPage {...props} isDesktop={isDesktop} />
+              <LoadableScreenerPage
+                {...props}
+                isDesktop={isDesktop}
+                isLoggedIn={isLoggedIn}
+              />
             )}
           />
           <Route
