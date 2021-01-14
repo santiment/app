@@ -11,19 +11,41 @@ import { millify } from '../../utils/formatting'
 import { COLORS } from '../../ducks/Chart/colors'
 import { sortBy } from '../../utils/sortMethods'
 import ViewBalanceDialog from '../WalletLink/ViewBalanceDialog'
+import { useEthPieChart } from '../../ducks/Eth2.0/utils'
+import { DashboardIntervals } from '../DashboardMetricChart/DashboardChartHeader/DashboardChartHeaderWrapper'
+import {
+  ETH2_INTERVAL_SELECTORS,
+  INTERVAL_30_DAYS
+} from '../DashboardMetricChart/utils'
+import { useChartSettings } from '../DashboardMetricChart/DashboardMetricChart'
 import styles from './DashPieChart.module.scss'
 
 const PIE_COLORS = COLORS
 
 const SORTER = sortBy('value')
 
-const DashPieChart = ({ rawData: chartData, loading }) => {
+const DashPieChart = ({
+  query,
+  defaultInterval = INTERVAL_30_DAYS,
+  intervals = ETH2_INTERVAL_SELECTORS
+}) => {
   const currDate = new Date()
   const { MMM, D } = getDateFormats(currDate)
   const { H, mm } = getTimeFormats(currDate)
 
+  const { intervalSelector, onChangeInterval, settings } = useChartSettings(
+    defaultInterval
+  )
+
+  const { data: chartData, loading } = useEthPieChart(query, settings)
+
   return (
     <>
+      <DashboardIntervals
+        interval={intervalSelector}
+        setInterval={onChangeInterval}
+        intervals={intervals}
+      />
       <Skeleton repeat={1} className={styles.skeleton} show={loading} />
       {!loading && (
         <div className={styles.wrapper}>

@@ -1,8 +1,10 @@
 import { useMemo } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 
-export const useEthPieChart = QUERY => {
-  const { data, loading, error } = useQuery(QUERY)
+export const useEthPieChart = (QUERY, settings) => {
+  const { data, loading, error } = useQuery(QUERY, {
+    variables: settings
+  })
 
   return useMemo(
     () => {

@@ -50,6 +50,12 @@ export const INTERVAL_3_MONTHS = makeIntervalSelectors({
   interval: '8h'
 })
 
+const INTERVAL_DAY = makeIntervalSelectors({
+  val: '1d',
+  label: '1D',
+  interval: '15m'
+})
+
 export const NON_DAILY_INTERVAL_SELECTORS = [
   makeIntervalSelectors({ val: '1w', label: '1W', interval: '1h' }),
   INTERVAL_30_DAYS,
@@ -64,13 +70,22 @@ export const NON_DAILY_INTERVAL_SELECTORS = [
   })
 ]
 
+export const ETH2_INTERVAL_SELECTORS = [
+  INTERVAL_DAY,
+  makeIntervalSelectors({ val: '1w', label: '1W', interval: '1h' }),
+  INTERVAL_30_DAYS,
+  INTERVAL_3_MONTHS,
+  INTERVAL_6_MONTHS,
+  makeIntervalSelectors({ val: '1y', label: '1Y', interval: '1d' })
+]
+
 export const DEFAULT_INTERVAL_SELECTORS = [
-  makeIntervalSelectors({ val: '1d', label: '1D', interval: '15m' }),
+  INTERVAL_DAY,
   ...NON_DAILY_INTERVAL_SELECTORS
 ]
 
 export const DEX_INTERVAL_SELECTORS = [
-  makeIntervalSelectors({ val: '1d', label: '1D', interval: '15m' }),
+  INTERVAL_DAY,
   makeIntervalSelectors({ val: '1w', label: '1W', interval: '1h' }),
   INTERVAL_30_DAYS,
   makeIntervalSelectors({ val: '90d', label: '3M', interval: '8h' }),

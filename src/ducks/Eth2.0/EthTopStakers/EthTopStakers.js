@@ -1,14 +1,13 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import DashPieChart from '../../../components/DashPieChart/DashPieChart'
-import { useEthPieChart } from '../utils'
 
 const ETH_TOP_STAKERS_QUERY = gql`
-  query {
+  query getMetric($from: DateTime!) {
     getMetric(metric: "eth2_top_stakers") {
       histogramData(
         selector: { slug: "ethereum" }
-        from: "utc_now-70d"
+        from: $from
         to: "utc_now"
         limit: 10
       ) {
@@ -26,10 +25,6 @@ const ETH_TOP_STAKERS_QUERY = gql`
   }
 `
 
-const EthTopStakers = () => {
-  const { data, loading } = useEthPieChart(ETH_TOP_STAKERS_QUERY)
-
-  return <DashPieChart rawData={data} loading={loading} />
-}
+const EthTopStakers = () => <DashPieChart query={ETH_TOP_STAKERS_QUERY} />
 
 export default EthTopStakers

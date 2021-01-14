@@ -1,14 +1,13 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import DashPieChart from '../../../components/DashPieChart/DashPieChart'
-import { useEthPieChart } from '../utils'
 
 const ETH2_STAKED_PER_LABEL_QUERY = gql`
-  query {
+  query getMetric($from: DateTime!) {
     getMetric(metric: "eth2_staked_amount_per_label") {
       histogramData(
         selector: { slug: "ethereum" }
-        from: "utc_now-70d"
+        from: $from
         to: "utc_now"
       ) {
         values {
@@ -25,10 +24,8 @@ const ETH2_STAKED_PER_LABEL_QUERY = gql`
   }
 `
 
-const EthStakedAmountByLabel = () => {
-  const { data, loading } = useEthPieChart(ETH2_STAKED_PER_LABEL_QUERY)
-
-  return <DashPieChart rawData={data} loading={loading} />
-}
+const EthStakedAmountByLabel = () => (
+  <DashPieChart query={ETH2_STAKED_PER_LABEL_QUERY} />
+)
 
 export default EthStakedAmountByLabel

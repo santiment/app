@@ -57,6 +57,26 @@ const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
   }
 }
 
+export const useChartSettings = defaultInterval => {
+  const [settings, setSettings] = useState({
+    ...defaultInterval.requestParams
+  })
+
+  const [intervalSelector, setIntervalSelector] = useState(defaultInterval)
+
+  const onChangeInterval = useCallback(
+    value => {
+      setSettings(data => {
+        return { ...data, ...value.requestParams }
+      })
+      setIntervalSelector(value)
+    },
+    [setSettings, setIntervalSelector]
+  )
+
+  return { settings, intervalSelector, setSettings, onChangeInterval }
+}
+
 const DashboardMetricChart = ({
   metrics,
   metricSettingsMap,
@@ -86,22 +106,13 @@ const DashboardMetricChart = ({
     [metrics]
   )
 
-  const [settings, setSettings] = useState({
-    ...defaultInterval.requestParams
-  })
-
-  const [intervalSelector, setIntervalSelector] = useState(defaultInterval)
+  const {
+    intervalSelector,
+    settings,
+    setSettings,
+    onChangeInterval
+  } = useChartSettings(defaultInterval)
   const [disabledMetrics, setDisabledMetrics] = useState({})
-
-  const onChangeInterval = useCallback(
-    value => {
-      setSettings(data => {
-        return { ...data, ...value.requestParams }
-      })
-      setIntervalSelector(value)
-    },
-    [setSettings, setIntervalSelector]
-  )
 
   const activeMetrics = useMemo(
     () => metrics.filter(({ key }) => !disabledMetrics[key]),

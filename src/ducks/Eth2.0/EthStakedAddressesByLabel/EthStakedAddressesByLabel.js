@@ -1,7 +1,6 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import DashPieChart from '../../../components/DashPieChart/DashPieChart'
-import { useEthPieChart } from '../utils'
 
 const ETH2_STAKED_ADDRESSES_PER_LABEL_QUERY = gql`
   query {
@@ -24,12 +23,8 @@ const ETH2_STAKED_ADDRESSES_PER_LABEL_QUERY = gql`
   }
 `
 
-const EthStakedAddressesByLabel = () => {
-  const { data, loading } = useEthPieChart(
-    ETH2_STAKED_ADDRESSES_PER_LABEL_QUERY
-  )
-
-  return <DashPieChart rawData={data} loading={loading} />
-}
+const EthStakedAddressesByLabel = () => (
+  <DashPieChart query={ETH2_STAKED_ADDRESSES_PER_LABEL_QUERY} />
+)
 
 export default EthStakedAddressesByLabel
