@@ -1,0 +1,61 @@
+.word {
+  color: var(--rhino);
+}
+
+.change {
+  display: flex;
+
+  &__percent {
+    margin-left: 10px;
+  }
+}
+
+.cloud {
+  padding: 0 !important;
+
+  &__words {
+    height: 80px;
+  }
+}
+
+.chart {
+  --chart-stroke: var(--malibu);
+  --chart-fill: url(#trend-social-volume);
+}
+
+.table {
+  :global {
+    border-bottom: 1px solid var(--porcelain);
+
+    td {
+      border-top: 1px solid var(--porcelain);
+    }
+
+    tr {
+      td {
+        &:first-child {
+          border-left: 1px solid var(--porcelain);
+        }
+
+        &:last-child {
+          border-right: 1px solid var(--porcelain);
+        }
+      }
+    }
+
+    tbody tr {
+      height: 80px;
+      background: var(--white);
+      cursor: pointer;
+
+      &:hover {
+        background: var(--athens);
+
+        /* stylelint-disable-next-line */
+        :local(.word) {
+          color: var(--jungle-green);
+        }
+      }
+    }
+  }
+}

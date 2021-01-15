@@ -1,17 +1,38 @@
 import React from 'react'
-import { useTrendSocialVolumeChange } from './hooks'
+import { Link } from 'react-router-dom'
+import { useTrendSocialVolume, useTrendSocialVolumeChange } from './hooks'
 import { prepareColumns } from '../_Table'
 import { INDEX_COLUMN } from '../_Table/columns'
 import PercentChanges from '../../components/PercentChanges'
+import MiniChart from '../../components/MiniChart'
+import WordCloud from '../../components/WordCloud/WordCloud'
+import styles from './index.module.scss'
 
 const SocialVolumeChange = ({ trend }) => {
   const { value, change } = useTrendSocialVolumeChange(trend)
 
   return (
-    <>
+    <div className={styles.change}>
       {value}
-      <PercentChanges changes={change} />
-    </>
+      <PercentChanges changes={change} className={styles.change__percent} />
+    </div>
+  )
+}
+
+const SocialVolumeChart = ({ trend }) => {
+  const { data } = useTrendSocialVolume(trend)
+
+  return (
+    <MiniChart
+      className={styles.chart}
+      height={45}
+      width={120}
+      data={data}
+      valueKey='value'
+      gradientId='trend-social-volume'
+      gradientColor='malibu'
+      gradientOpacity='0.7'
+    />
   )
 }
 
@@ -19,7 +40,11 @@ export const COLUMNS = [INDEX_COLUMN].concat(
   prepareColumns([
     {
       title: 'Trending word',
-      render: ({ word }) => word
+      render: ({ word }) => (
+        <Link className={styles.word} to={`/labs/trends/explore/${word}`}>
+          {word}
+        </Link>
+      )
     },
     {
       title: 'Soc. vol., 24h',
@@ -27,11 +52,14 @@ export const COLUMNS = [INDEX_COLUMN].concat(
     },
     {
       title: 'Trending chart, 7d',
-      render: () => 123
+      render: trend => <SocialVolumeChart trend={trend} />
     },
     {
       title: 'Connected words',
-      render: () => 123
+      className: styles.cloud,
+      render: ({ word }) => (
+        <WordCloud className={styles.cloud__words} size={6} word={word} />
+      )
     }
   ])
 )

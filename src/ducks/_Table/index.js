@@ -32,7 +32,8 @@ const Table = ({
   itemKeyProperty,
   itemProps,
   isLoading,
-  getItemKey
+  getItemKey,
+  onRowClick
 }) => (
   <table className={cx(styles.wrapper, className)}>
     <thead>
@@ -45,8 +46,12 @@ const Table = ({
     <tbody>
       {items.map((item, i) => {
         const itemIndex = offset + i
+
         return (
-          <tr key={getItemKey ? getItemKey(item) : item[itemKeyProperty]}>
+          <tr
+            key={getItemKey ? getItemKey(item) : item[itemKeyProperty]}
+            onClick={onRowClick && (e => onRowClick(item, e))}
+          >
             {columns.map(({ id, render, className }) => (
               <td key={id} className={className}>
                 {render(item, itemProps, itemIndex)}
