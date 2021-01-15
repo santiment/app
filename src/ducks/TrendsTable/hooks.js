@@ -8,8 +8,8 @@ import {
 import { calcPercentageChange } from '../../utils/utils'
 
 const ARRAY = []
-export const useTrendingWords = () => {
-  const { data, loading } = useQuery(TRENDING_WORDS_QUERY)
+export const useTrendingWords = variables => {
+  const { data, loading } = useQuery(TRENDING_WORDS_QUERY, { variables })
 
   let trendingWords = ARRAY
   if (data) {

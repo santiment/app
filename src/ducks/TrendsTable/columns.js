@@ -41,6 +41,13 @@ const SocialVolumeChart = ({ trend }) => {
   )
 }
 
+export const Column = {
+  INDEX: INDEX_COLUMN.id,
+  SOCIAL_VOLUME: 'Soc. vol., 24h',
+  TRENDING_CHART: 'Trending chart, 7d',
+  CONNECTED_WORDS: 'Connected words'
+}
+
 export const COLUMNS = [INDEX_COLUMN].concat(
   prepareColumns([
     {
@@ -52,15 +59,15 @@ export const COLUMNS = [INDEX_COLUMN].concat(
       )
     },
     {
-      title: 'Soc. vol., 24h',
+      title: Column.SOCIAL_VOLUME,
       render: trend => <SocialVolumeChange trend={trend} />
     },
     {
-      title: 'Trending chart, 7d',
+      title: Column.TRENDING_CHART,
       render: trend => <SocialVolumeChart trend={trend} />
     },
     {
-      title: 'Connected words',
+      title: Column.CONNECTED_WORDS,
       className: styles.cloud,
       render: ({ word }) => (
         <WordCloud className={styles.cloud__words} size={6} word={word} />

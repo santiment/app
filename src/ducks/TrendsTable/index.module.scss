@@ -1,6 +1,8 @@
+@import '~@santiment-network/ui/mixins';
+/* stylelint-disable */
+
 .word {
   color: var(--rhino);
-  font-weight: 600;
 }
 
 .change {
@@ -30,9 +32,11 @@
 }
 
 .table {
-  :global {
-    border-bottom: 1px solid var(--porcelain);
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  background: var(--white);
 
+  :global {
     th {
       font-size: 14px;
       font-weight: 600;
@@ -43,31 +47,34 @@
       font-size: 16px;
     }
 
-    tr {
-      td {
-        &:first-child {
-          border-left: 1px solid var(--porcelain);
-        }
-
-        &:last-child {
-          border-right: 1px solid var(--porcelain);
-        }
-      }
-    }
-
     tbody tr {
       height: 80px;
-      background: var(--white);
       cursor: pointer;
 
       &:hover {
         background: var(--athens);
 
-        /* stylelint-disable-next-line */
         :local(.word) {
           color: var(--jungle-green);
         }
       }
+    }
+  }
+}
+
+.compact {
+  :global {
+    tbody tr {
+      height: 60px !important;
+    }
+
+    th {
+      border-bottom: 1px solid var(--porcelain);
+    }
+
+    td {
+      border: none;
+      font-size: 14px;
     }
   }
 }

@@ -1,13 +1,12 @@
 import gql from 'graphql-tag'
 
 export const TRENDING_WORDS_QUERY = gql`
-  query {
-    getTrendingWords(
-      size: 10
-      from: "utc_now-1h"
-      to: "utc_now"
-      interval: "1h"
-    ) {
+  query getTrendingWords(
+    $from: DateTime = "utc_now-1h"
+    $to: DateTime = "utc_now"
+    $interval: interval = "1h"
+  ) {
+    getTrendingWords(size: 10, from: $from, to: $to, interval: $interval) {
       topWords {
         score
         word

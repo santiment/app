@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 const SET = new Set()
 export function useSelectedItemsSet (items) {
@@ -28,4 +28,17 @@ export function useSelectedItemsSet (items) {
     selectAll,
     isAllItemSelected: selectedItemsSet.size === items.length
   }
+}
+
+const ARRAY = []
+export function useColumns (allColumns, hiddenColumnIds = ARRAY) {
+  return useMemo(
+    () => {
+      if (hiddenColumnIds.length === 0) return allColumns
+
+      const hiddenSet = new Set(hiddenColumnIds)
+      return allColumns.filter(({ id }) => !hiddenSet.has(id))
+    },
+    [hiddenColumnIds]
+  )
 }
