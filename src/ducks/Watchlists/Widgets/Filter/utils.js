@@ -1,25 +1,4 @@
-import { Metric, MetricAlias } from './dataHub/metrics'
 import { DEFAULT_SCREENER_FUNCTION } from '../../utils'
-
-export function getActiveBaseMetrics (filter) {
-  const activeMetrics = new Set(
-    filter.map(({ args: { metric }, name }) => {
-      if (!metric) {
-        return Metric[name]
-      }
-
-      const transformedMetricIndex = metric.indexOf('_change_')
-      const baseMetricKey =
-        transformedMetricIndex === -1
-          ? metric
-          : metric.substring(0, transformedMetricIndex)
-
-      return Metric[baseMetricKey] || MetricAlias[baseMetricKey]
-    })
-  )
-
-  return [...activeMetrics]
-}
 
 export function getNewFunction (filter, baseProjects = []) {
   const args = { filters: filter }
@@ -68,4 +47,15 @@ export function filterMetricsBySearch (value = '', metrics) {
   })
 
   return passedMetrics
+}
+
+export function buildFunction ({ func, pagination, orderBy }) {
+  if (func.name === DEFAULT_SCREENER_FUNCTION.name) {
+    return { args: { pagination, orderBy, filters: [] }, name: 'selector' }
+  } else {
+    return {
+      ...func,
+      args: { pagination, orderBy, ...func.args }
+    }
+  }
 }

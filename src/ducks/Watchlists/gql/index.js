@@ -1,10 +1,7 @@
 import gql from 'graphql-tag'
 import { client } from '../../../apollo'
-import {
-  generalData,
-  project,
-  PROJECT_RECENT_DATA_FRAGMENT
-} from './allProjectsGQL'
+import { generalData, PROJECT_RECENT_DATA_FRAGMENT } from './allProjectsGQL'
+import { AGGREGATION_TYPES } from '../../GetTimeSeries/queries/get_metric'
 
 export const WATCHLIST_GENERAL_FRAGMENT = gql`
   fragment generalListData on UserList {
@@ -138,22 +135,6 @@ export const UPDATE_WATCHLIST_MUTATION = gql`
   ${PROJECT_RECENT_DATA_FRAGMENT}
 `
 
-export const PROJECTS_BY_FUNCTION_QUERY = gql`
-  query allProjectsByFunction($fn: json) {
-    allProjectsByFunction(function: $fn) {
-      projects {
-        ...generalData
-        ...project
-      }
-      stats {
-        projectsCount
-      }
-    }
-  }
-  ${generalData}
-  ${project}
-`
-
 export const PRICE_GRAPH_QUERY = gql`
   query getMetric(
     $selector: MetricTargetSelectorInputObject
@@ -186,3 +167,31 @@ export const getRecentWatchlist = id =>
       }
     })
     .then(({ data = {} }) => data.watchlist)
+
+export function organizeTableQuery (columns, staticColumns) {
+  return gql`
+  query allProjectsByFunction($fn: json) {
+    allProjectsByFunction(function: $fn) {
+      projects {
+        ...generalData
+        ${staticColumns}
+        ${columns.map(
+    column =>
+      `${column.key}: aggregatedTimeseriesData(
+              metric: "${column.key}"
+              from: "utc_now-${column.defaultTimeRange || '1d'}"
+              to: "utc_now"
+              aggregation: ${
+  AGGREGATION_TYPES[(column.aggregation || 'last').toUpperCase()]
+}
+            )`
+  )}
+      }
+      stats {
+        projectsCount
+      }
+    }
+  }
+  ${generalData}
+`
+}

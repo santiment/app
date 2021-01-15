@@ -75,7 +75,7 @@ const Table = ({
     previousPage,
     setPageSize,
     selectedFlatRows,
-    state: { pageIndex, pageSize }
+    state: { pageIndex, pageSize, sortBy }
   } = useTable(
     {
       columns,
@@ -138,9 +138,9 @@ const Table = ({
 
   useEffect(
     () => {
-      fetchData({ pageIndex, pageSize })
+      fetchData({ pageIndex, pageSize, sortBy })
     },
-    [fetchData, pageIndex, pageSize]
+    [fetchData, pageIndex, pageSize, sortBy]
   )
 
   return (

@@ -1,5 +1,4 @@
 import { Operator, Filter } from './dataHub/types'
-import { DEFAULT_TIMERANGES } from './defaults'
 
 export const isContainMetric = (item, key) =>
   item.includes(`${key}_change_`) || item === key
@@ -113,18 +112,4 @@ function extractThreshold (filter = [], filterType, metric, position) {
   const formatter = filterType.valueFormatter || metric.valueFormatter
 
   return formatter ? formatter(threshold) : threshold
-}
-
-export function getTimeRangesByMetric (baseMetric, availableMetrics = []) {
-  const metrics = availableMetrics.filter(metric =>
-    metric.includes(`${baseMetric.percentMetricKey || baseMetric.key}_change_`)
-  )
-  const timeRanges = metrics.map(metric =>
-    metric.replace(
-      `${baseMetric.percentMetricKey || baseMetric.key}_change_`,
-      ''
-    )
-  )
-
-  return DEFAULT_TIMERANGES.filter(({ type }) => timeRanges.includes(type))
 }

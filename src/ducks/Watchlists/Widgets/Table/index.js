@@ -28,14 +28,6 @@ const AssetsTable = ({
 
   const [graphData] = usePriceGraph({ slugs: visibleItems })
 
-  const shownColumns = useMemo(
-    () => {
-      return COLUMNS.filter(
-        ({ id }) => columns[id].show && ASSETS_TABLE_COLUMNS.includes(id)
-      )
-    },
-    [columns]
-  )
   const data = useMemo(() => normalizeData(graphData, items), [
     graphData,
     items
@@ -56,7 +48,7 @@ const AssetsTable = ({
       />
       <Table
         data={data}
-        columns={shownColumns}
+        columns={columns}
         fetchData={fetchData}
         options={{
           noDataSettings: {

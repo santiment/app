@@ -3,7 +3,7 @@ import TypeDropdown from './TypeDropdown'
 import TimeRangeDropdown from './TimeRangeDropdown'
 import ValueInput from './ValueInput'
 import { Filter } from '../../dataHub/types'
-import { DEFAULT_TIMERANGES } from '../../defaults'
+import { DEFAULT_TIMERANGES } from '../../dataHub/timeranges'
 import Suggestions from '../Suggestions'
 import styles from './index.module.scss'
 

@@ -5,6 +5,7 @@ import {
   percentValueFormatter,
   percentServerValueFormatter
 } from '../formatters'
+import { DEFAULT_TIMERANGES } from './timeranges'
 
 export const Metric = {
   price_usd: {
@@ -42,6 +43,7 @@ export const Metric = {
     label: 'Daily Active Addresses',
     percentMetricKey: 'active_addresses_24h',
     aggregation: 'avg',
+    defaultTimeRange: '30d',
     showTimeRange: true
   },
   transaction_volume: {
@@ -495,7 +497,6 @@ export const metrics = [
   Metric.sentiment_balance_total,
   Metric.mean_dollar_invested_age,
   Metric.percent_of_total_supply_on_exchanges,
-  // flow metrics
   Metric.dex_traders_to_cexes_flow,
   Metric.dex_traders_to_dexes_flow,
   Metric.dex_traders_to_defi_flow,
@@ -537,4 +538,38 @@ export const MetricAlias = {
   active_addresses_24h: Metric.daily_active_addresses,
   dev_activity: Metric.dev_activity_1d,
   age_destroyed: Metric.age_consumed
+}
+
+export function getActiveBaseMetrics (filter) {
+  const activeMetrics = new Set(
+    filter.map(({ args: { metric }, name }) => {
+      return metric ? getBaseMetric(metric) : Metric[name]
+    })
+  )
+
+  return [...activeMetrics]
+}
+
+export function getBaseMetric (metric) {
+  const transformedMetricIndex = metric.indexOf('_change_')
+  const baseMetricKey =
+    transformedMetricIndex === -1
+      ? metric
+      : metric.substring(0, transformedMetricIndex)
+
+  return Metric[baseMetricKey] || MetricAlias[baseMetricKey]
+}
+
+export function getTimeRangesByMetric (baseMetric, availableMetrics = []) {
+  const metrics = availableMetrics.filter(metric =>
+    metric.includes(`${baseMetric.percentMetricKey || baseMetric.key}_change_`)
+  )
+  const timeRanges = metrics.map(metric =>
+    metric.replace(
+      `${baseMetric.percentMetricKey || baseMetric.key}_change_`,
+      ''
+    )
+  )
+
+  return DEFAULT_TIMERANGES.filter(({ type }) => timeRanges.includes(type))
 }
