@@ -5,11 +5,12 @@ import TrendsTable from '../../ducks/TrendsTable'
 import GetHypedTrends from './GetHypedTrends'
 
 const Trends = ({ className, slice, ...props }) => {
+  return <TrendsTable className={className} />
+
   return (
     <GetHypedTrends
       render={({ isLoading, items }) => (
         <>
-          <TrendsTable data={items} />
           <div className={className}>
             <TrendsTablesWrapper
               trends={slice(items)}

@@ -12,13 +12,19 @@ export function prepareColumns (columns) {
   return columns
 }
 
-function minRowsPadding (minRows, { length }) {
+function minRowsPadding (minRows, columns, { length }) {
   if (length >= minRows) return null
 
   const rowsToAdd = minRows - length
   const rows = new Array(rowsToAdd)
   for (let i = 0; i < rowsToAdd; i++) {
-    rows[i] = <tr key={i} />
+    rows[i] = (
+      <tr key={i}>
+        {columns.map((_, i) => (
+          <td key={i} />
+        ))}
+      </tr>
+    )
   }
   return rows
 }
@@ -60,7 +66,7 @@ const Table = ({
           </tr>
         )
       })}
-      {minRowsPadding(minRows, items)}
+      {minRowsPadding(minRows, columns, items)}
     </tbody>
     <caption>
       <Skeleton show={isLoading} className={styles.skeleton} />

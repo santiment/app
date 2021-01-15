@@ -6,6 +6,7 @@ import { INDEX_COLUMN } from '../_Table/columns'
 import PercentChanges from '../../components/PercentChanges'
 import MiniChart from '../../components/MiniChart'
 import WordCloud from '../../components/WordCloud/WordCloud'
+import { Skeleton } from '../../components/Skeleton'
 import styles from './index.module.scss'
 
 const SocialVolumeChange = ({ trend }) => {
@@ -14,15 +15,19 @@ const SocialVolumeChange = ({ trend }) => {
   return (
     <div className={styles.change}>
       {value}
-      <PercentChanges changes={change} className={styles.change__percent} />
+      {change && (
+        <PercentChanges changes={change} className={styles.change__percent} />
+      )}
     </div>
   )
 }
 
 const SocialVolumeChart = ({ trend }) => {
-  const { data } = useTrendSocialVolume(trend)
+  const { data, isLoading } = useTrendSocialVolume(trend)
 
-  return (
+  return isLoading ? (
+    <Skeleton show className={styles.chart__skeleton} />
+  ) : (
     <MiniChart
       className={styles.chart}
       height={45}

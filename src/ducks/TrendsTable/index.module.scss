@@ -1,5 +1,6 @@
 .word {
   color: var(--rhino);
+  font-weight: 600;
 }
 
 .change {
@@ -21,14 +22,25 @@
 .chart {
   --chart-stroke: var(--malibu);
   --chart-fill: url(#trend-social-volume);
+
+  &__skeleton {
+    height: 40px;
+    width: 120px;
+  }
 }
 
 .table {
   :global {
     border-bottom: 1px solid var(--porcelain);
 
+    th {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
     td {
       border-top: 1px solid var(--porcelain);
+      font-size: 16px;
     }
 
     tr {

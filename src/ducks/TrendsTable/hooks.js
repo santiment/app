@@ -27,13 +27,18 @@ export const useTrendSocialVolumeChange = trend => {
 
   return useMemo(
     () => {
-      if (!data) return {}
-
       const { score } = trend
-      const lastScore = data.getMetric.timeseriesData[0].value
+      const value = Math.round(score)
 
+      if (!data) {
+        return {
+          value
+        }
+      }
+
+      const lastScore = data.getMetric.timeseriesData[0].value
       return {
-        value: Math.round(score),
+        value,
         change: calcPercentageChange(lastScore, score)
       }
     },
