@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 import { useTrendSocialVolume, useTrendSocialVolumeChange } from './hooks'
 import { prepareColumns } from '../_Table'
 import { INDEX_COLUMN } from '../_Table/columns'
-import PercentChanges from '../../components/PercentChanges'
-import MiniChart from '../../components/MiniChart'
-import WordCloud from '../../components/WordCloud/WordCloud'
 import { Skeleton } from '../../components/Skeleton'
+import MiniChart from '../../components/MiniChart'
+import PercentChanges from '../../components/PercentChanges'
+import WordCloud from '../../components/WordCloud/WordCloud'
 import styles from './index.module.scss'
 
 const SocialVolumeChange = ({ trend }) => {
