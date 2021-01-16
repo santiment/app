@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react'
-import { DEFAULT_SORTING } from './Columns/defaults'
 import TableTop from './TableTop'
 import Table from '../../../Table'
 import { usePriceGraph } from './PriceGraph/hooks'
@@ -19,8 +18,12 @@ const AssetsTable = ({
   columns,
   toggleColumn,
   pageSize,
-  pageIndex
+  pageIndex,
+  sorting
 }) => {
+  const defaultSorting = [
+    { id: sorting.metric, desc: sorting.direction === 'desc' }
+  ]
   const { comparingAssets = [], updateAssets } = useComparingAssets()
   const slugs = useMemo(() => items.map(({ slug }) => slug), [items])
   const [graphData] = usePriceGraph({ slugs })
@@ -57,7 +60,7 @@ const AssetsTable = ({
             isLoading: loading && items.length === 0
           },
           sortingSettings: {
-            defaultSorting: DEFAULT_SORTING,
+            defaultSorting,
             allowSort: true
           },
           stickySettings: {

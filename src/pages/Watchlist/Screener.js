@@ -14,13 +14,13 @@ import { buildFunction } from '../../ducks/Watchlists/Widgets/Filter/utils'
 import Infographics from './Infographics'
 import {
   activeDynamicColumnsKeys,
-  orderBy,
-  activeStaticColumnsKeys
+  activeStaticColumnsKeys,
+  DEFAULT_ORDER_BY,
+  DIRECTIONS
 } from '../../ducks/Watchlists/Widgets/Table/Columns/defaults'
 import { addRecentScreeners } from '../../utils/recent'
 import { useUser } from '../../stores/user'
 import { organizeTableQuery } from '../../ducks/Watchlists/gql'
-import { DIRECTIONS } from '../../ducks/Watchlists/Widgets/Table/Columns/directions'
 import { collectActiveDynamicColumns } from '../../ducks/Watchlists/Widgets/Table/Columns/utils'
 import {
   DEFAULT_COLUMNS,
@@ -41,26 +41,26 @@ const Screener = ({
 }) => {
   const defaultPagination = { page: 1, pageSize: +pageSize }
   const [pagination, setPagination] = useState(defaultPagination)
-  const activeDynamicColumns = useMemo(
+  const [orderBy, setOrderBy] = useState(DEFAULT_ORDER_BY)
+  const activeDynamicColumnsObj = useMemo(
     () => collectActiveDynamicColumns(activeDynamicColumnsKeys),
     [activeDynamicColumnsKeys]
+  )
+  const activeDynamicColumns = useMemo(
+    () => Object.values(activeDynamicColumnsObj),
+    [activeDynamicColumnsObj]
   )
   const columns = [
     ...DEFAULT_COLUMNS,
     ...STATIC_COLUMNS,
     ...activeDynamicColumns
   ]
-  const [sortingDirection, setSortingDirection] = useState(DIRECTIONS.DESC)
   const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist()
   const [screenerFunction, setScreenerFunction] = useState(
     watchlist.function || DEFAULT_FUNCTION
   )
   const { assets = [], projectsCount, loading } = getProjectsByFunction(
-    buildFunction({
-      func: screenerFunction,
-      pagination,
-      orderBy: { ...orderBy, direction: sortingDirection }
-    }),
+    buildFunction({ func: screenerFunction, pagination, orderBy }),
     organizeTableQuery(activeDynamicColumns, activeStaticColumnsKeys)
   )
   const { user = {}, loading: userLoading } = useUser()
@@ -87,7 +87,7 @@ const Screener = ({
         refetchAssets()
       }
     },
-    [sortingDirection]
+    [orderBy]
   )
 
   useEffect(
@@ -122,21 +122,23 @@ const Screener = ({
   const refetchAssets = () => {
     setTableLoading(true)
     getAssetsByFunction(
-      buildFunction({
-        func: screenerFunction,
-        pagination,
-        orderBy: { ...orderBy, direction: sortingDirection }
-      }),
+      buildFunction({ func: screenerFunction, pagination, orderBy }),
       organizeTableQuery(activeDynamicColumns, activeStaticColumnsKeys),
       'network-only'
     ).then(() => setTableLoading(false))
   }
 
   const fetchData = useCallback(({ pageSize, pageIndex, sortBy }) => {
-    const newSortingDirection = sortBy[0].desc
-      ? DIRECTIONS.DESC
-      : DIRECTIONS.ASC
-    setSortingDirection(newSortingDirection)
+    const { id, desc } = sortBy[0]
+    const { timeRange, aggregation } = activeDynamicColumnsObj[id]
+    const newDirection = desc ? DIRECTIONS.DESC : DIRECTIONS.ASC
+    setOrderBy({
+      metric: id,
+      aggregation,
+      dynamicTo: 'now',
+      dynamicFrom: timeRange,
+      direction: newDirection
+    })
     setPagination({ pageSize: +pageSize, page: +pageIndex + 1 })
   }, [])
 
@@ -187,6 +189,7 @@ const Screener = ({
         pageSize={pagination.pageSize}
         pageIndex={pagination.page - 1}
         columns={columns}
+        sorting={orderBy}
         toggleColumn={() => {}}
       />
     </>

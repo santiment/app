@@ -14,7 +14,7 @@ export function buildColumnsFromMetricKey (
   baseMetricKey,
   availableMetrics = []
 ) {
-  const columns = []
+  const columnsObj = {}
   const baseMetric = Metric[baseMetricKey]
   const baseMetricKeyWithSuffix = `${baseMetric.percentMetricKey ||
     baseMetric.key}${METRIC_PERCENT_SUFFIX}`
@@ -28,20 +28,18 @@ export function buildColumnsFromMetricKey (
     const formatter =
       baseMetric.tableColumnFormatter ||
       (value => `${badge}${defaultFormatter(value)}`)
-    const baseMetricColumn = {
-      accessor: baseMetric.key,
+    columnsObj[baseMetricKey] = {
+      accessor: baseMetricKey,
       Header: `${label}${defaultTimeRange ? `, ${defaultTimeRange}` : ''}`,
       aggregation: baseMetric.aggregation || AGGREGATIONS_LOWER.LAST,
       timeRange: defaultTimeRange || '1d',
       Cell: ({ value }) => (isValid(value) ? formatter(value) : NO_DATA)
     }
-
-    columns.push(baseMetricColumn)
   }
 
   percentMetricsKeys.forEach(key => {
     const timeRange = key.replace(baseMetricKeyWithSuffix, EMPTY_STR)
-    const column = {
+    columnsObj[key] = {
       accessor: key,
       Header: `${label}, ${timeRange} %`,
       aggregation: AGGREGATIONS_LOWER.LAST,
@@ -53,19 +51,18 @@ export function buildColumnsFromMetricKey (
           NO_DATA
         )
     }
-
-    columns.push(column)
   })
 
-  return columns
+  return columnsObj
 }
 
 export function collectActiveDynamicColumns (activeDynamicColumnsKeys) {
-  const dynamicColumns = []
+  const dynamicColumns = {}
   const baseKeys = activeDynamicColumnsKeys.filter(key => !!Metric[key])
   baseKeys.forEach(key =>
-    dynamicColumns.push(
-      ...buildColumnsFromMetricKey(key, activeDynamicColumnsKeys)
+    Object.assign(
+      dynamicColumns,
+      buildColumnsFromMetricKey(key, activeDynamicColumnsKeys)
     )
   )
 
