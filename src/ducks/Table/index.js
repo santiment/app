@@ -32,7 +32,6 @@ const Table = ({
     pageSize: initialPageSize,
     pageIndex: initialPageIndex,
     pageSizeOptions = [10, 25, 50],
-    onChangeVisibleItems,
     controlledPageCount,
     manualPagination
   } = paginationSettings || {}
@@ -117,15 +116,6 @@ const Table = ({
     previousPage,
     pageSizeOptions
   }
-
-  useEffect(
-    () => {
-      if (onChangeVisibleItems) {
-        onChangeVisibleItems({ pageIndex, pageSize, rows })
-      }
-    },
-    [pageIndex, pageSize, rows]
-  )
 
   useEffect(
     () => {

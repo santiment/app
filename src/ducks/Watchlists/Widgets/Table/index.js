@@ -2,14 +2,13 @@ import React, { useMemo } from 'react'
 import { DEFAULT_SORTING } from './Columns/defaults'
 import TableTop from './TableTop'
 import Table from '../../../Table'
-import { useVisibleItems } from './hooks'
 import { usePriceGraph } from './PriceGraph/hooks'
 import { normalizeGraphData as normalizeData } from './PriceGraph/utils'
 import { useComparingAssets } from './CompareDialog/hooks'
 import styles from './index.module.scss'
 
 const AssetsTable = ({
-  items,
+  items = [],
   loading,
   type,
   listName,
@@ -22,11 +21,9 @@ const AssetsTable = ({
   pageSize,
   pageIndex
 }) => {
-  const { visibleItems, changeVisibleItems } = useVisibleItems()
   const { comparingAssets = [], updateAssets } = useComparingAssets()
-
-  const [graphData] = usePriceGraph({ slugs: visibleItems })
-
+  const slugs = useMemo(() => items.map(({ slug }) => slug), [items])
+  const [graphData] = usePriceGraph({ slugs })
   const data = useMemo(() => normalizeData(graphData, items), [
     graphData,
     items
@@ -72,7 +69,6 @@ const AssetsTable = ({
             pageSize,
             pageIndex,
             pageSizeOptions: [10, 20, 50, 100],
-            onChangeVisibleItems: changeVisibleItems,
             controlledPageCount: Math.ceil(projectsCount / pageSize),
             manualPagination: true
           },
