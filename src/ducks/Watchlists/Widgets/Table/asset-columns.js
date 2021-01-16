@@ -1,15 +1,15 @@
 import React from 'react'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
+import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import { COLUMNS_NAMES } from './columns'
 import { formatNumber, millify } from '../../../../utils/formatting'
 import Project from '../../../../components/Tables/Cells/Project'
 import PercentChanges from '../../../../components/PercentChanges'
 import { Description } from '../../../dataHub/metrics/descriptions'
 import LayoutForAsset from '../../../Studio/Template/LayoutForAsset/LayoutForAsset'
-import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import PriceGraph from './PriceGraph'
-import styles from './new-columns.module.scss'
+import styles from './Columns/columns.module.scss'
 
 const simpleSort = (a, b) => b - a
 

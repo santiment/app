@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import {
-  DEFAULT_SCREENER_FUNCTION,
+  DEFAULT_SCREENER_FUNCTION as DEFAULT_FUNCTION,
   useScreenerUrl
 } from '../../ducks/Watchlists/utils'
 import {
@@ -12,37 +12,23 @@ import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table'
 import { buildFunction } from '../../ducks/Watchlists/Widgets/Filter/utils'
 import Infographics from './Infographics'
-// import { useColumns } from '../../ducks/Watchlists/Widgets/Table/hooks'
-import { COLUMNS } from '../../ducks/Watchlists/Widgets/Table/new-columns'
+import {
+  activeDynamicColumnsKeys,
+  orderBy,
+  activeStaticColumnsKeys
+} from '../../ducks/Watchlists/Widgets/Table/Columns/defaults'
 import { addRecentScreeners } from '../../utils/recent'
 import { useUser } from '../../stores/user'
 import { organizeTableQuery } from '../../ducks/Watchlists/gql'
-import { Metric } from '../../ducks/Watchlists/Widgets/Filter/dataHub/metrics'
+import { DIRECTIONS } from '../../ducks/Watchlists/Widgets/Table/Columns/directions'
+import { collectActiveDynamicColumns } from '../../ducks/Watchlists/Widgets/Table/Columns/utils'
+import {
+  DEFAULT_COLUMNS,
+  STATIC_COLUMNS
+} from '../../ducks/Watchlists/Widgets/Table/Columns/columns'
 import styles from './Screener.module.scss'
 
-const DIRECTIONS = {
-  DESC: 'desc',
-  ASC: 'asc'
-}
-
-const activeDynamicColumns = [
-  Metric.price_usd,
-  Metric.volume_usd,
-  Metric.marketcap_usd,
-  Metric.dev_activity_1d,
-  Metric.daily_active_addresses,
-  {
-    key: 'price_usd_change_1d'
-  },
-  {
-    key: 'volume_usd_change_1d'
-  }
-]
-
-const staticColumns = ['marketSegments', 'rank', 'ethSpent']
-
 const pageSize = 20
-
 const Screener = ({
   watchlist,
   name,
@@ -53,36 +39,33 @@ const Screener = ({
   id,
   isLoading
 }) => {
-  const [
-    updateWatchlist,
-    { loading: isUpdatingWatchlist }
-  ] = useUpdateWatchlist()
-  const [screenerFunction, setScreenerFunction] = useState(
-    watchlist.function || DEFAULT_SCREENER_FUNCTION
-  )
-  // const { columns, toggleColumn, pageSize } = useColumns('Screener')
-  const columns = COLUMNS
   const defaultPagination = { page: 1, pageSize: +pageSize }
-  // const orderBy = { metric: "dev_activity_1d", dynamicFrom: "30d", dynamicTo: "now", aggregation: "avg"}
-  const orderBy = {
-    metric: 'marketcap_usd',
-    dynamicFrom: '1d',
-    dynamicTo: 'now',
-    aggregation: 'last'
-  }
   const [pagination, setPagination] = useState(defaultPagination)
+  const activeDynamicColumns = useMemo(
+    () => collectActiveDynamicColumns(activeDynamicColumnsKeys),
+    [activeDynamicColumnsKeys]
+  )
+  const columns = [
+    ...DEFAULT_COLUMNS,
+    ...STATIC_COLUMNS,
+    ...activeDynamicColumns
+  ]
   const [sortingDirection, setSortingDirection] = useState(DIRECTIONS.DESC)
+  const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist()
+  const [screenerFunction, setScreenerFunction] = useState(
+    watchlist.function || DEFAULT_FUNCTION
+  )
   const { assets = [], projectsCount, loading } = getProjectsByFunction(
     buildFunction({
       func: screenerFunction,
       pagination,
       orderBy: { ...orderBy, direction: sortingDirection }
     }),
-    organizeTableQuery(activeDynamicColumns, staticColumns)
+    organizeTableQuery(activeDynamicColumns, activeStaticColumnsKeys)
   )
   const { user = {}, loading: userLoading } = useUser()
   const [tableLoading, setTableLoading] = useState(true)
-
+  const { widgets, setWidgets } = useScreenerUrl({ location, history })
   const AppElem = document.getElementsByClassName('App')[0]
 
   if (AppElem) {
@@ -109,15 +92,13 @@ const Screener = ({
 
   useEffect(
     () => {
-      if (watchlist.function !== screenerFunction) {
-        if (
-          !watchlist.function &&
-          screenerFunction === DEFAULT_SCREENER_FUNCTION
-        ) {
+      const func = watchlist.function
+      if (func !== screenerFunction) {
+        if (!func && screenerFunction === DEFAULT_FUNCTION) {
           return
         }
 
-        setScreenerFunction(watchlist.function)
+        setScreenerFunction(func)
       }
     },
     [watchlist.function]
@@ -146,7 +127,7 @@ const Screener = ({
         pagination,
         orderBy: { ...orderBy, direction: sortingDirection }
       }),
-      organizeTableQuery(activeDynamicColumns, staticColumns),
+      organizeTableQuery(activeDynamicColumns, activeStaticColumnsKeys),
       'network-only'
     ).then(() => setTableLoading(false))
   }
@@ -159,10 +140,6 @@ const Screener = ({
     setPagination({ pageSize: +pageSize, page: +pageIndex + 1 })
   }, [])
 
-  const { widgets, setWidgets } = useScreenerUrl({ location, history })
-
-  const isAuthor = user && watchlist.user && watchlist.user.id === user.id
-  const isAuthorLoading = userLoading || isLoading
   const title = (watchlist || {}).name || name
 
   return (
@@ -175,12 +152,12 @@ const Screener = ({
         projectsCount={projectsCount}
         loading={tableLoading}
         watchlist={watchlist}
-        isAuthor={isAuthor}
-        isAuthorLoading={isAuthorLoading}
+        isAuthor={user && watchlist.user && watchlist.user.id === user.id}
+        isAuthorLoading={userLoading || isLoading}
         isLoggedIn={isLoggedIn}
         screenerFunction={screenerFunction}
         setScreenerFunction={setScreenerFunction}
-        isUpdatingWatchlist={isUpdatingWatchlist}
+        isUpdatingWatchlist={isUpdating}
         updateWatchlistFunction={updateWatchlistFunction}
         isDefaultScreener={isDefaultScreener}
         history={history}

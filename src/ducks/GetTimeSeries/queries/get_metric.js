@@ -54,6 +54,5 @@ export const useMetric = (settings, metric) => {
 export const AGGREGATION_TYPES = {
   MAX: 'MAX',
   LAST: 'LAST',
-  SUM: 'SUM',
-  AVG: 'AVG'
+  SUM: 'SUM'
 }

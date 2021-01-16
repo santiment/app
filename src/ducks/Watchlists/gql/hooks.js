@@ -213,9 +213,10 @@ export function useUpdateWatchlist () {
 }
 
 export function useAvailableMetrics () {
-  const { data, loading } = useQuery(AVAILABLE_METRICS_QUERY)
-
-  return [data ? data.getAvailableMetrics : [], loading]
+  const { data: { getAvailableMetrics } = {}, loading } = useQuery(
+    AVAILABLE_METRICS_QUERY
+  )
+  return { availableMetrics: getAvailableMetrics, loading }
 }
 
 export function useAvailableSegments () {

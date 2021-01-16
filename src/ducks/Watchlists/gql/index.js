@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 import { client } from '../../../apollo'
 import { generalData, PROJECT_RECENT_DATA_FRAGMENT } from './allProjectsGQL'
-import { AGGREGATION_TYPES } from '../../GetTimeSeries/queries/get_metric'
+import { AGGREGATIONS_UPPER } from '../Widgets/Filter/dataHub/aggregations'
 
 export const WATCHLIST_GENERAL_FRAGMENT = gql`
   fragment generalListData on UserList {
@@ -49,17 +49,6 @@ export const WATCHLIST_SHORT_QUERY = gql`
 export const USER_WATCHLISTS_QUERY = gql`
   query fetchWatchlists {
     fetchWatchlists {
-      ...generalListData
-      ...listShortItems
-    }
-  }
-  ${WATCHLIST_GENERAL_FRAGMENT}
-  ${PROJECT_ITEM_FRAGMENT}
-`
-
-export const FEATURED_WATCHLISTS_QUERY = gql`
-  query featuredWatchlists {
-    featuredWatchlists {
       ...generalListData
       ...listShortItems
     }
@@ -168,21 +157,21 @@ export const getRecentWatchlist = id =>
     })
     .then(({ data = {} }) => data.watchlist)
 
-export function organizeTableQuery (columns, staticColumns) {
+export function organizeTableQuery (dynamicColumns, staticColumns) {
   return gql`
   query allProjectsByFunction($fn: json) {
     allProjectsByFunction(function: $fn) {
       projects {
         ...generalData
         ${staticColumns}
-        ${columns.map(
+        ${dynamicColumns.map(
     column =>
-      `${column.key}: aggregatedTimeseriesData(
-              metric: "${column.key}"
-              from: "utc_now-${column.defaultTimeRange || '1d'}"
+      `${column.accessor}: aggregatedTimeseriesData(
+              metric: "${column.accessor}"
+              from: "utc_now-${column.timeRange}"
               to: "utc_now"
               aggregation: ${
-  AGGREGATION_TYPES[(column.aggregation || 'last').toUpperCase()]
+  AGGREGATIONS_UPPER[column.aggregation.toUpperCase()]
 }
             )`
   )}
