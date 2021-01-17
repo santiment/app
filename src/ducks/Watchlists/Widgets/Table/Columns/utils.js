@@ -1,5 +1,9 @@
 import React from 'react'
-import { Metric, METRIC_PERCENT_SUFFIX } from '../../Filter/dataHub/metrics'
+import {
+  getBaseMetric,
+  Metric,
+  METRIC_PERCENT_SUFFIX
+} from '../../Filter/dataHub/metrics'
 import { AGGREGATIONS_LOWER } from '../../Filter/dataHub/aggregations'
 import {
   defaultFormatter,
@@ -9,6 +13,7 @@ import PercentChanges from '../../../../../components/PercentChanges'
 import { isValid, NO_DATA } from './columns'
 
 const EMPTY_STR = ''
+const EMPTY_OBJ = {}
 
 export function buildColumnsFromMetricKey (
   baseMetricKey,
@@ -58,13 +63,20 @@ export function buildColumnsFromMetricKey (
 
 export function collectActiveDynamicColumns (activeDynamicColumnsKeys) {
   const dynamicColumns = {}
-  const baseKeys = activeDynamicColumnsKeys.filter(key => !!Metric[key])
-  baseKeys.forEach(key =>
-    Object.assign(
-      dynamicColumns,
-      buildColumnsFromMetricKey(key, activeDynamicColumnsKeys)
-    )
+  const baseKeys = new Set(
+    activeDynamicColumnsKeys.map(key => {
+      const { key: baseKey } = getBaseMetric(key) || EMPTY_OBJ
+      return baseKey
+    })
   )
+  baseKeys.forEach(key => {
+    if (key) {
+      Object.assign(
+        dynamicColumns,
+        buildColumnsFromMetricKey(key, activeDynamicColumnsKeys)
+      )
+    }
+  })
 
   return dynamicColumns
 }

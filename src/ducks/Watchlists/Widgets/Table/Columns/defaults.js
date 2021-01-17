@@ -22,7 +22,8 @@ export const activeDynamicColumnsKeys = [
   'volume_usd_change_1d',
   'marketcap_usd',
   'dev_activity_1d',
-  'daily_active_addresses'
+  'daily_active_addresses',
+  'social_volume_total_change_1d'
 ]
 
 export const activeStaticColumnsKeys = ['marketSegments', 'rank', 'ethSpent']
