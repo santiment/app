@@ -245,11 +245,13 @@ export const Metric = {
   social_volume_total: {
     category: CATEGORIES.SOCIAL,
     label: 'Social Volume',
+    shortLabel: 'Soc.vol.',
     isOnlyPercentFilters: true
   },
   social_dominance_total: {
     category: CATEGORIES.SOCAIL,
     label: 'Social Dominance',
+    shortLabel: 'Soc.Dom.',
     valueFormatter: percentValueFormatter,
     serverValueFormatter: percentServerValueFormatter,
     isOnlyPercentFilters: true

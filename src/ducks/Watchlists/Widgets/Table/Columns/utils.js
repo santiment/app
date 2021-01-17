@@ -38,6 +38,7 @@ export function buildColumnsFromMetricKey (
       Header: `${label}${defaultTimeRange ? `, ${defaultTimeRange}` : ''}`,
       aggregation: baseMetric.aggregation || AGGREGATIONS_LOWER.LAST,
       timeRange: defaultTimeRange || '1d',
+      sortDescFirst: true,
       Cell: ({ value }) => (isValid(value) ? formatter(value) : NO_DATA)
     }
   }
@@ -48,6 +49,7 @@ export function buildColumnsFromMetricKey (
       accessor: key,
       Header: `${label}, ${timeRange} %`,
       aggregation: AGGREGATIONS_LOWER.LAST,
+      sortDescFirst: true,
       timeRange,
       Cell: ({ value }) =>
         isValid(value) ? (
