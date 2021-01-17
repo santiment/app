@@ -25,10 +25,7 @@ export const DEFAULT_COLUMNS = [
         />
       )
     }
-  }
-]
-
-export const STATIC_COLUMNS = [
+  },
   {
     Header: 'Project',
     accessor: 'Project',
@@ -42,7 +39,10 @@ export const STATIC_COLUMNS = [
     accessor: 'priceChart7d',
     Cell: ({ value }) => <PriceGraph data={value} />,
     disableSortBy: true
-  },
+  }
+]
+
+export const STATIC_COLUMNS = [
   {
     Header: 'Rank',
     accessor: 'rank',

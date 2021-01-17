@@ -52,8 +52,8 @@ const Screener = ({
   )
   const columns = [
     ...DEFAULT_COLUMNS,
-    ...STATIC_COLUMNS,
-    ...activeDynamicColumns
+    ...activeDynamicColumns,
+    ...STATIC_COLUMNS
   ]
   const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist()
   const [screenerFunction, setScreenerFunction] = useState(
