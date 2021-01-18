@@ -20,7 +20,7 @@ const useIsoTime = ({ from, to }) => {
   )
 }
 
-export function useWordCloud ({ size = 25, word, from, to }) {
+export function useWordCloud ({ size = 25, word, from, to, onLoad }) {
   const { toIso, fromIso } = useIsoTime({ from, to })
 
   const query = useQuery(WORD_CLOUD_QUERY, {
@@ -35,6 +35,8 @@ export function useWordCloud ({ size = 25, word, from, to }) {
   return useMemo(
     () => {
       const { data, loading, error } = query
+
+      if (data && onLoad) onLoad()
 
       return {
         cloud: data && data.wordContext ? data.wordContext : [],

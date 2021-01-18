@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
-import { withRenderQueueProvider } from '../../components/DashboardMetricChart/renderQueue'
+import { withRenderQueueProvider } from '../../ducks/renderQueue/viewport'
 import { DesktopOnly } from '../../components/Responsive'
 import { ProOnlyBlock as Block } from '../StablecoinsPage/StablecoinsPageStructure'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
