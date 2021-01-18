@@ -3,7 +3,7 @@ import cx from 'classnames'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { COLUMNS, DEFAULT_SORTING } from './columns'
 import { useTopExchanges } from './gql'
-import StablecoinSelector from '../../../ducks/Stablecoins/StablecoinSelector/StablecoinSelector'
+import { StablecoinsSelector } from '../../../ducks/Stablecoins/StablecoinSelector/ProjectsSelectors'
 import Table from '../../../ducks/Table'
 import styles from './index.module.scss'
 
@@ -15,7 +15,6 @@ const DEFAULT_STABLECOIN = {
 
 export const TopExchangesTableTitle = ({
   loading,
-  items,
   title = 'Holdings on the top exchanges'
 }) => {
   return (
@@ -42,7 +41,7 @@ const TopExchanges = ({ className, isStablecoinPage, ...props }) => {
       <TopExchangesTableTitle loading={loading} items={items} />
       {isStablecoinPage && (
         <div className={styles.header}>
-          <StablecoinSelector asset={asset} setAsset={setAsset} />
+          <StablecoinsSelector asset={asset} setAsset={setAsset} />
         </div>
       )}
       <Table

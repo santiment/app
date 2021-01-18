@@ -287,5 +287,10 @@ export const METRICS = [
 
   'balance_per_owner',
   'eth2_stakers_count',
-  'labelled_exchange_balance_sum'
+  'labelled_exchange_balance_sum',
+
+  'eth_trade_volume_by_token',
+  'stablecoin_trade_volume_by_token',
+  'token_eth_price_by_dex_5m',
+  'exchange_balance_per_exchange'
 ]

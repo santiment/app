@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react'
 import { normalizeTransactionData } from '../../../pages/Detailed/transactionsInfo/utils'
 import TransactionTable from '../../../components/Tables/TopTokenTransactions'
 import { DEFAULT_STABLECOIN } from '../HolderDistribution/StablecoinHolderDistribution'
-import StablecoinSelector from '../StablecoinSelector/StablecoinSelector'
+import { StablecoinsSelector } from '../StablecoinSelector/ProjectsSelectors'
 import { useProjectTopTransactions } from '../../Studio/Widget/TopTransactionsTable'
 import styles from './StablecoinsTransactions.module.scss'
 
@@ -22,7 +22,7 @@ const StablecoinsTransactions = ({ from, to }) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <StablecoinSelector asset={asset} setAsset={setAsset} />
+        <StablecoinsSelector asset={asset} setAsset={setAsset} />
       </div>
 
       <TransactionTable
