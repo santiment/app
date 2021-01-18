@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
 import { withRenderQueueProvider } from '../../components/DashboardMetricChart/renderQueue'
@@ -8,9 +8,11 @@ import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavi
 import SharePage from '../../components/SharePage/SharePage'
 import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
 import VolumeOfEthTrades from '../../ducks/EthTradingAnalysis/VolumeOfEthTrades/VolumeOfEthTrades'
+import LabelBalances from '../../ducks/Labels/LabelBalances/LabelBalances'
+import { useProject } from '../../hooks/project'
+import { ERC20Selector } from '../../ducks/Stablecoins/StablecoinSelector/ProjectsSelectors'
 import externalStyles from './../StablecoinsPage/StablecoinsPage.module.scss'
 import styles from './EthTradingAnalysis.module.scss'
-import LabelBalances from '../../ducks/Labels/LabelBalances/LabelBalances'
 
 const ANCHORS = {
   VolumeAgainstEth: {
@@ -47,11 +49,27 @@ const ANCHORS_TREE = [
   },
   {
     title: 'Labeling',
-    list: [ANCHORS.LabelBalance, ANCHORS.ExchangeBalance]
+    list: [ANCHORS.LabelBalance]
   }
 ]
 
+const DEFAULT_PROJECT = {
+  slug: 'maker',
+  ticker: 'Maker'
+}
+
 const EthTradingAnalysis = () => {
+  const [targetProject, setProject] = useState(DEFAULT_PROJECT)
+
+  const onChange = useCallback(
+    project => {
+      setProject(project)
+    },
+    [setProject]
+  )
+
+  const [project = {}] = useProject(targetProject.slug)
+
   return (
     <DashboardLayout>
       <Helmet
@@ -71,8 +89,11 @@ const EthTradingAnalysis = () => {
       <div className={externalStyles.header}>
         <div className={cx(externalStyles.inner, externalStyles.content)}>
           <div className={externalStyles.pageDescription}>
-            <h3 className={externalStyles.title}>
+            <h3 className={cx(externalStyles.title, styles.title)}>
               ETH Token Trading Analysis{' '}
+              <div className={styles.project}>
+                <ERC20Selector setAsset={onChange} asset={project} />
+              </div>
             </h3>
             <SharePage />
           </div>
@@ -91,7 +112,7 @@ const EthTradingAnalysis = () => {
             tag={ANCHORS.VolumeAgainstEth.key}
           >
             <VolumeOfEthTrades
-              measurement={{ slug: 'aave' }}
+              measurement={targetProject}
               metric='eth_trade_volume_by_token'
             />
           </Block>
@@ -101,7 +122,7 @@ const EthTradingAnalysis = () => {
             tag={ANCHORS.VolumeAgainstUsd.key}
           >
             <VolumeOfEthTrades
-              measurement={{ slug: 'aave' }}
+              measurement={targetProject}
               metric='stablecoin_trade_volume_by_token'
             />
           </Block>
@@ -111,15 +132,11 @@ const EthTradingAnalysis = () => {
             tag={ANCHORS.TokenPrice.key}
           >
             <VolumeOfEthTrades
-              measurement={{ slug: 'aave' }}
+              measurement={targetProject}
               metric='token_eth_price_by_dex_5m'
             />
           </Block>
 
-          <Block
-            title={ANCHORS.ExchangeBalance.label}
-            tag={ANCHORS.ExchangeBalance.key}
-          />
           <Block
             title={ANCHORS.LabelBalance.label}
             tag={ANCHORS.LabelBalance.key}

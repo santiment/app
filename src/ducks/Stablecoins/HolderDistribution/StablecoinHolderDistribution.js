@@ -9,7 +9,7 @@ import { useChartColors } from '../../Chart/colors'
 import Chart from '../../Chart'
 import { useAxesMetricsKey } from '../../Chart/hooks'
 import { metricsToPlotCategories } from '../../Chart/Synchronizer'
-import StablecoinSelector from '../StablecoinSelector/StablecoinSelector'
+import { StablecoinsSelector } from '../StablecoinSelector/ProjectsSelectors'
 import { MobileOnly } from '../../../components/Responsive'
 import DashboardChartHeaderWrapper, {
   DashboardIntervals
@@ -168,7 +168,7 @@ const StablecoinHolderDistribution = ({ isDesktop, className }) => {
 
       <div className={styles.chartContainer}>
         <div className={styles.header}>
-          <StablecoinSelector asset={asset} setAsset={setAsset} />
+          <StablecoinsSelector asset={asset} setAsset={setAsset} />
 
           <div className={styles.gaps}>
             <PaywallInfo metrics={metrics} />

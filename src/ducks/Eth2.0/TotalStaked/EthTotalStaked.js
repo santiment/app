@@ -1,5 +1,5 @@
 import React from 'react'
-import DashboardMetricChart from '../../../components/DashboardMetricChart/DashboardMetricChart'
+import { QueuedDashboardMetricChart as DashboardMetricChart } from '../../../components/DashboardMetricChart/DashboardMetricChart'
 import {
   DEFAULT_INTERVAL_SELECTORS,
   INTERVAL_3_MONTHS

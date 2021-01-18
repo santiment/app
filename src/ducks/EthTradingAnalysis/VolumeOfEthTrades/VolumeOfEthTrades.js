@@ -1,10 +1,21 @@
 import React, { useMemo } from 'react'
-import DashboardMetricChart from '../../../components/DashboardMetricChart/DashboardMetricChart'
+import { QueuedDashboardMetricChart as DashboardMetricChart } from '../../../components/DashboardMetricChart/DashboardMetricChart'
 import {
   DEFAULT_INTERVAL_SELECTORS,
   INTERVAL_3_MONTHS
 } from '../../../components/DashboardMetricChart/utils'
-import { DEXs } from '../../Dexs/NumberOfTradesPerDex/NumberOfTradesPerDex'
+
+const DEXs = [
+  'Balancer',
+  'KyberNetwork',
+
+  'UniswapV2',
+
+  'Sushiswap',
+
+  '0x_v1',
+  '0x_v2'
+]
 
 const VolumeOfEthTrades = ({ measurement, metric }) => {
   const dexMetrics = useMemo(
