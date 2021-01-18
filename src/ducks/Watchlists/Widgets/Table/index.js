@@ -17,7 +17,7 @@ const AssetsTable = ({
   fetchData,
   projectsCount,
   columns,
-  toggleColumn,
+  allItems,
   pageSize,
   pageIndex,
   sorting
@@ -40,11 +40,10 @@ const AssetsTable = ({
         comparingAssets={comparingAssets}
         type={type}
         listName={listName}
-        items={items}
+        items={allItems}
         watchlist={watchlist}
         isLoading={loading}
         columns={columns}
-        toggleColumn={toggleColumn}
       />
       <Table
         data={data}

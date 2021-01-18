@@ -151,7 +151,16 @@ const Screener = ({
     setPagination({ ...pagination, pageSize: +pageSize })
   }, [])
 
-  const title = (watchlist || {}).name || name
+  const title = watchlist.name || name || 'My screener'
+  // temporal solution @haritonasty 18 Jan, 2021
+  const allItems = useMemo(
+    () => {
+      return watchlist.listItems
+        ? watchlist.listItems.map(item => item.project)
+        : assets
+    },
+    [watchlist]
+  )
 
   return (
     <>
@@ -159,7 +168,6 @@ const Screener = ({
         name={title}
         description={(watchlist || {}).description}
         id={id}
-        assets={assets}
         projectsCount={projectsCount}
         loading={tableLoading}
         watchlist={watchlist}
@@ -171,14 +179,13 @@ const Screener = ({
         isUpdatingWatchlist={isUpdating}
         updateWatchlistFunction={updateWatchlistFunction}
         isDefaultScreener={isDefaultScreener}
-        history={history}
         widgets={widgets}
         setWidgets={setWidgets}
       />
 
       {!loading && (
         <Infographics
-          assets={assets}
+          assets={allItems}
           widgets={widgets}
           setWidgets={setWidgets}
           listId={id}
@@ -188,6 +195,7 @@ const Screener = ({
 
       <AssetsTable
         items={assets}
+        allItems={allItems}
         projectsCount={projectsCount}
         loading={tableLoading}
         type='screener'
@@ -202,7 +210,6 @@ const Screener = ({
         onChangePage={pageIndex =>
           setPagination({ ...pagination, page: +pageIndex + 1 })
         }
-        toggleColumn={() => {}}
       />
     </>
   )
