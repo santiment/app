@@ -111,10 +111,7 @@ const DEFAULT_SCREENERS = [
   {
     name: 'My screener',
     href: '/screener/new',
-    id:
-      process.env.REACT_APP_BACKEND_URL.indexOf('stage') > -1 || isStage
-        ? 1183
-        : 5496
+    id: isStage ? 1183 : 5496
   }
 ]
 export const useUserScreeners = () =>

@@ -29,9 +29,7 @@ export const SOCIAL_ACTIVE_USERS_TELEGRAM = {
   shortLabel: 'Soc. Act. Us. Tg.',
   channel: 'telegram',
   reqMeta: {
-    selector: {
-      source: 'telegram'
-    }
+    source: 'telegram'
   }
 }
 
@@ -43,9 +41,7 @@ export const SOCIAL_ACTIVE_USERS_TWITTER = {
   shortLabel: 'Soc. Act. Us. Tw.',
   channel: 'twitter',
   reqMeta: {
-    selector: {
-      source: 'twitter_crypto'
-    }
+    source: 'twitter_crypto'
   }
 }
 

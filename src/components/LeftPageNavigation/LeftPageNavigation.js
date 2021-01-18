@@ -74,11 +74,15 @@ const LeftPageNavigation = ({ anchors, location: { hash }, history }) => {
   )
 }
 
-const RenderList = ({ list, setActive, active }) => {
-  return list.map(item => (
-    <NavigationItem item={item} setActive={setActive} active={active} />
+const RenderList = ({ list, setActive, active }) =>
+  list.map(item => (
+    <NavigationItem
+      item={item}
+      key={item.key}
+      setActive={setActive}
+      active={active}
+    />
   ))
-}
 
 const NavigationItem = ({ item, setActive, active }) => {
   const { key, label } = item

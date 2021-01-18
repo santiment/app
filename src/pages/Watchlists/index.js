@@ -5,7 +5,9 @@ import { useUser } from '../../stores/user'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import StoriesList from '../../components/Stories/StoriesList'
 import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
-import { WatchlistCards } from '../../ducks/Watchlists/Cards/Card'
+import WatchlistCard, {
+  WatchlistCards
+} from '../../ducks/Watchlists/Cards/Card'
 import FeaturedWatchlistCards from '../../ducks/Watchlists/Cards/Featured'
 import { WatchlistEmptySection } from '../../ducks/Watchlists/Cards/MyWatchlist'
 import {
@@ -13,6 +15,10 @@ import {
   useUserScreeners
 } from '../../ducks/Watchlists/gql/queries'
 import NewWatchlistCard from '../../ducks/Watchlists/Cards/NewCard'
+import {
+  withRenderQueueProvider,
+  useRenderQueueItem
+} from '../../ducks/Watchlists/Cards/marketcapRenderQueue'
 import MobileAnonBanner from '../../ducks/Watchlists/Templates/Anon/WatchlistsAnon'
 import InlineBanner from '../../components/banners/feature/InlineBanner'
 import styles from './index.module.scss'
@@ -27,10 +33,23 @@ const LoginBanner = ({ isDesktop }) =>
     <MobileAnonBanner isFullScreen wrapperClassName={styles.login} />
   )
 
+const Card = props => {
+  const { isRendered, onLoad } = useRenderQueueItem()
+
+  return (
+    <WatchlistCard
+      {...props}
+      skipMarketcap={!isRendered}
+      onMarketcapLoad={onLoad}
+    />
+  )
+}
+
 const Cards = ({ type, path, watchlists }) => (
   <>
     <WatchlistCards
       className={styles.card}
+      Card={Card}
       watchlists={watchlists}
       path={path}
     />
@@ -82,7 +101,7 @@ const Watchlists = ({ isDesktop }) => {
 
       <DesktopOnly>
         <Section isGrid title='Explore watchlists'>
-          <FeaturedWatchlistCards />
+          <FeaturedWatchlistCards Card={Card} />
         </Section>
       </DesktopOnly>
 
@@ -104,4 +123,4 @@ const Watchlists = ({ isDesktop }) => {
   )
 }
 
-export default Watchlists
+export default withRenderQueueProvider(Watchlists)

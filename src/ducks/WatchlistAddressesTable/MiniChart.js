@@ -5,7 +5,7 @@ import Chart from '../../components/MiniChart'
 const MiniChart = ({ address, change }) => {
   const data = useAddressHistoricalBalance(address)
 
-  return <Chart name='balance' data={data} change={change} />
+  return <Chart valueKey='balance' data={data} change={change} />
 }
 
 export default MiniChart

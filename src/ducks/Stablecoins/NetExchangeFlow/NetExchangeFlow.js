@@ -1,6 +1,9 @@
 import React from 'react'
 import DashboardMetricChart from '../../../components/DashboardMetricChart/DashboardMetricChart'
-import { DEFAULT_INTERVAL_SELECTORS } from '../../../components/DashboardMetricChart/utils'
+import {
+  DEFAULT_INTERVAL_SELECTORS,
+  INTERVAL_3_MONTHS
+} from '../../../components/DashboardMetricChart/utils'
 import { Metric } from '../../dataHub/metrics'
 import { GREEN, RED } from '../../Chart/colors'
 
@@ -27,6 +30,7 @@ const NetExchangeFlow = () => (
     metrics={METRICS}
     intervals={DEFAULT_INTERVAL_SELECTORS}
     metricsColor={METRICS_COLOR}
+    defaultInterval={INTERVAL_3_MONTHS}
   />
 )
 

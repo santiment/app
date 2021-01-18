@@ -32,21 +32,23 @@ const LOADING = {
 const DEFAULT = {
   marketcap: NULL_MARKETCAP
 }
-const useMarketcap = variables => {
+const useMarketcap = (variables, skip, onLoad) => {
   const { data } = useQuery(WATCHLIST_MARKETCAP_HISTORY_QUERY, {
-    variables
+    variables,
+    skip
   })
 
   return useMemo(
     () => {
       if (!data) return LOADING
+      if (onLoad) onLoad()
 
       const { historicalStats } = data.watchlist
+      const { length } = historicalStats
 
-      if (historicalStats.length === 0) return DEFAULT
+      if (length === 0) return DEFAULT
 
-      const lastMarketcap =
-        historicalStats[historicalStats.length - 1].marketcap
+      const lastMarketcap = historicalStats[length - 1].marketcap
       const firstMarketcap = historicalStats[0].marketcap
 
       return {
@@ -63,12 +65,18 @@ const WatchlistCard = ({
   className,
   watchlist,
   path,
+  skipMarketcap,
   isSimplified,
   isWithNewCheck,
-  isWithVisibility
+  isWithVisibility,
+  onMarketcapLoad
 }) => {
   const { id, name, insertedAt, isPublic, href } = watchlist
-  const { data, marketcap, change } = useMarketcap(watchlist)
+  const { data, marketcap, change } = useMarketcap(
+    watchlist,
+    skipMarketcap,
+    onMarketcapLoad
+  )
   const noMarketcap = marketcap === NULL_MARKETCAP
   const to = href || path + getSEOLinkFromIdAndTitle(id, name)
 
@@ -100,7 +108,12 @@ const WatchlistCard = ({
         {noMarketcap ? (
           <img src={emptyChartSvg} alt='empty chart' />
         ) : (
-          <MiniChart name='marketcap' data={data} change={change} width={90} />
+          <MiniChart
+            valueKey='marketcap'
+            data={data}
+            change={change}
+            width={90}
+          />
         )}
       </div>
       <div className={styles.change}>
@@ -122,9 +135,13 @@ WatchlistCard.defaultProps = {
   isWithVisibility: true
 }
 
-export const WatchlistCards = ({ watchlists, ...props }) =>
+export const WatchlistCards = ({ watchlists, Card, ...props }) =>
   watchlists.map(watchlist => (
-    <WatchlistCard {...props} key={watchlist.id} watchlist={watchlist} />
+    <Card {...props} key={watchlist.id} watchlist={watchlist} />
   ))
+
+WatchlistCards.defaultProps = {
+  Card: WatchlistCard
+}
 
 export default WatchlistCard
