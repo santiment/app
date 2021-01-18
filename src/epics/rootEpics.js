@@ -49,8 +49,6 @@ import handleBetaModeToggle, {
   sendBetaModeIfDiff,
   saveBetaModeAfterLaunch
 } from './handleBetaModeToggle'
-import { fetchHypedTrends } from '../components/Trends/fetchHypedTrends'
-import fetchAllTickersSlugs from '../components/Trends/fetchAllTickersSlugs'
 import {
   connectTelegramEpic,
   generateTelegramDeepLinkEpic,
@@ -59,11 +57,6 @@ import {
 import keyboardEpic from './keyboardEpic'
 import { insightslikesEpic } from '../components/Like/insightslikesEpic'
 import { feedEventlikesEpic } from '../components/Like/feedEventlikesEpic'
-import { wordTrendSocialVolumeEpic } from '../pages/Trends/changesEpic.js'
-import {
-  connectedWordsEpic,
-  connectedWordsOptimizationEpic
-} from '../pages/Trends/connectedWordsEpic.js'
 import { trialSubscriptionEpic } from './trialSubscriptionEpic'
 import handleWideChartToggle from './handleWideChartToggle'
 
@@ -96,9 +89,6 @@ export default combineEpics(
   watchlistToggleMonitoringEpic,
   // timeseries
   fetchTimeseriesEpic,
-  // trends
-  fetchHypedTrends,
-  fetchAllTickersSlugs,
   // Settings
   removeConnectedWallet,
   connectNewWallet,
@@ -122,11 +112,6 @@ export default combineEpics(
   // likes
   insightslikesEpic,
   feedEventlikesEpic,
-  // trend changes
-  wordTrendSocialVolumeEpic,
-  // connected trends
-  connectedWordsOptimizationEpic,
-  connectedWordsEpic,
   // trial subscription
   trialSubscriptionEpic
 )

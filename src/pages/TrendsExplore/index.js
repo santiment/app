@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import { connect } from 'react-redux'
 import { compose, withProps } from 'recompose'
 import Icon from '@santiment-network/ui/Icon'
-import * as actions from '../../components/Trends/actions'
 import SocialTool from '../SocialTool'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import Suggestions from '../../components/Trends/Search/Suggestions'
-import { checkHasPremium } from '../UserSelectors'
 import { safeDecode, updateHistory } from '../../utils/utils'
 import { addRecentTrends } from '../../utils/recent'
 import { trackTopicSearch } from '../../components/Trends/Search/utils'
@@ -17,6 +14,8 @@ import { getTopicsFromUrl, updTopicsInUrl } from './url'
 import { detectWordWithAllTickersSlugs } from './utils'
 import Search from './Search'
 import Sidebar from './Sidebar'
+import { useProjects } from '../../ducks/Studio/Compare/withProjects'
+import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import styles from './index.module.scss'
 
 const EMPTY_MAP = new Map()
@@ -29,12 +28,11 @@ const TrendsExplore = ({
   topic,
   addedTopics,
   history,
-  fetchAllTickersSlugs,
   isDesktop,
-  hasPremium,
-  data: { wordContext: wordData = [], loading, error } = {},
-  allAssets
+  data: { wordContext: wordData = [], loading, error } = {}
 }) => {
+  const [allAssets] = useProjects()
+  const { isPro: hasPremium } = useUserSubscriptionStatus()
   const [topics, setTopics] = useState([topic, ...addedTopics].filter(Boolean))
   const [linkedAssets, setLinkedAssets] = useState(EMPTY_MAP)
   const [activeLinkedAssets, setActiveLinkedAssets] = useState(EMPTY_MAP)
@@ -67,10 +65,6 @@ const TrendsExplore = ({
     },
     [topics]
   )
-
-  if (!allAssets || allAssets.length === 0) {
-    fetchAllTickersSlugs()
-  }
 
   function updTopics (newTopics) {
     if (newTopics !== topics) {
@@ -159,24 +153,7 @@ const TrendsExplore = ({
   )
 }
 
-const mapStateToProps = state => ({
-  allAssets: state.hypedTrends.allAssets,
-  hasPremium: checkHasPremium(state)
-})
-
-const mapDispatchToProps = dispatch => ({
-  fetchAllTickersSlugs: () => {
-    dispatch({
-      type: actions.TRENDS_HYPED_FETCH_TICKERS_SLUGS
-    })
-  }
-})
-
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
   withProps(({ match = { params: {} }, ...rest }) => {
     const addedTopics = getTopicsFromUrl()
     const word = match.params.word

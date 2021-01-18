@@ -108,7 +108,12 @@ const WatchlistCard = ({
         {noMarketcap ? (
           <img src={emptyChartSvg} alt='empty chart' />
         ) : (
-          <MiniChart name='marketcap' data={data} change={change} width={90} />
+          <MiniChart
+            valueKey='marketcap'
+            data={data}
+            change={change}
+            width={90}
+          />
         )}
       </div>
       <div className={styles.change}>

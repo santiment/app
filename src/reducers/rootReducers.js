@@ -15,9 +15,6 @@ import notification, {
 import watchlistUi, {
   initialState as initialWatchlistUiState
 } from './watchlist-ui'
-import hypedTrends, {
-  initialState as initialHypedTrends
-} from './../components/Trends/reducers'
 import accountUi, {
   initialState as initialAccountUiState
 } from '../pages/Account/reducers'
@@ -28,7 +25,6 @@ import app, {
 export const intitialState = {
   user: userState,
   projects: projectsState,
-  hypedTrends: initialHypedTrends,
   timeseries: timeseriesState,
   signals: signalsState,
   watchlistUi: initialWatchlistUiState,
@@ -42,7 +38,6 @@ export const intitialState = {
 export default combineReducers({
   user,
   projects,
-  hypedTrends,
   timeseries,
   signals,
   rootUi,

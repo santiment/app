@@ -1,0 +1,81 @@
+@import '~@santiment-network/ui/mixins';
+/* stylelint-disable */
+
+.word {
+  color: var(--rhino);
+}
+
+.change {
+  display: flex;
+  align-items: center;
+
+  &__percent {
+    margin-left: 10px;
+  }
+}
+
+.cloud {
+  padding: 0 !important;
+
+  &__words {
+    height: 80px;
+  }
+}
+
+.chart {
+  --chart-stroke: var(--malibu);
+  --chart-fill: url(#trend-social-volume);
+
+  &__skeleton {
+    height: 40px;
+    width: 120px;
+  }
+}
+
+.table {
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  background: var(--white);
+
+  :global {
+    th {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    td {
+      border-top: 1px solid var(--porcelain);
+      font-size: 16px;
+    }
+
+    tbody tr {
+      height: 80px;
+      cursor: pointer;
+
+      &:hover {
+        background: var(--athens);
+
+        :local(.word) {
+          color: var(--jungle-green);
+        }
+      }
+    }
+  }
+}
+
+.compact {
+  :global {
+    tbody tr {
+      height: 60px !important;
+    }
+
+    th {
+      border-bottom: 1px solid var(--porcelain);
+    }
+
+    td {
+      border: none;
+      font-size: 14px;
+    }
+  }
+}
