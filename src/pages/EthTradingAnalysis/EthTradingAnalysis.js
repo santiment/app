@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
-import { withRenderQueueProvider } from '../../components/DashboardMetricChart/renderQueue'
 import { DesktopOnly } from '../../components/Responsive'
 import { Block } from '../StablecoinsPage/StablecoinsPageStructure'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
@@ -11,6 +10,7 @@ import VolumeOfEthTrades from '../../ducks/EthTradingAnalysis/VolumeOfEthTrades/
 import LabelBalances from '../../ducks/Labels/LabelBalances/LabelBalances'
 import { useProject } from '../../hooks/project'
 import { ERC20Selector } from '../../ducks/Stablecoins/StablecoinSelector/ProjectsSelectors'
+import { withRenderQueueProvider } from '../../ducks/renderQueue/viewport'
 import externalStyles from './../StablecoinsPage/StablecoinsPage.module.scss'
 import styles from './EthTradingAnalysis.module.scss'
 
