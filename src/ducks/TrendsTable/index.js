@@ -23,8 +23,10 @@ const TrendsTable = ({
     isCompact ? COMPACT_HIDDEN_COLUMNS : hiddenColumnIds
   )
 
-  function onRowClick (_, { currentTarget }) {
-    currentTarget.querySelector(LINK_SELECTOR).click()
+  function onRowClick (_, { target, currentTarget }) {
+    if (!target.closest('a')) {
+      currentTarget.querySelector(LINK_SELECTOR).click()
+    }
   }
 
   return (

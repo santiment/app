@@ -79,3 +79,23 @@
     }
   }
 }
+
+.paywall {
+  fill: var(--casper);
+  color: var(--casper);
+  padding: 10px 10px 10px 0;
+
+  &:hover {
+    fill: var(--texas-rose);
+    color: var(--texas-rose);
+
+    .upgrade {
+      display: inline-block;
+    }
+  }
+}
+
+.upgrade {
+  margin-left: 10px;
+  display: none;
+}
