@@ -56,7 +56,6 @@
 
     color: var(--waterloo);
     max-width: 450px;
-    margin-bottom: 16px;
 
     @include responsive('laptop') {
       max-width: 400px;

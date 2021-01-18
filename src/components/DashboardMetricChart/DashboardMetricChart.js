@@ -89,7 +89,8 @@ const DashboardMetricChart = ({
   setMeasurement,
   measurement,
   sliceMetricsCount = 1,
-  onLoad
+  onLoad,
+  projectSelector
 }) => {
   const MetricTransformer = useMirroredTransformer(metrics)
 
@@ -152,6 +153,8 @@ const DashboardMetricChart = ({
   return (
     <>
       <DashboardChartHeaderWrapper>
+        {projectSelector}
+
         <DashboardMetricSelectors
           metricSelectors={metricSelectors}
           rootMetric={rootMetric}

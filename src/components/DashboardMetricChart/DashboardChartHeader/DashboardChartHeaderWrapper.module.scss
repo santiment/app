@@ -23,6 +23,7 @@
   margin-left: auto;
   margin-right: 3px;
   border-bottom: none;
+  margin-top: auto;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     margin: 16px 0 0 0;

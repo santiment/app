@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
 import { DesktopOnly } from '../../components/Responsive'
@@ -8,9 +8,9 @@ import SharePage from '../../components/SharePage/SharePage'
 import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
 import VolumeOfEthTrades from '../../ducks/EthTradingAnalysis/VolumeOfEthTrades/VolumeOfEthTrades'
 import LabelBalances from '../../ducks/Labels/LabelBalances/LabelBalances'
-import { useProject } from '../../hooks/project'
-import { ERC20Selector } from '../../ducks/Stablecoins/StablecoinSelector/ProjectsSelectors'
 import { withRenderQueueProvider } from '../../ducks/renderQueue/viewport'
+import { useRestrictedInfo } from '../UniswapProtocolPage/hooks'
+import { LABEL_METRIC_BOUNDARIES_QUERY } from '../LabelsPage/LabelsPage'
 import externalStyles from './../StablecoinsPage/StablecoinsPage.module.scss'
 import styles from './EthTradingAnalysis.module.scss'
 
@@ -53,22 +53,8 @@ const ANCHORS_TREE = [
   }
 ]
 
-const DEFAULT_PROJECT = {
-  slug: 'maker',
-  ticker: 'Maker'
-}
-
 const EthTradingAnalysis = () => {
-  const [targetProject, setProject] = useState(DEFAULT_PROJECT)
-
-  const onChange = useCallback(
-    project => {
-      setProject(project)
-    },
-    [setProject]
-  )
-
-  const [project = {}] = useProject(targetProject.slug)
+  const isLabelsProChecking = useRestrictedInfo(LABEL_METRIC_BOUNDARIES_QUERY)
 
   return (
     <DashboardLayout>
@@ -91,9 +77,6 @@ const EthTradingAnalysis = () => {
           <div className={externalStyles.pageDescription}>
             <h3 className={cx(externalStyles.title, styles.title)}>
               ETH Token Trading Analysis{' '}
-              <div className={styles.project}>
-                <ERC20Selector setAsset={onChange} asset={project} />
-              </div>
             </h3>
             <SharePage />
           </div>
@@ -111,35 +94,27 @@ const EthTradingAnalysis = () => {
             title='Volume of Trades against ETH Based Tokens segmented by DEXs'
             tag={ANCHORS.VolumeAgainstEth.key}
           >
-            <VolumeOfEthTrades
-              measurement={targetProject}
-              metric='eth_trade_volume_by_token'
-            />
+            <VolumeOfEthTrades metric='eth_trade_volume_by_token' />
           </Block>
 
           <Block
             title='Volume of Trades against USD Based Stablecoins segmented by DEXs'
             tag={ANCHORS.VolumeAgainstUsd.key}
           >
-            <VolumeOfEthTrades
-              measurement={targetProject}
-              metric='stablecoin_trade_volume_by_token'
-            />
+            <VolumeOfEthTrades metric='stablecoin_trade_volume_by_token' />
           </Block>
 
           <Block
             title='Token Price against ETH Based Tokens segmented by DEXs'
             tag={ANCHORS.TokenPrice.key}
           >
-            <VolumeOfEthTrades
-              measurement={targetProject}
-              metric='token_eth_price_by_dex_5m'
-            />
+            <VolumeOfEthTrades metric='token_eth_price_by_dex_5m' />
           </Block>
 
           <Block
             title={ANCHORS.LabelBalance.label}
             tag={ANCHORS.LabelBalance.key}
+            isPaywalActive={isLabelsProChecking}
           >
             <LabelBalances />
           </Block>
