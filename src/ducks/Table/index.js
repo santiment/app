@@ -97,7 +97,6 @@ const Table = ({
       },
       autoResetPage: false,
       autoResetSortBy: false,
-      autoResetSelectedRows: false,
       initialState,
       ...optionalOptions
     },
