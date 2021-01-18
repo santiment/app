@@ -41,4 +41,4 @@ const TrendsTable = ({
   )
 }
 
-export default withRenderQueueProvider(TrendsTable, newRenderQueue(3))
+export default withRenderQueueProvider(TrendsTable, newRenderQueue(2))
