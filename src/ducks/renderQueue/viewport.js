@@ -39,30 +39,28 @@ function RenderQueue () {
     return () => clearTimeout(timer)
   }
 
-  return {
-    useRenderQueueItem (ref) {
-      const [isRendered, setIsRendered] = useState(false)
+  return ref => {
+    const [isRendered, setIsRendered] = useState(false)
 
-      useEffect(() => {
-        const container = ref.current
+    useEffect(() => {
+      const container = ref.current
 
-        if (isLookingForViewportItem && checkIsInViewport(container)) {
-          isLookingForViewportItem = false
-          queue.unshift(container)
-        } else {
-          queue.push(container)
-        }
+      if (isLookingForViewportItem && checkIsInViewport(container)) {
+        isLookingForViewportItem = false
+        queue.unshift(container)
+      } else {
+        queue.push(container)
+      }
 
-        return register(container, setIsRendered)
-      }, [])
+      return register(container, setIsRendered)
+    }, [])
 
-      return { isRendered, onLoad: scheduleRender }
-    }
+    return { isRendered, onLoad: scheduleRender }
   }
 }
 
 const RenderQueueContext = React.createContext()
-export const useRenderQueueItem = () => useContext(RenderQueueContext)()
+export const useRenderQueueItem = ref => useContext(RenderQueueContext)(ref)
 
 export const RenderQueueProvider = ({ children }) => (
   <RenderQueueContext.Provider value={useState(RenderQueue)[0]}>
