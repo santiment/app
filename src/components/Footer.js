@@ -6,7 +6,7 @@ import ContactUs from './ContactUs/ContactUs'
 import styles from './Footer.module.scss'
 
 const Footer = ({ classes = {} }) => (
-  <div className={cx(styles.footer, classes.footer)}>
+  <footer className={cx(styles.footer, classes.footer)}>
     <div className={styles.links}>
       <ContactUs as='a' className={styles.contact} />
       <Link to={'/privacy-policy'}>Privacy</Link>
@@ -19,7 +19,7 @@ const Footer = ({ classes = {} }) => (
       </a>
     </div>
     <Version classes={classes} />
-  </div>
+  </footer>
 )
 
 export default Footer
