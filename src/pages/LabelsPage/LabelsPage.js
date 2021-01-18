@@ -9,7 +9,7 @@ import { useRestrictedInfo } from '../UniswapProtocolPage/hooks'
 import styles from './LabelsPage.module.scss'
 import gql from 'graphql-tag'
 
-const METRIC_BOUNDARIES_QUERY = gql`
+export const LABEL_METRIC_BOUNDARIES_QUERY = gql`
   query {
     getMetric(metric: "all_known_balance") {
       metadata {
@@ -20,7 +20,7 @@ const METRIC_BOUNDARIES_QUERY = gql`
 `
 
 const LabelsPage = ({ history }) => {
-  const isProChecking = useRestrictedInfo(METRIC_BOUNDARIES_QUERY)
+  const isProChecking = useRestrictedInfo(LABEL_METRIC_BOUNDARIES_QUERY)
 
   return (
     <div className={cx('page', styles.container)}>

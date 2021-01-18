@@ -1,10 +1,5 @@
 import React from 'react'
-import { QueuedDashboardMetricChart as DashboardMetricChart } from '../../../components/DashboardMetricChart/DashboardMetricChart'
-import { DEFAULT_INTERVAL_SELECTORS } from '../../../components/DashboardMetricChart/utils'
-
-const SELECTOR = {
-  slug: 'ethereum'
-}
+import Erc20DashChart from '../../../components/DashboardMetricChart/Erc20DashChart/Erc20DashChart'
 
 function makeMetric (key, label) {
   return {
@@ -30,21 +25,20 @@ const SUPPORTED_METRICS = [
   makeMetric('makerdao_cdp_owner_balance', 'MakerDAO CDP Owners')
 ]
 
-const METRICS = SUPPORTED_METRICS.map(m => ({
-  ...m,
-  node: 'area',
-  reqMeta: {
-    ...SELECTOR
-  }
-}))
+const metricsBuilder = ({ slug }) => {
+  return SUPPORTED_METRICS.map(item => {
+    return {
+      ...item,
+      node: 'area',
+      reqMeta: {
+        slug
+      }
+    }
+  })
+}
 
 const LabelBalances = () => {
-  return (
-    <DashboardMetricChart
-      metrics={METRICS}
-      intervals={DEFAULT_INTERVAL_SELECTORS}
-    />
-  )
+  return <Erc20DashChart metricsBuilder={metricsBuilder} />
 }
 
 export default LabelBalances
