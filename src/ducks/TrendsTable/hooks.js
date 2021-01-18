@@ -22,8 +22,11 @@ export const useTrendingWords = variables => {
   return { trendingWords, isLoading: loading }
 }
 
-export const useTrendSocialVolumeChange = trend => {
-  const { data } = useQuery(LAST_DAY_SOCIAL_VOLUME_QUERY, { variables: trend })
+export const useTrendSocialVolumeChange = (trend, skip, onLoad) => {
+  const { data } = useQuery(LAST_DAY_SOCIAL_VOLUME_QUERY, {
+    skip,
+    variables: trend
+  })
 
   return useMemo(
     () => {
@@ -35,6 +38,7 @@ export const useTrendSocialVolumeChange = trend => {
           value
         }
       }
+      if (onLoad) onLoad()
 
       const lastScore = data.getMetric.timeseriesData[0].value
       return {
@@ -50,12 +54,13 @@ const LOADING = {
   data: ARRAY,
   isLoading: true
 }
-export const useTrendSocialVolume = trend => {
-  const { data } = useQuery(SOCIAL_VOLUME_QUERY, { variables: trend })
+export const useTrendSocialVolume = (trend, skip, onLoad) => {
+  const { data } = useQuery(SOCIAL_VOLUME_QUERY, { skip, variables: trend })
 
   return useMemo(
     () => {
       if (!data) return LOADING
+      if (onLoad) onLoad()
 
       const socialVolumes = data.getMetric.timeseriesData
       return {

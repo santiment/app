@@ -62,7 +62,7 @@ function RenderQueue () {
 }
 
 const RenderQueueContext = React.createContext()
-export const useRenderQueue = () => useContext(RenderQueueContext)
+export const useRenderQueueItem = () => useContext(RenderQueueContext)()
 
 export const RenderQueueProvider = ({ children }) => (
   <RenderQueueContext.Provider value={useState(RenderQueue)[0]}>

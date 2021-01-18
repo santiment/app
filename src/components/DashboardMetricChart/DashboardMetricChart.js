@@ -1,6 +1,6 @@
 import React, { useRef, useCallback, useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
-import { useRenderQueue } from './renderQueue'
+import { useRenderQueueItem } from '../../ducks/renderQueue/viewport'
 import { Skeleton } from '../../components/Skeleton'
 import {
   useAllTimeData,
@@ -234,7 +234,6 @@ const DashboardMetricChart = ({
 
 export const QueuedDashboardMetricChart = ({ className, ...props }) => {
   const containerRef = useRef()
-  const { useRenderQueueItem } = useRenderQueue()
   const { isRendered, onLoad } = useRenderQueueItem(containerRef)
 
   return (

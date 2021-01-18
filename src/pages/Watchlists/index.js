@@ -16,9 +16,10 @@ import {
 } from '../../ducks/Watchlists/gql/queries'
 import NewWatchlistCard from '../../ducks/Watchlists/Cards/NewCard'
 import {
+  newRenderQueue,
   withRenderQueueProvider,
   useRenderQueueItem
-} from '../../ducks/Watchlists/Cards/marketcapRenderQueue'
+} from '../../ducks/renderQueue/sized'
 import MobileAnonBanner from '../../ducks/Watchlists/Templates/Anon/WatchlistsAnon'
 import InlineBanner from '../../components/banners/feature/InlineBanner'
 import styles from './index.module.scss'
@@ -123,4 +124,4 @@ const Watchlists = ({ isDesktop }) => {
   )
 }
 
-export default withRenderQueueProvider(Watchlists)
+export default withRenderQueueProvider(Watchlists, newRenderQueue(4))

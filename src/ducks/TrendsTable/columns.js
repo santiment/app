@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useTrendSocialVolume, useTrendSocialVolumeChange } from './hooks'
 import { prepareColumns } from '../_Table'
 import { INDEX_COLUMN } from '../_Table/columns'
+import { useRenderQueueItem } from '../renderQueue/sized'
 import { Skeleton } from '../../components/Skeleton'
 import MiniChart from '../../components/MiniChart'
 import PercentChanges from '../../components/PercentChanges'
@@ -10,7 +11,12 @@ import WordCloud from '../../components/WordCloud/WordCloud'
 import styles from './index.module.scss'
 
 const SocialVolumeChange = ({ trend }) => {
-  const { value, change } = useTrendSocialVolumeChange(trend)
+  const { isRendered, onLoad } = useRenderQueueItem()
+  const { value, change } = useTrendSocialVolumeChange(
+    trend,
+    !isRendered,
+    onLoad
+  )
 
   return (
     <div className={styles.change}>
@@ -23,7 +29,8 @@ const SocialVolumeChange = ({ trend }) => {
 }
 
 const SocialVolumeChart = ({ trend }) => {
-  const { data, isLoading } = useTrendSocialVolume(trend)
+  const { isRendered, onLoad } = useRenderQueueItem()
+  const { data, isLoading } = useTrendSocialVolume(trend, !isRendered, onLoad)
 
   return isLoading ? (
     <Skeleton show className={styles.chart__skeleton} />
@@ -38,6 +45,21 @@ const SocialVolumeChart = ({ trend }) => {
       gradientColor='malibu'
       gradientOpacity='0.7'
     />
+  )
+}
+
+const ConnectedWords = ({ word }) => {
+  const { isRendered, onLoad } = useRenderQueueItem()
+
+  return isRendered ? (
+    <WordCloud
+      className={styles.cloud__words}
+      size={6}
+      word={word}
+      onLoad={onLoad}
+    />
+  ) : (
+    <Skeleton show className={styles.chart__skeleton} />
   )
 }
 
@@ -69,9 +91,7 @@ export const COLUMNS = [INDEX_COLUMN].concat(
     {
       title: Column.CONNECTED_WORDS,
       className: styles.cloud,
-      render: ({ word }) => (
-        <WordCloud className={styles.cloud__words} size={6} word={word} />
-      )
+      render: ({ word }) => <ConnectedWords word={word} />
     }
   ])
 )

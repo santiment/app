@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 
-function RenderQueue () {
+function SizedRenderQueue (size) {
   const queue = []
   const loadingSet = new Set()
 
@@ -23,7 +23,7 @@ function RenderQueue () {
   }
 
   function register (ref, setIsRendered) {
-    if (loadingSet.size < 4) {
+    if (loadingSet.size < size) {
       loadingSet.add(ref)
       setIsRendered(true)
     } else {
@@ -40,17 +40,21 @@ function RenderQueue () {
     return { isRendered, onLoad: ref }
   }
 }
+export const newRenderQueue = size => () => SizedRenderQueue(size)
 
 const RenderQueueContext = React.createContext()
 export const useRenderQueueItem = () => useContext(RenderQueueContext)()
 
-export const RenderQueueProvider = ({ children }) => (
+export const RenderQueueProvider = ({ children, RenderQueue }) => (
   <RenderQueueContext.Provider value={useState(RenderQueue)[0]}>
     {children}
   </RenderQueueContext.Provider>
 )
-export const withRenderQueueProvider = Component => props => (
-  <RenderQueueProvider>
+export const withRenderQueueProvider = (
+  Component,
+  SizedRenderQueue
+) => props => (
+  <RenderQueueProvider RenderQueue={SizedRenderQueue}>
     <Component {...props} />
   </RenderQueueProvider>
 )
