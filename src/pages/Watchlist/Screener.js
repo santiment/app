@@ -106,6 +106,15 @@ const Screener = ({
 
   useEffect(
     () => {
+      if (pagination.page !== 1) {
+        setPagination({ ...pagination, page: 1 })
+      }
+    },
+    [screenerFunction]
+  )
+
+  useEffect(
+    () => {
       if (id) {
         addRecentScreeners(id)
       }
@@ -128,7 +137,7 @@ const Screener = ({
     ).then(() => setTableLoading(false))
   }
 
-  const fetchData = useCallback(({ pageSize, pageIndex, sortBy }) => {
+  const fetchData = useCallback(({ pageSize, sortBy }) => {
     const { id, desc } = sortBy[0]
     const { timeRange, aggregation } = activeDynamicColumnsObj[id]
     const newDirection = desc ? DIRECTIONS.DESC : DIRECTIONS.ASC
@@ -139,7 +148,7 @@ const Screener = ({
       dynamicFrom: timeRange,
       direction: newDirection
     })
-    setPagination({ pageSize: +pageSize, page: +pageIndex + 1 })
+    setPagination({ ...pagination, pageSize: +pageSize })
   }, [])
 
   const title = (watchlist || {}).name || name
@@ -190,6 +199,9 @@ const Screener = ({
         pageIndex={pagination.page - 1}
         columns={columns}
         sorting={orderBy}
+        onChangePage={pageIndex =>
+          setPagination({ ...pagination, page: +pageIndex + 1 })
+        }
         toggleColumn={() => {}}
       />
     </>

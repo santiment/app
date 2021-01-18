@@ -13,6 +13,7 @@ const AssetsTable = ({
   listName,
   watchlist,
   refetchAssets,
+  onChangePage,
   fetchData,
   projectsCount,
   columns,
@@ -71,6 +72,7 @@ const AssetsTable = ({
           paginationSettings: {
             pageSize,
             pageIndex,
+            onChangePage,
             pageSizeOptions: [10, 20, 50, 100],
             controlledPageCount: Math.ceil(projectsCount / pageSize),
             manualPagination: true

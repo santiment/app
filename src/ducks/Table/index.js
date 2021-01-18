@@ -30,13 +30,13 @@ const Table = ({
     stickySettings || {}
   const {
     pageSize: initialPageSize,
-    pageIndex: initialPageIndex,
+    pageIndex: initialPageIndex = 0,
+    onChangePage = null,
     pageSizeOptions = [10, 25, 50],
     controlledPageCount,
     manualPagination
   } = paginationSettings || {}
   const { onChangeSelectedRows } = rowSelectSettings || {}
-
   const initialState = {}
   const optionalOptions = {}
 
@@ -79,6 +79,15 @@ const Table = ({
     {
       columns,
       data,
+      useControlledState: state => {
+        return React.useMemo(
+          () => ({
+            ...state,
+            pageIndex: manualPagination ? initialPageIndex : state.pageIndex
+          }),
+          [state, initialPageIndex]
+        )
+      },
       disableSortRemove: true,
       disableSortBy: !allowSort,
       sortTypes: {
@@ -128,9 +137,9 @@ const Table = ({
 
   useEffect(
     () => {
-      fetchData({ pageIndex, pageSize, sortBy })
+      fetchData({ pageSize, sortBy })
     },
-    [fetchData, pageIndex, pageSize, sortBy]
+    [fetchData, pageSize, sortBy]
   )
 
   return (
@@ -220,7 +229,11 @@ const Table = ({
         <NoData {...noDataSettings} />
       )}
       {!!paginationSettings && (
-        <Pagination {...paginationParams} className={classes.pagination} />
+        <Pagination
+          {...paginationParams}
+          onChangePage={onChangePage}
+          className={classes.pagination}
+        />
       )}
     </div>
   )

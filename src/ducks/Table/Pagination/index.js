@@ -20,9 +20,10 @@ const Pagination = ({
   canNextPage,
   canPreviousPage,
   setPageSize,
-  gotoPage,
-  previousPage,
-  nextPage,
+  onGotoPage,
+  onPreviousPage,
+  onNextPage,
+  onChangePage,
   pageSizeOptions,
   className
 }) => {
@@ -54,7 +55,7 @@ const Pagination = ({
           value={pageIndex + 1}
           onChange={evt => {
             const newPage = evt.target.value ? Number(evt.target.value) - 1 : 0
-            gotoPage(newPage)
+            onChangePage ? onChangePage(newPage) : onGotoPage(newPage)
           }}
         />
         of {pageOptions.length}
@@ -62,7 +63,9 @@ const Pagination = ({
       <div className={styles.buttons}>
         <Button
           border
-          onClick={previousPage}
+          onClick={evt =>
+            onChangePage ? onChangePage(pageIndex - 1) : onPreviousPage(evt)
+          }
           disabled={!canPreviousPage}
           className={styles.button}
         >
@@ -71,7 +74,9 @@ const Pagination = ({
         </Button>
         <Button
           border
-          onClick={nextPage}
+          onClick={evt =>
+            onChangePage ? onChangePage(pageIndex + 1) : onNextPage(evt)
+          }
           disabled={!canNextPage}
           className={styles.button}
         >

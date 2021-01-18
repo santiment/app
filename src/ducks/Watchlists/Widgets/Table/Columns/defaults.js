@@ -25,4 +25,4 @@ export const activeDynamicColumnsKeys = [
   'daily_active_addresses'
 ]
 
-export const activeStaticColumnsKeys = ['marketSegments', 'rank', 'ethSpent']
+export const activeStaticColumnsKeys = ['marketSegments', 'rank']

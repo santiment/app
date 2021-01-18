@@ -3,7 +3,7 @@ import Label from '@santiment-network/ui/Label'
 import PriceGraph from '../PriceGraph'
 import Project from '../../../../../components/Tables/Cells/Project'
 import LayoutForAsset from '../../../../Studio/Template/LayoutForAsset/LayoutForAsset'
-import { defaultFormatter } from '../../Filter/formatters'
+// import { defaultFormatter } from '../../Filter/formatters'
 import styles from './columns.module.scss'
 
 export const NO_DATA = 'No data'
@@ -53,13 +53,13 @@ export const STATIC_COLUMNS = [
     ),
     disableSortBy: true
   },
-  {
-    Header: 'ETH spent, 30d',
-    accessor: 'ethSpent',
-    Cell: ({ value }) =>
-      isValid(value) ? `Ξ${defaultFormatter(value)}` : NO_DATA,
-    disableSortBy: true
-  },
+  // {
+  //   Header: 'ETH spent, 30d',
+  //   accessor: 'ethSpent',
+  //   Cell: ({ value }) =>
+  //     isValid(value) ? `Ξ${defaultFormatter(value)}` : NO_DATA,
+  //   disableSortBy: true
+  // },
   {
     Header: 'Market Segments',
     accessor: 'marketSegments',
