@@ -1,5 +1,4 @@
 import React from 'react'
-import { useTransactionProject } from '../hooks'
 import { prepareColumns } from '../../_Table'
 import { getDateFormats, getTimeFormats } from '../../../utils/dates'
 import styles from './index.module.scss'
@@ -23,8 +22,8 @@ function getDatetime (datetime) {
 
 const checkIsSending = (address, fromAddress) => address === fromAddress.address
 
-const Values = ({ address, slug, toAddress, fromAddress, trxValue }) => {
-  const { logoUrl, ticker = `"${slug}"` } = useTransactionProject(slug)
+const Values = ({ address, project, toAddress, fromAddress, trxValue }) => {
+  const { logoUrl, ticker } = project
   const isSending = checkIsSending(address, fromAddress)
   const anotherAddress = isSending ? toAddress.address : fromAddress.address
 

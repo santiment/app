@@ -8,8 +8,7 @@ import {
 import {
   WALLET_ASSETS_QUERY,
   ADDRESS_QUERY,
-  RECENT_TRANSACTIONS_QUERY,
-  TRANSACTION_PROJECT_QUERY
+  RECENT_TRANSACTIONS_QUERY
 } from './queries'
 import { getAddressInfrastructure } from '../../utils/address'
 
@@ -60,14 +59,6 @@ export function useRecentTransactions (wallet, page, skip) {
     recentTransactions: data ? data.recentTransactions : DEFAULT_STATE,
     isLoading: loading
   }
-}
-
-export function useTransactionProject (slug) {
-  const { data } = useQuery(TRANSACTION_PROJECT_QUERY, {
-    variables: { slug }
-  })
-
-  return data ? data.projectBySlug : DEFAULT_STATE
 }
 
 export function useSettings (defaultSettings) {
