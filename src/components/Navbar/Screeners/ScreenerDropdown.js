@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
@@ -13,6 +13,7 @@ import {
 import { getRecentScreeners } from '../../../utils/recent'
 import { getSEOLinkFromIdAndTitle } from '../../../utils/url'
 import { useUser } from '../../../stores/user'
+import { sortById } from '../../../utils/sortMethods'
 import styles from '../Watchlists/WatchlistsDropdown.module.scss'
 import wrapperStyles from '../Watchlists/MarketDropdown.module.scss'
 
@@ -23,6 +24,7 @@ const ScreenerDropdown = ({ activeLink }) => {
   const [screeners = [], loading] = useUserScreeners()
   const { loading: isLoggedInPending } = useUser()
   const isLoading = loading || isLoggedInPending
+  const sortedScreeners = useMemo(() => screeners.sort(sortById), [screeners])
 
   const screenersIDs = getRecentScreeners().filter(Boolean)
   const [recentScreeners] = useRecentWatchlists(screenersIDs)
@@ -70,7 +72,7 @@ const ScreenerDropdown = ({ activeLink }) => {
             {isLoading ? (
               <Loader className={styles.loader} />
             ) : (
-              <List screeners={screeners} activeLink={activeLink} />
+              <List screeners={sortedScreeners} activeLink={activeLink} />
             )}
             <CreateScreenerBtn screeners={screeners} />
           </div>

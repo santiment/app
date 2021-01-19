@@ -11,6 +11,7 @@ import { useUser } from '../../../stores/user'
 import { useUserWatchlists } from '../../../ducks/Watchlists/gql/hooks'
 import { useAddressWatchlists } from '../../../ducks/Watchlists/gql/queries'
 import { getAddressesWatchlistLink } from '../../../ducks/Watchlists/url'
+import { sortById } from '../../../utils/sortMethods'
 import styles from './WatchlistsDropdown.module.scss'
 
 const WatchlistsDropdown = ({ activeLink }) => {
@@ -27,7 +28,9 @@ const WatchlistsDropdown = ({ activeLink }) => {
     return <WatchlistsAnon className={styles.anon} />
   }
 
-  const watchlists = addressesWatchlists.concat(projectsWatchlists)
+  const watchlists = addressesWatchlists
+    .concat(projectsWatchlists)
+    .sort(sortById)
 
   return watchlists.length === 0 ? (
     <EmptySection watchlists={watchlists} />
