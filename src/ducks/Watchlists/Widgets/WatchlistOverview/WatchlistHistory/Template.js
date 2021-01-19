@@ -2,12 +2,12 @@ import React from 'react'
 import { Area, AreaChart, ResponsiveContainer } from 'recharts'
 import Range from '../Range'
 import PercentChanges from '../../../../../components/PercentChanges'
-import Gradients from '../Gradients'
+import Gradients from '../../../../../components/Gradients'
 import { Skeleton } from '../../../../../components/Skeleton'
-import styles from './WatchlistHistoryTemplate.module.scss'
+import styles from './Template.module.scss'
 
-const WatchlistHistoryTemplate = ({
-  stats = [],
+const Template = ({
+  data,
   label,
   metric,
   change,
@@ -32,7 +32,7 @@ const WatchlistHistoryTemplate = ({
         </div>
       </div>
       <ResponsiveContainer height={35} className={styles.chart}>
-        <AreaChart data={stats}>
+        <AreaChart data={data}>
           <defs>
             <Gradients />
           </defs>
@@ -50,4 +50,4 @@ const WatchlistHistoryTemplate = ({
   )
 }
 
-export default WatchlistHistoryTemplate
+export default Template

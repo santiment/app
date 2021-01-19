@@ -8,7 +8,7 @@ import {
   ReferenceDot
 } from 'recharts'
 import cx from 'classnames'
-import Gradients from '../../Watchlists/Widgets/WatchlistOverview/Gradients'
+import Gradients from '../../../components/Gradients'
 import { generateMetricsMarkup } from '../../SANCharts/utils'
 import CustomTooltip from './../../SANCharts/CustomTooltip'
 import { useChartColors } from '../../Chart/colors'
