@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { ASSETS_LIMIT, withDefaults } from './defaults'
 import { useSettings, useWalletAssets } from './hooks'
 import Chart from './Chart'
+import Sankey from './Sankey'
 import AddressSetting from './Address'
 import Comments from './Comments'
 import LatestTransactions from './LatestTransactions/index.js'
@@ -89,6 +90,8 @@ const HistoricalBalance = ({
         setChartAssets={updateChartAssets}
         setIsLog={setIsLog}
       />
+
+      <Sankey />
 
       <div className={cx(styles.bottom, isPhone && styles.bottom_phone)}>
         <div className={styles.left}>

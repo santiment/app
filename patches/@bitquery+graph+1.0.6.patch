@@ -1,0 +1,32 @@
+diff --git a/node_modules/@bitquery/graph/src/index.js b/node_modules/@bitquery/graph/src/index.js
+index ca7dd5a..ba91f34 100644
+--- a/node_modules/@bitquery/graph/src/index.js
++++ b/node_modules/@bitquery/graph/src/index.js
+@@ -2,7 +2,6 @@ import _ from 'lodash'
+ import _n from 'numeral'
+ import { setNumeralLocale } from './util/setNumeralLocale'
+ 
+-import { Network, DataSet, nl_NL } from '../node_modules/vis'
+ import { addInitializingLoader } from './addInitializingLoader'
+ import { CurrencyFilter } from './components/CurrencyFilter'
+ import { CurrencyFilterOption } from './components/CurrencyFilterOption'
+@@ -14,14 +13,17 @@ import { lightenOrDarkenColor } from './util/lightenOrDarkenColor'
+ import { addModalJS } from './addModalJS'
+ import { addModalGraphQL } from './addModalGraphQL'
+ 
++import $ from 'jquery'
++import { Network, DataSet, nl_NL } from 'vis'
+ import * as d3 from 'd3'
+-// import * as d3Sankey from 'd3-sankey-circular'
+-import * as d3Sankey from '../../d3-sankey-circular/dist/d3-sankey-circular'
++import * as d3Sankey from '../../../d3-sankey-circular'
+ import * as d3PathArrows from 'd3-path-arrows'
+ import uid from './util/uid'
+ 
+ import './style.scss'
+ 
++window.$ = $
++
+ setNumeralLocale(_n)
+ 
+ export function query(query) {
