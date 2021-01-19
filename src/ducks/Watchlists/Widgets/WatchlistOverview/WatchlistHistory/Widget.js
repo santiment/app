@@ -4,14 +4,13 @@ import { useHistoryStats } from './hooks'
 import styles from './Widget.module.scss'
 
 const VOLUME_LABEL = 'Volume'
-const MARKETCAP_KEY = 'marketcap'
-const VOLUME_KEY = 'volume'
+const MARKETCAP_KEY = 'marketcapUsd'
+const VOLUME_KEY = 'volumeUsd'
 
 const Widget = ({ type, range, id, changeRange }) => {
   const { from, interval, value } = range
   const {
-    marketcapData,
-    volumeData,
+    data,
     marketcap,
     volume,
     changeMarketcap,
@@ -21,16 +20,16 @@ const Widget = ({ type, range, id, changeRange }) => {
   return (
     <div className={styles.wrapper}>
       <Template
-        data={marketcapData}
+        data={data}
         change={changeMarketcap}
-        label={`${type} ${MARKETCAP_KEY}`}
+        label={`${type} marketcap`}
         metric={MARKETCAP_KEY}
         value={marketcap}
         period={value}
         changeRange={changeRange}
       />
       <Template
-        data={volumeData}
+        data={data}
         change={changeVolume}
         label={VOLUME_LABEL}
         metric={VOLUME_KEY}

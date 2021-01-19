@@ -1,9 +1,8 @@
 import React from 'react'
-import { Area, AreaChart, ResponsiveContainer } from 'recharts'
-import Range from '../Range'
+import Range from '../WatchlistAnomalies/Range'
 import PercentChanges from '../../../../../components/PercentChanges'
-import Gradients from '../../../../../components/Gradients'
 import { Skeleton } from '../../../../../components/Skeleton'
+import MiniChart from '../../../../../components/MiniChart'
 import styles from './Template.module.scss'
 
 const Template = ({
@@ -16,8 +15,6 @@ const Template = ({
   changeRange,
   isLoading
 }) => {
-  const color = `var(--${change >= 0 ? 'lima' : 'persimmon'})`
-
   if (isLoading) {
     return <Skeleton className={styles.skeleton} show={true} />
   }
@@ -31,21 +28,13 @@ const Template = ({
           <PercentChanges changes={change} className={styles.change} />
         </div>
       </div>
-      <ResponsiveContainer height={35} className={styles.chart}>
-        <AreaChart data={data}>
-          <defs>
-            <Gradients />
-          </defs>
-          <Area
-            dataKey={metric}
-            type='monotone'
-            strokeWidth={2}
-            stroke={color}
-            fill={`url(#total${change >= 0 ? 'Up' : 'Down'})`}
-            isAnimationActive={false}
-          />
-        </AreaChart>
-      </ResponsiveContainer>
+      <MiniChart
+        className={styles.chart}
+        valueKey={metric}
+        data={data}
+        change={change}
+        width={150}
+      />
     </div>
   )
 }

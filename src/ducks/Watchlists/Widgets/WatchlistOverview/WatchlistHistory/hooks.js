@@ -19,8 +19,8 @@ const WATCHLIST_STATS_HISTORY_QUERY = gql`
       id
       historicalStats(from: $from, to: "utc_now", interval: $interval) {
         datetime
-        marketcap
-        volume
+        marketcapUsd
+        volumeUsd
       }
     }
   }
@@ -39,16 +39,16 @@ export const useHistoryStats = variables => {
       if (length === 0) return EMPTY_OBJ
 
       const {
-        marketcap: firstMarketcap,
-        volume: firstVolume
+        marketcapUsd: firstMarketcap,
+        volumeUsd: firstVolume
       } = historicalStats[0]
-      const { marketcap: lastMarketcap, volume: lastVolume } = historicalStats[
-        length - 1
-      ]
+      const {
+        marketcapUsd: lastMarketcap,
+        volumeUsd: lastVolume
+      } = historicalStats[length - 1]
 
       return {
-        marketcapData: historicalStats,
-        volumeData: historicalStats,
+        data: historicalStats,
         marketcap: formatNumber(lastMarketcap, formatOptions),
         volume: formatNumber(lastVolume, formatOptions),
         changeMarketcap: calcPercentageChange(firstMarketcap, lastMarketcap),
