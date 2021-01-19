@@ -299,6 +299,16 @@ export const rebuildDescriptions = Submetrics => {
         })
         break
       }
+      case Metric.mvrv_usd_intraday.key: {
+        list.forEach(metric => {
+          Description[
+            metric.key
+          ] = `Shows the average intraday profit or loss of those holding [Project ticker] tokens which moved in the last ${convertToReadableInterval(
+            metric.replacements.timebound
+          )}, based on the price when each token last moved. Example: if MVRV = 2, then these holders are, on average, currently 2x on their initial investment. `
+        })
+        break
+      }
       case Metric.realized_value_usd.key: {
         list.forEach(metric => {
           Description[
