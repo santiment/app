@@ -8,7 +8,6 @@ import GetAssets, {
   SORT_TYPES
 } from '../../ducks/Watchlists/Widgets/Table/GetAssets'
 import { RANGES } from '../../ducks/Watchlists/Widgets/WatchlistOverview/constants'
-import { getWatchlistName } from '../../ducks/Watchlists/utils'
 import { addRecentWatchlists, removeRecentWatchlists } from '../../utils/recent'
 import AssetCard from '../../ducks/Watchlists/Widgets/Table/AssetCard'
 import AssetsTemplates from '../../ducks/Watchlists/Widgets/Table/AssetsTemplates'
@@ -108,7 +107,7 @@ const AssetsMobilePage = props => {
             )
           }
 
-          const title = watchlist.name || getWatchlistName(props)
+          const { name: title = 'My screener' } = watchlist || {}
 
           if (items.length && (isCurrentUserTheAuthor || isPublicWatchlist)) {
             addRecentWatchlists(listId)
