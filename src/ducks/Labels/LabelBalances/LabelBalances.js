@@ -37,8 +37,6 @@ const metricsBuilder = ({ slug }) => {
   })
 }
 
-const LabelBalances = () => {
-  return <Erc20DashChart metricsBuilder={metricsBuilder} />
-}
+const LabelBalances = () => <Erc20DashChart metricsBuilder={metricsBuilder} />
 
 export default LabelBalances

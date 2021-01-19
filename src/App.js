@@ -150,10 +150,6 @@ const LoadableSheetsTemplatePage = LoadablePage(() =>
   import('./pages/SheetsTemplatePage/SheetsTemplatePage')
 )
 
-const LoadableLabelsPage = LoadablePage(() =>
-  import('./pages/LabelsPage/LabelsPage')
-)
-
 const LoadableProfilePage = LoadablePage(() =>
   import('./pages/profile/ProfilePage')
 )
@@ -494,10 +490,7 @@ export const App = ({
               />
             )}
           />
-          <Route
-            path={PATHS.LABELS}
-            render={props => <LoadableLabelsPage {...props} />}
-          />
+          <Redirect from={PATHS.LABELS} to={PATHS.ETH_ANALYSIS} />
           <Route
             path={PATHS.CHARTS}
             render={props => (
