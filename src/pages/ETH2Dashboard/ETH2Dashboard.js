@@ -62,7 +62,13 @@ const ETH2Dashboard = () => {
       <div className={externalStyles.header}>
         <div className={cx(externalStyles.inner, externalStyles.content)}>
           <div className={externalStyles.pageDescription}>
-            <h3 className={externalStyles.title}>ETH 2.0 - Santiment Data</h3>
+            <h3 className={externalStyles.title}>
+              Ethereum 2.0 Staking Analytics
+            </h3>
+            <div className={externalStyles.description}>
+              Information all about staking metrics and statistics for the new
+              Ethereum 2.0
+            </div>
             <SharePage />
           </div>
         </div>
