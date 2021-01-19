@@ -232,6 +232,11 @@ const DashboardMetricChart = ({
           setInterval={onChangeInterval}
           intervals={intervals}
         />
+        <DashIntervalSettings
+          settings={settings}
+          metric={firstMetric}
+          setSettings={setSettings}
+        />
         <DashboardChartMetrics
           metrics={metrics}
           loadings={loadings}

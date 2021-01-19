@@ -1,6 +1,13 @@
+@import '~@santiment-network/ui/mixins';
+
 .settings {
   margin-left: auto;
   cursor: pointer;
   min-width: 130px;
   margin-top: 4px;
+  display: flex;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-top: 16px;
+  }
 }
