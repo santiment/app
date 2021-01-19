@@ -25,7 +25,7 @@ const WhalesTrend = ({ item: { slug } }) => {
   return (
     <div className={styles.container}>
       <div className={styles.title}>
-        <ProjectIcon size={36} slug={slug} />
+        <ProjectIcon size={36} slug={slug} logoUrl={project.logoUrl} />
         <div className={styles.ticker}>{project.ticker}</div>
 
         <PercentChanges changes={change} className={styles.change} />

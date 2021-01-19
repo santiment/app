@@ -16,6 +16,7 @@ const AssetCard = ({
   slug,
   name,
   ticker,
+  logoUrl,
   priceUsd = 0,
   priceRange,
   marketcapUsd = 0,
@@ -36,7 +37,7 @@ const AssetCard = ({
     >
       <div className={styles.left}>
         <div className={styles.icon}>
-          <ProjectIcon size={20} slug={slug} />
+          <ProjectIcon size={20} slug={slug} logoUrl={logoUrl} />
         </div>
         <div className={styles.row}>
           <div className={styles.name}>{name}</div>

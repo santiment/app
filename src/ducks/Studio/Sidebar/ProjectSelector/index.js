@@ -16,15 +16,23 @@ const CategoryModifier = {
   All: assets => assets.concat(FIAT_MARKET_ASSETS)
 }
 
-const Selector = ({ slug, name, onClick }) => (
+const Selector = ({ slug, name, logoUrl, onClick }) => (
   <div className={styles.selector} onClick={onClick}>
-    <ProjectIcon size={20} slug={slug} className={styles.icon} />
+    <ProjectIcon
+      size={20}
+      slug={slug}
+      logoUrl={logoUrl}
+      className={styles.icon}
+    />
     {name}
     <Icon type='arrow-down' className={styles.arrow} />
   </div>
 )
 
-const ProjectSelector = ({ project: { slug, name }, onProjectSelect }) => {
+const ProjectSelector = ({
+  project: { slug, name, logoUrl },
+  onProjectSelect
+}) => {
   const [isOpened, setIsOpened] = useState()
 
   function closeDialog () {
@@ -47,7 +55,14 @@ const ProjectSelector = ({ project: { slug, name }, onProjectSelect }) => {
       onOpen={openDialog}
       onClose={closeDialog}
       onSelect={onSelect}
-      trigger={<Selector slug={slug} name={name} onClick={openDialog} />}
+      trigger={
+        <Selector
+          slug={slug}
+          logoUrl={logoUrl}
+          name={name}
+          onClick={openDialog}
+        />
+      }
       customTabs={CUSTOM_TABS}
       CustomCategory={CUSTOM_CATEGORY}
       CategoryModifier={CategoryModifier}
