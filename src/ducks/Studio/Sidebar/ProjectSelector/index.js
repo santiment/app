@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Icon from '@santiment-network/ui/Icon'
 import ProjectSelectDialog from '../../Compare/ProjectSelectDialog'
 import { DEFAULT_TABS } from '../../Compare/ProjectSelectTabs'
