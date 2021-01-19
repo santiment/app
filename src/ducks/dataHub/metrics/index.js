@@ -179,6 +179,18 @@ export const Metric = {
     formatter: mvrvFormatter,
     axisFormatter: mvrvFormatter
   },
+  mvrv_usd_intraday: {
+    category: 'On-chain',
+    node: 'filledLine',
+    group: 'Network Value',
+    label: 'MVRV USD intraday',
+    fullTitle: 'Market Value To Realized Value (USD, intraday)',
+    shortLabel: 'MVRV(i)',
+    abbreviation: 'mvrv_intraday',
+    video: 'https://www.youtube.com/watch?v=foMhhHbCgBE',
+    formatter: mvrvFormatter,
+    axisFormatter: mvrvFormatter
+  },
   mvrv_long_short_diff_usd: {
     category: 'On-chain',
     node: 'filledLine',

@@ -6,6 +6,7 @@ import { parseIntervalString } from '../../utils/dates'
 
 const AvailableTimeboundMetric = {
   [Metric.mvrv_usd.key]: true,
+  [Metric.mvrv_usd_intraday.key]: true,
   [Metric.realized_value_usd.key]: true,
   [Metric.circulation.key]: true,
   [Metric.dormant_circulation.key]: true

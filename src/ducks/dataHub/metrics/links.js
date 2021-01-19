@@ -16,6 +16,7 @@ export const AcademyLinks = {
   [Metric.stock_to_flow.key]:
     'https://academy.santiment.net/metrics/stock-to-flow/',
   [Metric.mvrv_usd.key]: 'https://academy.santiment.net/metrics/mvrv/',
+  [Metric.mvrv_usd_intraday.key]: 'https://academy.santiment.net/metrics/mvrv/',
   [Metric.transaction_volume.key]:
     'https://academy.santiment.net/metrics/transaction-volume/',
   [Metric.velocity.key]: 'https://academy.santiment.net/metrics/velocity/',

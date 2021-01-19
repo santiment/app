@@ -59,6 +59,7 @@ const Frequences = {
   [Metric.exchange_outflow.key]: FiveMinute,
   [Metric.exchange_balance.key]: FiveMinute,
   [Metric.mvrv_usd.key]: Daily,
+  [Metric.mvrv_usd_intraday.key]: Daily,
   [Metric.mean_age.key]: Daily,
   [Metric.nvt.key]: Daily,
   [Metric.network_growth.key]: Daily,
