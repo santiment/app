@@ -1,6 +1,6 @@
 import React from 'react'
 import { Area, AreaChart, Tooltip } from 'recharts'
-import Gradients from '../../WatchlistOverview/Gradients'
+import Gradients from '../../../../../components/Gradients'
 import { calcPercentageChange } from '../../../../../utils/utils'
 import ChartTooltip from '../../../../SANCharts/tooltip/CommonChartTooltip'
 import { tooltipLabelFormatter } from '../../../../dataHub/metrics/formatters'

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { ResponsiveContainer, Tooltip, Treemap } from 'recharts'
-import Range from '../WatchlistOverview/Range'
+import Range from '../WatchlistOverview/WatchlistAnomalies/Range'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
 import { ProjectsChartTooltip } from '../../../SANCharts/tooltip/CommonChartTooltip'
 import ColorsExplanation, { COLOR_MAPS } from './ColorsExplanation'
