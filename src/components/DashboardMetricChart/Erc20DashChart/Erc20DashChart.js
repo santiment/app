@@ -28,6 +28,8 @@ const Erc20DashChart = ({ metricsBuilder, ...rest }) => {
     [metricsBuilder, targetProject]
   )
 
+  console.log(metrics)
+
   return (
     <DashboardMetricChart
       {...rest}

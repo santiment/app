@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { Helmet } from 'react-helmet'
+import gql from 'graphql-tag'
 import { DesktopOnly } from '../../components/Responsive'
 import { Block } from '../StablecoinsPage/StablecoinsPageStructure'
 import LeftPageNavigation from '../../components/LeftPageNavigation/LeftPageNavigation'
@@ -10,9 +11,18 @@ import VolumeOfEthTrades from '../../ducks/EthTradingAnalysis/VolumeOfEthTrades/
 import LabelBalances from '../../ducks/Labels/LabelBalances/LabelBalances'
 import { withRenderQueueProvider } from '../../ducks/renderQueue/viewport'
 import { useRestrictedInfo } from '../UniswapProtocolPage/hooks'
-import { LABEL_METRIC_BOUNDARIES_QUERY } from '../LabelsPage/LabelsPage'
 import externalStyles from './../StablecoinsPage/StablecoinsPage.module.scss'
 import styles from './EthTradingAnalysis.module.scss'
+
+const LABEL_METRIC_BOUNDARIES_QUERY = gql`
+  query {
+    getMetric(metric: "all_known_balance") {
+      metadata {
+        isRestricted
+      }
+    }
+  }
+`
 
 const ANCHORS = {
   VolumeAgainstEth: {
