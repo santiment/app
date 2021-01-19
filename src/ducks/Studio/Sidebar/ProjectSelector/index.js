@@ -4,6 +4,7 @@ import ProjectSelectDialog from '../../Compare/ProjectSelectDialog'
 import { DEFAULT_TABS } from '../../Compare/ProjectSelectTabs'
 import { FIAT_MARKET_ASSETS } from '../../../dataHub/fiat'
 import ProjectIcon from '../../../../components/ProjectIcon/ProjectIcon'
+import { useDialogState } from '../../../../hooks/dialog'
 import styles from './index.module.scss'
 
 const CUSTOM_CATEGORY = {
@@ -33,15 +34,7 @@ const ProjectSelector = ({
   project: { slug, name, logoUrl },
   onProjectSelect
 }) => {
-  const [isOpened, setIsOpened] = useState()
-
-  function closeDialog () {
-    setIsOpened(false)
-  }
-
-  function openDialog () {
-    setIsOpened(true)
-  }
+  const { isOpened, closeDialog, openDialog } = useDialogState()
 
   function onSelect (project) {
     onProjectSelect(project)
