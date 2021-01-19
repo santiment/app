@@ -12,6 +12,7 @@ import styles from './index.module.scss'
 const Table = ({
   data,
   columns,
+  fetchData = () => {},
   options: {
     noDataSettings = {},
     loadingSettings,
@@ -29,13 +30,15 @@ const Table = ({
     stickySettings || {}
   const {
     pageSize: initialPageSize,
-    pageIndex: initialPageIndex,
+    pageIndex: initialPageIndex = 0,
+    onChangePage = null,
     pageSizeOptions = [10, 25, 50],
-    onChangeVisibleItems
+    controlledPageCount,
+    manualPagination
   } = paginationSettings || {}
   const { onChangeSelectedRows } = rowSelectSettings || {}
-
   const initialState = {}
+  const optionalOptions = {}
 
   if (defaultSorting) {
     initialState.sortBy = defaultSorting
@@ -47,6 +50,12 @@ const Table = ({
 
   if (initialPageIndex) {
     initialState.pageIndex = initialPageIndex
+  }
+
+  if (manualPagination) {
+    optionalOptions.manualPagination = true
+    optionalOptions.manualSortBy = true
+    optionalOptions.pageCount = controlledPageCount
   }
 
   const {
@@ -65,11 +74,20 @@ const Table = ({
     previousPage,
     setPageSize,
     selectedFlatRows,
-    state: { pageIndex, pageSize }
+    state: { pageIndex, pageSize, sortBy }
   } = useTable(
     {
       columns,
       data,
+      useControlledState: state => {
+        return React.useMemo(
+          () => ({
+            ...state,
+            pageIndex: manualPagination ? initialPageIndex : state.pageIndex
+          }),
+          [state, initialPageIndex]
+        )
+      },
       disableSortRemove: true,
       disableSortBy: !allowSort,
       sortTypes: {
@@ -79,8 +97,8 @@ const Table = ({
       },
       autoResetPage: false,
       autoResetSortBy: false,
-      autoResetSelectedRows: false,
-      initialState
+      initialState,
+      ...optionalOptions
     },
     useSortBy,
     usePagination,
@@ -95,8 +113,8 @@ const Table = ({
   const content = paginationSettings ? page : rows
   const paginationParams = {
     pageSize,
-    pageOptions,
     pageIndex,
+    pageOptions,
     canNextPage,
     canPreviousPage,
     setPageSize,
@@ -109,20 +127,18 @@ const Table = ({
 
   useEffect(
     () => {
-      if (onChangeVisibleItems) {
-        onChangeVisibleItems({ pageIndex, pageSize, rows })
-      }
-    },
-    [pageIndex, pageSize, rows]
-  )
-
-  useEffect(
-    () => {
       if (onChangeSelectedRows) {
         onChangeSelectedRows(selectedFlatRows)
       }
     },
     [selectedFlatRows]
+  )
+
+  useEffect(
+    () => {
+      fetchData({ pageSize, sortBy })
+    },
+    [fetchData, pageSize, sortBy]
   )
 
   return (
@@ -212,7 +228,11 @@ const Table = ({
         <NoData {...noDataSettings} />
       )}
       {!!paginationSettings && (
-        <Pagination {...paginationParams} className={classes.pagination} />
+        <Pagination
+          {...paginationParams}
+          onChangePage={onChangePage}
+          className={classes.pagination}
+        />
       )}
     </div>
   )

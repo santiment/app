@@ -1,5 +1,3 @@
-import { getDateFormats } from './dates'
-
 const formatCryptoCurrency = (currency, amount) => `${currency} ${amount}`
 
 const formatBTC = price => {
@@ -63,11 +61,6 @@ const MILLIFY_BORDER = 1000
 const formatTokensCount = balance =>
   balance > MILLIFY_BORDER ? millify(balance) : formatNumber(balance)
 
-const labelFormatter = date => {
-  const { dddd, DD, MMM, YYYY } = getDateFormats(new Date(date))
-  return `${dddd}, ${MMM} ${DD} ${YYYY}`
-}
-
 const upperCaseFirstLetter = str => str.charAt(0).toUpperCase() + str.slice(1)
 
 export {
@@ -77,7 +70,6 @@ export {
   formatNumber,
   roundNumber,
   millify,
-  labelFormatter,
   formatTokensCount,
   upperCaseFirstLetter
 }

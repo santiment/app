@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
@@ -7,18 +7,13 @@ import Search from '@santiment-network/ui/Search'
 import Message from '@santiment-network/ui/Message'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Trigger from './Trigger'
-import { metrics } from './dataHub/metrics'
+import { metrics, getActiveBaseMetrics } from './dataHub/metrics'
 import Category from './Category'
 import EntryPoint from './EntryPoint'
 import ToggleActiveFilters from './ToggleActiveFilters'
 import { getCategoryGraph } from '../../../Studio/Sidebar/utils'
 import { countCategoryActiveMetrics } from '../../../SANCharts/ChartMetricSelector'
-import {
-  getActiveBaseMetrics,
-  getNewFunction,
-  extractFilters,
-  filterMetricsBySearch
-} from './utils'
+import { getNewFunction, extractFilters, filterMetricsBySearch } from './utils'
 import { isContainMetric } from './detector'
 import { useAvailableMetrics } from '../../gql/hooks'
 import { useUserSubscriptionStatus } from '../../../../stores/user/subscriptions'
@@ -26,11 +21,10 @@ import { APP_STATES } from '../../../Updates/reducers'
 import {
   notifyLoginForSave,
   notifyOutdatedVersion
-} from '../../Widgets/TopPanel/notifications'
+} from '../TopPanel/notifications'
 import styles from './index.module.scss'
 
 const Filter = ({
-  watchlist = {},
   projectsCount,
   isAuthor,
   isAuthorLoading,
@@ -60,12 +54,14 @@ const Filter = ({
   const [isOutdatedVersion, setIsOutdatedVersion] = useState(false)
   const [isActiveFiltersOnly, setIsActiveFiltersOnly] = useState(false)
   const [isWereChanges, setIsWereChanges] = useState(false)
-  const [availableMetrics] = useAvailableMetrics()
+  const { availableMetrics = [] } = useAvailableMetrics()
   const [isReset, setIsReset] = useState(false)
   const { isPro } = useUserSubscriptionStatus()
 
-  const isNoFilters =
-    filters.length === 0 || screenerFunction.name === 'top_all_projects'
+  const isNoFilters = useMemo(
+    () => filters.length === 0 || screenerFunction.name === 'top_all_projects',
+    [filters, screenerFunction]
+  )
 
   useEffect(
     () => {

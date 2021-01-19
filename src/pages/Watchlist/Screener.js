@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import {
-  DEFAULT_SCREENER_FUNCTION,
+  DEFAULT_SCREENER_FUNCTION as DEFAULT_FUNCTION,
   useScreenerUrl
 } from '../../ducks/Watchlists/utils'
 import {
@@ -10,11 +10,25 @@ import {
 } from '../../ducks/Watchlists/gql/hooks'
 import TopPanel from '../../ducks/Watchlists/Widgets/TopPanel'
 import AssetsTable from '../../ducks/Watchlists/Widgets/Table'
+import { buildFunction } from '../../ducks/Watchlists/Widgets/Filter/utils'
 import Infographics from './Infographics'
+import {
+  activeDynamicColumnsKeys,
+  activeStaticColumnsKeys,
+  DEFAULT_ORDER_BY,
+  DIRECTIONS
+} from '../../ducks/Watchlists/Widgets/Table/Columns/defaults'
 import { addRecentScreeners } from '../../utils/recent'
 import { useUser } from '../../stores/user'
+import { organizeTableQuery } from '../../ducks/Watchlists/gql'
+import { collectActiveDynamicColumns } from '../../ducks/Watchlists/Widgets/Table/Columns/utils'
+import {
+  DEFAULT_COLUMNS,
+  STATIC_COLUMNS
+} from '../../ducks/Watchlists/Widgets/Table/Columns/columns'
 import styles from './Screener.module.scss'
 
+const pageSize = 20
 const Screener = ({
   watchlist,
   name,
@@ -25,19 +39,33 @@ const Screener = ({
   id,
   isLoading
 }) => {
-  const [
-    updateWatchlist,
-    { loading: isUpdatingWatchlist }
-  ] = useUpdateWatchlist()
+  const defaultPagination = { page: 1, pageSize: +pageSize }
+  const [pagination, setPagination] = useState(defaultPagination)
+  const [orderBy, setOrderBy] = useState(DEFAULT_ORDER_BY)
+  const activeDynamicColumnsObj = useMemo(
+    () => collectActiveDynamicColumns(activeDynamicColumnsKeys),
+    [activeDynamicColumnsKeys]
+  )
+  const activeDynamicColumns = useMemo(
+    () => Object.values(activeDynamicColumnsObj),
+    [activeDynamicColumnsObj]
+  )
+  const columns = [
+    ...DEFAULT_COLUMNS,
+    ...activeDynamicColumns,
+    ...STATIC_COLUMNS
+  ]
+  const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist()
   const [screenerFunction, setScreenerFunction] = useState(
-    watchlist.function || DEFAULT_SCREENER_FUNCTION
+    watchlist.function || DEFAULT_FUNCTION
   )
   const { assets = [], projectsCount, loading } = getProjectsByFunction(
-    screenerFunction
+    buildFunction({ func: screenerFunction, pagination, orderBy }),
+    organizeTableQuery(activeDynamicColumns, activeStaticColumnsKeys)
   )
   const { user = {}, loading: userLoading } = useUser()
   const [tableLoading, setTableLoading] = useState(true)
-
+  const { widgets, setWidgets } = useScreenerUrl({ location, history })
   const AppElem = document.getElementsByClassName('App')[0]
 
   if (AppElem) {
@@ -55,18 +83,34 @@ const Screener = ({
 
   useEffect(
     () => {
-      if (watchlist.function !== screenerFunction) {
-        if (
-          !watchlist.function &&
-          screenerFunction === DEFAULT_SCREENER_FUNCTION
-        ) {
+      if (!tableLoading) {
+        refetchAssets()
+      }
+    },
+    [orderBy]
+  )
+
+  useEffect(
+    () => {
+      const func = watchlist.function
+      if (func !== screenerFunction) {
+        if (!func && screenerFunction === DEFAULT_FUNCTION) {
           return
         }
 
-        setScreenerFunction(watchlist.function)
+        setScreenerFunction(func)
       }
     },
     [watchlist.function]
+  )
+
+  useEffect(
+    () => {
+      if (pagination.page !== 1) {
+        setPagination({ ...pagination, page: 1 })
+      }
+    },
+    [screenerFunction]
   )
 
   useEffect(
@@ -86,16 +130,37 @@ const Screener = ({
 
   const refetchAssets = () => {
     setTableLoading(true)
-    getAssetsByFunction(screenerFunction, 'network-only').then(() =>
-      setTableLoading(false)
-    )
+    getAssetsByFunction(
+      buildFunction({ func: screenerFunction, pagination, orderBy }),
+      organizeTableQuery(activeDynamicColumns, activeStaticColumnsKeys),
+      'network-only'
+    ).then(() => setTableLoading(false))
   }
 
-  const { widgets, setWidgets } = useScreenerUrl({ location, history })
+  const fetchData = useCallback(({ pageSize, sortBy }) => {
+    const { id, desc } = sortBy[0]
+    const { timeRange, aggregation } = activeDynamicColumnsObj[id]
+    const newDirection = desc ? DIRECTIONS.DESC : DIRECTIONS.ASC
+    setOrderBy({
+      metric: id,
+      aggregation,
+      dynamicTo: 'now',
+      dynamicFrom: timeRange,
+      direction: newDirection
+    })
+    setPagination({ ...pagination, pageSize: +pageSize })
+  }, [])
 
-  const isAuthor = user && watchlist.user && watchlist.user.id === user.id
-  const isAuthorLoading = userLoading || isLoading
-  const title = (watchlist || {}).name || name
+  const title = watchlist.name || name || 'My screener'
+  // temporal solution @haritonasty 18 Jan, 2021
+  const allItems = useMemo(
+    () => {
+      return watchlist.listItems
+        ? watchlist.listItems.map(item => item.project)
+        : assets
+    },
+    [watchlist]
+  )
 
   return (
     <>
@@ -103,26 +168,24 @@ const Screener = ({
         name={title}
         description={(watchlist || {}).description}
         id={id}
-        assets={assets}
         projectsCount={projectsCount}
         loading={tableLoading}
         watchlist={watchlist}
-        isAuthor={isAuthor}
-        isAuthorLoading={isAuthorLoading}
+        isAuthor={user && watchlist.user && watchlist.user.id === user.id}
+        isAuthorLoading={userLoading || isLoading}
         isLoggedIn={isLoggedIn}
         screenerFunction={screenerFunction}
         setScreenerFunction={setScreenerFunction}
-        isUpdatingWatchlist={isUpdatingWatchlist}
+        isUpdatingWatchlist={isUpdating}
         updateWatchlistFunction={updateWatchlistFunction}
         isDefaultScreener={isDefaultScreener}
-        history={history}
         widgets={widgets}
         setWidgets={setWidgets}
       />
 
       {!loading && (
         <Infographics
-          assets={assets}
+          assets={allItems}
           widgets={widgets}
           setWidgets={setWidgets}
           listId={id}
@@ -132,12 +195,21 @@ const Screener = ({
 
       <AssetsTable
         items={assets}
+        allItems={allItems}
         projectsCount={projectsCount}
         loading={tableLoading}
         type='screener'
         listName={title}
         watchlist={watchlist}
+        fetchData={fetchData}
         refetchAssets={refetchAssets}
+        pageSize={pagination.pageSize}
+        pageIndex={pagination.page - 1}
+        columns={columns}
+        sorting={orderBy}
+        onChangePage={pageIndex =>
+          setPagination({ ...pagination, page: +pageIndex + 1 })
+        }
       />
     </>
   )

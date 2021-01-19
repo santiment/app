@@ -1,35 +1,33 @@
 import React, { useMemo } from 'react'
-import { COLUMNS, DEFAULT_SORTING } from './new-columns'
 import TableTop from './TableTop'
 import Table from '../../../Table'
-import { useVisibleItems, useColumns } from './hooks'
 import { usePriceGraph } from './PriceGraph/hooks'
-import { ASSETS_TABLE_COLUMNS } from './columns'
 import { normalizeGraphData as normalizeData } from './PriceGraph/utils'
-import { useComparingAssets } from '../../../../ducks/Watchlists/Widgets/Table/CompareDialog/hooks'
+import { useComparingAssets } from './CompareDialog/hooks'
 import styles from './index.module.scss'
 
 const AssetsTable = ({
-  items,
+  items = [],
   loading,
   type,
   listName,
   watchlist,
-  refetchAssets
+  refetchAssets,
+  onChangePage,
+  fetchData,
+  projectsCount,
+  columns,
+  allItems,
+  pageSize,
+  pageIndex,
+  sorting
 }) => {
-  const { visibleItems, changeVisibleItems } = useVisibleItems()
+  const defaultSorting = [
+    { id: sorting.metric, desc: sorting.direction === 'desc' }
+  ]
   const { comparingAssets = [], updateAssets } = useComparingAssets()
-  const { columns, toggleColumn, pageSize } = useColumns('Screener')
-  const [graphData] = usePriceGraph({ slugs: visibleItems })
-
-  const shownColumns = useMemo(
-    () => {
-      return COLUMNS.filter(
-        ({ id }) => columns[id].show && ASSETS_TABLE_COLUMNS.includes(id)
-      )
-    },
-    [columns]
-  )
+  const slugs = useMemo(() => items.map(({ slug }) => slug), [items])
+  const [graphData] = usePriceGraph({ slugs })
   const data = useMemo(() => normalizeData(graphData, items), [
     graphData,
     items
@@ -42,15 +40,15 @@ const AssetsTable = ({
         comparingAssets={comparingAssets}
         type={type}
         listName={listName}
-        items={items}
+        items={allItems}
         watchlist={watchlist}
         isLoading={loading}
         columns={columns}
-        toggleColumn={toggleColumn}
       />
       <Table
         data={data}
-        columns={shownColumns}
+        columns={columns}
+        fetchData={fetchData}
         options={{
           noDataSettings: {
             title: 'No matches!',
@@ -62,7 +60,7 @@ const AssetsTable = ({
             isLoading: loading && items.length === 0
           },
           sortingSettings: {
-            defaultSorting: DEFAULT_SORTING,
+            defaultSorting,
             allowSort: true
           },
           stickySettings: {
@@ -72,9 +70,11 @@ const AssetsTable = ({
           },
           paginationSettings: {
             pageSize,
-            pageIndex: 0,
+            pageIndex,
+            onChangePage,
             pageSizeOptions: [10, 20, 50, 100],
-            onChangeVisibleItems: changeVisibleItems
+            controlledPageCount: Math.ceil(projectsCount / pageSize),
+            manualPagination: true
           },
           rowSelectSettings: {
             onChangeSelectedRows: updateAssets

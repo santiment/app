@@ -8,7 +8,6 @@ import {
   UPDATE_WATCHLIST_MUTATION,
   AVAILABLE_METRICS_QUERY,
   AVAILABLE_SEGMENTS_QUERY,
-  PROJECTS_BY_FUNCTION_QUERY,
   getRecentWatchlist
 } from './index'
 import { WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
@@ -214,9 +213,10 @@ export function useUpdateWatchlist () {
 }
 
 export function useAvailableMetrics () {
-  const { data, loading } = useQuery(AVAILABLE_METRICS_QUERY)
-
-  return [data ? data.getAvailableMetrics : [], loading]
+  const { data: { getAvailableMetrics } = {}, loading } = useQuery(
+    AVAILABLE_METRICS_QUERY
+  )
+  return { availableMetrics: getAvailableMetrics, loading }
 }
 
 export function useAvailableSegments () {
@@ -225,8 +225,8 @@ export function useAvailableSegments () {
   return [data ? data.allMarketSegments.sort(countAssetsSort) : [], loading]
 }
 
-export function getProjectsByFunction (func) {
-  const { data, loading, error } = useQuery(PROJECTS_BY_FUNCTION_QUERY, {
+export function getProjectsByFunction (func, query) {
+  const { data, loading, error } = useQuery(query, {
     skip: !func,
     fetchPolicy: 'network-only',
     variables: {
@@ -253,11 +253,11 @@ const extractData = ({ data }) => {
     : undefined
 }
 
-export const getAssetsByFunction = (func, fetchPolicy) =>
+export const getAssetsByFunction = (func, query, fetchPolicy) =>
   client
     .query({
       fetchPolicy,
-      query: PROJECTS_BY_FUNCTION_QUERY,
+      query,
       variables: { fn: JSON.stringify(func) }
     })
     .then(extractData)

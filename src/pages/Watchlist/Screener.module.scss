@@ -12,6 +12,10 @@
     position: sticky;
     left: 0;
   }
+
+  & footer {
+    display: none;
+  }
 }
 
 .infographics {
