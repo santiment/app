@@ -15,7 +15,7 @@ const Widget = ({ type, range, id, changeRange }) => {
     volume,
     changeMarketcap,
     changeVolume
-  } = useHistoryStats({ id, from, interval })
+  } = useHistoryStats({ variables: { id, from, interval }, skip: !id })
 
   return (
     <div className={styles.wrapper}>

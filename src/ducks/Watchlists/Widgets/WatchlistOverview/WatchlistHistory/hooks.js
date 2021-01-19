@@ -26,8 +26,8 @@ const WATCHLIST_STATS_HISTORY_QUERY = gql`
   }
 `
 
-export const useHistoryStats = variables => {
-  const { data } = useQuery(WATCHLIST_STATS_HISTORY_QUERY, { variables })
+export const useHistoryStats = ({ variables, skip }) => {
+  const { data } = useQuery(WATCHLIST_STATS_HISTORY_QUERY, { variables, skip })
 
   return useMemo(
     () => {

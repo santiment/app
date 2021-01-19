@@ -12,10 +12,9 @@ const Template = ({
   change,
   value,
   period,
-  changeRange,
-  isLoading
+  changeRange
 }) => {
-  if (isLoading) {
+  if (!data) {
     return <Skeleton className={styles.skeleton} show={true} />
   }
 

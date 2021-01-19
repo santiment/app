@@ -91,7 +91,6 @@ export const getHelmetTags = (isList, listName) => {
 export const DEFAULT_SCREENER = {
   name: 'My screener',
   to: '/assets/screener',
-  slug: 'TOTAL_MARKET',
   assetType: 'screener'
 }
 
