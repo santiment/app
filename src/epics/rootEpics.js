@@ -22,17 +22,15 @@ import {
   removeAssetFromWatchlistEpic,
   addAssetToWatchlistEpic,
   editAssetsInWatchlistEpic
-} from './../ducks/Watchlists/Actions/Edit/editAssetsInWatchlistEpic'
+} from '../ducks/Watchlists/Actions/Edit/editAssetsInWatchlistEpic'
 import { watchlistToggleMonitoringEpic } from '../ducks/Watchlists/Actions/WeeklyReport/watchlistToggleMonitoringEpic'
 import {
   changeColumnsSettingsEpic,
   saveWatchlistsSettingsAfterLaunch
 } from './changeWatchlistSettings'
 import {
-  fetchAssetsEpic,
   fetchAssetsFromListEpic,
-  fetchAssetsFromListWithEditEpic,
-  fetchRestAllAssetsEpic
+  fetchAssetsFromListWithEditEpic
 } from './fetchAssetsEpic'
 import fetchTimeseriesEpic from '../ducks/GetTimeSeries/epics'
 import {
@@ -79,8 +77,6 @@ export default combineEpics(
   removeAssetFromWatchlistEpic,
   editAssetsInWatchlistEpic,
   // assets
-  fetchAssetsEpic,
-  fetchRestAllAssetsEpic,
   fetchAssetsFromListEpic,
   fetchAssetsFromListWithEditEpic,
   // assets settings
