@@ -55,7 +55,7 @@ const ProjectsList = ({ projects, onSelect, className }) => {
 
   function rowRenderer ({ key, index, style }) {
     const project = projects[index]
-    const { name, ticker, slug } = project
+    const { name, ticker, slug, logoUrl } = project
 
     return (
       <Button
@@ -65,7 +65,12 @@ const ProjectsList = ({ projects, onSelect, className }) => {
         className={cx(styles.btn, cursor === index && styles.btn_cursored)}
         onClick={() => onSelect(project)}
       >
-        <ProjectIcon className={styles.icon} size={16} slug={slug} />
+        <ProjectIcon
+          className={styles.icon}
+          logoUrl={logoUrl}
+          size={16}
+          slug={slug}
+        />
         {name}
         <span className={styles.ticker}>{ticker}</span>
       </Button>
