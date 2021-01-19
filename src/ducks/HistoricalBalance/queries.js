@@ -43,16 +43,11 @@ export const RECENT_TRANSACTIONS_QUERY = gql`
       }
       trxValue
       trxHash
-      slug
-    }
-  }
-`
-export const TRANSACTION_PROJECT_QUERY = gql`
-  query projectBySlugGQL($slug: String!) {
-    projectBySlug(slug: $slug) {
-      id
-      ticker
-      logoUrl
+      project {
+        id
+        ticker
+        logoUrl
+      }
     }
   }
 `
