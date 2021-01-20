@@ -61,29 +61,6 @@ export const WATCHLIST_QUERY = gql`
   ${PROJECT_RECENT_DATA_FRAGMENT}
 `
 
-export const WATCHLIST_WITH_TRENDING_ASSETS_QUERY = gql`
-  query watchlist($id: ID!) {
-    watchlist(id: $id) {
-      ...generalListData
-      stats {
-        trendingProjects {
-          ...generalData
-          ...project
-        }
-      }
-      listItems {
-        project {
-          ...generalData
-          ...project
-        }
-      }
-    }
-  }
-  ${WATCHLIST_GENERAL_FRAGMENT}
-  ${generalData}
-  ${project}
-`
-
 export const WATCHLISTS_SETTINGS_QUERY = gql`
   query fetchWatchlists {
     fetchWatchlists {
