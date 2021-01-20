@@ -73,20 +73,3 @@ export const projectBySlugGQL = gql`
 
   ${TRANSACTION_FRAGMENT}
 `
-
-export const HistoryPriceByTickerGQL = gql`
-  query queryHistoryPrice(
-    $ticker: String
-    $from: DateTime
-    $to: DateTime
-    $interval: interval
-  ) {
-    historyPrice(ticker: $ticker, from: $from, to: $to, interval: $interval) {
-      priceBtc
-      priceUsd
-      volume
-      datetime
-      marketcap
-    }
-  }
-`
