@@ -19,7 +19,13 @@ export const getTransfers = address =>
   })
 
 const currencyAccessor = ({ currency }) => currency
-const currencyFilter = ({ name, symbol }) => name && symbol
+const currencyFilter = ({ name, symbol, address }) => {
+  if (symbol === 'ETH' && address !== '-') {
+    return false
+  }
+
+  return name && symbol
+}
 
 const dataAccessor = ({ data: { ethereum } }) =>
   ethereum.transfers.map(currencyAccessor).filter(currencyFilter)

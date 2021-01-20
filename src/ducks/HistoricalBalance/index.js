@@ -8,6 +8,7 @@ import AddressSetting from './Address'
 import Comments from './Comments'
 import LatestTransactions from './LatestTransactions/index.js'
 import { withSizes } from '../../components/Responsive'
+import { Infrastructure } from '../../utils/address'
 import styles from './index.module.scss'
 
 const HistoricalBalance = ({
@@ -91,7 +92,9 @@ const HistoricalBalance = ({
         setIsLog={setIsLog}
       />
 
-      <Sankey settings={settings} />
+      {settings.infrastructure === Infrastructure.ETH && (
+        <Sankey settings={settings} />
+      )}
 
       <div className={cx(styles.bottom, isPhone && styles.bottom_phone)}>
         <div className={styles.left}>
