@@ -91,7 +91,7 @@ const HistoricalBalance = ({
         setIsLog={setIsLog}
       />
 
-      <Sankey />
+      <Sankey settings={settings} />
 
       <div className={cx(styles.bottom, isPhone && styles.bottom_phone)}>
         <div className={styles.left}>

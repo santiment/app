@@ -1,18 +1,49 @@
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
-  position: relative;
   border: 1px solid var(--porcelain);
+  margin-top: 30px;
   border-radius: 4px;
+}
+
+.graph {
+  height: 518px;
+  position: relative;
   display: flex;
   justify-content: center;
   padding: 102px 16px 16px;
+
+  :global {
+    #sankey-graph,
+    .wrapper {
+      height: 400px;
+    }
+
+    .graph-bottom-menu {
+      display: none;
+    }
+  }
 }
 
-:global {
-  .graph-bottom-menu {
-    display: none;
+.btn {
+  padding: 10px;
+  fill: var(--waterloo);
+  cursor: pointer;
+  background: var(--athens);
+  text-align: center;
+
+  &:hover {
+    color: var(--jungle-green);
   }
+
+  &_opened {
+    background: none;
+    border-top: 1px solid var(--porcelain);
+  }
+}
+
+.arrow {
+  margin-left: 8px;
 }
 
 .title {

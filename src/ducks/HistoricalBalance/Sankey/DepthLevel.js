@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import Title from './Title'
+import { useDebounceEffect } from '../../../hooks/index'
 import styles from './index.module.scss'
 
 const DepthLevel = ({ name, value, className, onChange }) => {
+  const [depth, setDepth] = useState(value)
+
+  useDebounceEffect(() => onChange(depth), 700, [depth])
+
   return (
     <div className={cx(styles.depth, className)}>
       <Title className={styles.depth__title}>
@@ -14,19 +19,19 @@ const DepthLevel = ({ name, value, className, onChange }) => {
       <div className={styles.depth__actions}>
         <div
           className={styles.depth__btn}
-          onClick={value < 2 ? undefined : () => onChange(value - 1)}
+          onClick={depth < 2 ? undefined : () => setDepth(depth - 1)}
         >
           –
         </div>
         <div
           className={styles.depth__value}
-          style={{ width: value.toString().length + 'ch' }}
+          style={{ width: depth.toString().length + 'ch' }}
         >
-          {value}
+          {depth}
         </div>
         <div
           className={styles.depth__btn}
-          onClick={value > 24 ? undefined : () => onChange(value + 1)}
+          onClick={depth > 24 ? undefined : () => setDepth(depth + 1)}
         >
           +
         </div>
