@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const TopHoldersPercentOfTotalSupply = gql`
+export const TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY = gql`
   query topHoldersPercentOfTotalSupply(
     $slug: String!
     $from: DateTime!

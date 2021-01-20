@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const EthSpentOverTime = gql`
+export const ETH_SPENT_OVER_TIME_QUERY = gql`
   query ethSpentOverTime(
     $slug: String
     $from: DateTime

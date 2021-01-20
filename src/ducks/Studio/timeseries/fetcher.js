@@ -5,8 +5,8 @@ import { aliasTransform, normalizeInterval } from './utils'
 import { HISTORICAL_BALANCE_QUERY } from './queries/historicaBalance'
 import { getMinInterval } from './queries/minInterval'
 import { GAS_USED_QUERY } from './queries/gasUsed'
-import { EthSpentOverTime } from './queries/ethSpentOverTime'
-import { TopHoldersPercentOfTotalSupply } from './queries/topHoldersPercentOfTotalSupply'
+import { ETH_SPENT_OVER_TIME_QUERY } from './queries/ethSpentOverTime'
+import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from './queries/topHoldersPercentOfTotalSupply'
 import {
   SOCIAL_ACTIVE_USERS_TELEGRAM,
   SOCIAL_ACTIVE_USERS_TWITTER
@@ -54,14 +54,14 @@ Object.assign(Fetcher, {
     preTransform: aliasTransform('historicalBalance', 'balance')
   },
   topHoldersPercentOfTotalSupply: {
-    query: TopHoldersPercentOfTotalSupply,
+    query: TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY,
     preTransform: aliasTransform(
       'topHoldersPercentOfTotalSupply',
       'inTopHoldersTotal'
     )
   },
   ethSpentOverTime: {
-    query: EthSpentOverTime,
+    query: ETH_SPENT_OVER_TIME_QUERY,
     preTransform: key => ({
       data: {
         ethSpentOverTime: { ethSpentOverTime }
