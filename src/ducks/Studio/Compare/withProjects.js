@@ -34,6 +34,17 @@ export const ALL_PROJECTS_QUERY = gql`
   ${projectSearchData}
 `
 
+export const ALL_PROJECTS_SHORT_QUERY = gql`
+  query allProjects($minVolume: Int = 0) {
+    projects: allProjects(minVolume: $minVolume) {
+      id
+      slug
+      ticker
+      rank
+    }
+  }
+`
+
 const DEFAULT_PROJECTS = []
 
 export const getProject = slug =>
@@ -56,8 +67,8 @@ export default graphql(ALL_PROJECTS_QUERY, {
   }
 })
 
-export const useProjects = () => {
-  const query = useQuery(ALL_PROJECTS_QUERY)
+export const useProjects = (gql = ALL_PROJECTS_QUERY) => {
+  const query = useQuery(gql)
 
   return useMemo(
     () => {

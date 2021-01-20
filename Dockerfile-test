@@ -5,6 +5,7 @@ WORKDIR /usr/app
 
 COPY package.json /usr/app/package.json
 COPY yarn.lock /usr/app/yarn.lock
+COPY patches /usr/app/patches
 RUN yarn
 
 COPY . /usr/app
