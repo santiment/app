@@ -34,7 +34,7 @@
     "chartjs-plugin-annotation": "^0.5.7",
     "classnames": "^2.2.5",
     "copy-to-clipboard": "^3",
-    "d3-sankey-circular": "https://github.com/DmitriVanGuard/d3-sankey-circular",
+    "d3-sankey-circular": "https://github.com/DmitriVanGuard/d3-sankey-circular#1c55d75",
     "draft-convert": "^2.0.1",
     "draftjs-md-converter": "^0.1.6",
     "formik": "^1.5.1",

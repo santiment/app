@@ -7029,7 +7029,7 @@ d3-sankey-circular@^0.34.0:
     d3-shape "^1.2.0"
     elementary-circuits-directed-graph "^1.0.4"
 
-"d3-sankey-circular@https://github.com/DmitriVanGuard/d3-sankey-circular":
+"d3-sankey-circular@https://github.com/DmitriVanGuard/d3-sankey-circular#1c55d75":
   version "0.34.0"
   resolved "https://github.com/DmitriVanGuard/d3-sankey-circular#1c55d752bbdf3e7a6f5ad90f7b7d7404062ba34d"
   dependencies:
