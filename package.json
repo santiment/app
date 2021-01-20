@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@apollo/react-testing": "^3.1.3",
-    "@bitquery/graph": "https://github.com/DmitriVanGuard/graphs.git#07bb163",
+    "@bitquery/graph": "https://github.com/DmitriVanGuard/graphs",
     "@nivo/chord": "^0.62.0",
     "@santiment-network/chart": "^0.9.1",
     "@santiment-network/ui": "^0.5.211",
@@ -34,7 +34,7 @@
     "chartjs-plugin-annotation": "^0.5.7",
     "classnames": "^2.2.5",
     "copy-to-clipboard": "^3",
-    "d3-sankey-circular": "https://github.com/bitquery/d3-sankey-circular#fbeb41b",
+    "d3-sankey-circular": "https://github.com/DmitriVanGuard/d3-sankey-circular",
     "draft-convert": "^2.0.1",
     "draftjs-md-converter": "^0.1.6",
     "formik": "^1.5.1",

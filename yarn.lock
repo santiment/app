@@ -2143,9 +2143,9 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@bitquery/graph@https://github.com/DmitriVanGuard/graphs.git#07bb163":
+"@bitquery/graph@https://github.com/DmitriVanGuard/graphs":
   version "1.0.6"
-  resolved "https://github.com/DmitriVanGuard/graphs.git#07bb16352101645d89cee04fc88044afa00dc105"
+  resolved "https://github.com/DmitriVanGuard/graphs#07bb16352101645d89cee04fc88044afa00dc105"
   dependencies:
     d3 "^6.2.0"
     d3-path-arrows "^0.4.0"
@@ -2154,10 +2154,6 @@
     numeral "^2.0.6"
     vis "^4.21.0-EOL"
     workbox-webpack-plugin "^5.1.4"
-
-"@bitquery/graph@https://github.com/DmitriVanGuard/graphs.git#875576b":
-  version "1.0.6"
-  resolved "https://github.com/DmitriVanGuard/graphs.git#875576bd6474481a46a8c9bd617056a879edb53c"
 
 "@csstools/convert-colors@^1.4.0":
   version "1.4.0"
@@ -7024,9 +7020,18 @@ d3-random@2:
   resolved "https://registry.yarnpkg.com/d3-random/-/d3-random-2.2.2.tgz#5eebd209ef4e45a2b362b019c1fb21c2c98cbb6e"
   integrity sha512-0D9P8TRj6qDAtHhRQn6EfdOtHMfsUWanl3yb/84C4DqpZ+VsgfI5iTVRNRbELCfNvRfpMr8OrqqUTQ6ANGCijw==
 
-d3-sankey-circular@^0.34.0, "d3-sankey-circular@https://github.com/bitquery/d3-sankey-circular#fbeb41b":
+d3-sankey-circular@^0.34.0:
   version "0.34.0"
   resolved "https://github.com/bitquery/d3-sankey-circular#fbeb41b4d5e7ca38fb4b1fd510eecb2270711b20"
+  dependencies:
+    d3-array "^1.2.1"
+    d3-collection "^1.0.4"
+    d3-shape "^1.2.0"
+    elementary-circuits-directed-graph "^1.0.4"
+
+"d3-sankey-circular@https://github.com/DmitriVanGuard/d3-sankey-circular":
+  version "0.34.0"
+  resolved "https://github.com/DmitriVanGuard/d3-sankey-circular#1c55d752bbdf3e7a6f5ad90f7b7d7404062ba34d"
   dependencies:
     d3-array "^1.2.1"
     d3-collection "^1.0.4"
