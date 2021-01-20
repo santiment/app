@@ -33,6 +33,7 @@ export function GetReferenceDots (signals, yAxisId) {
     />
   ))
 }
+
 const renderChart = (data, { key, dataKey = key }, markup, referenceDots) => {
   return (
     <ComposedChart data={data} margin={{ left: 0, right: 0, top: 16 }}>

@@ -93,7 +93,7 @@ const DashboardMetricChart = ({
   projectSelector
 }) => {
   const MetricTransformer = useMirroredTransformer(metrics)
-  const [MetricSettingsMap] = useState(new Map())
+  const [MetricSettingsMap, setMetricSettingsMap] = useState(new Map())
   const domainGroups = useDomainGroups(metrics)
   const mirrorDomainGroups = useMemo(
     () => extractMirrorMetricsDomainGroups(domainGroups),
@@ -103,6 +103,8 @@ const DashboardMetricChart = ({
   useEffect(
     () => {
       updateTooltipSettings(metrics)
+
+      updateSettingsMap()
     },
     [metrics]
   )
@@ -113,6 +115,22 @@ const DashboardMetricChart = ({
     setSettings,
     onChangeInterval
   } = useChartSettings(defaultInterval)
+
+  function updateSettingsMap ({ interval } = {}) {
+    const map = new Map()
+
+    metrics.forEach(m => {
+      const oldSettings = MetricSettingsMap.get(m)
+
+      map.set(m, {
+        ...oldSettings,
+        interval: interval || settings.interval
+      })
+    })
+
+    setMetricSettingsMap(map)
+  }
+
   const [disabledMetrics, setDisabledMetrics] = useState({})
 
   const activeMetrics = useMemo(
@@ -149,8 +167,6 @@ const DashboardMetricChart = ({
     },
     [loadings, allTimeDataLoadings]
   )
-
-  const firstMetric = useMemo(() => metrics[0], [metrics])
 
   return (
     <>
@@ -204,9 +220,9 @@ const DashboardMetricChart = ({
             colors={MetricColor}
           />
           <DashIntervalSettings
-            settings={settings}
-            metric={firstMetric}
-            setSettings={setSettings}
+            metrics={metrics}
+            metricSettingsMap={MetricSettingsMap}
+            updateInterval={updateSettingsMap}
           />
         </div>
       </DesktopOnly>
@@ -233,9 +249,9 @@ const DashboardMetricChart = ({
           intervals={intervals}
         />
         <DashIntervalSettings
-          settings={settings}
-          metric={firstMetric}
-          setSettings={setSettings}
+          metrics={metrics}
+          metricSettingsMap={MetricSettingsMap}
+          updateInterval={updateSettingsMap}
         />
         <DashboardChartMetrics
           metrics={metrics}
