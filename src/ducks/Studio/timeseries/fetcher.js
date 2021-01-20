@@ -4,9 +4,9 @@ import { MarketSegmentFetcher } from './marketSegments'
 import { aliasTransform, normalizeInterval } from './utils'
 import { HISTORICAL_BALANCE_QUERY } from './queries/historicaBalance'
 import { getMinInterval } from './queries/minInterval'
-import { GAS_USED_QUERY } from '../../GetTimeSeries/queries/gas_used'
-import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from '../../GetTimeSeries/queries/top_holders_percent_of_total_supply'
-import { ETH_SPENT_OVER_TIME_QUERY } from '../../GetTimeSeries/queries/eth_spent_over_time_query'
+import { GAS_USED_QUERY } from './queries/gasUsed'
+import { EthSpentOverTime } from './queries/ethSpentOverTime'
+import { TopHoldersPercentOfTotalSupply } from './queries/topHoldersPercentOfTotalSupply'
 import {
   SOCIAL_ACTIVE_USERS_TELEGRAM,
   SOCIAL_ACTIVE_USERS_TWITTER
@@ -54,14 +54,14 @@ Object.assign(Fetcher, {
     preTransform: aliasTransform('historicalBalance', 'balance')
   },
   topHoldersPercentOfTotalSupply: {
-    query: TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY,
+    query: TopHoldersPercentOfTotalSupply,
     preTransform: aliasTransform(
       'topHoldersPercentOfTotalSupply',
       'inTopHoldersTotal'
     )
   },
   ethSpentOverTime: {
-    query: ETH_SPENT_OVER_TIME_QUERY,
+    query: EthSpentOverTime,
     preTransform: key => ({
       data: {
         ethSpentOverTime: { ethSpentOverTime }
