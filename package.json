@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@apollo/react-testing": "^3.1.3",
-    "@bitquery/graph": "https://github.com/bitquery/graphs#9d0d6e2",
+    "@bitquery/graph": "https://github.com/DmitriVanGuard/graphs.git#07bb163",
     "@nivo/chord": "^0.62.0",
     "@santiment-network/chart": "^0.9.1",
     "@santiment-network/ui": "^0.5.211",
