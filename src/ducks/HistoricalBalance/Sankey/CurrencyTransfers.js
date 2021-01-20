@@ -1,11 +1,28 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import Button from '@santiment-network/ui/Button'
 import Select from '@santiment-network/ui/Search/Select/Select'
 import { getCurrencyTransfers } from './currencies'
 import Title from './Title'
+import {
+  ALL_PROJECTS_SHORT_QUERY,
+  useProjects
+} from '../../Studio/Compare/withProjects'
 import styles from './index.module.scss'
 
 const EMPTY = []
+const useTickerRank = projects =>
+  useMemo(
+    () => {
+      const TickerRank = {}
+      for (let i = 0; i < projects.length; i++) {
+        const { ticker, rank } = projects[i]
+        TickerRank[ticker] = rank
+      }
+      return TickerRank
+    },
+    [projects]
+  )
+
 const Option = ({ option, style, selectValue }) => {
   const { address, name, symbol } = option
 
@@ -33,12 +50,29 @@ const Value = ({ value }) => {
 }
 
 const CurrencyTransfers = ({ address, currency, setCurrency }) => {
-  const [currencies, setCurrencies] = useState(EMPTY)
+  const [projects] = useProjects(ALL_PROJECTS_SHORT_QUERY)
+  const TickerRank = useTickerRank(projects)
+  const [rawCurrencies, setCurrencies] = useState(EMPTY)
+  const currencies = useMemo(
+    () => {
+      if (projects.length === 0) return rawCurrencies
+
+      const sorted = rawCurrencies
+        .slice()
+        .sort(
+          ({ symbol: a }, { symbol: b }) =>
+            (TickerRank[a] || 99999) - (TickerRank[b] || 99999)
+        )
+
+      setCurrency(sorted[0])
+      return sorted
+    },
+    [rawCurrencies, TickerRank]
+  )
 
   useEffect(
     () => {
       getCurrencyTransfers(address).then(currencies => {
-        setCurrency(currencies[0])
         setCurrencies(currencies)
       })
     },
@@ -51,7 +85,7 @@ const CurrencyTransfers = ({ address, currency, setCurrency }) => {
 
       <Select
         options={currencies}
-        value={currency || currencies[0]}
+        value={currency}
         optionRenderer={Option}
         className={styles.currencies__select}
         onChange={setCurrency}
