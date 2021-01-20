@@ -32,7 +32,6 @@ import {
   fetchAssetsFromListEpic,
   fetchAssetsFromListWithEditEpic
 } from './fetchAssetsEpic'
-import fetchTimeseriesEpic from '../ducks/GetTimeSeries/epics'
 import {
   createSignalEpic,
   removeSignalEpic,
@@ -83,8 +82,6 @@ export default combineEpics(
   changeColumnsSettingsEpic,
   saveWatchlistsSettingsAfterLaunch,
   watchlistToggleMonitoringEpic,
-  // timeseries
-  fetchTimeseriesEpic,
   // Settings
   removeConnectedWallet,
   connectNewWallet,
