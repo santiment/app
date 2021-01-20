@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
-import Range from '../../ducks/Watchlists/Widgets/WatchlistOverview/Range'
+import Range from '../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistAnomalies/Range'
 import styles from './IntervalsComponent.module.scss'
 
 export const RANGES = [

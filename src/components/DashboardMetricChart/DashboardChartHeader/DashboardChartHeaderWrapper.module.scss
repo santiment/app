@@ -1,4 +1,4 @@
-@import '../../../../node_modules/@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/mixins';
 
 .container {
   display: flex;
@@ -10,7 +10,7 @@
   @include text('body-2', 'm');
 
   @include responsive('phone', 'phone-xs') {
-    padding-bottom: 9px;
+    padding: 9px;
     flex-direction: column;
   }
 
@@ -26,7 +26,7 @@
   margin-top: auto;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    margin: 16px 0 0 0;
+    margin: 16px 16px 0 16px;
     display: flex;
     justify-content: space-between;
   }

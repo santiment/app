@@ -13,6 +13,11 @@ import styles from './NavbarChartsDropdown.module.scss'
 
 const DASHBOARDS = [
   {
+    name: 'Ethereum 2.0 Staking Analytics',
+    to: '/eth2',
+    createdAt: '2021-01-20T00:00:00Z'
+  },
+  {
     name: 'Stablecoins',
     to: '/stablecoins',
     createdAt: '2020-10-01T00:00:00Z'

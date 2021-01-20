@@ -1,7 +1,7 @@
 import React, { useRef, useCallback, useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
 import { useRenderQueueItem } from '../../ducks/renderQueue/viewport'
-import { Skeleton } from '../../components/Skeleton'
+import { Skeleton } from '../Skeleton'
 import {
   useAllTimeData,
   useTimeseries
@@ -26,6 +26,7 @@ import { useDomainGroups } from '../../ducks/Chart/hooks'
 import { extractMirrorMetricsDomainGroups } from '../../ducks/Chart/utils'
 import PaywallInfo from '../../ducks/Studio/Chart/PaywallInfo'
 import DexPriceMeasurement from '../../ducks/Dexs/PriceMeasurement/DexPriceMeasurement'
+import DashIntervalSettings from './DashIntervalSettings/DashIntervalSettings'
 import styles from './DashboardMetricChart.module.scss'
 
 const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
@@ -79,7 +80,6 @@ export const useChartSettings = defaultInterval => {
 
 const DashboardMetricChart = ({
   metrics,
-  metricSettingsMap,
   defaultInterval = INTERVAL_30_DAYS,
   intervals = DEFAULT_INTERVAL_SELECTORS,
   metricSelectors,
@@ -93,7 +93,7 @@ const DashboardMetricChart = ({
   projectSelector
 }) => {
   const MetricTransformer = useMirroredTransformer(metrics)
-
+  const [MetricSettingsMap, setMetricSettingsMap] = useState(new Map())
   const domainGroups = useDomainGroups(metrics)
   const mirrorDomainGroups = useMemo(
     () => extractMirrorMetricsDomainGroups(domainGroups),
@@ -103,6 +103,8 @@ const DashboardMetricChart = ({
   useEffect(
     () => {
       updateTooltipSettings(metrics)
+
+      updateSettingsMap()
     },
     [metrics]
   )
@@ -113,6 +115,22 @@ const DashboardMetricChart = ({
     setSettings,
     onChangeInterval
   } = useChartSettings(defaultInterval)
+
+  function updateSettingsMap ({ interval } = {}) {
+    const map = new Map()
+
+    metrics.forEach(m => {
+      const oldSettings = MetricSettingsMap.get(m)
+
+      map.set(m, {
+        ...oldSettings,
+        interval: interval || settings.interval
+      })
+    })
+
+    setMetricSettingsMap(map)
+  }
+
   const [disabledMetrics, setDisabledMetrics] = useState({})
 
   const activeMetrics = useMemo(
@@ -123,7 +141,7 @@ const DashboardMetricChart = ({
   const [data, loadings] = useTimeseries(
     activeMetrics,
     settings,
-    metricSettingsMap,
+    MetricSettingsMap,
     MetricTransformer
   )
 
@@ -193,13 +211,20 @@ const DashboardMetricChart = ({
       </DashboardChartHeaderWrapper>
 
       <DesktopOnly>
-        <DashboardChartMetrics
-          metrics={metrics}
-          loadings={loadings}
-          toggleDisabled={setDisabledMetrics}
-          disabledMetrics={disabledMetrics}
-          colors={MetricColor}
-        />
+        <div className={styles.settings}>
+          <DashboardChartMetrics
+            metrics={metrics}
+            loadings={loadings}
+            toggleDisabled={setDisabledMetrics}
+            disabledMetrics={disabledMetrics}
+            colors={MetricColor}
+          />
+          <DashIntervalSettings
+            metrics={metrics}
+            metricSettingsMap={MetricSettingsMap}
+            updateInterval={updateSettingsMap}
+          />
+        </div>
       </DesktopOnly>
 
       <DashboardMetricChartWrapper
@@ -222,6 +247,11 @@ const DashboardMetricChart = ({
           interval={intervalSelector}
           setInterval={onChangeInterval}
           intervals={intervals}
+        />
+        <DashIntervalSettings
+          metrics={metrics}
+          metricSettingsMap={MetricSettingsMap}
+          updateInterval={updateSettingsMap}
         />
         <DashboardChartMetrics
           metrics={metrics}

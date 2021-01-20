@@ -13,15 +13,6 @@ export const generalData = gql`
   }
 `
 
-const ethereumData = gql`
-  fragment ethereumData on Project {
-    fundsRaisedUsdIcoEndPrice
-    ethAddresses {
-      address
-    }
-  }
-`
-
 export const project = gql`
   fragment project on Project {
     rank
@@ -43,28 +34,6 @@ export const PROJECT_RECENT_DATA_FRAGMENT = gql`
     priceUsd
     percentChange7d
   }
-`
-
-export const allProjectsGQL = gql`
-  query allProjects($minVolume: Int!) {
-    allProjects(minVolume: $minVolume) {
-      ...generalData
-      ...project
-    }
-  }
-  ${generalData}
-  ${project}
-`
-
-export const allProjects50GQL = gql`
-  query allProjects($minVolume: Int!) {
-    allProjects(page: 1, pageSize: 50, minVolume: $minVolume) {
-      ...generalData
-      ...project
-    }
-  }
-  ${generalData}
-  ${project}
 `
 
 export const PROJECT_WITH_SLUG_QUERY = gql`
@@ -95,20 +64,6 @@ export const ALL_PROJECTS_FOR_SEARCH_QUERY = gql`
     }
   }
   ${generalData}
-`
-
-export const ERC20_PROJECTS_QUERY = gql`
-  query allErc20Projects($minVolume: Int!, $page: Int, $pageSize: Int) {
-    allErc20Projects(minVolume: $minVolume, page: $page, pageSize: $pageSize) {
-      ethBalance
-      ...generalData
-      ...project
-      ...ethereumData
-    }
-  }
-  ${ethereumData}
-  ${generalData}
-  ${project}
 `
 
 export const ALL_PROJECTS_PRICE_CHANGES_QUERY = gql`
@@ -160,5 +115,3 @@ export const ALL_PROJECTS_SOCIAL_VOLUME_CHANGES_QUERY = gql`
     }
   }
 `
-
-export default allProjectsGQL

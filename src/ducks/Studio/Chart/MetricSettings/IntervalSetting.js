@@ -7,7 +7,7 @@ import { useMetricIntervals } from './hooks'
 import { mergeMetricSettingMap } from '../../utils'
 import styles from './index.module.scss'
 
-const isAvailableInterval = (interval, intervals) =>
+export const isAvailableInterval = (interval, intervals) =>
   intervals.some(({ key }) => key === interval)
 
 const IntervalSetting = ({
@@ -51,6 +51,24 @@ const IntervalSetting = ({
     close()
     rerenderWidgets()
   }
+  return (
+    <IntervalSettingsTemplate
+      intervals={intervals}
+      interval={interval}
+      onChange={onChange}
+      activeRef={activeRef}
+      dd={Dropdown}
+    />
+  )
+}
+
+export const IntervalSettingsTemplate = ({
+  intervals,
+  interval,
+  onChange,
+  activeRef,
+  dd: Dropdown
+}) => {
   return (
     <Dropdown
       trigger={

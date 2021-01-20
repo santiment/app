@@ -7,7 +7,7 @@ function makeInterval (key, label) {
 }
 
 const intervalIndices = []
-const INTERVALS = [
+export const INTERVALS = [
   makeInterval('5m', '5 minutes'),
   makeInterval('15m', '15 minutes'),
   makeInterval('30m', '30 minutes'),

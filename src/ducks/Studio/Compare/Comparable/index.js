@@ -38,7 +38,7 @@ export default ({
   const [selectedMetric, setSelectedMetric] = useState(metric)
   const [opened, setOpened] = useState()
 
-  const { slug, ticker } = selectedProject || {}
+  const { slug, ticker, logoUrl } = selectedProject || {}
 
   useEffect(
     () => {
@@ -85,7 +85,12 @@ export default ({
       <ProjectSelectDialog
         trigger={
           <Button border>
-            <ProjectIcon className={styles.icon} size={16} slug={slug} />
+            <ProjectIcon
+              className={styles.icon}
+              size={16}
+              slug={slug}
+              logoUrl={logoUrl}
+            />
             {ticker}
             <Icon type='arrow-down' className={styles.arrow} />
           </Button>

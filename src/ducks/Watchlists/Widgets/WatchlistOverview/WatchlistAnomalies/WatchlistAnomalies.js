@@ -3,8 +3,8 @@ import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import { filteringTypes } from '../constants'
-import Range from '../Range'
-import Stat from '../Stat'
+import Range from './Range'
+import Stat from './Stat'
 import styles from './WatchlistAnomalies.module.scss'
 
 const WatchlistAnomalies = ({
