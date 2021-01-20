@@ -6,8 +6,8 @@ const Categories = ({ onClick, classes = {} }) => {
   const [watchlists = []] = useFeaturedWatchlists()
 
   return watchlists.map(watchlist => {
-    const { id, name, listItems } = watchlist || {}
-    if (!watchlist || listItems.length === 0) return null
+    const { id, name } = watchlist || {}
+    if (!watchlist) return null
 
     return (
       <WatchlistCard
