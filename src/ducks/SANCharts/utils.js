@@ -1,6 +1,6 @@
 import React from 'react'
 import { YAxis, Bar, Line, Area } from 'recharts'
-import { formatNumber, millify } from './../../utils/formatting'
+import { formatNumber, millify } from '../../utils/formatting'
 import ActiveLine from './tooltip/ActiveLine'
 import { Metric } from '../dataHub/metrics'
 import { Event } from '../dataHub/events'
