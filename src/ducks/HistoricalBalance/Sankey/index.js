@@ -77,34 +77,33 @@ const Sankey = ({ ...props }) => {
   const [currency, setCurrency] = useState()
   const [inbound, setInbound] = useState(1)
   const [outbound, setOutbound] = useState(1)
+  const [detail, setDetail] = useState(10)
 
   useEffect(() => {
-    const res = query.request({
-      inboundDepth: 1,
-      outboundDepth: 1,
-      limit: 10,
-      offset: 0,
-      network: 'ethereum',
-      address: '0x876eabf441b2ee5b5b0554fd502a8e0600950cfa',
-      currency: 'ETH',
-      from: null,
-      till: null,
-      dateFormat: '%Y-%m'
-    })
-
     query.JSCode = true
 
     new address_sankey('#sankey-graph', query, {
       theme: 'light'
     })
-
-    new addControls('#sankey-graph', query, {
-      theme: 'light',
-      currencies
-    })
-
-    console.log(res)
   }, [])
+
+  useEffect(
+    () => {
+      query.request({
+        inboundDepth: inbound,
+        outboundDepth: outbound,
+        limit: detail,
+        offset: 0,
+        network: 'ethereum',
+        address: '0x876eabf441b2ee5b5b0554fd502a8e0600950cfa',
+        currency: 'ETH',
+        from: null,
+        till: null,
+        dateFormat: '%Y-%m'
+      })
+    },
+    [inbound, outbound, detail]
+  )
 
   return (
     <div className={styles.wrapper}>
@@ -113,8 +112,9 @@ const Sankey = ({ ...props }) => {
         <CurrencyTransfers currency={currency} setCurrency={setCurrency} />
         <DepthLevel name='Inbound' value={inbound} onChange={setInbound} />
         <DepthLevel name='Outbound' value={outbound} onChange={setOutbound} />
-        <DetailLevel />
+        <DetailLevel value={detail} onChange={setDetail} />
       </div>
+      <div className={styles.powered}>Powered by Bitquery.io</div>
     </div>
   )
 }
