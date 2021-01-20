@@ -7022,16 +7022,8 @@ d3-random@2:
 
 d3-sankey-circular@^0.34.0:
   version "0.34.0"
-  resolved "https://github.com/bitquery/d3-sankey-circular#fbeb41b4d5e7ca38fb4b1fd510eecb2270711b20"
-  dependencies:
-    d3-array "^1.2.1"
-    d3-collection "^1.0.4"
-    d3-shape "^1.2.0"
-    elementary-circuits-directed-graph "^1.0.4"
-
-"d3-sankey-circular@https://github.com/DmitriVanGuard/d3-sankey-circular#1c55d75":
-  version "0.34.0"
-  resolved "https://github.com/DmitriVanGuard/d3-sankey-circular#1c55d752bbdf3e7a6f5ad90f7b7d7404062ba34d"
+  resolved "https://registry.yarnpkg.com/d3-sankey-circular/-/d3-sankey-circular-0.34.0.tgz#980c3e91f6970bb45bb7eca90b84ce4dc7b9f7b9"
+  integrity sha512-eI0eoxqXbcW7oHzQA1DrsPhn7kaIK9ibh/XMhdU/zsyj4FQskaFMj/AAnY0GNcET5/0+VqZABhFfhqFrno7GUA==
   dependencies:
     d3-array "^1.2.1"
     d3-collection "^1.0.4"
