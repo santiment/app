@@ -1,10 +1,4 @@
 import React from 'react'
-import cx from 'classnames'
-import LoginPopup from '../banners/feature/PopupBanner'
-import { useUserWatchlists } from '../../ducks/Watchlists/gql/hooks'
-import NewWatchlist from '../../ducks/Watchlists/Actions/New'
-import styles from '../../ducks/Watchlists/Cards/NewCard.module.scss'
-import cardStyles from '../../ducks/Watchlists/Cards/Card.module.scss'
 
 export const SvgNew = ({ className }) => (
   <svg
@@ -42,24 +36,3 @@ export const SvgNew = ({ className }) => (
     />
   </svg>
 )
-
-const Trigger = ({ title, ...rest }) => {
-  return (
-    <div className={cx(cardStyles.wrapper, styles.create)} {...rest}>
-      <SvgNew />
-      <div className={styles.createLink}>Create your watchlist</div>
-    </div>
-  )
-}
-
-const NewWatchlistCard = () => {
-  const [watchlists = []] = useUserWatchlists()
-
-  return (
-    <LoginPopup trigger={Trigger}>
-      <NewWatchlist lists={watchlists} trigger={<Trigger />} type='watchlist' />
-    </LoginPopup>
-  )
-}
-
-export default NewWatchlistCard

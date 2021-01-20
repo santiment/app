@@ -1,5 +1,5 @@
 import React from 'react'
-import { SvgNew } from '../../Watchlists/NewWatchlistCard'
+import { SvgNew } from '../../Illustrations/NewCard'
 import SignalMasterModalForm from '../../../ducks/Signals/signalModal/SignalMasterModalForm'
 import styles from './NewSignalCard.module.scss'
 
