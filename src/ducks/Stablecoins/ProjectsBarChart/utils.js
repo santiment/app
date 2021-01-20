@@ -73,10 +73,11 @@ export const HorizontalCategoryTick = props => {
     index
   } = props
   const item = data[index] || {}
+  const { logoUrl } = item
   return (
     <foreignObject x={x - 35} y={y} width={70} height={80}>
       <div className={styles.name}>
-        <ProjectIcon slug={value} size={30} />
+        <ProjectIcon slug={value} logoUrl={logoUrl} size={30} />
         <ProjectTicker item={item} />
       </div>
     </foreignObject>
@@ -92,10 +93,11 @@ export const VerticalCategoryTick = props => {
     index
   } = props
   const item = data[index] || {}
+  const { logoUrl } = item
   return (
     <foreignObject x={x - 94} y={y - 16} width={120} height={40}>
       <div className={cx(styles.name, styles.name__vertical)}>
-        <ProjectIcon slug={value} size={26} />
+        <ProjectIcon slug={value} logoUrl={logoUrl} size={26} />
         <ProjectTicker item={item} />
       </div>
     </foreignObject>

@@ -21,6 +21,7 @@ import {
 import { addRecentScreeners } from '../../utils/recent'
 import { useUser } from '../../stores/user'
 import { organizeTableQuery } from '../../ducks/Watchlists/gql'
+import { DEFAULT_SCREENER_ID } from '../../ducks/Watchlists/gql/queries'
 import { collectActiveDynamicColumns } from '../../ducks/Watchlists/Widgets/Table/Columns/utils'
 import {
   DEFAULT_COLUMNS,
@@ -188,7 +189,7 @@ const Screener = ({
           assets={allItems}
           widgets={widgets}
           setWidgets={setWidgets}
-          listId={id}
+          listId={isDefaultScreener ? DEFAULT_SCREENER_ID : id}
           className={styles.infographics}
         />
       )}

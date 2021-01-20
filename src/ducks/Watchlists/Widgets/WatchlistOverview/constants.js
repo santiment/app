@@ -1,18 +1,9 @@
-import { DAY, getTimeIntervalFromToday, MONTH } from '../../../../utils/dates'
-
-const RANGES_METHOD = new Map()
-  .set('24h', getTimeIntervalFromToday(-1, DAY))
-  .set('7d', getTimeIntervalFromToday(-7, DAY))
-  .set('1m', getTimeIntervalFromToday(-1, MONTH))
-  .set('3m', getTimeIntervalFromToday(-3, MONTH))
-  .set('6m', getTimeIntervalFromToday(-6, MONTH))
-
 export const RANGES = [
-  { value: '24h', interval: '1h', method: RANGES_METHOD.get('24h') },
-  { value: '7d', interval: '6h', method: RANGES_METHOD.get('7d') },
-  { value: '1m', interval: '1d', method: RANGES_METHOD.get('1m') },
-  { value: '3m', interval: '3d', method: RANGES_METHOD.get('3m') },
-  { value: '6m', interval: '3d', method: RANGES_METHOD.get('6m') }
+  { value: '24h', interval: '1h', from: 'utc_now-1d' },
+  { value: '7d', interval: '6h', from: 'utc_now-7d' },
+  { value: '1m', interval: '1d', from: 'utc_now-30d' },
+  { value: '3m', interval: '3d', from: 'utc_now-90d' },
+  { value: '6m', interval: '3d', from: 'utc_now-180d' }
 ]
 
 export const filteringTypes = {

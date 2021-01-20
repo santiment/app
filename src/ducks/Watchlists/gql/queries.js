@@ -107,11 +107,13 @@ function useUserShortWatchlists (filter, reduce = noop) {
 export const useUserWatchlists = () =>
   useUserShortWatchlists(checkIsNotScreener)
 
+export const DEFAULT_SCREENER_ID = isStage ? 1183 : 5496
+
 const DEFAULT_SCREENERS = [
   {
     name: 'My screener',
     href: '/screener/new',
-    id: isStage ? 1183 : 5496
+    id: DEFAULT_SCREENER_ID
   }
 ]
 export const useUserScreeners = () =>

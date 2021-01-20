@@ -528,7 +528,8 @@ export const Metric = {
     withoutRoot: true,
     showRoot: false,
     isBeta: true,
-    checkIsVisible: ({ isBeta: isBetaApp }) => isBetaApp
+    checkIsVisible: ({ isBeta: isBetaApp }) => isBetaApp,
+    domainGroup: 'social_active_users'
   },
   price_daa_divergence: {
     category: 'Indicators',

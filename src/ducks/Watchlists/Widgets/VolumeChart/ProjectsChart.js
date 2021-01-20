@@ -14,7 +14,7 @@ import {
   LabelList
 } from 'recharts'
 import { ProjectsChartTooltip } from '../../../SANCharts/tooltip/CommonChartTooltip'
-import Range from '../WatchlistOverview/Range'
+import Range from '../WatchlistOverview/WatchlistAnomalies/Range'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
 import NoDataCharts from './NoDataCharts'
 import ScreenerChartTitle from './ScreenerChartTitle'

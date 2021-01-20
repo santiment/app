@@ -23,10 +23,13 @@ export const FEE_RANGES = [
 const FEES_DISTRIBUTION = gql`
   query ethFeesDistribution($from: DateTime!, $to: DateTime!) {
     ethFeesDistribution(from: $from, to: $to) {
-      slug
-      ticker
       address
       fees
+      project {
+        logoUrl
+        slug
+        ticker
+      }
     }
   }
 `
@@ -40,7 +43,9 @@ const useFeeDistributions = ({ from, to }) => {
   })
 
   return {
-    data: data ? data.ethFeesDistribution : [],
+    data: data
+      ? data.ethFeesDistribution.map(item => ({ ...item.project, ...item }))
+      : [],
     loading,
     error
   }

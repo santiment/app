@@ -19,7 +19,7 @@ const ProjectsList = ({
   hideCheckboxes = false
 }) => {
   const rowRenderer = ({ key, index, style }) => {
-    const { name, ticker, slug, id, balance } = items[index]
+    const { name, ticker, slug, id, balance, logoUrl } = items[index]
     const isAssetInList = listItems.some(({ id: itemId }) => itemId === id)
     return (
       <div
@@ -46,7 +46,12 @@ const ProjectsList = ({
             !isContained && isAssetInList && styles.disabled
           )}
         >
-          <ProjectIcon className={styles.icon} size={16} slug={slug} />
+          <ProjectIcon
+            className={styles.icon}
+            size={16}
+            slug={slug}
+            logoUrl={logoUrl}
+          />
           <span className={styles.name}>{name}</span>
           <Label accent='waterloo'>
             (

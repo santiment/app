@@ -16,9 +16,9 @@ import externalStyles from './../StablecoinsPage/StablecoinsPage.module.scss'
 import styles from './ETH2Dashboard.module.scss'
 
 const ANCHORS = {
-  TotalStacked: {
-    label: 'Total Stacked',
-    key: 'total-stacked'
+  TotalStaked: {
+    label: 'Total Staked',
+    key: 'total-staked'
   },
   /*  StakingRoi: {
      label: 'Staking Roi',
@@ -82,8 +82,8 @@ const ETH2Dashboard = () => {
         <div className={externalStyles.inner}>
           <Block
             className={cx(externalStyles.firstBlock, styles.firstBlock)}
-            title={ANCHORS.TotalStacked.label}
-            tag={ANCHORS.TotalStacked.key}
+            title={ANCHORS.TotalStaked.label}
+            tag={ANCHORS.TotalStaked.key}
           >
             <EthTotalStaked />
           </Block>
