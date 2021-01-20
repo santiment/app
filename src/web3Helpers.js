@@ -1,3 +1,5 @@
+import Web3 from 'web3'
+
 // let prevSelectedAccount = null
 export const getWeb3 = () => {
   // Modern dapp browsers
