@@ -20,8 +20,6 @@
   margin: 0;
 
   @include responsive('phone', 'phone-xs') {
-    margin-top: 24px;
-
     @include text('h4');
   }
 }
