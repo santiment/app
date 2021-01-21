@@ -16,7 +16,7 @@ const CATEGORIES = {
   DEVELOPMENT: 'Development',
   ON_CHAIN: 'On-chain',
   DERIVATIVES: 'Derivatives',
-  SOCAIL: 'Social',
+  SOCIAL: 'Social',
   FLOW_METRICS: 'Flow metrics'
 }
 const GROUPS = {
@@ -249,7 +249,7 @@ export const Metric = {
     isOnlyPercentFilters: true
   },
   social_dominance_total: {
-    category: CATEGORIES.SOCAIL,
+    category: CATEGORIES.SOCIAL,
     label: 'Social Dominance',
     shortLabel: 'Soc.Dom.',
     valueFormatter: percentValueFormatter,
@@ -257,7 +257,7 @@ export const Metric = {
     isOnlyPercentFilters: true
   },
   sentiment_balance_total: {
-    category: CATEGORIES.SOCAIL,
+    category: CATEGORIES.SOCIAL,
     label: 'Sentiment Balance Total',
     isOnlyPercentFilters: true
   },

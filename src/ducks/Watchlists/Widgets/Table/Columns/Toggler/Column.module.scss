@@ -1,0 +1,41 @@
+@import '~@santiment-network/ui/mixins';
+
+.column {
+  position: relative;
+  margin-bottom: 12px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.name {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 20px;
+  padding-left: 28px;
+}
+
+.info {
+  position: absolute;
+  right: 0;
+  top: 2px;
+  fill: var(--casper);
+  margin-left: auto;
+  cursor: pointer;
+
+  &:hover {
+    fill: var(--rhino);
+  }
+}
+
+.checkbox {
+  position: absolute;
+  top: 2px;
+  left: 0;
+}
+
+.explanation {
+  color: var(--waterloo);
+  margin-left: 6px;
+}

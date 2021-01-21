@@ -10,6 +10,8 @@ import { ProLabel } from '../../../../../../components/ProLabel'
 import ProPopupWrapper from '../../../../../../components/ProPopup/Wrapper'
 import styles from './index.module.scss'
 
+const EMPTY_OBJ = {}
+
 const FilterMetricState = ({
   isActive,
   isPro,
@@ -20,7 +22,8 @@ const FilterMetricState = ({
   customStateText = '',
   isFinishedState
 }) => {
-  const metricForDescription = Metric[metric.descriptionKey || metric.key] || {}
+  const metricForDescription =
+    Metric[metric.descriptionKey || metric.key] || EMPTY_OBJ
   const isPaywalled = metric.isOnlyPercentFilters && !isPro
   const isDisabled = isViewMode && !isActive
 

@@ -10,6 +10,7 @@ import CompareAction from '../CompareInfo/CompareAction'
 import Refresh from '../../../../../components/Refresh/Refresh'
 import ProPopupWrapper from '../../../../../components/ProPopup/Wrapper'
 import ExplanationTooltip from '../../../../../components/ExplanationTooltip/ExplanationTooltip'
+import ColumnsToggler from '../Columns/Toggler'
 import styles from './index.module.scss'
 
 const TableTop = ({
@@ -49,6 +50,7 @@ const TableTop = ({
         </div>
       )}
       <div className={styles.actions}>
+        <ColumnsToggler />
         <ProPopupWrapper
           type={type}
           trigger={props => (
