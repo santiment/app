@@ -57,7 +57,6 @@ const DashboardMetricChartWrapper = ({
       chartHeight={CHART_HEIGHT}
       metrics={metrics}
       isCartesianGridActive={isCartesianGridActive}
-      hideWatermark
       chartPadding={isDesktop ? CHART_PADDING_DESKTOP : CHART_PADDING_MOBILE}
       resizeDependencies={[]}
       MetricColor={MetricColor}
