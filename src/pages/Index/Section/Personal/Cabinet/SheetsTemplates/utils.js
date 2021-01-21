@@ -226,22 +226,6 @@ export const SheetsTemplatesList = [
     )
   },
   {
-    title: 'Most Profitable Days for Trading Cryptocurrency',
-    description: (
-      <>
-        As we've tested in the past, knowing which days have the best historical
-        ROI can help reduce risk and craft effective market alphas.
-        <div className={styles.block}>
-          This template determines the best trading days (historically) for any
-          coin in the Santiment database, with adjustable time ranges for Pro
-          users.
-        </div>
-      </>
-    ),
-    linkToTemplate:
-      'https://docs.google.com/spreadsheets/d/1yIkiTfyvEHfNiZ93JfqjPCOTUmnIrZco_se5r6O6mgc/view'
-  },
-  {
     title: 'Distribution Index',
     description: (
       <>
