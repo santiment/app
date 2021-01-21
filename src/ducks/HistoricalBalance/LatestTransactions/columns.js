@@ -23,7 +23,7 @@ function getDatetime (datetime) {
 const checkIsSending = (address, fromAddress) => address === fromAddress.address
 
 const Values = ({ address, project, toAddress, fromAddress, trxValue }) => {
-  const { logoUrl, ticker } = project
+  const { logoUrl, ticker } = project || {}
   const isSending = checkIsSending(address, fromAddress)
   const anotherAddress = isSending ? toAddress.address : fromAddress.address
 
