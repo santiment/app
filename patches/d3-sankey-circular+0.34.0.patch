@@ -1,0 +1,63 @@
+diff --git a/node_modules/d3-sankey-circular/dist/d3-sankey-circular.es.js b/node_modules/d3-sankey-circular/dist/d3-sankey-circular.es.js
+index fe5fde3..6f59082 100644
+--- a/node_modules/d3-sankey-circular/dist/d3-sankey-circular.es.js
++++ b/node_modules/d3-sankey-circular/dist/d3-sankey-circular.es.js
+@@ -28,6 +28,10 @@ function center(node) {
+   return node.targetLinks.length ? node.depth : node.sourceLinks.length ? min(node.sourceLinks, targetDepth) - 1 : 0;
+ }
+ 
++function fixed(node, n, minDepth) {
++	return node.depthLevel - minDepth
++}
++
+ // returns a function, using the parameter given to the sankey setting
+ function constant(x) {
+   return function () {
+@@ -119,7 +123,7 @@ function getNodeID(node, id) {
+ // Some constants for circular link calculations
+ var verticalMargin = 25;
+ var baseRadius = 10;
+-var scale = 0.3; //Possibly let user control this, although anything over 0.5 starts to get too cramped
++var scale = 0.15; //Possibly let user control this, although anything over 0.5 starts to get too cramped
+ 
+ function sankeyCircular () {
+   // Set the default values
+@@ -414,7 +418,7 @@ function sankeyCircular () {
+   // nodes with no incoming links are assigned depth zero, while
+   // nodes with no outgoing links are assigned the maximum depth.
+   function computeNodeDepths(graph) {
+-    var nodes, next, x;
++    var nodes, next, x, minDepth;
+ 
+     for (nodes = graph.nodes, next = [], x = 0; nodes.length; ++x, nodes = next, next = []) {
+       nodes.forEach(function (node) {
+@@ -438,9 +442,13 @@ function sankeyCircular () {
+       });
+     }
+ 
++    minDepth = _.minBy(graph.nodes, function (n) {
++      return n.depthLevel;
++    }).depthLevel;
++
+     // assign column numbers, and get max value
+     graph.nodes.forEach(function (node) {
+-      node.column = Math.floor(align.call(null, node, x));
++      node.column = Math.floor(align.call(null, node, x, minDepth));
+     });
+   }
+ 
+@@ -693,7 +701,7 @@ function identifyCircles(graph, id, sortNodes) {
+       var target = link.target.index;
+       var source = link.source.index;
+       // If self-linking or a back-edge
+-      if (target === source || circularLinks[source] && circularLinks[source][target]) {
++      if (link.target.depthLevel <= link.source.depthLevel) {
+         link.circular = true;
+         link.circularLinkID = circularLinkID;
+         circularLinkID = circularLinkID + 1;
+@@ -1487,4 +1495,4 @@ function fillHeight(graph, y0, y1) {
+   }
+ }
+ 
+-export { sankeyCircular, center as sankeyCenter, left as sankeyLeft, right as sankeyRight, justify as sankeyJustify };
++export { sankeyCircular, center as sankeyCenter, left as sankeyLeft, right as sankeyRight, justify as sankeyJustify, fixed as sankeyFixed };

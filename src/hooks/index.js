@@ -1,10 +1,8 @@
 import { useState, useEffect, useReducer } from 'react'
 
 export const useDebounceEffect = (fn, time, dependencies = []) => {
-  const [timer, setTimer] = useState()
   useEffect(() => {
-    clearTimeout(timer)
-    setTimer(setTimeout(fn, time))
+    const timer = setTimeout(fn, time)
     return () => clearTimeout(timer)
   }, dependencies)
 }

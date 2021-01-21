@@ -96,7 +96,8 @@ const updateHistory = url => {
 
 const isStage =
   process.env.NODE_ENV === 'development'
-    ? process.env.REACT_APP_BACKEND_URL === 'https://api-stage.santiment.net'
+    ? process.env.REACT_APP_BACKEND_URL === undefined ||
+      process.env.REACT_APP_BACKEND_URL === 'https://api-stage.santiment.net'
     : window.location && window.location.href.indexOf('stage') !== -1
 
 export {
