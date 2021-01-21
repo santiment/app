@@ -34,8 +34,12 @@ export function buildColumnsFromMetricKey (
       baseMetric.tableColumnFormatter ||
       (value => `${badge}${defaultFormatter(value)}`)
     columnsObj[baseMetricKey] = {
+      ...baseMetric,
       accessor: baseMetricKey,
       Header: `${label}${defaultTimeRange ? `, ${defaultTimeRange}` : ''}`,
+      label: `${baseMetric.label}${
+        defaultTimeRange ? `, ${defaultTimeRange}` : ''
+      }`,
       aggregation: baseMetric.aggregation || AGGREGATIONS_LOWER.LAST,
       timeRange: defaultTimeRange || '1d',
       sortDescFirst: true,
@@ -46,8 +50,11 @@ export function buildColumnsFromMetricKey (
   percentMetricsKeys.forEach(key => {
     const timeRange = key.replace(baseMetricKeyWithSuffix, EMPTY_STR)
     columnsObj[key] = {
+      ...baseMetric,
+      key,
       accessor: key,
       Header: `${label}, ${timeRange} %`,
+      label: `${baseMetric.label}, ${timeRange} %`,
       aggregation: AGGREGATIONS_LOWER.LAST,
       sortDescFirst: true,
       timeRange,

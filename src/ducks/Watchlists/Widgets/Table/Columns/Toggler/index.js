@@ -8,11 +8,19 @@ import { useAvailableMetrics } from '../../../../gql/hooks'
 import { metrics } from '../../../Filter/dataHub/metrics'
 import Category from './Category'
 import { getCategoryGraph } from '../../../../../Studio/Sidebar/utils'
+import { buildColumnsFromMetricKey } from '../utils'
 import styles from './index.module.scss'
 
 const Toggler = () => {
   const { availableMetrics = [] } = useAvailableMetrics()
-  const categories = getCategoryGraph(metrics)
+  const columnsObj = {}
+
+  metrics.forEach(({ key }) => {
+    Object.assign(columnsObj, buildColumnsFromMetricKey(key, availableMetrics))
+  })
+
+  const columns = Object.values(columnsObj)
+  const categories = getCategoryGraph(columns)
 
   function toggleColumn () {
     return null
