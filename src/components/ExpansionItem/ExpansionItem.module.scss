@@ -14,7 +14,7 @@
   @include text('body-3', 'l');
 
   &:hover {
-    color: var(--fiord);
+    color: var(--rhino);
     fill: var(--jungle-green-hover);
   }
 }
@@ -32,5 +32,5 @@
 }
 
 .arrowOpened {
-  fill: var(--rhino);
+  fill: var(--waterloo);
 }

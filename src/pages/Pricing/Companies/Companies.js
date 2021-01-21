@@ -12,9 +12,7 @@ const Companies = () => {
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.line} />
-        <div className={styles.title}>
-          Big companies that referenced our data
-        </div>
+        <div className={styles.title}>As referenced in major publications</div>
       </div>
 
       <div className={styles.list}>

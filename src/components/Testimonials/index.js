@@ -1,6 +1,5 @@
 import React from 'react'
 import cx from 'classnames'
-import { PenAndPaper } from '../Illustrations/PenAndPaper'
 import styles from './index.module.scss'
 
 const testimonials = [
@@ -55,8 +54,6 @@ const BgImage = (
 const Testimonials = () => {
   return (
     <section className={styles.wrapper}>
-      {PenAndPaper}
-
       <h2 className={styles.title}>Testimonials</h2>
       <div className={styles.description}>
         Our users send us bunch of smiles with our services, just read some of
