@@ -1,5 +1,4 @@
 import React from 'react'
-import { PenAndPaper } from '../../../components/Illustrations/PenAndPaper'
 import ExpansionItem from '../../../components/ExpansionItem/ExpansionItem'
 import styles from './PricingFAQ.module.scss'
 
@@ -71,8 +70,6 @@ const QUESTIONS = [
 const PricingFAQ = () => {
   return (
     <div className={styles.container}>
-      <div className={styles.img}>{PenAndPaper}</div>
-
       <div className={styles.header}>Frequently Asked Questions</div>
 
       <div className={styles.list}>

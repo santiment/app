@@ -30,6 +30,12 @@
 }
 
 .twitterEmbed {
+  iframe {
+    .app {
+      border: 1px solid var(--persimmon);
+    }
+  }
+
   @include responsive('phone', 'phone-xs', 'tablet') {
     padding: 0 8px 0 0;
     display: flex !important;

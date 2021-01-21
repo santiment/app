@@ -52,13 +52,11 @@ const Page = () => {
         <SpeakBlocks />
 
         <Companies />
-      </div>
 
-      <Testimonials />
+        <Testimonials />
 
-      <TwitterFeedbacks />
+        <TwitterFeedbacks />
 
-      <div className={styles.inner}>
         <PricingFAQ />
       </div>
 
