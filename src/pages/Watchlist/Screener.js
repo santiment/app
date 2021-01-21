@@ -23,10 +23,7 @@ import { useUser } from '../../stores/user'
 import { organizeTableQuery } from '../../ducks/Watchlists/gql'
 import { DEFAULT_SCREENER_ID } from '../../ducks/Watchlists/gql/queries'
 import { collectActiveDynamicColumns } from '../../ducks/Watchlists/Widgets/Table/Columns/utils'
-import {
-  DEFAULT_COLUMNS,
-  STATIC_COLUMNS
-} from '../../ducks/Watchlists/Widgets/Table/Columns/columns'
+import { DEFAULT_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/Columns/defaults'
 import styles from './Screener.module.scss'
 
 const pageSize = 20
@@ -51,11 +48,7 @@ const Screener = ({
     () => Object.values(activeDynamicColumnsObj),
     [activeDynamicColumnsObj]
   )
-  const columns = [
-    ...DEFAULT_COLUMNS,
-    ...activeDynamicColumns,
-    ...STATIC_COLUMNS
-  ]
+  const columns = [...DEFAULT_COLUMNS, ...activeDynamicColumns]
   const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist()
   const [screenerFunction, setScreenerFunction] = useState(
     watchlist.function || DEFAULT_FUNCTION

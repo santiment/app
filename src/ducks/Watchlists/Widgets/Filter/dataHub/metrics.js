@@ -8,6 +8,11 @@ import {
 import { DEFAULT_TIMERANGES } from './timeranges'
 import { AGGREGATIONS_LOWER } from './aggregations'
 import { formatNumber } from '../../../../../utils/formatting'
+import {
+  ETH_SPENT_CELL,
+  MARKET_SEGMENTS_CELL,
+  RANK_CELL
+} from '../../Table/Columns/columns'
 
 export const METRIC_PERCENT_SUFFIX = '_change_'
 const EMPTY_STR = ''
@@ -48,6 +53,22 @@ export const Metric = {
     category: CATEGORIES.FINANCIAL,
     label: 'Marketcap',
     badge: '$'
+  },
+  rank: {
+    category: CATEGORIES.FINANCIAL,
+    label: 'Rank',
+    isStatic: true,
+    disableSortBy: true,
+    accessor: 'rank',
+    Cell: RANK_CELL
+  },
+  eth_spent: {
+    category: CATEGORIES.FINANCIAL,
+    label: 'ETH spent, 30d',
+    accessor: 'ethSpent',
+    isStatic: true,
+    Cell: ETH_SPENT_CELL,
+    disableSortBy: true
   },
   volume_usd: {
     category: CATEGORIES.FINANCIAL,
@@ -232,6 +253,9 @@ export const Metric = {
   market_segments: {
     category: CATEGORIES.FINANCIAL,
     label: 'Market Segments',
+    accessor: 'marketSegments',
+    disableSortBy: true,
+    Cell: MARKET_SEGMENTS_CELL,
     hints: [
       {
         label: 'DeFi',
@@ -501,6 +525,8 @@ export const metrics = [
   Metric.price_usd,
   Metric.price_btc,
   Metric.marketcap_usd,
+  Metric.rank,
+  Metric.eth_spent,
   Metric.volume_usd,
   Metric.dev_activity_1d,
   Metric.daily_active_addresses,

@@ -1,5 +1,6 @@
 import { Metric } from '../../Filter/dataHub/metrics'
 import { AGGREGATIONS_LOWER } from '../../Filter/dataHub/aggregations'
+import { INDEX_COLUMN, PROJECT_CHART_COLUMN, PROJECT_COLUMN } from './columns'
 
 export const DEFAULT_TIME_RANGE = '1d'
 export const DIRECTIONS = {
@@ -14,6 +15,12 @@ export const DEFAULT_ORDER_BY = {
   aggregation: AGGREGATIONS_LOWER.LAST,
   direction: DIRECTIONS.DESC
 }
+
+export const DEFAULT_COLUMNS = [
+  INDEX_COLUMN,
+  PROJECT_COLUMN,
+  PROJECT_CHART_COLUMN
+]
 
 export const activeDynamicColumnsKeys = [
   'price_usd',

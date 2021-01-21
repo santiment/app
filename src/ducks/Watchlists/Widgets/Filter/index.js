@@ -179,8 +179,8 @@ const Filter = ({
   }
 
   const activeBaseMetrics = getActiveBaseMetrics(filter)
-
-  const metricsSet = isActiveFiltersOnly ? activeBaseMetrics : metrics
+  const dynamicMetrics = metrics.filter(metric => !metric.isStatic)
+  const metricsSet = isActiveFiltersOnly ? activeBaseMetrics : dynamicMetrics
   const filteredMetrics = filterMetricsBySearch(currentSearch, metricsSet)
   const categories = getCategoryGraph(filteredMetrics)
 
