@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { SvgNew } from '../../Watchlists/NewWatchlistCard'
+import { SvgNew } from '../../Illustrations/NewCard'
 import CreateLayoutLink from './CreateLayoutLink'
 import styles from './LayoutsEmptySection.module.scss'
 

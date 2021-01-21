@@ -12,7 +12,7 @@ const ResearchesBlock = ({ className }) => (
         <h4 className={styles.heading}>Researchers</h4>
         <p className={styles.desc}>
           Need data to support your crypto market analysis? Tap into on-chain,
-          social media and development indicators on over 900 cryptocurrencies
+          social media and development indicators on over 1000 cryptocurrencies
           via our{' '}
           <a
             href='https://sheets.santiment.net/'

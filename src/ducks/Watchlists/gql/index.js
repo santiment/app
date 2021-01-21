@@ -124,29 +124,6 @@ export const UPDATE_WATCHLIST_MUTATION = gql`
   ${PROJECT_RECENT_DATA_FRAGMENT}
 `
 
-export const PRICE_GRAPH_QUERY = gql`
-  query getMetric(
-    $selector: MetricTargetSelectorInputObject
-    $from: DateTime
-    $interval: interval
-  ) {
-    getMetric(metric: "price_usd") {
-      timeseriesDataPerSlug(
-        selector: $selector
-        from: $from
-        to: "utc_now"
-        interval: $interval
-      ) {
-        datetime
-        data {
-          slug
-          value
-        }
-      }
-    }
-  }
-`
-
 export const getRecentWatchlist = id =>
   client
     .query({

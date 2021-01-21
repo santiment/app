@@ -2,10 +2,7 @@ import React from 'react'
 import DashboardCounter from '../../../components/DasboardCounter/DashboardCounter'
 import { percentageFormatter } from '../../dataHub/metrics/formatters'
 import { BTC_RELATED_SELECTOR, BTC_SELECTOR, ETH_SELECTOR } from './utils'
-import {
-  AGGREGATION_TYPES,
-  useMetric
-} from '../../GetTimeSeries/queries/get_metric'
+import { AGGREGATION_TYPES, useMetric } from '../get_metric'
 
 const PercentOfEthMarketcap = ({ settings }) => {
   const { data: totalData, loading: totalLoading } = useMetric(
