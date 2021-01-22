@@ -132,19 +132,22 @@ const Screener = ({
     ).then(() => setTableLoading(false))
   }
 
-  const fetchData = useCallback(({ pageSize, sortBy }) => {
-    const { id, desc } = sortBy[0]
-    const { timeRange, aggregation } = activeColumnsObj[id]
-    const newDirection = desc ? DIRECTIONS.DESC : DIRECTIONS.ASC
-    setOrderBy({
-      metric: id,
-      aggregation,
-      dynamicTo: 'now',
-      dynamicFrom: timeRange,
-      direction: newDirection
-    })
-    setPagination({ ...pagination, pageSize: +pageSize })
-  }, [])
+  const fetchData = useCallback(
+    ({ pageSize, sortBy }) => {
+      const { id, desc } = sortBy[0]
+      const { timeRange, aggregation } = activeColumnsObj[id]
+      const newDirection = desc ? DIRECTIONS.DESC : DIRECTIONS.ASC
+      setOrderBy({
+        metric: id,
+        aggregation,
+        dynamicTo: 'now',
+        dynamicFrom: timeRange,
+        direction: newDirection
+      })
+      setPagination({ ...pagination, pageSize: +pageSize })
+    },
+    [activeColumnsObj]
+  )
 
   const title = watchlist.name || name || 'My screener'
   // temporal solution @haritonasty 18 Jan, 2021

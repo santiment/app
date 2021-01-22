@@ -138,7 +138,7 @@ const Table = ({
     () => {
       fetchData({ pageSize, sortBy })
     },
-    [fetchData, pageSize, sortBy]
+    [pageSize, sortBy]
   )
 
   return (
