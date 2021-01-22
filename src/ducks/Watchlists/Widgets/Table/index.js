@@ -20,11 +20,13 @@ const AssetsTable = ({
   allItems,
   pageSize,
   pageIndex,
-  sorting
+  sorting,
+  activeColumnsObj
 }) => {
-  const defaultSorting = [
-    { id: sorting.metric, desc: sorting.direction === 'desc' }
-  ]
+  const defaultSorting = useMemo(
+    () => [{ id: sorting.metric, desc: sorting.direction === 'desc' }],
+    [sorting]
+  )
   const { comparingAssets = [], updateAssets } = useComparingAssets()
   const slugs = useMemo(() => items.map(({ slug }) => slug), [items])
   const [graphData] = usePriceGraph({ slugs })
@@ -44,6 +46,7 @@ const AssetsTable = ({
         watchlist={watchlist}
         isLoading={loading}
         columns={columns}
+        activeColumnsObj={activeColumnsObj}
       />
       <Table
         data={data}

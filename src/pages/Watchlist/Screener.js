@@ -19,7 +19,7 @@ import {
 } from '../../ducks/Watchlists/Widgets/Table/Columns/defaults'
 import { addRecentScreeners } from '../../utils/recent'
 import { useUser } from '../../stores/user'
-import { organizeTableQuery } from '../../ducks/Watchlists/gql'
+import { tableQuery } from '../../ducks/Watchlists/gql'
 import { DEFAULT_SCREENER_ID } from '../../ducks/Watchlists/gql/queries'
 import { buildActiveColumns } from '../../ducks/Watchlists/Widgets/Table/Columns/utils'
 import { DEFAULT_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/Columns/defaults'
@@ -53,7 +53,7 @@ const Screener = ({
   )
   const { assets = [], projectsCount, loading } = getProjectsByFunction(
     buildFunction({ func: screenerFunction, pagination, orderBy }),
-    organizeTableQuery(activeColumns)
+    tableQuery(activeColumns)
   )
   const { user = {}, loading: userLoading } = useUser()
   const [tableLoading, setTableLoading] = useState(true)
@@ -124,7 +124,7 @@ const Screener = ({
     setTableLoading(true)
     getAssetsByFunction(
       buildFunction({ func: screenerFunction, pagination, orderBy }),
-      organizeTableQuery(activeColumns),
+      tableQuery(activeColumns),
       'network-only'
     ).then(() => setTableLoading(false))
   }
@@ -199,6 +199,7 @@ const Screener = ({
         pageIndex={pagination.page - 1}
         columns={columns}
         sorting={orderBy}
+        activeColumnsObj={activeColumnsObj}
         onChangePage={pageIndex =>
           setPagination({ ...pagination, page: +pageIndex + 1 })
         }

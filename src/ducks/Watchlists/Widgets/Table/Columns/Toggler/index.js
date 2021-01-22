@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
@@ -11,8 +11,14 @@ import { getCategoryGraph } from '../../../../../Studio/Sidebar/utils'
 import { buildColumnsFromKey } from '../utils'
 import styles from './index.module.scss'
 
-const Toggler = () => {
-  const { availableMetrics = [] } = useAvailableMetrics()
+const Toggler = ({ activeColumnsObj }) => {
+  const activeKeys = useMemo(() => Object.keys(activeColumnsObj), [
+    activeColumnsObj
+  ])
+  const activeColumns = useMemo(() => Object.values(activeColumnsObj), [
+    activeColumnsObj
+  ])
+  const { availableMetrics = activeKeys } = useAvailableMetrics()
   const columnsObj = {}
 
   metrics.forEach(({ key }) => {
@@ -43,6 +49,12 @@ const Toggler = () => {
     >
       <Panel variant='modal' className={styles.wrapper}>
         <div className={styles.content}>
+          <Category
+            key='Active columns'
+            title='Active columns'
+            columns={activeColumns}
+            onColumnToggle={toggleColumn}
+          />
           {Object.keys(categories).map(key => (
             <Category
               key={key}

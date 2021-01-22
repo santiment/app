@@ -134,7 +134,7 @@ export const getRecentWatchlist = id =>
     })
     .then(({ data = {} }) => data.watchlist)
 
-export function organizeTableQuery (columns) {
+export function tableQuery (columns) {
   const staticColumns = []
   const dynamicColumns = columns.filter(({ isStatic, accessor }) => {
     if (isStatic) {
@@ -147,7 +147,11 @@ export function organizeTableQuery (columns) {
   query allProjectsByFunction($fn: json) {
     allProjectsByFunction(function: $fn) {
       projects {
-        ...generalData
+        name
+        slug
+        ticker
+        logoUrl
+        darkLogoUrl
         ${staticColumns}
         ${dynamicColumns.map(
     ({ accessor, timeRange, aggregation }) =>
@@ -164,6 +168,5 @@ export function organizeTableQuery (columns) {
       }
     }
   }
-  ${generalData}
 `
 }
