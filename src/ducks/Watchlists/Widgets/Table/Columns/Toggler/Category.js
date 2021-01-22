@@ -3,7 +3,7 @@ import { NO_GROUP } from '../../../../../Studio/Sidebar/utils'
 import Column from './Column'
 import styles from './index.module.scss'
 
-const Category = ({ title, groups, columns, onColumnToggle }) => {
+const Category = ({ title, groups, columns, onColumnToggle, activeKeys }) => {
   return (
     <div className={styles.category}>
       <h3 className={styles.title}>{title}</h3>
@@ -21,6 +21,7 @@ const Category = ({ title, groups, columns, onColumnToggle }) => {
                       key={metric.label}
                       metric={metric}
                       onColumnToggle={onColumnToggle}
+                      isActive={activeKeys.includes(metric.key)}
                     />
                   ))}
                 </div>
@@ -35,6 +36,7 @@ const Category = ({ title, groups, columns, onColumnToggle }) => {
               key={column.label}
               metric={column}
               onColumnToggle={onColumnToggle}
+              isActive={activeKeys.includes(column.key)}
             />
           ))}
         </div>

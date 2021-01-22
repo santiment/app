@@ -54,6 +54,7 @@ const Toggler = ({ activeColumnsObj }) => {
             title='Active columns'
             columns={activeColumns}
             onColumnToggle={toggleColumn}
+            activeKeys={activeKeys}
           />
           {Object.keys(categories).map(key => (
             <Category
@@ -61,6 +62,7 @@ const Toggler = ({ activeColumnsObj }) => {
               title={key}
               groups={categories[key]}
               onColumnToggle={toggleColumn}
+              activeKeys={activeKeys}
             />
           ))}
         </div>
