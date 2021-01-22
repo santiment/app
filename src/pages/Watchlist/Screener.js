@@ -42,12 +42,8 @@ const Screener = ({
   const [activeColumnsKeys, setActiveColumnsKeys] = useState(
     DEFAULT_ACTIVE_COLUMNS_KEYS
   )
-  const activeColumnsObj = useMemo(
-    () => buildActiveColumns(activeColumnsKeys),
-    [activeColumnsKeys]
-  )
-  const activeColumns = useMemo(() => Object.values(activeColumnsObj), [
-    activeColumnsObj
+  const activeColumns = useMemo(() => buildActiveColumns(activeColumnsKeys), [
+    activeColumnsKeys
   ])
   const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist()
   const [screenerFunc, setScreenerFunc] = useState(
@@ -137,7 +133,8 @@ const Screener = ({
   const fetchData = useCallback(
     ({ pageSize, sortBy }) => {
       const { id, desc } = sortBy[0]
-      const { timeRange, aggregation } = activeColumnsObj[id]
+      const activeColumn = activeColumns.find(column => column.key === id)
+      const { timeRange, aggregation } = activeColumn
       const newDirection = desc ? DIRECTIONS.DESC : DIRECTIONS.ASC
       setOrderBy({
         metric: id,
@@ -148,7 +145,7 @@ const Screener = ({
       })
       setPagination({ ...pagination, pageSize: +pageSize })
     },
-    [activeColumnsObj]
+    [activeColumns]
   )
 
   const title = watchlist.name || name || 'My screener'
