@@ -27,8 +27,7 @@
       padding: 6px 10px;
 
       @include responsive('phone-xs', 'phone') {
-        height: 48px !important;
-        padding-left: 44px;
+        height: 40px !important;
       }
     }
 
@@ -72,14 +71,14 @@
 
   &__btn {
     position: absolute;
-    right: 15px;
+    right: 12px;
     top: 4px;
     padding: 8px 12px;
 
-    @include responsive('phone-xs') {
+    @include responsive('phone-xs', 'phone') {
       width: initial;
-      height: 36px;
-      top: 6px;
+      height: 32px;
+      right: 4px;
     }
   }
 
