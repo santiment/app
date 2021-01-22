@@ -21,7 +21,7 @@ import { addRecentScreeners } from '../../utils/recent'
 import { useUser } from '../../stores/user'
 import { tableQuery } from '../../ducks/Watchlists/gql'
 import { DEFAULT_SCREENER_ID } from '../../ducks/Watchlists/gql/queries'
-import { buildColumns } from '../../ducks/Watchlists/Widgets/Table/Columns/utils'
+import { buildColumns } from '../../ducks/Watchlists/Widgets/Table/Columns/builder'
 import { DEFAULT_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/Columns/defaults'
 import styles from './Screener.module.scss'
 
