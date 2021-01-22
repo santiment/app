@@ -8,8 +8,9 @@ const EMPTY_STR = ''
 const PERCENT_SUFFIX = '_change_'
 const LAST_AGG = AGGREGATIONS_LOWER.LAST
 
+export const Column = {}
+
 export function buildColumnsFromKey (baseMetricKey, availableMetrics = []) {
-  const columns = []
   const baseMetric = Metric[baseMetricKey]
   const {
     key,
@@ -30,14 +31,14 @@ export function buildColumnsFromKey (baseMetricKey, availableMetrics = []) {
 
   if (!isOnlyPercentFilters) {
     if (isStatic) {
-      columns.push({ ...baseMetric, disableSortBy: true, Header: label })
+      Column[key] = { ...baseMetric, disableSortBy: true, Header: label }
     } else {
       const { badge, defaultTimeRange = '' } = baseMetric
       const visualTimeRange = defaultTimeRange ? `, ${defaultTimeRange}` : ''
       const formatter =
         baseMetric.tableColumnFormatter || formatterWithBadge(badge)
 
-      columns.push({
+      Column[key] = {
         ...baseMetric,
         aggregation,
         sortDescFirst: true,
@@ -46,13 +47,13 @@ export function buildColumnsFromKey (baseMetricKey, availableMetrics = []) {
         timeRange: defaultTimeRange || '1d',
         label: `${label}${visualTimeRange}`,
         Header: `${shortLabel}${visualTimeRange}`
-      })
+      }
     }
   }
 
   percentMetricsKeys.forEach(key => {
     const timeRange = key.replace(keyWithSuffix, EMPTY_STR)
-    columns.push({
+    Column[key] = {
       ...baseMetric,
       key,
       timeRange,
@@ -62,26 +63,18 @@ export function buildColumnsFromKey (baseMetricKey, availableMetrics = []) {
       Cell: PERCENT_CHANGES_CELL,
       label: `${label}, ${timeRange} %`,
       Header: `${shortLabel}, ${timeRange} %`
-    })
+    }
   })
-
-  return columns
 }
 
-export function buildActiveColumns (columnsKeys) {
-  const columns = []
-
-  const baseKeys = new Set(
-    columnsKeys.map(key => {
+export const buildColumns = (columnsKeys, availableMetrics = columnsKeys) =>
+  columnsKeys.map(key => {
+    const column = Column[key]
+    if (column) {
+      return column
+    } else {
       const baseMetric = getBaseMetric(key)
-      return baseMetric ? baseMetric.key : null
-    })
-  )
-
-  baseKeys.delete(null)
-  baseKeys.forEach(key =>
-    columns.push(...buildColumnsFromKey(key, columnsKeys))
-  )
-
-  return columns
-}
+      buildColumnsFromKey(baseMetric.key, availableMetrics)
+      return Column[key]
+    }
+  })

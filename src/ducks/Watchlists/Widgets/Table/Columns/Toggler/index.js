@@ -5,18 +5,18 @@ import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import Icon from '@santiment-network/ui/Icon'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
-import { useAvailableMetrics } from '../../../../gql/hooks'
-import { metrics } from '../../../Filter/dataHub/metrics'
 import Category from './Category'
+import { buildColumns, Column } from '../utils'
+import { metrics } from '../../../Filter/dataHub/metrics'
+import { useAvailableMetrics } from '../../../../gql/hooks'
 import { getCategoryGraph } from '../../../../../Studio/Sidebar/utils'
-import { buildColumnsFromKey } from '../utils'
 import styles from './index.module.scss'
 
 const Toggler = ({ activeColumns, updateActiveColumsKeys }) => {
   const [activeKeys, setActiveKeys] = useState(
     activeColumns.map(({ key }) => key)
   )
-  const { availableMetrics = activeKeys } = useAvailableMetrics()
+  const { availableMetrics = [] } = useAvailableMetrics()
 
   useEffect(
     () => {
@@ -30,12 +30,14 @@ const Toggler = ({ activeColumns, updateActiveColumsKeys }) => {
 
   const categories = useMemo(
     () => {
-      const allColumns = []
-      metrics.forEach(({ key }) => {
-        const columnsFromMetricObj = buildColumnsFromKey(key, availableMetrics)
-        allColumns.push(...Object.values(columnsFromMetricObj))
-      })
-      return getCategoryGraph(allColumns)
+      if (availableMetrics.length !== 0) {
+        const allMetricKeys = metrics.map(({ key }) => key)
+        buildColumns(allMetricKeys, availableMetrics)
+        const allColumns = Object.values(Column)
+        return getCategoryGraph(allColumns)
+      }
+
+      return []
     },
     [availableMetrics]
   )

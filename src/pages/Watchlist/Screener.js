@@ -21,7 +21,7 @@ import { addRecentScreeners } from '../../utils/recent'
 import { useUser } from '../../stores/user'
 import { tableQuery } from '../../ducks/Watchlists/gql'
 import { DEFAULT_SCREENER_ID } from '../../ducks/Watchlists/gql/queries'
-import { buildActiveColumns } from '../../ducks/Watchlists/Widgets/Table/Columns/utils'
+import { buildColumns } from '../../ducks/Watchlists/Widgets/Table/Columns/utils'
 import { DEFAULT_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/Columns/defaults'
 import styles from './Screener.module.scss'
 
@@ -42,7 +42,7 @@ const Screener = ({
   const [activeColumnsKeys, setActiveColumnsKeys] = useState(
     DEFAULT_ACTIVE_COLUMNS_KEYS
   )
-  const activeColumns = useMemo(() => buildActiveColumns(activeColumnsKeys), [
+  const activeColumns = useMemo(() => buildColumns(activeColumnsKeys), [
     activeColumnsKeys
   ])
   const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist()
