@@ -21,6 +21,7 @@ const TableTop = ({
   listName,
   refetchAssets,
   activeColumnsObj,
+  updateActiveColumsKeys,
   watchlist = {}
 }) => {
   const [refreshTimestamp, setRefreshTimestamp] = useState(Date.now)
@@ -51,7 +52,10 @@ const TableTop = ({
         </div>
       )}
       <div className={styles.actions}>
-        <ColumnsToggler activeColumnsObj={activeColumnsObj} />
+        <ColumnsToggler
+          activeColumnsObj={activeColumnsObj}
+          updateActiveColumsKeys={updateActiveColumsKeys}
+        />
         <ProPopupWrapper
           type={type}
           trigger={props => (

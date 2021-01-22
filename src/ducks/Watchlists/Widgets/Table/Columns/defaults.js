@@ -22,7 +22,7 @@ export const DEFAULT_COLUMNS = [
   PROJECT_CHART_COLUMN
 ]
 
-export const activeColumnsKeys = [
+export const DEFAULT_ACTIVE_COLUMNS_KEYS = [
   'price_usd',
   'price_usd_change_1d',
   'volume_usd',

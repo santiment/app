@@ -7,17 +7,18 @@ import styles from './Column.module.scss'
 
 const EMPTY_OBJ = {}
 
-const Column = ({ onColumnToggle, metric, isActive }) => {
-  const metricForDescription =
-    Metric[metric.descriptionKey || metric.key] || EMPTY_OBJ
+const Column = ({ onColumnToggle, column, isActive }) => {
+  const { key, descriptionKey = key, label } = column
+  const metricForDescription = Metric[descriptionKey] || EMPTY_OBJ
+
   return (
-    <div className={styles.column} onClick={() => onColumnToggle()}>
+    <div className={styles.column} onClick={() => onColumnToggle(key)}>
       <Checkbox
         className={styles.checkbox}
         isActive={isActive}
         disabled={false}
       />
-      <span className={styles.name}>{metric.label}</span>
+      <span className={styles.name}>{label}</span>
       <MetricExplanation
         on='click'
         metric={metricForDescription}

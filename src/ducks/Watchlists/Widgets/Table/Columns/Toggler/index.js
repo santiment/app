@@ -11,7 +11,7 @@ import { getCategoryGraph } from '../../../../../Studio/Sidebar/utils'
 import { buildColumnsFromKey } from '../utils'
 import styles from './index.module.scss'
 
-const Toggler = ({ activeColumnsObj }) => {
+const Toggler = ({ activeColumnsObj, updateActiveColumsKeys }) => {
   const activeKeys = useMemo(() => Object.keys(activeColumnsObj), [
     activeColumnsObj
   ])
@@ -28,8 +28,11 @@ const Toggler = ({ activeColumnsObj }) => {
   const columns = Object.values(columnsObj)
   const categories = getCategoryGraph(columns)
 
-  function toggleColumn () {
-    return null
+  function toggleColumn (key, isActive) {
+    const newActiveKeys = isActive
+      ? activeKeys.filter(item => item !== key)
+      : [...activeKeys, key]
+    updateActiveColumsKeys(newActiveKeys)
   }
 
   return (

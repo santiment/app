@@ -13,7 +13,7 @@ import AssetsTable from '../../ducks/Watchlists/Widgets/Table'
 import { buildFunction } from '../../ducks/Watchlists/Widgets/Filter/utils'
 import Infographics from './Infographics'
 import {
-  activeColumnsKeys,
+  DEFAULT_ACTIVE_COLUMNS_KEYS,
   DEFAULT_ORDER_BY,
   DIRECTIONS
 } from '../../ducks/Watchlists/Widgets/Table/Columns/defaults'
@@ -39,6 +39,9 @@ const Screener = ({
   const defaultPagination = { page: 1, pageSize: +pageSize }
   const [pagination, setPagination] = useState(defaultPagination)
   const [orderBy, setOrderBy] = useState(DEFAULT_ORDER_BY)
+  const [activeColumnsKeys, setActiveColumnsKeys] = useState(
+    DEFAULT_ACTIVE_COLUMNS_KEYS
+  )
   const activeColumnsObj = useMemo(
     () => buildActiveColumns(activeColumnsKeys),
     [activeColumnsKeys]
@@ -200,6 +203,7 @@ const Screener = ({
         columns={columns}
         sorting={orderBy}
         activeColumnsObj={activeColumnsObj}
+        updateActiveColumsKeys={setActiveColumnsKeys}
         onChangePage={pageIndex =>
           setPagination({ ...pagination, page: +pageIndex + 1 })
         }
