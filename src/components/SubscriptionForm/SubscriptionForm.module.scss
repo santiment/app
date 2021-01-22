@@ -27,8 +27,7 @@
       padding: 6px 10px;
 
       @include responsive('phone-xs', 'phone') {
-        height: 48px !important;
-        padding-left: 44px;
+        height: 40px !important;
       }
     }
 
@@ -78,8 +77,6 @@
 
     @include responsive('phone-xs') {
       width: initial;
-      height: 36px;
-      top: 6px;
     }
   }
 

@@ -174,11 +174,13 @@
   color: var(--casper);
   margin-left: 35px;
 
-  @include text('body-3');
+  @include text('body-2');
 
   @include responsive('phone', 'phone-xs') {
     margin: 0 0 18px 0;
     width: initial;
+
+    @include text('body-3');
   }
 }
 
@@ -242,6 +244,7 @@
 .subscription {
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .appBlock {
@@ -299,12 +302,18 @@
   right: 4px !important;
   margin-top: 0;
   justify-content: center;
+  height: 32px !important;
 }
 
 .form {
-  width: 368px;
+  width: 370px;
 
-  @include responsive('laptop', 'tablet', 'phone', 'phone-xs') {
+  @include responsive('laptop', 'tablet') {
+    max-width: 370px;
+    width: 100%;
+  }
+
+  @include responsive('phone', 'phone-xs') {
     max-width: 348px;
     width: 100%;
   }
