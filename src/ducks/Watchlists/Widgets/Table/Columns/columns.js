@@ -2,8 +2,12 @@ import React from 'react'
 import Label from '@santiment-network/ui/Label'
 import PriceGraph from '../PriceGraph'
 import Project from '../../../../../components/Tables/Cells/Project'
+import PercentChanges from '../../../../../components/PercentChanges'
+import {
+  defaultFormatter,
+  percentValueFormatter
+} from '../../Filter/formatters'
 import LayoutForAsset from '../../../../Studio/Template/LayoutForAsset/LayoutForAsset'
-import { defaultFormatter } from '../../Filter/formatters'
 import styles from './columns.module.scss'
 
 export const NO_DATA = 'No data'
@@ -59,3 +63,13 @@ export const RANK_CELL = ({ value }) => (
 )
 export const ETH_SPENT_CELL = ({ value }) =>
   isValid(value) ? `Ξ${defaultFormatter(value)}` : NO_DATA
+
+export const BASIC_CELL = (value, formatter) =>
+  isValid(value) ? formatter(value) : NO_DATA
+
+export const PERCENT_CHANGES_CELL = ({ value }) =>
+  isValid(value) ? (
+    <PercentChanges changes={percentValueFormatter(value)} />
+  ) : (
+    NO_DATA
+  )

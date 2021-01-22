@@ -13,8 +13,7 @@ import AssetsTable from '../../ducks/Watchlists/Widgets/Table'
 import { buildFunction } from '../../ducks/Watchlists/Widgets/Filter/utils'
 import Infographics from './Infographics'
 import {
-  activeDynamicColumnsKeys,
-  activeStaticColumnsKeys,
+  activeColumnsKeys,
   DEFAULT_ORDER_BY,
   DIRECTIONS
 } from '../../ducks/Watchlists/Widgets/Table/Columns/defaults'
@@ -22,7 +21,7 @@ import { addRecentScreeners } from '../../utils/recent'
 import { useUser } from '../../stores/user'
 import { organizeTableQuery } from '../../ducks/Watchlists/gql'
 import { DEFAULT_SCREENER_ID } from '../../ducks/Watchlists/gql/queries'
-import { collectActiveDynamicColumns } from '../../ducks/Watchlists/Widgets/Table/Columns/utils'
+import { buildActiveColumns } from '../../ducks/Watchlists/Widgets/Table/Columns/utils'
 import { DEFAULT_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/Columns/defaults'
 import styles from './Screener.module.scss'
 
@@ -40,22 +39,21 @@ const Screener = ({
   const defaultPagination = { page: 1, pageSize: +pageSize }
   const [pagination, setPagination] = useState(defaultPagination)
   const [orderBy, setOrderBy] = useState(DEFAULT_ORDER_BY)
-  const activeDynamicColumnsObj = useMemo(
-    () => collectActiveDynamicColumns(activeDynamicColumnsKeys),
-    [activeDynamicColumnsKeys]
+  const activeColumnsObj = useMemo(
+    () => buildActiveColumns(activeColumnsKeys),
+    [activeColumnsKeys]
   )
-  const activeDynamicColumns = useMemo(
-    () => Object.values(activeDynamicColumnsObj),
-    [activeDynamicColumnsObj]
-  )
-  const columns = [...DEFAULT_COLUMNS, ...activeDynamicColumns]
+  const activeColumns = useMemo(() => Object.values(activeColumnsObj), [
+    activeColumnsObj
+  ])
+  const columns = [...DEFAULT_COLUMNS, ...activeColumns]
   const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist()
   const [screenerFunction, setScreenerFunction] = useState(
     watchlist.function || DEFAULT_FUNCTION
   )
   const { assets = [], projectsCount, loading } = getProjectsByFunction(
     buildFunction({ func: screenerFunction, pagination, orderBy }),
-    organizeTableQuery(activeDynamicColumns, activeStaticColumnsKeys)
+    organizeTableQuery(activeColumns, [])
   )
   const { user = {}, loading: userLoading } = useUser()
   const [tableLoading, setTableLoading] = useState(true)
@@ -126,14 +124,14 @@ const Screener = ({
     setTableLoading(true)
     getAssetsByFunction(
       buildFunction({ func: screenerFunction, pagination, orderBy }),
-      organizeTableQuery(activeDynamicColumns, activeStaticColumnsKeys),
+      organizeTableQuery(activeColumns, []),
       'network-only'
     ).then(() => setTableLoading(false))
   }
 
   const fetchData = useCallback(({ pageSize, sortBy }) => {
     const { id, desc } = sortBy[0]
-    const { timeRange, aggregation } = activeDynamicColumnsObj[id]
+    const { timeRange, aggregation } = activeColumnsObj[id]
     const newDirection = desc ? DIRECTIONS.DESC : DIRECTIONS.ASC
     setOrderBy({
       metric: id,

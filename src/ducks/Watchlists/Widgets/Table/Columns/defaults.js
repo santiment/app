@@ -22,7 +22,7 @@ export const DEFAULT_COLUMNS = [
   PROJECT_CHART_COLUMN
 ]
 
-export const activeDynamicColumnsKeys = [
+export const activeColumnsKeys = [
   'price_usd',
   'price_usd_change_1d',
   'volume_usd',
@@ -31,5 +31,3 @@ export const activeDynamicColumnsKeys = [
   'dev_activity_1d',
   'daily_active_addresses'
 ]
-
-export const activeStaticColumnsKeys = ['marketSegments', 'rank']

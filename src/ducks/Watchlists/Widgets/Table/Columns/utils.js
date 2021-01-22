@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   getBaseMetric,
   Metric,
@@ -6,91 +5,91 @@ import {
 } from '../../Filter/dataHub/metrics'
 import { AGGREGATIONS_LOWER } from '../../Filter/dataHub/aggregations'
 import { DEFAULT_TIMERANGES } from '../../Filter/dataHub/timeranges'
-import {
-  defaultFormatter,
-  percentValueFormatter
-} from '../../Filter/formatters'
-import PercentChanges from '../../../../../components/PercentChanges'
-import { isValid, NO_DATA } from './columns'
+import { defaultFormatter } from '../../Filter/formatters'
+import { BASIC_CELL, PERCENT_CHANGES_CELL } from './columns'
 
 const EMPTY_STR = ''
-const EMPTY_OBJ = {}
 
-export function buildColumnsFromMetricKey (
-  baseMetricKey,
-  availableMetrics = []
-) {
+function formatterWithBadge (value, badge) {
+  return `${badge}${defaultFormatter(value)}`
+}
+
+export function buildColumnsFromKey (baseMetricKey, availableMetrics = []) {
   const columnsObj = {}
   const baseMetric = Metric[baseMetricKey]
-  const baseMetricKeyWithSuffix = `${baseMetric.percentMetricKey ||
-    baseMetric.key}${METRIC_PERCENT_SUFFIX}`
+  const {
+    percentMetricKey,
+    key,
+    label,
+    shortLabel,
+    aggregation,
+    isOnlyPercentFilters
+  } = baseMetric
+  const keyWithSuffix = `${percentMetricKey || key}${METRIC_PERCENT_SUFFIX}`
+
   const percentMetricsKeys = availableMetrics.filter(metric => {
-    const isInclude = metric.includes(baseMetricKeyWithSuffix)
-    if (isInclude) {
-      const timeRange = metric.replace(baseMetricKeyWithSuffix, EMPTY_STR)
+    if (metric.includes(keyWithSuffix)) {
+      const timeRange = metric.replace(keyWithSuffix, EMPTY_STR)
       return DEFAULT_TIMERANGES.some(({ type }) => type === timeRange)
     } else return false
   })
-  const label = baseMetric.shortLabel || baseMetric.label
 
-  if (!baseMetric.isOnlyPercentFilters) {
-    const { badge = '', defaultTimeRange = '' } = baseMetric
+  if (!isOnlyPercentFilters) {
+    const {
+      tableColumnFormatter,
+      badge = '',
+      defaultTimeRange = ''
+    } = baseMetric
     const formatter =
-      baseMetric.tableColumnFormatter ||
-      (value => `${badge}${defaultFormatter(value)}`)
+      tableColumnFormatter || (value => formatterWithBadge(value, badge))
+    const visualTimeRange = defaultTimeRange
+      ? `, ${defaultTimeRange}`
+      : EMPTY_STR
+
     columnsObj[baseMetricKey] = {
       ...baseMetric,
       accessor: baseMetricKey,
-      Header: `${label}${defaultTimeRange ? `, ${defaultTimeRange}` : ''}`,
-      label: `${baseMetric.label}${
-        defaultTimeRange ? `, ${defaultTimeRange}` : ''
-      }`,
-      aggregation: baseMetric.aggregation || AGGREGATIONS_LOWER.LAST,
+      Header: `${shortLabel || label}${visualTimeRange}`,
+      label: `${label}${visualTimeRange}`,
+      aggregation: aggregation || AGGREGATIONS_LOWER.LAST,
       timeRange: defaultTimeRange || '1d',
       sortDescFirst: true,
-      Cell: ({ value }) => (isValid(value) ? formatter(value) : NO_DATA)
+      Cell: ({ value }) => BASIC_CELL(value, formatter)
     }
   }
 
   percentMetricsKeys.forEach(key => {
-    const timeRange = key.replace(baseMetricKeyWithSuffix, EMPTY_STR)
+    const timeRange = key.replace(keyWithSuffix, EMPTY_STR)
     columnsObj[key] = {
       ...baseMetric,
       key,
       accessor: key,
-      Header: `${label}, ${timeRange} %`,
-      label: `${baseMetric.label}, ${timeRange} %`,
+      Header: `${shortLabel || label}, ${timeRange} %`,
+      label: `${label}, ${timeRange} %`,
       aggregation: AGGREGATIONS_LOWER.LAST,
       sortDescFirst: true,
       timeRange,
-      Cell: ({ value }) =>
-        isValid(value) ? (
-          <PercentChanges changes={percentValueFormatter(value)} />
-        ) : (
-          NO_DATA
-        )
+      Cell: PERCENT_CHANGES_CELL
     }
   })
 
   return columnsObj
 }
 
-export function collectActiveDynamicColumns (activeDynamicColumnsKeys) {
-  const dynamicColumns = {}
+export function buildActiveColumns (columnsKeys) {
+  const columns = {}
+
   const baseKeys = new Set(
-    activeDynamicColumnsKeys.map(key => {
-      const { key: baseKey } = getBaseMetric(key) || EMPTY_OBJ
-      return baseKey
+    columnsKeys.map(key => {
+      const baseMetric = getBaseMetric(key)
+      return baseMetric ? baseMetric.key : null
     })
   )
+
+  baseKeys.delete(null)
   baseKeys.forEach(key => {
-    if (key) {
-      Object.assign(
-        dynamicColumns,
-        buildColumnsFromMetricKey(key, activeDynamicColumnsKeys)
-      )
-    }
+    Object.assign(columns, buildColumnsFromKey(key, columnsKeys))
   })
 
-  return dynamicColumns
+  return columns
 }
