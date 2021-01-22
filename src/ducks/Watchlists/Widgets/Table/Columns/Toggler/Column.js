@@ -12,13 +12,11 @@ const Column = ({ onColumnToggle, column, isActive }) => {
   const metricForDescription = Metric[descriptionKey] || EMPTY_OBJ
 
   return (
-    <div className={styles.column} onClick={() => onColumnToggle(key)}>
-      <Checkbox
-        className={styles.checkbox}
-        isActive={isActive}
-        disabled={false}
-      />
-      <span className={styles.name}>{label}</span>
+    <div className={styles.column}>
+      <div className={styles.clickableZone} onClick={onColumnToggle}>
+        <Checkbox className={styles.checkbox} isActive={isActive} />
+        <span className={styles.name}>{label}</span>
+      </div>
       <MetricExplanation
         on='click'
         metric={metricForDescription}

@@ -9,10 +9,14 @@
   }
 }
 
-.name {
-  display: inline-block;
-  vertical-align: middle;
+.clickableZone {
+  display: flex;
+  align-items: center;
   margin-right: 20px;
+  cursor: pointer;
+}
+
+.name {
   padding-left: 28px;
 }
 

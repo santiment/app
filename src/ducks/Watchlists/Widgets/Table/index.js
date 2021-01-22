@@ -21,7 +21,7 @@ const AssetsTable = ({
   pageSize,
   pageIndex,
   sorting,
-  activeColumnsObj,
+  activeColumns,
   updateActiveColumsKeys
 }) => {
   const defaultSorting = useMemo(
@@ -47,7 +47,7 @@ const AssetsTable = ({
         watchlist={watchlist}
         isLoading={loading}
         columns={columns}
-        activeColumnsObj={activeColumnsObj}
+        activeColumns={activeColumns}
         updateActiveColumsKeys={updateActiveColumsKeys}
       />
       <Table

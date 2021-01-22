@@ -22,17 +22,24 @@ const FilterMetricState = ({
   customStateText = '',
   isFinishedState
 }) => {
-  const metricForDescription =
-    Metric[metric.descriptionKey || metric.key] || EMPTY_OBJ
-  const isPaywalled = metric.isOnlyPercentFilters && !isPro
+  const {
+    key,
+    descriptionKey,
+    label,
+    isOnlyPercentFilters,
+    isDeprecated
+  } = metric
+  const metricForDescription = Metric[descriptionKey || key] || EMPTY_OBJ
+  const isPaywalled = isOnlyPercentFilters && !isPro
   const isDisabled = isViewMode && !isActive
+
+  const onClick = () =>
+    !isViewMode && !isPaywalled ? onCheckboxClicked() : null
 
   return (
     <div className={styles.wrapper}>
       <div
-        onClick={() =>
-          !isViewMode && !isPaywalled ? onCheckboxClicked() : null
-        }
+        onClick={onClick}
         className={cx(
           styles.toggle,
           isDisabled && styles.toggle__disabled,
@@ -46,12 +53,9 @@ const FilterMetricState = ({
           className={styles.checkbox}
         />
         <div className={styles.title}>
-          <span>{metric.label}</span>
-          {metric.isDeprecated && <DeprecatedLabel isAuthor={!isViewMode} />}
-          {metric.isOnlyPercentFilters &&
-            !isPro &&
-            !metric.isDeprecated &&
-            !isViewMode && (
+          <span>{label}</span>
+          {isDeprecated && <DeprecatedLabel isAuthor={!isViewMode} />}
+          {isOnlyPercentFilters && !isPro && !isDeprecated && !isViewMode && (
             <ProPopupWrapper type='screener' className={styles.proLabel}>
               <ProLabel as='span' />
             </ProPopupWrapper>

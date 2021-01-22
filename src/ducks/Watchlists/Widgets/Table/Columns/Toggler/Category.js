@@ -15,14 +15,18 @@ const Category = ({ title, groups, columns, onColumnToggle, activeKeys }) => (
             )}
             {groups[group].length > 0 && (
               <div className={styles.columns}>
-                {groups[group].map(({ item }) => (
-                  <Column
-                    key={item.label}
-                    column={item}
-                    onColumnToggle={onColumnToggle}
-                    isActive={activeKeys.includes(item.key)}
-                  />
-                ))}
+                {groups[group].map(({ item }) => {
+                  const { key } = item
+                  const isActive = activeKeys.includes(key)
+                  return (
+                    <Column
+                      key={item.label}
+                      column={item}
+                      onColumnToggle={() => onColumnToggle(key, isActive)}
+                      isActive={isActive}
+                    />
+                  )
+                })}
               </div>
             )}
           </div>
@@ -30,14 +34,18 @@ const Category = ({ title, groups, columns, onColumnToggle, activeKeys }) => (
       </div>
     ) : (
       <div className={styles.columns}>
-        {columns.map(column => (
-          <Column
-            key={column.label}
-            column={column}
-            onColumnToggle={onColumnToggle}
-            isActive={activeKeys.includes(column.key)}
-          />
-        ))}
+        {columns.map(column => {
+          const { key } = column
+          const isActive = activeKeys.includes(key)
+          return (
+            <Column
+              key={column.label}
+              column={column}
+              onColumnToggle={() => onColumnToggle(key, isActive)}
+              isActive={isActive}
+            />
+          )
+        })}
       </div>
     )}
   </div>

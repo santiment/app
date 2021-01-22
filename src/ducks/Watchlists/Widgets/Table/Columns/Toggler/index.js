@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import cx from 'classnames'
+import isEqual from 'lodash.isequal'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import Icon from '@santiment-network/ui/Icon'
@@ -11,28 +12,40 @@ import { getCategoryGraph } from '../../../../../Studio/Sidebar/utils'
 import { buildColumnsFromKey } from '../utils'
 import styles from './index.module.scss'
 
-const Toggler = ({ activeColumnsObj, updateActiveColumsKeys }) => {
-  const activeKeys = useMemo(() => Object.keys(activeColumnsObj), [
-    activeColumnsObj
-  ])
-  const activeColumns = useMemo(() => Object.values(activeColumnsObj), [
-    activeColumnsObj
-  ])
+const Toggler = ({ activeColumns, updateActiveColumsKeys }) => {
+  const [activeKeys, setActiveKeys] = useState(
+    activeColumns.map(({ key }) => key)
+  )
   const { availableMetrics = activeKeys } = useAvailableMetrics()
-  const columnsObj = {}
 
-  metrics.forEach(({ key }) => {
-    Object.assign(columnsObj, buildColumnsFromKey(key, availableMetrics))
-  })
+  useEffect(
+    () => {
+      const updatedActiveKeys = activeColumns.map(({ key }) => key)
+      if (!isEqual(updatedActiveKeys, activeKeys)) {
+        setActiveKeys(updatedActiveKeys)
+      }
+    },
+    [activeColumns]
+  )
 
-  const columns = Object.values(columnsObj)
-  const categories = getCategoryGraph(columns)
+  const categories = useMemo(
+    () => {
+      const allColumns = []
+      metrics.forEach(({ key }) => {
+        const columnsFromMetricObj = buildColumnsFromKey(key, availableMetrics)
+        allColumns.push(...Object.values(columnsFromMetricObj))
+      })
+      return getCategoryGraph(allColumns)
+    },
+    [availableMetrics]
+  )
 
-  function toggleColumn (key, isActive) {
+  function toggleColumn (columnKey, isActive) {
     const newActiveKeys = isActive
-      ? activeKeys.filter(item => item !== key)
-      : [...activeKeys, key]
-    updateActiveColumsKeys(newActiveKeys)
+      ? activeKeys.filter(key => key !== columnKey)
+      : [...activeKeys, columnKey]
+    setActiveKeys(newActiveKeys)
+    setTimeout(() => updateActiveColumsKeys(newActiveKeys), 200)
   }
 
   return (

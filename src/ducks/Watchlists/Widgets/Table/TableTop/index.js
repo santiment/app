@@ -20,7 +20,7 @@ const TableTop = ({
   items,
   listName,
   refetchAssets,
-  activeColumnsObj,
+  activeColumns,
   updateActiveColumsKeys,
   watchlist = {}
 }) => {
@@ -53,7 +53,7 @@ const TableTop = ({
       )}
       <div className={styles.actions}>
         <ColumnsToggler
-          activeColumnsObj={activeColumnsObj}
+          activeColumns={activeColumns}
           updateActiveColumsKeys={updateActiveColumsKeys}
         />
         <ProPopupWrapper

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import {
-  DEFAULT_SCREENER_FUNCTION as DEFAULT_FUNCTION,
+  DEFAULT_SCREENER_FUNCTION as DEFAULT_FUNC,
   useScreenerUrl
 } from '../../ducks/Watchlists/utils'
 import {
@@ -49,13 +49,15 @@ const Screener = ({
   const activeColumns = useMemo(() => Object.values(activeColumnsObj), [
     activeColumnsObj
   ])
-  const columns = [...DEFAULT_COLUMNS, ...activeColumns]
   const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist()
-  const [screenerFunction, setScreenerFunction] = useState(
-    watchlist.function || DEFAULT_FUNCTION
+  const [screenerFunc, setScreenerFunc] = useState(
+    watchlist.function || DEFAULT_FUNC
   )
+  const columns = useMemo(() => [...DEFAULT_COLUMNS, ...activeColumns], [
+    activeColumns
+  ])
   const { assets = [], projectsCount, loading } = getProjectsByFunction(
-    buildFunction({ func: screenerFunction, pagination, orderBy }),
+    buildFunction({ func: screenerFunc, pagination, orderBy }),
     tableQuery(activeColumns)
   )
   const { user = {}, loading: userLoading } = useUser()
@@ -88,12 +90,12 @@ const Screener = ({
   useEffect(
     () => {
       const func = watchlist.function
-      if (func !== screenerFunction) {
-        if (!func && screenerFunction === DEFAULT_FUNCTION) {
+      if (func !== screenerFunc) {
+        if (!func && screenerFunc === DEFAULT_FUNC) {
           return
         }
 
-        setScreenerFunction(func)
+        setScreenerFunc(func)
       }
     },
     [watchlist.function]
@@ -105,7 +107,7 @@ const Screener = ({
         setPagination({ ...pagination, page: 1 })
       }
     },
-    [screenerFunction]
+    [screenerFunc]
   )
 
   useEffect(
@@ -126,7 +128,7 @@ const Screener = ({
   const refetchAssets = () => {
     setTableLoading(true)
     getAssetsByFunction(
-      buildFunction({ func: screenerFunction, pagination, orderBy }),
+      buildFunction({ func: screenerFunc, pagination, orderBy }),
       tableQuery(activeColumns),
       'network-only'
     ).then(() => setTableLoading(false))
@@ -172,8 +174,8 @@ const Screener = ({
         isAuthor={user && watchlist.user && watchlist.user.id === user.id}
         isAuthorLoading={userLoading || isLoading}
         isLoggedIn={isLoggedIn}
-        screenerFunction={screenerFunction}
-        setScreenerFunction={setScreenerFunction}
+        screenerFunction={screenerFunc}
+        setScreenerFunction={setScreenerFunc}
         isUpdatingWatchlist={isUpdating}
         updateWatchlistFunction={updateWatchlistFunction}
         isDefaultScreener={isDefaultScreener}
@@ -205,7 +207,7 @@ const Screener = ({
         pageIndex={pagination.page - 1}
         columns={columns}
         sorting={orderBy}
-        activeColumnsObj={activeColumnsObj}
+        activeColumns={activeColumns}
         updateActiveColumsKeys={setActiveColumnsKeys}
         onChangePage={pageIndex =>
           setPagination({ ...pagination, page: +pageIndex + 1 })
