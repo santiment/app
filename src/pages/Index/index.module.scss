@@ -3,10 +3,6 @@
 .wrapper {
   flex: 1;
   width: 100%;
-
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    padding: 0 16px;
-  }
 }
 
 .block {
@@ -24,6 +20,10 @@
 
   &_main {
     display: flex;
+
+    @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+      padding: 0 16px;
+    }
   }
 }
 
