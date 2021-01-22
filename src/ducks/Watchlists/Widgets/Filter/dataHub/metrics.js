@@ -62,7 +62,7 @@ export const Metric = {
     Cell: RANK_CELL
   },
   eth_spent: {
-    category: CATEGORIES.FINANCIAL,
+    category: CATEGORIES.ON_CHAIN,
     label: 'ETH spent, 30d',
     accessor: 'ethSpent',
     isStatic: true,
