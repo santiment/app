@@ -5,6 +5,7 @@ import {
   METRIC_PERCENT_SUFFIX
 } from '../../Filter/dataHub/metrics'
 import { AGGREGATIONS_LOWER } from '../../Filter/dataHub/aggregations'
+import { DEFAULT_TIMERANGES } from '../../Filter/dataHub/timeranges'
 import {
   defaultFormatter,
   percentValueFormatter
@@ -23,9 +24,13 @@ export function buildColumnsFromMetricKey (
   const baseMetric = Metric[baseMetricKey]
   const baseMetricKeyWithSuffix = `${baseMetric.percentMetricKey ||
     baseMetric.key}${METRIC_PERCENT_SUFFIX}`
-  const percentMetricsKeys = availableMetrics.filter(metric =>
-    metric.includes(baseMetricKeyWithSuffix)
-  )
+  const percentMetricsKeys = availableMetrics.filter(metric => {
+    const isInclude = metric.includes(baseMetricKeyWithSuffix)
+    if (isInclude) {
+      const timeRange = metric.replace(baseMetricKeyWithSuffix, EMPTY_STR)
+      return DEFAULT_TIMERANGES.some(({ type }) => type === timeRange)
+    } else return false
+  })
   const label = baseMetric.shortLabel || baseMetric.label
 
   if (!baseMetric.isOnlyPercentFilters) {
