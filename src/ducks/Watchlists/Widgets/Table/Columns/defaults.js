@@ -29,5 +29,7 @@ export const activeColumnsKeys = [
   'volume_usd_change_1d',
   'marketcap_usd',
   'dev_activity_1d',
-  'daily_active_addresses'
+  'daily_active_addresses',
+  'rank',
+  'market_segments'
 ]

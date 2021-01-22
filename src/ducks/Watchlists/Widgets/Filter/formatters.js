@@ -13,3 +13,6 @@ export const percentServerValueMirrorFormatter = value => [
 export function defaultFormatter (value) {
   return millify(value, 2)
 }
+
+export const formatterWithBadge = (badge = '') => value =>
+  `${badge}${defaultFormatter(value)}`

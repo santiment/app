@@ -53,7 +53,7 @@ const Screener = ({
   )
   const { assets = [], projectsCount, loading } = getProjectsByFunction(
     buildFunction({ func: screenerFunction, pagination, orderBy }),
-    organizeTableQuery(activeColumns, [])
+    organizeTableQuery(activeColumns)
   )
   const { user = {}, loading: userLoading } = useUser()
   const [tableLoading, setTableLoading] = useState(true)
@@ -124,7 +124,7 @@ const Screener = ({
     setTableLoading(true)
     getAssetsByFunction(
       buildFunction({ func: screenerFunction, pagination, orderBy }),
-      organizeTableQuery(activeColumns, []),
+      organizeTableQuery(activeColumns),
       'network-only'
     ).then(() => setTableLoading(false))
   }

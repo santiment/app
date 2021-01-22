@@ -134,7 +134,15 @@ export const getRecentWatchlist = id =>
     })
     .then(({ data = {} }) => data.watchlist)
 
-export function organizeTableQuery (dynamicColumns, staticColumns) {
+export function organizeTableQuery (columns) {
+  const staticColumns = []
+  const dynamicColumns = columns.filter(({ isStatic, accessor }) => {
+    if (isStatic) {
+      staticColumns.push(accessor)
+    }
+    return !isStatic
+  })
+
   return gql`
   query allProjectsByFunction($fn: json) {
     allProjectsByFunction(function: $fn) {
@@ -142,15 +150,13 @@ export function organizeTableQuery (dynamicColumns, staticColumns) {
         ...generalData
         ${staticColumns}
         ${dynamicColumns.map(
-    column =>
-      `${column.accessor}: aggregatedTimeseriesData(
-              metric: "${column.accessor}"
-              from: "utc_now-${column.timeRange}"
-              to: "utc_now"
-              aggregation: ${
-  AGGREGATIONS_UPPER[column.aggregation.toUpperCase()]
-}
-            )`
+    ({ accessor, timeRange, aggregation }) =>
+      `${accessor}: aggregatedTimeseriesData(
+            metric: "${accessor}"
+            from: "utc_now-${timeRange}"
+            to: "utc_now"
+            aggregation: ${AGGREGATIONS_UPPER[aggregation.toUpperCase()]}
+          )`
   )}
       }
       stats {

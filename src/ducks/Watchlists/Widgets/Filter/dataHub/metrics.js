@@ -58,7 +58,6 @@ export const Metric = {
     category: CATEGORIES.FINANCIAL,
     label: 'Rank',
     isStatic: true,
-    disableSortBy: true,
     accessor: 'rank',
     Cell: RANK_CELL
   },
@@ -67,8 +66,7 @@ export const Metric = {
     label: 'ETH spent, 30d',
     accessor: 'ethSpent',
     isStatic: true,
-    Cell: ETH_SPENT_CELL,
-    disableSortBy: true
+    Cell: ETH_SPENT_CELL
   },
   volume_usd: {
     category: CATEGORIES.FINANCIAL,
@@ -254,7 +252,7 @@ export const Metric = {
     category: CATEGORIES.FINANCIAL,
     label: 'Market Segments',
     accessor: 'marketSegments',
-    disableSortBy: true,
+    isStatic: true,
     Cell: MARKET_SEGMENTS_CELL,
     hints: [
       {
