@@ -4,6 +4,7 @@ import Table from '../../../Table'
 import { usePriceGraph } from './PriceGraph/hooks'
 import { normalizeGraphData as normalizeData } from './PriceGraph/utils'
 import { useComparingAssets } from './CompareDialog/hooks'
+import { DEFAULT_COLUMNS } from './Columns/defaults'
 import styles from './index.module.scss'
 
 const AssetsTable = ({
@@ -16,7 +17,6 @@ const AssetsTable = ({
   onChangePage,
   fetchData,
   projectsCount,
-  columns,
   allItems,
   pageSize,
   pageIndex,
@@ -28,6 +28,9 @@ const AssetsTable = ({
     () => [{ id: sorting.metric, desc: sorting.direction === 'desc' }],
     [sorting]
   )
+  const columns = useMemo(() => [...DEFAULT_COLUMNS, ...activeColumns], [
+    activeColumns
+  ])
   const { comparingAssets = [], updateAssets } = useComparingAssets()
   const slugs = useMemo(() => items.map(({ slug }) => slug), [items])
   const [graphData] = usePriceGraph({ slugs })

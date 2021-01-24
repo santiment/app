@@ -8,15 +8,29 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Category from './Category'
 import { buildColumns, Column } from '../builder'
 import { metrics } from '../../../Filter/dataHub/metrics'
-import { useAvailableMetrics } from '../../../../gql/hooks'
+import { useAvailableMetricsByPlan } from '../../../../gql/hooks'
 import { getCategoryGraph } from '../../../../../Studio/Sidebar/utils'
+import { useUserSubscriptionStatus } from '../../../../../../stores/user/subscriptions'
+import { DEFAULT_ACTIVE_COLUMNS_KEYS } from '../defaults'
 import styles from './index.module.scss'
 
 const Toggler = ({ activeColumns, updateActiveColumsKeys }) => {
+  const { loading: statusLoading, isPro } = useUserSubscriptionStatus()
+  const { allMetrics, metricsByPlan } = useAvailableMetricsByPlan(
+    statusLoading ? null : isPro
+  )
   const [activeKeys, setActiveKeys] = useState(
     activeColumns.map(({ key }) => key)
   )
-  const { availableMetrics = [] } = useAvailableMetrics()
+
+  useEffect(
+    () => {
+      if (allMetrics.length !== 0) {
+        updateActiveColumsKeys(DEFAULT_ACTIVE_COLUMNS_KEYS)
+      }
+    },
+    [allMetrics]
+  )
 
   useEffect(
     () => {
@@ -30,16 +44,15 @@ const Toggler = ({ activeColumns, updateActiveColumsKeys }) => {
 
   const categories = useMemo(
     () => {
-      if (availableMetrics.length !== 0) {
-        const allMetricKeys = metrics.map(({ key }) => key)
-        buildColumns(allMetricKeys, availableMetrics)
+      if (metricsByPlan.length !== 0) {
+        buildColumns(metrics, allMetrics, metricsByPlan)
         const allColumns = Object.values(Column)
         return getCategoryGraph(allColumns)
       }
 
       return []
     },
-    [availableMetrics]
+    [metricsByPlan]
   )
 
   function toggleColumn (columnKey, isActive) {

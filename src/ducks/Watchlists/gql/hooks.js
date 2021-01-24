@@ -8,6 +8,7 @@ import {
   UPDATE_WATCHLIST_MUTATION,
   AVAILABLE_METRICS_QUERY,
   AVAILABLE_SEGMENTS_QUERY,
+  AVAILABLE_METRICS_BY_PLAN_QUERY,
   getRecentWatchlist
 } from './index'
 import { WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
@@ -219,10 +220,33 @@ export function useAvailableMetrics () {
   return { availableMetrics: getAvailableMetrics, loading }
 }
 
+const PLANS = {
+  PRO: 'PRO',
+  FREE: 'FREE'
+}
+
+const EMPTY_ARRAY = []
+const EMPTY_OBJ = {}
+
+export function useAvailableMetricsByPlan (isPro) {
+  const {
+    data: { allMetrics = EMPTY_ARRAY, metricsByPlan = EMPTY_ARRAY } = EMPTY_OBJ,
+    loading
+  } = useQuery(AVAILABLE_METRICS_BY_PLAN_QUERY, {
+    skip: isPro === null,
+    variables: { plan: isPro ? PLANS.PRO : PLANS.FREE }
+  })
+
+  return { allMetrics, metricsByPlan, loading }
+}
+
 export function useAvailableSegments () {
   const { data, loading } = useQuery(AVAILABLE_SEGMENTS_QUERY)
 
-  return [data ? data.allMarketSegments.sort(countAssetsSort) : [], loading]
+  return [
+    data ? data.allMarketSegments.sort(countAssetsSort) : EMPTY_ARRAY,
+    loading
+  ]
 }
 
 export function getProjectsByFunction (func, query) {

@@ -13,7 +13,6 @@ import AssetsTable from '../../ducks/Watchlists/Widgets/Table'
 import { buildFunction } from '../../ducks/Watchlists/Widgets/Filter/utils'
 import Infographics from './Infographics'
 import {
-  DEFAULT_ACTIVE_COLUMNS_KEYS,
   DEFAULT_ORDER_BY,
   DIRECTIONS
 } from '../../ducks/Watchlists/Widgets/Table/Columns/defaults'
@@ -21,11 +20,12 @@ import { addRecentScreeners } from '../../utils/recent'
 import { useUser } from '../../stores/user'
 import { tableQuery } from '../../ducks/Watchlists/gql'
 import { DEFAULT_SCREENER_ID } from '../../ducks/Watchlists/gql/queries'
-import { buildColumns } from '../../ducks/Watchlists/Widgets/Table/Columns/builder'
-import { DEFAULT_COLUMNS } from '../../ducks/Watchlists/Widgets/Table/Columns/defaults'
+import { getColumns } from '../../ducks/Watchlists/Widgets/Table/Columns/builder'
 import styles from './Screener.module.scss'
 
 const pageSize = 20
+const EMPTY_ARRAY = []
+
 const Screener = ({
   watchlist,
   name,
@@ -39,19 +39,14 @@ const Screener = ({
   const defaultPagination = { page: 1, pageSize: +pageSize }
   const [pagination, setPagination] = useState(defaultPagination)
   const [orderBy, setOrderBy] = useState(DEFAULT_ORDER_BY)
-  const [activeColumnsKeys, setActiveColumnsKeys] = useState(
-    DEFAULT_ACTIVE_COLUMNS_KEYS
-  )
-  const activeColumns = useMemo(() => buildColumns(activeColumnsKeys), [
+  const [activeColumnsKeys, setActiveColumnsKeys] = useState(EMPTY_ARRAY)
+  const activeColumns = useMemo(() => getColumns(activeColumnsKeys), [
     activeColumnsKeys
   ])
   const [updateWatchlist, { loading: isUpdating }] = useUpdateWatchlist()
   const [screenerFunc, setScreenerFunc] = useState(
     watchlist.function || DEFAULT_FUNC
   )
-  const columns = useMemo(() => [...DEFAULT_COLUMNS, ...activeColumns], [
-    activeColumns
-  ])
   const { assets = [], projectsCount, loading } = getProjectsByFunction(
     buildFunction({ func: screenerFunc, pagination, orderBy }),
     tableQuery(activeColumns)
@@ -134,15 +129,19 @@ const Screener = ({
     ({ pageSize, sortBy }) => {
       const { id, desc } = sortBy[0]
       const activeColumn = activeColumns.find(column => column.key === id)
-      const { timeRange, aggregation } = activeColumn
-      const newDirection = desc ? DIRECTIONS.DESC : DIRECTIONS.ASC
-      setOrderBy({
-        metric: id,
-        aggregation,
-        dynamicTo: 'now',
-        dynamicFrom: timeRange,
-        direction: newDirection
-      })
+      if (!activeColumn) {
+        setOrderBy(DEFAULT_ORDER_BY)
+      } else {
+        const { timeRange, aggregation } = activeColumn
+        const newDirection = desc ? DIRECTIONS.DESC : DIRECTIONS.ASC
+        setOrderBy({
+          metric: id,
+          aggregation,
+          dynamicTo: 'now',
+          dynamicFrom: timeRange,
+          direction: newDirection
+        })
+      }
       setPagination({ ...pagination, pageSize: +pageSize })
     },
     [activeColumns]
@@ -202,7 +201,6 @@ const Screener = ({
         refetchAssets={refetchAssets}
         pageSize={pagination.pageSize}
         pageIndex={pagination.page - 1}
-        columns={columns}
         sorting={orderBy}
         activeColumns={activeColumns}
         updateActiveColumsKeys={setActiveColumnsKeys}
