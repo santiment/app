@@ -1,8 +1,10 @@
 import React from 'react'
+import Icon from '@santiment-network/ui/Icon'
 import Label from '@santiment-network/ui/Label'
 import PriceGraph from '../PriceGraph'
 import Project from '../../../../../components/Tables/Cells/Project'
 import PercentChanges from '../../../../../components/PercentChanges'
+import ProPopupWrapper from '../../../../../components/ProPopup/Wrapper'
 import {
   defaultFormatter,
   percentValueFormatter
@@ -61,6 +63,7 @@ export const RANK_CELL = ({ value }) => (
     {value}
   </Label>
 )
+
 export const ETH_SPENT_CELL = ({ value }) =>
   isValid(value) ? `Ξ${defaultFormatter(value)}` : NO_DATA
 
@@ -73,3 +76,10 @@ export const PERCENT_CHANGES_CELL = ({ value }) =>
   ) : (
     NO_DATA
   )
+
+export const PRO_CELL = () => (
+  <ProPopupWrapper type='screener' className={styles.paywall}>
+    <Icon type='crown' />
+    <span className={styles.upgrade}>Upgrade</span>
+  </ProPopupWrapper>
+)
