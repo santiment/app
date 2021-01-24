@@ -1,6 +1,6 @@
 import { AGGREGATIONS_LOWER } from '../../Filter/dataHub/aggregations'
 import { formatterWithBadge } from '../../Filter/formatters'
-import { BASIC_CELL, PERCENT_CHANGES_CELL } from './columns'
+import { BASIC_CELL, PERCENT_CHANGES_CELL, PRO_CELL } from './columns'
 
 const EMPTY_STR = ''
 const PERCENT_SUFFIX = '_change_'
@@ -44,7 +44,9 @@ export const buildColumns = (baseMetrics, allMetrics, availableMetrics) => {
           isRestricted,
           accessor: key,
           sortDescFirst: true,
-          Cell: BASIC_CELL(tableColumnFormatter || formatterWithBadge(badge)),
+          Cell: isRestricted
+            ? PRO_CELL
+            : BASIC_CELL(tableColumnFormatter || formatterWithBadge(badge)),
           disableSortBy: isRestricted,
           timeRange: defaultTimeRange || '1d',
           label: `${label}${visualTimeRange}`,
@@ -68,7 +70,7 @@ export const buildColumns = (baseMetrics, allMetrics, availableMetrics) => {
             accessor: key,
             sortDescFirst: true,
             aggregation: LAST_AGG,
-            Cell: PERCENT_CHANGES_CELL,
+            Cell: isRestricted ? PRO_CELL : PERCENT_CHANGES_CELL,
             disableSortBy: isRestricted,
             label: `${label}, ${timeRange} %`,
             Header: `${shortLabel}, ${timeRange} %`

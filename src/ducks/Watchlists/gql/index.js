@@ -143,12 +143,14 @@ export const getRecentWatchlist = id =>
 
 export function tableQuery (columns) {
   const staticColumns = []
-  const dynamicColumns = columns.filter(({ isStatic, accessor }) => {
-    if (isStatic) {
-      staticColumns.push(accessor)
+  const dynamicColumns = columns.filter(
+    ({ isStatic, accessor, isRestricted }) => {
+      if (isStatic) {
+        staticColumns.push(accessor)
+      }
+      return !isStatic && !isRestricted
     }
-    return !isStatic
-  })
+  )
 
   return gql`
   query allProjectsByFunction($fn: json) {
