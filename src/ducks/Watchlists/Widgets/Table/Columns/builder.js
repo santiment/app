@@ -34,6 +34,7 @@ export const buildColumns = (baseMetrics, allMetrics, availableMetrics) => {
           aggregation = LAST_AGG
         } = baseMetric
         const visualTimeRange = defaultTimeRange ? `, ${defaultTimeRange}` : ''
+        const formatter = tableColumnFormatter || formatterWithBadge(badge)
         const isRestricted = !availableMetricsSet.has(key)
 
         Column[key] = {
@@ -44,9 +45,7 @@ export const buildColumns = (baseMetrics, allMetrics, availableMetrics) => {
           isRestricted,
           accessor: key,
           sortDescFirst: true,
-          Cell: isRestricted
-            ? PRO_CELL
-            : BASIC_CELL(tableColumnFormatter || formatterWithBadge(badge)),
+          Cell: isRestricted ? PRO_CELL : BASIC_CELL(formatter),
           disableSortBy: isRestricted,
           timeRange: defaultTimeRange || '1d',
           label: `${label}${visualTimeRange}`,
