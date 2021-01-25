@@ -10,10 +10,14 @@ import {
   percentValueFormatter
 } from '../../Filter/formatters'
 import LayoutForAsset from '../../../../Studio/Template/LayoutForAsset/LayoutForAsset'
+import { Skeleton } from '../../../../../components/Skeleton'
 import styles from './columns.module.scss'
 
 export const NO_DATA = 'No data'
 export const isValid = value => !isNaN(parseFloat(value))
+
+const noValueFormatter = value => (value === undefined ? <Loader /> : NO_DATA)
+const Loader = () => <Skeleton show className={styles.skeleton} />
 
 export const INDEX_COLUMN = {
   Header: '#',
@@ -58,23 +62,32 @@ export const MARKET_SEGMENTS_CELL = ({ value: values = [] }) => (
   </div>
 )
 
-export const RANK_CELL = ({ value }) => (
-  <Label variant='fill' className={styles.rank}>
-    {value}
-  </Label>
-)
+export const RANK_CELL = ({ value }) =>
+  value === undefined ? (
+    <Loader />
+  ) : (
+    <Label variant='fill' className={styles.rank}>
+      {value}
+    </Label>
+  )
 
 export const ETH_SPENT_CELL = ({ value }) =>
-  isValid(value) ? `Ξ${defaultFormatter(value)}` : NO_DATA
+  value === undefined ? (
+    <Loader />
+  ) : isValid(value) ? (
+    `Ξ${defaultFormatter(value)}`
+  ) : (
+    noValueFormatter(value)
+  )
 
 export const BASIC_CELL = formatter => ({ value }) =>
-  isValid(value) ? formatter(value) : NO_DATA
+  isValid(value) ? formatter(value) : noValueFormatter(value)
 
 export const PERCENT_CHANGES_CELL = ({ value }) =>
   isValid(value) ? (
     <PercentChanges changes={percentValueFormatter(value)} />
   ) : (
-    NO_DATA
+    noValueFormatter(value)
   )
 
 export const PRO_CELL = () => (
