@@ -12,18 +12,19 @@ import EthStakedAmountByLabel from '../../ducks/Eth2.0/EthStakedAmountByLabel/Et
 import EthStakedAddressesByLabel from '../../ducks/Eth2.0/EthStakedAddressesByLabel/EthStakedAddressesByLabel'
 import EthUnlabeledStackerInflow from '../../ducks/Eth2.0/EthUnlabeledStackerInflow/EthUnlabeledStackerInflow'
 import EthTopStakers from '../../ducks/Eth2.0/EthTopStakers/EthTopStakers'
+import EthStakingRoi from '../../ducks/Eth2.0/EthStakingRoi/EthStakingRoi'
 import externalStyles from './../StablecoinsPage/StablecoinsPage.module.scss'
 import styles from './ETH2Dashboard.module.scss'
 
 const ANCHORS = {
+  StakingRoi: {
+    label: 'Staking Roi',
+    key: 'Staking Roi'
+  },
   TotalStaked: {
     label: 'Total Staked',
     key: 'total-staked'
   },
-  /*  StakingRoi: {
-     label: 'Staking Roi',
-     key: 'Staking Roi'
-   }, */
   StakedAmount: {
     label: 'Staked amount by Label',
     key: 'staked-by-label'
@@ -82,6 +83,13 @@ const ETH2Dashboard = () => {
         <div className={externalStyles.inner}>
           <Block
             className={cx(externalStyles.firstBlock, styles.firstBlock)}
+            title={ANCHORS.StakingRoi.label}
+            tag={ANCHORS.StakingRoi.key}
+          >
+            <EthStakingRoi />
+          </Block>
+
+          <Block
             title={ANCHORS.TotalStaked.label}
             tag={ANCHORS.TotalStaked.key}
           >

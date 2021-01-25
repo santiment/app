@@ -39,24 +39,25 @@ export const useEthROI = () => {
   )
 }
 
+const toRoi = value =>
+  value > 524288 ? (Math.sqrt(value) * 181) / value : 0.25
+
 const EthStakingRoi = () => {
   const { data, loading } = useEthROI()
 
-  const maxValue = useMemo(
+  const value = useMemo(
     () => {
-      const transformed = data.map(ar => ar[0])
+      const transformed = data
 
-      return transformed[0]
+      return toRoi(transformed[transformed.length - 1])
     },
     [data]
   )
 
-  const ROI = maxValue > 524288 ? (Math.sqrt(maxValue) * 181) / maxValue : 0.25
-
   return (
     <div>
       <Skeleton repeat={1} className={styles.skeleton} show={loading} />
-      {ROI}
+      {value}
     </div>
   )
 }
