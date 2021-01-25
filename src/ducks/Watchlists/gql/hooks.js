@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { client } from '../../../apollo'
 import {
@@ -8,7 +8,7 @@ import {
   UPDATE_WATCHLIST_MUTATION,
   AVAILABLE_METRICS_QUERY,
   AVAILABLE_SEGMENTS_QUERY,
-  AVAILABLE_METRICS_BY_PLAN_QUERY,
+  ACCESS_RESTRICTIONS_QUERY,
   getRecentWatchlist
 } from './index'
 import { WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
@@ -22,6 +22,7 @@ import {
 import { notifyErrorUpdate } from '../Widgets/TopPanel/notifications'
 import { useUser } from '../../../stores/user'
 
+const EMPTY_ARRAY = []
 const DEFAULT_WATCHLISTS = []
 const DEFAULT_SCREENERS = [DEFAULT_SCREENER]
 
@@ -220,24 +221,26 @@ export function useAvailableMetrics () {
   return { availableMetrics: getAvailableMetrics, loading }
 }
 
-const PLANS = {
-  PRO: 'PRO',
-  FREE: 'FREE'
-}
+export function useRestrictedMetrics () {
+  const { data } = useQuery(ACCESS_RESTRICTIONS_QUERY)
 
-const EMPTY_ARRAY = []
-const EMPTY_OBJ = {}
+  return useMemo(
+    () => {
+      if (data && data.getAccessRestrictions) {
+        const allMetrics = []
+        const restrictedMetrics = []
 
-export function useAvailableMetricsByPlan (isPro) {
-  const {
-    data: { allMetrics = EMPTY_ARRAY, metricsByPlan = EMPTY_ARRAY } = EMPTY_OBJ,
-    loading
-  } = useQuery(AVAILABLE_METRICS_BY_PLAN_QUERY, {
-    skip: isPro === null,
-    variables: { plan: isPro ? PLANS.PRO : PLANS.FREE }
-  })
-
-  return { allMetrics, metricsByPlan, loading }
+        data.getAccessRestrictions.forEach(({ name, type, restrictedFrom }) => {
+          allMetrics.push(name)
+          if (type === 'metric' && restrictedFrom !== null) {
+            restrictedMetrics.push(name)
+          }
+        })
+        return { restrictedMetrics, allMetrics }
+      } else return { restrictedMetrics: EMPTY_ARRAY, allMetrics: EMPTY_ARRAY }
+    },
+    [data]
+  )
 }
 
 export function useAvailableSegments () {

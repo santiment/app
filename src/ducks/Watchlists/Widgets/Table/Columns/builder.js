@@ -9,9 +9,9 @@ const TIMERANGES = new Set(['1d', '7d', '30d', '90d', '180d', '365d'])
 
 export const Column = {}
 
-export const buildColumns = (baseMetrics, allMetrics, availableMetrics) => {
+export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
   const allMetricsSet = new Set(allMetrics)
-  const availableMetricsSet = new Set(availableMetrics)
+  const restrictedMetricsSet = new Set(restrictedMetrics)
 
   baseMetrics.forEach(baseMetric => {
     const { key, label, isStatic, isOnlyPercentFilters } = baseMetric
@@ -35,7 +35,7 @@ export const buildColumns = (baseMetrics, allMetrics, availableMetrics) => {
         } = baseMetric
         const visualTimeRange = defaultTimeRange ? `, ${defaultTimeRange}` : ''
         const formatter = tableColumnFormatter || formatterWithBadge(badge)
-        const isRestricted = !availableMetricsSet.has(key)
+        const isRestricted = restrictedMetricsSet.has(key)
 
         Column[key] = {
           key,
@@ -58,7 +58,7 @@ export const buildColumns = (baseMetrics, allMetrics, availableMetrics) => {
       allMetricsSet.forEach(key => {
         const timeRange = key.replace(keyWithSuffix, EMPTY_STR)
         if (timeRange !== key && TIMERANGES.has(timeRange)) {
-          const isRestricted = !availableMetricsSet.has(key)
+          const isRestricted = restrictedMetricsSet.has(key)
 
           Column[key] = {
             key,

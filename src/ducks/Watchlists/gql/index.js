@@ -63,10 +63,15 @@ export const AVAILABLE_METRICS_QUERY = gql`
   }
 `
 
-export const AVAILABLE_METRICS_BY_PLAN_QUERY = gql`
-  query getAvailableMetrics($plan: PlansEnum) {
-    allMetrics: getAvailableMetrics
-    metricsByPlan: getAvailableMetrics(plan: $plan)
+export const ACCESS_RESTRICTIONS_QUERY = gql`
+  query getAccessRestrictions {
+    getAccessRestrictions {
+      name
+      type
+      isRestricted
+      restrictedFrom
+      restrictedTo
+    }
   }
 `
 
