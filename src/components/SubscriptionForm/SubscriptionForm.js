@@ -136,10 +136,10 @@ class SubscriptionForm extends PureComponent {
           <ElInput
             className={cx(styles.subscription__input, classes.emailInput)}
             placeholder='Enter your email'
-            type='email'
             disabled={waiting}
             onChange={this.onEmailChangeDebounced}
             isError={!!error}
+            errorText={error}
             {...inputIconProps}
           />
           {!hideCheckbox && (
@@ -171,15 +171,6 @@ class SubscriptionForm extends PureComponent {
           >
             {waiting ? 'Waiting...' : subscribeBtnLabel}
           </Button>
-          <Panel padding className={styles.subscription__error}>
-            <Icon type='error' fill='var(--persimmon)' />
-            <Label
-              accent='persimmon'
-              className={styles.subscription__error__label}
-            >
-              {error}
-            </Label>
-          </Panel>
         </form>
       </>
     )
