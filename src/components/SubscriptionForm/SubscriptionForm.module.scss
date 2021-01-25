@@ -1,20 +1,6 @@
 @import '~@santiment-network/ui/mixins';
 
 .subscription {
-  &__error {
-    display: none;
-    align-items: center;
-    position: absolute;
-    top: 44px;
-    left: 0;
-    background: var(--white);
-    border: 1px solid var(--porcelain);
-
-    &__label {
-      margin-left: 8px;
-    }
-  }
-
   &__form {
     display: flex;
     flex-direction: column;
@@ -31,21 +17,10 @@
       }
     }
 
-    &_error {
-      input {
-        border: 1px solid var(--persimmon) !important;
-      }
-    }
-
     &:hover {
       input {
         border: 1px solid var(--jungle-green);
       }
-    }
-
-    &_error:hover > .subscription__error {
-      display: flex;
-      padding: 6px 10px;
     }
 
     @include responsive('phone-xs', 'phone') {
