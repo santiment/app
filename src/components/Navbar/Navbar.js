@@ -38,6 +38,19 @@ const ExternalLink = ({ children, className, ...rest }) => (
   </a>
 )
 
+const HEADER_DD_OFFSET_X = (() => {
+  const { isLaptop, isTablet } = mapSizesToProps({
+    width: window.innerWidth,
+    height: window.innerHeight
+  })
+
+  if ((isLaptop, isTablet)) {
+    return -130
+  }
+
+  return undefined
+})()
+
 const leftLinks = [
   {
     to: '/',
@@ -51,7 +64,7 @@ const leftLinks = [
     Dropdown: NavbarChartsDropdown,
     ddParams: {
       position: 'start',
-      offsetX: -104
+      offsetX: HEADER_DD_OFFSET_X
     }
   },
   {
@@ -60,7 +73,8 @@ const leftLinks = [
     as: ExternalLink,
     Dropdown: InsightsDropdown,
     ddParams: {
-      position: 'start'
+      position: 'start',
+      offsetX: HEADER_DD_OFFSET_X
     }
   },
   {
@@ -70,7 +84,7 @@ const leftLinks = [
     Dropdown: MarketDropdown,
     ddParams: {
       position: 'start',
-      offsetX: -104
+      offsetX: HEADER_DD_OFFSET_X
     }
   }
 ]
