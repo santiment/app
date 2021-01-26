@@ -297,7 +297,7 @@ class SmoothDropdown extends Component {
                   onBlur={handleMouseLeave}
                   onClick={handleMouseLeave}
                 >
-                  {currentDropdown && dropdownNode}
+                  {dropdownNode}
                 </div>
               </div>
             )
