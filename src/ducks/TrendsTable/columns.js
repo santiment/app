@@ -94,8 +94,9 @@ export const COLUMNS = [INDEX_COLUMN].concat(
   prepareColumns([
     {
       title: 'Trending word',
+      className: styles.word,
       render: ({ word }) => (
-        <Link className={styles.word} to={`/labs/trends/explore/${word}`}>
+        <Link className={styles.word__link} to={`/labs/trends/explore/${word}`}>
           {word}
         </Link>
       )

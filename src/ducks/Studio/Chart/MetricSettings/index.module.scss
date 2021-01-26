@@ -1,12 +1,13 @@
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
+  @include text('caption', 'm');
+
   display: flex;
   align-items: center;
   color: var(--waterloo);
   fill: var(--waterloo);
-
-  @include text('caption', 'm');
+  margin-top: 8px;
 }
 
 .arrow {
