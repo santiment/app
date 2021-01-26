@@ -250,8 +250,7 @@ class SmoothDropdown extends Component {
       dropdownStyles,
       ddFirstTime,
       arrowCorrectionX,
-      ddItems,
-      currentDropdown
+      ddItems
     } = this.state
 
     const { handleMouseEnter, handleMouseLeave, setupDropdownContent } = this

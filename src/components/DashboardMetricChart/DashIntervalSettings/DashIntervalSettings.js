@@ -7,11 +7,7 @@ import {
 } from '../../../ducks/Studio/Chart/MetricSettings/IntervalSetting'
 import styles from './DashIntervalSettings.module.scss'
 
-const DashIntervalSettings = ({
-  metrics,
-  updateInterval,
-  metricSettingsMap
-}) => {
+const DashIntervalSettings = ({ metrics, updateInterval, settings }) => {
   const metric = useMemo(() => metrics[0], [metrics])
 
   const { activeRef, close, Dropdown } = useDropdown()
@@ -19,12 +15,12 @@ const DashIntervalSettings = ({
 
   const interval = useMemo(
     () => {
-      const { interval } = metricSettingsMap.get(metric) || {}
+      const { interval } = settings || {}
       return isAvailableInterval(interval, intervals)
         ? interval
         : intervals[0].key
     },
-    [metricSettingsMap, intervals, metric]
+    [settings, intervals, metric]
   )
 
   function onChange (newInterval) {
