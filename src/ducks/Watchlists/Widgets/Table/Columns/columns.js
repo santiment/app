@@ -72,13 +72,7 @@ export const RANK_CELL = ({ value }) =>
   )
 
 export const ETH_SPENT_CELL = ({ value }) =>
-  value === undefined ? (
-    <Loader />
-  ) : isValid(value) ? (
-    `Ξ${defaultFormatter(value)}`
-  ) : (
-    noValueFormatter(value)
-  )
+  isValid(value) ? `Ξ${defaultFormatter(value)}` : NO_DATA
 
 export const BASIC_CELL = formatter => ({ value }) =>
   isValid(value) ? formatter(value) : noValueFormatter(value)

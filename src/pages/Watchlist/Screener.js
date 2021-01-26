@@ -48,8 +48,7 @@ const Screener = ({
     watchlist.function || DEFAULT_FUNC
   )
   const { assets = [], projectsCount, loading } = getProjectsByFunction(
-    buildFunction({ func: screenerFunc, pagination, orderBy }),
-    tableQuery(activeColumns)
+    ...buildFunctionQuery()
   )
   const { user = {}, loading: userLoading } = useUser()
   const [tableLoading, setTableLoading] = useState(true)
@@ -116,13 +115,18 @@ const Screener = ({
     }
   }
 
+  function buildFunctionQuery () {
+    return [
+      buildFunction({ func: screenerFunc, pagination, orderBy }),
+      tableQuery(activeColumns)
+    ]
+  }
+
   const refetchAssets = () => {
     setTableLoading(true)
-    getAssetsByFunction(
-      buildFunction({ func: screenerFunc, pagination, orderBy }),
-      tableQuery(activeColumns),
-      'network-only'
-    ).then(() => setTableLoading(false))
+    getAssetsByFunction(...buildFunctionQuery()).then(() =>
+      setTableLoading(false)
+    )
   }
 
   const fetchData = useCallback(

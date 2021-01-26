@@ -246,10 +246,13 @@ export function useRestrictedMetrics () {
 export function useAvailableSegments () {
   const { data, loading } = useQuery(AVAILABLE_SEGMENTS_QUERY)
 
-  return [
-    data ? data.allMarketSegments.sort(countAssetsSort) : EMPTY_ARRAY,
-    loading
-  ]
+  return useMemo(
+    () => [
+      data ? data.allMarketSegments.sort(countAssetsSort) : EMPTY_ARRAY,
+      loading
+    ],
+    [data, loading]
+  )
 }
 
 export function getProjectsByFunction (func, query) {
@@ -280,10 +283,10 @@ const extractData = ({ data }) => {
     : undefined
 }
 
-export const getAssetsByFunction = (func, query, fetchPolicy) =>
+export const getAssetsByFunction = (func, query) =>
   client
     .query({
-      fetchPolicy,
+      fetchPolicy: 'network-only',
       query,
       variables: { fn: JSON.stringify(func) }
     })
