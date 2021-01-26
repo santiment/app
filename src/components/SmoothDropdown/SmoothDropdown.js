@@ -250,8 +250,10 @@ class SmoothDropdown extends Component {
       dropdownStyles,
       ddFirstTime,
       arrowCorrectionX,
-      ddItems
+      ddItems,
+      currentDropdown
     } = this.state
+
     const { handleMouseEnter, handleMouseLeave, setupDropdownContent } = this
 
     this.ddContainer.classList.toggle(
@@ -295,7 +297,7 @@ class SmoothDropdown extends Component {
                   onBlur={handleMouseLeave}
                   onClick={handleMouseLeave}
                 >
-                  {dropdownNode}
+                  {currentDropdown && dropdownNode}
                 </div>
               </div>
             )
