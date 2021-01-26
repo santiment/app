@@ -54,7 +54,7 @@ const Suggestions = ({
         const isSmallScreen = isTablet || isLaptop
 
         dropdown.style.right = isSmallScreen
-          ? availableWidth + 80 + 'px'
+          ? availableWidth + 40 + 'px'
           : availableWidth / 2 + 'px'
       }
     },
