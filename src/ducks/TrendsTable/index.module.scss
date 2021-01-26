@@ -2,7 +2,9 @@
 /* stylelint-disable */
 
 .word {
-  color: var(--rhino);
+  &__link {
+    color: var(--rhino);
+  }
 }
 
 .change {
@@ -98,4 +100,25 @@
 .upgrade {
   margin-left: 10px;
   display: none;
+}
+
+@include responsive('phone', 'phone-xs') {
+  .word {
+    max-width: 0;
+  }
+
+  .change__percent {
+    font-size: 14px;
+  }
+
+  .table {
+    :global {
+      th,
+      td {
+        font-size: 14px;
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+    }
+  }
 }

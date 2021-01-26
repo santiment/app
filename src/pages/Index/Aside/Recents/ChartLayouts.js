@@ -16,15 +16,17 @@ const getItem = getItemBuilder(gql`
 
 const ChartLayout = ({ title }) => (title ? <Column>{title}</Column> : null)
 
-const ChartLayouts = ({ ids }) => (
-  <Recent
-    title='Chart Layouts'
-    rightHeader=''
-    ids={ids}
-    getItem={getItem}
-    getLink={getLink}
-    Item={ChartLayout}
-  />
-)
+const ChartLayouts = ({ ids }) => {
+  return (
+    <Recent
+      title='Chart Layouts'
+      rightHeader=''
+      ids={ids}
+      getItem={getItem}
+      getLink={getLink}
+      Item={ChartLayout}
+    />
+  )
+}
 
 export default ChartLayouts
