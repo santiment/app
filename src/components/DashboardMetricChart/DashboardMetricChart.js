@@ -93,7 +93,7 @@ const DashboardMetricChart = ({
   projectSelector
 }) => {
   const MetricTransformer = useMirroredTransformer(metrics)
-  const [MetricSettingsMap, setMetricSettingsMap] = useState(new Map())
+  const [MetricSettingsMap] = useState(new Map())
   const domainGroups = useDomainGroups(metrics)
   const mirrorDomainGroups = useMemo(
     () => extractMirrorMetricsDomainGroups(domainGroups),
@@ -103,8 +103,6 @@ const DashboardMetricChart = ({
   useEffect(
     () => {
       updateTooltipSettings(metrics)
-
-      updateSettingsMap()
     },
     [metrics]
   )
@@ -117,18 +115,10 @@ const DashboardMetricChart = ({
   } = useChartSettings(defaultInterval)
 
   function updateSettingsMap ({ interval } = {}) {
-    const map = new Map()
-
-    metrics.forEach(m => {
-      const oldSettings = MetricSettingsMap.get(m)
-
-      map.set(m, {
-        ...oldSettings,
-        interval: interval || settings.interval
-      })
+    setSettings({
+      ...settings,
+      interval: interval || settings.interval
     })
-
-    setMetricSettingsMap(map)
   }
 
   const [disabledMetrics, setDisabledMetrics] = useState({})
@@ -221,7 +211,7 @@ const DashboardMetricChart = ({
           />
           <DashIntervalSettings
             metrics={metrics}
-            metricSettingsMap={MetricSettingsMap}
+            settings={settings}
             updateInterval={updateSettingsMap}
           />
         </div>
@@ -250,7 +240,7 @@ const DashboardMetricChart = ({
         />
         <DashIntervalSettings
           metrics={metrics}
-          metricSettingsMap={MetricSettingsMap}
+          settings={settings}
           updateInterval={updateSettingsMap}
         />
         <DashboardChartMetrics
