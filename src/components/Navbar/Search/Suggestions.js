@@ -72,12 +72,20 @@ const Suggestions = ({
         ref={suggestionsRef}
         className={cx(styles.dropdown, styles.exitDone)}
       >
-        <RecentsCategory {...props} items={recents} onClear={onRecentsClear} />
-        <AssetsCategory {...props} />
-        <WalletsCategory {...props} />
-        <TrendingWordsCategory {...props} />
-        <InsightsCategory {...props} />
-        {recents.length === 0 && <PeopleCategory {...props} />}
+        {isOpened && (
+          <>
+            <RecentsCategory
+              {...props}
+              items={recents}
+              onClear={onRecentsClear}
+            />
+            <AssetsCategory {...props} />
+            <TrendingWordsCategory {...props} />
+            <InsightsCategory {...props} />
+            <WalletsCategory {...props} />
+            {recents.length === 0 && <PeopleCategory {...props} />}
+          </>
+        )}
       </div>
     </CSSTransition>
   )
