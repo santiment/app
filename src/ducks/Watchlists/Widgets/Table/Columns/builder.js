@@ -9,6 +9,10 @@ const TIMERANGES = new Set(['1d', '7d', '30d', '90d', '180d', '365d'])
 
 export const Column = {}
 
+function sortByTimeRanges (a, b) {
+  return parseInt(a.timeRange) > parseInt(b.timeRange) ? 1 : -1
+}
+
 export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
   const allMetricsSet = new Set(allMetrics)
   const restrictedMetricsSet = new Set(restrictedMetrics)
@@ -54,13 +58,14 @@ export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
       }
 
       const keyWithSuffix = `${percentMetricKey}${PERCENT_SUFFIX}`
+      const percentMetrics = []
 
       allMetricsSet.forEach(key => {
         const timeRange = key.replace(keyWithSuffix, EMPTY_STR)
         if (timeRange !== key && TIMERANGES.has(timeRange)) {
           const isRestricted = restrictedMetricsSet.has(key)
 
-          Column[key] = {
+          percentMetrics.push({
             key,
             group,
             category,
@@ -73,9 +78,13 @@ export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
             disableSortBy: isRestricted,
             label: `${label}, ${timeRange} %`,
             Header: `${shortLabel}, ${timeRange} %`
-          }
+          })
         }
       })
+
+      percentMetrics
+        .sort(sortByTimeRanges)
+        .forEach(item => (Column[item.key] = item))
     }
   })
 }
