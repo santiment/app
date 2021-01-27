@@ -40,18 +40,6 @@ const Graph = ({ address }) => {
         outbound={outbound}
         detail={detail}
       />
-
-      <div className={styles.powered}>
-        Powered by{' '}
-        <a
-          href={`https://explorer.bitquery.io/ethereum/address/${address}/graph`}
-          target='_blank'
-          rel='noopener noreferrer'
-          className={styles.powered__link}
-        >
-          Bitquery.io
-        </a>
-      </div>
     </>
   )
 }
