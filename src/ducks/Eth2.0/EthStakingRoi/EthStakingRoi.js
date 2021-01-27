@@ -3,7 +3,6 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import Skeleton from '../../../components/Skeleton/Skeleton'
 import ChangeChart from '../../Watchlists/Widgets/Table/PriceGraph/ChangeChart'
-import { formatNumber } from '../../../utils/formatting'
 import { ResponsiveContainer } from 'recharts'
 import styles from './EthStakingRoi.module.scss'
 
@@ -44,8 +43,7 @@ export const useEthROI = () => {
   )
 }
 
-const toPercents = value =>
-  formatNumber(value, { maximumFractionDigits: 4 }) * 100
+const toPercents = value => (value * 100).toFixed(2)
 
 const valueFormatter = ({ payload }) => {
   if (!payload || !payload.length) {
