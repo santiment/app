@@ -19,7 +19,7 @@ import styles from './ETH2Dashboard.module.scss'
 const ANCHORS = {
   StakingRoi: {
     label: 'Staking Roi',
-    key: 'Staking Roi'
+    key: 'staking-roi'
   },
   TotalStaked: {
     label: 'Total Staked',
