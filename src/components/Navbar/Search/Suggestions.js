@@ -80,9 +80,9 @@ const Suggestions = ({
               onClear={onRecentsClear}
             />
             <AssetsCategory {...props} />
+            <WalletsCategory {...props} />
             <TrendingWordsCategory {...props} />
             <InsightsCategory {...props} />
-            <WalletsCategory {...props} />
             {recents.length === 0 && <PeopleCategory {...props} />}
           </>
         )}
