@@ -252,6 +252,7 @@ class SmoothDropdown extends Component {
       arrowCorrectionX,
       ddItems
     } = this.state
+
     const { handleMouseEnter, handleMouseLeave, setupDropdownContent } = this
 
     this.ddContainer.classList.toggle(

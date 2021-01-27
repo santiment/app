@@ -25,7 +25,7 @@ const Sankey = ({ settings }) => {
         className={cx(styles.btn, isOpened && styles.btn_opened)}
         onClick={() => setIsOpened(!isOpened)}
       >
-        {isOpened ? 'Hide' : 'Show'} infographic
+        {isOpened ? 'Hide' : 'Show'} Money Flow Infographic
         <Icon
           type={isOpened ? 'arrow-up' : 'arrow-down'}
           className={styles.arrow}
