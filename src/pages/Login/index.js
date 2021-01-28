@@ -9,6 +9,7 @@ import LoginMetamaskBtn from './LoginMetamaskBtn'
 import LoginEmailForm from './LoginEmailForm'
 import LoginEmailBtn from './LoginEmailBtn'
 import LoginGoogleBtn from './LoginGoogleBtn'
+import LogitTwitterBtn from './LoginTwitterBtn'
 import FreeTrialBlock from './FreeTrialBlock'
 import { PATHS } from '../../paths'
 import SwipablePages from '../../components/SwipablePages/SwipablePages'
@@ -34,6 +35,7 @@ export const LoginDescription = ({ className }) => (
       <OrUseDivider />
       <LoginEmailBtn />
       <LoginGoogleBtn />
+      <LogitTwitterBtn />
 
       <div className={styles.new}>
         New to Santiment?{' '}
