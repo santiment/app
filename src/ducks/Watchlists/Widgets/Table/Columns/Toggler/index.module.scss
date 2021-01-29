@@ -26,18 +26,36 @@
   max-width: 320px;
   padding: 20px 0 0 24px;
   user-select: none;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    display: block;
+    bottom: 0;
+    left: 0;
+    right: 24px;
+    height: 44px;
+    z-index: 1;
+    background: linear-gradient(180deg, var(--shadowFrom) 0%, var(--shadowTo) 52.56%, var(--white) 100%);
+  }
 }
 
 .content {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  max-height: 40vh;
+  height: calc(100vh - 300px);
+  max-height: 700px;
 }
 
 .category {
   display: flex;
   flex-direction: column;
+
+  &:last-child {
+    padding-bottom: 16px;
+  }
 }
 
 .category + .category {

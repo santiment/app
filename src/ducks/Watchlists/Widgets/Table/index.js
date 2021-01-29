@@ -7,6 +7,9 @@ import { useComparingAssets } from './CompareDialog/hooks'
 import { DEFAULT_COLUMNS } from './Columns/defaults'
 import styles from './index.module.scss'
 
+const DEFAULT_ITEMS = []
+const PAGE_SIZE_OPTIONS = [10, 20, 50, 100]
+
 const AssetsTable = ({
   items = [],
   loading,
@@ -80,7 +83,7 @@ const AssetsTable = ({
             pageSize,
             pageIndex,
             onChangePage,
-            pageSizeOptions: [10, 20, 50, 100],
+            pageSizeOptions: PAGE_SIZE_OPTIONS,
             controlledPageCount: Math.ceil(projectsCount / pageSize),
             manualPagination: true
           },
@@ -99,6 +102,10 @@ const AssetsTable = ({
       />
     </>
   )
+}
+
+AssetsTable.defaultProps = {
+  items: DEFAULT_ITEMS
 }
 
 export default AssetsTable

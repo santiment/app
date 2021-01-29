@@ -11,9 +11,13 @@ import { metrics } from '../../../Filter/dataHub/metrics'
 import { useRestrictedMetrics } from '../../../../gql/hooks'
 import { getCategoryGraph } from '../../../../../Studio/Sidebar/utils'
 import { DEFAULT_ACTIVE_COLUMNS_KEYS } from '../defaults'
+import { useTheme } from '../../../../../../stores/ui/theme'
+import { getShadowVars } from '../../../../../../utils/styles'
 import styles from './index.module.scss'
 
 const Toggler = ({ activeColumns, updateActiveColumsKeys }) => {
+  const { isNightMode } = useTheme()
+  const [open, setOpen] = useState(false)
   const { allMetrics, restrictedMetrics } = useRestrictedMetrics()
   const [activeKeys, setActiveKeys] = useState([])
 
@@ -46,7 +50,7 @@ const Toggler = ({ activeColumns, updateActiveColumsKeys }) => {
       ? activeKeys.filter(key => key !== columnKey)
       : [...activeKeys, columnKey]
     setActiveKeys(newActiveKeys)
-    setTimeout(() => updateActiveColumsKeys(newActiveKeys), 200)
+    updateActiveColumsKeys(newActiveKeys)
   }
 
   return (
@@ -60,11 +64,18 @@ const Toggler = ({ activeColumns, updateActiveColumsKeys }) => {
           <Icon type='columns' />
         </Button>
       }
+      open={open}
       passOpenStateAs='isActive'
+      onOpen={() => setOpen(true)}
+      onClose={() => setOpen(false)}
       position='bottom'
       align='end'
     >
-      <Panel variant='modal' className={styles.wrapper}>
+      <Panel
+        variant='modal'
+        className={styles.wrapper}
+        style={getShadowVars(isNightMode)}
+      >
         <div className={styles.content}>
           <Category
             key='Active columns'

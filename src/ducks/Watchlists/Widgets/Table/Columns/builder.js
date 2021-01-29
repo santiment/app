@@ -8,10 +8,7 @@ const LAST_AGG = AGGREGATIONS_LOWER.LAST
 const TIMERANGES = new Set(['1d', '7d', '30d', '90d', '180d', '365d'])
 
 export const Column = {}
-
-function sortByTimeRanges (a, b) {
-  return parseInt(a.timeRange) > parseInt(b.timeRange) ? 1 : -1
-}
+const sortByTimeRanges = (a, b) => parseInt(a.timeRange) - parseInt(b.timeRange)
 
 export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
   const allMetricsSet = new Set(allMetrics)
@@ -89,5 +86,4 @@ export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
   })
 }
 
-export const getColumns = columnsKeys =>
-  columnsKeys.map(key => Column[key]).filter(Boolean)
+export const getColumns = columnsKeys => columnsKeys.map(key => Column[key])

@@ -47,7 +47,7 @@ const Screener = ({
   const [screenerFunc, setScreenerFunc] = useState(
     watchlist.function || DEFAULT_FUNC
   )
-  const { assets = [], projectsCount, loading } = getProjectsByFunction(
+  const { assets, projectsCount, loading } = getProjectsByFunction(
     ...buildFunctionQuery()
   )
   const { user = {}, loading: userLoading } = useUser()

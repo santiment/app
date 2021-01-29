@@ -265,7 +265,7 @@ export function getProjectsByFunction (func, query) {
   })
 
   return {
-    assets: data ? data.allProjectsByFunction.projects : undefined,
+    assets: data ? data.allProjectsByFunction.projects : EMPTY_ARRAY,
     projectsCount: data
       ? data.allProjectsByFunction.stats.projectsCount
       : undefined,
@@ -275,12 +275,10 @@ export function getProjectsByFunction (func, query) {
 }
 
 const extractData = ({ data }) => {
-  return data
-    ? {
-      assets: data.allProjectsByFunction.projects,
-      projectsCount: data.allProjectsByFunction.stats.projectsCount
-    }
-    : undefined
+  return {
+    assets: data ? data.allProjectsByFunction.projects : EMPTY_ARRAY,
+    projectsCount: data && data.allProjectsByFunction.stats.projectsCount
+  }
 }
 
 export const getAssetsByFunction = (func, query) =>

@@ -10,13 +10,9 @@ export const DELETE_TABLE_CONFIG_MUTATION = gql`
 `
 
 export const CREATE_TABLE_CONFIG_MUTATION = gql`
-  mutation createTableConfiguration(
-    $title: String!
-    $isPublic: Boolean
-    $columns: json
-  ) {
+  mutation createTableConfiguration($title: String!, $columns: json) {
     createTableConfiguration(
-      settings: { title: $title, isPublic: $isPublic, columns: $columns }
+      settings: { title: $title, isPublic: false, columns: $columns }
     ) {
       ...tableConfig
     }
@@ -25,15 +21,10 @@ export const CREATE_TABLE_CONFIG_MUTATION = gql`
 `
 
 export const UPDATE_TABLE_CONFIG_MUTATION = gql`
-  mutation createTableConfiguration(
-    $id: Int
-    $title: String!
-    $isPublic: Boolean
-    $columns: json
-  ) {
+  mutation createTableConfiguration($id: Int, $title: String!, $columns: json) {
     createTableConfiguration(
       id: $id
-      settings: { title: $title, isPublic: $isPublic, columns: $columns }
+      settings: { title: $title, isPublic: false, columns: $columns }
     ) {
       ...tableConfig
     }

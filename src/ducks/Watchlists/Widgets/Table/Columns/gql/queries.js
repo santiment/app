@@ -4,9 +4,7 @@ export const TABLE_CONFIG_FRAGMENT = gql`
   fragment tableConfig on UserList {
     id: Int
     title: String
-    isPublic: Boolean
     columns: json
-    pageSize: Int
     insertedAt: DateTime
     user {
       id
@@ -25,7 +23,6 @@ export const TABLE_CONFIGS_QUERY = gql`
   query TableConfigurations {
     id
     title
-    isPublic
     insertedAt: DateTime
     user {
       id
