@@ -29,9 +29,13 @@ const Trigger = ({ type, showProBanner, ...props }) => {
   )
 }
 
-const NewCard = ({ type = 'watchlist' }) => {
+const NewCard = ({ type = 'watchlist', isAddress }) => {
   if (type === 'watchlist') {
-    return <NewWatchlistCard />
+    if (!isAddress) {
+      return <NewWatchlistCard />
+    } else {
+      return null
+    }
   } else {
     return <NewScreenerCard />
   }

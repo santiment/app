@@ -8,6 +8,7 @@
   @include text('body-2');
 
   display: flex !important;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   position: relative;

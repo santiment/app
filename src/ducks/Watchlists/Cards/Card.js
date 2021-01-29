@@ -3,14 +3,17 @@ import cx from 'classnames'
 import gql from 'graphql-tag'
 import { Link } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
-import emptyChartSvg from './emptyChart.svg'
 import { getSEOLinkFromIdAndTitle } from '../../../utils/url'
 import { calcPercentageChange } from '../../../utils/utils'
 import { millify } from '../../../utils/formatting'
-import MiniChart from '../../../components/MiniChart'
 import PercentChanges from '../../../components/PercentChanges'
 import NewLabel from '../../../components/NewLabel/NewLabel'
 import { VisibilityIndicator } from '../../../components/VisibilityIndicator'
+import {
+  NULL_MARKETCAP,
+  WatchlistAddressTemplate,
+  WatchlistAssetTemplate
+} from './CardTemplates'
 import styles from './Card.module.scss'
 
 export const WATCHLIST_MARKETCAP_HISTORY_QUERY = gql`
@@ -25,7 +28,6 @@ export const WATCHLIST_MARKETCAP_HISTORY_QUERY = gql`
   }
 `
 
-const NULL_MARKETCAP = '$ 0'
 const LOADING = {
   isLoading: true
 }
@@ -69,7 +71,8 @@ const WatchlistCard = ({
   isSimplified,
   isWithNewCheck,
   isWithVisibility,
-  onMarketcapLoad
+  onMarketcapLoad,
+  isAddress
 }) => {
   const { id, name, insertedAt, isPublic, href } = watchlist
   const { data, marketcap, change } = useMarketcap(
@@ -77,7 +80,6 @@ const WatchlistCard = ({
     skipMarketcap,
     onMarketcapLoad
   )
-  const noMarketcap = marketcap === NULL_MARKETCAP
   const to = href || path + getSEOLinkFromIdAndTitle(id, name)
 
   if (isSimplified) {
@@ -103,29 +105,14 @@ const WatchlistCard = ({
           />
         )}
       </div>
-      <div className={styles.marketcap}>
-        {marketcap}
-        {noMarketcap ? (
-          <img src={emptyChartSvg} alt='empty chart' />
-        ) : (
-          <MiniChart
-            valueKey='marketcap'
-            data={data}
-            change={change}
-            width={90}
-          />
-        )}
-      </div>
-      <div className={styles.change}>
-        {noMarketcap ? (
-          'No assets'
-        ) : (
-          <>
-            <PercentChanges changes={change} />
-            &nbsp;&nbsp; total cap, 7d
-          </>
-        )}
-      </div>
+      {!isAddress && (
+        <WatchlistAssetTemplate
+          marketcap={marketcap}
+          data={data}
+          change={change}
+        />
+      )}
+      {isAddress && <WatchlistAddressTemplate watchlist={watchlist} />}
     </Link>
   )
 }
