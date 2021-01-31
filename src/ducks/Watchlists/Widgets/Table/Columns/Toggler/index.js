@@ -20,15 +20,26 @@ const Toggler = ({ activeColumns, updateActiveColumsKeys }) => {
   const [open, setOpen] = useState(false)
   const { allMetrics, restrictedMetrics } = useRestrictedMetrics()
   const [activeKeys, setActiveKeys] = useState([])
+  const [currActiveKeys, setCurrActiveKeys] = useState([])
 
   useEffect(
     () => {
       const updatedActiveKeys = activeColumns.map(({ key }) => key)
-      if (!isEqual(updatedActiveKeys, activeKeys)) {
+      if (!isEqual(updatedActiveKeys, activeKeys) && !open) {
         setActiveKeys(updatedActiveKeys)
       }
     },
     [activeColumns]
+  )
+
+  useEffect(
+    () => {
+      setCurrActiveKeys(activeKeys)
+      if (!open) {
+        updateActiveColumsKeys(activeKeys)
+      }
+    },
+    [open]
   )
 
   const categories = useMemo(
@@ -47,10 +58,9 @@ const Toggler = ({ activeColumns, updateActiveColumsKeys }) => {
 
   function toggleColumn (columnKey, isActive) {
     const newActiveKeys = isActive
-      ? activeKeys.filter(key => key !== columnKey)
-      : [...activeKeys, columnKey]
+      ? [...activeKeys, columnKey]
+      : activeKeys.filter(key => key !== columnKey)
     setActiveKeys(newActiveKeys)
-    updateActiveColumsKeys(newActiveKeys)
   }
 
   return (
@@ -82,7 +92,7 @@ const Toggler = ({ activeColumns, updateActiveColumsKeys }) => {
             title='Active columns'
             columns={activeColumns}
             onColumnToggle={toggleColumn}
-            activeKeys={activeKeys}
+            activeKeys={currActiveKeys}
           />
           {Object.keys(categories).map(key => (
             <Category
@@ -90,7 +100,7 @@ const Toggler = ({ activeColumns, updateActiveColumsKeys }) => {
               title={key}
               groups={categories[key]}
               onColumnToggle={toggleColumn}
-              activeKeys={activeKeys}
+              activeKeys={currActiveKeys}
             />
           ))}
         </div>
