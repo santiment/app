@@ -23,7 +23,7 @@
 }
 
 .wrapper {
-  max-width: 320px;
+  width: 320px;
   padding: 20px 0 0 24px;
   user-select: none;
   position: relative;
@@ -54,7 +54,7 @@
   flex-direction: column;
 
   &:last-child {
-    padding-bottom: 16px;
+    padding-bottom: 20px;
   }
 }
 
@@ -82,4 +82,33 @@
 
 .columns {
   margin: 16px 20px 20px 0;
+}
+
+.column {
+  margin-bottom: 12px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.flat {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.flatGroup {
+  margin-top: 0;
+
+  &:first-of-type {
+    margin-top: 20px;
+  }
+}
+
+.searchedColumn:last-child {
+  margin-bottom: 12px;
+}
+
+.search {
+  margin: 0 24px 24px 0;
 }

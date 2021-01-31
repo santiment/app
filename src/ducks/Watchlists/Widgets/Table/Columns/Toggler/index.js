@@ -4,6 +4,7 @@ import isEqual from 'lodash.isequal'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import Icon from '@santiment-network/ui/Icon'
+import Search from '@santiment-network/ui/Search'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Category from './Category'
 import { buildColumns, Column } from '../builder'
@@ -19,6 +20,7 @@ const Toggler = ({ activeColumns, updateActiveColumsKeys }) => {
   const { isNightMode } = useTheme()
   const [open, setOpen] = useState(false)
   const { allMetrics, restrictedMetrics } = useRestrictedMetrics()
+  const [currentSearch, setCurrentSearch] = useState('')
   const [activeKeys, setActiveKeys] = useState([])
   const [currActiveKeys, setCurrActiveKeys] = useState([])
 
@@ -37,6 +39,7 @@ const Toggler = ({ activeColumns, updateActiveColumsKeys }) => {
       setCurrActiveKeys(activeKeys)
       if (!open) {
         updateActiveColumsKeys(activeKeys)
+        setCurrentSearch('')
       }
     },
     [open]
@@ -63,6 +66,10 @@ const Toggler = ({ activeColumns, updateActiveColumsKeys }) => {
     setActiveKeys(newActiveKeys)
   }
 
+  if (allMetrics.length === 0) {
+    return null
+  }
+
   return (
     <ContextMenu
       trigger={
@@ -86,6 +93,11 @@ const Toggler = ({ activeColumns, updateActiveColumsKeys }) => {
         className={styles.wrapper}
         style={getShadowVars(isNightMode)}
       >
+        <Search
+          onChange={value => setCurrentSearch(value)}
+          placeholder='Type to search'
+          className={styles.search}
+        />
         <div className={styles.content}>
           <Category
             key='Active columns'
@@ -93,9 +105,11 @@ const Toggler = ({ activeColumns, updateActiveColumsKeys }) => {
             columns={activeColumns}
             onColumnToggle={toggleColumn}
             activeKeys={currActiveKeys}
+            currentSearch={currentSearch}
           />
           {Object.keys(categories).map(key => (
             <Category
+              currentSearch={currentSearch}
               key={key}
               title={key}
               groups={categories[key]}

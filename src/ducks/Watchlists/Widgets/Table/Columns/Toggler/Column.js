@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import { Metric } from '../../../../../dataHub/metrics'
@@ -7,7 +8,7 @@ import styles from './Column.module.scss'
 
 const EMPTY_OBJ = {}
 
-const Column = ({ onColumnToggle, column, isActive }) => {
+const Column = ({ onColumnToggle, column, isActive, className }) => {
   const [active, setActive] = useState(isActive)
   const { key, descriptionKey = key, label } = column
   const metricForDescription = Metric[descriptionKey] || EMPTY_OBJ
@@ -18,7 +19,7 @@ const Column = ({ onColumnToggle, column, isActive }) => {
   }
 
   return (
-    <div className={styles.column}>
+    <div className={cx(styles.column, className)}>
       <div className={styles.clickableZone} onClick={onClick}>
         <Checkbox className={styles.checkbox} isActive={active} />
         <span className={styles.name}>{label}</span>
