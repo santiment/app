@@ -192,10 +192,16 @@ export const Metric = {
     label: 'Circulation 180d',
     shortLabel: 'Circ. 180d'
   },
-  circulation_180d_usd: {
+  circulation_usd_180d: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.NETWORK_ACTIVITY,
     label: 'Circulation 180d $'
+  },
+  circulation_180d_usd: {
+    category: CATEGORIES.ON_CHAIN,
+    group: GROUPS.NETWORK_ACTIVITY,
+    label: 'Circulation 180d $',
+    isDeprecated: true
   },
   network_growth: {
     category: CATEGORIES.ON_CHAIN,
@@ -582,6 +588,7 @@ export const metrics = [
   Metric.transaction_volume_usd,
   Metric.circulation,
   Metric.circulation_180d,
+  Metric.circulation_usd_180d,
   Metric.circulation_180d_usd,
   Metric.network_growth,
   Metric.exchange_inflow,
