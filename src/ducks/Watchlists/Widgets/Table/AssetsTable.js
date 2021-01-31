@@ -82,7 +82,7 @@ const AssetsTable = ({
   const [visibleItems, setVisibleItems] = useState([])
   const [watchlists = []] = useUserWatchlists()
   const [graphData] = usePriceGraph({ slugs: visibleItems })
-  const normalizedItems = normalizeGraphData(graphData, items)
+  const normalizedItems = normalizeGraphData(graphData, items, 'priceChart7d')
   const hideMarkedAsNew = useCallback(() => {
     setAsNewMarked(undefined)
   }, [])

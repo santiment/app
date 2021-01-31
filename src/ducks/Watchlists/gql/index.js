@@ -149,11 +149,11 @@ export const getRecentWatchlist = id =>
 export function tableQuery (columns) {
   const staticColumns = []
   const dynamicColumns = columns.filter(
-    ({ isStatic, accessor, isRestricted }) => {
+    ({ isStatic, accessor, isRestricted, isChart }) => {
       if (isStatic) {
         staticColumns.push(accessor)
       }
-      return !isStatic && !isRestricted
+      return !isStatic && !isRestricted && !isChart
     }
   )
 

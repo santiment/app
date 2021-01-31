@@ -45,12 +45,7 @@ export const PROJECT_COLUMN = {
   )
 }
 
-export const PROJECT_CHART_COLUMN = {
-  Header: 'Price chart, 7d',
-  accessor: 'priceChart7d',
-  Cell: ({ value }) => <PriceGraph data={value} />,
-  disableSortBy: true
-}
+export const CHART_LINE_CELL = ({ value }) => <PriceGraph data={value} />
 
 export const MARKET_SEGMENTS_CELL = ({ value: values = [] }) => (
   <div className={styles.segments}>

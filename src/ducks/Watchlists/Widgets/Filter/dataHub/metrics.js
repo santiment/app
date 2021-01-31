@@ -42,6 +42,7 @@ export const Metric = {
     category: CATEGORIES.FINANCIAL,
     label: 'Price',
     badge: '$',
+    withChart: true,
     tableColumnFormatter: value => formatNumber(value, { currency: 'USD' })
   },
   price_btc: {

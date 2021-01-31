@@ -1,6 +1,6 @@
 import { Metric } from '../../Filter/dataHub/metrics'
 import { AGGREGATIONS_LOWER } from '../../Filter/dataHub/aggregations'
-import { INDEX_COLUMN, PROJECT_CHART_COLUMN, PROJECT_COLUMN } from './columns'
+import { INDEX_COLUMN, PROJECT_COLUMN } from './columns'
 
 export const DEFAULT_TIME_RANGE = '1d'
 export const DIRECTIONS = {
@@ -16,13 +16,10 @@ export const DEFAULT_ORDER_BY = {
   direction: DIRECTIONS.DESC
 }
 
-export const DEFAULT_COLUMNS = [
-  INDEX_COLUMN,
-  PROJECT_COLUMN,
-  PROJECT_CHART_COLUMN
-]
+export const DEFAULT_COLUMNS = [INDEX_COLUMN, PROJECT_COLUMN]
 
 export const DEFAULT_ACTIVE_COLUMNS_KEYS = [
+  'price_usd_chart_7d',
   'price_usd',
   'price_usd_change_1d',
   'volume_usd',

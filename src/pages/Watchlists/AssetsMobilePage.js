@@ -232,7 +232,7 @@ export const AssetsList = ({
   const normalizedItems = normalizeGraphData(
     graphData,
     items,
-    priceRange,
+    `priceChart${priceRange}`,
     loading
   )
 

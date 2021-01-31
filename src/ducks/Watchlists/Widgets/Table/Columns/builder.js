@@ -1,6 +1,11 @@
 import { AGGREGATIONS_LOWER } from '../../Filter/dataHub/aggregations'
 import { formatterWithBadge } from '../../Filter/formatters'
-import { BASIC_CELL, PERCENT_CHANGES_CELL, PRO_CELL } from './columns'
+import {
+  BASIC_CELL,
+  CHART_LINE_CELL,
+  PERCENT_CHANGES_CELL,
+  PRO_CELL
+} from './columns'
 
 const EMPTY_STR = ''
 const PERCENT_SUFFIX = '_change_'
@@ -35,6 +40,7 @@ export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
     if (!isOnlyPercentFilters) {
       const {
         badge,
+        withChart,
         defaultTimeRange,
         tableColumnFormatter,
         aggregation = LAST_AGG
@@ -57,6 +63,23 @@ export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
         timeRange: defaultTimeRange || '1d',
         label: `${label}${visualTimeRange}`,
         Header: `${shortLabel}${visualTimeRange}`
+      }
+
+      if (withChart) {
+        const chartKey = `${key}_chart_7d`
+
+        Column[chartKey] = {
+          key: chartKey,
+          group,
+          category,
+          shortLabel,
+          isChart: true,
+          accessor: chartKey,
+          disableSortBy: true,
+          Cell: CHART_LINE_CELL,
+          label: `${label} chart, 7d`,
+          Header: `${shortLabel} chart, 7d`
+        }
       }
     }
 
@@ -92,4 +115,5 @@ export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
   })
 }
 
-export const getColumns = columnsKeys => columnsKeys.map(key => Column[key])
+export const getColumns = columnsKeys =>
+  columnsKeys.map(key => Column[key]).filter(Boolean)
