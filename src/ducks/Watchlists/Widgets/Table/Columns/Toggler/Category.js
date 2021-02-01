@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
 import cx from 'classnames'
 import { NO_GROUP } from '../../../../../Studio/Sidebar/utils'
-import Column from './Column'
-import styles from './index.module.scss'
+import Column from './Columns/Column'
+import styles from './Category.module.scss'
 
 const Category = ({
   title,

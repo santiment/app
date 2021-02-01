@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
-import { Metric } from '../../../../../dataHub/metrics'
-import MetricExplanation from '../../../../../SANCharts/MetricExplanation'
+import { Metric } from '../../../../../../dataHub/metrics'
+import MetricExplanation from '../../../../../../SANCharts/MetricExplanation'
 import styles from './Column.module.scss'
 
 const EMPTY_OBJ = {}

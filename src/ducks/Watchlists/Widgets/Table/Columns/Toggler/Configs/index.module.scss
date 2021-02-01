@@ -1,0 +1,43 @@
+@import "~@santiment-network/ui/mixins";
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  padding: 9px;
+  fill: var(--waterloo);
+  position: relative;
+}
+
+.wrapper {
+  width: 260px;
+  padding: 12px 0 0 0;
+  user-select: none;
+  position: relative;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: auto;
+  max-height: 400px;
+  padding-bottom: 14px;
+}
+
+.saveAs {
+  margin: 0 16px 6px;
+  width: calc(100% - 32px);
+}
+
+.title {
+  margin: 14px 16px 4px;
+  color: var(--waterloo);
+
+  @include text('caption', 'm');
+}
+
+.buttonConfig {
+  margin: 0 9px;
+}

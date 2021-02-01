@@ -1,41 +1,80 @@
+import { useMemo } from 'react'
 import gql from 'graphql-tag'
+import { useQuery } from '@apollo/react-hooks'
+import { useUser } from '../../../../../../stores/user'
+import { sortBy } from '../../../../../../utils/sortMethods'
 
-export const TABLE_CONFIG_FRAGMENT = gql`
-  fragment tableConfig on UserList {
-    id: Int
-    title: String
-    columns: json
-    insertedAt: DateTime
-    user {
-      id
-    }
-`
+const EMPTY_ARRAY = []
+const SORTER = sortBy('id')
+
+// export const TABLE_CONFIG_FRAGMENT = gql`
+//   fragment tableConfig on UserList {
+//     id
+//     title
+//     columns
+//     user {
+//       id
+//     }
+// `
 
 export const FEATURED_TABLE_CONFIGS_QUERY = gql`
   query featuredTableConfigurations {
-    id
-    title
-    insertedAt: DateTime
+    featuredTableConfigurations {
+      id
+      title
+    }
   }
 `
 
 export const TABLE_CONFIGS_QUERY = gql`
-  query TableConfigurations {
-    id
-    title
-    insertedAt: DateTime
-    user {
+  query tableConfigurations {
+    tableConfigurations {
       id
-    }
-`
-
-export const WATCHLIST_TABLE_CONFIG_QUERY = gql`
-  query watchlist($id: ID!) {
-    watchlist(id: $id) {
-      tableConfiguration {
+      title
+      user {
         id
-        title
-        columns
+      }
     }
   }
 `
+
+// export const WATCHLIST_TABLE_CONFIG_QUERY = gql`
+//   query watchlist($id: ID!) {
+//     watchlist(id: $id) {
+//       tableConfiguration {
+//         id
+//         title
+//         columns
+//     }
+//   }
+// `
+
+export function useFeaturedTableConfigs () {
+  const { data } = useQuery(FEATURED_TABLE_CONFIGS_QUERY)
+  return useMemo(
+    () => {
+      return data
+        ? data.featuredTableConfigurations.slice().sort(SORTER)
+        : EMPTY_ARRAY
+    },
+    [data]
+  )
+}
+
+export function useUserTableConfigs () {
+  const {
+    user: { id }
+  } = useUser()
+  const { data } = useQuery(TABLE_CONFIGS_QUERY)
+  return useMemo(
+    () => {
+      return data
+        ? data.tableConfigurations
+          .slice()
+          .filter(item => item.user.id === id)
+          .sort(SORTER)
+        : EMPTY_ARRAY
+    },
+    [data]
+  )
+}
