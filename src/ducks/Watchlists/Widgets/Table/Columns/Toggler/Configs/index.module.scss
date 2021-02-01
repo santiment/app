@@ -45,6 +45,22 @@
   padding-bottom: 14px;
 }
 
+.circle {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: -1px;
+    right: -7px;
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--persimmon);
+  }
+}
+
 .title {
   margin: 14px 16px 4px;
   color: var(--waterloo);

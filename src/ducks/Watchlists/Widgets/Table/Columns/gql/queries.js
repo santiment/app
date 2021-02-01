@@ -6,7 +6,6 @@ import { sortBy } from '../../../../../../utils/sortMethods'
 
 const EMPTY_ARRAY = []
 const SORTER = sortBy('id')
-const DEFAULT_TABLE_CONFIG_ID = 1
 
 export const FEATURED_TABLE_CONFIGS_QUERY = gql`
   query featuredTableConfigurations {
@@ -22,7 +21,6 @@ export const TABLE_CONFIGS_QUERY = gql`
     tableConfigurations {
       id
       title
-      columns
       user {
         id
       }
@@ -69,10 +67,9 @@ export function useUserTableConfigs () {
   )
 }
 
-export function useTableConfig (id = DEFAULT_TABLE_CONFIG_ID, skip) {
+export function useTableConfig (id) {
   const { data, loading, error } = useQuery(TABLE_CONFIG_QUERY, {
-    variables: { id },
-    skip
+    variables: { id }
   })
   return { tableConfig: data && data.tableConfiguration, loading, error }
 }

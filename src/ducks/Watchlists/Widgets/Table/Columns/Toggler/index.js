@@ -11,29 +11,53 @@ import { buildColumns, Column } from '../builder'
 import { metrics } from '../../../Filter/dataHub/metrics'
 import { useRestrictedMetrics } from '../../../../gql/hooks'
 import { getCategoryGraph } from '../../../../../Studio/Sidebar/utils'
-import { DEFAULT_ACTIVE_COLUMNS_KEYS } from '../defaults'
 import { useTheme } from '../../../../../../stores/ui/theme'
 import { getShadowVars } from '../../../../../../utils/styles'
 import ConfigsMenu from './Configs'
 import { useTableConfig } from '../gql/queries'
 import styles from './index.module.scss'
 
+const EMPTY_OBJ = {}
+const DEFAULT_CONFIG_ID = 1
+
 const Toggler = ({
   activeColumns,
-  updateActiveColumsKeys,
-  listTableConfig
+  updateActiveColumnsKeys,
+  watchlistTableConfig
 }) => {
   const { isNightMode } = useTheme()
   const [open, setOpen] = useState(false)
-  const [selectedConfigId, setSelectedConfigId] = useState()
+  const [selectedConfigId, setSelectedConfigId] = useState(
+    watchlistTableConfig.id || DEFAULT_CONFIG_ID
+  )
   const [openConfigsMenu, setOpenConfigsMenu] = useState(false)
   const { allMetrics, restrictedMetrics } = useRestrictedMetrics()
   const [currentSearch, setCurrentSearch] = useState('')
   const [activeKeys, setActiveKeys] = useState([])
   const [currActiveKeys, setCurrActiveKeys] = useState([])
-  const { tableConfig } = useTableConfig(
-    selectedConfigId,
-    !!listTableConfig && !selectedConfigId
+  const { tableConfig } = useTableConfig(selectedConfigId)
+
+  useEffect(
+    () => {
+      if (tableConfig) {
+        const newMetricKeys = tableConfig.columns.metrics
+        setActiveKeys(newMetricKeys)
+        updateActiveColumnsKeys(newMetricKeys)
+      }
+    },
+    [tableConfig]
+  )
+
+  useEffect(
+    () => {
+      if (
+        watchlistTableConfig &&
+        watchlistTableConfig.id !== selectedConfigId
+      ) {
+        setSelectedConfigId(watchlistTableConfig)
+      }
+    },
+    [watchlistTableConfig]
   )
 
   useEffect(
@@ -50,7 +74,7 @@ const Toggler = ({
     () => {
       setCurrActiveKeys(activeKeys)
       if (!open) {
-        updateActiveColumsKeys(activeKeys)
+        updateActiveColumnsKeys(activeKeys)
         setCurrentSearch('')
       }
     },
@@ -60,7 +84,7 @@ const Toggler = ({
   const categories = useMemo(
     () => {
       if (allMetrics.length !== 0) {
-        updateActiveColumsKeys(DEFAULT_ACTIVE_COLUMNS_KEYS)
+        updateActiveColumnsKeys(activeKeys)
         buildColumns(metrics, allMetrics, restrictedMetrics)
         const allColumns = Object.values(Column)
         return getCategoryGraph(allColumns)
@@ -78,7 +102,7 @@ const Toggler = ({
     setActiveKeys(newActiveKeys)
   }
 
-  if (allMetrics.length === 0) {
+  if (allMetrics.length === 0 || !tableConfig) {
     return null
   }
 
@@ -137,10 +161,15 @@ const Toggler = ({
         setOpen={setOpenConfigsMenu}
         open={openConfigsMenu}
         changeConfig={setSelectedConfigId}
-        config={tableConfig || listTableConfig}
+        config={tableConfig}
+        activeColumns={activeKeys}
       />
     </>
   )
+}
+
+Toggler.defaultProps = {
+  watchlistTableConfig: EMPTY_OBJ
 }
 
 export default Toggler

@@ -17,16 +17,3 @@ export const DEFAULT_ORDER_BY = {
 }
 
 export const DEFAULT_COLUMNS = [INDEX_COLUMN, PROJECT_COLUMN]
-
-export const DEFAULT_ACTIVE_COLUMNS_KEYS = [
-  'price_usd_chart_7d',
-  'price_usd',
-  'price_usd_change_1d',
-  'volume_usd',
-  'volume_usd_change_1d',
-  'marketcap_usd',
-  'dev_activity_1d',
-  'daily_active_addresses',
-  'rank',
-  'market_segments'
-]

@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import cx from 'classnames'
+import isEqual from 'lodash.isequal'
 import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel'
 import Button from '@santiment-network/ui/Button'
@@ -28,13 +29,25 @@ const SmallSave = ({ onClick }) => (
   </svg>
 )
 
-const ConfigsMenu = ({ setOpen, open, changeConfig, config }) => {
-  const { id: selectedId, title } = config
+const ConfigsMenu = ({
+  setOpen,
+  open,
+  changeConfig,
+  config,
+  activeColumns
+}) => {
+  const { id: selectedId, title, columns } = config
   const featuredTableConfigurations = useFeaturedTableConfigs()
   const userTableConfigs = useUserTableConfigs()
   const { createTableConfig } = useCreateTableConfig()
   const { deleteTableConfig } = useDeleteTableConfig()
   const { updateTableConfig } = useUpdateTableConfig()
+  const hasUnsavedChanges = useMemo(
+    () => {
+      return !isEqual(columns.metrics, activeColumns)
+    },
+    [activeColumns]
+  )
 
   function onConfigSelect (id) {
     changeConfig(id)
@@ -48,7 +61,9 @@ const ConfigsMenu = ({ setOpen, open, changeConfig, config }) => {
           variant='flat'
           className={cx(styles.trigger, open && styles.isOpened)}
         >
-          {title}
+          <span className={cx(hasUnsavedChanges && styles.circle)}>
+            {title}
+          </span>
           <Icon type='arrow-down' className={styles.arrow} />
         </Button>
       }
@@ -64,7 +79,7 @@ const ConfigsMenu = ({ setOpen, open, changeConfig, config }) => {
           onChange={title =>
             createTableConfig({
               title,
-              columns: { metrics: ['price_usd_chart_7d', 'volume_usd'] }
+              columns: { metrics: activeColumns }
             })
           }
         />
@@ -106,7 +121,7 @@ const ConfigsMenu = ({ setOpen, open, changeConfig, config }) => {
                       <SmallSave
                         onClick={() =>
                           updateTableConfig(config, {
-                            columns: { metrics: ['marketcap_usd'] }
+                            columns: { metrics: activeColumns }
                           })
                         }
                       />

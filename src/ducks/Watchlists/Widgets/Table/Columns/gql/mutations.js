@@ -74,7 +74,7 @@ function buildConfigsCacheUpdater (reducer) {
 }
 
 const updateConfigsOnCreation = buildConfigsCacheUpdater(
-  ({ config }, configs) => [config].concat(configs)
+  ({ config: { columns, ...item } }, configs) => [item].concat(configs)
 )
 
 const updateConfigsOnDelete = buildConfigsCacheUpdater(
@@ -83,8 +83,8 @@ const updateConfigsOnDelete = buildConfigsCacheUpdater(
 )
 
 const updateTableConfigsOnUpdate = buildConfigsCacheUpdater(
-  ({ config }, configs) =>
-    configs.map(item => (item.id === config.id ? config : item))
+  ({ config: { columns, ...changedItem } }, configs) =>
+    configs.map(item => (item.id === changedItem.id ? changedItem : item))
 )
 
 export function useCreateTableConfig () {

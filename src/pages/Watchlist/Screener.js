@@ -207,7 +207,7 @@ const Screener = ({
         pageIndex={pagination.page - 1}
         sorting={orderBy}
         activeColumns={activeColumns}
-        updateActiveColumsKeys={setActiveColumnsKeys}
+        updateActiveColumnsKeys={setActiveColumnsKeys}
         onChangePage={pageIndex =>
           setPagination({ ...pagination, page: +pageIndex + 1 })
         }
