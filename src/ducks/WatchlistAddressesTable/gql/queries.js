@@ -11,6 +11,7 @@ export const WATCHLIST_GENERAL_FRAGMENT = gql`
     insertedAt
     isMonitored
     isPublic
+    type
     user {
       id
     }
@@ -23,6 +24,7 @@ export const SHORT_WATCHLIST_GENERAL_FRAGMENT = gql`
     name
     type
     isPublic
+    insertedAt
   }
 `
 

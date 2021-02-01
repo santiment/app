@@ -1,6 +1,5 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
-import Actions from './Actions'
 import {
   useAddressWatchlist,
   useIsWatchlistAuthor,
@@ -11,6 +10,7 @@ import { getIdFromSEOLink } from '../../utils/url'
 import WatchlistAddressesTable from '../../ducks/WatchlistAddressesTable'
 import PageLoader from '../../components/Loader/PageLoader'
 import styles from './index.module.scss'
+import BaseActions from '../../ducks/Watchlists/Widgets/TopPanel/WatchlistBaseActions'
 
 const WatchlistAddress = ({ match }) => {
   const { watchlist, isLoading } = useAddressWatchlist(
@@ -22,13 +22,22 @@ const WatchlistAddress = ({ match }) => {
   if (isLoading) return <PageLoader />
   if (!watchlist.id) return <Redirect to='/' />
 
+  const { id, name } = watchlist
+
   return (
     <Page
       className={styles.wrapper}
       headerClassName={styles.header}
       isWithPadding={false}
       title={watchlist.name}
-      actions={<Actions watchlist={watchlist} isAuthor={isAuthor} />}
+      actions={
+        <BaseActions
+          watchlist={watchlist}
+          isAuthor={isAuthor}
+          name={name}
+          id={id}
+        />
+      }
     >
       <WatchlistAddressesTable
         items={items}

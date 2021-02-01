@@ -67,7 +67,6 @@ const BaseActions = ({
   isAuthorLoading,
   id,
   name,
-  description,
   assets,
   watchlist,
   onClick
@@ -80,6 +79,8 @@ const BaseActions = ({
   if (!id || !watchlist || !watchlist.id) {
     return null
   }
+
+  const { type } = watchlist
 
   return (
     <div onClick={onClick} className={styles.container}>
@@ -131,7 +132,7 @@ const BaseActions = ({
               onSubmit={() => setIsMenuOpened(false)}
               watchlist={watchlist}
               lists={watchlists}
-              type='watchlist'
+              type={type}
               trigger={
                 <Button>
                   <Icon type='disk' />

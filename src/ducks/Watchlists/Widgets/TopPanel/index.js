@@ -22,6 +22,7 @@ const TopPanel = ({
   isDefaultScreener,
   isUpdatingWatchlist,
   updateWatchlistFunction,
+  type = 'screener',
   ...props
 }) => {
   const { isPro } = useUserSubscriptionStatus()
@@ -52,6 +53,7 @@ const TopPanel = ({
             id={id}
             watchlist={watchlist}
             onClick={closeFilter}
+            type={type}
           />
         )}
         {isUpdatingWatchlist && (

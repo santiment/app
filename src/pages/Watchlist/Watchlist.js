@@ -94,6 +94,7 @@ const WatchlistPage = props => {
                 className={styles.top}
                 widgets={widgets}
                 setWidgets={setWidgets}
+                type={'watchlist'}
               />
               {isLoading && <PageLoader />}
 

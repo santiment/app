@@ -182,6 +182,7 @@ const Screener = ({
         isDefaultScreener={isDefaultScreener}
         widgets={widgets}
         setWidgets={setWidgets}
+        type='screener'
       />
 
       {!loading && (

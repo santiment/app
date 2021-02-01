@@ -227,20 +227,27 @@ export const useRemovingWatchlist = () => {
   return { onDelete, data }
 }
 
+function getCreationType (type) {
+  switch (type) {
+    case BLOCKCHAIN_ADDRESS:
+      return BLOCKCHAIN_ADDRESS
+    case 'screener':
+      return PROJECT
+    default: {
+      return PROJECT
+    }
+  }
+}
+
 export function useCreateWatchlist () {
   const [mutate, data] = useMutation(CREATE_WATCHLIST_MUTATION, {
     update: updateWatchlistsOnCreation
   })
 
   function createWatchlist (props) {
-    const { type, function: payloadFunction } = props
+    const { type, function: payloadFunction, listItems = [], ...rest } = props
 
-    const creationType =
-      type === BLOCKCHAIN_ADDRESS ? BLOCKCHAIN_ADDRESS : PROJECT
-
-    if (props.listItems && type === 'watchlist') {
-      props.listItems = getNormalizedListItems(props.listItems)
-    }
+    const creationType = getCreationType(type)
 
     const watchlistFunction = JSON.stringify(
       payloadFunction || DEFAULT_SCREENER_FUNCTION
@@ -248,9 +255,11 @@ export function useCreateWatchlist () {
 
     return mutate({
       variables: {
-        ...props,
+        ...rest,
         type: creationType,
-        function: type === 'screener' ? watchlistFunction : undefined
+        function: type === 'screener' ? watchlistFunction : undefined,
+        listItems:
+          type === 'watchlist' ? getNormalizedListItems(listItems) : undefined
       }
     })
       .then(({ data: { createWatchlist } }) => {
