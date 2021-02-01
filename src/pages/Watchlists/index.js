@@ -64,8 +64,8 @@ const Cards = ({ type, path, watchlists, isAddress }) => (
   </>
 )
 
-const MyWatchlists = ({ data, isDesktop }) => {
-  const [watchlists, isLoading] = data
+const MyWatchlists = ({ isDesktop }) => {
+  const [watchlists, isLoading] = useUserWatchlists()
   const addressesWatchlists = useAddressWatchlists().watchlists
 
   const { isLoggedIn } = useUser()
@@ -90,7 +90,7 @@ const MyWatchlists = ({ data, isDesktop }) => {
           <div className={styles.block}>
             <div className={styles.assets}>Assets</div>
             <Section
-              isGrid={isDesktop && isLoggedIn && data[0].length > 0}
+              isGrid={isDesktop && isLoggedIn}
               className={styles.innerSection}
             >
               <Cards watchlists={watchlists} path='/watchlist/projects/' />
@@ -100,7 +100,7 @@ const MyWatchlists = ({ data, isDesktop }) => {
           <div className={styles.block}>
             <div className={styles.assets}>Addresses</div>
             <Section
-              isGrid={isDesktop && isLoggedIn && data[0].length > 0}
+              isGrid={isDesktop && isLoggedIn}
               className={styles.innerSection}
             >
               <Cards
@@ -125,7 +125,6 @@ const MyScreeners = () => {
 
 const Watchlists = ({ isDesktop }) => {
   const { isLoggedIn, loading } = useUser()
-  const userWatchlistsData = useUserWatchlists()
 
   return (
     <Page
@@ -146,7 +145,7 @@ const Watchlists = ({ isDesktop }) => {
       </DesktopOnly>
 
       {isLoggedIn ? (
-        <MyWatchlists data={userWatchlistsData} isDesktop={isDesktop} />
+        <MyWatchlists isDesktop={isDesktop} />
       ) : (
         loading || <LoginBanner isDesktop={isDesktop} />
       )}
