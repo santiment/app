@@ -8,16 +8,6 @@ const EMPTY_ARRAY = []
 const SORTER = sortBy('id')
 const DEFAULT_TABLE_CONFIG_ID = 1
 
-// export const TABLE_CONFIG_FRAGMENT = gql`
-//   fragment tableConfig on UserList {
-//     id
-//     title
-//     columns
-//     user {
-//       id
-//     }
-// `
-
 export const FEATURED_TABLE_CONFIGS_QUERY = gql`
   query featuredTableConfigurations {
     featuredTableConfigurations {

@@ -5,17 +5,29 @@ import Panel from '@santiment-network/ui/Panel'
 import Button from '@santiment-network/ui/Button'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { useFeaturedTableConfigs, useUserTableConfigs } from '../../gql/queries'
+import { useCreateTableConfig, useDeleteTableConfig } from '../../gql/mutations'
 import styles from './index.module.scss'
 
 const ConfigsMenu = ({ setOpen, open, changeConfig, config }) => {
   const { id: selectedId, title } = config
   const featuredTableConfigurations = useFeaturedTableConfigs()
   const userTableConfigs = useUserTableConfigs()
+  const { createTableConfig } = useCreateTableConfig()
+  const { deleteTableConfig } = useDeleteTableConfig()
 
   function onConfigSelect (id) {
     changeConfig(id)
     setOpen(false)
   }
+
+  function onCreateConfig (settings) {
+    createTableConfig(settings)
+  }
+
+  function onDeleteConfig (id) {
+    deleteTableConfig(id)
+  }
+
   return (
     <ContextMenu
       trigger={
@@ -28,14 +40,23 @@ const ConfigsMenu = ({ setOpen, open, changeConfig, config }) => {
         </Button>
       }
       open={open}
-      passOpenStateAs='isOpened'
       onOpen={() => setOpen(true)}
       onClose={() => setOpen(false)}
       position='bottom'
       align='end'
     >
       <Panel variant='modal' className={styles.wrapper}>
-        <Button variant='flat' border className={styles.saveAs}>
+        <Button
+          variant='flat'
+          border
+          className={styles.saveAs}
+          onClick={() =>
+            onCreateConfig({
+              title: 'Main',
+              columns: { metrics: ['price_usd_chart_7d', 'volume_usd'] }
+            })
+          }
+        >
           Save columns as ...
         </Button>
         <div className={styles.content}>
@@ -79,7 +100,10 @@ const ConfigsMenu = ({ setOpen, open, changeConfig, config }) => {
                       />
                     </svg>
                     <Icon type='edit-small' />
-                    <Icon type='remove-small' />
+                    <Icon
+                      type='remove-small'
+                      onClick={() => onDeleteConfig({ id, title })}
+                    />
                   </div>
                 </Button>
               ))}
