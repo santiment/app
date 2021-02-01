@@ -6,6 +6,7 @@ import { sortBy } from '../../../../../../utils/sortMethods'
 
 const EMPTY_ARRAY = []
 const SORTER = sortBy('id')
+const DEFAULT_TABLE_CONFIG_ID = 1
 
 // export const TABLE_CONFIG_FRAGMENT = gql`
 //   fragment tableConfig on UserList {
@@ -37,17 +38,15 @@ export const TABLE_CONFIGS_QUERY = gql`
     }
   }
 `
-
-// export const WATCHLIST_TABLE_CONFIG_QUERY = gql`
-//   query watchlist($id: ID!) {
-//     watchlist(id: $id) {
-//       tableConfiguration {
-//         id
-//         title
-//         columns
-//     }
-//   }
-// `
+export const TABLE_CONFIG_QUERY = gql`
+  query tableConfiguration($id: Int!) {
+    tableConfiguration(id: $id) {
+      id
+      title
+      columns
+    }
+  }
+`
 
 export function useFeaturedTableConfigs () {
   const { data } = useQuery(FEATURED_TABLE_CONFIGS_QUERY)
@@ -77,4 +76,12 @@ export function useUserTableConfigs () {
     },
     [data]
   )
+}
+
+export function useTableConfig (id = DEFAULT_TABLE_CONFIG_ID, skip) {
+  const { data, loading, error } = useQuery(TABLE_CONFIG_QUERY, {
+    variables: { id },
+    skip
+  })
+  return { tableConfig: data && data.tableConfiguration, loading, error }
 }

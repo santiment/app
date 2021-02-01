@@ -13,6 +13,8 @@ import ExplanationTooltip from '../../../../../components/ExplanationTooltip/Exp
 import ColumnsToggler from '../Columns/Toggler'
 import styles from './index.module.scss'
 
+const EMPTY_OBJ = {}
+
 const TableTop = ({
   comparingAssets,
   isLoading,
@@ -22,7 +24,7 @@ const TableTop = ({
   refetchAssets,
   activeColumns,
   updateActiveColumsKeys,
-  watchlist = {}
+  watchlist = EMPTY_OBJ
 }) => {
   const [refreshTimestamp, setRefreshTimestamp] = useState(Date.now)
   const [watchlists = []] = useUserWatchlists()
@@ -53,6 +55,7 @@ const TableTop = ({
       )}
       <div className={styles.actions}>
         <ColumnsToggler
+          listTableConfig={watchlist.tableConfiguration}
           activeColumns={activeColumns}
           updateActiveColumsKeys={updateActiveColumsKeys}
         />

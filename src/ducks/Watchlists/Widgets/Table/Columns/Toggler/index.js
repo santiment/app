@@ -15,16 +15,26 @@ import { DEFAULT_ACTIVE_COLUMNS_KEYS } from '../defaults'
 import { useTheme } from '../../../../../../stores/ui/theme'
 import { getShadowVars } from '../../../../../../utils/styles'
 import ConfigsMenu from './Configs'
+import { useTableConfig } from '../gql/queries'
 import styles from './index.module.scss'
 
-const Toggler = ({ activeColumns, updateActiveColumsKeys }) => {
+const Toggler = ({
+  activeColumns,
+  updateActiveColumsKeys,
+  listTableConfig
+}) => {
   const { isNightMode } = useTheme()
   const [open, setOpen] = useState(false)
-  const [openConfigs, setOpenConfigs] = useState(false)
+  const [selectedConfigId, setSelectedConfigId] = useState()
+  const [openConfigsMenu, setOpenConfigsMenu] = useState(false)
   const { allMetrics, restrictedMetrics } = useRestrictedMetrics()
   const [currentSearch, setCurrentSearch] = useState('')
   const [activeKeys, setActiveKeys] = useState([])
   const [currActiveKeys, setCurrActiveKeys] = useState([])
+  const { tableConfig } = useTableConfig(
+    selectedConfigId,
+    !!listTableConfig && !selectedConfigId
+  )
 
   useEffect(
     () => {
@@ -123,7 +133,12 @@ const Toggler = ({ activeColumns, updateActiveColumsKeys }) => {
           </div>
         </Panel>
       </ContextMenu>
-      <ConfigsMenu setOpen={setOpenConfigs} open={openConfigs} />
+      <ConfigsMenu
+        setOpen={setOpenConfigsMenu}
+        open={openConfigsMenu}
+        changeConfig={setSelectedConfigId}
+        config={tableConfig || listTableConfig}
+      />
     </>
   )
 }

@@ -19,6 +19,15 @@
       width: 1px;
       background: var(--porcelain);
     }
+
+    &::after {
+      display: block;
+      content: '';
+      position: absolute;
+      right: -8px;
+      height: 24px;
+      width: 16px;
+    }
   }
 }
 

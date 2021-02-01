@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
+import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel'
 import Button from '@santiment-network/ui/Button'
@@ -6,22 +7,27 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { useFeaturedTableConfigs, useUserTableConfigs } from '../../gql/queries'
 import styles from './index.module.scss'
 
-const ConfigsMenu = ({ setOpen, open }) => {
+const ConfigsMenu = ({ setOpen, open, changeConfig, config }) => {
   const featuredTableConfigurations = useFeaturedTableConfigs()
   const userTableConfigs = useUserTableConfigs()
 
   function onConfigSelect (id) {
+    changeConfig(id)
     setOpen(false)
   }
   return (
     <ContextMenu
       trigger={
-        <Button variant='flat' className={styles.button}>
+        <Button
+          variant='flat'
+          className={cx(styles.trigger, open && styles.isOpened)}
+        >
+          {config.title}
           <Icon type='arrow-down' />
         </Button>
       }
       open={open}
-      passOpenStateAs='isActive'
+      passOpenStateAs='isOpened'
       onOpen={() => setOpen(true)}
       onClose={() => setOpen(false)}
       position='bottom'
