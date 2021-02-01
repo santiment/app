@@ -22,6 +22,7 @@ export const TABLE_CONFIGS_QUERY = gql`
     tableConfigurations {
       id
       title
+      columns
       user {
         id
       }

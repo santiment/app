@@ -10,28 +10,33 @@ export const NewConfigTrigger = props => (
 )
 
 const UpdateConfig = ({
-  trigger = <NewConfigTrigger />,
-  createConfig,
-  sets
+  trigger,
+  onChange,
+  sets,
+  title,
+  name,
+  buttonLabel
 }) => {
   const [isOpened, setIsOpened] = useState(false)
 
   return (
     <EditForm
-      title='New set'
-      buttonLabel='Create'
-      onFormSubmit={({ name }) =>
-        createConfig({
-          title: name,
-          columns: { metrics: ['price_usd_chart_7d', 'volume_usd'] }
-        }).then(() => setIsOpened(false))
-      }
+      title={title}
+      name={name}
+      buttonLabel={buttonLabel}
+      onFormSubmit={name => onChange(name).then(() => setIsOpened(false))}
       open={isOpened}
       sets={sets}
       toggleOpen={setIsOpened}
       trigger={trigger}
     />
   )
+}
+
+UpdateConfig.defaultProps = {
+  trigger: <NewConfigTrigger />,
+  title: 'New set',
+  buttonLabel: 'Create'
 }
 
 export default UpdateConfig

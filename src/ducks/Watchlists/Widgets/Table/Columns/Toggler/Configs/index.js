@@ -5,9 +5,28 @@ import Panel from '@santiment-network/ui/Panel'
 import Button from '@santiment-network/ui/Button'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { useFeaturedTableConfigs, useUserTableConfigs } from '../../gql/queries'
-import { useCreateTableConfig, useDeleteTableConfig } from '../../gql/mutations'
-import UpdateConfig from './NewConfig'
+import {
+  useCreateTableConfig,
+  useDeleteTableConfig,
+  useUpdateTableConfig
+} from '../../gql/mutations'
+import UpdateConfig from './UpdateConfig'
 import styles from './index.module.scss'
+
+const SmallSave = ({ onClick }) => (
+  <svg
+    onClick={onClick}
+    xmlns='http://www.w3.org/2000/svg'
+    width='13'
+    height='13'
+  >
+    <path
+      fillRule='evenodd'
+      d='M.5 0C.2 0 0 .2 0 .5v11c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5V3.6l-.1-.3-3-3.1-.4-.2h-8zM1 11V1h1.5v4c0 .3.2.5.5.5h4c.3 0 .5-.2.5-.5V1h.8L11 3.8V11H1zM6.5 1h-3v3.5h3V1z'
+      clipRule='evenodd'
+    />
+  </svg>
+)
 
 const ConfigsMenu = ({ setOpen, open, changeConfig, config }) => {
   const { id: selectedId, title } = config
@@ -15,18 +34,11 @@ const ConfigsMenu = ({ setOpen, open, changeConfig, config }) => {
   const userTableConfigs = useUserTableConfigs()
   const { createTableConfig } = useCreateTableConfig()
   const { deleteTableConfig } = useDeleteTableConfig()
+  const { updateTableConfig } = useUpdateTableConfig()
 
   function onConfigSelect (id) {
     changeConfig(id)
     setOpen(false)
-  }
-
-  function onCreateConfig (settings) {
-    return createTableConfig(settings)
-  }
-
-  function onDeleteConfig (id) {
-    deleteTableConfig(id)
   }
 
   return (
@@ -47,7 +59,15 @@ const ConfigsMenu = ({ setOpen, open, changeConfig, config }) => {
       align='end'
     >
       <Panel variant='modal' className={styles.wrapper}>
-        <UpdateConfig sets={userTableConfigs} createConfig={onCreateConfig} />
+        <UpdateConfig
+          sets={userTableConfigs}
+          onChange={title =>
+            createTableConfig({
+              title,
+              columns: { metrics: ['price_usd_chart_7d', 'volume_usd'] }
+            })
+          }
+        />
         <div className={styles.content}>
           <h3 className={styles.title}>Popular sets</h3>
           {featuredTableConfigurations.map(({ title, id }) => (
@@ -66,40 +86,46 @@ const ConfigsMenu = ({ setOpen, open, changeConfig, config }) => {
           {userTableConfigs.length > 0 && (
             <>
               <h3 className={styles.title}>Personal sets</h3>
-              {userTableConfigs.map(({ title, id }) => (
-                <Button
-                  variant='ghost'
-                  className={cx(
-                    styles.buttonConfig,
-                    id === selectedId && styles.buttonConfig__active
-                  )}
-                  key={id}
-                  onClick={() => onConfigSelect(id)}
-                >
-                  {title}
-                  <div
-                    className={styles.actions}
-                    onClick={evt => evt.stopPropagation()}
+              {userTableConfigs.map(config => {
+                const { id, title } = config
+                return (
+                  <Button
+                    variant='ghost'
+                    className={cx(
+                      styles.buttonConfig,
+                      id === selectedId && styles.buttonConfig__active
+                    )}
+                    key={id}
+                    onClick={() => onConfigSelect(id)}
                   >
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      width='13'
-                      height='13'
+                    {title}
+                    <div
+                      className={styles.actions}
+                      onClick={evt => evt.stopPropagation()}
                     >
-                      <path
-                        fillRule='evenodd'
-                        d='M.5 0C.2 0 0 .2 0 .5v11c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5V3.6l-.1-.3-3-3.1-.4-.2h-8zM1 11V1h1.5v4c0 .3.2.5.5.5h4c.3 0 .5-.2.5-.5V1h.8L11 3.8V11H1zM6.5 1h-3v3.5h3V1z'
-                        clipRule='evenodd'
+                      <SmallSave
+                        onClick={() =>
+                          updateTableConfig(config, {
+                            columns: { metrics: ['marketcap_usd'] }
+                          })
+                        }
                       />
-                    </svg>
-                    <Icon type='edit-small' />
-                    <Icon
-                      type='remove-small'
-                      onClick={() => onDeleteConfig({ id, title })}
-                    />
-                  </div>
-                </Button>
-              ))}
+                      <UpdateConfig
+                        sets={userTableConfigs}
+                        onChange={title => updateTableConfig(config, { title })}
+                        title='Rename'
+                        name={title}
+                        buttonLabel='Save'
+                        trigger={<Icon type='edit-small' />}
+                      />
+                      <Icon
+                        type='remove-small'
+                        onClick={() => deleteTableConfig({ id, title })}
+                      />
+                    </div>
+                  </Button>
+                )
+              })}
             </>
           )}
         </div>

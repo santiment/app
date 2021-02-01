@@ -2,7 +2,12 @@ import gql from 'graphql-tag'
 import { store } from '../../../../../../redux'
 import { TABLE_CONFIGS_QUERY } from './queries'
 import { useMutation } from '@apollo/react-hooks'
-import { notifyCreation, notifyDelete, notifyError } from './notifications'
+import {
+  notifyCreation,
+  notifyDelete,
+  notifyError,
+  notifyUpdate
+} from './notifications'
 
 export const DELETE_TABLE_CONFIG_MUTATION = gql`
   mutation deleteTableConfiguration($id: ID!) {
@@ -27,17 +32,21 @@ export const CREATE_TABLE_CONFIG_MUTATION = gql`
   }
 `
 
-// export const UPDATE_TABLE_CONFIG_MUTATION = gql`
-//   mutation createTableConfiguration($id: Int, $title: String!, $columns: json) {
-//     createTableConfiguration(
-//       id: $id
-//       settings: { title: $title, isPublic: false, columns: $columns }
-//     ) {
-//       ...tableConfig
-//     }
-//   }
-//   ${TABLE_CONFIG_FRAGMENT}
-// `
+export const UPDATE_TABLE_CONFIG_MUTATION = gql`
+  mutation updateTableConfiguration(
+    $id: ID
+    $settings: TableConfigurationInputObject!
+  ) {
+    config: updateTableConfiguration(id: $id, settings: $settings) {
+      id
+      title
+      columns
+      user {
+        id
+      }
+    }
+  }
+`
 
 export const UPDATE_WATCHLIST_TABLE_CONFIG_MUTATION = gql`
   mutation updateWatchlist($id: Int!, $tableConfigurationId: Int) {
@@ -65,12 +74,17 @@ function buildConfigsCacheUpdater (reducer) {
 }
 
 const updateConfigsOnCreation = buildConfigsCacheUpdater(
-  ({ config: { columns, ...item } }, configs) => [item].concat(configs)
+  ({ config }, configs) => [config].concat(configs)
 )
 
 const updateConfigsOnDelete = buildConfigsCacheUpdater(
   ({ config: { id: deletedId } }, configs) =>
     configs.filter(({ id }) => id !== deletedId)
+)
+
+const updateTableConfigsOnUpdate = buildConfigsCacheUpdater(
+  ({ config }, configs) =>
+    configs.map(item => (item.id === config.id ? config : item))
 )
 
 export function useCreateTableConfig () {
@@ -111,4 +125,31 @@ export function useDeleteTableConfig () {
   }
 
   return { deleteTableConfig, loading }
+}
+
+export function useUpdateTableConfig () {
+  const [mutate, data] = useMutation(UPDATE_TABLE_CONFIG_MUTATION, {
+    update: updateTableConfigsOnUpdate
+  })
+
+  function updateTableConfig (oldConfig, newConfig) {
+    const { id, title, columns } = oldConfig
+
+    return mutate({
+      variables: {
+        id: +id,
+        settings: {
+          title: newConfig.title || title,
+          columns: JSON.stringify(newConfig.columns || columns)
+        }
+      }
+    })
+      .then(({ data: { config } }) => {
+        notifyUpdate(config.title)
+        return config
+      })
+      .catch(() => notifyError('Error during the updating set process'))
+  }
+
+  return { updateTableConfig, data }
 }

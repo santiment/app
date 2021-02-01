@@ -4,24 +4,24 @@ import { showNotification } from '../../../../../../actions/rootActions'
 const dispatchNotification = payload =>
   store.dispatch(showNotification(payload))
 
-export function notifyCreation (setTitle) {
+export function notifyCreation (title) {
   return dispatchNotification({
     variant: 'success',
-    title: `"${setTitle}" set successfully created`
+    title: `"${title}" set has been created successfully`
   })
 }
 
-export function notifyRename () {
+export function notifyUpdate (title) {
   return dispatchNotification({
     variant: 'success',
-    title: 'Your set successfully updated'
+    title: `"${title}" set has been updated successfully`
   })
 }
 
-export function notifyDelete (setTitle) {
+export function notifyDelete (title) {
   return dispatchNotification({
     variant: 'warning',
-    title: `"${setTitle}" template has been deleted successfully`
+    title: `"${title}" set has been deleted successfully`
   })
 }
 

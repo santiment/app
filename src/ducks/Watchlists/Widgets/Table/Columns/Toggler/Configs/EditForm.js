@@ -3,6 +3,7 @@ import Dialog from '@santiment-network/ui/Dialog'
 import Input from '@santiment-network/ui/Input'
 import Label from '@santiment-network/ui/Label'
 import { useDebounce } from '../../../../../../../hooks/index'
+import { upperCaseFirstLetter } from '../../../../../../../utils/formatting'
 import styles from './EditForm.module.scss'
 
 const MIN_LENGTH = 3
@@ -11,18 +12,20 @@ const BAD_SYMBOLS_ERROR = "Use only letters, numbers, whitespace and _-.'/,"
 const NAME_EXISTS_ERROR = 'You has already use this name'
 const ALLOWED_SYMBOLS_REGEXP = /^([.\-/_' ,\w]*)$/
 
+const EMPTY_ARRAY = []
+
 const EditForm = ({
-  buttonLabel = 'Save',
+  buttonLabel,
   isLoading,
   onFormSubmit,
-  defaultSettings,
+  name: defaultName,
   open: isOpen,
   toggleOpen,
   id,
-  sets = [],
+  sets,
   ...props
 }) => {
-  const [formState, setFormState] = useState(defaultSettings)
+  const [formState, setFormState] = useState({ name: defaultName })
   const debouncedCheckName = useDebounce(checkName, 300)
 
   function onSubmit (evt) {
@@ -38,10 +41,10 @@ const EditForm = ({
       return
     }
 
-    if (name === defaultSettings.name) {
+    if (name === defaultName) {
       toggleOpen(false)
     } else {
-      onFormSubmit({ name })
+      onFormSubmit(upperCaseFirstLetter(name))
     }
   }
 
@@ -79,11 +82,11 @@ const EditForm = ({
       open={isOpen}
       onClose={() => {
         toggleOpen(false)
-        setFormState({ ...defaultSettings })
+        setFormState({ name: defaultName })
       }}
       onOpen={() => {
         toggleOpen(true)
-        setFormState({ ...defaultSettings })
+        setFormState({ name: defaultName })
       }}
       {...props}
       classes={styles}
@@ -130,6 +133,9 @@ const EditForm = ({
   )
 }
 
-export default ({ settings = {}, ...props }) => (
-  <EditForm {...props} defaultSettings={{ name: '' }} />
-)
+EditForm.defaultProps = {
+  name: '',
+  sets: EMPTY_ARRAY
+}
+
+export default EditForm
