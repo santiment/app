@@ -6,9 +6,6 @@ const settings = loadKeyState('watchlistsSettings') || {}
 
 export const initialState = {
   selectedId: null,
-  newItemPending: false,
-  newItemFailed: false,
-  newItemSuccess: false,
   editableAssetsInList: [],
   editableWatchlists: [],
   watchlistsSettings: { ...CATEGORIES_SETTINGS, ...settings }
@@ -16,29 +13,6 @@ export const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case actions.USER_ADD_NEW_ASSET_LIST:
-      return {
-        ...state,
-        newItemPending: true
-      }
-    case actions.USER_ADD_NEW_ASSET_LIST_SUCCESS:
-      return {
-        ...state,
-        newItemSuccess: true,
-        newItemFailed: false,
-        newItemPending: false
-      }
-    case actions.USER_ADD_NEW_ASSET_LIST_FAILED:
-      return {
-        ...state,
-        newItemFailed: true,
-        newItemSuccess: false,
-        newItemPending: false
-      }
-    case actions.USER_ADD_NEW_ASSET_LIST_CANCEL:
-      return {
-        ...initialState
-      }
     case actions.USER_REMOVE_ASSET_FROM_LIST:
       return {
         ...state,

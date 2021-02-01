@@ -5,7 +5,10 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import WatchlistsAnon from '../../../ducks/Watchlists/Templates/Anon/WatchlistsAnon'
 import EmptySection from './EmptySection'
 import CreateWatchlistBtn from './CreateWatchlistBtn'
-import { getWatchlistLink } from '../../../ducks/Watchlists/utils'
+import {
+  BLOCKCHAIN_ADDRESS,
+  getWatchlistLink
+} from '../../../ducks/Watchlists/utils'
 import { VisibilityIndicator } from '../../VisibilityIndicator'
 import { useUser } from '../../../stores/user'
 import { useUserWatchlists } from '../../../ducks/Watchlists/gql/hooks'
@@ -58,7 +61,7 @@ const WatchlistList = ({ watchlists, activeLink }) => (
       {watchlists.map(watchlist => {
         const { name, id, isPublic, type } = watchlist
         const link =
-          type === 'BLOCKCHAIN_ADDRESS'
+          type === BLOCKCHAIN_ADDRESS
             ? getAddressesWatchlistLink(watchlist)
             : getWatchlistLink(watchlist)
         return (

@@ -77,7 +77,7 @@ const WatchlistCard = ({
   const { id, name, insertedAt, isPublic, href } = watchlist
   const { data, marketcap, change } = useMarketcap(
     watchlist,
-    skipMarketcap,
+    skipMarketcap || isAddress,
     onMarketcapLoad
   )
   const to = href || path + getSEOLinkFromIdAndTitle(id, name)

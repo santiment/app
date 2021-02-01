@@ -58,24 +58,22 @@ export const WatchlistAddressTemplate = ({ watchlist }) => {
 
   return (
     <>
-      <>
-        {noAddresses ? (
-          'No addresses'
-        ) : (
-          <div className={styles.info}>
-            <div className={styles.addresses}>
-              <div className={styles.countAddresses}>{count}</div> tracking
-              address{count > 1 && 'es'}
-            </div>
-
-            <div className={styles.infrastructures}>
-              {tickers.slice(0, 3).map(item => (
-                <TickerLabel ticker={item} />
-              ))}
-            </div>
+      {noAddresses ? (
+        <div className={styles.addresses}>No addresses</div>
+      ) : (
+        <div className={styles.info}>
+          <div className={styles.addresses}>
+            <div className={styles.countAddresses}>{count}</div> tracking
+            address{count > 1 && 'es'}
           </div>
-        )}
-      </>
+
+          <div className={styles.infrastructures}>
+            {tickers.slice(0, 3).map(item => (
+              <TickerLabel ticker={item} key={item} />
+            ))}
+          </div>
+        </div>
+      )}
     </>
   )
 }

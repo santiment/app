@@ -14,10 +14,6 @@ import logoutEpic from './../pages/Logout/LogoutEpic'
 import handleGDPR from './handleGDPR'
 import apikeyGenerateEpic from './apikeyGenerateEpic'
 import apikeyRevokeEpic from './apikeyRevokeEpic'
-import createWatchlistEpic, {
-  createWatchlistSuccessEpic
-} from './createWatchlistEpic'
-import removeWatchlistEpic from './removeWatchlistEpic'
 import {
   removeAssetFromWatchlistEpic,
   addAssetToWatchlistEpic,
@@ -69,9 +65,6 @@ export default combineEpics(
   handleGDPR,
   keyboardEpic,
   // user's assets lists
-  createWatchlistEpic,
-  createWatchlistSuccessEpic,
-  removeWatchlistEpic,
   addAssetToWatchlistEpic,
   removeAssetFromWatchlistEpic,
   editAssetsInWatchlistEpic,

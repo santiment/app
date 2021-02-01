@@ -16,6 +16,7 @@ export const WATCHLIST_GENERAL_FRAGMENT = gql`
     insertedAt
     isMonitored
     updatedAt
+    type
     user {
       id
     }

@@ -30,6 +30,7 @@ const LoginBanner = ({ isDesktop }) =>
     <InlineBanner
       title='Get ability to create your own watchlist when you login'
       description="Track selected assets in one place and check it's status"
+      className={styles.banner}
     />
   ) : (
     <MobileAnonBanner isFullScreen wrapperClassName={styles.login} />
@@ -71,42 +72,46 @@ const MyWatchlists = ({ data, isDesktop }) => {
 
   if (isLoading) return null
 
-  if (watchlists.length === 0) {
-    return (
-      <WatchlistEmptySection
-        wrapperClassName={styles.empty}
-        className={styles.empty__img}
-      />
-    )
-  }
+  const hasWatchlists = watchlists.length > 0
 
   return (
     <>
       <div className={styles.title}>My watchlists</div>
 
-      <div className={styles.block}>
-        <div className={styles.assets}>Assets</div>
-        <Section
-          isGrid={isDesktop && isLoggedIn && data[0].length > 0}
-          className={styles.innerSection}
-        >
-          <Cards watchlists={watchlists} path='/watchlist/projects/' />
-        </Section>
-      </div>
+      {!hasWatchlists && (
+        <WatchlistEmptySection
+          wrapperClassName={styles.empty}
+          className={styles.empty__img}
+        />
+      )}
 
-      <div className={styles.block}>
-        <div className={styles.assets}>Addresses</div>
-        <Section
-          isGrid={isDesktop && isLoggedIn && data[0].length > 0}
-          className={styles.innerSection}
-        >
-          <Cards
-            watchlists={addressesWatchlists}
-            isAddress
-            path='/watchlist/addresses/'
-          />
-        </Section>
-      </div>
+      {hasWatchlists && (
+        <>
+          <div className={styles.block}>
+            <div className={styles.assets}>Assets</div>
+            <Section
+              isGrid={isDesktop && isLoggedIn && data[0].length > 0}
+              className={styles.innerSection}
+            >
+              <Cards watchlists={watchlists} path='/watchlist/projects/' />
+            </Section>
+          </div>
+
+          <div className={styles.block}>
+            <div className={styles.assets}>Addresses</div>
+            <Section
+              isGrid={isDesktop && isLoggedIn && data[0].length > 0}
+              className={styles.innerSection}
+            >
+              <Cards
+                watchlists={addressesWatchlists}
+                isAddress
+                path='/watchlist/addresses/'
+              />
+            </Section>
+          </div>
+        </>
+      )}
     </>
   )
 }
@@ -140,13 +145,11 @@ const Watchlists = ({ isDesktop }) => {
         </Section>
       </DesktopOnly>
 
-      <div title='My watchlists'>
-        {isLoggedIn ? (
-          <MyWatchlists data={userWatchlistsData} isDesktop={isDesktop} />
-        ) : (
-          loading || <LoginBanner isDesktop={isDesktop} />
-        )}
-      </div>
+      {isLoggedIn ? (
+        <MyWatchlists data={userWatchlistsData} isDesktop={isDesktop} />
+      ) : (
+        loading || <LoginBanner isDesktop={isDesktop} />
+      )}
 
       <Section isGrid={isDesktop} title='My screeners'>
         <MyScreeners />

@@ -1,62 +1,41 @@
-import React, { useState, useEffect } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
 import EditForm from '../Edit/EditForm'
-import { USER_ADD_NEW_ASSET_LIST } from '../../../../actions/types'
+import { useCreateWatchlist } from '../../gql/hooks'
+import { getWatchlistAlias } from '../../utils'
+import { useDialogState } from '../../../../hooks/dialog'
 
-const NewList = ({
-  onSubmit,
+const NewWatchlist = ({
+  createWatchlist: forceCreateWrapper,
   trigger,
-  dispatchWatchlistCreation,
-  createWatchlist = dispatchWatchlistCreation,
-  isPending,
-  isSuccess,
   lists,
   type
 }) => {
-  const [isOpened, setIsOpened] = useState(false)
+  const { closeDialog, isOpened, toggleOpen } = useDialogState(false)
 
-  useEffect(
-    () => {
-      if (isSuccess) {
-        setIsOpened(false)
-      }
-    },
-    [isSuccess]
-  )
+  const [createWatchlist, data] = useCreateWatchlist()
+  const { loading } = data
+
+  function onCreate (data) {
+    const callback = forceCreateWrapper || createWatchlist
+
+    callback(data, closeDialog).then(closeDialog)
+  }
 
   return (
     <EditForm
-      title={`New ${type}`}
+      title={`New ${getWatchlistAlias(type)}`}
       type={type}
       buttonLabel='Create'
       onFormSubmit={({ name, description, isPublic }) => {
-        createWatchlist({ name, description, isPublic, type }, setIsOpened)
+        onCreate({ name, description, isPublic, type })
       }}
-      isLoading={isPending}
+      isLoading={loading}
       open={isOpened}
       lists={lists}
-      toggleOpen={setIsOpened}
+      toggleOpen={toggleOpen}
       trigger={trigger}
     />
   )
 }
 
-const mapStateToProps = ({
-  watchlistUi: { newItemPending, newItemSuccess }
-}) => ({
-  isPending: newItemPending,
-  isSuccess: newItemSuccess
-})
-
-const mapDispatchToProps = dispatch => ({
-  dispatchWatchlistCreation: payload =>
-    dispatch({
-      type: USER_ADD_NEW_ASSET_LIST,
-      payload
-    })
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NewList)
+export default NewWatchlist

@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { client } from '../../../apollo'
+import * as Sentry from '@sentry/react'
 import {
   WATCHLIST_SHORT_QUERY,
   USER_WATCHLISTS_QUERY,
@@ -8,30 +9,46 @@ import {
   UPDATE_WATCHLIST_MUTATION,
   AVAILABLE_METRICS_QUERY,
   AVAILABLE_SEGMENTS_QUERY,
-  getRecentWatchlist
+  getRecentWatchlist,
+  REMOVE_WATCHLIST_MUTATION
 } from './index'
 import { WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
 import {
   countAssetsSort,
   isStaticWatchlist,
   isDynamicWatchlist,
+  PROJECT,
+  BLOCKCHAIN_ADDRESS,
   DEFAULT_SCREENER,
-  DEFAULT_SCREENER_FUNCTION
+  DEFAULT_SCREENER_FUNCTION,
+  getWatchlistLink,
+  getNormalizedListItems,
+  getWatchlistAlias
 } from '../utils'
 import { notifyErrorUpdate } from '../Widgets/TopPanel/notifications'
 import { useUser } from '../../../stores/user'
+import { showNotification } from '../../../actions/rootActions'
+import { store } from '../../../redux'
+import { ADDRESS_WATCHLISTS_QUERY } from './queries'
+import NotificationActions from '../../../components/NotificationActions/NotificationActions'
 
 const DEFAULT_WATCHLISTS = []
 const DEFAULT_SCREENERS = [DEFAULT_SCREENER]
 
 function buildWatchlistsCacheUpdater (reducer) {
   return (cache, { data }) => {
+    const watchlist = data.createWatchlist || data.removeWatchlist
+    const query =
+      watchlist.type === BLOCKCHAIN_ADDRESS
+        ? ADDRESS_WATCHLISTS_QUERY
+        : USER_WATCHLISTS_QUERY
+
     const { fetchWatchlists } = cache.readQuery({
-      query: USER_WATCHLISTS_QUERY
+      query: query
     })
 
     cache.writeQuery({
-      query: USER_WATCHLISTS_QUERY,
+      query: query,
       data: { fetchWatchlists: reducer(data, fetchWatchlists) }
     })
   }
@@ -54,6 +71,12 @@ function buildWatchlistCacheUpdater (reducer) {
 
 const updateWatchlistsOnCreation = buildWatchlistsCacheUpdater(
   ({ createWatchlist }, watchlists) => [createWatchlist].concat(watchlists)
+)
+
+const updateWatchlistsOnDelete = buildWatchlistsCacheUpdater(
+  ({ removeWatchlist }, watchlists) => {
+    return watchlists.filter(({ id }) => +id !== +removeWatchlist.id)
+  }
 )
 
 const updateWatchlistOnEdit = buildWatchlistCacheUpdater(
@@ -177,6 +200,92 @@ export function useCreateScreener () {
   return [createScreener, data]
 }
 
+export const useRemovingWatchlist = () => {
+  const [mutate, data] = useMutation(REMOVE_WATCHLIST_MUTATION, {
+    update: updateWatchlistsOnDelete
+  })
+
+  function onDelete (id, name) {
+    return mutate({
+      variables: {
+        id: +id
+      }
+    })
+      .then(() => {
+        store.dispatch(
+          showNotification({
+            variant: 'success',
+            title: `“${name}” have been successfully deleted`
+          })
+        )
+      })
+      .catch(error => {
+        Sentry.captureException(error)
+      })
+  }
+
+  return { onDelete, data }
+}
+
+export function useCreateWatchlist () {
+  const [mutate, data] = useMutation(CREATE_WATCHLIST_MUTATION, {
+    update: updateWatchlistsOnCreation
+  })
+
+  function createWatchlist (props) {
+    const { type, function: payloadFunction } = props
+
+    const creationType =
+      type === BLOCKCHAIN_ADDRESS ? BLOCKCHAIN_ADDRESS : PROJECT
+
+    if (props.listItems && type === 'watchlist') {
+      props.listItems = getNormalizedListItems(props.listItems)
+    }
+
+    const watchlistFunction = JSON.stringify(
+      payloadFunction || DEFAULT_SCREENER_FUNCTION
+    )
+
+    return mutate({
+      variables: {
+        ...props,
+        type: creationType,
+        function: type === 'screener' ? watchlistFunction : undefined
+      }
+    })
+      .then(({ data: { createWatchlist } }) => {
+        const { id, name } = createWatchlist
+
+        store.dispatch(
+          showNotification({
+            title: `New ${getWatchlistAlias(type)} was created`,
+            description: (
+              <WatchlistNotificationActions
+                id={id}
+                name={name}
+                toLink={getWatchlistLink({ id, name })}
+              />
+            )
+          })
+        )
+
+        return createWatchlist
+      })
+      .catch(error => {
+        Sentry.captureException(error)
+        store.dispatch(
+          showNotification({
+            variant: 'error',
+            title: 'Error',
+            description: `Can't create the ${type}. Please, try again later.`
+          })
+        )
+      })
+  }
+
+  return [createWatchlist, data]
+}
+
 export function useUpdateWatchlist () {
   const [mutate, data] = useMutation(UPDATE_WATCHLIST_MUTATION, {
     update: updateWatchlistOnEdit
@@ -261,3 +370,16 @@ export const getAssetsByFunction = (func, query, fetchPolicy) =>
       variables: { fn: JSON.stringify(func) }
     })
     .then(extractData)
+
+export const WatchlistNotificationActions = ({ id, name, toLink }) => {
+  const { onDelete } = useRemovingWatchlist()
+
+  return (
+    <NotificationActions
+      id={id}
+      link={toLink}
+      isDialog={false}
+      onClick={() => onDelete(id, name)}
+    />
+  )
+}

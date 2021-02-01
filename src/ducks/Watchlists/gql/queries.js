@@ -7,6 +7,7 @@ import {
 } from '../../WatchlistAddressesTable/gql/queries'
 import { useUser } from '../../../stores/user'
 import { isStage } from '../../../utils/utils'
+import { BLOCKCHAIN_ADDRESS } from '../utils'
 
 const noop = _ => _
 const ARRAY = []
@@ -27,7 +28,7 @@ export const newWatchlistsQuery = (
 `
 
 export const ADDRESS_WATCHLISTS_QUERY = newWatchlistsQuery(
-  'BLOCKCHAIN_ADDRESS',
+  BLOCKCHAIN_ADDRESS,
   SHORT_WATCHLIST_GENERAL_FRAGMENT,
   SHORT_LIST_ITEMS_FRAGMENT
 )

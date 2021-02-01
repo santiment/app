@@ -3,6 +3,7 @@ import { ADDRESS_WATCHLISTS_QUERY } from './queries'
 import { client } from '../../../apollo'
 import { SHORT_WATCHLIST_GENERAL_FRAGMENT } from '../../WatchlistAddressesTable/gql/queries'
 import { normalizeItems } from './helpers'
+import { BLOCKCHAIN_ADDRESS, PROJECT } from '../utils'
 
 export const UPDATE_WATCHLIST_SHORT_MUTATION = gql`
   mutation updateWatchlist(
@@ -98,5 +99,5 @@ function updateWatchlistsOnCreation (cache, { data: { createWatchlist } }) {
   })
 }
 
-export const createProjectsWatchlist = watchlistCreator('PROJECT')
-export const createAddressesWatchlist = watchlistCreator('BLOCKCHAIN_ADDRESS')
+export const createProjectsWatchlist = watchlistCreator(PROJECT)
+export const createAddressesWatchlist = watchlistCreator(BLOCKCHAIN_ADDRESS)

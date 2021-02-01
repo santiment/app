@@ -206,3 +206,15 @@ export const useScreenerUrlUpdaters = (widgets, setWidgets) => {
 export function getNormalizedListItems (listItems) {
   return listItems.map(val => ({ project_id: +val.project.id }))
 }
+
+export const PROJECT = 'PROJECT'
+export const BLOCKCHAIN_ADDRESS = 'BLOCKCHAIN_ADDRESS'
+
+export function getWatchlistAlias (type) {
+  switch (type) {
+    case BLOCKCHAIN_ADDRESS:
+      return 'watchlist'
+    default:
+      return type
+  }
+}
