@@ -8,6 +8,7 @@ import { useFeaturedTableConfigs, useUserTableConfigs } from '../../gql/queries'
 import styles from './index.module.scss'
 
 const ConfigsMenu = ({ setOpen, open, changeConfig, config }) => {
+  const { id: selectedId, title } = config
   const featuredTableConfigurations = useFeaturedTableConfigs()
   const userTableConfigs = useUserTableConfigs()
 
@@ -22,8 +23,8 @@ const ConfigsMenu = ({ setOpen, open, changeConfig, config }) => {
           variant='flat'
           className={cx(styles.trigger, open && styles.isOpened)}
         >
-          {config.title}
-          <Icon type='arrow-down' />
+          {title}
+          <Icon type='arrow-down' className={styles.arrow} />
         </Button>
       }
       open={open}
@@ -42,19 +43,48 @@ const ConfigsMenu = ({ setOpen, open, changeConfig, config }) => {
           {featuredTableConfigurations.map(({ title, id }) => (
             <Button
               variant='ghost'
-              className={styles.buttonConfig}
+              className={cx(
+                styles.buttonConfig,
+                id === selectedId && styles.buttonConfig__active
+              )}
               key={id}
               onClick={() => onConfigSelect(id)}
             >
               {title}
             </Button>
           ))}
-          <h3 className={styles.title}>Personal sets</h3>
-          {userTableConfigs.map(({ title, id }) => (
-            <Button variant='ghost' className={styles.buttonConfig} key={id}>
-              {title}
-            </Button>
-          ))}
+          {userTableConfigs.length > 0 && (
+            <>
+              <h3 className={styles.title}>Personal sets</h3>
+              {userTableConfigs.map(({ title, id }) => (
+                <Button
+                  variant='ghost'
+                  className={cx(
+                    styles.buttonConfig,
+                    id === selectedId && styles.buttonConfig__active
+                  )}
+                  key={id}
+                >
+                  {title}
+                  <div className={styles.actions}>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      width='13'
+                      height='13'
+                    >
+                      <path
+                        fillRule='evenodd'
+                        d='M.5 0C.2 0 0 .2 0 .5v11c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5V3.6l-.1-.3-3-3.1-.4-.2h-8zM1 11V1h1.5v4c0 .3.2.5.5.5h4c.3 0 .5-.2.5-.5V1h.8L11 3.8V11H1zM6.5 1h-3v3.5h3V1z'
+                        clipRule='evenodd'
+                      />
+                    </svg>
+                    <Icon type='edit-small' />
+                    <Icon type='remove-small' />
+                  </div>
+                </Button>
+              ))}
+            </>
+          )}
         </div>
       </Panel>
     </ContextMenu>

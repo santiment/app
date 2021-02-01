@@ -15,7 +15,7 @@
     fill: var(--jungle-green-light-3);
   }
 
-  & svg {
+  & .arrow {
     transition: transform 0.2s ease-in-out;
     margin-left: 12px;
   }
@@ -23,7 +23,7 @@
   &.isOpened {
     color: var(--jungle-green);
 
-    & svg {
+    & .arrow {
       transform: rotate(180deg);
     }
   }
@@ -57,6 +57,36 @@
   @include text('caption', 'm');
 }
 
+.actions {
+  position: absolute;
+  right: 4px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  fill: var(--waterloo);
+  opacity: 0;
+
+  & svg {
+    padding: 9px 8px;
+    box-sizing: content-box;
+
+    &:hover {
+      fill: var(--jungle-green);
+    }
+  }
+}
+
 .buttonConfig {
   margin: 0 9px;
+  position: relative;
+
+  &:hover .actions {
+    opacity: 1;
+  }
+
+  &__active {
+    color: var(--jungle-green);
+  }
 }
