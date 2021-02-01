@@ -6,6 +6,7 @@ import Button from '@santiment-network/ui/Button'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { useFeaturedTableConfigs, useUserTableConfigs } from '../../gql/queries'
 import { useCreateTableConfig, useDeleteTableConfig } from '../../gql/mutations'
+import UpdateConfig from './NewConfig'
 import styles from './index.module.scss'
 
 const ConfigsMenu = ({ setOpen, open, changeConfig, config }) => {
@@ -21,7 +22,7 @@ const ConfigsMenu = ({ setOpen, open, changeConfig, config }) => {
   }
 
   function onCreateConfig (settings) {
-    createTableConfig(settings)
+    return createTableConfig(settings)
   }
 
   function onDeleteConfig (id) {
@@ -46,19 +47,7 @@ const ConfigsMenu = ({ setOpen, open, changeConfig, config }) => {
       align='end'
     >
       <Panel variant='modal' className={styles.wrapper}>
-        <Button
-          variant='flat'
-          border
-          className={styles.saveAs}
-          onClick={() =>
-            onCreateConfig({
-              title: 'Main',
-              columns: { metrics: ['price_usd_chart_7d', 'volume_usd'] }
-            })
-          }
-        >
-          Save columns as ...
-        </Button>
+        <UpdateConfig sets={userTableConfigs} createConfig={onCreateConfig} />
         <div className={styles.content}>
           <h3 className={styles.title}>Popular sets</h3>
           {featuredTableConfigurations.map(({ title, id }) => (
@@ -85,9 +74,13 @@ const ConfigsMenu = ({ setOpen, open, changeConfig, config }) => {
                     id === selectedId && styles.buttonConfig__active
                   )}
                   key={id}
+                  onClick={() => onConfigSelect(id)}
                 >
                   {title}
-                  <div className={styles.actions}>
+                  <div
+                    className={styles.actions}
+                    onClick={evt => evt.stopPropagation()}
+                  >
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
                       width='13'
