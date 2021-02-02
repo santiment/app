@@ -10,7 +10,10 @@ import CompareAction from '../CompareInfo/CompareAction'
 import Refresh from '../../../../../components/Refresh/Refresh'
 import ProPopupWrapper from '../../../../../components/ProPopup/Wrapper'
 import ExplanationTooltip from '../../../../../components/ExplanationTooltip/ExplanationTooltip'
+import ColumnsToggler from '../Columns/Toggler'
 import styles from './index.module.scss'
+
+const EMPTY_OBJ = {}
 
 const TableTop = ({
   comparingAssets,
@@ -19,7 +22,10 @@ const TableTop = ({
   items,
   listName,
   refetchAssets,
-  watchlist = {}
+  activeColumns,
+  updateActiveColumnsKeys,
+  isAuthor,
+  watchlist = EMPTY_OBJ
 }) => {
   const [refreshTimestamp, setRefreshTimestamp] = useState(Date.now)
   const [watchlists = []] = useUserWatchlists()
@@ -49,6 +55,12 @@ const TableTop = ({
         </div>
       )}
       <div className={styles.actions}>
+        <ColumnsToggler
+          watchlist={watchlist}
+          isAuthor={isAuthor}
+          activeColumns={activeColumns}
+          updateActiveColumnsKeys={updateActiveColumnsKeys}
+        />
         <ProPopupWrapper
           type={type}
           trigger={props => (

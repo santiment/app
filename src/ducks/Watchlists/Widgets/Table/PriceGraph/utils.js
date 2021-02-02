@@ -1,11 +1,14 @@
 const PriceGraphCache = new Map()
 
-export function normalizeGraphData (graph, items = [], range = '7d', loading) {
+export function normalizeGraphData (
+  graph,
+  items = [],
+  key = 'price_usd_chart_7d',
+  loading
+) {
   if (loading) {
     return items
   }
-
-  const key = `priceChart${range}`
 
   const normalizedItems = items.map(item => {
     const cached = PriceGraphCache.get(item.slug)

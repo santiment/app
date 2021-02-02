@@ -1,23 +1,24 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
 import styles from './index.module.scss'
 
-const ProPopup = ({
-  title = '',
-  description = '',
-  features = [],
-  ...props
-}) => {
+const EMPTY_ARRAY = []
+
+const ProPopup = ({ title, description, features, ...props }) => {
   const [isOpen, setOpen] = useState(false)
+
+  const onOpenClick = () => setOpen(true)
+  const onCloseClick = () => setOpen(false)
 
   return (
     <Dialog
       title={title}
       open={isOpen}
-      onOpen={() => setOpen(true)}
-      onClose={() => setOpen(false)}
+      onOpen={onOpenClick}
+      onClose={onCloseClick}
       classes={styles}
       {...props}
     >
@@ -36,16 +37,28 @@ const ProPopup = ({
           variant='fill'
           accent='orange'
           className={styles.btn}
-          onClick={() => setOpen(false)}
+          onClick={onCloseClick}
         >
           Go Pro
         </Button>
-        <Button onClick={() => setOpen(false)} className={styles.btn} border>
+        <Button onClick={onCloseClick} className={styles.btn} border>
           No thanks
         </Button>
       </div>
     </Dialog>
   )
+}
+
+ProPopup.propTypes = {
+  title: PropTypes.string,
+  description: PropTypes.string,
+  features: PropTypes.array
+}
+
+ProPopup.defaultProps = {
+  title: '',
+  description: '',
+  features: EMPTY_ARRAY
 }
 
 export default ProPopup

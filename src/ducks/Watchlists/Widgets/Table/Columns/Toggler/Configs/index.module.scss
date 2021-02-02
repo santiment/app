@@ -1,0 +1,118 @@
+@import "~@santiment-network/ui/mixins";
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  padding: 9px;
+  margin: 0 8px 0 16px;
+  fill: var(--waterloo);
+  position: relative;
+
+  &:hover,
+  &:focus {
+    fill: var(--jungle-green-light-3);
+  }
+
+  & .arrow {
+    transition: transform 0.2s ease-in-out;
+    margin-left: 12px;
+  }
+
+  &.isOpened {
+    color: var(--jungle-green);
+
+    & .arrow {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.wrapper {
+  width: 260px;
+  padding: 12px 0 0 0;
+  user-select: none;
+  position: relative;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: auto;
+  max-height: 400px;
+  padding-bottom: 14px;
+}
+
+.circle {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: -1px;
+    right: -7px;
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--persimmon);
+    animation: pulse 1s ease-in-out infinite alternate;
+  }
+}
+
+.title {
+  margin: 14px 16px 4px;
+  color: var(--waterloo);
+
+  @include text('caption', 'm');
+}
+
+.actions {
+  position: absolute;
+  right: 4px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  fill: var(--waterloo);
+  opacity: 0;
+
+  & svg {
+    padding: 9px 8px;
+    box-sizing: content-box;
+
+    &:hover {
+      fill: var(--jungle-green);
+    }
+  }
+}
+
+.buttonConfig {
+  margin: 0 9px;
+  position: relative;
+
+  &__active {
+    color: var(--jungle-green);
+
+    & .actions {
+      opacity: 1;
+    }
+  }
+
+  &:hover .actions {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.25);
+  }
+}

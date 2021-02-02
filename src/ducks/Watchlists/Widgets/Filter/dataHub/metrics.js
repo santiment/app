@@ -8,6 +8,11 @@ import {
 import { DEFAULT_TIMERANGES } from './timeranges'
 import { AGGREGATIONS_LOWER } from './aggregations'
 import { formatNumber } from '../../../../../utils/formatting'
+import {
+  ETH_SPENT_CELL,
+  MARKET_SEGMENTS_CELL,
+  RANK_CELL
+} from '../../Table/Columns/columns'
 
 export const METRIC_PERCENT_SUFFIX = '_change_'
 const EMPTY_STR = ''
@@ -16,7 +21,7 @@ const CATEGORIES = {
   DEVELOPMENT: 'Development',
   ON_CHAIN: 'On-chain',
   DERIVATIVES: 'Derivatives',
-  SOCAIL: 'Social',
+  SOCIAL: 'Social',
   FLOW_METRICS: 'Flow metrics'
 }
 const GROUPS = {
@@ -37,6 +42,7 @@ export const Metric = {
     category: CATEGORIES.FINANCIAL,
     label: 'Price',
     badge: '$',
+    withChart: true,
     tableColumnFormatter: value => formatNumber(value, { currency: 'USD' })
   },
   price_btc: {
@@ -48,6 +54,20 @@ export const Metric = {
     category: CATEGORIES.FINANCIAL,
     label: 'Marketcap',
     badge: '$'
+  },
+  rank: {
+    category: CATEGORIES.FINANCIAL,
+    label: 'Rank',
+    isStatic: true,
+    accessor: 'rank',
+    Cell: RANK_CELL
+  },
+  eth_spent: {
+    category: CATEGORIES.ON_CHAIN,
+    label: 'ETH spent, 30d',
+    accessor: 'ethSpent',
+    isStatic: true,
+    Cell: ETH_SPENT_CELL
   },
   volume_usd: {
     category: CATEGORIES.FINANCIAL,
@@ -78,6 +98,7 @@ export const Metric = {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.NETWORK_ACTIVITY,
     label: 'Transaction Volume',
+    shortLabel: 'Trans. vol.',
     aggregation: AGGREGATIONS_LOWER.SUM,
     showTimeRange: true
   },
@@ -85,6 +106,7 @@ export const Metric = {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.NETWORK_ACTIVITY,
     label: 'Transaction Volume USD',
+    shortLabel: 'Trans. vol. USD',
     aggregation: AGGREGATIONS_LOWER.SUM,
     showTimeRange: true
   },
@@ -162,22 +184,31 @@ export const Metric = {
   circulation: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.NETWORK_ACTIVITY,
-    label: 'Circulation'
+    label: 'Circulation',
+    shortLabel: 'Circ.'
   },
   circulation_180d: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.NETWORK_ACTIVITY,
-    label: 'Circulation 180d'
+    label: 'Circulation 180d',
+    shortLabel: 'Circ. 180d'
+  },
+  circulation_usd_180d: {
+    category: CATEGORIES.ON_CHAIN,
+    group: GROUPS.NETWORK_ACTIVITY,
+    label: 'Circulation 180d $'
   },
   circulation_180d_usd: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.NETWORK_ACTIVITY,
-    label: 'Circulation 180d USD'
+    label: 'Circulation 180d $',
+    isDeprecated: true
   },
   network_growth: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.NETWORK_ACTIVITY,
     label: 'Network Growth',
+    shortLabel: 'Netw. Gr.',
     aggregation: AGGREGATIONS_LOWER.SUM,
     showTimeRange: true
   },
@@ -185,13 +216,15 @@ export const Metric = {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.EXCHANGES,
     label: 'Exchange Inflow',
+    shortLabel: 'Ex. inflow',
     aggregation: AGGREGATIONS_LOWER.SUM,
     showTimeRange: true
   },
   exchange_inflow_usd: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.EXCHANGES,
-    label: 'Exchange Inflow USD',
+    label: 'Exchange Inflow $',
+    shortLabel: 'Ex. Inflow $',
     aggregation: AGGREGATIONS_LOWER.SUM,
     showTimeRange: true
   },
@@ -199,6 +232,7 @@ export const Metric = {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.EXCHANGES,
     label: 'Exchange Outflow',
+    shortLabel: 'Ex. Outflow',
     aggregation: AGGREGATIONS_LOWER.SUM,
     showTimeRange: true
   },
@@ -206,6 +240,7 @@ export const Metric = {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.EXCHANGES,
     label: 'Exchange Outflow USD',
+    shortLabel: 'Ex. Outflow $',
     aggregation: AGGREGATIONS_LOWER.SUM,
     showTimeRange: true
   },
@@ -213,6 +248,7 @@ export const Metric = {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.EXCHANGES,
     label: 'Exchange Flow Balance',
+    shortLabel: 'Ex. Flow Bal.',
     aggregation: AGGREGATIONS_LOWER.SUM,
     showTimeRange: true
   },
@@ -220,11 +256,13 @@ export const Metric = {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.NETWORK_ACTIVITY,
     label: 'Dormant Circulation 1y',
+    shortLabel: 'Dorm. Circ. 1y',
     descriptionKey: 'dormant_circulation'
   },
   bitmex_perpetual_funding_rate: {
     category: CATEGORIES.DERIVATIVES,
     label: 'BitMEX Perpetual Contract Funding Rate',
+    shortLabel: 'BitMEX P.C.F.R.',
     badge: '%',
     valueFormatter: percentValueFormatter,
     serverValueFormatter: percentServerValueFormatter
@@ -232,6 +270,9 @@ export const Metric = {
   market_segments: {
     category: CATEGORIES.FINANCIAL,
     label: 'Market Segments',
+    accessor: 'marketSegments',
+    isStatic: true,
+    Cell: MARKET_SEGMENTS_CELL,
     hints: [
       {
         label: 'DeFi',
@@ -245,11 +286,11 @@ export const Metric = {
   social_volume_total: {
     category: CATEGORIES.SOCIAL,
     label: 'Social Volume',
-    shortLabel: 'Soc.vol.',
+    shortLabel: 'Soc.Vol.',
     isOnlyPercentFilters: true
   },
   social_dominance_total: {
-    category: CATEGORIES.SOCAIL,
+    category: CATEGORIES.SOCIAL,
     label: 'Social Dominance',
     shortLabel: 'Soc.Dom.',
     valueFormatter: percentValueFormatter,
@@ -257,229 +298,267 @@ export const Metric = {
     isOnlyPercentFilters: true
   },
   sentiment_balance_total: {
-    category: CATEGORIES.SOCAIL,
+    category: CATEGORIES.SOCIAL,
     label: 'Sentiment Balance Total',
+    shortLabel: 'Sent. Bal.',
     isOnlyPercentFilters: true
   },
   mean_dollar_invested_age: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.NETWORK_VALUE,
     label: 'Mean Dollar Invested Age',
+    shortLabel: 'Mean D.I.A.',
     isOnlyPercentFilters: true
   },
   percent_of_total_supply_on_exchanges: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.EXCHANGES,
-    label: 'Coin Supply on Exchanges (as % of total supply)'
+    label: 'Coin Supply on Exchanges (as % of total supply)',
+    shortLabel: 'Coin Sup. on Ex.'
   },
   dex_traders_to_cexes_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.DEX_TRADERS,
     label: 'Dex Traders to Cexes',
+    shortLabel: 'Dex Tr to Cex',
     isOnlyPercentFilters: true
   },
   dex_traders_to_dexes_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.DEX_TRADERS,
     label: 'Dex Traders to Dexes',
+    shortLabel: 'Dex Tr to Dex',
     isOnlyPercentFilters: true
   },
   dex_traders_to_defi_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.DEX_TRADERS,
     label: 'Dex Traders to DeFi',
+    shortLabel: 'Dex Tr to DeFi',
     isOnlyPercentFilters: true
   },
   dex_traders_to_whale_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.DEX_TRADERS,
     label: 'Dex Traders to Whales',
+    shortLabel: 'Dex Tr to Wh',
     isOnlyPercentFilters: true
   },
   dex_traders_to_other_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.DEX_TRADERS,
     label: 'Dex Traders to Others',
+    shortLabel: 'Dex Tr to Oth',
     isOnlyPercentFilters: true
   },
   dex_to_cexes_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.DEXES,
     label: 'Dexes to Cexes',
+    shortLabel: 'Dex to Cex',
     isOnlyPercentFilters: true
   },
   dexes_to_defi_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.DEXES,
     label: 'Dexes to DeFi',
+    shortLabel: 'Dex to Defi',
     isOnlyPercentFilters: true
   },
   dexes_to_whale_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.DEXES,
     label: 'Dexes to Whales',
+    shortLabel: 'Dex to Wh',
     isOnlyPercentFilters: true
   },
   dexes_to_dex_traders_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.DEXES,
     label: 'Dexes to Dex Traders',
+    shortLabel: 'Dex to Dex Tr',
     isOnlyPercentFilters: true
   },
   dexes_to_other_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.DEXES,
     label: 'Dexes to Others',
+    shortLabel: 'Dex to Oth',
     isOnlyPercentFilters: true
   },
   cexes_to_dex_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.CEXES,
     label: 'Cexes to Dexes',
+    shortLabel: 'Cex to Dex',
     isOnlyPercentFilters: true
   },
   cexes_to_defi_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.CEXES,
     label: 'Cexes to DeFi',
+    shortLabel: 'Cex to DeFi',
     isOnlyPercentFilters: true
   },
   cexes_to_whale_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.CEXES,
     label: 'Cexes to Whale',
+    shortLabel: 'Cex to Wh',
     isOnlyPercentFilters: true
   },
   cexes_to_dex_traders_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.CEXES,
     label: 'Cexes to Dex Traders',
+    shortLabel: 'Cex to Dex Tr',
     isOnlyPercentFilters: true
   },
   cexes_to_other_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.CEXES,
     label: 'Cexes to Others',
+    shortLabel: 'Cex to Oth',
     isOnlyPercentFilters: true
   },
   defi_to_cexes_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.DEFI,
     label: 'DeFi to Cexes',
+    shortLabel: 'DeFi to Cex',
     isOnlyPercentFilters: true
   },
   defi_to_dexes_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.DEFI,
     label: 'DeFi to Dexes',
+    shortLabel: 'DeFi to Dex',
     isOnlyPercentFilters: true
   },
   defi_to_whale_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.DEFI,
     label: 'DeFi to Whales',
+    shortLabel: 'DeFi to Wh',
     isOnlyPercentFilters: true
   },
   defi_to_dex_traders_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.DEFI,
     label: 'DeFi to Dex Trades',
+    shortLabel: 'DeFi to Dex Tr',
     isOnlyPercentFilters: true
   },
   defi_to_other_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.DEFI,
     label: 'DeFi to Others',
+    shortLabel: 'DeFi to Oth',
     isOnlyPercentFilters: true
   },
   whale_to_cexes_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.WHALES,
     label: 'Whales to Cexes',
+    shortLabel: 'Wh to Cex',
     isOnlyPercentFilters: true
   },
   whale_to_dexes_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.WHALES,
     label: 'Whales to Dexes',
+    shortLabel: 'Wh to Dex',
     isOnlyPercentFilters: true
   },
   whale_to_defi_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.WHALES,
     label: 'Whales to DeFi',
+    shortLabel: 'Wh to DeFi',
     isOnlyPercentFilters: true
   },
   whale_to_dex_traders_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.DEFI,
     label: 'DeFi to Dex Traders',
+    shortLabel: 'DeFi to Dex Tr',
     isOnlyPercentFilters: true
   },
   whale_to_other_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.WHALES,
     label: 'Whales to Others',
+    shortLabel: 'Wh to Oth',
     isOnlyPercentFilters: true
   },
   other_to_dex_traders_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.WHALES,
     label: 'Whales to Dex Traders',
+    shortLabel: 'Wh to Dex Tr',
     isOnlyPercentFilters: true
   },
   other_to_dexes_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.OTHERS,
     label: 'Others to Dexes',
+    shortLabel: 'Oth to Dex',
     isOnlyPercentFilters: true
   },
   other_to_cexes_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.OTHERS,
     label: 'Others to Cexes',
+    shortLabel: 'Oth to Cex',
     isOnlyPercentFilters: true
   },
   other_to_defi_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.OTHERS,
     label: 'Others to DeFi',
+    shortLabel: 'Oth to DeFi',
     isOnlyPercentFilters: true
   },
   other_to_whale_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.OTHERS,
     label: 'Others to Whales',
+    shortLabel: 'Oth to Wh',
     isOnlyPercentFilters: true
   },
   traders_to_other_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.TRADERS,
     label: 'Traders To Others',
+    shortLabel: 'Tr to Oth',
     isOnlyPercentFilters: true
   },
   other_to_traders_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.OTHERS,
     label: 'Others to Traders',
+    shortLabel: 'Oth to Tr',
     isOnlyPercentFilters: true
   },
   whale_to_traders_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.WHALES,
     label: 'Whales to Traders',
+    shortLabel: 'Wh to Th',
     isOnlyPercentFilters: true
   },
   traders_to_whale_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.TRADERS,
     label: 'Traders to Others',
+    shortLabel: 'Tr to Oth',
     isOnlyPercentFilters: true
   },
   age_consumed: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.NETWORK_ACTIVITY,
     label: 'Age Consumed',
+    shortLabel: 'Age Cons.',
     isOnlyPercentFilters: true,
     percentMetricKey: 'age_destroyed',
     hints: [
@@ -501,6 +580,8 @@ export const metrics = [
   Metric.price_usd,
   Metric.price_btc,
   Metric.marketcap_usd,
+  Metric.rank,
+  Metric.eth_spent,
   Metric.volume_usd,
   Metric.dev_activity_1d,
   Metric.daily_active_addresses,
@@ -508,6 +589,7 @@ export const metrics = [
   Metric.transaction_volume_usd,
   Metric.circulation,
   Metric.circulation_180d,
+  Metric.circulation_usd_180d,
   Metric.circulation_180d_usd,
   Metric.network_growth,
   Metric.exchange_inflow,

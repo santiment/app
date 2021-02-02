@@ -9,36 +9,45 @@ import { CHECKBOX_COLUMN } from './Checkbox/column'
 import { sortFloatNumeric } from './utils'
 import styles from './index.module.scss'
 
+const DEFAULT_CB = () => {}
+const EMPTY_OBJ = {}
+const PAGE_SIZE_OPTIONS = [10, 25, 50]
+const sortTypes = {
+  sortDatetimes: (a, b, id) => sortDate(a.original[id], b.original[id]),
+  sortFloatNumeric: (a, b, id) =>
+    sortFloatNumeric(a.original[id], b.original[id])
+}
+
 const Table = ({
   data,
   columns,
-  fetchData = () => {},
+  fetchData = DEFAULT_CB,
   options: {
-    noDataSettings = {},
+    noDataSettings = EMPTY_OBJ,
     loadingSettings,
     sortingSettings,
     stickySettings,
     paginationSettings,
     rowSelectSettings
-  } = {},
+  } = EMPTY_OBJ,
   className,
-  classes = {}
+  classes = EMPTY_OBJ
 }) => {
-  const { isLoading, repeatLoading } = loadingSettings || {}
-  const { allowSort, defaultSorting } = sortingSettings || {}
+  const { isLoading, repeatLoading } = loadingSettings || EMPTY_OBJ
+  const { allowSort, defaultSorting } = sortingSettings || EMPTY_OBJ
   const { isStickyHeader, isStickyColumn, stickyColumnIdx = null } =
-    stickySettings || {}
+    stickySettings || EMPTY_OBJ
   const {
     pageSize: initialPageSize,
     pageIndex: initialPageIndex = 0,
     onChangePage = null,
-    pageSizeOptions = [10, 25, 50],
+    pageSizeOptions = PAGE_SIZE_OPTIONS,
     controlledPageCount,
     manualPagination
-  } = paginationSettings || {}
-  const { onChangeSelectedRows } = rowSelectSettings || {}
-  const initialState = {}
-  const optionalOptions = {}
+  } = paginationSettings || EMPTY_OBJ
+  const { onChangeSelectedRows } = rowSelectSettings || EMPTY_OBJ
+  const initialState = EMPTY_OBJ
+  const optionalOptions = EMPTY_OBJ
 
   if (defaultSorting) {
     initialState.sortBy = defaultSorting
@@ -90,11 +99,7 @@ const Table = ({
       },
       disableSortRemove: true,
       disableSortBy: !allowSort,
-      sortTypes: {
-        datetime: (a, b, id) => sortDate(a.original[id], b.original[id]),
-        floatNumeric: (a, b, id) =>
-          sortFloatNumeric(a.original[id], b.original[id])
-      },
+      sortTypes,
       autoResetPage: false,
       autoResetSortBy: false,
       initialState,
@@ -138,7 +143,7 @@ const Table = ({
     () => {
       fetchData({ pageSize, sortBy })
     },
-    [fetchData, pageSize, sortBy]
+    [pageSize, sortBy]
   )
 
   return (

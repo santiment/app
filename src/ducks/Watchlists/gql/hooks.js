@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { client } from '../../../apollo'
 import {
@@ -8,6 +8,7 @@ import {
   UPDATE_WATCHLIST_MUTATION,
   AVAILABLE_METRICS_QUERY,
   AVAILABLE_SEGMENTS_QUERY,
+  ACCESS_RESTRICTIONS_QUERY,
   getRecentWatchlist
 } from './index'
 import { WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
@@ -21,6 +22,7 @@ import {
 import { notifyErrorUpdate } from '../Widgets/TopPanel/notifications'
 import { useUser } from '../../../stores/user'
 
+const EMPTY_ARRAY = []
 const DEFAULT_WATCHLISTS = []
 const DEFAULT_SCREENERS = [DEFAULT_SCREENER]
 
@@ -219,10 +221,44 @@ export function useAvailableMetrics () {
   return { availableMetrics: getAvailableMetrics, loading }
 }
 
+export function useRestrictedMetrics () {
+  const { data, loading } = useQuery(ACCESS_RESTRICTIONS_QUERY)
+
+  return useMemo(
+    () => {
+      if (data && data.getAccessRestrictions) {
+        const allMetrics = []
+        const restrictedMetrics = []
+
+        data.getAccessRestrictions.forEach(({ name, type, restrictedFrom }) => {
+          allMetrics.push(name)
+          if (type === 'metric' && restrictedFrom !== null) {
+            restrictedMetrics.push(name)
+          }
+        })
+        return { restrictedMetrics, allMetrics, loading }
+      } else {
+        return {
+          restrictedMetrics: EMPTY_ARRAY,
+          allMetrics: EMPTY_ARRAY,
+          loading
+        }
+      }
+    },
+    [data]
+  )
+}
+
 export function useAvailableSegments () {
   const { data, loading } = useQuery(AVAILABLE_SEGMENTS_QUERY)
 
-  return [data ? data.allMarketSegments.sort(countAssetsSort) : [], loading]
+  return useMemo(
+    () => [
+      data ? data.allMarketSegments.sort(countAssetsSort) : EMPTY_ARRAY,
+      loading
+    ],
+    [data, loading]
+  )
 }
 
 export function getProjectsByFunction (func, query) {
@@ -235,7 +271,7 @@ export function getProjectsByFunction (func, query) {
   })
 
   return {
-    assets: data ? data.allProjectsByFunction.projects : undefined,
+    assets: data ? data.allProjectsByFunction.projects : EMPTY_ARRAY,
     projectsCount: data
       ? data.allProjectsByFunction.stats.projectsCount
       : undefined,
@@ -245,18 +281,16 @@ export function getProjectsByFunction (func, query) {
 }
 
 const extractData = ({ data }) => {
-  return data
-    ? {
-      assets: data.allProjectsByFunction.projects,
-      projectsCount: data.allProjectsByFunction.stats.projectsCount
-    }
-    : undefined
+  return {
+    assets: data ? data.allProjectsByFunction.projects : EMPTY_ARRAY,
+    projectsCount: data && data.allProjectsByFunction.stats.projectsCount
+  }
 }
 
-export const getAssetsByFunction = (func, query, fetchPolicy) =>
+export const getAssetsByFunction = (func, query) =>
   client
     .query({
-      fetchPolicy,
+      fetchPolicy: 'network-only',
       query,
       variables: { fn: JSON.stringify(func) }
     })
