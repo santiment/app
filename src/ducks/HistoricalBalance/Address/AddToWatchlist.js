@@ -15,43 +15,40 @@ export const createWatchlist = (watchlist, setDialog) =>
 const updateWatchlist = ({ id, listItems }) =>
   updateWatchlistShort({ id: +id, listItems })
 
-function checkIsListItemTheAddress ({ blockchainAddress }, address) {
-  return blockchainAddress.address === address
-}
-
-function checkIsSelected ({ listItems }, address) {
-  return listItems.some(i => checkIsListItemTheAddress(i, address))
-}
-
-function onChangesApply (
-  addToWatchlists,
-  removeFromWatchlists,
-  { address, infrastructure }
-) {
-  const newListItem = {
-    blockchainAddress: {
-      address,
-      infrastructure,
-      __typename: 'BlockchainAddress'
-    },
-    __typename: 'ListItem'
+const AddToWatchlist = ({ address, infrastructure }) => {
+  function checkIsListItemTheAddress ({ blockchainAddress }) {
+    return blockchainAddress.address === address
   }
 
-  removeFromWatchlists.forEach(({ listItems }) =>
-    listItems.splice(
-      listItems.findIndex(item => checkIsListItemTheAddress(item, address)),
-      1
+  function checkIsSelected ({ listItems }) {
+    return listItems.some(checkIsListItemTheAddress)
+  }
+
+  function onChangesApply (
+    addToWatchlists,
+    removeFromWatchlists,
+    { address, infrastructure }
+  ) {
+    const newListItem = {
+      blockchainAddress: {
+        address,
+        infrastructure,
+        __typename: 'BlockchainAddress'
+      },
+      __typename: 'ListItem'
+    }
+
+    removeFromWatchlists.forEach(({ listItems }) =>
+      listItems.splice(listItems.findIndex(checkIsListItemTheAddress), 1)
     )
-  )
 
-  addToWatchlists.forEach(({ listItems }) => listItems.push(newListItem))
+    addToWatchlists.forEach(({ listItems }) => listItems.push(newListItem))
 
-  return Promise.all(
-    addToWatchlists.concat(removeFromWatchlists).map(updateWatchlist)
-  )
-}
+    return Promise.all(
+      addToWatchlists.concat(removeFromWatchlists).map(updateWatchlist)
+    )
+  }
 
-const AddToWatchlist = ({ address, infrastructure }) => {
   return (
     <AddToWatchlistDialog
       trigger={
@@ -65,10 +62,8 @@ const AddToWatchlist = ({ address, infrastructure }) => {
       }
       getWatchlists={useAddressWatchlists}
       createWatchlist={createWatchlist}
-      checkIsWatchlistSelected={props => checkIsSelected(props, address)}
-      onChangesApply={(add, remove) =>
-        onChangesApply(add, remove, { address, infrastructure })
-      }
+      checkIsWatchlistSelected={checkIsSelected}
+      onChangesApply={onChangesApply}
     />
   )
 }

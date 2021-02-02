@@ -219,6 +219,8 @@ export function getWatchlistAlias (type) {
   switch (type) {
     case BLOCKCHAIN_ADDRESS:
       return 'watchlist'
+    case PROJECT:
+      return 'watchlist'
     default:
       return type
   }
