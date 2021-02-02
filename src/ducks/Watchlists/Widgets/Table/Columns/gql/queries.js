@@ -50,16 +50,14 @@ export function useFeaturedTableConfigs () {
 }
 
 export function useUserTableConfigs () {
-  const {
-    user: { id }
-  } = useUser()
-  const { data } = useQuery(TABLE_CONFIGS_QUERY)
+  const { user } = useUser()
+  const { data } = useQuery(TABLE_CONFIGS_QUERY, { skip: !user })
   return useMemo(
     () => {
       return data
         ? data.tableConfigurations
           .slice()
-          .filter(item => item.user.id === id)
+          .filter(item => item.user.id === user.id)
           .sort(SORTER)
         : EMPTY_ARRAY
     },

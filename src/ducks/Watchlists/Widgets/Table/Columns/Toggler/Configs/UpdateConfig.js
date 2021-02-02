@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import Button from '@santiment-network/ui/Button'
+import { useUser } from '../../../../../../../stores/user'
+import LoginPopup from '../../../../../../../components/banners/feature/PopupBanner'
 import EditForm from './EditForm'
 import styles from './EditForm.module.scss'
 
@@ -17,7 +19,10 @@ const UpdateConfig = ({
   name,
   buttonLabel
 }) => {
+  const { isLoggedIn } = useUser()
   const [isOpened, setIsOpened] = useState(false)
+
+  if (!isLoggedIn) return <LoginPopup>{trigger}</LoginPopup>
 
   return (
     <EditForm
