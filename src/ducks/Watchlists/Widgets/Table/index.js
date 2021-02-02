@@ -4,27 +4,37 @@ import Table from '../../../Table'
 import { usePriceGraph } from './PriceGraph/hooks'
 import { normalizeGraphData as normalizeData } from './PriceGraph/utils'
 import { useComparingAssets } from './CompareDialog/hooks'
+import { DEFAULT_COLUMNS } from './Columns/defaults'
 import styles from './index.module.scss'
+
+const DEFAULT_ITEMS = []
+const PAGE_SIZE_OPTIONS = [10, 20, 50, 100]
 
 const AssetsTable = ({
   items = [],
   loading,
   type,
+  isAuthor,
   listName,
   watchlist,
   refetchAssets,
   onChangePage,
   fetchData,
   projectsCount,
-  columns,
   allItems,
   pageSize,
   pageIndex,
-  sorting
+  sorting,
+  activeColumns,
+  updateActiveColumnsKeys
 }) => {
-  const defaultSorting = [
-    { id: sorting.metric, desc: sorting.direction === 'desc' }
-  ]
+  const defaultSorting = useMemo(
+    () => [{ id: sorting.metric, desc: sorting.direction === 'desc' }],
+    [sorting]
+  )
+  const columns = useMemo(() => [...DEFAULT_COLUMNS, ...activeColumns], [
+    activeColumns
+  ])
   const { comparingAssets = [], updateAssets } = useComparingAssets()
   const slugs = useMemo(() => items.map(({ slug }) => slug), [items])
   const [graphData] = usePriceGraph({ slugs })
@@ -42,8 +52,11 @@ const AssetsTable = ({
         listName={listName}
         items={allItems}
         watchlist={watchlist}
+        isAuthor={isAuthor}
         isLoading={loading}
         columns={columns}
+        activeColumns={activeColumns}
+        updateActiveColumnsKeys={updateActiveColumnsKeys}
       />
       <Table
         data={data}
@@ -72,7 +85,7 @@ const AssetsTable = ({
             pageSize,
             pageIndex,
             onChangePage,
-            pageSizeOptions: [10, 20, 50, 100],
+            pageSizeOptions: PAGE_SIZE_OPTIONS,
             controlledPageCount: Math.ceil(projectsCount / pageSize),
             manualPagination: true
           },
@@ -91,6 +104,10 @@ const AssetsTable = ({
       />
     </>
   )
+}
+
+AssetsTable.defaultProps = {
+  items: DEFAULT_ITEMS
 }
 
 export default AssetsTable

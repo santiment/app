@@ -55,6 +55,11 @@ export const WATCHLIST_QUERY = gql`
           ...recentProjectData
         }
       }
+      tableConfiguration {
+        id
+        title
+        columns
+      }
     }
   }
   ${WATCHLIST_GENERAL_FRAGMENT}

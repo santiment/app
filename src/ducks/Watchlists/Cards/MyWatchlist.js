@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
+import ProjectCard from './ProjectCard'
 import { WatchlistCards } from './Card'
 import { DesktopOnly, MobileOnly } from './../../../components/Responsive'
 import EmptySection from '../../../components/EmptySection/EmptySection'
@@ -81,7 +82,11 @@ const MyWatchlist = ({ className, showHeader = true }) => {
       )}
       {isLoggedIn && (
         <div className={stylesGrid.wrapper}>
-          <WatchlistCards watchlists={watchlists} path='/watchlist/projects/' />
+          <WatchlistCards
+            Card={ProjectCard}
+            watchlists={watchlists}
+            path='/watchlist/projects/'
+          />
 
           {watchlists.length > 0 && <NewWatchlistCard />}
         </div>

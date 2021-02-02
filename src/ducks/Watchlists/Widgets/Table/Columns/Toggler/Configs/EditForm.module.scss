@@ -1,0 +1,55 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  display: flex;
+  padding: 16px 24px 24px 24px;
+  width: 600px;
+  flex-direction: column;
+
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
+  }
+}
+
+.trigger {
+  margin: 0 16px 6px;
+  width: calc(100% - 32px);
+}
+
+.title {
+  padding: 16px 24px !important;
+  color: var(--rhino);
+
+  @include text('body-2', 'm');
+}
+
+.btn,
+.input {
+  height: 40px;
+  padding: 10px 16px;
+
+  @include text('body-3');
+}
+
+.btn {
+  min-width: 83px;
+  justify-content: center;
+}
+
+.btn + .btn {
+  margin-left: 16px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.error {
+  min-height: 22px;
+}
+
+.name__label {
+  margin-bottom: 4px;
+}

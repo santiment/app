@@ -64,6 +64,18 @@ export const AVAILABLE_METRICS_QUERY = gql`
   }
 `
 
+export const ACCESS_RESTRICTIONS_QUERY = gql`
+  query getAccessRestrictions {
+    getAccessRestrictions {
+      name
+      type
+      isRestricted
+      restrictedFrom
+      restrictedTo
+    }
+  }
+`
+
 export const AVAILABLE_SEGMENTS_QUERY = gql`
   query allMarketSegments {
     allMarketSegments {
@@ -147,23 +159,35 @@ export const getRecentWatchlist = id =>
     })
     .then(({ data = {} }) => data.watchlist)
 
-export function organizeTableQuery (dynamicColumns, staticColumns) {
+export function tableQuery (columns) {
+  const staticColumns = []
+  const dynamicColumns = columns.filter(
+    ({ isStatic, accessor, isRestricted, isChart }) => {
+      if (isStatic) {
+        staticColumns.push(accessor)
+      }
+      return !isStatic && !isRestricted && !isChart
+    }
+  )
+
   return gql`
   query allProjectsByFunction($fn: json) {
     allProjectsByFunction(function: $fn) {
       projects {
-        ...generalData
+        name
+        slug
+        ticker
+        logoUrl
+        darkLogoUrl
         ${staticColumns}
         ${dynamicColumns.map(
-    column =>
-      `${column.accessor}: aggregatedTimeseriesData(
-              metric: "${column.accessor}"
-              from: "utc_now-${column.timeRange}"
-              to: "utc_now"
-              aggregation: ${
-  AGGREGATIONS_UPPER[column.aggregation.toUpperCase()]
-}
-            )`
+    ({ accessor, timeRange, aggregation }) =>
+      `${accessor}: aggregatedTimeseriesData(
+            metric: "${accessor}"
+            from: "utc_now-${timeRange}"
+            to: "utc_now"
+            aggregation: ${AGGREGATIONS_UPPER[aggregation.toUpperCase()]}
+          )`
   )}
       }
       stats {
@@ -171,6 +195,5 @@ export function organizeTableQuery (dynamicColumns, staticColumns) {
       }
     }
   }
-  ${generalData}
 `
 }
