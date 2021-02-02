@@ -21,13 +21,19 @@ export const useAreaData = (stats, key = 'value') => {
   const minValue = Math.min(...stats.map(({ [key]: value }) => value))
   const chartStats = stats.map(stat => ({
     ...stat,
+    originalValue: stat[key],
     [key]: stat[key] - minValue
   }))
 
   return { change, chartStats, color, value, latestValue }
 }
 
-const ChangeChart = ({ data, dataKey = 'value', color: forceColor, width }) => {
+const ChangeChart = ({
+  data,
+  dataKey = 'value',
+  color: forceColor,
+  ...rest
+}) => {
   const area = useAreaData(data, dataKey)
 
   return (
@@ -35,7 +41,7 @@ const ChangeChart = ({ data, dataKey = 'value', color: forceColor, width }) => {
       {...area}
       dataKey={dataKey}
       forceColor={forceColor}
-      width={width}
+      {...rest}
     />
   )
 }
@@ -46,11 +52,13 @@ export const ChangeChartTemplate = ({
   color,
   value,
   width,
+  height = 45,
   showTooltip,
   dataKey = 'value',
-  forceColor
+  forceColor,
+  valueFormatter
 }) => (
-  <AreaChart data={chartStats} height={45} width={width}>
+  <AreaChart data={chartStats} height={height} width={width}>
     <defs>
       <Gradients downColor={forceColor} upColor={forceColor} />
     </defs>
@@ -65,8 +73,15 @@ export const ChangeChartTemplate = ({
 
     {showTooltip && (
       <Tooltip
-        content={<ChartTooltip labelFormatter={labelFormatter} />}
+        content={
+          <ChartTooltip
+            name='ROI'
+            labelFormatter={labelFormatter}
+            valueFormatter={valueFormatter}
+          />
+        }
         cursor={false}
+        dataKey={dataKey}
         isAnimationActive={false}
       />
     )}

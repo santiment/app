@@ -10,7 +10,7 @@ import {
 import { Infrastructure } from '../../../utils/address'
 import styles from './index.module.scss'
 
-const createWatchlist = (watchlist, setDialog) =>
+export const createWatchlist = (watchlist, setDialog) =>
   createAddressesWatchlist(watchlist).then(() => setDialog(false))
 const updateWatchlist = ({ id, listItems }) =>
   updateWatchlistShort({ id: +id, listItems })

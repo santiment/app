@@ -30,15 +30,15 @@ const Trigger = ({ type, showProBanner, ...props }) => {
   )
 }
 
-const NewCard = ({ type = 'watchlist', isAddress }) => {
+const NewCard = ({ type = 'watchlist', ...props }) => {
   if (type === 'watchlist') {
-    return <NewWatchlistCard isAddress={isAddress} />
+    return <NewWatchlistCard {...props} />
   } else {
-    return <NewScreenerCard />
+    return <NewScreenerCard {...props} />
   }
 }
 
-const NewWatchlistCard = ({ isAddress }) => {
+const NewWatchlistCard = ({ createWatchlist }) => {
   const [watchlists = []] = useUserWatchlists()
 
   return (
@@ -46,7 +46,8 @@ const NewWatchlistCard = ({ isAddress }) => {
       <NewWatchlist
         lists={watchlists}
         trigger={<Trigger type='watchlist' />}
-        type={isAddress ? BLOCKCHAIN_ADDRESS : 'watchlist'}
+        type='watchlist'
+        createWatchlist={createWatchlist}
       />
     </LoginPopup>
   )

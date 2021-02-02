@@ -1,19 +1,19 @@
 import React from 'react'
-import Section from './Section'
+import Section, { Title, Content } from './Section'
 import Page from '../../ducks/Page'
 import { useUser } from '../../stores/user'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import StoriesList from '../../components/Stories/StoriesList'
 import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
-import WatchlistCard, {
-  WatchlistCards
-} from '../../ducks/Watchlists/Cards/Card'
+import WatchlistCard from '../../ducks/Watchlists/Cards/ProjectCard'
+import WatchlistAddressCard from '../../ducks/Watchlists/Cards/AddressCard'
+import { WatchlistCards } from '../../ducks/Watchlists/Cards/Card'
 import FeaturedWatchlistCards from '../../ducks/Watchlists/Cards/Featured'
 import { WatchlistEmptySection } from '../../ducks/Watchlists/Cards/MyWatchlist'
 import {
+  useAddressWatchlists,
   useUserWatchlists,
-  useUserScreeners,
-  useAddressWatchlists
+  useUserScreeners
 } from '../../ducks/Watchlists/gql/queries'
 import NewWatchlistCard from '../../ducks/Watchlists/Cards/NewCard'
 import {
@@ -23,6 +23,7 @@ import {
 } from '../../ducks/renderQueue/sized'
 import MobileAnonBanner from '../../ducks/Watchlists/Templates/Anon/WatchlistsAnon'
 import InlineBanner from '../../components/banners/feature/InlineBanner'
+import { createWatchlist as createAddressesWatchlist } from '../../ducks/HistoricalBalance/Address/AddToWatchlist'
 import styles from './index.module.scss'
 
 const LoginBanner = ({ isDesktop }) =>
@@ -36,7 +37,7 @@ const LoginBanner = ({ isDesktop }) =>
     <MobileAnonBanner isFullScreen wrapperClassName={styles.login} />
   )
 
-const Card = props => {
+const QueuedProjectCard = props => {
   const { isRendered, onLoad } = useRenderQueueItem()
 
   return (
@@ -48,75 +49,68 @@ const Card = props => {
   )
 }
 
-const Cards = ({ type, path, watchlists, isAddress }) => (
+const Cards = ({
+  type,
+  watchlists,
+  Card = QueuedProjectCard,
+  createWatchlist
+}) => (
   <>
     <WatchlistCards
       className={styles.card}
       Card={Card}
       watchlists={watchlists}
-      path={path}
-      isAddress={isAddress}
     />
 
     <DesktopOnly>
-      <NewWatchlistCard type={type} isAddress={isAddress} />
+      <NewWatchlistCard type={type} createWatchlist={createWatchlist} />
     </DesktopOnly>
   </>
 )
 
-const MyWatchlists = ({ isDesktop }) => {
-  const [watchlists, isLoading] = useUserWatchlists()
-  const addressesWatchlists = useAddressWatchlists().watchlists
+const MyWatchlists = ({
+  data,
+  addressesData,
+  Card,
+  createWatchlist,
+  isDesktop
+}) => {
+  const [watchlists, isLoading] = data
+  const addressesWatchlists = addressesData.watchlists
 
-  const { isLoggedIn } = useUser()
+  if (isLoading && addressesData.isAddressesLoading) return null
 
-  if (isLoading) return null
-
-  const hasWatchlists = watchlists.length > 0
-
-  return (
-    <>
-      <div className={styles.title}>My watchlists</div>
-
-      {!hasWatchlists && (
+  if (watchlists.length === 0 && addressesWatchlists.length === 0) {
+    return (
+      <Content>
         <WatchlistEmptySection
           wrapperClassName={styles.empty}
           className={styles.empty__img}
         />
-      )}
+      </Content>
+    )
+  }
 
-      {hasWatchlists && (
-        <>
-          <div className={styles.block}>
-            <div className={styles.assets}>Assets</div>
-            <Section
-              isGrid={isDesktop && isLoggedIn}
-              className={styles.innerSection}
-            >
-              <Cards watchlists={watchlists} path='/watchlist/projects/' />
-            </Section>
-          </div>
+  return (
+    <>
+      <h3 className={styles.subtitle}>Projects</h3>
+      <Content isGrid={isDesktop} className={styles.projects}>
+        <Cards Card={Card} watchlists={watchlists} />
+      </Content>
 
-          <div className={styles.block}>
-            <div className={styles.assets}>Addresses</div>
-            <Section
-              isGrid={isDesktop && isLoggedIn}
-              className={styles.innerSection}
-            >
-              <Cards
-                watchlists={addressesWatchlists}
-                isAddress
-                path='/watchlist/addresses/'
-              />
-            </Section>
-          </div>
-        </>
-      )}
+      <h3 className={styles.subtitle}>Addresses</h3>
+      <Content isGrid={isDesktop} className={styles.addresses}>
+        <Cards
+          Card={WatchlistAddressCard}
+          watchlists={addressesWatchlists}
+          createWatchlist={createAddressesWatchlist}
+        />
+      </Content>
     </>
   )
 }
 
-const MyScreeners = () => {
+const MyScreeners = ({ Card }) => {
   const [watchlists, isLoading] = useUserScreeners()
   if (isLoading) return null
 
@@ -125,6 +119,8 @@ const MyScreeners = () => {
 
 const Watchlists = ({ isDesktop }) => {
   const { isLoggedIn, loading } = useUser()
+  const userWatchlistsData = useUserWatchlists()
+  const userAddressesWatchlistsData = useAddressWatchlists()
 
   return (
     <Page
@@ -140,14 +136,23 @@ const Watchlists = ({ isDesktop }) => {
 
       <DesktopOnly>
         <Section isGrid title='Explore watchlists'>
-          <FeaturedWatchlistCards Card={Card} />
+          <FeaturedWatchlistCards Card={QueuedProjectCard} />
         </Section>
       </DesktopOnly>
 
+      <Title>My watchlists</Title>
       {isLoggedIn ? (
-        <MyWatchlists isDesktop={isDesktop} />
+        <MyWatchlists
+          data={userWatchlistsData}
+          addressesData={userAddressesWatchlistsData}
+          isDesktop={isDesktop}
+        />
       ) : (
-        loading || <LoginBanner isDesktop={isDesktop} />
+        loading || (
+          <Content>
+            <LoginBanner isDesktop={isDesktop} />
+          </Content>
+        )
       )}
 
       <Section isGrid={isDesktop} title='My screeners'>
