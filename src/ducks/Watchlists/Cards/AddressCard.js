@@ -8,7 +8,6 @@ const AddressCard = ({ ...props }) => {
 
   return (
     <Card
-      path='/watchlist/addresses/'
       {...props}
       classes={styles}
       middleChildren={
@@ -23,6 +22,9 @@ const AddressCard = ({ ...props }) => {
       }
     />
   )
+}
+AddressCard.defaultProps = {
+  path: '/watchlist/addresses/'
 }
 
 export default AddressCard
