@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import cx from 'classnames'
 import isEqual from 'lodash.isequal'
 import Icon from '@santiment-network/ui/Icon'
@@ -37,15 +37,34 @@ const ConfigsMenu = ({
   activeColumns,
   isLoading
 }) => {
-  const { id: selectedId, title, columns } = config
-  const featuredTableConfigurations = useFeaturedTableConfigs()
   const userTableConfigs = useUserTableConfigs()
+  const featuredTableConfigurations = useFeaturedTableConfigs()
+
   const { createTableConfig } = useCreateTableConfig()
   const { deleteTableConfig } = useDeleteTableConfig()
   const { updateTableConfig } = useUpdateTableConfig()
+
+  useEffect(
+    () => {
+      if (!config && featuredTableConfigurations.length !== 0) {
+        if (userTableConfigs.length !== 0) {
+          changeConfig(userTableConfigs[0].id)
+        } else {
+          const idx = featuredTableConfigurations.length - 1
+          changeConfig(featuredTableConfigurations[idx].id)
+        }
+      }
+    },
+    [userTableConfigs, featuredTableConfigurations]
+  )
+
   const hasUnsavedChanges = useMemo(
     () => {
-      return activeColumns && !isEqual(columns.metrics, activeColumns)
+      return (
+        activeColumns &&
+        config &&
+        !isEqual(config.columns.metrics, activeColumns)
+      )
     },
     [activeColumns]
   )
@@ -54,6 +73,12 @@ const ConfigsMenu = ({
     changeConfig(id)
     setOpen(false)
   }
+
+  if (!config) {
+    return null
+  }
+
+  const { id: selectedId, title } = config
 
   return (
     <ContextMenu

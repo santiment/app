@@ -17,8 +17,6 @@ import ConfigsMenu from './Configs'
 import { useTableConfig } from '../gql/queries'
 import styles from './index.module.scss'
 
-const DEFAULT_CONFIG_ID = 2
-
 const Toggler = ({
   activeColumns,
   updateActiveColumnsKeys,
@@ -27,7 +25,7 @@ const Toggler = ({
   const { isNightMode } = useTheme()
   const [open, setOpen] = useState(false)
   const [selectedConfigId, setSelectedConfigId] = useState(
-    watchlistTableConfig ? watchlistTableConfig.id : DEFAULT_CONFIG_ID
+    watchlistTableConfig && watchlistTableConfig.id
   )
   const [openConfigsMenu, setOpenConfigsMenu] = useState(false)
   const {
