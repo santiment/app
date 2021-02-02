@@ -64,7 +64,7 @@ const Cards = ({ watchlists, path, Card = QueuedProjectCard, ...props }) => (
   </>
 )
 
-const MyWatchlists = ({ data, addressesData, createWatchlist, isDesktop }) => {
+const MyWatchlists = ({ data, addressesData, isDesktop }) => {
   const [watchlists, isLoading] = data
   const addressesWatchlists = addressesData.watchlists
 

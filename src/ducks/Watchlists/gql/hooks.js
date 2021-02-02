@@ -13,7 +13,7 @@ import {
   getRecentWatchlist,
   REMOVE_WATCHLIST_MUTATION
 } from './index'
-import { WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
+import { PROJECTS_WATCHLIST_QUERY } from '../../../queries/WatchlistGQL'
 import {
   countAssetsSort,
   isStaticWatchlist,
@@ -30,7 +30,10 @@ import { notifyErrorUpdate } from '../Widgets/TopPanel/notifications'
 import { useUser } from '../../../stores/user'
 import { showNotification } from '../../../actions/rootActions'
 import { store } from '../../../redux'
-import { ADDRESS_WATCHLISTS_QUERY } from './queries'
+import {
+  ADDRESS_WATCHLISTS_QUERY,
+  USER_SHORT_WATCHLISTS_QUERY
+} from './queries'
 import NotificationActions from '../../../components/NotificationActions/NotificationActions'
 import { ADDRESS_WATCHLIST_QUERY } from '../../WatchlistAddressesTable/gql/queries'
 
@@ -41,14 +44,17 @@ const DEFAULT_SCREENERS = [DEFAULT_SCREENER]
 function buildWatchlistsCacheUpdater (reducer) {
   return (cache, { data }) => {
     const watchlist = data.createWatchlist || data.removeWatchlist
+
     const query =
       watchlist.type === BLOCKCHAIN_ADDRESS
         ? ADDRESS_WATCHLISTS_QUERY
-        : USER_WATCHLISTS_QUERY
+        : USER_SHORT_WATCHLISTS_QUERY
 
-    const { fetchWatchlists } = cache.readQuery({
+    const dataQuery = cache.readQuery({
       query: query
     })
+
+    const { fetchWatchlists } = dataQuery
 
     cache.writeQuery({
       query: query,
@@ -62,7 +68,7 @@ function buildWatchlistCacheUpdater (reducer) {
     const query =
       data.updateWatchlist.type === BLOCKCHAIN_ADDRESS
         ? ADDRESS_WATCHLIST_QUERY
-        : WATCHLIST_QUERY
+        : PROJECTS_WATCHLIST_QUERY
 
     const watchlist = cache.readQuery({
       query: query,
@@ -89,13 +95,12 @@ const updateWatchlistsOnDelete = buildWatchlistsCacheUpdater(
 
 export const updateWatchlistOnEdit = buildWatchlistCacheUpdater(
   ({ updateWatchlist }, watchlist) => {
-    debugger
     return { ...watchlist, ...updateWatchlist }
   }
 )
 
 export function useWatchlist ({ id, skip }) {
-  const { data, loading, error } = useQuery(WATCHLIST_QUERY, {
+  const { data, loading, error } = useQuery(PROJECTS_WATCHLIST_QUERY, {
     skip: !id || skip,
     variables: {
       id: +id

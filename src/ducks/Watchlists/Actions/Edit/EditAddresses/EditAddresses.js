@@ -17,7 +17,7 @@ export const NOT_VALID_ADDRESS = 'Not valid ETH address'
 const extractAddress = ({ blockchainAddress }) =>
   blockchainAddress && blockchainAddress.address
 
-const mapAddressToBlockchain = (address, infrastructure = 'ETH') => {
+const mapAddressToAPIType = (address, infrastructure = 'ETH') => {
   return {
     blockchainAddress: {
       address,
@@ -50,7 +50,7 @@ const EditAddresses = ({ trigger, watchlist }) => {
   function apply () {
     updateWatchlist({
       id,
-      listItems: items.map(a => mapAddressToBlockchain(a))
+      listItems: items.map(a => mapAddressToAPIType(a))
     }).then(() => {
       closeDialog()
     })

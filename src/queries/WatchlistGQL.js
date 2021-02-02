@@ -45,7 +45,7 @@ export const ALL_WATCHLISTS_QUERY = gql`
   ${PROJECT_ITEM_FRAGMENT}
 `
 
-export const WATCHLIST_QUERY = gql`
+export const PROJECTS_WATCHLIST_QUERY = gql`
   query watchlist($id: ID!) {
     watchlist(id: $id) {
       ...generalListData

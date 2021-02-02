@@ -35,16 +35,16 @@ export const ADDRESS_WATCHLISTS_QUERY = newWatchlistsQuery(
 
 export const FEATURED_WATCHLISTS_QUERY = gql`
   query featuredWatchlists {
-    watchlists: featuredWatchlists {
+    fetchWatchlists: featuredWatchlists {
       id
       name
     }
   }
 `
 
-export const USER_WATCHLISTS_QUERY = gql`
+export const USER_SHORT_WATCHLISTS_QUERY = gql`
   query fetchWatchlists {
-    watchlists: fetchWatchlists {
+    fetchWatchlists {
       id
       name
       function
@@ -67,7 +67,7 @@ export const useAddressWatchlists = () =>
 
 function useShortWatchlists (query, options) {
   const { data, loading, error } = useQuery(query, options)
-  return [data ? data.watchlists : ARRAY, loading, error]
+  return [data ? data.fetchWatchlists : ARRAY, loading, error]
 }
 
 const WatchlistIdOrder = {}
@@ -94,7 +94,9 @@ export const checkIsScreener = ({ function: fn }) => fn.name !== 'empty'
 export const checkIsNotScreener = watchlist => !checkIsScreener(watchlist)
 function useUserShortWatchlists (filter, reduce = noop) {
   const { isLoggedIn } = useUser()
-  const data = useShortWatchlists(USER_WATCHLISTS_QUERY, { skip: !isLoggedIn })
+  const data = useShortWatchlists(USER_SHORT_WATCHLISTS_QUERY, {
+    skip: !isLoggedIn
+  })
 
   return useMemo(
     () => {
