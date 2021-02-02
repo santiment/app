@@ -34,7 +34,8 @@ const ConfigsMenu = ({
   open,
   changeConfig,
   config,
-  activeColumns
+  activeColumns,
+  isLoading
 }) => {
   const { id: selectedId, title, columns } = config
   const featuredTableConfigurations = useFeaturedTableConfigs()
@@ -44,7 +45,7 @@ const ConfigsMenu = ({
   const { updateTableConfig } = useUpdateTableConfig()
   const hasUnsavedChanges = useMemo(
     () => {
-      return !isEqual(columns.metrics, activeColumns)
+      return activeColumns && !isEqual(columns.metrics, activeColumns)
     },
     [activeColumns]
   )
@@ -61,7 +62,9 @@ const ConfigsMenu = ({
           variant='flat'
           className={cx(styles.trigger, open && styles.isOpened)}
         >
-          <span className={cx(hasUnsavedChanges && styles.circle)}>
+          <span
+            className={cx(hasUnsavedChanges && !isLoading && styles.circle)}
+          >
             {title}
           </span>
           <Icon type='arrow-down' className={styles.arrow} />

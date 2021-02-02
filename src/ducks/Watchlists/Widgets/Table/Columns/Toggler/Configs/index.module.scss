@@ -58,6 +58,7 @@
     height: 5px;
     border-radius: 50%;
     background: var(--persimmon);
+    animation: pulse 1s ease-in-out infinite alternate;
   }
 }
 
@@ -99,5 +100,15 @@
 
   &__active {
     color: var(--jungle-green);
+  }
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.25);
   }
 }

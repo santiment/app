@@ -17,8 +17,7 @@ import ConfigsMenu from './Configs'
 import { useTableConfig } from '../gql/queries'
 import styles from './index.module.scss'
 
-const EMPTY_OBJ = {}
-const DEFAULT_CONFIG_ID = 1
+const DEFAULT_CONFIG_ID = 2
 
 const Toggler = ({
   activeColumns,
@@ -28,24 +27,32 @@ const Toggler = ({
   const { isNightMode } = useTheme()
   const [open, setOpen] = useState(false)
   const [selectedConfigId, setSelectedConfigId] = useState(
-    watchlistTableConfig.id || DEFAULT_CONFIG_ID
+    watchlistTableConfig ? watchlistTableConfig.id : DEFAULT_CONFIG_ID
   )
   const [openConfigsMenu, setOpenConfigsMenu] = useState(false)
-  const { allMetrics, restrictedMetrics } = useRestrictedMetrics()
+  const {
+    allMetrics,
+    restrictedMetrics,
+    loading: metricsLoading
+  } = useRestrictedMetrics()
   const [currentSearch, setCurrentSearch] = useState('')
-  const [activeKeys, setActiveKeys] = useState([])
-  const [currActiveKeys, setCurrActiveKeys] = useState([])
-  const { tableConfig } = useTableConfig(selectedConfigId)
+  const [activeKeys, setActiveKeys] = useState(null)
+  const [currActiveKeys, setCurrActiveKeys] = useState(null)
+  const { tableConfig, loading: configLoading } = useTableConfig(
+    selectedConfigId
+  )
+  const isLoading = configLoading || metricsLoading
 
   useEffect(
     () => {
-      if (tableConfig) {
+      if (tableConfig && allMetrics.length !== 0) {
         const newMetricKeys = tableConfig.columns.metrics
         setActiveKeys(newMetricKeys)
+        setCurrActiveKeys(newMetricKeys)
         updateActiveColumnsKeys(newMetricKeys)
       }
     },
-    [tableConfig]
+    [tableConfig, allMetrics]
   )
 
   useEffect(
@@ -63,7 +70,7 @@ const Toggler = ({
   useEffect(
     () => {
       const updatedActiveKeys = activeColumns.map(({ key }) => key)
-      if (!isEqual(updatedActiveKeys, activeKeys) && !open) {
+      if (!isEqual(updatedActiveKeys, activeKeys) && !open && !isLoading) {
         setActiveKeys(updatedActiveKeys)
       }
     },
@@ -73,7 +80,7 @@ const Toggler = ({
   useEffect(
     () => {
       setCurrActiveKeys(activeKeys)
-      if (!open) {
+      if (!open && !metricsLoading) {
         updateActiveColumnsKeys(activeKeys)
         setCurrentSearch('')
       }
@@ -84,7 +91,6 @@ const Toggler = ({
   const categories = useMemo(
     () => {
       if (allMetrics.length !== 0) {
-        updateActiveColumnsKeys(activeKeys)
         buildColumns(metrics, allMetrics, restrictedMetrics)
         const allColumns = Object.values(Column)
         return getCategoryGraph(allColumns)
@@ -102,7 +108,7 @@ const Toggler = ({
     setActiveKeys(newActiveKeys)
   }
 
-  if (allMetrics.length === 0 || !tableConfig) {
+  if (isLoading && activeKeys === null) {
     return null
   }
 
@@ -162,14 +168,11 @@ const Toggler = ({
         open={openConfigsMenu}
         changeConfig={setSelectedConfigId}
         config={tableConfig}
+        isLoading={isLoading}
         activeColumns={activeKeys}
       />
     </>
   )
-}
-
-Toggler.defaultProps = {
-  watchlistTableConfig: EMPTY_OBJ
 }
 
 export default Toggler

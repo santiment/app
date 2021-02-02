@@ -222,7 +222,7 @@ export function useAvailableMetrics () {
 }
 
 export function useRestrictedMetrics () {
-  const { data } = useQuery(ACCESS_RESTRICTIONS_QUERY)
+  const { data, loading } = useQuery(ACCESS_RESTRICTIONS_QUERY)
 
   return useMemo(
     () => {
@@ -236,8 +236,14 @@ export function useRestrictedMetrics () {
             restrictedMetrics.push(name)
           }
         })
-        return { restrictedMetrics, allMetrics }
-      } else return { restrictedMetrics: EMPTY_ARRAY, allMetrics: EMPTY_ARRAY }
+        return { restrictedMetrics, allMetrics, loading }
+      } else {
+        return {
+          restrictedMetrics: EMPTY_ARRAY,
+          allMetrics: EMPTY_ARRAY,
+          loading
+        }
+      }
     },
     [data]
   )
