@@ -66,7 +66,6 @@ const ProjectCard = ({ skipMarketcap, onMarketcapLoad, ...props }) => {
 
   return (
     <Card
-      path='/watchlist/projects/'
       {...props}
       simplifiedChildren={<PercentChanges changes={change} />}
       middleChildren={
@@ -96,6 +95,9 @@ const ProjectCard = ({ skipMarketcap, onMarketcapLoad, ...props }) => {
       }
     />
   )
+}
+ProjectCard.defaultProps = {
+  path: '/watchlist/projects/'
 }
 
 export default ProjectCard

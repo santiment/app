@@ -48,32 +48,22 @@ const QueuedProjectCard = props => {
   )
 }
 
-const Cards = ({
-  type,
-  watchlists,
-  Card = QueuedProjectCard,
-  createWatchlist
-}) => (
+const Cards = ({ watchlists, path, Card = QueuedProjectCard, ...props }) => (
   <>
     <WatchlistCards
       className={styles.card}
       Card={Card}
       watchlists={watchlists}
+      path={path}
     />
 
     <DesktopOnly>
-      <NewWatchlistCard type={type} createWatchlist={createWatchlist} />
+      <NewWatchlistCard {...props} />
     </DesktopOnly>
   </>
 )
 
-const MyWatchlists = ({
-  data,
-  addressesData,
-  Card,
-  createWatchlist,
-  isDesktop
-}) => {
+const MyWatchlists = ({ data, addressesData, createWatchlist, isDesktop }) => {
   const [watchlists, isLoading] = data
   const addressesWatchlists = addressesData.watchlists
 
@@ -94,7 +84,7 @@ const MyWatchlists = ({
     <>
       <h3 className={styles.subtitle}>Projects</h3>
       <Content isGrid={isDesktop} className={styles.projects}>
-        <Cards Card={Card} watchlists={watchlists} />
+        <Cards watchlists={watchlists} />
       </Content>
 
       <h3 className={styles.subtitle}>Addresses</h3>
