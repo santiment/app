@@ -94,12 +94,16 @@
   margin: 0 9px;
   position: relative;
 
-  &:hover .actions {
-    opacity: 1;
-  }
-
   &__active {
     color: var(--jungle-green);
+
+    & .actions {
+      opacity: 1;
+    }
+  }
+
+  &:hover .actions {
+    opacity: 1;
   }
 }
 

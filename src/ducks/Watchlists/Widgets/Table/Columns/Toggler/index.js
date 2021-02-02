@@ -108,7 +108,7 @@ const Toggler = ({
     setActiveKeys(newActiveKeys)
   }
 
-  if (isLoading && activeKeys === null) {
+  if (metricsLoading && activeKeys === null) {
     return null
   }
 

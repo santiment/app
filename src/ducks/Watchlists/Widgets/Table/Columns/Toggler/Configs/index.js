@@ -83,7 +83,7 @@ const ConfigsMenu = ({
             createTableConfig({
               title,
               columns: { metrics: activeColumns }
-            })
+            }).then(({ id }) => changeConfig(id))
           }
         />
         <div className={styles.content}>
@@ -96,7 +96,9 @@ const ConfigsMenu = ({
                 id === selectedId && styles.buttonConfig__active
               )}
               key={id}
-              onClick={() => onConfigSelect(id)}
+              onClick={() =>
+                id !== selectedId ? onConfigSelect(id) : setOpen(false)
+              }
             >
               {title}
             </Button>
