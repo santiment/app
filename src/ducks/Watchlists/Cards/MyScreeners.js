@@ -1,5 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
+import ProjectCard from './ProjectCard'
 import { WatchlistCards } from './Card'
 import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
 import Skeleton from '../../../components/Skeleton/Skeleton'
@@ -41,7 +42,11 @@ const MyScreeners = ({ className, showHeader = true }) => {
         </>
       )}
       <div className={stylesGrid.wrapper}>
-        <WatchlistCards watchlists={screeners} path='/screener/' />
+        <WatchlistCards
+          Card={ProjectCard}
+          watchlists={screeners}
+          path='/screener/'
+        />
 
         <DesktopOnly>
           <NewWatchlistCard type='screener' />
