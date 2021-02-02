@@ -56,6 +56,8 @@ export const WATCHLIST_QUERY = gql`
       }
       tableConfiguration {
         id
+        title
+        columns
       }
     }
   }

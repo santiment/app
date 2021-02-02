@@ -162,6 +162,8 @@ const Screener = ({
     [watchlist]
   )
 
+  const isAuthor = user && watchlist.user && watchlist.user.id === user.id
+
   return (
     <>
       <TopPanel
@@ -171,7 +173,7 @@ const Screener = ({
         projectsCount={projectsCount}
         loading={tableLoading}
         watchlist={watchlist}
-        isAuthor={user && watchlist.user && watchlist.user.id === user.id}
+        isAuthor={isAuthor}
         isAuthorLoading={userLoading || isLoading}
         isLoggedIn={isLoggedIn}
         screenerFunction={screenerFunc}
@@ -208,6 +210,7 @@ const Screener = ({
         sorting={orderBy}
         activeColumns={activeColumns}
         updateActiveColumnsKeys={setActiveColumnsKeys}
+        isAuthor={isAuthor}
         onChangePage={pageIndex =>
           setPagination({ ...pagination, page: +pageIndex + 1 })
         }

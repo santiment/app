@@ -13,6 +13,7 @@ import { useRestrictedMetrics } from '../../../../gql/hooks'
 import { getCategoryGraph } from '../../../../../Studio/Sidebar/utils'
 import { useTheme } from '../../../../../../stores/ui/theme'
 import { getShadowVars } from '../../../../../../utils/styles'
+import { useUpdateWatchlistTableConfig } from '../gql/mutations'
 import ConfigsMenu from './Configs'
 import { useTableConfig } from '../gql/queries'
 import styles from './index.module.scss'
@@ -20,12 +21,13 @@ import styles from './index.module.scss'
 const Toggler = ({
   activeColumns,
   updateActiveColumnsKeys,
-  watchlistTableConfig
+  watchlist,
+  isAuthor
 }) => {
   const { isNightMode } = useTheme()
   const [open, setOpen] = useState(false)
   const [selectedConfigId, setSelectedConfigId] = useState(
-    watchlistTableConfig && watchlistTableConfig.id
+    watchlist && watchlist.tableConfiguration && watchlist.tableConfiguration.id
   )
   const [openConfigsMenu, setOpenConfigsMenu] = useState(false)
   const {
@@ -36,33 +38,53 @@ const Toggler = ({
   const [currentSearch, setCurrentSearch] = useState('')
   const [activeKeys, setActiveKeys] = useState(null)
   const [currActiveKeys, setCurrActiveKeys] = useState(null)
+  const {
+    updateWatchlistTableConfig,
+    updatedWatchlistTableConfigId
+  } = useUpdateWatchlistTableConfig()
   const { tableConfig, loading: configLoading } = useTableConfig(
     selectedConfigId
   )
   const isLoading = configLoading || metricsLoading
+  const config = useMemo(
+    () => {
+      if (
+        watchlist &&
+        watchlist.tableConfiguration &&
+        selectedConfigId === watchlist.tableConfiguration.id &&
+        !tableConfig
+      ) {
+        return watchlist.tableConfiguration
+      } else {
+        return tableConfig
+      }
+    },
+    [watchlist, updatedWatchlistTableConfigId, selectedConfigId, tableConfig]
+  )
 
   useEffect(
     () => {
-      if (tableConfig && allMetrics.length !== 0) {
-        const newMetricKeys = tableConfig.columns.metrics
+      if (config && allMetrics.length !== 0) {
+        const newMetricKeys = config.columns.metrics
         setActiveKeys(newMetricKeys)
         setCurrActiveKeys(newMetricKeys)
         updateActiveColumnsKeys(newMetricKeys)
       }
     },
-    [tableConfig, allMetrics]
+    [config, allMetrics]
   )
 
   useEffect(
     () => {
       if (
-        watchlistTableConfig &&
-        watchlistTableConfig.id !== selectedConfigId
+        watchlist &&
+        watchlist.tableConfiguration &&
+        watchlist.tableConfiguration.id !== selectedConfigId
       ) {
-        setSelectedConfigId(watchlistTableConfig)
+        setSelectedConfigId(watchlist.tableConfiguration.id)
       }
     },
-    [watchlistTableConfig]
+    [watchlist]
   )
 
   useEffect(
@@ -84,6 +106,25 @@ const Toggler = ({
       }
     },
     [open]
+  )
+
+  useEffect(
+    () => {
+      if (
+        selectedConfigId &&
+        (!watchlist.tableConfiguration ||
+          watchlist.tableConfiguration.id !== selectedConfigId) &&
+        isAuthor
+      ) {
+        if (
+          !updatedWatchlistTableConfigId ||
+          updatedWatchlistTableConfigId !== selectedConfigId
+        ) {
+          updateWatchlistTableConfig(watchlist.id, selectedConfigId)
+        }
+      }
+    },
+    [selectedConfigId]
   )
 
   const categories = useMemo(
@@ -165,7 +206,7 @@ const Toggler = ({
         setOpen={setOpenConfigsMenu}
         open={openConfigsMenu}
         changeConfig={setSelectedConfigId}
-        config={tableConfig}
+        config={config}
         isLoading={isLoading}
         activeColumns={activeKeys}
       />

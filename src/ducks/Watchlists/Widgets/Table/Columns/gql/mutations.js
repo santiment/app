@@ -52,6 +52,9 @@ export const UPDATE_WATCHLIST_TABLE_CONFIG_MUTATION = gql`
   mutation updateWatchlist($id: Int!, $tableConfigurationId: Int) {
     updateWatchlist(id: $id, tableConfigurationId: $tableConfigurationId) {
       id
+      tableConfiguration {
+        id
+      }
     }
   }
 `
@@ -152,4 +155,28 @@ export function useUpdateTableConfig () {
   }
 
   return { updateTableConfig, data }
+}
+
+const EMPTY_OBJ = {}
+
+export function useUpdateWatchlistTableConfig () {
+  const [mutate, { data }] = useMutation(UPDATE_WATCHLIST_TABLE_CONFIG_MUTATION)
+
+  function updateWatchlistTableConfig (id, tableConfigurationId) {
+    return mutate({
+      variables: {
+        id: +id,
+        tableConfigurationId: +tableConfigurationId
+      }
+    })
+      .then(() => {})
+      .catch(() =>
+        notifyError('Error during the connection set to watchlist process')
+      )
+  }
+
+  const config = data && data.updateWatchlist.tableConfiguration
+  const { id } = config || EMPTY_OBJ
+
+  return { updateWatchlistTableConfig, updatedWatchlistTableConfigId: id }
 }

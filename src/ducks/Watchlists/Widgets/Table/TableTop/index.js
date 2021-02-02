@@ -24,6 +24,7 @@ const TableTop = ({
   refetchAssets,
   activeColumns,
   updateActiveColumnsKeys,
+  isAuthor,
   watchlist = EMPTY_OBJ
 }) => {
   const [refreshTimestamp, setRefreshTimestamp] = useState(Date.now)
@@ -55,7 +56,8 @@ const TableTop = ({
       )}
       <div className={styles.actions}>
         <ColumnsToggler
-          watchlistTableConfig={watchlist.tableConfiguration}
+          watchlist={watchlist}
+          isAuthor={isAuthor}
           activeColumns={activeColumns}
           updateActiveColumnsKeys={updateActiveColumnsKeys}
         />
