@@ -1,16 +1,7 @@
 @import '~@santiment-network/ui/mixins';
 
-.infra {
-  padding: 4px 8px;
-  margin-right: 4px;
-  background: var(--white);
-  border: 1px solid var(--porcelain);
-  border-radius: $border-radius;
-}
-
 .wrapper {
-  display: flex;
-  flex-direction: column;
+  display: block;
   border: 1px solid var(--porcelain);
   border-radius: 4px;
   cursor: pointer;
@@ -22,10 +13,6 @@
   &:hover {
     border-color: var(--mystic);
     color: var(--jungle-green);
-
-    .infra {
-      color: var(--rhino);
-    }
   }
 }
 
@@ -50,7 +37,7 @@
   margin-left: auto;
 }
 
-.marketcap {
+.middle {
   @include text('h4');
 
   display: flex;
@@ -59,36 +46,7 @@
   margin: 12px 0 8px;
 }
 
-.change {
+.bottom {
   color: var(--casper);
   display: flex;
-}
-
-.infrastructures {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: auto;
-}
-
-.addresses {
-  display: flex;
-  align-items: flex-end;
-  margin: 6px 0 8px 0;
-  color: var(--waterloo);
-
-  @include text('body-3');
-}
-
-.countAddresses {
-  @include text('h4');
-
-  line-height: 28px;
-  color: var(--rhino);
-  margin-right: 8px;
-}
-
-.info {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
 }

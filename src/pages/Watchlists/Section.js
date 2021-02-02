@@ -2,12 +2,20 @@ import React from 'react'
 import cx from 'classnames'
 import styles from './index.module.scss'
 
-const Section = ({ children, title, isGrid, className }) => (
+export const Title = ({ children }) => (
+  <h2 className={styles.title}>{children}</h2>
+)
+
+export const Content = ({ className, children, isGrid }) => (
+  <div className={cx(styles.section, className, isGrid && styles.grid)}>
+    {children}
+  </div>
+)
+
+const Section = ({ children, title, isGrid }) => (
   <>
-    {title && <h2 className={styles.title}>{title}</h2>}
-    <div className={cx(styles.section, className, isGrid && styles.grid)}>
-      {children}
-    </div>
+    <Title>{title}</Title>
+    <Content isGrid={isGrid}>{children}</Content>
   </>
 )
 
