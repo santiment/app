@@ -52,7 +52,8 @@ const Toggler = ({
         watchlist &&
         watchlist.tableConfiguration &&
         selectedConfigId === watchlist.tableConfiguration.id &&
-        !tableConfig
+        !tableConfig &&
+        !configLoading
       ) {
         return watchlist.tableConfiguration
       } else {
@@ -100,8 +101,10 @@ const Toggler = ({
   useEffect(
     () => {
       setCurrActiveKeys(activeKeys)
-      if (!open && !metricsLoading) {
-        updateActiveColumnsKeys(activeKeys)
+      if (!open && !isLoading) {
+        if (activeKeys) {
+          updateActiveColumnsKeys(activeKeys)
+        }
         setCurrentSearch('')
       }
     },
