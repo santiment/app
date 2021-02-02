@@ -31,6 +31,7 @@ import { showNotification } from '../../../actions/rootActions'
 import { store } from '../../../redux'
 import { ADDRESS_WATCHLISTS_QUERY } from './queries'
 import NotificationActions from '../../../components/NotificationActions/NotificationActions'
+import { ADDRESS_WATCHLIST_QUERY } from '../../WatchlistAddressesTable/gql/queries'
 
 const DEFAULT_WATCHLISTS = []
 const DEFAULT_SCREENERS = [DEFAULT_SCREENER]
@@ -56,15 +57,18 @@ function buildWatchlistsCacheUpdater (reducer) {
 
 function buildWatchlistCacheUpdater (reducer) {
   return (cache, { data }) => {
+    const query =
+      data.updateWatchlist.type === BLOCKCHAIN_ADDRESS
+        ? ADDRESS_WATCHLIST_QUERY
+        : WATCHLIST_QUERY
+
     const watchlist = cache.readQuery({
-      query: WATCHLIST_QUERY,
+      query: query,
       variables: { id: +data.updateWatchlist.id }
     })
 
-    debugger
-
     cache.writeQuery({
-      query: WATCHLIST_QUERY,
+      query: query,
       variables: { id: +data.updateWatchlist.id },
       data: { watchlist: reducer(data, watchlist) }
     })
@@ -82,7 +86,10 @@ const updateWatchlistsOnDelete = buildWatchlistsCacheUpdater(
 )
 
 export const updateWatchlistOnEdit = buildWatchlistCacheUpdater(
-  ({ updateWatchlist }, watchlist) => ({ ...watchlist, ...updateWatchlist })
+  ({ updateWatchlist }, watchlist) => {
+    debugger
+    return { ...watchlist, ...updateWatchlist }
+  }
 )
 
 export function useWatchlist ({ id, skip }) {

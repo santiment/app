@@ -28,8 +28,6 @@ const SaveAs = ({
     return <LoginPopup>{trigger}</LoginPopup>
   }
 
-  console.log(type)
-
   return (
     <EditForm
       lists={lists}

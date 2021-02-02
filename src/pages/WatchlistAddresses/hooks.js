@@ -1,13 +1,13 @@
 import { useMemo } from 'react'
 import { useQuery } from '@apollo/react-hooks'
-import { WATCHLIST_QUERY } from '../../ducks/WatchlistAddressesTable/gql/queries'
+import { ADDRESS_WATCHLIST_QUERY } from '../../ducks/WatchlistAddressesTable/gql/queries'
 import { useUser } from '../../stores/user'
 
 const OBJECT = {}
 const ARRAY = []
 
 export function useAddressWatchlist (id) {
-  const { data, loading } = useQuery(WATCHLIST_QUERY, {
+  const { data, loading } = useQuery(ADDRESS_WATCHLIST_QUERY, {
     variables: { id }
   })
 
