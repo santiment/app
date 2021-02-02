@@ -5,15 +5,15 @@ import { useUser } from '../../stores/user'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import StoriesList from '../../components/Stories/StoriesList'
 import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
-import WatchlistCard, {
-  WatchlistCards
-} from '../../ducks/Watchlists/Cards/Card'
+import WatchlistCard from '../../ducks/Watchlists/Cards/ProjectCard'
+import WatchlistAddressCard from '../../ducks/Watchlists/Cards/AddressCard'
+import { WatchlistCards } from '../../ducks/Watchlists/Cards/Card'
 import FeaturedWatchlistCards from '../../ducks/Watchlists/Cards/Featured'
 import { WatchlistEmptySection } from '../../ducks/Watchlists/Cards/MyWatchlist'
 import {
+  useAddressWatchlists,
   useUserWatchlists,
-  useUserScreeners,
-  useAddressWatchlists
+  useUserScreeners
 } from '../../ducks/Watchlists/gql/queries'
 import NewWatchlistCard from '../../ducks/Watchlists/Cards/NewCard'
 import {
@@ -35,7 +35,7 @@ const LoginBanner = ({ isDesktop }) =>
     <MobileAnonBanner isFullScreen wrapperClassName={styles.login} />
   )
 
-const Card = props => {
+const QueuedProjectCard = props => {
   const { isRendered, onLoad } = useRenderQueueItem()
 
   return (
@@ -47,28 +47,22 @@ const Card = props => {
   )
 }
 
-const Cards = ({ type, path, watchlists, isAddress }) => (
+const Cards = ({ type, watchlists, Card = QueuedProjectCard }) => (
   <>
     <WatchlistCards
       className={styles.card}
       Card={Card}
       watchlists={watchlists}
-      path={path}
-      isAddress={isAddress}
     />
 
     <DesktopOnly>
-      <NewWatchlistCard type={type} isAddress={isAddress} />
+      <NewWatchlistCard type={type} />
     </DesktopOnly>
   </>
 )
 
-const MyWatchlists = ({ data, isDesktop }) => {
+const MyWatchlists = ({ data, Card }) => {
   const [watchlists, isLoading] = data
-  const addressesWatchlists = useAddressWatchlists().watchlists
-
-  const { isLoggedIn } = useUser()
-
   if (isLoading) return null
 
   if (watchlists.length === 0) {
@@ -80,38 +74,10 @@ const MyWatchlists = ({ data, isDesktop }) => {
     )
   }
 
-  return (
-    <>
-      <div className={styles.title}>My watchlists</div>
-
-      <div className={styles.block}>
-        <div className={styles.assets}>Assets</div>
-        <Section
-          isGrid={isDesktop && isLoggedIn && data[0].length > 0}
-          className={styles.innerSection}
-        >
-          <Cards watchlists={watchlists} path='/watchlist/projects/' />
-        </Section>
-      </div>
-
-      <div className={styles.block}>
-        <div className={styles.assets}>Addresses</div>
-        <Section
-          isGrid={isDesktop && isLoggedIn && data[0].length > 0}
-          className={styles.innerSection}
-        >
-          <Cards
-            watchlists={addressesWatchlists}
-            isAddress
-            path='/watchlist/addresses/'
-          />
-        </Section>
-      </div>
-    </>
-  )
+  return <Cards Card={Card} watchlists={watchlists} />
 }
 
-const MyScreeners = () => {
+const MyScreeners = ({ Card }) => {
   const [watchlists, isLoading] = useUserScreeners()
   if (isLoading) return null
 
@@ -121,6 +87,8 @@ const MyScreeners = () => {
 const Watchlists = ({ isDesktop }) => {
   const { isLoggedIn, loading } = useUser()
   const userWatchlistsData = useUserWatchlists()
+  const userAddressesWatchlistsData = useAddressWatchlists()
+  console.log(userAddressesWatchlistsData)
 
   return (
     <Page
@@ -136,17 +104,37 @@ const Watchlists = ({ isDesktop }) => {
 
       <DesktopOnly>
         <Section isGrid title='Explore watchlists'>
-          <FeaturedWatchlistCards Card={Card} />
+          <FeaturedWatchlistCards Card={QueuedProjectCard} />
         </Section>
       </DesktopOnly>
 
-      <div title='My watchlists'>
+      <Section
+        isGrid={isDesktop && isLoggedIn && userWatchlistsData[0].length > 0}
+        title='My watchlists'
+      >
         {isLoggedIn ? (
-          <MyWatchlists data={userWatchlistsData} isDesktop={isDesktop} />
+          <MyWatchlists data={userWatchlistsData} />
         ) : (
           loading || <LoginBanner isDesktop={isDesktop} />
         )}
-      </div>
+      </Section>
+
+      <Section
+        isGrid={isDesktop && isLoggedIn && userWatchlistsData[0].length > 0}
+        title='My addresses watchlists'
+      >
+        {isLoggedIn ? (
+          <MyWatchlists
+            Card={WatchlistAddressCard}
+            data={[
+              userAddressesWatchlistsData.watchlists,
+              userAddressesWatchlistsData.isLoading
+            ]}
+          />
+        ) : (
+          loading || <LoginBanner isDesktop={isDesktop} />
+        )}
+      </Section>
 
       <Section isGrid={isDesktop} title='My screeners'>
         <MyScreeners />
