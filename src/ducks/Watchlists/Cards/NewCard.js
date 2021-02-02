@@ -29,15 +29,15 @@ const Trigger = ({ type, showProBanner, ...props }) => {
   )
 }
 
-const NewCard = ({ type = 'watchlist' }) => {
+const NewCard = ({ type = 'watchlist', ...props }) => {
   if (type === 'watchlist') {
-    return <NewWatchlistCard />
+    return <NewWatchlistCard {...props} />
   } else {
-    return <NewScreenerCard />
+    return <NewScreenerCard {...props} />
   }
 }
 
-const NewWatchlistCard = () => {
+const NewWatchlistCard = ({ createWatchlist }) => {
   const [watchlists = []] = useUserWatchlists()
   let lists = watchlists
 
@@ -47,6 +47,7 @@ const NewWatchlistCard = () => {
         lists={lists}
         trigger={<Trigger type='watchlist' />}
         type='watchlist'
+        createWatchlist={createWatchlist}
       />
     </LoginPopup>
   )

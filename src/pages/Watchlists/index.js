@@ -23,6 +23,7 @@ import {
 } from '../../ducks/renderQueue/sized'
 import MobileAnonBanner from '../../ducks/Watchlists/Templates/Anon/WatchlistsAnon'
 import InlineBanner from '../../components/banners/feature/InlineBanner'
+import { createWatchlist as createAddressesWatchlist } from '../../ducks/HistoricalBalance/Address/AddToWatchlist'
 import styles from './index.module.scss'
 
 const LoginBanner = ({ isDesktop }) =>
@@ -47,7 +48,12 @@ const QueuedProjectCard = props => {
   )
 }
 
-const Cards = ({ type, watchlists, Card = QueuedProjectCard }) => (
+const Cards = ({
+  type,
+  watchlists,
+  Card = QueuedProjectCard,
+  createWatchlist
+}) => (
   <>
     <WatchlistCards
       className={styles.card}
@@ -56,12 +62,12 @@ const Cards = ({ type, watchlists, Card = QueuedProjectCard }) => (
     />
 
     <DesktopOnly>
-      <NewWatchlistCard type={type} />
+      <NewWatchlistCard type={type} createWatchlist={createWatchlist} />
     </DesktopOnly>
   </>
 )
 
-const MyWatchlists = ({ data, Card }) => {
+const MyWatchlists = ({ data, Card, createWatchlist }) => {
   const [watchlists, isLoading] = data
   if (isLoading) return null
 
@@ -74,7 +80,13 @@ const MyWatchlists = ({ data, Card }) => {
     )
   }
 
-  return <Cards Card={Card} watchlists={watchlists} />
+  return (
+    <Cards
+      Card={Card}
+      watchlists={watchlists}
+      createWatchlist={createWatchlist}
+    />
+  )
 }
 
 const MyScreeners = ({ Card }) => {
@@ -125,6 +137,7 @@ const Watchlists = ({ isDesktop }) => {
       >
         {isLoggedIn ? (
           <MyWatchlists
+            createWatchlist={createAddressesWatchlist}
             Card={WatchlistAddressCard}
             data={[
               userAddressesWatchlistsData.watchlists,
