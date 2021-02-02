@@ -1,0 +1,15 @@
+@import '~@santiment-network/ui/mixins';
+
+.address {
+  @include text('body-3');
+
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  margin: 0 0 3px 6px;
+  color: var(--waterloo);
+}
+
+.middle {
+  margin: 6px 0 8px;
+}

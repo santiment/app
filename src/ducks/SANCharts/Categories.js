@@ -1,6 +1,6 @@
 import React from 'react'
 import { useFeaturedWatchlists } from '../Watchlists/gql/queries'
-import WatchlistCard from '../Watchlists/Cards/Card'
+import WatchlistCard from '../Watchlists/Cards/ProjectCard'
 
 const Categories = ({ onClick, classes = {} }) => {
   const [watchlists = []] = useFeaturedWatchlists()
