@@ -1,11 +1,11 @@
 import cx from 'classnames'
 import React, { useEffect } from 'react'
+import { SortableContainer, SortableElement } from 'react-sortable-hoc'
 import Header from './Header'
 import ChartPreview from './ChartPreview'
 import { Phase } from '../phases'
 import { useKeyDown } from '../hooks'
 import { Plus } from '../../../components/Illustrations/Plus'
-import { SortableContainer, SortableElement } from 'react-sortable-hoc'
 import styles from './Overview.module.scss'
 
 const SortableItem = SortableElement(
