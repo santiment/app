@@ -1,5 +1,5 @@
 import React from 'react'
-import Section from './Section'
+import Section, { Title, Content } from './Section'
 import Page from '../../ducks/Page'
 import { useUser } from '../../stores/user'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
@@ -67,11 +67,19 @@ const Cards = ({
   </>
 )
 
-const MyWatchlists = ({ data, Card, createWatchlist }) => {
+const MyWatchlists = ({
+  data,
+  addressesData,
+  Card,
+  createWatchlist,
+  isDesktop
+}) => {
   const [watchlists, isLoading] = data
-  if (isLoading) return null
+  const [addressesWatchlists, isAddressesLoading] = addressesData
 
-  if (watchlists.length === 0) {
+  if (isLoading && isAddressesLoading) return null
+
+  if (watchlists.length === 0 && addressesWatchlists.length === 0) {
     return (
       <WatchlistEmptySection
         wrapperClassName={styles.empty}
@@ -81,11 +89,21 @@ const MyWatchlists = ({ data, Card, createWatchlist }) => {
   }
 
   return (
-    <Cards
-      Card={Card}
-      watchlists={watchlists}
-      createWatchlist={createWatchlist}
-    />
+    <>
+      <h3 className={styles.subtitle}>Projects</h3>
+      <Content isGrid={isDesktop} className={styles.projects}>
+        <Cards Card={Card} watchlists={watchlists} />
+      </Content>
+
+      <h3 className={styles.subtitle}>Addresses</h3>
+      <Content isGrid={isDesktop} className={styles.addresses}>
+        <Cards
+          Card={WatchlistAddressCard}
+          watchlists={addressesWatchlists}
+          createWatchlist={createAddressesWatchlist}
+        />
+      </Content>
+    </>
   )
 }
 
@@ -99,8 +117,11 @@ const MyScreeners = ({ Card }) => {
 const Watchlists = ({ isDesktop }) => {
   const { isLoggedIn, loading } = useUser()
   const userWatchlistsData = useUserWatchlists()
-  const userAddressesWatchlistsData = useAddressWatchlists()
-  console.log(userAddressesWatchlistsData)
+  const addressesWatchlistsData = useAddressWatchlists()
+  const userAddressesWatchlistsData = [
+    addressesWatchlistsData.watchlists,
+    addressesWatchlistsData.isLoading
+  ]
 
   return (
     <Page
@@ -120,34 +141,16 @@ const Watchlists = ({ isDesktop }) => {
         </Section>
       </DesktopOnly>
 
-      <Section
-        isGrid={isDesktop && isLoggedIn && userWatchlistsData[0].length > 0}
-        title='My watchlists'
-      >
-        {isLoggedIn ? (
-          <MyWatchlists data={userWatchlistsData} />
-        ) : (
-          loading || <LoginBanner isDesktop={isDesktop} />
-        )}
-      </Section>
-
-      <Section
-        isGrid={isDesktop && isLoggedIn && userWatchlistsData[0].length > 0}
-        title='My addresses watchlists'
-      >
-        {isLoggedIn ? (
-          <MyWatchlists
-            createWatchlist={createAddressesWatchlist}
-            Card={WatchlistAddressCard}
-            data={[
-              userAddressesWatchlistsData.watchlists,
-              userAddressesWatchlistsData.isLoading
-            ]}
-          />
-        ) : (
-          loading || <LoginBanner isDesktop={isDesktop} />
-        )}
-      </Section>
+      <Title>My watchlists</Title>
+      {isLoggedIn ? (
+        <MyWatchlists
+          data={userWatchlistsData}
+          addressesData={userAddressesWatchlistsData}
+          isDesktop={isDesktop}
+        />
+      ) : (
+        loading || <LoginBanner isDesktop={isDesktop} />
+      )}
 
       <Section isGrid={isDesktop} title='My screeners'>
         <MyScreeners />
