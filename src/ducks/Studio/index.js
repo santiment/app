@@ -309,6 +309,7 @@ export const Studio = ({
             onClose={onOverviewClose}
             onWidgetClick={onWidgetClick}
             onNewChartClick={onNewChartClick}
+            setWidgets={setWidgets}
           />
         )}
       </main>

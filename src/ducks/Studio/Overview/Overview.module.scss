@@ -40,6 +40,7 @@ $preview-height: 250px;
   position: relative;
   overflow: hidden;
   background: var(--white);
+  z-index: 20;
 
   canvas {
     width: 100%;
@@ -80,6 +81,15 @@ $preview-height: 250px;
 
   &.loading::after {
     content: '';
+  }
+}
+
+.dragged {
+  pointer-events: initial !important;
+  cursor: grabbing;
+
+  &::after {
+    display: none;
   }
 }
 

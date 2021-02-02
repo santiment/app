@@ -13,6 +13,7 @@
   width: calc(100% - #{260px + 25px * 2});
   transform: translate(-50%, 120px);
   transition: transform 250ms ease-out;
+  z-index: 20;
 
   &_visible {
     transform: translate(-50%, 0);
