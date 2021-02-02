@@ -2,7 +2,7 @@ import React from 'react'
 import Card from './Card'
 import styles from './AddressCard.module.scss'
 
-const AddressCard = ({ ...props }) => {
+const AddressCard = props => {
   const { listItems } = props.watchlist
   const { length } = listItems
 
