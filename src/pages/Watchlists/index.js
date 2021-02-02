@@ -75,16 +75,18 @@ const MyWatchlists = ({
   isDesktop
 }) => {
   const [watchlists, isLoading] = data
-  const [addressesWatchlists, isAddressesLoading] = addressesData
+  const addressesWatchlists = addressesData.watchlists
 
-  if (isLoading && isAddressesLoading) return null
+  if (isLoading && addressesData.isAddressesLoading) return null
 
   if (watchlists.length === 0 && addressesWatchlists.length === 0) {
     return (
-      <WatchlistEmptySection
-        wrapperClassName={styles.empty}
-        className={styles.empty__img}
-      />
+      <Content>
+        <WatchlistEmptySection
+          wrapperClassName={styles.empty}
+          className={styles.empty__img}
+        />
+      </Content>
     )
   }
 
@@ -117,11 +119,7 @@ const MyScreeners = ({ Card }) => {
 const Watchlists = ({ isDesktop }) => {
   const { isLoggedIn, loading } = useUser()
   const userWatchlistsData = useUserWatchlists()
-  const addressesWatchlistsData = useAddressWatchlists()
-  const userAddressesWatchlistsData = [
-    addressesWatchlistsData.watchlists,
-    addressesWatchlistsData.isLoading
-  ]
+  const userAddressesWatchlistsData = useAddressWatchlists()
 
   return (
     <Page
@@ -149,7 +147,11 @@ const Watchlists = ({ isDesktop }) => {
           isDesktop={isDesktop}
         />
       ) : (
-        loading || <LoginBanner isDesktop={isDesktop} />
+        loading || (
+          <Content>
+            <LoginBanner isDesktop={isDesktop} />
+          </Content>
+        )
       )}
 
       <Section isGrid={isDesktop} title='My screeners'>
