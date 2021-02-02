@@ -61,6 +61,8 @@ function buildWatchlistCacheUpdater (reducer) {
       variables: { id: +data.updateWatchlist.id }
     })
 
+    debugger
+
     cache.writeQuery({
       query: WATCHLIST_QUERY,
       variables: { id: +data.updateWatchlist.id },
@@ -79,7 +81,7 @@ const updateWatchlistsOnDelete = buildWatchlistsCacheUpdater(
   }
 )
 
-const updateWatchlistOnEdit = buildWatchlistCacheUpdater(
+export const updateWatchlistOnEdit = buildWatchlistCacheUpdater(
   ({ updateWatchlist }, watchlist) => ({ ...watchlist, ...updateWatchlist })
 )
 

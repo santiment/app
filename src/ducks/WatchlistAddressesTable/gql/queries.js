@@ -12,6 +12,7 @@ export const WATCHLIST_GENERAL_FRAGMENT = gql`
     isMonitored
     isPublic
     type
+    slug
     user {
       id
     }

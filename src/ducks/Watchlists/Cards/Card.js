@@ -57,7 +57,11 @@ WatchlistCard.defaultProps = {
   isWithVisibility: true
 }
 
-export const WatchlistCards = ({ watchlists, Card, ...props }) =>
+export const WatchlistCards = ({
+  watchlists,
+  Card = WatchlistCard,
+  ...props
+}) =>
   watchlists.map(watchlist => (
     <Card {...props} key={watchlist.id} watchlist={watchlist} />
   ))

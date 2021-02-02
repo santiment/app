@@ -7,7 +7,6 @@ import { useUserWatchlists, useUserScreeners } from '../gql/hooks'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import NewWatchlist from '../Actions/New'
 import { Plus } from '../../../components/Illustrations/Plus'
-import { BLOCKCHAIN_ADDRESS } from '../utils'
 import styles from './NewCard.module.scss'
 import cardStyles from './Card.module.scss'
 

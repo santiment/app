@@ -1,9 +1,13 @@
 import gql from 'graphql-tag'
 import { ADDRESS_WATCHLISTS_QUERY } from './queries'
 import { client } from '../../../apollo'
-import { SHORT_WATCHLIST_GENERAL_FRAGMENT } from '../../WatchlistAddressesTable/gql/queries'
+import {
+  SHORT_LIST_ITEMS_FRAGMENT,
+  SHORT_WATCHLIST_GENERAL_FRAGMENT
+} from '../../WatchlistAddressesTable/gql/queries'
 import { normalizeItems } from './helpers'
 import { BLOCKCHAIN_ADDRESS, PROJECT } from '../utils'
+import { updateWatchlistOnEdit } from './hooks'
 
 export const UPDATE_WATCHLIST_SHORT_MUTATION = gql`
   mutation updateWatchlist(
@@ -22,9 +26,12 @@ export const UPDATE_WATCHLIST_SHORT_MUTATION = gql`
       function: $function
       listItems: $listItems
     ) {
-      id
+      ...generalFragment
+      ...listItemsFragment
     }
   }
+  ${SHORT_WATCHLIST_GENERAL_FRAGMENT}
+  ${SHORT_LIST_ITEMS_FRAGMENT}
 `
 
 export const CREATE_WATCHLIST_MUTATION = gql`
@@ -66,6 +73,7 @@ function normalizeListItems ({ listItems, ...rest }) {
 export const updateWatchlistShort = variables =>
   client.mutate({
     mutation: UPDATE_WATCHLIST_SHORT_MUTATION,
+    update: updateWatchlistOnEdit,
     variables: normalizeListItems(variables)
   })
 

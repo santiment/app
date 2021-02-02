@@ -1,0 +1,30 @@
+@import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins.scss';
+
+.wrapper {
+  padding: 10px 24px 40px 24px;
+  width: 400px;
+  overflow-y: hidden;
+
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
+  }
+}
+
+.contentWrapper {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.actions {
+  @include responsive('tablet', 'laptop', 'desktop') {
+    padding-top: 20px;
+  }
+}
+
+.approve {
+  @include responsive('tablet', 'laptop', 'desktop') {
+    margin-left: 16px;
+  }
+}
