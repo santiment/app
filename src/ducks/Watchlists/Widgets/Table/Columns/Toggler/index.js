@@ -102,13 +102,21 @@ const Toggler = ({
     () => {
       setCurrActiveKeys(activeKeys)
       if (!open && !isLoading) {
-        if (activeKeys) {
+        if (
+          activeKeys &&
+          !isEqual(new Set(activeKeys), new Set(currActiveKeys))
+        ) {
           updateActiveColumnsKeys(activeKeys)
         }
         setCurrentSearch('')
       }
     },
     [open]
+  )
+
+  const hasChanges = useMemo(
+    () => !isEqual(new Set(currActiveKeys), new Set(activeKeys)),
+    [activeKeys]
   )
 
   useEffect(
@@ -178,7 +186,9 @@ const Toggler = ({
           className={styles.wrapper}
           style={getShadowVars(isNightMode)}
         >
-          <div className={styles.buttons}>
+          <div
+            className={cx(styles.buttons, hasChanges && styles.buttons__active)}
+          >
             <Button
               variant='fill'
               accent='positive'

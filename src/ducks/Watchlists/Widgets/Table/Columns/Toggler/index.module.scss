@@ -55,7 +55,7 @@
   flex-direction: column;
   overflow-y: auto;
   height: calc(100vh - 300px);
-  max-height: 700px;
+  max-height: 520px;
 }
 
 .search {
@@ -71,10 +71,19 @@
   right: 0;
   padding: 16px 24px;
   z-index: 1;
+  transform: translateY(16px);
+  transition: transform 0.3s ease-in, opacity 0.2s ease-in;
+  opacity: 0;
 
   & button {
     margin-right: 16px;
     width: 80px;
     justify-content: center;
+  }
+
+  &__active {
+    transition: transform 0.3s ease-out;
+    opacity: 1;
+    transform: translateY(0);
   }
 }
