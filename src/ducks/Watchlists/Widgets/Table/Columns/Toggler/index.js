@@ -178,6 +178,25 @@ const Toggler = ({
           className={styles.wrapper}
           style={getShadowVars(isNightMode)}
         >
+          <div className={styles.buttons}>
+            <Button
+              variant='fill'
+              accent='positive'
+              onClick={() => setOpen(false)}
+            >
+              Apply
+            </Button>
+            <Button
+              border
+              accent='green'
+              onClick={() => {
+                setActiveKeys(currActiveKeys)
+                setOpen(false)
+              }}
+            >
+              Cancel
+            </Button>
+          </div>
           <Search
             onChange={value => setCurrentSearch(value)}
             placeholder='Type to search'

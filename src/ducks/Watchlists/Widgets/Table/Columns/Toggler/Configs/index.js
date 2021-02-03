@@ -37,8 +37,8 @@ const ConfigsMenu = ({
   activeColumns,
   isLoading
 }) => {
-  const userTableConfigs = useUserTableConfigs()
   const featuredTableConfigurations = useFeaturedTableConfigs()
+  const userTableConfigs = useUserTableConfigs()
 
   const { createTableConfig } = useCreateTableConfig()
   const { deleteTableConfig } = useDeleteTableConfig()
@@ -47,15 +47,11 @@ const ConfigsMenu = ({
   useEffect(
     () => {
       if (!config && featuredTableConfigurations.length !== 0) {
-        if (userTableConfigs.length !== 0) {
-          changeConfig(userTableConfigs[0].id)
-        } else {
-          const idx = featuredTableConfigurations.length - 1
-          changeConfig(featuredTableConfigurations[idx].id)
-        }
+        const idx = featuredTableConfigurations.length - 1
+        changeConfig(featuredTableConfigurations[idx].id)
       }
     },
-    [userTableConfigs, featuredTableConfigurations]
+    [featuredTableConfigurations]
   )
 
   const hasUnsavedChanges = useMemo(
