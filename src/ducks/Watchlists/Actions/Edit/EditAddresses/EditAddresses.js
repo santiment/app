@@ -1,26 +1,26 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import Input from '@santiment-network/ui/Input'
+import Button from '@santiment-network/ui/Button'
 import { useDialogState } from '../../../../../hooks/dialog'
 import { updateWatchlistShort } from '../../../gql/mutations'
-import { isEthStrictAddress } from '../../../../../utils/utils'
 import EditableList, { rowAddressRenderer } from '../EditableList'
 import { hasAddress } from '../../../utils'
+import { getAddressInfrastructure } from '../../../../../utils/address'
 import styles from './EditAddresses.module.scss'
 
 const updateWatchlist = ({ id, listItems }) =>
   updateWatchlistShort({ id: +id, listItems })
 
-export const NOT_VALID_ADDRESS = 'Not valid ETH address'
+export const NOT_VALID_ADDRESS = 'Not supported address'
 
-const extractAddress = ({ blockchainAddress }) =>
-  blockchainAddress && blockchainAddress.address
+const extractAddress = ({ blockchainAddress }) => blockchainAddress
 
-const mapAddressToAPIType = (address, infrastructure = 'ETH') => {
+const mapAddressToAPIType = ({ address, infrastructure }) => {
   return {
     blockchainAddress: {
       address,
-      infrastructure
+      infrastructure: infrastructure || getAddressInfrastructure(address)
     }
   }
 }
@@ -39,6 +39,7 @@ const EditAddresses = ({ trigger, watchlist }) => {
 
   const [items, setItems] = useState(listItems)
   const [error, setError] = useState(false)
+  const [currentAddress, setCurrentValue] = useState('')
 
   useEffect(
     () => {
@@ -57,29 +58,35 @@ const EditAddresses = ({ trigger, watchlist }) => {
   }
 
   const toggle = ({ item, listItems, isInList }) => {
+    debugger
     setItems(
-      isInList ? listItems.filter(a => a !== item) : [item, ...listItems]
+      isInList
+        ? listItems.filter(a => a.address !== item.address)
+        : [item, ...listItems]
     )
   }
 
-  const onInputChangeDebounced = ({ target: { value } }) => {
-    const isValid = isEthStrictAddress(value)
-    if (isValid && !items.find(x => x === value)) {
-      toggle({
-        item: value,
-        isInList: hasAddress(items, value),
-        listItems: items
-      })
-
-      setError(false)
+  function onAdd () {
+    const newItem = {
+      address: currentAddress,
+      infrastructure: getAddressInfrastructure(currentAddress)
     }
 
-    if (value && !isValid) {
-      setError(true)
-    }
+    toggle({
+      item: newItem,
+      isInList: hasAddress(items, newItem),
+      listItems: items
+    })
   }
 
-  console.log('error', error)
+  const onInputChangeDebounced = ({ target: { value } }) => {
+    const isValid = getAddressInfrastructure(value)
+    if (isValid && !items.find(x => x === value)) {
+      setCurrentValue(value)
+    }
+
+    setError(!value || !isValid)
+  }
 
   return (
     <Dialog
@@ -90,14 +97,28 @@ const EditAddresses = ({ trigger, watchlist }) => {
       open={isOpened}
     >
       <Dialog.ScrollContent className={styles.wrapper}>
-        <Input
-          autoFocus
-          className={styles.input}
-          placeholder='Enter your email'
-          onChange={onInputChangeDebounced}
-          errorText={NOT_VALID_ADDRESS}
-          isError={!!error}
-        />
+        <div className={styles.search}>
+          <div className={styles.inputContainer}>
+            <Input
+              autoFocus
+              className={styles.input}
+              placeholder='Enter your email'
+              onChange={onInputChangeDebounced}
+              errorText={error && NOT_VALID_ADDRESS}
+              isError={!!error}
+            />
+          </div>
+
+          <Button
+            variant='fill'
+            className={styles.addBtn}
+            accent='positive'
+            disabled={error}
+            onClick={onAdd}
+          >
+            Add
+          </Button>
+        </div>
 
         <div className={styles.contentWrapper}>
           <EditableList
@@ -107,6 +128,8 @@ const EditAddresses = ({ trigger, watchlist }) => {
             listItems={items}
             onToggle={toggle}
             rowRenderer={rowAddressRenderer}
+            height={220}
+            rowHeight={60}
           />
         </div>
       </Dialog.ScrollContent>

@@ -29,6 +29,15 @@
   justify-content: space-between;
 }
 
+.address {
+  @include text('body-3');
+
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .name {
   outline: none;
   margin-right: 5px;

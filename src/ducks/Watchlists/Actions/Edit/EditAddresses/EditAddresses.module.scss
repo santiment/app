@@ -2,7 +2,7 @@
 @import '~@santiment-network/ui/mixins.scss';
 
 .wrapper {
-  padding: 10px 24px 40px 24px;
+  padding: 10px 24px 10px 24px;
   width: 400px;
   overflow-y: hidden;
 
@@ -12,7 +12,7 @@
 }
 
 .contentWrapper {
-  margin-top: 24px;
+  margin-top: 16px;
   display: flex;
   flex-direction: column;
 }
@@ -27,4 +27,17 @@
   @include responsive('tablet', 'laptop', 'desktop') {
     margin-left: 16px;
   }
+}
+
+.inputContainer {
+  flex: 1;
+}
+
+.search {
+  display: flex;
+  justify-content: space-between;
+}
+
+.addBtn {
+  margin-left: 8px;
 }

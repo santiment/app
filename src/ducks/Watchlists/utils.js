@@ -46,9 +46,9 @@ export function hasAssetById ({ id, listItems }) {
   return listItems.some(({ id: projectId }) => projectId === id)
 }
 
-export function hasAddress (listItems, address) {
-  if (!address || !listItems) return
-  return listItems.some(item => item === address)
+export function hasAddress (listItems, source) {
+  if (!source || !listItems) return
+  return listItems.some(({ address: target }) => target === source.address)
 }
 
 export const getWatchlistName = ({ type, location: { search } }) => {

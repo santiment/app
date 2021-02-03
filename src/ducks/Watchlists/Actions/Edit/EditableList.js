@@ -54,13 +54,15 @@ export const rowAddressRenderer = ({
   isContained,
   onToggle
 }) => {
-  const address = items[index]
-  const isInList = hasAddress(listItems, address)
+  const source = items[index]
+  const { address, infrastructure } = source
+  const isInList = hasAddress(listItems, source)
 
   return (
-    <div key={key} className={styles.project} style={style}>
+    <div key={key} className={styles.address} style={style}>
       <div>
         <Label className={styles.name}>{address}</Label>
+        <Label accent='waterloo'>{infrastructure}</Label>
       </div>
       <Button
         className={cx(styles.actionBtn, styles.deleteAddress)}
@@ -68,7 +70,7 @@ export const rowAddressRenderer = ({
         disabled={isContained ? false : isInList}
         onClick={() =>
           onToggle({
-            item: items[index],
+            item: source,
             listItems,
             isInList
           })
@@ -85,10 +87,12 @@ const EditableList = ({
   listItems,
   isContained,
   onToggle,
+  height,
+  rowHeight = ROW_HEIGHT,
   rowRenderer = rowAssetsRenderer
 }) => {
   const wrapperStyles = {
-    height: items.length > 4 ? '145px' : `${32 * items.length}px`,
+    height: height || (items.length > 4 ? '145px' : `${32 * items.length}px`),
     paddingRight: items.length > 4 ? '0' : `5px`
   }
 
@@ -99,7 +103,7 @@ const EditableList = ({
           <List
             width={width}
             height={height}
-            rowHeight={ROW_HEIGHT}
+            rowHeight={rowHeight}
             rowCount={items.length}
             overscanRowCount={5}
             rowRenderer={props =>
