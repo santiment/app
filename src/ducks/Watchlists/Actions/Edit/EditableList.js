@@ -56,7 +56,7 @@ export const rowAddressRenderer = ({
   onToggle
 }) => {
   const source = items[index]
-  const { address, infrastructure } = source
+  const { address } = source
   const isInList = hasAddress(listItems, source)
 
   return (
