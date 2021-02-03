@@ -42,8 +42,13 @@ export function isDefaultScreenerPath (pathname) {
 }
 
 export function hasAssetById ({ id, listItems }) {
-  if (!id) return
+  if (!id || !listItems) return
   return listItems.some(({ id: projectId }) => projectId === id)
+}
+
+export function hasAddress (listItems, source) {
+  if (!source || !listItems) return
+  return listItems.some(({ address: target }) => target === source.address)
 }
 
 export const getWatchlistName = ({ type, location: { search } }) => {
@@ -205,4 +210,17 @@ export const useScreenerUrlUpdaters = (widgets, setWidgets) => {
 
 export function getNormalizedListItems (listItems) {
   return listItems.map(val => ({ project_id: +val.project.id }))
+}
+
+export const PROJECT = 'PROJECT'
+export const BLOCKCHAIN_ADDRESS = 'BLOCKCHAIN_ADDRESS'
+
+export function getWatchlistAlias (type) {
+  switch (type) {
+    case BLOCKCHAIN_ADDRESS:
+    case PROJECT:
+      return 'watchlist'
+    default:
+      return type
+  }
 }

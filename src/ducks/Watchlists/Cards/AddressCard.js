@@ -17,7 +17,7 @@ const AddressCard = props => {
             <div className={styles.address}>address{length > 1 && 'es'}</div>
           </>
         ) : (
-          'No addresses'
+          <div className={styles.address}>No addresses</div>
         )
       }
     />

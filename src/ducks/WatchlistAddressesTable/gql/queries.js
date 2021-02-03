@@ -11,6 +11,7 @@ export const WATCHLIST_GENERAL_FRAGMENT = gql`
     insertedAt
     isMonitored
     isPublic
+    type
     user {
       id
     }
@@ -23,6 +24,7 @@ export const SHORT_WATCHLIST_GENERAL_FRAGMENT = gql`
     name
     type
     isPublic
+    insertedAt
   }
 `
 
@@ -60,7 +62,7 @@ export const SHORT_LIST_ITEMS_FRAGMENT = gql`
   }
 `
 
-export const WATCHLIST_QUERY = gql`
+export const ADDRESS_WATCHLIST_QUERY = gql`
   query watchlist($id: ID!) {
     watchlist(id: $id) {
       ...generalFragment
@@ -74,5 +76,5 @@ export const WATCHLIST_QUERY = gql`
 const watchlistAccessor = ({ data }) => data.watchlist
 export const getAddressWatchlist = (id, fetchPolicy) =>
   client
-    .query({ fetchPolicy, query: WATCHLIST_QUERY, variables: { id } })
+    .query({ fetchPolicy, query: ADDRESS_WATCHLIST_QUERY, variables: { id } })
     .then(watchlistAccessor)

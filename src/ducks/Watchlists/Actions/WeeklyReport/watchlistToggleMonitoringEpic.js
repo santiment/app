@@ -2,7 +2,7 @@ import { Observable } from 'rxjs'
 import * as actions from '../../../../actions/types'
 import { handleErrorAndTriggerAction } from '../../../../epics/utils'
 import { WATCHLIST_MONITORED_MUTATION } from './watchlistMonitoredGQL'
-import { WATCHLIST_QUERY } from '../../../../queries/WatchlistGQL'
+import { PROJECTS_WATCHLIST_QUERY } from '../../../../queries/WatchlistGQL'
 
 export const watchlistToggleMonitoringEpic = (action$, store, { client }) =>
   action$
@@ -20,14 +20,14 @@ export const watchlistToggleMonitoringEpic = (action$, store, { client }) =>
           }
         ) => {
           const cache = store.readQuery({
-            query: WATCHLIST_QUERY,
+            query: PROJECTS_WATCHLIST_QUERY,
             variables: { id }
           })
           const updatedCache = {
             watchlist: { ...cache.watchlist, isMonitored }
           }
           store.writeQuery({
-            query: WATCHLIST_QUERY,
+            query: PROJECTS_WATCHLIST_QUERY,
             variables: { id },
             data: updatedCache
           })

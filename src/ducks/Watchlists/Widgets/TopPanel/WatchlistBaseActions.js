@@ -11,6 +11,8 @@ import SaveAs from '../../Actions/SaveAs'
 import New from '../../Actions/New'
 import { useUserWatchlists, useUpdateWatchlist } from '../../gql/hooks'
 import { notifyUpdate } from './notifications'
+import { BLOCKCHAIN_ADDRESS } from '../../utils'
+import EditAddresses from '../../Actions/Edit/EditAddresses/EditAddresses'
 import styles from './BaseActions.module.scss'
 
 export const Icon = ({ className, ...props }) => (
@@ -30,19 +32,30 @@ const Trigger = ({
   watchlist,
   name,
   isActive,
-  lists,
   assets,
   forwardedRef,
   openMenu
 }) => {
+  const { type } = watchlist
+
+  const isAddressWatchlist = type === BLOCKCHAIN_ADDRESS
+
   return (
     <div className={styles.trigger} ref={forwardedRef}>
-      <EditAssets
-        id={watchlist.id}
-        assets={assets}
-        name={name}
-        trigger={<UIButton className={styles.trigger__text}>Edit</UIButton>}
-      />
+      {!isAddressWatchlist && (
+        <EditAssets
+          id={watchlist.id}
+          assets={assets}
+          name={name}
+          trigger={<UIButton className={styles.trigger__text}>Edit</UIButton>}
+        />
+      )}
+      {isAddressWatchlist && (
+        <EditAddresses
+          watchlist={watchlist}
+          trigger={<UIButton className={styles.trigger__text}>Edit</UIButton>}
+        />
+      )}
       <div
         className={cx(
           styles.trigger__arrowBtn,
@@ -65,13 +78,11 @@ const Trigger = ({
 const BaseActions = ({
   isAuthor,
   isAuthorLoading,
-  id,
-  name,
-  description,
   assets,
   watchlist,
   onClick
 }) => {
+  const { id, name } = watchlist
   const [isMenuOpened, setIsMenuOpened] = useState(false)
   const [isEditPopupOpened, setIsEditPopupOpened] = useState(false)
   const [watchlists = []] = useUserWatchlists()
@@ -80,6 +91,8 @@ const BaseActions = ({
   if (!id || !watchlist || !watchlist.id) {
     return null
   }
+
+  const { type } = watchlist
 
   return (
     <div onClick={onClick} className={styles.container}>
@@ -131,7 +144,7 @@ const BaseActions = ({
               onSubmit={() => setIsMenuOpened(false)}
               watchlist={watchlist}
               lists={watchlists}
-              type='watchlist'
+              type={type}
               trigger={
                 <Button>
                   <Icon type='disk' />

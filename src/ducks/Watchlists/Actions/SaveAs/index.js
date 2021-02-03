@@ -1,33 +1,28 @@
-import React, { useState, useEffect } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
 import EditForm from '../Edit/EditForm'
 import { useUser } from '../../../../stores/user'
 import LoginPopup from '../../../../components/banners/feature/PopupBanner'
-
-import { USER_ADD_NEW_ASSET_LIST } from '../../../../actions/types'
+import { useCreateWatchlist } from '../../gql/hooks'
+import { useDialogState } from '../../../../hooks/dialog'
 
 const SaveAs = ({
+  createWatchlist: forceCreateWrapper,
   watchlist,
   lists,
-  onSubmit,
   trigger,
-  isPending,
-  dispatchWatchlistCreation,
-  createWatchlist = dispatchWatchlistCreation,
-  isSuccess,
   type
 }) => {
-  const [isOpened, setIsOpened] = useState(false)
+  const { closeDialog, isOpened, toggleOpen } = useDialogState(false)
   const { isLoggedIn } = useUser()
 
-  useEffect(
-    () => {
-      if (isSuccess) {
-        setIsOpened(false)
-      }
-    },
-    [isSuccess]
-  )
+  const [createWatchlist, data] = useCreateWatchlist()
+  const { loading } = data
+
+  function onCreate (data) {
+    const callback = forceCreateWrapper || createWatchlist
+
+    callback(data, closeDialog).then(closeDialog)
+  }
 
   if (type === 'watchlist' && !isLoggedIn) {
     return <LoginPopup>{trigger}</LoginPopup>
@@ -40,42 +35,21 @@ const SaveAs = ({
       type={type}
       id={watchlist.id}
       onFormSubmit={({ name, description, isPublic }) => {
-        createWatchlist(
-          {
-            name,
-            description,
-            isPublic,
-            function: watchlist.function,
-            listItems: watchlist.listItems,
-            type
-          },
-          setIsOpened
-        )
+        onCreate({
+          name,
+          description,
+          isPublic,
+          function: watchlist.function,
+          listItems: watchlist.listItems,
+          type
+        })
       }}
-      isLoading={isPending}
+      isLoading={loading}
       open={isOpened}
-      toggleOpen={setIsOpened}
+      toggleOpen={toggleOpen}
       trigger={trigger}
     />
   )
 }
 
-const mapStateToProps = ({
-  watchlistUi: { newItemPending, newItemSuccess }
-}) => ({
-  isPending: newItemPending,
-  isSuccess: newItemSuccess
-})
-
-const mapDispatchToProps = dispatch => ({
-  dispatchWatchlistCreation: payload =>
-    dispatch({
-      type: USER_ADD_NEW_ASSET_LIST,
-      payload
-    })
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SaveAs)
+export default SaveAs

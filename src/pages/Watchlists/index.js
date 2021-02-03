@@ -31,6 +31,7 @@ const LoginBanner = ({ isDesktop }) =>
     <InlineBanner
       title='Get ability to create your own watchlist when you login'
       description="Track selected assets in one place and check it's status"
+      className={styles.banner}
     />
   ) : (
     <MobileAnonBanner isFullScreen wrapperClassName={styles.login} />
@@ -63,7 +64,7 @@ const Cards = ({ watchlists, path, Card = QueuedProjectCard, ...props }) => (
   </>
 )
 
-const MyWatchlists = ({ data, addressesData, createWatchlist, isDesktop }) => {
+const MyWatchlists = ({ data, addressesData, isDesktop }) => {
   const [watchlists, isLoading] = data
   const addressesWatchlists = addressesData.watchlists
 

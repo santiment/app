@@ -4,9 +4,9 @@ import { getAddressWatchlist } from './gql/queries'
 import WatchlistTable from '../WatchlistTable'
 import { getAddressesWatchlistLink } from '../Watchlists/url'
 import { createAddressesWatchlist } from '../Watchlists/gql/mutations'
-import WatchlistNotificationActions from '../Watchlists/Actions/notifications/WatchlistNotificationActions'
 import { store } from '../../redux'
 import { showNotification } from '../../actions/rootActions'
+import { WatchlistNotificationActions } from '../Watchlists/gql/hooks'
 
 const OBJECT = {}
 const normalizeLabel = ({ name }) => name

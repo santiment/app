@@ -15,7 +15,7 @@ export const WatchlistPage = ({ Page, isDesktop, ...props }) =>
 
 const WatchlistProjects = ({ match, ...props }) => {
   const id = getIdFromSEOLink(match.params.nameId)
-  let [watchlist, isLoading] = useWatchlist({ id })
+  const [watchlist, isLoading] = useWatchlist({ id })
 
   if (isLoading) return <PageLoader />
   if (!watchlist) return <Redirect to='/' />

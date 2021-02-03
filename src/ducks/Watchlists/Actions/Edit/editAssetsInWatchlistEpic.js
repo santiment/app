@@ -4,7 +4,7 @@ import { handleErrorAndTriggerAction } from '../../../../epics/utils'
 import { updateWatchlistGQL } from './updateWatchlistQGL'
 import {
   ALL_WATCHLISTS_QUERY,
-  WATCHLIST_QUERY
+  PROJECTS_WATCHLIST_QUERY
 } from '../../../../queries/WatchlistGQL'
 
 export const editAssetsInWatchlistEpic = (action$, store, { client }) =>
@@ -43,12 +43,12 @@ export const addAssetToWatchlistEpic = (action$, store, { client }) =>
         mutation: updateWatchlistGQL,
         variables: { id: +assetsListId, listItems: newListItems },
         update: (store, { data: { updateWatchlist } }) => {
-          const data = store.readQuery({ query: WATCHLIST_QUERY })
+          const data = store.readQuery({ query: PROJECTS_WATCHLIST_QUERY })
           const index = data.fetchWatchlists.findIndex(
             ({ id }) => id === updateWatchlist.id
           )
           data.fetchWatchlists[index] = updateWatchlist
-          store.writeQuery({ query: WATCHLIST_QUERY, data })
+          store.writeQuery({ query: PROJECTS_WATCHLIST_QUERY, data })
         }
       })
       return Observable.from(watchlistUpdate)

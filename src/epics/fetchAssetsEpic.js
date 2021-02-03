@@ -2,6 +2,7 @@ import * as Sentry from '@sentry/react'
 import { Observable } from 'rxjs'
 import { WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY } from '../queries/WatchlistGQL.js'
 import * as actions from './../actions/types'
+import { PROJECT } from '../ducks/Watchlists/utils'
 
 const handleError = error => {
   Sentry.captureException(error)
@@ -12,7 +13,8 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.ASSETS_FETCH)
     .filter(
-      ({ payload: { type } }) => type === 'list' || type === 'list#shared'
+      ({ payload: { type } }) =>
+        type === PROJECT || type === 'list' || type === 'list#shared'
     )
     .mergeMap(({ payload: { list, filters } }) => {
       return Observable.from(

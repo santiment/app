@@ -5,7 +5,7 @@ import ProPopupWrapper from '../../../components/ProPopup/Wrapper'
 import LoginPopup from '../../../components/banners/feature/PopupBanner'
 import { useUserWatchlists, useUserScreeners } from '../gql/hooks'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
-import NewList from '../Actions/New'
+import NewWatchlist from '../Actions/New'
 import { Plus } from '../../../components/Illustrations/Plus'
 import styles from './NewCard.module.scss'
 import cardStyles from './Card.module.scss'
@@ -39,12 +39,11 @@ const NewCard = ({ type = 'watchlist', ...props }) => {
 
 const NewWatchlistCard = ({ createWatchlist }) => {
   const [watchlists = []] = useUserWatchlists()
-  let lists = watchlists
 
   return (
     <LoginPopup trigger={props => <Trigger type='watchlist' {...props} />}>
-      <NewList
-        lists={lists}
+      <NewWatchlist
+        lists={watchlists}
         trigger={<Trigger type='watchlist' />}
         type='watchlist'
         createWatchlist={createWatchlist}
@@ -62,7 +61,7 @@ const NewScreenerCard = () => {
       <Trigger showProBanner type='screener' />
     </ProPopupWrapper>
   ) : (
-    <NewList
+    <NewWatchlist
       lists={screeners}
       trigger={<Trigger type='screener' />}
       type='screener'

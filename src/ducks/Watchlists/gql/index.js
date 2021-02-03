@@ -14,6 +14,7 @@ export const WATCHLIST_GENERAL_FRAGMENT = gql`
     insertedAt
     isMonitored
     updatedAt
+    type
     user {
       id
     }
@@ -84,8 +85,19 @@ export const AVAILABLE_SEGMENTS_QUERY = gql`
   }
 `
 
+export const REMOVE_WATCHLIST_MUTATION = gql`
+  mutation removeWatchlist($id: Int!) {
+    removeWatchlist(id: $id) {
+      id
+      name
+      type
+    }
+  }
+`
+
 export const CREATE_WATCHLIST_MUTATION = gql`
   mutation createWatchlist(
+    $type: WatchlistTypeEnum
     $isPublic: Boolean
     $name: String!
     $description: String
@@ -93,6 +105,7 @@ export const CREATE_WATCHLIST_MUTATION = gql`
     $listItems: [InputListItem]
   ) {
     createWatchlist(
+      type: $type
       isPublic: $isPublic
       name: $name
       description: $description

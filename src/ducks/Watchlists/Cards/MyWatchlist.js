@@ -41,7 +41,7 @@ export const WatchlistEmptySection = ({
   </EmptySection>
 )
 
-const MyWatchlist = ({ className, showHeader = true, classes = {} }) => {
+const MyWatchlist = ({ className, showHeader = true }) => {
   const [watchlists, loading] = useUserWatchlists()
   const { isLoggedIn, loading: isLoggedInPending } = useUser()
 
@@ -76,7 +76,7 @@ const MyWatchlist = ({ className, showHeader = true, classes = {} }) => {
         <div className={styles.emptyWrapper}>
           <WatchlistEmptySection
             watchlists={watchlists}
-            className={classes.emptyWatchlists}
+            className={styles.emptyWatchlists}
           />
         </div>
       )}

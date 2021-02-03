@@ -84,8 +84,6 @@ const BaseActions = ({
   isAuthor,
   id,
   name,
-  description,
-  assets,
   watchlist,
   isPro,
   isAuthorLoading,
@@ -119,6 +117,7 @@ const BaseActions = ({
                   notifyUpdate(payload.type)
                 )
               }
+              type={type}
             />
           }
           passOpenStateAs='isActive'
@@ -129,7 +128,7 @@ const BaseActions = ({
         >
           <Panel variant='modal' className={styles.wrapper}>
             <EditForm
-              type='screener'
+              type={type}
               lists={screeners}
               title={'Edit ' + type}
               id={watchlist.id}
@@ -180,7 +179,7 @@ const BaseActions = ({
               />
             </ProPopupWrapper>
             <ProPopupWrapper
-              type='screener'
+              type={type}
               trigger={props => (
                 <Button {...props}>
                   <Icon type='plus-round' />
@@ -221,7 +220,7 @@ const BaseActions = ({
       )}
       {!isAuthor && !isAuthorLoading && (
         <ProPopupWrapper
-          type='screener'
+          type={type}
           trigger={props => (
             <Button {...props} border className={styles.saveAsNonAuthor}>
               <Icon type='disk' />
@@ -230,7 +229,7 @@ const BaseActions = ({
           )}
         >
           <SaveAs
-            type='screener'
+            type={type}
             watchlist={watchlist}
             lists={screeners}
             createWatchlist={createWatchlist}
