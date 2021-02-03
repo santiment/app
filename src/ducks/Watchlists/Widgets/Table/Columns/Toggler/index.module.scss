@@ -44,9 +44,9 @@
     bottom: 0;
     left: 0;
     right: 24px;
-    height: 44px;
+    height: 64px;
     z-index: 1;
-    background: linear-gradient(180deg, var(--shadowFrom) 0%, var(--shadowTo) 52.56%, var(--white) 100%);
+    background: linear-gradient(180deg, var(--shadowFrom) 0%, var(--shadowTo) 9%, var(--white) 100%);
   }
 }
 
@@ -60,4 +60,21 @@
 
 .search {
   margin: 0 24px 24px 0;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 24px;
+  z-index: 1;
+
+  & button {
+    margin-right: 16px;
+    width: 80px;
+    justify-content: center;
+  }
 }

@@ -22,7 +22,7 @@ const PLACES = {
 const BADGES_PLACES = {
   $: PLACES.PREFIX,
   '%': PLACES.SUFFIX,
-  BTC: PLACES.SUFFIX,
+  '₿': PLACES.SUFFIX,
   Ξ: PLACES.PREFIX
 }
 
@@ -35,7 +35,7 @@ function withBadgePosition (badge, formatted) {
 }
 
 export const formatterWithBadge = (badge = '') => value => {
-  if (badge === 'BTC') {
+  if (badge === '₿') {
     const formatted = defaultFormatter(value, 6)
     return withBadgePosition(badge, formatted)
   } else {

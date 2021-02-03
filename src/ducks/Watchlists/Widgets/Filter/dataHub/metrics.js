@@ -48,7 +48,7 @@ export const Metric = {
   price_btc: {
     category: CATEGORIES.FINANCIAL,
     label: 'Price BTC',
-    badge: 'BTC'
+    badge: '₿'
   },
   marketcap_usd: {
     category: CATEGORIES.FINANCIAL,

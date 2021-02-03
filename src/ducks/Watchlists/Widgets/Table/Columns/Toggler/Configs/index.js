@@ -14,21 +14,6 @@ import {
 import UpdateConfig from './UpdateConfig'
 import styles from './index.module.scss'
 
-const SmallSave = ({ onClick }) => (
-  <svg
-    onClick={onClick}
-    xmlns='http://www.w3.org/2000/svg'
-    width='13'
-    height='13'
-  >
-    <path
-      fillRule='evenodd'
-      d='M.5 0C.2 0 0 .2 0 .5v11c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5V3.6l-.1-.3-3-3.1-.4-.2h-8zM1 11V1h1.5v4c0 .3.2.5.5.5h4c.3 0 .5-.2.5-.5V1h.8L11 3.8V11H1zM6.5 1h-3v3.5h3V1z'
-      clipRule='evenodd'
-    />
-  </svg>
-)
-
 const ConfigsMenu = ({
   setOpen,
   open,
@@ -37,8 +22,8 @@ const ConfigsMenu = ({
   activeColumns,
   isLoading
 }) => {
-  const userTableConfigs = useUserTableConfigs()
   const featuredTableConfigurations = useFeaturedTableConfigs()
+  const userTableConfigs = useUserTableConfigs()
 
   const { createTableConfig } = useCreateTableConfig()
   const { deleteTableConfig } = useDeleteTableConfig()
@@ -47,15 +32,11 @@ const ConfigsMenu = ({
   useEffect(
     () => {
       if (!config && featuredTableConfigurations.length !== 0) {
-        if (userTableConfigs.length !== 0) {
-          changeConfig(userTableConfigs[0].id)
-        } else {
-          const idx = featuredTableConfigurations.length - 1
-          changeConfig(featuredTableConfigurations[idx].id)
-        }
+        const idx = featuredTableConfigurations.length - 1
+        changeConfig(featuredTableConfigurations[idx].id)
       }
     },
-    [userTableConfigs, featuredTableConfigurations]
+    [featuredTableConfigurations]
   )
 
   const hasUnsavedChanges = useMemo(
@@ -63,6 +44,7 @@ const ConfigsMenu = ({
       return (
         activeColumns &&
         config &&
+        !isLoading &&
         !isEqual(config.columns.metrics, activeColumns)
       )
     },
@@ -87,9 +69,7 @@ const ConfigsMenu = ({
           variant='flat'
           className={cx(styles.trigger, open && styles.isOpened)}
         >
-          <span
-            className={cx(hasUnsavedChanges && !isLoading && styles.circle)}
-          >
+          <span className={cx(hasUnsavedChanges && styles.circle)}>
             {title}
           </span>
           <Icon type='arrow-down' className={styles.arrow} />
@@ -144,11 +124,15 @@ const ConfigsMenu = ({
                     onClick={() => onConfigSelect(id)}
                   >
                     {title}
+                    {hasUnsavedChanges && (
+                      <span className={styles.tooltip}>Unsaved set</span>
+                    )}
                     <div
                       className={styles.actions}
                       onClick={evt => evt.stopPropagation()}
                     >
-                      <SmallSave
+                      <Icon
+                        type='disk-small'
                         onClick={() =>
                           updateTableConfig(config, {
                             columns: { metrics: activeColumns }
