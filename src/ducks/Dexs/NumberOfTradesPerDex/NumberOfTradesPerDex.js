@@ -22,7 +22,8 @@ export const DEXs = [
   'DDEX',
   '0x_v1',
   'TokenStore',
-  'DEX.Top'
+  'DEX.Top',
+  'Synthetix'
 ]
 
 const NumberOfTradesPerDex = ({ metrics, measurement: strictMeasurement }) => {
