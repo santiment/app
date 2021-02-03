@@ -4,7 +4,7 @@ import Panel from '@santiment-network/ui/Panel'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import SmoothDropdown from '../../SmoothDropdown/SmoothDropdown'
 import Table from '../../../ducks/Table'
-import { COLUMNS, DEFAULT_SORTING } from './columns'
+import { COLUMNS } from './columns'
 import styles from './index.module.scss'
 
 const TransactionTable = ({
@@ -45,10 +45,6 @@ const TransactionTable = ({
           data={data}
           columns={availableColumns}
           options={{
-            sortingSettings: {
-              defaultSorting: DEFAULT_SORTING,
-              allowSort: true
-            },
             stickySettings: { isStickyHeader: true }
           }}
           className={cx(className, tableClassName)}
