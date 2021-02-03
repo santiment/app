@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import List from 'react-virtualized/dist/commonjs/List'
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import Button from '@santiment-network/ui/Button'
@@ -62,7 +63,7 @@ export const rowAddressRenderer = ({
         <Label className={styles.name}>{address}</Label>
       </div>
       <Button
-        className={styles.actionBtn}
+        className={cx(styles.actionBtn, styles.deleteAddress)}
         accent={isContained ? 'grey' : 'positive'}
         disabled={isContained ? false : isInList}
         onClick={() =>

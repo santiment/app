@@ -1,13 +1,12 @@
 import React, { useMemo, useState, useEffect } from 'react'
-import { Creatable } from 'react-select'
 import Dialog from '@santiment-network/ui/Dialog'
-import Select from '@santiment-network/ui/Search/Select/Select'
+import Input from '@santiment-network/ui/Input'
 import { useDialogState } from '../../../../../hooks/dialog'
 import { updateWatchlistShort } from '../../../gql/mutations'
 import { isEthStrictAddress } from '../../../../../utils/utils'
 import EditableList, { rowAddressRenderer } from '../EditableList'
-import styles from './EditAddresses.module.scss'
 import { hasAddress } from '../../../utils'
+import styles from './EditAddresses.module.scss'
 
 const updateWatchlist = ({ id, listItems }) =>
   updateWatchlistShort({ id: +id, listItems })
@@ -39,6 +38,7 @@ const EditAddresses = ({ trigger, watchlist }) => {
   const { isOpened, openDialog, closeDialog } = useDialogState()
 
   const [items, setItems] = useState(listItems)
+  const [error, setError] = useState(false)
 
   useEffect(
     () => {
@@ -62,6 +62,25 @@ const EditAddresses = ({ trigger, watchlist }) => {
     )
   }
 
+  const onInputChangeDebounced = ({ target: { value } }) => {
+    const isValid = isEthStrictAddress(value)
+    if (isValid && !items.find(x => x === value)) {
+      toggle({
+        item: value,
+        isInList: hasAddress(items, value),
+        listItems: items
+      })
+
+      setError(false)
+    }
+
+    if (value && !isValid) {
+      setError(true)
+    }
+  }
+
+  console.log('error', error)
+
   return (
     <Dialog
       title={`Add addresses to "${name}"`}
@@ -71,25 +90,13 @@ const EditAddresses = ({ trigger, watchlist }) => {
       open={isOpened}
     >
       <Dialog.ScrollContent className={styles.wrapper}>
-        <Select
-          clearable={true}
-          selectComponent={Creatable}
-          multi={false}
-          classNamePrefix='react-select'
-          minimumInput={1}
-          onChange={({ value }) => {
-            const isValid = isEthStrictAddress(value)
-
-            if (isValid && !items.find(x => x === value)) {
-              toggle({
-                item: value,
-                isInList: hasAddress(items, value),
-                listItems: items
-              })
-            }
-          }}
-          notificationText={NOT_VALID_ADDRESS}
-          placeholder={'Wallet address'}
+        <Input
+          autoFocus
+          className={styles.input}
+          placeholder='Enter your email'
+          onChange={onInputChangeDebounced}
+          errorText={NOT_VALID_ADDRESS}
+          isError={!!error}
         />
 
         <div className={styles.contentWrapper}>

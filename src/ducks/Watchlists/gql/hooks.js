@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { client } from '../../../apollo'
 import * as Sentry from '@sentry/react'
+import { store } from '../../../redux'
 import {
   WATCHLIST_SHORT_QUERY,
   USER_WATCHLISTS_QUERY,
@@ -29,7 +30,6 @@ import {
 import { notifyErrorUpdate } from '../Widgets/TopPanel/notifications'
 import { useUser } from '../../../stores/user'
 import { showNotification } from '../../../actions/rootActions'
-import { store } from '../../../redux'
 import {
   ADDRESS_WATCHLISTS_QUERY,
   USER_SHORT_WATCHLISTS_QUERY

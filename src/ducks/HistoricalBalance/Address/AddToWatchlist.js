@@ -24,11 +24,7 @@ const AddToWatchlist = ({ address, infrastructure }) => {
     return listItems.some(checkIsListItemTheAddress)
   }
 
-  function onChangesApply (
-    addToWatchlists,
-    removeFromWatchlists,
-    { address, infrastructure }
-  ) {
+  function onChangesApply (addToWatchlists, removeFromWatchlists) {
     const newListItem = {
       blockchainAddress: {
         address,
