@@ -38,8 +38,6 @@ export const createWatchlist = (watchlist, setDialog) =>
           )
         })
       )
-
-      return watchlist
     })
     .then(() => setDialog(false))
 

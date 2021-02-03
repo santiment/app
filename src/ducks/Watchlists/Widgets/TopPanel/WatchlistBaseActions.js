@@ -78,12 +78,11 @@ const Trigger = ({
 const BaseActions = ({
   isAuthor,
   isAuthorLoading,
-  id,
-  name,
   assets,
   watchlist,
   onClick
 }) => {
+  const { id, name } = watchlist
   const [isMenuOpened, setIsMenuOpened] = useState(false)
   const [isEditPopupOpened, setIsEditPopupOpened] = useState(false)
   const [watchlists = []] = useUserWatchlists()

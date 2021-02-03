@@ -32,8 +32,6 @@ const TopPanel = ({
           <BaseActions
             isAuthor={isAuthor}
             isAuthorLoading={isAuthorLoading}
-            name={name}
-            id={id}
             watchlist={watchlist}
             assets={assets}
           />

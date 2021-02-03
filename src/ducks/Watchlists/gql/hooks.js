@@ -50,11 +50,9 @@ function buildWatchlistsCacheUpdater (reducer) {
         ? ADDRESS_WATCHLISTS_QUERY
         : USER_SHORT_WATCHLISTS_QUERY
 
-    const dataQuery = cache.readQuery({
+    const { fetchWatchlists } = cache.readQuery({
       query: query
     })
-
-    const { fetchWatchlists } = dataQuery
 
     cache.writeQuery({
       query: query,
@@ -88,15 +86,12 @@ const updateWatchlistsOnCreation = buildWatchlistsCacheUpdater(
 )
 
 const updateWatchlistsOnDelete = buildWatchlistsCacheUpdater(
-  ({ removeWatchlist }, watchlists) => {
-    return watchlists.filter(({ id }) => +id !== +removeWatchlist.id)
-  }
+  ({ removeWatchlist }, watchlists) =>
+    watchlists.filter(({ id }) => +id !== +removeWatchlist.id)
 )
 
 export const updateWatchlistOnEdit = buildWatchlistCacheUpdater(
-  ({ updateWatchlist }, watchlist) => {
-    return { ...watchlist, ...updateWatchlist }
-  }
+  ({ updateWatchlist }, watchlist) => ({ ...watchlist, ...updateWatchlist })
 )
 
 export function useWatchlist ({ id, skip }) {
@@ -247,8 +242,6 @@ function getCreationType (type) {
   switch (type) {
     case BLOCKCHAIN_ADDRESS:
       return BLOCKCHAIN_ADDRESS
-    case 'screener':
-      return PROJECT
     default: {
       return PROJECT
     }

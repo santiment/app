@@ -88,6 +88,7 @@ const EditAddresses = ({ trigger, watchlist }) => {
     setError(!value || !isValid)
   }
 
+  console.log(error)
   return (
     <Dialog
       title={`Add addresses to "${name}"`}

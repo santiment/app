@@ -12,9 +12,10 @@ const handleError = error => {
 export const fetchAssetsFromListEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.ASSETS_FETCH)
-    .filter(({ payload: { type } }) => {
-      return type === PROJECT || type === 'list' || type === 'list#shared'
-    })
+    .filter(
+      ({ payload: { type } }) =>
+        type === PROJECT || type === 'list' || type === 'list#shared'
+    )
     .mergeMap(({ payload: { list, filters } }) => {
       return Observable.from(
         client.watchQuery({
