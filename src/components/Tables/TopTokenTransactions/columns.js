@@ -14,8 +14,7 @@ export const DEFAULT_SORTING = [
 export const COLUMNS = [
   {
     Header: 'Time',
-    accessor: 'datetime',
-    sortType: 'datetime'
+    accessor: 'datetime'
   },
   {
     Header: 'Value',
