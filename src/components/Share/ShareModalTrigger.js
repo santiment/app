@@ -10,7 +10,7 @@ const ShareModalTrigger = ({
   shareLink,
   trigger: Trigger = ShareBtn,
   classes,
-  dialogTitle = '📣 Share the data',
+  dialogTitle = 'Share the data',
   ...props
 }) => {
   return window.navigator.share ? (
