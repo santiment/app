@@ -76,10 +76,10 @@ export const CollapsedLabels = ({ labels }) => (
   </Tooltip>
 )
 
-const Labels = ({ settings }) => {
+const Labels = ({ settings, showCount = 5 }) => {
   const labels = useAddressLabels(settings)
-  const visibleLabels = labels.slice(0, 5)
-  const hiddenLabels = labels.slice(5)
+  const visibleLabels = labels.slice(0, showCount)
+  const hiddenLabels = labels.slice(showCount)
   return (
     <div className={styles.wrapper}>
       {visibleLabels.map(Label)}

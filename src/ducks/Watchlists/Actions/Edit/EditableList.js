@@ -7,6 +7,7 @@ import Icon from '@santiment-network/ui/Icon'
 import Label from '@santiment-network/ui/Label'
 import { hasAddress, hasAssetById } from '../../utils'
 import styles from './AssetsList.module.scss'
+import Labels from '../../../HistoricalBalance/Address/Labels'
 
 const ROW_HEIGHT = 32
 
@@ -60,9 +61,11 @@ export const rowAddressRenderer = ({
 
   return (
     <div key={key} className={styles.address} style={style}>
-      <div>
+      <div className={styles.container}>
         <Label className={styles.name}>{address}</Label>
-        <Label accent='waterloo'>{infrastructure}</Label>
+        <div className={styles.info}>
+          <Labels settings={source} showCount={2} />
+        </div>
       </div>
       <Button
         className={cx(styles.actionBtn, styles.deleteAddress)}

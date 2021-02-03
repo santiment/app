@@ -37,6 +37,7 @@
   outline: none;
   margin-right: 5px;
   color: var(--mirage);
+  word-break: break-word;
 }
 
 .actionBtn {
@@ -45,4 +46,14 @@
 
 .deleteAddress {
   margin: 0 -12px 0 auto;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.info {
+  display: flex;
+  align-items: center;
 }
