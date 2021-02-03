@@ -88,7 +88,6 @@ const EditAddresses = ({ trigger, watchlist }) => {
     setError(!value || !isValid)
   }
 
-  console.log(error)
   return (
     <Dialog
       title={`Add addresses to "${name}"`}
@@ -103,7 +102,7 @@ const EditAddresses = ({ trigger, watchlist }) => {
             <Input
               autoFocus
               className={styles.input}
-              placeholder='Enter your email'
+              placeholder='Wallet address'
               onChange={onInputChangeDebounced}
               errorText={error && NOT_VALID_ADDRESS}
               isError={!!error}
@@ -129,8 +128,8 @@ const EditAddresses = ({ trigger, watchlist }) => {
             listItems={items}
             onToggle={toggle}
             rowRenderer={rowAddressRenderer}
-            height={220}
-            rowHeight={60}
+            height={320}
+            rowHeight={64}
           />
         </div>
       </Dialog.ScrollContent>

@@ -2,7 +2,7 @@
 
 .wrapper {
   padding: 10px 24px 10px 24px;
-  width: 400px;
+  width: 560px;
   overflow-y: hidden;
 
   @include responsive('phone-xs', 'phone') {
@@ -35,8 +35,10 @@
 .search {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .addBtn {
   margin-left: 8px;
+  max-width: 50px;
 }
