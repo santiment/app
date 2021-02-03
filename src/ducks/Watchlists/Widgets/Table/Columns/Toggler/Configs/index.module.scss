@@ -69,6 +69,16 @@
   @include text('caption', 'm');
 }
 
+.tooltip {
+  position: absolute;
+  right: 6px;
+  top: 9px;
+  color: var(--waterloo);
+  opacity: 0;
+
+  @include text('caption', 'm');
+}
+
 .actions {
   position: absolute;
   right: 4px;
@@ -76,7 +86,6 @@
   bottom: 0;
   display: flex;
   align-items: center;
-  margin-left: auto;
   fill: var(--waterloo);
   opacity: 0;
 
@@ -97,13 +106,19 @@
   &__active {
     color: var(--jungle-green);
 
-    & .actions {
+    & .tooltip {
       opacity: 1;
     }
   }
 
-  &:hover .actions {
-    opacity: 1;
+  &:hover {
+    & .tooltip {
+      opacity: 0;
+    }
+
+    & .actions {
+      opacity: 1;
+    }
   }
 }
 

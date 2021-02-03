@@ -59,6 +59,7 @@ const ConfigsMenu = ({
       return (
         activeColumns &&
         config &&
+        !isLoading &&
         !isEqual(config.columns.metrics, activeColumns)
       )
     },
@@ -83,9 +84,7 @@ const ConfigsMenu = ({
           variant='flat'
           className={cx(styles.trigger, open && styles.isOpened)}
         >
-          <span
-            className={cx(hasUnsavedChanges && !isLoading && styles.circle)}
-          >
+          <span className={cx(hasUnsavedChanges && styles.circle)}>
             {title}
           </span>
           <Icon type='arrow-down' className={styles.arrow} />
@@ -140,6 +139,9 @@ const ConfigsMenu = ({
                     onClick={() => onConfigSelect(id)}
                   >
                     {title}
+                    {hasUnsavedChanges && (
+                      <span className={styles.tooltip}>Unsaved set</span>
+                    )}
                     <div
                       className={styles.actions}
                       onClick={evt => evt.stopPropagation()}
