@@ -40,15 +40,20 @@ const ConfigsMenu = ({
   )
 
   const hasUnsavedChanges = useMemo(
-    () => {
-      return (
-        activeColumns &&
-        config &&
-        !isLoading &&
-        !isEqual(config.columns.metrics, activeColumns)
-      )
-    },
+    () =>
+      activeColumns &&
+      config &&
+      !isLoading &&
+      !isEqual(new Set(config.columns.metrics), new Set(activeColumns)),
     [activeColumns]
+  )
+
+  const transformedTrigger = useMemo(
+    () =>
+      config &&
+      hasUnsavedChanges &&
+      !userTableConfigs.some(({ id }) => id === config.id),
+    [hasUnsavedChanges, userTableConfigs, config]
   )
 
   function onConfigSelect (id) {
@@ -70,7 +75,7 @@ const ConfigsMenu = ({
           className={cx(styles.trigger, open && styles.isOpened)}
         >
           <span className={cx(hasUnsavedChanges && styles.circle)}>
-            {title}
+            {transformedTrigger ? 'Save as set' : title}
           </span>
           <Icon type='arrow-down' className={styles.arrow} />
         </Button>
