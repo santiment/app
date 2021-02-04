@@ -57,7 +57,7 @@ const Category = ({
                 >
                   {groups[group].map(({ item }) => {
                     const { key } = item
-                    const isActive = activeKeys.includes(key)
+                    const isActive = activeKeys && activeKeys.includes(key)
                     const isHide =
                       isActive ||
                       (currentSearch && !filteredColumns.includes(key))
