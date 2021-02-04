@@ -2,8 +2,8 @@ import React from 'react'
 import gql from 'graphql-tag'
 import Recent, { getItemBuilder, Column } from './Recent'
 import { VisibilityIndicator } from '../../../../components/VisibilityIndicator'
-import { usdFormatter } from '../../../../ducks/dataHub/metrics/formatters'
 import { getWatchlistLink } from '../../../../ducks/Watchlists/utils'
+import { millify } from '../../../../utils/formatting'
 import styles from '../index.module.scss'
 
 const getItem = getItemBuilder(gql`
@@ -31,7 +31,7 @@ const Watchlist = ({ name, isPublic, historicalStats }) => {
         <VisibilityIndicator isPublic={isPublic} className={styles.icon} />
         {name}
       </Column>
-      {usdFormatter(marketcap)}
+      ${millify(marketcap)}
     </>
   )
 }
