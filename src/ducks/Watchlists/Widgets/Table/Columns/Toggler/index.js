@@ -52,8 +52,7 @@ const Toggler = ({
         watchlist &&
         watchlist.tableConfiguration &&
         selectedConfigId === watchlist.tableConfiguration.id &&
-        !tableConfig &&
-        !configLoading
+        !tableConfig
       ) {
         return watchlist.tableConfiguration
       } else {

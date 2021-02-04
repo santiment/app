@@ -88,7 +88,10 @@ const ConfigsMenu = ({
             createTableConfig({
               title,
               columns: { metrics: activeColumns }
-            }).then(({ id }) => changeConfig(id))
+            }).then(({ id }) => {
+              changeConfig(id)
+              setOpen(false)
+            })
           }
         />
         <div className={styles.content}>
