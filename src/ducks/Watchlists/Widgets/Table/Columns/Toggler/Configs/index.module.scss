@@ -95,6 +95,10 @@
 
     &:hover {
       fill: var(--jungle-green);
+
+      &:last-child {
+        fill: var(--persimmon);
+      }
     }
   }
 }

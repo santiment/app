@@ -67,6 +67,7 @@ export function useUserTableConfigs () {
 
 export function useTableConfig (id) {
   const { data, loading, error } = useQuery(TABLE_CONFIG_QUERY, {
+    skip: !id,
     variables: { id }
   })
   return { tableConfig: data && data.tableConfiguration, loading, error }
