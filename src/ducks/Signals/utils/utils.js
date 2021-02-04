@@ -57,7 +57,10 @@ import { capitalizeStr } from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
 import { Metric } from '../../dataHub/metrics'
 import { useWatchlist } from '../../Watchlists/gql/hooks'
-import { SIGNAL_SUPPORTED_METRICS } from '../signalFormManager/signalCrudForm/formParts/metricTypes/metrics'
+import {
+  isDailyMetric,
+  SIGNAL_SUPPORTED_METRICS
+} from '../signalFormManager/signalCrudForm/formParts/metricTypes/metrics'
 import { findWebHook } from '../signalFormManager/signalCrudForm/formParts/channels/hooks'
 import { SCREENER_DEFAULT_SIGNAL } from '../ScreenerSignal/utils'
 
@@ -287,9 +290,11 @@ const getTriggerOperation = ({
 
 const getFormMetric = ({ type, metric }) => {
   switch (type) {
+    case METRIC_TYPES.DAILY_METRIC_SIGNAL:
     case METRIC_TYPES.METRIC_SIGNAL: {
       switch (metric) {
-        case SIGNAL_METRIC_TYPES.active_addresses_24h: {
+        case SIGNAL_METRIC_TYPES.active_addresses_24h:
+        case SIGNAL_METRIC_TYPES.daily_active_addresses: {
           return DAILY_ACTIVE_ADDRESSES_METRIC
         }
         case SIGNAL_METRIC_TYPES.price_usd: {
@@ -411,6 +416,15 @@ export const mapFormPropsToScreenerTrigger = ({ formProps, signal }) => {
   return trigger
 }
 
+export const extractTimeWindowForm = time_window => {
+  return {
+    timeWindow: time_window ? +time_window.match(/\d+/)[0] : '24',
+    timeWindowUnit: time_window
+      ? getTimeWindowUnit(time_window)
+      : TIME_WINDOW_UNITS[0]
+  }
+}
+
 export const mapTriggerToFormProps = currentTrigger => {
   if (!currentTrigger || !currentTrigger.settings) {
     return {}
@@ -450,10 +464,7 @@ export const mapTriggerToFormProps = currentTrigger => {
     isPublic,
     metric: getFormMetric(settings),
     type: newType,
-    timeWindow: time_window ? +time_window.match(/\d+/)[0] : '24',
-    timeWindowUnit: time_window
-      ? getTimeWindowUnit(time_window)
-      : TIME_WINDOW_UNITS[0],
+    ...extractTimeWindowForm(time_window),
     target,
     signalType: signalType,
 
@@ -739,10 +750,24 @@ export const mapFormToTWTriggerSettings = formProps => {
   }
 }
 
-const getTimeWindow = ({ timeWindow, timeWindowUnit }) => {
+const getTimeWindow = ({ timeWindow, timeWindowUnit, metric }) => {
+  const { key } = metric
+
+  if (isDailyMetric(key)) {
+    return '1d'
+  }
+
   return timeWindow && timeWindowUnit
     ? timeWindow + '' + timeWindowUnit.value
     : undefined
+}
+
+function getAlertType (key, type) {
+  if (isDailyMetric(key)) {
+    return METRIC_TYPES.DAILY_METRIC_SIGNAL
+  }
+
+  return key ? METRIC_TYPES.METRIC_SIGNAL : type
 }
 
 export const mapFormToPPCTriggerSettings = formProps => {
@@ -761,7 +786,7 @@ export const mapFormToPPCTriggerSettings = formProps => {
   )
 
   return {
-    type: key ? METRIC_TYPES.METRIC_SIGNAL : type,
+    type: getAlertType(key, type),
     metric: key || metric,
     ...newTarget,
     channel: getChannels(formProps),
@@ -898,27 +923,30 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
   const { type, metric, isRepeating, isPublic, title, description } = formProps
   let settings = {}
 
-  switch (metric.value) {
-    case DAILY_ACTIVE_ADDRESSES: {
-      settings = mapFormToDAATriggerSettings(formProps)
-      break
-    }
-    case TRENDING_WORDS: {
-      settings = mapFormToTWTriggerSettings(formProps)
-      break
-    }
-    case PRICE_VOLUME_DIFFERENCE: {
-      settings = mapFormToPVDTriggerSettings(formProps)
-      break
-    }
-    case ETH_WALLET: {
-      settings = mapFormToHBTriggerSettings(formProps)
-      break
-    }
-    default: {
-      settings = mapDefaultMetricProps({ type, formProps })
+  if (metric) {
+    switch (metric.value) {
+      case DAILY_ACTIVE_ADDRESSES: {
+        settings = mapFormToDAATriggerSettings(formProps)
+        break
+      }
+      case TRENDING_WORDS: {
+        settings = mapFormToTWTriggerSettings(formProps)
+        break
+      }
+      case PRICE_VOLUME_DIFFERENCE: {
+        settings = mapFormToPVDTriggerSettings(formProps)
+        break
+      }
+      case ETH_WALLET: {
+        settings = mapFormToHBTriggerSettings(formProps)
+        break
+      }
+      default: {
+        settings = mapDefaultMetricProps({ type, formProps })
+      }
     }
   }
+
   const cooldownParams = getCooldownParams(formProps)
 
   return {
@@ -963,8 +991,10 @@ export const getNewMetricsByType = ({ settings: { type, metric } }) => {
         historicalTriggersDataKey: 'current'
       }
     }
+    case METRIC_TYPES.DAILY_METRIC_SIGNAL:
     case METRIC_TYPES.METRIC_SIGNAL: {
       switch (metric) {
+        case SIGNAL_METRIC_TYPES.daily_active_addresses:
         case SIGNAL_METRIC_TYPES.active_addresses_24h: {
           return {
             metrics: [Metric.daily_active_addresses, Metric.price_usd],

@@ -40,6 +40,7 @@ export const METRICS = [
   'twitter_followers',
   'price_usd',
   'price_btc',
+  'whale_transaction_count',
   'price_eth',
   'volume_usd',
   'marketcap_usd',

@@ -29,23 +29,32 @@ const LoadableMySignals = Loadable({
 })
 
 const DEFAULT_ROUTE = {
-  index: SIGNAL_ROUTES.MY_SIGNALS,
+  index: SIGNAL_ROUTES.MY_ALERTS,
   content: 'My alerts',
   component: LoadableMySignals
 }
 
 const MY_SIGNALS_LIST = {
   ...DEFAULT_ROUTE,
-  path: SIGNAL_ROUTES.MY_SIGNALS
+  path: SIGNAL_ROUTES.MY_ALERTS
 }
 
 const MY_SIGNALS_MODAL_VIEW = {
+  ...DEFAULT_ROUTE,
+  path: SIGNAL_ROUTES.ALERT,
+  hidden: true
+}
+const MY_SIGNALS_LEGACY_MODAL_VIEW = {
   ...DEFAULT_ROUTE,
   path: SIGNAL_ROUTES.SIGNAL,
   hidden: true
 }
 
-const tabs = [MY_SIGNALS_LIST, MY_SIGNALS_MODAL_VIEW]
+const tabs = [
+  MY_SIGNALS_LIST,
+  MY_SIGNALS_MODAL_VIEW,
+  MY_SIGNALS_LEGACY_MODAL_VIEW
+]
 
 const SignalModal = ({ id: triggerId, params }) => {
   const shareSignalParams = getShareSignalParams(params)
@@ -67,7 +76,7 @@ const SignalModal = ({ id: triggerId, params }) => {
         <ScreenerSignalDialog
           signal={trigger}
           defaultOpen={isOpen}
-          goBackTo={SIGNAL_ROUTES.MY_SIGNALS}
+          goBackTo={SIGNAL_ROUTES.MY_ALERTS}
         />
       )
     }
@@ -95,7 +104,9 @@ const SonarFeed = ({
   }
   const pathParams = useMemo(
     () => {
-      const parsed = matchPath(pathname, SIGNAL_ROUTES.SIGNAL)
+      const parsed =
+        matchPath(pathname, SIGNAL_ROUTES.ALERT) ||
+        matchPath(pathname, SIGNAL_ROUTES.SIGNAL)
 
       return parsed ? parsed.params : undefined
     },

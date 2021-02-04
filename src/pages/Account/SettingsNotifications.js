@@ -47,7 +47,7 @@ const SignalsDescription = (
 
   return (
     <Link
-      to={'/sonar/my-signals?channel=' + channel}
+      to={'/sonar/my-alerts?channel=' + channel}
       className={styles.signalDescription}
     >{`Manage ${channelName} signals (${mappedCount}/${allCount})`}</Link>
   )

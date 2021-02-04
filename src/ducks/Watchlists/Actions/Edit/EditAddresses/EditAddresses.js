@@ -58,7 +58,6 @@ const EditAddresses = ({ trigger, watchlist }) => {
   }
 
   const toggle = ({ item, listItems, isInList }) => {
-    debugger
     setItems(
       isInList
         ? listItems.filter(a => a.address !== item.address)

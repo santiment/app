@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import Dialog from '@santiment-network/ui/Dialog'
 import {
@@ -16,6 +16,7 @@ import SupportedMetricsList, {
 } from './SupportedMetricsList'
 import { showNotification } from '../../../../../../actions/rootActions'
 import { capitalizeStr } from '../../../../../../utils/utils'
+import { useDialogState } from '../../../../../../hooks/dialog'
 import styles from '../../signal/TriggerForm.module.scss'
 import metricStyles from './TriggerFormMetricTypes.module.scss'
 
@@ -35,7 +36,7 @@ const TriggerFormMetricTypes = ({
 }) => {
   const defaultMetric = metaFormSettings.metric
 
-  const [open, setOpen] = useState(false)
+  const { isOpened, openDialog, closeDialog } = useDialogState(false)
 
   const onSelectMetric = newMetric => {
     metric &&
@@ -59,7 +60,7 @@ const TriggerFormMetricTypes = ({
 
     setFieldValue('metric', newMetric)
 
-    setOpen(false)
+    closeDialog()
   }
 
   const slug = getSlugFromSignalTarget(trigger)
@@ -93,9 +94,9 @@ const TriggerFormMetricTypes = ({
   return (
     <div className={styles.row}>
       <Dialog
-        open={open}
-        onOpen={() => setOpen(true)}
-        onClose={() => setOpen(false)}
+        open={isOpened}
+        onOpen={openDialog}
+        onClose={closeDialog}
         classes={metricStyles}
         trigger={<MetricTypeRenderer metric={metric || defaultMetric.value} />}
       >
