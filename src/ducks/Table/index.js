@@ -13,9 +13,8 @@ const DEFAULT_CB = () => {}
 const EMPTY_OBJ = {}
 const PAGE_SIZE_OPTIONS = [10, 25, 50]
 const sortTypes = {
-  sortDatetimes: (a, b, id) => sortDate(a.original[id], b.original[id]),
-  sortFloatNumeric: (a, b, id) =>
-    sortFloatNumeric(a.original[id], b.original[id])
+  datetime: (a, b, id) => sortDate(a.original[id], b.original[id]),
+  floatNumeric: (a, b, id) => sortFloatNumeric(a.original[id], b.original[id])
 }
 
 const Table = ({
