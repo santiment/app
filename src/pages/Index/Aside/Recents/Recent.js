@@ -26,7 +26,7 @@ const Recent = ({ title, rightHeader, ids, getItem, getLink, Item }) => {
   useEffect(
     () => {
       Promise.all(ids.map(getItem)).then(items => {
-        setItems(items.filter(Boolean))
+        setItems(items.flat().filter(Boolean))
         setIsLoading(false)
       })
     },
