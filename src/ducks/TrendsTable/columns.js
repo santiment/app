@@ -1,14 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Icon from '@santiment-network/ui/Icon'
-import { useTrendSocialVolume, useTrendSocialVolumeChange } from './hooks'
+import {
+  useTrendWordContext,
+  useTrendSocialVolume,
+  useTrendSocialVolumeChange
+} from './hooks'
 import { prepareColumns } from '../_Table'
 import { INDEX_COLUMN } from '../_Table/columns'
 import { useRenderQueueItem } from '../renderQueue/sized'
 import { Skeleton } from '../../components/Skeleton'
 import MiniChart from '../../components/MiniChart'
 import PercentChanges from '../../components/PercentChanges'
-import WordCloud from '../../components/WordCloud/WordCloud'
+import { WordCloud } from '../../components/WordCloud/WordCloud'
 import { useUserSubscriptionStatus } from '../../stores/user/subscriptions'
 import styles from './index.module.scss'
 
@@ -69,17 +73,14 @@ const TrendingChart = ({ trend }) => {
 }
 
 const ConnectedWords = ({ word }) => {
-  const { isRendered, onLoad } = useRenderQueueItem()
+  const { data, isLoading } = useTrendWordContext(word)
 
-  return isRendered ? (
+  return (
     <WordCloud
       className={styles.cloud__words}
-      size={6}
-      word={word}
-      onLoad={onLoad}
+      cloud={data}
+      isLoading={isLoading}
     />
-  ) : (
-    <Loader />
   )
 }
 
