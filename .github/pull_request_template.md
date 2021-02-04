@@ -15,8 +15,6 @@
 - [ ] I've updated the documentation (Academy), if necessary (Keyboard shortcuts, Account settings)
 - [ ] I've added tests that prove my fix is effective or that my feature works
 
-P.S. Don't forget about naming conventions for PRs, functions and modules.
-
 ## Screenshots or GIFs
 <!--- (if appropriate) -->
 
