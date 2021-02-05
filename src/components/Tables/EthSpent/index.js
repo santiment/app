@@ -13,13 +13,7 @@ const EthSpentTable = () => {
     <GetAssets
       sortBy='eth_balance'
       type='erc20'
-      render={({
-        items = [],
-        projectsCount,
-        isLoading: loading = true,
-        loadingAll,
-        ...rest
-      }) => {
+      render={({ items = [], isLoading: loading = true, loadingAll }) => {
         return (
           <PanelWithHeader
             header={
