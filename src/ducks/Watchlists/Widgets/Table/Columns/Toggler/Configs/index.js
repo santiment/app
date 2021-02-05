@@ -13,6 +13,7 @@ import {
 } from '../../gql/mutations'
 import UpdateConfig from './UpdateConfig'
 import styles from './index.module.scss'
+import { DEFAULT_ORDER_BY } from '../../defaults'
 
 const ConfigsMenu = ({
   setOpen,
@@ -41,12 +42,20 @@ const ConfigsMenu = ({
   )
 
   const hasUnsavedChanges = useMemo(
-    () =>
-      activeColumns &&
-      config &&
-      !isLoading &&
-      !isEqual(new Set(config.columns.metrics), new Set(activeColumns)),
-    [activeColumns]
+    () => {
+      const comparedSorting =
+        config && config.columns.sorting
+          ? config.columns.sorting
+          : DEFAULT_ORDER_BY
+      return (
+        activeColumns &&
+        config &&
+        !isLoading &&
+        (!isEqual(new Set(config.columns.metrics), new Set(activeColumns)) ||
+          !isEqual(sorting, comparedSorting))
+      )
+    },
+    [activeColumns, sorting, config]
   )
 
   const transformedTrigger = useMemo(
