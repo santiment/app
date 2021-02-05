@@ -1,4 +1,9 @@
 import { Metric } from '../../../../../dataHub/metrics'
+import {
+  HolderDistributionAbsoluteMetric,
+  HolderDistributionCombinedBalanceAbsoluteMetric,
+  HolderDistributionPercentMetric
+} from '../../../../../Studio/Chart/Sidepanel/HolderDistribution/metrics'
 
 const makeSignalMetric = (key, label, category, node = 'line', group) => {
   return {
@@ -26,7 +31,28 @@ export const DAILY_METRICS = [
     'On-chain',
     'bar',
     'Network Value'
-  )
+  ),
+
+  ...Object.values(HolderDistributionAbsoluteMetric).map(m => ({
+    ...m,
+    category: 'On-chain',
+    node: 'line',
+    label: `Holders Distribution Absolute ${m.label}`
+  })),
+
+  ...Object.values(HolderDistributionPercentMetric).map(m => ({
+    ...m,
+    category: 'On-chain',
+    node: 'line',
+    label: `Holders Distribution Percent ${m.label}`
+  })),
+
+  ...Object.values(HolderDistributionCombinedBalanceAbsoluteMetric).map(m => ({
+    ...m,
+    category: 'On-chain',
+    node: 'line',
+    label: `Holders Distribution Combined Balance ${m.label}`
+  }))
 ]
 
 export const SIGNAL_SUPPORTED_METRICS = [
