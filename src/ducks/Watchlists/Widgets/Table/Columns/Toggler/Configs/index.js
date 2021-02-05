@@ -13,12 +13,14 @@ import {
 } from '../../gql/mutations'
 import UpdateConfig from './UpdateConfig'
 import styles from './index.module.scss'
+import { DEFAULT_ORDER_BY } from '../../defaults'
 
 const ConfigsMenu = ({
   setOpen,
   open,
   changeConfig,
   config,
+  sorting,
   activeColumns,
   isLoading
 }) => {
@@ -41,14 +43,27 @@ const ConfigsMenu = ({
 
   const hasUnsavedChanges = useMemo(
     () => {
+      const comparedSorting =
+        config && config.columns.sorting
+          ? config.columns.sorting
+          : DEFAULT_ORDER_BY
       return (
         activeColumns &&
         config &&
         !isLoading &&
-        !isEqual(config.columns.metrics, activeColumns)
+        (!isEqual(new Set(config.columns.metrics), new Set(activeColumns)) ||
+          !isEqual(sorting, comparedSorting))
       )
     },
-    [activeColumns]
+    [activeColumns, sorting, config]
+  )
+
+  const transformedTrigger = useMemo(
+    () =>
+      config &&
+      hasUnsavedChanges &&
+      !userTableConfigs.some(({ id }) => id === config.id),
+    [hasUnsavedChanges, userTableConfigs, config]
   )
 
   function onConfigSelect (id) {
@@ -70,7 +85,7 @@ const ConfigsMenu = ({
           className={cx(styles.trigger, open && styles.isOpened)}
         >
           <span className={cx(hasUnsavedChanges && styles.circle)}>
-            {title}
+            {transformedTrigger ? 'Save as set' : title}
           </span>
           <Icon type='arrow-down' className={styles.arrow} />
         </Button>
@@ -87,8 +102,11 @@ const ConfigsMenu = ({
           onChange={title =>
             createTableConfig({
               title,
-              columns: { metrics: activeColumns }
-            }).then(({ id }) => changeConfig(id))
+              columns: { metrics: activeColumns, sorting }
+            }).then(({ id }) => {
+              changeConfig(id)
+              setOpen(false)
+            })
           }
         />
         <div className={styles.content}>
@@ -135,7 +153,7 @@ const ConfigsMenu = ({
                         type='disk-small'
                         onClick={() =>
                           updateTableConfig(config, {
-                            columns: { metrics: activeColumns }
+                            columns: { metrics: activeColumns, sorting }
                           })
                         }
                       />

@@ -22,7 +22,9 @@ const Toggler = ({
   activeColumns,
   updateActiveColumnsKeys,
   watchlist,
-  isAuthor
+  isAuthor,
+  sorting,
+  setOrderBy
 }) => {
   const { isNightMode } = useTheme()
   const [open, setOpen] = useState(false)
@@ -52,8 +54,7 @@ const Toggler = ({
         watchlist &&
         watchlist.tableConfiguration &&
         selectedConfigId === watchlist.tableConfiguration.id &&
-        !tableConfig &&
-        !configLoading
+        !tableConfig
       ) {
         return watchlist.tableConfiguration
       } else {
@@ -66,10 +67,14 @@ const Toggler = ({
   useEffect(
     () => {
       if (config && allMetrics.length !== 0) {
-        const newMetricKeys = config.columns.metrics
-        setActiveKeys(newMetricKeys)
-        setCurrActiveKeys(newMetricKeys)
-        updateActiveColumnsKeys(newMetricKeys)
+        const { metrics, sorting } = config.columns
+        if (sorting) {
+          setOrderBy(sorting)
+        }
+
+        setActiveKeys(metrics)
+        setCurrActiveKeys(metrics)
+        updateActiveColumnsKeys(metrics)
       }
     },
     [config, allMetrics]
@@ -239,6 +244,7 @@ const Toggler = ({
         open={openConfigsMenu}
         changeConfig={setSelectedConfigId}
         config={config}
+        sorting={sorting}
         isLoading={isLoading}
         activeColumns={activeKeys}
       />

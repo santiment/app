@@ -28,7 +28,7 @@ const GET_WATCHLIST_QUERY = slug => gql`
   ${projectSearchData}
 `
 
-const ERC20_PROJECTS_QUERY = gql`
+export const ERC20_PROJECTS_QUERY = gql`
   query allErc20Projects($minVolume: Int = 0) {
     projects: allErc20Projects(minVolume: $minVolume) {
       ...projectSearchData
