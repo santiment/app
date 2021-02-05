@@ -21,8 +21,8 @@ const Pagination = ({
   canPreviousPage,
   setPageSize,
   onGotoPage,
-  onPreviousPage,
-  onNextPage,
+  previousPage: onPreviousPage,
+  nextPage: onNextPage,
   onChangePage,
   pageSizeOptions,
   className
