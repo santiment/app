@@ -206,12 +206,12 @@ const Screener = ({
         watchlist={watchlist}
         fetchData={fetchData}
         refetchAssets={refetchAssets}
-        pageSize={pagination.pageSize}
-        pageIndex={pagination.page - 1}
         sorting={orderBy}
         activeColumns={activeColumns}
         updateActiveColumnsKeys={setActiveColumnsKeys}
         isAuthor={isAuthor}
+        pageSize={pagination.pageSize}
+        pageIndex={pagination.page - 1}
         onChangePage={pageIndex =>
           setPagination({ ...pagination, page: +pageIndex + 1 })
         }

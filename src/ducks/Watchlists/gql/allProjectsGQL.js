@@ -115,3 +115,30 @@ export const ALL_PROJECTS_SOCIAL_VOLUME_CHANGES_QUERY = gql`
     }
   }
 `
+
+const ethereumData = gql`
+  fragment ethereumData on Project {
+    fundsRaisedUsdIcoEndPrice
+    ethAddresses {
+      address
+    }
+  }
+`
+
+export const ERC20_PROJECTS_QUERY = gql`
+  query allErc20Projects($minVolume: Int!, $page: Int, $pageSize: Int) {
+    projects: allErc20Projects(
+      minVolume: $minVolume
+      page: $page
+      pageSize: $pageSize
+    ) {
+      ethBalance
+      ...generalData
+      ...project
+      ...ethereumData
+    }
+  }
+  ${ethereumData}
+  ${generalData}
+  ${project}
+`

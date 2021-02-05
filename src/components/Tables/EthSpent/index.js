@@ -13,7 +13,13 @@ const EthSpentTable = () => {
     <GetAssets
       sortBy='eth_balance'
       type='erc20'
-      render={({ items = [], isLoading: loading = true, loadingAll }) => {
+      render={({
+        items = [],
+        projectsCount,
+        isLoading: loading = true,
+        loadingAll,
+        ...rest
+      }) => {
         return (
           <PanelWithHeader
             header={
@@ -41,8 +47,6 @@ const EthSpentTable = () => {
                   isStickyHeader: true
                 },
                 paginationSettings: {
-                  pageSize: 10,
-                  pageIndex: 0,
                   pageSizeOptions: [10, 25, 50]
                 }
               }}

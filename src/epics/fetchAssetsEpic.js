@@ -3,56 +3,83 @@ import { Observable } from 'rxjs'
 import { WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY } from '../queries/WatchlistGQL.js'
 import * as actions from './../actions/types'
 import { PROJECT } from '../ducks/Watchlists/utils'
+import { ERC20_PROJECTS_QUERY } from '../ducks/Watchlists/gql/allProjectsGQL'
 
 const handleError = error => {
   Sentry.captureException(error)
   return Observable.of({ type: actions.ASSETS_FETCH_FAILED, payload: error })
 }
 
+const pickProjectsType = type => {
+  switch (type) {
+    case 'erc20':
+      return { projects: 'allErc20Projects', gql: ERC20_PROJECTS_QUERY }
+    default: {
+      return undefined
+    }
+  }
+}
+
+const extractTablePayload = (store, { watchlist, projects }) => {
+  if (watchlist) {
+    const { isPublic, user, listItems, stats, isMonitored } = watchlist
+
+    return {
+      isMonitored,
+      items: listItems.map(asset => asset.project),
+      trendingAssets: stats.trendingProjects,
+      projectsCount: stats.projectsCount,
+      isCurrentUserTheAuthor: store.getState().user.data.id === user.id,
+      isPublicWatchlist: isPublic
+    }
+  }
+
+  if (projects) {
+    return {
+      items: projects,
+      projectsCount: projects.length
+    }
+  }
+}
+
 export const fetchAssetsFromListEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.ASSETS_FETCH)
-    .filter(
-      ({ payload: { type } }) =>
-        type === PROJECT || type === 'list' || type === 'list#shared'
-    )
-    .mergeMap(({ payload: { list, filters } }) => {
+    .filter(({ payload: { type } }) => {
+      return (
+        type === PROJECT ||
+        type === 'list' ||
+        type === 'list#shared' ||
+        pickProjectsType(type)
+      )
+    })
+    .mergeMap(({ payload: { list, filters, type } }) => {
+      const picked = pickProjectsType(type)
+      const query = picked
+        ? picked.gql
+        : WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY
+
       return Observable.from(
         client.watchQuery({
-          query: WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY,
-          variables: { id: list.id, filters },
+          query: query,
+          variables: { id: list.id, filters, minVolume: 0 },
           context: { isRetriable: true },
           fetchPolicy: 'network-only'
         })
       )
         .concatMap(({ data }) => {
           const watchlist = data.watchlist
-
-          if (!watchlist) {
+          if (!(data.watchlist || data.projects)) {
             return Observable.of({
               type: actions.ASSETS_FETCH_SUCCESS,
               payload: {}
             })
           }
 
-          const {
-            isPublic,
-            user,
-            settings,
-            listItems,
-            stats,
-            id,
-            isMonitored
-          } = watchlist
+          const { settings, id } = watchlist || {}
           const { watchlistsSettings } = store.getState().watchlistUi
-          const payload = {
-            isMonitored,
-            items: listItems.map(asset => asset.project),
-            trendingAssets: stats.trendingProjects,
-            projectsCount: stats.projectsCount,
-            isCurrentUserTheAuthor: store.getState().user.data.id === user.id,
-            isPublicWatchlist: isPublic
-          }
+
+          const payload = extractTablePayload(store, data)
 
           if (settings && !watchlistsSettings[id]) {
             const { tableColumns = {}, pageSize } = settings
