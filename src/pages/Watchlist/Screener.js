@@ -154,11 +154,10 @@ const Screener = ({
   const title = watchlist.name || name || 'My screener'
   // temporal solution @haritonasty 18 Jan, 2021
   const allItems = useMemo(
-    () => {
-      return watchlist.listItems
+    () =>
+      watchlist.listItems
         ? watchlist.listItems.map(item => item.project)
-        : assets
-    },
+        : assets,
     [watchlist]
   )
 
@@ -210,6 +209,7 @@ const Screener = ({
         pageIndex={pagination.page - 1}
         sorting={orderBy}
         activeColumns={activeColumns}
+        setOrderBy={setOrderBy}
         updateActiveColumnsKeys={setActiveColumnsKeys}
         isAuthor={isAuthor}
         onChangePage={pageIndex =>

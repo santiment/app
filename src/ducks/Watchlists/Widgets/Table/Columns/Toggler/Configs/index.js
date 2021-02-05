@@ -13,12 +13,14 @@ import {
 } from '../../gql/mutations'
 import UpdateConfig from './UpdateConfig'
 import styles from './index.module.scss'
+import { DEFAULT_ORDER_BY } from '../../defaults'
 
 const ConfigsMenu = ({
   setOpen,
   open,
   changeConfig,
   config,
+  sorting,
   activeColumns,
   isLoading
 }) => {
@@ -40,12 +42,20 @@ const ConfigsMenu = ({
   )
 
   const hasUnsavedChanges = useMemo(
-    () =>
-      activeColumns &&
-      config &&
-      !isLoading &&
-      !isEqual(new Set(config.columns.metrics), new Set(activeColumns)),
-    [activeColumns]
+    () => {
+      const comparedSorting =
+        config && config.columns.sorting
+          ? config.columns.sorting
+          : DEFAULT_ORDER_BY
+      return (
+        activeColumns &&
+        config &&
+        !isLoading &&
+        (!isEqual(new Set(config.columns.metrics), new Set(activeColumns)) ||
+          !isEqual(sorting, comparedSorting))
+      )
+    },
+    [activeColumns, sorting, config]
   )
 
   const transformedTrigger = useMemo(
@@ -92,7 +102,7 @@ const ConfigsMenu = ({
           onChange={title =>
             createTableConfig({
               title,
-              columns: { metrics: activeColumns }
+              columns: { metrics: activeColumns, sorting }
             }).then(({ id }) => {
               changeConfig(id)
               setOpen(false)
@@ -143,7 +153,7 @@ const ConfigsMenu = ({
                         type='disk-small'
                         onClick={() =>
                           updateTableConfig(config, {
-                            columns: { metrics: activeColumns }
+                            columns: { metrics: activeColumns, sorting }
                           })
                         }
                       />
