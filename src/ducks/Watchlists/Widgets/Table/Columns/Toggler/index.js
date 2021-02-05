@@ -121,7 +121,7 @@ const Toggler = ({
 
   const hasChanges = useMemo(
     () => !isEqual(new Set(currActiveKeys), new Set(activeKeys)),
-    [activeKeys]
+    [activeKeys, currActiveKeys]
   )
 
   useEffect(
@@ -188,30 +188,19 @@ const Toggler = ({
       >
         <Panel
           variant='modal'
-          className={styles.wrapper}
+          className={cx(styles.wrapper, hasChanges && styles.wrapper__active)}
           style={getShadowVars(isNightMode)}
         >
-          <div
-            className={cx(styles.buttons, hasChanges && styles.buttons__active)}
+          <Button
+            accent='positive'
+            className={cx(styles.discard, hasChanges && styles.discard__active)}
+            onClick={() => {
+              setActiveKeys(currActiveKeys)
+              setOpen(false)
+            }}
           >
-            <Button
-              variant='fill'
-              accent='positive'
-              onClick={() => setOpen(false)}
-            >
-              Apply
-            </Button>
-            <Button
-              border
-              accent='green'
-              onClick={() => {
-                setActiveKeys(currActiveKeys)
-                setOpen(false)
-              }}
-            >
-              Cancel
-            </Button>
-          </div>
+            Discard changes
+          </Button>
           <Search
             onChange={value => setCurrentSearch(value)}
             placeholder='Type to search'
@@ -246,7 +235,7 @@ const Toggler = ({
         config={config}
         sorting={sorting}
         isLoading={isLoading}
-        activeColumns={activeKeys}
+        activeColumns={currActiveKeys}
       />
     </>
   )
