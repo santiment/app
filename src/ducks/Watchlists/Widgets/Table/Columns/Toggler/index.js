@@ -192,7 +192,6 @@ const Toggler = ({
           style={getShadowVars(isNightMode)}
         >
           <Button
-            accent='positive'
             className={cx(styles.discard, hasChanges && styles.discard__active)}
             onClick={() => {
               setActiveKeys(currActiveKeys)
