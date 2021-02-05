@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import cx from 'classnames'
+import isEqual from 'lodash.isequal'
 import { useTable, useSortBy, usePagination, useRowSelect } from 'react-table'
 import { sortDate } from '../../utils/sortMethods'
 import Loader from './Loader'
@@ -81,6 +82,7 @@ const Table = ({
     nextPage,
     previousPage,
     setPageSize,
+    setSortBy,
     selectedFlatRows,
     state: { pageIndex, pageSize, sortBy }
   } = useTable(
@@ -143,6 +145,15 @@ const Table = ({
       fetchData({ pageSize, sortBy })
     },
     [pageSize, sortBy]
+  )
+
+  useEffect(
+    () => {
+      if (manualPagination && !isEqual(defaultSorting, sortBy)) {
+        setSortBy(defaultSorting)
+      }
+    },
+    [defaultSorting]
   )
 
   return (

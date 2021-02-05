@@ -23,6 +23,8 @@ const TableTop = ({
   listName,
   refetchAssets,
   activeColumns,
+  sorting,
+  setOrderBy,
   updateActiveColumnsKeys,
   isAuthor,
   watchlist = EMPTY_OBJ
@@ -58,6 +60,8 @@ const TableTop = ({
         <ColumnsToggler
           watchlist={watchlist}
           isAuthor={isAuthor}
+          sorting={sorting}
+          setOrderBy={setOrderBy}
           activeColumns={activeColumns}
           updateActiveColumnsKeys={updateActiveColumnsKeys}
         />

@@ -19,6 +19,7 @@ const ConfigsMenu = ({
   open,
   changeConfig,
   config,
+  sorting,
   activeColumns,
   isLoading
 }) => {
@@ -92,7 +93,7 @@ const ConfigsMenu = ({
           onChange={title =>
             createTableConfig({
               title,
-              columns: { metrics: activeColumns }
+              columns: { metrics: activeColumns, sorting }
             }).then(({ id }) => {
               changeConfig(id)
               setOpen(false)
@@ -143,7 +144,7 @@ const ConfigsMenu = ({
                         type='disk-small'
                         onClick={() =>
                           updateTableConfig(config, {
-                            columns: { metrics: activeColumns }
+                            columns: { metrics: activeColumns, sorting }
                           })
                         }
                       />
