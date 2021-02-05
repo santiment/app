@@ -37,16 +37,32 @@
   user-select: none;
   position: relative;
 
-  &::before {
+  &::before,
+  &::after {
     content: '';
     position: absolute;
     display: block;
-    bottom: 0;
     left: 0;
     right: 24px;
-    height: 64px;
     z-index: 1;
-    background: linear-gradient(180deg, var(--shadowFrom) 0%, var(--shadowTo) 9%, var(--white) 100%);
+  }
+
+  &::after {
+    bottom: 0;
+    height: 40px;
+    transition: height 0.15s ease-in-out;
+    background: linear-gradient(180deg, var(--shadowFrom) 0%, var(--shadowTo) 54%, var(--white) 70%, var(--white) 100%);
+  }
+
+  &::before {
+    top: 58px;
+    height: 24px;
+    transform: rotate(180deg);
+    background: linear-gradient(180deg, var(--shadowFrom) 0%, var(--shadowTo) 54%, var(--white) 100%);
+  }
+
+  &__active::after {
+    height: 64px;
   }
 }
 
@@ -56,30 +72,25 @@
   overflow-y: auto;
   height: calc(100vh - 300px);
   max-height: 520px;
+  padding-top: 12px;
 }
 
 .search {
-  margin: 0 24px 24px 0;
+  margin: 0 24px 12px 0;
 }
 
-.buttons {
-  display: flex;
-  align-items: center;
+.discard {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 16px 24px;
-  z-index: 1;
-  transform: translateY(16px);
+  z-index: 2;
+  width: calc(100% - 24px);
+  transform: translateY(8px);
+  background: transparent !important;
   transition: transform 0.3s ease-in, opacity 0.2s ease-in;
   opacity: 0;
-
-  & button {
-    margin-right: 16px;
-    width: 80px;
-    justify-content: center;
-  }
+  justify-content: center;
 
   &__active {
     transition: transform 0.3s ease-out;
