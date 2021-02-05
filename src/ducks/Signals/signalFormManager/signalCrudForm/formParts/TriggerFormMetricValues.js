@@ -12,6 +12,7 @@ import { LastPriceComponent } from './TriggerLastPrice'
 import MetricOptionsRenderer from './metricOptions/MetricOptionsRenderer'
 import { mapTargetObject, targetMapperWithTicker } from '../../../utils/utils'
 import styles from '../signal/TriggerForm.module.scss'
+import { isDailyMetric } from './metricTypes/metrics'
 
 export const TriggerFormMetricValues = ({
   values: {
@@ -27,12 +28,13 @@ export const TriggerFormMetricValues = ({
   metaFormSettings,
   typeSelectors
 }) => {
-  const isPriceMetric = metric.value === PRICE
+  const { key, value } = metric
+  const isPriceMetric = value === PRICE
 
   const mappedTargets = mapTargetObject(target, targetMapperWithTicker)
   const slugName = !Array.isArray(mappedTargets) ? mappedTargets : undefined
 
-  const isTimeWindow = blocks.includes('timeWindow')
+  const isTimeWindow = blocks.includes('timeWindow') && !isDailyMetric(key)
 
   const defaultType = metaFormSettings.type
 
