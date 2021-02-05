@@ -156,6 +156,15 @@ const Table = ({
     [defaultSorting]
   )
 
+  useEffect(
+    () => {
+      if (!manualPagination) {
+        setSortBy(sortBy)
+      }
+    },
+    [sortBy]
+  )
+
   return (
     <div
       className={cx(
