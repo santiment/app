@@ -50,6 +50,7 @@
   &::after {
     bottom: 0;
     height: 40px;
+    border-radius: 4px;
     transition: height 0.15s ease-in-out;
     background: linear-gradient(180deg, var(--shadowFrom) 0%, var(--shadowTo) 54%, var(--white) 70%, var(--white) 100%);
   }
@@ -85,15 +86,17 @@
   left: 0;
   right: 0;
   z-index: 2;
-  width: calc(100% - 24px);
+  width: 100%;
   transform: translateY(8px);
-  background: transparent !important;
+  border-top: 1px solid var(--porcelain);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
   transition: transform 0.3s ease-in, opacity 0.2s ease-in;
   opacity: 0;
   justify-content: center;
 
   &__active {
-    transition: transform 0.3s ease-out;
+    transition: transform 0.3s ease-out, opacity 0.1s ease-in-out 0.07s;
     opacity: 1;
     transform: translateY(0);
   }
