@@ -17,7 +17,6 @@ const FEATURED_WATCHLISTS_MARKETCAP_HISTORY_QUERY = gql`
 `
 
 const marketcapAccessor = ({ featuredWatchlists }, { id }) =>
-  console.log(featuredWatchlists) ||
   featuredWatchlists.find(watchlist => watchlist.id === id)
 
 function useWatchlistMarketcap (watchlist, skip, onLoad) {
