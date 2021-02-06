@@ -13,7 +13,6 @@ export const WATCHLIST_MARKETCAP_HISTORY_QUERY = gql`
     watchlist(id: $id) {
       id
       historicalStats(from: "utc_now-7d", to: "utc_now", interval: "6h") {
-        datetime
         marketcap
       }
     }
@@ -27,18 +26,15 @@ const LOADING = {
 const DEFAULT = {
   marketcap: NULL_MARKETCAP
 }
-const useMarketcap = (variables, skip, onLoad) => {
-  const { data } = useQuery(WATCHLIST_MARKETCAP_HISTORY_QUERY, {
-    variables,
-    skip
-  })
-
+export function useMarketcap (data, watchlist, onLoad, accessor) {
   return useMemo(
     () => {
       if (!data) return LOADING
       if (onLoad) onLoad()
 
-      const { historicalStats } = data.watchlist
+      const { historicalStats } = accessor
+        ? accessor(data, watchlist)
+        : data.watchlist
       const { length } = historicalStats
 
       if (length === 0) return DEFAULT
@@ -56,8 +52,22 @@ const useMarketcap = (variables, skip, onLoad) => {
   )
 }
 
-const ProjectCard = ({ skipMarketcap, onMarketcapLoad, ...props }) => {
-  const { data, marketcap, change } = useMarketcap(
+function useWatchlistMarketcap (variables, skip, onLoad) {
+  const { data } = useQuery(WATCHLIST_MARKETCAP_HISTORY_QUERY, {
+    variables,
+    skip
+  })
+
+  return useMarketcap(data, variables, onLoad)
+}
+
+const ProjectCard = ({
+  useWatchlistMarketcap,
+  skipMarketcap,
+  onMarketcapLoad,
+  ...props
+}) => {
+  const { data, marketcap, change } = useWatchlistMarketcap(
     props.watchlist,
     skipMarketcap,
     onMarketcapLoad
@@ -97,6 +107,7 @@ const ProjectCard = ({ skipMarketcap, onMarketcapLoad, ...props }) => {
   )
 }
 ProjectCard.defaultProps = {
+  useWatchlistMarketcap,
   path: '/watchlist/projects/'
 }
 
