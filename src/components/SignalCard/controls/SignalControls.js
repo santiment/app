@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import { Icon } from '@santiment-network/ui'
+import Icon from '@santiment-network/ui/Icon'
 import {
   DAILY_ACTIVE_ADDRESSES,
   ETH_WALLET,

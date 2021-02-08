@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Icon } from '@santiment-network/ui'
+import Icon from '@santiment-network/ui/Icon'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import styles from './LikeBtn.module.scss'

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import nprogress from 'nprogress'
-import { Icon } from '@santiment-network/ui'
+import Icon from '@santiment-network/ui/Icon'
 import {
   BLOCK_BUTTONS,
   INLINE_BUTTONS,
