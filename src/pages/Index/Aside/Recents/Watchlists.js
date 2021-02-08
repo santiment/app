@@ -28,7 +28,8 @@ const Watchlist = ({ name, isPublic, historicalStats }) => {
   const marketcapLast = lastData ? lastData.marketcap : 0
   const marketcapFirst = firstData ? firstData.marketcap : 0
 
-  const change = (marketcapLast - marketcapFirst) / marketcapFirst
+  const change =
+    marketcapFirst !== 0 ? (marketcapLast - marketcapFirst) / marketcapFirst : 0
 
   return (
     <>
