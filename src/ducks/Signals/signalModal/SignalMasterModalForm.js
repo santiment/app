@@ -22,7 +22,7 @@ const SignalMasterModalForm = ({
   shareParams = {},
   userId,
   redirect,
-  previousPage = SIGNAL_ROUTES.MY_ALERTS,
+  previousPage = SIGNAL_ROUTES.ALERTS,
   defaultOpen = true,
   onClose
 }) => {
@@ -164,7 +164,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   redirect: url => {
-    dispatch(push(url || SIGNAL_ROUTES.MY_ALERTS))
+    dispatch(push(url || SIGNAL_ROUTES.ALERTS))
   }
 })
 
