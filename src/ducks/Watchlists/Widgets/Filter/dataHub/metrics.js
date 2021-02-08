@@ -403,7 +403,7 @@ export const Metric = {
   cexes_to_whale_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.CEXES,
-    label: 'Cexes to Whale',
+    label: 'Cexes to Whales',
     shortLabel: 'Cex to Wh',
     isOnlyPercentFilters: true
   },
@@ -479,9 +479,9 @@ export const Metric = {
   },
   whale_to_dex_traders_flow: {
     category: CATEGORIES.FLOW_METRICS,
-    group: GROUPS.DEFI,
-    label: 'DeFi to Dex Traders',
-    shortLabel: 'DeFi to Dex Tr',
+    group: GROUPS.WHALES,
+    label: 'Whales to Dex Traders',
+    shortLabel: 'Wh to Dex Tr',
     isOnlyPercentFilters: true
   },
   whale_to_other_flow: {
@@ -493,9 +493,9 @@ export const Metric = {
   },
   other_to_dex_traders_flow: {
     category: CATEGORIES.FLOW_METRICS,
-    group: GROUPS.WHALES,
-    label: 'Whales to Dex Traders',
-    shortLabel: 'Wh to Dex Tr',
+    group: GROUPS.OTHERS,
+    label: 'Others to Dex Traders',
+    shortLabel: 'Oth to Dex Tr',
     isOnlyPercentFilters: true
   },
   other_to_dexes_flow: {
@@ -529,7 +529,7 @@ export const Metric = {
   traders_to_other_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.TRADERS,
-    label: 'Traders To Others',
+    label: 'Traders to Others',
     shortLabel: 'Tr to Oth',
     isOnlyPercentFilters: true
   },
@@ -550,8 +550,8 @@ export const Metric = {
   traders_to_whale_flow: {
     category: CATEGORIES.FLOW_METRICS,
     group: GROUPS.TRADERS,
-    label: 'Traders to Others',
-    shortLabel: 'Tr to Oth',
+    label: 'Traders to Whales',
+    shortLabel: 'Tr to Wh',
     isOnlyPercentFilters: true
   },
   age_consumed: {
