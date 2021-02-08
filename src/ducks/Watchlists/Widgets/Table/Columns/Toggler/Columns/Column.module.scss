@@ -38,3 +38,11 @@
   color: var(--waterloo);
   margin-left: 6px;
 }
+
+.draggable {
+  position: absolute;
+  left: -18px;
+  top: 4px;
+  opacity: 0;
+  fill: var(--rhino);
+}

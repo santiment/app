@@ -14,14 +14,14 @@
 }
 
 .title {
-  margin: 0;
+  margin: 0 0 0 24px;
   color: var(--waterloo);
 
   @include text('body-3', 'l');
 }
 
 .group__title {
-  margin: 8px 0 0;
+  margin: 8px 0 0 24px;
   color: var(--waterloo);
 
   @include text('caption', 'm');
@@ -32,18 +32,23 @@
 }
 
 .columns {
-  margin: 16px 20px 20px 0;
+  margin: 16px 20px 20px 24px;
 }
 
 .column {
-  margin-bottom: 12px;
+  padding-bottom: 12px;
 
   &__active {
     z-index: 1100;
+    position: relative;
+
+    &:hover svg {
+      opacity: 1;
+    }
   }
 
   &:last-child {
-    margin-bottom: 0;
+    padding-bottom: 0;
   }
 }
 

@@ -12,6 +12,7 @@ const SortableItem = SortableElement(
     return isHide ? null : (
       <Column
         key={key}
+        draggable
         column={column}
         onColumnToggle={onColumnToggle}
         isActive={true}
