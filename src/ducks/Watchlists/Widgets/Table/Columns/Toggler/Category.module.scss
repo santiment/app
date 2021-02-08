@@ -38,6 +38,10 @@
 .column {
   margin-bottom: 12px;
 
+  &__active {
+    z-index: 1100;
+  }
+
   &:last-child {
     margin-bottom: 0;
   }
@@ -58,4 +62,9 @@
 
 .searchedColumn:last-child {
   margin-bottom: 12px;
+}
+
+.dragged {
+  pointer-events: initial !important;
+  cursor: grabbing;
 }

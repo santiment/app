@@ -1,8 +1,37 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import cx from 'classnames'
+import { SortableContainer, SortableElement } from 'react-sortable-hoc'
 import { NO_GROUP } from '../../../../../Studio/Sidebar/utils'
 import Column from './Columns/Column'
 import styles from './Category.module.scss'
+
+const SortableItem = SortableElement(
+  ({ column, currentSearch, filteredColumns, onColumnToggle }) => {
+    const { key } = column
+    const isHide = currentSearch && !filteredColumns.includes(key)
+    return isHide ? null : (
+      <Column
+        key={key}
+        column={column}
+        onColumnToggle={onColumnToggle}
+        isActive={true}
+        className={cx(
+          styles.column,
+          styles.column__active,
+          currentSearch && styles.searchedColumn
+        )}
+      />
+    )
+  }
+)
+
+const SortableList = SortableContainer(({ columns, ...props }) => (
+  <div className={styles.columns}>
+    {columns.map((column, index) => (
+      <SortableItem key={column.key} index={index} column={column} {...props} />
+    ))}
+  </div>
+))
 
 const Category = ({
   title,
@@ -12,6 +41,8 @@ const Category = ({
   activeKeys,
   currentSearch
 }) => {
+  const [activeColumns, setActiveColumns] = useState(columns)
+
   const rawItems = useMemo(
     () =>
       groups
@@ -36,8 +67,26 @@ const Category = ({
     [currentSearch]
   )
 
+  useEffect(
+    () => {
+      setActiveColumns(columns)
+    },
+    [columns]
+  )
+
   const isShowCategory =
     !currentSearch || (currentSearch && filteredColumns.length !== 0)
+
+  function onSortEnd ({ newIndex, oldIndex }) {
+    if (newIndex === oldIndex) return
+
+    const newActiveColumns = activeColumns.slice()
+    newActiveColumns.splice(oldIndex, 1)
+    newActiveColumns.splice(newIndex, 0, activeColumns[oldIndex])
+
+    setActiveColumns(newActiveColumns)
+  }
+
   return isShowCategory ? (
     <div className={styles.category}>
       <h3 className={styles.title}>{title}</h3>
@@ -80,24 +129,15 @@ const Category = ({
           ))}
         </>
       ) : (
-        <div className={styles.columns}>
-          {columns.map(column => {
-            const { key } = column
-            const isHide = currentSearch && !filteredColumns.includes(key)
-            return isHide ? null : (
-              <Column
-                key={key}
-                column={column}
-                onColumnToggle={onColumnToggle}
-                isActive={true}
-                className={cx(
-                  styles.column,
-                  currentSearch && styles.searchedColumn
-                )}
-              />
-            )
-          })}
-        </div>
+        <SortableList
+          lockAxis='y'
+          columns={activeColumns}
+          onSortEnd={onSortEnd}
+          currentSearch={currentSearch}
+          filteredColumns={filteredColumns}
+          onColumnToggle={onColumnToggle}
+          helperClass={styles.dragged}
+        />
       )}
     </div>
   ) : null
