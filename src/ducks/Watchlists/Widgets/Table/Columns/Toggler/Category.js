@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import cx from 'classnames'
+import isEqual from 'lodash.isequal'
 import {
   SortableContainer,
   SortableElement,
@@ -62,7 +63,8 @@ const Category = ({
   columns,
   onColumnToggle,
   activeKeys,
-  currentSearch
+  currentSearch,
+  reorder
 }) => {
   const [activeColumns, setActiveColumns] = useState(columns)
 
@@ -103,11 +105,15 @@ const Category = ({
   function onSortEnd ({ newIndex, oldIndex }) {
     if (newIndex === oldIndex) return
 
-    const newActiveColumns = activeColumns.slice()
+    const newActiveColumns = Array.from(activeColumns)
     newActiveColumns.splice(oldIndex, 1)
     newActiveColumns.splice(newIndex, 0, activeColumns[oldIndex])
 
     setActiveColumns(newActiveColumns)
+    reorder(
+      newActiveColumns.map(({ key }) => key),
+      !isEqual(columns, newActiveColumns)
+    )
   }
 
   return isShowCategory ? (

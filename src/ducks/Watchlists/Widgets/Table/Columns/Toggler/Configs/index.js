@@ -51,7 +51,7 @@ const ConfigsMenu = ({
         activeColumns &&
         config &&
         !isLoading &&
-        (!isEqual(new Set(config.columns.metrics), new Set(activeColumns)) ||
+        (!isEqual(config.columns.metrics, activeColumns) ||
           !isEqual(sorting, comparedSorting))
       )
     },
