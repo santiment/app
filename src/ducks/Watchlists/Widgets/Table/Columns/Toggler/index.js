@@ -156,9 +156,34 @@ const Toggler = ({
     [allMetrics]
   )
 
+  function addKey (key) {
+    const index = currActiveKeys.indexOf(key)
+    if (index === -1) {
+      return [...activeKeys, key]
+    } else {
+      let wasAdded = false
+      const newKeys = []
+      activeKeys.forEach(item => {
+        if (!wasAdded) {
+          const itemIndex = currActiveKeys.indexOf(item)
+          if (itemIndex === -1 || itemIndex > index) {
+            newKeys.push(key)
+            newKeys.push(item)
+            wasAdded = true
+          } else {
+            newKeys.push(item)
+          }
+        } else {
+          newKeys.push(item)
+        }
+      })
+      return newKeys
+    }
+  }
+
   function toggleColumn (columnKey, isActive) {
     const newActiveKeys = isActive
-      ? [...activeKeys, columnKey]
+      ? addKey(columnKey)
       : activeKeys.filter(key => key !== columnKey)
     setActiveKeys(newActiveKeys)
   }
