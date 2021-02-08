@@ -50,10 +50,12 @@ export const PRICE_VOLUME_DIFFERENCE = 'price_volume_difference'
 export const METRIC_TYPES = {
   WALLET_MOVEMENT: 'wallet_movement',
   METRIC_SIGNAL: 'metric_signal',
+  DAILY_METRIC_SIGNAL: 'daily_metric_signal',
   SCREENER_SIGNAL: 'screener_signal'
 }
 
 export const SIGNAL_METRIC_TYPES = {
+  daily_active_addresses: 'daily_active_addresses',
   active_addresses_24h: 'active_addresses_24h',
   price_usd: 'price_usd',
   volume_usd: 'volume_usd'
@@ -192,8 +194,8 @@ export const PRICE_METRIC = {
 export const DAILY_ACTIVE_ADDRESSES_METRIC = {
   label: 'Daily Active Addresses',
   value: DAILY_ACTIVE_ADDRESSES,
-  type: METRIC_TYPES.METRIC_SIGNAL,
-  metric: SIGNAL_METRIC_TYPES.active_addresses_24h,
+  type: METRIC_TYPES.DAILY_METRIC_SIGNAL,
+  metric: SIGNAL_METRIC_TYPES.daily_active_addresses,
   description:
     'Notify me of changes in the # of addresses transacting an asset on-chain'
 }
@@ -525,6 +527,7 @@ export const POSSIBLE_METRICS_ACTIVITIES = [
   ETH_WALLET,
 
   METRIC_TYPES.METRIC_SIGNAL,
+  METRIC_TYPES.DAILY_METRIC_SIGNAL,
   METRIC_TYPES.WALLET_MOVEMENT
 ]
 
@@ -534,6 +537,7 @@ export const POSSIBLE_METRICS_FOR_CHART = [
   PRICE_VOLUME_DIFFERENCE_METRIC.value,
   ETH_WALLET_METRIC.value,
 
+  METRIC_TYPES.DAILY_METRIC_SIGNAL,
   METRIC_TYPES.METRIC_SIGNAL,
   METRIC_TYPES.WALLET_MOVEMENT,
 

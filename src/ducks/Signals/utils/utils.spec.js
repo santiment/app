@@ -38,11 +38,11 @@ const TRIGGERS = [
     isRepeating: true,
     settings: {
       channel: 'telegram',
-      metric: 'active_addresses_24h',
+      metric: 'daily_active_addresses',
       operation: undefined,
       target: { slug: 'santiment' },
       time_window: '30m',
-      type: 'metric_signal'
+      type: 'daily_metric_signal'
     },
     tags: [],
     title: undefined
@@ -147,8 +147,8 @@ const FORM_PROPS = [
       description:
         'Notify me of changes in the # of addresses transacting an asset on-chain',
       label: 'Daily Active Addresses',
-      metric: 'active_addresses_24h',
-      type: 'metric_signal',
+      metric: 'daily_active_addresses',
+      type: 'daily_metric_signal',
       value: 'daily_active_addresses'
     },
     percentThreshold: 5,
@@ -159,7 +159,7 @@ const FORM_PROPS = [
     timeWindow: 30,
     timeWindowUnit: { label: 'Minute(s)', value: 'm' },
     title: undefined,
-    type: { value: 'metric_signal' }
+    type: { value: 'daily_metric_signal' }
   },
   {
     channels: ['Telegram'],

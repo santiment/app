@@ -12,7 +12,7 @@ import styles from '../card/SignalCard.module.scss'
 
 const generateShareLink = (id, title) => {
   const { origin } = window.location
-  return `${origin}/sonar/signal/${id}${mapStateToQS({
+  return `${origin}/sonar/alert/${id}${mapStateToQS({
     title
   })}`
 }
@@ -76,7 +76,7 @@ const MoreSignalActions = ({
         {editable && (
           <div className={cx(styles.popupItem, styles.popupButton)}>
             <Link
-              to={`/sonar/signal/${signalId}/edit${window.location.search}`}
+              to={`/sonar/alert/${signalId}/edit${window.location.search}`}
               className={styles.link}
             >
               Edit

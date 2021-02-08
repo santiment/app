@@ -112,7 +112,7 @@ export const createSignalEpic = (action$, store, { client }) =>
                   description: (
                     <SignalNotificationActions
                       signal={trigger}
-                      toLink={'/sonar/signal/' + trigger.id}
+                      toLink={'/sonar/alert/' + trigger.id}
                     />
                   )
                 })

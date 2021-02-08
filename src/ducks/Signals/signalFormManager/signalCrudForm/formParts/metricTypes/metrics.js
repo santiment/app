@@ -1,4 +1,9 @@
 import { Metric } from '../../../../../dataHub/metrics'
+import {
+  HolderDistributionAbsoluteMetric,
+  HolderDistributionCombinedBalanceAbsoluteMetric,
+  HolderDistributionPercentMetric
+} from '../../../../../Studio/Chart/Sidepanel/HolderDistribution/metrics'
 
 const makeSignalMetric = (key, label, category, node = 'line', group) => {
   return {
@@ -9,6 +14,46 @@ const makeSignalMetric = (key, label, category, node = 'line', group) => {
     group
   }
 }
+
+export const isDailyMetric = key => {
+  return DAILY_METRICS.some(({ key: target }) => target === key)
+}
+
+export const DAILY_METRICS = [
+  Metric.mean_age,
+  Metric.mean_dollar_invested_age,
+  Metric.nvt,
+  Metric.withdrawal_transactions,
+
+  makeSignalMetric(
+    'whale_transaction_count',
+    'Whale Transactions Count (1d)',
+    'On-chain',
+    'bar',
+    'Network Value'
+  ),
+
+  ...Object.values(HolderDistributionAbsoluteMetric).map(m => ({
+    ...m,
+    category: 'On-chain',
+    node: 'line',
+    label: `Holders Distribution Absolute ${m.label}`
+  })),
+
+  ...Object.values(HolderDistributionPercentMetric).map(m => ({
+    ...m,
+    category: 'On-chain',
+    node: 'line',
+    label: `Holders Distribution Percent ${m.label}`
+  })),
+
+  ...Object.values(HolderDistributionCombinedBalanceAbsoluteMetric).map(m => ({
+    ...m,
+    category: 'On-chain',
+    node: 'line',
+    label: `Holders Distribution Combined Balance ${m.label}`
+  }))
+]
 
 export const SIGNAL_SUPPORTED_METRICS = [
   Metric.social_volume_total,
@@ -156,5 +201,13 @@ export const SIGNAL_SUPPORTED_METRICS = [
     'On-chain',
     'line',
     'Exchanges'
-  )
+  ),
+
+  Metric.bitmex_perpetual_basis,
+  Metric.bitmex_perpetual_basis_ratio,
+  Metric.bitmex_perpetual_funding_rate,
+  Metric.bitmex_perpetual_open_interest,
+  Metric.bitmex_perpetual_open_value,
+
+  ...DAILY_METRICS
 ]

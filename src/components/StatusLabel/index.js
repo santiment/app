@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import cx from 'classnames'
-import { Icon } from '@santiment-network/ui'
+import Icon from '@santiment-network/ui/Icon'
 import styles from './StatusLabel.module.scss'
 
 const statusMap = [
