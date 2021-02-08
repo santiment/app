@@ -366,7 +366,7 @@ export const App = ({
             )}
           />
           <Route
-            path='/sonar'
+            path={['/alerts', '/alert']}
             render={props => (
               <LoadableSonarFeedPage
                 isDesktop={isDesktop}
@@ -375,6 +375,12 @@ export const App = ({
               />
             )}
           />
+          <Redirect
+            from='/sonar/signal/:id/edit'
+            to={`/alert/:id/edit/${search}`}
+          />
+          <Redirect from='/sonar/signal/:id' to={`/alert/:id/${search}`} />
+          <Redirect from='/sonar/my-signals' to={`/alerts${search}`} />
           <Route path='/logout' component={LogoutPage} />
           <Route
             exact

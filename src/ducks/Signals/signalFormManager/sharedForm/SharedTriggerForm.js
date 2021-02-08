@@ -78,7 +78,7 @@ const SharedTriggerForm = ({
             onClick={() => onOpen(false)}
             border
           >
-            {isAuthor ? 'Edit signal' : 'Open signal'}
+            {isAuthor ? 'Edit alert' : 'Open alert'}
           </Button>
         </DesktopOnly>
 
@@ -96,7 +96,7 @@ const SharedTriggerForm = ({
             className={styles.btnEdit}
             onClick={() => onOpen(false)}
           >
-            {isAuthor ? 'Edit signal' : 'Open signal'}
+            {isAuthor ? 'Edit alert' : 'Open alert'}
           </Button>
         </MobileOnly>
       </div>

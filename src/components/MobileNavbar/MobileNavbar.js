@@ -39,7 +39,7 @@ const NAVBAR_LINKS = [
 ]
 
 const MENU_LINKS = [
-  { linkTo: '/sonar/my-alerts', label: 'Alerts' },
+  { linkTo: '/alerts', label: 'Alerts' },
   { linkTo: '/labs/trends', label: 'Santrends' },
   { linkTo: '/account', label: 'Account settings' }
 ]
