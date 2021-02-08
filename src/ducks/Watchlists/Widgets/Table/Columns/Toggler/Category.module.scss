@@ -35,6 +35,25 @@
   margin: 16px 20px 20px 24px;
 }
 
+.draggable {
+  position: absolute;
+  left: -24px;
+  width: 24px;
+  top: 0;
+  padding-top: 4px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  fill: var(--rhino);
+  cursor: ns-resize !important;
+  opacity: 0;
+  will-change: opacity;
+}
+
+.dragged {
+  pointer-events: initial !important;
+}
+
 .column {
   padding-bottom: 12px;
 
@@ -42,7 +61,7 @@
     z-index: 1100;
     position: relative;
 
-    &:hover svg {
+    &:hover .draggable {
       opacity: 1;
     }
   }
@@ -67,9 +86,4 @@
 
 .searchedColumn:last-child {
   margin-bottom: 12px;
-}
-
-.dragged {
-  pointer-events: initial !important;
-  cursor: grabbing;
 }

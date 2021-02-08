@@ -1,9 +1,30 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import cx from 'classnames'
-import { SortableContainer, SortableElement } from 'react-sortable-hoc'
+import {
+  SortableContainer,
+  SortableElement,
+  sortableHandle
+} from 'react-sortable-hoc'
 import { NO_GROUP } from '../../../../../Studio/Sidebar/utils'
 import Column from './Columns/Column'
 import styles from './Category.module.scss'
+
+const DragHandle = sortableHandle(() => (
+  <div className={styles.draggable}>
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='11'
+      height='12'
+      viewBox='0 0 16 12'
+    >
+      <path
+        fillRule='evenodd'
+        d='M0 .5zC0 .22.23 0 .5 0h15a.5.5 0 110 1H.5A.5.5 0 010 .5zM0 6c0-.28.23-.5.5-.5h15a.5.5 0 110 1H.5A.5.5 0 010 6zm.5 5a.5.5 0 000 1H15.5a.5.5 0 100-1H.5z'
+        clipRule='evenodd'
+      />
+    </svg>
+  </div>
+))
 
 const SortableItem = SortableElement(
   ({ column, currentSearch, filteredColumns, onColumnToggle }) => {
@@ -14,6 +35,7 @@ const SortableItem = SortableElement(
         key={key}
         draggable
         column={column}
+        DragHandle={DragHandle}
         onColumnToggle={onColumnToggle}
         isActive={true}
         className={cx(
@@ -132,6 +154,7 @@ const Category = ({
       ) : (
         <SortableList
           lockAxis='y'
+          useDragHandle
           columns={activeColumns}
           onSortEnd={onSortEnd}
           currentSearch={currentSearch}
