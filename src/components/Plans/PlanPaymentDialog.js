@@ -75,6 +75,15 @@ const getNextPaymentDates = billing => {
   return `${DD}/${MM}/${YY}`
 }
 
+const getFreeTrialEnd = () => {
+  const date = new Date()
+  date.setDate(date.getDate() + 14)
+
+  const { DD, MM, YY } = getDateFormats(date)
+
+  return `${DD}/${MM}/${YY}`
+}
+
 const PlanPaymentDialog = ({
   title: name,
   billing: interval,
@@ -100,8 +109,6 @@ const PlanPaymentDialog = ({
     interval: billing,
     amount: price
   } = selectedPlan
-
-  console.log('subscription', subscription)
 
   useEffect(
     () => {
@@ -134,6 +141,7 @@ const PlanPaymentDialog = ({
   }
 
   const nextPaymentDate = getNextPaymentDates(billing)
+  const trialEndData = getFreeTrialEnd()
 
   const isTrial = subscription && subscription.trialEnd
 
@@ -221,10 +229,7 @@ const PlanPaymentDialog = ({
             >
               <Dialog.ScrollContent className={styles.content}>
                 {isTrial && (
-                  <FreeTrialLabel
-                    price={price}
-                    nextPaymentDate={nextPaymentDate}
-                  />
+                  <FreeTrialLabel price={price} trialEndData={trialEndData} />
                 )}
 
                 {!isTrial && (

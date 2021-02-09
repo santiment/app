@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { formatOnlyPrice } from '../../../utils/plans'
 import styles from './PlanDialogLabels.module.scss'
 
-const FreeTrialLabel = ({ price, nextPaymentDate }) => {
+const FreeTrialLabel = ({ price, trialEndData }) => {
   return (
     <div className={cx(styles.container, styles.free)}>
       <div className={styles.title}>
@@ -14,7 +14,7 @@ const FreeTrialLabel = ({ price, nextPaymentDate }) => {
         Your card will be charged{' '}
         <span className={styles.highline}>{formatOnlyPrice(price)}</span> after
         the trial period ends. You won't be charged if you cancel anytime before{' '}
-        <span className={styles.highline}>{nextPaymentDate}</span>
+        <span className={styles.highline}>{trialEndData}</span>
       </div>
     </div>
   )
