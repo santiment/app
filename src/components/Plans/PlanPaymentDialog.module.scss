@@ -2,17 +2,18 @@
 @import '~@santiment-network/ui/variables';
 
 .dialog {
-  width: 857px;
+  width: 862px;
   position: relative;
 }
 
 .title {
   padding: 12px 24px !important;
 
-  @include text('body-2'); }
+  @include text('body-2');
+}
 
 .content {
-  padding: 40px;
+  padding: 16px 40px 24px 40px;
 
   @include responsive('phone', 'phone-xs', 'laptop') {
     padding: 16px;

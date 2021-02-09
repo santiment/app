@@ -20,6 +20,8 @@ import { usePlans } from '../../ducks/Plans/hooks'
 import { useTrackEvents } from '../../hooks/tracking'
 import { USER_SUBSCRIPTION_CHANGE } from '../../actions/types'
 import { updateUserSubscriptions } from '../../stores/user/subscriptions'
+import FreeTrialLabel from './PlanDialogLabels/FreeTrialLabel'
+import ProExpiredLabel from './PlanDialogLabels/ProExpiredLabel'
 import styles from './PlanPaymentDialog.module.scss'
 import sharedStyles from './Plans.module.scss'
 
@@ -73,7 +75,7 @@ const getNextPaymentDates = billing => {
   return `${DD}/${MM}/${YY}`
 }
 
-const PaymentDialog = ({
+const PlanPaymentDialog = ({
   title: name,
   billing: interval,
   label,
@@ -127,6 +129,8 @@ const PaymentDialog = ({
     })
     setPaymentVisiblity(true)
   }
+
+  const nextPaymentDate = getNextPaymentDates(billing)
 
   return (
     <>
@@ -211,9 +215,19 @@ const PaymentDialog = ({
               }}
             >
               <Dialog.ScrollContent className={styles.content}>
+                <FreeTrialLabel
+                  price={price}
+                  nextPaymentDate={nextPaymentDate}
+                />
+
+                <ProExpiredLabel
+                  price={price}
+                  nextPaymentDate={nextPaymentDate}
+                />
+
                 <CheckoutForm
                   plan={title}
-                  nextPaymentDate={getNextPaymentDates(billing)}
+                  nextPaymentDate={nextPaymentDate}
                   price={price}
                   billing={billing}
                   loading={loading}
@@ -246,7 +260,7 @@ const mapDispatchToProps = dispatch => ({
 const InjectedForm = connect(
   null,
   mapDispatchToProps
-)(injectStripe(PaymentDialog))
+)(injectStripe(PlanPaymentDialog))
 
 export default props => (
   <Elements>
