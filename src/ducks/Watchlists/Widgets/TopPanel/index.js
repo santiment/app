@@ -45,6 +45,8 @@ const TopPanel = ({
         )}
         {id && (
           <BaseActions
+            name={name}
+            id={id}
             isAuthor={isAuthor}
             isPro={isPro}
             isAuthorLoading={isAuthorLoading}
