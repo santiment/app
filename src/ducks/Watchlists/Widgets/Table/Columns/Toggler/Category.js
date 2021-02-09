@@ -123,7 +123,7 @@ const Category = ({
           newActiveColumns.map(({ key }) => key),
           !isEqual(columns, newActiveColumns)
         ),
-      400
+      200
     )
   }
 

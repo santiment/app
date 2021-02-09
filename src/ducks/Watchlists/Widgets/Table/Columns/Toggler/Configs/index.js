@@ -23,7 +23,7 @@ const ConfigsMenu = ({
   changeConfig,
   config,
   sorting,
-  activeColumns = EMPTY_ARRAY,
+  savedActiveColumnKeys = EMPTY_ARRAY,
   isLoading
 }) => {
   const featuredTableConfigurations = useFeaturedTableConfigs()
@@ -32,10 +32,6 @@ const ConfigsMenu = ({
   const { createTableConfig } = useCreateTableConfig()
   const { deleteTableConfig } = useDeleteTableConfig()
   const { updateTableConfig } = useUpdateTableConfig()
-
-  const activeColumnKeys = useMemo(() => activeColumns.map(({ key }) => key), [
-    activeColumns
-  ])
 
   useEffect(
     () => {
@@ -54,14 +50,14 @@ const ConfigsMenu = ({
           ? config.columns.sorting
           : DEFAULT_ORDER_BY
       return (
-        activeColumns &&
+        savedActiveColumnKeys &&
         config &&
         !isLoading &&
-        (!isEqual(config.columns.metrics, activeColumnKeys) ||
+        (!isEqual(config.columns.metrics, savedActiveColumnKeys) ||
           !isEqual(sorting, comparedSorting))
       )
     },
-    [activeColumns, sorting, config]
+    [savedActiveColumnKeys, sorting, config]
   )
 
   const transformedTrigger = useMemo(
@@ -108,7 +104,7 @@ const ConfigsMenu = ({
           onChange={title =>
             createTableConfig({
               title,
-              columns: { metrics: activeColumnKeys, sorting }
+              columns: { metrics: savedActiveColumnKeys, sorting }
             }).then(({ id }) => {
               changeConfig(id)
               setOpen(false)
@@ -159,7 +155,7 @@ const ConfigsMenu = ({
                         type='disk-small'
                         onClick={() =>
                           updateTableConfig(config, {
-                            columns: { metrics: activeColumnKeys, sorting }
+                            columns: { metrics: savedActiveColumnKeys, sorting }
                           })
                         }
                       />
