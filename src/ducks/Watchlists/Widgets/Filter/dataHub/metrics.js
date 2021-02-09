@@ -3,7 +3,9 @@ import { Filter } from './types'
 import MarketSegments from '../Metric/MarketSegments'
 import {
   percentValueFormatter,
-  percentServerValueFormatter
+  percentServerValueFormatter,
+  mvrvFormatter,
+  mvrvServerFormatter
 } from '../formatters'
 import { DEFAULT_TIMERANGES } from './timeranges'
 import { AGGREGATIONS_LOWER } from './aggregations'
@@ -35,6 +37,25 @@ const GROUPS = {
   WHALES: 'Whales',
   OTHERS: 'Others',
   TRADERS: 'Traders'
+}
+
+const HINTS = {
+  mvrv: [
+    {
+      label: '< 0%',
+      firstThreshold: 0,
+      type: Filter.below.key,
+      description:
+        'Average ROI is below 0% (breakeven) for addresses that acquired tokens in the past 1 year'
+    },
+    {
+      label: '> 50%',
+      firstThreshold: 50,
+      type: Filter.above.key,
+      description:
+        'Average ROI is above 50% for addresses that acquired tokens in the past 1 year'
+    }
+  ]
 }
 
 export const Metric = {
@@ -116,70 +137,38 @@ export const Metric = {
     label: 'MVRV',
     aggregation: AGGREGATIONS_LOWER.AVG,
     showTimeRange: true,
+    badge: '%',
+    hints: HINTS.mvrv,
+    valueFormatter: mvrvFormatter,
+    serverValueFormatter: mvrvServerFormatter,
     isDeprecated: true
   },
   mvrv_usd_30d: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.NETWORK_VALUE,
+    badge: '%',
+    valueFormatter: mvrvFormatter,
+    serverValueFormatter: mvrvServerFormatter,
     label: 'MVRV 30d',
-    hints: [
-      {
-        label: '< 1',
-        firstThreshold: 1,
-        type: Filter.below.key,
-        description:
-          'Average ROI is below 0% (breakeven) for addresses that acquired tokens in the past 30 days'
-      },
-      {
-        label: '> 1.5',
-        firstThreshold: 1.5,
-        type: Filter.above.key,
-        description:
-          'Average ROI is above 50% for addresses that acquired tokens in the past 30 days'
-      }
-    ]
+    hints: HINTS.mvrv
   },
   mvrv_usd_180d: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.NETWORK_VALUE,
+    badge: '%',
+    valueFormatter: mvrvFormatter,
+    serverValueFormatter: mvrvServerFormatter,
     label: 'MVRV 180d',
-    hints: [
-      {
-        label: '< 1',
-        firstThreshold: 1,
-        type: Filter.below.key,
-        description:
-          'Average ROI is below 0% (breakeven) for addresses that acquired tokens in the past 180 days'
-      },
-      {
-        label: '> 1.5',
-        firstThreshold: 1.5,
-        type: Filter.above.key,
-        description:
-          'Average ROI is above 50% for addresses that acquired tokens in the past 180 days'
-      }
-    ]
+    hints: HINTS.mvrv
   },
   mvrv_usd_365d: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.NETWORK_VALUE,
+    badge: '%',
+    valueFormatter: mvrvFormatter,
+    serverValueFormatter: mvrvServerFormatter,
     label: 'MVRV 1y',
-    hints: [
-      {
-        label: '< 1',
-        firstThreshold: 1,
-        type: Filter.below.key,
-        description:
-          'Average ROI is below 0% (breakeven) for addresses that acquired tokens in the past 1 year'
-      },
-      {
-        label: '> 1.5',
-        firstThreshold: 1.5,
-        type: Filter.above.key,
-        description:
-          'Average ROI is above 50% for addresses that acquired tokens in the past 1 year'
-      }
-    ]
+    hints: HINTS.mvrv
   },
   circulation: {
     category: CATEGORIES.ON_CHAIN,
