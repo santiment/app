@@ -54,6 +54,17 @@
   pointer-events: initial !important;
 }
 
+.searchedColumn {
+  & .draggable {
+    opacity: 0 !important;
+    cursor: default !important;
+  }
+
+  &:last-child {
+    padding-bottom: 12px;
+  }
+}
+
 .column {
   padding-bottom: 12px;
 
@@ -82,8 +93,4 @@
   &:first-of-type {
     margin-top: 20px;
   }
-}
-
-.searchedColumn:last-child {
-  margin-bottom: 12px;
 }

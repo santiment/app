@@ -31,10 +31,11 @@ const SortableItem = SortableElement(
   ({ column, currentSearch, filteredColumns, onColumnToggle }) => {
     const { key } = column
     const isHide = currentSearch && !filteredColumns.includes(key)
-    return isHide ? null : (
+    return (
       <Column
         key={key}
         draggable
+        isHide={isHide}
         column={column}
         DragHandle={DragHandle}
         onColumnToggle={onColumnToggle}
@@ -52,7 +53,13 @@ const SortableItem = SortableElement(
 const SortableList = SortableContainer(({ columns, ...props }) => (
   <div className={styles.columns}>
     {columns.map((column, index) => (
-      <SortableItem key={column.key} index={index} column={column} {...props} />
+      <SortableItem
+        key={column.key}
+        index={index}
+        column={column}
+        disabled={props.currentSearch}
+        {...props}
+      />
     ))}
   </div>
 ))
@@ -110,9 +117,13 @@ const Category = ({
     newActiveColumns.splice(newIndex, 0, activeColumns[oldIndex])
 
     setActiveColumns(newActiveColumns)
-    reorder(
-      newActiveColumns.map(({ key }) => key),
-      !isEqual(columns, newActiveColumns)
+    setTimeout(
+      () =>
+        reorder(
+          newActiveColumns.map(({ key }) => key),
+          !isEqual(columns, newActiveColumns)
+        ),
+      400
     )
   }
 

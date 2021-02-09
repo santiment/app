@@ -192,10 +192,10 @@ const Toggler = ({
 
   function reorderActiveKeys (keys, wasChanges) {
     setCurrActiveKeys(keys)
+    setWasReorder(wasChanges)
     const newKeysOrder = Array.from(activeKeys)
     newKeysOrder.sort((a, b) => keys.indexOf(a) - keys.indexOf(b))
     setActiveKeys(newKeysOrder)
-    setWasReorder(wasChanges)
   }
 
   if (metricsLoading && activeKeys === null) {
@@ -270,7 +270,7 @@ const Toggler = ({
         config={config}
         sorting={sorting}
         isLoading={isLoading}
-        activeColumns={currActiveKeys}
+        activeColumns={activeColumns}
       />
     </>
   )

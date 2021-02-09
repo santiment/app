@@ -14,7 +14,8 @@ const Column = ({
   isActive,
   className,
   draggable,
-  DragHandle
+  DragHandle,
+  isHide
 }) => {
   const [active, setActive] = useState(isActive)
   const { key, descriptionKey = key, label } = column
@@ -26,9 +27,15 @@ const Column = ({
   }
 
   return (
-    <div className={cx(styles.column, className)}>
+    <div
+      className={cx(
+        styles.column,
+        isHide && draggable && styles.column__hide,
+        className
+      )}
+    >
+      {draggable && <DragHandle />}
       <div className={styles.clickableZone} onClick={onClick}>
-        {draggable && <DragHandle />}
         <Checkbox className={styles.checkbox} isActive={active} />
         <span className={styles.name}>{label}</span>
       </div>
