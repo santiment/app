@@ -8,7 +8,15 @@ import styles from './Column.module.scss'
 
 const EMPTY_OBJ = {}
 
-const Column = ({ onColumnToggle, column, isActive, className }) => {
+const Column = ({
+  onColumnToggle,
+  column,
+  isActive,
+  className,
+  draggable,
+  DragHandle,
+  isHide
+}) => {
   const [active, setActive] = useState(isActive)
   const { key, descriptionKey = key, label } = column
   const metricForDescription = Metric[descriptionKey] || EMPTY_OBJ
@@ -19,7 +27,14 @@ const Column = ({ onColumnToggle, column, isActive, className }) => {
   }
 
   return (
-    <div className={cx(styles.column, className)}>
+    <div
+      className={cx(
+        styles.column,
+        isHide && draggable && styles.column__hide,
+        className
+      )}
+    >
+      {draggable && <DragHandle />}
       <div className={styles.clickableZone} onClick={onClick}>
         <Checkbox className={styles.checkbox} isActive={active} />
         <span className={styles.name}>{label}</span>

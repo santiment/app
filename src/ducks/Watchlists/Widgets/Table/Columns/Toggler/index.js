@@ -28,6 +28,7 @@ const Toggler = ({
 }) => {
   const { isNightMode } = useTheme()
   const [open, setOpen] = useState(false)
+  const [wasReorder, setWasReorder] = useState(false)
   const [selectedConfigId, setSelectedConfigId] = useState(
     watchlist && watchlist.tableConfiguration && watchlist.tableConfiguration.id
   )
@@ -107,12 +108,10 @@ const Toggler = ({
     () => {
       setCurrActiveKeys(activeKeys)
       if (!open && !isLoading) {
-        if (
-          activeKeys &&
-          !isEqual(new Set(activeKeys), new Set(currActiveKeys))
-        ) {
+        if (activeKeys && hasChanges) {
           updateActiveColumnsKeys(activeKeys)
         }
+        setWasReorder(false)
         setCurrentSearch('')
       }
     },
@@ -120,8 +119,8 @@ const Toggler = ({
   )
 
   const hasChanges = useMemo(
-    () => !isEqual(new Set(currActiveKeys), new Set(activeKeys)),
-    [activeKeys, currActiveKeys]
+    () => !isEqual(currActiveKeys, activeKeys) || wasReorder,
+    [activeKeys, currActiveKeys, wasReorder]
   )
 
   useEffect(
@@ -156,11 +155,47 @@ const Toggler = ({
     [allMetrics]
   )
 
+  function addKey (key) {
+    const index = currActiveKeys.indexOf(key)
+    if (index === -1) {
+      return [...activeKeys, key]
+    } else {
+      let wasAdded = false
+      const newKeys = []
+      activeKeys.forEach(item => {
+        if (!wasAdded) {
+          const itemIndex = currActiveKeys.indexOf(item)
+          if (itemIndex === -1 || itemIndex > index) {
+            newKeys.push(key)
+            newKeys.push(item)
+            wasAdded = true
+          } else {
+            newKeys.push(item)
+          }
+        } else {
+          newKeys.push(item)
+        }
+      })
+      if (!wasAdded) {
+        newKeys.push(key)
+      }
+      return newKeys
+    }
+  }
+
   function toggleColumn (columnKey, isActive) {
     const newActiveKeys = isActive
-      ? [...activeKeys, columnKey]
+      ? addKey(columnKey)
       : activeKeys.filter(key => key !== columnKey)
     setActiveKeys(newActiveKeys)
+  }
+
+  function reorderActiveKeys (keys, wasChanges) {
+    setCurrActiveKeys(keys)
+    setWasReorder(wasChanges)
+    const newKeysOrder = Array.from(activeKeys)
+    newKeysOrder.sort((a, b) => keys.indexOf(a) - keys.indexOf(b))
+    setActiveKeys(newKeysOrder)
   }
 
   if (metricsLoading && activeKeys === null) {
@@ -213,6 +248,7 @@ const Toggler = ({
               onColumnToggle={toggleColumn}
               activeKeys={currActiveKeys}
               currentSearch={currentSearch}
+              reorder={reorderActiveKeys}
             />
             {Object.keys(categories).map(key => (
               <Category
@@ -234,7 +270,7 @@ const Toggler = ({
         config={config}
         sorting={sorting}
         isLoading={isLoading}
-        activeColumns={currActiveKeys}
+        activeColumns={activeColumns}
       />
     </>
   )

@@ -14,14 +14,14 @@
 }
 
 .title {
-  margin: 0;
+  margin: 0 0 0 24px;
   color: var(--waterloo);
 
   @include text('body-3', 'l');
 }
 
 .group__title {
-  margin: 8px 0 0;
+  margin: 8px 0 0 24px;
   color: var(--waterloo);
 
   @include text('caption', 'm');
@@ -32,14 +32,53 @@
 }
 
 .columns {
-  margin: 16px 20px 20px 0;
+  margin: 16px 20px 20px 24px;
+}
+
+.draggable {
+  position: absolute;
+  left: -24px;
+  width: 24px;
+  top: 0;
+  padding-top: 4px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  fill: var(--rhino);
+  cursor: ns-resize !important;
+  opacity: 0;
+  will-change: opacity;
+}
+
+.dragged {
+  pointer-events: initial !important;
+}
+
+.searchedColumn {
+  & .draggable {
+    opacity: 0 !important;
+    cursor: default !important;
+  }
+
+  &:last-child {
+    padding-bottom: 12px;
+  }
 }
 
 .column {
-  margin-bottom: 12px;
+  padding-bottom: 12px;
+
+  &__active {
+    z-index: 1100;
+    position: relative;
+
+    &:hover .draggable {
+      opacity: 1;
+    }
+  }
 
   &:last-child {
-    margin-bottom: 0;
+    padding-bottom: 0;
   }
 }
 
@@ -54,8 +93,4 @@
   &:first-of-type {
     margin-top: 20px;
   }
-}
-
-.searchedColumn:last-child {
-  margin-bottom: 12px;
 }

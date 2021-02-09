@@ -15,13 +15,15 @@ import UpdateConfig from './UpdateConfig'
 import styles from './index.module.scss'
 import { DEFAULT_ORDER_BY } from '../../defaults'
 
+const EMPTY_ARRAY = []
+
 const ConfigsMenu = ({
   setOpen,
   open,
   changeConfig,
   config,
   sorting,
-  activeColumns,
+  activeColumns = EMPTY_ARRAY,
   isLoading
 }) => {
   const featuredTableConfigurations = useFeaturedTableConfigs()
@@ -30,6 +32,10 @@ const ConfigsMenu = ({
   const { createTableConfig } = useCreateTableConfig()
   const { deleteTableConfig } = useDeleteTableConfig()
   const { updateTableConfig } = useUpdateTableConfig()
+
+  const activeColumnKeys = useMemo(() => activeColumns.map(({ key }) => key), [
+    activeColumns
+  ])
 
   useEffect(
     () => {
@@ -51,7 +57,7 @@ const ConfigsMenu = ({
         activeColumns &&
         config &&
         !isLoading &&
-        (!isEqual(new Set(config.columns.metrics), new Set(activeColumns)) ||
+        (!isEqual(config.columns.metrics, activeColumnKeys) ||
           !isEqual(sorting, comparedSorting))
       )
     },
@@ -102,7 +108,7 @@ const ConfigsMenu = ({
           onChange={title =>
             createTableConfig({
               title,
-              columns: { metrics: activeColumns, sorting }
+              columns: { metrics: activeColumnKeys, sorting }
             }).then(({ id }) => {
               changeConfig(id)
               setOpen(false)
@@ -153,7 +159,7 @@ const ConfigsMenu = ({
                         type='disk-small'
                         onClick={() =>
                           updateTableConfig(config, {
-                            columns: { metrics: activeColumns, sorting }
+                            columns: { metrics: activeColumnKeys, sorting }
                           })
                         }
                       />
