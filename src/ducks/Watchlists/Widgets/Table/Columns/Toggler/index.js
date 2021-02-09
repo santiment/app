@@ -49,6 +49,12 @@ const Toggler = ({
     selectedConfigId
   )
   const isLoading = configLoading || metricsLoading
+
+  const savedActiveColumnKeys = useMemo(
+    () => activeColumns.map(({ key }) => key),
+    [activeColumns]
+  )
+
   const config = useMemo(
     () => {
       if (
@@ -96,12 +102,11 @@ const Toggler = ({
 
   useEffect(
     () => {
-      const updatedActiveKeys = activeColumns.map(({ key }) => key)
-      if (!isEqual(updatedActiveKeys, activeKeys) && !open && !isLoading) {
-        setActiveKeys(updatedActiveKeys)
+      if (!isEqual(savedActiveColumnKeys, activeKeys) && !open && !isLoading) {
+        setActiveKeys(savedActiveColumnKeys)
       }
     },
-    [activeColumns]
+    [savedActiveColumnKeys]
   )
 
   useEffect(
@@ -229,7 +234,8 @@ const Toggler = ({
           <Button
             className={cx(styles.discard, hasChanges && styles.discard__active)}
             onClick={() => {
-              setActiveKeys(currActiveKeys)
+              setActiveKeys(savedActiveColumnKeys)
+              setCurrActiveKeys(savedActiveColumnKeys)
               setOpen(false)
             }}
           >
@@ -270,7 +276,7 @@ const Toggler = ({
         config={config}
         sorting={sorting}
         isLoading={isLoading}
-        activeColumns={activeColumns}
+        savedActiveColumnKeys={savedActiveColumnKeys}
       />
     </>
   )
