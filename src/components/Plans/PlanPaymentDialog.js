@@ -85,7 +85,8 @@ const PlanPaymentDialog = ({
   disabled,
   addNot,
   btnProps,
-  updateSubscription
+  updateSubscription,
+  subscription
 }) => {
   const [plans] = usePlans()
   const [loading, toggleLoading] = useFormLoading()
@@ -99,6 +100,8 @@ const PlanPaymentDialog = ({
     interval: billing,
     amount: price
   } = selectedPlan
+
+  console.log('subscription', subscription)
 
   useEffect(
     () => {
@@ -131,6 +134,8 @@ const PlanPaymentDialog = ({
   }
 
   const nextPaymentDate = getNextPaymentDates(billing)
+
+  const isTrial = subscription && subscription.trialEnd
 
   return (
     <>
@@ -215,22 +220,27 @@ const PlanPaymentDialog = ({
               }}
             >
               <Dialog.ScrollContent className={styles.content}>
-                <FreeTrialLabel
-                  price={price}
-                  nextPaymentDate={nextPaymentDate}
-                />
+                {isTrial && (
+                  <FreeTrialLabel
+                    price={price}
+                    nextPaymentDate={nextPaymentDate}
+                  />
+                )}
 
-                <ProExpiredLabel
-                  price={price}
-                  nextPaymentDate={nextPaymentDate}
-                />
+                {!isTrial && (
+                  <ProExpiredLabel
+                    price={price}
+                    nextPaymentDate={nextPaymentDate}
+                    period={billing}
+                  />
+                )}
 
                 <CheckoutForm
                   plan={title}
-                  nextPaymentDate={nextPaymentDate}
                   price={price}
                   billing={billing}
                   loading={loading}
+                  isFreeTrial={isTrial}
                   changeSelectedPlan={changeSelectedPlan}
                 />
               </Dialog.ScrollContent>

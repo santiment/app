@@ -4,8 +4,6 @@ import Input from '@santiment-network/ui/Input'
 import { CardElement } from 'react-stripe-elements'
 import COLOR from '@santiment-network/ui/variables.scss'
 import Confirmation from './Confirmation'
-import visaSrc from './visa.svg'
-import mastercardSrc from './mastercard.svg'
 import { useTheme } from '../../stores/ui/theme'
 import styles from './CheckoutForm.module.scss'
 
@@ -36,23 +34,6 @@ const CardInformation = () => {
 
   return (
     <div className={styles.card}>
-      <div className={styles.top}>
-        Credit or debit card
-        <div className={styles.top__cards}>
-          <img
-            width='40'
-            alt='visa'
-            src={visaSrc}
-            className={styles.top__visa}
-          />
-          <img
-            width='40'
-            alt='mastercard'
-            src={mastercardSrc}
-            className={styles.top__mastercard}
-          />
-        </div>
-      </div>
       <label className={cx(styles.label, styles.label_card)}>
         Full name
         <Input
@@ -120,8 +101,8 @@ const CheckoutForm = ({
   loading,
   billing,
   price,
-  nextPaymentDate,
-  changeSelectedPlan
+  changeSelectedPlan,
+  isFreeTrial
 }) => (
   <div className={styles.wrapper}>
     <div className={styles.card}>
@@ -134,8 +115,8 @@ const CheckoutForm = ({
       billing={billing}
       loading={loading}
       price={price}
-      nextPaymentDate={nextPaymentDate}
       changeSelectedPlan={changeSelectedPlan}
+      isFreeTrial={isFreeTrial}
     />
   </div>
 )

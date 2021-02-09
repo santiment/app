@@ -14,7 +14,7 @@
 }
 
 .address {
-  margin-top: 32px;
+  margin-top: 24px;
 }
 
 @include responsive('laptop', 'desktop') {
@@ -26,35 +26,8 @@
     grid-area: confirmation;
     background: var(--athens);
     border-radius: $border-radius;
-    padding: 28px 32px 32px 32px;
+    padding: 27px 32px 24px 32px;
     width: 420px;
-  }
-}
-
-.top {
-  @include text('body-3', 'm');
-
-  color: var(--fiord);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 24px;
-  position: relative;
-
-  &__cards {
-    display: flex;
-    align-items: center;
-  }
-
-  &__visa {
-    margin-right: 11px;
-    width: 31px;
-    height: 9px;
-  }
-
-  &__mastercard {
-    height: 12px;
-    width: 19px;
   }
 }
 

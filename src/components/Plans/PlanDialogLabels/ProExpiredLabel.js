@@ -4,7 +4,7 @@ import ContactUs from '../../ContactUs/ContactUs'
 import { formatOnlyPrice } from '../../../utils/plans'
 import styles from './PlanDialogLabels.module.scss'
 
-const ProExpiredLabel = ({ price, nextPaymentDate }) => {
+const ProExpiredLabel = ({ price, nextPaymentDate, period }) => {
   return (
     <div className={cx(styles.container, styles.expired)}>
       <div className={styles.title}>
@@ -17,8 +17,8 @@ const ProExpiredLabel = ({ price, nextPaymentDate }) => {
 
       <div className={styles.description}>
         Your card will be charged{' '}
-        <span className={styles.highline}>${formatOnlyPrice(price)}</span> every
-        year until your decide to unsubscribe. Your next payment:{' '}
+        <span className={styles.highline}>{formatOnlyPrice(price)}</span> every{' '}
+        {period} until your decide to unsubscribe. Your next payment:{' '}
         <span className={styles.highline}>{nextPaymentDate}</span>.
       </div>
     </div>

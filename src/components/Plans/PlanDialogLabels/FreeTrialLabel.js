@@ -12,7 +12,7 @@ const FreeTrialLabel = ({ price, nextPaymentDate }) => {
 
       <div className={styles.description}>
         Your card will be charged{' '}
-        <span className={styles.highline}>${formatOnlyPrice(price)}</span> after
+        <span className={styles.highline}>{formatOnlyPrice(price)}</span> after
         the trial period ends. You won't be charged if you cancel anytime before{' '}
         <span className={styles.highline}>{nextPaymentDate}</span>
       </div>
