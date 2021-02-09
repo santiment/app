@@ -3,7 +3,9 @@ import { Filter } from './types'
 import MarketSegments from '../Metric/MarketSegments'
 import {
   percentValueFormatter,
-  percentServerValueFormatter
+  percentServerValueFormatter,
+  mvrvFormatter,
+  mvrvServerFormatter
 } from '../formatters'
 import { DEFAULT_TIMERANGES } from './timeranges'
 import { AGGREGATIONS_LOWER } from './aggregations'
@@ -116,11 +118,17 @@ export const Metric = {
     label: 'MVRV',
     aggregation: AGGREGATIONS_LOWER.AVG,
     showTimeRange: true,
+    badge: '%',
+    valueFormatter: mvrvFormatter,
+    serverValueFormatter: mvrvServerFormatter,
     isDeprecated: true
   },
   mvrv_usd_30d: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.NETWORK_VALUE,
+    badge: '%',
+    valueFormatter: mvrvFormatter,
+    serverValueFormatter: mvrvServerFormatter,
     label: 'MVRV 30d',
     hints: [
       {
@@ -142,6 +150,9 @@ export const Metric = {
   mvrv_usd_180d: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.NETWORK_VALUE,
+    badge: '%',
+    valueFormatter: mvrvFormatter,
+    serverValueFormatter: mvrvServerFormatter,
     label: 'MVRV 180d',
     hints: [
       {
@@ -163,6 +174,9 @@ export const Metric = {
   mvrv_usd_365d: {
     category: CATEGORIES.ON_CHAIN,
     group: GROUPS.NETWORK_VALUE,
+    badge: '%',
+    valueFormatter: mvrvFormatter,
+    serverValueFormatter: mvrvServerFormatter,
     label: 'MVRV 1y',
     hints: [
       {

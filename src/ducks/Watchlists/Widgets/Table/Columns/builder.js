@@ -42,11 +42,13 @@ export const buildColumns = (baseMetrics, allMetrics, restrictedMetrics) => {
         badge,
         withChart,
         defaultTimeRange,
+        valueFormatter,
         tableColumnFormatter,
         aggregation = LAST_AGG
       } = baseMetric
       const visualTimeRange = defaultTimeRange ? `, ${defaultTimeRange}` : ''
-      const formatter = tableColumnFormatter || formatterWithBadge(badge)
+      const formatter =
+        tableColumnFormatter || formatterWithBadge(badge, valueFormatter)
       const isRestricted = restrictedMetricsSet.has(key)
 
       Column[key] = {
