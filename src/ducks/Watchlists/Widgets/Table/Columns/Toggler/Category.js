@@ -57,7 +57,7 @@ const SortableList = SortableContainer(({ columns, ...props }) => (
         key={column.key}
         index={index}
         column={column}
-        disabled={props.currentSearch}
+        disabled={!!props.currentSearch}
         {...props}
       />
     ))}
