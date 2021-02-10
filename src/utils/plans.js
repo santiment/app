@@ -85,3 +85,12 @@ export function getShowingPlans (plans, billing) {
     .filter(noEnterprisePlan)
     .filter(({ name, interval }) => interval === billing || name === 'FREE')
 }
+
+export function hasInactiveTrial (subscription) {
+  return subscription && subscription.trialEnd && subscription.cancelAtPeriodEnd
+}
+export function hasActiveTrial (subscription) {
+  return (
+    subscription && subscription.trialEnd && !subscription.cancelAtPeriodEnd
+  )
+}
