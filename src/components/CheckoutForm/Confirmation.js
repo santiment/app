@@ -99,7 +99,7 @@ const Confirmation = ({
   price,
   loading,
   changeSelectedPlan,
-  isFreeTrial
+  isTrialEnd
 }) => {
   const [plans] = usePlans()
   const [coupon, setCoupon] = useState('')
@@ -173,9 +173,9 @@ const Confirmation = ({
           className={styles.btn}
           fluid
         >
-          {isFreeTrial
-            ? 'Start 14-day free trial'
-            : `Upgrade to ${name.toUpperCase()}`}
+          {isTrialEnd
+            ? `Upgrade to ${name.toUpperCase()}`
+            : 'Start 14-day free trial'}
         </Dialog.Approve>
       </div>
     </div>

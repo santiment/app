@@ -143,7 +143,9 @@ const PlanPaymentDialog = ({
   const nextPaymentDate = getNextPaymentDates(billing)
   const trialEndData = getFreeTrialEnd()
 
-  const isTrial = subscription && subscription.trialEnd
+  const isTrialEnd = subscription && subscription.trialEnd
+
+  console.log('isTrialEnd', isTrialEnd)
 
   return (
     <>
@@ -228,11 +230,11 @@ const PlanPaymentDialog = ({
               }}
             >
               <Dialog.ScrollContent className={styles.content}>
-                {isTrial && (
+                {!isTrialEnd && (
                   <FreeTrialLabel price={price} trialEndData={trialEndData} />
                 )}
 
-                {!isTrial && (
+                {isTrialEnd && (
                   <ProExpiredLabel
                     price={price}
                     nextPaymentDate={nextPaymentDate}
@@ -245,7 +247,7 @@ const PlanPaymentDialog = ({
                   price={price}
                   billing={billing}
                   loading={loading}
-                  isFreeTrial={isTrial}
+                  isTrialEnd={isTrialEnd}
                   changeSelectedPlan={changeSelectedPlan}
                 />
               </Dialog.ScrollContent>
