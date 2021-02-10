@@ -8,7 +8,7 @@ const NewWatchlist = ({
   createWatchlist: forceCreateWrapper,
   trigger,
   lists,
-  type
+  type = 'watchlist'
 }) => {
   const { closeDialog, isOpened, toggleOpen } = useDialogState(false)
 
