@@ -1,10 +1,5 @@
 @import '~@santiment-network/ui/mixins';
 
-.content {
-  padding: 20px 24px;
-  width: 480px;
-}
-
 .trigger {
   margin: 0;
   background: inherit;
@@ -13,19 +8,6 @@
   &:hover {
     background: inherit;
   }
-}
-
-.actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.text {
-  @include text('body-3');
-
-  color: var(--waterloo);
-  margin: 0 0 24px;
 }
 
 .toggle {

@@ -6,7 +6,7 @@ import ShareCopyBtn from './ShareCopyBtn'
 import ShareMedias from './medias/ShareMedias'
 import styles from './SharePanel.module.scss'
 
-const SharePanel = ({ shareTitle, shareText, shareLink }) => {
+const SharePanel = ({ shareTitle, shareText, shareLink, Toggle }) => {
   return (
     <Dialog.ScrollContent className={styles.wrapper}>
       <div className={styles.content}>
@@ -18,12 +18,12 @@ const SharePanel = ({ shareTitle, shareText, shareLink }) => {
           />
           <ShareCopyBtn shareLink={shareLink} />
         </div>
-
         <ShareMedias
           shareTitle={shareTitle}
           shareText={shareText}
           shareLink={shareLink}
         />
+        <Toggle />
       </div>
     </Dialog.ScrollContent>
   )
