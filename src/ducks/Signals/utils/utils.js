@@ -593,6 +593,7 @@ export const mapTargetObject = (target, mapper = targetMapper) => {
 
 const getSelectorPartByInfrastructure = (infrastructure, target) => {
   switch (infrastructure) {
+    case 'own':
     case 'Own': {
       return {
         infrastructure: target.ticker || 'ETH',
