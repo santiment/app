@@ -20,6 +20,8 @@ import { usePlans } from '../../ducks/Plans/hooks'
 import { useTrackEvents } from '../../hooks/tracking'
 import { USER_SUBSCRIPTION_CHANGE } from '../../actions/types'
 import { updateUserSubscriptions } from '../../stores/user/subscriptions'
+import FreeTrialLabel from './PlanDialogLabels/FreeTrialLabel'
+import ProExpiredLabel from './PlanDialogLabels/ProExpiredLabel'
 import styles from './PlanPaymentDialog.module.scss'
 import sharedStyles from './Plans.module.scss'
 
@@ -73,7 +75,16 @@ const getNextPaymentDates = billing => {
   return `${DD}/${MM}/${YY}`
 }
 
-const PaymentDialog = ({
+const getFreeTrialEnd = () => {
+  const date = new Date()
+  date.setDate(date.getDate() + 14)
+
+  const { DD, MM, YY } = getDateFormats(date)
+
+  return `${DD}/${MM}/${YY}`
+}
+
+const PlanPaymentDialog = ({
   title: name,
   billing: interval,
   label,
@@ -83,7 +94,8 @@ const PaymentDialog = ({
   disabled,
   addNot,
   btnProps,
-  updateSubscription
+  updateSubscription,
+  subscription
 }) => {
   const [plans] = usePlans()
   const [loading, toggleLoading] = useFormLoading()
@@ -127,6 +139,11 @@ const PaymentDialog = ({
     })
     setPaymentVisiblity(true)
   }
+
+  const nextPaymentDate = getNextPaymentDates(billing)
+  const trialEndData = getFreeTrialEnd()
+
+  const isTrialEnd = subscription && subscription.trialEnd
 
   return (
     <>
@@ -211,12 +228,24 @@ const PaymentDialog = ({
               }}
             >
               <Dialog.ScrollContent className={styles.content}>
+                {!isTrialEnd && (
+                  <FreeTrialLabel price={price} trialEndData={trialEndData} />
+                )}
+
+                {isTrialEnd && (
+                  <ProExpiredLabel
+                    price={price}
+                    nextPaymentDate={nextPaymentDate}
+                    period={billing}
+                  />
+                )}
+
                 <CheckoutForm
                   plan={title}
-                  nextPaymentDate={getNextPaymentDates(billing)}
                   price={price}
                   billing={billing}
                   loading={loading}
+                  isTrialEnd={isTrialEnd}
                   changeSelectedPlan={changeSelectedPlan}
                 />
               </Dialog.ScrollContent>
@@ -246,7 +275,7 @@ const mapDispatchToProps = dispatch => ({
 const InjectedForm = connect(
   null,
   mapDispatchToProps
-)(injectStripe(PaymentDialog))
+)(injectStripe(PlanPaymentDialog))
 
 export default props => (
   <Elements>

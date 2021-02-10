@@ -97,9 +97,9 @@ const Confirmation = ({
   plan: name,
   billing,
   price,
-  nextPaymentDate,
   loading,
-  changeSelectedPlan
+  changeSelectedPlan,
+  isTrialEnd
 }) => {
   const [plans] = usePlans()
   const [coupon, setCoupon] = useState('')
@@ -130,7 +130,7 @@ const Confirmation = ({
           variables={{ coupon }}
           fetchPolicy='no-cache'
         >
-          {({ loading, error, data: { getCoupon } = {} }) => {
+          {({ loading: couponLoading, error, data: { getCoupon } = {} }) => {
             // NOTE: Seems like graphql is caching the last value after error even with no-cache [@vanguard | Dec 16, 2019]
             const { isValid, percentOff } = error ? {} : getCoupon || {}
             return (
@@ -151,12 +151,15 @@ const Confirmation = ({
                     Learn how to buy SAN.
                   </a>
                 </div>
-                <TotalPrice
-                  error={error}
-                  percentOff={isValid && percentOff}
-                  price={formatOnlyPrice(price)}
-                  planWithBilling={planWithBilling}
-                />
+
+                <div className={styles.price}>
+                  <TotalPrice
+                    error={error}
+                    percentOff={isValid && percentOff}
+                    price={formatOnlyPrice(price)}
+                    planWithBilling={planWithBilling}
+                  />
+                </div>
               </>
             )
           }}
@@ -170,15 +173,10 @@ const Confirmation = ({
           className={styles.btn}
           fluid
         >
-          Go {name.toUpperCase()} now
+          {isTrialEnd
+            ? `Upgrade to ${name.toUpperCase()}`
+            : 'Start 14-day free trial'}
         </Dialog.Approve>
-        <h5 className={styles.expl}>
-          Your card will be charged
-          <b> {formatOnlyPrice(price)} </b>
-          every {billing} until you decide to downgrade or unsubscribe. Next
-          payment:
-          <b> {nextPaymentDate}</b>
-        </h5>
       </div>
     </div>
   )
