@@ -15,7 +15,7 @@ import {
 } from '../../queries/plans'
 import { formatError, contactAction } from '../../utils/notifications'
 import { getDateFormats } from '../../utils/dates'
-import { getAlternativeBillingPlan } from '../../utils/plans'
+import { getAlternativeBillingPlan, hasInactiveTrial } from '../../utils/plans'
 import { usePlans } from '../../ducks/Plans/hooks'
 import { useTrackEvents } from '../../hooks/tracking'
 import { USER_SUBSCRIPTION_CHANGE } from '../../actions/types'
@@ -75,10 +75,11 @@ const getNextPaymentDates = billing => {
   return `${DD}/${MM}/${YY}`
 }
 
-const getFreeTrialEnd = () => {
-  const date = new Date()
-  date.setDate(date.getDate() + 14)
-
+const getFreeTrialEnd = trialDate => {
+  const date = new Date(trialDate) || new Date()
+  if (!trialDate) {
+    date.setDate(date.getDate() + 14)
+  }
   const { DD, MM, YY } = getDateFormats(date)
 
   return `${DD}/${MM}/${YY}`
@@ -141,9 +142,7 @@ const PlanPaymentDialog = ({
   }
 
   const nextPaymentDate = getNextPaymentDates(billing)
-  const trialEndData = getFreeTrialEnd()
-
-  const isTrialEnd = subscription && subscription.trialEnd
+  const hasCompletedTrial = hasInactiveTrial(subscription)
 
   return (
     <>
@@ -228,11 +227,16 @@ const PlanPaymentDialog = ({
               }}
             >
               <Dialog.ScrollContent className={styles.content}>
-                {!isTrialEnd && (
-                  <FreeTrialLabel price={price} trialEndData={trialEndData} />
+                {!hasCompletedTrial && (
+                  <FreeTrialLabel
+                    price={price}
+                    trialEndData={getFreeTrialEnd(
+                      subscription && subscription.trialEnd
+                    )}
+                  />
                 )}
 
-                {isTrialEnd && (
+                {hasCompletedTrial && (
                   <ProExpiredLabel
                     price={price}
                     nextPaymentDate={nextPaymentDate}
@@ -245,7 +249,7 @@ const PlanPaymentDialog = ({
                   price={price}
                   billing={billing}
                   loading={loading}
-                  isTrialEnd={isTrialEnd}
+                  subscription={subscription}
                   changeSelectedPlan={changeSelectedPlan}
                 />
               </Dialog.ScrollContent>
