@@ -145,8 +145,6 @@ const PlanPaymentDialog = ({
 
   const isTrialEnd = subscription && subscription.trialEnd
 
-  console.log('isTrialEnd', isTrialEnd)
-
   return (
     <>
       <Button
