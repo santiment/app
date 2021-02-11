@@ -30,12 +30,10 @@
   border-radius: 4px;
   overflow: hidden;
   z-index: -1;
-  box-shadow: 0 4px 8px rgba(21, 24, 31, 0.04),
-    0 8px 14px rgba(21, 24, 31, 0.04),
-    0 12px 32px rgba(21, 24, 31, 0.05);
   border: 1px solid var(--porcelain);
   width: 100%;
   height: 100%;
+  box-shadow: var(--box-shadow);
 }
 
 .dd__arrow {
@@ -44,7 +42,6 @@
   background: var(--white);
   pointer-events: none;
   transform: translate3d(-50%, -50%, 0) rotate(45deg);
-  box-shadow: -3px -3px 5px rgba(82, 90, 125, 0.04);
 }
 
 .dd__list {
