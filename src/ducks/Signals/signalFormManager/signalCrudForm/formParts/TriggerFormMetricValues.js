@@ -34,8 +34,6 @@ export const TriggerFormMetricValues = ({
 
   const defaultType = metaFormSettings.type
 
-  // console.log(blocks, isTimeWindow)
-
   return (
     <div className={styles.metricValues}>
       {showTypes && (

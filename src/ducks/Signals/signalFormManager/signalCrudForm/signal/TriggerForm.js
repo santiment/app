@@ -170,8 +170,7 @@ export const TriggerForm = ({
           ? COMMON_PROPS_FOR_METRIC
           : METRIC_TO_TYPES[metric.value]
 
-        const showTypes =
-          metric && !metric.hidden && typeSelectors && typeSelectors.length > 1
+        const showTypes = typeSelectors && typeSelectors.length > 1
 
         const { dependencies: metricValueBlocks } = type
 

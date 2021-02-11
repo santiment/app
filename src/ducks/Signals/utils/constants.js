@@ -192,7 +192,6 @@ export const PRICE_VOLUME_DIFFERENCE_METRIC = {
 export const ETH_WALLET_METRIC = {
   label: 'Historical balance',
   value: ETH_WALLET,
-  hidden: true,
   type: METRIC_TYPES.WALLET_MOVEMENT,
   description: 'Notify me when a wallet’s balance changes a certain way'
 }
