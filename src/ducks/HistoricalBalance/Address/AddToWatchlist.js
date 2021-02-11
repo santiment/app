@@ -7,7 +7,6 @@ import {
   updateWatchlistShort,
   createAddressesWatchlist
 } from '../../Watchlists/gql/mutations'
-import { Infrastructure } from '../../../utils/address'
 import styles from './index.module.scss'
 
 export const createWatchlist = (watchlist, setDialog) =>
@@ -48,10 +47,7 @@ const AddToWatchlist = ({ address, infrastructure }) => {
   return (
     <AddToWatchlistDialog
       trigger={
-        <Button
-          className={styles.btn}
-          disabled={infrastructure !== Infrastructure.ETH}
-        >
+        <Button className={styles.btn} disabled={!infrastructure}>
           <Icon type='copy' className={styles.btn__icon} />
           Add to Watchlist
         </Button>
