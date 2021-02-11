@@ -7,7 +7,11 @@ import Icon from '@santiment-network/ui/Icon'
 import Input from '@santiment-network/ui/Input'
 import Dialog from '@santiment-network/ui/Dialog'
 import { useDebounce } from '../../hooks'
-import { formatOnlyPrice, getAlternativeBillingPlan } from '../../utils/plans'
+import {
+  formatOnlyPrice,
+  getAlternativeBillingPlan,
+  hasActiveTrial
+} from '../../utils/plans'
 import { usePlans } from '../../ducks/Plans/hooks'
 import PlansDropdown from './PlansDropdown'
 import sharedStyles from './CheckoutForm.module.scss'
@@ -97,15 +101,17 @@ const Confirmation = ({
   plan: name,
   billing,
   price,
-  nextPaymentDate,
   loading,
-  changeSelectedPlan
+  changeSelectedPlan,
+  subscription
 }) => {
   const [plans] = usePlans()
   const [coupon, setCoupon] = useState('')
   const planWithBilling = `${name} ${billing}ly`
   const plan = { name: name.toUpperCase(), interval: billing, amount: price }
   const altPlan = getAlternativeBillingPlan(plans, plan) || {}
+
+  const isTrialActive = hasActiveTrial(subscription)
 
   return (
     <div className={sharedStyles.confirmation}>
@@ -130,7 +136,7 @@ const Confirmation = ({
           variables={{ coupon }}
           fetchPolicy='no-cache'
         >
-          {({ loading, error, data: { getCoupon } = {} }) => {
+          {({ loading: couponLoading, error, data: { getCoupon } = {} }) => {
             // NOTE: Seems like graphql is caching the last value after error even with no-cache [@vanguard | Dec 16, 2019]
             const { isValid, percentOff } = error ? {} : getCoupon || {}
             return (
@@ -151,12 +157,15 @@ const Confirmation = ({
                     Learn how to buy SAN.
                   </a>
                 </div>
-                <TotalPrice
-                  error={error}
-                  percentOff={isValid && percentOff}
-                  price={formatOnlyPrice(price)}
-                  planWithBilling={planWithBilling}
-                />
+
+                <div className={styles.price}>
+                  <TotalPrice
+                    error={error}
+                    percentOff={isValid && percentOff}
+                    price={formatOnlyPrice(price)}
+                    planWithBilling={planWithBilling}
+                  />
+                </div>
               </>
             )
           }}
@@ -170,15 +179,10 @@ const Confirmation = ({
           className={styles.btn}
           fluid
         >
-          Go {name.toUpperCase()} now
+          {isTrialActive
+            ? `Upgrade to ${name.toUpperCase()}`
+            : 'Start 14-day free trial'}
         </Dialog.Approve>
-        <h5 className={styles.expl}>
-          Your card will be charged
-          <b> {formatOnlyPrice(price)} </b>
-          every {billing} until you decide to downgrade or unsubscribe. Next
-          payment:
-          <b> {nextPaymentDate}</b>
-        </h5>
       </div>
     </div>
   )

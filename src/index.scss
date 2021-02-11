@@ -81,14 +81,10 @@ h4 {
 }
 
 hr {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 16px;
+  margin-bottom: 16px;
   border: 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.night-mode hr {
-  border-top-color: #2d3239;
+  border-top: var(--porcelain);
 }
 
 @media (max-width: 767px) {
@@ -102,11 +98,6 @@ hr {
   }
 }
 
-.hidden {
-  visibility: false;
-  display: none;
-}
-
 .intercom-launcher {
   @include responsive('phone', 'phone-xs') {
     display: none;
@@ -116,60 +107,6 @@ hr {
 // Fix index level of san-ui Select menu list
 .Select-menu-outer {
   z-index: 100;
-}
-
-.night-mode i {
-  color: #a0a0a0;
-}
-
-/* TAGS */
-
-.night-mode .tags-select__control {
-  background-color: #1a1b1e;
-  border-color: #2d3239;
-}
-
-.night-mode .tags-select__control:hover {
-  border-color: #4a4a4a;
-}
-
-.night-mode .tags-select__indicator-separator {
-  background-color: #2d3239;
-}
-
-.night-mode .tags-select__menu {
-  background-color: #23252a;
-}
-
-.night-mode .tags-select__option--isFocused {
-  background-color: #2e2e2e;
-}
-
-.night-mode .tags-select__option--isFocused:active {
-  background-color: #2e2e2e;
-}
-
-.night-mode .tags-select__multi-value {
-  background-color: #23252a;
-  border: 1px solid #2d3239;
-}
-
-.night-mode .tags-select__multi-value__label,
-.night-mode .tags-select__multi-value__remove {
-  color: #a0a0a0;
-}
-
-.night-mode .tags-select__indicator {
-  color: #727272;
-}
-
-.night-mode .tags-select__indicator:hover {
-  color: #a0a0a0;
-}
-
-.night-mode .tags-select__multi-value__remove:hover {
-  color: #e25a5a;
-  background-color: #661400;
 }
 
 .modal[class*='svelte'],

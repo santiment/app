@@ -32,9 +32,13 @@ export function useMarketcap (data, watchlist, onLoad, accessor) {
       if (!data) return LOADING
       if (onLoad) onLoad()
 
-      const { historicalStats } = accessor
-        ? accessor(data, watchlist)
-        : data.watchlist
+      const source = accessor ? accessor(data, watchlist) : data.watchlist
+
+      if (!source) {
+        return LOADING
+      }
+
+      const { historicalStats } = source
       const { length } = historicalStats
 
       if (length === 0) return DEFAULT

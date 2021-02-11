@@ -52,6 +52,7 @@ const UpgradeBtn = ({
 
     return (
       <PlanPaymentDialog
+        subscription={subscription}
         label={
           <>
             {showCrown && (

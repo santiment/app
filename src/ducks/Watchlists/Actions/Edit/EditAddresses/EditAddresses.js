@@ -6,13 +6,16 @@ import { useDialogState } from '../../../../../hooks/dialog'
 import { updateWatchlistShort } from '../../../gql/mutations'
 import EditableList, { rowAddressRenderer } from '../EditableList'
 import { hasAddress } from '../../../utils'
-import { getAddressInfrastructure } from '../../../../../utils/address'
+import {
+  getAddressInfrastructure,
+  Infrastructure
+} from '../../../../../utils/address'
 import styles from './EditAddresses.module.scss'
 
 const updateWatchlist = ({ id, listItems }) =>
   updateWatchlistShort({ id: +id, listItems })
 
-export const NOT_VALID_ADDRESS = 'Not supported address'
+export const NOT_VALID_ADDRESS = 'Not supported ETH address'
 
 const extractAddress = ({ blockchainAddress }) => blockchainAddress
 
@@ -79,12 +82,13 @@ const EditAddresses = ({ trigger, watchlist }) => {
   }
 
   const onInputChangeDebounced = ({ target: { value } }) => {
-    const isValid = getAddressInfrastructure(value)
-    if (isValid && !items.find(x => x === value)) {
+    const infrastructure = getAddressInfrastructure(value)
+    const valid = infrastructure && infrastructure === Infrastructure.ETH
+    if (valid && !items.find(x => x === value)) {
       setCurrentValue(value)
     }
 
-    setError(!value || !isValid)
+    setError(!value || !valid)
   }
 
   return (
