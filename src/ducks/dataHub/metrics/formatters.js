@@ -17,7 +17,8 @@ export const percentageFormatter = val => {
 
 export const absoluteToPercentsFormatter = val => percentageFormatter(100 * val)
 
-export const mvrvFormatter = val => absoluteToPercentsFormatter(val - 1)
+// NOTE: "- 1" operation were done in fetcher before [haritonasty | Feb 11, 2021]
+export const mvrvFormatter = absoluteToPercentsFormatter
 
 export const tooltipValueFormatter = ({
   value,
