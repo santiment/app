@@ -84,6 +84,7 @@ const SignalDialog = ({
   return (
     <Dialog
       open={dialogOpenState}
+      withAnimation={false}
       onOpen={() => {
         // Track opening New signal Dialog
         trackEvent(
