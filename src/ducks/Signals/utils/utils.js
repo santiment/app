@@ -1,6 +1,5 @@
 import {
   ETH_WALLETS_OPERATIONS,
-  ETH_WALLET_AMOUNT_UP,
   ETH_WALLET_METRIC,
   REQUIRED_MESSAGE,
   PRICE_PERCENT_CHANGE_UP_MODEL,
@@ -13,7 +12,6 @@ import {
   PRICE_CHANGE_TYPES,
   FREQUENCY_TYPE_ONCEPER_MODEL,
   FREQUENCY_TYPES_OPTIONS,
-  ETH_WALLET_AMOUNT_DOWN,
   MUST_BE_MORE_ZERO_MESSAGE,
   PRICE_PERCENT_CHANGE_DOWN_MODEL,
   ETH_WALLET,
@@ -183,14 +181,6 @@ const getFormTriggerType = ({ target, type, operation }) => {
   const operationType = getOperationType(operation)
 
   switch (operationType) {
-    case ETH_WALLET_AMOUNT_UP.value: {
-      return ETH_WALLET_AMOUNT_UP
-    }
-
-    case ETH_WALLET_AMOUNT_DOWN.value: {
-      return ETH_WALLET_AMOUNT_DOWN
-    }
-
     case PRICE_PERCENT_CHANGE_UP_MODEL.value: {
       return PRICE_PERCENT_CHANGE_UP_MODEL
     }
@@ -1066,7 +1056,7 @@ export const getNearestTypeByMetric = metric => {
 
   switch (metric.value) {
     case ETH_WALLET_METRIC.value: {
-      return ETH_WALLET_AMOUNT_UP
+      return PRICE_PERCENT_CHANGE_DOWN_MODEL
     }
     case PRICE_METRIC.value: {
       return PRICE_PERCENT_CHANGE_DOWN_MODEL

@@ -90,24 +90,6 @@ export const ETH_WALLETS_OPERATIONS = {
   AMOUNT_UP: 'amount_up'
 }
 
-export const ETH_WALLET_AMOUNT_UP = {
-  label: 'Amount up',
-  metric: ETH_WALLET,
-  value: ETH_WALLETS_OPERATIONS.AMOUNT_UP,
-  dependencies: ['threshold', 'walletBalanceChangeType']
-}
-export const ETH_WALLET_AMOUNT_DOWN = {
-  label: 'Amount down',
-  metric: ETH_WALLET,
-  value: ETH_WALLETS_OPERATIONS.AMOUNT_DOWN,
-  dependencies: ['threshold', 'walletBalanceChangeType']
-}
-
-export const ETH_WALLETS_OPTIONS = [
-  { ...ETH_WALLET_AMOUNT_UP },
-  { ...ETH_WALLET_AMOUNT_DOWN }
-]
-
 export const PRICE_CHANGE_TYPES = {
   MOVING_UP: 'percent_up',
   MOVING_DOWN: 'percent_down',
@@ -147,7 +129,7 @@ export const PRICE_ABS_CHANGE_ABOVE = {
   subMetric: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
   label: 'More than',
   value: PRICE_CHANGE_TYPES.ABOVE,
-  dependencies: ['absoluteThreshold']
+  dependencies: ['absoluteThreshold', 'timeWindow']
 }
 
 export const PRICE_ABS_CHANGE_BELOW = {
@@ -155,7 +137,7 @@ export const PRICE_ABS_CHANGE_BELOW = {
   subMetric: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
   label: 'Less than',
   value: PRICE_CHANGE_TYPES.BELOW,
-  dependencies: ['absoluteThreshold']
+  dependencies: ['absoluteThreshold', 'timeWindow']
 }
 
 export const PRICE_ABS_CHANGE_INSIDE = {
@@ -164,7 +146,7 @@ export const PRICE_ABS_CHANGE_INSIDE = {
   label: 'Entering channel',
   value: PRICE_CHANGE_TYPES.INSIDE_CHANNEL,
   filledField: true,
-  dependencies: ['absoluteBorderLeft', 'absoluteBorderRight']
+  dependencies: ['absoluteBorders', 'timeWindow']
 }
 
 export const PRICE_ABS_CHANGE_OUTSIDE = {
@@ -173,7 +155,7 @@ export const PRICE_ABS_CHANGE_OUTSIDE = {
   label: 'Outside channel',
   value: PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL,
   filledField: true,
-  dependencies: ['absoluteBorderLeft', 'absoluteBorderRight']
+  dependencies: ['absoluteBorders', 'timeWindow']
 }
 
 export const TRENDING_WORDS_METRIC = {
@@ -226,7 +208,7 @@ export const METRICS_OPTIONS = [
 
 const PRICE_OPTIONS = [
   {
-    label: 'Price changing',
+    label: 'Absolute change',
     type: 'header'
   },
   PRICE_ABS_CHANGE_ABOVE,
@@ -251,7 +233,7 @@ export const METRIC_TO_TYPES = {
   [PRICE]: COMMON_PROPS_FOR_METRIC,
   [DAILY_ACTIVE_ADDRESSES]: PRICE_OPTIONS,
   [PRICE_VOLUME_DIFFERENCE]: [PRICE_VOLUME_DIFFERENCE_METRIC],
-  [ETH_WALLET]: ETH_WALLETS_OPTIONS
+  [ETH_WALLET]: COMMON_PROPS_FOR_METRIC
 }
 
 export const frequencyTymeValueBuilder = value => {
@@ -404,7 +386,7 @@ export const METRIC_DEFAULT_VALUES = {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
     frequencyTimeType: { ...FREQUENCY_TIME_TYPE_DAILY_MODEL },
     frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
-    type: { ...ETH_WALLET_AMOUNT_UP },
+    type: PRICE_ABS_CHANGE_ABOVE,
     threshold: '',
     isRepeating: true,
     channels: ['Telegram'],

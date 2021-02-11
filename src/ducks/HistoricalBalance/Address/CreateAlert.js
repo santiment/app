@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
 import { mapToOptions } from '../../Signals/utils/utils'
 import {
-  ETH_WALLET_AMOUNT_UP,
-  ETH_WALLET_METRIC
+  ETH_WALLET_METRIC,
+  PRICE_ABS_CHANGE_ABOVE
 } from '../../Signals/utils/constants'
 import SignalMasterModalForm from '../../Signals/signalModal/SignalMasterModalForm'
 
@@ -15,7 +15,7 @@ const METRIC = {
   value: ETH_WALLET_METRIC
 }
 const TYPE = {
-  value: ETH_WALLET_AMOUNT_UP
+  value: PRICE_ABS_CHANGE_ABOVE
 }
 
 const CreateAlert = ({ assets, address, trigger }) => {
