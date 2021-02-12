@@ -29,4 +29,8 @@
 
 .trigger {
   margin-left: 16px;
+
+  &__active {
+    fill: var(--waterloo);
+  }
 }

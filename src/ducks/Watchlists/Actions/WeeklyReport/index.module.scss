@@ -187,3 +187,17 @@
     padding: 8px;
   }
 }
+
+.monitoredContent {
+  overflow: hidden;
+  transition: height 0.3s ease-in-out;
+  height: 190px;
+
+  &__big {
+    height: 212px;
+  }
+
+  &__hide {
+    height: 0;
+  }
+}

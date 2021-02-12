@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import WeeklyReport from './index'
@@ -13,8 +14,8 @@ const WeeklyReportTrigger = ({ isMonitored, ...props }) => {
         <Button
           border
           variant='flat'
-          accent='positive'
-          className={styles.trigger}
+          accent={isMonitored ? '' : 'positive'}
+          className={cx(styles.trigger, isMonitored && styles.trigger__active)}
         >
           <Icon type='report' className={styles.icon} />
           {isMonitored && <span className={styles.active} />}

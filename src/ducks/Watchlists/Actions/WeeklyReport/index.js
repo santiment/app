@@ -87,6 +87,7 @@ const WatchlistWeeklyReport = ({
 
   return (
     <Dialog
+      size='s'
       trigger={trigger}
       onOpen={open}
       onClose={close}
@@ -109,20 +110,24 @@ const WatchlistWeeklyReport = ({
           <Toggle isActive={isMonitored} className={styles.toggle} />
           Receive weekly report
         </Button>
-        {isMonitored && (
-          <>
-            <Notification
-              {...NOTIFICATION[isEmailConnected ? 'connected' : 'notConnected']}
-              hasCloseBtn={false}
-            />
-            <EmailSetting
-              withoutButtons={true}
-              isEmailConnected={isEmailConnected}
-              onChangeStatus={toggleEmailStatus}
-              statuses={STATUSES}
-            />
-          </>
-        )}
+        <div
+          className={cx(
+            styles.monitoredContent,
+            !isEmailConnected && styles.monitoredContent__big,
+            !isMonitored && styles.monitoredContent__hide
+          )}
+        >
+          <Notification
+            {...NOTIFICATION[isEmailConnected ? 'connected' : 'notConnected']}
+            hasCloseBtn={false}
+          />
+          <EmailSetting
+            withoutButtons={true}
+            isEmailConnected={isEmailConnected}
+            onChangeStatus={toggleEmailStatus}
+            statuses={STATUSES}
+          />
+        </div>
       </Dialog.ScrollContent>
       <Dialog.Actions className={styles.actions}>
         <Button
