@@ -6,9 +6,9 @@ import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLab
 import { PRICE, TIME_WINDOW_UNITS } from '../../../utils/constants'
 import { LastPriceComponent } from './TriggerLastPrice'
 import MetricOptionsRenderer from './metricOptions/MetricOptionsRenderer'
-import { mapTargetObject, targetMapperWithTicker } from '../../../utils/utils'
-import styles from '../signal/TriggerForm.module.scss'
+import { mapTargetObject, targetMapper } from '../../../utils/utils'
 import { isDailyMetric } from './metricTypes/metrics'
+import styles from '../signal/TriggerForm.module.scss'
 
 export const TriggerFormMetricValues = ({
   values: {
@@ -18,7 +18,6 @@ export const TriggerFormMetricValues = ({
     absoluteBorderLeft = 0,
     target
   },
-  lastPrice,
   blocks = [],
   showTypes,
   metaFormSettings,
@@ -27,7 +26,7 @@ export const TriggerFormMetricValues = ({
   const { key, value } = metric
   const isPriceMetric = value === PRICE
 
-  const mappedTargets = mapTargetObject(target, targetMapperWithTicker)
+  const mappedTargets = mapTargetObject(target, targetMapper)
   const slugName = !Array.isArray(mappedTargets) ? mappedTargets : undefined
 
   const isTimeWindow = blocks.includes('timeWindow') && !isDailyMetric(key)
@@ -62,12 +61,7 @@ export const TriggerFormMetricValues = ({
                 placeholder='Absolute value'
                 prefix={isPriceMetric ? '$' : ''}
               />
-              {isPriceMetric && (
-                <LastPriceComponent
-                  lastPrice={lastPrice}
-                  slugTitle={slugName}
-                />
-              )}
+              {isPriceMetric && <LastPriceComponent slugTitle={slugName} />}
             </div>
           )}
         </>
@@ -79,18 +73,13 @@ export const TriggerFormMetricValues = ({
             isPriceMetric={isPriceMetric}
             absoluteBorderRight={absoluteBorderRight}
             absoluteBorderLeft={absoluteBorderLeft}
-            lastPrice={lastPrice}
             slugName={slugName}
           />
         </div>
       )}
 
       {type && blocks.includes('percentThreshold') && (
-        <PercentThreshold
-          isPriceMetric={isPriceMetric}
-          slugName={slugName}
-          lastPrice={lastPrice}
-        />
+        <PercentThreshold isPriceMetric={isPriceMetric} slugName={slugName} />
       )}
 
       {type &&
@@ -100,7 +89,6 @@ export const TriggerFormMetricValues = ({
           <PercentThresholdByBorders
             isPriceMetric={isPriceMetric}
             slugName={slugName}
-            lastPrice={lastPrice}
           />
         </div>
       )}
@@ -147,7 +135,7 @@ const TimeWindow = () => (
   </div>
 )
 
-const PercentThreshold = ({ isPriceMetric, lastPrice, slugName }) => {
+const PercentThreshold = ({ isPriceMetric, slugName }) => {
   return (
     <div className={styles.Field}>
       <FormikLabel text='Percentage amount' />
@@ -157,14 +145,12 @@ const PercentThreshold = ({ isPriceMetric, lastPrice, slugName }) => {
         prefix='%'
         placeholder='Percentage amount'
       />
-      {isPriceMetric && (
-        <LastPriceComponent lastPrice={lastPrice} slugTitle={slugName} />
-      )}
+      {isPriceMetric && <LastPriceComponent slugTitle={slugName} />}
     </div>
   )
 }
 
-const PercentThresholdByBorders = ({ isPriceMetric, lastPrice, slugName }) => {
+const PercentThresholdByBorders = ({ isPriceMetric, slugName }) => {
   return (
     <>
       <div className={styles.Field}>
@@ -175,9 +161,7 @@ const PercentThresholdByBorders = ({ isPriceMetric, lastPrice, slugName }) => {
           prefix='%'
           placeholder='%'
         />
-        {isPriceMetric && (
-          <LastPriceComponent lastPrice={lastPrice} slugTitle={slugName} />
-        )}
+        {isPriceMetric && <LastPriceComponent slugTitle={slugName} />}
       </div>
       <span className={styles.or}>or</span>
       <div className={styles.Field}>
@@ -197,7 +181,6 @@ const AbsoluteBorders = ({
   isPriceMetric,
   absoluteBorderRight,
   absoluteBorderLeft,
-  lastPrice,
   slugName
 }) => {
   return (
@@ -212,9 +195,7 @@ const AbsoluteBorders = ({
           max={+absoluteBorderRight}
           placeholder='0'
         />
-        {isPriceMetric && (
-          <LastPriceComponent lastPrice={lastPrice} slugTitle={slugName} />
-        )}
+        {isPriceMetric && <LastPriceComponent slugTitle={slugName} />}
       </div>
 
       <span className={styles.or}>and</span>
