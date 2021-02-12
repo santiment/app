@@ -6,24 +6,32 @@ import ShareCopyBtn from './ShareCopyBtn'
 import ShareMedias from './medias/ShareMedias'
 import styles from './SharePanel.module.scss'
 
-const SharePanel = ({ shareTitle, shareText, shareLink, Toggle }) => {
+const SharePanel = ({
+  shareTitle,
+  shareText,
+  shareLink,
+  CustomContent,
+  isDisabled
+}) => {
   return (
     <Dialog.ScrollContent className={styles.wrapper}>
       <div className={styles.content}>
+        {CustomContent && <CustomContent />}
         <div className={styles.link}>
           <Input
             className={styles.link__input}
             readOnly
+            disabled={isDisabled}
             defaultValue={shareLink}
           />
-          <ShareCopyBtn shareLink={shareLink} />
+          <ShareCopyBtn shareLink={shareLink} disabled={isDisabled} />
         </div>
         <ShareMedias
+          isDisabled={isDisabled}
           shareTitle={shareTitle}
           shareText={shareText}
           shareLink={shareLink}
         />
-        <Toggle />
       </div>
     </Dialog.ScrollContent>
   )

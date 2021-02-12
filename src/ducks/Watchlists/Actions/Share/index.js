@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
+import Message from '@santiment-network/ui/Message'
 import PublicityToggle from '../ChangeVisibility'
 import { isDynamicWatchlist } from '../../utils'
 import ShareModalTrigger from '../../../../components/Share/ShareModalTrigger'
@@ -26,12 +27,18 @@ const Share = ({ watchlist, isAuthor, className, customLink }) => {
     <ShareModalTrigger
       dialogTitle={`Share ${type}`}
       shareLink={customLink || shortShareLink}
-      Toggle={() => (
-        <PublicityToggle
-          variant='flat'
-          watchlist={watchlist}
-          className={styles.toggle}
-        />
+      isDisabled={!isPublic}
+      CustomContent={() => (
+        <>
+          <Message variant='warn' className={styles.message}>
+            Your screener is private. Please, switch it to “Public” first.
+          </Message>
+          <PublicityToggle
+            variant='flat'
+            watchlist={watchlist}
+            className={styles.toggle}
+          />
+        </>
       )}
       trigger={props => (
         <Button
