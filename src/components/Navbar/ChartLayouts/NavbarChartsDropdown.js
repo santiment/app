@@ -13,6 +13,11 @@ import styles from './NavbarChartsDropdown.module.scss'
 
 const DASHBOARDS = [
   {
+    name: 'ETH Token Trading Analysis',
+    to: '/eth-analysis',
+    createdAt: '2021-02-16T00:00:00Z'
+  },
+  {
     name: 'Ethereum 2.0 Staking Analytics',
     to: '/eth2',
     createdAt: '2021-01-20T00:00:00Z'
