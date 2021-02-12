@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import copy from 'copy-to-clipboard'
-import { Button } from '@santiment-network/ui'
+import Button from '@santiment-network/ui/Button'
 import styles from './SharePanel.module.scss'
 
 class ShareCopyBtn extends PureComponent {
@@ -36,11 +37,12 @@ class ShareCopyBtn extends PureComponent {
   }
 
   render () {
-    const { label } = this.props
+    const { label, disabled } = this.props
     return (
       <Button
-        className={styles.link__btn}
+        className={cx(styles.link__btn, disabled && styles.link__btn_disabled)}
         variant='flat'
+        disabled={disabled}
         onClick={this.onCopyClick}
       >
         {this.state.notificationTimer ? 'Copied!' : label}
