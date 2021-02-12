@@ -158,7 +158,6 @@ export const TriggerForm = ({
           description,
           channels = []
         } = values
-
         const { price } = lastPriceItem || {}
 
         const mappedTrigger = mapFormPropsToTrigger(values)

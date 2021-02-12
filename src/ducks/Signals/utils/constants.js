@@ -390,7 +390,8 @@ export const METRIC_DEFAULT_VALUES = {
     isRepeating: true,
     channels: ['Telegram'],
     percentThreshold: 200,
-    timeWindow: 24,
+    timeWindow: 1,
+    timeWindowUnit: { label: 'Day(s)', value: 'd' },
     target: DEFAULT_TARGET
   },
   [TRENDING_WORDS]: {
