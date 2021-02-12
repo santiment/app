@@ -1,9 +1,7 @@
 import React, { useState, useEffect, Fragment, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
-import { compose } from 'recompose'
 import { Formik, Form } from 'formik'
-import { connect } from 'react-redux'
 import isEqual from 'lodash.isequal'
 import FormikEffect from '../../../../../components/formik-santiment-ui/FormikEffect'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
@@ -52,7 +50,6 @@ const getTitle = (formData, id, isShared) => {
 
 const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,
-  lastPriceItem: PropTypes.any,
   settings: PropTypes.any,
   metaFormSettings: PropTypes.any,
   triggerMeta: PropTypes.any
@@ -61,7 +58,6 @@ const propTypes = {
 export const TriggerForm = ({
   id,
   onSettingsChange,
-  lastPriceItem,
   settings = {},
   metaFormSettings,
   formChangedCallback,
@@ -159,8 +155,6 @@ export const TriggerForm = ({
           channels = []
         } = values
 
-        const { price } = lastPriceItem || {}
-
         const mappedTrigger = mapFormPropsToTrigger(values)
 
         const showChart =
@@ -170,8 +164,7 @@ export const TriggerForm = ({
           ? COMMON_PROPS_FOR_METRIC
           : METRIC_TO_TYPES[metric.value]
 
-        const showTypes =
-          metric && !metric.hidden && typeSelectors && typeSelectors.length > 1
+        const showTypes = typeSelectors && typeSelectors.length > 1
 
         const { dependencies: metricValueBlocks } = type
 
@@ -251,7 +244,6 @@ export const TriggerForm = ({
                       typeSelectors={typeSelectors}
                       metaFormSettings={metaFormSettings}
                       blocks={metricValueBlocks}
-                      lastPrice={price}
                       values={values}
                       showTypes={showTypes}
                     />
@@ -380,14 +372,4 @@ export const TriggerForm = ({
 
 TriggerForm.propTypes = propTypes
 
-const enhance = compose(
-  connect(state => {
-    return {
-      lastPriceItem: state.signals.points
-        ? state.signals.points[state.signals.points.length - 1]
-        : undefined
-    }
-  })
-)
-
-export default enhance(TriggerForm)
+export default TriggerForm

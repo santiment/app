@@ -1,6 +1,5 @@
 import {
   ETH_WALLETS_OPERATIONS,
-  ETH_WALLET_AMOUNT_UP,
   ETH_WALLET_METRIC,
   REQUIRED_MESSAGE,
   PRICE_PERCENT_CHANGE_UP_MODEL,
@@ -13,7 +12,6 @@ import {
   PRICE_CHANGE_TYPES,
   FREQUENCY_TYPE_ONCEPER_MODEL,
   FREQUENCY_TYPES_OPTIONS,
-  ETH_WALLET_AMOUNT_DOWN,
   MUST_BE_MORE_ZERO_MESSAGE,
   PRICE_PERCENT_CHANGE_DOWN_MODEL,
   ETH_WALLET,
@@ -183,14 +181,6 @@ const getFormTriggerType = ({ target, type, operation }) => {
   const operationType = getOperationType(operation)
 
   switch (operationType) {
-    case ETH_WALLET_AMOUNT_UP.value: {
-      return ETH_WALLET_AMOUNT_UP
-    }
-
-    case ETH_WALLET_AMOUNT_DOWN.value: {
-      return ETH_WALLET_AMOUNT_DOWN
-    }
-
     case PRICE_PERCENT_CHANGE_UP_MODEL.value: {
       return PRICE_PERCENT_CHANGE_UP_MODEL
     }
@@ -1066,7 +1056,7 @@ export const getNearestTypeByMetric = metric => {
 
   switch (metric.value) {
     case ETH_WALLET_METRIC.value: {
-      return ETH_WALLET_AMOUNT_UP
+      return PRICE_PERCENT_CHANGE_DOWN_MODEL
     }
     case PRICE_METRIC.value: {
       return PRICE_PERCENT_CHANGE_DOWN_MODEL
@@ -1203,25 +1193,29 @@ export const metricTypesBlockErrors = values => {
   return errors
 }
 
+const checkByKey = (errors, key, source, dependencies) => {
+  const val = source[key]
+  if (dependencies.indexOf(key) !== -1) {
+    if (!val) {
+      errors[key] = REQUIRED_MESSAGE
+    } else if (val <= 0) {
+      errors[key] = MUST_BE_MORE_ZERO_MESSAGE
+    }
+  }
+
+  return errors
+}
+
 export const metricValuesBlockErrors = values => {
   let errors = {}
 
   const {
     type,
-    threshold,
-    percentThreshold,
-    percentThresholdLeft,
-    percentThresholdRight,
-    timeWindow,
     absoluteThreshold,
     absoluteBorderLeft,
     absoluteBorderRight,
     metric
   } = values
-
-  if (metric && metric.value === ETH_WALLET) {
-    if (!threshold) errors.threshold = REQUIRED_MESSAGE
-  }
 
   if (!type) {
     return errors
@@ -1229,44 +1223,28 @@ export const metricValuesBlockErrors = values => {
 
   if (
     type.metric === DAILY_ACTIVE_ADDRESSES ||
-    type.metric === PRICE_PERCENT_CHANGE
+    type.metric === PRICE_PERCENT_CHANGE ||
+    metric.value === ETH_WALLET
   ) {
     if (type.dependencies) {
-      if (type.dependencies.indexOf('percentThreshold') !== -1) {
-        if (!percentThreshold) {
-          errors.percentThreshold = REQUIRED_MESSAGE
-        } else if (percentThreshold <= 0) {
-          errors.percentThreshold = MUST_BE_MORE_ZERO_MESSAGE
-        }
-      }
-
-      if (type.dependencies.indexOf('percentThresholdLeft') !== -1) {
-        if (!percentThresholdLeft) {
-          errors.percentThresholdLeft = REQUIRED_MESSAGE
-        } else if (percentThresholdLeft <= 0) {
-          errors.percentThresholdLeft = MUST_BE_MORE_ZERO_MESSAGE
-        }
-      }
-
-      if (type.dependencies.indexOf('percentThresholdRight') !== -1) {
-        if (!percentThresholdRight) {
-          errors.percentThresholdRight = REQUIRED_MESSAGE
-        } else if (percentThresholdRight <= 0) {
-          errors.percentThresholdRight = MUST_BE_MORE_ZERO_MESSAGE
-        }
-      }
-
-      if (type.dependencies.indexOf('timeWindow') !== -1) {
-        if (!timeWindow) {
-          errors.timeWindow = REQUIRED_MESSAGE
-        } else if (timeWindow <= 0) {
-          errors.timeWindow = MUST_BE_MORE_ZERO_MESSAGE
-        }
-      }
+      errors = checkByKey(errors, 'percentThreshold', values, type.dependencies)
+      errors = checkByKey(
+        errors,
+        'percentThresholdLeft',
+        values,
+        type.dependencies
+      )
+      errors = checkByKey(
+        errors,
+        'percentThresholdRight',
+        values,
+        type.dependencies
+      )
+      errors = checkByKey(errors, 'timeWindow', values, type.dependencies)
     }
   }
 
-  if (type.metric === PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER) {
+  if (type.subMetric === PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER) {
     if (!absoluteThreshold) {
       errors.absoluteThreshold = REQUIRED_MESSAGE
     }
@@ -1282,11 +1260,7 @@ export const metricValuesBlockErrors = values => {
   }
 
   if (type.metric === PRICE_VOLUME_DIFFERENCE) {
-    if (!threshold) {
-      errors.threshold = REQUIRED_MESSAGE
-    } else if (threshold < 0) {
-      errors.threshold = MUST_BE_MORE_ZERO_MESSAGE
-    }
+    errors = checkByKey(errors, 'threshold', values, type.dependencies)
   }
 
   return errors
@@ -1553,9 +1527,19 @@ const getMetricTargetTitle = metric => {
     return metric.label
   }
 
-  const isPriceMetric = metric.value === PRICE
+  if (metric.value === PRICE) {
+    return 'Price'
+  }
 
-  return isPriceMetric ? 'Price' : 'Addresses count'
+  if (metric.value === DAILY_ACTIVE_ADDRESSES) {
+    return 'Addresses count'
+  }
+
+  if (metric.value === ETH_WALLET) {
+    return 'Balance'
+  }
+
+  return 'Amount'
 }
 
 export const titleMetricValuesHeader = (

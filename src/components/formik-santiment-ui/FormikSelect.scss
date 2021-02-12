@@ -24,6 +24,8 @@ $select-height: 330px;
   color: var(--rhino) !important;
 
   @include text('body-3');
+
+  max-width: 96%;
 }
 
 .Select--single {
@@ -70,13 +72,14 @@ $select-height: 330px;
     border-radius: $border-radius;
     padding: 1px 10px;
     margin: 3px 4px 3px 4px;
-    height: 24px;
+    min-height: 24px;
   }
 
   .Select-value-label {
     @include text('body-3');
 
     padding: 0;
+    word-break: break-all;
   }
 
   .Select-value-icon {
