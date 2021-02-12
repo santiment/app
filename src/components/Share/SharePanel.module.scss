@@ -44,6 +44,8 @@
     height: auto;
     color: var(--rhino);
     position: relative;
+    justify-content: center;
+    min-width: 84px;
 
     &::before {
       display: block;

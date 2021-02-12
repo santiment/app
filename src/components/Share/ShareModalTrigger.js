@@ -9,8 +9,8 @@ const ShareModalTrigger = ({
   shareText,
   shareLink,
   trigger: Trigger = ShareBtn,
-  CustomContent,
   isDisabled,
+  children,
   classes,
   dialogTitle = 'Share the data',
   ...props
@@ -34,7 +34,7 @@ const ShareModalTrigger = ({
       classes={classes}
     >
       <SharePanel
-        CustomContent={CustomContent}
+        children={children}
         isDisabled={isDisabled}
         shareTitle={shareTitle}
         shareText={shareText}

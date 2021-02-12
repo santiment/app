@@ -17,6 +17,20 @@
   bottom: 24px;
 }
 
+.messageWrapper {
+  overflow: hidden;
+  height: 58px;
+  opacity: 1;
+  transition-property: height, opacity;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+
+  &__hide {
+    height: 1px;
+    opacity: 0;
+  }
+}
+
 .message {
   margin-bottom: 16px;
 }

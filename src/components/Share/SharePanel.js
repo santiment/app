@@ -10,13 +10,13 @@ const SharePanel = ({
   shareTitle,
   shareText,
   shareLink,
-  CustomContent,
+  children,
   isDisabled
 }) => {
   return (
     <Dialog.ScrollContent className={styles.wrapper}>
       <div className={styles.content}>
-        {CustomContent && <CustomContent />}
+        {children}
         <div className={styles.link}>
           <Input
             className={styles.link__input}
