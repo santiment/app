@@ -46,6 +46,13 @@ export default ({ MetricNode, setOptions, onDeleteChartClick, ...props }) => {
     }))
   }
 
+  function toggleShowWatermark () {
+    setOptions(state => ({
+      ...state,
+      showWatermark: saveToggle('showWatermark', !state.showWatermark)
+    }))
+  }
+
   return (
     <ChartSettingsContextMenu
       {...props}
@@ -55,6 +62,7 @@ export default ({ MetricNode, setOptions, onDeleteChartClick, ...props }) => {
       onCartesianGridChange={toggleCartesianGrid}
       onClosestDataChange={toggleClosestData}
       onWatermarkLighterChange={toggleWatermarkLighter}
+      onToggleWatermark={toggleShowWatermark}
     >
       <ChartDownloadBtn
         fluid

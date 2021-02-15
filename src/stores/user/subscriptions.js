@@ -93,12 +93,14 @@ export function useUserSubscriptionStatus () {
       const { loading, subscription } = data
 
       let isPro = false
+      let isProPlus = false
       let isTrial = false
       let trialDaysLeft = null
 
       if (subscription) {
         const { trialEnd, plan } = subscription
-        isPro = plan.name === PRO || plan.name === PRO_PLUS
+        isProPlus = plan.name === PRO_PLUS
+        isPro = plan.name === PRO || isProPlus
         trialDaysLeft = trialEnd && calculateTrialDaysLeft(trialEnd)
         isTrial = trialDaysLeft > 0
       }
@@ -106,6 +108,7 @@ export function useUserSubscriptionStatus () {
       return {
         loading,
         isPro,
+        isProPlus,
         isTrial,
         trialDaysLeft
       }

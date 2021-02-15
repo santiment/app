@@ -12,9 +12,14 @@ export const getTrialDaysLeft = () => ''
 export const getDaysLeftLabel = daysLeft =>
   daysLeft === 1 ? 'last day' : `${daysLeft} days left`
 
-const PlanEngage = ({ currentUser }) => {
+const PlanEngage = () => {
   const { user, loading: isUserLoading } = useUser()
-  const { loading, isPro, trialDaysLeft } = useUserSubscriptionStatus()
+  const {
+    loading,
+    isPro,
+    isProPlus,
+    trialDaysLeft
+  } = useUserSubscriptionStatus()
 
   const isLoading = isUserLoading || loading
 
@@ -58,7 +63,8 @@ const PlanEngage = ({ currentUser }) => {
         className={cx(styles.text, styles.premium)}
       >
         <Icon type='crown' className={styles.icon} />
-        Pro {trialDaysLeft && `Trial (${getDaysLeftLabel(trialDaysLeft)})`}
+        Pro{isProPlus && '+'}{' '}
+        {trialDaysLeft && `Trial (${getDaysLeftLabel(trialDaysLeft)})`}
       </a>
     </div>
   )

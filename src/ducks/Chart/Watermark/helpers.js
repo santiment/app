@@ -8,15 +8,20 @@ const path =
 export function drawWatermark (
   { ctx, top, right, left, bottom },
   isNightModeEnabled,
-  isWatermarkLighter = false
+  isWatermarkLighter = false,
+  showWatermark = true
 ) {
-  // 33 - 20%, BF - 75%
-  const transparencyCode = isWatermarkLighter ? '33' : 'BF'
   ctx.save()
-  ctx.translate((right - left) / 2 - 200, top + ((bottom - top) * 14) / 100)
-  ctx.scale(0.5, 0.5)
-  ctx.fillStyle =
-    (isNightModeEnabled ? '#222639' : '#E7EAF3') + transparencyCode
-  ctx.fill(path)
+
+  if (showWatermark) {
+    // 33 - 20%, BF - 75%
+    const transparencyCode = isWatermarkLighter ? '33' : 'BF'
+    ctx.translate((right - left) / 2 - 200, top + ((bottom - top) * 14) / 100)
+    ctx.scale(0.5, 0.5)
+    ctx.fillStyle =
+      (isNightModeEnabled ? '#222639' : '#E7EAF3') + transparencyCode
+    ctx.fill(path)
+  }
+
   ctx.restore()
 }

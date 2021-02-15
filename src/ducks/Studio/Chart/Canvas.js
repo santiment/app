@@ -54,7 +54,7 @@ const Canvas = ({
   const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
   const isDrawing = isDrawingState[0]
   const { from, to } = settings
-  const { isCartesianGridActive, isWatermarkLighter } = options
+  const { isCartesianGridActive, isWatermarkLighter, showWatermark } = options
 
   return (
     <ResponsiveChart
@@ -62,7 +62,7 @@ const Canvas = ({
       {...props}
       data={data}
     >
-      <Watermark light={isWatermarkLighter} />
+      <Watermark light={isWatermarkLighter} show={showWatermark} />
       <GreenRedBars />
       <Bars />
       <Areas />

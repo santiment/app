@@ -20,11 +20,12 @@ export const Icon = ({ className, ...props }) => (
   <UIIcon {...props} className={cx(styles.icon, className)} />
 )
 
-export const Button = ({ className, ...props }) => (
+export const Button = ({ className, disabled, ...props }) => (
   <UIButton
     {...props}
+    disabled={disabled}
     fluid
-    variant='ghost'
+    variant={disabled ? 'flat' : 'ghost'}
     className={cx(styles.context__btn, className)}
   />
 )
@@ -90,9 +91,11 @@ const ChartSettingsContextMenu = ({
   onClosestDataChange,
   showWatermarkSettings = true,
   onWatermarkLighterChange,
+  onToggleWatermark,
+  showWatermark,
   isWatermarkLighter
 }) => {
-  const { isPro } = useUserSubscriptionStatus()
+  const { isPro, isProPlus } = useUserSubscriptionStatus()
   const isFree = !isPro
 
   return (
@@ -156,24 +159,44 @@ const ChartSettingsContextMenu = ({
           </Button>
         )}
         {showWatermarkSettings && (
-          <Button
-            onClick={onWatermarkLighterChange}
-            disabled={isFree}
-            className={styles.context__btn}
-          >
-            Make watermark less visible
-            {isPro ? (
-              <Toggle
-                isActive={isWatermarkLighter}
-                className={styles.context__toggle}
-              />
-            ) : (
-              <ProLabel />
-            )}
-          </Button>
+          <>
+            <Button
+              onClick={onWatermarkLighterChange}
+              disabled={isFree}
+              className={styles.context__btn}
+            >
+              Make watermark less visible
+              {isPro ? (
+                <Toggle
+                  isActive={isWatermarkLighter}
+                  className={styles.context__toggle}
+                />
+              ) : (
+                <ProLabel />
+              )}
+            </Button>
+
+            <Button
+              onClick={onToggleWatermark}
+              disabled={!isProPlus}
+              className={styles.context__btn}
+            >
+              Hide watermark
+              {isProPlus ? (
+                <Toggle
+                  isActive={!showWatermark}
+                  className={styles.context__toggle}
+                />
+              ) : (
+                <ProLabel isPlus />
+              )}
+            </Button>
+          </>
         )}
 
         {shareLink && <ShareButton shareLink={shareLink} />}
+
+        {showDownload && showDownload && <div className={styles.divider} />}
 
         {showDownload && (
           <DownloadCSVBtn

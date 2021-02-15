@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   min-height: 20px;
-  max-width: 38px;
+  max-width: 44px;
   padding: 1px 7px;
 
   @include text('caption', 'm');
@@ -14,5 +14,13 @@
   &:hover {
     color: white;
     background-color: var(--texas-rose-hover);
+  }
+}
+
+.plus {
+  background-color: var(--bright-sun);
+
+  &:hover {
+    background-color: var(--bright-sun-hover);
   }
 }
