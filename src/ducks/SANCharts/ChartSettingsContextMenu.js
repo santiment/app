@@ -196,7 +196,7 @@ const ChartSettingsContextMenu = ({
 
         {shareLink && <ShareButton shareLink={shareLink} />}
 
-        {showDownload && showDownload && <div className={styles.divider} />}
+        {showDownload && showDownloadPNG && <div className={styles.divider} />}
 
         {showDownload && (
           <DownloadCSVBtn

@@ -19,7 +19,6 @@ export const DEFAULT_SETTINGS = {
 
 export const DEFAULT_OPTIONS = {
   isSocialDominanceActive: getSavedToggle('isSocialDominanceActive'),
-  isCartesianGridActive: getSavedToggle('isCartesianGridActive', true),
   ...COMMON_CHART_OPTIONS
 }
 
