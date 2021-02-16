@@ -68,19 +68,13 @@ export const Menu = ({ children, className }) => (
 
 const ChartSettingsContextMenu = ({
   chartRef,
-  showNightModeToggle = true,
-  isNightModeActive,
-  onNightModeSelect,
   shareLink,
   title,
   showDownload = true,
   showDownloadPNG,
-  showMulti = true,
   classes = {},
   isLogScale,
   onScaleChange,
-  isMultiChartsActive,
-  children,
   data,
   events,
   activeMetrics,
@@ -91,12 +85,17 @@ const ChartSettingsContextMenu = ({
   onClosestDataChange,
   showWatermarkSettings = true,
   onWatermarkLighterChange,
+  isWatermarkLighter,
   onWatermarkVisibilityChange,
   isWatermarkVisible,
-  isWatermarkLighter
+  MetricNode,
+  isClosestTogglerVisible = true,
+  children
 }) => {
   const { isPro, isProPlus } = useUserSubscriptionStatus()
   const isFree = !isPro
+
+  const showDivider = (showDownload && showDownloadPNG) || children
 
   return (
     <ContextMenu
@@ -128,7 +127,7 @@ const ChartSettingsContextMenu = ({
             />
           </Button>
         )}
-        {onClosestDataChange && (
+        {onClosestDataChange && isClosestTogglerVisible && (
           <Button
             onClick={onClosestDataChange}
             className={cx(styles.context__btn, styles.context__btn_big)}
@@ -136,24 +135,6 @@ const ChartSettingsContextMenu = ({
             Show closest data on hover
             <Toggle
               isActive={isClosestDataActive}
-              className={styles.context__toggle}
-            />
-          </Button>
-        )}
-        {showNightModeToggle && (
-          <Button onClick={onNightModeSelect}>
-            Night Mode
-            <Toggle
-              isActive={isNightModeActive}
-              className={styles.context__toggle}
-            />
-          </Button>
-        )}
-        {showMulti && (
-          <Button className={styles.context__btn}>
-            Multi charts
-            <Toggle
-              isActive={isMultiChartsActive}
               className={styles.context__toggle}
             />
           </Button>
@@ -196,7 +177,7 @@ const ChartSettingsContextMenu = ({
 
         {shareLink && <ShareButton shareLink={shareLink} />}
 
-        {showDownload && showDownloadPNG && <div className={styles.divider} />}
+        {showDivider && <div className={styles.divider} />}
 
         {showDownload && (
           <DownloadCSVBtn
@@ -225,6 +206,7 @@ const ChartSettingsContextMenu = ({
             data={data}
             title={title}
             chartRef={chartRef}
+            MetricNode={MetricNode}
           >
             <Icon type='save' />
             Download as PNG

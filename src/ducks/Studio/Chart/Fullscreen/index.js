@@ -123,7 +123,6 @@ const FullscreenChart = ({
         settings={settings}
         options={options}
         shareLink={shareLink}
-        showMulti={false}
         activeMetrics={metrics}
         activeEvents={EMPTY_ARRAY}
         data={data}

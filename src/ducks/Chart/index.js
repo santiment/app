@@ -154,6 +154,7 @@ const Chart = ({
     chart.isCartesianGridActive = isCartesianGridActive
     chart.isWatermarkLighter = isWatermarkLighter
     chart.hideWatermark = hideWatermark
+    chart.isWatermarkVisible = !hideWatermark
     chart.syncTooltips = syncTooltips
     chart.drawTooltip = point => plotTooltip(chart, marker, point)
     chart.xAxesTicks = xAxesTicks
@@ -239,7 +240,8 @@ const Chart = ({
       MetricColor,
       isNightMode,
       isCartesianGridActive,
-      isWatermarkLighter
+      isWatermarkLighter,
+      hideWatermark
     ]
   )
 
