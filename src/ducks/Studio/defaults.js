@@ -18,7 +18,7 @@ export const DEFAULT_SETTINGS = {
 
 export const COMMON_CHART_OPTIONS = {
   isWatermarkLighter: getSavedToggle('isWatermarkLighter', false),
-  showWatermark: getSavedToggle('showWatermark', true),
+  isWatermarkVisible: getSavedToggle('isWatermarkVisible', true),
   isCartesianGridActive: getSavedToggle('isCartesianGridActive', true)
 }
 

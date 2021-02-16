@@ -9,11 +9,11 @@ export function drawWatermark (
   { ctx, top, right, left, bottom },
   isNightModeEnabled,
   isWatermarkLighter = false,
-  showWatermark = true
+  isWatermarkVisible = true
 ) {
   ctx.save()
 
-  if (showWatermark) {
+  if (isWatermarkVisible) {
     // 33 - 20%, BF - 75%
     const transparencyCode = isWatermarkLighter ? '33' : 'BF'
     ctx.translate((right - left) / 2 - 200, top + ((bottom - top) * 14) / 100)

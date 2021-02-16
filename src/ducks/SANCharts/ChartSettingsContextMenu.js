@@ -91,8 +91,8 @@ const ChartSettingsContextMenu = ({
   onClosestDataChange,
   showWatermarkSettings = true,
   onWatermarkLighterChange,
-  onToggleWatermark,
-  showWatermark,
+  onWatermarkVisibilityChange,
+  isWatermarkVisible,
   isWatermarkLighter
 }) => {
   const { isPro, isProPlus } = useUserSubscriptionStatus()
@@ -177,14 +177,14 @@ const ChartSettingsContextMenu = ({
             </Button>
 
             <Button
-              onClick={onToggleWatermark}
+              onClick={onWatermarkVisibilityChange}
               disabled={!isProPlus}
               className={styles.context__btn}
             >
               Hide watermark
               {isProPlus ? (
                 <Toggle
-                  isActive={!showWatermark}
+                  isActive={!isWatermarkVisible}
                   className={styles.context__toggle}
                 />
               ) : (
