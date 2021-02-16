@@ -22,7 +22,7 @@ const getEventsWithAnomaly = (headers, data) => {
 }
 
 const DownloadCSVBtn = ({
-  title = 'CSV',
+  title,
   data,
   events,
   activeMetrics,
@@ -32,8 +32,7 @@ const DownloadCSVBtn = ({
   const date = new Date()
   const { DD, MMM, YYYY } = getDateFormats(date)
   const { HH, mm, ss } = getTimeFormats(date)
-  const filename = `${title ||
-    'Export'} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].csv`
+  const filename = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].csv`
 
   const [eventHeaders, eventsData] = getEventsWithAnomaly(activeEvents, events)
 

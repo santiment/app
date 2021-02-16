@@ -216,6 +216,7 @@ const DashboardMetricChart = ({
             classses={{
               settingsBtn: styles.settingsBtn
             }}
+            title='Export'
           />
         </div>
       </DashboardChartHeaderWrapper>
