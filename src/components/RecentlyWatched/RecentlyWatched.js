@@ -76,7 +76,7 @@ const RecentlyWatched = ({
       {isShowAssets && (assets ? hasAssets : assetsNumber > 0) && (
         <div className={cx(className, styles.wrapper)}>
           <h2 className={cx(styles.title, classes.subTitle)}>
-            Recently watched assets
+            Recently opened assets
           </h2>
           <Skeleton
             className={styles.skeleton}
@@ -97,7 +97,7 @@ const RecentlyWatched = ({
       {isShowWatchlists && (watchlists ? hasWatchlists : watchlistsNumber > 0) && (
         <div className={cx(className, styles.wrapper)}>
           <h2 className={cx(styles.title, classes.subTitle)}>
-            Recently watched watchlists
+            Recently opened watchlists
           </h2>
           <div className={styles.watchlistsWrapper}>
             <Skeleton
