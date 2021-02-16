@@ -1,7 +1,8 @@
 import { getIntervalByTimeRange } from '../../utils/dates'
-import { getNewInterval } from '../../ducks/SANCharts/IntervalSelector'
+import { getNewInterval } from '../SANCharts/IntervalSelector'
 import { Metric } from '../dataHub/metrics'
 import { getSavedToggle } from '../../utils/localStorage'
+import { COMMON_CHART_OPTIONS } from '../Studio/defaults'
 
 const DEFAULT_TIME_RANGE = '3m'
 const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
@@ -18,7 +19,7 @@ export const DEFAULT_SETTINGS = {
 
 export const DEFAULT_OPTIONS = {
   isSocialDominanceActive: getSavedToggle('isSocialDominanceActive'),
-  isCartesianGridActive: getSavedToggle('isCartesianGridActive', true)
+  ...COMMON_CHART_OPTIONS
 }
 
 export const DEFAULT_METRICS = [

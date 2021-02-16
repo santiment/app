@@ -161,7 +161,7 @@
 }
 
 .context {
-  padding: 8px;
+  padding: 8px 8px;
 
   &__toggle {
     margin-left: 16px;
@@ -222,4 +222,10 @@
 
 .logo {
   height: 32px;
+}
+
+.divider {
+  width: calc(100% + 18px);
+  border-top: 1px solid var(--porcelain);
+  margin: 8px -9px;
 }
