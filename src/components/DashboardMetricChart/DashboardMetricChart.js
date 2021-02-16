@@ -213,6 +213,9 @@ const DashboardMetricChart = ({
             data={data}
             activeMetrics={activeMetrics}
             chartRef={chartRef}
+            classses={{
+              settingsBtn: styles.settingsBtn
+            }}
           />
         </div>
       </DashboardChartHeaderWrapper>

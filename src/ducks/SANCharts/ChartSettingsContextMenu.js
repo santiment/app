@@ -89,7 +89,6 @@ const ChartSettingsContextMenu = ({
   onWatermarkVisibilityChange,
   isWatermarkVisible,
   MetricNode,
-  isClosestTogglerVisible = true,
   children
 }) => {
   const { isPro, isProPlus } = useUserSubscriptionStatus()
@@ -127,7 +126,7 @@ const ChartSettingsContextMenu = ({
             />
           </Button>
         )}
-        {onClosestDataChange && isClosestTogglerVisible && (
+        {onClosestDataChange && (
           <Button
             onClick={onClosestDataChange}
             className={cx(styles.context__btn, styles.context__btn_big)}

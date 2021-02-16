@@ -15,7 +15,6 @@ import CartesianGrid from '../../ducks/Chart/CartesianGrid'
 import Axes from '../../ducks/Chart/Axes'
 import Tooltip from '../../ducks/Chart/Tooltip'
 import Bars from '../../ducks/Chart/Bars'
-import { useResponsiveTicks } from '../../ducks/HistoricalBalance/Chart/Canvas'
 import Brush from '../../ducks/Chart/Brush'
 import Watermark from '../../ducks/Chart/Watermark'
 import styles from './DashboardMetricChartWrapper.module.scss'
@@ -61,7 +60,6 @@ const DashboardMetricChartWrapper = ({
   const data = useEdgeGaps(
     useClosestValueData(rawData, metrics, options.isClosestDataActive)
   )
-  const axesTicks = useResponsiveTicks(!isDesktop)
 
   return (
     <Canvas
@@ -71,7 +69,6 @@ const DashboardMetricChartWrapper = ({
       chartRef={chartRef}
       data={data}
       brushData={allTimeData}
-      showBrush={isDesktop && onBrushChangeEnd && allTimeData}
       onBrushChangeEnd={onBrushChangeEnd}
       metrics={metrics}
       padding={isDesktop ? CHART_PADDING_DESKTOP : CHART_PADDING_MOBILE}
@@ -79,7 +76,6 @@ const DashboardMetricChartWrapper = ({
       colors={MetricColor}
       tooltipKey={axesMetricKeys[0]}
       axesMetricKeys={axesMetricKeys}
-      axesTicks={axesTicks}
       domainGroups={isDomainGroupingActive ? domainGroups : mirrorDomainGroups}
       isLoading={loadings.length > 0}
       scale={options.isLogScale ? logScale : linearScale}
@@ -90,7 +86,6 @@ const DashboardMetricChartWrapper = ({
 
 const Canvas = ({
   metrics,
-  axesTicks,
   isLoading,
   brushData,
   onBrushChangeEnd,
@@ -114,7 +109,7 @@ const Canvas = ({
       <Lines />
       {isCartesianGridActive && <CartesianGrid />}
 
-      <Axes metrics={axesMetricKeys} {...axesTicks} />
+      <Axes metrics={axesMetricKeys} />
       <Tooltip metric={axesMetricKeys[0]} />
 
       <Brush
