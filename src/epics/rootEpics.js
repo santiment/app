@@ -19,7 +19,6 @@ import {
   addAssetToWatchlistEpic,
   editAssetsInWatchlistEpic
 } from '../ducks/Watchlists/Actions/Edit/editAssetsInWatchlistEpic'
-import { watchlistToggleMonitoringEpic } from '../ducks/Watchlists/Actions/WeeklyReport/watchlistToggleMonitoringEpic'
 import {
   changeColumnsSettingsEpic,
   saveWatchlistsSettingsAfterLaunch
@@ -74,7 +73,6 @@ export default combineEpics(
   // assets settings
   changeColumnsSettingsEpic,
   saveWatchlistsSettingsAfterLaunch,
-  watchlistToggleMonitoringEpic,
   // Settings
   removeConnectedWallet,
   connectNewWallet,

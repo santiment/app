@@ -15,6 +15,7 @@ const ProPopup = ({ title, description, features, ...props }) => {
 
   return (
     <Dialog
+      size='m'
       title={title}
       open={isOpen}
       onOpen={onOpenClick}

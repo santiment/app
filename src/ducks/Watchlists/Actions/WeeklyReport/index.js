@@ -6,9 +6,10 @@ import Button from '@santiment-network/ui/Button'
 import Toggle from '@santiment-network/ui/Toggle'
 import Notification from '@santiment-network/ui/Notification'
 import EmailImage from './EmailImage'
+import Trigger from './Trigger'
 import EmailSetting from '../../../../pages/Account/EmailSetting'
 import { showNotification } from '../../../../actions/rootActions'
-import { WATCHLIST_TOGGLE_MONITORING } from '../../../../actions/types'
+import { useMonitoringWatchlist } from './hooks'
 import styles from './index.module.scss'
 
 const NOTIFICATION = {
@@ -42,18 +43,18 @@ const STATUSES = {
   error: 'Error during typing email'
 }
 
-const WatchlistWeeklyReport = ({
+const WeeklyReport = ({
   trigger,
   isMonitored: initialIsMonitored,
   email,
   id,
   name,
-  dispatchIsMonitored,
   setNotification
 }) => {
   const [isShown, setIsShown] = useState(false)
   const [isMonitored, toggleIsMonitored] = useState(initialIsMonitored)
   const [emailStatus, toggleEmailStatus] = useState()
+  const [updateWatchlist] = useMonitoringWatchlist()
 
   const isEmailConnected = !!email
 
@@ -69,11 +70,11 @@ const WatchlistWeeklyReport = ({
 
   const onSave = () => {
     if (isEmailConnected && initialIsMonitored !== isMonitored) {
-      dispatchIsMonitored({ id, isMonitored })
+      updateWatchlist(id, isMonitored).then(state => toggleIsMonitored(state))
     }
 
     if (!isEmailConnected && emailStatus === STATUSES.success) {
-      dispatchIsMonitored({ id, isMonitored })
+      updateWatchlist(id, isMonitored).then(state => toggleIsMonitored(state))
     }
 
     setNotification({
@@ -88,7 +89,7 @@ const WatchlistWeeklyReport = ({
   return (
     <Dialog
       size='s'
-      trigger={trigger}
+      trigger={trigger || Trigger({ isMonitored })}
       onOpen={open}
       onClose={close}
       open={isShown}
@@ -152,17 +153,10 @@ const mapStateToProps = ({ user: { data: { email } = {} } }) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  dispatchIsMonitored: payload => {
-    window.intercomSettings = {
-      ...window.intercomSettings,
-      weekly_report: payload.isMonitored
-    }
-    dispatch({ type: WATCHLIST_TOGGLE_MONITORING, payload })
-  },
   setNotification: message => dispatch(showNotification(message))
 })
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(WatchlistWeeklyReport)
+)(WeeklyReport)
