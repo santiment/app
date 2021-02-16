@@ -16,7 +16,7 @@ const EmailImage = ({ className }) => (
     </g>
     <g
       stroke='var(--mirage)'
-      strokeWidth='2'
+      strokeWidth='1.5'
       strokeLinecap='round'
       strokeLinejoin='round'
     >
