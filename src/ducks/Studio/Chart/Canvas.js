@@ -60,7 +60,6 @@ const Canvas = ({
   ...props
 }) => {
   const axesMetricKeys = useMultiAxesMetricKeys(metrics, props.domainGroups)
-
   const padding = useChartPadding(axesMetricKeys)
   const isDrawing = isDrawingState[0]
   const { from, to } = settings
