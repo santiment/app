@@ -165,6 +165,14 @@ export const Chart = ({
       toggleIndicatorMetric(newMetric)
     }
 
+    if (widget.axesMetricSet.has(metric)) {
+      widget.axesMetricSet.delete(metric)
+      widget.axesMetricSet.add(newMetric)
+    } else {
+      widget.disabledAxesMetricSet.delete(metric)
+      widget.disabledAxesMetricSet.add(newMetric)
+    }
+
     const newMap = new Map(widget.MetricSettingMap)
     newMap.set(newMetric, getMetricSetting(newMap, metric))
     newMap.delete(metric)

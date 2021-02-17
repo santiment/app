@@ -112,6 +112,8 @@ export function setupTooltip (chart, marker) {
 export function plotTooltip (chart, marker, point, event) {
   const {
     tooltip: { ctx },
+    scale,
+    minMaxes,
     cursorType,
     tooltipKey,
     axesMetricKeys,
@@ -121,8 +123,10 @@ export function plotTooltip (chart, marker, point, event) {
   } = chart
   let metricPoint = point[tooltipKey]
   if (!metricPoint || isNaN(metricPoint.y)) {
-    metricPoint =
-      point[axesMetricKeys.find(key => point[key] && !isNaN(point[key].y))]
+    axesMetricKeys.some(key => {
+      metricPoint = point[key]
+      return metricPoint && !isNaN(metricPoint.y)
+    })
     if (!metricPoint) return
   }
 
@@ -151,14 +155,11 @@ export function plotTooltip (chart, marker, point, event) {
   drawTooltip(ctx, point, TooltipSetting, marker, tooltipPaintConfig)
 
   let offset = 0
+  const isLogScale = scale === logScale
   axesMetricKeys.forEach((metricKey, i) => {
-    const { min, max } = chart.minMaxes[metricKey]
-    const value = (chart.scale === logScale ? valueByLogY : valueByY)(
-      chart,
-      y,
-      min,
-      max
-    )
+    const { min, max } = minMaxes[metricKey]
+    const valueScaler = isLogScale ? valueByLogY : valueByY
+    const value = valueScaler(chart, y, min, max)
 
     drawValueBubbleY(
       chart,
