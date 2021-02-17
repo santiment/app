@@ -31,10 +31,6 @@ import ContextMenu from '../../ducks/Studio/Chart/ContextMenu'
 import { DEFAULT_OPTIONS } from '../../ducks/Studio/defaults'
 import styles from './DashboardMetricChart.module.scss'
 
-const OPTIONS = {
-  ...DEFAULT_OPTIONS
-}
-
 const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
   const [allTimeData, allTimeDataLoadings] = useAllTimeData(metrics, {
     slug
@@ -100,7 +96,7 @@ const DashboardMetricChart = ({
 }) => {
   const MetricTransformer = useMirroredTransformer(metrics)
   const [MetricSettingsMap] = useState(new Map())
-  const [options, setOptions] = useState(OPTIONS)
+  const [options, setOptions] = useState(DEFAULT_OPTIONS)
   const chartRef = useRef(null)
   const domainGroups = useDomainGroups(metrics)
   const mirrorDomainGroups = useMemo(
