@@ -55,14 +55,6 @@ function plotYAxes (chart, scale) {
   ctx.textAlign = 'left'
 
   axesMetricKeys.forEach(metricKey => {
-    drawYAxisTicks(
-      chart,
-      metricKey,
-      selectYFormatter(metricKey),
-      scale,
-      offset + 6,
-      yAxesTicks
-    )
     drawAxisLine(ctx, colors[metricKey], offset, top, offset, bottom)
 
     const domainDependencies = domain[metricKey]
@@ -82,6 +74,15 @@ function plotYAxes (chart, scale) {
         domainOffset += 2
       })
     }
+
+    drawYAxisTicks(
+      chart,
+      metricKey,
+      selectYFormatter(metricKey),
+      scale,
+      offset + 6,
+      yAxesTicks
+    )
 
     offset += 50
   })

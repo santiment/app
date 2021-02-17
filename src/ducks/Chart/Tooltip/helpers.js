@@ -25,8 +25,6 @@ import {
 import { CursorType } from '../cursor'
 import { TooltipSetting } from '../../dataHub/tooltipSettings'
 
-const metricValueAccessor = ({ value }) => value || value === 0
-
 export function setupTooltip (chart, marker) {
   const { canvas, ctx } = chart.tooltip
 

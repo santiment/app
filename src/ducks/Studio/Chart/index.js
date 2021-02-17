@@ -228,6 +228,7 @@ const Chart = ({
       <ChartCanvas
         className={cx(styles.chart, isBlurred && styles.blur)}
         chartRef={chartRef}
+        widget={widget}
         data={data}
         brushData={allTimeData}
         categories={categories}

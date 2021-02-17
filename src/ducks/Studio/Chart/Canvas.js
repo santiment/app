@@ -38,6 +38,7 @@ function useChartPadding (axesMetricKeys) {
 }
 
 const Canvas = ({
+  widget,
   data,
   brushData,
   metrics,
@@ -59,7 +60,11 @@ const Canvas = ({
   setIsICOPriceDisabled,
   ...props
 }) => {
-  const axesMetricKeys = useMultiAxesMetricKeys(metrics, props.domainGroups)
+  const axesMetricKeys = useMultiAxesMetricKeys(
+    widget,
+    metrics,
+    props.domainGroups
+  )
   const padding = useChartPadding(axesMetricKeys)
   const isDrawing = isDrawingState[0]
   const { from, to } = settings

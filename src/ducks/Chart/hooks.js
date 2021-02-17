@@ -150,26 +150,43 @@ function getDomainDependencies (domainGroups) {
   return domain
 }
 
-export function useMultiAxesMetricKeys (metrics, domainGroups) {
+export function useMultiAxesMetricKeys (widget, metrics, domainGroups) {
+  const { axesMetricSet, disabledAxesMetricSet } = widget
+
   return useMemo(
     () => {
-      if (!domainGroups.length) return metrics.map(getKey)
+      let axesMetrics
 
-      const axesMetrics = []
-      const domainDependencies = new Set(getDomainDependencies(domainGroups))
+      if (!domainGroups.length) {
+        axesMetrics = metrics
+      } else {
+        axesMetrics = []
+        const domainDependencies = new Set(getDomainDependencies(domainGroups))
 
-      const { length } = metrics
-      for (let i = 1; i < length; i++) {
-        const metric = metrics[i]
+        const { length } = metrics
+        for (let i = 1; i < length; i++) {
+          const metric = metrics[i]
 
-        if (domainDependencies.has(metric)) continue
+          if (domainDependencies.has(metric)) continue
 
-        axesMetrics.push(metric)
+          axesMetrics.push(metric)
+        }
       }
 
-      return axesMetrics.map(getKey)
+      const metricSet = new Set(axesMetrics)
+
+      disabledAxesMetricSet.forEach(disabledMetric => {
+        metricSet.delete(disabledMetric)
+      })
+
+      const result = [...metricSet]
+      if (result.length !== axesMetricSet.size && axesMetricSet.size < 3) {
+        result.forEach(metric => axesMetricSet.add(metric))
+      }
+
+      return result.filter(metric => axesMetricSet.has(metric)).map(getKey)
     },
-    [metrics, domainGroups]
+    [axesMetricSet, metrics, domainGroups]
   )
 }
 

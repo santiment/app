@@ -216,6 +216,8 @@ const newChartWidget = (props, widget = ChartWidget) =>
   newWidget(widget, {
     metrics: [Metric.price_usd],
     comparedMetrics: [],
+    axesMetricSet: new Set(),
+    disabledAxesMetricSet: new Set(),
     MetricSettingMap: new Map(),
     MetricIndicators: {},
     MetricColor: {},
