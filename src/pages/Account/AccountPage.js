@@ -50,7 +50,7 @@ const tabs = [
     index: 4,
     content: (
       <Link className={styles.tab} to='#notifications'>
-        Notifications
+        Alert notifications
       </Link>
     )
   },

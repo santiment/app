@@ -115,9 +115,7 @@ export function useUserSettings () {
               isTelegramConnectedAndEnabled:
                   data.currentUser.settings.signalNotifyTelegram &&
                   data.currentUser.settings.hasTelegramConnected,
-              isEmailConnected:
-                  data.currentUser.email &&
-                  data.currentUser.settings.signalNotifyEmail
+              isEmailConnected: !!data.currentUser.email
             }
             : DEFAULT_SETTINGS
       }
