@@ -59,8 +59,6 @@ export default ({ MetricNode, setOptions, onDeleteChartClick, ...props }) => {
   return (
     <ChartSettingsContextMenu
       {...props}
-      showNightModeToggle={false}
-      showMulti={false}
       onScaleChange={toggleScale}
       onCartesianGridChange={toggleCartesianGrid}
       onClosestDataChange={toggleClosestData}
