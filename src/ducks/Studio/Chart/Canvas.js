@@ -23,19 +23,16 @@ const PADDING = {
   left: 5
 }
 
-function useChartPadding (axesMetricKeys) {
-  return useMemo(
-    () =>
-      Object.assign(
-        {
-          right: axesMetricKeys.length * 50
-        },
-        PADDING
-      ),
-
-    [axesMetricKeys]
+export const getMultiAxesChartPadding = (axesMetricKeys, axesOffset = 50) =>
+  Object.assign(
+    {
+      right: axesMetricKeys.length * axesOffset
+    },
+    PADDING
   )
-}
+
+const useChartPadding = axesMetricKeys =>
+  useMemo(() => getMultiAxesChartPadding(axesMetricKeys), [axesMetricKeys])
 
 const Canvas = ({
   widget,

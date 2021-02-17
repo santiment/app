@@ -9,6 +9,7 @@ const MultiAxes = buildPlotter(({ plotter }, { metrics, xTicks, yTicks }) => {
         chart.axesMetricKeys = metrics
         chart.xAxesTicks = xTicks
         chart.yAxesTicks = yTicks
+        chart.isMultiAxes = true
 
         plotAxes(chart, scale)
       })
