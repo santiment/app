@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import Insights from './Insights'
 import IcoPrice from './IcoPrice'
 import LastDayPrice from './LastDayPrice'
@@ -9,9 +9,9 @@ import Bars from '../../Chart/Bars'
 import GreenRedBars from '../../Chart/GreenRedBars'
 import Tooltip from '../../Chart/Tooltip'
 import Drawer from '../../Chart/Drawer'
-import Axes from '../../Chart/Axes'
+import Axes from '../../Chart/MultiAxes'
 import CartesianGrid from '../../Chart/CartesianGrid'
-import { useAxesMetricsKey } from '../../Chart/hooks'
+import { useMultiAxesMetricKeys } from '../../Chart/hooks'
 import Watermark from '../../Chart/Watermark'
 import Brush from '../../Chart/Brush'
 import Signals from '../../Chart/Signals'
@@ -19,14 +19,22 @@ import styles from './index.module.scss'
 
 const PADDING = {
   top: 10,
-  right: 50,
   bottom: 73,
   left: 5
 }
 
-const DOUBLE_AXIS_PADDING = {
-  ...PADDING,
-  left: 50
+function useChartPadding (axesMetricKeys) {
+  return useMemo(
+    () =>
+      Object.assign(
+        {
+          right: axesMetricKeys.length * 50
+        },
+        PADDING
+      ),
+
+    [axesMetricKeys]
+  )
 }
 
 const Canvas = ({
@@ -51,7 +59,9 @@ const Canvas = ({
   setIsICOPriceDisabled,
   ...props
 }) => {
-  const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
+  const axesMetricKeys = useMultiAxesMetricKeys(metrics, props.domainGroups)
+
+  const padding = useChartPadding(axesMetricKeys)
   const isDrawing = isDrawingState[0]
   const { from, to } = settings
   const {
@@ -61,11 +71,7 @@ const Canvas = ({
   } = options
 
   return (
-    <ResponsiveChart
-      padding={axesMetricKeys[1] ? DOUBLE_AXIS_PADDING : PADDING}
-      {...props}
-      data={data}
-    >
+    <ResponsiveChart padding={padding} {...props} data={data}>
       <Watermark light={isWatermarkLighter} show={isWatermarkVisible} />
       <GreenRedBars />
       <Bars />

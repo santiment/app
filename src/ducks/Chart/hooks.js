@@ -5,6 +5,7 @@ import { checkIfAreMirrored } from '../dataHub/metrics/mirrored'
 
 const splitByComma = str => str.split(',')
 const lineMetricsFilter = ({ node }) => LINES.has(node)
+const getKey = ({ key }) => key
 const getDomainGroup = ({ key, domainGroup = key }) => domainGroup
 const checkIfIsIndicatorOf = ({ key }, { indicator, queryKey }) =>
   indicator && key === queryKey
@@ -132,6 +133,43 @@ export function useTooltipMetricKey (metrics) {
       return tooltipKey.key
     },
     [metrics]
+  )
+}
+
+function getDomainDependencies (domainGroups) {
+  let domain = []
+
+  const { length } = domainGroups
+  for (let i = 0; i < length; i++) {
+    const domainGroup = domainGroups[i]
+    if (domainGroup) {
+      domain = domain.concat(domainGroup.slice(1))
+    }
+  }
+
+  return domain
+}
+
+export function useMultiAxesMetricKeys (metrics, domainGroups) {
+  return useMemo(
+    () => {
+      if (!domainGroups.length) return metrics.map(getKey)
+
+      const axesMetrics = []
+      const domainDependencies = new Set(getDomainDependencies(domainGroups))
+
+      const { length } = metrics
+      for (let i = 1; i < length; i++) {
+        const metric = metrics[i]
+
+        if (domainDependencies.has(metric)) continue
+
+        axesMetrics.push(metric)
+      }
+
+      return axesMetrics.map(getKey)
+    },
+    [metrics, domainGroups]
   )
 }
 

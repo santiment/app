@@ -116,29 +116,31 @@ export function plotTooltip (chart, marker, point, event) {
     tooltip: { ctx },
     cursorType,
     tooltipKey,
+    axesMetricKeys,
     hoverLineColor,
     tooltipPaintConfig,
     bubblesPaintConfig
   } = chart
-  const metricPoint = point[tooltipKey]
-  if (!metricPoint) return
+  let metricPoint = point[tooltipKey]
+  if (!metricPoint || isNaN(metricPoint.y)) {
+    metricPoint =
+      point[axesMetricKeys.find(key => point[key] && !isNaN(point[key].y))]
+    if (!metricPoint) return
+  }
 
   clearCtx(chart, ctx)
 
   const resultCursorType = event && event.altKey ? +!cursorType : cursorType
-  const { x, value: datetime, ...metrics } = point
-  let { y, value } = metricPoint
+  const { x, value: datetime } = point
+  let { y } = metricPoint
 
-  if (event && Number.isFinite(y) && resultCursorType === CursorType.FREE) {
+  if (event && resultCursorType === CursorType.FREE) {
     const { offsetY } = event
-    const { top, bottom, minMaxes, scale } = chart
-    const { min, max } = minMaxes[tooltipKey]
+    const { top, bottom } = chart
 
     y = offsetY < top ? top : offsetY > bottom ? bottom : offsetY
-    value = (scale === logScale ? valueByLogY : valueByY)(chart, y, min, max)
   }
 
-  const drawnMetrics = Object.values(metrics).filter(metricValueAccessor)
   const xBubbleFormatter = isDayInterval(chart)
     ? getDateHoursMinutes
     : getDateDayMonthYear
@@ -148,17 +150,29 @@ export function plotTooltip (chart, marker, point, event) {
 
   drawAlertPlus(chart, y)
 
-  if (drawnMetrics.length) {
-    drawTooltip(ctx, point, TooltipSetting, marker, tooltipPaintConfig)
+  drawTooltip(ctx, point, TooltipSetting, marker, tooltipPaintConfig)
+
+  let offset = 0
+  axesMetricKeys.forEach((metricKey, i) => {
+    const { min, max } = chart.minMaxes[metricKey]
+    const value = (chart.scale === logScale ? valueByLogY : valueByY)(
+      chart,
+      y,
+      min,
+      max
+    )
+
     drawValueBubbleY(
       chart,
       ctx,
-      yBubbleFormatter(value, tooltipKey),
+      yBubbleFormatter(value, metricKey),
       y,
       bubblesPaintConfig,
-      chart.isAlertsActive ? 5 : 0
+      i === 0 && chart.isAlertsActive ? 5 : offset
     )
-  }
+    offset += 50
+  })
+
   const xValueFormatted = xBubbleFormatter(datetime)
   drawValueBubbleX(chart, ctx, xValueFormatted, x, bubblesPaintConfig)
 }
