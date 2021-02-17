@@ -91,7 +91,7 @@ export const PULSE_INSIGHTS_BY_PAGE_QUERY = gql`
 `
 
 export const INSIGHT_BY_ID_QUERY = gql`
-  query insightById($id: ID!) {
+  query insightById($id: Int!) {
     insight(id: $id) {
       text
       ...insightCommon
