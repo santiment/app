@@ -4,13 +4,44 @@ import {
   drawAxisLine,
   drawYAxisTicks
 } from '@santiment-network/chart/axes'
+import { drawValueBubbleY } from '@santiment-network/chart/tooltip'
 import { dayTicksPaintConfig, dayAxesColor } from '../paintConfigs'
 import {
   isDayInterval,
   getDateDayMonthYear,
-  getDateHoursMinutes
+  getDateHoursMinutes,
+  yBubbleFormatter
 } from '../utils'
 import { selectYFormatter } from '../Axes/helpers'
+
+function getLastMetricPoint (chart, domain) {
+  const { points, axesMetricKeys } = chart
+  const LastMetricPoint = {}
+  let unfoundMetricKeys = axesMetricKeys.slice()
+
+  for (let i = axesMetricKeys.length - 1; i >= 0; i--) {
+    const domainDependencies = domain[axesMetricKeys[i]]
+    if (domainDependencies) {
+      unfoundMetricKeys = unfoundMetricKeys.concat(domainDependencies)
+    }
+  }
+
+  for (let i = points.length - 1; i >= 0 && unfoundMetricKeys.length; i--) {
+    const point = points[i]
+
+    for (let j = unfoundMetricKeys.length - 1; j >= 0; j--) {
+      const metricKey = unfoundMetricKeys[j]
+      const metricPoint = point[metricKey]
+
+      if (metricPoint && Number.isFinite(metricPoint.value)) {
+        LastMetricPoint[metricKey] = metricPoint
+        unfoundMetricKeys.splice(j, 1)
+      }
+    }
+  }
+
+  return LastMetricPoint
+}
 
 function getDomainObject (domainGroups) {
   const domain = {}
@@ -23,6 +54,32 @@ function getDomainObject (domainGroups) {
   }
 
   return domain
+}
+
+function plotMetricLastValueBubble (
+  chart,
+  LastMetricPoint,
+  metricKey,
+  offset,
+  bgColor
+) {
+  const metricPoint = LastMetricPoint[metricKey]
+  if (!metricPoint) return
+
+  const { y, value } = metricPoint
+  const { ctx, bubblesPaintConfig } = chart
+  const paintConfig = Object.assign({}, bubblesPaintConfig, {
+    bgColor
+  })
+
+  drawValueBubbleY(
+    chart,
+    ctx,
+    yBubbleFormatter(value, metricKey),
+    y,
+    paintConfig,
+    offset
+  )
 }
 
 function plotXAxis (chart, formatter) {
@@ -52,10 +109,14 @@ function plotYAxes (chart, scale) {
 
   const domain = getDomainObject(domainGroups)
   let offset = right
+  let lastValueOffset = 0
   ctx.textAlign = 'left'
 
+  const LastMetricPoint = getLastMetricPoint(chart, domain)
+
   axesMetricKeys.forEach(metricKey => {
-    drawAxisLine(ctx, colors[metricKey], offset, top, offset, bottom)
+    const color = colors[metricKey]
+    drawAxisLine(ctx, color, offset, top, offset, bottom)
 
     const domainDependencies = domain[metricKey]
     if (domainDependencies) {
@@ -63,14 +124,17 @@ function plotYAxes (chart, scale) {
 
       domainDependencies.forEach(domainMetricKey => {
         const resultOffset = offset + domainOffset
-        drawAxisLine(
-          ctx,
-          colors[domainMetricKey],
-          resultOffset,
-          top,
-          resultOffset,
-          bottom
+        const color = colors[domainMetricKey]
+
+        drawAxisLine(ctx, color, resultOffset, top, resultOffset, bottom)
+        plotMetricLastValueBubble(
+          chart,
+          LastMetricPoint,
+          domainMetricKey,
+          lastValueOffset,
+          color
         )
+
         domainOffset += 2
       })
     }
@@ -83,8 +147,16 @@ function plotYAxes (chart, scale) {
       offset + 6,
       yAxesTicks
     )
+    plotMetricLastValueBubble(
+      chart,
+      LastMetricPoint,
+      metricKey,
+      lastValueOffset,
+      color
+    )
 
     offset += 50
+    lastValueOffset += 50
   })
 }
 
