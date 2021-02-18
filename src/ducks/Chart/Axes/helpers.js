@@ -44,7 +44,7 @@ function yFormatter (value) {
   return Math.trunc(value)
 }
 
-const selectYFormatter = metricKey =>
+export const selectYFormatter = metricKey =>
   mirroredMetrics.includes(metricKey)
     ? value => yFormatter(Math.abs(value))
     : (TooltipSetting[metricKey] && TooltipSetting[metricKey].axisFormatter) ||
