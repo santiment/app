@@ -109,6 +109,9 @@ export function setupTooltip (chart, marker) {
   }
 }
 
+const checkIsValidMetricPoint = metricPoint =>
+  metricPoint && Number.isFinite(metricPoint.y)
+
 export function plotTooltip (chart, marker, point, event) {
   const {
     tooltip: { ctx },
@@ -122,12 +125,12 @@ export function plotTooltip (chart, marker, point, event) {
     bubblesPaintConfig
   } = chart
   let metricPoint = point[tooltipKey]
-  if (!metricPoint || isNaN(metricPoint.y)) {
+  if (!checkIsValidMetricPoint(metricPoint)) {
     axesMetricKeys.some(key => {
       metricPoint = point[key]
-      return metricPoint && !isNaN(metricPoint.y)
+      return checkIsValidMetricPoint(metricPoint)
     })
-    if (!metricPoint) return
+    if (!checkIsValidMetricPoint(metricPoint)) return
   }
 
   clearCtx(chart, ctx)
