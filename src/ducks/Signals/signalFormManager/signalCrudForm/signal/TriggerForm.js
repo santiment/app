@@ -115,10 +115,7 @@ export const TriggerForm = ({
   )
 
   const {
-    settings: {
-      isTelegramConnectedAndEnabled: isTelegramConnected,
-      isEmailConnected
-    }
+    settings: { isTelegramAllowAlerts: isTelegramConnected, isEmailConnected }
   } = useUserSettings()
 
   return (
