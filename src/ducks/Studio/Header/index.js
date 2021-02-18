@@ -9,12 +9,7 @@ export default props => {
   return (
     <div className={styles.wrapper} ref={headerRef}>
       <Template {...props} {...props.settings} />
-      <Settings
-        {...props}
-        className={styles.settings}
-        showMulti={false}
-        headerRef={headerRef}
-      />
+      <Settings {...props} className={styles.settings} headerRef={headerRef} />
     </div>
   )
 }

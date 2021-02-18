@@ -1,0 +1,44 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  padding: 10px 24px 10px 24px;
+  width: 560px;
+  overflow-y: hidden;
+
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
+  }
+}
+
+.contentWrapper {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.actions {
+  @include responsive('tablet', 'laptop', 'desktop') {
+    padding-top: 20px;
+  }
+}
+
+.approve {
+  @include responsive('tablet', 'laptop', 'desktop') {
+    margin-left: 16px;
+  }
+}
+
+.inputContainer {
+  flex: 1;
+}
+
+.search {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.addBtn {
+  margin-left: 8px;
+  max-width: 50px;
+}

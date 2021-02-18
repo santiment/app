@@ -1,16 +1,16 @@
-@import '../../../../node_modules/@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/mixins';
 
 .container {
   display: flex;
-  margin: 16px;
   flex-wrap: wrap;
 
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+  @include responsive('phone', 'phone-xs') {
     margin-top: 24px;
     display: grid;
     grid-row-gap: 8px;
     grid-template-columns: 1fr;
     grid-column-gap: 8px;
+    padding: 0 16px 16px 16px;
   }
 }
 
@@ -24,7 +24,7 @@
     border: 1px solid var(--jungle-green);
   }
 
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+  @include responsive('phone', 'phone-xs') {
     margin: 0;
     justify-content: initial;
   }

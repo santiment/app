@@ -25,17 +25,20 @@ export const COLUMNS = [
   {
     Header: 'Change, 1d',
     accessor: 'balanceChange1d',
-    Cell: ({ value }) => <ValueChange render={millify} change={value} />
+    Cell: ({ value }) => <ValueChange render={millify} change={value} />,
+    sortType: 'floatNumeric'
   },
   {
     Header: 'Change, 7d',
     accessor: 'balanceChange7d',
-    Cell: ({ value }) => <ValueChange render={millify} change={value} />
+    Cell: ({ value }) => <ValueChange render={millify} change={value} />,
+    sortType: 'floatNumeric'
   },
   {
     Header: 'Change, 30d',
     accessor: 'balanceChange30d',
-    Cell: ({ value }) => <ValueChange render={millify} change={value} />
+    Cell: ({ value }) => <ValueChange render={millify} change={value} />,
+    sortType: 'floatNumeric'
   },
   {
     Header: '1st transfer at',

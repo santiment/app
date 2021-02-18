@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
-import { SvgNew } from '../../Watchlists/NewWatchlistCard'
+import { SvgNew } from '../../Illustrations/NewCard'
 import NewWatchlist from '../../../ducks/Watchlists/Actions/New'
 import CreateWatchlistBtn from './CreateWatchlistBtn'
 import styles from './EmptySection.module.scss'

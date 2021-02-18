@@ -9,7 +9,6 @@ exports[`SignalMasterModalForm smoke 1`] = `
       "metric": Object {
         "value": Object {
           "description": "Notify me when a wallet’s balance changes a certain way",
-          "hidden": true,
           "label": "Historical balance",
           "type": "wallet_movement",
           "value": "eth_wallet",
@@ -24,7 +23,6 @@ exports[`SignalMasterModalForm smoke 1`] = `
       "type": Object {
         "value": Object {
           "description": "Notify me when a wallet’s balance changes a certain way",
-          "hidden": true,
           "label": "Historical balance",
           "type": "wallet_movement",
           "value": "eth_wallet",

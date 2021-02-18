@@ -1,6 +1,5 @@
 import {
   ETH_WALLETS_OPERATIONS,
-  ETH_WALLET_AMOUNT_UP,
   ETH_WALLET_METRIC,
   REQUIRED_MESSAGE,
   PRICE_PERCENT_CHANGE_UP_MODEL,
@@ -13,7 +12,6 @@ import {
   PRICE_CHANGE_TYPES,
   FREQUENCY_TYPE_ONCEPER_MODEL,
   FREQUENCY_TYPES_OPTIONS,
-  ETH_WALLET_AMOUNT_DOWN,
   MUST_BE_MORE_ZERO_MESSAGE,
   PRICE_PERCENT_CHANGE_DOWN_MODEL,
   ETH_WALLET,
@@ -57,7 +55,10 @@ import { capitalizeStr } from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
 import { Metric } from '../../dataHub/metrics'
 import { useWatchlist } from '../../Watchlists/gql/hooks'
-import { SIGNAL_SUPPORTED_METRICS } from '../signalFormManager/signalCrudForm/formParts/metricTypes/metrics'
+import {
+  isDailyMetric,
+  SIGNAL_SUPPORTED_METRICS
+} from '../signalFormManager/signalCrudForm/formParts/metricTypes/metrics'
 import { findWebHook } from '../signalFormManager/signalCrudForm/formParts/channels/hooks'
 import { SCREENER_DEFAULT_SIGNAL } from '../ScreenerSignal/utils'
 
@@ -180,14 +181,6 @@ const getFormTriggerType = ({ target, type, operation }) => {
   const operationType = getOperationType(operation)
 
   switch (operationType) {
-    case ETH_WALLET_AMOUNT_UP.value: {
-      return ETH_WALLET_AMOUNT_UP
-    }
-
-    case ETH_WALLET_AMOUNT_DOWN.value: {
-      return ETH_WALLET_AMOUNT_DOWN
-    }
-
     case PRICE_PERCENT_CHANGE_UP_MODEL.value: {
       return PRICE_PERCENT_CHANGE_UP_MODEL
     }
@@ -287,9 +280,11 @@ const getTriggerOperation = ({
 
 const getFormMetric = ({ type, metric }) => {
   switch (type) {
+    case METRIC_TYPES.DAILY_METRIC_SIGNAL:
     case METRIC_TYPES.METRIC_SIGNAL: {
       switch (metric) {
-        case SIGNAL_METRIC_TYPES.active_addresses_24h: {
+        case SIGNAL_METRIC_TYPES.active_addresses_24h:
+        case SIGNAL_METRIC_TYPES.daily_active_addresses: {
           return DAILY_ACTIVE_ADDRESSES_METRIC
         }
         case SIGNAL_METRIC_TYPES.price_usd: {
@@ -411,6 +406,15 @@ export const mapFormPropsToScreenerTrigger = ({ formProps, signal }) => {
   return trigger
 }
 
+export const extractTimeWindowForm = time_window => {
+  return {
+    timeWindow: time_window ? +time_window.match(/\d+/)[0] : '24',
+    timeWindowUnit: time_window
+      ? getTimeWindowUnit(time_window)
+      : TIME_WINDOW_UNITS[0]
+  }
+}
+
 export const mapTriggerToFormProps = currentTrigger => {
   if (!currentTrigger || !currentTrigger.settings) {
     return {}
@@ -450,10 +454,7 @@ export const mapTriggerToFormProps = currentTrigger => {
     isPublic,
     metric: getFormMetric(settings),
     type: newType,
-    timeWindow: time_window ? +time_window.match(/\d+/)[0] : '24',
-    timeWindowUnit: time_window
-      ? getTimeWindowUnit(time_window)
-      : TIME_WINDOW_UNITS[0],
+    ...extractTimeWindowForm(time_window),
     target,
     signalType: signalType,
 
@@ -582,6 +583,7 @@ export const mapTargetObject = (target, mapper = targetMapper) => {
 
 const getSelectorPartByInfrastructure = (infrastructure, target) => {
   switch (infrastructure) {
+    case 'own':
     case 'Own': {
       return {
         infrastructure: target.ticker || 'ETH',
@@ -739,10 +741,24 @@ export const mapFormToTWTriggerSettings = formProps => {
   }
 }
 
-const getTimeWindow = ({ timeWindow, timeWindowUnit }) => {
+const getTimeWindow = ({ timeWindow, timeWindowUnit, metric }) => {
+  const { key } = metric
+
+  if (isDailyMetric(key)) {
+    return '1d'
+  }
+
   return timeWindow && timeWindowUnit
     ? timeWindow + '' + timeWindowUnit.value
     : undefined
+}
+
+function getAlertType (key, type) {
+  if (isDailyMetric(key)) {
+    return METRIC_TYPES.DAILY_METRIC_SIGNAL
+  }
+
+  return key ? METRIC_TYPES.METRIC_SIGNAL : type
 }
 
 export const mapFormToPPCTriggerSettings = formProps => {
@@ -761,7 +777,7 @@ export const mapFormToPPCTriggerSettings = formProps => {
   )
 
   return {
-    type: key ? METRIC_TYPES.METRIC_SIGNAL : type,
+    type: getAlertType(key, type),
     metric: key || metric,
     ...newTarget,
     channel: getChannels(formProps),
@@ -898,27 +914,30 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
   const { type, metric, isRepeating, isPublic, title, description } = formProps
   let settings = {}
 
-  switch (metric.value) {
-    case DAILY_ACTIVE_ADDRESSES: {
-      settings = mapFormToDAATriggerSettings(formProps)
-      break
-    }
-    case TRENDING_WORDS: {
-      settings = mapFormToTWTriggerSettings(formProps)
-      break
-    }
-    case PRICE_VOLUME_DIFFERENCE: {
-      settings = mapFormToPVDTriggerSettings(formProps)
-      break
-    }
-    case ETH_WALLET: {
-      settings = mapFormToHBTriggerSettings(formProps)
-      break
-    }
-    default: {
-      settings = mapDefaultMetricProps({ type, formProps })
+  if (metric) {
+    switch (metric.value) {
+      case DAILY_ACTIVE_ADDRESSES: {
+        settings = mapFormToDAATriggerSettings(formProps)
+        break
+      }
+      case TRENDING_WORDS: {
+        settings = mapFormToTWTriggerSettings(formProps)
+        break
+      }
+      case PRICE_VOLUME_DIFFERENCE: {
+        settings = mapFormToPVDTriggerSettings(formProps)
+        break
+      }
+      case ETH_WALLET: {
+        settings = mapFormToHBTriggerSettings(formProps)
+        break
+      }
+      default: {
+        settings = mapDefaultMetricProps({ type, formProps })
+      }
     }
   }
+
   const cooldownParams = getCooldownParams(formProps)
 
   return {
@@ -963,8 +982,10 @@ export const getNewMetricsByType = ({ settings: { type, metric } }) => {
         historicalTriggersDataKey: 'current'
       }
     }
+    case METRIC_TYPES.DAILY_METRIC_SIGNAL:
     case METRIC_TYPES.METRIC_SIGNAL: {
       switch (metric) {
+        case SIGNAL_METRIC_TYPES.daily_active_addresses:
         case SIGNAL_METRIC_TYPES.active_addresses_24h: {
           return {
             metrics: [Metric.daily_active_addresses, Metric.price_usd],
@@ -1035,7 +1056,7 @@ export const getNearestTypeByMetric = metric => {
 
   switch (metric.value) {
     case ETH_WALLET_METRIC.value: {
-      return ETH_WALLET_AMOUNT_UP
+      return PRICE_PERCENT_CHANGE_DOWN_MODEL
     }
     case PRICE_METRIC.value: {
       return PRICE_PERCENT_CHANGE_DOWN_MODEL
@@ -1172,25 +1193,29 @@ export const metricTypesBlockErrors = values => {
   return errors
 }
 
+const checkByKey = (errors, key, source, dependencies) => {
+  const val = source[key]
+  if (dependencies.indexOf(key) !== -1) {
+    if (!val) {
+      errors[key] = REQUIRED_MESSAGE
+    } else if (val <= 0) {
+      errors[key] = MUST_BE_MORE_ZERO_MESSAGE
+    }
+  }
+
+  return errors
+}
+
 export const metricValuesBlockErrors = values => {
   let errors = {}
 
   const {
     type,
-    threshold,
-    percentThreshold,
-    percentThresholdLeft,
-    percentThresholdRight,
-    timeWindow,
     absoluteThreshold,
     absoluteBorderLeft,
     absoluteBorderRight,
     metric
   } = values
-
-  if (metric && metric.value === ETH_WALLET) {
-    if (!threshold) errors.threshold = REQUIRED_MESSAGE
-  }
 
   if (!type) {
     return errors
@@ -1198,44 +1223,28 @@ export const metricValuesBlockErrors = values => {
 
   if (
     type.metric === DAILY_ACTIVE_ADDRESSES ||
-    type.metric === PRICE_PERCENT_CHANGE
+    type.metric === PRICE_PERCENT_CHANGE ||
+    metric.value === ETH_WALLET
   ) {
     if (type.dependencies) {
-      if (type.dependencies.indexOf('percentThreshold') !== -1) {
-        if (!percentThreshold) {
-          errors.percentThreshold = REQUIRED_MESSAGE
-        } else if (percentThreshold <= 0) {
-          errors.percentThreshold = MUST_BE_MORE_ZERO_MESSAGE
-        }
-      }
-
-      if (type.dependencies.indexOf('percentThresholdLeft') !== -1) {
-        if (!percentThresholdLeft) {
-          errors.percentThresholdLeft = REQUIRED_MESSAGE
-        } else if (percentThresholdLeft <= 0) {
-          errors.percentThresholdLeft = MUST_BE_MORE_ZERO_MESSAGE
-        }
-      }
-
-      if (type.dependencies.indexOf('percentThresholdRight') !== -1) {
-        if (!percentThresholdRight) {
-          errors.percentThresholdRight = REQUIRED_MESSAGE
-        } else if (percentThresholdRight <= 0) {
-          errors.percentThresholdRight = MUST_BE_MORE_ZERO_MESSAGE
-        }
-      }
-
-      if (type.dependencies.indexOf('timeWindow') !== -1) {
-        if (!timeWindow) {
-          errors.timeWindow = REQUIRED_MESSAGE
-        } else if (timeWindow <= 0) {
-          errors.timeWindow = MUST_BE_MORE_ZERO_MESSAGE
-        }
-      }
+      errors = checkByKey(errors, 'percentThreshold', values, type.dependencies)
+      errors = checkByKey(
+        errors,
+        'percentThresholdLeft',
+        values,
+        type.dependencies
+      )
+      errors = checkByKey(
+        errors,
+        'percentThresholdRight',
+        values,
+        type.dependencies
+      )
+      errors = checkByKey(errors, 'timeWindow', values, type.dependencies)
     }
   }
 
-  if (type.metric === PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER) {
+  if (type.subMetric === PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER) {
     if (!absoluteThreshold) {
       errors.absoluteThreshold = REQUIRED_MESSAGE
     }
@@ -1251,11 +1260,7 @@ export const metricValuesBlockErrors = values => {
   }
 
   if (type.metric === PRICE_VOLUME_DIFFERENCE) {
-    if (!threshold) {
-      errors.threshold = REQUIRED_MESSAGE
-    } else if (threshold < 0) {
-      errors.threshold = MUST_BE_MORE_ZERO_MESSAGE
-    }
+    errors = checkByKey(errors, 'threshold', values, type.dependencies)
   }
 
   return errors
@@ -1522,9 +1527,19 @@ const getMetricTargetTitle = metric => {
     return metric.label
   }
 
-  const isPriceMetric = metric.value === PRICE
+  if (metric.value === PRICE) {
+    return 'Price'
+  }
 
-  return isPriceMetric ? 'Price' : 'Addresses count'
+  if (metric.value === DAILY_ACTIVE_ADDRESSES) {
+    return 'Addresses count'
+  }
+
+  if (metric.value === ETH_WALLET) {
+    return 'Balance'
+  }
+
+  return 'Amount'
 }
 
 export const titleMetricValuesHeader = (

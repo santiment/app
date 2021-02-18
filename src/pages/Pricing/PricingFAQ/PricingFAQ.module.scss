@@ -5,7 +5,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 80px 0;
+  margin: 127px 0 80px 0;
 
   @include responsive('tablet', 'phone', 'phone-xs') {
     margin: 40px 0;
@@ -13,14 +13,13 @@
 }
 
 .header {
-  margin-top: 48px;
-  margin-bottom: 73px;
+  margin-bottom: 64px;
   text-align: center;
 
   @include text('h3', 'l');
 
   @include responsive('tablet', 'phone', 'phone-xs') {
-    margin: 19px 0 32px 0;
+    margin: 0 0 32px 0;
 
     @include text('h4', 'l');
   }
@@ -29,7 +28,7 @@
 .description {
   @include text('body-2');
 
-  padding: 16px 24px;
+  padding: 8px 24px;
 
   @include responsive('tablet', 'phone', 'phone-xs') {
     padding: 4px 16px 24px 16px;
@@ -40,12 +39,15 @@
 
 .list {
   width: 100%;
-  max-width: 700px;
+  max-width: 760px;
 }
 
 .title {
-  padding: 19px 26px;
+  padding: 0 24px;
   margin-bottom: 16px;
+  height: 64px;
+  display: flex;
+  align-items: center;
 
   @include text('body-1', 'l');
 
@@ -63,6 +65,7 @@
 
 .opened {
   background: none;
+  color: var(--rhino);
 }
 
 .link {
@@ -71,4 +74,8 @@
   &:hover {
     color: var(--jungle-green-hover);
   }
+}
+
+.expansion {
+  margin-top: 16px;
 }

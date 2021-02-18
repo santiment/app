@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useMemo } from 'react'
 import cx from 'classnames'
 import { Metric } from '../dataHub/metrics'
 import { useTimeseries, useAllTimeData } from '../Studio/timeseries/hooks'
@@ -53,12 +53,34 @@ const SocialTool = ({
     settings,
     MetricSettingMap
   )
-  const data = useEdgeGaps(rawData)
+  const cuttedData = useMemo(
+    () => {
+      const date = new Date()
+      date.setUTCHours(0, 0, 0, 0)
+      const milliseconds = +date
+      const indexFromStartCutting = rawData.findIndex(
+        item => item.datetime >= milliseconds
+      )
+      if (indexFromStartCutting !== -1) {
+        const transformedData = rawData
+        for (let i = indexFromStartCutting; i < rawData.length; i++) {
+          const { price_usd, __typename, datetime } = transformedData[i]
+          transformedData[i] = { price_usd, __typename, datetime }
+        }
+
+        return transformedData
+      } else return rawData
+    },
+    [rawData]
+  )
+
+  const data = useEdgeGaps(cuttedData)
   const [allTimeData] = useAllTimeData(
     activeMetrics,
     settings,
     MetricSettingMap
   )
+
   const [shareLink, setShareLink] = useState('')
   const chartRef = useRef(null)
 
@@ -171,8 +193,6 @@ const SocialTool = ({
   function changeTimePeriod (from, to, timeRange) {
     const interval = getNewInterval(from, to)
 
-    to.setUTCHours(0, 0, 0, 0)
-
     setSettings(state => ({
       ...state,
       timeRange,
@@ -192,7 +212,7 @@ const SocialTool = ({
           options={options}
           settings={settings}
           shareLink={shareLink}
-          activeMetrics={activeMetrics}
+          metrics={activeMetrics}
           priceAsset={priceAsset}
           data={data}
           loadings={loadings}

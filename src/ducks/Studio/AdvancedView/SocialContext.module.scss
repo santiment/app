@@ -43,30 +43,14 @@
   }
 }
 
-.table {
+.trends {
   flex: 1;
-  height: 100%;
   overflow: auto;
+  position: relative;
+}
 
-  &__content {
-    height: 100%;
-  }
-
-  :global {
-    .ReactTable {
-      height: 100%;
-
-      .rt-thead.-header {
-        padding: 0 16px;
-      }
-
-      .rt-tr-group {
-        height: 32px !important;
-        padding: 0 16px;
-        border: none;
-      }
-    }
-  }
+.table {
+  position: absolute;
 }
 
 .row {

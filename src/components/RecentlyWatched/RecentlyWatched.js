@@ -3,12 +3,12 @@ import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import ProjectIcon from '../ProjectIcon/ProjectIcon'
 import PercentChanges from '../PercentChanges'
-import WatchlistCard from '../../ducks/Watchlists/Cards/WatchlistCard'
 import Skeleton from '../Skeleton/Skeleton'
 import { getRecentAssets, getRecentWatchlists } from '../../utils/recent'
 import { formatNumber } from '../../utils/formatting'
-import { getWatchlistLink } from '../../ducks/Watchlists/utils'
-import { useRecentWatchlists } from './../../ducks/Watchlists/gql/hooks'
+import WatchlistCard from '../../ducks/Watchlists/Cards/ProjectCard'
+import { useRecentWatchlists } from '../../ducks/Watchlists/gql/hooks'
+import { checkIsScreener } from '../../ducks/Watchlists/gql/queries'
 import { useRecentAssets } from '../../hooks/recents'
 import styles from './RecentlyWatched.module.scss'
 
@@ -108,10 +108,14 @@ const RecentlyWatched = ({
             {watchlists &&
               watchlists.map(watchlist => (
                 <WatchlistCard
-                  isSimplifiedView={true}
-                  key={watchlist.name}
-                  to={getWatchlistLink(watchlist)}
-                  {...watchlist}
+                  isSimplified
+                  key={watchlist.id}
+                  watchlist={watchlist}
+                  path={
+                    checkIsScreener(watchlist)
+                      ? '/screener/'
+                      : '/watchlist/projects/'
+                  }
                 />
               ))}
           </div>

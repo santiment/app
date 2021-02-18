@@ -179,6 +179,18 @@ export const Metric = {
     formatter: mvrvFormatter,
     axisFormatter: mvrvFormatter
   },
+  mvrv_usd_intraday: {
+    category: 'On-chain',
+    node: 'filledLine',
+    group: 'Network Value',
+    label: 'MVRV USD intraday',
+    fullTitle: 'Market Value To Realized Value (USD, intraday)',
+    shortLabel: 'MVRV(i)',
+    abbreviation: 'mvrv_intraday',
+    video: 'https://www.youtube.com/watch?v=foMhhHbCgBE',
+    formatter: mvrvFormatter,
+    axisFormatter: mvrvFormatter
+  },
   mvrv_long_short_diff_usd: {
     category: 'On-chain',
     node: 'filledLine',
@@ -314,10 +326,9 @@ export const Metric = {
     label: 'Network Realized Profit or Loss (USD)',
     shortLabel: 'NR P. or L.',
     group: 'Network Value',
-    category: 'On-chain',
-    isBeta: true
+    category: 'On-chain'
   },
-  minersBalance: {
+  miners_balance: {
     node: 'line',
     label: 'Miners Balance',
     category: 'On-chain'
@@ -509,6 +520,7 @@ export const Metric = {
     isBeta: true
   },
   social_active_users: {
+    queryKey: 'social_active_users',
     category: 'Social',
     group: 'Social Active Users',
     shortLabel: 'Soc. Act. Us.',
@@ -516,7 +528,8 @@ export const Metric = {
     withoutRoot: true,
     showRoot: false,
     isBeta: true,
-    checkIsVisible: ({ isBeta: isBetaApp }) => isBetaApp
+    checkIsVisible: ({ isBeta: isBetaApp }) => isBetaApp,
+    domainGroup: 'social_active_users'
   },
   price_daa_divergence: {
     category: 'Indicators',

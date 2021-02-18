@@ -1,5 +1,4 @@
-@import '~@santiment-network/ui/variables.scss';
-@import '~@santiment-network/ui/mixins.scss';
+@import '~@santiment-network/ui/mixins';
 
 .wrapperList {
   position: relative;
@@ -25,11 +24,36 @@
   justify-content: space-between;
 }
 
+.address {
+  @include text('body-3');
+
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .name {
+  outline: none;
   margin-right: 5px;
   color: var(--mirage);
+  word-break: break-word;
 }
 
 .actionBtn {
   margin-right: 10px;
+}
+
+.deleteAddress {
+  margin: 0 -12px 0 auto;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.info {
+  display: flex;
+  align-items: center;
 }

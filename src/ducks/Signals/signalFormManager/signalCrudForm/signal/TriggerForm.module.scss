@@ -1,7 +1,7 @@
 @import '~@santiment-network/ui/mixins';
 
 $trigger-form-width: 560px;
-$trigger-form-field-margin: 24px;
+$trigger-form-field-margin: 16px;
 $trigger-shared-form-width: 496px;
 
 .wrapper {
@@ -65,6 +65,17 @@ $trigger-shared-form-width: 496px;
   }
 }
 
+.metricValues {
+  display: grid;
+  grid-row-gap: 16px;
+  grid-column-gap: 16px;
+  grid-template-columns: 1fr 1fr;
+
+  @include responsive('phone', 'phone-xs') {
+    grid-template-columns: 1fr;
+  }
+}
+
 .rowTop {
   margin-top: 0 !important;
 }
@@ -102,21 +113,15 @@ $trigger-shared-form-width: 496px;
 
 .Field {
   text-align: left;
-  width: 50%;
   user-select: none;
   margin-bottom: auto;
   padding-right: 0;
-  padding-left: 8px;
   display: flex;
   flex-direction: column;
+  width: 100%;
 
   @include responsive('phone', 'phone-xs') {
     @include text('body-2');
-  }
-
-  &:first-child {
-    padding-right: 8px;
-    padding-left: 0;
   }
 }
 
@@ -303,18 +308,13 @@ a {
   }
 }
 
-.percentagesBlock {
+.flexRow {
   display: flex;
-  flex-direction: row;
+  align-items: center;
 
   @include responsive('phone', 'phone-xs') {
     flex-direction: column;
   }
-}
-
-.percentages {
-  display: flex;
-  align-items: center;
 }
 
 .fieldTimeWindow {
@@ -349,4 +349,8 @@ a {
 
 .inputLink {
   margin-left: 2px;
+}
+
+.or {
+  margin: 0 8px;
 }

@@ -75,14 +75,3 @@
   fill: var(--casper);
   margin-left: auto;
 }
-
-.table {
-  :global {
-    .ReactTable {
-      .rt-thead.-header {
-        margin-top: 0 !important;
-        box-shadow: none;
-      }
-    }
-  }
-}

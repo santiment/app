@@ -123,7 +123,6 @@ const FullscreenChart = ({
         settings={settings}
         options={options}
         shareLink={shareLink}
-        showMulti={false}
         activeMetrics={metrics}
         activeEvents={EMPTY_ARRAY}
         data={data}
@@ -133,6 +132,7 @@ const FullscreenChart = ({
       />
       <ChartCanvas
         className={styles.chart}
+        widget={widget}
         options={options}
         settings={settings}
         categories={categories}

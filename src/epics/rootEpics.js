@@ -14,27 +14,20 @@ import logoutEpic from './../pages/Logout/LogoutEpic'
 import handleGDPR from './handleGDPR'
 import apikeyGenerateEpic from './apikeyGenerateEpic'
 import apikeyRevokeEpic from './apikeyRevokeEpic'
-import createWatchlistEpic, {
-  createWatchlistSuccessEpic
-} from './createWatchlistEpic'
-import removeWatchlistEpic from './removeWatchlistEpic'
 import {
   removeAssetFromWatchlistEpic,
   addAssetToWatchlistEpic,
   editAssetsInWatchlistEpic
-} from './../ducks/Watchlists/Actions/Edit/editAssetsInWatchlistEpic'
+} from '../ducks/Watchlists/Actions/Edit/editAssetsInWatchlistEpic'
 import { watchlistToggleMonitoringEpic } from '../ducks/Watchlists/Actions/WeeklyReport/watchlistToggleMonitoringEpic'
 import {
   changeColumnsSettingsEpic,
   saveWatchlistsSettingsAfterLaunch
 } from './changeWatchlistSettings'
 import {
-  fetchAssetsEpic,
   fetchAssetsFromListEpic,
-  fetchAssetsFromListWithEditEpic,
-  fetchRestAllAssetsEpic
+  fetchAssetsFromListWithEditEpic
 } from './fetchAssetsEpic'
-import fetchTimeseriesEpic from '../ducks/GetTimeSeries/epics'
 import {
   createSignalEpic,
   removeSignalEpic,
@@ -49,8 +42,6 @@ import handleBetaModeToggle, {
   sendBetaModeIfDiff,
   saveBetaModeAfterLaunch
 } from './handleBetaModeToggle'
-import { fetchHypedTrends } from '../components/Trends/fetchHypedTrends'
-import fetchAllTickersSlugs from '../components/Trends/fetchAllTickersSlugs'
 import {
   connectTelegramEpic,
   generateTelegramDeepLinkEpic,
@@ -59,11 +50,6 @@ import {
 import keyboardEpic from './keyboardEpic'
 import { insightslikesEpic } from '../components/Like/insightslikesEpic'
 import { feedEventlikesEpic } from '../components/Like/feedEventlikesEpic'
-import { wordTrendSocialVolumeEpic } from '../pages/Trends/changesEpic.js'
-import {
-  connectedWordsEpic,
-  connectedWordsOptimizationEpic
-} from '../pages/Trends/connectedWordsEpic.js'
 import { trialSubscriptionEpic } from './trialSubscriptionEpic'
 import handleWideChartToggle from './handleWideChartToggle'
 
@@ -79,26 +65,16 @@ export default combineEpics(
   handleGDPR,
   keyboardEpic,
   // user's assets lists
-  createWatchlistEpic,
-  createWatchlistSuccessEpic,
-  removeWatchlistEpic,
   addAssetToWatchlistEpic,
   removeAssetFromWatchlistEpic,
   editAssetsInWatchlistEpic,
   // assets
-  fetchAssetsEpic,
-  fetchRestAllAssetsEpic,
   fetchAssetsFromListEpic,
   fetchAssetsFromListWithEditEpic,
   // assets settings
   changeColumnsSettingsEpic,
   saveWatchlistsSettingsAfterLaunch,
   watchlistToggleMonitoringEpic,
-  // timeseries
-  fetchTimeseriesEpic,
-  // trends
-  fetchHypedTrends,
-  fetchAllTickersSlugs,
   // Settings
   removeConnectedWallet,
   connectNewWallet,
@@ -122,11 +98,6 @@ export default combineEpics(
   // likes
   insightslikesEpic,
   feedEventlikesEpic,
-  // trend changes
-  wordTrendSocialVolumeEpic,
-  // connected trends
-  connectedWordsOptimizationEpic,
-  connectedWordsEpic,
   // trial subscription
   trialSubscriptionEpic
 )

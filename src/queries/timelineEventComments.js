@@ -4,7 +4,7 @@ export const COMMENTS_TIMELINE_EVENTS_QUERY = gql`
   query comments(
     $id: ID!
     $cursor: CursorInput
-    $entityType: CommentEntityEnum
+    $entityType: CommentEntityTypeEnum
   ) {
     comments(id: $id, cursor: $cursor, entityType: $entityType, limit: 50) {
       id
@@ -27,7 +27,7 @@ export const CREATE_TIMELINE_EVENT_COMMENT_MUTATION = gql`
     $id: Int!
     $content: String!
     $parentId: Int
-    $entityType: CommentEntityEnum
+    $entityType: CommentEntityTypeEnum
   ) {
     createComment(
       id: $id

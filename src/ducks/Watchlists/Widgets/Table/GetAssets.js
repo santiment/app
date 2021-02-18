@@ -32,7 +32,8 @@ class GetAssets extends Component {
 
   getType = () => {
     const { search } = this.props.location || {}
-    const { listName, listId } = compose(
+    const { id, name } = this.props.watchlist || {}
+    const { listName = name, listId = id } = compose(
       this.getInfoFromListname,
       parsed => parsed.name,
       qs.parse

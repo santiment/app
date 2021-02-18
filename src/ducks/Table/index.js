@@ -1,40 +1,53 @@
 import React, { useEffect } from 'react'
 import cx from 'classnames'
+import isEqual from 'lodash.isequal'
 import { useTable, useSortBy, usePagination, useRowSelect } from 'react-table'
 import { sortDate } from '../../utils/sortMethods'
 import Loader from './Loader'
 import NoData from './NoData'
 import Pagination from './Pagination'
 import { CHECKBOX_COLUMN } from './Checkbox/column'
+import { sortFloatNumeric } from './utils'
 import styles from './index.module.scss'
+
+const DEFAULT_CB = () => {}
+const EMPTY_OBJ = {}
+const PAGE_SIZE_OPTIONS = [10, 25, 50]
+const sortTypes = {
+  datetime: (a, b, id) => sortDate(a.original[id], b.original[id]),
+  floatNumeric: (a, b, id) => sortFloatNumeric(a.original[id], b.original[id])
+}
 
 const Table = ({
   data,
   columns,
+  fetchData = DEFAULT_CB,
   options: {
-    noDataSettings = {},
+    noDataSettings = EMPTY_OBJ,
     loadingSettings,
     sortingSettings,
     stickySettings,
     paginationSettings,
     rowSelectSettings
-  } = {},
+  } = EMPTY_OBJ,
   className,
-  classes = {}
+  classes = EMPTY_OBJ
 }) => {
-  const { isLoading, repeatLoading } = loadingSettings || {}
-  const { allowSort, defaultSorting } = sortingSettings || {}
+  const { isLoading, repeatLoading } = loadingSettings || EMPTY_OBJ
+  const { allowSort, defaultSorting } = sortingSettings || EMPTY_OBJ
   const { isStickyHeader, isStickyColumn, stickyColumnIdx = null } =
-    stickySettings || {}
+    stickySettings || EMPTY_OBJ
   const {
     pageSize: initialPageSize,
-    pageIndex: initialPageIndex,
-    pageSizeOptions = [10, 25, 50],
-    onChangeVisibleItems
-  } = paginationSettings || {}
-  const { onChangeSelectedRows } = rowSelectSettings || {}
-
-  const initialState = {}
+    pageIndex: initialPageIndex = 0,
+    onChangePage = null,
+    pageSizeOptions = PAGE_SIZE_OPTIONS,
+    controlledPageCount,
+    manualPagination
+  } = paginationSettings || EMPTY_OBJ
+  const { onChangeSelectedRows } = rowSelectSettings || EMPTY_OBJ
+  const initialState = EMPTY_OBJ
+  const optionalOptions = EMPTY_OBJ
 
   if (defaultSorting) {
     initialState.sortBy = defaultSorting
@@ -46,6 +59,12 @@ const Table = ({
 
   if (initialPageIndex) {
     initialState.pageIndex = initialPageIndex
+  }
+
+  if (manualPagination) {
+    optionalOptions.manualPagination = true
+    optionalOptions.manualSortBy = true
+    optionalOptions.pageCount = controlledPageCount
   }
 
   const {
@@ -63,21 +82,29 @@ const Table = ({
     nextPage,
     previousPage,
     setPageSize,
+    setSortBy,
     selectedFlatRows,
-    state: { pageIndex, pageSize }
+    state: { pageIndex, pageSize, sortBy }
   } = useTable(
     {
       columns,
       data,
+      useControlledState: state => {
+        return React.useMemo(
+          () => ({
+            ...state,
+            pageIndex: manualPagination ? initialPageIndex : state.pageIndex
+          }),
+          [state, initialPageIndex]
+        )
+      },
       disableSortRemove: true,
       disableSortBy: !allowSort,
-      sortTypes: {
-        datetime: (a, b, id) => sortDate(a.original[id], b.original[id])
-      },
+      sortTypes,
       autoResetPage: false,
       autoResetSortBy: false,
-      autoResetSelectedRows: false,
-      initialState
+      initialState,
+      ...optionalOptions
     },
     useSortBy,
     usePagination,
@@ -92,8 +119,8 @@ const Table = ({
   const content = paginationSettings ? page : rows
   const paginationParams = {
     pageSize,
-    pageOptions,
     pageIndex,
+    pageOptions,
     canNextPage,
     canPreviousPage,
     setPageSize,
@@ -106,20 +133,36 @@ const Table = ({
 
   useEffect(
     () => {
-      if (onChangeVisibleItems) {
-        onChangeVisibleItems({ pageIndex, pageSize, rows })
-      }
-    },
-    [pageIndex, pageSize, rows]
-  )
-
-  useEffect(
-    () => {
       if (onChangeSelectedRows) {
         onChangeSelectedRows(selectedFlatRows)
       }
     },
     [selectedFlatRows]
+  )
+
+  useEffect(
+    () => {
+      fetchData({ pageSize, sortBy })
+    },
+    [pageSize, sortBy]
+  )
+
+  useEffect(
+    () => {
+      if (manualPagination && !isEqual(defaultSorting, sortBy)) {
+        setSortBy(defaultSorting)
+      }
+    },
+    [defaultSorting]
+  )
+
+  useEffect(
+    () => {
+      if (!manualPagination) {
+        setSortBy(sortBy)
+      }
+    },
+    [sortBy]
   )
 
   return (
@@ -209,7 +252,11 @@ const Table = ({
         <NoData {...noDataSettings} />
       )}
       {!!paginationSettings && (
-        <Pagination {...paginationParams} className={classes.pagination} />
+        <Pagination
+          {...paginationParams}
+          onChangePage={onChangePage}
+          className={classes.pagination}
+        />
       )}
     </div>
   )

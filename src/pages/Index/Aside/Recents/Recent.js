@@ -4,6 +4,7 @@ import { client } from '../../../../apollo'
 import { FluidSkeleton as Skeleton } from '../../../../components/Skeleton'
 import styles from './Recent.module.scss'
 
+const getData = ({ data }) => data.item
 export const getItemBuilder = query => id =>
   client
     .query({
@@ -12,7 +13,7 @@ export const getItemBuilder = query => id =>
         id
       }
     })
-    .then(({ data }) => data.item)
+    .then(getData)
     .catch(console.warn)
 
 const Row = props => <Link {...props} className={styles.row} />
@@ -25,14 +26,14 @@ const Recent = ({ title, rightHeader, ids, getItem, getLink, Item }) => {
   useEffect(
     () => {
       Promise.all(ids.map(getItem)).then(items => {
-        const filteredItems = items.filter(Boolean)
-
-        setItems(filteredItems)
+        setItems(items.flat().filter(Boolean))
         setIsLoading(false)
       })
     },
     [ids]
   )
+
+  if (!isLoading && items.length === 0) return null
 
   return (
     <div className={styles.wrapper}>

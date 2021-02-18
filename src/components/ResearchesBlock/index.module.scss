@@ -7,6 +7,10 @@
   background-position: 50% 50%;
   padding: 72px 0;
   display: flex;
+
+  @include responsive('laptop', 'tablet') {
+    padding: 40px 16px;
+  }
 }
 
 .content {

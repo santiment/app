@@ -1,0 +1,15 @@
+diff --git a/node_modules/react-scripts/config/webpack.config.js b/node_modules/react-scripts/config/webpack.config.js
+index f6c0e7a..a4dc5b3 100644
+--- a/node_modules/react-scripts/config/webpack.config.js
++++ b/node_modules/react-scripts/config/webpack.config.js
+@@ -599,9 +599,9 @@ module.exports = function(webpackEnv) {
+       // the HTML & assets that are part of the Webpack build.
+       isEnvProduction &&
+         new WorkboxWebpackPlugin.GenerateSW({
++          skipWaiting: true,
+           clientsClaim: true,
+           exclude: [/\.map$/, /asset-manifest\.json$/],
+-          importWorkboxFrom: 'cdn',
+           navigateFallback: publicUrl + '/index.html',
+           navigateFallbackBlacklist: [
+             // Exclude URLs starting with /_, as they're likely an API call

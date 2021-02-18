@@ -40,7 +40,7 @@ storiesOf('Navbar', module)
       <Navbar />
       <br />
       {[
-        '/sonar',
+        '/alerts',
         '/assets',
         '/insights',
         '/labs/trends',

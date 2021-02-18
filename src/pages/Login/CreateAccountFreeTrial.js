@@ -12,6 +12,7 @@ import { PATHS } from '../../paths'
 import { mapSizesToProps } from '../../utils/withSizes'
 import SwipablePages from '../../components/SwipablePages/SwipablePages'
 import { MobileOnly } from '../../components/Responsive'
+import LogitTwitterBtn from './LoginTwitterBtn'
 import externalStyles from './index.module.scss'
 import styles from './CreateAccountFreeTrial.module.scss'
 
@@ -87,6 +88,8 @@ const SignupDescription = ({ loading, loginEmail, setEmail }) => {
       <div className={styles.subtitle}>Get 14 days free of Sanbase Pro!</div>
 
       <LoginGoogleBtn signUp className={styles.google} />
+
+      <LogitTwitterBtn signUp />
 
       <OrUseDivider />
 

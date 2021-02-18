@@ -2,6 +2,8 @@ import qs from 'query-string'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import queryString from 'query-string'
 
+export const ALL_PROJECTS_WATCHLIST_SLUG = 'projects'
+
 export function getWatchlistLink ({ name, id }) {
   return `/assets/list?name=${encodeURIComponent(name)}@${id}`
 }
@@ -17,6 +19,10 @@ export function isDynamicWatchlist (watchlist = {}) {
   }
 
   const { name } = watchlist.function || {}
+  if (watchlist.slug === ALL_PROJECTS_WATCHLIST_SLUG) {
+    return false
+  }
+
   return (
     name !== 'empty' && (name === 'selector' || name === 'top_all_projects')
   )
@@ -36,18 +42,19 @@ export function isDefaultScreenerPath (pathname) {
 }
 
 export function hasAssetById ({ id, listItems }) {
-  if (!id) return
+  if (!id || !listItems) return
   return listItems.some(({ id: projectId }) => projectId === id)
+}
+
+export function hasAddress (listItems, source) {
+  if (!source || !listItems) return
+  return listItems.some(({ address: target }) => target === source.address)
 }
 
 export const getWatchlistName = ({ type, location: { search } }) => {
   switch (type) {
-    case 'all':
-      return 'All Assets'
     case 'screener':
       return 'My Screener'
-    case 'erc20':
-      return 'ERC20 Assets'
     case 'list':
       const name = (qs.parse(search).name || '').split('@')[0]
       return name
@@ -78,7 +85,7 @@ export const getHelmetTags = (isList, listName) => {
   const isWatchlist = isList && listName
   return {
     title: isWatchlist
-      ? `Crypto Watchlist: ${listName.split('@')[0]} - Sanbase`
+      ? `Crypto Watchlist: ${listName} - Sanbase`
       : 'All Crypto Assets - Sanbase',
     description: isWatchlist
       ? 'Santiment Watchlists let you keep track of different crypto projects, and compare their performance, on-chain behavior and development activity.'
@@ -89,7 +96,6 @@ export const getHelmetTags = (isList, listName) => {
 export const DEFAULT_SCREENER = {
   name: 'My screener',
   to: '/assets/screener',
-  slug: 'TOTAL_MARKET',
   assetType: 'screener'
 }
 
@@ -97,25 +103,6 @@ export const DEFAULT_SCREENER_FUNCTION = {
   args: { size: 10000 },
   name: 'top_all_projects'
 }
-
-// NOTE (haritonasty): remove it after migration on dynamic watchlists
-// (need to integrate server-side pagination for tables before)
-// July 5, 2020
-
-export const BASIC_CATEGORIES = [
-  {
-    name: 'All assets',
-    to: '/assets/all',
-    slug: 'TOTAL_MARKET',
-    assetType: 'all'
-  },
-  {
-    name: 'ERC20',
-    to: '/assets/erc20',
-    slug: 'TOTAL_ERC20',
-    assetType: 'erc20'
-  }
-]
 
 export function countAssetsSort ({ count: countA }, { count: countB }) {
   return countA > countB ? -1 : 1
@@ -223,4 +210,17 @@ export const useScreenerUrlUpdaters = (widgets, setWidgets) => {
 
 export function getNormalizedListItems (listItems) {
   return listItems.map(val => ({ project_id: +val.project.id }))
+}
+
+export const PROJECT = 'PROJECT'
+export const BLOCKCHAIN_ADDRESS = 'BLOCKCHAIN_ADDRESS'
+
+export function getWatchlistAlias (type) {
+  switch (type) {
+    case BLOCKCHAIN_ADDRESS:
+    case PROJECT:
+      return 'watchlist'
+    default:
+      return type
+  }
 }

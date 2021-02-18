@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Panel from '@santiment-network/ui/Panel/Panel'
-import GetWatchlistHistory from '../../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistHistory/GetWatchlistHistory'
+import Widget from '../../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistHistory/Widget'
 import WatchlistAnomalies from '../../../ducks/Watchlists/Widgets/WatchlistOverview/WatchlistAnomalies/WatchlistAnomalies'
 import { RANGES } from '../../../ducks/Watchlists/Widgets/WatchlistOverview/constants'
 import styles from '../Watchlist.module.scss'
@@ -24,14 +24,7 @@ const WatchlistPriceWidget = ({
 
   return (
     <Panel className={styles.overviewInfo}>
-      <GetWatchlistHistory
-        type={type}
-        range={range}
-        changeRange={changeRange}
-        assetsAmount={items.length}
-        top3={items.slice(0, 3)}
-        id={listId}
-      />
+      <Widget type={type} range={range} changeRange={changeRange} id={listId} />
       {toggleAssetsFiltering && (
         <WatchlistAnomalies
           trends={trendingAssets}

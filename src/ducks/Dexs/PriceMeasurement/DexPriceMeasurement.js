@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import cx from 'classnames'
-import Range from '../../Watchlists/Widgets/WatchlistOverview/Range'
+import Range from '../../Watchlists/Widgets/WatchlistOverview/WatchlistAnomalies/Range'
 import styles from './DexPriceMeasurement.module.scss'
 
 export const DEX_BY_USD = { slug: 'multi-collateral-dai', label: 'USD' }

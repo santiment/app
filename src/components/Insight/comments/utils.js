@@ -3,35 +3,32 @@ import {
   COMMENTS_TIMELINE_EVENTS_QUERY,
   CREATE_TIMELINE_EVENT_COMMENT_MUTATION
 } from '../../../queries/timelineEventComments'
-import { CommentTypes } from '../../TimelineEventComments/types'
 import {
   DELETE_COMMENT_MUTATION,
   UPDATE_COMMENT_MUTATION
 } from '../../../queries/insightComments'
 
-export function getInsightComments (id, cursor) {
-  return client.query({
+export const buildCommentsGetter = entityType => (id, cursor) =>
+  client.query({
     query: COMMENTS_TIMELINE_EVENTS_QUERY,
     variables: {
       id,
       cursor,
-      eventType: CommentTypes.INSIGHT
+      entityType
     },
     fetchPolicy: 'network-only'
   })
-}
 
-export function createInsightComment (id, content, parentId) {
-  return client.mutate({
+export const buildCommentCreator = entityType => (id, content, parentId) =>
+  client.mutate({
     mutation: CREATE_TIMELINE_EVENT_COMMENT_MUTATION,
     variables: {
       id: +id,
       parentId: parentId ? +parentId : null,
       content,
-      eventType: CommentTypes.INSIGHT
+      entityType
     }
   })
-}
 
 export function deleteComment (id) {
   return client.mutate({
@@ -51,3 +48,6 @@ export function editComment (id, content) {
     }
   })
 }
+
+export const getInsightComments = buildCommentsGetter()
+export const createInsightComment = buildCommentCreator()

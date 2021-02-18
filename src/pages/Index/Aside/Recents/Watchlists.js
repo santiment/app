@@ -2,10 +2,11 @@ import React from 'react'
 import gql from 'graphql-tag'
 import Recent, { getItemBuilder, Column } from './Recent'
 import { VisibilityIndicator } from '../../../../components/VisibilityIndicator'
-import { usdFormatter } from '../../../../ducks/dataHub/metrics/formatters'
+import { getWatchlistLink } from '../../../../ducks/Watchlists/utils'
+import { millify } from '../../../../utils/formatting'
+import PercentChanges from '../../../../components/PercentChanges'
 import styles from '../index.module.scss'
 
-const getLink = ({ id, name }) => `/assets/list?name=${name}@${id}`
 const getItem = getItemBuilder(gql`
   query watchlist($id: ID!) {
     item: watchlist(id: $id) {
@@ -23,7 +24,12 @@ const Watchlist = ({ name, isPublic, historicalStats }) => {
   if (!name) return null
 
   const lastData = historicalStats[historicalStats.length - 1]
-  const marketcap = lastData ? lastData.marketcap : null
+  const firstData = historicalStats[0]
+  const marketcapLast = lastData ? lastData.marketcap : 0
+  const marketcapFirst = firstData ? firstData.marketcap : 0
+
+  const change =
+    marketcapFirst !== 0 ? (marketcapLast - marketcapFirst) / marketcapFirst : 0
 
   return (
     <>
@@ -31,18 +37,21 @@ const Watchlist = ({ name, isPublic, historicalStats }) => {
         <VisibilityIndicator isPublic={isPublic} className={styles.icon} />
         {name}
       </Column>
-      {usdFormatter(marketcap)}
+      <div className={styles.marketcap}>
+        ${millify(marketcapLast)}
+        <PercentChanges className={styles.change} changes={change} />
+      </div>
     </>
   )
 }
 
 const Watchlists = ({ title, ids }) => (
   <Recent
-    rightHeader='Market Cap'
+    rightHeader='Market Cap, 24h change'
     title={title}
     ids={ids}
     getItem={getItem}
-    getLink={getLink}
+    getLink={getWatchlistLink}
     Item={Watchlist}
   />
 )

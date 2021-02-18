@@ -97,7 +97,7 @@
   justify-content: center;
   padding: 0 !important;
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive('phone', 'phone-xs', 'tablet') {
     width: 100%;
     max-width: 400px;
     min-width: initial;
@@ -343,4 +343,10 @@
 
 .emailCheck {
   color: var(--rhino);
+}
+
+.twitter {
+  fill: #1da1f2 !important;
+  width: 18px;
+  height: 18px;
 }

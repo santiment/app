@@ -1,7 +1,7 @@
 import React, { useRef, useCallback, useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
-import { useRenderQueue } from './renderQueue'
-import { Skeleton } from '../../components/Skeleton'
+import { useRenderQueueItem } from '../../ducks/renderQueue/viewport'
+import { Skeleton } from '../Skeleton'
 import {
   useAllTimeData,
   useTimeseries
@@ -26,6 +26,9 @@ import { useDomainGroups } from '../../ducks/Chart/hooks'
 import { extractMirrorMetricsDomainGroups } from '../../ducks/Chart/utils'
 import PaywallInfo from '../../ducks/Studio/Chart/PaywallInfo'
 import DexPriceMeasurement from '../../ducks/Dexs/PriceMeasurement/DexPriceMeasurement'
+import DashIntervalSettings from './DashIntervalSettings/DashIntervalSettings'
+import ContextMenu from '../../ducks/Studio/Chart/ContextMenu'
+import { DEFAULT_OPTIONS } from '../../ducks/Studio/defaults'
 import styles from './DashboardMetricChart.module.scss'
 
 const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
@@ -57,9 +60,28 @@ const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
   }
 }
 
+export const useChartSettings = defaultInterval => {
+  const [settings, setSettings] = useState({
+    ...defaultInterval.requestParams
+  })
+
+  const [intervalSelector, setIntervalSelector] = useState(defaultInterval)
+
+  const onChangeInterval = useCallback(
+    value => {
+      setSettings(data => {
+        return { ...data, ...value.requestParams }
+      })
+      setIntervalSelector(value)
+    },
+    [setSettings, setIntervalSelector]
+  )
+
+  return { settings, intervalSelector, setSettings, onChangeInterval }
+}
+
 const DashboardMetricChart = ({
   metrics,
-  metricSettingsMap,
   defaultInterval = INTERVAL_30_DAYS,
   intervals = DEFAULT_INTERVAL_SELECTORS,
   metricSelectors,
@@ -69,10 +91,13 @@ const DashboardMetricChart = ({
   setMeasurement,
   measurement,
   sliceMetricsCount = 1,
-  onLoad
+  onLoad,
+  projectSelector
 }) => {
   const MetricTransformer = useMirroredTransformer(metrics)
-
+  const [MetricSettingsMap] = useState(new Map())
+  const [options, setOptions] = useState(DEFAULT_OPTIONS)
+  const chartRef = useRef(null)
   const domainGroups = useDomainGroups(metrics)
   const mirrorDomainGroups = useMemo(
     () => extractMirrorMetricsDomainGroups(domainGroups),
@@ -86,22 +111,21 @@ const DashboardMetricChart = ({
     [metrics]
   )
 
-  const [settings, setSettings] = useState({
-    ...defaultInterval.requestParams
-  })
+  const {
+    intervalSelector,
+    settings,
+    setSettings,
+    onChangeInterval
+  } = useChartSettings(defaultInterval)
 
-  const [intervalSelector, setIntervalSelector] = useState(defaultInterval)
+  function updateSettingsMap ({ interval } = {}) {
+    setSettings({
+      ...settings,
+      interval: interval || settings.interval
+    })
+  }
+
   const [disabledMetrics, setDisabledMetrics] = useState({})
-
-  const onChangeInterval = useCallback(
-    value => {
-      setSettings(data => {
-        return { ...data, ...value.requestParams }
-      })
-      setIntervalSelector(value)
-    },
-    [setSettings, setIntervalSelector]
-  )
 
   const activeMetrics = useMemo(
     () => metrics.filter(({ key }) => !disabledMetrics[key]),
@@ -111,7 +135,7 @@ const DashboardMetricChart = ({
   const [data, loadings] = useTimeseries(
     activeMetrics,
     settings,
-    metricSettingsMap,
+    MetricSettingsMap,
     MetricTransformer
   )
 
@@ -141,6 +165,8 @@ const DashboardMetricChart = ({
   return (
     <>
       <DashboardChartHeaderWrapper>
+        {projectSelector}
+
         <DashboardMetricSelectors
           metricSelectors={metricSelectors}
           rootMetric={rootMetric}
@@ -175,17 +201,37 @@ const DashboardMetricChart = ({
               intervals={intervals}
             />
           </DesktopOnly>
+
+          <ContextMenu
+            showDownload
+            setOptions={setOptions}
+            {...options}
+            data={data}
+            activeMetrics={activeMetrics}
+            chartRef={chartRef}
+            classses={{
+              settingsBtn: styles.settingsBtn
+            }}
+            title='Export'
+          />
         </div>
       </DashboardChartHeaderWrapper>
 
       <DesktopOnly>
-        <DashboardChartMetrics
-          metrics={metrics}
-          loadings={loadings}
-          toggleDisabled={setDisabledMetrics}
-          disabledMetrics={disabledMetrics}
-          colors={MetricColor}
-        />
+        <div className={styles.settings}>
+          <DashboardChartMetrics
+            metrics={metrics}
+            loadings={loadings}
+            toggleDisabled={setDisabledMetrics}
+            disabledMetrics={disabledMetrics}
+            colors={MetricColor}
+          />
+          <DashIntervalSettings
+            metrics={metrics}
+            settings={settings}
+            updateInterval={updateSettingsMap}
+          />
+        </div>
       </DesktopOnly>
 
       <DashboardMetricChartWrapper
@@ -199,8 +245,9 @@ const DashboardMetricChart = ({
         loadings={loadings}
         domainGroups={domainGroups}
         mirrorDomainGroups={mirrorDomainGroups}
-        isCartesianGridActive={true}
         sliceMetricsCount={sliceMetricsCount}
+        options={options}
+        chartRef={chartRef}
       />
 
       <MobileOnly>
@@ -208,6 +255,11 @@ const DashboardMetricChart = ({
           interval={intervalSelector}
           setInterval={onChangeInterval}
           intervals={intervals}
+        />
+        <DashIntervalSettings
+          metrics={metrics}
+          settings={settings}
+          updateInterval={updateSettingsMap}
         />
         <DashboardChartMetrics
           metrics={metrics}
@@ -223,7 +275,6 @@ const DashboardMetricChart = ({
 
 export const QueuedDashboardMetricChart = ({ className, ...props }) => {
   const containerRef = useRef()
-  const { useRenderQueueItem } = useRenderQueue()
   const { isRendered, onLoad } = useRenderQueueItem(containerRef)
 
   return (

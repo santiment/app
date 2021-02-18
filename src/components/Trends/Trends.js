@@ -1,25 +1,15 @@
 import React from 'react'
-import TrendsTablesWrapper from './TrendsTable/Tables/TrendsTablesWrapper'
-import GetHypedTrends from './GetHypedTrends'
+import withSizes from 'react-sizes'
+import TrendsTable from '../../ducks/TrendsTable'
+import { Column } from '../../ducks/TrendsTable/columns'
+import { mapSizesToProps } from '../../utils/withSizes'
 
-const Trends = ({ className, slice, ...props }) => {
-  return (
-    <GetHypedTrends
-      render={({ isLoading, items }) => (
-        <div className={className}>
-          <TrendsTablesWrapper
-            trends={slice(items)}
-            isLoading={isLoading}
-            {...props}
-          />
-        </div>
-      )}
-    />
-  )
-}
+const MOBILE_HIDDEN_COLUMNS = [Column.INDEX, Column.CONNECTED_WORDS]
+const Trends = ({ hiddenColumnIds, isDesktop, ...props }) => (
+  <TrendsTable
+    {...props}
+    hiddenColumnIds={isDesktop ? hiddenColumnIds : MOBILE_HIDDEN_COLUMNS}
+  />
+)
 
-Trends.defaultProps = {
-  slice: _ => _
-}
-
-export default Trends
+export default withSizes(mapSizesToProps)(Trends)

@@ -7,10 +7,7 @@ import Label from '@santiment-network/ui/Label'
 import GetAssets, {
   SORT_TYPES
 } from '../../ducks/Watchlists/Widgets/Table/GetAssets'
-import { useWatchlist } from '../../ducks/Watchlists/gql/hooks'
-import { getWatchlistId } from '../../ducks/Watchlists/utils'
 import { RANGES } from '../../ducks/Watchlists/Widgets/WatchlistOverview/constants'
-import { getWatchlistName } from '../../ducks/Watchlists/utils'
 import { addRecentWatchlists, removeRecentWatchlists } from '../../utils/recent'
 import AssetCard from '../../ducks/Watchlists/Widgets/Table/AssetCard'
 import AssetsTemplates from '../../ducks/Watchlists/Widgets/Table/AssetsTemplates'
@@ -43,8 +40,7 @@ export const PRICE_RANGES = [
 ]
 
 const AssetsMobilePage = props => {
-  const id = getWatchlistId(props.location.search)
-  const [watchlist = {}] = useWatchlist({ id })
+  const { watchlist } = props
   const [pointer, setPointer] = useState(1)
   const [range, setRange] = useState(RANGES[pointer])
   const [priceRange, setPriceRange] = useState(PRICE_RANGES[1].value)
@@ -111,7 +107,7 @@ const AssetsMobilePage = props => {
             )
           }
 
-          const title = getWatchlistName(props)
+          const { name: title = 'My screener' } = watchlist || {}
 
           if (items.length && (isCurrentUserTheAuthor || isPublicWatchlist)) {
             addRecentWatchlists(listId)
@@ -236,7 +232,7 @@ export const AssetsList = ({
   const normalizedItems = normalizeGraphData(
     graphData,
     items,
-    priceRange,
+    `priceChart${priceRange}`,
     loading
   )
 

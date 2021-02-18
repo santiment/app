@@ -62,7 +62,7 @@ const Search = () => {
       className={cx(styles.search, isOpened && styles.search_focused)}
       inputClassName={styles.input}
       forwardedRef={inputRef}
-      placeholder='Search for assets, trends, insights and etc...'
+      placeholder='Search for assets, trends, insights, wallets and etc...'
       autoComplete='off'
       onChange={v => setSearchTerm(v)}
       onClick={openSuggestions}

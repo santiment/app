@@ -1,13 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { getTimePeriod } from './utils'
 import Calendar from '../../ducks/Studio/AdvancedView/Calendar'
-import TrendsTable from '../../components/Trends/TrendsTable/TrendsTable'
-import GetHypedTrends from '../../components/Trends/GetHypedTrends'
 import EnhancedWordCloud from './EnhancedWordCloud'
 import AverageSocialVolume from '../../components/AverageSocialVolume'
 import HelpPopup from '../../components/HelpPopup/HelpPopup'
 import Footer from '../../components/Footer'
 import { checkIsToday } from '../../utils/dates'
+import TrendsTable from '../../ducks/TrendsTable'
 import styles from './Sidebar.module.scss'
 import stylesTooltip from '../../components/HelpPopup/HelpPopup.module.scss'
 
@@ -50,7 +49,12 @@ const Sidebar = ({
 
   function onTrendCalendarChange (date) {
     setTrendDate([date])
-    setTrendPeriod(checkIsToday(date) ? undefined : getTimePeriod(date))
+    let period
+    if (!checkIsToday(date)) {
+      period = getTimePeriod(date)
+      period.interval = '1d'
+    }
+    setTrendPeriod(period)
   }
 
   return (
@@ -82,21 +86,7 @@ const Sidebar = ({
             />
           )}
         </div>
-        <GetHypedTrends
-          interval={trendPeriod && '1d'}
-          {...trendPeriod}
-          render={({ isLoading, items }) => {
-            const trends = items[items.length - 1]
-            return (
-              <TrendsTable
-                isCompactView
-                trendWords={trends && trends.topWords}
-                isLoading={isLoading}
-                className={styles.table}
-              />
-            )
-          }}
-        />
+        <TrendsTable isCompact period={trendPeriod} />
       </div>
       <Footer classes={styles} />
     </aside>

@@ -12,8 +12,8 @@ const Reports = () => {
       {loading && (
         <Skeleton show={loading} repeat={2} className={styles.skeleton} />
       )}
-      {reports.map((item, index) => (
-        <ReportCard key={index} report={item} />
+      {reports.map(item => (
+        <ReportCard key={item.name} report={item} />
       ))}
     </>
   )

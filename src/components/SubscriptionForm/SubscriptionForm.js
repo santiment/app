@@ -2,8 +2,6 @@ import React, { PureComponent } from 'react'
 import cx from 'classnames'
 import { graphql } from 'react-apollo'
 import * as Sentry from '@sentry/react'
-import Panel from '@santiment-network/ui/Panel/Panel'
-import Label from '@santiment-network/ui/Label'
 import Button from '@santiment-network/ui/Button'
 import Input from '@santiment-network/ui/Input'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
@@ -135,10 +133,10 @@ class SubscriptionForm extends PureComponent {
           <ElInput
             className={cx(styles.subscription__input, classes.emailInput)}
             placeholder='Enter your email'
-            type='email'
             disabled={waiting}
             onChange={this.onEmailChangeDebounced}
             isError={!!error}
+            errorText={error}
             {...inputIconProps}
           />
           {!hideCheckbox && (
@@ -170,9 +168,6 @@ class SubscriptionForm extends PureComponent {
           >
             {waiting ? 'Waiting...' : subscribeBtnLabel}
           </Button>
-          <Panel padding className={styles.subscription__error}>
-            <Label accent='persimmon'>{error}</Label>
-          </Panel>
         </form>
       </>
     )

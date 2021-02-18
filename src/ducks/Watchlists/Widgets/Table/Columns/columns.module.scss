@@ -1,0 +1,92 @@
+@import "~@santiment-network/ui/mixins";
+
+.rank {
+  background-color: var(--porcelain);
+  color: var(--rhino);
+}
+
+.segments {
+  display: inline-flex;
+  width: fit-content;
+}
+
+.segment {
+  background-color: var(--porcelain);
+  color: var(--rhino);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+
+  @include text('caption');
+}
+
+.segment + .segment {
+  margin-left: 4px;
+}
+
+.assetCheckbox {
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.columnId {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.layout {
+  width: 40px;
+}
+
+.upgrade {
+  margin-left: 10px;
+  opacity: 0;
+  transition: opacity 0.1s ease-in-out;
+}
+
+.paywall {
+  fill: var(--casper);
+  color: var(--texas-rose);
+  width: 86px;
+  padding: 9px 10px 9px 0;
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: center;
+  cursor: pointer;
+  transform: translateX(13px);
+  transition: transform 0.25s ease-in-out, fill 0.2s ease-in-out;
+
+  &::before {
+    content: '';
+    position: absolute;
+    cursor: pointer;
+    display: block;
+    top: -11px;
+    left: -20px;
+    right: 10px;
+    bottom: -11px;
+  }
+
+  &:hover {
+    fill: var(--texas-rose);
+    color: var(--texas-rose);
+    transform: translateX(0);
+
+    .upgrade {
+      opacity: 1;
+      transition: opacity 0.15s ease-in-out 0.1s;
+    }
+  }
+}
+
+.skeleton {
+  height: 40px;
+  width: 100px;
+}

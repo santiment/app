@@ -1,0 +1,41 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  padding: 16px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.title {
+  @include text('body-3', 'm');
+}
+
+.description {
+  margin-top: 4px;
+  color: var(--fiord);
+
+  @include text('body-3');
+}
+
+.highline {
+  font-weight: 600;
+}
+
+.free {
+  background: var(--jungle-green-light);
+}
+
+.expired {
+  background: var(--texas-rose-light);
+}
+
+.contact {
+  padding: 0;
+  height: auto;
+  background: inherit;
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}

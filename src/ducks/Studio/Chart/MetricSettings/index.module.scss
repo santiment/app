@@ -1,16 +1,18 @@
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
+  @include text('caption', 'm');
+
   display: flex;
   align-items: center;
   color: var(--waterloo);
   fill: var(--waterloo);
-
-  @include text('caption', 'm');
+  margin-top: 8px;
 }
 
 .arrow {
   margin-left: 10px;
+  fill: var(--rhino);
 }
 
 .setting {
@@ -65,6 +67,7 @@
 
 .icon {
   margin-right: 8px;
+  fill: var(--rhino);
 }
 
 .tooltip {

@@ -24,7 +24,6 @@ import ErrorBoundary from './components/ErrorContent/ErrorBoundary'
 import PageLoader from './components/Loader/PageLoader'
 import Footer from './components/Footer'
 import GDPRPage from './pages/GDPRPage/GDPRPage'
-import WatchlistPage from './pages/Watchlist'
 import { getConsentUrl } from './utils/utils'
 import CookiePopup from './components/CookiePopup/CookiePopup'
 import GdprRedirector from './components/GdprRedirector'
@@ -62,6 +61,21 @@ const LoadablePage = loader =>
   })
 
 const LoadableIndexPage = LoadablePage(() => import('./pages/Index'))
+
+const LoadableAssetsPage = LoadablePage(() => import('./pages/Assets'))
+
+const LoadableWatchlistPage = LoadablePage(() => import('./pages/Watchlist'))
+
+const LoadableWatchlistsPage = LoadablePage(() => import('./pages/Watchlists'))
+
+const LoadableScreenerPage = LoadablePage(() => import('./pages/Screener'))
+
+const LoadableWatchlistProjectsPage = LoadablePage(() =>
+  import('./pages/WatchlistProjects')
+)
+const LoadableWatchlistAddressesPage = LoadablePage(() =>
+  import('./pages/WatchlistAddresses')
+)
 
 const LoadableProMetricsPage = LoadablePage(() =>
   import('./pages/ProMetrics/ProMetrics')
@@ -101,12 +115,6 @@ const LoadableSonarFeedPage = LoadablePage(() =>
   import('./pages/SonarFeed/SonarFeedPage')
 )
 
-const LoadableWatchlistsPage = LoadablePage(() => import('./pages/Watchlists'))
-
-const LoadableWatchlistsMobilePage = LoadablePage(() =>
-  import('./pages/Watchlists/WatchlistsMobilePage')
-)
-
 const LoadableAssetsMobilePage = LoadablePage(() =>
   import('./pages/Watchlists/AssetsMobilePage')
 )
@@ -121,6 +129,13 @@ const LoadableStablecoinsPage = LoadablePage(() =>
   import('./pages/StablecoinsPage/StablecoinsPage')
 )
 
+const LoadableETH2Dashboard = LoadablePage(() =>
+  import('./pages/ETH2Dashboard/ETH2Dashboard')
+)
+const LoadableEthAnalysisDashboard = LoadablePage(() =>
+  import('./pages/EthTradingAnalysis/EthTradingAnalysis')
+)
+
 const LoadableUniswapProtocolPage = LoadablePage(() =>
   import('./pages/UniswapProtocolPage/UniswapProtocolPage')
 )
@@ -133,10 +148,6 @@ const LoadableBtcLockedPage = LoadablePage(() =>
 
 const LoadableSheetsTemplatePage = LoadablePage(() =>
   import('./pages/SheetsTemplatePage/SheetsTemplatePage')
-)
-
-const LoadableLabelsPage = LoadablePage(() =>
-  import('./pages/LabelsPage/LabelsPage')
 )
 
 const LoadableProfilePage = LoadablePage(() =>
@@ -239,7 +250,7 @@ export const App = ({
               render={props => {
                 if (isDesktop) {
                   return (
-                    <WatchlistPage
+                    <LoadableWatchlistPage
                       type={name}
                       isLoggedIn={isLoggedIn}
                       preload={() => LoadableDetailedPage.preload()}
@@ -270,17 +281,38 @@ export const App = ({
               <CreateAccountFreeTrial {...props} isLoggedIn={isLoggedIn} />
             )}
           />
-          <Route exact path='/assets' component={LoadableWatchlistsPage} />
+          <Route
+            exact
+            path='/assets'
+            render={() => <LoadableAssetsPage isDesktop={isDesktop} />}
+          />
+          <Route
+            exact
+            path='/screener/:nameId'
+            render={props => (
+              <LoadableScreenerPage
+                {...props}
+                isDesktop={isDesktop}
+                isLoggedIn={isLoggedIn}
+              />
+            )}
+          />
+          <Route
+            exact
+            path='/watchlist/projects/:nameId'
+            render={props => (
+              <LoadableWatchlistProjectsPage {...props} isDesktop={isDesktop} />
+            )}
+          />
+          <Route
+            exact
+            path='/watchlist/addresses/:nameId'
+            component={LoadableWatchlistAddressesPage}
+          />
           <Route
             exact
             path='/watchlists'
-            render={props =>
-              isDesktop ? (
-                <Redirect from='/watchlists' to='/assets' />
-              ) : (
-                <LoadableWatchlistsMobilePage {...props} />
-              )
-            }
+            render={props => <LoadableWatchlistsPage isDesktop={isDesktop} />}
           />
           <Route
             exact
@@ -334,7 +366,7 @@ export const App = ({
             )}
           />
           <Route
-            path='/sonar'
+            path={['/alerts', '/alert']}
             render={props => (
               <LoadableSonarFeedPage
                 isDesktop={isDesktop}
@@ -343,6 +375,12 @@ export const App = ({
               />
             )}
           />
+          <Redirect
+            from='/sonar/signal/:id/edit'
+            to={`/alert/:id/edit/${search}`}
+          />
+          <Redirect from='/sonar/signal/:id' to={`/alert/:id/${search}`} />
+          <Redirect from='/sonar/my-signals' to={`/alerts${search}`} />
           <Route path='/logout' component={LogoutPage} />
           <Route
             exact
@@ -421,6 +459,18 @@ export const App = ({
             )}
           />
           <Route
+            path={PATHS.ETH2}
+            render={props => (
+              <LoadableETH2Dashboard isDesktop={isDesktop} {...props} />
+            )}
+          />
+          <Route
+            path={PATHS.ETH_ANALYSIS}
+            render={props => (
+              <LoadableEthAnalysisDashboard isDesktop={isDesktop} {...props} />
+            )}
+          />
+          <Route
             path={PATHS.UNISWAP_PROTOCOL}
             render={props => (
               <LoadableUniswapProtocolPage isDesktop={isDesktop} {...props} />
@@ -446,10 +496,7 @@ export const App = ({
               />
             )}
           />
-          <Route
-            path={PATHS.LABELS}
-            render={props => <LoadableLabelsPage {...props} />}
-          />
+          <Redirect from={PATHS.LABELS} to={PATHS.ETH_ANALYSIS} />
           <Route
             path={PATHS.CHARTS}
             render={props => (

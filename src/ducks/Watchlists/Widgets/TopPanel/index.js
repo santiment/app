@@ -18,12 +18,15 @@ const TopPanel = ({
   isAuthorLoading,
   isLoggedIn,
   assets,
+  projectsCount,
   isDefaultScreener,
+  isUpdatingWatchlist,
+  updateWatchlistFunction,
+  type = 'screener',
   ...props
 }) => {
   const { isPro } = useUserSubscriptionStatus()
   const [isFilterOpen, setIsFilterOpen] = useState(false)
-  const [isUpdatingWatchlist, setIsUpdatingWatchlist] = useState(false)
 
   function closeFilter () {
     if (isFilterOpen) {
@@ -42,14 +45,15 @@ const TopPanel = ({
         )}
         {id && (
           <BaseActions
+            name={name}
+            id={id}
             isAuthor={isAuthor}
             isPro={isPro}
             isAuthorLoading={isAuthorLoading}
-            name={name}
             description={description}
-            id={id}
             watchlist={watchlist}
             onClick={closeFilter}
+            type={type}
           />
         )}
         {isUpdatingWatchlist && (
@@ -70,13 +74,14 @@ const TopPanel = ({
         </div>
         <Filter
           watchlist={watchlist}
-          projectsCount={assets.length}
+          projectsCount={projectsCount}
           isAuthor={isAuthor}
+          isAuthorLoading={isAuthorLoading}
           isLoggedIn={isLoggedIn}
           isDefaultScreener={isDefaultScreener}
           setIsOpen={setIsFilterOpen}
           isOpen={isFilterOpen}
-          setIsUpdatingWatchlist={setIsUpdatingWatchlist}
+          updateWatchlistFunction={updateWatchlistFunction}
           {...props}
         />
       </div>

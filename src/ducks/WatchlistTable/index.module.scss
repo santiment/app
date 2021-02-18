@@ -1,0 +1,72 @@
+.wrapper {
+  --offset: var(--table-header-sticky-offset, 0);
+}
+
+.top,
+.actions {
+  display: flex;
+  align-items: center;
+}
+
+.top {
+  color: var(--waterloo);
+  position: sticky;
+  padding: 10px 32px;
+  top: var(--offset);
+  background: var(--white);
+  z-index: 1;
+}
+
+.actions {
+  margin-left: auto;
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background: var(--porcelain);
+  margin: 0 16px;
+}
+
+.explanation {
+  z-index: 1;
+}
+
+.action {
+  cursor: pointer;
+  fill: var(--waterloo);
+
+  &_csv {
+    padding: 0;
+    height: auto;
+  }
+
+  &__icon {
+    vertical-align: middle;
+  }
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+}
+
+.table {
+  :global {
+    th {
+      position: sticky;
+      top: calc(44px + var(--offset));
+
+      &:first-child {
+        line-height: 0;
+      }
+    }
+
+    tbody tr {
+      height: 54px;
+
+      &:hover {
+        background: var(--athens);
+      }
+    }
+  }
+}

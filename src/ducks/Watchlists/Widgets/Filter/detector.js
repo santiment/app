@@ -1,8 +1,9 @@
 import { Operator, Filter } from './dataHub/types'
-import { DEFAULT_TIMERANGES } from './defaults'
+
+const METRIC_PERCENT_SUFFIX = '_change_'
 
 export const isContainMetric = (item, key) =>
-  item.includes(`${key}_change_`) || item === key
+  item.includes(`${key}${METRIC_PERCENT_SUFFIX}`) || item === key
 
 export function extractFilterByMetricType (filters = [], metric) {
   return filters
@@ -69,7 +70,7 @@ export function getFilterType (filter = [], metric) {
 function checkIsPercentMetric (filter = []) {
   const { length: totalNumber } = filter
   const { length: percentMetricsNumber } = filter.filter(({ metric }) =>
-    metric.includes('_change_')
+    metric.includes(METRIC_PERCENT_SUFFIX)
   )
 
   if (percentMetricsNumber !== 0 && totalNumber === percentMetricsNumber) {
@@ -113,18 +114,4 @@ function extractThreshold (filter = [], filterType, metric, position) {
   const formatter = filterType.valueFormatter || metric.valueFormatter
 
   return formatter ? formatter(threshold) : threshold
-}
-
-export function getTimeRangesByMetric (baseMetric, availableMetrics = []) {
-  const metrics = availableMetrics.filter(metric =>
-    metric.includes(`${baseMetric.percentMetricKey || baseMetric.key}_change_`)
-  )
-  const timeRanges = metrics.map(metric =>
-    metric.replace(
-      `${baseMetric.percentMetricKey || baseMetric.key}_change_`,
-      ''
-    )
-  )
-
-  return DEFAULT_TIMERANGES.filter(({ type }) => timeRanges.includes(type))
 }

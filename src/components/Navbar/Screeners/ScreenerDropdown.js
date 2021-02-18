@@ -1,25 +1,30 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import CreateScreenerBtn from './NewScreenerBtn'
-import { getWatchlistLink } from '../../../ducks/Watchlists/utils'
 import { VisibilityIndicator } from '../../VisibilityIndicator'
 import {
   useUserScreeners,
   useRecentWatchlists
 } from '../../../ducks/Watchlists/gql/hooks'
 import { getRecentScreeners } from '../../../utils/recent'
+import { getSEOLinkFromIdAndTitle } from '../../../utils/url'
 import { useUser } from '../../../stores/user'
+import { sortById } from '../../../utils/sortMethods'
 import styles from '../Watchlists/WatchlistsDropdown.module.scss'
 import wrapperStyles from '../Watchlists/MarketDropdown.module.scss'
+
+const getScreenerSEOLink = (id, name) =>
+  '/screener/' + getSEOLinkFromIdAndTitle(id, name)
 
 const ScreenerDropdown = ({ activeLink }) => {
   const [screeners = [], loading] = useUserScreeners()
   const { loading: isLoggedInPending } = useUser()
   const isLoading = loading || isLoggedInPending
+  const sortedScreeners = useMemo(() => screeners.sort(sortById), [screeners])
 
   const screenersIDs = getRecentScreeners().filter(Boolean)
   const [recentScreeners] = useRecentWatchlists(screenersIDs)
@@ -29,7 +34,7 @@ const ScreenerDropdown = ({ activeLink }) => {
       <div className={wrapperStyles.wrapper}>
         <div className={cx(wrapperStyles.block, wrapperStyles.list)}>
           {recentScreeners && recentScreeners.length > 0 && (
-            <>
+            <div className={wrapperStyles.row}>
               <h3 className={wrapperStyles.title}>Recent watched screeners</h3>
               <div
                 className={wrapperStyles.listWrapper}
@@ -42,7 +47,7 @@ const ScreenerDropdown = ({ activeLink }) => {
               >
                 <div className={wrapperStyles.recentList}>
                   {recentScreeners.map(({ to, name, id }) => {
-                    const link = to || getWatchlistLink({ name, id })
+                    const link = to || getScreenerSEOLink(id, name)
 
                     return (
                       <Button
@@ -51,6 +56,7 @@ const ScreenerDropdown = ({ activeLink }) => {
                         key={id}
                         as={Link}
                         to={link}
+                        className={wrapperStyles.btn}
                       >
                         {name}
                       </Button>
@@ -58,15 +64,18 @@ const ScreenerDropdown = ({ activeLink }) => {
                   })}
                 </div>
               </div>
-            </>
+            </div>
           )}
+
           <h3 className={wrapperStyles.title}>My screeners</h3>
-          {isLoading ? (
-            <Loader className={styles.loader} />
-          ) : (
-            <List screeners={screeners} activeLink={activeLink} />
-          )}
-          <CreateScreenerBtn screeners={screeners} />
+          <div className={wrapperStyles.listWrapper}>
+            {isLoading ? (
+              <Loader className={styles.loader} />
+            ) : (
+              <List screeners={sortedScreeners} activeLink={activeLink} />
+            )}
+            <CreateScreenerBtn screeners={screeners} />
+          </div>
         </div>
       </div>
     </Panel>
@@ -82,14 +91,14 @@ const List = ({ screeners, activeLink }) => (
   >
     <div className={styles.list}>
       {screeners.map(({ name, id, isPublic, to }, idx) => {
-        const link = getWatchlistLink({ id, name })
+        const link = getScreenerSEOLink(id, name)
         return (
           <Button
             fluid
             variant='ghost'
             key={idx}
             as={Link}
-            className={styles.item}
+            className={cx(styles.item, wrapperStyles.btn)}
             to={to || link}
             isActive={activeLink === link}
           >

@@ -5,7 +5,7 @@ import {
   StablecoinsMetrics
 } from './utils'
 import { useStablecoinMetrics } from './hooks'
-import DashboardMetricChart from '../../../components/DashboardMetricChart/DashboardMetricChart'
+import { QueuedDashboardMetricChart as DashboardMetricChart } from '../../../components/DashboardMetricChart/DashboardMetricChart'
 import { DEFAULT_INTERVAL_SELECTORS } from '../../../components/DashboardMetricChart/utils'
 
 const StablecoinsMarketCap = () => {

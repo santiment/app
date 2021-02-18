@@ -20,6 +20,7 @@
 .right {
   margin-left: auto;
   display: flex;
+  align-items: center;
 }
 
 .measurements {
@@ -30,4 +31,13 @@
 .skeleton {
   min-height: 540px;
   height: 100%;
+}
+
+.settings {
+  display: flex;
+  margin: 16px;
+}
+
+.settingsBtn {
+  margin-bottom: 6px;
 }

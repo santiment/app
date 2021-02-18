@@ -18,8 +18,8 @@ import { sendParams } from '../Account/SettingsSonarWebPushNotifications'
 import { RecommendedSignals } from './SonarFeedRecommendations'
 import { METRIC_TYPES } from '../../ducks/Signals/utils/constants'
 import ScreenerSignalDialog from '../../ducks/Signals/ScreenerSignal/ScreenerSignalDialog'
-import styles from './SonarFeedPage.module.scss'
 import { useUserSettings } from '../../stores/user/settings'
+import styles from './SonarFeedPage.module.scss'
 
 const baseLocation = '/sonar'
 
@@ -29,22 +29,21 @@ const LoadableMySignals = Loadable({
 })
 
 const DEFAULT_ROUTE = {
-  index: SIGNAL_ROUTES.MY_SIGNALS,
+  index: SIGNAL_ROUTES.ALERTS,
   content: 'My alerts',
   component: LoadableMySignals
 }
 
 const MY_SIGNALS_LIST = {
   ...DEFAULT_ROUTE,
-  path: SIGNAL_ROUTES.MY_SIGNALS
+  path: SIGNAL_ROUTES.ALERTS
 }
 
 const MY_SIGNALS_MODAL_VIEW = {
   ...DEFAULT_ROUTE,
-  path: SIGNAL_ROUTES.SIGNAL,
+  path: [SIGNAL_ROUTES.ALERT, SIGNAL_ROUTES.LEGACY_ALERT],
   hidden: true
 }
-
 const tabs = [MY_SIGNALS_LIST, MY_SIGNALS_MODAL_VIEW]
 
 const SignalModal = ({ id: triggerId, params }) => {
@@ -67,7 +66,7 @@ const SignalModal = ({ id: triggerId, params }) => {
         <ScreenerSignalDialog
           signal={trigger}
           defaultOpen={isOpen}
-          goBackTo={SIGNAL_ROUTES.MY_SIGNALS}
+          goBackTo={SIGNAL_ROUTES.ALERTS}
         />
       )
     }
@@ -95,7 +94,7 @@ const SonarFeed = ({
   }
   const pathParams = useMemo(
     () => {
-      const parsed = matchPath(pathname, SIGNAL_ROUTES.SIGNAL)
+      const parsed = matchPath(pathname, SIGNAL_ROUTES.ALERT)
 
       return parsed ? parsed.params : undefined
     },

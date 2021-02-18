@@ -17,11 +17,9 @@
   @include text('h3');
 
   text-align: center;
-  margin: 40px 0 0 0;
+  margin: 0;
 
   @include responsive('phone', 'phone-xs') {
-    margin-top: 24px;
-
     @include text('h4');
   }
 }
@@ -134,4 +132,5 @@
   color: var(--waterloo);
   margin-top: 16px;
   text-align: center;
+  max-width: 437px;
 }

@@ -5,14 +5,21 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import WatchlistsAnon from '../../../ducks/Watchlists/Templates/Anon/WatchlistsAnon'
 import EmptySection from './EmptySection'
 import CreateWatchlistBtn from './CreateWatchlistBtn'
-import { getWatchlistLink } from '../../../ducks/Watchlists/utils'
+import {
+  BLOCKCHAIN_ADDRESS,
+  getWatchlistLink
+} from '../../../ducks/Watchlists/utils'
 import { VisibilityIndicator } from '../../VisibilityIndicator'
 import { useUser } from '../../../stores/user'
 import { useUserWatchlists } from '../../../ducks/Watchlists/gql/hooks'
+import { useAddressWatchlists } from '../../../ducks/Watchlists/gql/queries'
+import { getAddressesWatchlistLink } from '../../../ducks/Watchlists/url'
+import { sortById } from '../../../utils/sortMethods'
 import styles from './WatchlistsDropdown.module.scss'
 
 const WatchlistsDropdown = ({ activeLink }) => {
-  const [watchlists, loading] = useUserWatchlists()
+  const [projectsWatchlists, loading] = useUserWatchlists()
+  const addressesWatchlists = useAddressWatchlists().watchlists
   const { loading: isLoggedInPending, isLoggedIn } = useUser()
   const isLoading = loading || isLoggedInPending
 
@@ -24,12 +31,19 @@ const WatchlistsDropdown = ({ activeLink }) => {
     return <WatchlistsAnon className={styles.anon} />
   }
 
+  const watchlists = addressesWatchlists
+    .concat(projectsWatchlists)
+    .sort(sortById)
+
   return watchlists.length === 0 ? (
     <EmptySection watchlists={watchlists} />
   ) : (
     <>
       <WatchlistList watchlists={watchlists} activeLink={activeLink} />
-      <CreateWatchlistBtn watchlists={watchlists} />
+      <CreateWatchlistBtn
+        watchlists={watchlists}
+        className={styles.watchlistBtn}
+      />
     </>
   )
 }
@@ -38,12 +52,18 @@ const WatchlistList = ({ watchlists, activeLink }) => (
   <div
     className={styles.wrapper}
     style={{
-      minHeight: watchlists.length > 3 ? '100px' : `${32 * watchlists.length}px`
+      minHeight:
+        watchlists.length > 3 ? '100px' : `${32 * watchlists.length}px`,
+      maxHeight: '100px'
     }}
   >
     <div className={styles.list}>
-      {watchlists.map(({ name, id, isPublic }) => {
-        const link = getWatchlistLink({ id, name })
+      {watchlists.map(watchlist => {
+        const { name, id, isPublic, type } = watchlist
+        const link =
+          type === BLOCKCHAIN_ADDRESS
+            ? getAddressesWatchlistLink(watchlist)
+            : getWatchlistLink(watchlist)
         return (
           <Button
             fluid

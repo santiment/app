@@ -1,5 +1,28 @@
+import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import { PRICE_GRAPH_QUERY } from '../../../gql'
+
+const PRICE_GRAPH_QUERY = gql`
+  query getMetric(
+    $selector: MetricTargetSelectorInputObject
+    $from: DateTime
+    $interval: interval
+  ) {
+    getMetric(metric: "price_usd") {
+      timeseriesDataPerSlug(
+        selector: $selector
+        from: $from
+        to: "utc_now"
+        interval: $interval
+      ) {
+        datetime
+        data {
+          slug
+          value
+        }
+      }
+    }
+  }
+`
 
 const PRICE_RANGES = {
   '1d': '40m',

@@ -1,21 +1,20 @@
 import gql from 'graphql-tag'
 import { client } from '../../../apollo'
-import {
-  generalData,
-  project,
-  PROJECT_RECENT_DATA_FRAGMENT
-} from './allProjectsGQL'
+import { generalData, PROJECT_RECENT_DATA_FRAGMENT } from './allProjectsGQL'
+import { AGGREGATIONS_UPPER } from '../Widgets/Filter/dataHub/aggregations'
 
 export const WATCHLIST_GENERAL_FRAGMENT = gql`
   fragment generalListData on UserList {
     id
     isPublic
     name
+    slug
     description
     function
     insertedAt
     isMonitored
     updatedAt
+    type
     user {
       id
     }
@@ -59,20 +58,21 @@ export const USER_WATCHLISTS_QUERY = gql`
   ${PROJECT_ITEM_FRAGMENT}
 `
 
-export const FEATURED_WATCHLISTS_QUERY = gql`
-  query featuredWatchlists {
-    featuredWatchlists {
-      ...generalListData
-      ...listShortItems
-    }
-  }
-  ${WATCHLIST_GENERAL_FRAGMENT}
-  ${PROJECT_ITEM_FRAGMENT}
-`
-
 export const AVAILABLE_METRICS_QUERY = gql`
   query getAvailableMetrics {
     getAvailableMetrics
+  }
+`
+
+export const ACCESS_RESTRICTIONS_QUERY = gql`
+  query getAccessRestrictions {
+    getAccessRestrictions {
+      name
+      type
+      isRestricted
+      restrictedFrom
+      restrictedTo
+    }
   }
 `
 
@@ -85,8 +85,19 @@ export const AVAILABLE_SEGMENTS_QUERY = gql`
   }
 `
 
+export const REMOVE_WATCHLIST_MUTATION = gql`
+  mutation removeWatchlist($id: Int!) {
+    removeWatchlist(id: $id) {
+      id
+      name
+      type
+    }
+  }
+`
+
 export const CREATE_WATCHLIST_MUTATION = gql`
   mutation createWatchlist(
+    $type: WatchlistTypeEnum
     $isPublic: Boolean
     $name: String!
     $description: String
@@ -94,6 +105,7 @@ export const CREATE_WATCHLIST_MUTATION = gql`
     $listItems: [InputListItem]
   ) {
     createWatchlist(
+      type: $type
       isPublic: $isPublic
       name: $name
       description: $description
@@ -137,45 +149,6 @@ export const UPDATE_WATCHLIST_MUTATION = gql`
   ${PROJECT_RECENT_DATA_FRAGMENT}
 `
 
-export const PROJECTS_BY_FUNCTION_QUERY = gql`
-  query allProjectsByFunction($fn: json) {
-    allProjectsByFunction(function: $fn) {
-      projects {
-        ...generalData
-        ...project
-      }
-      stats {
-        projectsCount
-      }
-    }
-  }
-  ${generalData}
-  ${project}
-`
-
-export const PRICE_GRAPH_QUERY = gql`
-  query getMetric(
-    $selector: MetricTargetSelectorInputObject
-    $from: DateTime
-    $interval: interval
-  ) {
-    getMetric(metric: "price_usd") {
-      timeseriesDataPerSlug(
-        selector: $selector
-        from: $from
-        to: "utc_now"
-        interval: $interval
-      ) {
-        datetime
-        data {
-          slug
-          value
-        }
-      }
-    }
-  }
-`
-
 export const getRecentWatchlist = id =>
   client
     .query({
@@ -185,3 +158,42 @@ export const getRecentWatchlist = id =>
       }
     })
     .then(({ data = {} }) => data.watchlist)
+
+export function tableQuery (columns) {
+  const staticColumns = []
+  const dynamicColumns = columns.filter(
+    ({ isStatic, accessor, isRestricted, isChart }) => {
+      if (isStatic) {
+        staticColumns.push(accessor)
+      }
+      return !isStatic && !isRestricted && !isChart
+    }
+  )
+
+  return gql`
+  query allProjectsByFunction($fn: json) {
+    allProjectsByFunction(function: $fn) {
+      projects {
+        name
+        slug
+        ticker
+        logoUrl
+        darkLogoUrl
+        ${staticColumns}
+        ${dynamicColumns.map(
+    ({ accessor, timeRange, aggregation }) =>
+      `${accessor}: aggregatedTimeseriesData(
+            metric: "${accessor}"
+            from: "utc_now-${timeRange}"
+            to: "utc_now"
+            aggregation: ${AGGREGATIONS_UPPER[aggregation.toUpperCase()]}
+          )`
+  )}
+      }
+      stats {
+        projectsCount
+      }
+    }
+  }
+`
+}

@@ -1,22 +1,8 @@
 @import '~@santiment-network/ui/variables';
 @import '~@santiment-network/ui/mixins';
 
-.upper {
-  padding: 12px 20px;
-  position: relative;
-  border-bottom: 1px solid var(--porcelain);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.composition {
-  text-align: center;
-  margin-top: 25px;
-}
-
 .content {
-  padding: 24px;
+  padding: 20px 24px;
   display: flex;
   flex-direction: column;
 }
@@ -43,13 +29,12 @@
 
   &__input {
     border: none;
-    height: 32px;
+    height: 40px;
 
     @include text-normal;
 
     color: var(--waterloo);
     padding: 6px 10px;
-    background-color: var(--white) !important;
   }
 
   &__btn {
@@ -59,6 +44,8 @@
     height: auto;
     color: var(--rhino);
     position: relative;
+    justify-content: center;
+    min-width: 84px;
 
     &::before {
       display: block;
@@ -85,11 +72,13 @@
         );
       }
     }
-  }
-}
 
-.wrapper {
-  @include responsive('desktop', 'laptop', 'tablet') {
-    min-width: 700px;
+    &_disabled {
+      background: var(--athens) !important;
+
+      &::before {
+        background: none;
+      }
+    }
   }
 }

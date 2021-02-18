@@ -6,6 +6,7 @@
   overflow-x: hidden;
   position: relative;
   overflow-y: hidden;
+  margin-bottom: 16px;
 
   &:hover {
     overflow-y: auto;
@@ -21,7 +22,6 @@
 }
 
 .item {
-  padding: 6px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -63,5 +63,9 @@
 }
 
 .anon {
+  margin-top: auto;
+}
+
+.watchlistBtn {
   margin-top: auto;
 }

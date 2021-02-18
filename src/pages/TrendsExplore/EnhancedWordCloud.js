@@ -5,7 +5,7 @@ import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
 import { getTimePeriod } from './utils'
 import Calendar from '../../ducks/Studio/AdvancedView/Calendar'
-import WordCloud from '../../components/WordCloud/WordCloud'
+import WordCloud from '../../components/WordCloud/WordCloudWithHeader'
 import styles from './EnhancedWordCloud.module.scss'
 
 const MAX_DATE = new Date()

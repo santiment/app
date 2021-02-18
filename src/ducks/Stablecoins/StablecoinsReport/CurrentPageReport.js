@@ -16,10 +16,22 @@ const REPORTS_QUERY = gql`
   }
 `
 
-export const useAlphaReports = () => {
-  const { data, loading, error } = useQuery(REPORTS_QUERY)
+let REPORTS = []
 
-  return [data ? data.getReports.reverse() : [], loading, error]
+export const useAlphaReports = () => {
+  const query = useQuery(REPORTS_QUERY)
+
+  return useMemo(
+    () => {
+      const { data, loading, error } = query
+
+      if (data && data.getReports && REPORTS.length === 0) {
+        REPORTS = data.getReports.reverse()
+      }
+      return [REPORTS, loading, error]
+    },
+    [query]
+  )
 }
 
 const IconDw = (

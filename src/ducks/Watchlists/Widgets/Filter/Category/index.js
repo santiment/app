@@ -54,14 +54,14 @@ const Category = ({
                 metric.Widget ? (
                   <metric.Widget
                     {...rest}
-                    key={metric.label}
+                    key={metric.key}
                     baseMetric={metric}
                     isViewMode={isViewMode}
                   />
                 ) : (
                   <FilterMetric
                     {...rest}
-                    key={metric.label}
+                    key={metric.key}
                     baseMetric={metric}
                     isViewMode={isViewMode}
                   />

@@ -7,7 +7,11 @@ import Icon from '@santiment-network/ui/Icon'
 import Input from '@santiment-network/ui/Input'
 import Dialog from '@santiment-network/ui/Dialog'
 import { useDebounce } from '../../hooks'
-import { formatOnlyPrice, getAlternativeBillingPlan } from '../../utils/plans'
+import {
+  formatOnlyPrice,
+  getAlternativeBillingPlan,
+  hasActiveTrial
+} from '../../utils/plans'
 import { usePlans } from '../../ducks/Plans/hooks'
 import PlansDropdown from './PlansDropdown'
 import sharedStyles from './CheckoutForm.module.scss'
@@ -62,6 +66,17 @@ const TotalPrice = connect(mapStateToProps)(
   }
 )
 
+const DiscountIcon = ({ isValid }) => {
+  if (isValid === undefined) return null
+
+  return (
+    <Icon
+      type={isValid ? 'success-round' : 'error'}
+      className={cx(styles.discount__icon, isValid && styles.valid)}
+    />
+  )
+}
+
 const DiscountInput = ({ setCoupon, isValid }) => {
   const setCouponDebounced = useDebounce(value => setCoupon(value), 500)
 
@@ -73,9 +88,10 @@ const DiscountInput = ({ setCoupon, isValid }) => {
           className={styles.input}
           placeholder='2H8vZG5P'
           name='coupon'
+          data-is-valid={isValid}
           onChange={({ currentTarget: { value } }) => setCouponDebounced(value)}
         />
-        {isValid && <Icon type='success-round' className={styles.valid} />}
+        <DiscountIcon isValid={isValid} />
       </div>
     </label>
   )
@@ -85,15 +101,17 @@ const Confirmation = ({
   plan: name,
   billing,
   price,
-  nextPaymentDate,
   loading,
-  changeSelectedPlan
+  changeSelectedPlan,
+  subscription
 }) => {
   const [plans] = usePlans()
   const [coupon, setCoupon] = useState('')
   const planWithBilling = `${name} ${billing}ly`
   const plan = { name: name.toUpperCase(), interval: billing, amount: price }
   const altPlan = getAlternativeBillingPlan(plans, plan) || {}
+
+  const isTrialActive = hasActiveTrial(subscription)
 
   return (
     <div className={sharedStyles.confirmation}>
@@ -118,12 +136,15 @@ const Confirmation = ({
           variables={{ coupon }}
           fetchPolicy='no-cache'
         >
-          {({ loading, error, data: { getCoupon } = {} }) => {
+          {({ loading: couponLoading, error, data: { getCoupon } = {} }) => {
             // NOTE: Seems like graphql is caching the last value after error even with no-cache [@vanguard | Dec 16, 2019]
             const { isValid, percentOff } = error ? {} : getCoupon || {}
             return (
               <>
-                <DiscountInput isValid={isValid} setCoupon={setCoupon} />
+                <DiscountInput
+                  isValid={!error && isValid}
+                  setCoupon={setCoupon}
+                />
                 <div className={styles.hold}>
                   <Icon className={styles.hold__icon} type='info-round' />
                   Holding 1000 SAN tokens will result in a 20% discount.
@@ -136,12 +157,15 @@ const Confirmation = ({
                     Learn how to buy SAN.
                   </a>
                 </div>
-                <TotalPrice
-                  error={error}
-                  percentOff={percentOff}
-                  price={formatOnlyPrice(price)}
-                  planWithBilling={planWithBilling}
-                />
+
+                <div className={styles.price}>
+                  <TotalPrice
+                    error={error}
+                    percentOff={isValid && percentOff}
+                    price={formatOnlyPrice(price)}
+                    planWithBilling={planWithBilling}
+                  />
+                </div>
               </>
             )
           }}
@@ -155,15 +179,10 @@ const Confirmation = ({
           className={styles.btn}
           fluid
         >
-          Go {name.toUpperCase()} now
+          {isTrialActive
+            ? `Upgrade to ${name.toUpperCase()}`
+            : 'Start 14-day free trial'}
         </Dialog.Approve>
-        <h5 className={styles.expl}>
-          Your card will be charged
-          <b> {formatOnlyPrice(price)} </b>
-          every {billing} until you decide to downgrade or unsubscribe. Next
-          payment:
-          <b> {nextPaymentDate}</b>
-        </h5>
       </div>
     </div>
   )

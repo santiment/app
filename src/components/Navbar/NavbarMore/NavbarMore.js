@@ -13,16 +13,19 @@ const NavbarMore = ({ activeLink, links }) => {
       <div className={externalStyles.wrapper}>
         <div className={cx(externalStyles.block, externalStyles.list)}>
           <div className={styles.leftBlock}>
-            {links.map((item, index) => (
-              <Button
-                key={index}
-                fluid
-                variant='ghost'
-                isActive={item.link === activeLink}
-                {...item}
-                className={externalStyles.btn}
-              />
-            ))}
+            {links.map((item, index) => {
+              const { ddParams, Dropdown, ...rest } = item
+              return (
+                <Button
+                  key={index}
+                  fluid
+                  variant='ghost'
+                  isActive={item.link === activeLink}
+                  {...rest}
+                  className={externalStyles.btn}
+                />
+              )
+            })}
           </div>
         </div>
         <div className={externalStyles.block}>

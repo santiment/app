@@ -64,6 +64,9 @@ export const Description = {
   [Metric.mvrv_usd.key]:
     'Shows the average profit or loss of all [Project ticker] holders based on the price when each token last moved. Example: if MVRV = 2, then all [Project ticker] holders are, on average, currently 2x on their initial investment.',
 
+  [Metric.mvrv_usd_intraday.key]:
+    'Shows the intraday average profit or loss of all [Project ticker] holders based on the price when each token last moved. Example: if MVRV = 2, then all [Project ticker] holders are, on average, currently 2x on their initial investment.',
+
   [Metric.transaction_volume.key]:
     'Shows the aggregate amount of [Project Ticker]  tokens across all transactions that happened on the network daily.',
 
@@ -119,7 +122,7 @@ export const Description = {
 
   [Metric.ethSpentOverTime.key]:
     'Shows the amount of ETH moved out of the project’s ICO wallets over time',
-  [Metric.minersBalance.key]:
+  [Metric.miners_balance.key]:
     'Shows the combined ETH balance of addresses belonging to Ethereum mining pools',
   [Metric.gasUsed.key]:
     'Shows the amount of Gas accrued on the Ethereum network daily. Gas is a unit that measures the amount of computational effort it will take to successfully conduct a transaction or execute a contract on the Ethereum blockchain',
@@ -291,6 +294,16 @@ export const rebuildDescriptions = Submetrics => {
           Description[
             metric.key
           ] = `Shows the average profit or loss of those holding [Project ticker] tokens which moved in the last ${convertToReadableInterval(
+            metric.replacements.timebound
+          )}, based on the price when each token last moved. Example: if MVRV = 2, then these holders are, on average, currently 2x on their initial investment. `
+        })
+        break
+      }
+      case Metric.mvrv_usd_intraday.key: {
+        list.forEach(metric => {
+          Description[
+            metric.key
+          ] = `Shows the average intraday profit or loss of those holding [Project ticker] tokens which moved in the last ${convertToReadableInterval(
             metric.replacements.timebound
           )}, based on the price when each token last moved. Example: if MVRV = 2, then these holders are, on average, currently 2x on their initial investment. `
         })

@@ -5,24 +5,25 @@ import { useDexMeasurement } from '../PriceMeasurement/DexPriceMeasurement'
 
 export const DEXs = [
   'UniswapV2',
+  'Sushiswap',
+  'Balancer',
+  'dYdX',
   '0x_v2',
   'Curve',
-  'Balancer',
-  'KyberNetwork',
-  'dYdX',
   '0x_v3',
+  'KyberNetwork',
   'Uniswap',
+  'Etherdelta',
   'Bancor',
   'Airswap',
-  'IDEX',
-  'OasisDEX',
   'Gnosis',
-  'Etherdelta',
+  'OasisDEX',
+  'IDEX',
   'DDEX',
   '0x_v1',
   'TokenStore',
   'DEX.Top',
-  'Sushiswap'
+  'Synthetix'
 ]
 
 const NumberOfTradesPerDex = ({ metrics, measurement: strictMeasurement }) => {

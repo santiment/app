@@ -10,11 +10,13 @@ export const WATCHLIST_GENERAL_FRAGMENT = gql`
     id
     isPublic
     name
+    slug
     description
     function
     insertedAt
     isMonitored
     updatedAt
+    type
     user {
       id
     }
@@ -43,7 +45,7 @@ export const ALL_WATCHLISTS_QUERY = gql`
   ${PROJECT_ITEM_FRAGMENT}
 `
 
-export const WATCHLIST_QUERY = gql`
+export const PROJECTS_WATCHLIST_QUERY = gql`
   query watchlist($id: ID!) {
     watchlist(id: $id) {
       ...generalListData
@@ -53,34 +55,16 @@ export const WATCHLIST_QUERY = gql`
           ...recentProjectData
         }
       }
+      tableConfiguration {
+        id
+        title
+        columns
+      }
     }
   }
   ${WATCHLIST_GENERAL_FRAGMENT}
   ${generalData}
   ${PROJECT_RECENT_DATA_FRAGMENT}
-`
-
-export const WATCHLIST_WITH_TRENDING_ASSETS_QUERY = gql`
-  query watchlist($id: ID!) {
-    watchlist(id: $id) {
-      ...generalListData
-      stats {
-        trendingProjects {
-          ...generalData
-          ...project
-        }
-      }
-      listItems {
-        project {
-          ...generalData
-          ...project
-        }
-      }
-    }
-  }
-  ${WATCHLIST_GENERAL_FRAGMENT}
-  ${generalData}
-  ${project}
 `
 
 export const WATCHLISTS_SETTINGS_QUERY = gql`

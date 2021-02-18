@@ -1,8 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
-import WatchlistCard from './WatchlistCard'
-import { getWatchlistLink } from '../utils'
+import ProjectCard from './ProjectCard'
+import { WatchlistCards } from './Card'
 import { DesktopOnly, MobileOnly } from './../../../components/Responsive'
 import EmptySection from '../../../components/EmptySection/EmptySection'
 import Skeleton from '../../../components/Skeleton/Skeleton'
@@ -15,9 +15,13 @@ import { useUser } from '../../../stores/user'
 import stylesGrid from './index.module.scss'
 import styles from './Watchlist.module.scss'
 
-const WatchlistEmptySection = ({ watchlists, className }) => (
+export const WatchlistEmptySection = ({
+  watchlists,
+  className,
+  wrapperClassName
+}) => (
   <EmptySection
-    className={styles.empty__row}
+    className={cx(styles.empty__row, wrapperClassName)}
     imgClassName={cx(styles.img, className)}
   >
     <div className={styles.empty__text}>
@@ -37,7 +41,7 @@ const WatchlistEmptySection = ({ watchlists, className }) => (
   </EmptySection>
 )
 
-const MyWatchlist = ({ className, showHeader = true, classes = {} }) => {
+const MyWatchlist = ({ className, showHeader = true }) => {
   const [watchlists, loading] = useUserWatchlists()
   const { isLoggedIn, loading: isLoggedInPending } = useUser()
 
@@ -72,22 +76,18 @@ const MyWatchlist = ({ className, showHeader = true, classes = {} }) => {
         <div className={styles.emptyWrapper}>
           <WatchlistEmptySection
             watchlists={watchlists}
-            className={classes.emptyWatchlists}
+            className={styles.emptyWatchlists}
           />
         </div>
       )}
       {isLoggedIn && (
         <div className={stylesGrid.wrapper}>
-          {watchlists.map(watchlist => (
-            <WatchlistCard
-              key={watchlist.id}
-              name={watchlist.name}
-              watchlist={watchlist}
-              to={getWatchlistLink(watchlist)}
-              isPublic={watchlist.isPublic}
-              {...watchlist}
-            />
-          ))}
+          <WatchlistCards
+            Card={ProjectCard}
+            watchlists={watchlists}
+            path='/watchlist/projects/'
+          />
+
           {watchlists.length > 0 && <NewWatchlistCard />}
         </div>
       )}

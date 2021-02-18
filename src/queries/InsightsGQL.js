@@ -61,14 +61,6 @@ export const ALL_INSIGHTS_BY_USER = gql`
   ${INSIGHT_COMMON_FRAGMENT}
 `
 
-export const ALL_TAGS_QUERY = gql`
-  query allTags {
-    tags: allTags {
-      name
-    }
-  }
-`
-
 export const ALL_INSIGHTS_QUERY = gql`
   query allInsights($tags: String!, $page: Int, $pageSize: Int = 10) {
     insights: allInsights(page: $page, pageSize: $pageSize, tags: $tags) {
@@ -99,7 +91,7 @@ export const PULSE_INSIGHTS_BY_PAGE_QUERY = gql`
 `
 
 export const INSIGHT_BY_ID_QUERY = gql`
-  query insightById($id: ID!) {
+  query insightById($id: Int!) {
     insight(id: $id) {
       text
       ...insightCommon

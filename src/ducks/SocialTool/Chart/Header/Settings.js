@@ -44,7 +44,7 @@ export default ({
   shareLink,
   ...rest
 }) => {
-  const { timeRange = '', from, to, title } = settings
+  const { timeRange = '', from, to, slug } = settings
 
   function onTimerangeChange (timeRange) {
     const { from, to } = getIntervalByTimeRange(timeRange.toLowerCase())
@@ -74,10 +74,7 @@ export default ({
       <ShareButton />
       <ContextMenu
         classes={{ settingsBtn: styles.settings }}
-        title={title}
-        showMulti={false}
-        showNightModeToggle={false}
-        showDownload
+        title={slug}
         setOptions={setOptions}
         {...options}
         {...rest}

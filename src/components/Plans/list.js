@@ -11,7 +11,7 @@ const PlanActionDialog = ({ subscription, ...rest }) => {
       <PlanPaymentDialog
         subscription={subscription}
         {...rest}
-        label='Buy Pro'
+        label={`Upgrade to ${rest.title}`}
       />
     ) : (
       <PlanChangeDialog subscription={subscription} {...rest} />
@@ -20,6 +20,8 @@ const PlanActionDialog = ({ subscription, ...rest }) => {
 
   return <PlanPaymentDialog subscription={subscription} {...rest} />
 }
+
+const TRIAL_LABEL = 'Start Free 14-day Trial'
 
 export default {
   FREE: {
@@ -45,7 +47,7 @@ export default {
     title: 'Pro',
     desc: 'Advanced crypto metrics and market insights',
     Component: PlanActionDialog,
-    link: 'Start Free 14-Day Trial',
+    link: TRIAL_LABEL,
     features: [
       <b>All in Free and:</b>,
       'Sanbase metrics: full historical and present-day data',
@@ -61,7 +63,7 @@ export default {
     title: 'Pro+',
     desc: 'Complete analytics & backtesting framework',
     Component: PlanActionDialog,
-    link: 'Start Free 14-Day Trial',
+    link: TRIAL_LABEL,
     features: [
       <b>All in PRO and:</b>,
       'Dedicated account manager',
@@ -74,7 +76,7 @@ export default {
   BASIC: {
     title: 'Basic',
     desc: 'Great for short-term analysis and prototyping',
-    link: 'Start Free 14-Day Trial',
+    link: TRIAL_LABEL,
     Component: PlanActionDialog,
     features: [
       'Access to all alert types',

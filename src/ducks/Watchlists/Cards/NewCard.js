@@ -5,15 +5,16 @@ import ProPopupWrapper from '../../../components/ProPopup/Wrapper'
 import LoginPopup from '../../../components/banners/feature/PopupBanner'
 import { useUserWatchlists, useUserScreeners } from '../gql/hooks'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
-import NewList from '../Actions/New'
+import NewWatchlist from '../Actions/New'
 import { Plus } from '../../../components/Illustrations/Plus'
-import styles from './WatchlistCard.module.scss'
+import styles from './NewCard.module.scss'
+import cardStyles from './Card.module.scss'
 
 const Trigger = ({ type, showProBanner, ...props }) => {
   return (
     <div
       className={cx(
-        styles.wrapper,
+        cardStyles.wrapper,
         styles.create,
         showProBanner && styles.create__disabled
       )}
@@ -28,24 +29,24 @@ const Trigger = ({ type, showProBanner, ...props }) => {
   )
 }
 
-const NewCard = ({ type = 'watchlist' }) => {
+const NewCard = ({ type = 'watchlist', ...props }) => {
   if (type === 'watchlist') {
-    return <NewWatchlistCard />
+    return <NewWatchlistCard {...props} />
   } else {
-    return <NewScreenerCard />
+    return <NewScreenerCard {...props} />
   }
 }
 
-const NewWatchlistCard = () => {
+const NewWatchlistCard = ({ createWatchlist }) => {
   const [watchlists = []] = useUserWatchlists()
-  let lists = watchlists
 
   return (
     <LoginPopup trigger={props => <Trigger type='watchlist' {...props} />}>
-      <NewList
-        lists={lists}
+      <NewWatchlist
+        lists={watchlists}
         trigger={<Trigger type='watchlist' />}
         type='watchlist'
+        createWatchlist={createWatchlist}
       />
     </LoginPopup>
   )
@@ -60,7 +61,7 @@ const NewScreenerCard = () => {
       <Trigger showProBanner type='screener' />
     </ProPopupWrapper>
   ) : (
-    <NewList
+    <NewWatchlist
       lists={screeners}
       trigger={<Trigger type='screener' />}
       type='screener'

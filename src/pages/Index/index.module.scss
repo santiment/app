@@ -20,6 +20,10 @@
 
   &_main {
     display: flex;
+
+    @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+      padding: 0 16px;
+    }
   }
 }
 

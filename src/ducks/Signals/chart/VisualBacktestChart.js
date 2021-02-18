@@ -8,7 +8,7 @@ import {
   ReferenceDot
 } from 'recharts'
 import cx from 'classnames'
-import Gradients from '../../Watchlists/Widgets/WatchlistOverview/Gradients'
+import Gradients from '../../../components/Gradients'
 import { generateMetricsMarkup } from '../../SANCharts/utils'
 import CustomTooltip from './../../SANCharts/CustomTooltip'
 import { useChartColors } from '../../Chart/colors'
@@ -33,6 +33,7 @@ export function GetReferenceDots (signals, yAxisId) {
     />
   ))
 }
+
 const renderChart = (data, { key, dataKey = key }, markup, referenceDots) => {
   return (
     <ComposedChart data={data} margin={{ left: 0, right: 0, top: 16 }}>

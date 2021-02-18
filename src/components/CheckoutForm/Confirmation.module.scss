@@ -2,7 +2,9 @@
 @import '~@santiment-network/ui/variables';
 
 .form {
-  height: calc(100% - 36px);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .dai {
@@ -23,6 +25,14 @@
   position: relative;
   margin-bottom: 16px;
   margin-top: 3px;
+
+  &__icon {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    fill: var(--persimmon);
+  }
 }
 
 .label {
@@ -33,6 +43,8 @@
 
 .check {
   color: var(--waterloo);
+  display: flex;
+  flex-direction: column;
 
   &__label {
     display: flex;
@@ -50,10 +62,11 @@
     color: var(--rhino);
     padding-top: 20px;
     border-top: 1px solid var(--porcelain);
-    margin-top: 16px;
+    margin-top: auto;
     align-items: flex-end;
 
-    @include text('body-2', 'm'); }
+    @include text('body-2', 'm');
+  }
 
   &__price {
     @include text('h4', 'l');
@@ -61,10 +74,6 @@
 }
 
 .valid {
-  position: absolute;
-  top: 50%;
-  right: 16px;
-  transform: translateY(-50%);
   fill: var(--jungle-green);
 }
 
@@ -134,8 +143,9 @@
   position: relative;
   border-radius: $border-radius;
   color: var(--mirage);
+  fill: var(--mirage);
   padding: 12px 16px 8px 40px;
-  background: #ecfaf6;
+  background: var(--jungle-green-light);
   margin-bottom: 32px;
 
   &__icon {
@@ -150,7 +160,7 @@
 .btn {
   height: 40px;
   justify-content: center;
-  margin: 20px 0 12px;
+  margin: 20px 0 0 0;
   color: var(--white);
   background: var(--jungle-green) !important;
   width: 100% !important;
@@ -162,14 +172,6 @@
     color: var(--white) !important;
     background: var(--jungle-green-hover) !important;
   }
-}
-
-.expl {
-  @include text('caption', 'm');
-
-  color: var(--waterloo);
-  text-align: center;
-  margin: 12px 0 0 0;
 }
 
 .input {
@@ -188,4 +190,8 @@
   &:hover {
     color: var(--jungle-green-hover);
   }
+}
+
+.price {
+  margin-top: auto;
 }

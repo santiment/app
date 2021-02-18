@@ -1,0 +1,23 @@
+@import '~@santiment-network/ui/mixins';
+
+.skeleton {
+  min-height: 114px;
+  width: 100%;
+}
+
+.skeletonWrapper {
+  width: 100%;
+}
+
+.wrapper {
+  @include text('h4');
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  border-radius: $border-radius;
+  padding-top: 24px;
+}

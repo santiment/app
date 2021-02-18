@@ -2,15 +2,19 @@
 
 .btn {
   border: 1px solid var(--porcelain);
-  color: var(--mirage);
   text-decoration: none;
   padding: 8px 10px;
   display: flex;
   width: 40px;
   height: 40px;
-  margin-right: 8px;
+  margin-right: 12px;
   align-items: center;
   justify-content: center;
+  fill: var(--rhino);
+
+  @include responsive('phone-xs') {
+    margin-right: 0;
+  }
 
   &:last-child {
     margin: 0;
@@ -43,17 +47,23 @@
   width: 20px;
   height: 20px;
   text-align: center;
-  fill: var(--rhino) !important;
+  transition: fill 0.2s ease-out;
 }
 
 .share {
   display: flex;
+
+  @include responsive('phone-xs', 'phone') {
+    justify-content: space-between;
+  }
 }
 
 .block {
-  margin-top: 32px;
+  margin-top: 24px;
 }
 
 .title {
-  margin-bottom: 8px;
+  margin-bottom: 16px;
+
+  @include text('body-3');
 }

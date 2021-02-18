@@ -6,9 +6,8 @@ export const TOPICS = [
   { slug: 'vaccine', title: 'Vaccine' },
   { slug: 'ledger AND phishing', title: 'Ledger Phishing' },
   {
-    slug: 'infura',
-    title: 'Infura outage',
-    query: 'infura?asset=yearn-finance&ticker=YFI'
+    slug: 'gme OR wsb OR gamestop OR squeeze',
+    title: 'Wall Street Bets pumps'
   },
   { slug: 'lockdown', title: 'Lockdown' },
   { slug: 'usdc AND visa', title: 'Visa Partners with Circle' },
@@ -33,14 +32,18 @@ export const TOPICS = [
   },
   { slug: 'xlm', title: 'Stellar Pump', query: 'xlm?asset=stellar&ticker=XLM' },
   { slug: 'alts', title: 'Alts' },
-  { slug: 'oxt', title: 'OXT listing on Binance' },
+  { slug: 'elon AND musk AND doge', title: 'Musk and Dogecoin' },
   {
     slug: 'bnt',
     title: 'Bancor Coinbase Listing Pump',
     query: 'bnt?asset=bancor&ticker=BNT'
   },
   { slug: 'stimulus', title: 'Stimulus' },
-  { slug: 'iotex', title: 'IOTEX AMA' },
+  {
+    slug: 'eth AND ath',
+    title: 'Ethereum ATH',
+    query: 'eth%20AND%20ath?asset=ethereum&ticker=ETH'
+  }
 ]
 
 export const INDEX_PAGE_GROUPS = [
@@ -49,6 +52,11 @@ export const INDEX_PAGE_GROUPS = [
     description:
       'The most popular topics in crypto social media. Ranges from worldwide economic and health topics to the prices discussions',
     topics: [
+      {
+        title: 'Wall Street Bets pumps',
+        slug: 'gme OR wsb OR gamestop OR squeeze',
+        createdAt: '2021-01-03T08:07:20.922Z'
+      },
       {
         title: 'Pornhub Accepts Only Crypto',
         slug: 'porn OR pornhub',
@@ -76,11 +84,6 @@ export const INDEX_PAGE_GROUPS = [
         query:
           '(ripple%20OR%20xrp)%20AND%20(airdrop%20OR%20snapshot)?asset=ripple&ticker=XRP',
         createdAt: '2020-12-17T07:19:20.922Z'
-      },
-      {
-        title: 'Vaccine News',
-        slug: 'vaccine',
-        createdAt: '2020-12-17T08:07:20.922Z'
       }
     ]
   }

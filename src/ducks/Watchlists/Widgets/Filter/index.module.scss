@@ -2,7 +2,7 @@
 @import '../../../../animations.scss';
 
 :root {
-  --filter-panel-header-height: 154px;
+  --filter-panel-header-height: 267px;
   --screener-top-panel-height: 64px;
 }
 
@@ -97,7 +97,7 @@
 }
 
 .top {
-  margin: 19px 32px 19px;
+  margin: 19px 32px 32px;
   display: flex;
   align-items: stretch;
   min-height: 32px;

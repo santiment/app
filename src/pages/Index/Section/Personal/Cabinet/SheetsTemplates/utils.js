@@ -1,38 +1,75 @@
 import styles from './SheetsTemplates.module.scss'
 import React from 'react'
 
+const ExternalLink = ({ href, children }) => {
+  return (
+    <a
+      className={styles.link}
+      target='_blank'
+      rel='noopener noreferrer'
+      href={href}
+    >
+      {children}
+    </a>
+  )
+}
+
 export const SheetsTemplatesList = [
   {
-    title: 'Maximal Mean Dollar Age Template',
+    title: 'Holders Distribution',
+    linkToTemplate:
+      'https://docs.google.com/spreadsheets/d/130DSq8KPXIEGBn25HQeI5-dCSeoDTwR6rR8UXC5b0gw/view'
+  },
+  {
+    title: 'MVRV Danger & Opportunity Zones',
     description: (
       <>
-        This template visualizes the Mean Dollar Age of Bitcoin, Ethereum and
-        various ERC20 coins in comparison to one another.
+        It’s extremely helpful to have context when understanding where we are
+        in the markets, and how average traders are returning profits or
+        accumulating losses. The MVRV metric on Santiment allows us to see how
+        average traders are performing over various timeframes, with the
+        implication being that prime buy opportunities are when the crowd is at
+        a loss, and prime sell opportunities are when the crowd has seen major
+        profits.
         <div className={styles.block}>
-          Developed by Santiment, Mean Dollar Age calculates the average age of
-          all dollars invested in acquiring a particular coin.
+          This template provides an up-to-date analysis of how high (or low)
+          average trader returns are by averaging several key timeframes
+          together, and tells us how close 20+ assets are to 'Opportunity Zones'
+          (historic good buy zones) or 'Danger Zones' (historic good sell
+          zones). The closer an asset is to the green dashed line, the less risk
+          there is in opening a current long investment. The closer an asset is
+          to the red dashed line, the more risk there is in opening a current
+          long investment.
         </div>
         <div className={styles.block}>
-          This metric identifies accumulation and sell cycles for any coin, and
-          identifying dips in Mean Dollar Age can serve as a novel bullish
-          indicator.
+          In a zero sum game like cryptocurrency trading, gauging exactly how a
+          current investment in real-time would do vs. the competition of
+          traders is a powerful measurement to have at your disposal.
         </div>
       </>
     ),
     linkToTemplate:
-      'https://docs.google.com/spreadsheets/d/1b4POwppuzzcMmb7_Kjs0ZJ7u-G9rVEGzMQ_uNmIeTVo/view'
+      'https://docs.google.com/spreadsheets/d/1wYTvxKYNYry_pJ-RB4kzbpVF60c26RlTfkMla05jG34/edit?usp=sharing'
   },
   {
     title: 'Top Holders Supply',
     description: (
       <>
-        Crypto is still a whale's playground. This template monitors the
-        behavior of the biggest addresses holding Ethereum as well as various
-        ERC-20 coins.
+        Crypto is still a whale's playground.{' '}
+        <ExternalLink href='https://insights.santiment.net/read/top-token-holders-and-their-role-as-leading-indicators-5618'>
+          This template
+        </ExternalLink>{' '}
+        monitors the behavior of the biggest addresses holding Ethereum as well
+        as various ERC-20 coins.
         <div className={styles.block}>
-          The template includes a dozen views of top whales' behavior, including
-          balance changes, big accumulation/sell-off events and week-to-week
-          adjustments to total supply held.
+          The charts included includes fluctuations in the top 1, 10, or 100
+          largest addresses, respectively. Discover these whales' changes in
+          total supply held, big accumulation/sell-off events, and week-to-week
+          adjustments. Seeing what percentage of the total supply a group of
+          whales owns also lets you know just how significant any decisions they
+          make will be. For example, Ethereum's top 10 exchange holders don't
+          hold nearly as high of a percent of the total supply that Fetch's top
+          10 holders do.
         </div>
       </>
     ),
@@ -59,13 +96,15 @@ export const SheetsTemplatesList = [
       </>
     )
   },
+
   {
-    title: 'NVT Template',
+    title: 'NVT Token Circulation',
     description: (
       <>
-        This template calculates the NVT for BTC, ETH and several ERC-20 coins,
-        and assigns a bullish/bearish value to its historical and present-day
-        performance.
+        This template calculates the NVT (Network Value to Transactions) for
+        Bitcoin, Ethereum, and several ERC-20 coins, and assigns a
+        bullish/bearish value to its historical and present-day performance.
+        This is more of a longer-term monthly indicator, and is set up as such.
         <div className={styles.block}>
           The idea behind the NVT is simple - if the value transferred on the
           network (token circulation) is too low relative to the network's
@@ -83,38 +122,31 @@ export const SheetsTemplatesList = [
       'https://docs.google.com/spreadsheets/d/1CpPBVgJJ-6T5EIKHkeMKBG954Rp5HlEHtevSzXOns1Y/view'
   },
   {
-    title: 'Price-DAA Divergence Template',
+    title: 'Daily Active Addresses Divergence',
     description: (
       <>
-        We have found that major differences in the coin's price and network
-        activity trends can present opportune times to buy OR sell, depending on
-        the trend's direction.
+        We{' '}
+        <ExternalLink href='https://insights.santiment.net/read/price---daily-addresses-divergence%3A-%0Aa-primer-on-on-chain-trading-strategies-2222'>
+          have found
+        </ExternalLink>{' '}
+        that major differences in an asset's price and address (network)
+        activity trends can present opportune times to buy OR sell. By looking
+        at years of historical context for how apart the price vs. daily active
+        address activity of a coin is, the green vs. red daily bars on this
+        chart provide an accurate analysis of how overvalued or undervalued an
+        asset currently sits based on one of the most accurately tied crypto
+        metrics to indicate future price.
         <div className={styles.block}>
-          This template triggers BUY and SELL signals for Bitcoin and Ethereum
-          based on major divergences in price and the amount of daily addresses
-          interacting with the coin.
+          Over 30 different assets are available to study deviations, and more
+          ERC-20's can be added via your own downloadable copy of this
+          spreadsheet at any time!
         </div>
-      </>
-    ),
-    linkToTemplate:
-      'https://docs.google.com/spreadsheets/u/1/d/1Wu-d_uBuvLp3FoNqz3azzbNzFr8Zaw2n6bcLLsQxNGc/view'
-  },
-  {
-    title: 'Network Growth & Daily Active Addresses Template',
-    description: (
-      <>
-        This template compares the amount of network growth and daily active
-        address percentage changes of Bitcoin, Ethereum, and other projects over
-        time. In general, many projects create new addresses at similar
-        percentage rate to one another as markets ebb and flow. Identifying
-        which projects are creating new addresses and growing their network at a
-        faster rate than their price is generally an excellent strategy to find
-        buy low opportunities.
       </>
     ),
     linkToTemplate:
       'https://docs.google.com/spreadsheets/d/1opTpz2lDBXd9o6izMoUHzTWEU-pw-UAD2CuI-s4BWoA/view'
   },
+
   {
     title: 'Top Transactions',
     linkToTemplate:
@@ -142,58 +174,20 @@ export const SheetsTemplatesList = [
     )
   },
   {
-    title: 'MVRV and MVRV Long/Short Difference Ratio Template',
+    title: 'Thresholds Crossed',
     description: (
       <>
-        The MVRV ratio is found by dividing the market cap (market value or MV)
-        by realized cap (total realized value or RV), and it provides us with a
-        solid estimate of just how overvalued or undervalued the current market
-        cap is.
+        The next time you hear someone claim that 'Bitcoin will never fall below
+        $19,000 again', refer them to this model. More than anything, this model
+        provides context and clarity to just what kind of roller coaster the
+        crypto markets can be, and why you can't get too high or too low any
+        time BTC or ETH break a significant price barrier.
         <div className={styles.block}>
-          Additionally, we offer the MVRV Long/Short Difference comparison on
-          this template to visualize which projects are over or under their line
-          of average profitable traders. If the ratio is above 0%, then on
-          average. Ethereum holders will profit if they sell their coins now. If
-          it is below 0%, then the average holder will realize a loss if they
-          sell.
-        </div>
-      </>
-    ),
-    linkToTemplate:
-      'https://docs.google.com/spreadsheets/d/1wYTvxKYNYry_pJ-RB4kzbpVF60c26RlTfkMla05jG34/view'
-  },
-  {
-    title: 'Velocity Vs. Price Template',
-    description: (
-      <>
-        Velocity is an underutilized way to research how quickly money is
-        circulating in the crypto economy. It's calculated by dividing a token's
-        transaction volume (in USD) by its market cap (in USD).
-        <div className={styles.block}>
-          Similar to the Daily Active Addresses Template, this model visualizes
-          when tokens are being overbought or oversold based on the historical
-          ebbs and flows of its velocity metric.
-        </div>
-      </>
-    ),
-    linkToTemplate:
-      'https://docs.google.com/spreadsheets/d/1FMyF31TI-ak7qFvIWSXF4LXhsQ5gtHFiS4USTvtowOc/view'
-  },
-  {
-    title: 'Thresholds Crossed Template',
-    description: (
-      <>
-        Understanding how many times a price of a project has moved above or
-        below a round number USD value, or a psychological barrier, can provide
-        great perspective in understanding just how cyclical the cryptocurrency
-        markets are. For those who believe that a cross above a certain level
-        likely means that "it will never fall back below again" can be shown
-        just how often prices have reset time and time again.
-        <div className={styles.block}>
-          This template is great for understanding support levels, and where
-          prices most commonly see a great deal of push and pull, along with
-          psychological polarization among traders. It can be used well to your
-          advantage.
+          The next time you hear someone claim that 'Bitcoin will never fall
+          below $19,000 again', refer them to this model. More than anything,
+          this model provides context and clarity to just what kind of roller
+          coaster the crypto markets can be, and why you can't get too high or
+          too low any time BTC or ETH break a significant price barrier.
         </div>
       </>
     ),
@@ -230,22 +224,6 @@ export const SheetsTemplatesList = [
         </div>
       </>
     )
-  },
-  {
-    title: 'Most Profitable Days for Trading Cryptocurrency',
-    description: (
-      <>
-        As we've tested in the past, knowing which days have the best historical
-        ROI can help reduce risk and craft effective market alphas.
-        <div className={styles.block}>
-          This template determines the best trading days (historically) for any
-          coin in the Santiment database, with adjustable time ranges for Pro
-          users.
-        </div>
-      </>
-    ),
-    linkToTemplate:
-      'https://docs.google.com/spreadsheets/d/1yIkiTfyvEHfNiZ93JfqjPCOTUmnIrZco_se5r6O6mgc/view'
   },
   {
     title: 'Distribution Index',

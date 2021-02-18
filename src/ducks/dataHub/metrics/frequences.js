@@ -41,11 +41,7 @@ const Sentiment = (
     <Link href='https://academy.santiment.net/products-and-plans/access-plans/'>
       on request
     </Link>
-    . Currently the time intervals we use are the following:
-    <div className={styles.block}>
-      In <Link href='https://graphs.santiment.net/social'>Sanbase Graphs</Link>:
-      6h, 12h, 1d.
-    </div>
+    . Currently the time intervals we use are the following: 6h, 12h, 1d.
   </div>
 )
 
@@ -63,6 +59,7 @@ const Frequences = {
   [Metric.exchange_outflow.key]: FiveMinute,
   [Metric.exchange_balance.key]: FiveMinute,
   [Metric.mvrv_usd.key]: Daily,
+  [Metric.mvrv_usd_intraday.key]: Daily,
   [Metric.mean_age.key]: Daily,
   [Metric.nvt.key]: Daily,
   [Metric.network_growth.key]: Daily,

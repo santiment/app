@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import Button from './Button'
 import LineActions from './LineActions'
 import { CursorType } from '../../../Chart/cursor'
-import { useIsBetaMode } from '../../../../stores/ui'
 import styles from './index.module.scss'
 
 const CursorControl = ({ cursorType, toggleCursorType }) => (
@@ -47,14 +46,12 @@ const Controls = ({
   isNewDrawingState,
   rerenderWidgets
 }) => {
-  const isBetaMode = useIsBetaMode()
-
   useEffect(rerenderWidgets, [isDrawingState[0]])
 
   return (
     <div className={styles.wrapper}>
       <CursorControl {...chartCursor} />
-      {isBetaMode && <LineDrawControl isNewDrawingState={isNewDrawingState} />}
+      <LineDrawControl isNewDrawingState={isNewDrawingState} />
 
       {selectedLineState[0] && (
         <LineActions

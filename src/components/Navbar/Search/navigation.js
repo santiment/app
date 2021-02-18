@@ -11,6 +11,7 @@ const NAV_KEYS = new Set([
 const COLUMNS = [
   'Recently searched',
   'Assets',
+  'Wallets',
   'Trending words',
   'Insights',
   'People'

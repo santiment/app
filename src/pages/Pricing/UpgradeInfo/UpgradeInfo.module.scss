@@ -78,6 +78,7 @@
   input {
     height: 40px;
     padding-right: 235px !important;
+    padding-left: 33px !important;
 
     @include responsive('phone', 'phone-xs') {
       height: 48px;

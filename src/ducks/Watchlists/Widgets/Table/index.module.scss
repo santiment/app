@@ -7,7 +7,7 @@
 .table {
   min-width: max-content;
   width: auto;
-  border-bottom: 60px solid var(--white);
+  table-layout: fixed;
 }
 
 .pagination {

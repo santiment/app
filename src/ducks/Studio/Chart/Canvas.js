@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import Insights from './Insights'
 import IcoPrice from './IcoPrice'
 import LastDayPrice from './LastDayPrice'
@@ -9,28 +9,33 @@ import Bars from '../../Chart/Bars'
 import GreenRedBars from '../../Chart/GreenRedBars'
 import Tooltip from '../../Chart/Tooltip'
 import Drawer from '../../Chart/Drawer'
-import Axes from '../../Chart/Axes'
+import Axes from '../../Chart/MultiAxes'
 import CartesianGrid from '../../Chart/CartesianGrid'
-import { useAxesMetricsKey } from '../../Chart/hooks'
+import { useMultiAxesMetricKeys } from '../../Chart/hooks'
 import Watermark from '../../Chart/Watermark'
 import Brush from '../../Chart/Brush'
 import Signals from '../../Chart/Signals'
-import { useIsBetaMode } from '../../../stores/ui'
 import styles from './index.module.scss'
 
 const PADDING = {
   top: 10,
-  right: 50,
   bottom: 73,
   left: 5
 }
 
-const DOUBLE_AXIS_PADDING = {
-  ...PADDING,
-  left: 50
-}
+export const getMultiAxesChartPadding = (axesMetricKeys, axesOffset = 50) =>
+  Object.assign(
+    {
+      right: axesMetricKeys.length * axesOffset
+    },
+    PADDING
+  )
+
+const useChartPadding = axesMetricKeys =>
+  useMemo(() => getMultiAxesChartPadding(axesMetricKeys), [axesMetricKeys])
 
 const Canvas = ({
+  widget,
   data,
   brushData,
   metrics,
@@ -52,19 +57,23 @@ const Canvas = ({
   setIsICOPriceDisabled,
   ...props
 }) => {
-  const isBetaMode = useIsBetaMode()
-  const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
+  const axesMetricKeys = useMultiAxesMetricKeys(
+    widget,
+    metrics,
+    props.domainGroups
+  )
+  const padding = useChartPadding(axesMetricKeys)
   const isDrawing = isDrawingState[0]
   const { from, to } = settings
-  const { isCartesianGridActive, isWatermarkLighter } = options
+  const {
+    isCartesianGridActive,
+    isWatermarkLighter,
+    isWatermarkVisible
+  } = options
 
   return (
-    <ResponsiveChart
-      padding={axesMetricKeys[1] ? DOUBLE_AXIS_PADDING : PADDING}
-      {...props}
-      data={data}
-    >
-      <Watermark light={isWatermarkLighter} />
+    <ResponsiveChart padding={padding} {...props} data={data}>
+      {isWatermarkVisible && <Watermark light={isWatermarkLighter} />}
       <GreenRedBars />
       <Bars />
       <Areas />
@@ -72,16 +81,14 @@ const Canvas = ({
       <Axes metrics={axesMetricKeys} />
       {isCartesianGridActive && <CartesianGrid />}
 
-      {isBetaMode && (
-        <Drawer
-          metricKey={axesMetricKeys[0]}
-          data={data}
-          drawings={drawings}
-          selectedLineState={selectedLineState}
-          isDrawingState={isDrawingState}
-          isNewDrawingState={isNewDrawingState}
-        />
-      )}
+      <Drawer
+        metricKey={axesMetricKeys[0]}
+        data={data}
+        drawings={drawings}
+        selectedLineState={selectedLineState}
+        isDrawingState={isDrawingState}
+        isNewDrawingState={isNewDrawingState}
+      />
 
       <Tooltip
         metric={axesMetricKeys[0]}

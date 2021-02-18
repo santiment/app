@@ -122,12 +122,18 @@ function parseMetricSetting (
 function extractMergedMetrics (metrics) {
   const mergedMetrics = []
   const cleanedMetricKeys = []
+  let isPriceUnhandled = true
 
   for (let i = 0; i < metrics.length; i++) {
     const metric = metrics[i]
     const mergedMetricKeys = metric.split(MERGED_DIVIDER)
     if (mergedMetricKeys.length < 2) {
-      cleanedMetricKeys.push(metric)
+      if (isPriceUnhandled && metric === Metric.price_usd.key) {
+        isPriceUnhandled = false
+        cleanedMetricKeys.unshift(metric)
+      } else {
+        cleanedMetricKeys.push(metric)
+      }
       continue
     }
 
@@ -178,6 +184,26 @@ function parseMetric (key, ParsedKeyMetric, SharedKeyComparable) {
   return getMetricByKey(key)
 }
 
+function parseAxesMetrics (
+  axesMetrics,
+  metrics,
+  SharedKeyIndicator,
+  SharedKeyComparable
+) {
+  if (!axesMetrics) return [new Set(), new Set()]
+
+  const axesMetricSet = new Set()
+  const disabledAxesMetricSet = new Set(metrics)
+
+  axesMetrics.forEach(key => {
+    const metric = parseMetric(key, SharedKeyIndicator, SharedKeyComparable)
+    disabledAxesMetricSet.delete(metric)
+    axesMetricSet.add(metric)
+  })
+
+  return [axesMetricSet, disabledAxesMetricSet]
+}
+
 export function parseSharedWidgets (sharedWidgets, project) {
   return sharedWidgets.map(
     ({
@@ -188,7 +214,8 @@ export function parseSharedWidgets (sharedWidgets, project) {
       colors,
       settings,
       indicators,
-      drawings
+      drawings,
+      axesMetrics
     }) => {
       const [
         parsedMetricIndicators,
@@ -207,8 +234,17 @@ export function parseSharedWidgets (sharedWidgets, project) {
         .concat(comparedMetrics)
         .concat(holderMetrics)
 
+      const [axesMetricSet, disabledAxesMetricSet] = parseAxesMetrics(
+        axesMetrics,
+        parsedMetrics,
+        SharedKeyIndicator,
+        SharedKeyComparable
+      )
+
       return TypeToWidget[widget].new({
         drawings,
+        axesMetricSet,
+        disabledAxesMetricSet,
         mergedMetrics: holderMetrics,
         metrics: parsedMetrics,
         connectedWidgets: connectedWidgets

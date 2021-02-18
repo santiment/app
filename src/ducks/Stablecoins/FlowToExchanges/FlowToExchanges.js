@@ -3,11 +3,11 @@ import ProjectIcon from '../../../components/ProjectIcon/ProjectIcon'
 import { formatNumber } from '../../../utils/formatting'
 import styles from './FlowToExchanges.module.scss'
 
-const FlowToExchanges = ({ item: { slug, ticker, name, value } }) => {
+const FlowToExchanges = ({ item: { slug, ticker, name, value, logoUrl } }) => {
   return (
     <div className={styles.container}>
       <div className={styles.title}>
-        <ProjectIcon size={36} slug={slug} />
+        <ProjectIcon size={36} slug={slug} logoUrl={logoUrl} />
         <div className={styles.name}>{name}</div>
         <div className={styles.value}>
           {formatNumber(value)} {ticker}

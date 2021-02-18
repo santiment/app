@@ -41,8 +41,6 @@ const EthSpentTable = () => {
                   isStickyHeader: true
                 },
                 paginationSettings: {
-                  pageSize: 10,
-                  pageIndex: 0,
                   pageSizeOptions: [10, 25, 50]
                 }
               }}

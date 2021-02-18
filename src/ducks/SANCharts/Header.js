@@ -10,7 +10,7 @@ import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import { mapSizesToProps } from '../../utils/withSizes'
-import Range from '../Watchlists/Widgets/WatchlistOverview/Range'
+import Range from '../Watchlists/Widgets/WatchlistOverview/WatchlistAnomalies/Range'
 import ChartSignalCreationDialog from './ChartSignalCreationDialog'
 import PercentChanges from '../../components/PercentChanges'
 import AddToWatchlist from '../Watchlists/Actions/Add'
@@ -65,12 +65,13 @@ export const ProjectSelector = ({
   trigger = () => <ProjectInfo {...project} slug={slug} />
 }) => (
   <GetProjects
-    render={({ allProjects }) => {
+    render={({ allProjects, isLoading }) => {
       const array =
         allProjects && allProjects.length === 0 ? ALL_PROJECTS : allProjects
 
       return (
         <TriggerProjectsSelector
+          isLoading={isLoading}
           projects={array}
           target={{ slug }}
           isSingle={true}

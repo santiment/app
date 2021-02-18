@@ -1,7 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import { Button, Icon } from '@santiment-network/ui'
-import { Link } from 'react-router-dom'
+import Icon from '@santiment-network/ui/Icon'
 import {
   DAILY_ACTIVE_ADDRESSES,
   ETH_WALLET,
@@ -15,8 +14,12 @@ import styles from './SignalControls.module.scss'
 
 const getIconStyles = (type, metric) => {
   switch (type) {
+    case METRIC_TYPES.DAILY_METRIC_SIGNAL:
     case METRIC_TYPES.METRIC_SIGNAL: {
-      if (metric === SIGNAL_METRIC_TYPES.active_addresses_24h) {
+      if (
+        metric === SIGNAL_METRIC_TYPES.daily_active_addresses ||
+        metric === SIGNAL_METRIC_TYPES.active_addresses_24h
+      ) {
         return ['connection', styles.iconConnection]
       } else {
         return ['finance', styles.iconFinance]
@@ -47,11 +50,3 @@ export const SignalTypeIcon = ({ type, metric, className }) => {
     </div>
   )
 }
-
-export const SettingsSignalButton = ({ id }) => (
-  <Button variant='ghost'>
-    <Link to={`/sonar/signal/${id}/edit`}>
-      <Icon type='settings' />
-    </Link>
-  </Button>
-)

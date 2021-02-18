@@ -1,37 +1,9 @@
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import {
   COLUMNS_SETTINGS,
   COMMON_SETTINGS,
   CATEGORIES_SETTINGS
 } from './columns'
-
-export const useVisibleItems = () => {
-  const [visibleItems, setVisibleItems] = useState([])
-
-  const changeVisibleItems = useCallback(
-    ({ pageIndex, pageSize, rows }) => {
-      const startIndex = pageIndex * pageSize
-      const lastIndex = startIndex + pageSize
-
-      const visibleSlugs = rows
-        .slice(startIndex, lastIndex)
-        .map(({ original: { slug } }) => slug)
-
-      if (
-        visibleSlugs.length > 0 &&
-        JSON.stringify(visibleSlugs) !== JSON.stringify(visibleItems)
-      ) {
-        setVisibleItems(visibleSlugs)
-      }
-    },
-    [setVisibleItems, visibleItems]
-  )
-
-  return {
-    visibleItems,
-    changeVisibleItems
-  }
-}
 
 export const useColumns = category => {
   const { hiddenColumns } = CATEGORIES_SETTINGS[category] || COMMON_SETTINGS

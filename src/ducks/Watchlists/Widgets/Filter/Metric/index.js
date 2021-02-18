@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import {
   getFilterType,
   extractParams,
-  getTimeRangesByMetric,
   extractFilterByMetricType
 } from '../detector'
+import { getTimeRangesByMetric } from '../dataHub/metrics'
 import { Filter } from '../dataHub/types'
 import MetricState from './MetricState'
 import MetricSettings from './MetricSettings'

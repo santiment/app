@@ -1,5 +1,18 @@
 @import '~@santiment-network/ui/mixins';
 
+.cell {
+  border-right: 1px solid var(--porcelain);
+  border-bottom: 1px solid var(--porcelain);
+  word-break: break-word;
+  white-space: break-spaces;
+
+  @include text('body-3');
+
+  &:last-child {
+    border-right: none;
+  }
+}
+
 .table {
   width: 100%;
   border-spacing: 0;
@@ -10,6 +23,12 @@
 
   tr:last-child td:first-child {
     border-bottom: 0;
+  }
+
+  tr:last-child {
+    .cell {
+      border-bottom: none;
+    }
   }
 }
 
@@ -25,19 +44,6 @@
 
   &:first-child {
     border-top: 0;
-  }
-}
-
-.cell {
-  border-right: 1px solid var(--porcelain);
-  border-bottom: 1px solid var(--porcelain);
-  word-break: break-word;
-  white-space: break-spaces;
-
-  @include text('body-3');
-
-  &:last-child {
-    border-right: none;
   }
 }
 

@@ -1,10 +1,5 @@
 @import '~@santiment-network/ui/mixins';
 
-.content {
-  padding: 20px 24px;
-  width: 480px;
-}
-
 .trigger {
   margin: 0;
   background: inherit;
@@ -15,19 +10,27 @@
   }
 }
 
-.actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.text {
-  @include text('body-3');
-
-  color: var(--waterloo);
-  margin: 0 0 24px;
-}
-
 .toggle {
   width: auto;
+  position: absolute;
+  right: 16px;
+  bottom: 24px;
+}
+
+.messageWrapper {
+  overflow: hidden;
+  height: 58px;
+  opacity: 1;
+  transition-property: height, opacity;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+
+  &__hide {
+    height: 1px;
+    opacity: 0;
+  }
+}
+
+.message {
+  margin-bottom: 16px;
 }

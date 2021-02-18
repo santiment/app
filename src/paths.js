@@ -10,6 +10,8 @@ export const PATHS = {
   STUDIO: '/studio',
   CHARTS: '/charts',
   STABLECOINS: '/stablecoins',
+  ETH2: '/eth2',
+  ETH_ANALYSIS: '/eth-analysis',
   UNISWAP_PROTOCOL: '/uniswap-protocol',
   SHEETS_TEMPLATES: '/sheets/daa-vs-price',
   LABELS: '/labels',

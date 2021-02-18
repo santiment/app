@@ -97,8 +97,9 @@ export const Studio = ({
       : deduceItems(widget.metrics, metric)
 
     if (metrics.length < widget.metrics.length) {
-      widget.MetricSettingMap.delete(metric)
-      // TODO: delete color [@vanguard | Nov  3, 2020]
+      widget.MetricSettingMap.delete(metric) // TODO: delete color [@vanguard | Nov  3, 2020]
+      widget.axesMetricSet.delete(metric)
+      widget.disabledAxesMetricSet.delete(metric)
     }
 
     if (
@@ -220,7 +221,13 @@ export const Studio = ({
 
     const newMetrics = new Set([...widget.metrics, ...appliedMetrics])
 
-    widget.metrics = [...newMetrics]
+    if (newMetrics.has(Metric.price_usd)) {
+      newMetrics.delete(Metric.price_usd)
+      widget.metrics = [Metric.price_usd, ...newMetrics]
+    } else {
+      widget.metrics = [...newMetrics]
+    }
+
     widget.connectedWidgets = mergeConnectedWidgetsWithSelected(
       widget.connectedWidgets,
       appliedWidgets
@@ -238,11 +245,19 @@ export const Studio = ({
     appliedMetrics = selectedMetrics,
     scrollIntoViewOnMount
   ) {
+    const metricSet = new Set(appliedMetrics)
+    let metrics = appliedMetrics
+
+    if (metricSet.has(Metric.price_usd)) {
+      metricSet.delete(Metric.price_usd)
+      metrics = [Metric.price_usd, ...metricSet]
+    }
+
     setWidgets([
       ...widgets,
       ChartWidget.new({
         scrollIntoViewOnMount,
-        metrics: appliedMetrics,
+        metrics,
         MetricSettingMap: selectedMetricSettingsMap,
         connectedWidgets: mergeConnectedWidgetsWithSelected([], selectedWidgets)
       })
@@ -309,6 +324,7 @@ export const Studio = ({
             onClose={onOverviewClose}
             onWidgetClick={onWidgetClick}
             onNewChartClick={onNewChartClick}
+            setWidgets={setWidgets}
           />
         )}
       </main>

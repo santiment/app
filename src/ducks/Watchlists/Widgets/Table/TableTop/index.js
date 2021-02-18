@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Copy from '../../../Actions/Copy'
@@ -9,9 +9,11 @@ import CompareInfo from '../CompareInfo/CompareInfo'
 import CompareAction from '../CompareInfo/CompareAction'
 import Refresh from '../../../../../components/Refresh/Refresh'
 import ProPopupWrapper from '../../../../../components/ProPopup/Wrapper'
-import ToggleColumns from '../AssetsToggleColumns'
 import ExplanationTooltip from '../../../../../components/ExplanationTooltip/ExplanationTooltip'
+import ColumnsToggler from '../Columns/Toggler'
 import styles from './index.module.scss'
+
+const EMPTY_OBJ = {}
 
 const TableTop = ({
   comparingAssets,
@@ -20,20 +22,25 @@ const TableTop = ({
   items,
   listName,
   refetchAssets,
-  timestamp,
-  columns,
-  toggleColumn,
-  watchlist = {}
+  activeColumns,
+  sorting,
+  setOrderBy,
+  updateActiveColumnsKeys,
+  isAuthor,
+  watchlist = EMPTY_OBJ
 }) => {
+  const [refreshTimestamp, setRefreshTimestamp] = useState(Date.now)
   const [watchlists = []] = useUserWatchlists()
   const disabledComparision = comparingAssets.length < 2
 
   return (
     <div className={styles.wrapper}>
       <Refresh
-        timestamp={timestamp}
+        timestamp={refreshTimestamp}
         isLoading={isLoading}
-        onRefreshClick={refetchAssets}
+        onRefreshClick={() =>
+          setRefreshTimestamp(Date.now()) || refetchAssets()
+        }
       />
       {comparingAssets && (
         <div className={styles.leftActions}>
@@ -50,7 +57,14 @@ const TableTop = ({
         </div>
       )}
       <div className={styles.actions}>
-        <ToggleColumns columns={columns} onChange={toggleColumn} />
+        <ColumnsToggler
+          watchlist={watchlist}
+          isAuthor={isAuthor}
+          sorting={sorting}
+          setOrderBy={setOrderBy}
+          activeColumns={activeColumns}
+          updateActiveColumnsKeys={updateActiveColumnsKeys}
+        />
         <ProPopupWrapper
           type={type}
           trigger={props => (

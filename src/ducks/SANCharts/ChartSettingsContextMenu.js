@@ -20,11 +20,12 @@ export const Icon = ({ className, ...props }) => (
   <UIIcon {...props} className={cx(styles.icon, className)} />
 )
 
-export const Button = ({ className, ...props }) => (
+export const Button = ({ className, disabled, ...props }) => (
   <UIButton
     {...props}
+    disabled={disabled}
     fluid
-    variant='ghost'
+    variant={disabled ? 'flat' : 'ghost'}
     className={cx(styles.context__btn, className)}
   />
 )
@@ -67,19 +68,13 @@ export const Menu = ({ children, className }) => (
 
 const ChartSettingsContextMenu = ({
   chartRef,
-  showNightModeToggle = true,
-  isNightModeActive,
-  onNightModeSelect,
   shareLink,
   title,
   showDownload = true,
   showDownloadPNG,
-  showMulti = true,
   classes = {},
   isLogScale,
   onScaleChange,
-  isMultiChartsActive,
-  children,
   data,
   events,
   activeMetrics,
@@ -90,10 +85,16 @@ const ChartSettingsContextMenu = ({
   onClosestDataChange,
   showWatermarkSettings = true,
   onWatermarkLighterChange,
-  isWatermarkLighter
+  isWatermarkLighter,
+  onWatermarkVisibilityChange,
+  isWatermarkVisible,
+  MetricNode,
+  children
 }) => {
-  const { isPro } = useUserSubscriptionStatus()
+  const { isPro, isProPlus } = useUserSubscriptionStatus()
   const isFree = !isPro
+
+  const showDivider = (showDownload && showDownloadPNG) || children
 
   return (
     <ContextMenu
@@ -137,43 +138,45 @@ const ChartSettingsContextMenu = ({
             />
           </Button>
         )}
-        {showNightModeToggle && (
-          <Button onClick={onNightModeSelect}>
-            Night Mode
-            <Toggle
-              isActive={isNightModeActive}
-              className={styles.context__toggle}
-            />
-          </Button>
-        )}
-        {showMulti && (
-          <Button className={styles.context__btn}>
-            Multi charts
-            <Toggle
-              isActive={isMultiChartsActive}
-              className={styles.context__toggle}
-            />
-          </Button>
-        )}
         {showWatermarkSettings && (
-          <Button
-            onClick={onWatermarkLighterChange}
-            disabled={isFree}
-            className={styles.context__btn}
-          >
-            Make watermark less visible
-            {isPro ? (
-              <Toggle
-                isActive={isWatermarkLighter}
-                className={styles.context__toggle}
-              />
-            ) : (
-              <ProLabel />
-            )}
-          </Button>
+          <>
+            <Button
+              onClick={onWatermarkLighterChange}
+              disabled={isFree}
+              className={styles.context__btn}
+            >
+              Make watermark less visible
+              {isPro ? (
+                <Toggle
+                  isActive={isWatermarkLighter}
+                  className={styles.context__toggle}
+                />
+              ) : (
+                <ProLabel />
+              )}
+            </Button>
+
+            <Button
+              onClick={onWatermarkVisibilityChange}
+              disabled={!isProPlus}
+              className={styles.context__btn}
+            >
+              Hide watermark
+              {isProPlus ? (
+                <Toggle
+                  isActive={!isWatermarkVisible}
+                  className={styles.context__toggle}
+                />
+              ) : (
+                <ProLabel isPlus />
+              )}
+            </Button>
+          </>
         )}
 
         {shareLink && <ShareButton shareLink={shareLink} />}
+
+        {showDivider && <div className={styles.divider} />}
 
         {showDownload && (
           <DownloadCSVBtn
@@ -202,6 +205,7 @@ const ChartSettingsContextMenu = ({
             data={data}
             title={title}
             chartRef={chartRef}
+            MetricNode={MetricNode}
           >
             <Icon type='save' />
             Download as PNG

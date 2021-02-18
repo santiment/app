@@ -12,6 +12,7 @@
   @include responsive('tablet', 'phone', 'phone-xs') {
     padding: 32px 24px;
     background: var(--rhino) url("./payCryptoBg.svg") no-repeat 228px;
+    margin-top: 24px;
   }
 }
 
@@ -54,7 +55,6 @@
   margin-top: 24px;
   display: flex;
   align-items: center;
-  width: 122px;
   justify-content: center;
   background: transparent;
   color: var(--white);

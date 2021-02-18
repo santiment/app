@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel'
+import ContactUs from '../../../../components/ContactUs/ContactUs'
 import styles from './MetricErrorExplanation.module.scss'
 
 const MetricErrorExplanation = ({ errorsForMetrics, metric, settings }) => {
@@ -47,20 +48,14 @@ const MetricErrorExplanation = ({ errorsForMetrics, metric, settings }) => {
           ]}
         </div>
 
-        <Button
+        <ContactUs
           border
           variant='flat'
           className={styles.reportBtn}
-          onClick={() =>
-            window.Intercom &&
-            window.Intercom(
-              'showNewMessage',
-              text + ' Error: ' + metricError.details[0]
-            )
-          }
+          message={text + ' Error: ' + metricError.details[0]}
         >
           Report a problem
-        </Button>
+        </ContactUs>
       </Panel>
     </Tooltip>
   )

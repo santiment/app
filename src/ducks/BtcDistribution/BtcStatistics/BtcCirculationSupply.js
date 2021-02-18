@@ -1,8 +1,5 @@
 import React from 'react'
-import {
-  AGGREGATION_TYPES,
-  useMetric
-} from '../../GetTimeSeries/queries/get_metric'
+import { AGGREGATION_TYPES, useMetric } from '../get_metric'
 import DashboardCounter from '../../../components/DasboardCounter/DashboardCounter'
 import { percentageFormatter } from '../../dataHub/metrics/formatters'
 import { Metric } from '../../dataHub/metrics'

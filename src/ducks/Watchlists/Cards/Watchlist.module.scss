@@ -88,6 +88,8 @@
 }
 
 .empty__row {
+  margin-bottom: 50px;
+
   @include responsive('desktop', 'laptop', 'tablet') {
     display: flex;
     align-items: center;

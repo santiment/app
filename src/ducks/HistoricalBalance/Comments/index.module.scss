@@ -1,0 +1,16 @@
+.wrapper :global {
+  section {
+    margin: 0 !important;
+    max-width: initial !important;
+  }
+
+  h2 {
+    margin: 0 0 24px !important;
+    font-size: 18px !important;
+    line-height: 26px !important;
+  }
+
+  textarea {
+    font-family: 'Proxima Nova', sans-serif;
+  }
+}

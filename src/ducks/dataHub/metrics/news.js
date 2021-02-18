@@ -1,9 +1,7 @@
 import { Metric } from './index'
-import { Submetrics } from '../submetrics'
 
 const NEW_METRICS = [
   Metric.transaction_volume_usd,
-  Metric.social_active_users.key,
   Metric.price_daa_divergence,
   Metric.adjusted_price_daa_divergence,
   Metric.active_addresses_24h,
@@ -11,13 +9,12 @@ const NEW_METRICS = [
   Metric.network_profit_loss,
   Metric.dev_activity_contributors_count,
   Metric.average_fees_usd,
-  Metric.median_fees_usd
+  Metric.median_fees_usd,
+  Metric.mvrv_usd_intraday
 ]
 export const NEW_METRIC_KEY_SET = new Set(NEW_METRICS.map(({ key }) => key))
 
-const NewSubmetricsByMetric = {
-  [Metric.social_active_users.key]: Submetrics[Metric.social_active_users.key]
-}
+const NewSubmetricsByMetric = {}
 
 NEW_METRICS.forEach(metric => {
   const { parentMetric } = metric

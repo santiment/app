@@ -8,23 +8,10 @@
   }
 }
 
-.trendsWrapper {
-  width: 100%;
-  margin-bottom: 2rem;
-
-  @include responsive('phone', 'phone-xs') {
-    padding: 0 16px;
-  }
-}
-
 .titleWrapper {
   display: flex;
   align-items: baseline;
   justify-content: center;
-
-  @include responsive('phone', 'phone-xs') {
-    margin: 12px auto 0 0;
-  }
 }
 
 .title {
@@ -42,20 +29,16 @@
 }
 
 .search {
-  margin: 30px auto 16px auto;
-  width: 500px;
+  margin: 31px 0 16px 0;
+  width: 368px;
 
   @include responsive('phone', 'phone-xs') {
     width: 100%;
-    padding: 0 16px;
-    margin: 8px 0 16px 0;
+    margin: 0 0 16px 0;
   }
 }
 
 .suggestions {
-  margin: 0 auto 48px auto;
-  justify-content: center;
-
   @include responsive('phone', 'phone-xs') {
     margin-bottom: 20px;
   }
@@ -83,11 +66,33 @@
 }
 
 .back {
+  display: flex;
+  align-items: center;
+}
+
+.trends {
+  margin-top: 40px;
+
   @include responsive('phone', 'phone-xs') {
-    padding-top: 26px;
+    margin: 0;
   }
 }
 
-.right {
-  margin-top: 16px;
+.headerContent {
+  @include responsive('phone', 'phone-xs') {
+    padding: 0 !important;
+  }
+}
+
+.inner {
+  @include responsive('phone', 'phone-xs') {
+    padding: 0 !important;
+    background: var(--white);
+  }
+}
+
+.researchers {
+  @include responsive('phone', 'phone-xs') {
+    background: var(--white);
+  }
 }

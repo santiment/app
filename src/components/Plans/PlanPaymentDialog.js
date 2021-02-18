@@ -15,11 +15,13 @@ import {
 } from '../../queries/plans'
 import { formatError, contactAction } from '../../utils/notifications'
 import { getDateFormats } from '../../utils/dates'
-import { getAlternativeBillingPlan } from '../../utils/plans'
+import { getAlternativeBillingPlan, hasInactiveTrial } from '../../utils/plans'
 import { usePlans } from '../../ducks/Plans/hooks'
 import { useTrackEvents } from '../../hooks/tracking'
 import { USER_SUBSCRIPTION_CHANGE } from '../../actions/types'
 import { updateUserSubscriptions } from '../../stores/user/subscriptions'
+import FreeTrialLabel from './PlanDialogLabels/FreeTrialLabel'
+import ProExpiredLabel from './PlanDialogLabels/ProExpiredLabel'
 import styles from './PlanPaymentDialog.module.scss'
 import sharedStyles from './Plans.module.scss'
 
@@ -73,7 +75,17 @@ const getNextPaymentDates = billing => {
   return `${DD}/${MM}/${YY}`
 }
 
-const PaymentDialog = ({
+const getFreeTrialEnd = trialDate => {
+  const date = new Date(trialDate) || new Date()
+  if (!trialDate) {
+    date.setDate(date.getDate() + 14)
+  }
+  const { DD, MM, YY } = getDateFormats(date)
+
+  return `${DD}/${MM}/${YY}`
+}
+
+const PlanPaymentDialog = ({
   title: name,
   billing: interval,
   label,
@@ -83,7 +95,8 @@ const PaymentDialog = ({
   disabled,
   addNot,
   btnProps,
-  updateSubscription
+  updateSubscription,
+  subscription
 }) => {
   const [plans] = usePlans()
   const [loading, toggleLoading] = useFormLoading()
@@ -128,6 +141,9 @@ const PaymentDialog = ({
     setPaymentVisiblity(true)
   }
 
+  const nextPaymentDate = getNextPaymentDates(billing)
+  const hasCompletedTrial = hasInactiveTrial(subscription)
+
   return (
     <>
       <Button
@@ -164,9 +180,9 @@ const PaymentDialog = ({
                   })
 
                   const form = e.currentTarget
-                  const {
-                    coupon: { value: coupon }
-                  } = form
+                  const formCoupon = form.coupon
+                  const coupon =
+                    formCoupon.dataset.isValid === 'true' && formCoupon.value
 
                   stripe
                     .createToken(getTokenDataByForm(form))
@@ -211,12 +227,29 @@ const PaymentDialog = ({
               }}
             >
               <Dialog.ScrollContent className={styles.content}>
+                {!hasCompletedTrial && (
+                  <FreeTrialLabel
+                    price={price}
+                    trialEndData={getFreeTrialEnd(
+                      subscription && subscription.trialEnd
+                    )}
+                  />
+                )}
+
+                {hasCompletedTrial && (
+                  <ProExpiredLabel
+                    price={price}
+                    nextPaymentDate={nextPaymentDate}
+                    period={billing}
+                  />
+                )}
+
                 <CheckoutForm
                   plan={title}
-                  nextPaymentDate={getNextPaymentDates(billing)}
                   price={price}
                   billing={billing}
                   loading={loading}
+                  subscription={subscription}
                   changeSelectedPlan={changeSelectedPlan}
                 />
               </Dialog.ScrollContent>
@@ -246,7 +279,7 @@ const mapDispatchToProps = dispatch => ({
 const InjectedForm = connect(
   null,
   mapDispatchToProps
-)(injectStripe(PaymentDialog))
+)(injectStripe(PlanPaymentDialog))
 
 export default props => (
   <Elements>

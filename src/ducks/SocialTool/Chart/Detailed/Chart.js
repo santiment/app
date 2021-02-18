@@ -1,28 +1,14 @@
 import React from 'react'
-import Chart from '../../../Chart'
+import { CanvasBase } from '../Canvas'
 import { useTimeseries } from '../../../Studio/timeseries/hooks'
-import { metricsToPlotCategories } from '../../../Chart/Synchronizer'
-import { useAxesMetricsKey } from '../../../Chart/hooks'
+import { useMetricCategories } from '../../../Chart/Synchronizer'
 
-const CHART_HEIGHT = 270
+const DetailedChart = ({ MetricSettingMap, ...props }) => {
+  const { metrics, settings } = props
+  const [data] = useTimeseries(metrics, settings, MetricSettingMap)
+  const categories = useMetricCategories(metrics)
 
-const DetailedChart = ({ charts, settings, MetricSettingMap, ...props }) => {
-  const [data] = useTimeseries(charts, settings, MetricSettingMap)
-  const categories = metricsToPlotCategories(charts)
-  const axesMetricKeys = useAxesMetricsKey(charts)
-
-  return (
-    <Chart
-      {...props}
-      {...settings}
-      {...categories}
-      hideBrush
-      chartHeight={CHART_HEIGHT}
-      data={data}
-      resizeDependencies={[]}
-      axesMetricKeys={axesMetricKeys}
-    />
-  )
+  return <CanvasBase {...props} categories={categories} data={data} />
 }
 
 export default DetailedChart

@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Calendar from './Calendar'
-import WordCloud from '../../../components/WordCloud/WordCloud'
-import TrendsTable from '../../../components/Trends/TrendsTable/TrendsTable'
-import GetHypedTrends from '../../../components/Trends/GetHypedTrends'
+import WordCloud from '../../../components/WordCloud/WordCloudWithHeader'
 import { INTERVAL_ALIAS } from '../../SANCharts/IntervalSelector'
 import { parseIntervalString, ONE_MONTH_IN_MS } from '../../../utils/dates'
+import TrendsTable from '../../../ducks/TrendsTable'
 import styles from './SocialContext.module.scss'
 
 function getTimePeriod (date, interval) {
@@ -22,7 +21,8 @@ function getTimePeriod (date, interval) {
 
   return {
     from: from.toISOString(),
-    to: to.toISOString()
+    to: to.toISOString(),
+    interval: '1d'
   }
 }
 
@@ -77,21 +77,14 @@ const SocialContext = ({ interval, date, project: { slug } }) => {
           </h3>
           <Calendar dates={trendDate} onChange={onTrendCalendarChange} />
         </div>
-        <GetHypedTrends
-          interval={constrainedInterval}
-          {...trendPeriod}
-          render={({ isLoading, items }) => {
-            const trends = items[0]
-            return (
-              <TrendsTable
-                trendWords={trends && trends.topWords}
-                className={styles.table}
-                contentClassName={styles.table__content}
-                isLoading={isLoading}
-              />
-            )
-          }}
-        />
+
+        <div className={styles.trends}>
+          <TrendsTable
+            className={styles.table}
+            isCompact
+            period={trendPeriod}
+          />
+        </div>
       </div>
     </div>
   )

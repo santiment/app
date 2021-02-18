@@ -5,9 +5,11 @@ import { Section } from '../index'
 import SocialGrid from '../../../../components/SocialGrid'
 import { INDEX_PAGE_GROUPS } from '../../../../components/SocialGrid/topics'
 import Santrends from '../../../../components/Trends/Trends'
+import { Column } from '../../../../ducks/TrendsTable/columns'
 import styles from './index.module.scss'
 
 const RECENT_SOCIAL_TRENDS = INDEX_PAGE_GROUPS[0]
+const TRENDS_HIDDEN_COLUMNS = [Column.SOCIAL_VOLUME]
 
 const TabType = {
   SOCIAL_TRENDS: 'Social Trends',
@@ -36,7 +38,7 @@ const TabTypeContent = {
     widget: (
       <Santrends
         className={styles.santrends}
-        slice={trends => trends.slice(-2)}
+        hiddenColumnIds={TRENDS_HIDDEN_COLUMNS}
       />
     ),
     description: (
@@ -68,13 +70,13 @@ export const Tab = ({ tab, tabState, className }) => (
 
 const Tabs = ({ tabState }) => (
   <>
-    <Tab tab={TabType.SOCIAL_TRENDS} tabState={tabState} />
     <Tab tab={TabType.SANTRENDS} tabState={tabState} />
+    <Tab tab={TabType.SOCIAL_TRENDS} tabState={tabState} />
   </>
 )
 
 const Trends = () => {
-  const tabState = useState(TabType.SOCIAL_TRENDS)
+  const tabState = useState(TabType.SANTRENDS)
   const activeTab = tabState[0]
   const { href, description, widget } = TabTypeContent[activeTab]
 

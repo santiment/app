@@ -2,7 +2,6 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import { useMemo } from 'react'
-import { client } from '../../../apollo'
 
 export const projectSearchData = gql`
   fragment projectSearchData on Project {
@@ -34,15 +33,18 @@ export const ALL_PROJECTS_QUERY = gql`
   ${projectSearchData}
 `
 
-const DEFAULT_PROJECTS = []
+export const ALL_PROJECTS_SHORT_QUERY = gql`
+  query allProjects($minVolume: Int = 0) {
+    projects: allProjects(minVolume: $minVolume) {
+      id
+      slug
+      ticker
+      rank
+    }
+  }
+`
 
-export const getProject = slug =>
-  client
-    .query({
-      query: PROJECT_QUERY,
-      variables: { slug }
-    })
-    .then(({ data }) => data.project)
+const DEFAULT_PROJECTS = []
 
 export default graphql(ALL_PROJECTS_QUERY, {
   props: ({
@@ -56,8 +58,8 @@ export default graphql(ALL_PROJECTS_QUERY, {
   }
 })
 
-export const useProjects = () => {
-  const query = useQuery(ALL_PROJECTS_QUERY)
+export const useProjects = (gql = ALL_PROJECTS_QUERY) => {
+  const query = useQuery(gql)
 
   return useMemo(
     () => {

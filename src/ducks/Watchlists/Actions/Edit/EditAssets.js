@@ -6,7 +6,7 @@ import { Dialog, Label } from '@santiment-network/ui'
 import { showNotification } from '../../../../actions/rootActions'
 import { USER_EDIT_ASSETS_IN_LIST } from '../../../../actions/types'
 import { ALL_PROJECTS_FOR_SEARCH_QUERY } from '../../gql/allProjectsGQL'
-import AssetsList from './AssetsList'
+import EditableList from './EditableList'
 import { hasAssetById } from '../../utils'
 import SearchProjects from '../../../../components/Search/SearchProjects'
 import styles from './EditAssets.module.scss'
@@ -84,21 +84,21 @@ const WatchlistEdit = ({
           <Label accent='waterloo' className={styles.heading}>
             Contained in watchlist
           </Label>
-          <AssetsList
+          <EditableList
             isContained={true}
             items={listItems}
             assetsListId={id}
             listItems={listItems}
-            onToggleProject={toggleAsset}
+            onToggle={toggleAsset}
           />
           <Label accent='waterloo' className={styles.heading}>
             Add more assets
           </Label>
-          <AssetsList
+          <EditableList
             items={allProjects}
             assetsListId={id}
             listItems={listItems}
-            onToggleProject={toggleAsset}
+            onToggle={toggleAsset}
           />
         </div>
       </Dialog.ScrollContent>

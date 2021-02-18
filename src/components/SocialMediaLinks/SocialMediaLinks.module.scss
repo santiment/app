@@ -9,8 +9,16 @@
   width: 40px;
   height: 40px;
 
-  @include responsive('laptop', 'tablet','phone', 'phone-xs') {
-    margin: 0 16px 0 0;
+  @include responsive('laptop', 'tablet') {
+    margin: 0 24px 0 0;
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    border: 1px solid var(--porcelain);
+    box-sizing: border-box;
+    border-radius: $border-radius;
+    margin: 0;
+    width: 46px;
   }
 
   svg {
@@ -43,4 +51,9 @@
 
 .container {
   display: flex;
+  width: 100%;
+
+  @include responsive('phone', 'phone-xs') {
+    justify-content: space-between;
+  }
 }
