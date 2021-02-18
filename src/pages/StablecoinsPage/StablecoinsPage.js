@@ -18,6 +18,7 @@ import SharePage from '../../components/SharePage/SharePage'
 import NetExchangeFlow from '../../ducks/Stablecoins/NetExchangeFlow/NetExchangeFlow'
 import { isStage } from '../../utils/utils'
 import DashboardLayout from '../../ducks/Dashboards/DashboardLayout'
+import { withRenderQueueProvider } from '../../ducks/renderQueue/viewport'
 import styles from './StablecoinsPage.module.scss'
 
 const ANCHORS = {
@@ -174,4 +175,4 @@ const StablecoinsPage = ({ isDesktop }) => {
   )
 }
 
-export default StablecoinsPage
+export default withRenderQueueProvider(StablecoinsPage)

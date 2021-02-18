@@ -32,7 +32,7 @@ export const CanvasBase = ({ metrics, options, children, ...props }) => {
 
   return (
     <Chart {...props}>
-      <Watermark light={isWatermarkLighter} show={isWatermarkVisible} />
+      {isWatermarkVisible && <Watermark light={isWatermarkLighter} />}
       <Bars />
       <Lines />
       <Axes metrics={axesMetricKeys} />

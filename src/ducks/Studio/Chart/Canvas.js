@@ -73,7 +73,7 @@ const Canvas = ({
 
   return (
     <ResponsiveChart padding={padding} {...props} data={data}>
-      <Watermark light={isWatermarkLighter} show={isWatermarkVisible} />
+      {isWatermarkVisible && <Watermark light={isWatermarkLighter} />}
       <GreenRedBars />
       <Bars />
       <Areas />

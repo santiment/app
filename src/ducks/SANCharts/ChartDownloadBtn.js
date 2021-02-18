@@ -129,7 +129,7 @@ function downloadChart (
 const ChartDownloadBtn = ({
   chartRef,
   metrics,
-  title,
+  title = 'Chart',
   data,
   MetricNode,
   ...props

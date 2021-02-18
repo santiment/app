@@ -70,6 +70,10 @@ $trigger-shared-form-width: 496px;
   grid-row-gap: 16px;
   grid-column-gap: 16px;
   grid-template-columns: 1fr 1fr;
+
+  @include responsive('phone', 'phone-xs') {
+    grid-template-columns: 1fr;
+  }
 }
 
 .rowTop {
