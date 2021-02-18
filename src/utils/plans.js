@@ -8,6 +8,10 @@ export const PLANS = {
   ENTERPRISE: 'ENTERPRISE'
 }
 
+const NormalizedPlanName = {
+  'PRO+': PLANS.PRO_PLUS
+}
+
 export const sanbaseProductId = '2'
 export const neuroProductId = '1'
 
@@ -68,7 +72,7 @@ export const getCurrentSanbaseSubscription = user => {
 
 export const getAlternativeBillingPlan = (plans, oldPlan) => {
   const { name, interval: oldInterval = 'month' } = oldPlan
-  const oldName = name.toUpperCase()
+  const oldName = (NormalizedPlanName[name.toUpperCase()] || name).toUpperCase()
   return plans
     .filter(({ isDeprecated }) => !isDeprecated)
     .find(
