@@ -115,7 +115,7 @@ export const TriggerForm = ({
   )
 
   const {
-    settings: { isTelegramAllowAlerts: isTelegramConnected, isEmailConnected }
+    settings: { isTelegramAllowAlerts, isEmailAllowAlerts }
   } = useUserSettings()
 
   return (
@@ -271,7 +271,7 @@ export const TriggerForm = ({
                     titleLabel='More options'
                     showDescription={false}
                     enabledHide
-                    show={!isTelegramConnected || !isEmailConnected}
+                    show={!isTelegramAllowAlerts || !isEmailAllowAlerts}
                     className={styles.chainBlock}
                   >
                     <TriggerFormChannels
