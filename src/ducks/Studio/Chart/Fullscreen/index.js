@@ -132,6 +132,7 @@ const FullscreenChart = ({
       />
       <ChartCanvas
         className={styles.chart}
+        widget={widget}
         options={options}
         settings={settings}
         categories={categories}
