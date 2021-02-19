@@ -5,7 +5,6 @@ import { checkIfAreMirrored } from '../dataHub/metrics/mirrored'
 
 const splitByComma = str => str.split(',')
 const lineMetricsFilter = ({ node }) => LINES.has(node)
-const getKey = ({ key }) => key
 const getDomainGroup = ({ key, domainGroup = key }) => domainGroup
 const checkIfIsIndicatorOf = ({ key }, { indicator, queryKey }) =>
   indicator && key === queryKey
@@ -133,68 +132,6 @@ export function useTooltipMetricKey (metrics) {
       return tooltipKey.key
     },
     [metrics]
-  )
-}
-
-function getDomainDependencies (domainGroups) {
-  let domain = []
-
-  const { length } = domainGroups
-  for (let i = 0; i < length; i++) {
-    const domainGroup = domainGroups[i]
-    if (domainGroup) {
-      domain = domain.concat(domainGroup.slice(1))
-    }
-  }
-
-  return domain
-}
-
-// TODO: Refactor [@vanguard | Feb 17, 2021]
-export function useMultiAxesMetricKeys (widget, metrics, domainGroups) {
-  const { axesMetricSet, disabledAxesMetricSet } = widget
-
-  return useMemo(
-    () => {
-      let axesMetrics
-      let domainDependencies = new Set()
-
-      if (!domainGroups.length) {
-        axesMetrics = metrics
-      } else {
-        axesMetrics = []
-        domainDependencies = new Set(getDomainDependencies(domainGroups))
-
-        const { length } = metrics
-        for (let i = 0; i < length; i++) {
-          const metric = metrics[i]
-
-          if (domainDependencies.has(metric)) continue
-
-          axesMetrics.push(metric)
-        }
-      }
-
-      const metricSet = new Set(axesMetrics)
-
-      disabledAxesMetricSet.forEach(disabledMetric => {
-        metricSet.delete(disabledMetric)
-      })
-
-      const result = [...metricSet]
-
-      if (result.length !== axesMetricSet.size && axesMetricSet.size < 3) {
-        result.forEach(metric => axesMetricSet.add(metric))
-      }
-
-      return result
-        .filter(
-          metric =>
-            axesMetricSet.has(metric) && !domainDependencies.has(metric.key)
-        )
-        .map(getKey)
-    },
-    [axesMetricSet, metrics, domainGroups]
   )
 }
 

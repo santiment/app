@@ -4,7 +4,6 @@ import { initChart, updateChartState } from '@santiment-network/chart'
 import { paintConfigs } from '../Chart/paintConfigs'
 import { metricsToPlotCategories } from '../Chart/Synchronizer'
 import { domainModifier } from '../Chart/domain'
-import { getMultiAxesChartPadding } from '../Studio/Chart/Canvas'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import { useTheme } from '../../stores/ui/theme'
 import { mirage } from '@santiment-network/ui/variables.scss'
@@ -70,7 +69,7 @@ function downloadChart (
   MetricNode,
   isNightMode
 ) {
-  const { scale, colors, domainGroups, plotter, axesMetricKeys } = chart
+  const { scale, colors, domainGroups, plotter } = chart
   const { brushPaintConfig, ...rest } = paintConfigs[+isNightMode]
 
   const categories = metricsToPlotCategories(metrics, MetricNode)
@@ -79,17 +78,11 @@ function downloadChart (
   const dpr = window.devicePixelRatio || 1
   window.devicePixelRatio = 2
   const pngCanvas = document.createElement('canvas')
-  const pngChart = initChart(
-    pngCanvas,
-    PNG_WIDTH,
-    PNG_HEIGHT,
-    chart.isMultiAxes ? getMultiAxesChartPadding(axesMetricKeys) : CHART_PADDING
-  )
+  const pngChart = initChart(pngCanvas, PNG_WIDTH, PNG_HEIGHT, CHART_PADDING)
   window.devicePixelRatio = dpr
 
   Object.assign(pngChart, rest)
-  pngChart.axesMetricKeys = axesMetricKeys
-  pngChart.domainGroups = domainGroups
+  pngChart.axesMetricKeys = chart.axesMetricKeys
   pngChart.colors = chart.colors
   pngChart.ticksPaintConfig = {
     ...pngChart.ticksPaintConfig,
@@ -143,7 +136,6 @@ const ChartDownloadBtn = ({
         try {
           downloadChart(chartRef, title, metrics, data, MetricNode, isNightMode)
         } catch (e) {
-          console.error(e)
           alert("Can't download this chart")
         }
       }}

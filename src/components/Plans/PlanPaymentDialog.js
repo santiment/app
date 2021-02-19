@@ -76,10 +76,16 @@ const getNextPaymentDates = billing => {
 }
 
 const getFreeTrialEnd = trialDate => {
-  const date = new Date(trialDate) || new Date()
+  let date = new Date(trialDate)
+
+  if (!Number.isFinite(+date)) {
+    date = new Date()
+  }
+
   if (!trialDate) {
     date.setDate(date.getDate() + 14)
   }
+
   const { DD, MM, YY } = getDateFormats(date)
 
   return `${DD}/${MM}/${YY}`

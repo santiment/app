@@ -34,22 +34,18 @@ const Tooltip = ({
   chart.onRangeSelected = onRangeSelected
 
   useEffect(() => {
-    const { tooltip } = initTooltip(chart)
-    const { canvas } = tooltip
+    const { canvas } = initTooltip(chart).tooltip
 
-    return observePressedModifier(({ altKey }) => {
-      const cursor = (altKey ? FlippedCursorTypeStyle : CursorTypeStyle)[
-        chart.cursorType
-      ]
-
-      tooltip.cursor = cursor
-      canvas.style.cursor = cursor
-    })
+    return observePressedModifier(
+      ({ altKey }) =>
+        (canvas.style.cursor = (altKey
+          ? FlippedCursorTypeStyle
+          : CursorTypeStyle)[chart.cursorType])
+    )
   }, [])
 
   useEffect(
     () => {
-      chart.tooltip.cursor = CursorTypeStyle[cursorType]
       chart.tooltip.canvas.style.cursor = CursorTypeStyle[cursorType]
     },
     [cursorType]
