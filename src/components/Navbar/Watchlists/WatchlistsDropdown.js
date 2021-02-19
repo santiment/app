@@ -11,17 +11,19 @@ import {
 } from '../../../ducks/Watchlists/utils'
 import { VisibilityIndicator } from '../../VisibilityIndicator'
 import { useUser } from '../../../stores/user'
-import { useUserWatchlists } from '../../../ducks/Watchlists/gql/hooks'
-import { useAddressWatchlists } from '../../../ducks/Watchlists/gql/queries'
+import {
+  useUserAddressWatchlists,
+  useUserWatchlists
+} from '../../../ducks/Watchlists/gql/queries'
 import { getAddressesWatchlistLink } from '../../../ducks/Watchlists/url'
 import { sortById } from '../../../utils/sortMethods'
 import styles from './WatchlistsDropdown.module.scss'
 
 const WatchlistsDropdown = ({ activeLink }) => {
   const [projectsWatchlists, loading] = useUserWatchlists()
-  const addressesWatchlists = useAddressWatchlists().watchlists
+  const [addressesWatchlists, loadingAddresses] = useUserAddressWatchlists()
   const { loading: isLoggedInPending, isLoggedIn } = useUser()
-  const isLoading = loading || isLoggedInPending
+  const isLoading = loading || loadingAddresses || isLoggedInPending
 
   if (isLoading) {
     return <Loader className={styles.loader} />
