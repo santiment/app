@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import Insights from './Insights'
 import IcoPrice from './IcoPrice'
 import LastDayPrice from './LastDayPrice'
@@ -9,9 +9,9 @@ import Bars from '../../Chart/Bars'
 import GreenRedBars from '../../Chart/GreenRedBars'
 import Tooltip from '../../Chart/Tooltip'
 import Drawer from '../../Chart/Drawer'
-import Axes from '../../Chart/MultiAxes'
+import Axes from '../../Chart/Axes'
 import CartesianGrid from '../../Chart/CartesianGrid'
-import { useMultiAxesMetricKeys } from '../../Chart/hooks'
+import { useAxesMetricsKey } from '../../Chart/hooks'
 import Watermark from '../../Chart/Watermark'
 import Brush from '../../Chart/Brush'
 import Signals from '../../Chart/Signals'
@@ -19,23 +19,17 @@ import styles from './index.module.scss'
 
 const PADDING = {
   top: 10,
+  right: 50,
   bottom: 73,
   left: 5
 }
 
-export const getMultiAxesChartPadding = (axesMetricKeys, axesOffset = 50) =>
-  Object.assign(
-    {
-      right: axesMetricKeys.length * axesOffset
-    },
-    PADDING
-  )
-
-const useChartPadding = axesMetricKeys =>
-  useMemo(() => getMultiAxesChartPadding(axesMetricKeys), [axesMetricKeys])
+const DOUBLE_AXIS_PADDING = {
+  ...PADDING,
+  left: 50
+}
 
 const Canvas = ({
-  widget,
   data,
   brushData,
   metrics,
@@ -57,12 +51,7 @@ const Canvas = ({
   setIsICOPriceDisabled,
   ...props
 }) => {
-  const axesMetricKeys = useMultiAxesMetricKeys(
-    widget,
-    metrics,
-    props.domainGroups
-  )
-  const padding = useChartPadding(axesMetricKeys)
+  const axesMetricKeys = useAxesMetricsKey(metrics, isDomainGroupingActive)
   const isDrawing = isDrawingState[0]
   const { from, to } = settings
   const {
@@ -72,7 +61,11 @@ const Canvas = ({
   } = options
 
   return (
-    <ResponsiveChart padding={padding} {...props} data={data}>
+    <ResponsiveChart
+      padding={axesMetricKeys[1] ? DOUBLE_AXIS_PADDING : PADDING}
+      {...props}
+      data={data}
+    >
       {isWatermarkVisible && <Watermark light={isWatermarkLighter} />}
       <GreenRedBars />
       <Bars />

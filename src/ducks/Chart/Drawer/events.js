@@ -73,7 +73,7 @@ export function handleLineCreation (
 
 export function handleLineHover (chart) {
   return e => {
-    const { isDrawing, drawer, tooltip } = chart
+    const { isDrawing, drawer } = chart
     if (isDrawing) return
 
     const { drawings, ctx } = drawer
@@ -93,9 +93,11 @@ export function handleLineHover (chart) {
     }
 
     drawer.mouseover = hoveredLine
-
-    const { canvas, cursor } = tooltip || chart
-    canvas.style.cursor = hoveredLine ? 'pointer' : cursor
+    if (hoveredLine) {
+      document.body.style.cursor = 'pointer'
+    } else {
+      document.body.style.cursor = ''
+    }
 
     drawer.redraw()
   }

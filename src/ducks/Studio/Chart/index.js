@@ -17,7 +17,7 @@ import { useMetricCategories } from '../../Chart/Synchronizer'
 import { useDomainGroups } from '../../Chart/hooks'
 import { useHighlightMetricColor } from '../../Chart/colors'
 import { extractMirrorMetricsDomainGroups } from '../../Chart/utils'
-import { CursorType, useChartCursorType } from '../../Chart/cursor'
+import { useChartCursorType } from '../../Chart/cursor'
 import { useUser } from '../../../stores/user'
 import { getTimeIntervalFromToday, DAY } from '../../../utils/dates'
 import styles from './index.module.scss'
@@ -55,7 +55,7 @@ const Chart = ({
   syncTooltips
 }) => {
   const { isLoggedIn } = useUser()
-  const chartCursor = useChartCursorType(CursorType.FREE)
+  const chartCursor = useChartCursorType()
   const isNewDrawingState = useState(false)
   const isDrawingState = useState(false)
   const selectedLineState = useState()
@@ -228,7 +228,6 @@ const Chart = ({
       <ChartCanvas
         className={cx(styles.chart, isBlurred && styles.blur)}
         chartRef={chartRef}
-        widget={widget}
         data={data}
         brushData={allTimeData}
         categories={categories}
