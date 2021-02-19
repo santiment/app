@@ -47,8 +47,8 @@ const checkIn = (channels, flag, chType) => {
 const TriggerFormChannels = ({ channels, errors, setFieldValue, isNew }) => {
   const {
     settings: {
-      isTelegramConnectedAndEnabled: isTelegramConnected,
-      isEmailConnected,
+      isTelegramAllowAlerts: isTelegramConnected,
+      isEmailAllowAlerts: isEmailConnected,
       hasTelegramConnected
     }
   } = useUserSettings()
@@ -317,7 +317,7 @@ const ChannelCheckbox = ({
         name={'checkBox' + channel}
         disabled={isDisabled(channel)}
         isActive={isActive(channel)}
-        label={channel}
+        label={isRequired ? '' : channel}
         onClick={() => {
           toggleChannel(channel)
         }}
@@ -327,7 +327,9 @@ const ChannelCheckbox = ({
           showTrigger={isRequired}
           recheckBrowserNotifications={recheckBrowserNotifications}
           trigger={
-            <div className={styles.requiredChannelExplanation}>Connect</div>
+            <div className={styles.requiredChannelExplanation}>
+              Enable {channel} alerts
+            </div>
           }
         />
       )}

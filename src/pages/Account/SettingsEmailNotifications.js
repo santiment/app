@@ -28,7 +28,7 @@ const SettingsEmailNotifications = ({ classes = {}, description }) => {
             onClick={() => update({ signalNotifyEmail: !signalNotifyEmail })}
           />
         ) : (
-          'Please add email to enable notifications'
+          'Please add email to enable alert notifications'
         )}
       </div>
     </div>

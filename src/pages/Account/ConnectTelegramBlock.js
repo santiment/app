@@ -8,12 +8,28 @@ import Label from '@santiment-network/ui/Label'
 import { useUserSettings } from '../../stores/user/settings'
 import styles from './AccountPage.module.scss'
 
-const getTelegramBtnText = (connected, connecting) => {
-  if (connected) {
-    return 'Reconnect'
-  }
-
-  return connecting ? 'Connecting' : 'Connect'
+const TgButton = ({
+  connectTelegram,
+  isTelegramConnecting,
+  telegramDeepLink,
+  classes,
+  className,
+  children,
+  ...rest
+}) => {
+  return (
+    <Button
+      as='a'
+      className={cx(styles.connect_telegram, classes.right, className)}
+      href={telegramDeepLink}
+      rel='noopener noreferrer'
+      target='_blank'
+      onClick={connectTelegram}
+      {...rest}
+    >
+      {children}
+    </Button>
+  )
 }
 
 const ConnectTelegramBlock = ({
@@ -39,30 +55,41 @@ const ConnectTelegramBlock = ({
       <div className={cx(styles.setting__left, classes.left)}>
         <Label>Telegram</Label>
         <Label className={styles.setting__description} accent='waterloo'>
-          You will get the ability to connect the bot and log in through
-          Telegram.
-          <br />
-          Please do not use Telegram Web as it might not be able to link account
-          correctly.
+          Connect the notification bot to your Telegram account
         </Label>
       </div>
       {isTelegramConnecting && (
         <Loader className={styles.connecting_telegram} />
       )}
       {telegramDeepLink && (
-        <Button
-          variant='fill'
-          accent='positive'
-          as='a'
-          disabled={isTelegramConnecting}
-          className={cx(styles.connect_telegram, classes.right)}
-          href={telegramDeepLink}
-          rel='noopener noreferrer'
-          target='_blank'
-          onClick={connectTelegram}
-        >
-          {getTelegramBtnText(hasTelegramConnected, isTelegramConnecting)}
-        </Button>
+        <div className={styles.actions}>
+          <TgButton
+            variant='fill'
+            accent='positive'
+            classes={classes}
+            disabled={isTelegramConnecting || hasTelegramConnected}
+            telegramDeepLink={telegramDeepLink}
+            connectTelegram={connectTelegram}
+          >
+            {isTelegramConnecting ? 'Connecting' : 'Connect'}
+          </TgButton>
+
+          {hasTelegramConnected && (
+            <div className={styles.reconnect}>
+              Have another account?{' '}
+              <TgButton
+                accent='positive'
+                classes={classes}
+                disabled={isTelegramConnecting}
+                telegramDeepLink={telegramDeepLink}
+                connectTelegram={connectTelegram}
+                className={styles.link}
+              >
+                Reconnect
+              </TgButton>
+            </div>
+          )}
+        </div>
       )}
     </div>
   )
