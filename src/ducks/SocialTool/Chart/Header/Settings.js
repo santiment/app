@@ -75,9 +75,6 @@ export default ({
       <ContextMenu
         classes={{ settingsBtn: styles.settings }}
         title={slug}
-        showMulti={false}
-        showNightModeToggle={false}
-        showDownload
         setOptions={setOptions}
         {...options}
         {...rest}

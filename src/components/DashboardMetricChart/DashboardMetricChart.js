@@ -27,6 +27,8 @@ import { extractMirrorMetricsDomainGroups } from '../../ducks/Chart/utils'
 import PaywallInfo from '../../ducks/Studio/Chart/PaywallInfo'
 import DexPriceMeasurement from '../../ducks/Dexs/PriceMeasurement/DexPriceMeasurement'
 import DashIntervalSettings from './DashIntervalSettings/DashIntervalSettings'
+import ContextMenu from '../../ducks/Studio/Chart/ContextMenu'
+import { DEFAULT_OPTIONS } from '../../ducks/Studio/defaults'
 import styles from './DashboardMetricChart.module.scss'
 
 const useBrush = ({ data, settings, setSettings, metrics, slug }) => {
@@ -94,6 +96,8 @@ const DashboardMetricChart = ({
 }) => {
   const MetricTransformer = useMirroredTransformer(metrics)
   const [MetricSettingsMap] = useState(new Map())
+  const [options, setOptions] = useState(DEFAULT_OPTIONS)
+  const chartRef = useRef(null)
   const domainGroups = useDomainGroups(metrics)
   const mirrorDomainGroups = useMemo(
     () => extractMirrorMetricsDomainGroups(domainGroups),
@@ -197,6 +201,19 @@ const DashboardMetricChart = ({
               intervals={intervals}
             />
           </DesktopOnly>
+
+          <ContextMenu
+            showDownload
+            setOptions={setOptions}
+            {...options}
+            data={data}
+            activeMetrics={activeMetrics}
+            chartRef={chartRef}
+            classses={{
+              settingsBtn: styles.settingsBtn
+            }}
+            title='Export'
+          />
         </div>
       </DashboardChartHeaderWrapper>
 
@@ -228,8 +245,9 @@ const DashboardMetricChart = ({
         loadings={loadings}
         domainGroups={domainGroups}
         mirrorDomainGroups={mirrorDomainGroups}
-        isCartesianGridActive={true}
         sliceMetricsCount={sliceMetricsCount}
+        options={options}
+        chartRef={chartRef}
       />
 
       <MobileOnly>

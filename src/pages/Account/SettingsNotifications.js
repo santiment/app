@@ -49,7 +49,7 @@ const SignalsDescription = (
     <Link
       to={'/alerts?channel=' + channel}
       className={styles.signalDescription}
-    >{`Manage ${channelName} signals (${mappedCount}/${allCount})`}</Link>
+    >{`Manage ${channelName} alerts (${mappedCount}/${allCount})`}</Link>
   )
 }
 
@@ -69,7 +69,7 @@ const SettingsNotifications = ({ changeDigestType, mutateDigestType }) => {
   )
 
   return (
-    <Settings id='notifications' header='Notifications'>
+    <Settings id='notifications' header='Alert notifications'>
       <Settings.Row>
         <SettingsEmailNotifications
           description={SignalsDescription(

@@ -53,6 +53,7 @@ export const normalizeWidget = ({
   MetricSettingMap,
   MetricIndicators,
   drawings,
+  axesMetricSet,
   chartRef
 }) => ({
   widget: WidgetToTypeMap.get(Widget),
@@ -63,7 +64,8 @@ export const normalizeWidget = ({
   colors: MetricColor,
   settings: shareMetricSettings(MetricSettingMap),
   indicators: shareMetricIndicators(MetricIndicators),
-  drawings: shareDrawings(drawings, chartRef.current)
+  drawings: shareDrawings(drawings, chartRef.current),
+  axesMetrics: axesMetricSet && getMetricsKeys([...axesMetricSet])
 })
 
 export const normalizeWidgets = widgets => widgets.map(normalizeWidget)

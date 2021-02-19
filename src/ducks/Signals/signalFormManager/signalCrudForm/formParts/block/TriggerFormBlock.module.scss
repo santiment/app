@@ -52,6 +52,7 @@
 .description {
   color: var(--mirage);
   margin-left: 5px;
+  word-break: break-all;
 
   @include responsive('phone', 'phone-xs') {
     margin-left: 0;

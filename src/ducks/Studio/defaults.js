@@ -1,4 +1,3 @@
-import { Metric } from '../dataHub/metrics'
 import { getNewInterval } from '../SANCharts/IntervalSelector'
 import { getIntervalByTimeRange } from '../../utils/dates'
 import { getSavedMulticharts, getSavedToggle } from '../../utils/localStorage'
@@ -17,33 +16,17 @@ export const DEFAULT_SETTINGS = {
   timeRange: DEFAULT_TIME_RANGE
 }
 
+export const COMMON_CHART_OPTIONS = {
+  isWatermarkLighter: getSavedToggle('isWatermarkLighter', false),
+  isWatermarkVisible: getSavedToggle('isWatermarkVisible', true),
+  isCartesianGridActive: getSavedToggle('isCartesianGridActive', true)
+}
+
 export const DEFAULT_OPTIONS = {
   isLogScale: false,
   isICOPriceActive: false,
-  isWatermarkLighter: getSavedToggle('isWatermarkLighter', false),
   isAnomalyActive: getSavedToggle('isAnomalyActive'),
   isMultiChartsActive: getSavedMulticharts(),
-  isCartesianGridActive: getSavedToggle('isCartesianGridActive', true),
-  isClosestDataActive: getSavedToggle('isClosestDataActive', true)
+  isClosestDataActive: getSavedToggle('isClosestDataActive', true),
+  ...COMMON_CHART_OPTIONS
 }
-
-export const DEFAULT_METRIC_SETTINGS_MAP = new Map([
-  [
-    Metric.amount_in_top_holders,
-    {
-      holdersCount: 10
-    }
-  ],
-  [
-    Metric.amount_in_exchange_top_holders,
-    {
-      holdersCount: 10
-    }
-  ],
-  [
-    Metric.amount_in_non_exchange_top_holders,
-    {
-      holdersCount: 10
-    }
-  ]
-])

@@ -342,7 +342,6 @@
 }
 
 .connect_telegram {
-  color: var(--white) !important;
   margin-left: auto;
 
   @include responsive('phone', 'phone-xs') {
@@ -416,4 +415,21 @@
 
 .tooltip {
   min-width: 200px;
+}
+
+.actions {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  color: var(--waterloo);
+
+  @include text('body-3');
+}
+
+.link {
+  padding: 0;
+}
+
+.reconnect {
+  margin-top: 4px;
 }

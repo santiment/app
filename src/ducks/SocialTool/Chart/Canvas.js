@@ -24,11 +24,15 @@ const PADDING = {
 
 export const CanvasBase = ({ metrics, options, children, ...props }) => {
   const axesMetricKeys = useAxesMetricsKey(metrics)
-  const { isCartesianGridActive, isWatermarkLighter } = options
+  const {
+    isCartesianGridActive,
+    isWatermarkLighter,
+    isWatermarkVisible
+  } = options
 
   return (
     <Chart {...props}>
-      <Watermark light={isWatermarkLighter} />
+      {isWatermarkVisible && <Watermark light={isWatermarkLighter} />}
       <Bars />
       <Lines />
       <Axes metrics={axesMetricKeys} />
