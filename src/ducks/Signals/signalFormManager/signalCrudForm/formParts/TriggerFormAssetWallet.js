@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import Selector from '@santiment-network/ui/Selector/Selector'
@@ -19,6 +19,10 @@ const propTypes = {
   metaFormSettings: PropTypes.any
 }
 
+const findCurrentSelector = (options, selector) => {
+  return options.find(({ value }) => value === selector)
+}
+
 const TriggerFormAssetWallet = ({
   metaFormSettings: { target: defaultAsset, signalType: defaultSignalType },
   setFieldValue,
@@ -26,7 +30,7 @@ const TriggerFormAssetWallet = ({
   metric
 }) => {
   const { signalType, target } = values
-  const [trendsOptions] = useState(
+  const [trendsOptions] = useState(() =>
     getRecentTrends().map(text => ({ label: text, value: text }))
   )
 
@@ -34,9 +38,32 @@ const TriggerFormAssetWallet = ({
     ? signalType.value
     : defaultSignalType.value.value
 
-  const options = METRIC_KEYS_WITH_TEXT_SELECTOR.includes(metric.key)
-    ? METRIC_TARGET_OPTIONS
-    : METRIC_TARGET_OPTIONS.filter(option => option !== METRIC_TARGET_TEXT)
+  const isTextSelectors = METRIC_KEYS_WITH_TEXT_SELECTOR.includes(metric.key)
+
+  const options = useMemo(
+    () => {
+      return isTextSelectors
+        ? METRIC_TARGET_OPTIONS
+        : METRIC_TARGET_OPTIONS.filter(option => option !== METRIC_TARGET_TEXT)
+    },
+    [metric, isTextSelectors]
+  )
+
+  useEffect(
+    () => {
+      if (signalType && !findCurrentSelector(options, defaultSelected)) {
+        updateType(options[0])
+      }
+    },
+    [options, defaultSelected]
+  )
+
+  function updateType (type) {
+    setFieldValue('signalType', type)
+    if (isAsset(type)) {
+      setFieldValue('target', target || defaultAsset.value)
+    }
+  }
 
   return (
     <>
@@ -47,12 +74,9 @@ const TriggerFormAssetWallet = ({
           nameOptions={options.map(({ label }) => label)}
           defaultSelected={defaultSelected}
           onSelectOption={selectedValue => {
-            const type = options.find(({ value }) => value === selectedValue)
+            const type = findCurrentSelector(options, selectedValue)
 
-            setFieldValue('signalType', type)
-            if (isAsset(type)) {
-              setFieldValue('target', target || defaultAsset.value)
-            }
+            updateType(type)
           }}
           variant='border'
         />
