@@ -25,6 +25,8 @@ import {
 import { CursorType } from '../cursor'
 import { TooltipSetting } from '../../dataHub/tooltipSettings'
 
+const metricValueAccessor = ({ value }) => value || value === 0
+
 export function setupTooltip (chart, marker) {
   const { canvas, ctx } = chart.tooltip
 
@@ -109,43 +111,34 @@ export function setupTooltip (chart, marker) {
   }
 }
 
-const checkIsValidMetricPoint = metricPoint =>
-  metricPoint && Number.isFinite(metricPoint.y)
-
 export function plotTooltip (chart, marker, point, event) {
   const {
     tooltip: { ctx },
-    scale,
-    minMaxes,
     cursorType,
     tooltipKey,
-    axesMetricKeys,
     hoverLineColor,
     tooltipPaintConfig,
     bubblesPaintConfig
   } = chart
-  let metricPoint = point[tooltipKey]
-  if (!checkIsValidMetricPoint(metricPoint)) {
-    axesMetricKeys.some(key => {
-      metricPoint = point[key]
-      return checkIsValidMetricPoint(metricPoint)
-    })
-    if (!checkIsValidMetricPoint(metricPoint)) return
-  }
+  const metricPoint = point[tooltipKey]
+  if (!metricPoint) return
 
   clearCtx(chart, ctx)
 
   const resultCursorType = event && event.altKey ? +!cursorType : cursorType
-  const { x, value: datetime } = point
-  let { y } = metricPoint
+  const { x, value: datetime, ...metrics } = point
+  let { y, value } = metricPoint
 
-  if (event && resultCursorType === CursorType.FREE) {
+  if (event && Number.isFinite(y) && resultCursorType === CursorType.FREE) {
     const { offsetY } = event
-    const { top, bottom } = chart
+    const { top, bottom, minMaxes, scale } = chart
+    const { min, max } = minMaxes[tooltipKey]
 
     y = offsetY < top ? top : offsetY > bottom ? bottom : offsetY
+    value = (scale === logScale ? valueByLogY : valueByY)(chart, y, min, max)
   }
 
+  const drawnMetrics = Object.values(metrics).filter(metricValueAccessor)
   const xBubbleFormatter = isDayInterval(chart)
     ? getDateHoursMinutes
     : getDateDayMonthYear
@@ -155,26 +148,17 @@ export function plotTooltip (chart, marker, point, event) {
 
   drawAlertPlus(chart, y)
 
-  drawTooltip(ctx, point, TooltipSetting, marker, tooltipPaintConfig)
-
-  let offset = 0
-  const isLogScale = scale === logScale
-  axesMetricKeys.forEach((metricKey, i) => {
-    const { min, max } = minMaxes[metricKey]
-    const valueScaler = isLogScale ? valueByLogY : valueByY
-    const value = valueScaler(chart, y, min, max)
-
+  if (drawnMetrics.length) {
+    drawTooltip(ctx, point, TooltipSetting, marker, tooltipPaintConfig)
     drawValueBubbleY(
       chart,
       ctx,
-      yBubbleFormatter(value, metricKey),
+      yBubbleFormatter(value, tooltipKey),
       y,
       bubblesPaintConfig,
-      i === 0 && chart.isAlertsActive ? 5 : offset
+      chart.isAlertsActive ? 5 : 0
     )
-    offset += 50
-  })
-
+  }
   const xValueFormatted = xBubbleFormatter(datetime)
   drawValueBubbleX(chart, ctx, xValueFormatted, x, bubblesPaintConfig)
 }

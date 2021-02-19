@@ -6,7 +6,6 @@ import ColorSetting from './ColorSetting'
 import IntervalSetting from './IntervalSetting'
 import ExchangeSetting from './ExchangeSetting'
 import IndicatorsSetting from './IndicatorsSetting'
-import ShowAxisSetting from './ShowAxisSetting'
 import { Metric } from '../../../dataHub/metrics'
 import { MetricSettings } from '../../../dataHub/metrics/settings'
 import { Node } from '../../../Chart/nodes'
@@ -50,7 +49,6 @@ const Settings = ({ className, metric, ...props }) => {
       {isIndicatorAssignable(metric) && (
         <IndicatorsSetting metric={metric} {...props} />
       )}
-      <ShowAxisSetting metric={metric} {...props} />
       {settings &&
         settings.map(({ key }) => {
           const Setting = SettingToComponent[key]
