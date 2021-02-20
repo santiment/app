@@ -73,7 +73,7 @@ export function useProjectsSocialVolumeChanges ({
     variables: {
       fn: JSON.stringify({
         args: {
-          slugs: assets
+          slugs: assets.slice(0, limit)
         },
         name: 'slugs'
       })
