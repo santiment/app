@@ -107,7 +107,7 @@ const ProjectsChart = ({
         color: getBarColor(item[key])
       }))
     },
-    [data, sortByKey, desc]
+    [data]
   )
 
   const onProjectClick = useCallback(
