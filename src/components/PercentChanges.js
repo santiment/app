@@ -2,7 +2,7 @@ import React from 'react'
 import ValueChange from './ValueChange/ValueChange'
 import { millify } from '../utils/formatting'
 
-function render (change) {
+export function renderPercent (change) {
   const isMillify = Math.abs(change) > 1000
   const withFloatPart = Math.abs(change) < 100
   return `${
@@ -13,7 +13,7 @@ function render (change) {
 }
 
 const PercentChanges = ({ className, changes }) => (
-  <ValueChange className={className} change={changes} render={render} />
+  <ValueChange className={className} change={changes} render={renderPercent} />
 )
 
 export default PercentChanges

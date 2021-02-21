@@ -34,62 +34,54 @@ export const getTooltipLabels = memoize(({ key, label }) => {
   ]
 })
 
-export const formatProjectTreeMapValue = val =>
-  val
-    ? formatNumber(val, {
-      maximumFractionDigits: 2,
-      directionSymbol: true
-    }) + '%'
-    : null
-
 export const PRICE_CHANGE_RANGES = [
   {
-    label: '1h',
-    key: 'percentChange1h'
-  },
-  {
     label: '24h',
-    key: 'percentChange24h'
+    key: 'percentChange24h',
+    metric: 'price_usd_change_1d'
   },
   {
     label: '7d',
-    key: 'percentChange7d'
+    key: 'percentChange7d',
+    metric: 'price_usd_change_7d'
   }
 ]
 
 export const SOCIAL_VOLUME_CHANGE_RANGES = [
   {
     label: '24h',
-    key: 'change1d'
+    key: 'social_volume_total_change_1d'
   },
   {
     label: '7d',
-    key: 'change7d'
+    key: 'social_volume_total_change_7d'
   },
   {
     label: '30d',
-    key: 'change30d'
+    key: 'social_volume_total_change_30d'
   }
 ]
 
 export const SORT_RANGES = [
   {
     label: 'Marketcap  ⬆️',
-    key: 'marketcapUsd'
-  },
-  {
-    label: 'Marketcap  ⬇️',
     key: 'marketcapUsd',
     desc: false
   },
   {
+    label: 'Marketcap  ⬇️',
+    key: 'marketcapUsd',
+    desc: true
+  },
+  {
     label: `Price changes  ⬆️`,
-    key: ''
+    key: '',
+    desc: false
   },
   {
     label: 'Price changes  ⬇️',
     key: '',
-    desc: false
+    desc: true
   }
 ]
 
@@ -111,7 +103,7 @@ export const getFontSize = (index, length) => {
 export const mapToColors = (data, key) => {
   return data.map(item => {
     const value = +item[key]
-    const color = getTreeMapColor(value)
+    const color = getTreeMapColor(100 * value)
     return {
       ...item,
       color

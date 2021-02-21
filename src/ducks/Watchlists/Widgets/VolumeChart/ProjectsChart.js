@@ -51,7 +51,7 @@ const renderCustomizedLabel = props => {
 }
 
 const ProjectsChart = ({
-  assets,
+  listId,
   redirect,
   settings,
   onChangeInterval,
@@ -60,13 +60,12 @@ const ProjectsChart = ({
   const { sorter: { sortBy = 'marketcapUsd', desc: sortDesc } = {} } = settings
   const defaultIndex = useMemo(
     () => {
-      return (
-        SORT_RANGES.findIndex(
-          ({ key, desc }) => key === sortBy && desc === sortDesc
-        ) || 0
+      const index = SORT_RANGES.findIndex(
+        ({ key, desc }) => key === sortBy && desc === sortDesc
       )
+      return index >= 0 ? index : 0
     },
-    [sortBy]
+    [sortBy, sortDesc]
   )
 
   const [sortedByIndex, setSortedByIndex] = useState(defaultIndex)
@@ -91,8 +90,7 @@ const ProjectsChart = ({
     label,
     key
   } = useProjectRanges({
-    assets,
-    limit: 100,
+    listId,
     ranges: PRICE_CHANGE_RANGES,
     sortByKey,
     desc,
@@ -120,7 +118,7 @@ const ProjectsChart = ({
 
   const datakey = 'slug'
 
-  const noData = assets.length === 0
+  const noData = !loading && data.length === 0
 
   return (
     <div className={styles.container}>
