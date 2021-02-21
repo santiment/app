@@ -29,7 +29,9 @@ import {
 import styles from './ProjectsChart.module.scss'
 
 const renderCustomizedLabel = props => {
-  const { x, y, width, value, fill } = props
+  const { x, y, width, value: source, fill } = props
+
+  const value = source * 100
 
   const fontSize = width < 20 ? 7 : 14
   const position = +value >= 0 ? -1 * (fontSize / 2) : fontSize
@@ -92,7 +94,7 @@ const ProjectsChart = ({
   } = useProjectRanges({
     listId,
     ranges: PRICE_CHANGE_RANGES,
-    sortByKey,
+    sortByMetric: sortByKey,
     desc,
     settings,
     onChangeInterval
@@ -105,7 +107,7 @@ const ProjectsChart = ({
         color: getBarColor(item[key])
       }))
     },
-    [data]
+    [data, sortByKey, desc]
   )
 
   const onProjectClick = useCallback(

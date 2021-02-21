@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { ResponsiveContainer, Tooltip, Treemap } from 'recharts'
 import Range from '../WatchlistOverview/WatchlistAnomalies/Range'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
@@ -8,7 +8,6 @@ import NoDataCharts from './NoDataCharts'
 import ScreenerChartTitle from './ScreenerChartTitle'
 import { useProjectRanges, useWithColors } from './hooks'
 import {
-  getPriceSorter,
   getTooltipLabels,
   PRICE_CHANGE_RANGES,
   tooltipLabelFormatter
@@ -70,7 +69,7 @@ const ProjectsTreeMap = ({
 }) => {
   const noData = !loading && data.length === 0
 
-  const dataByColors = useWithColors(data, key)
+  const colored = useWithColors(data, key)
 
   return (
     <div className={className}>
@@ -112,7 +111,7 @@ const ProjectsTreeMap = ({
         <div className={styles.treeMap}>
           <ResponsiveContainer width='100%' height='100%'>
             <Treemap
-              data={dataByColors}
+              data={colored}
               dataKey={'marketcapUsd'}
               fill='var(--jungle-green)'
               isAnimationActive={false}

@@ -76,6 +76,8 @@ export const useProjectRanges = ({
     })
   }
 
+  console.log(sortByMetric, metric, desc, settings)
+
   const [data, loading] = isSocialVolume
     ? useProjectsSocialVolumeChanges(hookProps)
     : useProjectPriceChanges(hookProps)
