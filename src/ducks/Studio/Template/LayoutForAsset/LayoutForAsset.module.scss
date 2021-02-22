@@ -23,10 +23,10 @@
 
 .counterContainer {
   cursor: pointer;
-  padding: 5px;
+  padding: 0 0 5px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-height: 16px;
   flex: 1;
   min-width: 26px;
