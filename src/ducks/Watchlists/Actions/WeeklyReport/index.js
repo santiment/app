@@ -88,7 +88,7 @@ const WeeklyReport = ({
 
   return (
     <Dialog
-      size='s'
+      size='m'
       trigger={trigger || Trigger({ isMonitored })}
       onOpen={open}
       onClose={close}
@@ -100,7 +100,7 @@ const WeeklyReport = ({
         <h4 className={styles.title}>Stay in touch with the latest events</h4>
         <p className={styles.description}>
           Every Sunday, you'll receive a report to your inbox with insights from
-          the San family or other people you follow, based on your monitored
+          the San family and people you follow, based on your monitored
           watchlists.
         </p>
         <Button
