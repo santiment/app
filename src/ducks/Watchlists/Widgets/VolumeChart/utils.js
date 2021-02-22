@@ -34,6 +34,10 @@ export const PRICE_CHANGE_RANGES = [
   {
     label: '7d',
     key: 'price_usd_change_7d'
+  },
+  {
+    label: '30d',
+    key: 'price_usd_change_30d'
   }
 ]
 

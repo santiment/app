@@ -85,6 +85,12 @@ export const ALL_PROJECTS_PRICE_CHANGES_QUERY = gql`
           to: "utc_now"
           aggregation: LAST
         )
+        price_usd_change_30d: aggregatedTimeseriesData(
+          metric: "price_usd_change_30d"
+          from: "utc_now-30d"
+          to: "utc_now"
+          aggregation: LAST
+        )
         marketcapUsd
         priceUsd
       }
