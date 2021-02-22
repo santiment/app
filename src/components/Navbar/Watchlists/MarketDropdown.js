@@ -47,7 +47,7 @@ const MarketDropdown = ({ activeLink }) => {
         <div className={cx(styles.block, styles.list)}>
           {recentWatchlists && recentWatchlists.length > 0 && (
             <div className={styles.row}>
-              <h3 className={styles.title}>Recent watched watchlists</h3>
+              <h3 className={styles.title}>Recently viewed watchlists</h3>
               <div
                 className={styles.listWrapper}
                 style={{

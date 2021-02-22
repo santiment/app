@@ -35,7 +35,7 @@ const ScreenerDropdown = ({ activeLink }) => {
         <div className={cx(wrapperStyles.block, wrapperStyles.list)}>
           {recentScreeners && recentScreeners.length > 0 && (
             <div className={wrapperStyles.row}>
-              <h3 className={wrapperStyles.title}>Recent watched screeners</h3>
+              <h3 className={wrapperStyles.title}>Recently viewed screeners</h3>
               <div
                 className={wrapperStyles.listWrapper}
                 style={{

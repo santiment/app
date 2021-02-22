@@ -112,7 +112,7 @@ const NavbarChartsDropdown = ({ activeLink }) => {
         <div className={cx(styles.block, styles.list)}>
           {recentTemplates && recentTemplates.length > 0 && (
             <>
-              <h3 className={styles.title}>Recent watched chart layouts</h3>
+              <h3 className={styles.title}>Recently viewed chart layouts</h3>
               <div
                 className={styles.listWrapper}
                 style={getLayoutsStyles(

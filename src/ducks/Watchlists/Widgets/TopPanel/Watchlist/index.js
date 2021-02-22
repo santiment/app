@@ -3,7 +3,7 @@ import cx from 'classnames'
 import BaseActions from '../WatchlistBaseActions'
 import Share from '../../../Actions/Share'
 import Widgets from '../Widgets'
-import WeeklyReportTrigger from '../../../Actions/WeeklyReport/Trigger'
+import WeeklyReport from '../../../Actions/WeeklyReport'
 import HelpPopup from '../../../../../components/HelpPopup/HelpPopup'
 import styles from '../index.module.scss'
 
@@ -41,7 +41,7 @@ const TopPanel = ({
         <Widgets {...props} />
         {watchlist && <Share watchlist={watchlist} isAuthor={isAuthor} />}
         {isAuthor && (
-          <WeeklyReportTrigger id={id} name={name} isMonitored={isMonitored} />
+          <WeeklyReport id={id} name={name} isMonitored={isMonitored} />
         )}
       </div>
     </section>

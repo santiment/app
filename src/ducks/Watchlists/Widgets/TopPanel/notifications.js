@@ -61,3 +61,12 @@ export function notifyOutdatedVersion () {
     ]
   })
 }
+
+export function notifyMonitoring ({ type = 'watchlist', name, isMonitored }) {
+  return dispatchNotification({
+    variant: 'success',
+    title: isMonitored
+      ? `You are monitoring "${name}" ${type} now`
+      : `You won't receive reports with "${name}" ${type}`
+  })
+}

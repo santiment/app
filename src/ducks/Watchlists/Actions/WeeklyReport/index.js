@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
 import cx from 'classnames'
 import Dialog from '@santiment-network/ui/Dialog'
 import Button from '@santiment-network/ui/Button'
 import Toggle from '@santiment-network/ui/Toggle'
 import Notification from '@santiment-network/ui/Notification'
 import EmailImage from './EmailImage'
+import Trigger from './Trigger'
+import { useMonitoringWatchlist } from './hooks'
 import EmailSetting from '../../../../pages/Account/EmailSetting'
-import { showNotification } from '../../../../actions/rootActions'
-import { WATCHLIST_TOGGLE_MONITORING } from '../../../../actions/types'
+import { useUserSettings } from '../../../../stores/user/settings'
+import { notifyMonitoring } from '../../Widgets/TopPanel/notifications'
 import styles from './index.module.scss'
 
 const NOTIFICATION = {
@@ -42,20 +43,19 @@ const STATUSES = {
   error: 'Error during typing email'
 }
 
-const WatchlistWeeklyReport = ({
+const WeeklyReport = ({
   trigger,
   isMonitored: initialIsMonitored,
-  email,
   id,
-  name,
-  dispatchIsMonitored,
-  setNotification
+  name
 }) => {
+  const {
+    settings: { isEmailConnected }
+  } = useUserSettings()
   const [isShown, setIsShown] = useState(false)
   const [isMonitored, toggleIsMonitored] = useState(initialIsMonitored)
   const [emailStatus, toggleEmailStatus] = useState()
-
-  const isEmailConnected = !!email
+  const [updateWatchlist] = useMonitoringWatchlist()
 
   const close = () => {
     setIsShown(false)
@@ -69,25 +69,21 @@ const WatchlistWeeklyReport = ({
 
   const onSave = () => {
     if (isEmailConnected && initialIsMonitored !== isMonitored) {
-      dispatchIsMonitored({ id, isMonitored })
+      updateWatchlist(id, isMonitored).then(state => toggleIsMonitored(state))
     }
 
     if (!isEmailConnected && emailStatus === STATUSES.success) {
-      dispatchIsMonitored({ id, isMonitored })
+      updateWatchlist(id, isMonitored).then(state => toggleIsMonitored(state))
     }
 
-    setNotification({
-      variant: 'success',
-      title: isMonitored
-        ? `You are monitoring "${name}" watchlist now`
-        : `You won't receive reports with "${name}" watchlist`
-    })
+    notifyMonitoring({ name, isMonitored, type: 'watchlist' })
     close()
   }
 
   return (
     <Dialog
-      trigger={trigger}
+      size='m'
+      trigger={trigger || Trigger({ isMonitored })}
       onOpen={open}
       onClose={close}
       open={isShown}
@@ -98,7 +94,7 @@ const WatchlistWeeklyReport = ({
         <h4 className={styles.title}>Stay in touch with the latest events</h4>
         <p className={styles.description}>
           Every Sunday, you'll receive a report to your inbox with insights from
-          the San family or other people you follow, based on your monitored
+          the San family and people you follow, based on your monitored
           watchlists.
         </p>
         <Button
@@ -109,20 +105,24 @@ const WatchlistWeeklyReport = ({
           <Toggle isActive={isMonitored} className={styles.toggle} />
           Receive weekly report
         </Button>
-        {isMonitored && (
-          <>
-            <Notification
-              {...NOTIFICATION[isEmailConnected ? 'connected' : 'notConnected']}
-              hasCloseBtn={false}
-            />
-            <EmailSetting
-              withoutButtons={true}
-              isEmailConnected={isEmailConnected}
-              onChangeStatus={toggleEmailStatus}
-              statuses={STATUSES}
-            />
-          </>
-        )}
+        <div
+          className={cx(
+            styles.monitoredContent,
+            !isEmailConnected && styles.monitoredContent__big,
+            !isMonitored && styles.monitoredContent__hide
+          )}
+        >
+          <Notification
+            {...NOTIFICATION[isEmailConnected ? 'connected' : 'notConnected']}
+            hasCloseBtn={false}
+          />
+          <EmailSetting
+            withoutButtons={true}
+            isEmailConnected={isEmailConnected}
+            onChangeStatus={toggleEmailStatus}
+            statuses={STATUSES}
+          />
+        </div>
       </Dialog.ScrollContent>
       <Dialog.Actions className={styles.actions}>
         <Button
@@ -142,22 +142,4 @@ const WatchlistWeeklyReport = ({
   )
 }
 
-const mapStateToProps = ({ user: { data: { email } = {} } }) => ({
-  email
-})
-
-const mapDispatchToProps = dispatch => ({
-  dispatchIsMonitored: payload => {
-    window.intercomSettings = {
-      ...window.intercomSettings,
-      weekly_report: payload.isMonitored
-    }
-    dispatch({ type: WATCHLIST_TOGGLE_MONITORING, payload })
-  },
-  setNotification: message => dispatch(showNotification(message))
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WatchlistWeeklyReport)
+export default WeeklyReport

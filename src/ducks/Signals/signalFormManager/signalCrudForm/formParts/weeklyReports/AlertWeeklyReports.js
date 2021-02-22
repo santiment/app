@@ -1,19 +1,15 @@
 import React, { useCallback, useState, useEffect } from 'react'
-import { connect } from 'react-redux'
-import { WATCHLIST_TOGGLE_MONITORING } from '../../../../../../actions/types'
-import { showNotification } from '../../../../../../actions/rootActions'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import TriggerChannelSettings from '../channels/TriggerChannelSettings'
 import { useUserSettings } from '../../../../../../stores/user/settings'
+import { useMonitoringWatchlist } from '../../../../../Watchlists/Actions/WeeklyReport/hooks'
+import { notifyMonitoring } from '../../../../../Watchlists/Widgets/TopPanel/notifications'
 import styles from './AlertWeeklyReports.module.scss'
 
-const AlertWeeklyReports = ({
-  watchlist,
-  dispatchIsMonitored,
-  showNotification
-}) => {
+const AlertWeeklyReports = ({ watchlist }) => {
   const { isMonitored: initialMonitoring } = watchlist
   const [isMonitored, setMonitored] = useState(initialMonitoring)
+  const [updateWatchlist] = useMonitoringWatchlist()
 
   const {
     settings: { isEmailConnected }
@@ -27,20 +23,12 @@ const AlertWeeklyReports = ({
   )
 
   const toggle = useCallback(
-    val => {
+    () => {
       const { id, name } = watchlist
       const newVal = !isMonitored
 
-      dispatchIsMonitored({ id, isMonitored: newVal })
-
-      showNotification({
-        variant: 'success',
-        title: newVal
-          ? `You are monitoring "${name}" watchlist now`
-          : `You won't receive reports with "${name}" watchlist`
-      })
-
-      setMonitored(newVal)
+      updateWatchlist(id, newVal).then(state => setMonitored(state))
+      notifyMonitoring({ name, isMonitored: newVal, type: 'screener' })
     },
     [watchlist, initialMonitoring, isMonitored]
   )
@@ -74,18 +62,4 @@ const AlertWeeklyReports = ({
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  dispatchIsMonitored: payload => {
-    window.intercomSettings = {
-      ...window.intercomSettings,
-      weekly_report: payload.isMonitored
-    }
-    dispatch({ type: WATCHLIST_TOGGLE_MONITORING, payload })
-  },
-  showNotification: message => dispatch(showNotification(message))
-})
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(AlertWeeklyReports)
+export default AlertWeeklyReports

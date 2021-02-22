@@ -5,9 +5,9 @@
 }
 
 .wrapper {
-  padding: 0 48px 0;
+  padding: 0;
   width: 100%;
-  max-width: 496px;
+  max-width: 448px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -162,9 +162,9 @@
 }
 
 .actions {
-  padding: 16px 48px 50px;
+  padding: 16px 0 50px;
   width: 100%;
-  max-width: 496px;
+  max-width: 448px;
   margin: 0 auto;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
@@ -185,5 +185,19 @@
 
   @include responsive('phone-xs', 'phone') {
     padding: 8px;
+  }
+}
+
+.monitoredContent {
+  overflow: hidden;
+  transition: height 0.3s ease-in-out;
+  height: 190px;
+
+  &__big {
+    height: 212px;
+  }
+
+  &__hide {
+    height: 0;
   }
 }
