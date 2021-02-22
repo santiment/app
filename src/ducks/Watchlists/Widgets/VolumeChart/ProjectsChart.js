@@ -29,7 +29,9 @@ import {
 import styles from './ProjectsChart.module.scss'
 
 const renderCustomizedLabel = props => {
-  const { x, y, width, value, fill } = props
+  const { x, y, width, value: source, fill } = props
+
+  const value = source * 100
 
   const fontSize = width < 20 ? 7 : 14
   const position = +value >= 0 ? -1 * (fontSize / 2) : fontSize
@@ -51,7 +53,7 @@ const renderCustomizedLabel = props => {
 }
 
 const ProjectsChart = ({
-  assets,
+  listId,
   redirect,
   settings,
   onChangeInterval,
@@ -60,13 +62,12 @@ const ProjectsChart = ({
   const { sorter: { sortBy = 'marketcapUsd', desc: sortDesc } = {} } = settings
   const defaultIndex = useMemo(
     () => {
-      return (
-        SORT_RANGES.findIndex(
-          ({ key, desc }) => key === sortBy && desc === sortDesc
-        ) || 0
+      const index = SORT_RANGES.findIndex(
+        ({ key, desc }) => key === sortBy && desc === sortDesc
       )
+      return index >= 0 ? index : 0
     },
-    [sortBy]
+    [sortBy, sortDesc]
   )
 
   const [sortedByIndex, setSortedByIndex] = useState(defaultIndex)
@@ -91,10 +92,9 @@ const ProjectsChart = ({
     label,
     key
   } = useProjectRanges({
-    assets,
-    limit: 100,
+    listId,
     ranges: PRICE_CHANGE_RANGES,
-    sortByKey,
+    sortByMetric: sortByKey,
     desc,
     settings,
     onChangeInterval
@@ -120,7 +120,7 @@ const ProjectsChart = ({
 
   const datakey = 'slug'
 
-  const noData = assets.length === 0
+  const noData = !loading && data.length === 0
 
   return (
     <div className={styles.container}>

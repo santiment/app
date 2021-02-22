@@ -42,11 +42,12 @@ const Infographics = ({
       {isPriceTreeMap && (
         <div className={styles.treeMaps}>
           <ProjectsMapWrapper
+            listId={listId}
             className={styles.containerTreeMap}
-            assets={assets}
             title='Price Changes'
             ranges={PRICE_CHANGE_RANGES}
             settings={priceTreeMap}
+            sortByMetric='marketcap_usd'
             onChangeInterval={value => onChangeInterval('priceTreeMap', value)}
           />
         </div>
@@ -55,12 +56,13 @@ const Infographics = ({
         <div className={styles.treeMaps}>
           {isPro ? (
             <ProjectsMapWrapper
+              listId={listId}
               className={styles.containerTreeMap}
-              assets={assets}
               title='Social Volume Changes'
               ranges={SOCIAL_VOLUME_CHANGE_RANGES}
               isSocialVolume={true}
               settings={socialVolumeTreeMap}
+              sortByMetric='marketcap_usd'
               onChangeInterval={value =>
                 onChangeInterval('socialVolumeTreeMap', value)
               }
@@ -72,7 +74,7 @@ const Infographics = ({
       )}
       {isPriceChartActive && (
         <ProjectsChart
-          assets={assets}
+          listId={listId}
           settings={priceBarChart}
           onChangeInterval={value => onChangeInterval('priceBarChart', value)}
           onChangeSorter={value => onChangeSorter('priceBarChart', value)}

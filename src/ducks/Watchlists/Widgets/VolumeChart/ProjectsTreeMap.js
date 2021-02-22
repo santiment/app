@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { ResponsiveContainer, Tooltip, Treemap } from 'recharts'
 import Range from '../WatchlistOverview/WatchlistAnomalies/Range'
 import Skeleton from '../../../../components/Skeleton/Skeleton'
@@ -8,7 +8,6 @@ import NoDataCharts from './NoDataCharts'
 import ScreenerChartTitle from './ScreenerChartTitle'
 import { useProjectRanges, useWithColors } from './hooks'
 import {
-  getPriceSorter,
   getTooltipLabels,
   PRICE_CHANGE_RANGES,
   tooltipLabelFormatter
@@ -16,16 +15,15 @@ import {
 import CustomizedTreeMapContent from './CustomizedTreeMapContent'
 import styles from './ProjectsChart.module.scss'
 
-const noop = () => true
-
 export const ProjectsMapWrapper = ({
-  assets,
+  listId,
   ranges,
   className,
   title,
   isSocialVolume = false,
   settings,
-  onChangeInterval
+  onChangeInterval,
+  sortByMetric
 }) => {
   const {
     data,
@@ -35,20 +33,17 @@ export const ProjectsMapWrapper = ({
     label,
     key
   } = useProjectRanges({
-    assets,
+    listId,
     ranges,
-    limit: 100,
-    sortByKey: 'marketcapUsd',
     isSocialVolume,
     settings,
-    onChangeInterval
+    onChangeInterval,
+    sortByMetric
   })
 
   return (
     <ProjectsTreeMap
-      assets={assets}
       ranges={ranges}
-      sortByKey={'marketcapUsd'}
       className={className}
       title={title}
       data={data}
@@ -62,10 +57,8 @@ export const ProjectsMapWrapper = ({
 }
 
 const ProjectsTreeMap = ({
-  assets,
   ranges,
   className,
-  sortByKey,
   title,
   data,
   loading,
@@ -74,22 +67,9 @@ const ProjectsTreeMap = ({
   label,
   dataKey: key
 }) => {
-  const sorter = useMemo(
-    () => {
-      return sortByKey ? getPriceSorter(sortByKey) : noop
-    },
-    [sortByKey]
-  )
+  const noData = !loading && data.length === 0
 
-  const sortedByChange = useWithColors(data, key, sorter)
-  const sortedByMarketcap = useMemo(
-    () => {
-      return sortedByChange.sort(sorter)
-    },
-    [sortedByChange]
-  )
-
-  const noData = assets.length === 0
+  const colored = useWithColors(data, key)
 
   return (
     <div className={className}>
@@ -131,7 +111,7 @@ const ProjectsTreeMap = ({
         <div className={styles.treeMap}>
           <ResponsiveContainer width='100%' height='100%'>
             <Treemap
-              data={sortedByMarketcap}
+              data={colored}
               dataKey={'marketcapUsd'}
               fill='var(--jungle-green)'
               isAnimationActive={false}

@@ -3,10 +3,16 @@
 .title {
   color: var(--fiord);
   margin-left: 8px;
+  display: flex;
+  align-items: center;
 
-  @include text('caption'); }
+  @include text('caption');
+}
 
 .type {
   color: var(--rhino);
+  display: flex;
+  align-items: center;
 
-  @include text('caption', 'm'); }
+  @include text('caption', 'm');
+}

@@ -29,54 +29,32 @@ export function useProject (slug) {
   return [data ? data.projectBySlug : undefined, loading, error]
 }
 
-const prepare = ({ items, limit, sorter, key }) =>
-  items
-    .sort(sorter)
-    .slice(0, limit)
-    .map(item => ({
-      ...item,
-      [key]: +item[key]
-    }))
-
-export function useProjectPriceChanges ({ key, assets, sorter, limit = 100 }) {
-  const query = useQuery(ALL_PROJECTS_PRICE_CHANGES_QUERY, {
-    variables: {
-      fn: JSON.stringify({
-        args: {
-          slugs: assets
-        },
-        name: 'slugs'
-      })
-    }
-  })
-
-  return useMemo(
-    () => {
-      const { data, loading, error } = query
-      const items = data ? data.allProjectsByFunction.projects : []
-
-      const mapped = prepare({ items, limit, sorter, key })
-
-      return [mapped, loading, error]
+const makeFn = ({ limit, listId, orderBy }) => {
+  return JSON.stringify({
+    args: {
+      pagination: {
+        page: 1,
+        pageSize: limit
+      },
+      baseProjects: [
+        {
+          watchlistId: listId
+        }
+      ],
+      orderBy: orderBy
     },
-    [query, limit, sorter, key]
-  )
+    name: 'selector'
+  })
 }
 
 export function useProjectsSocialVolumeChanges ({
-  interval,
-  assets,
-  sorter,
+  listId,
+  orderBy,
   limit = 100
 }) {
   const query = useQuery(ALL_PROJECTS_SOCIAL_VOLUME_CHANGES_QUERY, {
     variables: {
-      fn: JSON.stringify({
-        args: {
-          slugs: assets
-        },
-        name: 'slugs'
-      })
+      fn: makeFn({ listId, limit, orderBy })
     }
   })
 
@@ -85,12 +63,26 @@ export function useProjectsSocialVolumeChanges ({
       const { data, loading, error } = query
       const items = data ? data.allProjectsByFunction.projects : []
 
-      const key = `change${interval}`
-
-      const mapped = prepare({ items, limit, sorter, key })
-
-      return [mapped, loading, error]
+      return [items, loading, error]
     },
-    [query, interval, sorter, limit]
+    [query]
+  )
+}
+
+export function useProjectPriceChanges ({ listId, orderBy, limit = 100 }) {
+  const query = useQuery(ALL_PROJECTS_PRICE_CHANGES_QUERY, {
+    variables: {
+      fn: makeFn({ listId, limit, orderBy })
+    }
+  })
+
+  return useMemo(
+    () => {
+      const { data, loading, error } = query
+      const items = data ? data.allProjectsByFunction.projects : []
+
+      return [items, loading, error]
+    },
+    [query]
   )
 }
