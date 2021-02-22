@@ -73,9 +73,24 @@ export const ALL_PROJECTS_PRICE_CHANGES_QUERY = gql`
         slug
         ticker
         name
-        percentChange1h
-        percentChange24h
-        percentChange7d
+        price_usd_change_1d: aggregatedTimeseriesData(
+          metric: "price_usd_change_1d"
+          from: "utc_now-1d"
+          to: "utc_now"
+          aggregation: LAST
+        )
+        price_usd_change_7d: aggregatedTimeseriesData(
+          metric: "price_usd_change_7d"
+          from: "utc_now-7d"
+          to: "utc_now"
+          aggregation: LAST
+        )
+        price_usd_change_30d: aggregatedTimeseriesData(
+          metric: "price_usd_change_30d"
+          from: "utc_now-30d"
+          to: "utc_now"
+          aggregation: LAST
+        )
         marketcapUsd
         priceUsd
       }
@@ -93,19 +108,19 @@ export const ALL_PROJECTS_SOCIAL_VOLUME_CHANGES_QUERY = gql`
         slug
         marketcapUsd
         priceUsd
-        change1d: aggregatedTimeseriesData(
+        social_volume_total_change_1d: aggregatedTimeseriesData(
           metric: "social_volume_total_change_1d"
           from: "utc_now-1d"
           to: "utc_now"
           aggregation: LAST
         )
-        change7d: aggregatedTimeseriesData(
+        social_volume_total_change_7d: aggregatedTimeseriesData(
           metric: "social_volume_total_change_7d"
           from: "utc_now-7d"
           to: "utc_now"
           aggregation: LAST
         )
-        change30d: aggregatedTimeseriesData(
+        social_volume_total_change_30d: aggregatedTimeseriesData(
           metric: "social_volume_total_change_30d"
           from: "utc_now-30d"
           to: "utc_now"

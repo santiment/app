@@ -115,7 +115,7 @@ export const ProjectsChartTooltip = ({
                     <div key={labelKey} className={styles.row}>
                       <span className={styles.key}>{label}</span>
                       <span className={styles.value}>
-                        {formatter(original[labelKey])}
+                        {formatter(100 * original[labelKey])}
                       </span>
                     </div>
                   )

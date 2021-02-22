@@ -1,5 +1,6 @@
 import React from 'react'
-import { formatProjectTreeMapValue, getFontSize, getWordLength } from './utils'
+import { getFontSize, getWordLength } from './utils'
+import { renderPercent } from '../../../../components/PercentChanges'
 
 const CustomizedTreeMapContent = props => {
   const {
@@ -18,7 +19,7 @@ const CustomizedTreeMapContent = props => {
 
   const item = children[index]
   const { ticker = '', color } = item
-  const value = formatProjectTreeMapValue(item[dataKey])
+  const value = renderPercent(100 * item[dataKey])
 
   const fontSize = getFontSize(index, children.length)
 

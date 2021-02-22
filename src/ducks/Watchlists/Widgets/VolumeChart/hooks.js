@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   useProjectPriceChanges,
   useProjectsSocialVolumeChanges
 } from '../../../../hooks/project'
-import { getPriceSorter, mapToColors } from './utils'
+import { mapToColors } from './utils'
 
 export const useWithColors = (data, key, sorter) => {
   const [result, setResult] = useState([])
@@ -19,16 +19,7 @@ export const useWithColors = (data, key, sorter) => {
   return result
 }
 
-export const useProjectRanges = ({
-  assets,
-  ranges,
-  limit,
-  sortByKey: inputKey,
-  desc = true,
-  isSocialVolume = false,
-  settings,
-  onChangeInterval
-}) => {
+const useChartInterval = ({ settings, ranges, onChangeInterval }) => {
   const defaultSelectedIndex =
     settings && settings.interval
       ? ranges.findIndex(({ label }) => label === settings.interval)
@@ -45,26 +36,49 @@ export const useProjectRanges = ({
     [intervalIndex]
   )
 
-  const { label, key } = ranges[intervalIndex]
+  return {
+    intervalIndex,
+    setIntervalIndex,
+    rangeItem: ranges[intervalIndex]
+  }
+}
 
-  const sortKey = inputKey || key
-  const sorter = getPriceSorter({ sortKey, desc })
+const buildOrder = ({ interval, metric = 'marketcap_usd', desc = false }) => ({
+  metric,
+  dynamic_from: interval,
+  dynamic_to: 'now',
+  aggregation: 'last',
+  direction: desc ? 'desc' : 'asc'
+})
 
-  const hookProps = useMemo(
-    () => {
-      return {
-        assets: assets.map(({ slug }) => slug),
-        key,
-        limit,
-        sorter
-      }
-    },
-    [assets, key, limit, sorter]
-  )
+export const useProjectRanges = ({
+  listId,
+  ranges,
+  desc = true,
+  isSocialVolume = false,
+  settings,
+  onChangeInterval,
+  sortByMetric
+}) => {
+  const {
+    setIntervalIndex,
+    intervalIndex,
+    rangeItem: { label, key, metric = key }
+  } = useChartInterval({ settings, ranges, onChangeInterval })
+
+  const hookProps = {
+    listId,
+    key,
+    orderBy: buildOrder({
+      interval: label,
+      metric: sortByMetric || metric,
+      desc
+    })
+  }
 
   const [data, loading] = isSocialVolume
-    ? useProjectsSocialVolumeChanges({ ...hookProps, interval: label })
+    ? useProjectsSocialVolumeChanges(hookProps)
     : useProjectPriceChanges(hookProps)
 
-  return { data, loading, intervalIndex, setIntervalIndex, label, key }
+  return { data, loading, intervalIndex, setIntervalIndex, label, key: metric }
 }

@@ -2,14 +2,6 @@ import memoize from 'lodash.memoize'
 import { formatNumber, millify } from '../../../../utils/formatting'
 import { getTreeMapColor } from './ColorsExplanation'
 
-export const getPriceSorter = memoize(({ sortKey, desc }) => (a, b) => {
-  if (desc) {
-    return +b[sortKey] - +a[sortKey]
-  } else {
-    return +a[sortKey] - +b[sortKey]
-  }
-})
-
 export function getBarColor (val) {
   return +val > 0 ? 'var(--jungle-green)' : 'var(--persimmon)'
 }
@@ -34,62 +26,56 @@ export const getTooltipLabels = memoize(({ key, label }) => {
   ]
 })
 
-export const formatProjectTreeMapValue = val =>
-  val
-    ? formatNumber(val, {
-      maximumFractionDigits: 2,
-      directionSymbol: true
-    }) + '%'
-    : null
-
 export const PRICE_CHANGE_RANGES = [
   {
-    label: '1h',
-    key: 'percentChange1h'
-  },
-  {
     label: '24h',
-    key: 'percentChange24h'
+    key: 'price_usd_change_1d'
   },
   {
     label: '7d',
-    key: 'percentChange7d'
+    key: 'price_usd_change_7d'
+  },
+  {
+    label: '30d',
+    key: 'price_usd_change_30d'
   }
 ]
 
 export const SOCIAL_VOLUME_CHANGE_RANGES = [
   {
     label: '24h',
-    key: 'change1d'
+    key: 'social_volume_total_change_1d'
   },
   {
     label: '7d',
-    key: 'change7d'
+    key: 'social_volume_total_change_7d'
   },
   {
     label: '30d',
-    key: 'change30d'
+    key: 'social_volume_total_change_30d'
   }
 ]
 
 export const SORT_RANGES = [
   {
     label: 'Marketcap  ⬆️',
-    key: 'marketcapUsd'
-  },
-  {
-    label: 'Marketcap  ⬇️',
-    key: 'marketcapUsd',
+    key: 'marketcap_usd',
     desc: false
   },
   {
+    label: 'Marketcap  ⬇️',
+    key: 'marketcap_usd',
+    desc: true
+  },
+  {
     label: `Price changes  ⬆️`,
-    key: ''
+    key: '',
+    desc: false
   },
   {
     label: 'Price changes  ⬇️',
     key: '',
-    desc: false
+    desc: true
   }
 ]
 
@@ -111,7 +97,7 @@ export const getFontSize = (index, length) => {
 export const mapToColors = (data, key) => {
   return data.map(item => {
     const value = +item[key]
-    const color = getTreeMapColor(value)
+    const color = getTreeMapColor(100 * value)
     return {
       ...item,
       color
