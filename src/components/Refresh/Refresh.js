@@ -4,6 +4,7 @@ import Toggle from '@santiment-network/ui/Toggle'
 import Timer from '../Timer'
 import { dateDifferenceInWords } from '../../utils/dates'
 import { getSavedToggle, saveToggle } from '../../utils/localStorage'
+import DarkTooltip from '../Tooltip/DarkTooltip'
 import styles from './Refresh.module.scss'
 
 const KEY = 'TABLE_REFRESH'
@@ -36,16 +37,23 @@ const Refresh = ({ onRefreshClick, timestamp, isLoading }) => {
   return (
     <div className={styles.wrapper}>
       <div onClick={onRefreshClick} className={styles.refresh}>
-        <Icon type='refresh' className={styles.icon} />
-        <Timer interval={INTERVAL} syncRef={timestamp}>
-          {() =>
-            isLoading
-              ? 'Loading...'
-              : timestamp
-                ? `Updated ${dateDifferenceInWords(options)}`
-                : ''
-          }
-        </Timer>
+        <DarkTooltip
+          position='top'
+          align='center'
+          on='hover'
+          className={styles.deprecated__tooltip}
+          trigger={<Icon type='refresh' className={styles.icon} />}
+        >
+          <Timer interval={INTERVAL} syncRef={timestamp}>
+            {() =>
+              isLoading
+                ? 'Loading...'
+                : timestamp
+                  ? `Updated ${dateDifferenceInWords(options)}`
+                  : ''
+            }
+          </Timer>
+        </DarkTooltip>
       </div>
       <div className={styles.auto} onClick={toggleAutoRefreshState}>
         <Toggle isActive={autoRefresh} className={styles.toggle} />

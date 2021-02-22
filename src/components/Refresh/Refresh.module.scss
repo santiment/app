@@ -12,20 +12,20 @@
   }
 }
 
-.icon {
-  margin-right: 8px;
-}
-
 .refresh {
   display: flex;
   align-items: center;
   cursor: pointer;
-  min-width: 197px;
+  padding: 8px 16px;
+  box-sizing: content-box;
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
 }
 
 .auto {
   padding-left: 16px;
-  margin-left: 16px;
   position: relative;
   display: flex;
   align-items: center;
