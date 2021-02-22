@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
 import cx from 'classnames'
 import Dialog from '@santiment-network/ui/Dialog'
 import Button from '@santiment-network/ui/Button'
@@ -7,10 +6,10 @@ import Toggle from '@santiment-network/ui/Toggle'
 import Notification from '@santiment-network/ui/Notification'
 import EmailImage from './EmailImage'
 import Trigger from './Trigger'
-import EmailSetting from '../../../../pages/Account/EmailSetting'
-import { showNotification } from '../../../../actions/rootActions'
 import { useMonitoringWatchlist } from './hooks'
+import EmailSetting from '../../../../pages/Account/EmailSetting'
 import { useUserSettings } from '../../../../stores/user/settings'
+import { notifyMonitoring } from '../../Widgets/TopPanel/notifications'
 import styles from './index.module.scss'
 
 const NOTIFICATION = {
@@ -48,8 +47,7 @@ const WeeklyReport = ({
   trigger,
   isMonitored: initialIsMonitored,
   id,
-  name,
-  setNotification
+  name
 }) => {
   const {
     settings: { isEmailConnected }
@@ -78,12 +76,7 @@ const WeeklyReport = ({
       updateWatchlist(id, isMonitored).then(state => toggleIsMonitored(state))
     }
 
-    setNotification({
-      variant: 'success',
-      title: isMonitored
-        ? `You are monitoring "${name}" watchlist now`
-        : `You won't receive reports with "${name}" watchlist`
-    })
+    notifyMonitoring({ name, isMonitored, type: 'watchlist' })
     close()
   }
 
@@ -149,11 +142,4 @@ const WeeklyReport = ({
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  setNotification: message => dispatch(showNotification(message))
-})
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(WeeklyReport)
+export default WeeklyReport
