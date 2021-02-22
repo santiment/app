@@ -10,6 +10,7 @@ import Trigger from './Trigger'
 import EmailSetting from '../../../../pages/Account/EmailSetting'
 import { showNotification } from '../../../../actions/rootActions'
 import { useMonitoringWatchlist } from './hooks'
+import { useUserSettings } from '../../../../stores/user/settings'
 import styles from './index.module.scss'
 
 const NOTIFICATION = {
@@ -46,17 +47,17 @@ const STATUSES = {
 const WeeklyReport = ({
   trigger,
   isMonitored: initialIsMonitored,
-  email,
   id,
   name,
   setNotification
 }) => {
+  const {
+    settings: { isEmailConnected }
+  } = useUserSettings()
   const [isShown, setIsShown] = useState(false)
   const [isMonitored, toggleIsMonitored] = useState(initialIsMonitored)
   const [emailStatus, toggleEmailStatus] = useState()
   const [updateWatchlist] = useMonitoringWatchlist()
-
-  const isEmailConnected = !!email
 
   const close = () => {
     setIsShown(false)
@@ -148,15 +149,11 @@ const WeeklyReport = ({
   )
 }
 
-const mapStateToProps = ({ user: { data: { email } = {} } }) => ({
-  email
-})
-
 const mapDispatchToProps = dispatch => ({
   setNotification: message => dispatch(showNotification(message))
 })
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(WeeklyReport)
