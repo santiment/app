@@ -1,18 +1,16 @@
 import gql from 'graphql-tag'
 import { client } from '../../../../apollo'
 
-const METRICS_MIN_INTERVAL_QUERY = gql`
-  query {
-    getAccessRestrictions {
-      name
-      minInterval
-    }
-  }
-`
-
 let CACHE
 const queryParams = {
-  query: METRICS_MIN_INTERVAL_QUERY
+  query: gql`
+    query {
+      getAccessRestrictions {
+        name
+        minInterval
+      }
+    }
+  `
 }
 
 function metricsMinIntervalAccessor ({ data: { getAccessRestrictions } }) {
@@ -25,9 +23,7 @@ function metricsMinIntervalAccessor ({ data: { getAccessRestrictions } }) {
     const { name, minInterval } = getAccessRestrictions[i]
     CACHE[name] = minInterval
   }
-
   return CACHE
 }
-
-export const getMetricMinInterval = metric =>
+export const getMetricMinInterval = () =>
   client.query(queryParams).then(metricsMinIntervalAccessor)
