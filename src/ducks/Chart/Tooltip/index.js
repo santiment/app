@@ -26,6 +26,7 @@ const Tooltip = ({
 }) => {
   const chart = useChart()
 
+  chart.tooltipKey = metric
   chart.cursorType = cursorType
   chart.syncTooltips = syncTooltips
   chart.onPointMouseDown = onPointMouseDown
@@ -62,7 +63,6 @@ const Tooltip = ({
         ctx.fillRect(x, y, 8, 2)
       }
 
-      chart.tooltipKey = metric
       chart.drawTooltip = point => plotTooltip(chart, marker, point)
 
       setupTooltip(chart, marker)
