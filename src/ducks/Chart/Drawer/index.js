@@ -3,7 +3,8 @@ import { newCanvas } from '@santiment-network/chart'
 import {
   paintDrawings,
   paintDrawingAxes,
-  relativeToAbsoluteCoordinates
+  relativeToAbsoluteCoordinates,
+  absoluteToRelativeCoordinates
 } from './helpers'
 import {
   handleLineCreation,
@@ -49,13 +50,11 @@ const Drawer = ({
     drawer.recalcAbsCoor = () => {
       if (!chart.minMaxes) return
 
-      const { drawings } = drawer
-      for (let i = 0; i < drawings.length; i++) {
-        const drawing = drawings[i]
+      drawer.drawings.forEach(drawing => {
         if (drawing.relCoor) {
           drawing.absCoor = relativeToAbsoluteCoordinates(chart, drawing)
         }
-      }
+      })
 
       drawer.redraw()
     }
@@ -69,6 +68,22 @@ const Drawer = ({
       delete chart.drawer
     }
   }, [])
+
+  useEffect(
+    () => {
+      const { minMaxes, drawer } = chart
+      if (!minMaxes) return
+
+      drawer.drawings.forEach(drawing => {
+        if (drawing.absCoor) {
+          drawing.relCoor = absoluteToRelativeCoordinates(chart, drawing)
+        }
+      })
+
+      drawer.redraw()
+    },
+    [metricKey]
+  )
 
   useEffect(
     () => {

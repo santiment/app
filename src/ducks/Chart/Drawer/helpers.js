@@ -158,8 +158,31 @@ export function paintDrawings (chart) {
   ctx.clearRect(0, bottom, right, 200)
 }
 
+function drawMetricValueBubble (chart, paintConfig, metricKey, y1, y2, offset) {
+  const { drawer, scale, minMaxes } = chart
+  const { ctx } = drawer
+
+  const minMax = minMaxes[metricKey]
+  if (!minMax) return
+
+  const { min, max } = minMax
+  const scaleValue = scale === logScale ? valueByLogY : valueByY
+
+  const formattedY1Value = yBubbleFormatter(
+    scaleValue(chart, y1, min, max),
+    metricKey
+  )
+  const formattedY2Value = yBubbleFormatter(
+    scaleValue(chart, y2, min, max),
+    metricKey
+  )
+
+  drawValueBubbleY(chart, ctx, formattedY1Value, y1, paintConfig, offset)
+  drawValueBubbleY(chart, ctx, formattedY2Value, y2, paintConfig, offset)
+}
+
 export function paintDrawingAxes (chart) {
-  const { drawer, bubblesPaintConfig, tooltipKey, right, bottom } = chart
+  const { drawer, axesMetricKeys, bubblesPaintConfig, right, bottom } = chart
   const { ctx, selected: drawing } = drawer
   if (!drawing || !drawing.absCoor) return
 
@@ -174,20 +197,19 @@ export function paintDrawingAxes (chart) {
       ? NIGHT_PAINT_CONFIG
       : DAY_PAINT_CONFIG
 
-  const [x1Date, y1Value, x2Date, y2Value] = absoluteToRelativeCoordinates(
-    chart,
-    drawing
-  )
-  const formattedY1Value = yBubbleFormatter(y1Value, tooltipKey)
-  const formattedY2Value = yBubbleFormatter(y2Value, tooltipKey)
+  // eslint-disable-next-line
+  const [x1Date, _, x2Date, __] = absoluteToRelativeCoordinates(chart, drawing)
 
   ctx.save()
 
   drawValueBubbleX(chart, ctx, xBubbleFormatter(x1Date), x1, paintConfig)
   drawValueBubbleX(chart, ctx, xBubbleFormatter(x2Date), x2, paintConfig)
 
-  drawValueBubbleY(chart, ctx, formattedY1Value, y1, paintConfig)
-  drawValueBubbleY(chart, ctx, formattedY2Value, y2, paintConfig)
+  let offset = 0
+  axesMetricKeys.forEach(metricKey => {
+    drawMetricValueBubble(chart, paintConfig, metricKey, y1, y2, offset)
+    offset += 50
+  })
 
   ctx.clearRect(right, bottom, 200, 200)
 
