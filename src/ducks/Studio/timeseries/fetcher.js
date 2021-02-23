@@ -3,7 +3,6 @@ import { AnomalyFetcher, OldAnomalyFetcher } from './anomalies'
 import { MarketSegmentFetcher } from './marketSegments'
 import { aliasTransform, normalizeInterval } from './utils'
 import { HISTORICAL_BALANCE_QUERY } from './queries/historicaBalance'
-import { getMetricMinInterval } from './queries/minInterval'
 import { GAS_USED_QUERY } from './queries/gasUsed'
 import { ETH_SPENT_OVER_TIME_QUERY } from './queries/ethSpentOverTime'
 import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from './queries/topHoldersPercentOfTotalSupply'
@@ -11,6 +10,7 @@ import {
   SOCIAL_ACTIVE_USERS_TELEGRAM,
   SOCIAL_ACTIVE_USERS_TWITTER
 } from '../../dataHub/submetrics'
+import { getMetricMinInterval } from '../../dataHub/metrics/restrictions'
 import { client } from '../../../apollo'
 
 export const preTransform = ({
@@ -136,9 +136,7 @@ export const fetchData = (query, variables, signal) =>
 export function getData (query, variables, signal) {
   const { metric, queryKey = metric, interval } = variables
 
-  return getMetricMinInterval().then(MetricMinInterval => {
-    const minInterval = MetricMinInterval[queryKey]
-
+  return getMetricMinInterval(queryKey).then(minInterval => {
     if (minInterval) {
       variables.interval = normalizeInterval(interval, minInterval)
     }

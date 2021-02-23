@@ -1,41 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import gql from 'graphql-tag'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Tooltip from '@santiment-network/ui/Tooltip'
-import { client } from '../../../apollo'
+import { getMetricBoundaries } from '../../dataHub/metrics/restrictions'
 import { getDateFormats } from '../../../utils/dates'
 import UpgradeBtn from '../../../components/UpgradeBtn/UpgradeBtn'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import styles from './PaywallInfo.module.scss'
-
-let CACHE
-const queryParams = {
-  query: gql`
-    query {
-      getAccessRestrictions {
-        name
-        restrictedFrom
-        restrictedTo
-      }
-    }
-  `
-}
-
-function metricsBoundariesAccessor ({ data: { getAccessRestrictions } }) {
-  if (CACHE) return CACHE
-
-  CACHE = {}
-  const { length } = getAccessRestrictions
-
-  for (let i = 0; i < length; i++) {
-    const metricBoundaries = getAccessRestrictions[i]
-    CACHE[metricBoundaries.name] = metricBoundaries
-  }
-  return CACHE
-}
-export const getMetricBoundaries = () =>
-  client.query(queryParams).then(metricsBoundariesAccessor)
 
 function formatDate (date) {
   const { DD, MMM, YY } = getDateFormats(new Date(date))
@@ -58,9 +29,7 @@ function useRestrictedInfo (metrics) {
         if (race) return
 
         metrics.forEach(({ key, queryKey = key, label }, i) => {
-          const { restrictedFrom: from, restrictedTo: to } = MetricBoundaries[
-            queryKey
-          ]
+          const { restrictedFrom: from, restrictedTo: to } = MetricBoundaries
 
           if (from || to) {
             infos.push({
