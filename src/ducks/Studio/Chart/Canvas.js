@@ -39,6 +39,7 @@ const Canvas = ({
   data,
   brushData,
   metrics,
+  ErrorMsg,
   settings,
   options,
   cursorType,
@@ -60,6 +61,7 @@ const Canvas = ({
   const axesMetricKeys = useMultiAxesMetricKeys(
     widget,
     metrics,
+    ErrorMsg,
     props.domainGroups
   )
   const padding = useChartPadding(axesMetricKeys)
@@ -121,6 +123,10 @@ const Canvas = ({
       )}
     </ResponsiveChart>
   )
+}
+
+Canvas.defaultProps = {
+  domainGroups: []
 }
 
 export default Canvas

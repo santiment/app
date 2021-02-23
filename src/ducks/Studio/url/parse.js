@@ -122,11 +122,13 @@ function parseMetricSetting (
 function extractMergedMetrics (metrics) {
   const mergedMetrics = []
   const cleanedMetricKeys = []
+  const SharedKeyMergedHolder = {}
   let isPriceUnhandled = true
 
   for (let i = 0; i < metrics.length; i++) {
     const metric = metrics[i]
     const mergedMetricKeys = metric.split(MERGED_DIVIDER)
+
     if (mergedMetricKeys.length < 2) {
       if (isPriceUnhandled && metric === Metric.price_usd.key) {
         isPriceUnhandled = false
@@ -137,14 +139,14 @@ function extractMergedMetrics (metrics) {
       continue
     }
 
-    mergedMetrics.push(
-      buildMergedMetric(
-        mergedMetricKeys.map(key => HolderDistributionMetric[key])
-      )
+    const mergedMetric = buildMergedMetric(
+      mergedMetricKeys.map(key => HolderDistributionMetric[key])
     )
+    mergedMetrics.push(mergedMetric)
+    SharedKeyMergedHolder[metric] = mergedMetric
   }
 
-  return [mergedMetrics, cleanedMetricKeys]
+  return [mergedMetrics, cleanedMetricKeys, SharedKeyMergedHolder]
 }
 
 function parseMetricIndicators (indicators) {
@@ -188,7 +190,8 @@ function parseAxesMetrics (
   axesMetrics,
   metrics,
   SharedKeyIndicator,
-  SharedKeyComparable
+  SharedKeyComparable,
+  SharedKeyMergedHolder
 ) {
   if (!axesMetrics) return [new Set(), new Set()]
 
@@ -196,7 +199,10 @@ function parseAxesMetrics (
   const disabledAxesMetricSet = new Set(metrics)
 
   axesMetrics.forEach(key => {
-    const metric = parseMetric(key, SharedKeyIndicator, SharedKeyComparable)
+    const metric =
+      parseMetric(key, SharedKeyIndicator, SharedKeyComparable) ||
+      SharedKeyMergedHolder[key]
+
     disabledAxesMetricSet.delete(metric)
     axesMetricSet.add(metric)
   })
@@ -221,7 +227,11 @@ export function parseSharedWidgets (sharedWidgets, project) {
         parsedMetricIndicators,
         SharedKeyIndicator
       ] = parseMetricIndicators(indicators)
-      const [holderMetrics, cleanedMetricKeys] = extractMergedMetrics(metrics)
+      const [
+        holderMetrics,
+        cleanedMetricKeys,
+        SharedKeyMergedHolder
+      ] = extractMergedMetrics(metrics)
       const [comparedMetrics, SharedKeyComparable] = parseSharedComparables(
         comparables
       )
@@ -238,7 +248,8 @@ export function parseSharedWidgets (sharedWidgets, project) {
         axesMetrics,
         parsedMetrics,
         SharedKeyIndicator,
-        SharedKeyComparable
+        SharedKeyComparable,
+        SharedKeyMergedHolder
       )
 
       return TypeToWidget[widget].new({

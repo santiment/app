@@ -92,14 +92,20 @@ export const Studio = ({
   }
 
   function toggleWidgetMetric (widget, metric) {
-    const metrics = Array.isArray(metric)
-      ? metric
-      : deduceItems(widget.metrics, metric)
+    const isArray = Array.isArray(metric)
+    const metrics = isArray ? metric : deduceItems(widget.metrics, metric)
+    const { axesMetricSet, disabledAxesMetricSet, MetricSettingMap } = widget
+
+    if (isArray) {
+      axesMetricSet.clear()
+      widget.axesMetricSet = new Set(metric)
+      disabledAxesMetricSet.clear()
+    }
 
     if (metrics.length < widget.metrics.length) {
-      widget.MetricSettingMap.delete(metric) // TODO: delete color [@vanguard | Nov  3, 2020]
-      widget.axesMetricSet.delete(metric)
-      widget.disabledAxesMetricSet.delete(metric)
+      MetricSettingMap.delete(metric) // TODO: delete color [@vanguard | Nov  3, 2020]
+      axesMetricSet.delete(metric)
+      disabledAxesMetricSet.delete(metric)
     }
 
     if (

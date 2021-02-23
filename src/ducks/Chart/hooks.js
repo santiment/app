@@ -151,7 +151,12 @@ function getDomainDependencies (domainGroups) {
 }
 
 // TODO: Refactor [@vanguard | Feb 17, 2021]
-export function useMultiAxesMetricKeys (widget, metrics, domainGroups) {
+export function useMultiAxesMetricKeys (
+  widget,
+  metrics,
+  ErrorMsg,
+  domainGroups
+) {
   const { axesMetricSet, disabledAxesMetricSet } = widget
 
   return useMemo(
@@ -177,11 +182,21 @@ export function useMultiAxesMetricKeys (widget, metrics, domainGroups) {
 
       const metricSet = new Set(axesMetrics)
 
+      metricSet.forEach(metric => {
+        if (ErrorMsg[metric.key]) metricSet.delete(metric)
+      })
       disabledAxesMetricSet.forEach(disabledMetric => {
         metricSet.delete(disabledMetric)
       })
 
       const result = [...metricSet]
+      const { length } = result
+
+      if (length > axesMetricSet.size) {
+        for (let i = 0; i < length && axesMetricSet.size < 3; i++) {
+          axesMetricSet.add(result[i])
+        }
+      }
 
       if (result.length !== axesMetricSet.size && axesMetricSet.size < 3) {
         result.forEach(metric => axesMetricSet.add(metric))
@@ -194,7 +209,7 @@ export function useMultiAxesMetricKeys (widget, metrics, domainGroups) {
         )
         .map(getKey)
     },
-    [axesMetricSet, metrics, domainGroups]
+    [axesMetricSet, metrics, ErrorMsg, domainGroups]
   )
 }
 
