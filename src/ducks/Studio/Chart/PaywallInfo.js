@@ -1,25 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import gql from 'graphql-tag'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Tooltip from '@santiment-network/ui/Tooltip'
-import { client } from '../../../apollo'
+import { getMetricBoundaries } from '../../dataHub/metrics/restrictions'
 import { getDateFormats } from '../../../utils/dates'
 import UpgradeBtn from '../../../components/UpgradeBtn/UpgradeBtn'
 import { useUserSubscriptionStatus } from '../../../stores/user/subscriptions'
 import styles from './PaywallInfo.module.scss'
-
-const METRIC_BOUNDARIES_QUERY = gql`
-  query($metric: String!) {
-    getMetric(metric: $metric) {
-      metadata {
-        isRestricted
-        from: restrictedFrom
-        to: restrictedTo
-      }
-    }
-  }
-`
 
 function formatDate (date) {
   const { DD, MMM, YY } = getDateFormats(new Date(date))
@@ -36,37 +23,29 @@ function useRestrictedInfo (metrics) {
       setInfos(DEFAULT_INFOS)
 
       let race = false
+      const infos = []
 
-      metrics.forEach(({ key, queryKey = key, label }) =>
-        client
-          .query({
-            query: METRIC_BOUNDARIES_QUERY,
-            errorPolicy: 'all',
-            variables: {
-              metric: queryKey
-            }
-          })
-          .then(({ data: { getMetric } }) => {
-            if (race || !getMetric) return
+      getMetricBoundaries().then(MetricsBoundaries => {
+        if (race) return
 
-            const {
-              metadata: { isRestricted, from, to }
-            } = getMetric
+        metrics.forEach(({ key, queryKey = key, label }, i) => {
+          const { restrictedFrom: from, restrictedTo: to } = MetricsBoundaries[
+            queryKey
+          ]
 
-            if (!isRestricted) return
+          if (from || to) {
+            infos.push({
+              label,
+              boundaries:
+                from && to
+                  ? `${formatDate(from)} - ${formatDate(to)}`
+                  : formatDate(from || to)
+            })
+          }
+        })
 
-            setInfos(state => [
-              ...state,
-              {
-                key,
-                label,
-                from,
-                to
-              }
-            ])
-          })
-          .catch(console.warn)
-      )
+        setInfos(infos)
+      })
 
       return () => {
         race = true
@@ -102,13 +81,9 @@ const PaywallInfo = ({ metrics }) => {
       <div className={styles.content}>
         <h2 className={styles.title}>Why is some data hidden?</h2>
         <p className={styles.text}>Your plan has limited data period for:</p>
-        {infos.map(({ label, from, to }) => (
+        {infos.map(({ label, boundaries }) => (
           <p key={label} className={styles.restriction}>
-            {label} (
-            {from && to
-              ? `${formatDate(from)} - ${formatDate(to)}`
-              : formatDate(from || to)}
-            )
+            {label} ({boundaries})
           </p>
         ))}
         <p className={styles.text}>
