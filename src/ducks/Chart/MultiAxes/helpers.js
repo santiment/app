@@ -103,7 +103,6 @@ function plotYAxes (chart, scale) {
     colors,
     axesMetricKeys,
     domainGroups,
-    /* minMaxes, */
     yAxesTicks = 8
   } = chart
   if (!axesMetricKeys) return
@@ -116,8 +115,6 @@ function plotYAxes (chart, scale) {
   const LastMetricPoint = getLastMetricPoint(chart, domain)
 
   axesMetricKeys.forEach(metricKey => {
-    /* if (!Number.isFinite(minMaxes[metricKey].min)) return */
-
     const color = colors[metricKey]
     drawAxisLine(ctx, color, offset, top, offset, bottom)
 
