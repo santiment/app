@@ -12,7 +12,6 @@ import {
 import {
   buildTemplateMetrics,
   getAvailableTemplate,
-  getLastTemplate,
   getTemplateIdFromURL,
   saveLastTemplate
 } from '../utils'
@@ -98,12 +97,11 @@ export function useSelectedTemplate (templates, selectTemplate) {
   const [loading, setLoading] = useState()
 
   const loadTemplate = () => {
-    if (loading) {
+    if (loading || !urlId) {
       return
     }
 
-    const targetTemplate = urlId ? { id: urlId } : getLastTemplate()
-    if (!targetTemplate) return
+    const targetTemplate = { id: urlId }
 
     setSelectedTemplate(targetTemplate)
 
