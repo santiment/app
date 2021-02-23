@@ -186,7 +186,7 @@ export function useTimeseries (
 
               if (
                 attempt < 5 &&
-                message.includes('Unexpected token < in JSON at position 0')
+                message.includes('Unexpected token < in JSON at position')
               ) {
                 attempt += 1
                 return setTimeout(getTimeseries, 2000)

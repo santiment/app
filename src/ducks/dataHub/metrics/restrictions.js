@@ -13,6 +13,8 @@ const newQuery = data => ({
 })
 
 function metricRestrictionsAccessor (data, cache) {
+  if (cache.value) return cache.value
+
   const cacheValue = {}
   const { length } = data
 
@@ -31,10 +33,7 @@ function newMetricRestrictions (query, accessor) {
     metricRestrictionsAccessor(data.getAccessRestrictions, cache)
 
   return metricKey => {
-    const { value } = cache
-    const promise = value
-      ? Promise.resolve(value)
-      : client.query(query).then(getMetricRestrictions)
+    const promise = client.query(query).then(getMetricRestrictions)
 
     return metricKey
       ? promise.then(MetricsRestrictions => {
