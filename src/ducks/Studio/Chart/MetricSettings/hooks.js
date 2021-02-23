@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { getMinInterval } from '../../timeseries/queries/minInterval.js'
+import { getMetricMinInterval } from '../../timeseries/queries/minInterval.js'
 
 function makeInterval (key, label) {
   intervalIndices.push(key)
@@ -27,8 +27,8 @@ export function useMetricMinInterval ({ key, queryKey = key }) {
 
   useEffect(
     () => {
-      getMinInterval(queryKey)
-        .then(setMinInterval)
+      getMetricMinInterval()
+        .then(MetricMinInterval => setMinInterval(MetricMinInterval[queryKey]))
         .catch(console.warn)
     },
     [queryKey]

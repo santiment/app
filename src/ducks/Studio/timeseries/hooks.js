@@ -148,51 +148,69 @@ export function useTimeseries (
           ...metricSettings
         }
 
-        const request = fetch
-          ? fetch(metric, variables)
-          : getData(query, variables, abortController.signal)
-            .then(getPreTransform(metric))
-            .then(MetricTransformer[metric.key] || noop)
+        let attempt = 1
+        getTimeseries()
 
-        request
-          .then(data => {
-            if (raceCondition) return
+        function getTimeseries () {
+          if (raceCondition) return
 
-            if (!data.length) {
-              throw new Error(NO_DATA_MSG)
-            }
+          const request = fetch
+            ? fetch(metric, variables)
+            : getData(query, variables, abortController.signal)
+              .then(getPreTransform(metric))
+              .then(MetricTransformer[metric.key] || noop)
 
-            setErrorMsg(state => {
-              if (!state[key]) return state
+          request
+            .then(data => {
+              if (raceCondition) return
 
-              const newState = Object.assign({}, state)
-              delete newState[key]
-              return newState
+              if (!data.length) {
+                throw new Error(NO_DATA_MSG)
+              }
+
+              setErrorMsg(state => {
+                if (!state[key]) return state
+
+                const newState = Object.assign({}, state)
+                delete newState[key]
+                return newState
+              })
+              setTimeseries(() => {
+                mergedData = mergeTimeseries([mergedData, data])
+
+                return mergedData.map(normalizeDatetimes)
+              })
             })
-            setTimeseries(() => {
-              mergedData = mergeTimeseries([mergedData, data])
+            .catch(({ message }) => {
+              if (raceCondition) return
 
-              return mergedData.map(normalizeDatetimes)
-            })
-          })
-          .catch(({ message }) => {
-            if (raceCondition) return
-            setErrorMsg(state => {
-              state[key] = substituteErrorMsg(message)
-              return { ...state }
-            })
-          })
-          .finally(() => {
-            if (raceCondition) return
+              if (
+                attempt < 5 &&
+                message.includes('Unexpected token < in JSON at position 0')
+              ) {
+                attempt += 1
+                return setTimeout(getTimeseries, 2000)
+              }
 
-            setAbortables(state => {
-              const newState = new Map(state)
-              newState.delete(metric)
-              return newState
+              setErrorMsg(state => {
+                state[key] = substituteErrorMsg(message)
+                return { ...state }
+              })
             })
+            .finally(() => {
+              if (raceCondition) return
 
-            setLoadings(state => state.filter(loadable => loadable !== metric))
-          })
+              setAbortables(state => {
+                const newState = new Map(state)
+                newState.delete(metric)
+                return newState
+              })
+
+              setLoadings(state =>
+                state.filter(loadable => loadable !== metric)
+              )
+            })
+        }
       })
 
       return () => {
