@@ -81,12 +81,14 @@ const HolderDistributionWidget = ({
     }
     setPhase(Phase.IDLE)
     setSelectedMetrics(DEFAULT_CHECKED_METRICS)
+    props.rerenderWidgets()
   }
 
   function onUnmergeClick (metric) {
     const metricFilter = m => m !== metric
     widget.metrics = widget.metrics.filter(metricFilter)
     setMergedMetrics(mergedMetrics.filter(metricFilter))
+    props.rerenderWidgets()
   }
 
   return (

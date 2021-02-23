@@ -234,6 +234,7 @@ const Chart = ({
         categories={categories}
         colors={HighlightedMetricColor}
         metrics={metrics}
+        ErrorMsg={ErrorMsg}
         scale={scale}
         settings={settings}
         options={options}

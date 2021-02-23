@@ -65,7 +65,8 @@ export const normalizeWidget = ({
   settings: shareMetricSettings(MetricSettingMap),
   indicators: shareMetricIndicators(MetricIndicators),
   drawings: shareDrawings(drawings, chartRef.current),
-  axesMetrics: axesMetricSet && getMetricsKeys([...axesMetricSet])
+  axesMetrics:
+    axesMetricSet && getMetricsKeys([...axesMetricSet].filter(Boolean))
 })
 
 export const normalizeWidgets = widgets => widgets.map(normalizeWidget)
