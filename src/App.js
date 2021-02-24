@@ -135,6 +135,9 @@ const LoadableETH2Dashboard = LoadablePage(() =>
 const LoadableEthAnalysisDashboard = LoadablePage(() =>
   import('./pages/EthTradingAnalysis/EthTradingAnalysis')
 )
+const LoadableEthMinersDashboard = LoadablePage(() =>
+  import('./pages/EthMinersStats/EthMinersStats')
+)
 
 const LoadableUniswapProtocolPage = LoadablePage(() =>
   import('./pages/UniswapProtocolPage/UniswapProtocolPage')
@@ -468,6 +471,12 @@ export const App = ({
             path={PATHS.ETH_ANALYSIS}
             render={props => (
               <LoadableEthAnalysisDashboard isDesktop={isDesktop} {...props} />
+            )}
+          />
+          <Route
+            path={PATHS.ETH_MINERS_STATS}
+            render={props => (
+              <LoadableEthMinersDashboard isDesktop={isDesktop} {...props} />
             )}
           />
           <Route

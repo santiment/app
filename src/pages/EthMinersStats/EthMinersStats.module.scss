@@ -1,0 +1,15 @@
+.firstBlock {
+  margin-top: -180px;
+}
+
+.link {
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+.block {
+  margin-top: 4px;
+}

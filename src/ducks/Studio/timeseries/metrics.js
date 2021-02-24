@@ -42,6 +42,7 @@ export const METRICS = [
   'price_btc',
   'whale_transaction_count',
   'price_eth',
+  'avg_gas_used',
   'volume_usd',
   'marketcap_usd',
   'social_dominance_telegram',

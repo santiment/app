@@ -12,6 +12,7 @@ export const PATHS = {
   STABLECOINS: '/stablecoins',
   ETH2: '/eth2',
   ETH_ANALYSIS: '/eth-analysis',
+  ETH_MINERS_STATS: '/eth-miners',
   UNISWAP_PROTOCOL: '/uniswap-protocol',
   SHEETS_TEMPLATES: '/sheets/daa-vs-price',
   LABELS: '/labels',
