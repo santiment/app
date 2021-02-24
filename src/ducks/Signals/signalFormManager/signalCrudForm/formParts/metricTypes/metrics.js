@@ -76,6 +76,7 @@ export const SIGNAL_SUPPORTED_METRICS = [
   Metric.age_consumed,
   Metric.exchange_balance,
   makeSignalMetric('price_btc', 'Price BTC', 'Financial'),
+  makeSignalMetric('price_eth', 'Price ETH', 'Financial'),
   Metric.marketcap_usd,
 
   makeSignalMetric(
