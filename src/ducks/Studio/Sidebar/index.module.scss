@@ -88,6 +88,7 @@
 .wrapper_opened,
 .wrapper_locked {
   transform: translate(0, 0);
+  transition: transform 250ms ease-out;
 
   .toggle {
     background: none;
