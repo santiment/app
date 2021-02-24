@@ -13,6 +13,9 @@ import styles from './MarketDropdown.module.scss'
 const getWatchlistSEOLink = (id, name) =>
   '/watchlist/projects/' + getSEOLinkFromIdAndTitle(id, name)
 
+const getBlockMinHeight = items =>
+  items.length > 3 ? '100px' : `${32 * items.length}px`
+
 const MarketDropdown = ({ activeLink }) => {
   const [watchlists = []] = useFeaturedWatchlists()
 
@@ -25,8 +28,8 @@ const MarketDropdown = ({ activeLink }) => {
         <div className={styles.block}>
           <h3 className={styles.title}>Explore watchlists</h3>
           <div className={styles.listWrapper}>
-            {watchlists.map(({ to, name, id }) => {
-              const link = to || getWatchlistSEOLink(id, name)
+            {watchlists.map(({ name, id }) => {
+              const link = getWatchlistSEOLink(id, name)
 
               return (
                 <Button
@@ -50,12 +53,7 @@ const MarketDropdown = ({ activeLink }) => {
               <h3 className={styles.title}>Recently viewed watchlists</h3>
               <div
                 className={styles.listWrapper}
-                style={{
-                  minHeight:
-                    recentWatchlists.length > 3
-                      ? '100px'
-                      : `${32 * recentWatchlists.length}px`
-                }}
+                style={{ minHeight: getBlockMinHeight(recentWatchlists) }}
               >
                 <div className={styles.recentList}>
                   {recentWatchlists.map(({ to, name, id }) => {
