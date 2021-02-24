@@ -9,6 +9,7 @@ import { VisibilityIndicator } from '../../VisibilityIndicator'
 import { prepareTemplateLink } from '../../../ducks/Studio/Template/utils'
 import LayoutsEmptySection from './LayoutEmptySection'
 import CreateLayoutLink from './CreateLayoutLink'
+import { getBlockMinHeight } from '../utils'
 import styles from './NavbarChartsLayouts.module.scss'
 
 const NavbarChartsLayouts = ({ recentTemplatesNumber = 0 }) => {
@@ -39,7 +40,7 @@ const NavbarChartsLayouts = ({ recentTemplatesNumber = 0 }) => {
 }
 
 export const getLayoutsStyles = (templates, recentTemplatesNumber) => ({
-  minHeight: templates.length > 3 ? '100px' : `${32 * templates.length}px`,
+  minHeight: getBlockMinHeight(templates),
   maxHeight: recentTemplatesNumber > 0 ? '136px' : '100%'
 })
 

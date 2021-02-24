@@ -16,13 +16,11 @@ import { useUser } from '../../../stores/user'
 import { sortById } from '../../../utils/sortMethods'
 import styles from '../Watchlists/WatchlistsDropdown.module.scss'
 import { useFeaturedScreeners } from '../../../ducks/Watchlists/gql/queries'
+import { getBlockMinHeight } from '../utils'
 import wrapperStyles from '../Watchlists/MarketDropdown.module.scss'
 
 const getScreenerSEOLink = (id, name) =>
   '/screener/' + getSEOLinkFromIdAndTitle(id, name)
-
-const getBlockMinHeight = items =>
-  items.length > 3 ? '100px' : `${32 * items.length}px`
 
 const ScreenerDropdown = ({ activeLink }) => {
   const [featuredScreeners = []] = useFeaturedScreeners()

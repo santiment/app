@@ -8,13 +8,11 @@ import { useFeaturedWatchlists } from '../../../ducks/Watchlists/gql/queries'
 import WatchlistsDropdown from './WatchlistsDropdown'
 import { getRecentWatchlists } from '../../../utils/recent'
 import { getSEOLinkFromIdAndTitle } from '../../../utils/url'
+import { getBlockMinHeight } from '../utils'
 import styles from './MarketDropdown.module.scss'
 
 const getWatchlistSEOLink = (id, name) =>
   '/watchlist/projects/' + getSEOLinkFromIdAndTitle(id, name)
-
-const getBlockMinHeight = items =>
-  items.length > 3 ? '100px' : `${32 * items.length}px`
 
 const MarketDropdown = ({ activeLink }) => {
   const [watchlists = []] = useFeaturedWatchlists()
