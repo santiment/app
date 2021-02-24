@@ -226,6 +226,12 @@ export const Metric = {
     shortLabel: 'Net. Growth',
     video: 'https://www.youtube.com/watch?v=YaccxEEz8pg'
   },
+  whale_transaction_count: {
+    category: 'On-chain',
+    group: 'Network Activity',
+    label: 'Whale Transactions Count',
+    node: 'autoWidthBar'
+  },
   dev_activity: {
     category: 'Development',
     node: 'line',

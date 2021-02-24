@@ -10,7 +10,8 @@ const NEW_METRICS = [
   Metric.dev_activity_contributors_count,
   Metric.average_fees_usd,
   Metric.median_fees_usd,
-  Metric.mvrv_usd_intraday
+  Metric.mvrv_usd_intraday,
+  Metric.whale_transaction_count
 ]
 export const NEW_METRIC_KEY_SET = new Set(NEW_METRICS.map(({ key }) => key))
 
