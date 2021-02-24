@@ -1,7 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import withSizes from 'react-sizes'
-import { compose } from 'recompose'
 import { NavLink as Link } from 'react-router-dom'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
@@ -148,7 +146,7 @@ const NavbarMoreItem = ({ links, activeLink }) => {
 
 const Logo = (
   <Link className={styles.logo} to='/'>
-    <svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='none'>
+    <svg width='32' height='32' fill='none'>
       <circle cx='16' cy='16' r='15.5' fill='#fff' stroke='#E7EAF3' />
       <path
         fill='#2F354D'
@@ -262,13 +260,4 @@ const Navbar = ({ activeLink = '/', search, isLaptop, isTablet }) => {
   )
 }
 
-const mapStateToProps = state => ({
-  isBetaModeEnabled: state.rootUi.isBetaModeEnabled
-})
-
-const enhance = compose(
-  withSizes(mapSizesToProps),
-  connect(mapStateToProps)
-)
-
-export default enhance(Navbar)
+export default withSizes(mapSizesToProps)(Navbar)

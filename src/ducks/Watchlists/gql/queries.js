@@ -42,6 +42,15 @@ export const FEATURED_WATCHLISTS_QUERY = gql`
   }
 `
 
+export const FEATURED_SCREENERS_QUERY = gql`
+  query featuredScreeners {
+    fetchWatchlists: featuredScreeners {
+      id
+      name
+    }
+  }
+`
+
 export const USER_SHORT_WATCHLISTS_QUERY = gql`
   query fetchWatchlists($type: WatchlistTypeEnum) {
     fetchWatchlists(type: $type) {
@@ -88,6 +97,10 @@ export function useFeaturedWatchlists () {
     },
     [data[0]]
   )
+}
+
+export function useFeaturedScreeners () {
+  return useShortWatchlists(FEATURED_SCREENERS_QUERY)
 }
 
 export const checkIsScreener = ({ function: fn }) => fn.name !== 'empty'
