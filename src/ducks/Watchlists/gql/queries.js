@@ -43,8 +43,8 @@ export const FEATURED_WATCHLISTS_QUERY = gql`
 `
 
 export const USER_SHORT_WATCHLISTS_QUERY = gql`
-  query fetchWatchlists {
-    fetchWatchlists {
+  query fetchWatchlists($type: WatchlistTypeEnum) {
+    fetchWatchlists(type: $type) {
       id
       name
       function
@@ -92,10 +92,12 @@ export function useFeaturedWatchlists () {
 
 export const checkIsScreener = ({ function: fn }) => fn.name !== 'empty'
 export const checkIsNotScreener = watchlist => !checkIsScreener(watchlist)
-function useUserShortWatchlists (filter, reduce = noop) {
+
+function useShortWatchlistsLoader (filter, reduce = noop, options) {
   const { isLoggedIn } = useUser()
   const data = useShortWatchlists(USER_SHORT_WATCHLISTS_QUERY, {
-    skip: !isLoggedIn
+    skip: !isLoggedIn,
+    ...options
   })
 
   return useMemo(
@@ -108,7 +110,14 @@ function useUserShortWatchlists (filter, reduce = noop) {
 }
 
 export const useUserWatchlists = () =>
-  useUserShortWatchlists(checkIsNotScreener)
+  useShortWatchlistsLoader(checkIsNotScreener)
+
+export const useUserAddressWatchlists = () =>
+  useShortWatchlistsLoader(checkIsNotScreener, noop, {
+    variables: {
+      type: BLOCKCHAIN_ADDRESS
+    }
+  })
 
 export const DEFAULT_SCREENER_ID = isStage ? 1183 : 5496
 
@@ -120,6 +129,6 @@ const DEFAULT_SCREENERS = [
   }
 ]
 export const useUserScreeners = () =>
-  useUserShortWatchlists(checkIsScreener, watchlists =>
+  useShortWatchlistsLoader(checkIsScreener, watchlists =>
     watchlists.length > 0 ? watchlists : DEFAULT_SCREENERS
   )
