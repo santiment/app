@@ -11,7 +11,6 @@ import {
 } from './index'
 import {
   buildTemplateMetrics,
-  getAvailableTemplate,
   getTemplateIdFromURL,
   saveLastTemplate
 } from '../utils'
@@ -92,7 +91,6 @@ export function useFeaturedTemplates () {
 
 export function useSelectedTemplate (templates, selectTemplate) {
   const urlId = getTemplateIdFromURL()
-  const defaultTemplate = getAvailableTemplate(templates)
   const [selectedTemplate, setSelectedTemplate] = useState()
   const [loading, setLoading] = useState()
 
@@ -145,23 +143,6 @@ export function useSelectedTemplate (templates, selectTemplate) {
   }
 
   useEffect(loadTemplate, [urlId])
-  useEffect(
-    () => {
-      if (!selectedTemplate) {
-        setSelectedTemplate(defaultTemplate)
-      }
-    },
-    [defaultTemplate]
-  )
-
-  useEffect(
-    () => {
-      if (defaultTemplate) {
-        setSelectedTemplate(defaultTemplate)
-      }
-    },
-    [templates]
-  )
 
   useEffect(
     () => {

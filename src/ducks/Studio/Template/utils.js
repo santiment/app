@@ -93,6 +93,7 @@ export function getAvailableTemplate (templates) {
     return undefined
   }
 
+  console.log(templates)
   return templates[0]
 }
 
