@@ -290,14 +290,12 @@ export const Studio = ({
         sidepanel={sidepanel}
         widgets={widgets}
         isOverviewOpened={isOverviewOpened}
-        // isSidebarClosed={isSidebarClosed}
         isPeeked={isSidebarPeeked}
         isLocked={isSidebarLocked}
         isICOPriceDisabled={isICOPriceDisabled}
         isICOPriceActive={isICOPriceActive}
         toggleMetric={onSidebarItemClick}
         setMetricSettingMap={setSelectedMetricSettingsMap}
-        // setIsSidebarClosed={setIsSidebarClosed}
         setIsPeeked={setIsSidebarPeeked}
         setIsLocked={setIsSidebarLocked}
       />
