@@ -74,6 +74,15 @@ const Filter = ({
 
   useEffect(
     () => {
+      if (isViewMode && !isActiveFiltersOnly) {
+        setIsActiveFiltersOnly(true)
+      }
+    },
+    [isViewMode]
+  )
+
+  useEffect(
+    () => {
       if (!isLoggedIn && !isViewMode && isWereChanges && isOpen) {
         notifyLoginForSave(history)
       }
