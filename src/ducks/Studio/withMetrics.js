@@ -3,9 +3,10 @@ import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import { getCategoryGraph } from './Sidebar/utils'
 import { getMarketSegment } from './timeseries/marketSegments'
+import { useIsBetaMode } from '../../stores/ui'
+import { Metric } from '../dataHub/metrics'
 import { getMergedTimeboundSubmetrics } from '../dataHub/timebounds'
 import { getAssetNewMetrics } from '../dataHub/metrics/news'
-import { useIsBetaMode } from '../../stores/ui'
 
 const PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY = gql`
   query projectBySlug($slug: String!) {
@@ -53,13 +54,19 @@ export const DEFAULT_METRICS = [
   'social_volume_total'
 ]
 
+const DEFAULT_HIDDEN_METRICS = [Metric.mvrv_usd]
+
 const DEFAULT_STATE = {
   Submetrics: [],
   availableMetrics: [],
   categories: getCategoryGraph(DEFAULT_METRICS)
 }
 
-export function useProjectMetrics (slug, hiddenMetrics, noMarketSegments) {
+export function useProjectMetrics (
+  slug,
+  hiddenMetrics = DEFAULT_HIDDEN_METRICS,
+  noMarketSegments
+) {
   const isBeta = useIsBetaMode()
   const { data } = useQuery(PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY, {
     variables: { slug }

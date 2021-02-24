@@ -71,7 +71,7 @@
   }
 
   &::before {
-    content: 'Lock metrics';
+    content: 'Lock sidebar';
   }
 
   &:hover {
@@ -100,7 +100,7 @@
   top: 0;
 
   .close::before {
-    content: 'Hide metrics';
+    content: 'Hide sidebar';
   }
 
   .icon {
