@@ -24,14 +24,7 @@ export const DAILY_METRICS = [
   Metric.mean_dollar_invested_age,
   Metric.nvt,
   Metric.withdrawal_transactions,
-
-  makeSignalMetric(
-    'whale_transaction_count',
-    'Whale Transactions Count (1d)',
-    'On-chain',
-    'bar',
-    'Network Value'
-  ),
+  Metric.whale_transaction_count,
 
   ...Object.values(HolderDistributionAbsoluteMetric).map(m => ({
     ...m,

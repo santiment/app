@@ -243,7 +243,9 @@ export const Description = {
       last moved and assumes this to be its acquisition price. Once it changes
       addresses again, NPL assumes the coin was sold.
     </>
-  )
+  ),
+  [Metric.whale_transaction_count.key]:
+    'Number of Transactions Transferring More Than 100k USD'
 }
 
 export const rebuildDescriptions = Submetrics => {
