@@ -3,10 +3,10 @@ import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import { getCategoryGraph } from './Sidebar/utils'
 import { getMarketSegment } from './timeseries/marketSegments'
-import { useIsBetaMode } from '../../stores/ui'
 import { Metric } from '../dataHub/metrics'
 import { getMergedTimeboundSubmetrics } from '../dataHub/timebounds'
 import { getAssetNewMetrics } from '../dataHub/metrics/news'
+import { useIsBetaMode } from '../../stores/ui'
 
 const PROJECT_METRICS_QUERIES_SEGMENTS_BY_SLUG_QUERY = gql`
   query projectBySlug($slug: String!) {

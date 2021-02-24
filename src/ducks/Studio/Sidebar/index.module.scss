@@ -47,7 +47,7 @@
   color: var(--waterloo);
   fill: var(--waterloo);
   top: 68px;
-  left: -38px;
+  left: -49px;
   padding: 0 8px 3px;
   cursor: pointer;
 
@@ -71,7 +71,7 @@
   }
 
   &::before {
-    content: 'Lock sidebar';
+    content: 'Lock MetricsTree';
   }
 
   &:hover {
@@ -100,7 +100,7 @@
   top: 0;
 
   .close::before {
-    content: 'Hide sidebar';
+    content: 'Hide MetricsTree';
   }
 
   .icon {
