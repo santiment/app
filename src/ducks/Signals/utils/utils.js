@@ -805,7 +805,8 @@ export const mapFormToPACTriggerSettings = formProps => {
     metric: key || metric,
     ...newTarget,
     channel: getChannels(formProps),
-    operation: getTriggerOperation(formProps)
+    operation: getTriggerOperation(formProps),
+    time_window: getTimeWindow(formProps)
   }
 }
 
@@ -830,6 +831,7 @@ export const mapFormToDAATriggerSettings = formProps => {
       metric,
       ...newTarget,
       channel: getChannels(formProps),
+      time_window: getTimeWindow(formProps),
       operation: getTriggerOperation(formProps)
     }
   } else {
