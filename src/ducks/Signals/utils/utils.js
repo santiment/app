@@ -1351,6 +1351,10 @@ export const couldShowChart = (
     selector
   } = settings
 
+  if (target.watchlist_id) {
+    return false
+  }
+
   const checking = getCheckingMetric(settings)
 
   if (!getPreviewTarget(settings)) {
