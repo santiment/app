@@ -115,3 +115,9 @@ export const getCategoryGraph = (
 
   return categories
 }
+
+const LS_IS_SIDEBAR_LOCKED = 'LS_IS_SIDEBAR_LOCKED'
+export const loadIsSidebarLocked = () =>
+  !!localStorage.getItem(LS_IS_SIDEBAR_LOCKED)
+export const saveIsSidebarLocked = state =>
+  localStorage.setItem(LS_IS_SIDEBAR_LOCKED, state ? '+' : '')
