@@ -41,13 +41,15 @@ export const Studio = ({
   )
   const [isICOPriceDisabled, setIsICOPriceDisabled] = useState(true)
   const [isICOPriceActive, setIsICOPriceActive] = useState(false)
-  const [isSidebarClosed, setIsSidebarClosed] = useState()
+  const [isSidebarPeeked, setIsSidebarPeeked] = useState(false)
+  const [isSidebarLocked, setIsSidebarLocked] = useState(false)
+
   const { currentPhase, previousPhase, setPhase } = usePhase(Phase.IDLE)
   const PressedModifier = usePressedModifier()
   const isOverviewOpened = currentPhase.startsWith(Phase.MAPVIEW)
 
   useKeyboardCmdShortcut('m', toggleOverview)
-  useKeyboardCmdShortcut('\\', toggleSidebar)
+  useKeyboardCmdShortcut('\\', () => setIsSidebarLocked(!isSidebarLocked))
 
   useEffect(
     () => {
@@ -66,10 +68,6 @@ export const Studio = ({
     } else {
       setPhase(Phase.MAPVIEW)
     }
-  }
-
-  function toggleSidebar () {
-    setIsSidebarClosed(!isSidebarClosed)
   }
 
   function rerenderWidgets () {
@@ -291,12 +289,15 @@ export const Studio = ({
         activeMetrics={selectedMetrics}
         sidepanel={sidepanel}
         widgets={widgets}
-        isSidebarClosed={isSidebarClosed}
+        isOverviewOpened={isOverviewOpened}
+        isPeeked={isSidebarPeeked}
+        isLocked={isSidebarLocked}
         isICOPriceDisabled={isICOPriceDisabled}
         isICOPriceActive={isICOPriceActive}
         toggleMetric={onSidebarItemClick}
         setMetricSettingMap={setSelectedMetricSettingsMap}
-        setIsSidebarClosed={setIsSidebarClosed}
+        setIsPeeked={setIsSidebarPeeked}
+        setIsLocked={setIsSidebarLocked}
       />
       <main className={styles.main}>
         <Main

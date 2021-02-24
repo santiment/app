@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
+import { CSSTransition } from 'react-transition-group'
 import Tabs from '@santiment-network/ui/Tabs'
 import Icon from '@santiment-network/ui/Icon'
 import ProjectSelector from './ProjectSelector'
@@ -12,6 +13,12 @@ import {
 } from './nodes'
 import { useProjectMetrics } from '../withMetrics'
 import styles from './index.module.scss'
+
+const TRANSITION_CLASSES = {
+  enter: cx(styles.wrapper_opened, styles.wrapper_transition),
+  enterDone: styles.wrapper_opened,
+  exit: styles.wrapper_transition
+}
 
 const ON_CHAIN_DEFAULT = [
   HOLDER_DISTRIBUTION_NODE,
@@ -53,7 +60,7 @@ const Header = ({
   </div>
 )
 
-const CloseButton = ({ onClick, className }) => (
+const CloseButton = ({ isLocked, onClick, className }) => (
   <div className={cx(styles.toggle, className)} onClick={onClick}>
     <div className={styles.close}>
       <Icon type='sidebar' className={styles.icon} />
@@ -61,7 +68,17 @@ const CloseButton = ({ onClick, className }) => (
   </div>
 )
 
-const Sidebar = ({ children, hiddenMetrics, noMarketSegments, ...props }) => {
+const Sidebar = ({
+  children,
+  hiddenMetrics,
+  noMarketSegments,
+  isPeeked,
+  isLocked,
+  isOverviewOpened,
+  setIsPeeked,
+  setIsLocked,
+  ...props
+}) => {
   const { settings } = props
   const [activeTab, setActiveTab] = useState(DEFAULT_TAB)
   const [metricProject, setMetricProject] = useState(settings)
@@ -76,37 +93,40 @@ const Sidebar = ({ children, hiddenMetrics, noMarketSegments, ...props }) => {
   useEffect(() => setMetricProject(settings), [settings.slug, settings.name])
 
   return (
-    <aside className={styles.wrapper}>
-      <Header
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        {...props}
-        project={metricProject}
-        ProjectMetrics={ProjectMetrics}
-        onProjectSelect={setMetricProject}
-      />
-      <div className={styles.selector}>
-        <TabComponent {...props} {...ProjectMetrics} project={metricProject} />
-      </div>
-      {children}
-    </aside>
+    <CSSTransition in={isPeeked} timeout={150} classNames={TRANSITION_CLASSES}>
+      <aside
+        className={cx(
+          styles.wrapper,
+          isPeeked && styles.wrapper_opened,
+          (isLocked || isOverviewOpened) && styles.wrapper_locked
+        )}
+        onMouseEnter={() => setIsPeeked(true)}
+        onMouseLeave={() => setIsPeeked(false)}
+      >
+        <div className={styles.content}>
+          <Header
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            {...props}
+            project={metricProject}
+            ProjectMetrics={ProjectMetrics}
+            onProjectSelect={setMetricProject}
+          />
+          <div className={styles.selector}>
+            <TabComponent
+              {...props}
+              {...ProjectMetrics}
+              project={metricProject}
+            />
+          </div>
+          <CloseButton
+            isLocked={isLocked}
+            onClick={() => setIsLocked(!isLocked)}
+          />
+        </div>
+      </aside>
+    </CSSTransition>
   )
 }
 
-export default ({ isSidebarClosed, setIsSidebarClosed, ...props }) => {
-  function openSidebar () {
-    setIsSidebarClosed(false)
-  }
-
-  function closeSidebar () {
-    setIsSidebarClosed(true)
-  }
-
-  return isSidebarClosed ? (
-    <CloseButton onClick={openSidebar} className={styles.toggle_closed} />
-  ) : (
-    <Sidebar {...props} openSidebar={openSidebar} closeSidebar={closeSidebar}>
-      <CloseButton onClick={closeSidebar} />
-    </Sidebar>
-  )
-}
+export default Sidebar
