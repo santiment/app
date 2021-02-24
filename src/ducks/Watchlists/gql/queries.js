@@ -56,6 +56,7 @@ export const USER_SHORT_WATCHLISTS_QUERY = gql`
     fetchWatchlists(type: $type) {
       id
       name
+      type
       function
       insertedAt
       isPublic
