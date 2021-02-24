@@ -63,10 +63,7 @@ const Header = ({
 const CloseButton = ({ isLocked, onClick, className }) => (
   <div className={cx(styles.toggle, className)} onClick={onClick}>
     <div className={styles.close}>
-      <div className={styles.test}>
-        {isLocked ? 'Hide' : 'Lock'} metrics
-        <Icon type='sidebar' className={styles.icon} />
-      </div>
+      <Icon type='sidebar' className={styles.icon} />
     </div>
   </div>
 )
