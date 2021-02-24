@@ -49,7 +49,7 @@ export const SheetsTemplatesList = [
       </>
     ),
     linkToTemplate:
-      'https://docs.google.com/spreadsheets/d/1wYTvxKYNYry_pJ-RB4kzbpVF60c26RlTfkMla05jG34/edit?usp=sharing'
+      'https://docs.google.com/spreadsheets/d/1wYTvxKYNYry_pJ-RB4kzbpVF60c26RlTfkMla05jG34/view'
   },
   {
     title: 'Top Holders Supply',
