@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { CSSTransition } from 'react-transition-group'
 import Tabs from '@santiment-network/ui/Tabs'
 import Icon from '@santiment-network/ui/Icon'
+import { saveIsSidebarLocked } from './utils'
 import ProjectSelector from './ProjectSelector'
 import MetricSelector from './MetricSelector'
 import InsightAlertSelector from './InsightAlertSelector'
@@ -91,9 +92,10 @@ const Sidebar = ({
   const TabComponent = TabToComponent[activeTab]
 
   useEffect(() => setMetricProject(settings), [settings.slug, settings.name])
+  useEffect(() => saveIsSidebarLocked(isLocked), [isLocked])
 
   return (
-    <CSSTransition in={isPeeked} timeout={150} classNames={TRANSITION_CLASSES}>
+    <CSSTransition in={isPeeked} timeout={200} classNames={TRANSITION_CLASSES}>
       <aside
         className={cx(
           styles.wrapper,

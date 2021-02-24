@@ -17,6 +17,7 @@ import PriceDAADivergenceWidget from './Widget/PriceDAADivergenceWidget'
 import AdjustedPriceDAADivergenceWidget from './Widget/PriceDAADivergenceWidget/Adjusted'
 import { mergeConnectedWidgetsWithSelected } from './Widget/helpers'
 import SelectionOverview from './Overview/SelectionOverview'
+import { loadIsSidebarLocked } from './Sidebar/utils'
 import HolderDistributionCombinedBalanceWidget from './Widget/HolderDistributionWidget/CombinedBalance'
 import * as Type from './Sidebar/Button/types'
 import { getNewInterval, INTERVAL_ALIAS } from '../SANCharts/IntervalSelector'
@@ -42,7 +43,7 @@ export const Studio = ({
   const [isICOPriceDisabled, setIsICOPriceDisabled] = useState(true)
   const [isICOPriceActive, setIsICOPriceActive] = useState(false)
   const [isSidebarPeeked, setIsSidebarPeeked] = useState(false)
-  const [isSidebarLocked, setIsSidebarLocked] = useState(false)
+  const [isSidebarLocked, setIsSidebarLocked] = useState(loadIsSidebarLocked)
 
   const { currentPhase, previousPhase, setPhase } = usePhase(Phase.IDLE)
   const PressedModifier = usePressedModifier()
