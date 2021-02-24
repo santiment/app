@@ -366,7 +366,17 @@ export const App = ({
             )}
           />
           <Route
-            path={['/alerts', '/alert']}
+            path={'/alerts'}
+            render={props => (
+              <LoadableSonarFeedPage
+                isDesktop={isDesktop}
+                isLoggedIn={isLoggedIn}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            path={'/alert'}
             render={props => (
               <LoadableSonarFeedPage
                 isDesktop={isDesktop}
