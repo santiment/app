@@ -1,6 +1,5 @@
 import { METRICS, GET_METRIC } from './metrics'
 import { AnomalyFetcher, OldAnomalyFetcher } from './anomalies'
-import { MarketSegmentFetcher } from './marketSegments'
 import { aliasTransform, normalizeInterval } from './utils'
 import { HISTORICAL_BALANCE_QUERY } from './queries/historicaBalance'
 import { GAS_USED_QUERY } from './queries/gasUsed'
@@ -44,7 +43,6 @@ const Fetcher = METRICS.reduce((acc, metric) => {
 Object.assign(Fetcher, {
   anomalies: OldAnomalyFetcher,
   anomaly: AnomalyFetcher,
-  marketSegment: MarketSegmentFetcher,
   gasUsed: {
     query: GAS_USED_QUERY,
     preTransform: aliasTransform('gasUsed')

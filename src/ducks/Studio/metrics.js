@@ -66,6 +66,8 @@ export function newProjectMetric (project, baseMetric, projectMetricKey) {
 export function getProjectMetricByKey (key, connector = METRIC_CONNECTOR) {
   let [slug, ticker, metricKey] = key.split(connector)
   const metric = getMetricByKey(metricKey)
+  if (!metric) return
+
   const isProjectMetricConnector = connector === METRIC_CONNECTOR
 
   if (isProjectMetricConnector) {
