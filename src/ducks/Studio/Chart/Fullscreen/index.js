@@ -28,6 +28,7 @@ const FullscreenChart = ({
   metrics,
   brushData,
   MetricColor,
+  ErrorMsg,
   shareLink,
   drawings,
   selectedLineState,
@@ -143,6 +144,7 @@ const FullscreenChart = ({
         data={data}
         brushData={brushData}
         drawings={drawings}
+        ErrorMsg={ErrorMsg}
         domainGroups={
           isDomainGroupingActive ? domainGroups : mirrorDomainGroups
         }

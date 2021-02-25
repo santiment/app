@@ -154,7 +154,7 @@ function getDomainDependencies (domainGroups) {
 export function useMultiAxesMetricKeys (
   widget,
   metrics,
-  ErrorMsg,
+  ErrorMsg = {},
   domainGroups
 ) {
   const { axesMetricSet, disabledAxesMetricSet } = widget

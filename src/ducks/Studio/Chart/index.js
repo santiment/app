@@ -181,6 +181,7 @@ const Chart = ({
             scale={scale}
             brushData={allTimeData}
             MetricColor={MetricColor}
+            ErrorMsg={ErrorMsg}
             shareLink={shareLink}
             drawings={widget.drawings}
             selectedLineState={selectedLineState}
